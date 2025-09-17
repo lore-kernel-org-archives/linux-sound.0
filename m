@@ -1,44 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70B733AEB1;
-	Wed, 17 Sep 2025 15:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2EE33B464;
+	Wed, 17 Sep 2025 15:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123462; cv=fail; b=o1MAgMHhdmf8hj+Yesf/yZQndBaOcedjHkZxSLh0MI0BhzPqZAsPMGQVkk+AFyelNbcT/EbX/sWhc9d6tUtrNXIxVnaz0W7xtZREY/EN3tOxAJMAK5IwlSChMLSOTH6hKmyBeBjzDOeu1zh2pbE6ZaGSr+bWsbyKYnjWbrXgce8=
+	t=1758123464; cv=fail; b=V9IPCVqA7PmTEfevKH7vqn1W1+r6PQDBl8MbWPtA9TrIAmmwH3lYtH15kH5XMljq0OcLNonhTO20z+rJwRuzPtZ70roHvp1BBNRS2T2c/MYLYIBmWb38ilavlNtDLkbFOerPFkz93ZwVVaH8HHJi21QgDe8PkeRpLdMXCq6RKRk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758123462; c=relaxed/simple;
-	bh=3/WKNZUG4rAMQShTNDDwRDvxRYgS2G7yd3vaOhY5YS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uqAJHxKfgNWgY/JsH6ByY//UtQtC367kVv46tg0c58gYxLG+4TXagJ+M0nlub9yjw6VDbOQSU8b0euo9s1T4/lyawjOFb34vkBXasso9YlC3xXR/GMvcBgemks/EwBLifvVwMDmN37QRxOSgUrS9k57W2YitI/48yfBmFt7+W9k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=R0jJ27KD; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=nho7Dsw5; arc=fail smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1758123464; c=relaxed/simple;
+	bh=9fENK6SNnhV4DAGaNi7Ye8SDSFSJ/NGGImv71zIDeog=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KWL9zudT9jOs1laX/Verht+injCsZaa65eteZlinU9KQYZOdFBQjFFd0yr9nKJcZSp7rVGFLkA4FPFWlqFs+rIUzj3jt+5ZYGz18+uuo9lLQd6Gl1jfjpBNydAwd+enBDY/vBX/wYJiHQI60HlT0zWtVnnTfegLbDzETsayNbDo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fWlW7F1+; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=LFx/x3tj; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="R0jJ27KD";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="nho7Dsw5"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fWlW7F1+";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="LFx/x3tj"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58HB3h3S2718932;
-	Wed, 17 Sep 2025 10:37:37 -0500
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58HBDHi92718596;
+	Wed, 17 Sep 2025 10:37:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=GtC6c+39d3Wl665w
-	lNbmjUt5/GjOHJFFxHF0X3a0ZkE=; b=R0jJ27KD2KyGwQ66IZ+LIKWDXuLWYVzn
-	ey4cs002vbDwupPmprOtS0XZsd1a54vmG1hMA+yY5vHJnpvFc1Y84NU6yUIarYuf
-	vrpRCMDc+BKzH4GEE5LXVG+CfpJxehlvEacm98i3zEpfb2RF9SvHi3ePol1NZ2D7
-	VoQ9oJM701X20IYBNEvdVb6gIkD6CRzTXR/7PKmNOW+D+J8PkQXRSRUQ/wotcu+X
-	pn/2cZN7H++wJofyjHw0YpTUOoNGmYpcJHZnVEHkIUOSbcuUGCsGbMh6gfWioccX
-	jsvYrIgTcd00KK2mrktd3ayyy6WOrYrBDb5Pcidva5YoFbuquhlTlQ==
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02on2098.outbound.protection.outlook.com [40.107.212.98])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 497fyks975-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Sep 2025 10:37:37 -0500 (CDT)
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=gp40NizKm1FM7ylVvmUIRHmLfezg4m3gwW3kPy0zH7s=; b=
+	fWlW7F1+QDtvoSt2Fy0hpHjHhZz3bGCSYYc/f4t54DPJLkZJvlZV4vQ1c+5adQYB
+	3b3a2QBmCeg38InRzpkdG3aj/i7SqWz9eok0vobUA8Rb2xR9kKwN7JNwTSUfMLeo
+	cAUFdkZMI7p4/ZNorZ3cz1s1mSU8zin8wlQ56OBKI0JZUMqPrmt4Knw8silyf7g+
+	8igKLNG7wbJuc0bYSoKuYbF2+V2/PWd4w3uqI0XSnDVaKlMpQSI+CuT7PWO+T6Eh
+	lVx/IR75rrlorrnJGzB7N5cF4f7yw2kKhWmyC+zAiDcZGk6744H22SPQBcUrgzDC
+	repfK+uPqfCF/u6rIGw0/w==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2133.outbound.protection.outlook.com [40.107.244.133])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 497fyks976-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 17 Sep 2025 10:37:39 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vVhd/kiZu52zVgpMwHckHIzicaaldNlmkDJlvC/B1YjfBre67cSwMdql9gCEkiQdJN36BWKa9FnR2zs7dwBQRyHUVi52tzbMdTFcI8mnm5LP5T/rnSblTQATMgOIlH1/rO9+Z29fZdd2cD4nJlzStOLoWMqeEChYgezwzygUSoqvyHJqy7bGWl2SS420S8+k6gKeUOoAEfeEnCdU8YnxQ71j3k9MjTfVSvNj8ZOQjmKBW13f+dhyYjPlYcuyguGzJpm0pk96Di4pLnkBZE97oKJP9JLCwvHqUD6SehoP3kgme3wjVf9wP2QSvUPVMWHABq4ISb+hoOqmzUxcT7mtOw==
+ b=JkN+bXm5qMY3jKrllXAOVu4bOIA9rGR3F3iiJTtH2PDaSZXFcCcWFCNC871pgKGPy0INiodzSgLhskfqPZIISz7A87/LAy351wWZscv98GB83jHmx8OJBbM6du7byuh8Lh19d6P2SR86NLRljhFy114dPjhjwf91t4PqcfEOwqs3t7Z8Ae0jMx8JDeSr9LaJ6ve4i/rCuNBasEApP9PmwKjlLmP+c8lsGeoU3GB8zIamSCku8aMDomkJVxZZkuD1vRDndxaGZb7SVMmZnCs3VI+vG3zrHrHnLThbIBjADSkLrobkpLlaxwuuLt4u+QdvGEZLzCc9SbldsB4ll8Tf+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GtC6c+39d3Wl665wlNbmjUt5/GjOHJFFxHF0X3a0ZkE=;
- b=OtclrlzmZKIChFakOVTDcM6VG6EisP0Ihi5yvniDAnxwYMyhN5aTnUOJkECYWP3Rt/PJox4vGnZ67JmV8L/83AaH/9WSlhNDpZtiqBUGCTqIoslrUaCn3Pbg8eBu6vwlUIfjr8gORjk5IJWoWMB9n6Km2lBsAgHgyvJeaaGdwtAa4Ot05y4wPeOn0s7kV25xhZcN7U0u8kzvMDLhi95cTMRgXncOJGRFrPOl+vSQpY9BKfpcMpzEr73L2bGt86HDm8fByVQ3u9o/Qd/zB1YuBtxflkVMjugH//NuuS49VULpxEIc2aaixc4kFBF1wlQm5bAm8rKZfgfRNS7j63H8WQ==
+ bh=gp40NizKm1FM7ylVvmUIRHmLfezg4m3gwW3kPy0zH7s=;
+ b=Adv4lSFQb/EWP1D1ffRxVVnhe28aAzYCsaQ2BFoBWAcr2rX3R+mA7/Fte5VA9WmVKwg8qNRnWdOasmOzOLK0THriFudRY0IR6dolASvTzEULRl8rZ4mXanU+JFawaRPE6fIR0+PrXcs7xWIgCEaLV4FHpgj68SjaLSEpSBgbX98U3AtvWZaPv4v8AlxHZr+rE9W8kbu6XbOhHOKOLT3jLwv/OwZKhoGeZ2kgWyGtu/3UlINMcWKzbtMwdGNiSwsX2Fg5MZDZc1bY8mJGIPJmY+E6BVS+IuFLKhPs4WQ5ICbYHvuhFLfhux1g38TauT1+9TfU+aBBhtwGSm5CU/UDfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -47,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GtC6c+39d3Wl665wlNbmjUt5/GjOHJFFxHF0X3a0ZkE=;
- b=nho7Dsw5e4XJy/ACxpQ3xgFE6qcrDSLSyWD2WezdbI071RYezFLppsU+5tX2bY6Ndbcids7oYxAT5kb6jZSVAW0H00dOzCu8/9q2slvoRtejDwLrea41wyS+RuS87FxjITtRq4wawSxc943r5lSWk187JADFGd/3TJ0qDM3gPsM=
-Received: from CH2PR11CA0030.namprd11.prod.outlook.com (2603:10b6:610:54::40)
- by SA3PR19MB8196.namprd19.prod.outlook.com (2603:10b6:806:37d::12) with
+ bh=gp40NizKm1FM7ylVvmUIRHmLfezg4m3gwW3kPy0zH7s=;
+ b=LFx/x3tjUeOpCDRvnVJWF/2X8Ol/nWl3LzjH9BU+1xNbbh8oFa1tqcViIyV7p/Ssvm3du1jo5pEhp5smPNSa4dZMiC9IC8J+1iPppCcH3Ei6LQgRbQ7eagPbM+nqvUZuLgOrhpM/XgJLnGYH/G2oUDK9IvA1oIhuz8Y4Jshz57E=
+Received: from CH0P221CA0036.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11d::14)
+ by CO1PR19MB4840.namprd19.prod.outlook.com (2603:10b6:303:f6::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Wed, 17 Sep
- 2025 15:37:32 +0000
-Received: from CH1PEPF0000AD7A.namprd04.prod.outlook.com
- (2603:10b6:610:54:cafe::69) by CH2PR11CA0030.outlook.office365.com
- (2603:10b6:610:54::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Wed, 17 Sep
+ 2025 15:37:35 +0000
+Received: from CH1PEPF0000AD76.namprd04.prod.outlook.com
+ (2603:10b6:610:11d:cafe::fe) by CH0P221CA0036.outlook.office365.com
+ (2603:10b6:610:11d::14) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13 via Frontend Transport; Wed,
- 17 Sep 2025 15:37:32 +0000
+ 17 Sep 2025 15:37:34 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -67,15 +69,15 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH1PEPF0000AD7A.mail.protection.outlook.com (10.167.244.59) with Microsoft
+ CH1PEPF0000AD76.mail.protection.outlook.com (10.167.244.53) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.12
- via Frontend Transport; Wed, 17 Sep 2025 15:37:31 +0000
+ via Frontend Transport; Wed, 17 Sep 2025 15:37:32 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D006E406543;
-	Wed, 17 Sep 2025 15:37:30 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 50F1A40654A;
+	Wed, 17 Sep 2025 15:37:31 +0000 (UTC)
 Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8FA4D82024A;
-	Wed, 17 Sep 2025 15:37:30 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 182E882024A;
+	Wed, 17 Sep 2025 15:37:31 +0000 (UTC)
 From: Stefan Binding <sbinding@opensource.cirrus.com>
 To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -83,10 +85,12 @@ To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
         Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PATCH v3 0/2] Support reading Subsystem ID from Device Tree
-Date: Wed, 17 Sep 2025 16:37:10 +0100
-Message-ID: <20250917153722.94978-1-sbinding@opensource.cirrus.com>
+Subject: [PATCH v3 2/2] ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI
+Date: Wed, 17 Sep 2025 16:37:12 +0100
+Message-ID: <20250917153722.94978-3-sbinding@opensource.cirrus.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250917153722.94978-1-sbinding@opensource.cirrus.com>
+References: <20250917153722.94978-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -96,91 +100,188 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7A:EE_|SA3PR19MB8196:EE_
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD76:EE_|CO1PR19MB4840:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f6c8f564-1354-4673-f40b-08ddf6001e08
+X-MS-Office365-Filtering-Correlation-Id: d16b2196-850a-4afa-290d-08ddf6001e45
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|61400799027;
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700013|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0bNFEVi3qEC75mtxDOcA30s0C87GEr/HVXr5aSD9GxcXWyNNZhG7I6X9j6PG?=
- =?us-ascii?Q?Ix4fcIq0++RHgZ2eR5XJzA1OtlZBWigdNaXh/cvzIpwf5k9MkQG3yt0wJpRd?=
- =?us-ascii?Q?WZ3lAyelDp1uS30h1JkOfRjoenpwAzeskaMwplVPaPq/Io+HuG3Sv9C5qa7l?=
- =?us-ascii?Q?nXqMDtxdUfa2EPfy+rbAYrZS/NQlQFLjJWBo1LJBc1U3QV+anRBMycYqa9/v?=
- =?us-ascii?Q?5nyvFoPIg/1kaggmcVbZUUb0qZ4vc+4rPnNsQiIF+EupscIifzuxEzovDFBi?=
- =?us-ascii?Q?RSRmyaN/aPMt2DDX8m8tcCpSXWAqBfpwzynNONtRrR23CWLqNDf830Ss1QB6?=
- =?us-ascii?Q?F0DwonRvQPnkMU+K5NJBehQiV6y6/7mQmCeEegf5dyDW6Uf+OrvfFLIw5diN?=
- =?us-ascii?Q?WBEfnzNrrG5iUwhUxoRKSwAmrDWUn2LQSHT1udqGqRI23+EQM1s30oGE3KOi?=
- =?us-ascii?Q?3Cacd9TvmRTT0E+Sa0czDOH+QG/BQyAcaaAOCxbOrWDBTnRg0J3x5JHZ2mE4?=
- =?us-ascii?Q?P4n2w0PEJ9eJMHbktL4IBi27Ym9hfNuHV7i+r4/bGj2T+zLcBBTg5XVStg2a?=
- =?us-ascii?Q?EaH6551JBAmeXGyfq+t9xMXDWCEmyUo3N54ztlpuo0nAeh/O+NMRbvrsPNG+?=
- =?us-ascii?Q?i0rk7C8tC7Dlmb3jUckDA0IfoQMBJEdvuiw46tclbIIiwo+tylJLU5/ZfPpt?=
- =?us-ascii?Q?49CQro8QyXY3Hq/2nRdQ4BaBnkC0KUFP2IHpuGaBzY3ULOcsS9cfdSuPoMoY?=
- =?us-ascii?Q?o7vRVdd5VZvUQYbWtdStPjGK89QDzS0ImtBRIApmILUtFn2rJuxrgnei44a0?=
- =?us-ascii?Q?eWVRlr1Pp8J+96rAnvcz50fUEy9uRCA03TVzUf3eLCzX7fiPbjDY3UfINgYf?=
- =?us-ascii?Q?jjMx0GxhIvza88f0Tg7JeiHqif8CH0e2QXcoOy2bVZj5GweQpAzjkWJARohE?=
- =?us-ascii?Q?cA8+6UkI/rzEOttpFo1fK53b/Qitvwt4gVBoSvKe88nj6hdqTA5zcW+ytXO9?=
- =?us-ascii?Q?WZ1y0uZjI4Z44X09p4+GEW7JluLFcXiYPE0DIM408p7HmkmwjP/gg0aU498H?=
- =?us-ascii?Q?HQs1kjuYGpsdINGVB6Ef3bENyViL7tEAD97m+x9w+g3+/JxEDmovdSYKff5U?=
- =?us-ascii?Q?+9lD77qnMj78hKEc01b6t2beWS0+s0V3Lnq/q8qLmo4tJksiSh6sEE0C5sEI?=
- =?us-ascii?Q?XSNBhfLD5DMV5BA+eHWjRWtPGVFI5cmrDymzDomqHRrqx/9Ikyo1Pqjunfjn?=
- =?us-ascii?Q?YXlKrenh5d+xZebAI6KUXVykw5ibXl1FlNLKdfuFHOynnBHaBEnDT6p6jjjb?=
- =?us-ascii?Q?N5pxliXtDQKOD7nlxuYM1yj+X108ULLTvjNj4lgph4U66zmd1421uVDCKN/s?=
- =?us-ascii?Q?j+CcCVYDnVibzKQGXmiFfEW+q8WLRxBPJkqS2Blb0rht7DVfHaVw3Ags+TwC?=
- =?us-ascii?Q?+EHS48VRRCpYXPkeYGhnYsbrkMRElVYHGMplsiRs3j09lL+eZOQV6YrQlt+V?=
- =?us-ascii?Q?7NIUnS0BHc4vtYEobZGwW/v2JOiDqg/Okb6u?=
+	=?us-ascii?Q?7Q1H92xhwJa6dFy8h15cEPUI5oRqq7P1TwwVbFe2zjcHnMvUjymMOhv+/89M?=
+ =?us-ascii?Q?XjJ91g2IE5O0YdXKKbiOYzNLWrGoXjeBkLfAFD1gRH0NNpT+2EGlMJfw6EB1?=
+ =?us-ascii?Q?fLEoGjWwaeeomm2NsXOZTzE4uR71Ra4baGnNMclZO/VMbkl427h1ytgzoRfF?=
+ =?us-ascii?Q?fXGT68kQUZ+dfIhkLwvi//JtNL5v4HZ0xVCe3gabWB5IYy8GudesQ1vYp9Rz?=
+ =?us-ascii?Q?9I6+/sbQaY5BfutEkox3Yjz1+WgiyoLfFRX21+N3d2PI/hHfThWMZiT5Zx96?=
+ =?us-ascii?Q?e+y7BdOnuNRpGP/Za8AmWqw547IFrMQkKg97dMcwb5FT74Xbki2tMOFl5wPM?=
+ =?us-ascii?Q?J2N/Ivk/BYgY0vK7mbVdlSQPm+OzYU54LLtRya7XEyjp9C8vSc8QXcg0YEf+?=
+ =?us-ascii?Q?rQgocdnc9K4s6QPlOJ7Fm4xezvEHTcAvG6XLjJDCZZzbr180KEEpUTefSROa?=
+ =?us-ascii?Q?hjrOlbLHpaOHb2f7VWleSJOP7YB5r5/elRB7qaWNcNxeruj+iC6IOste8F/i?=
+ =?us-ascii?Q?MCj+jUu+ZQlvd5fHQDWIZERFKqKJ0OsLhRoJURiQPGdZU8TD+BdWaz+ZNiWE?=
+ =?us-ascii?Q?RMDT4T1gVmWYJxj9n8p84zm5syBdUVMOYcuQF6CXh4fUIR/VaUUdg7EuX0Oi?=
+ =?us-ascii?Q?JszDhc9QR1jarcO/ATSBcp1Y2Sfh9ZhTkEe3p/hRrkjPyRXD7TBdV55mAMKw?=
+ =?us-ascii?Q?c+331FZQcukPlgsp1H1l3UZ8gWRbdKqK5jis9EjVZC1fy7VRFOVS22XG6IP1?=
+ =?us-ascii?Q?eRm6EuMBt1bvE+uykJyvqeur85RbtO0aQ2y4vzcryAv8Dz5X3QLx6mMRydY1?=
+ =?us-ascii?Q?VcK4FYm/EqYKzyaIAwwzf7bzI/s+/ksiKMidFNd4jyNXjSTTHcqVndjt/nqi?=
+ =?us-ascii?Q?yLuyETivvituYX2XSdiwhYy89bMH+q0ac15EkfuYhTPIhDQz+cNPPvCTOEE4?=
+ =?us-ascii?Q?ZN3qjVlpFIfA7mX1ng2pwms2KViPuBHWv9PjdzsFARNnvk32dSRkJdARQh7A?=
+ =?us-ascii?Q?5FV+7kmntu+VI22Ft0SLmZ474J5cu8/MJXkfCcTki6NId4GT+wh/pPITQyQu?=
+ =?us-ascii?Q?35G7GPYrEp1Omzjn0quXAa1+UsjCVIAjeb1MZRMKa+Uc517jQq2AaPkZ1VMx?=
+ =?us-ascii?Q?uZN0d3T6XfjCXYwL+Ad9XGIzMxsTTH82JVVi/mlq+mAhncOthmT4XouPHraK?=
+ =?us-ascii?Q?VSENLmEjpj68rLYth53r/GFpssIyjER4K8/qw0AmNc8099A4egULlfcXRqTo?=
+ =?us-ascii?Q?duJ2ri+O5T0feGmpC6Seg1PpIMJ4ql7FFQSybsB+VcENicqPoLa7cEHXJuWT?=
+ =?us-ascii?Q?VxFBOLrKcwuXKpQJUy3pvSw1x0GxgvctNV5s9lgNmRTRvDd/46X5KNfYeeIA?=
+ =?us-ascii?Q?FQCbnqKX0QbcuOxV3V3WkljsWoy6YPVcyUTFOK1UEQnj0acxqdqrhHwlN//I?=
+ =?us-ascii?Q?RVqFeKRnySzeZMpC/tpmzB/EiDBpvHUI2zl7Uh4wzrm6oi1RLxuRgLBpmnwI?=
+ =?us-ascii?Q?L2KldSIELg2CXt6CKclXMmuoZY6F22HcIAeG?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700013)(376014);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 15:37:31.8502
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 15:37:32.2458
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6c8f564-1354-4673-f40b-08ddf6001e08
+X-MS-Exchange-CrossTenant-Network-Message-Id: d16b2196-850a-4afa-290d-08ddf6001e45
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD7A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD76.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB8196
-X-Proofpoint-GUID: BeCIhqa2tNaIc5MqGonRtUmi_8X55L29
-X-Proofpoint-ORIG-GUID: BeCIhqa2tNaIc5MqGonRtUmi_8X55L29
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDE1MyBTYWx0ZWRfX/uYs5C+YO2bK
- dyM1fG/fPunkS4o6PcG6mOf1qJTA3U/6BlcKHnIZdBozbgAcDAWfFdzxkXSMSUbKC40xw7pdTM7
- YPknVs5Qnp6Sj2iBupPL/aNshXlb5VW1+9wLp5DwY+XfUMoO8Jix5E6JrGrVjWDzZ4GnT00rfUO
- JbaZbm75IxwAmzwW36CJhu1bEYJYnxLd1+ydWhJKQIaGbgrC1XAJrXNFAD3QIm40ywiQoFc450t
- ZkEP2FS+P2SBTy0Neso02NDNBOB/awud39GonGVKfJLF+NzFbjNd6T9Zsjj9+c6THLwAB7Hz649
- Oi6w3J4e3/ko4QqjxkHRlo1JrRpWbqODec2lXdnvOLQblkGVkpeivdqPLaURJc=
-X-Authority-Analysis: v=2.4 cv=KvRN2XWN c=1 sm=1 tr=0 ts=68cad5c1 cx=c_pps
- a=dDkcODsWiJS6eqXBzyR3Nw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB4840
+X-Proofpoint-GUID: mtGvai5Gkel9Y0Jfl2j3ipgD3m4ssxVe
+X-Proofpoint-ORIG-GUID: mtGvai5Gkel9Y0Jfl2j3ipgD3m4ssxVe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDE1MyBTYWx0ZWRfX9jIhZkFisI5S
+ WX09EmYuDIRiu/ax6DNw9qznsAonzlEuGCFJObFedyE8Uh6ZlX0toi0T2RTci35Hw9MVmIOOvTg
+ cSIB1Cq7QLAEZGlSHDgrvh+UTM1FmtyGy0u1Q2paZlne6c9/8/QSA8LGZFKapLeGeL8XPsOmPHY
+ LmGIUsiuaPd1WkOU0glzw3E/EIawY3XqJraH5JfbMqVtGvFx4AzA2z3+y2a7lQnzpIhWPmITu7J
+ U1Y5t1rC0152vIuTqJaTY0MxnhV2L6oyNEek920zL0SLQoDDYfVhKyS5h88tkIE75Nizxv8Ufvn
+ pXfkZEFXPAv3xnni6Z+ghj+GzZkeQevJeBHBMcO+8YfpeSn/TPcknJQnLNB3Fk=
+X-Authority-Analysis: v=2.4 cv=KvRN2XWN c=1 sm=1 tr=0 ts=68cad5c3 cx=c_pps
+ a=V+OjpK3aUZD57wWhQcm3pw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=4cEVVl_1FvM9a3rzOFQA:9
+ a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8
+ a=bL0rdlc7CeB77TPmB0MA:9
 X-Proofpoint-Spam-Reason: safe
 
-In PC systems using ACPI, the driver is able to read back an SSID from
-the _SUB property. This SSID uniquely identifies the system, which
-enables the driver to read the correct firmware and tuning for that
-system from linux-firmware. Currently there is no way of reading this
-property from device tree. Add an equivalent property in device tree
-to perform the same role.
+If ACPI is not used, then there is currently no way of reading a
+Subsystem ID property used for a system name to uniquely identify
+the system in order to load the correct firmware and tuning.
+Add a new property which can be read from device tree to be able to set
+the system name.
 
-Changes since v2:
-- Fixed use of PTR_ERR, using PTR_ERR_OR_ZERO instead
-- Update commit message of patch 1 to explain why we need SSID property
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs35l41.c | 77 ++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 33 deletions(-)
 
-Changes since v1:
-- Fixed device tree property type
-
-Stefan Binding (2):
-  ASoC: dt-bindings: cirrus,cs35l41: Document the cirrus,subsystem-id
-    property
-  ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI
-
- .../bindings/sound/cirrus,cs35l41.yaml        |  6 ++
- sound/soc/codecs/cs35l41.c                    | 77 +++++++++++--------
- 2 files changed, 50 insertions(+), 33 deletions(-)
-
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index 224d65987a8d..173d7c59b725 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -7,6 +7,7 @@
+ // Author: David Rhodes <david.rhodes@cirrus.com>
+ 
+ #include <linux/acpi.h>
++#include <acpi/acpi_bus.h>
+ #include <linux/delay.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
+@@ -1147,45 +1148,55 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ 	return ret;
+ }
+ 
+-#ifdef CONFIG_ACPI
+-static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
++static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
+ {
+ 	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
+-	acpi_handle handle = acpi_device_handle(adev);
+-	const char *hid;
+-	const char *sub;
+-
+-	/* If there is no acpi_device, there is no ACPI for this system, return 0 */
+-	if (!adev)
+-		return 0;
++	const char *sub = NULL;
++	const char *tmp;
++	int ret = 0;
+ 
+-	sub = acpi_get_subsystem_id(handle);
+-	if (IS_ERR(sub)) {
+-		/* If no _SUB, fallback to _HID, otherwise fail */
+-		if (PTR_ERR(sub) == -ENODATA) {
+-			hid = acpi_device_hid(adev);
+-			/* If dummy hid, return 0 and fallback to legacy firmware path */
+-			if (!strcmp(hid, "device"))
+-				return 0;
+-			sub = kstrdup(hid, GFP_KERNEL);
+-			if (!sub)
+-				sub = ERR_PTR(-ENOMEM);
+-
+-		} else
+-			return PTR_ERR(sub);
++	/* If there is no acpi_device, there is no ACPI for this system, skip checking ACPI */
++	if (adev) {
++		acpi_handle handle = acpi_device_handle(adev);
++
++		sub = acpi_get_subsystem_id(handle);
++		ret = PTR_ERR_OR_ZERO(sub);
++		if (ret) {
++			sub = NULL;
++			/* If no _SUB, fallback to _HID, otherwise fail */
++			if (ret == -ENODATA) {
++				tmp = acpi_device_hid(adev);
++				/* If dummy hid, return 0 and fallback to legacy firmware path */
++				if (!strcmp(tmp, "device")) {
++					ret = 0;
++					goto err;
++				}
++				sub = kstrdup(tmp, GFP_KERNEL);
++				if (!sub) {
++					ret = -ENOMEM;
++					goto err;
++				}
++			}
++		}
++	} else {
++		if (!device_property_read_string(cs35l41->dev, "cirrus,subsystem-id", &tmp)) {
++			sub = kstrdup(tmp, GFP_KERNEL);
++			if (!sub) {
++				ret = -ENOMEM;
++				goto err;
++			}
++		}
+ 	}
+ 
+-	cs35l41->dsp.system_name = sub;
+-	dev_dbg(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
++err:
++	if (sub) {
++		cs35l41->dsp.system_name = sub;
++		dev_info(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
++	} else
++		dev_warn(cs35l41->dev, "Subsystem ID not found\n");
+ 
+-	return 0;
+-}
+-#else
+-static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
+-{
+-	return 0;
++	return ret;
+ }
+-#endif /* CONFIG_ACPI */
+ 
+ int cs35l41_probe(struct cs35l41_private *cs35l41, const struct cs35l41_hw_cfg *hw_cfg)
+ {
+@@ -1317,7 +1328,7 @@ int cs35l41_probe(struct cs35l41_private *cs35l41, const struct cs35l41_hw_cfg *
+ 		goto err;
+ 	}
+ 
+-	ret = cs35l41_acpi_get_name(cs35l41);
++	ret = cs35l41_get_system_name(cs35l41);
+ 	if (ret < 0)
+ 		goto err;
+ 
 -- 
 2.43.0
 
