@@ -1,122 +1,302 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7451A2F7ABF;
-	Wed, 17 Sep 2025 12:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B4672602
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 13:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758113599; cv=none; b=Ycv4Za6wVlFrl0/rZB2ehpiDE031rksNtpvEq3hsA9mCk+sh/oFvl63DHAnNgWLyT1dVRztDMA10ovhwv5ure9jk8+mkvlmzRwLwi9T17cSq0+YYFoBAPPak+/CZrdxTY7LaNlqBsd7BKQiX3MBu1vBYVHm7EsJEgWUv4gwbF2U=
+	t=1758114556; cv=none; b=fBQ12zhZNdITxq1Vk3Y5brlz74pbOvlZKF9jR0dA+lnxU+arl+3ggtf/Jgx0+/OQvYkbNg1oT9dK5xwKyaTs59LyTdc8QkXVrRYAGarmb4BTQX0XYGGEyTUNAPjhNUTZCqUT6FUXTVlXT5tkzykVpc+K7wcX4HrCv11KiT/NqxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758113599; c=relaxed/simple;
-	bh=SNw30TtYtjz3bJjJmSYVg/m9TlNMaQnm+dEAkA5BiG4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=A3eVPKUwurHl53+fHbKtyflODndKMi5a97AC5sqUz95EXAMmM8wkRaZCkCcVfQ3oEFNvkd4Mn6EdAynkg0O5ZSl3yUvC8fRf5j3L4BvrgOGkY5PgB7Ga0RxPuR3GjXFTyd0tTqRUsBu6ADbvf5st2LetbJBdAdG+q9wdh55fKaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=q1DN7DKa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jttXHiCH; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1758114556; c=relaxed/simple;
+	bh=zBwzTcjjgCabHqygYoqXRXdGh3qy1tHa1XF1g+yEBVA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EjAV1IPAMl8BoZJZqcQoPoBRyDZsynY5eBObe4dfHm0Hod4ReHBIg+ZAzNLfoGpSfYM6Kf1DTG5OSOIXXytyISKhRd77ASYXQniZh9ecnmXTjjiONexcuIFVH5r6xgSlWTBziVxFPobAqWUe1qmwRbqYRpfRXYVWtJqMv1IZFSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XnXHNswQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oXH2j9VU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XnXHNswQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oXH2j9VU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="q1DN7DKa";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jttXHiCH"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 17A997A00E5;
-	Wed, 17 Sep 2025 08:53:15 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Wed, 17 Sep 2025 08:53:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1758113594;
-	 x=1758199994; bh=jJDpsD5W7eR4GMzNsuaoxriBHq6EDK0mxwvo7xTskbk=; b=
-	q1DN7DKaQgFit561Nw1FbBqlELihxV6Dk1eiyTRLS7lbGNhWC3t7sK5RbslZHQ4D
-	qYe5zEZrCMiGvLoAX9igMsTqhLm55wEeVmZHFo7hhdWbSDJ0D0sX1nqaZHOux9yl
-	MNRaUNagpsMxRvDzeOptgVs8me4XcpVLBJdF0IVKmDtVHia3HqQ0gEuUGqs2KLPH
-	OW7bdFpy3srIERiGmNpCNDG6404jyo7jon9oq2seUCYYqpD73CT2nXhBrvoYDc2E
-	0vpJWth2jP3fjHJnIYSraGH7drwaWj8OJbEGIMXM0kNXOACecZXtJdjXnJwkePP+
-	6oRJ4hBh3sPvRtwPZlbRTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758113594; x=
-	1758199994; bh=jJDpsD5W7eR4GMzNsuaoxriBHq6EDK0mxwvo7xTskbk=; b=j
-	ttXHiCH9Zcgg+Dh5DzPnDIxu3tfg676RS5ME0MtGHflR6ige84aYHVrJRlkiwFlA
-	rkZkejuZqZ3CjWrnAKg05LnZlc/kw8sbaKgDepumyCCGl3of6adzfKYPkK2mrETs
-	oBk8FS6WIx46hWWmnGUogVrrCuu6lCATn5rBLMnzpfFW+7O7YoI8Isl7d5C4TyX9
-	Wz9+Eqg3zOz9HttsOZAd8vVMJtOlgNh9DF8tNs6mRRlnFmf1ULbAdPzkBcKYrdm7
-	9tywJLj2PDruDzxnaqT2R5V3mXM77OH1oByajcOe3sqOrK+8bQswrussZt++HUJ1
-	XNwjW1Hz7seXTOR14oxAA==
-X-ME-Sender: <xms:Oq_KaOfa-Z9vOxsGkcASJZyBd5eBWyrBgRwgZNJzLLqk0N6q_Ke1dg>
-    <xme:Oq_KaIPa9_6eDdG1u9JNhnUkjJjKc7C7gTsRYTxrXbAnUjdTNAguoM9HnQf_eJVF6
-    L1XDdzDWmro87n14kU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdegfeehtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhutggrrdifvghishhssehfrghirhhphhhonhgvrdgtohhmpdhrtg
-    hpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhoohhnihgv
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghnrdgtrghrphgvnhhtvghrsehlih
-    hnrghrohdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurght
-    ihhonhdrohhrghdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtth
-    hopehquhhitggpfigthhgvnhhgsehquhhitghinhgtrdgtohhmpdhrtghpthhtohepthhi
-    figrihesshhushgvrdgtohhmpdhrtghpthhtohepthhifigrihesshhushgvrdguvg
-X-ME-Proxy: <xmx:Oq_KaJ3qk_sUQerlkdhDIhinfcdtHmLHlDw8VENdoLzM2nGdvDtjvg>
-    <xmx:Oq_KaPQNS0FzaZwYF7aVo9ohYrWiAuJzRwgAmdkK2yjnLwtwFCcbKw>
-    <xmx:Oq_KaMmTn23fsgjLLjbnSrG0sgy5YLDgoJgIDdVdIqZ0dIYaQ8zmZw>
-    <xmx:Oq_KaAO8VV8ZSHYtEDaOBdF9xIltOZV6IDHHe0oOH9x79eZUBWWOzg>
-    <xmx:Oq_KaIfe3H_s6Fn-7DxjbVOP0LD3JLnkjdyIr9-cwal1-0CazHtVBMi5>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 4A40A700065; Wed, 17 Sep 2025 08:53:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XnXHNswQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oXH2j9VU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XnXHNswQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oXH2j9VU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 37FAA22637;
+	Wed, 17 Sep 2025 13:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758114552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Z9j/ZpxHrKEitvjvc4XjbX+Y21i67zsZuq9+qv0pyqY=;
+	b=XnXHNswQuMzHIytrJmBkAFNdFKAbaxMQzESW9jdJx6SsfWkvFwFBR81Va3A97InZtv/eB0
+	l4c1bBo+6iq5q6w9ctu5PfJYRDv7uQjC7Wry+PbYA6pWaAyv3SeH1dK/vC9IAKs4gslVMX
+	HqnxuU+94Rxo/n4lMDbS10MRa/TV/fk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758114552;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Z9j/ZpxHrKEitvjvc4XjbX+Y21i67zsZuq9+qv0pyqY=;
+	b=oXH2j9VUHm9NJ2h9r8vgWWC4A00Lvz4bpp4NN14GpG6PFTIh0D2ZwYqlJPvXC9mXMRPItQ
+	xynGeDNKB0vKR9BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758114552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Z9j/ZpxHrKEitvjvc4XjbX+Y21i67zsZuq9+qv0pyqY=;
+	b=XnXHNswQuMzHIytrJmBkAFNdFKAbaxMQzESW9jdJx6SsfWkvFwFBR81Va3A97InZtv/eB0
+	l4c1bBo+6iq5q6w9ctu5PfJYRDv7uQjC7Wry+PbYA6pWaAyv3SeH1dK/vC9IAKs4gslVMX
+	HqnxuU+94Rxo/n4lMDbS10MRa/TV/fk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758114552;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Z9j/ZpxHrKEitvjvc4XjbX+Y21i67zsZuq9+qv0pyqY=;
+	b=oXH2j9VUHm9NJ2h9r8vgWWC4A00Lvz4bpp4NN14GpG6PFTIh0D2ZwYqlJPvXC9mXMRPItQ
+	xynGeDNKB0vKR9BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08A9713AAF;
+	Wed, 17 Sep 2025 13:09:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KrqAAPiyymjybQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 17 Sep 2025 13:09:12 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Luca Weiss <luca.weiss@fairphone.com>,
+	Arnd Bergmann <arnd@kernel.org>
+Subject: [PATCH] ALSA: usb: qcom: Fix false-positive address space check
+Date: Wed, 17 Sep 2025 15:09:01 +0200
+Message-ID: <20250917130909.8211-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AJ-KNcceaLbJ
-Date: Wed, 17 Sep 2025 14:52:54 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Takashi Iwai" <tiwai@suse.de>, "Luca Weiss" <luca.weiss@fairphone.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, "Mark Brown" <broonie@kernel.org>,
- "Wesley Cheng" <quic_wcheng@quicinc.com>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dan Carpenter" <dan.carpenter@linaro.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <548b20d2-70f5-403c-821c-630c1e605b34@app.fastmail.com>
-In-Reply-To: <87v7lhwkf2.wl-tiwai@suse.de>
-References: <20250513123442.159936-1-arnd@kernel.org>
- <20250513123442.159936-4-arnd@kernel.org>
- <DBR2363A95M1.L9XBNC003490@fairphone.com> <87v7n72pg0.wl-tiwai@suse.de>
- <DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com> <87ms8j2on6.wl-tiwai@suse.de>
- <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com> <87bjnpqe45.wl-tiwai@suse.de>
- <a2a6843f-7e03-4b7e-b5fc-415ac9fc6621@app.fastmail.com>
- <DCU39JVDVFAG.2EOCQ37KAS3N0@fairphone.com> <87o6raxtu9.wl-tiwai@suse.de>
- <DCUXFIZ5KRCU.3JANM98BSE8SE@fairphone.com> <87v7lhwkf2.wl-tiwai@suse.de>
-Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space confusion
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 
-On Wed, Sep 17, 2025, at 10:30, Takashi Iwai wrote:
-> On Wed, 17 Sep 2025 10:19:23 +0200,
->> >> 
->> >> Are you planning to post this as a proper patch? It's a bit late in the
->> >> 6.17 cycle already but good to still get this fixed for final release.
+The sanity check previously added to uaudio_transfer_buffer_setup()
+assumed the allocated buffer being linear-mapped.  But the buffer
+allocated via usb_alloc_coherent() isn't always so, rather to be used
+with (SG-)DMA API.  This leaded to a false-positive warning and the
+driver failed to work.
 
-I was expecting your earlier suggestion (without my experimental
-changes) to get merged for 6.17.
+Actually uaudio_transfer_buffer_setup() deals only with the DMA-API
+addresses for MEM_XFER_BUF type, while other callers of
+uaudio_iommu_map() are with pages with physical addresses for
+MEM_EVENT_RING and MEM_XFER_RING types.  So this patch splits the
+mapping helper function to two different ones, uaudio_iommu_map() for
+the DMA pages and uaudio_iommu_map_pa() for the latter, in order to
+handle mapping differently for each type.  Along with it, the
+unnecessary address check that caused probe error is dropped, too.
 
->> Should that code be removed with the new code now?
->
-> Yes, please try the revised patch below.
-
-This version looks good to me, thanks for following up,
-and sorry if I caused you extra work.
-
+Fixes: 3335a1bbd624 ("ALSA: qc_audio_offload: try to reduce address space confusion")
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Acked-by: Arnd Bergmann <arnd@arndb.de>
+Reported-and-tested-by: Luca Weiss <luca.weiss@fairphone.com>
+Closes: https://lore.kernel.org/DBR2363A95M1.L9XBNC003490@fairphone.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/qcom/qc_audio_offload.c | 92 ++++++++++++++++---------------
+ 1 file changed, 48 insertions(+), 44 deletions(-)
+
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index a25c5a531690..9ad76fff741b 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -538,38 +538,33 @@ static void uaudio_iommu_unmap(enum mem_type mtype, unsigned long iova,
+ 			umap_size, iova, mapped_iova_size);
+ }
+ 
++static int uaudio_iommu_map_prot(bool dma_coherent)
++{
++	int prot = IOMMU_READ | IOMMU_WRITE;
++
++	if (dma_coherent)
++		prot |= IOMMU_CACHE;
++	return prot;
++}
++
+ /**
+- * uaudio_iommu_map() - maps iommu memory for adsp
++ * uaudio_iommu_map_pa() - maps iommu memory for adsp
+  * @mtype: ring type
+  * @dma_coherent: dma coherent
+  * @pa: physical address for ring/buffer
+  * @size: size of memory region
+- * @sgt: sg table for memory region
+  *
+  * Maps the XHCI related resources to a memory region that is assigned to be
+  * used by the adsp.  This will be mapped to the domain, which is created by
+  * the ASoC USB backend driver.
+  *
+  */
+-static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
+-				      phys_addr_t pa, size_t size,
+-				      struct sg_table *sgt)
++static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
++					 phys_addr_t pa, size_t size)
+ {
+-	struct scatterlist *sg;
+ 	unsigned long iova = 0;
+-	size_t total_len = 0;
+-	unsigned long iova_sg;
+-	phys_addr_t pa_sg;
+ 	bool map = true;
+-	size_t sg_len;
+-	int prot;
+-	int ret;
+-	int i;
+-
+-	prot = IOMMU_READ | IOMMU_WRITE;
+-
+-	if (dma_coherent)
+-		prot |= IOMMU_CACHE;
++	int prot = uaudio_iommu_map_prot(dma_coherent);
+ 
+ 	switch (mtype) {
+ 	case MEM_EVENT_RING:
+@@ -583,20 +578,41 @@ static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
+ 				     &uaudio_qdev->xfer_ring_iova_size,
+ 				     &uaudio_qdev->xfer_ring_list, size);
+ 		break;
+-	case MEM_XFER_BUF:
+-		iova = uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
+-				     &uaudio_qdev->xfer_buf_iova_size,
+-				     &uaudio_qdev->xfer_buf_list, size);
+-		break;
+ 	default:
+ 		dev_err(uaudio_qdev->data->dev, "unknown mem type %d\n", mtype);
+ 	}
+ 
+ 	if (!iova || !map)
+-		goto done;
++		return 0;
+ 
+-	if (!sgt)
+-		goto skip_sgt_map;
++	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
++
++	return iova;
++}
++
++static unsigned long uaudio_iommu_map_xfer_buf(bool dma_coherent, size_t size,
++					       struct sg_table *sgt)
++{
++	struct scatterlist *sg;
++	unsigned long iova = 0;
++	size_t total_len = 0;
++	unsigned long iova_sg;
++	phys_addr_t pa_sg;
++	size_t sg_len;
++	int prot = uaudio_iommu_map_prot(dma_coherent);
++	int ret;
++	int i;
++
++	prot = IOMMU_READ | IOMMU_WRITE;
++
++	if (dma_coherent)
++		prot |= IOMMU_CACHE;
++
++	iova = uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
++			       &uaudio_qdev->xfer_buf_iova_size,
++			       &uaudio_qdev->xfer_buf_list, size);
++	if (!iova)
++		goto done;
+ 
+ 	iova_sg = iova;
+ 	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+@@ -618,11 +634,6 @@ static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
+ 		uaudio_iommu_unmap(MEM_XFER_BUF, iova, size, total_len);
+ 		iova = 0;
+ 	}
+-	return iova;
+-
+-skip_sgt_map:
+-	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
+-
+ done:
+ 	return iova;
+ }
+@@ -1020,7 +1031,6 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+ 	struct sg_table xfer_buf_sgt;
+ 	dma_addr_t xfer_buf_dma;
+ 	void *xfer_buf;
+-	phys_addr_t xfer_buf_pa;
+ 	u32 len = xfer_buf_len;
+ 	bool dma_coherent;
+ 	dma_addr_t xfer_buf_dma_sysdev;
+@@ -1051,18 +1061,12 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+ 	if (!xfer_buf)
+ 		return -ENOMEM;
+ 
+-	/* Remapping is not possible if xfer_buf is outside of linear map */
+-	xfer_buf_pa = virt_to_phys(xfer_buf);
+-	if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
+-		ret = -ENXIO;
+-		goto unmap_sync;
+-	}
+ 	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
+ 			xfer_buf_dma, len);
+ 
+ 	/* map the physical buffer into sysdev as well */
+-	xfer_buf_dma_sysdev = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent,
+-					       xfer_buf_pa, len, &xfer_buf_sgt);
++	xfer_buf_dma_sysdev = uaudio_iommu_map_xfer_buf(dma_coherent,
++							len, &xfer_buf_sgt);
+ 	if (!xfer_buf_dma_sysdev) {
+ 		ret = -ENOMEM;
+ 		goto unmap_sync;
+@@ -1143,8 +1147,8 @@ uaudio_endpoint_setup(struct snd_usb_substream *subs,
+ 	sg_free_table(sgt);
+ 
+ 	/* data transfer ring */
+-	iova = uaudio_iommu_map(MEM_XFER_RING, dma_coherent, tr_pa,
+-			      PAGE_SIZE, NULL);
++	iova = uaudio_iommu_map_pa(MEM_XFER_RING, dma_coherent, tr_pa,
++				   PAGE_SIZE);
+ 	if (!iova) {
+ 		ret = -ENOMEM;
+ 		goto clear_pa;
+@@ -1207,8 +1211,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
+ 	mem_info->dma = sg_dma_address(sgt->sgl);
+ 	sg_free_table(sgt);
+ 
+-	iova = uaudio_iommu_map(MEM_EVENT_RING, dma_coherent, er_pa,
+-			      PAGE_SIZE, NULL);
++	iova = uaudio_iommu_map_pa(MEM_EVENT_RING, dma_coherent, er_pa,
++				   PAGE_SIZE);
+ 	if (!iova) {
+ 		ret = -ENOMEM;
+ 		goto clear_pa;
+-- 
+2.50.1
+
