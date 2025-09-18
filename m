@@ -1,111 +1,136 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE021CC63;
-	Thu, 18 Sep 2025 14:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5466330CD83;
+	Thu, 18 Sep 2025 14:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758206255; cv=none; b=seI+WYgDhsO/zWt8O83wlZwpmmL7yYw6emj41DNEYbifLp/mA8pJZj2VklFuWKU2zEpmLtaO240fuWkQwqJy+D260tkGcZQpux9bz7YHg7n9ZF4DTBn+zoTTvWdh9k/EgB56ACsxiizu1LlY5P5z46BgJ+P7DJlaYJyR+JWQjBI=
+	t=1758207021; cv=none; b=IZmSfoj34MAV3mYnpfji3iMlYAA9tUPy5vOaQRJ5lhN4Eo2VdGHYRNLoSDHBJFuegsullXdaDpLNarDv7eQkgb37ND4Pdq5QQlPszWTdwG/WvNJyX8Hc3Kze8kQNMLsJ+qN//G+kjJvpAubyqaB0WqpGuz6A8J9U58r4TKs0zwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758206255; c=relaxed/simple;
-	bh=4hr9rb0pYa4kk0rjOBPob6luIbfpKkRsa9dhKhkV/gg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MNujms2YaAbU0myMd/csB9xLmnEk/YZ7dZtfsZlyRH0ecnXA94fwREvakOQpjMptvJmdS7E697B+jjKZJ4SKyyGG0uvTEderngAwV3s3F4dR1OMa52AcMl1vZN1KU6RmF3sifYZPM2kdXtKpOapbUIG3BEcxg18l3LIOfC0sXec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YCXsqEsh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1758207021; c=relaxed/simple;
+	bh=EGsvc6/poxlYGOmwfkAkyjwqmGrwabohfckBDBt6qLU=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=MSGdVkZL7NfNsGCTvxqUeVtarwxxF1jhJOA/ajuYdd/oftMGpy7bKUDuPlBGor80flrKSVPRFM6TZCN4OLnyjYPgUznpw3Hhky1sp1Y+Q8fzoy3IlSpZ5CNX/Sa7UIZKoiN9516mrdlT0K0BWlGHrHaZolRUHbN/mIo0T3tdsgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+bu+Fpc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YCXsqEsh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1758206251;
-	bh=4hr9rb0pYa4kk0rjOBPob6luIbfpKkRsa9dhKhkV/gg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YCXsqEshUU3oC8vSADi0fwGu7/Qk89HQVbpwmQdk0UYTC4ezWdlIW7ygx8Rj4jDZw
-	 /QZMUXuIILEsTyIlC8a74n715k5infeKOhzHwOQEuKQgqSPCmTBZf8ug/X9VhdJ1oL
-	 bTgYV7iXzLRZeg8OgSTblUbiRkRdZk8mAQaJJg2iiwAofn6Bl/+GJMrkdGybUibqSe
-	 uwEU0e06NgcZQWtgk+XfIV+gG5r+Bf4BX2Y65PCvPQpsppuU7ArjCYUB2AICnGdQ1R
-	 krpaRKeV3CqVIwYk1S/D/okrEBDbl2hajRho8jeAfz8KP0xn1aYBaK5Q2XRAJxyI7P
-	 3GQFLD6IsO7/A==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C65D917E12C4;
-	Thu, 18 Sep 2025 16:37:30 +0200 (CEST)
-Message-ID: <71f50716-2f8b-432b-970c-9436fa181856@collabora.com>
-Date: Thu, 18 Sep 2025 16:37:30 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+bu+Fpc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F47FC4CEFC;
+	Thu, 18 Sep 2025 14:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758207020;
+	bh=EGsvc6/poxlYGOmwfkAkyjwqmGrwabohfckBDBt6qLU=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=o+bu+FpcUsRQwpcYC/zXQMrb6yV0rewAe5nv6bCJ8jvkcQwdCwQkV7mQh9lhMXcPd
+	 +wc+TLvcaWSi63IPrP0Vfv58sODRhE2ECtkvnqkAl1hV2A4LMWZfyhfrE388/dk63j
+	 Sp7Igzr0wWoRS+5Dgp46WQYJJFO8SnaQjyQY7GcUbiLGpzgaifQqjcP2ubIfURyVRG
+	 LhhlY36oyZNgifNpCzj2j+2M/RJUo7Jpxc/MYIB5WI6vz/SzLuk7mJFNxenBuM4kUE
+	 CMIc2K31xXUaiCzMOZgXbBswj6svMZZRhOEZ+/JJjBuZZWKAt1ioJX8s7Z8Xg6KM8l
+	 MW94YzqGNOSkQ==
+Date: Thu, 18 Sep 2025 09:50:19 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: mt8365: Add check for devm_kcalloc() in
- mt8365_afe_suspend()
-To: Guangshuo Li <lgs201920130244@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Alexandre Mergnat <amergnat@baylibre.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Cc: stable@vger.kernel.org
-References: <20250918140758.3583830-1-lgs201920130244@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250918140758.3583830-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ "David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org, 
+ Andrew Lunn <andrew@lunn.ch>, David Jander <david@protonic.nl>, 
+ Lucas Stach <l.stach@pengutronix.de>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Fabio Estevam <festevam@gmail.com>, 
+ Vladimir Oltean <olteanv@gmail.com>, Eric Dumazet <edumazet@google.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, netdev@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+ linux-sound@vger.kernel.org, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, 
+ linux-arm-kernel@lists.infradead.org
+To: Jonas Rebmann <jre@pengutronix.de>
+In-Reply-To: <20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de>
+References: <20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de>
+Message-Id: <175820686555.1653903.2952526182667328137.robh@kernel.org>
+Subject: Re: [PATCH v2 0/3] Mainline Protonic PRT8ML board
 
-Il 18/09/25 16:07, Guangshuo Li ha scritto:
-> devm_kcalloc() may fail. mt8365_afe_suspend() uses afe->reg_back_up
-> unconditionally after allocation and writes afe->reg_back_up[i], which
-> can lead to a NULL pointer dereference under low-memory conditions.
+
+On Thu, 18 Sep 2025 14:19:43 +0200, Jonas Rebmann wrote:
+> This series adds the Protonic PRT8ML device tree as well as some minor
+> corrections to the devicetree bindings used.
 > 
-> Add a NULL check and bail out with -ENOMEM, making sure to disable the
-> main clock via the existing error path to keep clock state balanced.
-> 
-> Fixes: e1991d102bc2 ("ASoC: mediatek: mt8365: Add the AFE driver support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
 > ---
->   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 18 +++++++++++-------
->   1 file changed, 11 insertions(+), 7 deletions(-)
+> Changes in v2:
+> - Dropped "ASoC: dt-bindings: asahi-kasei,ak4458: Reference common DAI
+>   properties", applied to broonie/sound for-next (Thanks, Mark)
+> - Updated description of the reset-gpios property in sja1105 binding to
+>   address the issues of connecting this pin to GPIO (Thanks, Vladimir)
+> - Added the fec, switch and phy for RJ45 onboard ethernet after
+>   successful testing
+> - Consistently use interrupts-extended
+> - Link to v1: https://lore.kernel.org/r/20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de
 > 
-> diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> index 10793bbe9275..9f398d1249ce 100644
-> --- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> +++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> @@ -1971,22 +1971,26 @@ static int mt8365_afe_suspend(struct device *dev)
->   {
->   	struct mtk_base_afe *afe = dev_get_drvdata(dev);
->   	struct regmap *regmap = afe->regmap;
-> -	int i;
-> +	int i, ret = 0;
->   
->   	mt8365_afe_enable_main_clk(afe);
->   
-> -	if (!afe->reg_back_up)
-> -		afe->reg_back_up =
-> -			devm_kcalloc(dev, afe->reg_back_up_list_num,
-> -				     sizeof(unsigned int), GFP_KERNEL);
-> +	if (!afe->reg_back_up) {
-> +		afe->reg_back_up = devm_kcalloc(dev, afe->reg_back_up_list_num,
-> +						sizeof(unsigned int), GFP_KERNEL);
+> ---
+> Jonas Rebmann (3):
+>       dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios property
+>       dt-bindings: arm: fsl: Add Protonic PRT8ML
+>       arm64: dts: add Protonic PRT8ML board
+> 
+>  Documentation/devicetree/bindings/arm/fsl.yaml     |   1 +
+>  .../devicetree/bindings/net/dsa/nxp,sja1105.yaml   |   9 +
+>  arch/arm64/boot/dts/freescale/Makefile             |   1 +
+>  arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dts    | 500 +++++++++++++++++++++
+>  4 files changed, 511 insertions(+)
+> ---
+> base-commit: ea21fa34164c9ea0a2a5b8714c7e36f54c7fb46e
+> change-id: 20250701-imx8mp-prt8ml-01be34684659
+> 
+> Best regards,
+> --
+> Jonas Rebmann <jre@pengutronix.de>
+> 
+> 
+> 
 
-Nothing else can fail, so using a label here is unnecessary.
 
-		if (!afe->reg_back_up) {
-			mt8365_afe_disable_main_clk(afe);
-			return -ENOMEM;
-		}
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-This makes you able to avoid adding a `ret` variable, and also the goto.
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-Cheers,
-Angelo
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: using specified base-commit ea21fa34164c9ea0a2a5b8714c7e36f54c7fb46e
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/freescale/' for 20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de:
+
+arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: codec@11 (asahi-kasei,ak4458): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/sound/asahi-kasei,ak4458.yaml#
+arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 1]] is too long
+	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 4]] is too long
+	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+
+
+
 
 
