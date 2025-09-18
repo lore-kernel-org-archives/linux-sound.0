@@ -1,26 +1,27 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A71E2522BA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A777256C9F
 	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 12:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758197996; cv=none; b=T0vAegQNxPWKaNz1w0LcDpS+GZbrAg6Iyukmc4tcEKZ2fHhOIYrV3ILrL4eB/+Km4+KjIotk3w6KttPvn8ddJUw1VMid+vWTutihsKzh8sd3bOFy7yIJaXC0GiP4X29ILj0RgsxZk+N2WpH/0707fFPLO+q4ySL6pNpZF1pJPII=
+	t=1758197996; cv=none; b=Fc20Y2ggYKT+rJGyJGrx6GR0nJTNRcsdHwrhdG80mfMOnWonq7Y2HpyXIHuyerqu7IDMzn0RFlPG6AVtCISNNrhoxATgwGS1m5sXZFj8iXEJ2rv/UMiS9TYevm/5PA0J622L3lE8zrlU6vXSDNQdTb0Zkh0SBo7+fSEK9PiLiuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758197996; c=relaxed/simple;
-	bh=XlKfsKtW3FVkpMAoRTgKAJoNasJl5xeOqrWbpeh/7Nk=;
+	bh=fGRUWSeNNcgeqcHRkuxbrMGDyokBFOMlHiqs3FwB0qs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ADpCFq6gwQjkQTDZKsAkWu1JfexTfv7yWiRBxQlFgFklmY1G7ZfX46il130LS7wkig/t2zJ2yN0jb5yDDjXuqnAkTCCSuqV8EP1+MwKKE3mGbScPZixgSZi/TQaqVVnvYppXVbuAr/LVLwYX5sWd6tf59HyY+4fPtUUsYtmdD0w=
+	 In-Reply-To:To:Cc; b=owjn9+xkXKALotMbz8goQR/ungWft3yWKvR7EETFiJCHYm+rSmbi2FQPgD5m0ZaLuIMNGq1PdMHnC+5/CbeOgy696MLFuidi1jQxkf078uu6szP+97EdlSJv+jEfHhm8FnX3Z3Z9FWtSGSY2FqQvkQP+hSXO/xIHVSNVjoiqQj4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <jre@pengutronix.de>)
-	id 1uzDc7-0006mw-Ea; Thu, 18 Sep 2025 14:19:51 +0200
+	id 1uzDc7-0006mw-CD; Thu, 18 Sep 2025 14:19:51 +0200
 From: Jonas Rebmann <jre@pengutronix.de>
-Date: Thu, 18 Sep 2025 14:19:45 +0200
-Subject: [PATCH v2 2/3] dt-bindings: arm: fsl: Add Protonic PRT8ML
+Date: Thu, 18 Sep 2025 14:19:44 +0200
+Subject: [PATCH v2 1/3] dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios
+ property
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -28,8 +29,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250918-imx8mp-prt8ml-v2-2-3d84b4fe53de@pengutronix.de>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250918-imx8mp-prt8ml-v2-1-3d84b4fe53de@pengutronix.de>
 References: <20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de>
 In-Reply-To: <20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de>
 To: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
@@ -46,12 +47,12 @@ Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
  linux-sound@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, Jonas Rebmann <jre@pengutronix.de>
 X-Mailer: b4 0.15-dev-7abec
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=jre@pengutronix.de;
- h=from:subject:message-id; bh=XlKfsKtW3FVkpMAoRTgKAJoNasJl5xeOqrWbpeh/7Nk=;
- b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsg4/ePp/KRtal9yvstzSXKnz2T0jinkzbz275fRjr+9V
- TG2cbOmdJSyMIhxMciKKbLEqskpCBn7XzertIuFmcPKBDKEgYtTACYS9Zzhf/rny0fZquQF5//X
- 5OST7ba63RJ30pPl7pfsX/MLtJo6Qxj+RxQeWxFhv/H2meBX+mvWr1azqr3+zUIi5MvE+J3h3Ja
- n2AE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1177; i=jre@pengutronix.de;
+ h=from:subject:message-id; bh=fGRUWSeNNcgeqcHRkuxbrMGDyokBFOMlHiqs3FwB0qs=;
+ b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsg4/ePJrkCxDh6hXAdHxx22zupJIW+iUxpya/46RTQfr
+ +u0UKzvKGVhEONikBVTZIlVk1MQMva/blZpFwszh5UJZAgDF6cATGTDR4Z/luKnlwbwz5fb5SOh
+ e1Tnz7ZTM2f9W2miMmvFrPgnytPu2TEyLNvzs7Xl2NYFV//06C19WJVYvFAi10dd6nqkhkC5VCE
+ nMwA=
 X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
  fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::ac
@@ -59,26 +60,35 @@ X-SA-Exim-Mail-From: jre@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-Add DT compatible string for Protonic PRT8ML board.
+Both the nxp,sja1105 and the nxp,sja1110 series feature an active-low
+reset pin, rendering reset-gpios a valid property for all of the
+nxp,sja1105 family.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
 ---
- Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
-index 00cdf490b062..b135f6360733 100644
---- a/Documentation/devicetree/bindings/arm/fsl.yaml
-+++ b/Documentation/devicetree/bindings/arm/fsl.yaml
-@@ -1106,6 +1106,7 @@ properties:
-               - gateworks,imx8mp-gw75xx-2x # i.MX8MP Gateworks Board
-               - gateworks,imx8mp-gw82xx-2x # i.MX8MP Gateworks Board
-               - gocontroll,moduline-display # GOcontroll Moduline Display controller
-+              - prt,prt8ml             # Protonic PRT8ML
-               - skov,imx8mp-skov-basic # SKOV i.MX8MP baseboard without frontplate
-               - skov,imx8mp-skov-revb-hdmi # SKOV i.MX8MP climate control without panel
-               - skov,imx8mp-skov-revb-lt6 # SKOV i.MX8MP climate control with 7” panel
+diff --git a/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml b/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
+index 9432565f4f5d..e9dd914b0734 100644
+--- a/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
++++ b/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
+@@ -32,6 +32,15 @@ properties:
+   reg:
+     maxItems: 1
+ 
++  reset-gpios:
++    description:
++      A GPIO connected to the active-low RST_N pin of the SJA1105. Note that
++      reset of this chip is performed via SPI and the RST_N pin must be wired
++      to satisfy the power-up sequence documented in "SJA1105PQRS Application
++      Hints" (AH1704) sec. 2.4.4. Connecting the SJA1105 RST_N pin to a GPIO is
++      therefore discouraged.
++    maxItems: 1
++
+   spi-cpha: true
+   spi-cpol: true
+ 
 
 -- 
 2.51.0.178.g2462961280
