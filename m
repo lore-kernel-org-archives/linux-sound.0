@@ -1,129 +1,146 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5245027B357;
-	Thu, 18 Sep 2025 06:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6072C482F2
+	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 07:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758176438; cv=none; b=kptzeGi7YXOpdsuM52DEj76JpHYPXIrPhLbSdKrwFO9ax0iF4P8pVKIYNMY26gU8IsKyaFvSs0ulodRYoW6yAasYcfKdHLqSusjABTrADcq84AZtthnFxZ3F5hsxVtz5ov2YkKa4+G7t+PhJeX7VvOqtGydffvN7UhwZJx8N5mI=
+	t=1758179551; cv=none; b=bcCTwLb0VQ5w/JjBr4VBe6S6p36MWyH66zk3q22gWBBU1PRG4c2oKQHrSA31W/HeZk0wwtJYNksoo8Y6M2aQW97Ku6jKASNUGJMqFlkWjeUeoqZvh7rULa54RCfN8Rx4SwxHmYnkYxe3n3jCadLfHg+Evp1749T6QtHpafgZX2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758176438; c=relaxed/simple;
-	bh=UtKz5/IYin2NYot8gke7h0Z7q9s5XgcbUcnm7u+9bcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bvJrRbcR6Dh3RJQCCZLZm4olzjggdnpWjWG9twXalQcBj24QnYxg0oyk+GPLSSqkLDEystfP8fMueqAUNhQFqBCw1P1WPKlO4t1Chd0PJmg0yWLrhs1g4whUC2j5xJd4GA20jGUEXZ5PxbGO7PK31LmmFCWrBxFZGW8TKthTxBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4cS4zq5Xdlz9sg0;
-	Thu, 18 Sep 2025 08:12:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FbE0_hDQWI6h; Thu, 18 Sep 2025 08:12:23 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4cS4zq4ZMvz9sfy;
-	Thu, 18 Sep 2025 08:12:23 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 88BFD8B76C;
-	Thu, 18 Sep 2025 08:12:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id wUtKhrQoSrmI; Thu, 18 Sep 2025 08:12:23 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id C07208B767;
-	Thu, 18 Sep 2025 08:12:22 +0200 (CEST)
-Message-ID: <3d20d3ec-2f52-4cac-9c5c-fd2141a12a0b@csgroup.eu>
-Date: Thu, 18 Sep 2025 08:12:21 +0200
+	s=arc-20240116; t=1758179551; c=relaxed/simple;
+	bh=Om9Jk9KC6drLUKKnEJVbtr3yEx3bul5wCXDUittPyE4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OeyDLU4B7o65IuoxMHGD/QLinFkS5Xfz2giPa3IysKWzS3XT5qur8Bo5q4sp/btYkyg1Bxe0ExfN7zcwG6cMIDJ4suszfOFZ3OyWJqD5nacaKx14/pvPQ6Hn/P8oXKY20O39aXals+xDPLMs72TzySCw+sJEjiUOqNHepTH0nnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jh+gaaB5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uBcXihjc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jh+gaaB5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uBcXihjc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jh+gaaB5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uBcXihjc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jh+gaaB5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uBcXihjc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 137D41F793;
+	Thu, 18 Sep 2025 07:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758179544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
+	b=jh+gaaB56glHXRq7JdL+k/3HplMI8qAc+tmfbPDA7QC8HFa1OaCS1jmOwh0ClaoGaZ3yc/
+	K+2unYgpb/rN24JJgj5KJMopaqxk+W/mFA1hB7EW7bGr3s4/5yyxiZ7X6QAdDSpqZSwu+x
+	jhcdwJSQ/5uSrPy1VfjtBEEhr/VA43M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758179544;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
+	b=uBcXihjcSwRlYPC4F/EUBt+lwj2VgsTCh3szfAwaX+nX2OzOJQyCC5r+k3cJIr+C3+VORB
+	njp+19ru+l1q9VDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jh+gaaB5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uBcXihjc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758179544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
+	b=jh+gaaB56glHXRq7JdL+k/3HplMI8qAc+tmfbPDA7QC8HFa1OaCS1jmOwh0ClaoGaZ3yc/
+	K+2unYgpb/rN24JJgj5KJMopaqxk+W/mFA1hB7EW7bGr3s4/5yyxiZ7X6QAdDSpqZSwu+x
+	jhcdwJSQ/5uSrPy1VfjtBEEhr/VA43M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758179544;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
+	b=uBcXihjcSwRlYPC4F/EUBt+lwj2VgsTCh3szfAwaX+nX2OzOJQyCC5r+k3cJIr+C3+VORB
+	njp+19ru+l1q9VDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBD0B13A39;
+	Thu, 18 Sep 2025 07:12:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7fIOG9Wwy2gdKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 18 Sep 2025 07:12:21 +0000
+Date: Thu, 18 Sep 2025 09:12:21 +0200
+Message-ID: <87segkb5ey.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.17-rc6
+In-Reply-To: <05d115d1cda935ba007c2835614cb320@kernel.org>
+References: <05d115d1cda935ba007c2835614cb320@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] ASoC: fsl: fsl_qmc_audio: Reduce amount of
- interrupts
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: Herve Codina <herve.codina@bootlin.com>, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Nicolin Chen <nicoleotsuka@gmail.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, linux-sound@vger.kernel.org,
- Qiang Zhao <qiang.zhao@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>
-References: <cover.1755504428.git.christophe.leroy@csgroup.eu>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Content-Language: fr-FR
-In-Reply-To: <cover.1755504428.git.christophe.leroy@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 137D41F793
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-Hi Mark, Liam,
+On Thu, 18 Sep 2025 02:54:27 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c:
+> 
+>   Linux 6.17-rc5 (2025-09-07 14:22:57 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc6
+> 
+> for you to fetch changes up to 1dd28fd86c3fa4e395031dd6f2ba920242107010:
+> 
+>   ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue (2025-09-17 12:38:59 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.17
+> 
+> A pile of fixes that accumilated over the past few -rcs, this is all
+> driver specifics including a small pile of quirks for new systems.
 
-Le 18/08/2025 à 10:19, Christophe Leroy a écrit :
-> This series reduces significantly the amount of interrupts on
-> fsl_qmc_audio device.
+Pulled now.  Thanks.
 
-I can't see this series in linux-next.
 
-I see in patchwork [1] that this series still has status 'NEW' but also 
-state 'archived'.
-
-What is the way forward to get it applied for v6.18 ?
-
-Thanks
-Christophe
-
-[1] 
-https://patchwork.kernel.org/project/alsa-devel/patch/f0c5260651822e8003daf11c7a76921796517152.1755504428.git.christophe.leroy@csgroup.eu/
-
-> 
-> Patches 1 and 2 are preparatory patches.
-> Patch 3 is the main change
-> Patch 4 is a cleanup which is enabled by previous patch
-> 
-> Changes in v3:
-> - Properly check the buffer descriptor is unused (Patch 1, comment from Herve Codina)
-> - Fixed copy/paste error (patch 2, comment from Herve Codina)
-> - Fixed build failure (patch 2, comment from Herve Codina and Test robot)
-> 
-> Changes in v2:
-> - Don't remove UB bit (Patch 1, comment from Herve Codina)
-> - Make sure audio channels are ordered on TDM bus (Patch 2, new patch, comment from Herve Codina)
-> - Drop struct qmc_dai_chan  (patch 4, new patch)
-> 
-> Backgroup (copied from patch 3):
-> 
-> In non-interleaved mode, several QMC channels are used in sync.
-> More details can be found in commit 188d9cae5438 ("ASoC: fsl:
-> fsl_qmc_audio: Add support for non-interleaved mode.")
-> At the time being, an interrupt is requested on each channel to
-> perform capture/playback completion, allthough the completion is
-> really performed only once all channels have completed their work.
-> 
-> This leads to a lot more interrupts than really needed. Looking at
-> /proc/interrupts shows ~3800 interrupts per second when using
-> 4 capture and 4 playback devices with 5ms periods while
-> only 1600 (200 x 4 + 200 x 4) periods are processed during one second.
-> 
-> The QMC channels work in sync, the one started first is the one
-> finishing first and the one started last is the one finishing last,
-> so when the last one finishes it is guaranteed that the other ones are
-> finished as well. Therefore only request completion processing on the
-> last QMC channel.
-> 
-> On my board with the above exemple, on a kernel started with
-> 'threadirqs' option, the QMC irq thread uses 16% CPU time with this
-> patch while it uses 26% CPU time without this patch.
-> 
-> Christophe Leroy (4):
->    soc: fsl: qmc: Only set completion interrupt when needed
->    ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
->    ASoC: fsl: fsl_qmc_audio: Only request completion on last channel
->    ASoc: fsl: fsl_qmc_audio: Drop struct qmc_dai_chan
-> 
->   drivers/soc/fsl/qe/qmc.c      |  44 +++++++++---
->   sound/soc/fsl/fsl_qmc_audio.c | 125 +++++++++++++++-------------------
->   2 files changed, 87 insertions(+), 82 deletions(-)
-> 
-
+Takashi
