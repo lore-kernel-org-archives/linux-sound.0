@@ -1,146 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6072C482F2
-	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 07:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E871C84D7;
+	Thu, 18 Sep 2025 07:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758179551; cv=none; b=bcCTwLb0VQ5w/JjBr4VBe6S6p36MWyH66zk3q22gWBBU1PRG4c2oKQHrSA31W/HeZk0wwtJYNksoo8Y6M2aQW97Ku6jKASNUGJMqFlkWjeUeoqZvh7rULa54RCfN8Rx4SwxHmYnkYxe3n3jCadLfHg+Evp1749T6QtHpafgZX2A=
+	t=1758179758; cv=none; b=Dtjydz5ZL9lUhEbuBE0cSOUgxlsdRwvE6yCMI3mTm6t2nPh8tFQbRzNosL6uiyNfzQ9BOao59BXIp1aQi82MZ5SXse3VsSA9WGPZwXJiVPRpohMv+HKkELlM8UceZBclnRFa135xd7sJmoXcis0QKxv92eq6zpgKn1Jrh7S4eZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758179551; c=relaxed/simple;
-	bh=Om9Jk9KC6drLUKKnEJVbtr3yEx3bul5wCXDUittPyE4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OeyDLU4B7o65IuoxMHGD/QLinFkS5Xfz2giPa3IysKWzS3XT5qur8Bo5q4sp/btYkyg1Bxe0ExfN7zcwG6cMIDJ4suszfOFZ3OyWJqD5nacaKx14/pvPQ6Hn/P8oXKY20O39aXals+xDPLMs72TzySCw+sJEjiUOqNHepTH0nnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jh+gaaB5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uBcXihjc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jh+gaaB5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uBcXihjc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758179758; c=relaxed/simple;
+	bh=WPFajZR1wHVq+VScI8b3i3dGz526ygojSyX2M2fGz1M=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=i8MQlaYbaufhy2k+4V4bv9ZZBYZsQeMKp4AObZfkPVRqwWy2f18hqc+jdRZ9It+akWoT2mQQvKcoMwrCRiuWVaQtQhcNxAjKAkGcppIdXfxh7tOb1nkX07D5bo8rvUI32f6iLHTyPN9TuZbY1o349ZtBCqpNy5aCemSLzvGGF34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=rFqZdDmz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iv9YMUd4; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jh+gaaB5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uBcXihjc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jh+gaaB5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uBcXihjc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 137D41F793;
-	Thu, 18 Sep 2025 07:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758179544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
-	b=jh+gaaB56glHXRq7JdL+k/3HplMI8qAc+tmfbPDA7QC8HFa1OaCS1jmOwh0ClaoGaZ3yc/
-	K+2unYgpb/rN24JJgj5KJMopaqxk+W/mFA1hB7EW7bGr3s4/5yyxiZ7X6QAdDSpqZSwu+x
-	jhcdwJSQ/5uSrPy1VfjtBEEhr/VA43M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758179544;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
-	b=uBcXihjcSwRlYPC4F/EUBt+lwj2VgsTCh3szfAwaX+nX2OzOJQyCC5r+k3cJIr+C3+VORB
-	njp+19ru+l1q9VDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jh+gaaB5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uBcXihjc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758179544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
-	b=jh+gaaB56glHXRq7JdL+k/3HplMI8qAc+tmfbPDA7QC8HFa1OaCS1jmOwh0ClaoGaZ3yc/
-	K+2unYgpb/rN24JJgj5KJMopaqxk+W/mFA1hB7EW7bGr3s4/5yyxiZ7X6QAdDSpqZSwu+x
-	jhcdwJSQ/5uSrPy1VfjtBEEhr/VA43M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758179544;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v09DrijD3+v6vMYBdU/nDH+UzxrRUOgwbEZiz0WApYg=;
-	b=uBcXihjcSwRlYPC4F/EUBt+lwj2VgsTCh3szfAwaX+nX2OzOJQyCC5r+k3cJIr+C3+VORB
-	njp+19ru+l1q9VDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBD0B13A39;
-	Thu, 18 Sep 2025 07:12:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7fIOG9Wwy2gdKgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 18 Sep 2025 07:12:21 +0000
-Date: Thu, 18 Sep 2025 09:12:21 +0200
-Message-ID: <87segkb5ey.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.17-rc6
-In-Reply-To: <05d115d1cda935ba007c2835614cb320@kernel.org>
-References: <05d115d1cda935ba007c2835614cb320@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="rFqZdDmz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iv9YMUd4"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 546A2140008E;
+	Thu, 18 Sep 2025 03:15:54 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 18 Sep 2025 03:15:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1758179754;
+	 x=1758266154; bh=DU11/Tr79cSSrMHUNkMp59yAjz/GPUE0u3hy/HX0Khw=; b=
+	rFqZdDmzA2sHs6qelE+PUc1TQm0t28Q0OjaWqdAfG1wBl5nAvmpMBpBJ0H0MtZG9
+	8GuVONn2o97BcBFfVu2driscQ7kWlBqlQr/KHBVD7m5++dsthNHYD5SjfHAj3Yr0
+	Xlaq+rQQ2otYQhRoCjfYZEfR0ZPMjcYFKFJTKmKeUI9FnhC0XMamZn+IniAS7RGB
+	lWzVfiCSnQzPaRII5ew3gv/ZvkX7WP+GQsum6MSQN8jit0PidX2oyM8e5ge4MZvB
+	obiHuyJKvgRLFQIDNEOJ0qg2se+RuzpXCEVkPuWjKHFZTZBCbSCOOC521dl0Yats
+	sgQ4qC2FUaPM/fLa08FzIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758179754; x=
+	1758266154; bh=DU11/Tr79cSSrMHUNkMp59yAjz/GPUE0u3hy/HX0Khw=; b=I
+	v9YMUd4i+kjXzN5QcWtQcZzxLekJDd5uKpR3aTaUjVxQg3OlK0HBJ/9ZalwZvi3r
+	PCx+xTH7An0qlGGzKMttDnLbxZRsjp97SwhyACCIKcG36wnGtcXoxKMTkzqTTqgr
+	w3tv2/eGzlM4RM8cOeOkEuuguWr3w0A6brmrrrchSbSREp2IgfaWcB4TU7ORov4+
+	Gb4W2idOv70qoA/ZDWB6XnV+eJupa8nFWGHkZ29MttR2eLb/C+Z4Iu8vTFXTnAD+
+	OkSt5kzKCgKUGVi5XhVKXSF0qC2PCWjYYUP9lIICl0Pk1I+Ib54J01dq7xijf2Ac
+	coYRnq3tIiRn2x7GrhSxQ==
+X-ME-Sender: <xms:qbHLaBdp_JkgrwdsLhPziaVYarONhdn75Bz-uRgeiqho5DCNi4Mj2A>
+    <xme:qbHLaPOEDXIwb9yYGc7XgZ2aefiRLZ-DU9GfclUFSLu-UoFj0l-8ONXkcYDL1Gh_M
+    N2vaCwD7LbdswqHfqQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdegheejtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheprhhosggvrhhtrdhjrghriihmihhksehfrhgvvgdrfhhrpdhrtghpth
+    htohephhgrohhjihgrnhdriihhuhgrnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    sghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmh
+    dqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohep
+    phgvnhhgrdhfrghnsehngihprdgtohhmpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgi
+    drtgiipdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpdhrtghpthhtoheplhhi
+    nhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:qbHLaFK4PNHQyUqkHV_dgUof_om4S-pFHPkFmxvywGbrwGEfMYMD2g>
+    <xmx:qbHLaA3phjWFaK9SbPYeHWmJRYj5osTWZoTX1vMOxI6KVQxYEYfs6Q>
+    <xmx:qbHLaJVuR4BguJkrwHX95pqxH8UYFKbwjiZLjWwhdBsJoi00N9qIdA>
+    <xmx:qbHLaCM3buqUl0IyL-4GjBWbWTjcfRqWCbijTVXMRNLi46Z_WcnADw>
+    <xmx:qrHLaLymjW7F2MjNYIzgRU6hQBKT1o_dmIy-nCb3QHPXpS4je08F33XI>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 83F6A700065; Thu, 18 Sep 2025 03:15:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 137D41F793
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+X-ThreadId: AIKy7lM-vHXJ
+Date: Thu, 18 Sep 2025 09:15:23 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Peng Fan" <peng.fan@nxp.com>, "Daniel Mack" <daniel@zonque.org>,
+ "Haojian Zhuang" <haojian.zhuang@gmail.com>,
+ "Robert Jarzmik" <robert.jarzmik@free.fr>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Mark Brown" <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sound@vger.kernel.org
+Message-Id: <fd5451a1-9720-417a-915c-1ee3149426f2@app.fastmail.com>
+In-Reply-To: <20250918-audio-v1-1-e9d0df5c60d2@nxp.com>
+References: <20250918-audio-v1-0-e9d0df5c60d2@nxp.com>
+ <20250918-audio-v1-1-e9d0df5c60d2@nxp.com>
+Subject: Re: [PATCH 1/2] ASoC: codec: Remove pxa2xx-ac97.c
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, 18 Sep 2025 02:54:27 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c:
-> 
->   Linux 6.17-rc5 (2025-09-07 14:22:57 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc6
-> 
-> for you to fetch changes up to 1dd28fd86c3fa4e395031dd6f2ba920242107010:
-> 
->   ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue (2025-09-17 12:38:59 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.17
-> 
-> A pile of fixes that accumilated over the past few -rcs, this is all
-> driver specifics including a small pile of quirks for new systems.
+On Thu, Sep 18, 2025, at 07:44, Peng Fan wrote:
+> With commit ce79f3a1ad5f ("ARM: pxa: prune unused device support") and
+> commit 2548e6c76ebf ("ARM: pxa: pxa2xx-ac97-lib: use IRQ resource"), there
+> is no 'pxa2xx-ac97' platform device created by machine level code, so this
+> driver could be removed.
+>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  sound/arm/Kconfig       |  10 --
+>  sound/arm/Makefile      |   3 -
+>  sound/arm/pxa2xx-ac97.c | 286 ------------------------------------------------
+>  3 files changed, 299 deletions(-)
 
-Pulled now.  Thanks.
+I think you are right, I was sure there was still a way to use this
+driver either as part of sound/soc/pxa/*, or as an alternative,
+but now I don't see how.
 
+If we do this, I think we should just merge pxa2xx-pcm-lib.c and
+snd-pxa2xx-lib.c into the respective callers in the sound/soc/pxa/
+driver.
 
-Takashi
+Robert, can you confirm?
+
+    Arnd
