@@ -1,98 +1,172 @@
-Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [94.124.121.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7713126DE
-	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 15:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.27
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00BBA3F9FB;
+	Thu, 18 Sep 2025 15:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758209701; cv=none; b=JQEsZlqtBG/nw7ghi6BKD7uTfEMEAJr0mbQvPekl8i3tmBWlnGzfX3DVKfF0LOMLP2azOfsewlOq2G7Rm8PmNl/TsP7xnD4QgLz4GWSlQLk/HjQ1Lb+yzzxQRprom957ewocS+Jv0iqLD8yPL1qiHfr0eEWgW+vOT+1zBfqeF2g=
+	t=1758210636; cv=none; b=OJkECFflX6x9g9tsmoNIUqIIa8DeWLE4L2ZPkXMgdHcQpjw1hQm3nc8j+OP0K+OsWeSrk0tQnmV+fUL6SA7BZU5S/YULW5L3UMQe8129Io3qz1+hvAgJQZCMzg0I1FCAPnA/+9RPEHVvAKWn1SdA+w4Pli8iJvO4tJ4Ah+E4DQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758209701; c=relaxed/simple;
-	bh=1L4ztzZI21TGZatF3aNWfrnQCTgXQdveVEOhyL3fA0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cbf1oF0LhgiQvFnOWEVu0LKYbU29UN7oZzdu14DQNcw0gJtn6XCRCRxq+XHptM85zgD9cVrc0+iQVGIvv9it07VVvT11w/PAmTHOc0qc+BF1AooPPqxle+TycPdfsNnlxZsumY752pxWftjpougO0g/EckNv2q3xRlg/BooKD+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=QQemO7m4; arc=none smtp.client-ip=94.124.121.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="QQemO7m4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=protonic.nl; s=202111;
-	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
-	 message-id:subject:cc:to:from:date:from;
-	bh=SqjdATjfjZTk7QANAggTs1mW/P13EV6a+Izt0r+agQ0=;
-	b=QQemO7m4x6zCxk4M9laZ90eCIBZvlHRq/VuixCptBB7zzwo7W14mF7GpiYLDE2KravDs5mWr5Fe32
-	 YI5vbPnjY8XchNI9DA2VxwqrhGOoXIMDArJfiLqW1D+YRL2YnyHQ4WHp2jj+Z3dwdLVow44GMCxb0b
-	 S6ozX0oObc8Pf1HBbvovaxNrs8/iL/hnZAJYohUXXEqDuxD0E+wq2MS2PgcGQeAqkHwHgbtE3szPdO
-	 LY51aW6TvUu1QOAIlIzGxXruryI8IjrqSj/QbUYXHmCSZMbUySBHPD6UI6terkJcLsOTJupcY0AuoB
-	 JpIpBWXwmgF0fXl9CqpcwJtEM9ZcoKQ==
-X-MSG-ID: df093cf2-94a4-11f0-858c-005056817704
-Date: Thu, 18 Sep 2025 17:33:47 +0200
-From: David Jander <david@protonic.nl>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jonas Rebmann <jre@pengutronix.de>, Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Shengjiu Wang
- <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Lucas Stach <l.stach@pengutronix.de>,
- Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] arm64: dts: add Protonic PRT8ML board
-Message-ID: <20250918173347.28db5569@erd003.prtnl>
-In-Reply-To: <7f1d9289-4102-4db9-a2bb-ff270e8871b7@lunn.ch>
-References: <20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de>
-	<20250918-imx8mp-prt8ml-v2-3-3d84b4fe53de@pengutronix.de>
-	<af554442-aeec-40d2-a35a-c7ee5bfcb99a@lunn.ch>
-	<20250918165156.10e55b85@erd003.prtnl>
-	<7f1d9289-4102-4db9-a2bb-ff270e8871b7@lunn.ch>
-Organization: Protonic Holland
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1758210636; c=relaxed/simple;
+	bh=3ueV0+TWEXT+lbHC1mnyBhAYLOCSJuYccHwKxxNUhFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=p7frbzkxylmwkxcUlsgd5HWA8teOd1r6NyPdQOFRAJ1Z1Cs9/rqs6G1SUiJ010Le6oVRaexYKaKUy40nhLIZjK7QiCq1FpAtSHFsj1cuCcqCGFjPolOWsi2q1HY0SHdPEkaAh0C60GMPi9KuazjhGK/lAQxEhOWNrKImqQHjD6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4cSKSQ3kppz9sg0;
+	Thu, 18 Sep 2025 17:34:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HDEkcH1IVVyx; Thu, 18 Sep 2025 17:34:30 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cSKSQ2bD1z9sfv;
+	Thu, 18 Sep 2025 17:34:30 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 439198B776;
+	Thu, 18 Sep 2025 17:34:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id LGlByoGo7Cr9; Thu, 18 Sep 2025 17:34:30 +0200 (CEST)
+Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 76C7A8B767;
+	Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Herve Codina <herve.codina@bootlin.com>,
+	Qiang Zhao <qiang.zhao@nxp.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH RESEND v3 1/4] soc: fsl: qmc: Only set completion interrupt when needed
+Date: Thu, 18 Sep 2025 17:34:08 +0200
+Message-ID: <40b41b53a26e77a50b3a5f68fcecc6f9a40a84b4.1758209158.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1758209158.git.christophe.leroy@csgroup.eu>
+References: <cover.1758209158.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758209657; l=3349; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=3ueV0+TWEXT+lbHC1mnyBhAYLOCSJuYccHwKxxNUhFc=; b=7YoDVmchoSPIi4mkTR5smUVwENM9xsvOMPjROEZI9uTWYid5RyMwIeB5cXfTLUQ7gKIPzZfPK woyB7SkM8ZiCdywhXXs3gY5r5gykus9J3L5aR213Bh6Wb4klHtJd3sV
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Sep 2025 17:04:55 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+When no post-completion processing is expected, don't waste time
+handling useless interrupts.
 
-> > Yes, unfortunately the SJA1105Q does not support PAUSE frames, and the i.MX8MP
-> > FEC isn't able to sustain 1000Mbps (only about 400ish) due to insufficient
-> > internal bus bandwidth. It will generate PAUSE frames, but the SJA1105Q
-> > ignores these, leading to packet loss, which is obviously worse than
-> > restricting this link to 100Mbps. Ironically both chips are from the same
-> > manufacturer, yet are incompatible in this regard.  
-> 
-> Thanks for the explanation. Maybe add a comment that the bandwidth is
-> limited due to the lack of flow control resulting in packet loss in
-> the FEC.
->
-> Anything which looks odd deserves a comment, otherwise somebody will
-> question it....
+Only set QMC_BD_[R/T]X_I when a completion function is passed in,
+and perform seamless completion on submit for interruptless buffers.
 
-Yes! This is a golden tip. Ironically what I said above is incorrect. Sorry
-for the noise.
+Acked-by: Herve Codina <herve.codina@bootlin.com>
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+ drivers/soc/fsl/qe/qmc.c | 44 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 33 insertions(+), 11 deletions(-)
 
-Ftr: I wrote this DT about 4 years ago, so my memory failed me, and a comment
-in the code would have saved me this embarrassment ;-)
-
-The comment above applies to the i.MX6 SoC's which had this limitation. On the
-i.MX8MP we had a different problem that also caused the SJA1105Q not to work
-reliably at 1000Mbps either. We haven't been able to find the issue, but so far
-this switch hasn't been able to work at 1000Mbps reliable on any platform,
-possibly for different reasons in each case.
-
-Best regards,
-
+diff --git a/drivers/soc/fsl/qe/qmc.c b/drivers/soc/fsl/qe/qmc.c
+index 36c0ccc06151..da5ea6d35618 100644
+--- a/drivers/soc/fsl/qe/qmc.c
++++ b/drivers/soc/fsl/qe/qmc.c
+@@ -461,9 +461,16 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	ctrl = qmc_read16(&bd->cbd_sc);
+ 	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
+-		/* We are full ... */
+-		ret = -EBUSY;
+-		goto end;
++		if (!(ctrl & (QMC_BD_TX_R | QMC_BD_TX_I)) && bd == chan->txbd_done) {
++			if (ctrl & QMC_BD_TX_W)
++				chan->txbd_done = chan->txbds;
++			else
++				chan->txbd_done++;
++		} else {
++			/* We are full ... */
++			ret = -EBUSY;
++			goto end;
++		}
+ 	}
+ 
+ 	qmc_write16(&bd->cbd_datlen, length);
+@@ -475,6 +482,10 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	/* Activate the descriptor */
+ 	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
++	if (complete)
++		ctrl |= QMC_BD_TX_I;
++	else
++		ctrl &= ~QMC_BD_TX_I;
+ 	wmb(); /* Be sure to flush the descriptor before control update */
+ 	qmc_write16(&bd->cbd_sc, ctrl);
+ 
+@@ -569,9 +580,16 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	ctrl = qmc_read16(&bd->cbd_sc);
+ 	if (ctrl & (QMC_BD_RX_E | QMC_BD_RX_UB)) {
+-		/* We are full ... */
+-		ret = -EBUSY;
+-		goto end;
++		if (!(ctrl & (QMC_BD_RX_E | QMC_BD_RX_I)) && bd == chan->rxbd_done) {
++			if (ctrl & QMC_BD_RX_W)
++				chan->rxbd_done = chan->rxbds;
++			else
++				chan->rxbd_done++;
++		} else {
++			/* We are full ... */
++			ret = -EBUSY;
++			goto end;
++		}
+ 	}
+ 
+ 	qmc_write16(&bd->cbd_datlen, 0); /* data length is updated by the QMC */
+@@ -587,6 +605,10 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	/* Activate the descriptor */
+ 	ctrl |= (QMC_BD_RX_E | QMC_BD_RX_UB);
++	if (complete)
++		ctrl |= QMC_BD_RX_I;
++	else
++		ctrl &= ~QMC_BD_RX_I;
+ 	wmb(); /* Be sure to flush data before descriptor activation */
+ 	qmc_write16(&bd->cbd_sc, ctrl);
+ 
+@@ -1482,19 +1504,19 @@ static int qmc_setup_chan(struct qmc *qmc, struct qmc_chan *chan)
+ 
+ 	/* Init Rx BDs and set Wrap bit on last descriptor */
+ 	BUILD_BUG_ON(QMC_NB_RXBDS == 0);
+-	val = QMC_BD_RX_I;
+ 	for (i = 0; i < QMC_NB_RXBDS; i++) {
+ 		bd = chan->rxbds + i;
+-		qmc_write16(&bd->cbd_sc, val);
++		qmc_write16(&bd->cbd_sc, 0);
+ 	}
+ 	bd = chan->rxbds + QMC_NB_RXBDS - 1;
+-	qmc_write16(&bd->cbd_sc, val | QMC_BD_RX_W);
++	qmc_write16(&bd->cbd_sc, QMC_BD_RX_W);
+ 
+ 	/* Init Tx BDs and set Wrap bit on last descriptor */
+ 	BUILD_BUG_ON(QMC_NB_TXBDS == 0);
+-	val = QMC_BD_TX_I;
+ 	if (chan->mode == QMC_HDLC)
+-		val |= QMC_BD_TX_L | QMC_BD_TX_TC;
++		val = QMC_BD_TX_L | QMC_BD_TX_TC;
++	else
++		val = 0;
+ 	for (i = 0; i < QMC_NB_TXBDS; i++) {
+ 		bd = chan->txbds + i;
+ 		qmc_write16(&bd->cbd_sc, val);
 -- 
-David Jander
+2.49.0
+
