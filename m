@@ -1,74 +1,142 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B2D27E049
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 20:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D07863B9
+	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 00:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758140556; cv=none; b=uJcyJCxHKHacUZ5vNemi7xBTkqHcobBbnHpOr8mRkWm/au2P5BUvDq6k+IwsmLxGgaGc0YiP9dPSfBN+AAB8Oc/HmSAjnCPy/Mag9wCqNWfHZJkm1okK6BRrhN1vXrHk2xvkNT3UooNeMJjjblYXWtav6SPk4n8TbnE60QnJArM=
+	t=1758156875; cv=none; b=bsPvYELMZZETHDhNHDBvyl6MXQFcODhJ2Q4M+dUQwEhs+A0png++yo+1TlNwf8i7vsvIzVSuulATh/RmjGIV2VtaTDnXD8YEVUrHujLrOTQjVnn9QHx01lne9vhG0os4g8WqHCVEXbU0mYji7l3Xyr3J7nrBz7qQ+OnnJL+Q3u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758140556; c=relaxed/simple;
-	bh=2nt2lGQpLbJLQi/uGzvhicTXwcBRyJ3aoXEsqO8L5z4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZhsvpsPiYK3NyVhJdQdGMz5MfpH/GEXvb2xjxPIalJxFdfgbosr30MUnfD3AMn+qBMGpwcZ0/vaTj9T8ss8GdL6PjKu1fV/VNez1G6xKFqjP5bc07KfZfhDoGZWZzTCGYRnHD4jIHq21xx4omoP1sj8JjLdgRgQQwZQeoEV+bMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=liiy4l4N; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1758156875; c=relaxed/simple;
+	bh=OTou4Mm/3uuGdZ5sRisBc/+W2SVZO8tT7hB8idEcGUY=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=ZicZoBu7/kM2zD84Or4GDBtZZSyWcVuqot8EJB3WfdItXNeTbuAsLgCSK5c4H5dW1VPeaaHvTeSlTPh5sWrJlsTinTwJaO513B4zLyHgA7xoezN3CA3slqN6JRQuVPd6Fy7lLaW7xpUVfaCMq9p9KrZuNzcSlLfM6gJ7is5IEKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHK7YiIg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="liiy4l4N"
-Message-ID: <a7a5340b-6fc2-4df0-b4d8-ba76b901f464@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1758140553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GYgrnM+cYQNRy1r3d9s6V+4Gb7XcDgD9XneIP752s3A=;
-	b=liiy4l4NUzaTxly6gz63xQF1XIy6pWQXVvnRgelYZ/jHnYFzbq9CKFA2F6HKPJ1tmNyrnd
-	mRTcHMMUJ7IKHn0BrhcJI/AOcJp39B0hNE7SRYD3zN5PHAHrgvItzDlE8kCbiGgSm1HNJK
-	AiLSq8yRS6EVnE/bTmENRLVoPKzvCzQ=
-Date: Wed, 17 Sep 2025 22:20:55 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHK7YiIg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C85C4CEE7;
+	Thu, 18 Sep 2025 00:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758156874;
+	bh=OTou4Mm/3uuGdZ5sRisBc/+W2SVZO8tT7hB8idEcGUY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nHK7YiIgnaNdW1snB07bgl0PA6DvGtHXpvsINk/LVPKJjh62Avoz/LRSH5c39ofbK
+	 xBS4guaE7bwdwIFHGOIhg6fSIrCEauxLDUTSYiY8RK3IH8zjbtMloW87ck5hqihZoA
+	 pC9rN6U7iBeB/AcDzPnezSuY3c0X91qLqxHb3iKFZin2mEhHHFsPNeO/cPVa63jmDo
+	 ofaztFtSJvPdo18Gtyf/2anaQkKGB0HKNxncVft3H+pGXfdVEASOni/FfF7i855ajd
+	 A6/J1ANbOPuU0wdwoNkQrGmS5etpE3VO1mKyhufFbMAZk6sNf6jVz2jTaiOCLmm/ax
+	 /nvXTWRajH0rQ==
+Message-ID: <05d115d1cda935ba007c2835614cb320@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.17-rc6
+Date: Thu, 18 Sep 2025 01:54:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 00/20] Add SDCA UMP/FDL support
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250912103504.2679226-1-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250912103504.2679226-1-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 9/12/25 12:34, Charles Keepax wrote:
-> Next installment of the SDCA changes, hopefully the next series after
-> this should be the full class driver. It is worth noting this series has
-> a build dependency on a patch working its way through the PM/ACPI tree:
-> 
-> commit ac46f5b6c661 ("ACPICA: Add SoundWire File Table (SWFT) signature")
-> git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
-> 
-> But we can probably worry about that later, as normally there is a
-> reasonable amount of review on these SDCA series'.
-> 
-> This series broadly breaks down into 3 chunks, first there are several
-> changes to remove the assumption that the struct device used for SDCA
-> purposes represents the SoundWire slave. This is because the SDCA class
-> driver will be made of an auxiliary driver for each SDCA Function, thus
-> the SoundWire slave will be on the parent device for each individual
-> driver. Then there are patches to add support for UMP/FDL. And then
-> finally since the rest of the HID support is there and UMP was the last
-> missing part required a small patch to add a function to allow reporting
-> of HID events from SDCA devices.
+The following changes since commit 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c:
 
-This is starting to look quite good... 
-There are still a number of opens on the UMP flows, but I won't be able to follow-up until late Fall so no objections from me if this is merged and later improved.
-Thanks Charles and Maciej for this contribution!
+  Linux 6.17-rc5 (2025-09-07 14:22:57 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc6
+
+for you to fetch changes up to 1dd28fd86c3fa4e395031dd6f2ba920242107010:
+
+  ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue (2025-09-17 12:38:59 +0100)
+
+----------------------------------------------------------------
+ASoC: Fixes for v6.17
+
+A pile of fixes that accumilated over the past few -rcs, this is all
+driver specifics including a small pile of quirks for new systems.
+
+----------------------------------------------------------------
+Amadeusz Sławiński (1):
+      ASoC: Intel: catpt: Expose correct bit depth to userspace
+
+Balamurugan C (1):
+      ASoC: Intel: PTL: Add entry for HDMI-In capture support to non-I2S codec boards.
+
+Charles Keepax (6):
+      ASoC: wm8940: Correct PLL rate rounding
+      ASoC: wm8940: Correct typo in control name
+      ASoC: wm8974: Correct PLL rate rounding
+      ASoC: SDCA: Fix return value in sdca_regmap_mbq_size()
+      ASoC: SDCA: Fix return value in detected_mode_handler()
+      ASoC: SDCA: Reorder members of hide struct to remove holes
+
+Colin Ian King (1):
+      ASoC: SOF: Intel: hda-stream: Fix incorrect variable used in error message
+
+Dan Carpenter (1):
+      ASoC: codec: sma1307: Fix memory corruption in sma1307_setting_loaded()
+
+Daniel Baluta (1):
+      ASoC: SOF: imx: Fix devm_ioremap_resource check
+
+Jack Yu (1):
+      ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue
+
+Krzysztof Kozlowski (3):
+      ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer dereference if source graph failed
+      ASoC: codecs: lpass-rx-macro: Fix playback quality distortion
+      ASoC: codecs: lpass-wsa-macro: Fix speaker quality distortion
+
+Mac Chiang (1):
+      ASoC: Intel: sof_sdw: use PRODUCT_FAMILY for Fatcat series
+
+Maciej Strozek (1):
+      ASoC: SDCA: Add quirk for incorrect function types for 3 systems
+
+Mark Brown (3):
+      Minor bug fixes for some older Wolfson devices
+      More minor SDCA bug fixes
+      Fix lpaif_type and DAI configuration for I2S
+
+Mohammad Rafi Shaik (4):
+      ASoC: qcom: audioreach: Fix lpaif_type configuration for the I2S interface
+      ASoC: qcom: q6apm-lpass-dais: Fix missing set_fmt DAI op for I2S
+      ASoC: qcom: sc8280xp: Enable DAI format configuration for MI2S interfaces
+      ASoC: qcom: sc8280xp: Fix sound card driver name match data for QCS8275
+
+Shuming Fan (1):
+      ASoC: rt712: avoid skipping the blind write
+
+Syed Saba Kareem (1):
+      ASoC: amd: amd_sdw: Add quirks for some new Dell laptops
+
+Venkata Prasad Potturu (2):
+      ASoC: amd: acp: Adjust pdm gain value
+      ASoC: amd: acp: Fix incorrect retrival of acp_chip_info
+
+ include/sound/sdca.h                              |  1 +
+ include/sound/sdca_function.h                     | 21 ++++++++++++---------
+ sound/soc/amd/acp/acp-i2s.c                       | 11 +++++------
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c           | 16 ++++++++++++++++
+ sound/soc/amd/acp/amd.h                           |  2 +-
+ sound/soc/codecs/lpass-rx-macro.c                 | 22 +++++++++++++++-------
+ sound/soc/codecs/lpass-wsa-macro.c                | 22 +++++++++++++++-------
+ sound/soc/codecs/rt5682s.c                        | 17 +++++++++--------
+ sound/soc/codecs/rt712-sdca.c                     |  6 ++----
+ sound/soc/codecs/sma1307.c                        |  7 ++++---
+ sound/soc/codecs/wm8940.c                         |  9 +++++++--
+ sound/soc/codecs/wm8974.c                         |  8 ++++++--
+ sound/soc/intel/boards/sof_sdw.c                  |  2 +-
+ sound/soc/intel/boards/sof_ssp_amp.c              |  6 ++++++
+ sound/soc/intel/catpt/pcm.c                       | 23 +++++++++++++++++------
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c |  6 ++++++
+ sound/soc/qcom/qdsp6/audioreach.c                 |  1 +
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c           |  7 +++++--
+ sound/soc/qcom/sc8280xp.c                         |  6 +++++-
+ sound/soc/sdca/sdca_device.c                      | 20 ++++++++++++++++++++
+ sound/soc/sdca/sdca_functions.c                   | 13 ++++++++-----
+ sound/soc/sdca/sdca_interrupts.c                  |  2 +-
+ sound/soc/sdca/sdca_regmap.c                      |  2 +-
+ sound/soc/sof/imx/imx-common.c                    |  4 ++--
+ sound/soc/sof/intel/hda-stream.c                  |  2 +-
+ 25 files changed, 167 insertions(+), 69 deletions(-)
