@@ -1,105 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3A13D638;
-	Thu, 18 Sep 2025 11:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49E913C8FF
+	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 11:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758194083; cv=none; b=YOKKGYq4XIJI/Lxu/6MJLkbD9LrcYXDo5StAwGhB0dLmpK3VNZ9NGt52zMKuTf+rjlIjWXPOTtMPbd5RxUXTecDNfNhHQmrao6GXVJDG95C8d583TPuqaLcCsIjlkxnmYnNdcI67tBmOMSRZQ5So61M8bZTW8bUK2zhX61Uxlrg=
+	t=1758194493; cv=none; b=gka+Uo4xQoZfrnw6ajCGKyhp4aM1VX9x87smwaFJJ4hX6+tUoeFpKHFwvtJxI76Q/7tPrqAAqsHmgpF3cyQ0e0/iCHD4AoJ0Q0Py1Nwh7ESd3v/PZcGeM5NXTfyom3o8nJkKV8ykrXsWkfl/EFtMeSE3I496lu6odM3oQW9c5wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758194083; c=relaxed/simple;
-	bh=uqKLQL0kXPlTW24rRLvkA6f101bLzhi+v2aTGmvoekQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mtqZXiWqnApvkQxqoaBlj7aNbCjw2n5llxi5G3/yvQSc+IYSeR81OEjEp80e0YyS2XFG/PpqRxflB6OmF2zLcBGuSj+d3U13fojjmNz6f39qnmYf0/zI9TwFt0BMOOejeEjBSUP/w5ZaqppvrYxFlgUhfYPpLxINQbQpt7MGIO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hY2y7E8o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758194493; c=relaxed/simple;
+	bh=WEa6is6m16w0o1GnlTpu4Z4MOHk4RhV2VSpcw14U1VQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HgL0zHk6Q2ey2y37kKHrBXGMs5NLcVVl19eEs/Dqxg0rp8MxyJzHdcp8dBdu+zWqGmdiFPcF2gOD/MvfYZ7l+PBW/Kfc1ciWk7o7cvU2VwzBwd9InUdB3xGaHQdOirp29gzIum1Mn7tuM2zJ7tyu8FnvIYhWDp/TEx+GeKQIAhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OV2lcIeG; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hY2y7E8o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226F6C4CEE7;
-	Thu, 18 Sep 2025 11:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758194083;
-	bh=uqKLQL0kXPlTW24rRLvkA6f101bLzhi+v2aTGmvoekQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hY2y7E8oPFC4GuWcczzwCap37MRRFfXocXGwF5tfiob6nWiwEGmnk3ou8Ag/L2fOj
-	 WNZP/y4IpK8Hr6/BlKZ9obj6KneJTH6b5m2Ms5TdqTMtv6QQt5S8m7tNeIM9FjxH+F
-	 +xfQF7JOPk9XX5JZHhd+klKP5TiksKlVnn3bJnbEXMO+f4WZx97XuDpArSLa8tvB1O
-	 dXARWNioqFc4PiD54+ZR3jVUYPKlbknmjL4sbyDa7u8PcqA6xUnBpyz5TbBnBjvDeq
-	 DzGNAQqOi/yaQe5eobFR50ynsaNQ/Wzt4IWOyXQRcSvGSFkndiCumN2Jfsv7YC9g/z
-	 uGkOtT69qz3+w==
-Date: Thu, 18 Sep 2025 12:14:37 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Nicolin Chen <nicoleotsuka@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	linux-sound@vger.kernel.org, Qiang Zhao <qiang.zhao@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH v3 0/4] ASoC: fsl: fsl_qmc_audio: Reduce amount of
- interrupts
-Message-ID: <85ea3256-dd31-47b1-8e2d-a9d207b28fa0@sirena.org.uk>
-References: <cover.1755504428.git.christophe.leroy@csgroup.eu>
- <3d20d3ec-2f52-4cac-9c5c-fd2141a12a0b@csgroup.eu>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OV2lcIeG"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758194484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=33NI10JupNvzF5LVk088MZ+tWcPvXkOtTzuIPkgIQlE=;
+	b=OV2lcIeGO4gg71RHX8vqR+xJ1Kdl1nvhZ+LCImJeLBcA8n7apT6HhRPvU2oZ/VtqZ22kC1
+	hFfrqTVvTvdAlWllI+eBNmJhyZJ01qXoiwWkO5QvEwQrziAHrOnNXp5H3lwniaXxMVGkIR
+	juG1QjQX/mspF/P43V12sAub1fCG9LY=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: pxa: Return -EOPNOTSUPP instead of -EINVAL
+Date: Thu, 18 Sep 2025 13:21:02 +0200
+Message-ID: <20250918112102.64314-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1Rv2MdpZahqmMZwq"
-Content-Disposition: inline
-In-Reply-To: <3d20d3ec-2f52-4cac-9c5c-fd2141a12a0b@csgroup.eu>
-X-Cookie: Victory uber allies!
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+Return -EOPNOTSUPP from mmp_sspa_set_dai_sysclk() instead of -EINVAL for
+unsupported clock ids, and remove the obsolete comment.
 
---1Rv2MdpZahqmMZwq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Replace other -ENOTSUPP returns with -EOPNOTSUPP to comply with SUSv4
+error code guidelines and silence multiple checkpatch warnings:
 
-On Thu, Sep 18, 2025 at 08:12:21AM +0200, Christophe Leroy wrote:
-> Hi Mark, Liam,
->=20
-> Le 18/08/2025 =E0 10:19, Christophe Leroy a =E9crit=A0:
-> > This series reduces significantly the amount of interrupts on
-> > fsl_qmc_audio device.
->=20
-> I can't see this series in linux-next.
->=20
-> I see in patchwork [1] that this series still has status 'NEW' but also
-> state 'archived'.
->=20
-> What is the way forward to get it applied for v6.18 ?
+  ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/pxa/mmp-sspa.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
+diff --git a/sound/soc/pxa/mmp-sspa.c b/sound/soc/pxa/mmp-sspa.c
+index 73f36c9dd35c..38815ca8f152 100644
+--- a/sound/soc/pxa/mmp-sspa.c
++++ b/sound/soc/pxa/mmp-sspa.c
+@@ -111,7 +111,7 @@ static int mmp_sspa_set_dai_sysclk(struct snd_soc_dai *cpu_dai,
+ 	int ret = 0;
+ 
+ 	if (dev->of_node)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	switch (clk_id) {
+ 	case MMP_SSPA_CLK_AUDIO:
+@@ -121,8 +121,7 @@ static int mmp_sspa_set_dai_sysclk(struct snd_soc_dai *cpu_dai,
+ 		break;
+ 	case MMP_SSPA_CLK_PLL:
+ 	case MMP_SSPA_CLK_VCXO:
+-		/* not support yet */
+-		return -EINVAL;
++		return -EOPNOTSUPP;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -139,7 +138,7 @@ static int mmp_sspa_set_dai_pll(struct snd_soc_dai *cpu_dai, int pll_id,
+ 	int ret = 0;
+ 
+ 	if (dev->of_node)
+-		return -ENOTSUPP;
++		return -EOPNOTSUPP;
+ 
+ 	switch (pll_id) {
+ 	case MMP_SYSCLK:
+-- 
+2.51.0
 
---1Rv2MdpZahqmMZwq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjL6ZwACgkQJNaLcl1U
-h9D2swgAgTsZe6lJbstmvGT3sE8IM/SR5DbwYbMqquiSJfASLpWn6+IpQ9jey7dC
-rBQ/Kac/dqktoRic2n2MNciZbkk1DBkKn7U3giWJn+Lc2TEdF/2k3D8gIb0fTkOv
-pFy2ITzlJpnJe41HMTRLT0Y+2MmjTmLBp6H5mbExn9AJ5RtMcXxAMDfCB5pqSWQr
-nSzduldkPYgbVRrD+RbcTzbal6R/Rjkatm1QfAt5iy7K4cvZQmNIZEOrePIP/Mzm
-nt9+XFbYZHnCTxshgzhYuJBgsik6w211UWlWYuibWrlvWW/323RrN8l46amu67bJ
-Zkpxs4GJvx/WIEeyf0hmzc8A7/+Qqw==
-=xpzh
------END PGP SIGNATURE-----
-
---1Rv2MdpZahqmMZwq--
