@@ -1,120 +1,104 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D67314B7D;
-	Thu, 18 Sep 2025 15:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F8530F958
+	for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 16:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758210660; cv=none; b=HUUsLUkohSqLg7Ekd68CXkg/+5gMFgg5qYbJDEDxsYO9DvLxnqgD2lfyIXHDhUyCBjHuzEcFfqT1iuBEdLPB8mvgVjfxL1mMRE8OB1bNyFnFSih5FqBuBeVa+1Xz0Kr85I16cfx/GR1f6A3gqvLt0sT/f6nxs4AWAbzdHxekrmI=
+	t=1758213623; cv=none; b=aZAIeUi2O7F83JB5XbSzbieW1tdzy65aHO6sUbzuqjZP6jWB9naxq3KOY74ha3Ndj50Rhr3bbWKsMFJ90YhPRBmcoxVdy8sh/y9gHxn9606sKIuODWxQ2U3MF73pDHaEwRff0FD4pgYlxgE5/TDpmfXmVEC3ZSvdhnH8GX4st9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758210660; c=relaxed/simple;
-	bh=Rw14QDBJonb5u5+cR6dROagBvXa3A1OgDpRn/q0SkpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ltD7fqMa5i3c6g84WNeTlzdRtTqK63dXuk/3rSJ5X80Xihx4epvzzT+pcDPX75ZH9RSVIRWGiflxDaIZhh4OOaipVZ/WSYeae1PNbadgopWlF9jzgW9fqLXka22BaePEWIQYyhDEtcNZqdMOZ5CbyjgNUKSRuQGbtXctx+buxi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4cSKSP59dCz9sfw;
-	Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kCoeXJoTf93q; Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4cSKSP3td4z9sfv;
-	Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6D0C28B775;
-	Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id qRoFWfinmY1o; Thu, 18 Sep 2025 17:34:29 +0200 (CEST)
-Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id B16A98B767;
-	Thu, 18 Sep 2025 17:34:28 +0200 (CEST)
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Herve Codina <herve.codina@bootlin.com>,
-	Qiang Zhao <qiang.zhao@nxp.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1758213623; c=relaxed/simple;
+	bh=8qXux/Vc1dzPkgcLfFCrymBfcnJ2c1a7n4ElLdzyceA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d3oaOjj/n3mEYCXraL6d3VraNdBApa9RDylPUuHMtq2Iz/YoHlmGIIx0tf3qOfnSGifeijm9SuWv/F2UjqPmfw4NhiO6a5F99kbt9RAiVzchrTh/hzEj+VaOuTMOWrEe5wLWCggq0dYCOdeekDvaLYo4xjMVu6PM13CERgR6hBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKzEHZ9f; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKzEHZ9f"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-80b7a6b2b47so121419585a.0
+        for <linux-sound@vger.kernel.org>; Thu, 18 Sep 2025 09:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758213620; x=1758818420; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iOLygcP+xzbpP7kZE0AKFOWZV0EFCw3JTpU16h/cZRg=;
+        b=lKzEHZ9fiYGdgIIgOEqQp23Kp2N26u/U6j1Ra2jCvR8d3UngNgMHq0gUgj31geHzSR
+         /nBHaaeOf3EowjsWFlEyCShjtc+Yski/Egb09UVbn/xhYICjdVaIJIp+yuVzt+riX8V6
+         Y+/5CHn0snVbqQ6UBbGTzKAGrxZBq/1s+V0g3iBW2YXE3TUJgyvZQLE6kLB3kfVhrMdB
+         d+1K4u6ySi2DyCeO7mL7bCa8xjYubvaT0sEt6E1vu7C5ZoE8u1ouhSAVJUen+lxx7Adg
+         gQkv7qSExrAlFoM8OeTPUM/FGkWoVewqLF8cjfTbyxdL8AZh8gqOVRUdoTdp/D4DTiXz
+         vncQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758213620; x=1758818420;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iOLygcP+xzbpP7kZE0AKFOWZV0EFCw3JTpU16h/cZRg=;
+        b=I0dW51xujP2zVpbaJlw4+v4blSi3RrC/M/961/Cuhq2WgRqIlNsln2zm1oew5cEQNn
+         vSPetnXmgrH+1G9ShUfKBikYNjkWsMHru/e7rzDx2HGMxrk2wQhXbuNz3yDzRM/CmCdS
+         VfTO+n94/MvjrtHWAwr8qT2+2hIxZOiE+oB6aCigQFRFHgo2IQqo4QXPQk1l5Dr/1EJR
+         6Nefh0iuOaw4Bqm8CME0ftz2Gu8EiQOd7kirTtQag0uxYDkk3Yg/RKQhmz6yLKi6xh8Z
+         iQl0fq9SnQCxdU2A5VHRI7pD68pjhzf6/veSV1NUHThuV+8BkTX+ZLFEowvFkuV625g1
+         cK5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXbDu0NV2/Doa+QWSloCbORhJFPNqn/AnBgrUJ/L2U46iqh/9asmRRC6diVx1/wFMgh2vo54gpVAs74iQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNb3TWy187XtCJiAtD7lj55txN4k7LGgTST1e/F5HXicKiLj2n
+	5jsgyDdDdyhXYJx7yc4CiN4p7V3JZ+jWCVGybxGZDzTwhq22XnwBcep9
+X-Gm-Gg: ASbGncule9JYQx3pXa2az22th7v33AH+f2JVqXAFAAEqU2QebBC4wRFx4AY/TrqkzEk
+	VeBste+uB0Vr7hcjiwei2kb9B9HvnHt5xQPDuPq4GeSUgy+zaHZNTbrrCVwskSJWrPu0rBQ5/iY
+	9qmzokrO8hapobQRDF8W2/dFhf/hra8iIe1rs5P0HsSQSDkCuCHNrYn8i7O04vmoU3NYgqzT9lg
+	zKhp7YuMlNeH8MOiJRtQ2I4OymWkVtudOWgqqfSpYo2lT5nbu2Yrlb0EzLmlZY8E5AnKRwuzLxU
+	jn7O84g/XJXVYYQCoL6yNxHrfU16yRmedrk3VEmlgxK12BWikljObNdk6sxd5ZNhvwkpmCUDLQy
+	AmM/sxjFI/KLR/6VPEUHLtSrEMDG65BLZ9Gb2MrZBrxXHwGZryWnQvJ8IIXjZG48WOg==
+X-Google-Smtp-Source: AGHT+IGhjrWbjFjKXricb0N1Q63somwo2IYSb4i+ebrBpab9emSuZ+a4s3k78yG1lZ0DEe7YjEtAag==
+X-Received: by 2002:a05:620a:11a7:b0:813:8842:93c3 with SMTP id af79cd13be357-83bad40024fmr21056185a.81.1758213620307;
+        Thu, 18 Sep 2025 09:40:20 -0700 (PDT)
+Received: from lufimio-laptop.mynetworksettings.com ([2a09:bac5:89e4:1678::23d:12])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-83634a4f965sm180540385a.71.2025.09.18.09.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 09:40:19 -0700 (PDT)
+From: praful.adiga@gmail.com
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	chris.chiu@canonical.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH RESEND v3 0/4] ASoC: fsl: fsl_qmc_audio: Reduce amount of interrupts
-Date: Thu, 18 Sep 2025 17:34:07 +0200
-Message-ID: <cover.1758209158.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.49.0
+	Praful Adiga <praful.adiga@gmail.com>
+Subject: [PATCH 1/1] ALSA: hda/realtek: Fix mute led for HP Laptop 15-dw4xx
+Date: Thu, 18 Sep 2025 12:40:18 -0400
+Message-ID: <20250918164018.69040-1-praful.adiga@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758209656; l=2459; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=Rw14QDBJonb5u5+cR6dROagBvXa3A1OgDpRn/q0SkpI=; b=2JOfAbtKY5oOgf9Q0u+gokAxci8wOnFAoh+mIaShgDQVavxJparyog9AWj22aslzf1HGZl38O HWCFs/nJPimDCioJkfe41o2WfF9P+cnlWCmlzbTpSKe9iPPewKLyxEu
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
 Content-Transfer-Encoding: 8bit
 
-This is a RESEND of v3 sent one month ago, see:
-https://lore.kernel.org/all/cover.1754993232.git.christophe.leroy@csgroup.eu/
+From: Praful Adiga <praful.adiga@gmail.com>
 
-This series reduces significantly the amount of interrupts on
-fsl_qmc_audio device.
+This laptop uses the ALC236 codec with COEF 0x7 and idx 1 to
+control the mute LED. Enable the existing quirk for this device.
 
-Patches 1 and 2 are preparatory patches.
-Patch 3 is the main change
-Patch 4 is a cleanup which is enabled by previous patch
+Signed-off-by: Praful Adiga <praful.adiga@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v3:
-- Properly check the buffer descriptor is unused (Patch 1, comment from Herve Codina)
-- Fixed copy/paste error (patch 2, comment from Herve Codina)
-- Fixed build failure (patch 2, comment from Herve Codina and Test robot)
-
-Changes in v2:
-- Don't remove UB bit (Patch 1, comment from Herve Codina)
-- Make sure audio channels are ordered on TDM bus (Patch 2, new patch, comment from Herve Codina)
-- Drop struct qmc_dai_chan  (patch 4, new patch)
-
-Backgroup (copied from patch 3):
-
-In non-interleaved mode, several QMC channels are used in sync.
-More details can be found in commit 188d9cae5438 ("ASoC: fsl:
-fsl_qmc_audio: Add support for non-interleaved mode.")
-At the time being, an interrupt is requested on each channel to
-perform capture/playback completion, allthough the completion is
-really performed only once all channels have completed their work.
-
-This leads to a lot more interrupts than really needed. Looking at
-/proc/interrupts shows ~3800 interrupts per second when using
-4 capture and 4 playback devices with 5ms periods while
-only 1600 (200 x 4 + 200 x 4) periods are processed during one second.
-
-The QMC channels work in sync, the one started first is the one
-finishing first and the one started last is the one finishing last,
-so when the last one finishes it is guaranteed that the other ones are
-finished as well. Therefore only request completion processing on the
-last QMC channel.
-
-On my board with the above exemple, on a kernel started with
-'threadirqs' option, the QMC irq thread uses 16% CPU time with this
-patch while it uses 26% CPU time without this patch.
-
-Christophe Leroy (4):
-  soc: fsl: qmc: Only set completion interrupt when needed
-  ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
-  ASoC: fsl: fsl_qmc_audio: Only request completion on last channel
-  ASoc: fsl: fsl_qmc_audio: Drop struct qmc_dai_chan
-
- drivers/soc/fsl/qe/qmc.c      |  44 +++++++++---
- sound/soc/fsl/fsl_qmc_audio.c | 125 +++++++++++++++-------------------
- 2 files changed, 87 insertions(+), 82 deletions(-)
-
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 85bb8c4d3b17..7d8c60f1a751 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6469,6 +6469,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8992, "HP EliteBook 845 G9", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8994, "HP EliteBook 855 G9", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8995, "HP EliteBook 855 G9", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x89a0, "HP Laptop 15-dw4xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x89a4, "HP ProBook 440 G9", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x89a6, "HP ProBook 450 G9", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x89aa, "HP EliteBook 630 G9", ALC236_FIXUP_HP_GPIO_LED),
 -- 
-2.49.0
+2.51.0
 
