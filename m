@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4C82356C6;
-	Fri, 19 Sep 2025 12:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA3B23A9AC
+	for <linux-sound@vger.kernel.org>; Fri, 19 Sep 2025 12:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758286442; cv=none; b=SxUKI8G6bfSq6/Qcdvsf5TiWX6IqI4X9OFsryhHCNsRLKQ3Lj/wJqXEqDAzWPVob88F3ppXGXsK/P4ByRMKBseJv9bpMr2m1AOko6dP+7yjwb8juF+UWVSodG/coD0WUQROz9Pi50qnRXmmXvVNziExwzH/wjFJMcpXKxw20Wwo=
+	t=1758286444; cv=none; b=UtIcTtc1ejWQ4xBasFzdXPKRbN0bPPtTS6eFL+/1WWh65LMiQE0kydpjzDGW4b8S1RWye4P/ur9KiE5IJ+KJ8fjxPufBq8HzhgTRP36PGYy1eXdKBd1lARX+PMvFCKr/Rr+WTrZmGv/VxNQfo9ITvw/FUG18E3C3M0SIXPom87Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758286442; c=relaxed/simple;
-	bh=1pfZgGzNVtn0yABMX7hwUhOXHqmt1khayMvA9KMbUsA=;
+	s=arc-20240116; t=1758286444; c=relaxed/simple;
+	bh=M/Que8Y1VHneGokI/N/FcC+Hs/vFDaJecNLR4TcJeQY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=enOf6h2vag0RchXHHgXUK5YQjmQKbqpZ1j2N9MWrluU0/nedjYXVoH+ElAFdUrhcz6Upgbq4/nwC/qFtLmPqStqYVu95QP4ia6lqqyHkoJRswMtP+tiWSPem4L8TWxwN0vS/GClz/JxAJMePckmCdRjaCUtvJDEUKV0It2oWGio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p8T4+LPr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HQaII6rS8hhQ4RIly/LA7cRioJcndrJOcsEjdI1GyxXe5B+PqlZ2IdnoqBknCc8xBML8qbK0/7kM/tobEdOwhkylxyYHnSl2c7GFOq2FgeHgb9MX4NxRB2evj5IHTQQlActNkMUl7vJ3wF/tocifUWXx54q3uLOwHR55yNZrsTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3Bn/jTq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8T4+LPr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8CBC4CEFB;
-	Fri, 19 Sep 2025 12:54:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3Bn/jTq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E62C4CEF5;
+	Fri, 19 Sep 2025 12:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758286442;
-	bh=1pfZgGzNVtn0yABMX7hwUhOXHqmt1khayMvA9KMbUsA=;
+	s=k20201202; t=1758286444;
+	bh=M/Que8Y1VHneGokI/N/FcC+Hs/vFDaJecNLR4TcJeQY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p8T4+LPrhdJj5Duof9QvtkvUewrLT7QKstuFUZFwoUgWL3d86Fcy8aBZsLApyPrIV
-	 gn+npxGwewAWxoWNFy8Wd39olzrswZUqM/5+wI8W+WaKyncLy9hO7/vOMRhsTKkKW9
-	 ms2iExHNBnNKw8Ws7RaM/1senuunK7PZr7egiStzNXZKsSL3pVhaVw+9G9+uYOVUN7
-	 MFH4MA7FtUZMjA/13S3ziBnxlEjKx28z6YuAvW1nuQrtZdlZpKEDp2ytInYESGtXzE
-	 hTPvXJVd82HMAzniuGi8IBS2vUxLPG7MzYicBunhkLmSeAUTmBgCztrY4B//UVnaip
-	 SeGHbCiblUSxg==
+	b=o3Bn/jTq3RhtaU6iPYF9FGTTZOI/o0jAnq62cM83URJUTJpPHKkH5Zdl9ulVDzEsJ
+	 M1VnuE4idmsqen5XFSrZ+hm4uhise/MBMlh/oUGXDsStNu8uOxs3lOxcKhKCdhvNYo
+	 k70f8HISKvDB1cUALGmwcyQUDkYmch9U7Y/i++61Ur7dNiiXyCidyIoqtyroNspVtS
+	 Z/hiDJjUvUzp2KgFHcG9WPhWF7Lwf+wmi7D9hXL7dd3DMe1gbjcFEaDG2SiPK8Wwfc
+	 oOqgZKghuuMqZzAtVMIqXGC8RQK0nZHCkXcb6W4ORFD3n804VFHjSkD8JDG/qvaOgs
+	 MpGKwSE8jgkOQ==
 From: Mark Brown <broonie@kernel.org>
-To: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com, 
- Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20250819160525.423416-1-rf@opensource.cirrus.com>
-References: <20250819160525.423416-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Fix incorrect comparison with
- number of tdm_slots
-Message-Id: <175828644050.102649.9531212152341579882.b4-ty@kernel.org>
-Date: Fri, 19 Sep 2025 13:54:00 +0100
+To: Support Opensource <support.opensource@diasemi.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <0c001e0f7658c2d5f33faea963d6ca64f60ccea8.1756999876.git.geert+renesas@glider.be>
+References: <0c001e0f7658c2d5f33faea963d6ca64f60ccea8.1756999876.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: da7213: Convert to DEFINE_RUNTIME_DEV_PM_OPS()
+Message-Id: <175828644283.102649.16755407849600303058.b4-ty@kernel.org>
+Date: Fri, 19 Sep 2025 13:54:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +46,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-56183
 
-On Tue, 19 Aug 2025 17:05:25 +0100, Richard Fitzgerald wrote:
-> In ipc4_ssp_dai_config_pcm_params_match() when comparing params_channels()
-> against hw_config->tdm_slots the comparison should be a <= not a ==.
+On Thu, 04 Sep 2025 17:31:42 +0200, Geert Uytterhoeven wrote:
+> Convert the Dialog DA7213 CODEC driver from an open-coded dev_pm_ops
+> structure to DEFINE_RUNTIME_DEV_PM_OPS(), to simplify the code.
 > 
-> The number of TDM slots must be enough for the number of required channels.
-> But it can be greater. There are various reason why a I2S/TDM link has more
-> TDM slots than a particular audio stream needs.
 > 
-> [...]
 
 Applied to
 
@@ -64,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-pcm: Fix incorrect comparison with number of tdm_slots
-      commit: 62a7b3bbb6b873fdcc85a37efbd0102d66c8a73e
+[1/1] ASoC: da7213: Convert to DEFINE_RUNTIME_DEV_PM_OPS()
+      commit: 2aa28b748fc967a2f2566c06bdad155fba8af7d8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
