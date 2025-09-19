@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA3B23A9AC
-	for <linux-sound@vger.kernel.org>; Fri, 19 Sep 2025 12:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34994205E3B;
+	Fri, 19 Sep 2025 12:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758286444; cv=none; b=UtIcTtc1ejWQ4xBasFzdXPKRbN0bPPtTS6eFL+/1WWh65LMiQE0kydpjzDGW4b8S1RWye4P/ur9KiE5IJ+KJ8fjxPufBq8HzhgTRP36PGYy1eXdKBd1lARX+PMvFCKr/Rr+WTrZmGv/VxNQfo9ITvw/FUG18E3C3M0SIXPom87Q=
+	t=1758286449; cv=none; b=g5oWO/Xu7l+/BOXsV93F0VacQqqITMAHwR5gZYRNl73EI9NWO1hNTRGy+Obl8enoCQL544jM5ec32g/u2igPn7021oYiGPn0w1oHSsgKtOZryNvQXQIshX/Dth1qK2ADKJHLpWhKrj0hw/7nGcX9EJ0iinic4grPfg4tBvWHm1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758286444; c=relaxed/simple;
-	bh=M/Que8Y1VHneGokI/N/FcC+Hs/vFDaJecNLR4TcJeQY=;
+	s=arc-20240116; t=1758286449; c=relaxed/simple;
+	bh=wvCz/ODysmVAfSXymsHujU8202f0DUCvDBTGn+/TsY8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HQaII6rS8hhQ4RIly/LA7cRioJcndrJOcsEjdI1GyxXe5B+PqlZ2IdnoqBknCc8xBML8qbK0/7kM/tobEdOwhkylxyYHnSl2c7GFOq2FgeHgb9MX4NxRB2evj5IHTQQlActNkMUl7vJ3wF/tocifUWXx54q3uLOwHR55yNZrsTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3Bn/jTq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Q6mSraaosHFJK/ZDrrtIo41Nm6/sKw7roYMX3G5TVeI9WritRkTZ1lw63h97sE9/y2MK7ZFL39gVr4u9px3tnJqo00Jn2NUlLSZ7BrlHlpIhuLkUyCZvh+8qLeUwq9EBvYSNQMnUWJEhOiGsXyjRCo8IVPNTV4yYtwKX0UdUMZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkkwusPa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3Bn/jTq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E62C4CEF5;
-	Fri, 19 Sep 2025 12:54:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkkwusPa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03920C4CEF0;
+	Fri, 19 Sep 2025 12:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758286444;
-	bh=M/Que8Y1VHneGokI/N/FcC+Hs/vFDaJecNLR4TcJeQY=;
+	s=k20201202; t=1758286448;
+	bh=wvCz/ODysmVAfSXymsHujU8202f0DUCvDBTGn+/TsY8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o3Bn/jTq3RhtaU6iPYF9FGTTZOI/o0jAnq62cM83URJUTJpPHKkH5Zdl9ulVDzEsJ
-	 M1VnuE4idmsqen5XFSrZ+hm4uhise/MBMlh/oUGXDsStNu8uOxs3lOxcKhKCdhvNYo
-	 k70f8HISKvDB1cUALGmwcyQUDkYmch9U7Y/i++61Ur7dNiiXyCidyIoqtyroNspVtS
-	 Z/hiDJjUvUzp2KgFHcG9WPhWF7Lwf+wmi7D9hXL7dd3DMe1gbjcFEaDG2SiPK8Wwfc
-	 oOqgZKghuuMqZzAtVMIqXGC8RQK0nZHCkXcb6W4ORFD3n804VFHjSkD8JDG/qvaOgs
-	 MpGKwSE8jgkOQ==
+	b=DkkwusPatofdPkPXpw5Xmpz6kcvZmYhCds0oy0jtoxZYzfZXsm138d1FIajwS/q13
+	 Gfc1uKHTQ8XUaxSs0FJTXsprqm+s+htoQWUkCAY2XqJnscyOulT7HH3U+JDBzRbPKy
+	 UO9/0SmaUXKdw7ABZq6lCmytzf0NWJGp6dGyFQMgSUbce4A9xqVBLEj+hLK9hC5nUf
+	 QdP8nBUTD4F9YJH59i4D0j6QUHpV8ni/eRUVhYJGztc9nL83WQvD1+xuw1IdKFdpXd
+	 uio4FwlA0IXS5nFDJkgq7xbCcUuEz30C81koQ/f0OAz8YNGErcwUBJTxoR5dMTccPY
+	 af9SizPzfYNiw==
 From: Mark Brown <broonie@kernel.org>
-To: Support Opensource <support.opensource@diasemi.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <0c001e0f7658c2d5f33faea963d6ca64f60ccea8.1756999876.git.geert+renesas@glider.be>
-References: <0c001e0f7658c2d5f33faea963d6ca64f60ccea8.1756999876.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: da7213: Convert to DEFINE_RUNTIME_DEV_PM_OPS()
-Message-Id: <175828644283.102649.16755407849600303058.b4-ty@kernel.org>
-Date: Fri, 19 Sep 2025 13:54:02 +0100
+To: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, linux-sound@vger.kernel.org, 
+ sound-open-firmware@alsa-project.org, 
+ Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, 
+ daniel.baluta@nxp.com
+In-Reply-To: <20250909225111.3740029-1-samasth.norway.ananda@oracle.com>
+References: <20250909225111.3740029-1-samasth.norway.ananda@oracle.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc3-dtrace: fix potential integer overflow
+ in allocation
+Message-Id: <175828644460.102649.6097725617056769364.b4-ty@kernel.org>
+Date: Fri, 19 Sep 2025 13:54:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +49,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-56183
 
-On Thu, 04 Sep 2025 17:31:42 +0200, Geert Uytterhoeven wrote:
-> Convert the Dialog DA7213 CODEC driver from an open-coded dev_pm_ops
-> structure to DEFINE_RUNTIME_DEV_PM_OPS(), to simplify the code.
+On Tue, 09 Sep 2025 15:51:11 -0700, Samasth Norway Ananda wrote:
+> Fix a potential integer overflow vulnerability in trace_filter_parse()
+> where the allocation size calculation could overflow.
 > 
+> The issue occurs when:
+> 1. capacity is calculated by adding TRACE_FILTER_ELEMENTS_PER_ENTRY in a
+>    loop for each entry found in the input string.
+> 2. capacity * sizeof(**out) multiplication could overflow if many
+>    entries are present in the input.
+> 3. This results in a smaller allocation than expected, leading to
+>    potential buffer overflow.
 > 
+> [...]
 
 Applied to
 
@@ -58,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: da7213: Convert to DEFINE_RUNTIME_DEV_PM_OPS()
-      commit: 2aa28b748fc967a2f2566c06bdad155fba8af7d8
+[1/1] ASoC: SOF: ipc3-dtrace: fix potential integer overflow in allocation
+      commit: ce2335cd14b6585d57dc05a4375a506079adba81
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
