@@ -1,251 +1,154 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A472328C866
-	for <linux-sound@vger.kernel.org>; Fri, 19 Sep 2025 08:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4FE1DDC1B
+	for <linux-sound@vger.kernel.org>; Fri, 19 Sep 2025 09:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758270684; cv=none; b=a6N47TEbGvvIqo2A2BSBushnNUZRAACLtRro6WofYkY6HCj31YHI6ha3KQcKX8v0eazT3laUEGZ7V2rxP2Iqzm390vycBigmndSGgNX/hwHrh7LMa8moaeSHlYJrcd3+vKfDH1pLhv/qCZVA5Vi798rZtdaHy+H3O6Jjuexo1tY=
+	t=1758275489; cv=none; b=ahFu30mMUwJEPXsmDVoSLuDHA5z5rq3acOSEY583fDxqvyLf0+jBocbXo94eUG0jjV+JgUAJhi0Bh2NWgEO1y48Mr/A5MkSCUpfAdYhkCZIGXXkO1iWHBGbqaV3RTjw+O7Ex+Fk8dScmLL3tKtdvHHQobtfA8cCO+GXAoCoP4CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758270684; c=relaxed/simple;
-	bh=JPFjF49Azw9DmwI8SGWbldq4exwf3CK+81zKHgbI9QE=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=DZ1KOiN9qFLMQTbHn4h7KA+pd/CvfzeWJ8LVuc6W1HHP0pIFOEf84bhMjt9aoM33jbWDW6uRfduJNpF7QUL8PvdcTvk+qOxPy5kImoXf4gbq856cqd4+R+UadSGlX92K/gskh3DW2tFG6KhAr6jX3XrlFmcwJI04Hwl93PWIN94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ih/L3o7v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fApwjesb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ih/L3o7v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fApwjesb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758275489; c=relaxed/simple;
+	bh=ZSmfod8F0xP5B3jG9EIL8Nfki4rJA5Bjeq3d861kBBs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aforDNiIP88IoCiNn7PthZy4YH7/iozNGInRK7OzSkA+Wyx9tLNVpAz6lTMJ+XRFZhiKiOCHMsuo8OjnZmz2lvb164SeDR3ghhyOH1erFvglB6OXHpeg7dCWwgu1xjpca3JDyRTXznoAT+/cOBuSknAhhqnE4YHAe/IobVWwZVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p93MOybz; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ih/L3o7v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fApwjesb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ih/L3o7v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fApwjesb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC58333706;
-	Fri, 19 Sep 2025 08:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758270680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ekDLuWtVj0BlZsMY5haA0GKjXLHw3jXZSB4apDl6evU=;
-	b=ih/L3o7vHRqatLvHJ4VhHb/hvZHr78qe6LNIlvkyGQsFddS3uDdM4WQzmRrQ8KlbW6Z5WX
-	ve+EytA93guzd2ujscAH8iySerHKLcH09o8SUYsyfRPiZvzKrJsqcsagujqVXzeS8LHQiN
-	tq2pykr9hKAunvu5PinEb1szm/1fhEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758270680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ekDLuWtVj0BlZsMY5haA0GKjXLHw3jXZSB4apDl6evU=;
-	b=fApwjesbN7jXzEU2hY2rH0zfg+baevOuJVMAIa7w9C8AifFy5IHh4Q72q9X5Zkd3lGkBWq
-	wQsQ515e6zH6YNCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758270680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ekDLuWtVj0BlZsMY5haA0GKjXLHw3jXZSB4apDl6evU=;
-	b=ih/L3o7vHRqatLvHJ4VhHb/hvZHr78qe6LNIlvkyGQsFddS3uDdM4WQzmRrQ8KlbW6Z5WX
-	ve+EytA93guzd2ujscAH8iySerHKLcH09o8SUYsyfRPiZvzKrJsqcsagujqVXzeS8LHQiN
-	tq2pykr9hKAunvu5PinEb1szm/1fhEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758270680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ekDLuWtVj0BlZsMY5haA0GKjXLHw3jXZSB4apDl6evU=;
-	b=fApwjesbN7jXzEU2hY2rH0zfg+baevOuJVMAIa7w9C8AifFy5IHh4Q72q9X5Zkd3lGkBWq
-	wQsQ515e6zH6YNCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADF9B13A39;
-	Fri, 19 Sep 2025 08:31:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aZbuKNgUzWhYJgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 19 Sep 2025 08:31:20 +0000
-Date: Fri, 19 Sep 2025 10:31:20 +0200
-Message-ID: <878qiaalnr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.17-rc7
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p93MOybz"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45f2f10502fso11734815e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 19 Sep 2025 02:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758275485; x=1758880285; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7wJ+eUcDOTPF44U3mduQyHn2F0Lz48mZcohYBzJ4Fi4=;
+        b=p93MOybzDZatwJXlKYjGftHbVuIvGx+jN34t2QxvzfeJVK9ynH3RNLAjVxiIlXxJJY
+         IbfQiUMHcgDkaonKXjHsYNb6luWdKbIgZD05Q+dYLQUQixBI+OXjUHkZzdQECbqZ6qhE
+         llnq1FObXNltPyPNZYfBV0A+3Ddxo9cltGorl39FmE9n+2QJOa4iZqkcVHcGBJrucQ0f
+         w0/OEvKg79rZneGril9nwGE3SB8NAbBaoPNZbNz8CMB4xw7hnqWoVDyqvUrhELEKLVLe
+         K7g6DNHSD4XcEwz5px3kzuStQ02poLY6ywlCfE6GWz+8geEF8PWdG7O2fMmjOQb5cpQE
+         6CRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758275485; x=1758880285;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7wJ+eUcDOTPF44U3mduQyHn2F0Lz48mZcohYBzJ4Fi4=;
+        b=XW3ht5k2JHNyWf7bxKZtI8xX9Zy3T+DB1WpvuAtlh+Jv081stzzpV+cd43HUJdO9rT
+         l5JzCCJEBhn/kXdakDVfQFXG+i2R0s6CmJdmlZQCcGYytAeQvABheu2FZUmzzBHuY7Iy
+         nTuKZboLGDZvum/aWVXot97kI/KkxLFQQTrEv0zATLCzv5fMTcktVRKxEii+V2E4k+ah
+         gogf0ceCkLaEl4NOdEpTImHKWaUpW3dH5c+/rSwJvtVBoKqXDCwMT5E6YKkk1kJdvC+G
+         6uAdvCsggX9m4cqH7QXV1+jApbWLCjq0oaKa7n/m+5/UH768OIXah8c7LR6dPzWi2OPL
+         bYdg==
+X-Gm-Message-State: AOJu0YyHhGotSBzXPmfRjwi5FBFnMQgjGYFdkw2Bvi6gy4xydT3egIJA
+	oNFwgZgefm1b0NQ78BWtuEMH2rJMG8YFBfZ33ME/bdWbHiTBag6Z+KAIF7x/+aOx9vRZbz38sXR
+	1gQlIAJc=
+X-Gm-Gg: ASbGncuOTnDQgf4hGDSvMoSClKSeUdlTrQyJoRj6Od/s8B4numVtWCNunv91j/nRXWE
+	4U/DGdF3tDt3WbGlADnjn/aGG8ivQ88UV1qWY1UjjdJ2rpDvnhAnsAYutmlL6WMTi64ozFw8a4q
+	aGRtxZ1V2smqnx/UxFoeuVbVzC5bykxIDKrYy04J0Hpw8r2IEmcvTZqESXdcny/HFPD8t4r/LYD
+	goe+/48hn0dOJ0gDL+y0GT7vVgp8UkLE/CW1uYw3MXgVzNz1dmsA/FU1oJijcwYtisUqQN84CdG
+	tNjXgNklyA/CrSsTYOwU0LYeI+jl+oLYAHp2lYuIw9z3sKEt0TO6gwEFDVqOoCR2FQ8zPFC5HdI
+	W2dQU1/Nk/D6scR4W/Q/NoXY2esEpuU+AA/vTWjgUq07Z6WXJ1AcnnJ7Eq6bGIjayyVXbI4W9
+X-Google-Smtp-Source: AGHT+IEPEEJJkjuWsT4BwFdj108NDrZKSdA4XLz/Cg5WWb25sMDN3Mti31DRvEdjU7bjwZ3BmKBBGg==
+X-Received: by 2002:a05:600c:4f16:b0:465:a51d:ab with SMTP id 5b1f17b1804b1-468e610fc93mr14666845e9.15.1758275485399;
+        Fri, 19 Sep 2025 02:51:25 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f? ([2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f325cec0fsm79482155e9.4.2025.09.19.02.51.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Sep 2025 02:51:24 -0700 (PDT)
+Message-ID: <9b0ace7d-2330-4152-b88c-b5d6ccb90b39@linaro.org>
+Date: Fri, 19 Sep 2025 11:51:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [RESEND PATCH v4 0/3] Fix lpaif_type and DAI configuration for
+ I2S interface
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+ prasad.kumpatla@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
+References: <20250911063612.2242184-1-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250911063612.2242184-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Linus,
+On 11/09/2025 08:36, Mohammad Rafi Shaik wrote:
+> Fix the lpaif_type configuration for the I2S interface.
+> The proper lpaif interface type required to allow DSP to vote
+> appropriate clock setting for I2S interface and also Add support
+> for configuring the DAI format on MI2S interfaces to allow setting
+> the appropriate bit clock and frame clock polarity, ensuring correct
+> audio data transmissionover MI2S.
+> 
+> changes in [v4]:
+> 	- Updated commit message in patch v4-0003, suggested by Srinivas Kandagatla.
+> 	- Link to V3: https://lore.kernel.org/linux-sound/20250905150445.2596140-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> changes in [v3]:
+> 	- Added Cc: <stable@vger.kernel.org>, suggested by Srinivas Kandagatla.
+> 	- Added QUINARY MI2S case in patch 3, suggested by Konrad.
+> 	- Link to V2: https://lore.kernel.org/lkml/20250905104020.2463473-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> changes in [v2]:
+> 	- Used snd_soc_dai_set_fmt() API to set the current clock settings,
+> 	  instead of the default WS source setting, as suggested by Srinivas Kandagatla.
+> 	- Link to V1: https://lore.kernel.org/lkml/20250822171440.2040324-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Mohammad Rafi Shaik (3):
+>    ASoC: qcom: audioreach: Fix lpaif_type configuration for the I2S
+>      interface
+>    ASoC: qcom: q6apm-lpass-dais: Fix missing set_fmt DAI op for I2S
+>    ASoC: qcom: sc8280xp: Enable DAI format configuration for MI2S
+>      interfaces
+> 
+>   sound/soc/qcom/qdsp6/audioreach.c       | 1 +
+>   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 1 +
+>   sound/soc/qcom/sc8280xp.c               | 4 ++++
+>   3 files changed, 6 insertions(+)
+> 
 
-please pull sound fixes for v6.17-rc7 from:
+Fixes a long-term issue I had with I2S with audioreach platforms, thanks!
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc7
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
 
-The topmost commit is d33c3471047fc54966621d19329e6a23ebc8ec50
-
-----------------------------------------------------------------
-
-sound fixes for 6.17-rc7
-
-A collection of small fixes.  The volume became higher than wished,
-but nothing really stands out -- all small, nice and smooth.
-A slightly large change is found in qcom USB-audio offload stuff, but
-this is a regression fix specific to this device, hence it should be
-safe to apply at this late stage.
-
-- Various small fixes for ASoC Cirrus, Realtek, lpass, Intel and
-  Qualcomm drivers
-- ASoC SoundWire fixes
-- A few TAS2781 HD-audio side-codec driver fixes
-- A fix for Qualcomm USB-audio offload breakage
-- Usual a few HD-audio quirks
-
-----------------------------------------------------------------
-
-Amadeusz S³awiñski (1):
-      ASoC: Intel: catpt: Expose correct bit depth to userspace
-
-Balamurugan C (1):
-      ASoC: Intel: PTL: Add entry for HDMI-In capture support to non-I2S codec boards.
-
-Bou-Saan Che (3):
-      ALSA: hda: cs35l41: Support Lenovo Thinkbook 13x Gen 5
-      ALSA: hda/realtek: Support Lenovo Thinkbook 13x Gen 5
-      ALSA: hda/realtek: Fix volume control on Lenovo Thinkbook 13x Gen 4
-
-Charles Keepax (6):
-      ASoC: wm8940: Correct PLL rate rounding
-      ASoC: wm8940: Correct typo in control name
-      ASoC: wm8974: Correct PLL rate rounding
-      ASoC: SDCA: Fix return value in sdca_regmap_mbq_size()
-      ASoC: SDCA: Fix return value in detected_mode_handler()
-      ASoC: SDCA: Reorder members of hide struct to remove holes
-
-Colin Ian King (1):
-      ASoC: SOF: Intel: hda-stream: Fix incorrect variable used in error message
-
-Dan Carpenter (1):
-      ASoC: codec: sma1307: Fix memory corruption in sma1307_setting_loaded()
-
-Daniel Baluta (1):
-      ASoC: SOF: imx: Fix devm_ioremap_resource check
-
-Donald Menig (1):
-      ALSA: hda/realtek: Add ALC295 Dell TAS2781 I2C fixup
-
-Jack Yu (1):
-      ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue
-
-Krzysztof Kozlowski (3):
-      ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer dereference if source graph failed
-      ASoC: codecs: lpass-rx-macro: Fix playback quality distortion
-      ASoC: codecs: lpass-wsa-macro: Fix speaker quality distortion
-
-Mac Chiang (1):
-      ASoC: Intel: sof_sdw: use PRODUCT_FAMILY for Fatcat series
-
-Maciej Strozek (1):
-      ASoC: SDCA: Add quirk for incorrect function types for 3 systems
-
-Mohammad Rafi Shaik (4):
-      ASoC: qcom: audioreach: Fix lpaif_type configuration for the I2S interface
-      ASoC: qcom: q6apm-lpass-dais: Fix missing set_fmt DAI op for I2S
-      ASoC: qcom: sc8280xp: Enable DAI format configuration for MI2S interfaces
-      ASoC: qcom: sc8280xp: Fix sound card driver name match data for QCS8275
-
-Paul Menzel (1):
-      ALSA: docs: Remove 3rd person singular s in *to indicate*
-
-Praful Adiga (1):
-      ALSA: hda/realtek: Fix mute led for HP Laptop 15-dw4xx
-
-Richard Fitzgerald (1):
-      ALSA: hda: intel-dsp-config: Prevent SEGFAULT if ACPI_HANDLE() is NULL
-
-Shenghao Ding (2):
-      ALSA: hda/tas2781: Fix the order of TAS2781 calibrated-data
-      ALSA: hda/tas2781: Fix a potential race condition that causes a NULL pointer in case no efi.get_variable exsits
-
-Shuming Fan (1):
-      ASoC: rt712: avoid skipping the blind write
-
-Syed Saba Kareem (1):
-      ASoC: amd: amd_sdw: Add quirks for some new Dell laptops
-
-Takashi Iwai (1):
-      ALSA: usb: qcom: Fix false-positive address space check
-
-Venkata Prasad Potturu (2):
-      ASoC: amd: acp: Adjust pdm gain value
-      ASoC: amd: acp: Fix incorrect retrival of acp_chip_info
-
----
- Documentation/sound/alsa-configuration.rst         |  2 +-
- include/sound/sdca.h                               |  1 +
- include/sound/sdca_function.h                      | 21 ++---
- sound/hda/codecs/realtek/alc269.c                  | 18 ++++-
- .../hda/codecs/side-codecs/cs35l41_hda_property.c  |  4 +
- sound/hda/codecs/side-codecs/tas2781_hda.c         | 30 +++++--
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c     |  5 ++
- sound/hda/core/intel-dsp-config.c                  |  2 +
- sound/soc/amd/acp/acp-i2s.c                        | 11 ++-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c            | 16 ++++
- sound/soc/amd/acp/amd.h                            |  2 +-
- sound/soc/codecs/lpass-rx-macro.c                  | 22 ++++--
- sound/soc/codecs/lpass-wsa-macro.c                 | 22 ++++--
- sound/soc/codecs/rt5682s.c                         | 17 ++--
- sound/soc/codecs/rt712-sdca.c                      |  6 +-
- sound/soc/codecs/sma1307.c                         |  7 +-
- sound/soc/codecs/wm8940.c                          |  9 ++-
- sound/soc/codecs/wm8974.c                          |  8 +-
- sound/soc/intel/boards/sof_sdw.c                   |  2 +-
- sound/soc/intel/boards/sof_ssp_amp.c               |  6 ++
- sound/soc/intel/catpt/pcm.c                        | 23 ++++--
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c  |  6 ++
- sound/soc/qcom/qdsp6/audioreach.c                  |  1 +
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c            |  7 +-
- sound/soc/qcom/sc8280xp.c                          |  6 +-
- sound/soc/sdca/sdca_device.c                       | 20 +++++
- sound/soc/sdca/sdca_functions.c                    | 13 +--
- sound/soc/sdca/sdca_interrupts.c                   |  2 +-
- sound/soc/sdca/sdca_regmap.c                       |  2 +-
- sound/soc/sof/imx/imx-common.c                     |  4 +-
- sound/soc/sof/intel/hda-stream.c                   |  2 +-
- sound/usb/qcom/qc_audio_offload.c                  | 92 +++++++++++-----------
- 32 files changed, 266 insertions(+), 123 deletions(-)
-
+Neil
