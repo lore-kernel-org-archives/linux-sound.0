@@ -1,139 +1,161 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F2D225402;
-	Sat, 20 Sep 2025 06:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D1E27B325
+	for <linux-sound@vger.kernel.org>; Sat, 20 Sep 2025 07:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758349320; cv=none; b=hnx0Js/I+a6XJ30/0cotznMZ6yxBHKpt0yirB6ODFtKrfYeMZN1nHtO0eiVN82bYjzNbHJUCp34DcBjG1wPS451vjvwadujyeztIxOcx/Mae2M143bkl2ByDDUaZ0ybaBsQqI8dWrsUM3qQiOrclxSrjd/2Z3rQmEAXTTGCn0wQ=
+	t=1758354334; cv=none; b=WQ1nvYdk+3NKLBKM2Klv69MBBai8biXeYTDU6Mdx0Da9bwXYMyo+iHLcoWMPyV8hqAbCLw7QpT/eziqnH86VjuboXHycp3TkEeyeAuOdJ81HMYBH01wmZg2yi0xng+Zk7gK9XG9e779bY4kAVOcF8eLgSNx+dY5G2w0w751LLJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758349320; c=relaxed/simple;
-	bh=9RcGvOkOXT/d8Hxm2c0v67xGchk2M+hVVdjqG6EcoD4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ArsE637vHduTawxfX7OfWLQokYQ8m6hUaMUW0HVoj+m813KBBzlB9Gr/Vl3kEAgVjFT1I1jMIkFlEaF2fdISbduU2ILH5yhA1uscqiPspbrfAXFbnGf0c5UYz8EIt81c9kuWS/PnfE5+5TiCqVHqstwjB23NaSPr+ZqGViKTTkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=tuUEa5IA; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1758354334; c=relaxed/simple;
+	bh=lSe1dl3utKLfzY7222HCDZ29uIDR5Q3OEHERAFJ/ROk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ihqfo++/VU+/M4GoNzmqicDeNo5C4phvwLK5wkquo8qy+09WdITPtPajaUAJS18f8xiNRXeyhDUUya8/mnHdd47/KASSTKiJfp0PSfhSeHn0vXKw6HvqWrioZ8Of5WsAeORS85n2Vr3rhJdqMDSFBCP+MpQYAhgQ2ALXmOGOKo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=el7NIbGC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IxTnVW5O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UY1Ehlkk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ODS56rLn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="tuUEa5IA"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58K6LHfa859875;
-	Sat, 20 Sep 2025 01:21:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758349278;
-	bh=3kbgb0IN9bjPFXfBctaJeLpVfYUyl6fZMxymQW5eud0=;
-	h=From:To:CC:Subject:Date;
-	b=tuUEa5IAjC0RzYPmNHcSFcSxfdp3vODt0NnoIO30i/JP+HL/ir8b+408SAeRRVKaH
-	 vn8+0mItiko8qvucvpeQenZ+lsNZlf5e2iYwYdEwVm0QMai00mh79SekwMUwhk2XaQ
-	 l/6Y1n47DE2wp1+3Ov5IlDOm9yqKmG0P9IGCGDxM=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58K6LHBW3448206
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Sat, 20 Sep 2025 01:21:17 -0500
-Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sat, 20
- Sep 2025 01:21:17 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE202.ent.ti.com
- (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sat, 20 Sep 2025 01:21:17 -0500
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58K6L98x3734016;
-	Sat, 20 Sep 2025 01:21:10 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>
-CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
-        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
-        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
-        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
-        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
-        <chinkaiting@google.com>
-Subject: [PATCH v1] ASoC: tas2781: Correct the wrong description and register address on tas2781
-Date: Sat, 20 Sep 2025 14:20:44 +0800
-Message-ID: <20250920062044.1904-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="el7NIbGC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IxTnVW5O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UY1Ehlkk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ODS56rLn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F09232288B;
+	Sat, 20 Sep 2025 07:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758354325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4jHavxcDYgKPPY26Up3Sk+/YpW5EIGYFa4Uk7plTJg8=;
+	b=el7NIbGCfSnEuVVw7bvhuhH2czstoZiNBkAKm6jTanZ74U7OAEm0XUWbhCUPG3S46a0N+R
+	p+pMS9ue46GHMcRtaQ0Kh8/D/nKCBZT0VaB65FE8AjWu52zCk71MacVCssi3Jn2KWRJ7QN
+	3azkaewyorB4e2UHwmLomkyfPkY8JLA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758354325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4jHavxcDYgKPPY26Up3Sk+/YpW5EIGYFa4Uk7plTJg8=;
+	b=IxTnVW5O7pKjB78qrTkFK3oHHbkwTQwnXsDLg0jP22+ZKYuaf8+OQJMHVXpGRCVRKs9Fsg
+	Fy1fxOJhbq0Zk6Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=UY1Ehlkk;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ODS56rLn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758354324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4jHavxcDYgKPPY26Up3Sk+/YpW5EIGYFa4Uk7plTJg8=;
+	b=UY1Ehlkk+gmRfxQMYc/2AdctTu+Mm+gTaMbz/DXeTjJ1N3ZrdV182EvOwEScdQlKSrMSg2
+	eWWQeKuCwojVEPo7KafLiMvB1MlxjUw97DjK50zf3gdOUzPRX7xhhKecihZtmJypC3+d0w
+	avv/spnyoLoiImdhaJTl5XLMtZ370fo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758354324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4jHavxcDYgKPPY26Up3Sk+/YpW5EIGYFa4Uk7plTJg8=;
+	b=ODS56rLnx17gRiCPrhYY/SK2ng3XxO/pPqDOzTrKH1wy0npVdG1NT1KGFXje20RDA21+sG
+	Qod0eIpmSRj87uCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B72D21368D;
+	Sat, 20 Sep 2025 07:45:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eR6aKpNbzmhDQQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 20 Sep 2025 07:45:23 +0000
+Date: Sat, 20 Sep 2025 09:45:23 +0200
+Message-ID: <87tt0x7ejw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC updates for v6.18
+In-Reply-To: <361b7c7101944b7f1b159066d9788fe9@kernel.org>
+References: <361b7c7101944b7f1b159066d9788fe9@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: F09232288B
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Score: -3.51
 
-Correct the wrong description for TAS257X. Combined TAS5825 with TAS2563,
-as they use the same register address and number.
-Correct the register address and number for TAS5827.
+On Fri, 19 Sep 2025 23:18:40 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit f83ec76bf285bea5727f478a68b894f5543ca76e:
+> 
+>   Linux 6.17-rc6 (2025-09-14 14:21:14 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-v6.18
+> 
+> for you to fetch changes up to 5998f0d07d2c4bf3d8ecc4e6218e6a324aeb7301:
+> 
+>   ASoC: fsl: fsl_qmc_audio: Reduce amount of (2025-09-19 21:23:48 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Updates for v6.18
+> 
+> A relatively quiet release for ASoC, we've had a lot of maintainance
+> work going on and several new drivers but really the most remarkable
+> thing is that we removed a driver, the WL1273 driver used in some old
+> Nokia systems that have had the underlying system support removed from
+> the kernel.
+> 
+>  - Morimoto-san continues his work on cleanups of the core APIs and
+>    enforcement of abstraction layers.
+>  - Lots of cleanups and conversions of DT bindings.
+>  - Substantial maintainance work on the Intel AVS drivers.
+>  - Support for Qualcomm Glymur and PM4125, Realtek RT1321, Shanghai
+>    FourSemi FS2104/5S, Texas Instruments PCM1754.
+>  - Remove support for TI WL1273.
 
-Fixes: 7095d688de38 ("ASoC: tas2781: Add tas2118, tas2x20, tas5825 support")
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- .../devicetree/bindings/sound/ti,tas2781.yaml | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Pulled now.  Thanks.
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-index 011211112be4..bd00afa47d62 100644
---- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-@@ -11,11 +11,13 @@ maintainers:
-   - Shenghao Ding <shenghao-ding@ti.com>
- 
- description: |
--  The TAS2118/TAS2X20/TAS257x is mono, digital input Class-D audio
-+  The TAS2118/TAS2X20 is mono, digital input Class-D audio
-   amplifier optimized for efficiently driving high peak power into
-   small loudspeakers.
--  Integrated speaker voltage and current sense provides for
--  real time monitoring of loudspeaker behavior.
-+  The TAS257x is mono, digital input Class-D audio amplifier optimized
-+  for efficiently driving high peak power into small loudspeakers.
-+  Integrated speaker voltage and current sense provides for real time
-+  monitoring of loudspeaker behavior.
-   The TAS2563/TAS2781 is a mono, digital input Class-D audio
-   amplifier optimized for efficiently driving high peak power into
-   small loudspeakers. An integrated on-chip DSP supports Texas
-@@ -25,9 +27,7 @@ description: |
-   The TAS5825/TAS5827 is a stereo, digital input Class-D audio
-   amplifier optimized for efficiently driving high peak power into
-   small loudspeakers. An integrated on-chip DSP supports Texas
--  Instruments Smart Amp speaker protection algorithm. The
--  integrated speaker voltage and current sense provides for real time
--  monitoring of loudspeaker behavior.
-+  Instruments Smart Amp speaker protection algorithm.
- 
-   Specifications about the audio amplifier can be found at:
-     https://www.ti.com/lit/gpn/tas2120
-@@ -131,6 +131,7 @@ allOf:
-           contains:
-             enum:
-               - ti,tas2563
-+              - ti,tas5825
-     then:
-       properties:
-         reg:
-@@ -181,15 +182,14 @@ allOf:
-         compatible:
-           contains:
-             enum:
--              - ti,tas5825
-               - ti,tas5827
-     then:
-       properties:
-         reg:
--          maxItems: 4
-+          maxItems: 6
-           items:
--            minimum: 0x4c
--            maximum: 0x4f
-+            minimum: 0x60
-+            maximum: 0x65
- 
- additionalProperties: false
- 
--- 
-2.43.0
 
+Takashi
