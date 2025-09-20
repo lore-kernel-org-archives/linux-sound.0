@@ -1,59 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7FD3770B;
-	Sat, 20 Sep 2025 05:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F2D225402;
+	Sat, 20 Sep 2025 06:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758347099; cv=none; b=S631VLu2DasskeT7jvDbH/FQuFgMUJGAfliQcuvCDa8/KUlkDsnLzsft3R8zauc+Jm0vPd5D369oaV4aOYIl6qBuMH3mSakrXhO+PR4Fl7NijsmdW1kz076t2/BEM2PRq4EuyFRL+FERbNjNtJ9+c+38ENxjyAB0has+WwsgjZ8=
+	t=1758349320; cv=none; b=hnx0Js/I+a6XJ30/0cotznMZ6yxBHKpt0yirB6ODFtKrfYeMZN1nHtO0eiVN82bYjzNbHJUCp34DcBjG1wPS451vjvwadujyeztIxOcx/Mae2M143bkl2ByDDUaZ0ybaBsQqI8dWrsUM3qQiOrclxSrjd/2Z3rQmEAXTTGCn0wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758347099; c=relaxed/simple;
-	bh=rTQs86DAm2tZv18wSt1opDcS3zS26ZYKcrgH0Yd9fmQ=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=CS397kouhAuM1v/g+nzE2IpCDV6PUma2m6/2dMU+U4N6UR1O3zr9kNkgi98yyiTqxuAbGAtZFefW9uPrSQ+Ab0XQAc6xtJweZ/qHDC8zqOE3dvQBuy7JiQqOhrhepP+xORz71j58PJ9v5bey/riBStMqWBSXddeQLIejEv/ClsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cGpfmWnd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758349320; c=relaxed/simple;
+	bh=9RcGvOkOXT/d8Hxm2c0v67xGchk2M+hVVdjqG6EcoD4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ArsE637vHduTawxfX7OfWLQokYQ8m6hUaMUW0HVoj+m813KBBzlB9Gr/Vl3kEAgVjFT1I1jMIkFlEaF2fdISbduU2ILH5yhA1uscqiPspbrfAXFbnGf0c5UYz8EIt81c9kuWS/PnfE5+5TiCqVHqstwjB23NaSPr+ZqGViKTTkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=tuUEa5IA; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cGpfmWnd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65DAC4CEEB;
-	Sat, 20 Sep 2025 05:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758347099;
-	bh=rTQs86DAm2tZv18wSt1opDcS3zS26ZYKcrgH0Yd9fmQ=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=cGpfmWndf5HUwxCZa9NfrgZLcoIsJ1CoQN4e4qsm1oNoisRq5jF4TsDewMKr7ZKCt
-	 BRwsS8tjb7XQ77Kb621epmaGTL4+1moxlokJq2zHDuAqWuKV3uZevwYaIZ2/S/QSon
-	 VU/jcHBIzQPMcj9+QtNL7/J5MhNBQW23rGy/Mr04Ry6BHNcrL7hresy+qXbOQB0sgZ
-	 zHN4R2a5UjaO8XY1zRrKhJY5WOqZ2SMoUZDw4I/c1ifITPAtfsxZ+fI8Yn/Nz2bEX+
-	 PFwfA8QOwzN1IQfJ66+Gr+sjjSSgXd+vX5cCY2sDxug1EAPfviYAuzbrQbisb5x+yI
-	 HI/u24mCsYofA==
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="tuUEa5IA"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58K6LHfa859875;
+	Sat, 20 Sep 2025 01:21:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758349278;
+	bh=3kbgb0IN9bjPFXfBctaJeLpVfYUyl6fZMxymQW5eud0=;
+	h=From:To:CC:Subject:Date;
+	b=tuUEa5IAjC0RzYPmNHcSFcSxfdp3vODt0NnoIO30i/JP+HL/ir8b+408SAeRRVKaH
+	 vn8+0mItiko8qvucvpeQenZ+lsNZlf5e2iYwYdEwVm0QMai00mh79SekwMUwhk2XaQ
+	 l/6Y1n47DE2wp1+3Ov5IlDOm9yqKmG0P9IGCGDxM=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58K6LHBW3448206
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Sat, 20 Sep 2025 01:21:17 -0500
+Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sat, 20
+ Sep 2025 01:21:17 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sat, 20 Sep 2025 01:21:17 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58K6L98x3734016;
+	Sat, 20 Sep 2025 01:21:10 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
+        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v1] ASoC: tas2781: Correct the wrong description and register address on tas2781
+Date: Sat, 20 Sep 2025 14:20:44 +0800
+Message-ID: <20250920062044.1904-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250826-mtk-dtb-warnings-v3-1-20e89886a20e@collabora.com>
-References: <20250826-mtk-dtb-warnings-v3-0-20e89886a20e@collabora.com> <20250826-mtk-dtb-warnings-v3-1-20e89886a20e@collabora.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: clock: mediatek: Add power-domains property
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chen-Yu Tsai <wenst@chromium.org>, Conor Dooley <conor+dt@kernel.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, Eugen Hristev <eugen.hristev@linaro.org>, Ikjoon Jang <ikjn@chromium.org>, Julien Massot <jmassot@collabora.com>, Julien Massot <julien.massot@collabora.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh@kernel.org>, Sean Wang <sean.wang@kernel.org>, Weiyi Lu <weiyi.lu@mediatek.com>, kernel@collabora.com
-Date: Fri, 19 Sep 2025 22:44:58 -0700
-Message-ID: <175834709805.4354.2882057128826835319@lazor>
-User-Agent: alot/0.11
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Quoting Julien Massot (2025-08-26 00:39:34)
-> The mt8183-mfgcfg node uses a power domain in its device tree node.
-> To prevent schema validation warnings, add the optional `power-domains`
-> property to the binding schema for mediatek syscon clocks.
->=20
-> Fixes: 1781f2c46180 ("arm64: dts: mediatek: mt8183: Add power-domains pro=
-perity to mfgcfg")
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
+Correct the wrong description for TAS257X. Combined TAS5825 with TAS2563,
+as they use the same register address and number.
+Correct the register address and number for TAS5827.
 
-Applied to clk-next
+Fixes: 7095d688de38 ("ASoC: tas2781: Add tas2118, tas2x20, tas5825 support")
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ .../devicetree/bindings/sound/ti,tas2781.yaml | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index 011211112be4..bd00afa47d62 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -11,11 +11,13 @@ maintainers:
+   - Shenghao Ding <shenghao-ding@ti.com>
+ 
+ description: |
+-  The TAS2118/TAS2X20/TAS257x is mono, digital input Class-D audio
++  The TAS2118/TAS2X20 is mono, digital input Class-D audio
+   amplifier optimized for efficiently driving high peak power into
+   small loudspeakers.
+-  Integrated speaker voltage and current sense provides for
+-  real time monitoring of loudspeaker behavior.
++  The TAS257x is mono, digital input Class-D audio amplifier optimized
++  for efficiently driving high peak power into small loudspeakers.
++  Integrated speaker voltage and current sense provides for real time
++  monitoring of loudspeaker behavior.
+   The TAS2563/TAS2781 is a mono, digital input Class-D audio
+   amplifier optimized for efficiently driving high peak power into
+   small loudspeakers. An integrated on-chip DSP supports Texas
+@@ -25,9 +27,7 @@ description: |
+   The TAS5825/TAS5827 is a stereo, digital input Class-D audio
+   amplifier optimized for efficiently driving high peak power into
+   small loudspeakers. An integrated on-chip DSP supports Texas
+-  Instruments Smart Amp speaker protection algorithm. The
+-  integrated speaker voltage and current sense provides for real time
+-  monitoring of loudspeaker behavior.
++  Instruments Smart Amp speaker protection algorithm.
+ 
+   Specifications about the audio amplifier can be found at:
+     https://www.ti.com/lit/gpn/tas2120
+@@ -131,6 +131,7 @@ allOf:
+           contains:
+             enum:
+               - ti,tas2563
++              - ti,tas5825
+     then:
+       properties:
+         reg:
+@@ -181,15 +182,14 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - ti,tas5825
+               - ti,tas5827
+     then:
+       properties:
+         reg:
+-          maxItems: 4
++          maxItems: 6
+           items:
+-            minimum: 0x4c
+-            maximum: 0x4f
++            minimum: 0x60
++            maximum: 0x65
+ 
+ additionalProperties: false
+ 
+-- 
+2.43.0
+
