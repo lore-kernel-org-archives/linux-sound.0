@@ -1,109 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEA21A9FB7
-	for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 11:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7450019B5A7
+	for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 14:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758542289; cv=none; b=AnDcI+nS8NY020a1J5ILOAYNN7JoKTiPWr1JnaEEbbH3RRb43S0ueHwFlr0noOALkIypHm3srfK97P6x5vZNHT7P8YTtW54ImNXlt+IhHwn1qbt/3Q5UuI00sQPsNu2OW4SX8ywynUhSOY1EANWHpflvvaCGrRx5K09c7AFNuhc=
+	t=1758549978; cv=none; b=ix9UieSQNp+RDclKnoGvZz4OeT+4YbQMNCllHXqLrvvlKuH7lyJf4RPzX2Cr3gXChsS3n/KwDSApU9TqQDaGLlRhhslBM4uQ50OdtByntXE0F/oQhWD+iQ4a/rWn3yamYE/3JB+1m4V3VdDrJKJqdhlKuuZ4hmZynKlFy7Sp020=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758542289; c=relaxed/simple;
-	bh=HX3E30IHqIF6O3DenosKcHkyqy9Gh60cCJAKMryfqKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZdg+vMlciKXUVxHV3R6Hvj+8TgZAGwviUSeItm5Ptycc8rxW/PVcSeF8KV8QoloBiI0anOyrhfb49yWMlSGZotMftrSK188Pfx1nV259xHh8PxAGOLhJH57baSmjMxW5ipqNzrVb+L25vV6xE0D7xn96ysVwQ6H+ixZOStQMNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0GAXHQM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758549978; c=relaxed/simple;
+	bh=NSzxPZcHqME+hAtkJ0C72qogZnh9d1CTCSrgMBNyWpw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IiZrWpvs+uzO5a0Z3gYSf374pg2LbPt9fg9wce/PKxWBNa7fYmK/soDRdB3lVwhEXbG/q2IJystz0OXN2n9hLah7EpEP4DeixH7LMkChqM3Jco0bghVZaukPKBqEKGIApign1wnrOzK1PwYDIAm7+f3of2qu0vmMuuDR6Asr6Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c87RPluG; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0GAXHQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2D5C4CEF0;
-	Mon, 22 Sep 2025 11:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758542288;
-	bh=HX3E30IHqIF6O3DenosKcHkyqy9Gh60cCJAKMryfqKQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z0GAXHQMOhzuryetOuStIWzE+mXNfSnx/PTNQLTnPRecWDXK90lGMeKBh6cD4VsFB
-	 MnM1PVr7ZT9AR8oSMZYYVRLV15ok2EAzmj9a/1bC9VB2DExCoqFeGtR8W0W0n6+S7C
-	 jZnEG5TBIpZ4k8K9GkBWFsgHmkJ7fh+/wpolip1tMVxGtmKnevz2uFtGaSHGJLUxGH
-	 Fg6gUPPkZOZtVBbUJngGY/Bq15/UlDJ1r6afb2ttKy7W40pAm21CGt6uTjWzJ4P0tY
-	 Sm86nRz160W3X+zkuFTVCEqwMUIh2Z0SLmGkhymIelt6cLmVhyBWmR64sksHp8gwEJ
-	 03UAvMq3xuIDg==
-Date: Mon, 22 Sep 2025 13:58:03 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com, cezary.rojewski@intel.com,
-	peter.ujfalusi@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
-	navada@ti.com, shenghao-ding@ti.com, v-hampiholi@ti.com,
-	baojun.xu@ti.com
-Subject: Re: [PATCH v5 1/5] ASoC: ops: improve snd_soc_get_volsw
-Message-ID: <aNE5y5iMWSLyEMmr@finisterre.sirena.org.uk>
-References: <20250912083624.804-1-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c87RPluG"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-77716518125so2252991b3a.3
+        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 07:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758549976; x=1759154776; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q65R4wtI7rKWrIB8Hpru/7LhZExxGYM5TnlXns4ne/U=;
+        b=c87RPluGLTEG4UqAFiiXTRysBebOLFXX8T6DeDpuUDsgRfSC+PyTVWh9UIwtr9rKa/
+         v3PmFehxTh8wY3+MPNuGTZ3o9RSdjwBK9hcqqwwnqCM27CQ9+tQLTVneHkAcUN6y2r5a
+         k9mDgQXBuEk17Nt36U66AFrCOCYvaU7RP6tfpdQ4pNNB3Pc5sBL9jF0mmFAR6lFYvrmU
+         sL7MBpnBo777nQ7MmSkNCNqjF9GIS49ww4ht/6br2t1i6whdHv+30x+UtH5hDTmTe4lL
+         HBqIr1+jgZVXcXI21YmnrTtV/Hy5I4RCC9708jAPBimYt7Jeq+jcJBKgyZnQ403yDHxp
+         0QoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758549976; x=1759154776;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q65R4wtI7rKWrIB8Hpru/7LhZExxGYM5TnlXns4ne/U=;
+        b=hUNt6ikttH7+VggH25iOa1pyTjSJLYY/JIdv38kMm7UrFDNmkhDA5xePK+6wxIAZKR
+         H8Dgg5U0HOI1v+uggLZ1M62sheYPhXNdaVlhhco4izyOeLdJvUhAu/J9G3wanAHbFkQJ
+         FrsdfoELRH6QrFtRd2GPHfy9FS+Qqkkz1Anq7lYH4QzxTZ2OeSkohyCy/oy20LXA4tMw
+         Txb6Hike5R9Wzz5bXepAOp83I+uTBK/gB22YUm6hVLRHNipSuj6i4HWxCYJYUgCsfX49
+         dD/BUiqbYC/4DNh3uzZ7ePjYcIC9YPHRUbxHk+b7Kq+v4k6E0RcPADElUP/EJbN/44KR
+         2zEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVKwWuOhrViDnkL9rgcp7Gle5YsUrLLcFnYvp7kCRLjWJjNAsk84cLzo8Zss36BhVZSbs4K205rcR5z1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuHTdzz6XqKSVS3plOaWG8Xs61PF6Uohdicm6klsyzAZP3wnfb
+	avqhqcRO9PNNUs0VLRdpNiacydo18psQjFRF9/IFSrGKrI3Hqrz4xINm
+X-Gm-Gg: ASbGnctHxe9boCqVAYN8bZRMI9jD5BC0pCQn6ndVIfGq3oGgZbNRDHX7mZrTFSs+gPc
+	kPLaP9yLOdw1ENjek0XRq6tRPmEq5myRq8RKoB95C8f6APrc2Uu3p5tGS1B5Wwu+0wgDQInh/2O
+	sgtHt2KI+Q6BX1PnL4E6ZsCA9srFRZS6SYd7YAACFBQEPgXCr9MLbZ1BUC26FpD0H5gbwXvIwCL
+	6eWVb6xW0med5dC98oFt9oI7JaNEu9/Fwz4ckx0uwYLEgXLfz7CY4nW9DqLyvmmmaddZqQYsD6Z
+	SLYV13XJzQXEMbPVoMGkTkxB4BXNfdUr3AD6ABODDL0U1ksKt2vL9zIZHhm5ETwKpztd+BLarGc
+	4WhyQ/75RPbaYYaJG9UilOpOp
+X-Google-Smtp-Source: AGHT+IGut+RghUbyFn2F4fwYbZuwj/DFVn5Cf89eveAp7C+mVNUJEdBY4DbdKoQyXojSDqZ4ufxz5w==
+X-Received: by 2002:a05:6a00:c85:b0:77f:472b:bc73 with SMTP id d2e1a72fcca58-77f472bbe3amr1851305b3a.6.1758549975348;
+        Mon, 22 Sep 2025 07:06:15 -0700 (PDT)
+Received: from lgs.. ([2408:8418:1100:9530:3333:9fe1:c4de:4cb8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f188dd4a8sm7177799b3a.39.2025.09.22.07.06.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 07:06:14 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] ASoC: mediatek: mt8365: Add check for devm_kcalloc() in mt8365_afe_suspend()
+Date: Mon, 22 Sep 2025 22:05:55 +0800
+Message-ID: <20250922140555.1776903-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p6H9WN8cpiBZ26bE"
-Content-Disposition: inline
-In-Reply-To: <20250912083624.804-1-niranjan.hy@ti.com>
-X-Cookie: Reunite Gondwondaland!
+Content-Transfer-Encoding: 8bit
 
+devm_kcalloc() may fail. mt8365_afe_suspend() uses afe->reg_back_up
+unconditionally after allocation and writes afe->reg_back_up[i], which
+can lead to a NULL pointer dereference under low-memory conditions.
 
---p6H9WN8cpiBZ26bE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a NULL check and bail out with -ENOMEM, making sure to disable the
+main clock via the existing error path to keep clock state balanced.
 
-On Fri, Sep 12, 2025 at 02:06:20PM +0530, Niranjan H Y wrote:
+Fixes: e1991d102bc2 ("ASoC: mediatek: mt8365: Add the AFE driver support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> * add error handling in case register read fails
-> * clamp the values if the register value read is
->   out of range
+diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+index 10793bbe9275..eaeb14e1fce9 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
++++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+@@ -1979,6 +1979,10 @@ static int mt8365_afe_suspend(struct device *dev)
+ 		afe->reg_back_up =
+ 			devm_kcalloc(dev, afe->reg_back_up_list_num,
+ 				     sizeof(unsigned int), GFP_KERNEL);
++		if (!afe->reg_back_up) {
++			mt8365_afe_disable_main_clk(afe);
++			return -ENOMEM;
++		}
+ 
+ 	for (i = 0; i < afe->reg_back_up_list_num; i++)
+ 		regmap_read(regmap, afe->reg_back_up_list[i],
+-- 
+2.43.0
 
-This is really two changes, they don't even overlap code wise - see
-submitting-patches.rst.
-
-> @@ -249,9 +250,15 @@ static int soc_get_volsw(struct snd_kcontrol *kcontr=
-ol,
->  {
->  	struct snd_soc_component *component =3D snd_kcontrol_chip(kcontrol);
->  	unsigned int reg_val;
-> -	int val;
-> +	int val, ret =3D 0;
-> =20
->  	reg_val =3D snd_soc_component_read(component, mc->reg);
-> +	val =3D reg_val;
-> +	if (val < 0) {
-
-Here reg_val is an unsigned int, but then we assign that to an int check
-if it's less than 0.  I don't see how that can work sensibly, and indeed
-when I test it on some amlogic platforms it blows up:
-
-   https://lava.sirena.org.uk/scheduler/job/1862694#L1927
-
-that normaly succeds:
-
-   https://lava.sirena.org.uk/scheduler/job/1863246#L1931
-
-It's obviously not a bad idea to have error checking, we should really
-do that, but it's a bigger rework than this.
-
---p6H9WN8cpiBZ26bE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjROcsACgkQJNaLcl1U
-h9CeYgf9EKFJkDnAwswEm7R8IAmEZ+Ivx5AOvI5p/vO9SgDYC5uKXSae/460idRN
-KqjvlSmrQ9ra0u4NeTcX9cdJ9KXsplZWh1Bk1kP79ZCsmZTVM7VbXzkm/Aze2w/2
-s497e9oTVI0gICubAPbVjk8ULjTFV+ifyKEGJqALJb1bxC34GFeo0T2loK7mujS4
-bu+BR+O6w+cebzxJHQf7slbPv7N4YQRUQsS+RiAVmxaEZwyitFmkOMbqW32/8GUA
-czl0wdYelJsFWJCaSjlLxqWgU6tABRgXpOJaWge04swGz7y4ZZkQl/XJpnGBRWnD
-2MXRZmETi4E2rf3KmLser4ofQ6eAag==
-=CQ1/
------END PGP SIGNATURE-----
-
---p6H9WN8cpiBZ26bE--
