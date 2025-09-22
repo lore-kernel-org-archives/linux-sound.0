@@ -1,167 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63F531690E;
-	Mon, 22 Sep 2025 17:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDC11E32CF
+	for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 18:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758563879; cv=none; b=L/d0BZoqyPjHrlxpNQcI+FRFBpjtFYfkPO/oW2oT0YMCX0F1fHcaidqwoKP6i9kdGAXivQwdS5dkNPI6+dmBCavVy0bGYZTSkMunQvXqdjPKuZ2t1CQJU8eV6CSspRhWjXic/3/suOJa3f5fAK4rKSMRD7QWuCdgiuqg9hTyOOM=
+	t=1758567257; cv=none; b=tSf1ff+MaHhUtKrWkGAC6yDZpu8vX8QuoKLNeES5z2yb1OzdSXHayXmL6q3B+EbijW18+ZEmdU3GeJL40rSa6hip12XEnRMXQWQx5nqEWIrfIgKFdWV/9JALgFMDgnxRgqW8pLqYQhCX+ogjhieMrPzqIQPZUTMMkobk/C2jvxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758563879; c=relaxed/simple;
-	bh=csqAZ7wLVgyHGIbfKaoTGhWcnNBE3eIrhnrc7s+FDpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZzYJFwRtWXTI9+pSCTkBYzrrvSP+ibp3DMaKOL/eHcRPP92HT+72nSufWfBW7iFbcG9QLlF0b6mrMSSsne0cb9bSFC1+Pj+Ak69GTMtp6LpZZECXEI0hEaSE59EQNaG26N4whCHJt4hcr/kgMykZpK9siICtFChJd3tOswPhBmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAll7C5B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758567257; c=relaxed/simple;
+	bh=i3MgwC2WP8pjFvD1hoaJNnaEsDgwv2hb5ohz3bEhDZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MCDJ03aqQnckbmYk4R1qr2KGnhgfB7kyC8OBylWBorIgOoAc++eIOyPSIAEcOvZf3w0z+yukHNsl73+9LTF0mQJZ62jxaurQOZLtjhLd8nTd0gcd71n1xbFJ3MlsqCXBo+Dh0ngZ7l2383gtf0tCjEEwp82KUj++MefUT2DEze0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pe9Gppu8; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAll7C5B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E149C4CEF5;
-	Mon, 22 Sep 2025 17:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758563878;
-	bh=csqAZ7wLVgyHGIbfKaoTGhWcnNBE3eIrhnrc7s+FDpI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DAll7C5BDzUVp/KI5ZgaO4TU25QlRCcqM4s/IrupUjAWFE3GYOGActS/IKgKsldvk
-	 xzQhn2nMfppkP7ij1kSU/fCWFCEyj4r0eWF30jLaD9RxIzHWGAtyounuWW6fVsXBwE
-	 GsiWYsz8dzQhfSFZRMLKo8FLAT/YDMWdbZq6LxtqJID27BwELVQ/sW6F7sLdle8qtW
-	 4xoo+UIGhSXLzPJx9HO82FoxPGafyH3iND3K9cnI9aywm+LryDZgxep9sIKsV63PPn
-	 GQdxPCV7QaxLeBso1Z4F9+P+TsIK0WyD5bruYxu7KvD2dbwuYGSMc1ff8ChVLF84ss
-	 Z1MNwGDRf61bA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	srini@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-6.6] ASoC: qcom: sc8280xp: Enable DAI format configuration for MI2S interfaces
-Date: Mon, 22 Sep 2025 13:57:36 -0400
-Message-ID: <20250922175751.3747114-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250922175751.3747114-1-sashal@kernel.org>
-References: <20250922175751.3747114-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pe9Gppu8"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-57a59124323so222314e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 11:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758567253; x=1759172053; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nNsPNhJ/5p805wMjwooOErgxMh7Ia7eiB6NH+SY7Q3s=;
+        b=Pe9Gppu8dPUJu1gPTFmm1RAe77RFetIxDpD4RHdLf0Rf4tP7If4TBIGKSXFxqWscqg
+         T6avmri6bd6ZDvLhqNmxiLH/XdYox92XqMjcZ7HWUuX1TJdNU5bV2OtxpqF1P7OnteNB
+         xQFhfbjHYJWlY12Upbk5ZXZpumGm1HyLapn03ErNw43bgLLSQqhOIGsH/1aQy26C3mjC
+         9ufhTJej/cLFpWlHQyQFYlcEYGzv8voNnL8EvhWGDwhHeLgxKGSSlEPo6rB13hw3N11y
+         oy1yr72Fgd9BBkK6V9kbB2dY8CzjMerLSSwVqX0QtOshiaw6wqTGe3kF41yp+LrSQ84k
+         x2mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758567253; x=1759172053;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nNsPNhJ/5p805wMjwooOErgxMh7Ia7eiB6NH+SY7Q3s=;
+        b=vAfwp6LMG/KM+7K4wCrZ6+b5nZxPbunwj3OHbFuKM+TX+3c3Pfo6nrA+VUjNd7uQ0M
+         xR0nOqpjMz30aM+rCfrfJroivltJxD6k2O5v4dRTGVNoXdiwyLrMVcwAZB7ZznBheK/s
+         CtRYbnfGZlm6slx5DFXsFlyaLBZyGIBcw9ppVoIG0ADegcpsMLsYca0NF6pQAI78WZbA
+         KIsVze9NHDcdfFTLKbkzGLdtlt3IGcs786WNGQLRvNUEpztrl/RcQ4ec3KlWfAZ/smcA
+         vFo4gsd5iZbDha90lwyn4FCRTh0Zdidv3JNvzScvWXeo9jSHH2Wd/4IxiilfD2pkXTG7
+         Cktw==
+X-Gm-Message-State: AOJu0YzEmkbFV09G1P6tttQ+Wr1kECOxw0T9EQ54ho5IN3kUHKdHpwve
+	bLcfOjOwOwAYdEa5RyT6wE5oEy0zbEi/iipZpjPaNplO76z5+SbYGiDpw6Tyd3ZO
+X-Gm-Gg: ASbGncuL+7MMpmJg1J+Aopbo1ftDhuPdA36Ybtp+Gh9Z/S7H1kjRHerKHEVyWgn0n1Q
+	76bPSG5VXnsIFmPPAA3EhYNOd4SiAT4GPYYd9iAl0HqESY880kNS/MHGoVfK2GaRY6ExtJeJlVz
+	/nr7d6PRAS8su8rmf/Wn3Frsfi2+kwvvCN+UI7p2X6YcdpPGMttu/s6VJZfZLhoTLncIN0l3FpL
+	XEenK13pk97O8KiWRzRNpXOm4Ql5zypkwDBYasTqkrzLz4I36mS8Ala9y7qAF2EZXPpSIuGy+Hu
+	nz8uwGaneDdT0tozqJkgFgyPQ+HGdGl2eEpKerCIgKXNNzfeBMoEM6wQGS+iy8YMuYohHDn+6SO
+	pGBg45tlvajiMqiNKEw==
+X-Google-Smtp-Source: AGHT+IGt7eG6Tvl/LT0S0TEKnnExyHamLOjiLYAKmfpDgCmCLbjN6v4U51esfUX18YiRdDS928aQDg==
+X-Received: by 2002:a05:6512:6185:b0:57a:903:579d with SMTP id 2adb3069b0e04-57a090357bamr4467830e87.56.1758567252965;
+        Mon, 22 Sep 2025 11:54:12 -0700 (PDT)
+Received: from ark ([2a01:799:8db:a400::1002])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a5f44693sm3514530e87.25.2025.09.22.11.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 11:54:12 -0700 (PDT)
+Date: Mon, 22 Sep 2025 20:54:10 +0200
+From: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.com>, Amin Dandache <amin.dandache@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: don't apply interface quirk to Presonus
+ S1824c
+Message-ID: <aNGbUkO8n6M8kggv@ark>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16.8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Testing with a Presonus STUDIO 1824c together with
+a Behringer ultragain digital ADAT device shows that
+using all 3 altno settings works fine.
 
-[ Upstream commit 596e8ba2faf0d2beb9bb68801622fa6461918c1d ]
+When selecting sample rate, the driver sets the interface
+to the correct altno setting and the correct number of
+channels is set.
 
-Add support for configuring the DAI format on MI2S interfaces,
-this enhancement allows setting the appropriate bit clock and
-frame clock polarity, ensuring correct audio data transmission
-over MI2S.
+Selecting the correct altno setting via Ardour, Reaper or
+whatever other way to set the sample rate is more convenient
+than re-loading the driver module with device_setup to
+set altno.
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Rule: add
-Link: https://lore.kernel.org/stable/20250908053631.70978-4-mohammad.rafi.shaik%40oss.qualcomm.com
-Message-ID: <20250908053631.70978-4-mohammad.rafi.shaik@oss.qualcomm.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
 ---
+ sound/usb/quirks.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-LLM Generated explanations, may be completely bogus:
-
-Based on my exhaustive investigation using multiple specialized research
-agents and comprehensive analysis of the kernel repository:
-
-**Backport Status: YES**
-
-## Extensive Analysis Summary:
-
-### 1. **This is a BUG FIX, not a feature addition**
-The kernel-code-researcher agent's deep investigation revealed:
-- MI2S interfaces are **completely non-functional** without this
-  configuration
-- The SC8280XP driver was missing critical clock configuration that
-  exists in ALL other Qualcomm ASoC drivers (SM8250, SDM845, SC7180,
-  APQ8016)
-- The bug has existed since the driver's introduction in September 2022
-  (commit 295aeea6646ad)
-- Without this fix, MI2S cannot establish proper clock relationships,
-  resulting in no audio playback or capture
-
-### 2. **Minimal and contained change**
-The code adds only 4 lines:
-```c
-case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
-case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-    snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-    break;
-```
-This configures the SoC as clock master (Bit Provider, Frame Provider) -
-essential for MI2S operation.
-
-### 3. **No regression or security risks**
-- The architect-reviewer found the change "architecturally sound" with
-  "minimal regression risk"
-- The security-auditor found "no security concerns" and confirmed it's
-  "safe for stable backporting"
-- The change only affects MI2S paths; other audio interfaces (SoundWire,
-  DisplayPort) remain untouched
-
-### 4. **Part of active bug fixing efforts**
-The search-specialist discovered this is part of a patch series by
-Mohammad Rafi Shaik addressing multiple I2S/MI2S issues on SC8280XP,
-with patches explicitly marked for stable backporting.
-
-### 5. **Historical precedent for similar fixes**
-Multiple similar MI2S fixes have been backported:
-- commit cd3484f7f1386: "Fix broken support to MI2S TERTIARY and
-  QUATERNARY" (with Fixes: tag)
-- commit b1824968221cc: "Fix enabling BCLK and LRCLK in LPAIF invalid
-  state"
-- commit 6ec6c3693a389: "lpass-cpu: Fix clock disable failure"
-
-### 6. **Real user impact**
-Without this fix:
-- Devices using MI2S audio interfaces (like certain ThinkPad X13s
-  configurations) have no audio
-- Affects accessibility features and emergency calling capabilities
-- The fix restores intended functionality without adding new features
-
-### 7. **Meets all stable kernel criteria**
-✓ Fixes a real bug affecting users
-✓ Small and contained change (4 lines)
-✓ Clear and obvious correctness
-✓ No new features or architectural changes
-✓ Already tested and reviewed (Reviewed-by: Srinivas Kandagatla)
-✓ No risk of introducing new bugs
-
-This commit exemplifies an ideal stable backport candidate: a minimal,
-safe fix that restores broken functionality without introducing any
-risks or new features.
-
- sound/soc/qcom/sc8280xp.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 99fd34728e387..2c68119da60bd 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -32,6 +32,10 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	int dp_pcm_id = 0;
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index d736a4750356..7e8609ac6822 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1599,9 +1599,6 @@ int snd_usb_apply_interface_quirk(struct snd_usb_audio *chip,
+ 	/* presonus studio 1810c: skip altsets incompatible with device_setup */
+ 	if (chip->usb_id == USB_ID(0x194f, 0x010c))
+ 		return s1810c_skip_setting_quirk(chip, iface, altno);
+-	/* presonus studio 1824c: skip altsets incompatible with device_setup */
+-	if (chip->usb_id == USB_ID(0x194f, 0x010d))
+-		return s1810c_skip_setting_quirk(chip, iface, altno);
  
- 	switch (cpu_dai->id) {
-+	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
-+	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-+		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-+		break;
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
- 		/*
+ 	return 0;
+ }
 -- 
 2.51.0
 
