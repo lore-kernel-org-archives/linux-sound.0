@@ -1,117 +1,189 @@
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C87307486;
-	Mon, 22 Sep 2025 15:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36192311941
+	for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 16:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758556383; cv=none; b=Wu88HAOhbKdvYW3pKYNBYd5NkYRvDEOKuLRDOQquWv1OgMbn6U2ZRXYGwVbpBmsmPVbi15QK9LxxTt9k+6SyaJwj4t7GrAOO1WOLRB7Zm0TLc5bRm+thXj7SYDbaNwevqgDQlIcHcSh9L5r+AomgLlAu7pPtGxJMrbnOGqbcbK0=
+	t=1758560070; cv=none; b=P5qhRZmKsQO/UUGj7AKFjd6iCB15PiRhZk/EBVE/8uoW6fH9cxWztoZD2OHSHY0qmtUKWc8Vx7Zdii+oiqavmMNEcEJp8XLsd+GW+AJh14Xoicxhi/kUz5xJIU4s8Gqz9WvYkCMFqNOgJ2q+OrwfOCdWk86vGMqCHieoIerUmxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758556383; c=relaxed/simple;
-	bh=Ffwye/JbVrXIKu8cIrK/pOcB8IdFpHDSAu6vrUoG2SI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hOI3/EGjvd3xBTtaP9VYe6F5DbB3VnSLNVu/KNNeb/a2MLCPsJlMLGIlsO2xccJZBz5RZwSYgCFgu0LhV5dZdN/7U9lPToprKLlhj/23Yim9gVK7/EAD7f1MxKpS3hgnY+6G9ULVcHIpZdEW88fI/NTzhUb2y6M5HXBkWGV1Kgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=AJj3luLd; arc=none smtp.client-ip=80.12.242.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="AJj3luLd"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id 0ihNv1uZQ6fJ30ihNvRBh2; Mon, 22 Sep 2025 17:43:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1758555813;
-	bh=FkpL0tmHxowKoCQg6KgQE7aVVXQ8VXFIV/me0DgJOe8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=AJj3luLdsdZm6Hh9cs8v3hu1Xrx/xtjz6njOnl5bdrsltRGWoLkcpzbo3ji7oS6mC
-	 5YZaQyvvjYyK1wwjrJP8l42XJEaw/Dq5KvFKbSBJWHzyAk+lqlHGJtxMIGEHBwgsf3
-	 pYd8pmC4hcZpAGD3ZdEPKpVlCzjgF8D97oDt92/q7T6CTj7umly4owlqUQfQSZ+sZw
-	 Zf/Kw+b9ryh7irWVLdjOEhvLQ2DEfal6jZBAZiSy5YmyFLth7HKC3Y17SdKeVQdC0l
-	 iC53qyWGA6KOu0Y98FUDUUbm0XISxieirL48iwVUOnd0qPfRJMgpsWp3P2EwI9YZN0
-	 DB2lcqiMlrCRw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 22 Sep 2025 17:43:33 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <dcb6023b-8c14-4bbd-9bac-2933e91ef553@wanadoo.fr>
-Date: Mon, 22 Sep 2025 17:43:28 +0200
+	s=arc-20240116; t=1758560070; c=relaxed/simple;
+	bh=0PoIjQ7OMGRHJ65EHL03KYjX/jRrnZ6uxiYLKRBpQi0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qTZIIqlTnTOx4YCzZajCUUXKenPkOYAQQ1xXAYdH3jO6E5dPU4VhpJwXoS9ml/i8xHMMpgr9zK98mIX4c5nIsoyDYputuoNKiMUrlN7AXkF27vkKAEF3sF+sQ8VsKO7KJWbDgQCQ3vpP+UYBL38KmyjsAvtFt7nbw09GmitrE6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-425788b03a0so34686565ab.1
+        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 09:54:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758560068; x=1759164868;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TkyQ0G/GYp6D/Frk0y+BiFU8FL/TnbApWZ0LcRyxL34=;
+        b=pcT/V3i2rDadUOroQGpBGNvVD3eE54DXNl4iptVBzlF0JL/qwK116w8LLY/Y2FFHp3
+         4tjAiTvGVpk2abzMpVg+wY8wJQ454QlYiGC38p9ISUwJ7UonnsWVhF4jqjSxJR7Do4df
+         3XhtvVMal5tBQGp5YcinrFnyTvWIZ5m9/tMIRUn+ZS8rIkLav50rQeavi8cZcHmw04qb
+         khUka3dyritghkN2hLE/7ibe9WgvWr0rozka5yP/SAucDnA562MhmYAJrOqrP2GjrLgJ
+         9+zUJoD/IQaA9xzSo28FUV2DIPtIjev7UHSTMPqZKult/WLef95rnWqVYIblFP6Ax7xU
+         u35g==
+X-Forwarded-Encrypted: i=1; AJvYcCX0tEqFltTvMLsncmOTnGsEVXW0wm8ZBGDVHnFi5tyTIGGdQGK+cjmKzJsQ39A7BjBVzlKDtjmc99XpLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLeyIv1ewbBkjXCmvF6btCE8rDkPAxuB6fbBe3RYxfplxxF/Yk
+	94eLK8WlxKlH2EaE83TAiCRDnM4u++YDx0en4XhKw+2fnTcpgvxmgXjogVYlljQcu+BP0ZFfbWa
+	qlcPPs9DERFUJx3l53VUcl38CK1AMq2PxMjN74Fn7kFfczaDHK2GY7+EqwQA=
+X-Google-Smtp-Source: AGHT+IF9O55Lh+p8JZ6zsgfeJd2VODUez5Tp8sknhwVcR64xUUSQN7gm0Y9gOu44n/P0v7UMeRpXHuwgGcBNvMPQpmt3DRDzflp0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: mediatek: mt8365: Add check for devm_kcalloc()
- in mt8365_afe_suspend()
-To: Guangshuo Li <lgs201920130244@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Alexandre Mergnat <amergnat@baylibre.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Cc: stable@vger.kernel.org
-References: <20250922153448.1824447-1-lgs201920130244@gmail.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-In-Reply-To: <20250922153448.1824447-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1947:b0:424:80f2:299 with SMTP id
+ e9e14a558f8ab-424819955bbmr230968455ab.27.1758560068378; Mon, 22 Sep 2025
+ 09:54:28 -0700 (PDT)
+Date: Mon, 22 Sep 2025 09:54:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68d17f44.050a0220.13cd81.05b7.GAE@google.com>
+Subject: [syzbot] [sound?] [usb?] general protection fault in snd_usbmidi_do_output
+From: syzbot <syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com>
+To: clemens@ladisch.de, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Le 22/09/2025 à 17:34, Guangshuo Li a écrit :
-> devm_kcalloc() may fail. mt8365_afe_suspend() uses afe->reg_back_up
-> unconditionally after allocation and writes afe->reg_back_up[i], which
-> can lead to a NULL pointer dereference under low-memory conditions.
-> 
-> Add a NULL check and bail out with -ENOMEM, making sure to disable the
-> main clock via the existing error path to keep clock state balanced.
-> 
-> Fixes: e1991d102bc2 ("ASoC: mediatek: mt8365: Add the AFE driver support")
-> Cc: stable@vger.kernel.org
-> ---
-> changelog:
-> v2:
-> - Return -ENOMEM directly on allocation failure without goto/label.
-> - Disable the main clock before returning to keep clock state balanced.
-> 
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+Hello,
 
-This should be above the ---
+syzbot found the following issue on:
 
-> ---
->   sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> index 10793bbe9275..55d832e05072 100644
-> --- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> +++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-> @@ -1975,11 +1975,15 @@ static int mt8365_afe_suspend(struct device *dev)
->   
->   	mt8365_afe_enable_main_clk(afe);
->   
-> -	if (!afe->reg_back_up)
-> +	if (!afe->reg_back_up) {
->   		afe->reg_back_up =
->   			devm_kcalloc(dev, afe->reg_back_up_list_num,
-> -				     sizeof(unsigned int), GFP_KERNEL);
-> -
-> +				    sizeof(unsigned int), GFP_KERNEL);
+HEAD commit:    3b08f56fbbb9 Merge tag 'x86-urgent-2025-09-20' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=176950e2580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=927198eca77e75d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=f02665daa2abeef4a947
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14006712580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14e950e2580000
 
-you should not remove a space here.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/459cbf9146bd/disk-3b08f56f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6836a598801b/vmlinux-3b08f56f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/92e1bc34a72e/bzImage-3b08f56f.xz
 
-CJ
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com
 
-> +		if (!afe->reg_back_up) {
-> +			mt8365_afe_disable_main_clk(afe);
-> +			return -ENOMEM;
-> +		}
-> +	}
->   	for (i = 0; i < afe->reg_back_up_list_num; i++)
->   		regmap_read(regmap, afe->reg_back_up_list[i],
->   			    &afe->reg_back_up[i]);
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000011: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000088-0x000000000000008f]
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+RIP: 0010:snd_usbmidi_do_output+0x22d/0x570 sound/usb/midi.c:310
+Code: f8 48 c1 e8 03 42 80 3c 28 00 0f 85 14 03 00 00 89 d8 48 c1 e0 04 4c 8b 64 05 08 49 8d 84 24 88 00 00 00 48 89 c2 48 c1 ea 03 <42> 0f b6 14 2a 84 d2 74 09 80 fa 03 0f 8e ad 02 00 00 48 8b 74 24
+RSP: 0018:ffffc90000007b80 EFLAGS: 00010016
+RAX: 0000000000000088 RBX: 0000000000000000 RCX: ffffffff894338b8
+RDX: 0000000000000011 RSI: ffffffff894338c6 RDI: ffff88805e0fc008
+RBP: ffff88805e0fc000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: dffffc0000000000 R14: ffffed100bc1f80f R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff8881246b3000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32d63fff CR3: 000000007e1d5000 CR4: 0000000000350ef0
+Call Trace:
+ <IRQ>
+ snd_usbmidi_error_timer+0x119/0x410 sound/usb/midi.c:362
+ call_timer_fn+0x19a/0x620 kernel/time/timer.c:1747
+ expire_timers kernel/time/timer.c:1798 [inline]
+ __run_timers+0x6ef/0x960 kernel/time/timer.c:2372
+ __run_timer_base kernel/time/timer.c:2384 [inline]
+ __run_timer_base kernel/time/timer.c:2376 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2393
+ run_timer_softirq+0x1a/0x40 kernel/time/timer.c:2403
+ handle_softirqs+0x219/0x8e0 kernel/softirq.c:579
+ __do_softirq kernel/softirq.c:613 [inline]
+ invoke_softirq kernel/softirq.c:453 [inline]
+ __irq_exit_rcu+0x109/0x170 kernel/softirq.c:680
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:696
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1050 [inline]
+ sysvec_apic_timer_interrupt+0xa4/0xc0 arch/x86/kernel/apic/apic.c:1050
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:82
+Code: 1d 63 02 e9 9e 5a 7d f5 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d d3 16 17 00 fb f4 <e9> 77 5a 7d f5 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
+RSP: 0018:ffffffff8e207e08 EFLAGS: 000002c2
+RAX: 00000000000ab2b9 RBX: 0000000000000000 RCX: ffffffff8b92fb49
+RDX: 0000000000000000 RSI: ffffffff8de5156d RDI: ffffffff8c163a00
+RBP: fffffbfff1c52ef8 R08: 0000000000000001 R09: ffffed1017086655
+R10: ffff8880b84332ab R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff8e2977c0 R14: ffffffff90abad90 R15: 0000000000000000
+ arch_safe_halt arch/x86/include/asm/paravirt.h:107 [inline]
+ default_idle+0x13/0x20 arch/x86/kernel/process.c:757
+ default_idle_call+0x6d/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:190 [inline]
+ do_idle+0x391/0x510 kernel/sched/idle.c:330
+ cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:428
+ rest_init+0x16b/0x2b0 init/main.c:744
+ start_kernel+0x3ee/0x4d0 init/main.c:1097
+ x86_64_start_reservations+0x18/0x30 arch/x86/kernel/head64.c:307
+ x86_64_start_kernel+0x130/0x190 arch/x86/kernel/head64.c:288
+ common_startup_64+0x13e/0x148
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:snd_usbmidi_do_output+0x22d/0x570 sound/usb/midi.c:310
+Code: f8 48 c1 e8 03 42 80 3c 28 00 0f 85 14 03 00 00 89 d8 48 c1 e0 04 4c 8b 64 05 08 49 8d 84 24 88 00 00 00 48 89 c2 48 c1 ea 03 <42> 0f b6 14 2a 84 d2 74 09 80 fa 03 0f 8e ad 02 00 00 48 8b 74 24
+RSP: 0018:ffffc90000007b80 EFLAGS: 00010016
+RAX: 0000000000000088 RBX: 0000000000000000 RCX: ffffffff894338b8
+RDX: 0000000000000011 RSI: ffffffff894338c6 RDI: ffff88805e0fc008
+RBP: ffff88805e0fc000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: dffffc0000000000 R14: ffffed100bc1f80f R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff8881246b3000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32d63fff CR3: 000000007e1d5000 CR4: 0000000000350ef0
+----------------
+Code disassembly (best guess):
+   0:	f8                   	clc
+   1:	48 c1 e8 03          	shr    $0x3,%rax
+   5:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+   a:	0f 85 14 03 00 00    	jne    0x324
+  10:	89 d8                	mov    %ebx,%eax
+  12:	48 c1 e0 04          	shl    $0x4,%rax
+  16:	4c 8b 64 05 08       	mov    0x8(%rbp,%rax,1),%r12
+  1b:	49 8d 84 24 88 00 00 	lea    0x88(%r12),%rax
+  22:	00
+  23:	48 89 c2             	mov    %rax,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	42 0f b6 14 2a       	movzbl (%rdx,%r13,1),%edx <-- trapping instruction
+  2f:	84 d2                	test   %dl,%dl
+  31:	74 09                	je     0x3c
+  33:	80 fa 03             	cmp    $0x3,%dl
+  36:	0f 8e ad 02 00 00    	jle    0x2e9
+  3c:	48                   	rex.W
+  3d:	8b                   	.byte 0x8b
+  3e:	74 24                	je     0x64
 
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
