@@ -1,167 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C1686329;
-	Mon, 22 Sep 2025 07:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE23570814;
+	Mon, 22 Sep 2025 08:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758527120; cv=none; b=SKySCclZGHmvG8TVB0jHn5H0Bt+E59mn1Fad1MQNS0sn1CN3hjTs2HUeWoR0v5YxB50RStflzNmdjvMk/hZDyehDsm7HYZ8Yrf7HJCnbyYq9hbyDEZepLVNtjEW7oKpkgPLV1GBHoyY5yXVVjfQFgiR4Sy6EBqPhnggZQ0yiODU=
+	t=1758528955; cv=none; b=Visz4Az0EAFxSkJY5BJXGBMGwxPvKNSFMzDAU9nUlskizG02SkFc/zPOV8L3shc3g3tUKB1/42FdCzglx0UFmXjM0lErSfwKdKxEJAudVl9V7l1WuLPBOT1hF7aIz5H3yhktuK9ga5kTh0rnnArroY/coPJhXfugU6pJpm5iV44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758527120; c=relaxed/simple;
-	bh=H1RyaGQe908wgP+9DtCfGX//XxA1/HxhCRdfcWfFnz4=;
+	s=arc-20240116; t=1758528955; c=relaxed/simple;
+	bh=9e8PlwwYBfj5/qImlIzuspQWaypq4Jop0H/ZcPuXT5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDbws+FQH/DQ5cPNw4Nqeiruet82jx9Ctnoo8+UIxlvW4GlcskIut531Rgco50WICSAtSmsBlY2etyvEVTLyDlLMW6DrBDM1lL4+NzKC5taY2gqG/eMKgSD1FXbGSyY3nZ9n3MkgSS7jPFUaxz3FJ2p8iTR9SqOMuxwf4TYkf9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fYkVa7vr; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=i76FSwQG8JvFNWBTtSENv8Ajbvj6+yROx5m5kHdeXfxGlhHcQ2yl8u1nQgBdQUZtCQU00h/gDbebbtsKvEqdV2a11oo2WIrQdJ9/75Y2ooH+u+ZKWcNY+A0vF4CD1fOpmjmPG+8D+GES95N0/fCbbqOoz1ipJx/GhmU0UWE2M9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyjOY+t/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fYkVa7vr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758527120; x=1790063120;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H1RyaGQe908wgP+9DtCfGX//XxA1/HxhCRdfcWfFnz4=;
-  b=fYkVa7vr2GGEbJfEFsfcOIrvUaFBw6nSD1prLtP5u0+sytar615BsP6g
-   xOgPSut/HEYAxDjvwp19/n+CWjb80H+hG1SMxijGOtkJgrm/WWI1EXG2a
-   TolX1H3myh8IBYrMvWjyvGSjKeRPTQl26cB7I6Qfg6GPpi08gkkHn1su/
-   xAkdPrXaGN4xXT06/uj33KbOTPUp3Jfb3rI+NV4K4n7NUfFqbcU/m2fUc
-   OLiMvRqB8nqrBlB0PTuzq0AmUXFQ5AjP75V3BeiUCMUuHc2lkDSCcI/f/
-   GhWc5oEHP5Psqber+rYtYuo+wfxZ9pUaS18i8qyEjyMUO4AwtiyoP2Tgi
-   Q==;
-X-CSE-ConnectionGUID: dOodfSctSOq24iLZ62LSuw==
-X-CSE-MsgGUID: cKjAn5KfRiW1Yzw0vc8IHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="78224477"
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="78224477"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 00:45:19 -0700
-X-CSE-ConnectionGUID: h9HCINiUTMCizWZCP4GPqw==
-X-CSE-MsgGUID: /oSvEyXuS/2s/wbNz4RHQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="207149858"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 22 Sep 2025 00:45:16 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0bEV-0001QP-0U;
-	Mon, 22 Sep 2025 07:45:11 +0000
-Date: Mon, 22 Sep 2025 15:45:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>, srini@kernel.org, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	pierre-louis.bossart@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: wcd934x: fix error handling in
- wcd934x_codec_parse_data()
-Message-ID: <202509221535.es8PWacQ-lkp@intel.com>
-References: <20250922013507.558-1-make24@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyjOY+t/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D56C4CEF5;
+	Mon, 22 Sep 2025 08:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758528955;
+	bh=9e8PlwwYBfj5/qImlIzuspQWaypq4Jop0H/ZcPuXT5o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cyjOY+t/38baIkWLeToE6zJ1Hm4xM42cTOTwqGMjzzdUlfcdZMQemybm5tVTfyaiM
+	 Zc7XTUMc/igXQyEDTWfdxkQUCTmFW6gAJDj6SXdvacg8zgHhvo2+IcIAUktCZjiQLp
+	 Psg9PyiEOXPg5D2RYcu1BuOB3C4Nwls6S3zVQNkvVXoyPRQEAnW/h3wG0IiRh5VH2C
+	 wgvFZDoqpFV7rli7d8/nlegN9plHfLC7hr3onMeHlnC4BPsJpVN1kf8RCQf1tfXJ2k
+	 AjXDCmQFhSn43xE1DYg0CiIyD7/jROThJYkIuBkKUuxa1ta8R11QFf6z7HC586uCfU
+	 785xXlEFump8A==
+Date: Mon, 22 Sep 2025 09:15:48 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
+	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com,
+	henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
+	will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com,
+	chinkaiting@google.com
+Subject: Re: [PATCH v1] ASoC: tas2781: Correct the wrong description and
+ register address on tas2781
+Message-ID: <aNEFtCV0Gm2koLKv@finisterre.sirena.org.uk>
+References: <20250920062044.1904-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jxMegtNIkBGudZ3I"
+Content-Disposition: inline
+In-Reply-To: <20250920062044.1904-1-baojun.xu@ti.com>
+X-Cookie: Who is John Galt?
+
+
+--jxMegtNIkBGudZ3I
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922013507.558-1-make24@iscas.ac.cn>
 
-Hi Ma,
+On Sat, Sep 20, 2025 at 02:20:44PM +0800, Baojun Xu wrote:
+> Correct the wrong description for TAS257X. Combined TAS5825 with TAS2563,
+> as they use the same register address and number.
+> Correct the register address and number for TAS5827.
 
-kernel test robot noticed the following build warnings:
+This depends on commits in Takashi's tree so it needs to go via there:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.17-rc7 next-20250919]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Acked-by: Mark Brown <broonie@kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/ASoC-wcd934x-fix-error-handling-in-wcd934x_codec_parse_data/20250922-094038
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250922013507.558-1-make24%40iscas.ac.cn
-patch subject: [PATCH v2] ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()
-config: i386-buildonly-randconfig-005-20250922 (https://download.01.org/0day-ci/archive/20250922/202509221535.es8PWacQ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221535.es8PWacQ-lkp@intel.com/reproduce)
+--jxMegtNIkBGudZ3I
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509221535.es8PWacQ-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All warnings (new ones prefixed by >>):
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjRBbMACgkQJNaLcl1U
+h9DH/QgAgM2mgvWmptxmf+4GpjO0ExIV3YPboWvh1E3GdATS1ZKo3nefHDbw8qZD
+1OYF/zRT/SwsO+DhSQJOV66Gq//35nl1A+nJyxfQJC/yQ86kxuNVYzusVI6GTjj6
+WLJRx4Ddw4hsq906RU9y67lYIxCnzFKODFlg6mwE8hmcW4BJB88PcEpyg3IvPfem
+WahY6NaRfy4Owrz4ZVa1PsR3utbZvE17xn2t4EamfN4QnGydeK0AWENmbDEXL4Of
+zko7SnOhK04jDAuQj99wlNUzfmfFFLY6M54PJ08etQ9j1vP14Qv8KXSoUnVV9WSs
+rx/PZwhz/a+EfMhTGx/ZGcUWLtWk5g==
+=SEDg
+-----END PGP SIGNATURE-----
 
->> sound/soc/codecs/wcd934x.c:5862:38: warning: cast from 'void (*)(struct device *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
-    5862 |         ret = devm_add_action_or_reset(dev, (void (*)(void *))put_device, &wcd->sidev->dev);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/devres.h:166:34: note: expanded from macro 'devm_add_action_or_reset'
-     166 |         __devm_add_action_or_reset(dev, action, data, #action)
-         |                                         ^~~~~~
-   1 warning generated.
-
-
-vim +5862 sound/soc/codecs/wcd934x.c
-
-  5837	
-  5838	static int wcd934x_codec_probe(struct platform_device *pdev)
-  5839	{
-  5840		struct device *dev = &pdev->dev;
-  5841		struct wcd934x_ddata *data = dev_get_drvdata(dev->parent);
-  5842		struct wcd934x_codec *wcd;
-  5843		int ret, irq;
-  5844	
-  5845		wcd = devm_kzalloc(dev, sizeof(*wcd), GFP_KERNEL);
-  5846		if (!wcd)
-  5847			return -ENOMEM;
-  5848	
-  5849		wcd->dev = dev;
-  5850		wcd->regmap = data->regmap;
-  5851		wcd->extclk = data->extclk;
-  5852		wcd->sdev = to_slim_device(data->dev);
-  5853		mutex_init(&wcd->sysclk_mutex);
-  5854		mutex_init(&wcd->micb_lock);
-  5855		wcd->common.dev = dev->parent;
-  5856		wcd->common.max_bias = 4;
-  5857	
-  5858		ret = wcd934x_codec_parse_data(wcd);
-  5859		if (ret)
-  5860			return ret;
-  5861	
-> 5862		ret = devm_add_action_or_reset(dev, (void (*)(void *))put_device, &wcd->sidev->dev);
-  5863		if (ret)
-  5864			return ret;
-  5865	
-  5866		/* set default rate 9P6MHz */
-  5867		regmap_update_bits(wcd->regmap, WCD934X_CODEC_RPM_CLK_MCLK_CFG,
-  5868				   WCD934X_CODEC_RPM_CLK_MCLK_CFG_MCLK_MASK,
-  5869				   WCD934X_CODEC_RPM_CLK_MCLK_CFG_9P6MHZ);
-  5870		memcpy(wcd->rx_chs, wcd934x_rx_chs, sizeof(wcd934x_rx_chs));
-  5871		memcpy(wcd->tx_chs, wcd934x_tx_chs, sizeof(wcd934x_tx_chs));
-  5872	
-  5873		irq = regmap_irq_get_virq(data->irq_data, WCD934X_IRQ_SLIMBUS);
-  5874		if (irq < 0)
-  5875			return dev_err_probe(wcd->dev, irq, "Failed to get SLIM IRQ\n");
-  5876	
-  5877		ret = devm_request_threaded_irq(dev, irq, NULL,
-  5878						wcd934x_slim_irq_handler,
-  5879						IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-  5880						"slim", wcd);
-  5881		if (ret)
-  5882			return dev_err_probe(dev, ret, "Failed to request slimbus irq\n");
-  5883	
-  5884		wcd934x_register_mclk_output(wcd);
-  5885		platform_set_drvdata(pdev, wcd);
-  5886	
-  5887		return devm_snd_soc_register_component(dev, &wcd934x_component_drv,
-  5888						       wcd934x_slim_dais,
-  5889						       ARRAY_SIZE(wcd934x_slim_dais));
-  5890	}
-  5891	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--jxMegtNIkBGudZ3I--
