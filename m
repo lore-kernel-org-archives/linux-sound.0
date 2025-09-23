@@ -1,106 +1,106 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBD7A48
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 18:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D9578F58;
+	Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758653458; cv=none; b=OLpYwRUId3Es1jYaAjEN3WvxDhT6edVzw3/3KWwiByHfx9/xqySiUjQIehFOWxsN3Q7Uikr01AiYYsOQoRakrrAIxWV1tGMmlTrAhklJVTg3p46DurvX/VCG+0nbmM1hZ4XJQndcZa2GNasy4VMcxlk57dphxodFDDHze9Mq7Zo=
+	t=1758663443; cv=none; b=hWaQILhlsNLMI/aSUs7rgYf5LeeOUdCgygitarhcwgC+fMUdA11wBXIiUVKc7iEQlg2fdPcGQflYHCgFwSLZOqoPHsv+Bet4OBpROKLAeqPpI5qEoz67SIUtmz0u2x7WOxt8WfpoRkJImHyEYS1tQ/W0XRG42xe7LqjMik1KW0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758653458; c=relaxed/simple;
-	bh=qa2NQh9RJDy9WQ+d31yHCVmbVNa2k7cV21sEiSC75R0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eCZnwDkuQaOknBfkbKAf4viKynaVaW/YrNTuY0xeo86hu0oF6wQR8Thn7V50P9ed4t94F+Dk+H2zh639slzdbRtIEOPbQG4siqa4p3nM6n02XEi94vI9nuoQrxHUyvqKBYcwmthXujw3Uvg292fCpB50FG8uEHiqn5H+PPWDa6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1k67Flz; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758663443; c=relaxed/simple;
+	bh=AmT7pTT/bQK4h7VloFIIhchliPgyZojTf54MF0QHREo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DigyDuCykUZUYuYfeuzzwtc5v4QSCTd1qLSLUqhXnzEb8fr460UozrZD93NDsb0+MV9eaTDc0ptjoyGD7tncUBCz52g92l26QKenYgiqUY/0/JhQORtsKCcb1vrMj/2XowCnxGPHJGTY/TbFuc0/nFBpYC7UKilW/qr34WUH2gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a55I2Dre; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1k67Flz"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3c68ac7e18aso3303531f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 11:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758653456; x=1759258256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EizzNWoZUikDV1FxG67Kon1XSkcUmIn52o7zV6bqtSg=;
-        b=h1k67Flz3qUI2TV5NVFwLPnp7skd6mANpk3RMlWkk4kqfMyuEi3MqqKr78hB9ctPap
-         V6E6cJ64lvO+fZJXXcoXN1+xCG6ncst0XCNG4sVkbrC19TNlhUo3knLAu8wV9OhF48gJ
-         aHgIOMtRMeoiMoEoSy7e5mkYgLvUbQAWy4OkDbT7bs3/L1Xn1tf893J0J68OIUudCL9S
-         wLW6yQxB+RWisbHc/Inv75sApkoPPXiFyLnZ/WghICR62UmWIkhbFhhkuANt10KX2WkI
-         9VFWFUGPFLvttj76MOotHFb5wn3giXVBbYC83herd+RppgVTOKJlJuWtbaulUkRO2kz7
-         Kt2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758653456; x=1759258256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EizzNWoZUikDV1FxG67Kon1XSkcUmIn52o7zV6bqtSg=;
-        b=U6StcJ2XWO3xfRkZox1LKnh4neAqRFSBew7hpFQmbjLeqC7NjbVuux3Q6YIixhCUGa
-         c4IWltTmANEd0kk6jYm8c/ArQqGZn5HyaDVs5QghZBoX5uyUTdBU+1sS/RiQq67MK5YP
-         +APIjL1L73BGm8TjnVZapz9hTdVaBWchNagp2ZTM6q6Ja8eV/wGjJs+nNo02PCwIgJlh
-         0/cIBZskqVc0O4HEzpAig603nzzLmElu0F/KFFGRCF3DYUJWXQFFaEx73r8pj41LpM3J
-         rlwsdXCR0JJng59G8+i9+jceK6pLMtYzgjbCkfrufnzfTGPwvOl8a4NDtGxbeRiB2cW3
-         GFRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVCcXAPs8LyTxvJggEAC/u7LKB4tU2wsPjWsE5AliDzemXGaJbfQ9QhCCHIO4PXm+3eq89JhESUt43aRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu6MzyXx9V6KzL+p8Ne9bSbnzo2turOMai7KzQJ4TjDI8v57ND
-	Dnih/SVxtDTf74VxeMayXpH0CiM7c01UWfWersmkldyIa7npwwrw1PmO
-X-Gm-Gg: ASbGncs91eYLZ9R7q72wwwK5Lxiy2hA2wwgMU6/IqffT2WHlcPmryQ3CzY1qnzDLVEL
-	UdpPm0LJSMe4p8S5uXr368J0sdl9vBwg2HolLxWYb2+6c9Gl1p9YEduVCbRnnfS7APfsc6ayNi5
-	m2bJD0bE1FwCU/ZqxK6Kx/ELbBl6bWb1j9KLXXpuA6MRJf2Rv4g3etLzlersZibTyU/Tzj/N87V
-	mxSPKLmAAXxgjchsy6xqF1DiIMXwv3zCszMP0NEI1scNk4R0ZIF2VuD7pSlJ86Ns4Hqi9Fc7KVq
-	bG5OzXA9SuRGlUvOWtMnigD+PCoLIH7VrsBl4kUekDyLBdIzPpycXua+es/0qI80JdRvL1X1HAW
-	XlZken3LZAYZ9sE61ZIkdRw==
-X-Google-Smtp-Source: AGHT+IE2Au0RbnAAqqWNX3SWN53Mr2OlHht3ylbNddwR+2vdZFFql/xTJVTdhHclfhtpTGY9FAw7Jg==
-X-Received: by 2002:a05:6000:615:b0:3d8:3eca:a978 with SMTP id ffacd0b85a97d-405c59e17c0mr2834428f8f.21.1758653455458;
-        Tue, 23 Sep 2025 11:50:55 -0700 (PDT)
-Received: from localhost ([87.254.0.133])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e24835b32sm22658075e9.13.2025.09.23.11.50.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 11:50:54 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Niranjan H Y <niranjan.hy@ti.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoc: tas2783A: Fix spelling mistake "Perifpheral" -> "Peripheral"
-Date: Tue, 23 Sep 2025 19:50:06 +0100
-Message-ID: <20250923185006.213861-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a55I2Dre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE44C4CEF5;
+	Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758663443;
+	bh=AmT7pTT/bQK4h7VloFIIhchliPgyZojTf54MF0QHREo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a55I2Drexre9bmk9zOM6IHzQLXlQLZh5HwWP9Px8aa/1hUS7J58IX7JJ3YDzCuSEM
+	 PAS3UJCrtAIueVROmkX4i4/LE8CnJ4xggv/HzM6XkXuZUCxXuwrOA/v6g8Y2f0uku/
+	 f0ijwgCPwX5/BC3M3TGHhGSBZsK1PD0rxU7lsZr5CX9FWDXzMlOrlUQMTXiYaxcO0D
+	 skyJYWG9BJlwnI2a0btE2FNr6ra9N0dWRB6zll1TTr5tpxaUDyhp6C6gLAYOk8Mmtl
+	 jxKtO5V+Vycuwt7yWcI4UnHje3zc3L22NfIckDsJKK8yanMDnkXkmCavEDVeL+Tcsl
+	 68jmOmlZAVZmQ==
+Date: Tue, 23 Sep 2025 16:37:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, herbert@gondor.apana.org.au,
+	davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org,
+	chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+	simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+	mchehab@kernel.org, matthias.bgg@gmail.com,
+	chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
+	sean.wang@kernel.org, linus.walleij@linaro.org, lgirdwood@gmail.com,
+	broonie@kernel.org, andersson@kernel.org,
+	mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
+	tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
+	ck.hu@mediatek.com, houlong.wei@mediatek.com,
+	kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
+	tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
+	shane.chien@mediatek.com, olivia.wen@mediatek.com,
+	granquet@baylibre.com, eugen.hristev@linaro.org, arnd@arndb.de,
+	sam.shih@mediatek.com, jieyy.yang@mediatek.com,
+	frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
+	linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
+Message-ID: <20250923213721.GA91441-robh@kernel.org>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 
-There is a spelling mistake in a dev_dbg debug message. Fix it.
+On Thu, Jul 24, 2025 at 10:38:36AM +0200, AngeloGioacchino Del Regno wrote:
+> As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
+> tests, and got an infinite load of warnings.
+> 
+> This series starts attacking this situation.
+> 
+> I didn't really count how many warnings I have resolved - it's a lot
+> of them anyway - and I think that this is a good start in any case.
+> 
+> More will come, but I'll be on a long holiday soon, so not from me
+> (or anyway not before I come back anyway), but most probably from
+> someone else (in August...!).
+> 
+> Cheers!
+> Angelo
+> 
+> AngeloGioacchino Del Regno (38):
+>   dt-bindings: display: mediatek: dpi: Allow specifying resets
+>   dt-bindings: display: mediatek,dp: Allow DisplayPort AUX bus
+>   dt-bindings: mailbox: mediatek,gce-mailbox: Make clock-names optional
+>   ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and clock-names
+>   dt-bindings: crypto: inside-secure,safexcel: Mandate only ring IRQs
+>   dt-bindings: timer: mediatek: Add compatible for MT6795 GP Timer
+>   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing pwm_ch7_2
+>   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing base reg
+>   dt-bindings: pinctrl: mt6779: Allow common MediaTek pinctrl node names
+>   dt-bindings: regulator: mediatek,mt6332-regulator: Add missing
+>     compatible
+>   dt-bindings: regulator: mediatek,mt6331: Fix various regulator names
+>   dt-bindings: regulator: mediatek,mt6331: Add missing compatible
+>   dt-bindings: remoteproc: mediatek: Remove l1tcm MMIO from MT8188 dual
+>   dt-bindings: media: mediatek,mt8195-jpeg: Allow range number in node
+>     address
+>   dt-bindings: phy: mediatek,hdmi-phy: Fix clock output names for MT8195
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/codecs/tas2783-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As we are close to the merge window, I applied patches 1, 3, 6, 7, 8, 
+10, 11, 12 and 14.
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 3e03e68932f6..3a869a101844 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1229,7 +1229,7 @@ static s32 tas_update_status(struct sdw_slave *slave,
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
- 	struct device *dev = &slave->dev;
- 
--	dev_dbg(dev, "Perifpheral status = %s",
-+	dev_dbg(dev, "Peripheral status = %s",
- 		status == SDW_SLAVE_UNATTACHED ? "unattached" :
- 		 status == SDW_SLAVE_ATTACHED ? "attached" : "alert");
- 
--- 
-2.51.0
-
+Rob
