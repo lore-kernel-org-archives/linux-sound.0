@@ -1,107 +1,168 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494BC1459FA;
-	Mon, 22 Sep 2025 23:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C7F278157
+	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 01:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758583060; cv=none; b=Lua2bWyaccJRacis5trsQHLBd2BeMu1CFbYGlUQpCyggIuRkGKCWFHCNaeTjczuDE4nVGOfh5A4D6PDu4OkAupef3R25qB+cbEMTJar21Nx4ZKjqeOta9AXdoivz60sy+8FhcDIVCXSn2Mh0nEUz1ea8ND2Kv61uwDZ1wANHRp0=
+	t=1758590979; cv=none; b=j8zwzVpxLDjsCM0TE9qDcwqjC0X7ZhJoGWRzhW+g13D6/LYo3aYQep/ivzYWGDDiZ5bPMzrFRyONIreOg0IXuUE4KMvx4u1dqtjN//UH8KhwL6UQaUZsDUvkvByk3ahbdF6eFsNxYQ6GeWXaW+Dyz5NzSk4puvCHn72NkZunyQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758583060; c=relaxed/simple;
-	bh=3Y3ZDE1TqesA7tSB3ZJaGNiNXJe6Vu1t6mGoV99mq3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bhpWcw0qncDVdo7hFgcGtUZf68TeFjg0GSyXQB7BoYqU7nOxU7iVqx1uIucqkR5e1f0OSUHoSpij7dCmVe3BjYWWnoCfu0TagwLMbaCpnYZT9abgtGM9GR0eNDXJLkkdK+K9aSLoRJTIaDmnIQrAKdBjVCU6/Ztut5EwtAafD1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=pOVnhSG7; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
+	s=arc-20240116; t=1758590979; c=relaxed/simple;
+	bh=Keih4ozM2ClJ7bLKolp4rzu48rFOC9n6MVTSF0I4RXw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZH0LWkSVUgsuxclEO8RRTd25IpxnaW9wPh/vfb7jgQdCp+boynNIUNg1vIc85oT0rynyMrLCZr+njVf2jIu1JVtN8r8RXAOChBttmKKPqZnH+6mY3L4iS4u0YXDv+Sgek+yfcRTPX9ECcaH31v8wq3yWjetk3r17bCssE29X/g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD7BUALE; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="pOVnhSG7"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cVzXr0jZMz9sTb;
-	Tue, 23 Sep 2025 01:17:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
-	t=1758583052;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JHo7lTctN2q34mxLZ8N4ckYAueSG3T7NFnjOFWFRhgc=;
-	b=pOVnhSG7IRoX7PzUDbk3kIKub8Np/jLnS9OUIBSN4aDEJIxZKIo0BwpOdbbvhQIFGUDn1Y
-	hVf8UXy2OFyAb2772/EMSM6cImu1iB1JB2FD/DTagGBAnMVpnPDO+siMiLc+dKNCGTZczw
-	aoXGSplQKAAIocPqCIWDK2R5tmoA8Ca2U69R9+ddgyaeKil2BIQx4SJWgX1eWQvlo5gemU
-	BOSZB8LAizhh7Gw5tGXcZVL4SmeKX8QBMmcMLVBFRymdDu0kOWiKgdyYpnOjK7Ye835r+y
-	b8EXFeDn1CA3lHtBwJCwaMJgYxmrJ0ayswmNOBNx6d6Qz9l/j/hF2z7dv6vMUA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of listout@listout.xyz designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=listout@listout.xyz
-From: Brahmajit Das <listout@listout.xyz>
-To: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com
-Cc: clemens@ladisch.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: [PATCH 1/1] ALSA: usb-audio: Avoid NULL dereference in snd_usbmidi_do_output()
-Date: Tue, 23 Sep 2025 04:47:20 +0530
-Message-ID: <20250922231720.3603805-1-listout@listout.xyz>
-In-Reply-To: <68d17f44.050a0220.13cd81.05b7.GAE@google.com>
-References: <68d17f44.050a0220.13cd81.05b7.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD7BUALE"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b5515eaefceso3725155a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 18:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758590977; x=1759195777; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UGIEsRlxQ6SB/60aNk9YuezwzaWruzT6GSumf3z2VMQ=;
+        b=KD7BUALE4v6krkpM1w5HFveuUWLHuqKX0i8IedmTFjKuihlgcte6bH0rnx/uwFWa42
+         uNysOBNbybAjUJmWGpM9dGQsSyC7tipoEiQswPILeP09U4LIFBI/0RcQob9IS+OQFY+n
+         zXpS21Ub3LESB8d/W7bUjw8xJWUdqbRrEA02S8nvqWJmcBZiXo0lSNRZ58r+CUW8wCTP
+         cRBkl+V1XaFjTjdJjS5foK5pzi2WgJiASaC/RXiAXi9M0kwFFUntcVoczNfELNfGysN/
+         oYqcIiHpu8gw+0ihek1QJnMU8o7FkNCVulheGXq33Oj43smU3sUL79pFlM2j+zZy6Ck/
+         ZApw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758590977; x=1759195777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UGIEsRlxQ6SB/60aNk9YuezwzaWruzT6GSumf3z2VMQ=;
+        b=NQIwPSp/OTnHkO+DVsjB2urdpWHLmnb70JqYRn/gCnJ4CmosBNFKsaUHvTCf80Sl36
+         LVEK0MbZI+kMCtDbeiYsTrH362jPWk8VWSencxPxOzaqRQejNi53UfUOKkbe9w7PZEq9
+         nU4HJJYXGuxCdmw9DzSFzvrv6+Jd5hgihSFuxDT7ZDtSxCIMHHncKcMsnxidkJo0CSDp
+         ZdPwGR4AjrHuHjq2Y6kS98g1b+nbyi8QzizbhMCmCdwjBQhvtgcoq3Kt+q+qOsKV618M
+         jralXKc/m40dbFApF6sW2eci7kl1n/wThBQMebkaKdvExF7HEv+wbohESTd23Wi6Eo0l
+         DeDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMAuHZsdUsti3an4b0iSsjettOY9lZIcFK9kuGemkPdEdRa7I2QUxHI0v376t+Zmeaftba83XEArSV1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMiGMNG2fBPjifsN9Wh5VLHljc+jKgO7SI4nskoBDW/qAarxEX
+	t+sRfu/WBp0Q57GJ+LsItoccGxCURIL43mwrHKq4Fo41odGpvigllQxV9bkapZ8Atic/S3AV/aL
+	T4Ka8US7dYFE6FNHXwGmQx2uRaXE56xY=
+X-Gm-Gg: ASbGncvEdtfsFInWYaxf1AuKA/i1fHlL2ej3zikp3ZkWIw9jtk5BM4/LvUmaOVWCWZc
+	cFbSEX6iiXGiAwB39tI5n79N1eGEW7Is8Oqldgaa9EfQvmy/p+chqiFcnzy3rF97IRIlrrGVWik
+	V6A5+QzOlaMhL1CaKmlXHiJjdt2mFksP3SrkYh056g3xbqD1j+yOZE5hf6gWAUEQCG7KDT0P1r4
+	vaB5tg=
+X-Google-Smtp-Source: AGHT+IGBT9LTfm84q4DXIRoJSFR8hZ2WWRU49SsvtumqUnLfaKU5tnx1duKBXoUog0HE+Dc5+BSde4IFSplat+4nyaY=
+X-Received: by 2002:a17:90b:33c8:b0:32d:f4cb:7486 with SMTP id
+ 98e67ed59e1d1-332a95e8e19mr1041351a91.19.1758590976762; Mon, 22 Sep 2025
+ 18:29:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4cVzXr0jZMz9sTb
+References: <20250821073131.2550798-1-shengjiu.wang@nxp.com>
+ <20250821073131.2550798-5-shengjiu.wang@nxp.com> <20250901185208.394cd162@booty>
+ <CAA+D8AOCTqb5jLeRapYk4wRGZrsrPiuAR=ow3OA1B0+M9X4k7w@mail.gmail.com>
+ <20250909-omniscient-honeybee-of-development-adca8a@houat>
+ <CAA+D8AM=aRU-0QcgtxZ+=YBZ2+kMrP2uzSE3e+NJs3Z3zkrSVg@mail.gmail.com> <97288c51-954a-48a9-92b9-e165ce480707@nxp.com>
+In-Reply-To: <97288c51-954a-48a9-92b9-e165ce480707@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 23 Sep 2025 09:29:23 +0800
+X-Gm-Features: AS18NWBhgiBnQW_QrjL4oCw3YUyblBEb719xz-MBTlZAVwouH205ucQ6fmr_z54
+Message-ID: <CAA+D8APA85PhWVkW7c=d_qWF7L1ERxe7cS3Gg00SV-3TSyLwQw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/7] drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958()
+ for iec958 format
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
+	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, 
+	dianders@chromium.org, cristian.ciocaltea@collabora.com, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Syzkaller reported a general protection fault in snd_usbmidi_do_output(),
-caused by dereferencing a NULL URB pointer when accessing
-ep->urbs[urb_index].urb.
+On Mon, Sep 22, 2025 at 11:01=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wrot=
+e:
+>
+> On 09/10/2025, Shengjiu Wang wrote:
+> > Hi
+> >
+> > On Tue, Sep 9, 2025 at 2:39=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Wed, Sep 03, 2025 at 06:41:05PM +0800, Shengjiu Wang wrote:
+> >>> On Tue, Sep 2, 2025 at 12:52=E2=80=AFAM Luca Ceresoli <luca.ceresoli@=
+bootlin.com> wrote:
+> >>>>
+> >>>> Hello Shengjiu,
+> >>>>
+> >>>> On Thu, 21 Aug 2025 15:31:28 +0800
+> >>>> Shengjiu Wang <shengjiu.wang@nxp.com> wrote:
+> >>>>
+> >>>>> Add API dw_hdmi_set_sample_iec958() for IEC958 format because audio=
+ device
+> >>>>> driver needs IEC958 information to configure this specific setting.
+> >>>>>
+> >>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> >>>>> Acked-by: Liu Ying <victor.liu@nxp.com>
+> >>>>
+> >>>> [...]
+> >>>>
+> >>>>> +void dw_hdmi_set_sample_iec958(struct dw_hdmi *hdmi, unsigned int =
+iec958)
+> >>>>> +{
+> >>>>> +     mutex_lock(&hdmi->audio_mutex);
+> >>>>> +     hdmi->sample_iec958 =3D iec958;
+> >>>>> +     mutex_unlock(&hdmi->audio_mutex);
+> >>>>> +}
+> >>>>
+> >>>> Apologies for jumping in the discussion as late as in v5, but I noti=
+ced
+> >>>> this patch and I was wondering whether this mutex_lock/unlock() is
+> >>>> really needed, as you're copying an int.
+> >>>
+> >>> Thanks for your comments.
+> >>>
+> >>> Seems it is not necessary to add mutex here. I just follow the code a=
+s
+> >>> other similar functions.  I will send a new version to update it.
+> >>
+> >> Let's not be smart about it. Next thing you know, someone will add
+> >> another field in there that would absolutely require a mutex and now
+> >> you're not race free anymore.
+> >>
+> >> Unless there's a real concern, the mutex must stay.
+> >>
+> >
+> > Ok, thanks for comments.  Then Patch v6 need to be dropped.
+>
+> To properly track the changelog with patchwork, can you send v7 to add
+> the mutex?
 
-This can happen in rare race conditions where the URB was not initialized
-or was already freed (e.g. during disconnect or after errors), and the
-output timer or other path tries to reuse it.
+Yes, will send it.
 
-Fix this by checking if the URB is NULL before accessing it, and skipping
-the current slot if it is.
+Best regards
 
-Reported-by: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=f02665daa2abeef4a947
+Shengjiu wang
 
-Signed-off-by: Brahmajit Das <listout@listout.xyz>
----
- sound/usb/midi.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index acb3bf92857c..7919a39decb4 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -307,6 +307,10 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
- 	for (;;) {
- 		if (!(ep->active_urbs & (1 << urb_index))) {
- 			urb = ep->urbs[urb_index].urb;
-+			if (!urb) {
-+				// Skip this urb
-+				goto next_urb;
-+			}
- 			urb->transfer_buffer_length = 0;
- 			ep->umidi->usb_protocol_ops->output(ep, urb);
- 			if (urb->transfer_buffer_length == 0)
-@@ -319,6 +323,7 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
- 				break;
- 			ep->active_urbs |= 1 << urb_index;
- 		}
-+next_urb:
- 		if (++urb_index >= OUTPUT_URBS)
- 			urb_index = 0;
- 		if (urb_index == ep->next_urb)
--- 
-2.51.0
-
+>
+> >
+> > Is there any other comments for this Patch v5?
+> > If no, can this series be accepted?
+> >
+> > Best regards
+> > Shengjiu Wang
+>
+>
+> --
+> Regards,
+> Liu Ying
