@@ -1,199 +1,236 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013041.outbound.protection.outlook.com [40.107.162.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71E42512EE
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 03:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758597982; cv=none; b=Tk8cphUaY0ENklt3v3o6zM3flqJzEoxm5QTwZ3OLJxjEpTjjpaey0jZ51ZxXO2p4gol4DwMqMk0JoiOuFyPzICn5ha+c/D1r65ln5JIqKXKrjefW4mWX3wpyZRvxX5rOiw7rK/eLocf/KwwtgnhjWCEEL7r5AVvRmB9QqndtZaY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758597982; c=relaxed/simple;
-	bh=/9okwRIp4AGyHNqa6uQ0KAc8kzAsFvI6jPY28fzJH5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DzwMX8mmOIBCL7PHRZe4kGwjxZI21D7KGG+lWk/BxAdwkb8rdcxwvdQ1BBI5XB+CgEYacY91hrRPrkRsWFapWs+p2XMuVk5VOa3kVf2XFeHbLERiY/bHk2tnMz35QkTjrpKlOP+qF9e0gMHV6QjkhKmb9YjsxHtz5ucQk6Fy/UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VlR3cQxd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D72FBA34;
+	Tue, 23 Sep 2025 05:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758605437; cv=fail; b=tHFOssY2puwfsoruq55ayabc48kTh7KSn2xvrjG85suF/nL0xYPGu4Y3o3HJEQeGpx/VLZ4m6pm8Fmhypt9WsnlPhuNo8XIK3v2MZLeqwhJxJdYpZy2ast+/4wQTj40F47YWfBNcwL8bccOvc0yKqBJyz38dRIWwQ/FXEIE2XJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758605437; c=relaxed/simple;
+	bh=JWWRtLX1txC2CaRytFseGBTHe3yIPdxNz1DU0FAH7pA=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=qYRJyeiRZsglVqzVJjllj3aTUNKHumoizfdIXSnlKOQXpUu1+DTVpw84m87lvlXOMh0WP/6UsxuNJFHKmsx8tb5H+CtUmBP7CiXbFrKReOpK6SiIGZv9ytqzjgcmLWSOBdmoDFGtXKstPI/fHF1IJ4EtIqHRfOCu0iNF2Yo6sno=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jQrx9rLd; arc=fail smtp.client-ip=40.107.162.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VlR3cQxd"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58N3PtZl008034
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 03:26:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=F3GWnZoDTq3sp/K2/e/shKmR
-	rtysWnVz2jKe17D2uyM=; b=VlR3cQxdPlnuEF5mkZX+P72kr4YNH4WDaB9XC1Qo
-	bAN8xNhhz5t+aHGfs4Mk2mMkHLuPmaUxu1R0HMdWoemoXDTP/nnPiFSh3NdzGQp8
-	H+EO7hSdqiGKKaawM+jd9Bx0AOETSHA09WawaBmm0inDYLh9wIn2QnuwSGmx3xpt
-	3BTQThiRcXApKYW/dmw/YlsRRvF6xJ/pF2HP0Q7tAVANM6SN7eu1u919ehGrjsUI
-	IeHCdu8Po3+yUQJrU4OsG77Lp4I3NnlfXH6TN9QwhlOPBqIZEb/+ogkuqiJHwnFv
-	1NmhK8j86qCE0iNNgdzT0X2/NZy/HUDd+Q6Vgo+mU/kDHA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hyeq8fx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 03:26:20 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-78ea15d3583so86763406d6.1
-        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 20:26:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758597978; x=1759202778;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F3GWnZoDTq3sp/K2/e/shKmRrtysWnVz2jKe17D2uyM=;
-        b=csa1bWFhfUai9cJAF7st7+Fg9wZ5lB5GAGLduMKoj0soNCGNCmjcH24GQdfwHK1VKV
-         j4sqf0IbQ/2pUzYUZa91R49qZsmWAhrnERqI8JZLnfplviQ+O6wxwh87z0GGvUsRrhYO
-         h2svAXuzfw2OXtg+b3sZJccQSuLbSbKF4ftLS1i7MiNQYUj5vWK3j3wUfiuEhFMYfRW9
-         AEiBug5eugSBU0IwuRDHcQZInRKPeM/AhVCvlPxhBCPzZQt6kg+ycd8N2H6VRTO007h+
-         6hIu9IH0Q/h6fBF3PnlaK5zNsOw1C67+/ggwBkfmiNC9+ZJztQMK15mrTRWwA996WOBu
-         IYUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWp+xVOBbgRHspa2hSjDy8ZLNC3E9JHpQCrvOTZ+bdNYFAq8alEfmC2GZYIBJkiIfr6tVLSUWX1G9KaWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6esEZB5eDfgYYBl2GL3QxlqR2RmGRMWoeL/e9KZfevbwjqYD+
-	EBm6yFZaYQCu7MyfqRtDr2pXrhaq8bfukMXKqLGYMqBxJbLffKqktqS68Ju4ISLm61yFm01rdnK
-	GgrMpglOcDylphBxfq7tsF8bcPD+I5JAWlUlM1OZHHLD2MOh/V88hiXCxINfRbpDMbtb/uf5rfg
-	==
-X-Gm-Gg: ASbGncu0AVVUbvFxncLpNrvTkIPg050YrgVqQ24LUS7B/LWPVv68B0AlCkQWFMFtnPu
-	aAVA9mDYATf+N+uNeA2gOFtOLOf7Q3bIQiH/uSBEnXx4IBjB7o5XMsiv27jvEp5s6SPKUWxglqr
-	W0dA38LQccNdJQOloTNCI5ryixXAjnsHVuHVH2op4KDSWN/sqMzxOI2i2OEPkCdNUAOB6PtSoEc
-	fF5/brbhpXyE0uNcjLcU7dmjmqy82+NRVOEgQFU4F64cMZd7XVlJ3U2zqYVP7XJ/Ou363aoJOXC
-	rzwTjJ5fTrbuVLW4mm6mQLPCVb2ed75kJlZWna/ZJlGv9grBVjVP5kdTyUj0Fuun33/1rnNguCe
-	Pl0AE6qi+vfbA1XHjKgcaj7ZEdWvFo8u/qqavM4yv+NcD8vlDoEpC
-X-Received: by 2002:a05:6214:5184:b0:7a2:7dd5:a529 with SMTP id 6a1803df08f44-7e715457b81mr13988466d6.32.1758597978248;
-        Mon, 22 Sep 2025 20:26:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFCyCVOG3I8IOeAlxq627lGyS4LI/Q55RrD7NxcdRqumGitid3wdqGpVNnvz0boAGvkOcRioQ==
-X-Received: by 2002:a05:6214:5184:b0:7a2:7dd5:a529 with SMTP id 6a1803df08f44-7e715457b81mr13988316d6.32.1758597977705;
-        Mon, 22 Sep 2025 20:26:17 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-57a9a81f52asm2683912e87.124.2025.09.22.20.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 20:26:16 -0700 (PDT)
-Date: Tue, 23 Sep 2025 06:26:15 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: srini@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, pierre-louis.bossart@linux.dev,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v3] ASoC: wcd934x: fix error handling in
- wcd934x_codec_parse_data()
-Message-ID: <unqzejlsp6emzja5ry32smzlinntodgbioyojr5osiqddh2ppi@mtf4e7y4cids>
-References: <20250923023828.36647-1-make24@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jQrx9rLd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ye2dG++68/CggHb7/jM9aTkWkUimljz5hYo9RMvgiMeKHyY5BaGy7AoBMvF7mCqE49xWsR1DW0kYfaZlbpS9JCnSsjTNJ58/SyUS5qU/DzP61BTPn71D6dcfVFeHB9ND2X6JxM2kzW49BI0JNUU5x2tSKV1brC2QWErDdkaXOHauaryTMI05FNFmHDtm9uoUxuZq5jZ6RO7zqgicX5LlVk7ShLIZgLCDZ3y6xDvzodzcvPwrUJzwK32Hn6ZWPMokZuZsij26rPIIxkdT6KI0bHatC6yhGahmFBujPSaFajxj7ADa7dAhvWBajqHF7oovUuiB1r+OGGcRoLZ//M10Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zBGN5dLImOiCT6+4mHdC1DnIyujxrylEbe3QbW9x8To=;
+ b=YraEm3Jhy6jvEgPZPJVwBO/LgSy8EOo6IKHlY5x+IHsfCfheRAktIqocs6AndwXxyRq/IO1On4D6zjcritrO857HdWkwX+uJ0W7WGuZWaV+7jVvxEIglr3Q1cWxUoyEA9qq7uZeCEI9fRJPG5aPXhkC1+UQgj5U2YnfiplHR5Ihmhspac6Zw3/RiuVWOluivVg0O2qyPj8WpavYFdh7k5RJBL7cc3g4i8RNV3WbtsGg5vkqE7rxvTCGJvCz9T9TYA2vj9WFwZQ1HekiBOKpiVQbasA62qDEOAXEKocYqij0ZCXp5pkzIEcxUTIBOow/2F9CQZbyJ4MVwHfHFE1X/sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zBGN5dLImOiCT6+4mHdC1DnIyujxrylEbe3QbW9x8To=;
+ b=jQrx9rLdqmMWZhu/waUgtN+WMQ+rDzok11LGJKFx6SzTsDvw5au+tBxUuRFIkJfJ2vPLRXt7gvIrgjaUrPmRmnBmawi+5xdKu9j4sk25q4GkTM+hw5zmMFdMSWoaa+J2Oln8i6fbXfgXgoYPklJxMYiz/KCo+sFFktQMUHHWx25HnhVrHYPm4lRRFvaHzQstKAnFWVKC4Zk95456A9cysVf9Qy6TPOrPme4nhMYMIZl/F+f4ya/my2T9pOPstnRpRzJMmrD/ZNkNhDbzj4uhpvpoCzsoTLf3QGpTZmvmz6PgzMEZlR9ITjvJLVXhuULZ7DtvMTgTIHVi0K7zY4UdqA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PA4PR04MB7920.eurprd04.prod.outlook.com (2603:10a6:102:c4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
+ 2025 05:30:31 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
+ 05:30:31 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se,
+	jernej.skrabec@gmail.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	lumag@kernel.org,
+	dianders@chromium.org,
+	cristian.ciocaltea@collabora.com,
+	luca.ceresoli@bootlin.com,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	victor.liu@nxp.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	p.zabel@pengutronix.de,
+	devicetree@vger.kernel.org,
+	l.stach@pengutronix.de,
+	shengjiu.wang@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+Date: Tue, 23 Sep 2025 13:29:54 +0800
+Message-Id: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:4:197::11) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250923023828.36647-1-make24@iscas.ac.cn>
-X-Proofpoint-GUID: 9gn7NDdaKwfkNbwxdhPVZ84IPqg6s9yn
-X-Authority-Analysis: v=2.4 cv=YMOfyQGx c=1 sm=1 tr=0 ts=68d2135c cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=dSz2rv1DY3fttFFokb4A:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwNCBTYWx0ZWRfX0P478R88GEJe
- PmebDoS519Kh4XvnRHHDPo7DreiuQjeIWy6sfTvEO8KmmOtx9C2NGi9f/w8k7kvP3ILnPu1EIrc
- tU6m4LS/3qIKU8RxMELnkIjyIenIr9gvevnKd4GMLFwlzCsdQVa+1STwmxRFf1181zlVzbVT5CJ
- qWv/FlZLL/uVSxJm5TKWrAuY+w9ALqkpWkR7kelxjACE92yzwYvDAuUgu6TGj2KQStylr/7OPSz
- KjFL8Ki9jarl+Xuxeq55zHwBGFQZU1aWvF2nu7sy9a+lQtKEfvJv3IsJfcUssS6sZFvScW0ZQqk
- XkdffybsTGXN3z0ukEG6BfrkePhqRfgRw/Z0CTelmVB1BBCPxxgnuF+ToQ5wL26qJF3XPAN5Izf
- zQGh1POi
-X-Proofpoint-ORIG-GUID: 9gn7NDdaKwfkNbwxdhPVZ84IPqg6s9yn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_01,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200004
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PA4PR04MB7920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34de0a9d-8273-45dc-45ca-08ddfa624feb
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|52116014|376014|7416014|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?YBXnhyBquJlthqW9RB9FYSOswahCCzWLUYwHjpGh4PwUWtgOa9XLA9uKj7Y9?=
+ =?us-ascii?Q?j2Fkz8pF0NAZ73J8jClV/vCBHcalkFZVW2NSB1+Ekx8IMC4Oxs+iN9eq3Z77?=
+ =?us-ascii?Q?9old26seflrjzHVHx82PNQ735Tlqn1mhJ1HZlwEieU3ABwI5UFvDzD3WRVDd?=
+ =?us-ascii?Q?ujqhFdMv9GCJcHS4x4AqYadB48SMiQkzdoutz4yeC+d7xZj+KkraPDmRQmwa?=
+ =?us-ascii?Q?B8UQh5BrHY5yongsqO44h9dHP2YCNeQXzHDwNCf3fh2BDwm5HyNdSiJZQWCu?=
+ =?us-ascii?Q?tr6l1CNTnfxlBHGz9kcG/CDATMkkkaFd5b9ksVguC4K6jfC+JusbnhYtdTG8?=
+ =?us-ascii?Q?Nzf6ywA0iO7mPfB4ExCC+NrulTNsjAc2EjOH+MNPTVPs6V2i1jxPAjvk/dbh?=
+ =?us-ascii?Q?6bJiHhQLGCs101FHjSb4Vt76Vkdyo0epoRS1+E/AwT6Hbbd2vpHkZFvvxVzY?=
+ =?us-ascii?Q?xIb2Pw8R2UINYAIuW4F4eHTg35+AQEAXXR41pMJ+Qny6JjetgrfRaMDole3W?=
+ =?us-ascii?Q?DP+1OW2UImiYuyfRjXD2BdTJelmxu0THanbfiJ3w9FC1ujt8dBG8DC6bnxsa?=
+ =?us-ascii?Q?j3uAPehRSiP6eiQljy61mnQfCYJ9xUZPVHwF5RC+vO3UBH4wHrsWwIBqD5Es?=
+ =?us-ascii?Q?lEIKrSTaMLSurhs9ub+EIfIjsf1Ffd/Nx/CHsNIQEL1b8yDZDHNT7cCdAOCo?=
+ =?us-ascii?Q?rlyLtox1r21tkaciaAl0V1+utmoiRsxweoR03+OcrfO2Es6sSiHlUvuQK+Hs?=
+ =?us-ascii?Q?Y86dFaYAU5LoPVZk1Zi6h/NuLMs3joeIT0f17XKTAb4N1eU+iLVwoXWOAY3w?=
+ =?us-ascii?Q?WAPEFQDeP3uU2Xv3t49HsuqVfZiZyU1tKGYeMM0kdZ7JQCMQruFQVBAI6Cmv?=
+ =?us-ascii?Q?RWYTNO2MBQ7TXlHCLHa1bdbpZ0jscWljr/Xj7Y6swOHA+W9R5iLeIL091lOT?=
+ =?us-ascii?Q?C484B0aRJrRTfzBrYBqG3vuTWMNOS3Zj9h2ZyBtCE7Pxfoa03enV8NYuMeLk?=
+ =?us-ascii?Q?Od2rI8MzkLRWuJaBzTwURhY3qmpw0RF3650pwx2jif9Q12RBHX2y65zfEodt?=
+ =?us-ascii?Q?x5zEsNvxnO3r8tbI6p4nrmIA5E4X4zUm7a4jF1jh3+iajFJ9pGQ4A0d6itYQ?=
+ =?us-ascii?Q?NpZ3NWxz0CTdScsTc3XwC+1h7ZzQKaE3b3WUiAiczJqr34e/AEI7eO1CApFG?=
+ =?us-ascii?Q?zOOSMFFxV92+Y9QcvsxtxEvP0RGMs30QZV8hcSVo26kCzl0e5sagsubimwVF?=
+ =?us-ascii?Q?ujVpYmZe0ydSW8LX2PVtOvkP+l1le5TGVJ+TWJ1f3NRD1dRvg6ozXocH1Ase?=
+ =?us-ascii?Q?BJ5JYmvFPjtGsqCfEISwp41GIPCTJghK55kv9JhdEe0FZghqSv29/nfS6YGL?=
+ =?us-ascii?Q?18eLYyjanNaQPpuRqtHgK7wkeyl+xzqtM3YjQAwWQDwVkHfwm6X83A2cfSf+?=
+ =?us-ascii?Q?SpYi8bVvf1FNqHOdTS3S2M+VdhfC+5DaQNPgviPfgf8BSdUts0OenWI8r4hX?=
+ =?us-ascii?Q?ZjQzlXBJMY2VlWo=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?ulU9jbiIAvTh0o9Q+y/QEphMK7hczuZ++CVNyj8/Hs0rENm/NEPUZxqWYKAp?=
+ =?us-ascii?Q?B1c3/w/SLFvT6osOXSnG7c48JgX7cwI1aKHOsh9/ASTON5gSU7vepqw0DckK?=
+ =?us-ascii?Q?yuyAqnhCLkEiRT1sILPeduTEmfWvhURB3SHd6ZuZP54+KO6L7SaZhAkhEGj5?=
+ =?us-ascii?Q?0QU7N0c75Qcs63gDp6tPEdgva3L0VPPEIPpRe2528BB0UWjh1Csi8UfsHyTl?=
+ =?us-ascii?Q?PztmnxA5DKdT/t+VTSN2hR9DZRseIJip6wGi3m2wVrXwErL4XrPEuFC3AHtD?=
+ =?us-ascii?Q?kU05y9Ky4PrvaN5fsKqrJAiY6x5w8YVsrH8gSw6YuUTHrNUdXg4kw61mQNlH?=
+ =?us-ascii?Q?OM1y6QuVqJpcX7QPQL41voePPlP626D+nn/rwzdsIy8f2WOIGy61uYJpr8Mp?=
+ =?us-ascii?Q?2/j6M1SLSMBVowtOXus50MTihXdNE55C30KATcvu+erzSHg5WON65ngH+Wsm?=
+ =?us-ascii?Q?8Oj8YWrHunc6o3GrlrGha44Yj2D4zpIPrYgKZOcmQBTt3cMalx+8h3ELYtPd?=
+ =?us-ascii?Q?wCFc2TC+UbYbIwPoVPUJ2n3O19s1tbzqug+tv2Y9TTDrbds5hi51n3BssU5P?=
+ =?us-ascii?Q?1h7Q/VIAyXT2KJiEV1WsVidGWHVTKGAxsygPbWTFoN1lJf6exs4+Y7ah8RpL?=
+ =?us-ascii?Q?aRqoqQunG2dXc5zB/ycog3zAqJUbBi9sjS7yClGyE7OiE/TNNChuc00mxQzA?=
+ =?us-ascii?Q?OVQd65iYKoKMBvMIlthFCBuofDUcaaWcdBM8t+RgGHLUMa9zh3H4sDvnM0Gg?=
+ =?us-ascii?Q?VyIMh9KEAE6xyBaGGyr6UfwhNWQYtTqjRnIrl3GWfzWjowrhb+5HkUwMtbpK?=
+ =?us-ascii?Q?Qya1EbQDIQFBYaiNPCbumjQzDkFU+7kFZ446VkpJYrKtqEMYy2Pqi+d7O2FY?=
+ =?us-ascii?Q?QZ70d7MISNhLSxSQ4yKwvod7VuQvuAhUqDtNLHn034tPF1HNaRAmj3gQhy/K?=
+ =?us-ascii?Q?kWfkMGCkyVVcZAyiDMz79Czo7TsHssxVKpfRuTlMuUD2YHprg9FvMfTXdJIr?=
+ =?us-ascii?Q?N78eydrMnZFZStNaqQlWdBep8cgWEuuDadfj/4pzwK3VZ+Cow7Fy5RMsRqmy?=
+ =?us-ascii?Q?hA+b1iRQm3PrHgLIbSICIMGkpodRutyd6p/a33V/FSN47IEeMuQLcmco/Bn6?=
+ =?us-ascii?Q?19rDY5wOkC3KoNLzzo+o81BDd+4hgvi67Ib8LrAYRVFpMLJIaPDGBONEGti9?=
+ =?us-ascii?Q?y8kK+EAwGzBda8fUiiZBF1IsHdt00SpfrknFtmhFTdp1pFW+/47K13TCbE1p?=
+ =?us-ascii?Q?MLZ73G+7f3sWhVhLi+GOR//5Jsgb2PBljgL+fm3PgzeyKdOBk3wGilhrmJkv?=
+ =?us-ascii?Q?7/O4Z701vRWm9mdIZA/QL/rddPoCj6f8jyoRBEtXiFw6KSrRWlyUXdm7eIv7?=
+ =?us-ascii?Q?e9YvUQXBzDDqpCRccwg2E/M/EXOak2OLc/vSrBOZPanHsevkg+T0Xkv4KfZV?=
+ =?us-ascii?Q?SQyT5zihSx8MsTyOmHPFSeyJBM2c4ZE1GNTPOYpad+1HrLXjAl/dC/x8E8k8?=
+ =?us-ascii?Q?zp1sg5xhpy6X8Hb7EbVd9rMU/ucNZmLETz3IVR9ZnYfyNbpi8DJO/0AsKUGc?=
+ =?us-ascii?Q?3zYYC8ZdsJS9AqSev6k3YdKPjjJcf//5KlZf57bF?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34de0a9d-8273-45dc-45ca-08ddfa624feb
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 05:30:31.4373
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TwXfhy58HA98SId4THQZwpW767NIVVcZJ0ujrRpBBxqeI/ZrSm/U3AiQDoOATICUFSy9dqJbqnaLhVncmfuuQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7920
 
-On Tue, Sep 23, 2025 at 10:38:28AM +0800, Ma Ke wrote:
-> wcd934x_codec_parse_data() contains a device reference count leak in
-> of_slim_get_device() where device_find_child() increases the reference
-> count of the device but this reference is not properly decreased in
-> the success path. Add put_device() in wcd934x_codec_parse_data() and
-> add devm_add_action_or_reset() in the probe function, which ensures
-> that the reference count of the device is correctly managed.
-> 
-> Memory leak in regmap_init_slimbus() as the allocated regmap is not
-> released when the device is removed. Using devm_regmap_init_slimbus()
-> instead of regmap_init_slimbus() to ensure automatic regmap cleanup on
-> device removal.
-> 
-> Calling path: of_slim_get_device() -> of_find_slim_device() ->
-> device_find_child(). As comment of device_find_child() says, 'NOTE:
-> you will need to drop the reference with put_device() after use.'.
-> 
-> Found by code review.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v3:
-> - added a wrapper function due to the warning report from kernel test robot;
-> Changes in v2:
-> - modified the handling in the success path and fixed the memory leak for regmap as suggestions.
-> ---
->  sound/soc/codecs/wcd934x.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-> index 1bb7e1dc7e6b..d9d8cf64977a 100644
-> --- a/sound/soc/codecs/wcd934x.c
-> +++ b/sound/soc/codecs/wcd934x.c
-> @@ -5831,6 +5831,15 @@ static const struct snd_soc_component_driver wcd934x_component_drv = {
->  	.endianness = 1,
->  };
->  
-> +static void wcd934x_put_device_action(void *data)
-> +{
-> +	struct device *dev = data;
-> +
-> +	if (dev) {
+The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
 
-Can it be NULL here? Can put_device() cope with NULL being passed to it?
+Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
 
-> +		put_device(dev);
-> +	}
-> +}
-> +
->  static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
->  {
->  	struct device *dev = &wcd->sdev->dev;
-> @@ -5847,11 +5856,13 @@ static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
->  		return dev_err_probe(dev, -EINVAL, "Unable to get SLIM Interface device\n");
->  
->  	slim_get_logical_addr(wcd->sidev);
-> -	wcd->if_regmap = regmap_init_slimbus(wcd->sidev,
-> +	wcd->if_regmap = devm_regmap_init_slimbus(wcd->sidev,
->  				  &wcd934x_ifc_regmap_config);
-> -	if (IS_ERR(wcd->if_regmap))
-> +	if (IS_ERR(wcd->if_regmap)) {
-> +		put_device(&wcd->sidev->dev);
->  		return dev_err_probe(dev, PTR_ERR(wcd->if_regmap),
->  				     "Failed to allocate ifc register map\n");
-> +	}
->  
->  	of_property_read_u32(dev->parent->of_node, "qcom,dmic-sample-rate",
->  			     &wcd->dmic_sample_rate);
-> @@ -5893,6 +5904,10 @@ static int wcd934x_codec_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> +	ret = devm_add_action_or_reset(dev, wcd934x_put_device_action, &wcd->sidev->dev);
-> +	if (ret)
-> +		return ret;
-> +
->  	/* set default rate 9P6MHz */
->  	regmap_update_bits(wcd->regmap, WCD934X_CODEC_RPM_CLK_MCLK_CFG,
->  			   WCD934X_CODEC_RPM_CLK_MCLK_CFG_MCLK_MASK,
-> -- 
-> 2.17.1
-> 
+changes in v7:
+- add back the mutex which removed in v6
+- add Tested-by tag from Alexander.
+
+changes in v6:
+- remove mutex in dw_hdmi_set_sample_iec958()
+
+changes in v5:
+- add empty line commit message for patch 7
+- remove blank line in dts node
+- add component_unbind_all when dw_hdmi_probe return error
+
+changes in v4:
+- separate dts for soc and board
+- bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
+- add "select DRM_DW_HDMI" to fix build error reported by test robot
+- remove unnecessary code/definition in pai driver
+
+changes in v3:
+- add space and 'U' in asoundef.h
+- add more commit message for binding doc commit
+- add bitfield.h header for fixing build error
+
+changes in v2:
+- address some comments on commit messages
+- add two more commits:
+  add definitions for the bits in IEC958 subframe
+  add API dw_hdmi_set_sample_iec958() for iec958 format
+- use component helper in hdmi_pai and hdmi_tx driver
+- use regmap in hdmi_pai driver.
+- add clocks in binding doc
+
+Shengjiu Wang (7):
+  dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+  ALSA: Add definitions for the bits in IEC958 subframe
+  drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+  drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+    format
+  drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+  arm64: dts: imx8mp: Add hdmi parallel audio interface node
+  arm64: dts: imx8mp-evk: enable hdmi_pai device
+
+ .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
+ .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
+ drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
+ drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
+ .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+ include/drm/bridge/dw_hdmi.h                  |  11 +-
+ include/sound/asoundef.h                      |   9 +
+ 12 files changed, 382 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
