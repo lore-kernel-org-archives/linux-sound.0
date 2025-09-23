@@ -1,95 +1,93 @@
-Received: from mail-m3273.qiye.163.com (mail-m3273.qiye.163.com [220.197.32.73])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C471487F6
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 07:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3275A2DEA79;
+	Tue, 23 Sep 2025 08:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758614335; cv=none; b=OtlXGEdtTKeZKUDfuiKcp8PdRWeCMums7+1DEu+96XRlhXkLpQ7SMDTnfEOBf+b3sRLwgAfBuo9dpmR3eXOv4RMejw+lrX7I2BUy82WI5yBqk+A+UwRKo5fPmJe5XKqeC7RNrUUpcA7P1qMiQtf6/gJKJqpjNBfoBjMjuOdJWdY=
+	t=1758614598; cv=none; b=keAcMKZZMSvHTS0ZXN7GJIRIm2TaxnNBgIq+CQFoYioM+bwArh6JHVoZawbT6J/hW738y109UcUgCkq07VytnPyCNbFE7a/3Zng4H6LP3qRoeyHQt7nrXOhhJFucFtbrRoh/tI4k5Fju3AWxrDmn8RWgYhTSwMFHOd8Uyc4NJ3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758614335; c=relaxed/simple;
-	bh=qExylSAfAWJ0xIQPx7a7P+hk21qFgwDKs282S5wArxc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=osOmAWbQpCz9RLZa5lJXXnNzdgxGh64YZCrRbj/3jqKgGl/5a91zOYhqvVGYS6rHX7B59Mg85v4GWdD2tey51VHaWo7Z6wYXacYDzDlnH2eFGzmELjqnfI64BSDQO/hEN/5sOWmYMFKnydPciYnPmzkAnqTs3PlsnuSbDBqMkQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.32.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 109a44bca;
-	Tue, 23 Sep 2025 11:22:51 +0800 (GMT+08:00)
-From: Zhen Ni <zhen.ni@easystack.cn>
-To: lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	Zhen Ni <zhen.ni@easystack.cn>
-Subject: [PATCH] ASoC: SOF: Intel: hda-stream: Fix hext_stream dereferenced before check
-Date: Tue, 23 Sep 2025 11:22:41 +0800
-Message-Id: <20250923032241.1112260-1-zhen.ni@easystack.cn>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1758614598; c=relaxed/simple;
+	bh=D5uiey4471seattefoOzNwyH5jPWbq+Ym1dnz+bTheg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rqa6dHiUaeedzOct3Lgg+2F1GtwVGvMH3wxYviz3Qq7kyLFoNmD4hlzVdqmQr3WMjdNuwf+Y5zBsgz2RMJSnKevcdZaYgJtWQsrJpbJdTUgg6yOL9Mkszs9Ge1/7kfN1H/h116aDXELwH7krH9RLKSQ/EwMNZfdI9zckh0U4HU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=txYkf+EB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="txYkf+EB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B300C4CEF5;
+	Tue, 23 Sep 2025 08:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758614597;
+	bh=D5uiey4471seattefoOzNwyH5jPWbq+Ym1dnz+bTheg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=txYkf+EBHpb+z/Ek9O1ldAU2o3rcJZel9hPFPiLbL7qMZF0GRoTvytX6clvt233YM
+	 z4IovMoaWdeW2Ks+XDeOeLtlDTdyYzw7HDHb4ugBs2UMYMI0Jk7/koyMgaTkwmLsLk
+	 ydnrl9Ye0dxfXNwC6QDzQLr1gStHZ2zjQuXI0A2kJpoS4SGlO1rNrSijKYABOu3+9C
+	 unBg9wKsIyLgfSV0lO3qqGAr08wBVdEOwNuWFhflXdd6ay0GvAxjm74Qcb7JuF4HR1
+	 rvLx4/duwX07qI5GKHXeuupRRTW09noeH71t/ce0R8EfOSo6bJ+NkuYpYcy/HfEMiD
+	 5Hvt1xuVC+0BQ==
+Date: Tue, 23 Sep 2025 10:03:12 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Guangshuo Li <lgs201920130244@gmail.com>,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+	stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v?] ASoC: mediatek: mt8365: Add check for devm_kcalloc()
+ in mt8365_afe_suspend()
+Message-ID: <aNJUQE6VncYiRx_w@finisterre.sirena.org.uk>
+References: <20250922140555.1776903-1-lgs201920130244@gmail.com>
+ <638119fb-4587-48a4-9534-2f19a194ca4e@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a99749870190229kunm6b4c4c0f94668
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTRlIVkxMGUodS01NSEIYGFYVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+UPYTcPP9yAXiY1I"
+Content-Disposition: inline
+In-Reply-To: <638119fb-4587-48a4-9534-2f19a194ca4e@web.de>
+X-Cookie: Filmed before a live audience.
 
-hext_stream dereferenced before check:
-int hda_dsp_iccmax_stream_hw_params(...,
-				struct hdac_ext_stream *hext_stream,...)
-{
-        struct hdac_stream *hstream = &hext_stream->hstream;
-				       ^^^^^^^^^^^^^^^^^^^^
-Dereferenced
-	...
 
-        if (!hext_stream) {
-	    ^^^^^^^^^^^^
-Checked too late.
-                dev_err(sdev->dev, "error: no stream available\n");
-                return -ENODEV;
-        }
-	...
-}
-The caller hda_cl_prepare() guarantees that the parameter hext_stream
-passed to hda_dsp_iccmax_stream_hw_params() is non-NULL. Finally, we
-don't need to check the hext_stream and it should be valid. Removes the
-hext_stream check.
+--+UPYTcPP9yAXiY1I
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Zhen Ni <zhen.ni@easystack.cn>
----
- sound/soc/sof/intel/hda-stream.c | 5 -----
- 1 file changed, 5 deletions(-)
+On Mon, Sep 22, 2025 at 05:35:35PM +0200, Markus Elfring wrote:
+> =E2=80=A6
+> > Add a NULL check and bail out with -ENOMEM, making sure to disable the
+> > main clock via the existing error path to keep clock state balanced.
+>=20
+> How do you think about to increase the application of scope-based resourc=
+e management?
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index a34f472ef175..6bcaed86e403 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -450,11 +450,6 @@ int hda_dsp_iccmax_stream_hw_params(struct snd_sof_dev *sdev, struct hdac_ext_st
- 	int ret;
- 	u32 mask = 0x1 << hstream->index;
- 
--	if (!hext_stream) {
--		dev_err(sdev->dev, "error: no stream available\n");
--		return -ENODEV;
--	}
--
- 	if (!dmab) {
- 		dev_err(sdev->dev, "error: no dma buffer allocated!\n");
- 		return -ENODEV;
--- 
-2.20.1
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
+--+UPYTcPP9yAXiY1I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjSVDsACgkQJNaLcl1U
+h9CCEAf/QCnhzFI+vp9Z49NAqudJk3wDfrBz+Hv5nquQzGzv/kb6Yc1Fi72Cl+Iq
+xEDVMpmBO5q1RUEK6oaDMPsrf9bHQ3pPPXEnUl4hbmeL+KNaUaYZEIio2c8bGBvd
+lLdOZKp0KSN0yxXku0zJV5tjg6UnkGbaOldwJxFhACgUhxEbpnSsE+dNsvtGuYik
+oCJtKZhTqE3aOz3lqXNYy6eVi/K0THqsqaBVwmkdwrexlxn02VZXnp9CpVl4CLqB
+p9iK+FwyxIZ5UvH/kihITAP3klv9+SRjCiCxJNbaDdvV1YVZ+BP/yUUbbiiq62B8
+hr36WqAph+oDt0grDiMkmKeHD5Dy5w==
+=Pl39
+-----END PGP SIGNATURE-----
+
+--+UPYTcPP9yAXiY1I--
