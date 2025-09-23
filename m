@@ -1,113 +1,134 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33B330F7F9
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 11:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56993233EA
+	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 12:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758626926; cv=none; b=XSD3OPJQilZ6xP+cRWeT0mbfSIhO2/RQ0TwZibbx8qQGBkgLMGJio6NDZK0+jzXyvt8hWGh1T7hVxkGmgBcguvN7HwtLR8Zai/JViWwTZmj4jTtyUC11UrIGEF94oIRd+dQMreJFRdwj7ILACG+9YdbesEdtzAIylQ/1vMOL6TQ=
+	t=1758630100; cv=none; b=u2FmCa3vvF4TWAWSqp9aA00jyMLgWc21D8pXzXEwxZp9lrLhzkN7qEC9btp3Ox2ZMzYnVeEawKec+oURLhk958PpdBLzhCk1SOUuiWvZJoU29GVeVMDaOg3BUjqnViuCzyBjq/ATdT5pkZxc/a7rDh93bPs2XbNR0xRsqQNuMCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758626926; c=relaxed/simple;
-	bh=Fg9loJYTcGYlx0MTZ4vFLQtkph2uQSlIxlL1lZRCrKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t9yjRctDo73I1mnf6Czr/zPXBwO1TdoiWYYutI6N21auA+1ypTFy2LDdFLj+oQaSRDlGC6riiz3hW+kR687HjFHJOcvAA80ZFoalNEVY3lthmqtwAkCKb5cXDLvp+3DTkVtqHXHm7/6uktlyBA4OKxUQ8eo4iymB5hb05ikPv7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=peVkHwHB; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758630100; c=relaxed/simple;
+	bh=I8GuBaDzrJZRaJxRrd2X6l20qcN5D3CSi3HMt27iunE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SUnOFagwz3uXsMOUyL4zQDAQgdyYzxuu0IptFg6y55xQpCYqapD1FNhCIgiNl7cT9Kj+LYvCvz1K1lEfw4HHursAV6qpe+vvI1qB+kJblvb/89Lqv+MprGTMkEaa5zjfftRbcWBX4n8NPK6WGrrq8qLd0NazkPRZK3NK6v1zGC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFlHeD9s; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="peVkHwHB"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso2877937f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 04:28:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFlHeD9s"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-77d94c6562fso5502228b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 05:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758626923; x=1759231723; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p3nLbAifVjvlMsTe05tZfwI7NIrolTzFIj3PkRr+oLU=;
-        b=peVkHwHBt0/q22w/jyzHTnWjgKqW6VyEPmt9TnZJT2ZaVvqMTS1bGhHPERAky601YQ
-         f4U7VbynEit/PxiEEatHQw4eQmqfH+5BD1WJkFUEvCHpwBuRJISAa1lSIs/iPDGG9v0Z
-         Z1QIsF7rhKfE1XwSPq9WHnpLjiju1D5s8XmtNeSC9iyAtGOiQRxNf/rcAltnOkhNo1y2
-         S/6yXY2xOyLHLNVSL36ix1pDyxlWtcAfBzkFkJHoU/GqYE1VVot05WF03S7pNrQmrMrc
-         Hz5CgelKN6OW2dkpgCnl+xEg877WipbPuAZ0UjGOzu1CmlZI90u7/iPhbSlGcZ1wBp+F
-         nTiw==
+        d=gmail.com; s=20230601; t=1758630098; x=1759234898; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=31NDFIT1J77T6WgOgaD6KtRWo1pajt4U43lgn0M+eTk=;
+        b=LFlHeD9sYg2qxIu+A3BtJOYz9QskXndoAgNZ5UQK88u/wKDhlZMcg8HKLBH8R96RwH
+         d2OM+oxBQb9HDZwv2aeFb6hhix1+IeZC8qzdsR6oI7JHrdLr4J0tTR8bS/H7I+yhHWCO
+         JZQVWUK+gptQ7vWtteB0SyGTE3a4DIQ2y+/Y7npuB6ClOhRntqvMzMZpsx0OemENMRHV
+         o24gBqV3umrGZCOD+Q9XdQyc+P3yvntDljpu96XbyBTRDAxKotul9nIi01ZiH6ETMkoF
+         WaIylbECZkSwKmyYcHOaVjM+s8RJ/y1D4ipEF4ybW56U0QdObN8VQJSgvKCdziUjdyXB
+         HcxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758626923; x=1759231723;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p3nLbAifVjvlMsTe05tZfwI7NIrolTzFIj3PkRr+oLU=;
-        b=iI7wrr4cS9FJFBrr8oZxN1CA32Nuhrq5d75JGQ6iYX4dASpBXOGP3CiCa8acS9YohT
-         HrT6ff1udY3umMfnq+S6ymvq1bbsDNzGt0UoejsW3NvH5pfl8ALjI23PXRsex63t97Aj
-         JTgL7hqRixh4ukozjXZmm8/vQH1nKAdVEDLBdTIDvgdxCxkW3JnAxe19oIabK8CDsO3x
-         eAz5WonYDDNFEoarO/m/a3HHQ6+iQqa0SnbWnnLoofcClr2ks3PF/ZK8b/M7xWbgba7F
-         OJun0sqpyglmKTkPxwWeqIspcycSrUgQFMjoX0T/lO9sRnx+I61f331KOxwhA84k83SX
-         3DlA==
-X-Forwarded-Encrypted: i=1; AJvYcCVhMdhl5IhCm+NQRdB3hqoM2AzhY1kk7fIbSk+BqhumThJvdIWX7CG6Z5h0KWcIrE5ygmWkhU62Ax+WHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWZwJeZY42iTdx7yZPKUpGcRuMtRLG0IJEU+lhzL9TeBGwJ5ei
-	d3ktvqMTiYniGwyph/AP4IhHdbb0r6xzEIfaDEIs/+M6rGYuWrskyBa55MePvWcv+dw=
-X-Gm-Gg: ASbGncu3Drn+g7nQglP7vAZctfB3RXxcvu40cGucQ2mzW4SURe7esWKtupBQTgDYMZv
-	pLimGKDs/nelwWQgmMuF036H0ZuABzJ0dj7sSXbgNMekvNHZyUX5NHf/FJhJo9uv2NgZZ8wQZja
-	klfgKqiCORsJJo0bfbQW8Vvj15p8n+uRXUFm2veyds0c460xlewza7vHgbja5olsXgAbIm/qtNQ
-	5tUT3jhD2kuXeum+TyiFd5EP7oOUwqaQqqWR7IDqTRl50zV1EepgC2O0RjW7Y+BlqzPfljLQdH7
-	fv3In+XEiUqUdYOlUaaU8ZUo/2a1PUNNXNxWFHMvimaQc5AjZIx+gA/rs8nMpUX8oyAh3/QZYwr
-	wJf4HsFRK2iZhk8OL3oZus9ZmW+SZ
-X-Google-Smtp-Source: AGHT+IEreieYRZZVcV4W0b1/dif/w7q6qOys4eC2iEOI56szcrpHxrUi/D3jSCJ+aNlIHebwRh6vfA==
-X-Received: by 2002:a5d:5f87:0:b0:3ff:d5c5:6b03 with SMTP id ffacd0b85a97d-405ca770ea6mr1817809f8f.35.1758626922991;
-        Tue, 23 Sep 2025 04:28:42 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee0fbf1d35sm25228491f8f.55.2025.09.23.04.28.42
+        d=1e100.net; s=20230601; t=1758630098; x=1759234898;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=31NDFIT1J77T6WgOgaD6KtRWo1pajt4U43lgn0M+eTk=;
+        b=Kf5AwFIYor79WAqlUc0SnfDyyRIiRw/GbivB0mX9XptfdWCKOKQkJ6mnIhooV/w50c
+         6tzoTNocM0L5BbnO/heS3E9ZHfx+Nr1rAdqaABJsRvxwezUbkuScrVKGYgwI8C/a55ML
+         OMAVJmyt3xphtfEuKp8+OMBSdY+seVEj1uuy6V7Pj/4k7hcK0TtjTkGhR4TQ7GCVTQ0O
+         QoqLVs5UjvOpGJCBrYRbnOyhjhImAJy9VBFckWfEH9YUmkYw5kuu7aMBIGkCuA4uN3CR
+         vqfmpUY8BzG6hweD1nqRaHsGNErcREGdnlMEkXq0phhmpblPMbfrBZEAIz/06T9qexre
+         5IAw==
+X-Forwarded-Encrypted: i=1; AJvYcCVebPabVdiUlfnRiYd63F7KLCDKBt42fJEus4yX4cA2wY5asbm52pujg4UPzcdzqyLiU5kQ3buKG0e+AQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDa6qjYrH+LPmXMoZTTdK0JELvuceWiFbv9iZOMs6YVhAPHGtD
+	JLmbx8OmOAkl1xrXG9+fbQWGW6RLB3DE3i6E94CjR8wUpusxYzli9b5b
+X-Gm-Gg: ASbGnct9JMLT3zytWGqckk+3ejEnXYN5LP3ign/q76bkxvXvr4Utb9+Rbj37F3WqW4f
+	SaXPMClOr+7D2/hv3ej7IVQ/EcgirmWGpN3TjyPKzLg0DTHt0+TRuvyTYDU/uzHymaff+a3EpWy
+	Vd32AD886FS5K7jTiuZ/RrolbaoFh/gu6M9kyi/foPflZt8hoAv+iDx6eZxp59A5w5QkZfwkR/x
+	GhYUPKFlVBMhx5aAXNVrcKxJHLtlzMuapu2/yGyP2xenwDE2CSTFn67YGkDUhoOkApHc0lHWkEP
+	6Rwt6ldXOKjc5gvCTig4yts5iSWx1r8rOZ2tcbFNEmZU4LYluyPNGer5oszJThgk9mg9cf5iEPH
+	rj9iDYXc5Gl33Jrg=
+X-Google-Smtp-Source: AGHT+IGapQYbJxxDclXfWf1hQJL8kcsiV3WYPv+6b0/vrntM1EgcdnY/IVTVQnQOpFXNKfmNw7kNBw==
+X-Received: by 2002:a05:6a00:1706:b0:776:1de4:aee6 with SMTP id d2e1a72fcca58-77f53a2a233mr2209045b3a.16.1758630098030;
+        Tue, 23 Sep 2025 05:21:38 -0700 (PDT)
+Received: from lgs.. ([172.81.120.170])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f4fd7223esm2786939b3a.103.2025.09.23.05.21.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 04:28:42 -0700 (PDT)
-Date: Tue, 23 Sep 2025 14:28:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH next] ASoC: codecs: wcd-common: fix signedness bug in
- wcd_dt_parse_micbias_info()
-Message-ID: <aNKEZ3VqJ8js208v@stanley.mountain>
+        Tue, 23 Sep 2025 05:21:37 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH v3] ASoC: mediatek: mt8365: Add check for devm_kcalloc() in mt8365_afe_suspend()
+Date: Tue, 23 Sep 2025 20:21:21 +0800
+Message-ID: <20250923122121.1855051-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-The error handling does not work because common->micb_vout[] is an array
-of u32.  We need a signed variable to store negative error codes.
+devm_kcalloc() may fail. mt8365_afe_suspend() uses afe->reg_back_up
+unconditionally after allocation and writes afe->reg_back_up[i], which
+can lead to a NULL pointer dereference under low-memory conditions.
 
-Fixes: 4f16b6351bbf ("ASoC: codecs: wcd: add common helper for wcd codecs")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Add a NULL check and bail out with -ENOMEM, making sure to disable the
+main clock before returning to keep clock state balanced.
+
+Fixes: e1991d102bc2 ("ASoC: mediatek: mt8365: Add the AFE driver support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- sound/soc/codecs/wcd-common.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+changelog:
+v3:
+- Move the Signed-off-by line above the '---' separator.
+- Restore the original spacing/indentation in the devm_kcalloc() continuation line.
+- No functional changes.
 
-diff --git a/sound/soc/codecs/wcd-common.c b/sound/soc/codecs/wcd-common.c
-index 9bbfda828377..9016e974582f 100644
---- a/sound/soc/codecs/wcd-common.c
-+++ b/sound/soc/codecs/wcd-common.c
-@@ -62,12 +62,13 @@ static int wcd_get_micbias_val(struct device *dev, int micb_num, u32 *micb_mv)
+v2:
+- Return -ENOMEM directly on allocation failure without goto/label.
+- Disable the main clock before returning to keep clock state balanced.
+---
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+index 10793bbe9275..570fb10c306d 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
++++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+@@ -1975,11 +1975,15 @@ static int mt8365_afe_suspend(struct device *dev)
  
- int wcd_dt_parse_micbias_info(struct wcd_common *common)
- {
--	int i;
-+	int ret, i;
+ 	mt8365_afe_enable_main_clk(afe);
  
- 	for (i = 0; i < common->max_bias; i++) {
--		common->micb_vout[i] = wcd_get_micbias_val(common->dev, i + 1, &common->micb_mv[i]);
--		if (common->micb_vout[i] < 0)
--			return -EINVAL;
-+		ret = wcd_get_micbias_val(common->dev, i + 1, &common->micb_mv[i]);
-+		if (ret < 0)
-+			return ret;
-+		common->micb_vout[i] = ret;
- 	}
- 
- 	return 0;
+-	if (!afe->reg_back_up)
++	if (!afe->reg_back_up) {
+ 		afe->reg_back_up =
+ 			devm_kcalloc(dev, afe->reg_back_up_list_num,
+ 				     sizeof(unsigned int), GFP_KERNEL);
+-
++		if (!afe->reg_back_up) {
++			mt8365_afe_disable_main_clk(afe);
++			return -ENOMEM;
++		}
++	}
+ 	for (i = 0; i < afe->reg_back_up_list_num; i++)
+ 		regmap_read(regmap, afe->reg_back_up_list[i],
+ 			    &afe->reg_back_up[i]);
 -- 
-2.51.0
+2.43.0
 
