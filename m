@@ -1,168 +1,140 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C7F278157
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 01:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB2E2580ED;
+	Tue, 23 Sep 2025 02:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758590979; cv=none; b=j8zwzVpxLDjsCM0TE9qDcwqjC0X7ZhJoGWRzhW+g13D6/LYo3aYQep/ivzYWGDDiZ5bPMzrFRyONIreOg0IXuUE4KMvx4u1dqtjN//UH8KhwL6UQaUZsDUvkvByk3ahbdF6eFsNxYQ6GeWXaW+Dyz5NzSk4puvCHn72NkZunyQg=
+	t=1758595137; cv=none; b=QFXbtqxRwT79jCLCl8y3W+2kYtIVXyMZ85iVR69BHwgvQmUBfB3769HN+Pi0hyPkg/lslvZryakTWP2LkHUAE9SHvhYyWw4nd27o5+L4HRfzhzl1TSXBhzRdeipQSUzmT2zyx46OUQXoN4F9F4wubMFHHcD4dVkvWzHrh4XAFy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758590979; c=relaxed/simple;
-	bh=Keih4ozM2ClJ7bLKolp4rzu48rFOC9n6MVTSF0I4RXw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZH0LWkSVUgsuxclEO8RRTd25IpxnaW9wPh/vfb7jgQdCp+boynNIUNg1vIc85oT0rynyMrLCZr+njVf2jIu1JVtN8r8RXAOChBttmKKPqZnH+6mY3L4iS4u0YXDv+Sgek+yfcRTPX9ECcaH31v8wq3yWjetk3r17bCssE29X/g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD7BUALE; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD7BUALE"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b5515eaefceso3725155a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 18:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758590977; x=1759195777; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UGIEsRlxQ6SB/60aNk9YuezwzaWruzT6GSumf3z2VMQ=;
-        b=KD7BUALE4v6krkpM1w5HFveuUWLHuqKX0i8IedmTFjKuihlgcte6bH0rnx/uwFWa42
-         uNysOBNbybAjUJmWGpM9dGQsSyC7tipoEiQswPILeP09U4LIFBI/0RcQob9IS+OQFY+n
-         zXpS21Ub3LESB8d/W7bUjw8xJWUdqbRrEA02S8nvqWJmcBZiXo0lSNRZ58r+CUW8wCTP
-         cRBkl+V1XaFjTjdJjS5foK5pzi2WgJiASaC/RXiAXi9M0kwFFUntcVoczNfELNfGysN/
-         oYqcIiHpu8gw+0ihek1QJnMU8o7FkNCVulheGXq33Oj43smU3sUL79pFlM2j+zZy6Ck/
-         ZApw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758590977; x=1759195777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UGIEsRlxQ6SB/60aNk9YuezwzaWruzT6GSumf3z2VMQ=;
-        b=NQIwPSp/OTnHkO+DVsjB2urdpWHLmnb70JqYRn/gCnJ4CmosBNFKsaUHvTCf80Sl36
-         LVEK0MbZI+kMCtDbeiYsTrH362jPWk8VWSencxPxOzaqRQejNi53UfUOKkbe9w7PZEq9
-         nU4HJJYXGuxCdmw9DzSFzvrv6+Jd5hgihSFuxDT7ZDtSxCIMHHncKcMsnxidkJo0CSDp
-         ZdPwGR4AjrHuHjq2Y6kS98g1b+nbyi8QzizbhMCmCdwjBQhvtgcoq3Kt+q+qOsKV618M
-         jralXKc/m40dbFApF6sW2eci7kl1n/wThBQMebkaKdvExF7HEv+wbohESTd23Wi6Eo0l
-         DeDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMAuHZsdUsti3an4b0iSsjettOY9lZIcFK9kuGemkPdEdRa7I2QUxHI0v376t+Zmeaftba83XEArSV1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMiGMNG2fBPjifsN9Wh5VLHljc+jKgO7SI4nskoBDW/qAarxEX
-	t+sRfu/WBp0Q57GJ+LsItoccGxCURIL43mwrHKq4Fo41odGpvigllQxV9bkapZ8Atic/S3AV/aL
-	T4Ka8US7dYFE6FNHXwGmQx2uRaXE56xY=
-X-Gm-Gg: ASbGncvEdtfsFInWYaxf1AuKA/i1fHlL2ej3zikp3ZkWIw9jtk5BM4/LvUmaOVWCWZc
-	cFbSEX6iiXGiAwB39tI5n79N1eGEW7Is8Oqldgaa9EfQvmy/p+chqiFcnzy3rF97IRIlrrGVWik
-	V6A5+QzOlaMhL1CaKmlXHiJjdt2mFksP3SrkYh056g3xbqD1j+yOZE5hf6gWAUEQCG7KDT0P1r4
-	vaB5tg=
-X-Google-Smtp-Source: AGHT+IGBT9LTfm84q4DXIRoJSFR8hZ2WWRU49SsvtumqUnLfaKU5tnx1duKBXoUog0HE+Dc5+BSde4IFSplat+4nyaY=
-X-Received: by 2002:a17:90b:33c8:b0:32d:f4cb:7486 with SMTP id
- 98e67ed59e1d1-332a95e8e19mr1041351a91.19.1758590976762; Mon, 22 Sep 2025
- 18:29:36 -0700 (PDT)
+	s=arc-20240116; t=1758595137; c=relaxed/simple;
+	bh=FRjm17X99obcxvnwsM+wwNCYZMqeHfNSAs0zNYnppFw=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=ijIV0Wc6agOpQW2xCi5M9XmVNNzrq88Dul+bAk9kRSrOsserkJ6BG4OWHdw4ARSaEYydBqm8KfZhXST+PJHCUVy3dJ04aiWXb+MmStXXZU/JLJ7r9j/RFDLEE5NcWPlgpJP9OB5ofCW/5Z81j5szfjEXCS2SZY3bMXvrt67viP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-01 (Coremail) with SMTP id qwCowAC3DqElCNJonBhjBA--.6286S2;
+	Tue, 23 Sep 2025 10:38:42 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: srini@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	pierre-louis.bossart@linux.dev
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()
+Date: Tue, 23 Sep 2025 10:38:28 +0800
+Message-Id: <20250923023828.36647-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:qwCowAC3DqElCNJonBhjBA--.6286S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFy5JFy7JFWUJr47GryUKFg_yoW5Aw1fp3
+	yDCFWYgrZ8GrnF9r4SyrW8Aa4IkrW093WfAr48K34I9ws0kry7KFy0q3WYqFZ3tFWfJF1U
+	Xry7Zr18CF4UZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+	4UJVW0owAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOTmh
+	UUUUU
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250821073131.2550798-1-shengjiu.wang@nxp.com>
- <20250821073131.2550798-5-shengjiu.wang@nxp.com> <20250901185208.394cd162@booty>
- <CAA+D8AOCTqb5jLeRapYk4wRGZrsrPiuAR=ow3OA1B0+M9X4k7w@mail.gmail.com>
- <20250909-omniscient-honeybee-of-development-adca8a@houat>
- <CAA+D8AM=aRU-0QcgtxZ+=YBZ2+kMrP2uzSE3e+NJs3Z3zkrSVg@mail.gmail.com> <97288c51-954a-48a9-92b9-e165ce480707@nxp.com>
-In-Reply-To: <97288c51-954a-48a9-92b9-e165ce480707@nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 23 Sep 2025 09:29:23 +0800
-X-Gm-Features: AS18NWBhgiBnQW_QrjL4oCw3YUyblBEb719xz-MBTlZAVwouH205ucQ6fmr_z54
-Message-ID: <CAA+D8APA85PhWVkW7c=d_qWF7L1ERxe7cS3Gg00SV-3TSyLwQw@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958()
- for iec958 format
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com, neil.armstrong@linaro.org, 
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, 
-	dianders@chromium.org, cristian.ciocaltea@collabora.com, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 22, 2025 at 11:01=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wrot=
-e:
->
-> On 09/10/2025, Shengjiu Wang wrote:
-> > Hi
-> >
-> > On Tue, Sep 9, 2025 at 2:39=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On Wed, Sep 03, 2025 at 06:41:05PM +0800, Shengjiu Wang wrote:
-> >>> On Tue, Sep 2, 2025 at 12:52=E2=80=AFAM Luca Ceresoli <luca.ceresoli@=
-bootlin.com> wrote:
-> >>>>
-> >>>> Hello Shengjiu,
-> >>>>
-> >>>> On Thu, 21 Aug 2025 15:31:28 +0800
-> >>>> Shengjiu Wang <shengjiu.wang@nxp.com> wrote:
-> >>>>
-> >>>>> Add API dw_hdmi_set_sample_iec958() for IEC958 format because audio=
- device
-> >>>>> driver needs IEC958 information to configure this specific setting.
-> >>>>>
-> >>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >>>>> Acked-by: Liu Ying <victor.liu@nxp.com>
-> >>>>
-> >>>> [...]
-> >>>>
-> >>>>> +void dw_hdmi_set_sample_iec958(struct dw_hdmi *hdmi, unsigned int =
-iec958)
-> >>>>> +{
-> >>>>> +     mutex_lock(&hdmi->audio_mutex);
-> >>>>> +     hdmi->sample_iec958 =3D iec958;
-> >>>>> +     mutex_unlock(&hdmi->audio_mutex);
-> >>>>> +}
-> >>>>
-> >>>> Apologies for jumping in the discussion as late as in v5, but I noti=
-ced
-> >>>> this patch and I was wondering whether this mutex_lock/unlock() is
-> >>>> really needed, as you're copying an int.
-> >>>
-> >>> Thanks for your comments.
-> >>>
-> >>> Seems it is not necessary to add mutex here. I just follow the code a=
-s
-> >>> other similar functions.  I will send a new version to update it.
-> >>
-> >> Let's not be smart about it. Next thing you know, someone will add
-> >> another field in there that would absolutely require a mutex and now
-> >> you're not race free anymore.
-> >>
-> >> Unless there's a real concern, the mutex must stay.
-> >>
-> >
-> > Ok, thanks for comments.  Then Patch v6 need to be dropped.
->
-> To properly track the changelog with patchwork, can you send v7 to add
-> the mutex?
+wcd934x_codec_parse_data() contains a device reference count leak in
+of_slim_get_device() where device_find_child() increases the reference
+count of the device but this reference is not properly decreased in
+the success path. Add put_device() in wcd934x_codec_parse_data() and
+add devm_add_action_or_reset() in the probe function, which ensures
+that the reference count of the device is correctly managed.
 
-Yes, will send it.
+Memory leak in regmap_init_slimbus() as the allocated regmap is not
+released when the device is removed. Using devm_regmap_init_slimbus()
+instead of regmap_init_slimbus() to ensure automatic regmap cleanup on
+device removal.
 
-Best regards
+Calling path: of_slim_get_device() -> of_find_slim_device() ->
+device_find_child(). As comment of device_find_child() says, 'NOTE:
+you will need to drop the reference with put_device() after use.'.
 
-Shengjiu wang
+Found by code review.
 
->
-> >
-> > Is there any other comments for this Patch v5?
-> > If no, can this series be accepted?
-> >
-> > Best regards
-> > Shengjiu Wang
->
->
-> --
-> Regards,
-> Liu Ying
+Cc: stable@vger.kernel.org
+Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v3:
+- added a wrapper function due to the warning report from kernel test robot;
+Changes in v2:
+- modified the handling in the success path and fixed the memory leak for regmap as suggestions.
+---
+ sound/soc/codecs/wcd934x.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index 1bb7e1dc7e6b..d9d8cf64977a 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -5831,6 +5831,15 @@ static const struct snd_soc_component_driver wcd934x_component_drv = {
+ 	.endianness = 1,
+ };
+ 
++static void wcd934x_put_device_action(void *data)
++{
++	struct device *dev = data;
++
++	if (dev) {
++		put_device(dev);
++	}
++}
++
+ static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
+ {
+ 	struct device *dev = &wcd->sdev->dev;
+@@ -5847,11 +5856,13 @@ static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
+ 		return dev_err_probe(dev, -EINVAL, "Unable to get SLIM Interface device\n");
+ 
+ 	slim_get_logical_addr(wcd->sidev);
+-	wcd->if_regmap = regmap_init_slimbus(wcd->sidev,
++	wcd->if_regmap = devm_regmap_init_slimbus(wcd->sidev,
+ 				  &wcd934x_ifc_regmap_config);
+-	if (IS_ERR(wcd->if_regmap))
++	if (IS_ERR(wcd->if_regmap)) {
++		put_device(&wcd->sidev->dev);
+ 		return dev_err_probe(dev, PTR_ERR(wcd->if_regmap),
+ 				     "Failed to allocate ifc register map\n");
++	}
+ 
+ 	of_property_read_u32(dev->parent->of_node, "qcom,dmic-sample-rate",
+ 			     &wcd->dmic_sample_rate);
+@@ -5893,6 +5904,10 @@ static int wcd934x_codec_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = devm_add_action_or_reset(dev, wcd934x_put_device_action, &wcd->sidev->dev);
++	if (ret)
++		return ret;
++
+ 	/* set default rate 9P6MHz */
+ 	regmap_update_bits(wcd->regmap, WCD934X_CODEC_RPM_CLK_MCLK_CFG,
+ 			   WCD934X_CODEC_RPM_CLK_MCLK_CFG_MCLK_MASK,
+-- 
+2.17.1
+
