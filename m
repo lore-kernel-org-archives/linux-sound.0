@@ -1,140 +1,135 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB2E2580ED;
-	Tue, 23 Sep 2025 02:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0128026E6F3
+	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 02:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758595137; cv=none; b=QFXbtqxRwT79jCLCl8y3W+2kYtIVXyMZ85iVR69BHwgvQmUBfB3769HN+Pi0hyPkg/lslvZryakTWP2LkHUAE9SHvhYyWw4nd27o5+L4HRfzhzl1TSXBhzRdeipQSUzmT2zyx46OUQXoN4F9F4wubMFHHcD4dVkvWzHrh4XAFy0=
+	t=1758595219; cv=none; b=oK848drl61hO46YkrGEqGIc7xPzjwI/LGjD26b0ett5/YWXtaoR6ewGapbDr3P+WwO4mD9PX6k6mYXLum8LLZHQ78Pn6DaQddA81GKfMsmX9L9bM+5MQcuC90diOM/D5zs3xO5s8w4BbRTCuFLWMMTJzO5mHI2KT67OhOgmxzTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758595137; c=relaxed/simple;
-	bh=FRjm17X99obcxvnwsM+wwNCYZMqeHfNSAs0zNYnppFw=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=ijIV0Wc6agOpQW2xCi5M9XmVNNzrq88Dul+bAk9kRSrOsserkJ6BG4OWHdw4ARSaEYydBqm8KfZhXST+PJHCUVy3dJ04aiWXb+MmStXXZU/JLJ7r9j/RFDLEE5NcWPlgpJP9OB5ofCW/5Z81j5szfjEXCS2SZY3bMXvrt67viP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [202.112.113.212])
-	by APP-01 (Coremail) with SMTP id qwCowAC3DqElCNJonBhjBA--.6286S2;
-	Tue, 23 Sep 2025 10:38:42 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: srini@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	Ma Ke <make24@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()
-Date: Tue, 23 Sep 2025 10:38:28 +0800
-Message-Id: <20250923023828.36647-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:qwCowAC3DqElCNJonBhjBA--.6286S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy5JFy7JFWUJr47GryUKFg_yoW5Aw1fp3
-	yDCFWYgrZ8GrnF9r4SyrW8Aa4IkrW093WfAr48K34I9ws0kry7KFy0q3WYqFZ3tFWfJF1U
-	Xry7Zr18CF4UZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
-	4UJVW0owAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
-	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
-	vE14v_Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOTmh
-	UUUUU
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+	s=arc-20240116; t=1758595219; c=relaxed/simple;
+	bh=vfDfTsyYfO/BqRmTkPgyem+KWINdSwj36PIiWxhUsjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uBjC7vS/vulBPjhpLCorM7009g4xbRDmcDQ0q/pDgdeL0aohr5Y7Nx66/lQOmTBn7BvOL7SD107zXAf3V4XYutoAe0F2Go3dN+vq+d8TZ9NKL7jZqmf6jx6pEGnArjXs5Z2bWJ7+q0soM1JHKm2JU96Al8o7FijojEnvx2m6fsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=hvblbB1a; arc=none smtp.client-ip=209.85.219.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="hvblbB1a"
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-79599d65f75so40786986d6.2
+        for <linux-sound@vger.kernel.org>; Mon, 22 Sep 2025 19:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1758595217; x=1759200017; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/vUgX58DsyU0+b3vhwK7OifvnksHmZK93Xb99v2Xcmk=;
+        b=hvblbB1aHbYpfkTioQWGBNaezDoFfL78O+2hNuAM7fgTAqQ9p0liDGsgLSE5f6pxDf
+         lrQePrdDX7KNAuKlvFa2LmDXfcWn9uTNfbCCV8tbDOOdcpy/7YBc5r0JeOSFn3/x405e
+         +PAENKI5W1ZAe9C3YD6/TRBU5J/mgz3dNAOXJoS4EHTrqgkxUV7T1qazl1B0XzJ8xANM
+         +9lB7J2tWovOX3SGTnojZmIfbKcjviDOPcJvNf48kQXMmJEBdBnXNYOvOfIpcDAkUVIu
+         5gZw6WQ6tMHMyYMLTGl10UBFxu6XnatTeZnWKGfO2PqEJotoDn13FuPuT2Sq99HHGc7d
+         xg8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758595217; x=1759200017;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/vUgX58DsyU0+b3vhwK7OifvnksHmZK93Xb99v2Xcmk=;
+        b=avsZ93jm9+AV1uw7ZtHVrEDlDKh3feM8Honulj4nrl/vbW64MKSPhEM8U4G2CEu1gQ
+         fJe6u5Ufut3xunwe/9u3/OKCR8yaN+MtIbOkkqI+DZC7FvL45PpDOYQsgDTL43EAWX4G
+         vly7A0/Kpgjj/T8BLNVc5zphDw9j8E4NrV5KxD5MCLLJSJw1NSZBJqsnmONAq+dzl9W0
+         r0Rrw8RfhPJOJeB8YpKLXebIfVOaBPtguqiZKc0TMpu+hiFahB9DL6OI/uGOjjJX4Mqk
+         lj6c/ahGSm53eEdQH9MTX2/e5Z9M0GGZpZ7YQlYc7hMcwJktSOJZZ0RyN/fI3qy1baxH
+         lI+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUoj1N986gGPfi9hIlDk4DRrAOn13RMAIzrqgkLVSk4yQK+h52CSdaykA0UIsW5uZQjNNoo1oqM9b9hfA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWAoF7+9o3tE8YLC1MgYFYMrZLIJWdZFvsGvrWr/CSfwX2QXx2
+	oF26TjUNRCd0z7ECsySESmS+paA0uer5vvdBQ3Hde7KzakMgWQiXETt+8sC3Q3aptw==
+X-Gm-Gg: ASbGncsqseCPrTjxI+hGzEHGVnP3tFjVnd3+ulJajxTqyxLm8WNpIeWye3kAA2Q5jJC
+	9HEGQPxUO+imFwD4ZB28IRehk61eIxuVigSIK1mqjZ7D2GMjp1+h522F0kKRO4EBBUjR5GKVXpG
+	RzhhTYVWxrv2EP/vdAlDNbS/nTNJClRD9X7UDhLxK7Gk6xU8Fzz+duSXiTnFC+ZYvvlWUQIEgCM
+	NVxpTcjJZ8jrGXD4ftreGakcACz2hy5bs62yDz5YlY32f5xVfQ7UgxNxaNNHcPRJrm55prZZC6S
+	vjH6c2UG65P8/ZBbc65uFvGoYMDJ0gnvHmiw+Z4B5n5O4Rzxd+0YaExgelY3isFqn4vUYFdjtxf
+	vT9+BMIFjzGJ5K/pPCRxlfxPS
+X-Google-Smtp-Source: AGHT+IE73YLWqjqtgU0vcQHw7OetClT9gbbbQMHH5iy0VtyUCNnwXencpMLyHRicslxwC75Z7qt/Ug==
+X-Received: by 2002:a05:6214:20c1:b0:790:3b37:8ec6 with SMTP id 6a1803df08f44-7e6ffea2284mr11149416d6.13.1758595216848;
+        Mon, 22 Sep 2025 19:40:16 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::5082])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-849c03c1531sm304190185a.29.2025.09.22.19.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 19:40:15 -0700 (PDT)
+Date: Mon, 22 Sep 2025 22:40:13 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Brahmajit Das <listout@listout.xyz>
+Cc: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com,
+	clemens@ladisch.de, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Subject: Re: [PATCH 1/1] ALSA: usb-audio: Avoid NULL dereference in
+ snd_usbmidi_do_output()
+Message-ID: <43ab3d0e-4b56-4292-aa51-2473e766dca5@rowland.harvard.edu>
+References: <68d17f44.050a0220.13cd81.05b7.GAE@google.com>
+ <20250922231720.3603805-1-listout@listout.xyz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250922231720.3603805-1-listout@listout.xyz>
 
-wcd934x_codec_parse_data() contains a device reference count leak in
-of_slim_get_device() where device_find_child() increases the reference
-count of the device but this reference is not properly decreased in
-the success path. Add put_device() in wcd934x_codec_parse_data() and
-add devm_add_action_or_reset() in the probe function, which ensures
-that the reference count of the device is correctly managed.
+On Tue, Sep 23, 2025 at 04:47:20AM +0530, Brahmajit Das wrote:
+> Syzkaller reported a general protection fault in snd_usbmidi_do_output(),
+> caused by dereferencing a NULL URB pointer when accessing
+> ep->urbs[urb_index].urb.
+> 
+> This can happen in rare race conditions where the URB was not initialized
+> or was already freed (e.g. during disconnect or after errors), and the
+> output timer or other path tries to reuse it.
+> 
+> Fix this by checking if the URB is NULL before accessing it, and skipping
+> the current slot if it is.
+> 
+> Reported-by: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=f02665daa2abeef4a947
+> 
+> Signed-off-by: Brahmajit Das <listout@listout.xyz>
+> ---
+>  sound/usb/midi.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+> index acb3bf92857c..7919a39decb4 100644
+> --- a/sound/usb/midi.c
+> +++ b/sound/usb/midi.c
+> @@ -307,6 +307,10 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
+>  	for (;;) {
+>  		if (!(ep->active_urbs & (1 << urb_index))) {
+>  			urb = ep->urbs[urb_index].urb;
+> +			if (!urb) {
+> +				// Skip this urb
+> +				goto next_urb;
+> +			}
 
-Memory leak in regmap_init_slimbus() as the allocated regmap is not
-released when the device is removed. Using devm_regmap_init_slimbus()
-instead of regmap_init_slimbus() to ensure automatic regmap cleanup on
-device removal.
+What prevents the URB from being freed right here?  If this happens, 
+the code below would access memory that was deallocated.
 
-Calling path: of_slim_get_device() -> of_find_slim_device() ->
-device_find_child(). As comment of device_find_child() says, 'NOTE:
-you will need to drop the reference with put_device() after use.'.
+To prevent races, you have to use some sort of lock or other 
+synchronization mechanism.  A simple test won't work.
 
-Found by code review.
+Alan Stern
 
-Cc: stable@vger.kernel.org
-Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
-Changes in v3:
-- added a wrapper function due to the warning report from kernel test robot;
-Changes in v2:
-- modified the handling in the success path and fixed the memory leak for regmap as suggestions.
----
- sound/soc/codecs/wcd934x.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 1bb7e1dc7e6b..d9d8cf64977a 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -5831,6 +5831,15 @@ static const struct snd_soc_component_driver wcd934x_component_drv = {
- 	.endianness = 1,
- };
- 
-+static void wcd934x_put_device_action(void *data)
-+{
-+	struct device *dev = data;
-+
-+	if (dev) {
-+		put_device(dev);
-+	}
-+}
-+
- static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
- {
- 	struct device *dev = &wcd->sdev->dev;
-@@ -5847,11 +5856,13 @@ static int wcd934x_codec_parse_data(struct wcd934x_codec *wcd)
- 		return dev_err_probe(dev, -EINVAL, "Unable to get SLIM Interface device\n");
- 
- 	slim_get_logical_addr(wcd->sidev);
--	wcd->if_regmap = regmap_init_slimbus(wcd->sidev,
-+	wcd->if_regmap = devm_regmap_init_slimbus(wcd->sidev,
- 				  &wcd934x_ifc_regmap_config);
--	if (IS_ERR(wcd->if_regmap))
-+	if (IS_ERR(wcd->if_regmap)) {
-+		put_device(&wcd->sidev->dev);
- 		return dev_err_probe(dev, PTR_ERR(wcd->if_regmap),
- 				     "Failed to allocate ifc register map\n");
-+	}
- 
- 	of_property_read_u32(dev->parent->of_node, "qcom,dmic-sample-rate",
- 			     &wcd->dmic_sample_rate);
-@@ -5893,6 +5904,10 @@ static int wcd934x_codec_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	ret = devm_add_action_or_reset(dev, wcd934x_put_device_action, &wcd->sidev->dev);
-+	if (ret)
-+		return ret;
-+
- 	/* set default rate 9P6MHz */
- 	regmap_update_bits(wcd->regmap, WCD934X_CODEC_RPM_CLK_MCLK_CFG,
- 			   WCD934X_CODEC_RPM_CLK_MCLK_CFG_MCLK_MASK,
--- 
-2.17.1
-
+>  			urb->transfer_buffer_length = 0;
+>  			ep->umidi->usb_protocol_ops->output(ep, urb);
+>  			if (urb->transfer_buffer_length == 0)
+> @@ -319,6 +323,7 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
+>  				break;
+>  			ep->active_urbs |= 1 << urb_index;
+>  		}
+> +next_urb:
+>  		if (++urb_index >= OUTPUT_URBS)
+>  			urb_index = 0;
+>  		if (urb_index == ep->next_urb)
+> -- 
+> 2.51.0
