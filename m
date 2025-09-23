@@ -1,92 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB7A18A6D4
-	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 06:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6B626B971
+	for <linux-sound@vger.kernel.org>; Tue, 23 Sep 2025 06:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758608215; cv=none; b=dGiucAAR6lKgU2N9eiQKayhRmmeuvzsPLymxLIulJDuN19jwe1ufUSLLcZZS48C0NZGweZE04ckUyg9kfQLPQUJOSEPO5DQyONMnQ2xTM4AfGOe3tdBQl3h+J0nXdNFH3esEXOFZb2QXJ88S7OBeb0mlDXwHpe1JXbiNLniIR/4=
+	t=1758608278; cv=none; b=c27TPYUoxJPY2DNfxIk4Eke5ZDz7v3Jql9fvqUOXcdulX040w3qGnP2ku9uIOiNszJ8Ozyygob3jhuMstylBUZzRJvNAo2I0W+qMwJSSsCQinPVbQocDcxA5Z6gw8QSe3pNlThvL2kUeCeB58UYWZfdWnHlVbl73WvNhMYIZeG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758608215; c=relaxed/simple;
-	bh=O6UZBIFr/8dJ/szM90Rvb2v7Zrryc51CQWUSzEMKE1k=;
+	s=arc-20240116; t=1758608278; c=relaxed/simple;
+	bh=7/1Y1zgJEG55cbtZPVgrivYSuVqe2WpL5+kpkLC7dk8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FiJQwJRau3BWBHOX2satJKMDE9kRj1XYaHc4gv3cbPUHlQqPjGcSMieJVI/DuVERFjS09xdXOZeMtRwealiplwmThCHMs3eX1lLOylUyVcUGvoh0bVFah9kLAW0wEvyqRZMKTzwCcPUGMj4jVABOtn/DmlyF+PCRde4bSBbYWE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aL2Q5Jgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dzYYVhyQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aL2Q5Jgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dzYYVhyQ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=lnFBnm9+QB/kVpqcr3I6kTQYG6HfK62YIczT2N6Rgm+gYl5ff3obpCgTFucDgNJsZy7lRoEE9wBS51vfR6SXIkle0m4WuVfygs43B2L102/RfBu+ZlvQEqnB51ZLMW+8cf+iEjmfCmZEWUXGjp5bcTYu9WVpDW7sszxeIjMlQ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ftA8tEvU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TBpZbkOJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p0IuUi+H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hez+gvxO; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aL2Q5Jgq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dzYYVhyQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aL2Q5Jgq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dzYYVhyQ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ftA8tEvU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TBpZbkOJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p0IuUi+H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hez+gvxO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 19D2D2268A;
-	Tue, 23 Sep 2025 06:16:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C58321F387;
+	Tue, 23 Sep 2025 06:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758608206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758608275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eQoL8SOuGRB0ekzPeOtupj2pttzN+8hBSFOtCyMsG+E=;
-	b=aL2Q5JgqKEXg5lCD74pvyphtvXfk9XBEgfKUTRWoFWLHqRfjpizahLwndvb3tJqkkkgemO
-	SkSzyOLJ8FWv/TXdNx66lUMYbL4CKDr0+wT6zvGRbttLqYAX5vCoTW5pnLpSi4D2aSt82f
-	LGG3RIcO/nQ+2mJDTE7xSs5+CV/lMnM=
+	bh=LUrfdIgv2V6DzKiD+/P0rxqDe+DUmvk0odPjAfH2sMo=;
+	b=ftA8tEvUre3AZ3LHtHbLKrgx6cFZIdUqZ943aYi6vDQmUFgdcI4fOF6kkyTjTTjhMMwEhI
+	e3zDpKVPLIGZzCYCQ+1NykpH4cRVZTLo3Tp2rrQD4FD6RT/tNMUzrpt20RbhDlsecYPGDJ
+	Lv3jeS+IyQAi1v7cjhA3wRwJA+yquoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758608206;
+	s=susede2_ed25519; t=1758608275;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eQoL8SOuGRB0ekzPeOtupj2pttzN+8hBSFOtCyMsG+E=;
-	b=dzYYVhyQK3RTyANKL9LTgmhhbmlY+zeYa57o9lKIsi/XJZqsXHIsRGi8NJEND3u4ELnaSo
-	Ge6WDHXWUvY9wiCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=LUrfdIgv2V6DzKiD+/P0rxqDe+DUmvk0odPjAfH2sMo=;
+	b=TBpZbkOJ0MakiCbQwoVJT+FAypM3t/EgVtzgDE7ZSXos+PBa65O/6GLnOWklDP8WXY9VE/
+	nyu8t5GTQoFbpOBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=p0IuUi+H;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hez+gvxO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758608206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758608273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eQoL8SOuGRB0ekzPeOtupj2pttzN+8hBSFOtCyMsG+E=;
-	b=aL2Q5JgqKEXg5lCD74pvyphtvXfk9XBEgfKUTRWoFWLHqRfjpizahLwndvb3tJqkkkgemO
-	SkSzyOLJ8FWv/TXdNx66lUMYbL4CKDr0+wT6zvGRbttLqYAX5vCoTW5pnLpSi4D2aSt82f
-	LGG3RIcO/nQ+2mJDTE7xSs5+CV/lMnM=
+	bh=LUrfdIgv2V6DzKiD+/P0rxqDe+DUmvk0odPjAfH2sMo=;
+	b=p0IuUi+HBBk3jHVhgtBFd6MvWSsVcHqJhuzrp5vnC/DH6vjubA7BtRlgjZTC4xDx4fN+Lw
+	isg9conx5tqZOmm9/4HfNkERLYJMRbLtt4eAO8zKoBnTJlpWJGee4hQE5paF+JQeqskYrD
+	RLKTC2s3sT752cs9m7cRtuBa+octKS0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758608206;
+	s=susede2_ed25519; t=1758608273;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eQoL8SOuGRB0ekzPeOtupj2pttzN+8hBSFOtCyMsG+E=;
-	b=dzYYVhyQK3RTyANKL9LTgmhhbmlY+zeYa57o9lKIsi/XJZqsXHIsRGi8NJEND3u4ELnaSo
-	Ge6WDHXWUvY9wiCQ==
+	bh=LUrfdIgv2V6DzKiD+/P0rxqDe+DUmvk0odPjAfH2sMo=;
+	b=hez+gvxOKd7GRbV41/POgbLP+CeKe5IdpkOp803cq6ZKPU71VtITuvAn8lUTwewqlPCxf6
+	J+HCrf5GL0QHlLBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDE4C132C9;
-	Tue, 23 Sep 2025 06:16:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0F07132C9;
+	Tue, 23 Sep 2025 06:17:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5m2WLE070mhCFwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 23 Sep 2025 06:16:45 +0000
-Date: Tue, 23 Sep 2025 08:16:45 +0200
-Message-ID: <87plbhn16a.wl-tiwai@suse.de>
+	id hEwSJpE70miWFwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 23 Sep 2025 06:17:53 +0000
+Date: Tue, 23 Sep 2025 08:17:53 +0200
+Message-ID: <87o6r1n14e.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Brahmajit Das <listout@listout.xyz>,
-	syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com,
-	clemens@ladisch.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH 1/1] ALSA: usb-audio: Avoid NULL dereference in snd_usbmidi_do_output()
-In-Reply-To: <43ab3d0e-4b56-4292-aa51-2473e766dca5@rowland.harvard.edu>
-References: <68d17f44.050a0220.13cd81.05b7.GAE@google.com>
-	<20250922231720.3603805-1-listout@listout.xyz>
-	<43ab3d0e-4b56-4292-aa51-2473e766dca5@rowland.harvard.edu>
+To: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Amin Dandache <amin.dandache@gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: don't apply interface quirk to Presonus S1824c
+In-Reply-To: <aNGbUkO8n6M8kggv@ark>
+References: <aNGbUkO8n6M8kggv@ark>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -95,99 +88,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[f02665daa2abeef4a947];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.com,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,syzkaller.appspot.com:url,appspotmail.com:email]
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
 X-Spam-Flag: NO
-X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C58321F387
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
 
-On Tue, 23 Sep 2025 04:40:13 +0200,
-Alan Stern wrote:
+On Mon, 22 Sep 2025 20:54:10 +0200,
+Roy Vegard Ovesen wrote:
 > 
-> On Tue, Sep 23, 2025 at 04:47:20AM +0530, Brahmajit Das wrote:
-> > Syzkaller reported a general protection fault in snd_usbmidi_do_output(),
-> > caused by dereferencing a NULL URB pointer when accessing
-> > ep->urbs[urb_index].urb.
-> > 
-> > This can happen in rare race conditions where the URB was not initialized
-> > or was already freed (e.g. during disconnect or after errors), and the
-> > output timer or other path tries to reuse it.
-> > 
-> > Fix this by checking if the URB is NULL before accessing it, and skipping
-> > the current slot if it is.
-> > 
-> > Reported-by: syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com
-> > Link: https://syzkaller.appspot.com/bug?extid=f02665daa2abeef4a947
-> > 
-> > Signed-off-by: Brahmajit Das <listout@listout.xyz>
-> > ---
-> >  sound/usb/midi.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-> > index acb3bf92857c..7919a39decb4 100644
-> > --- a/sound/usb/midi.c
-> > +++ b/sound/usb/midi.c
-> > @@ -307,6 +307,10 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
-> >  	for (;;) {
-> >  		if (!(ep->active_urbs & (1 << urb_index))) {
-> >  			urb = ep->urbs[urb_index].urb;
-> > +			if (!urb) {
-> > +				// Skip this urb
-> > +				goto next_urb;
-> > +			}
+> Testing with a Presonus STUDIO 1824c together with
+> a Behringer ultragain digital ADAT device shows that
+> using all 3 altno settings works fine.
 > 
-> What prevents the URB from being freed right here?  If this happens, 
-> the code below would access memory that was deallocated.
+> When selecting sample rate, the driver sets the interface
+> to the correct altno setting and the correct number of
+> channels is set.
 > 
-> To prevent races, you have to use some sort of lock or other 
-> synchronization mechanism.  A simple test won't work.
+> Selecting the correct altno setting via Ardour, Reaper or
+> whatever other way to set the sample rate is more convenient
+> than re-loading the driver module with device_setup to
+> set altno.
+> 
+> Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
 
-Yes.  The timer instance itself should have been killed before
-releasing the resources.
+Thanks, applied.
 
-I guess the patch below could cover it, but since I'm traveling, I
-can't check it for now.  Will check later once after I'm back.
-
-
-thanks,
 
 Takashi
-
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -1511,6 +1511,7 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
- {
- 	int i;
- 
-+	timer_shutdown_sync(&umidi->error_timer);
- 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
- 		struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
- 		if (ep->out)
-@@ -1519,7 +1520,6 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
- 			snd_usbmidi_in_endpoint_delete(ep->in);
- 	}
- 	mutex_destroy(&umidi->mutex);
--	timer_shutdown_sync(&umidi->error_timer);
- 	kfree(umidi);
- }
- 
