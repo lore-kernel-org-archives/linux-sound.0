@@ -1,145 +1,126 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1931B122
-	for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 14:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB7E2367D7
+	for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 18:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758725537; cv=none; b=PM+4gUvc96ThdW1sNrJBdUgd3MSWgAF5r1uux6oxRaLEZfvkqy0N8ZtzUL8c0VQ6v4zk+rr37L2GZOG5koqeIDsbQE9XDQ0YcuLDTNPqB3ukHUN7ajrDuc/4Uhx87x5O17nwwGB/NaIZ17WZTRpIHb/cgl8ZmCQhFg8xZPfJllw=
+	t=1758738318; cv=none; b=ms/1j+cSbNaaFnjWq/SWdHVMZomlytig7I+9hLsfd9NwyRuX4N29OW8o9i5zdsJpWNW7xA8zWbxQ9Dh9cWKVKLJRPEmTDiPP6tetrxbNRSOoVL/hbgBoLvnx4Ma72vxp659xetG8+N4Et/TBnZiXt7kz4VzyMHK2gRAIsWcuaN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758725537; c=relaxed/simple;
-	bh=kA7iX9loqcR1iPNQOHLnQ9pDOo+AVwSl3LLk/F4br8U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VZuwNr8c3mWGsjC9KhbaGdUJr6pVfimko0IUiN2JljjuGJD9se9UE5O1p53oTDLYj7vxFRWNN3CAwdASFD2snH7u8fzYYjHMc3/ASIDe8n+ex49WH/ftSDTyr6cqKlq5VgcasKRHQ81vDINfaMckuGIlQ7GJyRbkCVBRDSUC23Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=rkbIF0wW; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1758738318; c=relaxed/simple;
+	bh=g97455aHztfid/mxTIWRxfLc4DSmVKssfpZqo3D8+SY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kvlrmoe6wUvwji7Rw0ptLFHgo0VmjgqFCGLUsgo6FNOkV5n+L9Q+RxahWBZrcbC/5VajXv62vM11XbwtnnuOVgSW3dnVZhP0bXuNput87mM7PDm2xaoou9mhaZ3aeOA+vPiFA0BVOJNrTQWiyGyAubN9uoCbTIpEiw46V7EVO5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bvtOKgXl; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="rkbIF0wW"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46d25f99d5aso8006645e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 07:52:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvtOKgXl"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77e87003967so89451b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 11:25:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1758725533; x=1759330333; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ndMaJDazpE5vfGfuGA/DbEp6kihBYbJYnxWQMZaUODQ=;
-        b=rkbIF0wWiiVi3XAxja1+YxX81Ry7Rb3TCnWgON2cQ/qp0VfhvoZS0bdOIAqrNtC60t
-         s38zVQGwI4FIKdqzHuzD448DP7XYfsIUNzAITNDCdnEyq6VVNr5zGmVbugXuVIpXZ7NO
-         fJfmVRdPqDp/V43lq2E8AKMJh6dsyMkk611nxXhbrp9kBUNNdAlf0s3mYSC0p7R4bjer
-         Dq0+gki5JGmFw8iAg8498/c7gGR/b6gNhSjwDyQOom6pN5P19lm8Sxip8umjA6wIX1YG
-         ciM77BHJa6vqaI/BdbHuDvXBTZVbmkpS9IMIfBtfI8kVM95RRoGK5zA7ZPTlrosffUYW
-         bCqg==
+        d=gmail.com; s=20230601; t=1758738316; x=1759343116; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6YgjPyD/CCV5XJY8PLF8Hf+Jbbmg9hnJHEyTuJhhjQc=;
+        b=bvtOKgXl3shv4YjcgA06OXdHR968qVWEkukCgTBFU5ZT3pYPZrVx9FeOFVpQn7GZK8
+         Y/v6S4dn/MCA5Zq9aM7uLLa4jv36KPZkUfuyfW6W1WY/wO6yS9JHlA+RUyO4s5hzbTQ2
+         0h951+EoGtpYK3+oadW+a0AlkpDcCaoGTvITkxkfxCSi4ChmmG3ecwIiLzfWcBVNBE4h
+         2KUz5spEy7Nj2SmogiXX3zbKvIYLFeQa+x5RwqGd6YWgyM0Xdc9eRlpvdPy4g4hcfnND
+         r30Xv0QUFePiTmrt0bQCksav4PkWHuFj+9U9WNac3sEl6Q/zZD6QJl7EYb4ly6gi0I2/
+         mE2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758725533; x=1759330333;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ndMaJDazpE5vfGfuGA/DbEp6kihBYbJYnxWQMZaUODQ=;
-        b=HWxW5oLZ6XQZu4vSbY34PPVkbmt73peqTgTRtWQ6qftN6WyCHz+Vt+xCFS2WxGtIt6
-         4EahP1L6tQaY9y+NLsJNDwDbT97IGzMOgFmJrWjN2mIRFSkf8xcXmsw+QMPo+hST8RoH
-         /JbARDE2kjizh82gfmOLNCr1Tjyl4xGFLK6+W3BI2+s/XE52MLBwIGBKrcLMZlcLb9nU
-         RUZJR0AcEUnCaRy31Wxv7/u1MQIeu/lACiF8fMwoQGKRYcGra073RQmuIdkGpmfhpdch
-         v8BKQPAvue2aDACsi8RAJitBH2pIq1vJzvG/PIJW2douamnaTuuNh1BI4772LC+Csw0u
-         w8dA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3mxdtF5fOWMDGQGHJ0vrvZ7WBBe+7vKZq/kQ1KzbA7Eao9vZkJQBmOZoJT+V4GmrMQTSj6vzoUoxftw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUba/wWtSibYaMLJYJitm4gYl/9tV+sISkqt5Nes9BQber659W
-	kk1izDY6QhZIEiaUyl1U3tP3PdettqeaJk9hrkaovy0knDdFhLp84eUzB5u6VWVjsYA=
-X-Gm-Gg: ASbGnct517svV7b8WruFtb89BCLunprrMtI4SdKwpsbW410YpWYTOEifNC4hWriSqc0
-	gvbYOlSAiN1zob3C3MHkFl13FG3388kdS/UK8DsPKN9S/IoPYawRio9rMKThD8XWCwSWEJq5jYJ
-	qnRCYT0OjV2tUcEFW0jXvGb2MOf1VRt0tiwf/kllvLTigxQtRczxXZyPvUCx5GoV/Xzql+xb7Mb
-	40Lyb3zkPXWluk07zb+8RTv4sEOmrTYAadDtQMfGavhP6ogHQ5LMF0jCYGIDREDPAaetkBq32AB
-	UFddJ5MjfRHemmTmcfmJhTMm7jtaRPL1rMpBifUdumslelwwd8k4UD/UDBvc/ybtC7FU69vcj6x
-	MTkMulJuLvzUFzeTSXNUIo/Zju6g/
-X-Google-Smtp-Source: AGHT+IHNoygF5K6NbFZFn73ylgRAxtpGZVjEv4fnMw43TW4zazr6wr096y7fD1mLuRt7rZlC64ts9g==
-X-Received: by 2002:a05:6000:2010:b0:401:ae97:a1ab with SMTP id ffacd0b85a97d-40abe093fdbmr2608816f8f.10.1758725532824;
-        Wed, 24 Sep 2025 07:52:12 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:1729:c9b6:7a46:b4a3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee0fbc7188sm29514750f8f.37.2025.09.24.07.52.10
+        d=1e100.net; s=20230601; t=1758738316; x=1759343116;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6YgjPyD/CCV5XJY8PLF8Hf+Jbbmg9hnJHEyTuJhhjQc=;
+        b=cq7cF4qBArxnp64NAfvH4wJgbU9+hMAcfzikLnVGOP+FZJZ9nadKxHq90yO8PL+ZhD
+         hBQw4BXO8JtKjHzFcpBjNeXGcCDtwQehyLqfTuTzCV5M7PZ7l7AHq3fcwaoQqGvBmvRR
+         uQeuQhdvkV13ZrNaE9I8fAohakdPaYq3l9azRONr3tGCbiUszakna0XaxARa+oqpn9VX
+         W5bCWX5nTthxnU5/MzpnufwEcXscVgaN66fTnLmI5x50dbCvp6qo2W5T4BaMFOEYgAwW
+         GaAj2Txhg018JDo57f7/WZapvBYl8OIyJr3mjqlxcvmLhHobnow5eoU/DuUlUVJAukxO
+         aqqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoVWDaJOg42FjqXL/Mi2Pf5bdIRXSGGdJtll5kKoyecjHIuBnj1SNoYUvXGjBRAgetYTr36zd74uR72g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw722eW/GnSfMC14ZIbJvp6pqqUUHN5XEDWXMsmzfYBWPPdM5XR
+	BWjQiD+YeymSHsLLsCmZZjNmF55m0/GFmbfbmF5Hu2QBqpqfzj2xh8Zu
+X-Gm-Gg: ASbGncuOPnHNbJ6QIgG2V7cc9TwJ3t+UgWi2GojYJ3YZMUys1toEIl/LhoY3oXtubhs
+	i8FCG8JihlovAVEixHPu09UThPbXnuYyxr751VsJ9jcEEyNbVjoj0GYo2BY+0BkVwire7dx1Ku4
+	ZDtXGbwKmyXGKtqNgjJMXIykVolj0/09wpApUjtYqNTAC9xKsm0gHzpMBO7P0tkGdVUCSNt6RDB
+	Xq2Z3y+h2jOncka0eUFZm6+BoeHFaawXdCLOAYRYMpzJo1AUGc33qkdmuGjQj5+4Wr2nUQEetJ+
+	6DVy9Jm2aBE+FcwUbOeY9FvxrLsnzMjR+dWpgFtlLOSuu8bFA6wPkPSJ5xOTvDE1mfLGF5QUlti
+	a5n8nkhhJYfFHzfEDkq/Za5ieuN7EfNa5/Q==
+X-Google-Smtp-Source: AGHT+IEpqtHdu0dI46MtGn1c8K5pz/tU5t+99UVSknOsKwdK2FcxqnWLxMvVRgkYkwlIxwrVnQBnnA==
+X-Received: by 2002:a05:6a20:918e:b0:24c:f8f:2b95 with SMTP id adf61e73a8af0-2e7d0ad11ddmr748774637.40.1758738315675;
+        Wed, 24 Sep 2025 11:25:15 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:f4c4:bad6:f33e:ddc9])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b5510fd4872sm16344912a12.32.2025.09.24.11.25.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 07:52:10 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 24 Sep 2025 16:51:37 +0200
-Subject: [PATCH RFC 9/9] ASoC: wsa883x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE
- flag from GPIO lookup
+        Wed, 24 Sep 2025 11:25:15 -0700 (PDT)
+Date: Wed, 24 Sep 2025 11:25:12 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+Message-ID: <hyzzrjn7jzo3tt3oyg7azijouawe3zopfjzq6zfhoo6e6z2m4t@ssl5vl4g557e>
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250924-gpio-shared-v1-9-775e7efeb1a3@linaro.org>
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
-To: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1242;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=xxM5DFs0HrWkdhU2lVlfFzKEyxjnJBr+LeYHk9Z5T9I=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBo1AWGsIAdL4UJeiMya3ALuTFpKjTN7aiOFeRzH
- +UVHZT5JrCJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaNQFhgAKCRARpy6gFHHX
- cphcEACKy+MOIGJFHlexGtoihY6/OLkWdmrBXTUoO645qSw8NQvk7z2y3yUjzvjBKr9hX81y36k
- bi2ATgazhH2Y1qvRZLbCIyviBSlA/Ng/tlMWhAih3C07fcUG4xSkIpQmEvG11WfZbM1/JEdat4H
- oD3+pxKwrYyGakphDygC2/1nRA6QdzY6faa2Z6Q1DULdAyY6UoySb7D4odXllJNuZyJCCtiqxWE
- ubY3EMGOgrUzkIo5o17rtWlh6q+lU86nd59+duDIMpp6jgsUk/A1crptrmnhptqlh4HqNaUyHSS
- rS+ejjtDOTT46Z1nSE5u86Pg8+VJOjulDbM+epJg7NwA8n/Nz4uSLBbYABdnCaq3kG4s4OYHoGW
- 2EUoRTdUaKhnQOn2B/C8/W6zEkf+y6PjFboefj7wsslTNN7vlPo4vYmHA7jdCnDzWs4cW3AEdOZ
- sMMbRrfmlrfPatsBaEL+HZH71qMXTu/zBucKIg58ZckX9wKRAS+FWVtm04JHuuqGgS1XtkMwu4p
- Szr//k1rQp23kajM4IU5f9EUL1JLmpeoiDQEjUKcS1u0OiMeqkC+5RrMHwKd4uP6zPFkpkaQcLQ
- VSogCIlRTTQ4/NIBHy7HHxQD5Ehky/V5JKlAuCEStvEZ/XxunMEiLV0qz5adX0fh3iAMdhZ8igI
- MtfsM1m9NuzFvHw==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Bartosz,
 
-This driver is only used on Qualcomm platforms which now select
-HAVE_SHARED_GPIOS so this flag can be dropped.
+On Wed, Sep 24, 2025 at 04:51:28PM +0200, Bartosz Golaszewski wrote:
+> Here's a functional RFC for improving the handling of shared GPIOs in
+> linux.
+> 
+> Problem statement: GPIOs are implemented as a strictly exclusive
+> resource in the kernel but there are lots of platforms on which single
+> pin is shared by multiple devices which don't communicate so need some
+> way of properly sharing access to a GPIO. What we have now is the
+> GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> doesn't do any locking or arbitration of access - it literally just hand
+> the same GPIO descriptor to all interested users.
+> 
+> The proposed solution is composed of three major parts: the high-level,
+> shared GPIO proxy driver that arbitrates access to the shared pin and
+> exposes a regular GPIO chip interface to consumers, a low-level shared
+> GPIOLIB module that scans firmware nodes and creates auxiliary devices
+> that attach to the proxy driver and finally a set of core GPIOLIB
+> changes that plug the former into the GPIO lookup path.
+> 
+> The changes are implemented in a way that allows to seamlessly compile
+> out any code related to sharing GPIOs for systems that don't need it.
+> 
+> The practical use-case for this are the powerdown GPIOs shared by
+> speakers on Qualcomm db845c platform, however I have also extensively
+> tested it using gpio-virtuser on arm64 qemu with various DT
+> configurations.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- sound/soc/codecs/wsa883x.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+How is this different from the existing gpio-backed regulator/supply?
+IMO GPIOs are naturally exclusive-use resources (in cases when you need
+to control them, not simply read their state), and when there is a need
+to share them there are more appropriate abstractions that are built on
+top of GPIOs...
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index ca4520ade79aa2c9377449e29cdd33e9e8dd28c5..ba60b4de6cab7740cd8aa70c89f6e03e1dc2dd12 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -1572,13 +1572,10 @@ static int wsa883x_get_reset(struct device *dev, struct wsa883x_priv *wsa883x)
- 	if (IS_ERR(wsa883x->sd_reset))
- 		return dev_err_probe(dev, PTR_ERR(wsa883x->sd_reset),
- 				     "Failed to get reset\n");
--	/*
--	 * if sd_reset: NULL, so use the backwards compatible way for powerdown-gpios,
--	 * which does not handle sharing GPIO properly.
--	 */
-+
-+	 /* if sd_reset: NULL, so use the backwards compatible way for powerdown-gpios */
- 	if (!wsa883x->sd_reset) {
- 		wsa883x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
--							GPIOD_FLAGS_BIT_NONEXCLUSIVE |
- 							GPIOD_OUT_HIGH);
- 		if (IS_ERR(wsa883x->sd_n))
- 			return dev_err_probe(dev, PTR_ERR(wsa883x->sd_n),
+Thanks.
 
 -- 
-2.48.1
-
+Dmitry
