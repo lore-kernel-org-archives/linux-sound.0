@@ -1,104 +1,89 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9B72820A0
-	for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 08:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7F8284B4E;
+	Wed, 24 Sep 2025 08:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758702886; cv=none; b=buhr5CjG74MxTDRIDdSb2LvU+RDP5K4zaFgnj5Cu+j5CceIdQZuhqz/IqcXPXuPRLKj33HgBwiu/DG6k5HU25OPdeDOMl2A5WvKDodGdxMiQ+iOF9RiCZh9pK+VGglcb1vCQxVhSf/Cu3bdBXGJEYIcrYpPwzDQcpu4W5y+GLcE=
+	t=1758703324; cv=none; b=sZEnR6CtcLEO0bhClswIhPO6kZHL2ZaN4AX4NOCQZJu2ksLGfkAn5BJRn7TlHH76NEp5dNb1uvkpnEjp3sTUObgyi114nmnjNiFUkD//GVT7LpjdJNZEu18kcU00zL0Hzr8pWRwdj2tG3yoXvWzPIg2h2EAqCYx8NdZFEeLmmN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758702886; c=relaxed/simple;
-	bh=4wvx639RnwwdY8F0v2Vj37kcv/o6/9JmJ8NAhXnPjto=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ixsczDIHd4nDSJecsP+R6ftRt5s4r1U397mRXigAeWDaWaj1Fjo7nVHJz3v3PPHLe11rclm7Xc7g7hLXwz2KU1I55DHCeE7A5sqnF8Ev8M/QR868mJDh6+3xGPM2OH1OegRXNWdX3Ez1/gwopQF62sevDYXEMTnAOg7zC8xwbDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <jre@pengutronix.de>)
-	id 1v1KxR-0006Aj-7V; Wed, 24 Sep 2025 10:34:37 +0200
-From: Jonas Rebmann <jre@pengutronix.de>
-Subject: [PATCH v3 0/3] Mainline Protonic PRT8ML board
-Date: Wed, 24 Sep 2025 10:34:11 +0200
-Message-Id: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
+	s=arc-20240116; t=1758703324; c=relaxed/simple;
+	bh=auJYwJ+cyPyFLvcVPi26gr8jccoOsGsQ/OB2oIB5N+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNs26uOBF265keo2aNMz0SjBmSuss6Wd1/OWOLqjzLTOCMk/IQ9P9WbWWwf8ZMYeOqZL+Uisg/FiA63g7s2jHQj7l8Gafb9howDmEWJMSM8SLesPyrqGsHMz24xhQt5/sz8kxiz0vO2RZxI/keSQwU4zdYG0bo3ivkdfQoTtC14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3Ha+zzY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3Ha+zzY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30213C4CEE7;
+	Wed, 24 Sep 2025 08:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758703324;
+	bh=auJYwJ+cyPyFLvcVPi26gr8jccoOsGsQ/OB2oIB5N+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o3Ha+zzYBOSQQQYu1+P54hFmQsHGKQ+/XfotMehklDSY7O4SJlxeIHrYcmqxNvJSI
+	 acewltwPW/vxbDNHV2Ip1HDL8i/21OoOeild74xSGR64Os6jUI64ZvKlJctWafexfM
+	 4dW6ztb4ygfN15HQdSztjNSgjBNnJiTZWR75zzFNRLEkDCYFnOs/m+v5OFono616nx
+	 Is232iJ51PAm0WYL+cQy2nolYFcnWVmb8cxQj4tX4h22NXN1hH7ivkVjlgOS61F2KS
+	 cZYiBmyBboMN0FJauy8tVlvD8K471jNLMBImHsnMUF/VptMdcFmrPky76F9MwbRd5z
+	 A0zLL9m12FnvQ==
+Date: Wed, 24 Sep 2025 10:42:01 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound: soc: qcom: use sa8775p/ subdir for QCS9100 /
+ QCS9075
+Message-ID: <aNOu2ZnBXeqNXdJ8@finisterre.sirena.org.uk>
+References: <20250918-lemans-evk-topo-v1-1-9680600e62d4@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAOt02gC/2XMSw6CMBSF4a2Qjq3pE4oj92EcgL3ATaSQFhsMY
- e8WnBgc/ic530ICeIRALtlCPEQMOLgU8pSRR1e5Fija1EQwoVnBOMV+Nv1IRz+Z/kkZr0Gq3Kh
- clyR9Rg8Nzrt3u6fuMEyDf+985Nv6lUrODlLklNHGMlWB5Tov2HUE174mPziczxbIxkXxS5gjI
- RIhrVG1akBLC3/Euq4f9TOPKPIAAAA=
-X-Change-ID: 20250701-imx8mp-prt8ml-01be34684659
-To: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Jonas Rebmann <jre@pengutronix.de>, 
- Frank Li <Frank.Li@nxp.com>, David Jander <david@protonic.nl>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Oleksij Rempel <o.rempel@pengutronix.de>
-X-Mailer: b4 0.15-dev-7abec
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1535; i=jre@pengutronix.de;
- h=from:subject:message-id; bh=4wvx639RnwwdY8F0v2Vj37kcv/o6/9JmJ8NAhXnPjto=;
- b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsi4vFba0Pk8n2Oeim+bwmwF888J55+v+JZt43defuPjP
- xVJK9vPdZSyMIhxMciKKbLEqskpCBn7XzertIuFmcPKBDKEgYtTACZyRZuRYatq8smImfserIta
- ZfJgl1Nu1Ed3uVcp6fbZmmuSFr3lrWD4XxLwSyzYVJll52yVTfz9Z6anX9m37HnaiWym0rPZ9tO
- rWQE=
-X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
- fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::ac
-X-SA-Exim-Mail-From: jre@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yVEte8S97JDuXU9I"
+Content-Disposition: inline
+In-Reply-To: <20250918-lemans-evk-topo-v1-1-9680600e62d4@oss.qualcomm.com>
+X-Cookie: Filmed before a live audience.
 
-This series adds the Protonic PRT8ML device tree as well as some minor
-corrections to the devicetree bindings used.
 
-Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
----
-Changes in v3:
-- Add comment on the intentional limitation to 100Mbps RGMII
-- Link to v2: https://lore.kernel.org/r/20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de
+--yVEte8S97JDuXU9I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Changes in v2:
-- Dropped "ASoC: dt-bindings: asahi-kasei,ak4458: Reference common DAI
-  properties", applied to broonie/sound for-next (Thanks, Mark)
-- Updated description of the reset-gpios property in sja1105 binding to
-  address the issues of connecting this pin to GPIO (Thanks, Vladimir)
-- Added the fec, switch and phy for RJ45 onboard ethernet after
-  successful testing
-- Consistently use interrupts-extended
-- Link to v1: https://lore.kernel.org/r/20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de
+On Thu, Sep 18, 2025 at 05:41:52AM +0300, Dmitry Baryshkov wrote:
+> All firmware for the Lemans platform aka QCS9100 aka QCS9075 is for
+> historical reasons located in the qcom/sa8775p/ subdir inside
+> linux-firmware. The only exceptions to this rule are audio topology
+> files. While it's not too late, change the subdir to point to the
+> sa8775p/ subdir, so that all firmware for that platform is present at
+> the same location.
 
----
-Jonas Rebmann (3):
-      dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios property
-      dt-bindings: arm: fsl: Add Protonic PRT8ML
-      arm64: dts: add Protonic PRT8ML board
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
- Documentation/devicetree/bindings/arm/fsl.yaml     |   1 +
- .../devicetree/bindings/net/dsa/nxp,sja1105.yaml   |   9 +
- arch/arm64/boot/dts/freescale/Makefile             |   1 +
- arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dts    | 501 +++++++++++++++++++++
- 4 files changed, 512 insertions(+)
----
-base-commit: ea21fa34164c9ea0a2a5b8714c7e36f54c7fb46e
-change-id: 20250701-imx8mp-prt8ml-01be34684659
+--yVEte8S97JDuXU9I
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
---  
-Jonas Rebmann <jre@pengutronix.de>
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjTrtkACgkQJNaLcl1U
+h9BStgf/XpuYwx/3L8j1Z43CTYp48DfN5BQ0J1tRag7XO9ZF4DjZoCrm/OkCd5P1
+Ni5PIrng35htiBf9x7ZA3pEJ/d9+WHLMAZBTAvyXSOzB/QQ7cs84/oJ4GgBkkH9y
+jIQNKgNplOXPtGikem2sMJpE8MNKDkrZt8Eb/4Zm8QFhc3EtNHVLlBf7jWN1jYPp
+tuc2tMr0a0zp9l+APi7bod2YkIqKtNXeEB0iamk1yjZ6TLdhE3ecBrF4s9UIEqEo
+2paC3NS4E/JNiY9DU9Me7/6XJ9bUYG2sPNuTFaUBTHIFtzeqweIAdMSqubaUEY25
+c32XZKR2DSKGqFlDl60aP0B1HHUjdA==
+=MJVp
+-----END PGP SIGNATURE-----
+
+--yVEte8S97JDuXU9I--
