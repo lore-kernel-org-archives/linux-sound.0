@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A1A2F5A0D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A262F5A16
 	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 10:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758797662; cv=fail; b=ZG36/m+TTCqEDI6JMQXMzAxPDAhUw+HaUp9n8IB/fElP15UwW1PeUN9+TiDLiL/36BPEvxsDzFLhL8zss1TpbIIQyFoDdDJRyBSQsI5DN+3XR2nlKrJnMqhVpDumOM5i8JqsRsN78jWCPeKdII0s+ijmM8nlCGPbmnttAlc3imU=
+	t=1758797663; cv=fail; b=X4OBNJ8Q2DvZXanDDEGDimk1Rj6RE/MeLeCfjHEQdb0D4e+xnMhZPO5TWQgdrD3vaWCZkRJ1zBgVTS2s06DDp+mCLuXnrcXLQpGtuIxPq7ZSOfTaSoET45dqO1Jaly20CsgNEOfqNNSC4QjHatSz81FniAEAXl+8OgNQNJulojU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758797662; c=relaxed/simple;
-	bh=/3iGu4i4K4L7DBUK+CQL87/utUA9vu0DXzLS88FT4CY=;
+	s=arc-20240116; t=1758797663; c=relaxed/simple;
+	bh=Uh10q/h/FHndYlGmKVMeLu3G+Yu1QIhQQZOKpFl1REc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rWr3lhrm28erRd3xA1qx0XEWj5Awa7paIaXGVf7HoHi0BWwSZuNwHcb7Td+gqUt4MVEG1KpQEjXtsdzjzfgzI69fIuUrpKFhdu66sDi+4haFvXvGhEavA9utriB5akUhZs6YIss4YGgEROiTZS6wD2O8CQIMkjoYX62RhQOA2YY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LLwdTydf; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Mtf23ld0; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=HINco25e68ehbFcf23jjEwZhSspEa1C8cjBt3YbpCb4AHjqJlJpKSoV02sTEiKhhRETfkGpIHM+dQ87RNhHus/Q3QxMQPPJZaLnLKvSZBwAKlRJfKDhaM2247XIn0qwTiEGXOi0jQWa0OLT7XTLWX09yilf2E5i0X1mkOheOyXE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=D0URgBOb; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=NB+XdJR4; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LLwdTydf";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Mtf23ld0"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58PAN0u51391147;
-	Thu, 25 Sep 2025 05:53:55 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="D0URgBOb";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="NB+XdJR4"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58P4PF6l2026617;
+	Thu, 25 Sep 2025 05:54:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=XLbaswBk5Lk4q5HkX4cLQxDYUHVpldgD4b0DwxyX/ws=; b=
-	LLwdTydftKSfyZb7fDFQk3seI0HjCaYpToD9uWKIYR1Q3SxZUyOsTOGlm1rNkqEQ
-	jEn0ovtRH81z+S0b1Duc9fJ/6xoGrKRYQ7ILdqmYNKNFA51dzXNAXYOCvxR6xMLo
-	lHK/G4l2opo/oaGhrqlsQi7Cqi4CXWnSl2YDa92HHImzYvk1g2yejfsMrmYwONDV
-	BUKaZyKrPdjdja6ktDSGbZKUg+tKj6iu3+hgxpLKWAu6ChgeBUlJ+QoHND/uUuRI
-	GYUugRcTJPFpPDfAyTdBirTgbaHXPH3M8kVCmjOxhMDrhrfRq/koof/4EN/RnJWx
-	Q3bn5Zv6v/eWW0h4NW/lAw==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020103.outbound.protection.outlook.com [52.101.85.103])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49cjmds8wx-1
+	PODMain02222019; bh=9xhaP1ua/UWhAKA+ANqGSS8ayWfImDl4BrGqhzrc5QM=; b=
+	D0URgBOb/14xEbz1g3JVJry3HKHFQsf6IzSuacGScgsdY8o5VVBytORpXlIq/RO1
+	S1uOcaAibWRu9Z8Pg7SswiD4T79sHj1XaZutPe6LjvK7DxwBRnK84xbuBpB1gh1q
+	0jluBUkkPsXK1sOUyW40uE4VWUVP4QbeCsINNTTxonUfKPXq16tS07QtYiszqtMR
+	rVBDbpOX77QTYYQ9Ol0XL2xAbYIQTR8i+VP18656Rt5gbF9MjqrQP+ipisTzpjyr
+	QV+H2uzgFw0O8+MFvheaJevxP6Aml0vfjOJz8akmE49+Ehei/HA7/6vV6WR4dFOq
+	w/4TYUxWwI4ng1Egnw3cBA==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022131.outbound.protection.outlook.com [52.101.48.131])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 49cvharf6p-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 05:53:55 -0500 (CDT)
+	Thu, 25 Sep 2025 05:53:59 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tYQ0RIUjwaCbADvq5CgJIhW8eg7Va8tfgcnPDMzm/XIUaOT9TMvCn7ZKSCx6gccEMSTnaxUF1I7n2moxyhJehpT8ewazr5Y05dPAdehsBka8Zd1wHcAa0GWc5UzkHCmXKbfUwJMlHDmkaPgzSbYJ/lwyWTTpHxJv4Sx6d3FZbjbFmKYp7OlKX8bg84CWW21Moz2NB0MEUlwKOg69Nwq3aYd+3Ve0a55+dIMTqfxalmQEgv3e39O6reB8ZhT3cW57jaiq4Ga8KQKkXqYD01qf40eJO1One+/oN6b5hOEnci5dFjTW+bxebYQgFrER5TNX989VVuus2BycwJPZxPqmXg==
+ b=WOhOoomD+uNptc+7EjjlMnQSz8qIvxP3Cmtnodoi+a0BlMnklrCMj16C45XcNbhDfk1cOu0zTlkQAC1PO+dv4ZRSo1Tt5JZL25fM1p5aKcmOeqafuRBxhNh0OPyhcUk84QhLm+z4ZlDwt1oh2DXvYnLxQWwGL1WncYZvyClmiffGFS6T4DC8udZSRdI0oC64jDOhYoPJlNLsLZ4qYhVNbQyBUsA0JqsaaBAQgXDdw+KRsWCELgZZvFWt/UTRpScuQjfR+S7Nsk+F4iuXitIGn7Xie9YOtwT+b0FIuhef+R2ZE4p2RxwvyaSl5GvaGBzpnhG01Z1sr/s74oxTYSWfVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XLbaswBk5Lk4q5HkX4cLQxDYUHVpldgD4b0DwxyX/ws=;
- b=o9xSvAH3PpcX5gTfthp1wJjcHh/PJx2cUl2NEpXUcUZ8uiQAHMBg2g+8ZpPvNzwVRovBDfI3WWMVfvV+XifPaKCBsQBApYU6H6N5KYxrhgcEh3hPsPqw6cp27d2SJAESJNEPFxTj+oOubjARKnERzg7Z0IFuy4b3YfUq8AVSt0Gc9m85PXzj3C+BfcXBGuzqi7Im9KVFcqq+PBb9it5/sN/AjA6r6s0c5SL39SjD0SZ/43sBTsP81arVIVXOKYVXysB8KAwuF6Bps2KG25Tp8Ga59uODemI+4cz3B093m2+h1Nnj/RQkzxLCwP8gBe70rIFPFt3G/LFphBNoXCL2Rg==
+ bh=9xhaP1ua/UWhAKA+ANqGSS8ayWfImDl4BrGqhzrc5QM=;
+ b=kf17CNPQW1Sw7LiGwzxEzE7ns/rH4adTTzc8a7msSbCfgpfe7CMNnk6Bj+hToUcE/K+6kFxtvA3BVRnnYlqSbP4jGYI+AcZdfwJDA/HCL59m6lR+5XeKsB4Nl4etvWoEhMlA4VMvTFsU3y0RKo5JEtsEMlrx4IiO/UZa0GIXRs26mRmA2spwAeOgbXyA7tQ/GViquXZiQEhxQMxWBdi6t5QGyYHHwxsQntAkm+Hy9F/UiugDnTpMOh8G3MGS3n0qJdoQqawDewjCutejGQqL0XlKxFCleSXoaBOoCX1JdnzbPDjqJdSlPV7mT1VHT3aKjWIKKb9cbR9yZ11xAj8BKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XLbaswBk5Lk4q5HkX4cLQxDYUHVpldgD4b0DwxyX/ws=;
- b=Mtf23ld0e9gMm3754/VXjOB++BnNCVEp6PL2kol+9qVfqzmCVQNyTjowTmn0s3KyoTdtoJj/fKOThjvBnqJLX29jaXtnXApFJrnJTzrXScM6DwnyM3SXHXnqqDEZ9ovbTZXFyHOr7aPw9UYy/A+hxCIzqA8Blak9ae7EKrTyAXs=
-Received: from BN9PR03CA0947.namprd03.prod.outlook.com (2603:10b6:408:108::22)
- by DS3PR19MB9632.namprd19.prod.outlook.com (2603:10b6:8:2df::12) with
+ bh=9xhaP1ua/UWhAKA+ANqGSS8ayWfImDl4BrGqhzrc5QM=;
+ b=NB+XdJR4Pz1fQwXiycx7a4gHmAJAp0OhEW8qPKfq4eMa1SRD+i13IxW3FM6Rjzjg5iuAt0EfrWmtcbUPgAkgXjPoZm6ipAATsdHqZ+/0nHz3bBe4MRC6Nl6ah7AyZnQemqNgXJ2/twkVlEHcmmub50uNDV7ihrIPgMmuGVqyIO4=
+Received: from SA1PR02CA0020.namprd02.prod.outlook.com (2603:10b6:806:2cf::27)
+ by BL1PPF8EA12D19D.namprd19.prod.outlook.com (2603:10b6:20f:fc04::ebe) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
- 2025 10:53:52 +0000
-Received: from BN1PEPF0000468C.namprd05.prod.outlook.com
- (2603:10b6:408:108:cafe::cd) by BN9PR03CA0947.outlook.office365.com
- (2603:10b6:408:108::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.11 via Frontend Transport; Thu,
- 25 Sep 2025 10:53:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Thu, 25 Sep
+ 2025 10:53:54 +0000
+Received: from SN1PEPF0002BA4B.namprd03.prod.outlook.com
+ (2603:10b6:806:2cf:cafe::b1) by SA1PR02CA0020.outlook.office365.com
+ (2603:10b6:806:2cf::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.23 via Frontend Transport; Thu,
+ 25 Sep 2025 10:53:53 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,14 +69,14 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN1PEPF0000468C.mail.protection.outlook.com (10.167.243.137) with Microsoft
+ SN1PEPF0002BA4B.mail.protection.outlook.com (10.167.242.68) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9
- via Frontend Transport; Thu, 25 Sep 2025 10:53:51 +0000
+ via Frontend Transport; Thu, 25 Sep 2025 10:53:52 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D266640664D;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B96F7406648;
 	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C8FD982024D;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id AF045820249;
 	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
@@ -84,9 +84,9 @@ Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
         shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v3 18/19] ASoC: SDCA: Add early IRQ handling
-Date: Thu, 25 Sep 2025 11:53:40 +0100
-Message-ID: <20250925105341.194178-19-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v3 16/19] ASoC: SDCA: Add completion for FDL start and stop
+Date: Thu, 25 Sep 2025 11:53:38 +0100
+Message-ID: <20250925105341.194178-17-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
 References: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
@@ -99,179 +99,239 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468C:EE_|DS3PR19MB9632:EE_
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4B:EE_|BL1PPF8EA12D19D:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: c2205707-ce38-4aa8-b470-08ddfc21d099
+X-MS-Office365-Filtering-Correlation-Id: 495b1c6b-0130-43ea-01a5-08ddfc21d0cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|61400799027;
+	BCL:0;ARA:13230040|61400799027|82310400026|376014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KOm1YK7b7lfYqGjEbDgPnqtCpc27vsECwC38hy3/41sGvDw2VUVdaz1LlZ58?=
- =?us-ascii?Q?/pMK/zXmNC/o3srt03IUqbA5TFTjAnGOdxpAQgCo8szqlsR9SjLck2DQv57a?=
- =?us-ascii?Q?YVUs+xzZIXVidJcWO0bKuxwqAhUO1UvQCthfE7MjPtgscNpXNVv7yfp9plsR?=
- =?us-ascii?Q?R5e57WSodXFJ3CxeqWwurJqb5/KjObkOD0UwLmS/CSQDCuh8bMzsgnoJDrwD?=
- =?us-ascii?Q?GEGHkDdWRfXcvAih5LblvA8LxwZ/11RpBh0sJQSRiM8yulgdfjITjfZRpoyT?=
- =?us-ascii?Q?bFobbg8aliYbswgiishP6jymO2FuD3+7ppy4/mpGTQ7wcldJQy0XbRUR3YZR?=
- =?us-ascii?Q?9Gz0gSxk+wAryApx7FNg3AnzCozEgsoEAcv0TzdETpyD2cDW1T8NG/sDRZGw?=
- =?us-ascii?Q?85j9qqnHElIYyU5dmJV4Scqc+S0bmCaiJTibvJiHx0nb63kBFReLJ8eL0mOc?=
- =?us-ascii?Q?LKiEeQ4G2qFWHFjlxhyie4VLlWAZrKdplF1OBmmimrpGHX2aqSBaKjtaPsGJ?=
- =?us-ascii?Q?FXzKjJb8wJzvmo4lLn/QJf1Wa4XGoCQ8C5CQcPN3GKUrmScdcP7hVCulJ14K?=
- =?us-ascii?Q?Gu5H3jwtzYu94WdEtRIdZe7Dqf+6QhMkYrUgpMPooF6mh/Ho4smcZcOYPHk5?=
- =?us-ascii?Q?pc0hV5HgHPoIrgOavgp+Q21Kg70vXfQbq/lubbs5iZqeprtUPcdiD/GhLq9N?=
- =?us-ascii?Q?U3LELqjb1u41lIEsxN0E7RD58pbnNesY5Mei7tC/iOczPqB7WOUcCHnZ97L2?=
- =?us-ascii?Q?RPnw+SyzRBSkyxQinsOl3l+wYvG5pwRI1sK0nWRp6bpUMvXtcGjfjM9NE1Br?=
- =?us-ascii?Q?YDqrkWyycEpzN0XxXE9XuJn1c3e0/iJSIcJrjuU4jv2pu2Y3Dg0Y6vqgTBYm?=
- =?us-ascii?Q?jTwed0Qhd5PQDTHI6gb5v1TCEzqGWOSnMoz+OgGskaBYS5HiXC48vMsD4fkH?=
- =?us-ascii?Q?f6SjpLOHvdmGBFHV4WXShetGrNWuEmeU4oTHcf2NODV9AD/4jeDzApO+qBuC?=
- =?us-ascii?Q?AeRzuN3ftgxWfkvyuzsXWXjOB+TwzK3MzKzd1fS/Hopl+wh0DddFWjK2HxZm?=
- =?us-ascii?Q?/Sa+G93rXzoj3ENzPjWM5nT+4Y5e5LAEWNYnakzMh5YTZrBvsJB0fYk461E6?=
- =?us-ascii?Q?K3hJVX7YDw9NyVmWVpTlXQ4S7kwHRH1BaDXgb8hKmTktDoaudcEjzKB9gtWz?=
- =?us-ascii?Q?GRu/GNtxsng7Te5Q0QxoSxf0wXbPCkGe3G9rZFRvpZARenvPb6/k3TUNL3dj?=
- =?us-ascii?Q?ShwW4NCJWXLXSUyvUaU6R74uCLuyClqZ6EcXbAczwe4VvWAFLDH/dhKw5tn8?=
- =?us-ascii?Q?XrwYnP4RiPyblrcM8+7C1+RsZhNetxb+cLpCZ+FkbizZvH23JJUcGgq3cekC?=
- =?us-ascii?Q?DREdOFaap7TzlYsyiM46uD7Lk4H3SuUyOLVgSS8JjvMFZhyZ0iTsu7aV/qRz?=
- =?us-ascii?Q?l7N6H9mZ8cvHgH0vTn1oBTlPBJGoy5xpGq9sCXp2D6j+Otv05KCict9IsNAt?=
- =?us-ascii?Q?qBzp3RsWvOmJjuZoHnA9y3+k4SFMg5hMxmPl?=
+	=?us-ascii?Q?PR48DrYa5P8qS5d6xwYu+tGGEmy80uR88Juqote47wNARXtAYKdtcnuaxyMe?=
+ =?us-ascii?Q?apdm4VrH/qY6PTrIBjM8qKVptjheOvUESj0pFJDmpTZFWP6GLTJzD03nlrZ4?=
+ =?us-ascii?Q?MomsLyX7PYPyC00c9B2/7SMpJo5UMp3HvqMubyojSINnZEW46obM1czld9jn?=
+ =?us-ascii?Q?d7cwiVGw2CeY8bKgNAZhBhYRB9kbiFfmtTN7mxOZDkAd486TmsRJNIbGQ+yd?=
+ =?us-ascii?Q?6qFb70gf/jVGUCWN6dpGhjIgiDqD94LR3wBYpWPcqcUe1vWAwa7zKK1PSeif?=
+ =?us-ascii?Q?84+e8HtW1nBj1fxRsXaNXwL7kNc2FqoMaNBJ1T0fil3JqMOTytgfxo0A0zgF?=
+ =?us-ascii?Q?/9fpCAUTc8CudrTMxKxULwX6AZgp4O0H5/EKdV5Tbmp5YPM4TghIWXGaLuST?=
+ =?us-ascii?Q?gV83EXz6h8mf9DQujEs3LJHP+tTj+jBBiulOBVu+xFU8JqYLrbQAfVN1/F/W?=
+ =?us-ascii?Q?gi5lByBarO/Yhgl5RpvWSnAyHcrtb8UlgV1N2AadrtkemmjgnHHpjGcSgjRu?=
+ =?us-ascii?Q?xCk4OfWR0FuRn+2hFprjJIK9Fetg2qP1tAa/lTSYfYUh/jAUITiLwGq8NAyJ?=
+ =?us-ascii?Q?m2wLi65CXgz70B124KEk9DfkqODRvFTun2gRXPlxCpdDLUaKiaf9f6rtGb+t?=
+ =?us-ascii?Q?70JqAwWRmD/pDsaejqEG8U0xLQjU2/rqoKw3KGkpXn1zfqNPlzFT1Gu8kdgs?=
+ =?us-ascii?Q?v5vM0f9UQnv7ZVNcT3XOKo9XoIybTdnERpdJ/zk6uxgxF29TpIEgCCFGbDny?=
+ =?us-ascii?Q?wLGcBHdkSSKrk27nia0ySjuwim1Ky7ci8JwKW05sCspUJ/r8kSI6OZYHelvw?=
+ =?us-ascii?Q?nkbo0tgT6VqIrWf/OROm8DlB1axL7ofghwmOiASWTDKaxw7b61hmoTERjvxR?=
+ =?us-ascii?Q?r7QUAJK2V0h654KuOgH4oPJR7SMDu9I3Qjmpef7Yy2xN9Y3+f+p9QKMjvh4w?=
+ =?us-ascii?Q?2zU4rY46/HDWEgDIbZJQLtbNS5omkQcLcMkley4YVpC6AMYwqF3dSwumCqbj?=
+ =?us-ascii?Q?YfkByi7VohkkYDYDUwXRKwLBElsL18kehRfvuIH2F1gxRRlaXZgVASQjlIt7?=
+ =?us-ascii?Q?vNuKE0bVkdGRMJnV6GgsdVHN0eftgt+xhIQdTxqDTedanzItxoQ2ElUr+kz6?=
+ =?us-ascii?Q?iLhJAVlj3kblvqUBi3l72yqW6TiOJ72cqrWnylr5fOvw7kmUT4+MFvyn/VO2?=
+ =?us-ascii?Q?wqRTWWRI2mkiiJX+kNxhwJ9XM325fboqBOhvx1It3x4XITKj5KAgvqnwGAPT?=
+ =?us-ascii?Q?GAzMaUzVnS+ZLi/HzcD0/cSSA2upWbfxm4bDjnnhjfwzEeGm/0yY75Ix/X6W?=
+ =?us-ascii?Q?4NRtvgK6gLiQ59bjEMDbyt/DaM+vLpwZbKwpu1qzY2cAAfTKNy2zBXrE8LDc?=
+ =?us-ascii?Q?fBh9eSFgpCkdKVYdGoJkWqkJZ2o0We/R5NPy7m2lvm/aOk15ISExv0qZNYfX?=
+ =?us-ascii?Q?NBzMkMwMK5+OI2rVmwt+QBvKqVuXj3i51Xx8fbYc8VYk45Ie1zkzkPHAHXig?=
+ =?us-ascii?Q?kuVznrUadIuKaPUTLzE+uOEsE6ykNvee0Tg+?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:51.8179
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:52.0975
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2205707-ce38-4aa8-b470-08ddfc21d099
+X-MS-Exchange-CrossTenant-Network-Message-Id: 495b1c6b-0130-43ea-01a5-08ddfc21d0cf
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF0000468C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF0002BA4B.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR19MB9632
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfX8aPGrWKjqwEp
- o7ohzXffNVSw7lW6CTd6gpx7OUi6fqp0xOGJ/GTlvJj+FMz0msRt4RoqyNaA6gr5pNsnEifWNlq
- 2x8a3YYosQNi8CIcdwm1eRZ/dLTV82R0gL+CSWiFup9M8PICXmbrUPcQ0YV1pz0OVVKE5gATJ7G
- 1NfDutpxmDRbeV1LEc4XG+F3HBROq2MyMu8Q6b2YFwKTiWYGUl91drEKHBehTNX/5aZnH8FbpDr
- fw7bftsM+6X1ilQhey7aHyPP1xbh/3ayOaJvr8BHXiDNnqGUsEm8QA7QMpQ1cromOCTAVY0pcvi
- qTuy1QJ41HEepETZMLHRhj1Wgy0nB4gwVUBsHwSEd/I3RqxTke3LEo5eM2EefI=
-X-Proofpoint-GUID: SqLHQ6W66KnP-3sswINSkAfczIsxSJ9A
-X-Proofpoint-ORIG-GUID: SqLHQ6W66KnP-3sswINSkAfczIsxSJ9A
-X-Authority-Analysis: v=2.4 cv=ap6yCTZV c=1 sm=1 tr=0 ts=68d51f43 cx=c_pps
- a=/LfXjj9SJEtuRzurF2V9tA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PPF8EA12D19D
+X-Proofpoint-GUID: 7vFYhcwEwP-3BMKqo6yTQn5T5uF8N9Fb
+X-Proofpoint-ORIG-GUID: 7vFYhcwEwP-3BMKqo6yTQn5T5uF8N9Fb
+X-Authority-Analysis: v=2.4 cv=dL+mmPZb c=1 sm=1 tr=0 ts=68d51f47 cx=c_pps
+ a=6zwKzwLBI9vfJyHbw/m+Xw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
  a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=QyXUC8HyAAAA:8
- a=w1d2syhTAAAA:8 a=QVwGPAhPMYaFeXMKfhcA:9
+ a=w1d2syhTAAAA:8 a=8ToN6VyAo-4Z1emjpr8A:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfX0AqVf4IdlUA7
+ Oub0j8GtHngStD8kYoDCg/N6jsmeuDwsSHQCVjR75vXRprkJsNArOaFiI9GHj6Q0srTcmj672BQ
+ fRxRD+UCqD1Zx+0lBPD4tidBjaTZ87umIq9t0wFyYTBLLRXwF4IAf/STSRkxqOSucGuMQ5cqKEe
+ WZ5692ThoaAf5eoCnt7+vXwcXD5K/QPh47BG7A9gwPA7DABLv3PVi05/pd+z3wCdvM9GzGN5wio
+ 3h3wO8lVRmRnTcc8IbqEuS+RxOzblu5y7g8yFKh9kXBD/0aVV7jEjb2sXb2ss19oydYlX/g6YtC
+ tjr7wpgX07j5RX8hZo5HyV3mqbiRsh+aTcLpF1zfwlLbnWY2xjLs/KoPMLqtXU=
 X-Proofpoint-Spam-Reason: safe
 
-Some IRQs (FDL) require processing before the primary soundcard is
-brought up, as the downloaded files could be firmware required for
-operation of the audio functions of the device. Add a new helper
-function which registers the required IRQs.
+Add some completions and a helper function to allow other parts of the
+system to wait for FDL to complete. The sdca_fdl_sync() function will
+wait until it completes a full time out without a new FDL request
+happening, this ensures that even parts requiring multiple rounds of FDL
+should be fully downloaded before the driver boot continues.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-No changes since v2.
+Changes since v2:
+ - Reduce number of FDL retries
 
- include/sound/sdca_interrupts.h  |  3 ++
- sound/soc/sdca/sdca_interrupts.c | 71 ++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ include/sound/sdca_fdl.h  | 10 ++++++
+ sound/soc/sdca/sdca_fdl.c | 75 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
 
-diff --git a/include/sound/sdca_interrupts.h b/include/sound/sdca_interrupts.h
-index 3983f515349ad..8f13417d129ab 100644
---- a/include/sound/sdca_interrupts.h
-+++ b/include/sound/sdca_interrupts.h
-@@ -75,6 +75,9 @@ int sdca_irq_data_populate(struct device *dev, struct regmap *function_regmap,
- 			   struct sdca_entity *entity,
- 			   struct sdca_control *control,
- 			   struct sdca_interrupt *interrupt);
-+int sdca_irq_populate_early(struct device *dev, struct regmap *function_regmap,
-+			    struct sdca_function_data *function,
-+			    struct sdca_interrupt_info *info);
- int sdca_irq_populate(struct sdca_function_data *function,
- 		      struct snd_soc_component *component,
- 		      struct sdca_interrupt_info *info);
-diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
-index 3a3b966b5782b..51342b8aacae9 100644
---- a/sound/soc/sdca/sdca_interrupts.c
-+++ b/sound/soc/sdca/sdca_interrupts.c
-@@ -396,6 +396,77 @@ static struct sdca_interrupt *get_interrupt_data(struct device *dev, int irq,
- 	return &info->irqs[irq];
+diff --git a/include/sound/sdca_fdl.h b/include/sound/sdca_fdl.h
+index 8b025aff4a0cd..4ea000d6acef4 100644
+--- a/include/sound/sdca_fdl.h
++++ b/include/sound/sdca_fdl.h
+@@ -10,18 +10,26 @@
+ #ifndef __SDCA_FDL_H__
+ #define __SDCA_FDL_H__
+ 
++#include <linux/completion.h>
++
+ struct device;
+ struct regmap;
+ struct sdca_fdl_set;
+ struct sdca_function_data;
+ struct sdca_interrupt;
++struct sdca_interrupt_info;
+ 
+ /**
+  * struct fdl_state - FDL state structure to keep data between interrupts
++ * @begin: Completion indicating the start of an FDL download cycle.
++ * @done: Completion indicating the end of an FDL download cycle.
+  * @set: Pointer to the FDL set currently being downloaded.
+  * @file_index: Index of the current file being processed.
+  */
+ struct fdl_state {
++	struct completion begin;
++	struct completion done;
++
+ 	struct sdca_fdl_set *set;
+ 	int file_index;
+ };
+@@ -51,6 +59,8 @@ struct fdl_state {
+ 
+ int sdca_fdl_alloc_state(struct sdca_interrupt *interrupt);
+ int sdca_fdl_process(struct sdca_interrupt *interrupt);
++int sdca_fdl_sync(struct device *dev, struct sdca_function_data *function,
++		  struct sdca_interrupt_info *info);
+ 
+ int sdca_reset_function(struct device *dev, struct sdca_function_data *function,
+ 			struct regmap *regmap);
+diff --git a/sound/soc/sdca/sdca_fdl.c b/sound/soc/sdca/sdca_fdl.c
+index 8a15c6300556c..39298314f69c9 100644
+--- a/sound/soc/sdca/sdca_fdl.c
++++ b/sound/soc/sdca/sdca_fdl.c
+@@ -14,6 +14,7 @@
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/sprintf.h>
+ #include <linux/soundwire/sdw.h>
+@@ -63,6 +64,71 @@ int sdca_reset_function(struct device *dev, struct sdca_function_data *function,
  }
+ EXPORT_SYMBOL_NS(sdca_reset_function, "SND_SOC_SDCA");
  
 +/**
-+ * sdca_irq_populate_early - process pre-audio card IRQ registrations
-+ * @dev: Device pointer for SDCA Function.
-+ * @regmap: Regmap pointer for the SDCA Function.
++ * sdca_fdl_sync - wait for a function to finish FDL
++ * @dev: Device pointer for error messages.
 + * @function: Pointer to the SDCA Function.
 + * @info: Pointer to the SDCA interrupt info for this device.
 + *
-+ * This is intended to be used as part of the Function boot process. It
-+ * can be called before the soundcard is registered (ie. doesn't depend
-+ * on component) and will register the FDL interrupts.
-+ *
-+ * Return: Zero on success, and a negative error code on failure.
++ * Return: Zero on success or a negative error code.
 + */
-+int sdca_irq_populate_early(struct device *dev, struct regmap *regmap,
-+			    struct sdca_function_data *function,
-+			    struct sdca_interrupt_info *info)
++int sdca_fdl_sync(struct device *dev, struct sdca_function_data *function,
++		  struct sdca_interrupt_info *info)
 +{
++	static const int fdl_retries = 6;
++	unsigned long begin_timeout = msecs_to_jiffies(100);
++	unsigned long done_timeout = msecs_to_jiffies(4000);
++	int nfdl;
 +	int i, j;
 +
-+	guard(mutex)(&info->irq_lock);
++	for (i = 0; i < fdl_retries; i++) {
++		nfdl = 0;
 +
-+	for (i = 0; i < function->num_entities; i++) {
-+		struct sdca_entity *entity = &function->entities[i];
++		for (j = 0; j < SDCA_MAX_INTERRUPTS; j++) {
++			struct sdca_interrupt *interrupt = &info->irqs[j];
++			struct fdl_state *fdl_state;
++			unsigned long time;
 +
-+		for (j = 0; j < entity->num_controls; j++) {
-+			struct sdca_control *control = &entity->controls[j];
-+			int irq = control->interrupt_position;
-+			struct sdca_interrupt *interrupt;
-+			int ret;
-+
-+			interrupt = get_interrupt_data(dev, irq, info);
-+			if (IS_ERR(interrupt))
-+				return PTR_ERR(interrupt);
-+			else if (!interrupt)
++			if (interrupt->function != function ||
++			    !interrupt->entity || !interrupt->control ||
++			    interrupt->entity->type != SDCA_ENTITY_TYPE_XU ||
++			    interrupt->control->sel != SDCA_CTL_XU_FDL_CURRENTOWNER)
 +				continue;
 +
-+			switch (entity->type) {
-+			case SDCA_ENTITY_TYPE_XU:
-+				if (control->sel != SDCA_CTL_XU_FDL_CURRENTOWNER)
-+					break;
++			fdl_state = interrupt->priv;
++			nfdl++;
 +
-+				ret = sdca_irq_data_populate(dev, regmap, NULL,
-+							     function, entity,
-+							     control, interrupt);
-+				if (ret)
-+					return ret;
++			/*
++			 * Looking for timeout without any new FDL requests
++			 * to imply the device has completed initial
++			 * firmware setup. Alas the specification doesn't
++			 * have any mechanism to detect this.
++			 */
++			time = wait_for_completion_timeout(&fdl_state->begin,
++							   begin_timeout);
++			if (!time) {
++				dev_dbg(dev, "no new FDL starts\n");
++				nfdl--;
++				continue;
++			}
 +
-+				ret = sdca_fdl_alloc_state(interrupt);
-+				if (ret)
-+					return ret;
-+
-+				ret = sdca_irq_request_locked(dev, info, irq,
-+							      interrupt->name,
-+							      fdl_owner_handler,
-+							      interrupt);
-+				if (ret) {
-+					dev_err(dev, "failed to request irq %s: %d\n",
-+						interrupt->name, ret);
-+					return ret;
-+				}
-+				break;
-+			default:
-+				break;
++			time = wait_for_completion_timeout(&fdl_state->done,
++							   done_timeout);
++			if (!time) {
++				dev_err(dev, "timed out waiting for FDL to complete\n");
++				return -ETIMEDOUT;
 +			}
 +		}
++
++		if (!nfdl)
++			return 0;
 +	}
 +
-+	return 0;
++	dev_err(dev, "too many FDL requests\n");
++	return -ETIMEDOUT;
 +}
-+EXPORT_SYMBOL_NS_GPL(sdca_irq_populate_early, "SND_SOC_SDCA");
++EXPORT_SYMBOL_NS_GPL(sdca_fdl_sync, "SND_SOC_SDCA");
 +
- /**
-  * sdca_irq_populate - Request all the individual IRQs for an SDCA Function
-  * @function: Pointer to the SDCA Function.
+ static char *fdl_get_sku_filename(struct device *dev,
+ 				  struct sdca_fdl_file *fdl_file)
+ {
+@@ -230,6 +296,9 @@ static void fdl_end(struct sdca_interrupt *interrupt)
+ 
+ 	fdl_state->set = NULL;
+ 
++	pm_runtime_put(interrupt->dev);
++	complete(&fdl_state->done);
++
+ 	dev_dbg(interrupt->dev, "completed FDL process\n");
+ }
+ 
+@@ -242,6 +311,9 @@ static int fdl_status_process(struct sdca_interrupt *interrupt, unsigned int sta
+ 	case SDCA_CTL_XU_FDLD_NEEDS_SET:
+ 		dev_dbg(interrupt->dev, "starting FDL process...\n");
+ 
++		pm_runtime_get(interrupt->dev);
++		complete(&fdl_state->begin);
++
+ 		fdl_state->file_index = 0;
+ 		fdl_state->set = fdl_get_set(interrupt);
+ 		fallthrough;
+@@ -369,6 +441,9 @@ int sdca_fdl_alloc_state(struct sdca_interrupt *interrupt)
+ 	if (!fdl_state)
+ 		return -ENOMEM;
+ 
++	init_completion(&fdl_state->begin);
++	init_completion(&fdl_state->done);
++
+ 	interrupt->priv = fdl_state;
+ 
+ 	return 0;
 -- 
 2.47.3
 
