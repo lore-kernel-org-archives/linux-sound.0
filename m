@@ -1,83 +1,81 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B58303CBD
-	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 15:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01214747F;
+	Thu, 25 Sep 2025 23:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758813062; cv=none; b=eHXqoPb5h3uD+dfjO3BY76/3XkzGCRtk8Huh2ghqv5DxcKjKtVsPRCkMCcOG1Gn11gxtGrh9mGGS8wEerOPL6gLTxgs3YIxSp9ODrcoec3vf3/dPCngwHmVxqhY5k0Eg8izA8rkC7qZOaQOholBZc0Wdki7+7yqV/7dbegp587o=
+	t=1758844363; cv=none; b=Fn0QMK5T/qaz/zlgcAXrgwEZlLsVdj4vfeSbyTFY4Wwboehc+VtpJInHd51X3cDnvdtZAQ3LYJ3SwZkqzEw7do+9ot+eMbHPin3XhML3/2MbQN6kNJ/G07HJl3oFbERdwcDXLgs6r15LyqKlzMAwRMRqdPNdqm2QbjBZatfuO1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758813062; c=relaxed/simple;
-	bh=OL7jojLeKQE6iSoWJ81v+KSjAjTKYwtKJwHgcWiKL+Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NRYdl5x4S/uX+AjU2yhZ0zqBH4i+AvkYhBiUEmM+D9eSvLWAkjC8gtWwsHwDFjO2ZD3eITuIJ1yIc/7XZo/ICpLGU21pRDEFQnI/1+CaeTrTABSVSd5AKiiVoe/Xv3EYx2vUpvSsINiwmbanvnJ25PBOveVxhnk2GCx5J76uwrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <jre@pengutronix.de>)
-	id 1v1ncM-0003PJ-O1; Thu, 25 Sep 2025 17:10:46 +0200
-Message-ID: <3a0ba202-23e5-41d1-8b0c-5501a6d73bb4@pengutronix.de>
-Date: Thu, 25 Sep 2025 17:10:43 +0200
+	s=arc-20240116; t=1758844363; c=relaxed/simple;
+	bh=erOnXljr1CF5krssC9cl4XOhPI/hrAqcFARq/3Ceb7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aubb7uM73CqSFUfJwk/gQYvDVCZbWknVSdOVSsMpfN5k7w6SHr7s+EcvBJJOvjRuGiLvrJFTpog9FcHjw0ZeZvptextFSi9a4XrUESl58r9lV7d0ZaZLE1pX4q0hxaRXTRu0PRjIUeECMWnYsEZox02jztXsZSYJaEd0I4aOZcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qUznzpKd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qUznzpKd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC0FBC4CEF0;
+	Thu, 25 Sep 2025 23:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758844362;
+	bh=erOnXljr1CF5krssC9cl4XOhPI/hrAqcFARq/3Ceb7I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qUznzpKdr7a6cKKMlWesJiEcfIMdUPFM7TIL1WD5pNwjVNbQB+8ZwYqHt6UtIZXud
+	 y0ep0uOPcq10h9cxruVL7uhCAfkOtih7CPlHWmRqQdmnvozTw3VGkYoHjMBMuFkIz1
+	 PGr9Y1E8b+RX/OC0YZtMdk0ZP1r2H2th7vJMT1dy0PrHKA9gX/2WanjhVy+ZCJeUh7
+	 EdpGwSh/3bBXQK5CiFC9JY5/YTGNp9FVzb9PEi2Oc7BvRnu3svbf6s80LlMlfREvim
+	 DGanULl5337mJCtw1UeKQd/53bHbP5dsrwUQh+XBotEwzhtfuniHaIf6bFwHGl80aB
+	 WcrOJN8gvlyVQ==
+Date: Fri, 26 Sep 2025 00:52:26 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
+	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com,
+	henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
+	will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com,
+	chinkaiting@google.com
+Subject: Re: [PATCH v1 1/2] ASoC: tas2781: Add tas5828 support
+Message-ID: <fe5cd279-0b28-470b-88c2-49ad9428b125@sirena.org.uk>
+References: <20250925051302.6805-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Mainline Protonic PRT8ML board
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-sound@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- imx@lists.linux.dev, Vladimir Oltean <olteanv@gmail.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Conor Dooley
- <conor+dt@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- David Jander <david@protonic.nl>, Lucas Stach <l.stach@pengutronix.de>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Fabio Estevam <festevam@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Mark Brown <broonie@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
- <175876283065.3268812.10851892974485151512.robh@kernel.org>
-Content-Language: en-US
-From: Jonas Rebmann <jre@pengutronix.de>
-In-Reply-To: <175876283065.3268812.10851892974485151512.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: jre@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wqEEULI/76E+hpBZ"
+Content-Disposition: inline
+In-Reply-To: <20250925051302.6805-1-baojun.xu@ti.com>
+X-Cookie: So this is it.  We're going to die.
 
-Hi,
 
-Regarding the warnings:
+--wqEEULI/76E+hpBZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025-09-25 03:18, Rob Herring (Arm) wrote:
-> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: codec@11 (asahi-kasei,ak4458): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/sound/asahi-kasei,ak4458.yaml#
+On Thu, Sep 25, 2025 at 01:13:01PM +0800, Baojun Xu wrote:
+> TAS5828 have on-chip DSP but have no calibration required stereo
+> smart amplifier.
 
-Updated bindings have already been applied to broonie/sound for-next.
+This doesn't apply against current code, please check and resend.
 
-> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
-> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 1]] is too long
-> 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
-> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
-> arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 4]] is too long
-> 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+--wqEEULI/76E+hpBZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This is an issue in imx8mp.dtsi, introduced in commit 9c60bc7f10d0
-("arm64: dts: imx8mp: Add pclk clock and second power domain for the
-ISP").
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Jonas
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjV1bkACgkQJNaLcl1U
+h9DHcAf9EuS3d8oup+XlJUpvsOnB0mljoa4P/F5jv4tdKvmjIQbsNgesKDJBthz8
+uyUzb8DkJLufBS2rDJxufCCm5AbNTB3zTJwOhng+fm4j3bpjJTuU9Z1umB144NX/
+UwhdJXM96wqQkgGwLgBWaDtRfiCidOYT5bYNJ6sx3MhpfX7VEzML4bPXiT2HWqNz
+mmAh3IucXSacEQ6UvaD0B3iQohx39/Tghmv6AEM0FA2BmYWOovvGe59ifqLyyxvQ
+bf45NWBkz74dYArErMj3+P34FR2zqrlOib5AAmZPtzjvkEEM+w+4pRKw4uIBogeC
+/NxJYFj37vwlSgvNgAEOPbkazh0mOg==
+=nh23
+-----END PGP SIGNATURE-----
+
+--wqEEULI/76E+hpBZ--
