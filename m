@@ -1,46 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C78D2F0C6F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C80A2F39D1
 	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 10:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758797659; cv=fail; b=j6ExqQhQ/3FXxiwwesn6PRZiMseaCJ+g0x4oqZUk1ZzPg5P1QZIySF1RclE6Ou3RyP9gnnaLy7yQwDRfxMdGz982W+adBybwIl2BpBwbUHO+GLeaLugwsCiFPq/6s9d6QMQnrgNKIufUIDXymgl1dTPbQLGYZujowLqLqKR4u8M=
+	t=1758797659; cv=fail; b=VmPf1BA/4HZjRsvJn88JLjcw0MW9Fb2LUUvhEmwRX13y2bwSphb5jA3wfdXYY3/InrRfHt/6hmgxbz2+ZaIakXVTbpbyReOah1fZXWPvwFBqbIHMqnPzpcrjELsWK4YfD3Sp/u+mq01ko/DbMWlG2SV/MXZLHZDoshhJ9Q2GJsY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758797659; c=relaxed/simple;
-	bh=e4gBXvbP3wQfgwRnrbdHCIdi0fuFdKAsX+sfSar9hkg=;
+	bh=++5zgySuuBRVHFpTF56iW3yfycGd7OT1uUOS5WXz+Oc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DQDRR1br5G/fbUO/wAwQpC+kZk4wSZdCIJsDbiXokPSQQwwDPYG+S8hmZaU4skBzc37lVSdSKm1433sQ/2Q5P0qR9rsLT1zkh1z+Chq8EdO77aPS24J2T7rIFot/S0GObjLZT/t8UX3Tj5VzzDvHPP8mbcnw/nzvWD0mZmmSjos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=AiT695wL; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jrEAimTZ; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=FiPS+/9b9isruL4Ul4yMVFR7SN/dbdha5jmR8/coP5KgxIKDSS6lsLW45MxEq2q2aqYQX0HF/E2jGAwPSTphQr4BvUSU5VYStOhUfcCb86NZnyHeRJOZrNsdRY/CjnDNN+VHfMmts+3B8OrvqiXpUWyMjxe6I9DiRlxybEpZZus=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YISMJK+9; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=hgZVDFtK; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="AiT695wL";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jrEAimTZ"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YISMJK+9";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="hgZVDFtK"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58P4cfHf2734368;
-	Thu, 25 Sep 2025 05:53:56 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58PAUKKd1392027;
+	Thu, 25 Sep 2025 05:53:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=ySMUubb1VzzYj5zm2VE+7dCGQMgHiadEIrJuGO/6Xj4=; b=
-	AiT695wL+ipibaoguzd/jCsBG0WW/nOtraeeDXb1hrfD4iVNdhy6Ct3gKzHt0z06
-	NRBcsQzRPnFgYlv/NmxmZaYDy3/lbe6BAIDlVgsNjBmw/lTyINxFJG583fEY/NmZ
-	+g2TA+MqtfsurUmu2LYOAukI9Gp9suM9lk+vNuW83vTHUjd6X0O7lK3rqKay3Z81
-	YdNdt+/9ho9hy2q+/A9Q3fABBto98AJV14y2yPbjvjb7KRrXeExW57YOhmD2v1aM
-	89UGzW2UZUNEQqOi52wsGVeiEkPusE5TFmTc68DfBDyWhUZhMAqshm64EGwCxy7a
-	s50lViIAmSvPVm605oAG5A==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022100.outbound.protection.outlook.com [40.107.200.100])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49cjmds8x0-1
+	PODMain02222019; bh=ehxRklc/p3djo7oyiKjov3DFOWCWLpvqNqn2xPmtgu0=; b=
+	YISMJK+9nF/uz35RVFq03gC1I6O0x3RE4NdhmjbmTI2mgBqsxPekaBalskjrHeDl
+	XdF8dO4ShRRocMLI9CtObIii7tv3zxL1HtNxh31nPmyHL0U6IVD0ghqtB5o8i71X
+	IhrfwfLCNheP3E4jeiF2HPb1cA1xnawd4HGzpFIMO7Y7uBqPIAygQMen6s8qQsRC
+	7TMSaebD9tTtQvTWz9I3/cv7D4eUO5NqtagrGpGC9mchjUUA9FFRsYXWDVROxxi7
+	9pvzJaVUE/U+vAug5afRCV22KoBxv4bMXhNjJKiuxP6zh+rEjJwdjp1/e/a//w16
+	wasdYO366Uv+c2vwsjDC0g==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022074.outbound.protection.outlook.com [52.101.43.74])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49cjmds8wr-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 05:53:56 -0500 (CDT)
+	Thu, 25 Sep 2025 05:53:50 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dRLPDeyazwn88+Abl1wJC6NgApUL0yt0deLAG2drIzu+zWC5pcEQNm4aT/XLNa39+LYzWfdFds1ok15dKya/6fXoANGHnqPH9hPB1XQVxYW3MoVyYhhs7/aUzBSlxTbSJd0sd4pilGCsYTP/sIEFJUlLK/mJy/9dWAOvzr+MF9D23wd2OFAgZj1rJ1R4+4S/FXITWuY3kRx1yAK9f3MN+tZvlPFmEaYPcqB6gPcw7XRMGtvn8KO9/xNaPOXopBpiTay5LpddbZbdC8OBjjseFKo5vlaaUbTJe/frMn9qYuzRQqdLdafDjRr52moVJDHW7aj0Cazqqv62Ds+S9oFA/w==
+ b=S00z4O6RYyOZBrIa2T+n3U7bYT8hcJy6za5KdZclhCcEMymN/O60URjil4vsVVCUksqcOLL6b2tWZV8VLDhC+29VBUAJDZ+DkCckr8maYAF/7w8UGb8gUj8g4K4zCWqHT45+tnS6WJJhA+/zq22bu+ZPJiuEevtuJEMBdcFLSuLVsLr3TnKIvm5IU21vwq6LwMJlDPS9Z44nSLxmJDc0bWHHU7LHS/JUpzV8oXzNYbHV4/oIZcO6XCRvGBSNp/lQaoLcpyqvpijITr8sBF/UY2XEgJi7qoC24gl2HR8Y6Nf6KtVfbdreO6AbyLwJrVO4cs//CNe2xn7fZ/Um/KRwLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ySMUubb1VzzYj5zm2VE+7dCGQMgHiadEIrJuGO/6Xj4=;
- b=QpLSndKExi+oSuvzI/6mnGcxgQ+lt9HwTrMQOEuwUcA3KfLCu2Zl5gYu5B0qG/KJ6I2Yt9fOTP5AnZKOAGjkj4IOdyzW7ssC9F+fFqM5B5/MMP6RHmaOgJQowl5Z9lSsla3InYr0P3a+y89QeUFg4AjdSpCl5p+efV2MIVci0mksBoXbugUlnDdjs5h4DQ36uGJ06zzsrVUqbaQXRzJtcZRP9gbc28mbA/hcWi9FSuSQuVnZUitLl2I670Ci5ONIDl9tt9Bb4spQ0QtPqQXPYoSk3tv5BKxvCneb6NNYS5Sid8C1XhA4s+RQiQam5E+dELRA7FyZPzsNMJsMpGjb2A==
+ bh=ehxRklc/p3djo7oyiKjov3DFOWCWLpvqNqn2xPmtgu0=;
+ b=Vg9u88pxczL5loO1nfa87Z+pphPPkQa/HzYdm3OY3gXEs2V3Ojq1svgdbtmfJC4ek5SzoY5K82b7D/jnxplYz8trMmRDcGPplmMUSpIz1KWtOAZp8HrWPI+8urdlavlfr/0Oqo8ap7yzKUKhzxG7no+Ryaoli+YKp/qxtk+W3KWV52IYUXihmtQtN06Vhx0jXOMpqN94IPe1zTxg0uV41+d8rs4uDL7TWucPSEtyO54YKBieJsSohypb9AcGLt8M2aRTRnS/tDtHc9Jlk4nifCejTDcccvxS1V3WiTgeqOhk9sKAXHzkuUV5vjHJLWKaWekBDySpQWWFcPnwA06EHw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ySMUubb1VzzYj5zm2VE+7dCGQMgHiadEIrJuGO/6Xj4=;
- b=jrEAimTZiYrxMn3Rr/ia1YrD6dcEaxWtg6XE6IDtOYQLskvkNDRiMfX90oYvJyCm+10ypgJB5jZB05zDcMLHmm/PfLJiCrVxg6bU68KDpLXugUiInvCOSh55e/pzUdZEC+JtQHSG/pfGmtgowpJrMXMdp3QBHG2QPA0X7prMHR0=
-Received: from CH2PR19CA0018.namprd19.prod.outlook.com (2603:10b6:610:4d::28)
- by MN2PR19MB3965.namprd19.prod.outlook.com (2603:10b6:208:1e7::13) with
+ bh=ehxRklc/p3djo7oyiKjov3DFOWCWLpvqNqn2xPmtgu0=;
+ b=hgZVDFtK0aMRW8msnufND2I/9CccpexkTcF6kNw01tQMKaaevYNF6rsuZq+aOweAh+mqLZTO/TkkJCQrV5WC27t6RJtee6/qvQIAnnpjmkq3bCNx1o/0YPO+3hypVchfy+xVqUE8BOcQ008V/QcBqzTkjZJRMj6Fl7oOlLAsBKg=
+Received: from SA9PR03CA0026.namprd03.prod.outlook.com (2603:10b6:806:20::31)
+ by LV0PR19MB9688.namprd19.prod.outlook.com (2603:10b6:408:31f::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
- 2025 10:53:52 +0000
-Received: from CH2PEPF0000009F.namprd02.prod.outlook.com
- (2603:10b6:610:4d:cafe::2e) by CH2PR19CA0018.outlook.office365.com
- (2603:10b6:610:4d::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.22 via Frontend Transport; Thu,
- 25 Sep 2025 10:53:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
+ 2025 10:53:48 +0000
+Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
+ (2603:10b6:806:20:cafe::70) by SA9PR03CA0026.outlook.office365.com
+ (2603:10b6:806:20::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.10 via Frontend Transport; Thu,
+ 25 Sep 2025 10:53:48 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,24 +69,24 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH2PEPF0000009F.mail.protection.outlook.com (10.167.244.21) with Microsoft
+ SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9
- via Frontend Transport; Thu, 25 Sep 2025 10:53:51 +0000
+ via Frontend Transport; Thu, 25 Sep 2025 10:53:47 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id CA9B340664C;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 0D79C406553;
 	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B781A82024B;
-	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id F161382024D;
+	Thu, 25 Sep 2025 10:53:45 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
         shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v3 17/19] ASoC: SDCA: Add UMP timeout handling for FDL
-Date: Thu, 25 Sep 2025 11:53:39 +0100
-Message-ID: <20250925105341.194178-18-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v3 02/19] regmap: sdw-mbq: Don't assume the regmap device is the SoundWire slave
+Date: Thu, 25 Sep 2025 11:53:24 +0100
+Message-ID: <20250925105341.194178-3-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
 References: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
@@ -99,270 +99,275 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009F:EE_|MN2PR19MB3965:EE_
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|LV0PR19MB9688:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 1b78eba2-361f-447a-6a04-08ddfc21d0a8
+X-MS-Office365-Filtering-Correlation-Id: c1aaca00-c0c2-4138-44ad-08ddfc21ce13
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|61400799027|82310400026|376014;
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|61400799027;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wAuhHEAe6LcFRyzX2RiMC6OzFYMiXqRJeH9oo4ia6Sc7Wb1GWd5xED1bRSPs?=
- =?us-ascii?Q?5zy26zL+7AsdzRjQ6SGk0s/2nlFgb9po8gPrWOl1OnxCBjJWHD2XeXQppiB4?=
- =?us-ascii?Q?Xa8/ej+nNV90xh0rLjEXjWe/p6QLoDO6mx2JlO/0JwU/H0NyWjIWsISSdF29?=
- =?us-ascii?Q?ifZyx9LKV8CPOBKAnpET3t+xaq8B3Y2a4prnzebsqW9+DjWQB4drmrt3/OJh?=
- =?us-ascii?Q?/GbaP21qBSzLLRx43azBApsTk8qmhzwMIxaRGKXZtmZyLKLrXSoF/ja+lM/3?=
- =?us-ascii?Q?lTZlqEAYmG0n2Gj/tolki/XluZ691f5RPp2Zo5nkewCltzWKyNeLH1uHnQFi?=
- =?us-ascii?Q?Oqfswas98h+oUG+n6UdJHr0pMO/miEWKoRPoT0TaZntbodHnR95b34h+Quwe?=
- =?us-ascii?Q?YeEHB//75xPRvcbTUI1KM0nt6OgPDoggZljxmHGNo2CIdoVYWpY3K/y4wPqF?=
- =?us-ascii?Q?vvQw4W9hP6K58GgQtFrmuHeP7Q45SHbbBsjEblFcEhT0fRgOosJf4Fy3xLHc?=
- =?us-ascii?Q?MK/MyZknkIPUogQz65F6dg+IiRVONdUth2DcLP79xLFGjMAfxtT3jYfmp7h2?=
- =?us-ascii?Q?VUDn27+b5mqRuTp0iJU7M1kIf1jzcTeUlBC2IgGJTrDhYI9oD7B4VknYQ/r0?=
- =?us-ascii?Q?1j3CbtF1vt8crlztXnCfu/j6YPMmyTKBZPhsHvbv4m2TMdvweLXkvg0d/iZP?=
- =?us-ascii?Q?+jxlQdHXpebmgh7ACnADq4aekE0qGJNKMzMJEBTtGblw+1C5lqXy0C7ud0M4?=
- =?us-ascii?Q?HCqmagGMm6PS5Jhwo1RsWwmdhYbcjVHGdTwqdBr3J9FQ2EPzXFGEAWXiIgmX?=
- =?us-ascii?Q?iJ0hlEeNmQjmMEtVxYdAOyeGNHDwnqdhYc42CbbR8KoTOo3lblZ6Gee2vAo6?=
- =?us-ascii?Q?6C8AnMq6o9q+12QKVfm1q2qRw+KS4EEe6v9B1Z37hvrqjNjaX7C0PK8M+Ox4?=
- =?us-ascii?Q?Dl83ZFmXM13Fpx/5CfUshukXC0b3n11jnnCUmLxCgNRskLTHiP1as3McYSbG?=
- =?us-ascii?Q?WrEBfeIaV4bkGk8wbmCHHSiXn89oV5qzz+laE0LFbF5qa5skNhnvr8zit+ti?=
- =?us-ascii?Q?m31/lwucoSsHOfq89XObsZfLHIXnZvudd2bwUkd4TFpX82a3ArNwJJVhtIVX?=
- =?us-ascii?Q?dKiSyUuqLbkMawsRBY936p2TvX9IOcfWUJD6EKBhwf2FCCg6sbEjEkYY4cZI?=
- =?us-ascii?Q?K4neb3YgIKoD65dKnz7qVbvhqMu7RGm4ASBn+v/paN4NIst80Q+lXFNugnlt?=
- =?us-ascii?Q?J6YFVH3YVQ7jbAbxpBuPEvz3zvSr/p36DB7mdT1N0RwmQ4Sa0/BYoVZcnNvp?=
- =?us-ascii?Q?miogBehtlzcApWRhYjCqyhckfO5ggc9JVURFJ73U9XM4KMD35KmLgUo3kNm6?=
- =?us-ascii?Q?JrXdJiaJRYHTI+cWXJhlJBBnfr8gabUcXFy55nNSd1Wp60cOkH3gLer9ejNO?=
- =?us-ascii?Q?o2MiFPE6H2GymnE5iMsakqGQqeCumiQomO/JqKcdMSme5xrZxjUisFhLpHto?=
- =?us-ascii?Q?tYFj8TffphhLvOm23OaVWWAa4FDGjkiDmGlX?=
+	=?us-ascii?Q?KNN7vZCpILsXyuYKerHPH3k88rUtRnt0V3bvYdtsmSzD84XD74+7boyCdqSC?=
+ =?us-ascii?Q?xvMUdOeyRXNWPpuGxe7pv0UVypZfOyUp0AXHbpO7+R3eaBnSfd88dA6zEqVq?=
+ =?us-ascii?Q?t3vUw331+yQLYD3eAbPD5gDlw7dBvH6mZJMwttEHcABZoN021Kr7xdSgVrXA?=
+ =?us-ascii?Q?1I35zgFF8hrb/u2hZHM5+wzPH2zbrgz2IBy2AyPaNIJoRxAT/cEMox9PXqrL?=
+ =?us-ascii?Q?Ft0CcRq68vXrXtuwG3HymP74BsidP/+sm5i0wNK4nNXAnNyUIlM9kd8vvosq?=
+ =?us-ascii?Q?yUqin/eJGtV9ld0eM7vypZJSXx5dWsFhPrP/iSudmqBiaI3QC/wnZOP6DTJN?=
+ =?us-ascii?Q?54jC9baYbZWGbAL1xRCpZdUPoNy+/+FEVbGY7BTC/Nlv316AGK0V5/L2SBdd?=
+ =?us-ascii?Q?nDJ1jz2QBdWYZEJN3VkKvyaMaSM3rSIz2HHsAP+eMnYj4EGngayTHMcsgbV/?=
+ =?us-ascii?Q?mm6t14yu2/dDKMyztcTJBBX/ZHjP4tkitATIS+KNKAR3+M63AizijAR67Tcb?=
+ =?us-ascii?Q?BaOpMRngWgh9i4tAn1KrN/qGMK0yMMUzAhRS0A7YaaqaxHc+BztEq1g+leGJ?=
+ =?us-ascii?Q?1DTMr3cGXVjZSQIUGtrADgDHZeEKlPAG8/+az8KIIjS2FLRvq+++NwVXpyt3?=
+ =?us-ascii?Q?+B6GxofGrLhib/v+suM+9hpO8BoxDj1QPVASEeZcR24INfbNwV3fdNRm9/jY?=
+ =?us-ascii?Q?xP79NhRN5j/ImBXdbctZ4ig3brC5k2GKRsq/+kTbTeG3ols+8Lu4FDhOwQju?=
+ =?us-ascii?Q?xSs/aZIchRKemoghkWML7cEluiBIbXW2avu4Rbf+XBeKgV63tZYmK57SAMhD?=
+ =?us-ascii?Q?ztCX6ZZKXj6sJgSeBmly7pocqKjsrJuqmJ0RZ0NytgKcAVNDbHi0kCFCGX62?=
+ =?us-ascii?Q?mFE1F8WJhAbFqBSj1Ch4fgzb5Homu84ZJz3xKkTxr83+Qo8XvyBbR8cN/HwG?=
+ =?us-ascii?Q?EZhNvVgbAsxOraVRgpPHOBdEcgIElvmWk112bhGW2NWKwSVUhVqZcU/4DPob?=
+ =?us-ascii?Q?YNor7JPSVCGC2L5n+GaipHpBnVVniLwn7zdxDgA+BZRvzCv3c3piRJSXU82K?=
+ =?us-ascii?Q?DMCfgD6YkxqTGq9bSgXDXRMB0pr/VeXkUWe3mUDD+wNulltmz8l1wsSUMeco?=
+ =?us-ascii?Q?DedanfBC8zdVtkgLLap1NdYhcNOQRpQVZvAEri8L2FLBe2FuZ0H919JPiM/l?=
+ =?us-ascii?Q?lmvwYTbDXPfWFkvUfigOg2Vo2yZ0c9g3laIsG2/2wJOG2judhLHkBOhwCvxW?=
+ =?us-ascii?Q?oZOlMv0J0keHExFQmmn9baslyyxaD80ixErh0KqTFC4IfkvBzyFSM2sdqOYS?=
+ =?us-ascii?Q?Zx3UT7Iboc5mTZ9rLYsYk7ZbkZLM2IyxX4sGaTCdj5dc03eA0VbuUhNk24Yn?=
+ =?us-ascii?Q?qgVZzKyFCUmHKcQGxNl+5CPCPXUQ2MIT2mBRMu8IVaWzLAE5/kq4tyyvoyru?=
+ =?us-ascii?Q?VWg+EFVa6owxRftyZHklMqTK+yltAlwjzVtbzudsZl2AATvCwnGFkgPGxYit?=
+ =?us-ascii?Q?FOSmUAHeY7JhOmxp2qpy71TKxlMxkVNjOh9NnGY622dfkz2e3NgG2fpUj0q/?=
+ =?us-ascii?Q?u/6r5QqZnXL/Ypk2eYg=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(82310400026)(376014);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(61400799027);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:51.8978
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:47.5162
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b78eba2-361f-447a-6a04-08ddfc21d0a8
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1aaca00-c0c2-4138-44ad-08ddfc21ce13
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000009F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF0002BA50.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB3965
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfXwoQUwAKrkz91
- OJ/5+QEShlLl2yZiIft0/UAdgow7+7USWWwj+19euhpeW/fyA3Llr/wTOIGjovbpORZmrTHRC15
- zBEFV/LCeXeRmnuIWmyxi9Sl8WVtpotixc4GnFS3mQZl3dPQKGbG9tAi2IhVXfYUYUCbRKTwCi/
- A8xTXKjTcMwnSEGhsFwyYJcRRrIPBhHBzBRKGPpH4j59Xx0gwG3jwSrcDK2KzmtIfufqcmGRRHD
- e2DqPwCGnesKd/YUvKqpv7LUTmAalTg8dQQbiaC3NhqxJFfj0dbqZwmpnEAnhSbQRjcbAY9qU0A
- jTA+UIQDv6upfY4Mj7pNpKLUqKbYG58aZ2AjOtoToXMDPwszJp1SKFRldXNFEc=
-X-Proofpoint-GUID: zsJ8XIRqlV35PWM1_HxyhMM7gwYqKn93
-X-Proofpoint-ORIG-GUID: zsJ8XIRqlV35PWM1_HxyhMM7gwYqKn93
-X-Authority-Analysis: v=2.4 cv=ap6yCTZV c=1 sm=1 tr=0 ts=68d51f44 cx=c_pps
- a=eFEjX9j3IP+CJDDqlGDD1w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR19MB9688
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfXwDtpT1OlfBc+
+ uaqvjRZ/osyTpl0zRDSmnptqKJ3TrpcpBG8tC6KY1PAtaMF63IoL4QEvjWgUxgI2UUBLu5Pp5Ll
+ ZtDcV+VWutD083f7+nf9Ro6Tu1rLL8QEhITjVrCG9sbYOi8hTiC2wCE0mNsQXFu6hOtviMF6Awi
+ flkmcTxK8MTNGN0vjLVYWH7Sq3CYExlEs3IKPwWWxYuVkEvnEYJE4UxPvYD2yvgKpCE/WfqlBfh
+ BqmW80z4teQ/5OCU2cuGEyRuP8i0Y/khTSD8LkWprcaUFkzwcVQheJao1WYnF7prJIi9s8wWctU
+ DJfzjiCK5Bk0YcJOHaDuCP+TBBImHIA0QfAeZAp0TKL+ASnUH4Cm+erupSKDd8=
+X-Proofpoint-GUID: hmScsbJr-3yRzdQoySK3k4z_8hwQE20x
+X-Proofpoint-ORIG-GUID: hmScsbJr-3yRzdQoySK3k4z_8hwQE20x
+X-Authority-Analysis: v=2.4 cv=ap6yCTZV c=1 sm=1 tr=0 ts=68d51f3e cx=c_pps
+ a=EjCBFqPm7gL+SGkxwm0cEw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
  a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=QyXUC8HyAAAA:8
- a=w1d2syhTAAAA:8 a=7YH4QgMdnEmkNJGjKpcA:9
+ a=w1d2syhTAAAA:8 a=EeMxKaNHpS4G9r6iSpwA:9
 X-Proofpoint-Spam-Reason: safe
 
-Several of the UMP transactions in the FDL process should timeout if the
-device does not respond within a certain time, add handling into the UMP
-helpers and the FDL code to handle this.
+Currently, the code assumes that the device that registered the
+MBQ register map is the actual SoundWire slave device. This works
+fine for all current users, however future SDCA devices will
+likely be implemented with the SoundWire slave as a parent device
+and separate child drivers with regmaps for each audio Function.
+Update the regmap_init_sdw_mbq_cfg macro to allow these two
+to be specified separately.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-Changes since v2:
- - Add mutex to lock between UMP timeout work and IRQ handlers
- - Clean up UMP timeout work after FDL fails
+No changes since v2.
 
- include/sound/sdca_fdl.h  |  7 ++++++
- include/sound/sdca_ump.h  |  5 ++++
- sound/soc/sdca/sdca_fdl.c | 50 ++++++++++++++++++++++++++++++++++++++-
- sound/soc/sdca/sdca_ump.c | 15 ++++++++++++
- 4 files changed, 76 insertions(+), 1 deletion(-)
+ drivers/base/regmap/regmap-sdw-mbq.c | 23 ++++++++++++-----------
+ include/linux/regmap.h               | 21 +++++++++++----------
+ sound/soc/codecs/rt722-sdca-sdw.c    |  4 +++-
+ 3 files changed, 26 insertions(+), 22 deletions(-)
 
-diff --git a/include/sound/sdca_fdl.h b/include/sound/sdca_fdl.h
-index 4ea000d6acef4..f4ba809cb203a 100644
---- a/include/sound/sdca_fdl.h
-+++ b/include/sound/sdca_fdl.h
-@@ -11,6 +11,7 @@
- #define __SDCA_FDL_H__
+diff --git a/drivers/base/regmap/regmap-sdw-mbq.c b/drivers/base/regmap/regmap-sdw-mbq.c
+index 86644bbd07100..8b7d34a6080d2 100644
+--- a/drivers/base/regmap/regmap-sdw-mbq.c
++++ b/drivers/base/regmap/regmap-sdw-mbq.c
+@@ -15,6 +15,7 @@
  
- #include <linux/completion.h>
-+#include <linux/workqueue.h>
+ struct regmap_mbq_context {
+ 	struct device *dev;
++	struct sdw_slave *sdw;
  
- struct device;
- struct regmap;
-@@ -23,13 +24,19 @@ struct sdca_interrupt_info;
-  * struct fdl_state - FDL state structure to keep data between interrupts
-  * @begin: Completion indicating the start of an FDL download cycle.
-  * @done: Completion indicating the end of an FDL download cycle.
-+ * @timeout: Delayed work used for timing out UMP transactions.
-+ * @lock: Mutex to protect between the timeout work and IRQ handlers.
-+ * @interrupt: Pointer to the interrupt struct to which this FDL is attached.
-  * @set: Pointer to the FDL set currently being downloaded.
-  * @file_index: Index of the current file being processed.
-  */
- struct fdl_state {
- 	struct completion begin;
- 	struct completion done;
-+	struct delayed_work timeout;
-+	struct mutex lock;
+ 	struct regmap_sdw_mbq_cfg cfg;
  
-+	struct sdca_interrupt *interrupt;
- 	struct sdca_fdl_set *set;
- 	int file_index;
- };
-diff --git a/include/sound/sdca_ump.h b/include/sound/sdca_ump.h
-index b2363199d19aa..f54f9d48c64cb 100644
---- a/include/sound/sdca_ump.h
-+++ b/include/sound/sdca_ump.h
-@@ -15,6 +15,7 @@ struct sdca_control;
- struct sdca_entity;
- struct sdca_function_data;
- struct snd_soc_component;
-+struct delayed_work;
+@@ -46,7 +47,7 @@ static bool regmap_sdw_mbq_deferrable(struct regmap_mbq_context *ctx, unsigned i
+ static int regmap_sdw_mbq_poll_busy(struct sdw_slave *slave, unsigned int reg,
+ 				    struct regmap_mbq_context *ctx)
+ {
+-	struct device *dev = &slave->dev;
++	struct device *dev = ctx->dev;
+ 	int val, ret = 0;
  
- int sdca_ump_get_owner_host(struct device *dev,
- 			    struct regmap *function_regmap,
-@@ -42,4 +43,8 @@ int sdca_ump_write_message(struct device *dev,
- 			   unsigned int length_sel,
- 			   void *msg, int msg_len);
+ 	dev_dbg(dev, "Deferring transaction for 0x%x\n", reg);
+@@ -96,8 +97,7 @@ static int regmap_sdw_mbq_write_impl(struct sdw_slave *slave,
+ static int regmap_sdw_mbq_write(void *context, unsigned int reg, unsigned int val)
+ {
+ 	struct regmap_mbq_context *ctx = context;
+-	struct device *dev = ctx->dev;
+-	struct sdw_slave *slave = dev_to_sdw_dev(dev);
++	struct sdw_slave *slave = ctx->sdw;
+ 	bool deferrable = regmap_sdw_mbq_deferrable(ctx, reg);
+ 	int mbq_size = regmap_sdw_mbq_size(ctx, reg);
+ 	int ret;
+@@ -156,8 +156,7 @@ static int regmap_sdw_mbq_read_impl(struct sdw_slave *slave,
+ static int regmap_sdw_mbq_read(void *context, unsigned int reg, unsigned int *val)
+ {
+ 	struct regmap_mbq_context *ctx = context;
+-	struct device *dev = ctx->dev;
+-	struct sdw_slave *slave = dev_to_sdw_dev(dev);
++	struct sdw_slave *slave = ctx->sdw;
+ 	bool deferrable = regmap_sdw_mbq_deferrable(ctx, reg);
+ 	int mbq_size = regmap_sdw_mbq_size(ctx, reg);
+ 	int ret;
+@@ -208,6 +207,7 @@ static int regmap_sdw_mbq_config_check(const struct regmap_config *config)
  
-+void sdca_ump_cancel_timeout(struct delayed_work *work);
-+void sdca_ump_schedule_timeout(struct delayed_work *work,
-+			       unsigned int timeout_us);
-+
- #endif // __SDCA_UMP_H__
-diff --git a/sound/soc/sdca/sdca_fdl.c b/sound/soc/sdca/sdca_fdl.c
-index 39298314f69c9..cb79dc3131b82 100644
---- a/sound/soc/sdca/sdca_fdl.c
-+++ b/sound/soc/sdca/sdca_fdl.c
-@@ -116,7 +116,7 @@ int sdca_fdl_sync(struct device *dev, struct sdca_function_data *function,
- 							   done_timeout);
- 			if (!time) {
- 				dev_err(dev, "timed out waiting for FDL to complete\n");
--				return -ETIMEDOUT;
-+				goto error;
- 			}
- 		}
+ static struct regmap_mbq_context *
+ regmap_sdw_mbq_gen_context(struct device *dev,
++			   struct sdw_slave *sdw,
+ 			   const struct regmap_config *config,
+ 			   const struct regmap_sdw_mbq_cfg *mbq_config)
+ {
+@@ -218,6 +218,7 @@ regmap_sdw_mbq_gen_context(struct device *dev,
+ 		return ERR_PTR(-ENOMEM);
  
-@@ -125,6 +125,25 @@ int sdca_fdl_sync(struct device *dev, struct sdca_function_data *function,
- 	}
+ 	ctx->dev = dev;
++	ctx->sdw = sdw;
  
- 	dev_err(dev, "too many FDL requests\n");
-+
-+error:
-+	for (j = 0; j < SDCA_MAX_INTERRUPTS; j++) {
-+		struct sdca_interrupt *interrupt = &info->irqs[j];
-+		struct fdl_state *fdl_state;
-+
-+		if (interrupt->function != function ||
-+		    !interrupt->entity || !interrupt->control ||
-+		    interrupt->entity->type != SDCA_ENTITY_TYPE_XU ||
-+		    interrupt->control->sel != SDCA_CTL_XU_FDL_CURRENTOWNER)
-+			continue;
-+
-+		disable_irq(interrupt->irq);
-+
-+		fdl_state = interrupt->priv;
-+
-+		sdca_ump_cancel_timeout(&fdl_state->timeout);
-+	}
-+
- 	return -ETIMEDOUT;
- }
- EXPORT_SYMBOL_NS_GPL(sdca_fdl_sync, "SND_SOC_SDCA");
-@@ -302,6 +321,21 @@ static void fdl_end(struct sdca_interrupt *interrupt)
- 	dev_dbg(interrupt->dev, "completed FDL process\n");
+ 	if (mbq_config)
+ 		ctx->cfg = *mbq_config;
+@@ -228,7 +229,7 @@ regmap_sdw_mbq_gen_context(struct device *dev,
+ 	return ctx;
  }
  
-+static void sdca_fdl_timeout_work(struct work_struct *work)
-+{
-+	struct fdl_state *fdl_state = container_of(work, struct fdl_state,
-+						   timeout.work);
-+	struct sdca_interrupt *interrupt = fdl_state->interrupt;
-+	struct device *dev = interrupt->dev;
-+
-+	dev_err(dev, "FDL transaction timed out\n");
-+
-+	guard(mutex)(&fdl_state->lock);
-+
-+	fdl_end(interrupt);
-+	sdca_reset_function(dev, interrupt->function, interrupt->function_regmap);
-+}
-+
- static int fdl_status_process(struct sdca_interrupt *interrupt, unsigned int status)
- {
- 	struct fdl_state *fdl_state = interrupt->priv;
-@@ -364,15 +398,20 @@ int sdca_fdl_process(struct sdca_interrupt *interrupt)
- {
- 	struct device *dev = interrupt->dev;
- 	struct sdca_entity_xu *xu = &interrupt->entity->xu;
-+	struct fdl_state *fdl_state = interrupt->priv;
- 	unsigned int reg, status;
- 	int response, ret;
- 
-+	guard(mutex)(&fdl_state->lock);
-+
- 	ret = sdca_ump_get_owner_host(dev, interrupt->function_regmap,
- 				      interrupt->function, interrupt->entity,
- 				      interrupt->control);
+-struct regmap *__regmap_init_sdw_mbq(struct sdw_slave *sdw,
++struct regmap *__regmap_init_sdw_mbq(struct device *dev, struct sdw_slave *sdw,
+ 				     const struct regmap_config *config,
+ 				     const struct regmap_sdw_mbq_cfg *mbq_config,
+ 				     struct lock_class_key *lock_key,
+@@ -241,16 +242,16 @@ struct regmap *__regmap_init_sdw_mbq(struct sdw_slave *sdw,
  	if (ret)
- 		goto reset_function;
+ 		return ERR_PTR(ret);
  
-+	sdca_ump_cancel_timeout(&fdl_state->timeout);
-+
- 	reg = SDW_SDCA_CTL(interrupt->function->desc->adr, interrupt->entity->id,
- 			   SDCA_CTL_XU_FDL_STATUS, 0);
- 	ret = regmap_read(interrupt->function_regmap, reg, &status);
-@@ -415,7 +454,13 @@ int sdca_fdl_process(struct sdca_interrupt *interrupt)
- 		case SDCA_XU_RESET_FUNCTION:
- 			goto reset_function;
- 		}
-+	case SDCA_CTL_XU_FDLH_COMPLETE:
-+		if (status & SDCA_CTL_XU_FDLD_REQ_ABORT ||
-+		    status == SDCA_CTL_XU_FDLD_COMPLETE)
-+			return 0;
-+		fallthrough;
- 	default:
-+		sdca_ump_schedule_timeout(&fdl_state->timeout, xu->max_delay);
- 		return 0;
- 	}
+-	ctx = regmap_sdw_mbq_gen_context(&sdw->dev, config, mbq_config);
++	ctx = regmap_sdw_mbq_gen_context(dev, sdw, config, mbq_config);
+ 	if (IS_ERR(ctx))
+ 		return ERR_CAST(ctx);
  
-@@ -441,8 +486,11 @@ int sdca_fdl_alloc_state(struct sdca_interrupt *interrupt)
- 	if (!fdl_state)
- 		return -ENOMEM;
- 
-+	INIT_DELAYED_WORK(&fdl_state->timeout, sdca_fdl_timeout_work);
- 	init_completion(&fdl_state->begin);
- 	init_completion(&fdl_state->done);
-+	mutex_init(&fdl_state->lock);
-+	fdl_state->interrupt = interrupt;
- 
- 	interrupt->priv = fdl_state;
- 
-diff --git a/sound/soc/sdca/sdca_ump.c b/sound/soc/sdca/sdca_ump.c
-index 5dcad2f7ea05b..8aba3ff168728 100644
---- a/sound/soc/sdca/sdca_ump.c
-+++ b/sound/soc/sdca/sdca_ump.c
-@@ -245,3 +245,18 @@ int sdca_ump_write_message(struct device *dev,
- 	return 0;
+-	return __regmap_init(&sdw->dev, &regmap_sdw_mbq, ctx,
++	return __regmap_init(dev, &regmap_sdw_mbq, ctx,
+ 			     config, lock_key, lock_name);
  }
- EXPORT_SYMBOL_NS_GPL(sdca_ump_write_message, "SND_SOC_SDCA");
-+
-+void sdca_ump_cancel_timeout(struct delayed_work *work)
-+{
-+	cancel_delayed_work_sync(work);
-+}
-+EXPORT_SYMBOL_NS_GPL(sdca_ump_cancel_timeout, "SND_SOC_SDCA");
-+
-+void sdca_ump_schedule_timeout(struct delayed_work *work, unsigned int timeout_us)
-+{
-+	if (!timeout_us)
-+		return;
-+
-+	queue_delayed_work(system_wq, work, usecs_to_jiffies(timeout_us));
-+}
-+EXPORT_SYMBOL_NS_GPL(sdca_ump_schedule_timeout, "SND_SOC_SDCA");
+ EXPORT_SYMBOL_GPL(__regmap_init_sdw_mbq);
+ 
+-struct regmap *__devm_regmap_init_sdw_mbq(struct sdw_slave *sdw,
++struct regmap *__devm_regmap_init_sdw_mbq(struct device *dev, struct sdw_slave *sdw,
+ 					  const struct regmap_config *config,
+ 					  const struct regmap_sdw_mbq_cfg *mbq_config,
+ 					  struct lock_class_key *lock_key,
+@@ -263,11 +264,11 @@ struct regmap *__devm_regmap_init_sdw_mbq(struct sdw_slave *sdw,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	ctx = regmap_sdw_mbq_gen_context(&sdw->dev, config, mbq_config);
++	ctx = regmap_sdw_mbq_gen_context(dev, sdw, config, mbq_config);
+ 	if (IS_ERR(ctx))
+ 		return ERR_CAST(ctx);
+ 
+-	return __devm_regmap_init(&sdw->dev, &regmap_sdw_mbq, ctx,
++	return __devm_regmap_init(dev, &regmap_sdw_mbq, ctx,
+ 				  config, lock_key, lock_name);
+ }
+ EXPORT_SYMBOL_GPL(__devm_regmap_init_sdw_mbq);
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index 4e1ac1fbcec43..70daec535976d 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -676,7 +676,7 @@ struct regmap *__regmap_init_sdw(struct sdw_slave *sdw,
+ 				 const struct regmap_config *config,
+ 				 struct lock_class_key *lock_key,
+ 				 const char *lock_name);
+-struct regmap *__regmap_init_sdw_mbq(struct sdw_slave *sdw,
++struct regmap *__regmap_init_sdw_mbq(struct device *dev, struct sdw_slave *sdw,
+ 				     const struct regmap_config *config,
+ 				     const struct regmap_sdw_mbq_cfg *mbq_config,
+ 				     struct lock_class_key *lock_key,
+@@ -738,7 +738,7 @@ struct regmap *__devm_regmap_init_sdw(struct sdw_slave *sdw,
+ 				 const struct regmap_config *config,
+ 				 struct lock_class_key *lock_key,
+ 				 const char *lock_name);
+-struct regmap *__devm_regmap_init_sdw_mbq(struct sdw_slave *sdw,
++struct regmap *__devm_regmap_init_sdw_mbq(struct device *dev, struct sdw_slave *sdw,
+ 					  const struct regmap_config *config,
+ 					  const struct regmap_sdw_mbq_cfg *mbq_config,
+ 					  struct lock_class_key *lock_key,
+@@ -970,7 +970,7 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
+  */
+ #define regmap_init_sdw_mbq(sdw, config)					\
+ 	__regmap_lockdep_wrapper(__regmap_init_sdw_mbq, #config,		\
+-				sdw, config, NULL)
++				&sdw->dev, sdw, config, NULL)
+ 
+ /**
+  * regmap_init_sdw_mbq_cfg() - Initialise MBQ SDW register map with config
+@@ -983,9 +983,9 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
+  * to a struct regmap. The regmap will be automatically freed by the
+  * device management code.
+  */
+-#define regmap_init_sdw_mbq_cfg(sdw, config, mbq_config)		\
++#define regmap_init_sdw_mbq_cfg(dev, sdw, config, mbq_config)		\
+ 	__regmap_lockdep_wrapper(__regmap_init_sdw_mbq, #config,	\
+-				sdw, config, mbq_config)
++				dev, sdw, config, mbq_config)
+ 
+ /**
+  * regmap_init_spi_avmm() - Initialize register map for Intel SPI Slave
+@@ -1198,12 +1198,13 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
+  */
+ #define devm_regmap_init_sdw_mbq(sdw, config)			\
+ 	__regmap_lockdep_wrapper(__devm_regmap_init_sdw_mbq, #config,   \
+-				sdw, config, NULL)
++				&sdw->dev, sdw, config, NULL)
+ 
+ /**
+  * devm_regmap_init_sdw_mbq_cfg() - Initialise managed MBQ SDW register map with config
+  *
+- * @sdw: Device that will be interacted with
++ * @dev: Device that will be interacted with
++ * @sdw: SoundWire Device that will be interacted with
+  * @config: Configuration for register map
+  * @mbq_config: Properties for the MBQ registers
+  *
+@@ -1211,9 +1212,9 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
+  * to a struct regmap. The regmap will be automatically freed by the
+  * device management code.
+  */
+-#define devm_regmap_init_sdw_mbq_cfg(sdw, config, mbq_config)	\
+-	__regmap_lockdep_wrapper(__devm_regmap_init_sdw_mbq,	\
+-				#config, sdw, config, mbq_config)
++#define devm_regmap_init_sdw_mbq_cfg(dev, sdw, config, mbq_config)	\
++	__regmap_lockdep_wrapper(__devm_regmap_init_sdw_mbq,		\
++				#config, dev, sdw, config, mbq_config)
+ 
+ /**
+  * devm_regmap_init_slimbus() - Initialise managed register map
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index 70700bdb80a14..e92988aea3f0e 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -419,7 +419,9 @@ static int rt722_sdca_sdw_probe(struct sdw_slave *slave,
+ 	struct regmap *regmap;
+ 
+ 	/* Regmap Initialization */
+-	regmap = devm_regmap_init_sdw_mbq_cfg(slave, &rt722_sdca_regmap, &rt722_mbq_config);
++	regmap = devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave,
++					      &rt722_sdca_regmap,
++					      &rt722_mbq_config);
+ 	if (IS_ERR(regmap))
+ 		return PTR_ERR(regmap);
+ 
 -- 
 2.47.3
 
