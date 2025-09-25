@@ -1,186 +1,144 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E6B1A9FA8
-	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 04:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E02BB13;
+	Thu, 25 Sep 2025 05:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758774518; cv=none; b=TE916byXMGcZWvRhuAPD5RnMG9aHns1Xk6XB/ObW10GwpF9h7/J8pPu87wB+rVfrluW/ccfPpEdvVhdtNcBtJ/ZMH+9Y5QVslHkeGeFZSlX5qdL7edQLQtUL/C0PldTUaMcZ3vwMYO9QePtRSnwK2eOlNeLu45DX+ECh1Z5FMdI=
+	t=1758777251; cv=none; b=aVmSSpjoCwAVQ+e2VXcIa0ej/hEyMzidQ6A/pNqoP3M9E9yzQYWpRhZvzuSfOSFNpLNYcDPcArSgRuCqjrftvfa8ajx9WvwoYmPkaRAI/uo2FPZpq1O1ZZZ4U5bbMQZHkPXVIDaX+Gd3+qek9+JpdjmGYAo4balDj/Yphi2JPMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758774518; c=relaxed/simple;
-	bh=ZvvhtAOgBSbLqZItrq7zesgwF7vj/QMySAgYL4Smkd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ktchTmwF82RgBwovccaRFpQvJfN8qrtbGA/JUKgjIEEHUGbAFD7hGNMyzU7cDtHaPiDxJkgYsJHzuXyAJaXqfYYg/6ZGEDI2T9yaBWVq+g7Jcgs91gLYDDSTTjcHe3TcnZKR5E/tyvQ1EMmNp0d8B8jLxO44wGfPKav56hjObms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nr61GEqe; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1758777251; c=relaxed/simple;
+	bh=MI1wPF47cj51v5gvx1moxrS8OunCrtPVd0XamHKKp6g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pq4FJf12fk8tH5W/DwrtN1W5S8amwZ+FEuRQNrv1rNLZcsDqZoy2Q30ysfkUlDKi5gxuPWX+YgubR/D4MSHGoRT0IAdIH1rWDZ3F31zNYR2Y2WpcS9ftxSt8t76vQD9GL+Vxy4oscNzYqeR7X0HwQS8TLjwzPl2mK7l4dho3mMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=y6+lRP1t; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nr61GEqe"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ONte5D022115
-	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 04:28:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=YKdKu5Uqj/R+R4nSJrnpuBnD
-	76XZWXqaLeu9ryAtfrQ=; b=nr61GEqeDS6O/9bCZklUE+4xbaVEsGbDtw8rEDjS
-	WsKS/6S3x9s3mMJBQuFiDE0rE1Jdc1LQRQZyLR2kUhWjzi4l/d/6PCVLXh4wb7Dy
-	nG7fxDu6V4MEpQBSHHGmcLUs4wGrtPJfePi3npnTv9Qdrht4xPU3l5K7osAAdOEa
-	QYXtdYk95S3abI7Zl1VnMOn5aKhIgDHyVFaojWFLmB5ZRCbNOjXCuhYkOvzvbbC1
-	HyqV5hmwlnI/lCIRV3RTgA7OFzazV0M3tWtPu7eASldRFGm27EFLHtyZ82cCB4lJ
-	NxPyGKBdrinFdhwZ8UBEyiNrRO5C/GRf2HswVqqYVvG15A==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49budaea0b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 04:28:35 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4d374dd29d1so14707431cf.3
-        for <linux-sound@vger.kernel.org>; Wed, 24 Sep 2025 21:28:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758774514; x=1759379314;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YKdKu5Uqj/R+R4nSJrnpuBnD76XZWXqaLeu9ryAtfrQ=;
-        b=kuNY0UZYhmWmM1PW308wMHxFRZ99IiNk/wSp3BYtppTtwWNLxfnqJX+zhgoDq94mKl
-         jIU/bhoo9CnoVgqNmKbWiBDrgUV0ni+ZyfJvzzT83FN14WmJKg5JrhCaIbOAfxnVM6E3
-         I+lAv1jp63bjKk8VPsPZiMTP9s6WLDOm1/raf/sEJ658lcRKBuoxytrPH2qOYIYYf9Hw
-         Ei611mugwvPcabZgpPNDuYhjoZoraML50L43r5aNWyrSoW6hzG82ZwG95U8O8FZzr6Mj
-         rWkDaQkJWUT2S6qEsBzFsIiOkk2B0PyJl1XV1ccwSuMHsP0vGu93/iwNyyZ6PG+kF8zS
-         lPQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZPlnjazGDs49nShc+14lC6XYQONfBTAStJkNbl0y2cVGaLKBYEnuWSBE8gBecHa4OZpGzxTFe8ysd1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV57XS7wZmAWRkFD9anKYF1jaQFQ+1GKPhqAM3hcnwIeeDSMV6
-	0vwzY5qvsOBWnjGa6IsRq7aCXds1SlFftQsa0EMpZIvU5bBE1bo+csAGwTUinAkFDo2WvV0xlkQ
-	U98PCiT0FeOO6g+w5WneYIqT0NMElHlpl8vp7d1LOf4L98ZCu5ku6e6qyn5Zbs7wZdA==
-X-Gm-Gg: ASbGncvcyWiz63QV+z2l8Z8EKUkR/msqY52LOlkGRa8bM+088z/dGu8ETHGDzm9QboM
-	Aq819mGoDSg/REHcpWr2DoV2Bknaj6F+xzTvNWF1tCVna8ehyEmtS4V1cd5/srd0zIFdUhjFTSS
-	XwYOTr/3o8jv7eo72i7PptDt7Lear4j85NITnZdlgXwDrHravV8DS/t0AcKrPz2RjnTSUAzkkCY
-	vhAYk0u384P/hAxiPqWGwgw9p2LlXF/EW3cER8Yq3e2sQXwwEtkgQu9w2hyu745H+9mEeRuxey8
-	s3K3yYd1LUB5HoTmS2uAtuhwwnwubn/zoVjnGlzWWNtOYdrFrILfz2ySAPGC1RYpncVVPySnq0L
-	mFUgpjh+9zHVUGDzMUwkKQBv1mVQj5qhuOM0raMyTfPytE6e2C8rk
-X-Received: by 2002:a05:622a:4aca:b0:4b6:18f2:358c with SMTP id d75a77b69052e-4da4744ead4mr32115491cf.3.1758774514413;
-        Wed, 24 Sep 2025 21:28:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAvX5v8YtwH7wuM9PLnsvtwTPCrF2EfJwUTqgkXbR5VNh7MBSXNyhpks3LE2KBzyG0d145jA==
-X-Received: by 2002:a05:622a:4aca:b0:4b6:18f2:358c with SMTP id d75a77b69052e-4da4744ead4mr32115321cf.3.1758774513968;
-        Wed, 24 Sep 2025 21:28:33 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-36fb7710256sm2613491fa.45.2025.09.24.21.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 21:28:31 -0700 (PDT)
-Date: Thu, 25 Sep 2025 07:28:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-        Simona Vetter <simona@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-Message-ID: <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
-References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="y6+lRP1t"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58P5DiCX1383667;
+	Thu, 25 Sep 2025 00:13:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758777224;
+	bh=EluPOJeo58opOTN0eM8mPRt7xvguHqP3916XoJ6Zljw=;
+	h=From:To:CC:Subject:Date;
+	b=y6+lRP1tCNmDgymVYyJyyPg1W1iO0sv0nSKAMNGn6K/MTXJ/JP6puDrx0LR0L6mDt
+	 5vn2GTHIGkTaTtJJJ5Zqytgn9+ROiR98jIaUapjPn8a/55B+C3ggvLM5Ei8zVveBs2
+	 WhwxMYuTZiVtQsE1+ufm5rGEhQ4yfdcJddR8h5QY=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58P5DiVb3304012
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 25 Sep 2025 00:13:44 -0500
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 25
+ Sep 2025 00:13:43 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 25 Sep 2025 00:13:43 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58P5DVio2924111;
+	Thu, 25 Sep 2025 00:13:33 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
+        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v1 1/2] ASoC: tas2781: Add tas5828 support
+Date: Thu, 25 Sep 2025 13:13:01 +0800
+Message-ID: <20250925051302.6805-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250925040530.20731-1-liujianfeng1994@gmail.com>
-X-Proofpoint-GUID: Qll5cWake_fhnPp-Y3M9VnAfvFX5lo6K
-X-Proofpoint-ORIG-GUID: Qll5cWake_fhnPp-Y3M9VnAfvFX5lo6K
-X-Authority-Analysis: v=2.4 cv=Yaq95xRf c=1 sm=1 tr=0 ts=68d4c4f3 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=vfsuxmVtCGY_ofmyA3EA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDExMyBTYWx0ZWRfX0RqxmmBu19Gx
- OmkGk5lz31uRqK4TSTMJZHHd7OanZwoPcF8YKi9mVVGQW/mgnjtb9ZdWrZCvpbbqTSL4i/y/kxL
- XBL1UbLCSuG6Rk2gGUQUszhuhqbej6RO7ORUBQ8mJdioGEoW/UbW1KNirrl/11m7VzqKeE3F/oX
- Bk/xo3aD0OzyxSTmdlK5NitKp0Ae4OsmY9Y1csjWDUavtaNcWUSTK7m+IwFDBhv73EBnPjcPGBb
- c06IPQOjsDNX1uT1iUmB3VJuFDgwWOx3V+YamUkoI4aAhp1Q9ZCSGhZj3rQFfaKbkrzlDcSBeQC
- 5cO7BfvZpMtF08blopKuLT/6eerBKEEhxIf9AEG0CeHhPRlt8GmYTybW2DWyLjVidn1tm2/2DPS
- BInKE9ug
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 phishscore=0
- adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509230113
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
-> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
-> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
-> use msm_dp_audio_prepare instead. While userspace is still calling
-> hw_params to do audio initialization, and we get the following errors:
-> 
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
+TAS5828 have on-chip DSP but have no calibration required stereo
+smart amplifier.
 
-And a call to hdmi_codec_prepare() comes only at this place.
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ include/sound/tas2781.h        | 1 +
+ sound/soc/codecs/tas2781-i2c.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Srini, Mark, when selecting to only implement .prepare for codec ops I
-was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
-hook"), which documents that IEC958 status bit is set after
-.hw_params(), so it's only visible during .prepare(). Is it okay to
-implement both callbacks? Or should the audioreach DAI driver be fixed
-somehow instead (I suppose it assumes that the port is available after
-.hw_params(), not sure if that assumption is correct)?
-
-> 
-> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
-> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
-> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
-> hdmi-codec driver can work with userspace alsa.
-> 
-> Tested with Radxa Dragon Q6A.
-> 
-> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-
-The patch LGTM, but I would wait for response from audio maintainers.
-
-> ---
-> 
-> Changes in v2:
-> - Link to v1: https://lore.kernel.org/linux-arm-msm/20250924085804.34183-1-liujianfeng1994@gmail.com/
-> - Use more detailed trace log in commit message.
-> - Drop the empty line between Fixex and SoB.
-> 
->  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> index 7d78b02c1446..6ca1c7ad0632 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> @@ -130,6 +130,7 @@ EXPORT_SYMBOL(drm_connector_hdmi_audio_plugged_notify);
->  
->  static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
->  	.audio_startup = drm_connector_hdmi_audio_startup,
-> +	.hw_params = drm_connector_hdmi_audio_prepare,
->  	.prepare = drm_connector_hdmi_audio_prepare,
->  	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
->  	.mute_stream = drm_connector_hdmi_audio_mute_stream,
-> -- 
-> 2.43.0
-> 
-
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index ddd997ac3216..a37b4d67c137 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -122,6 +122,7 @@ enum audio_device {
+ 	TAS2781,
+ 	TAS5825,
+ 	TAS5827,
++	TAS5828,
+ 	TAS_OTHERS,
+ };
+ 
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 1539b70881d1..f62a71dca36c 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -110,6 +110,7 @@ static const struct i2c_device_id tasdevice_id[] = {
+ 	{ "tas2781", TAS2781 },
+ 	{ "tas5825", TAS5825 },
+ 	{ "tas5827", TAS5827 },
++	{ "tas5828", TAS5828 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, tasdevice_id);
+@@ -126,6 +127,7 @@ static const struct of_device_id tasdevice_of_match[] = {
+ 	{ .compatible = "ti,tas2781" },
+ 	{ .compatible = "ti,tas5825" },
+ 	{ .compatible = "ti,tas5827" },
++	{ .compatible = "ti,tas5828" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, tasdevice_of_match);
+@@ -1665,7 +1667,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	}
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+ 
+-	/* There is no calibration required for TAS5825/TAS5827. */
++	/* There is no calibration required for TAS5825/TAS5827/TAS5828. */
+ 	if (tas_priv->chip_id < TAS5825) {
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
+ 		if (ret) {
+@@ -1722,6 +1724,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 		case TAS2781:
+ 		case TAS5825:
+ 		case TAS5827:
++		case TAS5828:
+ 			/* If DSP FW fail, DSP kcontrol won't be created. */
+ 			tasdevice_dsp_remove(tas_priv);
+ 		}
+@@ -1884,6 +1887,7 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ 		break;
+ 	case TAS5825:
+ 	case TAS5827:
++	case TAS5828:
+ 		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
+ 		size = ARRAY_SIZE(tas5825_snd_controls);
+ 		break;
+@@ -2056,6 +2060,7 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
+ 	{ "TXNW2781", TAS2781 },
+ 	{ "TXNW5825", TAS5825 },
+ 	{ "TXNW5827", TAS5827 },
++	{ "TXNW5828", TAS5828 },
+ 	{},
+ };
+ 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
