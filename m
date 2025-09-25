@@ -1,46 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C042F3C11
-	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 10:54:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769AE2F5A05
+	for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 10:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758797661; cv=fail; b=L5g37ogsl4nLnTcERzrd7rt+P3kj///JzT3AmaLfdnm6YM9XgUnB7Mm1p0SRPDZ6rctQe7+NAbruI28m2cYPIyqN432teGiSVUA6x3ZtL47hAyBlgofZJ3ACpKrXgOvLIIF39e4ZR/Y15x3IueSdV30T6sTM/uo2DDEmMe3QcsA=
+	t=1758797662; cv=fail; b=LwBQ9wuD/HhtLD5M7RxjYECDXConvY1VzZBjfR+Ih4Yrbli85/Oza1MTsGHgbtd8P5udD7QFU8GAfawSo1RuoarLXB9r+WdWpMznaJMqpK7YavsZzzmdlObDP86ssiF1U64Jujy4Q8eR75jjcFNFIXJ3W6S4wuPxJ+v8TipE/wQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758797661; c=relaxed/simple;
-	bh=/7Nw/OpaSWOxWXyHechpdMDyeDK3NZ/Qdxm3uGTQV3s=;
+	s=arc-20240116; t=1758797662; c=relaxed/simple;
+	bh=iIJjeQ2MvyYmmg8Y2gm/aLGzAnfAKVwROFXm7VWQffE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SFeNX63tRIaoHDIQfe1kAFq2TBbPXFCgRF9cx4LIRv1qS4pQq2vsl9hgzi008YRG+K6c8dqu7Jkx3XSSFWuSeCeZuMjb7hEzDfKB8iaWRAXZuFnwxPFieomxWtNhBI9/S6+qKfLHHjYS41yk14hxM18CqKHnCyXbahNcZ2YpY3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=F6H/gQIQ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Ub2SfhrG; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=Q8J1b1xeN0E76J9NSZgAVsuCrqYWC98/py2A0xefU6zhR5mcFv8D9ghoPgFR5hofqFsuly19S6kAw10anXrycpapnmzyVAKRWIpgnaMGcSjANxv0WF0NinOR7gZ+pj/t95x8AzWDixCdnnEDHNMcqi3syL1QaqMr0RBZQ5ChR6w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FYHeUrkw; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=e1oVpeU0; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="F6H/gQIQ";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Ub2SfhrG"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FYHeUrkw";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="e1oVpeU0"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58PAN0u71391147;
-	Thu, 25 Sep 2025 05:53:59 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58P4cfHd2734368;
+	Thu, 25 Sep 2025 05:53:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=qUBYbaD9i0pabAAvpzyzrRT9NZXeI/V3YQ73xriXtvw=; b=
-	F6H/gQIQo1uHGYn8KPDrgljIuN7PKPlwnX/OP8Z7UohuJwacV6fC4pywcUoUPzB+
-	tBtRplBpzkZa/21zZTVVM+1XEJVyYO88MJUoK/NsuUX6krdYjCwo9Ue8Sug+WNOz
-	XGkyq16ZgCW5KBpzGo6PFVxW7VMY6NoB/tvp+AkXjKulZe4+rdAGPKFFKh3cXOJR
-	jKCue1UdtuTi1+0+uON3z4wXlMcxtNHb1m8Gt/KHXzalttbRTr0pPTXvRDB4XF+A
-	ciIc/of9geHtYQCCf8zs8lxmbWFG7p+fIEm2LvFgeVCK5D0W5AExf/b0FMDHyOHy
-	I2sMd3Q63H5kh+0FlzhyrA==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022097.outbound.protection.outlook.com [40.93.195.97])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49cjmds8x3-1
+	PODMain02222019; bh=e7vku+r2E4678bsiXZJUPGGceI1Upp6VCD/swwvJu+g=; b=
+	FYHeUrkwwXI7tQxN7Vq6fvrY/selF2NzOZIvVGZwQuP/AZq522+QlIDmaowq4tH8
+	xz0cQhDT7GTaKhEEC2JiDIbubmC1oNq82OqaTwrbyC5+pjRdPyC7Sh1Ag6p9lp3P
+	zgbosvnqWBEAAmnAxfUz2gb4+iB5fdStX4IWXS5ux6qFSQOOdtD8lARw6JdbxFeL
+	ybMfNETDe4nTzrRGk5c+uHhkghDY61wViT9JHWJtNKRZ2IoWSoTc+uToUP1gbClI
+	e9kOpDS8Dd5Uf1gIJXuQEZ25qvVcMdddwPMvKKutsA1aXl975752LDOJf6G3QsdV
+	ncN+eDPneOVqyqoRDbQVVQ==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021077.outbound.protection.outlook.com [52.101.62.77])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49cjmds8ww-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 25 Sep 2025 05:53:58 -0500 (CDT)
+	Thu, 25 Sep 2025 05:53:55 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IxorXrFrrVD914BRDkLTuuOOuyzEK9IzGbMgQwcWoH+1fdUYTNMYBAlCPePDktNu4tc6g5+3JDCB5BaqbWBqKng5rNLFvaRc0av4gJW4ZRE5DryBKkZuCThqhBEjPW8fDCEXrawla1y15gN29CpbzsTHKC9Nl61nNanXFPmG6CsaOw/TWijeKFXr39CtAIvoitwlzFTyU59XkPrLZI8f209zbClGIPKjDF+P4gn+EuAvd6XQkeENfssHO58aCQzgIdKaNbwkSZ/Bvt80VnCYWDESUNXf5IW0F9YFv07vPSYPGGtLqvT4r2HpOlG/FOk47sDF0sjkrzZxDsoE4W4YNg==
+ b=WyamEkHXf8s2gvb+Z0n2Q1GJNF4tyao7AyzNdVeMErTH3WGckcj19gI4EzGvA2jnfsKtTiexhFaNMkvY2zX+svOBQOvHOZaVFghDEmjC6s3CiM+Xm3cQ1nlOEEjKqGgRrOyRk9o1W9Nj8loPrEOqLcl0Fq2DkoHE7RNzvOR+fQ6k6CFca/h7CFBZNH2/FuBDpU6B3mPwkK/nITBbn83AdP0wc+HyMr26tSWW1kQgVwOa4DiOKlJiVZKZdz5vNOMHL0Ace5u/P4Ru3p4VvbzqHTadX1MW+BnhDMyA5TLtBFcLeJiy12QoxeoVhBojXrwpR3CqLphBxcgWcwRSYKr7NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qUBYbaD9i0pabAAvpzyzrRT9NZXeI/V3YQ73xriXtvw=;
- b=iM5+7Goy9GqhSptnGyYRV1R6uwQtxbXoiP0TYAjO4F0TEZA28lmeTYz1V/67CBRHC/8UC3uBLA8yI4kuNza6fnFH0uRRVxtUkxyCHfQk77GVreYG1pKRlD2P8cBkQj5Sx+hbTSiMuB3mTEnQvOkRmudJg0mNQdh95oNL/8bsUDBwepGom4yD8APc+OdqjVkQzcWK4PAD472v+OoKBNWYdHy3LzBZnlRfqYsIoZFpE6nafMy+c2LOttc8uz/mgNAO/6JqYV/BQJfU2wvc48elbIjgMIVRuM0MplYOuqYa4q5vfZNB27oaDnVsfHckqbNBgcgDglFyUCX4ayYIhUxfxw==
+ bh=e7vku+r2E4678bsiXZJUPGGceI1Upp6VCD/swwvJu+g=;
+ b=ki++IyuYpStSaeaWyvK2H8VaEK243va3kSdhEjaEuwPcv4TorJEbh8o3E8nY//mohy5Iw6ousHYdpy/JY7ran2FNQjbGfyTkAP8FAmHKx5PeR/GpTjkEZ2ZVql8GPAD/kVELuX9zT8ir4/3rOcHfYycU+IMfooooAPtKPVRE6N2gk0zn9B/zAU8SeVsHXZJyTTP5t7FNa012lQVb5sPjnjydPxFFU78HJVfW11bSCl+q+7Bz0ikeQg04l3tpwrMEwuCBPpL+P04h7+/o3IE5N8W52a9rFQAZT2G/nRzanpdrjdpOVArqJydADD4XEeWjQ0QjpWuI8/3895w2QnwtcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qUBYbaD9i0pabAAvpzyzrRT9NZXeI/V3YQ73xriXtvw=;
- b=Ub2SfhrGdHdgrPSUhxv1VSv2obtmXh5TyJ0+VQ8IjLGZOvKs6f7pRYq3HpDfd19Sb2p+4cyDDFGEr1ebUD4DRhbsKqF49uwIeSTR24scq8vBAmxEdTHop/sRNTDBof+hGQBdDy9MgpBT3mUUgH4GIEemhv0sdgcOefuapgGAMLE=
-Received: from SA1PR02CA0005.namprd02.prod.outlook.com (2603:10b6:806:2cf::10)
- by MW4PR19MB6796.namprd19.prod.outlook.com (2603:10b6:303:207::10) with
+ bh=e7vku+r2E4678bsiXZJUPGGceI1Upp6VCD/swwvJu+g=;
+ b=e1oVpeU0RjhtMa7ieJJvFWuzuv37pzHU+tM9pN7vIJUwDxx1X1RjEQaMeJ5IHJBWjkCF/8OQVdRx4uw/pRwhJ+viTW7gb0mqgoPAIwwdaZTCPQXqeb0cFpfZglmyKOA3my9krOtMDwBhNs3BMFSdjnKHQJp5azqq27xdZGrkS2k=
+Received: from MW4PR02CA0016.namprd02.prod.outlook.com (2603:10b6:303:16d::22)
+ by MW3PR19MB4316.namprd19.prod.outlook.com (2603:10b6:303:43::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
- 2025 10:53:54 +0000
-Received: from SN1PEPF0002BA4B.namprd03.prod.outlook.com
- (2603:10b6:806:2cf:cafe::ef) by SA1PR02CA0005.outlook.office365.com
- (2603:10b6:806:2cf::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.10 via Frontend Transport; Thu,
- 25 Sep 2025 10:53:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Thu, 25 Sep
+ 2025 10:53:51 +0000
+Received: from MWH0EPF000971E7.namprd02.prod.outlook.com
+ (2603:10b6:303:16d:cafe::a5) by MW4PR02CA0016.outlook.office365.com
+ (2603:10b6:303:16d::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.22 via Frontend Transport; Thu,
+ 25 Sep 2025 10:53:51 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,14 +69,14 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SN1PEPF0002BA4B.mail.protection.outlook.com (10.167.242.68) with Microsoft
+ MWH0EPF000971E7.mail.protection.outlook.com (10.167.243.75) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9
- via Frontend Transport; Thu, 25 Sep 2025 10:53:52 +0000
+ via Frontend Transport; Thu, 25 Sep 2025 10:53:50 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D9F9240664F;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 36C8040655D;
 	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D0D91820257;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2E2C882024B;
 	Thu, 25 Sep 2025 10:53:46 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
@@ -84,9 +84,9 @@ Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
         shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v3 19/19] ASoC: SDCA: Add HID button IRQ
-Date: Thu, 25 Sep 2025 11:53:41 +0100
-Message-ID: <20250925105341.194178-20-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v3 06/19] ASoC: SDCA: Update externally_requested flag to cover all requests
+Date: Thu, 25 Sep 2025 11:53:28 +0100
+Message-ID: <20250925105341.194178-7-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
 References: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
@@ -99,242 +99,144 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4B:EE_|MW4PR19MB6796:EE_
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E7:EE_|MW3PR19MB4316:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 47e9b824-076e-4672-5954-08ddfc21d117
+X-MS-Office365-Filtering-Correlation-Id: db8cb532-33ae-4806-ac45-08ddfc21cfc3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|61400799027;
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700013|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+yq0kN8mjsVo8ExaOm/0BC74yx4N/fVQy1wG0bjb0+OoSWIRKyDpDu+JZict?=
- =?us-ascii?Q?OXJocFYmIHGmuU2/oh+FFJwVqL3+qJmtGHKGPlcUXF10IetJikiEu41k43yH?=
- =?us-ascii?Q?/YPNChYbrdhXXXzJBUmW8kusyq6vS3p/5eggQ5s7dfHEOlXAMPfpmcxH96+5?=
- =?us-ascii?Q?7CUiorfTxLV6AS68y30IIfxFU2fpq5yJcYC8hrXkrLoF9iDS8JundNTA57gQ?=
- =?us-ascii?Q?Mk4FJ9P/jC6UZYpLANpozW29oVbJ5Y7/BT/IyCDQnFKqZ6FjmV6ZohBjq97h?=
- =?us-ascii?Q?CVHCqDxAY2V1LKcgTk5oVZ98yolkjzNCfcmWNVIeYszRAfsenC6gvAikUHMz?=
- =?us-ascii?Q?d82ihAwq0n1MoRe+BOv9Cv6ywIal/C8oVLprfXIeQt7M8pelTXrW5ra6eGx/?=
- =?us-ascii?Q?SLiJjL3MCE+vX/Udf+og4Pi9+jZ8iVJBnPqzjLXvw7J3oa1Odmm/mZLonQwH?=
- =?us-ascii?Q?PG/C7qD5Vsmz5CUGUCRfVEGyTeD/ksWD5OGAUxihZzAmMz7SSa+wVyLEmSNh?=
- =?us-ascii?Q?LhsDWqPbWhtQAiXTJ1gJWiG1yYgOkBnnXa8CPNuUnlTs27umTQyucsdsqU5B?=
- =?us-ascii?Q?YGAydYVZGbxwnwU5HdJ9nWi4V3QBsDLQ39Pxkmo6bubDUX5XuMIdBbc8JQyF?=
- =?us-ascii?Q?5QqKfD1VruxJE/6GuwFzpd5Z3cxtz/yCP6RBQZjqR6A+MAe9R1+ihLsIGzSK?=
- =?us-ascii?Q?TpJA8YevLDGX1x/v4vfWutytni1D0s7k7TFGrTF5MzO1OesR7dCBAsU4h6kF?=
- =?us-ascii?Q?A40sQ5HVb8MgFXn+Z3tHFblenvuk84Qr2A4BiRwM59HnNhJzYp/YFRVVYn9K?=
- =?us-ascii?Q?EMD8cz0dTNQsoE7bYQAqN4mk9FFWX1SnKfGcImqbbTigELFVWItKFzIXm2wW?=
- =?us-ascii?Q?TCRLrJi50ihPEWFDc196CHazR0N9iMjkHDNXWSmAn7sWAeAiHF/4BBZoJfm+?=
- =?us-ascii?Q?CjE1Tm43I/5XecnEgpiGzokM1WiUnTKNxDyFHe4Hs71/3nIpKdXlIs5Ex9j5?=
- =?us-ascii?Q?PIlPsZjZQkXJyE0JgpkeylSTMR9Jr7a1Z15PeMPlMPH30a7IT5eJjYx166UH?=
- =?us-ascii?Q?wqrCEP2Dlj/UhDIO7W6jM3Ed8QXqTysEZx/82/LefEZXB1O9bWFXy495IyDn?=
- =?us-ascii?Q?ON9zDHB/vgNoQtnnDvAreSXV8ecAJkoI7S91MX79uXSIiiIb225Dvb2OzYMU?=
- =?us-ascii?Q?5VgOy/HI7IGZ1B5BAEekpA1ctN0ByL+2XmJTHVGThfBQKVutP4ZTMbi2FKIN?=
- =?us-ascii?Q?Cl1fdoZ32FvJk7urbFx4iOZcqJ2OLG+dEOTDd6vSEcJnt4AswoY1ERuJjd+i?=
- =?us-ascii?Q?b2CHvMypvfoD8hU8MFQwLZh92HSZOh6MfB/QuCH6crTXo9Tz1PejsnLdkjR1?=
- =?us-ascii?Q?DnvQmiMAWnm1yMzLIzMWxyplkK9sS01ZbkYOhEd/LSVGw/DZE5BTrmyM+juS?=
- =?us-ascii?Q?KsltK0D9knrCjPM1H0dwovpotwcAkh3dKpRKd6iBjmbJNW0GdWCQGg12HpAU?=
- =?us-ascii?Q?V0T1gnb8GEVLX6C7VCSaahc23GIcTcnHw+GM?=
+	=?us-ascii?Q?uEc4MjPxK5cu0bXi7jbnpwu4EySLGT0FCKZb/8TF030bvBKlAEjVPcS6rnJS?=
+ =?us-ascii?Q?5aBSS6nEsuCroyM2NLcs/fEpOcmE2iD6Dvd8Kbi6IS8DFnw3j/g+2A4VajkP?=
+ =?us-ascii?Q?2Eh7LIIJKMcatJAR27kCO8SdbQVzQwXrQ88bpBHDw1g+jSI6Xay223MLm3Af?=
+ =?us-ascii?Q?MIGJZr3uTv3/G5AZhUVyeNHDnwAJLoSFAqpg2+NZJXdK7qVDagQNiFdYlo6Y?=
+ =?us-ascii?Q?ZcLoZdRh3JjqlAxR/V6alFWNfkws/dm64Ipy4qZNkDz3fnMUy1+KleXfD6nO?=
+ =?us-ascii?Q?acxqRCX/h1otZpPe4fVf0+wx5RddHeYM0ZqCe11QbBDPdtYtOoST7wWirvV/?=
+ =?us-ascii?Q?mbj3eNKAn42uD2biAYB9m3G08Agd8gMsBiXozZsFGLDFVhACrHPwHgPzJK6x?=
+ =?us-ascii?Q?mP2fDE2PyGsmrVhudbSjqQ88PabXsLfo0WPNBLHK3seue83bSLCcbgpTxqo3?=
+ =?us-ascii?Q?lATgM+oVeSkDMBstiymFIvMNpSXFvauM2kj3lJzs1lYiBA90+q6fCbH7QJFh?=
+ =?us-ascii?Q?Es3XRCN3ibPt8e8uO4fVNXrr9HmbH/O4Yv/cOWj/jotvXz/nC5AOSoJ901xw?=
+ =?us-ascii?Q?aWZvaoyOfj250tFMFdC2pbjbfqq8Yo/cJvAZJL/7vXdECW0Vr9+1TsuTGlTZ?=
+ =?us-ascii?Q?Id/RGQuK8JxkkW4ZGZQdnuxg9I7ilMQWUe49PiLw70RkEKQHgS1sJO6Zax7w?=
+ =?us-ascii?Q?7IEvx+Z0xAaeU7QkO2JiZC/WYJXEhUxRLwCG5csJSdAjDlfl6r834/ftu/K4?=
+ =?us-ascii?Q?jv4V/7JsgpPA3pNkP3Dq5oo03pPj2RrtgWK/FGbjLh/Z4l9rfQEV2UoW7Tdf?=
+ =?us-ascii?Q?0wwJlkoD7Gd2aKMnJpDEE6u4kZXxytKdRQhNv2rGOMSAfULTn85OvTqGgQ+N?=
+ =?us-ascii?Q?P4OWSwBZKPh5M3NHixhlgtEg0FsId4YN29WNA9MoahZt0v4ajlqsht64v8Fx?=
+ =?us-ascii?Q?PRjsVNGv0qxmATweP00xYI+o53g81PrQgwDfTLwOVKh4zvb3jCDN/d+XBmoL?=
+ =?us-ascii?Q?eMqhMI5dy2Wql8fX/ECOkgWuHsBoHOaD4qxZf5UhBi8JnZVQyeKEHB+/PU/2?=
+ =?us-ascii?Q?51ltuOhKK0RzvSNEKMjj7um1XMuuzIJTziPH0x8iAyZO8vpDIpMzMN4HT7IM?=
+ =?us-ascii?Q?jMo0vqgHKfoolt0N/HHd27/6+eiTQttO847lvaGr/5+dAHCumyXFWSJqbDZr?=
+ =?us-ascii?Q?X5s/zWwVDfa9grW8BtlNLK8loIf1VxRr6KY3LKWnIqZbdyS/6Qkq80aC7XAV?=
+ =?us-ascii?Q?mjbJWFPNIiXZ9D1TxonvKARHdaCQNxfoZOmaqV0OncFEgBKANF0dHv53+ccK?=
+ =?us-ascii?Q?R3Ur5/NuyUK1et0PgR+JNgINmh4aZYfpR3nZJqmZp7xL2KIgG9wSc64k0FdT?=
+ =?us-ascii?Q?2V1P4+cTxJbul4SB/zulJ5vIos0iKPcFYwBRZr+ZvY2hAoylRkltbRlbI5KV?=
+ =?us-ascii?Q?ZMqIIJzmCWO1pZqDC64HfTzcIimd0G1h+CEtQuVb2CuHR5ZM7DnVguwkWmNl?=
+ =?us-ascii?Q?g6FjlYq+5AgiyEXt5oGq/TZLKM3sC6H6vK2Y?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700013)(376014);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:52.5811
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 10:53:50.3006
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47e9b824-076e-4672-5954-08ddfc21d117
+X-MS-Exchange-CrossTenant-Network-Message-Id: db8cb532-33ae-4806-ac45-08ddfc21cfc3
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF0002BA4B.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000971E7.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR19MB6796
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfXyD7GIuGlj8tM
- +IgeYp2e5HJdb/UrPrXYT7HF5YVPsz2D1NunFBnEmGYiRmD+Efu5uxOeiI2y4Rm5uq0sfDGD+l8
- 6AXnFv/jEAStzgcbcI3wP5i7u7qUA0sZLUKN7IK9LlTgkJ5Ynl/hJrYYrE2R6Z6mspODQ1dfgT3
- HSVTFjQSH5oeKS5UP17/vmZWUsDNSxxg+BzzSmIwK3buWHNIV0eLoRiUGP7TpkyVKWvnTy121ZW
- DnY9wgriTj+tDyihcCfx6sVjO9s8bPAyf97yfJ63o5DfCPl5mh19zFVVla5R6MWXGZsXW5it/we
- moCK5TGAFecMiEtBwn1KvriuYTkHVSWCb4XF2N+PuB2sXa4wjgMjD0aganFsso=
-X-Proofpoint-GUID: Vft-8x_xBiouMzdOQL941MelYuSGT-zS
-X-Proofpoint-ORIG-GUID: Vft-8x_xBiouMzdOQL941MelYuSGT-zS
-X-Authority-Analysis: v=2.4 cv=ap6yCTZV c=1 sm=1 tr=0 ts=68d51f46 cx=c_pps
- a=YnstAiVElcvMFu1aLrgWsw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR19MB4316
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDEwMiBTYWx0ZWRfX7uJhTtmLsCKJ
+ e2Cpcn8hSUNJI4spMJ/8Stpgd4YbgnUfD2ONhH+423uOAL9UYoylq4J6WaAP0qUoULpDGTsW/xF
+ 4nQEKOTs7N+wpUwrQvRqfcpmwfijhwC5WaYTDAanL5zmchhDSrvH5hApheL32hQw0WM3gW/w8yZ
+ 8Zd51figgVLsPUhuJ6OT/YQDEJF7+5Bae0zBfgsbiNwESW0s1Fro2P31z1gP2VxVr9ZoqEiffht
+ hMh/zwU/aQ4lPNi3vSEx3O/zCBJLuls/mIMkVrWMUSCCD1BlcOnnRPNji/bBRZHt/py4hltd8yR
+ AAvcejIC67V4H+aceyeBvLtZQ2wgYlM6ql/kzTPBGzlZ4uJecye1UmoU0lmv+Y=
+X-Proofpoint-GUID: xqQ8X5iyzhTivEKr8ZK1yZGzXIh5T5_Y
+X-Proofpoint-ORIG-GUID: xqQ8X5iyzhTivEKr8ZK1yZGzXIh5T5_Y
+X-Authority-Analysis: v=2.4 cv=ap6yCTZV c=1 sm=1 tr=0 ts=68d51f43 cx=c_pps
+ a=Qy130IFfx9qnCPISBCfGtw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=yJojWOMRYYMA:10 a=RWc_ulEos4gA:10 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8
- a=6BSnrPCAuFArKd-Y-XcA:9
+ a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=QyXUC8HyAAAA:8
+ a=w1d2syhTAAAA:8 a=n3emF70xWfdXXSmRECkA:9
 X-Proofpoint-Spam-Reason: safe
 
-Now full support for the UMP buffers is available, it is possible to
-read the SDCA HID descriptors from the device and pass them to
-user-space. Add a helper function to process HID events from an SDCA
-device.
+Currently there is a flag to indicate if an IRQ has been requested by
+something outside the SDCA core, such that the core can skip requesting
+that IRQ. However, it is simpler and more useful to always store the
+allocated IRQ number. This will allow the core to see if the IRQ has
+been requested, to perform additional operations on the IRQ, and
+request IRQs in multiple phases.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-No changes since v2.
+Changes since v2:
+ - Use IRQ number rather than a boolean for tracking used IRQs.
 
- include/sound/sdca_hid.h         | 13 +++++++--
- sound/soc/sdca/sdca_hid.c        | 46 ++++++++++++++++++++++++++++++++
- sound/soc/sdca/sdca_interrupts.c | 28 +++++++++++++++++++
- 3 files changed, 85 insertions(+), 2 deletions(-)
+ include/sound/sdca_interrupts.h  | 7 +++----
+ sound/soc/sdca/sdca_interrupts.c | 8 ++++----
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/include/sound/sdca_hid.h b/include/sound/sdca_hid.h
-index 3a155835e035e..18bebbe428c9f 100644
---- a/include/sound/sdca_hid.h
-+++ b/include/sound/sdca_hid.h
-@@ -8,13 +8,17 @@
- #ifndef __SDCA_HID_H__
- #define __SDCA_HID_H__
+diff --git a/include/sound/sdca_interrupts.h b/include/sound/sdca_interrupts.h
+index d652c6e94ddcb..e4bf123936bbd 100644
+--- a/include/sound/sdca_interrupts.h
++++ b/include/sound/sdca_interrupts.h
+@@ -29,9 +29,8 @@ struct sdca_function_data;
+  * @entity: Pointer to the Entity that the interrupt is associated with.
+  * @control: Pointer to the Control that the interrupt is associated with.
+  * @priv: Pointer to private data for use by the handler.
+- * @externally_requested: Internal flag used to check if a client driver has
+- * already requested the interrupt, for custom handling, allowing the core to
+- * skip handling this interrupt.
++ * @irq: IRQ number allocated to this interrupt, also used internally to track
++ * the IRQ being assigned.
+  */
+ struct sdca_interrupt {
+ 	const char *name;
+@@ -44,7 +43,7 @@ struct sdca_interrupt {
  
--#include <linux/types.h>
--#include <linux/hid.h>
-+struct device;
-+struct sdw_slave;
-+
-+struct sdca_entity;
-+struct sdca_interrupt;
+ 	void *priv;
  
- #if IS_ENABLED(CONFIG_SND_SOC_SDCA_HID)
+-	bool externally_requested;
++	int irq;
+ };
  
- int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
- 			struct sdca_entity *entity);
-+int sdca_hid_process_report(struct sdca_interrupt *interrupt);
- 
- #else
- 
-@@ -24,6 +28,11 @@ static inline int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
- 	return 0;
- }
- 
-+static inline int sdca_hid_process_report(struct sdca_interrupt *interrupt)
-+{
-+	return 0;
-+}
-+
- #endif
- 
- #endif /* __SDCA_HID_H__ */
-diff --git a/sound/soc/sdca/sdca_hid.c b/sound/soc/sdca/sdca_hid.c
-index 53dad1a524d4b..ad53207b0d62b 100644
---- a/sound/soc/sdca/sdca_hid.c
-+++ b/sound/soc/sdca/sdca_hid.c
-@@ -10,6 +10,7 @@
- #include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/dev_printk.h>
-+#include <linux/hid.h>
- #include <linux/module.h>
- #include <linux/property.h>
- #include <linux/soundwire/sdw.h>
-@@ -17,6 +18,8 @@
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
- #include <sound/sdca_hid.h>
-+#include <sound/sdca_interrupts.h>
-+#include <sound/sdca_ump.h>
- 
- static int sdwhid_parse(struct hid_device *hid)
- {
-@@ -121,5 +124,48 @@ int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
- }
- EXPORT_SYMBOL_NS(sdca_add_hid_device, "SND_SOC_SDCA");
- 
-+/**
-+ * sdca_hid_process_report - read a HID event from the device and report
-+ * @interrupt: Pointer to the SDCA interrupt information structure.
-+ *
-+ * Return: Zero on success, and a negative error code on failure.
-+ */
-+int sdca_hid_process_report(struct sdca_interrupt *interrupt)
-+{
-+	struct device *dev = interrupt->dev;
-+	struct hid_device *hid = interrupt->entity->hide.hid;
-+	void *val __free(kfree) = NULL;
-+	int len, ret;
-+
-+	ret = sdca_ump_get_owner_host(dev, interrupt->function_regmap,
-+				      interrupt->function, interrupt->entity,
-+				      interrupt->control);
-+	if (ret)
-+		return ret;
-+
-+	len = sdca_ump_read_message(dev, interrupt->device_regmap,
-+				    interrupt->function_regmap,
-+				    interrupt->function, interrupt->entity,
-+				    SDCA_CTL_HIDE_HIDTX_MESSAGEOFFSET,
-+				    SDCA_CTL_HIDE_HIDTX_MESSAGELENGTH, &val);
-+	if (len < 0)
-+		return len;
-+
-+	ret = sdca_ump_set_owner_device(dev, interrupt->function_regmap,
-+					interrupt->function, interrupt->entity,
-+					interrupt->control);
-+	if (ret)
-+		return ret;
-+
-+	ret = hid_input_report(hid, HID_INPUT_REPORT, val, len, true);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to report hid event: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(sdca_hid_process_report, "SND_SOC_SDCA");
-+
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("SDCA HID library");
+ /**
 diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
-index 51342b8aacae9..5176460416bbe 100644
+index 898069ceffe93..cb7c7a6f356ed 100644
 --- a/sound/soc/sdca/sdca_interrupts.c
 +++ b/sound/soc/sdca/sdca_interrupts.c
-@@ -20,6 +20,7 @@
- #include <sound/sdca.h>
- #include <sound/sdca_fdl.h>
- #include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
- #include <sound/sdca_interrupts.h>
- #include <sound/sdca_ump.h>
- #include <sound/soc-component.h>
-@@ -247,6 +248,29 @@ static irqreturn_t detected_mode_handler(int irq, void *data)
- 	return irqret;
- }
+@@ -262,6 +262,8 @@ static int sdca_irq_request_locked(struct device *dev,
+ 	if (ret)
+ 		return ret;
  
-+static irqreturn_t hid_handler(int irq, void *data)
-+{
-+	struct sdca_interrupt *interrupt = data;
-+	struct device *dev = interrupt->dev;
-+	irqreturn_t irqret = IRQ_NONE;
-+	int ret;
++	info->irqs[sdca_irq].irq = irq;
 +
-+	ret = pm_runtime_get_sync(dev);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to resume for hid: %d\n", ret);
-+		goto error;
-+	}
-+
-+	ret = sdca_hid_process_report(interrupt);
-+	if (ret)
-+		goto error;
-+
-+	irqret = IRQ_HANDLED;
-+error:
-+	pm_runtime_put(dev);
-+	return irqret;
-+}
-+
- static irqreturn_t fdl_owner_handler(int irq, void *data)
- {
- 	struct sdca_interrupt *interrupt = data;
-@@ -528,6 +552,10 @@ int sdca_irq_populate(struct sdca_function_data *function,
- 					handler = fdl_owner_handler;
- 				}
- 				break;
-+			case SDCA_ENTITY_TYPE_HIDE:
-+				if (control->sel == SDCA_CTL_HIDE_HIDTX_CURRENTOWNER)
-+					handler = hid_handler;
-+				break;
- 			default:
- 				break;
+ 	dev_dbg(dev, "requested irq %d for %s\n", irq, name);
+ 
+ 	return 0;
+@@ -301,8 +303,6 @@ int sdca_irq_request(struct device *dev, struct sdca_interrupt_info *info,
+ 		return ret;
+ 	}
+ 
+-	info->irqs[sdca_irq].externally_requested = true;
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL_NS_GPL(sdca_irq_request, "SND_SOC_SDCA");
+@@ -379,9 +379,9 @@ int sdca_irq_populate(struct sdca_function_data *function,
+ 
+ 			interrupt = &info->irqs[irq];
+ 
+-			if (interrupt->externally_requested) {
++			if (interrupt->requested) {
+ 				dev_dbg(dev,
+-					"skipping irq %d, externally requested\n",
++					"skipping irq %d, already requested\n",
+ 					irq);
+ 				continue;
  			}
 -- 
 2.47.3
