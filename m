@@ -1,81 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3A021C9F4;
-	Thu, 25 Sep 2025 01:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652AC3C01;
+	Thu, 25 Sep 2025 01:18:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758762550; cv=none; b=lqPDJlSwzERMsUsHIO3yRpV+nwJVN3qVLRL1z5mq1OXLoK9NrjT8Hq57JlPR7LtePKli2Za5RId79NPFTlbiOFgMnYiGtCG7Izb41Bxj+S753PokrB48DifRChK35j2oFa1fNXjfnk2LZWaTnAd4EZUObQxGIh6Ee25/g2Vhegs=
+	t=1758763094; cv=none; b=fAb6VGwn8wDzqptzZ4W8o9ON5en47KaEJOfztRWpnVBi2M6oVxPlKf29q9qPR7FblAoIS7Gfspk/ELw9zqLvteSG8sA4QLJ23s0ABmaq92D0dTi+BSYhsxHFp2Dcrtvg/YMYdqsKiypxh34pFFAdRvnrM47zyJfM0thqhP9CRTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758762550; c=relaxed/simple;
-	bh=dHxDOJhnkECbkUUwQmUp3zM1Xow79G90WP64t2bY+rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MqzvuYBCgeRhoyiMAreG1d3DMH1WCD0TWq9kkpvvpHEgtJmqC74ibWuPuTljgPTwaOPYRIMDMFl1qDFyQqB4vbIHLBtxorfFvGcnJkgCLuuMwLk9uV8mHkc+xZInQ9GMY8os2YdSLO9cG/bh6qU/ZZJPEihF32WdHvVEHV6zVwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1I3viug; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758763094; c=relaxed/simple;
+	bh=45bAfEzqB4LMImO72az8/GSyERP99FSqFK9rILx3i4k=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=R2u7Knfh/7zPcjJRC0ATyLT/cZuANRILO9bY+D99qFWtvkwCwJbMpC83Vx+J7dJ22FZqzca4+BhxfY6AjSiNaHImGE0YFPqJ/G36b5FTo0TyjnUuY9X0LGyoayLTZAquVy6XUgoTG3McBiK+4jHNeQlqlAVrAUsILaKFD+K3C8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n50gbN6X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1I3viug"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8815FC4CEE7;
-	Thu, 25 Sep 2025 01:09:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n50gbN6X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD03AC4CEE7;
+	Thu, 25 Sep 2025 01:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758762549;
-	bh=dHxDOJhnkECbkUUwQmUp3zM1Xow79G90WP64t2bY+rw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C1I3viugqZPRdIw7VSAQjbeRMw4u7cwU5+mbB6hczhbRxc8XIqbBUgXy4l3Nmj8xo
-	 N18KKmI0Kt4jKAlBOVdKl+s6J8irWyPEa6WtUEWqP0zPmGzcEV2LA3rISp1Lmklb4w
-	 oqR47e5f2Re0brYjzEYWcq0bJNDD+KMLCtDCBJ0jlnVAKybND8Hfj5kCPq7jKtOcOd
-	 HuhWwcRqh//Q9j1ZXAcjjfY5fjBcXihx4QCZsZQIdHJQyBEpRy4K3sOPPwmvx0slcS
-	 C+2bpxqM34yXVeaUlb5+ppsc216QwDmERGgKV3cC9JH0y0sIAnRdatz2iFJ+EffNO6
-	 2lWyx9rR2TWEA==
-Date: Wed, 24 Sep 2025 21:09:08 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: patches@lists.linux.dev, stable@vger.kernel.org,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>, srini@kernel.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.16-6.6] ASoC: qcom: sc8280xp: Enable DAI format
- configuration for MI2S interfaces
-Message-ID: <aNSWNE2F4gmLgUQ1@laps>
-References: <20250922175751.3747114-1-sashal@kernel.org>
- <20250922175751.3747114-5-sashal@kernel.org>
- <aNJJe20u8bEOE3VP@hovoldconsulting.com>
+	s=k20201202; t=1758763094;
+	bh=45bAfEzqB4LMImO72az8/GSyERP99FSqFK9rILx3i4k=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=n50gbN6XBzzmYff3NeHKPI4Qf7l/TA8deCuiLrcdX8GQGy4yimp+I09eEuoUIhNkJ
+	 CzAPqg5pkgFd3UzV+5KrGlKq48jKr5zxZXGEZEM8mlXGLKiKr1hY6xJhUcoXSRgGau
+	 lpJHKsQnU54bJwZzR98vY2Wr6FRxWYkFNlFSPZGkUzZkEM9g7SAnczgC2FoGyjCxFB
+	 99z2K6PpbfceiZBSuy4DzxJBlCiTH8HSuytnC+P2+U3rW9oBsLaE8qgbaupAv9NKcT
+	 Br9gsnM+L6syEaeCZP3B1wTatmT6E7wvTUTkqi/UGOmfw5lnA9aTxHgrIhFRBwD/3m
+	 IE/Evxqjx9Nyw==
+Date: Wed, 24 Sep 2025 20:18:12 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aNJJe20u8bEOE3VP@hovoldconsulting.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org, 
+ linux-sound@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ imx@lists.linux.dev, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+ linux-amarula@amarulasolutions.com, Frank Li <Frank.Li@nxp.com>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20250924130749.3012071-1-dario.binacchi@amarulasolutions.com>
+References: <20250924130749.3012071-1-dario.binacchi@amarulasolutions.com>
+Message-Id: <175876282784.3268717.7038048984656005880.robh@kernel.org>
+Subject: Re: [RESEND PATCH 1/3] ASoC: mxs-saif: support usage with
+ simple-audio-card
 
-On Tue, Sep 23, 2025 at 09:17:15AM +0200, Johan Hovold wrote:
->On Mon, Sep 22, 2025 at 01:57:36PM -0400, Sasha Levin wrote:
->> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->>
->> [ Upstream commit 596e8ba2faf0d2beb9bb68801622fa6461918c1d ]
->>
->> Add support for configuring the DAI format on MI2S interfaces,
->> this enhancement allows setting the appropriate bit clock and
->> frame clock polarity, ensuring correct audio data transmission
->> over MI2S.
->>
->> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> Rule: add
->> Link: https://lore.kernel.org/stable/20250908053631.70978-4-mohammad.rafi.shaik%40oss.qualcomm.com
->> Message-ID: <20250908053631.70978-4-mohammad.rafi.shaik@oss.qualcomm.com>
->> Signed-off-by: Mark Brown <broonie@kernel.org>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>
->> LLM Generated explanations, may be completely bogus:
->
->Yeah, it's bogus. Please drop.
 
-Ack
+On Wed, 24 Sep 2025 15:07:44 +0200, Dario Binacchi wrote:
+> Add support for enabling MCLK output when using the simple-audio-card
+> driver. In the sound/soc/mxs/mxs-sgtl5000.c use case, that driver
+> handles MCLK enable/disable by calling mxs_saif_get_mclk() and
+> mxs_saif_put_mclk() at probe/remove. This does not happen when the
+> simple-audio-card driver is used. Extend the mxs-saif driver to enable
+> MCLK output in that scenario.
+> 
+> Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> ---
+> 
+>  sound/soc/mxs/mxs-saif.c | 123 ++++++++++++++++++++++++++++-----------
+>  1 file changed, 90 insertions(+), 33 deletions(-)
+> 
 
--- 
-Thanks,
-Sasha
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: using specified base-commit cec1e6e5d1ab33403b809f79cd20d6aff124ccfe
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/nxp/' for 20250924130749.3012071-1-dario.binacchi@amarulasolutions.com:
+
+arch/arm/boot/dts/nxp/mxs/imx28-amarula-rmm.dtb: pinctrl@80018000 (fsl,imx28-pinctrl): 'auart0-2pins@0', 'auart0@0', 'auart1-2pins@0', 'auart1@0', 'auart2-2pins@0', 'auart2-2pins@1', 'auart2-pins@0', 'auart3-2pins@0', 'auart3-2pins@1', 'auart3@0', 'auart4@0', 'auart4@1', 'can0@0', 'can1@0', 'duart-4pins@0', 'duart@0', 'duart@1', 'edt-ft5x06-wake@0', 'edt-ft5x06@0', 'fec-3v3-enable@0', 'gpmi-nand@0', 'gpmi-status-cfg@0', 'hog@0', 'i2c0@0', 'i2c0@1', 'i2c1@0', 'i2c1@1', 'lcdif-16bit@0', 'lcdif-18bit@0', 'lcdif-24bit@0', 'lcdif-sync@0', 'leds@0', 'mac0@0', 'mac0@1', 'mac1@0', 'mmc0-4bit@0', 'mmc0-8bit@0', 'mmc0-cd-cfg@0', 'mmc0-sck-cfg@0', 'mmc1-4bit@0', 'mmc1-cd-cfg@0', 'mmc1-sck-cfg@0', 'mmc2-4bit@0', 'mmc2-4bit@1', 'mmc2-cd-cfg@0', 'mmc2-sck-cfg@0', 'mmc2-sck-cfg@1', 'pwm0@0', 'pwm2@0', 'pwm3@0', 'pwm3@1', 'pwm4@0', 'pwm7@0', 'saif0@0', 'saif0@1', 'saif1@0', 'spi2@0', 'spi3@0', 'spi3@1', 'tlv320aic3x-pins@0', 'usb0-vbus-enable@0', 'usb0@0', 'usb0@1', 'usb0id1@0', 'usb0id@0', 'usb1-vbus-enable@0', 'usb1@0', 'usb1@1' do not match any of the regexes: '^pinctrl-[0-9]+$', 'gpio@[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/gpio/gpio-mxs.yaml#
+
+
+
+
+
