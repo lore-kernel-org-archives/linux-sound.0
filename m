@@ -1,86 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28930A945;
-	Fri, 26 Sep 2025 17:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C674C81
+	for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 18:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758907537; cv=none; b=UalUfGbMcpj/DOWQZtHCJOXZ3QIEl5pni5AdFhwPCI5Hj5OH1hf7v5YsFTbfI1mEGzBbT1/+jqCTeypmWruf0hXdWlVjDwOh1Xiw2HtT31oGG7EhdSikK0gGoR7pOMwAcNyRBxCP1M/ZDDAZNz6/rmKz5ZaeeZ5FD4QQ+DUlSEg=
+	t=1758910393; cv=none; b=BJc2KBZd2u7QfK6+VAio537sW9EcKP6iFO2yhyP37lVYRf4OPLkEdowdVQdJ6IeXxcvNgsW7P7PRWZnQwYM6/i38Lvq5doUG3mxPheO61VSvtTi5hrou+g6R0egAHjdooV7EFDR9PygB0bHB9XDhqvqUS5yROKNLo9vVcHfpzmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758907537; c=relaxed/simple;
-	bh=EQ44jFvikMIExluQ1Di2kzZV3iLJT6KNd6LLMZM7S0Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nYhUlmh0mk3PCXZCCDAHmwc2HvHUCDBPPvywvBTU+vAkv7OIPAK8n7rt0YZ9sopTqIpHS6PX+vkmunNej2GvhpL/i/YFvzfcwCPQd3n2Bfd4zOWPT9VxJfhRmn6sEVH8K406idIrOJU0tr0UAuigoTL0lp6cQWpoDlwqtznYpmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMrpzE0K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758910393; c=relaxed/simple;
+	bh=0+W1Na4CAb7UCDasIjvvPSb7/qVXNolxFmrc3sFe238=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NvEgeKUaQLIwU+dOVlbbQaxN2oB8aNcZ/e2WFhS+LN4j9qsOEt8y3GPK/8iPrOWTZfH8KJCAQhr3Xvo8JJCaAqx/6Q/xf7uSgjlIpWROu1teTm6mfWf/gWbEv5/IC2c5hjsOqzj7E+GwxDE3tomm8JY6xA563L5X5px6UY3XULg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MW8kK8WU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GCfxIpNk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0yYp4A0Z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPFm1wL2; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMrpzE0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85378C4CEF4;
-	Fri, 26 Sep 2025 17:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758907536;
-	bh=EQ44jFvikMIExluQ1Di2kzZV3iLJT6KNd6LLMZM7S0Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HMrpzE0KVFpkJAvdOaEE8KEBxNuuFMCU9wihD60auOrTxEHW6ioy2G0Z4u1Y5AIhE
-	 W+qIyaQ+ofRcEopRxO5/2Yv0pK7FAVcmxyYYV++mWLBkPfffpRsP4iZJjcCYU91Xky
-	 hq4+xUlJz/rHehtgCcO/q5iUXGP6CWcQw5GOW59UsWodccd7G8Sc3zdfo+E/u0J5Ik
-	 a9HxkRr1VqOe+aTXNO9rtU+tF2qzsYSNFMwyePNB4lKOwnZAqOyr3PMzXJFNNSUwlX
-	 +ufro9O9sTyFboovWXsOiX5Gs1Au8LokWqezCu1B/xs5ZLiRF823h5/Fq0lbmUwiUd
-	 CMfvkhFIBBCfw==
-From: Mark Brown <broonie@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-In-Reply-To: <aNYQf4cyavnku5Nt@stanley.mountain>
-References: <aNYQf4cyavnku5Nt@stanley.mountain>
-Subject: Re: [PATCH next] ASoc: tas2783A: Fix an error code in probe()
-Message-Id: <175890753427.2509416.7801317102009548908.b4-ty@kernel.org>
-Date: Fri, 26 Sep 2025 18:25:34 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MW8kK8WU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GCfxIpNk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0yYp4A0Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPFm1wL2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EFD0922132;
+	Fri, 26 Sep 2025 18:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758910389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b2fR5fMHUJBEiytnVArGr5QfpX9gLSLu8Btxg4OIEmY=;
+	b=MW8kK8WUaF34Ly8qdyUjbxChbw0y5E9pPwHXpYY9HveavDj+6d3QT0bACtiUHJ777fE9hx
+	9dsuAlJkTWRsaGIBIp3tQ2np68WQrsmoGpHj9uEnvLBixPtJdMuxgDJ8HnbghAESXvG126
+	vRUZVZP5U7pejlxJm7wUca1682mqsDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758910389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b2fR5fMHUJBEiytnVArGr5QfpX9gLSLu8Btxg4OIEmY=;
+	b=GCfxIpNkdYF5Cw1hikH8B7gygjJk9sTyM9QPZKJm2AkRON9qSkbL99TcOgGodFuyz0GR/K
+	AJxMvY134B+FKTBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758910387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b2fR5fMHUJBEiytnVArGr5QfpX9gLSLu8Btxg4OIEmY=;
+	b=0yYp4A0Zq1yC6ADWBKoHwe/rowHUz8mxabRRnrJ1cTSNdmbCNQDFgAmB1oNwg0XTxA95tz
+	Vel5/Pwrb6AyCn2+ptmv7ea6bmHSK5EWTqO0rPz8uS40S09LDizmm1RBqBb6UMwAvH36N2
+	TOlU5YY3dLLsNRwOWjyxucFziEoD/Sk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758910387;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b2fR5fMHUJBEiytnVArGr5QfpX9gLSLu8Btxg4OIEmY=;
+	b=nPFm1wL2+ov3lHngOnzyzbAlO+XaJKf4ZdX8Ah0Xw+LkDYoTPX8zu+eBPPkvl3fHkvFspC
+	JYfgIb6BKoLyr5BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EF441386E;
+	Fri, 26 Sep 2025 18:13:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +SeJFbPX1mhHMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Sep 2025 18:13:07 +0000
+Date: Fri, 26 Sep 2025 20:13:06 +0200
+Message-ID: <87ldm1axql.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: <broonie@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>,
+	<13916275206@139.com>,
+	<alsa-devel@alsa-project.org>,
+	<shenghao-ding@ti.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<lgirdwood@gmail.com>,
+	<robh@kernel.org>,
+	<krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<k-yi@ti.com>,
+	<henry.lo@ti.com>,
+	<robinchen@ti.com>,
+	<jesse-ji@ti.com>,
+	<will-wang@ti.com>,
+	<jim.shil@goertek.com>,
+	<toastcheng@google.com>,
+	<chinkaiting@google.com>
+Subject: Re: [PATCH v2 1/2] ASoC: tas2781: Add tas5828 support
+In-Reply-To: <20250926043339.8419-1-baojun.xu@ti.com>
+References: <20250926043339.8419-1-baojun.xu@ti.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-56183
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,139.com,alsa-project.org,ti.com,vger.kernel.org,gmail.com,goertek.com,google.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-On Fri, 26 Sep 2025 07:03:11 +0300, Dan Carpenter wrote:
-> This code returns the wrong variable "tas_dev->regmap" instead of
-> "regmap" so it returns success instead of a negative error code.
-> Return the correct variable.
+On Fri, 26 Sep 2025 06:33:38 +0200,
+Baojun Xu wrote:
 > 
+> TAS5828 have on-chip DSP without current/voltage feedback.
 > 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Applied to
+Please use a different subject for each patch.  Both patches are 100%
+identical subject, and that makes harder to identify.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/1] ASoc: tas2783A: Fix an error code in probe()
-      commit: f8b9c819ea20d1101656a91ced843d9e47ba0630
+Takashi
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+> 
+> ---
+> v2:
+>  - Update description for TAS5828
+>  - Change commit tree to .../tiwai/sound.git.
+> ---
+>  include/sound/tas2781.h        | 1 +
+>  sound/soc/codecs/tas2781-i2c.c | 7 ++++++-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+> index ddd997ac3..a37b4d67c 100644
+> --- a/include/sound/tas2781.h
+> +++ b/include/sound/tas2781.h
+> @@ -122,6 +122,7 @@ enum audio_device {
+>  	TAS2781,
+>  	TAS5825,
+>  	TAS5827,
+> +	TAS5828,
+>  	TAS_OTHERS,
+>  };
+>  
+> diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+> index 1539b7088..f62a71dca 100644
+> --- a/sound/soc/codecs/tas2781-i2c.c
+> +++ b/sound/soc/codecs/tas2781-i2c.c
+> @@ -110,6 +110,7 @@ static const struct i2c_device_id tasdevice_id[] = {
+>  	{ "tas2781", TAS2781 },
+>  	{ "tas5825", TAS5825 },
+>  	{ "tas5827", TAS5827 },
+> +	{ "tas5828", TAS5828 },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(i2c, tasdevice_id);
+> @@ -126,6 +127,7 @@ static const struct of_device_id tasdevice_of_match[] = {
+>  	{ .compatible = "ti,tas2781" },
+>  	{ .compatible = "ti,tas5825" },
+>  	{ .compatible = "ti,tas5827" },
+> +	{ .compatible = "ti,tas5828" },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, tasdevice_of_match);
+> @@ -1665,7 +1667,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+>  	}
+>  	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+>  
+> -	/* There is no calibration required for TAS5825/TAS5827. */
+> +	/* There is no calibration required for TAS5825/TAS5827/TAS5828. */
+>  	if (tas_priv->chip_id < TAS5825) {
+>  		ret = tasdevice_create_cali_ctrls(tas_priv);
+>  		if (ret) {
+> @@ -1722,6 +1724,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+>  		case TAS2781:
+>  		case TAS5825:
+>  		case TAS5827:
+> +		case TAS5828:
+>  			/* If DSP FW fail, DSP kcontrol won't be created. */
+>  			tasdevice_dsp_remove(tas_priv);
+>  		}
+> @@ -1884,6 +1887,7 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+>  		break;
+>  	case TAS5825:
+>  	case TAS5827:
+> +	case TAS5828:
+>  		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
+>  		size = ARRAY_SIZE(tas5825_snd_controls);
+>  		break;
+> @@ -2056,6 +2060,7 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
+>  	{ "TXNW2781", TAS2781 },
+>  	{ "TXNW5825", TAS5825 },
+>  	{ "TXNW5827", TAS5827 },
+> +	{ "TXNW5828", TAS5828 },
+>  	{},
+>  };
+>  
+> -- 
+> 2.25.1
+> 
