@@ -1,106 +1,148 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C720F1D63CD
-	for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 04:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95264288A2;
+	Fri, 26 Sep 2025 04:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758859398; cv=none; b=g+axbNC4mOv84/chJrecrWstEJvFVd5yuiuN5/7zCAl2pg+dhl4Rsj0j1UDAF+Wi7E6XZOaSVMc7kfTAkI2P3eQRPw0UirgYFhTBEqRHduYM3IrD0gdIAT+ms/HURSg8zYajMT42ht8G4V2nawaqUPPjTKIMbO3uQgqeAO2GquU=
+	t=1758861305; cv=none; b=MrIL7wLiy2GLGU7Lv9kHstnX23ELk26+CGSfhmZBpXQBPjHdUH9AojbI3+sVy0yjafE4PDtPZe9LHiexQUKkSUusx8Ch02e9cGUfm2/1bfFtcbvPzdT6JbcH9oyIMkl17RMunquT39+MFN3Gdl816VYW5zmZ+F2Vxl1WDkYNmuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758859398; c=relaxed/simple;
-	bh=wvhzxABFdiOg+ADsIFkLjfPZXMEFheR4Ig6WrpOZQwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hXQ/uztn3ypIBf51/p8j1Hfhi+ByiPcgS0bgsJVIZkamTwZGefkksC03hNStGxxNMyDTBWa4acVFEANVjg+ggkDRBz08ASLu5B36ZUIANybhms7KuFQ4y0MUOB6C0YYZAoHeJ15+yoXlY4DhU6EBwstlv0jYAywfi6imd0/m3mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Em2hV96b; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758861305; c=relaxed/simple;
+	bh=gbR2TSMQbckrmpa/ceAxtHBUo755C4BIsl+4HfZBDjs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Fnbwd7lLZdDDUg8mHk2U1mQ1c78TCJRhwqDIHfyiwz0p28isn6lRPHGzG3e4klYQSAC3vtAsd2+dPPYYuKnnGCMjuEBmt6Q1e7JLDM9uFinzR63swbEw5ue1pIP+tYWbCqTR+yomrNm/rJjOxFrHOQKTpcAFf/coMLdSFugt4k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=exU1Zv5i; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Em2hV96b"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3ece0e4c5faso1627586f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 25 Sep 2025 21:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758859395; x=1759464195; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SytoPnG5QJz686o335sBi4HCtgv9sYZ8aX3hOtRMKuU=;
-        b=Em2hV96bno6K4j3EiQ4i+vWldVz172Jhassul+IUdwIrwuSktCax0xo/EEMeA7glUz
-         N7rjfp3f1Xm6dwKznrnCoz31TTXrJs7xjXAX//HulS53XAizOxcDv4qL8TwZGgRcWXD2
-         DYmRqH+VbbyP9qx8/29UsGgz6UF4zTr/JzruhLh+qeR7OH5uxB8J8UrNIPc7r+jYinq1
-         Vrtz+W9/A6V/OEo0QDx8C0e5QM1wnda3PpQTt9snHBkozlteFwk1kWVrFYOvBhRTFL6n
-         j+BCcvbGGjbin8Bw7a2OlOrWGMy8Ug3MFbIwV7ywrKjWi6wYE/uiMRDS4OWSotjA5yEB
-         PE4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758859395; x=1759464195;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SytoPnG5QJz686o335sBi4HCtgv9sYZ8aX3hOtRMKuU=;
-        b=gnSEWK/KJ3L3uOe/NSb1Vt39M/uRYmsQKq4olGjuRH5VQZhws00N0swLGAbP70EmY/
-         6wRtblFvj4EJmu0NyslqxBc5qMLgz4dHCYRjW3DW3LK0WgWEfIW6avG6yQOJBjdBQRIr
-         sd/anYN28CvR9YR6ai6aMRUHEy1hHY0Wm4m/f5/II1O7MLx8no75k6XMDU/RlPhwscAE
-         UGBqHBfmQZz9WDBS0Hh1lhqN6iY46hS3sjt3J089aBLYMGlW9aWYUdiylimv4ARO7Gwv
-         8AZbXbIXpNNuUjBFAdT5YC+WuH7XtZLzSzVgDmtq02SuzCrhhaanNB7vgxu9eSaZOsrc
-         1arw==
-X-Forwarded-Encrypted: i=1; AJvYcCXw7MbmC0qtVA4t9mw3jfcrSwmjNiRI/hbiNqq9F3O0eepzkMg05ljYUeOTUndrTbyeDwZNotNwKfihvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyevsixgfexFGbFsxGldcMoQtCZ26ABxRKlUGtYZbnRC//u1sbW
-	DsM0Pu80TlGQK+7vtJ8nMG68nA45iHAd/NvPmPlgJ4jJwzZZhNKQHEN9PrOHblcmQkI=
-X-Gm-Gg: ASbGnct5M0gKkLppKf3/HE56FULZvOB7EwJsnOUUcT6XYFxipeebDjhHgJfjKDDn0yV
-	Dx3jpamt8h8tzF6Quk5bQXJpRYUYQgsUcffzSJ0ZWobOFClLd0dHxR8SJarvcUcGmCo2/SoWig2
-	Cr25rTj/bHL93nN3mydDdbeYCeFd6v7vnsYdWHl5Kpka0eFNDfITKUyhl5oCLhatl4UYMOtcBEL
-	w+m5dZ8bt/P6Xr9X8MrisAiIk2875vB4UrArzhVQEiuC2yWBKUz1NvGrh7v3xHj5wP+MCgJwtR2
-	+gdVmts9JMg22t7cbw28KvmhtHcoUjVOCDUTxd84Kmxb3TFOT7i5dnKqaLKCeXpmzdEaLiMmrvx
-	GpJ7Ue4VhdyNx/8BE+1okvyj6VTvi5gU/v8hmCvg=
-X-Google-Smtp-Source: AGHT+IHNqzt+aianVVfPntORZwd/WnwppYwAnuoO1k+luridVLwZ4XnvDsMlhkTtJ7/8EeWUMuSP4A==
-X-Received: by 2002:a05:6000:2484:b0:3f0:9bf0:a369 with SMTP id ffacd0b85a97d-40e43b08823mr5542343f8f.14.1758859394949;
-        Thu, 25 Sep 2025 21:03:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fb89fb2fcsm5697497f8f.22.2025.09.25.21.03.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 21:03:14 -0700 (PDT)
-Date: Fri, 26 Sep 2025 07:03:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH next] ASoc: tas2783A: Fix an error code in probe()
-Message-ID: <aNYQf4cyavnku5Nt@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="exU1Zv5i"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58Q4YLKM1603549;
+	Thu, 25 Sep 2025 23:34:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758861261;
+	bh=a9CuTCH8YiWQ/wckmvFOcN7KFtv7UGLibRXcbhugvWQ=;
+	h=From:To:CC:Subject:Date;
+	b=exU1Zv5ijqNpbQXYCyYdDdnsIM3mhGs6TWQqcBIFT3Tjxf0hJ9n5rbR4DdSb/u3zV
+	 jUFAYrMl6dTprvZc3FN3nFVv2UB56A5wg210UEwMWgQQZts4veReSsdEQ2zrfl1Vxh
+	 AQaRhLZEBioDG2nVpBh47D0vpRtfXs7MShrdifFo=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58Q4YLAn4070702
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 25 Sep 2025 23:34:21 -0500
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 25
+ Sep 2025 23:34:20 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 25 Sep 2025 23:34:20 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58Q4Y72M685509;
+	Thu, 25 Sep 2025 23:34:11 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>, <tiwai@suse.de>
+CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
+        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <k-yi@ti.com>, <henry.lo@ti.com>,
+        <robinchen@ti.com>, <jesse-ji@ti.com>, <will-wang@ti.com>,
+        <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v2 1/2] ASoC: tas2781: Add tas5828 support
+Date: Fri, 26 Sep 2025 12:33:38 +0800
+Message-ID: <20250926043339.8419-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-This code returns the wrong variable "tas_dev->regmap" instead of
-"regmap" so it returns success instead of a negative error code.
-Return the correct variable.
+TAS5828 have on-chip DSP without current/voltage feedback.
 
-Fixes: 4cc9bd8d7b32 ("ASoc: tas2783A: Add soundwire based codec driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+
 ---
- sound/soc/codecs/tas2783-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2:
+ - Update description for TAS5828
+ - Change commit tree to .../tiwai/sound.git.
+---
+ include/sound/tas2781.h        | 1 +
+ sound/soc/codecs/tas2781-i2c.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 3e03e68932f6..21cdcf93bbef 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1285,7 +1285,7 @@ static s32 tas_sdw_probe(struct sdw_slave *peripheral,
- 					      &tas_regmap,
- 					      &tas2783_mbq_cfg);
- 	if (IS_ERR(regmap))
--		return dev_err_probe(dev, PTR_ERR(tas_dev->regmap),
-+		return dev_err_probe(dev, PTR_ERR(regmap),
- 				     "Failed devm_regmap_init_sdw.");
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index ddd997ac3..a37b4d67c 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -122,6 +122,7 @@ enum audio_device {
+ 	TAS2781,
+ 	TAS5825,
+ 	TAS5827,
++	TAS5828,
+ 	TAS_OTHERS,
+ };
  
- 	/* keep in cache until the device is fully initialized */
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 1539b7088..f62a71dca 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -110,6 +110,7 @@ static const struct i2c_device_id tasdevice_id[] = {
+ 	{ "tas2781", TAS2781 },
+ 	{ "tas5825", TAS5825 },
+ 	{ "tas5827", TAS5827 },
++	{ "tas5828", TAS5828 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, tasdevice_id);
+@@ -126,6 +127,7 @@ static const struct of_device_id tasdevice_of_match[] = {
+ 	{ .compatible = "ti,tas2781" },
+ 	{ .compatible = "ti,tas5825" },
+ 	{ .compatible = "ti,tas5827" },
++	{ .compatible = "ti,tas5828" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, tasdevice_of_match);
+@@ -1665,7 +1667,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	}
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+ 
+-	/* There is no calibration required for TAS5825/TAS5827. */
++	/* There is no calibration required for TAS5825/TAS5827/TAS5828. */
+ 	if (tas_priv->chip_id < TAS5825) {
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
+ 		if (ret) {
+@@ -1722,6 +1724,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 		case TAS2781:
+ 		case TAS5825:
+ 		case TAS5827:
++		case TAS5828:
+ 			/* If DSP FW fail, DSP kcontrol won't be created. */
+ 			tasdevice_dsp_remove(tas_priv);
+ 		}
+@@ -1884,6 +1887,7 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ 		break;
+ 	case TAS5825:
+ 	case TAS5827:
++	case TAS5828:
+ 		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
+ 		size = ARRAY_SIZE(tas5825_snd_controls);
+ 		break;
+@@ -2056,6 +2060,7 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
+ 	{ "TXNW2781", TAS2781 },
+ 	{ "TXNW5825", TAS5825 },
+ 	{ "TXNW5827", TAS5827 },
++	{ "TXNW5828", TAS5828 },
+ 	{},
+ };
+ 
 -- 
-2.51.0
+2.25.1
 
