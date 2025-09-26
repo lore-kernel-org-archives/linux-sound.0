@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC1F2F5492;
-	Fri, 26 Sep 2025 12:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D182EC0AB;
+	Fri, 26 Sep 2025 12:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758891000; cv=none; b=WxTkbxfSLId8qY1N1zScL6OiA9ebtcrH4NTJPz0TO/aXv6exrn/I8poAWxvBJIHccnHJriqMW7WbZ+PlOWp17shCMjaXbGoPCtMXnYKmiDWIyHXlTg/SXENNDY/d2fMjB2kV6vKxv8OKgXVe3Nqlk8SdqCcjpS9kDCbO55lWi28=
+	t=1758891003; cv=none; b=TXLUom4b5fPYMcIr2cLl7IRygDgrNP5iAXazeECaH9u/W+HDVyCZGTNM42kIWI2O8oCq/N8KwPCo0E0KgLK5VwJSIQKqdfx8qiYjUPeU17OrZx9cvChJvjzQuEOx9DBStdIKYUC8NL/wGOL/krstJCaaGQmPT5yGzxxfTM0EllE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758891000; c=relaxed/simple;
-	bh=FWnr/zfaATY7ZTr5F73cJEy+iIid5ziQ7oMyK/6QzXw=;
+	s=arc-20240116; t=1758891003; c=relaxed/simple;
+	bh=+FntD5D+phS0YBxPxU6QJWpFdofG4rmVfhVcOMJIEYg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hiVnVLJvZnTdwx8nt39SX2/Ev3ik7Z+lWKwuCB4Td7Q5YXGwfE7izaPu7RXk4Hiw6b2oPYT+zYDIexgg0cRwGVajqZCPfuwGTafVD6p+WoFHUiRLxHhiI4S2qH7vqZh5vvI/KvZqW+HVAbcqYtraPhbCNXK97r0qvXpUe3l5LsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjPiMFiM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HzURsxXnKBx6VaCq4yn4I/8pwGSlLzqvm/a31DXgjjh7irCy7UgCcWIt4zUveUe+iMFYoACH4AVjIwx9n5FkIA5q/UVnK+r94zYsveoeZwadTelR0oLdS62F/IIUvy7S2cF3A2lF8BKl7WiJ4LuleZ42iZF3gBH79iruSvsBUr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KiakMvoM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjPiMFiM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52F86C4CEF7;
-	Fri, 26 Sep 2025 12:49:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KiakMvoM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824FAC4CEF4;
+	Fri, 26 Sep 2025 12:50:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758891000;
-	bh=FWnr/zfaATY7ZTr5F73cJEy+iIid5ziQ7oMyK/6QzXw=;
+	s=k20201202; t=1758891002;
+	bh=+FntD5D+phS0YBxPxU6QJWpFdofG4rmVfhVcOMJIEYg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BjPiMFiMhFP3Wrsc+s3Z28zPX3YChImz26aJZsLWMQLPTJbZaSTuij9O8w6SelJQ8
-	 PGqVJpucapeplF4e1ZNgu0FFnBUZssRdANMtFDz22ipQqSGWfBTvcEckctUiIcuBHW
-	 JOg1gxShJB5wg9jj3LWLfpZUyxYU1fRyjbz6C/saoDl5I2M1FS6q3Pdg9W20NIq8he
-	 aXqATGOk3rIlsQ/Mhv9LlZynwBg5r5P9J1wqV/3Pfu8R5aWzCKdZB9uM805Apyznqm
-	 qqlEG4OU3xQnwDMqEXBjGvhaLSJddokfkQJYNXkN47KCv6M/cW/26Lfni+i1sVKrFe
-	 J23L5Q5GEarpA==
+	b=KiakMvoMejz3dsRFw2z5k9c0tYclLKa+ETP8FAog0cK1Rlvt9MtPHWM7CzhcpgQpJ
+	 WG5ZthXXSiKP/Y6djv/m3AmCBQt1mjIz/DxbkmRAqv42w9zmPwrwCUgda/dJ5C6DA0
+	 R/BphdHlL9qR2L3zy24pEWTeWV7FTVKb6HqGCmk5lqfoKjuW1y4XojGG7BKNgE1LbB
+	 tQY0rTpOoQLBXL5+ffSbSTwhYr3Bu+/OsstAEYsn244WUOaQotvuhC8S24ZKyALJ7a
+	 AmgIQFfiW33t35ko4+ZU+ar5gfu+WZ4SqGQ5Mq4dIyGTaSEMSK79Tbot/LaoocgbTe
+	 TqAVe6OG91/7A==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
+To: kuninori.morimoto.gx@renesas.com, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250924-lemans-evk-topo-v2-1-7d44909a5758@oss.qualcomm.com>
-References: <20250924-lemans-evk-topo-v2-1-7d44909a5758@oss.qualcomm.com>
-Subject: Re: [PATCH v2] ASoC: qcom: sc8280xp: use sa8775p/ subdir for
- QCS9100 / QCS9075
-Message-Id: <175889099809.84679.3269862439261126656.b4-ty@kernel.org>
-Date: Fri, 26 Sep 2025 13:49:58 +0100
+ Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250916123118.84175-1-olivier.moysan@foss.st.com>
+References: <20250916123118.84175-1-olivier.moysan@foss.st.com>
+Subject: Re: [PATCH] ASoC: stm32: sai: manage context in set_sysclk
+ callback
+Message-Id: <175889100028.84679.2534810503622402862.b4-ty@kernel.org>
+Date: Fri, 26 Sep 2025 13:50:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,13 +51,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-56183
 
-On Wed, 24 Sep 2025 22:34:02 +0300, Dmitry Baryshkov wrote:
-> All firmware for the Lemans platform aka QCS9100 aka QCS9075 is for
-> historical reasons located in the qcom/sa8775p/ subdir inside
-> linux-firmware. The only exceptions to this rule are audio topology
-> files. While it's not too late, change the subdir to point to the
-> sa8775p/ subdir, so that all firmware for that platform is present at
-> the same location.
+On Tue, 16 Sep 2025 14:31:18 +0200, Olivier Moysan wrote:
+> The mclk direction now needs to be specified in endpoint node with
+> "system-clock-direction-out" property. However some calls to the
+> set_sysclk callback, related to CPU DAI clock, result in unbalanced
+> calls to clock API.
+> The set_sysclk callback in STM32 SAI driver is intended only for mclk
+> management. So it is relevant to ensure that calls to set_sysclk are
+> related to mclk only.
+> Since the master clock is handled only at runtime, skip the calls to
+> set_sysclk in the initialization phase.
 > 
 > [...]
 
@@ -67,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: qcom: sc8280xp: use sa8775p/ subdir for QCS9100 / QCS9075
-      commit: ba0c67d3c4b0ce5ec5e6de35e6433b22eecb1f6a
+[1/1] ASoC: stm32: sai: manage context in set_sysclk callback
+      commit: 27fa1a8b2803dfd88c39f03b0969c55f667cdc43
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
