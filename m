@@ -1,121 +1,86 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CCB2F7471
-	for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 16:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28930A945;
+	Fri, 26 Sep 2025 17:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758904078; cv=none; b=tLaMI5k9HmnUXCjUmrLbfDDngD9OUIJ+qzFxZa3ZkrAqug/G6vrJC0j5IJghZ973aMidgCYLxPEfCpokTCeThv7JUoQHr//0e13bvNLLRSPt0H4kzunHHOJIof3uXl9KE5xLjhNHkqzdySsAmPR/A2dN6KQCE9ruXeByogOIgGs=
+	t=1758907537; cv=none; b=UalUfGbMcpj/DOWQZtHCJOXZ3QIEl5pni5AdFhwPCI5Hj5OH1hf7v5YsFTbfI1mEGzBbT1/+jqCTeypmWruf0hXdWlVjDwOh1Xiw2HtT31oGG7EhdSikK0gGoR7pOMwAcNyRBxCP1M/ZDDAZNz6/rmKz5ZaeeZ5FD4QQ+DUlSEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758904078; c=relaxed/simple;
-	bh=ji/pYhlnACaKaOAfYIWNSXFRexU3GRsGkKmsdd6hDxA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BMACcjgkHU6ZZqvxHWDx1q+VsP7ULP1typ7nphKHlmm1gA9iFOi95a4k8aKesfxsDYJyRLBhno71AG2rZPrPwqMt/hTYnpg81W+9jfOyW11nZmjFKXoN6Ovi9foDtuWAaoR5F0wvFbiYMmt0h9AU9FGETn+CTHUO0nmT0yhjaWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mh2Pqbs+; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758907537; c=relaxed/simple;
+	bh=EQ44jFvikMIExluQ1Di2kzZV3iLJT6KNd6LLMZM7S0Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nYhUlmh0mk3PCXZCCDAHmwc2HvHUCDBPPvywvBTU+vAkv7OIPAK8n7rt0YZ9sopTqIpHS6PX+vkmunNej2GvhpL/i/YFvzfcwCPQd3n2Bfd4zOWPT9VxJfhRmn6sEVH8K406idIrOJU0tr0UAuigoTL0lp6cQWpoDlwqtznYpmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMrpzE0K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mh2Pqbs+"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7704f3c46ceso2357582b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 09:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758904077; x=1759508877; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Neebg3bGNAkQ/ROETpufeOc+tWzliPzskjjkM8BaCbQ=;
-        b=mh2Pqbs+3W17EqKKopkl/hxLd041ECQ8gQ9dka2es66WtMHrCSE10K0gCCdhIedsxA
-         qeh+JEez7J5yY1iRosTktuJuhdk7p79iDdjINwNmrTXErWVcyzCZvg7g0p7OiquvU1O7
-         oIZLeFRHJNG9lcW0o+FLRxamcXFX0YmDKA0SHH3tfXDFGy/vrKpeNCtsLdea+D5PgFCq
-         IWI1phNXvhELSV8JSwEJm0NiaGSlm/tiYLHoqFmwGV6m2thcnwV3lLp9klLiwqOpvaE6
-         LIYHHZyIs6HhX2E1/JXo0+T+9WF2vO267t3nl2Il6pxMylM/4hg+hnPzXuJCrXA/4C1F
-         MygQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758904077; x=1759508877;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Neebg3bGNAkQ/ROETpufeOc+tWzliPzskjjkM8BaCbQ=;
-        b=vAXS33XIPGNNg7PuJgd9NChSHzCubSg0XgtDgCyAyDzW9Q+eb8OtOIaAnvsTYyrekw
-         YzuWukwSH0ppt3wTnaYK4mUO8afIqQkrEdHSqXuUNp5Y/5aXSihZ5skLJ2AgJHh1eyAk
-         1pE2eLn34txzWJrScuBbmEzM6K9PZ10HMT+LBfqpTgH4lw4L3iMzuchiS0AyT2rTuWSD
-         ZteOyw8j9XqChLI4zRhT4niIaVjn1EP4Jd3KKRhBQMHo/vVQX90xbyrwzVnjrCMeXwOI
-         XXJIEA/yBryOyOyl54UK017icp4ZVhvVVeg/PpPeznjkjj6pOc+PMgYEaeL/UrS7Ck5c
-         qtbQ==
-X-Gm-Message-State: AOJu0YzWwcs1m0FtdgGiyLgZccyH+nFjsTFENULgfEGTcb0mkjfDWf3Y
-	i6lB+rbChNlhYFZyicHT1+qlL+dJZzFXnZU9cREQ0Jf6qsRcwEmsGi9/
-X-Gm-Gg: ASbGncsp5Qhk2fklL+ubLUnYl0R6u9huUlFdEYTo+msI4pms6ZqE3aL9A7aTvsZoEts
-	KNv++ZY4000xyaffE7GsmKV8qhRCQOPVCS87x+yKMFWJmNv3R2XlHmIbrM+ZMnGQQCOpohCUwux
-	3yfgmNe7pKpEj7+tNqcacS8LGjfpErGnMfLFD92GGN2I/YNAKmdjD4MqoXv6PTeNYFI3U+5dYnO
-	V++gHExrDJ3PTlQjtQ7lRJXoSguB/KCrle1PSefO8Tf4cW+DIh1eHNDN7fxH7+ImXjLeTsldqZZ
-	qunoSD6s1l/bez/IFSmQU4bD5Dj7917r1uQ+YpvNUtyoUbgZvWA7QcV7oHY6tkaGW0sZXonXOxI
-	+PgZv/8bTvztFspBN9FxeSSulv8fokiZO0DOMdPOn0J70Yee2BdX+8Eq5tj9/qqV6zi9b7FRogz
-	nuQBM0nolCghlZTazyyu2FPdN8Jga4dzEKUu/4
-X-Google-Smtp-Source: AGHT+IEQE5jqGklvdW2MJi+BHY9hlv8FvmTiKo/dGoO+8Vpcz9GROlQK10cosgequifhuEVqUAhh7w==
-X-Received: by 2002:a17:903:2352:b0:26c:4085:e3f5 with SMTP id d9443c01a7336-27ed4a56c51mr75752515ad.50.1758904076490;
-        Fri, 26 Sep 2025 09:27:56 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ab64c7sm57277395ad.130.2025.09.26.09.27.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 09:27:55 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kriish Sharma <kriish.sharma2006@gmail.com>
-Subject: [PATCH] docs: sound: describe 'chan_map' member in snd_dec_opus
-Date: Fri, 26 Sep 2025 16:26:58 +0000
-Message-Id: <20250926162658.989479-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMrpzE0K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85378C4CEF4;
+	Fri, 26 Sep 2025 17:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758907536;
+	bh=EQ44jFvikMIExluQ1Di2kzZV3iLJT6KNd6LLMZM7S0Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HMrpzE0KVFpkJAvdOaEE8KEBxNuuFMCU9wihD60auOrTxEHW6ioy2G0Z4u1Y5AIhE
+	 W+qIyaQ+ofRcEopRxO5/2Yv0pK7FAVcmxyYYV++mWLBkPfffpRsP4iZJjcCYU91Xky
+	 hq4+xUlJz/rHehtgCcO/q5iUXGP6CWcQw5GOW59UsWodccd7G8Sc3zdfo+E/u0J5Ik
+	 a9HxkRr1VqOe+aTXNO9rtU+tF2qzsYSNFMwyePNB4lKOwnZAqOyr3PMzXJFNNSUwlX
+	 +ufro9O9sTyFboovWXsOiX5Gs1Au8LokWqezCu1B/xs5ZLiRF823h5/Fq0lbmUwiUd
+	 CMfvkhFIBBCfw==
+From: Mark Brown <broonie@kernel.org>
+To: Niranjan H Y <niranjan.hy@ti.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <aNYQf4cyavnku5Nt@stanley.mountain>
+References: <aNYQf4cyavnku5Nt@stanley.mountain>
+Subject: Re: [PATCH next] ASoc: tas2783A: Fix an error code in probe()
+Message-Id: <175890753427.2509416.7801317102009548908.b4-ty@kernel.org>
+Date: Fri, 26 Sep 2025 18:25:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-56183
 
-When building kernel docs, the following warning appeared:
+On Fri, 26 Sep 2025 07:03:11 +0300, Dan Carpenter wrote:
+> This code returns the wrong variable "tas_dev->regmap" instead of
+> "regmap" so it returns success instead of a negative error code.
+> Return the correct variable.
+> 
+> 
 
-  WARNING: ./include/uapi/sound/compress_params.h:364 struct member 'chan_map' not described in 'snd_dec_opus'
+Applied to
 
-The inline struct 'snd_dec_opus_ch_map' inside 'snd_dec_opus' was not properly documented.
-This patch documents the 'chan_map' member and its fields (stream_count, coupled_count, channel_map), resolving the warning.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
----
- include/uapi/sound/compress_params.h | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+Thanks!
 
-diff --git a/include/uapi/sound/compress_params.h b/include/uapi/sound/compress_params.h
-index faf4fa911f7f..e90e2f40732a 100644
---- a/include/uapi/sound/compress_params.h
-+++ b/include/uapi/sound/compress_params.h
-@@ -336,16 +336,14 @@ struct snd_dec_ape {
-  * @mapping_family: Order and meaning of output channels. Only values 0 and 1
-  * are expected; values 2..255 are not recommended for playback.
-  *
-- * Optional channel mapping table. Describes mapping of opus streams to decoded
-- * channels.
-- * @struct snd_dec_opus_ch_map
-- *	@stream_count: Number of streams encoded in each Ogg packet.
-- *	@coupled_count: Number of streams whose decoders are used for two
-- *		channels.
-- *	@channel_map: describes which decoded channel to be used for each one.
-- *		See RFC doc for details.
-- *		This supports only mapping families 0 and 1, therefore max
-- *		number of channels is 8.
-+ * @chan_map: Optional channel mapping table. Describes mapping of opus streams
-+ *            to decoded channels. Fields:
-+ *              - @stream_count: Number of streams encoded in each Ogg packet.
-+ *              - @coupled_count: Number of streams whose decoders are used
-+ *                                for two channels.
-+ *              - @channel_map: Which decoded channel to be used for each one.
-+ *                              Supports only mapping families 0 and 1,
-+ *                              max number of channels is 8.
-  *
-  * These options were extracted from RFC7845 Section 5.
-  */
--- 
-2.34.1
+[1/1] ASoc: tas2783A: Fix an error code in probe()
+      commit: f8b9c819ea20d1101656a91ced843d9e47ba0630
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
