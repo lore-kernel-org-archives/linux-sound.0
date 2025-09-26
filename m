@@ -1,81 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B57F2D6E5C;
-	Fri, 26 Sep 2025 12:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D11A1397;
+	Fri, 26 Sep 2025 12:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758890450; cv=none; b=mCHvNusOKoHKCb2JWar4M5m+BDehqb6rrYmLZ6PSqlI8fmOx7ZOgFnsYFYVWfA6i1HulcFwq8Sjet5Q7XXUjle7/PFCoWLEWS4EnAN7Qv5T7vYSD+W0fbVDnDg4nw1L70SjNU8TfmFgjo58uNWSY51sLGePpeOmUwV3OEusOyhs=
+	t=1758890998; cv=none; b=p44R1xiEi4Uw5hBalPisDDuDeq+ig/w8emV9xi1LwivHFxmJk6CoHBM9CJ5Vh99b41hVDSursQk6kKcBf6rlXhjk+/SnogLzrQxTBmQh8cF/GWjG7AQMMq7+LvVLfhg++rJy8aNsbScMHaSYKWM1Qbi3Obg13p/6dAa+pjeXAUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758890450; c=relaxed/simple;
-	bh=HzjbS5RDKUB+2C5nPrcsTl3Z+/Q6+IrlhjUdjbo/YX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZR3G6XnzzHurOA1F6MN7Se6Tpr7H//FDm6kV2zCYbhXRA3HTANXl2VugrBIB5NiXrZNHJ4HxWuzQ14QXQhxlZ+sNIYcMLTfl72aAiSJo5/Aq2yDIMprXz6fo8ZML7lXOU9wJVn/m644+Htz7zZGR40T2IOOgAWgld0opaTspjRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUMRQNQI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758890998; c=relaxed/simple;
+	bh=LRp+NHgfq1T5GTdEXyErwid4rR/OhAtZmsWAHaC92ls=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YhNhBI2uLomuJv+GBQFWcfm76PPZaF3AaMK2AvjmC1KolwiiFxw9fKM/Wqvyaq2JTLL51ea2dqAEPSPTMK1nQ/ASRjO6qn5gBui2ofQyJuxIqDLWuG9PcZLESkWy3XUBllh7DOUVALdTm2hHgnwY2mXh95MGKG25dKYWIXR/0MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I9Ivljue; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUMRQNQI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36C4C4CEF7;
-	Fri, 26 Sep 2025 12:40:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9Ivljue"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A88DC4CEF4;
+	Fri, 26 Sep 2025 12:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758890449;
-	bh=HzjbS5RDKUB+2C5nPrcsTl3Z+/Q6+IrlhjUdjbo/YX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jUMRQNQIq/vl9gLe9paUJIvYeiVsmWcmhR3TkfV1GMqJgrX59EQu+WQi8RS+ZG1Ux
-	 DtZ8tH4hvuOkn0+nLqPfij1TZOIYRqvQdOZMIBd3nJNnaVY0mHXH244pHHWFSwo1QM
-	 lqWSXwM+zvxiJTC2aUXgJPgEufG9co7Dzne8xMpW0NsGnni/d5vBo8J+3Azw9kkizT
-	 hc9n4gp6GMOol4jHECyrbf4HGYEYOnnLkzV//nZ2AHgC2MCPbmIsaJShTKnw40m6Pv
-	 53lb7w75Gm17WHhODg0G/R6dVzT7P/IO6CTFK/9dN6MuUS1FgwQ2QTt3ICqYpceXSe
-	 pat3CXh33O2Vg==
-Date: Fri, 26 Sep 2025 13:40:43 +0100
+	s=k20201202; t=1758890997;
+	bh=LRp+NHgfq1T5GTdEXyErwid4rR/OhAtZmsWAHaC92ls=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=I9IvljueSF/vf5zELujgtFSQUjJksSRzP404oHQNvM2A9ySUb+BsVABPzjPsitQFR
+	 X+Jv1Bz5XAh2lVd3QpSJjlKW7Bq4FljUttnE++JPwgUsVJ/Fmly1RNqT+CeflbfynU
+	 YgLY8+2FrUWitKnaBcxxb8b6Z17P3an8frq+eJfBZVITco/r6e1z7lzT4zlZDHFuzL
+	 kyKFPViVB89ILuPTcW4tX7Au0LIf9s0oad5t59tEPcgmRTzD5DbPPNPNgJWWsSWJrC
+	 +1uUSPw5wRIVp6xqmYUByajUxufLXBoYzUQv7/gZje8RuPpVtjbEoPrNYUCbazpsrh
+	 YhQ76qG/xuTZQ==
 From: Mark Brown <broonie@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
-	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com,
-	henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
-	will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com,
-	chinkaiting@google.com
-Subject: Re: [PATCH v2 2/2] ASoC: tas2781: Add tas5828 support
-Message-ID: <e7cc9383-3a83-4c94-ba30-30e0117489b1@sirena.org.uk>
-References: <20250926043339.8419-1-baojun.xu@ti.com>
- <20250926043339.8419-2-baojun.xu@ti.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20250912104612.361125-1-sbinding@opensource.cirrus.com>
+References: <20250912104612.361125-1-sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH v1 0/2] Support reading Subsystem ID from Device Tree
+Message-Id: <175889099612.84679.9251858819850677029.b4-ty@kernel.org>
+Date: Fri, 26 Sep 2025 13:49:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gspcy/cvBUDr0LgI"
-Content-Disposition: inline
-In-Reply-To: <20250926043339.8419-2-baojun.xu@ti.com>
-X-Cookie: Your canceled check is your receipt.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-56183
 
+On Fri, 12 Sep 2025 11:45:36 +0100, Stefan Binding wrote:
+> In PC systems using ACPI, the driver is able to read back an SSID from
+> the _SUB property. This SSID uniquely identifies the system, which
+> enables the driver to read the correct firmware and tuning for that
+> system from linux-firmware. Currently there is no way of reading this
+> property from device tree. Add an equivalent property in device tree
+> to perform the same role.
+> 
+> [...]
 
---Gspcy/cvBUDr0LgI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, Sep 26, 2025 at 12:33:39PM +0800, Baojun Xu wrote:
-> Update ti,tas2781.yaml for adding TAS5828.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---Gspcy/cvBUDr0LgI
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] ASoC: dt-bindings: cirrus,cs35l41: Document the cirrus,subsystem-id property
+      commit: f8673e4069b2032bf9f854bae818a7bdbdca7520
+[2/2] ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI
+      commit: 46c8b4d2a693eca69a2191436cffa44f489e98c7
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjWicoACgkQJNaLcl1U
-h9BjEAf8CB6jA+6G6TBClRdHJ/Vo7FGkEm9xXkdeTiz2yJtFZIchyE9upnm9XviW
-tpqpapiueZX35ZJ30roKiQCDpyuGuL6OussCGFOJxQgjV63vig8EGdeari8UXktS
-RyflfGgQ+tktQTfddkI0j4AHE1FBqxcmX0mBgZaeta1KvOcuFdeXMjzyailJHNhC
-ztqlLcnaMTDik+kcFBMpS5d00hUMEm1m09e2qrs+LpT8Cx/5sFzmDra1fl6LpXnc
-y37Jd5KRbO67cb3BjUPLbCZaBnyyvRxiaNRFV+yjOLpecnRbb9d1WEhreKDVWZhr
-RKLkHTrpB7XVGvuACfnbuQpe/X67EA==
-=VJb8
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---Gspcy/cvBUDr0LgI--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
