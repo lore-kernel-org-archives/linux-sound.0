@@ -1,134 +1,138 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB6927380A
-	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 11:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A3E26FDBB
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 12:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758974350; cv=none; b=K+K3lLHuiUO6bdtqtBlJb8mJq8lYSY7G6LKYDONbjeuZcEbM/HZHCwxJLZGOMgLVI5K5XcKg1k8zeDYQ+456JS2w/YNpLsP45y5sRbf8MQ3D9RDJ0XAVv9hCgBzfj3OpPcjJGpQIvNAZCTqQnuY41aR3IuBEkwCZVfObf8rDlok=
+	t=1758975371; cv=none; b=KGXBtFCmABnb5/zW1NMLxJpNj1XvmOOfAhaNr+TNctTDw7Si0qTzqt52NbSQK3gGVuqWuABoRktVJ6dET8TapnzAH3glYwX0beTk0DQZReSF27PtT/IA8Q7x+JD2cx607d/X+lTSE00E6YcyWHdlDimbXb7QJUzjvxE5J1RPuCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758974350; c=relaxed/simple;
-	bh=Q1G3ufsLPzjHcfqxuhYUtyzb6mkBeQ58SzLq4Ks7+fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U122Jb1alTDYhL6mivlT5zLOJAYH5Rb8eJc+VWPN4k816Yr2RAUwMfb3FA9BbcaUMdpdvl0lehUDnuqw0SYHRzuV88OwR8HhyvomZ/rZe+e/6xJ6WcaKHTPC26/1rcXRFd/MSiblCL0kNNHK0NlewCden8CyaNvMnAx9Lsn16Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIjw4lh/; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1758975371; c=relaxed/simple;
+	bh=osqMo4xYnsPBNWFZJF66fDdoXny0UKAShUKrp2Qwdh8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i/0HUlaHyHHnJeZ/zKIRJi3oEyYrs+aEqTrBBOJZT9T+wP+0LK4mBnZjJ4dHr94CY/9ZA28GCCMUnjOGJyJGsGLQuF7GqQbMdg8iJjAaL+LPcBBWD8XCNnoar9BR3ybNvmlBxyfWvz3bVtJ5nTPGuJVJBqzQjnPzhpuT6XcoXzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGtvTWJ/; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIjw4lh/"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-27eed7bdfeeso23581135ad.0
-        for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 04:59:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGtvTWJ/"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b5507d3ccd8so2714083a12.0
+        for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 05:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758974348; x=1759579148; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PijOBnBE5pXeLnRzXQWQH7HqbwlFYRqNkz2VA+MNSBM=;
-        b=GIjw4lh/98Wd709/MhxQib8sLy9zbxI/gORwTU4Ox+QJmTYqhmzmVCpHrjOJbVGeBE
-         nlIvxfz4BeajpkRPXw5x4uNl3o9PT3iAyhzNf6urK3/E8xFuFDEmUzbMsFu0PRttF1uN
-         c/FFK+zyUPKx9jhuynJEgJfNa5c42RY972qh61BsIk3sPGgXk4USEOPM3YsCiHngYcYP
-         lLs4H6Sl6qxTl3FO+91nFmyTWPMMx/VtTCSUWFRS29p5xPQVqb7fJ9dbGcAzyBNoDcRO
-         fOi/3WP6pciQOKtX44BjZKYPVTJ55ddxQVoEn7CNgNWn9V73NRu+jKQpK54r6g4iAEXN
-         925A==
+        d=gmail.com; s=20230601; t=1758975369; x=1759580169; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8qv4Ga5QoIsrNSn68xSGIzks6N+Mwy6yKb05/24myBc=;
+        b=FGtvTWJ/SQLCRQwVgs/0rifqaSPVGLpuqEdM+Mt6A8XMjVzykGQV05dzFp3nTfVSnU
+         s7QDszQ3xny3WB6Rc8071ZwT5Sn/uGRtwo3bwF4lCHj59epAZK04AwSi/jvNZXYDg86C
+         vf4sanBaWPCWiZYD2WN3GZLFwaN1CYOx0ydF1ioHQE43GOfKO+ShAwjgLlgC+zJfe9L+
+         gxQ1kWtFFSt2vNM1iYljvWFdI5bGiY8FUfMl0fjXQLWNigmih5Cfbz2im61yu4e+b4Xf
+         aDRmbvHqaoBft9mvzpQav+HjgJMYbojSXdzjrhBepIm95EqvNVD1hE+EaZSuZXSurAJM
+         omAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758974348; x=1759579148;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PijOBnBE5pXeLnRzXQWQH7HqbwlFYRqNkz2VA+MNSBM=;
-        b=wgzIiv5Gj/9mAxxVkKd4TsvHWYejzhp+Lxm60nUOBQa0N15fjOONy+POMqozn8OhBA
-         nZVuWyc37Qetu8EP/nN7lARiNrbagz5n5YQAf+9DE70DI9fuKHNF2ggIEMH7+d/d021s
-         Y2+0SbcWqTq+/P7uWNQd0536p3hCevKgchynsLhyP9t3hTp9XngJzxyFVqTm/5g9Ua+g
-         l/W2mNY08tUGS8228ldMRB0nafxmeuPtqjWT1eGw2990dLUPXc3wdSXIQnE07ZN/crfd
-         iFoA1hHYDkZU31sj2nxqz8UZ0KVXRuTYN7pmEbyEMuchSPWJxNhpJ2bi0i+y9Q97gOFE
-         WshQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUef+rark/0a2gPi8ynXcmzBPQI80Xxz8PBszhNqxPsAQAco9pRktDaCGIJhZ6UIoUD0R3xyMOkts5YnQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKY5l8Hz4qa9+cftsprR05zys3anSet7ZCQr6jrHZ6936uvuum
-	mceqe9wiH0UGSsDGFq5MN3jk3+nrjcCiod16sYST7lnyXprJP2cr1BhK
-X-Gm-Gg: ASbGnctSl/UD8mr65jnOrlUPl957dZcoRE0+NJ/r7JU0FTUUHPjdTuTYFU8gfkXhtNy
-	hf0K0g3xilqUJWRaLN3ATCnJfouiqOwVmfC90lXT0kPpMWGuqRE1FsGTPIbx4mB3cKLRpvXRmhp
-	QRtezMmXKPIDemD7pfsCgwsWX831OGToODQqp8//n1WUVzieeTKV3zjpOpQvKgUUuIfpxpXrK4a
-	BGOchXZbh+t7LmQ5L6Lc8tSltGBdwm5Q9SPs9Va2+BSzJd6E2RNtwicP7931p7WLqPsleNbfJ9g
-	L8Vf2WfN53aQHeDtV1wqWM0cXO43TeOU8fTXVrt6FpWHJNeixlErrvcDbQ28OiD/6bvhnLW0EKD
-	ksPyk0l4vjJUF5K9nRDymCjMimQ==
-X-Google-Smtp-Source: AGHT+IGdjsvu2VFOWhWF2FmWJyi+6tpoozd27mdQinEsI9lm3h9uunjFU+cpQiasI10JUUE7yFidOQ==
-X-Received: by 2002:a17:903:2351:b0:24b:1585:6350 with SMTP id d9443c01a7336-27ed6bf072emr112191455ad.11.1758974348284;
-        Sat, 27 Sep 2025 04:59:08 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d3fcesm79872805ad.29.2025.09.27.04.59.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 04:59:07 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 3BBE94244349; Sat, 27 Sep 2025 18:59:04 +0700 (WIB)
-Date: Sat, 27 Sep 2025 18:59:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>,
-	Kriish Sharma <kriish.sharma2006@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexey Klimov <alexey.klimov@linaro.org>
-Subject: Re: [PATCH] docs: sound: describe 'chan_map' member in snd_dec_opus
-Message-ID: <aNfRhzjqs6Z2fi-n@archie.me>
-References: <20250926162658.989479-1-kriish.sharma2006@gmail.com>
- <878qi0b97l.wl-tiwai@suse.de>
+        d=1e100.net; s=20230601; t=1758975369; x=1759580169;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8qv4Ga5QoIsrNSn68xSGIzks6N+Mwy6yKb05/24myBc=;
+        b=Civ0tRbqvfgk7+HAUc1PdVn7MLAzV56KZHHE1LbkGoyHqnzvB+MymOo1sFNfg8ZTZ0
+         OLHzOzulpBqpQXPN7nbwrZFMq1AQBv66ZeqAI+1K1YYHFY2IFRPQ+XXNo2MoVsfUlgTA
+         HCVQfy3x/XJd5uXnykF1GYF7gJcz4w8yMmQ/nECSaGqpi/WWVEPcBb5Gac8qdVv3zS9g
+         ecaKoDWNCeLbmeYG5Hnp1NL3Ca42643L+fBogwSapFaODaaSIREF52DWo4CrPX3S+yy0
+         M83im37/+eBMnIpsg1ZxdjrF6SdLequbvTR0Y87mKZ/Za7EOfzM7YcROKQ3bLWr432/0
+         XAMg==
+X-Forwarded-Encrypted: i=1; AJvYcCU13vJj1TEu1dJ+cWWYFFDWA+M0vBngjRmYp7mVmATp4+ETWscO0zwvLnTHXp5DIjcuutvzlRnQhWq16A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy75KB72/dWlPBYrA7VWlBFugpBp1z9lY07SIiRJTmqAzDdEXtW
+	FW2boBK5vmm212KISYXbMXxinsYQsTJF3Gu6sTgdmFDX03cq0yAQbsaIT74VrXq1W4HccQxu/ej
+	ViYOR6mCjhNDoCGPNumqf7u/JvrnQh9U=
+X-Gm-Gg: ASbGncs3YFAzLuC7+usVCdCpKLH8gUto2fdznERxFdPDyslO9+RoGF1lAV7RR7tuUsh
+	oj6SKCE/N/8gXr9iEhcEiA6WlqFq61F8VXJldyfmSq+HWz7J8pULrQMWXnVrq3XXZvsyOUMzr+U
+	fI7M7q0aKaqfjP2p/31vUg7ZPqALfupAkAW3DPLfcTiWvKC6TGkkEF/FgnM40DmwalQoK8AXF2v
+	POOAzMHurN4zZpWnrYIu77p6wNU
+X-Google-Smtp-Source: AGHT+IHsiI17VYHrQ3GH2ZPIOFDNXOLIe/yeeAd5WF1Qrebu5OoIx1VUVdYu6RrTjU7uSt9UNTZrJ8m09OWgillHOi8=
+X-Received: by 2002:a17:90b:1b4f:b0:335:5e84:6d37 with SMTP id
+ 98e67ed59e1d1-3355e846e68mr4821211a91.6.1758975369333; Sat, 27 Sep 2025
+ 05:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="B+9DhcFL+/ubECCd"
-Content-Disposition: inline
-In-Reply-To: <878qi0b97l.wl-tiwai@suse.de>
+References: <20250927091931.7691-1-hdanton@sina.com> <68d7b657.a70a0220.10c4b.000e.GAE@google.com>
+ <CAO9qdTGH5eMQTesCKVjLU7-kMg4uGC_6DGxP+YOP63yp=07HdQ@mail.gmail.com> <87o6qw9koa.wl-tiwai@suse.de>
+In-Reply-To: <87o6qw9koa.wl-tiwai@suse.de>
+From: Jeongjun Park <aha310510@gmail.com>
+Date: Sat, 27 Sep 2025 21:15:58 +0900
+X-Gm-Features: AS18NWAqKqXB45gFfRyKYznZA3-cmvgfUfXNm8gAy3YATj5FzCcOkOtwAhMN0I0
+Message-ID: <CAO9qdTEbFHyxKToEF=7NRdxTNGi7dmgbQ6g4OcLNg_10yamdeg@mail.gmail.com>
+Subject: Re: [syzbot] [sound?] [usb?] general protection fault in snd_usbmidi_do_output
+To: Takashi Iwai <tiwai@suse.de>
+Cc: syzbot <syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com>, 
+	clemens@ladisch.de, hdanton@sina.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
---B+9DhcFL+/ubECCd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Sat, 27 Sep 2025 12:36:07 +0200,
+> Jeongjun Park wrote:
+> >
+> > syzbot <syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> > > KASAN: slab-use-after-free Write in snd_usbmidi_in_urb_complete
+> > >
+> > > ==================================================================
+> > > BUG: KASAN: slab-use-after-free in snd_usbmidi_in_urb_complete+0x389/0x3c0 sound/usb/midi.c:251
+> > > Write of size 1 at addr ffff888074717943 by task kworker/1:3/5866
+> > >
+> >
+> > Wow, the UAF bug still occurs?
+> >
+> > But... this UAF seems to be a problem with how midi handles urb rather
+> > than a problem with my patch.
+> >
+> > Is there something wrong with the way snd_usbmidi_in_urb_complete() is
+> > implemented?
+>
+> This can be rather a missing kill-and-cleanup in the code path.
+> So the patch like below.
+>
+> Could you check whether this works for you instead of your fix, too?
+> timer_shutdown_sync() is already called in snd_usbmidi_disconnect(),
+> and the call in snd_usbmidi_free() should be superfluous after this
+> change.
+>
 
-On Sat, Sep 27, 2025 at 10:17:34AM +0200, Takashi Iwai wrote:
-> On Fri, 26 Sep 2025 18:26:58 +0200,
-> Kriish Sharma wrote:
-> >=20
-> > When building kernel docs, the following warning appeared:
-> >=20
-> >   WARNING: ./include/uapi/sound/compress_params.h:364 struct member 'ch=
-an_map' not described in 'snd_dec_opus'
-> >=20
-> > The inline struct 'snd_dec_opus_ch_map' inside 'snd_dec_opus' was not p=
-roperly documented.
-> > This patch documents the 'chan_map' member and its fields (stream_count=
-, coupled_count, channel_map), resolving the warning.
-> >=20
-> > Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
->=20
-> Adding Alexey to Cc, as it was added by his patch.
->=20
-> If any, please resubmit with a proper subject line (e.g. "ALSA:
-> compress: ....") as well as the Fixes tag pointing to the affecting
-> commit.
+I'm not an expert on the usbmidi driver, but based on my analysis so far,
+I think this patch is the most appropriate.
 
-In this case, the Fixes: tag should be:
+And I tested it with the PoC I have, and no UAF occurred. If the syzbot
+test doesn't produce any bugs, I think it would be a good idea to apply
+this patch.
 
-Fixes: 5d36370f3431 ("ALSA: compress: add raw opus codec define and opus de=
-coder structs")
+>
+> thanks,
+>
+> Takashi
+>
+> --- a/sound/usb/midi.c
+> +++ b/sound/usb/midi.c
+> @@ -1522,6 +1522,9 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+>  {
+>         int i;
+>
+> +       if (!umidi->disconnected)
+> +               snd_usbmidi_disconnect(&umidi->list);
+> +
+>         for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+>                 struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+>                 if (ep->out)
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---B+9DhcFL+/ubECCd
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaNfRfQAKCRD2uYlJVVFO
-oz6WAP441DdFLVyi6XyfBHaTk0yfgsrCJqzp1izuhVPCZPS9hgEA+9pue04CjA55
-TecMhupmUGb0LVIe0TYAGh9RDASzZgw=
-=uLks
------END PGP SIGNATURE-----
-
---B+9DhcFL+/ubECCd--
+Regards,
+Jeongjun Park
