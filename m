@@ -1,141 +1,180 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4581B5EC8
-	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 15:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2141119E968
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 15:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758986857; cv=none; b=OANrJAiN06hggnK7xJvDYsT/XR1yVC9opK413c1ofli/Kq0HjrLPQxQZp6EuXJE15aEA+/Upftq+u4ACAruNmTzFjYoVhP5GOVv1A/3O6aYTuN4i1H+yfYHqOI/u4119ms1lE4QsuJbaIbC5oUxXYlIzgljpRbJy4saU/SElsLQ=
+	t=1758987676; cv=none; b=Y0be88pKSGcxk/zsZ+L65XuaTVXBK8LamSJUzEmG/vTkyXTSVwJypLZ7GuL2S2rZ+Me2jbWdzdtybAUYEngJc7RMYkQHFxkiiLpTRsvxRDA93K/I6Uz/ZsCQlZRPEUp1Wes0zLscQ9ucF/sNApPsNe8aSGivL8rwxnAVqp9aOEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758986857; c=relaxed/simple;
-	bh=uCewv5CP04ORxGJiv6vZEEmH17tspkGLz3fMqZmXja0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=je0xgCPB7tJCmhopoDcS7343wFgH+Dx2un4w1qrfABF5o/5dSDVvqndxSnTYM6AwuuY/gudi5SbWY3+TrXReYYOMhJZ+tmKc600pCyNFxi9bU+8YvAI7mvTiBKtnbRiUVjbJt1bYVeU46VkBexkHzHh5h2WI0JyJgqlJ5B2RlR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RA5uKhC1; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1758987676; c=relaxed/simple;
+	bh=FPmwv6sV7hm4RdMnP+owJF/j0SUOZOnBAU0EQjBJ4QM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QS3dty8zCDbOdklBJjT1GquOJVrEYII4cj9KTp09FDxxjHYYQkQ9uz/5aKDKNiTwikgB7Y4wZ/rLrN38qPFfT0BWr0FlkH+OpjUUGvgQSbVKz+4QzRxOOsuIjLb2fXBKdUaVRadurrKUkYPaPsBe2irUzJxuxzMRQpgq9whuiMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZamBSF3M; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RA5uKhC1"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-57a604fecb4so3851858e87.1
-        for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 08:27:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZamBSF3M"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-781206cce18so1339281b3a.0
+        for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 08:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758986853; x=1759591653; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C4QbgbAUCXefzHZ1+fTShYExoT16Uf9fR1BGdBXDnYY=;
-        b=RA5uKhC1LUQd9zR5nCzh+17xCXKT7os5X0EqJBKruHugeqPhYNN+lB3x6inCJrx8/R
-         lmCfz4q/3b8ijn51IrVPnbgu2ZHBKW3J8TPk4b3JjGGfOu83eTx7S7+ChHI164EiGUue
-         7F+FDvXSEJSyKG+kdviaIjAyuZnWeLRKUzM5ewXosBPJHrPTcLqBS2VPotxaWGwlaDF2
-         7KgXH/4OoKuUIrye4rMDWrIuG3X+/S4fumkbCoc9X/ZLYIgJGRELe9jbRsPdoo/pM/Ar
-         zUPa9Q/7f11TCNK+/LY3mt3JUdO2xGNW91TdiORbheXoEoQKtn2jG2LuCfFzcxatSKpw
-         9ONA==
+        d=gmail.com; s=20230601; t=1758987674; x=1759592474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p+guc24UFix+87mZw75ftkg3HVWAUb97VQeNgK+6EGk=;
+        b=ZamBSF3M0YvdqbjPmmtb10pmoRkFeK15WxiSNjklDZs9Y9IZ7LqCvyAOHLRIwaUUNi
+         Il5N83bPAw6cCIG/bcpoRery2U0dR/lnUPj84xEFvtRsv3fuWFza2VDiTeYkLbEk71ka
+         KEHh7POM5Rl8ySC4XN9LeEil3USDNYage/b1vhBTqCZjQauJA70liT6PjO+uISdZ8J7M
+         QXHMlXHSD5tFXsspJ6frZB/62sJET2tk56XPaI+pj7gGiszVlzyt2ru4VGXNE5izHQ7H
+         tV+sgPm3I1ZviIFIc42/HMhzeQcEkifmYol2c5NPvD8iri9KHJaeBMhaAPp3annPhPQG
+         jFPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758986853; x=1759591653;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C4QbgbAUCXefzHZ1+fTShYExoT16Uf9fR1BGdBXDnYY=;
-        b=rpc+O6lnXMc9a4gJOooNqMP5lVAeoZaGuClKVZ42sA++CfAJdX17xO8eml9oi34Inr
-         96eghEyb6Ybt9hGI4IF6Sg7g06aZfEx6BbclKvzCWN8bPs2HwfdjbJJGoqGiZhke0MGC
-         eHt873Nh+8H3hsKiZOsafZ+HYKh6bK4I8UAJ/7BEleJ48WycMzdRim892i46WMGn8HO6
-         jL4AdF30So+++CHzmR8Dxxjzy+xhDrGuBAIiqUtmcMia3i0qJXxIJ0ab3pfRd+lElSTA
-         tuy9BJrwuoCI3H+9ab5xbWB/loh+LFtq0H+WhnWYo0nC9x64c1BedsSkhFs70dICcOYg
-         r/Bg==
-X-Gm-Message-State: AOJu0YyhO5FTYYl/fzUn6aiQ3ANlO/tp7GmM5gHWXbKA2wDqN6LMEGDy
-	9bHTecONINBV6MN14bixHGAL/c3JC8vKqVX+l2bRiBJFjihP5dCCL5hxCGnoag==
-X-Gm-Gg: ASbGnctfxUVkUwKvt+lWcYs78LfV77Byv177nmNB9kggOFwWlaL65i58lMpsOqCykUf
-	4W3H3wc8eHHYNWLC90lZv7w5YY75GdusI6vBBaBxZf5zL+SJNZGtZ50ds3+z0XOov7h4Oxerdw4
-	ksDoHqb+MRPyhPArE02V7kBdQ2hs5q6n0sMok6v5HjK9W0Ccep/9O8xSIjhW6QjBGll5j8UAXRv
-	7MgLlFf7ngGbtBYLC4jenYERIlw+JgcodkbI+vZEmAXknScnBasYxAb11NiqNAv1ULoyreJzCph
-	NIMIRCsvnf/ZHL1t2MuB2ifL8gTC0y5oeqC3QFyWht31Sn4yvBUBotCv/o1yt4tD8XZrsStGyG5
-	JXzD3eY/7lyzBpQNtaLH+mlKeYMmk
-X-Google-Smtp-Source: AGHT+IHXBUo1ctMesM/oBilyY+x8mgzJRxpIgYktqIyMd7xCMUe0bKhVUJ8js8hUSeRce7Ne3eNqOw==
-X-Received: by 2002:a05:6512:10c9:b0:570:8bc4:9544 with SMTP id 2adb3069b0e04-582d35deed6mr3478080e87.47.1758986853225;
-        Sat, 27 Sep 2025 08:27:33 -0700 (PDT)
-Received: from ark ([2a01:799:8db:a400::1002])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58619e6c530sm424273e87.93.2025.09.27.08.27.32
+        d=1e100.net; s=20230601; t=1758987674; x=1759592474;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p+guc24UFix+87mZw75ftkg3HVWAUb97VQeNgK+6EGk=;
+        b=FB3WmAAf+kW6A+kNTYVYIPYpO55juR1ll199RSbaLc8X0vnZG0p0E+DI/RTbW5cemC
+         M7mA4Uao2++L1vmo0WlCv9Na4KD7R4xa3oWosQh+5Vo4t4o1KUZXoOshfR55mZeJMPB5
+         0ILTmLuYSnO3WFhPblwbBcc210JnDQGV0a0SzzZrbkyB17RWtUI2ms1VBWVtAs4h6of/
+         ftgJ2ydeCVYa1kuX5DtIXJGnkle8KxWQUOn8DXfilxbPqYKKEF5JmmZLgXjtE3flkIqz
+         guabkiX2i8zUyWpHCGkhzIEdklMNRSofCKmtwQcZ/Nio5LE3TLOtlW/wGytxnlRNRWS3
+         hM3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVhUEjfXDIZFuAd9+n+xWtE3U2+3BWa62ZuTf/uqCTIedROMYQ6J5iObeLWIyj6zYYiNdDlvxAwhgrwug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC6fFR07t3fGyFnp6EIrntrD5xVvmISYC6sNRAsN5jMdcxXuqn
+	Slto7ArVT1BfrfWn+ZbloYCCL58MfvAE7NmHApfzojozVPgj4Zhol7Lo
+X-Gm-Gg: ASbGnctcyyh2VitK+irjDMDbhvpBEMga6axPzwG3Mubx8xBr6wS/euLok71gteJyQqt
+	M1WjVlFBK1zU++kRi8Ti720zBH8EETYOy3Limy7+SCNmJNJRDNuv/zjr3E7BWuddHSFM4DLxnoq
+	YhUtaFz93FxwoCr3QKymHMaqouJAtVSi+x/goCdDftgMTnhWPCVxO+Q0OE0s9p0XKNEE/RUZJQv
+	mg8ZsRIDu9heMdkqdmfrtUdV3WnYtBV+blh6GrKuBMi+VE+F7BXFYBPx9oe+GkFXZzRnUDuM3H8
+	N1dSn0RDPshF1rZepvqknqdjaqjMPPtbFND/jhX73+LTH4/bYr4lo27F8fiNU2DBQrbc0S/RwZD
+	tko6BiBNWXl9niF9nrG6gONzIS01ZfXXmPrNV1NU4nVudbnMkyQ==
+X-Google-Smtp-Source: AGHT+IH1j8iZ+VWe12C+/tThYXtmTrtzLYXhJdXhg11A+ZuNwyCqmcZMV00qeYbftkoEsVvjpMu9fQ==
+X-Received: by 2002:a05:6a00:1f05:b0:77f:43e6:ce65 with SMTP id d2e1a72fcca58-78125450167mr3043482b3a.0.1758987674330;
+        Sat, 27 Sep 2025 08:41:14 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102c0709csm6923531b3a.81.2025.09.27.08.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 08:27:32 -0700 (PDT)
-Date: Sat, 27 Sep 2025 17:27:30 +0200
-From: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ALSA: usb-audio: add mono main switch to Presonus S1824c
-Message-ID: <aNgCYm_b3IFmtbJ2@ark>
+        Sat, 27 Sep 2025 08:41:14 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: tiwai@suse.de
+Cc: aha310510@gmail.com,
+	clemens@ladisch.de,
+	hdanton@sina.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [sound?] [usb?] general protection fault in snd_usbmidi_do_output
+Date: Sun, 28 Sep 2025 00:41:09 +0900
+Message-Id: <20250927154109.879926-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <87o6qw9koa.wl-tiwai@suse.de>
+References: <87o6qw9koa.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The 1824c does not have the A/B switch that the 1810c has,
-but instead it has a mono main switch that sums the two
-main output channels to mono.
+Hi,
 
-Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Sat, 27 Sep 2025 12:36:07 +0200,
+> Jeongjun Park wrote:
+> >
+> > syzbot <syzbot+f02665daa2abeef4a947@syzkaller.appspotmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > syzbot has tested the proposed patch but the reproducer is still triggering an issue:
+> > > KASAN: slab-use-after-free Write in snd_usbmidi_in_urb_complete
+> > >
+> > > ==================================================================
+> > > BUG: KASAN: slab-use-after-free in snd_usbmidi_in_urb_complete+0x389/0x3c0 sound/usb/midi.c:251
+> > > Write of size 1 at addr ffff888074717943 by task kworker/1:3/5866
+> > >
+> >
+> > Wow, the UAF bug still occurs?
+> >
+> > But... this UAF seems to be a problem with how midi handles urb rather
+> > than a problem with my patch.
+> >
+> > Is there something wrong with the way snd_usbmidi_in_urb_complete() is
+> > implemented?
+>
+> This can be rather a missing kill-and-cleanup in the code path.
+> So the patch like below.
+>
+> Could you check whether this works for you instead of your fix, too?
+> timer_shutdown_sync() is already called in snd_usbmidi_disconnect(),
+> and the call in snd_usbmidi_free() should be superfluous after this
+> change.
+>
+
+Since both my tests and syzbot tests did not cause any bugs when applying
+this patch, I think the root cause of this vulnerability is the missing
+kill error_timer + urb.
+
+So, I think it would be okay to patch it this way, but in addition, since
+most of the endpoint delete-related code that existed in
+snd_usbmidi_free() is now done in snd_usbmidi_disconnect(),
+I think it would be appropriate to modify it to only perform
+kfree(ep->out) as in this patch below.
+
 ---
- sound/usb/mixer_s1810c.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ sound/usb/midi.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
-index bee2a65fd3c9..656f0b4bfdf0 100644
---- a/sound/usb/mixer_s1810c.c
-+++ b/sound/usb/mixer_s1810c.c
-@@ -93,6 +93,7 @@ struct s1810c_ctl_packet {
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index acb3bf92857c..97e7e7662b12 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -1522,15 +1522,14 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+ {
+ 	int i;
  
- #define SC1810C_CTL_LINE_SW	0
- #define SC1810C_CTL_MUTE_SW	1
-+#define SC1824C_CTL_MONO_SW	2
- #define SC1810C_CTL_AB_SW	3
- #define SC1810C_CTL_48V_SW	4
- 
-@@ -123,6 +124,7 @@ struct s1810c_state_packet {
- #define SC1810C_STATE_48V_SW	58
- #define SC1810C_STATE_LINE_SW	59
- #define SC1810C_STATE_MUTE_SW	60
-+#define SC1824C_STATE_MONO_SW	61
- #define SC1810C_STATE_AB_SW	62
- 
- struct s1810_mixer_state {
-@@ -493,6 +495,15 @@ static const struct snd_kcontrol_new snd_s1810c_mute_sw = {
- 	.private_value = (SC1810C_STATE_MUTE_SW | SC1810C_CTL_MUTE_SW << 8)
- };
- 
-+static const struct snd_kcontrol_new snd_s1824c_mono_sw = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.name = "Mono Main Out Switch",
-+	.info = snd_ctl_boolean_mono_info,
-+	.get = snd_s1810c_switch_get,
-+	.put = snd_s1810c_switch_set,
-+	.private_value = (SC1824C_STATE_MONO_SW | SC1824C_CTL_MONO_SW << 8)
-+};
++	if (!umidi->disconnected)
++		snd_usbmidi_disconnect(&umidi->list);
 +
- static const struct snd_kcontrol_new snd_s1810c_48v_sw = {
- 	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
- 	.name = "48V Phantom Power On Mic Inputs Switch",
-@@ -579,8 +590,17 @@ int snd_sc1810_init_mixer(struct usb_mixer_interface *mixer)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = snd_s1810c_switch_init(mixer, &snd_s1810c_ab_sw);
--	if (ret < 0)
--		return ret;
-+	// The 1824c has a Mono Main switch instead of a
-+	// A/B select switch.
-+	if (mixer->chip->usb_id == USB_ID(0x194f, 0x010d)) {
-+		ret = snd_s1810c_switch_init(mixer, &snd_s1824c_mono_sw);
-+		if (ret < 0)
-+			return ret;
-+	} else if (mixer->chip->usb_id == USB_ID(0x194f, 0x010c)) {
-+		ret = snd_s1810c_switch_init(mixer, &snd_s1810c_ab_sw);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	return ret;
+ 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+ 		struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+-		if (ep->out)
+-			snd_usbmidi_out_endpoint_delete(ep->out);
+-		if (ep->in)
+-			snd_usbmidi_in_endpoint_delete(ep->in);
++		kfree(ep->out);
+ 	}
+ 	mutex_destroy(&umidi->mutex);
+-	timer_shutdown_sync(&umidi->error_timer);
+ 	kfree(umidi);
  }
--- 
-2.51.0
+ 
+--
 
+>
+> thanks,
+>
+> Takashi
+>
+> --- a/sound/usb/midi.c
+> +++ b/sound/usb/midi.c
+> @@ -1522,6 +1522,9 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+>  {
+>         int i;
+>
+> +       if (!umidi->disconnected)
+> +               snd_usbmidi_disconnect(&umidi->list);
+> +
+>         for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+>                 struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+>                 if (ep->out)
+
+Regards,
+Jeongjun Park
