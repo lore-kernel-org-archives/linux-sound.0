@@ -1,188 +1,146 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EEA7E0E4
-	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 08:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140BE2D5412
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 08:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758961058; cv=none; b=X+bzq0+RmEw+lCIsLbZY1rnt3mbcrSePu55IhVOSZ8UnuL+LIX7RjuEq2r2RrSPvezKBy31OpqVlmo35jhv7lsrWMLKee5Nnhh1IHE8dR6zZZBBcKFy5NkhbG5Vmy497RF+eivmtLDfIBBT6NKEyrT9w/oH+bTIWAHJJdL42vE4=
+	t=1758962887; cv=none; b=HrVeJcNIBxa4iM9Gm7ZHz4Tf8WnYSGDn+is7v2WWZzfeYt7ln3757dZPZfg6s1O/NW9vSM9PIuoomCyxVpXbMU171SjlrVGZfWJCd98/K161fXOPa5FM52h/UPGdq5tWKgmsYVX0MTAeYpz7Br6IfV53XCQ9Esegqp6kwOn1jG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758961058; c=relaxed/simple;
-	bh=lhC06RHBJJAP+FWXcGWw6ChxvJFxng8JUPPE2KMKaeM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xm8yMdVnprM6bkJaKMNNLFHh620JmKZFMcTTjWwZKpJYsrJNeDiuSHSlR0zyLSX5HFrwvRBrjffLe7O/1eBV14H75777jeUPO7ygJAj+D0TcjSIqmugz393ahkM6w1yejW2ZR6AuqXmkmCED0SyWSxkSVFU6hUjSIi/WbYT3Thw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jfj1U+7K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9AD6723D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L6GJEH3J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aXCu1yJf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758962887; c=relaxed/simple;
+	bh=W3jFT2xCuMdLstdxWfEbBiE9g9ULW4SMf/2PYW8sF0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uK91qMXD3e2grb3q0B+brnXIPxeCPYM4e5adE1H7JzMn4J9HD8iWLiQaZc1ostlqdyEHV5GQfx8Qvo92xQUqyZRz2VnQHnhmOaaa+SU+m0VHsB9CU4J1Oua7wH7OXOO5k5x8UJgV39vjCZY4ZOOjHME69atI2o4sEOXYYBpZaDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFbPhmcE; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jfj1U+7K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9AD6723D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L6GJEH3J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aXCu1yJf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E8F622652F;
-	Sat, 27 Sep 2025 08:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758961055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DeLQ6kvFK2IWzBmjXBx+ddWDD3biix2eT1sBgsW/3ZQ=;
-	b=jfj1U+7KZR6oTFljxOLBR/K+FPO9ecnlEp+T7E6fZOi7NiNKFLeKp/YyeIPYMRsikDRZcn
-	bcRp5W2SV194LT1CG2sKVimanpGljSdBfaIb/sFfCtdS68Ob6U0kMuO0Slw9VBx0v6sfpV
-	qiLsNFny1elNghtcYYG2NdQw8KxtdLs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758961055;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DeLQ6kvFK2IWzBmjXBx+ddWDD3biix2eT1sBgsW/3ZQ=;
-	b=9AD6723DT0ZAXiXxfG0CsQJfxzYri0VzLf3dDnqHLBkO9Fs0da4zf62GJbIAXr4cK4vsrR
-	ePrvj0yiU5YVLtAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L6GJEH3J;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aXCu1yJf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758961054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DeLQ6kvFK2IWzBmjXBx+ddWDD3biix2eT1sBgsW/3ZQ=;
-	b=L6GJEH3Jslpv1ofTuIhzCmvNPcLk4NYlxNKVKNWMNuZX9T20K8sWziH34WXLc933zkHsHa
-	jXEoJEioO3q3yBWtDlR48q8oUApKgpO0mJLNU4uGbuPL+TDbAtNRQlXlvqfcBIYlC784Ld
-	I3oy0+xoK/F7kW5ui/7xX2XbNUnZaAo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758961054;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DeLQ6kvFK2IWzBmjXBx+ddWDD3biix2eT1sBgsW/3ZQ=;
-	b=aXCu1yJfdQQqa+JtsegK+EJDzjKto9G1926ZPHdyLWx6fcMiMsPapZZkwn7ly1SP3XrTJT
-	ANoWpihnTZxF+vBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA24013782;
-	Sat, 27 Sep 2025 08:17:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OfneJ56d12hhNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 27 Sep 2025 08:17:34 +0000
-Date: Sat, 27 Sep 2025 10:17:34 +0200
-Message-ID: <878qi0b97l.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexey Klimov <alexey.klimov@linaro.org>
-Subject: Re: [PATCH] docs: sound: describe 'chan_map' member in snd_dec_opus
-In-Reply-To: <20250926162658.989479-1-kriish.sharma2006@gmail.com>
-References: <20250926162658.989479-1-kriish.sharma2006@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFbPhmcE"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-329e1c8e079so2628724a91.2
+        for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 01:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758962885; x=1759567685; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/GTUQPP8+/5EC2O1mZ2t0mC7oS0NY7urV0HxwSW70UI=;
+        b=EFbPhmcErXPM8UQyW275k9D26+VWXbmSxKKVEaVdO+dHiJNibzbB4VrBZuctCTnwk4
+         3wGoVXcYXndrozrGZ3NnqsKRUKV5plnNn1uR1vxJFTfde++dWX23+QPp0d3u12I9WHXI
+         4FxkGdFkJK5u1d2tHJ7doEveJ0V2b9yVgbl86zrLwR06tqc2JSynRjk3RCFGVJTx/ZOA
+         em+ItWhG0QHec+jAmUpPLTuAMNGzTSHfKtjjZWzCYJOnPG86k1I8TKBkeYUYMdQ+G3RU
+         hj5x1nEbttLOFgcSxWWvJXKIqXeUpCjCOf74pPNrLJ9VdXZEpcuByEf0w0fxy+gjGxGC
+         In2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758962885; x=1759567685;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/GTUQPP8+/5EC2O1mZ2t0mC7oS0NY7urV0HxwSW70UI=;
+        b=FQiZmVGeAxeskq/i6BMabzpe9iqk81KCCD4kZcQ+n3xqnDzql7kczFsWXXRVtasO1Q
+         a8NAQN67l0Ct+X+eE94TShucGe1M5nYniWC37UJb141kTDVyCOARJ/Hf8ki/Be5XusbZ
+         /EcBCn98FzoQrTPmjMz/P+C9FPOeo91ar0PV4ru6ll2j5np1Cy6iOwJz6m1ORCEu/6wv
+         pr11PqI7sAQnZ1qL1tFKQyUiQy8Gbm3sjeZMr7cvo+eniQE6Bnj5H39zgkSA1W2z9ter
+         sRQIcPoD0wrt7wZoL3eSOe9GigWCWvlBbqoDC0Z2A62sdo/XQGT+RUwWQ0bttEDPHhri
+         fnlw==
+X-Forwarded-Encrypted: i=1; AJvYcCXveJCi8ebf/sypKE3vJjbDStdLGFFlfT68TnzXYO+UeGDiyjSBId0yVmMf8+XynyyrIoYCrFjcHRXt0Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4sZ1r/r1WJR31bgE3b9k8Aq7nGLVhnH5NTJozH2PWs0ZMWbMK
+	xSaAL5kjH1WtkqTKhYeVKSaxglpa0fUispeEGnhf/1+I5aD6Qqe4JxbHLAlNSD7Uxk1XAwVobHR
+	lG//cGajpD8iJfMC78eXwTKyhXGxehQo=
+X-Gm-Gg: ASbGncs5uM7rLq5SGjq+CIwrj8+f+AVTYbULtWoxISdxoQub0rEnqJxpyOc5GxVKGaZ
+	Uyy8R7tf/v0Jh8AZwNTmiT34rpvNOaBdwynNGi/kIGYPpDXcwtU+r+ngN/E3/GM/5XsgEdUBQLr
+	76ZfIZJrjWcSmdMfZ9gSLAPzq8xszfsYLV1GfCouuURGQjcvl3bDU/ALRH/QQKP7ks9nrVq4KBa
+	3NoTFUXsM2tMT7D9Lqj
+X-Google-Smtp-Source: AGHT+IE8/Ky1EmR+0LJIy4YhT01cjWKhOibqsHQ53cBmr/JkwwCwaBr7tP12GcnmDWyv0cmrxLHDEEw+q8nuhwMAZu0=
+X-Received: by 2002:a17:90b:4d04:b0:32e:a60d:93e2 with SMTP id
+ 98e67ed59e1d1-3342a260e49mr10570366a91.11.1758962885154; Sat, 27 Sep 2025
+ 01:48:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E8F622652F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+References: <20250927044106.849247-1-aha310510@gmail.com> <87bjmwb9y6.wl-tiwai@suse.de>
+In-Reply-To: <87bjmwb9y6.wl-tiwai@suse.de>
+From: Jeongjun Park <aha310510@gmail.com>
+Date: Sat, 27 Sep 2025 17:48:02 +0900
+X-Gm-Features: AS18NWAH5mQvcVsDREbrMd7yAaCa4-5UOBVCoSMH3cnV9nAbMNh2Maxiike7hRQ
+Message-ID: <CAO9qdTHSu6QmUVMo0pZj_=foz9CDtwKEYwjBx5vjj8gHzzVFNQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
+To: Takashi Iwai <tiwai@suse.de>
+Cc: clemens@ladisch.de, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 26 Sep 2025 18:26:58 +0200,
-Kriish Sharma wrote:
-> 
-> When building kernel docs, the following warning appeared:
-> 
->   WARNING: ./include/uapi/sound/compress_params.h:364 struct member 'chan_map' not described in 'snd_dec_opus'
-> 
-> The inline struct 'snd_dec_opus_ch_map' inside 'snd_dec_opus' was not properly documented.
-> This patch documents the 'chan_map' member and its fields (stream_count, coupled_count, channel_map), resolving the warning.
-> 
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+Hi,
 
-Adding Alexey to Cc, as it was added by his patch.
+Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Sat, 27 Sep 2025 06:41:06 +0200,
+> Jeongjun Park wrote:
+> >
+> > The previous commit 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at
+> > removal") patched a UAF issue caused by the error timer.
+> >
+> > However, because the error timer kill added in this patch occurs after the
+> > endpoint delete, a race condition to UAF still occurs, albeit rarely.
+> >
+> > Therefore, to prevent this, the error timer must be killed before freeing
+> > the heap memory.
+> >
+> > Cc: <stable@vger.kernel.org>
+> > Fixes: 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at removal")
+> > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+>
+> I suppose it's a fix for the recent syzbot reports?
+>   https://lore.kernel.org/68d17f44.050a0220.13cd81.05b7.GAE@google.com
+>   https://lore.kernel.org/68d38327.a70a0220.1b52b.02be.GAE@google.com
+>
 
-If any, please resubmit with a proper subject line (e.g. "ALSA:
-compress: ....") as well as the Fixes tag pointing to the affecting
-commit.
+Oh, I didn't know it was already reported on syzbot.
 
+> I had the very same fix in mind, as posted in
+>   https://lore.kernel.org/87plbhn16a.wl-tiwai@suse.de
+> so I'll happily apply if that's the case (and it was verified to
+> work).  I'm just back from vacation and trying to catch up things.
+>
 
-thanks,
+Although it's difficult to disclose right now, I have already completed
+writing a PoC that triggers a UAF due to the error timer in a slightly
+different way than the backtrace reported to syzbot, and I have confirmed
+that no bugs occur when testing this patch through this PoC.
 
-Takashi
+>
+> thanks,
+>
+> Takashi
+>
+> > ---
+> >  sound/usb/midi.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+> > index acb3bf92857c..8d15f1caa92b 100644
+> > --- a/sound/usb/midi.c
+> > +++ b/sound/usb/midi.c
+> > @@ -1522,6 +1522,8 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+> >  {
+> >       int i;
+> >
+> > +     timer_shutdown_sync(&umidi->error_timer);
+> > +
+> >       for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+> >               struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+> >               if (ep->out)
+> > @@ -1530,7 +1532,6 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+> >                       snd_usbmidi_in_endpoint_delete(ep->in);
+> >       }
+> >       mutex_destroy(&umidi->mutex);
+> > -     timer_shutdown_sync(&umidi->error_timer);
+> >       kfree(umidi);
+> >  }
+> >
+> > --
 
-> ---
->  include/uapi/sound/compress_params.h | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/uapi/sound/compress_params.h b/include/uapi/sound/compress_params.h
-> index faf4fa911f7f..e90e2f40732a 100644
-> --- a/include/uapi/sound/compress_params.h
-> +++ b/include/uapi/sound/compress_params.h
-> @@ -336,16 +336,14 @@ struct snd_dec_ape {
->   * @mapping_family: Order and meaning of output channels. Only values 0 and 1
->   * are expected; values 2..255 are not recommended for playback.
->   *
-> - * Optional channel mapping table. Describes mapping of opus streams to decoded
-> - * channels.
-> - * @struct snd_dec_opus_ch_map
-> - *	@stream_count: Number of streams encoded in each Ogg packet.
-> - *	@coupled_count: Number of streams whose decoders are used for two
-> - *		channels.
-> - *	@channel_map: describes which decoded channel to be used for each one.
-> - *		See RFC doc for details.
-> - *		This supports only mapping families 0 and 1, therefore max
-> - *		number of channels is 8.
-> + * @chan_map: Optional channel mapping table. Describes mapping of opus streams
-> + *            to decoded channels. Fields:
-> + *              - @stream_count: Number of streams encoded in each Ogg packet.
-> + *              - @coupled_count: Number of streams whose decoders are used
-> + *                                for two channels.
-> + *              - @channel_map: Which decoded channel to be used for each one.
-> + *                              Supports only mapping families 0 and 1,
-> + *                              max number of channels is 8.
->   *
->   * These options were extracted from RFC7845 Section 5.
->   */
-> -- 
-> 2.34.1
-> 
+Regards,
+Jeongjun Park
