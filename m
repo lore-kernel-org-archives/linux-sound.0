@@ -1,97 +1,91 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5DB27A915
-	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 09:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112D54C9F
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 09:39:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758965555; cv=none; b=ci1F8pDCDYs2QaKJ/PzHamsj/Lg7FRuVmsi8qoBXA/XgNxUoe6Nzf229ubjiGQJDBB+F2ym7ZLnRWg7E4ROPBfBY/WiAxFqKZzjEtjA8/ZCxRXgRiKs2PJAvBS+OXiYdFKafFWa2UILstRVmtDdq+ZN5NiNYdAPhotmBl4lRPTw=
+	t=1758965947; cv=none; b=S//Sxxi73PM6MpR+1QtoDGSB9pq4+QZiOgJ9vYp/gRfvHO+GR+37DAn30lUqrzcb2dYtk4YAxDjhuGkID+9/SDb6o6uh0sRsHJiapLTCfn4KRLyuByFpxWD2ZPwsImKzX2N2ScnocCuupLJfPNUFn7tI+fSCL15iD4aOYarnzWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758965555; c=relaxed/simple;
-	bh=qDpAaM09RH7pF3DYY4fE/b94eImYiswwDc+xpxHns+A=;
+	s=arc-20240116; t=1758965947; c=relaxed/simple;
+	bh=ePwxy0VtePa8dkCZfHHQ0ZXHpxKb70EtWVouu2g/AH0=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=noweLr9WdROyRJB4YXOC7nk6pL61bO2B6bSsRQuEJwQXvoKy/GiUDoBkpq+hvfuSZTWGBBGkPSzBsw9MHz8Ny3L0TECwMKGetKQQohfALq5vGgw0spbAf6I9IsCsAkqE5ttH1xI5FZGD2lnpOud9IC7HUTRyf8+BKzHORSUMZWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DTBFMkaV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2aT+yO5F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DTBFMkaV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2aT+yO5F; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=SGe+Z247UsR+LWTBpw2V87OZgX8FE/fXUXoJusRZk5tstz/ebqAHqUZUNDgiIIC3xfnlnYg+boXwhfoGu8NEJPYHNJAGlI795FOocYZyYjVOWh1qCZjAjx9waeK+3T2wUfZV/sxv8vX8n5FVV905g3483fypL9rEw7Fn4V/8u94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NS2EjH+/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JOtPgCQ2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RSFSAqvG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SP7KW+Jv; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DTBFMkaV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2aT+yO5F";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DTBFMkaV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2aT+yO5F"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NS2EjH+/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JOtPgCQ2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RSFSAqvG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SP7KW+Jv"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 866E517C89;
-	Sat, 27 Sep 2025 09:32:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B9B113E6ED;
+	Sat, 27 Sep 2025 09:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758965551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758965943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0EPLADaAwKoUQgJqGceqbKETR1bnScylM2id9gToSBE=;
-	b=DTBFMkaVRkiuuB32SeoS9ioC4CqRezrhDgvTaxywKhQ6XLIqtZ4DmztYq7mH192d+TJxY5
-	g01wJjGrytN8svrP0Nuh6uLvB4UpvokmgqsmI7l+dgBYuCuOTVtUJiE04aB12ZS6ruP6Jc
-	TaQ7AY5+4atO/S6mx8f/YYa+2Ko16Po=
+	bh=84FaBtmFvZd+sdNdHLG3vlLvA5/4a6ErkNpX/PoLn1Q=;
+	b=NS2EjH+/WhpmjpumKPiZlbpj7zNGm3vR4OPDP5YUb4R1KVDmYFfY3YgMBTrjuW5x0GDI7X
+	GdrtLvOynoPUqDRMi3JEfrtorB4P0oLIqPnxTuo0f1OYqUKNTxNBiKgHSh2rpTTQ80D+Q2
+	kKGLP1G/7Y4tnIudKX2OwVNyoM6bPU8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758965551;
+	s=susede2_ed25519; t=1758965943;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0EPLADaAwKoUQgJqGceqbKETR1bnScylM2id9gToSBE=;
-	b=2aT+yO5FK1ArFFYXAGssGm+DUMa+zkvj8NKYANPFeuoOgiEqpLZKvlmsa1CpdfHfvwQPHZ
-	2nOsep3l+NX+0kAA==
+	bh=84FaBtmFvZd+sdNdHLG3vlLvA5/4a6ErkNpX/PoLn1Q=;
+	b=JOtPgCQ2rqQy4k62PA1TcVTjAjHMxTjz4kNZFEGEKQ/NvLHbXj0vTqxe7IU4Aob8Ez3NFS
+	siEXj6WqQnfyjuDg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DTBFMkaV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2aT+yO5F
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RSFSAqvG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SP7KW+Jv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758965551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758965942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0EPLADaAwKoUQgJqGceqbKETR1bnScylM2id9gToSBE=;
-	b=DTBFMkaVRkiuuB32SeoS9ioC4CqRezrhDgvTaxywKhQ6XLIqtZ4DmztYq7mH192d+TJxY5
-	g01wJjGrytN8svrP0Nuh6uLvB4UpvokmgqsmI7l+dgBYuCuOTVtUJiE04aB12ZS6ruP6Jc
-	TaQ7AY5+4atO/S6mx8f/YYa+2Ko16Po=
+	bh=84FaBtmFvZd+sdNdHLG3vlLvA5/4a6ErkNpX/PoLn1Q=;
+	b=RSFSAqvGQSHnaXB2Bg5GeMvsPTRSPh/SxIG2FevMc+vuWecK87YD5ahv1/uTVKiK664Ckl
+	3JyfeAhwgc8xZyBsJaETiwdf2FIFhmjMLdC1jQuYZwtgk5upnMRz3BDm++9D4bn4RgxD3J
+	Io78f6tz/y91lJozAw8xYdQnLivVsVU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758965551;
+	s=susede2_ed25519; t=1758965942;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0EPLADaAwKoUQgJqGceqbKETR1bnScylM2id9gToSBE=;
-	b=2aT+yO5FK1ArFFYXAGssGm+DUMa+zkvj8NKYANPFeuoOgiEqpLZKvlmsa1CpdfHfvwQPHZ
-	2nOsep3l+NX+0kAA==
+	bh=84FaBtmFvZd+sdNdHLG3vlLvA5/4a6ErkNpX/PoLn1Q=;
+	b=SP7KW+Jv6PI11c9s3QYX0BQXa5uxYzRUaBCZNvktx2UcJ2TO1A1jXSr3YkViVMgoT7WyWe
+	ty38X4Z7nw2L6XCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12A7C1373E;
-	Sat, 27 Sep 2025 09:32:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 768CE1373E;
+	Sat, 27 Sep 2025 09:39:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ss95Ai+v12jISwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 27 Sep 2025 09:32:31 +0000
-Date: Sat, 27 Sep 2025 11:32:30 +0200
-Message-ID: <871pnsb5qp.wl-tiwai@suse.de>
+	id uR8TG7aw12h9TQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 27 Sep 2025 09:39:02 +0000
+Date: Sat, 27 Sep 2025 11:39:02 +0200
+Message-ID: <87zfag9qvd.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: cryolitia@uniontech.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>,
-	qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com,
+To: Jeongjun Park <aha310510@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	clemens@ladisch.de,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v5 3/4] ALSA: usb-audio: make param quirk_flags change-able in runtime
-In-Reply-To: <20250925-sound-v5-3-2593586ff350@uniontech.com>
-References: <20250925-sound-v5-0-2593586ff350@uniontech.com>
-	<20250925-sound-v5-3-2593586ff350@uniontech.com>
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
+In-Reply-To: <CAO9qdTHSu6QmUVMo0pZj_=foz9CDtwKEYwjBx5vjj8gHzzVFNQ@mail.gmail.com>
+References: <20250927044106.849247-1-aha310510@gmail.com>
+	<87bjmwb9y6.wl-tiwai@suse.de>
+	<CAO9qdTHSu6QmUVMo0pZj_=foz9CDtwKEYwjBx5vjj8gHzzVFNQ@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -100,74 +94,83 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B9B113E6ED
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 866E517C89
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
 X-Spam-Score: -3.51
 
-On Thu, 25 Sep 2025 11:25:18 +0200,
-Cryolitia PukNgae via B4 Relay wrote:
+On Sat, 27 Sep 2025 10:48:02 +0200,
+Jeongjun Park wrote:
 > 
-> +/* protects quirk_flags */
-> +DEFINE_MUTEX(quirk_flags_mutex);
+> Hi,
+> 
+> Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > On Sat, 27 Sep 2025 06:41:06 +0200,
+> > Jeongjun Park wrote:
+> > >
+> > > The previous commit 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at
+> > > removal") patched a UAF issue caused by the error timer.
+> > >
+> > > However, because the error timer kill added in this patch occurs after the
+> > > endpoint delete, a race condition to UAF still occurs, albeit rarely.
+> > >
+> > > Therefore, to prevent this, the error timer must be killed before freeing
+> > > the heap memory.
+> > >
+> > > Cc: <stable@vger.kernel.org>
+> > > Fixes: 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at removal")
+> > > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> >
+> > I suppose it's a fix for the recent syzbot reports?
+> >   https://lore.kernel.org/68d17f44.050a0220.13cd81.05b7.GAE@google.com
+> >   https://lore.kernel.org/68d38327.a70a0220.1b52b.02be.GAE@google.com
+> >
+> 
+> Oh, I didn't know it was already reported on syzbot.
+> 
+> > I had the very same fix in mind, as posted in
+> >   https://lore.kernel.org/87plbhn16a.wl-tiwai@suse.de
+> > so I'll happily apply if that's the case (and it was verified to
+> > work).  I'm just back from vacation and trying to catch up things.
+> >
+> 
+> Although it's difficult to disclose right now, I have already completed
+> writing a PoC that triggers a UAF due to the error timer in a slightly
+> different way than the backtrace reported to syzbot, and I have confirmed
+> that no bugs occur when testing this patch through this PoC.
 
-This can be static?
-
-> +static int param_set_quirkp(const char *val,
-> +			    const struct kernel_param *kp)
-> +{
-> +	guard(mutex)(&quirk_flags_mutex);
-> +	return param_set_charp(val, kp);
-> +}
-> +
-> +static const struct kernel_param_ops param_ops_quirkp = {
-> +	.set = param_set_quirkp,
-> +	.get = param_get_charp,
-> +	.free = param_free_charp,
-> +};
-> +
-> +#define param_check_quirkp param_check_charp
-> +
-> +module_param_array(quirk_flags, quirkp, NULL, 0644);
-> +MODULE_PARM_DESC(quirk_flags, "Add/modify USB audio quirks");
-> +
->  /*
->   * we keep the snd_usb_audio_t instances by ourselves for merging
->   * the all interfaces on the same card as one sound device.
-> @@ -697,15 +716,13 @@ static void snd_usb_init_quirk_flags(int idx, struct snd_usb_audio *chip)
->  	char *val;
->  	size_t i;
->  
-> +	mutex_lock(&quirk_flags_mutexn);
-
-Use guard().  Then you can avoid ugly goto.
+OK, so this sounds like a coincidence, but it's very likely the same
+issue, so I'm going to put mark those syzbot reports.
 
 
 thanks,
