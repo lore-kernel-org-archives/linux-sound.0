@@ -1,35 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45F629D26C;
-	Fri, 26 Sep 2025 22:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59258202C30
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 04:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758925229; cv=none; b=kIDUxgHUr912Vw7RdmYHKQOWbbUKnPtUuvwnRO+hnTCmzTmIUxvjIBIfYEHOBsro2m95A11k5QgPtRoU3KvwqyZhsDDoVoq2rrNn/f/g+lRFQ560eSbgeW7VBryej6KiEc9ZbXhtma8GB+dkPpQaw0gaMLHgIQ1WS1z/FYKmo/M=
+	t=1758948213; cv=none; b=ans9caYliqp5ztjrP6i4R5Vt6qg5KBf+95/bbeGAR4BzqeHEiAopRTyIB/FqRVRDGZ7bguI3Q0mdHvlqV2wT9MM8AkhCDI3YBGsa9YJzBKkvGxwbcniqes9FSEL+dvlD3rdUePHzfYlD03DOKYbuyP14Y/1DHtNm1u6yzwQUAs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758925229; c=relaxed/simple;
-	bh=Mn3UMaJfnruXtRtYCrhAg9D+oTiCU8m67M2/1hao6II=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HTzmriUPsEz+7T5+cnvDnyw4yfiP9oP3g3r5lXk6Sezx9vFYMEjS2WQYd5z1i/+MqeEnh7jP41KJ8YSeOpWe+Q5jRS64demQDGeavNSs8A+e6aSTJaSvL/8+CO6bLlCcmcR8ff+KYnrAI27QonuOukA0OiUq/O2AgA5/h4h6Jrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BKRrWxnV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758948213; c=relaxed/simple;
+	bh=e/qEH9tlcTF6ZGczycty+bDdjQIpv409fmI2gPtm0Aw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZiQ0I+4CSqVQZif6q4R+etDF4gZgtvQIKKM28qGO9GaDJheWDDcloHXlQIVU1JaFvTtkDBO3RjV+743Gf64IafAaFkziJF4eWsHQ138oPnkX1eYW2Z0nsVqfPhWVhSTw5KGS/f4p3OygaiL79QqidJYoTrCzgNel1EdEgS7DpHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdVWnDfT; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKRrWxnV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCF1C4CEF7;
-	Fri, 26 Sep 2025 22:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758925229;
-	bh=Mn3UMaJfnruXtRtYCrhAg9D+oTiCU8m67M2/1hao6II=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=BKRrWxnVjbC9fVex2Q0QqOjaUUpQQZvcOO3sm32kWHQWuUS35HPoCEX/eNSRBoDaP
-	 2PqDTLb3ZPVD/5ulHwbPb2ELHUPoF4YGigYibE+tTVWBXjvHTNz5aRkFbCbyRTBmvM
-	 IhsXIQr0iEj6E5nCEM7uL9uRJ2L9u32HDgr4xz7gLBJVyuvpuxfOnXw+uaQ797Ef/m
-	 ogWWIfVzbDMzUmuY8PVllaGFgt1VBWJlPR9RqYeT3t411LpXUmydMmQ4DuHk7vcL+m
-	 bppaMUvfPn2CArUCuGjaMZTzXC73NG6s46oJ3U0pdpD+gYgGGexg5lmMA+RWpHPUWV
-	 vhfQvpvRDFcKw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADDFE39D0C3F;
-	Fri, 26 Sep 2025 22:20:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdVWnDfT"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-267f0fe72a1so23284765ad.2
+        for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 21:43:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758948211; x=1759553011; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dKJeS2CDtsADQhZCOXcT1ATZiZ5XIcTlE4PH32ZdpZQ=;
+        b=bdVWnDfTKkwfA3PIY4XJcMdK6xIWH50sbaDzbSlMWc8i2WUfj3GpYC+/KTAV2oKWOE
+         32Jmlkxhf2araQqdwzYsIZJHmEPsHucKp88rT04Nfathu9AtyiPSOWmWpIat6U1FTegO
+         YWpXuvGbry5Nmf9zJ8KaB13e/eflb5EdVZdbOY2HMP+VpzawwLkB/K5nNy7/56gGd4m0
+         M+Nkj7fDHyWhxOTZ5ThqS8Sf9TnZNDBkVu/qOme/s3qao/h/eBHmHRpI0JxiMeik8a13
+         OFJRGxAwn5Qm1nIJqiFC3/8sy90iHbpvMpufu+7Oy+2MnbGG+FTJWCeQUzbZYwF/tdsU
+         HbFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758948211; x=1759553011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dKJeS2CDtsADQhZCOXcT1ATZiZ5XIcTlE4PH32ZdpZQ=;
+        b=dFhzsubiqIhb7xEyePVUvVO6+Z40gYV4vCWisXXjmcC7AvA8VDouQsJjtVaXJ7EOPk
+         g+KvqocfswEYBVcCOCzHksWq+OZ+MUiewJnSRSlCM0F5Ouy4LhPHmBbWrMtctuFseKm5
+         ofWnuvoEiCN0aAvULn3y3lWMqRJnLgXXOxoxxHbiuJsMGV+JBvhEe0Fl/5nJr6Ce/zAy
+         ANOMHIUF0tl1RRBdD/0YSNIaLuoy7hakTAFYnMdhPoMezAxGZWK0PAiOLy27E77GFmrQ
+         2T/KVeyTeWgyGr+611IsAUXOGFEFWhzgS0kfefsJpPdDrw2QkOuzOGhp9y53w7zqcvCs
+         Ub4A==
+X-Gm-Message-State: AOJu0Yxd6/ItZn6pyLisPtSwd2yUv/m11CaQ5WUBVZOA/8Exkgj1oWB1
+	nftjy7VGRxxIijaKb4JLFrXxKPsMYInu5HhkaZ8KDFiy16iL9/qRMH5J
+X-Gm-Gg: ASbGncsGj1AqNOcW5s4mcnn7fspJFcMOWxOJCVQLoqXRZqikYB539qTLp8vcYK9NCTM
+	KjXt3DmHFeGypuVTnGv3JrvyNKaHAqAsf5Nk0x3ksRaMs+kdYnDwsjRKhkIjMXYaKoqsz0F4TFB
+	bdUpxOdxa7qO+vM5q1QLqsaCAQVR5hSIjcQ+nIWydQZjOrAOmWA145IhShDA+pS7h34KNt6TfeB
+	r7b2D0TOBRysMUQYC0Z2J8tHP8SnR8V88t8bfQoOpwUCO4uzHeEijTZt1m5NDxatx+RehMLphuA
+	36VH/mJ/g1vZAKdqMeZd5FJ7VkcqOUjreQlWzfadwvc/KGd6BBlxOhBO19ka/o9DDS6kUSAqo3a
+	NR/hgkuPEwhjd4ITbVZtlzcI6O0lbB+kr3s+pM4RP5iwo8ICNQhgeUdmGuAM6DBFovhVIn0E=
+X-Google-Smtp-Source: AGHT+IEY3eTrZUiwTbercFWJQUAUjNTQOGASGgG4KnUUAungvsFhTUVY/HHdH4iilZbaAJZYw6rUQQ==
+X-Received: by 2002:a17:903:41cf:b0:266:3098:666 with SMTP id d9443c01a7336-27ed4a2d5bamr96103885ad.32.1758948211465;
+        Fri, 26 Sep 2025 21:43:31 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66f9257sm68318205ad.35.2025.09.26.21.43.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 21:43:31 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: clemens@ladisch.de,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
+Date: Sat, 27 Sep 2025 13:41:06 +0900
+Message-Id: <20250927044106.849247-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,52 +74,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 0/3] Mainline Protonic PRT8ML board
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175892522449.77570.18183487624787267544.git-patchwork-notify@kernel.org>
-Date: Fri, 26 Sep 2025 22:20:24 +0000
-References: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
-In-Reply-To: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
-To: Jonas Rebmann <jre@pengutronix.de>
-Cc: andrew@lunn.ch, olteanv@gmail.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, lgirdwood@gmail.com,
- broonie@kernel.org, shengjiu.wang@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, festevam@gmail.com, kernel@pengutronix.de,
- vladimir.oltean@nxp.com, netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Frank.Li@nxp.com,
- david@protonic.nl, l.stach@pengutronix.de, o.rempel@pengutronix.de
 
-Hello:
+The previous commit 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at
+removal") patched a UAF issue caused by the error timer.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+However, because the error timer kill added in this patch occurs after the
+endpoint delete, a race condition to UAF still occurs, albeit rarely.
 
-On Wed, 24 Sep 2025 10:34:11 +0200 you wrote:
-> This series adds the Protonic PRT8ML device tree as well as some minor
-> corrections to the devicetree bindings used.
-> 
-> Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
-> ---
-> Changes in v3:
-> - Add comment on the intentional limitation to 100Mbps RGMII
-> - Link to v2: https://lore.kernel.org/r/20250918-imx8mp-prt8ml-v2-0-3d84b4fe53de@pengutronix.de
-> 
-> [...]
+Therefore, to prevent this, the error timer must be killed before freeing
+the heap memory.
 
-Here is the summary with links:
-  - [v3,1/3] dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios property
-    https://git.kernel.org/netdev/net-next/c/8d5868f8c1b2
-  - [v3,2/3] dt-bindings: arm: fsl: Add Protonic PRT8ML
-    (no matching commit)
-  - [v3,3/3] arm64: dts: add Protonic PRT8ML board
-    (no matching commit)
+Cc: <stable@vger.kernel.org>
+Fixes: 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at removal")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ sound/usb/midi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index acb3bf92857c..8d15f1caa92b 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -1522,6 +1522,8 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+ {
+ 	int i;
+ 
++	timer_shutdown_sync(&umidi->error_timer);
++
+ 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+ 		struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+ 		if (ep->out)
+@@ -1530,7 +1532,6 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+ 			snd_usbmidi_in_endpoint_delete(ep->in);
+ 	}
+ 	mutex_destroy(&umidi->mutex);
+-	timer_shutdown_sync(&umidi->error_timer);
+ 	kfree(umidi);
+ }
+ 
+--
