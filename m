@@ -1,115 +1,134 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59258202C30
-	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 04:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EA82D29C8
+	for <linux-sound@vger.kernel.org>; Sat, 27 Sep 2025 07:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758948213; cv=none; b=ans9caYliqp5ztjrP6i4R5Vt6qg5KBf+95/bbeGAR4BzqeHEiAopRTyIB/FqRVRDGZ7bguI3Q0mdHvlqV2wT9MM8AkhCDI3YBGsa9YJzBKkvGxwbcniqes9FSEL+dvlD3rdUePHzfYlD03DOKYbuyP14Y/1DHtNm1u6yzwQUAs4=
+	t=1758959930; cv=none; b=hWtgh/ldo64nGxSqHzFHl12Q8p1sEHEUoPRuMJvX9w02gfBZvffSDX3xJT3vLLO8q3RYITJ4Zv3Aw7Uhwsp2DH7K+zv1SKcYxAztWy38T34cZayFGyBR5GysP8H5AOdTK2oAy8WXvsXgPaNKSdda4FA1hME+pUVIeHGVbOGlcoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758948213; c=relaxed/simple;
-	bh=e/qEH9tlcTF6ZGczycty+bDdjQIpv409fmI2gPtm0Aw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZiQ0I+4CSqVQZif6q4R+etDF4gZgtvQIKKM28qGO9GaDJheWDDcloHXlQIVU1JaFvTtkDBO3RjV+743Gf64IafAaFkziJF4eWsHQ138oPnkX1eYW2Z0nsVqfPhWVhSTw5KGS/f4p3OygaiL79QqidJYoTrCzgNel1EdEgS7DpHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdVWnDfT; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758959930; c=relaxed/simple;
+	bh=HR0qO8gHX6aAXc6yTShu71RRVpPWZ4d836yvKlxVm/4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=holc2SGC6WOWyQdjLugbsb/UYf9CBf9qQR3nnCHR1I2G2l7yG5swSV69syuzMP7yAWLAF1XY5Hx5Zgcy036Jw1cmxYrVlygynvbsl0SLeW0ijgFqo486fdawLhkJ8W0qNofqiIAmMrKCgehuXl8nDHPmTfr6JnYngjAPiAg3jGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KiKRq3xs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TP/ZU12s; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KiKRq3xs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TP/ZU12s; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdVWnDfT"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-267f0fe72a1so23284765ad.2
-        for <linux-sound@vger.kernel.org>; Fri, 26 Sep 2025 21:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758948211; x=1759553011; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dKJeS2CDtsADQhZCOXcT1ATZiZ5XIcTlE4PH32ZdpZQ=;
-        b=bdVWnDfTKkwfA3PIY4XJcMdK6xIWH50sbaDzbSlMWc8i2WUfj3GpYC+/KTAV2oKWOE
-         32Jmlkxhf2araQqdwzYsIZJHmEPsHucKp88rT04Nfathu9AtyiPSOWmWpIat6U1FTegO
-         YWpXuvGbry5Nmf9zJ8KaB13e/eflb5EdVZdbOY2HMP+VpzawwLkB/K5nNy7/56gGd4m0
-         M+Nkj7fDHyWhxOTZ5ThqS8Sf9TnZNDBkVu/qOme/s3qao/h/eBHmHRpI0JxiMeik8a13
-         OFJRGxAwn5Qm1nIJqiFC3/8sy90iHbpvMpufu+7Oy+2MnbGG+FTJWCeQUzbZYwF/tdsU
-         HbFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758948211; x=1759553011;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dKJeS2CDtsADQhZCOXcT1ATZiZ5XIcTlE4PH32ZdpZQ=;
-        b=dFhzsubiqIhb7xEyePVUvVO6+Z40gYV4vCWisXXjmcC7AvA8VDouQsJjtVaXJ7EOPk
-         g+KvqocfswEYBVcCOCzHksWq+OZ+MUiewJnSRSlCM0F5Ouy4LhPHmBbWrMtctuFseKm5
-         ofWnuvoEiCN0aAvULn3y3lWMqRJnLgXXOxoxxHbiuJsMGV+JBvhEe0Fl/5nJr6Ce/zAy
-         ANOMHIUF0tl1RRBdD/0YSNIaLuoy7hakTAFYnMdhPoMezAxGZWK0PAiOLy27E77GFmrQ
-         2T/KVeyTeWgyGr+611IsAUXOGFEFWhzgS0kfefsJpPdDrw2QkOuzOGhp9y53w7zqcvCs
-         Ub4A==
-X-Gm-Message-State: AOJu0Yxd6/ItZn6pyLisPtSwd2yUv/m11CaQ5WUBVZOA/8Exkgj1oWB1
-	nftjy7VGRxxIijaKb4JLFrXxKPsMYInu5HhkaZ8KDFiy16iL9/qRMH5J
-X-Gm-Gg: ASbGncsGj1AqNOcW5s4mcnn7fspJFcMOWxOJCVQLoqXRZqikYB539qTLp8vcYK9NCTM
-	KjXt3DmHFeGypuVTnGv3JrvyNKaHAqAsf5Nk0x3ksRaMs+kdYnDwsjRKhkIjMXYaKoqsz0F4TFB
-	bdUpxOdxa7qO+vM5q1QLqsaCAQVR5hSIjcQ+nIWydQZjOrAOmWA145IhShDA+pS7h34KNt6TfeB
-	r7b2D0TOBRysMUQYC0Z2J8tHP8SnR8V88t8bfQoOpwUCO4uzHeEijTZt1m5NDxatx+RehMLphuA
-	36VH/mJ/g1vZAKdqMeZd5FJ7VkcqOUjreQlWzfadwvc/KGd6BBlxOhBO19ka/o9DDS6kUSAqo3a
-	NR/hgkuPEwhjd4ITbVZtlzcI6O0lbB+kr3s+pM4RP5iwo8ICNQhgeUdmGuAM6DBFovhVIn0E=
-X-Google-Smtp-Source: AGHT+IEY3eTrZUiwTbercFWJQUAUjNTQOGASGgG4KnUUAungvsFhTUVY/HHdH4iilZbaAJZYw6rUQQ==
-X-Received: by 2002:a17:903:41cf:b0:266:3098:666 with SMTP id d9443c01a7336-27ed4a2d5bamr96103885ad.32.1758948211465;
-        Fri, 26 Sep 2025 21:43:31 -0700 (PDT)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66f9257sm68318205ad.35.2025.09.26.21.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 21:43:31 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: clemens@ladisch.de,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KiKRq3xs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TP/ZU12s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KiKRq3xs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TP/ZU12s"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E68A5C5B7;
+	Sat, 27 Sep 2025 07:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758959926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kqTvBLPLCqPJt6nkYq3LM/TFb7EkSNWGwO4ZH5bH0Y=;
+	b=KiKRq3xsrcOqn3qivhxr2O3+LGXIAwIpHPdMuWaCBiN+7fqJu42G0GzEQFgJX+Ffb2r1Yn
+	qBT5szwqblPtEUhyMx8LaZm6ySOX7Yy75O4qFvV507V53KUpyyaFGOvOQMMg1zBPz8haoH
+	gHHVjox5lI4KZopof00l5htnNMtP9w0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758959926;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kqTvBLPLCqPJt6nkYq3LM/TFb7EkSNWGwO4ZH5bH0Y=;
+	b=TP/ZU12sL95/TvwxmNc138SooLHL6N3Y4MHhFVU0gm+zR4BWeeGhVLj7W9fCQKxa0CFwJI
+	PKPCjDnmqy7GLICA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758959926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kqTvBLPLCqPJt6nkYq3LM/TFb7EkSNWGwO4ZH5bH0Y=;
+	b=KiKRq3xsrcOqn3qivhxr2O3+LGXIAwIpHPdMuWaCBiN+7fqJu42G0GzEQFgJX+Ffb2r1Yn
+	qBT5szwqblPtEUhyMx8LaZm6ySOX7Yy75O4qFvV507V53KUpyyaFGOvOQMMg1zBPz8haoH
+	gHHVjox5lI4KZopof00l5htnNMtP9w0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758959926;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kqTvBLPLCqPJt6nkYq3LM/TFb7EkSNWGwO4ZH5bH0Y=;
+	b=TP/ZU12sL95/TvwxmNc138SooLHL6N3Y4MHhFVU0gm+zR4BWeeGhVLj7W9fCQKxa0CFwJI
+	PKPCjDnmqy7GLICA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 694CD13782;
+	Sat, 27 Sep 2025 07:58:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X7CmFzaZ12hZMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 27 Sep 2025 07:58:46 +0000
+Date: Sat, 27 Sep 2025 09:58:45 +0200
+Message-ID: <87cy7cba2y.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
-Date: Sat, 27 Sep 2025 13:41:06 +0900
-Message-Id: <20250927044106.849247-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 0/2] ALSA ASoC/HDA: cs35l56: Add support for B2 silicon
+In-Reply-To: <20250923130326.510570-1-rf@opensource.cirrus.com>
+References: <20250923130326.510570-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-The previous commit 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at
-removal") patched a UAF issue caused by the error timer.
+On Tue, 23 Sep 2025 15:03:24 +0200,
+Richard Fitzgerald wrote:
+> 
+> This series adds support for the latest (B2) revision of cs35l56.
+> 
+> Most of the code is in ASoC, but there are some trivial changes
+> needed to the HDA drivers. They are to prevent build breaks so
+> they have been included in the ASoC patch.
+> 
+> Richard Fitzgerald (2):
+>   ASoC: cs35l56: Set fw_regs table after getting REVID
+>   ASoC: cs35l56: Add support for CS35L56 B2 silicon
 
-However, because the error timer kill added in this patch occurs after the
-endpoint delete, a race condition to UAF still occurs, albeit rarely.
+Mark, shall I apply those patches to my tree?
+They seem cleanly applicable.
 
-Therefore, to prevent this, the error timer must be killed before freeing
-the heap memory.
 
-Cc: <stable@vger.kernel.org>
-Fixes: 0718a78f6a9f ("ALSA: usb-audio: Kill timer properly at removal")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- sound/usb/midi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index acb3bf92857c..8d15f1caa92b 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -1522,6 +1522,8 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
- {
- 	int i;
- 
-+	timer_shutdown_sync(&umidi->error_timer);
-+
- 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
- 		struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
- 		if (ep->out)
-@@ -1530,7 +1532,6 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
- 			snd_usbmidi_in_endpoint_delete(ep->in);
- 	}
- 	mutex_destroy(&umidi->mutex);
--	timer_shutdown_sync(&umidi->error_timer);
- 	kfree(umidi);
- }
- 
---
+Takashi
