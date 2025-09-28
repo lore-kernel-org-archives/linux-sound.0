@@ -1,133 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A00F204F8B;
-	Sun, 28 Sep 2025 03:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A89221554
+	for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 06:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759028888; cv=none; b=FUGkunQpj/PLOqkezvHyZ7sI8QN3xY+OiFjS4dzxm8ZeRx3gll9yy4KnzB/efjgBQ9Ua6rimTAxh6BUnaYpCzLJw+5V1zr3OQjmW6UYWzKyxGLocdhJ7mahou1vtpSQrjQctdYD/LDbWfp0kDeAFgQKAGyPLWeCLRfefWSX9jtg=
+	t=1759040924; cv=none; b=jlm2CK17QUQlJds7akl3bYtmEE/Z/xmcRt+7WU+i/EUZNdr9FXIIWeWn0baRgRP+WNLbzmDT5LdWPeC/0F+UxjdjfUuX6tC8xnrevEXp8pQ5pxWVCWF1CvbFLvEMex3wapAwNt/sh68bAyquf1mNLrJpih/dfs85ZnHcg4DBRvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759028888; c=relaxed/simple;
-	bh=LB0VBxfGlatGtA6+CtimRj7E4EIK0fuTYyW3+vO/KBo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZROnQXr9WbGZuy/GEvvS96nNK5XkTVrnsmEd/QVwUy5lMeK+ZaFIDTvQNYonGd33ZTh3haJqcL54iVvf5zsbW8iENnhKnbG7VJaJ7lTXW4EmZ5/IriK61GszdOMEjnw9EAQuya7oLvcdFlyF2q7Qzq/YmptuLHsi7QcJj3FV/EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZaH2ZJof; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759040924; c=relaxed/simple;
+	bh=hfU9k/wolxf7jfzzDXf7ZpBadhW/KnBM8Y7fK+igjuo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pd0hr6fHK5vDXQ21eomjnkoiba0zRKrSICDyyDCZosM8DOn5yMVR//yPIYpIXPFKn/6GuaM+gYkLj4uO2cCo4ddUx/Svp6wP1r8+FOATSIiS6/WrTsSWakPGlvEOi+SCrZviz0K0KDdQn9KkuASPdkd1GbMoiLr1s4GGu7uQ9tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+9jxZsg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2WYPk80I; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+9jxZsg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2WYPk80I; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZaH2ZJof"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E3478C116C6;
-	Sun, 28 Sep 2025 03:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759028887;
-	bh=LB0VBxfGlatGtA6+CtimRj7E4EIK0fuTYyW3+vO/KBo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ZaH2ZJofzREW8SMosYLPEtFMmLyQ5CwmmFIhdaMlNvHdfunXpyyu7xrvfwyc0VNno
-	 CBzN+JsIN+fh32WFjfh74mwo9vvSLFxcPBoCwh6CfGwzfw4hMTXygYTa6NcTFO4+nX
-	 Vc/WckF/UyMebaGbDs+KrqKKGszjCl3O8/tRzLefAVM5zWBBky9f75wo/ubkb6xFQj
-	 7s7YU05L4EzyzVafntRs5TQTY63Up2HOT/VdtMMKJ92Fiq5ukQf6No9v3zngjnD++M
-	 F4QChloha6anhtPJYlJ10XiOG7W1VkCKLncenCld/wIZnIyHysC0rY5WFhrIxhlfdB
-	 wJMACZqybh6yg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5880CAC5B0;
-	Sun, 28 Sep 2025 03:08:07 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Sun, 28 Sep 2025 11:08:01 +0800
-Subject: [PATCH v6 3/4] ALSA: usb-audio: make param quirk_flags change-able
- in runtime
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+9jxZsg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2WYPk80I";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+9jxZsg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2WYPk80I"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C9F248D225;
+	Sun, 28 Sep 2025 06:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759040919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P88UpOD1tIxQy+jxeUn6n/DaQbo2INeizIF9Urj2U58=;
+	b=R+9jxZsgr2/Uq4ASlIAbAWRGn5ucG4uWD0EMvSIwzeSdDjt0k6bK3LMhTDmgfNWhDYhOy5
+	5uX6NC5g/UHnTH67NmzjzSFamG01jMLSPaftE3CI20JsB9qmCp5oCK+Ak/Ok1dCJSmqMr7
+	LOR40V/fBgRNfuabVIWLWkVoTzcIlwo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759040919;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P88UpOD1tIxQy+jxeUn6n/DaQbo2INeizIF9Urj2U58=;
+	b=2WYPk80IkXbrspPGWlIdWkuOeCY01t3/XAgeXnGbbtGeNDQrmY9aEvFrTn/itSmaGnh8WS
+	qAc32ejAJo/MipCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759040919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P88UpOD1tIxQy+jxeUn6n/DaQbo2INeizIF9Urj2U58=;
+	b=R+9jxZsgr2/Uq4ASlIAbAWRGn5ucG4uWD0EMvSIwzeSdDjt0k6bK3LMhTDmgfNWhDYhOy5
+	5uX6NC5g/UHnTH67NmzjzSFamG01jMLSPaftE3CI20JsB9qmCp5oCK+Ak/Ok1dCJSmqMr7
+	LOR40V/fBgRNfuabVIWLWkVoTzcIlwo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759040919;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P88UpOD1tIxQy+jxeUn6n/DaQbo2INeizIF9Urj2U58=;
+	b=2WYPk80IkXbrspPGWlIdWkuOeCY01t3/XAgeXnGbbtGeNDQrmY9aEvFrTn/itSmaGnh8WS
+	qAc32ejAJo/MipCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93ACE13A3F;
+	Sun, 28 Sep 2025 06:28:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zYlZIpfV2GjRFwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 28 Sep 2025 06:28:39 +0000
+Date: Sun, 28 Sep 2025 08:28:39 +0200
+Message-ID: <87a52f9jl4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: broonie@kernel.org
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 0/2] ALSA ASoC/HDA: cs35l56: Add support for B2 silicon
+In-Reply-To: <87cy7cba2y.wl-tiwai@suse.de>
+References: <20250923130326.510570-1-rf@opensource.cirrus.com>
+	<87cy7cba2y.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250928-sound-v6-3-7da6e5982432@uniontech.com>
-References: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
-In-Reply-To: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
- kernel@uniontech.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia@uniontech.com>, Takashi Iwai <tiwai@suse.de>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1759028886; l=2371;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=5AZ8qoRZXO0BUCPWWDvotB46JtFmUotG234iZIRjw4Y=;
- b=hHxiRHqOCdray7vQeCQ6uIlfgLX91sBf7tAYsF6YdOccMiacn0u887MlaJtLN84f8/MHQlqKP
- BhR6AK4Lgt3Cd0D3jQqrgrdiCXj24P0aAMoFxPPM7nzMosMnVqOflX9
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Sat, 27 Sep 2025 09:58:45 +0200,
+Takashi Iwai wrote:
+> 
+> On Tue, 23 Sep 2025 15:03:24 +0200,
+> Richard Fitzgerald wrote:
+> > 
+> > This series adds support for the latest (B2) revision of cs35l56.
+> > 
+> > Most of the code is in ASoC, but there are some trivial changes
+> > needed to the HDA drivers. They are to prevent build breaks so
+> > they have been included in the ASoC patch.
+> > 
+> > Richard Fitzgerald (2):
+> >   ASoC: cs35l56: Set fw_regs table after getting REVID
+> >   ASoC: cs35l56: Add support for CS35L56 B2 silicon
+> 
+> Mark, shall I apply those patches to my tree?
+> They seem cleanly applicable.
 
-Change its permision from 0644 to 0444, and add runtime processing.
-
-Developers now can change it during sysfs, without rebooting, for
-debugging new buggy devices.
-
-Co-developed-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- sound/usb/card.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
-
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 66c6c92fa9e8d2d04cc297a3dc8de9c8a2e99465..1d5a65eac9335028cfeabd2d80b389e364477387 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -103,13 +103,32 @@ module_param_array(delayed_register, charp, NULL, 0444);
- MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
- module_param_array(implicit_fb, bool, NULL, 0444);
- MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
--module_param_array(quirk_flags, charp, NULL, 0444);
--MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
- module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
- 
-+/* protects quirk_flags */
-+static DEFINE_MUTEX(quirk_flags_mutex);
-+
-+static int param_set_quirkp(const char *val,
-+			    const struct kernel_param *kp)
-+{
-+	guard(mutex)(&quirk_flags_mutex);
-+	return param_set_charp(val, kp);
-+}
-+
-+static const struct kernel_param_ops param_ops_quirkp = {
-+	.set = param_set_quirkp,
-+	.get = param_get_charp,
-+	.free = param_free_charp,
-+};
-+
-+#define param_check_quirkp param_check_charp
-+
-+module_param_array(quirk_flags, quirkp, NULL, 0644);
-+MODULE_PARM_DESC(quirk_flags, "Add/modify USB audio quirks");
-+
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-  * the all interfaces on the same card as one sound device.
-@@ -696,6 +715,8 @@ static void snd_usb_init_quirk_flags(int idx, struct snd_usb_audio *chip)
- {
- 	size_t i;
- 
-+	guard(mutex)(&quirk_flags_mutex);
-+
- 	/* old style option found: the position-based integer value */
- 	if (quirk_flags[idx] &&
- 	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
-
--- 
-2.51.0
+Assuming that they didn't get merged in ASoC tree, I picked up them
+now.  Both applied to for-next branch.
 
 
+thanks,
+
+Takashi
