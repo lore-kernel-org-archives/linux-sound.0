@@ -1,164 +1,173 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AA71DF73C
-	for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 06:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3401B040D;
+	Sun, 28 Sep 2025 09:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759041427; cv=none; b=mIavRQ9T7FJs1DyhAVWAmZmnN8ma+9/Aw1OA0hsbOGW1PAd/0RIGVOH0xH6/avFkC+CEgt8BVfIcJssT3bDfUBiPNPFDmGWYlKMh0nkhiYIRS03xJgYf4VmykYwi+V4HrhT567cHzSgSj7aaGn6bk6ZgZnFk5MiupxfaJVoYxfg=
+	t=1759050988; cv=none; b=PMSPsdjOoyTwJ1clWHg2xDF2vVg6H+JCxl/pNAjZD9KTnvePIzCGFw2UngsKBDRcMlKry95AbL5AH0GDi6U7nEkTJgkUKpD0vYjFfwpLlDnNJ6x+1q2hFJ3XIkyJ5JpoOpw9elRY+l04s5whksiOycvfd+VfO+0UChzcplXC7O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759041427; c=relaxed/simple;
-	bh=u3UkN2UIMLVqvd6wFyt6mK9hHNUfpSwCJiEhDxGdp4E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bwTmi2nBauW3prnTb+WrQUccEZdgYFxSP5Qlgi6D23AHir49P0bTabhoVOAeNoUzI7fwBhuIT5nVxpcNUMKNtakk/AdaLvR7IgHHT5ZQpQmV5tuMlmCkGRbbu34SHyFRsCFVX0bGVvXR0AjleQhesZ0L2LMfu+yZlHYKP3V8JDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y9+k0VK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CNCFATm2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y9+k0VK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CNCFATm2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759050988; c=relaxed/simple;
+	bh=WO7Z27tSHE6owtiehN79kmQW9T13C+BHAgmOEsVzu04=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XTQ0UrWR1m3r3jeaC9MqfENIVEHbaxP2ZK49frpQEufnNXXVm5Lh505hZH7Vz00VU/+rUfasg1GvQHB1bEtBVTrdUBM+nORskdAnRF8WTzig1XDq+XGMaQxrmfnx/q7+YzPCwLIBtUCpIdzSDSFp0xtPBOjrZ2XsCWEb/Nw1NxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZxCgX/0Y; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y9+k0VK3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CNCFATm2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y9+k0VK3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CNCFATm2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BDB2A506F;
-	Sun, 28 Sep 2025 06:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759041423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lz+JsWzUlf9UhVcRJddbz99nd/mipsYFBQq3Gk4nz1E=;
-	b=Y9+k0VK3d1oqbtqQEAltpFUoJEOE9phkVN8fQettXrT+QOybKdM12J7uL3M/c2FSaZJT7u
-	OU+8nnWJ4jd9dXT6WymreJ0ugF101Aa/mailkja+MNXKAWJ/v6DZoeDlK9/rptTC2HIEYA
-	qqOkFfvBCr4DvAIgLC92uv4cPJvLulc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759041423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lz+JsWzUlf9UhVcRJddbz99nd/mipsYFBQq3Gk4nz1E=;
-	b=CNCFATm2xzbBSxylRHDgr4tQaKPpHiJTLYUx9ragm7fQKoy1/J6zF37KU8lhSwIgEHcd+F
-	AxUDvCC0A5kW71AQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759041423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lz+JsWzUlf9UhVcRJddbz99nd/mipsYFBQq3Gk4nz1E=;
-	b=Y9+k0VK3d1oqbtqQEAltpFUoJEOE9phkVN8fQettXrT+QOybKdM12J7uL3M/c2FSaZJT7u
-	OU+8nnWJ4jd9dXT6WymreJ0ugF101Aa/mailkja+MNXKAWJ/v6DZoeDlK9/rptTC2HIEYA
-	qqOkFfvBCr4DvAIgLC92uv4cPJvLulc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759041423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lz+JsWzUlf9UhVcRJddbz99nd/mipsYFBQq3Gk4nz1E=;
-	b=CNCFATm2xzbBSxylRHDgr4tQaKPpHiJTLYUx9ragm7fQKoy1/J6zF37KU8lhSwIgEHcd+F
-	AxUDvCC0A5kW71AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CA1A13A3F;
-	Sun, 28 Sep 2025 06:37:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Xz/4EI/X2Gj2GQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 28 Sep 2025 06:37:03 +0000
-Date: Sun, 28 Sep 2025 08:37:02 +0200
-Message-ID: <874isn9j75.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: cryolitia@uniontech.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>,
-	qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v6 0/4] ALSA: usb-audio: improve module param quirk_flags
-In-Reply-To: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
-References: <20250928-sound-v6-0-7da6e5982432@uniontech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZxCgX/0Y"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58S9Fo5L2465593;
+	Sun, 28 Sep 2025 04:15:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1759050950;
+	bh=R2ArzWR5Ub6mQ0s7zPGpsiwGYk24aZaU/fNB1tecknM=;
+	h=From:To:CC:Subject:Date;
+	b=ZxCgX/0YuJRCrYXeCBFnB4vcpBaFbE+qjp8x/zvE0067xAr2lxIo2OqGF0JKNxB48
+	 uQ7tALujY96as+YmODriFNMfeFLBaoDES6dfp+LbkUT19sbKnz30xml6WqAAiroI19
+	 2Vy4XX9K+4C04CFQ7+5QMkWfRh67D8MwRYto6PX8=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58S9Fo7j526884
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Sun, 28 Sep 2025 04:15:50 -0500
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sun, 28
+ Sep 2025 04:15:50 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE204.ent.ti.com
+ (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sun, 28 Sep 2025 04:15:50 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58S9FbHr3697526;
+	Sun, 28 Sep 2025 04:15:39 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>, <tiwai@suse.de>
+CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
+        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <k-yi@ti.com>, <henry.lo@ti.com>,
+        <robinchen@ti.com>, <jesse-ji@ti.com>, <will-wang@ti.com>,
+        <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v3 1/2] ASoC: tas2781: Support two newly-released amplifiers tas5815 and tas5828 in the driver
+Date: Sun, 28 Sep 2025 17:15:13 +0800
+Message-ID: <20250928091514.12349-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Sun, 28 Sep 2025 05:07:58 +0200,
-Cryolitia PukNgae via B4 Relay wrote:
-> 
-> As an implementation of what has been discussed previously[1].
-> 
-> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
-> 
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> ---
-> Changes in v6:
-> - Apply review commens, details corrected and wording revised
-> - Link to v5: https://lore.kernel.org/r/20250925-sound-v5-0-2593586ff350@uniontech.com
-> 
-> Changes in v5:
-> - Apply review comments. Thanks a lot, Takashi Iwai!
-> - Link to v4: https://lore.kernel.org/r/20250918-sound-v4-0-82cf8123d61c@uniontech.com
-> 
-> Changes in v4:
-> - Split basic parse and dynamic change
-> - Drop usage of linked list
-> - Link to v3: https://lore.kernel.org/r/20250917-sound-v3-0-92ebe9472a0a@uniontech.com
-> 
-> Changes in v3:
-> - Instead of a new param, improve the existed one.
-> - Link to v2: https://lore.kernel.org/r/20250912-sound-v2-0-01ea3d279f4b@uniontech.com
-> 
-> Changes in v2:
-> - Cleaned up some internal rebase confusion, sorry for that
-> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
-> 
-> ---
-> Cryolitia PukNgae (4):
->       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
->       ALSA: usb-audio: improve module param quirk_flags
->       ALSA: usb-audio: make param quirk_flags change-able in runtime
->       ALSA: doc: improved docs about quirk_flags in snd-usb-audio
+TAS5815/TAS5828 has on-chip DSP without current/voltage feedback.
 
-Now applied all four patches.  Thanks!
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
+---
+v3:
+ - Rewrite the patch title
+ - Add for TAS5815 support
+v2:
+ - Update description for TAS5828
+ - Change commit tree to .../tiwai/sound.git
+---
+ include/sound/tas2781.h        |  2 ++
+ sound/soc/codecs/tas2781-i2c.c | 16 ++++++++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-Takashi
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index ddd997ac3..8675ceeaf 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -120,8 +120,10 @@ enum audio_device {
+ 	TAS2570,
+ 	TAS2572,
+ 	TAS2781,
++	TAS5815,
+ 	TAS5825,
+ 	TAS5827,
++	TAS5828,
+ 	TAS_OTHERS,
+ };
+ 
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 1539b7088..0f5e6c85e 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -108,8 +108,10 @@ static const struct i2c_device_id tasdevice_id[] = {
+ 	{ "tas2570", TAS2570 },
+ 	{ "tas2572", TAS2572 },
+ 	{ "tas2781", TAS2781 },
++	{ "tas5815", TAS5815 },
+ 	{ "tas5825", TAS5825 },
+ 	{ "tas5827", TAS5827 },
++	{ "tas5828", TAS5828 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, tasdevice_id);
+@@ -124,8 +126,10 @@ static const struct of_device_id tasdevice_of_match[] = {
+ 	{ .compatible = "ti,tas2570" },
+ 	{ .compatible = "ti,tas2572" },
+ 	{ .compatible = "ti,tas2781" },
++	{ .compatible = "ti,tas5815" },
+ 	{ .compatible = "ti,tas5825" },
+ 	{ .compatible = "ti,tas5827" },
++	{ .compatible = "ti,tas5828" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, tasdevice_of_match);
+@@ -1665,8 +1669,10 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	}
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+ 
+-	/* There is no calibration required for TAS5825/TAS5827. */
+-	if (tas_priv->chip_id < TAS5825) {
++	/* There is no calibration required for
++	 * TAS5815/TAS5825/TAS5827/TAS5828.
++	 */
++	if (tas_priv->chip_id < TAS5815) {
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
+ 		if (ret) {
+ 			dev_err(tas_priv->dev, "cali controls error\n");
+@@ -1720,8 +1726,10 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 		switch (tas_priv->chip_id) {
+ 		case TAS2563:
+ 		case TAS2781:
++		case TAS5815:
+ 		case TAS5825:
+ 		case TAS5827:
++		case TAS5828:
+ 			/* If DSP FW fail, DSP kcontrol won't be created. */
+ 			tasdevice_dsp_remove(tas_priv);
+ 		}
+@@ -1882,8 +1890,10 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ 		p = (struct snd_kcontrol_new *)tas2781_snd_controls;
+ 		size = ARRAY_SIZE(tas2781_snd_controls);
+ 		break;
++	case TAS5815:
+ 	case TAS5825:
+ 	case TAS5827:
++	case TAS5828:
+ 		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
+ 		size = ARRAY_SIZE(tas5825_snd_controls);
+ 		break;
+@@ -2054,8 +2064,10 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
+ 	{ "TXNW2570", TAS2570 },
+ 	{ "TXNW2572", TAS2572 },
+ 	{ "TXNW2781", TAS2781 },
++	{ "TXNW5815", TAS5815 },
+ 	{ "TXNW5825", TAS5825 },
+ 	{ "TXNW5827", TAS5827 },
++	{ "TXNW5828", TAS5828 },
+ 	{},
+ };
+ 
+-- 
+2.25.1
+
