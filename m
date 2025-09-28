@@ -1,89 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1E2261B9D
-	for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 06:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8904B221554
+	for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 06:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759040962; cv=none; b=qtK7A485OItSjw8vhSzpoDSXNypMk27JyHqNQ5XtSCSotjhGB5GEMzRwQ3ZjvHIKHLzRhvEiRfB78W6cVBgB83Jj3bYRKEIp4GIz8+8/Zckbzq6QUpbj0od/Fr9FlsFhFLO8Vciu7pkN0a99x3OO9vDVAtbzCRNatbkTHlFvWuM=
+	t=1759040991; cv=none; b=liuV9D/yasQwtI1q1a4HKIq8woRvc/dASBjaIOkWSlQHhexx3xJhDCpcAYMrVoS+kLnUOK5sha5AqA7F59/eguAURSFIQTYLjQCCCN4r5hs+OT+PvguZ3KMgiQBC/maw428dSp60S7YQxBC2+CnF9BfHtRAiYxGvMezs9a4c1lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759040962; c=relaxed/simple;
-	bh=Q0kSqx2RD66kEUb1EsQN0f7j2i7OKh54zm7op4xLdmI=;
+	s=arc-20240116; t=1759040991; c=relaxed/simple;
+	bh=hBE5n/dIhV0fhb+AaMeOO4UUmnzJsoNYDXdxRu6AARc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nqOZATiP8JHpYpZuRcPw3JUffLOJBhPLvqOOJFi4OEE4dbqpggKjwxv0pyXMtQyr8dpUwCL1xGdDgmDwbWGslh5Wv/sFB8zRSGYdOeXlYKhI1mV1tMl3aiufvUaxUSkfi4OxS8EX22ksAqNKn/ZMH4+F2z09TlJRDaSF6WxvN5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q4NxVItG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gopsC9IK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TEvM++pd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ItAED/os; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=SVLL+MBT0LgYT1ar1NCKNS+LH5bQKwhQYucIbodbH5tQvtZqEJTfmTYMH4dnfAMI8ZEXtmMTefe9tWG6hdzDcYuoLRDwkFjieGOW96LEkgEOhj2SjAmXbKqdAwHYyI0/Dm7LvKQK5jleGMarH2B5Do9MiLrIUGvHeF7yQNDJT/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X+edKEJa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=R6czpG1W; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X+edKEJa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=R6czpG1W; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q4NxVItG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gopsC9IK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TEvM++pd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ItAED/os"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X+edKEJa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R6czpG1W";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X+edKEJa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="R6czpG1W"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D46BA2563A;
-	Sun, 28 Sep 2025 06:29:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DAAA34ED00;
+	Sun, 28 Sep 2025 06:29:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759040959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759040987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ngrdxtMZBo1xK420PZQQilcWY5XFDxsEVChCdjz86kk=;
-	b=q4NxVItGu7Ch952v8Ff5EgwyIWw5SxbGd4w+VyGB2SgpE0lPnKnm63Dz6/vRoSIJSaBBzi
-	wRnn+lzbG7v+hter7J51BnYi8FrOsApPYJKkdB0FzuK50FN/l/knTfNZhLE58vwfxY/slX
-	Nwxp5Ie53JZNVNJf4YSs0kitefuRNTQ=
+	bh=3El6M0yNj/K/wyfEbfxWxa3CoO1ZDauZZg0JaAFTwZ8=;
+	b=X+edKEJaUCTvDsaziEFapKrjhxTFQJ+ErfJNHTQMAngRcWyYANohhLBNXWotZjyKoYsBlP
+	K4hP3bD0YVWZpjrD0gFV78uz+OxCo9l0N/PY3lciY1XEtOmyosIjh+f+wT5L+vaputRakl
+	uq8yF2lCgsalzZ34YNL+CzKuifuxR1Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759040959;
+	s=susede2_ed25519; t=1759040987;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ngrdxtMZBo1xK420PZQQilcWY5XFDxsEVChCdjz86kk=;
-	b=gopsC9IKNjWBT3MXsbGGtMnbTEeENbx5fpngFczUSTQGDCT8NdVcpKUsltcJTAHVq+HQYf
-	xdDBsq1fjnYGFJAw==
+	bh=3El6M0yNj/K/wyfEbfxWxa3CoO1ZDauZZg0JaAFTwZ8=;
+	b=R6czpG1W6anPOugSR5X2XmQciyMBczgFLMI/L/63DxY2oeYTzW+9Zhah0Ndm1VgXKgf3pH
+	rWYFp3Kv5C8TiuAQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TEvM++pd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="ItAED/os"
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=X+edKEJa;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=R6czpG1W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759040958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759040987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ngrdxtMZBo1xK420PZQQilcWY5XFDxsEVChCdjz86kk=;
-	b=TEvM++pdkF9mjdBSfSYkidEahgRIpQ9McTU3d19jNooc+CFWJ4HKCCRSj93mUHU7gAn3HL
-	mRhqFBxG5If+mTwbuYZtonIfKoKVWBBiLzVZxEEbLO5DQsQDo2JPCoK5U8NEjLIkV0DybV
-	4KjU55/+H0emiyEnDiXjF9x24JpP5oc=
+	bh=3El6M0yNj/K/wyfEbfxWxa3CoO1ZDauZZg0JaAFTwZ8=;
+	b=X+edKEJaUCTvDsaziEFapKrjhxTFQJ+ErfJNHTQMAngRcWyYANohhLBNXWotZjyKoYsBlP
+	K4hP3bD0YVWZpjrD0gFV78uz+OxCo9l0N/PY3lciY1XEtOmyosIjh+f+wT5L+vaputRakl
+	uq8yF2lCgsalzZ34YNL+CzKuifuxR1Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759040958;
+	s=susede2_ed25519; t=1759040987;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ngrdxtMZBo1xK420PZQQilcWY5XFDxsEVChCdjz86kk=;
-	b=ItAED/oslU9XVQ3tAenAat9JhQysNgyczmcQ3NqOj9sBLffdjuNkL3yEAKFdi+7oXmAfNl
-	9bv18d8B5KOVi5BQ==
+	bh=3El6M0yNj/K/wyfEbfxWxa3CoO1ZDauZZg0JaAFTwZ8=;
+	b=R6czpG1W6anPOugSR5X2XmQciyMBczgFLMI/L/63DxY2oeYTzW+9Zhah0Ndm1VgXKgf3pH
+	rWYFp3Kv5C8TiuAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95C8C13A3F;
-	Sun, 28 Sep 2025 06:29:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B91A613A3F;
+	Sun, 28 Sep 2025 06:29:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id He0iI77V2Gj7FwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 28 Sep 2025 06:29:18 +0000
-Date: Sun, 28 Sep 2025 08:29:18 +0200
-Message-ID: <878qhz9jk1.wl-tiwai@suse.de>
+	id LWXPK9vV2GgZGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 28 Sep 2025 06:29:47 +0000
+Date: Sun, 28 Sep 2025 08:29:47 +0200
+Message-ID: <877bxj9jj8.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: compress: document 'chan_map' member in snd_dec_opus
-In-Reply-To: <20250927142708.1097601-1-kriish.sharma2006@gmail.com>
-References: <20250927142708.1097601-1-kriish.sharma2006@gmail.com>
+To: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: usb-audio: add mono main switch to Presonus S1824c
+In-Reply-To: <aNgCYm_b3IFmtbJ2@ark>
+References: <aNgCYm_b3IFmtbJ2@ark>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,63 +87,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	BAYES_HAM(-2.99)[99.93%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,linaro.org,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[3];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: D46BA2563A
+X-Rspamd-Queue-Id: DAAA34ED00
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Spam-Score: -2.01
+X-Spam-Score: -3.50
 
-On Sat, 27 Sep 2025 16:27:08 +0200,
-Kriish Sharma wrote:
+On Sat, 27 Sep 2025 17:27:30 +0200,
+Roy Vegard Ovesen wrote:
 > 
-> When building kernel docs, the following warning appeared:
+> The 1824c does not have the A/B switch that the 1810c has,
+> but instead it has a mono main switch that sums the two
+> main output channels to mono.
 > 
->   WARNING: ./include/uapi/sound/compress_params.h:364
->   struct member 'chan_map' not described in 'snd_dec_opus'
-> 
-> The inline struct 'snd_dec_opus_ch_map' inside 'snd_dec_opus' was not
-> properly documented. This patch documents the 'chan_map' member and its
-> fields (stream_count, coupled_count, channel_map), resolving the warning.
-> 
-> Fixes: 5d36370f3431 ("ALSA: compress: add raw opus codec define and opus decoder structs")
-> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
-> 
-> v2:
->   - Use proper subject prefix ("ALSA: compress: ...")
->   - Add Fixes tag for the commit that introduced snd_dec_opus
->   - Add Suggested-by tag (Bagas Sanjaya)
+> Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
 
 Thanks, applied now.
 
