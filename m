@@ -1,139 +1,141 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0024016A956
-	for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 16:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6153A1DB
+	for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 00:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759078014; cv=none; b=PY5isHKMw+Dkg92m5oo0Ktq1SmG/WTkJYYvWv+TWW8QaaWpK+LZhiarSkEGdkKsTnW4E7WhIRgf1MCVO4/StE8YXYmcf9WbAMeW6utzKNDchoXDWfmsDxftPcRliPU6XkpZtDlDUBOO/6Z+78r/Y883I1IDiMBIjflqbfSjk3J8=
+	t=1759106798; cv=none; b=eKFfjVZuJeNmJ5/gYmK/Mb3eJB0gx2vsS00iHkdNvHMEFzoO0nvVLZXQQE9aKn9VFlEY5SxFStJGNMCh2MTke7bMACkGkZDyfSUPx6xAcD3BdSMl2OYYEWMijkTNwkOZ1fa7vLyB0zd5cDknSmCWi6zNCEJ6Bkhw3SQEJyrE/d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759078014; c=relaxed/simple;
-	bh=gnwJ+K8srNdqC1VWMSJECjCeZLd84FqhOTynejNRUYk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Upsou9+U+Q/G9cYbqIKjmrk8HBPxXKD7Y/rLv0ja5qpn8XdcKN/U2fDQIgQTem4CPOpunclnvx8KQ64tMx7XRFcxd2tE1UX235IYI+fOKPfJyw+MmcC+ows/BaPdjjAH3fZqIOSHxercKCSYPz7zeeIQQjlFw/QiDodIiugwX1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yHckxlGi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=385dGQ1m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yHckxlGi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=385dGQ1m; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759106798; c=relaxed/simple;
+	bh=rdX5rxOFR4bMFbQQD4C1LhnbWJzkYUPr5Gt8qv0mVnM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PSvkQWWec5N871cedMsxx19rDTGviyXjiUzn2g6g6kGdBVARMfHk9AvAidQQlBB+iOfi4kC5B0q9YBjAXB8BlYgrk6YS/RUnSukZVQcYMYPUpIPKjSVgjKgpgfBU9XV9Vi/OdQVaVVHs4f2wsawe65B22XHUcSWps3xnHDNYWo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fE45z1bn; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yHckxlGi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="385dGQ1m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yHckxlGi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="385dGQ1m"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9D1D428A74;
-	Sun, 28 Sep 2025 16:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759078010; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RNjgo/X7viv1++FuQoXx0ddAlL3v7tMHeFlpRWiVZNM=;
-	b=yHckxlGiyGcSHmzOcU+TI2IKMiUEc/eRH2RTTVwoaXYvBCFBM50FbojGM3NvblHUH6o+xA
-	auk/s+HYnmorFh/h6cJFOfaxGupOBeb3Qoi0hKLiCzaKh9u5L/FgKsKPQEGj7mTaNVAChs
-	g/+LGL+1eO848iwvs9FIXAblRta9wPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759078010;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RNjgo/X7viv1++FuQoXx0ddAlL3v7tMHeFlpRWiVZNM=;
-	b=385dGQ1mdOnQDMVyDAe519az2Vg0UNW6lv0QItFygabWD4LSsDMqZP7gvc8nqlhNqv3tja
-	2MS1soIggcXnZZCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yHckxlGi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=385dGQ1m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759078010; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RNjgo/X7viv1++FuQoXx0ddAlL3v7tMHeFlpRWiVZNM=;
-	b=yHckxlGiyGcSHmzOcU+TI2IKMiUEc/eRH2RTTVwoaXYvBCFBM50FbojGM3NvblHUH6o+xA
-	auk/s+HYnmorFh/h6cJFOfaxGupOBeb3Qoi0hKLiCzaKh9u5L/FgKsKPQEGj7mTaNVAChs
-	g/+LGL+1eO848iwvs9FIXAblRta9wPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759078010;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RNjgo/X7viv1++FuQoXx0ddAlL3v7tMHeFlpRWiVZNM=;
-	b=385dGQ1mdOnQDMVyDAe519az2Vg0UNW6lv0QItFygabWD4LSsDMqZP7gvc8nqlhNqv3tja
-	2MS1soIggcXnZZCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76C8E13A3F;
-	Sun, 28 Sep 2025 16:46:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id of86G3pm2WglNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 28 Sep 2025 16:46:50 +0000
-Date: Sun, 28 Sep 2025 18:46:50 +0200
-Message-ID: <87ecrq8qyt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fE45z1bn"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b550a522a49so3641594a12.2
+        for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 17:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759106796; x=1759711596; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QFHbiqQfhUKp1tZTIjHf7LJ+06KegZD5xVXk100wkJA=;
+        b=fE45z1bnTZfZ0A+fscHZyYq0fSwu8PZG+NK2Gk8bnKN93+RypdriSFILVeMJ8Lrs57
+         nCm0afziN2g6YUiA9PUWZuPxNa61bsN+/UnOpc6AaQgsalrfDn+2Byok/5eJQ/RgHKYn
+         jb8lgcb66COAh/3U8L+R/g7Tjz51ezMYj/o44VJTF8A4IzpglM04+5LFLr3TGnaqZGHp
+         4IJWW/qIgCooHpdFLI/5gkJTB34Kjyn8ci5pHt71MNhEKZidEBO91ReCSAGma0zU4R5S
+         F15IKFVJ6qRbqpXG0lJ1qH5pVXbOXYgs0B8Y2OVvwHUIlh/Ig9ncYRnJGi+WuY4UEb8q
+         FRug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759106796; x=1759711596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QFHbiqQfhUKp1tZTIjHf7LJ+06KegZD5xVXk100wkJA=;
+        b=JyiHsKcLyWHFwGfXLPRTEQkDPphtPq2rJZ8Wkg/bwTMrMD7LYG4laF5wkzuQX8M4By
+         MJZ+uOeP92dpDqpZa5Ntum/HCvjnSCJpL8KR7Gg+nTtrbHaUY6DTrDmlnwHq3rxbAt4A
+         3lXTXjxRDBDF0o93RUtU4Wz2KJH7SV2yxivBYgSdB7kqzPqploL1A8KzTdfLkgz0GtX4
+         rqyqJeulU2NVLdgRwqb6SgFQviDJ7JrucJLUU5jepohm8zYQUcAzoKxCoC6koKmcbY3o
+         nTDH0tsGHA7o0Tni11wiBkxi5HFpugAUADdvo6fzLnesEplw2vNZTyjLvvaI3VyLHJIG
+         sm8A==
+X-Gm-Message-State: AOJu0YyvSmaBtxfXXOqPB5/I5x6n0ea5mtgQXaWf34+r/wIKRdfqV9BV
+	xMNrfqM7zYY2V089wb1A9dozwkz+DDeLeCES844Sj70zFo47IvSts6Su
+X-Gm-Gg: ASbGncszppQ+E85Jlqsu7G0HF//0hBtXBjqlJdNoidJ8WKnlg1ZF65iBGbpg91QKpSg
+	NHjQaV9qdUZvStBXHRPBZRkB+Eq78NVRXufJQyFI8l+e8Ruj7rIOrNHxD+g4KcWQY0slNlwIcVa
+	E86KtFftEZ11MKGkNSuDo0kc5NtYNcQUOdk2MZdherpi35YTKuNcol9Bvp6+HyJ6vAmXuhPkXam
+	9ox6eKml5jykO4Ngbk21fvtiwevS5v1/lgyGQUP7+JYFZwZZqB3xRJCU/78mL60k1KkuNQ3dtQS
+	XtBVaPm+CPvP8wMSEaV5wosxZbwb+DHYO4gXMWTgufoyIJj1PwL7jYygNBrePLClIG34ntkiWR0
+	TSza6Wn/CsXCBDXb+iBC2NrCdifsjAlo/TA==
+X-Google-Smtp-Source: AGHT+IEYlOtRagpQCwasN9hrI6/tZf+R6mLErlpBo5fsnQRiR18Dra82gS14Ip3nHZa4PSt+uxMcgQ==
+X-Received: by 2002:a17:902:8208:b0:274:aab9:4ed4 with SMTP id d9443c01a7336-27ed4a670f1mr118045785ad.57.1759106795744;
+        Sun, 28 Sep 2025 17:46:35 -0700 (PDT)
+Received: from fedora ([172.59.161.218])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6882290sm110877515ad.76.2025.09.28.17.46.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Sep 2025 17:46:35 -0700 (PDT)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH 0/2] ALSA: usb-audio: add the initial mix for Presonus Studio 1824c
-In-Reply-To: <cover.1759059196.git.roy.vegard.ovesen@gmail.com>
-References: <cover.1759059196.git.roy.vegard.ovesen@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH v1] ASoC: codecs: rt5670: use SOC_VALUE_ENUM_SINGLE_DECL for DAC2 L/R MX-1B
+Date: Sun, 28 Sep 2025 17:46:25 -0700
+Message-ID: <20250929004625.1310721-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9D1D428A74
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 28 Sep 2025 13:37:44 +0200,
-Roy Vegard Ovesen wrote:
-> 
-> This adds a reaonable initial mix for the Presonus Studio 1824c.
-> 
-> The main reason for submitting a patchset is for me to practice
-> the different patch submit variants.
-> 
-> Roy Vegard Ovesen (2):
->   ALSA: usb-audio: add the initial mix for Presonus Studio 1824c
->   ALSA: usb-audio: don't hardcode gain for output channel of Presonus
->     Studio
+DAC2 L/R source selection fields (MX-1B [6:4] and [2:0]) contain non
+contiguous values due to reserved bits documented in datasheet (page 66):
+<https://www.elinfor.com/pdf/RealtekMicroelectronics/ALC5670-VB-
+RealtekMicroelectronics.pdf>
 
-Applied both patches now.  Thanks.
+Switch from SOC_ENUM_SINGLE_DECL to SOC_VALUE_ENUM_SINGLE_DECL
+to handle discrete values.
 
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+ sound/soc/codecs/rt5670.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-Takashi
+diff --git a/sound/soc/codecs/rt5670.c b/sound/soc/codecs/rt5670.c
+index efd26082f..4c75a3e71 100644
+--- a/sound/soc/codecs/rt5670.c
++++ b/sound/soc/codecs/rt5670.c
+@@ -1153,25 +1153,29 @@ static SOC_ENUM_SINGLE_DECL(rt5670_dac1r_enum, RT5670_AD_DA_MIXER,
+ static const struct snd_kcontrol_new rt5670_dac1r_mux =
+ 	SOC_DAPM_ENUM("DAC1 R source", rt5670_dac1r_enum);
+ 
+-/*DAC2 L/R source*/ /* MX-1B [6:4] [2:0] */
+-/* TODO Use SOC_VALUE_ENUM_SINGLE_DECL */
+-static const char * const rt5670_dac12_src[] = {
+-	"IF1 DAC", "IF2 DAC", "IF3 DAC", "TxDC DAC",
+-	"Bass", "VAD_ADC", "IF4 DAC"
+-};
++/* DAC2 L source*/ /* MX-1B [6:4] */
++static const char *const rt5670_dac12_src[] = {
++	"IF1 DAC", "IF2 DAC", "TxDC DAC", "VAD_ADC"
++}; /* VAD_ADC or TxDP_ADC_R */
++
++static const unsigned int rt5670_dac12_values[] = { 0, 1, 3, 5 };
+ 
+-static SOC_ENUM_SINGLE_DECL(rt5670_dac2l_enum, RT5670_DAC_CTRL,
+-	RT5670_DAC2_L_SEL_SFT, rt5670_dac12_src);
++static SOC_VALUE_ENUM_SINGLE_DECL(rt5670_dac2l_enum, RT5670_DAC_CTRL,
++				  RT5670_DAC2_L_SEL_SFT, RT5670_DAC2_L_SEL_MASK,
++				  rt5670_dac12_src, rt5670_dac12_values);
+ 
+ static const struct snd_kcontrol_new rt5670_dac_l2_mux =
+ 	SOC_DAPM_ENUM("DAC2 L source", rt5670_dac2l_enum);
+ 
+-static const char * const rt5670_dacr2_src[] = {
+-	"IF1 DAC", "IF2 DAC", "IF3 DAC", "TxDC DAC", "TxDP ADC", "IF4 DAC"
+-};
++/*DAC2 R source*/ /* MX-1B [2:0] */
++static const char *const rt5670_dacr2_src[] = { "IF1 DAC", "IF2 DAC",
++						"TxDC DAC", "TxDP ADC" };
++
++static const unsigned int rt5670_dacr2_values[] = { 0, 1, 3, 4 };
+ 
+-static SOC_ENUM_SINGLE_DECL(rt5670_dac2r_enum, RT5670_DAC_CTRL,
+-	RT5670_DAC2_R_SEL_SFT, rt5670_dacr2_src);
++static SOC_VALUE_ENUM_SINGLE_DECL(rt5670_dac2r_enum, RT5670_DAC_CTRL,
++				  RT5670_DAC2_R_SEL_SFT, RT5670_DAC2_R_SEL_MASK,
++				  rt5670_dacr2_src, rt5670_dacr2_values);
+ 
+ static const struct snd_kcontrol_new rt5670_dac_r2_mux =
+ 	SOC_DAPM_ENUM("DAC2 R source", rt5670_dac2r_enum);
+-- 
+2.51.0
+
