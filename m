@@ -1,101 +1,162 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17FF21C167
-	for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 13:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DC41FBC91
+	for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 15:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759153080; cv=none; b=UT7i/ZwhXOHOAyQo3ztFSDjaecbeznJs3GDlVJJqXVrWn9P9PpyRW2fsFyyCpZ0R1u2hrJW5UYh5j4jYkscNsyU/JbUgvwXpPKsCwtN+1FR1vsI9Xx6lMOp1uJLmr3kcl/+DfT92m1nC299omrk0gJAIIXwwgWVF2Hl/rYCqn/A=
+	t=1759159265; cv=none; b=hCijxJIQ2yDtiNsaT6oOsB9MDanQnQYFVzOuN/2qoAY912RELpig8eXgxFWX163ATZju4w4fLgJb6G2XllIktBkO4G5LWXWC4nKjziktKnXq63T5uVcNsYo8JxNm1mWZDQHiT/mFRylIrvIQNDetLUCTuGx7fieFPrNXTitIenE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759153080; c=relaxed/simple;
-	bh=FY1LjOpDLpksUSLmXGZUKzGIe9ouVn1mPmzbxhAS2n8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H0loptWupNQCx38nzEOFwPjJYZEhSL6KsWtgTVqoBWJOatcPqlvZFrKAqE8WwpDw0km2yE9iYUJT342sAkHT0qMyA4aw3SR0T50KQ+q4jlIGVZxLY4Fq7ALSqjEYhM7ZbkQFXVVVbeS7w3Fpm2b27Vzk6G9sCiuEQv9zgqM9uGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzKy2w11; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759159265; c=relaxed/simple;
+	bh=3v2TfQCJs4o8QZ4YGTpw90iCi6ifi5act371SIi5GZo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iDR7nahSxw7pFm0GdbcVJZsLaKhhBLoctXPsUd4xdijFBgqZHUehg4Ux4VzsAiRahNgyWCG+rxYG6qwOG05UWEJttBxHwsQIZALzrdp9KP47/XzeNkVXuUPHCgtfXqlxJQSQKWj6YWgPTUS72QJQZKOr0nDJUAeyjOLq2zB8D1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gag0Ve2u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YHsf/9PX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WNULkeGz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0rsYj6ON; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzKy2w11"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-26e68904f0eso46084465ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 06:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759153078; x=1759757878; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXzHidEDJyzmTDhhwCWrD5gyTm2wXdwOJ8l86bMR2yA=;
-        b=EzKy2w11DZBdf8gqS0groFj2FauR0sR2+6P/SoYDYidj7ka533uWVnRkpPiw/+hRud
-         Tb8YCbjJepoyFXxLnvJX3l61lIu4S0LTDo0xyJzSdMRZrAk60cZjsze+6rNt2cXszcfy
-         7qL+MDIz782x7YoKkJpDabKOYqKFUQwhJPD9jf7t5+CzONCzGjBUcq/orD21y77npJ2l
-         GqrQJls38pd00U0fIQeaywmok3HLzRkZQjOGsl79JKqJAop5h2ZtWNg+8Aa4eSUHmb08
-         nwRvD55pQMxLVSL8Kb3IIpwKlAYdyvXF/8FyPhLEpTjarVtPvNJnx5Ymri5FpkSS71Zj
-         6ejg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759153078; x=1759757878;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OXzHidEDJyzmTDhhwCWrD5gyTm2wXdwOJ8l86bMR2yA=;
-        b=bHDapeJylJNm9YM9Iq0+UkqDrbl1+ezMoy7qo0Wq3QNuFv39pU9I02ps/oNiLrFldX
-         lZoLsZxlS9BNQG7go/hnyEbFxAW1ghMtecSilJ/hgbURjch8wob+Zwe+mr8Bp41PhmCQ
-         bEpSyAen1pFHSyPg8unLmXOU1FWk2/2PLuzCy/l2Ra0W2Fim3SQFaUjBTaGTf9kObvb7
-         EPua30zAEUcb0wUL4BFIdWXcSxd13VZHMeKVS0tK3/ZIjMGHgq/oAyYfMZYB7u4THARV
-         UaPKRSU+20UuboZe+SiEOBxB19sO5BCSFWxDC1d1BZ9HcDf6nsLn27p7YmXB15py1Bbb
-         BGBQ==
-X-Gm-Message-State: AOJu0YzlUV08I0fwpnqE+zP2LdB5WAUBBAuwSMS9iuKJ1RLxzRxTCz8c
-	vWjT4RHd+ORBgcwZi5j2eQwk185Vo1P1F5U4EQk/izTLyqufzqtM8DgN
-X-Gm-Gg: ASbGncswIxF1qwMB/u/3t5NNqPgr55thN13N2DtSR1CLxWF39o7VLz5VaEr+MktTXxp
-	4nQupL3VpHIiNU9P1raZLTQYYCoyyc8dBMJv1LOKGh8tGhOCRX2SJdZXi/oAWT7U7PIlAMkOlTn
-	h3zuSlMBQTyX3ZznaTTayf3KYoMps4BHHFcT8aCWPvbMUbYZ52lB+cz+/o2vDdOynJuzrtk253p
-	bUtJDtR6NUy6Vi6nOJQcEr+jiuvuVW3c2C1QCwTXaMHJXBiCvpYf8w8H0RKKjFJtX7UWouFNqE1
-	LBFNG8TpSpYYz/XxU/PiJ4xNdGuUIGfZ9TH0+J+YsK+Qx1ogA768ODhsy5x/h2itUtP1aehC81U
-	T0OpJ8plzR+G6Qg1xvGLIb+UddGcj
-X-Google-Smtp-Source: AGHT+IH4R/GxdVbMosbKSLCpbqs8Cb8AEuNL0zYMxkhHdazFExlSy3pz64QZN8YVF5/yYX8seCi2Iw==
-X-Received: by 2002:a17:903:3c6f:b0:286:d3c5:4d11 with SMTP id d9443c01a7336-286d3c554b6mr71165805ad.17.1759153077780;
-        Mon, 29 Sep 2025 06:37:57 -0700 (PDT)
-Received: from y740.local ([2401:4900:1f30:25ff:36cb:10ee:ba03:839f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed671732asm133290095ad.49.2025.09.29.06.37.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 06:37:57 -0700 (PDT)
-From: Sidharth Seela <sidharthseela@gmail.com>
-To: perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gag0Ve2u";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YHsf/9PX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WNULkeGz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0rsYj6ON"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E88E420C45;
+	Mon, 29 Sep 2025 15:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759159260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
+	b=Gag0Ve2uKGXAcEmv0TyeilNtipaNFyAtB0zCFPUcAyV/j/8jHZVZRWC8pks5SFX9rFkSkY
+	yP9UppphiSL0Qks10G6/GkBUebUZd32hgOinECnalDLnT0441GoVPjY0tD5zuUTzb3YBfY
+	lWsJhwy0z97gDfAwDZdUkFXw6jKPTgk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759159260;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
+	b=YHsf/9PXV2ftfXJiCTevlHIjNWiysYfpEFKYS5IBSCF+BEURPwKYIMJQNNmD9jxeSmcP7f
+	48IUjRh2tDS6J3DQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WNULkeGz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0rsYj6ON
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759159259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
+	b=WNULkeGzTnhSFqTLzvjWlKn5ZlmChhTG878rlmngUHQWBdgChaA9mEqt5OsvX2NS46R36R
+	bitYBmjS3QcYwafrTRWO2aX//0W/sW93sNpwLstFtAz0/vZ9jcrNZkisdvv5JxOWfokCTo
+	9tY6xBKNqCPJ1o2NbLRu+VSiCyf1BvQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759159259;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
+	b=0rsYj6ONHkqFXdcWP4spX2QPuqbBk1nDTwtjVewv86uZfP5g3ZDZrR26U7s+1ZYpcNcaJV
+	5eH/WjwWUr2u4CAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD8B213782;
+	Mon, 29 Sep 2025 15:20:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id i/L8KNuj2mhsQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Sep 2025 15:20:59 +0000
+Date: Mon, 29 Sep 2025 17:20:59 +0200
+Message-ID: <87bjmtmgis.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sidharth Seela <sidharthseela@gmail.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
 	zhujun2@cmss.chinamobile.com,
-	kuninori.morimoto.gx@renesas.com
-Cc: linux-sound@vger.kernel.org,
+	kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC]sound:usb:mixer.c: Solving 'Generic AB13X USB Audio' Unlikely volume range.
-Date: Mon, 29 Sep 2025 19:07:52 +0530
-Message-ID: <20250929133752.31847-1-sidharthseela@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Subject: Re: [RFC]sound:usb:mixer.c: Solving 'Generic AB13X USB Audio' Unlikely volume range.
+In-Reply-To: <20250929133752.31847-1-sidharthseela@gmail.com>
+References: <20250929133752.31847-1-sidharthseela@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: E88E420C45
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-Dear Maintainers,
-I am using a generic "boat" make earphones, which are too loud across
-different systems with eg: iOS, macOS, Debian Linux. And hence I believe
-the issue is not with a driver but the headphones.
+On Mon, 29 Sep 2025 15:37:52 +0200,
+Sidharth Seela wrote:
+> 
+> Dear Maintainers,
+> I am using a generic "boat" make earphones, which are too loud across
+> different systems with eg: iOS, macOS, Debian Linux. And hence I believe
+> the issue is not with a driver but the headphones.
+> 
+> After connecting this device to laptop I get the following in dmesg logs:
+> 	usb 1-5: New USB device found, idVendor=001f, idProduct=0b21, bcdDevice= 1.00
+> 	usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> 	usb 1-5: Product: AB13X USB Audio
+> 	usb 1-5: Manufacturer: Generic
+> 	usb 1-5: SerialNumber: 20210726905926
+> 	usb 1-5: Warning! Unlikely big volume range (=11520), cval->res is probably wrong.
+> 	usb 1-5: [2] FU [PCM Playback Volume] ch = 2, val = -11520/0/1
+> 	usb 1-5: Warning! Unlikely big volume range (=8191), cval->res is probably wrong.
+> 	usb 1-5: [5] FU [Mic Capture Volume] ch = 1, val = 0/8191/1
+> 
+> By using pavucontrol, I am able to get fair sound, after reducing 17dB in
+> Analog Stereo Output and reducing 6dB in Digital Stereo Output.
+> 
+> I believe this issue could be solved by adding a quirk patch to
+> sound/usb/mixer.c:1096 (/* volume control quriks */).
 
-After connecting this device to laptop I get the following in dmesg logs:
-	usb 1-5: New USB device found, idVendor=001f, idProduct=0b21, bcdDevice= 1.00
-	usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-	usb 1-5: Product: AB13X USB Audio
-	usb 1-5: Manufacturer: Generic
-	usb 1-5: SerialNumber: 20210726905926
-	usb 1-5: Warning! Unlikely big volume range (=11520), cval->res is probably wrong.
-	usb 1-5: [2] FU [PCM Playback Volume] ch = 2, val = -11520/0/1
-	usb 1-5: Warning! Unlikely big volume range (=8191), cval->res is probably wrong.
-	usb 1-5: [5] FU [Mic Capture Volume] ch = 1, val = 0/8191/1
+An oft-seen firmware bug is that it provides the wrong mixer range
+that confuses the driver.  USB audio firmware should provide the above
+volume range in 1/256 dB level.
 
-By using pavucontrol, I am able to get fair sound, after reducing 17dB in
-Analog Stereo Output and reducing 6dB in Digital Stereo Output.
-
-I believe this issue could be solved by adding a quirk patch to
-sound/usb/mixer.c:1096 (/* volume control quriks */).
+Try to figure out the volume level and you'd need to hard-code the
+actual volume range there for your device.
 
 
-BR,
-Sidharth Seela
+Takashi
