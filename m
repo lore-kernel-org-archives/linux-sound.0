@@ -1,162 +1,154 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DC41FBC91
-	for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 15:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5692130BBAC;
+	Mon, 29 Sep 2025 15:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759159265; cv=none; b=hCijxJIQ2yDtiNsaT6oOsB9MDanQnQYFVzOuN/2qoAY912RELpig8eXgxFWX163ATZju4w4fLgJb6G2XllIktBkO4G5LWXWC4nKjziktKnXq63T5uVcNsYo8JxNm1mWZDQHiT/mFRylIrvIQNDetLUCTuGx7fieFPrNXTitIenE=
+	t=1759159740; cv=none; b=XG9OgbpSAuSYauSqeaYBSIT/q1QmNlcHg0vaOfuh4l/tEuRAm7fl8ewsoo51RuXbDgM28NpipQM2bZ3WWZpg3zwosKbBLX+AJP5ZYG1FaEHHKB+l4fxXMEXSi7bHSC7FKAw0qaZjpagIHfD6a0oTvtQpwQlAFkbWbqv2TIH186I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759159265; c=relaxed/simple;
-	bh=3v2TfQCJs4o8QZ4YGTpw90iCi6ifi5act371SIi5GZo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iDR7nahSxw7pFm0GdbcVJZsLaKhhBLoctXPsUd4xdijFBgqZHUehg4Ux4VzsAiRahNgyWCG+rxYG6qwOG05UWEJttBxHwsQIZALzrdp9KP47/XzeNkVXuUPHCgtfXqlxJQSQKWj6YWgPTUS72QJQZKOr0nDJUAeyjOLq2zB8D1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gag0Ve2u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YHsf/9PX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WNULkeGz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0rsYj6ON; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759159740; c=relaxed/simple;
+	bh=zz+GUmVsy2vB+3ANMPWPbJpVcNFY2jQbjEDvoTACVOw=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=ECbCZ7z50cPXil69p3ZOv5n6Q479IOxOeawfq5j6nkAoPx0QWXLWPCBDcgxUd/0q9kKPlk6ft45p+/3r2NbTPnyIsWEDXPXOH/VVm9FhKDVHbg9Fv25EzEC3jrm2qlJXxs2pWP1gxQGTi2PwOeGMwz96nzMm/DtnaWg6Yhvo7EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LieiEkf/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gag0Ve2u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YHsf/9PX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WNULkeGz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0rsYj6ON"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E88E420C45;
-	Mon, 29 Sep 2025 15:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759159260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
-	b=Gag0Ve2uKGXAcEmv0TyeilNtipaNFyAtB0zCFPUcAyV/j/8jHZVZRWC8pks5SFX9rFkSkY
-	yP9UppphiSL0Qks10G6/GkBUebUZd32hgOinECnalDLnT0441GoVPjY0tD5zuUTzb3YBfY
-	lWsJhwy0z97gDfAwDZdUkFXw6jKPTgk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759159260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
-	b=YHsf/9PXV2ftfXJiCTevlHIjNWiysYfpEFKYS5IBSCF+BEURPwKYIMJQNNmD9jxeSmcP7f
-	48IUjRh2tDS6J3DQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WNULkeGz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0rsYj6ON
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759159259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
-	b=WNULkeGzTnhSFqTLzvjWlKn5ZlmChhTG878rlmngUHQWBdgChaA9mEqt5OsvX2NS46R36R
-	bitYBmjS3QcYwafrTRWO2aX//0W/sW93sNpwLstFtAz0/vZ9jcrNZkisdvv5JxOWfokCTo
-	9tY6xBKNqCPJ1o2NbLRu+VSiCyf1BvQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759159259;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkFOkUQfgJ3u/LgPG0CsD5LhVnnA9iYZ7lpjnBre5Z4=;
-	b=0rsYj6ONHkqFXdcWP4spX2QPuqbBk1nDTwtjVewv86uZfP5g3ZDZrR26U7s+1ZYpcNcaJV
-	5eH/WjwWUr2u4CAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD8B213782;
-	Mon, 29 Sep 2025 15:20:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id i/L8KNuj2mhsQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Sep 2025 15:20:59 +0000
-Date: Mon, 29 Sep 2025 17:20:59 +0200
-Message-ID: <87bjmtmgis.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sidharth Seela <sidharthseela@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	zhujun2@cmss.chinamobile.com,
-	kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC]sound:usb:mixer.c: Solving 'Generic AB13X USB Audio' Unlikely volume range.
-In-Reply-To: <20250929133752.31847-1-sidharthseela@gmail.com>
-References: <20250929133752.31847-1-sidharthseela@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LieiEkf/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D72C116B1;
+	Mon, 29 Sep 2025 15:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759159739;
+	bh=zz+GUmVsy2vB+3ANMPWPbJpVcNFY2jQbjEDvoTACVOw=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=LieiEkf/My5IzhSHvnx4xacBLRykPFVF30XNtrgPaxvt2XruntfGF75FreaDo5sBd
+	 7xIR+u+UDMeWUdKANsMbUYIezK3qC+eBLGFYhBfbwlCZp/dWe7mpLGu1lF2BWlcHIk
+	 A8SYBu5x4+tJ2dvEy1iXzJO04Slrd60iufQ0d5V7EBMv6kxh/iPMaOxV/+77aJZzuC
+	 d61H5tM8BVpft6iJid+miAYFAIBLgkso9EXESl+Cv0Z6HtLz35zjtQ7vjNe/9Yl4ix
+	 4pKSEvUXKrIQLuwqjrlKISh9VE34TmD2amQ3kMZBmQ/MdXd6yUGUQSxnUFTxjndsRh
+	 dvSafSW63W2JA==
+Date: Mon, 29 Sep 2025 10:28:58 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: E88E420C45
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>, 
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+ Thierry Reding <thierry.reding@gmail.com>, Marc Zyngier <maz@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>
+To: "Sheetal ." <sheetal@nvidia.com>
+In-Reply-To: <20250929105930.1767294-1-sheetal@nvidia.com>
+References: <20250929105930.1767294-1-sheetal@nvidia.com>
+Message-Id: <175915953199.54406.1457670691076635405.robh@kernel.org>
+Subject: Re: [PATCH V2 0/4] Add tegra264 audio device tree support
 
-On Mon, 29 Sep 2025 15:37:52 +0200,
-Sidharth Seela wrote:
+
+On Mon, 29 Sep 2025 16:29:26 +0530, Sheetal . wrote:
+> From: sheetal <sheetal@nvidia.com>
 > 
-> Dear Maintainers,
-> I am using a generic "boat" make earphones, which are too loud across
-> different systems with eg: iOS, macOS, Debian Linux. And hence I believe
-> the issue is not with a driver but the headphones.
+> Add device tree support for tegra264 audio subsystem including:
+> - Binding update for
+>   - 64-channel ADMA controller
+>   - 32 RX/TX ADMAIF channels
+>   - tegra264-agic binding for arm,gic
+> - Add device tree nodes for
+>   - APE subsystem (ACONNECT, AGIC, ADMA, AHUB and children (ADMAIF, I2S,
+>     DMIC, DSPK, MVC, SFC, ASRC, AMX, ADX, OPE and Mixer) nodes
+>   - HDA controller
+>   - sound
 > 
-> After connecting this device to laptop I get the following in dmesg logs:
-> 	usb 1-5: New USB device found, idVendor=001f, idProduct=0b21, bcdDevice= 1.00
-> 	usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> 	usb 1-5: Product: AB13X USB Audio
-> 	usb 1-5: Manufacturer: Generic
-> 	usb 1-5: SerialNumber: 20210726905926
-> 	usb 1-5: Warning! Unlikely big volume range (=11520), cval->res is probably wrong.
-> 	usb 1-5: [2] FU [PCM Playback Volume] ch = 2, val = -11520/0/1
-> 	usb 1-5: Warning! Unlikely big volume range (=8191), cval->res is probably wrong.
-> 	usb 1-5: [5] FU [Mic Capture Volume] ch = 1, val = 0/8191/1
+> Note:
+>  The change is dependent on https://patchwork.ozlabs.org/project/linux-tegra/patch/20250818135241.3407180-1-thierry.reding@gmail.com/
 > 
-> By using pavucontrol, I am able to get fair sound, after reducing 17dB in
-> Analog Stereo Output and reducing 6dB in Digital Stereo Output.
+> ...
+> Changes in V2:
+>  - Update the allOf condition in Patch 2/4.
 > 
-> I believe this issue could be solved by adding a quirk patch to
-> sound/usb/mixer.c:1096 (/* volume control quriks */).
+> sheetal (4):
+>   dt-bindings: dma: Update ADMA bindings for tegra264
+>   dt-bindings: sound: Update ADMAIF bindings for tegra264
+>   dt-bindings: interrupt-controller: arm,gic: Add tegra264-agic
+>   arm64: tegra: Add tegra264 audio support
+> 
+>  .../bindings/dma/nvidia,tegra210-adma.yaml    |   15 +-
+>  .../interrupt-controller/arm,gic.yaml         |    1 +
+>  .../sound/nvidia,tegra210-admaif.yaml         |  106 +-
+>  .../arm64/boot/dts/nvidia/tegra264-p3971.dtsi |  106 +
+>  arch/arm64/boot/dts/nvidia/tegra264.dtsi      | 3190 +++++++++++++++++
+>  5 files changed, 3377 insertions(+), 41 deletions(-)
+> 
+> --
+> 2.34.1
+> 
+> 
+> 
 
-An oft-seen firmware bug is that it provides the wrong mixer range
-that confuses the driver.  USB audio firmware should provide the above
-volume range in 1/256 dB level.
 
-Try to figure out the volume level and you'd need to hard-code the
-actual volume range there for your device.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
 
 
-Takashi
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/v6.17-rc1-57-g635ae6f0a3ad (exact match)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/nvidia/' for 20250929105930.1767294-1-sheetal@nvidia.com:
+
+In file included from arch/arm64/boot/dts/nvidia/tegra264-p3834.dtsi:3,
+                 from arch/arm64/boot/dts/nvidia/tegra264-p3834-0008.dtsi:3,
+                 from arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dts:5:
+arch/arm64/boot/dts/nvidia/tegra264.dtsi:8:10: fatal error: dt-bindings/power/nvidia,tegra264-powergate.h: No such file or directory
+    8 | #include <dt-bindings/power/nvidia,tegra264-powergate.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[3]: *** [scripts/Makefile.dtbs:132: arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb] Error 1
+make[2]: *** [scripts/Makefile.build:556: arch/arm64/boot/dts/nvidia] Error 2
+make[2]: Target 'arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb' not remade because of errors.
+make[1]: *** [/home/rob/proj/linux-dt-testing/Makefile:1480: nvidia/tegra264-p3971-0089+p3834-0008.dtb] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+make: Target 'nvidia/tegra210-p2371-2180.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p3450-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3737-0000+p3701-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3740-0002+p3701-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3737-0000+p3701-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra186-p2771-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2371-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p3509-0000+p3668-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3768-0000+p3767-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-sim-vdk.dtb' not remade because of errors.
+make: Target 'nvidia/tegra186-p3509-0000+p3636-0001.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p2972-0000.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-smaug.dtb' not remade because of errors.
+make: Target 'nvidia/tegra194-p3509-0000+p3668-0001.dtb' not remade because of errors.
+make: Target 'nvidia/tegra234-p3768-0000+p3767-0005.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2571.dtb' not remade because of errors.
+make: Target 'nvidia/tegra264-p3971-0089+p3834-0008.dtb' not remade because of errors.
+make: Target 'nvidia/tegra132-norrin.dtb' not remade because of errors.
+make: Target 'nvidia/tegra210-p2894-0050-a08.dtb' not remade because of errors.
+
+
+
+
+
