@@ -1,141 +1,246 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012004.outbound.protection.outlook.com [52.101.66.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6153A1DB
-	for <linux-sound@vger.kernel.org>; Mon, 29 Sep 2025 00:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759106798; cv=none; b=eKFfjVZuJeNmJ5/gYmK/Mb3eJB0gx2vsS00iHkdNvHMEFzoO0nvVLZXQQE9aKn9VFlEY5SxFStJGNMCh2MTke7bMACkGkZDyfSUPx6xAcD3BdSMl2OYYEWMijkTNwkOZ1fa7vLyB0zd5cDknSmCWi6zNCEJ6Bkhw3SQEJyrE/d0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759106798; c=relaxed/simple;
-	bh=rdX5rxOFR4bMFbQQD4C1LhnbWJzkYUPr5Gt8qv0mVnM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PSvkQWWec5N871cedMsxx19rDTGviyXjiUzn2g6g6kGdBVARMfHk9AvAidQQlBB+iOfi4kC5B0q9YBjAXB8BlYgrk6YS/RUnSukZVQcYMYPUpIPKjSVgjKgpgfBU9XV9Vi/OdQVaVVHs4f2wsawe65B22XHUcSWps3xnHDNYWo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fE45z1bn; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3421282F5;
+	Mon, 29 Sep 2025 02:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759112156; cv=fail; b=LsEhD6C1KpxIBBKqtPnO1bxIHZTMy0r2bnu3OmyXHXD8yIRP4ExcEvFL/ip0RG5BU+BtQRoYt4CBaOuoB99WwEjvHk+lpGIbIHfQrMRfL/2qg3eVDT4xZaWdxfq3NZV1nlNp7G8vdBz6v8jtsrJ55QVCYnWtAghM0Y+jriZrAO4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759112156; c=relaxed/simple;
+	bh=j7uBVlhsv9zRYOkNAoQvUaCw6m9pmchwfmPYdHSZEwU=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OLMCtR/27DS2AG9VmeqiIzYlK/acOhVdq5TyBYAEA9HV6WaOJpUT/KW+P3zoPTM064mJXwB/d5X4tGnZmLB9us+f8YoIIQZYNwBJEAQ6sMs1ZacCPv+qYWcNN7uTiMprb7B5V8P7gkwOd1AVKN7cwMizqQ8MilJaQyAXTyc1YcI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=S4smOOXj; arc=fail smtp.client-ip=52.101.66.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fE45z1bn"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b550a522a49so3641594a12.2
-        for <linux-sound@vger.kernel.org>; Sun, 28 Sep 2025 17:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759106796; x=1759711596; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QFHbiqQfhUKp1tZTIjHf7LJ+06KegZD5xVXk100wkJA=;
-        b=fE45z1bnTZfZ0A+fscHZyYq0fSwu8PZG+NK2Gk8bnKN93+RypdriSFILVeMJ8Lrs57
-         nCm0afziN2g6YUiA9PUWZuPxNa61bsN+/UnOpc6AaQgsalrfDn+2Byok/5eJQ/RgHKYn
-         jb8lgcb66COAh/3U8L+R/g7Tjz51ezMYj/o44VJTF8A4IzpglM04+5LFLr3TGnaqZGHp
-         4IJWW/qIgCooHpdFLI/5gkJTB34Kjyn8ci5pHt71MNhEKZidEBO91ReCSAGma0zU4R5S
-         F15IKFVJ6qRbqpXG0lJ1qH5pVXbOXYgs0B8Y2OVvwHUIlh/Ig9ncYRnJGi+WuY4UEb8q
-         FRug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759106796; x=1759711596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QFHbiqQfhUKp1tZTIjHf7LJ+06KegZD5xVXk100wkJA=;
-        b=JyiHsKcLyWHFwGfXLPRTEQkDPphtPq2rJZ8Wkg/bwTMrMD7LYG4laF5wkzuQX8M4By
-         MJZ+uOeP92dpDqpZa5Ntum/HCvjnSCJpL8KR7Gg+nTtrbHaUY6DTrDmlnwHq3rxbAt4A
-         3lXTXjxRDBDF0o93RUtU4Wz2KJH7SV2yxivBYgSdB7kqzPqploL1A8KzTdfLkgz0GtX4
-         rqyqJeulU2NVLdgRwqb6SgFQviDJ7JrucJLUU5jepohm8zYQUcAzoKxCoC6koKmcbY3o
-         nTDH0tsGHA7o0Tni11wiBkxi5HFpugAUADdvo6fzLnesEplw2vNZTyjLvvaI3VyLHJIG
-         sm8A==
-X-Gm-Message-State: AOJu0YyvSmaBtxfXXOqPB5/I5x6n0ea5mtgQXaWf34+r/wIKRdfqV9BV
-	xMNrfqM7zYY2V089wb1A9dozwkz+DDeLeCES844Sj70zFo47IvSts6Su
-X-Gm-Gg: ASbGncszppQ+E85Jlqsu7G0HF//0hBtXBjqlJdNoidJ8WKnlg1ZF65iBGbpg91QKpSg
-	NHjQaV9qdUZvStBXHRPBZRkB+Eq78NVRXufJQyFI8l+e8Ruj7rIOrNHxD+g4KcWQY0slNlwIcVa
-	E86KtFftEZ11MKGkNSuDo0kc5NtYNcQUOdk2MZdherpi35YTKuNcol9Bvp6+HyJ6vAmXuhPkXam
-	9ox6eKml5jykO4Ngbk21fvtiwevS5v1/lgyGQUP7+JYFZwZZqB3xRJCU/78mL60k1KkuNQ3dtQS
-	XtBVaPm+CPvP8wMSEaV5wosxZbwb+DHYO4gXMWTgufoyIJj1PwL7jYygNBrePLClIG34ntkiWR0
-	TSza6Wn/CsXCBDXb+iBC2NrCdifsjAlo/TA==
-X-Google-Smtp-Source: AGHT+IEYlOtRagpQCwasN9hrI6/tZf+R6mLErlpBo5fsnQRiR18Dra82gS14Ip3nHZa4PSt+uxMcgQ==
-X-Received: by 2002:a17:902:8208:b0:274:aab9:4ed4 with SMTP id d9443c01a7336-27ed4a670f1mr118045785ad.57.1759106795744;
-        Sun, 28 Sep 2025 17:46:35 -0700 (PDT)
-Received: from fedora ([172.59.161.218])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6882290sm110877515ad.76.2025.09.28.17.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 17:46:35 -0700 (PDT)
-From: Alex Tran <alex.t.tran@gmail.com>
-To: oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH v1] ASoC: codecs: rt5670: use SOC_VALUE_ENUM_SINGLE_DECL for DAC2 L/R MX-1B
-Date: Sun, 28 Sep 2025 17:46:25 -0700
-Message-ID: <20250929004625.1310721-1-alex.t.tran@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="S4smOOXj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aI0b3GSRIZzkwpP+kuEFO5Q/bh1piiQX6HvYSkKbOiKZj9TtTvGcH6wFqRj0RZgBmyDcWa1zOqJIpEgiQxmdIvEacCnCtI1kKi+1hWojzSo9Nss46xdYI99pIGYXe+P/SR033SHUgkm6fggkfCjaNCuDoUeQ+rq+QXIJ5rfFOn1IA3CS15QR4QpcwTvjCgnQmf7BRpWo1ME9T3C7Oc4gDuL6lzJNeKukvIfNQRXOFCuqFkkKjORhOwN5hr9rY06Uacmt/Kze3uHu2emFYzmA2UvtbznPQGrbdYftEkzqlMceSTWEM4kTQrayatP6yP7rM+Lm3/kKgVnJlPHL6FAuSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PuqzWlBi/WOee/Te6ttUuJ7x+1T7mEdCNTkmDZ1m1bk=;
+ b=BT7k46K591RMldJk7pzvwIF9jQjp9dqkTXiSFtwtOPdHB4mHC4QUGtw3nKFMcvlsGHTrf89gdkU8URqRtc+y6ZQNcJxHmgAyyN7BpBHa9xoI2Fpf7Yi9px5s1FRlX6xH1Gu3MUccPq1hd2JVcYotaq6UNMdoVfCl4CJX2lqffJ9ElbP16W3myHBjHY6RNA5NI4NLPQ+mzX1MYPZqKBFT7q4cbwwLD/Q1g05/oc7oc8ghqxdd96eQSlMb7hmDtl5Quu/R0T33G/y3kiYBamDnRuS6j03Ult1gPZbMh0xlZ4BBtvkjmVQ1sxXjiA0hgJgFr5I9tjgObWmDfsdBBJjCXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PuqzWlBi/WOee/Te6ttUuJ7x+1T7mEdCNTkmDZ1m1bk=;
+ b=S4smOOXjL8TpBJEWxxRpOWP5oaoZNTSoWYLwUjQErFxtfd2a8wEPhiMFT1WqXUplRwczyHzuew+Q/fpe1apFmHv48cq5YbbBL+MRqb4f1RjlkZfg+qB7pi9dc4qEO6NqjPOePXh4ah1f/qZLc0skqdhFKcSVh9PNoGOooMyOAHiS2hSKdhEig45EEwnJVxyOOqvxAMinmbqQ1K6Ofdpqkeq0AwOrzByOp6UJB8Qbp8A962iu5bIFnVqVzXQrTaH4x/+aIF4mNFEfg/IiW4JNWN+N64DYuz1t44J3tKGGFGC87Y1KOQEEHw7BNlCa4GyYDsCSyB3s75ZDT0yndODHFg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by PAWPR04MB9720.eurprd04.prod.outlook.com (2603:10a6:102:38d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Mon, 29 Sep
+ 2025 02:15:49 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9160.015; Mon, 29 Sep 2025
+ 02:15:48 +0000
+Message-ID: <10bf0b21-cfb5-4105-b274-38483a38e6c1@nxp.com>
+Date: Mon, 29 Sep 2025 10:17:18 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
+ luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
+ tiwai@suse.com, linux-sound@vger.kernel.org
+References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2P153CA0016.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::17) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PAWPR04MB9720:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97bc560c-e8d1-43c4-2f3e-08ddfefe1a8f
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|19092799006|366016|376014|7416014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?VDlCdlNGZ2c1RDlxMWhXcHIvdkpneHhlT3p4b3M3emM5RXZUMlBFYkh2Yld3?=
+ =?utf-8?B?QTVoazF1TXJmelArQ0dPTW1JSjlPRWc4T3ZqblI2dUdZekozUmplbUR3UUNF?=
+ =?utf-8?B?NzVUZGZHU0NNeHdwakxwM1lWMVRZcXFrS0R1UHJHS2dlWEtCQnJ5Z3Y1RENX?=
+ =?utf-8?B?SWJGQjZ5T1QzNzA3eGc3czVydTdhbDVBazVzcUdodVNUUzcwdVZ0dlhmOGJC?=
+ =?utf-8?B?Q05Yc1ZrWGpIL04yUjZPWEphQkxIOWp6Z2JjQnFBZEhzNTBlOStIcWNueWpl?=
+ =?utf-8?B?dlRpdFFFbzllUjIrTTlqNUxFdzFiajBzMlEwRStUcEs5QUpTcjRzNnlnRmh5?=
+ =?utf-8?B?VUMwRjd1UHZZZHdjUU1FcW5ET1hmU0tpNWVtK0tMblIxY0JJSWFtSmgvNnhY?=
+ =?utf-8?B?eCt4SDVQL0RLR1ozOU9ES1R6VEkxUVhrOHV1NGloR0F2LzhlejhtSGtNT1R1?=
+ =?utf-8?B?YkJySGJkMnh1Q01sWVRodWhCbHh1bGF2ZWpLTFh1ZFNrT0YxZ09HdjRGcUpm?=
+ =?utf-8?B?ajhhNFcyMzNEMEx2N3JLNUxJRlpiRHFLUHI0N3pYc3ZSZ3hsTXBsend2VlFC?=
+ =?utf-8?B?dGtEMUpCMExhWEZDV3kveTkvREU0S0Y1TzJsVStOUkhiL0Q2RVZJVCtNWFdw?=
+ =?utf-8?B?MnF4V0VhWFhVZ2wvTE4zODNKaVV3MHJCZ1BPQjRIK3FyOWllWHU2amUwdWl0?=
+ =?utf-8?B?SjliTlZmUFZMbGt6OWxaWlVVU0hheWZDenNUS3FLNFdjWUsrWkRLSkdCdWdP?=
+ =?utf-8?B?bXBzN0hZcHcyWnlJT0VyT1AyRDBEUmxWeFNoejFSdHZCWmxHL3RJUS9lN3hD?=
+ =?utf-8?B?Q2tTREFSY1RDcjJYeDYrM21nKzBQOG1mNjFyaG9mL2hqMWZzUCswV01QVzFI?=
+ =?utf-8?B?eXJVeUtadlk3aG5iN0Z2SXJpdmh1S1NvYU9zQ2wyYWM1RkorSE5ySTZHU3Rr?=
+ =?utf-8?B?NS9EVTBaTWpkdjlkbTJzOFBYM0NUSnZ5SUh1dU5VNlEzWTE3cjBWMTFSMkdv?=
+ =?utf-8?B?Wi9oMGh3UEZ5dGdyakEwWEZQUG9yT0RvSjVmNWcyY2RaSlhUVElMTkR3TE9w?=
+ =?utf-8?B?OHhYaVFKT21nbEpLYzZTUWZjbjFZQjYzdHc4YjdYNlFTb0QvSUFDTVM4ZDVZ?=
+ =?utf-8?B?WFBzbjBlUTVTNUNXd0gxbHMreWVGWFQ3elJlN0pIRzJMUnVIUkgyT3ZXRXlL?=
+ =?utf-8?B?a0tESWZOa3RDTXBhcm9kT3JlekhYemNwaCsvd0FzZVJGVnd4VGYvUEQram9B?=
+ =?utf-8?B?UFIrN3U4c0J3eWJ0czkveWVNS0dGRnRkOXRnTHJnQW9zeVlJYWYxZEtVek4y?=
+ =?utf-8?B?YktyM2MzSHpEaFFEam10eEVaS2xvRFJwcDJzNFFaS1ZycUh4WHhVdVNzb1Rm?=
+ =?utf-8?B?THJUWC9QUTFnTkZnc2Qxb3JjZTkvSWk5ODFIbUUrdHJreWFkTlkwcDdISXNB?=
+ =?utf-8?B?cHNucGMybUFjVXpJUHZMTm1BL09NdHBVeHBBWVZENWo5d2RxL2JQaHNwMWc2?=
+ =?utf-8?B?L1loY2NJYm1mSi9TaHRpdnNzcmtLeE0xUHE1NUl2SHZPUHVFUnpCdDNqVHp2?=
+ =?utf-8?B?Y0FBeVkwVG5HS09IMHdxditucXpiYTJKQ0Q0R2Y5dE80MWl0d1lnMjBoQzgv?=
+ =?utf-8?B?Q3VYcnUwYlB1dkJJR0l3RldGQkRud2hRb2UxOG5hRC9DNnBtQjdROEFuWmpP?=
+ =?utf-8?B?dG5kV2RZZlh1MFo3emQwNlV6T1FZZENKbUFYZEZZeG5pRTFOdnRxR0pDaGZv?=
+ =?utf-8?B?d1liZ21sM29YVVFRaXJVWjNzeS83VEE1UEs2RE1oOTI1bjdvREdEWjVDRjRF?=
+ =?utf-8?B?UXkyL2N4K2pWNzFhRlJuMzRqM2g4eWlkWlpIWlhGV01VYkZNQURoeDAvTGFH?=
+ =?utf-8?B?TlB6aklyYWpsVk45OFVITkpNcllScmZhUUxvNFBQZXJITXc1aW1LR0FpajNI?=
+ =?utf-8?B?OXJaelo4Zzh3NUJHQ2ZvRmNzWFJBRHQ5R2JDaEVvazNOMU82ZE5FYjIzR1pi?=
+ =?utf-8?Q?BKf8u9M9+nW32CmYnlVIxMFwOi8h6k=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?cWRKWU9kc1pUOGdPVFQvWnl6elBkNXZwN293R2NNbEZSVzdHbG41UzAvRHpI?=
+ =?utf-8?B?MlBxN3FLU2Z5K1I3NExiODZTcldCSlgyejNyQy9DNzdSYjdrWVZaUEF2U2tL?=
+ =?utf-8?B?MEZMYXlsUEFJYlNBWUVWdlV4bisvUXdBTTg3UXIzcm1FWEFkamtyZDJPemJs?=
+ =?utf-8?B?a0NsbVpheWJPMjdrQzIyZTZaTE9FZnFMRk5JbWkxb3RFZ2NqT2YzRktyd21r?=
+ =?utf-8?B?bGRIMlNVNTJqV3JadzdiQmxVQ3QrMmxIV3lja0l1QlBVeWlzT1R4Y2Jhamd6?=
+ =?utf-8?B?aC9WWXNXZUZwZG5YR2E2c3RIZ2M5WE9ZNVl1V1lPQ25sRE4yeXFicVFXNjBC?=
+ =?utf-8?B?U3JGeEZESzFweXdiOEJiV3JGODVtZ2poVkpvYUhubWtKZjdpMjFaclo4T2FP?=
+ =?utf-8?B?SkFkZ2RGblBHZWRjU3pxWS8yVW0zTHArK2I0T0V0QVlRK0RJYU05cURlbUc5?=
+ =?utf-8?B?SGc5ZFg0dUpkdHZxSnNaRmxDTzMyemFLdGozRjU2TFpNcm1PZzJnZXhjL2Vj?=
+ =?utf-8?B?MUtuZjl4WXdyU3NzcVFQMzRIcG14anRHMDR5SjM0cFZyek0yMk01VUpCSENK?=
+ =?utf-8?B?OXE0a3BlMHlGT0hmM2Q4L0U2VURycEZOTVlwa0swaWhocTZXWERKelNVZ3V2?=
+ =?utf-8?B?ZjZrb3VIbkNRNzJLMlhUVDRGRlo2ZEMzeFo4ZXB1UkVLb1l5a21KRVhsYjBI?=
+ =?utf-8?B?aTBaSm9EZkdZS3dhVU9COENoTTgwLy9IcGplaVJFWFZXQWlRUTdkdm9XQ1hX?=
+ =?utf-8?B?Sm1pQlI4V3hkOXVNYVRYMjZDcERXV1lMMDFLdFdjeG5OakZWMEhBbDZzQ2dV?=
+ =?utf-8?B?TVFKWkY1K0k0UjY4OEY0UDhQcmxScU5GOFFBK1c2T0kxQlE2Q1dDeEU0TlFZ?=
+ =?utf-8?B?azQ3YW1jdkVKaElBclVFVTFCS0J1c0tFOEgrZmhXbGFkb0R5R3dDM2txSEhS?=
+ =?utf-8?B?WlFNZ1RsQXQ2OEFFM2tVYnVUdnNuS2NOcEpiSXd3M2NkQnRpb2tpZTJjWC95?=
+ =?utf-8?B?T3JUYnRTUlAzcnhIL2daZjNRek9sMFg0QlN2NXd5UTRQaVZNYnRPbTRWNXZr?=
+ =?utf-8?B?bjd1RWUyK2gxV1RDUVY1Q01ienBIeDdzVloyWk9GT1BuVS9VMEtDUitDSHB6?=
+ =?utf-8?B?YXo0MFBWREtSYXczdHNDU1d2T2RieGJzS2hjZHc3ZGx6b1RaSURZMXFhMCsw?=
+ =?utf-8?B?YU8zQ3VBYzlMRnpPS3QrSUNhZk81dEU2WEpzNXc1cmIySjlLS3dSNTFOUFJl?=
+ =?utf-8?B?OVpKZWs0Qy9KbDZzTjhFRkRmMU9UV0NZZGQ0Ny9oRFk4eURLcWdIVkhXMzBF?=
+ =?utf-8?B?YU91SlR3K280ZFpKVmwyZVNNZ3plU1p2aVpjaFBCSHdlaGxhRWwzbGdFWWxp?=
+ =?utf-8?B?RE91WFJ6ZlZqVVN1SzdnRlpMVmRuL3l4QksxQjNCQnFRcitSN2hISjU0UFVQ?=
+ =?utf-8?B?d016UHl1ZGpkcjh5NDIwUWFEeGdkVTRxUXJBaU94ZmlkZGx0UDIvci9lckUw?=
+ =?utf-8?B?aFNpS0RhQkN1YnJCVVVIYUxkVFlwL0wyMDNWYVhHbW90eVJzTmFXU0NhVU1W?=
+ =?utf-8?B?TmhWRVlpZnMvc3pHL1ByTnA2djJNNEM0U0JidXpndERrOHEwaUtwd0hUWjQy?=
+ =?utf-8?B?N2t1RnVZVk1lb3RFVEhkL1F1MGlMVzBtQUpVTjErYlRERzIrR1J0UkNOTndt?=
+ =?utf-8?B?emtid0V5VEtqcnJoeE9kbnZwR0l2cXEyQ2VvVm5MVWFtZCtlcG5UQ3VKK05m?=
+ =?utf-8?B?VVo1eVpPaXNoUjhKRHM2bk1SdEg5NHNyK01VQnZmS2F0azh2WlJPMWJMcGhw?=
+ =?utf-8?B?dk8wU1ZzYkhTdmFTUlhOU3NyUGpic2xaNGZlWlF4eEtMdlh3aUxGMHBudFJh?=
+ =?utf-8?B?cUtZcUxHSzAzWmoxbHI2MktINDF1aGZ4RXM1ZEFEejMyQ2NMc2NBSGV6Y2Nq?=
+ =?utf-8?B?dEVzb2hoZGFPMklhMGJ2UC8yV1lWSDA3bW1TRmRFWDZJeGZEU0U4WFBXaHBI?=
+ =?utf-8?B?cEw0dE1rUFhGSXFCeXVnWGYvNzBKRmtSOFBMSnF6TjJZTC9xbU15elRJOU5D?=
+ =?utf-8?B?TXhOaGlnTy9UcHRkZW54NnFvVzlsQTN5UGJwN3d6d2JzbnVkcCtaUVhra1RS?=
+ =?utf-8?Q?mQtv2j5Gx7mWuMjM6SRBMg56X?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97bc560c-e8d1-43c4-2f3e-08ddfefe1a8f
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 02:15:48.1854
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: igSE0S+n+5x4vhuI7yHHWdaXVBrkmW5KGSnlhbWn9Kmf2WjKnbj5mwtB3I0IO4I/PzlJLzHjUw+ITVz22Q3Z9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9720
 
-DAC2 L/R source selection fields (MX-1B [6:4] and [2:0]) contain non
-contiguous values due to reserved bits documented in datasheet (page 66):
-<https://www.elinfor.com/pdf/RealtekMicroelectronics/ALC5670-VB-
-RealtekMicroelectronics.pdf>
+On 09/23/2025, Shengjiu Wang wrote:
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
+> 
+> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
+> 
+> changes in v7:
+> - add back the mutex which removed in v6
+> - add Tested-by tag from Alexander.
+> 
+> changes in v6:
+> - remove mutex in dw_hdmi_set_sample_iec958()
+> 
+> changes in v5:
+> - add empty line commit message for patch 7
+> - remove blank line in dts node
+> - add component_unbind_all when dw_hdmi_probe return error
+> 
+> changes in v4:
+> - separate dts for soc and board
+> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
+> - add "select DRM_DW_HDMI" to fix build error reported by test robot
+> - remove unnecessary code/definition in pai driver
+> 
+> changes in v3:
+> - add space and 'U' in asoundef.h
+> - add more commit message for binding doc commit
+> - add bitfield.h header for fixing build error
+> 
+> changes in v2:
+> - address some comments on commit messages
+> - add two more commits:
+>   add definitions for the bits in IEC958 subframe
+>   add API dw_hdmi_set_sample_iec958() for iec958 format
+> - use component helper in hdmi_pai and hdmi_tx driver
+> - use regmap in hdmi_pai driver.
+> - add clocks in binding doc
+> 
+> Shengjiu Wang (7):
+>   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+>   ALSA: Add definitions for the bits in IEC958 subframe
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+>     format
+>   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+>   arm64: dts: imx8mp: Add hdmi parallel audio interface node
+>   arm64: dts: imx8mp-evk: enable hdmi_pai device
+> 
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
+>  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
+>  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
+>  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+>  include/drm/bridge/dw_hdmi.h                  |  11 +-
+>  include/sound/asoundef.h                      |   9 +
+>  12 files changed, 382 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+> 
 
-Switch from SOC_ENUM_SINGLE_DECL to SOC_VALUE_ENUM_SINGLE_DECL
-to handle discrete values.
+Since patch 2 has Takashi's R-b tag, I used 'dim -f' to get rid of the
+below error when I applied patch 1-5.
 
-Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
----
- sound/soc/codecs/rt5670.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+dim: ERROR: be0bd958cedd ("ALSA: Add definitions for the bits in IEC958
+subframe"): Mandatory Maintainer Acked-by missing., aborting
 
-diff --git a/sound/soc/codecs/rt5670.c b/sound/soc/codecs/rt5670.c
-index efd26082f..4c75a3e71 100644
---- a/sound/soc/codecs/rt5670.c
-+++ b/sound/soc/codecs/rt5670.c
-@@ -1153,25 +1153,29 @@ static SOC_ENUM_SINGLE_DECL(rt5670_dac1r_enum, RT5670_AD_DA_MIXER,
- static const struct snd_kcontrol_new rt5670_dac1r_mux =
- 	SOC_DAPM_ENUM("DAC1 R source", rt5670_dac1r_enum);
- 
--/*DAC2 L/R source*/ /* MX-1B [6:4] [2:0] */
--/* TODO Use SOC_VALUE_ENUM_SINGLE_DECL */
--static const char * const rt5670_dac12_src[] = {
--	"IF1 DAC", "IF2 DAC", "IF3 DAC", "TxDC DAC",
--	"Bass", "VAD_ADC", "IF4 DAC"
--};
-+/* DAC2 L source*/ /* MX-1B [6:4] */
-+static const char *const rt5670_dac12_src[] = {
-+	"IF1 DAC", "IF2 DAC", "TxDC DAC", "VAD_ADC"
-+}; /* VAD_ADC or TxDP_ADC_R */
-+
-+static const unsigned int rt5670_dac12_values[] = { 0, 1, 3, 5 };
- 
--static SOC_ENUM_SINGLE_DECL(rt5670_dac2l_enum, RT5670_DAC_CTRL,
--	RT5670_DAC2_L_SEL_SFT, rt5670_dac12_src);
-+static SOC_VALUE_ENUM_SINGLE_DECL(rt5670_dac2l_enum, RT5670_DAC_CTRL,
-+				  RT5670_DAC2_L_SEL_SFT, RT5670_DAC2_L_SEL_MASK,
-+				  rt5670_dac12_src, rt5670_dac12_values);
- 
- static const struct snd_kcontrol_new rt5670_dac_l2_mux =
- 	SOC_DAPM_ENUM("DAC2 L source", rt5670_dac2l_enum);
- 
--static const char * const rt5670_dacr2_src[] = {
--	"IF1 DAC", "IF2 DAC", "IF3 DAC", "TxDC DAC", "TxDP ADC", "IF4 DAC"
--};
-+/*DAC2 R source*/ /* MX-1B [2:0] */
-+static const char *const rt5670_dacr2_src[] = { "IF1 DAC", "IF2 DAC",
-+						"TxDC DAC", "TxDP ADC" };
-+
-+static const unsigned int rt5670_dacr2_values[] = { 0, 1, 3, 4 };
- 
--static SOC_ENUM_SINGLE_DECL(rt5670_dac2r_enum, RT5670_DAC_CTRL,
--	RT5670_DAC2_R_SEL_SFT, rt5670_dacr2_src);
-+static SOC_VALUE_ENUM_SINGLE_DECL(rt5670_dac2r_enum, RT5670_DAC_CTRL,
-+				  RT5670_DAC2_R_SEL_SFT, RT5670_DAC2_R_SEL_MASK,
-+				  rt5670_dacr2_src, rt5670_dacr2_values);
- 
- static const struct snd_kcontrol_new rt5670_dac_r2_mux =
- 	SOC_DAPM_ENUM("DAC2 R source", rt5670_dac2r_enum);
+Applied patch 1-5 to misc/kernel.git (drm-misc-next).  Thanks!
+
 -- 
-2.51.0
-
+Regards,
+Liu Ying
