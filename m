@@ -1,90 +1,79 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5AC269CF1
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 18:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCFC286D40
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 19:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759257899; cv=none; b=q+i6ZzorJ2/RDmPHAS9zkpok7ni5sjv6J8a/5MBn4K0PcVeEK/eUQmjKadYjXCa1RSXJBr8XIiPh2wnR+RRQq3hPsLaK/V8gcs2nByPqHcfwrSjbbkJfdzROoGm4g/+I/JuMNzzieALxQD7b6ChystNw62Jj5ZtfDb3Icz4/hwg=
+	t=1759259824; cv=none; b=Myvp7E51kbyv/CKj3/Z1Zh1MorthDo2K1riOC57Um8HdGQSxzyh5321JY1LJYLvFdGcnL01KJeBgnvdtGFQ+fw73qWyHfU9uvsIT11lidm549wEdP46yQly/ykQA502T82v+bOA5XIw6pg+/q56YulUWqvjODLPBWs6qGCj9jzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759257899; c=relaxed/simple;
-	bh=/kJNYSwQMAZ38J9dFYUh6Inn7/mpzEQ53xIVlALX/eQ=;
+	s=arc-20240116; t=1759259824; c=relaxed/simple;
+	bh=44UG9dRy9/fwmbXTFNYj/VESWJLHlVWNqviEeWagbFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IcmlKdn5oM8zn1hifFE9nzt+PhkRuAh6BAuUydYdpSCCuumL384qL1CeUilUXdW6l8IZwK5oM26lau/+uyEFpooiS9EDHHeU3e+iMms1aP2lLBAnjfM1KmYrlbrW4j/GgvyfyjPfLImMqIV54WscLUBRp5jI4EadMRPHBRtQWlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Qexfm9CN; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNdWQRp6V5yUZ+OmrRl3mStDerbQ/JpqHWSSGLaz5D6yKV0ngFZanl1YGODDAxpbTbBF9oifVZnhwn+V2sgA94FKiDKIaOfsV9NWc0LQsmJFJ/plmMMzmCS5FWDibjYz5PVDyCZBaX4KQ44WZvhf5JivFmqqfAdGj/Xu4wyKkTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HeCoswil; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qexfm9CN"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UIieZC017597
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 18:44:56 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HeCoswil"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UC72Ps026871
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 19:17:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vdPz24lEqI15VZidTfg+KW7P
-	hm2QZaEnE7PxX62VRgE=; b=Qexfm9CNhDTByomimEo4RPl0L7IN+owpiz+S+5p1
-	hZgQu06YNHXfxbhkSOJ3XGzEd/GePMTwweVbvaJFdAZ5AMgUJCUTUeQBqJcBMCBk
-	XfimV37aTep51Mptw4xCIoWIXRcCwcUbrSqyDh6yVZePjnqxfMrzm02w4U2P1aX6
-	Kud8viTxB+4VMf2Dprnj8zjpomRTp6aKGO5e0xbrnhsj+q0fHeWA8+UVLUuCYTOt
-	1+INMAfN9SLb0QjP5GbVGWHz+4Eg6m+PEQ7yFtxHFPdQteArm1bVdKOBxRJUgXB/
-	okVVlEr0RIJkzWb2/8Zh3Po1n6sW5u2P8M+m5qSINVPWew==
+	:references:subject:to; s=qcppdkim1; bh=fIoZL4IX42meIGYJZYMC2O1w
+	w+tUNy4ioZpD/pNofyA=; b=HeCoswil0oy1BaLEp8q1C2pWmz6i9r+lSHqgt1dT
+	Qkx0d7Z7hD5sp4Wrx0iw4Mm8E4c6fMaB+zTCM761UN+kV3XUGcx/KZBsMgio/Kip
+	zFtAdzbBAyPBkc0+nyjtRYbd8RhTS3KQuiDnljECzyVt7wuCYE9jGabdPZr3ObYk
+	v81OcjQhpJ/9Du9FQN9tzl7XvywEzTn4qHHwx7oq2feYHNPI4jlVaNs3rF+ZmJGN
+	KrgGMxiWXjjKbxm7cz6DS9/U/AgZ3Hsu3lofjw0c23td9txPNLj41JQURqenDRD/
+	22yu8cegpvj94L9y1IXSdcyYXnoeoj2BPPVk6ZhSInTDJQ==
 Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e80tt8vw-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrf3s9w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 18:44:56 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4dfc05dec2fso110933151cf.3
-        for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 11:44:56 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 19:17:01 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4df60ea7a1bso62017081cf.2
+        for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 12:17:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759257895; x=1759862695;
+        d=1e100.net; s=20230601; t=1759259821; x=1759864621;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vdPz24lEqI15VZidTfg+KW7Phm2QZaEnE7PxX62VRgE=;
-        b=VjQw0+qhDMMlEUGKL1Waq75IDtP4J23mJk//GdGO8SEBZrbzY1vSpJ7en0mUfTc6gz
-         +UMzVDpx6f2oi/el9r9WlaoyjKos/JLI887z3dE414MlLa06f3ZYvNYuQLeP7M37g8Sn
-         9/smjwLFoFnSuxKPVXnuSjC4AsljW+QwgVGwFT/wAHrDIm4hNEDKCG7SW5KtHMyYtAq+
-         vY/kNcC36P06Y0wepECjAFgRwnO1xegznh1X1EsiM8Ui/B/8/rVtlwM5Xi33SX+fnwvr
-         NgjsTZbfz8TwR8YrNkp868HZb6CB7TvGkAkG36oipG7mP5xTAyXj5f3rBdtJgUMq0pVM
-         2Aog==
-X-Forwarded-Encrypted: i=1; AJvYcCVrwJQEJpsEfNN2ufsX1/fibr3UbQ9HxyudpXqDZAG0SDA13KihQq6azUOKUDmFfYcwgRd3zxIBIiVFzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeQH4vSJxbooVvXafJrU6pYasCHlkiq2m1H60hIYusquPy0WpF
-	Y94iQS7qDY1Pavji6ZFJTSmkiKua4OQzO8MmZCaadioKXw5Qtkvnh3oAUAweDrM8JDUUI36WhPd
-	LyJp8KuOqgGK42ZnrHcUqC4OBWpkx22CHisAQGxq1qTBlOrRUITuxg1b6ISneg7oS6Q==
-X-Gm-Gg: ASbGnctHLxXtosD1pizhxvWvF4Qj4LPwTnGlo6cd1aWchYrndHviucNPH3Lgd1JgxqH
-	3Gwc6Dfo5zo1fn5Ej7/SRbkuMe70ZpBeVad0SvMOcXtxDJRQv/U2D7IuGPRlRCEQquCVMFk1mAs
-	86ujRIla/8R6u2OTY8D/L9QD74Z01n2TNLLMPlQHV/HmaCOTMhELfnm/NmqYt0mWKd5NcJ5X7qK
-	Xb+vu1j5B9B5SDLgJyvd/MkbhEKSXSzLIVuWWNd16x5xKfUSCSqEvh0TiTxjzoSx6ksevkQ76TU
-	IL0Bnl/36pMdYqnGwiU0Z2RgHfiVJXmZBZXDxHcn7ttINglNeCQ7lgGgY/iTqY6eo72pPnuzZUv
-	iugQATAcWJWdz7P1E7gDPTgnHxKiCieGZJwMgHjzaa8i8jui+h5XSF61UNw==
-X-Received: by 2002:a05:622a:11:b0:4df:498e:9221 with SMTP id d75a77b69052e-4e41de7245amr7868071cf.60.1759257895302;
-        Tue, 30 Sep 2025 11:44:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAm+3EqdOMSwzSrhnauxOEEVUoJNPfTyIOWUwiTcJoJpdYgzpAU0fJTYtBH1fFc3IBkxb8Rw==
-X-Received: by 2002:a05:622a:11:b0:4df:498e:9221 with SMTP id d75a77b69052e-4e41de7245amr7867701cf.60.1759257894847;
-        Tue, 30 Sep 2025 11:44:54 -0700 (PDT)
+        bh=fIoZL4IX42meIGYJZYMC2O1ww+tUNy4ioZpD/pNofyA=;
+        b=oyhj5anMP1Yiw1rjhorxKscV182620RdwKEvQXMmL+xt4sYwc14JsooCQfsHxl58tI
+         s1yESiIlkwrePcSeYpbfdlJiJ9yP8Xh2Iivnt9bbrdytTsHKmNNTqYq02+7KYyDtz4Nr
+         AgCCa0unx/08H3kFndpQuIAioCzkEfp5ivKAxFWh5TLCRURb+2SiNKQeQEgIdsd+4H9e
+         +iC9L0t12tAqXv5qSsOQO/kAlGITOliJznofIGnvWvFX1lcC5KUq/hUAVt2DHiCtoTjB
+         WnCF5x6W1lek93LexbITnN17SJ1Oog+l+82pxIlWZul21+FqZnqRyHVKeg03d8UTs/9o
+         4vyw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTJu/HNdXHIdahyKbmkHork5ecwDZ6WORWxYUhy+ti2h7QxrHI4VtvU1r3+4Y9+vbQ6T8gQAdBhyfCpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2uIQKNDckP2JDWNTRNWjb5kcF2f2Vyu1ZmEI5ENeYGmuhYqvB
+	civCGfZeXkscVrNA1NAC7QKMv46vToONFFug4hhWpgMd9byUeucZB1wwRWvGuHTJz6tlB2V+Nlr
+	sP4yZuohPL0gBtL+W9JIcSpIo2t3yG26sGdNOus+cYmaC/yrnCY3wgeMZkI9SpNWk6Q==
+X-Gm-Gg: ASbGncuCj7X5QYZVSJ+pF3NV31OUbMAU1a3x02zjQFRHz3VdRrYFGMrTJS6aQEShV3B
+	y0y8QhnyAfHvvj8toLlaJR3sKbJXPduyMBxKfiJtD9YEPKEnGxBQWn65sC1TIQEzyT88Jy7rhV+
+	Ts+jNBhcFYhtI9i8t7rzBm836YzSLUPy46nIGbsTXwerWdcF7G3FCOj5aPDE1ukpAPXXJowGnY9
+	zI1TgjS6dQZpCCMNLlOBqPtqfs4kbRAFjj8qkiHjJBqmZbWIqzeq99OVQ51EYHt06T22bMM2FKa
+	BSA8VxhOpP15T+JEWEa8YKd9mwHGeTe1b3vWEYJYWUEGElfn3/3+M7Yt6QcYuKmvFIrwW4FvEux
+	W6zBiPgvXxbk41p1RetR/fmb7HSU1Ssk/2ZKrtytBY6ptCoiK1eNgT0htMg==
+X-Received: by 2002:a05:622a:4acc:b0:4c7:e39a:388b with SMTP id d75a77b69052e-4e41e15df77mr10119711cf.47.1759259821082;
+        Tue, 30 Sep 2025 12:17:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGOjGw/13ibdEaq67tmXZnXJFrkmO3DlfDDREr0t+56wazs2jNMn8OyuMT31Gg9i7tKZgg2lQ==
+X-Received: by 2002:a05:622a:4acc:b0:4c7:e39a:388b with SMTP id d75a77b69052e-4e41e15df77mr10119381cf.47.1759259820658;
+        Tue, 30 Sep 2025 12:17:00 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5831343130asm5211788e87.1.2025.09.30.11.44.53
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-583166560d1sm5130604e87.71.2025.09.30.12.16.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 11:44:53 -0700 (PDT)
-Date: Tue, 30 Sep 2025 21:44:52 +0300
+        Tue, 30 Sep 2025 12:16:59 -0700 (PDT)
+Date: Tue, 30 Sep 2025 22:16:58 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        srini@kernel.org
-Subject: Re: [PATCH 2/5] dt-bindings: sound: qcom,sm8250: add RB1 (QCM2290)
- soundcard
-Message-ID: <zat4n5izoh2qok4vojbgnofpy3q4wxdaw34ekniznlpzlb4zli@wsupvkcxmnol>
-References: <20250302-rb1_hdmi_sound_first-v1-0-81a87ae1503c@linaro.org>
- <20250302-rb1_hdmi_sound_first-v1-2-81a87ae1503c@linaro.org>
- <l6itr3k7taiyiokaahcg2mwtaa5lynia4bimxridpsyymk5ml4@loii4h7lhjhz>
- <DD69D3NF9QWG.3NJDD1L5EQFMF@linaro.org>
+To: TangBin <tangbin@cmss.chinamobile.com>
+Cc: srini@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: codecs: Fix the error of excessive semicolons
+Message-ID: <dxuyn3sa55f7k7ecwhxi4v3y6n3kw7nyftkrbmwt2ufobya4bd@ipdy5bz4yrzu>
+References: <20250930094103.2038-1-tangbin@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -93,84 +82,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DD69D3NF9QWG.3NJDD1L5EQFMF@linaro.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyOSBTYWx0ZWRfX7p23wyNlOlEV
- etxwIS5+MRrt3K02x4eAYpQVPMNFwmvWxVRmNaHbisozBvmsF1IB0xK+fvWUyaaWBt+9Ll24/hc
- maOz2OG1IoUjXOBxPYIj4iBS+jhP6UA0vbCvdKKSe8TWxpM7aBRK67kfjzN4GP287S9719OvEiT
- ZlBl+ieT13o8C7mVLZp8W4S/PpH1V6pPmV555pYfFbmD4kZp0+Oh/J0u1zkX1QtfqhE9MhDGuZ4
- JhhuzFDPe5Tb61F+9q+5zQGm8F019L2Dks6Ysz+JfPK4kjj+PsQR/OOV4jDOXt6uWvqbm0OpHgz
- SWmGR3qgygtdZlhmopfDLdn837JNbYqZu5FHEjgqZ3Q17Ln29P6WWFiwFUA3aMf/yQCBRm+QMBA
- TyY0Y6sfoZYlfe4gW+0FSw4Pf3ENoQ==
-X-Proofpoint-GUID: S3Hbb1S2nEjqFpvpAEp3hN8swNB0qnQ6
-X-Authority-Analysis: v=2.4 cv=OMkqHCaB c=1 sm=1 tr=0 ts=68dc2528 cx=c_pps
+In-Reply-To: <20250930094103.2038-1-tangbin@cmss.chinamobile.com>
+X-Proofpoint-ORIG-GUID: HPri3avXD-4CdAlSfKNyTkOm8-axZy-L
+X-Proofpoint-GUID: HPri3avXD-4CdAlSfKNyTkOm8-axZy-L
+X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68dc2cae cx=c_pps
  a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=xJt_Tp5n_Jr9EY1zxnYA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: S3Hbb1S2nEjqFpvpAEp3hN8swNB0qnQ6
+ a=yJojWOMRYYMA:10 a=R5C9hjxsAAAA:8 a=EUspDBNiAAAA:8 a=foHylL8Yi6giCiIZhfYA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfXzUJ2IO8XInMT
+ KY5kI4T+OTWgYFAHbJK+Zh+qCJo9fIpm39QpJ8zs95PxwEBZwlgvUwwAb53IeaSC6QoGc9H9wmA
+ 0BEgPeMKgn9cPP6jWYqlBWwyOqiw7ayfexCz5Ig9nfDp0TpioRiBceavU2qNs65PwIJ694pvSgj
+ cylP2iyXXnqdPJdBv+u92nvEdSQji4xLQbRmOlB4Dhb7s7fDlxo4s2Xj1i14nFw+h83++fGwcgb
+ wTKD4wrwRo3JMtwtxIQD0aAu4ZKoad7zvHl11x4lOIwf+JNJ9jKVf6ZOiCsyk+RYXp3FLIxOE/3
+ 5OnynwblgBM/xVJnb+5a4ji9LlX1CfgUgFyY+Qen19GwAviMJ54kjW81SJCo6F0Gl1ruPNPXYOO
+ f5HByZfyzXceDRzsGsdplC2LXnK9IQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-30_03,2025-09-29_04,2025-03-28_01
+ definitions=2025-09-30_04,2025-09-29_04,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270029
+ phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
 
-On Tue, Sep 30, 2025 at 04:59:46PM +0100, Alexey Klimov wrote:
-> (update emails, drop old ones)
+On Tue, Sep 30, 2025 at 05:41:03PM +0800, TangBin wrote:
+> From: Tang Bin <tangbin@cmss.chinamobile.com>
 > 
-> On Sun Mar 2, 2025 at 8:20 AM GMT, Dmitry Baryshkov wrote:
-> > On Sun, Mar 02, 2025 at 02:49:52AM +0000, Alexey Klimov wrote:
-> >> Add soundcard compatible for the soundcard on QRB2210 RB1 platform,
-> >> which at this point seems to be compatible with soundcard on
-> >> QRB4210 RB2 platform.
-> >
-> > Is it? The RB1 uses PM4125 for audio output, while RB2 uses WCD codec.
+> Remove unnecessary semicolons in the function
+> pm4125_codec_enable_adc and pm4125_micbias_control.
 > 
-> That's correct. I also managed to enable hdmi audio, vamacro dmic and
-> pm4125 line out output keeping it all compatible with qrb4210-rb2-sndcard.
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+> ---
+>  sound/soc/codecs/pm4125.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Things are mostly the same between RB1 and RB2 apart from last stage
-> in the output and analog inputs (non-HDMI and not dmics). The diff can
-> be described in board-specific device tree, amixer's control commands
-> and model property.
-> 
-> Is it still need new separate compatible "qcom,qrb2210-rb1-sndcard"?
 
-If I were to follow other examples in this file, it should be
-"qcom,qrb2210-rb1-sndcard", "qcom,qrb2210-sndcard".
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> 
-> Thanks,
-> Alexey
-> 
-> >> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> >> ---
-> >>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >> 
-> >> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> >> index b9e33a7429b0c063dc5f5b806925cd541e546cf6..2493ed99268bf2ff8343020150c2c9aca4262514 100644
-> >> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> >> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> >> @@ -21,6 +21,10 @@ properties:
-> >>                - lenovo,yoga-c630-sndcard
-> >>                - qcom,db845c-sndcard
-> >>            - const: qcom,sdm845-sndcard
-> >> +      - items:
-> >> +          - enum:
-> >> +              - qcom,qrb2210-rb1-sndcard
-> >> +          - const: qcom,qrb4210-rb2-sndcard
-> >>        - items:
-> >>            - enum:
-> >>                - qcom,sm8550-sndcard
-> >> 
-> >> -- 
-> >> 2.47.2
-> >> 
-> 
 
 -- 
 With best wishes
