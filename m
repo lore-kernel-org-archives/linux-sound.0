@@ -1,141 +1,100 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86172BDC33
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 12:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8DC1BBBE5
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 13:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759235907; cv=none; b=bWWde6IgOHdeWqVS1GTbhrIAWksp5WrQw/rJ63tyrApYoCKKjN4VQMsiGWvSGDtOFRP/V/Bj4hwnnLz2bsyNz7NwQc8e6fYftObDfb9Fo4r80nq6/I/TM03wo+Ef9vHApG7Rjh02Z6yfQdCoRWyf1OTjD7i4h8I6nKCxF8o/P/0=
+	t=1759240009; cv=none; b=Eu4ItTe598Azz5RNXuLZjQ1sVSCe2dHooONlOY6X3O9Lsu9dGz5uYwsXtqqOV0vygmvonY9ggcSswWzEkG6pkFS4ynHG+3eCTz6I+mf5lz0vXqOiBIUDWilspSpf3//tNuI4jEraXHMQiTK3D2Jn68cHz7BG3Kb9RsdZv1OTAhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759235907; c=relaxed/simple;
-	bh=Aei3rdUjohoI0TXFDAwreXDlBZy0mwN0gsaIfpfbAR0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZQ0krsvtAj5Lfiqc1hem1XKOmUek3CoBBrl1O+oa+XiCqLgtfVBjvjcOC7j44XCVL/oWEydkRENPOtBGHIfR9gM1+s8mOOzje2QY6LBHxfXsYQfrkCkWg9LU6ddmeRdp7lLRDc0+P2GEXHnb3bra4Jof+9qCluppFSWDJpKUYIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d8pcbHFz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/AxaPuup; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d8pcbHFz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/AxaPuup; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759240009; c=relaxed/simple;
+	bh=YlStPwqNZ4oWC4pGA2dvTo0+R+SqBxsrbV3mpimCF3g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X+wEOF31oQ619QW5WKspJ6xBKfBEvkZqnzu21Z2sEwhDeHKZ/7KVC/ivbsXtxBV/n/ZfwnStytKSWWVasrB+63aPyt5XQ0hpCjI/bjWN4Lq5U2ioTuo6sDyrlEsACpgnjpfOmEQ0wqP9TxUepklSC7VsdqzIiSCxwIXGZth237k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkyG+3Lb; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d8pcbHFz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/AxaPuup";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d8pcbHFz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/AxaPuup"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 92B401F38F;
-	Tue, 30 Sep 2025 12:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759235903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
-	b=d8pcbHFz0wAV7+DIudHOBbIQ15Epdk6akAOl+AIWfHbRrkSMMShTTQdKUWrvCyuFRTNj2i
-	sEH7RlffhgERhS6kNjPN2khHoOZMSHbxk7zoLl40l4Iv6nmel+jypk4OzDWMdJRuZI3T1j
-	RX5ellyGmDFgTerbXqnghBwAtrda0+0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759235903;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
-	b=/AxaPuupt5ZXwffZy3qFNGBCFkLLXHmp+0mIOd+iSBZ8POpOOOtWNk1erRkcj7bgQGyd0u
-	hz8BIP7CLgNoNqAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759235903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
-	b=d8pcbHFz0wAV7+DIudHOBbIQ15Epdk6akAOl+AIWfHbRrkSMMShTTQdKUWrvCyuFRTNj2i
-	sEH7RlffhgERhS6kNjPN2khHoOZMSHbxk7zoLl40l4Iv6nmel+jypk4OzDWMdJRuZI3T1j
-	RX5ellyGmDFgTerbXqnghBwAtrda0+0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759235903;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
-	b=/AxaPuupt5ZXwffZy3qFNGBCFkLLXHmp+0mIOd+iSBZ8POpOOOtWNk1erRkcj7bgQGyd0u
-	hz8BIP7CLgNoNqAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 770CC13A3F;
-	Tue, 30 Sep 2025 12:38:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pUjxGz/P22j0MwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Sep 2025 12:38:23 +0000
-Date: Tue, 30 Sep 2025 14:38:23 +0200
-Message-ID: <87wm5gjetc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Adam Holliday <dochollidayxx@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG Zephyrus Duo GX551QS
-In-Reply-To: <20250930011507.12037-1-dochollidayxx@gmail.com>
-References: <20250930011507.12037-1-dochollidayxx@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkyG+3Lb"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7800ff158d5so3905060b3a.1
+        for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 06:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759240007; x=1759844807; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jqBeS8DsUEmSCXznbj/dxds17JMLW1MF4WQuWheFD+s=;
+        b=YkyG+3LbCzkGMP+Qs9tqKHTmME/yHNu8G6B30sXUK+b0+8PP8HaQc3wn5Gfs0aWSjc
+         rjJyPZuOSPL8TY7608p6nat0/d2hTnZFERIANstiLx+kiGef0PG+ARPPzPpifhcLPmr+
+         DBaftYC2CSycgWvFVfQP/0iwph8lrB9SH038UuDo8BTQT382Udim3DLwdySM7Qj2bCbS
+         i6o0Lc54/oh5A9zlx/TK456MCTwxMd2Fs69ZP7MNs10KGaJTL2ys16y+yQSVahGoBDMW
+         5NzubPW0cGhmyG6TTt7YPbHn4QJMKxs6FkA/sbmJ3vTmYuPxJ8b0h570qLhqW1d7khGN
+         /rGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759240007; x=1759844807;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jqBeS8DsUEmSCXznbj/dxds17JMLW1MF4WQuWheFD+s=;
+        b=mA/IBxy+IUk0GVdqjMQz76RRmPe/HBtFAJ5amXdnihZPTJXbnrBSHTZ16q6y9mPf0e
+         wS1Ra8VSQpE7ZU+68jIAyIf8VIFmQ8SA0+qCw5bsIpzcNODsueUbQuiymboXT9WcUISZ
+         hpsBq69mzDkKpcvpTk3m3zMsA0/464Q61rE7J9qfYCBvVEBDbFfZTfESTX6CwF1HYW2W
+         Yu1mhXtqCJn/Xwr4EiT76n34slRIH6DXIsy1F8D33ihE6xW6pCveT8OJ4C0X6Jd/ga35
+         hwOcQUgAW5KrExXnFnPWsPl5uRkpYsBe2OG4qZcAV573beok/T6JXdaCTfXBUT7TuNkD
+         dYxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUvIqaas2tCvCQcKGM6f7AVumUxgQU55Ha3CfbVwd/zeOlgUDEXQu6ERsUGDtaT2yy9Hf8CHJr9uihZyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2JLDLiidbgB6n5KmJE7IKweUuB9AUc5+x4LC4CWanufVL988o
+	G/3uLH3sbDk7nOUCNRVZB+0gHk7afKBRdsLEUg6DzjmvyNqi0vP3EqDOLiJybwSJSs+uC4dljHt
+	DxgjAuRG/BKPCwJ/Yfm0OKLAM7Srv82U=
+X-Gm-Gg: ASbGnctWrsEq9Sv076+B1Ixhf/px5DCMcik63b0quRralAGLD8CgmZMAtE4/Tdj+56B
+	95FueWq/aIBnSD7vYfYZYp2oaieSIN5RZxSej6AI25J8ueAIFytrq9FzxE2QRttILWo68LkSc0/
+	BsmsWHnpRoXROvyoxc3WcZ2PHGmjiTc+xscteO02Rh91Vr0xZtDg+w8dgkPuvYeFfkcUuy3unTx
+	zirULiCXxgLbcFsgg+VXzr5siZE5I+gQVSMtGugnKA0Rrw3vhQ8w3aCcoblyW9qQ7J/XUj24upc
+X-Google-Smtp-Source: AGHT+IGhjy6Ww2FYMoSsIzm1JAs0fFsr+Cq1rs8o9HJCNO8rElUTkiUNDOuA4xzAvcy982PmHLW7KiEcwrxcKTrjzXg=
+X-Received: by 2002:a17:903:4b07:b0:286:d3c5:4d15 with SMTP id
+ d9443c01a7336-286d3c5548amr104887435ad.36.1759240007002; Tue, 30 Sep 2025
+ 06:46:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+References: <20250929133752.31847-1-sidharthseela@gmail.com> <87bjmtmgis.wl-tiwai@suse.de>
+In-Reply-To: <87bjmtmgis.wl-tiwai@suse.de>
+From: Sidharth Seela <sidharthseela@gmail.com>
+Date: Tue, 30 Sep 2025 19:16:32 +0530
+X-Gm-Features: AS18NWBf-tvZ0c7w_qRCR1tGIEM-sOtTfgSUYGymXk8Dpi7__37mC7Xze8xDi9s
+Message-ID: <CAJE-K+AFBeEtK_e66r2VkeeayQW_H9H69uDQvtbAEKgQZ1QVHA@mail.gmail.com>
+Subject: Re: [RFC]sound:usb:mixer.c: Solving 'Generic AB13X USB Audio'
+ Unlikely volume range.
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, zhujun2@cmss.chinamobile.com, 
+	kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 30 Sep 2025 03:15:07 +0200,
-Adam Holliday wrote:
-> 
-> The ASUS ROG Zephyrus Duo 15 SE (GX551QS) with ALC289 codec requires specific
-> pin configuration for proper volume control. Without this quirk, volume
-> adjustments produce a muffled sound effect as only certain channels attenuate,
-> leaving bass frequency at full volume.
-> 
-> Testing via hdajackretask confirms these pin tweaks fix the issue:
-> - Pin 0x17: Internal Speaker (LFE)
-> - Pin 0x1e: Internal Speaker
-> 
-> Signed-off-by: Adam Holliday <dochollidayxx@gmail.com>
+Thankyou Takashi for your reply,
 
-The code change looks OK, but the patch couldn't be applied cleanly --
-some spaces seem malformed.  Could you resubmit properly?
-At best, test to send to yourself and check whether it really works
-before the actual submission.
+On Mon, Sep 29, 2025 at 8:51=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+> An oft-seen firmware bug is that it provides the wrong mixer range
+> that confuses the driver.  USB audio firmware should provide the above
+> volume range in 1/256 dB level.
+
+If possible, could you explain/ point me to a doc regarding cval->max,
+cval->min,
+and cval->res and its meanings, its relation to power and dB.
 
 
-thanks,
+> Try to figure out the volume level and you'd need to hard-code the
+> actual volume range there for your device
+.
+I am able to change the values and load in the module. But unable to exactl=
+y
+understand how the values are related.
 
-Takashi
+--=20
+Thanks,
+Sidharth Seela
+www.realtimedesign.org
