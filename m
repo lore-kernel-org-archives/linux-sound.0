@@ -1,135 +1,139 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF862FD1DD
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 15:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C93303CBF
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 15:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759244979; cv=none; b=OQ9gJATz2qWCccH7i03infxmt8yvQwDwjfB/aMtbTP+wkayVI0LxURU5fO5Ior7wOEzvx7m7PIDTayWhtbN+X0/QDiCVMCXiXhYwLrGeJjjsHwRh4/vpupxRuxFKVo0jp1uuj1CBSlSPJVKV/2BP6ZHnF9h1+xRZH8wWPoau+sk=
+	t=1759247991; cv=none; b=LtpqTJuFeEd7+STvn3TXS2CkobqaR/Mg47XG8cvjiuRT0iU8TnWhNKHG7nhaL6LJIuTam5dRDiPXTAp9J2rgFyQ6MVnWHFcSyp3EHn/hWhmC+nJ5I7YXfdYaYg8oCupm5yPthU4aB9RJnLwU74Dmphkt9VUYdex+UG0e2gnH/LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759244979; c=relaxed/simple;
-	bh=74QgIHtoCsDzemGWWCQBxeRlKKMa0fAtv1m4IHbss18=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gD3Hl51iLPa607ABHGfmmjG7G5RJH9iEVdV28/KjujqEl9foQcOU9iF70KOklZoWoRMuJ24umK8M6E69k3rB+T7PWvikWhm75IXZBz0rfLUpCW4tVI0VwnNAD1srsdt0CgSOD09dLmy9m6djbZUqLerxcIki+nvatJC6SSmOAFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LY54hpLh; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759247991; c=relaxed/simple;
+	bh=AVM+f6993GG3pPTGXpDB9FNg13zb0loTdcuhSe/D63Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=PrEH7yGopWMInRywW/NH55nkEodVDwGZPX/P82jaXcfYY0l7K1UbgFww2GkQxH71eEhFWlrczRqXbLf9LNG4kHVfTehcIyyssh4Z7oAXLEkGUg4bv3vzrxdYW8uwxufWQcLSRPGiW+SR9lvpK1sEh/NU3mODZUWuwfxzXlv+hwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HTj2ldqH; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LY54hpLh"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4db0b56f6e7so51704361cf.1
-        for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 08:09:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HTj2ldqH"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e2e6a708fso40274355e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 08:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759244976; x=1759849776; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1759247988; x=1759852788; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+5FxuQpEwjlLjzFaZOq/ycB/lU8HlNjZWt21ev5aDg0=;
-        b=LY54hpLhxda1aAdiI97mnXropJLc3wpTh9Bab6I9+aoTdCvIRUENc3KaU6kU184A+8
-         tnAcE1ViQFMIuV7oI5JAD/pHul6djJE1+qafzG/J1yKLusbCdlDWEJk5SObzechem2g3
-         fx7H1sUcLnw/irVzRaAy4N1fEbk0Dhf06jaWm/3VqNIilH8TMvZiZuQiVWySijJFHVJX
-         7SOlS2p+AcDzNBz8tU98K9ReKY17lMScLhj6N9wWqvleuhoGjK5bC/u7si42nMnHHBBn
-         8jOr8Y6u4PqulX+K3V9RC1JpUiBVtU6s708vMxyQhGN3BkoIOAgKlugCKygVJIjIjvnw
-         Fr3A==
+        bh=jewn4YU/vUIZPW/z42z8IyS83UgUexK9MRMwSa8wuVM=;
+        b=HTj2ldqHqECeS++YJjG3LkVp9U62Kk2sFTKiNwdeaMizJxBXTU5LmE7bHHHj4WS9pg
+         GxVlQJJBYrDCD8Q6kGJzgNodFvLWVxlF7IlrVnp9BlVd0fil4tp2S5zuNMgZ2b87IAOW
+         zBCxNKKQ6u4fIcLXUkY10beovm5Zu/Ge7BdXnqYBCN53o8UULCqtqg1stn3Wz3EuapjL
+         1vvvDLa6ZuU8VwjmQoXf4tRGWBNp7asa9UoN1lRSWrSEpce3AamM9u6oSKpBsGQiz5su
+         sC4JQflC1AeLF4iWOKi8ybFXb/F9QS6Ek5WS1FsgSBhyNDk1Gixqse1hvkqhLqZ4u1hG
+         mJUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759244976; x=1759849776;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+5FxuQpEwjlLjzFaZOq/ycB/lU8HlNjZWt21ev5aDg0=;
-        b=k4IfAIaL2XhhoE38CS+JyimWQryIcUskOH0y8KK8TCKs6ZQxwZV1bc0RXudEwic7Lr
-         NPk9pJ5/PWqkf7Q689FpYroAe+bZXjiDW/xhb0V7ALnfmB/Yznaj1g+ldaHSSoA1CjGD
-         s8GegSVb8wLSdk3+4RsxQEvieqN6lsBp4tzzlIs21Qf2wSBdrZV1mKUXDFwMpFQcE5Bt
-         0qNrnlVKD7lHfhzRxzCLCwhndqs/tRJtCUQRjPu6vL34uVTbndD6UICUfd6Ewypk9y88
-         FuWyfwBONLLyt1y6f90fZ27o3mYm4ONyxu43zicsLke9i+jwDm//UiCblEFwqIJqQkli
-         MM/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUzgaBg8UuUx5Xll14qC69+Is7yvVePJQ7JYIN4AymzaDfOzWKLEhhTJmbrB1dFjFZ3561ZA6KOLBkcVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzJenC1ndzZeSAcApouEJ2PeW9eCoQB+LZEzI96KfV+1ArE6Au
-	uPEpbhOKtvo36lYp30F1y6j163vr69QSLeV857S6cYkHunps+XY11wS8
-X-Gm-Gg: ASbGncu9dTxn98Dd9T4dV7SkzdN5uIj2NTBCVS9RulXhds4kHIxl2rUUY2BuAcLVXo+
-	Mp1Ksk9cYiQx7ooJr3B+v+3b8HW8j22utL+iAEVHPo0er8DdBHBj4358uXuG34+Voh6fDCnTolH
-	frMFOjzvzCfDeAynoSC8YbOfH1zsq9j+ZIDqm5C8sBWux6gyzK8+vJNmrZp1w0goTgrIcCG4R0A
-	sZeIJA1W/1tb6pGbRwTZO3gv/0pKGuof5qRyMGAc2ZB5umqipQxAzbbEYercCrb9nTU6BvktFqe
-	IpgL8nIvtas9EkrQzeeeolgUDjwHx9sc9afOQReQ6GLQZDiK0cznhWV+EzhWmaMvICMwTt8H/Ln
-	6ipk0WTqC+cuN5D+ntSj0qQnUMwFwpocN4b3u2HSKHWMu/iT527aZomboql4ls4cNVxT3cNNZ
-X-Google-Smtp-Source: AGHT+IHBC9CAsd1xO28sLyIBEC0dLpq9cXyF1kuTaxuQs06z3bJXPhwp8yEnjtX96OB/LMtT5lmVJg==
-X-Received: by 2002:a05:620a:c44:b0:827:ed1d:a2d1 with SMTP id af79cd13be357-8735db7dbe9mr34760485a.20.1759244975971;
-        Tue, 30 Sep 2025 08:09:35 -0700 (PDT)
-Received: from FUTILE3080-ARCH ([2607:fb91:14e0:c8c8:7e15:462b:c565:425f])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-85c29dbf584sm1054092485a.29.2025.09.30.08.09.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 08:09:35 -0700 (PDT)
-From: Adam Holliday <dochollidayxx@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Kailang Yang <kailang@realtek.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Adam Holliday <dochollidayxx@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG Zephyrus Duo
-Date: Tue, 30 Sep 2025 11:09:14 -0400
-Message-ID: <20250930150914.3103-1-dochollidayxx@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <87wm5gjetc.wl-tiwai@suse.de>
-References: <87wm5gjetc.wl-tiwai@suse.de>
+        d=1e100.net; s=20230601; t=1759247988; x=1759852788;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jewn4YU/vUIZPW/z42z8IyS83UgUexK9MRMwSa8wuVM=;
+        b=YN6VJlRpsEA40+Noj+R+uuwE2xMGvVA6qcH0cP4mXmVXYK0p6xcnZQE7puJ6eBEO/J
+         3qYA2s3k8HbM/Bit/iPpIC1XLTMYudYFUQNnRJWKw0B1jju4cea+Qdtx2o464kB91Ha8
+         K/Gt1UBK2G8gj4pCnwiueDGpVn3whyr7B38GoGCnYufZykhsGAu5vW1kMYpTNztAqScz
+         UqUIZAeObUksQ1hHkMC8BMtl5LbA3ctdCQhrM7PoxnlZpJnjYpujth02J4+N28YUfgF3
+         v3LBrVt04zlY4E8Wv+8VyPXZy9fvSCLvZN62opY4KrSNMOW7ALozmXkRfKCnaCWEujKZ
+         UeCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVizcqVCIWmpBXHn5qaxZXvccaIXMlmeZEkOVuyiR3QQBFHCIKeVXSZU/9aoHYcVx6aRe+iPJCu2unIPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbKwDG6VPqoshZxs9pvt02v4sOhoIk91WhM7bMh2zEwfTnF9/0
+	uo2KLfj2m/4wwP/Tx6CW4oFGN1K4+aCJzzdBOb29kXeAfJX0jS7AN4Z3jRK85yzFXr8=
+X-Gm-Gg: ASbGncuVkTSmBvoTotEND09E/XoaoJEVUkfCw0IjKeVSseKMhFxu2bOK1WCQiDSZp8j
+	FvZkJyTzMQXOtx13mtchbl3hROgN1nAsvNju5ed8Ik1kL2gmHsbHeFpCcF3WdVBQADrDWbNyQjs
+	RcPw691E1E8CW8Ks1fbsrFLeCTJrasJhN7brzJ8yvzqdN+DecLxwfYQoOdZXcdTuQpg7pg3L7Vr
+	oKkkxAPYo1sq9Srx9mKmAf/PrYSJwompQlpwMV5iXwa0WndHosN1X+slFBqXsx4356d44XPx6S5
+	We4Vw4h+VUZZOGNjqs2SMjuAyrzSShSDBCtqf5pyVa+LUwhwjO0Te/JwK5BB9ZOeVwbsqw469G0
+	/S6rmKpg8Vj+a28PTiHADzp1i8WFzTIWlwBg2YaNYycsgx+AZ+1Ow5/0PePw=
+X-Google-Smtp-Source: AGHT+IGgWhUKC4p7LLQ65Y2Poqvj3Z/K2NZk/M2fzSl7pknsxh6YoTUT2JS4bAKz8Cg2Bjs6T9NXkQ==
+X-Received: by 2002:a05:600c:4e48:b0:46e:59f8:8546 with SMTP id 5b1f17b1804b1-46e612674afmr3283495e9.17.1759247988059;
+        Tue, 30 Sep 2025 08:59:48 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7259:a00:248:54ff:fe20:c34])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e56f53802sm61255805e9.9.2025.09.30.08.59.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Sep 2025 08:59:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Sep 2025 16:59:46 +0100
+Message-Id: <DD69D3NF9QWG.3NJDD1L5EQFMF@linaro.org>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <srini@kernel.org>
+Subject: Re: [PATCH 2/5] dt-bindings: sound: qcom,sm8250: add RB1 (QCM2290)
+ soundcard
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: aerc 0.20.0
+References: <20250302-rb1_hdmi_sound_first-v1-0-81a87ae1503c@linaro.org>
+ <20250302-rb1_hdmi_sound_first-v1-2-81a87ae1503c@linaro.org>
+ <l6itr3k7taiyiokaahcg2mwtaa5lynia4bimxridpsyymk5ml4@loii4h7lhjhz>
+In-Reply-To: <l6itr3k7taiyiokaahcg2mwtaa5lynia4bimxridpsyymk5ml4@loii4h7lhjhz>
 
-The ASUS ROG Zephyrus Duo 15 SE (GX551QS) with ALC 289 codec requires specific
-pin configuration for proper volume control. Without this quirk, volume
-adjustments produce a muffled sound effect as only certain channels attenuate,
-leaving bass frequency at full volume.
+(update emails, drop old ones)
 
-Testing with hdajackretask confirms these pin tweaks fix the issue:
-- Pin 0x17: Internal Speaker (LFE)
-- Pin 0x1e: Internal Speaker
+On Sun Mar 2, 2025 at 8:20 AM GMT, Dmitry Baryshkov wrote:
+> On Sun, Mar 02, 2025 at 02:49:52AM +0000, Alexey Klimov wrote:
+>> Add soundcard compatible for the soundcard on QRB2210 RB1 platform,
+>> which at this point seems to be compatible with soundcard on
+>> QRB4210 RB2 platform.
+>
+> Is it? The RB1 uses PM4125 for audio output, while RB2 uses WCD codec.
 
-Signed-off-by: Adam Holliday <dochollidayxx@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+That's correct. I also managed to enable hdmi audio, vamacro dmic and
+pm4125 line out output keeping it all compatible with qrb4210-rb2-sndcard.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 3c42f66fe000..214eb9df6ef8 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3735,6 +3735,7 @@ enum {
- 	ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC,
- 	ALC285_FIXUP_ASUS_GA605K_I2C_SPEAKER2_TO_DAC1,
- 	ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC,
-+	ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6164,6 +6165,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269VC_FIXUP_ACER_MIC_NO_PRESENCE,
- 	},
-+	[ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x17, 0x90170151 }, /* Internal Speaker LFE */
-+			{ 0x1e, 0x90170150 }, /* Internal Speaker */
-+			{ }
-+		},
-+	}
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -6718,6 +6727,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1517, "Asus Zenbook UX31A", ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A),
- 	SND_PCI_QUIRK(0x1043, 0x1533, "ASUS GV302XA/XJ/XQ/XU/XV/XI", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1573, "ASUS GZ301VV/VQ/VU/VJ/VA/VC/VE/VVC/VQC/VUC/VJC/VEC/VCC", ALC285_FIXUP_ASUS_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1043, 0x1652, "ASUS ROG Zephyrus Do 15 SE", ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.51.0
+Things are mostly the same between RB1 and RB2 apart from last stage
+in the output and analog inputs (non-HDMI and not dmics). The diff can
+be described in board-specific device tree, amixer's control commands
+and model property.
+
+Is it still need new separate compatible "qcom,qrb2210-rb1-sndcard"?
+
+Thanks,
+Alexey
+
+>> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>=20
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/=
+Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> index b9e33a7429b0c063dc5f5b806925cd541e546cf6..2493ed99268bf2ff83430201=
+50c2c9aca4262514 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> @@ -21,6 +21,10 @@ properties:
+>>                - lenovo,yoga-c630-sndcard
+>>                - qcom,db845c-sndcard
+>>            - const: qcom,sdm845-sndcard
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,qrb2210-rb1-sndcard
+>> +          - const: qcom,qrb4210-rb2-sndcard
+>>        - items:
+>>            - enum:
+>>                - qcom,sm8550-sndcard
+>>=20
+>> --=20
+>> 2.47.2
+>>=20
 
