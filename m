@@ -1,85 +1,88 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A77B34BA29
-	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 12:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86172BDC33
+	for <linux-sound@vger.kernel.org>; Tue, 30 Sep 2025 12:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759235639; cv=none; b=H0j8gW/Bi88M8LQ9H/6CYJJXoKHsPxHFJ23wOLg2VEJ4ExkiVWWV/Bl2Kj+3kB8e79aecvvWVtrIiFBpbmNggq4yBE0Ep60xh88L6x2gZ4U0yitZGoqB/U1KyL2Du+0MG+RJ61lSY0csBJQpOHa3noYN0tTRZdEjMXk03paJnxk=
+	t=1759235907; cv=none; b=bWWde6IgOHdeWqVS1GTbhrIAWksp5WrQw/rJ63tyrApYoCKKjN4VQMsiGWvSGDtOFRP/V/Bj4hwnnLz2bsyNz7NwQc8e6fYftObDfb9Fo4r80nq6/I/TM03wo+Ef9vHApG7Rjh02Z6yfQdCoRWyf1OTjD7i4h8I6nKCxF8o/P/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759235639; c=relaxed/simple;
-	bh=5nL1028SAfOhOIFmgXyOWd4pgxr29ALHzz2k1lwk948=;
+	s=arc-20240116; t=1759235907; c=relaxed/simple;
+	bh=Aei3rdUjohoI0TXFDAwreXDlBZy0mwN0gsaIfpfbAR0=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hI/x5e/l1XT+z94IL9u2gG5bNdd+1Fpl2cgBjP86PuZ7RWXz56cMWh4vFQUOoCB/q7jhCyrCb7HnGnSjjU+Kwn13oPWm7ilePgXix+lqMvXYH7kt3UuhA775UzucUCdVIfPA6iuDGfzQcyTWZbfuuTqgw2hdZXmOX84FdVKfTJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lh/1rbeM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGon9Wlo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lh/1rbeM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGon9Wlo; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ZQ0krsvtAj5Lfiqc1hem1XKOmUek3CoBBrl1O+oa+XiCqLgtfVBjvjcOC7j44XCVL/oWEydkRENPOtBGHIfR9gM1+s8mOOzje2QY6LBHxfXsYQfrkCkWg9LU6ddmeRdp7lLRDc0+P2GEXHnb3bra4Jof+9qCluppFSWDJpKUYIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d8pcbHFz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/AxaPuup; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d8pcbHFz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/AxaPuup; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lh/1rbeM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGon9Wlo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lh/1rbeM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGon9Wlo"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d8pcbHFz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/AxaPuup";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d8pcbHFz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/AxaPuup"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8AA301F7DE;
-	Tue, 30 Sep 2025 12:33:55 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 92B401F38F;
+	Tue, 30 Sep 2025 12:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759235635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759235903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2znZdlMorDPELgJlQixTa7ClZzREQMnXYZcZV5K2D+Y=;
-	b=Lh/1rbeMa2nT6dhLtKUiqQcq4i6tXYHHwc9Y8N/3wVfoFIJGu3X6ykI2xwv2+Fu4ZLTKlv
-	GrCgyXH1qjD5+Dg/zgWOxKoJC4nhmY1Oz9gt7Dk+YVfr16xbxu0sKbu2sAkxTg+AAfDY9S
-	kp6wlBL4+nCsjAvPY8D5gp6RK7zDiFU=
+	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
+	b=d8pcbHFz0wAV7+DIudHOBbIQ15Epdk6akAOl+AIWfHbRrkSMMShTTQdKUWrvCyuFRTNj2i
+	sEH7RlffhgERhS6kNjPN2khHoOZMSHbxk7zoLl40l4Iv6nmel+jypk4OzDWMdJRuZI3T1j
+	RX5ellyGmDFgTerbXqnghBwAtrda0+0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759235635;
+	s=susede2_ed25519; t=1759235903;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2znZdlMorDPELgJlQixTa7ClZzREQMnXYZcZV5K2D+Y=;
-	b=gGon9WloFLG3kpbYxKaIFWfAPn+x1FAyg+eZme0Il1AZzh9OXq9ZgMBXYLG57xf/KmzoYI
-	bLdohzxfVRB4OEAg==
+	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
+	b=/AxaPuupt5ZXwffZy3qFNGBCFkLLXHmp+0mIOd+iSBZ8POpOOOtWNk1erRkcj7bgQGyd0u
+	hz8BIP7CLgNoNqAw==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759235635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759235903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2znZdlMorDPELgJlQixTa7ClZzREQMnXYZcZV5K2D+Y=;
-	b=Lh/1rbeMa2nT6dhLtKUiqQcq4i6tXYHHwc9Y8N/3wVfoFIJGu3X6ykI2xwv2+Fu4ZLTKlv
-	GrCgyXH1qjD5+Dg/zgWOxKoJC4nhmY1Oz9gt7Dk+YVfr16xbxu0sKbu2sAkxTg+AAfDY9S
-	kp6wlBL4+nCsjAvPY8D5gp6RK7zDiFU=
+	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
+	b=d8pcbHFz0wAV7+DIudHOBbIQ15Epdk6akAOl+AIWfHbRrkSMMShTTQdKUWrvCyuFRTNj2i
+	sEH7RlffhgERhS6kNjPN2khHoOZMSHbxk7zoLl40l4Iv6nmel+jypk4OzDWMdJRuZI3T1j
+	RX5ellyGmDFgTerbXqnghBwAtrda0+0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759235635;
+	s=susede2_ed25519; t=1759235903;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2znZdlMorDPELgJlQixTa7ClZzREQMnXYZcZV5K2D+Y=;
-	b=gGon9WloFLG3kpbYxKaIFWfAPn+x1FAyg+eZme0Il1AZzh9OXq9ZgMBXYLG57xf/KmzoYI
-	bLdohzxfVRB4OEAg==
+	bh=r4pTIefMfA4LxwV+gd1YvcX6HyeQAVsGfGFw5D43zHQ=;
+	b=/AxaPuupt5ZXwffZy3qFNGBCFkLLXHmp+0mIOd+iSBZ8POpOOOtWNk1erRkcj7bgQGyd0u
+	hz8BIP7CLgNoNqAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 765C313A3F;
-	Tue, 30 Sep 2025 12:33:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 770CC13A3F;
+	Tue, 30 Sep 2025 12:38:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5exVHDPO22igMgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Sep 2025 12:33:55 +0000
-Date: Tue, 30 Sep 2025 14:33:55 +0200
-Message-ID: <87y0pwjf0s.wl-tiwai@suse.de>
+	id pUjxGz/P22j0MwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 30 Sep 2025 12:38:23 +0000
+Date: Tue, 30 Sep 2025 14:38:23 +0200
+Message-ID: <87wm5gjetc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Steven 'Steve' Kendall <skend@chromium.org>
+To: Adam Holliday <dochollidayxx@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Chris Chiu <chris.chiu@canonical.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/hdmi: Add pin fix for HP ProDesk model
-In-Reply-To: <20250929-fix-hdmi-hpprodesk-v1-1-f4a7e714ef11@chromium.org>
-References: <20250929-fix-hdmi-hpprodesk-v1-1-f4a7e714ef11@chromium.org>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG Zephyrus Duo GX551QS
+In-Reply-To: <20250930011507.12037-1-dochollidayxx@gmail.com>
+References: <20250930011507.12037-1-dochollidayxx@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,39 +95,45 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spam-Score: -3.30
 
-On Mon, 29 Sep 2025 23:33:34 +0200,
-Steven 'Steve' Kendall wrote:
+On Tue, 30 Sep 2025 03:15:07 +0200,
+Adam Holliday wrote:
 > 
-> The HP ProDesk 400 (SSID 103c:83f3) also needs a quirk for
-> enabling HDMI outputs.  This patch adds the required quirk
-> entry.
+> The ASUS ROG Zephyrus Duo 15 SE (GX551QS) with ALC289 codec requires specific
+> pin configuration for proper volume control. Without this quirk, volume
+> adjustments produce a muffled sound effect as only certain channels attenuate,
+> leaving bass frequency at full volume.
 > 
-> ---
-> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+> Testing via hdajackretask confirms these pin tweaks fix the issue:
+> - Pin 0x17: Internal Speaker (LFE)
+> - Pin 0x1e: Internal Speaker
+> 
+> Signed-off-by: Adam Holliday <dochollidayxx@gmail.com>
 
-At the next time, please avoid '---' separator before Signed-off-by
-line; otherwise git-am won't pick it up.
-
-I applied now manually.
+The code change looks OK, but the patch couldn't be applied cleanly --
+some spaces seem malformed.  Could you resubmit properly?
+At best, test to send to yourself and check whether it really works
+before the actual submission.
 
 
 thanks,
