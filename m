@@ -1,86 +1,120 @@
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18A32BEC23;
-	Wed,  1 Oct 2025 10:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6944C2C08D5
+	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 10:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759313685; cv=none; b=FS5o+tIVdWktpC7t6gU3t5t9im5X3rad/B6lXoGv8d7An0GYhZI3O7K5yhoerGv8Xo9gIK3CZwoQtkPcBvhWlN8QKdA3k3iulhu6psq3+MWWxGGO8+rzBoXLbLyOz6L3moHEHMbTE3bKcq82g9AO3HcxhJjZmGllJWePvm7v3lA=
+	t=1759316002; cv=none; b=hYgIZq/n3jfKy0XJafF3PA8nXfPzpWstxo9eLcMsSLkFwolskHvZBCch5g1aDNZmJosfw8+/UhY2ahKE5HTdFSeIJhUkxUdeAKqfaCh1B3R1ghyZBCNUmVkHGdercQLAQZ1LpB0GhKbDW8hf/GQ7vLBiTt5kr/o85bQ5fcAWM5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759313685; c=relaxed/simple;
-	bh=7xxuCF9C5cu4w/jvCQcEs8umQTwoODQ512OHhNI8b6c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dL097Tjl0VRp6Ns/6S2iuubK0AHHV7iuthmQFpD9XIY+SgLDtOnXncErNDGtC7Gy7tKe05Agkd24QEMcFTo+ekLYoL4K1awFUhjTFiNB92cjHmA9yhRkE0SlqV645aR7seYr76eyOIZP8yxlWkxRjesyo6EyvtrZ4/wGIygHtNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 1 Oct
- 2025 13:13:28 +0300
-Received: from localhost (10.0.253.101) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 1 Oct 2025
- 13:13:27 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	<linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] ASoC: q6apm: fix potential overflow in q6hdmi_hw_params
-Date: Wed, 1 Oct 2025 13:13:02 +0300
-Message-ID: <20251001101304.612758-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1759316002; c=relaxed/simple;
+	bh=iRFBrL9jShE7DNB6IrQqexRe01xpLtZNZRY5DpG098k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hf8P+do5X30QSQGLwvzI/NcbGElVrxt6MYVqOk2a2c0bDAdUh6zlOaCiwHT4pINFHLwu2lQoLost+rOOyofPQPqZ9SGBU2452a2KMzTpmUobdmeAsfGIoEPIxIBF5ZgTu+iNbA7L8kuY3qbNkaLN4r4tdkotpXyHSDx7PQXEkII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=blYrOHjJ; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="blYrOHjJ"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-36bf096b092so98448821fa.1
+        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 03:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759315998; x=1759920798; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UXaRvd/Tl3m+OCCyeRNRvJ/5mgQ4gfksuRE7c8W+vks=;
+        b=blYrOHjJ8Xv9hvrnjWXmR7AYvuEPqDvq55kOBz173UptwSMHu+MwAvpp3FQTzRpSPn
+         5AC98TBpFOdRUTe8w/J/Now1xyCYyxT27eL7voDXd9TCjSgaoqCVf1rwua5Tm4rw/XDY
+         8PN/8UW9e4kG8a1G3nchpZjpCybGIOUn7vYeUMd9yBARwr4148CEXvCt+PlzOWbvlwwC
+         o2PFHH5NWyN2O5Wxa4jSYk+eMHwZeETesrtUea1KrpsLa3JkDMXK9TgpmWjf6Gwz1Qux
+         U546VBbuVtREaQ2oeCryLodpiblOSi8kUVxs37AXD7K5zuwJVqA3P3CZiqi5gvrRG6uP
+         t1yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759315998; x=1759920798;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UXaRvd/Tl3m+OCCyeRNRvJ/5mgQ4gfksuRE7c8W+vks=;
+        b=C4blwv2GKl9qYRMFsVVw0KgoGIQGNo8d4u3A5XRLNvcG+A+tdJmPF9bKSn94iXrtky
+         u5r6Nu7dErwWCA7mNnUMenqcumNaLwv0eqe4fWJiyp1fX1gJKQiY8S6F0n5M1LuXfIXc
+         9i0PvlWq8xeW/8oIClJRHARw1AEocLkyexKVtfUOJe4vtCoyPHQLiE1/0Bk7Iicmpe3n
+         01PtCSHbzGkQ0jExvumryNsERP3/DaRXQecx0/aqHhhm3Siw+X3dG5BQmQvGpnRJUbDc
+         expmlP0JxAxbAN6z1foZCzGDGN+oU7/gGD/EpBqjc8lDizwUm5Y3bhzod92qjx5SWDHO
+         n2LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURZPHCikzGDaiwO9/5g5ADd4AwGoZvFPPCjoiOgeQ8xQz543XZOnqTuWpQ0/Cxn9RkSNaGh/A+aozL/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjLbmML/WHY7X4i34ULajKs22pFrFFVK0uUDEwQOpIYo84A4Pu
+	ws5/6y0cwBHpMcN67DKiS7czF5XZkjpwK+GVUsK3GqwvU51vYfcImmYyZFqy4/LDHvRKSRRRm1A
+	0HX5wMsc4SiishK+azGXXu/qIQOSlL/4A7JuQMm40kg==
+X-Gm-Gg: ASbGncteHfxfSAl75BqGUWzO4i64LlSgurL9HbTdx0vId00Vvxm8nxka1eZjFL1Cyi3
+	r0mMOHfnqnLU0yFCcdTkPHn7JLAel7qWcwsoZncjTNle11mJSL4c5y+TDqmLCv84BTnxu/5Hyzo
+	s0bGBj1queXiO8TX7oaSg9LvYn+3Su7aYscK0eRWqZSM1ZHnMP5NZBdoNxiShuqyCEAtxQboFhQ
+	xZPhKxeKTC+/WkUbRRxe5LJKSOII7k=
+X-Google-Smtp-Source: AGHT+IHNsDtiUQt/i2npQARVssi0DJ3+LBTFoSnvhtZVkK/xmqXN8oNQNgTvZTXOiQqw4WqXcNYRSxbiHzvdCA73Ztc=
+X-Received: by 2002:a2e:a7c1:0:b0:372:9fd0:8c40 with SMTP id
+ 38308e7fff4ca-373a740495dmr7206011fa.31.1759315998524; Wed, 01 Oct 2025
+ 03:53:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org> <CACRpkdYcVtJjRHRJ8GgeU7rZDuyaJKu0vgcknb7DsHPjZGKGuA@mail.gmail.com>
+In-Reply-To: <CACRpkdYcVtJjRHRJ8GgeU7rZDuyaJKu0vgcknb7DsHPjZGKGuA@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 1 Oct 2025 12:53:07 +0200
+X-Gm-Features: AS18NWD2nrQaAyXYNX4TJo-95Uw5nXLztXmSEl4xWN8QeMmA2KtvYABQ1GxMrZg
+Message-ID: <CACRpkda-ZvrAC4bNLnA+ao0Y8-Nd_-b89N6HU10hhEdaOUYAjw@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since 'module_config' array in struct 'q6apm_lpass_dai_data' has fixed
-size APM_PORT_MAX (127), function q6hdmi_hw_params() may hit
-accidental buffer overflow. Specifically, in case 'dai->id' has
-values ranging between DISPLAY_PORT_RX_1 and DISPLAY_PORT_RX_7,
-DISPLAY_PORT_RX_1 being equal 129.
+Replying to self so Bartosz don't have to tell me off...
 
-Mitigate this issue by expanding the maximum possible size of
-'module_config' and increasing APM_PORT_MAX to account for bigger
-possible values for indexes.
+On Wed, Oct 1, 2025 at 10:49=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
 
-Found by Linux Verification Center (linuxtesting.org) with static
-analysis tool SVACE.
+> and every GPIO access on every system will be proxied
+> and then this better be fast.
 
-Fixes: 2f6860e6133f ("ASoC: qcom: q6apm: add support to display ports in lpass dais")
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
-P.S. This issue is quite similar to another, already fixed one, see
-commit a31a4934b31f ("ASoC: qcom: Fix sc7280 lpass potential buffer
-overflow").
+What about I read the code before I talk :/
 
- sound/soc/qcom/qdsp6/q6apm.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Inspecting patch 4/9 it is clear that only GPIOs that actually
+need to be proxied are proxied.
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
-index 7ce08b401e31..1d032004e01a 100644
---- a/sound/soc/qcom/qdsp6/q6apm.h
-+++ b/sound/soc/qcom/qdsp6/q6apm.h
-@@ -14,9 +14,10 @@
- #include <linux/of_platform.h>
- #include <linux/jiffies.h>
- #include <linux/soc/qcom/apr.h>
-+#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
- #include "audioreach.h"
- 
--#define APM_PORT_MAX		127
-+#define APM_PORT_MAX		DISPLAY_PORT_RX_7
- #define APM_PORT_MAX_AUDIO_CHAN_CNT 8
- #define PCM_CHANNEL_NULL 0
- #define PCM_CHANNEL_FL    1	/* Front left channel. */
--- 
-2.43.0
+> Two things come to mind, and I bet you have thought of
+> them already:
+>
+> 1. Footprint: all systems using regulators will now have
+>    to compile in all this code as well.
 
+This still holds. It could be a concern if it's a lot of code.
+
+> 2. Performance, I didn't quite get it if every GPIO on the
+>   system will be proxied through a layer of indirection
+>   if you select HAVE_SHARED_GPIOS
+>   but that would not be good, since some users are in
+>   fastpath such as IRQ handlers, and the old way of
+>   sharing GPIOs would just affect pins that are actually
+>   shared.
+
+It is clear from patch 4/9 that this only affects GPIOs
+that are actually shared, and those tend to not be
+performance-critical so this concern is moot.
+
+Yours,
+Linus Walleij
