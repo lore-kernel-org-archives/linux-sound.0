@@ -1,165 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E47256C76
-	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 15:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759332676; cv=none; b=Tuv+nBODtGEn27GN+3MqdpeOocLMIBFJufBnFRt5QN81e8gyIxuOJYo8KxWBMW/2z3OLjyjVv+XfNj08qtXu3H7vMjgGuF5rt2E9+4Y+OaZgDTJNd/Yvxsx4gJu/7IwBD0RtYdffhtsYARoj0BPNmt/TakRznuWRe62WcuaVfJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759332676; c=relaxed/simple;
-	bh=JDTAEyiZbcLvVT3hNia51TXKC13VHjeiGUJS8Hgu32o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SsZgJAMKj6bLm90LAIZ0mIZfmHfo0MG7aWqpHwVu++sjRUmVp3D/Xxa4VruzUXzgYfMGzxhveWXUwuPN+kJwa+0EL6+GVnU3vr2EZFOvaqkWIYUy8SvgbNlPy1N3WwdSNGs++qerr8mjLg5XJTLY3rCSxUWc58MAk3oMbatAK7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9s2vJhw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790A81F4CBF;
+	Wed,  1 Oct 2025 17:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759339123; cv=pass; b=nhEonpOXuMYnJ5rwzrqCTmuErMMFVMOy4sm9VL1MjkGVOL7s5PGp/HkEdCu0DvVhrUxXIMsUxXMwQjGG//LX6HPCf+JpghbsWV+3edShCT84KjA8dw8e+em7FI0VDLtb2KBcoHllpRvYfE+Cyw7rQ4mCgMU2yIGW6KJNhgqaLMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759339123; c=relaxed/simple;
+	bh=5oopaJWCCa9McYN/u5FuVWHmY0aTOrreGFImxV+XzOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ed8srSPMl49HtS3J9EpFfnuofjw73Flr3YxlCMhunBg3amQ0+Rdx4B6bYK77Bxn0RXB9lSdJ0TPO6Xdix+YCtwMc0pQmxze6T6BVoYtyTycvCEWwTyQOrRN6D42NCLVROEggL/8xbe+P2i5KgZHlxQOsRsBcRCj21lcKh2w2ilA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=ksINNn9R; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9s2vJhw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC04C4CEF9
-	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 15:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759332675;
-	bh=JDTAEyiZbcLvVT3hNia51TXKC13VHjeiGUJS8Hgu32o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=X9s2vJhwFvLYgnC7gK/o4ZbL5fgFDbWMo2m9DC8rtEEL4x7JKB9d/kOIlK6IYksaN
-	 ijhj3/MjlbSKUq9Cl3tPq3qd/b1tYIW3KmahqNu87DAYfkDQw2S5qap5UV98S0admZ
-	 qoho8gFivpdh6iRA7RKqJs/Zdn1xWauCh/w8Pi2m/gvqKzs2sFuRz2vrMA6JrKvxta
-	 9deqCRJK7jSWhpKZ6fV2sHYyxMocueDWW/lHZFl/xf28Xr/J1r3NfrCV187VMuIBXh
-	 Wq6sHMJNs7zHCcA3E+xXXTMZqKFCgApgkYRjXMcnAWJ3oafrGKHZjtl7xZUqe/nTfH
-	 stqn8akp4VTkg==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so2703566b.0
-        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 08:31:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXpJgv8FTssTHS8mku0EjcHS+SVWmUdgFeXF3NrekFDp7C+po6Tg4WwOhJtrUEWVlxbMBMkeFI7mQoK4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaUEqtOT6lSVfzf/M6ot2NyuSZOpxhH12UZF12ejTO4BgG3P+H
-	Yhd7dKqVLcVAnXNyd8NXcIFlK2NAgPFw4UpqDbJ3yX8Vq/GG9iqMcj3Fjp1D6M+Cz52SwEGD4Jk
-	lj95hmeEkuZ36XI+lTQGj9V5g/+D37w==
-X-Google-Smtp-Source: AGHT+IGuAt8OqaKidKIuidndmLKgwuYuRdG+PcQotC2WNIt9dyJsL6bKltHzJtdGvoLIdTuZkQcvUO0000wUNzWaOnw=
-X-Received: by 2002:a17:906:730f:b0:b2e:6b3b:fbe7 with SMTP id
- a640c23a62f3a-b46df909bf3mr469061166b.0.1759332674337; Wed, 01 Oct 2025
- 08:31:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="ksINNn9R"
+ARC-Seal: i=1; a=rsa-sha256; t=1759339054; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=g6eeKVe8q5UYu/Zyv+4f8spD2OVynk46aIqjrhPwvud4pg/yFU6GJ8m/Y+1A38QxhJIyMHo9XvP2zVwJvaf/koqQdRI7iWsrnIYH03ufiggiwoc8wIKBaqBtmNuHNS3TWVaLJgEmt6Fefs8/PbI5VQDaVTNFQ38gfghwAncUdSI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1759339054; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=SkWCXVZn9oQwr9fOneaWYc16aLwPTVni5B0m5Fk1lXU=; 
+	b=PXCmVyZKF60Fi3lkeBl8zsfau5T0mvo/+YUBztmCZGuI3hDgh8QllEmRMfQbbgGMoKMd6NpZArnRZfrbBQ6qU0VMrSsDFscLsUkiHKPlNfxm2mHOvEE/MuGlBOc92dOt6bAR2SQCSepwaMg2H0rHrr1SVIUaN7fmLbAM2i5Vss8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759339053;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=SkWCXVZn9oQwr9fOneaWYc16aLwPTVni5B0m5Fk1lXU=;
+	b=ksINNn9Ry5kbkov/RYjCPthrjeR/B3ir8QZC1VLMfigTV/SQeRC/9naX5P5o+oQt
+	gcY1Xc/8D9yh670ZLUBONiSf31YNccaNSXJ9MVf3Ct2t0tT28Smz/yZBpoLObK3k8S4
+	J9608xI9dzJLMBP3t+Ok40Iuj+DdtKnf3vUZ3udU=
+Received: by mx.zohomail.com with SMTPS id 175933905208321.77046877084581;
+	Wed, 1 Oct 2025 10:17:32 -0700 (PDT)
+Message-ID: <a3b54ec9-e4d7-4d56-8493-f40be81f803e@collabora.com>
+Date: Wed, 1 Oct 2025 14:17:16 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
- <CAL_JsqKG+dcMgp1QF4F3Oxh5Shvagg6cSde=g1JMcEAquZhH_Q@mail.gmail.com>
- <990cb5af-3846-44a3-b373-ded62d3309b9@oss.qualcomm.com> <CAL_Jsq+zC91GPdzQQa9F8KEw5UL4xc13u5U_5vTyQG1WeJa5rw@mail.gmail.com>
- <82906e08-9583-4f4c-91ad-d5b53b2dffd6@kernel.org> <CAL_JsqLtLbCqzHzcaGAuYwxqr=e9HZFX8X20tndx7US-XjhH3Q@mail.gmail.com>
- <CAL_JsqLcinpeJyib+JG7UFspUqXDTzCLguF3Nt4JJY9YncTb9A@mail.gmail.com>
- <b8c1365a-545d-40ae-a39c-e15a3e1f07e7@kernel.org> <b3147370-11da-4202-abac-36218487578f@oss.qualcomm.com>
-In-Reply-To: <b3147370-11da-4202-abac-36218487578f@oss.qualcomm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 1 Oct 2025 10:31:02 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+_FoOFQ92SBx1neViyzAeiVkpn2DWqi4Nt4FFoz4pR_g@mail.gmail.com>
-X-Gm-Features: AS18NWD3T-H-3Cqx3KV0EYQQkvmNWsSh9Yljc8XF87P_qTz1x5FFABioQlBsZU4
-Message-ID: <CAL_Jsq+_FoOFQ92SBx1neViyzAeiVkpn2DWqi4Nt4FFoz4pR_g@mail.gmail.com>
-Subject: Re: [PATCH] slimbus: qcom: remove unused qcom controller driver
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/12] MediaTek dt-bindings sanitization (MT8173)
+To: Rob Herring <robh@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250923214834.GC91441-robh@kernel.org>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250923214834.GC91441-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Wed, Oct 1, 2025 at 10:03=E2=80=AFAM Srinivas Kandagatla
-<srinivas.kandagatla@oss.qualcomm.com> wrote:
->
-> On 10/1/25 3:21 PM, Srinivas Kandagatla wrote:
-> >
-> >
-> > On 10/1/25 3:19 PM, Rob Herring wrote:
-> >> +Greg
-> >>
-> >> On Fri, Sep 19, 2025 at 12:25=E2=80=AFPM Rob Herring <robh@kernel.org>=
- wrote:
-> >>>
-> >>> On Fri, Sep 5, 2025 at 12:30=E2=80=AFAM Srinivas Kandagatla <srini@ke=
-rnel.org> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 9/5/25 12:08 AM, Rob Herring wrote:
-> >>>>> On Tue, Aug 19, 2025 at 8:44=E2=80=AFAM Srinivas Kandagatla
-> >>>>> <srinivas.kandagatla@oss.qualcomm.com> wrote:
-> >>>>>>
-> >>>>>> Thanks Rob for reporting this,
-> >>>>>>
-> >>>>>> On 8/19/25 2:35 PM, Rob Herring wrote:
-> >>>>>>> On Thu, Jul 24, 2025 at 8:28=E2=80=AFAM <srinivas.kandagatla@oss.=
-qualcomm.com> wrote:
-> >>>>>>>>
-> >>>>>>>> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> >>>>>>>>
-> >>>>>>>> Qcom Slimbus controller driver is totally unused and dead code, =
-there is
-> >>>>>>>> no point in keeping this driver in the kernel without users.
-> >>>>>>>>
-> >>>>>>>> This patch removes the driver along with device tree bindings.
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qual=
-comm.com>
-> >>>>>>>> ---
-> >>>>>>>>  .../bindings/slimbus/qcom,slim.yaml           |  86 --
-> >>>>>>>>  drivers/slimbus/Kconfig                       |   7 -
-> >>>>>>>>  drivers/slimbus/Makefile                      |   3 -
-> >>>>>>>>  drivers/slimbus/qcom-ctrl.c                   | 735 -----------=
--------
-> >>>>>>>>  4 files changed, 831 deletions(-)
-> >>>>>>>>  delete mode 100644 Documentation/devicetree/bindings/slimbus/qc=
-om,slim.yaml
-> >>>>>>>>  delete mode 100644 drivers/slimbus/qcom-ctrl.c
-> >>>>>>>
-> >>>>>>> This adds warnings to dt_binding_check:
-> >>>>>>>
-> >>>>>>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> >>>>>>> /example-0/soc/slim@28080000: failed to match any schema with
-> >>>>>>> compatible: ['qcom,apq8064-slim', 'qcom,slim']
-> >>>>>>
-> >>>>>> Will replace this example with slim-ngd and fold it in the origina=
-l patch.
-> >>>>>
-> >>>>> Still warning in linux-next...
-> >>>> Its done now!
-> >>>
-> >>> Now I get this:
-> >>>
-> >>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> >>> slim@28080000 (qcom,slim-ngd-v1.5.0): 'audio-codec@1,0' does not matc=
-h
-> >>> any of the regexes: '^pinctrl-[0-9]+$', '^slim@[0-9a-f]+$'
-> >>>         from schema $id:
-> >>> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> >>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> >>> slim@28080000 (qcom,slim-ngd-v1.5.0): #address-cells: 1 was expected
-> >>>         from schema $id:
-> >>> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> >>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> >>> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dmas' is a required property
-> >>>         from schema $id:
-> >>> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> >>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> >>> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dma-names' is a required
-> >>> property
-> >>>         from schema $id:
-> >>> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> >>
-> >> Still failing in linux-next.
->
-> I was running the check against the the yaml file which missed this
-> warnings, I should have run this against the folder instead which could
-> have caught this. May be this is something that could be improved in the
-> check by pulling in the dependency yamls too.
->
->
-> make -j`nproc` dt_binding_check
-> DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/slimbus/slimbus.yaml
+Rob,
 
-You can also do just "DT_SCHEMA_FILES=3Dslimbus". It's just a substring
-match on the path.
+On 9/23/25 6:48 PM, Rob Herring wrote:
+> On Thu, Sep 11, 2025 at 12:09:49PM -0300, Ariel D'Alessandro wrote:
+>> This patch series continues the effort to address Device Tree validation
+>> warnings for MediaTek platforms, with a focus on MT8173. It follows the
+>> initial cleanup series by Angelo [0].
+>>
+>> Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
+>> eliminates several of the remaining warnings by improving or converting DT
+>> bindings to YAML, adding missing properties, and updating device tree files
+>> accordingly.
+>>
+>> [0] https://www.spinics.net/lists/kernel/msg5780177.html
+>>
+>> Changes in v2:
+>> * Wrapped commit messages to 75 columns line wrap.
+>> * Replaced "YAML" by "DT schema" in patches subject and content.
+>> * mt8173-mdp: Fixed properties: compatible, clocks, iommus and
+>>    mediatek,vpu.
+>> * mt8173-vpu: Fixed line wrap. Dropped memory-region property description.
+>> * mediatek,mmsys: Dropped patch as it's not a binding issue.
+>> * mediatek,od: Rewrote commit log with details on DT schema users missing
+>>    the related property. Rewrote mediatek,gce-client-reg property.
+>> * mediatek,ufoe: Rewrote commit log with details on DT schema users missing
+>>    the related property. Rewrote mediatek,gce-client-reg property.
+>> * marvell,sd8897-bt: Moved to net/bluetooth/. Added missing ref to
+>>    bluetooth-controller.yaml. Dropped example. Updated reference in another
+>>    file. Minor fixes in properties.
+>> * mediatek,mt8173-rt5650: Dropped unnecessary quotes and unused label.
+>> * dlg,da9211: Dropped enable-gpios description. Rewrote generic example
+>>    node names. Minor fixes in properties.
+>> * melfas,mip4_ts: Dropped unnecessary quotes. Added "active high" to
+>>    ce-gpios property description.
+>> * mediatek,jpeg: Dropped patch as it doesn't apply.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>
+>> Ariel D'Alessandro (12):
+>>    dt-bindings: media: Convert MediaTek mt8173-mdp bindings to DT schema
+>>    dt-bindings: media: Convert MediaTek mt8173-vpu bindings to DT schema
+>>    dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
+>>    dt-bindings: ASoC: Convert MediaTek RT5650 codecs bindings to DT
+>>      schema
+>>    dt-bindings: display: mediatek,od: Add mediatek,gce-client-reg
+>>      property
+>>    dt-bindings: display: mediatek,ufoe: Add mediatek,gce-client-reg
+>>      property
+>>    arm64: dts: mediatek: mt8173: Fix mt8173-pinctrl node names
+>>    dt-bindings: pinctrl: mt65xx: Allow gpio-line-names
+>>    dt-bindings: regulator: Convert Dialog DA9211 Regulators to DT schema
+>>    arm64: dts: mediatek: mt8173-elm: Drop unused bank supply
+>>    dt-bindings: soc: mediatek: pwrap: Add power-domains property
+>>    dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
+> 
+> As we're close to the merge window, I applied patches 2, 8, and 11.
 
-But any example could use any schema, so you ultimately have to run
-just 'make dt_binding_check' without DT_SCHEMA_FILES.
+Great, I can see that patches 5 and 6 were also applied (with small 
+modifications).
 
-Rob
+Thanks!
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
