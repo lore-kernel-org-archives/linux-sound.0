@@ -1,147 +1,151 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652661E9B3A
-	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 13:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8350F3019DA
+	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 14:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759323897; cv=none; b=NGHz2pwXYoEPRQbhVOA+XlY5tXo7dwaIDjSkmdh1SAQq46Wz7XNne51xe2tkq9DC6cFS7/7uG89lC3EGmkodemSZwAIOMd+pNioMES4c8QJ/2s/g9sNWKlm5/V1h9t5ae7501WbBSeITY1LNPiCAL+Ytb5eRviZ7xvpBD1osfuc=
+	t=1759327576; cv=none; b=REot78Fetq4b3R0cplXqqPs8O/YclI+GlgjyKDm1EGST7EevPRdlzV/McX/CrwX8KJlBg+bvufJy39MmAjq+AoRXe8k2yBj5UApjLMGmTLc2pX7gg+0QHGhuUVF+8uCrXe8wpPRv4cqDSp2dSTG67wNHnaw++2D4vmlqM3npTek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759323897; c=relaxed/simple;
-	bh=Sd6yCdxS3n5TE903KsbIcaO2lzqa35LHjefQZurCtJE=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gbf0cRCmqB9ElbG1LcyekUuNDIvQ056DgOuMSzNID4TSZtjUp40kp1Kf7GFXl6j9Coo84ZILmP9pFYsuG0hnvc3QVQTV1IZf7GpjcAvAeOjtL6KOIJYb6VJ9ZO+hKwZ5csdBGLYFuFmQCFbLBz6RxqbDL+QKO4s1dkaM4S5b1Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=YUX3EtsG; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1759327576; c=relaxed/simple;
+	bh=l76gsiwqYQty5zu0MKOtOEBLRN1gepgBIGBpL6+Rlp0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=DAi+TuENujCI+CvD3t9HRcYPfP1ky0NY9VbOMYwTr3nqmQAglyHvaavuPd4avmxkz1PWs1ZsxqUgkDVHOiC+nThqfpzYGGwKD4xkSR9tRhVqCBvsjDQUey9NkZFhAn0aSPkyMcxSKn+610LW5rA3gerf/nG7fLbWQ0dx7vAFEDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WVVmrjIL; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="YUX3EtsG"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-77f605f22easo6599476b3a.2
-        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 06:04:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WVVmrjIL"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e52279279so26838625e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 07:06:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1759323895; x=1759928695; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:references
-         :mime-version:in-reply-to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FHbqmA3oKpic6IfyRvOOe8x31ZYEYEaGDwcq5aemMoY=;
-        b=YUX3EtsGULfgO3jbr/yyY0xXUjnKvm9KSHwMEvLR29i5AfD8NVcNmxHTaeoWkXqDa2
-         +fz7+eZhD0b7REf1FTf57q0trH7Fvmn8i+Xz00LgxDJXUuhmAld99SIhADKnl6XNvefv
-         foMuvVWk25cc3qnCJUKOBHJbQXYj0+SFsQipoCqOHKAr6HEpG3RkjEyS0jPcF8Aj77/v
-         fUgqNyEzFEiNyF3LKX2KgK10Eq3WxKqM++EwxhtZlYWYCh7/vpK8faKdCXEQTy++eMKW
-         IrRhfYSTq2wcv9ODuCIAawLGSAt/tVpfJzXdlo+mJpRjJHQrJpKKvgZ151CeiY0k0Lkg
-         jpoQ==
+        d=linaro.org; s=google; t=1759327573; x=1759932373; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3g3uJS7sb6Tpx0wxhY8DWuhaiEuwHEia1cLZgWlxNtQ=;
+        b=WVVmrjILX9W4wOBDGVZv0jugOym0zbqc9znMfgoDkk7CGwOGazdS3sPV2+kSdqNc7s
+         YS45yD7NAVBccgdRpoqSjuahyfPPmhBzs1qXAG6meSxxx90lcAZDAJyTcCOAU+M2AzKd
+         jQJUjBOWBPPmmjxmK0HKxtMwhmKXdYbHL97ZQV+VRxoiX3DdoZlMSUsBXMaSytoTTWzP
+         5QcvYokq+ZIzw5Fze5vVsIHWt/yAyAQNTXd3rpzSV+dmo3Z2I+kwiXJM1+vlncGlE6Cb
+         rn0w3tyWrjujrziZ4D1ryW3UJEtPX88vqSsURV5rJ+a9iC/ZZ53o0HuW6RyUBCDEjJ1o
+         ihkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759323895; x=1759928695;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:references
-         :mime-version:in-reply-to:from:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FHbqmA3oKpic6IfyRvOOe8x31ZYEYEaGDwcq5aemMoY=;
-        b=MhOx+kZio1hU0uMG9SXoHwcAy83uzmBKMPxIqiwEYhsv9zZlVha0aV8wC0In2h9ogC
-         aBaDOGffE2eMS4maQ1ip7rFHc9Rk4uiVz6tPM8kGzyyB0hGwxVWEDEsLfwSkiXz9ViZV
-         SNo2pTVC0dpsLxpIlBwgxhuThes0uvcx3RywgWoz/tK5W5a4oboDKrdLoNLciy4ifYTq
-         K4XuzojN/ge3KQfSWdD5rGrSWG/q2cQJcIf224xPmEY9/piGdyLkDGYQ/RM0Igw8191r
-         mnJWcY9macHVbwkeGYy5wP4Xh2WoAc/pc3uqyMt1XmhXLU5h2dBd8AvjqLv3lX5zqXnw
-         Eb7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVflS5Sy7C7W5hJtyYWRxywLQf6/tzWL+X24/KjNIL6UBKLUjo+OT4wxErWSawhtxudN4epBOzD4M0/Qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYwX+puP5l+byLp2yiOIkikLtNcbNkbcYl3KxExDLzRvOHeA5M
-	FvEsHwczd6U3Gm8ZGWbiDH2e+9PW+FdRpSCHv88jEwHvjGeVnD7JOIVPPGojT8el/+nepVk1J2p
-	PXp7bQ59JoAeBb3u1kSOdxSQLA7Fw6E7uj+cH2FoA6w==
-X-Gm-Gg: ASbGnct6oOR8d8e+XW8QtUMumR4TDasGWQVT+SuSjU7CIPza4YN5M36ks75e0FP/epN
-	S2fRIxQRPHZTQoCa23lTcNip4znFJzPAQAh3MyKfMkE1v0HsrtTdsuc0RcBKDjblJCe4vMsM5NG
-	O6DMCIfkqg/15+LNBDRTwc7QP3qr5OMJtt4++257HY64EtagMUEmW39m9B1AtHIizoPubf3uEf/
-	fHppM3/MoU285pAgnPwTNYBjKMuU2iuoeO3qHe45Bt0qidrdxjGLqLez9pSnNU=
-X-Google-Smtp-Source: AGHT+IHIX0BnzV5QR3ZUNafIRXxWw+fJ+TE74iOPYTO055yiV9YQx881LMKJ8ntEhbIPyMH/yj9fWYf3xbX9jssRLhM=
-X-Received: by 2002:a17:903:15cc:b0:26c:e270:6dad with SMTP id
- d9443c01a7336-28e7f43f288mr40560635ad.60.1759323893974; Wed, 01 Oct 2025
- 06:04:53 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 1 Oct 2025 06:04:51 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 1 Oct 2025 06:04:51 -0700
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-In-Reply-To: <CACRpkda-ZvrAC4bNLnA+ao0Y8-Nd_-b89N6HU10hhEdaOUYAjw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1759327573; x=1759932373;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3g3uJS7sb6Tpx0wxhY8DWuhaiEuwHEia1cLZgWlxNtQ=;
+        b=YWMH5D6wQAjHdTllP510t5HgEyHm5ueTfmUscMtmDKr8S4wPhVhrnpfBoq09/o2QxY
+         W90WSzpRb6yQAPofRFOjGKo4s6c8V/DsTetIQ9H2ur2nLiIlmcBWxJtoNEOHFCN5wvof
+         njbTOSMteCUeLwNpXOk47y35RpYAmd52We+xRVRAnFIn4EdwpwnDPLSyCx53z0VpMHOR
+         sj8aW6gZgxGqLuZSGoNVz4Bgr5Gqo1HRbOqu7Wi7Fy4EQ+nUPjMaJ0Er85VZF5pXWXZV
+         h5GAPFcafKoZV+V5vrz5WV+fVd67B1gOfsCaYizO9OE8oRtey7nshtLwDs2dsy4NGWvn
+         WtQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTSKqTNnkVvnTqwrJinC5VJ0dskwgRy0jhcYhMMKvWDIu6692MesTUEMgR9aD++flnEp7Ys0gUX7G3OA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywJ6mrcdx6R3xcHAvTgdVY1flaTOKQIDn4fErNJlitHWREXy4w
+	Z5Nkv16TfLcPiIliTJdn/DS/FR7V3rSAJ/UYSg0nPHGREQm5VGvduBiWXsrS7tNeOXY=
+X-Gm-Gg: ASbGncsnymiJJi6GZY/ugcs1+CPZKtCiY4xrCUv70QaPim8Ax+4yYJfwkEK4zDXB4Jk
+	vwXQtnMLrxMpfbUCd/Dkf/2JPLXi1GlEt3VIEEBm/m8oAC2bzlWM6iwSogOJ/SH0ZGrRhNZURfZ
+	s3Yv9fPWxkxvREdKfHUFkEziO4yhGnw4M7kRhk6puJmem3fEMxYAr7/YzWCi6ZAGtR4Gnjc8UBE
+	CwXV66dvFf8cMY9pnATb4LJ1Tb2cV0YaCwIsVm4oOVHwJV+vddK1rJdVjOd+VMshZmObFRB2hor
+	vvCodbHdWaOd5IWPP3mgD7DgevmmSsw+395XwY0SpWyk4EKNy1W/AEQGVBjtSIY1sGLNVgJeKrO
+	nga/qXldZWLtCQIgDqhhmMRLHMXNBQ+T+mvgoG4G1coL9a/BcZpNhyuhHRElTBCk=
+X-Google-Smtp-Source: AGHT+IErI2QyAnk7Cp71eAtjo9ofA6etzV1HBl9ELWiOQ9Yjvkh/gQqn9A3Z5ffEhjbWPyqfMujlgA==
+X-Received: by 2002:a05:600c:8b06:b0:46e:37fc:def0 with SMTP id 5b1f17b1804b1-46e61218f7bmr32902925e9.9.1759327572725;
+        Wed, 01 Oct 2025 07:06:12 -0700 (PDT)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e61a020a3sm41377545e9.10.2025.10.01.07.06.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 07:06:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
- <CACRpkdYcVtJjRHRJ8GgeU7rZDuyaJKu0vgcknb7DsHPjZGKGuA@mail.gmail.com> <CACRpkda-ZvrAC4bNLnA+ao0Y8-Nd_-b89N6HU10hhEdaOUYAjw@mail.gmail.com>
-Date: Wed, 1 Oct 2025 06:04:51 -0700
-X-Gm-Features: AS18NWB4-ek2de5G39SVs91_zyxyHsKkPvhufhJXGysoQ2YUW53Yv6YTbFeN0M4
-Message-ID: <CAMRc=Mdb_cUG+hKq8GyfUP1SYBh0p19J+4dFG7G3JSuZTr4n8Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Oct 2025 15:06:11 +0100
+Message-Id: <DD71KONODHKJ.15RI1DXF5T6PJ@linaro.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kernel@oss.qualcomm.com>,
+ <prasad.kumpatla@oss.qualcomm.com>
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-macro: Add support for channel
+ map mixer control
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: aerc 0.20.1
+References: <20250902062300.212021-1-mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20250902062300.212021-1-mohammad.rafi.shaik@oss.qualcomm.com>
 
-On Wed, 1 Oct 2025 12:53:07 +0200, Linus Walleij
-<linus.walleij@linaro.org> said:
-> Replying to self so Bartosz don't have to tell me off...
->
-> On Wed, Oct 1, 2025 at 10:49=E2=80=AFAM Linus Walleij <linus.walleij@lina=
-ro.org> wrote:
->
->> and every GPIO access on every system will be proxied
->> and then this better be fast.
->
-> What about I read the code before I talk :/
->
-> Inspecting patch 4/9 it is clear that only GPIOs that actually
-> need to be proxied are proxied.
->
->> Two things come to mind, and I bet you have thought of
->> them already:
->>
->> 1. Footprint: all systems using regulators will now have
->>    to compile in all this code as well.
->
-> This still holds. It could be a concern if it's a lot of code.
+On Tue Sep 2, 2025 at 7:23 AM BST, Mohammad Rafi Shaik wrote:
+> Introduce the channel map mixer control support for LPASS macro
+> codec Digital Audio Interfaces (DAIs). The channel map mixer controls
+> are required by APPS to configure usecase-specific audio routing and
 
-It depends on how we implement this. If we just rip out the enable counting
-from regulator core entirely, then it would be transparent from the
-regulator's point of view and each platform could still select the new opti=
-on
-as required.
+What is APPS here? Will be good to have this abbreviation or acronym explai=
+ned.
 
-However there's the issue of regulator consumers who need to know when
-something changes on a regulator and to that end subscribe to the regulator
-notifer. Regulator core knows then it actually changes the GPIO so it emits
-the event. There are several ways to approach it but the best one seems to
-be: allow to subscribe for a per-descriptor event notifier (implementation
-details may include: only actually creating the notifier for shared GPIOs),
-and be notified about an actual change in value and then propagate it to
-regulator users. This would still be transparent and allow us to select
-HAVE_SHARED_GPIOS on a per-arch basis.
+> channel mapping.
+>
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Updated patch with improved commit description..
+> - Link to v1: https://lore.kernel.org/linux-sound/20240930053111.3986838-=
+1-quic_mohs@quicinc.com/
+> ---
+>  sound/soc/codecs/lpass-macro-common.c | 55 +++++++++++++++++++++++++++
+>  sound/soc/codecs/lpass-macro-common.h |  2 +
+>  sound/soc/codecs/lpass-rx-macro.c     | 12 ++++++
+>  sound/soc/codecs/lpass-tx-macro.c     |  9 +++++
+>  sound/soc/codecs/lpass-va-macro.c     |  9 +++++
+>  sound/soc/codecs/lpass-wsa-macro.c    | 12 ++++++
+>  6 files changed, 99 insertions(+)
+>
+> diff --git a/sound/soc/codecs/lpass-macro-common.c b/sound/soc/codecs/lpa=
+ss-macro-common.c
+> index 6e3b8d0897dd..777af4885245 100644
+> --- a/sound/soc/codecs/lpass-macro-common.c
+> +++ b/sound/soc/codecs/lpass-macro-common.c
+> @@ -8,12 +8,67 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+> +#include <sound/control.h>
+> +#include <sound/pcm.h>
+> +#include <sound/soc.h>
+> =20
+>  #include "lpass-macro-common.h"
+> =20
+>  static DEFINE_MUTEX(lpass_codec_mutex);
+>  static enum lpass_codec_version lpass_codec_version;
+> =20
+> +static int lpass_macro_chmap_ctl_get(struct snd_kcontrol *kcontrol,
+> +				     struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_pcm_chmap *info =3D snd_kcontrol_chip(kcontrol);
+> +	struct snd_soc_dai *dai =3D info->private_data;
+> +	u32 *chmap_data =3D NULL;
 
-Bartosz
+You probably don't need to set it to NULL here, if it will be overwritten
+by kzalloc() call few lines below
 
->
->> 2. Performance, I didn't quite get it if every GPIO on the
->>   system will be proxied through a layer of indirection
->>   if you select HAVE_SHARED_GPIOS
->>   but that would not be good, since some users are in
->>   fastpath such as IRQ handlers, and the old way of
->>   sharing GPIOs would just affect pins that are actually
->>   shared.
->
-> It is clear from patch 4/9 that this only affects GPIOs
-> that are actually shared, and those tend to not be
-> performance-critical so this concern is moot.
->
-> Yours,
-> Linus Walleij
->
+> +	u32 rx_ch_cnt =3D 0;
+> +	u32 tx_ch_cnt =3D 0;
+> +	u32 rx_ch, tx_ch;
+> +
+> +	chmap_data =3D kzalloc(sizeof(u32) * 2, GFP_KERNEL);
+
+here.
+
+[..]
+
+Thanks,
+Alexey
+
+
