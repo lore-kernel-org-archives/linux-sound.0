@@ -1,135 +1,105 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD7527F16A
-	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 08:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AE2279782
+	for <linux-sound@vger.kernel.org>; Wed,  1 Oct 2025 09:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759308564; cv=none; b=GpUdqyPISuDLWGs2CIEiwdOtBnzIrQNWUleETri5sZD0teHFx4cypinYC6zAKajPQoNNyRENqt7i7gleo7m8naqhhWG8xgHv0tH8ShEGy22kxi8KzJWW1l/TQb14WjQy1xbRjeBc5U9d4ZYbmTb0E5RLZaQjXFTRi1u7qaLEdr0=
+	t=1759309694; cv=none; b=u+/x4dd+QAVixaQS/u3ZS6hOqLlE8Nl9nVnXe9PsNrzv69sNcwDp287MNXsDMspAMISUJ6Osn/9r7J55pbREx+fsaRUZxa/VdErWT0sUzjnuxzwg/IIGVvS8cocRMDMD92dxyaU7Q1VNe+fm5fUGfjmwVoIusvgeyR0mwcS7wj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759308564; c=relaxed/simple;
-	bh=8rIcT1Pqs3Ea0y+ldBE56b1g4vr0kel/gXDqeQVGlIE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y8p4TQ+IG6CATh3YDEPPeYgDak1jJM3+V/hsMrtG7PEgw8+YMlGVBKobiEkVvvx6u+K9X52WJamsu/mtc3ONZ53hRMVcpqE9bFs2CQJipjf6ajA26IPGDpCtuoiAVniGroB5XN2tS0F8YziV6b7XQdZa6R9Hfkj7XWLdvlYM2dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zkfrDGu+; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759309694; c=relaxed/simple;
+	bh=cHh/cHIF2ix4T1MbAz3cbtmZwsbFRKUVOa1sotAMdYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZNq5Q6qV5k8NXv6j1QW+NlZ7b7mai4Tq1Reed48Mw6g2UmanldolXYPK36Qqq4qbRGWquzk30tipxDb/ww1JiSseDmxPOzFsYZ+x2y6ZpeNQPOKFXzjQHs5e4M7y2nLaacszT3F23T14QjbO5SZuW38zPecUz2KfvU7+pX51erU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q9otv79I; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zkfrDGu+"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-367874aeeacso50523081fa.1
-        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 01:49:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q9otv79I"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b5526b7c54eso4317317a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 01 Oct 2025 02:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759308561; x=1759913361; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V0MU6aIf0UKaVQXy6RXiIl/s8w4p6CMU+2iv6BbdgNc=;
-        b=zkfrDGu+OWGi3FG8ITAaOuQBN1lu+3NuDJaQ2yrnNFnH/u4ixV3mjNpWXUlAp6+tpa
-         EX6re+C2MTBLzc8+tP2BGCqAmohTb6v4M7n01C4APyZ6weYstslPeSeKGecOJzJZWXBO
-         dHUTGYoXnL/KSJbvNr8GWGvwo/Fb45TO1CzVJ4i3gOzmtLQgGyieA4xc3OaVmeumXkwn
-         8lhRf7ibgDZsV1U/4E/J13OYbqg6YgoBJ3XS37jH3D74Vl/Hal+T6qhgJXZCzPRyBX5N
-         mVMJbwIiMb3Qhyuq6WZKybFR1gzRX5URh/ZKdRBuwn2ltYr++hyKpz0xopO4lH4DySv9
-         qXUA==
+        d=gmail.com; s=20230601; t=1759309690; x=1759914490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xdn/qXRMwLNp6Zd/Eb/BpsxnL14+u3sr4IN56KWCSQc=;
+        b=Q9otv79IzcCTZSc1wotjhDEpXDuYJxhhH320YokwjB9XET1iZ5ht1fvCsOoMFvJK3K
+         /bMJocRulncmUBN0a1BQsUoVoaDTRU8CyvGujuxvLxfKNdRmDR2vPx6UV0qMCwYEViEe
+         czhzyFkWs0Xy1js7fyYSRXhob05ShFvT25SJwPM885/rFUv4oh1TGRO3AcUwC/MZMH/H
+         MJILUt72PQcx07jZhvaAeqCN27MVGU7Oo0a1zkCp0QBpKZXlMP0nMFxebDSy7QxaRFsk
+         dFBPOuUwkULF1RmNKzMnIsDorbjM7PmaLp6NxE6N0l7ZOqtZeQcefvE5woeE4xvWlmIo
+         vmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759308561; x=1759913361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V0MU6aIf0UKaVQXy6RXiIl/s8w4p6CMU+2iv6BbdgNc=;
-        b=vA14L6jkeOgCha4dGd7ZXwqngwTtAEewComvNFKhn77gKN2ltDiWr2h9s7ObNO2V90
-         gLhRQEIF0C+tZcQYDpSsNhBgTSHuIlmSm3thnjcaPQuFqAe5I7aNOLeK+sPyOwH0kVcH
-         vKFRYC/EP6tIuch/W7vk+RCpu/sdhhLt6QBVpwXphP5EE9dNsGtywv9qQ9Hua6gghCk1
-         +xFD2xHGPP85nyGijTxVBrMtQw9PRJ+pBxB8tHPmfjGwl4kYyB1KgIsctBSaEYCYafFg
-         ExLWurzbD4U2RiCwZAELpCzAJmSqUh4ZnKkM/G/+Hf5RxET+MSEeYgIevLjDaXf00/JO
-         dE7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVLWnGFbtwsjsexERrKtd01qDUE13JWYpyVIlFJxciHeE9St4DUY6aKe7xoiugth7my3rrpW8y+7tx/hw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7w8pn9v5VO4ZJSk3Ls1Wwkchf4OmTX7agVUneleWAnKaJ2O63
-	y02xQs8rdH86ZKzWLZcvFLQmmJ0fw5YoW9SA7459i7d66DkvQGrHzY6G4rUf7G7D9zlbGGkXqvS
-	JY0QuSMaQqanvBEN78CPooUIM0JKHRpdsuWB7p+STaQ==
-X-Gm-Gg: ASbGncuNNIC+ZJCWlmD4l2CipNXruC/Oaeo8k6OhZMlOxYB7W5OJmJgGYTF5bfyKM6/
-	UTmMIJNrc31e/RVXqZaizr2EiqokZQBJMDDydSRHgY3iIOoPlYqazI8Wnr1xEJAFmsfwgglxbOI
-	UPHOviOWxVxuso3A6ZJcwOxMmPsYt3PzVbOF9yKIEKZxVMddB6+ynknmGBCGl6i7snu/iBw9FA5
-	NPLOUT2CqZhsiJnTizcRt7BuuUJVYY=
-X-Google-Smtp-Source: AGHT+IE/zKf4qFF1V06mzijknnV4vH7ubPftpR9/pcWP4CKpLmmmcoKCGAvUGlvDb6zfdbCLMmIHYOCJfvmvwXDpg0U=
-X-Received: by 2002:a05:651c:1592:b0:372:9468:8f99 with SMTP id
- 38308e7fff4ca-373a752cee4mr8095951fa.35.1759308560647; Wed, 01 Oct 2025
- 01:49:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759309690; x=1759914490;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xdn/qXRMwLNp6Zd/Eb/BpsxnL14+u3sr4IN56KWCSQc=;
+        b=n/XDhCQ9vzPRgei8h2W+a8loJwzWNbu65UaHKXjfgMNrIPEVG/3xoc2ZUY7hD0DEOR
+         n3Xl1MgPGmb2yT1Z4sFN5x9J6rjnI6WlibUfn+zIhBTnqzKQ8YWPQrd76Ex6gc5aqaZj
+         Vwr07c9Oc7Y53u/LNbhMjibWwTe4K8v/LEVlJ6xaH2aqwmwApj9EFVg2v/WC6bzgQJOv
+         l/k2sulTmX8i3hxmA9c27E/yZpL9NCSkNq1przU7nO1nWd+m6gABKBkC9u2kQ/Dgjcy3
+         DPD/5qcoqTwCbzaMvfqxMLTOxJCdrdxYD1y/LlST5uJt9VMwdtzvoOfiqOIDtdZ3PVL/
+         0mtQ==
+X-Gm-Message-State: AOJu0YxcmLKkTrs5891xCeaeOeqMKjcXvxotJ/RGRCWwKF4gRFzDrAri
+	zAp8z+HKFBAOdLEf9mBdqRZQtAt5C8gGxN+mSuul32xWpP7VqjHNl94s
+X-Gm-Gg: ASbGncuoSsv+w7DUNvNn1UahC8E2d103KYxx58q50vAgF+qsWhlXWAmhRv2uofwZMzY
+	SHah4/t/MzHBBAA/AsqcjcBRVaXPuuFGxgDZ2bPEP2mcMOZqavygcn12T7hefKFxyMVZJiEOBqz
+	hNs0SyLwAMSO1dOBhwqGhHz1zpbdVjxwXdSUfTQ7MG3i0IwISMGHXyGgFBQEftR/rRSthMWup/3
+	V72TMfJzROj8RJZc8NGSTIDC5Kl3pVyzpmkoRADAPz50HvbWnD51afEI6QYAc9qIZS31OeckohG
+	ryPBFdLMBpIQjbqcvNm5dlungZb66OFI+O8EaEc/r2LtsbRUGOgdQQ+rPdITaVKMkRn8m12Iicj
+	EbxxfevxaUvozkgWDhsGNZOBakoIGdTQ+7dj2s4zBN+d80kDoGyxOSZZLFX3/EL9bVg2KErwy4A
+	==
+X-Google-Smtp-Source: AGHT+IHCAXG1BqEfze3gHRwn6lpXtkf7tuj30SDlHiLv3IUP0y93ub/ofCCeyp+nvvaX5lId2eVgIA==
+X-Received: by 2002:a17:90b:4f85:b0:336:b60f:3935 with SMTP id 98e67ed59e1d1-339a6f08820mr2965105a91.23.1759309689779;
+        Wed, 01 Oct 2025 02:08:09 -0700 (PDT)
+Received: from ti-am64x-sdk.. ([157.50.93.46])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c55741e6sm15477230a12.29.2025.10.01.02.08.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Oct 2025 02:08:09 -0700 (PDT)
+From: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com
+Subject: [PATCH] ALSA: emu10k1: Fix typo in docs
+Date: Wed,  1 Oct 2025 14:37:57 +0530
+Message-Id: <20251001090757.45991-1-bhanuseshukumar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
-In-Reply-To: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 1 Oct 2025 10:49:09 +0200
-X-Gm-Features: AS18NWD8uQhySPgdZVvT54DJFS2VbD05G4rr5WTDsYs0mXBgIhMrAJorsb0mOuY
-Message-ID: <CACRpkdYcVtJjRHRJ8GgeU7rZDuyaJKu0vgcknb7DsHPjZGKGuA@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+interally => internally
 
-I see the big picture of this plan!
+Signed-off-by: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+---
+ Note: No change in functionality intended.
+ Documentation/sound/cards/emu-mixer.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-One quick comment:
+diff --git a/Documentation/sound/cards/emu-mixer.rst b/Documentation/sound/cards/emu-mixer.rst
+index d87a6338d3d8..edcedada4c96 100644
+--- a/Documentation/sound/cards/emu-mixer.rst
++++ b/Documentation/sound/cards/emu-mixer.rst
+@@ -66,7 +66,7 @@ FX-bus
+ 
+ name='Clock Source',index=0
+ ---------------------------
+-This control allows switching the word clock between interally generated
++This control allows switching the word clock between internally generated
+ 44.1 or 48 kHz, or a number of external sources.
+ 
+ Note: the sources for the 1616 CardBus card are unclear. Please report your
+-- 
+2.34.1
 
-On Wed, Sep 24, 2025 at 4:51=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
-
-> I'm Cc'ing some people that may help with reviewing/be interested in
-> this: OF maintainers (because the main target are OF systems initially),
-> Mark Brown because most users of GPIOD_FLAGS_BIT_NONEXCLUSIVE live
-> in audio or regulator drivers and one of the goals of this series is
-> dropping the hand-crafted GPIO enable counting via struct
-> regulator_enable_gpio in regulator core),
-
-...and that is what I thought as well, so:
-
->       arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
-
-why would we be selecting this per-subarch?
-
-What will happen is that CONFIG_REGULATOR will select
-it and since everyone and their dog is using regulator, what
-will happen is that every system will have this enabled,
-and every GPIO access on every system will be proxied
-and then this better be fast.
-
-Two things come to mind, and I bet you have thought of
-them already:
-
-1. Footprint: all systems using regulators will now have
-   to compile in all this code as well.
-
-2. Performance, I didn't quite get it if every GPIO on the
-  system will be proxied through a layer of indirection
-  if you select HAVE_SHARED_GPIOS
-  but that would not be good, since some users are in
-  fastpath such as IRQ handlers, and the old way of
-  sharing GPIOs would just affect pins that are actually
-  shared.
-
-I don't know of a good generic solution for (2) to be honest,
-last resort would be something like runtime patching of
-calls when a GPIO becomes shared and that is really
-advanced but maybe necessary to get a performant and
-generic solution.
-
-Yours,
-Linus Walleij
