@@ -1,129 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE9C278150;
-	Wed,  1 Oct 2025 09:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18A32BEC23;
+	Wed,  1 Oct 2025 10:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759311537; cv=none; b=sR0CYKFEEcqn/DKsuTHV3VijZ5FMwgCOjdHH96bcfKPQHNfrjEvRF60Gmu6HEb3TM6P/tC5XYtB1gxImAe1nIlaEOVC5sAhDHEQryQt/wyI67KXkggtAlnZJ1auoElaTHOj4kbGUTk4sKhfRjPgdVewQZqRC7MDGKFTvjL1pdhw=
+	t=1759313685; cv=none; b=FS5o+tIVdWktpC7t6gU3t5t9im5X3rad/B6lXoGv8d7An0GYhZI3O7K5yhoerGv8Xo9gIK3CZwoQtkPcBvhWlN8QKdA3k3iulhu6psq3+MWWxGGO8+rzBoXLbLyOz6L3moHEHMbTE3bKcq82g9AO3HcxhJjZmGllJWePvm7v3lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759311537; c=relaxed/simple;
-	bh=H6syAT5lGzrU3swJYL8VgnwKi0EYbeSgtN9L4OFu5Z8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Y+9gR5iaVmoU9Qtxgex5TQuygtuRkYfhL+ltQUqO9pIKniSGicpKn/8F76NelS3o0QpmCtyoCvTpxwSNZ/xo5Eg/iPT5TzWkeBQN8oiyrefQaJegfRIwOG/usHmwZIfSZPZ5cqAQdmWD7WTcKhtLNTbL/5yg5U2Xhr6k5lhPMJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcqErpp7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcqErpp7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B3EDC4CEF4;
-	Wed,  1 Oct 2025 09:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759311536;
-	bh=H6syAT5lGzrU3swJYL8VgnwKi0EYbeSgtN9L4OFu5Z8=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=fcqErpp7qrjU9McG/p/HpxRq8Hc/eEK9ROwv483siLY2lhXUhIJ4c10tRVmSipFCy
-	 H1cUoUwY6REYQYV8WZwfdmDRlOhGGnduKJbFWz93kohU/Guq8JtYyLLoPuRM9+k2Hv
-	 GQvQyN+JNnqYbtW7JVcEer1SJyOhrb3ztKSs1aeFSwZHA8vy7a8Obil+4o19c8sqTi
-	 LPaIAjUoYTPSJX1vmEMzX+6OQPM0sPKz6KzJsQMYGs4GR0oonRwRzzlehm64B6DYX3
-	 FSXty0SlySmG4Um4P4euAUBoFTJ3AHrhBhxWcvfu7azQZtRldOU8fu+H9v3hTxPnN4
-	 UPsnsd24Vl83w==
-Message-ID: <50676923-1daf-4c15-a289-a791242664f4@kernel.org>
-Date: Wed, 1 Oct 2025 11:38:45 +0200
+	s=arc-20240116; t=1759313685; c=relaxed/simple;
+	bh=7xxuCF9C5cu4w/jvCQcEs8umQTwoODQ512OHhNI8b6c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dL097Tjl0VRp6Ns/6S2iuubK0AHHV7iuthmQFpD9XIY+SgLDtOnXncErNDGtC7Gy7tKe05Agkd24QEMcFTo+ekLYoL4K1awFUhjTFiNB92cjHmA9yhRkE0SlqV645aR7seYr76eyOIZP8yxlWkxRjesyo6EyvtrZ4/wGIygHtNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 1 Oct
+ 2025 13:13:28 +0300
+Received: from localhost (10.0.253.101) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 1 Oct 2025
+ 13:13:27 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	<linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: q6apm: fix potential overflow in q6hdmi_hw_params
+Date: Wed, 1 Oct 2025 13:13:02 +0300
+Message-ID: <20251001101304.612758-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v3 04/20] media: synopsys: hdmirx: replace macros with
- bitfield variants
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang
- <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-4-947b841cdb29@collabora.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250825-byeword-update-v3-4-947b841cdb29@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-On 25/08/2025 10:28, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
-> 
-> Replace the UPDATE macro with bitfield.h's FIELD_PREP, to give us
-> additional error checking.
-> 
-> Also, replace the HIWORD_UPDATE macro at the same time with the new
-> FIELD_PREP_WM16 macro in hw_bitfield.h, which also gives us additional
-> error checking.
-> 
-> The UPDATE/HIWORD_UPDATE macros are left as wrappers around the
-> replacement macros, in order to not rock the boat too much, and keep the
-> changes easy to review.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Since 'module_config' array in struct 'q6apm_lpass_dai_data' has fixed
+size APM_PORT_MAX (127), function q6hdmi_hw_params() may hit
+accidental buffer overflow. Specifically, in case 'dai->id' has
+values ranging between DISPLAY_PORT_RX_1 and DISPLAY_PORT_RX_7,
+DISPLAY_PORT_RX_1 being equal 129.
 
-Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Mitigate this issue by expanding the maximum possible size of
+'module_config' and increasing APM_PORT_MAX to account for bigger
+possible values for indexes.
 
-> ---
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> index 220ab99ca61152b36b0a08b398ddefdb985709a5..b26668a98aafd1682b8342cc11f84666a13f07a3 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> @@ -8,10 +8,12 @@
->  #ifndef DW_HDMIRX_H
->  #define DW_HDMIRX_H
->  
-> +#include <linux/bitfield.h>
->  #include <linux/bitops.h>
-> +#include <linux/hw_bitfield.h>
->  
-> -#define UPDATE(x, h, l)		(((x) << (l)) & GENMASK((h), (l)))
-> -#define HIWORD_UPDATE(v, h, l)	(((v) << (l)) | (GENMASK((h), (l)) << 16))
-> +#define UPDATE(x, h, l)		(FIELD_PREP(GENMASK((h), (l)), (x)))
-> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16(GENMASK((h), (l)), (v)))
->  
->  /* SYS_GRF */
->  #define SYS_GRF_SOC_CON1			0x0304
-> 
+Found by Linux Verification Center (linuxtesting.org) with static
+analysis tool SVACE.
+
+Fixes: 2f6860e6133f ("ASoC: qcom: q6apm: add support to display ports in lpass dais")
+Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+---
+P.S. This issue is quite similar to another, already fixed one, see
+commit a31a4934b31f ("ASoC: qcom: Fix sc7280 lpass potential buffer
+overflow").
+
+ sound/soc/qcom/qdsp6/q6apm.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
+index 7ce08b401e31..1d032004e01a 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.h
++++ b/sound/soc/qcom/qdsp6/q6apm.h
+@@ -14,9 +14,10 @@
+ #include <linux/of_platform.h>
+ #include <linux/jiffies.h>
+ #include <linux/soc/qcom/apr.h>
++#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+ #include "audioreach.h"
+ 
+-#define APM_PORT_MAX		127
++#define APM_PORT_MAX		DISPLAY_PORT_RX_7
+ #define APM_PORT_MAX_AUDIO_CHAN_CNT 8
+ #define PCM_CHANNEL_NULL 0
+ #define PCM_CHANNEL_FL    1	/* Front left channel. */
+-- 
+2.43.0
 
