@@ -1,196 +1,99 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B442D3A86;
-	Wed,  1 Oct 2025 18:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759343743; cv=pass; b=deKC9AgTuTludLkan0i1RXPZrUjfnBRSAOsyvk4uYLuaVye7Yh1m3WzujqmVerOHMub3UFqTjJzmT49/8+wFh+UUnL9tae3o65UWn51f+XO2+cAygg6jHiIJQj7R5s2lAzn09GaSnaDCmrQW4EP4C4UQaGvjo8mzsj7cVxwimSM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759343743; c=relaxed/simple;
-	bh=cPkgOhY3OViY8Eh82gk3+c/8Fz+KXpaf5MpYzxqGKLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QfKkGEjT3R8CRLRybTzpqX+xhqw7Rsudc7bEJUkFJCYvcXW9NmZuEOGCRWL4MkbY+sO6QilzZFjzrTzrMeGS8t8yJPvvssuOUi4TX6tJPDjYNlSlDLtMqHqk+31UHriW2hm6zaBjFW51P0ii9+rY1nK6pwEea/c6F0ZlJWeWI60=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=Bus2fud+; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C5A1EDA0E;
+	Wed,  1 Oct 2025 21:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759353077; cv=none; b=SGTrbebCbZdaVwlZY5YYkMusKvZBoRQS7EfOPpTkPT566yAtmB/BSrC5fKjofTZQO7OViQObnhQ2GOlRUClt6BsA5FU/T7RdxigNNIc3/H9CD+PVCBHMeyWxvvbfDZyzHjTokAtDvzrgvnRxfMHML74bz2HcOIV7kqjTmCme4Cs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759353077; c=relaxed/simple;
+	bh=DtQDevFoSt04iSsMW/iJhc0ExZPMJSGfdtsTL4hnWOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=le8LmyekMULXBNulCUwIGvU8Hqq1dIFkTMr9Csnum6dIwjRwPRrttp2uqT11Ap0/e5GBDhBBCOyVrfS9oIgJ3ICzlXjkEhi0T1Di/iZ6k7U0JxElWpaXVgxFFJB90ZNjQH7Hq3ObyTMV3fA6+vn8OEtnC3eoq0cA9zCbDYOrQd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vsa7/HwA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="Bus2fud+"
-ARC-Seal: i=1; a=rsa-sha256; t=1759343728; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GO4M1NUWW6TWSbDNpVVaR40eptHIMXCdh2YjC997tWUHghEYAviXb7B2JKiHPx6ak2zqbvcohnzvplGJ0yiSZHZ5PiNeTAqXhZ74jQM4eiuy8ET7BrITFys0Mw3euZHo721CFIwsHdO5OdF3WiVHzIsf6aIx5jOZDyyW+kgLg1s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1759343728; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Eih+Gvrl/V/M1VLTYZoN9wZ1OWt0+vDKt9t9071sjq8=; 
-	b=HxL6LvSjBZX0g6EJdxuatweoVCdWVSedspO8pUQ0LceXTUsGP2xbBOpWIwTxNFt3dR7t3c60oQ/qVfHc955QgrNAJnJ7yBuu/ppOc9Zoxc1OvJR2h58LhFp5pRxZJf2A8eQsLr8EguO4SCxvwd6FN8z80LERLbeFK/H7uzyRv+0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759343728;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Eih+Gvrl/V/M1VLTYZoN9wZ1OWt0+vDKt9t9071sjq8=;
-	b=Bus2fud+WrXA21LkdBDB7ozBil6sVjRukemB2tKN9DqEPvcIj4itNHtZuQYhDxpy
-	E2AnanCOAQzgGPBM2OGiSOUh2voGxTwx2Ti521mKjUQ6Dde3GKUxorirWs7TqkqTIkk
-	DUgWf5zeUMJpbH0VWTOwgcR9DHPrh2bECZGCOOHA=
-Received: by mx.zohomail.com with SMTPS id 175934372619585.09151494021478;
-	Wed, 1 Oct 2025 11:35:26 -0700 (PDT)
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To: angelogioacchino.delregno@collabora.com,
-	ariel.dalessandro@collabora.com,
-	broonie@kernel.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	matthias.bgg@gmail.com,
-	robh@kernel.org
-Cc: devicetree@vger.kernel.org,
-	kernel@collabora.com,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vsa7/HwA"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6FA4C316;
+	Wed,  1 Oct 2025 23:09:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759352983;
+	bh=DtQDevFoSt04iSsMW/iJhc0ExZPMJSGfdtsTL4hnWOY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vsa7/HwAqyl5xjRWRovRZUTnpIz4rheVZUUzl5odP7t9SMgtVDSKYSfBZvHhmvyTA
+	 Lk387NRoE5RNrEjJQEmCq7VP8171inACQ8JiqcYxmKbB4MQO+UvM/VxMZgsRScohl3
+	 bQTuTUwHr04VlbyB3zxqhjl8jnrno76krLqRRxIc=
+Date: Thu, 2 Oct 2025 00:11:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jonas Rebmann <jre@pengutronix.de>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, netdev@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, linux-sound@vger.kernel.org,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	imx@lists.linux.dev, Vladimir Oltean <olteanv@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
+	David Jander <david@protonic.nl>,
+	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v3] dt-bindings: ASoC: Convert MediaTek RT5650 codecs bindings to DT schema
-Date: Wed,  1 Oct 2025 15:35:17 -0300
-Message-ID: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
-X-Mailer: git-send-email 2.51.0
+	Fabio Estevam <festevam@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v3 0/3] Mainline Protonic PRT8ML board
+Message-ID: <20251001211107.GC25098@pendragon.ideasonboard.com>
+References: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
+ <175876283065.3268812.10851892974485151512.robh@kernel.org>
+ <3a0ba202-23e5-41d1-8b0c-5501a6d73bb4@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3a0ba202-23e5-41d1-8b0c-5501a6d73bb4@pengutronix.de>
 
-Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
-codecs to a DT schema.
+On Thu, Sep 25, 2025 at 05:10:43PM +0200, Jonas Rebmann wrote:
+> Hi,
+> 
+> Regarding the warnings:
+> 
+> On 2025-09-25 03:18, Rob Herring (Arm) wrote:
+> > arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: codec@11 (asahi-kasei,ak4458): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+> > 	from schema $id: http://devicetree.org/schemas/sound/asahi-kasei,ak4458.yaml#
+> 
+> Updated bindings have already been applied to broonie/sound for-next.
+> 
+> > arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+> > 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+> > arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e10000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 1]] is too long
+> > 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+> > arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): 'power-domain-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+> > 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+> > arch/arm64/boot/dts/freescale/imx8mp-prt8ml.dtb: isp@32e20000 (fsl,imx8mp-isp): power-domains: [[77, 6], [77, 4]] is too long
+> > 	from schema $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+> 
+> This is an issue in imx8mp.dtsi, introduced in commit 9c60bc7f10d0
+> ("arm64: dts: imx8mp: Add pclk clock and second power domain for the
+> ISP").
 
-Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../sound/mediatek,mt8173-rt5650.yaml         | 73 +++++++++++++++++++
- .../bindings/sound/mt8173-rt5650.txt          | 31 --------
- 2 files changed, 73 insertions(+), 31 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
+The corresponding changes for the DT bindings have been applied to the
+linux-media tree and included in a pull request for v6.18 ([1]).
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
-new file mode 100644
-index 0000000000000..a3166cc40a206
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mediatek MT8173 with RT5650 codecs and HDMI via I2S
-+
-+maintainers:
-+  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-+
-+properties:
-+  compatible:
-+    const: mediatek,mt8173-rt5650
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  mediatek,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      The phandles of rt5650 codecs and of the HDMI encoder node.
-+    minItems: 2
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      The phandle of MT8173 ASoC platform.
-+
-+  mediatek,mclk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      The MCLK source.
-+      0: external oscillator, MCLK = 12.288M
-+      1: internal source from mt8173, MCLK = sampling rate * 256
-+
-+  codec-capture:
-+    description: Subnode of rt5650 codec capture.
-+    type: object
-+
-+    properties:
-+      sound-dai:
-+        maxItems: 1
-+        description: phandle of the CPU DAI
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - mediatek,audio-codec
-+  - mediatek,platform
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt8173-rt5650";
-+        mediatek,audio-codec = <&rt5650 &hdmi0>;
-+        mediatek,platform = <&afe>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&aud_i2s2>;
-+
-+        mediatek,mclk = <1>;
-+        codec-capture {
-+            sound-dai = <&rt5650 1>;
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt b/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
-deleted file mode 100644
-index 29dce2ac8773a..0000000000000
---- a/Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--MT8173 with RT5650 CODECS and HDMI via I2S
--
--Required properties:
--- compatible : "mediatek,mt8173-rt5650"
--- mediatek,audio-codec: the phandles of rt5650 codecs
--                        and of the hdmi encoder node
--- mediatek,platform: the phandle of MT8173 ASoC platform
--
--Optional subnodes:
--- codec-capture : the subnode of rt5650 codec capture
--Required codec-capture subnode properties:
--- sound-dai: audio codec dai name on capture path
--  <&rt5650 0> : Default setting. Connect rt5650 I2S1 for capture. (dai_name = rt5645-aif1)
--  <&rt5650 1> : Connect rt5650 I2S2 for capture. (dai_name = rt5645-aif2)
--
--- mediatek,mclk: the MCLK source
--  0 : external oscillator, MCLK = 12.288M
--  1 : internal source from mt8173, MCLK = sampling rate*256
--
--Example:
--
--	sound {
--		compatible = "mediatek,mt8173-rt5650";
--		mediatek,audio-codec = <&rt5650 &hdmi0>;
--		mediatek,platform = <&afe>;
--		mediatek,mclk = <0>;
--		codec-capture {
--			sound-dai = <&rt5650 1>;
--		};
--	};
--
+https://lore.kernel.org/all/20251001172511.2d0514ec@sal.lan/
+
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
