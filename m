@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EBB27281D;
-	Thu,  2 Oct 2025 08:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14F62FD7B1;
+	Thu,  2 Oct 2025 08:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759392295; cv=none; b=X7+VV8FwiMbDQ6bUy93g5zC5mr6yzrFfCJlA5/Tcy6DtXTi8XFSm+WuIP6BHp7nbnyq2ocAq6hHRYFhde+4pYqRUzX8m++Ju6K3H4gfl9kc0vIUthsZlIpmUbMrL+Nb0fm/MPpQ6rEd+OIVJ9AcfS9XyGa8xBySqCOvr35T/OyQ=
+	t=1759394522; cv=none; b=Lu5Rgpdta7a02qLETbhXbU4Mbn04udmIado2RxfjJlPZSIYefYSyoxkmzpUjkjKt5nXxcTGayDeKh8yVQetJMUV5Vh/4dK5/Y46JdQ5ks6Xg3nNqsIMq3HIbrNvfeCUfGiZDxD0OsYpH0t/HpcuN9aTWlkEpV3/by4J2g1T9qJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759392295; c=relaxed/simple;
-	bh=PCk9ZeVV1UHVtDqXJ82bfijyd7gshesDIpbIkMJurSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b4Zelzr1QuweQIIvciLL5+PZD5OxwsqC7GFhVXPiUGlioZoXoB2/SCxBVZ+RDItQHzvaFl13DcK+k9fj5wFzA7/MvNIS9oLyAnfV2gFO+5nbXQIa23Gv8h62Z62AHz5FzEs303nnND1ww9oavUtkl1rJhIu2kY/LhCokBR9h74Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqQaY9bi; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1759394522; c=relaxed/simple;
+	bh=+FtP3eq0PeHkdOKnxERNZd0lz8T1pKK47VnKvzTXIDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KtCgnxFKzYHz7/Y89z+OxEl807WI8clsq1oQj1V7EMei66XaeMAJuiaTISShR0B/95ExQ0PbYyYstXB0DP0UQL0akuhWnKlART1D0qiSo+Dj9eY1UvYXT0q/Mp2yplXyFq6kaE9kUzhnKal9IkXyFD4F5LsH5DwtoC/WIIs8smI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRLA4OMv; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqQaY9bi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRLA4OMv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759392294; x=1790928294;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PCk9ZeVV1UHVtDqXJ82bfijyd7gshesDIpbIkMJurSQ=;
-  b=JqQaY9bipdTyvP9blv5yZRK1esN0dYvH2r0E7dstaPLg/GyaFaY2Qvfs
-   cI3apMwE4X8t3VOKrTs0q75USIPXR5gnovLe531oJgrQg2mTLd4VKxWiA
-   1Px1MGyYgXFbkbSqgvWp08OPXP3JZDHKjZogWxAwJNDhOAsB1yM8SjBHz
-   LgzVsQZzhNXugmsWNU42b031quGvua5YciZUF98tmxcpWS8/zvJpUbxmQ
-   t+3RNTlIqVA9VKD0GO337DSjrXffYt+EysklTTThmEhS0GN7VS1fBZBxS
-   0Mfsu7k1HKo9Mgby1qK0jICL91U9PK7Wia0AfU8S+5aHtmk2We10PUS2+
-   w==;
-X-CSE-ConnectionGUID: BfGrlP/aRjWpCtRTwDJRGw==
-X-CSE-MsgGUID: ugDfeYY/S4SknMsKFEfQfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="65525014"
+  t=1759394520; x=1790930520;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+FtP3eq0PeHkdOKnxERNZd0lz8T1pKK47VnKvzTXIDM=;
+  b=KRLA4OMvX1pQLliJtg8Y7OH/DVmoqerSSg0/ua9K6U1HuWOJF++wbuwC
+   tzGpUAjJmvgU6qtE1AHV0yUeLq7JWXVC/UZWyJRvAh0bO+NpvO1+Q1yej
+   TxlurCfhhKBJXZiJ1JRlvozZawo0Gsg8elT9IDYNvRY2EMjFoElVviRY/
+   bJu1Vs6Nx2eaO5+vmIbz/K14GFQ/4wneK1iNq9b/uq6XHOgS7c4kNNJ5p
+   g7DE9dusAiKCDAepjROs66OwdoIu/ZveRdKHGx8sz42MHPgBdPx/NYQI2
+   b5as2xJe+ocPW/UwIzuUok0GMpKZ59ZX8+OR5WG/kvlBr4aNpFn8UjHEz
+   A==;
+X-CSE-ConnectionGUID: F5fIk4+nT465ivRO/RX6Ew==
+X-CSE-MsgGUID: Z+Z53l98RbGlHRRcggNw7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="79099018"
 X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="65525014"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:04:53 -0700
-X-CSE-ConnectionGUID: kev2kcY1TsG5WCcCebR2lg==
-X-CSE-MsgGUID: pqJP4TVxQliQWhPsYp/TUg==
+   d="scan'208";a="79099018"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:41:59 -0700
+X-CSE-ConnectionGUID: jNtY2rMWTe2xjWafWBCFwA==
+X-CSE-MsgGUID: txiw6bgrQ0O9wv9CHrBr7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="178268548"
 Received: from slindbla-desk.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.8])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:04:50 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:41:56 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,13 +48,14 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: SOF: Intel: hda-pcm: Place the constraint on period time instead of buffer time
-Date: Thu,  2 Oct 2025 11:05:38 +0300
-Message-ID: <20251002080538.4418-4-peter.ujfalusi@linux.intel.com>
+	bhelgaas@google.com,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kw@linux.com
+Subject: [PATCH 0/7] ASoC/SOF/PCI/Intel: Support for Nova Lake S
+Date: Thu,  2 Oct 2025 11:42:45 +0300
+Message-ID: <20251002084252.7305-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251002080538.4418-1-peter.ujfalusi@linux.intel.com>
-References: <20251002080538.4418-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,74 +64,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Instead of constraining the ALSA buffer time to be double of the firmware
-host buffer size, it is better to set it for the period time.
-This will implicitly constrain the buffer time to a safe value
-(num_periods is at least 2) and prohibits applications to set smaller
-period size than what will be covered by the initial DMA burst.
+Hi,
 
-Cc: stable@vger.kernel.org
-Fixes: 02ea2a0364a2 ("ASoC: SOF: Intel: hda-pcm: Use dsp_max_burst_size_in_ms to place constraint")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+this series adds initial support for NVL-S from the Nova Lake family.
+NVL-S includes ACE4 audio subsystem, it has 2 DSP cores.
+
+Regards,
+Peter
 ---
- sound/soc/sof/intel/hda-pcm.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+Bard Liao (1):
+  ASoC: Intel: soc-acpi-intel-nvl-match: add rt722 l3 support
 
-diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index 1dd8d2092c3b..da6c1e7263cd 100644
---- a/sound/soc/sof/intel/hda-pcm.c
-+++ b/sound/soc/sof/intel/hda-pcm.c
-@@ -29,6 +29,8 @@
- #define SDnFMT_BITS(x)	((x) << 4)
- #define SDnFMT_CHAN(x)	((x) << 0)
- 
-+#define HDA_MAX_PERIOD_TIME_HEADROOM	10
-+
- static bool hda_always_enable_dmi_l1;
- module_param_named(always_enable_dmi_l1, hda_always_enable_dmi_l1, bool, 0444);
- MODULE_PARM_DESC(always_enable_dmi_l1, "SOF HDA always enable DMI l1");
-@@ -291,19 +293,30 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 	 * On playback start the DMA will transfer dsp_max_burst_size_in_ms
- 	 * amount of data in one initial burst to fill up the host DMA buffer.
- 	 * Consequent DMA burst sizes are shorter and their length can vary.
--	 * To make sure that userspace allocate large enough ALSA buffer we need
--	 * to place a constraint on the buffer time.
-+	 * To avoid immediate xrun by the initial burst we need to place
-+	 * constraint on the period size (via PERIOD_TIME) to cover the size of
-+	 * the host buffer.
-+	 * We need to add headroom of max 10ms as the firmware needs time to
-+	 * settle to the 1ms pacing and initially it can run faster for few
-+	 * internal periods.
- 	 *
- 	 * On capture the DMA will transfer 1ms chunks.
--	 *
--	 * Exact dsp_max_burst_size_in_ms constraint is racy, so set the
--	 * constraint to a minimum of 2x dsp_max_burst_size_in_ms.
- 	 */
--	if (spcm->stream[direction].dsp_max_burst_size_in_ms)
-+	if (spcm->stream[direction].dsp_max_burst_size_in_ms) {
-+		unsigned int period_time = spcm->stream[direction].dsp_max_burst_size_in_ms;
-+
-+		/*
-+		 * add headroom over the maximum burst size to cover the time
-+		 * needed for the DMA pace to settle.
-+		 * Limit the headroom time to HDA_MAX_PERIOD_TIME_HEADROOM
-+		 */
-+		period_time += min(period_time, HDA_MAX_PERIOD_TIME_HEADROOM);
-+
- 		snd_pcm_hw_constraint_minmax(substream->runtime,
--			SNDRV_PCM_HW_PARAM_BUFFER_TIME,
--			spcm->stream[direction].dsp_max_burst_size_in_ms * USEC_PER_MSEC * 2,
-+			SNDRV_PCM_HW_PARAM_PERIOD_TIME,
-+			period_time * USEC_PER_MSEC,
- 			UINT_MAX);
-+	}
- 
- 	/* binding pcm substream to hda stream */
- 	substream->runtime->private_data = &dsp_stream->hstream;
+Peter Ujfalusi (6):
+  PCI: Add Intel Nova Lake S audio Device ID
+  ALSA: hda/hdmi: intelhdmi: add HDMI codec ID for Intel NVL
+  ASoC: Intel: soc-acpi: add NVL match tables
+  ASoC: SOF: Intel: add initial support for NVL-S
+  ALSA: hda: core: intel-dsp-config: Add support for NVL-S
+  ALSA: hda: controllers: intel: add support for Nova Lake S
+
+ include/linux/pci_ids.h                       |  1 +
+ include/sound/soc-acpi-intel-match.h          |  2 +
+ sound/hda/codecs/hdmi/intelhdmi.c             |  1 +
+ sound/hda/controllers/intel.c                 |  2 +
+ sound/hda/core/intel-dsp-config.c             |  8 ++
+ sound/soc/intel/common/Makefile               |  1 +
+ .../intel/common/soc-acpi-intel-nvl-match.c   | 90 +++++++++++++++++++
+ sound/soc/sof/intel/Kconfig                   | 17 ++++
+ sound/soc/sof/intel/Makefile                  |  2 +
+ sound/soc/sof/intel/hda-dsp.c                 |  1 +
+ sound/soc/sof/intel/hda.h                     |  1 +
+ sound/soc/sof/intel/nvl.c                     | 55 ++++++++++++
+ sound/soc/sof/intel/nvl.h                     | 14 +++
+ sound/soc/sof/intel/pci-nvl.c                 | 82 +++++++++++++++++
+ sound/soc/sof/intel/shim.h                    |  1 +
+ 15 files changed, 278 insertions(+)
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-nvl-match.c
+ create mode 100644 sound/soc/sof/intel/nvl.c
+ create mode 100644 sound/soc/sof/intel/nvl.h
+ create mode 100644 sound/soc/sof/intel/pci-nvl.c
+
 -- 
 2.51.0
 
