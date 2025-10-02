@@ -1,188 +1,115 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D72C026D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116F827F18C;
 	Thu,  2 Oct 2025 07:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759390234; cv=none; b=r7FRjYXUX7QUrZpqdhaXTYe89cvG62ihRAxrG/r+0CHqKzT3gVfYgsEMoklwPh5VIuPdOq9Bxf59p7CRFo8kqLy5Nuy2JbjBlJOATt0NNZNx+ju03AAx4EQtYlIDTClli0UtB8gN5brDKLYN5ZnArKh/DMGvkTMLO2hlNt+Xp8o=
+	t=1759390234; cv=none; b=jLojIt/vjRxLGwiwlw3MkbZxYYTtEyGaCTDC1SNv5m8AybgSefZFShPVdAKvzAdbObcovMOqOhPLDgaE2yRccu5uF+bBwi/F7im431TxUc12njqKrqFF0dKO4HuaQCzvJWOXtOSlv9ODYAyOCN3JCZdeHhJ0nEcD9Y4NyWFZYoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759390234; c=relaxed/simple;
-	bh=jDUQ/UaqP3nn6L4P+8Y0miY/+y99XoN5WWGCGdWBQtU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HUNwu+ycVs+qaHZFfFFCI5zJhvZSdSx+uwP2haOt+p0cyxlh/xqLMFIMIvf7drGtofOmAFBMaH8J0syd/1MwAbhEJ+65Co3D5hvrAzDEtUyh+hvpeqATpNH/FrDCsvRpMZnZ8JgqU2RqpdYz1946kytS6q72UIdpEYbASsLwIwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dydpOR+K; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	bh=aCNTd7y2V+SuHg6WVjBlqABjwCfquQ+5RZdKXqarfmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PQZi9QhaCOuixNmID3XFc27D0Zz9Bb9f8ipRY31oIAZ+t8xpNlVgLqOMltTrVzbMSkpFrtw7qOp9TRTvBluGU5w7Omdc7nAjj08bL+9tw7Y/mslg8jDUHLcqIry/7RJXjImmUt0HKIbacPCGERjsmz2g5tNyIzS46CwMkHuLl30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRWv/YYT; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dydpOR+K"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5927U9CG2838778;
-	Thu, 2 Oct 2025 02:30:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1759390209;
-	bh=71sqONH4BXGPz4VfkWdc8RIfaxiFUOFoWFT9vpabLbY=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=dydpOR+K4/xM4y9182ZTavGpXMCnfraWH5z2dtM2aQ93llm5QEpWxu9p/bfXg3fk9
-	 zRJ8V5eRzRKeZh/j9j9B8hbJKp3/Ffga+rDI+JDGa5bwwlUGgcC9P/64KEOHS1kPfL
-	 miyg4r5PQFWKEFzHTn+HMxpXFwr9fMQ8ih5rZ2qE=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5927U9LE3442626
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 2 Oct 2025 02:30:09 -0500
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 2
- Oct 2025 02:30:08 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE204.ent.ti.com
- (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 2 Oct 2025 02:30:08 -0500
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5927TkgQ1776146;
-	Thu, 2 Oct 2025 02:29:58 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>, <tiwai@suse.de>
-CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
-        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
-        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <k-yi@ti.com>, <henry.lo@ti.com>,
-        <robinchen@ti.com>, <jesse-ji@ti.com>, <will-wang@ti.com>,
-        <jim.shil@goertek.com>, <toastcheng@google.com>,
-        <chinkaiting@google.com>
-Subject: [PATCH v4 2/2] ASoC: tas2781: Update ti,tas2781.yaml for adding tas58xx
-Date: Thu, 2 Oct 2025 15:29:25 +0800
-Message-ID: <20251002072925.26242-2-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20251002072925.26242-1-baojun.xu@ti.com>
-References: <20251002072925.26242-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRWv/YYT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759390232; x=1790926232;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aCNTd7y2V+SuHg6WVjBlqABjwCfquQ+5RZdKXqarfmI=;
+  b=eRWv/YYTv66OfRJ5UzwLPP8s0hF8bK04ecWCkTxmuMku/TzOfMiBm0cT
+   DcQBzEIqeID2BdvYiPTBuyP6qPSpkIpMstMxDBULxNncOQOxwxGeR7AC0
+   LdOKYE34hyjmG3HQmMwQRcgjiskMpHUHQQW/uD5yIiJmlvyeVaSyNV7Zz
+   nu1vlyJNQKIFAOB7OziFTbmY2jdgazKSOHb0GumBZmmgeSmiOE70MWAWx
+   aZ4+BSE2JW9yEg3w7NFE1QofK3TaItKJ3apjpy8+w05naLEwFawpfVuwk
+   FQSqqSrlohJoHXO5/4g5/14T84mIFLbGZG/YBWownIskuz+mGXcca3DEX
+   w==;
+X-CSE-ConnectionGUID: qkkaX/7FRXOYABSiQKR1iw==
+X-CSE-MsgGUID: w/BIBxiEShqMugZZ8Qa2Fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61630224"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61630224"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:30:31 -0700
+X-CSE-ConnectionGUID: OER0keruTw+k30vAlnGvMA==
+X-CSE-MsgGUID: l6CDBBbOQwCMDIVEqMIEUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
+   d="scan'208";a="179758666"
+Received: from slindbla-desk.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.8])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:30:28 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc3-topology: Fix multi-core and static pipelines tear down
+Date: Thu,  2 Oct 2025 10:31:25 +0300
+Message-ID: <20251002073125.32471-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Update ti,tas2781.yaml for adding TAS5802/TAS5815/TAS5828.
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+In the case of static pipelines, freeing the widgets in the pipelines
+that were not suspended after freeing the scheduler widgets results in
+errors because the secondary cores are powered off when the scheduler
+widgets are freed. Fix this by tearing down the leftover pipelines before
+powering off the secondary cores.
 
+Cc: stable@vger.kernel.org
+Fixes: d7332c4a4f1a ("ASoC: SOF: ipc3-topology: Fix pipeline tear down logic")
+Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
-v4:
- - Change the patch title
- - Add TAS5802 support in yaml file
- - Change description for missed TAS5815
- - Change format to keep all lines within 80 bytes in length
-v3:
- - Rewrite the patch title
- - Add TAS5815 support in yaml file
-v2:
- - Update description for TAS5828
- - Change commit tree to .../tiwai/sound.git
----
- .../devicetree/bindings/sound/ti,tas2781.yaml | 43 ++++++++++++++++---
- 1 file changed, 37 insertions(+), 6 deletions(-)
+ sound/soc/sof/ipc3-topology.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-index bd00afa47..7f84f5060 100644
---- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-@@ -24,10 +24,10 @@ description: |
-   Instruments Smart Amp speaker protection algorithm. The
-   integrated speaker voltage and current sense provides for real time
-   monitoring of loudspeaker behavior.
--  The TAS5825/TAS5827 is a stereo, digital input Class-D audio
--  amplifier optimized for efficiently driving high peak power into
--  small loudspeakers. An integrated on-chip DSP supports Texas
--  Instruments Smart Amp speaker protection algorithm.
-+  The TAS5802/TAS5815/TAS5825/TAS5827/TAS5828 is a stereo, digital input
-+  Class-D audio amplifier optimized for efficiently driving high peak
-+  power into small loudspeakers. An integrated on-chip DSP supports
-+  Texas Instruments Smart Amp speaker protection algorithm.
+diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
+index 473d416bc910..f449362a2905 100644
+--- a/sound/soc/sof/ipc3-topology.c
++++ b/sound/soc/sof/ipc3-topology.c
+@@ -2473,11 +2473,6 @@ static int sof_ipc3_tear_down_all_pipelines(struct snd_sof_dev *sdev, bool verif
+ 	if (ret < 0)
+ 		return ret;
  
-   Specifications about the audio amplifier can be found at:
-     https://www.ti.com/lit/gpn/tas2120
-@@ -35,8 +35,10 @@ description: |
-     https://www.ti.com/lit/gpn/tas2563
-     https://www.ti.com/lit/gpn/tas2572
-     https://www.ti.com/lit/gpn/tas2781
-+    https://www.ti.com/lit/gpn/tas5815
-     https://www.ti.com/lit/gpn/tas5825m
-     https://www.ti.com/lit/gpn/tas5827
-+    https://www.ti.com/lit/gpn/tas5828m
+-	/* free all the scheduler widgets now */
+-	ret = sof_ipc3_free_widgets_in_list(sdev, true, &dyn_widgets, verify);
+-	if (ret < 0)
+-		return ret;
+-
+ 	/*
+ 	 * Tear down all pipelines associated with PCMs that did not get suspended
+ 	 * and unset the prepare flag so that they can be set up again during resume.
+@@ -2493,6 +2488,11 @@ static int sof_ipc3_tear_down_all_pipelines(struct snd_sof_dev *sdev, bool verif
+ 		}
+ 	}
  
- properties:
-   compatible:
-@@ -65,11 +67,21 @@ properties:
-       Protection and Audio Processing, 16/20/24/32bit stereo I2S or
-       multichannel TDM.
- 
-+      ti,tas5802: 22-W, Inductor-Less, Digital Input, Closed-Loop Class-D
-+      Audio Amplifier with 96-Khz Extended Processing and Low Idle Power
-+      Dissipation.
++	/* free all the scheduler widgets now. This will also power down the secondary cores */
++	ret = sof_ipc3_free_widgets_in_list(sdev, true, &dyn_widgets, verify);
++	if (ret < 0)
++		return ret;
 +
-+      ti,tas5815: 30-W, Digital Input, Stereo, Closed-loop Class-D Audio
-+      Amplifier with 96 kHz Enhanced Processing
-+
-       ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
-       to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+ 	list_for_each_entry(sroute, &sdev->route_list, list)
+ 		sroute->setup = false;
  
--      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop Class-D
--      Amplifier with Class-H Algorithm
-+      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop
-+      Class-D Amplifier with Class-H Algorithm
-+
-+      ti,tas5828: 50-W Stereo, Digital Input, High Efficiency Closed-Loop
-+      Class-D Amplifier with Hybrid-Pro Algorithm
-     oneOf:
-       - items:
-           - enum:
-@@ -80,8 +92,11 @@ properties:
-               - ti,tas2563
-               - ti,tas2570
-               - ti,tas2572
-+              - ti,tas5802
-+              - ti,tas5815
-               - ti,tas5825
-               - ti,tas5827
-+              - ti,tas5828
-           - const: ti,tas2781
-       - enum:
-           - ti,tas2781
-@@ -177,12 +192,28 @@ allOf:
-             minimum: 0x38
-             maximum: 0x3f
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,tas5802
-+              - ti,tas5815
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 4
-+          items:
-+            minimum: 0x54
-+            maximum: 0x57
-+
-   - if:
-       properties:
-         compatible:
-           contains:
-             enum:
-               - ti,tas5827
-+              - ti,tas5828
-     then:
-       properties:
-         reg:
 -- 
-2.25.1
+2.51.0
 
