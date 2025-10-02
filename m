@@ -1,63 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2292155A4E;
-	Thu,  2 Oct 2025 20:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683FE1C4A10;
+	Thu,  2 Oct 2025 20:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759435230; cv=none; b=f8OS4Q3lZg9xs2d4dL293Zxpz7WvO0m4RkOJQXia+mRiOFxpiFSxbKFlR2uFotaPxjyeRaYcRO2aFYDb8zezY+0wp7GDeCtjPGpi8WNDzi50ISZw/pCCedO86JIEfgPGQjOkWomjq40/IxM9qkmB9n9zA/kzZkAWrYyAxV8J/DY=
+	t=1759438236; cv=none; b=ITxyFni55KTlgngHdwXXLhd5wTInMV/p70VeHlWPhcFqd+IdmQiSk7WlomW4lLxFAAW1YobwJ8faL0o1ckbk2AldosRt8/EuoPczaH3jHD62t2mrRxoVixBbrTrtHBRO2VWHD+OxxswLbF2oqFDN1g23yIaq8vhi4GgGHKFMJRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759435230; c=relaxed/simple;
-	bh=Ri1nL1GEuYsN9wyatnejvyCsDDm4PlEhnqhuiPuuR3Q=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Lyo1OcirRjaclQ1BNIYWe16iIdUxu/7woMepWKqSwCh/PUBOZXgph9veLhwmKaeqCWy58uRxbk5CiSSKhKaHLrxTiSHqPWyxxR4kuPF/pr372rcXIKxjSuwBnu/i7ZS6mTLGNOrI3PzRmJAbRWeb/XGBLDQvqf5XgP9hmNSQ7Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T1nROgw5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759438236; c=relaxed/simple;
+	bh=UTpRTPC7u6vNzbnK8EDdA8HMy/2iR/0ZlTpwgM8uRGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=emOKOdhfCyPwwti3QAox9u0qg3q6ZK57QE8f6dXZzFXlTj3+a6DM7Z549eWfKcn6Vx2iNiWqmrWSYaojUpGDrm/2967zj2tv0u2DI3zgOx+UPlLk14AApi8uG6jgO2zPjOeScLoKQ/HuHIRXti6Kj/zG5+FsxqJ3vInLjMwocNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=C69Ah66b; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T1nROgw5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F21DC4CEF5;
-	Thu,  2 Oct 2025 20:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759435230;
-	bh=Ri1nL1GEuYsN9wyatnejvyCsDDm4PlEhnqhuiPuuR3Q=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=T1nROgw56c2pbgMrV+me4n7EMLi2PeD0QX9o5sm09gXutR24SawZmdIt9RwgXUfyU
-	 ajjQp3nK+9ZlqNO6Gfx89MVLBHPKPZQZxBZsUEjBx3XnG5CFsnWQ/We3V32Vcz0sr8
-	 pqMfEJ7gF6zPbHrtDvHc1oT1Tj4v80qMmqOKe/YBMxnA8dLPzDlc+KV2g2TqX2go2s
-	 ZjlC41Htf7WLVBzY7Kq0lW3iS7cNIMSkMClrNDWd6wuvKNoNVHBpx0dEEdb2HVj5MK
-	 cfaC4jVMIuEngCIWjGUBEUWT1dcKKdSbjfY7gF3lbSEFkmqvIfq7DsC4GzkpWQD0RF
-	 RR9vPa6RAqUgA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE1AA39D0C1B;
-	Thu,  2 Oct 2025 20:00:23 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates for 6.18-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <874iskktxs.wl-tiwai@suse.de>
-References: <874iskktxs.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <874iskktxs.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.18-rc1
-X-PR-Tracked-Commit-Id: f65dc3b1ab145c9b8b36301256d703c1dd153f71
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 05a54fa773284d1a7923cdfdd8f0c8dabb98bd26
-Message-Id: <175943522230.3413181.248560542601875644.pr-tracker-bot@kernel.org>
-Date: Thu, 02 Oct 2025 20:00:22 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="C69Ah66b"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=EXs6IZ4idy9yeg4n6KxHIZ/ibHP7AdPo7DYQz33da8g=; b=C69Ah66b9sLO6yz0
+	8KLv6iEanfRNtaIYZzZLAZzLbmpPYjXZhWNRoZv3Xb43w6X60+D0SHCUm1MjJjiHoEJh2F6CheAvk
+	3HQDZ17dKoLKqxWN2sTDEc5a2UzLESuxy5AnFmDmX95noFpZxSonhY8zYpofp4fpn9lSTb7uxQkzP
+	q8lqCL18VOvQv5Cv0XtPwwbewKKu0NWUQPb67VuKNwCu9HEe5dktLlqQ9eONu2sneZcmk1ueykqF6
+	kqHeFWXt2+dnvcck/0wccCQWTjXMHJFhsJKZxfHUSerrWJui8SpUHxMiqFOtG610Duuz9q23Fzoit
+	VR82hsYZnE51ny5GhA==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1v4PyJ-00Ebda-1f;
+	Thu, 02 Oct 2025 20:32:15 +0000
+Date: Thu, 2 Oct 2025 20:32:15 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mark Brown <broonie@kernel.org>, arnd@arndb.de, mchehab@kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
+Message-ID: <aN7hT_59V6KcOxTe@gallifrey>
+References: <20250625133258.78133-1-linux@treblig.org>
+ <20250808154903.GB23187@pendragon.ideasonboard.com>
+ <20250902103249.GG2163762@google.com>
+ <20250902113527.GB1694@pendragon.ideasonboard.com>
+ <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
+ <20250902121015.GI13448@pendragon.ideasonboard.com>
+ <aLcuHnj_h3Xf7DiK@gallifrey>
+ <20250903072301.GZ2163762@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250903072301.GZ2163762@google.com>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 20:29:51 up 158 days,  4:43,  1 user,  load average: 0.05, 0.01,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-The pull request you sent on Tue, 30 Sep 2025 14:26:23 +0200:
+* Lee Jones (lee@kernel.org) wrote:
+> On Tue, 02 Sep 2025, Dr. David Alan Gilbert wrote:
+> 
+> > * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
+> > > On Tue, Sep 02, 2025 at 12:47:39PM +0100, Mark Brown wrote:
+> > > > On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
+> > > > 
+> > > > > Patch 1/4 has been queued in the media tree and should be in linux-next
+> > > > > as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
+> > > > > also in linux-next, but is based on other ALSA patches. The simplest
+> > > > > course of action would be for you to merge 3/4 for v6.18, and 4/4 for
+> > > > > v6.19.
+> > > > 
+> > > > Or given that it's a driver removal we could just get a rebase of the
+> > > > series against the meda tree applied?  The conflicts with ASoC should be
+> > > > trivial to resolve.
+> > > 
+> > > I don't mind either way. I know Linus doesn't like having the same patch
+> > > merged with different commit IDs, but I don't know how strict the rule
+> > > is, especially when git should be able to resolve the conflict
+> > > transparently.
+> > 
+> > I still think the easiest thing is to leave 1/4 and 2/4 as you currently
+> > have them; and let Lee take 3/4 and 4/4 next time around.
+> 
+> It's more disjointed than I like.  But it's okay.  Remind me later.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.18-rc1
+Hi Lee,
+  1 and 2 of this series just got merged into Linus' tree.
+Thanks all!
+3 and 4 can go in at your convenience.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/05a54fa773284d1a7923cdfdd8f0c8dabb98bd26
+Dave
 
-Thank you!
-
+> -- 
+> Lee Jones [李琼斯]
+> 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
