@@ -1,94 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10372313547;
-	Thu,  2 Oct 2025 08:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34742EDD76;
+	Thu,  2 Oct 2025 10:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759394544; cv=none; b=r8hczMQjHPVo84b7UE5o2HTUCRQ2iVsCuACJxJv1WQVaWN19CFiXoEf/IHdFUtYgkGAxkuH8iRieGvlI+/pYNRV7FMsHSkp4lNvsz/nPEQ8PgTUF6zVS3O2JkvnfP8TIflSgFTamDxvxLfTh8pm37t+mBP8IxH1Man3IlG+4TtA=
+	t=1759400222; cv=none; b=jqbnGcQT3TJ2oFSuuUz08+F+M/PDrEzA3s/E1feEQvsEQmw3HLDQJMKJZZLZW73mK+r0Zb3M2aybI4xINMXrDirasy5yLDrckWO6/6zi6KKk2RgAgeTVCuQJMrOkw5HQs6cw5kpqYKFuZRW/9fAOo+QBe91wrSp3vp22uaxmtQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759394544; c=relaxed/simple;
-	bh=DQLsj3m2+FCvd0nPH88N/uliHGZbLM99gX1huBjG2kk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rNzu4B15OVBzWJ0AvWfxhHkCCtcg8gBx4b7LfzDVEMDRobt69D+VFr87qXYlrSTIsJO7ARGikSXEXCvUwW2yTs2oDIZVZPgJQ+3OKf3tNSQwRSemz7EAN9dV0eWmLmgVk3CW1aXoMkc2agrZErY7VjxmLof2P9NqS4m44urMR/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=comOob9o; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1759400222; c=relaxed/simple;
+	bh=rBdIXori8WP0TwgaYABKn1raWbJCyFiPMjbMD4E+mCI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BVvceV+tQ4Kblp9+HbFdJLoDb6SquykESbUgNLmooo/YvKV/iwR2zV+2rAVM8AWYo0cJ6kXXQBIrCt2c8bmpnSRujwwXDfSpawQocoBTHrOZ1MhySwFUXc5Dx2s/BCBT7iPheq59GzuASSff8+vylw2PjxFZY8I4p/Aq6O/9qAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Vr2Bqqu+; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="comOob9o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759394543; x=1790930543;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=DQLsj3m2+FCvd0nPH88N/uliHGZbLM99gX1huBjG2kk=;
-  b=comOob9oyHRX0s5xYnqWxjhCPyJ1KlSq7eRKJacdyDIO9nWd5ohsIQgT
-   7gnvU7Yfr5+yjoCJ7IqVsjJY58ICCI4iq46EXvSQhIbrbwcYk04PRTBSj
-   KIMUBuzMWkOzNyL6lUoz6uuMjG+XPliC0oJ2LAztVRZP8J68JtCh84u4r
-   ZZ7e9dFaWeMhs3umfqB96qWWGaI7q5GlIIHOm9ID9U/hDfA6w9wkokLMr
-   VWiB9Af/bfyxsTo/8fO38Vl04xlEZITnaZizls10GCyIdViUI75qYOBLA
-   1nHgp8X1TLg0G5gIMgV8V7we0EooX4oQotNrtKhjgcihOE6qBtW4wB8Oj
-   w==;
-X-CSE-ConnectionGUID: LCMRwPK5RjCGQQ3ox4hifQ==
-X-CSE-MsgGUID: T1FQfuEhT3iLMFMErl5+fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="79099081"
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="79099081"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:42:22 -0700
-X-CSE-ConnectionGUID: qmzR5MQ5QdKn1snW+NJuNQ==
-X-CSE-MsgGUID: 0+EbY5nAQCe40Ro/dUJrgQ==
-X-ExtLoop1: 1
-Received: from slindbla-desk.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.8])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 01:42:20 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kw@linux.com
-Subject: [PATCH 7/7] ALSA: hda: controllers: intel: add support for Nova Lake S
-Date: Thu,  2 Oct 2025 11:42:52 +0300
-Message-ID: <20251002084252.7305-8-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251002084252.7305-1-peter.ujfalusi@linux.intel.com>
-References: <20251002084252.7305-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Vr2Bqqu+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1759400218;
+	bh=rBdIXori8WP0TwgaYABKn1raWbJCyFiPMjbMD4E+mCI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Vr2Bqqu+gLxMJ82V8rA5gq4SJrB52nulJwTLREEAqZFl0iEVvNLjPBs8Ba9ORsUbr
+	 asg+l6oBDPmjV/KXe7v5I6eLqKJsyNMaXlMlY1BBc9kq5GK6g9yvFn/nGJmtan7ztC
+	 5WjyVywbe4D6KDNBKVyy05SFKo/kwMYg5QpQ9Xar7XxqsAClCLbTvACQQsPjKvvo/l
+	 wbh35IhN8N2KiHL5HQqM7deKO11w4xNtRDHgBlixAVMlbbdf52vloG+4PCqJBhHpsQ
+	 KYQWJ+QC/vDfKrl/teaGxJWkHr1gDjTQAVIpKnhITq4NZWRELRVfkZzalvw04la5fn
+	 GhlxY88U7S55g==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D68317E12BB;
+	Thu,  2 Oct 2025 12:16:58 +0200 (CEST)
+Message-ID: <e2253310-8a07-45db-a3e9-ead9a9bf69ad@collabora.com>
+Date: Thu, 2 Oct 2025 12:16:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] dt-bindings: ASoC: Convert MediaTek RT5650 codecs
+ bindings to DT schema
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>, broonie@kernel.org,
+ conor+dt@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
+ matthias.bgg@gmail.com, robh@kernel.org
+Cc: devicetree@vger.kernel.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
+References: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add NVL-S to the PCI-ID list.
+Il 01/10/25 20:35, Ariel D'Alessandro ha scritto:
+> Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
+> codecs to a DT schema.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/hda/controllers/intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 48c52a207024..94ed57e4c0b0 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2549,6 +2549,8 @@ static const struct pci_device_id azx_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_PTL_H, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Wildcat Lake */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_WCL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
-+	/* Nova Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_NVL_S, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Gemini-Lake */
--- 
-2.51.0
 
