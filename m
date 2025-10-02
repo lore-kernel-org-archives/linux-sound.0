@@ -1,69 +1,83 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34742EDD76;
-	Thu,  2 Oct 2025 10:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88392797AF;
+	Thu,  2 Oct 2025 11:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759400222; cv=none; b=jqbnGcQT3TJ2oFSuuUz08+F+M/PDrEzA3s/E1feEQvsEQmw3HLDQJMKJZZLZW73mK+r0Zb3M2aybI4xINMXrDirasy5yLDrckWO6/6zi6KKk2RgAgeTVCuQJMrOkw5HQs6cw5kpqYKFuZRW/9fAOo+QBe91wrSp3vp22uaxmtQ8=
+	t=1759405372; cv=none; b=qUBz2xvV2QOFep9EMmy3pF8UWJoRViKFY4yy7Vd1N3jbECvdwi/Ed/frqGbssRXheUBCFUTdh1GIplGLXBEePy8K7ngbYc+IGKfyu6cfft93GQfsbOfQu2bDywSbmSphQ45BucEzeCj8GsfE/3q/7jI1Nb/EHJhCMX409v4lBsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759400222; c=relaxed/simple;
-	bh=rBdIXori8WP0TwgaYABKn1raWbJCyFiPMjbMD4E+mCI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BVvceV+tQ4Kblp9+HbFdJLoDb6SquykESbUgNLmooo/YvKV/iwR2zV+2rAVM8AWYo0cJ6kXXQBIrCt2c8bmpnSRujwwXDfSpawQocoBTHrOZ1MhySwFUXc5Dx2s/BCBT7iPheq59GzuASSff8+vylw2PjxFZY8I4p/Aq6O/9qAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Vr2Bqqu+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1759405372; c=relaxed/simple;
+	bh=vbNFbdJYlLnZG2wACTOj7jBkUXMZiUzzUteZi3K/WGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ldezFmhXYMSBq6gSGGC5sGGO6TUAxaPknLCKDBxrE7ZmjyRjlSOWtFeXtRJZP9+qPbR0qiAD/o8YH/F/bm/RWGB7Vmrgp+2BYGNmVESKIr+KC6iW3uSVgj9zXVx01wqRGNOuIitAm2+tzPRGKUc+JIX97ud4bm5nhhGkiLKrpJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXf5HugE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Vr2Bqqu+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759400218;
-	bh=rBdIXori8WP0TwgaYABKn1raWbJCyFiPMjbMD4E+mCI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Vr2Bqqu+gLxMJ82V8rA5gq4SJrB52nulJwTLREEAqZFl0iEVvNLjPBs8Ba9ORsUbr
-	 asg+l6oBDPmjV/KXe7v5I6eLqKJsyNMaXlMlY1BBc9kq5GK6g9yvFn/nGJmtan7ztC
-	 5WjyVywbe4D6KDNBKVyy05SFKo/kwMYg5QpQ9Xar7XxqsAClCLbTvACQQsPjKvvo/l
-	 wbh35IhN8N2KiHL5HQqM7deKO11w4xNtRDHgBlixAVMlbbdf52vloG+4PCqJBhHpsQ
-	 KYQWJ+QC/vDfKrl/teaGxJWkHr1gDjTQAVIpKnhITq4NZWRELRVfkZzalvw04la5fn
-	 GhlxY88U7S55g==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D68317E12BB;
-	Thu,  2 Oct 2025 12:16:58 +0200 (CEST)
-Message-ID: <e2253310-8a07-45db-a3e9-ead9a9bf69ad@collabora.com>
-Date: Thu, 2 Oct 2025 12:16:57 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXf5HugE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B83C4CEFC;
+	Thu,  2 Oct 2025 11:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759405372;
+	bh=vbNFbdJYlLnZG2wACTOj7jBkUXMZiUzzUteZi3K/WGk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dXf5HugE2M/1uw3eIrVJdnXIOaGbLjiyduT4zq89pe0c9hylUVCAqHD5fjitAzcuB
+	 6mAnIDaRYASpySLAhtVXPfY6LszYliFh8id6SuSjfQzJec0JWX54dr3gIzF411Xtcm
+	 JXe509xlNkL8dC57yFEm7OVd545/1NZ+fyWecn4o5hUUN6JydaVLnOBeoc7z0ZtKhq
+	 ktIn261RjE6P5OEdqnQE/O51+K16n2xGHpVhhUnYjkFVks4zcWKXmV/T6ASLQkoZEN
+	 3yuY15Q110BLgK0oHcXF0PBghnVUt0gQuz+0Sl59GOZYAKnhRJueAVThQl6J3IyEFx
+	 BsJ2WcJ6QLqvQ==
+Date: Thu, 2 Oct 2025 12:42:47 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: angelogioacchino.delregno@collabora.com, conor+dt@kernel.org,
+	krzk+dt@kernel.org, lgirdwood@gmail.com, matthias.bgg@gmail.com,
+	robh@kernel.org, devicetree@vger.kernel.org, kernel@collabora.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3] dt-bindings: ASoC: Convert MediaTek RT5650 codecs
+ bindings to DT schema
+Message-ID: <83df4958-8cdc-4ec4-a77a-0f6132513664@sirena.org.uk>
+References: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] dt-bindings: ASoC: Convert MediaTek RT5650 codecs
- bindings to DT schema
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>, broonie@kernel.org,
- conor+dt@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
- matthias.bgg@gmail.com, robh@kernel.org
-Cc: devicetree@vger.kernel.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
-References: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TE5evtEICq1wpIvP"
+Content-Disposition: inline
 In-Reply-To: <20251001183517.83278-1-ariel.dalessandro@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Cookie: idleness, n.:
 
-Il 01/10/25 20:35, Ariel D'Alessandro ha scritto:
+
+--TE5evtEICq1wpIvP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Oct 01, 2025 at 03:35:17PM -0300, Ariel D'Alessandro wrote:
 > Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
 > codecs to a DT schema.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
+--TE5evtEICq1wpIvP
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjeZTYACgkQJNaLcl1U
+h9CNRQgAgB0/gZ+KlQcFzodFTVNysydvUs64RjVNx19lW3i4SQf/GsUktr4RAh9g
+9fM6ZQz7A8jXbMTRxjR6N+/ePk0Fi0UA+l68gKCNAA05qsLW/8+BQ+reEVHQ9lIi
+CeSYhmUTlX3qcE7AM/bhjSPJxyEqCQM+hDt3Hwj7FYICOD+S1djW7oKo+sHmVsYN
+Lwrxb3cL5cLE2ySupwT6rACvXkA3N969/9FkJI33fPBPM5gSdrxRcmEzxU9qlhQg
+Tm7qISufYk0OjvRcd3+Nm6l2YNrbfolcFyCKWeM2lbPVd17Ryb2E0ft4F71DhL/y
+6n1IvdgVe8vNJ7NEGDu1SYQctIoenw==
+=0b63
+-----END PGP SIGNATURE-----
+
+--TE5evtEICq1wpIvP--
