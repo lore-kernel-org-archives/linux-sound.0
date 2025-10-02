@@ -1,93 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E3A2D5928;
-	Thu,  2 Oct 2025 13:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CABC42A99;
+	Thu,  2 Oct 2025 17:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759413525; cv=none; b=mnd7E9kUpE2wqEjtcszjMLRB54KtYQWg38/XV4RYnhtmqiVnlnN8Omzk9ofpK1xC+h8/CxCH3vcYeMiHEIrQMiVg1SiH2wpfzKNlm/zXNHIZqxyRRevhiYjT2mIKsCz0D4xTulXHnDDEuFtl2KIHd0qMxl6RZb8nMu4VUwDKotA=
+	t=1759424812; cv=none; b=qyczea5zMXRCOjwKtf7+nzlNCOkuxkQ5Rc76tlwpwguZ1w5+awlH8tJUJ9bG+EniD+NnoVSK09VX4KEP/40FeZgrwoVNMX7BRULU3JVvm99/6CyP5QhKAgrphxiUe16iYvOj8kE8LN2ynDRKeil2h1T7q2TjYdjiHMWLplfDwlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759413525; c=relaxed/simple;
-	bh=LBJwX+/J/S/AXxLN4fxHEkcz15w6NN0vaaw6XqdorgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fl50ewrSBqBXe6LSAvJ6OLetIqnoR4CpnUTzmrCYPqNq+Vo2SSa5YcOoKwwjiTiJfnVRaXn1SKWcNLqalbR+PnvxEZi5zMelbdx+lsezLBFYaD22e6D/PDzjgSpiQ2gqwqNxLMAYqM2vZZ8xX5eWyLx0DPJFKMnZJQ7xP7c331U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUeGjlzV; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1759424812; c=relaxed/simple;
+	bh=X/U82S0COSbLUm7gCnAe5j59rq9KR97Yfu7LK1Zj/O8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hzo7YVmsvfQ0XdkWwIPhHQaVNnsfgyyHKYed239DIoO9y4FJxJXQdNXpkuzxYR+Y1Q1TgdlP7GivhgCPMtxZFGL/a/Wi9Qndud6UOKQ7nxPW/FuNW9D7ScaI9u0JvzVT+lQuDeT4mi6gvzheV0xrw9G5ptzV1+b0jdUezaR+e+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cmurp+eC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUeGjlzV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759413524; x=1790949524;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LBJwX+/J/S/AXxLN4fxHEkcz15w6NN0vaaw6XqdorgE=;
-  b=LUeGjlzVsa5HjidyUP4D4IpP5ZCIkFtxz/cVppKKapaVs4TU4jCqmNZz
-   vOlk4zv98M+70xhmL/kct65KrKrp4tUN0U27w8QAllkrY60aROB+8IlUY
-   As3LnINuz6EIvHP5ujaAtTqFZn9xGH6Ad+6LaL7gqeNZIHO2snOYvU7cB
-   henK1NoAkOtMFHUbVVmViQ4qJynAWAPQ5q0izyRSj7DQL57s0pBSX35dJ
-   44iMgnndr14N17jL6W0RFszFsYgJuji5jfyzGfLqpNgTFyzKFCtZ/egK6
-   nknVcSs2HY1GNnjk44Xmxz8jSh5akfjjaa2+4Awg2HnbgYbTDG7RcW1II
-   w==;
-X-CSE-ConnectionGUID: o01rnVgeTNmcoChhy/Yt5A==
-X-CSE-MsgGUID: Vk6H6r0lRYScaZ25MOXdHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="87145321"
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="87145321"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 06:58:43 -0700
-X-CSE-ConnectionGUID: gGre2mGvREymIBKtLfsjPg==
-X-CSE-MsgGUID: 1oAVmHk0TyqGDRokSVGUEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="209747567"
-Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.246.8]) ([10.245.246.8])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 06:58:41 -0700
-Message-ID: <4c4920a6-4c9f-4b38-b180-bd4be58916dc@linux.intel.com>
-Date: Thu, 2 Oct 2025 16:59:36 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cmurp+eC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C05C4CEF4;
+	Thu,  2 Oct 2025 17:06:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759424810;
+	bh=X/U82S0COSbLUm7gCnAe5j59rq9KR97Yfu7LK1Zj/O8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Cmurp+eCOGzu7Ps7oEVbnOTIO2lU7/4NWrnj8LRBgL4IxISshl9d8jJATN8xSqU/G
+	 /32h0hJunmCxrRcw9hs27Mj90ZPAgZGz2astrBLAJj8V/pA/lVu0P2HAsZMehFj/z5
+	 o0w4XBRYUDeL/AbcP5wQkypry3o0e5g0ml5yu2m+2DJzwaUDrRfnRhAzDIRnf6Uvql
+	 lcNplcfnz9P9vm1N/rHc0RtOFTP6IQeCHNmYeuKS9gN1Bwu0/lCQc37pyIsy/B890D
+	 TNFCdKKfrLPBt1DILJ2W9a2Flyhu3t0856cYwWbdQIv7fDcGEkyyYxttOEmpNtXfnC
+	 LnEWvkJRrz7Og==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, stable@vger.kernel.org
+In-Reply-To: <20251002073125.32471-1-peter.ujfalusi@linux.intel.com>
+References: <20251002073125.32471-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc3-topology: Fix multi-core and static
+ pipelines tear down
+Message-Id: <175942480895.110990.5274253507852897704.b4-ty@kernel.org>
+Date: Thu, 02 Oct 2025 18:06:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] ASoC: SOF: ipc4/Intel: Fix the host buffer
- constraint
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- stable@vger.kernel.org
-References: <20251002125322.15692-1-peter.ujfalusi@linux.intel.com>
- <03e9d232-a0b3-4ed0-9832-d07068003553@sirena.org.uk>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <03e9d232-a0b3-4ed0-9832-d07068003553@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-56183
 
-
-
-On 02/10/2025 16:08, Mark Brown wrote:
-> On Thu, Oct 02, 2025 at 03:53:19PM +0300, Peter Ujfalusi wrote:
+On Thu, 02 Oct 2025 10:31:25 +0300, Peter Ujfalusi wrote:
+> In the case of static pipelines, freeing the widgets in the pipelines
+> that were not suspended after freeing the scheduler widgets results in
+> errors because the secondary cores are powered off when the scheduler
+> widgets are freed. Fix this by tearing down the leftover pipelines before
+> powering off the secondary cores.
 > 
->> Changes since v1:
->> - SHAs for Fixes tag corrected (sorry)
 > 
-> Still some issues:
-> 
-> Commit: 7cea6ea9f99c ("ASoC: SOF: Intel: hda-pcm: Place the constraint on period time instead of buffer time")
-> 	Fixes tag: Fixes: 842bb8b62cc6 ("ASoC: SOF: Intel: hda-pcm: Use dsp_max_burst_size_in_ms to place constraint")
+> [...]
 
-this is the SHA for the previous tag...
-My middle-click copy is acting up today, sorry again.
+Applied to
 
-> 	Has these problem(s):
-> 		- Subject does not match target commit subject
-> 		  Just use
-> 			git log -1 --format='Fixes: %h ("%s")'
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Péter
+Thanks!
+
+[1/1] ASoC: SOF: ipc3-topology: Fix multi-core and static pipelines tear down
+      commit: 59abe7bc7e7c70e9066b3e46874d1b7e6a13de14
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
