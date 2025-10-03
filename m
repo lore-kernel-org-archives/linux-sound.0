@@ -1,220 +1,93 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00491CD15
-	for <linux-sound@vger.kernel.org>; Fri,  3 Oct 2025 13:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488D91D88D0;
+	Fri,  3 Oct 2025 14:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759497676; cv=none; b=n2fgfI/UhfTrxQZ+AQarvq2sQFpbguX8bxPDx2+TzuD4MKe/g3rDzL9KQuNlk1yxFeN+lrS4WSBKmPXELeJ07fwnsAQZ4RqJPXBSIkjahzczYN//LX9PsPJRPrUpCg7jrfx/aS7VDKi0k4La1vCD4ChEWnj3k28VRehslNAa7+Y=
+	t=1759502012; cv=none; b=u3qORatxc7F08yaLUqo9o/7Y6Rx97F7K85DvCVsF+K6V2sCJeX2MaZs3CHX4C5DXwlBVqyn1+cJutaE+NM4FfCG0BePMUyi6cURsU4xlQSRBZ8nZzgQ6zamLikD+4kqJS71Sr3QIPDdjvLnLtmv3GdXDX7G6hxCAQcUF5mN22zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759497676; c=relaxed/simple;
-	bh=+T3UOqQZFvy7eBHlAWJr/3kPNyoFfQ1q2UOiIWHKdwo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YpvEMQNc2xanhC2gC318hqsq+l4nBkhL+BOAoInwMuo/PqmiChYOkw9O7m6t8xJQNrreIsWNnzf1whvCG72VXjXMcpChN0R0cXvhaFSjxtIcutnwzK2TjLOw93AIXQc4gnHTMTzg8H2lYGZuT3DfMJM+LhENtZAh9+iEUzwB32E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lU+ono0N; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759502012; c=relaxed/simple;
+	bh=djI0Kh+ORCZeLxIIhCgIsJOK0W/b/aBQv/JlF6T2L1Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PQl+IDcKL5PThIaY7XPq7Z0HWrN0dkUG894rL5jBH90TrSGLRsOMxKqZIlJWnIRix66mlNySv+/STWdBlJRojzOCLPzFEX5+UPfC0/BKPamPO3Hm2Fpu9dNf8gr7WJllmxTI+owB+t+tPILssN7Y4Af4xBSSJZi3teoZSg1IKUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HHbsza24; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lU+ono0N"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so423667866b.0
-        for <linux-sound@vger.kernel.org>; Fri, 03 Oct 2025 06:21:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759497670; x=1760102470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x8zhl7eFh/Ccgjvyj875lnW0wZkdwAI8sMWJQNebn0o=;
-        b=lU+ono0NDj2J+OfGgerQ6M9g0JYYdRJhwVDwRuHdr4N50dmZZ4GoLVxf+w6Bnx24Sm
-         uWQUPJe1XEc49Sl2YRkoReP6H5cF3floBG/SJ3B6vvkGeplq/lezu+cj0dGslQSlB/zB
-         tVxEpTebwxwxyO6/2zAtMqycec0BamJ4iKH1onRlYyPCRqGZQIDLEdgjN2uKQPdw+xT6
-         V8/lV5MNgrC+4nM5TbmOk2xSSILLQeMjS0b6Bn3GPn6tSBfHxu4Uw9lFvxUB1NytOPJM
-         wy61ZM3oEEK542HIzqHJiIBEqwsu3UiAM7HeO/Fx+ZGxoc59Gi9t0dnDEFzUJ0gnr7rl
-         lSlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759497670; x=1760102470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x8zhl7eFh/Ccgjvyj875lnW0wZkdwAI8sMWJQNebn0o=;
-        b=KiJVSGup2yJlKmppLgcPcpqbRlrJ9bEq8h90Wx2Ka9ymtjwUqiWa9kCvNa15mRqgJD
-         214WUv3Lq5V4Mh2c61nKZhWe6VABLt5MVqqWFEk5iHfJCudHpuFSLzrBRoE+pL1ba4yM
-         a0774Rdvl2uw+4H76U5b7FhZh0dDq8ilOsngnQHiziRDkqaaCG0ZzcpxEesP0MN4zVwk
-         ok8xAlHaVZnQkLFoSPSKgBSudai4cDu5S8wArbSC91DE9IoRMO709mA+Ymx539zaMlg2
-         tPH2x7IyoLXuKs1G/aFYpaExe/mrdHBscW2cYE97PikJOTWGfjwB6nUopu97lfLfczBM
-         mlMg==
-X-Gm-Message-State: AOJu0Ywx0sNjcK4Nbe7vSeZP8SBkYVV9aAPzPqCR2LNIK6xuduy68wvC
-	p58QrAX8TuFg8GFbrysFEoMKEF7VPJYdGCZY+Eqd1UjHltbtg3SvP9SWUdDQLkdDqzuD4ILSi8S
-	athVpYYtx9mSBUaB9a2LLwV4mBEmOr5483jYz4AuIeg==
-X-Gm-Gg: ASbGncvlF8MPvaCqVC9KdKq7SMyfh6ajcYLcEJBHWjLy1A6RTT3XDM+MFZQ4ZqSxh9l
-	4/4FqgRZh+PFSZB9BoZZ/qxeU82GUSXEQkcV9Do611MBj8Q6rKyZj6PceP9Cdwi/cwUfIiVzr06
-	otMqTkzOF2Z+N3WICnlwxo51dgJuhxZLfPIf3cqPv1o49duSP9rYmr+0D9T0TJJOz91uDx4vq0j
-	Jzl9JBc+k5bMIZKFHnB7pvOnF+WvJrcQ0lkXaD9wvt2AvDEqKpUMV5flIld7W8hv4oqfM/YyQkr
-	6vLdJxXJjIe55ZqNKhKI4OKQp5Xnthq0/ywkeNw7R/tLCrA8yeVC6fCnsCBRpQ==
-X-Google-Smtp-Source: AGHT+IEA3negWfetSsQ9J9E7GZNGFXMwJJzB/z247mUrnUgKg78kzOOKAjkgcmEBNB3ECXV1sheBHc3044R6M6RK6bo=
-X-Received: by 2002:a17:907:2d22:b0:b40:e267:93dc with SMTP id
- a640c23a62f3a-b49c2958624mr388499866b.24.1759497669641; Fri, 03 Oct 2025
- 06:21:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HHbsza24"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA7FC4CEF5;
+	Fri,  3 Oct 2025 14:33:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759502011;
+	bh=djI0Kh+ORCZeLxIIhCgIsJOK0W/b/aBQv/JlF6T2L1Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HHbsza247QAwQy//u5plfACpJ4TisIlDKqTgylQHDYD/OoAl4b9dYKtsw0IIJWOjs
+	 HAVSsKmMBHhSGBUQC1/5GfcwjwRv4Ko99miqOHH+4e7gFKRlQPa8uGKg7nBg7HVfp2
+	 nbowxlzwVA6eug83Rg5xrAB2/BkULdgZGMEkTUG7c4XlJxUpy0EzJBcC+KqTYVjU5S
+	 JHOEAZDa7VzAS6EBR01MxkVCvAdY4wW8w2ky3qfcEjQqd8/raJwiv4J66DrT11u9au
+	 +tnG0RTXuMhE4Ri/aJh47qFxlpXBDYQJ3kxYl0NIx0qQm3eYmH2zs8H89T/HwXpr73
+	 F9f9CGk++nbpw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, stable@vger.kernel.org
+In-Reply-To: <20251002074719.2084-1-peter.ujfalusi@linux.intel.com>
+References: <20251002074719.2084-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: (subset) [PATCH 0/5] ASoC: SOF: ipc4: Fixes for delay
+ reporting
+Message-Id: <175950200983.87242.15474178381084349453.b4-ty@kernel.org>
+Date: Fri, 03 Oct 2025 15:33:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
- <2024011723-freeness-caviar-774c@gregkh> <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
- <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
-In-Reply-To: <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
-From: Serge SIMON <serge.simon@gmail.com>
-Date: Fri, 3 Oct 2025 15:20:38 +0200
-X-Gm-Features: AS18NWDqPgMDcv-4TQOr74BUnAM5tFfS08euR1LMs-basfmqfZJtbqn0MsFu4Tc
-Message-ID: <CAMBK1_Sw8nVSN3Z7WtHYyJ2xWUNVYNcx26UKFx5hy+xQrO=bHA@mail.gmail.com>
-Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org, 
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-56183
 
-Hello,
+On Thu, 02 Oct 2025 10:47:14 +0300, Peter Ujfalusi wrote:
+> With SRC in the firmware processing pipeline the FE and BE rate
+> can be different, the sample counters on the two side of the DSP
+> counts in different rate domain and they will drift apart.
+> The counters should be moved to the same rate domain to be
+> usable for delay calculation.
+> 
+> The ChainDMA offset value was incorrect since the host buffer size
+> and the trigger to start the chain is misunderstood initially.
+> 
+> [...]
 
-I still encounter this issue (and every month i test the latest
-kernel, each time with the same results) :
-- i do have an ASUS B560-I WIFI (ITX) motherboard with a S/PDIF output
-- everything was working flawlessly until (and including) kernel
-6.6.10, and that S/PDIF output was perfectly detected (under GNOME
-SHELL, etc.)
-- starting from kernel 6.7.0 (and newest ones, including 6.16.10
-tested today) the S/PDIF output it NOT detected anymore at boot time
-by the kernel (so is not selectable any more under GNOME SHELL or
-COSMIC, etc.)
+Applied to
 
-With old kernel (example :
-https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-gistfile=
-1-txt)
-:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-% cat /proc/asound/pcm
+Thanks!
 
-00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
-00-01: ALC1220 Digital : ALC1220 Digital : playback 1
-00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
-01-03: HDMI 0 : HDMI 0 : playback 1
-01-07: HDMI 1 : HDMI 1 : playback 1
-01-08: HDMI 2 : HDMI 2 : playback 1
-01-09: HDMI 3 : HDMI 3 : playback 1
+[3/5] ASoC: SOF: sof-audio: add dev_dbg_ratelimited wrapper
+      commit: 18dbff48a1ea58100f9fa6886cfef286a96a5fb0
+[4/5] ASoC: SOF: ipc4-pcm: do not report invalid delay values
+      commit: a4b8152c09a832b089864e5e209a479bb0fb5cc9
+[5/5] ASoC: SOF: Intel: Read the LLP via the associated Link DMA channel
+      commit: aaab61de1f1e44a2ab527e935474e2e03a0f6b08
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-With kernels >=3D 6.7.0 (example :
-https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-dmesg-6-=
-12-6-log)
-:
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-% cat /proc/asound/pcm
-00-03: HDMI 0 : HDMI 0 : playback 1
-00-07: HDMI 1 : HDMI 1 : playback 1
-00-08: HDMI 2 : HDMI 2 : playback 1
-00-09: HDMI 3 : HDMI 3 : playback 1
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-It seems i'm the only one impacted :(
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Who can help me on this topic ?
+Thanks,
+Mark
 
-Thanks in advance and regards.
-
---
-Serge.
-
-
-On Mon, Feb 5, 2024 at 8:35=E2=80=AFAM Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
->
-> On 05.02.24 08:09, Serge SIMON wrote:
-> >
-> > Any news on this ?
->
-> Apparently not. I added the sound maintainers just to be sure they are
-> aware of this.
->
-> > Just to say that i tried the 6.7.3 version and i have the exact same
-> > problem as described below
-> > ("linux-headers-6.7.3.arch1-2-x86_64.pkg.tar.zst" for the exact ARCH
-> > package, of course with a system fully up-to-date and rebooted) : no
-> > more S/PDIF device detected after reboot (only the monitors are
-> > detected, but not anymore the S/PDIF output at motherboard level-
-> > which is what i'm using).
-> >
-> > Reverting to 6.6.10 does solve the issue, so per what i'm seeing,
-> > something has definitely been broken between 6.6.10 and 6.7.0 on that
-> > topic.
->
-> Unless the sound maintainers come up with something, we most likely need
-> a bisection from you to resolve this.
->
-> In case you want to perform a bisection, this guide I'm currently
-> working on might help:
->
-> https://www.leemhuis.info/files/misc/How%20to%20bisect%20a%20Linux%20kern=
-el%20regression%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
->
-> > Is this tracked by a bug somewhere ? Does i have to open one (in
-> > addition to these mails) ?
->
-> No, this thread (for now) is enough.
->
-> Ciao, Thorsten
->
->
-> > On Wed, Jan 17, 2024 at 6:39=E2=80=AFAM Greg KH <gregkh@linuxfoundation=
-.org> wrote:
-> >>
-> >> On Tue, Jan 16, 2024 at 09:49:59PM +0100, Serge SIMON wrote:
-> >>> Dear Kernel maintainers,
-> >>>
-> >>> I think i'm encountering (for the first time in years !) a regression
-> >>> with the "6.7.arch3-1" kernel (whereas no issues with
-> >>> "6.6.10.arch1-1", on which i reverted).
-> >>>
-> >>> I'm running a (up-to-date, and non-LTS) ARCHLINUX desktop, on a ASUS
-> >>> B560-I motherboard, with 3 monitors (attached to a 4-HDMI outputs
-> >>> card), plus an audio S/PDIF optic output at motherboard level.
-> >>>
-> >>> With the latest kernel, the S/PIDF optic output of the motherboard is
-> >>> NOT detected anymore (and i haven't been able to see / find anything
-> >>> in the logs at quick glance, neither journalctl -xe nor dmesg).
-> >>>
-> >>> Once reverted to 6.6.10, everything is fine again.
-> >>>
-> >>> For example, in a working situation (6.6.10), i have :
-> >>>
-> >>> cat /proc/asound/pcm
-> >>> 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
-> >>> 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
-> >>> 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
-> >>> 01-03: HDMI 0 : HDMI 0 : playback 1
-> >>> 01-07: HDMI 1 : HDMI 1 : playback 1
-> >>> 01-08: HDMI 2 : HDMI 2 : playback 1
-> >>> 01-09: HDMI 3 : HDMI 3 : playback 1
-> >>>
-> >>> Whereas while on the latest 6.7 kernel, i only had the 4 HDMI lines
-> >>> (linked to a NVIDIA T600 card, with 4 HDMI outputs) and not the three
-> >>> first ones (attached to the motherboard).
-> >>>
-> >>> (of course i did several tests with 6.7, reboot, ... without any chan=
-ges)
-> >>>
-> >>> Any idea ?
-> >>
-> >> As this is a sound issue, perhaps send this to the
-> >> linux-sound@vger.kernel.org mailing list (now added).
-> >>
-> >> Any chance you can do a 'git bisect' between 6.6 and 6.7 to track down
-> >> the issue?  Or maybe the sound developers have some things to ask abou=
-t
-> >> as there are loads of debugging knobs in sound...
-> >>
-> >> thanks,
-> >>
-> >> greg k-h
-> >
-> >
->
