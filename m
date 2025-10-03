@@ -1,198 +1,184 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBFF221578
-	for <linux-sound@vger.kernel.org>; Fri,  3 Oct 2025 07:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA4423C51D
+	for <linux-sound@vger.kernel.org>; Fri,  3 Oct 2025 07:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759474856; cv=none; b=s5Lx3LzDvBwtU66pF4yayQi3DdcXhS+TSjsjPY66kwBnHNp/4LVgr4O9000opciT7/hSN4uvdfXGlumnwZ1rlTOz+9DYC9mTs/md44mMp29Cs5pAekF1i8YB7Nzzl+ZwyrZel7gDQjUh1HmOeqQfoT8wuRW+A4fmwSStiYeEn2Q=
+	t=1759476113; cv=none; b=e7BxBZiouAbQjLSeKFqUenRUG2f1EnkJoONjzCQhF405FpF/d38xpRGST2hSBdoT5bBVFFRL+zLFq4E3QV+wk0bsC+tFKB+6vchY9LpZNTMKTd1LXjequUToRcXnhVcB6NWhJN1MR7ie+FDJF0uBFRm6U9KJC+de+HqWEyEEQ0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759474856; c=relaxed/simple;
-	bh=5Exm/8PLdaYIQsbxEm7CrsQS0hKOILQWwFq03IzluZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oQO4Dbp0asJQ8glFnhI3dvdeZfO9w44YmndL6uRVOPZw0DdxQveRcRRK4OR2s1kjhJfbbVWKdlOhoMWzmyiQ+dw2XxtVy89DHXBHrvKXVmWqjiO5mYoM0SHiti9gAL+OupsxtT/J+iifSwVe4C8XIgk+LmLTQ6YWa8nfyLa0lz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NBs5Rh5g; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1759476113; c=relaxed/simple;
+	bh=MF1ojK1e4qTMJpyC4kVXvIjqRe+VO3XJwjd/QevRJoA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZYj26LJxuWzj9ArK2JGNOa/l0wAX4KqiOSPem4o20AVJwQzyTu4f2tRFePhvQULOKd8p4wA5tQDT5QvJhxWzqmyqwqSlPpSfvEn4tcEPJz5rpHZeS5TvqR/yAHOLMP1q0f49dHSnQhVAN2xzaaK30scen52FzxBkhD1sK568Tlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bEgpKn8Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=28LT4I65; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hIVPvxtC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=erQ5Zm9p; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NBs5Rh5g"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592Lm5CE000852
-	for <linux-sound@vger.kernel.org>; Fri, 3 Oct 2025 07:00:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Co5VzprZsR81aFpnYkYXzmF6KQjbt0d229OVKm0YBpM=; b=NBs5Rh5giHTu0yIG
-	fp3IUgm2pJos2/MW3R/9TvxauMsylD+rNDtBlCQWXTj2lG4mgTtlj/tc8jzPqRwp
-	9p9thZzJNaiS+0drtWdS+gFdWJ1WewKKeGyBNs3GP+FkthMom72/HRve+yLV0iPD
-	Pe13nZuQ/Z1OaITbRrRevj9YJqDUBpMi8U8CUElBi8U0uocGYaqrCh5eHm4spqPz
-	I0N/Hy+y5l9fa5tm+FIT0fcXy2PgpKMRgjZx+m+rnrM2yRMxwvtXBc4F1q8M9t+Z
-	CLLwAqWJmAnJyOF37CKywJ84MlLpV+09p4hVf713stV3IDmzsuo7H4ciA4+KoO+4
-	NBzulg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6x626s2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 03 Oct 2025 07:00:53 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-268149e1c28so20851855ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 03 Oct 2025 00:00:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759474852; x=1760079652;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Co5VzprZsR81aFpnYkYXzmF6KQjbt0d229OVKm0YBpM=;
-        b=nDeOIBK/tQtgEB9q86CYI4YV1yGI7/FUwWr/wWdD5mrRxcR0dx6+uAmFmIfxMLvuju
-         yI+QqXmD9Xzmvg2enLEKROuglPOxEN/q4OxQhkFDAhs/SwkYt0M1r4x4ADL+1hmRMa5c
-         pHLWcnCh47zC/G9DjVy+x+iUfBJFhlD1WurbXWgtBc1yxlhd9AaLvO5OQ/Xe16wI4Vri
-         7qWg/Lq89c9UnheBrY2NwUml6JSxuCmV/Wnmax72Zajepdj62A96DKM63Lmr0Z1B+P3z
-         Pw1fkcq23J0JllLmpbajksIHiEuzt7kLTnhamBNBXDVLLT5DCqVbxbH/MkDhhQ5xPIaC
-         lr3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVSxu+XUlvwOGT9pdl+H3mCUhC473pefMyUZh/0nexpGI3BpwSv1tMhwRdj7gXp1W4N6zg/Nr8BRJ+sFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMQxJo4J0UZGnht1kib7TzcPIRzVuhia895v85CLmjqPc91zWV
-	MW1aKU+gGhpubbNzYrDErfQInYp/TXf9trau61DsfTujVPG1i4SsGnLyVjUz7T7dv7qpah+jkP/
-	uoIprYw07uZgDMMm1H1tA94T6BLs+A0Vaq4DdF8BPJQYLRgVib9FoJ87sIOIeHYsjpw==
-X-Gm-Gg: ASbGncuGlMcOWi5lzJHhjM3RV3OcB7Q6urPe/yzsqAoLTTw7k2sYq1te9l+S5Ia3AaV
-	CmSPzxi9xTYmYZhg5oIbps12yXsBMHBW9GdvdcuVYKG9sgbdXDbCTe6gf0g7BzBnWjOu2SlablF
-	ntePY2BTRkMXhR8MHozpvSTqdGAKiNJWfNqz5likKwiSqrLoNj9DVzY9QPaMqOueAuM2DClNxDg
-	FciRs1IIn/Wzpiul8ouEDMCPM6KSN8qFG8aIHYMcxorvsKNtN9mCxxjmfL2aDglalNpNNHM/B/A
-	q8A3gwCYTc60zmNyUrNPrPgMf0prS3kF4PLagIf7tSNMVCCYyNz8S17kn+gEbw89PcxZyqmetYr
-	eml76x23o
-X-Received: by 2002:a17:903:287:b0:26d:d860:3db1 with SMTP id d9443c01a7336-28e9a56700amr25147495ad.24.1759474852294;
-        Fri, 03 Oct 2025 00:00:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHryjKfAj9HgoLio+jseaVb7X04rOxIe8KAqRAkzFtrkbcwQLuvAuQxIWXpvFYBtK4NEGv3tQ==
-X-Received: by 2002:a17:903:287:b0:26d:d860:3db1 with SMTP id d9443c01a7336-28e9a56700amr25147165ad.24.1759474851714;
-        Fri, 03 Oct 2025 00:00:51 -0700 (PDT)
-Received: from [10.218.21.154] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d126012sm40739195ad.41.2025.10.03.00.00.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Oct 2025 00:00:51 -0700 (PDT)
-Message-ID: <ec31379a-4bc9-4cc5-b90e-ca380f5334aa@oss.qualcomm.com>
-Date: Fri, 3 Oct 2025 12:30:45 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bEgpKn8Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="28LT4I65";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hIVPvxtC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="erQ5Zm9p"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9132A33867;
+	Fri,  3 Oct 2025 07:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759476098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rvh/zyAvQe8sgpRHWRg4gdaK+6SZnI8zSJs6AZ9Y4ek=;
+	b=bEgpKn8YpLSM/tYGoMKlyb4H+dntsKVt9+39JEoI8AOg2194BxQSqO4XTDDGTK+ZZQBsCR
+	jCE2AKbjagTUsoQ8AuJSeB6nfhTDNr4lW1JWCDfA4+yM6Mp3p3NDGX3s0iUXlGteTINhgy
+	h728Cg/FoJfzzZm9yrljsRfXkqlGRtI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759476098;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rvh/zyAvQe8sgpRHWRg4gdaK+6SZnI8zSJs6AZ9Y4ek=;
+	b=28LT4I65u+jCEfNlAo1sbNYBCNmowf3FR8UouoFQ3VC01A5s6dR8FKi7bSK1DydgfIWIez
+	b5xedf4t0axH07DA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759476097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rvh/zyAvQe8sgpRHWRg4gdaK+6SZnI8zSJs6AZ9Y4ek=;
+	b=hIVPvxtCG/If+Fwu9Ubyu8IgeMBQVsPY0+ouRZonojzpoAVVkG9n6XOCwqa35ww247NbRg
+	PWJLwfoqGYPiQplLbCI7JtksrqnQ72iuFup6/RBxUvQFqNlHEhGHTzVLE2HGro92le+Ae7
+	kweeBMbGJ+aS0VyDqf3otfGgdUDYZIs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759476097;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rvh/zyAvQe8sgpRHWRg4gdaK+6SZnI8zSJs6AZ9Y4ek=;
+	b=erQ5Zm9pRiHHHekinY7lZjDUJMrLMiHsJfDfsg3ApUb3ZzN/4fOs00BlqeP16tDOP8zn8f
+	ewgIW+7hgF3QwuDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 502B913990;
+	Fri,  3 Oct 2025 07:21:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vrTzEYF532iyXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 03 Oct 2025 07:21:37 +0000
+Date: Fri, 03 Oct 2025 09:21:36 +0200
+Message-ID: <87o6qoh2m7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: hariconscious@gmail.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound/core/seq: Initialize structure pointer to NULL to prevent undefined behavior
+In-Reply-To: <20251002174301.15512-1-hariconscious@gmail.com>
+References: <20251002174301.15512-1-hariconscious@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: codecs: lpass-macro: Add support for channel map
- mixer control
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
-        prasad.kumpatla@oss.qualcomm.com
-References: <20250902062300.212021-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <DD71KONODHKJ.15RI1DXF5T6PJ@linaro.org>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <DD71KONODHKJ.15RI1DXF5T6PJ@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: UCiQ0-KmssEN9dWWn9IAsZBpACXVOxhj
-X-Proofpoint-ORIG-GUID: UCiQ0-KmssEN9dWWn9IAsZBpACXVOxhj
-X-Authority-Analysis: v=2.4 cv=ZtPg6t7G c=1 sm=1 tr=0 ts=68df74a5 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=onMMKnJRGUs5ctigZmYA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxOCBTYWx0ZWRfX+0uF7Zwlu4/8
- RNEcR4+1+VbHp1WFvHQuTPH11Hmu8JOLX9dmy09dwnaqucCtfA2dCeKzL6ItNzIWGt3E7gcBMH4
- Q+bVuHO1KjrgymSzQiOf985J6za2E4L0RZ57KA6LV7AVws3XTx3qkRXeuWSc163igGRWGi52kdB
- hy8SnSCXDjcnurv5YRwIO8tVtBUPv1wOQyf/IRxKOreF5U8bjIqoUAlohNuivlMB+e3l/QDn1ND
- 2vYh+4IM1yjme4PR8PUXVok6+2oyDuuVU546sUlcmm3jeiVdjjbf2l6RtttSk/ZUdxfIPBTD/oP
- F7h0zKeWasD+ovx4FCKeXvV/JLQcivqQ+KkP4lcc5JmRvXHHi2aZxGrDNhTwyMI0fsdoczpB1xx
- YeLe+prAFPoYCa8OlvtUmxyP1nxOYQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-03_01,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270018
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,gmail.com,vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -1.80
 
-
-
-On 10/1/2025 7:36 PM, Alexey Klimov wrote:
-> On Tue Sep 2, 2025 at 7:23 AM BST, Mohammad Rafi Shaik wrote:
->> Introduce the channel map mixer control support for LPASS macro
->> codec Digital Audio Interfaces (DAIs). The channel map mixer controls
->> are required by APPS to configure usecase-specific audio routing and
+On Thu, 02 Oct 2025 19:43:00 +0200,
+hariconscious@gmail.com wrote:
 > 
-> What is APPS here? Will be good to have this abbreviation or acronym explained.
+> From: HariKrishna Sagala <hariconscious@gmail.com>
 > 
-
-Ack,
-
-will write proper commit description.
-
->> channel mapping.
->>
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> ---
->> Changes in v2:
->> - Updated patch with improved commit description..
->> - Link to v1: https://lore.kernel.org/linux-sound/20240930053111.3986838-1-quic_mohs@quicinc.com/
->> ---
->>   sound/soc/codecs/lpass-macro-common.c | 55 +++++++++++++++++++++++++++
->>   sound/soc/codecs/lpass-macro-common.h |  2 +
->>   sound/soc/codecs/lpass-rx-macro.c     | 12 ++++++
->>   sound/soc/codecs/lpass-tx-macro.c     |  9 +++++
->>   sound/soc/codecs/lpass-va-macro.c     |  9 +++++
->>   sound/soc/codecs/lpass-wsa-macro.c    | 12 ++++++
->>   6 files changed, 99 insertions(+)
->>
->> diff --git a/sound/soc/codecs/lpass-macro-common.c b/sound/soc/codecs/lpass-macro-common.c
->> index 6e3b8d0897dd..777af4885245 100644
->> --- a/sound/soc/codecs/lpass-macro-common.c
->> +++ b/sound/soc/codecs/lpass-macro-common.c
->> @@ -8,12 +8,67 @@
->>   #include <linux/platform_device.h>
->>   #include <linux/pm_domain.h>
->>   #include <linux/pm_runtime.h>
->> +#include <sound/control.h>
->> +#include <sound/pcm.h>
->> +#include <sound/soc.h>
->>   
->>   #include "lpass-macro-common.h"
->>   
->>   static DEFINE_MUTEX(lpass_codec_mutex);
->>   static enum lpass_codec_version lpass_codec_version;
->>   
->> +static int lpass_macro_chmap_ctl_get(struct snd_kcontrol *kcontrol,
->> +				     struct snd_ctl_elem_value *ucontrol)
->> +{
->> +	struct snd_pcm_chmap *info = snd_kcontrol_chip(kcontrol);
->> +	struct snd_soc_dai *dai = info->private_data;
->> +	u32 *chmap_data = NULL;
+> This change ensures the structure pointer is explicitly initialized to
+> NULL,preventing potential access to uninitialized memory. It improves
+> code safety and avoids undefined behavior during pointer dereferencing.
 > 
-> You probably don't need to set it to NULL here, if it will be overwritten
-> by kzalloc() call few lines below
->
-
-Ack,
-
-will fix in next version.
-
-Thanks & Regards,
-Rafi.
-
-
->> +	u32 rx_ch_cnt = 0;
->> +	u32 tx_ch_cnt = 0;
->> +	u32 rx_ch, tx_ch;
->> +
->> +	chmap_data = kzalloc(sizeof(u32) * 2, GFP_KERNEL);
+> Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+> ---
 > 
-> here.
-> 
-> [..]
-> 
-> Thanks,
-> Alexey
-> 
-> 
+> Note:
+> Turned on the settings needed for sequencer MIDI and built a kernel
+> image with those settings. The system booted up fine with no errors.
+> However, couldn¢t get the sequencer emulation to start.
 
+Something really wrong in your test, I'm afraid.
+See your patch below more closely:
+
+> 
+>  sound/core/seq/seq_midi_emul.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/core/seq/seq_midi_emul.c b/sound/core/seq/seq_midi_emul.c
+> index 81d2ef5e5811..f24c5a475c41 100644
+> --- a/sound/core/seq/seq_midi_emul.c
+> +++ b/sound/core/seq/seq_midi_emul.c
+> @@ -647,7 +647,7 @@ static void snd_midi_channel_init(struct snd_midi_channel *p, int n)
+>   */
+>  static struct snd_midi_channel *snd_midi_channel_init_set(int n)
+>  {
+> -	struct snd_midi_channel *chan;
+> +	struct snd_midi_channel *chan = NULL;
+>  	int  i;
+>  
+>  	chan = kmalloc_array(n, sizeof(struct snd_midi_channel), GFP_KERNEL);
+
+The variable chan is initialized at the very beginning.
+NULL initialization is utterly nonsense.
+
+> @@ -686,7 +686,7 @@ reset_all_channels(struct snd_midi_channel_set *chset)
+>   */
+>  struct snd_midi_channel_set *snd_midi_channel_alloc_set(int n)
+>  {
+> -	struct snd_midi_channel_set *chset;
+> +	struct snd_midi_channel_set *chset = NULL;
+>  
+>  	chset = kmalloc(sizeof(*chset), GFP_KERNEL);
+
+Here, too.
+
+So all changes make really no sense.
+
+
+thanks,
+
+Takashi
