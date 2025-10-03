@@ -1,149 +1,117 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DB82D47FE;
-	Fri,  3 Oct 2025 18:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048FD18B0F;
+	Fri,  3 Oct 2025 18:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759514615; cv=none; b=i947oiZBj23GrUbDv/8drgp8+YY2F0l8vk4TQZ8kUrC2rPc/RvkHeqUN8qwQNxcumU3sbHfLsz9LsOD02myMxDqKsmNzME1oMzgIzsuxqzp4JFKv+P0g/Fk7p5rq1bSoSQgZ2V21sp9nBYr0bEI88LO7nzZNgrsJo91x7lxhFwA=
+	t=1759516361; cv=none; b=DBfGo3e0wVZotR+69rXzLXwzcUI3qhgXCk/WgrYRfA4+S0RF49aOMKFcKw41AnqIQd3YTwY/WSO2mLz7UUi4NyFnTDCgmNrVVOAGlQHt7AlmlS2PD9sQwdvOrBnGXN7FS0Gky5ZuPFvFl+viB3kqXjpJtOZL1Li01yVS2uwNuWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759514615; c=relaxed/simple;
-	bh=Vgbgk+y+NPB1wmd8wO1pCyaZssvyi61KBIIiInoyMKQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=C6qbb2Vn68Ra8kCnCe/fCBYfiOxROqQKLt5wvID9u0MDFx22DopOQshUVd06vWc+zk0scCJPUUGkEBkh3KD6t/FnZJDJFMUm4jIZc31veAhPOHLtwk7BoLPqsdoreSN+v5HBXHnbSkdy0WMKE0T7XigcxWW+la9NJ5jpkjc2Guc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pvS4V9Pd; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1759516361; c=relaxed/simple;
+	bh=6LsdkFJMNUtByb9/erKdoNDV5/jm+WUpU8rtXMC9o8o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bIF5QNXFL2e3046L7Zbhu+kjYmJkLS7gGL2UP8QvFXJLcbaurDd8GoD3PAR7el10I0F7minoyILHxN2GAk611TU9kPLnrN5AXXvZxWDNsKRaXnWig6zddFFDkRssiQocShTmIKv/p3Mi17e2/4KbzhiSf9wo1ivx1yCVKD5OCfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=hBpXDHu/; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pvS4V9Pd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759514610;
-	bh=Vgbgk+y+NPB1wmd8wO1pCyaZssvyi61KBIIiInoyMKQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pvS4V9PdYqUuACK8Q9VoF7zBKyW/1ZIG+GgerwIs9LlUAVUEHMHmDlhBh7HjQJwRM
-	 FQF45+f2InCX7tuqnr77JbSNtpzUoVnGyodQ+ExAGvZ/n98sF9SnbMw1EoKuEbbVZw
-	 sqH6QMMQ+ZgSjluq0IjoNcf93ukV2PR2/yIP1uOEk2kmQMXrjiaWeoblVJt9Y3Fdh3
-	 WPofQvdtPjZ7Bw07OpFeJNYMiOsCnSZ+JJ8raI0/jagGnhIMmTj9tUEXA4d2MRH5Cs
-	 QShZmvmklRy3VD1qKcYudC/HLv9jweC1VCBt84M3Velmf3yfrFxDnpS9SUzejvC4b/
-	 W5+6U33jflCRg==
-Received: from localhost (unknown [82.79.138.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id BDDB617E13C1;
-	Fri,  3 Oct 2025 20:03:30 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Fri, 03 Oct 2025 21:03:26 +0300
-Subject: [PATCH 4/5] ASoC: nau8821: Add DMI quirk to bypass jack debounce
- circuit
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="hBpXDHu/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=6LsdkFJMNUtByb9/erKdoNDV5/jm+WUpU8rtXMC9o8o=; b=hBpXDHu/N/HZJWBUJDkF6EPa45
+	EJlIUt1HFcYufkCTFdi/KYEO1HN1Ibi4BlmGQzOZR48iV94/uA4l8RjzESmKzHohQXc7Ee45/1RBu
+	Tp8P4rm5sAbCYlm/BOC6cIGUx/bFj1B+/scbh6BZTr5KwEi+7ZKayCRNpXRBSUaruZnQ=;
+Received: from [62.217.191.191] (helo=[192.168.1.230])
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1v4ka2-000000000Fd-49GA;
+	Fri, 03 Oct 2025 21:32:35 +0300
+Message-ID: <8254efed415d6e7faee6b04b88993e7ff35ef8af.camel@tsoy.me>
+Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Serge SIMON <serge.simon@gmail.com>, Linux regressions mailing list
+	 <regressions@lists.linux.dev>
+Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org, Takashi Iwai
+	 <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Date: Fri, 03 Oct 2025 21:32:33 +0300
+In-Reply-To: <265839123283304ede6b391bd92340adf77ad0f4.camel@tsoy.me>
+References: 
+	<CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
+		 <2024011723-freeness-caviar-774c@gregkh>
+		 <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
+		 <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
+		 <CAMBK1_Sw8nVSN3Z7WtHYyJ2xWUNVYNcx26UKFx5hy+xQrO=bHA@mail.gmail.com>
+	 <265839123283304ede6b391bd92340adf77ad0f4.camel@tsoy.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251003-nau8821-jdet-fixes-v1-4-f7b0e2543f09@collabora.com>
-References: <20251003-nau8821-jdet-fixes-v1-0-f7b0e2543f09@collabora.com>
-In-Reply-To: <20251003-nau8821-jdet-fixes-v1-0-f7b0e2543f09@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Seven Lee <wtli@nuvoton.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Sender: puleglot@puleglot.ru
 
-Stress testing the audio jack hotplug handling on a few Steam Deck units
-revealed that the debounce circuit is responsible for having a negative
-impact on the detection reliability, e.g. in some cases the ejection
-interrupt is not fired, while in other instances it goes into a kind of
-invalid state and generates a flood of misleading interrupts.
+=D0=92 =D0=9F=D1=82, 03/10/2025 =D0=B2 17:57 +0300, Alexander Tsoy =D0=BF=
+=D0=B8=D1=88=D0=B5=D1=82:
+> =D0=92 =D0=9F=D1=82, 03/10/2025 =D0=B2 15:20 +0200, Serge SIMON =D0=BF=D0=
+=B8=D1=88=D0=B5=D1=82:
+> > Hello,
+> >=20
+> > I still encounter this issue (and every month i test the latest
+> > kernel, each time with the same results) :
+> > - i do have an ASUS B560-I WIFI (ITX) motherboard with a S/PDIF
+> > output
+> > - everything was working flawlessly until (and including) kernel
+> > 6.6.10, and that S/PDIF output was perfectly detected (under GNOME
+> > SHELL, etc.)
+> > - starting from kernel 6.7.0 (and newest ones, including 6.16.10
+> > tested today) the S/PDIF output it NOT detected anymore at boot
+> > time
+> > by the kernel (so is not selectable any more under GNOME SHELL or
+> > COSMIC, etc.)
+> >=20
+> > With old kernel (example :
+> > https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-gist=
+file1-txt
+> > )
+> > :
+> >=20
+> > % cat /proc/asound/pcm
+> >=20
+> > 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
+> > 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
+> > 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
+> > 01-03: HDMI 0 : HDMI 0 : playback 1
+> > 01-07: HDMI 1 : HDMI 1 : playback 1
+> > 01-08: HDMI 2 : HDMI 2 : playback 1
+> > 01-09: HDMI 3 : HDMI 3 : playback 1
+> >=20
+> >=20
+> > With kernels >=3D 6.7.0 (example :
+> > https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-dmes=
+g-6-12-6-log
+> > )
+> > :
+>=20
+> Did you disable intel iGPU somehow? Try to add
+> snd_hda_core.gpu_bind=3D0
+> to the kernel cmdline.
+>=20
 
-Add new entries to the DMI table introduced via commit 1bc40efdaf4a
-("ASoC: nau8821: Add DMI quirk mechanism for active-high jack-detect")
-and extend the quirk logic to allow bypassing the debounce circuit used
-for jack detection on Valve Steam Deck LCD and OLED models.
+Ah, I see:
+...
+vfio_pci: add [8086:4c8a[ffffffff:ffffffff]] class 0x000000/00000000
+...
 
-While at it, rename existing NAU8821_JD_ACTIVE_HIGH quirk bitfield to
-NAU8821_QUIRK_JD_ACTIVE_HIGH.  This should help improve code readability
-by differentiating from similarly named register bits.
-
-Fixes: aab1ad11d69f ("ASoC: nau8821: new driver")
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- sound/soc/codecs/nau8821.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/nau8821.c b/sound/soc/codecs/nau8821.c
-index 56e5a0d80782b85d8c256745911297f8edf5dd98..a8ff2ce70be9a94e7094696e06bda93f27fdea93 100644
---- a/sound/soc/codecs/nau8821.c
-+++ b/sound/soc/codecs/nau8821.c
-@@ -26,7 +26,8 @@
- #include <sound/tlv.h>
- #include "nau8821.h"
- 
--#define NAU8821_JD_ACTIVE_HIGH			BIT(0)
-+#define NAU8821_QUIRK_JD_ACTIVE_HIGH			BIT(0)
-+#define NAU8821_QUIRK_JD_DB_BYPASS			BIT(1)
- 
- static int nau8821_quirk;
- static int quirk_override = -1;
-@@ -1177,9 +1178,10 @@ static void nau8821_setup_inserted_irq(struct nau8821 *nau8821)
- 	regmap_update_bits(regmap, NAU8821_R1D_I2S_PCM_CTRL2,
- 		NAU8821_I2S_MS_MASK, NAU8821_I2S_MS_SLAVE);
- 
--	/* Not bypass de-bounce circuit */
--	regmap_update_bits(regmap, NAU8821_R0D_JACK_DET_CTRL,
--		NAU8821_JACK_DET_DB_BYPASS, 0);
-+	/* Do not bypass de-bounce circuit */
-+	if (!(nau8821_quirk & NAU8821_QUIRK_JD_DB_BYPASS))
-+		regmap_update_bits(regmap, NAU8821_R0D_JACK_DET_CTRL,
-+				   NAU8821_JACK_DET_DB_BYPASS, 0);
- 
- 	/* Unmask & enable the ejection IRQs */
- 	regmap_update_bits(regmap, NAU8821_R0F_INTERRUPT_MASK,
-@@ -1864,7 +1866,23 @@ static const struct dmi_system_id nau8821_quirk_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Positivo Tecnologia SA"),
- 			DMI_MATCH(DMI_BOARD_NAME, "CW14Q01P-V2"),
- 		},
--		.driver_data = (void *)(NAU8821_JD_ACTIVE_HIGH),
-+		.driver_data = (void *)(NAU8821_QUIRK_JD_ACTIVE_HIGH),
-+	},
-+	{
-+		/* Valve Steam Deck LCD */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
-+		},
-+		.driver_data = (void *)(NAU8821_QUIRK_JD_DB_BYPASS),
-+	},
-+	{
-+		/* Valve Steam Deck OLED */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
-+		},
-+		.driver_data = (void *)(NAU8821_QUIRK_JD_DB_BYPASS),
- 	},
- 	{}
- };
-@@ -1906,9 +1924,12 @@ static int nau8821_i2c_probe(struct i2c_client *i2c)
- 
- 	nau8821_check_quirks();
- 
--	if (nau8821_quirk & NAU8821_JD_ACTIVE_HIGH)
-+	if (nau8821_quirk & NAU8821_QUIRK_JD_ACTIVE_HIGH)
- 		nau8821->jkdet_polarity = 0;
- 
-+	if (nau8821_quirk & NAU8821_QUIRK_JD_DB_BYPASS)
-+		dev_dbg(dev, "Force bypassing jack detection debounce circuit\n");
-+
- 	nau8821_print_device_properties(nau8821);
- 
- 	nau8821_reset_chip(nau8821->regmap);
-
--- 
-2.51.0
-
+You probably passthrough the GPU to VM so the i915 driver is not loaded
+on the host. Thus you really need snd_hda_core.gpu_bind=3D0 kernel
+option. This is a consequence of the following series:
+https://lore.kernel.org/all/20231009115437.99976-1-maarten.lankhorst@linux.=
+intel.com/
