@@ -1,94 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from puleglot.ru (puleglot.ru [195.201.32.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906C51E515;
-	Fri,  3 Oct 2025 14:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB7542A80;
+	Fri,  3 Oct 2025 15:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.32.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759502014; cv=none; b=UIBhJIfUDlnBlFJouwWQi+R8dOwo3t3GXR4xJ/Pe8iGbVr2Z2YZJO7atwEQIZ2ccGWY5AA4AFRY+2v+lOg9J3vbkpJlmbfdk+ZrcSyCrDGwDnoAmu2H+S+HAMoYdH7g4LKY9ORFSinkesayvWoBJP5O/ufHJxzFyF44SoRrlvGE=
+	t=1759503964; cv=none; b=pI99U/70bddG57Lv3ICQ7oK4PrRgBigHj+gZHhNk/rYA/RqhppC/nBfv8AIdiIX8LudwKdeqQArBKfURUJ/lgptzNvayK0XqCuS6kGTXUfOz6Ibq5OOy8VptywHm+UGK16UetsHkB2W5VBEawuBepigBQixj0ru0CeaoU+/7VBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759502014; c=relaxed/simple;
-	bh=Ol9QmzDRQIdGFburmMnhzuufrNXKQBUmjDyAxdEnvGE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YcBcVTdsFV/0NBw4CeqE0j68KBj8KKTwEuuAdfvky67z02W6KslMxT6o6rMjN/6iKfGwPUd5Co2MDpPVgx/giioqkTpKdCwt4CNMW0tncUts3fsRcRm03/rit+BpNB40dGv0/7hF2PeHfsDMBQeNBt1zaeqY6GFcoRxkWGPAi/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJThiqq2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759503964; c=relaxed/simple;
+	bh=cn0SYSGCQ2+nQxPGi29l1O7Jzqnaq/TOCJCC5GcD0DI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pvdncEcOzIfnSKL82Jh35HovEI6I5ua9u4w1n6tNhvmIYWsYButiY/WV8a6o/fwxZb3XvYkLpx1EVykFzT94IuMK+XpUeWKZbw5BzBHX/l9s3n2RvKfn77eEW2IBOcuil0XVslIMMpcLf47wPNC74/WynzkBkmK0edQH6+Le624=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me; spf=pass smtp.mailfrom=puleglot.ru; dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b=BHSFxpYR; arc=none smtp.client-ip=195.201.32.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJThiqq2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A41C4CEF7;
-	Fri,  3 Oct 2025 14:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759502014;
-	bh=Ol9QmzDRQIdGFburmMnhzuufrNXKQBUmjDyAxdEnvGE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KJThiqq2eEs9iEFwn87i9xQi4/vJt5PzAim7p4K5KjqdSWti7gkWEsmWG8Xsxj6K7
-	 JVDks33iWQvMwhLBftea02s5BxOd9gMXe1mTqxuPuZV3qmzrU5h+WNCoP5j3SAH1Bt
-	 QNJF8fKm9QtJlWjndr7RHIReoiD7F0MrNRuds3Vgc6LOnnIyQG63HNuexTYnOab+en
-	 tQnnKlBvEdamp0pXHK+lqj5IxWvRiamCLZtQ5lrIhsVyF5gzyQsxWm0ZI7NxZiqMJA
-	 bpfkKWTz325LfA7QWOoZN6AONWUAvjzM3pSKMGkqMwlwtwrYu6THtn719gwWK8QjC7
-	 +OnXJn2lrKivQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, stable@vger.kernel.org
-In-Reply-To: <20251002125322.15692-1-peter.ujfalusi@linux.intel.com>
-References: <20251002125322.15692-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH v2 0/3] ASoC: SOF: ipc4/Intel: Fix the host buffer
- constraint
-Message-Id: <175950201207.87242.17861945407345006882.b4-ty@kernel.org>
-Date: Fri, 03 Oct 2025 15:33:32 +0100
+	dkim=pass (1024-bit key) header.d=tsoy.me header.i=@tsoy.me header.b="BHSFxpYR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=cn0SYSGCQ2+nQxPGi29l1O7Jzqnaq/TOCJCC5GcD0DI=; b=BHSFxpYRrZaskkN+ZrVjDyRAe9
+	rIn3FLDwiZsq9xLJEWGL295e3sd9rQNXlf6SeZk4lqMXV97IbuwWfcKKBLHwyaR6/io3duR9LClEv
+	yblSLfuRS7aqF4UbDIaAtms+PWuhaSVn1zoV7sMrLElmN7t3xtlVyFY4WmwmmbBDN2oU=;
+Received: from [62.217.191.191] (helo=[192.168.1.230])
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1v4hDW-00000002sKk-2srK;
+	Fri, 03 Oct 2025 17:57:06 +0300
+Message-ID: <265839123283304ede6b391bd92340adf77ad0f4.camel@tsoy.me>
+Subject: Re: S/PDIF not detected anymore / regression on recent kernel 6.7 ?
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Serge SIMON <serge.simon@gmail.com>, Linux regressions mailing list
+	 <regressions@lists.linux.dev>
+Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org, Takashi Iwai
+	 <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Date: Fri, 03 Oct 2025 17:57:05 +0300
+In-Reply-To: <CAMBK1_Sw8nVSN3Z7WtHYyJ2xWUNVYNcx26UKFx5hy+xQrO=bHA@mail.gmail.com>
+References: 
+	<CAMBK1_QFuLQBp1apHD7=FnJo=RWE532=jMwfo=nkkGFSzJaD-A@mail.gmail.com>
+	 <2024011723-freeness-caviar-774c@gregkh>
+	 <CAMBK1_S2vwv-8PfFQ4rfChPiW7ut5LXgmUZRtyhN=AoG3g5NEg@mail.gmail.com>
+	 <bf07c1bc-b38e-4672-9bb0-24c16054569a@leemhuis.info>
+	 <CAMBK1_Sw8nVSN3Z7WtHYyJ2xWUNVYNcx26UKFx5hy+xQrO=bHA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-56183
+Sender: puleglot@puleglot.ru
 
-On Thu, 02 Oct 2025 15:53:19 +0300, Peter Ujfalusi wrote:
-> Changes since v1:
-> - SHAs for Fixes tag corrected (sorry)
-> 
-> The size of the DSP host buffer was incorrectly defined as 2ms while
-> it is 4ms and the ChainDMA PCMs are using 5ms as host facing buffer.
-> 
-> The constraint will be set against the period time rather than the buffer
-> time to make sure that application will not face with xruns when the
-> DMA bursts to refill the host buffer.
-> 
-> [...]
+=D0=92 =D0=9F=D1=82, 03/10/2025 =D0=B2 15:20 +0200, Serge SIMON =D0=BF=D0=
+=B8=D1=88=D0=B5=D1=82:
+> Hello,
+>=20
+> I still encounter this issue (and every month i test the latest
+> kernel, each time with the same results) :
+> - i do have an ASUS B560-I WIFI (ITX) motherboard with a S/PDIF
+> output
+> - everything was working flawlessly until (and including) kernel
+> 6.6.10, and that S/PDIF output was perfectly detected (under GNOME
+> SHELL, etc.)
+> - starting from kernel 6.7.0 (and newest ones, including 6.16.10
+> tested today) the S/PDIF output it NOT detected anymore at boot time
+> by the kernel (so is not selectable any more under GNOME SHELL or
+> COSMIC, etc.)
+>=20
+> With old kernel (example :
+> https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-gistfi=
+le1-txt
+> )
+> :
+>=20
+> % cat /proc/asound/pcm
+>=20
+> 00-00: ALC1220 Analog : ALC1220 Analog : playback 1 : capture 1
+> 00-01: ALC1220 Digital : ALC1220 Digital : playback 1
+> 00-02: ALC1220 Alt Analog : ALC1220 Alt Analog : capture 1
+> 01-03: HDMI 0 : HDMI 0 : playback 1
+> 01-07: HDMI 1 : HDMI 1 : playback 1
+> 01-08: HDMI 2 : HDMI 2 : playback 1
+> 01-09: HDMI 3 : HDMI 3 : playback 1
+>=20
+>=20
+> With kernels >=3D 6.7.0 (example :
+> https://gist.github.com/SR-G/0e86d917716acff0d31cad0365f0b500#file-dmesg-=
+6-12-6-log
+> )
+> :
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: SOF: ipc4-topology: Correct the minimum host DMA buffer size
-      commit: a7fe5ff832d61d9393095bc3dd5f06f4af7da3c1
-[2/3] ASoC: SOF: ipc4-topology: Account for different ChainDMA host buffer size
-      commit: 3dcf683bf1062d69014fe81b90d285c7eb85ca8a
-[3/3] ASoC: SOF: Intel: hda-pcm: Place the constraint on period time instead of buffer time
-      commit: 45ad27d9a6f7c620d8bbc80be3bab1faf37dfa0a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Did you disable intel iGPU somehow? Try to add snd_hda_core.gpu_bind=3D0
+to the kernel cmdline.
+>=20
