@@ -1,160 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C979938FA6;
-	Sat,  4 Oct 2025 13:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C804A4A06
+	for <linux-sound@vger.kernel.org>; Sat,  4 Oct 2025 13:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759584721; cv=none; b=FtE8yRpaypiHQd5fWIjDn22iV6SxOJ24qKFPBHyzNXOPxZcTZEBGC1GmMcH8cmcbUROyl88MigJqjo2ghnmK8oDXyAZGtB+UgYUCgsueOu+4A6j8fWJq7Q589WkmPJXRsVxJmMo9Ig9AJzah5QbGAzd4re+STGtEzsn2RHUCPCc=
+	t=1759585635; cv=none; b=jRBNNMo+KLWBr0XkJ+PyXesZUqCvGZhgZbqhgogHn+0MSL5l0Q1D3YpxPFzYXhUCH7lpd7MQitaho6wcyWZG9Ah2tbh4HD2jTLuUvdfg4A8F1MawgyoX2WitW6ulL1ZYMnojgGfzBv1P9veVVUHQgWOsXEN9mgprxfHk7ug1sQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759584721; c=relaxed/simple;
-	bh=dtmZx205TbjsYteBttndCYNtOK23Kq5LL1dH+feqtx4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NHERDGNq1sMdqmH+2XIBaNl+t+1V9SBQpJIsqon3Wgq7cWkkYqwv3xV2lqL3oiWZ/N5xEJrBy9fn3ODxVSZ7sVYI4qB/899asm3BY/fAgD3TcvCCt6EoN4wW9cBVnf75bDR66LqH6ougGYIA9ViBrlIKP9dzMRwCv4D0iIQI3Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tuK8CBuo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759585635; c=relaxed/simple;
+	bh=JIj2cm2nUIViiv+LfV/uuvb8qkhNjv1i4cl+zcqy9pE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qKOqJhSHxZU1sjzoXLwHDw5PJmtqdaUOfACk62Cn+/JY1A0vBWSZd+rGnq3GnDK6zP9kfmSn107Q29aguZwQKEdeh7j3tFhV9wlcRsSQcORFo+Cm3af9eFk3jUkdF6nFhQKh2DnDimzK4bvf5l54NSb0zNiVcBpXxDzZ8d0rYCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hAEuuoOr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=66JtpGwW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hAEuuoOr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=66JtpGwW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tuK8CBuo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D834C4CEF1;
-	Sat,  4 Oct 2025 13:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759584721;
-	bh=dtmZx205TbjsYteBttndCYNtOK23Kq5LL1dH+feqtx4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tuK8CBuoTxTO4Xa5yiMNdJJpBschaPLAH1WzqJwCfhIDwg5uol+XtbGz96beo1vIq
-	 btMwgsthkafHWvTyJwJt0JegsZLrVX7jXSWEfU4g0mu/IG/QVY9QzKynR9aIy2ld+3
-	 z4b5IljflliTuGzxvzPJgYeTRRH6QhbWoqIanV1io4e8wdHEjGRrKxcKXNR4NMKudH
-	 XO8i8Ua7OYjmfZgAa2XX5S1SJbebFap5Lqvw2rILtR4F6bALaFS4Sn7ghteYbfPayz
-	 PzJqjQauzvh43v/u0M1Evxq2AgbaAMIbiSesM2SQTBFOvkQ9r0u1atoM4jSHNJZGvK
-	 ppBUonXw54Qyg==
-Message-ID: <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
-Date: Sat, 4 Oct 2025 14:31:16 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hAEuuoOr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="66JtpGwW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hAEuuoOr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="66JtpGwW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9D8E121270;
+	Sat,  4 Oct 2025 13:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759585631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=43mGxjOsbdOBzvMrUHnTNseAOfsZkr947+0HpMS51m8=;
+	b=hAEuuoOrxdWFnYE6yIjcSuPNKwx870E8oakqMsIi023u4aHy0ZiDieFwCMDGr+Lzui0mhd
+	gQWxU6HcSjmdmBv6314svqgr+4RgsRa+cE02v4SuoWvsnliohCKDox8fGADpn6O2M3Dxgy
+	uZ42Yju0BO5f4lqCuGFdmcBRJB69MEA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759585631;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=43mGxjOsbdOBzvMrUHnTNseAOfsZkr947+0HpMS51m8=;
+	b=66JtpGwWirjeBrC3WpKXuwBsYRcFabivIvnVQB64yn1rau+AIvTz+VeDbpnZQa3uVPsbhC
+	3iFQgv4VdG9QIWAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hAEuuoOr;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=66JtpGwW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759585631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=43mGxjOsbdOBzvMrUHnTNseAOfsZkr947+0HpMS51m8=;
+	b=hAEuuoOrxdWFnYE6yIjcSuPNKwx870E8oakqMsIi023u4aHy0ZiDieFwCMDGr+Lzui0mhd
+	gQWxU6HcSjmdmBv6314svqgr+4RgsRa+cE02v4SuoWvsnliohCKDox8fGADpn6O2M3Dxgy
+	uZ42Yju0BO5f4lqCuGFdmcBRJB69MEA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759585631;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=43mGxjOsbdOBzvMrUHnTNseAOfsZkr947+0HpMS51m8=;
+	b=66JtpGwWirjeBrC3WpKXuwBsYRcFabivIvnVQB64yn1rau+AIvTz+VeDbpnZQa3uVPsbhC
+	3iFQgv4VdG9QIWAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AC5B1366F;
+	Sat,  4 Oct 2025 13:47:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I49vFF8l4WhQNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 04 Oct 2025 13:47:11 +0000
+Date: Sat, 04 Oct 2025 15:47:10 +0200
+Message-ID: <874isehj8h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Adam Holliday <dochollidayxx@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Chris Chiu <chris.chiu@canonical.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG Zephyrus Duo
+In-Reply-To: <20250930150914.3103-1-dochollidayxx@gmail.com>
+References: <87wm5gjetc.wl-tiwai@suse.de>
+	<20250930150914.3103-1-dochollidayxx@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>,
- Mika Westerberg <westeri@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Shevchenko <andy@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 9D8E121270
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
+
+On Tue, 30 Sep 2025 17:09:14 +0200,
+Adam Holliday wrote:
+> 
+> The ASUS ROG Zephyrus Duo 15 SE (GX551QS) with ALC 289 codec requires specific
+> pin configuration for proper volume control. Without this quirk, volume
+> adjustments produce a muffled sound effect as only certain channels attenuate,
+> leaving bass frequency at full volume.
+> 
+> Testing with hdajackretask confirms these pin tweaks fix the issue:
+> - Pin 0x17: Internal Speaker (LFE)
+> - Pin 0x1e: Internal Speaker
+> 
+> Signed-off-by: Adam Holliday <dochollidayxx@gmail.com>
+
+Applied now.  Thanks.
 
 
-On 9/24/25 3:51 PM, Bartosz Golaszewski wrote:
-> Here's a functional RFC for improving the handling of shared GPIOs in
-> linux.
-> 
-> Problem statement: GPIOs are implemented as a strictly exclusive
-> resource in the kernel but there are lots of platforms on which single
-> pin is shared by multiple devices which don't communicate so need some
-> way of properly sharing access to a GPIO. What we have now is the
-> GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
-> doesn't do any locking or arbitration of access - it literally just hand
-> the same GPIO descriptor to all interested users.
-
-Isn't the main issue here is about not using a correct framework around
-to the gpios that driver uses. ex: the codec usecase that you are
-refering in this is using gpio to reset the line, instead of using a
-proper gpio-reset control. same with some of the gpio-muxes. the problem
-is fixed once such direct users of gpio are move their correct frameworks.
-
-Am not sure adding a abstraction with-in gpio framework is right
-solution, But I do agree that NONEXCLUSIVE flags should disappear and
-users that are using this should be moved to correct frameworks where
-they belong.
-
---srini
-
-> 
-> The proposed solution is composed of three major parts: the high-level,
-> shared GPIO proxy driver that arbitrates access to the shared pin and
-> exposes a regular GPIO chip interface to consumers, a low-level shared
-> GPIOLIB module that scans firmware nodes and creates auxiliary devices
-> that attach to the proxy driver and finally a set of core GPIOLIB
-> changes that plug the former into the GPIO lookup path.
-> 
-> The changes are implemented in a way that allows to seamlessly compile
-> out any code related to sharing GPIOs for systems that don't need it.
-> 
-> The practical use-case for this are the powerdown GPIOs shared by
-> speakers on Qualcomm db845c platform, however I have also extensively
-> tested it using gpio-virtuser on arm64 qemu with various DT
-> configurations.
-> 
-> I'm Cc'ing some people that may help with reviewing/be interested in
-> this: OF maintainers (because the main target are OF systems initially),
-> Mark Brown because most users of GPIOD_FLAGS_BIT_NONEXCLUSIVE live
-> in audio or regulator drivers and one of the goals of this series is
-> dropping the hand-crafted GPIO enable counting via struct
-> regulator_enable_gpio in regulator core), Andy and Mika because I'd like
-> to also cover ACPI (even though I don't know about any ACPI platform that
-> would need this at the moment, I think it makes sense to make the
-> solution complete), Dmitry (same thing but for software nodes), Mani
-> (because you have a somewhat related use-case for the PERST# signal and
-> I'd like to hear your input on whether this is something you can use or
-> maybe it needs a separate, implicit gpio-perst driver similar to what
-> Krzysztof did for reset-gpios) and Greg (because I mentioned this to you
-> last week in person and I also use the auxiliary bus for the proxy
-> devices).
-> 
-> First patch in the series is a bugfix targetting stable, I'm surprised
-> nobody noticed the lockdep splat yet. The second adds a library function
-> I use in a later patch. All remaining patches implement or use the
-> shared GPIO support.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
-> Bartosz Golaszewski (9):
->       gpio: wcd934x: mark the GPIO controller as sleeping
->       string: provide strends()
->       gpiolib: define GPIOD_FLAG_SHARED
->       gpiolib: implement low-level, shared GPIO support
->       gpio: shared-proxy: implement the shared GPIO proxy driver
->       gpiolib: support shared GPIOs in core subsystem code
->       arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
->       ASoC: wsa881x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
->       ASoC: wsa883x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
-> 
->  arch/arm64/Kconfig.platforms     |   1 +
->  drivers/gpio/Kconfig             |  17 ++
->  drivers/gpio/Makefile            |   2 +
->  drivers/gpio/gpio-shared-proxy.c | 328 ++++++++++++++++++++++++++
->  drivers/gpio/gpio-wcd934x.c      |   2 +-
->  drivers/gpio/gpiolib-shared.c    | 481 +++++++++++++++++++++++++++++++++++++++
->  drivers/gpio/gpiolib-shared.h    |  71 ++++++
->  drivers/gpio/gpiolib.c           |  50 +++-
->  drivers/gpio/gpiolib.h           |   1 +
->  include/linux/string.h           |   2 +
->  lib/string.c                     |  19 ++
->  lib/tests/string_kunit.c         |  13 ++
->  sound/soc/codecs/wsa881x.c       |   3 +-
->  sound/soc/codecs/wsa883x.c       |   7 +-
->  14 files changed, 980 insertions(+), 17 deletions(-)
-> ---
-> base-commit: b46f7370d4a0f0b55f05b854e73b2a90dff41e1b
-> change-id: 20250908-gpio-shared-67ec352884b6
-> 
-> Best regards,
-
+Takashi
