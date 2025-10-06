@@ -1,97 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF11B2905;
-	Mon,  6 Oct 2025 12:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FCA18FDBD;
+	Mon,  6 Oct 2025 15:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759753178; cv=none; b=FRvzM+pS2pP30KE49+cFcd+lsXiJP9RfpwrmwzxxkUr8N8X2hHEZ0qRaWIRrjJ+PEg6NBBjo+nRme5FIDnOHgHYOvjKCk5jEhYz40W0Ng5dM3nrZ4E/Bcc7DQVGvBPzoLzv9X2LBgYzSDsB5rNyTxQMS43D+C2GFKAh2Liyy2Ak=
+	t=1759765430; cv=none; b=shrk6VbNSfRKXNSNbhvgVMf0hxN07NEUrpVjU7RWhPulvw3ssc0vtaVbXApigLeyrcSH4LrOZXo89BPx9y1BraMUP/6QwUtAZDE9sK8D1arKjaq3+Q8/QixpWYmKZL/T6/Okh3hZLVawWk4TZ0n8uD02aJc0vGcyf48rSMcUe8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759753178; c=relaxed/simple;
-	bh=Z6wafg2QwsuXq7WoC2lKdb5ppvY0nwE7Df6gak0UIg0=;
+	s=arc-20240116; t=1759765430; c=relaxed/simple;
+	bh=U9taQDdhEq0Hr+LrDG0gIGzCorDNrdISkQr4eQ/LzLI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=opkBSvkJHP+Wtd1VNUQgPhJ9zHcuP1zRGXGVZrAqsIXCWf+5+KvwUuH6+xD04iFIwMchi5Saci4y6r5jVGYwKKKu7/rbEM5jTlmAtJbYGS3bQPWk0PiDy2nsem4SnC4wON2uF5gvBSUPjj/Z2NeZY0i8e+LaNaMT7MiKUyxpmT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngQAkhFm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=k+k/lo7O8mercQeCdKrVhlg/tFvXZhRmh/Qazx05COD50KYI7ROMthWZKH4xUygms5cnARLMWiq+A6yiJO1UkuilutqGoj9nhea8wEDupgQgm+Ok0rYwA1ZSt99Q/nwdCdUGeTJzoHYBPB6hhl+a1eSozIcgACZXobPWn0YL9wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M9wVRa1m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngQAkhFm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1A3C4CEF5;
-	Mon,  6 Oct 2025 12:19:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M9wVRa1m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B325C4CEF5;
+	Mon,  6 Oct 2025 15:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759753178;
-	bh=Z6wafg2QwsuXq7WoC2lKdb5ppvY0nwE7Df6gak0UIg0=;
+	s=k20201202; t=1759765429;
+	bh=U9taQDdhEq0Hr+LrDG0gIGzCorDNrdISkQr4eQ/LzLI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ngQAkhFmSP7SRB8JHkFxUzhtWlW+1qWIuECHxF3MXxp5gU2xRgmAkpgP3n/108fJe
-	 rmql6SeToRQUUT+XF1V4Auu/v6ksjdgv1m+sh3mv2cJtkJjJDkWT9dPqp/6MAj8DK8
-	 N7I+7Vdntgdi7bRLJMM9wdJN2b1CK14wO49xipehkGx92x9ZZsnhW8HZyn9rdomtyX
-	 d95EiRQI8ql1VheLGGjA8hp6/srzJBNW0egkVx2/QatYxJoUiW4GKZLkiyr5h6ve7H
-	 ZmXDsfJj7aUW4V/fitw3HouVkkSzSlCNUVIqn6ElUydSnhB6i8t6psEO7/Y9rC8yFj
-	 8Lvv6gnWCgH6g==
-Date: Mon, 6 Oct 2025 13:19:30 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>,
-	Mika Westerberg <westeri@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	b=M9wVRa1m/ER2+xT1SLzEI+eRcA3ZENPekBsLbBSuDM+SW5K5ZqvgN2Pl0lYu8qPLZ
+	 iXr74DqgjReTkOFRsIoynkficpE2aHVAxYMCKLyFpC2dlpGTUFMZLBPnJ3+wdarTO0
+	 0tsBt19WkNaP+VV/W+PKm6wTRxd20RXf2cXWppSrlvz3vNWHYM0tifMR6OOyuMG2aB
+	 BJM/ENlMx0f2hoUmbwgFaZn54PHceuPvJa1Vc6uSGPi/fTW1TVfOtm+h+4VoM6fVrs
+	 UvoovmWW+8cKyuRrAvj/v0dC37FRCu41fmn/X6sWPOgaxY+vSg+T+YORmBfB5jZH9h
+	 8UqkyPahSVsoA==
+Date: Mon, 6 Oct 2025 08:43:47 -0700
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, 
+	Mika Westerberg <westeri@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-Message-ID: <5550fc25-b571-489c-9855-5a9b08822c0e@sirena.org.uk>
+Message-ID: <zk4ea5cibrkp4vttuy4evrqybf76b3nop5lnyck4ws4nyf2yc4@ghj2eyswsoow>
 References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
- <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
+ <hyzzrjn7jzo3tt3oyg7azijouawe3zopfjzq6zfhoo6e6z2m4t@ssl5vl4g557e>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TVznfU2XOoE/mFMu"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
-X-Cookie: You must be present to win.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hyzzrjn7jzo3tt3oyg7azijouawe3zopfjzq6zfhoo6e6z2m4t@ssl5vl4g557e>
 
+On Wed, Sep 24, 2025 at 11:25:12AM -0700, Dmitry Torokhov wrote:
+> Hi Bartosz,
+> 
+> On Wed, Sep 24, 2025 at 04:51:28PM +0200, Bartosz Golaszewski wrote:
+> > Here's a functional RFC for improving the handling of shared GPIOs in
+> > linux.
+> > 
+> > Problem statement: GPIOs are implemented as a strictly exclusive
+> > resource in the kernel but there are lots of platforms on which single
+> > pin is shared by multiple devices which don't communicate so need some
+> > way of properly sharing access to a GPIO. What we have now is the
+> > GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> > doesn't do any locking or arbitration of access - it literally just hand
+> > the same GPIO descriptor to all interested users.
+> > 
+> > The proposed solution is composed of three major parts: the high-level,
+> > shared GPIO proxy driver that arbitrates access to the shared pin and
+> > exposes a regular GPIO chip interface to consumers, a low-level shared
+> > GPIOLIB module that scans firmware nodes and creates auxiliary devices
+> > that attach to the proxy driver and finally a set of core GPIOLIB
+> > changes that plug the former into the GPIO lookup path.
+> > 
+> > The changes are implemented in a way that allows to seamlessly compile
+> > out any code related to sharing GPIOs for systems that don't need it.
+> > 
+> > The practical use-case for this are the powerdown GPIOs shared by
+> > speakers on Qualcomm db845c platform, however I have also extensively
+> > tested it using gpio-virtuser on arm64 qemu with various DT
+> > configurations.
+> 
+> How is this different from the existing gpio-backed regulator/supply?
+> IMO GPIOs are naturally exclusive-use resources (in cases when you need
+> to control them, not simply read their state), and when there is a need
+> to share them there are more appropriate abstractions that are built on
+> top of GPIOs...
+> 
 
---TVznfU2XOoE/mFMu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Not always... For something like shared reset line, consumers request the line
+as GPIO and expect gpiolib to do resource manangement.
 
-On Sat, Oct 04, 2025 at 02:31:16PM +0100, Srinivas Kandagatla wrote:
+- Mani
 
-> Isn't the main issue here is about not using a correct framework around
-> to the gpios that driver uses. ex: the codec usecase that you are
-> refering in this is using gpio to reset the line, instead of using a
-> proper gpio-reset control. same with some of the gpio-muxes. the problem
-> is fixed once such direct users of gpio are move their correct frameworks.
-
-It's common to have GPIO controls for other things, mutes for example.
-
---TVznfU2XOoE/mFMu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjjs9EACgkQJNaLcl1U
-h9B7ygf+Nk+FdgamUTpfwmlLaO+GIiuF8L1iwF53ymUmyUQHcvWpf2IMsk5oIfBB
-EsMVkL2c77ZuLy5ehS6ywdt8irgeG3DZt4aMI9UqYvHwsoN5IgsIcFKc6DV6wNZN
-kYVD53ZLD3hJGlY40sYdcZ/gJPnChAFHPgXCTqXtZPAFauDxrgY6MP6cD5W7sJpI
-brFXuZ2OUQr76vPSpOm3cfSbWSIiV1wInqr5yqxcmtBkhFJJ7+3d/veBKClywuvV
-hfIGxgwx3mNhUbhJQZcbxecrN3+3gb7UM/lf+eNjNWveK+EfF+EW6fHl8FzL7Gpn
-i83NmntXGVFA8LF57NmHwnjt6rJrHA==
-=4eQ9
------END PGP SIGNATURE-----
-
---TVznfU2XOoE/mFMu--
+-- 
+மணிவண்ணன் சதாசிவம்
