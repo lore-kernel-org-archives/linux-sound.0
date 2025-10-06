@@ -1,102 +1,128 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB71D1B0439
-	for <linux-sound@vger.kernel.org>; Mon,  6 Oct 2025 03:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D42270EBF
+	for <linux-sound@vger.kernel.org>; Mon,  6 Oct 2025 11:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759722937; cv=none; b=EUoRxt6F5VjBl9MndjNL4WpNP46ObFnzxxHssRLruJIZLzrylH3b0iYUNo8VLCidhT3oGVOw/2mLCNgJYdTTFn5jluKwQeMScrjw2AWI4+pFZBCXiQ9aq5WrfZ7mVx8p0Fpbq0YLM8zybmXoaIqe4Sxj8i17bSeHjMxTS1TO3G8=
+	t=1759751716; cv=none; b=TtrX0Rg0asY36YGhXs9rzTyqphzml+4Ifw/vECXo5oeAZSb/mrcgBStQNfx04mGHUuaYahswYkJ6SuaXE8uL4LBRVd+0Z1/OUKJusoynLqO6LSH29iNRN65o6JyddJjJG8xDglIxUjnNcCSArh1E9licJslTNEtTUpqawltdH4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759722937; c=relaxed/simple;
-	bh=IVzci8UetoGcUjNzr9XskC+74VZiAYmvJdcqtTP8EHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oslfq/cEi1TtDg4ZYvXK6JMyKm76bMcKXkIwuRlDJgvJLfbRKHISQkzVKDcWTrI7a7yfUEVxAhULsPbh47gTQ+LFs48ufMrgsmlUbKc81uelKx8uxhg3lGKqPM1abDhlUJhzTegiUCEXNf58HOijxjFaMDeOQFagoFyWKA9Ofzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nq1VseOm; arc=none smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759751716; c=relaxed/simple;
+	bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nlN8by3eIuEsEVEKizBzRRASMxJC7NHPJxH4eM4GSH0dF5SGP21uaHn9aPvxoSc+SqzkpyJJFx4p7Cmhq8/xKjQOuDXogHaSLvCsamQ9y6M6W1iZ86qkTZUm9zR2ZF0p4aZ8OfnftLZIZDsxbvTm1m/yLBvliz58T9cHeHFrhdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=1B+Ndkfz; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nq1VseOm"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5d3fb34ba53so3870501137.1
-        for <linux-sound@vger.kernel.org>; Sun, 05 Oct 2025 20:55:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="1B+Ndkfz"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-36bf096b092so40582281fa.1
+        for <linux-sound@vger.kernel.org>; Mon, 06 Oct 2025 04:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759722935; x=1760327735; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C4nyrG89q4JAPsozaOvAY1jJU52pK5NiRjM5aVZTpKE=;
-        b=nq1VseOmDCFOR65PPSRuycvbH/2N+tdXKp34soo9CtpK7L8Qw0W5HIV0A2QRk5B4RJ
-         QVDyxB0gX7vfS3FBCiALzzFGLIYZ6rkVVsbOAvfLMvjFXVT2747NWI89uqv/aG37I+wq
-         pDDDUtlF+m70K9h+zud6MJHYcC5Ksx4uqEodqq/UkDKggNvMqZ7rbeD1+df2h5FPIylg
-         6dP+CiNz6QID5DM0tEdYcPqGyuQUXtNmqvZuZxVsh3s67MbNIp8XwfCOLVU6gWkr2bvN
-         QQy28PpVBv46e0e+9/g1ldNLqIMQgEqorreUfedsNp5LUKWcWAyXX+ogzy9IB3JiC8c7
-         LcrQ==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1759751713; x=1760356513; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
+        b=1B+NdkfzkKQImgJQQdFsgUKPpm8sBT3nizg6TZCsth3g6ipK1whKp5EaPdCR3SKyrj
+         rRHbCnQ9D3FKPIbu7B1+CCNAcQ7mC3/cgjs+aL01zXGYynq5zeGzP2Sgu4LKEU7H+ghG
+         BKBT2Vj1nl5PdArvm+xbi495HG80nQxdIWjCCgWnj1no0USINVQpoSP4EyyfHE1rHsAB
+         7sP0OzVUR7gA5JBvFDjsqC/Wxqv+AFxQv/DaGLgFAhgSlc6eOO1mVyg/N0mqlA2GIe5l
+         jX/6ZOkqGpYzNVBppW28NuoAWD2hqjYlsXMQcOWjgHHlOm7VOjXesOS/2BoTidx5br08
+         qEqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759722935; x=1760327735;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C4nyrG89q4JAPsozaOvAY1jJU52pK5NiRjM5aVZTpKE=;
-        b=hQAlGlng/6UE5GZQjLpK29QtmS0fGPFil/jyImhs4HwcxGta8Bth6nFTNLlfOJhqq7
-         J182jf67Tqa7qCsh5Gjl7e+WP81Yw8fG7mzxP1WPFPg3MJ4uotRdn7rpXeQ31msj+Ot+
-         ltCet1cEUniJfnED2DI1tWdcdK6Z5IGEsTB7fcFdxUvRHPM4e1wMZr/4+Jyr7Pr/iVuC
-         FNmn8W+DUGwRvbnaUZCZh3ZK58lJ5VRwiCs69G8VxGSh9xTaSTS5GdxrfRxcymaefnX2
-         hn8yPXVl1NgtawYe3Af2njYQwGehJxRYwnjAwws0DH6M46ofpRNAwY80wBJ1oIBDfOLr
-         UkIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUCSwtQo8Vahrw6Xkjizn3jG0u2BqZaCq1ccJdn2z8XDP17kWeTnk7nh9f4jujtqxsXosMMzjdpuAwLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfjXZRUfqWkn78ozqxye8viUmRwabp/P2p3+XEfWu1F1HYGiur
-	RgPBbeLhE/HWBsiAv4YJMf0CpUxLJJDrPYW2f02d0IgqrBDhIWwMyLZs
-X-Gm-Gg: ASbGncuuqtCL4Wl83q5Y6S1AmMTo/a5MRTvGnq66N7T/eqy8QPtJxVG4dZszwrQ3uBK
-	dO0DwTuwzBlM3bulwmAMOsDl5d1VtZFxOJf6tYyASa1RF5F57ggdVjDIH4hO68Fq3cMe03lDusc
-	VXp/NbZoIsz1/YpQ65xENv5iUJhg/hvNYbAZdkeOGUV8bXw0LB9xDW+TuY5t7J2lfRvZb+WUEjz
-	hzxm886PLZx78EFuoJznaJ/RvRJ480e0XIsrEjBAYhS2WEe5YZwpHQ+/RRo9+FP9vtDZURGUHrq
-	8pPMSeHkzSu+OSkgLa0Y7GatmKaD6/CcFj+ZZtJOExffsiFkACAQL7GEfgs/TQkPaKJgM0xLIpE
-	R3Ctz8SrwaSCsZ7lfOom4BLYoSUbhDlN8U0/gmACQbU6n1VL+nydCU2mA40vEcl6ck8nLwbXhTg
-	==
-X-Google-Smtp-Source: AGHT+IEM8YkzBfOFCcp56tbV9hhF70WPBySWeJNMA9HNLTpJu46u5ZW+1WmuFW5gSBnLYg5FkBvDOg==
-X-Received: by 2002:a05:6102:5347:b0:5ba:4f5c:874e with SMTP id ada2fe7eead31-5d41d16e253mr4258765137.31.1759722934712;
-        Sun, 05 Oct 2025 20:55:34 -0700 (PDT)
-Received: from [192.168.1.145] ([104.203.11.126])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5d40c6c7e73sm3130870137.15.2025.10.05.20.55.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Oct 2025 20:55:34 -0700 (PDT)
-Message-ID: <a6526df2-2861-4142-95e7-1c6a83321ac3@gmail.com>
-Date: Sun, 5 Oct 2025 23:55:29 -0400
+        d=1e100.net; s=20230601; t=1759751713; x=1760356513;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
+        b=jrywPO2ZAke56OyJ4bEEtVB50/gYiOvBd9emD7uKRDqGm4D8lxN2UKt1/Gbigqo2LS
+         eN6JTp55sL1GgZeNNJCaaI4yFyimrSKoKx/7Wax+nWmIENquPmyLBp757bGPa8+n31xB
+         1tYYyXmj0yHqPWa1bcm/PIx0Gd5kBCBARnRGUvf2w9G8TX+tGMdyi1J3vWhaAampojog
+         CP6lNimgelCVEUqBUPZNjNXJgw/+47xGuOtGFyUaGpnEq3HTQHLYvKvKSu/J7fch8KHa
+         asUsofgcyBIY/j5oATOC/dCEKck4SuN84xLZmY8YbP59cr8klQnsuuCtPxd0jhmrl1rA
+         o1nw==
+X-Forwarded-Encrypted: i=1; AJvYcCWsk0+9ZuQuRoytZOlFUbmLhchpuCnJyPAd5ZdAszzpNqLurUoQPeMdje9qiM4vV3b/X5Imk9OyzYx2XA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhk5HSgrtcE7uXnw864I5feUtPinJYvqsiNbxMPZ6+8G6XcUp6
+	1DOKQTTONZ0x82k11kqAKfICET+yfMOJYdhIkFZzH5cbnzWV4Vf7cZ1E3Adul9LpYZMebsV/OwM
+	ngQMftHeCUzRoQwl1qYTXZXR6L5epdSqfT4oqkNjwJQ==
+X-Gm-Gg: ASbGncsY87JTqWp064ANz0Tr2u33QNEcw76JTBDi7XH756+0611I5OPTZ6DRdRHnGXo
+	z/UswcGSmCOdyEsFTi5kLWFUNJ8DztnH/OpRnd+ipo926QuK5HmvFLnYh6Z0jBW7mPyzlhVIeAH
+	ykllS8s7FUWdW53hF00oa9fqtLOMtHrDPuHpv6QW0mkklf6hF9ReNDxFahOMlbJQpYKyMRNgjPf
+	n4JPYPidVpQ98/VFRJwMQ/HroyJROlpbSPDpT33xr/p8mLmtbBVDKaVoZN46FpAtUI3/UBfQQ==
+X-Google-Smtp-Source: AGHT+IFimUYcDrg2G1TEWgg30XOxFQcNPZ7in8UOx4Uq0QD6a7uE0edrd5tvO1JATw877D2GtEmmVeOuzKJjG1mqPQE=
+X-Received: by 2002:a05:651c:1b0f:b0:36f:4c94:b585 with SMTP id
+ 38308e7fff4ca-374c3727355mr34984151fa.17.1759751712890; Mon, 06 Oct 2025
+ 04:55:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sound/core/seq: Initialize structure pointer to NULL to
- prevent undefined behavior
-To: hariconscious@gmail.com, perex@perex.cz, tiwai@suse.com
-Cc: khalid@kernel.org, shuah@kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251002174301.15512-1-hariconscious@gmail.com>
-Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <20251002174301.15512-1-hariconscious@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org> <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
+In-Reply-To: <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 6 Oct 2025 13:55:00 +0200
+X-Gm-Features: AS18NWCcgxeUyOPczJhdeT-2OxosYn-Q0vbiWg2Io_Y9VuYPbgrPQiw2FGc9xs8
+Message-ID: <CAMRc=MfwEHGV-HZQURR3JNg1HatAeWO17qbRmkWUXTSBWj5jSg@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/2/25 13:43, hariconscious@gmail.com wrote:
-> From: HariKrishna Sagala <hariconscious@gmail.com>
-> 
-> This change ensures the structure pointer is explicitly initialized to
-> NULL,preventing potential access to uninitialized memory. It improves
-> code safety and avoids undefined behavior during pointer dereferencing.
-> 
-> Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+On Sat, Oct 4, 2025 at 3:32=E2=80=AFPM Srinivas Kandagatla <srini@kernel.or=
+g> wrote:
+> On 9/24/25 3:51 PM, Bartosz Golaszewski wrote:
+> > Here's a functional RFC for improving the handling of shared GPIOs in
+> > linux.
+> >
+> > Problem statement: GPIOs are implemented as a strictly exclusive
+> > resource in the kernel but there are lots of platforms on which single
+> > pin is shared by multiple devices which don't communicate so need some
+> > way of properly sharing access to a GPIO. What we have now is the
+> > GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> > doesn't do any locking or arbitration of access - it literally just han=
+d
+> > the same GPIO descriptor to all interested users.
+>
+> Isn't the main issue here is about not using a correct framework around
+> to the gpios that driver uses. ex: the codec usecase that you are
+> refering in this is using gpio to reset the line, instead of using a
+> proper gpio-reset control. same with some of the gpio-muxes. the problem
+> is fixed once such direct users of gpio are move their correct frameworks=
+.
+>
 
-Hi Harikrishna,
+If they were called "reset-gpios" then we could (and should) use
+Krzysztof's reset-gpio driver here, but we have many cases where
+that's not the case and the names (and implied functions) are
+arbitrary. In the case addressed in this series, the GPIOs are called
+"powerdown". The second big user of nonexclusive GPIOs are fixed
+regulators where the line isn't called "reset" either. There are also
+various other uses sprinkled all over the kernel for which no good
+abstraction exists or can even be designed in a generic way.
 
-Thank you for detailing your attempt at testing. Unfortunately, your
-patch makes no substantive change. The variable you are setting to NULL
-is assigned before use, so there is no risk of undefined behavior.
+> Am not sure adding a abstraction with-in gpio framework is right
+> solution, But I do agree that NONEXCLUSIVE flags should disappear and
+> users that are using this should be moved to correct frameworks where
+> they belong.
+>
 
-I know this can seem discouraging to hear, but I do want you to
-encourage you to keep looking for ways you can make contributions.
+I'm open to suggestions but DT maintainers have not been particularly
+fond of creating "virtual" devices to accommodate driver
+implementations.
 
-Thanks,
-David
+Bartosz
