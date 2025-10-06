@@ -1,128 +1,97 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D42270EBF
-	for <linux-sound@vger.kernel.org>; Mon,  6 Oct 2025 11:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF11B2905;
+	Mon,  6 Oct 2025 12:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759751716; cv=none; b=TtrX0Rg0asY36YGhXs9rzTyqphzml+4Ifw/vECXo5oeAZSb/mrcgBStQNfx04mGHUuaYahswYkJ6SuaXE8uL4LBRVd+0Z1/OUKJusoynLqO6LSH29iNRN65o6JyddJjJG8xDglIxUjnNcCSArh1E9licJslTNEtTUpqawltdH4I=
+	t=1759753178; cv=none; b=FRvzM+pS2pP30KE49+cFcd+lsXiJP9RfpwrmwzxxkUr8N8X2hHEZ0qRaWIRrjJ+PEg6NBBjo+nRme5FIDnOHgHYOvjKCk5jEhYz40W0Ng5dM3nrZ4E/Bcc7DQVGvBPzoLzv9X2LBgYzSDsB5rNyTxQMS43D+C2GFKAh2Liyy2Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759751716; c=relaxed/simple;
-	bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nlN8by3eIuEsEVEKizBzRRASMxJC7NHPJxH4eM4GSH0dF5SGP21uaHn9aPvxoSc+SqzkpyJJFx4p7Cmhq8/xKjQOuDXogHaSLvCsamQ9y6M6W1iZ86qkTZUm9zR2ZF0p4aZ8OfnftLZIZDsxbvTm1m/yLBvliz58T9cHeHFrhdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=1B+Ndkfz; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1759753178; c=relaxed/simple;
+	bh=Z6wafg2QwsuXq7WoC2lKdb5ppvY0nwE7Df6gak0UIg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=opkBSvkJHP+Wtd1VNUQgPhJ9zHcuP1zRGXGVZrAqsIXCWf+5+KvwUuH6+xD04iFIwMchi5Saci4y6r5jVGYwKKKu7/rbEM5jTlmAtJbYGS3bQPWk0PiDy2nsem4SnC4wON2uF5gvBSUPjj/Z2NeZY0i8e+LaNaMT7MiKUyxpmT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngQAkhFm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="1B+Ndkfz"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-36bf096b092so40582281fa.1
-        for <linux-sound@vger.kernel.org>; Mon, 06 Oct 2025 04:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1759751713; x=1760356513; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
-        b=1B+NdkfzkKQImgJQQdFsgUKPpm8sBT3nizg6TZCsth3g6ipK1whKp5EaPdCR3SKyrj
-         rRHbCnQ9D3FKPIbu7B1+CCNAcQ7mC3/cgjs+aL01zXGYynq5zeGzP2Sgu4LKEU7H+ghG
-         BKBT2Vj1nl5PdArvm+xbi495HG80nQxdIWjCCgWnj1no0USINVQpoSP4EyyfHE1rHsAB
-         7sP0OzVUR7gA5JBvFDjsqC/Wxqv+AFxQv/DaGLgFAhgSlc6eOO1mVyg/N0mqlA2GIe5l
-         jX/6ZOkqGpYzNVBppW28NuoAWD2hqjYlsXMQcOWjgHHlOm7VOjXesOS/2BoTidx5br08
-         qEqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759751713; x=1760356513;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o88ha/e4gk/j47+reFyIn+VgsrMXI5uaxH81XcB5pnY=;
-        b=jrywPO2ZAke56OyJ4bEEtVB50/gYiOvBd9emD7uKRDqGm4D8lxN2UKt1/Gbigqo2LS
-         eN6JTp55sL1GgZeNNJCaaI4yFyimrSKoKx/7Wax+nWmIENquPmyLBp757bGPa8+n31xB
-         1tYYyXmj0yHqPWa1bcm/PIx0Gd5kBCBARnRGUvf2w9G8TX+tGMdyi1J3vWhaAampojog
-         CP6lNimgelCVEUqBUPZNjNXJgw/+47xGuOtGFyUaGpnEq3HTQHLYvKvKSu/J7fch8KHa
-         asUsofgcyBIY/j5oATOC/dCEKck4SuN84xLZmY8YbP59cr8klQnsuuCtPxd0jhmrl1rA
-         o1nw==
-X-Forwarded-Encrypted: i=1; AJvYcCWsk0+9ZuQuRoytZOlFUbmLhchpuCnJyPAd5ZdAszzpNqLurUoQPeMdje9qiM4vV3b/X5Imk9OyzYx2XA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhk5HSgrtcE7uXnw864I5feUtPinJYvqsiNbxMPZ6+8G6XcUp6
-	1DOKQTTONZ0x82k11kqAKfICET+yfMOJYdhIkFZzH5cbnzWV4Vf7cZ1E3Adul9LpYZMebsV/OwM
-	ngQMftHeCUzRoQwl1qYTXZXR6L5epdSqfT4oqkNjwJQ==
-X-Gm-Gg: ASbGncsY87JTqWp064ANz0Tr2u33QNEcw76JTBDi7XH756+0611I5OPTZ6DRdRHnGXo
-	z/UswcGSmCOdyEsFTi5kLWFUNJ8DztnH/OpRnd+ipo926QuK5HmvFLnYh6Z0jBW7mPyzlhVIeAH
-	ykllS8s7FUWdW53hF00oa9fqtLOMtHrDPuHpv6QW0mkklf6hF9ReNDxFahOMlbJQpYKyMRNgjPf
-	n4JPYPidVpQ98/VFRJwMQ/HroyJROlpbSPDpT33xr/p8mLmtbBVDKaVoZN46FpAtUI3/UBfQQ==
-X-Google-Smtp-Source: AGHT+IFimUYcDrg2G1TEWgg30XOxFQcNPZ7in8UOx4Uq0QD6a7uE0edrd5tvO1JATw877D2GtEmmVeOuzKJjG1mqPQE=
-X-Received: by 2002:a05:651c:1b0f:b0:36f:4c94:b585 with SMTP id
- 38308e7fff4ca-374c3727355mr34984151fa.17.1759751712890; Mon, 06 Oct 2025
- 04:55:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngQAkhFm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1A3C4CEF5;
+	Mon,  6 Oct 2025 12:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759753178;
+	bh=Z6wafg2QwsuXq7WoC2lKdb5ppvY0nwE7Df6gak0UIg0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ngQAkhFmSP7SRB8JHkFxUzhtWlW+1qWIuECHxF3MXxp5gU2xRgmAkpgP3n/108fJe
+	 rmql6SeToRQUUT+XF1V4Auu/v6ksjdgv1m+sh3mv2cJtkJjJDkWT9dPqp/6MAj8DK8
+	 N7I+7Vdntgdi7bRLJMM9wdJN2b1CK14wO49xipehkGx92x9ZZsnhW8HZyn9rdomtyX
+	 d95EiRQI8ql1VheLGGjA8hp6/srzJBNW0egkVx2/QatYxJoUiW4GKZLkiyr5h6ve7H
+	 ZmXDsfJj7aUW4V/fitw3HouVkkSzSlCNUVIqn6ElUydSnhB6i8t6psEO7/Y9rC8yFj
+	 8Lvv6gnWCgH6g==
+Date: Mon, 6 Oct 2025 13:19:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>,
+	Mika Westerberg <westeri@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+Message-ID: <5550fc25-b571-489c-9855-5a9b08822c0e@sirena.org.uk>
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+ <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org> <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TVznfU2XOoE/mFMu"
+Content-Disposition: inline
 In-Reply-To: <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 6 Oct 2025 13:55:00 +0200
-X-Gm-Features: AS18NWCcgxeUyOPczJhdeT-2OxosYn-Q0vbiWg2Io_Y9VuYPbgrPQiw2FGc9xs8
-Message-ID: <CAMRc=MfwEHGV-HZQURR3JNg1HatAeWO17qbRmkWUXTSBWj5jSg@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Cookie: You must be present to win.
 
-On Sat, Oct 4, 2025 at 3:32=E2=80=AFPM Srinivas Kandagatla <srini@kernel.or=
-g> wrote:
-> On 9/24/25 3:51 PM, Bartosz Golaszewski wrote:
-> > Here's a functional RFC for improving the handling of shared GPIOs in
-> > linux.
-> >
-> > Problem statement: GPIOs are implemented as a strictly exclusive
-> > resource in the kernel but there are lots of platforms on which single
-> > pin is shared by multiple devices which don't communicate so need some
-> > way of properly sharing access to a GPIO. What we have now is the
-> > GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
-> > doesn't do any locking or arbitration of access - it literally just han=
-d
-> > the same GPIO descriptor to all interested users.
->
+
+--TVznfU2XOoE/mFMu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Oct 04, 2025 at 02:31:16PM +0100, Srinivas Kandagatla wrote:
+
 > Isn't the main issue here is about not using a correct framework around
 > to the gpios that driver uses. ex: the codec usecase that you are
 > refering in this is using gpio to reset the line, instead of using a
 > proper gpio-reset control. same with some of the gpio-muxes. the problem
-> is fixed once such direct users of gpio are move their correct frameworks=
-.
->
+> is fixed once such direct users of gpio are move their correct frameworks.
 
-If they were called "reset-gpios" then we could (and should) use
-Krzysztof's reset-gpio driver here, but we have many cases where
-that's not the case and the names (and implied functions) are
-arbitrary. In the case addressed in this series, the GPIOs are called
-"powerdown". The second big user of nonexclusive GPIOs are fixed
-regulators where the line isn't called "reset" either. There are also
-various other uses sprinkled all over the kernel for which no good
-abstraction exists or can even be designed in a generic way.
+It's common to have GPIO controls for other things, mutes for example.
 
-> Am not sure adding a abstraction with-in gpio framework is right
-> solution, But I do agree that NONEXCLUSIVE flags should disappear and
-> users that are using this should be moved to correct frameworks where
-> they belong.
->
+--TVznfU2XOoE/mFMu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'm open to suggestions but DT maintainers have not been particularly
-fond of creating "virtual" devices to accommodate driver
-implementations.
+-----BEGIN PGP SIGNATURE-----
 
-Bartosz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjjs9EACgkQJNaLcl1U
+h9B7ygf+Nk+FdgamUTpfwmlLaO+GIiuF8L1iwF53ymUmyUQHcvWpf2IMsk5oIfBB
+EsMVkL2c77ZuLy5ehS6ywdt8irgeG3DZt4aMI9UqYvHwsoN5IgsIcFKc6DV6wNZN
+kYVD53ZLD3hJGlY40sYdcZ/gJPnChAFHPgXCTqXtZPAFauDxrgY6MP6cD5W7sJpI
+brFXuZ2OUQr76vPSpOm3cfSbWSIiV1wInqr5yqxcmtBkhFJJ7+3d/veBKClywuvV
+hfIGxgwx3mNhUbhJQZcbxecrN3+3gb7UM/lf+eNjNWveK+EfF+EW6fHl8FzL7Gpn
+i83NmntXGVFA8LF57NmHwnjt6rJrHA==
+=4eQ9
+-----END PGP SIGNATURE-----
+
+--TVznfU2XOoE/mFMu--
