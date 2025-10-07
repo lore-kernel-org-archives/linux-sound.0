@@ -1,196 +1,129 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA031C3BF7
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 15:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC3C2E0
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 16:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759852543; cv=none; b=AOxma8u6wYxXAgQpPJC6uJ9IJDY6E45bRitbzaaKvQR6eC97VBBpCn6HfYz1uzrCgYGESheMrJLQ1YZgdVT9+rEoe4urwQqkf8mdlUGgpvlspKIdPnV13yZEQDnUsox6DlChQqEEQuSK1KA1FbARgL8dnIqta47J+5YTINF5EXw=
+	t=1759852819; cv=none; b=n7yiY3tKrsnPgJ0n6aYTzSZg4R8r5DD/RVyYvUYxxsJUVxj+IPgDCjwoqRHiCTM2DMFdOmBK/baqqdT7siYdZXvVIH1nxuI1x4yz+8tI1Ptq8FypK3JJ0KPJD8Y/lbKSjN5NpVbjsGo/q410Ft55XwQKuDZBbGWUoSh4+4u2Rqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759852543; c=relaxed/simple;
-	bh=8o6wECU2r8eQjWVca8+lslnsDKGla1WAKTSkfJPXvAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YeiPYlcX1cMH0oCgiTXKdQzi16yk6yZLdh2GD8edu4d0EqHQSu2JlUVdqeLD5Z6U8psvJJTcvl4JqFEvS/u1GEfuyYEt8+uAyS9ByhL7Hsc1Z1uTYzkPF/vegrTy3gAzGxa8aHpec3TJDCQ4JiTap8kaFNDIBWsqjqci1rPXM5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LBzY8QPT; arc=none smtp.client-ip=209.85.167.176
+	s=arc-20240116; t=1759852819; c=relaxed/simple;
+	bh=tOuaE0yzBvzmDNmWiObqpdAyTNJjwYPBrd8+TZV3+Ko=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XitfAlsTxXX1HGBArp+JPsFmrKU7sF0NETts578vbzXGJlzFzvS8+F6vIgvnGG2Nq5qzutf1gPjR+2IkVoS2mXnd/F9i7D+2rW2ctFlQUWBNjN2vxa0Y7laBQ9On2KTt8aTey7tBkc2COk6CFdTDEc+UXEqsJ9WhRSY1WPMm50w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2SmfgKB; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBzY8QPT"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-43f88d33872so2497124b6e.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 08:55:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2SmfgKB"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b60971c17acso5628201a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 09:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759852541; x=1760457341; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xof2tFKmaTymsxVN0RanLSHPf+F5CNG7NxDCoHKcFSQ=;
-        b=LBzY8QPTKtV7OZXR+PuT6cgNBiv9RE33eSsw+YsFfyFxqg51EU07UFLOz8S527GctA
-         mHguj7Fcm7Mv09lk8geIu0dB7/20tuYeORe+8YISrApFxlKpoJgBLBWtsUehfp9ubysF
-         pnzm79R+S/4l9V3YQdbO3xgY16xmDcannF62TiL79Pxe/u6fXC1sZCxomvSTxqMpaDgD
-         3y4io091mbE0qdPx/379DkmUd+1/Iff0n9ww/uDcH13J02ummpTC7yFYiUtvehldJHHs
-         un1FJ98kkQrpU6bmqosQPsU8zuA2fJUO3cE3f/dwQkp9ZInZnpSnHOJcg2thcbOWisU/
-         jO1w==
+        d=gmail.com; s=20230601; t=1759852817; x=1760457617; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lUu2Hbw6HPA09/pxIefcvSfqvI47HFpD83KFx9cFtbk=;
+        b=j2SmfgKB5iDmWmDue0DVxhAS7BEawG7V1vQJZhEBct4yMlBluubrYuMwTYgssWvftz
+         whrDnMuPlIs1hWamgtcprSQEGa+YhMvO8C3CUqYjKJX2/tW771aQsUFHoDZJ4pQQyntj
+         TtB8IyPFnKfSfBrzczSMK2pWSSaolfDdPTyfSmT2NEWf+gxR6xoML289OQV5S2F/zGq9
+         B9RfzNLC1LWnG3oYisP2MHezLa0FqSw5RwnGGkI4ILZvGFCeT5bRqHfkqXcPAzC6b9wn
+         z4eI43ewBuAVvFYtkcb3d483jqobLzM9gd0j3uqL2C76jtNFrpr+pg1WYDcEusf+z9gv
+         WWEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759852541; x=1760457341;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xof2tFKmaTymsxVN0RanLSHPf+F5CNG7NxDCoHKcFSQ=;
-        b=tb4bzCv7j9cMM3sM6J4aFr4x3M+TeEjw1t8U5xIDoHPvwNF1Lv7c3z1q37YTtcH8vj
-         /xDnzUKua2Fbwa2nFcSeMWGyLH8cR82QkgrFesGwIQiRmZvQQxwq9lO1ZO0c+l5BqgNs
-         2W4Lrkm0bNPQuYbuNs2rUeFmteGch2d/5HzNCLMrWnCVEd3pFLaIEu+3SGTTwjOk10ab
-         x/LVgr+TLZW3DGt+GfQYE1RL1mvnY2n4uwvSyWzXuH4G6oBhBf2pgf2w9xM0TK3+e6Aa
-         l0ULpmkZn7rZq/oipCsXJ6aJKagphXhyJYTugDmw+axyQpg28CdZZTjRS5CUAoG2Hwoi
-         2QnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW10u17vayk6nuTski3KNjEt/fV/0ORD+1arrDr3b1G8fkiNsVnHVy1Gf5g7q543RxGUhO86TZmIUElcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybRFgrGFoa3xGXGFl+JoBX3C/i6SvPU2/TncKNvqbWVxgrU8qy
-	6g//LVsWVlwRl2v2gEQWupaMQ8q9ZML0N79l4svU3/a5Nbkg6v+4cwne1mUO99PPCitq2CDpLMT
-	kyefKBBAVGvtnmY8j3nZlNHkmYKSrb38=
-X-Gm-Gg: ASbGncsQ00yl4gLkrOzZKIvSSSeWK2HHda4eFxIjC7PK/Md3gLjdKByuvJUyj2qDxqW
-	8UUKv6c23qI94m+oP/h0fRoZJbJGsEGEOC0o+DoBZdi6oXkKvjE/Ny+xC1Ipjy2TxgrJAz4VDtE
-	dbTFoCgsTO3P8vpdXa+0Sfk5BxpjLOE1ljQRGcn3Eq5P9W9Ra/eAh9aE0UyCtnJrwPs/SZ/Kp+h
-	yQCLJLJYTK5QANlQplJFzDaQyYqwNk=
-X-Google-Smtp-Source: AGHT+IFJimNV9JVgADZJ6RJzxomRrr+CRKdYe/O1FKTvw0V5/gJ+hI8NK2oaENlvJwyX9Byxq2NQUHrpHGruAFl/v18=
-X-Received: by 2002:a05:6808:1815:b0:43f:5e26:6638 with SMTP id
- 5614622812f47-43fc17852d9mr8662263b6e.4.1759852541127; Tue, 07 Oct 2025
- 08:55:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759852817; x=1760457617;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lUu2Hbw6HPA09/pxIefcvSfqvI47HFpD83KFx9cFtbk=;
+        b=WkfcbSYYFlj6EvsGjBPVVr8v2ul8NhuRVaT3ywc6XNA1SRDXnmGGjIc2ZDX56w6KZg
+         lFPVp5anYw9+YdfRT6VaJDDa676Z10/IfiV01Zc/htGJJXxHNqyf8CfbLY0982oQq0I/
+         ECxy3O+mrwQJ6Bfj+RAUtaX9RyOv2ctYq1ws6IwppsdAyHc88SR0WJ2wARyMmkJcG4wH
+         7gHaVFGsx3AYJ40Z+L29QtulLFYiXyw6DfWh/3TFeRbBKPyd0tZO+zI66g65eEOpM9Lu
+         EhtyrG7Do/MumATeAxECBY594a6TK7VVGuNgVDKUCzzQtVJ6HxBqhE4ycd3OOee5/f7y
+         o7xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMXWXjlph+FM8O1t+N/9JemvOPGaK6JVkBqsi28eH0XcoCsgmkx2O7j7DllXigcUkotSwt62YLoClWKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOZX5PJenaPXN5J6+8+3TSP05tYPaqccdPFa8Y8SrQJOvcVvza
+	x3hp4OBJphdhXThKGREkUpDeikXRknZrg/10s5YwC44VGq08VA1q0HlP
+X-Gm-Gg: ASbGncsPpSfvc2pB+UOfTO3euTODElm2XbsIPoviCG85qSnFJADmiumKC5PyCJevSLy
+	IHRDLrhtWsXJmsp2bWK97AAAyyVyh7c8E0SP9YC0pgesErBO9GmGePnKgOyrf4wFSut9jAqO8rn
+	KRJb7nB/64Cj4gNwI1ZsxqPe272W56CN41A95qigCtW8hPhZN7ixljviANNw+cpXQSQd5yhujZA
+	DWgeWX+mgSEYE9Wh+dqIYJd6RWy5uZP2fCe6KN5k/UBMRS5y02vcUsNSucF6+0KNaUthpZRXlO0
+	s9etUTCMt89sr4vSYnzqtdk6K3D5YsO0Y2TtClyYBFPQk83KZya+aihbXOW3SWHR3UMXVTfBjRw
+	Gna/of9p9XJzLyAvRnNOqcPQtxEkZa2fDgkC7TqxGni2tG1ULc/0fZ/I9pAeezOmtL6T5qEER8g
+	==
+X-Google-Smtp-Source: AGHT+IGIvTWVj2P/7XIHmNkAV3Zuukq0q/OPVkyOHkHLW/63pwLaZLQx4P6CvcJZq0ImF/R8zQy05A==
+X-Received: by 2002:a17:903:1ac8:b0:26f:f489:bba6 with SMTP id d9443c01a7336-290272f5913mr3577945ad.50.1759852817107;
+        Tue, 07 Oct 2025 09:00:17 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d125ed2sm169568165ad.35.2025.10.07.09.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 09:00:16 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH 6.12.y 6.6.y 6.1.y 5.15.y 5.10.y 5.4.y] ALSA: usb-audio: Kill timer properly at removal
+Date: Wed,  8 Oct 2025 00:58:08 +0900
+Message-Id: <20251007155808.438441-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007145028.1845-1-briansune@gmail.com> <aOUv69rMkyYFiHae@opensource.cirrus.com>
-In-Reply-To: <aOUv69rMkyYFiHae@opensource.cirrus.com>
-From: Sune Brian <briansune@gmail.com>
-Date: Tue, 7 Oct 2025 23:55:29 +0800
-X-Gm-Features: AS18NWDFCcK6DUbobDCPvOQRxCjKu64V5pX3ZLLOvkZRLgyvns-GKpJ1g0-K9No
-Message-ID: <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8811:21=E5=AF=AB=E9=81=
-=93=EF=BC=9A
+From: Takashi Iwai <tiwai@suse.de>
 
-> Apologies but just realised there is still one small problem here.
-> You want to match the closest BCLK that is over your target rate,
-> if the BCLK is too slow the system won't work. As your bclk_divs
-> array is sorted I think you can do something like:
->
->         for (i =3D 0; i < ARRAY_SIZE(bclk_divs); i++) {
->                 bclk =3D wm8978->f_256fs / bclk_divs[i];
->
->                 if (bclk < target_bclk)
->                         break;
->
->                 bclkdiv =3D i;
->         }
->
-> Thanks,
-> Charles
+[ Upstream commit 0718a78f6a9f04b88d0dc9616cc216b31c5f3cf1 ]
 
-Not too understand what is the issue.
-The idea is setting the initial value to max any diff that is smaller
-will update bclkdiv index,
-If the maximum LUT 32 still not met then it is what it is.
-mclk / 32 is the bclk, unless you want an error message.
+The USB-audio MIDI code initializes the timer, but in a rare case, the
+driver might be freed without the disconnect call.  This leaves the
+timer in an active state while the assigned object is released via
+snd_usbmidi_free(), which ends up with a kernel warning when the debug
+configuration is enabled, as spotted by fuzzer.
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8811:21=E5=AF=AB=E9=81=
-=93=EF=BC=9A
->
-> On Tue, Oct 07, 2025 at 10:50:28PM +0800, Brian Sune wrote:
-> > In previous WM8978 codec driver versions, wm8978_set_dai_clkdiv
-> > might not have been called for BCLK, leaving the bit clock
-> > divider unconfigured. This could cause incorrect or unstable audio
-> > clocks depending on sample rate and word length.
-> >
-> > This patch adds a check in wm8978_hw_params: if the BCLK divider
-> > has not been set via wm8978_set_dai_clkdiv, it is dynamically
-> > calculated and configured at runtime.
-> >
-> > This ensures that BCLK is always correctly set, whether the
-> > machine driver configures it explicitly or not.
-> >
-> > Signed-off-by: Brian Sune <briansune@gmail.com>
-> > ---
-> >  sound/soc/codecs/wm8978.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/sound/soc/codecs/wm8978.c b/sound/soc/codecs/wm8978.c
-> > index 8c45ba6fc4c3..8dfce6ede8cd 100644
-> > --- a/sound/soc/codecs/wm8978.c
-> > +++ b/sound/soc/codecs/wm8978.c
-> > @@ -99,6 +99,7 @@ struct wm8978_priv {
-> >       unsigned int f_mclk;
-> >       unsigned int f_256fs;
-> >       unsigned int f_opclk;
-> > +     bool bclk_set;
-> >       int mclk_idx;
-> >       enum wm8978_sysclk_src sysclk;
-> >  };
-> > @@ -590,6 +591,7 @@ static int wm8978_set_dai_clkdiv(struct snd_soc_dai=
- *codec_dai,
-> >       case WM8978_BCLKDIV:
-> >               if (div & ~0x1c)
-> >                       return -EINVAL;
-> > +             wm8978->bclk_set =3D true;
-> >               snd_soc_component_update_bits(component, WM8978_CLOCKING,=
- 0x1c, div);
-> >               break;
-> >       default:
-> > @@ -717,6 +719,11 @@ static int wm8978_hw_params(struct snd_pcm_substre=
-am *substream,
-> >                           struct snd_pcm_hw_params *params,
-> >                           struct snd_soc_dai *dai)
-> >  {
-> > +     unsigned int bclk, bclkdiv =3D 0, min_diff =3D UINT_MAX;
-> > +     unsigned int target_bclk =3D params_rate(params) * params_width(p=
-arams) * 2;
-> > +     /* WM8978 supports divisors */
-> > +     static const int bclk_divs[] =3D {1, 2, 4, 8, 16, 32};
-> > +
-> >       struct snd_soc_component *component =3D dai->component;
-> >       struct wm8978_priv *wm8978 =3D snd_soc_component_get_drvdata(comp=
-onent);
-> >       /* Word length mask =3D 0x60 */
-> > @@ -820,6 +827,23 @@ static int wm8978_hw_params(struct snd_pcm_substre=
-am *substream,
-> >       /* MCLK divisor mask =3D 0xe0 */
-> >       snd_soc_component_update_bits(component, WM8978_CLOCKING, 0xe0, b=
-est << 5);
-> >
-> > +     if (!wm8978->bclk_set) {
->
-> Yeah that looks good.
->
-> > +             for (i =3D 0; i < ARRAY_SIZE(bclk_divs); i++) {
-> > +                     bclk =3D wm8978->f_256fs / bclk_divs[i];
-> > +                     if (abs(bclk - target_bclk) < min_diff) {
-> > +                             min_diff =3D abs(bclk - target_bclk);
-> > +                             bclkdiv =3D i;
-> > +                     }
-> > +             }
->
-> Apologies but just realised there is still one small problem here.
-> You want to match the closest BCLK that is over your target rate,
-> if the BCLK is too slow the system won't work. As your bclk_divs
-> array is sorted I think you can do something like:
->
->         for (i =3D 0; i < ARRAY_SIZE(bclk_divs); i++) {
->                 bclk =3D wm8978->f_256fs / bclk_divs[i];
->
->                 if (bclk < target_bclk)
->                         break;
->
->                 bclkdiv =3D i;
->         }
->
-> Thanks,
-> Charles
+For avoiding the problem, put timer_shutdown_sync() at
+snd_usbmidi_free(), so that the timer can be killed properly.
+While we're at it, replace the existing timer_delete_sync() at the
+disconnect callback with timer_shutdown_sync(), too.
+
+Reported-by: syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/681c70d7.050a0220.a19a9.00c6.GAE@google.com
+Cc: <stable@vger.kernel.org>
+Link: https://patch.msgid.link/20250519212031.14436-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+[ del_timer vs timer_delete differences ]
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ sound/usb/midi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index a792ada18863..c3de2b137435 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -1530,6 +1530,7 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
+ 			snd_usbmidi_in_endpoint_delete(ep->in);
+ 	}
+ 	mutex_destroy(&umidi->mutex);
++	timer_shutdown_sync(&umidi->error_timer);
+ 	kfree(umidi);
+ }
+ 
+@@ -1553,7 +1554,7 @@ void snd_usbmidi_disconnect(struct list_head *p)
+ 	spin_unlock_irq(&umidi->disc_lock);
+ 	up_write(&umidi->disc_rwsem);
+ 
+-	del_timer_sync(&umidi->error_timer);
++	timer_shutdown_sync(&umidi->error_timer);
+ 
+ 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+ 		struct snd_usb_midi_endpoint *ep = &umidi->endpoints[i];
+--
