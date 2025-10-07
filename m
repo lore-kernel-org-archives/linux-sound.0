@@ -1,85 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9768255E27;
-	Tue,  7 Oct 2025 12:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0481319006B;
+	Tue,  7 Oct 2025 12:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759840259; cv=none; b=mEzf04l2dBxHVeUTUH3uVPvW2Z5NfH2270gTYgzyiJ9AyXebNLRqI8ReiWFuKuvdQ1AUVA1lFQi+R8+uhmIejSvwWyQmBNqZbwf6/3Zl3BKDWM+O/ZI/r2dMwhM/uyVavIiZU21JaPmni3IbgprcLK3+X3/1vcwL8B79Tc2y2aQ=
+	t=1759840363; cv=none; b=h7ocSsGsI913h262S/XHLDgqAwrLE2GzujhOjs0dBO6CDVmnQhbh+9AHzz0+02NXc9gYX0hwZJSwym/V9Yx1hqgl5RPdWSQPfsfo5h/0ffRQ8k0b6URCqP0+kH0xRMDF36HjhZHTMD1EESVS9lGI/0gEVXP0/zTXifuFTIMLNus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759840259; c=relaxed/simple;
-	bh=RbLhlvKA5Ngibkwp7hM9KX5IK2NMt/q3BkT8M5uf7H4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ia2sS66fFWaOGmRVr/CxPBBPCvvBCwttWMlj6I3UGOODcVtvHqEtnYlUi0k0AkYOdA7VeOvvbiXdq3Z47Oydstk+Y7G0wmlXEV5wVwcLaUOtDNxC1RRG5Uz/e+NaQt8fNAwTnXOmYpsIlmPq5Dr80v5zW6z8bSOWs2wkJ7BN5Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rRdHhZUd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759840363; c=relaxed/simple;
+	bh=0OpRn6dVGYhKpaq+pw5bY3T5BROlnRo3ya60xdbIv1g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gu8ulba7h+lanGNpQkNnhQR4L6HamGX52lVV38uDNSICE36G0R08VoSi70oiIZSJSd+kT2etaYgUzp+IWFuFJMUv+1vYUse/2feSQukD9JBu4un+zLkvQFrdDFprBbzrhKrHCD4fkwzkBBQjSEI95EiMgTByrAR/ZcY5PEUyeYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ulr4Amvs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rRdHhZUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11BD5C4CEF1;
-	Tue,  7 Oct 2025 12:30:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ulr4Amvs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C46C4CEF1;
+	Tue,  7 Oct 2025 12:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759840259;
-	bh=RbLhlvKA5Ngibkwp7hM9KX5IK2NMt/q3BkT8M5uf7H4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rRdHhZUdKpwlgssrdBBdpnoHIpl4W+lDP2f9V/6l3utftT0Zr3tPdbZwjvyg4o+/4
-	 fz3RteghVI4Xf018zNu2icR6+0mgfhd9h/g7r/iLtlwhpyrscUENuhYyw0UYRNwCcu
-	 BREKQPd7aWds4zxZwLgGu026ceE8uDTlJUCS3W0Wdr3Rb++c/oJooY3g8GcbDc9Z+W
-	 yf79Qhiklp2jLlljtDUK3tOa93Iy05ysH1PcvjVT84McwVH2QcvroaJ+uaUHkfEExq
-	 fkegq9LOeZcQY6vTQC/AIxCI/Pkcuw87zj4na/kqUmZzvJ6EnysWUHB6NAdd/mt6RV
-	 Y4wpVuqOfN5Gw==
-Date: Tue, 7 Oct 2025 13:30:55 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Sune Brian <briansune@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sound/soc/codecs/wm8978: add missing BCLK divider setup
-Message-ID: <a8d1438d-02b7-4e08-ad4c-17467562a753@sirena.org.uk>
-References: <20251003091304.3686-1-briansune@gmail.com>
- <aOTrsYllMst3oR03@opensource.cirrus.com>
- <CAN7C2SB5Re35yGYsqr14hGXde3nTKLX2Aa3ZbuJ9xuT0m07uxg@mail.gmail.com>
- <aOUDbF/i4+9PXc1j@opensource.cirrus.com>
- <e507ace6-90af-4763-a1e9-08e02f9e63f1@sirena.org.uk>
- <aOUHDJW5aJzD7Ku7@opensource.cirrus.com>
+	s=k20201202; t=1759840362;
+	bh=0OpRn6dVGYhKpaq+pw5bY3T5BROlnRo3ya60xdbIv1g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ulr4Amvs9BVUzN63T0gy0h03ZNTNmR1cjsz6JrsOwRrZMWM4UlY4bcqFnyN1j6Abh
+	 g/lA6SACo7MzXea3SWubaWldh8GV5F1S3Wi4+M883+WUHc5MyDof2fPEMTfOSbNRdP
+	 y0D/Gl89PyuU/COavEOfP4f9mxW6HDoG1Wk8wuBtqxf3imPjIejPiCshS+tnUjfW7c
+	 msq3jxfzzVXxwp9qQim+H32GscD2ch1RXFufQbXRz4iW+tBhTi/gwngmnxuKQhXsfL
+	 1O+zPjUzJdeQ6QBC5BSy9lm/I+PKTQl0f+PXY3rk7HA145XPm8oGYxgkn+jYOLdyyQ
+	 WwU2E1Bs2x26w==
+Message-ID: <e0632d6e-2e50-4fdd-890d-558cdf18bf2a@kernel.org>
+Date: Tue, 7 Oct 2025 13:32:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YNyh4LC9Ic9WDXSJ"
-Content-Disposition: inline
-In-Reply-To: <aOUHDJW5aJzD7Ku7@opensource.cirrus.com>
-X-Cookie: Teachers have class.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>,
+ Mika Westerberg <westeri@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andy@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+ <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org>
+ <5550fc25-b571-489c-9855-5a9b08822c0e@sirena.org.uk>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <5550fc25-b571-489c-9855-5a9b08822c0e@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---YNyh4LC9Ic9WDXSJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Tue, Oct 07, 2025 at 01:26:52PM +0100, Charles Keepax wrote:
+On 10/6/25 1:19 PM, Mark Brown wrote:
+> On Sat, Oct 04, 2025 at 02:31:16PM +0100, Srinivas Kandagatla wrote:
+> 
+>> Isn't the main issue here is about not using a correct framework around
+>> to the gpios that driver uses. ex: the codec usecase that you are
+>> refering in this is using gpio to reset the line, instead of using a
+>> proper gpio-reset control. same with some of the gpio-muxes. the problem
+>> is fixed once such direct users of gpio are move their correct frameworks.
+> 
+> It's common to have GPIO controls for other things, mutes for example.
+Ofcourse, but this aggregation logic which is specific to the use-case
+should not live in gpio subsystem which makes the whole solution fragile
+and abused.
 
-> I don't see any current users for the manual divider configuration
-> at least in mainline, so we could probably just drop the manual
-> stuff. I don't think I have a strong opinion between that
-> and blocking the automatic configuration if it was previously
-> set manually, but we should do one of them to keep things clear.
 
-Yes, definitely.
-
---YNyh4LC9Ic9WDXSJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjlB/4ACgkQJNaLcl1U
-h9Af/Qf+LLyF+jFb/8iXF00memqPJ0+GNu2bGzKG6MOHi97D37OrUomgJnJE5rOz
-AEA/AkTQy2TSW4KcrGeY9NXQx5F2r6Y1rbTRj+3VmgePANiFHQa4i3I3Dofg8STQ
-3BsMOtl7k32ufWadFZxscOGbDcIYIXzKCjY2GnY8J3+/IM2k1xj0q0ZPSPPxIBYr
-H/VwCQd0U1zgbroockFkO9PvuS/SwnftN25/+bebhV31ELo/P7Du87OvHMx1vHE+
-zxPPd6INUdPLQfB7O4io6aKf35B24OTz8b5lpABYcvCnQ/W0Y+TQEZLhTpVSQr1o
-3LGzN6q2ihLck9FhIinCYVd25mLwAQ==
-=Dauy
------END PGP SIGNATURE-----
-
---YNyh4LC9Ic9WDXSJ--
