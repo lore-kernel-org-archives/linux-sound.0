@@ -1,104 +1,110 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021911B4F1F
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 11:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501351922F6
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 12:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759838204; cv=none; b=ZiOEVwFY4uWQi50zdqAcOABnjEP+b66ynuW5tB/Oxb68M6CWRl0qSY6kv6tWwu4cRE+Zp9i2bPMeTfg/u9/vYFX88QxFVV37Jal+f7/iOLhNLV8xvZLpNOPyvPjyDqzeJSUKv7ENEOEfhS42DT4IRmfFAvtGBynxfw2VpYl1Ha0=
+	t=1759838566; cv=none; b=bHu/bzmPPomYFFqxp65AZNO0Xgn7Hp16gQHcx0ou0Qk+89s2PKnP85sUXdF/6y7Ccu58endhgTrwJJQaOlOrzc3pt/CJEw8QjGyKg8LPn3B/XFBZPqSk+BnYJpDqdF3QJQIWB8IdVDO8Sora61WFNUJ/jedMs1Q+v1HqzRJ0uF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759838204; c=relaxed/simple;
-	bh=nDnAQgr0ehcQfLdJbw7+Vc9h3ifViIBS7JXVbBJKbvE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ASma0XFgm05rYzDDC73aE/qXe2gYWqhhUr4lhb2i+PrE7pE+yMq3vPoQjCPrejNoQdqdR533ddvBS0Psc2NmOpHdT3EI5vsiQFYB73iq+L9oK2CHnTRC8iOsEGf97I1ckrU/rSt4r38607ZLFfLLsagmAzaVr/nAtosBnLbGWFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAnCErPz; arc=none smtp.client-ip=209.85.210.51
+	s=arc-20240116; t=1759838566; c=relaxed/simple;
+	bh=Uwp3nwYdT5m3y+GC1rhzb2llx5N1PSDN35+YggAT3wU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=be+AVoraIsjS1drdivfPgV+o/OasNnqK/vGDKptXsmG9QGLToNU+zibxBp8fYKf8e5du+SWphTlS5CWIoHjGVYOo4zbPhipV3tLs3qMsMIaaiT+FjR5+E+lOhW6WrjTjiERhcIpETHVKKmTFvnXuPnUZXkQC3ABON+ukXec0YMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWkV1kks; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAnCErPz"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7a7c1ecd433so3368661a34.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 04:56:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWkV1kks"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-27c369f8986so60616605ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 05:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759838202; x=1760443002; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nDnAQgr0ehcQfLdJbw7+Vc9h3ifViIBS7JXVbBJKbvE=;
-        b=IAnCErPzEexbl0VXmsBkVwT1/JShIy1f+RzlRiT+iec/1Em3wyz6n0n/rWVMev1GZE
-         1PzQv1u/SHK5QbTkgLqZtfjYvbZwiRD+jJUlSl/VgBVPJSwZ0WMYRufe7ZOrqL7esJWS
-         Pe4E/fE098qTgNud1tJE9mmUhSnTts27SZsKuYID8NduW6MkzYjM0HNTrzK6hxjl8TAI
-         4n+DWajBvGMOS2aMdJzHkZlC4gpMsJtYM4czROaVRX2X7gJY/L5QVBw1sgvpUyB/Kg7S
-         42x/h9ylzOWiWd0MhvFtAQZaxV/+SEGpfHcovloke+g/l8d8r33HQQzb8Bq9EzjfdAbb
-         v8Og==
+        d=gmail.com; s=20230601; t=1759838564; x=1760443364; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JgNr+tNHQ+i3V3EeAoz19ucV8GtWzNyxdtEJ6ZWd2ac=;
+        b=jWkV1kksfGeHm99Z9icR7b9wxeAxETa2pYlIBFW1g4GgGu/uGHikJKBHhLTUdZHkuy
+         0qI/DBQ5I/emuAw05ft0OrE9FG60tCPFyaQtSXW+rWgxETRw9p6TmLJZ+jmIrtjyERJG
+         UM0F6hio/uLNm7+5PljO8aKBdhcIsGm9FgULUfi2P+8G+x4x5S35kXqou1nT7nYmQQtc
+         IDNROkmIfOz4BKrgWYXx18e4NhKOtouTPycwXf819pK1h64e+t/rUnVbjcj0vDgyzJuA
+         CzY0+Q6H3NseKvwaP1KOGNKi6c99CYTgBoXMTgjYSf3rmkmn/4TV594FfN1QqzTMNTCB
+         7CEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759838202; x=1760443002;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nDnAQgr0ehcQfLdJbw7+Vc9h3ifViIBS7JXVbBJKbvE=;
-        b=i0FvXTU8GGcYCOd/rEWOvTK/sfgsscVKxxTJhiWwaGXIyRftgFzVq5T1CWONXtfkWs
-         Gb8Q1CbhO10+P5PdQSlx+R2Tn6jCa7r4dpX3C10XuoezmNYN062J6FXsJs1+6DhLMI25
-         7wMoe4t4XHFsrNe1drcmkqu6U3D6NNS6o6OTcqlt3xQC4ymHXvW5LHQeWcqIsztUe4LE
-         omNLCEs6cxWhAkbte+NLQb6PYqYUI22/AyJTOvBsy6CLd6d4DExiThxeJNAis4OsrjNx
-         f2clV8FYNaeuLXoKEnNBLZw8I/dh8iM1+p1vy8aJBPz/A3d5r+ByVVfvKbxMdH2T/Qvu
-         9exg==
-X-Forwarded-Encrypted: i=1; AJvYcCVnMA2SBGisXIW6zL13NjVCubAq3iCQ0GRbeb/zInb88OdT3nDKB0f11bXyTMPnSxusJ/EYx05oELNLTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMheNEZ59wr0ACm1MFULEb44crSsDAuOF8fSrwIrv8yViEmVyy
-	ETyJr9vNuDVzN7cBwHFK2LK98N4G2NqmW5Ri1tBcavZqYOd1RAP7ojOq/RNtCyNpKtf0BbNHm8Q
-	vpzkPgZrovNf7Lt33V01z8YbF43K3ML8=
-X-Gm-Gg: ASbGncvWmTh2Ultc+aPvSLoc46s3+sNpnZV1JjUbWij4VCfOzFZIWmK0tPk9v4SzC/X
-	sdHUFWMmVb2VSXBkfBFrBEgb4qPnLeSggvgtkhW7gnP9osRDa4seXuGbChdN2JYyXuRI17H/cOX
-	NKEOEmygSPt+73qCT37crFjpd0UGrsALTvrsnjy6P122B9cVDY9+noxXqHYjf4UArMWQEy1zRix
-	XvRqaqwN20Cc9UnouHDNVi1vfD7LK4=
-X-Google-Smtp-Source: AGHT+IGf1SyOfC0WI5vDsH1aFSv/+54kbpC2ajcfxHOjA2QxNkQPutmrcDALkOHUhMYn8vqOvC01ofPAA4sM3QF72MU=
-X-Received: by 2002:a05:6830:3786:b0:748:8b42:77ab with SMTP id
- 46e09a7af769-7bf770d4574mr10925867a34.0.1759838202064; Tue, 07 Oct 2025
- 04:56:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759838564; x=1760443364;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JgNr+tNHQ+i3V3EeAoz19ucV8GtWzNyxdtEJ6ZWd2ac=;
+        b=X2BIcbbtbUWZyjtREk0PYFxRnXU1vmKJ0Qxv3D2BII7BDOMJVPFgNF0RqKI6p8tb/M
+         kXJfmZVWZDJQTB2PnhmF3McuvCj1CYCQ9Hyc4vWvhO3hZ+uSsbpfNj0/DckX0LffZm5Y
+         uio3/S+/QKfR+h6V9zQbJj0tWqU7LKmbO53cv3iccvsfLm3N1VPAAzDXFkw/dzih02OG
+         hyQNoQNRO5UbhqpdTMbKExY6lNyS9z6pyfkGIQ1Hkf1pdryZTMKB3x+QS/DsDH8W/Poz
+         LyR2T/8F5E00wJnAUK2X9Ffr5qsVE0holmp+z4vI+5BhUsFmX2jkFPaPRBOcKIkOW6Sd
+         dxxg==
+X-Gm-Message-State: AOJu0YwA8QsrZ5O0KnlwkYo4egmcatngiXrAFsj5XRc0zfWid2myCvZy
+	dRdk0B9vrzAPDj06ObEOcP1DWdO7vlft5APCTq+SIA14BcjKjHJd2Wrw
+X-Gm-Gg: ASbGncuE5e+ytr+6xl1iw1xuAYEHtz1vfQmlJHire7q8xTR1XeScixrQ4dSuChRJ8Vm
+	pia8k+hA5iiaxhLukTnq5xsLXtVuklD7OpyhySJ8KDhexN5/XdprmhPlDj8T0Amx0FEjghd6Zoo
+	8si4bhxG0EjEx2NXCw2ovCxcZG0hjwnPmrXkxzrg+Ajom5NYqN+B+mBDyM33IKbnxWKVqMHxpIm
+	WLeJycJIRO9caSslvtdfiGZzxIbMUznmwAczl2bApQcsgQn9GETWZv2cbEF99mCTgmJoaFl8/7O
+	kTnfJEid0Bpyb61ghGAp4CUQmUGU3Bh2l1vWKwUUzUg4SrVwneQOcDLieXKp156lIRg1WWq/ApI
+	hpxrKvcXY3oCnlKIolNT9SCqb0Y9CZOKsCn5v45XfD3qwUnOYML/dyHqTuqv9J4+NIRXCicOOy5
+	di4V1m9ABwKA==
+X-Google-Smtp-Source: AGHT+IEH0lwuWZr6GCDo27FSqSdbMpk6OfccoJ01s3tCPMDu0jm17zp/Dvn0v63vGajLxGA+vGAGDw==
+X-Received: by 2002:a17:902:f792:b0:28d:1939:f9c8 with SMTP id d9443c01a7336-28e9a5bf4c4mr200401165ad.26.1759838563859;
+        Tue, 07 Oct 2025 05:02:43 -0700 (PDT)
+Received: from weg-ThinkPad-P16v-Gen-2.. ([2804:30c:166c:ce00:71cf:b339:3993:4f8a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c061sm19510269a91.22.2025.10.07.05.02.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 05:02:43 -0700 (PDT)
+From: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+To: "Geoffrey D . Bennett" <g@b4.vu>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+Subject: [PATCH] ALSA: usb: fpc: replace kmalloc_array followed by copy_from_user with memdup_array_user
+Date: Tue,  7 Oct 2025 09:00:57 -0300
+Message-ID: <20251007120057.21918-1-pedrodemargomes@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251003091304.3686-1-briansune@gmail.com> <20251007113305.1337-1-briansune@gmail.com>
- <5a71fdac-f6cf-4557-9bc8-d416a033263e@sirena.org.uk> <CAN7C2SCHirxurUA0n2VZKEEiYCt-NUKgspGFfZLNurHhACZkBQ@mail.gmail.com>
- <3266559a-8403-4a26-bbd9-c54e27fc59f8@sirena.org.uk>
-In-Reply-To: <3266559a-8403-4a26-bbd9-c54e27fc59f8@sirena.org.uk>
-From: Sune Brian <briansune@gmail.com>
-Date: Tue, 7 Oct 2025 19:56:31 +0800
-X-Gm-Features: AS18NWAu7PJlkBsOtE2R4WdatURJdL0LNgBsmKGMTutcvQMQA045NJ06MTP4Ums
-Message-ID: <CAN7C2SC96jZYYGP=DFrSKgtEfxy+MYpM7=-iW8YKhDG81ufw+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: wm8978: add missing BCLK divider setup
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=887=E6=97=
-=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=887:52=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Tue, Oct 07, 2025 at 07:48:11PM +0800, Sune Brian wrote:
-> > Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=887=E6=
-=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=887:44=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> > > Please don't send new patches in reply to old patches or serieses, th=
-is
-> > > makes it harder for both people and tools to understand what is going
-> > > on - it can bury things in mailboxes and make it difficult to keep tr=
-ack
-> > > of what current patches are, both for the new patches and the old one=
-s.
->
-> > Sorry for this action. But this patch is just a title fixe according
-> > to previous comment.
-> > Patch body is fully aligned to previous revision.
->
-> > May I know what is the proper way to amend the title?
->
-> The title is fine, the above is about sending the patch as a reply.
+Replace kmalloc_array() followed by copy_from_user() with
+memdup_array_user() to improve and simplify fcp_ioctl_set_meter_map().
 
-Got it, when title amended version is sent, need no reply with
-previous revision ID.
-Thank you
+No functional changes intended.
+
+Signed-off-by: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
+---
+ sound/usb/fcp.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
+index 5ee8d8b66058..11e9a96b46ff 100644
+--- a/sound/usb/fcp.c
++++ b/sound/usb/fcp.c
+@@ -641,12 +641,9 @@ static int fcp_ioctl_set_meter_map(struct usb_mixer_interface *mixer,
+ 		return -EINVAL;
+ 
+ 	/* Allocate and copy the map data */
+-	tmp_map = kmalloc_array(map.map_size, sizeof(s16), GFP_KERNEL);
+-	if (!tmp_map)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(tmp_map, arg->map, map.map_size * sizeof(s16)))
+-		return -EFAULT;
++	tmp_map = memdup_array_user(arg->map, map.map_size, sizeof(s16));
++	if (IS_ERR(tmp_map))
++		return PTR_ERR(tmp_map);
+ 
+ 	err = validate_meter_map(tmp_map, map.map_size, map.meter_slots);
+ 	if (err < 0)
+-- 
+2.43.0
+
