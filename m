@@ -1,140 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DEC2DC336
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 12:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FBA8BEC;
+	Tue,  7 Oct 2025 12:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759839300; cv=none; b=C+H+Us7qwiwB2QjzA4renUUt1OeOuaj6/eae85z9GS41WhpafbbHUi3F3D/wa7PfukpjNYTx4dyfhrJscDq0DppQzJavimdDcZIjXPEXbUys71kyC3gSmPFR/SmGmxSi787A5KrQCY6AQexWpdM/EzwKXQc0H0UGMsP7qJza8dM=
+	t=1759839490; cv=none; b=VaLLIFLxTzrL0o3gLILNpFvVbdKmlf4uvixXIjdv7ySt7PpCb0GNQ7Vx+jLDK26/EWNlwJvq9fFSaRYRby7ocgj8+4eGfx9JSnLCIGGBbrxj5Xy/NK3VSEIDs4oCd0G0CgcvtwVx5THcMpETKK2F6fYs6OD1lrSOsZATinDxBPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759839300; c=relaxed/simple;
-	bh=N0esEhr5i1anNCwzj+5Cy///h9Tv8LW3qTL42UltI3A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIiXWtuCo5A32TXK9XXS/2cmZ8+ousFx5I1WtNOMKVQI3J9HrCM65+dCRS93Hdr8PUOi31g6yapiUhOFZsIlT/1CBQGMuijwzl8PxptWhZagTmZgpbHZw099tPEQu00ZE6JSLSLVh0YpTy+WS+CCVuGSd8WywbgRZ8FqhAsD9zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eDZ6jDGQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XLvFVF4k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eDZ6jDGQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XLvFVF4k; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759839490; c=relaxed/simple;
+	bh=dmsArpgLavHpe67k8GoIdRHh/5TL2Ze9jAn6b2RMQlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LG9xW3z8NOG+peutqN6M4oyk5UHWmLpBcOjP3uqNBov0AlNbk2z9QCHrrUQTVZ3LqqVZB4P9cvpw4jlqWcGxCYfevmRs/9iuw8ZyDEY/mbxvPv8YcYIeYseNbIcMgLMJPIuQme4czXekN496QZNR+JoIUrOn8d8zp6YWiyarTao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPkIfHNs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eDZ6jDGQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XLvFVF4k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eDZ6jDGQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XLvFVF4k"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6D6531F44F;
-	Tue,  7 Oct 2025 12:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759839297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mne8hDbWTu6yFK2C2TGQLRe9x25YVlXtjppmdhHOcIQ=;
-	b=eDZ6jDGQ/eWwGZU0mIQuAJ2Z4PbK1xOQxfkZQCSBcWulCNpbjIqDWncI3ihgG0uFvz/dzv
-	JjUuKRTPGmEbv9OIPSr+9EmHARvSg5W8NrUIFE9nZvpcnfwBC92uc7BJMbI92etYZ1YBcZ
-	ylmS6RiEzAk0XD4GTYnCpOrftQZE9m0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759839297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mne8hDbWTu6yFK2C2TGQLRe9x25YVlXtjppmdhHOcIQ=;
-	b=XLvFVF4kQLiXzZ3B6YCd3UzEPC4WnI052B4j3V4BVFhqqYqhgKqV9rtc3NanmM+pDOwdR4
-	2oUDU6DohuUZZZAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eDZ6jDGQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XLvFVF4k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759839297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mne8hDbWTu6yFK2C2TGQLRe9x25YVlXtjppmdhHOcIQ=;
-	b=eDZ6jDGQ/eWwGZU0mIQuAJ2Z4PbK1xOQxfkZQCSBcWulCNpbjIqDWncI3ihgG0uFvz/dzv
-	JjUuKRTPGmEbv9OIPSr+9EmHARvSg5W8NrUIFE9nZvpcnfwBC92uc7BJMbI92etYZ1YBcZ
-	ylmS6RiEzAk0XD4GTYnCpOrftQZE9m0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759839297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mne8hDbWTu6yFK2C2TGQLRe9x25YVlXtjppmdhHOcIQ=;
-	b=XLvFVF4kQLiXzZ3B6YCd3UzEPC4WnI052B4j3V4BVFhqqYqhgKqV9rtc3NanmM+pDOwdR4
-	2oUDU6DohuUZZZAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 550A213AAC;
-	Tue,  7 Oct 2025 12:14:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TSMyFEEE5WhaCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 Oct 2025 12:14:57 +0000
-Date: Tue, 07 Oct 2025 14:14:57 +0200
-Message-ID: <87a522ewn2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
-Cc: "Geoffrey D . Bennett" <g@b4.vu>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb: fpc: replace kmalloc_array followed by copy_from_user with memdup_array_user
-In-Reply-To: <20251007120057.21918-1-pedrodemargomes@gmail.com>
-References: <20251007120057.21918-1-pedrodemargomes@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPkIfHNs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BF7C4CEF1;
+	Tue,  7 Oct 2025 12:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759839488;
+	bh=dmsArpgLavHpe67k8GoIdRHh/5TL2Ze9jAn6b2RMQlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qPkIfHNs7vr/4q0BVAG84UCWlf82tGcK10pB/1rX1gxTFSkFeaEvyHNM0tPH9vjZ6
+	 TcQvxu7ZnhSqqbobesH2Mhnf2+GXaSB5e7MrWHMOsXPgSS0YF5mu5mVegUR4nqRUuo
+	 ogoAeiOUkC5tGWoOkqdV0XEwapBkEPaELrjBNPIBremgoKy+DqG/ca73xUv1szLg5B
+	 YN/l8/8gYjW706axcEmG298LI23lXtKRCC9wMBN9ZOkke0gDMja0KPYF791Ra+P9zq
+	 rQdp8akaN4xCIZ+huabG6foVnBoMRt+hCCwvK1t9I5Z/yo05yNRsZ6edwKZqsTcqCt
+	 tLuvbOq72aguw==
+Date: Tue, 7 Oct 2025 13:18:02 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Sune Brian <briansune@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound/soc/codecs/wm8978: add missing BCLK divider setup
+Message-ID: <e507ace6-90af-4763-a1e9-08e02f9e63f1@sirena.org.uk>
+References: <20251003091304.3686-1-briansune@gmail.com>
+ <aOTrsYllMst3oR03@opensource.cirrus.com>
+ <CAN7C2SB5Re35yGYsqr14hGXde3nTKLX2Aa3ZbuJ9xuT0m07uxg@mail.gmail.com>
+ <aOUDbF/i4+9PXc1j@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 6D6531F44F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-
-On Tue, 07 Oct 2025 14:00:57 +0200,
-Pedro Demarchi Gomes wrote:
-> 
-> Replace kmalloc_array() followed by copy_from_user() with
-> memdup_array_user() to improve and simplify fcp_ioctl_set_meter_map().
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Pedro Demarchi Gomes <pedrodemargomes@gmail.com>
-
-Applied now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zFA+wYNcCkZ3k6cJ"
+Content-Disposition: inline
+In-Reply-To: <aOUDbF/i4+9PXc1j@opensource.cirrus.com>
+X-Cookie: Teachers have class.
 
 
-Takashi
+--zFA+wYNcCkZ3k6cJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Oct 07, 2025 at 01:11:24PM +0100, Charles Keepax wrote:
+
+> Its not missing its right there. That said your way is probably
+> slightly more standard these days, but we should take care of the
+> interaction between the two.
+
+Where we've had users using the manual divider configuration that we
+cared about in the past we've suppressed automatic configuration if
+manual configuration has ever been done by the machine driver.
+
+--zFA+wYNcCkZ3k6cJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjlBPkACgkQJNaLcl1U
+h9DMqQf8CBdjtslsLzLCYzPS3/atB8WAYRlsexPQxVbReO/QFckLrZRPJ+AMYymf
+fOCw+PbTgVyvSyA8pXlTLhaA/gIkYnPYWf5sSdx7wXCwNgSnFBCQlBY17rqgWuEV
+fDiSUS2uY+SN/5sVxzyGeMITeFSi+7rRvAXGWrvgPHzsGqumgneSDFi7d2XDwQZ3
+P8BZ5R/367UvXf5IrLxvr31gNlfhk3fOcE/sX0O1ujzIdSxnB+nTyImUlXitDeDJ
+k+gIHJNT0mg9f8AT6rRVW/EQUIh4PLybm97sR3f1GrrxzbVwESIeVeuSWeF7UdRj
+0rBOdeU1N38MROq14r4xPvL/3k1ghw==
+=NKaS
+-----END PGP SIGNATURE-----
+
+--zFA+wYNcCkZ3k6cJ--
