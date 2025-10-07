@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942002B9A7;
-	Mon,  6 Oct 2025 22:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339FA2B9BA;
+	Tue,  7 Oct 2025 01:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759789275; cv=none; b=W5xjS3P5BAY57gyryFqcVWsNWF7zqQBNu/Hd+z5hIhJdj3D4W3XKbE9qj6Yi2RfpjDKnEvy2NGd92nd+0HTGECsdIiZY/6Qr4g3CY8SRhfyxnO/tB7MRFG2o4z9RPcfpUf5ek5ug6on6aghlBWuD7LPNeX4GlkoaE6a1oeIbudM=
+	t=1759799272; cv=none; b=WdDq8vPyFDYzP5ffdGMJ/65m+stT5yr556rAM9pc3j9msmbQzQ8sITTStipRcTGPyV9Vc+sZAMCBuUSlhCuTDD8Z8Llzg7Qn5jyfTH+mRWh9LpNJXrKZmSoSRsI53UfUQPECSg01XJs+aWgPOQtRbJ5reQhdIeoqVYUnwmkFX0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759789275; c=relaxed/simple;
-	bh=y9HkAkMswhuhnlObmY879hYAYn5iP/hSOUaR/NYB2Ms=;
+	s=arc-20240116; t=1759799272; c=relaxed/simple;
+	bh=nK6IsY8XXOXC3iEsNBKq4APCgI7iwBgaZHbbITUoa78=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NqxWTElAmumunWxUNWntifnHQEouz+5yNZ/41u8BInjL2cFAStQsaeGjQ4RmkhL1at45c6xcrEjEQl8q+MyuFFNx9tzHHKfhcdrhTYgOAGelJgSy8xVufEsLC/bJmVGYjI9eGhgFFJOZUc4hrohlxyGt0j9UsQ+kA+G1RfnlbHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFNfrcD2; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=u1jbPqM0ITfKjH2WfVtCxXhDnDiigrhFVjcdiTCnch7GEXHG8faqI8l5KbMnZgeeTCO+OeGMSpGi6Yx+0U2rZ0EjnfMYyI959aM7tIRV1IRpU6kDMcrKCuAXzoCIF6fVY8BvdyPx1G39BZbUxR5VR/fWvISSHphqOWnCo5ZLZyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHtQ0YFC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFNfrcD2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC2CC4CEF5;
-	Mon,  6 Oct 2025 22:21:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHtQ0YFC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B8EC4CEF5;
+	Tue,  7 Oct 2025 01:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759789275;
-	bh=y9HkAkMswhuhnlObmY879hYAYn5iP/hSOUaR/NYB2Ms=;
+	s=k20201202; t=1759799271;
+	bh=nK6IsY8XXOXC3iEsNBKq4APCgI7iwBgaZHbbITUoa78=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VFNfrcD2/2boUqakycWq4TlbFMTApjkUYi8DjvsiDpzm85PyxuQiuWX9Qkv3mlqwf
-	 7T8UZVNdBAPTbG2eELOgBrrBZ6I0jqDAjMLw7aVeqF4QGVfqlyGBBNbwY0/BfX2Mpr
-	 NOD6rPyi4OmcgOqxcT8golJ7xV73/9WTIGTu2IY/zfx2AR0SZODIRAKVqvQIc6LGHO
-	 kGF4XsN/Oa61ChgQmX0etTDTarcF1Nw2E2hdKZdTw9I6BQ/SHx/xJB+ib1V1kIJyGC
-	 /BSxGwNIUnaC2xi0psmWHIopi5S4NMEpNbpapuwdsdX7uMxYvMS5shyQ2P9mOp3muH
-	 tmx7NwjI2FWEw==
-Message-ID: <6492e444-4196-4900-a741-a74a8c506a6d@kernel.org>
-Date: Mon, 6 Oct 2025 23:21:08 +0100
+	b=gHtQ0YFCKBy1lf45EZWeJND8yeZrZBT7/7HNX2VpubpKWLuYidChVNlQy5SaMx8gt
+	 S6FPOb5yOqT0M1x0WJWiugPGWpVY7daM2YTvUp+edMThQIhMXqDl2erHhUkBd3gI9M
+	 GsSZywDM7qIq5Yz+5NapAO5ztQEVs6blHq7SlIW9qxk3Ef90x+YLiCVRhz5Co5aHk/
+	 AQFSKi1d9rFglmGmsozt5KJIksAEXHCYwWCi6Xf7Ilf07l5GifaKKrh2Vu9dOT8BcJ
+	 SRmRtsihag8qNibq0xZHDVaF32MeNC8x3pZS8UJSgKywkxwSmtMhG5ltlhtcBXZSeO
+	 2m27pKypuPTCA==
+Message-ID: <164411f7-7925-491c-a24f-30021cab3f99@kernel.org>
+Date: Tue, 7 Oct 2025 10:07:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,202 +35,156 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/6] ASoC: soc: qcom: sc8280xp: add support for I2S
- clocks
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20251006-topic-sm8x50-next-hdk-i2s-v1-0-184b15a87e0a@linaro.org>
- <20251006-topic-sm8x50-next-hdk-i2s-v1-3-184b15a87e0a@linaro.org>
+Subject: Re: [PATCH V2 0/4] Add tegra264 audio device tree support
+To: "Sheetal ." <sheetal@nvidia.com>, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Sameer Pujar <spujar@nvidia.com>,
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Jonathan Hunter
+ <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Marc Zyngier <maz@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>
+References: <20250929105930.1767294-1-sheetal@nvidia.com>
+ <175915953199.54406.1457670691076635405.robh@kernel.org>
+ <4cc27ab8-4e59-45b9-9383-183f78da47a6@nvidia.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20251006-topic-sm8x50-next-hdk-i2s-v1-3-184b15a87e0a@linaro.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <4cc27ab8-4e59-45b9-9383-183f78da47a6@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 10/6/25 7:37 PM, Neil Armstrong wrote:
-> Add support for getting the I2S clocks used for the MI2S
-> interfaces, and enable/disable the clocks on the PCM
-> startup and shutdown card callbacks.
+On 30/09/2025 15:24, Sheetal . wrote:
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  sound/soc/qcom/sc8280xp.c | 104 +++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 103 insertions(+), 1 deletion(-)
 > 
-> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-> index 78e327bc2f07767b1032f09af7f45b947e7eb67a..ad4ee5c6fab8994f18de572842f3dab6f4f5397e 100644
-> --- a/sound/soc/qcom/sc8280xp.c
-> +++ b/sound/soc/qcom/sc8280xp.c
-> @@ -4,6 +4,8 @@
->  #include <dt-bindings/sound/qcom,q6afe.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/clk.h>
-> +#include <linux/of_clk.h>
->  #include <sound/soc.h>
->  #include <sound/soc-dapm.h>
->  #include <sound/pcm.h>
-> @@ -15,12 +17,16 @@
->  #include "common.h"
->  #include "sdw.h"
->  
-> +#define I2S_MAX_CLKS	5
-> +
->  struct sc8280xp_snd_data {
->  	bool stream_prepared[AFE_PORT_MAX];
->  	struct snd_soc_card *card;
->  	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
->  	struct snd_soc_jack jack;
->  	struct snd_soc_jack dp_jack[8];
-> +	struct clk *i2s_clk[I2S_MAX_CLKS];
-> +	struct clk *i2s_mclk[I2S_MAX_CLKS];
->  	bool jack_setup;
->  };
->  
-> @@ -68,12 +74,66 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
->  	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
->  }
->  
-> +static int sc8280xp_snd_i2s_index(struct snd_soc_dai *dai)
-> +{
-> +	switch (dai->id) {
-> +	case PRIMARY_MI2S_RX..PRIMARY_MI2S_TX:
-> +		return 0;
-> +	case  SECONDARY_MI2S_RX.. SECONDARY_MI2S_TX:
-> +		return 1;
-> +	case TERTIARY_MI2S_RX..TERTIARY_MI2S_TX:
-> +		return 2;
-> +	case QUATERNARY_MI2S_RX..QUATERNARY_MI2S_TX:
-> +		return 3;
-> +	case QUINARY_MI2S_RX..QUINARY_MI2S_TX:
-> +		return 4;
-> +	default:
-> +		return -1;
-> +	}
-> +}
-> +
-> +static int sc8280xp_snd_startup(struct snd_pcm_substream *substream)
-> +{
-> +	unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-> +	int index;
-> +
-> +	switch (cpu_dai->id) {
-> +	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
-> +	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-> +		index = sc8280xp_snd_i2s_index(cpu_dai);
-
-What is the mclk and bitclk rate set here, we can not rely on the
-default rate.
---srini
-> +		clk_enable(pdata->i2s_mclk[index]);
-> +		clk_enable(pdata->i2s_clk[index]);
-> +		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return qcom_snd_sdw_startup(substream);
-> +}
-> +
->  static void sc8280xp_snd_shutdown(struct snd_pcm_substream *substream)
->  {
->  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
->  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->  	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
->  	struct sdw_stream_runtime *sruntime = pdata->sruntime[cpu_dai->id];
-> +	int index;
-> +
-> +	switch (cpu_dai->id) {
-> +	case PRIMARY_MI2S_RX..TERTIARY_MI2S_RX:
-> +	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-> +		index = sc8280xp_snd_i2s_index(cpu_dai);
-> +		clk_disable(pdata->i2s_clk[index]);
-> +		clk_disable(pdata->i2s_mclk[index]);
-> +		break;
-> +	default:
-> +		break;
-> +	}
->  
->  	pdata->sruntime[cpu_dai->id] = NULL;
->  	sdw_release_stream(sruntime);
-> @@ -141,7 +201,7 @@ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
->  }
->  
->  static const struct snd_soc_ops sc8280xp_be_ops = {
-> -	.startup = qcom_snd_sdw_startup,
-> +	.startup = sc8280xp_snd_startup,
->  	.shutdown = sc8280xp_snd_shutdown,
->  	.hw_params = sc8280xp_snd_hw_params,
->  	.hw_free = sc8280xp_snd_hw_free,
-> @@ -162,6 +222,44 @@ static void sc8280xp_add_be_ops(struct snd_soc_card *card)
->  	}
->  }
->  
-> +static const char * const i2s_bus_names[I2S_MAX_CLKS] = {
-> +	"primary",
-> +	"secondary",
-> +	"tertiary",
-> +	"quaternary",
-> +	"quinary",
-> +};
-> +
-> +static int sc8280xp_get_i2c_clocks(struct platform_device *pdev,
-> +				   struct sc8280xp_snd_data *data)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	int i;
-> +
-> +	if (!device_property_present(dev))
-> +		return 0;
-> +
-> +	for (i = 0; i < I2S_MAX_CLKS; ++i) {
-> +		char name[16];
-> +
-> +		snprintf(name, 16, "%s-mi2s", i2s_bus_names, i);
-> +		data->i2s_clk[i] = devm_clk_get_optional_prepared(dev, name);
-> +		if (IS_ERR(data->i2s_clk[i]))
-> +			return dev_err_probe(dev, PTR_ERR(data->i2s_clk[i]),
-> +					     "unable to get %s clock\n",
-> +					     name);
-> +
-> +		snprintf(name, 16, "%s-mclk", i2s_bus_names, i);
-> +		data->i2s_mclk[i] = devm_clk_get_optional_prepared(dev, name);
-> +		if (IS_ERR(data->i2s_mclk[i]))
-> +			return dev_err_probe(dev, PTR_ERR(data->i2s_mclk[i]),
-> +					     "unable to get %s clock\n",
-> +					     name);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int sc8280xp_platform_probe(struct platform_device *pdev)
->  {
->  	struct snd_soc_card *card;
-> @@ -185,6 +283,10 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> +	ret = sc8280xp_get_i2c_clocks(pdev, data);
-> +	if (ret)
-> +		return ret;
-> +
->  	card->driver_name = of_device_get_match_data(dev);
->  	sc8280xp_add_be_ops(card);
->  	return devm_snd_soc_register_card(dev, card);
+> On 29-09-2025 20:58, Rob Herring (Arm) wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On Mon, 29 Sep 2025 16:29:26 +0530, Sheetal . wrote:
+>>> From: sheetal <sheetal@nvidia.com>
+>>>
+>>> Add device tree support for tegra264 audio subsystem including:
+>>> - Binding update for
+>>>    - 64-channel ADMA controller
+>>>    - 32 RX/TX ADMAIF channels
+>>>    - tegra264-agic binding for arm,gic
+>>> - Add device tree nodes for
+>>>    - APE subsystem (ACONNECT, AGIC, ADMA, AHUB and children (ADMAIF, I2S,
+>>>      DMIC, DSPK, MVC, SFC, ASRC, AMX, ADX, OPE and Mixer) nodes
+>>>    - HDA controller
+>>>    - sound
+>>>
+>>> Note:
+>>>   The change is dependent on https://patchwork.ozlabs.org/project/linux-tegra/patch/20250818135241.3407180-1-thierry.reding@gmail.com/
+>>>
+>>> ...
+>>> Changes in V2:
+>>>   - Update the allOf condition in Patch 2/4.
+>>>
+>>> sheetal (4):
+>>>    dt-bindings: dma: Update ADMA bindings for tegra264
+>>>    dt-bindings: sound: Update ADMAIF bindings for tegra264
+>>>    dt-bindings: interrupt-controller: arm,gic: Add tegra264-agic
+>>>    arm64: tegra: Add tegra264 audio support
+>>>
+>>>   .../bindings/dma/nvidia,tegra210-adma.yaml    |   15 +-
+>>>   .../interrupt-controller/arm,gic.yaml         |    1 +
+>>>   .../sound/nvidia,tegra210-admaif.yaml         |  106 +-
+>>>   .../arm64/boot/dts/nvidia/tegra264-p3971.dtsi |  106 +
+>>>   arch/arm64/boot/dts/nvidia/tegra264.dtsi      | 3190 +++++++++++++++++
+>>>   5 files changed, 3377 insertions(+), 41 deletions(-)
+>>>
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>>
+>>
+>>
+>> My bot found new DTB warnings on the .dts files added or changed in this
+>> series.
+>>
+>> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+>> are fixed by another series. Ultimately, it is up to the platform
+>> maintainer whether these warnings are acceptable or not. No need to reply
+>> unless the platform maintainer has comments.
+>>
+>> If you already ran DT checks and didn't see these error(s), then
+>> make sure dt-schema is up to date:
+>>
+>>    pip3 install dtschema --upgrade
+>>
+>>
+>> This patch series was applied (using b4) to base:
+>>   Base: attempting to guess base-commit...
+>>   Base: tags/v6.17-rc1-57-g635ae6f0a3ad (exact match)
+>>
+>> If this is not the correct base, please add 'base-commit' tag
+>> (or use b4 which does this automatically)
+>>
+>> New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/nvidia/' for 20250929105930.1767294-1-sheetal@nvidia.com:
+>>
+>> In file included from arch/arm64/boot/dts/nvidia/tegra264-p3834.dtsi:3,
+>>                   from arch/arm64/boot/dts/nvidia/tegra264-p3834-0008.dtsi:3,
+>>                   from arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dts:5:
+>> arch/arm64/boot/dts/nvidia/tegra264.dtsi:8:10: fatal error: dt-bindings/power/nvidia,tegra264-powergate.h: No such file or directory
 > 
+> This error is expected.
+> "dt-bindings/power/nvidia,tegra264-powergate.h" file is being added in 
+> https://patchwork.ozlabs.org/project/linux-tegra/patch/20250818135241.3407180-1-thierry.reding@gmail.com/, 
+> in the cover letter it is mentioned as dependent of that change in the 
+> 'Note'.
+> 
+If you expect your patch not to be ignored after such feedback, explain
+briefly missing dependency in the patch changelog. Not cover letter.
 
+You will get this report every time and maintainers might ignore your
+patch, due to unresolved reports from automation.
+
+Best regards,
+Krzysztof
