@@ -1,139 +1,166 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554DB2797BE
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 09:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B7D264609
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 10:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759828204; cv=none; b=E8wupJsPCsZgYVeUNgHiGXXyafqgFMOFvzsPCAFEwekvXBFvTaZeWrhtgacO/bFxseL9nIkpxOz0Edvtb9Zl+lssMK7mpAdMtybXwlJ+HAgl+ph5tg3J86MxgHy0WCFauhOu6i0biK8bMzzL7+cX348takC1GFCQCbMfl7+lyYc=
+	t=1759832352; cv=none; b=c4pUnf+Fkz3kZFjlu0GMimF7hyjxUO8RTYxlc0LCli7o2WJ8E5hL527mF/unsSrXGkcEYb0KDI6HA3eR7tdjfrIMZfSJe4k2EDLm3gFlXlMGpuLVzUUgVEdhXVBlsl/GyAXcap0l8O1JbXn0lrUxq/iflNW8G2N1zbN9YPo1hHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759828204; c=relaxed/simple;
-	bh=HUwN6R/4tVh/ExqTefIAfV1dIeuXHTwkllgb8kq8E9k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nlPzW1p48qMvcCA6KAMmpinTml/i6ZuM8Jj4s5cd4Y1/pUrVuKIlSkvDjE0Yjiqkz1VnGYHbEkMwoeVDwrtxWSuSs4dzfNYdnA74ThP0Sc9sT61DL1vfysj068dA/DyftLlG3kGTH4wSaapZLsvTnNCehABzmKkljpUR4Zq9P+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yVbJ5/nL; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1759832352; c=relaxed/simple;
+	bh=f+IeccJmVNga2AILl1qN2cEOujm+nc2RdTjaS5M1sWk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O/H+1R+oMq60N0ISEbRNlAfDDw87zAZFbqLvSoPBRZ2OBqSxtqdi8MAdbkaUXoMLm7nfvGYjt4vH782MOVucvy/SoFCrafJ39nlqoAOEDng4P5U6anmC9wO9EqsFiFdYm/BgZdn9NLRBHtby8v0VOeBRftCeaXw9wSdBhckwuL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hKE2394Z; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yVbJ5/nL"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3fa528f127fso4450208f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 02:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759828199; x=1760432999; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aX/zzAIxKfdHs3b6O5o4Lrj7f6DfCZwLY5Z3Ozvbs3M=;
-        b=yVbJ5/nLDGDGB0gHUZX6JErE+oFibZ1DRbAU5cZ4Ge4DS+ZE6IabjnOre0qc7LCKU4
-         P8qHWW8lqpeu11cyaU5LztBA6SjQG9UfMXj50WIIZ53G2i9znIANs6zoqZJ3Rgaqgqs2
-         mckBF4Fejz1DLrLTnnImiPwTg6Z9wK5FSoXcRmXI7jf3Rj/XSgXcwizKGz3wpbht2rfE
-         s44JAjEND8FOOsfDWYsXwn0toD1u9PvO0FYS2gj25L09vWHS/G0Vlcs+F/LLLeUnRt19
-         xuPoRfMdrcJ9S+JP1VeQcepJnC2bCJenMKzQX6wAUqd5HENItOFQa8F9dX2ZttrJtLhi
-         no3Q==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hKE2394Z"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5977js0Z017905
+	for <linux-sound@vger.kernel.org>; Tue, 7 Oct 2025 10:19:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	KYl9okkq0B42q222w2hbCFPa5Da9FkjQY+ECn6X4ea0=; b=hKE2394ZTv0/gvyG
+	XxcOxDDnByqSoCSfBKS92gOR7vXdltx+KVLnwKTeo1ecvXIhj50UAhM42v7MziO5
+	xswhLIOboF93kcWOAn684dwSzrw+2eTg71hAIZLyMcBZ+Et4NnDF2v/wXO+yVcUz
+	4Tr9q6JIYXR3qMGB9AVnuJx+GpP1F9WkwlhXFewJOkPdSvLJLxm+ic3/UwuvbFwn
+	3/3JQ6nWAFoZBE+nR9mqDgQwKT9i6EWZl28XgamGU6NiwadiuiIe0e0N14D9o3zR
+	momEitGtwT+56y6DUGmaNOHpzWkWRb7RjoTz+5lWzeW+qc0/nB74AHSZv/GrbQml
+	XmmqWg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mnkpsqv8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 10:19:10 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-85a8ff42553so104232585a.2
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 03:19:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759828199; x=1760432999;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aX/zzAIxKfdHs3b6O5o4Lrj7f6DfCZwLY5Z3Ozvbs3M=;
-        b=EL0tFq11rBqbcnb5OsyJBPCO2gf0HvJPoqXDP1l660HkOlMA2VJzGhKXOPi58sv02t
-         BRgmQ8/DKD365/eIjjL0LneAacwwlkyJOwO/RowFqyMBsr/S/kqMlFQwHvS3VwGz3L/s
-         yP9KMswphXT+WJH9jFp+Rep1jza3tGiIZJg5GxqASR1TaSqszCVoxe5lWAtYWE+nZX09
-         Z1rsm0eQ9dm7wk8yjWARdCx3j/ppej9KdWHhiGpeR7yogolLTHbPA4EQ1TbVZrBXAs8+
-         PXKAnf7MXPvfeFREF7/mxCW+R5V8wRLj6TaHWcdgLodXsqcfrpW8Kl//h7lHASwWRQiH
-         wzCg==
-X-Forwarded-Encrypted: i=1; AJvYcCVj/Dycf6FF2XkICZSqdR59o3k0ot1C8QRw05o8VhOZwThUU/BZFsVKFxoOe6d+oV+lwNMJam6dBc6ZxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOYQGhCDdP0y+nh0x98//XCCKjr7MmlnY3UbIdIbqRDhJUb2Bj
-	GQWED0mcLGecYQcVx/EzBzVVmxWFcBgzSCWXphJdn0wUq6esrdw0hJ9NGtv9wgP+RXU=
-X-Gm-Gg: ASbGncthsHx39GG2AyO7gVw3eTntG3B58pXP7CfjSxXWhGUyjcI6z30JlJxFB3dQNxc
-	U9qEoB7URqUaS19R4z/JVGDHKvDKC+3aM2hevSP04NSy4XMORhkYZfS31aD3yz+vOVmni8KtS7e
-	y79FbvIpsiG+vJ6/ZfWelrSz1FCY9JXbMUsKPh6IVek/hkWEfIR4kwCs/qplQEIah+j/j/rOyny
-	FUIrN3wkeDAS5JH0exBW1HO3k15SGrYZZUqKoNJ4ttivb50jEIlrx6GJBq/ZUg58DaRoEBxqScL
-	eqsQN+NclOxgz6pZjBXEnqDoqEs62nleBSj/+bDSByys4Ij/9sLCAVEW0BCK6TTX5YabaPgFcSZ
-	Tznf+X0ONCiCFcV2UJhILvkhNNRioURIvmnTjviUnL/pfYA==
-X-Google-Smtp-Source: AGHT+IF130TGahKPPoII82+V1/81eeS1iNZCVCSTkdS9QhSxObU5gtpJPCiviLrBgBxmw1J7M2QzJw==
-X-Received: by 2002:a05:6000:26d1:b0:3ec:db87:ff53 with SMTP id ffacd0b85a97d-425829bf154mr1925989f8f.12.1759828198634;
-        Tue, 07 Oct 2025 02:09:58 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:513d:7ba9:7d81:1c37])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8f01absm24412592f8f.44.2025.10.07.02.09.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 02:09:58 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Valerio Setti via B4 Relay <devnull+vsetti.baylibre.com@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,  Neil
- Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
- <khilman@baylibre.com>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,  vsetti@baylibre.com,
-  linux-sound@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: meson: aiu-encoder-i2s: fix bit clock polarity
-In-Reply-To: <20251007-fix-i2s-polarity-v1-1-86704d9cda10@baylibre.com>
-	(Valerio Setti via's message of "Tue, 07 Oct 2025 00:12:19 +0200")
-References: <20251007-fix-i2s-polarity-v1-1-86704d9cda10@baylibre.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Tue, 07 Oct 2025 11:09:57 +0200
-Message-ID: <1jplaz3wnu.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1759832349; x=1760437149;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KYl9okkq0B42q222w2hbCFPa5Da9FkjQY+ECn6X4ea0=;
+        b=n5apcPOLtzfmxi8gWyytX4AyQlIcW5uF/hT9YvftPxaj+Z5xdIH/et8M0IajWn7z8w
+         FXZ8igEJ1kpzRvgk6gJi7v3SO8iPcuN2bxtmbmsbttarRF7920wNG2PKW1sr45LoR0XA
+         JTjSRdxLk19sOBj+9H5Y45DlHf+fdPNCPiaiKa4xTbTs38kAo6mPser92lK5yPHclLKl
+         +oIyjo47qUOufCG8NmPIXzk5EvaWdAFsJ8I4CFYgEftC9lEkeUjedtJ53Ektcik9fv1y
+         22Sv/4UJ1AfEoaxSSEFOJpRiSEW/+v1gERvoWNGZzBXy//bbH3ik047ly00va71ukHgM
+         74/w==
+X-Gm-Message-State: AOJu0YzAYfPHJAEICLNqywjyaUnM8hpXtjV8z31yMfCdRghSuVoEho9m
+	b8B8QF2I/r5TBgCc2yANSp7wesnCMRJgB0nlfbJ7O5DB88PPsJpRQbpUIF55mZTAFlJDwoFN9Yb
+	2lErWKcOaPKln6otrtC7jwl6MnY1gOwZzEv98YP8l0j+73bcSoLbG5sYl/h7Lxrmnpw==
+X-Gm-Gg: ASbGncuwr+Ml2ErbOoF/jklZ15tQ9Xbd5O9fNWehaTtDmF+IUnAigHqUJhWZo4PfW4j
+	PALLP/dUNswGDv+1pCE/bI166R1MWOk6k4RVzRj72IRT/BeZ00n65JWCX71pKdFAU1CJK+CYzYg
+	6Vk7rAooAn9vsOHQ+Jc71rocfRPfVgHQq7cFqE+e7Ean7ZJ1zTNwyv4Y1e1eTXB+W3pfF/MhqRr
+	cyuSSsQ8HTXkwMuyZB1mdil6YmvHhYF8AJUIJEkQNqlvG23tF38XbxckDOYtw5RsChIJZ/KPRE6
+	khfDxXdWG0Jd27wJE3tRBqTIaiM1Dkm1+Dcc+elnPanmxnBDGZVe2LF4ulwG+7rPsOu5ZtSnEQI
+	rNEmBFOYc/7DQsOsfOcZAcDxw/LE=
+X-Received: by 2002:a05:620a:28cd:b0:866:6f75:5928 with SMTP id af79cd13be357-87a396bde94mr1282649385a.10.1759832348698;
+        Tue, 07 Oct 2025 03:19:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7oK77CadVtU5NBMC6cv+bqw+nawnX8wVpYFSFkL3EIFnPkTvcFgfYb8qaCxAqZcQCHACdtg==
+X-Received: by 2002:a05:620a:28cd:b0:866:6f75:5928 with SMTP id af79cd13be357-87a396bde94mr1282648785a.10.1759832348230;
+        Tue, 07 Oct 2025 03:19:08 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b48652aa04bsm1365138066b.6.2025.10.07.03.19.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Oct 2025 03:19:07 -0700 (PDT)
+Message-ID: <4aa81228-9b25-4b7a-8fd0-7e51e7d77824@oss.qualcomm.com>
+Date: Tue, 7 Oct 2025 12:19:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/6] ASoC: qcom: qdsp6: q6prm: add the missing MCLK
+ clock IDs
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251006-topic-sm8x50-next-hdk-i2s-v1-0-184b15a87e0a@linaro.org>
+ <20251006-topic-sm8x50-next-hdk-i2s-v1-1-184b15a87e0a@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251006-topic-sm8x50-next-hdk-i2s-v1-1-184b15a87e0a@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 1FJ0FhcGMr4r_WEClEZ4OHy5G-gIgr3H
+X-Proofpoint-ORIG-GUID: 1FJ0FhcGMr4r_WEClEZ4OHy5G-gIgr3H
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDE2OCBTYWx0ZWRfX61Lyo6X4tLpU
+ ysHxJMaTPOFc1Z6nK5GmjqqMPq9/Z0CaB1B4v+35f/o7LRQX8yMZ6MZZ9rtHdXGoJLlD0nC8XtP
+ VhCQwB7tsURj/KkaUejny++xo5KNnlO6No2yZC7y/cF1U6POof9Lo1Lun/lHsRvwKSKYa3RW6MV
+ UWG9DsDxTwyU43M61A6Vhz2Ml0JoTFMtdxoaxHnXW/8fK7oD3FX1OhUcuwjddhgDZ4hv4GQFoy3
+ TTww40HYiT+qG3LwwK9DzI4kyyI/GpYv6kWiabOhCGOQkVEXELqLsy2bLyp9IZrpHg2KujgsK/z
+ 7dqCR9B5zb1DFvbk6MhDciu8GT4vQtEaH0CTVA/O8jZU5d9wgmugtRDie3SpC0OAKQW7rNaGQEO
+ /dInbOQ/HStjLIN/eEBYFwY/3dDErQ==
+X-Authority-Analysis: v=2.4 cv=BuCQAIX5 c=1 sm=1 tr=0 ts=68e4e91e cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=KKAkSRfTAAAA:8 a=7KAZrCPtG2FJr_zfUZwA:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060168
 
-On Tue 07 Oct 2025 at 00:12, Valerio Setti via B4 Relay <devnull+vsetti.baylibre.com@kernel.org> wrote:
-
-> From: Valerio Setti <vsetti@baylibre.com>
->
-> According to I2S specs audio data is sampled on the rising edge of the
-> clock and it can change on the falling one. When operating in normal mode
-> this SoC behaves the opposite so a clock polarity inversion is required
-> in this case.
->
-> This was tested on an OdroidC2 (Amlogic S905 SoC) board.
->
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
-
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
-
-Tested on the libretech cc s905x (GXL)
-
-Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-
+On 10/6/25 8:37 PM, Neil Armstrong wrote:
+> Add the missing MCLK ids for the q6prm DSP interface.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  sound/soc/meson/aiu-encoder-i2s.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
-> index a0dd914c8ed13616fbcbc0828e36418cfd255391..3b4061508c18047fe8d6f3f98061720f8ce238f2 100644
-> --- a/sound/soc/meson/aiu-encoder-i2s.c
-> +++ b/sound/soc/meson/aiu-encoder-i2s.c
-> @@ -236,8 +236,12 @@ static int aiu_encoder_i2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
->  	    inv == SND_SOC_DAIFMT_IB_IF)
->  		val |= AIU_CLK_CTRL_LRCLK_INVERT;
+>  sound/soc/qcom/qdsp6/q6prm-clocks.c |  5 +++++
+>  sound/soc/qcom/qdsp6/q6prm.h        | 11 +++++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> index 4c574b48ab0040bc39ae16ec324b41dfc152b408..51b131fa95316cff50342ff60bfc9e3608939d6c 100644
+> --- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> +++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> @@ -42,6 +42,11 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
+>  	Q6PRM_CLK(LPASS_CLK_ID_INT5_MI2S_IBIT),
+>  	Q6PRM_CLK(LPASS_CLK_ID_INT6_MI2S_IBIT),
+>  	Q6PRM_CLK(LPASS_CLK_ID_QUI_MI2S_OSR),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_1),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_2),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_3),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_4),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_5),
+>  	Q6PRM_CLK(LPASS_CLK_ID_WSA_CORE_MCLK),
+>  	Q6PRM_CLK(LPASS_CLK_ID_WSA_CORE_NPL_MCLK),
+>  	Q6PRM_CLK(LPASS_CLK_ID_VA_CORE_MCLK),
+> diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
+> index a988a32086fe105e32c4fd713b8e0a3d17b83bca..7a3f2ad7bbd465a6950568af1ff3839e5cbe4f62 100644
+> --- a/sound/soc/qcom/qdsp6/q6prm.h
+> +++ b/sound/soc/qcom/qdsp6/q6prm.h
+> @@ -52,6 +52,17 @@
+>  /* Clock ID for QUINARY MI2S OSR CLK  */
+>  #define Q6PRM_LPASS_CLK_ID_QUI_MI2S_OSR                         0x116
 >  
-> -	if (inv == SND_SOC_DAIFMT_IB_NF ||
-> -	    inv == SND_SOC_DAIFMT_IB_IF)
-> +	/*
-> +	 * The SoC changes data on the rising edge of the bitclock
-> +	 * so an inversion of the bitclock is required in normal mode
-> +	 */
-> +	if (inv == SND_SOC_DAIFMT_NB_NF ||
-> +	    inv == SND_SOC_DAIFMT_NB_IF)
->  		val |= AIU_CLK_CTRL_AOCLK_INVERT;
->  
->  	/* Signal skew */
-> @@ -328,4 +332,3 @@ const struct snd_soc_dai_ops aiu_encoder_i2s_dai_ops = {
->  	.startup	= aiu_encoder_i2s_startup,
->  	.shutdown	= aiu_encoder_i2s_shutdown,
->  };
-> -
->
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20251006-fix-i2s-polarity-d744338fa223
->
-> Best regards,
+> +/* Clock ID for MCLK1 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_1                                 0x300
+> +/* Clock ID for MCLK2 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_2                                 0x301
+> +/* Clock ID for MCLK3 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_3                                 0x302
+> +/* Clock ID for MCLK4 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_4                                 0x303
+> +/* Clock ID for MCLK5 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_5                                 0x305
 
--- 
-Jerome
+0x304
+
+Konrad
