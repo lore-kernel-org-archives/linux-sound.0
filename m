@@ -1,144 +1,307 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79E034BA3C
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 02:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DE4AD4B
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 07:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759804431; cv=none; b=oE+pSm0J0kNa+nEDgU3iOgUwuE57rs6yRQEjbLDtMgu1D1ZOM4ryzPIugXbUUcOG/+duA6Ijc0f/3i64LhEj6rCOhTqvGjLC2O8HqKnQ1+i4bdhWWsKlZwZHcuwSc2Sbo4qaeJlDhpoDaeaYDqzyVsVCFqQnihsfXWk4B2IJXco=
+	t=1759820533; cv=none; b=N0rGkY3BR6y+IHIEcDws3IEtotM5QvpgrOw5AT/k/XhX7mQV9l6lEm8DZfJi2wkkMPcxpOmYWCwBdBOFdnARfLOcVyXj6ASNyobY5OWc4dlZ6u4cm0taAiec8dGLe0zZeH+Mn94jFOVX7bl42dTZTQQ2DEienpFd45WPycm5dpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759804431; c=relaxed/simple;
-	bh=Dlcnn7y3HlTxqYtAbXosZmFmnaZZi+s6TuVywlg5AaA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LQbisYtNLTSHg5WHJfBvRP8N3D6A0rLyJm5ChEZwrxneA5YqV3sEZgvnsjFmme90+fkWnhh3/ATVGIm24zjQ8CMGx+Io1DnUmxBkE6zwZ2g0BeGSpjRSHk5OuZQkkxAfEZRsPL7wxVY/SJMwW9e4qBnzCBfS5Mob7wbW2244xyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Bcd63eLL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1759820533; c=relaxed/simple;
+	bh=vjHX1riWhOOmZwQJmkXA5D8R7upafbsuQzOYCWeGziI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=JNLH50Xs3hVNqg33kIrcZwW+PncX0vly2eDRLPsuBXrIjlivSeXGjhY0gyu5zkNIV3caWvkddIRvvVRJBz/Uu/BFs+nlu65L2cdpXcOGenkNtugulEix2aHq9+RVsortLsOGDfI5ymbnpyZ5BRcSpAJ6cVIp5wh6wV+qb72NqcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OmW43mNV; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bcd63eLL"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 596FVEXo002205
-	for <linux-sound@vger.kernel.org>; Tue, 7 Oct 2025 02:33:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=7XSY4z7nlmBoPCLNtNQ+8rowUkAIu3i0gAH
-	G6gd+0F4=; b=Bcd63eLLddyDJ6CXgrewHmny6+WzK8fp1RTQ/Aeio+5ycL19ssl
-	GQEwaFgE9GXFYQfpfkd4E7a1N9+ncetEynzvVfMM2Y1rS+nrIqKvycmsnfdWqAsv
-	wosf7clUQAVKyjUgHHkPQ0e4AGU//v6AfBr90z5m3DC5tVt31nh38WFHEsiF1owB
-	+nzcykzvi148ojVoJLYJASL+HkT/z0oopKMvf+fyFteuSSXfRSmJZZ8khrRVMqBL
-	tzGx3BAzTvQ5H1mu1CaqrTBLEjyH/ItrEybhNkeJRHp6rq38+pqNmy/ARBbZWSNm
-	mkpJd886vbRDEcVHf5PdEAp0oocBXneNiww==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jut1nqx3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 02:33:47 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-277f0ea6ee6so72368305ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 06 Oct 2025 19:33:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759804427; x=1760409227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OmW43mNV"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ee12807d97so4836408f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 00:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759820529; x=1760425329; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7XSY4z7nlmBoPCLNtNQ+8rowUkAIu3i0gAHG6gd+0F4=;
-        b=CqnjptpjWY5otK1bPJM7FQbjenX+wPj1yD7HDwEXNsFk8xgDD6eCpSZ/WhBUsUKt/e
-         OMcG8KzUzA5hTR1b5mzdgjGD1BvJ9uxDNKkA8DGbib6MUh4NKNa6HhK0CHVDuE3N/zQH
-         VT9CrgBfg9uOtVUP6udGt9kO274DRXA/EO5ACsrgHrR0zgzZCjXwW4UOUfnxZ3dl0pSV
-         zTS0zybu6loSCitZgqoT4f8sltEnyrayhFrM2u8bLdvvYgQlMT3AOp0qgKq84PCcjPYs
-         c8EX4UUpolzz/UwMpg1y/+cL3sEhvDklnICD7f+RqCLBkIZIl27b1uIXCKKSsJ5nUBzm
-         6bag==
-X-Gm-Message-State: AOJu0YwT15S7Po4zC7o/1V5gj5Rz0DlDLyH3hgik6wy12lFql5zWEYJw
-	qQUuy+xhMr+D1FvAiXYmjZqOwfytbru9jfsTK4BvfnZAj66nf5bBRHyWw839OmbP8ZEyYDUz6dA
-	Gyzbgio8/VOLVoCRzkkRpXG4TsGmsK2vU5HvJlpvks5+MhtcaMMVU0ulxFRkgjtXjtQ==
-X-Gm-Gg: ASbGncu1m2RzfPJqCmU04Qm1bZSahIDqiNNDKZAKhiWt3Ks25d0RaUNGoJ2obRecDR/
-	WZJNstomnaYNeAvgt6a8wn58NLhNvRX0K2N/E7pc7P2erXcFDrgvbvTErq5JKMAAk+su4H7+TDM
-	70nf/mwCF54OUhf1pQ0UKKn8MZJgPjKnQ6YX9atVqpx93txJ8RT0bQYI+jofPd7QZ7n69UNYsNK
-	pVliuYjMu0tQ7S6tbREFWmJZDvOUqBkSK5JKSJ7iqvYpLqQ2zPt2s/1SqwmWwc6l2vMO/wAXCh7
-	1F2xDu7VnQqSJaxNxQR8FduQGCSVTJDnZ91p4qWIluk5UeSqPWpQsYSM5igr3eeHrJ2aOJ0tUd5
-	bHOuKtQ==
-X-Received: by 2002:a17:903:3504:b0:24a:fab6:d15a with SMTP id d9443c01a7336-28e9a5665f8mr169858305ad.20.1759804426908;
-        Mon, 06 Oct 2025 19:33:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEiig/p1KQze92yCEITwhtnQai6O3T2aDxdUHjAMcQsNgWMdH7TrKomEar5i3ANE9//H9BSuw==
-X-Received: by 2002:a17:903:3504:b0:24a:fab6:d15a with SMTP id d9443c01a7336-28e9a5665f8mr169857945ad.20.1759804426362;
-        Mon, 06 Oct 2025 19:33:46 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1ba25asm147726755ad.87.2025.10.06.19.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 19:33:46 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@oss.qualcomm.com, prasad.kumpatla@oss.qualcomm.com,
-        ajay.nandam@oss.qualcomm.com, stable@vger.kernel.org
-Subject: [PATCH v1] ASoC: soc-pcm: Fix mute and unmute control for non-dynamic DAI links
-Date: Tue,  7 Oct 2025 08:03:25 +0530
-Message-Id: <20251007023325.853640-1-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+        bh=zgpnX908FQuLyIfQeu98K5VyP/tawjmh/goKPz7yARw=;
+        b=OmW43mNVdaNhVQYidZWPlwopJl9H5+lz5QMCFG7RP8MzQpVdnxcP/gUhD8auQ+XTBM
+         OtagrBdUwSqh8i7gkTG0XhP7BqeFWMwf0IS0tcRdOrmP1LF0M0Vuu80BAnE622AjihBr
+         TQULqXEfu0W/ea34fnvM9nhazcidxOIwqyDzcKMKSSLT387onxcqwibKQAtrqbmUgEHU
+         kfALU3sIDWLcDkN8UR9AztJyG95lZ/s1QbWc2dqbHwawmT6z4ayG8Qkhfzha0KPo88ca
+         VdYu8fcN8NyJDBREzGBqFuDYYmgERXrvlnAPNlulfJj3tvM/TbRBLDEM/C/6MOU9ylzS
+         HqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759820529; x=1760425329;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zgpnX908FQuLyIfQeu98K5VyP/tawjmh/goKPz7yARw=;
+        b=iz/b36zPoi/3QgiwgRONRZlhFgCIOSNciwpm1RrZvwFKEBcKXh4FQLqMWkEiSmn5hw
+         krp2e0h9rTv4IOAoXSbXuf63RdTERcbCMm+ohyt06iYII021DcSjS8AD5ZILa4icCHdH
+         Efzf0/KPUdkBd+iN9V34iX2mpwlWnS0alKfgAzBKrnA1BsnHazNec0l6OVv4KmxAkl4d
+         yFuuKERJqUo0opQytwLo+hLoHIsc1DKXmDeA5L7tncuHWTfF1OPLTWNOfh9y3Uc6sqRl
+         HdwFGPUDBbyCoRuCwtlvkZmRw5/n4hosWpufQCeKTuzfSbyR6kjZjAnj8y9xdDBsRPMQ
+         QZ/w==
+X-Gm-Message-State: AOJu0YzFeE/jM5IE9ntAssH9dXbkkL0YH0wlgjrc/V5MlQzrKTgdGMvw
+	iLUbdcNaiTU1i2K5NmC+6sOyz+H1Tm1t/wDu6cjbevhPAB74lRdmQKXHdwd5Gf6v8Cg=
+X-Gm-Gg: ASbGncsZzR3F1oraTD/WRWre0ohZU1rYzf6MhdTw8yFB6Oto4wJQZUGC4iQaiYNMB8l
+	z7x03U+5ZeGWb827LMeql7Ju/PXmr56rbLfG2sWQWvsuQVLBk8mcz9fOqEkvKregbpjOU/Vy5xA
+	9UYBCokhLcAescO1/mMzj8aXiNjwRe3cfJwcA2oeI0uRrqSxj11F/4TluNdeiah9CvFRGlxgHYv
+	7r4QobUGjB39KQIkVvGD7Ronfn3E9FUK9ucNKdrB/lnHkPAa3UjuRYU1yyqPLR8EaXPjLijgwV4
+	FyFwIdU2eEEsRQvrDCPKqnMWSQ+ItMVkB97z1O22ksbFMdjZrs7/RHcGg83qqafIxeg66rtbWBn
+	X2BiH0wZobQpSXTvje/xDhMhjVEq0gVKdzP+u5l9qOg67L26I2mzGNZMTFku+GbjnhZ1gKI+qSP
+	EBHmmN00xMR8rkU0q1N74sDTxwKOE=
+X-Google-Smtp-Source: AGHT+IHhqn1QXvNjlPmsFhGF/W8JYFKIFTND5frHhfPy40hlB4K1wPdDnrDBts14ZYFGsmS35vDOmA==
+X-Received: by 2002:a5d:584b:0:b0:3ea:f4a1:f063 with SMTP id ffacd0b85a97d-425671c15f9mr9525255f8f.55.1759820528330;
+        Tue, 07 Oct 2025 00:02:08 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:bd88:41d2:33ce:f74a? ([2a01:e0a:3d9:2080:bd88:41d2:33ce:f74a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f027csm24469493f8f.40.2025.10.07.00.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Oct 2025 00:02:07 -0700 (PDT)
+Message-ID: <1eab5200-1292-4d39-bdf8-0c5084cfaab9@linaro.org>
+Date: Tue, 7 Oct 2025 09:02:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: BH-hC1EzhXi5wLuBnGTVzJjqenP1ybcL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyNyBTYWx0ZWRfX6vOku6j9Atuq
- n3ih+YvLCGMOYGFozrHkU7QSAWlO21cGEhZvKkjn0pY1ORDqYf/CnPPBuvoTxKtgwpAYkJ4ApUp
- CmzkYCXYl5jSN4nwhUg9bGeaeENPcw5oYfiKBYeMuytZAKXyatqNMDNpimNk8JR6eOKIYKCoXHW
- kklUREuwIK9ynXLAq0OcNG1a63+AoDZHLJxZFShfqeNj4zgntMdL/Tf0ajIWb6Gt+Ev8mWDPs/H
- uB951GAhaReg/l+Ess/n9Bvm6ZC+4yM7KSZ8/yPEbdoiVVRdaPRnecbuyPrumQFtOsnH7Q8ve/v
- 98fy0Tn1N+Wr/If7lzWQ5znTmjOpqu0FbjXXZTBeOGWp+AFPssWS9MLHGV3PLtZoi4u+s5ep5gS
- d95zSZXZ5zvmOhG1af3Ofyyc30XdPg==
-X-Authority-Analysis: v=2.4 cv=Vqcuwu2n c=1 sm=1 tr=0 ts=68e47c0b cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3uxOjINHiGvl1vUfC3YA:9
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-ORIG-GUID: BH-hC1EzhXi5wLuBnGTVzJjqenP1ybcL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040027
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RFC 3/6] ASoC: soc: qcom: sc8280xp: add support for I2S
+ clocks
+To: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251006-topic-sm8x50-next-hdk-i2s-v1-0-184b15a87e0a@linaro.org>
+ <20251006-topic-sm8x50-next-hdk-i2s-v1-3-184b15a87e0a@linaro.org>
+ <6492e444-4196-4900-a741-a74a8c506a6d@kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <6492e444-4196-4900-a741-a74a8c506a6d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In setups where the same codec DAI is reused across multiple DAI
-links, mute controls via `snd_soc_dai_digital_mute()` is skipped for
-non-dynamic links. The trigger operations are not invoked when
-`dai_link->dynamic == 0`, and mute controls is currently conditioned
-only on `snd_soc_dai_mute_is_ctrled_at_trigger()`. This patch ensures
-that mute and unmute is applied explicitly for non-dynamic links.
+On 10/7/25 00:21, Srinivas Kandagatla wrote:
+> 
+> 
+> On 10/6/25 7:37 PM, Neil Armstrong wrote:
+>> Add support for getting the I2S clocks used for the MI2S
+>> interfaces, and enable/disable the clocks on the PCM
+>> startup and shutdown card callbacks.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   sound/soc/qcom/sc8280xp.c | 104 +++++++++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 103 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+>> index 78e327bc2f07767b1032f09af7f45b947e7eb67a..ad4ee5c6fab8994f18de572842f3dab6f4f5397e 100644
+>> --- a/sound/soc/qcom/sc8280xp.c
+>> +++ b/sound/soc/qcom/sc8280xp.c
+>> @@ -4,6 +4,8 @@
+>>   #include <dt-bindings/sound/qcom,q6afe.h>
+>>   #include <linux/module.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/clk.h>
+>> +#include <linux/of_clk.h>
+>>   #include <sound/soc.h>
+>>   #include <sound/soc-dapm.h>
+>>   #include <sound/pcm.h>
+>> @@ -15,12 +17,16 @@
+>>   #include "common.h"
+>>   #include "sdw.h"
+>>   
+>> +#define I2S_MAX_CLKS	5
+>> +
+>>   struct sc8280xp_snd_data {
+>>   	bool stream_prepared[AFE_PORT_MAX];
+>>   	struct snd_soc_card *card;
+>>   	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+>>   	struct snd_soc_jack jack;
+>>   	struct snd_soc_jack dp_jack[8];
+>> +	struct clk *i2s_clk[I2S_MAX_CLKS];
+>> +	struct clk *i2s_mclk[I2S_MAX_CLKS];
+>>   	bool jack_setup;
+>>   };
+>>   
+>> @@ -68,12 +74,66 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+>>   	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+>>   }
+>>   
+>> +static int sc8280xp_snd_i2s_index(struct snd_soc_dai *dai)
+>> +{
+>> +	switch (dai->id) {
+>> +	case PRIMARY_MI2S_RX..PRIMARY_MI2S_TX:
+>> +		return 0;
+>> +	case  SECONDARY_MI2S_RX.. SECONDARY_MI2S_TX:
+>> +		return 1;
+>> +	case TERTIARY_MI2S_RX..TERTIARY_MI2S_TX:
+>> +		return 2;
+>> +	case QUATERNARY_MI2S_RX..QUATERNARY_MI2S_TX:
+>> +		return 3;
+>> +	case QUINARY_MI2S_RX..QUINARY_MI2S_TX:
+>> +		return 4;
+>> +	default:
+>> +		return -1;
+>> +	}
+>> +}
+>> +
+>> +static int sc8280xp_snd_startup(struct snd_pcm_substream *substream)
+>> +{
+>> +	unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>> +	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>> +	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+>> +	int index;
+>> +
+>> +	switch (cpu_dai->id) {
+>> +	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+>> +	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+>> +		index = sc8280xp_snd_i2s_index(cpu_dai);
+> 
+> What is the mclk and bitclk rate set here, we can not rely on the
+> default rate.
 
-Fixes: f0220575e65a ("ASoC: soc-dai: add flag to mute and unmute stream during trigger")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/soc-pcm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The default rates are set in DT:
++		assigned-clocks = <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
++				  <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
++		assigned-clock-rates = <1536000>,
++				       <24576000>;
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 2c21fd528afd..4ed829b49bc2 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -949,7 +949,7 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
- 			SND_SOC_DAPM_STREAM_START);
- 
- 	for_each_rtd_dais(rtd, i, dai) {
--		if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
-+		if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai) || !rtd->dai_link->dynamic)
- 			snd_soc_dai_digital_mute(dai, 0, substream->stream);
- 	}
- 
-@@ -1007,7 +1007,7 @@ static int soc_pcm_hw_clean(struct snd_soc_pcm_runtime *rtd,
- 			soc_pcm_set_dai_params(dai, NULL);
- 
- 		if (snd_soc_dai_stream_active(dai, substream->stream) == 1) {
--			if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
-+			if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai) || !rtd->dai_link->dynamic)
- 				snd_soc_dai_digital_mute(dai, 1, substream->stream);
- 		}
- 	}
--- 
-2.34.1
+Neil
+
+> --srini
+>> +		clk_enable(pdata->i2s_mclk[index]);
+>> +		clk_enable(pdata->i2s_clk[index]);
+>> +		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+>> +		break;
+>> +	default:
+>> +		break;
+>> +	}
+>> +
+>> +	return qcom_snd_sdw_startup(substream);
+>> +}
+>> +
+>>   static void sc8280xp_snd_shutdown(struct snd_pcm_substream *substream)
+>>   {
+>>   	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+>>   	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>>   	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+>>   	struct sdw_stream_runtime *sruntime = pdata->sruntime[cpu_dai->id];
+>> +	int index;
+>> +
+>> +	switch (cpu_dai->id) {
+>> +	case PRIMARY_MI2S_RX..TERTIARY_MI2S_RX:
+>> +	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+>> +		index = sc8280xp_snd_i2s_index(cpu_dai);
+>> +		clk_disable(pdata->i2s_clk[index]);
+>> +		clk_disable(pdata->i2s_mclk[index]);
+>> +		break;
+>> +	default:
+>> +		break;
+>> +	}
+>>   
+>>   	pdata->sruntime[cpu_dai->id] = NULL;
+>>   	sdw_release_stream(sruntime);
+>> @@ -141,7 +201,7 @@ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
+>>   }
+>>   
+>>   static const struct snd_soc_ops sc8280xp_be_ops = {
+>> -	.startup = qcom_snd_sdw_startup,
+>> +	.startup = sc8280xp_snd_startup,
+>>   	.shutdown = sc8280xp_snd_shutdown,
+>>   	.hw_params = sc8280xp_snd_hw_params,
+>>   	.hw_free = sc8280xp_snd_hw_free,
+>> @@ -162,6 +222,44 @@ static void sc8280xp_add_be_ops(struct snd_soc_card *card)
+>>   	}
+>>   }
+>>   
+>> +static const char * const i2s_bus_names[I2S_MAX_CLKS] = {
+>> +	"primary",
+>> +	"secondary",
+>> +	"tertiary",
+>> +	"quaternary",
+>> +	"quinary",
+>> +};
+>> +
+>> +static int sc8280xp_get_i2c_clocks(struct platform_device *pdev,
+>> +				   struct sc8280xp_snd_data *data)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	int i;
+>> +
+>> +	if (!device_property_present(dev))
+>> +		return 0;
+>> +
+>> +	for (i = 0; i < I2S_MAX_CLKS; ++i) {
+>> +		char name[16];
+>> +
+>> +		snprintf(name, 16, "%s-mi2s", i2s_bus_names, i);
+>> +		data->i2s_clk[i] = devm_clk_get_optional_prepared(dev, name);
+>> +		if (IS_ERR(data->i2s_clk[i]))
+>> +			return dev_err_probe(dev, PTR_ERR(data->i2s_clk[i]),
+>> +					     "unable to get %s clock\n",
+>> +					     name);
+>> +
+>> +		snprintf(name, 16, "%s-mclk", i2s_bus_names, i);
+>> +		data->i2s_mclk[i] = devm_clk_get_optional_prepared(dev, name);
+>> +		if (IS_ERR(data->i2s_mclk[i]))
+>> +			return dev_err_probe(dev, PTR_ERR(data->i2s_mclk[i]),
+>> +					     "unable to get %s clock\n",
+>> +					     name);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static int sc8280xp_platform_probe(struct platform_device *pdev)
+>>   {
+>>   	struct snd_soc_card *card;
+>> @@ -185,6 +283,10 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> +	ret = sc8280xp_get_i2c_clocks(pdev, data);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>   	card->driver_name = of_device_get_match_data(dev);
+>>   	sc8280xp_add_be_ops(card);
+>>   	return devm_snd_soc_register_card(dev, card);
+>>
+> 
 
