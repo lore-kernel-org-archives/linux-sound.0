@@ -1,149 +1,109 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB0D2E03E8
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 12:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA102D9497
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 13:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759841333; cv=none; b=SWdiCeF3gaskIsNUrwAe8igIeTqHePHGWtkQbAJ/aobLIdb1oGZkB85YkGiTV3s1SRmiSCBlweAaFdHAVID3jfTPrcIjD1XOJovobXdx2Bnp6A3b4pu2qO+IWkhFfuwjMcdTeNXTuT6lhFVZKCjeMW6W5RZPIV3gkZiojjsMlDU=
+	t=1759842230; cv=none; b=DM7UvVB1fnJGtG+969oFx5+xG/KwWJyBKvgpJokZ6EDBx2ohItCZ63LtdRkdDHAeBGHKiZPxJL0fJQpymXZFqcGgcen6cQXI1sGAaINFQ7ht35F4p0iIXdsv0a6WnbfPc+FkIhKt3BiAQTcUZDyigh5gyEb+1CuBYwOj+ZGYaYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759841333; c=relaxed/simple;
-	bh=9HmWPMv2U+/E83yndjpVpT6Vcq9ASGLRPH8pDxp34V4=;
+	s=arc-20240116; t=1759842230; c=relaxed/simple;
+	bh=mT8VWekIFVcoXu/yqvLJuwobiSiZiiPaFFIOk5E5vVU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EoLM7RAuMaZsuci9DKgkYV1GxzeGd+iPg4u9gyN9Efl1EGC/QJOL8040AT0GEeB7omQJqWjIUrBHn+/bDawPQ/ICc3nLzi5zV6tmRmGgLkWT/fq297WSwH2GcwLFdukH9iPDGN3IQYQJOkGH2OkZaMZOu23NWxbV/btxjRWI424=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpnpWjyb; arc=none smtp.client-ip=209.85.161.45
+	 To:Cc:Content-Type; b=sdcTRQrXlDV0lJa+MWtR+nuDJX7T6iSDKyQvwRfJfVQyNykyGXT6mLzOUSWx3Dy+g2A412u5qth6FRpTbE8ScRys8KAdYjy6ILu+ESG+WhM6isBd+0tnfzs+cQmTmljSJUphbgYOhELAQut+/WZAU0EewC6NKmNS15gyz4LvqxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c5XRvevG; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpnpWjyb"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-63f03676bdcso1586888eaf.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 05:48:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5XRvevG"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-646f75551e7so2461890eaf.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 06:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759841331; x=1760446131; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759842228; x=1760447028; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rKZEZkWITt2dtndJOL13JwsxNWGFhaYy4o+MDasr+AY=;
-        b=FpnpWjybThJivBBaxbjPUe1G9m1hyaifSRCffM49JWzMfszDa53eiD/XuoDBPzEJFD
-         A+5sPBmqMtJvLH+cWDLurorB8nkOdZi4aGqe1K/VnvIdZ1FedeJPr92Hmrs9cYVHLko7
-         lhN4htTAje/fR+AiUBq0+LhHvYgIomnhHW4a5henUqZp9cLG4DJAnDt/OetJuPvPFbJO
-         6XUv04dEKlqkpvBoA5vhosbgKYHNjwaoRvMoxDCwhsgy+q7a5dTOUgbZ29Zp03pbfz3w
-         rIna5J45ygEGfIN3qLXNwGqL6jjbXTIjEnwaAf83t4h+FFBrZhTPDuDPIQX19tXLDDZH
-         1xHg==
+        bh=ISbSv/si7GhQxuZJ0+Mx59HypLlRtEwXTQlx2jMvq2o=;
+        b=c5XRvevGt9uqwuRvPaqnBy2HvtboMJ1fF1KdreKNrlfTO6Km/oQ9nnOPZ4RKRwoCx3
+         jAl94VAJidUNLXQshh7m6LI2N9ztpZ/0jJLU9lIsXwjzHnByW3UnrqMklfxXY7/zBu4h
+         NdFtjapsc0xP9CfSXTBTceiDPq0x2/XOHEsW76aecs0A5vWtwvZVDEnZzmI6YqRO9e17
+         aHolys5j3cdiG7FO5RdgY4cXLk8orCboOg2tU/C3OqZoDkR7arLY54PtnyHXjyE7SgnQ
+         fcAA0olJ96PwYrGQ+7p6POj2aGH0zycjuLsAJqP2Yrdt8CpvmFFUnEzHhE3VQSfHM7o3
+         JAOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759841331; x=1760446131;
+        d=1e100.net; s=20230601; t=1759842228; x=1760447028;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rKZEZkWITt2dtndJOL13JwsxNWGFhaYy4o+MDasr+AY=;
-        b=Nd+yaqlElTc3QY9uLo/NXCPVD/g0fhlmhVrGXKf1MJzmefhQQD7g12GWXyVYiG9/Tr
-         X7LblOri69w8godr6mkMYc4NN5BE+Mw7/eRX0Oe1jHBmYWxVBPq/0Bddzh0nPMmH+eDN
-         S6WELh7Qy7RyGthuNyFyl6UodvnrfkrurAOERryK9PjeNFPNG4tyFMGZ8XLLFVpyr6Pn
-         fta8wFRglXY2RV4YwgxpTPANMdg19zyyllCcw3j/TDev3FWqi6lv9JVH4++/0jp1f+fO
-         A1aiA/t8iaXSg0UghzzOMYzUmVNzejMn2GPCS6GLBHd6aoHO9QMoqndty033f1PYsWca
-         dO/A==
-X-Forwarded-Encrypted: i=1; AJvYcCV5K4YXcgPJpauuaFFZlwDY9BNoHL+ziZbSaifNJKEc40KavCcE2DhVDu4lJLkqU45/UtDCg94Yryanfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqMdYJ9aiQpk/5EOTLKDRaMt7mJUvk1jcF8Rpu1rL+bBbT0/R9
-	5UZPN/SnhwMMRzBOCWU+GwB8SWIb6MIQNc4jqMo6KDH/sNS5seRqiATEqWmnVB9bsBtQ5Xki0D6
-	W9QNPXN3J/c9wg5pDYRPft123p+XyU3g=
-X-Gm-Gg: ASbGncv/grV5rbIH+koOcCqeu6QFUh8hWM62rAaAX2GQYpHuHLxPFn61sAGmLunM76d
-	p4Ncus/bjI1zJHWr/F/0sJ+2kU85bMsgyX8bqfpKBhvjTuLjC4T7RtYdNqTX989sWX+bNT6i/Zp
-	fBm5/A8ZGQkgF7s55RfkRfP36xicv7dQfYfoJz9LVUUo5y98hdHlSkP4++npK+XujsJiNFc9QJH
-	mmR7IMAUnWxpiPSyvSxKakxF21cY0E=
-X-Google-Smtp-Source: AGHT+IGPrNBzklP5kU7kCk9ZhQ7ap8j+rNi1icSnorCaRG2GECK4uVIZY7FIeoy1KAiCLUeJbGu8O8gRc19pWyk1+C0=
-X-Received: by 2002:a05:6820:4209:b0:624:b767:e1c4 with SMTP id
- 006d021491bc7-64e601559c5mr7975745eaf.0.1759841331189; Tue, 07 Oct 2025
- 05:48:51 -0700 (PDT)
+        bh=ISbSv/si7GhQxuZJ0+Mx59HypLlRtEwXTQlx2jMvq2o=;
+        b=RvR0k3dDMjap05cRFD4343OoaFVr9sLKhUp9MVyCeLcV0qSpkRU8LYv8ySObq0hNYQ
+         lXE72PUrXIhW0zu/ipsxec+N35OuU2ST73avwgbxUx7gV0bZUTzbFEoZhNH7tSKxtRKS
+         lwQi9at8UIKXelytOvaueeV3brBazjIT793Q6WXXrjHhqFz+vTf0wmAxLsZ+yzGMqQXa
+         O+adFq2vWAF38qv7T/T/7zoFkCqSl8Chq/gakOPY10Ke+uWBXWCTCQi+UBuxTvkGdQhH
+         7nkgjlQhMw2sdrLezRSZ7Dm7QXYlt3YsJ8sKkOifgCLPMTT7wTcGa5OUR+NmaQ6FI+Xd
+         w4Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCXImqQWmgj+UBo3cVTr30jJpGVlr8QG/ZUaq/3JOtTNe2BPbTJJuABy4H/TkcKKoZgk+emRL8WQcLKZGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywqh35trRmudsDxgB9luBd74LcQ7+aySzSJxZUGh+jM9J6+Ff5j
+	i6cEgNLktKhiiqKmRi0+FGJKV+xkYPLt5+gLdkWAbQlU9aY+wL9MwlMoNYZW8Ua2eHT1WQ+crMn
+	+1ndjDOW3s7FfJpWE+pahOkmeafavttc=
+X-Gm-Gg: ASbGnctBmBhvJ8vKVSkNALi7WYKI83oUuu5EkxQo4uFTtZ59kGzdOA48Jy6wffnypQx
+	ZJyT4wSr8mGJeEs8xaJMHJDfOg5+iWD9ySE4OVYRGD0CcS4E9z1jHxsKECLP28E2mUN1Yf/NW5O
+	M+7UAuqGSjk8auiUJcivDLpmOs2elz3tTFoIzB73QSF6iV+E8spOqwkCJUSia3lZT0oU0Tr10fT
+	lVRwU0tXdlsYbnUNX6YHpSQuMJtqz0=
+X-Google-Smtp-Source: AGHT+IHMjaDzMJ+goOCNybWe+pEdxaMgHR3ggTEddsjk0aVtjGIjb5OoyVz2H4ioVsnpFH5rC2pWnOkHn8nS7zeZHDw=
+X-Received: by 2002:a05:6820:612:b0:641:4a5d:d84d with SMTP id
+ 006d021491bc7-64e6014cc46mr7322676eaf.0.1759842228043; Tue, 07 Oct 2025
+ 06:03:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251003091304.3686-1-briansune@gmail.com> <aOTrsYllMst3oR03@opensource.cirrus.com>
- <CAN7C2SB5Re35yGYsqr14hGXde3nTKLX2Aa3ZbuJ9xuT0m07uxg@mail.gmail.com> <aOUDbF/i4+9PXc1j@opensource.cirrus.com>
-In-Reply-To: <aOUDbF/i4+9PXc1j@opensource.cirrus.com>
+References: <20251003091304.3686-1-briansune@gmail.com> <20251007113305.1337-1-briansune@gmail.com>
+ <5a71fdac-f6cf-4557-9bc8-d416a033263e@sirena.org.uk> <CAN7C2SCHirxurUA0n2VZKEEiYCt-NUKgspGFfZLNurHhACZkBQ@mail.gmail.com>
+ <3266559a-8403-4a26-bbd9-c54e27fc59f8@sirena.org.uk> <CAN7C2SC96jZYYGP=DFrSKgtEfxy+MYpM7=-iW8YKhDG81ufw+Q@mail.gmail.com>
+ <6963ab04-d0d2-42ee-9fc3-19f9c298849b@sirena.org.uk>
+In-Reply-To: <6963ab04-d0d2-42ee-9fc3-19f9c298849b@sirena.org.uk>
 From: Sune Brian <briansune@gmail.com>
-Date: Tue, 7 Oct 2025 20:48:40 +0800
-X-Gm-Features: AS18NWCSlsbFTKbdtzoAuhSxzpfZ4XQDyqXz9owOit9VAub9xbVQ3v6Pj590Ir8
-Message-ID: <CAN7C2SBsFQJ2qNe0HLfpG+6cuONtpChBnq6fuFkd_CGkLt2c5g@mail.gmail.com>
-Subject: Re: [PATCH] sound/soc/codecs/wm8978: add missing BCLK divider setup
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+Date: Tue, 7 Oct 2025 21:03:37 +0800
+X-Gm-Features: AS18NWCJV2ZpDfSRZMrocjBbOFe7dIZ3vWKMlbjnLq4Xm4UFSDLeHAKB2STTj5k
+Message-ID: <CAN7C2SBAPMG1-0huf+3NcUAULZmHTM4idcytShNDs-iiseZm5g@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: wm8978: add missing BCLK divider setup
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=888:11=E5=AF=AB=E9=81=
-=93=EF=BC=9A
->
-> On Tue, Oct 07, 2025 at 07:22:10PM +0800, Sune Brian wrote:
-> > Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B41=
-0=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=886:30=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > On Fri, Oct 03, 2025 at 05:13:04PM +0800, Brian Sune wrote:
-> > > > The original WM8978 codec driver did not set the BCLK (bit clock)
-> > > > divider, which can cause audio clocks to be incorrect or unstable
-> > > > depending on the sample rate and word length.
-> > >
-> > > This isn't totally accurate, the driver expects it will be set
-> > > through the set_clkdiv callback. Which one could probably argue
-> > > is a bit of a more legacy approach, but probably worth calling
-> > > that out here.
-> >
-> > According to actual hardware tests and the WM8978 driver study.
-> > There are no bclk register setup in the entire driver. So I am not sure
-> > How could this even set through the callback? The IC itself requires
-> > 2-wires register load and this can't be done via software level.
->
-> /*
->  * Configure WM8978 clock dividers.
->  */
-> static int wm8978_set_dai_clkdiv(struct snd_soc_dai *codec_dai,
->                                  int div_id, int div)
-> {
->         struct snd_soc_component *component =3D codec_dai->component;
->         struct wm8978_priv *wm8978 =3D snd_soc_component_get_drvdata(comp=
-onent);
->         int ret =3D 0;
->
->         switch (div_id) {
->         case WM8978_OPCLKRATE:
->                 ...
->         case WM8978_BCLKDIV:
->                 if (div & ~0x1c)
->                         return -EINVAL;
->                 snd_soc_component_update_bits(component, WM8978_CLOCKING,=
- 0x1c, div); <<---- HERE
->                 break;
->         default:
->                 return -EINVAL;
->         }
->
->         dev_dbg(component->dev, "%s: ID %d, value %u\n", __func__, div_id=
-, div);
->
->         return ret;
-> }
->
-> Its not missing its right there. That said your way is probably
-> slightly more standard these days, but we should take care of the
-> interaction between the two.
+Understood, so in this situation.
+What is the proper way to fix it?
+Leave it as such or create a new thread?
 
-What my missing meant is if run with DEBUG flag on that case had never
-behave as expected.
-MCLK and LRCLK both is correctly outputted. While the current
-unpatched version will generate
-wrong BCLK complete break the codec. As such I proposed the BCLK patch.
-I had not investigate deep why it never calls but the "int div" is
-loaded and computed by where is a bit puzzling.
-And the loaded it simply with div on actual mclk/2/bit_per_channel is
-also incorrect.
-As mentioned in previous explanations, the clock register is a fix
-table on dividing # that is a LUT with restricted # allowed.
+Thank you
 
+Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=887=E6=97=
+=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=888:10=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Thanks,
-> Charles
+> On Tue, Oct 07, 2025 at 07:56:31PM +0800, Sune Brian wrote:
+> > Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=887=E6=
+=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=887:52=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> > > > > Please don't send new patches in reply to old patches or serieses=
+, this
+> > > > > makes it harder for both people and tools to understand what is g=
+oing
+> > > > > on - it can bury things in mailboxes and make it difficult to kee=
+p track
+> > > > > of what current patches are, both for the new patches and the old=
+ ones.
+>
+> > > The title is fine, the above is about sending the patch as a reply.
+>
+> > Got it, when title amended version is sent, need no reply with
+> > previous revision ID.
+>
+> No.  You sent the new version as a reply to the prior verison which
+> nearly got it binned.  You should send new versions as new threads, not
+> as replies to other serieses.
