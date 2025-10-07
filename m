@@ -1,153 +1,167 @@
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53952DC77E
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 15:39:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E7A2E1EFD
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 15:48:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759851546; cv=none; b=N9KT2nYLx/SsLnw2IaR93FR7PNa/Ts6zXNfT54tPBGQbCAIRkIk7GpR/bBcZb7mK+JBx5649ly653kR+WxtiU2wguK10ISBFtVDA1oymjV/S63PESMv6+Hkgz5dXv2o0+r+wOtkmtRiN4k/3KySOA3xJoqHRCh6CMba/eeauFMA=
+	t=1759852140; cv=none; b=SlurbNU8NWhmflHn6lIZcZVqizHZGPgjbND5p5lhVsPnV2+3nw/kBd06LXVvmTQ8Vl7sDvTXPSz3BbfqFxisBzm+9jHf0SRDQIv8/ECf0EQtZfoJAJBv12/MLF9lLkOQ+kQ5h2JOrZVlRsuCKtZNJUJwDO/Yj3r0TWrTtyvWpYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759851546; c=relaxed/simple;
-	bh=ai4LGPuL3rEMggixLNvM6kWUprS+X4rTlrv1/oQ6sJ8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=cMFK23gjkQBjb/vizD62JqumfvXHXvGIfDtTX7owG56HG6cImJZUSINdAdAVpo0y5tCReLQfnBxEYNdOwgdzC7+DMf58+o3vpkBu9VfVOx/DzOd2jLW2B3pUhUD5Mchgl+qzD5OWUP9juwzD/goPck/0dHtK8ssVueE7tBTnfYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xDm5i9zk; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1759852140; c=relaxed/simple;
+	bh=idsLDC2Nv76ap5anKli8m472glzZKQst8172esv0100=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=txsCk6ylaSNfQpcgLiDuGXDtEnemVMhyGHrBsLv7zlNi4KzF8SbowUbTG10aUnZi444EcFcC/EBn7jhUrhiFB50mFOkmq/Wd4nmMN8jnIxSGgH5uZVUDQwXYiYvfERY5sHd+utdgXia5PmonTUouPdhX871Q5NgqJXaPhI8kU3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZFInhnsO; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xDm5i9zk"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3fa528f127fso4887571f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 08:39:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZFInhnsO"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so3824323f8f.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 08:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759851543; x=1760456343; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k8DX9q0w9bvA3uWv/K5h42L9FfWuzySG8u4E46pyKaU=;
-        b=xDm5i9zkOCUoD7QiwqfKRCqDhRV5uv80wOLiF4mrKd8VDiuFsVyyMCO+vn5+LZRzcd
-         kZbTmFYeUFD8QZQnnRR2bSSP4fksoQ3DUHdYtJhK/MZKwi/kqYkxS/Ave8QXSNpw8iHX
-         HAOi4zLQzqhRloJUzGrNv8T5ps+yz2YQxm64syS1CDh9R2Nny8bDINY+RmC9OADWDX41
-         mZOj2zI7U1CvyBrVJ4EWKHVZVVA11uH0rTS+aguSpqBedbYyZJ78pdx98v+C/ENxvexl
-         eQJVX9U60k4ZnSRqxZdjSjtKXTOFwmtmDwOZHBRt3DStY3eVb/RPNaLAuidLZEa2cBR2
-         lZWg==
+        d=linaro.org; s=google; t=1759852136; x=1760456936; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ujqZTrSIRL5Br3jVEaXKCPK1WTB5adLLumme0kdn1es=;
+        b=ZFInhnsO9qhM3O/HHfNTgrDRYv8gVabeM8l4nUyFUgIWCzqtulABXukRNPi7k9GtEN
+         ducrv5yeGokrvoM2TaIWAepIhkm2QT6AEDJAoxXEQ9lQIg7EtR3gIfsljhuFn/uLS0Qp
+         wfiQaREyKXSRwhPMs23C23ICE5H2zT+JBX2zlgxHwtA6eDinW/ujEX6zbX/l2Wv7gPNA
+         7SV4joVUFwhunB1aP+iD52MfiNvoKAYRn+N5tCfzoGxW5QHQ74B1ADGVsNhnl+FIvsnp
+         cIEtr/+QIBtp9cf0Vd+JQLJ5EL0qJMZKSW+VGJZDZHXhSl8GJ9W7DF1KaRkA9Dc4XKNM
+         OcLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759851543; x=1760456343;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=k8DX9q0w9bvA3uWv/K5h42L9FfWuzySG8u4E46pyKaU=;
-        b=I3HcR3CU757w/1G4RmdQHlDlyE22lnsREMfidPeZ8rh9qq28SVrqXwILpSx2YMQGXm
-         Agpw7f6mcnhqJqD8qexqPtm3rJ/tNC4Tpbm6W2IZJMk09kylF/kZCH1S3hBNqh1fXCzd
-         KxCBqFxBdsT8Tlycv5m3T+wKfVBj76GKWm9vnfFXdGeq8JxxjYtbvBrZTViKl3zDXyJi
-         rpz+Yw5fyrQGrTvdI/nmkppGrwHA5M9+6vmtAXWkro6d922Ow3NRxwMoi8r+76BUnANi
-         qG4nBvTmipl+YZTpLIlir1PWoWZ21rqQTwUuAXERqcij+o9pZ2lgyMeRsUhImBgOHmWx
-         IWog==
-X-Forwarded-Encrypted: i=1; AJvYcCVuOGfRHRrbKoog3en3RLjzDvSDepbRjax5sr/1h3T6yCx2CXG9nqCgIEUIcmq5hhsou7xRo4PI+k64iQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZiD0cQUWBgSVeZMj61yZwweVQv676QyWKDa1DQ/XQ3i/lpu05
-	hIOJikzgJecPmXEGwQbslKtaUQJLqcPBMboBgFBgY2vzQn7s3ffh0TUIayJWUWVi9Wk=
-X-Gm-Gg: ASbGncvAaCC7UHcvKMy1LSN1KzOQ8sOLxw2ZaneuSStB6F6zC5tpfxCaZDN9uw3vGeX
-	98PzK0W2H+1LGwbq07MqlGu5ii0BskkkY1mjdJxx68tN0qpP/YUqrYQWuSAQOY+WF02Tt8309S6
-	IoEtW7UCmgkrL+AcKjiMQVUazTdZy6Joma3e5+jSJGT0wrnEq51Lp/7+vTsEUx1m7LQZmQyJazX
-	707r/dXA94TjmLzRGWnPc35duNJjwalKarHqiaNN0xbNOEMlbVsUv+5SP6nQ1uC0sjG3j8/wF3J
-	IBXgDf07gItu1i9S0usxO77+xKg/4Mkqw4ksbP0aiOmxZzm14ues+LrsirN4pvhe9/69R/BjHBC
-	8LoNhDTVLHTJqxB9eias2oUceyIKygYXaXNty1emC1bOXDFqapeW5r/0uEXH69APGbg==
-X-Google-Smtp-Source: AGHT+IGPYTEBM7rthUf88Ia5HZrtFvZ/rrQd5/6C2vMcuGkG3ki1p9x7pdGI+whXVL1GGpI4sFIxqg==
-X-Received: by 2002:a05:6000:240b:b0:3eb:ad27:9802 with SMTP id ffacd0b85a97d-425829a5a91mr2835454f8f.2.1759851542939;
-        Tue, 07 Oct 2025 08:39:02 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:22ae:baa0:7d1a:8c1f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8e97fbsm25787403f8f.34.2025.10.07.08.39.02
+        d=1e100.net; s=20230601; t=1759852136; x=1760456936;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ujqZTrSIRL5Br3jVEaXKCPK1WTB5adLLumme0kdn1es=;
+        b=LjryJflfHj6WzqanEbiOOcPoGqd5opmN3hKitlYlNTcqS1VOlQz5yOKWzN4Rhn7tt3
+         zJYMTrK6W78ZRir/Si62bNz1zsEWh2sqR3lPEEc9mwMK0370COgm4gkPbR8zRsyDTMsv
+         vhu+4yATzy+nekinzE9fQnoO1WpDLks63VkehD7OkV7RT77U3U0EYrZXXzuDDDZp2EXi
+         DvbimfdsAH3znKn7clrImKsKqImJMhpGmefuftC32sDSQWwrbT+2Rt1y9EYJw7WxihrX
+         A9tUolgTXXdqMxfajObCxhoR3PPqCM1BFN3eCXkWtkVSpkQtfevKbRcguDa5HlbvwvhV
+         BgFg==
+X-Gm-Message-State: AOJu0Yxk/cYK5S7ha3GK28UYchFzEoDCZeJFarQ919TkhxMqGs/xUIqq
+	sXLrW4LNTiDyZ2SkcSvxrs217tDTCyUBODeV2MLlWjv9IWs6RHqc2pruOtqOMDcoSNw=
+X-Gm-Gg: ASbGnctLJ9507AedunJo44MSQL/vfS5eX6I3SkkfPHFNmTGW3e5asDkT/TRhZsPLENN
+	8/arTAihPH/gtEy51N3xyfGLY+qq9b9lz7p3qORPd/6qkQqGk21uJQsh7yRB2ewxSdfaylhws94
+	LXMNtLgdny+S2zbM6I+iFd6BxTvECxKLG4CMjl63j8Hi9+PjeRZSzw7dQprClHQp6+AGqPkieY4
+	7gWsN6SfZQejOtEk6cwiSjEE+5X4pT9735Zuq0v8gKSWw7mvExuG4U0eT+GJRigwNRwTKs1yoe5
+	JqaQSRPl0nGKmUULvvhVOWY2bMJ7x3wXRPkopCmI/FqCTxGXGXZ5hv/lpSOYgTXqZR82LMKwO1d
+	y3IQKVeEnC+HkeTYgMRuG6KoDg2U/8XJD6Y+KmiyKQ7Y4jPXO5Zl+vnDslHJJyyDlGr7Z5gZxkR
+	MZuryJ/d5WmH8WJGX+sT13Drz8bRI=
+X-Google-Smtp-Source: AGHT+IGlCt3WNje/lItmY3GQsKoJPUs6M1EHh44EgkG7EO1ZdmP5CqynBnMwr5jKEwAuFYo6Szge1Q==
+X-Received: by 2002:a05:6000:1a8b:b0:3fb:6f9d:2704 with SMTP id ffacd0b85a97d-42567174a0cmr10730399f8f.28.1759852136117;
+        Tue, 07 Oct 2025 08:48:56 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:bd88:41d2:33ce:f74a? ([2a01:e0a:3d9:2080:bd88:41d2:33ce:f74a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f0170sm26770403f8f.49.2025.10.07.08.48.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 08:39:02 -0700 (PDT)
+        Tue, 07 Oct 2025 08:48:55 -0700 (PDT)
+Message-ID: <a5dfaf2a-d2c8-468a-9bbe-38d11b1214a8@linaro.org>
+Date: Tue, 7 Oct 2025 17:48:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Oct 2025 16:39:01 +0100
-Message-Id: <DDC7B1BDTZCN.D7JXN4RVKYHM@linaro.org>
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Neil Armstrong" <neil.armstrong@linaro.org>
-Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
- <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Bjorn Andersson" <andersson@kernel.org>,
- "Konrad Dybcio" <konradybcio@kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-Subject: Re: [PATCH RFC 4/6] sm8650-hdk: Enable I2S for HDMI
-X-Mailer: aerc 0.20.0
-References: <20251006-topic-sm8x50-next-hdk-i2s-v1-0-184b15a87e0a@linaro.org> <20251006-topic-sm8x50-next-hdk-i2s-v1-4-184b15a87e0a@linaro.org> <DDBPGIDN8SKS.2GF6TZC6KGXVI@linaro.org> <de955ab3-26de-43ed-a450-d58ffe0df7af@linaro.org>
-In-Reply-To: <de955ab3-26de-43ed-a450-d58ffe0df7af@linaro.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RFC 3/6] ASoC: soc: qcom: sc8280xp: add support for I2S
+ clocks
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251006-topic-sm8x50-next-hdk-i2s-v1-0-184b15a87e0a@linaro.org>
+ <20251006-topic-sm8x50-next-hdk-i2s-v1-3-184b15a87e0a@linaro.org>
+ <6492e444-4196-4900-a741-a74a8c506a6d@kernel.org>
+ <1eab5200-1292-4d39-bdf8-0c5084cfaab9@linaro.org>
+ <f15ea346-43f7-49bc-bd5e-47510a48892d@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <f15ea346-43f7-49bc-bd5e-47510a48892d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue Oct 7, 2025 at 8:04 AM BST, Neil Armstrong wrote:
-> On 10/7/25 03:39, Alexey Klimov wrote:
->> On Mon Oct 6, 2025 at 7:37 PM BST, Neil Armstrong wrote:
->>> Add the necessary nodes to configure the right I2S interface
->>> to output audio via the DSI HDMI bridge.
+On 10/7/25 12:23, Konrad Dybcio wrote:
+> On 10/7/25 9:02 AM, Neil Armstrong wrote:
+>> On 10/7/25 00:21, Srinivas Kandagatla wrote:
 >>>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>>   arch/arm64/boot/dts/qcom/sm8650-hdk.dts | 30 ++++++++++++++++++++++++=
-+
->>>   arch/arm64/boot/dts/qcom/sm8650.dtsi    | 40 ++++++++++++++++++++++++=
-+++++++++
->>>   2 files changed, 70 insertions(+)
 >>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sm8650-hdk.dts b/arch/arm64/boot/=
-dts/qcom/sm8650-hdk.dts
->>> index 87d7190dc991b11f5d1162aabb693dcadd198c51..1286ce95235d5544322a187=
-7292cbdd426298c11 100644
->>> --- a/arch/arm64/boot/dts/qcom/sm8650-hdk.dts
->>> +++ b/arch/arm64/boot/dts/qcom/sm8650-hdk.dts
->>> @@ -171,6 +171,19 @@ sound {
->>>   				"TX SWR_INPUT1", "ADC2_OUTPUT",
->>>   				"TX SWR_INPUT3", "ADC4_OUTPUT";
->>>  =20
->>> +		pinctrl-0 =3D <&i2s0_default_state>, <&audio_mclk0_default_state>;
->>> +		pinctrl-names =3D "default";
->>> +
->>> +		clocks =3D <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_=
-COUPLE_NO>,
->>> +			 <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
->>> +		clock-names =3D "pri-mi2s",
->>> +			      "pri-mclk";
->>> +
->>> +		assigned-clocks =3D <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_A=
-TTRIBUTE_COUPLE_NO>,
->>> +				  <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
->>> +		assigned-clock-rates =3D <1536000>,
->>> +				       <24576000>;
->>> +
->>>   		wcd-playback-dai-link {
->>>   			link-name =3D "WCD Playback";
->>>  =20
->>> @@ -218,6 +231,22 @@ platform {
->>>   				sound-dai =3D <&q6apm>;
->>>   			};
->>>   		};
->>> +
->>> +		pri-mi2s-dai-link {
->>> +			link-name =3D "Primary MI2S Playback";
->>=20
->> Is it HDMI only audio playback or does it have switches to playback it a=
-s raw i2s
->> (when external DAC is needed)?
->
-> The HDK has i2s lines of the secondary i2s on the LS connector, but witho=
-ut any additional
-> boards connected it has no on-board i2s dacs.
+>>> On 10/6/25 7:37 PM, Neil Armstrong wrote:
+>>>> Add support for getting the I2S clocks used for the MI2S
+>>>> interfaces, and enable/disable the clocks on the PCM
+>>>> startup and shutdown card callbacks.
+>>>>
+>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>> ---
+> 
+> [...]
+> 
+>>>> +static int sc8280xp_snd_startup(struct snd_pcm_substream *substream)
+>>>> +{
+>>>> +    unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+>>>> +    struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>>>> +    struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+>>>> +    struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>>>> +    struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+>>>> +    int index;
+>>>> +
+>>>> +    switch (cpu_dai->id) {
+>>>> +    case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+>>>> +    case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+>>>> +        index = sc8280xp_snd_i2s_index(cpu_dai);
+>>>
+>>> What is the mclk and bitclk rate set here, we can not rely on the
+>>> default rate.
+>>
+>> The default rates are set in DT:
+>> +        assigned-clocks = <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+>> +                  <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+>> +        assigned-clock-rates = <1536000>,
+>> +                       <24576000>;
+> 
+> Is there a way to infer these rates based on the DT audio
+> connection graph?
 
-Ah, like on RB3 and RB5 boards.
+Good question, it's not done for pre-audioreach. Let me investigate.
 
-In such case the suggestion is to add mention of HDMI here in the link name=
-,
-otherwise it might be not clear what this multi i2s playback is about.
-Maybe "Primary MI2S/HDMI Playback" will do.
+Neil
 
-Thanks,
-Alexey
+> 
+> Konrad
 
