@@ -1,110 +1,153 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349A22E0B5D
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 13:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3CC2E11C8
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 13:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759843312; cv=none; b=qt2+r7zgjw1JtxR27aeShPV8cdbVtvsJeZA11n4p6yGcjoZ5hnt3vaDtkzp76EvOoUGo3UPkS7dj9Pue3Zqg1AncgEoF/0iVPhK8wJCIK7DV/b9Gk73q7ZN6vFrVNxvPzEFebfo/oIhWuoT/mF/+6s3y/tPIKufN/rgOfwG4NA8=
+	t=1759844412; cv=none; b=F2zXUAoNtGx9oLhXl4w3gPTm7qw2EiUPmE2OFh820aDsKqFzJGiEjjvS/M9/ERutKWeeARKKuwYR5KY9V3K3pW2xGm6v8WjywuHJmwYT7jNtoTdefVYoqPLVFf+WynF/VzbyAorFZMk19et9+/gaEbUDWGSPiDDrgdoeNhRVCYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759843312; c=relaxed/simple;
-	bh=264X1qDN3aQAP8Oh7tuky79CRF6X9B+bbwWZ9c7oerg=;
+	s=arc-20240116; t=1759844412; c=relaxed/simple;
+	bh=B5zJo6+e9mfBQxyG03vxeQAF4XuA277T13ti7Xburds=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fHIQmlgTWmdSwyZZjRF/BuLKBjt11XpV1FY0L9vSQ11Tha2XOXd0lemXcuSsmUBMRhAKkQmimalgnbzc/i7zRJzP6v9/p5fEagIuLYC/jYwNM56w/AF1PI7wBtLjO7R8NHT2yPNa0RV62eZbLuouHqOQQ6RSWjrwIV0ViMaDLrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=DKBRTvtc; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	 To:Cc:Content-Type; b=i0F4gF7dRSAYx3WddBeBZUYcqokQdxnmPWS0YXI73xVSVoDmGpEMTvnsrzvCHHfHz4dv2wKwMLa5iF1eKY86Vrv96hsPjAeSUqpDkrbt2Gpa701GjOMHBrXVJYS33xA1DoxJ5e16WK5cwvTnNjomrHkzsc9bpwfNlCEZp4trsD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SccgwECQ; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="DKBRTvtc"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3682ac7f33fso67059441fa.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 06:21:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SccgwECQ"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7a76561c291so3899796a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 06:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1759843309; x=1760448109; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759844410; x=1760449210; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=264X1qDN3aQAP8Oh7tuky79CRF6X9B+bbwWZ9c7oerg=;
-        b=DKBRTvtcDoAdupeGLvdKBjxsZOnuPORThx375SEX3c94jfX6Pffhx5xH3YCdcUktDk
-         8RtUgM4um/ZK/GRKugStNQkcV3NNh6+H4BhAdOqnnQ7MhWjaMligFBl6ArCo5HL+tODJ
-         LphZpd4ve9qyEq0Mo+b1iID54E/1c21MHj0Urpfj6/yjhpa0+RL401EJHDwmg8+/vn5E
-         KI05vXBgHusbGxk4mg6mf3W1JfiPIYmeDiT/Gd0N7DLhtLB0G6M1PZFl2ORfAIClUN0H
-         URVsOSBV6rAG17C9j5Z41C/vIw5+dJYPwpNtzBWy9i8KSLS2bZZbGo1LQdFPTzPDTR3+
-         STEw==
+        bh=vCQTFpOCLXGsaDGm5R3fay+Aj7gDLjtHX2II8z9luO4=;
+        b=SccgwECQKdlHJtKHZTALExpUyJA1W2HAOQBisHi/IGW9k5Wo7/DZQAIh5LfVEtU/l+
+         8EBnUmjayBl98gNHztXYG+UkJ2hTx8AIqZiCE5n7OToOWbEPIq884L2CnaOmFB91nioB
+         9xNG5JkPpuYfawY+KY4AHR3gjLhuysUIwjJudDMKcEqeSntjeYVX9DNjbGIC9WydnIoo
+         GuWFW4hgSGf2vx/Tz84C4lWiQqqd2Rd9aYgj1zSTSricBtRC4SqRx3+4sICZZJuJAXg3
+         kEt8+rTp+1UNb2H2/qJ0YQKDU1UlsEoDkkAUri1wuRqtpSzZQ1PmqEtn0R5I7VEiyrEY
+         E4tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759843309; x=1760448109;
+        d=1e100.net; s=20230601; t=1759844410; x=1760449210;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=264X1qDN3aQAP8Oh7tuky79CRF6X9B+bbwWZ9c7oerg=;
-        b=fmhJF1S6u1j4LyPnsOIaQfUGe/klohGQ5CCsY6pjBSZA6U7kMt5Lkea8i+lQ5g2Zvo
-         E8DkRCRkP4MpRlWKySVb+MwNEbEzKVb96IQWFNisGfIdtW1iJUVK7lJWEWdMoBjNiU3z
-         W49T8mFTpQcHg/PQ8Rz7+x0E1a89Vy1WunBw6TO8EHqNOkpUn04OGu65jWDRxHeaaCl3
-         Z/J9OaUFIOgYEJGmW+WNcBBo6N74Cscxv6TO3ufmHgATKDKVVjiVJ+/sCEjEXWo1AorA
-         vWf+ALWL8z4mTa2SwSwHgt6y+rkcfbiQjnl1JjGOOm9x7NVoVWZW7r2Y44Ih9sPl/w3m
-         +pYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUA8wyy31+iEcTcBrDudSRJXA+EUPu1KQ+HzrNc+V+4DSuJ84RIJHLLFpytTtmjlDVUzYvxXFUK13nngw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwavHNvpJAK/eipCGPEkGuYb7+3IqVEdSY8zLEJmDR3IfHvc3nD
-	OxlPrqlKqLiA4YlUleBJXOtgF4SAmh29NlPXA8hVgnzOLdIfS+9eU2jvCNLmnxcx7ELTLhU2Gow
-	GhieMEL3m/MTvaPQedObzPFz/b2fjvWbql3lkWX1GEQ==
-X-Gm-Gg: ASbGnctR5B0D3wWsONjc8ER4ZsGTrSQWnjGgIjmOpIT/vZ8PbQDTVkpXK99FSdaldxd
-	imeSCZWzRAlXPCDnXAUwwWBCb4ZEiIMRlHuDbhdn76HDcCLwTXKtCJrcT9a7A9rBFIE+/RWPQct
-	lEyIT2BfguMvOaEidE0Hcyn+4m6y97QyJFONdkRfrfuAbrNKpGMeZvkr5AolaA0l0QpHzaEOqhF
-	bnEviNJo9u+dvm31eSdZY/KgyO2PP+iA1Z+2k0OafpZwJYOG1rE7rSEJrVAVfY=
-X-Google-Smtp-Source: AGHT+IE2+IZs52lFcgfooqKpv3k1qTzL2NCFC1USj9Z26FyDVKNO8SnLmrjpEF3qS87kcFqgJsuw+/Q2h1TIfSrcKYE=
-X-Received: by 2002:a05:651c:1504:b0:364:c083:2fec with SMTP id
- 38308e7fff4ca-375f516a094mr10405761fa.7.1759843309309; Tue, 07 Oct 2025
- 06:21:49 -0700 (PDT)
+        bh=vCQTFpOCLXGsaDGm5R3fay+Aj7gDLjtHX2II8z9luO4=;
+        b=hZXxWi1m26vV1xXapamiFEvw2kobeivvvhCBK2VJm/hMkhrT8V4dt/G0AOZthudIwE
+         g+yfUe4crTYGttw7Fz0fBNZacRBqtnVFIvjisFa0xb36iF3Gtgybcql3akUnTXtzzVQ1
+         NGsZE1YbhRGS/WiXiT8sQD7wjwNpfnCqHvjBSIiMnO75ImB8mkcZRbUAZjfm+n/qCGO5
+         1626W/XrTewhcZeqYYzY8cKezkDiofE16I+2OX80rDrGnR1KbrDv0Ur/SIEBW0AMVyRr
+         +ZWtnU35r2sri2Sa57CA4DKGyeZA8HDg6hm5CdlpUOipwjKmHw7bPsCKUw4CChnt5KLX
+         CNvw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbe0T3o8Ye4UpQ0CDjEmTeYf9Y5P0yrRXATAkIR2k99nxiZ9x4v93nT6c2L/4aeN9lcQfIiyR62Gb3ww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCEUq32S1jxFlLg+poil2cvypQMzD7tTPi1JlMW4g6EVRzqhrd
+	kiO4yfKjUzfD/cxhPNumzJpbWb1VcmDrLXQRB5FwJEILQSXYtBGKcntAbOuJjWTF/+ad9QQUJRH
+	PJ7Z4vrPtPCbv28uEX+NCJdyfujEnI2c=
+X-Gm-Gg: ASbGnctJFnzlgIDARDJYQrt4XuI+rKwcpSP9FmEXf4qUYJSqmGTmyduFdy9vu0//Se1
+	o4Ww96n4tvGMy5yGr4PsK3QVEyCRCiA0KpUpX99JUmP+x1MhdP6021VNgpCsIlUEwW5yuDcHUyz
+	c/WF62bHknYh0dqxXep7OeHgm1oZq+qp/Pt3u0TUbgNEbwu6g/Sb5ph1/6ymVKfckn0LULrM6as
+	zK6478isqi0D1Fpxe0uqPzTHvhd2+A=
+X-Google-Smtp-Source: AGHT+IFaX/eNzGSX/0xQ94MkT4x6GcjLTrj7/eYCQtsj7JxcgVbmL9x7FOv9ascQlxHmQ5isdD+BlSAOUJF4t34ed2Q=
+X-Received: by 2002:a05:6830:67d9:b0:771:5ae2:fcde with SMTP id
+ 46e09a7af769-7bf772db651mr7720312a34.2.1759844410206; Tue, 07 Oct 2025
+ 06:40:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
- <0b402bba-0399-4f93-873e-890a78570ff7@kernel.org> <CAMRc=MfwEHGV-HZQURR3JNg1HatAeWO17qbRmkWUXTSBWj5jSg@mail.gmail.com>
- <80347dcf-419b-489e-9b0e-d901fbacc71a@kernel.org> <CAMRc=McaZV=tUkzDGMYxXqkuEYw_KasKcv8QGdjw709UYZuGhg@mail.gmail.com>
- <a9a4f33f-b6c5-4c25-8321-7b08a2afb8a0@sirena.org.uk>
-In-Reply-To: <a9a4f33f-b6c5-4c25-8321-7b08a2afb8a0@sirena.org.uk>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 7 Oct 2025 15:21:37 +0200
-X-Gm-Features: AS18NWAcsMukxeTYbTWMUg8zWpW3gx9qkOJvdBd4XuNGAXfy8hVOWJV-QYlmbI0
-Message-ID: <CAMRc=Mey+iRyKY7Ou=0LM1268r6_WuQDzYmLOU5MZbVoU1yugg@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Mika Westerberg <westeri@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20251003091304.3686-1-briansune@gmail.com> <aOTrsYllMst3oR03@opensource.cirrus.com>
+ <CAN7C2SB5Re35yGYsqr14hGXde3nTKLX2Aa3ZbuJ9xuT0m07uxg@mail.gmail.com>
+ <aOUDbF/i4+9PXc1j@opensource.cirrus.com> <CAN7C2SBsFQJ2qNe0HLfpG+6cuONtpChBnq6fuFkd_CGkLt2c5g@mail.gmail.com>
+ <aOUSZ2pnxRfxEPi4@opensource.cirrus.com>
+In-Reply-To: <aOUSZ2pnxRfxEPi4@opensource.cirrus.com>
+From: Sune Brian <briansune@gmail.com>
+Date: Tue, 7 Oct 2025 21:39:59 +0800
+X-Gm-Features: AS18NWCJzGH3rZLWEXtfYgf2RrERANUmm3tsSEcxJkdLTt4vNPLp_FNxuVYAWqU
+Message-ID: <CAN7C2SBDC2LrWpUTe3zZakHCrmUy1nQ-WiguLQKVK1CyOPb9zw@mail.gmail.com>
+Subject: Re: [PATCH] sound/soc/codecs/wm8978: add missing BCLK divider setup
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 7, 2025 at 3:18=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
+Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
+=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:15=E5=AF=AB=E9=81=
+=93=EF=BC=9A
 >
-> On Tue, Oct 07, 2025 at 03:13:29PM +0200, Bartosz Golaszewski wrote:
-> > On Mon, Oct 6, 2025 at 11:55=E2=80=AFPM Srinivas Kandagatla <srini@kern=
-el.org> wrote:
+> On Tue, Oct 07, 2025 at 08:48:40PM +0800, Sune Brian wrote:
+> > Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B41=
+0=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=888:11=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+> > > On Tue, Oct 07, 2025 at 07:22:10PM +0800, Sune Brian wrote:
+> > > > Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=
+=B410=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=886:30=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+> > > > > On Fri, Oct 03, 2025 at 05:13:04PM +0800, Brian Sune wrote:
+> > > > > > The original WM8978 codec driver did not set the BCLK (bit cloc=
+k)
+> > > Its not missing its right there. That said your way is probably
+> > > slightly more standard these days, but we should take care of the
+> > > interaction between the two.
+> >
+> > What my missing meant is if run with DEBUG flag on that case had never
+> > behave as expected.
+> > MCLK and LRCLK both is correctly outputted. While the current
+> > unpatched version will generate
+> > wrong BCLK complete break the codec. As such I proposed the BCLK patch.
+> > I had not investigate deep why it never calls but the "int div" is
+> > loaded and computed by where is a bit puzzling.
+> > And the loaded it simply with div on actual mclk/2/bit_per_channel is
+> > also incorrect.
+> > As mentioned in previous explanations, the clock register is a fix
+> > table on dividing # that is a LUT with restricted # allowed.
 >
-> > > Yes, these codec drivers are due to be moved to use reset-gpios.
+> Yeah the existing code expects the machine driver to call
+> snd_soc_dai_set_clkdiv. I am guessing you are using something
+> like simple card that doesn't do this.
 >
-> ...
->
-> > anything. And what about shared pins other than reset? 'dc-gpios' for
-> > display, other 'powerdown' instances, 'enable-gpios', all kinds of
-> > uncommon names like: `dlg,cs`, `wlf,ldo2ena`, `speaker-enable`,
-> > `maxim,enable`? It's not likely we will create a separate abstraction
->
-> Many of which, crucially, don't actually reset the device.
+> To be clear the bulk of your patch is good, updating this in
+> hw_params is probably more normal these days. But we need to
+> make sure the two paths don't interfere with each other. Think
+> of a system that is already calling snd_soc_dai_set_clkdiv() to
+> set BCLKDIV, after your patch BCLKDIV will be set twice
+> potentially to two different values and would generate no error
+> messages.
 
-That's my point. While the function of a `reset-gpios` is quite clear,
-these are not.
+Before the below action started. I need more background, if possible.
+If my understand is correct on your ideas. Do you mean the default driver c=
+alls
+the bclkdiv on other places? But how could that bclkdiv # be correct
+from first place?
+As I had mentioned the div # ifself like this codec is a LUT rather
+than the actual divided #?
+For example /32 from LUT is a 3b101?
+For example what if MCLK is set higher than /64 could even out of the
+LUT from first place.
+The external div # passed in, how to ensure it is codec LUT compatible
+from first place?
 
-Bartosz
+>
+> I think you have two options:
+>
+> 1) Remove WM8978_BCLKDIV from wm8978_set_dai_clkdiv. There are no
+>    upstream users that I can see, so this should be fine. This
+>    would mean an out of tree user of snd_soc_dai_set_clkdiv would
+>    now get an error so they know they need to fix something.
+> 2) Only run your dynamic BCLK code if wm8978_set_dai_clkdiv
+>    hasn't been called. This would mean any out of tree users of
+>    snd_soc_dai_set_clkdiv would have no problems everything would
+>    keep working as before, but at the cost of a little complexity
+>    in the code.
+>
+> I am happy with either approach so which ever you prefer is fine
+> with me.
+>
+> Thanks,
+> Charles
