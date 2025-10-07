@@ -1,90 +1,106 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6462DAFA4
-	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 13:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB2D2D543E
+	for <linux-sound@vger.kernel.org>; Tue,  7 Oct 2025 13:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759844906; cv=none; b=HfLkQAgje94aX8/la43Gn6SogqoOkfvRZHiBDbtE/tx1m2dYehGGUPr+aAj00O3s/6ncj9+ih9TTpJnjylVdpefMN4lmkx/ZzVBT9I9XcVLYm5nyqBem/4FZZf5q4oCy+7aXqnEr0UXEqjQ+cVJcGdW401f5NeaYP4gcrubXdKw=
+	t=1759845263; cv=none; b=k+5W0Cjb0T9JsqtcitOagVN4wUhTMKl1WM1yTj0yWrufz5L5afueVbTHSzRL9x40LPbIHoLxVh31hNpXeVSvoviUOUzOu+pt184OPNwepS8EEhHv3Mx3T1Ww48RLmv7oXXuuo9BUQWHt+0Ii5N9db+etS+yPLK72ocoAluCydUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759844906; c=relaxed/simple;
-	bh=rsARsWWtlGU4XyQksyiHzqbzUOCSEtmZNn2PlInaawY=;
+	s=arc-20240116; t=1759845263; c=relaxed/simple;
+	bh=vf59koAABmVbZBe/hUaFDl6E6fe91cihfXLQj2xT9e8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rPPOMP8z9b7zyfxwPT02ku9wSqwDiFKVyU+YpR1LQKFcw2/2RIQYPfytizhdiypHH876p3F5WOI2ZCcAXmZxxvAiaZiRdl6Tgwsk7F1WmbsAFVeup+rFjIjbexNb/uYhuXKOyDllSK+E0Srj1JSrjFtiWcvfH0pFINytzL91ZNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeNNZsp+; arc=none smtp.client-ip=209.85.210.47
+	 To:Cc:Content-Type; b=ESJjYTzx6rHbgWJhsNSSHuA519KUkpAgDf6C9WSY0AfmyS3A7/DMVyp1nbSM44Jt/To0bPvMQfhWIrkZaKYRJfmtMBFDXfIhl9kZQLsmcjWFUTKln5urFDR7Ymkq/2AimzqPRw5YzChFvS9aaGVu1ePPjPe7gdL+Bla7GA5kiVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mSta4o3n; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeNNZsp+"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7b4f7a856acso2152462a34.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 06:48:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mSta4o3n"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7b7325d8fb5so3985034a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 06:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759844904; x=1760449704; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759845261; x=1760450061; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mFY1uUNizKMiaaPFdu2T3xmpk7VyNh1kZqPZtyxqkW8=;
-        b=WeNNZsp+hcKklqPPz0kENmunDlBOv7VsTP4DKUeNLnGQV0xVboPZETSu/7HuSMRhmM
-         QGBcKHoCIxN8XApxVD9Jg2mMkOhtN/6nTtjSZIfmgaYnDhYU+KGSvYQfxt6UZud4tfND
-         9V2eAd7/FdNnyC6uqe97lKPL22uyz/EXM2wwtPQkuFfocfnmlJdoRwH8ACJTWxdLbtKO
-         lPzWkhSRveSteeTZXcjiWTgFcj8KPqb8N3lMMum/Hr6KxUsCtnfwVq0FwsjPSQbyfhXi
-         /BMpJsdMflEeFMfgU02OjlKlUGIZjIakxOLO32168DalWZ9Lu9BK05nrDOmG6vgm0RRJ
-         v/mA==
+        bh=lj5qPTUijM2gjb5NFrsVh6G3WhkeDqY9h3Myh+7WqrY=;
+        b=mSta4o3ncg3ZT92kogj2S/Bmp3+TRe4fV1ztfsSNQEgDVojzaK0YtbdeZiHwrqhyKU
+         1KDp2vki34xRlCRuIO/ze05p4jTwhM27kyKOL5PszEq55TYDLb7l13NE5TKeMEuiOz0u
+         qTuNpJixdeTZ9muqqBIZvU0A0NmdudV0RaH4a3j0Oh1PSjM5Z6xA5wgyYanB0A8D9lLE
+         dQOdvVwSJP4WIllxenyMvDZBXr+Jf4L3xbG4ReoylrP/jD3K+xYXomrxjZPYVfzz1EEC
+         PAzFlOn/c+tuNTsfrqLr0+Aidas0ZRWgRQErdSsK/AFZr9w6uXZ3XD4M3/KtL5tYUBAL
+         rG9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759844904; x=1760449704;
+        d=1e100.net; s=20230601; t=1759845261; x=1760450061;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mFY1uUNizKMiaaPFdu2T3xmpk7VyNh1kZqPZtyxqkW8=;
-        b=njmgvfZlwTRlKbBZJ6vXOM6Vnp4NVSXrMsUo3CV9zZtjnWC1G2HY50r8fKzM/ygG77
-         tgOd8NmpNhSBvZ2K82YQA3SVj7kT+sBsCiF6Sl9XeIY706Ui6nY75mPNrzzAbB8uKxMw
-         mRJPBapiTgLSuicLdU0bYStmENHAuMukiWVMgpCitNcaE0gCpx/oqJsY1rFbHHMf2hc1
-         H21txIGFiPr7MdZOtB83FuGOHmQEoe3clAxWRmWFnEnML+/d9DkEWJ+bKFFG9aHSZ7wY
-         Vi+PCqPKVDEh7agNoZOXRBc+09mkS3ZK/Nqz9jnKwrJEG3hWBT0fliqFiZ5HthT7M28f
-         GlKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXg/yrua/kwKOOHdZFgAldGJP9LiRwLCm1HpfggkXo0vo+I5Wf4M+Cs7yh46DwLeBUqHPcaUevhrycdw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuVx0Cf6J/AoW/6ox1j2fMoE98v08OAiy3weG93YfIAMmoOTmL
-	1z7j3a0kfi23ROYRVZ6V9igCDi1eVP/o4zolhSjQJ3sVoMRUvpLnOtd7AGGIbXRmoJHlibSpuw5
-	/BhGJzKUh0wFGpNk9LG4uiGkvb6D53M/m80xBjt0=
-X-Gm-Gg: ASbGncue3WbZT8gZcIajud1Qe48WMxRHMbenIMCh//cGQuH4sdG/3F7iZIX6SPu6yNf
-	03oqme6zdVGAqthj9hc2yu7WtDnM2UfZdQbm5DM2vUxgPbC5dxxAc2FCqjTyhqb+6V0XogqZ0v/
-	CmMlyVcl3gXHVPzP/81uuSl0Yf0Srsiu8wD4bz8iY0So/bSWAvlFr+WMrBz0rLmepFDbSqDy5co
-	gpqPfrIAuy60WyU5vm0tK4af+ce5kM=
-X-Google-Smtp-Source: AGHT+IH2OCYyjWdyJ9wdIBU+t7KzCDmW3XtaulzyT2fBtb2ExHxKBeX9LBNJfVyerS1qt1ZstGFV9V//J5FkbSG6MxQ=
-X-Received: by 2002:a9d:7754:0:b0:7bd:8995:843a with SMTP id
- 46e09a7af769-7bf772a5df2mr6783128a34.21.1759844903863; Tue, 07 Oct 2025
- 06:48:23 -0700 (PDT)
+        bh=lj5qPTUijM2gjb5NFrsVh6G3WhkeDqY9h3Myh+7WqrY=;
+        b=HKeIOPDkVIbFvFOLh8OrchCo+Jp5Kg6secDH3f2IMgkRDrNlhUs40gIFXdn1edH1UN
+         c4DcYzhA+JHoC873w3EtdiUX540TsR4xJZfzUigwTfOtesEHqRdtK/6t+46LT0mEha+J
+         vYhfKnL0/1bOo0bK2/9k3PMMWX4I0cs69P2MkubWEMi+uouPojDkb7S0FcMjK5WgeJwx
+         HHkSXbdkgjsnH2wFAwr3ubei4YvKdc2ebBGvU4CC3o8XKbQUPZSYzAn4rRa0vs5BCpq/
+         7SQli/A4k/j9Mq0sLnw07UWbTJz55GOmUKqRzz70aqkfA1qejLQDF2pz1Ad+tPyzNSeZ
+         BBhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFxzLW0ji47IKgstAwTT3dDrwnnBOaMLkLy/vK7ngOCqLE4emJMtXvfpOE2iU7Q0LtYS4ECITmTFsupQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5INqGrpmVLrH7iwmd6NeIhajA7XWtWfFGXO+qG3TC117El3S/
+	YwC9UucHzjkPyJg8XDGSb4xioDC25L2ARkVfaozd7og5cxbzNBx15eDTixI3uEUabYEG/22U3i3
+	qK2MKGRG3C5nAwfvu7p4cwtWfm2z8hSc=
+X-Gm-Gg: ASbGnct6Eijb3uuETu+C9JaPH5sL/WC6KyCLjEj1HN3N+u4h4q+zNd2XBuqcjIWExy7
+	6RTy7MlP8+0NUXBtE3KZl04r8I3OBN0laFNZQuRd+hnUyL1uK3fe/L3nn++l4tJMQCMniHUWYIi
+	I9atieVLPo+pIVSIIY7umFNJSMDxGBCCiBMt4ax/rv1VesJ5u0vtZVIlt33TMceQGpSoAp1DSqh
+	QenZ+jBk7EdaFtRgq5dj6cR+2YXn6w=
+X-Google-Smtp-Source: AGHT+IH6tuzEtZI7hftSKa+QFUw1/pHTzmiLR7CoMSVsF1rPzF4p9xQJd29NPy9raZQY/6d5/tcK/ig9INj79WHU1B0=
+X-Received: by 2002:a05:6830:6d1b:b0:743:9758:113c with SMTP id
+ 46e09a7af769-7bf77231323mr10991399a34.12.1759845261014; Tue, 07 Oct 2025
+ 06:54:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251003091304.3686-1-briansune@gmail.com> <20251007113305.1337-1-briansune@gmail.com>
- <5a71fdac-f6cf-4557-9bc8-d416a033263e@sirena.org.uk> <CAN7C2SCHirxurUA0n2VZKEEiYCt-NUKgspGFfZLNurHhACZkBQ@mail.gmail.com>
- <3266559a-8403-4a26-bbd9-c54e27fc59f8@sirena.org.uk> <CAN7C2SC96jZYYGP=DFrSKgtEfxy+MYpM7=-iW8YKhDG81ufw+Q@mail.gmail.com>
- <6963ab04-d0d2-42ee-9fc3-19f9c298849b@sirena.org.uk> <CAN7C2SBAPMG1-0huf+3NcUAULZmHTM4idcytShNDs-iiseZm5g@mail.gmail.com>
- <200e3d65-ffa5-40d1-86a9-974fbaae24d5@sirena.org.uk>
-In-Reply-To: <200e3d65-ffa5-40d1-86a9-974fbaae24d5@sirena.org.uk>
+References: <20251003091304.3686-1-briansune@gmail.com> <aOTrsYllMst3oR03@opensource.cirrus.com>
+ <CAN7C2SB5Re35yGYsqr14hGXde3nTKLX2Aa3ZbuJ9xuT0m07uxg@mail.gmail.com>
+ <aOUDbF/i4+9PXc1j@opensource.cirrus.com> <CAN7C2SBsFQJ2qNe0HLfpG+6cuONtpChBnq6fuFkd_CGkLt2c5g@mail.gmail.com>
+ <aOUSZ2pnxRfxEPi4@opensource.cirrus.com> <CAN7C2SBDC2LrWpUTe3zZakHCrmUy1nQ-WiguLQKVK1CyOPb9zw@mail.gmail.com>
+ <ec917317-4240-47ff-bb9a-6f2fe9068c19@sirena.org.uk>
+In-Reply-To: <ec917317-4240-47ff-bb9a-6f2fe9068c19@sirena.org.uk>
 From: Sune Brian <briansune@gmail.com>
-Date: Tue, 7 Oct 2025 21:48:12 +0800
-X-Gm-Features: AS18NWCTeDg9-o5Vg5Ezxcumq6wgIbm12pCTthF8BsvCcSZjH71LOkvmYzUw3d0
-Message-ID: <CAN7C2SA8PQY_XgCav+FgZPpogeCYBVT-KU9-EWTPcaRADG42qA@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: wm8978: add missing BCLK divider setup
+Date: Tue, 7 Oct 2025 21:54:09 +0800
+X-Gm-Features: AS18NWCV5lrnrbFo_4lVDU4yxu34LvHJd-Kcg0G86bt4H5pl8RkbNJNEE2CW3GM
+Message-ID: <CAN7C2SCrHwrNjYG6SG_bgGhm4Vuw6z5WeTSO0L0D=yD_GcHuSw@mail.gmail.com>
+Subject: Re: [PATCH] sound/soc/codecs/wm8978: add missing BCLK divider setup
 To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=887=E6=97=
-=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:15=E5=AF=AB=E9=81=93=EF=BC=9A
-> Please don't top post, reply in line with needed context.  This allows
-> readers to readily follow the flow of conversation and understand what
-> you are talking about and also helps ensure that everything in the
-> discussion is being addressed.
+=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:48=E5=AF=AB=E9=81=93=EF=BC=9A
 
-Understood crop previous reply to the content that this is mail replying.
-Will soon repatch another version on Charles comments.
-Thank you
+> Systems doing this are using a machine driver written for that specific
+> machine and will know exactly which CODEC and other components they are
+> dealing with.
+
+With such idea, this is not CODEC controlled from first place to
+restrict the possible configurations.
+This could introduce many possible hazard, but not this patch trying
+to fix from first place.
+
+As for Charles, I will try to patch with option 2 unless it is too
+tedious to do so.
+
+I think you have two options:
+
+1) Remove WM8978_BCLKDIV from wm8978_set_dai_clkdiv. There are no
+   upstream users that I can see, so this should be fine. This
+   would mean an out of tree user of snd_soc_dai_set_clkdiv would
+   now get an error so they know they need to fix something.
+2) Only run your dynamic BCLK code if wm8978_set_dai_clkdiv
+   hasn't been called. This would mean any out of tree users of
+   snd_soc_dai_set_clkdiv would have no problems everything would
+   keep working as before, but at the cost of a little complexity
+   in the code.
