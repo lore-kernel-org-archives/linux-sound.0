@@ -1,63 +1,63 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F00C29B78F
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 02:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25F029BD9B
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 02:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759889932; cv=none; b=B94cq+0jWOfG3eN1pYP0S6M32MFEFtXlF+T5CRYEXPgZuIRi9nuN7rJbeaRmrYrfw6V0yNVajqyfhdcxC34ampiNM1Ov+ptlHPc+KDDoGmg3vjv9g7nSM3P+PBpWEpVsQY49V6+8Q/IMN31OaCMpOrYp2Wf01/8Eixl8igKmLZE=
+	t=1759891251; cv=none; b=e9Y87u8BmlrCKK/PgjhXTOQ5tlm4cIAszuJwddgAdnlJmZSwVcExPPsgR+MI+7orM977hWP/GDmjvUhrJRckgg5+BAZOpaEhZaH/K5VdrwFNhqHOkw5thI67TRqahp3Y/w9JkAz/o1q+s0XY7NQKBiX7s2XqENO2Jpj1YYpfZgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759889932; c=relaxed/simple;
-	bh=eLUKCid2mCzEr3f2IULaa6Mi8dzk04iOMQ1Cu+awDD0=;
+	s=arc-20240116; t=1759891251; c=relaxed/simple;
+	bh=vbpwXTejC+yajTX3XXncJGeds605AJHrgdSUCP7BbNs=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=SzyL7IIYduBRmBsRj3VF9aC1po3t4fBMpE14rU8emPMv4ya1KIlf2Ag9LQpTt6VXmD79606qC/RA/dX1IKbL4lPy1+lHXfGhUUQruzTIpOQ/35Hcxps2tp8+FKA24JPj0DX7pvKorRcRktOGtSa1e+VYmIFNyzUfrVPMKBb4hFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ahaQ+NAg; arc=none smtp.client-ip=209.85.221.45
+	 References:In-Reply-To; b=oqmK0hYk9EWeDTaJldubzNkXgtR6JhgAUywmU5KWH85sLqfQKeO6q4LRZtdptura7IgGow7oO3kBy0DlxFgZfYiUDr6f8LW5eQEecUPv+cWzqIHHiDRVSOexZvUBaVc2wVOGeVk/8PUti7HfRUEBsX9gbf/jd4bUgXDdEXpLr2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hTAdcuHp; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ahaQ+NAg"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so1687805f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 19:18:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hTAdcuHp"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3fc36b99e92so304940f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Oct 2025 19:40:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759889929; x=1760494729; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1759891245; x=1760496045; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=micbjQhFRi56rmBZKMQCddkVTulgFVdWxWszGqRTF54=;
-        b=ahaQ+NAgrWEPQIWuYqcDIOvUoZ3mn+pgDminfwb0D23x9JG3hjU5U92zv2E3HqJMO6
-         gNawUbzwU2KVurUIPikMg9FOl2X/zB+5JZ0Qm+pQTMzwia3+/qHPF+/sJYrxsMj9KqHg
-         GoiozcubMSwutgCST7fk3Fgh46HutkmdyGafcQJL76KUMdnL2bIzwpprswGJp1Bj7NAu
-         AMIis8KZLI4JdFV6TBfdsfK+MuDnA0/wI6omoHxCAKvg9/t7Jnp2XCSBUx4AdDbCYeKf
-         LXok8IgB0KIRL1Jr6znbw2hpYMT643pXKwmSLOn6d1VFMzZIHvJekxYTtk8bW8p+fG1m
-         fK3Q==
+        bh=vbpwXTejC+yajTX3XXncJGeds605AJHrgdSUCP7BbNs=;
+        b=hTAdcuHpIxENGBpN9STA3bI7YsxHoTZ6EtRCkJqoMD/wiGNCAwTIKV7IsP8wPyG4bB
+         U6GLpIU57vGx18Wjj4enoKZBERR5wmO+CeozzgXfVXfvblWakhfgees/6FpyeltmCUju
+         r+vcJuwd/tQkQivDRtnhhfLFNyUpFiDRI8wWzWJph5fSpU5lb4/WfoN4XMlMK2tNKP4c
+         q7vH969Hk7rYMvcGQmv2gquNNzh3cjb7FCO5O54XwwE3VQJr5H+Ly2ZHS94RxjpZKVZp
+         Ty+Q+9JpswO9NMCEI7NDDv3pmVG0bz3NJfKPd27U5kJIHoTQcYK4lmCsqIRreMdBdLK6
+         1NOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759889929; x=1760494729;
+        d=1e100.net; s=20230601; t=1759891245; x=1760496045;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=micbjQhFRi56rmBZKMQCddkVTulgFVdWxWszGqRTF54=;
-        b=TmHPk0Rlk1HF/YD8GVMz+frkzl9fMC8PNOY27TN9UF06aLp/ii2/0XKDALJ4lBFIh1
-         JRR5FWVr9uae6XbqOjEBARflOUkfvjKVoreZJcD010ZUdd/y8+2Hwqc13uBOdGCNpm5I
-         QrrVcSYDTCSTFiZIPXAhlhZsQ6YgS8Jl/p9+6hK7CaQ1aByMM0fcNRoSetM+qQHvrLHw
-         TYxmyhwH7ewV9RJC0ERbFT+FBp0TsCrdADv3v/u9Mxzr7OMr48xPsZMuj+uMUY08aHCv
-         iuL5FomXcRbggqkJuJvHEXcNgh62U8Z3GaFz6ej5koBpvWmxa8rBIXpFM3dtCwy27ekS
-         z9TA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhLokIDZgM+gN6lQxIfCcxB6UM9CySIVOZYzXim2UKU4BhijWkKMq2raKz8j6IFjPu5w4ZXw3jf2HawA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznWzpWBUe9cL+qOq2x5IaXOI/ZBlW3nPI9xlVpnp1G8qSzeAM9
-	4dL0Tstq38TOnNGts/LooqpeeUB+2eT7jPNQu9dSnks/1vV3Q95JDAnx3cm5NrIWVek=
-X-Gm-Gg: ASbGncsy+ZRHsh+DTDQ4NoTAf/VI/gHkr+DRm6zI3k/GVJDVwB+5Efb6gTe+pkfDbLN
-	V6W9gTcHm2EkPxSJqpTyOsZoY50+H3T81Q98nX3t4t547/owHWje5nwcEmD0HhP7M4qSAJ561nJ
-	xbvmC0pk6qmL3ezPDJMy9cF8u30iBrDC9OSMcC1fBZyTpG+TuoeryF7ec8PIbz1kllELyR275qs
-	SzQyKOuwdoJJVyCdTm1f3Xzf5fEHYgv7Nj6q9pQgYHbmvRfMRMSWFvdoo0LSzkPoDW3kcFJ+Ei/
-	0IM0wJE0L2WgYBeGG1D/khPVBStK6WftkdGx9cuKjAD3Pt8QiF7cDRr4CjbhU8Y16LrLJeTpwgr
-	XaFYSu9k5sZm2mr7y6nbC1lKlkHMYZUWs+2CMkTfHf3Ke4gSDCV/fldU=
-X-Google-Smtp-Source: AGHT+IFPMFJByHAQ3JW76Qjmt7UP+fMZMpkYgj4Y9V9tn3CZdsWTV3HC+ojk6qaBDfa1ihXXI4WNNA==
-X-Received: by 2002:a05:6000:3105:b0:3fc:54ff:edb6 with SMTP id ffacd0b85a97d-4266e7dfdb3mr815912f8f.35.1759889928751;
-        Tue, 07 Oct 2025 19:18:48 -0700 (PDT)
+        bh=vbpwXTejC+yajTX3XXncJGeds605AJHrgdSUCP7BbNs=;
+        b=AIzpWA78Xng0Qbi/eKHG14j5BeIaV4XbmD/ObK7OaqXZPvIVPKlcfl5OewKT6WxN4F
+         IPiQhOa81dsZasB/sAK8W52cVzAAAAEEeRE6PHAitn5KFQkXbky74b6u1vsaUlMz0Zo3
+         7bjyVYr9YVs+Q5wkvVP1O+/SJtvWfQATfiyrZRFseZC/077P9kjBJd+6WwE3qgwhObY5
+         MQMcN/jnH0zUYI7tvvMg3Fq2g4iLKUSu1nEr0AIbibVVnjO2BDAc5wX+Uw/YuTlTDqwM
+         BK0xiJ/zwX1lH9c3C9i+/cXxLhgOzLitjCl86IRmKBArfbUO2ewoUqcvlWhXXVL6NhtG
+         qqSw==
+X-Forwarded-Encrypted: i=1; AJvYcCWltp2s3Q4ULjsOzLLUpDi5gBoiRJBTuWj7IqsnaqLSHqgn6jUsVqtSr3ZXbEL6jtF3TuJB6osMg8+hCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKc0aiTW7Wy/4fM65fgHv61MZDQyKX9vZnt2euZs7c3lVNWWaZ
+	8rAweXRoXChOBmIShqkRtbEFAJmQlrGu4URoBoiSvt+ObPmfvoDT/NQGQoxmV1fD8qA=
+X-Gm-Gg: ASbGncu3IchbUmI4zktmKyzWCD1k+XQhotCjorkllM4mC83b4oNHf7qpJ/qNuJMIsPY
+	g5UY7o+O3bCvhxHQi/prfH2IgHHOvL6LtyVLo4Q5nIVbIqIH4pYCntdGuXs9rHjI/b9S4NOeXo9
+	8se0zG2RNuU0c0rkwRuyMtlS2UJUq0xWu7lkSu4hqjrpRkMWds7Rgk106MdL1evlzGIYWUh+afP
+	EhARYNaOrWWWgoiqGKWWqlrxVDhEeJHQGf1ro564vl/LyJ6oCA20P1CG5uraLb+Mrua/oOti1m4
+	tegvvAdIMM6B7HGGDAApS5iGIsI4nvlDsdKmEJvcR7WbEanRnp4U9LsNgnUpVe3t9dwfRi9uQ+h
+	sG+4K4Qiqh0MgnmM+cvsQ8oBP/m4em8Fj32E/KDd1QMCbbxRZItTFo2g=
+X-Google-Smtp-Source: AGHT+IFFqlDGt7h0nc+NuKrTo3pc2pheELlH3q2GeHR9OiCLFLF0nYVBjizloysNNRJBS6y4P310LA==
+X-Received: by 2002:a5d:584b:0:b0:3ee:3dce:f65f with SMTP id ffacd0b85a97d-425829e7935mr4259067f8f.14.1759891244667;
+        Tue, 07 Oct 2025 19:40:44 -0700 (PDT)
 Received: from localhost ([2a02:c7c:7259:a00:8c32:dd4d:57f2:8be7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fa9c16990sm15668705e9.10.2025.10.07.19.18.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8e9724sm27496800f8f.28.2025.10.07.19.40.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 19:18:48 -0700 (PDT)
+        Tue, 07 Oct 2025 19:40:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,77 +66,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Oct 2025 03:18:47 +0100
-Message-Id: <DDCKWVH8ORLM.357D9IKQK9YN8@linaro.org>
-Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Lee
- Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
- <srinivas.kandagatla@oss.qualcomm.com>, <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v4 2/4] dt-bindings: mfd: qcom,spmi-pmic: add
- qcom,pm4125-codec compatible
+Date: Wed, 08 Oct 2025 03:40:42 +0100
+Message-Id: <DDCLDNFBCALB.19TNBLSQJ5X86@linaro.org>
+Cc: "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: sound: qcom,sm8250: add QRB2210 and
+ RB1 soundcards
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
 X-Mailer: aerc 0.20.0
-References: <20250915-pm4125_audio_codec_v1-v4-0-b247b64eec52@linaro.org>
- <20250915-pm4125_audio_codec_v1-v4-2-b247b64eec52@linaro.org>
- <20250918-wonderful-deft-jackal-7d3bbc@kuoka>
-In-Reply-To: <20250918-wonderful-deft-jackal-7d3bbc@kuoka>
+References: <20251007-qrb2210-qcm2290-sndcard-v1-0-8222141bca79@linaro.org>
+ <20251007-qrb2210-qcm2290-sndcard-v1-1-8222141bca79@linaro.org>
+ <67e313d3-1f91-4205-8aec-fbbfa41004f2@kernel.org>
+In-Reply-To: <67e313d3-1f91-4205-8aec-fbbfa41004f2@kernel.org>
 
-On Thu Sep 18, 2025 at 3:03 AM BST, Krzysztof Kozlowski wrote:
-> On Mon, Sep 15, 2025 at 05:27:49PM +0100, Alexey Klimov wrote:
->> Add qcom,pm4125-codec compatible to pattern properties in mfd
->> qcom,spmi-pmic schema so the devicetree for this audio block of PMIC
->> can be validated properly.
->>=20
->> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->> ---
->>  Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>=20
->> diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b=
-/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->> index 078a6886f8b1e9ceb2187e988ce7c9514ff6dc2c..776c51a66f6e7260b7e3e183=
-d693e3508cbc531e 100644
->> --- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->> +++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->> @@ -137,6 +137,12 @@ patternProperties:
->> =20
->>    "^audio-codec@[0-9a-f]+$":
->>      type: object
->> +    oneOf:
->> +      - $ref: /schemas/sound/qcom,pm8916-wcd-analog-codec.yaml#
->> +      - properties:
->> +          compatible:
->> +            const: qcom,pm4125-codec
+On Tue Oct 7, 2025 at 2:45 AM BST, Krzysztof Kozlowski wrote:
+> On 07/10/2025 10:26, Alexey Klimov wrote:
+>> Add soundcard compatible for QRB2210 (QCM2290) platforms.
+>> While at this, also add QRB2210 RB1 entry which is set to be
+>> compatible with QRB2210 soundcard.
 >
 >
-> Not much improved. Same feedback applies.
+> You explained here what you did, but you should explain why. I don't
+> quite get why SoC sound card and RB1 sound card are both needed. I would
+> just go with one.
 
-Around the time of sending this I thought to set separate follow-up patch
-that fixes the other part here -- pm8916-wcd-analog-codec.
 
-At this point, is it fine to send follow-up patch that does smth like
-this:
+I wanted to go with none in the first place and just make it rb2
+sndcard compatible (as a fallback). Then Dmitry suggested to follow other
+sndcards patterns and implmenet it like this.
 
-+    oneOf:
-+      - $ref: /schemas/sound/qcom,pm8916-wcd-analog-codec.yaml#
-+      - properties:
-+          compatible:
-+              - enaum:
-+                - qcom,pm4125-codec
-+                - qcom,pm8916-wcd-analog-codec
+There is also at least one qrb2210/qcm2290-based board -- UNO Q and at this
+point I can't say if it will need separate compatble or can use
+qcom,qrb2210-sndcard as a fallback.
 
-?
 
-(I didn't check how if it will compile or pass checks)
+> Please use subject prefixes matching the subsystem. For bindings, the
+> preferred subjects are explained here:
+> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-pat=
+ches.html#i-for-patch-submitters
 
-Hope this is okay.
+So the order in subject should be reversed. Got it.
 
-Best regards,
+Thanks,
 Alexey
