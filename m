@@ -1,117 +1,165 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD05B2EBBAD
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 14:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9DB29B8D0
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 14:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759934237; cv=none; b=MQHPdP7bMch6JNrVf0W7wgjz83FDvT7Yj9/ZLTPdIOiK4eMGBQzPdVjBT6P65CSY2IrsqBneAsKhgVdmEMKi+QZyEcipR83jtg4kc+DUKfjqlr+NdQFWVAdWKT3gu6WM251xXJvctVTeUX0XT6QTR2B9/ltz3BvuhnyWpYZdULw=
+	t=1759935490; cv=none; b=NPYLl7zkNBAfBYhVDTMZ6BmoBxhB+BWg5nqhNqwW5OF+JHWMnk5dsfoqRoa7bl5xd7Icd1ZOLiEXencEAZDWrIJOxtVJEGvuvApjlKDQN6hssHhA1MWYg6QCVav7yYU/FhAcN8X0yM+sPmyBADR8ERBR8QBgm8MzXEGzVn7RwlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759934237; c=relaxed/simple;
-	bh=Ixbte/0lL+7IX0qAw2kq3G7ZLxXlB4vVKnyEmSB6+iQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jp5taZV/4l78325leldjjdxgwATG6cZNn6WTwa2awAcPVqCLcMPkl4Qz69Hm+aZYFtL7gScr+daPYd9oL9KV+tplNtUfp6HQ75BdYAowrt0fJj2mva0ziyE7KMY0CI/Fmss50eJDTLBHTmDRLAZP2fvNNxlQYhwKSrDlJ5Mfs78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIHFaAug; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759935490; c=relaxed/simple;
+	bh=5V4FY1lGCPXLwOcBdDx/5qV1DoJAfuAXFe8DMG4W87o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAnK3MjkBPjbZ5eqhXvuKQDSKa7di7/dqSm//Js6vqJZZEsvSmAVeiqFwj7q/xrtOEhwVNbfSR/vtKPn6yvv0uQUsWYRpK1DrXrwlujknYVYDrslNGU2yWSSse0DbTuwSQEnLDNRmKdy5yjTTxMq68mlab87sznUeMzP8AYGEdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fpR31PHb; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIHFaAug"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7a4a993dea6so2480916a34.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 07:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759934235; x=1760539035; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/6hIM6WNuFYQgzY7nobnKdF5QMgWAFdkVlhnmdbVzOs=;
-        b=BIHFaAugrdsVPiofmvq95SBiCTHHf8DVEidybAst0iVcCvWdNQMY8gSLKQUfGYDe4q
-         zONIQWBiU/FEaXwwJeTci8O3DoyhOS8oh3JA0Ta/8WbYh9KJcvju/AT7cpTIqm2xddGz
-         DMv2SrbfoGuGOexqLaUd5lU4E7CgHTJR1xL8t3D51KNV9l/5ML7Tr1hfbxpTeYV/M18d
-         EACnnASE2Zk2iA+PRUWNysi+Bbn8ftLpswPNApTHv9ygerXdwfe240vg7P7tas34Ivta
-         5h86THGqJPficSgR+6r5tCF9XRdRjfLat0W2kWr6qYdMYr+0JPaH7HohdAbfULQ7eTRF
-         5ZJw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fpR31PHb"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59890SCC014237
+	for <linux-sound@vger.kernel.org>; Wed, 8 Oct 2025 14:58:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=gg2XGw954hw/rNzVk11kaod4ZGuB5Izji2/
+	QJiTgN50=; b=fpR31PHbNQFaoP0jHLmGl4/ob/VfzSwr+TexkvmZW/2LsaesVKc
+	hVcEvVpFm+Wqi/dKj/jCiyAeF6mhOGyOhw5Wh63RjkWS0Bd5Ma9xERWrQ8GvM2O8
+	Ba5sqwCOyLiampeTHEPlVJ/NL7cWjq72Ywab3Mv2MrysAv0420r+FVyd7n82S1Fk
+	TBTQ8nlXsgHDOw8kJjoejrAau1NJPEAsxwpsG4BUhceMYZuPk9XWQkfmCEprelx4
+	59PPG2TkYgaz5+1ZkrjNLgg5Hi7AO13oQHPmuz8xrnAR8bD5M6oTA54ZAszkO/1Q
+	8tXKbnEBcFEaWpGg4Y/1Kdab/CzWNcnOYBg==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mgd0ppkk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 14:58:08 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-78102ba5966so6970937b3a.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 07:58:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759934235; x=1760539035;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/6hIM6WNuFYQgzY7nobnKdF5QMgWAFdkVlhnmdbVzOs=;
-        b=AYkQZ43i+HEI+F/Mm8LQUXDmmzI/3ud3cQl1xJc6yyF/Qbwgk+zoAQtgouLDnYp1XV
-         hvCEmeQVH4mo0y+F3xouttX3ISMlRH/O86p9e+JLPSrfcklc4Qn5JpKGbJ2v+17RhZgq
-         QXHW7eo+Fx/7FdiYt7ZJLFOGWrSP/DLmqKrHHBmFSmhbItaBJKRI/8erpWh3g70uCryK
-         S7Y4ARxOqULVViED6eH/hLj4fc2GB3C22Y+QW2bgcOshRJzbQXzg7qtVMeAqIspNSqLu
-         SHW8o5dBoU6q5N/3fJP7zCwmMV3J8M89ghhWPQAokhivYdyd+fwChYxVU20BgMetXivO
-         xe8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXDDAeSBuVgDJEtmIBNHGrDwD4D9nWtGLmk25xJJgdyTrsds0HiN35LohwEIHGZWha7qZnR1uVjGCXSFg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygUTIcSRH7YIxe64ajU0Ox4ih3+EFaWKZShVrOecwn8THKk1fg
-	9je7qr7tms+0Kg7GxKeHLi0tszabmFcBH8OMEHh4trrhlrBe8FoFLT9shXseOa40gaMg7x427++
-	SJNajNVKOfaz7WU7YLLb40zuc/vcxUqE=
-X-Gm-Gg: ASbGnctR0l4u1tM3YAzJ0UwYi7V0OIKPtPLJXnY5piTS8w7V3gHFE8eLuK2jB23eoPJ
-	5XCc2ZFd0gUCwIU/SEtkzdb2teHCi58l/ZA8U8dnFmDqnbOjwx6u/eq6rd7vKyzOpLAkw+nCacN
-	XcmDalS6zCrfeogT6SD8BztLnMRIqL56yDcmMjd3J32yVT44cv7IZfnDUttb/ReEwitoe+v+i/u
-	72W56rmbPmjfsYzcjvsHyS5YjxGaSY=
-X-Google-Smtp-Source: AGHT+IGdolKZV+83ozvEXmRGakQKj59JusdSPV3dSs4T1W7Pq3LPZNTXJR1iBTufVtVYZ5FjloW+su0prdpDYyfenzs=
-X-Received: by 2002:a05:6830:2a9e:b0:745:a21c:6a63 with SMTP id
- 46e09a7af769-7c0df752611mr2003836a34.9.1759934234888; Wed, 08 Oct 2025
- 07:37:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759935487; x=1760540287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gg2XGw954hw/rNzVk11kaod4ZGuB5Izji2/QJiTgN50=;
+        b=VSB7VlqeT5bZqYUl+6J4uitqyjXrOJzLlfNbWCk1sG10nZaZgbvOmmPPtf1/wdNxtw
+         VjEv0nHEqBgqHU5zsFbzoFYkB2mmfj6/nmwSPzNhAxuhktT43q7doktSvFRYcqNLirJ7
+         qvSUUFyNQGTWLQ8JX1c4aj/4YZQG+N9bhzMt3QR9CP1RxNEh+Mmc/a8Twx2esnXNFn34
+         98PgZ3SSDtABvLhmRpdyxKMEMToYialtBxJoXY1bvlznpJkz4HPAoZuy24Jnr5MZ8QtM
+         XWuBQFNShV/R7lnxHacWt1LlRSssEHUHm5EVLWNNUiHOv6CT3FxiwicGtjxRDQKAHiQc
+         b3PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9MmZveM2z0bVKhI1s4roaZG3Jy+NiluhFLFegxZFa7sMwWGvhk8F8y1B+y0Mi1VLV/dyfODTIjXKYCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQpZKE9sKCe9jyweXpYMLpFeaoK4sdqFzL89RgAnnJ2CJAtPgT
+	K/e3KRDwwuO3QoT3UtqP02hHL/SnfCU7H9khHQn+f+zFTSlCvjUqC0Hb2PM2qss/8tftDIutnH7
+	xujmDeIzmmcSN4a5cbP2hgbtOCS9sQRzy1/pyzx/FBFZ6bUyGCbVKzBjLjo4PzoAtIQ==
+X-Gm-Gg: ASbGnctzsjD+5VkcSHylczltKyQ7UzlH25rRbHGV0l83ZtBUiy32V3GdrPF8g3UROtC
+	N+mWtUWzxuwgLVi19WMUwOPI1k4pxPcZazHkFoCieklI1sx8cgayiJ6XbfbiETSA04N87Osl3Wn
+	WZs+DQDSs4+RWTcHuudsA+A4/5/jBnBMNKpk/pjqxmv9jzqbH2PyL5rVN5GG3yzm/n6yDS0UH6w
+	M61OKJ135LxAFCY2KAQQthIRnZqu9qNKek88BeQer2FR/N0esvEa8si3sefHt/DkcfO9udFbjWL
+	ymE0R9Q4YuU2xEohwAJn545ZzgobFdlfeMHI5HV94MuHSehFTEFtQ/vvn4xIqSSSLeaVMvv36oU
+	=
+X-Received: by 2002:a05:6a00:3911:b0:77f:3a99:77b1 with SMTP id d2e1a72fcca58-79385703346mr3825674b3a.9.1759935486535;
+        Wed, 08 Oct 2025 07:58:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFW5q5j+m+RGehMEdTTXNFPYB2WX/itVnHJwVii8g/LY0p0ro5CAl7jexOkZcXjHDnVYlqG9A==
+X-Received: by 2002:a05:6a00:3911:b0:77f:3a99:77b1 with SMTP id d2e1a72fcca58-79385703346mr3825645b3a.9.1759935486009;
+        Wed, 08 Oct 2025 07:58:06 -0700 (PDT)
+Received: from debian.Hyatt.com ([192.210.17.203])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b02053b84sm19068892b3a.53.2025.10.08.07.58.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 07:58:05 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: srini@kernel.org, perex@perex.cz, tiwai@suse.com,
+        dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [PATCH] ASoC: codecs: wcd938x-sdw: remove redundant runtime pm calls
+Date: Wed,  8 Oct 2025 15:58:01 +0100
+Message-ID: <20251008145801.3479-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007145028.1845-1-briansune@gmail.com> <aOUv69rMkyYFiHae@opensource.cirrus.com>
- <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
- <e78c9cc0-4a1f-4a22-9cba-a8213a7b9301@sirena.org.uk> <CAN7C2SDMB8_b-m0ZMzuSmhHxWpA10mcxxxDMKWuNe6wfiEXo-g@mail.gmail.com>
- <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk> <CAN7C2SBG2EZ4CJKR_vWKBGsKpZTF_9VJXj7ysLx38nJW3dFxeQ@mail.gmail.com>
- <f15af8e0-3bf5-4dd5-85e6-07d00f8b020c@sirena.org.uk>
-In-Reply-To: <f15af8e0-3bf5-4dd5-85e6-07d00f8b020c@sirena.org.uk>
-From: Sune Brian <briansune@gmail.com>
-Date: Wed, 8 Oct 2025 22:37:03 +0800
-X-Gm-Features: AS18NWBX0pcOTSZG_qrLJTlFAyvqTKFMyWIHAO4GASTUMYtTnA7EWQEdQts0kG0
-Message-ID: <CAN7C2SATEDK4C-C7NOOvSKsQnfDBMStogkR8vFBAS+tejLbtNw@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
-To: Mark Brown <broonie@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: wkSRgqPQBmcpi2j2hrw2crS1EnWiP7of
+X-Authority-Analysis: v=2.4 cv=T8aBjvKQ c=1 sm=1 tr=0 ts=68e67c00 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=3CSVYe8HblTQFsWiJzwA3g==:17
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=J5h_BI_um8seuJrpCkEA:9
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: wkSRgqPQBmcpi2j2hrw2crS1EnWiP7of
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMyBTYWx0ZWRfX3m7H7LzJfOpw
+ nmFUMuomoQGSh3SW6B/wm5v35zgGjbPtNcFqB0wQOqS5Gkn+nJOD1Y4hGX5/uTSMXyg8DhCFspn
+ lAHIHSyQij3hDakaQu+9wRtdMi+3k6xeaTfHZEyl0/CUV+91JJoFfq6Gtz//wwsm0PNN3epn/gF
+ ZRXcgHoyC0DzvS5MpUakpYC+RtC3OqMErHsf2FxMaFVupI/FBwezA73uwFChXsNrZrXZTBnkr1l
+ w4XX+OY5Z6XGYjqmr9/BNMiZdCFzRaLXagnkP5xI40yoeoz0H74tCRORmElCV307GscuB4ny5Ei
+ MMOtiAUEzBi89YUowzZSkq42bQMXODBDdMFQx+xD8erajv2iwESczt/smT4s0XKMdsmvlA5cSI7
+ CDvjs66kUqW34NcW28DenGrDwIPE6Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060123
 
-Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=888=E6=97=
-=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=8810:20=E5=AF=AB=E9=81=93=EF=BC=9A
+Component bind callbacks already does runtime pm calls, soundwire codec
+also tries to do the exactly same thing resulting in Unbalanced
+pm_runtime_enable and disable calls.
 
-> Many devices (including all the Wolfson ones of that era IIRC) will
-> happily just ignore extra cycles on BCLK, the issue here is handling of
-> a f_256fs which is a bit off what it should be for some reason.  You're
-> assuming that the device is clocked at an exact and suitable multiple of
-> the sample rate like it's supposed to be but in practice these devices
-> work well enough for the system's purposes when the clocking is merely
-> close, they tend not to be particularly fragile and users perhaps not so
-> deeply concerned with audio fidelity.  Note the warning the driver will
-> generate about considering using the PLL to fix up such misclocking.
+Remove the redundant calls from wcd938x-sdw driver.
 
-If this concept holds.
-Are you telling me a operatable case audio can output just quicker or
-slower on such w/o issue?
-Are you telling me the left/right channel bits  are able to load
-correctly on fixed lrclk while bclk is overclock?
-If so why this patch required from first place?
-Running bclk quick and just feed in the left/right channel data on
-1bit delay on both channel should works on IIS.
-Just make bclk /2 or /4 from mclk always works while LRCLK just fixed
-to 44.1k 48k or any audio SR?
-Datasheet WM8978: Figure 38 I2 S Audio Interface (assuming n-bit word lengt=
-h)
+Reported-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Fixes: ebaf88c0546d ("ASoC: codecs: wcd-common: move component ops to common")
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+---
+ sound/soc/codecs/wcd938x-sdw.c | 20 +++-----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
 
-Why we got to argue this things?
+diff --git a/sound/soc/codecs/wcd938x-sdw.c b/sound/soc/codecs/wcd938x-sdw.c
+index add907cb2706..8c8f39d04972 100644
+--- a/sound/soc/codecs/wcd938x-sdw.c
++++ b/sound/soc/codecs/wcd938x-sdw.c
+@@ -1207,24 +1207,14 @@ static int wcd9380_probe(struct sdw_slave *pdev,
+ 		regcache_cache_only(wcd->regmap, true);
+ 	}
+ 
+-	pm_runtime_set_autosuspend_delay(dev, 3000);
+-	pm_runtime_use_autosuspend(dev);
+-	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_set_active(dev);
+-	pm_runtime_enable(dev);
+-
+ 	ret = component_add(dev, &wcd_sdw_component_ops);
+ 	if (ret)
+-		goto err_disable_rpm;
+-
+-	return 0;
++		return ret;
+ 
+-err_disable_rpm:
+-	pm_runtime_disable(dev);
++	/* Set suspended until aggregate device is bind */
+ 	pm_runtime_set_suspended(dev);
+-	pm_runtime_dont_use_autosuspend(dev);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int wcd9380_remove(struct sdw_slave *pdev)
+@@ -1233,10 +1223,6 @@ static int wcd9380_remove(struct sdw_slave *pdev)
+ 
+ 	component_del(dev, &wcd_sdw_component_ops);
+ 
+-	pm_runtime_disable(dev);
+-	pm_runtime_set_suspended(dev);
+-	pm_runtime_dont_use_autosuspend(dev);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.51.0
 
-What merely close is based on bclk and lrclk is correlated properly?
-For example bclk is fasted then bclk/bit_size/channel_num =3D lrclk
-faster then this is still holds.
-Do LRCLK is fixed but BCLK is far faster still runs properly?
-
-I think if the patch is not good enough just drop this idea.
-I cannot understand what operation scope you are expecting.
-
-Brian
