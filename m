@@ -1,113 +1,155 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6796299AAB
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 20:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC0D212575
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 20:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759955248; cv=none; b=Ac61oRbNOCAoTw/YGE2WEpY+VYEkWq/ESiHxH/utrrQy0p0/DXu27GT5RQ8uFT54TqIxUEyd8i1B8Mr/JMALHE+TGcKwbyWprR9Wgy2J2jyqKYcwljMEY7OnKaNjfQW48MlZ1WFpQsnbYLFgd23xM02vh85dwAAL6fuNBe+BQkg=
+	t=1759956745; cv=none; b=FIHSkyeIPEyaqd0BcjJMDx0WiN4DPxCHITChPyYM1zCuE+uFZ/Dv8LBwOEJhjQlPnRPj67bZPgAkXeg2CmqWJ8Llj65G2HuG11RVlbc5Y31hFcQWNFsLj/pFUcf+FwZGkDX1wWNvQLw8BKDpoEcpb5LdYJiGYu9x75Izu2citi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759955248; c=relaxed/simple;
-	bh=mJR1IPlBUZmBwh6fQKyRf97cCknjaSUAHQjnhdD4aUw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M/h1k9RqTYUEkAQlRbw1AsJZrXpPcszU53QO14qGaXcjmnlRXlvtjj8NREG/5oehT2Hz+aaVF5HcH5EbmyWG6Z3E5tSsPUw81b84C4ntl4pkXsuAZufW/zHM9BSOJvsH+TsowCBFSXWaYbs2HES5NAewY3h3+wc+KdQ8C01+vx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eSf6E4Rs; arc=none smtp.client-ip=209.85.210.50
+	s=arc-20240116; t=1759956745; c=relaxed/simple;
+	bh=ndOxXvsp/HMrhb1gAwYlnHVXo3TWMDryCNFBD/jxrYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bJCX6P4uA9MU+PnoC/b14x6GvsKkdpPVXt/U9i/sdDljOG3RY2962OlZrY1qIZ1g0dSGkDxnSJgXaTk6r48LsIstOk4C9/KRZxB3EfjjhpT+SEoNlDdiJyd31qx7hk3Tgj10IWtGesquC6ouoby44/Av84QbwI0EowGg0z3phJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mmfPIluN; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSf6E4Rs"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7b6d6a1e4e4so169955a34.2
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 13:27:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mmfPIluN"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so189507b3a.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 13:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759955246; x=1760560046; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=isCw8QPBufvNnn+xXpaO0+hKfXBnUa6iPfCajSX0U/Q=;
-        b=eSf6E4RsFyXkNMNgR129QIefvA7yv9QUf4+NgtfBALsfNdqlAIVnF0QytCf81VwAb8
-         3Al2IQlHlUV7D7j+1OhOJG1l9uKPXx0duT6Ch7i+XBs9Mlb6VO5fIH8aaperG+JNME7J
-         tni56NKPNHQptPq4mF5EMrQNIRhNN1XS3eoaQV6e2URWcX+j6m+JWNfNeA/KVBIYIxHP
-         3JKQfql94ttm9N7lbcoz1A4xl1as66N+a0w/nHpsjbY5DW+Bo4h1h1rMguyAFZcRQUrL
-         XUUv3kxPoalhvGm5HN31IZuT8Fc2RqP2CnyHwNfg/ifHbwLi29FjgJLYpAKXmXt8n0Cl
-         0xNQ==
+        d=gmail.com; s=20230601; t=1759956744; x=1760561544; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MPwoB9zLVW7tkMuQ4svlkxNKyj7FKo1ljzHs+tkoCwg=;
+        b=mmfPIluNOdEUJ2hsENRfjhPtzR8nP90zWxC4PxD8Mm8UFbcv8zuTVY+9uh3Wb0UOdT
+         zPHorXGSvhSijTHLcSXbTpZpq+CZlVJKU0tsavWleIJxU131wW977L0JeKqaDoZUNssI
+         ++k7xtkGmSsOEdVBi1IjgzHIS4AKEAMQ5j5fdd/uJH4UECpUeFUQAPROwh85d2PECJtT
+         0EiSD90C2133dY8H12K/coEX7/yo4OtACJ3TTthl73F3JDiRJJkqY9R7Q/C9ilx6HDmM
+         xUrakd1Tgb9hjqPYYra4DFw9W9YrH4fmSx0Ajb6I1vuHzUKwbUZKysuQQlaQmfSDui4d
+         3S6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759955246; x=1760560046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=isCw8QPBufvNnn+xXpaO0+hKfXBnUa6iPfCajSX0U/Q=;
-        b=VNiHPPZJnNe59BBf9vI2+NJrNmquSxQ9WEozSrv6Edj7wqJhFOS8zs+v2hlj8dL5E9
-         qQzCJSjtQTzlNiOm7K5fQlRsGKXrcWp8u1xGIkxBvv2MAEgLfHlKareLQ1LRDt7RoJbI
-         FFxCKIvRBLrzB8Qy9IZUO7SUCZHcoiSunzBkMVI5kd5rjggnuMo9OWB5Oa+f+56e6nit
-         lOHfXZWSiGzO6/+zrguKmRWirUJcjPMYaEeGxE1uqT08dHANAiCezQcBZMGh6zPSw9uY
-         Qqqv59SSYRRtRExx7uvVhcnzcd9108kdPi5zhC55XpkKjGBpgX1Gayeou60Hj2pxnnny
-         5YXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuItU+tqu2zrL3GtFVyjCiKG0ECYk+G9sVRXUJhj9oLcDFRryuyhbIoQ35k/9nmm5L2845WNLF7xHTSw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM07OCkfdLSgJ3iZw0SdCFtdXFZXOYRglIroCDfAKXilWUgMlp
-	vZ6uR2HChTGdGUaENxXZRtHrBgUX9Ch5mUcwNI4UlJBzC3VmsIC3+Wo4LweHQn6u/SuiLKqCYZM
-	OdIjp5L4gBxF7ydzptmMr4uZNddlHa5E=
-X-Gm-Gg: ASbGncujl1dmpjVejMNZGfYWZ2KmiU/bt5zuUznFO7pe43nXV60cofkzjP68NfbjoEe
-	IuL+IdxZ5NN0azl8MBetYcYL0QJ6n/eNQfVHVwz661UZgXYKLvbIVCqzX9q3DqRmwdCZCqrbL5d
-	4VNBXs5dIUHdBEvsZM2qoa9GOGtUH2/soUtVBqSaVviqTgdCTf8AVGNjnAZ1DfPVqEeE+Iur1JU
-	8AdVbVTuogHW23ig9ssuTgn1uiVyT8=
-X-Google-Smtp-Source: AGHT+IHaD47yzjM8aJTa6jivZYQ9lx8Z8J5ZJOEfJYdipZlVRZ7y+YAtPumpkPRg95CFEQJJBbPSnztFz9H0815BBwc=
-X-Received: by 2002:a05:6830:6507:b0:792:5c6f:1409 with SMTP id
- 46e09a7af769-7c0df72937dmr3180866a34.30.1759955245938; Wed, 08 Oct 2025
- 13:27:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759956744; x=1760561544;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MPwoB9zLVW7tkMuQ4svlkxNKyj7FKo1ljzHs+tkoCwg=;
+        b=g9OIqPhAyas4Eyp5CmfqC2W1LQviRBORLZv3qDdDycUwwjhFPugMlXU3PwkYqVg6a9
+         Uug38WER+cGayike/GMw+bkDrYwlrmQx1O1jfTLjdb9+y7OyRkSXJV2OI8Iz8kDHqGOJ
+         JA9/dq9XqlN+Vj8GmDY3Qa8Iu8/znTBHfFsxpYKp6e1T6i+CMkNLY04Np0t8b5e2lHgB
+         CqsK/vKbznuHSGadwVFcjoXwLDk6FUda7MIeJGC1aYIuzP5tiXUtEqv/GazOOKQLFAK2
+         A+5oxNEbSV+oBzBVYHCl96frYYk0DYafx4+cuMJ38MQI22b9ifMOQ7SogHRuLdbPpJy5
+         ySyQ==
+X-Gm-Message-State: AOJu0YzLp9VcQoZdz1CUbDpIz0oL9S31/F/39HJ7gL9d3Uj54zmeZtIg
+	wt5W7/vMR0cJWrWdGrBfe7ge7Y0xqzYaErQsPdO7XCNTdAQ7GvT4DyzeGiT/8zJKCxaJVg==
+X-Gm-Gg: ASbGncvAmXT4pyAqnJrd/a9z2Ir6jYDOxhaNgChE3jKra4n4vpahyUWuY21uSLrNm2o
+	hEqPnD0ylHKU6hSC3ibCfRS5VHEzOc0MUzJHucu7GfymVWux7/eaMWsJmpqk2RJ1W71WTvuDm7v
+	a7/R3n4JG8lbe+9c5HOWDvZ3uBX6xZX0/GenuFjb5pMPci4NUCYF5CPMFnqALEKMeX0V/UPygoR
+	1SRLHGczzsoG7FZtsassC+GSGHagcyZZnTdOAjh5vcWQcvgfvzRRP1k6KVRGQrXgEZVOfTdWUlP
+	NOvn12F19zEltLFsWWRHpN5LSBDsDYfg7DwXczYXrr+xz42krz0kL18gOnXwUr0rTGOiiXyzyFt
+	l8LA5PC9iPssJ2sp6sEfaiph/8G8vSki8SYJ8nn/1o8hgfq+f1fYmZOFtVycMEX6NPVD4Q1C1MC
+	+riNVaJTc=
+X-Google-Smtp-Source: AGHT+IFHOUwcEcxaUjJKJWy7oLOI7A7a4YH2TSqQazR9yR60OyYjDJ8uXuy2atf8vLqEWBv9FkhxwA==
+X-Received: by 2002:a05:6a00:3e27:b0:781:2582:822a with SMTP id d2e1a72fcca58-79385ed2f30mr5982076b3a.8.1759956743557;
+        Wed, 08 Oct 2025 13:52:23 -0700 (PDT)
+Received: from localhost.localdomain ([185.213.82.31])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-794dbc5af68sm647244b3a.48.2025.10.08.13.52.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Oct 2025 13:52:23 -0700 (PDT)
+From: Brian Sune <briansune@gmail.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6] ASoC: wm8978: add missing BCLK divider setup
+Date: Thu,  9 Oct 2025 04:52:07 +0800
+Message-ID: <20251008205207.1781-1-briansune@gmail.com>
+X-Mailer: git-send-email 2.47.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008162719.1829-1-briansune@gmail.com> <aOacZAiWxG9XfWLS@opensource.cirrus.com>
- <CAN7C2SCDNz5TB3deVziuNNYFnPV_hmrsPL1k-j5Dsj58wvC2rw@mail.gmail.com> <aObHCq6JAHbtTJZ8@opensource.cirrus.com>
-In-Reply-To: <aObHCq6JAHbtTJZ8@opensource.cirrus.com>
-From: Sune Brian <briansune@gmail.com>
-Date: Thu, 9 Oct 2025 04:27:14 +0800
-X-Gm-Features: AS18NWCU6ToQTO4_TITKhRt7wDvXDELe7ClSw4GTr1S9ucLTiS43kgjH1NwssuU
-Message-ID: <CAN7C2SAzHkn=nb-FS8JbKgvvF9iDUssEszgnfpY7s4RsPwU92w@mail.gmail.com>
-Subject: Re: [PATCH v5] ASoC: wm8978: add missing BCLK divider setup
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=884:18=E5=AF=AB=E9=81=
-=93=EF=BC=9A
+In previous WM8978 codec driver versions, wm8978_set_dai_clkdiv
+might not have been called for BCLK, leaving the bit clock
+divider unconfigured. This could cause incorrect or unstable audio
+clocks depending on sample rate and word length.
 
-> That said though, this part does somewhat pre-date me so I could
-> be wrong. If you have hardware and an oscilloscope this should
-> be pretty simple to verify in practice?
+This patch adds a check in wm8978_hw_params: if the BCLK divider
+has not been set via wm8978_set_dai_clkdiv, it is dynamically
+calculated and configured at runtime.
+This ensures that BCLK is always correctly set, whether the
+machine driver configures it explicitly or not.
 
-Have gear but not worth to waste time on this test.
-Well remind this part is EOL far way ago.
+Whatever relieved from hell~
 
+Signed-off-by: Brian Sune <briansune@gmail.com>
+---
+ sound/soc/codecs/wm8978.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-> There are generally two reasons to run a faster than needed BCLK:
->
-> 1) Because you can't generate the actual BCLK.
+diff --git a/sound/soc/codecs/wm8978.c b/sound/soc/codecs/wm8978.c
+index 8c45ba6fc4c3..23e6b874180b 100644
+--- a/sound/soc/codecs/wm8978.c
++++ b/sound/soc/codecs/wm8978.c
+@@ -99,6 +99,7 @@ struct wm8978_priv {
+ 	unsigned int f_mclk;
+ 	unsigned int f_256fs;
+ 	unsigned int f_opclk;
++	bool bclk_set;
+ 	int mclk_idx;
+ 	enum wm8978_sysclk_src sysclk;
+ };
+@@ -590,6 +591,7 @@ static int wm8978_set_dai_clkdiv(struct snd_soc_dai *codec_dai,
+ 	case WM8978_BCLKDIV:
+ 		if (div & ~0x1c)
+ 			return -EINVAL;
++		wm8978->bclk_set = true;
+ 		snd_soc_component_update_bits(component, WM8978_CLOCKING, 0x1c, div);
+ 		break;
+ 	default:
+@@ -717,6 +719,11 @@ static int wm8978_hw_params(struct snd_pcm_substream *substream,
+ 			    struct snd_pcm_hw_params *params,
+ 			    struct snd_soc_dai *dai)
+ {
++	unsigned int bclk, bclkdiv = 0;
++	unsigned int target_bclk = params_rate(params) * params_width(params) * 2;
++	/* WM8978 supports divisors */
++	static const int bclk_divs[] = {1, 2, 4, 8, 16, 32};
++
+ 	struct snd_soc_component *component = dai->component;
+ 	struct wm8978_priv *wm8978 = snd_soc_component_get_drvdata(component);
+ 	/* Word length mask = 0x60 */
+@@ -820,6 +827,24 @@ static int wm8978_hw_params(struct snd_pcm_substream *substream,
+ 	/* MCLK divisor mask = 0xe0 */
+ 	snd_soc_component_update_bits(component, WM8978_CLOCKING, 0xe0, best << 5);
+ 
++	if (!wm8978->bclk_set) {
++		for (i = 0; i < ARRAY_SIZE(bclk_divs); i++) {
++			bclk = wm8978->f_256fs / bclk_divs[i];
++
++			if (bclk < target_bclk)
++				break;
++
++			bclkdiv = i;
++		}
++
++		dev_dbg(component->dev, "%s: fs=%u width=%u -> target BCLK=%u, using div #%u\n",
++			__func__, params_rate(params), params_width(params), target_bclk,
++			bclk_divs[bclkdiv]);
++
++		/* BCLKDIV divisor mask = 0x1c */
++		snd_soc_component_update_bits(component, WM8978_CLOCKING, 0x1c, bclkdiv << 2);
++	}
++
+ 	snd_soc_component_write(component, WM8978_AUDIO_INTERFACE, iface_ctl);
+ 	snd_soc_component_write(component, WM8978_ADDITIONAL_CONTROL, add_ctl);
+ 
+-- 
+2.47.1.windows.1
 
-Then let it be as delta-BCLK that is minimum error is better same as
-PPM concept.
-There must be +ve and -ve errors on margin.
-
-> 2) Because you are TDMing multiple devices onto the bus. ie.
->    something else is using those extra bits.
-
-Is this device supported?
-I am not too familiar on TDM things are series things on same IIS
-sound too system deepened,
-But of cause this make rooms for future improvement or support.
-
-> That is absolutely your choice. The patch should I think work
-> now, but could still use a little tidy up to remove the unneeded
-> code and big warning for something that isn't an issue.
-
-Tired and lazy to check out all these things again and again.
-Every patch i run on actual HW before sent.
-
-Brian
