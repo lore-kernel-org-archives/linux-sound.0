@@ -1,158 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB926260580;
-	Wed,  8 Oct 2025 02:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EBA28C871;
+	Wed,  8 Oct 2025 04:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759892174; cv=none; b=t/SzSzQ3F+n5XVYzUcM0bteIPeE3m4DXVTGYlL79DsC7CNpyOFbpB1RMX8OlVXQS4k/N/ptDMB1DI6BBs72x8cv5Oh4iF2++LiAniMofqe2OLIpAjKH/IraPIxvEjwQPFlDZRDXgeWRyObSG6BeeOKwTrQOd9RsJmdCNiI1wOVw=
+	t=1759899363; cv=none; b=NbXyogxHwIblKuM4tS4Js78bNHrlPph57UNljt/dzNeea7bSWqJ6KGymbXFk0T6HZDjjCv/HqmyKGJ/vkQCjGhio4yJ6qNHn24f4mTJDdlNgKMbsUCrVJdb/kpyLi3GjkCn02+405TE8LHa9qCh3KNjFvcHc9C6AbHlQHFLFHsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759892174; c=relaxed/simple;
-	bh=gkZN5Qc8iYn3DbePjFgVqCfPKhn+zqItH/K4bcNbwjo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ogu/l1xQAFmJ0DKvrogq+iOdSXZApvIiRfhrZTzAf/NgCcraunvLK3c10xxdTQ/CtAR3iQnLwurUlBYW2XcGYM5Hyczfj3YQu4TWWEFFMWNDGk/01C46lsNV84E7EhOFGdc4G7Zyik0Rs1SaWDYz1qAkzgo6q7DzwUhatyAZ2Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pUPCSqTs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759899363; c=relaxed/simple;
+	bh=V0GNeOk6Yb9a+PXldWhn3TuKk2jS4hh+yoe0F9aSbBs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YbD+/qFxibPiT7h+ybyDFwBZyxZ+9SaqWPMnXFauxdKmehLIdPy8/mEzb0u//OKNmFZw+fXZhg6yU8zMKsCFBen1uw4M5PjfMUdjw3j6+LeLJmBm5Aj0Fk+ZPJTbmRZXeWoRdig0vnlOOxVB5hCULuo2iXocDb6iV+IkESUEH6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=oeLrQ1Dr; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUPCSqTs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3784C4CEF1;
-	Wed,  8 Oct 2025 02:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759892172;
-	bh=gkZN5Qc8iYn3DbePjFgVqCfPKhn+zqItH/K4bcNbwjo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pUPCSqTsfm8bKOIrIPMkJFD4IKV7ka7RgVD3X+Y11cchONvW9lEWV+XJAs8FneirD
-	 a2knDlDdTvR6Ua2xMYsKC4eG20DDf0YFtPDhx+CWFjD4Q7pB0dwyax5dyYoOYt+rVr
-	 GMgQuimpfUT9XxmFHxwQkaDxOYwNN/emPVC5hSELoDvNQEZld0/4AJux/O/soWlCso
-	 hAjPgPhg7p93LwUvcRwxqiN42U+1YxF/kDBDPsEk/BZaKb5RkxkjalR8RmfVZw1yxN
-	 fja2IhhzuXTBD13wAR9tcG8rFl1T4UM29HPXUi0vtmReziOWT4oz1ZvHBI4yVuGeLj
-	 1UpJ6jNTL5EOg==
-Message-ID: <68a6d051-dd6e-4a02-b09d-de6a90b79c33@kernel.org>
-Date: Wed, 8 Oct 2025 11:56:06 +0900
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oeLrQ1Dr"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5984thZm3968494;
+	Tue, 7 Oct 2025 23:55:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1759899343;
+	bh=DdhlJmgv1OEzc891uVU86WV12G76t8SGWQ8hyvFzM18=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=oeLrQ1DrEl1hkbAsJpu8uYWmnjuywpAkcNk4lVlpjayE9qqgQPyjla3atcYeu/5vV
+	 9Xr7TYsx1UNsIMvn3PfLlW2oy9RxrNO+9Zg4UgWyB76gTeXifjsWkuGZbrZr8HH3Db
+	 ff3Eq26UUzKSllS0Il33MiyPnb22NSzVvKyf7Tzo=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5984tg1E1201214
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 7 Oct 2025 23:55:42 -0500
+Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 7
+ Oct 2025 23:55:42 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE205.ent.ti.com
+ (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 7 Oct 2025 23:55:42 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5984tQt82223240;
+	Tue, 7 Oct 2025 23:55:35 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>, <tiwai@suse.de>
+CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
+        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v5 2/2] ASoC: dt-bindings: ti,tas2781: Add TAS58XX
+Date: Wed, 8 Oct 2025 12:54:59 +0800
+Message-ID: <20251008045500.44477-2-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20251008045500.44477-1-baojun.xu@ti.com>
+References: <20251008045500.44477-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: mfd: qcom,spmi-pmic: add
- qcom,pm4125-codec compatible
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- christophe.jaillet@wanadoo.fr
-References: <20250915-pm4125_audio_codec_v1-v4-0-b247b64eec52@linaro.org>
- <20250915-pm4125_audio_codec_v1-v4-2-b247b64eec52@linaro.org>
- <20250918-wonderful-deft-jackal-7d3bbc@kuoka>
- <DDCKWVH8ORLM.357D9IKQK9YN8@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DDCKWVH8ORLM.357D9IKQK9YN8@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 08/10/2025 11:18, Alexey Klimov wrote:
-> On Thu Sep 18, 2025 at 3:03 AM BST, Krzysztof Kozlowski wrote:
->> On Mon, Sep 15, 2025 at 05:27:49PM +0100, Alexey Klimov wrote:
->>> Add qcom,pm4125-codec compatible to pattern properties in mfd
->>> qcom,spmi-pmic schema so the devicetree for this audio block of PMIC
->>> can be validated properly.
->>>
->>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->>> ---
->>>  Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->>> index 078a6886f8b1e9ceb2187e988ce7c9514ff6dc2c..776c51a66f6e7260b7e3e183d693e3508cbc531e 100644
->>> --- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->>> +++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
->>> @@ -137,6 +137,12 @@ patternProperties:
->>>  
->>>    "^audio-codec@[0-9a-f]+$":
->>>      type: object
->>> +    oneOf:
->>> +      - $ref: /schemas/sound/qcom,pm8916-wcd-analog-codec.yaml#
->>> +      - properties:
->>> +          compatible:
->>> +            const: qcom,pm4125-codec
->>
->>
->> Not much improved. Same feedback applies.
-> 
-> Around the time of sending this I thought to set separate follow-up patch
-> that fixes the other part here -- pm8916-wcd-analog-codec.
-> 
-> At this point, is it fine to send follow-up patch that does smth like
-> this:
-> 
-> +    oneOf:
-> +      - $ref: /schemas/sound/qcom,pm8916-wcd-analog-codec.yaml#
-> +      - properties:
-> +          compatible:
-> +              - enaum:
-> +                - qcom,pm4125-codec
-> +                - qcom,pm8916-wcd-analog-codec
-> 
-> ?
-> 
-> (I didn't check how if it will compile or pass checks)
+TAS5802, TAS5815, and TAS5828 are in same family with TAS5825, TAS5827.
 
-You still propose something very different than I asked at v3. Drop the
-$ref, you only want a compatible with enum. Look at
-qcom,sa8775p-mdss.yaml (but you don't need contains). Or one of many MFD
-drivers added last one year.
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Best regards,
-Krzysztof
+---
+v5:
+ - Change the patch title and the description
+v4:
+ - Change the patch title
+ - Add TAS5802 support in yaml file
+ - Change description for missed TAS5815
+ - Change format to keep all lines within 80 bytes in length
+v3:
+ - Rewrite the patch title
+ - Add TAS5815 support in yaml file
+v2:
+ - Update description for TAS5828
+ - Change commit tree to .../tiwai/sound.git
+---
+ .../devicetree/bindings/sound/ti,tas2781.yaml | 43 ++++++++++++++++---
+ 1 file changed, 37 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index bd00afa47d62..7f84f506013c 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -24,10 +24,10 @@ description: |
+   Instruments Smart Amp speaker protection algorithm. The
+   integrated speaker voltage and current sense provides for real time
+   monitoring of loudspeaker behavior.
+-  The TAS5825/TAS5827 is a stereo, digital input Class-D audio
+-  amplifier optimized for efficiently driving high peak power into
+-  small loudspeakers. An integrated on-chip DSP supports Texas
+-  Instruments Smart Amp speaker protection algorithm.
++  The TAS5802/TAS5815/TAS5825/TAS5827/TAS5828 is a stereo, digital input
++  Class-D audio amplifier optimized for efficiently driving high peak
++  power into small loudspeakers. An integrated on-chip DSP supports
++  Texas Instruments Smart Amp speaker protection algorithm.
+ 
+   Specifications about the audio amplifier can be found at:
+     https://www.ti.com/lit/gpn/tas2120
+@@ -35,8 +35,10 @@ description: |
+     https://www.ti.com/lit/gpn/tas2563
+     https://www.ti.com/lit/gpn/tas2572
+     https://www.ti.com/lit/gpn/tas2781
++    https://www.ti.com/lit/gpn/tas5815
+     https://www.ti.com/lit/gpn/tas5825m
+     https://www.ti.com/lit/gpn/tas5827
++    https://www.ti.com/lit/gpn/tas5828m
+ 
+ properties:
+   compatible:
+@@ -65,11 +67,21 @@ properties:
+       Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+       multichannel TDM.
+ 
++      ti,tas5802: 22-W, Inductor-Less, Digital Input, Closed-Loop Class-D
++      Audio Amplifier with 96-Khz Extended Processing and Low Idle Power
++      Dissipation.
++
++      ti,tas5815: 30-W, Digital Input, Stereo, Closed-loop Class-D Audio
++      Amplifier with 96 kHz Enhanced Processing
++
+       ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
+       to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+ 
+-      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop Class-D
+-      Amplifier with Class-H Algorithm
++      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop
++      Class-D Amplifier with Class-H Algorithm
++
++      ti,tas5828: 50-W Stereo, Digital Input, High Efficiency Closed-Loop
++      Class-D Amplifier with Hybrid-Pro Algorithm
+     oneOf:
+       - items:
+           - enum:
+@@ -80,8 +92,11 @@ properties:
+               - ti,tas2563
+               - ti,tas2570
+               - ti,tas2572
++              - ti,tas5802
++              - ti,tas5815
+               - ti,tas5825
+               - ti,tas5827
++              - ti,tas5828
+           - const: ti,tas2781
+       - enum:
+           - ti,tas2781
+@@ -177,12 +192,28 @@ allOf:
+             minimum: 0x38
+             maximum: 0x3f
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5802
++              - ti,tas5815
++    then:
++      properties:
++        reg:
++          maxItems: 4
++          items:
++            minimum: 0x54
++            maximum: 0x57
++
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - ti,tas5827
++              - ti,tas5828
+     then:
+       properties:
+         reg:
+-- 
+2.25.1
+
