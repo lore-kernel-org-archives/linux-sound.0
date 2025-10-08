@@ -1,91 +1,103 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFEC251795
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 13:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1152868A6;
+	Wed,  8 Oct 2025 13:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759931181; cv=none; b=JIJqCe2QlqTQl7OBByAzwAOUsfD8R+1iZ4MhppWY5AlAXQPL+KiBafeh5ZS3IIQkp/9l43qNjBM95VicsF1nMmU9xkSIf5MCL5tBeqQpwWBUh1oSwqv0BtjzFYMXihmDCiPF0PGMtXXtyXN5QiInlS8qRaQmRvRKv+4exqn++Ek=
+	t=1759931200; cv=none; b=eFKsI6rrunIF8hg4DakGlHUsVak9sYCkNMb+WZdxnkO6wurKLEfucRuCOYAr2EvpONlbvCvYYW+joWPMROyTS21b7lSTik6Le0YfuOgkugV2073XWa/IWYiIAuoymOO+ygqKgSL4KS6wUzmseQHQhJemvCK5gvKXvdmZjIF3sAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759931181; c=relaxed/simple;
-	bh=poKv+El8BG8/UMjQs2D9OZaAQnBxbGVnPy1big55qfk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qFtX8vE9xt3N11h1RorQwynZMbbn6QB6K53GfUqaeq0ohTs1YXv59KxUg3eJ7b5TXTSZ1+28hTQ8FYGGn/0InasTsevdH36o9xyl47BTA+BU78ZZ5O4JRy+8+RVXQF0T+8H8d2nfoyLCiBE3gkOjchVftT06zEWDbAsAa9yvZ4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HU2mQtX8; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759931200; c=relaxed/simple;
+	bh=a90XkJSi+HSvdj+B0bzNBHHlSx1tcYmSg9puliQptV8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VJh6jRCatABSpUY/5KS3BZGDG849CI5IRqrpvp5v98gIlIPSaxWd4Pap8ds/C63KsvJXizCMUwgiq+VWiRDEJmq/z0wIMTBvuvvGLJLmIiAePMtNchFW0GmwLMjBDzGmGa/Nes55YpoROAwKRStFxqIC4K5LYnactu0pDwXya+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u9LQa585; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HU2mQtX8"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7a7d79839b2so5884013a34.3
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 06:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759931178; x=1760535978; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=poKv+El8BG8/UMjQs2D9OZaAQnBxbGVnPy1big55qfk=;
-        b=HU2mQtX8P1KLkbdeSKI7LJ17YuAtyWgb4gjw4NlYi1zgAtWblKuRMdnl8zPRqdhK52
-         e2dWqRVe9cr4xle6tc9Xsz3qgRSjf0Oo3antNNHnBZRpMHyf3yCwjvbK3oz+F21gFwds
-         vmjwPhsdjARkAShqtyr68pIarikoh/EY5et/DROk/C/E3i+yGebrP9EVMKWHBUqarg8B
-         fnlsp4eAZTmnS1tJHrAS1cAYEiTMPCfwGXUDKYgobtjtDIcskfFbZhgaBCHz7bBJxNPi
-         WlMtw4j6KGSmcwQkBngnkUY1LgQ1Y5uqXC8guq9MS9NtK654znLtYmULP2vGvwfR0gnh
-         8uKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759931178; x=1760535978;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=poKv+El8BG8/UMjQs2D9OZaAQnBxbGVnPy1big55qfk=;
-        b=FwibUXDkB3rPNj+TQhXB2iyo7RRCx9ay77v2Di4kpmo1JJ+YykbmdsqALzB5Oc0GxJ
-         YzQpD4HKB+Q5XRoye+0+dmL+E1Vn7v8WpCCTQgOFyn9JwAPcRl8Ct2tAMbGs/RnYUbyD
-         vh++a3sD7hcDtFY0xjM8VApOl/82tN85tS9zzahMU0DIE0+GxpvL0sDOn7wPLNIoplqN
-         xxEJ64mATRdTwFqsCtiV9Qyd6ijcJTusQDtHm6FgfnWX/m81Kpeu9Mwvhtu4FkvcQzlU
-         iEXJs3CnSzawxlL7334pCmJHmBBeztRq4WC9jyc1Rx+Q0Aal8GM3gUSHt/Nc1WvJ54kC
-         CToQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUd1B/4llfE6XuV34vAhyGKq/PTtogx8d4Jdp6Akv9tE6azDvLyMb9pDfMh7xKeAZtL1wutJ+8uj5LnBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIrnCLLwoQ2HBwCv8I9/xzlDaURRYLccFv/4NVz/u6UGhIVkoQ
-	ZFL2AO3WL+HMxYBm9odwsV+eXWzhEovBp3ayTI/PE3UbMdoJux4TTDFz1k/YRos9MjamwQufd4C
-	uozAmZAqoruCPnzvgA4iuLOhHwP8HjY4=
-X-Gm-Gg: ASbGncsy3Q7fX3D7sIVd22z24G6P7dIwQEKKdpIakRorj9DoHblhN45hgiArUiwHQ+L
-	aMUp+nUYo1owy4+EUTHZF+dtWayZb2DLvCDFiFVF/81y4t5T+ZMFVfAd4m3bo6RWvNc/g9wq9uj
-	27IOC1Nb9dMbcyNEr++zOAGoi9WVb3TW/07iKfPrOwx47MY/YfNnHkouU9RqtI1sCWdqpHX7HaI
-	S9BRFecRvyj3eBfQ3OTScm2P8Vxcsk=
-X-Google-Smtp-Source: AGHT+IGs2Oe6LXjYsx6ntjtHgrPiHn8AfOkKNvKB686IELrwhJDW+6bgzbT0XoCi4qIJ9Yn13pmmAnxaNgqtVWHPS+U=
-X-Received: by 2002:a05:6830:83ac:b0:745:9769:ea43 with SMTP id
- 46e09a7af769-7c0df784ba3mr2595142a34.11.1759931178367; Wed, 08 Oct 2025
- 06:46:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u9LQa585"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE532C4CEF4;
+	Wed,  8 Oct 2025 13:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759931200;
+	bh=a90XkJSi+HSvdj+B0bzNBHHlSx1tcYmSg9puliQptV8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=u9LQa585egVxdmqn73eRMaF3kMC+FnGiVDQlN2PLDrJjGJNANyaOHcD0CWMyAUt/S
+	 Mrq9g7/wiIkD3C1nXDjLe6MNlGpd1SfRELlIcABCBp7n/SRBPy67TPw3AulmLnrf5P
+	 vDvsBINzKEuwBkZjx3sfqRFqo9zt/WaDr93TQkb5dx5J0Pkv+acdB6n3oJvKXgzxnp
+	 zBkX82Gbkblbu2CbpZPuGq70XE1jWo5MWbcneSzjo0utAvCldOxsr5cMie7f6KBqSL
+	 Hnm8FQvRkiZa87WW9gf+12YOIhAnucUWKvSGsgp4fOkhueP+fCRPNhJNTlu1axhJj9
+	 9YPlqAwKY9s/w==
+Message-ID: <d9971ca4-1911-4204-b175-1ceeaae7c238@kernel.org>
+Date: Wed, 8 Oct 2025 14:46:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007145028.1845-1-briansune@gmail.com> <aOUv69rMkyYFiHae@opensource.cirrus.com>
- <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
- <e78c9cc0-4a1f-4a22-9cba-a8213a7b9301@sirena.org.uk> <CAN7C2SDMB8_b-m0ZMzuSmhHxWpA10mcxxxDMKWuNe6wfiEXo-g@mail.gmail.com>
- <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk>
-In-Reply-To: <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk>
-From: Sune Brian <briansune@gmail.com>
-Date: Wed, 8 Oct 2025 21:46:07 +0800
-X-Gm-Features: AS18NWBa5ANTHrUAqNvkDfkjRFyAvcKCEAi2XdlduwOIaXw3SPikZaTxQGwIoic
-Message-ID: <CAN7C2SBG2EZ4CJKR_vWKBGsKpZTF_9VJXj7ysLx38nJW3dFxeQ@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
-To: Mark Brown <broonie@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: soc-pcm: Fix mute and unmute control for
+ non-dynamic DAI links
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@oss.qualcomm.com, prasad.kumpatla@oss.qualcomm.com,
+ ajay.nandam@oss.qualcomm.com, stable@vger.kernel.org
+References: <20251007023325.853640-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20251007023325.853640-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=888=E6=97=
-=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:40=E5=AF=AB=E9=81=93=EF=BC=9A
 
-> This is not OK, BCLK is 99 which is less than 100 so there are not
-> enough BCLK cycles to clock the samples.
 
-With all do respect.
-This is not how IIS, left/right-just works my friend.
-LRCLK and BCLK must follows.
-This is no pure sample rate concept.
-I hate to explain my self.
-If this patch is not good I just give up.
+On 10/7/25 3:33 AM, Mohammad Rafi Shaik wrote:
+> In setups where the same codec DAI is reused across multiple DAI
+> links, mute controls via `snd_soc_dai_digital_mute()` is skipped for
+
+Please explain the problem.
+
+> non-dynamic links. The trigger operations are not invoked when
+> `dai_link->dynamic == 0`, and mute controls is currently conditioned
+
+I dont think any of the Qualcomm upstream platforms use this flag.
+
+> only on `snd_soc_dai_mute_is_ctrled_at_trigger()`. This patch ensures
+> that mute and unmute is applied explicitly for non-dynamic links.
+How is this resolving the issue, mute on these codecs happens at trigger
+level instead of prepare.
+
+--srini
+> 
+> Fixes: f0220575e65a ("ASoC: soc-dai: add flag to mute and unmute stream during trigger")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+>  sound/soc/soc-pcm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+> index 2c21fd528afd..4ed829b49bc2 100644
+> --- a/sound/soc/soc-pcm.c
+> +++ b/sound/soc/soc-pcm.c
+> @@ -949,7 +949,7 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
+>  			SND_SOC_DAPM_STREAM_START);
+>  
+>  	for_each_rtd_dais(rtd, i, dai) {
+> -		if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+> +		if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai) || !rtd->dai_link->dynamic)
+>  			snd_soc_dai_digital_mute(dai, 0, substream->stream);
+>  	}
+>  
+> @@ -1007,7 +1007,7 @@ static int soc_pcm_hw_clean(struct snd_soc_pcm_runtime *rtd,
+>  			soc_pcm_set_dai_params(dai, NULL);
+>  
+>  		if (snd_soc_dai_stream_active(dai, substream->stream) == 1) {
+> -			if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+> +			if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai) || !rtd->dai_link->dynamic)
+>  				snd_soc_dai_digital_mute(dai, 1, substream->stream);
+>  		}
+>  	}
+
