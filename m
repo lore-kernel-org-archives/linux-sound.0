@@ -1,86 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6B729BDB8;
-	Wed,  8 Oct 2025 20:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6796299AAB
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 20:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759955161; cv=none; b=ML5HaZJF68y7PC7bo4cLnPN5bppIR9QdiXDEo/OqojA4/jxkp0gmE+SKiwksZs50uAosZ7F/DDfxFybAOj9qBA7tKQBd6TBVwPRNZuVJa+/bWH6oKWOfpDq97MPcXVjTnzancnByuZjHYqVD+rfKYJbxVM2GOGYKL/6XSCSr6tY=
+	t=1759955248; cv=none; b=Ac61oRbNOCAoTw/YGE2WEpY+VYEkWq/ESiHxH/utrrQy0p0/DXu27GT5RQ8uFT54TqIxUEyd8i1B8Mr/JMALHE+TGcKwbyWprR9Wgy2J2jyqKYcwljMEY7OnKaNjfQW48MlZ1WFpQsnbYLFgd23xM02vh85dwAAL6fuNBe+BQkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759955161; c=relaxed/simple;
-	bh=hv6w4mCWqZuIZyjeysqAvjnujkHopNnTLyjqzt74EfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFy8yYmZeOf7eVlmEcrX2AeQQiq6HB2o73BiWs3wWe+7RDCVNAfOmVomVgX1gQxInNONRr8dCZ3e3N4eyyqEVhVyKG4UkjzY9DYDd28Di+XLebyaicT3Xr8MrOQbXDHjL64fgAthOM2Nxi1b1Y9x/gEOeU30f0lxnyo3fe+YWdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTI3vxgF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759955248; c=relaxed/simple;
+	bh=mJR1IPlBUZmBwh6fQKyRf97cCknjaSUAHQjnhdD4aUw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M/h1k9RqTYUEkAQlRbw1AsJZrXpPcszU53QO14qGaXcjmnlRXlvtjj8NREG/5oehT2Hz+aaVF5HcH5EbmyWG6Z3E5tSsPUw81b84C4ntl4pkXsuAZufW/zHM9BSOJvsH+TsowCBFSXWaYbs2HES5NAewY3h3+wc+KdQ8C01+vx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eSf6E4Rs; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTI3vxgF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2591C4CEE7;
-	Wed,  8 Oct 2025 20:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759955161;
-	bh=hv6w4mCWqZuIZyjeysqAvjnujkHopNnTLyjqzt74EfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FTI3vxgFjse5VJnUOkLRQwbHFIQ7Cf7X6NbWYGWGblTuqwiMbtkbDLkSZxMegvr0Z
-	 GCvbNjjbC+fAzr4Zr+9cgHn+O3I9/tsdrrtpzus79rCAAWHOISTRJJN7WDhZmSCsf5
-	 u+o1sP9pRnFs1JHHHsvz8IyB/+nO/MFC9Lkv5sD9LAv9Ryzz2woP6+0GvHp1Mgik4J
-	 A1BQCJeXMbh/0egtX2CMqRj+nLQKtX5i6YKiNnIZFS7TEnppWQZozMUFaZzc7kYpqc
-	 sqNsS+1p9ANbJhQUzlnLPqpoteCUMENYREVR2pprQJWUhBZUjmidgG7Z5IWbI+qNuw
-	 /p5DY58xrkQwA==
-Date: Wed, 8 Oct 2025 21:25:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Sune Brian <briansune@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] ASoC: wm8978: add missing BCLK divider setup
-Message-ID: <200b17e5-9655-49c7-a4af-7adaf2838168@sirena.org.uk>
-References: <20251008162719.1829-1-briansune@gmail.com>
- <aOacZAiWxG9XfWLS@opensource.cirrus.com>
- <CAN7C2SCDNz5TB3deVziuNNYFnPV_hmrsPL1k-j5Dsj58wvC2rw@mail.gmail.com>
- <aObHCq6JAHbtTJZ8@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSf6E4Rs"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7b6d6a1e4e4so169955a34.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 13:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759955246; x=1760560046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=isCw8QPBufvNnn+xXpaO0+hKfXBnUa6iPfCajSX0U/Q=;
+        b=eSf6E4RsFyXkNMNgR129QIefvA7yv9QUf4+NgtfBALsfNdqlAIVnF0QytCf81VwAb8
+         3Al2IQlHlUV7D7j+1OhOJG1l9uKPXx0duT6Ch7i+XBs9Mlb6VO5fIH8aaperG+JNME7J
+         tni56NKPNHQptPq4mF5EMrQNIRhNN1XS3eoaQV6e2URWcX+j6m+JWNfNeA/KVBIYIxHP
+         3JKQfql94ttm9N7lbcoz1A4xl1as66N+a0w/nHpsjbY5DW+Bo4h1h1rMguyAFZcRQUrL
+         XUUv3kxPoalhvGm5HN31IZuT8Fc2RqP2CnyHwNfg/ifHbwLi29FjgJLYpAKXmXt8n0Cl
+         0xNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759955246; x=1760560046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=isCw8QPBufvNnn+xXpaO0+hKfXBnUa6iPfCajSX0U/Q=;
+        b=VNiHPPZJnNe59BBf9vI2+NJrNmquSxQ9WEozSrv6Edj7wqJhFOS8zs+v2hlj8dL5E9
+         qQzCJSjtQTzlNiOm7K5fQlRsGKXrcWp8u1xGIkxBvv2MAEgLfHlKareLQ1LRDt7RoJbI
+         FFxCKIvRBLrzB8Qy9IZUO7SUCZHcoiSunzBkMVI5kd5rjggnuMo9OWB5Oa+f+56e6nit
+         lOHfXZWSiGzO6/+zrguKmRWirUJcjPMYaEeGxE1uqT08dHANAiCezQcBZMGh6zPSw9uY
+         Qqqv59SSYRRtRExx7uvVhcnzcd9108kdPi5zhC55XpkKjGBpgX1Gayeou60Hj2pxnnny
+         5YXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuItU+tqu2zrL3GtFVyjCiKG0ECYk+G9sVRXUJhj9oLcDFRryuyhbIoQ35k/9nmm5L2845WNLF7xHTSw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM07OCkfdLSgJ3iZw0SdCFtdXFZXOYRglIroCDfAKXilWUgMlp
+	vZ6uR2HChTGdGUaENxXZRtHrBgUX9Ch5mUcwNI4UlJBzC3VmsIC3+Wo4LweHQn6u/SuiLKqCYZM
+	OdIjp5L4gBxF7ydzptmMr4uZNddlHa5E=
+X-Gm-Gg: ASbGncujl1dmpjVejMNZGfYWZ2KmiU/bt5zuUznFO7pe43nXV60cofkzjP68NfbjoEe
+	IuL+IdxZ5NN0azl8MBetYcYL0QJ6n/eNQfVHVwz661UZgXYKLvbIVCqzX9q3DqRmwdCZCqrbL5d
+	4VNBXs5dIUHdBEvsZM2qoa9GOGtUH2/soUtVBqSaVviqTgdCTf8AVGNjnAZ1DfPVqEeE+Iur1JU
+	8AdVbVTuogHW23ig9ssuTgn1uiVyT8=
+X-Google-Smtp-Source: AGHT+IHaD47yzjM8aJTa6jivZYQ9lx8Z8J5ZJOEfJYdipZlVRZ7y+YAtPumpkPRg95CFEQJJBbPSnztFz9H0815BBwc=
+X-Received: by 2002:a05:6830:6507:b0:792:5c6f:1409 with SMTP id
+ 46e09a7af769-7c0df72937dmr3180866a34.30.1759955245938; Wed, 08 Oct 2025
+ 13:27:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u5eZqz2o//Vq7JSf"
-Content-Disposition: inline
+References: <20251008162719.1829-1-briansune@gmail.com> <aOacZAiWxG9XfWLS@opensource.cirrus.com>
+ <CAN7C2SCDNz5TB3deVziuNNYFnPV_hmrsPL1k-j5Dsj58wvC2rw@mail.gmail.com> <aObHCq6JAHbtTJZ8@opensource.cirrus.com>
 In-Reply-To: <aObHCq6JAHbtTJZ8@opensource.cirrus.com>
-X-Cookie: 10.0 times 0.1 is hardly ever 1.0.
+From: Sune Brian <briansune@gmail.com>
+Date: Thu, 9 Oct 2025 04:27:14 +0800
+X-Gm-Features: AS18NWCU6ToQTO4_TITKhRt7wDvXDELe7ClSw4GTr1S9ucLTiS43kgjH1NwssuU
+Message-ID: <CAN7C2SAzHkn=nb-FS8JbKgvvF9iDUssEszgnfpY7s4RsPwU92w@mail.gmail.com>
+Subject: Re: [PATCH v5] ASoC: wm8978: add missing BCLK divider setup
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
+=9C=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=884:18=E5=AF=AB=E9=81=
+=93=EF=BC=9A
 
---u5eZqz2o//Vq7JSf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> That said though, this part does somewhat pre-date me so I could
+> be wrong. If you have hardware and an oscilloscope this should
+> be pretty simple to verify in practice?
 
-On Wed, Oct 08, 2025 at 09:18:18PM +0100, Charles Keepax wrote:
+Have gear but not worth to waste time on this test.
+Well remind this part is EOL far way ago.
+
 
 > There are generally two reasons to run a faster than needed BCLK:
-
+>
 > 1) Because you can't generate the actual BCLK.
+
+Then let it be as delta-BCLK that is minimum error is better same as
+PPM concept.
+There must be +ve and -ve errors on margin.
+
 > 2) Because you are TDMing multiple devices onto the bus. ie.
 >    something else is using those extra bits.
 
-Another one I've seen is that you're using the BCLK as the MCLK for
-another part (a few devices even require this), you might want to run
-BCLK at 256fs or whatever for the MCLK even though it's not needed for
-when used as BCLK.
+Is this device supported?
+I am not too familiar on TDM things are series things on same IIS
+sound too system deepened,
+But of cause this make rooms for future improvement or support.
 
---u5eZqz2o//Vq7JSf
-Content-Type: application/pgp-signature; name="signature.asc"
+> That is absolutely your choice. The patch should I think work
+> now, but could still use a little tidy up to remove the unneeded
+> code and big warning for something that isn't an issue.
 
------BEGIN PGP SIGNATURE-----
+Tired and lazy to check out all these things again and again.
+Every patch i run on actual HW before sent.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjmyNQACgkQJNaLcl1U
-h9DRUgf/bzTK4q8vux7wR1uO+b3429++RKS7nto/tomVM6MiJssgpvuz+OiDzNdD
-+tEfD/WG03m3JO2+48l/ZU1N7pvXHEcByJj+g+7i3iDttr2Vz1jH5smPVVpyQvc/
-GKLiE0i96zZK4LxQgCOoBz/Oc/FhFuWlqYcmkZZW8U+1euQDH9wIShP3xJfFnTQf
-BTJeXG4Kea16vto3ZH0jPKdsmENiLWHHfCBqcWEKkRqENPycdnZ7ukXQhwjUS/y4
-US0P+cpEmiEXy9pK2uV4Q1G4aUNs0OyaoHPZGjgMnGotD6FezPXp6Fs+bm7dsokh
-SLVoPU7SavOTMcSlRf8WzadbO0MdXA==
-=7Ho+
------END PGP SIGNATURE-----
-
---u5eZqz2o//Vq7JSf--
+Brian
