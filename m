@@ -1,101 +1,102 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F28230BD9
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 14:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA0829C343;
+	Wed,  8 Oct 2025 14:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759933110; cv=none; b=OzcM654dIDlpECCV8mUQDKlbZx/9N1t3uSbZsob9VY4l3cqMpIPeJjCDNG8OBRtEFIaIKT+rA/DHzcj9dputdwdXxGX1+wRJps0jQBwYrty6jSxfc3RG8wJQQEfdEgtx29HW2/lpeOMGYQ4epTIzW6SJBzbCtybKutOyryDy+1U=
+	t=1759933246; cv=none; b=m87m5C1laT2c7W9EBvzL8YnpzzSP5qNWsCxA09wzgMk8Tu0pTSf7XlrbMyI5jHO5Rg0TSB2z/VRHORgeAXPNaSTu3WlO7KRL0aPgN7dQWBI1407moDAJj7wylGSe7IWIleK+ykrSxCv07B7UsKKc+lkYTTGcZykrJzB+rI5d2B8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759933110; c=relaxed/simple;
-	bh=02xoZOIaqCUk6gy50ED6DchHmI0JFVyHynhA2+ahuyk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XFefBtoyqnJzCMKpk7j7K+9JMtFbnTPTPb8SxCwfbqe8QMeCFVZ0GhpxxQCB5ibD614ea4jyK3/zh6lFUFRYOvYidls8k4PHyH5RgMTJEg/b+6SOn/0zzyphkTDDg6FXaMDmMtzRkQlz4LlA5Skqw3pGVUpV5OKHoU7SaMyQATE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IaGDGj46; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759933246; c=relaxed/simple;
+	bh=6a5qfTHpJTVJJ5ht3JIEElvMvyIVarbrOvy86nHaVEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mDPSl4cDHZ4ex/WL4vAnFjWEONezOHrnQCbheyroxwppmj82xHvaxJCGXVVxDyFDbxXQGbGplLXkCcUsScW+mUJLpTuZv43EyUW4s2EBa0q16OaD0RW+OVyTcamEV8SxImvwHIxJ1M/7tX0q1jMt4m2ZsVjsd8F2I2XPnWfwjz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQJSj+Z0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IaGDGj46"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-30cce892b7dso4455549fac.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 07:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759933108; x=1760537908; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=02xoZOIaqCUk6gy50ED6DchHmI0JFVyHynhA2+ahuyk=;
-        b=IaGDGj46XIEWM6dLd2386Af36ZegkUCptIovx8XvpZKTl+wVuoyOBQarAhFN1G+BgG
-         DJ8tC6ckKAikqfIPHPej61PN9Ivr/3SeYnoAUVNz+oSTmHy/9SabA3rEnKbo29O7Wr//
-         7SAfsAPF0rEEdKmRf79xEIM7Kfj/BxvAJ6zn5rBd5vNVdMhcCV+SIuGSPkN6CDaoAqea
-         325UYRVXgFkOC3zN81ATwfO+SiFziKqJunpcqvnCqK/5HFKX9DfE/0LMv7IsCULDI1vB
-         OHs5MrCqnO4WWti5qToq/Zr4hgCsQmfqh9gyxXmrdBDwhPoZUCCKi/BYpoUNYJq5afuI
-         GyKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759933108; x=1760537908;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=02xoZOIaqCUk6gy50ED6DchHmI0JFVyHynhA2+ahuyk=;
-        b=U1t4J9cofloAIjMQe9CGx70asbI5E8NcUwAOHsugzxELM3ho8h4W61qte3QY8xSLdK
-         yTx3MB5lmbYMHMSTVyI15ji9IrXAF9EQ4Kg4MvB2ThBEpJSX7OmABvYMgqA6xzXMXkSI
-         /8Ia14xlzsRfVZJDJtBGLlCNvLA1j7oFZrJMS9d4Gj8SrE5FKkzBaUn6+vdm4rjmDFNI
-         NjmGTRdLTNYjxIn4TmAaHoUAcr930IiZtF/bXZ0CosoZYNqMiZ/Do9G6oV8+K3fp+afB
-         nRbAwVCpI0JjwOX6lueLkI57RzmsALa8t1m5N6FqhSyLBIOgKjcdTC22ldklP3URynl8
-         dqtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTTHbWSbpFln+d4E7Qh3AFnYPTJxa6k4rmag+wfssNXZoWp3A9RF2k4JciHR658BTUNzE6+tLOv+Q3MA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5euZcTrAeSjUtPNtQnx9hBPdEvC20kNt0qvAELAMFRbUrZxS/
-	ZhoAeECWO1tiMla3w9WE/RoHOt4TDJJzM3xExvQrZY03kxeC9OlIXX463O3aAYufK6RR+RIRetd
-	3g4anGkNEN5FoR2S1G+eVuXR+fyDi20A=
-X-Gm-Gg: ASbGncvSgEcVzKuLqPgBPhYbvIjbJN98h/tLKhM+03rZkT5mR0X5+tkwqjSESvCsV2u
-	CfSBShEMLIThJ2T75hFcrASAfEBPDMhmbyWWvepR+KmWdGeum5K/rCkSrgAmTHqiFKihHx1LzH+
-	4M83K39DPDIzHQtTUh8eSNu3U2fVWDu2ZHu+0DwkgWQd7G7kYjSB9O5SogJx91fD5MSvAlFdKUT
-	2/oMtyWeHnDp66KMGS6Z99Y3lC8PgEX0tvu/WdZyA==
-X-Google-Smtp-Source: AGHT+IFNFjVUAWMHKgGHXBLdjL+z9UZVnH3ivOrRi96WUbNTNIl/wqUCLJ3Eqxp4UI6lqYQhsmLvNTpljrWMA40Zw6Q=
-X-Received: by 2002:a05:6871:451a:b0:315:8b80:aa4a with SMTP id
- 586e51a60fabf-3c0fa86713fmr1692388fac.48.1759933107602; Wed, 08 Oct 2025
- 07:18:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQJSj+Z0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46826C4CEE7;
+	Wed,  8 Oct 2025 14:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759933246;
+	bh=6a5qfTHpJTVJJ5ht3JIEElvMvyIVarbrOvy86nHaVEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NQJSj+Z0d7keux9c9BcBwF6Xlq66XCJgWO6o0Lqonz7yD7wmbntX9cGb/HncJK4Ny
+	 mK9Nh+o5S65gzwVB+Vn112HZi17B0uDihvsbyxKj8ciuOlhX3Tpo8nwh9xGMNURocd
+	 XyEk95t4aXRoYo53v2ciQHsDmnlHG3WAEDdqoC93mkhxUB3X0p57re9Zj8kECdZw6D
+	 gByShP3GTpUIaTGjuyjA6/HGaq3DzW+uKlIYMQ5oUZR35R7bC7GNh0tOl7xv58Okgr
+	 YjC5HSFAOhVNztkzF3zMPEnUv2rCr4NbLhmVrxkwhRCnXJo0f6GGrQJ2tzC30qYBkh
+	 ZeJcPQZD3IAmw==
+Date: Wed, 8 Oct 2025 15:20:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sune Brian <briansune@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
+Message-ID: <f15af8e0-3bf5-4dd5-85e6-07d00f8b020c@sirena.org.uk>
+References: <20251007145028.1845-1-briansune@gmail.com>
+ <aOUv69rMkyYFiHae@opensource.cirrus.com>
+ <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
+ <e78c9cc0-4a1f-4a22-9cba-a8213a7b9301@sirena.org.uk>
+ <CAN7C2SDMB8_b-m0ZMzuSmhHxWpA10mcxxxDMKWuNe6wfiEXo-g@mail.gmail.com>
+ <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk>
+ <CAN7C2SBG2EZ4CJKR_vWKBGsKpZTF_9VJXj7ysLx38nJW3dFxeQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007145028.1845-1-briansune@gmail.com> <aOUv69rMkyYFiHae@opensource.cirrus.com>
- <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
- <e78c9cc0-4a1f-4a22-9cba-a8213a7b9301@sirena.org.uk> <CAN7C2SDMB8_b-m0ZMzuSmhHxWpA10mcxxxDMKWuNe6wfiEXo-g@mail.gmail.com>
- <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk>
-In-Reply-To: <58756837-9be7-4027-b951-401ceeb69e4c@sirena.org.uk>
-From: Sune Brian <briansune@gmail.com>
-Date: Wed, 8 Oct 2025 22:18:15 +0800
-X-Gm-Features: AS18NWBAo1priwf20NfbC-WLbiCJ7RPYiCQuSQkiocxt57LiFHPz_plFqnbPsSw
-Message-ID: <CAN7C2SAHy=9S3_DWCEijr09KSc4s516XAcfVbwMhNoFr_PYYrA@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
-To: Mark Brown <broonie@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AlnqrY1VvDa6/ETV"
+Content-Disposition: inline
+In-Reply-To: <CAN7C2SBG2EZ4CJKR_vWKBGsKpZTF_9VJXj7ysLx38nJW3dFxeQ@mail.gmail.com>
+X-Cookie: 10.0 times 0.1 is hardly ever 1.0.
+
+
+--AlnqrY1VvDa6/ETV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=888=E6=97=
+On Wed, Oct 08, 2025 at 09:46:07PM +0800, Sune Brian wrote:
+> Mark Brown <broonie@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=888=E6=97=
 =A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:40=E5=AF=AB=E9=81=93=EF=BC=9A
 
-> This is not OK, BCLK is 99 which is less than 100 so there are not
-> enough BCLK cycles to clock the samples.
+> > This is not OK, BCLK is 99 which is less than 100 so there are not
+> > enough BCLK cycles to clock the samples.
 
-What you are questioning won't even fits under normal operation scope
-of this codec IC.
-This is simply arguing and I really hate these type of conversions.
-This is a patch for specific codec IC architecture.
-Such automated bclk seeker just runs on expected operatable scope of this c=
-odec.
-And such patch is to fix missing proper bclk register load from first place=
-.
-If there are cases that is this codec is allow but could generate
-wrong result on this patch.
-Willing to update this patch and learn from my errors.
+> With all do respect.
+> This is not how IIS, left/right-just works my friend.
+> LRCLK and BCLK must follows.
+> This is no pure sample rate concept.
+> I hate to explain my self.
+> If this patch is not good I just give up.
 
-Any one could do what you are expecting and could runs on this codec.
-Happy to learn as much as I can.
+Many devices (including all the Wolfson ones of that era IIRC) will
+happily just ignore extra cycles on BCLK, the issue here is handling of
+a f_256fs which is a bit off what it should be for some reason.  You're
+assuming that the device is clocked at an exact and suitable multiple of
+the sample rate like it's supposed to be but in practice these devices
+work well enough for the system's purposes when the clocking is merely
+close, they tend not to be particularly fragile and users perhaps not so
+deeply concerned with audio fidelity.  Note the warning the driver will
+generate about considering using the PLL to fix up such misclocking.
 
-Brian
+--AlnqrY1VvDa6/ETV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjmczkACgkQJNaLcl1U
+h9ALbgf/cHksH7d29W90hSmZYxlAXeVwuiY/byPt08C/N1qvbgMAQZYwtrUV7/ka
+bQ24aVI9I+dg+9fFoeup7i1xNgp9Y3A2CXYMmqvPrspX6ELeFHhGrHiajAQV6taJ
+cGmbVMx5eQTZHnPwWzC5XtqcPkB7VenZJ1AuAldzRLDND1U4koihFlM6DRD25k3A
+bd1c/j49/wn/m1yOaHPY24cMPtJ6VJMQrH2NTcX9ACGS85SgXqC7TkjvMdLXzvs+
+THQtP8PT9v5ZBbEyobgun7vOOwSKRtXjDPHtFu43cvodMSvC2jKpeLaGzHzr9925
+7c7vgdvu0T2zjYCMwzibfuGzYAojQw==
+=lDtU
+-----END PGP SIGNATURE-----
+
+--AlnqrY1VvDa6/ETV--
