@@ -1,140 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27482F2602
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 11:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B002F5466;
+	Wed,  8 Oct 2025 12:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759924569; cv=none; b=aewIu3xSxSCYmCICWNAfmC2AcXSBqVDMeWCqEr+5ym8/+UThDbuOLP7RKgqPrBnmzmnwurWcluIgFgbYsamYH6o5kfwH50l4XqZoRRW6Ud9rzDRv1IVx3c6uLJwYqUaBDXtR7SAz73GHH5Ick3eh/AY/1Dnwy7gGHY7BAEg4Q8k=
+	t=1759925564; cv=none; b=unM2l6acARhZnUkg8rrNhKYA1wc1GOMySfYjqio+sjBkjNfVyN0u97XkYaRyWLhJpM4wcVCI2kNyA7GbSB6AuntrF4YSC6j5Pem76EN+nF2CKam6bvj8yNw4tUCNjmrBUA9PTibS4OB3tjaj2r6jRxVWnibmQ0D/htLvykz7ito=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759924569; c=relaxed/simple;
-	bh=5eKBYOPp9FiUPGhwlt5BT+q8VLxz9trj8PADWNXrDuY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nsmK4ZtP1YBCDLpzAg4uMA1ID4uEV+Ds9mVMOi66rPeFGMQ9Q6DVpKBxAQ8ZByHo7f/OHJKTv8fI9CcTfS+7cFjOEaCtycRrJl47jjWi2UJq0b7UmtFZGXR2XtwzCpte8lX3Px9XLX/BrEbEE654NoaSBttr1kt7hwErPIDb64Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t1B0y3rP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B8jBf8Yz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t1B0y3rP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B8jBf8Yz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759925564; c=relaxed/simple;
+	bh=P776G5RIf8rZEm+tBGp92HoAA7mM0W256cFy+mpgJpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cORqWmZx9MtLf/SGkDWRuawXSaDmXhjIIn+aB4Zogswa6EgLnL2d5oYRQZZ+tZLvBprQWeo+plvg8/EQLhKwAGbb3jNOMFEUEaoyx2e1fN5wwVtnUct5vocTLxYuHvZoAjaDvzpdt0mHeBmaWzrJM9HqeqYu4J3xdDPQnLgwLuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkXk/7cf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t1B0y3rP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B8jBf8Yz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t1B0y3rP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B8jBf8Yz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2AB2F336A9;
-	Wed,  8 Oct 2025 11:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759924566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFoKgPLLseGSTmEDJuS2hF8KtRT/6jGqdKgHmA2a8tw=;
-	b=t1B0y3rP+5BOP5OXM8IevM45FFZcKadgdHRDyn9X2sNC9GX4e5N7HRC9ntLsV5h1UKIAdI
-	rtSkAYHbtT3fioX0kQMZdOYSeJs3e9MyOerSvflumjrHKCG3ENLQW6pGZPZ2VMho6WCbVE
-	XGYm1y4VhDAHt6G06hpnfGpbtb6JPM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759924566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFoKgPLLseGSTmEDJuS2hF8KtRT/6jGqdKgHmA2a8tw=;
-	b=B8jBf8YzoWtg5seDGQTQKtb9BzmiMaW8h8hBJrI3vpdlgtmachnpgad+ly3z0PQ42D+3qo
-	HSPVY3Y96fZwQyAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759924566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFoKgPLLseGSTmEDJuS2hF8KtRT/6jGqdKgHmA2a8tw=;
-	b=t1B0y3rP+5BOP5OXM8IevM45FFZcKadgdHRDyn9X2sNC9GX4e5N7HRC9ntLsV5h1UKIAdI
-	rtSkAYHbtT3fioX0kQMZdOYSeJs3e9MyOerSvflumjrHKCG3ENLQW6pGZPZ2VMho6WCbVE
-	XGYm1y4VhDAHt6G06hpnfGpbtb6JPM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759924566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFoKgPLLseGSTmEDJuS2hF8KtRT/6jGqdKgHmA2a8tw=;
-	b=B8jBf8YzoWtg5seDGQTQKtb9BzmiMaW8h8hBJrI3vpdlgtmachnpgad+ly3z0PQ42D+3qo
-	HSPVY3Y96fZwQyAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0655013A3D;
-	Wed,  8 Oct 2025 11:56:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VZBRAFZR5mjoMQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 08 Oct 2025 11:56:06 +0000
-Date: Wed, 08 Oct 2025 13:56:05 +0200
-Message-ID: <87cy6xd2ui.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.18-merge-window
-In-Reply-To: <c03c248d42a17bc7d332b83ebb540541@kernel.org>
-References: <c03c248d42a17bc7d332b83ebb540541@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkXk/7cf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A050BC4CEF4;
+	Wed,  8 Oct 2025 12:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759925564;
+	bh=P776G5RIf8rZEm+tBGp92HoAA7mM0W256cFy+mpgJpU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gkXk/7cfAF55106Cbv+uBKbQrS2LnSXIMHCtaYtibMOnev1xMu2sTHrNLmFIowU4Q
+	 ycecrvSCZGGO1kIPtw1m+vGrqiGCB8Y2f1kRXk2jdwdhn6hb+o1UaHA0Y9RNpotr7M
+	 rVs8398Jrf8KXuvguN89T1c8MSUpKMputcPFMBZkZ1T+ObXPIwiH6JTzVccKtvu9e9
+	 PFET+zZLoUd1+zSjv5vWJZnTMxUSycJ+gqZ8Lb0SlS1fg835r6hHKmvG0J+qKW7kmz
+	 1+uj/DqAeAFT5F6CVaxoAuQ1WcVLIHoxVSoV3oo6JQEBiyMusrY2oMtg33j4iZXSv9
+	 7uDOwuGgmMF/w==
+Date: Wed, 8 Oct 2025 13:12:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sune Brian <briansune@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: wm8978: add missing BCLK divider setup
+Message-ID: <e78c9cc0-4a1f-4a22-9cba-a8213a7b9301@sirena.org.uk>
+References: <20251007145028.1845-1-briansune@gmail.com>
+ <aOUv69rMkyYFiHae@opensource.cirrus.com>
+ <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
-
-On Wed, 08 Oct 2025 13:35:05 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit f8b9c819ea20d1101656a91ced843d9e47ba0630:
-> 
->   ASoc: tas2783A: Fix an error code in probe() (2025-09-26 12:43:33 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.18-merge-window
-> 
-> for you to fetch changes up to a27539810e1e61efcfdeb51777ed875dc61e9d49:
-> 
->   ASoC: rt722: add settings for rt722VB (2025-10-07 13:19:44 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.18
-> 
-> A small pile of fixes, almost all for the Intel and SOF code surrounding
-> management of the host buffer.  We've also got one fix for Meson and new
-> device IDs and quirk supporting the RT722VB.
-
-Pulled now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9T+PVFhwwULYeJEK"
+Content-Disposition: inline
+In-Reply-To: <CAN7C2SDUiuMfPs_X5r0RDC56313aJsfhfx0-juhZRKGTb1OKuA@mail.gmail.com>
+X-Cookie: 10.0 times 0.1 is hardly ever 1.0.
 
 
-Takashi
+--9T+PVFhwwULYeJEK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 07, 2025 at 11:55:29PM +0800, Sune Brian wrote:
+> Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=
+=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8811:21=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+
+> > Apologies but just realised there is still one small problem here.
+> > You want to match the closest BCLK that is over your target rate,
+> > if the BCLK is too slow the system won't work. As your bclk_divs
+> > array is sorted I think you can do something like:
+
+> Not too understand what is the issue.
+> The idea is setting the initial value to max any diff that is smaller
+> will update bclkdiv index,
+> If the maximum LUT 32 still not met then it is what it is.
+> mclk / 32 is the bclk, unless you want an error message.
+
+Consider the case where the BCLK needed is 100 and SYSCLK is 198.
+Dividing by 1 will result in an absolute difference of 98 and a BCLK of
+198 while dividing by 2 will result in an absolute difference 1 and a
+BCLK of 99 which is lower than the required BCLK.
+
+--9T+PVFhwwULYeJEK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjmVTYACgkQJNaLcl1U
+h9AhvAf+IGuJtD2MC9Gjd2FouVdpCVLgt15SeM6Hu7Lopjfef+iA4Zn42SENRtEE
+984YbzIzdLQ84s/04rb2nQAy9GHY7HhHHLzE4dYN4rl1kspGuYytUoe2hSL988oH
+FruVamIUpuKi5bycXPmnHJwokVWLk1JhScNgfCbFBCafVgHhs/dBn4wpMVB20src
+TCgn0+92RdIybWwIxh5oLs6J7tDaqq0nvWjJjOYXvnPh9IX/aQtnNoRGi4qBOpYX
+BldrbuKq0N0FMMgC6wW/rAXTUy3C3zy+CubWKRAoBuUZUhK+zK66R8/TCU41Jdzw
+S+YvWAzr82dU0Lc0jh0K9UCOEcB+yQ==
+=ZYBN
+-----END PGP SIGNATURE-----
+
+--9T+PVFhwwULYeJEK--
