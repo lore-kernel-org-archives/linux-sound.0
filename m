@@ -1,80 +1,71 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9DB29B8D0
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 14:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7409287268
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 16:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759935490; cv=none; b=NPYLl7zkNBAfBYhVDTMZ6BmoBxhB+BWg5nqhNqwW5OF+JHWMnk5dsfoqRoa7bl5xd7Icd1ZOLiEXencEAZDWrIJOxtVJEGvuvApjlKDQN6hssHhA1MWYg6QCVav7yYU/FhAcN8X0yM+sPmyBADR8ERBR8QBgm8MzXEGzVn7RwlE=
+	t=1759939511; cv=none; b=WE/uznK4Ilg2/6m2HktU0mk0HzSCRnKEPqsZ5DFu8c4amSLGqtgYAGvOnBHQgBQubXI64rjwmEwKRzagcZacNcuViS98WO6PpmQ/dCVF2mhbtQ3EfVVoaZKraz9erCkV50Hj/QLI23FLpe/MyO2pMvpEOXiXyFz01UhtbpSFDPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759935490; c=relaxed/simple;
-	bh=5V4FY1lGCPXLwOcBdDx/5qV1DoJAfuAXFe8DMG4W87o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAnK3MjkBPjbZ5eqhXvuKQDSKa7di7/dqSm//Js6vqJZZEsvSmAVeiqFwj7q/xrtOEhwVNbfSR/vtKPn6yvv0uQUsWYRpK1DrXrwlujknYVYDrslNGU2yWSSse0DbTuwSQEnLDNRmKdy5yjTTxMq68mlab87sznUeMzP8AYGEdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fpR31PHb; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1759939511; c=relaxed/simple;
+	bh=K08WfS0zn9WdF9OY55ASJ9oYL9UzYTBlPczRzX3vcjE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=btZAUdx3M/iEmypULSXZkzPFFjPxRTpUltRQJ1cjpJrLLwA7t+dUvL8v1qoPcUwPIKZHKtZhvZL/Skzbb7Zn6AeGoCj0Ivv5i4gh7yANpIXCVS2EKSqh/nEOGqYVQITj8OlYmj2EQXKWrGidEZWLcTByvj+POZ8IuF7dbWgyvBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HC3fEM16; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fpR31PHb"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59890SCC014237
-	for <linux-sound@vger.kernel.org>; Wed, 8 Oct 2025 14:58:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=gg2XGw954hw/rNzVk11kaod4ZGuB5Izji2/
-	QJiTgN50=; b=fpR31PHbNQFaoP0jHLmGl4/ob/VfzSwr+TexkvmZW/2LsaesVKc
-	hVcEvVpFm+Wqi/dKj/jCiyAeF6mhOGyOhw5Wh63RjkWS0Bd5Ma9xERWrQ8GvM2O8
-	Ba5sqwCOyLiampeTHEPlVJ/NL7cWjq72Ywab3Mv2MrysAv0420r+FVyd7n82S1Fk
-	TBTQ8nlXsgHDOw8kJjoejrAau1NJPEAsxwpsG4BUhceMYZuPk9XWQkfmCEprelx4
-	59PPG2TkYgaz5+1ZkrjNLgg5Hi7AO13oQHPmuz8xrnAR8bD5M6oTA54ZAszkO/1Q
-	8tXKbnEBcFEaWpGg4Y/1Kdab/CzWNcnOYBg==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mgd0ppkk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 14:58:08 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-78102ba5966so6970937b3a.2
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 07:58:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HC3fEM16"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-794f11334adso46886b3a.3
+        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 09:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759939509; x=1760544309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/4uNl2Ay0LlgN6EXPwo8K9A/+ge9VPm7JFPlv/QSzME=;
+        b=HC3fEM168QQCwro8QA/jHrMNTqlovYXZEeiJgNNMTl6F383J/L883CzHPH/OTIfebw
+         OW9Dmc9FedFgUpM87B+udGHqlacknGmLSEhCy8uXJeGqkTeT3bdNUf8EnZkZc6vNRu5+
+         E8+9gxNtvbcNK0bzeHT77v9x1DaZQ/ZRp1ZX/Y+WstevohLSmcrC64R3VPPZ/1odHOO1
+         DQKr3qdFFHf1sCpgVG7LVXd2F6iE2xCe8Aop8jMan60axguROfTY3IyGuNlPaHnx9occ
+         JBX0ujhaWjxV6VCuvXrdAZ/trrkNg9C5jasxDJwH4eROU+0nfAGNYiM8FVheB9mADoTw
+         T77g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759935487; x=1760540287;
+        d=1e100.net; s=20230601; t=1759939509; x=1760544309;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gg2XGw954hw/rNzVk11kaod4ZGuB5Izji2/QJiTgN50=;
-        b=VSB7VlqeT5bZqYUl+6J4uitqyjXrOJzLlfNbWCk1sG10nZaZgbvOmmPPtf1/wdNxtw
-         VjEv0nHEqBgqHU5zsFbzoFYkB2mmfj6/nmwSPzNhAxuhktT43q7doktSvFRYcqNLirJ7
-         qvSUUFyNQGTWLQ8JX1c4aj/4YZQG+N9bhzMt3QR9CP1RxNEh+Mmc/a8Twx2esnXNFn34
-         98PgZ3SSDtABvLhmRpdyxKMEMToYialtBxJoXY1bvlznpJkz4HPAoZuy24Jnr5MZ8QtM
-         XWuBQFNShV/R7lnxHacWt1LlRSssEHUHm5EVLWNNUiHOv6CT3FxiwicGtjxRDQKAHiQc
-         b3PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9MmZveM2z0bVKhI1s4roaZG3Jy+NiluhFLFegxZFa7sMwWGvhk8F8y1B+y0Mi1VLV/dyfODTIjXKYCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQpZKE9sKCe9jyweXpYMLpFeaoK4sdqFzL89RgAnnJ2CJAtPgT
-	K/e3KRDwwuO3QoT3UtqP02hHL/SnfCU7H9khHQn+f+zFTSlCvjUqC0Hb2PM2qss/8tftDIutnH7
-	xujmDeIzmmcSN4a5cbP2hgbtOCS9sQRzy1/pyzx/FBFZ6bUyGCbVKzBjLjo4PzoAtIQ==
-X-Gm-Gg: ASbGnctzsjD+5VkcSHylczltKyQ7UzlH25rRbHGV0l83ZtBUiy32V3GdrPF8g3UROtC
-	N+mWtUWzxuwgLVi19WMUwOPI1k4pxPcZazHkFoCieklI1sx8cgayiJ6XbfbiETSA04N87Osl3Wn
-	WZs+DQDSs4+RWTcHuudsA+A4/5/jBnBMNKpk/pjqxmv9jzqbH2PyL5rVN5GG3yzm/n6yDS0UH6w
-	M61OKJ135LxAFCY2KAQQthIRnZqu9qNKek88BeQer2FR/N0esvEa8si3sefHt/DkcfO9udFbjWL
-	ymE0R9Q4YuU2xEohwAJn545ZzgobFdlfeMHI5HV94MuHSehFTEFtQ/vvn4xIqSSSLeaVMvv36oU
-	=
-X-Received: by 2002:a05:6a00:3911:b0:77f:3a99:77b1 with SMTP id d2e1a72fcca58-79385703346mr3825674b3a.9.1759935486535;
-        Wed, 08 Oct 2025 07:58:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFW5q5j+m+RGehMEdTTXNFPYB2WX/itVnHJwVii8g/LY0p0ro5CAl7jexOkZcXjHDnVYlqG9A==
-X-Received: by 2002:a05:6a00:3911:b0:77f:3a99:77b1 with SMTP id d2e1a72fcca58-79385703346mr3825645b3a.9.1759935486009;
-        Wed, 08 Oct 2025 07:58:06 -0700 (PDT)
-Received: from debian.Hyatt.com ([192.210.17.203])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b02053b84sm19068892b3a.53.2025.10.08.07.58.04
+        bh=/4uNl2Ay0LlgN6EXPwo8K9A/+ge9VPm7JFPlv/QSzME=;
+        b=fDwz5OCO/uwiqFYriwFO6ozfJhgpYLksIv7m8hk6hpZaKP4oz5V1fr17U2LhsNsX4j
+         BMZwj1sgVJwPalrq9kkcqRf2MSpISKniY8sQogrkYCdPSLnvVmSUHF1lULPLkBrGJppZ
+         H5RHSQqZSO0hXre/WS3wnxAM+aH5iSP0RiZlNJBYrDfAbvesPUIkuhHRRtryxBHo5coq
+         DB7i5AUqZ1+tRRU8LUR1DbKD1VvHKTB0MBbHk6/7FlOlBXJkOcbHLSsV0An0DUTEMjFS
+         jA0mSGH3LB/ZpHG3LSnaNRU2rV1TmucBDEI4sojHFMTjtzZAV9IlyvEh5mbWnl1XcOM1
+         5Dbg==
+X-Gm-Message-State: AOJu0YywS7M0p0BRXKjZjzUWrrb0L4Sb0uTQVW9SRX3P/Ok1MeTJqIDA
+	TC01B+AyRX3xCtuwGGIFSJSbF9zvg1oX1frP16y7NcvZdjKjtvSRYMMM
+X-Gm-Gg: ASbGnctcpiDEfJ0tvqXD7cFOtNHTGLuJdyAJUAuSXIJBm05C7vlX+KaNa7FiPpiS+JT
+	nCsYljosgt/+gY4u0guIsHk85d5NfS/jJcjHGSfoUUj/vLyDFv3zLRLoPl0+krqz2iFF8AtzQph
+	0u/OgmOcgAmTNkSo7dxppjkwCrEsL2qcz+cVCxWGiYAn4SMW2t6RtLAq7QDwgobNHRp1xdBKIMn
+	ozK+uvZk2m4Y34AP9mhNheOVafkDGVhS0/YwU7GqGLies0OW8QgdLiDcn+sHLrNNx4ulUHjBRBU
+	wStf3PmsySIEBHmr2MSwgepBxbr6Sih2m5vf7vmXdTE4O1qOuHkGhhBg7fMh+rg1hv/wmKksxqF
+	IH1EfHGCK+7sM4fNUA0KnZuDHicpABf17gTT82QfvPg1WwerKn49fyitHSez0nlsmg7rjRJs/
+X-Google-Smtp-Source: AGHT+IHSwlR9X8nvzvyK35SoahmqhhUuc9WoGLaGvsDB3ru0DwXBEkmxWja+WJ5QFHVue0BRF6f0jA==
+X-Received: by 2002:a05:6a21:501a:b0:2e5:c9ee:96fa with SMTP id adf61e73a8af0-32da83de32fmr3996700637.34.1759939508502;
+        Wed, 08 Oct 2025 09:05:08 -0700 (PDT)
+Received: from localhost.localdomain ([185.213.82.31])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-794dbc5a6c5sm120658b3a.54.2025.10.08.09.05.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Oct 2025 07:58:05 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org
-Cc: srini@kernel.org, perex@perex.cz, tiwai@suse.com,
-        dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [PATCH] ASoC: codecs: wcd938x-sdw: remove redundant runtime pm calls
-Date: Wed,  8 Oct 2025 15:58:01 +0100
-Message-ID: <20251008145801.3479-1-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+        Wed, 08 Oct 2025 09:05:08 -0700 (PDT)
+From: Brian Sune <briansune@gmail.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] ASoC: wm8978: add missing BCLK divider setup
+Date: Thu,  9 Oct 2025 00:04:52 +0800
+Message-ID: <20251008160452.1741-1-briansune@gmail.com>
+X-Mailer: git-send-email 2.47.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,84 +73,94 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: wkSRgqPQBmcpi2j2hrw2crS1EnWiP7of
-X-Authority-Analysis: v=2.4 cv=T8aBjvKQ c=1 sm=1 tr=0 ts=68e67c00 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=3CSVYe8HblTQFsWiJzwA3g==:17
- a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=J5h_BI_um8seuJrpCkEA:9
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-ORIG-GUID: wkSRgqPQBmcpi2j2hrw2crS1EnWiP7of
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMyBTYWx0ZWRfX3m7H7LzJfOpw
- nmFUMuomoQGSh3SW6B/wm5v35zgGjbPtNcFqB0wQOqS5Gkn+nJOD1Y4hGX5/uTSMXyg8DhCFspn
- lAHIHSyQij3hDakaQu+9wRtdMi+3k6xeaTfHZEyl0/CUV+91JJoFfq6Gtz//wwsm0PNN3epn/gF
- ZRXcgHoyC0DzvS5MpUakpYC+RtC3OqMErHsf2FxMaFVupI/FBwezA73uwFChXsNrZrXZTBnkr1l
- w4XX+OY5Z6XGYjqmr9/BNMiZdCFzRaLXagnkP5xI40yoeoz0H74tCRORmElCV307GscuB4ny5Ei
- MMOtiAUEzBi89YUowzZSkq42bQMXODBDdMFQx+xD8erajv2iwESczt/smT4s0XKMdsmvlA5cSI7
- CDvjs66kUqW34NcW28DenGrDwIPE6Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_04,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 phishscore=0 clxscore=1015 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060123
 
-Component bind callbacks already does runtime pm calls, soundwire codec
-also tries to do the exactly same thing resulting in Unbalanced
-pm_runtime_enable and disable calls.
+In previous WM8978 codec driver versions, wm8978_set_dai_clkdiv
+might not have been called for BCLK, leaving the bit clock
+divider unconfigured. This could cause incorrect or unstable audio
+clocks depending on sample rate and word length.
 
-Remove the redundant calls from wcd938x-sdw driver.
+This patch adds a check in wm8978_hw_params: if the BCLK divider
+has not been set via wm8978_set_dai_clkdiv, it is dynamically
+calculated and configured at runtime.
+This ensures that BCLK is always correctly set, whether the
+machine driver configures it explicitly or not.
 
-Reported-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Fixes: ebaf88c0546d ("ASoC: codecs: wcd-common: move component ops to common")
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Apart from this core patch, due to request from Mark Brown and
+Charles Keepax. Overclock BCLK setup is applied, and dropped the
+possible lowest error BCLK result. On top of the overclocking,
+warning message is given to user as a reminding.
+This patch author do not agree with this design nor
+concept from first place!
+
+Signed-off-by: Brian Sune <briansune@gmail.com>
 ---
- sound/soc/codecs/wcd938x-sdw.c | 20 +++-----------------
- 1 file changed, 3 insertions(+), 17 deletions(-)
+ sound/soc/codecs/wm8978.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/sound/soc/codecs/wcd938x-sdw.c b/sound/soc/codecs/wcd938x-sdw.c
-index add907cb2706..8c8f39d04972 100644
---- a/sound/soc/codecs/wcd938x-sdw.c
-+++ b/sound/soc/codecs/wcd938x-sdw.c
-@@ -1207,24 +1207,14 @@ static int wcd9380_probe(struct sdw_slave *pdev,
- 		regcache_cache_only(wcd->regmap, true);
- 	}
+diff --git a/sound/soc/codecs/wm8978.c b/sound/soc/codecs/wm8978.c
+index 8c45ba6fc4c3..d894d1cda326 100644
+--- a/sound/soc/codecs/wm8978.c
++++ b/sound/soc/codecs/wm8978.c
+@@ -99,6 +99,7 @@ struct wm8978_priv {
+ 	unsigned int f_mclk;
+ 	unsigned int f_256fs;
+ 	unsigned int f_opclk;
++	bool bclk_set;
+ 	int mclk_idx;
+ 	enum wm8978_sysclk_src sysclk;
+ };
+@@ -590,6 +591,7 @@ static int wm8978_set_dai_clkdiv(struct snd_soc_dai *codec_dai,
+ 	case WM8978_BCLKDIV:
+ 		if (div & ~0x1c)
+ 			return -EINVAL;
++		wm8978->bclk_set = true;
+ 		snd_soc_component_update_bits(component, WM8978_CLOCKING, 0x1c, div);
+ 		break;
+ 	default:
+@@ -717,6 +719,11 @@ static int wm8978_hw_params(struct snd_pcm_substream *substream,
+ 			    struct snd_pcm_hw_params *params,
+ 			    struct snd_soc_dai *dai)
+ {
++	unsigned int bclk, bclkdiv = 0, min_diff = UINT_MAX;
++	unsigned int target_bclk = params_rate(params) * params_width(params) * 2;
++	/* WM8978 supports divisors */
++	static const int bclk_divs[] = {1, 2, 4, 8, 16, 32};
++
+ 	struct snd_soc_component *component = dai->component;
+ 	struct wm8978_priv *wm8978 = snd_soc_component_get_drvdata(component);
+ 	/* Word length mask = 0x60 */
+@@ -820,6 +827,31 @@ static int wm8978_hw_params(struct snd_pcm_substream *substream,
+ 	/* MCLK divisor mask = 0xe0 */
+ 	snd_soc_component_update_bits(component, WM8978_CLOCKING, 0xe0, best << 5);
  
--	pm_runtime_set_autosuspend_delay(dev, 3000);
--	pm_runtime_use_autosuspend(dev);
--	pm_runtime_mark_last_busy(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
--
- 	ret = component_add(dev, &wcd_sdw_component_ops);
- 	if (ret)
--		goto err_disable_rpm;
--
--	return 0;
-+		return ret;
- 
--err_disable_rpm:
--	pm_runtime_disable(dev);
-+	/* Set suspended until aggregate device is bind */
- 	pm_runtime_set_suspended(dev);
--	pm_runtime_dont_use_autosuspend(dev);
- 
--	return ret;
-+	return 0;
- }
- 
- static int wcd9380_remove(struct sdw_slave *pdev)
-@@ -1233,10 +1223,6 @@ static int wcd9380_remove(struct sdw_slave *pdev)
- 
- 	component_del(dev, &wcd_sdw_component_ops);
- 
--	pm_runtime_disable(dev);
--	pm_runtime_set_suspended(dev);
--	pm_runtime_dont_use_autosuspend(dev);
--
- 	return 0;
- }
++	if (!wm8978->bclk_set) {
++		for (i = 0; i < ARRAY_SIZE(bclk_divs); i++) {
++			bclk = wm8978->f_256fs / bclk_divs[i];
++
++			if (bclk < target_bclk) {
++				dev_warn(component->dev,
++					 "Auto BCLK cannot fit, BCLK using: #%u\n",
++					 wm8978->f_256fs / bclk_divs[bclkdiv]);
++				break;
++			}
++
++			if (abs(bclk - target_bclk) < min_diff) {
++				min_diff = abs(bclk - target_bclk);
++				bclkdiv = i;
++			}
++		}
++
++		dev_dbg(component->dev, "%s: fs=%u width=%u -> target BCLK=%u, using div #%u\n",
++			__func__, params_rate(params), params_width(params), target_bclk,
++			bclk_divs[bclkdiv]);
++
++		/* BCLKDIV divisor mask = 0x1c */
++		snd_soc_component_update_bits(component, WM8978_CLOCKING, 0x1c, bclkdiv << 2);
++	}
++
+ 	snd_soc_component_write(component, WM8978_AUDIO_INTERFACE, iface_ctl);
+ 	snd_soc_component_write(component, WM8978_ADDITIONAL_CONTROL, add_ctl);
  
 -- 
-2.51.0
+2.47.1.windows.1
 
