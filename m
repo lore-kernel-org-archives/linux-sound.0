@@ -1,59 +1,59 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BFD2BD5BD
-	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 16:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848762BDC14
+	for <linux-sound@vger.kernel.org>; Wed,  8 Oct 2025 16:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759941455; cv=none; b=GMb5KNmsXZ8NofgJ4XjMKIEzFAMsVqLaqILMcNlvh9pq9G1eTwNqxy6e/4dYqm7lasAUxfR+lVoAF37yiXB+NX/Lh+mgJyshwAHcQj+gpxIMkSsJIrfCpLaoQXbVZJzNBkSEJSPfRaL/r1q2uItwwmaT0KSLOFWhn46Zk5DGfl8=
+	t=1759942715; cv=none; b=b+fvDVai2iu5ar6R6lPXyqjOvsVLtuY237ricN76uzyEJZk9PGO7nw7d45w9yRbBY9gW1TDrVVE5E1WeqcJQHFnVNzyZD/NYBv7YY5mRmGJNHk55L0IuL/FiUXIAxIL4t1Ni8uML6gtTRDSjT6pr7Oir/dBlYlLYkz2wdNRG6RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759941455; c=relaxed/simple;
-	bh=rYjR1Iqi0XRFbJ1FUWt3fyHt51IY6QWXX2UUdREHseg=;
+	s=arc-20240116; t=1759942715; c=relaxed/simple;
+	bh=sJYQ1HJnmQ5odfjaAz4LPznXnWsyKF0LcwZ35Z86QXg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GtOUcpjoBzIn+qweE0lG40jjgkPGq7Gi5lB+TMAhl3yN5aGA/t+NvcfnM65eu5ySs29IZp1I9F2OOftldnE8o6x/Wzq6L5Su1n1tm+Rhs8Xt71E1D0eZOWqcyQDE/68POHLno7DJqV7tL3jE19IPaecvqFL/6U8PvhRDK+5cUVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKOoUjeX; arc=none smtp.client-ip=209.85.160.45
+	 To:Cc:Content-Type; b=az6gW1+KjKIKkGwbAg49FGYTKOoYyZAAJaVrhfP6vVEN+9G0ORoejRKlBZQK/NewBwEv5rQMRuVKyj1BWXzc6Wk5daHcmCRdJsHoooINRiyggcvq9PgHOBUHdxgThRyvQ0goLWj56nZ3LOyvORVXk/4iRtwKDsgPcgAtVY0QWIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alqEeZh7; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKOoUjeX"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-36f51ac0595so36596fac.2
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 09:37:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alqEeZh7"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7b00927607eso60194a34.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 09:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759941453; x=1760546253; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759942712; x=1760547512; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x9cAqL5EmxLXp5mN45dwhw+4xOMNiEwDDv11EuM2Aio=;
-        b=bKOoUjeX3GWdOy50ewwoX0G4EpaOHt7r0nvIFZCzL5r3OqTOvNmS0gIjf3dNhyTkRs
-         PCmcTS++6+uOE7hf9XjKzSWvkkkRWUWposGig774vlhhWMOg6Y8bgEbrheVF3lALivAb
-         Qz4prfrEJ0m7q/U+3r3IWd6EgtV7gchtj9uRP/2x0yRkUVEDLkoXQE8inaFyzCgZJ2pJ
-         Tcnxd1Kt3tR36LVLAeytOBsNTlPgd6q6j9jidaejlMlAFjiiRqpjA0/D9ZnU9mBEF5ob
-         4tRCviuk7Iy6IVJIG9wfH7E+o2lMTJuGSi7IcqDyYRJ5cSuDLBpPsFVM1YjeIuZWweDV
-         V70Q==
+        bh=sJYQ1HJnmQ5odfjaAz4LPznXnWsyKF0LcwZ35Z86QXg=;
+        b=alqEeZh7l7T5NBdewUY7JFt0ZI3QCatAMiMTwPiyVB7cgiFKLeDPs1pXPOuMMAu1hj
+         J1ZG3ad3ombChPQqmTfOno3jaxGn7UEUsvNVCN8RJdgwoMeAK0VXUul3oQ4ZOexDCmXF
+         UFXnpSBFhSlDdvcbJfavzBKwOy0lVe/44ggGV3/Gfp0yMjfwz9AoHW7ofBg77Om0mLCw
+         VNB1P6nAoY2irCJMz7a2TRfKN1pSA/lhW8ilfZ/alpTin6uWDhBa2sEL2G+5s1j07ot+
+         PIggIDgzmd+EpIyod/fCnNtdBmxeLGVjkvvyPaT8wnjPY6fJl+5QF+6RbfhfsTeMLKvE
+         p2Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759941453; x=1760546253;
+        d=1e100.net; s=20230601; t=1759942712; x=1760547512;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x9cAqL5EmxLXp5mN45dwhw+4xOMNiEwDDv11EuM2Aio=;
-        b=qIf5nuh3PGTI8S32Q5xFizvfyDaI76wfkI2wn07xkR7vXq8xqXZmJfUXk6XrkDC42w
-         9AccqQeZtHVL0DiZ9d7ffw8LovpohugjZxzQaHImEId2ml4YGoxIXGKtXKe2kZ51iemd
-         kBKH1fhx6J97DVuvaEv1Z12z1akz/6Oe/uVLAQLcFM9u4K68pIYu5R/TnPEBOY0t12NL
-         KOst52CZ4QHlwRhgB7x/OjSr+k4Dbl7JjDPjHw6z3uZy++ojLNHuD71Ua0GzUkhaOwT9
-         sGkbtS//nWs6dxFk6elPH04XLLIKIchhYLHOYQv/l+n0Rk/rkxKqZkb/OA1tC82DJWaz
-         Nbhw==
-X-Forwarded-Encrypted: i=1; AJvYcCXC0Ww/XTBytW53kn4s7GMFXZxlALRLcCTtHZH557GL3KlNvpYGTrihdEgC6BftqNsbLTvULWq2PV5pTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRtNvEso9F2Rw5bNwvfkNZA5bNWuqYrlKdsFbvzkHgJ5OETmtd
-	wDeaBjrbHi9MvJPMHg1/oX5josR/IAaSqX0BFJIVwB5MV7vFamfTMyFFggRw9ut5UfHQ2yh3n2k
-	0D2Le0eY98HVxf3Ia22580rqxgUEitfTrzPQifZ1unA==
-X-Gm-Gg: ASbGncufIMrL5mAvdJraWFqeRMXY6cWyuDRuGLpPBLsddIqO9LWB7Jcamk1tNh0YEqs
-	dxMyuQfcJMmt6kyo49MooC/r+ZTFW5PK3g9kHjejyF8YS2GJMCSaynqQIeokphWCt3snAmm/zXl
-	e83R4geUmEW9khlR08huHDQb0qfTPwuCoGK7FwgMglQSuVR0UaLJ3jTkjFk90TzhSLHwfegosTY
-	whGkxHSmogX/Jdz+9ntyhSV0CoVqd4=
-X-Google-Smtp-Source: AGHT+IH4NX68hGg/YYbycc0EXibQucC7/Qqd6VcevQnI+k9utEcJEXlVLufe3+2AMsfLmL36l2FfDS12dhHdBKj7CYk=
-X-Received: by 2002:a05:6871:6d12:b0:31d:7326:c3a7 with SMTP id
- 586e51a60fabf-3c0f9e6cf08mr2106426fac.41.1759941452818; Wed, 08 Oct 2025
- 09:37:32 -0700 (PDT)
+        bh=sJYQ1HJnmQ5odfjaAz4LPznXnWsyKF0LcwZ35Z86QXg=;
+        b=hLmJAG+2RXSUYti3qnVWLMOn855ZvsX1Qrb97a9GW7eb6yQB4ojN0C/s+5BdE+eoi5
+         J4AiU8Fx2E869LXVzDRzTmLea4V+oxV45kT2Uh96otW956uzfQi0gQm0gtuOoYz/hZKj
+         81b3bWTWd259RsLf/lgNtelNxlSvpkRcnR4og2I3d57tbjiWUTitp534e1upTtv+Yapx
+         JHOWLQ+QUEpOzFAKKoGbwcuMOlEfqdjwsWfKenJfeg6Vy7vo1A/hmwznng1qxtJpQvRf
+         6ipMnaxX3YdjIXY0GhZs6GYx2mPUpmnvOrhfsLBHb+pKMD6nvIhWPXp7VkXNAHSKuN+K
+         PXOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2G0Rph+U4o+nGQnmLGwZEGKvUDKV+reQLm2dkZBfzCkakHOMwkwxChrDQv8K9dJsEm9jMHkLnQfQtgA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtOHX7unzBK7CRBPMcJqZ3nq/jTWhEWgaT8gQXndLyBzk+tjSZ
+	nPk+2dqKD7FOpCAiCmtrX/66pBwtHB6rKmC7Ps/zn4sxLodBGD571pUiPd13X5UgHNzWujEj91E
+	9EevIRZEtTwKgqrDawyhU2/OPSXTu2YE=
+X-Gm-Gg: ASbGncuDc8dBaDyN8ENrtfLyxdQANRcTLzS446fC9I+a5a9XRO2zeEpJDbIJac2pzg1
+	s8+T08uaUAGi5qs2zD8taIKwSf6MBMJWVdQh4BHl10C3bXhlTgLu+ZYGWKs2nK7simc1x0/7OCu
+	A356bGKR1LO2lkBDf9SgAj/ZsgfaR7+AKQ7BB4RtimqAiK884+z/Ij188GYigf8fgUIRirZ27l1
+	9B4KnU2ONqN5jrAPzJMbESYp39ycaE=
+X-Google-Smtp-Source: AGHT+IG2vvJj9wBrBgytS/7u2V7HiM4xVrVDuJl/IHxrxqkylGm+rIGdQByMnc/GkSWkP3WikChxE4dg0y9mSw8tzFc=
+X-Received: by 2002:a9d:73ca:0:b0:7c0:e0a2:661e with SMTP id
+ 46e09a7af769-7c0e0a270b6mr1397210a34.3.1759942712413; Wed, 08 Oct 2025
+ 09:58:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 References: <20251008160452.1741-1-briansune@gmail.com> <53ba5ea7-ab5f-41dd-853e-2e39efac1321@opensource.cirrus.com>
 In-Reply-To: <53ba5ea7-ab5f-41dd-853e-2e39efac1321@opensource.cirrus.com>
 From: Sune Brian <briansune@gmail.com>
-Date: Thu, 9 Oct 2025 00:37:21 +0800
-X-Gm-Features: AS18NWAYTOqZvGmx4yJdLmScGm9q6udXotXVi-6VyPjnhvEIYTAODrr7GQZj2Us
-Message-ID: <CAN7C2SDzMS=uk7Qvrw4M6UP5MHgYnvSSZGuMs6OAHTWxBjqUUQ@mail.gmail.com>
+Date: Thu, 9 Oct 2025 00:58:20 +0800
+X-Gm-Features: AS18NWDxEqn1DXHD23DqZcU7_lvdpqATneJZ-9GotKJaV36ym9HlSG_tZkOI3DA
+Message-ID: <CAN7C2SCwz1YwYnAD7n=t8hUxME=hihqeF8fYBtvadHVJqj1a4g@mail.gmail.com>
 Subject: Re: [PATCH v4] ASoC: wm8978: add missing BCLK divider setup
 To: Richard Fitzgerald <rf@opensource.cirrus.com>
 Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
@@ -78,54 +78,25 @@ Richard Fitzgerald <rf@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
 =9C=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8812:27=E5=AF=AB=E9=81=
 =93=EF=BC=9A
 
-> Selecting a lowest-error rate is not valid I2S.
-> You must have enough BCLK cycles to send all the data. If number
-> of BCLK cycles < number of sample bits you cannot send all the
-> sample bits. So that would be an incorrect setup.
-
-You had completely misunderstood my inherent idea.
-What Mark is arguing is about the same as you proposing.
-The idea from my side is that if you target 44.1K then the lowest error rat=
-e
-can only do 44k then both LRCLK and BCLK are follows.
-Both bit and clock are divided accordingly
-
->
-> > On top of the overclocking,
->
-> Using a higher BCLK is valid I2S. In fact, it is exactly defined in the
-> I2S specification that there can be more BCLK cycles than data bits
-> and the RX end should ignore extra cycles.
-
-Again, this idea is completely incorrect from first place.
-There are codec allow to do so doesn't mean this is IIS standard.
-Again if this idea holds then why not simply use a faster clock at anytime?
-Then this patch also make no sense from beginning.
-BCLK faster will always be okay, why setup the register then?
-
-> > warning message is given to user as a reminding.
->
-> Warning the user that you selected the correct BCLK is strange.
-
-Warning message is based on what you are trying to setup on the codec.
-if the background is based on mclk is fixed and bclk and lrclk is
-divided from mclk.
-Where bclk is follows lrclk to commit  the final closest audio S.R.
-I.E. 44k1 48k etc. other than that if the setup can only make closest resul=
-t.
-BCLK is fasted and LRCLK =3D BCLK/32/2 then the result of cause is not fit.
-
-> > This patch author do not agree with this design nor
-> > concept from first place!
->
-> For example if you are sending stereo 16-bit samples at 48 kHz you must
-> have a BCLK at least 48000 * 16 * 2 =3D 1536000 Hz.
->
 > If the _nearest_ BCLK is < 1536000 you don't have enough clock
 > cycles to send all the sample bits.
 
-Again from the very beginning comment BCLK / channel / data_bits
-result in a slower
-S.R. aka LRCLK then of cause it is not fit.
+If the inherent design follows the original concept of i.e. IIS.
+Then the comment of not enough clock cycles to send all sample bits
+won't even exist.
+MCLK -> BCLK -> LRCLK.
+LRCLK is always subject to BCLK by channel # and data_bits.
+As for the BCLK is always subject to MCLK and oversample requirement
+or codec design.
+w/o MCLK rooms you cant do BCLK w/o BCLK rooms you cant do LRCLK.
+LRCLK itself is always subject to the original clock frequency.
+This is why there are no possible idea on not enough clock for bit load.
+BCLK divided by channel * data bits itself must be hold.
+Hence the result LRCLK aka final S.R. sample rate either is fasted or
+slowed is what it is.
+As there are no possible way to generate a incorrect divided result
+when mclk is not supported by some S.R.
 
-Brian
+Then only result is S.R. is slowed or fasted based on the BCLK but not
+because you are targeting a S.R. aka LRCLK.
+Which result in BCLK is required to be faster.
