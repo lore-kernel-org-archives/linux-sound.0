@@ -1,113 +1,115 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A961A34BA3B
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 01:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C55933993;
+	Thu,  9 Oct 2025 02:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759973927; cv=none; b=lwMwXJjmqYiBAW5BAqvapRgiAbO5mvAHxnzZqxcD9Q/xe/nsTaATTdQUniZbtLYSvrLeAd/nZPj+wfN3Bo0F6kTFJIO/d8NkbjDAyGWsvtkcllmOSvrUbAKKT2d14z/hBdcG79WadrNB3jrPNsbNvjMrvFFinzTy9W/hxvH8fj8=
+	t=1759977252; cv=none; b=o6n63s5rH1hhVSzrJbLA7qOwVGWJiwoQHEtpR+1pg/GIum3h/LXZ07vD2lvqx+dSg0ibNuHzWK5M4QBhC8jSf7JQ7NOrY60geiK6pon/6oNcCDOmBRlmirPue2b09g0GfEAGznFV8FUezvDailavA374BLwQYiDfdA+oc1YN2k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759973927; c=relaxed/simple;
-	bh=6nrMOtELpBLmErAHhpvH82Oyr1lIyTdGtpID2+/TO4E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+FAnkRcDdYsJEQ3ol6ETlZYkmJQ2dScOTA5MpWkQzW15ne3Yi1TgtgTP0HihrtS0wxjCPuTpau9xUA44nchU95wclja9nm2ORXGekdSmiv+eEb42HKjabhxpFo2R7vmq1gCv//OkJUuYyM03UYlMZExzAgquzRgR0wmyuDj7C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRUBcHKv; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759977252; c=relaxed/simple;
+	bh=G9fYDCK0biOIRA2siBGv9/9+6Q/sY5OYFaZEPGtZNxs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=opLDMG/GW0iw63nChah/q7rg99xLKOx2REZgzPodQ1VeKurIOgIjgXNQ4dC3YmxeSVpPktXAh2uRZ1xotM2Ft148/ykWDuCZCzss4EGLlXgHP7GWaemFuE39a5aJ+8kQuJ3DAo8o/GKux+fo3gKHwDafqYMaUpbXVBoHTQz1Zn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gBt5Tz1L; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRUBcHKv"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-43f696ebf8eso151253b6e.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Oct 2025 18:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759973925; x=1760578725; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x4OU+6d4XHNyYe2vaJ5HulojqcfOOX6yJg+zBKOwOLk=;
-        b=NRUBcHKvdojRU9zvreLo6dbEvydIgO2z0lHNqHPTWnyxP5/+HnM6apXvHfnSRii//l
-         J9edXS8ilHtd5VAs9nXqbSUgDnV025uucHgu66ovcBX9RHaA5v7ShhqqAsqBidrprFGV
-         902LCc3SOK0Zxn0QS9yHBDnvDhwqcDqsdWfcXfuFARwkyD06ZlsBiqUURX4h2H8tG+vO
-         pvc2zQA+T+mSPQA0Tv4dnBBkGHX0jmB8bFPaG+T++4DrAgwaUIHhoNE8uvu445Tcs4ts
-         De8aij/HmF3M9S2f+rt3gP1lfzchSY+HJ/dtTvkPm/7UwfyNGK/6dMJT6M4mEVIM16be
-         dqBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759973925; x=1760578725;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x4OU+6d4XHNyYe2vaJ5HulojqcfOOX6yJg+zBKOwOLk=;
-        b=Rai4eNSXtfCWMxVQhH75PnVIHu+9Be1HrZwLCWzOYxN957saZaBw4L7YuggTM75Hi6
-         BEIn2QXjN3x6HF5dQiy0Ct3QAcHvyROdoHksgSm6U+ywOQgTVPDnPHMNrWSXglEyw11H
-         MaGb70kdvMtGNMQVozJzJgt8D1+1P8sHFpXSAbGrEilqVEYXNqXEJI0pj/YWpXqrIvxd
-         ol7EggNV/r4w21xSfKiFdEcZJ+RZDiam+06vr359qL+nqKcB92DsGUQECCE5FJtTCiUy
-         bCGUhYiYDlb8GUsOpCInfFFk1GPYiCIgPNikt1RgK8iXgoWlMSA9xry2nohI0ZfQuAho
-         mHeg==
-X-Forwarded-Encrypted: i=1; AJvYcCVM4+3MbU8ZaV/NZFcGkVYxQEPs4GUAPNlJPqoKlx/+yJmr5WR6peyPoh+SJeo6lZWIrr6+AT+h71EQLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSwk9zVlRY7cddTOy62y5qV8+NSqNdM4st+W5/bkswMDQG2Pt7
-	eT+twtKyHTV0Wm58sXlcOxXrbwS9SVNqblgNRpy4QlIkjPppa7wheCRwlutN4GjJ5zQTWsK7E68
-	4w/yqqE3aN2KsB0I8DHSnQJuXBrJv6SE=
-X-Gm-Gg: ASbGncvY/Dq8G/eExiPbBOB3GkqtcafxXYda7DXBSI7+UeCYtvk0Lfr5xkJmTyxnCuE
-	Sgyr7eaFtNjz9q8AsaWwD22wpjklvlTyuel7eAvqKEFHkW54QJjEKGbu49je7IhIt3+3Ue/ujaL
-	IIecq4ZHLZ1v6n0gra6VVcZf+6km2JGYKeGDT3R+BDTm+/LQJLjpZgUeQjpO1LX8Yh0Y/oxENNg
-	+4exQyKsz5uwO8xJVdGA7YVzNtvKjA=
-X-Google-Smtp-Source: AGHT+IEoA4Bvx1E4ZcP6qArxORWElQD4CExZH+e7IkeOBTHua4YCh9pjvgZBR17pP7bTL1f6rCYOx0ouIUFlq8ENpj4=
-X-Received: by 2002:a05:6808:1909:b0:441:8f74:e81 with SMTP id
- 5614622812f47-4418f741a75mr130795b6e.59.1759973924521; Wed, 08 Oct 2025
- 18:38:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gBt5Tz1L"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5Pmp029339;
+	Thu, 9 Oct 2025 02:34:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=gp34WTyp3jQ5abLAaLIzt0wje4LOR2CSKNB
+	Fn0QnMYQ=; b=gBt5Tz1Lq6GXwfUZH67zXoLL4p2W1KPXVUto7DAkaUD7R1DE0f4
+	kzbML0KF15EDOZa7/3MGkrWSebo1WgcsWNDs/pnJ8iUnSLhfGwex7dEbkiyqmhtF
+	wrXsm0TR1sc0TmFPgVUIy/LgJWQ1TPXFs4OgeAPnvZ2sEOIc7xsryOlCJixY9lWR
+	cvxWOiawD3c2Gr2+8GC8HQ/M8zY+ALJDCITXARx3LNq0i8VV8tsd8BSAAnG3eVk0
+	rKHk237loHaJQbSBUw3d/YNxGGrq+ImzggsNCu+b/jmJrU/PsYjOpvNbJgI6pj2c
+	L2egqwc9R+g6e47eX0y78UY+lAWftO+NFbg==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4sh6nr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 02:34:00 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5992Xvm2026686;
+	Thu, 9 Oct 2025 02:33:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 49jvnmwgs8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 02:33:56 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5992Xunf026680;
+	Thu, 9 Oct 2025 02:33:56 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (cse-cd01-lnx.qualcomm.com [10.64.75.209])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 5992Xu8g026678
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 02:33:56 +0000
+Received: by cse-cd01-lnx.ap.qualcomm.com (Postfix, from userid 4531182)
+	id 112F5210E9; Thu,  9 Oct 2025 10:33:55 +0800 (CST)
+From: leqi <le.qi@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@oss.qualcomm.com, leqi <le.qi@oss.qualcomm.com>
+Subject: [PATCH v1 0/2] ASoC: Add QCS615 sound card support
+Date: Thu,  9 Oct 2025 10:33:39 +0800
+Message-Id: <20251009023341.27277-1-le.qi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008162719.1829-1-briansune@gmail.com> <aOacZAiWxG9XfWLS@opensource.cirrus.com>
-In-Reply-To: <aOacZAiWxG9XfWLS@opensource.cirrus.com>
-From: Sune Brian <briansune@gmail.com>
-Date: Thu, 9 Oct 2025 09:38:33 +0800
-X-Gm-Features: AS18NWAU7au0dqPFWIf36aNFX-XQyhsxQx8vzY3DKLyxxYLexG4DEIy-dDxCkNQ
-Message-ID: <CAN7C2SDa2WXKVw6XdR+2K0nAjkjy3JH6e+h7d0i9wDNyoXEyBA@mail.gmail.com>
-Subject: Re: [PATCH v5] ASoC: wm8978: add missing BCLK divider setup
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: XTpbl_5uNTq5NsOS86yRABhk3vNWj1o6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX6l4N95VRtvK3
+ AuxociwYcJURR/PuFvVCBwLidnRmKmbg4jjvua5S4wIyIuhtpdY1ojygLGTZS3KwOiYMvO33DwK
+ LhnaGiY2qP4FEQEQZTA0wUzLyv33vrlpCSwyX9/TNpZHJFZEQSom9iJM6KXOPV5ee1dJGeYCJra
+ DECkjWkXFNA0uXuBMfQgtgplI09pRZbWaY/j9xcO4dKtXxIetVkSmBemnixTQ6DMz3d73/+q5FG
+ trJOUUEhrNfqEsC4d/r1nkrdwtPr4nfGa+jJZHg/WpBG5+uQCmaFZTq734Xkq3uC9GAKPxUPSYk
+ BGkhsC06mvBxsIgNfEkUJqNcZTYGOgd6hIDTDs7sFVI7d5Lk79jUDgKGqId9rLvTPj/sReWQVVp
+ eOxeMBuUhkx2K1deNBAdhnkMKAPaUQ==
+X-Authority-Analysis: v=2.4 cv=SfL6t/Ru c=1 sm=1 tr=0 ts=68e71f18 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=x6icFKpwvdMA:10 a=-LUE9sMnR5qqSz9F25gA:9 a=zgiPjhLxNE0A:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: XTpbl_5uNTq5NsOS86yRABhk3vNWj1o6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_01,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011 malwarescore=0 bulkscore=0 priorityscore=1501
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=881:16=E5=AF=AB=E9=81=
-=93=EF=BC=9A
+This patch series adds support for the QCS615 sound card:
+- Updates device tree bindings for SM8250 to include QCS615.
+- Adds QCS615 support in the SC8280XP ASoC driver.
 
-> [1] https://www.nxp.com/docs/en/user-manual/UM11732.pdf
+Tested on QCS615 platform with audio playback and record.
 
-At the end of the day. After refreshing myself a bit,
-I want to cleanup what this document trying to proposed.
-From beginning I am very clear on what I am understood.
-Along the discussions I am been mislead  by this parties
-as well.
-What the standard about extra bit is ignore is not because
+leqi (2):
+  ASoC: dt-bindings: qcom,sm8250: Add QCS615 sound card
+  ASoC: qcom: sc8280xp: Add support for QCS615
 
-1: BCLK clock rate allow faster
-2: BCLK is not relayed by MCLK and LRCLK
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ sound/soc/qcom/sc8280xp.c                                | 1 +
+ 2 files changed, 2 insertions(+)
 
-Explains
 
-What IIS inherent design.
-1: in order to form a 24 bit counter 6 flops is required.
-As such then counting 32 / channel hence 64 bit.
+base-commit: ce7f1a983b074f6cf8609068088ca3182c569ee4
+-- 
+2.34.1
 
-2:To divide BCLK to form LRCLK then this 64 ticks are
-ran. As such when a 24  bit data format is used, extra
-8 bit is ignored as such division can form proper bounded S.R.
-
-3: With this ignore bit method less die size power on VLSI.
-Simplified 8,12,16,24,32 data format while LRCLK vs BCLK is
-bounded.
-
-4: As such, this is no the concept of overclocking
-BCLK to fit all those how argue about BCLK is faster to etc.
-
-So agree to disagree. I never accept the concept of
-overclock on IIS. And this is not what bit is ignored intended!
-
-Brian
