@@ -1,113 +1,118 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEF92D193B
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 08:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FCC2D3A96;
+	Thu,  9 Oct 2025 09:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759998806; cv=none; b=jaoiuZVW+pzIuirolnwmeR7HwxGEayQ+bWPABtp2EqlnorlaR5dSPBdhFq/PcCevVZuJUl6Wh4Wy5lg+7eQBv+rw6tt4c1sxl1uJ9SVLS73Utu4CfF0awZfsVGF893RfdKoxLVXoCxs8nie1Uv+7mmUS9CWgN3E1GxvZE/9Ckt0=
+	t=1760000801; cv=none; b=JOW31fpmW6rZVOoPkCqOfG9VoVqpjOyzYD7fhMDVZ7MCKaokeJ5isMLMuFL3ur3w4MjAUiEtQ9siNK3edGT4Fg5jYGPSb+oA2sp1JXRK0TTho/SIFJstAVX193CFoE/cZi85Q1pis7qkvOXXb9o8B4j2+0Dh/HYb3YLcQnHyoag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759998806; c=relaxed/simple;
-	bh=FkgfL5hEZw22IBlQNg8l9AFLwLElrRRwuB0p9DnsprY=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SBed8M7np3j5rfHqQEQ1mGl52joVUkBLxPWe7SawMSER2Tz5h65BonfoCNwOzmii5f3mDrjTYVWk3xa7J16+HH7wG07PP9SmFua9VfxgsmuXc5Pg4q16U2emcL5JNWqYN61LyakZAKU7GUNKixkiYWozZ58xZpGilgIdqGtg/lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v6m5O-0003Sm-O3; Thu, 09 Oct 2025 10:33:18 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v6m5N-002hdG-0f;
-	Thu, 09 Oct 2025 10:33:17 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1v6m5N-000000002X0-0b2j;
-	Thu, 09 Oct 2025 10:33:17 +0200
-Message-ID: <4a3266af045b81ab4ae7826db890d5f7333227f4.camel@pengutronix.de>
-Subject: Re: [RFC PATCH] sound: airoha: add support for AN7581 PCM driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Christian Marangi <ansuelsmth@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- upstream@airoha.com
-Date: Thu, 09 Oct 2025 10:33:17 +0200
-In-Reply-To: <20251003015521.2244-1-ansuelsmth@gmail.com>
-References: <20251003015521.2244-1-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+	s=arc-20240116; t=1760000801; c=relaxed/simple;
+	bh=QPGaCkUwa95NG/UBmjFJVOWDEjL/TosRXyHH/njVueM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j5gLJ4Gi7RG4HWUWJTZubuoL4217j4eChK1TYkAoHJqRT8BBW/Ov81vxWfOH1RSj+5YUAdmg1ERWOIJqLkZhZoURO6hTGnNcUVQt9SFjdSnm0qNg+GcCWlcGBApV1yHE1CKbqRfWa6o7VMAqM0qHHGbvWkY583YGztBzDBG/Jno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KFjIDM5p; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KFjIDM5p"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EJAh023279;
+	Thu, 9 Oct 2025 09:06:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=jWYF1xdKVcBY6vx9aFokm2OGkmdNNVvW0M9
+	Z2ExOgqs=; b=KFjIDM5pOP3U4sV6hwQWnlKPjlWPfsGc+xkBetKEFtpNdrdq/sY
+	J6sTYQW2vNeLUXm71RArzyWZp6z7Rckiy1WTIbuqdfJo7gClcbr+pIyf3BpBOUqM
+	h1w1/f+i3v1/lYQcGGnBwQIZ7cs8hb3GxLukjCcnXaJpfJ1Cb14BvBpmTQQ1mhO8
+	QaaJe046dqX5K7QkLo9r2s5PvDRCJKZdhaxonO51m7PCv40jDQi5FBxNon1UVxux
+	upxww1MJ2PV7yNiX1JUk4r8SxTf41ygYXrWyFqJTNkEiBxqD+FSky9D6Z4y3417U
+	P0EtzV06F121Zw3PomHFNnB9KqWTte20IIg==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4m26ft-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 09:06:29 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 59996R6m007044;
+	Thu, 9 Oct 2025 09:06:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 49jvnmykbw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 09:06:27 +0000
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59996RTo007039;
+	Thu, 9 Oct 2025 09:06:27 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (cse-cd01-lnx.qualcomm.com [10.64.75.209])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 59996Qnu007038
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 09:06:27 +0000
+Received: by cse-cd01-lnx.ap.qualcomm.com (Postfix, from userid 4531182)
+	id A493D21860; Thu,  9 Oct 2025 17:06:25 +0800 (CST)
+From: Le Qi <le.qi@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@oss.qualcomm.com, Le Qi <le.qi@oss.qualcomm.com>
+Subject: [PATCH v2 0/2] ASoC: Add QCS615 sound card support
+Date: Thu,  9 Oct 2025 17:06:17 +0800
+Message-Id: <20251009090619.1097388-1-le.qi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX2EcwbTmDDeUV
+ 3naBOcZ2xyJvo8KdYgLe4OsCnowLF3vPLDRj4rluRmAnTcjXX5Oj/qYwnOGHRLSmFcbbtcv0+mn
+ Koq3EqiIvIAKK516NZjQMt6//FVMIDZlCfn2O5NLrXnRpZH78BhRAC1aKolkCf0Nu9pzeeyI2+P
+ 4ozU+1nHqcLxSYWaE3+LVxxWMV8Z/iPDcNSVO0mvD3WdMHyk4ajJ/sI9CePtXDzg1zh6O29/nnJ
+ rrJjYTra0eC2fDU2y6A4CuxW71H3YFtXq/zSi2NtACguzHsBLMohoVm12fxBSDWYHF/KLd6b+dP
+ HHaftc3Dz7pygqhwckaOTm5SDvWnE/lmFbV33WqTyjs+DUPY/PE4YBM01AKQtSz2XcSwggzlUWr
+ ConXEFIsGZftt4sk7CbAtyQVgDIduQ==
+X-Authority-Analysis: v=2.4 cv=B6G0EetM c=1 sm=1 tr=0 ts=68e77b16 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=x6icFKpwvdMA:10 a=-LUE9sMnR5qqSz9F25gA:9 a=zgiPjhLxNE0A:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: mHAS_DxHSjDGdlYH3TwdkSJWMbRaZYZf
+X-Proofpoint-ORIG-GUID: mHAS_DxHSjDGdlYH3TwdkSJWMbRaZYZf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_03,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
-Hi Christian,
+This patch series adds support for the QCS615 sound card:
+- Updates device tree bindings for SM8250 to include QCS615.
+- Adds QCS615 support in the SC8280XP ASoC driver.
 
-On Fr, 2025-10-03 at 03:54 +0200, Christian Marangi wrote:
-> The Airoha AN7581 SoC have alternative Sound Card that expose PCM OPs
-> dedicated for VoIP application.
->=20
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  sound/Kconfig             |   2 +
->  sound/Makefile            |   2 +-
->  sound/airoha/Kconfig      |   9 +
->  sound/airoha/Makefile     |   3 +
->  sound/airoha/an7581-pcm.c | 637 ++++++++++++++++++++++++++++++++++++++
->  5 files changed, 652 insertions(+), 1 deletion(-)
->  create mode 100644 sound/airoha/Kconfig
->  create mode 100644 sound/airoha/Makefile
->  create mode 100644 sound/airoha/an7581-pcm.c
->=20
-[...]
-> diff --git a/sound/airoha/an7581-pcm.c b/sound/airoha/an7581-pcm.c
-> new file mode 100644
-> index 000000000000..bf1fc447aed4
-> --- /dev/null
-> +++ b/sound/airoha/an7581-pcm.c
-> @@ -0,0 +1,637 @@
-[...]
-> +static int an7581_pcm_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct an7581_pcm_priv *priv;
-> +	struct snd_card *card;
-> +	struct snd_pcm *pcm;
-> +	int irq;
-> +	int ret;
-> +
-> +	ret =3D snd_devm_card_new(dev, 1, "AN7581 PCM SOUND",
-> +				THIS_MODULE, 0, &card);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->map =3D device_node_to_regmap(dev->of_node);
-> +	if (!IS_ERR(priv->map))
-> +		return PTR_ERR(priv->map);
-> +
-> +	priv->reset =3D devm_reset_control_get_exclusive(dev, "pcm1");
+---
 
-Is there more than one reset input per PCM module?
-Lookup by name is only needed if there are multiple resets.
+Changes in v2:
+ - Updated Author/Signed-off-by to use "Le Qi" consistently
 
-This question should be answered by a device tree binding document for
-airoha,an7581-pcm.
+Le Qi (2):
+  ASoC: dt-bindings: qcom,sm8250: Add QCS615 sound card
+  ASoC: qcom: sc8280xp: Add support for QCS615
 
-regards
-Philipp
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ sound/soc/qcom/sc8280xp.c                                | 1 +
+ 2 files changed, 2 insertions(+)
+
+
+base-commit: 7c3ba4249a3604477ea9c077e10089ba7ddcaa03
+-- 
+2.34.1
+
