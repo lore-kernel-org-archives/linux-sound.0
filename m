@@ -1,97 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211992D6607
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 09:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796E52D73B6
+	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 09:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760002848; cv=none; b=G/5np1wUOOk9FytANiY4XrxYM674VBclB1WVj40gd0aOKpcxDee6tJTLz8pjfIa5cxoB27JwFx5W2opcZL68zXTJupCD2anBtv7mdT9iuEYNaUIEVj5AGRc4IrlRdfTfVR4vuOI+QPCkvYtpRFx2oT+L9QKM/ESwYkbQ1RiqbkE=
+	t=1760002880; cv=none; b=FVGN8bPOFec/tHCsjucbstgkRWWsCCVxJmZ4kJwoPSwcjPCWR/E+f/84/335sR1K/EOQfYIFfQYj1iULeRZPoy5yXkZ89+/w5qHDHNxnJjkfl3OlWSuD7FKBePETj62Stacv0jYcv74YJoxu8akfAbP+/z/h+7KJ99jQQhUIbIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760002848; c=relaxed/simple;
-	bh=Tuc4EKpIVGJQUc0UEnKjTH6lEc6a7Gb3r3Paq9Vc8V8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HK9hqEWFl4p22DHDIotKEUgxnfv1y/FX2+slh52iSpIt+1i25Zg1OotvjQjD5pC1JytcMmEVXSKMwc+JbRKPT7H9P9wFPCQMK0YxIAKzVs8L079RmwTwI9TbJMb+1sasMOo+yr4k4cjgMlkIVPfyOi4bJLFWgWil4v5sVz8tA74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGn/TqP7; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1760002880; c=relaxed/simple;
+	bh=cUHx9qgZFQYGZ/HN+MbTOeqQQ1J5kKxuW1Jd5pKcnEM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LY+u1fHIHHsmjzl4sN+J5HDL4MnZ0b4XcELWhBEGzkLABgRr5RWI4MCOUNSCMVnU0UsC35dlFTMihbE5pA3mnkBlD68bpl8lLN/vxrCcaI2yU0j6qzBBa4sWifuT4n6kuI45j5MMXjpkpHCfCK3OfmDV1+vRKSY+aMw6QT4fJvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dLuQV1FK; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGn/TqP7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760002847; x=1791538847;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Tuc4EKpIVGJQUc0UEnKjTH6lEc6a7Gb3r3Paq9Vc8V8=;
-  b=IGn/TqP7CVhhPG/cGg52/inxhcCT+8zwnJB1ZDDtOS0brj0uDnoZmGcB
-   Mzy/TbCWtNv6eSiiUFpuX18vdxxPsOQmbvQLeMs26oy+joN/6RT28W4a+
-   /GYWzqCFt/FmpRSOPi1yT1VwyQ48OcXAD+RDZ4N79kjwe/0o1RxSujDP+
-   s2uCHPeVsPojEy0nFaNVsV7fBvSUmgYGEZrZzcuOrMrV/07dS91oOXlQN
-   F248vy7Cw5zkLRdkjeFklldTFigS7/lTWyd2UXbLfntnLcSQ9W3p3u/HQ
-   gWkbH1LyRewYA6KApY3egvkPloNQ+VkVMxBH4nDVSlxJUiBslXFVqiT0K
-   A==;
-X-CSE-ConnectionGUID: Wzip2XsJRwSTsgWae3iAhg==
-X-CSE-MsgGUID: J9xCHSZASbyoi4NT5YkNzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11576"; a="62113266"
-X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; 
-   d="scan'208";a="62113266"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 02:40:47 -0700
-X-CSE-ConnectionGUID: GsAHL8jSQEy+VSphZccwlw==
-X-CSE-MsgGUID: bGD2707TQH+JPARhYy2o8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,215,1754982000"; 
-   d="scan'208";a="181438020"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 02:40:45 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 9/9] ASoC: sof-function-topology-lib: escalate the log when missing function topoplogy
-Date: Thu,  9 Oct 2025 17:40:23 +0800
-Message-ID: <20251009094023.3474895-10-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251009094023.3474895-1-yung-chuan.liao@linux.intel.com>
-References: <20251009094023.3474895-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dLuQV1FK"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EHBW004918
+	for <linux-sound@vger.kernel.org>; Thu, 9 Oct 2025 09:41:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	HifFETgbzrd86Mja8ubAMcZowhzvoZfzV3gSLqhMB/k=; b=dLuQV1FKz6rJlEi8
+	k482NDgHQgwX1JIVXe+T0mgfdWCpEFVuAGd2P8FeMYvcHlMaJfFx5PYX5kHWEIue
+	DZct4qToTOiZDO1p2AxZGJd3ghTiPu1fCudxHu5V9c701yuHKv9s100hftyyKxXC
+	DoKav/eeZ4AAxV0B0i/e/ir1WFeorOlCSAF+EzmcrSp2BPe4yH5aHiAoE2YiZgcQ
+	bw/k7GWFrmvV6FNtRl4U8RdgzIFDguMtvE82QsQeZSPtpRPIOADvH/fcW66aibcr
+	jvD3EvHVJzJGY9QpmqqEQ0EGmG0e0QvlSE67ubfHEuCcfy5GKGOV40zPRfzuGemZ
+	igSZtg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4u29kn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 09:41:16 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-85696c12803so39259885a.2
+        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 02:41:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760002875; x=1760607675;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HifFETgbzrd86Mja8ubAMcZowhzvoZfzV3gSLqhMB/k=;
+        b=GvP8QCXIyqCN1FSuZHVnXORm6xa91znEaSkGF3TkD0+mDPIGI7ZMoz75jKe8IX5aEo
+         lCrPxqxBThBlzBBKYM6TQ62NzabFEIlwSX+gdWpBRgtHS3i/j4KMTzYg8sKHwLXJ4FsK
+         KQTJttmp4QPcE70v+Dt7A325GbEbz579hjkaqCh34HyBXAR9XMpNs2Lg4mA78We9dQUb
+         J4LsTDfo64d/qPs4PJRT/hheI4aheGcgDttREnU8CRdjGjZegF09URqsoJp97ZJKuYyF
+         7S12ytOV7oYLNoCiVGzKSJ325iCdNNEBN1saNhuykHhhrOjqVgo3L9LYf+y7+1EvUIJ7
+         e8aA==
+X-Gm-Message-State: AOJu0YzaALxdsOlMbFBn4gWfqR+vfjeL1W53z7Efnr1mzupclUnlxVXG
+	BlBP7/9WNIfWJ3Li1R75GXYqzR/ULrwvB5UlxPnyhLH4IFrfIpFU+UGLa1HNZxXG0+Bd2Xzyedl
+	BJfuxdZ9pV4z+dbQyCdL781Hp73XYsPhYWRoBB/RiAOo5XaP4qgGpvaavBPMnFbHdrg==
+X-Gm-Gg: ASbGncswI3Td1HIIqo835Om5WtfgR06K1kFqLbiVqs0SnQaU5gtyipY7zc6OuaowSAW
+	NxpovDHte3LQ8crkXILUSqxf/W37mId+iW48jMrcc3CLCZ1/NIkgGgY1flD6IOkvGfD3DnukWjv
+	mI6p/Hrlds8GUXUbyt+OuPeAAczsVU5ASimMRLp8qIDi05ONbxmf3clX0k1W6Tup7U3TS6TdF1E
+	+huEPBVrptVowk0RoCCq89+E0Ghrgp+IcX5Wqupq974ZAee79luAWLWiU7gu5u5dc9vYS4CjZXY
+	CYHIngG2UzTNv+qbzxry7jGF/nGi7aYf57l0bXEMxXy7QtSZx9L3n9HQ2WN7SVwLTsy1qOGtNzI
+	IRiHA9uo5Rjqr75yT1zMbYZXIgtk=
+X-Received: by 2002:a05:620a:269a:b0:7e6:9e2b:6140 with SMTP id af79cd13be357-883541153abmr646447485a.8.1760002875389;
+        Thu, 09 Oct 2025 02:41:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9TW5+PphA9Jk49AdyjnYbWQHthAzam3yq3zLm797shLwnfsPjaDRo3Y89qy+Sz47r2yOFPA==
+X-Received: by 2002:a05:620a:269a:b0:7e6:9e2b:6140 with SMTP id af79cd13be357-883541153abmr646445885a.8.1760002874779;
+        Thu, 09 Oct 2025 02:41:14 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b4865e7e8cdsm1867720966b.38.2025.10.09.02.41.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Oct 2025 02:41:14 -0700 (PDT)
+Message-ID: <630bb2b0-0ab4-4083-96a2-9aa485041797@oss.qualcomm.com>
+Date: Thu, 9 Oct 2025 11:41:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 3/6] ASoC: soc: qcom: sc8280xp: add support for I2S
+ clocks
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251008-topic-sm8x50-next-hdk-i2s-v2-0-6b7d38d4ad5e@linaro.org>
+ <20251008-topic-sm8x50-next-hdk-i2s-v2-3-6b7d38d4ad5e@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251008-topic-sm8x50-next-hdk-i2s-v2-3-6b7d38d4ad5e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Vrcuwu2n c=1 sm=1 tr=0 ts=68e7833c cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=KKAkSRfTAAAA:8 a=hmOrbv2CecBtpEyMAQYA:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: lkgXak1qTQ-BYkD5j1dpokNz9Yydn34q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX8TSUMO2bpsso
+ y8ghBPDkPXZfCLdOHAAjZr97I1EA3N+gUb0baoBuCPd1YVQMWvslgw+cc9h0lO3gYT9g4Lcd8zx
+ jL/UAkVbyy3Nf5kxTxMDWq5NEv1fPDQFk29hmOzJC4qqEDtv1n/buyDE4LDHJAv682mZTunNUsg
+ FQgLkyyFE5LsbCbgX9/PN7SaeRQdxRegRHf7o4Ca3RjkDeeWlTRzso1+njKCfrfrwryCTuOgPWT
+ nHbSYdlWgPWCLE8riG1b3ezDcKBeTiKMl02aKF5v6e+VIX9D78nZL8sI7DYGq9i7GS30ptvI0Ig
+ gfRAepbgOgnQIetVWEoGWV+Z2RS+N6kdkdan6bWNjES0byOx5Ik25hEbpgTH3w4uWkvakbYILOM
+ ftVfjo7kc1y4dfrNjQxr9rCm8zqcWw==
+X-Proofpoint-ORIG-GUID: lkgXak1qTQ-BYkD5j1dpokNz9Yydn34q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_03,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
-Function topology must be used if the ACPI match table is created based
-on the reported ACPI table because the monolithic topology is not picked
-for the audio configuration.
-Escalate the log and ask the user to download the latest topologies.
+On 10/8/25 8:56 PM, Neil Armstrong wrote:
+> Add support for getting the I2S clocks used for the MI2S
+> interfaces, and enable/disable the clocks on the PCM
+> startup and shutdown card callbacks.
+> 
+> The rate can be easily calculated since the card forces 48Hz,
+> 2 channels at 16bit slot size.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/intel/common/sof-function-topology-lib.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+[...]
 
-diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
-index f685c1c5c6f0..b10d4794159a 100644
---- a/sound/soc/intel/common/sof-function-topology-lib.c
-+++ b/sound/soc/intel/common/sof-function-topology-lib.c
-@@ -126,7 +126,11 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
- 		if (!ret) {
- 			release_firmware(fw);
- 		} else {
--			dev_dbg(card->dev, "Failed to open topology file: %s\n", (*tplg_files)[i]);
-+			dev_warn(card->dev,
-+				 "Failed to open topology file: %s, you might need to\n",
-+				 (*tplg_files)[i]);
-+			dev_warn(card->dev,
-+				 "download it from https://github.com/thesofproject/sof-bin/\n");
- 			return 0;
- 		}
- 	}
--- 
-2.43.0
+> +static int sc8280xp_snd_i2s_index(struct snd_soc_dai *dai)
+> +{
+> +	switch (dai->id) {
+> +	case PRIMARY_MI2S_RX...PRIMARY_MI2S_TX:
 
+I have mixed feelings about the range syntax here.. it's only 2 entries
+per and it's quite error-prone (no errors in this case, but it
+encourages the thinking that things are always contiguous)..
+
+[...]
+
+>  	switch (cpu_dai->id) {
+>  	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+>  	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+
+whereas e.g. here we see that it's not really the case, but it's
+tempting for someone trying to 'clean up' the code to change it to:
+
+case PRIMARY_MI2S_RX...QUINARY_MI2S_TX 
+
+and the reviewers may not catch it
+
+Konrad
