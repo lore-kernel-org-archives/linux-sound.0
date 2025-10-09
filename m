@@ -1,153 +1,94 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55B92D5944
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 12:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B062E11AB
+	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 12:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760013737; cv=none; b=qwivBBI0bYyWxdMnBlWDDW1ngysZPCPFABMQ2ccsP254TyFh7xkfVB1IJVbj60uclgdrGe7VOqxaE+SmCiE/IMCwftHJZg4D6DwAyeNB1HsWBZkS4wC9ngM4geC8LC7Jaidp5S93bzQhsnGuyXgo0RSor9b7GCa0m/eNKH3qWns=
+	t=1760014278; cv=none; b=gf/0QgVJNs+8IdIcj39IrymRI+S3AlWslIiyDnmKBJXJ/4ykO2JoO1zirRwHNYYDhnuTWmENxLSVn7IQI/79PH3/MVaE2yC3HPmZLCqiuUsk9AjfGL9DOdNm1sZj/43Fo+F8u5J3Z4+nr/qKPvG5W799EIvfeM0x0LEe6jFjFr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760013737; c=relaxed/simple;
-	bh=bYIFaq1Mo5ck6eZSr/P9RWtuoRuQQYxYdIqM9OZP/BA=;
+	s=arc-20240116; t=1760014278; c=relaxed/simple;
+	bh=MDMFuxtj7DOoK9vdG1w2+Ih86u05O/nr3t6ARiKVfns=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K4q+rAEM0eLcGNukynVRpc5YtishH1gGE93quUoaeXYP9miBzqlJFWJ80n6/vRWADMKgMMe0q8V5nz5BtCvs+4oT17q3GKbQBhOAMO29De+rLJ67LmF6OSa3Gw+x/S/ou41o/p4CzR14Tm+HbAKIRPK1acDCv444mgF1gJ2krlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fRNQO7ZS; arc=none smtp.client-ip=209.85.214.173
+	 To:Cc:Content-Type; b=cvUZudF2TLnOJ4Vy0zjVX/5lkqBlMuinKmde9S/g0393MRe3kc6xz7cuIZDK1k/3J5w4sk4TYuiIBLtlmvSHHCah1H7rtW73gA+963a+I4ffUpfIAYDn8VicdeBysYGnBBkG4keit1cOXHYKlp+MAOSFwInT3ns39mPJGq965io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wdc9hLUu; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fRNQO7ZS"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-273a0aeed57so25038995ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 05:42:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wdc9hLUu"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-271d1305ad7so14928495ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 05:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760013735; x=1760618535; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DOe3oVDqR85nR2fwu3ohGJtPxHxOCysNyoebRoZ3K5o=;
-        b=fRNQO7ZSOovyLAjJWT+hp3xgGVk6HxqW7+6i0R7Fg949cEf85VguWKAaQPJSfuE4qI
-         8s7vVVqPXaPR3U4JAXN0zMRmXUW6wGj4dDBMeuWmAbuzZ9SlzTsfWKYKg2wtquteeRVU
-         bf4KNpp5KP+08MD/kyB9kMP5OJY1WToZFmwUtOD+/dR9mjVe/vnVrC965Y5NZpLCxz7r
-         edeSMMhgUoJwQUIJtsk9bkszIggMuESyJ7qcVQP5opLUWg50O3Intt65Dmk3DEjafQQb
-         pT4XWp4o5ZufosE32AyCzsKI7zctlrFGZTL5FvxGJp4ftFtbeUYUhCurx5HQccwjncqU
-         XrlQ==
+        d=gmail.com; s=20230601; t=1760014277; x=1760619077; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MDMFuxtj7DOoK9vdG1w2+Ih86u05O/nr3t6ARiKVfns=;
+        b=Wdc9hLUuJucwAMpLB2DINPGvByOuHXuXrfmBzAtrLNoR+o3hAxW+HL/WrrOQsQB+2t
+         PObv5vNwkaEdjOhHTLFk4R0xJnX3Oj4HSGl4+KIx935kx2ihxNgFlJpqcrCOAPFKkoCL
+         JXGyAvIUAmCPtoNRWI+XZm4MX1bfYSyf+cM3Uh1/znpWiPJo14gfwggNT/hSXBsxgB/Z
+         x7W2+O2zBs66+YBefmdZxe9ZlB+Xypjv0sui4gyQyQ0gfbWjtQcPYX4PjxoTqUsU0vJx
+         ODZXqh/NKl1nXaIq2mtm6DAORXAVZcZszCl6SsvcDe8+L74J8NZVvTaC2G44U415fzG8
+         k/dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760013735; x=1760618535;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DOe3oVDqR85nR2fwu3ohGJtPxHxOCysNyoebRoZ3K5o=;
-        b=OSb6kFxiXhJLYe1wAQLBH5ps0uESpTcveVLSmmJWZCf4Kv49SD0O1O8k+fk8bLOw4J
-         IJ2vtJVmsfgXmyX2KPCE+t8/KzDVQpD40Qz1FJUHY3MeLOCbibXw3JdTRHHFhlf3S6WC
-         2d77oX7rS78C6qS9nPnLGmWndGAQqcaBZxkyCO7/+8OiVGiN7caUBnT0xqqbUOKMaSBy
-         /Z/6F3v4E4QdhWhtBC0ejilPoX3v9pd9baBpmKVoDNk2e0RIakStThATwk1SZnONBlvA
-         dDBX9j9U98El+o8m+yAhn8BjipI9oCKFrC2T6RScOY2SYZwp1Ez7GVgi/I82V8h+Lf7g
-         k7Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCWnpAoUI/BhoYvHE9l60RGuo3QEtIEu9dAUxqxwJU1QwZGy49HS/dUYDsapj6Id4TyupVBcRfGM00AY1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyETXjBJyuy4w0m/exKbQ1CX79mV1VaiwN823tL+aRp0lE1rvF
-	VUimJ4967SFhsJ+M+1YQEEl3JFgKoBtFQt3bdlgzoI1aZPPc9GUBKKcPE2AwvpcUi1RqpztehPw
-	dsvQgEMaX964reSYlfc/SqaH+XPX4CO0=
-X-Gm-Gg: ASbGncuFPB+EsyhF73VeLZK5K/PR8+SE3AknEXlIFKQUUIsNti0wTRS+dqLOdRzM95M
-	otnM/P4JxFKEKjwzr9SUm7PzTCN+gWtorbFtDmCfYQWoR7xD2uNgotskOdrhOtgC7I07k1epnRE
-	+apg8pNLAOFZChwAQz3Pgtmdj4N2KgApvVCq2bjlVyrcIA7inGhW9R8eeL/9fueVrZyckKvwSXo
-	oSueNbjKJ3sHrLnIc2+LP97ACbEyw4Guw==
-X-Google-Smtp-Source: AGHT+IGNyj/nlQwe8P7jt8p/6nIFzaQojjpzpHA2u3gzIiLTo+jcmOhifOgoQWIQZU+ee5SP9iX/eeXegA+8sYDkv0s=
-X-Received: by 2002:a17:903:2c03:b0:279:b2cf:26b0 with SMTP id
- d9443c01a7336-28ec9c97450mr139697695ad.14.1760013734835; Thu, 09 Oct 2025
- 05:42:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760014277; x=1760619077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MDMFuxtj7DOoK9vdG1w2+Ih86u05O/nr3t6ARiKVfns=;
+        b=NUiUbRDGmNDY5CwKL7npBr5M+tPjo2S4CTySdn4HXuvZaE73PVWwBkQxY6wLOQnBrW
+         4pB+D0VOYnxhh3xvflWkN4Ugug+GAQVbD+n89cjlSlevxvZmB2J3Umg5y5S4McGtEV/B
+         MvHk7j9JqeSCQ/SYLdr8aQePMYZioJh4C6fBhDnwO+K2AEPGZTr460jI1f8t4bjFlotA
+         gm8umtfb+rtOVQmRhZ9WOrJMlNuLHsj9NCqBVZJaMgJcJ9gJ9y5y7+j6/V8Y5H/ghugP
+         NGA1/4/2q4sd9PxHHvCgjCa6mmE5OhoySmfn+jwNlFtv4Lt+2mmMN12gttxlCEV8J1b8
+         yFpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUA3bhhZ1RqKv/Gh9YHlkUhXv1y5ycVGA4FAbs9Q59xpZeaYDf0g57Q4MnKtpJ1xtYhSP8gw7uA8OE4AQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7tpIw5QRw1ZJQh+n9OwNbfBXMbEth0272YXLzwh5x+Z2S8A4Z
+	zJTw4ChO2V88uIwJfzOO9rsU4oDberZ+47Y8fipl/ZVtU3OGJG8sL0hMnVlZOuB9WXiJM7R+6BW
+	l4xzytBFIc3NAmmqIVv3rQ2QtiPm2kLk=
+X-Gm-Gg: ASbGncugOsSQSZKLhomEbuXHt3Y6miT0V0GMWDPSFCygEaaMSMsSRmlUEJSl8DejOZ3
+	LGfHNyNT6qVBm4ClW6LXIaZXEwEcgUMFLt7KiL1nnS0x4Zvr1JdLtegDsVtHoBKnEo2HWMn7JZM
+	A9wLW02xlxssqZAfFtcsGBKiTKJ2K2cjJIbA96G5TwsxFT/TOPAA+YR9CGX44PsGxPMlzC5mHv1
+	g3OZVVNFEkeEz6AgknrnpaI33TLQexC+uRt2NA9gfiyXEuGIkru1QqSpfUP
+X-Google-Smtp-Source: AGHT+IEhAV1wqwmuEfqj9eDPRuTr5xhy6QzH+Fe4j6lHSFhQoyHt9bJp9C/EYN1+uc18PLR1t+1Bf7rHPlE1k2VNj6E=
+X-Received: by 2002:a17:902:f608:b0:263:b8f:77dd with SMTP id
+ d9443c01a7336-2902741d0a7mr98644915ad.57.1760014276668; Thu, 09 Oct 2025
+ 05:51:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007155808.438441-1-aha310510@gmail.com> <2025100824-frolic-spout-d400@gregkh>
- <CAO9qdTEo46hCZ0UXKjjBQ4W2sLT2+5zw9DugQF98sqpHLyNzPg@mail.gmail.com> <2025100940-unrevised-passcode-6682@gregkh>
-In-Reply-To: <2025100940-unrevised-passcode-6682@gregkh>
-From: Jeongjun Park <aha310510@gmail.com>
-Date: Thu, 9 Oct 2025 21:42:04 +0900
-X-Gm-Features: AS18NWChPXtq3xJ5rkA9wSMgPxns56d8dKAkezJPDg5Kxa6WRZEDQu4yF8VynC4
-Message-ID: <CAO9qdTGktp71We9BAhsd3bewb9yKWyOjbnq2TQh0CaV7CqD6UA@mail.gmail.com>
-Subject: Re: [PATCH 6.12.y 6.6.y 6.1.y 5.15.y 5.10.y 5.4.y] ALSA: usb-audio:
- Kill timer properly at removal
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stable@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
-	syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com, 
-	Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Thu, 9 Oct 2025 15:53:34 +0300
+X-Gm-Features: AS18NWAD-sPW--RGZUkk020BQr_wBUAqvEISI-DaoXi4Qt_J4rUCZMsA_rvkqkw
+Message-ID: <CAEnQRZCFk=07=tDgEPJeXx_xDp_6LGXi+2o9GAADoP86mWYZ2A@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
+	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, 
+	l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz, 
+	tiwai@suse.com, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Greg,
-
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Tue, Sep 23, 2025 at 8:30=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
 >
-> On Thu, Oct 09, 2025 at 08:23:42PM +0900, Jeongjun Park wrote:
-> > Hi Greg,
-> >
-> > Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, Oct 08, 2025 at 12:58:08AM +0900, Jeongjun Park wrote:
-> > > > From: Takashi Iwai <tiwai@suse.de>
-> > > >
-> > > > [ Upstream commit 0718a78f6a9f04b88d0dc9616cc216b31c5f3cf1 ]
-> > > >
-> > > > The USB-audio MIDI code initializes the timer, but in a rare case, the
-> > > > driver might be freed without the disconnect call.  This leaves the
-> > > > timer in an active state while the assigned object is released via
-> > > > snd_usbmidi_free(), which ends up with a kernel warning when the debug
-> > > > configuration is enabled, as spotted by fuzzer.
-> > > >
-> > > > For avoiding the problem, put timer_shutdown_sync() at
-> > > > snd_usbmidi_free(), so that the timer can be killed properly.
-> > > > While we're at it, replace the existing timer_delete_sync() at the
-> > > > disconnect callback with timer_shutdown_sync(), too.
-> > > >
-> > > > Reported-by: syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com
-> > > > Closes: https://lore.kernel.org/681c70d7.050a0220.a19a9.00c6.GAE@google.com
-> > > > Cc: <stable@vger.kernel.org>
-> > > > Link: https://patch.msgid.link/20250519212031.14436-1-tiwai@suse.de
-> > > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > > > [ del_timer vs timer_delete differences ]
-> > > > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-> > > > ---
-> > > >  sound/usb/midi.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-> > > > index a792ada18863..c3de2b137435 100644
-> > > > --- a/sound/usb/midi.c
-> > > > +++ b/sound/usb/midi.c
-> > > > @@ -1530,6 +1530,7 @@ static void snd_usbmidi_free(struct snd_usb_midi *umidi)
-> > > >                       snd_usbmidi_in_endpoint_delete(ep->in);
-> > > >       }
-> > > >       mutex_destroy(&umidi->mutex);
-> > > > +     timer_shutdown_sync(&umidi->error_timer);
-> > >
-> > > This function is not in older kernel versions, you did not test this
-> > > build :(
-> > >
-> > > I've applied this to 6.6.y and newer, but for 6.1.y and older, please
-> > > use the proper function.
-> >
-> > Sorry, I didn't realize that the timer_shutdown_sync() implementation
-> > commit wasn't backported to versions prior to 6.2.
-> >
-> > But why wasn't this feature backported to previous versions? I understand
-> > that most drivers write separate patches for pre-6.2 versions that don't
-> > implement timer_shutdown_sync() to address this type of bug.
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
 >
-> Features are not backported to older kernels.  If you want this fix in
-> an older kernel, then you need to either backport that feature, or fix
-> up the driver to use whatever was used before that function existed.
+> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
 
-I could write a separate patch to fix this bug, but I'm not happy that
-great features like timer_shutdown_sync() haven't been backported.
-
-So, I'll try to backport the "timers: Provide timer_shutdown[_sync]()"
-patch series sometime soon.
-
->
-> thanks,
->
-> greg k-h
-
-Regards,
-Jeongjun Park
+Tested-by: Daniel Baluta <daniel.baluta@nxp.com>
