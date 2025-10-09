@@ -1,89 +1,70 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67822EBB86
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 15:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2D2EC08A;
+	Thu,  9 Oct 2025 15:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760022192; cv=none; b=UJZPiTevyv9UZFPKy3V6f2HDHUrlS5GHk0LjaaYUqZV8gIPhAIG/nhIoNjmQNm/+BgIvuqpyKZqzel84UpSyXXpEaqXzfenbJE2lyZnrP4rmr2o/thQ+JsCOdM2eaBzSEnzr01ScWfhTPggOCTSoS7eCeDpsDNRJRygglvtleu4=
+	t=1760022542; cv=none; b=VHJiYOwe6N66HiS47KOIGjpwx5Xx3g5WlV6rkFxbkqG/vQ5uNCcTbYNYZqT5Ogm/NW17+BygRTTnPKjdVvbDhQczy7wkAcU/GAzthbgyk1X/kwjPAIlWTqchTWPQbOVqvKnuKhNjvJQqA+PkeT0mVYG077jg5mMcjE4RF7Zfhsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760022192; c=relaxed/simple;
-	bh=4BYiBUJA2xuVMrn0owdsZSPlnr1Hd4TIlmp7Db9dIiY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EF0LfZbERhgJV5kgliZd91eYg+J83PWRBzvaYnJ2s6okxuHA17eF3M0WIKyvieurzwo+PSkBpjHsECnqYyWIL7nuQbDjdBu3Y+6MNZZVKrOZ2NMMpSP1bJatyPnRjYOqCMAcQO6OPxLB9Km/gumCnrC9MUa4Bb+Bzrs1VugTIuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gAH4+PGM; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760022542; c=relaxed/simple;
+	bh=LBITJVCsJlbyikSLQk+ONcydel5gO2Q3tuPkl2GAg/s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UxfdPIi+8bF64MJ7F4NaajHNfTtvWOgRCjMDS9x1DWBy0FqbZyTicP9RnIWIA/q1G7IJ34jjGy9U/wA2KRNJ/WpsgHnsErPnujizVLz7D5FJLD/jdI+ObjEuWo5fmcj39y7iYGhYVfILE84qW47NhgAkFIKSOyoEFMKwQRfwBNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIRVrddz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAH4+PGM"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-43feeae5e8eso675693b6e.3
-        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 08:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760022190; x=1760626990; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4BYiBUJA2xuVMrn0owdsZSPlnr1Hd4TIlmp7Db9dIiY=;
-        b=gAH4+PGMXGHwPF8DW+4WJFvtMtAZG+jIB4M4B2XGl5BjLtPtNJm9J6E7kqk7CbVhI7
-         NbOvmYiq04evywZOkG2aJNvG69+01NVlkljxMSQ6QDK6eprrv8GQEqRB2uHTLZOgWVl6
-         Z2lrNLiu7EBsn/KpWGD/BciGooYBrCG6CyqoK1d/p5n6jE4XtdnmU6Nt6J/vwezMCtHT
-         dpVrBhJQH2jBERwXM7gjkOpfVSbiChLwn3sjqG05MWrpAPYSQURC96fgZLeTDLNjtqg6
-         tA/TcRU90cxB7ppBMA3xvtSxsov2mB00YfpBPCig1JVHtgqFba/WCK2sN9tY6LEyvrjI
-         UlQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760022190; x=1760626990;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4BYiBUJA2xuVMrn0owdsZSPlnr1Hd4TIlmp7Db9dIiY=;
-        b=OVFOgWFyXvIhWW1ABW176J/8qL9c55DHjDi4AQRLMDx+QWaJHJTouZ+RPpcFlUlZWb
-         ldRPobTh1z2b4gesapUSe0QZaquRgNIlBkHHxdmJ37BM1ypBO8s5gyqK3iXkbglGkhqc
-         wfeMp7g8M6rIYhjKncitrooSHJTvH43pKyxdvWvSZjiQr1P2+p/y5DgPencCHFx2L2QI
-         YtyDbvpYlxplPrqvAu+Umu+9d3DvpJ+gNGR98YBqJixl28MQvm8sdInBJr0nOH7kyPPN
-         qC/5XTSWqDM+CRDc7Ns128HtMgbnPJ6KsPSKuWadNQ9DPBIcMhFI0nu3/S+d2SQ389Cq
-         lAmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXb3TWLa8k4pF4nwIopNzjyeTkuScONbXcIRFgxgd7yQJf685M8KcRIFg2Pv3/+QiNNqFIOe4eBepETJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwK8WoM73F7zCrnv+/MU3/Sldclamv3y4HDgxjkSDbikQ1RLpwR
-	0RFCSGawTDY17TQWlZA7uM/TZOK0XLaDSsgynM/RQIJVOmIxhL5yJw4JHbFG38+HPAI7B7AWDd0
-	JVAizPWE7ZcYrDQuAR4z+K5JHL80b+TY=
-X-Gm-Gg: ASbGncvBGksRIuiE90DHfI4m13u5EnkDCdnaLzem3nyirKn7liUbe+au4FX3t9vZDX/
-	pvBRogkBMaRfOygmaAfUptELC0kPBsznwQt8RuwO3sjfyHw/6hPfRSDQZFDJnGr83CRC0nBD/z4
-	Cv1EzSITnS3DWdvuDN+5Xi+0ItWJo/AyAmvmHjDHabh0ucCl+KiW8aN6Bo65Nqbn/g0M97a/+Oc
-	szUznFrEn2RN6zVo8GIw1jSqA5rmw5u2YsbySA0vw==
-X-Google-Smtp-Source: AGHT+IFE+53ZwFZzygjApNRRk5IEXCWznQkiRJ3RFYsMZB+Snff4Qd2QBaS8PE2SAmylXqZYXSTkseD3wSbRcGsymC8=
-X-Received: by 2002:a05:6808:1a08:b0:43f:57cb:7fa0 with SMTP id
- 5614622812f47-4417b3e74dbmr3269515b6e.46.1760022189283; Thu, 09 Oct 2025
- 08:03:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIRVrddz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2503EC4CEE7;
+	Thu,  9 Oct 2025 15:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760022542;
+	bh=LBITJVCsJlbyikSLQk+ONcydel5gO2Q3tuPkl2GAg/s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QIRVrddzU2+SC8UHW7tlQniq+sOvWIZgK8RZO91rx6HCp1GomDI5yEyzBZhRwMRJ5
+	 wadWK/Y9EN1t5/wIBcAMAJsNermEfwiOVeIGfZqtpnEGHKrQMjqxsAUMDEQTNZovDe
+	 NC40lCqpjGCTqZhUhF9sMUMw9BWa653z0DrYJyZZ+/nmzDNFO3kjIyUqHWcqGNWbgp
+	 fC/fdDeBK4MxpvAs+Tq9dx8RG2ROsoWQvOWkeA/cfCdfFa85da/c/bhrJeekRMNDl+
+	 HdPkJ0mBVDOU+pn8g3aSIzUKP7+zn/dMpZJzPEgmGVuaARpXxdz53l+hZ/qwWwNrKF
+	 hDqZMosPTkhRw==
+From: Lee Jones <lee@kernel.org>
+To: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com, 
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com, linux@treblig.org
+Cc: linux-media@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
+References: <20250625133258.78133-1-linux@treblig.org>
+Subject: Re: (subset) [PATCH 0/4] Remove the wl1273 FM Radio
+Message-Id: <176002253988.2906155.7980864945187163436.b4-ty@kernel.org>
+Date: Thu, 09 Oct 2025 16:08:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008205207.1781-1-briansune@gmail.com> <aOd9yUj9H4L4fbtc@opensource.cirrus.com>
-In-Reply-To: <aOd9yUj9H4L4fbtc@opensource.cirrus.com>
-From: Sune Brian <briansune@gmail.com>
-Date: Thu, 9 Oct 2025 23:02:57 +0800
-X-Gm-Features: AS18NWDmwyXy1cfw3926lFmS_Pq4UdpsOBDp743TG8q62eoh-RX9vdnszMNCTZc
-Message-ID: <CAN7C2SBd8tDXG8OkjRt0sDw1OmtrLgtuStEfr=f=JHZMRvjq9w@mail.gmail.com>
-Subject: Re: [PATCH v6] ASoC: wm8978: add missing BCLK divider setup
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-b87af
 
-Charles Keepax <ckeepax@opensource.cirrus.com> =E6=96=BC 2025=E5=B9=B410=E6=
-=9C=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:18=E5=AF=AB=E9=81=
-=93=EF=BC=9A
+On Wed, 25 Jun 2025 14:32:54 +0100, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> I noticed that the wl1273 radio had an unused symbol, but then noticed
+> it is on Arnd's unused driver list:
+>   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> 
+> So, delete it.
+> The components seem pretty separable, except for Kconfig dependencies.
+> 
+> [...]
 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
->
-> Thanks,
-> Charles
+Applied, thanks!
 
-Any documentations are required?
-i.e. .rst file or similar?
+[3/4] mfd: wl1273-core: Remove
+      commit: 2ec8f54725b2ae4f08aeae0483410280e72877e3
+[4/4] mfd: wl1273-core: Remove the header
+      commit: 5576355937ad7d0ec86ca2cdf4e82cb0f70cd227
 
-Brian
+--
+Lee Jones [李琼斯]
+
