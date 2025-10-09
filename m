@@ -1,173 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F71F2EA176;
-	Thu,  9 Oct 2025 14:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6C9153BE9;
+	Thu,  9 Oct 2025 14:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760020190; cv=none; b=aUeHMY1EonHmWwpgUteXH7SV9XMRkqaoHaDbuPzHncEirDK80xtcMKHIt87Rzk6WcW4DskONDi7TweFVtCn8b1GZedmd0nk6y1AlNAuNvS1jhlbo7/yzdgHVKSjDKQZzdkYdz5HQzPzy88hM42XqQvHQ+2tDkjqywwKX3l2yA4s=
+	t=1760020776; cv=none; b=TWZC0GOLjr1zIo25N0wKRmHK/v9W/jc0036eKGqHrbj+NPhTWZblc9Pj0tgw0WV66B6pk6Pg6ponN8t0q+JjbI7Wd6shQx57OXKO53gYFyMsIbAhMaoDrCYoATTjT1og5ovBtxGGPU/npkpMxtPIGrLXtccs3m2kuGuTcAYGR60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760020190; c=relaxed/simple;
-	bh=JeNJ+MOb6MbW2Adwn40uh6TWEREB7v7gXN/c9Y0+u0M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MSbPP904Nm1v9DiZB1bYRKVfY7eILaAlLiKsOo1th7uYWoN9GAQhSu+uGRoLfJii0dV0XvqZFcCy1E6BEzeZWVFPXCdK+0KMZAitj+QGAFQE4EQqZ9a6Q1aczCSYRlpeWnILRs8/4m4SxJ0/YNJrLRaSCAAY0TSa73e3anib9X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgMuZsUV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760020776; c=relaxed/simple;
+	bh=uh2IDWFo7rvYDMsMhJuSenYWne1sXcCRHwdbLyiokz0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oh1Jzk4C6euknAaHGXlba7Nc0+thS32sM+3VENgo189dTCL6gRCOL9p+jFRP8SxihlRbUW6NgvJRpeMhRuuPUoJa1cDhwX6Lo8bvm02/hmvw8iyDARYAIjukslCGH+DXbVpfLDYd/jxT1akEUiW3eyBBlfI0mHJ40J53vg05Z6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KRPIlznT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgMuZsUV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD03BC4CEE7;
-	Thu,  9 Oct 2025 14:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760020188;
-	bh=JeNJ+MOb6MbW2Adwn40uh6TWEREB7v7gXN/c9Y0+u0M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MgMuZsUVxQHOeFFf6KNTzfqwMKZZMATdNU3Xr+gE26+27vAMjih/M2l02JtGbl93u
-	 MQR1sIR0iE+HX2RdohSj8VAq0Aad66+Bd9PAwMCLyr5x8wu6hKovMIKfVWXTKIFTRb
-	 pU8QXUj3QySjCK1YLk7vrG64AOBFF9DhCG4Vp41MFREgUUN+1hQzCRy/Aa6mA5k/ZA
-	 V9o+PWCf1npShSdn4KXCtpUFvI9N3/lHmbT8uvoO4DHMnNnGVNWtxj5ISoV2RzTY8R
-	 1yLCxG8jjb6C22Y3r3gDOPE2NgKyV5lLZjUlSScMR6wODpv+F8I/kvmAUiB2rDYODy
-	 TXcWiZ3XIZUvg==
-Message-ID: <b614913e-7ebf-4abe-9eb5-f41b81d91ad3@kernel.org>
-Date: Thu, 9 Oct 2025 15:29:47 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KRPIlznT"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EHWh029031;
+	Thu, 9 Oct 2025 14:39:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=FUkgG7zdl9I
+	vI+P6lJzi/KqtMlYeRq8sWqEluHu5vC8=; b=KRPIlznTgZ8W2DcTTvqonsdknTN
+	g5u2k6jhnfNagvf4260pPv0vcZjYNa0V1CfGG/GlYBocW7tF1dyl2gFWdnu6SgRg
+	UEYQDsL7F1X6QnXXZBul6wO0moiVw1jts6kQWQy5cmPs462SsxyEXfhyaF/sd+f9
+	YVLoDR9FurKzdUzFwrN19KaSvZN+s1pOjHBT62SkM1gGjX52GV4dn+hvnUV9sQnx
+	t/Zg7GwZ5EHvyrVpEYbXLewmrPdzPRhabMeBKV2vmmKEMzhr53RDte+ROavG/qFy
+	41urdZ643w/BFBC54HY9Kd/t+gzLqUD7hJ6K0CRZf5mD/+Cj5cRB3TMXgsw==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4ku8bn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 14:39:24 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 599EdKPr012507;
+	Thu, 9 Oct 2025 14:39:20 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 49jvnmddp9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 14:39:20 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 599EdKgn012478;
+	Thu, 9 Oct 2025 14:39:20 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 599EdKhl012476
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Oct 2025 14:39:20 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 3A9BE5CF; Thu,  9 Oct 2025 20:09:19 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        prasad.kumpatla@oss.qualcomm.com, kernel@oss.qualcomm.com,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        jingyi.wang@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com
+Subject: [PATCH v2 3/5] ASoC: qcom: sc8280xp: Add support for Kaanapali
+Date: Thu,  9 Oct 2025 20:06:42 +0530
+Message-Id: <20251009143644.3296208-4-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251009143644.3296208-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20251009143644.3296208-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 2/6] ASoC: dt-bindings: qcom,sm8250: Add clocks
- properties for I2S
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20251008-topic-sm8x50-next-hdk-i2s-v2-0-6b7d38d4ad5e@linaro.org>
- <20251008-topic-sm8x50-next-hdk-i2s-v2-2-6b7d38d4ad5e@linaro.org>
- <44606de8-3446-472f-aa6b-25ff8b76e0ec@kernel.org>
- <3620feb6-12bf-48c1-b47a-ccb486e5b5de@linaro.org>
- <c0b71974-65df-47ad-902b-45c2dbe66be0@kernel.org>
- <f27cad88-b1fd-41a3-bdb1-b07de3dea8a2@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <f27cad88-b1fd-41a3-bdb1-b07de3dea8a2@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX8xgVySD7Woq0
+ Y86bmDCvreNL4tDM56+plwWT+CfslppuACT4/0AtkLKDlBlpMgLmwkfsiG6PQrVsIpw1ZBSVRwM
+ hXOCMpnTKwFKLVSnQ6nPKg4FjlJuK/eLUA+WapZRGn0xEmAOBtvHC3uTnXqgHfL2lUX9yyWpRcF
+ dUjPVYOnP+h9qsTou2xEdSZeWzvud30BvmpU32evh3vrbypMiR6R221VDbFWvPrBiI0cCQzB1o8
+ BdM049RZpD9th7dwKvgCzSAQKFQalqHBCegWKg7UBV7HLcxPN+Pa032404pN8PLtVgxCjRan8VE
+ RvaonZglxA185CdZcq2zENVT5nAUUAzd0u6vkTDI690fPWbtnnG0q2Ws6rw7yaWIxMulTMeYsqC
+ gR9x/abG+TPI++G+a/ZWk1Wi6icUdA==
+X-Authority-Analysis: v=2.4 cv=CbcFJbrl c=1 sm=1 tr=0 ts=68e7c91c cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=aEigdc9k76sli10p-ScA:9 a=zgiPjhLxNE0A:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: StZ2_NNm9mmhzDbBSaSxIMA6vnSmBos3
+X-Proofpoint-ORIG-GUID: StZ2_NNm9mmhzDbBSaSxIMA6vnSmBos3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-09_05,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
+Add compatible for sound card on Qualcomm Kaanapali boards.
 
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+---
+ sound/soc/qcom/sc8280xp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 10/9/25 3:25 PM, Neil Armstrong wrote:
-> On 10/9/25 16:06, Srinivas Kandagatla wrote:
->>
->>
->> On 10/9/25 3:03 PM, Neil Armstrong wrote:
->>> On 10/9/25 15:36, Srinivas Kandagatla wrote:
->>>>
->>>>
->>>> On 10/8/25 7:56 PM, Neil Armstrong wrote:
->>>>> In order to describe the block and master clock of each I2S bus, add
->>>>> the first 5 I2S busses clock entries.
->>>>>
->>>>> The names (primary, secondary, tertiarty, quaternary, quinary, senary)
->>>>> uses the LPASS clock naming which were used for a long time on
->>>>> Qualcomm
->>>>> LPASS firmware interfaces.
->>>>>
->>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>> ---
->>>>>    .../devicetree/bindings/sound/qcom,sm8250.yaml      | 21 ++++++++++
->>>>> +++++++++++
->>>>>    1 file changed, 21 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> index
->>>>> 8ac91625dce5ccba5c5f31748c36296b12fac1a6..d1420d138b7ed8152aa53769c4d495e1674275e6 100644
->>>>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> @@ -64,6 +64,27 @@ properties:
->>>>>        $ref: /schemas/types.yaml#/definitions/string
->>>>>        description: User visible long sound card name
->>>>>    +  clocks:
->>>>> +    minItems: 2
->>>>> +    maxItems: 12
->>>>> +
->>>>> +  clock-names:
->>>>> +    minItems: 2
->>>>> +    items:
->>>>> +      # mclk is the I2S Master Clock, mi2s the I2S Bit Clock
->>>>> +      - const: primary-mi2s
->>>>> +      - const: primary-mclk
->>>>> +      - const: secondary-mi2s
->>>>> +      - const: secondary-mclk
->>>>> +      - const: tertiary-mi2s
->>>>> +      - const: tertiary-mclk
->>>>> +      - const: quaternary-mi2s
->>>>> +      - const: quaternary-mclk
->>>>> +      - const: quinary-mi2s
->>>>> +      - const: quinary-mclk
->>>>> +      - const: senary-mi2s
->>>>> +      - const: senary-mclk
->>>>> +
->>>>
->>>> I don't this is correct way to handling bitclk and mclks for I2S, these
->>>> are normally handled as part of snd_soc_dai_set_sysclk() transparently
->>>> without need of any device tree description.
->>>>
->>>> Also doing this way is an issue as this is going to break existing
->>>> Elite
->>>> based platforms, and the device description should not change across
->>>> these both audio firmwares.
->>>
->>> This is only for AudioReach platforms, on those platforms the
->>> clocks are registered in DT and are not accessible by the card.
->>>
->> Clocks will be acessable via snd_soc_dai_set_sysclk ->
->> q6prm_set_lpass_clock once set_sysclk support is added to q6apm-lpass
->> i2s dai ops.
->>
->>
->>> Device description is obviously different for the AudioReach platforms.
->>
->> Why should it be different, its same device.
->> We have platforms that use both Elite and Audioreach.
-> 
-> I'm perfectly aware of that, it's the case for sc7280/qcm6490. And I agree
-> the card bindings is the same, but it doesn't mean the DSP elements are the
-> same and uses in the same manner.
-> 
-> So let's forget the bindings and forget those clocks entries, and imagine
-> I'll implement those _sys_sysclk calls like for the Elite platforms.
-> This means I'll bypass the clock framework by directly setting the PRM
-> clocks, this is clearly a layer violation.
-
-You can claim clocks in the dsp layer (q6apm-lpass-dais) instead of
-claiming it in machine layer, it does not necessarily have to bypass the
-clk framework.
-
---srini
-> 
-> Neil
-> 
->>
->> --srini
->>>
->>> Neil
->>>
->>>>
->>>> thanks,
->>>> Srini
->>>>
->>>>>    patternProperties:
->>>>>      ".*-dai-link$":
->>>>>        description:
->>>>>
->>>>
->>>
->>
-> 
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index 78e327bc2f07..aea8c1daff32 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -191,6 +191,7 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id snd_sc8280xp_dt_match[] = {
++	{.compatible = "qcom,kaanapali-sndcard", "kaanapali"},
+ 	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
+ 	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
+ 	{.compatible = "qcom,qcs8275-sndcard", "qcs8300"},
+-- 
+2.34.1
 
