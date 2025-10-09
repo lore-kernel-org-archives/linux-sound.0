@@ -1,98 +1,213 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C341397;
-	Thu,  9 Oct 2025 17:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6845241CA2;
+	Thu,  9 Oct 2025 18:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760030437; cv=none; b=J+q3ddRtkiJSq3/ItESNIsLw3uQrbGaVvFGare9oOO84OFbqSoc+hgDj/XxmyRPENRBm2oi6ULpPs9CEDP6fksll+B252vsf3pTLRFFyaTXVPqIFupVhXnP0pGuk/+SGoFgNnt61hWmg9YUL/sBao5zo8fNE6kNtbSq4FhJ4IQE=
+	t=1760033140; cv=none; b=IJYRhO91mllNXw9HAWcuu4wkw4YbNvz0suDFzilBqDsyogAHxFI6eGqZhx5SkADCqR0EkSpiH14lEXnWHpgsJFeRV8ZQhwUMPT/U5xs6g98NlkaUH8KjnShvjhccBjexJ+Q/6CKI7bi9n+y7aSOYli3THkjFa5+z1ISA81FoibY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760030437; c=relaxed/simple;
-	bh=h6mBn1YnACsX7CDnRFvzoiOd0OKOEjGYnLm4xgraf4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nLGvnLzf48BQWX0c4NpzzT5r/LCifCQvX3SpKbRQxjlVFKkeBlBcWQvhRCE6McMfaPgKxazPP8md2AGESKWil/HZurjf1IXpMnA9Kj5JcFq4NhOPTnu3ZoKf27RkJVLyZa/J4XemqKR2RdtSvXMxhA0NVsK9PrHtZFxoiNUCF60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4cjGRF331Qz9sSY;
-	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NF51hGVtVs4V; Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4cjGRF2Gmsz9sSX;
-	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3D92B8B776;
-	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id fzt8czwtvfVI; Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
-Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id BD9F08B774;
-	Thu,  9 Oct 2025 19:03:20 +0200 (CEST)
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Herve Codina <herve.codina@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: Fix gain setting ranges for Renesas IDT821034 codec
-Date: Thu,  9 Oct 2025 19:03:13 +0200
-Message-ID: <2bd547194f3398e6182f770d7d6be711c702b4b2.1760029099.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1760033140; c=relaxed/simple;
+	bh=i1yq3IxJbUFGkr/0ZAIbF4v+HCsO8IQ/7jgfv7XTuN4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sbb2SKHY38eoy3DD3cqYBJtAj0aRZTNXWFfrL9BZfPSNZizWublKKVXfoa2frtopyeSuRBZJ/QrFjtuOmQtDeMVXmsZlQJXrW0ualapSK5ycNHqvAYpArRswJJe/5FmiO0SA/vDjccQgRil5Ja5a3AN49kK/7j2eOYaJ7FKV8KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMy9tZdL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMy9tZdL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839F4C4CEE7;
+	Thu,  9 Oct 2025 18:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760033139;
+	bh=i1yq3IxJbUFGkr/0ZAIbF4v+HCsO8IQ/7jgfv7XTuN4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZMy9tZdLcW87+5cc3agm6QMP7lfzM1I4R/z8Otp9URWUnD4fhZjmqgDvMmQiKG4dd
+	 hLQQrnLxpn0vvSozRJ3TEcWnscM9HXDDwl8nF/60THBBsqbK8GVF3AYWbI7w3Ar542
+	 /Aiti9R2474MNT6sK/5qWmuq7zIPrpXCDJdTsKy/4toSwW2RSYCB0LmgoAhiLgOug+
+	 dbCUGxXC5yRk73zBP0PaZ9D6lu8Q5fLWSgBXsolSllptnFJ55yJZxtpeGMfM6IlY6m
+	 ddC7kQPtI/UPIz0p4xOb1BRvGHV0JWQ0QZ87TiKKlsw9IqdF6UJT/G4B+YH7HlfHMk
+	 M4CRVXmxkCd6A==
+Message-ID: <e7102fb7-21fe-46d9-92eb-f320988ca0d0@kernel.org>
+Date: Thu, 9 Oct 2025 19:05:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760029394; l=2116; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=h6mBn1YnACsX7CDnRFvzoiOd0OKOEjGYnLm4xgraf4Y=; b=3zaVO3ilKwr/HpISlTX08kgChzyn0om6eB6WGsGlRurPoIiQ2NdveTwiCfbEl++3B1IH1Axzl Vbm0WVI90HyCfScIGXTBD64ZBKCdlDgPHhgvMO5Rm/SX2CYVzyyKLCJ
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 2/6] ASoC: dt-bindings: qcom,sm8250: Add clocks
+ properties for I2S
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251008-topic-sm8x50-next-hdk-i2s-v2-0-6b7d38d4ad5e@linaro.org>
+ <20251008-topic-sm8x50-next-hdk-i2s-v2-2-6b7d38d4ad5e@linaro.org>
+ <44606de8-3446-472f-aa6b-25ff8b76e0ec@kernel.org>
+ <3620feb6-12bf-48c1-b47a-ccb486e5b5de@linaro.org>
+ <c0b71974-65df-47ad-902b-45c2dbe66be0@kernel.org>
+ <f27cad88-b1fd-41a3-bdb1-b07de3dea8a2@linaro.org>
+ <b614913e-7ebf-4abe-9eb5-f41b81d91ad3@kernel.org>
+ <4c5dc916-ea7a-4d73-b509-49f82ff36666@linaro.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <4c5dc916-ea7a-4d73-b509-49f82ff36666@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The gain ranges specified in Renesas IDT821034 codec documentation
-are [-3dB;+13dB] in the transmit path (ADC) and [-13dB;+3dB] in the
-receive path (DAC). Allthough the registers allow programming values
-outside those ranges, the signal S/N and distorsion are only
-guaranteed in the specified ranges.
 
-Set ranges to the specified ones.
 
-Fixes: e51166990e81 ("ASoC: codecs: Add support for the Renesas IDT821034 codec")
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
----
- sound/soc/codecs/idt821034.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On 10/9/25 4:30 PM, Neil Armstrong wrote:
+> On 10/9/25 16:29, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 10/9/25 3:25 PM, Neil Armstrong wrote:
+>>> On 10/9/25 16:06, Srinivas Kandagatla wrote:
+>>>>
+>>>>
+>>>> On 10/9/25 3:03 PM, Neil Armstrong wrote:
+>>>>> On 10/9/25 15:36, Srinivas Kandagatla wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 10/8/25 7:56 PM, Neil Armstrong wrote:
+>>>>>>> In order to describe the block and master clock of each I2S bus, add
+>>>>>>> the first 5 I2S busses clock entries.
+>>>>>>>
+>>>>>>> The names (primary, secondary, tertiarty, quaternary, quinary,
+>>>>>>> senary)
+>>>>>>> uses the LPASS clock naming which were used for a long time on
+>>>>>>> Qualcomm
+>>>>>>> LPASS firmware interfaces.
+>>>>>>>
+>>>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>>>> ---
+>>>>>>>     .../devicetree/bindings/sound/qcom,sm8250.yaml      | 21 ++++
+>>>>>>> ++++++
+>>>>>>> +++++++++++
+>>>>>>>     1 file changed, 21 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/devicetree/bindings/sound/
+>>>>>>> qcom,sm8250.yaml
+>>>>>>> b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>>>>>>> index
+>>>>>>> 8ac91625dce5ccba5c5f31748c36296b12fac1a6..d1420d138b7ed8152aa53769c4d495e1674275e6 100644
+>>>>>>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>>>>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>>>>>>> @@ -64,6 +64,27 @@ properties:
+>>>>>>>         $ref: /schemas/types.yaml#/definitions/string
+>>>>>>>         description: User visible long sound card name
+>>>>>>>     +  clocks:
+>>>>>>> +    minItems: 2
+>>>>>>> +    maxItems: 12
+>>>>>>> +
+>>>>>>> +  clock-names:
+>>>>>>> +    minItems: 2
+>>>>>>> +    items:
+>>>>>>> +      # mclk is the I2S Master Clock, mi2s the I2S Bit Clock
+>>>>>>> +      - const: primary-mi2s
+>>>>>>> +      - const: primary-mclk
+>>>>>>> +      - const: secondary-mi2s
+>>>>>>> +      - const: secondary-mclk
+>>>>>>> +      - const: tertiary-mi2s
+>>>>>>> +      - const: tertiary-mclk
+>>>>>>> +      - const: quaternary-mi2s
+>>>>>>> +      - const: quaternary-mclk
+>>>>>>> +      - const: quinary-mi2s
+>>>>>>> +      - const: quinary-mclk
+>>>>>>> +      - const: senary-mi2s
+>>>>>>> +      - const: senary-mclk
+>>>>>>> +
+>>>>>>
+>>>>>> I don't this is correct way to handling bitclk and mclks for I2S,
+>>>>>> these
+>>>>>> are normally handled as part of snd_soc_dai_set_sysclk()
+>>>>>> transparently
+>>>>>> without need of any device tree description.
+>>>>>>
+>>>>>> Also doing this way is an issue as this is going to break existing
+>>>>>> Elite
+>>>>>> based platforms, and the device description should not change across
+>>>>>> these both audio firmwares.
+>>>>>
+>>>>> This is only for AudioReach platforms, on those platforms the
+>>>>> clocks are registered in DT and are not accessible by the card.
+>>>>>
+>>>> Clocks will be acessable via snd_soc_dai_set_sysclk ->
+>>>> q6prm_set_lpass_clock once set_sysclk support is added to q6apm-lpass
+>>>> i2s dai ops.
+>>>>
+>>>>
+>>>>> Device description is obviously different for the AudioReach
+>>>>> platforms.
+>>>>
+>>>> Why should it be different, its same device.
+>>>> We have platforms that use both Elite and Audioreach.
+>>>
+>>> I'm perfectly aware of that, it's the case for sc7280/qcm6490. And I
+>>> agree
+>>> the card bindings is the same, but it doesn't mean the DSP elements
+>>> are the
+>>> same and uses in the same manner.
+>>>
+>>> So let's forget the bindings and forget those clocks entries, and
+>>> imagine
+>>> I'll implement those _sys_sysclk calls like for the Elite platforms.
+>>> This means I'll bypass the clock framework by directly setting the PRM
+>>> clocks, this is clearly a layer violation.
+>>
+>> You can claim clocks in the dsp layer (q6apm-lpass-dais) instead of
+>> claiming it in machine layer, it does not necessarily have to bypass the
+>> clk framework.
+> 
+> The current q6afe implementation totally bypasses the clock framework:
+> 
+> static int q6afe_set_lpass_clock_v2(struct q6afe_port *port,
+>                  struct afe_clk_set *cfg)
+> {
+>     return q6afe_port_set_param(port, cfg, AFE_PARAM_ID_CLOCK_SET,
+>                     AFE_MODULE_CLOCK_SET, sizeof(*cfg));
+> }
+> 
+> I have no time right now to implement all that for q6apm & q6prm in the
+> way you propose, so I'll probably not send a new version.
 
-diff --git a/sound/soc/codecs/idt821034.c b/sound/soc/codecs/idt821034.c
-index a03d4e5e7d144..cab2f2eecdfba 100644
---- a/sound/soc/codecs/idt821034.c
-+++ b/sound/soc/codecs/idt821034.c
-@@ -548,14 +548,14 @@ static int idt821034_kctrl_mute_put(struct snd_kcontrol *kcontrol,
- 	return ret;
- }
- 
--static const DECLARE_TLV_DB_LINEAR(idt821034_gain_in, -6520, 1306);
--#define IDT821034_GAIN_IN_MIN_RAW	1 /* -65.20 dB -> 10^(-65.2/20.0) * 1820 = 1 */
--#define IDT821034_GAIN_IN_MAX_RAW	8191 /* 13.06 dB -> 10^(13.06/20.0) * 1820 = 8191 */
-+static const DECLARE_TLV_DB_LINEAR(idt821034_gain_in, -300, 1300);
-+#define IDT821034_GAIN_IN_MIN_RAW	1288 /* -3.0 dB -> 10^(-3.0/20.0) * 1820 = 1288 */
-+#define IDT821034_GAIN_IN_MAX_RAW	8130 /* 13.0 dB -> 10^(13.0/20.0) * 1820 = 8130 */
- #define IDT821034_GAIN_IN_INIT_RAW	1820 /* 0dB -> 10^(0/20) * 1820 = 1820 */
- 
--static const DECLARE_TLV_DB_LINEAR(idt821034_gain_out, -6798, 1029);
--#define IDT821034_GAIN_OUT_MIN_RAW	1 /* -67.98 dB -> 10^(-67.98/20.0) * 2506 = 1*/
--#define IDT821034_GAIN_OUT_MAX_RAW	8191 /* 10.29 dB -> 10^(10.29/20.0) * 2506 = 8191 */
-+static const DECLARE_TLV_DB_LINEAR(idt821034_gain_out, -1300, 300);
-+#define IDT821034_GAIN_OUT_MIN_RAW	561 /* -13.0 dB -> 10^(-13.0/20.0) * 2506 = 561 */
-+#define IDT821034_GAIN_OUT_MAX_RAW	3540 /* 3.0 dB -> 10^(3.0/20.0) * 2506 = 3540 */
- #define IDT821034_GAIN_OUT_INIT_RAW	2506 /* 0dB -> 10^(0/20) * 2506 = 2506 */
- 
- static const struct snd_kcontrol_new idt821034_controls[] = {
--- 
-2.49.0
+This is not really scalable, you are suggesting that we add this for
+every board, when you can do it more generically in the dsp code using
+set_sysclk callback.
+
+
+
+--srini
+> 
+> Neil
+> 
+>>
+>> --srini
+>>>
+>>> Neil
+>>>
+>>>>
+>>>> --srini
+>>>>>
+>>>>> Neil
+>>>>>
+>>>>>>
+>>>>>> thanks,
+>>>>>> Srini
+>>>>>>
+>>>>>>>     patternProperties:
+>>>>>>>       ".*-dai-link$":
+>>>>>>>         description:
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
 
