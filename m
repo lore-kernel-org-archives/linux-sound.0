@@ -1,80 +1,98 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD1C231A55
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 16:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C341397;
+	Thu,  9 Oct 2025 17:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028955; cv=none; b=jxFBDXVTCptdoWRr/I1rajC/HNwfS2OdT2JIPlxqIY877CpODtP6ZePzlQHOXOlAMY0IcYbJkVmbQlwF783clx6GU2ZTjJOXPlJzayM6/paDqnL3HjJSSpS586HKE8SXDq52H8+jFZhPeCP5qd76fdLwO2oG+33ixoIXuNR/LDk=
+	t=1760030437; cv=none; b=J+q3ddRtkiJSq3/ItESNIsLw3uQrbGaVvFGare9oOO84OFbqSoc+hgDj/XxmyRPENRBm2oi6ULpPs9CEDP6fksll+B252vsf3pTLRFFyaTXVPqIFupVhXnP0pGuk/+SGoFgNnt61hWmg9YUL/sBao5zo8fNE6kNtbSq4FhJ4IQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028955; c=relaxed/simple;
-	bh=R3CLaJhA7gq+Og3P/cSRClmlVF11WIVSyo2PEkqoTNM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KNGqwdD6xTbia/L54KK/EJ/g+RGJSpSAjdeR5lbfsRgj9nsR9LXh9hnyFe5FFnTG6NJt8Z1S3F6wQnp8SXMT0HbarcAlKqnpuW12Fzfit8iLN5uZRI1xW4Sel76uz7mInSTM2jOGNLO5XlpH+unCCT2lT0PEr8yz9CY0xlHc3Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gc1PX2qs; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gc1PX2qs"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7abc631ae5cso896682a34.1
-        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 09:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760028953; x=1760633753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R3CLaJhA7gq+Og3P/cSRClmlVF11WIVSyo2PEkqoTNM=;
-        b=Gc1PX2qsHRXZY4+c/sANi05Mt3H6Cxf4+Stk1CraSPr68I/fG7i4rXOr/PzL2XCrv+
-         FZWrOvr5c3XMYUK/l+HlOocbm5+mTxRz0LpG8TSWsI6WQSTrlE6nSQlP4iOKzrrt6axW
-         o+OJT/ebKZ8TZzGtZEULv6EQaONCu0XxouwCJC4AaVso+AzaQOPWRYZSH55lHB6bs4mA
-         8esA9npHgMLdj4fzt3eg+Quc1jSBBp2jMS0QcAM/X4ldRlV5uosJB5E4IOOyUKy0Vwli
-         trDc5JpklFl9fdKgcUDlPJcPDzdWJjm5i3uBiKZV4X/nPBLtG3/JEqyUWTwmAnaTNuAP
-         jsdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760028953; x=1760633753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R3CLaJhA7gq+Og3P/cSRClmlVF11WIVSyo2PEkqoTNM=;
-        b=WCg3BzXFtbg/KHlQ+fGRHSy25c85WGCCecMxdTX/b0wxFtTERtIY7C4ALrcAa4kmih
-         NoTDzVkUcUnP2eL81JU5nu0c/PmmCuxWQDzdMJRGdDUVvw5F5MRcvx0wAE7nDmiXpNiS
-         +D0tlUOd7byWMNXR2rhOjxoktdQGOQqqppSwkdoOQOAgv4fsLNr5CCOKrrueXmnUURdy
-         xH4mtZGuP+0LIzrJFXap4ImsifwMwn1HocCv6xFlMvDDtGSCc5kxKXhlBnDmRYOPe5Yb
-         5SCQV+pDgPSmWycpneaHQpYDUUKEjbadthxcP5qYLp3XeZU8VBc/0yHnrS0z+eorKK6Q
-         hLUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLhDzm/bKjw+bD7CUDPfDmujIKGlezpyOTylaOx3nXIOtnqU1IglXN5NsR6yUVWtbVlKedA4pDi9OkGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/LvVZkFZJIQO0E26o/of1FxKHlXyr5aHY6JohGeaTmbDkze5b
-	Xxgmkr9jUi2KKDUDy+Blw86dshcFYaHHqHmIoD44ThEXi2WjBoKvTy6u4UhTgOEjBIGKV+CbU6B
-	Tq0z2ST4lBN7VfsEw+eVLh18FFMUTCfI=
-X-Gm-Gg: ASbGncv5vw7ctR4yywCf2Hbh6EoHJJNPbO0DkoN83/FZVcie4oGTtSVcBAYtRRlGJRQ
-	24/JxjOdSRfEnLlUNO9WwSheoWaD8FebDTjeJG98Q5phNmtxWgsUAPKDbuQYQb3LUPoAIHSpzkn
-	zx5Z4j1O+N67e3aJ8+41rQzAd1LdizZvEReWne0wMF1x2mVXdb+ZFpyvtihl8hn8G+L0r79mLUu
-	Jn5PeXbkAR1cKl4JkogeHBaQS/5KNA+6SqX5pd9/MH/Ai0HSXDO
-X-Google-Smtp-Source: AGHT+IHLf0hz1LIW9mLUgXnTIY3sM3Q0Cu7moc3MCOrYonSnvCG+5CrCxjzhF5mjp/OiNtzpnxefy8/ost3y9B9JgJI=
-X-Received: by 2002:a05:6830:368b:b0:78a:1d62:ff20 with SMTP id
- 46e09a7af769-7c0df7e01d5mr4719404a34.30.1760028953205; Thu, 09 Oct 2025
- 09:55:53 -0700 (PDT)
+	s=arc-20240116; t=1760030437; c=relaxed/simple;
+	bh=h6mBn1YnACsX7CDnRFvzoiOd0OKOEjGYnLm4xgraf4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nLGvnLzf48BQWX0c4NpzzT5r/LCifCQvX3SpKbRQxjlVFKkeBlBcWQvhRCE6McMfaPgKxazPP8md2AGESKWil/HZurjf1IXpMnA9Kj5JcFq4NhOPTnu3ZoKf27RkJVLyZa/J4XemqKR2RdtSvXMxhA0NVsK9PrHtZFxoiNUCF60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4cjGRF331Qz9sSY;
+	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NF51hGVtVs4V; Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cjGRF2Gmsz9sSX;
+	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3D92B8B776;
+	Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id fzt8czwtvfVI; Thu,  9 Oct 2025 19:03:21 +0200 (CEST)
+Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id BD9F08B774;
+	Thu,  9 Oct 2025 19:03:20 +0200 (CEST)
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Herve Codina <herve.codina@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: Fix gain setting ranges for Renesas IDT821034 codec
+Date: Thu,  9 Oct 2025 19:03:13 +0200
+Message-ID: <2bd547194f3398e6182f770d7d6be711c702b4b2.1760029099.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008205207.1781-1-briansune@gmail.com> <aOd9yUj9H4L4fbtc@opensource.cirrus.com>
- <CAN7C2SBd8tDXG8OkjRt0sDw1OmtrLgtuStEfr=f=JHZMRvjq9w@mail.gmail.com> <0167554b-c3b9-4cc6-9382-d378e5b1227f@sirena.org.uk>
-In-Reply-To: <0167554b-c3b9-4cc6-9382-d378e5b1227f@sirena.org.uk>
-From: Sune Brian <briansune@gmail.com>
-Date: Fri, 10 Oct 2025 00:55:41 +0800
-X-Gm-Features: AS18NWCG0agAAAno9JmFiOQg3dDw0wh1zt0svMJv0yHR5M3Ofn0geI28L4Z0CkQ
-Message-ID: <CAN7C2SD+9Sto7LzFSe6McTSTaEhwHQP4L_yDAdzbRdELbBfFZw@mail.gmail.com>
-Subject: Re: [PATCH v6] ASoC: wm8978: add missing BCLK divider setup
-To: Mark Brown <broonie@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760029394; l=2116; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=h6mBn1YnACsX7CDnRFvzoiOd0OKOEjGYnLm4xgraf4Y=; b=3zaVO3ilKwr/HpISlTX08kgChzyn0om6eB6WGsGlRurPoIiQ2NdveTwiCfbEl++3B1IH1Axzl Vbm0WVI90HyCfScIGXTBD64ZBKCdlDgPHhgvMO5Rm/SX2CYVzyyKLCJ
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 
-TWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPiDmlrwgMjAyNeW5tDEw5pyIOeaXpSDpgLHl
-m5sg5LiL5Y2IMTE6NDnlr6vpgZPvvJoNCg0KPiBOby4NCg0KUm91dGluZSBjb25maXJtYXRpb24u
-DQpBcyBzdWNoLCBjYXNlIGNsb3NlZCBvbiB0aGlzIHBhdGNoLg0KDQpCcmlhbg0K
+The gain ranges specified in Renesas IDT821034 codec documentation
+are [-3dB;+13dB] in the transmit path (ADC) and [-13dB;+3dB] in the
+receive path (DAC). Allthough the registers allow programming values
+outside those ranges, the signal S/N and distorsion are only
+guaranteed in the specified ranges.
+
+Set ranges to the specified ones.
+
+Fixes: e51166990e81 ("ASoC: codecs: Add support for the Renesas IDT821034 codec")
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+ sound/soc/codecs/idt821034.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/codecs/idt821034.c b/sound/soc/codecs/idt821034.c
+index a03d4e5e7d144..cab2f2eecdfba 100644
+--- a/sound/soc/codecs/idt821034.c
++++ b/sound/soc/codecs/idt821034.c
+@@ -548,14 +548,14 @@ static int idt821034_kctrl_mute_put(struct snd_kcontrol *kcontrol,
+ 	return ret;
+ }
+ 
+-static const DECLARE_TLV_DB_LINEAR(idt821034_gain_in, -6520, 1306);
+-#define IDT821034_GAIN_IN_MIN_RAW	1 /* -65.20 dB -> 10^(-65.2/20.0) * 1820 = 1 */
+-#define IDT821034_GAIN_IN_MAX_RAW	8191 /* 13.06 dB -> 10^(13.06/20.0) * 1820 = 8191 */
++static const DECLARE_TLV_DB_LINEAR(idt821034_gain_in, -300, 1300);
++#define IDT821034_GAIN_IN_MIN_RAW	1288 /* -3.0 dB -> 10^(-3.0/20.0) * 1820 = 1288 */
++#define IDT821034_GAIN_IN_MAX_RAW	8130 /* 13.0 dB -> 10^(13.0/20.0) * 1820 = 8130 */
+ #define IDT821034_GAIN_IN_INIT_RAW	1820 /* 0dB -> 10^(0/20) * 1820 = 1820 */
+ 
+-static const DECLARE_TLV_DB_LINEAR(idt821034_gain_out, -6798, 1029);
+-#define IDT821034_GAIN_OUT_MIN_RAW	1 /* -67.98 dB -> 10^(-67.98/20.0) * 2506 = 1*/
+-#define IDT821034_GAIN_OUT_MAX_RAW	8191 /* 10.29 dB -> 10^(10.29/20.0) * 2506 = 8191 */
++static const DECLARE_TLV_DB_LINEAR(idt821034_gain_out, -1300, 300);
++#define IDT821034_GAIN_OUT_MIN_RAW	561 /* -13.0 dB -> 10^(-13.0/20.0) * 2506 = 561 */
++#define IDT821034_GAIN_OUT_MAX_RAW	3540 /* 3.0 dB -> 10^(3.0/20.0) * 2506 = 3540 */
+ #define IDT821034_GAIN_OUT_INIT_RAW	2506 /* 0dB -> 10^(0/20) * 2506 = 2506 */
+ 
+ static const struct snd_kcontrol_new idt821034_controls[] = {
+-- 
+2.49.0
+
