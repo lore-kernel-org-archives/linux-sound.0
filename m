@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6845241CA2;
-	Thu,  9 Oct 2025 18:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8098F212549;
+	Thu,  9 Oct 2025 20:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760033140; cv=none; b=IJYRhO91mllNXw9HAWcuu4wkw4YbNvz0suDFzilBqDsyogAHxFI6eGqZhx5SkADCqR0EkSpiH14lEXnWHpgsJFeRV8ZQhwUMPT/U5xs6g98NlkaUH8KjnShvjhccBjexJ+Q/6CKI7bi9n+y7aSOYli3THkjFa5+z1ISA81FoibY=
+	t=1760041168; cv=none; b=HKLlKDdD6umF738RenJZ8tAeBUjTNiiOd99YC4SgGwfOJWDEFdCKAWE6D9ZicJFyiK8r0u50nw3q9fHZABUr7fltCRjumldaHOz3aOYVAN2LJdEQeu8anWJvWAgVJGDhBYSTFbLNCrPImqUAUex8gHB8ujPzp9M6CuZjQOMTJOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760033140; c=relaxed/simple;
-	bh=i1yq3IxJbUFGkr/0ZAIbF4v+HCsO8IQ/7jgfv7XTuN4=;
+	s=arc-20240116; t=1760041168; c=relaxed/simple;
+	bh=FtmEL4tlPFiNdEIWPJyHFeHJfy9dRLCseRsfZkLpp4I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sbb2SKHY38eoy3DD3cqYBJtAj0aRZTNXWFfrL9BZfPSNZizWublKKVXfoa2frtopyeSuRBZJ/QrFjtuOmQtDeMVXmsZlQJXrW0ualapSK5ycNHqvAYpArRswJJe/5FmiO0SA/vDjccQgRil5Ja5a3AN49kK/7j2eOYaJ7FKV8KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMy9tZdL; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=dd5/MmYKxzaEDXpRDz8JIQiwHkkS8coK+M0D2wI9mrRGrXdUx2af6jeqrXXeNXU0nn6M3yTfWj2KvPuao2vczPUBrBxH/EeBlwZwdPuMRhNrnQ0779a3hwF6uofTgD8emtreIFbiNCeg/aHJADGjlB7xdTtra1zY57cutWDeXJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j6/NDhBY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMy9tZdL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839F4C4CEE7;
-	Thu,  9 Oct 2025 18:05:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6/NDhBY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791C7C4CEE7;
+	Thu,  9 Oct 2025 20:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760033139;
-	bh=i1yq3IxJbUFGkr/0ZAIbF4v+HCsO8IQ/7jgfv7XTuN4=;
+	s=k20201202; t=1760041168;
+	bh=FtmEL4tlPFiNdEIWPJyHFeHJfy9dRLCseRsfZkLpp4I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZMy9tZdLcW87+5cc3agm6QMP7lfzM1I4R/z8Otp9URWUnD4fhZjmqgDvMmQiKG4dd
-	 hLQQrnLxpn0vvSozRJ3TEcWnscM9HXDDwl8nF/60THBBsqbK8GVF3AYWbI7w3Ar542
-	 /Aiti9R2474MNT6sK/5qWmuq7zIPrpXCDJdTsKy/4toSwW2RSYCB0LmgoAhiLgOug+
-	 dbCUGxXC5yRk73zBP0PaZ9D6lu8Q5fLWSgBXsolSllptnFJ55yJZxtpeGMfM6IlY6m
-	 ddC7kQPtI/UPIz0p4xOb1BRvGHV0JWQ0QZ87TiKKlsw9IqdF6UJT/G4B+YH7HlfHMk
-	 M4CRVXmxkCd6A==
-Message-ID: <e7102fb7-21fe-46d9-92eb-f320988ca0d0@kernel.org>
-Date: Thu, 9 Oct 2025 19:05:32 +0100
+	b=j6/NDhBYBz60hDgsatXvJ7/05eKJIi1420V0+/CJBdzz+HbRKTHLkz1YP4YrOEm/m
+	 gQ2UYG1RgAvmT1EjnHq1gWqkhVCJ2gO59f4K3PrMYKMaag054wx/L6V+s8AKgZkoIH
+	 w3KVy2E+M7qJUWU2qcBBISefipO1cG9AQcdYUK2OmlJ7ujHpswYwwfivAp7Y42WmS4
+	 3aYkDzxz1HudfqwQd/P95nmJncubN3doxSzu48IQqp+ubraynnW/bHVsp3xEyBCnKS
+	 JCE/zC5+T6qLwnSE0BtaCXUOPIqIaIFnzUMprfaNY8M+mvHIqJnki6UbMXFT8zUbWP
+	 Dx8QtxG49GB0A==
+Message-ID: <d6f50d7d-9859-4dd6-a193-8c57aec11f1b@kernel.org>
+Date: Thu, 9 Oct 2025 21:19:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -152,37 +152,19 @@ On 10/9/25 4:30 PM, Neil Armstrong wrote:
 >>> agree
 >>> the card bindings is the same, but it doesn't mean the DSP elements
 >>> are the
->>> same and uses in the same manner.
->>>
->>> So let's forget the bindings and forget those clocks entries, and
->>> imagine
->>> I'll implement those _sys_sysclk calls like for the Elite platforms.
->>> This means I'll bypass the clock framework by directly setting the PRM
->>> clocks, this is clearly a layer violation.
->>
->> You can claim clocks in the dsp layer (q6apm-lpass-dais) instead of
->> claiming it in machine layer, it does not necessarily have to bypass the
->> clk framework.
-> 
-> The current q6afe implementation totally bypasses the clock framework:
-> 
-> static int q6afe_set_lpass_clock_v2(struct q6afe_port *port,
->                  struct afe_clk_set *cfg)
-> {
->     return q6afe_port_set_param(port, cfg, AFE_PARAM_ID_CLOCK_SET,
->                     AFE_MODULE_CLOCK_SET, sizeof(*cfg));
+
 > }
 > 
 > I have no time right now to implement all that for q6apm & q6prm in the
 > way you propose, so I'll probably not send a new version.
 
-This is not really scalable, you are suggesting that we add this for
-every board, when you can do it more generically in the dsp code using
-set_sysclk callback.
-
-
+Or Update the codec driver to handle the mclk, instead of putting this
+in machine driver.
+BIT clks are normally automatically setup by DSP based on interface
+index, type and pcm params.
 
 --srini
+
 > 
 > Neil
 > 
