@@ -1,164 +1,128 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302AF155C88
-	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 09:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A7A2D77FF
+	for <linux-sound@vger.kernel.org>; Thu,  9 Oct 2025 10:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760003134; cv=none; b=QNu4Ttgen8pW4fvGV2XeehchWX0ldhm8AhO3xcvXt4XpqdfYeP0VxL1p7MKDzyRrclrftfJLof12W++XSFe3qE7994tKzgOht7YOlmm3Kl2E7HeNEu1ridlCqyadDoW3FIkw/vc147sYk2eO4UOuXhE8FubD82kV7r0Y1vhvInw=
+	t=1760004753; cv=none; b=dhzKvJBRUfvkwQLXg8za4q6+KWN8nAWgKwDVL99N7snJSq72jOaN+mJL33m/D5fmboD8Ot4B+k0VjOrQGZIrKMzSU7GTzrtuZD+y8+nQVZkbh18N/JHPsOXForZ2SoPB04A1fdJPPIdCW0mv5DX29/pD3tNAEmtHdc4AT0pwG2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760003134; c=relaxed/simple;
-	bh=+WuDGN8PwcdrONCswSpy1/6ukiYeOjoibZ5/S2bBspg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Eg9gSEnEI9GLGXSD7ZL33tjVFYddLKRLxqhWFeVP0yQtVrVvtSlIsHgenSVQEJk2gDsWbaxCPBNqC15Ah65rVq6jIer+xknVc42I0b50wIbyTt61et+eTAcYkVNznPPFODnCSjORmr33t3hJQqB9k4nV7QPClSKhBivvrvazKCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UxUQai9i; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1760004753; c=relaxed/simple;
+	bh=JTtVIAFYf35Hh8feLqqWv19+tcpgXwV0O2h/lrQZ+LE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kt4Je2x/urFGjSclN1vb/SwQY+8+TOcgak9ga/K3rDyXdwu3hM2P8/V3HU1pitG4mpKxicQiYgl+TF8A1uyPayHhe2zbFIDkCjkxlDPFsHva+lwvTvt8lSCal6hcf4kKim/wSc6sjS6XTEu6ijdPwrW7uOrR6yRAIp+aPFgtHV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Vd0SZcSb; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UxUQai9i"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46b303f7469so4307435e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 02:45:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Vd0SZcSb"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e491a5b96so4097325e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 09 Oct 2025 03:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760003130; x=1760607930; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kbUfqJ5j71TBp7MjjYEvcsqbYwQhLnnJoyZYmO0oJ5k=;
-        b=UxUQai9iq93UYEy41EkcG5ATrh5c0sEfQTlsHTCiJBy4C0lpiEeXXh47K2ybloq0dm
-         F/I9ddMEPBHVtDbAJOlXznJyV3XFnnobXmhbuRhwFdtfblYBDWAacu2EQmmFBf4AsNA5
-         6RvkDufSOyzkazZgkrPNuPu/2fX9lfionzW551Qwp54/QPjHcugo+1HjRIsZRtOuEO5I
-         ZKBunuAK2MmTacqZSKEmi40onuw7D8qjRtXyY5x6cmOVM15RKZNmz9hePCPejHmI4R6l
-         kfeAaKzaBeU6ojwvyyU7aXqYjUF19/WGnWNLGr9QufysHxHmWrNdPSuB+lFAnVlC1p5J
-         eNhQ==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1760004750; x=1760609550; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SO/OcY1CO73Q6LYMqOLX5PvBUeNoOpjpPrCz+L7Phi8=;
+        b=Vd0SZcSbAk/uJ6FmS1ntD7NdOfhIZQj8BKd3C/Bq4JUb78zQtlry38cUxTUODbVc1h
+         VDhiYCI6usbZcKE5qaCF5hAqe82UdO4pbi0e3feaRimqGN9vCOh4RlJOfaNnF3HCbQ4I
+         VO4osTdYxL4qEqr3zAviZOBqDCBUtL90eOb05FxPk39GofwF6YPK4sZ+3vXdPXBiJhNj
+         0owdO4vg8QX6LA0k8xP06xIA7PDQtCI4Tb0Lpyq1OoNQlGd8J1VsoQ09HwCS8Aav4f1o
+         /bIMDZUcz4HL0bGitT76uU95b6IWDq0GTlJDGUtLObzzWgcDI1WtuYkP+jDCwQviOVIp
+         JXTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760003130; x=1760607930;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kbUfqJ5j71TBp7MjjYEvcsqbYwQhLnnJoyZYmO0oJ5k=;
-        b=RacRQyLBUZDtsU8Se5Z2HHfKoDxTHxgpG8zcX/51jmQTWuqoHuG2JDrTqeOzk9k8/W
-         iEYYwXPmPK8EBO4dt9P+WLi3HSM0KhKzZSPiySFw1Qw00hktfDIxnidaiaLIdNqNl8s/
-         CjuPCopQeCq8OGmZmtvLZ2iKseQ3JHRZoBFVDb3R67/igm/88wpo9RdBd1BlBmqaEOJd
-         djIZ/gxmy1ge3Quo1V6Ong3fl4HDXF1V5RdcaTGgHAGqV4GB/S7JWxGiylEDBiQcjBwS
-         vPaQUMcO+rtcCD4aTYiZa8PWT0nuVZstSFnGujPAbndpvP5oWfxMFxwHRnrnuqH9cgiG
-         OVUA==
-X-Gm-Message-State: AOJu0YzH3qFJXJKG1JUPcIX+pv+QdDpVWDm5lrKp24GDsMlvu/Vkg6wQ
-	xhsrgNFE3VWtX3c0RZOrV/zYarWw4q/n0oncjPi+iRXNplyAFDFJitor4CWWu83+hns=
-X-Gm-Gg: ASbGncuOIZ9Wk7H+IrbIRY8pchYbjd9IZMAzJ8GiuQLuldRijyQSXyy4LQDJ4wJw14/
-	1k82ue6y8sBN+510Vm4kdI3ailGh2XdDmfJeM3qSfYc2kqsCk30/HBCFH1cIaApOF/cVXxITKa6
-	IBSEbQtt+froRF3YzjJO0s/NLP3XgHoRxExNeyw9Em+PXSr41pps7bKRorrnmNkiPG1UN6UeQHt
-	EsBTiHMtaIb62Fz1bPi7czfgU8jb0+9QaruTIQlAnpMgX/HLvXQUbSQkTpmh35VKdly5Aw+sdf7
-	st9kTjwTs9fAq/Wdi2UEuIPKLFdiwNDNP6Svr5sQBvYKz1IzUEnrn+TqB5USp+awcgZ0QiDeYkt
-	+O5CkNqf0iOpURpvT1i8jhoNskYsQwteGau1T+3EZ7Rl7W8iMly1/SK5V2tL5+hKGkI+/U1rrKx
-	p84+YlO/6vETnV9j94HYAwH2m0S4g=
-X-Google-Smtp-Source: AGHT+IFO8IRDk5imUegHSmbnk/EmeFggjgdJn5I9b3H8USmPMbWmI4oj5AxEVR/9edpf44w240UrcQ==
-X-Received: by 2002:a05:600c:1d1a:b0:46e:3978:ba71 with SMTP id 5b1f17b1804b1-46fa9aefedemr45680875e9.21.1760003130336;
-        Thu, 09 Oct 2025 02:45:30 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:7a0c:da2f:6591:67ee? ([2a01:e0a:3d9:2080:7a0c:da2f:6591:67ee])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fa9b622cdsm76319065e9.0.2025.10.09.02.45.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 02:45:29 -0700 (PDT)
-Message-ID: <d702a630-eee8-4889-98fc-62f4907791b0@linaro.org>
-Date: Thu, 9 Oct 2025 11:45:28 +0200
+        d=1e100.net; s=20230601; t=1760004750; x=1760609550;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SO/OcY1CO73Q6LYMqOLX5PvBUeNoOpjpPrCz+L7Phi8=;
+        b=lL94fQTOAy16NU/DgbL8cRFjefFn0MbX1acr7n/6v4+cVA65kZ68A+XP0aIi2IApA6
+         azbjOfZw7k5d/oXVrlwI9WWxAMQSDhoTIi7kjqpw0VFJBOxFsFclK9QZIA9DhrjfSaqb
+         8yuE+tANWKkQymdIaGUBv4w86QUbThWsIX01z5LKZa0lC7q7mjXwlaPn0NEqbbMkSiQz
+         MGvoPsKynCscpG4mCI4e6PCl5V/k3L8Fs5JjFdvYd0rmPaEwHujErlLVb5WTHVeEpX/r
+         kzQdw5rZJye1zwoC6nHgzimLL9iykT6AO7xjogNKrqNn88/IcJ1iqIehbAzn+3FfZg4J
+         OPFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbIwSIHS0VCNqvaVWtMSNj+ZAFF/BpkPuc1FVO16Gv0sIotkflfvZjXcVxg1jPXE+pj4ppz2xLvOfNow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySd1TY/TtRgfusm6UZHNpKFnFzaFCQdS1PsOakhOH/mQ3kYzWr
+	WimMjbiCcMkr6ZRLGad8pZmHszRZySzwDx6401zrG3UKSd4Xfav/E/XT/75Y5fimGFg=
+X-Gm-Gg: ASbGnct9EkId5hmNXv4eOOLgveQkSZKXoQdvf0cBqCKkI64olB2EtdqZvvmJHoxj4WP
+	/fe3e40KRhFXyTf74/ggU4LI+opTCKccfZwGq51b4xjvAk502bOqspmGK1uoRNkfGInRQakBpry
+	Qhcd7NKlBIUe4CFlE0SnAFjgck2ruKgCi7mJD6mJ/sKziDYcoGW04R02xKlMA1Sd3PTsbZ0lot6
+	Z2tZOjWl9lqiLN0LPbpEXUDwwIdxxzY0cC3JLEV6+pe5Gh3ViG0kgjuo7aV1inpvNyo5DL2foaU
+	M3xpIuTlIt6PFE7lnrLV/CvXOX4cDf6chg0rSm4fHQ77HNsc9CBpj1PWGAyBLUA0KaSdFe0BcUC
+	OatRJdJQUTrHJrAp8hly/mkVMnbJgFvQWmWA51+6/na2NrxU=
+X-Google-Smtp-Source: AGHT+IG9djRtuVw+ie4GfUE2fCKVw3VDvAD/MGwTeuRqIhTj3DidnkwSdyN5TC7cZH1+rVL/DgOUoQ==
+X-Received: by 2002:a05:600c:4ed4:b0:45d:f88f:9304 with SMTP id 5b1f17b1804b1-46fa9b0e7b3mr50062135e9.30.1760004749930;
+        Thu, 09 Oct 2025 03:12:29 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:a78:91ac:9309:82b0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab633badsm34723735e9.3.2025.10.09.03.12.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 03:12:29 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Kees Cook <kees@kernel.org>,
+	Mika Westerberg <westeri@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: (subset) [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+Date: Thu,  9 Oct 2025 12:12:27 +0200
+Message-ID: <176000470857.91617.1046632810440589541.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RFC v2 3/6] ASoC: soc: qcom: sc8280xp: add support for I2S
- clocks
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20251008-topic-sm8x50-next-hdk-i2s-v2-0-6b7d38d4ad5e@linaro.org>
- <20251008-topic-sm8x50-next-hdk-i2s-v2-3-6b7d38d4ad5e@linaro.org>
- <630bb2b0-0ab4-4083-96a2-9aa485041797@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <630bb2b0-0ab4-4083-96a2-9aa485041797@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 10/9/25 11:41, Konrad Dybcio wrote:
-> On 10/8/25 8:56 PM, Neil Armstrong wrote:
->> Add support for getting the I2S clocks used for the MI2S
->> interfaces, and enable/disable the clocks on the PCM
->> startup and shutdown card callbacks.
->>
->> The rate can be easily calculated since the card forces 48Hz,
->> 2 channels at 16bit slot size.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+
+On Wed, 24 Sep 2025 16:51:28 +0200, Bartosz Golaszewski wrote:
+> Here's a functional RFC for improving the handling of shared GPIOs in
+> linux.
+> 
+> Problem statement: GPIOs are implemented as a strictly exclusive
+> resource in the kernel but there are lots of platforms on which single
+> pin is shared by multiple devices which don't communicate so need some
+> way of properly sharing access to a GPIO. What we have now is the
+> GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> doesn't do any locking or arbitration of access - it literally just hand
+> the same GPIO descriptor to all interested users.
 > 
 > [...]
-> 
->> +static int sc8280xp_snd_i2s_index(struct snd_soc_dai *dai)
->> +{
->> +	switch (dai->id) {
->> +	case PRIMARY_MI2S_RX...PRIMARY_MI2S_TX:
-> 
-> I have mixed feelings about the range syntax here.. it's only 2 entries
-> per and it's quite error-prone (no errors in this case, but it
-> encourages the thinking that things are always contiguous)..
-> 
-> [...]
-> 
->>   	switch (cpu_dai->id) {
->>   	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
->>   	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-> 
-> whereas e.g. here we see that it's not really the case, but it's
-> tempting for someone trying to 'clean up' the code to change it to:
-> 
-> case PRIMARY_MI2S_RX...QUINARY_MI2S_TX
-> 
-> and the reviewers may not catch it
 
-I understand your point, but I just took what was already in the file...
+I'm picking this one up for fixes as it addresses a locking bug.
 
-Is my change correct, yes, is the style of the code improvable, yes.
+[1/9] gpio: wcd934x: mark the GPIO controller as sleeping
+      https://git.kernel.org/brgl/linux/c/83d314fac266a3d9de61e4a4490c4f2eafc86b05
 
-I'll do my best to fix the style issue later on.
-
-Neil
-
-> 
-> Konrad
-
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
