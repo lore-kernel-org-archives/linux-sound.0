@@ -1,63 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB2D2FD1BB;
-	Fri, 10 Oct 2025 18:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6571DFD8F;
+	Fri, 10 Oct 2025 18:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760120768; cv=none; b=rZfZpDSZKqTS0M4gZHfgA34b6Z4rqfv05lqTSWcJa7WFM9H4qPcwUc6i9HQf/D5lul+DmyDAate5uAl4wrWh+Mdq4dXtZJKUernbrOT/12ti0/K10uNkv7VRkqa4DUhvrdrJNIiryVTGtEaNXW+wWzCSlT6c5eaOWGnIVm0bmd4=
+	t=1760122587; cv=none; b=Tun1+nmcgywmZKmWidNzpzkh4MffMC/7EeDgQem94MZcSkziWYWzIxLYnIpZHRbLWsAlGArA+eVw123IbmrTxVaWn51K/kn2sP22cs8+U+DQ0FCe1OkUSC/PXA7dFR8cLf/UW8vUvx2vXybLegoVj6U3H6ZwX7hZb8xe4f9sV18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760120768; c=relaxed/simple;
-	bh=tGLvL5uxf5wlHTMze4sV3GkIVlu9BrEsghDf6r/BgOE=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=VtCnmzz1liYvLRs0ne9n0kCjvYiMWSOKQhKdFVj2rjk/IzZpYFalky+mWGjdM3Bm6L0Tg9OQA0pTPss1JgDJ+k0vgxNfV+8W6M4odKgV3JHIRFzOOiCFK4KiL5s9nDJiLkcOKXckzP7yqUNYUPRs+ALGLI+cR4rkqjJA7MLgJ3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erymPeW4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760122587; c=relaxed/simple;
+	bh=sFXQ+M87qqrW6E3ybEnLSe49i0qbSE5OdfOw9RtTlvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DLsCxZdjoVEJdjnRm45YcfnF4PHviWW2SXpCNwgIIPfbbRB8dP6SeE3lZWkucxxcqTlXaj+B4hcUtEm/xDddtJe/XAVM8QkNLfvhlJk4c7eLlzAVx06PzYLxYQJpwnBOT9gNhK02PWHXK4Po3X03P9tEIDD4+3dIQrYLBpzHSpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSYGnCab; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erymPeW4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE77DC113D0;
-	Fri, 10 Oct 2025 18:26:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSYGnCab"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E021CC4CEF1;
+	Fri, 10 Oct 2025 18:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760120767;
-	bh=tGLvL5uxf5wlHTMze4sV3GkIVlu9BrEsghDf6r/BgOE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=erymPeW4B0exApYtqb4FYRGzmsZqZOSMIDnamKgzS1//8/vzI3rlg++DrbAnZlcHq
-	 017ID1UsLVAxG78gEUPoV5asRTmGj6D6DDkn7HMu3bputBBJRG61d9XuemY/nboI/S
-	 1o1p0UKQopbSZVkF19xwaw3BIDiIVuBjoVFh2z7HNrljoVHnrUTTw+7F0lrbjJ/F1P
-	 nwks+UZKYlZ2a8rRNqCYxccvPOy8ml7a0WdOFGeQzRXCZ4Hu1BDnKwoFb3VKByphKb
-	 dTpJiDiiWeNNM9z56mv+6fRlVLSiBg/AOIelMoZkJBSruPl4BSJnFRGWwDYCeRHCi0
-	 jcw+o2TZO8E9A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7123F3809A00;
-	Fri, 10 Oct 2025 18:25:56 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.18-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87zf9yan50.wl-tiwai@suse.de>
-References: <87zf9yan50.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87zf9yan50.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.18-rc1
-X-PR-Tracked-Commit-Id: ca7a2317993efa26eb2100a1523548f1b3a07af0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fdfa38e95e1229ec2fb2f18540987c97f861d470
-Message-Id: <176012075507.1074429.6833303949514440292.pr-tracker-bot@kernel.org>
-Date: Fri, 10 Oct 2025 18:25:55 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1760122587;
+	bh=sFXQ+M87qqrW6E3ybEnLSe49i0qbSE5OdfOw9RtTlvs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OSYGnCabgES32RoI0V09lLgiiElnUWix1Xn33WTj26kaHl2vj+xKrMKF9eF17PmtE
+	 OCAPZPBY5mhLpFODwkVm6MHcY6K2FXQ/EUi3SAQZ3/OZvSEetdZpf2TZCeCFTDfnLv
+	 uPEuZRgNyOkXHcJf88qXxGQqIpeSUTehRZzImZK9BgcAhJ7XvMyCIvepImha0oPovi
+	 3eq/BYQ04YL3/kqabJH+PhPgvr2HL2kSRSqNMsRfhcTQM3x49aWPEoP9tE3QcOpe2W
+	 LNS3HPpKB1oknlDai87NAoL1bTWJVVm4FtXwcz9QJUkKgaMfHh3s9B+7bWn8XYPq+f
+	 6RE8ybzpXtN5g==
+Date: Fri, 10 Oct 2025 13:56:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Baojun Xu <baojun.xu@ti.com>, broonie@kernel.org, tiwai@suse.de,
+	andriy.shevchenko@linux.intel.com, 13916275206@139.com,
+	shenghao-ding@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
+	will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com,
+	chinkaiting@google.com
+Subject: Re: [PATCH v6 1/2] ASoC: tas2781: Support more newly-released
+ amplifiers tas5802, tas5815, and tas5828 in the driver
+Message-ID: <20251010185624.GA713043-robh@kernel.org>
+References: <20251010022951.51581-1-baojun.xu@ti.com>
+ <46346003-603a-48a8-8359-eaca77c8cd63@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <46346003-603a-48a8-8359-eaca77c8cd63@kernel.org>
 
-The pull request you sent on Fri, 10 Oct 2025 15:42:51 +0200:
+On Fri, Oct 10, 2025 at 04:33:47AM +0200, Krzysztof Kozlowski wrote:
+> On 10/10/2025 04:29, Baojun Xu wrote:
+> > TAS5802/TAS5815/TAS5828 has on-chip DSP without current/voltage feedback.
+> > 
+> > Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> 
+> You clearly do not want to follow what we ask... subject is still wrong,
+> but in different way. I do not understand why simple comment from Rob in
+> v4 has to be done in three versions.
+> 
+> Your subject is too long, contains redundant data and references driver
+> which is for sure wrong. See writing bindings.
+> 
+> Please read again Rob's comment.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.18-rc1
+You are looking at the wrong patch. Not that the driver patch subject 
+couldn't use some improvement too.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fdfa38e95e1229ec2fb2f18540987c97f861d470
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Rob
