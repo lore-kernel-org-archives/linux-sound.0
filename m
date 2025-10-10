@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6571DFD8F;
-	Fri, 10 Oct 2025 18:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798711DFD8F;
+	Fri, 10 Oct 2025 18:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760122587; cv=none; b=Tun1+nmcgywmZKmWidNzpzkh4MffMC/7EeDgQem94MZcSkziWYWzIxLYnIpZHRbLWsAlGArA+eVw123IbmrTxVaWn51K/kn2sP22cs8+U+DQ0FCe1OkUSC/PXA7dFR8cLf/UW8vUvx2vXybLegoVj6U3H6ZwX7hZb8xe4f9sV18=
+	t=1760122618; cv=none; b=qH32J0EuWT91M/+nTUIAkkByuezaA8hbkJYJYHtCRcvgBMtoDP4k46BvKvbGVL6wcCug33TtJNlV2PgLVpAdP7IgXNtMQD/8zYGF3GuTQ6up6z71LOk9bxfRw8YebThJQwwv/uvxn8+2lQAitV8EHt4SC3kVrVRtfNn+ZQN/eY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760122587; c=relaxed/simple;
-	bh=sFXQ+M87qqrW6E3ybEnLSe49i0qbSE5OdfOw9RtTlvs=;
+	s=arc-20240116; t=1760122618; c=relaxed/simple;
+	bh=cdBUSD3I+k/RO6LWHsL0MFySxp8ZU7S3XnCWu70QZ+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLsCxZdjoVEJdjnRm45YcfnF4PHviWW2SXpCNwgIIPfbbRB8dP6SeE3lZWkucxxcqTlXaj+B4hcUtEm/xDddtJe/XAVM8QkNLfvhlJk4c7eLlzAVx06PzYLxYQJpwnBOT9gNhK02PWHXK4Po3X03P9tEIDD4+3dIQrYLBpzHSpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OSYGnCab; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bjGpEAWSpmkw16wNzivVf6RdPjnidPPB+9v/q2Q3rq+Ylfv7xUo/h0V5Em83uubGb1DGk24YqR6GcdGhHfVHPEcXlW1RI9RujIEeJ0RcicklhStt/4NI764Y/eeGHKMuKYzTRT8P9Nui+kvTHFQ++ADy2DBk4jyxbHbaVCrdhOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDSbhlIG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OSYGnCab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E021CC4CEF1;
-	Fri, 10 Oct 2025 18:56:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDSbhlIG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15E8C4CEF1;
+	Fri, 10 Oct 2025 18:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760122587;
-	bh=sFXQ+M87qqrW6E3ybEnLSe49i0qbSE5OdfOw9RtTlvs=;
+	s=k20201202; t=1760122618;
+	bh=cdBUSD3I+k/RO6LWHsL0MFySxp8ZU7S3XnCWu70QZ+4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OSYGnCabgES32RoI0V09lLgiiElnUWix1Xn33WTj26kaHl2vj+xKrMKF9eF17PmtE
-	 OCAPZPBY5mhLpFODwkVm6MHcY6K2FXQ/EUi3SAQZ3/OZvSEetdZpf2TZCeCFTDfnLv
-	 uPEuZRgNyOkXHcJf88qXxGQqIpeSUTehRZzImZK9BgcAhJ7XvMyCIvepImha0oPovi
-	 3eq/BYQ04YL3/kqabJH+PhPgvr2HL2kSRSqNMsRfhcTQM3x49aWPEoP9tE3QcOpe2W
-	 LNS3HPpKB1oknlDai87NAoL1bTWJVVm4FtXwcz9QJUkKgaMfHh3s9B+7bWn8XYPq+f
-	 6RE8ybzpXtN5g==
-Date: Fri, 10 Oct 2025 13:56:24 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Baojun Xu <baojun.xu@ti.com>, broonie@kernel.org, tiwai@suse.de,
-	andriy.shevchenko@linux.intel.com, 13916275206@139.com,
-	shenghao-ding@ti.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
-	will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com,
-	chinkaiting@google.com
-Subject: Re: [PATCH v6 1/2] ASoC: tas2781: Support more newly-released
- amplifiers tas5802, tas5815, and tas5828 in the driver
-Message-ID: <20251010185624.GA713043-robh@kernel.org>
+	b=EDSbhlIGRbJqZPIRs2W2ss1kLLlsIjei8ZXMtw6XojXU3iSDcxEwyIbG57HSHq6vW
+	 Et0HW/Z6PWxZfvNdWKiPkUaEpDgIUcLSdppjfXCsVOeIirumef7l4mTXalIDl30CLe
+	 lFImCZdFQv5X6gvq07emAcWWoXHuFSGdmJAakusLvgBHcs8iji2Dirvb1YUx8uOiPQ
+	 oKyIDvjk4KDuXp7XoKkukmAI1HJ2CZYj+gcPvBYjV+P4o9JbuAZEeENDYlouumkVFI
+	 tPvHdCrjHMRKfMRMfrX8DZdnztFyYc8BnB5eJcnOyYdvluys8ctYIDnagPV9NSXl8w
+	 g6Op+VVcM/UWQ==
+Date: Fri, 10 Oct 2025 13:56:56 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: devicetree@vger.kernel.org, robinchen@ti.com, will-wang@ti.com,
+	lgirdwood@gmail.com, chinkaiting@google.com, broonie@kernel.org,
+	jim.shil@goertek.com, henry.lo@ti.com, tiwai@suse.de,
+	13916275206@139.com, linux-kernel@vger.kernel.org, jesse-ji@ti.com,
+	conor+dt@kernel.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, krzk+dt@kernel.org,
+	andriy.shevchenko@linux.intel.com, k-yi@ti.com,
+	toastcheng@google.com
+Subject: Re: [PATCH v6 2/2] ASoC: dt-bindings: ti,tas2781: Add support for
+ TAS5802, TAS5815, and TAS5828
+Message-ID: <176012261542.715803.6759759704259980882.robh@kernel.org>
 References: <20251010022951.51581-1-baojun.xu@ti.com>
- <46346003-603a-48a8-8359-eaca77c8cd63@kernel.org>
+ <20251010022951.51581-2-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,24 +50,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <46346003-603a-48a8-8359-eaca77c8cd63@kernel.org>
+In-Reply-To: <20251010022951.51581-2-baojun.xu@ti.com>
 
-On Fri, Oct 10, 2025 at 04:33:47AM +0200, Krzysztof Kozlowski wrote:
-> On 10/10/2025 04:29, Baojun Xu wrote:
-> > TAS5802/TAS5815/TAS5828 has on-chip DSP without current/voltage feedback.
-> > 
-> > Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> 
-> You clearly do not want to follow what we ask... subject is still wrong,
-> but in different way. I do not understand why simple comment from Rob in
-> v4 has to be done in three versions.
-> 
-> Your subject is too long, contains redundant data and references driver
-> which is for sure wrong. See writing bindings.
-> 
-> Please read again Rob's comment.
 
-You are looking at the wrong patch. Not that the driver patch subject 
-couldn't use some improvement too.
+On Fri, 10 Oct 2025 10:29:51 +0800, Baojun Xu wrote:
+> TAS5802, TAS5815, and TAS5828 are in same family with TAS5825, TAS5827,
+> TAS5802 and TAS5815 share same address setting, and TAS5828
+> share same address setting with TAS5827.
+> 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> 
+> ---
+> v6:
+>  - Change the patch title and the description in more detail
+> v5:
+>  - Change the patch title and the description
+> v4:
+>  - Change the patch title
+>  - Add TAS5802 support in yaml file
+>  - Change description for missed TAS5815
+>  - Change format to keep all lines within 80 bytes in length
+> v3:
+>  - Rewrite the patch title
+>  - Add TAS5815 support in yaml file
+> v2:
+>  - Update description for TAS5828
+>  - Change commit tree to .../tiwai/sound.git
+> ---
+>  .../devicetree/bindings/sound/ti,tas2781.yaml | 43 ++++++++++++++++---
+>  1 file changed, 37 insertions(+), 6 deletions(-)
+> 
 
-Rob
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
