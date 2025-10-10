@@ -1,81 +1,195 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2590F156677
-	for <linux-sound@vger.kernel.org>; Fri, 10 Oct 2025 07:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05A3261B78;
+	Fri, 10 Oct 2025 08:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760080611; cv=none; b=rUHVG5ENC4yJ4F4RvtkXO0ZXeL53VLiEqJfGi1pxp8hKVOZJvJAEvDnjwUJsXmGD0hVfbhboLhzcJYf2/WSe3z2TEdmIrID7jk2r0et5hfbl0tbrLyKg0EpKRwUBFpoB0+GoEsjZnLmHq4KWDSWeYLhuDK+di1p4cNbg32lw/cg=
+	t=1760086494; cv=none; b=ILr0aBubocuEP+qn80ESKKjJ7TShNYm63D3wvDszgTIwmxWbiyt+tk/1dUzPRjXkFMlgnvrEMhbddiAHy17W1zZJgLYw6H/YX4Ov9Rk7vfA7cu9Efnfv7RxvxGVrA5T1NRriRBXcV5cRn2Qi2zdUjZonfatplHkQyzCQvUTG9Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760080611; c=relaxed/simple;
-	bh=nivzig4PTArehkrSE5IOJHy+ZEaFjUo103xghNGNHlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MOl7dkWDKD0B9PR8cYq7VdY6RrzqhypB+STlXKfCUSchAdaZzLPBFrLi0ifZQ+Z6xxj37Kb3CmNaK87yufiFcKlzm/aJnKrg0fd50KtlxcLaYkI+zw/Oi6Fh1NY/LP1GycjN72h52N+sVBJ+QUDsTCYhxTURwYW8/wlgHJl5OWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CX8X5tsR; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760086494; c=relaxed/simple;
+	bh=CrUs1NP4YOYCk+5ZUTVFQ0pTGgFQRWJmsI0YBc7lBkc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gh+c/7yrpU7hmycU8DLjAW3AxwrNPfsYSevoaMDC5QCcIoF2K5UB5ZtYqLCf/LPrZ+k742sGADXKwVu0sBBbfjeVsJs25qlaW36bWx/1haIya/7aUpKTrDe3a3cv7hg9tjWysa2Zb0mGluL/inJaNM+FvP3Q8724kK2w+UOH6ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=e8J6sVgC; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CX8X5tsR"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1F2854E40FC6;
-	Fri, 10 Oct 2025 07:16:46 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E0E02606F8;
-	Fri, 10 Oct 2025 07:16:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7053B102F21B0;
-	Fri, 10 Oct 2025 09:16:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760080605; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=WQlReE8Q0IxFY4sktGQladeatAtJ3rufHhzKoNip3bw=;
-	b=CX8X5tsRgvBC8Jq4JF4k17nUSnIJPRVRlj8I+K1dYjI+QcbYPPRrDJGlauNmKcf/cn2Bgb
-	a1ukcLDg5jR6S/CWI7PTEJhjUPw8/R8gpIE/tdXI2OxFuDWohfX5HFmlOCfaOoeL6D2Rke
-	Ce68I97VtNkeZkrqKk2MGeo1NN8V4dr+gBO5PlWxeM+GeYxL29rzaSRVPCjx+WbNeE3DIE
-	ex9s1YP8LjTo2SPCecS38CnNBpxcp1CmOzYyzsqdSIqe2xSJeUQxueN6IKC1e//9ou3h97
-	fdefki4Kg+QEDOnkIYBhM4pDOEO0Sb6vUgYbUgTW4vPPpPMFqKRy/TfEJfRTkw==
-Date: Fri, 10 Oct 2025 09:16:37 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: Fix gain setting ranges for Renesas
- IDT821034 codec
-Message-ID: <20251010091637.75da0a86@bootlin.com>
-In-Reply-To: <2bd547194f3398e6182f770d7d6be711c702b4b2.1760029099.git.christophe.leroy@csgroup.eu>
-References: <2bd547194f3398e6182f770d7d6be711c702b4b2.1760029099.git.christophe.leroy@csgroup.eu>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="e8J6sVgC"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59A8sT6b281036;
+	Fri, 10 Oct 2025 03:54:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1760086469;
+	bh=wB/HYQ7QEESMaiQ3QgfZZclLbgOnx9lxI1pXcjrBU/U=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=e8J6sVgCSyi9PXJh6D5JBvXo3iGg2LXwzwRyfQGppqmhiGUQRaUo73905FyowYWeY
+	 IWLBGOmftT024SCEGSdWCAipv6rZtSm7SArS3XaE8b2kTTAUtIKzF9fsK3PtbCsm/s
+	 B+6tOw0ZxSmxfTU8JhgJSbSkqNtDK7999YVYvQko=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59A8sT9r938420
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 10 Oct 2025 03:54:29 -0500
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 10
+ Oct 2025 03:54:28 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 10 Oct 2025 03:54:28 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59A8sC6F1398374;
+	Fri, 10 Oct 2025 03:54:21 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>, <tiwai@suse.de>
+CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
+        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
+        <chinkaiting@google.com>
+Subject: [PATCH v7 2/2] ASoC: dt-bindings: ti,tas2781: Add TAS5802, TAS5815, and TAS5828
+Date: Fri, 10 Oct 2025 16:53:49 +0800
+Message-ID: <20251010085349.52951-2-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20251010085349.52951-1-baojun.xu@ti.com>
+References: <20251010085349.52951-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Christophe,
+TAS5802, TAS5815, and TAS5828 are in same family with TAS5825, TAS5827,
+TAS5802 and TAS5815 share same address setting, and TAS5828
+share same address setting with TAS5827.
 
-On Thu,  9 Oct 2025 19:03:13 +0200
-Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-> The gain ranges specified in Renesas IDT821034 codec documentation
-> are [-3dB;+13dB] in the transmit path (ADC) and [-13dB;+3dB] in the
-> receive path (DAC). Allthough the registers allow programming values
-> outside those ranges, the signal S/N and distorsion are only
-> guaranteed in the specified ranges.
-> 
-> Set ranges to the specified ones.
-> 
-> Fixes: e51166990e81 ("ASoC: codecs: Add support for the Renesas IDT821034 codec")
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
+---
+v7:
+ - Updated the patch subject
+v6:
+ - Change the patch title and the description in more detail
+v5:
+ - Change the patch title and the description
+v4:
+ - Change the patch title
+ - Add TAS5802 support in yaml file
+ - Change description for missed TAS5815
+ - Change format to keep all lines within 80 bytes in length
+v3:
+ - Rewrite the patch title
+ - Add TAS5815 support in yaml file
+v2:
+ - Update description for TAS5828
+ - Change commit tree to .../tiwai/sound.git
+---
+ .../devicetree/bindings/sound/ti,tas2781.yaml | 43 ++++++++++++++++---
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-Acked-by: Herve Codina <herve.codina@bootlin.com>
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index bd00afa47d62..7f84f506013c 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -24,10 +24,10 @@ description: |
+   Instruments Smart Amp speaker protection algorithm. The
+   integrated speaker voltage and current sense provides for real time
+   monitoring of loudspeaker behavior.
+-  The TAS5825/TAS5827 is a stereo, digital input Class-D audio
+-  amplifier optimized for efficiently driving high peak power into
+-  small loudspeakers. An integrated on-chip DSP supports Texas
+-  Instruments Smart Amp speaker protection algorithm.
++  The TAS5802/TAS5815/TAS5825/TAS5827/TAS5828 is a stereo, digital input
++  Class-D audio amplifier optimized for efficiently driving high peak
++  power into small loudspeakers. An integrated on-chip DSP supports
++  Texas Instruments Smart Amp speaker protection algorithm.
+ 
+   Specifications about the audio amplifier can be found at:
+     https://www.ti.com/lit/gpn/tas2120
+@@ -35,8 +35,10 @@ description: |
+     https://www.ti.com/lit/gpn/tas2563
+     https://www.ti.com/lit/gpn/tas2572
+     https://www.ti.com/lit/gpn/tas2781
++    https://www.ti.com/lit/gpn/tas5815
+     https://www.ti.com/lit/gpn/tas5825m
+     https://www.ti.com/lit/gpn/tas5827
++    https://www.ti.com/lit/gpn/tas5828m
+ 
+ properties:
+   compatible:
+@@ -65,11 +67,21 @@ properties:
+       Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+       multichannel TDM.
+ 
++      ti,tas5802: 22-W, Inductor-Less, Digital Input, Closed-Loop Class-D
++      Audio Amplifier with 96-Khz Extended Processing and Low Idle Power
++      Dissipation.
++
++      ti,tas5815: 30-W, Digital Input, Stereo, Closed-loop Class-D Audio
++      Amplifier with 96 kHz Enhanced Processing
++
+       ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
+       to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+ 
+-      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop Class-D
+-      Amplifier with Class-H Algorithm
++      ti,tas5827: 47-W Stereo, Digital Input, High Efficiency Closed-Loop
++      Class-D Amplifier with Class-H Algorithm
++
++      ti,tas5828: 50-W Stereo, Digital Input, High Efficiency Closed-Loop
++      Class-D Amplifier with Hybrid-Pro Algorithm
+     oneOf:
+       - items:
+           - enum:
+@@ -80,8 +92,11 @@ properties:
+               - ti,tas2563
+               - ti,tas2570
+               - ti,tas2572
++              - ti,tas5802
++              - ti,tas5815
+               - ti,tas5825
+               - ti,tas5827
++              - ti,tas5828
+           - const: ti,tas2781
+       - enum:
+           - ti,tas2781
+@@ -177,12 +192,28 @@ allOf:
+             minimum: 0x38
+             maximum: 0x3f
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5802
++              - ti,tas5815
++    then:
++      properties:
++        reg:
++          maxItems: 4
++          items:
++            minimum: 0x54
++            maximum: 0x57
++
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - ti,tas5827
++              - ti,tas5828
+     then:
+       properties:
+         reg:
+-- 
+2.25.1
 
-Thanks for the modification.
-
-Best regards,
-Hervé
