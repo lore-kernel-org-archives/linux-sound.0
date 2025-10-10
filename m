@@ -1,187 +1,141 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3780260578;
-	Fri, 10 Oct 2025 08:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F462EF664
+	for <linux-sound@vger.kernel.org>; Fri, 10 Oct 2025 12:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760086495; cv=none; b=CkmZBGKoToYTI2Xxe6b0h7cl36jZMyAWwoGt9rQdWyphvfaCeuUVnRXUMgLqhqYDXxk88HgA0Mswae9rSbw5TpxQb9Y5aebQnQ9CtmlS6OD6+RPw8ZBhVbDYwzZynQc34v4YPU7IwnqLLEcTUyx1xvbFiasV1jB91HKOpzfO75c=
+	t=1760099383; cv=none; b=IqMp1wP7o9Rs1FCIHtQlTbZ9qG+ZWDMxmlp7Sr3dgmmFHZtYammZtcKzAqEStwXvOrN2CFlgquQypTUn1SrIWaC6QXgLBkhW6p1ZFwS0P8F/tk1mPb6bYLjo1Esm2ruG4c/y25HM3F0zSwaRUfY4Tu1uhM50jXC7hvyljPCSZ8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760086495; c=relaxed/simple;
-	bh=20Z/HKkOgTerfFzSBrbsomfCrQilS0qX3eyTpmFv8QE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Yynj1oWeLoXHV2jAinMiY51YO0BkQ33Ezr0+Sfp6LMrPTS7hwvKYbW4WMzOqvEjzUeXcj/943NodJsNeacIFY+IOzgZYgJpCRBJiEu+FjXTWHYaVhMThH0Vgw6S0+M7OXz+bypQT6JSaiQa+yKrHB38nXcCiGqyXjFgSPMOdxeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vAkW2HlK; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1760099383; c=relaxed/simple;
+	bh=m1wtM/Q36F3ke3zT/mN2EGUWRd5HFQIpRI6HpOMa2zE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=rwjGuR5E/BcudpXDDZJwwHP3UzPYTuoyYissec4HMG+fU9I0Xh002IC0FbJLDZ8GVRecff9fxdWOCQBofprqXpM99BuKWcV11Pxtme5AiW8J2tM93srqJa/I1F53qP0fqeRAkpxe0ZbjMXUE++f4134P4ibKEY7LGeqUuxfPxck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DRZMrdRV; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vAkW2HlK"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59A8sLMl653433;
-	Fri, 10 Oct 2025 03:54:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1760086461;
-	bh=ipz9SMHWHcUkV2IK6npzAHw0z9WClkLj0ovwJ1TnIn4=;
-	h=From:To:CC:Subject:Date;
-	b=vAkW2HlKwjqMnZ0gfD5RzTz1VIHZ8+TSgfDa8deO2bx47IsMOI/+ydaTa99wqauwT
-	 BFODb9FPenQcZ8MccFwIdFKLvNzhbUSBPXa+yafM7Ozb6h6cCVXwMmJVdF2UmEC9Fv
-	 CfIA/mpGSKq+dwCrDjtlkG7uNzN5nT6FTjmWkwww=
-Received: from DFLE206.ent.ti.com (dfle206.ent.ti.com [10.64.6.64])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59A8sLM71560398
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 Oct 2025 03:54:21 -0500
-Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE206.ent.ti.com
- (10.64.6.64) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 10 Oct
- 2025 03:54:20 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 10 Oct 2025 03:54:20 -0500
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59A8sC6E1398374;
-	Fri, 10 Oct 2025 03:54:13 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>, <tiwai@suse.de>
-CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
-        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
-        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
-        <will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
-        <chinkaiting@google.com>
-Subject: [PATCH v7 1/2] ASoC: tas2781: Add TAS5802, TAS5815, and TAS5828
-Date: Fri, 10 Oct 2025 16:53:48 +0800
-Message-ID: <20251010085349.52951-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DRZMrdRV"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e2826d5c6so13188835e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 10 Oct 2025 05:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760099379; x=1760704179; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vYMGQwZbrkqXXfmRn4FZdpSz5oqSucZM1pi40huO1ec=;
+        b=DRZMrdRV+Z7AOt2j3NT/pgUP4UzEXdxIMgHs7HJiAigBN8Yr//Fyi5ghKZLVI0KMr3
+         vhCnf9VSuH+vryIkrv2rC77HULFvgki0QuED2mD4cExxEc4h6sOCOlofOLHEWg46sCRp
+         TGl5nPoI67IHz+TmR/v4ARQo5MlUbtD+aWLjOHCWE9BfM5aht7ia+Cg9j819ea6TVC1o
+         czF5uB7FK2+9iFgyoVe+MsvdILYnaANCXdbrKZXzaAgXtUAO9QWymKObPF1Mk/xLsMRB
+         wI9JFgvUOf5z3i0PDsOlgmoyFA+o00csP/DY6IYojpg99CeZ0QjSoJtdDu3+vZ5UT+GK
+         Rwrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760099379; x=1760704179;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vYMGQwZbrkqXXfmRn4FZdpSz5oqSucZM1pi40huO1ec=;
+        b=bIURMro/Cw+zEv1JJhAH5PK6wq9gLqpcbWwlDb2qbPtDXsJMOKUCQwEeHRt8tlbD2U
+         qN0hAJi8DE9QI2cfLXgY3mAR0aTbW49XEqf+HR/BVoVRtWjXOCl7g4Hz1z7Hkb2eg7H4
+         PzHodAag5VtjEpd66B5kjZyCRvaL4j0MqqemfaxXTVWarH9urySAGG6zzMz8kYS8hAR7
+         VGTNNnsHWfcm+2xjjuZTbuc91Kk92v+01tmuct5AAOQhMpZYii8pV5r00WdSMFydkjb4
+         OBfx1mCdG3eEHQtcg1OVUs/pVZopm4ziy0ZqKU/cSApf4UOY+9zdWYZkeVsFS+I573RM
+         Vn0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVTUTgJ6AhWbiirNzQ6cEhdDKY7I7OcxL0ulXD11/f5mvdCbNjknFodxLSLnPiDr9j1u25MJL+kiAcmLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOYfVdjacEtTiHSrAfeKlTk7iiKnvjV0wDHKxrfSslnYFrBLQA
+	SPZSJWlMv/gD5MLWRIzM2W4593mZXd8hpdVGjo+/bDpNVtH3sOVPwJe5pYUzWRF1iD8=
+X-Gm-Gg: ASbGnct/3u+v01uj1gHNM84krP+ilN69dneMMan+Ifr47V1gqoI8E/49qDxmP/WAppK
+	0iFx+BBNMB9UnJ22VULsSmvA3yv7eA4/US1MUrdx/kX7MDURIgfgQ46gYdEBvjQCXGsdV5e8LFk
+	kVOeV2XuHFxNGeQjgA4j7TuOKfFG2BvMgIKZ4jDL2/8AbVO17wQBnOcZvhMEbofA+yAhlnF1Npa
+	B7nUV8que/EU7M5Q+COrNj3evZckXjzD1E0uzc/J61VGxaE9+0K6VN+HkMsZqGE2l4s02bvkLPA
+	wTdRvkgKIUK/L7CNCg9TYmP56c86Ndagaht7Sn5F4tc0oyp2Plh7ZIX1Z0quxQLmMixdmkzYo++
+	Y/4M3jfYy715bKXqfKULxqx1wEyQVaaTPOeH428Y1K3TyEfTJ/bZ+IipOg10mvvOrywSHeqQ=
+X-Google-Smtp-Source: AGHT+IGoFKx9FL3rwMgBVIjzsX+nvkrUpEkSRitHHR0xBr1fRpbwIRCWVFTLZ13CTdC6I1m0m5CVFw==
+X-Received: by 2002:a05:600c:34c2:b0:46e:21c8:ad37 with SMTP id 5b1f17b1804b1-46fa9b06d3dmr72900375e9.25.1760099379460;
+        Fri, 10 Oct 2025 05:29:39 -0700 (PDT)
+Received: from localhost (054722ac.skybroadband.com. [5.71.34.172])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab3e3520sm62462795e9.2.2025.10.10.05.29.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 05:29:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 10 Oct 2025 13:29:38 +0100
+Message-Id: <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Linus Walleij" <linus.walleij@linaro.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Srinivas Kandagatla" <srini@kernel.org>
+Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
+ controller
+X-Mailer: aerc 0.20.1
+References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
+ <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
+ <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
+In-Reply-To: <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
 
-TAS5802/TAS5815/TAS5828 has on-chip DSP without current/voltage feedback.
+On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
+> On 10/7/25 4:03 AM, Alexey Klimov wrote:
+>> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
+>> controller device node required for audio subsystem on Qualcomm
+>> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
+>>=20
+>> While at this, also add description of lpi_i2s2 pins (active state)
+>> required for audio playback via HDMI/I2S.
+>>=20
+>> Cc: Srinivas Kandagatla <srini@kernel.org>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>
+> [...]
+>
+>> +			lpi_i2s2_active: lpi-i2s2-active-state {
+>> +				data-pins {
+>> +					pins =3D "gpio12";
+>> +					function =3D "i2s2_data";
+>> +					bias-disable;
+>> +					drive-strength =3D <8>;
+>> +					output-high;
+>
+> I.. doubt output-high is what you want?
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+Why? Or is it because of some in-kernel gpiod?
 
----
-v7:
- - Updated the patch subject
-v6:
- - Updated the patch title
-v5:
- - No update for this patch
-v4:
- - Change the patch title
- - Add for TAS5802 support
-v3:
- - Rewrite the patch title
- - Add for TAS5815 support
-v2:
- - Update description for TAS5828
- - Change commit tree to .../tiwai/sound.git
----
- include/sound/tas2781.h        |  3 +++
- sound/soc/codecs/tas2781-i2c.c | 21 +++++++++++++++++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
+h/arm64/boot/dts/qcom/sm4250.dtsi#n66
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index ddd997ac3216..0fbcdb15c74b 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -120,8 +120,11 @@ enum audio_device {
- 	TAS2570,
- 	TAS2572,
- 	TAS2781,
-+	TAS5802,
-+	TAS5815,
- 	TAS5825,
- 	TAS5827,
-+	TAS5828,
- 	TAS_OTHERS,
- };
- 
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 1539b70881d1..ba880b5de7e8 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -108,8 +108,11 @@ static const struct i2c_device_id tasdevice_id[] = {
- 	{ "tas2570", TAS2570 },
- 	{ "tas2572", TAS2572 },
- 	{ "tas2781", TAS2781 },
-+	{ "tas5802", TAS5802 },
-+	{ "tas5815", TAS5815 },
- 	{ "tas5825", TAS5825 },
- 	{ "tas5827", TAS5827 },
-+	{ "tas5828", TAS5828 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tasdevice_id);
-@@ -124,8 +127,11 @@ static const struct of_device_id tasdevice_of_match[] = {
- 	{ .compatible = "ti,tas2570" },
- 	{ .compatible = "ti,tas2572" },
- 	{ .compatible = "ti,tas2781" },
-+	{ .compatible = "ti,tas5802" },
-+	{ .compatible = "ti,tas5815" },
- 	{ .compatible = "ti,tas5825" },
- 	{ .compatible = "ti,tas5827" },
-+	{ .compatible = "ti,tas5828" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, tasdevice_of_match);
-@@ -1665,8 +1671,10 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 	}
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
- 
--	/* There is no calibration required for TAS5825/TAS5827. */
--	if (tas_priv->chip_id < TAS5825) {
-+	/* There is no calibration required for
-+	 * TAS5802/TAS5815/TAS5825/TAS5827/TAS5828.
-+	 */
-+	if (tas_priv->chip_id < TAS5802) {
- 		ret = tasdevice_create_cali_ctrls(tas_priv);
- 		if (ret) {
- 			dev_err(tas_priv->dev, "cali controls error\n");
-@@ -1720,8 +1728,11 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 		switch (tas_priv->chip_id) {
- 		case TAS2563:
- 		case TAS2781:
-+		case TAS5802:
-+		case TAS5815:
- 		case TAS5825:
- 		case TAS5827:
-+		case TAS5828:
- 			/* If DSP FW fail, DSP kcontrol won't be created. */
- 			tasdevice_dsp_remove(tas_priv);
- 		}
-@@ -1882,8 +1893,11 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
- 		p = (struct snd_kcontrol_new *)tas2781_snd_controls;
- 		size = ARRAY_SIZE(tas2781_snd_controls);
- 		break;
-+	case TAS5802:
-+	case TAS5815:
- 	case TAS5825:
- 	case TAS5827:
-+	case TAS5828:
- 		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
- 		size = ARRAY_SIZE(tas5825_snd_controls);
- 		break;
-@@ -2054,8 +2068,11 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
- 	{ "TXNW2570", TAS2570 },
- 	{ "TXNW2572", TAS2572 },
- 	{ "TXNW2781", TAS2781 },
-+	{ "TXNW5802", TAS5802 },
-+	{ "TXNW5815", TAS5815 },
- 	{ "TXNW5825", TAS5825 },
- 	{ "TXNW5827", TAS5827 },
-+	{ "TXNW5828", TAS5828 },
- 	{},
- };
- 
--- 
-2.25.1
+>> +				};
+>> +
+>> +				sck-pins {
+>> +					pins =3D "gpio10";
+>> +					function =3D "i2s2_clk";
+>> +					bias-disable;
+>> +					drive-strength =3D <8>;
+>> +					output-high;
+>> +				};
+>> +
+>> +				ws-pins {
+>> +					pins =3D "gpio11";
+>
+> Please re-sort pin entries by the gpio index
+>
+> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html#order-o=
+f-nodes
+
+Ok.
+
+Thanks,
+Alexey.
 
