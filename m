@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8098F212549;
-	Thu,  9 Oct 2025 20:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4174414;
+	Fri, 10 Oct 2025 00:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760041168; cv=none; b=HKLlKDdD6umF738RenJZ8tAeBUjTNiiOd99YC4SgGwfOJWDEFdCKAWE6D9ZicJFyiK8r0u50nw3q9fHZABUr7fltCRjumldaHOz3aOYVAN2LJdEQeu8anWJvWAgVJGDhBYSTFbLNCrPImqUAUex8gHB8ujPzp9M6CuZjQOMTJOc=
+	t=1760055888; cv=none; b=bsLpo9u+RiiBsxQnIT2c6YA0T/11TrYWPCS6lhU+7KeYCjvfR4+xr+UeU3Zo+CaSjIgjgWs+1JmIuNEqYgJSNmnflAoNJGZgiWl8P9LUyPv29JwwJh+DhSp6CtbI14Nw4mX20r+WW0FzEMHNEREvMQRSm5gfesvdENk//CMA4Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760041168; c=relaxed/simple;
-	bh=FtmEL4tlPFiNdEIWPJyHFeHJfy9dRLCseRsfZkLpp4I=;
+	s=arc-20240116; t=1760055888; c=relaxed/simple;
+	bh=5q7Yu7NgjctPfodWiVDtkAPJc1cExxHii4l+YRrQ7RU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dd5/MmYKxzaEDXpRDz8JIQiwHkkS8coK+M0D2wI9mrRGrXdUx2af6jeqrXXeNXU0nn6M3yTfWj2KvPuao2vczPUBrBxH/EeBlwZwdPuMRhNrnQ0779a3hwF6uofTgD8emtreIFbiNCeg/aHJADGjlB7xdTtra1zY57cutWDeXJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j6/NDhBY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=pB9v8xHwfb5+aJ89hjtzzEsjA30ttUYNuPOTsLuvKi0BEQBrAVY2x2MNcuSBRTZPBOxxQpnfcoQeU/AeubdmEeOilLD5eOqbv9fj5ol+rfHCi4a4ko203B8oA/Ln4DJ6T7L1TKCmj4xkz5HjhV/0lADjosCwPlqiUPxHaxCNub4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nE8sH/4l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6/NDhBY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791C7C4CEE7;
-	Thu,  9 Oct 2025 20:19:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nE8sH/4l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80460C4CEE7;
+	Fri, 10 Oct 2025 00:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760041168;
-	bh=FtmEL4tlPFiNdEIWPJyHFeHJfy9dRLCseRsfZkLpp4I=;
+	s=k20201202; t=1760055887;
+	bh=5q7Yu7NgjctPfodWiVDtkAPJc1cExxHii4l+YRrQ7RU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j6/NDhBYBz60hDgsatXvJ7/05eKJIi1420V0+/CJBdzz+HbRKTHLkz1YP4YrOEm/m
-	 gQ2UYG1RgAvmT1EjnHq1gWqkhVCJ2gO59f4K3PrMYKMaag054wx/L6V+s8AKgZkoIH
-	 w3KVy2E+M7qJUWU2qcBBISefipO1cG9AQcdYUK2OmlJ7ujHpswYwwfivAp7Y42WmS4
-	 3aYkDzxz1HudfqwQd/P95nmJncubN3doxSzu48IQqp+ubraynnW/bHVsp3xEyBCnKS
-	 JCE/zC5+T6qLwnSE0BtaCXUOPIqIaIFnzUMprfaNY8M+mvHIqJnki6UbMXFT8zUbWP
-	 Dx8QtxG49GB0A==
-Message-ID: <d6f50d7d-9859-4dd6-a193-8c57aec11f1b@kernel.org>
-Date: Thu, 9 Oct 2025 21:19:21 +0100
+	b=nE8sH/4lIf7FRnGFFjuPTpSobeQ2SmcpwLFf52h5EOVrUisOiRoFyNAkjFZXIEWf1
+	 C0sjQvykMxadHpoVmXa4aiWbY2kH2Q4aFBJtlYvO6EHH3iT8XOyCx4K54fs75JanEQ
+	 WWMGQEqy4r9GiKjyJLUcZUoYDEfDNmVsDIMGNGf+5ZX+k9lNfEagQKVebGihWLX4OS
+	 25mXK2sKxAMpPoME4Oqba5vHGKKIVzIGw/K5PI4UvHohHapVZMxjQ+fLqrD/K2iT/q
+	 ciss5gNvb/EI0YZLTlcbdOFo9v9UgZJSP8GLvKREyke2CRW/04VcLNr3iyOrSUa78V
+	 QUs4ITLwIsZOA==
+Message-ID: <28de0f76-24eb-4033-a1fb-20415cfb8d82@kernel.org>
+Date: Fri, 10 Oct 2025 02:24:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,161 +35,87 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 2/6] ASoC: dt-bindings: qcom,sm8250: Add clocks
- properties for I2S
-To: Neil Armstrong <neil.armstrong@linaro.org>,
+Subject: Re: [PATCH v2 5/5] ASoC: dt-bindings: qcom: Add Kaanapali LPASS macro
+ codecs
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
  Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20251008-topic-sm8x50-next-hdk-i2s-v2-0-6b7d38d4ad5e@linaro.org>
- <20251008-topic-sm8x50-next-hdk-i2s-v2-2-6b7d38d4ad5e@linaro.org>
- <44606de8-3446-472f-aa6b-25ff8b76e0ec@kernel.org>
- <3620feb6-12bf-48c1-b47a-ccb486e5b5de@linaro.org>
- <c0b71974-65df-47ad-902b-45c2dbe66be0@kernel.org>
- <f27cad88-b1fd-41a3-bdb1-b07de3dea8a2@linaro.org>
- <b614913e-7ebf-4abe-9eb5-f41b81d91ad3@kernel.org>
- <4c5dc916-ea7a-4d73-b509-49f82ff36666@linaro.org>
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, jingyi.wang@oss.qualcomm.com,
+ konrad.dybcio@oss.qualcomm.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20251009143644.3296208-1-prasad.kumpatla@oss.qualcomm.com>
+ <20251009143644.3296208-6-prasad.kumpatla@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <4c5dc916-ea7a-4d73-b509-49f82ff36666@linaro.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251009143644.3296208-6-prasad.kumpatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 10/9/25 4:30 PM, Neil Armstrong wrote:
-> On 10/9/25 16:29, Srinivas Kandagatla wrote:
->>
->>
->> On 10/9/25 3:25 PM, Neil Armstrong wrote:
->>> On 10/9/25 16:06, Srinivas Kandagatla wrote:
->>>>
->>>>
->>>> On 10/9/25 3:03 PM, Neil Armstrong wrote:
->>>>> On 10/9/25 15:36, Srinivas Kandagatla wrote:
->>>>>>
->>>>>>
->>>>>> On 10/8/25 7:56 PM, Neil Armstrong wrote:
->>>>>>> In order to describe the block and master clock of each I2S bus, add
->>>>>>> the first 5 I2S busses clock entries.
->>>>>>>
->>>>>>> The names (primary, secondary, tertiarty, quaternary, quinary,
->>>>>>> senary)
->>>>>>> uses the LPASS clock naming which were used for a long time on
->>>>>>> Qualcomm
->>>>>>> LPASS firmware interfaces.
->>>>>>>
->>>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>>> ---
->>>>>>>     .../devicetree/bindings/sound/qcom,sm8250.yaml      | 21 ++++
->>>>>>> ++++++
->>>>>>> +++++++++++
->>>>>>>     1 file changed, 21 insertions(+)
->>>>>>>
->>>>>>> diff --git a/Documentation/devicetree/bindings/sound/
->>>>>>> qcom,sm8250.yaml
->>>>>>> b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>>>> index
->>>>>>> 8ac91625dce5ccba5c5f31748c36296b12fac1a6..d1420d138b7ed8152aa53769c4d495e1674275e6 100644
->>>>>>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>>>> @@ -64,6 +64,27 @@ properties:
->>>>>>>         $ref: /schemas/types.yaml#/definitions/string
->>>>>>>         description: User visible long sound card name
->>>>>>>     +  clocks:
->>>>>>> +    minItems: 2
->>>>>>> +    maxItems: 12
->>>>>>> +
->>>>>>> +  clock-names:
->>>>>>> +    minItems: 2
->>>>>>> +    items:
->>>>>>> +      # mclk is the I2S Master Clock, mi2s the I2S Bit Clock
->>>>>>> +      - const: primary-mi2s
->>>>>>> +      - const: primary-mclk
->>>>>>> +      - const: secondary-mi2s
->>>>>>> +      - const: secondary-mclk
->>>>>>> +      - const: tertiary-mi2s
->>>>>>> +      - const: tertiary-mclk
->>>>>>> +      - const: quaternary-mi2s
->>>>>>> +      - const: quaternary-mclk
->>>>>>> +      - const: quinary-mi2s
->>>>>>> +      - const: quinary-mclk
->>>>>>> +      - const: senary-mi2s
->>>>>>> +      - const: senary-mclk
->>>>>>> +
->>>>>>
->>>>>> I don't this is correct way to handling bitclk and mclks for I2S,
->>>>>> these
->>>>>> are normally handled as part of snd_soc_dai_set_sysclk()
->>>>>> transparently
->>>>>> without need of any device tree description.
->>>>>>
->>>>>> Also doing this way is an issue as this is going to break existing
->>>>>> Elite
->>>>>> based platforms, and the device description should not change across
->>>>>> these both audio firmwares.
->>>>>
->>>>> This is only for AudioReach platforms, on those platforms the
->>>>> clocks are registered in DT and are not accessible by the card.
->>>>>
->>>> Clocks will be acessable via snd_soc_dai_set_sysclk ->
->>>> q6prm_set_lpass_clock once set_sysclk support is added to q6apm-lpass
->>>> i2s dai ops.
->>>>
->>>>
->>>>> Device description is obviously different for the AudioReach
->>>>> platforms.
->>>>
->>>> Why should it be different, its same device.
->>>> We have platforms that use both Elite and Audioreach.
->>>
->>> I'm perfectly aware of that, it's the case for sc7280/qcm6490. And I
->>> agree
->>> the card bindings is the same, but it doesn't mean the DSP elements
->>> are the
-
-> }
+On 09/10/2025 23:36, Prasad Kumpatla wrote:
+> Add bindings for Qualcomm Kaanapali (LPASS) RX, TX, VA and WSA
+> macro codecs, which is likely compatible with earlier SM8550.
 > 
-> I have no time right now to implement all that for q6apm & q6prm in the
-> way you propose, so I'll probably not send a new version.
+> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
 
-Or Update the codec driver to handle the mclk, instead of putting this
-in machine driver.
-BIT clks are normally automatically setup by DSP based on interface
-index, type and pcm params.
 
---srini
+Now it is incorrect SoB chain.
 
-> 
-> Neil
-> 
->>
->> --srini
->>>
->>> Neil
->>>
->>>>
->>>> --srini
->>>>>
->>>>> Neil
->>>>>
->>>>>>
->>>>>> thanks,
->>>>>> Srini
->>>>>>
->>>>>>>     patternProperties:
->>>>>>>       ".*-dai-link$":
->>>>>>>         description:
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
+Please start using b4 - v1 was sent with b4, so I do not understand why
+now changing this.
 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
