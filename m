@@ -1,85 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798711DFD8F;
-	Fri, 10 Oct 2025 18:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1030124634F
+	for <linux-sound@vger.kernel.org>; Fri, 10 Oct 2025 23:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760122618; cv=none; b=qH32J0EuWT91M/+nTUIAkkByuezaA8hbkJYJYHtCRcvgBMtoDP4k46BvKvbGVL6wcCug33TtJNlV2PgLVpAdP7IgXNtMQD/8zYGF3GuTQ6up6z71LOk9bxfRw8YebThJQwwv/uvxn8+2lQAitV8EHt4SC3kVrVRtfNn+ZQN/eY0=
+	t=1760139055; cv=none; b=J33VR2IzXyELeW060GZCoZUMcjMw/tMkvr7lx3sbubw9XIfCi9SFyqdhhEC3HJ7kmAK57/TtGc4F7qVEEeUgXzMx2veH220E8bnIlH/gnrheFfccqxiEL0wlkix9RTkIoDNunFhrY9PAwtupfY99js1e1iU96pB6LhVTvEbGo24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760122618; c=relaxed/simple;
-	bh=cdBUSD3I+k/RO6LWHsL0MFySxp8ZU7S3XnCWu70QZ+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjGpEAWSpmkw16wNzivVf6RdPjnidPPB+9v/q2Q3rq+Ylfv7xUo/h0V5Em83uubGb1DGk24YqR6GcdGhHfVHPEcXlW1RI9RujIEeJ0RcicklhStt/4NI764Y/eeGHKMuKYzTRT8P9Nui+kvTHFQ++ADy2DBk4jyxbHbaVCrdhOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDSbhlIG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760139055; c=relaxed/simple;
+	bh=FgkeBqOsjbeRgHk3I+MLzFTg/+x8XLDfjGktRioUugs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bfj7JKAWUp93n9dbZAK1Jy5Oa2w6+n9C8zD2+HVXy4oZca8ZfAfTu0B4W64avGz89EvgxlatBvnmXOhuy0rm83biOps2+bs2NMq6GbJewSGZIxRfsqDG4D67nvH4BUEJS07iP7v4nIKwlwWrBiTMmYHsG7cacSKQXkCki9/e320=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A9A9V2g9; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDSbhlIG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15E8C4CEF1;
-	Fri, 10 Oct 2025 18:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760122618;
-	bh=cdBUSD3I+k/RO6LWHsL0MFySxp8ZU7S3XnCWu70QZ+4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EDSbhlIGRbJqZPIRs2W2ss1kLLlsIjei8ZXMtw6XojXU3iSDcxEwyIbG57HSHq6vW
-	 Et0HW/Z6PWxZfvNdWKiPkUaEpDgIUcLSdppjfXCsVOeIirumef7l4mTXalIDl30CLe
-	 lFImCZdFQv5X6gvq07emAcWWoXHuFSGdmJAakusLvgBHcs8iji2Dirvb1YUx8uOiPQ
-	 oKyIDvjk4KDuXp7XoKkukmAI1HJ2CZYj+gcPvBYjV+P4o9JbuAZEeENDYlouumkVFI
-	 tPvHdCrjHMRKfMRMfrX8DZdnztFyYc8BnB5eJcnOyYdvluys8ctYIDnagPV9NSXl8w
-	 g6Op+VVcM/UWQ==
-Date: Fri, 10 Oct 2025 13:56:56 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: devicetree@vger.kernel.org, robinchen@ti.com, will-wang@ti.com,
-	lgirdwood@gmail.com, chinkaiting@google.com, broonie@kernel.org,
-	jim.shil@goertek.com, henry.lo@ti.com, tiwai@suse.de,
-	13916275206@139.com, linux-kernel@vger.kernel.org, jesse-ji@ti.com,
-	conor+dt@kernel.org, shenghao-ding@ti.com,
-	linux-sound@vger.kernel.org, krzk+dt@kernel.org,
-	andriy.shevchenko@linux.intel.com, k-yi@ti.com,
-	toastcheng@google.com
-Subject: Re: [PATCH v6 2/2] ASoC: dt-bindings: ti,tas2781: Add support for
- TAS5802, TAS5815, and TAS5828
-Message-ID: <176012261542.715803.6759759704259980882.robh@kernel.org>
-References: <20251010022951.51581-1-baojun.xu@ti.com>
- <20251010022951.51581-2-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A9A9V2g9"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3f99ac9acc4so2114833f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 10 Oct 2025 16:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760139052; x=1760743852; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NYr/plm01c7dWtVorM1VEqtdk+b+bodf4xAATXQCqD4=;
+        b=A9A9V2g9QWjo8TgHzeJGzFSBX9bqO9qN2PqX6bCzoadpz1o2c2ZpIwW930yLLJHULD
+         6cJdtoVc+99EHpTo6BpmeMhXYECCxKYqRVh9Fqw4xN4VRZwYRl835qe9Btij33khJfFf
+         mC5byDxrKqnrxvpu9irJaMuyT2ZRnt9kbQu5nbNSQCpdbtm8Dv8Y8bbe25oP+cUGVb3S
+         fB0PCcVMcqYGIjJ9r6d4QSjxBD/ZHeV6UOu2Qdt1hTEdnFgio7tLfmS/1asxzCY7Hrgu
+         rnnJ6mRNk+Gpvp/tN1yGd3M0zsYqHfrkyG9VLomuF6jsdeovotuzid+pHYcDhNuBtaks
+         v2cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760139052; x=1760743852;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NYr/plm01c7dWtVorM1VEqtdk+b+bodf4xAATXQCqD4=;
+        b=IeNkGNp+jUfwkJwNbNNyxqbLz8MFSJ4Ce3gLeF7GzOxd8spSXhKqjN3ZsV9bYsndYw
+         RH+2d7GxwyHN/meMlvrbZAgC3CMSnmyxs8ZGFAD5FXp1sMEFluxLqCIPoRpyjW13Q9Ta
+         b3elB8vQUZ0WtU5wwS3ekXQtFhisE28cBjU4jsUtaIvPsPPDba4IqZTfK5mSgh8PDy1I
+         r4+FA9KfzS4Otfto3+kqAsZwAAupVdYC35mPBT4tOdPkmBNr6IQ6utNz6m6Sb6vOqdeU
+         fNpRdNwRhj4QzLrSUIq7PIH4OYfG20Jjv+OmHDDDWUHS4b72O21qU1QIqFCgmlgKeEUY
+         wQ8Q==
+X-Gm-Message-State: AOJu0Yym2e0lqeS8jXzn8/fi5yRDomGTaZ0lS0VvYMdJKaoHucpKh5w+
+	GTOlUKYzRLd8k5F6EC7/Bk42k7FtSYjZ9/VOBYB9jLFsgUzV0mGSCFEfmWaeU+YC
+X-Gm-Gg: ASbGncvPmEzf2J4nsPyQUrvUt3SvBJqE4tkz/RhaVDTCBW4HxqWhh+hFw2ADrU4G3+Q
+	LgAZtkCbrtMODWxRVsrYzZLnjGLB5c3N4flI01KFkaeYLFbSUMH4Knh+aYE+ujEe5B6wKUGUKdy
+	dZUUfdL3iKEBcij8kKN60zOtT8aGJ6uLEheMoqKmPmv6FWXqS8F5UxVyNuY4mwwjGZtXzHPNr3O
+	5J4hGCiiyKTfHHYFMogoubbSG9qcZaS/7lg6tGetvCf4qRliFS8bMQ94YZqNF66D6h6XRLfa0p9
+	YhbkQEwgnURQBSL3bAbg6NSN0emk+jsvdf4G32KPDEBSeAZvBTnyiKVI1rm+p5e/BJEDTIXWi5I
+	NcKFH93NHxF6eWm4T123IZP12XqTdfb+Mk5BexP6B+UZbZ4Hu3AwzG7SohAbMcAuWYIXSAlY=
+X-Google-Smtp-Source: AGHT+IFqPw4sYIB50Io+H/SuLeNfDS9P+mnMvCkA8IUq8QpQMFXeHi54SsLgJvs3nQqSlmFllLSIWA==
+X-Received: by 2002:a05:6000:26c2:b0:3e1:9b75:f0b8 with SMTP id ffacd0b85a97d-4266e8dc01amr8910838f8f.47.1760139051881;
+        Fri, 10 Oct 2025 16:30:51 -0700 (PDT)
+Received: from snakeroot ([109.175.243.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb497af18sm67941985e9.3.2025.10.10.16.30.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 16:30:51 -0700 (PDT)
+From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/intel: Add MSI X870E Tomahawk to denylist
+Date: Sat, 11 Oct 2025 00:28:29 +0100
+Message-ID: <20251010233026.5207-2-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251010022951.51581-2-baojun.xu@ti.com>
+Content-Transfer-Encoding: 8bit
 
+This motherboard uses USB audio instead, causing this driver to complain
+about "no codecs found!".
+Add it to the denylist to silence the warning.
 
-On Fri, 10 Oct 2025 10:29:51 +0800, Baojun Xu wrote:
-> TAS5802, TAS5815, and TAS5828 are in same family with TAS5825, TAS5827,
-> TAS5802 and TAS5815 share same address setting, and TAS5828
-> share same address setting with TAS5827.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> 
-> ---
-> v6:
->  - Change the patch title and the description in more detail
-> v5:
->  - Change the patch title and the description
-> v4:
->  - Change the patch title
->  - Add TAS5802 support in yaml file
->  - Change description for missed TAS5815
->  - Change format to keep all lines within 80 bytes in length
-> v3:
->  - Rewrite the patch title
->  - Add TAS5815 support in yaml file
-> v2:
->  - Update description for TAS5828
->  - Change commit tree to .../tiwai/sound.git
-> ---
->  .../devicetree/bindings/sound/ti,tas2781.yaml | 43 ++++++++++++++++---
->  1 file changed, 37 insertions(+), 6 deletions(-)
-> 
+Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+---
+ sound/hda/controllers/intel.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 48c52a207024..a19258c95886 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -2075,6 +2075,7 @@ static const struct pci_device_id driver_denylist[] = {
+ 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1043, 0x874f) }, /* ASUS ROG Zenith II / Strix */
+ 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb59) }, /* MSI TRX40 Creator */
+ 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb60) }, /* MSI TRX40 */
++	{ PCI_DEVICE_SUB(0x1022, 0x15e3, 0x1462, 0xee59) }, /* MSI X870E Tomahawk WiFi */
+ 	{}
+ };
+ 
+-- 
+2.51.0
 
