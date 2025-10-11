@@ -1,131 +1,111 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BD61D6188
-	for <linux-sound@vger.kernel.org>; Sat, 11 Oct 2025 06:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CE92264BA;
+	Sat, 11 Oct 2025 09:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760164259; cv=none; b=gEyJ3mzvRcKrlWrqwSozF5FOfAwS8PDECwcs73a+YUwpfsRqX+9UpjdFg5QVJmloXXbPi7RipR0wQJKasakmvjoPuAWQ8uvbkWQKPDDjgTGZaCa8KSLrnTpb4rEyxfPnY2B56t+fWMPSJ/+ClllbEDKUZg8JVfcjsTmtWBz/AA0=
+	t=1760176284; cv=none; b=ju33NXQKdLl4HqlfgsrtVc1t5Ywrm6c2u/2LvNcl9l6tPgUH+oLWgzgoJk7QJ2sWmnv2q2bs9NIQRojVBATmYke7das3JaXXMrUmC6AwXwVOtuXUT+GrfwtGX6hgWZRPjh5HY446pcS4uNNLuFwBvk1kV7B/Ba2PcazmqK1Meh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760164259; c=relaxed/simple;
-	bh=nr8Gno41C/RwsIKygs23NjoPH55WyPiyut7Kp+/xflU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E5AcDuYKagi2yke97C6gGYpWg+RqAq213ZTkvyaSk7MoVxOP0AW1ca60PXm0LtzzkEys+2JWUs22nRcO6JAMPbuZ6bSe3+3x45xg8/YVmeMXCEDDRzMWloydd87XvL5cGXU3W4vHNcFpB9uZ28lcelGOdy88JkAeG/7SAPh9E2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1C/hv9i8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X1xGpkx6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1C/hv9i8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X1xGpkx6; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760176284; c=relaxed/simple;
+	bh=c9Dv+k+WMCSOf8X6lgtRzh+GIEDTCEfsKKsqpy5DtgY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LFZ1LpSYMQMj+WlCna053Lc0yREEtvToQY12ALvBJFf/TteoKOKVgnswZlU3QGKt/zB+MILPu4lfPzgwE0m8S6rwUdYTWtGAJJQQ2i2SLP+RIYNLRDKJfIhhIKgxsHHfOhFj/zf6YlD+1h28NCE710BkB9bF8wxsuxKfOmvA+Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HVFFH7t4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1C/hv9i8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X1xGpkx6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1C/hv9i8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X1xGpkx6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 77B9321241;
-	Sat, 11 Oct 2025 06:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760164256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=81GMM0LlaVH90KSmrW/v69Xx/0g3hMVcC8Zl05NII6w=;
-	b=1C/hv9i86//uoAxjcdUeY89duLpbUhESRSPQxyc35QXQDq5Fbu/5GJFwGt+q7WtcxjHPBD
-	9W8WKQ1eU5/oB5uuIcmiu96F9skTDdzvZI2m+jo+D/SFDMMBBqtlINpTZT7H5cergTcpyE
-	iFOEFF6jVO1bkgdHOsM7k5EhuhzR79Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760164256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=81GMM0LlaVH90KSmrW/v69Xx/0g3hMVcC8Zl05NII6w=;
-	b=X1xGpkx6N8ktxle623bs1KP/byzmd3FWkxnnR3fqOBvy66Cb1EH+1iNL122ehTktOzekme
-	GwMz2ww/IjMrieDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760164256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=81GMM0LlaVH90KSmrW/v69Xx/0g3hMVcC8Zl05NII6w=;
-	b=1C/hv9i86//uoAxjcdUeY89duLpbUhESRSPQxyc35QXQDq5Fbu/5GJFwGt+q7WtcxjHPBD
-	9W8WKQ1eU5/oB5uuIcmiu96F9skTDdzvZI2m+jo+D/SFDMMBBqtlINpTZT7H5cergTcpyE
-	iFOEFF6jVO1bkgdHOsM7k5EhuhzR79Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760164256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=81GMM0LlaVH90KSmrW/v69Xx/0g3hMVcC8Zl05NII6w=;
-	b=X1xGpkx6N8ktxle623bs1KP/byzmd3FWkxnnR3fqOBvy66Cb1EH+1iNL122ehTktOzekme
-	GwMz2ww/IjMrieDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 467A813693;
-	Sat, 11 Oct 2025 06:30:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id s/LLD6D56WifDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 11 Oct 2025 06:30:56 +0000
-Date: Sat, 11 Oct 2025 08:30:55 +0200
-Message-ID: <87jz129cgw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/intel: Add MSI X870E Tomahawk to denylist
-In-Reply-To: <20251010233026.5207-2-stuart.a.hayhurst@gmail.com>
-References: <20251010233026.5207-2-stuart.a.hayhurst@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HVFFH7t4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7D9C3C4CEF4;
+	Sat, 11 Oct 2025 09:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1760176283; bh=c9Dv+k+WMCSOf8X6lgtRzh+GIEDTCEfsKKsqpy5DtgY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=HVFFH7t4IbeOeYpE7oFhoTrTSTiq+JB44fZO3iNJxrgAwB0rcKL+vpsllW3JEJgPw
+	 ijA87JB9sMAM3SpGOTzuPb192g6A7vqnJg37V3/oNXnIr0zBziMIJEF4wVyRGzZdJ5
+	 yctVVcMVQZCvNb9GDeKqb8XmVQJsyEIa11aKmJeg=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 738DFCCA476;
+	Sat, 11 Oct 2025 09:51:23 +0000 (UTC)
+From: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+Date: Sat, 11 Oct 2025 17:51:18 +0800
+Subject: [PATCH] ALSA: usb-audio: apply quirk for Huawei Technologies Co.,
+ Ltd. CM-Q3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251011-sound_quirk-v1-1-d693738108ee@linux.dev>
+X-B4-Tracking: v=1; b=H4sIAJUo6mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDA0ND3eL80ryU+MLSzKJsXbNEC2MjM2MjUxNTQyWgjoKi1LTMCrBp0bG
+ 1tQD01tW+XQAAAA==
+X-Change-ID: 20251011-sound_quirk-6a8326325451
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, zhanjun@uniontech.com, niecheng1@uniontech.com, 
+ anguoli@uniontech.com, zhaochengyi@uniontech.com, fengyuan@uniontech.com, 
+ Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760176282; l=1832;
+ i=cryolitia.pukngae@linux.dev; s=20250730; h=from:subject:message-id;
+ bh=c9Dv+k+WMCSOf8X6lgtRzh+GIEDTCEfsKKsqpy5DtgY=;
+ b=wbp7xEW18wbmtw1ngB9hiPnogk1zwwypB0R5ze/0nCz7RPFSzg38kofd2SAaZfo+CLgutOA/t
+ +SKFP291munD1kixPWbiEcz6xwMIQ5abOt9OQ3Pq9q3D4bahtbTm5MD
+X-Developer-Key: i=cryolitia.pukngae@linux.dev; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia.pukngae@linux.dev/20250730
+ with auth_id=540
 
-On Sat, 11 Oct 2025 01:28:29 +0200,
-Stuart Hayhurst wrote:
-> 
-> This motherboard uses USB audio instead, causing this driver to complain
-> about "no codecs found!".
-> Add it to the denylist to silence the warning.
-> 
-> Signed-off-by: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+There're several different actual hardwares sold by Huawei, using the
+same USB ID 12d1:3a07.
 
-Applied now.  Thanks.
+The first one we found, having a volume control named "Headset Playback
+Volume", reports a min value -15360, and will mute iff setting it to
+-15360. It can be simply fixed by quirk flag MIXER_PLAYBACK_MIN_MUTE,
+which we have already submitted previously.[1]
+
+The second one we found today, having a volume control named "PCM
+Playback Volume", reports its min -11520 and res 256, and will mute
+when less than -11008. Because of the already existing quirk flag, we
+can just set its min to -11264, and the new minimum value will still
+not be available to userspace, so that userspace's minimum will be the
+correct -11008.
+
+1. https://lore.kernel.org/all/20250903-sound-v1-3-d4ca777b8512@uniontech.com/
+
+Tested-by: Guoli An <anguoli@uniontech.com>
+Signed-off-by: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+---
+ sound/usb/mixer.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 34bcbfd8b54e66abc0229eefd354eb7bc4c01576..ae412e651faf905c9f7d600de8e19c51995cd3f9 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1189,6 +1189,13 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
+ 			cval->min = -14208; /* Mute under it */
+ 		}
+ 		break;
++	case USB_ID(0x12d1, 0x3a07): /* Huawei Technologies Co., Ltd. CM-Q3 */
++		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
++			usb_audio_info(chip,
++				       "set volume quirk for Huawei Technologies Co., Ltd. CM-Q3\n");
++			cval->min = -11264; /* Mute under it */
++		}
++		break;
+ 	}
+ }
+ 
+
+---
+base-commit: 7e9827afc78073096149cf3565ba668fe2ef4831
+change-id: 20251011-sound_quirk-6a8326325451
+
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
 
 
-Takashi
