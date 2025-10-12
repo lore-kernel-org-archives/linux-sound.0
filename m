@@ -1,116 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2792206BF;
-	Sun, 12 Oct 2025 11:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CB11624C5
+	for <linux-sound@vger.kernel.org>; Sun, 12 Oct 2025 15:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760267897; cv=none; b=RgvYLfr8ln8WDny9VSn3Z84kKZprSsj/33ZsmjKOX7C8kjeQxPAXrur3gT68WytVTDoeBDqa9/uWiUwb1GhpA9ugBAABIJMImEiNtROfwr0j7dFFRuRpxgThvZw4vkQkCnvjcijZv+Cf8yUnNZrFUYa0YEAIOq+OJJ0UCDQNyjI=
+	t=1760281490; cv=none; b=He09whhesiz5IfVT0hEBwGdpSTOTqlooBEOZuJHCktJ4lshjdRXV6sC18aq54+MfIs37jRT6APAnjmxnZmQbc+6P4pByhtWmhcUjHNnvkAC4Iy6L87aDJ/GYyYp57lc2OYLFKf/cEygXtCLdK7O3Ka766PkFjMSnJ/UcfMM4OwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760267897; c=relaxed/simple;
-	bh=WwjM/NVDwCnN6H65ZRXmemBzec+LMNHK+A15tAIrQBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXOyQLZYBntkNluBUZmsy2i63uMCSSVBRuhoYTdOcj5ufFvD6RY0Dg3Wi3tPVE7IRkHzTa6u5J3XDJyRZfHg3uadDfL4Zi/cZmnKdRvoa2Xs6MLAIPlzbnTV76Kxre7rmIFxopITRkfDM2INx4W4FE/vJeOEiQ0Zx0azC/VlrGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UGty87Tj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UGty87Tj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6218C4CEE7;
-	Sun, 12 Oct 2025 11:18:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760267896;
-	bh=WwjM/NVDwCnN6H65ZRXmemBzec+LMNHK+A15tAIrQBo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UGty87Tj2mJ5MimSuFVtrliAG4l6qg7uY2Dzx2rEuGh55VhH3c9UIVZWTK81cY84v
-	 6W9bJMKLNxyKoqyVgy81EzIZAw0y+D1/UR9P27vf82nAWgCGLxnQNLtMMO1a5v6//y
-	 22bAoopCZiF0eErTEmQ3CZBQHZtoVh3xztOW+8wU=
-Date: Sun, 12 Oct 2025 13:18:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: linux-sound@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-	broonie@kernel.org, cryolitia@uniontech.com,
-	linux-kernel@vger.kernel.org, pierre-louis.bossart@linux.dev,
-	quic_wcheng@quicinc.com, syzkaller@googlegroups.com
-Subject: Re: [Linux Kernel Bug] general protection fault in
- try_to_register_card
-Message-ID: <2025101225-lisp-monkhood-af34@gregkh>
-References: <CANypQFYtQxHL5ghREs-BujZG413RPJGnO5TH=xjFBKpPts33tA@mail.gmail.com>
+	s=arc-20240116; t=1760281490; c=relaxed/simple;
+	bh=OeCCMF9AcXLG29Pk7q6X5M/KcH0ku8Exfiu7RFLfqZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PV7AJ97h45Cg0f+iaFZiLgTHg0NV2s816SSe7BptyhY3co7rNc3UN6YoqpsiOlWwaMQ0THKsuMlpgYGS0SBG3G2wONsm8eRaSCDcu8GBK7AhTi3E35I6FyMNRMwjwhgrjywqSVGGqwVV86V7rm0igKyFbr9XOp+HCuSe+Qu2qGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jre@pengutronix.de>)
+	id 1v7xcb-0007bV-LG; Sun, 12 Oct 2025 17:04:29 +0200
+Message-ID: <adc5287f-416d-4bb9-8ae9-b65a59b0ea93@pengutronix.de>
+Date: Sun, 12 Oct 2025 17:04:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANypQFYtQxHL5ghREs-BujZG413RPJGnO5TH=xjFBKpPts33tA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] arm64: dts: add Protonic PRT8ML board
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, David Jander <david@protonic.nl>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Oleksij Rempel <o.rempel@pengutronix.de>
+References: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
+ <20250924-imx8mp-prt8ml-v3-3-f498d7f71a94@pengutronix.de>
+ <20251012023714.GF20642@nxa18884-linux.ap.freescale.net>
+Content-Language: en-US
+From: Jonas Rebmann <jre@pengutronix.de>
+In-Reply-To: <20251012023714.GF20642@nxa18884-linux.ap.freescale.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: jre@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Sun, Oct 12, 2025 at 07:11:53PM +0800, Jiaming Zhang wrote:
-> Dear Linux kernel developers and maintainers:
+Hi Peng
+
+On 2025-10-12 04:37, Peng Fan wrote:
+> On Wed, Sep 24, 2025 at 10:34:14AM +0200, Jonas Rebmann wrote:
+>> +&a53_opp_table {
+>> +	opp-1200000000 {
+>> +		opp-microvolt = <900000>;
+>> +	};
+>> +
+>> +	opp-1600000000 {
+>> +		opp-microvolt = <980000>;
+>> +	};
+>> +
+>> +	/delete-node/ opp-1800000000;
 > 
-> We are writing to report a general protection fault discovered in the
-> kernel with our modified syzkaller. This bug is reproducible on the
-> latest version (commit 67029a49db6c1f21106a1b5fcdd0ea234a6e0711).
+> Why drop this?
 > 
-> The kernel console output, kernel config, syzkaller reproducer, and C
-> reproducer are attached to this email to help analysis. The KASAN
-> report from kernel (commit 67029a49), formatted by syz-symbolize, is
-> listed below:
+
+The board is designed for the industrial variant of the i.MX 8M Plus and
+therefore only for the 1.2GHz and 1.6GHz modes. There exist however some
+units which which where assembled with the consumer variant. As the
+power supply is not outfitted for their 1.8GHz mode, it must be
+disabled.
+
+I'll add a comment in v4.
+
+>> +};
+>> +
+>> +&ecspi2 {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&pinctrl_ecspi2>;
+>> +	cs-gpios = <&gpio5 13 GPIO_ACTIVE_HIGH>;
 > 
-> ==================================================================
-> e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
-> usb 1-1: new full-speed USB device number 2 using dummy_hcd
-> usb 1-1: not running at top speed; connect to a high speed hub
-> usb 1-1: config 2 has an invalid interface number: 131 but max is 3
-> usb 1-1: config 2 has an invalid interface number: 160 but max is 3
-> usb 1-1: config 2 has an invalid descriptor of length 0, skipping
-> remainder of the config
-> usb 1-1: config 2 has 2 interfaces, different from the descriptor's value: 4
-> usb 1-1: config 2 has no interface number 0
-> usb 1-1: config 2 has no interface number 1
-> usb 1-1: config 2 interface 160 altsetting 9 has an invalid descriptor
-> for endpoint zero, skipping
-> usb 1-1: config 2 interface 160 altsetting 9 has 2 endpoint
-> descriptors, different from the interface descriptor's value: 16
-> usb 1-1: config 2 interface 131 has no altsetting 0
-> usb 1-1: config 2 interface 160 has no altsetting 0
-> usb 1-1: New USB device found, idVendor=0dba, idProduct=5000, bcdDevice=3a.c9
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: syz
-> usb 1-1: Manufacturer: syz
-> usb 1-1: SerialNumber: syz
-> usb 1-1: MBOX3: Initialized.
-> Oops: general protection fault, probably for non-canonical address
-> 0xdffffc000000001c: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x00000000000000e0-0x00000000000000e7]
-> CPU: 1 UID: 0 PID: 793 Comm: kworker/1:2 Not tainted
-> 6.17.0-12904-g67029a49db6c #1 PREEMPT(full)
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> Workqueue: usb_hub_wq hub_event
-> RIP: 0010:usb_interface_claimed include/linux/usb.h:918 [inline]
-> RIP: 0010:try_to_register_card+0x248/0x300 sound/usb/card.c:896
-> Code: de cd 30 f9 49 8b 3f 44 89 f6 e8 43 e5 fa fd 49 89 c6 49 81 c6
-> e0 00 00 00 4c 89 f0 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c
-> 08 00 74 08 4c 89 f7 e8 aa cd 30 f9 49 83 3e 00 74 73 e8 ff
-> RSP: 0018:ffffc9000462eb80 EFLAGS: 00010202
-> RAX: 000000000000001c RBX: ffff888049b02a30 RCX: dffffc0000000000
-> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000000000a0
-> RBP: ffffc9000462ec30 R08: ffffc9000462e9e7 R09: 1ffff920008c5d3c
-> R10: dffffc0000000000 R11: ffffffff88f59950 R12: 00000000000000f8
-> R13: 1ffff11009360559 R14: 00000000000000e0 R15: ffff888049b02a38
-> FS:  0000000000000000(0000) GS:ffff8880ec976000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f86fb0e16f8 CR3: 0000000028a6b000 CR4: 0000000000752ef0
-> PKRU: 55555554
-> Call Trace:
->  <TASK>
->  usb_audio_probe+0x143f/0x1e60 sound/usb/card.c:1039
+>> +	/delete-property/ dmas;
+>> +	/delete-property/ dma-names;
+> 
+> Why remove dmas?
 
+Sadly, in drivers/spi-imx.c we don't have proper heuristics to choose on
+which chips to use dma or to use polling at which speeds and transfer
+sizes. Therefore in cases where there is a high number of small
+transfers, for which dma is inefficient, this way of manually disabling
+dma is the only current way of meeting specific performance
+requirements.
 
-So you are probably creating an invalid usb audio device without a
-proper interface here, right?  Care to make up a simple patch for this
-so that you get the credit for fixing the issue as you can test it
-easily?
+I'll add a comment in v4.
 
-thanks,
+>> +	status = "okay";
+>> +
+>> +
+>> +&iomuxc {
+>> +
+>> +	pinctrl_tps65987ddh_0: tps65987ddh_0grp {
+> 
+> tps65987ddh_0grp - > tps65987ddh-0grp
+> 
+>> +		fsl,pins = <
+>> +			MX8MP_IOMUXC_GPIO1_IO12__GPIO1_IO12	0x1d0
+>> +		>;
+>> +	};
+>> +
+>> +	pinctrl_tps65987ddh_1: tps65987ddh_1grp {
+> 
+> tps65987ddh_1grp -> tps65987ddh-1grp
 
-greg k-h
+Will rename those in 4v.
+
+Regards,
+Jonas
+
+-- 
+Pengutronix e.K.                           | Jonas Rebmann               |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
