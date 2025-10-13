@@ -1,134 +1,57 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CB11624C5
-	for <linux-sound@vger.kernel.org>; Sun, 12 Oct 2025 15:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2693E1A5B9D
+	for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 05:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760281490; cv=none; b=He09whhesiz5IfVT0hEBwGdpSTOTqlooBEOZuJHCktJ4lshjdRXV6sC18aq54+MfIs37jRT6APAnjmxnZmQbc+6P4pByhtWmhcUjHNnvkAC4Iy6L87aDJ/GYyYp57lc2OYLFKf/cEygXtCLdK7O3Ka766PkFjMSnJ/UcfMM4OwE=
+	t=1760334211; cv=none; b=ab9M5Lrq0fvcAiRBZaqDnIXZLeQ7cssk7p6gBYtdyE0MMhf2jicuUSYJjdftpePRm+0PyUINelTFBMMmFcLZCmmPNDw85XxXUpeQy33oduo9pzDCEhAUA1C5yKZANd/nKHL0idMzA0YHVzXjD/Y3VI4y5aQUS5qufKPh8lwNsjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760281490; c=relaxed/simple;
-	bh=OeCCMF9AcXLG29Pk7q6X5M/KcH0ku8Exfiu7RFLfqZU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PV7AJ97h45Cg0f+iaFZiLgTHg0NV2s816SSe7BptyhY3co7rNc3UN6YoqpsiOlWwaMQ0THKsuMlpgYGS0SBG3G2wONsm8eRaSCDcu8GBK7AhTi3E35I6FyMNRMwjwhgrjywqSVGGqwVV86V7rm0igKyFbr9XOp+HCuSe+Qu2qGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <jre@pengutronix.de>)
-	id 1v7xcb-0007bV-LG; Sun, 12 Oct 2025 17:04:29 +0200
-Message-ID: <adc5287f-416d-4bb9-8ae9-b65a59b0ea93@pengutronix.de>
-Date: Sun, 12 Oct 2025 17:04:26 +0200
+	s=arc-20240116; t=1760334211; c=relaxed/simple;
+	bh=TochiNYgpWVkOpKaIAINIAk0t+o+6orjhlKPe2qGV8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCh2YhWTirsXXNeYZJkbsMrp2bSlnKs8C0vJyZ7whTyaW4Vew1XTTyVZpzciuNbPGb530gzMqC6nXcEQGIGVgI0CQXLCpVJV7BIbso44Lfu7KLBy5O0H9M0J3/lWHVpPgQlPZPk6d6Cc9C/UHIcuNtFTtzVeFWeXC495AEJMvD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkDZ660X; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkDZ660X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2ABBC116B1;
+	Mon, 13 Oct 2025 05:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760334210;
+	bh=TochiNYgpWVkOpKaIAINIAk0t+o+6orjhlKPe2qGV8Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pkDZ660XfufDdBmK6ogJi0edCJ4pgXD33sKWu27x1SoMqUS21K/u5o2p32gViSOAB
+	 lw0RAyuJ8za7bibjx/s9UOirO5juyHwxO3U6zOJ2A//LYxuI2PvRlkhdvy5s8ZTitD
+	 YLicWfL3AznxKHiNbiYjJh4kmVTRAPxUHESW09+zEiDGnFcXmkzHJ0vFFVOl0aVO9X
+	 ChdrjsyOilnzNCvzALTzLoehHvLmM3gsHE+JXrbtXGfGZ0/D2FZ5+gyMawfDgo4r+4
+	 V7avztUuFVw2p0xfZ7vw2ZQ8YGeUreAKajAdZN641zyTkX6ECFc6JI2kreAuwf9UKc
+	 YTw7GyDFrGeew==
+Date: Mon, 13 Oct 2025 11:13:26 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+	shumingf@realtek.com, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/4] ASoC: SDCA: Add helper to write initialization writes
+Message-ID: <aOyRfoOGy28h7fld@vaman>
+References: <20250925133306.502514-1-ckeepax@opensource.cirrus.com>
+ <20250925133306.502514-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] arm64: dts: add Protonic PRT8ML board
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, David Jander <david@protonic.nl>,
- Lucas Stach <l.stach@pengutronix.de>,
- Oleksij Rempel <o.rempel@pengutronix.de>
-References: <20250924-imx8mp-prt8ml-v3-0-f498d7f71a94@pengutronix.de>
- <20250924-imx8mp-prt8ml-v3-3-f498d7f71a94@pengutronix.de>
- <20251012023714.GF20642@nxa18884-linux.ap.freescale.net>
-Content-Language: en-US
-From: Jonas Rebmann <jre@pengutronix.de>
-In-Reply-To: <20251012023714.GF20642@nxa18884-linux.ap.freescale.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: jre@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250925133306.502514-2-ckeepax@opensource.cirrus.com>
 
-Hi Peng
+On 25-09-25, 14:33, Charles Keepax wrote:
+> Add a helper function to write out the SDCA blind initialization writes.
 
-On 2025-10-12 04:37, Peng Fan wrote:
-> On Wed, Sep 24, 2025 at 10:34:14AM +0200, Jonas Rebmann wrote:
->> +&a53_opp_table {
->> +	opp-1200000000 {
->> +		opp-microvolt = <900000>;
->> +	};
->> +
->> +	opp-1600000000 {
->> +		opp-microvolt = <980000>;
->> +	};
->> +
->> +	/delete-node/ opp-1800000000;
-> 
-> Why drop this?
-> 
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-The board is designed for the industrial variant of the i.MX 8M Plus and
-therefore only for the 1.2GHz and 1.6GHz modes. There exist however some
-units which which where assembled with the consumer variant. As the
-power supply is not outfitted for their 1.8GHz mode, it must be
-disabled.
-
-I'll add a comment in v4.
-
->> +};
->> +
->> +&ecspi2 {
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&pinctrl_ecspi2>;
->> +	cs-gpios = <&gpio5 13 GPIO_ACTIVE_HIGH>;
-> 
->> +	/delete-property/ dmas;
->> +	/delete-property/ dma-names;
-> 
-> Why remove dmas?
-
-Sadly, in drivers/spi-imx.c we don't have proper heuristics to choose on
-which chips to use dma or to use polling at which speeds and transfer
-sizes. Therefore in cases where there is a high number of small
-transfers, for which dma is inefficient, this way of manually disabling
-dma is the only current way of meeting specific performance
-requirements.
-
-I'll add a comment in v4.
-
->> +	status = "okay";
->> +
->> +
->> +&iomuxc {
->> +
->> +	pinctrl_tps65987ddh_0: tps65987ddh_0grp {
-> 
-> tps65987ddh_0grp - > tps65987ddh-0grp
-> 
->> +		fsl,pins = <
->> +			MX8MP_IOMUXC_GPIO1_IO12__GPIO1_IO12	0x1d0
->> +		>;
->> +	};
->> +
->> +	pinctrl_tps65987ddh_1: tps65987ddh_1grp {
-> 
-> tps65987ddh_1grp -> tps65987ddh-1grp
-
-Will rename those in 4v.
-
-Regards,
-Jonas
 
 -- 
-Pengutronix e.K.                           | Jonas Rebmann               |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+~Vinod
