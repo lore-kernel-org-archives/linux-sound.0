@@ -1,83 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D4313D891;
-	Mon, 13 Oct 2025 11:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F6826CE26;
+	Mon, 13 Oct 2025 12:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760354710; cv=none; b=UlNs4tyzixEAK4s8C1GAiVCJuvHBLjUg/79AbLzlPHZoM7Enn3YvEHvG8JanV52ogCoKGPfcT6JEnB+zKzNBQUWriRr+sUuQSgjkIeExZKwRCzEy8+YXPqsYIWqR13rYRvkGWUDpjCZtm1fvzZnoxMi0I9p0njz/RYec/JuKt2I=
+	t=1760357164; cv=none; b=qRF9ttPpPvjQC77RVzWg6dcOau8uXVtubnTOv85sBL3s2jHsSBy4LQ5w3YtS3ZtU7vvdZwSM7o4LGFhUoEyRfTbsu+HqMjEeFyc0THQAa4/4DaTJTTz9vTGu4rYEGt/QkTukXkatOk6V9weVKPGKLEZS4iLfC6n/QtNq9ZH9324=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760354710; c=relaxed/simple;
-	bh=jzoOGI1CSu6LZhJ6iGLpEOibVfYTPpg4U4whIWU8rQU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=T30DISQSFxGumTRTN6jNnAL7IUzlTTLUA+/dn16z+1ufCMofMVGhhYsvVJ49amUC7Yheswve1pmUh28EA0vBmezrzB8VE92zbVT5MskPrC4foJRBCkN0YBI1VpgN++ZZYEQHuTeGcxDt2H6ZZfTd/3pBdi5j5PZwU0VofdlWZG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPLXLGqH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760357164; c=relaxed/simple;
+	bh=eQCTZ+DwwjDnDCLacfwORLwSG59bihMMYVuM80C2bGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dWJ3zPZhCKLQ2+3WL0fqysTsnK8pV+N9ALEqaejorDPjggQskwjU51aglw/L2wDQF6oClueQdRkhVcmOZ+TUTQ+6/nvBGI1unuiz9FR3TmYHZLEbzNk/fhaG859Im842qtxpwqltY7BcNACnpBLz1zCVZsu1kEfOze2CxJO2iyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHqi/xQu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPLXLGqH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64758C4CEE7;
-	Mon, 13 Oct 2025 11:25:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHqi/xQu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6962C4CEE7;
+	Mon, 13 Oct 2025 12:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760354709;
-	bh=jzoOGI1CSu6LZhJ6iGLpEOibVfYTPpg4U4whIWU8rQU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XPLXLGqHGRWFTDpmqk2tMr/WCdIwMJXdN//5s91pSA/uGh/iGPDyrxdzxTjt9QmK2
-	 YtkRch5cmggUziSmABc8NhrayibpP+cEgSoA8AEs58bOgtI3UfvMtQUfWgVzviTtzx
-	 H2EjzhAfSeFFZ2YHRJuxU7Xd75/OLrUId9SaP3mcEfm4uMGw/DMuSAHg1+detdT9my
-	 QFKcQD3Kuk21LQUHSWfJxkbApRr3zAJAI9S1KHuT51s0rQIXVjHete9RTvqY31cOkk
-	 FS4U2xadb5RdiddSKvlfucMg8Z9BXZKIeLQJJK2ZUVan20UzxYLTU1xoFjrrQmwdWS
-	 Xx4Yk4QsKzU0g==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: robh@kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: krzk+dt@kernel.org, gregkh@linuxfoundation.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251001150003.417472-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251001150003.417472-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH] dt-bindings: slimbus: fix warning from example
-Message-Id: <176035470817.14625.3607322556102415198.b4-ty@kernel.org>
-Date: Mon, 13 Oct 2025 12:25:08 +0100
+	s=k20201202; t=1760357163;
+	bh=eQCTZ+DwwjDnDCLacfwORLwSG59bihMMYVuM80C2bGE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eHqi/xQutfRuvsv8IaAwOdm6h7IN+PcJRmIo5zSLeBghKtzNPbHI2oJqkpU+c139+
+	 c7SFp1N2yH0nzOtchE3ZSBz+yki1CL2oar5WMpC+g9Q5IvJIe03ReLM7dCxlYUVJtN
+	 aTXy8yNf4+CK1Ur2YenEkrFLCDEOAu5YxSeopH1NHmsSFIZGTNGid3WuyB5eW0xZob
+	 v4mREbWlg/ZeJUmRTdiScuIa19OlWQbizwly1dTV3UlXP01QnAiLBGKNGvFe4pPTRm
+	 2TiimEbCwCYRh/9Z35Q+a/rdR6loCJ6UJmSgsyn38tjSULUcMPrtBNKi5J/IcaFBsp
+	 Smi/ODVtShrig==
+Date: Mon, 13 Oct 2025 13:05:58 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jinmei Wei <weijinmei@linux.spacemit.com>
+Subject: Re: [PATCH v4 2/2] ASoC: spacemit: add i2s support for K1 SoC
+Message-ID: <d1d965c4-f0f4-4b09-b5c3-5925d5f7ce1b@sirena.org.uk>
+References: <20250921-k1-i2s-v4-0-4f819f50e468@linux.spacemit.com>
+ <20250921-k1-i2s-v4-2-4f819f50e468@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wweVKEal3BporYO0"
+Content-Disposition: inline
+In-Reply-To: <20250921-k1-i2s-v4-2-4f819f50e468@linux.spacemit.com>
+X-Cookie: Ahead warp factor one, Mr. Sulu.
 
 
-On Wed, 01 Oct 2025 16:00:02 +0100, Srinivas Kandagatla wrote:
-> Fix below warnings generated dt_bindings_check for examples in the
-> bindings.
-> 
-> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> slim@28080000 (qcom,slim-ngd-v1.5.0): 'audio-codec@1,0' does not match
-> any of the regexes: '^pinctrl-[0-9]+$', '^slim@[0-9a-f]+$'
->         from schema $id:
-> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> slim@28080000 (qcom,slim-ngd-v1.5.0): #address-cells: 1 was expected
->         from schema $id:
-> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dmas' is a required property
->         from schema $id:
-> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
-> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dma-names' is a required
-> property
->         from schema $id:
-> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
-> 
-> [...]
+--wweVKEal3BporYO0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Applied, thanks!
+On Sun, Sep 21, 2025 at 04:52:17PM +0800, Troy Mitchell wrote:
 
-[1/1] dt-bindings: slimbus: fix warning from example
-      commit: 4bb909aa44edc254a35bd29b4f63f7c430494b24
+> +	case SND_SOC_DAIFMT_DSP_A:
+> +	case SND_SOC_DAIFMT_DSP_B:
+> +		snd_pcm_hw_constraint_minmax(substream->runtime,
+> +					     SNDRV_PCM_HW_PARAM_CHANNELS,
+> +					     1, 1);
+> +		snd_pcm_hw_constraint_mask64(substream->runtime,
+> +					     SNDRV_PCM_HW_PARAM_FORMAT,
+> +					     SNDRV_PCM_FMTBIT_S32_LE);
+> +		break;
 
-Best regards,
--- 
-Srinivas Kandagatla <srini@kernel.org>
+The handling for one of these is buggy, DSP A and B are distinct modes
+but throughout the driver they're handled identically AFAICT.
 
+--wweVKEal3BporYO0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjs6yUACgkQJNaLcl1U
+h9Be0Qf9GD0TEOD2NY68jkxmsqkwbrzpKPPN7UJKdC4om8/KIdo80hj9EOQJqjrf
+LSFy9aQ5XESBTKTvd9iDZVTTqHvQjzlDe+8TXKu8oSkOJYZ8elONRCU0yU0swo2L
+aBRSVCJP2zXg7srTXVuGP2imoHNSvBDCE/1/vqv8iHE+X/O7ckhM2DPl9bx8+SwR
+xyxWhHD60jw4slx4cyQCsAcTF5ge2oTcGC+Wn3eBb9UenLuon7wTE8lsph4zUT6N
+oVi1xiLjEgTpz5oFF87VoGPQySQmN8ZnlYZKQ8iZyasgocfz9IM3XkOovKxTagB6
+K6mb5skvKkIOkH6rcWHb7iVU7gPpRw==
+=XcnN
+-----END PGP SIGNATURE-----
+
+--wweVKEal3BporYO0--
