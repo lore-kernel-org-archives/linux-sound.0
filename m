@@ -1,81 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E495B2FF158;
-	Mon, 13 Oct 2025 10:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D4313D891;
+	Mon, 13 Oct 2025 11:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760351069; cv=none; b=IAxBNRZJHeaPiCTjnP0B05GETKi/oYKCU8hJahtyo6P9/+ij4qw+f7FUCD41VsxEDgWgGqfg7Qczaqx+4/IdEnnjbFwaRFkDxp/RV6rlb4jZCvl7EvZFKwLAcNUXyvEw36zMJlrYbqFds8IRx5iK8CDyMaNXOJNg8y2JfIqQuwk=
+	t=1760354710; cv=none; b=UlNs4tyzixEAK4s8C1GAiVCJuvHBLjUg/79AbLzlPHZoM7Enn3YvEHvG8JanV52ogCoKGPfcT6JEnB+zKzNBQUWriRr+sUuQSgjkIeExZKwRCzEy8+YXPqsYIWqR13rYRvkGWUDpjCZtm1fvzZnoxMi0I9p0njz/RYec/JuKt2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760351069; c=relaxed/simple;
-	bh=cC1nASt5eHxqU6LR14TJQaGjepkYHmYbcqg7t5Fm+D4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uh/B0+4Ge0PhAs/PClQDMGiHT0gXd2mQ46R542HIlmqp4LJoAAcQaju0W7rjFwQxeJPskLZd2ThBzTUVG/5Bdxug5cQwyWfjmmw8VGJlgxGlcOmKeOr8L2OZVRKeuarJ+Fm48JEQVp/xBEiEtcEL2eKZO+iFRQM/c2Ikc3eGjfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3YuApJT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760354710; c=relaxed/simple;
+	bh=jzoOGI1CSu6LZhJ6iGLpEOibVfYTPpg4U4whIWU8rQU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=T30DISQSFxGumTRTN6jNnAL7IUzlTTLUA+/dn16z+1ufCMofMVGhhYsvVJ49amUC7Yheswve1pmUh28EA0vBmezrzB8VE92zbVT5MskPrC4foJRBCkN0YBI1VpgN++ZZYEQHuTeGcxDt2H6ZZfTd/3pBdi5j5PZwU0VofdlWZG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPLXLGqH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3YuApJT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB7EC4CEF8;
-	Mon, 13 Oct 2025 10:24:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPLXLGqH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64758C4CEE7;
+	Mon, 13 Oct 2025 11:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760351068;
-	bh=cC1nASt5eHxqU6LR14TJQaGjepkYHmYbcqg7t5Fm+D4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H3YuApJTJiNXce5WAStYOSESlyoP9hwUj7HfBZ5IcQOPZ4udyGgJZURuIBJgseWDz
-	 Y0EIzeQcp1/bCjDOMGNemLki72wAITLABmlS29QAoXmE66pZnvfyOQWzC/PApUye+L
-	 xJSq37+oJ/dAGLdSK4Wfxemvuh9kHur1KEamFoc5HjLKnbRjh7vXDmw2YTxFq86OjN
-	 IN8O0210nttqXS/H+hBlL3xDo2+jERcU/CtJrkkP/gAkfrxR22Kf+YpSOUvVY7OKvX
-	 l1ZuB0PC5DMdrBUJKxt+yMvAuHAFZ46YXN/2TEMUavJqDmWUIBOOFi0yJ8RhT3OpRg
-	 D2jGktMu/HoMQ==
-Date: Mon, 13 Oct 2025 11:24:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/2] ASoC: qcom: audioreach: Add support for Speaker
- Protection module
-Message-ID: <66845d7a-934a-49ba-821d-362dd9cd7e2b@sirena.org.uk>
-References: <20251008104448.117167-3-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1760354709;
+	bh=jzoOGI1CSu6LZhJ6iGLpEOibVfYTPpg4U4whIWU8rQU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XPLXLGqHGRWFTDpmqk2tMr/WCdIwMJXdN//5s91pSA/uGh/iGPDyrxdzxTjt9QmK2
+	 YtkRch5cmggUziSmABc8NhrayibpP+cEgSoA8AEs58bOgtI3UfvMtQUfWgVzviTtzx
+	 H2EjzhAfSeFFZ2YHRJuxU7Xd75/OLrUId9SaP3mcEfm4uMGw/DMuSAHg1+detdT9my
+	 QFKcQD3Kuk21LQUHSWfJxkbApRr3zAJAI9S1KHuT51s0rQIXVjHete9RTvqY31cOkk
+	 FS4U2xadb5RdiddSKvlfucMg8Z9BXZKIeLQJJK2ZUVan20UzxYLTU1xoFjrrQmwdWS
+	 Xx4Yk4QsKzU0g==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: robh@kernel.org, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: krzk+dt@kernel.org, gregkh@linuxfoundation.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251001150003.417472-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20251001150003.417472-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH] dt-bindings: slimbus: fix warning from example
+Message-Id: <176035470817.14625.3607322556102415198.b4-ty@kernel.org>
+Date: Mon, 13 Oct 2025 12:25:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6lXtNBlW3HD6Y3eU"
-Content-Disposition: inline
-In-Reply-To: <20251008104448.117167-3-krzysztof.kozlowski@linaro.org>
-X-Cookie: To err is humor.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
---6lXtNBlW3HD6Y3eU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, 01 Oct 2025 16:00:02 +0100, Srinivas Kandagatla wrote:
+> Fix below warnings generated dt_bindings_check for examples in the
+> bindings.
+> 
+> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+> slim@28080000 (qcom,slim-ngd-v1.5.0): 'audio-codec@1,0' does not match
+> any of the regexes: '^pinctrl-[0-9]+$', '^slim@[0-9a-f]+$'
+>         from schema $id:
+> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
+> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+> slim@28080000 (qcom,slim-ngd-v1.5.0): #address-cells: 1 was expected
+>         from schema $id:
+> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
+> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dmas' is a required property
+>         from schema $id:
+> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
+> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+> slim@28080000 (qcom,slim-ngd-v1.5.0): 'dma-names' is a required
+> property
+>         from schema $id:
+> http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml#
+> 
+> [...]
 
-On Wed, Oct 08, 2025 at 07:44:49PM +0900, Krzysztof Kozlowski wrote:
-> Speaker Protection is capability of ADSP to adjust the gain during
-> playback to different speakers and their temperature.  This allows good
-> playback without blowing the speakers up.
+Applied, thanks!
 
-This doesn't apply against current code, please check and resend.
+[1/1] dt-bindings: slimbus: fix warning from example
+      commit: 4bb909aa44edc254a35bd29b4f63f7c430494b24
 
---6lXtNBlW3HD6Y3eU
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjs01YACgkQJNaLcl1U
-h9A8Dgf/a/V95VejXXifw6yhSP8NFnM0V47oezOMceLl1QgnBbm/a+yjcpjseB4D
-Bsvr+aI6iedmGXrarZfsNkYHnMhX+AfJwWWwau/OXltYYEQ/hyBj+B9UCxGbJ7Fv
-jPZHMGmZkv96AreDXLVPvYER7HFl44nWTJShAJiIYI7SLUWTl+94yxqW7l1s/9Ee
-5iIVOf8GafFPS8FAHZFQ0tRTN0UyjkjeDO+jEL9YMLB24wavm7TtmK46VigX/G/Y
-3yKWCk4mjOIsbDbpXNb0SxVafIlcY2yMwtWCIuAj7ZNhSQeMEM5EAGaIVP/gZ7vP
-vle3wl3VGZPr0Rjps7xB1luAMk9lBA==
-=4Vos
------END PGP SIGNATURE-----
-
---6lXtNBlW3HD6Y3eU--
