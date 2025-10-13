@@ -1,91 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F6826CE26;
-	Mon, 13 Oct 2025 12:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0990270EDE
+	for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 12:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760357164; cv=none; b=qRF9ttPpPvjQC77RVzWg6dcOau8uXVtubnTOv85sBL3s2jHsSBy4LQ5w3YtS3ZtU7vvdZwSM7o4LGFhUoEyRfTbsu+HqMjEeFyc0THQAa4/4DaTJTTz9vTGu4rYEGt/QkTukXkatOk6V9weVKPGKLEZS4iLfC6n/QtNq9ZH9324=
+	t=1760358603; cv=none; b=eHsKUEqM65JDUSYaauRopD0oe0urHK+k5KpREFwuOUQhvQP6NtDJBlsGAeAdF1FxYPHlFKCpgkMGA5+doLGSEx1QBv6c/dEDtRXXye8RYOMHySGM79zdpHTij4sMJN7sEw7rgZ/j6QKbth/63j9NMLGr47LvRBOy0ZRkwxnrQfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760357164; c=relaxed/simple;
-	bh=eQCTZ+DwwjDnDCLacfwORLwSG59bihMMYVuM80C2bGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dWJ3zPZhCKLQ2+3WL0fqysTsnK8pV+N9ALEqaejorDPjggQskwjU51aglw/L2wDQF6oClueQdRkhVcmOZ+TUTQ+6/nvBGI1unuiz9FR3TmYHZLEbzNk/fhaG859Im842qtxpwqltY7BcNACnpBLz1zCVZsu1kEfOze2CxJO2iyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHqi/xQu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760358603; c=relaxed/simple;
+	bh=1MOmeyqog4OM7BYJL2ULZOdWEH0/3arI6omm4yBQqNE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PWk+4oc7BBih+vfW/skYgi/tHLeMA0M5UqDR1dwCR6hceMlg2OOXNVxNRSAaZiGia7a9QS9Xfp5F4OhznD5ZwX0iMWMXDjzFiTrFUS3XosZqEhB22C8xIpgLW9UY/aFZI9gv0Hcq69n+S6uvkC28BZNUB+LbPD+Sgbtp+JTOOyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WuHyV48c; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHqi/xQu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6962C4CEE7;
-	Mon, 13 Oct 2025 12:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760357163;
-	bh=eQCTZ+DwwjDnDCLacfwORLwSG59bihMMYVuM80C2bGE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eHqi/xQutfRuvsv8IaAwOdm6h7IN+PcJRmIo5zSLeBghKtzNPbHI2oJqkpU+c139+
-	 c7SFp1N2yH0nzOtchE3ZSBz+yki1CL2oar5WMpC+g9Q5IvJIe03ReLM7dCxlYUVJtN
-	 aTXy8yNf4+CK1Ur2YenEkrFLCDEOAu5YxSeopH1NHmsSFIZGTNGid3WuyB5eW0xZob
-	 v4mREbWlg/ZeJUmRTdiScuIa19OlWQbizwly1dTV3UlXP01QnAiLBGKNGvFe4pPTRm
-	 2TiimEbCwCYRh/9Z35Q+a/rdR6loCJ6UJmSgsyn38tjSULUcMPrtBNKi5J/IcaFBsp
-	 Smi/ODVtShrig==
-Date: Mon, 13 Oct 2025 13:05:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jinmei Wei <weijinmei@linux.spacemit.com>
-Subject: Re: [PATCH v4 2/2] ASoC: spacemit: add i2s support for K1 SoC
-Message-ID: <d1d965c4-f0f4-4b09-b5c3-5925d5f7ce1b@sirena.org.uk>
-References: <20250921-k1-i2s-v4-0-4f819f50e468@linux.spacemit.com>
- <20250921-k1-i2s-v4-2-4f819f50e468@linux.spacemit.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WuHyV48c"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-57bb7ee3142so4792565e87.0
+        for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 05:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760358600; x=1760963400; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1MOmeyqog4OM7BYJL2ULZOdWEH0/3arI6omm4yBQqNE=;
+        b=WuHyV48cutS3BFuIeIUDZMPcLa6tMnyBbtcxK3rif3mfMAQ8/KPy23tjOczWdZwsOA
+         pM7W7HYN7Is3DwRnSLIdWGYpbyL6yYwOoSTyHH4ty5cMcpkR4O3R1fFSfhY6ProapXL0
+         c0YnntQczYeTnH6jS3oG4RUimeMHmcLW2HbYOmM9HXqNY5fSv+DmH12+vmzJ62E+/4uJ
+         QPPGCDpNAZ2BHfBnyyqq4XppsF6skzr0cUoZzM2Nh0iQGnu0TVH5rhnO3S9kT9E+gKw/
+         NExo/fyCqnnOezgrh+c0EREEKaZtYThXFgCuHGwnx6DciKiin7I7JfuFwJpXjUOGxFuU
+         ZKXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760358600; x=1760963400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1MOmeyqog4OM7BYJL2ULZOdWEH0/3arI6omm4yBQqNE=;
+        b=Ut78OsEEGUVpwuAopFyRJm83yv6a72PNA5Zpo0k2X9RKToV7dmeDLkgMrYZjUef5Cl
+         TrQgvZe4XS7ED8m9lGm56vDSzYkQG9cMAmac0H3HnkDhpObdwDQL4IVH2dh5nkJB3Iij
+         UFWQzqfxqycR95xxddLZUoblpJzZTStrHwZR+53m5XKk6m4jDY4fllkCOVosFMLZ0QQK
+         B+P/46jmHjLKgGbELyDxK10bAmBNOLfoBmwfmWdTcGOsjGMUjDThizkTeZpPSAozeN0q
+         xL5/mSP3DdG8LdxJMnIdPV26fbAF0iJv/4BgaFVsRwlmrLTQalnid6QbKkFxTEChANkY
+         dhXA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Kt7Pmyt8lI73QcO2dJU2G6THvy75dWcUDfNCLAXR8OZwdMPPRRGxOOErBZFQ835/3Dmu3zi0KSi9gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk2fHOSaZfz3LkuHHerrX5BCD/gYYhpRmr96zkiy97N2vbXq2F
+	rz7j0PF9k1M5kbOyhBVSR/ot3nGo4942PbjmfAbPiOOg561p+a3HlhlUzS3AdtblUNqZzGscoZ9
+	748gckR0ZO12GHz/3ukVRW/lIufiBwMso+b1e3hhpjA==
+X-Gm-Gg: ASbGncviavEjiZ5MNYS1Vr6CoJiKg3aUgwmHGCbBrFitdlF4uqnFBwCj2DG9NT006CJ
+	fklnvenz2P8MS9e+f6U54JQHE5UpdY6M1hnWKIYiWJJ7W7dgnsssFgcKOqMo536H41NFkfbiprQ
+	XOdR5JU3mQTArvNBYA8xNE+UrN2Q18BgAUku0zFsh/PONV0tQWdaQ+AstK4UIUFwCk8eOf5mSFy
+	YO0sY6gFU6SZTfpwEBAYXMQ8yXHpveGtMIaq7PR
+X-Google-Smtp-Source: AGHT+IHDziq/3pEjSE34Vb9xc10xnYDJuQK7aFT0KnwS0eJY8GRc+vGU1CYOsUeevL8U5VlYG6e//6jV5rAnbmRrIB8=
+X-Received: by 2002:a2e:bd0d:0:b0:336:5d33:c394 with SMTP id
+ 38308e7fff4ca-37609ea5185mr56779601fa.33.1760358599989; Mon, 13 Oct 2025
+ 05:29:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wweVKEal3BporYO0"
-Content-Disposition: inline
-In-Reply-To: <20250921-k1-i2s-v4-2-4f819f50e468@linux.spacemit.com>
-X-Cookie: Ahead warp factor one, Mr. Sulu.
+References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org> <20251007-rb1_hdmi_audio-v2-1-821b6a705e4c@linaro.org>
+In-Reply-To: <20251007-rb1_hdmi_audio-v2-1-821b6a705e4c@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 13 Oct 2025 14:29:48 +0200
+X-Gm-Features: AS18NWAyQHOstCpKlOfzZTMdQhypcq3gyuY9Qq5Lmp_pCYAjRMed25BVKMqEClM
+Message-ID: <CACRpkdapDastXAED4YhKAXQ9byvMH6SHqt3zHHniGRJzuXhDRQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: pinctrl: qcom,sm6115-lpass-lpi: add
+ QCM2290 compatible
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Oct 7, 2025 at 4:03=E2=80=AFAM Alexey Klimov <alexey.klimov@linaro.=
+org> wrote:
 
---wweVKEal3BporYO0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Add a compatible for the LPASS LPI pin controller on QCM2290. It seems
+> to be compatible with sm6115 LPASS pinctrl.
+>
+> Cc: Konrad Dybcio <konradybcio@kernel.org>
+> Cc: Srinivas Kandagatla <srini@kernel.org>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 
-On Sun, Sep 21, 2025 at 04:52:17PM +0800, Troy Mitchell wrote:
+This patch 1/4 applied to the pinctrl tree,
+please funnel the rest through the SoC tree.
 
-> +	case SND_SOC_DAIFMT_DSP_A:
-> +	case SND_SOC_DAIFMT_DSP_B:
-> +		snd_pcm_hw_constraint_minmax(substream->runtime,
-> +					     SNDRV_PCM_HW_PARAM_CHANNELS,
-> +					     1, 1);
-> +		snd_pcm_hw_constraint_mask64(substream->runtime,
-> +					     SNDRV_PCM_HW_PARAM_FORMAT,
-> +					     SNDRV_PCM_FMTBIT_S32_LE);
-> +		break;
-
-The handling for one of these is buggy, DSP A and B are distinct modes
-but throughout the driver they're handled identically AFAICT.
-
---wweVKEal3BporYO0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjs6yUACgkQJNaLcl1U
-h9Be0Qf9GD0TEOD2NY68jkxmsqkwbrzpKPPN7UJKdC4om8/KIdo80hj9EOQJqjrf
-LSFy9aQ5XESBTKTvd9iDZVTTqHvQjzlDe+8TXKu8oSkOJYZ8elONRCU0yU0swo2L
-aBRSVCJP2zXg7srTXVuGP2imoHNSvBDCE/1/vqv8iHE+X/O7ckhM2DPl9bx8+SwR
-xyxWhHD60jw4slx4cyQCsAcTF5ge2oTcGC+Wn3eBb9UenLuon7wTE8lsph4zUT6N
-oVi1xiLjEgTpz5oFF87VoGPQySQmN8ZnlYZKQ8iZyasgocfz9IM3XkOovKxTagB6
-K6mb5skvKkIOkH6rcWHb7iVU7gPpRw==
-=XcnN
------END PGP SIGNATURE-----
-
---wweVKEal3BporYO0--
+Yours,
+Linus Walleij
