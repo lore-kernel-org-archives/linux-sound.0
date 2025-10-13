@@ -1,92 +1,136 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C5A25F7B9;
-	Mon, 13 Oct 2025 17:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760376823; cv=pass; b=sY8uHruVL50jeUTwb1rT5CBQX9z4IK87F1HXEgxG30tUxehBBI9oMJFeiUycUmybpiVd4PH8Dl7VxciNjEgQxJ0q6PPJWe/ZnIE5KzwCf0GOoim70q7cTQwhdZbjsuHfgJaRy1N/W/p21MAjlspzCDGc7tyMd2bTI5LAtQPx0Hc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760376823; c=relaxed/simple;
-	bh=4iVdbM3/EGqXBBjdjgP1q3+S0c6scuDxL1vh5CrDzZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CYMONrVi0uG4WfTc1WioBzGqz4fwi0I9JOgiRItRE8VOs6BSvDioA4VemfkQtwQnU8lasP0wIc9rMaZ4z0OPI95JEiKO91ZS1degoXJzORA8t5Gzm8Hf07I+1aJTH/EVSprjSayM8svci+nlzFuQ5ZCV0ek0OOqB3h6pCuOBD3w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=nLR7goAC; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4531EDA02
+	for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 19:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760382249; cv=none; b=LiAcufiToObaWkYZTOMpJp9agfdOybOljic/w1h8jFZZxcWq1N6v+I5KQ1q3cK88b6068lUoMI3JKjud16lv2UYTw5b9baGOSt5EqJ1ZXp2YwbGfc9mH4ZEyZsQWmN4A1zK8MQLsxSessOPh+6Hh+RXalmaxshucIfRn4AN9mMQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760382249; c=relaxed/simple;
+	bh=PFpRI8q30Gr4F9PAlDtVRZZ7i+Rk+d1ShYLcWQZYE4o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WOw8MgjgfbECrJl82XnFPvakNnyc+huAzzVbMFNBclT8qyHWNnwiJ64hiWQZawLFOg34ubSlkK6wRJ2wi71p8DELqVTzdgl8kRY6xJhwATfrWNAFiih1lgVrlkTUC6QvfPp1pSUnaTksiqALKV+mVeslanVPXZYZiFC4bOF31Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yl9S8MeH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7jnFHV+5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a9+aWCgQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9258aH5c; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="nLR7goAC"
-Received: from monolith.lan (unknown [IPv6:2a0c:f040:0:2790::a01d])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yl9S8MeH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7jnFHV+5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a9+aWCgQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9258aH5c"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: pav)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4clkw74g7qzyQf;
-	Mon, 13 Oct 2025 20:33:27 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1760376809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=87OdUcrbgLReDVIP25eP2euTnGFsa8mbSEfIFhzlQqo=;
-	b=nLR7goACOD3Fnf4sAxv7fdMmpOeN5sEwZB479WaaAsPaF9haBIcY+iiFvjKix9ejFwTxY1
-	vbYWhqFjfyRcD9ZvLd/sREN5hAV1E3YHCDWHkqbnEDhCWRg5SWQDh0MDPbMOLSeqB/Sh8W
-	66NoWCpLAaHHEPIoqzaFZoI1z7hyqrg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1760376809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=87OdUcrbgLReDVIP25eP2euTnGFsa8mbSEfIFhzlQqo=;
-	b=yaN1ay/ODwtPbOhSJa82150b95ekNLuzBnhmg0eiBt53TwL5WG+fns4MBGonDr/AMfe6fR
-	Rxj5y+2jZtyWSCe90RfHA2fmPAAz5RvYnCntZrR3uOoZOSW8Kll+ckv4fWkg3IuHiOE2bs
-	0bnPZgUXvbuCmUYhA+d5OIWjnwHCDco=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pav smtp.mailfrom=pav@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1760376809; a=rsa-sha256; cv=none;
-	b=n0MWxxJlbpvWUyCB5nI2NGmJouxPFsUI1JUfjkEphe1GXBQzJ+x7YBuThlzx6X1dzEdQgb
-	Gk9fDmbyA3aOSnlpvIffCfoptF/Q+a2hP1jCEVO03gbLX+mvd1s6EvMyyV4P6fz7ZvSQqb
-	5O3LJD6wj9QwLmoQ95csjwgfZGSRdoM=
-From: Pauli Virtanen <pav@iki.fi>
-To: linux-sound@vger.kernel.org
-Cc: Pauli Virtanen <pav@iki.fi>,
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D48D621222;
+	Mon, 13 Oct 2025 19:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760382243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q+4C/RUUwRebhBJxbPX1nu6PHPWN+jMJsXkFnCGPddw=;
+	b=yl9S8MeHTQTOAWbwRV3xWjMWQSlWiSNwEELlK+bR7m+jxHDnZT3P3P/MJJgvaMcHzgh6G7
+	MO/5l9IM67iyu/9VgGyc9xJf7yWZ5Tgya8Of/w1AmB6k8PIB3ryxL2Ucntb6bB5AX0zZb/
+	eZFHexF6FvxO8+f3wvnX5e8TsWdOH78=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760382243;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q+4C/RUUwRebhBJxbPX1nu6PHPWN+jMJsXkFnCGPddw=;
+	b=7jnFHV+59DQG/CJqk6219zd5Izac7TxntTKSjUE2FMS23ZZB/npX0N/ptkrhNFsXXMXsAD
+	t8YPqZi59ZusckAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=a9+aWCgQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9258aH5c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760382242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q+4C/RUUwRebhBJxbPX1nu6PHPWN+jMJsXkFnCGPddw=;
+	b=a9+aWCgQm+nxTpngpzW8o/yMDRZZLWP000PkOQ8AJebnmZ71Rqc50DlGlo0CVeS3t2j8Oj
+	dI2fOwlK6KaT/JhS0z5NO/zaTxYe582dcxXNuici+vys/jtej6RFKh42YpvmiB3SFu61GG
+	3E5zycwYZTLBA5kTeTLDL4oq9ZyQNpQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760382242;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q+4C/RUUwRebhBJxbPX1nu6PHPWN+jMJsXkFnCGPddw=;
+	b=9258aH5cNVCG+UKX5KJSYBCxj/tc5xsnKEJZMgcEI5kfHBLaEH45rttj/LltkDqd2t7KcL
+	mRarXnYRoIGCqOBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4E7E1374A;
+	Mon, 13 Oct 2025 19:04:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id y3mTJiJN7WjMJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 13 Oct 2025 19:04:02 +0000
+Date: Mon, 13 Oct 2025 21:04:02 +0200
+Message-ID: <87a51u8vz1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pauli Virtanen <pav@iki.fi>
+Cc: linux-sound@vger.kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: add mixer_playback_min_mute quirk for Logitech H390
-Date: Mon, 13 Oct 2025 20:33:06 +0300
-Message-ID: <72c83ff44985b3de59ad35189e6757212bb3998c.1760375830.git.pav@iki.fi>
-X-Mailer: git-send-email 2.51.0
+Subject: Re: [PATCH] ALSA: usb-audio: add mixer_playback_min_mute quirk for Logitech H390
+In-Reply-To: <72c83ff44985b3de59ad35189e6757212bb3998c.1760375830.git.pav@iki.fi>
+References: <72c83ff44985b3de59ad35189e6757212bb3998c.1760375830.git.pav@iki.fi>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D48D621222
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-ID 046d:0a8f Logitech, Inc. H390 headset with microphone
-is reported to have muted min playback volume. Apply quirk for that.
+On Mon, 13 Oct 2025 19:33:06 +0200,
+Pauli Virtanen wrote:
+> 
+> ID 046d:0a8f Logitech, Inc. H390 headset with microphone
+> is reported to have muted min playback volume. Apply quirk for that.
+> 
+> Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4929
+> Signed-off-by: Pauli Virtanen <pav@iki.fi>
 
-Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4929
-Signed-off-by: Pauli Virtanen <pav@iki.fi>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied now.  Thanks.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 634cb4fb586f..43793a5c3f51 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2180,6 +2180,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x046d, 0x0a8f, /* Logitech H390 headset */
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
--- 
-2.51.0
 
+Takashi
