@@ -1,104 +1,77 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A05199949;
-	Tue, 14 Oct 2025 01:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E778C236454
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 03:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760404530; cv=none; b=s2fx4FI7nBgkMc0227BmA22SMz5/BXrWFMiGVyTkr+sTYptn2acWGGewtbQrb1UHFQ3SFYRVXFcq6DrQQdKiVwB/8Du4gu25dESXRKBe/JaDRBLDcpLggZM9tysHiYiKy3UZ8tXnvOslGZLSlWk3FnZZm2yfE+eDNOdhPdxRLOk=
+	t=1760411161; cv=none; b=K3Gt9SG8Nim1Mj2gzpQweboKWqceTVXd2uB/jks+YWaMxAlcoc7DYNTF3irAsIENxmtPK/A3vhJTKCIFjQvC9mH8+FAcBmjXhnOMzumloZo1wZssJdehUbADNUc1gqdA/nYV3WmjI920RBTGDCaPBmPcfmQXVpHPa3ctVO1hYSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760404530; c=relaxed/simple;
-	bh=ly90muq8Cu7cNAfo5LyDFAKK8zB6SZmBgl/e3Gqtgzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sWX22ou+psjyb6ukbjJCOZGPlBQVsw0W5pCVr0GRN/HJw+TQxvVBT18NJx8pbhtjWScobI3j0ewZJh/UeFIiF5jDCXVbmEKn1OED/UIT2JwTFJMT153MEJPACE1PAe5DAwmoTeYpK0uFdzmf+W1v5PBf8mvaXmGnQ0c4K/WJKcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=Kg8YFhBR; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1760411161; c=relaxed/simple;
+	bh=2CPyrkp+apvtuQA3Sa8jY+2yiXeXf+BJV5vKJZZUmH8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LcTdaQ+DQDreWKypNlynq8tljgjW+olb2fqCUittzuWn1KV2oeaAY9zOFtFAQjnhNzVmFCdTgZJndEbCHIdmpcavEPFZ8xhUbI9BcoQ2MNrXG133Y2JQG/ICXwbKVOnfhsFSecOW3ySApTgIKmd9lOPONBCEAB3Tqqa5d3Z9dBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ii6YRybv; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="Kg8YFhBR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1760404505;
-	bh=yPaqLTFJBou/8d1hMyxh74PBxgkDsYMEzO+87OROHB0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=Kg8YFhBRHXfSRquwf8U7lvE+E3jI/rUn5HmCczL6YSsSF/RJcsFe0sDlQpT75v9qe
-	 CMa96qD7xKuFqQpgbURy1N9i5J2p+rrb4nKvFjd4sDqkFKsOA4kPci4jQJ2bm7xT4B
-	 H7fHC/t3+ZAAN1CxgsbBhCZXQCxEONve2QZwxEfc=
-X-QQ-mid: esmtpgz13t1760404499t2e911499
-X-QQ-Originating-IP: o0PzaMQ5hTsLiEQfnYn0/i0z9Av6u2RRMSRj69aXyEU=
-Received: from = ( [61.145.255.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 14 Oct 2025 09:14:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1259685802699772283
-EX-QQ-RecipientCnt: 16
-Date: Tue, 14 Oct 2025 09:14:57 +0800
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-To: Mark Brown <broonie@kernel.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jinmei Wei <weijinmei@linux.spacemit.com>
-Subject: Re: [PATCH v4 2/2] ASoC: spacemit: add i2s support for K1 SoC
-Message-ID: <775044E19528DA5A+aO2kEerOWeY8ad0h@kernel.org>
-References: <20250921-k1-i2s-v4-0-4f819f50e468@linux.spacemit.com>
- <20250921-k1-i2s-v4-2-4f819f50e468@linux.spacemit.com>
- <d1d965c4-f0f4-4b09-b5c3-5925d5f7ce1b@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ii6YRybv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=PeHzqyE5OuV4el6F3bhioETdrtGAKzjtDBx05Hb2oDc=; b=Ii6YRybvoyFgU5MWMLXze9kAZ8
+	xNzWX0LO+0KVk9AI4TiibLYVwCuR4cKoshSpXR3iwmhDebYYVQzQbMG56dnAg0mxcUF5eStVKmb7P
+	ZkGk7KCZpZ60bF8O0DwaOhFaDxZd2FJptydPmcKr2zDJ6mMhgUn+03zPzibSF+2wU+8t+uQFbUrsm
+	RUOxw4dUAWJrfGg5HwrYFLEtCtVcnnJouvmr/P5sjuILW9pL5gONSNeToHvbT/vemGIZJPBXwNaTt
+	176Q2QV6kvq1Y6rpsATJnVOLGrYxO7tiCUPsROXe2415tvdi0HlrgCBLN2Zn0PazMKpBSo8QfAs6m
+	T6owajJg==;
+Received: from [50.53.43.113] (helo=smtpauth.infradead.org)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8VMK-00000004sLy-1gaV;
+	Tue, 14 Oct 2025 03:05:57 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-sound@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Takashi Iwai <tiwai@suse.de>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: [PATCH] sound: amdtp-stream: fix enum kernel-doc warnings
+Date: Mon, 13 Oct 2025 20:05:52 -0700
+Message-ID: <20251014030552.760648-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d1d965c4-f0f4-4b09-b5c3-5925d5f7ce1b@sirena.org.uk>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: NpfbsqbTlzxUWFfAYilv0/7Nw/jpI0bAV31+tuTsErHIOqfmS92dpfpz
-	O4WxUbsJjW0VPP4/OyIDFBG2ZdP3B909pfP2/fcf6IjN84SHJaKxhYqLlXyghDI4UfLmQBn
-	BzBca3Bve4vEbQgpLSinkE08hXhNfFcapFEfJ2xZuDeHB6iVE+hVjYh0KFhXhEu1n+YL+Jn
-	eM2udmHU4VHydZJe43CHZzy/MLTrvpPSpcIEf+if3WXOCCnzKmuQ6xp7EfUIOI9XZe2ibPm
-	9Q6AMnfhMuzvRmyX44a9txFzwAHdb1YvQEb2L1Hl3/QRpF8fJ/ePjkIJpY3Gaw+JMWQlXkb
-	zTGkrseJpSm+rO+LTAp1oRSALqvexzOY1j36O8TpLupo8upCMNizgmi/pPoCnChLI8ppscb
-	S09Sgfvj7MDYsW0PZFsSNOuz5n40C8Sx9y8yz0lMFVLa33k08n0WeF7GQKjrA7eZfTThvDD
-	EYC3uGRPnMTGL+aVNb5LLi/cbDMg4oyKumwHiJ8b06lY41Zj60clqsT4qvTynhcCbdEhq6F
-	9vc+pZETJeW5z+bQOoO3O+kqhyDvPPOUVWhSwEH3XrS/MGBUSpCONjHXfBOW9zJj4cdCE+P
-	dODqf56wooL48K0WchrRIUdDYNGMiDpaf/GukVasbl7pcfCetuwEiXe0O/kZpHWnx7pYnTC
-	zQryxsjqP44Tc7PQ7Beq/MU+wfas81nXe1M8dJgOOx3AdlTr0izDTZ1D/tDebtpJRryIwe6
-	6boQNOPoGvPUiug//vIAcrQQgard3hk6uL0s/84L9YPfVV81s9mAm9mTmQJA6UNERAGEq+b
-	T+w/yKviZZYfrJdIe7DAiSoTcU/UmQ01DdF7pfsxo1hsElTbExRqI3rth5Ucrhx82mI6HzI
-	8CxRrn7KThfE/04J8R8Mh8TmKbqc7nytqTU4KSB9xJe07roBj3O8EzKXGcC+LqFIMVPgwj7
-	o8p4BrpMCkGp6dNOf9+FdSQLdSHji2kMJy0aoFati5W0ok2Q8qu75iFju86Zvu7MJoo3n7Z
-	LCbUVCGNcYISEFJpzeyk92LYtQzGVSRdTjAgDnmUgtMFpQZelB1aDOj31K9Tk1xxbQOeqCW
-	w==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
 
-On Mon, Oct 13, 2025 at 01:05:58PM +0100, Mark Brown wrote:
-> On Sun, Sep 21, 2025 at 04:52:17PM +0800, Troy Mitchell wrote:
-> 
-> > +	case SND_SOC_DAIFMT_DSP_A:
-> > +	case SND_SOC_DAIFMT_DSP_B:
-> > +		snd_pcm_hw_constraint_minmax(substream->runtime,
-> > +					     SNDRV_PCM_HW_PARAM_CHANNELS,
-> > +					     1, 1);
-> > +		snd_pcm_hw_constraint_mask64(substream->runtime,
-> > +					     SNDRV_PCM_HW_PARAM_FORMAT,
-> > +					     SNDRV_PCM_FMTBIT_S32_LE);
-> > +		break;
-> 
-> The handling for one of these is buggy, DSP A and B are distinct modes
-> but throughout the driver they're handled identically AFAICT.
-Thanks! Indeed, this bug was introduced in this version.
-I’ll fix it and send v5 ASAP.
+Fix spelling of CIP_NO_HEADER to prevent a kernel-doc warning.
 
-                            - Troy
+Warning: amdtp-stream.h:57 Enum value 'CIP_NO_HEADER' not described in enum 'cip_flags'
+Warning: amdtp-stream.h:57 Excess enum value '%CIP_NO_HEADERS' description in 'cip_flags'
 
+Fixes: 3b196c394dd9f ("ALSA: firewire-lib: add no-header packet processing")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: Takashi Iwai <tiwai@suse.de>
+Cc: Clemens Ladisch <clemens@ladisch.de>
+Cc: Jaroslav Kysela <perex@perex.cz>
+---
+ sound/firewire/amdtp-stream.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+--- linux-next-20251013.orig/sound/firewire/amdtp-stream.h
++++ linux-next-20251013/sound/firewire/amdtp-stream.h
+@@ -32,7 +32,7 @@
+  *	allows 5 times as large as IEC 61883-6 defines.
+  * @CIP_HEADER_WITHOUT_EOH: Only for in-stream. CIP Header doesn't include
+  *	valid EOH.
+- * @CIP_NO_HEADERS: a lack of headers in packets
++ * @CIP_NO_HEADER: a lack of headers in packets
+  * @CIP_UNALIGHED_DBC: Only for in-stream. The value of dbc is not alighed to
+  *	the value of current SYT_INTERVAL; e.g. initial value is not zero.
+  * @CIP_UNAWARE_SYT: For outgoing packet, the value in SYT field of CIP is 0xffff.
