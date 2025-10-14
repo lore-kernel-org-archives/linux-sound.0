@@ -1,177 +1,110 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985D330DEB6
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 06:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FC61E47CC
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 07:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760421891; cv=none; b=BhbsGbtMHa6v3UPhMc1+WpewoismGNE0yXt2dDwAfs5WtJDycrHJ+/zXP0U/4BcNgNrIbVpPZ6cyJB6V3wJb0f3V6Pxp3otvdVWoKLZYhS0G7aq81/iprzXOKqWYZL58eXFVNBaCVN8sZuGap6UY2MaFEAmXdrLVJ0saNr0yzAY=
+	t=1760426029; cv=none; b=ZzWNZsnF4rOEO3Pnx4upEAMcKwh+lB/orrVtjjk5jrBpuQT2b9NZZRuZrG04dle+gvBhYbc9eefxMdFYXaYdmJw+T6rKh56y3WKYz82csUd2wuUIHxhm+e3LPBM/N2e/frdg2BQdXI/BzyxQ4EJ+oFMb8aNc3fw1HjK3rW8SrDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760421891; c=relaxed/simple;
-	bh=Wt4pD5gcVyt54cySAgvxNCFQKUhVqKF+IeF69tqaBKk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=si5uW8gA+s7ZFwwNjASpBtTdLZFZ+MMZGzIEhPOdMPWSP/9BTwUjpZGupy+LcAR9yJcqUpj6xg/1n8JJHNVQTLOQfa5tvIg+csEas/i+YZgzQP7JnEI02b4cHoan4FoCo+B+FlIw5yhmAmOzHsLWjmueCELGgU3131oVv1LDMds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rKOuvqYb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WKHnFwml; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rKOuvqYb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WKHnFwml; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760426029; c=relaxed/simple;
+	bh=IV/71/8BF3/+vaD7EtCQUskfLuJLlJrS3nAc4zi+r3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FM5eBmRPohMOU/OskrAj8UP6DguceWlbshI2nerJ2vCpPa4GodoqfF866n8SOCz0YlOZH3cuSWZ1RissS0WIi1BkyRaautd2VJJRSvRo09WeFMOOpobwXqSe+QZWEHGT62i8m8QMS1kqsFdx7AWYI43GwKEdxrLbHoM8ekg3VeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhhkkOuf; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rKOuvqYb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WKHnFwml";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rKOuvqYb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WKHnFwml"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AC6721F750;
-	Tue, 14 Oct 2025 06:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760421887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
-	b=rKOuvqYbY+2vWHxWOSIiJrWEWvsgO0iJMF3/RUpF0xaVQwQTtJC/4Ng+gDIGNeh+tAHUjv
-	f8whXn/lDYKOwoTIqAfmv6rpW5ZAfXrSqu0jSF3KyNbh01w/RPxEMZiQiWospoOhFx1Py3
-	Za3QieBw52k6lZ0yTX/LKwyoTVUlpts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760421887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
-	b=WKHnFwmlP5GUejtjiuIskooDQ6MrwUsJe7EZSlXjubNge5Hv+xrns2NLZgIwbWNpLody/N
-	6h4ipappDFieuIAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rKOuvqYb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WKHnFwml
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760421887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
-	b=rKOuvqYbY+2vWHxWOSIiJrWEWvsgO0iJMF3/RUpF0xaVQwQTtJC/4Ng+gDIGNeh+tAHUjv
-	f8whXn/lDYKOwoTIqAfmv6rpW5ZAfXrSqu0jSF3KyNbh01w/RPxEMZiQiWospoOhFx1Py3
-	Za3QieBw52k6lZ0yTX/LKwyoTVUlpts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760421887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
-	b=WKHnFwmlP5GUejtjiuIskooDQ6MrwUsJe7EZSlXjubNge5Hv+xrns2NLZgIwbWNpLody/N
-	6h4ipappDFieuIAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3645113A44;
-	Tue, 14 Oct 2025 06:04:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jUbHC//n7WiHBgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Oct 2025 06:04:47 +0000
-Date: Tue, 14 Oct 2025 08:04:46 +0200
-Message-ID: <875xci81dt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: tiwai@suse.de,
-	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	regressions@lists.linux.dev,
-	Dell.Client.Kernel@dell.com
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <20251014034156.4480-1-safinaskar@gmail.com>
-References: <20250709160434.1859-6-tiwai@suse.de>
-	<20251014034156.4480-1-safinaskar@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhhkkOuf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760426027; x=1791962027;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IV/71/8BF3/+vaD7EtCQUskfLuJLlJrS3nAc4zi+r3w=;
+  b=XhhkkOufPyj6sd0JUDB4djLq4YUSsfcpoathpbVENI+QpUa9HWnQg+8G
+   1bYzpDWZ0mcqLhOJENNQWVRub+ZONBuNqKFo0FndOzi/EZTLl/gvNYqJ+
+   kwMZwQlchN9UX9R4GcDUZhWXTbWMMmOBGDJatTSf+5hY/5akFnECuGYpN
+   IYTOX+SXwnxHtBHT0ICtP6SzIAMkkyc0ELVwTEqcwB/RtjLvrK3lb6JGi
+   qpMN6UneGxOTfSYsJoeSnnDy0e6gsCEsGJMZ1IYbxgfet9URChWCbQCRX
+   v17Og4ttdpQuCUs4zpfm84VVeWLGTwTVF9t/pFAqfinRUi2Z+fCZGdhMB
+   Q==;
+X-CSE-ConnectionGUID: 53HBxYgDSQGk6PuMkGGT5w==
+X-CSE-MsgGUID: lSYmyLYFQy267S+VUHBmkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="66233648"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
+   d="scan'208";a="66233648"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:47 -0700
+X-CSE-ConnectionGUID: Roj3fSuZTzq8cD85xvrp0w==
+X-CSE-MsgGUID: De81Dl0OQMafWlpJtzURpw==
+X-ExtLoop1: 1
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:44 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	niranjan.hy@ti.com,
+	sbinding@opensource.cirrus.com
+Subject: [PATCH v2 0/9] ASoC: use sof_sdw as default Intel SOF SDW machine driver
+Date: Tue, 14 Oct 2025 15:13:26 +0800
+Message-ID: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: AC6721F750
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Oct 2025 05:41:56 +0200,
-Askar Safin wrote:
-> 
-> Takashi Iwai <tiwai@suse.de>:
-> > Now HD-audio controller drivers are moved into sound/hda/controllers
-> > directory as a part of HD-audio code reorganization.  Most of drivers
-> > are independent from PCI bus, hence it makes more sense to put under
-> > sound/hda.
-> > 
-> > The hda_ prefix is dropped from most of files at moving, as it's
-> > more or less superfluous.
-> > 
-> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> 
-> This patch broke my laptop's speakers.
-> 
-> My laptop is Dell Precision 7780.
-> 
-> Here is output of "sudo lspci -vvvvv":
-> https://zerobin.net/?bb0d52d5c33a1ca8#Z4cktfC0ofZhkzBU4/AFGpYAVJFXrus46nDeLQOV22s=
-> (This output was collected on Linux 6.12.43+deb13-amd64, audio works there.)
-> 
-> My OS is Debian Trixie.
-> 
-> If you need my config, then here is my config I tested with linux-next:
-> https://zerobin.net/?989789b5698e0afe#DKjA80yFwRFnLkYwo3ZnNZEVGowGyn5N78aSy8omoGY=
-> It was tested with current linux-next:
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tag/?h=next-20251013
-> (and audio didn't work).
-> 
-> #regzbot introduced: 2d9223d2d64cb5216859ced6cc33fb3b04e5f98f
+Currently, we create a ACPI mach table for every new audio
+configuration. And all Intel SOF SoundWire configurations point to the
+same sof_sdw machine driver. Also, we don't need a specific topology for
+a coufguration, we can use the function topology instead. That give us a
+change to generate an ACPI mach table based on the SoundWire codec
+information reported by the ACPI table and use the sof_sdw machine
+driver as the default machine driver.
+This will reduce the effort to support a new Intel SOF SoundWire audio
+configuration.
 
-The oft-seen "regression" reports for 6.17 were rather the incorrect
-kconfig setup, and that's your case, too, I suppose.  In 6.17,
-HD-audio Realtek (and other) codec drivers were split, and each of
-them can be enable/disabled individually when CONFIG_EXPERT is set,
-where people often leave them off blindly.
+v2:
+ - Add name_prefix of tas2783 and cs3563
 
-So, please check your kernel config between working and non-working
-cases.  I guess you had CONFIG_SND_HDA_CODEC_REALTEK beforehand, and
-now it's off.
+Bard Liao (9):
+  ASoC: SOF: Don't print the monolithic topology name if function
+    topology may be used
+  ASoC: soc-acpi: make some variables of acpi adr and link adr non-const
+  ASoC: soc_sdw_utils: add name_prefix to asoc_sdw_codec_info struct
+  ASoC: Intel: export sof_sdw_get_tplg_files
+  ASoC: soc_sdw_utils: export asoc_sdw_get_dai_type
+  ASoC: SOF: add platform name into sof_intel_dsp_desc
+  ASoC: SOF: don't check the existence of dummy topology
+  ASoC: SOF: Intel: use sof_sdw as default SDW machine driver
+  ASoC: sof-function-topology-lib: escalate the log when missing
+    function topoplogy
 
+ include/sound/soc-acpi.h                      |   8 +-
+ include/sound/soc_sdw_utils.h                 |   2 +
+ .../intel/common/sof-function-topology-lib.c  |   8 +-
+ sound/soc/sdw_utils/soc_sdw_utils.c           |  32 ++-
+ sound/soc/sof/fw-file-profile.c               |  12 +-
+ sound/soc/sof/intel/apl.c                     |   1 +
+ sound/soc/sof/intel/cnl.c                     |   2 +
+ sound/soc/sof/intel/hda.c                     | 205 +++++++++++++++++-
+ sound/soc/sof/intel/icl.c                     |   1 +
+ sound/soc/sof/intel/lnl.c                     |   1 +
+ sound/soc/sof/intel/mtl.c                     |   2 +
+ sound/soc/sof/intel/ptl.c                     |   2 +
+ sound/soc/sof/intel/shim.h                    |   1 +
+ sound/soc/sof/intel/skl.c                     |   1 +
+ sound/soc/sof/intel/tgl.c                     |   4 +
+ sound/soc/sof/topology.c                      |   7 +-
+ 16 files changed, 278 insertions(+), 11 deletions(-)
 
-thanks,
+-- 
+2.43.0
 
-Takashi
