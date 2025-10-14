@@ -1,94 +1,95 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5C52BDC3B
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 05:53:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985D330DEB6
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 06:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760421229; cv=none; b=BcCca/MVDW9zBgrln4cOQaSg+LYDKRE7oLe8g8xdlpvL+7pIoo8ECiOvm70Hwe6OWMeZW8+JYkhxmcyGoAkaD2rSTQLjOFXtc/xHdiqK3C6Ec+DIwawscP8kPU2u+gJGo+umkayttXZlR8zB/2lBzRshN/1W6KAqW+ESDNzZK/E=
+	t=1760421891; cv=none; b=BhbsGbtMHa6v3UPhMc1+WpewoismGNE0yXt2dDwAfs5WtJDycrHJ+/zXP0U/4BcNgNrIbVpPZ6cyJB6V3wJb0f3V6Pxp3otvdVWoKLZYhS0G7aq81/iprzXOKqWYZL58eXFVNBaCVN8sZuGap6UY2MaFEAmXdrLVJ0saNr0yzAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760421229; c=relaxed/simple;
-	bh=XHx1MIp0y8MtCK2xU6VtPEz/8ULYtO+sr3Ur3vSAbNE=;
+	s=arc-20240116; t=1760421891; c=relaxed/simple;
+	bh=Wt4pD5gcVyt54cySAgvxNCFQKUhVqKF+IeF69tqaBKk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n5k63ZgOBWNx6359jLvGa3LnbJLyvscbYVIPGdcpivU8NsIdUKP9aGCz781THYVoYgapHvhFTV+yJ/qM+4Ga2dUvFo2Bt4thWEi7PVRihFiEU+qse3+LWIlopKstvG1I68ZWy7HgywZ0Zw+wqut1bCL5+1bOU6n35y9cnUu68TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R0E+Cf9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AhxK+pVr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R0E+Cf9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AhxK+pVr; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=si5uW8gA+s7ZFwwNjASpBtTdLZFZ+MMZGzIEhPOdMPWSP/9BTwUjpZGupy+LcAR9yJcqUpj6xg/1n8JJHNVQTLOQfa5tvIg+csEas/i+YZgzQP7JnEI02b4cHoan4FoCo+B+FlIw5yhmAmOzHsLWjmueCELGgU3131oVv1LDMds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rKOuvqYb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WKHnFwml; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rKOuvqYb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WKHnFwml; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R0E+Cf9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AhxK+pVr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R0E+Cf9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AhxK+pVr"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rKOuvqYb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WKHnFwml";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rKOuvqYb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WKHnFwml"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5407F1F74C;
-	Tue, 14 Oct 2025 05:53:34 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AC6721F750;
+	Tue, 14 Oct 2025 06:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760421214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760421887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvLoKULPX2FQHcB605LWH8Pa4QC+lLB7zqDLvuxGH0I=;
-	b=R0E+Cf9ApMMWDYJtCqGjAeiGf4EK3Jo6q0uiqbj8s5enDUYYgJdDwh3gzuAyUpyADtQeZR
-	ebHt9w+scbH+stRb+zUrZIFw4Ss/Z0mNY82iM/oLKVchXpkwEMJtHBy+u33k5oHHRWy7gC
-	iowwjktmdxH0tQOgpxaQ4SKqDXBd+8g=
+	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
+	b=rKOuvqYbY+2vWHxWOSIiJrWEWvsgO0iJMF3/RUpF0xaVQwQTtJC/4Ng+gDIGNeh+tAHUjv
+	f8whXn/lDYKOwoTIqAfmv6rpW5ZAfXrSqu0jSF3KyNbh01w/RPxEMZiQiWospoOhFx1Py3
+	Za3QieBw52k6lZ0yTX/LKwyoTVUlpts=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760421214;
+	s=susede2_ed25519; t=1760421887;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvLoKULPX2FQHcB605LWH8Pa4QC+lLB7zqDLvuxGH0I=;
-	b=AhxK+pVr1UPT9KxqmJBIJ+TxK1PtLbdTKr/5MDRbwrkUVQ3ju/3y7sAtFom/rG/5smNKOb
-	HU0QCU7wUapP0WBg==
+	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
+	b=WKHnFwmlP5GUejtjiuIskooDQ6MrwUsJe7EZSlXjubNge5Hv+xrns2NLZgIwbWNpLody/N
+	6h4ipappDFieuIAQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R0E+Cf9A;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AhxK+pVr
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rKOuvqYb;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WKHnFwml
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760421214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760421887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvLoKULPX2FQHcB605LWH8Pa4QC+lLB7zqDLvuxGH0I=;
-	b=R0E+Cf9ApMMWDYJtCqGjAeiGf4EK3Jo6q0uiqbj8s5enDUYYgJdDwh3gzuAyUpyADtQeZR
-	ebHt9w+scbH+stRb+zUrZIFw4Ss/Z0mNY82iM/oLKVchXpkwEMJtHBy+u33k5oHHRWy7gC
-	iowwjktmdxH0tQOgpxaQ4SKqDXBd+8g=
+	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
+	b=rKOuvqYbY+2vWHxWOSIiJrWEWvsgO0iJMF3/RUpF0xaVQwQTtJC/4Ng+gDIGNeh+tAHUjv
+	f8whXn/lDYKOwoTIqAfmv6rpW5ZAfXrSqu0jSF3KyNbh01w/RPxEMZiQiWospoOhFx1Py3
+	Za3QieBw52k6lZ0yTX/LKwyoTVUlpts=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760421214;
+	s=susede2_ed25519; t=1760421887;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvLoKULPX2FQHcB605LWH8Pa4QC+lLB7zqDLvuxGH0I=;
-	b=AhxK+pVr1UPT9KxqmJBIJ+TxK1PtLbdTKr/5MDRbwrkUVQ3ju/3y7sAtFom/rG/5smNKOb
-	HU0QCU7wUapP0WBg==
+	bh=+nTiAhEtLhakZDaSGJLkjbBvw4HLsVtJBfeeNxtqUIo=;
+	b=WKHnFwmlP5GUejtjiuIskooDQ6MrwUsJe7EZSlXjubNge5Hv+xrns2NLZgIwbWNpLody/N
+	6h4ipappDFieuIAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07A6713675;
-	Tue, 14 Oct 2025 05:53:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3645113A44;
+	Tue, 14 Oct 2025 06:04:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hJ+BAF7l7WhIegAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Oct 2025 05:53:34 +0000
-Date: Tue, 14 Oct 2025 07:53:33 +0200
-Message-ID: <877bwy81wi.wl-tiwai@suse.de>
+	id jUbHC//n7WiHBgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Oct 2025 06:04:47 +0000
+Date: Tue, 14 Oct 2025 08:04:46 +0200
+Message-ID: <875xci81dt.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	broonie@kernel.org,
-	cryolitia@uniontech.com,
-	linux-kernel@vger.kernel.org,
+To: Askar Safin <safinaskar@gmail.com>
+Cc: tiwai@suse.de,
+	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,
+	bo.liu@senarytech.com,
+	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	kailang@realtek.com,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	pierre-louis.bossart@linux.dev,
-	quic_wcheng@quicinc.com,
-	syzkaller@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: usb-audio: Fix NULL pointer deference in try_to_register_card
-In-Reply-To: <2025101453-backboned-shine-17b8@gregkh>
-References: <2025101225-lisp-monkhood-af34@gregkh>
-	<20251014040149.1031348-1-r772577952@gmail.com>
-	<2025101453-backboned-shine-17b8@gregkh>
+	patches@opensource.cirrus.com,
+	rf@opensource.cirrus.com,
+	regressions@lists.linux.dev,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <20251014034156.4480-1-safinaskar@gmail.com>
+References: <20250709160434.1859-6-tiwai@suse.de>
+	<20251014034156.4480-1-safinaskar@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -99,7 +100,7 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 5407F1F74C
+X-Rspamd-Queue-Id: AC6721F750
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.51 / 50.00];
@@ -110,10 +111,10 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
@@ -122,50 +123,53 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Score: -3.51
 
-On Tue, 14 Oct 2025 07:26:41 +0200,
-Greg KH wrote:
+On Tue, 14 Oct 2025 05:41:56 +0200,
+Askar Safin wrote:
 > 
-> On Tue, Oct 14, 2025 at 12:01:49PM +0800, Jiaming Zhang wrote:
-> > Hi Greg,
+> Takashi Iwai <tiwai@suse.de>:
+> > Now HD-audio controller drivers are moved into sound/hda/controllers
+> > directory as a part of HD-audio code reorganization.  Most of drivers
+> > are independent from PCI bus, hence it makes more sense to put under
+> > sound/hda.
 > > 
-> > Thanks for the guidance. You're right, the root cause of this issue is
-> > that a USB audio device is created without a proper interface.
+> > The hda_ prefix is dropped from most of files at moving, as it's
+> > more or less superfluous.
 > > 
-> > To fix this issue, I added a check for the NULL return value in
-> > try_to_register_card() before calling usb_interface_claimed().
-> > I have tested patch with the reproducer on the latest version (v6.18-rc1),
-> > the issue was not triggered again.
-> > 
-> > Please let me know if any changes are needed.
-> > 
-> > Best regards,
-> > Jiaming Zhang
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > 
-> Can you resend this without this text above the changelog comment?
+> This patch broke my laptop's speakers.
 > 
-> > ---
-> > 
-> > In try_to_register_card(), the return value of usb_ifnum_to_if() is
-> > passed directly to usb_interface_claimed() without a NULL check, which
-> > will lead to a NULL pointer dereference when creating an invalid
-> > USB audio device. Fix this by adding a check to ensure the interface
-> > pointer is valid before passing it to usb_interface_claimed().
-> > 
-> > Reported-by: Jiaming Zhang <r772577952@gmail.com>
-> > Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+> My laptop is Dell Precision 7780.
 > 
-> And as you authored this, no need for "Reported-by:" :)
+> Here is output of "sudo lspci -vvvvv":
+> https://zerobin.net/?bb0d52d5c33a1ca8#Z4cktfC0ofZhkzBU4/AFGpYAVJFXrus46nDeLQOV22s=
+> (This output was collected on Linux 6.12.43+deb13-amd64, audio works there.)
+> 
+> My OS is Debian Trixie.
+> 
+> If you need my config, then here is my config I tested with linux-next:
+> https://zerobin.net/?989789b5698e0afe#DKjA80yFwRFnLkYwo3ZnNZEVGowGyn5N78aSy8omoGY=
+> It was tested with current linux-next:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tag/?h=next-20251013
+> (and audio didn't work).
+> 
+> #regzbot introduced: 2d9223d2d64cb5216859ced6cc33fb3b04e5f98f
 
-Also try to point to a breaker commit via Fixes tag.
-And, pointing to the bug report thread via Closes tag would be nicer,
-too.
+The oft-seen "regression" reports for 6.17 were rather the incorrect
+kconfig setup, and that's your case, too, I suppose.  In 6.17,
+HD-audio Realtek (and other) codec drivers were split, and each of
+them can be enable/disabled individually when CONFIG_EXPERT is set,
+where people often leave them off blindly.
 
-The code change itself looks good, so only those cosmetic things.
+So, please check your kernel config between working and non-working
+cases.  I guess you had CONFIG_SND_HDA_CODEC_REALTEK beforehand, and
+now it's off.
 
 
 thanks,
