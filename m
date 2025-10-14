@@ -1,67 +1,131 @@
-Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4EF749C
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 13:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8353101B1
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 13:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760449630; cv=none; b=e//8l79ieqEa6sGYc8EjnDEhu2+X2htk+nlJPBGsTDeVlSco7/oReJDdhXYfYJY7qeuyQF7UvsmmE6xN/Cdk3T1e8bTxN1DnWVhZkOZhZ7CzNssiB1/6nTVlnNsRtDmMe5rdAeKWBZHo/ykl+P/0kJkR1g5DUbZzOzrRA0apfOo=
+	t=1760449645; cv=none; b=O1VBlL4Xm16HfMeGzBceg0IBqbYA6PnOXj+Vxbl+Cw4gZXTbO1arLNXK/tL8UfSJehbvAvokcisdSEaJM661ra9xbJXqw2M3KotGOZ8JHCJumWhbiESHr5Er76mpo5puzrNZ4RL+to0rgPa/mItUOBhdltkhIMdtiaDHjCxdRx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760449630; c=relaxed/simple;
-	bh=QJUAL04fmlV37uAJuhG826QwQjJJsIZga+Xpru4gbr4=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=gjh8xZ7W3lvUXeZsW0J+VJRqmy8EfwGpMjUpIRpjIiGdXrSf7KBo4Ke0kAvUxckE3X83TjcSjPRnxtjzImB5yixguq+bzB8OevX8EaGwkXB9ANhsfGz4NUpvCgrIBb52IGIjxRXVoebIN1Hv8F4KNExrjrKk6Micp4JdWv1kHn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=AGpvclYR; arc=none smtp.client-ip=85.9.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1760449645; c=relaxed/simple;
+	bh=CjyWPembvdVgDue4t7S/L9jn0e3Gdmw6d4TFBswEdh0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MjCZiO0kpIinjSeoGfhz3ZYUhgWBfI70eFYgdmufVt4mYBY0u1XA2qYx6MMLitgf2Mm/ldGO2n/i1mceLLah7QCr8JC6+N1vMOmPUj18/MbyZoktUUfPO5cdmpV2I98L8MpGnj9EbXHIDHglsX+Uyeyb5UuG3rbM6Qx560gGBFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=psKMWx3+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W99JeMne; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=psKMWx3+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W99JeMne; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="AGpvclYR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1760449618; x=1760708818;
-	bh=QJUAL04fmlV37uAJuhG826QwQjJJsIZga+Xpru4gbr4=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=AGpvclYRwVSV5DWb6KQ2ptkFeP36zJW03DLl2H61+jGrYsSHuH0VS1OgAkJGGtnZG
-	 zjzRzpefEVFcdSN3V260VGPg5RM9TCQ9WYopQqAtkh5ixbGtCU6zUOc81HmzXBe1mZ
-	 pUIOUzOOiQXyRabQuuHq6TWhkqb4Zy93iyXkDhAp699WRz2E4PLuEIDgVu4CgNw84C
-	 W+9vyF+piZt8OQ5iHKnvYaEJwLxOZysoDBQVcV67Jp2M25/my1a7RFFQxEA8aXXvR5
-	 Ti2UoGHbCOm8Dq2bW8y3q2xuo2m6WtiFQPNIlr21WTiZDnfCotfAFeRyou8EqxAbjE
-	 apI43svtyJsiQ==
-Date: Tue, 14 Oct 2025 13:46:55 +0000
-To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-From: =?utf-8?Q?Tomasz_Dro=C5=BCd=C5=BC?= <tomasz.drozdz.1@protonmail.com>
-Subject: Realtek ALC897 no 5.1, 7.1 surround sound.
-Message-ID: <ZW2-bs5LIbMrN3ULr-UC3aWl_zzm0nYByUT2MszvpABCQifCxOgTpgT6TfnAKT-XaDLDOI8tL6srKiqCEY9aKzop2Wi9ZbxY1NOMXaifA5s=@protonmail.com>
-Feedback-ID: 6711154:user:proton
-X-Pm-Message-ID: bd4ec1491dc0e690d5d1b8404a480ec899a0079f
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="psKMWx3+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W99JeMne";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="psKMWx3+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W99JeMne"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7481521D3F;
+	Tue, 14 Oct 2025 13:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760449641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FxEjkvyCXONNXcb7Z0yvTyuXk2SZ3ml4MdHIBFzuPNk=;
+	b=psKMWx3+tyEX2b2cIML7521EJGFI/TK7CoCFeQqSZC23gC4ZT/Rx3IrdKudkirD8MKitJf
+	cm6zmixhsj2tW+891rCFDJCd0TvrSKyZphYcNKB0Q9M3Es/+AVV2zcvslMxfiqXuQRoRvB
+	eLvKBZ2Z9r3YsnQFp1u+Mu2PV3rcnQg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760449641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FxEjkvyCXONNXcb7Z0yvTyuXk2SZ3ml4MdHIBFzuPNk=;
+	b=W99JeMneo769WAjsj/fWtkrXbt4MN8KDB9Og+XyOGKY+ElXmruPN13QfaxfTWJk8n7tX1c
+	KOggwGrjecAHMBAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760449641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FxEjkvyCXONNXcb7Z0yvTyuXk2SZ3ml4MdHIBFzuPNk=;
+	b=psKMWx3+tyEX2b2cIML7521EJGFI/TK7CoCFeQqSZC23gC4ZT/Rx3IrdKudkirD8MKitJf
+	cm6zmixhsj2tW+891rCFDJCd0TvrSKyZphYcNKB0Q9M3Es/+AVV2zcvslMxfiqXuQRoRvB
+	eLvKBZ2Z9r3YsnQFp1u+Mu2PV3rcnQg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760449641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FxEjkvyCXONNXcb7Z0yvTyuXk2SZ3ml4MdHIBFzuPNk=;
+	b=W99JeMneo769WAjsj/fWtkrXbt4MN8KDB9Og+XyOGKY+ElXmruPN13QfaxfTWJk8n7tX1c
+	KOggwGrjecAHMBAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EDDD139B0;
+	Tue, 14 Oct 2025 13:47:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7hSoFmlU7mhNUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Oct 2025 13:47:21 +0000
+Date: Tue, 14 Oct 2025 15:47:21 +0200
+Message-ID: <87ikgh7fyu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Takashi Iwai <tiwai@suse.de>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] sound: amdtp-stream: fix enum kernel-doc warnings
+In-Reply-To: <20251014030552.760648-1-rdunlap@infradead.org>
+References: <20251014030552.760648-1-rdunlap@infradead.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-Hello all.
+On Tue, 14 Oct 2025 05:05:52 +0200,
+Randy Dunlap wrote:
+> 
+> Fix spelling of CIP_NO_HEADER to prevent a kernel-doc warning.
+> 
+> Warning: amdtp-stream.h:57 Enum value 'CIP_NO_HEADER' not described in enum 'cip_flags'
+> Warning: amdtp-stream.h:57 Excess enum value '%CIP_NO_HEADERS' description in 'cip_flags'
+> 
+> Fixes: 3b196c394dd9f ("ALSA: firewire-lib: add no-header packet processing")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-I use Fedora Silverblue.
-I have: 7.1 CH HD Audio (Realtek ALC897 Audio Codec), Nahimic Audio, as my =
-sound card.
-But unfortunately I can not set it to work in 5.1, 7.1 surround mode.
-
-I do not see my model here: https://docs.kernel.org/sound/hd-audio/models.h=
-tml
-so I think it may be not supported by Linux ?
-
-I have asked for help:
-- https://discussion.fedoraproject.org/t/5-1-7-1-sound-speakers/156932/5
-- https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4788
-- https://github.com/alsa-project/alsa-ucm-conf/issues/590
-
-and they said I should ask on kernel mailing list.
-
-What more info can I provide to You ?
-Can You please assist, help ?
+Applied now (with the correction of subject prefix).
 
 
-Sent with Proton Mail secure email.
+thanks,
+
+Takashi
