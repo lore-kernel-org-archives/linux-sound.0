@@ -1,60 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB4B30DEB5
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 07:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007C42877CB
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 09:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426052; cv=none; b=XDUliABD4umxABjSRhVASirxOqj57DHgDJJ9xCs44rh2ewAfCcSTvYIDyCUh1JYxo2wtNlxX8DrdfRjDqvuI0voTFxMWMfzzmb1SER99A6PcIaAucTswQfQved2tDDyoIeh9SY7xFTixjus7TyXhOWetGbxsQwVE+G/NrbE6Sgw=
+	t=1760433797; cv=none; b=FbeNJXdRJUYJnSDl4fCBWZTqWXTZ4mWxx63DzkEJwo8ySaEgnujgum3BNvurYDTn+2ftksJMzeJNbJQIMOi+irZBonPIpfduU9p7XLAdsbS82wQEhzqUxZeVzboilU8oL3iwxAWmyh4z3oVYfbDHqUxoeKMmyby6/0xbrtGC7aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426052; c=relaxed/simple;
-	bh=Tuc4EKpIVGJQUc0UEnKjTH6lEc6a7Gb3r3Paq9Vc8V8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DZd6SRzG1A/TabLkrG36mFAOmSwBsbLP0ABrAUoky2RyMFto9KVM8JRfIQbcYkC2wt1q/F/nijDpGwJKART/8k8MVuRDheiL4lYx6QD8ElUzxw/DYk5TXKdIqVQsjQvZ6NtX7XduhOh10MMoSu4aeVo3xXDp/JVggjWsjBnJVxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJiTcCLZ; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1760433797; c=relaxed/simple;
+	bh=WAz0WbvG90fVmTZ4u3de9WRxRTjU5NIb/oJcT4Ds9DA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=S13g+iDOl0lEIzJcbtkfqAQQYhnXAv2KI3XgApQtVaau2vGRyH7p9IMNG5EifRem70NEYjclldMW4e4dGlFYgBDOhsb4+yQQggRjemT4NZccpbR73hJpZMXB97Z1AvHmS0PTLrliXlyBs+GaOnfzOOpGFbT2vZdsk/Vq2kNVJGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ttwyTiqJ; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJiTcCLZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760426050; x=1791962050;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Tuc4EKpIVGJQUc0UEnKjTH6lEc6a7Gb3r3Paq9Vc8V8=;
-  b=hJiTcCLZUgVp/JvRyBHVUF6tVe68jEOjLJYPXBKZnh7Tjb2eNRWE3L4u
-   2BVDwX5U9Fyk/KJIw+a0prQA6qoUibS3+GVS+tmaPcpd7DfMyYVJFX9Rg
-   7ME4cupC42gWdXyREMGHSfyMxnd3eTO23qhuHuqr3653vO8CY+kt+LxnL
-   k7DGUeL19SLHxjFDRcZQdO+meW1qZgBTVqOSFK3E+Sxg2mHjllOLHXAsO
-   P3YvKWelyKqQoaq6FZ164XO2TL6kDWSr5QiBPTouP+nSrNWoE6cnzdkYm
-   OsSxOf884+A6bv5rG/DYbAhU/tiJ3RpBwQEh6tC4tSjxEjyvoyDzdpz7W
-   Q==;
-X-CSE-ConnectionGUID: eNOdUWY7TjGOVfvzYEMSQg==
-X-CSE-MsgGUID: b7PwH6/ESTyBJZnMB0tYAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="66233721"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="66233721"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:14:08 -0700
-X-CSE-ConnectionGUID: du6Nr7ccRUKUhU/aFuCMQQ==
-X-CSE-MsgGUID: GqXDQhL8TRuELNOunn/9Jg==
-X-ExtLoop1: 1
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:14:07 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com,
-	niranjan.hy@ti.com,
-	sbinding@opensource.cirrus.com
-Subject: [PATCH v2 9/9] ASoC: sof-function-topology-lib: escalate the log when missing function topoplogy
-Date: Tue, 14 Oct 2025 15:13:35 +0800
-Message-ID: <20251014071335.3844631-10-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
-References: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ttwyTiqJ"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 59E9Mbp063049688, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1760433757; bh=Xaofi8tmLcV+uPYkNwUp7cfIzISu7FsF781MiC9Rui0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=ttwyTiqJFGgYWg43Y5gPxW3v7kHhKdt7r8ONiYjw+qwaUmEEHRhpGt6I4jl3lAbGT
+	 IDjqqHPIVic1vtnwk7ggW1Bm2BGKGhYkbOXpv+MW7k4/QcnJCaghH0dPJ0MpibeV05
+	 Ru7p0HgYzAq6nnZgaHhqm/WXkWgnNzwkZvW50Ygb++4L08ixASTyfjTgJ0TyTlQV4d
+	 62kjInMkIdwSzfOzXs1JXinwcWdCUhvhtYU+Xqm8fHW/O6YZ0uN3Tn2VEXk29zZGce
+	 1S9IHOtFXk/FtOYTx/4q7Bz9fE8trB605PRbwsAJXG/bTc2O35sNDaewmVrUs9iXNw
+	 a7YAet7pUc/wg==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 59E9Mbp063049688
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Oct 2025 17:22:37 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Tue, 14 Oct 2025 17:22:38 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Tue, 14 Oct 2025 17:22:37 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <bard.liao@intel.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: sdw_utils: add rt1321 part id to codec_info_list
+Date: Tue, 14 Oct 2025 17:21:57 +0800
+Message-ID: <20251014092157.2789054-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,36 +55,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56)
 
-Function topology must be used if the ACPI match table is created based
-on the reported ACPI table because the monolithic topology is not picked
-for the audio configuration.
-Escalate the log and ask the user to download the latest topologies.
+From: Shuming Fan <shumingf@realtek.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+The SdW machine driver supports the part id rt1321 amplifier.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- sound/soc/intel/common/sof-function-topology-lib.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/soc/sdw_utils/soc_sdw_utils.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
-index f685c1c5c6f0..b10d4794159a 100644
---- a/sound/soc/intel/common/sof-function-topology-lib.c
-+++ b/sound/soc/intel/common/sof-function-topology-lib.c
-@@ -126,7 +126,11 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
- 		if (!ret) {
- 			release_firmware(fw);
- 		} else {
--			dev_dbg(card->dev, "Failed to open topology file: %s\n", (*tplg_files)[i]);
-+			dev_warn(card->dev,
-+				 "Failed to open topology file: %s, you might need to\n",
-+				 (*tplg_files)[i]);
-+			dev_warn(card->dev,
-+				 "download it from https://github.com/thesofproject/sof-bin/\n");
- 			return 0;
- 		}
- 	}
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 56c72ef27e7b..270c66b90228 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -311,6 +311,26 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 		},
+ 		.dai_num = 1,
+ 	},
++	{
++		.part_id = 0x1321,
++		.dais = {
++			{
++				.direction = {true, false},
++				.dai_name = "rt1320-aif1",
++				.component_name = "rt1320",
++				.dai_type = SOC_SDW_DAI_TYPE_AMP,
++				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.init = asoc_sdw_rt_amp_init,
++				.exit = asoc_sdw_rt_amp_exit,
++				.rtd_init = asoc_sdw_rt_amp_spk_rtd_init,
++				.controls = generic_spk_controls,
++				.num_controls = ARRAY_SIZE(generic_spk_controls),
++				.widgets = generic_spk_widgets,
++				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
++			},
++		},
++		.dai_num = 1,
++	},
+ 	{
+ 		.part_id = 0x714,
+ 		.version_id = 3,
 -- 
-2.43.0
+2.34.1
 
