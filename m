@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC7230AAA6;
-	Tue, 14 Oct 2025 03:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72097309F09;
+	Tue, 14 Oct 2025 03:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760411715; cv=none; b=D7tEuyEWq9nwZonzRPsj4OWevLa56lkpp0LqUt2FORGuBnFsEboY+J5ErA6FNpsglAAaAIopfAPDW7K91YfMRQeQixuYPf0cddzUAQqHrm+ZsHRo+dYG9Yd8iG/Qf6pJ3Rxc/MvarMBzetYYby9zndBzR1Qx0w79PH0digxV5ds=
+	t=1760411717; cv=none; b=mZdOQRvvMiL3+Th14uA0fGICpoavI054ShwmOMZi9QgovqyrSDbjFpjORdMCAEnDNhUv/tDag66s/d5vXqARYedSN37HNoM9H9q4yre6tY+IRpCaVQU4NTLsm0/6AFgi9hxXcAmrI4YubLK7eQAJjOZA9n7mgSjDOAHm4I1taB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760411715; c=relaxed/simple;
-	bh=UbR/bMPXxaB/zDQV3v8s7FcdG+sxaTfUHnva5xYqVNc=;
+	s=arc-20240116; t=1760411717; c=relaxed/simple;
+	bh=bST5A1RZ2UDNZ/IHVgdVziruZsuAPXLZmxs9N0Kmacw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ox4ya94Vj1LaaRH0HB/n+A/q8m9o3W8ZZKzzhUqyiC26pY7lFDF4riZJuG2SGcEPHI073JiiTRb3J52RFQRkfK1gI52Cs+0EHKaHe1anmtAgFYcV6OhlN5VCT1aksR/Mt49v6Lu/ruWH0P+e+4dFjjg7EnFyzaQdT3AXIoYTwjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWaXOlo8; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=jEikJLjOmu/aIM8TCJw2HnoFlprOL83TvgPhnA7BNHpvuORTQpBBn0k5XATaQY9DDMNF2v7+CGT6Jpa2SV/mTVweISBD4tQA+Mqfv7ML/+yRJnwl5OvKQpKpy2+KP9sS2NAPogsQ59+0EJH9KKV4TxtahHVghUCJEGJs4Y9FOTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNNofO7L; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWaXOlo8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNNofO7L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760411712; x=1791947712;
+  t=1760411714; x=1791947714;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UbR/bMPXxaB/zDQV3v8s7FcdG+sxaTfUHnva5xYqVNc=;
-  b=CWaXOlo8lNGFtg+TenB2ElAj9gQMrGl3MsZ/8y6Idxc4eULyZS+W/wOn
-   BL2zL94dvJZA9a1UQJ5/XtVeyKLLIcDU+NA6NjJ2ij2vsH0PMRbKXjRfz
-   5Gbx62UGtbzLkWKm0izLqSnb+EO0+/9ECpmcOrtCH3vp4s8lVrBtlv4eE
-   cOrEkKJxxO5Niel/+sXuryGIYDdmsW5IKsxQY49yYdVUezJFEhiEb+aqz
-   wE5o8K51d4mrf8zUXrsMw8rPQ7VSOuzXgWUDkuMHqdr3xEoRX4zRml3qN
-   7Q7RT6+EpvZjeW1c/Yh2HO8aYIBBFYxooX+gWZU7ThYHkiUIDqKgek6V2
+  bh=bST5A1RZ2UDNZ/IHVgdVziruZsuAPXLZmxs9N0Kmacw=;
+  b=hNNofO7LwdO027j8ksmeNMWZ1pztIx63ZWj6DAvUQYwDwfk40VXvcNil
+   n5+DZA8rLo7IWludEt0WEzc2JoClymD56lS/hEILIeo2oLNg7k9iVssY5
+   lNA4wAwXhU88pt2ysE6YhOlP7RguKVNw+Dfcdja04INRrURQu+luSvP5S
+   rd/vW9LcKy+PoGNqKt7vF3zBXuDJAhyxXLJXK3bQuA0w8tqCDHDFLR0wf
+   +3BEjQLo/7Cxcqn+P/T1YfbsIIMNhFvJ75AYuQrbcwTATiZX182nwAq8q
+   6Wv/mWQISx302egu93nwL2sLMChL3M+OYN6BSVVl1JqiUNW+YevTIdx77
    A==;
-X-CSE-ConnectionGUID: wyd901gsS/6nnJP335+8Dw==
-X-CSE-MsgGUID: HiQq1K1QQ8ea+0eG76YThw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62662083"
+X-CSE-ConnectionGUID: fLqyf95uQt6iFlo7tJiXWg==
+X-CSE-MsgGUID: S7yXRpEtQwScQckT3I24ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62662092"
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="62662083"
+   d="scan'208";a="62662092"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:10 -0700
-X-CSE-ConnectionGUID: IvQirI/MRiuns8MxPpTAAA==
-X-CSE-MsgGUID: buJ3+V1ZRGSO4XX5aVHlMA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:13 -0700
+X-CSE-ConnectionGUID: aur5r7AjTiG9gc9Elt48tQ==
+X-CSE-MsgGUID: 3QzdLynVST2fMJ+qBvflyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="182198568"
+   d="scan'208";a="182198591"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:08 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:12 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -50,9 +50,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 4/7] soundwire: cadence: export sdw_cdns_bpt_find_bandwidth
-Date: Tue, 14 Oct 2025 11:14:47 +0800
-Message-ID: <20251014031450.3781789-5-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 6/7] soundwire: cadence_master: add fake_size parameter to sdw_cdns_prepare_read_dma_buffer
+Date: Tue, 14 Oct 2025 11:14:49 +0800
+Message-ID: <20251014031450.3781789-7-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
 References: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
@@ -64,78 +64,101 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, we calculate the required bandwidth after the PDI buffer size
-is calculated. However as we need to add some fake frame to align the
-data block size, the final PDI size and the frame number will change.
-Besides, we need the required bandwidth to decide the DMA channel number
-and the channel number will be used to calculate the data block size.
-Therefore, we calculate the required bandwidth and export a helper for
-the caller to get the required bandwidth.
+We may need to add few fake frames to fit the aligned read dma buffer
+size. Add a fake_size parameter to allow the caller to set the fake data
+size.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- drivers/soundwire/cadence_master.c | 30 ++++++++++++++++++++++++++++++
- drivers/soundwire/cadence_master.h |  5 +++++
- 2 files changed, 35 insertions(+)
+ drivers/soundwire/cadence_master.c | 39 +++++++++++++++++++++++++++++-
+ drivers/soundwire/cadence_master.h |  2 +-
+ drivers/soundwire/intel_ace2x.c    |  2 +-
+ 3 files changed, 40 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-index 178341410909..57671f9b3e9c 100644
+index 57671f9b3e9c..4e94da28d8ad 100644
 --- a/drivers/soundwire/cadence_master.c
 +++ b/drivers/soundwire/cadence_master.c
-@@ -2094,6 +2094,36 @@ static unsigned int sdw_cdns_read_pdi1_buffer_size(unsigned int actual_data_size
- 	return total * 2;
- }
+@@ -2393,7 +2393,7 @@ EXPORT_SYMBOL(sdw_cdns_prepare_write_dma_buffer);
  
-+int sdw_cdns_bpt_find_bandwidth(int command, /* 0: write, 1: read */
-+				int row, int col, int frame_rate,
-+				unsigned int *tx_dma_bandwidth,
-+				unsigned int *rx_dma_bandwidth)
-+{
-+	unsigned int bpt_bits = row * (col - 1);
-+	unsigned int bpt_bytes = bpt_bits >> 3;
-+	unsigned int pdi0_buffer_size;
-+	unsigned int pdi1_buffer_size;
-+	unsigned int data_per_frame;
+ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, u32 start_register, int data_size,
+ 				     int data_per_frame, u8 *dma_buffer, int dma_buffer_size,
+-				     int *dma_buffer_total_bytes)
++				     int *dma_buffer_total_bytes, unsigned int fake_size)
+ {
+ 	int total_dma_data_written = 0;
+ 	u8 *p_dma_buffer = dma_buffer;
+@@ -2445,6 +2445,43 @@ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, u32 start_register, int data_si
+ 		if (ret < 0)
+ 			return ret;
+ 
++		counter++;
 +
-+	data_per_frame = sdw_cdns_bra_actual_data_size(bpt_bytes);
-+	if (!data_per_frame)
-+		return -EINVAL;
-+
-+	if (command == 0) {
-+		pdi0_buffer_size = sdw_cdns_write_pdi0_buffer_size(data_per_frame);
-+		pdi1_buffer_size = SDW_CDNS_WRITE_PDI1_BUFFER_SIZE;
-+	} else {
-+		pdi0_buffer_size = SDW_CDNS_READ_PDI0_BUFFER_SIZE;
-+		pdi1_buffer_size = sdw_cdns_read_pdi1_buffer_size(data_per_frame);
++		p_dma_buffer += dma_data_written;
++		dma_buffer_size -= dma_data_written;
++		total_dma_data_written += dma_data_written;
 +	}
 +
-+	*tx_dma_bandwidth = pdi0_buffer_size * 8 * frame_rate;
-+	*rx_dma_bandwidth = pdi1_buffer_size * 8 * frame_rate;
++	/* Add fake frame */
++	header[0] &= ~GENMASK(7, 6);	/* Set inactive flag in BPT/BRA frame heade */
++	while (fake_size >= data_per_frame) {
++		header[1] = data_per_frame;
++		ret = sdw_cdns_prepare_read_pd0_buffer(header, SDW_CDNS_BRA_HDR, p_dma_buffer,
++						       dma_buffer_size, &dma_data_written,
++						       counter);
++		if (ret < 0)
++			return ret;
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL(sdw_cdns_bpt_find_bandwidth);
++		counter++;
 +
- int sdw_cdns_bpt_find_buffer_sizes(int command, /* 0: write, 1: read */
- 				   int row, int col, unsigned int data_bytes,
- 				   unsigned int requested_bytes_per_frame,
++		fake_size -= data_per_frame;
++		p_dma_buffer += dma_data_written;
++		dma_buffer_size -= dma_data_written;
++		total_dma_data_written += dma_data_written;
++	}
++
++	if (fake_size) {
++		header[1] = fake_size;
++		ret = sdw_cdns_prepare_read_pd0_buffer(header, SDW_CDNS_BRA_HDR, p_dma_buffer,
++						       dma_buffer_size, &dma_data_written,
++						       counter);
++		if (ret < 0)
++			return ret;
++
++		counter++;
++
++		p_dma_buffer += dma_data_written;
++		dma_buffer_size -= dma_data_written;
+ 		total_dma_data_written += dma_data_written;
+ 	}
+ 
 diff --git a/drivers/soundwire/cadence_master.h b/drivers/soundwire/cadence_master.h
-index 9373426c7f63..6830d7f2d772 100644
+index 6830d7f2d772..a269a87486fc 100644
 --- a/drivers/soundwire/cadence_master.h
 +++ b/drivers/soundwire/cadence_master.h
-@@ -209,6 +209,11 @@ void sdw_cdns_config_update(struct sdw_cdns *cdns);
- int sdw_cdns_config_update_set_wait(struct sdw_cdns *cdns);
+@@ -226,7 +226,7 @@ int sdw_cdns_prepare_write_dma_buffer(u8 dev_num, u32 start_register, u8 *data,
  
- /* SoundWire BPT/BRA helpers to format data */
-+int sdw_cdns_bpt_find_bandwidth(int command, /* 0: write, 1: read */
-+				int row, int col, int frame_rate,
-+				unsigned int *tx_dma_bandwidth,
-+				unsigned int *rx_dma_bandwidth);
-+
- int sdw_cdns_bpt_find_buffer_sizes(int command, /* 0: write, 1: read */
- 				   int row, int col, unsigned int data_bytes,
- 				   unsigned int requested_bytes_per_frame,
+ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, u32 start_register, int data_size,
+ 				     int data_per_frame, u8 *dma_buffer, int dma_buffer_size,
+-				     int *dma_buffer_total_bytes);
++				     int *dma_buffer_total_bytes, unsigned int fake_size);
+ 
+ int sdw_cdns_check_write_response(struct device *dev, u8 *dma_buffer,
+ 				  int dma_buffer_size, int num_frames);
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 5d08364ad6d1..22118b053d56 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -177,7 +177,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 		ret = sdw_cdns_prepare_read_dma_buffer(msg->dev_num, msg->addr,	msg->len,
+ 						       data_per_frame,
+ 						       sdw->bpt_ctx.dmab_tx_bdl.area,
+-						       pdi0_buffer_size, &tx_total_bytes);
++						       pdi0_buffer_size, &tx_total_bytes, 0);
+ 	}
+ 
+ 	if (!ret)
 -- 
 2.43.0
 
