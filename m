@@ -1,82 +1,81 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0360910942
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 03:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD7E23D7D9
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 04:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760413531; cv=none; b=iA6eH0SuCXhv2LHmwhA64Z+ZjEuJAnp60oarl809bKIM1B2p0Bf9jSOXx66xVncXL4oPLKMkyV+EVe+zDjP3pzOzkhd2TFGMT1kFQ2843bPPndjcq/ojly9T3jIXBJ6v5+uCIokCSrW+60TU7icODmbjlmX8rNg6Bi7jNx6gc1E=
+	t=1760414519; cv=none; b=afWXYuqwxVP4GGKGZ3u53it5yP1WY7hz6Py/8U4T6QHs+PTb5VNDctlcvDB5eOsPo+tAwoFv/I5Rnz6XKvDC+KPdinnqiOTer97kXKhmm9FInEixklsikMoxrJTG6QmXRr4Ly234k/1I2ittOXoy8wrOqlBctPXqAHtw5JEGYg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760413531; c=relaxed/simple;
-	bh=AgkShE7uH96yWUzpH3gSmZSEzMS6r4JBwD5xtKLDn5I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rsKkqvafoeFhcdABJy15nRLQFJoSOglKuyelo+Eb9r5PUMxOyZhHv73bB6JiIaeLjdOYYcsbX3L09DNBuCjIslvQOk+n8+GPKPY0hQdblrkiRDWr0KO1o7vc7+7SozSM3UCM+Lmk4fgg+zF1OZOly7K4NfTgYEIQySSLUhNFs4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LqwDlbiA; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1760414519; c=relaxed/simple;
+	bh=6rKEi5rVMoICrmlvGRwYms/LqfiAGgM+OUJeZoAy+hU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=fwV/czdHBRBO3vYLuRQ5pTHfDi9OIYSAF2BCHIX2yJF/EwQPKmk5r3k0u1Y6rXsOoVIyMr9u/8qvCYj3m847+fdDc/yi3m0VXzQqGZ06zSh2aL0QHwXMvPp73hyNM0hEyT+fkkkR/VI3SJE8ZtYDLKkaFql/BV3/J+mabmJ0LuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOPlwEpj; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LqwDlbiA"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e42deffa8so45546605e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 20:45:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOPlwEpj"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7810289cd4bso4649462b3a.2
+        for <linux-sound@vger.kernel.org>; Mon, 13 Oct 2025 21:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760413528; x=1761018328; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760414517; x=1761019317; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s/Zf3gVNNazii8FmNwFvhySg3us0RixLL079KZ3A4LE=;
-        b=LqwDlbiA5BZAqnzqkCVzv+oF7oEzWPFuX+XD7xzGXmxcFbLurj1hjihAYMnTIxk+Ez
-         n0q+UwyhEJbbFyy0yubK8oA8X5Du1HVXa8eS1rYprhURKeBZRHgyuy9Ry0Rq4VP/xq+D
-         9oP1ZDutMV6G07LEqAu9qE2gBgJcDoNKdzdBmZj8TdYXWxILyQSQN1GeZJQI464Hex92
-         vUnTYqIS43HyaR5iMm8tNguK6f7iynvCKBnpmRxyrZOj8n8uJRMcd+1iMvEd1aXRJ4j2
-         qVgoZJUqHmAu+HIkiYJq4sf4AF9ZkNxqQufoYT+epPoTwqiw/mfAPn2lpxBtV09GN+FW
-         WJjA==
+        bh=bsB0izycZm3OO4+5XE/3dmw7Fn4MStV5GzPqI2plKC8=;
+        b=SOPlwEpjI4nGte158TcRP4ZAEKhHLaV0Ivnjt/7QcwyntDWzwWu9vZ9mTajkSWFiKL
+         UCT1pIaqrH9cGKsdnY60PsMPTazeaBzgGGE5TrFRX0yyn9d72Jw76gUB/g7bQMzzTKTI
+         zb5vpu7IraTdzfEo3I9pAXZTfC/SriJKvtuQszrL887ychpm8tJYV/x8qU3cRCWeZ+hK
+         0cLgVwYN3LnUCIbgXQk+/1QMtSImT41xrFy4NbpSTjFbMbAqv/SgGL+54PHO8H7aAs7N
+         JEm1daD0Wa1LoVY4+Orc69rPMEZKsLEyCjJPpDAVnPPBtqn2HsQXPyCnHb2RidBdCEg0
+         h6AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760413528; x=1761018328;
+        d=1e100.net; s=20230601; t=1760414517; x=1761019317;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s/Zf3gVNNazii8FmNwFvhySg3us0RixLL079KZ3A4LE=;
-        b=gWugOP7eGnA/X4j3GZE0gbwf7mVE6/PWlfNJvGb1K9ZL8372Ziebd5enbQ5nr2eYa3
-         is0goPoHV+PiAXxw6qfj8IIXD+7fPZDwJ+91dSX5fMAzwEfRzSw5fcWmRzYVsEzl5hp1
-         RfAzm50ssLfoeAAfsKKXv9ZuuGy4YqCTuIlkL3MLcHDJSHG2rIpW2vztHuDPUvHgvRec
-         gwRe7psexJnkRN2wDvCGd2jcBvyN4YvPBld1cKCUVw/8gMrO3uVswBMh7Cu2Ymv/m59Q
-         W8oCM4laUwhsTBafObh4zgVLGNvTafL5Yl2g6YdjJx1498choMgAbOBIbzmpEaCLYvX3
-         FXTA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5k7rRl8+eBOAylz+dkbYPKViHHupVdgjivTe7tj65fyFtsqeJi6slT9juEdrHApBH/cdipWd4WuwfFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLTqhAv2pUoWw6eS5QqBLBRrTTuu9ERxS5ESU7gw/sI6QfFKqy
-	KTbvILOZa/yBpLpvOrJnpEFJBeh44ZmQ2C/mrrLevjiYrQuS8fhu6rrZ
-X-Gm-Gg: ASbGnctbE3ZbMhv8ry1ZoJNKp8flp9tPCYzjqNvr5rY0N60i3FhjnKwBqNz6adME4AD
-	IOff6+Z+p37dC1+IdTSZZKGPZgA30ZikGIYcu6IdXY1JAJbvFGE6pGyXTU079iyHuruI4ZgSDvd
-	+R+qMrM+ovbIW9eZCsdnajy7oRlUK6AwuUph7++5Xl4Ovm5hzIRKAEIX3MwUExRhx4MpyUNQGxO
-	8YfeHjmT3rS3fZ0ol1IcmVmItijde34hTS8QzZk0EvZ6T9OzfXPnHNbtUTjqB9CAKKk7B3Thmnv
-	9XCX98FNuwOK2yRMeRuBTF9QvAr6up6nPfHUldYBCaO0HT8bhX0cQi5HpemIsCKdN73fHYv4OHJ
-	YzfT4zFkJBLx9gd/yIcEWoELSxLEPEihrTCH1Egx8zRty7E3e
-X-Google-Smtp-Source: AGHT+IEggN8xsJVVtmb8jYvbBjF9MhRjz4w96TxR6H4KvnRjXEw65+ufHxe8tiu185JOCLgglHSu5Q==
-X-Received: by 2002:a05:600c:3d87:b0:45b:7d77:b592 with SMTP id 5b1f17b1804b1-46fa9a9ede8mr159772445e9.12.1760413528030;
-        Mon, 13 Oct 2025 20:45:28 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fab3e3520sm150377525e9.2.2025.10.13.20.45.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 20:45:27 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: tiwai@suse.de
-Cc: amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
+        bh=bsB0izycZm3OO4+5XE/3dmw7Fn4MStV5GzPqI2plKC8=;
+        b=P0kHa8QpuonJgB9dNfGyuqbng0IdL1ZqDnwGy6OVxxu88/Cxq0OH+JhsDge8jYgOLE
+         9KDaHvd52M7XjC8YdVhnYVTT8RzKph/Us91BVHSb7Gqd+nOTOs4l+ssusi5BOtkDxj5G
+         ItvtxA5NUBO2t8LT66oZagv/l8MlcpRnZp9+ZOsoMBZalXQIEwS2ecNsdbkwxYhocflE
+         TNhenLZxY+r/tSVqK6oPId7dKgfv3oL5EIYGHKcCVne9ThXtuj5p4AlNPR97Lmpdaftb
+         skTlzzD3ujyavGkI0WKYQhwKrxL5MPb+SvOfnd/X4I4BuFMTOu5+GAl2xVzVxNaEeLLM
+         Z0mw==
+X-Forwarded-Encrypted: i=1; AJvYcCUox/+hqDbKAZPD/tiX160R9hSqwwu0FsX35cczGRgtp4U0bVXMO2YDAfYTNiDr9JbXHdVnIQM8Swh0Ng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyquP9YLYHu4zMW383bX61aW5GSr9scMOMp3SyXW17IJn5RL7Cj
+	JRtCokbIYBGyOb20TvL7EQ832gyOwiZkciWRpknGckknEtjH9oYa6tWk
+X-Gm-Gg: ASbGncvmOufF3vv5prtC+5YXQuKvqsc2B8x58JLPKn4sNnywoFvTyid5yQsf/4AxfLL
+	xuWEnOBFFU7bBaJADhl2iOd1vpjlaflSxw9rztDWJk/W+iLvGXzFPJ2cX/iBpMaaCBsmIPUPSed
+	HJ5nlmFoy0Gdi/9ENxp8G80DTP73yXn0KMRVK8zj7YeaaMiHMR3b0B4nBh0oBpRrRkZDtceI9i3
+	raMfSYW71FHnSGXRc6l4oBtugohD00JTeWQQBTUM1vhxd8Ao447tFSSWvEpMJojFDBIkrH6yCbg
+	THWazwDHnxb97hRerbOdUeQeT787ypUTSX1MUpTbcX7y8+tgwlIdFuTpVD3lu8kMobTxOkaIWwK
+	Dd0ejd39PXfhU6ZIvmrIXS3Lzrsm3dGX1XCzmhrX0eLY5Gm/ZpA+l
+X-Google-Smtp-Source: AGHT+IFrtfF17eWlEmSsbrrCEoLlRLW+h84XvFQh9e46H8cF0iymlCZDGFzyK4npmcVJn/1/I4iB5w==
+X-Received: by 2002:a05:6a00:2e13:b0:781:1771:c12c with SMTP id d2e1a72fcca58-7938269d8b7mr29748487b3a.0.1760414516006;
+        Mon, 13 Oct 2025 21:01:56 -0700 (PDT)
+Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d09a87asm13378751b3a.46.2025.10.13.21.01.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 21:01:55 -0700 (PDT)
+From: Jiaming Zhang <r772577952@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: broonie@kernel.org,
+	cryolitia@uniontech.com,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	regressions@lists.linux.dev,
-	Dell.Client.Kernel@dell.com
-Subject: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-Date: Tue, 14 Oct 2025 06:41:56 +0300
-Message-ID: <20251014034156.4480-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250709160434.1859-6-tiwai@suse.de>
-References: <20250709160434.1859-6-tiwai@suse.de>
+	perex@perex.cz,
+	pierre-louis.bossart@linux.dev,
+	quic_wcheng@quicinc.com,
+	r772577952@gmail.com,
+	syzkaller@googlegroups.com,
+	tiwai@suse.com
+Subject: [PATCH] ALSA: usb-audio: Fix NULL pointer deference in try_to_register_card
+Date: Tue, 14 Oct 2025 12:01:49 +0800
+Message-Id: <20251014040149.1031348-1-r772577952@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2025101225-lisp-monkhood-af34@gregkh>
+References: <2025101225-lisp-monkhood-af34@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,34 +84,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Takashi Iwai <tiwai@suse.de>:
-> Now HD-audio controller drivers are moved into sound/hda/controllers
-> directory as a part of HD-audio code reorganization.  Most of drivers
-> are independent from PCI bus, hence it makes more sense to put under
-> sound/hda.
-> 
-> The hda_ prefix is dropped from most of files at moving, as it's
-> more or less superfluous.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Hi Greg,
 
-This patch broke my laptop's speakers.
+Thanks for the guidance. You're right, the root cause of this issue is
+that a USB audio device is created without a proper interface.
 
-My laptop is Dell Precision 7780.
+To fix this issue, I added a check for the NULL return value in
+try_to_register_card() before calling usb_interface_claimed().
+I have tested patch with the reproducer on the latest version (v6.18-rc1),
+the issue was not triggered again.
 
-Here is output of "sudo lspci -vvvvv":
-https://zerobin.net/?bb0d52d5c33a1ca8#Z4cktfC0ofZhkzBU4/AFGpYAVJFXrus46nDeLQOV22s=
-(This output was collected on Linux 6.12.43+deb13-amd64, audio works there.)
+Please let me know if any changes are needed.
 
-My OS is Debian Trixie.
+Best regards,
+Jiaming Zhang
+---
 
-If you need my config, then here is my config I tested with linux-next:
-https://zerobin.net/?989789b5698e0afe#DKjA80yFwRFnLkYwo3ZnNZEVGowGyn5N78aSy8omoGY=
-It was tested with current linux-next:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tag/?h=next-20251013
-(and audio didn't work).
+In try_to_register_card(), the return value of usb_ifnum_to_if() is
+passed directly to usb_interface_claimed() without a NULL check, which
+will lead to a NULL pointer dereference when creating an invalid
+USB audio device. Fix this by adding a check to ensure the interface
+pointer is valid before passing it to usb_interface_claimed().
 
-#regzbot introduced: 2d9223d2d64cb5216859ced6cc33fb3b04e5f98f
+Reported-by: Jiaming Zhang <r772577952@gmail.com>
+Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+---
+ sound/usb/card.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1d5a65eac933..270dad84d825 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -891,10 +891,16 @@ get_alias_quirk(struct usb_device *dev, unsigned int id)
+  */
+ static int try_to_register_card(struct snd_usb_audio *chip, int ifnum)
+ {
++	struct usb_interface *iface;
++
+ 	if (check_delayed_register_option(chip) == ifnum ||
+-	    chip->last_iface == ifnum ||
+-	    usb_interface_claimed(usb_ifnum_to_if(chip->dev, chip->last_iface)))
++	    chip->last_iface == ifnum)
++		return snd_card_register(chip->card);
++
++	iface = usb_ifnum_to_if(chip->dev, chip->last_iface);
++	if (iface && usb_interface_claimed(iface))
+ 		return snd_card_register(chip->card);
++
+ 	return 0;
+ }
+ 
 -- 
-Askar Safin
+2.34.1
+
