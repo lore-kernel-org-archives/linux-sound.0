@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EC23093D2;
-	Tue, 14 Oct 2025 03:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6AA126C02;
+	Tue, 14 Oct 2025 03:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760411712; cv=none; b=K+2dWsza4C3LL8LPqRWlPphJyPEassUJf4YFyG69BDizLv160laCIVOlae5puIY+VeNX9RM+aYaxO0ZmZ2W40PrW1JrAgMXMIFZGSwnTqRpiPBIPBbGn8exYFVqnMH7MNOA+SKf2+IqjxNLV7TK2oNSdNgj+sR0bDpHvTpf1yrU=
+	t=1760411714; cv=none; b=kfqN7DdLp3drp1xnsaf7pVfqpLfNg4hgvCraK0ihOHb9AYJiKHekMR9RlKYPY47RxdWiT+q9Vmhulv3Ghx2CZpbVgJPQ2uJWpQ+hRClpx1E6Ph4fanLxEUT6ouw1rXGyQmixX4sO+Fk7AmrV8C/lXkPgGz/AyF6de1VkmeMbjMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760411712; c=relaxed/simple;
-	bh=QMApVb7vwwvBCryw7oaYh9kuIeLOvRukrcN3SkjHiCw=;
+	s=arc-20240116; t=1760411714; c=relaxed/simple;
+	bh=+9NmTuQ2Dj3WIbfFxJHgYytJ4NdDwy3IaKM1zDQNvDI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EY8G+as3cU5K0ujKnLnuA2gnUmFSvPEo7Un5zb0N9M7XCH795tOvfCk/7ZHA+KHDSrbzElbsJByInUfFXG6zq7Iaryh+unFVjitn5a34/q7SkBK/RPY8uSPDXyo38NgRrET7EbAcdsShVdOCdwyTwZ317ZzEfFqBOQg2480oG+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GE7lunKF; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=X6oQSKUu1pf5fCVXIZlIyW14Az6YUEDcojXXq9jva8D/4rV6n/9RDu9DZ2AvIX7BKiL9ZsKtetkQ05T168R9N90a+TgGuXsDmxMsAiWm6xMLMRSr7qplL1hKOLcgd8oxh7PUqtonm/P9tcnLdAfk/TyQUDGaxmd/NMsi4MQTVdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyrFdxMF; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GE7lunKF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyrFdxMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760411710; x=1791947710;
+  t=1760411712; x=1791947712;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QMApVb7vwwvBCryw7oaYh9kuIeLOvRukrcN3SkjHiCw=;
-  b=GE7lunKFTamYMml7xm7uO1Pz0/JpNPqJLZZLpr/SctxBquScMamSFM+S
-   zFLR9TWfGkSqeSwoVuoWLtdeqGdYUfiPiNgmuySTlpLYYmHVB/BGTdCf6
-   jpxVyJ2v5cdkuhFd+X84W3cT958LytadYrAporfTig1fP5+pzUfyOtqS2
-   dOE5ZD6F98B3LJFv8rQiCEii1vHEU+k/yWbfosg0jMUHoUUSaLVeX+OiE
-   uXDugENwhXD+8zVZi0fwB+zc77VArQm6P3LxXNLIKQRaPGFMDTR5YRrGJ
-   +fWlZPMRy+WNmg0/4XfUuerjWmsnQNKGb4RnCu3+W/uL1ozEx/lNu7qL5
-   Q==;
-X-CSE-ConnectionGUID: FCzyZQT+TCO+K96hgNspGA==
-X-CSE-MsgGUID: NMuLKMiQQiG8ogtuPaDq9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62662076"
+  bh=+9NmTuQ2Dj3WIbfFxJHgYytJ4NdDwy3IaKM1zDQNvDI=;
+  b=QyrFdxMFDQkEtSKBEkWAiEd16EajkNJXnI0LIGt2TElCiZxwC2cvnJlr
+   WOwFzvHNUF4s5BanQ86Ez5/EtRQTmIcN8nPmRboqDfPESJjfgPy9fHN3O
+   H6zKzYk0qFmzx16lJdGf344pURW3pBJ+XA4SgI1mb2ckRvlvD4iGyAtJT
+   3aJiDc7JR7v2uKHaROy2DqGOaRJGvUf42nWn9Abh4HtuiV0nbMaFT1Jzd
+   kBXkES4/IpIf8OGstjfF1Mils367QXllLV/i1rHGKMVTVnov5kyPtF47d
+   EWnaRh9PXGsVKpFdwBfQZgcpMQq38Z8ebzrBQi3Sg4p+TM3ujXA4KX5XQ
+   w==;
+X-CSE-ConnectionGUID: RzF4hcZFTPOTQjpBdue/Qg==
+X-CSE-MsgGUID: 2galyq2qTHSUA6RDlQ6F6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62662087"
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="62662076"
+   d="scan'208";a="62662087"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:08 -0700
-X-CSE-ConnectionGUID: FyBSfeamQjeLbSHrL5UZww==
-X-CSE-MsgGUID: qly7j5GuQa+BEipwpHV4aA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:12 -0700
+X-CSE-ConnectionGUID: p3rrwpYpQICeHRR/oyUCHQ==
+X-CSE-MsgGUID: YU14E1dRSVGgmO4ucQExag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="182198556"
+   d="scan'208";a="182198583"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:07 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 20:15:10 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -50,9 +50,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 3/7] soundwire: cadence_master: set data_per_frame as frame capability
-Date: Tue, 14 Oct 2025 11:14:46 +0800
-Message-ID: <20251014031450.3781789-4-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 5/7] ASoC: SOF: Intel: export hda_sdw_bpt_get_buf_size_aligment
+Date: Tue, 14 Oct 2025 11:14:48 +0800
+Message-ID: <20251014031450.3781789-6-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
 References: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
@@ -64,41 +64,73 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-data_per_frame will be used for preparing the TX buffer and we may add
-some fake frames to ensure the data in the buffer will be flushed.
-So that it should indicate the frame capability even if the required
-data bytes are less than the frame capability.
+The dma buffer need to be a multiple of data block size and
+the fifo size. Export a function to return the LCM of data
+block size and the fifo size.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- drivers/soundwire/cadence_master.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/sound/hda-sdw-bpt.h       |  7 +++++++
+ sound/soc/sof/intel/hda-sdw-bpt.c | 13 +++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-index c59a98b408b3..178341410909 100644
---- a/drivers/soundwire/cadence_master.c
-+++ b/drivers/soundwire/cadence_master.c
-@@ -2114,9 +2114,6 @@ int sdw_cdns_bpt_find_buffer_sizes(int command, /* 0: write, 1: read */
- 	if (!actual_bpt_bytes)
- 		return -EINVAL;
- 
--	if (data_bytes < actual_bpt_bytes)
--		actual_bpt_bytes = data_bytes;
--
- 	/*
- 	 * the caller may want to set the number of bytes per frame,
- 	 * allow when possible
-@@ -2126,6 +2123,9 @@ int sdw_cdns_bpt_find_buffer_sizes(int command, /* 0: write, 1: read */
- 
- 	*data_per_frame = actual_bpt_bytes;
- 
-+	if (data_bytes < actual_bpt_bytes)
-+		actual_bpt_bytes = data_bytes;
+diff --git a/include/sound/hda-sdw-bpt.h b/include/sound/hda-sdw-bpt.h
+index f649549b75d5..9b654c31829a 100644
+--- a/include/sound/hda-sdw-bpt.h
++++ b/include/sound/hda-sdw-bpt.h
+@@ -30,6 +30,8 @@ int hda_sdw_bpt_wait(struct device *dev, struct hdac_ext_stream *bpt_tx_stream,
+ int hda_sdw_bpt_close(struct device *dev, struct hdac_ext_stream *bpt_tx_stream,
+ 		      struct snd_dma_buffer *dmab_tx_bdl, struct hdac_ext_stream *bpt_rx_stream,
+ 		      struct snd_dma_buffer *dmab_rx_bdl);
 +
- 	if (command == 0) {
- 		/*
- 		 * for writes we need to send all the data_bytes per frame,
++unsigned int hda_sdw_bpt_get_buf_size_alignment(unsigned int dma_bandwidth);
+ #else
+ static inline int hda_sdw_bpt_open(struct device *dev, int link_id,
+ 				   struct hdac_ext_stream **bpt_tx_stream,
+@@ -64,6 +66,11 @@ static inline int hda_sdw_bpt_close(struct device *dev, struct hdac_ext_stream *
+ 	WARN_ONCE(1, "SoundWire BPT is disabled");
+ 	return -EOPNOTSUPP;
+ }
++
++static inline unsigned int hda_sdw_bpt_get_buf_size_alignment(unsigned int dma_bandwidth)
++{
++	return 0;
++}
+ #endif
+ 
+ #endif /* __HDA_SDW_BPT_H */
+diff --git a/sound/soc/sof/intel/hda-sdw-bpt.c b/sound/soc/sof/intel/hda-sdw-bpt.c
+index 1327f1cad0bc..11df4cf1e33e 100644
+--- a/sound/soc/sof/intel/hda-sdw-bpt.c
++++ b/sound/soc/sof/intel/hda-sdw-bpt.c
+@@ -10,6 +10,7 @@
+  * Hardware interface for SoundWire BPT support with HDA DMA
+  */
+ 
++#include <linux/lcm.h>
+ #include <sound/hdaudio_ext.h>
+ #include <sound/hda-mlink.h>
+ #include <sound/hda-sdw-bpt.h>
+@@ -236,6 +237,18 @@ static int hda_sdw_bpt_dma_disable(struct device *dev, struct hdac_ext_stream *s
+ 	return ret;
+ }
+ 
++#define FIFO_ALIGNMENT	64
++
++unsigned int hda_sdw_bpt_get_buf_size_alignment(unsigned int dma_bandwidth)
++{
++	unsigned int num_channels = DIV_ROUND_UP(dma_bandwidth, BPT_FREQUENCY * 32);
++	unsigned int data_block = num_channels * 4;
++	unsigned int alignment = lcm(data_block, FIFO_ALIGNMENT);
++
++	return alignment;
++}
++EXPORT_SYMBOL_NS(hda_sdw_bpt_get_buf_size_alignment, "SND_SOC_SOF_INTEL_HDA_SDW_BPT");
++
+ int hda_sdw_bpt_open(struct device *dev, int link_id, struct hdac_ext_stream **bpt_tx_stream,
+ 		     struct snd_dma_buffer *dmab_tx_bdl, u32 bpt_tx_num_bytes,
+ 		     u32 tx_dma_bandwidth, struct hdac_ext_stream **bpt_rx_stream,
 -- 
 2.43.0
 
