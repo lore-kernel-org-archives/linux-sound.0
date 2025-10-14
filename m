@@ -1,45 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FC61E47CC
-	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 07:13:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A747A3043C0
+	for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 07:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426029; cv=none; b=ZzWNZsnF4rOEO3Pnx4upEAMcKwh+lB/orrVtjjk5jrBpuQT2b9NZZRuZrG04dle+gvBhYbc9eefxMdFYXaYdmJw+T6rKh56y3WKYz82csUd2wuUIHxhm+e3LPBM/N2e/frdg2BQdXI/BzyxQ4EJ+oFMb8aNc3fw1HjK3rW8SrDk=
+	t=1760426031; cv=none; b=itpHhs81AZ3fJ3Mn6khSjtwS+9uEGGvu2cSYL+TPH+d5/bU4iEb88yTmpBW7t4GK0NM2bicMtbeUlti5+Q1FlbJxYFxzbAirZC1vR5Bcl+gGHQPMMTlCQ3osQ/cMrrIBGo+UfJmPWTAJITFHf7YXUunVOj9bKGop2lE3OeGm3yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426029; c=relaxed/simple;
-	bh=IV/71/8BF3/+vaD7EtCQUskfLuJLlJrS3nAc4zi+r3w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FM5eBmRPohMOU/OskrAj8UP6DguceWlbshI2nerJ2vCpPa4GodoqfF866n8SOCz0YlOZH3cuSWZ1RissS0WIi1BkyRaautd2VJJRSvRo09WeFMOOpobwXqSe+QZWEHGT62i8m8QMS1kqsFdx7AWYI43GwKEdxrLbHoM8ekg3VeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhhkkOuf; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1760426031; c=relaxed/simple;
+	bh=9x4qkwbqX1w8KnD8PIzGJpeTkx0sO6sDlzdhbznRWJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fq3YE8J2ZrNMO7YOfOdw2Vldwf2Tcs6aJKgrDqrfJYlEmqNMFFqEYbGKiEdK5OckL6gnLg15FR+9VVYHhzh+1BgO/o1Qw+YRN/58SXBr956VfVvns9IlS9qHo2vzTK+gNiFbIjqX3rMz/Np7CYa8btDIaxNvpd+KDHzya+bkqro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arxZztlc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhhkkOuf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arxZztlc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760426027; x=1791962027;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IV/71/8BF3/+vaD7EtCQUskfLuJLlJrS3nAc4zi+r3w=;
-  b=XhhkkOufPyj6sd0JUDB4djLq4YUSsfcpoathpbVENI+QpUa9HWnQg+8G
-   1bYzpDWZ0mcqLhOJENNQWVRub+ZONBuNqKFo0FndOzi/EZTLl/gvNYqJ+
-   kwMZwQlchN9UX9R4GcDUZhWXTbWMMmOBGDJatTSf+5hY/5akFnECuGYpN
-   IYTOX+SXwnxHtBHT0ICtP6SzIAMkkyc0ELVwTEqcwB/RtjLvrK3lb6JGi
-   qpMN6UneGxOTfSYsJoeSnnDy0e6gsCEsGJMZ1IYbxgfet9URChWCbQCRX
-   v17Og4ttdpQuCUs4zpfm84VVeWLGTwTVF9t/pFAqfinRUi2Z+fCZGdhMB
-   Q==;
-X-CSE-ConnectionGUID: 53HBxYgDSQGk6PuMkGGT5w==
-X-CSE-MsgGUID: lSYmyLYFQy267S+VUHBmkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="66233648"
+  t=1760426029; x=1791962029;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9x4qkwbqX1w8KnD8PIzGJpeTkx0sO6sDlzdhbznRWJw=;
+  b=arxZztlcTV+o9OF1RBvXXRedTm75DpfimpGYO7Zy4BXUHXxVvBVTgcGo
+   YP4cJecLrMlK63ou/KUQa3tPkntGsmAzQ8ORezEHXCZTMO7vScW5/+f7y
+   ps2bJ2bryUDmbhp4NbeQ0kCQJKCJxMYgSVIclP0EEH6F/OKECRdkOZZg2
+   XdBZO8NTWObq9hT6i+ZV9P9WLYLMmGgzD7jGRhJLc+/Le8E1XEhyKc/B0
+   hg5u8ZXuyxtU0gRi+GitCd+PWWOuHR9/LpHIzRYPemLGBjKhvbrEnoUFs
+   r4avYVt7GckFVkSDLBfPsErLc7EM5kWuWHV/DCxYAx62D/DC5SQm9vK5V
+   w==;
+X-CSE-ConnectionGUID: PTsSpWUzQ0Wc2Nlw8+heTQ==
+X-CSE-MsgGUID: xO5/eTpuS8WIJrKYSEb5oQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="66233654"
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="66233648"
+   d="scan'208";a="66233654"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:47 -0700
-X-CSE-ConnectionGUID: Roj3fSuZTzq8cD85xvrp0w==
-X-CSE-MsgGUID: De81Dl0OQMafWlpJtzURpw==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:49 -0700
+X-CSE-ConnectionGUID: xvWZK3FiQCqrVsfaPJsuIw==
+X-CSE-MsgGUID: 7lOEjWQiQmCdIE7iXfjp2g==
 X-ExtLoop1: 1
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:44 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:13:46 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -48,63 +49,73 @@ Cc: linux-sound@vger.kernel.org,
 	bard.liao@intel.com,
 	niranjan.hy@ti.com,
 	sbinding@opensource.cirrus.com
-Subject: [PATCH v2 0/9] ASoC: use sof_sdw as default Intel SOF SDW machine driver
-Date: Tue, 14 Oct 2025 15:13:26 +0800
-Message-ID: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v2 1/9] ASoC: SOF: Don't print the monolithic topology name if function topology may be used
+Date: Tue, 14 Oct 2025 15:13:27 +0800
+Message-ID: <20251014071335.3844631-2-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
+References: <20251014071335.3844631-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently, we create a ACPI mach table for every new audio
-configuration. And all Intel SOF SoundWire configurations point to the
-same sof_sdw machine driver. Also, we don't need a specific topology for
-a coufguration, we can use the function topology instead. That give us a
-change to generate an ACPI mach table based on the SoundWire codec
-information reported by the ACPI table and use the sof_sdw machine
-driver as the default machine driver.
-This will reduce the effort to support a new Intel SOF SoundWire audio
-configuration.
+It may confuse people if "Topology file:" is printed but the topology
+file is not really used. We keep the print if the topology file is
+missing thus user can know what topology is missed in the file system.
+And increase the log level to info for the actual topology that is used.
+So that user can get which topology is used.
 
-v2:
- - Add name_prefix of tas2783 and cs3563
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+---
+ sound/soc/sof/fw-file-profile.c | 8 +++++++-
+ sound/soc/sof/topology.c        | 2 +-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-Bard Liao (9):
-  ASoC: SOF: Don't print the monolithic topology name if function
-    topology may be used
-  ASoC: soc-acpi: make some variables of acpi adr and link adr non-const
-  ASoC: soc_sdw_utils: add name_prefix to asoc_sdw_codec_info struct
-  ASoC: Intel: export sof_sdw_get_tplg_files
-  ASoC: soc_sdw_utils: export asoc_sdw_get_dai_type
-  ASoC: SOF: add platform name into sof_intel_dsp_desc
-  ASoC: SOF: don't check the existence of dummy topology
-  ASoC: SOF: Intel: use sof_sdw as default SDW machine driver
-  ASoC: sof-function-topology-lib: escalate the log when missing
-    function topoplogy
-
- include/sound/soc-acpi.h                      |   8 +-
- include/sound/soc_sdw_utils.h                 |   2 +
- .../intel/common/sof-function-topology-lib.c  |   8 +-
- sound/soc/sdw_utils/soc_sdw_utils.c           |  32 ++-
- sound/soc/sof/fw-file-profile.c               |  12 +-
- sound/soc/sof/intel/apl.c                     |   1 +
- sound/soc/sof/intel/cnl.c                     |   2 +
- sound/soc/sof/intel/hda.c                     | 205 +++++++++++++++++-
- sound/soc/sof/intel/icl.c                     |   1 +
- sound/soc/sof/intel/lnl.c                     |   1 +
- sound/soc/sof/intel/mtl.c                     |   2 +
- sound/soc/sof/intel/ptl.c                     |   2 +
- sound/soc/sof/intel/shim.h                    |   1 +
- sound/soc/sof/intel/skl.c                     |   1 +
- sound/soc/sof/intel/tgl.c                     |   4 +
- sound/soc/sof/topology.c                      |   7 +-
- 16 files changed, 278 insertions(+), 11 deletions(-)
-
+diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+index 1c0eb13ae557..d2b232860091 100644
+--- a/sound/soc/sof/fw-file-profile.c
++++ b/sound/soc/sof/fw-file-profile.c
+@@ -266,6 +266,7 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+ 				   enum sof_ipc_type ipc_type,
+ 				   struct sof_loadable_file_profile *profile)
+ {
++	struct snd_sof_pdata *plat_data = sdev->pdata;
+ 	struct device *dev = sdev->dev;
+ 
+ 	if (ipc_type != profile->ipc_type)
+@@ -282,7 +283,12 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+ 
+ 	if (profile->fw_lib_path)
+ 		dev_info(dev, " Firmware lib path: %s\n", profile->fw_lib_path);
+-	dev_info(dev, " Topology file:     %s/%s\n", profile->tplg_path, profile->tplg_name);
++
++	if (plat_data->machine->get_function_tplg_files && !plat_data->disable_function_topology)
++		dev_info(dev, " Topology file:     function topologies\n");
++	else
++		dev_info(dev, " Topology file:     %s/%s\n",
++			 profile->tplg_path, profile->tplg_name);
+ }
+ 
+ int sof_create_ipc_file_profile(struct snd_sof_dev *sdev,
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index b6d5c8024f8c..3404f1306494 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -2525,7 +2525,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	if (!tplg_cnt) {
+ 		tplg_files[0] = file;
+ 		tplg_cnt = 1;
+-		dev_dbg(scomp->dev, "loading topology: %s\n", file);
++		dev_info(scomp->dev, "loading topology: %s\n", file);
+ 	} else {
+ 		dev_info(scomp->dev, "Using function topologies instead %s\n", file);
+ 	}
 -- 
 2.43.0
 
