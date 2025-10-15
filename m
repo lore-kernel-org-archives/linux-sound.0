@@ -1,156 +1,105 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4DF2D3755
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49056275864
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 16:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760543672; cv=none; b=BFbVkDBnQSLrFCBiWkYmslS74mvGjscbJVPj08QihFBCzGVkZvHJFYd6eeBN5iBvYnl97UG3UUBUpsc7jI6N7GXaQ2Olk/bmpEjUOqmvqe2PiARY0PJhV3buDxkBzaLdnoOsMpwJs9htJjftCXtEH8Dbn9TRgCL167dVl40Zs8g=
+	t=1760545328; cv=none; b=i0Jxk8wtEYxwqZpOW5VKOukH8PhugO88CLLKiQm1aI8FwzcK29CL31qnJfb0zHnpSFFigpSt9lj9+7NOtWtpuenppRUajzmbrL00r42+Nkm6WBD8SvVWAlvHF5qleiWpUkr0QsXK9XwFKCjFIPzH4cp43P+KxOhddp+C/iiBfnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760543672; c=relaxed/simple;
-	bh=syhOLU/Q5x8OX34zpl0y//xZVKf2oHNlmf8kHscSWzo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GkAX1wUxYZ0Duj+hxHS/DKr3tDRglyhmRxXNW7yK9pzN2E504W4F4ShN8ClUVXq/E1vyNyB79Tp+V12qF02C+fdWdzPVo/3N8AxAaGG3mUhEPgZnBzAvTegT/Ea01mL/SuSNZYAarV9cM4i16nfnZz0KvvH+MnEhHE8t84Jycv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1KQfw4TF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+nmlFaQb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1KQfw4TF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+nmlFaQb; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760545328; c=relaxed/simple;
+	bh=Pk3kk+nMryuU9acpIJRwKDJWcWrdHc1LIgJines2e4o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QkLOsdZHcFTDP+xEOjAf3lUXWy9RYIdSjQK33+JXyT2PX4dKH587oKBz7le3BVz4YZ0yMmwaveGUJHYNgIci4kcufyanissARLWopqLzA8fA6o3u580PSIIO37aZGCcKaMjxQCf3F9v7qpYuEbQndy2XVRxf6iwK28KXIrGywhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q613dlCa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1KQfw4TF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+nmlFaQb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1KQfw4TF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+nmlFaQb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C11FB210AD;
-	Wed, 15 Oct 2025 15:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760543668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrtegxpvso2Xm5O69BCeiMqneusZ2Un50/mB3pQuw5o=;
-	b=1KQfw4TFwb81K+rqPFtE9biz2ogCP8qB3Bcyl7XDo1yz0o+8WBLjrB6G9GecpygVDocvFg
-	EQRMv6C896Pi9qXsTh0+3tgcCu8cLo5vYN7wfPC/fp2b8xRyDYLGZWvnsRhAlpoUUOPhFj
-	7SIee7mhCiXZ9a0JljlnbMkICPfPcxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760543668;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrtegxpvso2Xm5O69BCeiMqneusZ2Un50/mB3pQuw5o=;
-	b=+nmlFaQbvtYk5uh05Qnb5b3Exs2znJdKYuMWC6LU4gYYaKSdwvx9v5JDeMcw8JCSfmBj4y
-	mjWJhR2OwjBe7YBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760543668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrtegxpvso2Xm5O69BCeiMqneusZ2Un50/mB3pQuw5o=;
-	b=1KQfw4TFwb81K+rqPFtE9biz2ogCP8qB3Bcyl7XDo1yz0o+8WBLjrB6G9GecpygVDocvFg
-	EQRMv6C896Pi9qXsTh0+3tgcCu8cLo5vYN7wfPC/fp2b8xRyDYLGZWvnsRhAlpoUUOPhFj
-	7SIee7mhCiXZ9a0JljlnbMkICPfPcxI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760543668;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrtegxpvso2Xm5O69BCeiMqneusZ2Un50/mB3pQuw5o=;
-	b=+nmlFaQbvtYk5uh05Qnb5b3Exs2znJdKYuMWC6LU4gYYaKSdwvx9v5JDeMcw8JCSfmBj4y
-	mjWJhR2OwjBe7YBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6016313A42;
-	Wed, 15 Oct 2025 15:54:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yeHtFbTD72gGXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 15:54:28 +0000
-Date: Wed, 15 Oct 2025 17:54:27 +0200
-Message-ID: <875xcgkvnw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Dell.Client.Kernel@dell.com,
-	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,
-	rf@opensource.cirrus.com
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
-References: <87o6q8l68r.wl-tiwai@suse.de>
-	<20251015145749.2572-1-safinaskar@gmail.com>
-	<878qhckxc5.wl-tiwai@suse.de>
-	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q613dlCa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD784C4CEF8;
+	Wed, 15 Oct 2025 16:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760545326;
+	bh=Pk3kk+nMryuU9acpIJRwKDJWcWrdHc1LIgJines2e4o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Q613dlCa88N04mB/2uMbMJkJYeCduJvvhTHIxKFCeHzTDW6b8Ow3FpnLfCkn0Tu3E
+	 2tXFA4CC6+CylMuHU2ONQxXh6PrqtV+gaL1cEdsoY+CNwH24fNtIEAw1X6Ya+ICVVp
+	 5KbgFKTCFkVkapojfZgVL8ZPQH3+rOMmGsqwYtxfYHhPAKjJCSDaCvSjbCKdf+8PiY
+	 yRbjlhzIcnQOPg//d1SQn0IbeIwd3ZAAKMnN3YiVRQO9bKno5psRX75N+XAT1oN5R1
+	 AAjd/bzQhpPsKfUYUZfIh8L8eTC5M+HiQGblH+EK0Z6aneDJlhTx+O20aFyKpg6V8H
+	 r94jluBhnsAOw==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20251009094023.3474895-1-yung-chuan.liao@linux.intel.com>
+References: <20251009094023.3474895-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/9] ASoC: use sof_sdw as default Intel SOF SDW machine
+ driver
+Message-Id: <176054532543.196625.2706141821270995708.b4-ty@kernel.org>
+Date: Wed, 15 Oct 2025 17:22:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-2a268
 
-On Wed, 15 Oct 2025 17:45:37 +0200,
-Askar Safin wrote:
+On Thu, 09 Oct 2025 17:40:14 +0800, Bard Liao wrote:
+> Currently, we create a ACPI mach table for every new audio
+> configuration. And all Intel SOF SoundWire configurations point to the
+> same sof_sdw machine driver. Also, we don't need a specific topology for
+> a coufguration, we can use the function topology instead. That give us a
+> change to generate an ACPI mach table based on the SoundWire codec
+> information reported by the ACPI table and use the sof_sdw machine
+> driver as the default machine driver.
+> This will reduce the effort to support a new Intel SOF SoundWire audio
+> configuration.
 > 
-> On Wed, Oct 15, 2025 at 6:18 PM Takashi Iwai <tiwai@suse.de> wrote:
-> > Good to hear.  So a part of the problem was the incomplete kconfig
-> 
-> Another data point: Debian's experimental kernel (6.17.2-1~exp1) does contain
-> culprit (2d9223d2d64c), yet it works.
-> So, it seems that Debian's people somehow cope with this bug.
-> 
-> Also, when I take vanilla stable kernel 6.17.2 and apply to it Debian patches,
-> listed in this file:
-> https://salsa.debian.org/kernel-team/linux/-/blob/debian/6.17.2-1_exp1/debian/patches/series?ref_type=tags
-> and build with Debian's config (with "localmodconfig"), then... the bug happens.
+> [...]
 
-Did you boot (Debian's) 6.17.2 kernel, copy its config from
-/proc/config.* to .config, then run "make localmodconfig"?
-If the problem is seen with it, we'd have to take a deeper look.
+Applied to
 
-Basically you can forget the bisection result.  You felt into a local
-minimum during the bisection, and it doesn't point to the real issue.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
 
-Takashi
+[1/9] ASoC: SOF: Don't print the monolithic topology name if function topology may be used
+      commit: 2b92b98cc4765fbb0748742e7e0dd94d15d6f178
+[2/9] ASoC: soc-acpi: make some variables of acpi adr and link adr non-const
+      commit: d25de16477657f9eddd4be9abd409515edcc3b9e
+[3/9] ASoC: soc_sdw_utils: add name_prefix to asoc_sdw_codec_info struct
+      commit: aa1ee85ce3576defd29f2a389d7508d2036af977
+[4/9] ASoC: Intel: export sof_sdw_get_tplg_files
+      commit: 7196fc4e482928a276da853e2687f31cd8ea2611
+[5/9] ASoC: soc_sdw_utils: export asoc_sdw_get_dai_type
+      commit: 5ed60e45c59d66e61586a10433e2b5527d4d72b5
+[6/9] ASoC: SOF: add platform name into sof_intel_dsp_desc
+      commit: 6937ff42f28a13ffdbe2d1f5b9a51a35f626e93a
+[7/9] ASoC: SOF: don't check the existence of dummy topology
+      commit: 99c159279c6dfa2c4867c7f76875f58263f8f43b
+[8/9] ASoC: SOF: Intel: use sof_sdw as default SDW machine driver
+      commit: 5226d19d4cae5398caeb93a6052bfb614e0099c7
+[9/9] ASoC: sof-function-topology-lib: escalate the log when missing function topoplogy
+      commit: 9797329220a2c6622411eb9ecf6a35b24ce09d04
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
