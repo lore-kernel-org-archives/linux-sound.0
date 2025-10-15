@@ -1,71 +1,83 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8094230D35
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 13:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506E02D8387
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 14:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760535764; cv=none; b=NvYTJAYXkMgZPl9YrYQp59flOWXdoQ+KrxsZrXRCXGRILoFvKT7bXsjRk3Oaft6zxNon0wNdp8JyWmKEVCiPcF56IA43ZoYjKG7a40QmgdZwKGVyc9hQjTk5tnjBZ+VjeEbxe8CQMl3Cvrk/HtU8Xxcli4ToLtNNtkFiSGjQsZI=
+	t=1760540278; cv=none; b=lUlFJ9VMHrtpn8Alz0V51sxB+ZBAUUEXyjZKxxDf4xQqcvh0IW0bap9kpm0yoyb5e1newUsDO4j13jrCzLxg6LXBTgrXs1ae7ogp5Kin1VtkS5F/mEfCsqbIrdYUCJFmRjwTjiG3XiAXabIs9pt158hX1IU3jmn88AJO+siG68g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760535764; c=relaxed/simple;
-	bh=Fdjnv0MFhMdkH0HHYLytBDMtR3HU5RgIlS9DC8QO9vc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fg5vD+EEXst8RmKy8zsbriF1AYgYZhxGGJuTqePxkWjya5BRgDKW0McVdR7Q1gSwEWwEN+Jhv/qPuhYoE8MSfDxXDBzr5T9aHmbX6izQFp6T1u0K7OMzfD25vtFJNBM009pb9Gd9qjRsuAn9AnSVaVOzClqvymsBnUHFYQKjrvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTmk5GLA; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1760540278; c=relaxed/simple;
+	bh=hhqFEZrqT+Fn3YGld2AlCsW1gwRxXhq+dTi0XOW0+iM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LZofryR1ZZRk+Hdwylo3xV3PSxtN3y97PVr6GrtZcYyQREFMzvdP9i4TMDxaJUyT7+1YZ+u/V5+oawWsQnsdqStr0W6jcRZ/ptiOiJWEBjtyAJodOMa3S14MQ2Q/nw7TMS42nOBcHXviXh6wwKBKr2GW5h57xDbUGtxElCt1y0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bUzpoBZ9; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTmk5GLA"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46e33b260b9so53227275e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 06:42:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bUzpoBZ9"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f99ac9acc4so5493142f8f.3
+        for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 07:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760535761; x=1761140561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2tGMJYIk/kJ5NM7KARvJJiGscSvnVAEOGo7VwpNRVXA=;
-        b=CTmk5GLA9PkVEOsFd6FZll0d0iM2rYB6+sjfMJ8uIqlWjN3vt0Vwzza/y43UXjKuJd
-         38TUEbKlUH5AwyjI4nx+n3g50oVEvKVDCsmvMYQsX5ehiYUYtUzbtE/MgA7V2yylD+dm
-         liMbchjRDT7AKWDTTUbc6INkVBROMgUJ8Rl0lvLT4rWCiqTPsYVu33vcL/jXyZYj5C+4
-         LVyNElXjp40a2rjrRUaZvjOJkNxNkI6Ls0ru1i7ncXnQVnLRxKwd9Wow6Wd09G0alnOW
-         msiz1S/Q00CCb6m04BOW4FuNj+wFTCendm1uFR9GtHWusSwSWlHf4GzndPNOrDCa3aub
-         817A==
+        d=gmail.com; s=20230601; t=1760540275; x=1761145075; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V7CXQSy1xFyJqHbdJX74Wcje21ijiNP/kNa8s//JKNg=;
+        b=bUzpoBZ9lLufnkt677W2xNXSZ5i7VMxgURdOi1Ja5tjhOoFuV43RRRNe12rYMRnC2U
+         LJuilfg3oHun6ozllBEKQuuE9bXC+Y0oNIv+eld8jgznv4hA5c+6e0qb2SlWJWoo6Vlb
+         JT7HBgdqgl6+oDX9akn8TSQM2SnIpLDmoEGAPpw7v4mot0d3amf2a1wBTfcvGui8+CFI
+         AbyBXAJTWU6UFLiaklnw3xgrKF8WUgUVcC8hkXYBS3mFSQ/8ORrtcV+cq6x1hM0VdBI3
+         eVnr0KgwfD6cXUYTqlsyAPotRDjOiAVyBhymhPWTV/t6ap8a5oOtZ65nBMl+aBwj+nFC
+         Rb0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760535761; x=1761140561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2tGMJYIk/kJ5NM7KARvJJiGscSvnVAEOGo7VwpNRVXA=;
-        b=fg8IFsIXBTWAlnG/4AQ6EjI+VlKc+YHHQeAThXkDWQHfNpnF/sqbnc02sWknhtPyp6
-         3tTizgkzOA2d7PBngTIRg5rwBSj8fBd6/dnUz9Dx5zMTgTRxQgHXPgRDz/nR/5kxqXxq
-         ID6/XvxFnbPc7AwSyndyms6v9TrUnTbPkmhFcy1oPj14D/9GQAMnyVUFg/Cp5Czc/bAX
-         49tuMAHmyVIT0KJGBykSWwzpO/gfIGC5XrcV7lwKK73c4ex2w99AOU7cMmtnlTXPUa4f
-         LGAdYTYnvM4VMtLwBz/3pSjFS0o5aJ8NX6WmXCnnflfZWuMoPebTgeNWEqV3sPrrOWcj
-         iOgw==
-X-Gm-Message-State: AOJu0YzjqUQ5ImdqZJKz8HqAXLvmVVfQAJwkoXzskcJYQWSRzvFt6Hpw
-	y9B4LwwKnMjt/uvZcrTVCkSX5bNocKhXtPmLz4LrIaTnIF6O76MF739JE0VWYKDd
-X-Gm-Gg: ASbGncs+bZ0F9ifX4FBS5U18t/fwpAkOIVMkTIWxmvGr5R8lZ3xaRb69seAPwFG+yXO
-	Lv5oxqGGzmUK56dAC/FnYKg72OewaGtMMqBndA5wUauc1rKn3GNulJo5uoFYB3KeApweHCUf8Li
-	FfjohZJVWjNOvzD1L2Q7iI1roVBOakE8MCnpuBGum3602YIJBVWuMJHusR0tkiXNJ4DThVr+MRj
-	nard1RqMGcZN2QQcl/Z8TFbY0gTotFl+CHGC5dg6JdEh6dEiT3Yws4eodgRHwzzCuxZxL0UYmEK
-	6clVgGJWQY1hKC4Uixc5EX0Flf2svi9Cmog70GTAjtpBhxVYVrRDjDgku75FcDL+tqEoGIwkW4x
-	jAMnzQ8mPyege3Zw0Lxt01I5AvyImzDpQg1rtcMB3yh37wk2/51mbspL/QWwVyusH0Vw5F/jMZ1
-	TQ8eL3i9wJ
-X-Google-Smtp-Source: AGHT+IGnFEL19OgbSXTUJTtDSCAU9YWhBlG3irLLXu6ozcc7Dtu+JOC9WZwJxFV3GxOWbz8NXvjVYw==
-X-Received: by 2002:a05:600c:19cf:b0:450:cabd:b4a9 with SMTP id 5b1f17b1804b1-46fa9b08f21mr209618965e9.29.1760535760461;
-        Wed, 15 Oct 2025 06:42:40 -0700 (PDT)
-Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab4e22d8sm174656315e9.5.2025.10.15.06.42.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 06:42:40 -0700 (PDT)
-From: Sharique Mohammad <sharq0406@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	broonie@kernel.org,
-	lgirdwood@gmail.com,
-	Sharique Mohammad <sharq0406@gmail.com>
-Subject: [PATCH] ASoC: max98090/91: fixed max98091 ALSA widget powering up/down
-Date: Wed, 15 Oct 2025 15:42:15 +0200
-Message-Id: <20251015134215.750001-1-sharq0406@gmail.com>
-X-Mailer: git-send-email 2.30.5
+        d=1e100.net; s=20230601; t=1760540275; x=1761145075;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V7CXQSy1xFyJqHbdJX74Wcje21ijiNP/kNa8s//JKNg=;
+        b=gePC6X7bMWnx+93ypG0EyRDRfUcGR7Dy4M3iuB9vvQ2Km7vtinPGmuBrbdjzUSAiUf
+         FO4w0xqzTTqyT6jYRnjPZC3pPhpGFG4mfR8XR/HVgDijJgdHUaBlSDWLEMA0dLup+T5Q
+         MYS6wrJ7iFk1nij9KTyP9cj7eflTQg6Rmy3VBrBhyI/YonVIpVy+h0T+bpeeIAN7tNP+
+         iX6wikCL2NsCycdyJX70qyKEHERIsKMbTdC9blRNHjFK2s2hp8p3Gk7OpnJFPyJiLmUT
+         Xbd1gL5ex9F+wmg3IP4XqgvbSdAnOP3YvlVQDAjDswoFmrVjM1HfeqdVELi3IXal//yD
+         fsHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWt6PXszsmc6kbYN1Mg7o1s8ryHuwDFqzTmn809Q0ioVEKiWjdM68fLZs+YBYXzzMTGqcbaWf0ri1BR4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSYJWL9YMyVsQJKS5sdmD0oG00jdrCOMU/TCyr3Dlchxd5x2o6
+	5wOxdaJQXNXEXmP6lFF/ip1JQFRFfU+5hXmnExtmYELQ7a0uoT0G6NET
+X-Gm-Gg: ASbGncsyJ5aA81u2tJ/xuIkzC0os0yPtahSRGbgmWS2/lAO733Baq+cBC9OS9fsyg20
+	KT+NgDE43XmPag/6XI0Gb8NDce8puIcKTT8w+GXsat1Y49UXY5/ilDz05SiZWbR1zLUvLrhjD73
+	hATk7wmnYQAFHa5QxPEhdNbGxetUddFy4gjQTn60z4u+rArFJ829U151iwAuPteH9KgxyQfkx5B
+	QoFsSZVIXfKl97fPWAIgwaRkJqgX6CUwVURqkOibkdF7gd/CgWxzV4XC7XG4dg9CtAbQd+WnAjq
+	wAQOdOtQ8gNFbKJpSKju9uK1HzTMfceEFNtB0GtGiEmjVkziTfWRUPI1E+0MlQM1DPvB88/G60r
+	UhlZ+VrgOY7+FZWMfUDhiqCMf3+5EJ8jvgCQNfrDgioI=
+X-Google-Smtp-Source: AGHT+IEIgjyn2T823EOBHK74/bH5E8XubiheWOevx+dd9/z3Zim2+niS7dN8jYFnYWY5DdBRVqRRAg==
+X-Received: by 2002:a5d:588b:0:b0:425:86c2:7b4a with SMTP id ffacd0b85a97d-4266d0da0a8mr18125593f8f.24.1760540274381;
+        Wed, 15 Oct 2025 07:57:54 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce5e0e70sm29440947f8f.40.2025.10.15.07.57.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 07:57:53 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: tiwai@suse.de
+Cc: Dell.Client.Kernel@dell.com,
+	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,
+	bo.liu@senarytech.com,
+	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,
+	rf@opensource.cirrus.com,
+	safinaskar@gmail.com
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+Date: Wed, 15 Oct 2025 17:57:49 +0300
+Message-ID: <20251015145749.2572-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <87o6q8l68r.wl-tiwai@suse.de>
+References: <87o6q8l68r.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,34 +86,12 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The widgets DMIC3_ENA and DMIC4_ENA must be defined in the DAPM
-suppy widget, just like DMICL_ENA and DMICR_ENA. Whenever they
-are turned on or off, the required startup or shutdown sequences
-must be taken care by the max98090_shdn_event.
+Takashi Iwai <tiwai@suse.de>:
+> If that's the case, try to choose HDA-Intel driver by passing
+> snd_intel_dspcfg.dsp_driver=1 boot option.  Or disabling
+> CONFIG_SND_SOC_INTEL_AVS could help, too.
 
-Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
----
- sound/soc/codecs/max98090.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Passing snd_intel_dspcfg.dsp_driver=1 indeed helped me.
 
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 22177c1ce160..cb1508fc99f8 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -1234,9 +1234,11 @@ static const struct snd_soc_dapm_widget max98091_dapm_widgets[] = {
- 	SND_SOC_DAPM_INPUT("DMIC4"),
- 
- 	SND_SOC_DAPM_SUPPLY("DMIC3_ENA", M98090_REG_DIGITAL_MIC_ENABLE,
--		 M98090_DIGMIC3_SHIFT, 0, NULL, 0),
-+		 M98090_DIGMIC3_SHIFT, 0, max98090_shdn_event,
-+			SND_SOC_DAPM_POST_PMU),
- 	SND_SOC_DAPM_SUPPLY("DMIC4_ENA", M98090_REG_DIGITAL_MIC_ENABLE,
--		 M98090_DIGMIC4_SHIFT, 0, NULL, 0),
-+		 M98090_DIGMIC4_SHIFT, 0, max98090_shdn_event,
-+			 SND_SOC_DAPM_POST_PMU),
- };
- 
- static const struct snd_soc_dapm_route max98090_dapm_routes[] = {
 -- 
-2.30.5
-
+Askar Safin
