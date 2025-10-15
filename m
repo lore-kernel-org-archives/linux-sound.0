@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6303254A0;
-	Wed, 15 Oct 2025 18:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060DF30B51E
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 18:52:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760554373; cv=none; b=PKNd8D+uflEjXV2qkJT11Ys8o3R505Py4jwKrofQBhptJeIyf3fOrBd7Bmm/dVLl1SEcwAZ4R7FHBkIIHvlnu0UJ0YfNulTCriFjeYuYGMBJE6QYO3fQax9krqAInE+ywEEyYGws0PZjzUZT5kNKDg7s6hDQTqnjoSv1pPD31Qk=
+	t=1760554376; cv=none; b=hpQFyTsWd6mXPz2At7g5zlo8ykIvqi9o/Dh0u9OViy9rTysLWWAFRpp+Z8mI/bdSuGmTUZFb/3+PDoGzLcv1svbpi6ZCfd0ZjDnXZZJZsG9ODc7T+JG2HeAWAKRON0iMx2pnwYmhwDiZs5PC82eKr6XvWW5kJOpBui3pRPCpQMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760554373; c=relaxed/simple;
-	bh=i0+X3nOUGvzMFvFCisMg5FLUBu9o5WalxuWHZrsg4wI=;
+	s=arc-20240116; t=1760554376; c=relaxed/simple;
+	bh=BJ9u7gref7Sm9PATOE1LgC1OyA2Fhuwu8+PqXqnJA1c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Zl+Os1bRLh9SAhDA54arEjda5V4M+RCGND+vjEZmj+9YaZ3il6INWG3oIVIA7Zzi0QcMpf59Yr4jSsprAhPsral6I2LFh8nJq6onw9KDoa2V7i+mNXjh/IVwDsgXK3PObvGuqK2FkgTNzEnjLY9VZywfWsHE8pZqTKo9IWpsaLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwERAraI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VBNcjFgQ6XLkk+8nkXWPcqZFaNOi08nSL1YGHEHspZgvf+Snk1YdNrhmTbfKPxPm9f9L9GiTqtmmLhd7/38k2/psy+BtF9ePVGvcebkkyS/P4OG6UFoRkqz/kmb1A8TdFUrwV3izRSC4QwNJzZYjwPqc3cg0AScsIVB7OAQwkYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBQeFgLc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwERAraI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC437C4CEF8;
-	Wed, 15 Oct 2025 18:52:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBQeFgLc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 762F8C4CEFB;
+	Wed, 15 Oct 2025 18:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760554372;
-	bh=i0+X3nOUGvzMFvFCisMg5FLUBu9o5WalxuWHZrsg4wI=;
+	s=k20201202; t=1760554375;
+	bh=BJ9u7gref7Sm9PATOE1LgC1OyA2Fhuwu8+PqXqnJA1c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kwERAraIux4js8B2HUR/dqYvM5KEdx531bVcPsL9Q3t35UC8Km8GgpBCxR5ZcamhZ
-	 +dacXCfwYHGolouQqF3bAJJt5xpILDUnJaYFptMg7wfq/QxmcqdgfxO4R6+ziF3Gcw
-	 V7Gr8vT6Pgn6tU3ZrYpzkHStZhYorZ66k7EJiTEgVg7VtRpRrN5oBHtlWcT796N8L6
-	 3FC8vRKL7/ZkdlreEw5g7jiRckhRHe4BzfWjdz+N2LLqunv1CsrRf7GgevFY6Dl2rR
-	 3meFIU4YOW8TcPXHT0lRNBUJ4QwEOwC2XTMoiBEUaWKrCSGIVq4o0OEdzL4Q1GFcYO
-	 Ypb/AsAVoIxNA==
+	b=VBQeFgLcw9TKlcCjr/n4RPyclIrM4LK5r1iKErx3SiQq031EXTIkstAppZWXwWuKa
+	 sTn8zdUxK2q4anwxQ8lp+aqutnEqv2pe8oNqwTZ9qoveROrq2/3FT3on5kA9bWBJin
+	 jKAaijxTWhoPrD8j7IQlBl17I8/efkXBfYc+RV31DRupMTDIuBn3m28V6kEOZmAMh3
+	 aD11JlHttgs7oQZxryPo+yAMZs0TGbytJRugPemR3Mm4skqX01lyc/FoubN1OdmYbu
+	 r+KHrg0+G9JDMlEdGN36kJjGh4U5Vua+J4ziFRwVedj42K6N8vga3+30rlj6zEvJqR
+	 qmgzTXAka559g==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: srini@kernel.org, perex@perex.cz, tiwai@suse.com, 
- dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251008145801.3479-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251008145801.3479-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH] ASoC: codecs: wcd938x-sdw: remove redundant runtime pm
- calls
-Message-Id: <176055437050.231901.9790775935564885133.b4-ty@kernel.org>
-Date: Wed, 15 Oct 2025 19:52:50 +0100
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ bard.liao@intel.com
+In-Reply-To: <20251014092157.2789054-1-shumingf@realtek.com>
+References: <20251014092157.2789054-1-shumingf@realtek.com>
+Subject: Re: [PATCH] ASoC: sdw_utils: add rt1321 part id to codec_info_list
+Message-Id: <176055437316.231901.6440983120962344899.b4-ty@kernel.org>
+Date: Wed, 15 Oct 2025 19:52:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +46,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-2a268
 
-On Wed, 08 Oct 2025 15:58:01 +0100, Srinivas Kandagatla wrote:
-> Component bind callbacks already does runtime pm calls, soundwire codec
-> also tries to do the exactly same thing resulting in Unbalanced
-> pm_runtime_enable and disable calls.
-> 
-> Remove the redundant calls from wcd938x-sdw driver.
+On Tue, 14 Oct 2025 17:21:57 +0800, shumingf@realtek.com wrote:
+> The SdW machine driver supports the part id rt1321 amplifier.
 > 
 > 
-> [...]
 
 Applied to
 
@@ -64,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: wcd938x-sdw: remove redundant runtime pm calls
-      commit: d5cda96d0130effd4255f7c5e720a58760a032a4
+[1/1] ASoC: sdw_utils: add rt1321 part id to codec_info_list
+      commit: 57b00ab3d33d2b177bf45d568fa1e6203cd099b6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
