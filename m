@@ -1,115 +1,88 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4264F3191D0
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 09:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA2831AF21;
+	Wed, 15 Oct 2025 09:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760521074; cv=none; b=GVjmGqmqMLLActX+SOKcK32K1MgESIfDRi/0af4s92QVZZ96OyfSG5/ytm/d9El9Q8GTgTgDrQVG3qO0SeQX0pO/1hOknwHuvYEPhEzWqxQ6IMYEvUfKnlDi63JaDiy47pTrTh22vDxpMaSprFQ82bdmZQ/hOMivyOMS0GBANEM=
+	t=1760521791; cv=none; b=GAPHTNFewb1XFaMh5tDr1Asmy5Xj7NmE/ApS5z+jqvzI3ovsAYNtOzz8sR45XrSgmH/ZcqXUsdohvN5pc0eQJRq6Fv+N4fvLTso+syBFkLjIBgRCHXw07s7fKghLhTd8WtmcLDmTlRCUG1svJVM2xgDGA/oySQep1UUdup1QZmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760521074; c=relaxed/simple;
-	bh=0xet1tZdbN9N/7TkOE9Uvqba8U62gpeifrkNhXaKOZw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=deiM10VME/VoqV3xpTLq5h41sIV48Ye816CRD+bCp9SZ4VaxM4Q0JlSaq+gEdmdaLpHsKIDOblYVD+QTLKzvMq3Vph+g/DoSUSTrnLaxt1yvPFy0TsRXY4zJelSzDoZpdI0E17lhLwnsJIBrS8CksSBaaLkHx9jiiVz/6VXHf1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qd1rDx8k; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760521791; c=relaxed/simple;
+	bh=NJZvW+JYKZcvHAok/gYBcGxTybf9PkX3/50tqo3ey38=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Wl+wesZSwpAVSkuxCXS6QrIx6MPeFEcu2xKmYPAqIc+4RnpwW7xVoTwpXNBZHzxa2Fajr6Wm9uZl5dsJ/VYwK7fV8moEJuP3gSCIQxNbGObk2MZzvSF+WugPo7ST8TtADahvXmuvqxwnRAC+3V+GN0QMjH76RoGUMBL5rmLeyaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ECyxHhE2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qd1rDx8k"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b4f323cf89bso1139126166b.2
-        for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 02:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760521069; x=1761125869; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iCic0ovNfQZtvGefKqOxCtoM7QMBYs+mAZ/6QvnPT18=;
-        b=Qd1rDx8k5rvGFChXhl9FxP2CvD0jOaSJ64/ENmgjj9DYFa4sTn6pIWPftCZRv2DdnP
-         7m00TCwukyfyaKuTli0jhNliXnZ1ZLReMy2D1MZyG5nEVdeb9wIu1I/xME4inP+lgSol
-         PQQCJOtk/gudirrf6Fp2Yz0HXwazFF3OfoNkNxTcdUFsiaU3JhvwkhFyZSxokpS1KFrx
-         1fov+b1hjbhhVipntE78Rxt2LCl+OeeghcpbC40IXTNsB/5f2JKPiz9uJe2wKPBUvPle
-         74PEEIp5cTC9z4ooLwk6rK0ySRwmqfT/AGfbhS/dtGsteDPmML/Pq5sLLYhSjG0cXlYA
-         PHgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760521069; x=1761125869;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iCic0ovNfQZtvGefKqOxCtoM7QMBYs+mAZ/6QvnPT18=;
-        b=efiiGabge0XRC6LouNkLAzZ7uSqNc9l/IPKPA2X3wE2qcz5BfXOIDF8hrszLTbU56F
-         nd/C5uvjWrZqzjkBXlVMAgvSUzS0Jp/SCjdsBLRybpLiBbGAjEEU/hgH/MKRpVGHpgDt
-         AIqzalrQDUZDAlnmi1Mazx9P+peoAqc5tg5FGnIUe3ldslFA5RbeAgkmMZPrXW9CW++s
-         XjtGH/AX70dYmkjeSRkddOLJQOc4Sx1mj59cfJw4dhZO59QoxtZtFkgcIRZIAu54A9/T
-         xUSzqIhcO4tH/S611TXLlvV43TbsHGDwKK3xfWmZGwiltdPgWcm59hWT3BFjtZQ6yDb9
-         z4lw==
-X-Gm-Message-State: AOJu0YyA3i4FswcNMqOVj+Q+BFxK6d5NkAyLKCOCJgyHO39dTawr7Afy
-	Y+42UkhZL/EPKZd0gGxIA2uzPnpYl/IASiebyFOZICpUM0YQrexvFG9Ualm2mZ2k
-X-Gm-Gg: ASbGncsElbP8Vuio0AbkxPAlhoLoy0xV+/F7GJ4L5O8+XC6Y8PbHEIGWl6jwfHWxDM5
-	ldta+/n6hOl8c7KVTqMZssMllaDvHBvgrOeCJMjJYHcDgY2gRDiZWr4oS3wOkXUrr90JSHruXQz
-	pziqFWengwYo+Oa+w45d9YlNW7PV30aAp+Lj19gm2w+bmHab4nDg1epjUxpbWTmZEGlnastylYa
-	ECUZt/VjUYudeftcF0v1u7QwdiY8lvXOkIolQsEsfI9uORwFLEFdft2GOVuztdeN/AFChOaT3wc
-	KjEEu2y/f/8wTUObHSkC3zG83Ylklkbad97nirSCL6a4wE71IpNwYGofzU2L3MrFzgKQdMSO+LA
-	Z8MC4qvBhlY2OxvhYG+n3W1CZ7KvTDeosFhEewrfoRkjBesRm/FjXt9q/K+NvHz3Yz+c6whReGz
-	jcAvh/I/XqVp02iVHQQY4=
-X-Google-Smtp-Source: AGHT+IFEI9engI72mZonVzxCBti0nzF+kQaSujsavyAA6zfeINSloeV1xY0nswGtAvBb321aeuVm8A==
-X-Received: by 2002:a17:907:6d19:b0:b45:60ad:daff with SMTP id a640c23a62f3a-b50aa99e0f1mr2870815766b.28.1760521068967;
-        Wed, 15 Oct 2025 02:37:48 -0700 (PDT)
-Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b5ccd6b03f3sm179251766b.74.2025.10.15.02.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 02:37:48 -0700 (PDT)
-From: Sharique Mohammad <sharq0406@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	broonie@kernel.org,
-	lgirdwood@gmail.com,
-	Sharique Mohammad <sharq0406@gmail.com>
-Subject: [PATCH 3/3] ASoC: max98090/91: added a comment for the users and fixed an extra space
-Date: Wed, 15 Oct 2025 11:36:28 +0200
-Message-Id: <20251015093628.659936-3-sharq0406@gmail.com>
-X-Mailer: git-send-email 2.30.5
-In-Reply-To: <20251015093628.659936-1-sharq0406@gmail.com>
-References: <20251015093628.659936-1-sharq0406@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ECyxHhE2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C451C4CEF8;
+	Wed, 15 Oct 2025 09:49:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760521791;
+	bh=NJZvW+JYKZcvHAok/gYBcGxTybf9PkX3/50tqo3ey38=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ECyxHhE2CgnU38zjNUREyLuuvYEny0b2nr81cS0njxwtyESpV/L2UBdbpXrIZQc2U
+	 VRIfjrqMS2wcoXDRsM0Sjf9hXWxLGNpn265UNQYd3b/qVScb79TndN+3dJ8iD8ndjQ
+	 8m2HKsaKjAWy9wKmj9w6LndxIePCUkP68jAb/xVdnBRa74zhlsSTh50ccHuG5dHUDd
+	 4+0emSWU/aVqPQxP+0rBaKxys17Dwlljx9+/al9l8iBPCxEO3pWXfSjj2dU0KbSpAj
+	 +w+07O0iajTCTdtkCiGnmWLZ7K1yxVJv2OaWyI906gChGwuHeTKtxqiH4//FAcEpVL
+	 pLgoAS+1q3OZA==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Baojun Xu <baojun.xu@ti.com>
+Cc: andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
+ alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com, 
+ henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com, will-wang@ti.com, 
+ jim.shil@goertek.com, toastcheng@google.com, chinkaiting@google.com
+In-Reply-To: <20251002072925.26242-1-baojun.xu@ti.com>
+References: <20251002072925.26242-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v4 1/2] ASoC: tas2781: Support more newly-released
+ amplifiers tas58xx in the driver
+Message-Id: <176052178677.20166.7273787337857943286.b4-ty@kernel.org>
+Date: Wed, 15 Oct 2025 10:49:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-96507
 
-added a comment that may be of help for the users of max98090/91 and
-fixed and extra space.
+On Thu, 02 Oct 2025 15:29:24 +0800, Baojun Xu wrote:
+> TAS5802/TAS5815/TAS5828 has on-chip DSP without current/voltage feedback.
+> 
+> 
 
-Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
----
- sound/soc/codecs/max98090.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 0eeea6c1974d..386ef0caa6bf 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -1708,6 +1708,10 @@ static int max98090_dai_set_fmt(struct snd_soc_dai *codec_dai,
- 		 * for Bit Clock Invert (BCI). The inverted logic is only
- 		 * seen for the case of TDM mode. The remaining cases have
- 		 * normal logic.
-+		 *
-+		 * If one hears noise in audio, try commenting below code and
-+		 * then try again. Also, try playing around with register 0xC1
-+		 * record tdm slot.
- 		 */
- 		if (tdm_regval)
- 			regval ^= M98090_BCI_MASK;
-@@ -2414,7 +2418,7 @@ static struct snd_soc_dai_driver max98090_dai = {
- 		.rates = MAX98090_RATES,
- 		.formats = MAX98090_FORMATS,
- 	},
--	 .ops = &max98090_dai_ops,
-+	.ops = &max98090_dai_ops,
- };
- 
- static int max98090_probe(struct snd_soc_component *component)
--- 
-2.30.5
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: tas2781: Support more newly-released amplifiers tas58xx in the driver
+      commit: 53a3c6e222836a23e8e0693395584aefc456dca6
+[2/2] ASoC: tas2781: Update ti,tas2781.yaml for adding tas58xx
+      commit: 7e6cfa3e94cf8278ee3170dc0b81fc6db1287e28
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
