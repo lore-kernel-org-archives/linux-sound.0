@@ -1,157 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B68287269
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EF221ABC9;
+	Wed, 15 Oct 2025 15:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760541503; cv=none; b=QWaR5E+mFLetDjoEJsFNDE5ibUai7CxgoFhKQZOhvUUV7pmHJdFOjri05C7dSGYexOJBVJwP9dh9WVn5bSTlqtu4NE0bqLF2po+s4xqadaixxpg6DCjmgg735WDV4szQ6s96lvpRyAs1zIO8EjpBPo4doAtFhWNJpJ4W4XaqJgQ=
+	t=1760541739; cv=none; b=dEyj+QWaRhGGOJGPpcr0tSH60viGAKZM62kKSlfaPYekCuDjcU1XGZ8cKvS7wiSk9M/MM5ea+LMBTkG5HMeJZpEGJPRdt3Lsh6sM4nyzX9tlorUr4D1/wx/FZfwVNNeWdhc5Sq1CuAhfB6CKvtiUxqXtMrej7sK17PYpKntrcxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760541503; c=relaxed/simple;
-	bh=ailvDsHM+R7NVeb9i7rp0XZ+WIKsuwCvSqE2OdAxsvs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YdRU4DKSCznpr8pVtgy//qXyU5e49TIQng1qKJsynV2o36hCSmwgW8yq+PhPgC0wGTX2mhv9UyzQ96cFKgcL1VSSCM1T+xbdIxm9XDH1ThxpH6Q6rX+SS+RjgkutqcMR8YRhfEgBoCtJQL/SK/0ssx4B0g73xT3OiqygEaaYMzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2HfVKUJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XgEHxMMj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TGo1m6QW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J0n+P22x; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760541739; c=relaxed/simple;
+	bh=WgWGXsmDkQY2RWyxMpc6dWAkpVwA7f8xiHPLh/Bejds=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uPMH7SksFpjVk4RtMqow5ne7iOL9Mmc7JHcO3TjxkkLLQD8bQCxm7Sp0fQtRhc9XsMLH0XI58jzvBe4693esg5EIf8fbk/qi/eM5tLoSOb2AhBDQVLnNlTXc8td8yBPmOGlCCgzxBdJG8UTBj0KbZMeHxqFV/lDzObrWd1gr0X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANeh3y9v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2HfVKUJh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XgEHxMMj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TGo1m6QW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J0n+P22x"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E6B9D21079;
-	Wed, 15 Oct 2025 15:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760541499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
-	b=2HfVKUJht7B03w5za9fyNp1laMpmcdgcN71syolL7bEkWlXDegbvjx5odg3g/qoGpECFxs
-	u5EAfN8Ivjsuao/Z+PKHwvvzB0QtM6oesRurdMsykuD51ytfQhuGdpEC5Yn4EXZfFgCSf1
-	0yEP3cHXiK9sp1Zl+eVtBrL5Grwr7/c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760541499;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
-	b=XgEHxMMjOiB85gNJ4MbDntJzj7KSZ0IR7zLmahorCklCdsq+dUkbkMKRiUCF5d3Jbhv754
-	C0oJrt3yHKXnYzDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TGo1m6QW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J0n+P22x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760541498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
-	b=TGo1m6QWHtXUtkSetw13kTI03G0nGnytv5ST4Wr0wJHFZFsfwT87ap0nP7DbsW5kOCn/xm
-	2/6LDymjANUMvH7mCSdYyH7MYswduSJK+dkvwsv1bk9JT1+y6VSn5Yd26x5NFVqMzhhm83
-	QP70bIOQbhRyjUPTUWi/tmct8UtgicM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760541498;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
-	b=J0n+P22x1NAnh9P6wvtxWy5EUoc39BehDOkNFAiqO3Wlt8F3RFCv9fwstmBvhqV0GoBr+h
-	XHjEMAeGCJhr70Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C09313A29;
-	Wed, 15 Oct 2025 15:18:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P77eIDq772ibOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 15:18:18 +0000
-Date: Wed, 15 Oct 2025 17:18:18 +0200
-Message-ID: <878qhckxc5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: tiwai@suse.de,
-	Dell.Client.Kernel@dell.com,
-	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,
-	rf@opensource.cirrus.com
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <20251015145749.2572-1-safinaskar@gmail.com>
-References: <87o6q8l68r.wl-tiwai@suse.de>
-	<20251015145749.2572-1-safinaskar@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANeh3y9v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFACC4CEF8;
+	Wed, 15 Oct 2025 15:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760541738;
+	bh=WgWGXsmDkQY2RWyxMpc6dWAkpVwA7f8xiHPLh/Bejds=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ANeh3y9vOpdxsgMxjm9J0x7hrm/WlWNAzKMkGt+OWegmtfglWX7fx7z6IbQwIkBmX
+	 EtrSCdq4jZVRRUCKhYP6aOQ3QZm7RsIYrUsGiZjxqVjmaijbBM4ITJTRTXCiDadz7j
+	 BtiMTgdl20h34+EidWiYqtD1vqcz5x0hDK61SkCET7lPqDHgnoOe+d4b55UewiXsJA
+	 ryFXxQqu56wpPdlOABpDmgTPPPpL+aIlOo8Oe9fS4bHuf+DC/XLL1FACmbCXMg0EQq
+	 BnNmitKMrwp3nlHCypj9cA3WymGn69pVKvzvNhaaE6354wSPJGVn9QsJFmXre0ci8j
+	 XVXVDSpGztjeQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Marco Crivellari <marco.crivellari@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20250929155053.400342-1-marco.crivellari@suse.com>
+References: <20250929155053.400342-1-marco.crivellari@suse.com>
+Subject: Re: [PATCH v2 0/1] ASoC: change system_wq with system_dfl_wq
+Message-Id: <176054173655.179445.8487996832699914920.b4-ty@kernel.org>
+Date: Wed, 15 Oct 2025 16:22:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: E6B9D21079
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-2a268
 
-On Wed, 15 Oct 2025 16:57:49 +0200,
-Askar Safin wrote:
+On Mon, 29 Sep 2025 17:50:52 +0200, Marco Crivellari wrote:
+> Below is a summary of a discussion about the Workqueue API and cpu isolation
+> considerations. Details and more information are available here:
 > 
-> Takashi Iwai <tiwai@suse.de>:
-> > If that's the case, try to choose HDA-Intel driver by passing
-> > snd_intel_dspcfg.dsp_driver=1 boot option.  Or disabling
-> > CONFIG_SND_SOC_INTEL_AVS could help, too.
+>         "workqueue: Always use wq_select_unbound_cpu() for WORK_CPU_UNBOUND."
+>         https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
 > 
-> Passing snd_intel_dspcfg.dsp_driver=1 indeed helped me.
+> === Current situation: problems ===
+> 
+> [...]
 
-Good to hear.  So a part of the problem was the incomplete kconfig
-setup.  It worked casually because HDA-Intel was probed first in the
-first, although basically SOF Alderlake driver should support it.
-Since your config disabled SOF Alderlake, the HDA-Intel was probed as
-a fallback.  Now, by some subtle change, a different driver (AVS) gets
-probed, and it failed.
+Applied to
 
-I believe we should drop the Alderlake entries from AVS probe table
-unless the firmware becomes available publicly.  (FWIW, this case was
-RPL_S).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Cezary, Amadeusz, what do you think?
+Thanks!
 
+[1/1] ASoC: replace use of system_wq with system_dfl_wq
+      commit: 0b0eb7702a9fa410755e86124b4b7cd36e7d1cb4
 
-Takashi
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
