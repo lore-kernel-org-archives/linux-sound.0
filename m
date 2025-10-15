@@ -1,127 +1,152 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42295302CA2
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 05:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE1F27874F
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 05:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760505419; cv=none; b=C/PWp/NIIk66NW82JwEaZQ1/utyMraZ34znqMkgoC0cZZLTDKDqF4gfoWAnu/eksdQ2eGeiPZAo/RfXv5hKCPdRty7IgsaxZjXfEm7hlRG07sA8KF3iLRRRKR6RPJrtre2BheINf8SO6/yx9iwuFY4GdHEbW0mgrMQaiy3MCwEs=
+	t=1760507500; cv=none; b=Xbd26TbgOCsrpKpYFiccFiN6hdfDjM6xSL1v5vxDYE2KBSlnGZ3K+Eno0j7wPLiQsK6VGfdI7YLunM0+0DFkHYjLx/3y0uci2J5P1V86rPr+qeni5DfLrNamCdIf4cW97kCCo57s08mMe7WJMjV5eSxRVt4RbkdLH6Kvo9zTQis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760505419; c=relaxed/simple;
-	bh=+C4H+zroDethd7br3mfINtGxJHy7JmMXn0wIBxbB1Qs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ljftIae4FDibfk4jKDbgRqdv9KXWeOE7TMWSq1NG5VPzjma8q4WAB1HLlnOBvQljPy1dRUYcaHArZN00agDj/9Nw775WEzPdmqYSDaTEtMnfnvaTcn2wg2dRX6JOlFsPkFHspxWlXteBwYO+/WTRK+QAOe3CZw76tUhs4vso8QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kF4nzEMc; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760507500; c=relaxed/simple;
+	bh=50blR+Qkm8n4ka6Tnj/O7El8AHE/NCmRHeMSaOMsVOk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FxnaSbYGMjQ+Re0GEdKQnW6Z3KXKT42pZP1QJQEgkPoY7rB0ijatEMp7+MjrQUHItGhX/svidSvXtQw8HCVrQHwiRPsO3y9hXtWQojAEYG8OY5OLWIdmn0smbwXfAP7mUFzhyl2SNVaBIsuo0c3ZeM1D1GolPtuixpq0ppcxV6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wdEcYq63; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X2ziHNMh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f7F8xd2z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=76hzr1Tc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kF4nzEMc"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-79af647cef2so2839671b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 14 Oct 2025 22:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760505417; x=1761110217; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJNUOJGibzoLiszJdXC8Yo14nanYYKcUy9zsuhUUDYc=;
-        b=kF4nzEMcgf8hvFxIFautPip1iQI594McodQIMfWs/LrDd6rC2bG5v6rXNwovbfurQm
-         Keh9KVi/O10yyd8KU3tj9bkv77UaOwF6IS+HuuU84lx/98nNTPRm8+d0BWs6VPxpSZ73
-         v+HNq5A03+QSDPcTT4Xb4Gcl7P8qyd+fsV/WpWLfxlglvafSfYVha2lhaBcLBU3BNbZP
-         sPL8e2s2G1JvHkp2hdfFrxEDhILbPm67znd5VSw1j6TbpzAozLitYI6ThAgZ1++ShDzM
-         eA74NyBrb7UW8c9tSSPpx+kHfGNb4bepP4o1sJrhcJfqsfvQFIuIpTHc9x3KcEu3E8mc
-         Si2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760505417; x=1761110217;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nJNUOJGibzoLiszJdXC8Yo14nanYYKcUy9zsuhUUDYc=;
-        b=F0mPTIk/1znqn+G8KAiv7ez/aLkh0cO5Y4EudKR/JY9uP9CGzvk9OjrClhzuxx6ziB
-         nGl4sFp72XXmnK5qtdnZvrQPqv+RHi6lhMrzmqCV3ckBb06FHiCWX6ewZo2dALo9sbat
-         /+1HxIp5cWta3yUwjOxraa6460WbsxZRnPYsWpUAGAPhLrHMmJTkJ/wncW43bcL2/N9v
-         ChivqIM/SuZFIEpDq0JfIOHCB6uxulIzgJKyq9SI8Fxc4oSo3sVkXSUX2QnDhTNgeFc1
-         DrpVZt/uGItPyeyQmBsxUvavmyMiacnuvM4YBXPf8Ld31Aw+S3Y7rOB/sQXpp0S3MrPf
-         Kg1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUCZzBIDqkgjVjYaeG6v4iQA/U+W7PiMHElbjdYGEklYHJJ64OjFldnAsVLZJo3T5vROW5hecxKrmQUhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySwlFfeOmqtCp2u5YJvzF9DKMwo/CGxi/AWdu2Vs8dqFVUIfrv
-	SkPgN7dVmyq+0YhlPkZZzf8dtahi/Gbci7DOHgsxEzcb/1Xfs/D/IsK1
-X-Gm-Gg: ASbGnctR5pq3pTlB4eYRIRAqtZVneC87d5b32zAgr7YyJ2NW73h9HXR/S1SDTwQhuLd
-	9Axk8kr8AeRbHmLiMKLCYeJP1qgBLAaio1QqNe9CrdMWeFFYb+HZcAiNsdMkNGG8FRo1jodo3d2
-	qSvmDsyKe+MQXK/EMP075qKUDHOwcxGUlnH1lp9ofhGz1ONuNij3/shvL0UM1bl86tWJWwpgLNJ
-	7dUUq3gaVk2Zuk4/l4PuYiGnGtQr5efl+hVx7fh1CnfRJifAEeZBQap10Yg9Qnso8IAlgoQUOLb
-	m8dzKxkRRHu4B1Y6QFbcdp6jHRFJdjT2n9jvPzPg4CqOZkK0svqkIP+7GaDQvPDRGIdKdvkJGPm
-	pHcYXfMGJuEbUBlcko1NSX1W9cx306BwLk7+563/dI1XDZSx9Qjrq
-X-Google-Smtp-Source: AGHT+IGaYSaDctN1UDXrQ/b1IBYPl2mNpwc/vOVwXDn/8RGkSFgqDvehEDR5ZrCFJsldV8ETtDC8WA==
-X-Received: by 2002:a05:6300:218e:b0:32b:810c:2ba5 with SMTP id adf61e73a8af0-32da84ed640mr38525100637.59.1760505417000;
-        Tue, 14 Oct 2025 22:16:57 -0700 (PDT)
-Received: from ustb520lab-MS-7E07.. ([115.25.44.221])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b060a38sm17320137b3a.5.2025.10.14.22.16.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 22:16:56 -0700 (PDT)
-From: Jiaming Zhang <r772577952@gmail.com>
-To: tiwai@suse.de,
-	gregkh@linuxfoundation.org
-Cc: broonie@kernel.org,
-	cryolitia@uniontech.com,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wdEcYq63";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X2ziHNMh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f7F8xd2z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="76hzr1Tc"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A2F3E66DF5;
+	Wed, 15 Oct 2025 05:51:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760507496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s1PwgFEMFdLefTq8lodQq36S37p8/4E+rvPyxh24ysA=;
+	b=wdEcYq63OFOGJCBi2YELO0NLYvnC0NRQ9dlGagszYBAzAK9atj02avDMUWQ9W6lCAZQ4FD
+	+XPCZMFxYJ1FUmf1OBMB/1N1BnpxoZ6+vgb0vRyE9q/reEvtwTvOVT1gWcFAJ4ExfB2Znf
+	MOyLt7WuHnF3q4SzT1gACZApJhmsGXo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760507496;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s1PwgFEMFdLefTq8lodQq36S37p8/4E+rvPyxh24ysA=;
+	b=X2ziHNMhqlArcmYM2a3BG/Fv0l+CbNbvyhib+V3P71NVape0J+igvcPdtUrx+UpA9qQAW6
+	ChazQ/g7uyQeIFDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760507495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s1PwgFEMFdLefTq8lodQq36S37p8/4E+rvPyxh24ysA=;
+	b=f7F8xd2zuyv2wzm55uezYNOF4ZSR0IjFJ72FkF01Wk4ir6ZwEF6yYCoC+PFF8HKLj9bby5
+	SfhfAu/CHKU8WleLPmMmwbYSOY1w1flWUjheKGH3mBKPiLdmwcDgokRmBnL6s34Aq0X7ut
+	L1eHDLYp6CiLoAH8enVT6WyWAqc9cVU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760507495;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s1PwgFEMFdLefTq8lodQq36S37p8/4E+rvPyxh24ysA=;
+	b=76hzr1TcW/VhsG/wSyjHBRvofJgyrFipbF3Kdy7KUbuBr2UGCjV6GRVFfxoIPsq0nwDA1r
+	Tcuh8Q6prM4ap/BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 477AC136F7;
+	Wed, 15 Oct 2025 05:51:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id F5K5DGc272jeWwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 05:51:35 +0000
+Date: Wed, 15 Oct 2025 07:51:34 +0200
+Message-ID: <871pn47lw9.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,
+	bo.liu@senarytech.com,
+	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	kailang@realtek.com,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	pierre-louis.bossart@linux.dev,
-	quic_wcheng@quicinc.com,
-	r772577952@gmail.com,
-	syzkaller@googlegroups.com,
-	tiwai@suse.com
-Subject: [PATCH v2 1/1] ALSA: usb-audio: Fix NULL pointer deference in try_to_register_card
-Date: Wed, 15 Oct 2025 13:16:45 +0800
-Message-Id: <20251015051645.519470-2-r772577952@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251015051645.519470-1-r772577952@gmail.com>
-References: <877bwy81wi.wl-tiwai@suse.de>
- <20251015051645.519470-1-r772577952@gmail.com>
+	patches@opensource.cirrus.com,
+	rf@opensource.cirrus.com,
+	regressions@lists.linux.dev,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <CAPnZJGDffiY-9sBTfdOYkkmjQqb79M3d8uLdyyb6eAxU8fqbuA@mail.gmail.com>
+References: <20250709160434.1859-6-tiwai@suse.de>
+	<20251014034156.4480-1-safinaskar@gmail.com>
+	<875xci81dt.wl-tiwai@suse.de>
+	<CAPnZJGDffiY-9sBTfdOYkkmjQqb79M3d8uLdyyb6eAxU8fqbuA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.983];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-In try_to_register_card(), the return value of usb_ifnum_to_if() is
-passed directly to usb_interface_claimed() without a NULL check, which
-will lead to a NULL pointer dereference when creating an invalid
-USB audio device. Fix this by adding a check to ensure the interface
-pointer is valid before passing it to usb_interface_claimed().
+On Wed, 15 Oct 2025 06:37:13 +0200,
+Askar Safin wrote:
+> 
+> On Tue, Oct 14, 2025 at 9:04 AM Takashi Iwai <tiwai@suse.de> wrote:
+> > The oft-seen "regression" reports for 6.17 were rather the incorrect
+> 
+> My config indeed didn't have CONFIG_SND_HDA_CODEC_REALTEK.
+> 
+> I set it to "m" and did test again.
+> And audio still doesn't work.
 
-Fixes: 39efc9c ("ALSA: usb-audio: Fix last interface check for registration")
-Closes: https://lore.kernel.org/all/CANypQFYtQxHL5ghREs-BujZG413RPJGnO5TH=xjFBKpPts33tA@mail.gmail.com/
-Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
----
- sound/usb/card.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+You have to enable CONFIG_SND_HDA_CODEC_ALC* config, too.
+(I guess CONFIG_SND_HDA_CODEC_ALC269=m alone should suffice, but you
+can set all to m.)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 1d5a65eac933..270dad84d825 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -891,10 +891,16 @@ get_alias_quirk(struct usb_device *dev, unsigned int id)
-  */
- static int try_to_register_card(struct snd_usb_audio *chip, int ifnum)
- {
-+	struct usb_interface *iface;
-+
- 	if (check_delayed_register_option(chip) == ifnum ||
--	    chip->last_iface == ifnum ||
--	    usb_interface_claimed(usb_ifnum_to_if(chip->dev, chip->last_iface)))
-+	    chip->last_iface == ifnum)
-+		return snd_card_register(chip->card);
-+
-+	iface = usb_ifnum_to_if(chip->dev, chip->last_iface);
-+	if (iface && usb_interface_claimed(iface))
- 		return snd_card_register(chip->card);
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+As already mentioned, those are the new config of each Realtek codec
+driver that now became selectable individually when CONFIG_EXPERT=y
+(so you say you're an expert :)
 
+
+Takashi
