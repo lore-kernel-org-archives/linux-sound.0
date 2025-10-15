@@ -1,136 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198153161A8;
-	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FE12DA753
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 08:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760515039; cv=none; b=LKHffI3HoD8QJG4BGhdwvcTcNL4LIQjg5S/wdocvB/6cm0ZBpArOhFBNuF+hot+tRsqvnCqHaGP77gWGBe0kRzCvxtNOwb0sVnpIP9jO16JE4sRLc0gGApnx5cvb75ORN9ejXvqnHxYFZD53vw6RzqkxISeUtKpCkbEDCnavPoM=
+	t=1760516336; cv=none; b=CEfpxADBK5y7LPQ0Ccd9Ei1b95KXgeg4OhhvNOvF/M1kKSoXVhwHuqxi/dv7obx5TA9OhmdzJ9PwrdVYKqNcRH8N3aKTsDrZ3AA2B+K1RKUVVvSG+DcvjN2fWLpoTWqpUvTkj4FENELBCVHRgmWJcp2vkEjIBSWQ8KEy3T8AKz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760515039; c=relaxed/simple;
-	bh=A7Dwlg+ECO296ucIDgk/nm1NbjRGpPo3r40nRAzhhsI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Mphl7DM7xVw4BBfdQTodIJTVkNlB95ippCzkY1EqxmmE6Cd53t71bCxt0QKTyKWoSaRQnpaPL7/MWdzQIMiYwmE2LAwaYwJYChyAboN93Xb3cgubAcbtj7soaEg+tSxvAkIIgqrpYao7g5e33bWxGMhSdkSYxuNA1at4jw8sQqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDI7QCRP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760516336; c=relaxed/simple;
+	bh=5291ZGZEkJ8j+kcZ4/BVAOpJCPTOlPPieiL67Ugd4Sg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u0hwICq5EonoGRDbhHuJqO7/zPjLsk1BGvUbG0zhsl7i2+7H9qTB1wTGQ0lsE2b88K0bnOI5kQ9JAsMbUfCqZ7Wl+tZWXI9eQZjsGS4wFnZe1ap5U7/wq/H74qdFmYWPg8Js/CrnzuOcwMrp8tl1ftld9Yz4dBMvBMdlZr5JxSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hyiMesVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7wU/GNB4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iHkB+zIg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rexAMODu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDI7QCRP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BE8EC2BC87;
-	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760515038;
-	bh=A7Dwlg+ECO296ucIDgk/nm1NbjRGpPo3r40nRAzhhsI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FDI7QCRPP/X4IqV67OwfKgMMGF32+60u2VtIMwo4acYQaYzgYyvzBKSYqS0mckuJ0
-	 oAzi40M+Qrn4U5yRDkUl/x09CVxoi3yYY6B7kGVCnwnoaxjAOes1mtP+ZDR5i1HVpI
-	 bJqeFhyVhx1U2+J27gwPU6QfGekp9+M6tlBuHb12toPrxtj55q24y1W/LgvCpyiVgf
-	 Y+jP9YH32hCs4qk4G9PpdQJIeY3ODgvXWbWIuoLExVzrpS5Eo/Zs5Br4CpORolglmU
-	 qos6AJj8IYv0rKjzgPsoRyTjKIPoHhdsZdLUT5I6LPNsauEGChPtoOTBSq9QCL7PPR
-	 QqbKW9tpSjI/g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744C9CCD193;
-	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
-From: Prasad Kumpatla via B4 Relay <devnull+prasad.kumpatla.oss.qualcomm.com@kernel.org>
-Date: Wed, 15 Oct 2025 13:27:19 +0530
-Subject: [PATCH v3 5/5] ASoC: dt-bindings: qcom: Add Kaanapali LPASS macro
- codecs
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hyiMesVe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wU/GNB4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iHkB+zIg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rexAMODu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F17DF203E2;
+	Wed, 15 Oct 2025 08:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760516332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
+	b=hyiMesVeVFJZa2TF+K46wlTar0TcqcYk1V0LeMpg4Q5T40f+NqW7QH3XBW1u8M9tou0DHa
+	xDANBpK6n5JQmxMBBFOJShoLr7F8VABCJaG6JHzM9ue6CmB5IXsX8IJBY1SVxCvSmcU6NI
+	pLkK99S3OtEJBKXSYGIog+XA6/OJSC0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760516332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
+	b=7wU/GNB44EYraD8sH3+QQVjNAJIN72M33vhoRepVRxsdwjmcdffasFgYp8piS85vepkIZ7
+	DGbSErHt760oi5Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iHkB+zIg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rexAMODu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760516330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
+	b=iHkB+zIgFX7NspZAxZwlTX3BiE3NGHjlk/rFKZRTS+A36p4Wpye3+sOQsG0bkXWIbhUGDI
+	b4LuXOxaFJ5vPhRuMn6yh8MIe/st+4yrnQUL1wSkyMbh0+3/MtUN5ed+5ng+x/UQUCC7yb
+	UtG05pRQyeEhBrCmzYw/oGTOkpvDNrY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760516330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
+	b=rexAMODuUrvJQ5Phhw/9nG+FonHSKTaYH4x1pJGEUoTXDCJgZNovTfK4cTW9zkScKmK7pf
+	Gs02ceTZlE08xwCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 936DF13A42;
+	Wed, 15 Oct 2025 08:18:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IseFIupY72jSagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 08:18:50 +0000
+Date: Wed, 15 Oct 2025 10:18:50 +0200
+Message-ID: <87sefk60id.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jiaming Zhang <r772577952@gmail.com>
+Cc: tiwai@suse.de,
+	gregkh@linuxfoundation.org,
+	broonie@kernel.org,
+	cryolitia@uniontech.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	pierre-louis.bossart@linux.dev,
+	quic_wcheng@quicinc.com,
+	syzkaller@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v2 1/1] ALSA: usb-audio: Fix NULL pointer deference in try_to_register_card
+In-Reply-To: <20251015051645.519470-2-r772577952@gmail.com>
+References: <877bwy81wi.wl-tiwai@suse.de>
+	<20251015051645.519470-1-r772577952@gmail.com>
+	<20251015051645.519470-2-r772577952@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251015-knp-audio-v2-v3-5-e0e3e4167d87@oss.qualcomm.com>
-References: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
-In-Reply-To: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Rao Mandadapu <quic_srivasam@quicinc.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
- Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760515036; l=3129;
- i=prasad.kumpatla@oss.qualcomm.com; s=20251014; h=from:subject:message-id;
- bh=NAMMaMbrKD0m9ZcUOqBECjhw9Ighe71ZgaLRDNCqEFs=;
- b=fL9FjAw64xysetYiN3fhk/9X8BjtUpj2wlyOmTJGZBjDjyma/NdUZupY5DEdVGl2RwNASVTsa
- y9s/1NFk6sTD3br6JHebz8/n7x73kt9PdT9dz83Op0oTR93HcPO3W7B
-X-Developer-Key: i=prasad.kumpatla@oss.qualcomm.com; a=ed25519;
- pk=I3mn8JNlYnnm7frqMGXms1Rm2H+0gpAfknMlnBYqCzw=
-X-Endpoint-Received: by B4 Relay for
- prasad.kumpatla@oss.qualcomm.com/20251014 with auth_id=541
-X-Original-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Reply-To: prasad.kumpatla@oss.qualcomm.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: F17DF203E2
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+On Wed, 15 Oct 2025 07:16:45 +0200,
+Jiaming Zhang wrote:
+> 
+> In try_to_register_card(), the return value of usb_ifnum_to_if() is
+> passed directly to usb_interface_claimed() without a NULL check, which
+> will lead to a NULL pointer dereference when creating an invalid
+> USB audio device. Fix this by adding a check to ensure the interface
+> pointer is valid before passing it to usb_interface_claimed().
+> 
+> Fixes: 39efc9c ("ALSA: usb-audio: Fix last interface check for registration")
+> Closes: https://lore.kernel.org/all/CANypQFYtQxHL5ghREs-BujZG413RPJGnO5TH=xjFBKpPts33tA@mail.gmail.com/
+> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
 
-Add bindings for Qualcomm Kaanapali (LPASS) RX, TX, VA and WSA
-macro codecs, which is likely compatible with earlier SM8550.
-
-Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
----
- Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml  | 1 +
- Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml  | 1 +
- Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml  | 1 +
- Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml | 1 +
- 4 files changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-index 92f95eb74b19..b869469a5848 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-@@ -20,6 +20,7 @@ properties:
-           - qcom,sc8280xp-lpass-rx-macro
-       - items:
-           - enum:
-+              - qcom,kaanapali-lpass-rx-macro
-               - qcom,sm8650-lpass-rx-macro
-               - qcom,sm8750-lpass-rx-macro
-               - qcom,x1e80100-lpass-rx-macro
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-index 914798a89878..e5e65e226a02 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-           - qcom,sc8280xp-lpass-tx-macro
-       - items:
-           - enum:
-+              - qcom,kaanapali-lpass-tx-macro
-               - qcom,sm8650-lpass-tx-macro
-               - qcom,sm8750-lpass-tx-macro
-               - qcom,x1e80100-lpass-tx-macro
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-index 1c0d78af3c05..5b450f227b70 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,glymur-lpass-va-macro
-+              - qcom,kaanapali-lpass-va-macro
-               - qcom,sm8650-lpass-va-macro
-               - qcom,sm8750-lpass-va-macro
-               - qcom,x1e80100-lpass-va-macro
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-index b6f5ba5d1320..d5f22b5cf021 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,glymur-lpass-wsa-macro
-+              - qcom,kaanapali-lpass-wsa-macro
-               - qcom,sm8650-lpass-wsa-macro
-               - qcom,sm8750-lpass-wsa-macro
-               - qcom,x1e80100-lpass-wsa-macro
-
--- 
-2.34.1
+Thanks, applied now.
+The Fixes tag should have 12 letter IDs, and I corrected it.
 
 
+Takashi
