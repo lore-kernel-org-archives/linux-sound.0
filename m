@@ -1,83 +1,137 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40298311C13;
-	Wed, 15 Oct 2025 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554F131577D;
+	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760514944; cv=none; b=OU/H73/jvPbEJZFlMQPvTch3YRt3zUUtvVL4PRzNQ6JBsCtwcgRo+H5Plgf9YXa5zZQy+0OJk2L/5qfg8e99aP1hVk2z1QTg2nOFVNAekcLxB/7FYRSWllEqsKF9mNB1idRZdRRS1r0t+e4du2bkRpKI2XeiY7EgwQIXDKj2R+g=
+	t=1760515038; cv=none; b=HIH5N7aeKhs/OH2PmqdrxOVR8wIDGu3AWNiL3WjhnHe8UYpjkcloRp2AZ1PVZ8rc0WCdWaW46uWQez2MM3W1QkKTL2+yH18CShs/IVWcgyP0yvC1Rk1B9MQQeUStMfe/nPQsr88YsxegKOMT7uk66EnpT6lGbiU/l/an8v7icL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760514944; c=relaxed/simple;
-	bh=iE2Psiwzs2QGqdwASawlzs7KvkkzA/n/ldRp4cGHpBE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p8pwK2ZR7YDtYkasGpq5O2y9N8Y405xMMjmxwZ5dodBpGpZcXsuPIG2qyK2sNfbhMt2Scom7UA84qjAA07NnosQaoC4HTmQ3ZpnNf5TT5bN27QRO05wKzhngOLm3eOpmQYvGD/YjFGSup2secCjBUETLOkvcbl+SNuBpZqKaF1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 542e6d6ea99c11f0a38c85956e01ac42-20251015
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:5d625116-8dbb-405c-942b-f37ae7a91dad,IP:0,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:25
-X-CID-META: VersionHash:a9d874c,CLOUDID:0d0adf757c6bb67376f84ff0386faaea,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:5,IP:nil
-	,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
-	1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 542e6d6ea99c11f0a38c85956e01ac42-20251015
-X-User: liqiang01@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liqiang01@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1442507899; Wed, 15 Oct 2025 15:55:34 +0800
-From: Li Qiang <liqiang01@kylinos.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Qiang <liqiang01@kylinos.cn>
-Subject: [PATCH] ASoC: amd/sdw_utils: avoid NULL deref when devm_kasprintf() fails
-Date: Wed, 15 Oct 2025 15:55:30 +0800
-Message-Id: <20251015075530.146851-1-liqiang01@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1760515038; c=relaxed/simple;
+	bh=oVjglxA2YVL+EWAe8G0L/QPujTzNnzrVGFjD3bYF2Go=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lreFI3plv4joxOMafdJIORKEcKNCQ9CHpMQGuK14dYTcWEp0jFkEvnAmX/tmGnJNZ/E/R8QyQXG345gCOTVCi0vM9ZzZttSKWNUU2v1Wf45sfiJF9IxOnNyusOetvg0rrXFWNRmXVApLgDsczpSSRL5t606dZiWaOiRhGDw/eO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYmKSUzM; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYmKSUzM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 25BB0C4CEF8;
+	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760515038;
+	bh=oVjglxA2YVL+EWAe8G0L/QPujTzNnzrVGFjD3bYF2Go=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=kYmKSUzME7qid6TgJhqyUEK302Ta71PZvWeDgogzPPK80DMuHwXKHR2+QPObZaw6H
+	 mft+4Hb4nh/b2CeAivUtkBzpOz/dLMAyJVIGGu5ZMIw9uCCOblhRddfvgRacdj62Hp
+	 MMQlL6UyAUfc5WDDlL5MDn7T/pQ1XqFw5e/P3RsK6AEPyQA9R6aNTwys2FZtoDEacp
+	 7AzyaJg8YM+fTrI0AVQgp+Ks4N8YMjBzT5TIlURWV5YUCrcv+2Nxji9zes57+Cd3nP
+	 eu7zlXlfCSVJbrUAI/4Gpi+94wLergrWJGbsr4IpeP4bqEReYnA7l0YDE33qXfKN1/
+	 oAtqu8Tz29Zpg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14752CCD18E;
+	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
+From: Prasad Kumpatla via B4 Relay <devnull+prasad.kumpatla.oss.qualcomm.com@kernel.org>
+Subject: [PATCH v3 0/5] Add Audio Support for Kaanapali MTP Boards
+Date: Wed, 15 Oct 2025 13:27:14 +0530
+Message-Id: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANpT72gC/03MSw6DIBSF4a0Yxr2Ep9aOuo+mgxvAShShoKaJc
+ e8lHXVykm9w/oMUl70r5NYcJLvdFx+XCnlpiBlxeTnwtpoIJjRnXMG0JMDN+gi7gB5l12lhrOG
+ a1EvKbvCfX+7xrB5yDLCO2eFfhPVcyVYpKkXfCnYFDiljQUunLSRcZ7zHUuh7w9nEEGgdcp5fK
+ /Z7DaoAAAA=
+X-Change-ID: 20251014-knp-audio-v2-9a37752cdc15
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760515036; l=2706;
+ i=prasad.kumpatla@oss.qualcomm.com; s=20251014; h=from:subject:message-id;
+ bh=oVjglxA2YVL+EWAe8G0L/QPujTzNnzrVGFjD3bYF2Go=;
+ b=6v34mFGcATJ0yTodD94cdvkszAGp2RJ7NLQbNiAVtOYGS2We3CTlm4YnUqX0oqBwxwDO+ZJTn
+ W/+3gQVz8sIAtgwa7d+LGBzCwoIcwmNuqOe0zGhGTzYtKMBwelJKgrb
+X-Developer-Key: i=prasad.kumpatla@oss.qualcomm.com; a=ed25519;
+ pk=I3mn8JNlYnnm7frqMGXms1Rm2H+0gpAfknMlnBYqCzw=
+X-Endpoint-Received: by B4 Relay for
+ prasad.kumpatla@oss.qualcomm.com/20251014 with auth_id=541
+X-Original-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Reply-To: prasad.kumpatla@oss.qualcomm.com
 
-devm_kasprintf() may return NULL on memory allocation failure,
-but the debug message prints cpus->dai_name before checking it.
-Move the dev_dbg() call after the NULL check to prevent potential
-NULL pointer dereference.
+Add audio support for Kaanapali MTP boards. Introduces supporting
+dependencies required to enable audio functionality on MTP platforms.
+These changes have been validated on Kaanapali MTP hardware.
 
-Fixes: cb8ea62e64020 ("ASoC: amd/sdw_utils: add sof based soundwire generic machine driver")
-Signed-off-by: Li Qiang <liqiang01@kylinos.cn>
+Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+
+Changes in [v3]:
+	- Correct SoB chain, comments from Krzysztof.
+	- Link to v2: https://lore.kernel.org/linux-arm-msm/20251009143644.3296208-1-prasad.kumpatla@oss.qualcomm.com/
+
+Changes in [v2]:
+	- Addressed compilation issue for lpass version check patch.
+	- Sorted compatible string in machine driver.
+	- Link to v1: https://lore.kernel.org/linux-arm-msm/20250924-knp-audio-v1-0-5afa926b567c@oss.qualcomm.com/
+
+Konrad Dybcio (1):
+  ASoC: codecs: va-macro: Rework version checking
+
+Prasad Kumpatla (4):
+  ASoC: dt-bindings: qcom,sm8250: Add kaanapali sound card
+  ASoC: qcom: sc8280xp: Add support for Kaanapali
+  dt-bindings: soundwire: qcom: Add SoundWire v2.2.0 compatible
+  ASoC: dt-bindings: qcom: Add Kaanapali LPASS macro codecs
+
+ .../bindings/sound/qcom,lpass-rx-macro.yaml   |  1 +
+ .../bindings/sound/qcom,lpass-tx-macro.yaml   |  1 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml   |  1 +
+ .../bindings/sound/qcom,lpass-wsa-macro.yaml  |  1 +
+ .../bindings/sound/qcom,sm8250.yaml           |  1 +
+ .../bindings/soundwire/qcom,soundwire.yaml    |  1 +
+ sound/soc/codecs/lpass-va-macro.c             | 90 +++++++++++++------
+ sound/soc/qcom/sc8280xp.c                     |  1 +
+ 8 files changed, 70 insertions(+), 27 deletions(-)
+
+--
+2.34.1
+
 ---
- sound/soc/amd/acp/acp-sdw-sof-mach.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Konrad Dybcio (1):
+      ASoC: codecs: va-macro: Rework version checking
 
-diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-index 91d72d4bb9a2..d055582a3bf1 100644
---- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-@@ -176,9 +176,9 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 			cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
- 							"SDW%d Pin%d",
- 							link_num, cpu_pin_id);
--			dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
- 			if (!cpus->dai_name)
- 				return -ENOMEM;
-+			dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
- 
- 			codec_maps[j].cpu = 0;
- 			codec_maps[j].codec = j;
+Prasad Kumpatla (4):
+      ASoC: dt-bindings: qcom,sm8250: Add kaanapali sound card
+      ASoC: qcom: sc8280xp: Add support for Kaanapali
+      dt-bindings: soundwire: qcom: Add SoundWire v2.2.0 compatible
+      ASoC: dt-bindings: qcom: Add Kaanapali LPASS macro codecs
+
+ .../bindings/sound/qcom,lpass-rx-macro.yaml        |  1 +
+ .../bindings/sound/qcom,lpass-tx-macro.yaml        |  1 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |  1 +
+ .../bindings/sound/qcom,lpass-wsa-macro.yaml       |  1 +
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
+ .../bindings/soundwire/qcom,soundwire.yaml         |  1 +
+ sound/soc/codecs/lpass-va-macro.c                  | 90 +++++++++++++++-------
+ sound/soc/qcom/sc8280xp.c                          |  1 +
+ 8 files changed, 70 insertions(+), 27 deletions(-)
+---
+base-commit: 2b763d4652393c90eaa771a5164502ec9dd965ae
+change-id: 20251014-knp-audio-v2-9a37752cdc15
+
+Best regards,
 -- 
-2.25.1
+Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+
 
