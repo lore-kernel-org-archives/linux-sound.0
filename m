@@ -1,150 +1,153 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8469E315D24;
-	Wed, 15 Oct 2025 07:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A858F9478
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 07:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760512908; cv=none; b=ZuNiiQyzU/YZAEQKLs4/jCMBI+PnLrB5WZ7wxj7aR2ccEKFx2gdH5tZHKO2ATsV9DWul8/LHXjPhGexfwvOeFz7KllDWWB36ijll1oHTBRGFEd4FXNFD30MTHWqnuhQ83RvgbJ/4yKY//09SSdlpciHc6IkufVG+iWzvzsdNGrU=
+	t=1760514453; cv=none; b=VrFa0S+mJFriEWQOAf73di0S1zftqMnQB37VuddsW60/lELujy3vg5x/kLHc9ISOhMgYlgQPWL//1y+p6OG6OS8XJTth4SZc3/UlHYO2v/8hwiL/fPZ8Uf63smEQ/yOm7ZgpTJ4WNjihLlZxp1rp/0vYs6DJNaf0JwUm+A3aAAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760512908; c=relaxed/simple;
-	bh=ZzdIgXkVyruSkkb124Jgkm0GwzeDNU9Cpoe/h8aUEvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CwYwMV7iFuPhXRbEc3orRLn6QveRJ46CfsuXUS/udwDnvRl56unfGUL0sUew7vRuqWvzGfOiLwo9iTJ4NlYdKJXR27BNh8vlKyaXRGkl9Kak3PtPNug+a3DlOitJZoBDsjhpkF7yM1B/Iyg/3cFpb9zcjyzK9NPJ3qeIhKUoeYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=13/95jD2; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760514453; c=relaxed/simple;
+	bh=BFcu8s0gM/t04yJtiGiWOnH1/q0bVRLLL+KGjIkw9d0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QRINW6XssE2kKFCHhJMtL5Uy72GnbMwn7pOwFmBgWNL61wYAiZvnm86ofdI8LiQ4Wvyt+hs4Gz+T2tYH8UpH5gT/FSKg2swuexxUSEOFbiGakMc9Lbnt0eC5rM9lfb4MIGiGIB3CYPe/ykTn7lBt+FRvv4qNKFAZOap9RKYEMbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1e8GQtnF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lIFgKHxa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QOt7+Zog; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6ynI4f01; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="13/95jD2"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 36439C09FAA;
-	Wed, 15 Oct 2025 07:21:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C583606F9;
-	Wed, 15 Oct 2025 07:21:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E343D102F22BC;
-	Wed, 15 Oct 2025 09:21:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760512903; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=x4ZLGkOvm/oVigw1/rloRb4F3nzZJ1Eq9qAeVsAs4fw=;
-	b=13/95jD25xlXmwc7R6cH5utrqLk/HydWkfUY5UAwRu+FW2yl+l+tf7aKeHHHXqhGa3Hh1g
-	C7U5piDWXij4eAwMG3FcMRMZwHFx9KfJf2soJXvwVrFcC1HIt+jFMl8u58jqa+xvMyvycw
-	/OMkrxOgHqBrrRbJYnf9FJhsvLy9LtU/n334Y0Jqzr2yMlD8i+mVYckXutUZApDiv3CGP8
-	CgqY65Ogld37rs6/a29unDJxzrOX8xfqiD0iIFbEkLnPYzFWPtZChkTFRRhoDiDc83dCGN
-	/ecyucff/4m9QfuIOxGqKSwkD68Nenwp720UITVnFX9MCEsPGgluSQvCOiWaFg==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Peter Rosin <peda@axentia.se>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Wolfram Sang <wsa@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-pci@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1e8GQtnF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lIFgKHxa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QOt7+Zog";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6ynI4f01"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D2B9A1F443;
+	Wed, 15 Oct 2025 07:47:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760514450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cH1AeFDdza7aMp2izOb5qKvh0qBp+SJYeG5ecSEzYuY=;
+	b=1e8GQtnFAdNWMWwLVLL7y6i/LZseHOo+vKHV3qNGUiW85lTRM4H2fw4CLnlIdKY6PP+WFw
+	HH0VebxyPt5ZpIAyMJoK2/B3dUSpEumgbtPOxbqloDYpUmZCjvxfVN9XNja/tvJ6o/yC9F
+	pt6R789K98fDnZmnx37hVYbjTKAXFyk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760514450;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cH1AeFDdza7aMp2izOb5qKvh0qBp+SJYeG5ecSEzYuY=;
+	b=lIFgKHxahJWtdNkBX3trhezzaI8vKqnp+JUc74Vn+drJzU/HSCptDJCeH/9QVha2q+66qJ
+	kaZ5mgcU9pGmjIAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760514449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cH1AeFDdza7aMp2izOb5qKvh0qBp+SJYeG5ecSEzYuY=;
+	b=QOt7+ZogM50aaMix95QSIvatOemmwRTTPbsp4mF+bn0EfrRBxBvv7RF5R4WGQppe/cHRko
+	gPl79mqxxDtuQqtowXAPLV+GmA+ddcIYuPhe01oXTJJQs2oGARgQXdbZ6U1ZKGmBScT8Oh
+	cjyjK35aX1IaRjfnoVS5DOXKsgziygk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760514449;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cH1AeFDdza7aMp2izOb5qKvh0qBp+SJYeG5ecSEzYuY=;
+	b=6ynI4f012I9k+TlHuV9dybi3xjSLJYP+0aamf3+TwrKbryHMN2lm2ZBWulnSyjHwdt01NF
+	u9cB+aFCol/OY8Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7161A13A42;
+	Wed, 15 Oct 2025 07:47:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0a9zGpFR72jdSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 07:47:29 +0000
+Date: Wed, 15 Oct 2025 09:47:29 +0200
+Message-ID: <87wm4w61ym.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,
+	bo.liu@senarytech.com,
+	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	kailang@realtek.com,
 	linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v4 29/29] misc: lan966x_pci: Add drivers needed to support SFPs in Kconfig help
-Date: Wed, 15 Oct 2025 09:14:16 +0200
-Message-ID: <20251015071420.1173068-30-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251015071420.1173068-1-herve.codina@bootlin.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	rf@opensource.cirrus.com,
+	regressions@lists.linux.dev,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <CAPnZJGDeJsD9CHAmF1XkHctMAuXTkE3egEgyh-WWjHo6ctoygQ@mail.gmail.com>
+References: <20250709160434.1859-6-tiwai@suse.de>
+	<20251014034156.4480-1-safinaskar@gmail.com>
+	<875xci81dt.wl-tiwai@suse.de>
+	<CAPnZJGDffiY-9sBTfdOYkkmjQqb79M3d8uLdyyb6eAxU8fqbuA@mail.gmail.com>
+	<871pn47lw9.wl-tiwai@suse.de>
+	<CAPnZJGDeJsD9CHAmF1XkHctMAuXTkE3egEgyh-WWjHo6ctoygQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-Recently, new device-tree nodes were added in the overlay to add support
-for SFPs on LAN966x PCI device.
+On Wed, 15 Oct 2025 08:49:42 +0200,
+Askar Safin wrote:
+> 
+> On Wed, Oct 15, 2025 at 8:51 AM Takashi Iwai <tiwai@suse.de> wrote:
+> > You have to enable CONFIG_SND_HDA_CODEC_ALC* config, too.
+> 
+> I just did another experiment. I enabled everything in "audio hd" menu
+> in v6.18-rc1.
+> And still no sound.
+> Kernel version is v6.18-rc1. Config is here:
+> https://zerobin.net/?e345ae7df1223a43#h3Dm4HiKvM3GWbTl3f8ErMAS5cm8gd3MOM/IZP0Ta6w=
+> 
+> As you can see, all CONFIG_SND_HDA_CODEC_ALC* options are enabled there.
 
-The LAN966X Kconfig help section mentions drivers related to devices
-added based on the overlay description.
+And have you unmuted all sounds properly?
+Please give alsa-info.sh output (at best from both and non-working
+cases).  Run the script with --no-upload and attach the outputs.
 
-Add drivers related to devices described by those new nodes in the
-already existing driver list.
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- drivers/misc/Kconfig | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 3ca09d993a19..c4e6af87c977 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -636,13 +636,18 @@ config MCHP_LAN966X_PCI
- 	  Even if this driver does not depend on those other drivers, in order
- 	  to have a fully functional board, the following drivers are needed:
- 	    - fixed-clock (COMMON_CLK)
-+	    - i2c-mux-pinctrl (I2C_MUX_PINCTRL)
- 	    - lan966x-cpu-syscon (MFD_SYSCON)
-+	    - lan966x-gck (COMMON_CLK_LAN966X)
- 	    - lan966x-miim (MDIO_MSCC_MIIM)
- 	    - lan966x-oic (LAN966X_OIC)
- 	    - lan966x-pinctrl (PINCTRL_OCELOT)
- 	    - lan966x-serdes (PHY_LAN966X_SERDES)
- 	    - lan966x-switch (LAN966X_SWITCH)
- 	    - lan966x-switch-reset (RESET_MCHP_SPARX5)
-+	    - sam9x60-i2c (I2C_AT91)
-+	    - sama5d2-flexcom (MFD_ATMEL_FLEXCOM)
-+	    - sfp (SFP)
- 
- source "drivers/misc/c2port/Kconfig"
- source "drivers/misc/eeprom/Kconfig"
--- 
-2.51.0
-
+Takashi
