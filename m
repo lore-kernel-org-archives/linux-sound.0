@@ -1,87 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8C6322DBA
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 11:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF44322A24
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 11:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760528974; cv=none; b=ehZbzfpqg4sRt3iDNuV8OvzhXVc4zRX5gWMiBkANGWu4VbqUTbXGgruoyKe6FYWeVOow0jk+t0Cl+D15YTQ02LfUwxTpIrt/1Be3knabWjYa6hjw+Xu/ikDvJjeHsfwnhomIFxYHSXKrPk5iz53spf3dDBB21EZGTzqw2I0reGY=
+	t=1760529301; cv=none; b=FzelE1yP9+7BJ35eGY3iUsLmW0GAhbKchwXsYAezcDg4rQRe/Q5a+pVl63JADe/u+yM9MczWy0DPuTHSNMbWTc3FvwfzKNStnQqUs5yxl5j443d9ViEjR9YoXD5DPxWSCmIBEWIy7zxHFuSbRvSyVqwCuNVeGzGgP/5Jd7nZm2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760528974; c=relaxed/simple;
-	bh=6/OuQEFoH9Y1lciWDwYaqUigyg/XgovT17O+9wk4fYc=;
+	s=arc-20240116; t=1760529301; c=relaxed/simple;
+	bh=b724k4IPZdS5T648AezGVnmFcZnIkbrwevlP4dHp4UY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Km0Bp2yyBPyTFC4qJaqR4BAuc+K5Ia+zNVHI+iH9bfMDHY0VwDYTugX89yWK86KM4inzj5pW+hQ4QcTn9n8+VT1imgNqeHBxJZfqPyBELTuvDxEJVjuIH4Qcv85igwzRq6Ug1Ol7wJIOjWJu4qtGUNRHFokSebJhXUxIWN8mm1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a4F3Js2O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2Jw7oqCl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dOIpYtmp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1IuIOASb; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=uFgrmZW77+pXXVx2FV8IrHMxL8G3QDFuhiwLnW44+ru915lDHFMWw8pkuMK3hy5einsyLgIrbEalje9PehWHAylUGH22gswm4nIIZYSgmrxm4xiAjepokFnfva05VHvoEDJomJHTU7PElMuNIEGSMZDxTs+4/tsnuGuBipiQYms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ej6nWKPk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2tMolIbd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ej6nWKPk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2tMolIbd; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a4F3Js2O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2Jw7oqCl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dOIpYtmp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1IuIOASb"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ej6nWKPk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2tMolIbd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ej6nWKPk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2tMolIbd"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9EAA31FB88;
-	Wed, 15 Oct 2025 11:49:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E8003385D;
+	Wed, 15 Oct 2025 11:54:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760528970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760529297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oA+1x3aW4bnQ304WmXgLnvwNBbsoOMXd8wG5sobcq9A=;
-	b=a4F3Js2OCw/CJpX445YC+q6XesnKunsGW0VyV0w8mQMfTcA//L3pJPyX6gFWZ9g50FmCzW
-	zpWIDS5xQp/sEgI7HkHpaArZlkLOjzuhYtKtzkcCuvxBYhkhgST3dO94HCx0JRmGqxfr0f
-	lX5cstxa68CeK4iyp+keLM5tXdX3jK4=
+	bh=wOYLgrnYVQpXjRUFA9FaV5vaDYLFRtYjjk94Cmq3Z/M=;
+	b=Ej6nWKPkoIn3WRhGatnKmriGuE6l5cVdCBRhCmZicf3xG3Cn97V3KmRvjmYniy2iz9if2l
+	SMu4LtF4ZxchUeMnTXus0W8ioWqosN6JIctNNdfE6mO65EkuwsEeCymYYsbwY0iqZDAmW9
+	su5Z2vd8ySHd61w0Vt6xcWBrbXLR+EQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760528970;
+	s=susede2_ed25519; t=1760529297;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oA+1x3aW4bnQ304WmXgLnvwNBbsoOMXd8wG5sobcq9A=;
-	b=2Jw7oqClle4eOMEMX96vCdFWuvWGwHnv4i5h0ZbsVQ4Rr5GqExO8yheS6+SIn9C9PHdepW
-	2HwfBEosuxsRlsBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dOIpYtmp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1IuIOASb
+	bh=wOYLgrnYVQpXjRUFA9FaV5vaDYLFRtYjjk94Cmq3Z/M=;
+	b=2tMolIbd5jlbnM+/AO75MPSupPMKrLufhydJPG3w4ZcoFh4iqRbMuE6NhtZ9ZnVHbcySPz
+	ygk0QOsTQMsji8Cw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760528969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760529297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oA+1x3aW4bnQ304WmXgLnvwNBbsoOMXd8wG5sobcq9A=;
-	b=dOIpYtmpqWmM431cSUy0f397OXbeJE/e6QxuDdbjpIjr7GnCUrFM6me+6KLwICJ2U6sLE9
-	gab0H+E9Uw7yDMOd5c8004jwqlYmCld3fk51cJ/BEMNtiwWSwtQZzphkCmu7pX0QdYy20+
-	LKKo5Kgp3+FakhvT7uMkEyvTIXtzoS0=
+	bh=wOYLgrnYVQpXjRUFA9FaV5vaDYLFRtYjjk94Cmq3Z/M=;
+	b=Ej6nWKPkoIn3WRhGatnKmriGuE6l5cVdCBRhCmZicf3xG3Cn97V3KmRvjmYniy2iz9if2l
+	SMu4LtF4ZxchUeMnTXus0W8ioWqosN6JIctNNdfE6mO65EkuwsEeCymYYsbwY0iqZDAmW9
+	su5Z2vd8ySHd61w0Vt6xcWBrbXLR+EQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760528969;
+	s=susede2_ed25519; t=1760529297;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oA+1x3aW4bnQ304WmXgLnvwNBbsoOMXd8wG5sobcq9A=;
-	b=1IuIOASbh1uBNJO8lpsSHlQyxkcKIj2AS77K7xPYZecpjtCfmRu0FdfiyTzgCbQdZ3da3O
-	YCKFKBwy9MOxQQDQ==
+	bh=wOYLgrnYVQpXjRUFA9FaV5vaDYLFRtYjjk94Cmq3Z/M=;
+	b=2tMolIbd5jlbnM+/AO75MPSupPMKrLufhydJPG3w4ZcoFh4iqRbMuE6NhtZ9ZnVHbcySPz
+	ygk0QOsTQMsji8Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6874313A42;
-	Wed, 15 Oct 2025 11:49:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ACFD13A42;
+	Wed, 15 Oct 2025 11:54:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id V8IRGEmK72iWZgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 11:49:29 +0000
-Date: Wed, 15 Oct 2025 13:49:29 +0200
-Message-ID: <87sefkl706.wl-tiwai@suse.de>
+	id 97AFEZGL72g6bAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 11:54:57 +0000
+Date: Wed, 15 Oct 2025 13:54:56 +0200
+Message-ID: <87plaol6r3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: syzbot <syzbot+c9ab1eb0f8f5ab1f18be@syzkaller.appspotmail.com>
-Cc: linux-kernel@vger.kernel.org,
+To: syzbot <syzbot+ce952c05d40571083fd6@syzkaller.appspotmail.com>
+Cc: clemens@ladisch.de,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
 	syzkaller-bugs@googlegroups.com,
 	tiwai@suse.com
-Subject: Re: [syzbot] [sound?] possible deadlock in snd_pcm_drop
-In-Reply-To: <68dadf0e.050a0220.1696c6.001c.GAE@google.com>
-References: <68dadf0e.050a0220.1696c6.001c.GAE@google.com>
+Subject: Re: [syzbot] [sound?] KASAN: slab-use-after-free Read in snd_usbmidi_error_timer (2)
+In-Reply-To: <68d38327.a70a0220.1b52b.02be.GAE@google.com>
+References: <68d38327.a70a0220.1b52b.02be.GAE@google.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,216 +91,334 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 9EAA31FB88
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.01 / 50.00];
+X-Spamd-Result: default: False [-0.79 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f5b21423ca3f0a96];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=4d8792ecb6308d0f];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.968];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[c9ab1eb0f8f5ab1f18be];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	REDIRECTOR_URL(0.00)[goo.gl];
+	TAGGED_RCPT(0.00)[ce952c05d40571083fd6];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
 	SUBJECT_HAS_QUESTION(0.00)[]
-X-Spam-Score: -1.01
+X-Spam-Flag: NO
+X-Spam-Score: -0.79
 
-On Mon, 29 Sep 2025 21:33:34 +0200,
+On Wed, 24 Sep 2025 07:35:35 +0200,
 syzbot wrote:
 > 
 > Hello,
 > 
 > syzbot found the following issue on:
 > 
-> HEAD commit:    4ff71af020ae Merge tag 'net-6.17-rc8' of git://git.kernel...
+> HEAD commit:    cec1e6e5d1ab Merge tag 'sched_ext-for-6.17-rc7-fixes' of g..
 > git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1191c2e2580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=f5b21423ca3f0a96
-> dashboard link: https://syzkaller.appspot.com/bug?extid=c9ab1eb0f8f5ab1f18be
+> console output: https://syzkaller.appspot.com/x/log.txt?x=127fc142580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=4d8792ecb6308d0f
+> dashboard link: https://syzkaller.appspot.com/bug?extid=ce952c05d40571083fd6
 > compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1644dd34580000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=156d6f12580000
+> 
+> Unfortunately, I don't have any reproducer for this issue yet.
 > 
 > Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/3fb4198b5763/disk-4ff71af0.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/1499875eb2cc/vmlinux-4ff71af0.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/182864fb8af7/bzImage-4ff71af0.xz
+> disk image: https://storage.googleapis.com/syzbot-assets/f000e10907d9/disk-cec1e6e5.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/e8da77cc2298/vmlinux-cec1e6e5.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/9ad6164e7d28/bzImage-cec1e6e5.xz
 > 
 > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+c9ab1eb0f8f5ab1f18be@syzkaller.appspotmail.com
+> Reported-by: syzbot+ce952c05d40571083fd6@syzkaller.appspotmail.com
 > 
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> syzkaller #0 Not tainted
-> ------------------------------------------------------
-> syz.2.2869/8991 is trying to acquire lock:
-> ffff8880b8823d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
-> ffff8880b8823d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip+0x264/0x400 kernel/softirq.c:168
+> ==================================================================
+> BUG: KASAN: slab-use-after-free in instrument_atomic_read include/linux/instrumented.h:68 [inline]
+> BUG: KASAN: slab-use-after-free in atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
+> BUG: KASAN: slab-use-after-free in snd_usbmidi_error_timer+0x15d/0x660 sound/usb/midi.c:355
+> Read of size 4 at addr ffff8880310f9a10 by task syz.4.2001/13191
 > 
-> but task is already holding lock:
-> ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock_rt.h:93 [inline]
-> ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_group_lock_irq sound/core/pcm_native.c:98 [inline]
-> ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_stream_lock_irq sound/core/pcm_native.c:137 [inline]
-> ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: class_pcm_stream_lock_irq_constructor include/sound/pcm.h:679 [inline]
-> ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_drop+0x10d/0x270 sound/core/pcm_native.c:2223
-> 
-> which lock already depends on the new lock.
-> 
-> 
-> the existing dependency chain (in reverse order) is:
-> 
-> -> #2 (&group->lock#2){+.+.}-{3:3}:
->        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
->        rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
->        spin_lock include/linux/spinlock_rt.h:44 [inline]
->        _snd_pcm_stream_lock_irqsave+0x7c/0xa0 sound/core/pcm_native.c:171
->        class_pcm_stream_lock_irqsave_constructor include/sound/pcm.h:682 [inline]
->        snd_pcm_period_elapsed+0x1e/0x80 sound/core/pcm_lib.c:1938
->        dummy_hrtimer_callback+0x80/0x180 sound/drivers/dummy.c:386
->        __run_hrtimer kernel/time/hrtimer.c:1761 [inline]
->        __hrtimer_run_queues+0x54f/0xd40 kernel/time/hrtimer.c:1825
->        hrtimer_run_softirq+0x1a3/0x2e0 kernel/time/hrtimer.c:1842
->        handle_softirqs+0x22f/0x710 kernel/softirq.c:579
->        __do_softirq kernel/softirq.c:613 [inline]
->        run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
->        smpboot_thread_fn+0x53f/0xa60 kernel/smpboot.c:160
->        kthread+0x70e/0x8a0 kernel/kthread.c:463
->        ret_from_fork+0x436/0x7d0 arch/x86/kernel/process.c:148
->        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-> 
-> -> #1 (&base->softirq_expiry_lock){+...}-{3:3}:
->        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
->        rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
->        spin_lock include/linux/spinlock_rt.h:44 [inline]
->        hrtimer_cpu_base_lock_expiry kernel/time/hrtimer.c:1383 [inline]
->        hrtimer_run_softirq+0x7c/0x2e0 kernel/time/hrtimer.c:1838
->        handle_softirqs+0x22f/0x710 kernel/softirq.c:579
->        __do_softirq kernel/softirq.c:613 [inline]
->        run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
->        smpboot_thread_fn+0x53f/0xa60 kernel/smpboot.c:160
->        kthread+0x70e/0x8a0 kernel/kthread.c:463
->        ret_from_fork+0x436/0x7d0 arch/x86/kernel/process.c:148
->        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-> 
-> -> #0 ((softirq_ctrl.lock)){+.+.}-{3:3}:
->        check_prev_add kernel/locking/lockdep.c:3165 [inline]
->        check_prevs_add kernel/locking/lockdep.c:3284 [inline]
->        validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
->        __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
->        reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
->        __lock_release kernel/locking/lockdep.c:5574 [inline]
->        lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
->        __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
->        hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
->        dummy_hrtimer_stop+0xcf/0x100 sound/drivers/dummy.c:410
->        snd_pcm_do_stop+0x127/0x1c0 sound/core/pcm_native.c:1525
->        snd_pcm_action_single sound/core/pcm_native.c:1305 [inline]
->        snd_pcm_action+0xe4/0x240 sound/core/pcm_native.c:1388
->        snd_pcm_stop sound/core/pcm_native.c:1561 [inline]
->        snd_pcm_drop+0x160/0x270 sound/core/pcm_native.c:2228
->        snd_pcm_oss_sync+0x1de/0xc30 sound/core/oss/pcm_oss.c:1733
->        snd_pcm_oss_release+0x102/0x250 sound/core/oss/pcm_oss.c:2574
->        __fput+0x45b/0xa80 fs/file_table.c:468
->        task_work_run+0x1d4/0x260 kernel/task_work.c:227
->        resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
->        exit_to_user_mode_loop+0xec/0x110 kernel/entry/common.c:43
->        exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
->        syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
->        syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
->        do_syscall_64+0x2bd/0x3b0 arch/x86/entry/syscall_64.c:100
->        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> other info that might help us debug this:
-> 
-> Chain exists of:
->   (softirq_ctrl.lock) --> &base->softirq_expiry_lock --> &group->lock#2
-> 
->  Possible unsafe locking scenario:
-> 
->        CPU0                    CPU1
->        ----                    ----
->   lock(&group->lock#2);
->                                lock(&base->softirq_expiry_lock);
->                                lock(&group->lock#2);
->   lock((softirq_ctrl.lock));
-> 
->  *** DEADLOCK ***
-> 
-> 2 locks held by syz.2.2869/8991:
->  #0: ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock_rt.h:93 [inline]
->  #0: ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_group_lock_irq sound/core/pcm_native.c:98 [inline]
->  #0: ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_stream_lock_irq sound/core/pcm_native.c:137 [inline]
->  #0: ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: class_pcm_stream_lock_irq_constructor include/sound/pcm.h:679 [inline]
->  #0: ffff8880302d0150 (&group->lock#2){+.+.}-{3:3}, at: snd_pcm_drop+0x10d/0x270 sound/core/pcm_native.c:2223
->  #1: ffffffff8d9a8d80 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
->  #1: ffffffff8d9a8d80 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
->  #1: ffffffff8d9a8d80 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
->  #1: ffffffff8d9a8d80 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1bb/0x2c0 kernel/locking/spinlock_rt.c:57
-> 
-> stack backtrace:
-> CPU: 0 UID: 0 PID: 8991 Comm: syz.2.2869 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+> CPU: 0 UID: 0 PID: 13191 Comm: syz.4.2001 Not tainted syzkaller #0 PREEMPT(full) 
 > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
 > Call Trace:
->  <TASK>
+>  <IRQ>
 >  dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
->  print_circular_bug+0x2ee/0x310 kernel/locking/lockdep.c:2043
->  check_noncircular+0x134/0x160 kernel/locking/lockdep.c:2175
->  check_prev_add kernel/locking/lockdep.c:3165 [inline]
->  check_prevs_add kernel/locking/lockdep.c:3284 [inline]
->  validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
->  __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
->  reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
->  __lock_release kernel/locking/lockdep.c:5574 [inline]
->  lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
->  __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
->  hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
->  dummy_hrtimer_stop+0xcf/0x100 sound/drivers/dummy.c:410
->  snd_pcm_do_stop+0x127/0x1c0 sound/core/pcm_native.c:1525
->  snd_pcm_action_single sound/core/pcm_native.c:1305 [inline]
->  snd_pcm_action+0xe4/0x240 sound/core/pcm_native.c:1388
->  snd_pcm_stop sound/core/pcm_native.c:1561 [inline]
->  snd_pcm_drop+0x160/0x270 sound/core/pcm_native.c:2228
->  snd_pcm_oss_sync+0x1de/0xc30 sound/core/oss/pcm_oss.c:1733
->  snd_pcm_oss_release+0x102/0x250 sound/core/oss/pcm_oss.c:2574
->  __fput+0x45b/0xa80 fs/file_table.c:468
->  task_work_run+0x1d4/0x260 kernel/task_work.c:227
->  resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
->  exit_to_user_mode_loop+0xec/0x110 kernel/entry/common.c:43
->  exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
->  syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
->  syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
->  do_syscall_64+0x2bd/0x3b0 arch/x86/entry/syscall_64.c:100
+>  print_address_description mm/kasan/report.c:378 [inline]
+>  print_report+0xca/0x240 mm/kasan/report.c:482
+>  kasan_report+0x118/0x150 mm/kasan/report.c:595
+>  check_region_inline mm/kasan/generic.c:-1 [inline]
+>  kasan_check_range+0x2b0/0x2c0 mm/kasan/generic.c:189
+>  instrument_atomic_read include/linux/instrumented.h:68 [inline]
+>  atomic_read include/linux/atomic/atomic-instrumented.h:32 [inline]
+>  snd_usbmidi_error_timer+0x15d/0x660 sound/usb/midi.c:355
+>  call_timer_fn+0x17b/0x5f0 kernel/time/timer.c:1747
+>  expire_timers kernel/time/timer.c:1798 [inline]
+>  __run_timers kernel/time/timer.c:2372 [inline]
+>  __run_timer_base+0x61a/0x860 kernel/time/timer.c:2384
+>  run_timer_base kernel/time/timer.c:2393 [inline]
+>  run_timer_softirq+0xb7/0x180 kernel/time/timer.c:2403
+>  handle_softirqs+0x283/0x870 kernel/softirq.c:579
+>  __do_softirq kernel/softirq.c:613 [inline]
+>  invoke_softirq kernel/softirq.c:453 [inline]
+>  __irq_exit_rcu+0xca/0x1f0 kernel/softirq.c:680
+>  irq_exit_rcu+0x9/0x30 kernel/softirq.c:696
+>  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1050 [inline]
+>  sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1050
+>  </IRQ>
+>  <TASK>
+>  asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
+> RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:222
+> Code: ff 00 74 11 81 fa 00 01 00 00 75 35 83 b9 3c 16 00 00 00 74 2c 8b 91 18 16 00 00 83 fa 02 75 21 48 8b 91 20 16 00 00 48 8b 32 <48> 8d 7e 01 8b 89 1c 16 00 00 48 39 cf 73 08 48 89 3a 48 89 44 f2
+> RSP: 0018:ffffc90003007658 EFLAGS: 00000246
+> RAX: ffffffff8b72d1aa RBX: ffffc900030077c0 RCX: ffff88802acd3c00
+> RDX: ffffc9000d3ed000 RSI: 000000000007ffff RDI: ffffffff8be33f20
+> RBP: ffffc90003007790 R08: 0000000000000000 R09: ffffffff8b72d15c
+> R10: dffffc0000000000 R11: fffffbfff1f47507 R12: dffffc0000000000
+> R13: 1ffff92000600ed4 R14: 0000000000000001 R15: ffffc900030076c0
+>  rcu_read_lock include/linux/rcupdate.h:842 [inline]
+>  mt_find+0x1aa/0x5f0 lib/maple_tree.c:6931
+>  find_vma+0xe7/0x160 mm/mmap.c:909
+>  lock_mm_and_find_vma+0x5f/0x300 mm/mmap_lock.c:340
+>  do_user_addr_fault+0x331/0x1390 arch/x86/mm/fault.c:1359
+>  handle_page_fault arch/x86/mm/fault.c:1476 [inline]
+>  exc_page_fault+0x76/0xf0 arch/x86/mm/fault.c:1532
+>  asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+> RIP: 0010:rep_movs_alternative+0x30/0x90 arch/x86/lib/copy_user_64.S:60
+> Code: 83 f9 08 73 25 85 c9 74 0f 8a 06 88 07 48 ff c7 48 ff c6 48 ff c9 75 f1 e9 8d 0a 04 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 <48> 8b 06 48 89 07 48 83 c6 08 48 83 c7 08 83 e9 08 74 db 83 f9 08
+> RSP: 0018:ffffc90003007a18 EFLAGS: 00050206
+> RAX: 00007ffffffff001 RBX: 0000000000000038 RCX: 0000000000000038
+> RDX: 0000000000000001 RSI: 0000200000297000 RDI: ffffc90003007aa0
+> RBP: ffffc90003007c30 R08: ffffc90003007ad7 R09: 1ffff92000600f5a
+> R10: dffffc0000000000 R11: fffff52000600f5b R12: 0000000000000002
+> R13: dffffc0000000000 R14: ffffc90003007aa0 R15: 0000200000297000
+>  copy_user_generic arch/x86/include/asm/uaccess_64.h:126 [inline]
+>  raw_copy_from_user arch/x86/include/asm/uaccess_64.h:141 [inline]
+>  _inline_copy_from_user include/linux/uaccess.h:178 [inline]
+>  _copy_from_user+0x7a/0xb0 lib/usercopy.c:18
+>  copy_from_user include/linux/uaccess.h:212 [inline]
+>  copy_msghdr_from_user net/socket.c:2544 [inline]
+>  recvmsg_copy_msghdr net/socket.c:2800 [inline]
+>  ___sys_recvmsg+0x12e/0x510 net/socket.c:2872
+>  do_recvmmsg+0x307/0x770 net/socket.c:2971
+>  __sys_recvmmsg net/socket.c:3045 [inline]
+>  __do_sys_recvmmsg net/socket.c:3068 [inline]
+>  __se_sys_recvmmsg net/socket.c:3061 [inline]
+>  __x64_sys_recvmmsg+0x190/0x240 net/socket.c:3061
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
 >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7fc9f7ffeec9
+> RIP: 0033:0x7f873778eec9
 > Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007ffef674cdc8 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-> RAX: 0000000000000000 RBX: 0000000000036070 RCX: 00007fc9f7ffeec9
-> RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000bf674d0bf
-> R10: 0000001b31c20000 R11: 0000000000000246 R12: 00007fc9f8255fac
-> R13: 00007fc9f8255fa0 R14: ffffffffffffffff R15: 0000000000000003
+> RSP: 002b:00007f87359f6038 EFLAGS: 00000246 ORIG_RAX: 000000000000012b
+> RAX: ffffffffffffffda RBX: 00007f87379e6090 RCX: 00007f873778eec9
+> RDX: 0000000000010106 RSI: 00002000000000c0 RDI: 0000000000000003
+> RBP: 00007f8737811f91 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000002 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f87379e6128 R14: 00007f87379e6090 R15: 00007f8737b0fa28
 >  </TASK>
+> 
+> Allocated by task 5950:
+>  kasan_save_stack mm/kasan/common.c:47 [inline]
+>  kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+>  poison_kmalloc_redzone mm/kasan/common.c:388 [inline]
+>  __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:405
+>  kasan_kmalloc include/linux/kasan.h:260 [inline]
+>  __do_kmalloc_node mm/slub.c:4376 [inline]
+>  __kmalloc_noprof+0x27a/0x4f0 mm/slub.c:4388
+>  kmalloc_noprof include/linux/slab.h:909 [inline]
+>  usb_alloc_urb+0x46/0x150 drivers/usb/core/urb.c:75
+>  snd_usbmidi_in_endpoint_create+0xb4/0xa30 sound/usb/midi.c:1348
+>  snd_usbmidi_create_endpoints_midiman sound/usb/midi.c:2363 [inline]
+>  __snd_usbmidi_create+0x2223/0x2a70 sound/usb/midi.c:2646
+>  snd_usb_midi_v2_create+0x43e6/0x4660 sound/usb/midi2.c:1178
+>  usb_audio_probe+0xb78/0x1e10 sound/usb/card.c:976
+>  usb_probe_interface+0x668/0xc30 drivers/usb/core/driver.c:396
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x26a/0x9e0 drivers/base/dd.c:659
+>  __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:801
+>  driver_probe_device+0x4f/0x430 drivers/base/dd.c:831
+>  __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:959
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+>  __device_attach+0x2b8/0x400 drivers/base/dd.c:1031
+>  bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+>  device_add+0x7b6/0xb50 drivers/base/core.c:3689
+>  usb_set_configuration+0x1a87/0x20e0 drivers/usb/core/message.c:2210
+>  usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+>  usb_probe_device+0x1c4/0x390 drivers/usb/core/driver.c:291
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x26a/0x9e0 drivers/base/dd.c:659
+>  __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:801
+>  driver_probe_device+0x4f/0x430 drivers/base/dd.c:831
+>  __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:959
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+>  __device_attach+0x2b8/0x400 drivers/base/dd.c:1031
+>  bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+>  device_add+0x7b6/0xb50 drivers/base/core.c:3689
+>  usb_new_device+0xa39/0x16f0 drivers/usb/core/hub.c:2694
+>  hub_port_connect drivers/usb/core/hub.c:5566 [inline]
+>  hub_port_connect_change drivers/usb/core/hub.c:5706 [inline]
+>  port_event drivers/usb/core/hub.c:5870 [inline]
+>  hub_event+0x2958/0x4a20 drivers/usb/core/hub.c:5952
+>  process_one_work kernel/workqueue.c:3236 [inline]
+>  process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3319
+>  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3400
+>  kthread+0x70e/0x8a0 kernel/kthread.c:463
+>  ret_from_fork+0x439/0x7d0 arch/x86/kernel/process.c:148
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> 
+> Freed by task 5950:
+>  kasan_save_stack mm/kasan/common.c:47 [inline]
+>  kasan_save_track+0x3e/0x80 mm/kasan/common.c:68
+>  kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:576
+>  poison_slab_object mm/kasan/common.c:243 [inline]
+>  __kasan_slab_free+0x5b/0x80 mm/kasan/common.c:275
+>  kasan_slab_free include/linux/kasan.h:233 [inline]
+>  slab_free_hook mm/slub.c:2422 [inline]
+>  slab_free mm/slub.c:4695 [inline]
+>  kfree+0x18e/0x440 mm/slub.c:4894
+>  free_urb_and_buffer sound/usb/midi.c:1309 [inline]
+>  snd_usbmidi_in_endpoint_delete+0xde/0x680 sound/usb/midi.c:1322
+>  snd_usbmidi_free sound/usb/midi.c:1530 [inline]
+>  snd_usbmidi_rawmidi_free+0xae/0x160 sound/usb/midi.c:1591
+>  snd_rawmidi_free+0x3bc/0x410 sound/core/rawmidi.c:1934
+>  snd_rawmidi_dev_free+0x38/0x50 sound/core/rawmidi.c:1945
+>  __snd_device_free+0x1d2/0x2e0 sound/core/device.c:76
+>  snd_device_free_all+0xcf/0x180 sound/core/device.c:233
+>  snd_card_do_free sound/core/init.c:587 [inline]
+>  release_card_device+0x75/0x1b0 sound/core/init.c:153
+>  device_release+0x9c/0x1c0 drivers/base/core.c:-1
+>  kobject_cleanup lib/kobject.c:689 [inline]
+>  kobject_release lib/kobject.c:720 [inline]
+>  kref_put include/linux/kref.h:65 [inline]
+>  kobject_put+0x22b/0x480 lib/kobject.c:737
+>  snd_card_free_when_closed sound/core/init.c:618 [inline]
+>  snd_card_free+0x110/0x190 sound/core/init.c:650
+>  usb_audio_probe+0x193f/0x1e10 sound/usb/card.c:1034
+>  usb_probe_interface+0x668/0xc30 drivers/usb/core/driver.c:396
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x26a/0x9e0 drivers/base/dd.c:659
+>  __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:801
+>  driver_probe_device+0x4f/0x430 drivers/base/dd.c:831
+>  __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:959
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+>  __device_attach+0x2b8/0x400 drivers/base/dd.c:1031
+>  bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+>  device_add+0x7b6/0xb50 drivers/base/core.c:3689
+>  usb_set_configuration+0x1a87/0x20e0 drivers/usb/core/message.c:2210
+>  usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+>  usb_probe_device+0x1c4/0x390 drivers/usb/core/driver.c:291
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x26a/0x9e0 drivers/base/dd.c:659
+>  __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:801
+>  driver_probe_device+0x4f/0x430 drivers/base/dd.c:831
+>  __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:959
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:462
+>  __device_attach+0x2b8/0x400 drivers/base/dd.c:1031
+>  bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+>  device_add+0x7b6/0xb50 drivers/base/core.c:3689
+>  usb_new_device+0xa39/0x16f0 drivers/usb/core/hub.c:2694
+>  hub_port_connect drivers/usb/core/hub.c:5566 [inline]
+>  hub_port_connect_change drivers/usb/core/hub.c:5706 [inline]
+>  port_event drivers/usb/core/hub.c:5870 [inline]
+>  hub_event+0x2958/0x4a20 drivers/usb/core/hub.c:5952
+>  process_one_work kernel/workqueue.c:3236 [inline]
+>  process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3319
+>  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3400
+>  kthread+0x70e/0x8a0 kernel/kthread.c:463
+>  ret_from_fork+0x439/0x7d0 arch/x86/kernel/process.c:148
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> 
+> The buggy address belongs to the object at ffff8880310f9a00
+>  which belongs to the cache kmalloc-192 of size 192
+> The buggy address is located 16 bytes inside of
+>  freed 192-byte region [ffff8880310f9a00, ffff8880310f9ac0)
+> 
+> The buggy address belongs to the physical page:
+> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x310f9
+> anon flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+> page_type: f5(slab)
+> raw: 00fff00000000000 ffff88801a4413c0 0000000000000000 dead000000000001
+> raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 1, tgid 1 (swapper/0), ts 19362280210, free_ts 19332206122
+>  set_page_owner include/linux/page_owner.h:32 [inline]
+>  post_alloc_hook+0x240/0x2a0 mm/page_alloc.c:1851
+>  prep_new_page mm/page_alloc.c:1859 [inline]
+>  get_page_from_freelist+0x21e4/0x22c0 mm/page_alloc.c:3858
+>  __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:5148
+>  alloc_pages_mpol+0x232/0x4a0 mm/mempolicy.c:2416
+>  alloc_slab_page mm/slub.c:2492 [inline]
+>  allocate_slab+0x8a/0x370 mm/slub.c:2660
+>  new_slab mm/slub.c:2714 [inline]
+>  ___slab_alloc+0xbeb/0x1420 mm/slub.c:3901
+>  __slab_alloc mm/slub.c:3992 [inline]
+>  __slab_alloc_node mm/slub.c:4067 [inline]
+>  slab_alloc_node mm/slub.c:4228 [inline]
+>  __kmalloc_cache_noprof+0x296/0x3d0 mm/slub.c:4402
+>  kmalloc_noprof include/linux/slab.h:905 [inline]
+>  kzalloc_noprof include/linux/slab.h:1039 [inline]
+>  call_usermodehelper_setup+0x8e/0x270 kernel/umh.c:362
+>  kobject_uevent_env+0x65c/0x8c0 lib/kobject_uevent.c:628
+>  kernel_add_sysfs_param+0xb1/0xe0 kernel/params.c:816
+>  param_sysfs_builtin+0x18a/0x230 kernel/params.c:851
+>  param_sysfs_builtin_init+0x23/0x30 kernel/params.c:987
+>  do_one_initcall+0x233/0x820 init/main.c:1269
+>  do_initcall_level+0x104/0x190 init/main.c:1331
+>  do_initcalls+0x59/0xa0 init/main.c:1347
+>  kernel_init_freeable+0x334/0x4b0 init/main.c:1579
+> page last free pid 980 tgid 980 stack trace:
+>  reset_page_owner include/linux/page_owner.h:25 [inline]
+>  free_pages_prepare mm/page_alloc.c:1395 [inline]
+>  __free_frozen_pages+0xbc4/0xd30 mm/page_alloc.c:2895
+>  vfree+0x25a/0x400 mm/vmalloc.c:3434
+>  delayed_vfree_work+0x55/0x80 mm/vmalloc.c:3353
+>  process_one_work kernel/workqueue.c:3236 [inline]
+>  process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3319
+>  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3400
+>  kthread+0x70e/0x8a0 kernel/kthread.c:463
+>  ret_from_fork+0x439/0x7d0 arch/x86/kernel/process.c:148
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> 
+> Memory state around the buggy address:
+>  ffff8880310f9900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  ffff8880310f9980: 00 00 fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> >ffff8880310f9a00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                          ^
+>  ffff8880310f9a80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>  ffff8880310f9b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ==================================================================
+> ----------------
+> Code disassembly (best guess):
+>    0:	ff 00                	incl   (%rax)
+>    2:	74 11                	je     0x15
+>    4:	81 fa 00 01 00 00    	cmp    $0x100,%edx
+>    a:	75 35                	jne    0x41
+>    c:	83 b9 3c 16 00 00 00 	cmpl   $0x0,0x163c(%rcx)
+>   13:	74 2c                	je     0x41
+>   15:	8b 91 18 16 00 00    	mov    0x1618(%rcx),%edx
+>   1b:	83 fa 02             	cmp    $0x2,%edx
+>   1e:	75 21                	jne    0x41
+>   20:	48 8b 91 20 16 00 00 	mov    0x1620(%rcx),%rdx
+>   27:	48 8b 32             	mov    (%rdx),%rsi
+> * 2a:	48 8d 7e 01          	lea    0x1(%rsi),%rdi <-- trapping instruction
+>   2e:	8b 89 1c 16 00 00    	mov    0x161c(%rcx),%ecx
+>   34:	48 39 cf             	cmp    %rcx,%rdi
+>   37:	73 08                	jae    0x41
+>   39:	48 89 3a             	mov    %rdi,(%rdx)
+>   3c:	48                   	rex.W
+>   3d:	89                   	.byte 0x89
+>   3e:	44                   	rex.R
+>   3f:	f2                   	repnz
 > 
 > 
 > ---
@@ -314,10 +432,6 @@ syzbot wrote:
 > If the report is already addressed, let syzbot know by replying with:
 > #syz fix: exact-commit-title
 > 
-> If you want syzbot to run the reproducer, reply with:
-> #syz test: git://repo/address.git branch-or-commit-hash
-> If you attach or paste a git patch, syzbot will apply it before testing.
-> 
 > If you want to overwrite report's subsystems, reply with:
 > #syz set subsystems: new-subsystem
 > (See the list of subsystem names on the web dashboard)
@@ -328,4 +442,4 @@ syzbot wrote:
 > If you want to undo deduplication, reply with:
 > #syz undup
 
-#syz fix: ALSA: pcm: Disable bottom softirqs as part of spin_lock_irq() on PREEMPT_RT
+#syz fix: ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
