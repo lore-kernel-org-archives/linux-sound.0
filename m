@@ -1,99 +1,76 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD402517AC
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E13064A1
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760541852; cv=none; b=dRv8JQy9wSkC2E+vvrZMcZmxZVgEcK784mSruczHj3SWZF4ybRxGWSEmsTqmydwTQI+xhw5BryHjyRjSVCsR+4xw/n7f1UrlHu2iQjoF+Q+YsoFoSJwZdGyHTBelu4TfR+xluQSPAbnQa5mdc3BWmbmGQWQmZd1qCXLo5cL0YLg=
+	t=1760542271; cv=none; b=Ve/hakbf8pObhM/EU+LMcjqC4geEByL9KF/hPtee3cPrs1uUkvF4EEOFb8H/rVerqvM/6W+pA4Wpt7mb8U2boeieeu9STIV7N5jgKCeykXMm4ODZuxu+v3AAGP776Kn64dNSc3Ezr79+74ypY75n8E1WBZb8oE6aM/4yfNOMxko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760541852; c=relaxed/simple;
-	bh=fHi4Sy6ZO6219mNkkAMO1NN3Q4Mdyg5IgRsuybnGRaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YFt7MHP7Rgy7sIL+ogDcyY/elby+9GlasI82HO5x7IdNkZ5ZKuoJNlAvz99LhbfkwVOQzAFsRlqLk78nNRly/3FWqc7Aw+SQ5gzOY/xNxTAocNljtenoFlLXf9V6Qj/n7j++KsLBhTI1YlOoDr/ToKcLQ2LcFtDr9dE+lI9v1+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OTrVNAKi; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1760542271; c=relaxed/simple;
+	bh=foD40p6XypQF55AZf958SGpSj0LdAkadXOkKkvaIIro=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc; b=i58O1yzizjiyZROw+l5TkH1csKs30EG1iIE+1lgL+N+DbdMg3JldSj/Qe9JvWKcxvQ8aX2sLNWXtu8Dj1M+a6D9lRXD0AMb7LvV88oNIFohTawgeGF9IvlrcmJebtLNFNHTELYsMSi+/o4gd2rvoZdshgWj4AO3rpGb29NQA8UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=CjahYkpC; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OTrVNAKi"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-375eff817a3so66107451fa.1
-        for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 08:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1760541848; x=1761146648; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GSysKNFqHQrm7HW9ou4XnQTMAOsGZaUAittjs2tbdIc=;
-        b=OTrVNAKiUj4qeasqNWzZ42f8ThURb98tRuuQiiRi9i22KyrfK9OaHx/EVt5x58t1gZ
-         KD+YvoJB/8Eb4jVu/ECj+0iD39uQwpcNJcGFBuEeB8EoDOknVSzObH8RxQ/KGiviBBSs
-         77euI61oMwKrh1mGcXqviIYaTHO8zJjouJq4r5QfSMEfQd54GfoP2v0v6IcLFJzuqJE/
-         J/AFAYncprUW99IS5Hv8MtLjHLEp3ZL6EXQPztB60er91EmJrdjUxEoT6BF7pYUgoUpF
-         kBfEo5rFtV3boCiHiPvxM9nc1j2eXlm5j4lMZwQDEsCKb8gWeW/i7CRo0vpWt6V+7ozO
-         uqSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760541848; x=1761146648;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GSysKNFqHQrm7HW9ou4XnQTMAOsGZaUAittjs2tbdIc=;
-        b=QS82ow+1g0d02286ZLCFUsuhbwgsuqqSbVkes9R+fJ1BdYtoepW+JoG75r9PHF50Yp
-         6+tb65rhd86YmFnDt/4r7OR4zdPLY+cHasHZXL/9nQxgn29WyB175My8we09sTwoXxpK
-         fXPYYO/rxBCa3dLDAdhjfB/+Q1cm76BWk+elvo9YbxUWw76Yg3anwODdVTTlg6BNY95E
-         jruuPmhfrBTyimSNiVv72kLams9Y/Qy87FXcs6o1oECTrteQh1Ne8euAzOElWrOZUHx5
-         GAb1xY3A6MPScOP+vXDDiCLuxQvws1YEhkXwfUK8F0idyp9HbWDcGwuohjyiILzPZ7NT
-         6p1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVOnS21idIf01J598Wg7aVliXVM5A0tQu5gIJi8O5Cc1bD/Kq8T/0aW9NFjA/3ql3ytP2C3pK6BUHJQEg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO6tWA7RtU/MFtVaJ1TnG5V1SndgQTqsBeadicj3vaIMC0pa3U
-	SYaN/cidAoTt6e2WJWHSzPE1ndZxPKTHEKIISgQAFnwTgiYXOmmZY5Pw1GoKU52Nrunxymub9r0
-	94xHGdX+jv6bVOa5cgo5ysMb8CFsMjGyAYjQrWITH+A==
-X-Gm-Gg: ASbGncvl5JV/KbTzs9zZfF/RhubiWINohiFl+qZxkdo69y1la0qtrYR3UlnEG5tHCnQ
-	ieU3nvwkUuj1EFL03RNg1LaTo0jyXyzmAYmlQA30QTPSFxXDXNYCzarGNrIUs/RWewCBhQQurQi
-	gh3GZthtsezeR2BNB+Ka09yXH+CUBEsYk/sTwsqF1JdwV7VX6EHTomDIWzkbb7cjSjeGfRF/1sT
-	l+5ELg/YQRUvyjaPuYrnRl8S5pbt3qPQifrk1u5O9zl1AOwG3ppaj+SgvY=
-X-Google-Smtp-Source: AGHT+IHrIpnmA3PfhS5F43KKvrlsIpMZQHo0Y4ikDQOz1PFqFFjsj/VrWWbwy50E1b37KRiZ2S09Lm6qe0KfxZLGVVM=
-X-Received: by 2002:a2e:a541:0:b0:336:bd8c:5e53 with SMTP id
- 38308e7fff4ca-37609cc2d6fmr78271231fa.5.1760541848431; Wed, 15 Oct 2025
- 08:24:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="CjahYkpC"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250929155053.400342-1-marco.crivellari@suse.com> <176054173655.179445.8487996832699914920.b4-ty@kernel.org>
-In-Reply-To: <176054173655.179445.8487996832699914920.b4-ty@kernel.org>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Wed, 15 Oct 2025 17:23:57 +0200
-X-Gm-Features: AS18NWBvKtm51_JvZYvvvcOsZcx-fI7s4PuiuLPeUZyiDl7r4VqZO-UJmhBVZGc
-Message-ID: <CAAofZF4_0+ZK5hefqbDksxtSe96ZnR18uQrr3Xw17zvYd_fMmw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] ASoC: change system_wq with system_dfl_wq
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+	s=key1; t=1760542263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=phiaHrkuHX1+QSJO+QQJsBVlliCLRCFSYHUsw0Fujng=;
+	b=CjahYkpCEkovwyh+HON1KkwQNpcOcPIs33rtsHWogAbhBZYwqO7oGBDoxAuzh0uoO5pyFH
+	8zhv3I0NZWVu6JOJ10Dp2ZFhn1FFSzRTMJ5mxKVS5LlSlC4Oap7f7CQjlq02nzsaBrPN4z
+	wPAqg4D4x+KFa+D1eOH1pIIXLHcfpOidttLi+gYgDLtRUCVKqUpvgQMBhMBtmBS+jmmWaY
+	P2w9IPnGCtQQhlOcVssUueHt1dsYuCFkKAD1e7jA9gyC2EsD5zENRZPK12s6aR0JGJirkl
+	sKsK+2CeV1tIQbgzMfbJ9Uay1wIC9LkKdvRD9YY6G3qpk+XLUpssimjvS5jb7g==
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Oct 2025 17:30:53 +0200
+Message-Id: <DDJ05640974K.3G1TLY1B75G7@cknow-tech.com>
+Subject: Endless spam in dmesg: ASoC error (-19): at snd_soc_dai_prepare()
+ on i2s-hifi
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: <linux-sound@vger.kernel.org>
+Cc: <linux-rockchip@lists.infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 15, 2025 at 5:22=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
-> [..]
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
-next
->
-> Thanks!
->
-> [1/1] ASoC: replace use of system_wq with system_dfl_wq
->       commit: 0b0eb7702a9fa410755e86124b4b7cd36e7d1cb4
->
+Hi,
 
-Many thanks, Mark!
+On several of my Rockchip based devices I get ASoC errors, where the one
+from the subject occurs the most, but there are others as well.
+While it should ofc be reported when an error occurs, the volume was
+bad, then really bad and now it's just absurd:
 
---=20
+root@rock5b:~# dmesg | grep -c "ASoC error (-19): at snd_soc_dai_prepare"
+983
 
-Marco Crivellari
+If 'dmesg' buffer can hold 1000 lines, then I have 17 of these as well:
+hdmi-audio-codec hdmi-audio-codec.8.auto: HDMI: Unknown ELD version 0
 
-L3 Support Engineer, Technology & Product
+This means that after just a few minutes, 'dmesg' has now become utterly
+useless as it ONLY contains these errors/lines.
+
+Booting into older kernels didn't seem to have an effect. If it had, I
+could start to bisect it. I have no idea where it comes from.
+So now I have removed pipewire ... and everything that depends on it ...
+of which 'mpv' is the most important to me.
+Now those errors are actually gone. And dmesg actually useful again.
+
+So I guess it's triggered by (a change in) pipewire, but still the
+kernel should not be generating endless copies of the same error. Once
+or twice should be enough.
+
+Can something be done about this?
+
+Cheers,
+  Diederik
