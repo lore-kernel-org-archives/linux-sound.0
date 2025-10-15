@@ -1,87 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEC8303A27;
-	Wed, 15 Oct 2025 19:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760555336; cv=none; b=iCeUAixwc/6vEXWZ/xzNQb/s+wqHYTut6lBhCa8FmUFZfkgCo6t4Iz/sXcPUl9CqveqE8qfCjyMJ5y/QyFb6OE3SFxeBYOQoOHj9ILzuJnAwwCD9wHh9l97TglmvFav9m/14L+x4KRlcyRFyeI1MRzH7Srm5L74RkKr4UiH1TGc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760555336; c=relaxed/simple;
-	bh=aWG9O1/Dym+WL0DOXQO8ZFYK3N5DSHC8DNu5QxxmCyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V2zRvAFCJiriXnHVg30f23cW5jGQUElkoK2h9UPkqfMq/BRvetlaqhgBACXqiUnuDlYKk7p9kCFNzew22QCreUD1MWfyH+bj0nuXtq2n5ZehKw+AQqNwkR9Un6XpWiz9TyTTh0G9cekRaN3yHm+IZfajEWSkfjJZKy9h1t2+G7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2jZX8Tv; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A9630276F;
+	Wed, 15 Oct 2025 19:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760557650; cv=pass; b=URr+oj5cGMYLkER4k2hAw/1WdpFLoYPRN5U1p7n8MNt40Hnjl7ZWWV1OP8AGB8QJ7uVY7WwKtw/+JjdWb6ntev+Ls1uGIWv26BZg6gJIVzsjfimhRl3ls0klw3FX3Fmn2lVAylTy9hz8g7Q+gf3wdAMUYM4D/RLk6HcVx6vZwLc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760557650; c=relaxed/simple;
+	bh=pCgJHmwl08f6J8nRC3dweSFLnUJgjNGTQ6VqthcuRg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FqC8CfMNtm8B4kSiSTfv68XxEM5V9uB12TL64NYHgMvnIOYl7CO2LhDaAyEnbmHTI47djNbCrEnnBItxeUwuM0ePg8kIWVVJRc4WRsCfc7w4tVeo46N+3FjO7AlLcqZINh+FFXWeEEBvh3wFFEHUNGkE0xnzxc7pBtNqc9NsXto=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=putED+MK; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2jZX8Tv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4C0C4CEF8;
-	Wed, 15 Oct 2025 19:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760555335;
-	bh=aWG9O1/Dym+WL0DOXQO8ZFYK3N5DSHC8DNu5QxxmCyQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A2jZX8TvxvEnMb/sYF1O7Rh5t268OyJGgh87kkTjL/eMEtcFJxjshVV0I3CybXJhc
-	 kMcCIPsL8wMEY1Op9N38ISofkTqRx8wTTSxpe/LQyogk8iN4mjnr/Vv4kjkD8pRmEy
-	 Poxn+mgdA9l8Raruo6ovNL9MZjbHLYPoeWXz1aosSaNnbNrO/Ie/0hbgqrFSld/9sy
-	 E67gBQ9PSd6L0TE7UgjZF6MkoJlQ48QMuhc6MkNY/HcIUr1ls/g2hKNqmKGS45CSbZ
-	 nOgSLMUaOUz778XcaXmP8ixowIrYCHUxXCCTLcvSQXSEm6RE6RSrLRgpDKG41QOPoE
-	 ndpubYr1daVQg==
-Date: Wed, 15 Oct 2025 20:08:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: hariconscious@gmail.com
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev, shuah@kernel.org, perex@perex.cz,
-	tiwai@suse.com, sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sound/soc/sof:Use kmalloc_array instead of kmalloc
-Message-ID: <fad32f5c-f9a4-4cf2-9082-845deff309ea@sirena.org.uk>
-References: <20250923142513.11005-1-hariconscious@gmail.com>
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="putED+MK"
+Received: from monolith.lan (unknown [IPv6:2a0c:f040:0:2790::a03d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pav)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4cn1ng2mxkzyQw;
+	Wed, 15 Oct 2025 22:47:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1760557639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0GXc8Cz/craa2/0XYF5Ca9jDzKu+plgHykELScRn5oQ=;
+	b=putED+MKKhcPnzI3kI8Sn205uTlb9BDVUS9KdSNkE/Lut3MinQZ7AAdtub/mS1V0f5ZKdb
+	1MAeAyTZrj0HvnbmmrPFNWe50X9iV7x70bV7bX9LkUNOdhi1lOF9UdMlxIdLZ5FzXUUoSu
+	ZYlls/sSYfwo9AcMOyeqU+DkltDJ9tc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1760557639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0GXc8Cz/craa2/0XYF5Ca9jDzKu+plgHykELScRn5oQ=;
+	b=pvigfaDjqNzhtlSMx+anaT/k0xVquZ0guSrx3SZOB6tScBO28BAb2tblInLk6CJROnGG+F
+	laqX2dnQL+bJ5Sps55Q8cggkmedlM1OOeNsy+Ve24l522iPuR7DZFCR9Y41VaDmhPfcKkO
+	eKoW/WCEvBAyI+gEkgJbrpcbKlCqxwU=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pav smtp.mailfrom=pav@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1760557639; a=rsa-sha256; cv=none;
+	b=TKCNo/uK7/jy0yeDpb/ldGGfxL/npt0xH9BCkwHt1/BLOT0gfLNby+4ux/uuCZNqNFSx23
+	AHiLYwDO7cWkQJX++YSbUJtT+DJv4idiMumPdnU6OlBY1JEvkkmUzVCTcJZOt1H0JqoG/i
+	bu0xBX3auCXbxUeTNkHbJtB3P/AbLYg=
+From: Pauli Virtanen <pav@iki.fi>
+To: linux-sound@vger.kernel.org
+Cc: Pauli Virtanen <pav@iki.fi>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: add volume quirks for MS LifeChat LX-3000
+Date: Wed, 15 Oct 2025 22:47:10 +0300
+Message-ID: <c6e6991fd3f1099f5919593a68a4e7819c204068.1760557349.git.pav@iki.fi>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DghlwrYu+gIPr9Hd"
-Content-Disposition: inline
-In-Reply-To: <20250923142513.11005-1-hariconscious@gmail.com>
-X-Cookie: Long life is in store for you.
+Content-Transfer-Encoding: 8bit
 
+ID 045e:070f Microsoft Corp. LifeChat LX-3000 Headset
+has muted minimum Speaker Playback Volume, and 4 amixer steps were
+observed to produce 1 actual volume step.
 
---DghlwrYu+gIPr9Hd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Apply min_mute quirk and correct res=48 -> 4*48.
+Tested with the device.
 
-On Tue, Sep 23, 2025 at 07:55:13PM +0530, hariconscious@gmail.com wrote:
-> From: HariKrishna Sagala <hariconscious@gmail.com>
->=20
-> Documentation/process/deprecated.rst recommends to avoid the use of
-> kmalloc with dynamic size calculations due to the risk of them
-> overflowing. This could lead to values wrapping around and a
+Signed-off-by: Pauli Virtanen <pav@iki.fi>
+---
+ sound/usb/mixer.c  | 8 ++++++++
+ sound/usb/quirks.c | 2 ++
+ 2 files changed, 10 insertions(+)
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ae412e651faf..6f00e0d52382 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1147,6 +1147,14 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
+ 		}
+ 		break;
+ 
++	case USB_ID(0x045e, 0x070f): /* MS LifeChat LX-3000 Headset */
++		if (!strcmp(kctl->id.name, "Speaker Playback Volume")) {
++			usb_audio_info(chip,
++				"set volume quirk for MS LifeChat LX-3000\n");
++			cval->res = 192;
++		}
++		break;
++
+ 	case USB_ID(0x0471, 0x0101):
+ 	case USB_ID(0x0471, 0x0104):
+ 	case USB_ID(0x0471, 0x0105):
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 43793a5c3f51..dac469a8d07a 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2153,6 +2153,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY |
+ 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
++	DEVICE_FLG(0x045e, 0x070f, /* MS LifeChat LX-3000 Headset */
++		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
+ 	DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
+-- 
+2.51.0
 
---DghlwrYu+gIPr9Hd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjv8UAACgkQJNaLcl1U
-h9AE3ggAgBaC2BwzFWEen9uUH73oFXv3vFgu9MrvlUciFbwuITGfiZcqq6VmMhky
-U7V0/hXBUoEt6z0UdAFhMC6P76wLczrhz5i0D+l87ZcHX2mNz3Q/14U7fsHL+YqS
-XQh1xHv8VSme4d/8n/3OS+fI7pAYUUyQ71iRjQGk5fn8PGRTNS6E/4hZ/U7tKNC/
-2lV5yWBeIOARAFk3A+KSJdfxy9VAmaC+XgwpGKPjEzQr48m/LAUgD0W3yBXmrfyS
-4QO/3Y9yEjMIBYgX7+/L68ebV9ON7SH1naQ0TP/SP4ojtcaboFFY3bn6uWOM1R+P
-yLCEowuxBUBHEHFM7XVulBNEDVJx3Q==
-=AQZF
------END PGP SIGNATURE-----
-
---DghlwrYu+gIPr9Hd--
