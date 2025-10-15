@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC24315D38;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA17315D4B;
 	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760515038; cv=none; b=qwoaQ/zZnI1hEEyxonimz+kYxt/+a27s2za6Lf1iDq4QB+H4+zxLOL+P6QHqRhponT2xj4Wch5qrtyWdTPYgsMAt+hIBZF9rMJd3Z8CtGKLm1hwmcXf6N62/kUP5pwE4TOKFCbsbougF5dij2cuZH1YEw3L+N2FbITVBeeHUrLw=
+	t=1760515038; cv=none; b=N6eYT8vAJASufgmbcbQE6YfNZpFIIwJugLf+RW3D+ZPVfcLOnY4elWGg0B0jh0Y0dQHy8FZ6Em+WbVjLKjZxfDA4Ly/V6D7dF4PdK5wA5O5SOnF6uDvdHfnuQV5yDnQq/de+Gfg5SsSDRbQqjfP2rRsAY2XX6lJKUivGqmlwFa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760515038; c=relaxed/simple;
-	bh=FP+Z+3qJOew7upIP1K+m5D0RxSaiNsRxJqwKhVswlMc=;
+	bh=OZ4yVbhrzue3hPaULKUeiq6UlURwI2/N8ha5WjWFm7s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aujaEJcdbxvNjqqf+rik1Ve/TmuEHF9ijK6s8y8Pjwn1moiHgkgCBS5GnBMoTOd/a/X2qSW+3xQz6nBHORPAoZEDyz5QPqXDErf54t6oDQFJvKTa27zlzKdnB+lasUA2H82C2LmY1LVVAL0nC4B7NVEo7yUnK8AJOqYbn7OpWso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C9wEs7zY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=KnR4Tx2Iyfo/rqTBv8fihxsZcZtNHl2KtD3/K6tVZ/bg2T1eDxRHhQMGjuh69qyhjU5n3mQl2bc5FlwquGzT/l7zKQ/+RywIFmcmEvLqYhapPyJ7iqvxhRqDviUSl4cdUa5pIMijDEH0zDyRDg6mKp+ln5ZqYGrGP2OH9XIidO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqNvFOfE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C9wEs7zY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 423A7C4CEFE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqNvFOfE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F63FC4AF17;
 	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1760515038;
-	bh=FP+Z+3qJOew7upIP1K+m5D0RxSaiNsRxJqwKhVswlMc=;
+	bh=OZ4yVbhrzue3hPaULKUeiq6UlURwI2/N8ha5WjWFm7s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=C9wEs7zYmq8fVF5q51Q+MmkNz7eSPfP6kZSdH/OFry7RS/diRmw60MSI/bYmBh1yq
-	 Ldr7QUYl9fHUAStG7jHyUXA0k3I0oLdvFhD/VHrYnu7p5MpeExpNh7vvKhoMHiFEzX
-	 UUvqTGo9La3ZW+D4gjHSrdhc+RcND5sbEw4Ze10jd3Z5EM9yOJUwkBv8nFmyEXgFxw
-	 /hNvOWUFvNTGW7AL0JnKR7qNXEn2BjMLzVx7lCis9OsJxsF7+1/QAGU9QcyNHBu2h7
-	 RawiWr1J6k6+AxaiVUZXJ5lcAtTJjk0x7kTC4ClcwziD+jVe1kbxbwOAPN4VNk+Ver
-	 Du5emkIjW7/Lw==
+	b=bqNvFOfEYgikhIbkQQAfDngetasFv03S84meoljbIvzuiZrLmN2AveH8nDgua5L35
+	 h3CU97NARN+kafC57KRmRDJaUTX2njr8zvJpveSV2qxJt7t1FsyiJfHR0eJb4OdodX
+	 7G07a4P9z0Gu65yxNzSEXl4SA9vtR4yrs8ivaCwhcJ5uBDzjt8RHNrAz9bYem/oxE+
+	 3yV6ooQctTrhZ+/U8kSMqkAvtzetniEwQVWFdP7EZIKgsxEQmz50IJdGuJi7slcUmf
+	 EW9jsN6YIxeEnv8dzyakKKCjm+5Vo8JbkHfFhk2Nu/dbHaTuukwNFCUprntM+nU4wU
+	 9SQm+Ehp4cseQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DE4CCD195;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66760CCD195;
 	Wed, 15 Oct 2025 07:57:18 +0000 (UTC)
 From: Prasad Kumpatla via B4 Relay <devnull+prasad.kumpatla.oss.qualcomm.com@kernel.org>
-Date: Wed, 15 Oct 2025 13:27:16 +0530
-Subject: [PATCH v3 2/5] ASoC: dt-bindings: qcom,sm8250: Add kaanapali sound
- card
+Date: Wed, 15 Oct 2025 13:27:18 +0530
+Subject: [PATCH v3 4/5] dt-bindings: soundwire: qcom: Add SoundWire v2.2.0
+ compatible
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251015-knp-audio-v2-v3-2-e0e3e4167d87@oss.qualcomm.com>
+Message-Id: <20251015-knp-audio-v2-v3-4-e0e3e4167d87@oss.qualcomm.com>
 References: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
 In-Reply-To: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>, 
@@ -55,11 +55,11 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
  Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760515036; l=903;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760515036; l=969;
  i=prasad.kumpatla@oss.qualcomm.com; s=20251014; h=from:subject:message-id;
- bh=EOQZfeDGiRj/UnXZZCCjQYB9rswcHBDObMAerBJQqv4=;
- b=nioPpBYtFkrX+13DWiGUhL6sHcYw+MniB+gexFlYXxbrx1uYGPL8hd61Od0aAEd54fmAZu8kb
- hnJRIiVeorhCTfnVEfzwAhZ3fXoCZmXiHV5kzgJ/WtaETyuzuy5vC1n
+ bh=egvs9Cb3aIkw8DtcZE34LZxwWmk9TpONHHIdUNRu10k=;
+ b=ZFOm64BEIzqrw8kfN+ozmCkogJq+U/wGtKWimJnh1kIoRsByVYRX3zaCXBlb22ZDaKIcFKNcg
+ ImM07Xd1VFZAT6yfnu7oEXKq0yll/KscGJ7dWMgftSYTQufWiTkGxbV
 X-Developer-Key: i=prasad.kumpatla@oss.qualcomm.com; a=ed25519;
  pk=I3mn8JNlYnnm7frqMGXms1Rm2H+0gpAfknMlnBYqCzw=
 X-Endpoint-Received: by B4 Relay for
@@ -69,27 +69,28 @@ Reply-To: prasad.kumpatla@oss.qualcomm.com
 
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 
-Add bindings for Kaanapali sound card, which looks fully
-compatible with existing SM8450.
+Add qcom,soundwire-v2.2.0 to the list of supported Qualcomm
+SoundWire controller versions. This version falls back to
+qcom,soundwire-v2.0.0 if not explicitly handled by the driver.
 
 Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
 Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-index 8ac91625dce5..708bae805403 100644
---- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-@@ -23,6 +23,7 @@ properties:
-           - const: qcom,sdm845-sndcard
+diff --git a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
+index 95d947fda6a7..1c4b0bdbb044 100644
+--- a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
++++ b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
+@@ -26,6 +26,7 @@ properties:
        - items:
            - enum:
-+              - qcom,kaanapali-sndcard
-               - qcom,sm8550-sndcard
-               - qcom,sm8650-sndcard
-               - qcom,sm8750-sndcard
+               - qcom,soundwire-v2.1.0
++              - qcom,soundwire-v2.2.0
+           - const: qcom,soundwire-v2.0.0
+ 
+   reg:
 
 -- 
 2.34.1
