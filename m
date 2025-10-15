@@ -1,66 +1,81 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86A52C21EC
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B68287269
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 15:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760540571; cv=none; b=Ag7siVubbfEmvy/e8rzXi65rNvz6h95c/AA5+z9Ig0tot67+Q0eArVqyVDWBMcOKqs3mX5jk2chWIYvkEqUcJDKMcHNEgSzCv7kqEcYBxW/s84Jc6cdDEyBsz2HPJQkcn8WJcaMDbJyLygh3Oza3whX/1TWFaZekLiLbHd+tK1Q=
+	t=1760541503; cv=none; b=QWaR5E+mFLetDjoEJsFNDE5ibUai7CxgoFhKQZOhvUUV7pmHJdFOjri05C7dSGYexOJBVJwP9dh9WVn5bSTlqtu4NE0bqLF2po+s4xqadaixxpg6DCjmgg735WDV4szQ6s96lvpRyAs1zIO8EjpBPo4doAtFhWNJpJ4W4XaqJgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760540571; c=relaxed/simple;
-	bh=q+FSpGhO46Wdm4E1xu8JKsgaETCDKFJOa1krZ4FdTC8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T8FHfItJlOLKSYD6D4NLcNxC9Q5pUaOzgnRG9CJ1OfFiJk+ll5NON0R7Ncwyq7mgOr+mxiUbbzaJgH2eIpVDhQJyVewOsBPNOraCGTG1VPhqAT39vkisjyDfWL6dq9Jes+jrWfabTMnc6Yp3VkwOpygIvU3V+yvtUbRCfiGd/DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ot/lVOFo; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760541503; c=relaxed/simple;
+	bh=ailvDsHM+R7NVeb9i7rp0XZ+WIKsuwCvSqE2OdAxsvs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YdRU4DKSCznpr8pVtgy//qXyU5e49TIQng1qKJsynV2o36hCSmwgW8yq+PhPgC0wGTX2mhv9UyzQ96cFKgcL1VSSCM1T+xbdIxm9XDH1ThxpH6Q6rX+SS+RjgkutqcMR8YRhfEgBoCtJQL/SK/0ssx4B0g73xT3OiqygEaaYMzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2HfVKUJh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XgEHxMMj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TGo1m6QW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J0n+P22x; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ot/lVOFo"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e29d65728so40348625e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 08:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760540568; x=1761145368; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ggq7M6Lrzp3o1qgmvHWFIuwQRJcN1Z0KczFO1vDxzUc=;
-        b=Ot/lVOFo+S6xYBVQTo0U8uU1VdM5alDr9pRtCrsKJntNukviQtZ8JwB7LWecBSPKhn
-         i9kX7t5mCmA4F+UT1lzJczza14GzoPVNoDt+/RkiIIa/uJ2XM1SdMi3tsM3VM2NRygGw
-         HhUKPfqSMX243MCQOOZpybgGmmFUb8m97tx8Bc3jFGlkCRTYiBSR1LuXD8X+J5S+hjWr
-         1RPQeJnbKbiFXAjHaTNnc6J3RC8rrPVOuqmoQNokS7De3pSr1BtrGiYA8oeCVOZXmGhz
-         RvVPeo3aCNGNy2g//WJTUqBt0OmOq4pXtjAJuY36wxljjiA5YVL0hIFgxOeaS/JthgMl
-         CMTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760540568; x=1761145368;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ggq7M6Lrzp3o1qgmvHWFIuwQRJcN1Z0KczFO1vDxzUc=;
-        b=XKp/z6jtOu8V+ZhTyFCKmdz+rGpGUPy1CfZ2HPCN1AxN2n+IFOK2/ranrcJXdRHHKV
-         AP4iW1EqKQBnDTdKpUiHjtJzaUjI+bDoqHFWZmVr44ZPcgv0FROZMlUnoevFHobDQh7y
-         ftMWHb9XaX4Y90bo0WoMs+G1y3jAkJpk+wQqVC782CGYuSW1J+uyv9zk7uZtb2Oz7hWl
-         U8tvTEIXtV8dqBg47geNfzkiEPXAcCPGsMuSJOr4WL9uTmD0D4vMS/vQr7RMczFZ0bRw
-         MfsTzir97aOP7TUVxXEXYW/rUfy2xMMS5vzbUmrrvoLoZD37hS+pFuRC6Ynl0Bx5hwak
-         xwwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVGuTP5bTonATCUFeqOLkcET1aDdvxoX89pIbwTop8K3ML3id6kB9cqhDHz530FKKKkjNcudPoGbEc9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIhnXa7hPZrvcSuKja6Ggk84aFrcV58xDUK49tGidLf6PcYReq
-	Nf6jICjUyxGd5uwEzl5vgHtAS0zTmx1V0Cq95oIlobpJ+kkJzS5lY+wN
-X-Gm-Gg: ASbGncuz3K/3XWZpw0ITNhj7W988VPkryPUISqh8403QIDDPnuK+VqlLM3JptNVuEpn
-	MBcmx1awF6jRR+G0gmsNpTyObMa0GObjF343YoCYNeC9mscXRCANlngfDfepGCZuJvnBCP0Kzf7
-	S/qPG6EFtCCcFM/7FErrua4gI62FD6f6WLyheDhTo/I5RkXFKHItxFaQt6BnW6fzeUOg/hHZuzZ
-	2DVhNDvoAXL3pPgYY2CKZIv84+Q1tkf1HOvmMFDiIheDZKIbcsAKxJK/9tw+1Gr6ba4EQjcYT0+
-	0bXxSOGaCN7OZhciG8t8z8ZdPabaqBRRtfMNzaeKMPUF3Z5jS/FSvGCn7phxLimuxPkYAsErdmJ
-	6HFaQ52+7ROxaFCieGHEqoWmr/ivTqFG+D8RiY9bSiwNMlXfrHzUwQQ==
-X-Google-Smtp-Source: AGHT+IGS/QVW0HLNq8PhnL/BhZ4rPHH074sLFq6l9QJq3QBiekvGfWw+WGrsFIdkvUG57uPITbSjMQ==
-X-Received: by 2002:a05:600c:1f84:b0:46e:4cd3:7d54 with SMTP id 5b1f17b1804b1-46fa9aef45fmr203722495e9.18.1760540567884;
-        Wed, 15 Oct 2025 08:02:47 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb55ac08dsm296159645e9.13.2025.10.15.08.02.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 08:02:47 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: tiwai@suse.de
-Cc: Dell.Client.Kernel@dell.com,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2HfVKUJh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XgEHxMMj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TGo1m6QW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J0n+P22x"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E6B9D21079;
+	Wed, 15 Oct 2025 15:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760541499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
+	b=2HfVKUJht7B03w5za9fyNp1laMpmcdgcN71syolL7bEkWlXDegbvjx5odg3g/qoGpECFxs
+	u5EAfN8Ivjsuao/Z+PKHwvvzB0QtM6oesRurdMsykuD51ytfQhuGdpEC5Yn4EXZfFgCSf1
+	0yEP3cHXiK9sp1Zl+eVtBrL5Grwr7/c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760541499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
+	b=XgEHxMMjOiB85gNJ4MbDntJzj7KSZ0IR7zLmahorCklCdsq+dUkbkMKRiUCF5d3Jbhv754
+	C0oJrt3yHKXnYzDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TGo1m6QW;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J0n+P22x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760541498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
+	b=TGo1m6QWHtXUtkSetw13kTI03G0nGnytv5ST4Wr0wJHFZFsfwT87ap0nP7DbsW5kOCn/xm
+	2/6LDymjANUMvH7mCSdYyH7MYswduSJK+dkvwsv1bk9JT1+y6VSn5Yd26x5NFVqMzhhm83
+	QP70bIOQbhRyjUPTUWi/tmct8UtgicM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760541498;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aicJgtEFiI5176U+3eIShWmoSAsTOuO8Pe/cJ9mg3E4=;
+	b=J0n+P22x1NAnh9P6wvtxWy5EUoc39BehDOkNFAiqO3Wlt8F3RFCv9fwstmBvhqV0GoBr+h
+	XHjEMAeGCJhr70Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C09313A29;
+	Wed, 15 Oct 2025 15:18:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id P77eIDq772ibOAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 15:18:18 +0000
+Date: Wed, 15 Oct 2025 17:18:18 +0200
+Message-ID: <878qhckxc5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: tiwai@suse.de,
+	Dell.Client.Kernel@dell.com,
 	amadeuszx.slawinski@linux.intel.com,
 	baojun.xu@ti.com,
 	bo.liu@senarytech.com,
@@ -70,28 +85,73 @@ Cc: Dell.Client.Kernel@dell.com,
 	linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com,
 	regressions@lists.linux.dev,
-	rf@opensource.cirrus.com,
-	safinaskar@gmail.com
+	rf@opensource.cirrus.com
 Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-Date: Wed, 15 Oct 2025 18:02:43 +0300
-Message-ID: <20251015150243.2682-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <87o6q8l68r.wl-tiwai@suse.de>
+In-Reply-To: <20251015145749.2572-1-safinaskar@gmail.com>
 References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E6B9D21079
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Takashi Iwai <tiwai@suse.de>:
-> If that's the case, try to choose HDA-Intel driver by passing
-> snd_intel_dspcfg.dsp_driver=1 boot option.  Or disabling
-> CONFIG_SND_SOC_INTEL_AVS could help, too.
+On Wed, 15 Oct 2025 16:57:49 +0200,
+Askar Safin wrote:
+> 
+> Takashi Iwai <tiwai@suse.de>:
+> > If that's the case, try to choose HDA-Intel driver by passing
+> > snd_intel_dspcfg.dsp_driver=1 boot option.  Or disabling
+> > CONFIG_SND_SOC_INTEL_AVS could help, too.
+> 
+> Passing snd_intel_dspcfg.dsp_driver=1 indeed helped me.
 
-Disabling CONFIG_SND_SOC_INTEL_AVS didn't help.
+Good to hear.  So a part of the problem was the incomplete kconfig
+setup.  It worked casually because HDA-Intel was probed first in the
+first, although basically SOF Alderlake driver should support it.
+Since your config disabled SOF Alderlake, the HDA-Intel was probed as
+a fallback.  Now, by some subtle change, a different driver (AVS) gets
+probed, and it failed.
 
--- 
-Askar Safin
+I believe we should drop the Alderlake entries from AVS probe table
+unless the firmware becomes available publicly.  (FWIW, this case was
+RPL_S).
+
+Cezary, Amadeusz, what do you think?
+
+
+Takashi
