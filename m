@@ -1,153 +1,69 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106104.protonmail.ch (mail-106104.protonmail.ch [79.135.106.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FE12DA753
-	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 08:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8842D8363
+	for <linux-sound@vger.kernel.org>; Wed, 15 Oct 2025 08:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760516336; cv=none; b=CEfpxADBK5y7LPQ0Ccd9Ei1b95KXgeg4OhhvNOvF/M1kKSoXVhwHuqxi/dv7obx5TA9OhmdzJ9PwrdVYKqNcRH8N3aKTsDrZ3AA2B+K1RKUVVvSG+DcvjN2fWLpoTWqpUvTkj4FENELBCVHRgmWJcp2vkEjIBSWQ8KEy3T8AKz8=
+	t=1760517270; cv=none; b=PIZE0LpPd/uI7FLRELW7KGDpuHEAUrBlTI9Y2qVuQw8FhCNr0ZtQG+zkpBCWbnZO6NeI4FB7OUut5dStzsk/HLn2Bxt7muHqv47CCcMJU6Rc7/tOAv8MUVwokcB3jOnKEF6+Wft/wT4SlSjTPl6Efo8vG6iGnt9yuan8hmDuGnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760516336; c=relaxed/simple;
-	bh=5291ZGZEkJ8j+kcZ4/BVAOpJCPTOlPPieiL67Ugd4Sg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u0hwICq5EonoGRDbhHuJqO7/zPjLsk1BGvUbG0zhsl7i2+7H9qTB1wTGQ0lsE2b88K0bnOI5kQ9JAsMbUfCqZ7Wl+tZWXI9eQZjsGS4wFnZe1ap5U7/wq/H74qdFmYWPg8Js/CrnzuOcwMrp8tl1ftld9Yz4dBMvBMdlZr5JxSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hyiMesVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7wU/GNB4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iHkB+zIg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rexAMODu; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760517270; c=relaxed/simple;
+	bh=Swi/4uVDHbGmX9iw5OR4AmBXO/t7wESeGxTvuRKcXPk=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=AMjsLvzZyvsT9KMlaxL2bqLXV65F3o5sQLnnkIGhcjWQ9ZACBLBBvoCqdTjfYcoz3N2efXXb25XuQTog5D2WjGibo+SNvttCFNjOFsXZ6XumuuhSvD0P7aoqW5wGI0CmibvwRB/QeKaaBKDhd+hWgp/ozCs5Goou45kBHBgnFaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=VG3znrXl; arc=none smtp.client-ip=79.135.106.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hyiMesVe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wU/GNB4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iHkB+zIg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rexAMODu"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F17DF203E2;
-	Wed, 15 Oct 2025 08:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760516332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
-	b=hyiMesVeVFJZa2TF+K46wlTar0TcqcYk1V0LeMpg4Q5T40f+NqW7QH3XBW1u8M9tou0DHa
-	xDANBpK6n5JQmxMBBFOJShoLr7F8VABCJaG6JHzM9ue6CmB5IXsX8IJBY1SVxCvSmcU6NI
-	pLkK99S3OtEJBKXSYGIog+XA6/OJSC0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760516332;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
-	b=7wU/GNB44EYraD8sH3+QQVjNAJIN72M33vhoRepVRxsdwjmcdffasFgYp8piS85vepkIZ7
-	DGbSErHt760oi5Ag==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iHkB+zIg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rexAMODu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760516330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
-	b=iHkB+zIgFX7NspZAxZwlTX3BiE3NGHjlk/rFKZRTS+A36p4Wpye3+sOQsG0bkXWIbhUGDI
-	b4LuXOxaFJ5vPhRuMn6yh8MIe/st+4yrnQUL1wSkyMbh0+3/MtUN5ed+5ng+x/UQUCC7yb
-	UtG05pRQyeEhBrCmzYw/oGTOkpvDNrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760516330;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nd4W3sVFNv6jisALZXYLHsYCeA0aJkVPrhVN0wxBnLw=;
-	b=rexAMODuUrvJQ5Phhw/9nG+FonHSKTaYH4x1pJGEUoTXDCJgZNovTfK4cTW9zkScKmK7pf
-	Gs02ceTZlE08xwCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 936DF13A42;
-	Wed, 15 Oct 2025 08:18:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IseFIupY72jSagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 15 Oct 2025 08:18:50 +0000
-Date: Wed, 15 Oct 2025 10:18:50 +0200
-Message-ID: <87sefk60id.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: tiwai@suse.de,
-	gregkh@linuxfoundation.org,
-	broonie@kernel.org,
-	cryolitia@uniontech.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	pierre-louis.bossart@linux.dev,
-	quic_wcheng@quicinc.com,
-	syzkaller@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH v2 1/1] ALSA: usb-audio: Fix NULL pointer deference in try_to_register_card
-In-Reply-To: <20251015051645.519470-2-r772577952@gmail.com>
-References: <877bwy81wi.wl-tiwai@suse.de>
-	<20251015051645.519470-1-r772577952@gmail.com>
-	<20251015051645.519470-2-r772577952@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="VG3znrXl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1760517261; x=1760776461;
+	bh=Swi/4uVDHbGmX9iw5OR4AmBXO/t7wESeGxTvuRKcXPk=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=VG3znrXlga9vMNMejh416U/7SJ/hgRabEBjWKiAe42M+z4j0kEZCWjlcG3DLgU1u3
+	 q63LtD5DVKegTQqy4OVX5wJde9L8dFZ/yzDIStA/eBwEmt/YMH6jyvgW+YjycBES2Q
+	 sz1Gfh7/I23bSbGuqB2Lwj01hMb3qmjLyqJ531oz5q+4ZwehNIBVSIr4MA3AacQiWn
+	 ZVeRaFjHwW4N9SUaCI/lRroEkirQLogm8/MX8rPd4BZKxcAIKas+XWwqsb5x1pEi1P
+	 m9wD7ZvEh9Wkc1bAcc4EoFMFm3oaO8IEtKrmyrtjE2I8qP69Uw1Cvr7mTDVJrVTAkr
+	 SF6HbuZJA3xew==
+Date: Wed, 15 Oct 2025 08:34:16 +0000
+To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+From: =?utf-8?Q?Tomasz_Dro=C5=BCd=C5=BC?= <tomasz.drozdz.1@protonmail.com>
+Subject: Realtek ALC897 - no 5.1 surround sound.
+Message-ID: <WpC4wmD50rlPuivdEgS0NV22vN6CliRVVqhTaCpmVnY0D4ejo4Ny34F0hO5xaYWunIhVTf5O636OrGRzy3tyA5Ews6KHfWwmckXcHOIvhKo=@protonmail.com>
+Feedback-ID: 6711154:user:proton
+X-Pm-Message-ID: 4b71cdda187fa9d19a8148317565d3df26f92d0e
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: F17DF203E2
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Oct 2025 07:16:45 +0200,
-Jiaming Zhang wrote:
-> 
-> In try_to_register_card(), the return value of usb_ifnum_to_if() is
-> passed directly to usb_interface_claimed() without a NULL check, which
-> will lead to a NULL pointer dereference when creating an invalid
-> USB audio device. Fix this by adding a check to ensure the interface
-> pointer is valid before passing it to usb_interface_claimed().
-> 
-> Fixes: 39efc9c ("ALSA: usb-audio: Fix last interface check for registration")
-> Closes: https://lore.kernel.org/all/CANypQFYtQxHL5ghREs-BujZG413RPJGnO5TH=xjFBKpPts33tA@mail.gmail.com/
-> Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+Hello all.
 
-Thanks, applied now.
-The Fixes tag should have 12 letter IDs, and I corrected it.
+I use Fedora Silverblue.
+I have:=C2=A07.1 CH HD Audio (Realtek ALC897 Audio Codec), Nahimic Audio, a=
+s my sound card.
+But unfortunately I can not set it to work in 5.1, 7.1 surround mode.
+
+I do not see my model here:=C2=A0https://docs.kernel.org/sound/hd-audio/mod=
+els.html
+so I think it may be not supported by Linux ?
+
+I have asked for help:
+-=C2=A0https://discussion.fedoraproject.org/t/5-1-7-1-sound-speakers/156932=
+/5
+-=C2=A0https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4788
+-=C2=A0https://github.com/alsa-project/alsa-ucm-conf/issues/590
+
+and they said I should ask on kernel mailing list.
+
+What more info can I provide to You ?
+Can You please assist, help ?
 
 
-Takashi
+
+Sent with Proton Mail secure email.
