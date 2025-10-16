@@ -1,141 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9B2253E4
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 18:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C26423643E
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 18:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760638748; cv=none; b=pT1lHIFbrrxR1KVq1IvWkyP8/W7JR7B3Cfuw3gO0K45xhUwABk/mOKlTvHibBg2qaGh3ES00NmtnMqK7ZvIYjQ4iJPlB8+wwaeHWNY0zcRSLIeK9xW2cso49bz7HlD9qBbtcClnGrwDPfuuuKHd2mNpeMNxDzUbyb1R//iI3GMs=
+	t=1760639514; cv=none; b=hwWfMvNBGkxX5mT+tFdE50+94Uzp2sw0Awzdywfj+j4pFOj4CxvD5w2Xeh8XQyacGq7fnE8aFo6Mw64hOU0qKq97leb78bNxtKhR1brxR6R4BTlxCPBqsUXhUHQ0nLktRysDw3kG+FYMp7ubX75AQ8xVHOurp+zkUyZYU5Iuw10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760638748; c=relaxed/simple;
-	bh=pJREnvJ2VdG92iU6WLEuSHrRXejsWOpIZieABCW/nLQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k6IAsY85k1NtmYnUfKVpixrf93QXiwHmonrUpoaLt+TeOETkO02kRxQeO9wheZBn8nJSLotbJJ7kzbltnbu3fSpB6qF1b8YhM+Wq2ZF+OCoxEPCXIDJ//pHd70JGUBlnpphZlzar9xbLBABM49sUCoye63ahOe2au9cts6gKlk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n4MxHswO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J+rKLfPX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n4MxHswO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J+rKLfPX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760639514; c=relaxed/simple;
+	bh=l7FgV6wCPjnm7FV7Piyaky9U0hLCUbLhlC3TazkESb4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=IiUbc8vcEnMMx0FtPPE26WQzpweLQEmUFe8dfhQNtKn6IMrt/psp56oTwFHl7CC07B3+bDqMMPF2+FRWDNgyhYNer24I6LPDqLH6rfkEtw+PIkCSkI5C25ZnFvXkPxqQ5t0y+cyw3L5MOWRg/fpmhUO9p52Hm8InfTpO5Tk+BSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=BveRcg1I; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n4MxHswO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J+rKLfPX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n4MxHswO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J+rKLfPX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2143F21DEC;
-	Thu, 16 Oct 2025 18:19:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760638745; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0XQk2jtiUQF9M2Rh3SYURt/G9ZpH/KRHN004e7QFSMM=;
-	b=n4MxHswO5wewn3IDNMqCBhJR4LrLBFVZx5NKog/yQtmjPqgkDVHvPc3qHUqvMHgoY+4BcF
-	vdHNJOKSrlMNeuzEiqC0YKYeb3ZJ/9FfM7iFykwo7vtkdQV462vL0e3T0taU5gMQnBjI+C
-	d4K8lZluyTXVm6xhfAM93zU1ybaKyvQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760638745;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0XQk2jtiUQF9M2Rh3SYURt/G9ZpH/KRHN004e7QFSMM=;
-	b=J+rKLfPXIkhnVxnJhuKXTmzKJQenAwhdmAkhfOncw3XWsCDWSUCsrUiQKPw3grYMjADq6s
-	BApgNUbtHXXdaEBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760638745; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0XQk2jtiUQF9M2Rh3SYURt/G9ZpH/KRHN004e7QFSMM=;
-	b=n4MxHswO5wewn3IDNMqCBhJR4LrLBFVZx5NKog/yQtmjPqgkDVHvPc3qHUqvMHgoY+4BcF
-	vdHNJOKSrlMNeuzEiqC0YKYeb3ZJ/9FfM7iFykwo7vtkdQV462vL0e3T0taU5gMQnBjI+C
-	d4K8lZluyTXVm6xhfAM93zU1ybaKyvQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760638745;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0XQk2jtiUQF9M2Rh3SYURt/G9ZpH/KRHN004e7QFSMM=;
-	b=J+rKLfPXIkhnVxnJhuKXTmzKJQenAwhdmAkhfOncw3XWsCDWSUCsrUiQKPw3grYMjADq6s
-	BApgNUbtHXXdaEBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF5CC1376E;
-	Thu, 16 Oct 2025 18:19:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0/c7NRg38WjlYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 Oct 2025 18:19:04 +0000
-Date: Thu, 16 Oct 2025 20:19:04 +0200
-Message-ID: <874iry7lrb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.18-rc1
-In-Reply-To: <e26bc312636de276f8c7e46cba269b7f@kernel.org>
-References: <e26bc312636de276f8c7e46cba269b7f@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="BveRcg1I"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+	s=key1; t=1760639510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0DwL+c+9YdGQesQ1zy483f+QCC5NnESasUQDi6ea1c8=;
+	b=BveRcg1IIkC8akOq8/rGmCQJR9P+fJ82dDncn+W/TWMm8k4MVrNnOBjvxV+pVwYmaUVv7q
+	y92CCNPnJmbu0gSb2MTiNtTzO2vrORxHrcCpvLDQcKJr6WRlmzftOIV/3RKRyOtbP9zVuj
+	K90eodHgaj9tr9Wd9RiAeUYlcSympMiVwEBSIWWyd3hHl4e1UAaDN2GNUwWLrbw+GfrQhR
+	jj1poJMGkQt7MDNyUOeFhO91ctVC2r8x3snQYbXDdb2Nd7RPvvakQ4TLvN/N+pylj2rrIe
+	lp5ZFVvhnB/KVA7h5BrQ6x8w2wB3C+xFyimscTAIIKmDigxAaqSRAIuAMIsFfw==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 16 Oct 2025 20:31:47 +0200
+Message-Id: <DDJYM7XTXAGN.16TCJSI1VPUAB@cknow-tech.com>
+Cc: <linux-rockchip@lists.infradead.org>
+Subject: Re: Endless spam in dmesg: ASoC error (-19): at
+ snd_soc_dai_prepare() on i2s-hifi
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: <linux-sound@vger.kernel.org>
+References: <DDJ05640974K.3G1TLY1B75G7@cknow-tech.com>
+In-Reply-To: <DDJ05640974K.3G1TLY1B75G7@cknow-tech.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 16 Oct 2025 19:04:02 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
-> 
->   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.18-rc1
-> 
-> for you to fetch changes up to f1a450f9e17d341f69f8fb19f6d13ef9f1aa508b:
-> 
->   ASoC: nau8821: Fix IRQ handling and improve jack (2025-10-16 12:41:35 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.18
-> 
-> A moderately large collection of driver specific fixes, plus a few new
-> quirks and device IDs.  The NAU8821 changes are a little large but more
-> in mechanical ways than in ways that are complex.
+On Wed Oct 15, 2025 at 5:30 PM CEST, Diederik de Haas wrote:
+> On several of my Rockchip based devices I get ASoC errors, where the one
+> from the subject occurs the most, but there are others as well.
+> While it should ofc be reported when an error occurs, the volume was
+> bad, then really bad and now it's just absurd:
+>
+> root@rock5b:~# dmesg | grep -c "ASoC error (-19): at snd_soc_dai_prepare"
+> 983
+>
+> If 'dmesg' buffer can hold 1000 lines, then I have 17 of these as well:
+> hdmi-audio-codec hdmi-audio-codec.8.auto: HDMI: Unknown ELD version 0
+>
+> This means that after just a few minutes, 'dmesg' has now become utterly
+> useless as it ONLY contains these errors/lines.
+>
+> Booting into older kernels didn't seem to have an effect. If it had, I
+> could start to bisect it. I have no idea where it comes from.
+> So now I have removed pipewire ... and everything that depends on it ...
+> of which 'mpv' is the most important to me.
+> Now those errors are actually gone. And dmesg actually useful again.
 
-Pulled now.  Thanks.
+I installed pipewire 1.4.2 from Debian Stable (previously 1.4.9 from
+Sid/Unstable) and now the count is steady at 120.
 
+> So I guess it's triggered by (a change in) pipewire, but still the
+> kernel should not be generating endless copies of the same error. Once
+> or twice should be enough.
 
-Takashi
+120 is still too much, but now dmesg isn't entirely useless anymore.
+
+> Can something be done about this?
+
+Cheers,
+  Diederik
