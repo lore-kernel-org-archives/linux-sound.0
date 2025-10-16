@@ -1,38 +1,38 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D27330D24
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 13:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947DD335BBF;
+	Thu, 16 Oct 2025 13:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760619859; cv=none; b=YJcsMtgIb+m6pCQofax3Rm9jF6s18P4w/SGmjsQqkeVxCbTGviW/Zj04wTiW4iggkeRHDBGRxvZFb6i8a/ewUfaBhwdnQxvd+EOtvQyLleGWMPwHhShdWy48d5PtTFhD3mGgVZCtjd9YblhjlCOUh6h+WBRyPxWN1V6Jtsh0MwM=
+	t=1760619861; cv=none; b=gyvkFLUwKRBWpqxIVp7Ia7ilH/RcUFGe2iJn+BHYM4nYfSfnwgYn/kkLd1w77Dbe6BSNejFX/U34Bfow/AqxoJsSOiH4BEHnnabtdlI9zjW9SQ82Mv8ADmHXplbWkim6BfaKWuZ96Cufnm0zSIUaNcmzhuz8lr7/HCforGw0no8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760619859; c=relaxed/simple;
-	bh=Co5KuU+qAIZuiHL/bWuYupCgu6V+k3j8ZJmVSLCA1ec=;
+	s=arc-20240116; t=1760619861; c=relaxed/simple;
+	bh=QReg2vp97BUkr6fGoaX3HVTBKM4wAz/0LebQasrMhpw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gONR/P8D3QMILWUNcfbzX8fG4kyOKovG8ThCz2hX2EbLsbrAI+ZhEFarIkRQ6da/OEB7jXM25ZsHn4BbSrTCjQDdOHQ+swZlcQh57yQqCbQiZgn4iNDZnbcUzKWGyNzZdH0z/W/5+2GA4Fy2JaYP45qTo+kX7ED5gaf7yw/FnUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iQidPaz1; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version; b=Z5wQgnXoYkR0ezQrxxoV2oOjkMiY8f7y/V9IOE+r3VNY7q6RWUoc5s8vfc2mOtqRM2CFW0O4s11nHO2wSswhqyE+ChlOWNgP07Jukv28j1oPbMbgsuoUH/M5JjgUQsfUP6B+cpMhWnzhfb1la7IRvvVUXjW8jAHZQLP+Hclx1ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mFngzCWQ; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iQidPaz1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mFngzCWQ"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id D88E51A142B;
-	Thu, 16 Oct 2025 13:04:15 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 6493B4E410FD;
+	Thu, 16 Oct 2025 13:04:12 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AE15C6062C;
-	Thu, 16 Oct 2025 13:04:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70291102F230E;
-	Thu, 16 Oct 2025 15:04:13 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 39C4B6062C;
+	Thu, 16 Oct 2025 13:04:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BDD77102F22EF;
+	Thu, 16 Oct 2025 15:04:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760619854; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1760619851; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=3lP2zPTU9xBiuqJX81V4KyxoE+dPnxkHHBQsJkwfLuU=;
-	b=iQidPaz1wmtCgZW4zp6DrvqXRLr6T6rLr+Q4rcnRXs6zNNSg885oGAUQBKh9uUnZ3YYI5j
-	+6I7H5nqzr4eFRsV/dbOOnkPRWC9nU9XJi7TsGPsaINY5RSfZfCcVAEoWE+vYyF4/Y3ZV9
-	fUiXLys9iO3Q2DWLSt8ZfzhnXFWGpa40aJDi69chdq4VCmYAjYOtqfBAHYNX4gwmaqVMHE
-	N9MkkqCAueJ4SpElOoyIw5gcvi8NPbw5mNn+/aGOVstiTL5XGlLbdh1KnfQRaWrkX79QVV
-	aBcKKq4PVgXzizXbK2I53bXgGxKt3Mb0tvDfwCgcIBF7y6L/HC8YUuHNv0eSmw==
+	bh=xjCaRMRjVPxm5y+Ak8E+acuNrbc32ytUH8e92tM/4FA=;
+	b=mFngzCWQYfGixlbS21zV34AGh8gfnhdomnXyf160lglJWjQXIQtRjcsCVB2RaAW5gt5SMU
+	kZca+FEXkN5PzDeH+0T9MO8d7CKHHEKIIYT1Tgo+JmR3qgBugv5K2bZOrnk97rm73y3qsq
+	LQQU7oyqzZD3GrBcWNM3+qHwmyOduKRZ6H/OsVzpFBOsqFJmZIwr+FokdYwrE7ErKy8nBk
+	1e9iekLQ3IMC/28Qxpt3dlDMPD7LgJOjHeTz6Lynvt4DMEJyA4Sz0hyCMBfX5Dh8LrZSD1
+	eshHBrzqZ8q0+SggSYnYURVONhDgK8/bWAdDtSO/RVSAmGY0GkgdgFLtlutxZA==
 From: Herve Codina <herve.codina@bootlin.com>
 To: David Rhodes <david.rhodes@cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -52,10 +52,11 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH 3/3] ASoC: cs4271: Add support for the external mclk
-Date: Thu, 16 Oct 2025 15:03:39 +0200
-Message-ID: <20251016130340.1442090-4-herve.codina@bootlin.com>
+	Herve Codina <herve.codina@bootlin.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers automatic module loading
+Date: Thu, 16 Oct 2025 15:03:37 +0200
+Message-ID: <20251016130340.1442090-2-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251016130340.1442090-1-herve.codina@bootlin.com>
 References: <20251016130340.1442090-1-herve.codina@bootlin.com>
@@ -68,111 +69,96 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-The mclk (master clock) of the cs4271 codec can be an input clock.
+In commit c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into
+different modules") the driver was slit into a core, an SPI and an I2C
+part.
 
-In this case the connected clock needs to be enabled outside of any
-audio stream. Indeed, this clock is needed for i2c communication.
+However, the MODULE_DEVICE_TABLE(of, cs4271_dt_ids) was in the core part
+and so, module loading based on module.alias (based on DT compatible
+string matching) loads the core part but not the SPI or I2C parts.
 
-Add support of this clock and enable it before the first i2c transfer.
+In order to have the I2C or the SPI module loaded automatically, move
+the MODULE_DEVICE_TABLE(of, ...) the core to I2C and SPI parts.
+Also move cs4271_dt_ids itself from the core part to I2C and SPI parts
+as both the call to MODULE_DEVICE_TABLE(of, ...) and the cs4271_dt_ids
+table itself need to be in the same file.
 
+Fixes: c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into different modules")
+Cc: stable@vger.kernel.org
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- sound/soc/codecs/cs4271.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
+ sound/soc/codecs/cs4271-i2c.c | 6 ++++++
+ sound/soc/codecs/cs4271-spi.c | 6 ++++++
+ sound/soc/codecs/cs4271.c     | 9 ---------
+ sound/soc/codecs/cs4271.h     | 1 -
+ 4 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
-index ff9c6628224c..481a2c20b7cf 100644
---- a/sound/soc/codecs/cs4271.c
-+++ b/sound/soc/codecs/cs4271.c
-@@ -10,6 +10,7 @@
-  * DAPM support not implemented.
-  */
- 
-+#include <linux/clk.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/delay.h>
-@@ -163,6 +164,7 @@ struct cs4271_private {
- 	/* enable soft reset workaround */
- 	bool				enable_soft_reset;
- 	struct regulator_bulk_data      supplies[ARRAY_SIZE(supply_names)];
-+	struct clk *clk;
+diff --git a/sound/soc/codecs/cs4271-i2c.c b/sound/soc/codecs/cs4271-i2c.c
+index 1d210b969173..cefb8733fc61 100644
+--- a/sound/soc/codecs/cs4271-i2c.c
++++ b/sound/soc/codecs/cs4271-i2c.c
+@@ -28,6 +28,12 @@ static const struct i2c_device_id cs4271_i2c_id[] = {
  };
+ MODULE_DEVICE_TABLE(i2c, cs4271_i2c_id);
  
- static const struct snd_soc_dapm_widget cs4271_dapm_widgets[] = {
-@@ -567,22 +569,36 @@ static int cs4271_component_probe(struct snd_soc_component *component)
- 		cs4271->enable_soft_reset = cs4271plat->enable_soft_reset;
- 	}
- 
-+	ret = clk_prepare_enable(cs4271->clk);
-+	if (ret) {
-+		dev_err(component->dev, "Failed to enable clk: %d\n", ret);
-+		goto err_disable_regulators;
-+	}
++static const struct of_device_id cs4271_dt_ids[] = {
++	{ .compatible = "cirrus,cs4271", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
 +
-+	/*
-+	 * Be sure to have the clock and power-supplies stable before releasing
-+	 * the reset.
-+	 */
-+	fsleep(1000);
-+
- 	/* Reset codec */
- 	cs4271_reset(component);
- 
- 	ret = regcache_sync(cs4271->regmap);
- 	if (ret < 0)
--		return ret;
-+		goto err_force_reset;
- 
- 	ret = regmap_update_bits(cs4271->regmap, CS4271_MODE2,
- 				 CS4271_MODE2_PDN | CS4271_MODE2_CPEN,
- 				 CS4271_MODE2_PDN | CS4271_MODE2_CPEN);
- 	if (ret < 0)
--		return ret;
-+		goto err_force_reset;
-+
- 	ret = regmap_update_bits(cs4271->regmap, CS4271_MODE2,
- 				 CS4271_MODE2_PDN, 0);
- 	if (ret < 0)
--		return ret;
-+		goto err_force_reset;
-+
- 	/* Power-up sequence requires 85 uS */
- 	udelay(85);
- 
-@@ -592,6 +608,13 @@ static int cs4271_component_probe(struct snd_soc_component *component)
- 				   CS4271_MODE2_MUTECAEQUB);
- 
- 	return 0;
-+
-+err_force_reset:
-+	gpiod_set_value(cs4271->reset, 1);
-+	clk_disable_unprepare(cs4271->clk);
-+err_disable_regulators:
-+	regulator_bulk_disable(ARRAY_SIZE(cs4271->supplies), cs4271->supplies);
-+	return ret;
+ static struct i2c_driver cs4271_i2c_driver = {
+ 	.driver = {
+ 		.name = "cs4271",
+diff --git a/sound/soc/codecs/cs4271-spi.c b/sound/soc/codecs/cs4271-spi.c
+index 4feb80436bd9..82abc654293c 100644
+--- a/sound/soc/codecs/cs4271-spi.c
++++ b/sound/soc/codecs/cs4271-spi.c
+@@ -23,6 +23,12 @@ static int cs4271_spi_probe(struct spi_device *spi)
+ 	return cs4271_probe(&spi->dev, devm_regmap_init_spi(spi, &config));
  }
  
- static void cs4271_component_remove(struct snd_soc_component *component)
-@@ -603,6 +626,7 @@ static void cs4271_component_remove(struct snd_soc_component *component)
- 
- 	regcache_mark_dirty(cs4271->regmap);
- 	regulator_bulk_disable(ARRAY_SIZE(cs4271->supplies), cs4271->supplies);
-+	clk_disable_unprepare(cs4271->clk);
- };
- 
- static const struct snd_soc_component_driver soc_component_dev_cs4271 = {
-@@ -637,6 +661,10 @@ static int cs4271_common_probe(struct device *dev,
- 				     "error retrieving RESET GPIO\n");
- 	gpiod_set_consumer_name(cs4271->reset, "CS4271 Reset");
- 
-+	cs4271->clk = devm_clk_get_optional(dev, "mclk");
-+	if (IS_ERR(cs4271->clk))
-+		return dev_err_probe(dev, PTR_ERR(cs4271->clk), "Failed to get mclk\n");
++static const struct of_device_id cs4271_dt_ids[] = {
++	{ .compatible = "cirrus,cs4271", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
 +
- 	for (i = 0; i < ARRAY_SIZE(supply_names); i++)
- 		cs4271->supplies[i].supply = supply_names[i];
+ static struct spi_driver cs4271_spi_driver = {
+ 	.driver = {
+ 		.name	= "cs4271",
+diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
+index 6a3cca3d26c7..ff9c6628224c 100644
+--- a/sound/soc/codecs/cs4271.c
++++ b/sound/soc/codecs/cs4271.c
+@@ -543,15 +543,6 @@ static int cs4271_soc_resume(struct snd_soc_component *component)
+ #define cs4271_soc_resume	NULL
+ #endif /* CONFIG_PM */
  
+-#ifdef CONFIG_OF
+-const struct of_device_id cs4271_dt_ids[] = {
+-	{ .compatible = "cirrus,cs4271", },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
+-EXPORT_SYMBOL_GPL(cs4271_dt_ids);
+-#endif
+-
+ static int cs4271_component_probe(struct snd_soc_component *component)
+ {
+ 	struct cs4271_private *cs4271 = snd_soc_component_get_drvdata(component);
+diff --git a/sound/soc/codecs/cs4271.h b/sound/soc/codecs/cs4271.h
+index 290283a9149e..4965ce085875 100644
+--- a/sound/soc/codecs/cs4271.h
++++ b/sound/soc/codecs/cs4271.h
+@@ -4,7 +4,6 @@
+ 
+ #include <linux/regmap.h>
+ 
+-extern const struct of_device_id cs4271_dt_ids[];
+ extern const struct regmap_config cs4271_regmap_config;
+ 
+ int cs4271_probe(struct device *dev, struct regmap *regmap);
 -- 
 2.51.0
 
