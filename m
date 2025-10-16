@@ -1,167 +1,166 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB0A22FF22
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 19:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D831A9F93
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 20:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760644023; cv=none; b=uKnduqjJF3TcdpmQNkPM5/fv/LTsLlRwlyMUa8SCPfU4oxdV+WaEHz9HniIWY7KlIIeP6kWhRSpZWWoDPQaQaKLEId3aNabvFon7fj6JdaVq3nl4ATJD5OamJbql4P0A4GsXzvx+zImE1RcTtXsU2zCa1BvGUM/bpBY1wBSCAwA=
+	t=1760646091; cv=none; b=jYXHnIrSoKKOOI/6onP0zEtJNyMEunlP8ZtS2fTuKVRFKNeHXyywA6CnbtP7ET2IKanwus3j83SL2OsW7FrqPOF6d3RNBzBAPLcrXyqJW+XgwbJ5vJLh/PPMOMblq9wCAKzGspd+FsYEWW6LtxISH3EgAJ0OgBcYk/aTuMNgzGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760644023; c=relaxed/simple;
-	bh=jvlhrPfLoaKE+znZnAg6r8knLdLXlgFcqxHMO0uJA10=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B5r88Q4Vr1xNf7vaLfWliAjFZvjOaSA7hRq1IC9RPkJidgiFvfGv9xFuIakbpVnR9KtOK6AjhZ6gHoj48xPi4kg0W9vYgqolPuhAENAMMWQQ5mFxtDtXMhm5oOaaSgmtG1DeNwnmvpYrlyK0Jwf8vpPg6zcvqrJ1gSeqgIRQq/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SLNsYwwc; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1760646091; c=relaxed/simple;
+	bh=HqDVtDU2uz7JlCCtcMy+TbQ6rPpWQFd0J7E1jyQ5SRk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cH7v4D6JRJUdqlPFvb5A3ddLzvvGHwaMZ2AmRU1H6fnU0m+xjZ3V9aVLJYRWgFdnQXJJOsxZFhpY2jdMWTEhhjbN8RpSot1feHPCAnkFMSoiFYnxLacKdRvFjs6N6TSWvlyd5Z7UIpLB98i4RVZOmCH6HxyqYFxYdVE+4Z1WK/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KwFD6g8S; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SLNsYwwc"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59GEsoce002553
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 19:47:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=FQdOp4yRQVIe5mJRI1HmxzqE
-	p3FgqjRI7/wz4aB2n3E=; b=SLNsYwwciUb4CPDEmwwkxK3V2+EMXcPwbbRYAt7C
-	9kwVHqkfGv78RLnlLs0ADHupW1lFhQxftN6i8RPPPfXW6/F72v0JjeC7UWRqMwfW
-	4qSuFg0NWlZqbUyejdiYPeqkullZuW1RWlJuj7HS3cYTFJ2s8GP3DutUZQBLz/Cb
-	PC24Dnpf83tYLYjwBb1tVSTXABMqTPIzGR3jHRq4Quu1ht8C+82si+2kGgY95Nw8
-	bEJMsdSsGYVnzK54xJHJt6ioTGH0J3EEHXwhhqRR/79d5fTGrHV8c8aOozFurxIN
-	cpO+xt6h0pU2d9I8ZPnnWLWzb+aU8gbsoY2pfCnPzKFZJg==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfd99pwy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 19:47:00 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-33bcb779733so416622a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 12:47:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KwFD6g8S"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-57bb7ee3142so1480443e87.0
+        for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 13:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760646088; x=1761250888; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MmnUfssSuOC6lKgQZds2+ffNFlhgqJTJ6ox4gGw6qmE=;
+        b=KwFD6g8SGUUXDfxLXOAz22h8E8XiHwdEkWG92t+xZOj5qCQLc/eV9mydT07SEDt4Si
+         3FuLYOxkRfu19DwilfnCfA/s6NeP5Yi7Xwb1i4yrMOR5vstN4eI0+OcEWAYXEDBvQWAO
+         P3/iuy6gvDS+u89X8UtKP+T+55Q78vRGxLUIyB4xTWxjpZCrCNgAhgk9YTcNCp/dqbLh
+         nhcnLSY6YW0Uby1BSA4Q2SCz2uQredxjGbygBaS4ml82VPT/nxxO8rpCm4/RgXtMTG+R
+         HK05b2QMa9vDXvoELYJl0qpwKnT5onPLmNG8z05deUlZXfRQI9sMTI3IhuwZep5C7uRQ
+         rEiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760644019; x=1761248819;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FQdOp4yRQVIe5mJRI1HmxzqEp3FgqjRI7/wz4aB2n3E=;
-        b=lGbyxUJgyMupEk2SSYzneV+ufa2Vy0aEwFtTYV80LA+zyvBmnhcVhlRVKuSkrELGci
-         1DACS9q5PAjbE46zSkLF5UNCJ9nonJ6JUap0wmOgzh0B1Qhsmx4ZwhSSajNFsATfg57Q
-         XUUqkMdors1vrnjS/p2dNhj2rASjGFcAFxya/XrQ9V7ruOf/PGQE5DbAxueSdSRK5E3h
-         DofPvDNytp1mxTXEZygTjnmrVRE2WsrtBz5PWMCEC1Et7CALVebnnR17Dd7Jag4YqZZA
-         qjOtZmhGzIUWipi5EP47rqojYphMxwRfYIhzWPPAU9CCgddG2OQ8Eg4AFf8/mN+Qe237
-         mwew==
-X-Forwarded-Encrypted: i=1; AJvYcCXGy2I3rIoBEM6RRGMCOsEIZI3dRM7CwrzMl7ibdxJIZ3R9g31R1q+4x7D6ETjldMNL/Gbw6+PO5rSqGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/FSFMdjz2roFtMjcI4fiZ9podeUFE969hNx7HB01DYRvUTWL8
-	ger6szRrExFU4aKRTYG1AAoOXZMMB4dY/0J7tvHIDYqECDn6C0YGZp6b6YkWaoAL/5R53NmFCKw
-	d2DYRqmUCCv1W4JHk/KfA0R62m51aUiAWnEA7coUYRk6o2CO9gKTCDuZNiZVLXlTgWd4S6ahgfh
-	/kvUNnFphdzSx3mp4IirIhpVn5PHbKH92WA85gaRJh
-X-Gm-Gg: ASbGnct/2MDuwGmxkTJQBF9zWog8sotFAyCLEa2IwqM96Gk8hFhgOwi7jrEVDf63Ttc
-	ndpVA9hPIhhSjeHA8Wd0yjDsVdqFlPISzYOHwQ7eFiNBdynkKnLowzH5qtZzfKRd5rrJgmpyydV
-	SFsr2I40PirjBfeOyAkMJSefhgfkZ/4fopI0yOTlOTp2D7DdzBzOOKV6gB
-X-Received: by 2002:a17:90a:ec8b:b0:32e:d011:ea0f with SMTP id 98e67ed59e1d1-33bcf8f7280mr1059343a91.25.1760644019432;
-        Thu, 16 Oct 2025 12:46:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGC4rtVaiUiGDeFxR64+47ex7+DNGbOtDuTWAbWJtoo82PY848HLitx3BoRsLxEASeMxNul/mWzFeugUy1bWx8=
-X-Received: by 2002:a17:90a:ec8b:b0:32e:d011:ea0f with SMTP id
- 98e67ed59e1d1-33bcf8f7280mr1059315a91.25.1760644018924; Thu, 16 Oct 2025
- 12:46:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760646088; x=1761250888;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MmnUfssSuOC6lKgQZds2+ffNFlhgqJTJ6ox4gGw6qmE=;
+        b=YJZnIQebQaMTKP700/rnJvGaXK9mSe7DyZyrNO6GamseCiSVqcye2qcHlFVG6IVuVu
+         mulA7mutUNTyNi0vhbAGQ2VYiwq7ekqhwZesIFGk7vYhENu8Fv9hOpFNw7rjBFz7KCr7
+         pe7uWv/T6pTmCkYk89/xq18DkCxmcXIqj8F9q2IxXnT1RH4g0dFTnAuEEsIxSzpqzjFe
+         Y09MiVrgUFbSvbGqku4KABOMbNDrRGHTQT4zAvqFLGkj7s7TUaQRmqCWxRP2Fxx7STmD
+         qdzYlvWLsgw9WZYkL3LvgAoCng6fFSuE6Qv0x9y0cug+H3dnH0Xmap8Rc/Z5hAFmgVpU
+         J2+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVX0MBXayHsRrnIrtFOvKyVqKDVIzIcxLrvx756swmBxrxiicb2/fKjzzu11nICRpqT9Aes2cqTcRWsaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLUi/cLFvziHTNairZWrxa+q5GFqrRmAxSUwKYg5aKUa53CwSH
+	MQtYzSPeQu6zhsinl9zz/GgscmZdQ5RKEH7TvmVCY9GAMN8aAeXGMZTS
+X-Gm-Gg: ASbGncvQDPBrzd3KL4FgEvwkRSta6n7PcVG3M8BEz5BxcgO/O3NON2YrIQKkd3vuQv9
+	5mmKDp5mNZpy140N/vDLJQTdzaSrCPP1ebZvQICkhoDOfyCP9Bd8rvV8pz3rni8O7ksFHsXUHPO
+	kPBy5UQvg1bhKV0GDG/q84D5m6jvK5WtU3T59Wh/YGwDciYkd/M0sLoWnUR+lpKBsHuLtYhV/9R
+	M3uogjYZmK16s5aDZ+m+WNXp7U459WJLFEJBqFcXNg/S0B+QkTkiiHOweNJrJ4lbLUBTTnQ0VML
+	JtiwtCn57vFP02sbp+0ScckC8qB6QRluN5hvEEqvGIuySYtNuTkE6Qn6HnWYXsjoc7kH/ZtCksH
+	M6I0b3n9fPRgut/2Bb5ZeTzjyKm2UQdsV2fZEXY+S/cGKrttshrBJwrAiLaHRgTc=
+X-Google-Smtp-Source: AGHT+IGV7UBQv4sziAq8tL79Z2NmSkIi2G/HmeFz6BUk8v+/qQgyaa9uVURFWq+dLVhFvhTT5VysmQ==
+X-Received: by 2002:a05:6512:61a:b0:591:d903:437b with SMTP id 2adb3069b0e04-591d903469bmr156990e87.30.1760646087153;
+        Thu, 16 Oct 2025 13:21:27 -0700 (PDT)
+Received: from ark ([2a01:799:8db:a400::1002])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088563812sm7315720e87.61.2025.10.16.13.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 13:21:26 -0700 (PDT)
+From: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+X-Google-Original-From: Roy Vegard Ovesen <royvegard@ark>
+Date: Thu, 16 Oct 2025 22:21:24 +0200
+To: Xj <xj@wp.pl>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound <linux-sound@vger.kernel.org>,
+	Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+Subject: Re: [BUG] Presonus Studio 1824c firmware 3.11 no longer exposes
+ mixer interface ("Quirk or no altset; falling back to MIDI 1.0")
+Message-ID: <aPFTxD89mYhea2ZX@ark>
+References: <874irz86en.wl-tiwai@suse.de>
+ <87ecr27trj.wl-tiwai@suse.de>
+ <2b24f320-3c6c-4adc-b5c4-ce6134d3b39e@wp.pl>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251007-qrb2210-qcm2290-sndcard-v1-0-8222141bca79@linaro.org>
- <20251007-qrb2210-qcm2290-sndcard-v1-1-8222141bca79@linaro.org> <b0d9cec5-1162-476b-8438-8239e1458927@oss.qualcomm.com>
-In-Reply-To: <b0d9cec5-1162-476b-8438-8239e1458927@oss.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 16 Oct 2025 22:46:47 +0300
-X-Gm-Features: AS18NWCyJN1GPmN84_CNi0rIoG2E5eLZy2zgaxscoNNGFNo_QUpMlqJ9UvpzP-s
-Message-ID: <CAO9ioeVcqT_Yhvz-RMCucLtcpa4xCLrA+srM8Vy_ZZ-650ZQnw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: qcom,sm8250: add QRB2210 and RB1 soundcards
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Alexey Klimov <alexey.klimov@linaro.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-ORIG-GUID: 7EZ_OmqNGeWPgJp8V0EHn8McaFsx-PaC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX5ToyS8zHX4Zh
- BtIK/iTIiyRe/0ORskO9DeVy59DH89f5o3P3CA4c8XeWOzcRol/bW8PDY7F+K83TZrvFRNa7ZIr
- uuGeF5bZLHGKlxwk+aWTo/DG13Wnt3VvHpyaCdy3b9+n96ONb8lWUONraOiRdmPqnrY74ih88kH
- /QK7VqHsqWFMoJe+/R8JYlhheZpPeVgRVTcWB92DsVccLE/Al0CiUuZQigMu943GgADhn33jfFK
- iZqaXwrwKDq34yMUS5zt1yBEFRpUmpyuPcI8oAGdNod+e0hyRi3ffTgqAK9Gfjl47aGDfX6MOpe
- 8H4QIF/5DnFu+PIErxOr9HHQx4BWUdQ/WuF9uypGfxfZaqS/JOgOpBrOCKfg5P6zww3TX0a6tWv
- 1kXxuuD2UgVSk20+KGJllnHcqJq7MA==
-X-Proofpoint-GUID: 7EZ_OmqNGeWPgJp8V0EHn8McaFsx-PaC
-X-Authority-Analysis: v=2.4 cv=PdTyRyhd c=1 sm=1 tr=0 ts=68f14bb4 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=HGThU_-lZqIAk3PbLksA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-16_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b24f320-3c6c-4adc-b5c4-ce6134d3b39e@wp.pl>
 
-On Thu, 16 Oct 2025 at 18:08, Srinivas Kandagatla
-<srinivas.kandagatla@oss.qualcomm.com> wrote:
->
->
->
-> On 10/7/25 2:26 AM, Alexey Klimov wrote:
-> > Add soundcard compatible for QRB2210 (QCM2290) platforms.
-> > While at this, also add QRB2210 RB1 entry which is set to be
-> > compatible with QRB2210 soundcard.
-> >
-> > Cc: Srinivas Kandagatla <srini@kernel.org>
-> > Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> > ---
-> >  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> > index 8ac91625dce5ccba5c5f31748c36296b12fac1a6..c29e59d0e8043fe2617b969be216525b493458c4 100644
-> > --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> > @@ -21,6 +21,10 @@ properties:
-> >                - lenovo,yoga-c630-sndcard
-> >                - qcom,db845c-sndcard
-> >            - const: qcom,sdm845-sndcard
-> > +      - items:
-> > +          - enum:
-> > +              - qcom,qrb2210-rb1-sndcard
-> I don't think you need rb1 specific compatible here, unless there this
-> is totally different to what the base compatible can provide.
+On Thu, Oct 16, 2025 at 07:53:23PM +0200, Xj wrote:
+> 
+> When I bought this card it has firmware 3.04, I upgraded it to 3.11.
 
-Why do we need to deviate from other platforms which declare
-board-specific compat too?
+I also have firmware 3.11. Unfortunately I don't remember what firmware
+I had before 3.11, or if I noticed any difference.
 
->
-> --srini> +          - const: qcom,qrb2210-sndcard
+> It works, but only in 88.2kHz and 96kHz modes and there is no volume control
+> in alsamixer.
 
-Broken quoting
+With kernel 6.18-rc1 it should work with all samplerates from 44.1k to 192k.
+The (8out/14in @ 96kHz) output from the kernel is misleading (I will submit a
+patch for that). It's from a quirk that is applied to the S1810c where it did
+not handle having more than one altsetting for the playback and capture
+interfaces. I don't own a S1810c, so I don't know all the details.
 
-> >        - items:
-> >            - enum:
-> >                - qcom,sm8550-sndcard
-> > @@ -37,6 +41,7 @@ properties:
-> >            - qcom,qcs8275-sndcard
-> >            - qcom,qcs9075-sndcard
-> >            - qcom,qcs9100-sndcard
-> > +          - qcom,qrb2210-sndcard
-> >            - qcom,qrb4210-rb2-sndcard
-> >            - qcom,qrb5165-rb5-sndcard
-> >            - qcom,sc7180-qdsp6-sndcard
-> >
->
+Anyways, my testing showed that the S1824c handled all 3 altsettings fine. And
+when using Reaper or Ardour I am able to set the sample rate to anything from
+44.1 to 192, and the number of ADAT channels is set according to the
+appropriate altsetting.
 
+I don't think I have ever seen any volume controls in alsamixer. I think
+the only control I saw there before kernel version 6.15-rc1 was the clock
+source selector. After 6.15-rc1, when the driver for th S1810c was applied
+to the S1824c too, it added controls for the four buttons on the front
+panel (48V, Line, Mute, A/B switch). The S1824c does not have a A/B switch
+but a Mono button instead.
+
+The S1824c has a comrehensive mixer with 2 x 36 x 9 = 648 individual volume
+controls. To take full advantage of it you really need an application like
+PreSonus Universal Control, but since they don't provide a linux version
+I started creating baton (shameless plug):
+[Link] https://github.com/royvegard/baton
+
+> [    3.354758] ------------[ cut here ]------------
+> [    3.354761] usb 3-2: BOGUS control dir, pipe 80000280 doesn't match bRequestType 40
+> [    3.354769] WARNING: CPU: 12 PID: 1020 at drivers/usb/core/urb.c:412 usb_submit_urb+0x59f/0x650
+> [    3.354776] Modules linked in:
+> [    3.354779] CPU: 12 UID: 0 PID: 1020 Comm: alsactl Not tainted 6.18.0-rc1 #1 PREEMPT(full)  3ae07d8adb35c0aa13fd8a63520768d4d65cbe95
+> [    3.354782] Hardware name: ASRock B850M Pro-A/B850M Pro-A, BIOS 3.50 09/18/2025
+> [    3.354784] RIP: 0010:usb_submit_urb+0x59f/0x650
+> [    3.354786] Code: 89 44 24 0c 89 4c 24 08 e8 5e 1f ef ff 44 8b 44 24 0c 8b 4c 24 08 48 c7 c7 c0 a5 15 b8 48 8b 54 24 18 48 89 c6 e8 f1 e9 b8 fe <0f> 0b 4c 8b 54 24 10 e9 fe fc ff ff 80 3d e9 83 4a 02 00 74 50 b8
+> [    3.354788] RSP: 0018:ffffd1bdc23a3750 EFLAGS: 00010246
+> [    3.354789] RAX: 0000000000000000 RBX: ffff8bc7c1facfc0 RCX: 00000000000003f9
+> [    3.354790] RDX: 0000000000000000 RSI: ffffd1bdc23a35f0 RDI: 0000000000000003
+> [    3.354791] RBP: ffff8bc7c6a0d058 R08: 0000000000000000 R09: 00000000ffffdfff
+> [    3.354792] R10: ffffffffba11af80 R11: ffffd1bdc23a35e8 R12: 0000000000000000
+> [    3.354793] R13: 0000000000000000 R14: ffff8bc7c6a0d000 R15: 0000000000000001
+> [    3.354793] FS:  00007fab8f421b80(0000) GS:ffff8bcf24295000(0000) knlGS:0000000000000000
+> [    3.354795] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    3.354795] CR2: 00007fab8f52c000 CR3: 0000000112652000 CR4: 0000000000f50ef0
+> [    3.354796] PKRU: 55555554
+> [    3.354797] Call Trace:
+> [    3.354799]  <TASK>
+> [    3.354801]  usb_start_wait_urb+0x89/0x190
+> [    3.354804]  usb_control_msg+0xe5/0x150
+> [    3.354806]  snd_usb_ctl_msg+0xa5/0x160
+> [    3.354810]  snd_sc1810c_get_status_field.constprop.0+0xc0/0x140
+> [    3.354815]  snd_s1810c_get_switch_state.constprop.0.isra.0+0x54/0xa0
+> [    3.354817]  snd_s1810c_switch_set+0x69/0x130
+> [    3.354820]  snd_ctl_elem_write+0x18b/0x260
+> [    3.354824]  snd_ctl_ioctl+0x3b8/0x7e0
+> [    3.354826]  __x64_sys_ioctl+0x97/0xe0
+> [    3.354829]  do_syscall_64+0x81/0x7f0
+> [    3.354833]  ? vfs_write+0x3c4/0x480
+> [    3.354836]  ? ksys_write+0xbf/0xf0
+> [    3.354837]  ? do_syscall_64+0x81/0x7f0
+> [    3.354838]  ? __x64_sys_close+0x3d/0x80
+> [    3.354840]  ? do_syscall_64+0x81/0x7f0
+> [    3.354841]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [    3.354843] RIP: 0033:0x7fab8f3112ff
+> [    3.354844] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+> [    3.354845] RSP: 002b:00007ffc8d758ca0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> [    3.354846] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fab8f3112ff
+> [    3.354846] RDX: 00007ffc8d758e30 RSI: 00000000c4c85513 RDI: 0000000000000004
+> [    3.354847] RBP: 00007ffc8d759480 R08: 00007ffc8d758e30 R09: 0000000000000000
+> [    3.354847] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> [    3.354848] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000000000001
+> [    3.354848]  </TASK>
+> [    3.354849] ---[ end trace 0000000000000000 ]---
+
+This looks a bit sus.
 
 -- 
-With best wishes
-Dmitry
+Roy
