@@ -1,98 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82E22FD1CC;
-	Thu, 16 Oct 2025 12:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B8A26B942;
+	Thu, 16 Oct 2025 12:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760616802; cv=none; b=C+sZ+X0UgMrFAJT9Tx1p0UzmDbcgjU5h0GQFiuSlHjd5m0XVj38oZNgS3qV/AWLK5SUUaQtmayLEz7DBI6RYCFiLABeUcQX0LoEl5Rw0jZXXkQvJ8KnYtbSPcb+0EsTnBCcjU6zFtBIfjgXNIfApCLuraTWCnI+g49UszD1X7Vg=
+	t=1760618518; cv=none; b=s01DXovy0i1wTowRTNnkpirKQIs3xdl1p3JCk1ueHyxohN42oQPLdifqecA5MQCSgtFlJmd5OWuFLh6d1zo0CO2/ay2J8wCWEll9eLceEncLhmR/Uft8SsXnkFtMwrVsD+j7xA2Zawpvjp/AYWqi/UxKjjHHf+XSQLXYzfrqtOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760616802; c=relaxed/simple;
-	bh=s9LjxPAebn33cLNi1oNeKaoMwXWOOe3q8lk+/+DLrek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGwLh+GkgNvGbJP9mMfZmKLszcUfHC5Ew+WdSK1WCHnqbledFY1N3y7FqkD8Mn0uhkDt0AaDBbpKjnBdY8r+wCBGJfg0HindY6C+UqffRc2HHDaQARbXNBu21a3NKkzc8C6YvFwidBsF734O7eZH9D/sD5uTCITxuyEmfHNHrCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eV95y6Mw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760618518; c=relaxed/simple;
+	bh=f+IpWRpjAufT+ugUmSZeiirkdl5RufHHH+fbTz6BEUE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GIVV0TZ+R6XW2VzykIfE89PZ5f2rldhQFWMwaDnKTtd8VKeAJCSQZtYbp6khVff6ITe9Nf6Mk0GyZ38frXGRII6ICwIHpjAmJ0w9nFOIj1weVVAC9zuqhPyUnS5NeOikuVwd2NldqL8N12NtfHmNxGxFuGMM/HFCiUlUZIyFeL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hTRSU6R+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eV95y6Mw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343C0C113D0;
-	Thu, 16 Oct 2025 12:13:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hTRSU6R+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE0DC4CEF1;
+	Thu, 16 Oct 2025 12:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760616802;
-	bh=s9LjxPAebn33cLNi1oNeKaoMwXWOOe3q8lk+/+DLrek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eV95y6MwSFBbHcm9RdZ9+q+5xCdL2eftk5/mfYFU2ob/nJzYmxzOQfrriOFqPjIpF
-	 mxXQBdc4Vwcf1u+KuG61Acxpb/KV6RaQUDiOm39+RFNfsfgIY9jk8XAA3Z3Tjd7DL6
-	 bkLMP9i56JfTfaMP5CIE/dpLIKNnu874T7K7n28WnCex+v+HZkI8jYV7ysdjCveOo1
-	 jt7K50HnucWxD94XwpW/N3zOARhmXXmCNYmdz4KinakEjueVOgoLW3jW/lzPHsgAXB
-	 M6Ep+27XCgd19Ai4kdTkAHB//aiZFwt5dW/Em8A9tiyhwhcwPAbQRhVEkB4VBf0EUo
-	 mcxZMIF8GLe3w==
-Date: Thu, 16 Oct 2025 13:13:16 +0100
+	s=k20201202; t=1760618517;
+	bh=f+IpWRpjAufT+ugUmSZeiirkdl5RufHHH+fbTz6BEUE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hTRSU6R+WOTJZfcXTxlaNyZx/nThKAkT9ywttPZ8WoW15MypiFU+Z1l0XzGvU7nUw
+	 ufopkBB+u30mriQG6LXgobP0CJs9YcjDh6LQFOBs5eEs8eWoiBsHQbuz3QsyoaOPM6
+	 MajsBGD+ZJne86SeN6uM7qju+K5DMvibSQ8reti3PjRCx5ucjoetEsIqHDR1uEm8Mu
+	 hzVaMRV8xV8XXmLFueLUvNUVc5UyYqdo7ZywHM0nlyEZSN5TojHeUqKeaLgVRTQjDL
+	 nYnBWO/kl3cRETC809Qxk2jiG0JaZ+iRpvRzhN7/BT7JAIh2MXF6wtcfibzaSupouY
+	 XIjTEFEQHU3hA==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.de>, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 05/11] ALSA: hda/cs35l56: Create sysfs files for factory
- calibration
-Message-ID: <d4e94837-6e0b-4b47-896d-d0dd3a59a39b@sirena.org.uk>
-References: <20251016104242.157325-1-rf@opensource.cirrus.com>
- <20251016104242.157325-6-rf@opensource.cirrus.com>
- <871pn3860a.wl-tiwai@suse.de>
- <37e0f08b-ce35-450b-9abf-d3be09d2863f@sirena.org.uk>
- <14617d69-7312-418f-abd9-3c65a84f8421@opensource.cirrus.com>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, leqi <le.qi@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@oss.qualcomm.com
+In-Reply-To: <20251009023341.27277-1-le.qi@oss.qualcomm.com>
+References: <20251009023341.27277-1-le.qi@oss.qualcomm.com>
+Subject: Re: [PATCH v1 0/2] ASoC: Add QCS615 sound card support
+Message-Id: <176061851515.55339.6606725865723247206.b4-ty@kernel.org>
+Date: Thu, 16 Oct 2025 13:41:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UJFub6DXM0e0JKXW"
-Content-Disposition: inline
-In-Reply-To: <14617d69-7312-418f-abd9-3c65a84f8421@opensource.cirrus.com>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-2a268
 
+On Thu, 09 Oct 2025 10:33:39 +0800, leqi wrote:
+> This patch series adds support for the QCS615 sound card:
+> - Updates device tree bindings for SM8250 to include QCS615.
+> - Adds QCS615 support in the SC8280XP ASoC driver.
+> 
+> Tested on QCS615 platform with audio playback and record.
+> 
+> leqi (2):
+>   ASoC: dt-bindings: qcom,sm8250: Add QCS615 sound card
+>   ASoC: qcom: sc8280xp: Add support for QCS615
+> 
+> [...]
 
---UJFub6DXM0e0JKXW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Oct 16, 2025 at 12:58:15PM +0100, Richard Fitzgerald wrote:
-> On 16/10/2025 12:27 pm, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > This feels like it might be a better fit for debugfs or possibly
-> > configfs?  It's not really within the sysfs rules, and especially
-> > debugfs is a lot more relaxed about everything.
+Thanks!
 
-> debugfs is an easy change in the driver but more complex for the
-> tooling. Unlike sysfs there's no standard layout or naming convention
-> for the ASoC debugfs tree, so it's more troublesome to locate the amp
-> entries.
+[1/2] ASoC: dt-bindings: qcom,sm8250: Add QCS615 sound card
+      commit: 6079165e6e027c03e06556ff3df0ed03a34d68f0
+[2/2] ASoC: qcom: sc8280xp: Add QCS615 compatible for
+      (no commit info)
 
-> ASoC creates a debugfs root by default if DEBUGFS is enabled. But HDA
-> doesn't have its own debugfs. There is an ALSA debugfs enabled by
-> CONFIG_SND_DEBUG, which is normally disabled. But enabling
-> CONFIG_SND_DEBUG has other side-effects, it enables more than debugfs.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> Or we could create a new debugfs node specifically for Cirrus Logic
-> directly in /sys/kernel/debug.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Dunno about Takashi but for this application I'd be happy for you to
-just put something in the root of debugfs.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---UJFub6DXM0e0JKXW
-Content-Type: application/pgp-signature; name="signature.asc"
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Mark
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjw4VwACgkQJNaLcl1U
-h9Bxmgf/YVcEu7vWQoRhnKscIrN8UWYWrbHG/1znMaJ7ZzLbQHbHgUu2gdkihoFm
-JTUW1QNoEZcqyKfjhHd6zX5wHnynmtvwRT2Ek19HROIyT0O7ZICYfxyLqq7/sb2O
-cMcLNsAf0WPqwFBmEn6IcpaZCsqm9u0t5dDcG9QGCRJIkXp8Gr4B5rUgFwZWTkhc
-6tAeZpzQiky8LDskMQrjnbyRDY3yqtFyFK/D+plE02Tpa0sU2aZqgnGASrP1hGp9
-75ZlJWZosc7irI009nMajf2uGnGogPD3EfecaUmiQd1zMOWnaB6YM3/BgsM0o0Mi
-9vGyHPikvKRg5rNgp96qRgrElHRZYw==
-=P2GX
------END PGP SIGNATURE-----
-
---UJFub6DXM0e0JKXW--
