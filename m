@@ -1,156 +1,388 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74972301468;
-	Thu, 16 Oct 2025 10:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B574732861A
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 11:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760612313; cv=none; b=FnetXmEa8I5w3Y5A/sSxLcOEifv9mnef90Lt630XsIe3U/+Z0xgn1gCwilW9uG5Ri2mxHaliZQ5j4mrTgJsRx/xYrFflNxvaxULIbliQykxcN/4FJlcBr4EBOuACVuU1w6ARtysp+5rOxj83VF2z7ESwsPbEFh6IAxOqDR/XxwI=
+	t=1760612506; cv=none; b=r1xPbbH/lzMR7QbiVk9xmAt8CYX1Fk3XRMsfxL1fq1SCxrOnJXwH/uEnMBKNTu4Q/KG1SzhsdHShsrEwEu0h+MWLptz7er92XHQAYHEnt8g1wBxoaGlfCH/wp46IOt4ArAs2iXCxl7HKISa4Tdtm9yZYnd0llIIyGlDMqGyDiPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760612313; c=relaxed/simple;
-	bh=G5YIzlM0wW45iOdOfOR7wWJBmL7Lgrcc8f2jbTPM22E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JycHJ6B4Kk6j+Fe1d6vHHAyusPZzHtlxVIzJ17dDQ6P5UIvJdnCnTRrpZGddczE/2I27+pUSD9foqHzJ4STsGDqurTNLj+B0utxEZwgSNeVpDTAoGl4Lnv8k17Zu0A64KvS47JRu/7YPwp9DeSGDv83FFYCinmzLiCpy8U4aSw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FPZ1AnBM; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1760612506; c=relaxed/simple;
+	bh=/HanGIISO+FAl8/fhjoxI5d4bBuLrT8fvaP6DoxhTOk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SlmdC9J5nMwWw9CcZReW60x6rGqcCgU12CtvdTUnhJJBUjDjo7bh677Jme38CgOGIu49+J63yrReaNj202+SddLdBI+n5ryueSiqWTq8UaKxwos8tGqT1Vke2G6w0GKCysK+fPzpl026OLqfFI8+kswCPyaJ0JDLsdYO7F9WzOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f4dKm6Lo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gAOjJsXS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YWY9uuhX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vyBtqWrm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FPZ1AnBM"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AF2C340E01A5;
-	Thu, 16 Oct 2025 10:58:26 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id H3F_11x1GYkR; Thu, 16 Oct 2025 10:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1760612302; bh=cLAm2KZbcUMyv3Nykzzh+blygKDExFAFcPx/1H0Hto0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FPZ1AnBMLzWN3gC/Gf8oC+xPZnSOsHILd7rdmywbZYi1fx/C6g7Oo9/xbTgXCLICK
-	 avBK1uzfruRje0qZ9aAWGt3FhexI9arjvQTYu5wXUlmWFijiDwi/UiU3H26beBeHl1
-	 ubBVVlBJmk2AIIcm1a8KaJvfmNqdtvibRhZOV3lWWJKKYYZ8LGKOJpo2V+/2cYhi7U
-	 BtP9zHYpgg2dUiWN5qSe+zWjVNuXF5UrU54/hm7l5/ZH94kW401Mgxg72d+ua4KfUj
-	 QiLNwPv6Hbq8dPK5wxeQpE+t67c2z2Jc2Wr83mIdX8MesmQ4kd9LLf9gZxRlCn/bu3
-	 PNtGvtFFaC9N6CZ+VeImrsvBOT1ejhhFsdKMKWrHTz51aiMgcfMrZcbF9aW8WrNh+G
-	 t6KSGgg0sAKfX+/7/SZe/xtAW4RbRe2biZyzKsHwP7sJ9xpuE9MaEtSJ7neMm2x1S9
-	 QTAjSU9UHVKkITvVjIBAt6yh1oHgf3RmuTgSgZi231zw0i98jpzbDYN7Ug7kULo2OG
-	 yVMYdVqxQRWt8bhL+Whg6r10tcXTa2rgn7gaH+OrMd1T7sU/eepYzP/AvN/9eTV5HO
-	 oGJ7Opl3ejfSYV5pGsokRoFsXc7As8XF2y8ZV7ZE2EI4dkB6UwjaEAKGlf+1AQB4Yp
-	 uan2LaXdq9kM5oqqGjUJn2Is=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f4dKm6Lo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gAOjJsXS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YWY9uuhX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vyBtqWrm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 44B0C40E016E;
-	Thu, 16 Oct 2025 10:58:06 +0000 (UTC)
-Date: Thu, 16 Oct 2025 12:57:56 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Sean Christopherson <seanjc@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
-	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v5 01/35] ASoC: Intel: avs: Include CPUID header at file
- scope
-Message-ID: <20251016105514.GCaPDPEu016XyDocfY@fat_crate.local>
-References: <20250905121515.192792-1-darwi@linutronix.de>
- <20250905121515.192792-2-darwi@linutronix.de>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B85CC1F7BB;
+	Thu, 16 Oct 2025 11:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760612503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JppALIfxtNy0YCR3k3y+/IM0OqyO2knEp8c0AkQxfNw=;
+	b=f4dKm6Lo3rz3831C0m76Zr526V8BUQyUgqNkRiej0qwd5pu+95khAdU4OPoNodqznW68ZG
+	44l1FLhjpeJhXS2F1MwIZXdo/MygpljILlxs1k+nNftmqkgPsn132sGFOSQmou2b97vk5q
+	k2udjzgEjs2cAMRWmG+XZoopsodvE1A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760612503;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JppALIfxtNy0YCR3k3y+/IM0OqyO2knEp8c0AkQxfNw=;
+	b=gAOjJsXSVx4YwwC+zQP5BuS57E20bD1uPEAZPqqoTdMZ0goyWM9FuYJtsViPKvKb4RIDdE
+	xU2rmzdJ+7TFJqCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YWY9uuhX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vyBtqWrm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760612501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JppALIfxtNy0YCR3k3y+/IM0OqyO2knEp8c0AkQxfNw=;
+	b=YWY9uuhXmmyE0CS/Fvfa621sioAAYi6vY8d9R3QONSswC29gWNumMOXuoaP12/73XErJfD
+	8FzizkxBukjQGQgC2pAT2Ucll4V+T4kcZTqrY2hYxLAxd4C3s//qgys4bP6A/pCjOPl6jO
+	txuwesP5RhPCTanX78I5UfKr2FyZtNY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760612501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JppALIfxtNy0YCR3k3y+/IM0OqyO2knEp8c0AkQxfNw=;
+	b=vyBtqWrm/OBR/p9Y861QotQ8aXXH/YOWD+FzjXA4OJ288NZEcRaX7I8DbFimOSzEnsxw1B
+	b7qNEAvC54pwlODQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8807B1376E;
+	Thu, 16 Oct 2025 11:01:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TonXH5XQ8GgPMQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 16 Oct 2025 11:01:41 +0000
+Date: Thu, 16 Oct 2025 13:01:41 +0200
+Message-ID: <871pn3860a.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 05/11] ALSA: hda/cs35l56: Create sysfs files for factory calibration
+In-Reply-To: <20251016104242.157325-6-rf@opensource.cirrus.com>
+References: <20251016104242.157325-1-rf@opensource.cirrus.com>
+	<20251016104242.157325-6-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250905121515.192792-2-darwi@linutronix.de>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: B85CC1F7BB
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[cirrus.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On Fri, Sep 05, 2025 at 02:14:41PM +0200, Ahmed S. Darwish wrote:
-> +#ifdef CONFIG_X86
-> +#include <asm/cpuid/api.h>
-> +static unsigned int intel_crystal_freq_hz(void)
-> +{
-> +	return cpuid_ecx(CPUID_LEAF_TSC);
-> +}
-> +#else
-> +static unsigned int intel_crystal_freq_hz(void)
-> +{
+On Thu, 16 Oct 2025 12:42:36 +0200,
+Richard Fitzgerald wrote:
+> 
+> Create sysfs files that can be used to perform factory calibration.
+> 
+> During manufacture, the production line must perform a factory calibration
+> of the amps. This patch adds this functionality via sysfs files.
+> 
+> Sysfs is used here to restrict access to the factory calibration.
+> It is only intended to be used during manufacture. It is not something
+> that a normal user should ever touch. Calibration affects the matching of
+> the amp hardware to the external speakers. If not done correctly it can
+> cause the speakers to be under-protected.
+> 
+> As this is only needed during manufacture, there is no need for this to be
+> available in a normal system so a Kconfig item has been added to enable
+> this. The new Kconfig option is inside a sub-menu because items do not
+> group and indent if the parent is invisible or there are multiple parent
+> dependencies. Anyway the sub-menu reduces the clutter.
+> 
+> cs35l56_hda_apply_calibration() has been changed to return an error code
+> that can be reported back through the sysfs write. The original call to
+> this function doesn't check the return code because in normal use it
+> doesn't matter whether this fails - the firmware will default to a safe
+> calibration for the platform. But tooling using sysfs might want to know
+> if there was an error.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+
+What kind of data format should be written to calibrate sysfs entry?
+Since those are no trivial files, we may need to document the
+formats.
+
+Also, the scenario isn't clear -- who should write this sysfs at which
+moment?  e.g. is this supposed to be set up at each boot?
+
+
+thanks,
+
+Takashi
+
+> ---
+>  sound/hda/codecs/side-codecs/Kconfig       |  15 +++
+>  sound/hda/codecs/side-codecs/cs35l56_hda.c | 139 ++++++++++++++++++++-
+>  2 files changed, 149 insertions(+), 5 deletions(-)
+> 
+> diff --git a/sound/hda/codecs/side-codecs/Kconfig b/sound/hda/codecs/side-codecs/Kconfig
+> index cbf1847896bc..0218aa41bba2 100644
+> --- a/sound/hda/codecs/side-codecs/Kconfig
+> +++ b/sound/hda/codecs/side-codecs/Kconfig
+> @@ -88,6 +88,21 @@ config SND_HDA_SCODEC_CS35L56_SPI
+>  	  Say Y or M here to include CS35L56 amplifier support with
+>  	  SPI control.
+>  
+> +menu "CS35L56 driver options"
+> +	depends on SND_HDA_SCODEC_CS35L56
+> +
+> +config SND_HDA_SCODEC_CS35L56_CAL_SYSFS
+> +	bool "CS35L56 create sysfs for factory calibration"
+> +	default N
+> +	select SND_SOC_CS35L56_CAL_SYSFS_COMMON
+> +	help
+> +	  Create sysfs entries used during factory-line manufacture
+> +	  for factory calibration.
+> +	  This is not needed for normal use.
+> +
+> +	  If unsure select "N".
+> +endmenu
+> +
+>  config SND_HDA_SCODEC_TAS2781
+>  	tristate
+>  	select SND_HDA_GENERIC
+> diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> index 5bb1c4ebeaf3..4a1bd934887a 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> @@ -548,20 +548,24 @@ static void cs35l56_hda_release_firmware_files(const struct firmware *wmfw_firmw
+>  	kfree(coeff_filename);
+>  }
+>  
+> -static void cs35l56_hda_apply_calibration(struct cs35l56_hda *cs35l56)
+> +static int cs35l56_hda_apply_calibration(struct cs35l56_hda *cs35l56)
+>  {
+>  	int ret;
+>  
+>  	if (!cs35l56->base.cal_data_valid || cs35l56->base.secured)
+> -		return;
+> +		return -EACCES;
+>  
+>  	ret = cs_amp_write_cal_coeffs(&cs35l56->cs_dsp,
+>  				      &cs35l56_calibration_controls,
+>  				      &cs35l56->base.cal_data);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+>  		dev_warn(cs35l56->base.dev, "Failed to write calibration: %d\n", ret);
+> -	else
+> -		dev_info(cs35l56->base.dev, "Calibration applied\n");
+> +		return ret;
+> +	}
+> +
+> +	dev_info(cs35l56->base.dev, "Calibration applied\n");
+> +
 > +	return 0;
+>  }
+>  
+>  static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+> @@ -669,7 +673,9 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+>  	if (ret)
+>  		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
+>  
+> +	/* Don't need to check return code, it's not fatal if this fails */
+>  	cs35l56_hda_apply_calibration(cs35l56);
+> +
+>  	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+>  	if (ret)
+>  		cs_dsp_stop(&cs35l56->cs_dsp);
+> @@ -695,6 +701,126 @@ static void cs35l56_hda_dsp_work(struct work_struct *work)
+>  	cs35l56_hda_fw_load(cs35l56);
+>  }
+>  
+> +static ssize_t calibrate_store(struct device *dev, struct device_attribute *attr,
+> +			       const char *buf, size_t count)
+> +{
+> +	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+> +	ssize_t ret;
+> +
+> +	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = cs35l56_calibrate_sysfs_store(&cs35l56->base, buf, count);
+> +	pm_runtime_autosuspend(cs35l56->base.dev);
+> +
+> +	return ret;
 > +}
-> +#endif /* !CONFIG_X86 */
-
-Why are we even bothering with !CONFIG_X86?
-
-Because this thing has || COMPILE_TEST in Kconfig.
-
-But this thing gets enough compile testing on x86 already so why not simply
-drop the whole unnecessary gunk?
-
----
-
-diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
-index 412555e626b8..63367364916a 100644
---- a/sound/soc/intel/Kconfig
-+++ b/sound/soc/intel/Kconfig
-@@ -95,7 +95,7 @@ config SND_SOC_INTEL_KEEMBAY
- 
- config SND_SOC_INTEL_AVS
- 	tristate "Intel AVS driver"
--	depends on X86 || COMPILE_TEST
-+	depends on X86
- 	depends on PCI
- 	depends on COMMON_CLK
- 	select ACPI_NHLT if ACPI
-diff --git a/sound/soc/intel/avs/tgl.c b/sound/soc/intel/avs/tgl.c
-index afb066516101..d920488d24b1 100644
---- a/sound/soc/intel/avs/tgl.c
-+++ b/sound/soc/intel/avs/tgl.c
-@@ -11,7 +11,7 @@
- #include "debug.h"
- #include "messages.h"
- 
--#define CPUID_TSC_LEAF 0x15
-+#include <asm/cpuid/api.h>
- 
- static int avs_tgl_dsp_core_power(struct avs_dev *adev, u32 core_mask, bool power)
- {
-@@ -44,18 +44,15 @@ static int avs_tgl_config_basefw(struct avs_dev *adev)
- {
- 	struct pci_dev *pci = adev->base.pci;
- 	struct avs_bus_hwid hwid;
-+	unsigned int freq;
- 	int ret;
--#ifdef CONFIG_X86
--	unsigned int ecx;
- 
--#include <asm/cpuid/api.h>
--	ecx = cpuid_ecx(CPUID_TSC_LEAF);
--	if (ecx) {
--		ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_XTAL_FREQ_HZ, sizeof(ecx), &ecx);
-+	freq = cpuid_ecx(CPUID_LEAF_TSC);
-+	if (freq) {
-+		ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_XTAL_FREQ_HZ, sizeof(freq), &freq);
- 		if (ret)
- 			return AVS_IPC_RET(ret);
- 	}
--#endif
- 
- 	hwid.device = pci->device;
- 	hwid.subsystem = pci->subsystem_vendor | (pci->subsystem_device << 16);
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> +
+> +static ssize_t cal_temperature_store(struct device *dev, struct device_attribute *attr,
+> +				     const char *buf, size_t count)
+> +{
+> +	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+> +	ssize_t ret;
+> +
+> +	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = cs35l56_cal_ambient_sysfs_store(&cs35l56->base, buf, count);
+> +	pm_runtime_autosuspend(cs35l56->base.dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t cal_data_read(struct file *filp, struct kobject *kobj,
+> +			     const struct bin_attribute *battr, char *buf, loff_t pos,
+> +			     size_t count)
+> +{
+> +	struct cs35l56_hda *cs35l56 = dev_get_drvdata(kobj_to_dev(kobj));
+> +	ssize_t ret;
+> +
+> +	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = cs35l56_cal_data_sysfs_read(&cs35l56->base, buf, pos, count);
+> +	pm_runtime_autosuspend(cs35l56->base.dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t cal_data_write(struct file *filp, struct kobject *kobj,
+> +			      const struct bin_attribute *battr, char *buf, loff_t pos,
+> +			      size_t count)
+> +{
+> +	struct cs35l56_hda *cs35l56 = dev_get_drvdata(kobj_to_dev(kobj));
+> +	ssize_t ret;
+> +
+> +	ret = cs35l56_cal_data_sysfs_write(&cs35l56->base, buf, pos, count);
+> +	if (ret == -ENODATA)
+> +		return count;	/* Ignore writes of empty cal blobs */
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = cs35l56_hda_apply_calibration(cs35l56);
+> +	if (ret == 0)
+> +		cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+> +	else
+> +		count = -EIO;
+> +
+> +	pm_runtime_autosuspend(cs35l56->base.dev);
+> +
+> +	return count;
+> +}
+> +
+> +static const DEVICE_ATTR_WO(calibrate);
+> +static const DEVICE_ATTR_WO(cal_temperature);
+> +static const BIN_ATTR_RW(cal_data, sizeof_field(struct cs35l56_base, cal_data));
+> +
+> +static const struct attribute *cs35l56_hda_cal_attributes[] = {
+> +	&dev_attr_calibrate.attr,
+> +	&dev_attr_cal_temperature.attr,
+> +	NULL
+> +};
+> +
+> +static void cs35l56_hda_create_calibration_sysfs(struct cs35l56_hda *cs35l56)
+> +{
+> +	struct device *dev = cs35l56->base.dev;
+> +	int ret;
+> +
+> +	if (!IS_ENABLED(CONFIG_SND_HDA_SCODEC_CS35L56_CAL_SYSFS))
+> +		return;
+> +
+> +	ret = sysfs_create_files(&dev->kobj, cs35l56_hda_cal_attributes);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = sysfs_create_bin_file(&dev->kobj, &bin_attr_cal_data);
+> +	if (ret)
+> +		goto err;
+> +
+> +	return;
+> +err:
+> +	dev_err_probe(dev, ret, "Failed creating calibration sysfs\n");
+> +}
+> +
+> +static void cs35l56_hda_remove_calibration_sysfs(struct cs35l56_hda *cs35l56)
+> +{
+> +	struct device *dev = cs35l56->base.dev;
+> +
+> +	if (!IS_ENABLED(CONFIG_SND_HDA_SCODEC_CS35L56_CAL_SYSFS))
+> +		return;
+> +
+> +	sysfs_remove_files(&dev->kobj, cs35l56_hda_cal_attributes);
+> +	sysfs_remove_bin_file(&dev->kobj, &bin_attr_cal_data);
+> +}
+> +
+>  static int cs35l56_hda_bind(struct device *dev, struct device *master, void *master_data)
+>  {
+>  	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
+> @@ -722,6 +848,8 @@ static int cs35l56_hda_bind(struct device *dev, struct device *master, void *mas
+>  	cs_dsp_init_debugfs(&cs35l56->cs_dsp, cs35l56->debugfs_root);
+>  #endif
+>  
+> +	cs35l56_hda_create_calibration_sysfs(cs35l56);
+> +
+>  	dev_dbg(cs35l56->base.dev, "Bound\n");
+>  
+>  	return 0;
+> @@ -736,6 +864,7 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
+>  	cancel_work_sync(&cs35l56->dsp_work);
+>  
+>  	cs35l56_hda_remove_controls(cs35l56);
+> +	cs35l56_hda_remove_calibration_sysfs(cs35l56);
+>  
+>  #if IS_ENABLED(CONFIG_SND_DEBUG)
+>  	cs_dsp_cleanup_debugfs(&cs35l56->cs_dsp);
+> -- 
+> 2.47.3
+> 
