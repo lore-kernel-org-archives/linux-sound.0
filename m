@@ -1,184 +1,191 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CD5319875;
-	Thu, 16 Oct 2025 09:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760608299; cv=fail; b=oe2bJOI2fzDpc/TPNsA+a8eMeRLt8cP7GCdtUfpiL5o1cbwcEp8p2I6euJamXDj8qw71dTMHwYV/xiDADZZIpdHYhLDASC3k9YfaWoDTa7Z15AT8/tNFxxbyNGU+784rWNBeCv2qVkrnVIBuHQCVLNdYOS5+aEbGtdUgXzqD7V0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760608299; c=relaxed/simple;
-	bh=paRS1iPtTebKE7Yr10XlLhkl6Iu4E/Ax1fIpP+N+sjw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DTRVHTZBi4qkCFU6WlTIf02DZ2TvM9qiakPxLI7Y5srYYRv+IHPXBBKVBG2kT97sGajEUid4dLF49NORf02N9Zos+/TVPIMs/vmrKGhctc1YFIG80XIkFGBFfIksShID0pLvag3Mfujn3rO0B92SJO2E4KQ3W58j0RfPF9f2V0c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=SPVFLj4W; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=wq2FT0La; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C4B31AF0E
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 09:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760608384; cv=none; b=r2B3ZFF9zrGiozTN+IvRb3sBmwtf5wz5F/NC5y29mqAUCWFQKY3Jj8YmuDIwSQXgo6t9f+LZYe0KtBcChfN/T4uGD42v3h0XTKTu+D0z80sSqP2rnPatunH8k3yhobK/WXL/lPA//xFCeq0hub4sANinBP7wKzSyKyas+KdInEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760608384; c=relaxed/simple;
+	bh=8aoKj6Lbokxs31NvMiHpkLe/VxKWfBvA/ZujrdNJfRQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T7mnaVD8wO0bwpIrgsL7ehKq728GHJKFzpZM84ljRlK/FX6rhUeunyed2PB2PUdBUOM1bhyxRQt17OaAw3xpWLElpJejpopJwI64rx6Ev0TdLssGVNDM4nGmpzYfGP4syl77P/udNs3YghlDQVEGmRv62IkhR/ZHl4oAHIlIecw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G57aejyI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Iu2M45I8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G57aejyI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Iu2M45I8; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="SPVFLj4W";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="wq2FT0La"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59G8fDZG2477160;
-	Thu, 16 Oct 2025 04:51:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=+waaRa7bBZFzb5p4
-	hb+mxaMIxMNJhC7YjaizblBK3B8=; b=SPVFLj4WzHuufC77m76do2+3Jv+y3VSj
-	mJRIrEF2eSpPSCeHrXvNj364yLvj3RNCbAGHDTSFGwISFL4p8v1njtyKPAWRPf/a
-	sJGzbgXKfOqB4rKKeLMLDU911PWbyeIfstlnNUH4nU6GQPjuK8MjJV/oNvy3ApbI
-	3arfXJbNJ3uWjJ+x0a6S/pk39P3qUXus32HBbDu2GppOnQAGWTkkDC/Q92QYWZ15
-	o+UyGf53I+R6nj7SPE4efJAH4mcP6UacnOcit6qsWR/SPcGBj2QotNnHL4yx3hTB
-	ohY4ePzWf6dSTdp86YhMVUd7Nnsv9HpGwqir/xN3xWqMN8Hq8Ur03A==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11022129.outbound.protection.outlook.com [40.107.209.129])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49t9mhhn4h-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 16 Oct 2025 04:51:24 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tpaEdZezkApuW08ZQ0KP/Eb4Mf9rPbO6UDyR9uMzArCIKiw58iHD0IfcfNAea4gw02C1QWtP2P3NJftNF9Q81Yu5J3RvRqUmyhDv/a6nNiqa4YivsM84wRyH8c9rm+MZkbnDlcp74HY7bB6nDmw0Nlw+0p0wtiGVbSmSlAUOeKAoeIznVnPVGvdd8N+NjqZv47FPERarI2aa5AFIJeV1p5JQze4jcJSSyx9LZTyUWaQMglvLG8l7QyRqdjT1+Mu/XdoW17cpBk+F5Kzeii8VJg5wnstAsbk9kzOdA2lxmgK/GGqRyIcrk8ZCZVMeq1ZbtAntad1T3XSoKG5FKVEgQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+waaRa7bBZFzb5p4hb+mxaMIxMNJhC7YjaizblBK3B8=;
- b=Sx5Dy9P+GpnTuXlLc1cJBYfBUdZN5Lduw1GWlXFf+/hJMQk9/rOdQi77qAzP1xwC9/36lHktfP8YdjD72G/1QsBDgsugilk9Q7buVvMw+pa06EyQqyI9WG9jJuEC47YkjxPqu0TYnj65/2faBR59LLx1KOjnP+AExuNCXD8eNm9zSqiT+4BkZLahEl/5D07o1+UXDqrTgeY3HQVJad6a5BvqzLV8vPiXfCxpmW3g/aYwLsFGM8X7V9cuK3hLh+5CpDo15XWSUXclFlL32Rm/BZUKDbhkzZjhQOyzVxTJPntuGW/MK7bscs3xOO+Mv3nbRf+ASRYt2y4oDwDFLuT8Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+waaRa7bBZFzb5p4hb+mxaMIxMNJhC7YjaizblBK3B8=;
- b=wq2FT0LacoAABa5EWhmY6qYiR/sbXTMwZZLfklBHEWib1//mD9Ov3iXeAS5ax73NkPUyoPPIvkNmb25BeU5hn6yXf8eZpu7Uc51nsxF/TewpqGeSRmOxtzsmNq3fZGNwDP3npqqmFx0N/UrIz6uK3zZWlrNt46ToSNQHw7e8K18=
-Received: from CH0PR13CA0009.namprd13.prod.outlook.com (2603:10b6:610:b1::14)
- by MW5PR19MB5580.namprd19.prod.outlook.com (2603:10b6:303:1a0::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Thu, 16 Oct
- 2025 09:51:18 +0000
-Received: from CH3PEPF0000000B.namprd04.prod.outlook.com
- (2603:10b6:610:b1:cafe::83) by CH0PR13CA0009.outlook.office365.com
- (2603:10b6:610:b1::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.5 via Frontend Transport; Thu,
- 16 Oct 2025 09:51:18 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH3PEPF0000000B.mail.protection.outlook.com (10.167.244.38) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.7
- via Frontend Transport; Thu, 16 Oct 2025 09:51:18 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id DB271406547;
-	Thu, 16 Oct 2025 09:51:16 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B6F61820249;
-	Thu, 16 Oct 2025 09:51:16 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: cs-amp-lib-test: Fix missing include of kunit/test-bug.h
-Date: Thu, 16 Oct 2025 10:51:16 +0100
-Message-ID: <20251016095116.93260-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G57aejyI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Iu2M45I8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G57aejyI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Iu2M45I8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 15D581F391;
+	Thu, 16 Oct 2025 09:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760608364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQU63hw0/2YfMyk+rvCvHy55oTz5JTJV+aKgdNzUG5k=;
+	b=G57aejyIYeiRayn6PUSdF2pIEM+MZh6YmFxxh8IfLU+hqH5xcH/ZaVlhmynU5FUhqP+GPh
+	t3Zt8F6YlWSFW2tS01qHDbbkj9RzECD9BM8uydU7nOAzKFMlmyboYbRqBP9EaZ3T+mz02C
+	5PoCdVyzmDvLoMTOS2soi+sbOn8dRUo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760608364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQU63hw0/2YfMyk+rvCvHy55oTz5JTJV+aKgdNzUG5k=;
+	b=Iu2M45I8CMCk5MpjSYCCPcjTtz9p8eTSCb8bMwDSplmqO9LUVlxSL0Sp+l6Bupi4Dfe+nX
+	e3/+kPDFa8cUo+DA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G57aejyI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Iu2M45I8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760608364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQU63hw0/2YfMyk+rvCvHy55oTz5JTJV+aKgdNzUG5k=;
+	b=G57aejyIYeiRayn6PUSdF2pIEM+MZh6YmFxxh8IfLU+hqH5xcH/ZaVlhmynU5FUhqP+GPh
+	t3Zt8F6YlWSFW2tS01qHDbbkj9RzECD9BM8uydU7nOAzKFMlmyboYbRqBP9EaZ3T+mz02C
+	5PoCdVyzmDvLoMTOS2soi+sbOn8dRUo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760608364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UQU63hw0/2YfMyk+rvCvHy55oTz5JTJV+aKgdNzUG5k=;
+	b=Iu2M45I8CMCk5MpjSYCCPcjTtz9p8eTSCb8bMwDSplmqO9LUVlxSL0Sp+l6Bupi4Dfe+nX
+	e3/+kPDFa8cUo+DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 783DD1340C;
+	Thu, 16 Oct 2025 09:52:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bZP5G2vA8GjvagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 16 Oct 2025 09:52:43 +0000
+Date: Thu, 16 Oct 2025 11:52:43 +0200
+Message-ID: <87bjm78978.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Dell.Client.Kernel@dell.com,
+	amadeuszx.slawinski@linux.intel.com,	baojun.xu@ti.com,
+	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
+ <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
+ <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
+ <dxu@dxuuu.xyz>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+	<878qhckxc5.wl-tiwai@suse.de>
+	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+	<875xcgkvnw.wl-tiwai@suse.de>
+	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000B:EE_|MW5PR19MB5580:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 75f2919d-48aa-4e19-3317-08de0c998dd7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YtBN+HtqZfxeNp2Jm2nTwshlNjMNCa9/D92spPJjBPM/ycl9mKewRom7v5+3?=
- =?us-ascii?Q?rVJUkZjkbH8u7Cm9L6o6G90udc/tZrBA/IpywhkVPq1L6F0G3b5ZwrnLbbNn?=
- =?us-ascii?Q?z1HBCJgvNhiOnhloroLGhBZAp8QfPSXtOo7SJ3oSFSVGdJOX8taX0N4pLdcn?=
- =?us-ascii?Q?W1S55NrGmqWisWsFWciKY4u2v0RpyS+qU1jRcbR4dGRCn/HdJ1JLDSiVfEdP?=
- =?us-ascii?Q?/x5MmegAXEfHi/ofy7mtgMMYtuOlBctsY3tvOKv5NgUrlzT4aLPgUkGR/aBB?=
- =?us-ascii?Q?5T3aGeGpkrNPStq3HqFlr7hDDJQB7v09unNQllsl1yRjhuUVnZ5zqi7w7lze?=
- =?us-ascii?Q?jjTCklc8P448lLdHNAjz+MhV3CXfYQ+XHHpUlSjWD/OlPewxHvv8P4XctWc3?=
- =?us-ascii?Q?qZXqsgoT77MDRc+Fcf1wu/qXvk/ACnRN6+RV1Q+Xl5k0CaxtzWfgGGXHQGaz?=
- =?us-ascii?Q?KXxwLP+5TuNBXZ4O8GfSm6ojlGQG1bYyJ4+pxDlC4wpociArJRE1RhbXhkj7?=
- =?us-ascii?Q?LuLUNLtVULNpNzmIPHTAR6NxUJNHvqFNW5A7sQdAbGy/Ck7jx5lBntNPZzWz?=
- =?us-ascii?Q?oe15F99lfjN+Xd/7jCTdPGjhfOkn7QD7o7PPwg4N7Io/9zWxRnUOD601oAbn?=
- =?us-ascii?Q?yWn4f9/ogjTU3qJTRWEKYjgt890X7QpAmoFfPBIuUxepM8zcJQkhFuk+SjPD?=
- =?us-ascii?Q?kgxqlPooR8aWoOp0Dqs4qg36TB+OL6XkKVQSRHDGqo8m2LYxLbOwBXngCu3x?=
- =?us-ascii?Q?dUrY2N6JpZKMgg9doj9dc8aOAs/JpSrkFPWuu8bVxZFotvLJ+yFxOrfcJY21?=
- =?us-ascii?Q?hZ5MCjhUhdJsEtQMJdWgs+1EwPluadNHg5aBnLgUbK6UaCZWguBO1OPb1mQG?=
- =?us-ascii?Q?w59ef65ee7GohK/mPv+zI5Ahw7NO7bHOG6FSUGJQKS0lIsSJ+XAk6cVzguDB?=
- =?us-ascii?Q?LZzwUkRsWSXcMl217cLqAfBUFjo8HHmeQXKuUwRts/YzQThNnm0uNoh9mqbT?=
- =?us-ascii?Q?LvsEpO5HQAuwX8ZyBRhdmYSzGNY+w3CrZ0ixVCY/T9dgOW++QEC6hKY6qMb2?=
- =?us-ascii?Q?xMMo+Kj+oAgUaom6tQAzvXDceJtlj9bi/i5J3gdKe0HQsyIgb6oD5jQxHrDN?=
- =?us-ascii?Q?ixaIc7HN18c2SaxR46+li0AHFLIbOFYDfOtQYpiNMWwzeP90XN354K2ER0/q?=
- =?us-ascii?Q?BnuigB8dpDNpePZWretrwvbdmLZZhQVL6+5P8s+aPeq/REXbJckrDHLtRQZa?=
- =?us-ascii?Q?1inRgCJca/of8F4Fo66bKM3JT1/ictGIk8VJrgKAyzyh0oMiGlsQBXH9yCF/?=
- =?us-ascii?Q?AHvZ5joUnhOajeLYEbFUTqGg5PBtlsj7jamUob26cm1uqoYSWiO1QoIC4Hj8?=
- =?us-ascii?Q?ZZW7AS+NiPM5OUGM3QfcYzdHXyhXMJRtSdT/DKx57dgj2t0ryT3PmEO8orh0?=
- =?us-ascii?Q?UC5KRwN0lL8FlYLBc9/lc4ytwkW0GzaxVMfoTg/bz0ER+ua24NMg/b/lhyLb?=
- =?us-ascii?Q?HwqTLDTNjlJ+U3Mzyd5N2BlRH2xzgVUi1p47pf9KCFQxfHd4LTShpeutyzFy?=
- =?us-ascii?Q?Q3kTi0a/KVB0Bw2VvEY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 09:51:18.0084
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75f2919d-48aa-4e19-3317-08de0c998dd7
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH3PEPF0000000B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR19MB5580
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE2MDA3NCBTYWx0ZWRfX2JxL8+rPkW6y
- QcDTgqG6wFqGpu808fdmbiuWv5xEUZ+Sg5GVpT/LhOr5slMEHg1p+fxONpn+AihMBZm7sTF1mQy
- 8nYwSGyONOugt1RAyuRqojbNoYnF7RN6GsqCvXWTSEaUQCk8J9HtWubtyltDkFo2t1WhyspqnF5
- 32TSpLySZFgvGQgXwoXa45SQw55J9IvaWajaVs6YFfhGFkNtzy4lw2ho+Hfn8GARUhjBKS8p3OO
- CBsyanm+KqcUXOZfuwbUFTv786i/vzkH4qXECE4yJOPWaQEFUTBMi/2Vd/sQQuTgLgZvGv71ctS
- DaxBsiBS69EwMZZBxqrIp5euabz2npDC5XXBvi+Ujck4A56dM0SmxkVVyccpDt1v5fNTX8ItcLw
- W5rDLeb4MwXaowuR4SvlaQHjhuTR3w==
-X-Proofpoint-ORIG-GUID: 62u_rkHLX88BpbJffUNWYu6Hdow44cfH
-X-Authority-Analysis: v=2.4 cv=OJIqHCaB c=1 sm=1 tr=0 ts=68f0c01c cx=c_pps
- a=6Bt0GI45FyvFQl6hnU1EVQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=x6icFKpwvdMA:10 a=RWc_ulEos4gA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=w1d2syhTAAAA:8 a=DBs-fRHfoGwBX52xYIkA:9
-X-Proofpoint-GUID: 62u_rkHLX88BpbJffUNWYu6Hdow44cfH
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 15D581F391
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
 
-cs-amp-lib-test uses functions from kunit/test-bug.h but wasn't
-including it.
+On Thu, 16 Oct 2025 08:03:08 +0200,
+Askar Safin wrote:
+> 
+> I did another experiment.
+> This time with v6.18-rc1.
+> And I collected more info.
+> - Here is Debian config for 6.17.2: [attachment config-6.17.2-amd64]
+> - I downloaded vanilla Linux v6.18-rc1 from kernel.org
+> - I copied that Debian config (see above) as .config to Linux sources
+> - I did "LOCALVERSION=-first make --silent -j32 < /dev/null" ("< /dev/null",
+> because I don't want to answer any questions)
+> - This is output: [attachment first-out]
+> - Then I booted into it
+> - Audio works
+> - Here is config of this kernel: [attachment config-6.18.0-rc1-first]
+> - Here is "find /lib/modules/6.18.0-rc1-first": [attachment
+> find-6.18.0-rc1-first]
+> - Here is alsa-info: [attachment alsa-info-first]
+> - Here is lsmod: [attachment first-lsmod]
+> - Then I "cd" into kernel source (note that ".config" remained since last time)
+> - I typed "make localmodconfig < /dev/null"
+> - Here is output: [attachment localmodconfig-out]
+> - I did "LOCALVERSION=-second make --silent -j32"
+> - This command didn't produce any output and didn't ask any questions
+> - Then I booted into new kernel
+> - Audio doesn't work
+> - Here is config of this kernel: [attachment config-6.18.0-rc1-second]
+> - Here is "find /lib/modules/6.18.0-rc1-second": [attachment
+> find-6.18.0-rc1-second]
+> - Here is alsa-info: [attachment alsa-info-second]
+> - Here is lsmod: [attachment second-lsmod]
+> 
+> (Please, say me, if there are any missing files.)
+> 
+> If you need more experiments, ask me.
 
-This error was found by smatch.
+Thanks for detailed logs!  Now the situation became clearer.
 
-Fixes: 177862317a98 ("ASoC: cs-amp-lib: Add KUnit test for calibration helpers")
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/soc/codecs/cs-amp-lib-test.c | 1 +
- 1 file changed, 1 insertion(+)
+Could you try to just enable CONFIG_SND_SOC_SOF_ALDERLAKE=m on top of
+the broken config?  If my guess is right, this should make the audio
+working again.
 
-diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
-index 2fde84309338..3406887cdfa2 100644
---- a/sound/soc/codecs/cs-amp-lib-test.c
-+++ b/sound/soc/codecs/cs-amp-lib-test.c
-@@ -7,6 +7,7 @@
- 
- #include <kunit/resource.h>
- #include <kunit/test.h>
-+#include <kunit/test-bug.h>
- #include <kunit/static_stub.h>
- #include <linux/device/faux.h>
- #include <linux/firmware/cirrus/cs_dsp.h>
--- 
-2.47.3
+If yes, it's a problem of a kernel tristate config that doesn't have
+the own module but referred only for constructing a probe table in
+snd-intel-dspcfg.  This is not really a fault of localmodconfig, but a
+long-standing design problem.  (I'm not sure why this surfaced
+suddenly, though.)  There are a few options to address it, and we have
+to evaluate / decide what to do.
 
+
+Takashi
