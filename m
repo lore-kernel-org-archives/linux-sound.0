@@ -1,205 +1,98 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9223346B3
-	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 18:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C795238C19
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 18:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760640039; cv=none; b=iiW+te7GsJzYfJoO9G1pwWeoNlNnglSc5IwvTs5U4c3M3YyQPUfeTY8zT7xOWgW4ack5dF5XRD6kn0/cIZ3WHhNoGMv4qmMp1TvO38UZ+TJRX7C5RSpziJbabr/VQi/P7vanG4e8i70LoCQiPKQnHaUWK/yxki3St43iO1BAXR4=
+	t=1760640264; cv=none; b=CKycBl60vigJkaC+nJpnddihCWmDNU9OvLGrYW7DSTQWTdEP4HKlVUPZ6aMbpDdCn6oWBdk3dp+7/e8sriQXIGwHesNij5Yvk8QqDg2dvvK5izL3VV0obxWGi5h4kFPoxjylO5yc5VEaK/MPyitUIgf0+7+GxIIGDUkc76Fz55M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760640039; c=relaxed/simple;
-	bh=5QysmaokXLn3WO6Gp92GJ+wwsN+FNCg2fB1fyWLq7Tg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YP3k6Z6RtBowRKvDM4+d3yhPZocs2UZBHWv/ekG0HxayA0nfPq0NxhttUncn3McKj8SYCif8DIFX3SoRMityI9do7kRXB1UDLrFVHwX1Xy3JArjAOSSZ8lZGbXFeOQzjzsAS6ILGUz6oJHng7H0RF0CV8sZjWlagrsQcbgE9kKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kb4DVjr4; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1760640264; c=relaxed/simple;
+	bh=5fnAIS+mDObetzcVt6F6UmWnOreqYso1cDICdcXUb7Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rIUmYcEuXs7XlUcmD7eZnxhqXSRvvmhTqUHowp4vYZeJRZ3zLRz+d4KckEjPW1/Dzfl3rp3NPCzdWkoVofUBD37aLOP28iDNoowrGX90xZnUd7BtNqfd8o00dNAr5/Jz2CV5/42TpWaxEKgvBq5k9wSNSE4GbjqvqXr6VMnV6zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ciQ9M7ST; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kb4DVjr4"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ee130237a8so737076f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 11:40:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ciQ9M7ST"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-87c217f4aaaso3338276d6.0
+        for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 11:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760640035; x=1761244835; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gVrVN0cURT8XxOWEND/toDNC6BEXYqhiqrr2ZmhC6Wg=;
-        b=Kb4DVjr4P8bzQkdC6frJlmNGatQhd6iQxGC7D7VWMo1gddZHd8qoiB5WW9eAzT1A4N
-         KjDaMdaWQt2diQJURY3BrxTJSVrIoG0lrlFu0Lg4/nfuIny800GFeOWoe6/0Ys/KxNRW
-         RJTSKJwXMkmTOXBYqnn5BzLWomDqmOPdrwHUQoVS3n1FsScRSHRlxsrgCKjp/NARDV/P
-         ozot9zUmZMMU7SwN5sQdej3O1YkcIKM9XAlC5mOs+22Rb8RZJDQd8NMC1hRxY6eqVsvC
-         jwrwWRRMt1OgJoaHxvFN7sdL7pGPMfJCSwqcpdlAQyRQ6i9mG3ojDllxSUsEaUMJJY1R
-         8MUA==
+        d=gmail.com; s=20230601; t=1760640262; x=1761245062; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ALOU5npXoRj79VyCnAvRnuffj/3q5aKZ7j8QUuSL/ZY=;
+        b=ciQ9M7ST0sXIz6wwR+OLAShKEOUeDXene4WuGeIfEQOczGir4YJOL0EZOcckxdPgTs
+         XW/SPdgC9pkZlCP8ni2R9m0xJ9wjvY3hSsfcIPJA9gZKF5w5zLRcWWeyIY7dxoXv1Bj/
+         eFn+vznrM+X2h9Voq/RrCH8kybbS0rcU5ujF/gBLRPt5PSOz6nFlGZ/hHPCE/D/5vGhe
+         U9eshOtJj9rFmjnfTmBtqO0eqdEnHdJK9+PNfaC1ip8keHbZiVnaUAe7hSd5OzhZviUa
+         9FJm4SyMiS/vppgqjS3u8acErAx4JFsW2gn2xZP9TuZ0GF5/x5UqZgAzPr49v4fF73Oe
+         mJkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760640035; x=1761244835;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gVrVN0cURT8XxOWEND/toDNC6BEXYqhiqrr2ZmhC6Wg=;
-        b=EYJNGWpeNl8+W1lLfGnuIMgsXlDJyaE3c/EOfkiJvQRBgkEjxe8PUq+cMNfUcwkHF7
-         Ud1AGE3aGGii6MqWI8H+LU3LY5PmEB7CNG50QeHVSBPLmNQthoUMzv5k5d3F0JMJ5Am5
-         3JW6XcpcebG5Hg3f/WMcLbCI/vPH71gHPP0yFapER7RAiNigB/pgd5cBP9WVJ1lHSeMh
-         1hjinoeqLzp2/ejrKTef4gSaJBHydlD4Xou1LRERSvqhKjAqx23Z9YHScSKpdkL6XsOh
-         262yZA56B0e8XNf1xEUEPPdPwEI64ERKsDHJOAZ0ukWY2E3fNOQSCfZRKE0Uy12V1Utq
-         MRIQ==
-X-Gm-Message-State: AOJu0Yyf3GkweFxp7BnMxiNG0kMwavcWoCAHD/JTUQwVGNp0FS1FRplo
-	elwHfs3vRJAsqir2/0IHQXwnTP9YNFch1zUD15o5z2nLHm4NEJxaD7jl
-X-Gm-Gg: ASbGncuDVV6htkf3alivhGZD2pjGMfS0Jno5Q0ix7uR9bk5/CtcvIAPZ/CE9cWwGNWv
-	DYDixfimPDPCOc4aGZ59BN9oozwATr2VQr4x2BlayNCXEZCgNk11+XUS7jPCU/xZS4Vxn8aX/WM
-	5kNzWS09zZuIV/5q2P+mvr2tj1DkheBA1dDYp4pgiBbi500JQSc4Z1FFyf21UiVR7WeIMrXMSEb
-	KdxU2I5JtekPG2cizOQFctXpEWfBJWSdG8IHrG8hvLdR910rHWxWq6SMnzorMada4qBRA7RpJdI
-	64p0QJ2yiPYAQ7WfBuQlnshNY6a2pcXeqfc61j7sx1lpn/a5jWryi/Z308l3yGKeyr9fPHY5Qk+
-	p1FkUEljCkO72ZJVmNdbBfMC6ucWh02AdHR+XCBKVP5hWKVz6RiELwK09beytkkpDfRorVbwbqB
-	xWUYjWYlxGMJC3Eq5+nwaKCVZKjfcpMeKP4ca5ZF4g1aaxR0yB/0NM9Koi
-X-Google-Smtp-Source: AGHT+IFtecOfZqgKKUQdQobTvSoWGjsWAXnz5FwPdqEhfoodXPkAZsFTaly51YsTEiMSfFcc5ooSyw==
-X-Received: by 2002:a05:6000:4301:b0:3e5:47a9:1c7f with SMTP id ffacd0b85a97d-42704e043c1mr799792f8f.47.1760640035343;
-        Thu, 16 Oct 2025 11:40:35 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5e0e70sm35643266f8f.40.2025.10.16.11.40.34
+        d=1e100.net; s=20230601; t=1760640262; x=1761245062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ALOU5npXoRj79VyCnAvRnuffj/3q5aKZ7j8QUuSL/ZY=;
+        b=eBTTe4uAmMb0HiKpkuHK4pmbxqsLZBpp4Q5Ll8VGgQ9tfaApIRVkpU880Tp+6dBcfG
+         tPJmzbUfij6J/UWhub5eUwH7IU3Q78vGAhqO/gwiYgwiup+rOeoOrI4mHqP2mTrBkeVu
+         vOjLEBQfqdR0wUUffwnRSwDdjuov7T+HZa7lM/mPgmdgdI5te7mARTevsPuPSRj1Ytum
+         05X2xexu+KzuzqUXqdtSW05rr9gqVDPZujnV6oLSjiOZbhYjKrCMHytGRxY9lgNoPIGL
+         8UnN9c6uXTgX8oL1+AdmQhT72QmL7XgjrSuBw0mfkQHhxk4rvieaWV9EoEnSvwf0fCiw
+         Heig==
+X-Gm-Message-State: AOJu0YyQpIYzYvQCK+2FGwx7Xd4y1/3LvMyN9VKUCIZyTPO7AevPCcW2
+	uEsPtxnf26LT/wj+vPdGtnMtKks6OsXEbfZ9U7cuPbzC2dYZTOZiZmNcWwZVmoOS
+X-Gm-Gg: ASbGncuk9G98RDQFtKqIoXiQU2G7uxvMc2cHJF/Gz8+Vb9IvsrS8JHND6PVwHEEQex5
+	4MssVwzk+P6Z/qNBNwISAVfaMar4ORUKEoBYDV7XdnERGoPxT5mYP5NIXsojeKVdnR0jv1j79Ei
+	8gGwU6Hd2bKUO6p08gpPPj9OTtkRutXeZsGtZ0DjQjabmLt57Db7AJa5DRMKBv8siwMZiPbGQXR
+	aUaY33tOqCmojQ0XVqNJRvggUTsbfQpJxnaY0ZqBfVap3W0b6ZyFLBlB4siJle7bqeSA/i4WFhN
+	MldpQSAVt5JFfo9z4xW/dWqwFhE1u9JQqO+a7a4CuViNUVCIxcMtGlutiyKUfJhwNqn7CxLdaoJ
+	mrckVynKLT3oO2hFQiEvf68Ky+7yD/SLYK7jWhUzsxB/joo5UOH2oCiNo+CXDJucKef6PsjPj02
+	P/aK7S8IZ+RnTqHjl8qV/B/jwoMF9oIHjnNORzT5rR6ngd7ax9tEDsNOB8Rwvuj/B9LACWHJq4I
+	X+tT6wviwHvUb2XbnKZKWhEdzOuDR4=
+X-Google-Smtp-Source: AGHT+IFIutVOWWN1b37YzLuMegHaOXBCwKaKa9BIXNKoaj49FVrgXQeHC1WEagJGvpVl8fvLsTdEzQ==
+X-Received: by 2002:a05:6214:4e83:b0:87c:2213:ee81 with SMTP id 6a1803df08f44-87c2213f473mr6880566d6.33.1760640261866;
+        Thu, 16 Oct 2025 11:44:21 -0700 (PDT)
+Received: from pancake.home (sydnns0127w-142-134-197-223.pppoe-dynamic.high-speed.ns.bellaliant.net. [142.134.197.223])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012b1667sm45249026d6.60.2025.10.16.11.44.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 11:40:34 -0700 (PDT)
-Message-ID: <60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Herve Codina <herve.codina@bootlin.com>, David Rhodes	
- <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
- Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela	 <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Nikita Shubin	 <nikita.shubin@maquefel.me>,
- Axel Lin <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni
-	 <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-Date: Thu, 16 Oct 2025 20:40:34 +0200
-In-Reply-To: <20251016130340.1442090-2-herve.codina@bootlin.com>
-References: <20251016130340.1442090-1-herve.codina@bootlin.com>
-	 <20251016130340.1442090-2-herve.codina@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 
+        Thu, 16 Oct 2025 11:44:21 -0700 (PDT)
+From: Dawn Gardner <dawn.auroali@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Dawn Gardner <dawn.auroali@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix mute led for HP Omen 17-cb0xxx
+Date: Thu, 16 Oct 2025 15:42:06 -0300
+Message-ID: <20251016184218.31508-3-dawn.auroali@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hello Herve,
+This laptop uses the ALC285 codec, fixed by enabling
+the ALC285_FIXUP_HP_MUTE_LED quirk
 
-On Thu, 2025-10-16 at 15:03 +0200, Herve Codina wrote:
-> In commit c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into
-> different modules") the driver was slit into a core, an SPI and an I2C
-> part.
->=20
-> However, the MODULE_DEVICE_TABLE(of, cs4271_dt_ids) was in the core part
-> and so, module loading based on module.alias (based on DT compatible
-> string matching) loads the core part but not the SPI or I2C parts.
->=20
-> In order to have the I2C or the SPI module loaded automatically, move
-> the MODULE_DEVICE_TABLE(of, ...) the core to I2C and SPI parts.
-> Also move cs4271_dt_ids itself from the core part to I2C and SPI parts
-> as both the call to MODULE_DEVICE_TABLE(of, ...) and the cs4271_dt_ids
-> table itself need to be in the same file.
+Signed-off-by: Dawn Gardner <dawn.auroali@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I'm a bit confused by this change.
-What do you have in SYSFS "uevent" entry for the real device?
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 6b9e5c091..8ad5febd8 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6397,6 +6397,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x854a, "HP EliteBook 830 G6", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
+ 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
++	SND_PCI_QUIRK(0x103c, 0x8603, "HP Omen 17-cb0xxx", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x860c, "HP ZBook 17 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+-- 
+2.51.0
 
-If you consider spi_uevent() and i2c_device_uevent(), "MODALIAS=3D" in the
-"uevent" should be prefixed with either "spi:" or "i2c:".
-And this isn't what you adress in your patch.
-
-You provide [identical] "of:" prefixed modalias to two different modules
-(not sure, how this should work), but cs4271 is not an MMIO device,
-so it should not generate an "of:" prefixed uevent.
-
-Could you please show the relevant DT snippet for the affected HW?
-
-> Fixes: c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into different=
- modules")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> ---
-> =C2=A0sound/soc/codecs/cs4271-i2c.c | 6 ++++++
-> =C2=A0sound/soc/codecs/cs4271-spi.c | 6 ++++++
-> =C2=A0sound/soc/codecs/cs4271.c=C2=A0=C2=A0=C2=A0=C2=A0 | 9 ---------
-> =C2=A0sound/soc/codecs/cs4271.h=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
-> =C2=A04 files changed, 12 insertions(+), 10 deletions(-)
->=20
-> diff --git a/sound/soc/codecs/cs4271-i2c.c b/sound/soc/codecs/cs4271-i2c.=
-c
-> index 1d210b969173..cefb8733fc61 100644
-> --- a/sound/soc/codecs/cs4271-i2c.c
-> +++ b/sound/soc/codecs/cs4271-i2c.c
-> @@ -28,6 +28,12 @@ static const struct i2c_device_id cs4271_i2c_id[] =3D =
-{
-> =C2=A0};
-> =C2=A0MODULE_DEVICE_TABLE(i2c, cs4271_i2c_id);
-> =C2=A0
-> +static const struct of_device_id cs4271_dt_ids[] =3D {
-> +	{ .compatible =3D "cirrus,cs4271", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
-> +
-> =C2=A0static struct i2c_driver cs4271_i2c_driver =3D {
-> =C2=A0	.driver =3D {
-> =C2=A0		.name =3D "cs4271",
-> diff --git a/sound/soc/codecs/cs4271-spi.c b/sound/soc/codecs/cs4271-spi.=
-c
-> index 4feb80436bd9..82abc654293c 100644
-> --- a/sound/soc/codecs/cs4271-spi.c
-> +++ b/sound/soc/codecs/cs4271-spi.c
-> @@ -23,6 +23,12 @@ static int cs4271_spi_probe(struct spi_device *spi)
-> =C2=A0	return cs4271_probe(&spi->dev, devm_regmap_init_spi(spi, &config))=
-;
-> =C2=A0}
-> =C2=A0
-> +static const struct of_device_id cs4271_dt_ids[] =3D {
-> +	{ .compatible =3D "cirrus,cs4271", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
-> +
-> =C2=A0static struct spi_driver cs4271_spi_driver =3D {
-> =C2=A0	.driver =3D {
-> =C2=A0		.name	=3D "cs4271",
-> diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
-> index 6a3cca3d26c7..ff9c6628224c 100644
-> --- a/sound/soc/codecs/cs4271.c
-> +++ b/sound/soc/codecs/cs4271.c
-> @@ -543,15 +543,6 @@ static int cs4271_soc_resume(struct snd_soc_componen=
-t *component)
-> =C2=A0#define cs4271_soc_resume	NULL
-> =C2=A0#endif /* CONFIG_PM */
-> =C2=A0
-> -#ifdef CONFIG_OF
-> -const struct of_device_id cs4271_dt_ids[] =3D {
-> -	{ .compatible =3D "cirrus,cs4271", },
-> -	{ }
-> -};
-> -MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
-> -EXPORT_SYMBOL_GPL(cs4271_dt_ids);
-> -#endif
-> -
-> =C2=A0static int cs4271_component_probe(struct snd_soc_component *compone=
-nt)
-> =C2=A0{
-> =C2=A0	struct cs4271_private *cs4271 =3D snd_soc_component_get_drvdata(co=
-mponent);
-> diff --git a/sound/soc/codecs/cs4271.h b/sound/soc/codecs/cs4271.h
-> index 290283a9149e..4965ce085875 100644
-> --- a/sound/soc/codecs/cs4271.h
-> +++ b/sound/soc/codecs/cs4271.h
-> @@ -4,7 +4,6 @@
-> =C2=A0
-> =C2=A0#include <linux/regmap.h>
-> =C2=A0
-> -extern const struct of_device_id cs4271_dt_ids[];
-> =C2=A0extern const struct regmap_config cs4271_regmap_config;
-> =C2=A0
-> =C2=A0int cs4271_probe(struct device *dev, struct regmap *regmap);
-
---=20
-Alexander Sverdlin.
