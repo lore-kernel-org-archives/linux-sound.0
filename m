@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D121F330D31;
-	Thu, 16 Oct 2025 12:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D784D330D4F
+	for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 12:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760618528; cv=none; b=DLmKTRAhgUWpj6beO+XVUOoDD4YtTLDhs4DUoN9xEwm1HCBRDfgqM4fFeCXG/q4LRFbEmNqjUed+/5h9xGTmEaAtSfRfyTvcegRhKbJNHWc2mh00TmUzn0qdQISqmik6GRgX1a6VQDBwByQ0XTTbAwcFnfgnc4rFCzsYg02c0Yc=
+	t=1760618529; cv=none; b=XSNLGRF7CNHj6iiJd51ZfBOFtcehil0ddMSHLRP7C001EXRE22+T9GcDhq4gmRVc0lDuhDwj8WTaWpc7Me7VzKaesR95FW4e2AXGkL2J/BDU0/gUDt5GJ8K50Q0RQ9TuGSd0992oT+6BIJYc28FbDu+efHcHOxPX0wuXc6rzxYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760618528; c=relaxed/simple;
-	bh=xj+tsH/YccpTlaki/CONlYf4V9pg/jEYqvRtkEjpKkQ=;
+	s=arc-20240116; t=1760618529; c=relaxed/simple;
+	bh=LJ9FOlNwCeL56uX2j9CNg0LwE5v7gSjkbtURcn3WDOQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IXgfZK7Bb3WtiHH3bzks0vznsIHjTGzejAJpD7sgKDfXR6fvT7UXLmpfcJa7r1nj6xUFIHUiaUVeZGUVCpb0pw10B5hwYGlt4MIay2AphagGzHw0sASj4FOhdhmZr5GDbVL6c8SIo4ielO6fv+oJhHIqqHTcl+poPlhdlMdT/tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJ5pVDv3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KneG8uTBJOz9s8DjxX4vOBBssi3gj/r3yKwN/oqv+QDHzpiXryOSQ9o2TZ3uKTc+MQQ70KbxRkCzggLYsx7ZPli6hk4zRX6F+rJAxuUWV3UT2NcnWBSUGUaxnO5FDnrO9F+1pi4kPsooyda9U8CIh5HEey9tpyIgOQ9wV7HhUh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNbr5DSU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJ5pVDv3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F185C4CEFE;
-	Thu, 16 Oct 2025 12:42:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNbr5DSU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCD2C113D0;
+	Thu, 16 Oct 2025 12:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760618524;
-	bh=xj+tsH/YccpTlaki/CONlYf4V9pg/jEYqvRtkEjpKkQ=;
+	s=k20201202; t=1760618529;
+	bh=LJ9FOlNwCeL56uX2j9CNg0LwE5v7gSjkbtURcn3WDOQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HJ5pVDv3ao6HbuJZZ88Na84GpEhRy4Yn1wWniL1z2GZ7G4Fsr2Taf3nfAgkZc2rdH
-	 DkPK1mcHWZ/ShnKT+sIjnLLbj3loMYIxZWN81OBO0InnQl6JOZ7bN6b4XI88Xx5bz0
-	 HHx/ZLXkl9L5YHOVhgJ8ovYgIgH7UxEJ7O4VPVHZVZld/UW+TYClmojrfWN26d5Ju8
-	 2pdGo9Yhc03WB3/ofgZFiMCM0UpnrhAzpZ1eu19Y18SNvfTtfBphESxBpYkbBxoikA
-	 1E0V4jHfU4F219h6fhYd/H52llHS+RgDP08MVy33GEF+sWoYhLXDaZ26BpClBsw5vn
-	 K8d4HZcl0tnvQ==
+	b=LNbr5DSUq1Etvb58trQohOpReNqyQUrG58egKJy7OXLChiaKOHTiT1pz0DPJ4+qPm
+	 Dlrk+ge079wuuAzRqWVqdOWTTkgmlseqXt3M/200XT8EwDpG17q88YyPm5rHj5Ry2T
+	 aB54SuKx8Bh1WBPRFYYw8tTHEJ4eQ79aWJyuXHTxpv7dH+e2nH3neadTz1CRck1vDz
+	 vHu/yyZMsdxC0Xg9G64Y1ApzBziUwrr63Way4hd5sL6JD2R8en/Rk4hSy+TmZNxNpI
+	 IffRAN2lcRJkoAdwKCgehaWvSAGHcvL3mEcrQocliBBUhpmmRvn9Q0dezxzZRUPnXZ
+	 IyI3Xc6EJL+kg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Li Qiang <liqiang01@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251015075530.146851-1-liqiang01@kylinos.cn>
-References: <20251015075530.146851-1-liqiang01@kylinos.cn>
-Subject: Re: [PATCH] ASoC: amd/sdw_utils: avoid NULL deref when
- devm_kasprintf() fails
-Message-Id: <176061852278.55339.14706460406632258362.b4-ty@kernel.org>
-Date: Thu, 16 Oct 2025 13:42:02 +0100
+To: linux-sound@vger.kernel.org, Sharique Mohammad <sharq0406@gmail.com>
+Cc: perex@perex.cz, lgirdwood@gmail.com
+In-Reply-To: <20251015134215.750001-1-sharq0406@gmail.com>
+References: <20251015134215.750001-1-sharq0406@gmail.com>
+Subject: Re: [PATCH] ASoC: max98090/91: fixed max98091 ALSA widget powering
+ up/down
+Message-Id: <176061852842.55339.2064404144118312945.b4-ty@kernel.org>
+Date: Thu, 16 Oct 2025 13:42:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +45,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-2a268
 
-On Wed, 15 Oct 2025 15:55:30 +0800, Li Qiang wrote:
-> devm_kasprintf() may return NULL on memory allocation failure,
-> but the debug message prints cpus->dai_name before checking it.
-> Move the dev_dbg() call after the NULL check to prevent potential
-> NULL pointer dereference.
+On Wed, 15 Oct 2025 15:42:15 +0200, Sharique Mohammad wrote:
+> The widgets DMIC3_ENA and DMIC4_ENA must be defined in the DAPM
+> suppy widget, just like DMICL_ENA and DMICR_ENA. Whenever they
+> are turned on or off, the required startup or shutdown sequences
+> must be taken care by the max98090_shdn_event.
 > 
 > 
 
@@ -60,8 +59,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd/sdw_utils: avoid NULL deref when devm_kasprintf() fails
-      commit: 5726b68473f7153a7f6294185e5998b7e2a230a2
+[1/1] ASoC: max98090/91: fixed max98091 ALSA widget powering up/down
+      commit: 7a37291ed40a33a5f6c3d370fdde5ee0d8f7d0e4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
