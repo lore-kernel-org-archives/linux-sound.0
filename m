@@ -1,188 +1,119 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915EC24EF8C
-	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 07:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF9622D4FF;
+	Fri, 17 Oct 2025 07:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760686865; cv=none; b=Dpc9DWRMvtq0CEl4Uel6sMQPGNxVVCmvZNleRg+ao+u0hZ+25jmknbaMya2heLHbBVeo0S3lnU5ElvbhOuMpqW3rgCFVZWW6bTbiIrywPZ3BA6AryQ1kn4kl459kfEvZwq7aGT6Jc5c1anIrC0kBOe0cwHS8D6mMXKWwc9PJBu4=
+	t=1760687028; cv=none; b=Ddh5fbnnnSqwmO6ap+XWgTPvR8ZKj5M9drjs60m7eIryQosOZlU8SySRSClXJVadjGnJEwvQ1ZW/upI2ZaZJoumh5vkwK2LIwMZ3TxWSkJ59s8NtlC3nlGbWaw+lVTQjhQQTPBQTbQY+EdZJIFYlxedhWvNnN2HR+EA+S0lIKJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760686865; c=relaxed/simple;
-	bh=LdFMmNVlMPFM1aNDZrsZY9hrHTXxAMU1dH4MLq0Fo2g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q7kCNl3enw0EDPYtlBqCAQRYocDOb5mYiWVxG22OpN/7HutJNgQD4cUphnuWOXPD8hYh9FNkSuEG3x06L/0VI6RUKBNmH99jnFx7g6D1Ng7J+yW94w/PCDq0VbE2UMm9kpjw5oyoXR+BdlwAFsoO67JhrKhFKKPqYzFgXHC/B+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x5veYaO2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hy5aNDrz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x5veYaO2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hy5aNDrz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1760687028; c=relaxed/simple;
+	bh=9CdamW/20xT6y0FYNrqNe/BTTUG5CCQbw9FUXJvXct0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BcMDUMD1da/AOPLLyM+F8ErsNqGY9+beBiextPMlpA5Gaqt5GWlPaPCFoPNZXwF49WWv+uYmfkhgpH0Wpr2IHotzXhO3dOgumiSVNpkfoNYZg+spifbBA+Bl53BPKhWDO40k60bmgb47ekJfrAdePBjZvmvXAF4QGEWVeiVEFM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8pX8PlV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x5veYaO2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hy5aNDrz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x5veYaO2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hy5aNDrz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CB5121291;
-	Fri, 17 Oct 2025 07:40:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760686859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/MzHCh6W+ho6cNHbqMbjyz5RU8OIl0w1M0aUgySHXOY=;
-	b=x5veYaO2xh00pXOk3ZK9WjtvmjDk0vGVmSsvrSpxEmLfXQp+EFqGSQqId7Xd5uqGBOpL1R
-	My+jXvlshUjF7KTilMDs25vBh/C8X1TlK3zSBVk7dU5wev0I6ljZNRwQrW287CRKWDL9Ff
-	6h84WAen9Ijz4SsglPJ7NvJqdMc1Ayw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760686859;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/MzHCh6W+ho6cNHbqMbjyz5RU8OIl0w1M0aUgySHXOY=;
-	b=Hy5aNDrzmaRxarSY57pBtHz2WCi2hP/o7Y8IgX91ziQOtdsjUtn/pe6nGpc03dXPj+RHGq
-	IQbkQSrRHv/abBAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=x5veYaO2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Hy5aNDrz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760686859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/MzHCh6W+ho6cNHbqMbjyz5RU8OIl0w1M0aUgySHXOY=;
-	b=x5veYaO2xh00pXOk3ZK9WjtvmjDk0vGVmSsvrSpxEmLfXQp+EFqGSQqId7Xd5uqGBOpL1R
-	My+jXvlshUjF7KTilMDs25vBh/C8X1TlK3zSBVk7dU5wev0I6ljZNRwQrW287CRKWDL9Ff
-	6h84WAen9Ijz4SsglPJ7NvJqdMc1Ayw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760686859;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/MzHCh6W+ho6cNHbqMbjyz5RU8OIl0w1M0aUgySHXOY=;
-	b=Hy5aNDrzmaRxarSY57pBtHz2WCi2hP/o7Y8IgX91ziQOtdsjUtn/pe6nGpc03dXPj+RHGq
-	IQbkQSrRHv/abBAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5949F136C6;
-	Fri, 17 Oct 2025 07:40:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mN5vFAvz8WiMRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 17 Oct 2025 07:40:59 +0000
-Date: Fri, 17 Oct 2025 09:40:58 +0200
-Message-ID: <871pn26kmt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
-Cc: Xj <xj@wp.pl>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound <linux-sound@vger.kernel.org>
-Subject: Re: [BUG] Presonus Studio 1824c firmware 3.11 no longer exposes mixer interface ("Quirk or no altset; falling back to MIDI 1.0")
-In-Reply-To: <aPFTxD89mYhea2ZX@ark>
-References: <874irz86en.wl-tiwai@suse.de>
-	<87ecr27trj.wl-tiwai@suse.de>
-	<2b24f320-3c6c-4adc-b5c4-ce6134d3b39e@wp.pl>
-	<aPFTxD89mYhea2ZX@ark>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8pX8PlV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35DF5C4CEFE;
+	Fri, 17 Oct 2025 07:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760687027;
+	bh=9CdamW/20xT6y0FYNrqNe/BTTUG5CCQbw9FUXJvXct0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g8pX8PlV8FG9qWAHZ1+IW9Y8ZeW1+o3lD20AdNMUdrpKlCh1lMxQJT5s2xcVRn6lX
+	 nQxq9JIPa7T3NPgUV+YzIL3MxrYk9fp1j3WSJgVmTFSB53sWAg4vdLV7k5Lq1ijtDA
+	 u0chvYi0/Bqv1XF5IExOVUvc2YlN1/8RqtjcuaSzZnQHNoWq/Ph/VvEWMe5s3ooYXV
+	 yQ+C632D92f9Bmbs6cDoNjB9kpmmRxPRCgQ11JXY0ZuIjVYwMAHiunW5lU9m3K9nFn
+	 j5tr81KoY7WDMdWyBVNxITGolUkP1tbhG1HPsuihb/T4hDqovG69Go6VDP+IcGKw6e
+	 2X3JZCR6ObUuA==
+Message-ID: <08f52331-baa1-45ef-bfb8-dc6db000ceff@kernel.org>
+Date: Fri, 17 Oct 2025 09:43:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 8CB5121291
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,wp.pl];
-	FREEMAIL_CC(0.00)[wp.pl,suse.de,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] dt-bindings: mfd: qcom,spmi-pmic: add compatibles for
+ audio blocks
+To: Alexey Klimov <alexey.klimov@linaro.org>, lee@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, sboyd@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, srini@kernel.org,
+ krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org
+References: <20251017061314.644783-1-alexey.klimov@linaro.org>
+ <2e4e0ad1-a030-4933-8bc9-7b9782234a15@kernel.org>
+ <DDKE88TY46WS.1XKHP5I1S3CF6@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <DDKE88TY46WS.1XKHP5I1S3CF6@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 16 Oct 2025 22:21:24 +0200,
-Roy Vegard Ovesen wrote:
+On 17/10/2025 08:45, Alexey Klimov wrote:
+> On Fri Oct 17, 2025 at 7:25 AM BST, Krzysztof Kozlowski wrote:
+>> On 17/10/2025 08:13, Alexey Klimov wrote:
+>>> If/when pm4125 audio codec will be added to a device tree file, then dtbs
+>>> check will emit messages that pmic audio-codec@f000 doesn't match any
+>>> of the regexes: '^pinctrl-[0-9]+$'.
+>>
+>>
+>> Future errors because of present mistakes are not a reason to do
+>> something. This makes no sense because there is no DTBs with that
+>> compatible, so drop this sentence. We never document compatibles,
+>> because in the future they will be errors (if I get it right?).
 > 
-> > [    3.354758] ------------[ cut here ]------------
-> > [    3.354761] usb 3-2: BOGUS control dir, pipe 80000280 doesn't match bRequestType 40
-> > [    3.354769] WARNING: CPU: 12 PID: 1020 at drivers/usb/core/urb.c:412 usb_submit_urb+0x59f/0x650
-> > [    3.354776] Modules linked in:
-> > [    3.354779] CPU: 12 UID: 0 PID: 1020 Comm: alsactl Not tainted 6.18.0-rc1 #1 PREEMPT(full)  3ae07d8adb35c0aa13fd8a63520768d4d65cbe95
-> > [    3.354782] Hardware name: ASRock B850M Pro-A/B850M Pro-A, BIOS 3.50 09/18/2025
-> > [    3.354784] RIP: 0010:usb_submit_urb+0x59f/0x650
-> > [    3.354786] Code: 89 44 24 0c 89 4c 24 08 e8 5e 1f ef ff 44 8b 44 24 0c 8b 4c 24 08 48 c7 c7 c0 a5 15 b8 48 8b 54 24 18 48 89 c6 e8 f1 e9 b8 fe <0f> 0b 4c 8b 54 24 10 e9 fe fc ff ff 80 3d e9 83 4a 02 00 74 50 b8
-> > [    3.354788] RSP: 0018:ffffd1bdc23a3750 EFLAGS: 00010246
-> > [    3.354789] RAX: 0000000000000000 RBX: ffff8bc7c1facfc0 RCX: 00000000000003f9
-> > [    3.354790] RDX: 0000000000000000 RSI: ffffd1bdc23a35f0 RDI: 0000000000000003
-> > [    3.354791] RBP: ffff8bc7c6a0d058 R08: 0000000000000000 R09: 00000000ffffdfff
-> > [    3.354792] R10: ffffffffba11af80 R11: ffffd1bdc23a35e8 R12: 0000000000000000
-> > [    3.354793] R13: 0000000000000000 R14: ffff8bc7c6a0d000 R15: 0000000000000001
-> > [    3.354793] FS:  00007fab8f421b80(0000) GS:ffff8bcf24295000(0000) knlGS:0000000000000000
-> > [    3.354795] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [    3.354795] CR2: 00007fab8f52c000 CR3: 0000000112652000 CR4: 0000000000f50ef0
-> > [    3.354796] PKRU: 55555554
-> > [    3.354797] Call Trace:
-> > [    3.354799]  <TASK>
-> > [    3.354801]  usb_start_wait_urb+0x89/0x190
-> > [    3.354804]  usb_control_msg+0xe5/0x150
-> > [    3.354806]  snd_usb_ctl_msg+0xa5/0x160
-> > [    3.354810]  snd_sc1810c_get_status_field.constprop.0+0xc0/0x140
-> > [    3.354815]  snd_s1810c_get_switch_state.constprop.0.isra.0+0x54/0xa0
-> > [    3.354817]  snd_s1810c_switch_set+0x69/0x130
-> > [    3.354820]  snd_ctl_elem_write+0x18b/0x260
-> > [    3.354824]  snd_ctl_ioctl+0x3b8/0x7e0
-> > [    3.354826]  __x64_sys_ioctl+0x97/0xe0
-> > [    3.354829]  do_syscall_64+0x81/0x7f0
-> > [    3.354833]  ? vfs_write+0x3c4/0x480
-> > [    3.354836]  ? ksys_write+0xbf/0xf0
-> > [    3.354837]  ? do_syscall_64+0x81/0x7f0
-> > [    3.354838]  ? __x64_sys_close+0x3d/0x80
-> > [    3.354840]  ? do_syscall_64+0x81/0x7f0
-> > [    3.354841]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> > [    3.354843] RIP: 0033:0x7fab8f3112ff
-> > [    3.354844] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-> > [    3.354845] RSP: 002b:00007ffc8d758ca0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > [    3.354846] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fab8f3112ff
-> > [    3.354846] RDX: 00007ffc8d758e30 RSI: 00000000c4c85513 RDI: 0000000000000004
-> > [    3.354847] RBP: 00007ffc8d759480 R08: 00007ffc8d758e30 R09: 0000000000000000
-> > [    3.354847] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> > [    3.354848] R13: 0000000000000003 R14: 0000000000000001 R15: 0000000000000001
-> > [    3.354848]  </TASK>
-> > [    3.354849] ---[ end trace 0000000000000000 ]---
-> 
-> This looks a bit sus.
+> Ok. I can hold it off till it will be started to be used then.
 
-Yes, this must be fixed.  It implies the pipe passed to
-snd_usb_ctl_msg() in snd_sc1810c_get_status_field() is somehow
-incorrect.
+No, you don't get the point. You invented fake (future) error as
+rationale... and want to wait till there is real error to commit this?
+This makes no sense.
 
+You need to provide rationale for this patch - look at every other commit.
 
-Takashi
+Best regards,
+Krzysztof
