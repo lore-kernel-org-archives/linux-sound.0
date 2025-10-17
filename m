@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13392299950;
-	Fri, 17 Oct 2025 16:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292D025BEF8;
+	Fri, 17 Oct 2025 16:31:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760718531; cv=none; b=Kos5PacNqWnqoOt7+Luwe3uT5RKYGgm9MXWjNxuB62aR4RJ3NEetHyZYbN8hmQugy1iOVOEzEsu/0QrIReUX6rkmUc4JqWi/pgmgkQqS0mn0USwEeIDg7okkVSHnT54tr8IaUdJ71ACNBzJukLex6803mYqACkn10dhO+RPcyAM=
+	t=1760718680; cv=none; b=nt+A25Pv4FvnksOiwEU8Bs0gSh9wq1n7S8GGspnAugCElvIf2Xt/lHTtnll/h1AfsHC9heqn//8cc6Eo5Sjb6w3EZm2yTZeeguIfplr2YiqBoEJo6kZ15aBCgS1SxScgsBL2g/m9f6sB8HbMczR4Ifs/ewFIBDcAZJZBeOQYzv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760718531; c=relaxed/simple;
-	bh=Una6ZwWE3tWlRlTrxOgpKjKjFn4SWggaefOFaE2LkIY=;
+	s=arc-20240116; t=1760718680; c=relaxed/simple;
+	bh=5xMasA4dijTH+D4z29yAG7yMdBg2ZcUrxcBTkA8e/H0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BGmaU9Q6/7pTXM9Om0w6TypRhhyuXSb14osaXUpl39LrG7WZS85uBltJgcaLs5Ok1hTNSeNTY02lv1XUPznSy1MwXGM2e0bbaaoA4pC1Hgnw4Fr9pU/+UBmQxzdF7LkTjKzTQO9O3PKFr7jRtSgLraCtv3na5DukyVDAAI/eMVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPSE2VfI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZgWSahmvCRYDAfsLRNkx0j2PItgCPU53ooItt6m/v0lXniJ9tpkz8MPfS2em6HxQpUF4LRXFivyX0ci+JYUgZaS83TeKbpa9widDUtQHMQw0iLl7CHbMrgWMj4jQMNlwFLy7vPiVpai4aSghcVLz5uqUpFbBymYxZaHFCP6cYK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3QIcPU3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPSE2VfI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21174C4CEE7;
-	Fri, 17 Oct 2025 16:28:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3QIcPU3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2D7C4CEE7;
+	Fri, 17 Oct 2025 16:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760718530;
-	bh=Una6ZwWE3tWlRlTrxOgpKjKjFn4SWggaefOFaE2LkIY=;
+	s=k20201202; t=1760718679;
+	bh=5xMasA4dijTH+D4z29yAG7yMdBg2ZcUrxcBTkA8e/H0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bPSE2VfIerOM/Uiu3H7RQmBdk4NecpNTc5oyBHdsxzQcHPScUq3qLvVnimuCoIWvN
-	 jwepGfCzzj0iwk3E7R+79A9GL8P1pT+07w92mZe1atRfviiKKBJ1TOKUfv4H3HZLB9
-	 89WuHrm3G4qcSQdBBV2DP6kEDhXPPz3TC28qC/ysEQS9NCgaCdQmq+kZymxxOWxXRE
-	 Big+c6310OvKEvFQYavnu/iB2BXApjo7H1sXV/j7vHdx3m1cNKBojqwax+Mw7VGb8R
-	 gzLlNRbfur6DwiCmZHqwG0+aWpBhpSEK9srmc3D3BYeYU4rP+n/lorSLfuWlyvi5qG
-	 oeD7PZlkZNXKw==
-Date: Fri, 17 Oct 2025 17:28:45 +0100
+	b=F3QIcPU3p7RNzyBPQZelatj72PHZvLBO0v7WMQEHKWQkcWw0aRP9NCI45+i4R/QOX
+	 xpxQTrVMHpjoS92aFDhaWMEkeF5iUPP9dYnN8ZmaDz1a/+gT/CuePd7sxCfx6AWG+u
+	 yD5ltB9eikDPFmSFMKlz5rMyye1n8PgmFkxSxtBDociP9AI6amRnnKUPFhoIzXzR2Z
+	 zFvBs7up8qd/VnxeQZUpRilr8lb36OzTZdMjRVzfttLVT1gfLOVT6NRCb8JrCm1/Q5
+	 QXzsuwHApBuF7IZmNMJFHht/hBfG2gWtWY+5vsuw45LG5ItzUCua1dX7rV19vEI+CL
+	 RMU+fEhy6ObCQ==
+Date: Fri, 17 Oct 2025 17:31:14 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
@@ -37,11 +37,11 @@ Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
 	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 04/11] ASoC: cs530x: Remove unused struct members and
- constants
-Message-ID: <4663ea33-d468-4088-a20b-f0910a4a8c4e@sirena.org.uk>
+Subject: Re: [PATCH v4 06/11] ASoC: dt-bindings: sound: cirrus: cs530x: Add
+ cs530x variants
+Message-ID: <d51da899-cd16-4d5d-a754-e6fecbdab2e8@sirena.org.uk>
 References: <20251017161543.214235-1-vitalyr@opensource.cirrus.com>
- <20251017161543.214235-5-vitalyr@opensource.cirrus.com>
+ <20251017161543.214235-7-vitalyr@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,44 +49,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9LoEsAyJsV+yPBG/"
+	protocol="application/pgp-signature"; boundary="P8YSWoU5Aja4b2E5"
 Content-Disposition: inline
-In-Reply-To: <20251017161543.214235-5-vitalyr@opensource.cirrus.com>
+In-Reply-To: <20251017161543.214235-7-vitalyr@opensource.cirrus.com>
 X-Cookie: Androphobia:
 
 
---9LoEsAyJsV+yPBG/
+--P8YSWoU5Aja4b2E5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 17, 2025 at 05:15:31PM +0100, Vitaly Rodionov wrote:
+On Fri, Oct 17, 2025 at 05:15:33PM +0100, Vitaly Rodionov wrote:
 
->  /* Register Fields */
-> =20
-> -/* REVID */
-> -#define CS530X_MTLREVID			GENMASK(3, 0)
-> -#define CS530X_AREVID			GENMASK(7, 4)
-> -
+> --- a/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
+> @@ -22,6 +22,10 @@ properties:
+>        - cirrus,cs5302
+>        - cirrus,cs5304
+>        - cirrus,cs5308
+> +      - cirrus,cs4282
+> +      - cirrus,cs4302
+> +      - cirrus,cs4304
+> +      - cirrus,cs4308
 
-It seems a bit unhelpful to remove register definitions merely because
-they are removed, so long as they're correct they might come in handly
-for something in the future.  I'm not sure if the datasheet for these
-parts is public...
+I've not gone back and cheked but I suspect Krzysztof's complaint on
+prior versions that he wasn't happy you weren't addressing was that
+these enumerations should be sorted.
 
---9LoEsAyJsV+yPBG/
+--P8YSWoU5Aja4b2E5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjybrwACgkQJNaLcl1U
-h9DB0Qf+Ipy6d5unq9Go1Am6/MXTFAQKjbiqT/Qa/ldOrOlBcbVF+FWe4g7LRqL6
-o5RE17K0+szsubDch53wxEPdXDxoBl84meOrnrmDn+caILU6cVlezSvHC2Ix8t7E
-uXyZx9gEGmDz4WidqDDHULwfR+/5VWZe03EDdRLpePcCGmYjt/wcuRUMaa/+Jex+
-sqNXREfMR31hl1RJ7e4CVz+YjsTy+jlbufRJLdfqv8gl2G99PXmHLNowHAf32A7F
-3E6D9SbzcsB5839mMQUA6rTxJAqMNFs6ElTwJJsQyMcmvGAvZ1a4NjIKbxk79l+O
-+hq+KCfJIrMaGyktXIns6PSVfvyooQ==
-=WrE8
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjyb1EACgkQJNaLcl1U
+h9BnNAf9FnyhKYn1KSX/ST6QBpGE9aa0GovWGEvRYa1P0k/2X0snV9ucWxg6U8ok
+QbjVVfcN0DSpwgyc4JStp2KuwxtNypL+Ot4Tx0hy8h3KToDEvu6VmNhRzPYy/jX9
+55oG/ZlmczBIcTaBkio5H5UsdiaGizWD0oh6T8hmvNOnhRZS5Oljfi+CNM140u68
+v4mozydi112NiCnQ9GWbOAUci96SevjcbxRDVlTB5iNqatYtvhXLeJCsVejzZgfp
+cZz8t+WEBvO7xBAv3pKTrP68jyeomWIpNvEbOETtxGUeRB/OFUJf+EdkwvDMDP9r
+zKUv4J/i+NWVO2F6VO4QzlxqvQ39nA==
+=p2yG
 -----END PGP SIGNATURE-----
 
---9LoEsAyJsV+yPBG/--
+--P8YSWoU5Aja4b2E5--
