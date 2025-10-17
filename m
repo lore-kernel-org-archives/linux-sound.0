@@ -1,110 +1,47 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B311332903
-	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 18:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646232D9EEF;
+	Fri, 17 Oct 2025 22:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760727105; cv=none; b=JwUsKKrfsXfXdvwIai4MtgDWW4eoXJ9tdnB8jaUciE/qO74xhi2itXJamR8bVzD1xOGEnX90ZTQVOSrB4slsppf84h8no5PODJVJORLSfrCe8yN137rKfoP+Vevt34jw4FAHJOc7CGgZPkqII/OEcgEY9wHEysupuc7RCUX5Kz8=
+	t=1760740814; cv=none; b=p58wgUjSLinIIMdKm42NPcLII3AiQ/Am7EKc8Lcd33hInr0tc9ptofvN1kzBhw3O4dskWKMjQI+2eFKV0mZe+Uo9Pz7C4qbJeCNjQvNzHnd9zyFpELMOFcsN1NbAIkGzDZ+2bQJPEukm6rB2vapxaSHmNC3eILtdU+3LPIqWkNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760727105; c=relaxed/simple;
-	bh=gXqMz+CcZKPeGt9WvOXq76EJR6tDE24GCMGXdrKpDu0=;
+	s=arc-20240116; t=1760740814; c=relaxed/simple;
+	bh=0HegR9daNkosgD9iCJo0B2G1/81wLynrRR6+gZ/j10Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AdiZqKtunq7Q00jApQftXa6HiuG5kcWgICIGz8G0PcQGycX1SHzCxbMW81sKxlM79K3blw3qOI+I3lA0NNoMdruSlZLn+EiSTfmHxIRs7oHgZcvnc+ox+i1WbpsGMpY0+asoF68JvSpAoVY0JOQ9UyZN++lElsP/zIyU0nb2n2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YlifDMN/; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WLaLEup1kmKDUeD+LmOiLbFdi6W69jKdFQR0YVgNyjLcH2iRcxUTXIrifCNnuoGqqIdwPwZsSAQ49TSYrL9GF5jUoNN8u1PZ/loU9llnN7VTuffxCwq5tMXr+7KpG2/yKJGGykoofhnIQ1z3FXEIls3iJRiZw+3rSpB8gxhbhGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E838ksIe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YlifDMN/"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-87c103928ffso32917036d6.1
-        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 11:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760727101; x=1761331901; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
-        b=YlifDMN/c6vzWfG76u/120EPvwuMWFthOAow4pFmcd4wRErr+JpLRZql/RdI3ZFvcB
-         i/kn+nu5cNXXW48slMOD4L6lHLVy3FA4mmGcR3j7sUmM/LE4seQpds7VwSE9vlLwVh3o
-         X1HTtMLfOIpOJyJOjUCEWK8GwEwrWZX/JQPe4/ixsO1syLpRFZhVfUI0Ov235fj/Q76A
-         WJZ59va+96A/5qkKYYeqeNYf62Q9XkdErfCxy9xNt6llZj9JDoLeCM2K0Ze4Yd+TiJPv
-         A6K/xxN5jA/qgnJr3ePqiE3FHyhC5XCOvqxac3E8yeWImyX2jvnjQPJXoRM1N0UQNxHH
-         rODQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760727101; x=1761331901;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
-        b=NwgjdjZS94nKDJjxUKuVHWHTwkrz8+kjd7CbxC9aMdOIslXqgNR5el1p0nL8rogXiI
-         apc6XZyECwd6ZMotV+3dorAIFdUdDtFbu4QLTO9O+8nQXg3q+LMv/Q+lzinfmMTQ0CrP
-         Un5fKicpAd8/+R0fD9ESzqhq1J5/XBmgNf8KTVzbL41pZst4zftL0uBaqzMSs0I9ruJX
-         rQ+a90dndcHAR3ApwzbZp5rR1FIk1bGSzKaNYuMfJ/826yjH3in5LZA5hWjerq9sRg77
-         Ap/4EPqQR5LCx/PL/iQvZ/2Gq1U/97lKDNBjzew3ogCA6Bhtgh7+8E5MkWuyRzjezakx
-         hChA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMG3c69lwsseRKzj2YZvjmiSFj1oW2MJbEORiVSq33y8SBFn+RqzRg1bgNbwqw/RBRmdIcj9nEZWAmTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeL8uNrzAK/AWkwzSKM9GEBlyqezCZt4nzznoTBvi89aH7R4qh
-	FHRszILmX1/kP6qSixNNAPrZ6qIw3EMw2OONuCDR28FIGkbJYEPCP3ox
-X-Gm-Gg: ASbGncvVUeuSwdcfRvl7V5WnWdXx9LQNnwcviWQVPsKq2QBbUErvm9rd76VhCcNMaVk
-	NR9E51atLFo5IQqg3ROYTSHJCAWP88jsmrzZxNkMRDhmJKdGyVfmnenbEsVOe5sNOzkiF5JR9+e
-	BQsr6jeN9c9clWIcD8GUkvGRCdj+6JH+FcLyuLRukZ62PZXjwUQXgqLwzOQ/skRfCYluMyNyHM1
-	XIDuogN3DGiUUuV3X0YHA1lmHRrb+9inldrm7XK2gxlV6Vi0l86qhOjvcz0HsR4KevI2PjGlBup
-	X7jDpR12VrswcX5h0WCxRfDU+AVVqSoHbvxaGXa344pZDX00psO3M81njQWpLYOJi7JdALxReOK
-	CB6kcm5VzxVU6hMNwVe8Ez8M7rolFX0hlTR6R9xKF9nG7gjFmpHsr1JBTeSF7KHwyuL1kGUMj4H
-	tLt/ROo5Q=
-X-Google-Smtp-Source: AGHT+IGgZXVqJ39mGvceINRef9aDCQGOzv3U5h5nFkBRWec10RvkxHjWCypd6ooOxs18G5q6X1BFng==
-X-Received: by 2002:ac8:7f48:0:b0:4e8:910a:ad95 with SMTP id d75a77b69052e-4e89d20f6cdmr65322091cf.6.1760727100900;
-        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
-Received: from localhost ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4e8aaf87ecdsm3689291cf.16.2025.10.17.11.51.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
-Date: Fri, 17 Oct 2025 14:51:38 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
- helpers
-Message-ID: <aPKQMdyMO-vrb30X@yury>
-References: <cover.1760696560.git.geert+renesas@glider.be>
- <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E838ksIe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D74C4CEE7;
+	Fri, 17 Oct 2025 22:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760740813;
+	bh=0HegR9daNkosgD9iCJo0B2G1/81wLynrRR6+gZ/j10Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E838ksIeG34YriLkkogKNfQZ8Y1EPk6nGfrhDkbxSxI2dm4pgcuubQLIsTDo01ayb
+	 Hl1WS5NTpeUaOTTpNxtyn3HB7Ds28XSExSYc/tGGmP5kouAKq9q/FqOMPQ6kF5ezGE
+	 gzQB8M/CCMsZt2JPaNRevh4QtL9c8oZxFQLLbV0jAKVPMkahF6rld7ortskrNmXhZE
+	 GauRpGZaM9IHGU4YTAXQoGEBIqGLjU43qGC4xvZPXxtsipjm7GejAyxvU8rrzMHTMj
+	 JOA4xMp2sy5ZUGmlEyRID3HO7PhqCt2Gepm7wm26uqH0JsruifOlLBkkerR5uccFDI
+	 hq8Fq1jXIUMlA==
+Date: Fri, 17 Oct 2025 15:42:07 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
+ controller
+Message-ID: <zmi5grjg2znxddqzfsdsr35ad5olj3xgwwt6hvkiaynxzm5z33@gsgrdguj563n>
+References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
+ <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
+ <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
+ <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -113,167 +50,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
+In-Reply-To: <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
 
-On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
-> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> constants.  However, it is very common to prepare or extract bitfield
-> elements where the bitfield mask is not a compile-time constant.
+On Fri, Oct 10, 2025 at 01:29:38PM +0100, Alexey Klimov wrote:
+> On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
+> > On 10/7/25 4:03 AM, Alexey Klimov wrote:
+> >> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
+> >> controller device node required for audio subsystem on Qualcomm
+> >> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
+> >> 
+> >> While at this, also add description of lpi_i2s2 pins (active state)
+> >> required for audio playback via HDMI/I2S.
+> >> 
+> >> Cc: Srinivas Kandagatla <srini@kernel.org>
+> >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> >> ---
+> >
+> > [...]
+> >
+> >> +			lpi_i2s2_active: lpi-i2s2-active-state {
+> >> +				data-pins {
+> >> +					pins = "gpio12";
+> >> +					function = "i2s2_data";
+> >> +					bias-disable;
+> >> +					drive-strength = <8>;
+> >> +					output-high;
+> >
+> > I.. doubt output-high is what you want?
 > 
-> To avoid this limitation, the AT91 clock driver and several other
-> drivers already have their own non-const field_{prep,get}() macros.
-> Make them available for general use by consolidating them in
-> <linux/bitfield.h>, and improve them slightly:
->   1. Avoid evaluating macro parameters more than once,
->   2. Replace "ffs() - 1" by "__ffs()",
->   3. Support 64-bit use on 32-bit architectures.
+> Why? Or is it because of some in-kernel gpiod?
 > 
-> This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> macros, as people expressed the desire to keep stricter variants for
-> increased safety, or for performance critical paths.
+
+What does "output-high" mean for a non-gpio function?
+
+Regards,
+Bjorn
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sm4250.dtsi#n66
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Acked-by: Crt Mori <cmo@melexis.com>
-> ---
-> v4:
->   - Add Acked-by,
->   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
->     power management debugfs helper APIs") in v6.17-rc1,
->   - Convert more recently introduced upstream copies:
->       - drivers/edac/ie31200_edac.c
->       - drivers/iio/dac/ad3530r.c
-
-Can you split out the part that actually introduces the new API?
-
-...
-
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index 7ff817bdae19b468..c999fe70076f6684 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -220,4 +220,40 @@ __MAKE_OP(64)
->  #undef __MAKE_OP
->  #undef ____MAKE_OP
->  
-> +/**
-> + * field_prep() - prepare a bitfield element
-> + * @mask: shifted mask defining the field's length and position
-> + * @val:  value to put in the field
-> + *
-> + * field_prep() masks and shifts up the value.  The result should be
-> + * combined with other fields of the bitfield using logical OR.
-> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> + */
-> +#define field_prep(mask, val)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __val = (val);				\
-> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-> +		(__val << __shift) & __mask;	\
-
-__ffs(0) is undef. The corresponding comment in
-include/asm-generic/bitops/__ffs.h explicitly says: "code should check
-against 0 first".
-
-I think mask = 0 is a sign of error here. Can you add a code catching
-it at compile time, and maybe at runtime too? Something like:
-
- #define __field_prep(mask, val)
- ({
-	unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
-        (val << __shift) & mask;
- })
-
- #define field_prep(mask, val)
- ({
-        unsigned int __shift;
-	__auto_type __mask = (mask), __ret = 0;
-	typeof(mask) __val = (val);				
-
-        BUILD_BUG_ON_ZERO(const_true(mask == 0));
-
-        if (WARN_ON_ONCE(mask == 0))
-                goto out;
-        
-        __ret = __field_prep(__mask, __val);
- out:
-        ret;
- })
-
-> +
-> +/**
-> + * field_get() - extract a bitfield element
-> + * @mask: shifted mask defining the field's length and position
-> + * @reg:  value of entire bitfield
-> + *
-> + * field_get() extracts the field specified by @mask from the
-> + * bitfield passed in as @reg by masking and shifting it down.
-> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
-> + */
-> +#define field_get(mask, reg)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __reg =  (reg);				\
-
-This would trigger Wconversion warning. Consider
-        unsigned reg = 0xfff;
-        field_get(0xf, reg);
-
-<source>:6:26: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
-    6 |     typeof(mask) __reg = reg;
-      |                          ^~~
-
-Notice, the __auto_type makes the __mask to be int, while the reg is
-unsigned int. You need to do:
-
-        typeof(mask) __reg = (typeof(mask))(reg); 
-
-Please enable higher warning levels for the next round.
-
-Also, because for numerals __auto_type is int, when char is enough - are
-you sure that the macro generates the optimal code? User can workaround it
-with:
-        
-        field_get((u8)0xf, reg)
-
-but it may not be trivial. Can you add an example and explanation please?
-
-> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-
-Can you use BITS_PER_TYPE() here?
-
-> +		(__reg & __mask) >> __shift;	\
-> +	})
-> +
-
-When mask == 0, we shouldn't touch 'val' at all. Consider
-
-        field_get(0, get_user(ptr))
-
-In this case, evaluating 'reg' is an error, similarly to memcpy().
-
-Thanks,
-Yury
-
->  #endif
-> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> index 828af3095b86ee0a..6eee89cbc0867f2b 100644
-> --- a/sound/usb/mixer_quirks.c
-> +++ b/sound/usb/mixer_quirks.c
-> @@ -3311,10 +3311,6 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
->  #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
->  #define RME_DIGIFACE_INVERT BIT(31)
->  
-> -/* Nonconst helpers */
-> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
-> -
->  static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
->  {
->  	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-> -- 
-> 2.43.0
+> >> +				};
+> >> +
+> >> +				sck-pins {
+> >> +					pins = "gpio10";
+> >> +					function = "i2s2_clk";
+> >> +					bias-disable;
+> >> +					drive-strength = <8>;
+> >> +					output-high;
+> >> +				};
+> >> +
+> >> +				ws-pins {
+> >> +					pins = "gpio11";
+> >
+> > Please re-sort pin entries by the gpio index
+> >
+> > https://docs.kernel.org/devicetree/bindings/dts-coding-style.html#order-of-nodes
+> 
+> Ok.
+> 
+> Thanks,
+> Alexey.
+> 
