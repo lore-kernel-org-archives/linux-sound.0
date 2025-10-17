@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8342C08BB;
-	Fri, 17 Oct 2025 16:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D3D2C1585;
+	Fri, 17 Oct 2025 16:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760719302; cv=none; b=eC/HsFhWBxJP5emdWXJNW0nXbmD6e8fiXYgb1nDSF8jlN5WN2GVhQIYnS+safJ4g4Qx5bJxlVmE8D+9b1TuEfsVmcVF6B2uWveBecCzpqJGWfYUSESsi10utUgMjV8yGQ8GPB4nC+5FQlgMGADoX12KVGD+cRB/ekEKDExvMtbQ=
+	t=1760719452; cv=none; b=HNDO0JX4LJMVYjSBsuu+bqR7COPIXJTsB9FASlee5/WKexly7u5IrB5pZRFc/f9LbdAufHRH6vqaO3jnolxue9kE0FWcdslQozGVMQegKDL75cmTWVy4svau6JNHiZW6cujr6QCpSgIjglZ+pQ0YMcXcpjI+grnUdKg4K8pKqpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760719302; c=relaxed/simple;
-	bh=Kluv6meTOXVV/CYoXDaXYdFXj5omH8c8AFCn633N9wM=;
+	s=arc-20240116; t=1760719452; c=relaxed/simple;
+	bh=6V6dlNuYa6UKSKsDtKOl18PenRVNTY38CSm2xH8C35k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TyiO/c3ZY3ylAxpfp36/lpfD9abo+O3RNpOBDHbds+84arVRkKPJYR+oPw6SIZw+qNDCRmebZ7qqasFxkX7MOAQ1QGvb9Q01JAM6DMssnd2elJPDvWjjP1OF6KQ1Eg/n0MG3cw2UCtUREyRYdYjYh6vxW+vr8Ls7M/hy/Bhi6IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FUmdqQiw; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEl8/H28I5JEDmKL6ZODK3PGi5vTWXxc65ETrRf3wuZEr64gNZBX6jCXS2dwnxG2yFgPcDQV9QEzqsurgqHrRgj1hEkNn+pzPA2/Gap9EMYtvMyeTo9wT0N/tBFqndkKU4TWQAuOoHw1eIHGD6Yk8uOa/+ODMoTgYG42hw0MbAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkJwLXKD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FUmdqQiw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECCAC4CEE7;
-	Fri, 17 Oct 2025 16:41:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkJwLXKD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A51AC4CEE7;
+	Fri, 17 Oct 2025 16:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760719301;
-	bh=Kluv6meTOXVV/CYoXDaXYdFXj5omH8c8AFCn633N9wM=;
+	s=k20201202; t=1760719452;
+	bh=6V6dlNuYa6UKSKsDtKOl18PenRVNTY38CSm2xH8C35k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FUmdqQiwUM/WjNay9BbHp1DPnlJq7/YWVm1B970h+DCycwwca++qTTGl6X4Z1ZZPO
-	 OJyM8CyHmxN70NXLDKp7rhw/tr+ToOWKVxkGi95hqSY/xCkMqLxnSGmYzkbK+lxaQi
-	 N8/7QZqmcRzPmRAUoBUp6NMevyV5XlO0bLSnk4lx32AftNLV+zVREzTdJjmZVutnh4
-	 luNy3r2WI8QVEI6eKnicvkitWQvxg7413HDrfuZLlpGw0MJUn7YGOEYN+N1sYtnMXE
-	 fIQkq4X1EzfnOf/7PUlUGO8xE1NrJ1jc9N2QFynKPDz+zMY4HqgPyi22JFgC9xhvXj
-	 D7bAj1o16+UeA==
-Date: Fri, 17 Oct 2025 17:41:35 +0100
+	b=hkJwLXKDzLWQ5f2P47+1t+GFFbBMn7gul25BUHBxby4WqN5ubtWhvh2C5fQ5VIK1J
+	 HtZY2oizlWHBghEk+N29YAF2GWl3NOmV+FKXOkcmxwVjMkLdtkWM2N/5lE9vPzS0MO
+	 vAsDZIuemo6v6J+KIYqHrhsr11yVbqzkLMQw/DFQfqHxUDdUUcs5l6lB4qW9TPD640
+	 YxbIzOpZyyJg1wL9nBzwNY4EwCSV8tJzwz3gYBggK7D8o6HUVIGSw96XcCBD/jtipg
+	 NJsoJcGthgJa2rASptvDx55Eh3vkW2crYnuFyLnf5+wPDPlfvw56sD/nIqeIvKywLW
+	 kN7OQeSih5geQ==
+Date: Fri, 17 Oct 2025 17:44:06 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
 Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
@@ -36,12 +36,12 @@ Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
 	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	devicetree@vger.kernel.org,
-	Simon Trimmer <simont@opensource.cirrus.com>
-Subject: Re: [PATCH v4 07/11] ASoC: cs530x: Add CODEC and DAC support
-Message-ID: <a0944336-e6e0-4ab2-95c3-be446e20230f@sirena.org.uk>
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 09/11] ASoC: cs530x: Correct MCLK reference frequency
+ values
+Message-ID: <a16503e6-870a-43ce-a705-27c0ea199303@sirena.org.uk>
 References: <20251017161543.214235-1-vitalyr@opensource.cirrus.com>
- <20251017161543.214235-8-vitalyr@opensource.cirrus.com>
+ <20251017161543.214235-10-vitalyr@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,71 +49,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mtHkEX5ILNkXrGIx"
+	protocol="application/pgp-signature"; boundary="8/afWNOS0G+oNDiu"
 Content-Disposition: inline
-In-Reply-To: <20251017161543.214235-8-vitalyr@opensource.cirrus.com>
+In-Reply-To: <20251017161543.214235-10-vitalyr@opensource.cirrus.com>
 X-Cookie: Androphobia:
 
 
---mtHkEX5ILNkXrGIx
+--8/afWNOS0G+oNDiu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Oct 17, 2025 at 05:15:34PM +0100, Vitaly Rodionov wrote:
+On Fri, Oct 17, 2025 at 05:15:36PM +0100, Vitaly Rodionov wrote:
+> The MCLK frequency must be 49.152 MHz (for 48 kHz-related
+> sample rates) or 45.1584 MHz (for 44.1 kHz-related sample rates).
 
-> --- a/sound/soc/codecs/cs530x.c
-> +++ b/sound/soc/codecs/cs530x.c
-> @@ -45,6 +45,18 @@ static const struct reg_default cs530x_reg_defaults[] = {
->  	{ CS530X_IN_VOL_CTRL3_1, 0x8000 },
->  	{ CS530X_IN_VOL_CTRL4_0, 0x8000 },
->  	{ CS530X_IN_VOL_CTRL4_1, 0x8000 },
-> +	{ CS530X_OUT_ENABLES, 0 },
-> +	{ CS530X_OUT_RAMP_SUM, 0x0022 },
-> +	{ CS530X_OUT_FILTER, 0 },
-> +	{ CS530X_OUT_INV, 0 },
-> +	{ CS530X_OUT_VOL_CTRL1_0, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL1_1, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL2_0, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL2_1, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL3_0, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL3_1, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL4_0, 0x8000 },
-> +	{ CS530X_OUT_VOL_CTRL4_1, 0x8000 },
+>  	switch (source) {
+>  	case CS530X_SYSCLK_SRC_MCLK:
+> -		if (freq != 24560000 && freq != 22572000) {
+> -			dev_err(component->dev, "Invalid MCLK source rate %d\n",
+> -				freq);
+> +		switch (freq) {
+> +		case CS530X_SYSCLK_REF_45_1MHZ:
+> +		case CS530X_SYSCLK_REF_49_1MHZ:
+> +			break;
+> +		default:
+> +			dev_err(component->dev, "Invalid MCLK source rate %d\n", freq);
+>  			return -EINVAL;
+>  		}
+>  		break;
 
-Do these new registers apply to all parts or just some (I'm guessing
-these might be different packaging/binnings of the same die in which
-case this should be fine if a little messy, but just checking).
+This will break any existing user that sets MCLK won't it?  Hopefully
+they were managing to function, even if the clocks were out of spec.
 
->  	/* Write IN_VU bit for the volume change to take effect */
-> -	regmap_write(regmap, CS530X_IN_VOL_CTRL5, CS530X_IN_VU);
-> +	regmap_write(regmap, CS530X_IN_VOL_CTRL5, CS530X_INOUT_VU);
-
-The comment is now out of sync.  I can't help but feel that this change
-might be easier to read if the rename of everything to INOUT were a
-separate patch.
-
-> +		cs530x->dac_pairs_count--;
-> +		if (!cs530x->dac_pairs_count) {
-> +			usleep_range(1000, 1100);
-> +			return regmap_write(regmap, CS530X_OUT_VOL_CTRL5,
-> +					    CS530X_INOUT_VU);
-> +		}
-
-Should dac_pairs_count be a supply widget?
-
---mtHkEX5ILNkXrGIx
+--8/afWNOS0G+oNDiu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjycb4ACgkQJNaLcl1U
-h9B4Lgf9GKj6aiJbvrg4PMOCSwR7GZWa2kJfni2TF7qcueGWgUFLTTC1KOebwPLx
-w++KWthtXse2sI6LDVdwir2ULzObC2Gy0/8MAu9/370VYp+6IEKnH8OdqKMt3jaQ
-Ue+buS7teJZwZ826j3O3H5IyIVHYCcih+uTWWfZD6E8zzvZ+YICQSO07nKbKIMWO
-ROGJvH0PGuEGsT3pneQ9zZjDid1liLec/866Y89U2g7WDN9oNNT2DXC4DcqYpL/0
-sKUcmwxhlHRacm3Dx2+O5bJ3ICPiB5pr4RQh1cQ4GNv1F5IHBjnVwqYDzHtXqXzu
-EOwWMxzKjUvE6qehCmpgmNIe3XYwHQ==
-=oCtF
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjyclUACgkQJNaLcl1U
+h9Bs2Af9HXQafHMNeZ/hIRo4s5a99ef+5r7m+KoxAscR2xxeTI/WFSYb7o2VqO75
+Oenibhyh8Cl8Nb+T8YJpXruiFxsbaZxMzaCBuDyilC7pANbkLyTZ8riuMTMWSLPv
+yaqTy09PJ0bpFW1s3eWegiJ8OHmgn6spNiga1rVrp6O4AUu0F0qGc2hsIVI1jwf2
+J3MfwJoApZoqxbB3PpPtQu8p1EuvQenO4FnvMS6uReCMtVF/jG+Al0HVLBAtZ0CW
+ysIJjzxLFyCercIOmYey2h3Z1ZhTuFqv4xC6G41MioF5LEYTnzO3IpOMvYniDnai
+H+WOY9cEUYtiT3eI8yzvyAXyYgIG2A==
+=R0S8
 -----END PGP SIGNATURE-----
 
---mtHkEX5ILNkXrGIx--
+--8/afWNOS0G+oNDiu--
