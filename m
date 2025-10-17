@@ -1,180 +1,217 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47498335066
-	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 15:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537EB335093;
+	Fri, 17 Oct 2025 15:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760713838; cv=none; b=C8awYZ2FBq6pRivafZmP1y070RwJCJKx7WukF5/a9iO/5Xt9jhlWszGtCAQ6z9FYz3y75rm7z8Ua0gTQRNBv0gHuInNiUL5EZAZ6LSxEDKOz/R6FP5rQwXZ1CVmNfOBWG5nirqwtCzfv7TCpRvdFog31phnGuWAiEL7G8hwtPxg=
+	t=1760714355; cv=none; b=SQVlofZQNeyhvW6KN4vA0futUeZKq/ISyNHTjYk06nyVQwdGyZCG7xCQqd9RXJuZcaTHajfPH+D5RatfL32OrPk/gpc5Ss92pkfODZIy9+TVwZjyyfC44a+Lj8k73gWmsFUcZYhezfIoEuJ3Oq36K6/qjBcIhcS0r52OnAQDnpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760713838; c=relaxed/simple;
-	bh=Gm4P2a9S/HHIpbqj/1/WVKWFwzH85G3VJQhBIXcpX5k=;
+	s=arc-20240116; t=1760714355; c=relaxed/simple;
+	bh=Jkoxv5jBiXwh3/Xam1mL3Rb7nwPNp22HhVGe+o5k1sY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kTv0xQa3fdK4Bvaf56SlcItI4eFTVrQLDRcfH9qLe9L+CAoqySqzvsEmRbWjPXNihiFCMZQX/Zx+3Y9s+pPARzvEo13ArfABCsV6E3oxidGmsobyQPUmHw8KK6NS27O+eBRhrOGC6YlyMeHiBBYqRFC44P3LnKy45JeKlzMW/JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=tzqo0eok; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 MIME-Version:Content-Type; b=lT+SAjbmhvUnXrEbcrnYhlbKwuzmp3aLg2hDmd54zgIipX3/Gso+63olqogeHhotWviM6iXqDqJSoZ/8/iNUVB9qoY2optZRxuFQOdxLlJ64Ij6XUpCvvcrLH1prSrxuM9GmR43kPdOce00cKbxeMCsrXzgpnWyFOioZdOnRvX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBJGnQw2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="tzqo0eok"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A6CC14E41145;
-	Fri, 17 Oct 2025 15:10:34 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7AAB3606DB;
-	Fri, 17 Oct 2025 15:10:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 11888102F2330;
-	Fri, 17 Oct 2025 17:10:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760713833; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=tz1YrBtjgqKAjBOhZdtsBw6j4wrL2DMmdPaWBNAh2s8=;
-	b=tzqo0eokJ+Cb1HPhb7hvZnwRbkJG3ORsnEhEfsleM9+rDD2KW5srX8MkdOSFv6JWcAGm0a
-	gH31tvSj5/HNhHA7PIUzQyhXTXZeKv4Wn7V4Gvuucs/K9glYAeJPgva0/yTbLvNInIlTIY
-	kE5rZijgGSw7vmKavNRzveTJOgi/AGWfkLFt2Hx01RKnb5YKjCbViXT6qcTsjKZG5ec3Vs
-	7MW+9YP9zxDYPyKBepNLN8mf5K9l9RUhhImLmRdR3l0dy0HnHvlO9Ci1Hevz5VtX2VkfqS
-	Ynk+jtfUQ2ZB2iNlbRGGFuZW+K3B7y4EaCbsRxlhpQM5XqaI6J1HgkayBtFDzg==
-Date: Fri, 17 Oct 2025 17:10:24 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald	
- <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-  <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela	
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nikita Shubin	
- <nikita.shubin@maquefel.me>, Axel Lin <axel.lin@ingics.com>, Brian Austin	
- <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-Message-ID: <20251017171024.5a16da34@bootlin.com>
-In-Reply-To: <d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
-References: <20251016130340.1442090-1-herve.codina@bootlin.com>
-	<20251016130340.1442090-2-herve.codina@bootlin.com>
-	<60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
-	<20251017083232.31e53478@bootlin.com>
-	<d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBJGnQw2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98656C4CEE7;
+	Fri, 17 Oct 2025 15:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760714355;
+	bh=Jkoxv5jBiXwh3/Xam1mL3Rb7nwPNp22HhVGe+o5k1sY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DBJGnQw29zw6lCVTKtpBhIgSG7SMX4VZD9MlmLUEPUBMWipU3K8+xfy/xqlmxz8Qi
+	 mLxaq5V5Z7Et2fOTaRuUiiEspXQRrhIZZJ9xRqScULqTAgvTGjzSlFIQWaMNs3MR+A
+	 dKeaol6kFcz4lkdW7DFiMk5bbpEA1Dgh/SH6u6TIXDXdKDqoochxfVVvitpFaYDKlL
+	 bULb536qkalBIUpX9fU7Dk2QB8zCg/3nMjXL1nlc2Ddg/ayrRE+8/4gAavHoyhpk1Y
+	 0fREHXWYLfsbUhrNzXSgnVS+UpYAnpmQOfquXa1v8/EjnKyNDqrbCpraPpvMaG8lGT
+	 yY3YmE4+sr2qw==
+Date: Fri, 17 Oct 2025 08:19:12 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Miller
+ <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
+ <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, David Laight
+ <david.laight.linux@gmail.com>, Vincent Mailhol
+ <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, qat-linux@intel.com,
+ linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
+ field_{prep,get}() helpers
+Message-ID: <20251017081912.2ad26705@kernel.org>
+In-Reply-To: <2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+References: <cover.1739540679.git.geert+renesas@glider.be>
+	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Alexander,
+On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
+> The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> constants.  However, it is very common to prepare or extract bitfield
+> elements where the bitfield mask is not a compile-time constant.
+> 
+> To avoid this limitation, the AT91 clock driver and several other
+> drivers already have their own non-const field_{prep,get}() macros.
+> Make them available for general use by consolidating them in
+> <linux/bitfield.h>, and improve them slightly:
+>   1. Avoid evaluating macro parameters more than once,
+>   2. Replace "ffs() - 1" by "__ffs()",
+>   3. Support 64-bit use on 32-bit architectures.
+> 
+> This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> macros, as people expressed the desire to keep stricter variants for
+> increased safety, or for performance critical paths.
 
-On Fri, 17 Oct 2025 15:25:42 +0200
-Alexander Sverdlin <alexander.sverdlin@gmail.com> wrote:
+We already have helpers for this, please just don't know they exist :/
 
-> Hi Herve,
-> 
-> On Fri, 2025-10-17 at 08:32 +0200, Herve Codina wrote:
-> > ...
-> >   
-> > > > In order to have the I2C or the SPI module loaded automatically, move
-> > > > the MODULE_DEVICE_TABLE(of, ...) the core to I2C and SPI parts.
-> > > > Also move cs4271_dt_ids itself from the core part to I2C and SPI parts
-> > > > as both the call to MODULE_DEVICE_TABLE(of, ...) and the cs4271_dt_ids
-> > > > table itself need to be in the same file.    
-> > > 
-> > > I'm a bit confused by this change.
-> > > What do you have in SYSFS "uevent" entry for the real device?  
-> > 
-> > Here is my uevent content:
-> > --- 8<---
-> > # cat /sys/bus/i2c/devices/3-0010/uevent 
-> > DRIVER=cs4271
-> > OF_NAME=cs4271
-> > OF_FULLNAME=/i2c@ff130000/cs4271@10
-> > OF_COMPATIBLE_0=cirrus,cs4271
-> > OF_COMPATIBLE_N=1
-> > MODALIAS=of:Ncs4271T(null)Ccirrus,cs4271
-> > # 
-> > --- 8< ---  
-> 
-> that's what I get with SPI-connected CS4271, and this is actually what I'd
-> expect (linux-next as of 2433b8476165):
-> 
-> # cat /sys/bus/spi/devices/spi0.0/uevent
-> DRIVER=cs4271
-> OF_NAME=codec
-> OF_FULLNAME=/soc/spi@808a0000/codec@0
-> OF_COMPATIBLE_0=cirrus,cs4271
-> OF_COMPATIBLE_N=1
-> MODALIAS=spi:cs4271
+The "const" version of the helpers are specifically defined to work
+on masks generated with BIT() and GENMASK(). If the mask is not
+constant we should expect it to have a well defined width.
 
-So, this is without my patch applied.
-I don't have any CS4271 connected on SPI bus to perform the same test
-with my patch applied.
+I strongly prefer that we do this instead and convert the users to
+the fixed-width version:
 
-> 
-> > > If you consider spi_uevent() and i2c_device_uevent(), "MODALIAS=" in the
-> > > "uevent" should be prefixed with either "spi:" or "i2c:".
-> > > And this isn't what you adress in your patch.
-> > > 
-> > > You provide [identical] "of:" prefixed modalias to two different modules
-> > > (not sure, how this should work), but cs4271 is not an MMIO device,
-> > > so it should not generate an "of:" prefixed uevent.
-> > > 
-> > > Could you please show the relevant DT snippet for the affected HW?  
-> > 
-> > And this is the related DT part:
-> > --- 8< ---
-> > &i2c3 {
-> >  status = "okay";
-> > 
-> >  cs4271@10 {
-> >  compatible = "cirrus,cs4271";
-> >  reg = <0x10>;
-> >  clocks = <&cru SCLK_I2S_8CH_OUT>;
-> >  clock-names = "mclk";
-> > 
-> >  ...
-> >  };
-> > };
-> > --- 8< ---
-> > 
-> > i2c3 is the following node:
-> > https://elixir.bootlin.com/linux/v6.17.1/source/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi#L732  
-> 
-> the above looks OK to me on the first glance, I'm really puzzled what
-> is the reason for "of:" prefixed MODALIAS in the uevent for an i2c device.
-> 
-> I still believe, that the culprit is the creation of a platform device
-> from the DT for an i2c device.
-> 
-> I don't have any real I2C-connected CS4271, but I think I could fake one
-> in any DT just to verify how uevents would look like on my side.
-> 
-> > About the related module, I have the following:  
-> 
-> I assume, this is with your patch applied though.
+---->8----------------
 
-Yes, exactly.
+Subject: bitfield: open code the fixed-width non-const helpers so that people see them
 
-> 
-> > --- 8< ---
-> > # modinfo snd_soc_cs4271_i2c
-> > filename:       /lib/modules/6.18.0-rc1xxxx-00050-g4fa36970abe5-dirty/kernel/sound/soc/codecs/snd-soc-cs4271-i2c.ko
-> > license:        GPL
-> > author:         Alexander Sverdlin <subaparts@yandex.ru>
-> > description:    ASoC CS4271 I2C Driver
-> > alias:          i2c:cs4271
-> > alias:          of:N*T*Ccirrus,cs4271C*
-> > alias:          of:N*T*Ccirrus,cs4271
-> > depends:        snd-soc-cs4271
-> > intree:         Y
-> > name:           snd_soc_cs4271_i2c
-> > vermagic:       6.18.0-rc1xxxx-00050-g4fa36970abe5-dirty SMP preempt mod_unload aarch64
-> > # 
-> > --- 8< ---  
-> 
+There is a number of useful helpers defined in bitfield.h but
+they are mostly invisible to the reader because they are all
+generated by macros. Open code the 32b versions (which are
+most commonly used) to give developers a chance to discover them.
 
-Best regards,
-Hervé
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ include/linux/bitfield.h | 82 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 81 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+index 5355f8f806a9..0356e535f37d 100644
+--- a/include/linux/bitfield.h
++++ b/include/linux/bitfield.h
+@@ -173,6 +173,11 @@
+ 		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
+ 	})
+ 
++/* Non-constant, fixed-width helpers follow
++ * Open code u32 and le32 versions for documentation / visibility,
++ * be32 and other widths exist but are generated using macroes.
++ */
++
+ extern void __compiletime_error("value doesn't fit into mask")
+ __field_overflow(void);
+ extern void __compiletime_error("bad bitfield mask")
+@@ -188,6 +193,81 @@ static __always_inline u64 field_mask(u64 field)
+ 	return field / field_multiplier(field);
+ }
+ #define field_max(field)	((typeof(field))field_mask(field))
++
++/**
++ * u32_encode_bits() - prepare a u32 bitfield element (non-const)
++ * @v: value to put in the field
++ * @field: shifted mask defining the field's length and position
++ *
++ * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
++ *
++ * Note that the helper is available for other field widths (generated below).
++ */
++static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
++{
++	if (__builtin_constant_p(v) && (v & ~field_mask(field)))
++		__field_overflow();
++	return ((v & field_mask(field)) * field_multiplier(field));
++}
++
++/**
++ * u32_replace_bits() - change a u32 bitfield element (non-const)
++ * @old: old u32 value to modify
++ * @val: value to put in the field
++ * @field: shifted mask defining the field's length and position
++ *
++ * Remove the current contents of the @field in @old and set it to @new.
++ *
++ * Note that the helper is available for other field widths (generated below).
++ */
++static __always_inline __u32 u32_replace_bits(__u32 old, u32 val, u32 field)
++{
++	return (old & ~(field)) | u32_encode_bits(val, field);
++}
++
++/**
++ * u32_get_bits() - get u32 bitfield element (non-const)
++ * @v: value to extract the field from
++ * @field: shifted mask defining the field's length and position
++ *
++ * Extract the value of the field and shift it down.
++ *
++ * Note that the helper is available for other field widths (generated below).
++ */
++static __always_inline u32 u32_get_bits(__u32 v, u32 field)
++{
++	return ((v) & field) / field_multiplier(field);
++}
++
++static __always_inline void u32p_replace_bits(__u32 *p, u32 val, u32 field)
++{
++	*p = (*p & ~(field)) | u32_encode_bits(val, field);
++}
++
++static __always_inline __le32 le32_encode_bits(u32 v, u32 field)
++{
++	if (__builtin_constant_p(v) && (v & ~field_mask(field)))
++		__field_overflow();
++	return cpu_to_le32((v & field_mask(field)) * field_multiplier(field));
++}
++
++static __always_inline __le32 le32_replace_bits(__le32 old, u32 val, u32 field)
++{
++	return (old & ~cpu_to_le32(field)) | le32_encode_bits(val, field);
++}
++
++static __always_inline void le32p_replace_bits(__le32 *p, u32 val, u32 field)
++{
++	*p = (*p & ~cpu_to_le32(field)) | le32_encode_bits(val, field);
++}
++
++static __always_inline u32 le32_get_bits(__le32 v, u32 field)
++{
++	return (le32_to_cpu(v) & field) / field_multiplier(field);
++}
++
++/* Auto-generate bit ops for other field width and endian combination */
++
+ #define ____MAKE_OP(type,base,to,from)					\
+ static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
+ {									\
+@@ -215,7 +295,7 @@ static __always_inline base __must_check type##_get_bits(__##type v, base field)
+ 	____MAKE_OP(u##size,u##size,,)
+ ____MAKE_OP(u8,u8,,)
+ __MAKE_OP(16)
+-__MAKE_OP(32)
++____MAKE_OP(be32,u32,cpu_to_be32,be32_to_cpu) /* Other 32b types open coded */
+ __MAKE_OP(64)
+ #undef __MAKE_OP
+ #undef ____MAKE_OP
+-- 
+2.51.0
+
