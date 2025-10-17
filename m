@@ -1,220 +1,93 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6EC33A02F
-	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 11:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25574343D71;
+	Fri, 17 Oct 2025 11:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760699514; cv=none; b=iBNlg76YM/BE4XM9o1CGfsaxTGCs7mIt3ZhoLuBSD7XTUg3ma817csTAxf1ckEOIvxVFxC4jKMRuSWLQp7Ya5mfIiahjEfnczCMvv3djA0yKe7t1CwDDjuhEchPWHWtxPMUTpldFSQURa7Rp3E3a+uJWUzV7WgK2ssQO1yuUngg=
+	t=1760700268; cv=none; b=n+WKVyj03vWRlJauEY5fu9M0DhZlwoMohrgR2F+cQBxX1UW61hWrZkAmPyvRKhfiGmFrbjAAH9u8AVB//A2U6VYul1ak6MA93z81Dd0vyj278+jFTI0FEu16W6AKoaYn8NtAk6bAxtGhSn1fbpMjzlETYXQQQV6CWKjS5kG4yMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760699514; c=relaxed/simple;
-	bh=6eZO9Xbj701w7qLtm81Adj7AnBqtMcMZlGOj6zqFMlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IW4ovrZaPfm4iMde3naYosjIbgP36kkPl4705NVJYqXszOa4zNGkAVWdpEosTimALymp9W9oVJOBoXDB10BKEghYYDNq3mS+D6z5bdbbbWnr+MTjfV7Ye5prEHVgcgXCYDsfQmqx3Kw/wPMxUX3mut+l5WZ5sNuWDwgbs2PIUW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=Xhw05X5p; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j92sMo7k; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1760700268; c=relaxed/simple;
+	bh=uizEfJyKmrp+Hym2bNGCOmbLlAj0EhRNyc4xPm5CS58=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=seF++Jy9q2h3n+SCanNSCUB2O6acBQvUmcWb3KE+Mn/6aK/8MKcHSL/RyqxLZcqv2hWTCc2BqGy6vcFJ4DNhU52WkimRbYvF2mThy3Pxk3JmvQF47/A4hnHA4e8s6MEsh+C00pisAdxUXd/liSqW7FDlbSGxuDZP1MJ0BgYkABI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n3IHctU1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="Xhw05X5p";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j92sMo7k"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 8BF0014000E2;
-	Fri, 17 Oct 2025 07:11:49 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Fri, 17 Oct 2025 07:11:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1760699509; x=1760785909; bh=8QHHl3iDx0
-	7N/znV8QO//2TwxkeZ5xNt6PgtHowgaNY=; b=Xhw05X5pRJP+gs9O9Idm0IBdXH
-	yzsxWC2YsLVhuWlNkDiI9fYUu/0qkTCNIbwgX1XXDQ8AOEMYOF5NJk4lc9Fo95Gf
-	xWg0sGb7gX0TIqpMEJ6w1SrTDsHTFffLTrZfImzLL+UZ+nAjeQ4+v8CV6bDTSE1/
-	TiCbtEwQxuddBTco/5yyCRsLI/NViZI3a7qM7Qt2uLxsdA8fOwvVsetwfOI84yHx
-	EzGF2Tvf52tmxzlrDANaMrDZyGkzCELXEXOhC1NCvys96MNPkydyY17YIVl6cwkp
-	lBFqChGSRu+t6U9TxgRfGF2DGHZX3O1JaetboKb7iUM14YbIr6B//easjftw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1760699509; x=1760785909; bh=8QHHl3iDx07N/znV8QO//2TwxkeZ5xNt6Pg
-	tHowgaNY=; b=j92sMo7kRsX1eCJtbJ/AW2CCIqUZTKSfbBaWGzN2zNbRqKzH7OK
-	AbPAUELxff8IAJZSvw3dosofdnaZFgomhEsykGvaJ6X1Mnu1iN/L1o3edXslHBU1
-	75n3qh9nH/YJvB4DIJ8GU2Nwvfb/m55daFWb4Wg+pdM3x+mLwNDT0T85D/XK1o5h
-	iSqwwy8k76Ke0b+l4VVMr2035A3j2HZwVWIs/ZmV+wPDalPPcuoWS3E2w9jxYtf8
-	IXPkEcFN4hsogVlVATkOM2O04QPGbC/g63M4vX9gaOFcn8b6yaXjHs7yPJI3kp0e
-	xnN4ShJOBNybA7e32E5qVC+vWLh36VirWdQ==
-X-ME-Sender: <xms:dSTyaM_7hUMwjy4u2eAukOctuWuuaWtSIoGauFGY5KeMccm8oqnFJw>
-    <xme:dSTyaKvQr52Jz53mo5gjhBR5RiUZTzfLwQhxWqTrPNnuPlnld7ivZ-Zif1tjC8Hnz
-    mPXUiDdoHrvBPM2p6fvWQQmeNaS-KdmILceIBOJbuDEv-t5biCmGaA>
-X-ME-Received: <xmr:dSTyaPpwQvXeNNxRcUwNIV3ryRnh-Y8tkrZUDDyDZF2evozdW4hh78OCLwTvU68zBgZ-Q0EYpE550nVey8pYjySgJabcz1HeBp86NFp2pIuoaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdeltddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhi
-    sehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeffvdeuleffveekud
-    fhteejudffgefhtedtgfeutdfgvdfgueefudehveehveekkeenucevlhhushhtvghrufhi
-    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrg
-    hmohgttghhihdrjhhppdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdp
-    rhgtphhtthhopehtihifrghisehsuhhsvgdruggvpdhrtghpthhtoheplhhinhhugidqsh
-    houhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:dSTyaHn_HDkJsEdrRnf7no23RfKs0Q_5uv09UBB2JrAJRK6NZaqKiw>
-    <xmx:dSTyaDz6MbrWWADd3L2e8sLgqF-N1ZRsle9r-HvZ44fC54lXMc9Gjg>
-    <xmx:dSTyaPleAYNQ0QXSmwCKfo8YF-J7n26Twjmu6ylFA5quEaEAfoOWpg>
-    <xmx:dSTyaMfYCVpZT51VXzbSzyJbX_nZdXzuwozMr5kEkgUiF_I7Kw4zIg>
-    <xmx:dSTyaIUdKJkBgY0vifQMI17OmjDmMHcZuN4ZP9MJm4b9RwQjGg1sNMSf>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Oct 2025 07:11:48 -0400 (EDT)
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: dice: add support for TASCAM IF-FW/DM MkII
-Date: Fri, 17 Oct 2025 20:11:45 +0900
-Message-ID: <20251017111145.263295-1-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n3IHctU1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A8EEC4CEE7;
+	Fri, 17 Oct 2025 11:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760700267;
+	bh=uizEfJyKmrp+Hym2bNGCOmbLlAj0EhRNyc4xPm5CS58=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=n3IHctU1fkY35YgudySB6oRO6gocv/D0Mi/hoXDibrlZO7IkVHFaTW1Gq0kEWWamv
+	 1LOcbGIizWRtdWQfIMWHdHK7gMKGluLvGqrBiUX1JhTHW4c3m+IGWtTTiWb+Mo8vsY
+	 gKkc3R3CiT2DEMTtW2EUS1U7WvKhv4a0FIFKF+9gamazzi3EidR9nyzbXPXzXTDZ5w
+	 fSIYGs8NhCySeyWpRscA7rjnEbjVtolR+NC+Dj3s2k7YvdhVUnnpKIc7jaqI1gx4Yo
+	 SyZUDzSVTcXL6WKiithTUKNsBu1pYfHHIVfeQJqn8sjFhmuEPAsRqK+9YSNRlvd3rN
+	 hJ+YHg33nhKKQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-amarula@amarulasolutions.com, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Takashi Iwai <tiwai@suse.com>, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+In-Reply-To: <20250924130749.3012071-1-dario.binacchi@amarulasolutions.com>
+References: <20250924130749.3012071-1-dario.binacchi@amarulasolutions.com>
+Subject: Re: (subset) [RESEND PATCH 1/3] ASoC: mxs-saif: support usage with
+ simple-audio-card
+Message-Id: <176070026206.36020.13915370894346909307.b4-ty@kernel.org>
+Date: Fri, 17 Oct 2025 12:24:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-2a268
 
-TEAC Corporation launched IF-FW/DM MkII as an add-in card for TASCAM
-DM-3200 and DM-4800. This card uses TC Applied Technologies DICE II
-ASIC.
+On Wed, 24 Sep 2025 15:07:44 +0200, Dario Binacchi wrote:
+> Add support for enabling MCLK output when using the simple-audio-card
+> driver. In the sound/soc/mxs/mxs-sgtl5000.c use case, that driver
+> handles MCLK enable/disable by calling mxs_saif_get_mclk() and
+> mxs_saif_put_mclk() at probe/remove. This does not happen when the
+> simple-audio-card driver is used. Extend the mxs-saif driver to enable
+> MCLK output in that scenario.
+> 
+> [...]
 
-This commit supports the add-in card. The configuration ROM content
-includes some quirks:
+Applied to
 
-- The category value stored in chip_ID_hi field of bus information block
-  is zero.
-- The value of model in unit directory (0x00022e) is different from the
-  one in root directory (0x000006).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-The hardware allows users to select the total number of audio data channels
-available for system from 16 and 32 channels for both input and output
-direction. In 16-channel mode,  all audio data are transferred in a
-single isochronous packet stream, while in 32-channel mode, they are
-transferred across two streams. After the user changes the channel
-configuration on the hardware panel, the device temporarily disappears
-from the bus and reappears with the new stream formats. During device
-probing the ALSA dice driver checks the number of available isochronous
-packet streams to determine the active mode of the hardware.
+Thanks!
 
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
----
- sound/firewire/dice/Makefile    |  2 +-
- sound/firewire/dice/dice-teac.c | 43 +++++++++++++++++++++++++++++++++
- sound/firewire/dice/dice.c      | 13 ++++++++++
- sound/firewire/dice/dice.h      |  1 +
- 4 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 sound/firewire/dice/dice-teac.c
+[1/3] ASoC: mxs-saif: support usage with simple-audio-card
+      commit: 1e570e77392f43a3cdab2849d1f81535f8a033e2
 
-diff --git a/sound/firewire/dice/Makefile b/sound/firewire/dice/Makefile
-index 36e25a3cf3c6..478cd7a08fb5 100644
---- a/sound/firewire/dice/Makefile
-+++ b/sound/firewire/dice/Makefile
-@@ -2,5 +2,5 @@
- snd-dice-y := dice-transaction.o dice-stream.o dice-proc.o dice-midi.o \
- 		 dice-pcm.o dice-hwdep.o dice.o dice-tcelectronic.o \
- 		 dice-alesis.o dice-extension.o dice-mytek.o dice-presonus.o \
--		 dice-harman.o dice-focusrite.o dice-weiss.o
-+		 dice-harman.o dice-focusrite.o dice-weiss.o dice-teac.o
- obj-$(CONFIG_SND_DICE) += snd-dice.o
-diff --git a/sound/firewire/dice/dice-teac.c b/sound/firewire/dice/dice-teac.c
-new file mode 100644
-index 000000000000..29febddfe3a5
---- /dev/null
-+++ b/sound/firewire/dice/dice-teac.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// dice-teac.c - a part of driver for DICE based devices
-+//
-+// Copyright (c) 2025 Takashi Sakamoto
-+
-+#include "dice.h"
-+
-+int snd_dice_detect_teac_formats(struct snd_dice *dice)
-+{
-+	__be32 reg;
-+	u32 data;
-+	int err;
-+
-+	err = snd_dice_transaction_read_tx(dice, TX_NUMBER, &reg, sizeof(reg));
-+	if (err  < 0)
-+		return err;
-+
-+	dice->tx_pcm_chs[0][SND_DICE_RATE_MODE_LOW] = 16;
-+	dice->tx_pcm_chs[0][SND_DICE_RATE_MODE_MIDDLE] = 16;
-+	dice->tx_midi_ports[0] = 1;
-+
-+	data = be32_to_cpu(reg);
-+	if (data > 1) {
-+		dice->tx_pcm_chs[1][SND_DICE_RATE_MODE_LOW] = 16;
-+		dice->tx_pcm_chs[1][SND_DICE_RATE_MODE_MIDDLE] = 16;
-+	}
-+
-+	err = snd_dice_transaction_read_rx(dice, RX_NUMBER, &reg, sizeof(reg));
-+	if (err  < 0)
-+		return err;
-+
-+	dice->rx_pcm_chs[0][SND_DICE_RATE_MODE_LOW] = 16;
-+	dice->rx_pcm_chs[0][SND_DICE_RATE_MODE_MIDDLE] = 16;
-+	dice->rx_midi_ports[0] = 1;
-+
-+	data = be32_to_cpu(reg);
-+	if (data > 1) {
-+		dice->rx_pcm_chs[1][SND_DICE_RATE_MODE_LOW] = 16;
-+		dice->rx_pcm_chs[1][SND_DICE_RATE_MODE_MIDDLE] = 16;
-+	}
-+
-+	return 0;
-+}
-diff --git a/sound/firewire/dice/dice.c b/sound/firewire/dice/dice.c
-index bcbe80344328..85d265c7d544 100644
---- a/sound/firewire/dice/dice.c
-+++ b/sound/firewire/dice/dice.c
-@@ -22,6 +22,7 @@ MODULE_LICENSE("GPL");
- #define OUI_PRESONUS		0x000a92
- #define OUI_HARMAN		0x000fd7
- #define OUI_AVID		0x00a07e
-+#define OUI_TEAC		0x00022e
- 
- #define DICE_CATEGORY_ID	0x04
- #define WEISS_CATEGORY_ID	0x00
-@@ -458,6 +459,18 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 		.match_flags = IEEE1394_MATCH_VERSION,
- 		.version     = DICE_INTERFACE,
- 	},
-+	// Tascam IF-FW/DM MkII for DM-3200 and DM-4800.
-+	{
-+		.match_flags	= IEEE1394_MATCH_VENDOR_ID |
-+				  IEEE1394_MATCH_MODEL_ID |
-+				  IEEE1394_MATCH_SPECIFIER_ID |
-+				  IEEE1394_MATCH_VERSION,
-+		.vendor_id	= OUI_TEAC,
-+		.model_id	= OUI_TEAC,
-+		.specifier_id	= OUI_TEAC,
-+		.version	= 0x800006,
-+		.driver_data = (kernel_ulong_t)snd_dice_detect_teac_formats,
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(ieee1394, dice_id_table);
-diff --git a/sound/firewire/dice/dice.h b/sound/firewire/dice/dice.h
-index 4c0ad7335998..7744ea6a0791 100644
---- a/sound/firewire/dice/dice.h
-+++ b/sound/firewire/dice/dice.h
-@@ -233,5 +233,6 @@ int snd_dice_detect_presonus_formats(struct snd_dice *dice);
- int snd_dice_detect_harman_formats(struct snd_dice *dice);
- int snd_dice_detect_focusrite_pro40_tcd3070_formats(struct snd_dice *dice);
- int snd_dice_detect_weiss_formats(struct snd_dice *dice);
-+int snd_dice_detect_teac_formats(struct snd_dice *dice);
- 
- #endif
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-base-commit: ec2e0fb07d789976c601bec19ecced7a501c3705
--- 
-2.51.0
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
