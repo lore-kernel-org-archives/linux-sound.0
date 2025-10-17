@@ -1,141 +1,175 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E23261B99;
-	Fri, 17 Oct 2025 16:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E46330B26
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 16:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760717010; cv=none; b=I8zjyMokQxBUkAtbfjk4KFkkptqvlbpt0yybdCsWobYQbYJi7jLe7Mw4/wlkMAilQ4BtKPR1IdEevaSkCaz8o2stRyJld75XLDi4eteMJFR/5vqUfCUnMJXqjLX/BKbOWzSalzkDo9jNXuO4MndMn+gVOYZZmfGi1tuLdfOKp1U=
+	t=1760717194; cv=none; b=jdu6TgbLLqrPEn85gxjl8rHF3T3N3ukWzahXFPdfbnMl98dzaiiKIsyuoLqwKbGKMTnppHosce7he3CSQX1kbD7K8fVoB4ze79hfyeG4Ekzs8sxRx9zCj5fHTdHx4kArKGgTe3aoRKzlDvJTHmR0FMVH18SBeelW0huTh+kmfdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760717010; c=relaxed/simple;
-	bh=V5nvHHyMpT2oBH9OXx7GRjutbxS7EJ70S9GS3ixgU8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QTvXPn6Mum6p2kPaDk3dtH4SIwUZP88QAsxnRQrbnGNIt2CE/ThRsIQdsaG/QtWhMTtAkcql3hVi09aPRBOSdFsMc/xSC1Y3xYu389RdVJr6NQ/zmj+ovKY4ntZa3x5ecOnEVGLCaiXJPzg1fy6uwvmryciUjiVou9aCnmVGNJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FhUWtwoC; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FhUWtwoC"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A90D8C041F8;
-	Fri, 17 Oct 2025 16:03:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DC1EA606DB;
-	Fri, 17 Oct 2025 16:03:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5C050102F2366;
-	Fri, 17 Oct 2025 18:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760717005; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=VRVsgwJpNbMCtPLDUTdNjde66pvJANzuRr/rOO23+SI=;
-	b=FhUWtwoCP04yqOiDmI1EwaKM4t/9LEDySI/yars/wRXf4nwS1KPl3FYGVxS3pmy7ayjfu8
-	dimGqZSBI2FGcQlJrtl6CuIigftt/sPbKmUzjtVWd7ionCy4fpOa/M8nKedz3JOo86KR1u
-	9el4cFyMXPTJGKtxHrFcK8VXxf288PmRZUD8X0dZ7dsGnXh0B64g6B7HVjNsE5EhoT21Wu
-	LCItfKgk3M/74O35AivJ+XyBN42PTfngM8l/su5jrljiUluJ5oMhe6S8C7o2JV2p7GIUAb
-	e29UtSHdxEByIa2NfNLGUUcmCF4en4fOyWC5pCDXbfz22setFP8TodIdDqYWUQ==
-Date: Fri, 17 Oct 2025 18:03:13 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald	
- <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-  <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela	
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nikita Shubin	
- <nikita.shubin@maquefel.me>, Axel Lin <axel.lin@ingics.com>, Brian Austin	
- <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-Message-ID: <20251017180313.0f0f71d7@bootlin.com>
-In-Reply-To: <336e169019bd3eadc475c981abef3db07149a5db.camel@gmail.com>
-References: <20251016130340.1442090-1-herve.codina@bootlin.com>
-	<20251016130340.1442090-2-herve.codina@bootlin.com>
-	<60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
-	<20251017083232.31e53478@bootlin.com>
-	<d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
-	<20251017171024.5a16da34@bootlin.com>
-	<336e169019bd3eadc475c981abef3db07149a5db.camel@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760717194; c=relaxed/simple;
+	bh=5UuF/HjwkQMRQp3toEpBUcYrHBj825aq+Tc6Itk11zY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hFysU4+3rK42XR/4Y6OJsbC5/CJwN2RdVKexKHau18eEKuw/PnXoJTB0EN9nasE7esEXbhxKYZQd9AcPxk8rId3VA9Luf+vkRPpjFtM0bqaWLY4686YPG8+Dbt3t0Q0YgYJEUMX+eQR12XgeaSBzxYqzFXP/Ei3mXDc+NnhVENE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-441de7ba142so1126426b6e.2
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 09:06:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760717191; x=1761321991;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D4mf9FdrvOGmLornKgNki0gXD9BcM6SCmzEl3gfV4Zs=;
+        b=P+oq7wPsDTCabhjqwfvEGts3r835KLL9ZspIK/64e6mAy0F7cB5mAzqh00rGT0KSkn
+         vu/h4e0WJw2rFmaqYbl2kYtIm+i5wxhOTv0HyombQhoKVtAm+TZYuOm8Ii+nruiGGNkZ
+         q2Y3XctokcSTCDsDBFaGBjiQUXFNVeUjUMqeEqnFBWVDm9+DcXPQjfYlHxeBX3hntkT+
+         QmxFKHz5Pqi4j5UThIi98k8OeUaBhwRtX6a8DKkFzddCAPhlEHX4+bKl+DwmtnEceJFX
+         RfDPen2M6ZTHjjMaNJQ+TM2mBb5pHHVE6X7ddiGZYDV9mWzpjY3ywIkuF3GLLx/F39N/
+         2nOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6e8FP37b0i8qPdw6Nqjs/UvHiQ8lyoZ0ppvnl8D7VPK0vyFLC87ZQC/Ucu4JMzkmH10hylr+0b1z7Tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGcd+C5uZYisq+3DgOtDwmit2aQOqRM+UeCDPBALJF5Co3b/Tk
+	Cl+39YbtPPrjs9KCy8Ycv/2HvspdC2OpSaeFwfa0hCh/cAvjhUbofCgcausfDKzZ
+X-Gm-Gg: ASbGncv+auc4TTFg0u/Xj4ntjc0eY1wUX3yKsS8Jqz3d+Almrkmv2iO8uaOm860qOCX
+	No1I+sjtC/uqhYlpzrvqYDgsG6O6ceI2a7VX35pv7dducav5+/oJINeayO64TNyBYCckUoiaKP1
+	0tYat0qPLor4dDt9Epi4vkR5cAQ/j50GlJ/BYSNe0NgoUwnynlo9npNX7NFZQxuKHh/0WhyxP0O
+	4js96rhD2OITlK69BOHKEvvoxuPGmep2vEVmueloQ6RlhC6b/ySOAkDMBPs43P19lqapGfUpaqq
+	R3+Bo3FY8UHRY7EjSiZGtxHXHuwwliX3IvXfrG22j4GNGSaqutdtgZxD+KzkjIfJm8Pk58yqJvx
+	khVzHCMVh7+LlfjQIZE6fn0M537hZ8PNnoXVruLw9yFBSPxA/OTQQi0TaIimZldDhGIScRboF8+
+	j1Ye9XgqJxvcjRB82BdDRvJiGofdoFk6fw6CH9eNfMvhyKtSZn
+X-Google-Smtp-Source: AGHT+IGW+qBAhfjZM/PojU4Uybbb6jIXRGb/c2aEYLzjgszfBldVNz5DjIB5JbADih8K1Ue/vi6wpg==
+X-Received: by 2002:a05:6808:2002:b0:43f:7287:a5de with SMTP id 5614622812f47-443a30d427amr1785070b6e.41.1760717191430;
+        Fri, 17 Oct 2025 09:06:31 -0700 (PDT)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com. [209.85.210.54])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-44220cb8fc7sm1017148b6e.23.2025.10.17.09.06.30
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Oct 2025 09:06:30 -0700 (PDT)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7bcfafec537so1566778a34.0
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 09:06:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWFWkIoJZrfUVbvVDbX+EncHQjUYTr/xmnWljr4Mf81+kNKoQcqD9u241NrAqrPvUmQIceeD2waco88hw==@vger.kernel.org
+X-Received: by 2002:a05:6102:40c6:10b0:5d7:dec6:389a with SMTP id
+ ada2fe7eead31-5d7dec64177mr1309355137.9.1760716852567; Fri, 17 Oct 2025
+ 09:00:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <cover.1739540679.git.geert+renesas@glider.be> <2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+ <20251017081912.2ad26705@kernel.org>
+In-Reply-To: <20251017081912.2ad26705@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 17 Oct 2025 18:00:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+X-Gm-Features: AS18NWD4CQztq7yi6j63q-9XtnW0otWo2wOw8z0_Fp7R-6z_qrlZWB5IqFYEbBg
+Message-ID: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
+ field_{prep,get}() helpers
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	qat-linux@intel.com, linux-gpio@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alexander,
+Hi Jakub,
 
-On Fri, 17 Oct 2025 17:35:56 +0200
-Alexander Sverdlin <alexander.sverdlin@gmail.com> wrote:
+On Fri, 17 Oct 2025 at 17:19, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant.
+> >
+> > To avoid this limitation, the AT91 clock driver and several other
+> > drivers already have their own non-const field_{prep,get}() macros.
+> > Make them available for general use by consolidating them in
+> > <linux/bitfield.h>, and improve them slightly:
+> >   1. Avoid evaluating macro parameters more than once,
+> >   2. Replace "ffs() - 1" by "__ffs()",
+> >   3. Support 64-bit use on 32-bit architectures.
+> >
+> > This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> > macros, as people expressed the desire to keep stricter variants for
+> > increased safety, or for performance critical paths.
+>
+> We already have helpers for this, please just don't know they exist :/
+>
+> The "const" version of the helpers are specifically defined to work
+> on masks generated with BIT() and GENMASK(). If the mask is not
+> constant we should expect it to have a well defined width.
+>
+> I strongly prefer that we do this instead and convert the users to
+> the fixed-width version:
+>
+> ---->8----------------
+>
+> Subject: bitfield: open code the fixed-width non-const helpers so that people see them
+>
+> There is a number of useful helpers defined in bitfield.h but
+> they are mostly invisible to the reader because they are all
+> generated by macros. Open code the 32b versions (which are
+> most commonly used) to give developers a chance to discover them.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-> Hi Herve,
-> 
-> On Fri, 2025-10-17 at 17:10 +0200, Herve Codina wrote:
-> > > > > > In order to have the I2C or the SPI module loaded automatically, move
-> > > > > > the MODULE_DEVICE_TABLE(of, ...) the core to I2C and SPI parts.
-> > > > > > Also move cs4271_dt_ids itself from the core part to I2C and SPI parts
-> > > > > > as both the call to MODULE_DEVICE_TABLE(of, ...) and the cs4271_dt_ids
-> > > > > > table itself need to be in the same file.      
-> > > > > 
-> > > > > I'm a bit confused by this change.
-> > > > > What do you have in SYSFS "uevent" entry for the real device?    
-> > > > 
-> > > > Here is my uevent content:
-> > > > --- 8<---
-> > > > # cat /sys/bus/i2c/devices/3-0010/uevent 
-> > > > DRIVER=cs4271
-> > > > OF_NAME=cs4271
-> > > > OF_FULLNAME=/i2c@ff130000/cs4271@10
-> > > > OF_COMPATIBLE_0=cirrus,cs4271
-> > > > OF_COMPATIBLE_N=1
-> > > > MODALIAS=of:Ncs4271T(null)Ccirrus,cs4271
-> > > > # 
-> > > > --- 8< ---    
-> > > 
-> > > that's what I get with SPI-connected CS4271, and this is actually what I'd
-> > > expect (linux-next as of 2433b8476165):
-> > > 
-> > > # cat /sys/bus/spi/devices/spi0.0/uevent
-> > > DRIVER=cs4271
-> > > OF_NAME=codec
-> > > OF_FULLNAME=/soc/spi@808a0000/codec@0
-> > > OF_COMPATIBLE_0=cirrus,cs4271
-> > > OF_COMPATIBLE_N=1
-> > > MODALIAS=spi:cs4271  
-> > 
-> > So, this is without my patch applied.  
-> 
-> this is the modalias of the device, it doesn't depend on your patch series.
-> 
-> I'd say that modalias for SPI device is correct but commit c973b8a7dc50
-> lacks MODULE_DEVICE_TABLE(spi, ...) in the driver.
-> 
-> I'd argue that I2C modalias is correct in the driver:
-> 
-> # modinfo snd-soc-cs4271-i2c
-> ...
-> alias:          i2c:cs4271
-> 
-> But I still have to understand what happened to I2C core.
-> 
-> > I don't have any CS4271 connected on SPI bus to perform the same test
-> > with my patch applied.  
-> 
+Thanks, but this is more or less the same code which you suggested
+before [1], and to which I just replied[2] after looking at the
+generated assembler output on various architectures.
 
-In my next iteration, I will fix the MODULE_DEVICE_TABLE() in cs4271-spi.c
-replacing
-  MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
-by
-  MODULE_DEVICE_TABLE(spi, cs4271_dt_ids);
+> @@ -188,6 +193,81 @@ static __always_inline u64 field_mask(u64 field)
+>         return field / field_multiplier(field);
+>  }
+>  #define field_max(field)       ((typeof(field))field_mask(field))
+> +
+> +/**
+> + * u32_encode_bits() - prepare a u32 bitfield element (non-const)
+> + * @v: value to put in the field
+> + * @field: shifted mask defining the field's length and position
+> + *
+> + * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
+> + *
+> + * Note that the helper is available for other field widths (generated below).
+> + */
+> +static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
+> +{
+> +       if (__builtin_constant_p(v) && (v & ~field_mask(field)))
+> +               __field_overflow();
+> +       return ((v & field_mask(field)) * field_multiplier(field));
 
-For the moment, related to I2C, I keep MODULE_DEVICE_TABLE(of, cs4271_dt_ids)
-in cs4271-i2c.c
+Unfortunately gcc emits actual divisions or __*div*() calls, and
+multiplications in the non-constant case.
 
-Best regards,
-Hervé
+So I don't think this is suitable as-is.
+
+> +}
+
+[1] https://lore.kernel.org/all/20250214073402.0129e259@kernel.org
+[2] https://lore.kernel.org/all/CAMuHMdU+0HGG22FbO3wNmXtbUm9RhTopYrGghF6UrkFu-iww2A@mail.gmail.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
