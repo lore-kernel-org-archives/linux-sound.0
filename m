@@ -1,208 +1,172 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078C12C0F92;
-	Fri, 17 Oct 2025 16:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760720279; cv=fail; b=slVQrJUnOjrJoycJXsLi5udkNP2CA78Robqvh94odlF0yrfkwN7o59UEd2YEvDYuNfGc8Mv35OA6BtADeH/DuxBBHZzmIy1KGsxawez7JzkHl9PfycfTBu9G0wPmSpmM+8qxLsc+LDAIEWgKXeP4vcw5pZTpJGK48jcWKACVang=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760720279; c=relaxed/simple;
-	bh=7gWzX8/mewedR4skGrPMWSZQUk0tc4EisgGlzv9l2F0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EtanFKwdje0BMzWtdA4lqugW+dHF6ijdi+DC9BvwVvGCgVfvONHfA09AijMjW32fIMtUhVvlrF8qVsSDTHN2Smdg1i6SMFRcU18eSBYqYZZQInLtsk7FFd49Qr4/K93KeZTwa5Dcu3fjO/WdQrhkU6JtQvA0u3U9JZOYHIS8Rsg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fejDpFCL; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ihQEL+Qr; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB5F3002C9
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 17:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760722027; cv=none; b=b80a02kiuQ0nBvgWZaiiYnE97RPJ/4zjwXrOOuumgc8OK3p2+66emLgIjeKbfFS1Mp0wOp9x02CBE1zYnv3m89NuqXJmdgHa4IHzV8QeExPVLQ6cFgWycDDzcOKETGTH6fKbQ47YY0qEjn5vASIe5ODVFQi61sAVrRsVWqzuA6s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760722027; c=relaxed/simple;
+	bh=hDi+5M2k5Ml1K9ClJ80BwZv3vRmscPjpCQVBDoPQMTA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W3djk3BMfsPSndtzZMdtTeTk0ywR5/UpOWV1hg9O6zkzAWUylkbS3b3U/Oleqrm4YBSquFb+9TpQqhXRJ6tP+lZ1I3HPpzbjxJKgIUnkkKCrf6hQkgTVy3hKm72d8pFsAw9k9sDYTOdvtnhbd9aMYVM7LX0EXmcDHxKb+Def6Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=lKX+h+at; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fejDpFCL";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ihQEL+Qr"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59H0Ykp74021107;
-	Fri, 17 Oct 2025 11:57:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=LV6tD0RGIoNS93ooyVi6GvGnSf7Ko7JrUGP30atv4jQ=; b=
-	fejDpFCLP0EhSh4fbBdlsbR52kHIWHDLXJTg6ZpCeAdJfCWqZDx8qrRm3nZ1d8m2
-	Ny6XDHei67UFaRK7GFBblp07lMaAXstXIkNJ7JvIru9k4zXYtNFikfVAJP/FgKoy
-	ckr5HH7wb8ag/WvVo9mJE9XxHKMYOAHoxDqzL2JqpjL+FW8p7LFzuAX3ipSCJpeh
-	EJDCyv11276DsRVxv/kSFagqI+p9KYiiNi4CBop1xTMhz7X+azNa0Q3HEYgHjfFC
-	Gjpy3+G/yi/x2HW4MUnjZuQdEdCNWsEg0TGLo94uzstlBEorNp5OB06rW/6XN7J7
-	Z2+7wJ1yJ/Oy0jWJ7Cgo2g==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020072.outbound.protection.outlook.com [52.101.201.72])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49ubc98xxn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 17 Oct 2025 11:57:48 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B8mzvjgrZcPpf+fkmOyZHvOUKEScuk/rdQyX6aO50aj173I5mDWyGthX2tWA2xWqDdmavyhpY8EsKreykOjyi4Z+af8AtwpMlqAIUrpKL5LFije7NU/qVfo1ciQ1A9y7r94Uqr1+JaxkEgJQxH4ck/u0VcS1v7jEkJX0lTGhHZXdRbGRFEigV3dNve0D5sIam2a2JA9tQI/Is7563d4hVCo2Re4pz8loL65fZhHMmebSYxTht1a9Lu5KrT58f4zOaKhsUcdwqe+QxLZbfnDA1HpmjLR3asUJT6YUZCh3iC35b3TwLTGWbSyk+BKCqTGmgefemdc/uoesaYq5lv+hZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LV6tD0RGIoNS93ooyVi6GvGnSf7Ko7JrUGP30atv4jQ=;
- b=IxCsw4fMuBS7zxai66COm2dIwEHP3Sh8G2sTJ1sDzUNRP7BdBB9oRGOJgMfwxp9hW2tOuzfUvyUeEJ/Tv8xi1g2bqavw+XY82dsap7IHZISl9C8An71+9zjhOdskcETE5YEnEcQtLJOryu1gdV9iJ+Gt2DaLFf4sjRNpRFDNAAGcV3bnXf/qBp+IP/L9svMRJQ9VPPzVVj3Nx9e7mQCKHR9ybEoiKaZh//6mOb7W5TznQm5jrNI8v1uaYBd13ZRIkxGfvnA8CAQt6VLyFyCzmsaT5kZwTNv/ymFVL9BVwFRb5PnPkt6W8KqsXXg3zMbadCGpkaQKwAWU+EfmZ83Pxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="lKX+h+at"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-57bb7ee3142so2696328e87.0
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 10:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LV6tD0RGIoNS93ooyVi6GvGnSf7Ko7JrUGP30atv4jQ=;
- b=ihQEL+QrAxc+UPppDO9qkAvcg8rP2hH2PJlzSMDLN9ZYSpHM1E5kSO8ZUM/Yj+6zoyCmP47u4yVEGzk43F0MnSXNsWJPCY0DqXPv18H+uGMYnShUvobOBy+GqsBpjGZZ0WkTv7T8VEIDjC8VR+8nPRV2eOVtyHnFflym0LD2b9w=
-Received: from DS7PR05CA0045.namprd05.prod.outlook.com (2603:10b6:8:2f::7) by
- DS4PPFF446EBDEB.namprd19.prod.outlook.com (2603:10b6:f:fc00::a62) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Fri, 17 Oct
- 2025 16:57:45 +0000
-Received: from DS2PEPF00003446.namprd04.prod.outlook.com
- (2603:10b6:8:2f:cafe::a) by DS7PR05CA0045.outlook.office365.com
- (2603:10b6:8:2f::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.5 via Frontend Transport; Fri,
- 17 Oct 2025 16:57:39 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS2PEPF00003446.mail.protection.outlook.com (10.167.17.73) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7
- via Frontend Transport; Fri, 17 Oct 2025 16:57:44 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 216A1406547;
-	Fri, 17 Oct 2025 16:57:43 +0000 (UTC)
-Received: from lonswws03.ad.cirrus.com (lonswws03.ad.cirrus.com [198.90.188.34])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id BCA37820249;
-	Fri, 17 Oct 2025 16:57:42 +0000 (UTC)
-Date: Fri, 17 Oct 2025 17:57:41 +0100
-From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 09/11] ASoC: cs530x: Correct MCLK reference frequency
- values
-Message-ID: <aPJ1hS-YD2M6nsJi@lonswws03.ad.cirrus.com>
-References: <20251017161543.214235-1-vitalyr@opensource.cirrus.com>
- <20251017161543.214235-10-vitalyr@opensource.cirrus.com>
- <a16503e6-870a-43ce-a705-27c0ea199303@sirena.org.uk>
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1760722023; x=1761326823; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hDi+5M2k5Ml1K9ClJ80BwZv3vRmscPjpCQVBDoPQMTA=;
+        b=lKX+h+atSh/zaXOsjLobaX21WkHh58ezfi30YgGOQdUKbp0BMeje339NJHne/5JMpb
+         YIQSpjti8Jk9IQtAFdG2RCTJJxhovDl1cz5E0hqXu+QLthicuZP7UIJqrTxTI1nxO99d
+         h0GgieTf2XB6l9hyEtR/5HUZt9LXSqyXyXKZZIMMkAkcRaED+uGG6oCV5q8RqVU11CzR
+         s67o4QsV6DFjfOz4GvfhAJJj1Ej2X8+R38CigDfA0AdAMcOVbxoVpkOlv03gZ0js3XX0
+         ARvLnfLwCBpAwSTmmA+CYGgVz2Vy5mI9uejbpvOojiZewL/ejZ6fHbxrjFPrfhUk7PTa
+         P8bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760722023; x=1761326823;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hDi+5M2k5Ml1K9ClJ80BwZv3vRmscPjpCQVBDoPQMTA=;
+        b=Gh2oRKgpy7gQzY8/JLgfdn9dLGwPe4tVwie7EG6BhQyZHui09ESSKffN0SyHVcjU87
+         CV919D9OdbfjtlwdCVJ/rvGvfY3Qj2uFho59Ruum0eCug+FEiggP6v+e1QqeAPNQaeDH
+         ybUyS8fipXzATPgOaEa5f1rrAy2qIAdILuy+zdeTz3mz8Gf80mc9540ytViGrgIqDpBY
+         yTlkjONTijzwt3TldJYKcjy3W13xPncVqu1JKwc/9kd7IdGbLfZykAJuFiziw9UHvVDv
+         SaDo/7gWchFePd6/vZZ8r2Gei2FqeW0D+DtLFDXl3HTQH/LAi+zyVK81ikdJpMWF3YQl
+         D/KA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFQzminCIZrpdJJ74gVKFE0U7rBnKC1BhODpW+t+vvg0YKT+kpl2kaY/XRnOTZ0hbWv+3GZ9OqIB+FQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEJj2C+xfvEIOi2cMlEvUUPcRwVw4yATchPVJgJZUIoEgz75ih
+	GtEkB/asicOH3cISUbyJItmPCOXCOezOGxdWs/rpnddlFFNA0CJKMPLvNMiUS0h5TXAwv5FR7Qq
+	4UStS5B3p7nMGceXY2DxyooLt/133pn5p50AJbNJUSA==
+X-Gm-Gg: ASbGncvxB+Unvbh04YX0TnrKPFgBrsVNe9g3dbx7GJIj2VKw/hdnT3Gh0TpqTxf6E/G
+	SITyv+ZwpiUZopmvxoUNm3ToPWbXIcaPYduY/KBVbiX678RaAoxqcFC1Za6PXgbYqCvxBYJ2jYS
+	1ucNiiJd1gYU/BlVHE202MiQw90GPXsmhQEyLgv5fVa1sCcgrdq2HgGH42suKgVvQeEdUToFpbg
+	Q34L/F5YxXQcyqQKuaM0hYG4LQnUyi0pikI3l1uNm4xFoi/R3WYyaHBfYw2wPiOQRtpk4hxcPv/
+	StAF6wT+J1hpqtd38YlmUUmq5X0=
+X-Google-Smtp-Source: AGHT+IEnROQjyiNXa20y9fdKGDuy8cXUgGRQbjpjaM5VjMNNuXFx1RyY7/MYDJo1ov+PfI5vPHyhYoMIz6wqTgC382I=
+X-Received: by 2002:a05:6512:3b96:b0:58a:f7e0:7284 with SMTP id
+ 2adb3069b0e04-591d84fed59mr1542688e87.13.1760722022961; Fri, 17 Oct 2025
+ 10:27:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a16503e6-870a-43ce-a705-27c0ea199303@sirena.org.uk>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003446:EE_|DS4PPFF446EBDEB:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb9ceaaa-62a6-48fa-6e29-08de0d9e4aec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|61400799027|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TStJaS9SVm9WZnY2VEFkL282dWJYR21FUlpFVW1qTEZHd2ZEUHJ4Q2gxcUlO?=
- =?utf-8?B?UCtFMk96OFpZY1R2b0pDOC9HcFBWV0tYdllFNkRoNEE2WjhBbDAzYXBwTlQ3?=
- =?utf-8?B?UFR4ZzQ2RmJ5M00wYjhEMUlNYXhYbGJRTDBiRTV5NXpuUmMrS3F0eUZhV3Iv?=
- =?utf-8?B?NGlPU0JDNGFuSjRHOVU0Uyt2VHJ1RDhnaC9RT2U3ZDUyamZjVUc3bmtRa1Bh?=
- =?utf-8?B?emxDU0tVdkVubjNERStwRzJFVXFCd2JpdHM5UXJsTXlQbkRsZ0JjSkFXdnJK?=
- =?utf-8?B?djlwc3ZNdUpmazhnRmk1UkN6QTZ1T1RXcm9BanBpVmZLanZvMGxUSEF2WTNY?=
- =?utf-8?B?b25YZWJUeWhjZUdtQlFSTDhjVjZEeGRoQ3ZoY3B6R3NZN0k3emlQaWt6NDhu?=
- =?utf-8?B?bDUwQzFRTG0yMmtUcGRoZUdUdnk3eVhvcmRnOGRpQktXL2M3eU1ZeTJwZzkx?=
- =?utf-8?B?NHRhNlo3L3owM0tXTDdRdXFmbGhnOVlKTnJreUFqeXVQUnJ3TXFHVkx2WVcv?=
- =?utf-8?B?VzdHZ1l2blRrdmRQNWJuclBvNDdFVTRRRUVlSTJsMWNWUjdwYjV3NWtaNTNz?=
- =?utf-8?B?V0hGT1dLRmFPdmNwckFLMURoT2xvbG1mQWtuc2gyQkJXTkVXTEJMYkdCazlZ?=
- =?utf-8?B?Y1FaUlA4ZTRBWVMvNHVpTndLdGFGYUlYbFZDTUtJK2loNGF0L3F5ZlNaV1dP?=
- =?utf-8?B?SVcrYTkvVEdtZ25GeGtwcTZtRTlnVzhFOG5TMC8vVkg5ZkNremNRSVN4NVpp?=
- =?utf-8?B?R1p1UGlaZC8rMHBhYVhFU1JURjh2R01DYjRzQmZIWXdPbkFGdnVZWlpNTkt3?=
- =?utf-8?B?YlNGUHVFcE5QN0xpOGZzNUJneW4rVU1KNVpnbWVRQkd5aS9Ma1lDdnZxaWlD?=
- =?utf-8?B?NDRqZ002UmVJZDNqZGNSNDlWeFFDbEVyWmtUWWpnYnhrMmp6YzJQN0lxb1po?=
- =?utf-8?B?U3VORnZmQzVxZTB2dkpVTyt0QXdTVk85RlRwbWkrY2lVeEhFS0JTUHBRbC9z?=
- =?utf-8?B?MHpWUCtKbVJxdHZCbUo3alU2U0pFNG9GTG5JcEZKSEcyZE8wbUxCYUJ4NGlX?=
- =?utf-8?B?Y1FVMVd3S2xGUWQ5Z002RDE0L2g4YjF0a2NyQkthVWZrNlZVc2RuZ25sWjRF?=
- =?utf-8?B?MGlVMEIrMXNmSXFHZlVmNi8vNnB4QXQ5NkpTeHExWWE4QzJzU2JwNzVwWndN?=
- =?utf-8?B?Z0xSQ0xNSVRnVitHa2FYektHWkl6c2l1V1ZYaUhlS2RSOHJ3WFN1UUJKL2Fm?=
- =?utf-8?B?bnM0Mnd4QWg4bUtXWFNEUEhGcWRhaVphTVh0OUZCcjJMQ0wyTGpCMy9XYk5k?=
- =?utf-8?B?aW9zK0FGeStvcnN3QUY4MWg3bEl1RkNSTG1sQUoxM1prLzZCT0hUU2ZyNUFx?=
- =?utf-8?B?Y3A5c3A4SmtncnZQNFJJaXVzZmUxQ3owUE44eVB3Y3p6SmRTOUEyM1kvbFZO?=
- =?utf-8?B?RldNc1ZSdGdaMWVKSjQzS1REakg2eVhtY1VaTGR6NTNlU3pTZnJQM2JTMlVN?=
- =?utf-8?B?ZkE0Ri9kWk1EMWhhbE9Nbm9obVp0QlB0VHdhOHFqZGU5TjBETEl2U0x3TlJs?=
- =?utf-8?B?NTVwa3hwb1JuTE5BZmVkUmdzb0FKdEZ3ZFJaWW40MDBCWTk5eVF5Vy9sZlZZ?=
- =?utf-8?B?Z0p2R3A5S0JxaWVyWTRMcFdtUHRjY1Z1TWRpUFg5eWZNb3dINmp5MVVlbWR2?=
- =?utf-8?B?WTZDa2x0enZxUGVPU1F0NkdnTVNOcTl0dTc3cW1ESTZUZUNlZk1xWEdXNHps?=
- =?utf-8?B?Q09FUnphWXVPay83NW0zN0l1bkFFWGJTaTVYWG45QlBDOXFhamI4K0xFVGl2?=
- =?utf-8?B?K2JlU0pRRVJXNDh2bU1Pc3g0Zk5GTnM1V3haY1RVSHl1TWYxTzJmUVZqVVpO?=
- =?utf-8?B?bU5NYUZ0MDk5WHo1NUgwTUFtS1d1T1BwQjlnakJtL2dQVXlPS2RFR3p6MkFt?=
- =?utf-8?B?WFRXUG9zSWdtd05XQjVDSTl4dDJXUVN5Ty8rN2hhSFBNSDllZitRZEdseUIy?=
- =?utf-8?B?eFZBVFNhK2N5R0RwVnpzd2hEdDlvNWZhYTczZUtlbFZobisrME5ZWmduTHR4?=
- =?utf-8?B?cTNTb2xta3RMenlrRVBqOFpUTmw5bHJEMTR6eVQ0Uk9tekxKMmRXdnYwTWxQ?=
- =?utf-8?Q?VMA4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(61400799027)(376014)(7416014);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 16:57:44.3720
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb9ceaaa-62a6-48fa-6e29-08de0d9e4aec
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF00003446.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFF446EBDEB
-X-Proofpoint-ORIG-GUID: TIZfYS_l3QyOjZrgMprfq9Ql-1B2GTnh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE3MDEyNiBTYWx0ZWRfXw/MqXKxqHotn
- 3wKdZd15iAkAElTADFPqauwKiaw5pG3pLCRYUFAs4dInmka2nUSLAJVfr8AxloFkiRXuBiRVWZw
- toyz7mePXizUS8s+sZz1Qk02zw8iHA19YEqGfaESoSBgcUJsasqs9r50WKTlAa9pk3vqQCAEa2s
- N1fY2uj8j0VDLpsmPfyHyUJCEODqon+efcvRsOaQ0SPz3nACePQFh8MSqnXHqvCUR+wGBF6OltO
- 9wOYOWc40bk03rJHTY6BZGIXoEVQLeYSi9fVaDsixSq9D7vxauWoHAaBWH6fxbsoS44WiWFes0g
- xYOe1tQVnbKRhGC45TT7MIc5mDByLttc1M8RWPA/PX1m4U5mQf6ZhZ6UYK2yKRsNQFbGX4lgrhc
- I40V2v9KoK3gRV5UsGCIQuGWQnz+9g==
-X-Proofpoint-GUID: TIZfYS_l3QyOjZrgMprfq9Ql-1B2GTnh
-X-Authority-Analysis: v=2.4 cv=H7bWAuYi c=1 sm=1 tr=0 ts=68f2758c cx=c_pps
- a=IBJHqVCGmmUWI27oiwGTEA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=qAyo7-W0RYy2w9U-SnQA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Spam-Reason: safe
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+In-Reply-To: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 17 Oct 2025 19:26:51 +0200
+X-Gm-Features: AS18NWBvQScHzFXgOzgmGaLsZFy2d0XcQpPFsgGo-dqtoYRGPaRXMw7LL4aRoyw
+Message-ID: <CAMRc=Me4Fh5pDOF8Z2XY4MG_DYqPRN+UJh_BzKvmULL96wciYw@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Mark Brown <broonie@kernel.org>
+Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 17, 2025 at 05:44:06PM +0100, Mark Brown wrote:
-> On Fri, Oct 17, 2025 at 05:15:36PM +0100, Vitaly Rodionov wrote:
-> > The MCLK frequency must be 49.152 MHz (for 48 kHz-related
-> > sample rates) or 45.1584 MHz (for 44.1 kHz-related sample rates).
-> 
-> >  	switch (source) {
-> >  	case CS530X_SYSCLK_SRC_MCLK:
-> > -		if (freq != 24560000 && freq != 22572000) {
-> > -			dev_err(component->dev, "Invalid MCLK source rate %d\n",
-> > -				freq);
-> > +		switch (freq) {
-> > +		case CS530X_SYSCLK_REF_45_1MHZ:
-> > +		case CS530X_SYSCLK_REF_49_1MHZ:
-> > +			break;
-> > +		default:
-> > +			dev_err(component->dev, "Invalid MCLK source rate %d\n", freq);
-> >  			return -EINVAL;
-> >  		}
-> >  		break;
-> 
-> This will break any existing user that sets MCLK won't it?  Hopefully
-> they were managing to function, even if the clocks were out of spec.
+On Wed, Sep 24, 2025 at 4:51=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+>
+> Here's a functional RFC for improving the handling of shared GPIOs in
+> linux.
+>
+> Problem statement: GPIOs are implemented as a strictly exclusive
+> resource in the kernel but there are lots of platforms on which single
+> pin is shared by multiple devices which don't communicate so need some
+> way of properly sharing access to a GPIO. What we have now is the
+> GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+> doesn't do any locking or arbitration of access - it literally just hand
+> the same GPIO descriptor to all interested users.
+>
+> The proposed solution is composed of three major parts: the high-level,
+> shared GPIO proxy driver that arbitrates access to the shared pin and
+> exposes a regular GPIO chip interface to consumers, a low-level shared
+> GPIOLIB module that scans firmware nodes and creates auxiliary devices
+> that attach to the proxy driver and finally a set of core GPIOLIB
+> changes that plug the former into the GPIO lookup path.
+>
+> The changes are implemented in a way that allows to seamlessly compile
+> out any code related to sharing GPIOs for systems that don't need it.
+>
+> The practical use-case for this are the powerdown GPIOs shared by
+> speakers on Qualcomm db845c platform, however I have also extensively
+> tested it using gpio-virtuser on arm64 qemu with various DT
+> configurations.
+>
+> I'm Cc'ing some people that may help with reviewing/be interested in
+> this: OF maintainers (because the main target are OF systems initially),
+> Mark Brown because most users of GPIOD_FLAGS_BIT_NONEXCLUSIVE live
+> in audio or regulator drivers and one of the goals of this series is
+> dropping the hand-crafted GPIO enable counting via struct
+> regulator_enable_gpio in regulator core), Andy and Mika because I'd like
+> to also cover ACPI (even though I don't know about any ACPI platform that
+> would need this at the moment, I think it makes sense to make the
+> solution complete), Dmitry (same thing but for software nodes), Mani
+> (because you have a somewhat related use-case for the PERST# signal and
+> I'd like to hear your input on whether this is something you can use or
+> maybe it needs a separate, implicit gpio-perst driver similar to what
+> Krzysztof did for reset-gpios) and Greg (because I mentioned this to you
+> last week in person and I also use the auxiliary bus for the proxy
+> devices).
+>
+> First patch in the series is a bugfix targetting stable, I'm surprised
+> nobody noticed the lockdep splat yet. The second adds a library function
+> I use in a later patch. All remaining patches implement or use the
+> shared GPIO support.
+>
 
-Hopefully, there are no existing users yet. This was used only on our development board,
-and we’d like to fix it proactively before any users encounter issues.
+Mark,
 
+I was working on extending this series with patches that make the
+regulator subsystem aware of shared GPIOs managed by GPIOLIB. I admit
+that after our previous discussions I was under the impression that
+the regulator core not only manages the enable count of the underlying
+non-exclusive GPIOs but also emits the relevant
+REGULATOR_EVENT_ENABLE/DISABLE notifications for GPIO-driven
+regulators when the physical pin actually gets enabled/disabled
+respectively.
 
+Upon a closer inspection it turns out that this is not the case - the
+ENABLE/DISABLE events are emitted when the *logical* regulator is
+enabled/disabled even if this does not involve a change in the state
+of the shared pin.
+
+Example: the tlv320aic3x.c codec driver may use a fixed regulator that
+uses a shared GPIO pin. The regulator in question may get disabled but
+its GPIO might not change state as it's still enabled by a different
+regulator. The driver will still see the disable event and put the
+codec in reset.
+
+I'm not saying this behavior is incorrect, I'm just mentioning it as I
+thought that there's a need for some GPIO descriptor notifier that
+allows to signal the actual change in value to users but it doesn't
+seem to be the case if we just want to maintain the current behavior.
+The only change we need to support the existing NONEXCLUSIVE flag and
+the new shared GPIOs at the same time - until we convert all users -
+is providing gpiod_is_shared() and just making regulator core skip the
+descriptor comparison and referencing via struct regulator_enable_gpio
+if it sees that a GPIO descriptor is shared.
+
+I will post a v2 early next week.
+
+Bartosz
