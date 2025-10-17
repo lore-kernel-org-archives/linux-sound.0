@@ -1,119 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF9622D4FF;
-	Fri, 17 Oct 2025 07:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F6B189B84
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 08:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760687028; cv=none; b=Ddh5fbnnnSqwmO6ap+XWgTPvR8ZKj5M9drjs60m7eIryQosOZlU8SySRSClXJVadjGnJEwvQ1ZW/upI2ZaZJoumh5vkwK2LIwMZ3TxWSkJ59s8NtlC3nlGbWaw+lVTQjhQQTPBQTbQY+EdZJIFYlxedhWvNnN2HR+EA+S0lIKJU=
+	t=1760691385; cv=none; b=bLvEIG1Y56r5SmzkQ0TKa6jU83zshkA1P9Cd5GF66j1Nkxo7NcJVKwoXRrVjznuoOWNXizIzHNwwwWPI/5PwYw22gSHFjWplm+RcrvjrdhDW/s/fkprCeZXQPT3J+84DuBN8iNGNeKIzjMpuUDr09sVHtXVeCAZs8lthlmBETRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760687028; c=relaxed/simple;
-	bh=9CdamW/20xT6y0FYNrqNe/BTTUG5CCQbw9FUXJvXct0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BcMDUMD1da/AOPLLyM+F8ErsNqGY9+beBiextPMlpA5Gaqt5GWlPaPCFoPNZXwF49WWv+uYmfkhgpH0Wpr2IHotzXhO3dOgumiSVNpkfoNYZg+spifbBA+Bl53BPKhWDO40k60bmgb47ekJfrAdePBjZvmvXAF4QGEWVeiVEFM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8pX8PlV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760691385; c=relaxed/simple;
+	bh=QHBpsKbpDzuuRtkESyqE06ii+O7O5OYSBw6m4JT44II=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QV0EkgAXkZnDoA+AM3dJGaz8PNAB3MgbNo6FlbJUzyog9weMRubnoWVw1Cdyxn20Zxy+E4xSSYscIzhbaUu3UeEYQ6JPJhGmSlPOoH+YbhkHCEOHOeKjh4VZ/6KdL+AUUC2+1+eZVvnqCZhcX+n+rYQyze09Lz/6OvrKNexAhqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TQA/E1Mz; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8pX8PlV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35DF5C4CEFE;
-	Fri, 17 Oct 2025 07:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760687027;
-	bh=9CdamW/20xT6y0FYNrqNe/BTTUG5CCQbw9FUXJvXct0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=g8pX8PlV8FG9qWAHZ1+IW9Y8ZeW1+o3lD20AdNMUdrpKlCh1lMxQJT5s2xcVRn6lX
-	 nQxq9JIPa7T3NPgUV+YzIL3MxrYk9fp1j3WSJgVmTFSB53sWAg4vdLV7k5Lq1ijtDA
-	 u0chvYi0/Bqv1XF5IExOVUvc2YlN1/8RqtjcuaSzZnQHNoWq/Ph/VvEWMe5s3ooYXV
-	 yQ+C632D92f9Bmbs6cDoNjB9kpmmRxPRCgQ11JXY0ZuIjVYwMAHiunW5lU9m3K9nFn
-	 j5tr81KoY7WDMdWyBVNxITGolUkP1tbhG1HPsuihb/T4hDqovG69Go6VDP+IcGKw6e
-	 2X3JZCR6ObUuA==
-Message-ID: <08f52331-baa1-45ef-bfb8-dc6db000ceff@kernel.org>
-Date: Fri, 17 Oct 2025 09:43:43 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TQA/E1Mz"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59H8NAta002126
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 08:56:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=GgKHoqXT0qjE288x+uapHdxBiaCQzLjnRUN
+	NopeAlSA=; b=TQA/E1MzQ0IhJ4JKwA1t7t5JDNLfkd0/4o8vFZiN5/EtmvIVsOg
+	ab57IwU6BOGI2naOeK09x8GRZp6WKDeg4B0MnN2uPu60QS89hwxuL48qYy4n9z8k
+	HzhJdzTO3fwFWFOonrSrGmMrkItH7qC5PAlTxyOe6b/goLBMeVae4j6WMco4/+3+
+	/Ti2lqge3j4y5Za7HU/1u5I3cRR96rhI973zizXI1A2oqMNGBJTISHRGer9rb6aa
+	hrieAZcfum0/5u0BuMyXqDq3Joo6AdI8GeeGwTF+fzwfNft57afSmE630mOLreWA
+	fv0Dev5p+NUXN89dpIrPl1FHREOpVHHR3HQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfa8kk1c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 08:56:21 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-88e2656b196so801194985a.2
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 01:56:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760691381; x=1761296181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GgKHoqXT0qjE288x+uapHdxBiaCQzLjnRUNNopeAlSA=;
+        b=opWLvjCsh4js0G4fqMdqcbYYgZUNN7xCgEvF6lpklcl6L/cLy7Vzn6pRvp9UTYitSg
+         atsIwMUgTH3Qj62Y1ss8xMw8ez/v4o4HEyAmc0fW7IhTcjuYQ5d0LB6ysdPGFODtbE3J
+         lLGZ4cV8BlkktvPH3Wtdbj9Q7Iz8sfa7gyUxbqige9pbIJjfjHtEKGHKRtdY+iNJUwna
+         tFsGCos6zSbDYtxIRxcRrffJoX0gm1g9KZZRMuq5MpZMxpOvVdy4UcUKmcE1EnqrCilx
+         fWNsGxH+f9KPr+YACghC/j2XowSBF5LjvIwU7ts33agDtf1uwGxo7iVSg12NQfVARHjt
+         QxZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTtnHoQ28TKGe5yaFAocBEXoa7sPE1fkFwULdP1dSR8h/2qGlr53BtvKASS7KJA5g+JCxSMTfOnDQIsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFLPBGJuLIZ8h8M0Wt1uNyhHLinhhDaLVC+TRVD3eGocBzMhRr
+	scIXl6XW+hUbMKwiGCULjrqbA2usXxb2Tvp4RwrEc4XKRJcqY82CENvTx8cT1SjmpUaVhYJ74Q3
+	sDiV3icynof8EunEtw4cllO4lJNNvfaHqb0xzX9w5kbI+uAEMEb6ZCsvzg7a5s11lAg==
+X-Gm-Gg: ASbGncum2XD8jFtyzYJ3cYGU7n1BXr4bmMlMZ2DrvVZhdXlSs8vczwEeh/M3Wis5I2a
+	Ybhx4BqY6+Bb7hoTroWi93B2CMpfj2JY0hUbYwW1kDzUfxhkQ4BT7ddGSmwzR32otRbfF01ukSE
+	UxnqazkvKQeTjfE3CEcJFe/a12/Mb7HGoDa0m2Ez2zq2M5sFHaTt+jMpIkIDIZESgW/D8Uj/8xK
+	OYwo884WmPis/nFqmFeMbjLOS8hiQriuffAZ3SCeQoLReIDhKcbG2KyF0XK0wUZ+Etho2s/f0Q3
+	JtaUZqO1SO+s5OG2FVfUotZ/fTyC9PxRmiYCjrHnRGkDoZ5j1ksMkHjNPLmCBOYD9NgApCxllH5
+	wxEvWWY/srqnK
+X-Received: by 2002:a05:622a:1791:b0:4e6:d87a:280 with SMTP id d75a77b69052e-4e89d3a47d3mr35994201cf.55.1760691380718;
+        Fri, 17 Oct 2025 01:56:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEC4UOU4CztdtiviPzgPboziVO3y4fuMgxWeeOy7auZ+T//H6htzc8sa0xc+JXaw3/TGhF01Q==
+X-Received: by 2002:a05:622a:1791:b0:4e6:d87a:280 with SMTP id d75a77b69052e-4e89d3a47d3mr35993981cf.55.1760691380214;
+        Fri, 17 Oct 2025 01:56:20 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4711444d919sm70764985e9.14.2025.10.17.01.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 01:56:19 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, alexey.klimov@linaro.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 00/12] ASoC: qcom: q6dsp: few cleanups
+Date: Fri, 17 Oct 2025 09:52:55 +0100
+Message-ID: <20251017085307.4325-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] dt-bindings: mfd: qcom,spmi-pmic: add compatibles for
- audio blocks
-To: Alexey Klimov <alexey.klimov@linaro.org>, lee@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, sboyd@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, srini@kernel.org,
- krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org
-References: <20251017061314.644783-1-alexey.klimov@linaro.org>
- <2e4e0ad1-a030-4933-8bc9-7b9782234a15@kernel.org>
- <DDKE88TY46WS.1XKHP5I1S3CF6@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DDKE88TY46WS.1XKHP5I1S3CF6@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: kDLNtaARwxwvw0RcctlAqUHQEncS7OOj
+X-Proofpoint-ORIG-GUID: kDLNtaARwxwvw0RcctlAqUHQEncS7OOj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxNyBTYWx0ZWRfX9LdydEzK9rWN
+ ZN5Hdagn9P/dVXbHqp2iQDJGMUYwVhtfyUOTncfjEIYMbFFq/jWtdYXaUfUH/+uFQZreG2HCB0g
+ Gdbfhb5rDwj3TeByV2B6k4jfYx4P3knXIcqr0v88UhRDDwxjDyofX+3iCSJl1IeRqzOtJmtpAro
+ xYvmfLJ30P7tAvqYcYSBmAipPKSw44wRCbG9ytxQQ8oTYMpw/Y2M9xaRAcGCM9gqqp1QqQ4u3uh
+ zfNEO34+Vm0vNwFiTyWO9C+gkbSAezhbS9pPxhLj6zsvV7vRKAJKgSf6EkVXmrW+gIZ6jytDLQ5
+ +3TGrhy9CwKH1mjFXOXfFQscdXGWUZaZjdeQB/L7R9oBO+3jTXemgFtmYubBpCuDGd88MUKVYff
+ lNfh4d9OqTrMWlKyPf6ROPoFhJT99w==
+X-Authority-Analysis: v=2.4 cv=JLw2csKb c=1 sm=1 tr=0 ts=68f204b6 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=WpVtij-2m0Y91tUO0AgA:9
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-17_03,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110017
 
-On 17/10/2025 08:45, Alexey Klimov wrote:
-> On Fri Oct 17, 2025 at 7:25 AM BST, Krzysztof Kozlowski wrote:
->> On 17/10/2025 08:13, Alexey Klimov wrote:
->>> If/when pm4125 audio codec will be added to a device tree file, then dtbs
->>> check will emit messages that pmic audio-codec@f000 doesn't match any
->>> of the regexes: '^pinctrl-[0-9]+$'.
->>
->>
->> Future errors because of present mistakes are not a reason to do
->> something. This makes no sense because there is no DTBs with that
->> compatible, so drop this sentence. We never document compatibles,
->> because in the future they will be errors (if I get it right?).
-> 
-> Ok. I can hold it off till it will be started to be used then.
+This patchset does 3 things.
+- simplify code via __free(kfree) mechanism.
+- use spinlock guards
+- few cleanups discovered during doing above 2.
 
-No, you don't get the point. You invented fake (future) error as
-rationale... and want to wait till there is real error to commit this?
-This makes no sense.
+No functional changes
 
-You need to provide rationale for this patch - look at every other commit.
 
-Best regards,
-Krzysztof
+Thanks,
+--sirni
+
+
+Srinivas Kandagatla (12):
+  ASoC: qdsp6: q6asm: do not sleep while atomic
+  ASoc: qcom: audioreach: remove unused variables
+  ASoc: qcom: audioreach: Use automatic cleanup of kfree()
+  ASoc: qcom: q6adm: Use automatic cleanup of kfree()
+  ASoc: qcom: q6afe: Use automatic cleanup of kfree()
+  ASoc: qcom: q6apm: Use automatic cleanup of kfree()
+  ASoc: qcom: q6prm: Use automatic cleanup of kfree()
+  ASoc: qcom: q6asm: Use automatic cleanup of kfree()
+  ASoC: qcom: q6afe: Use guard() for spin locks
+  ASoC: qcom: q6apm-dai: Use guard() for spin locks
+  ASoC: qcom: q6asm-dai: Use guard() for spin locks
+  ASoC: qcom: q6asm: Use guard() for spin locks
+
+ sound/soc/qcom/qdsp6/audioreach.c | 234 +++++++++---------------------
+ sound/soc/qcom/qdsp6/q6adm.c      |  33 ++---
+ sound/soc/qcom/qdsp6/q6afe.c      |  49 ++-----
+ sound/soc/qcom/qdsp6/q6apm-dai.c  |  23 +--
+ sound/soc/qcom/qdsp6/q6apm.c      |  57 +++-----
+ sound/soc/qcom/qdsp6/q6asm-dai.c  |  23 +--
+ sound/soc/qcom/qdsp6/q6asm.c      | 189 ++++++------------------
+ sound/soc/qcom/qdsp6/q6prm.c      |  27 +---
+ 8 files changed, 170 insertions(+), 465 deletions(-)
+
+-- 
+2.51.0
+
