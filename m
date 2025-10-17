@@ -1,417 +1,141 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEB332ABF0;
-	Fri, 17 Oct 2025 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF865231C9F
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 13:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760705057; cv=none; b=de89S8fW1j8CJLEPErbvbM+4Efbc7EN/xicmfQb7WntuQMhIZNbVx6RLAY3SR5udfW44BLdzUHuCyBzqFOgdQvSFP5aKkx4A4F907980KVjndsVb+vF0V/qphdx55dvJDau+u7y+djb6MVPpiHc9OB0cGBK1QeuhrUIUrIxfdKY=
+	t=1760707064; cv=none; b=jd8VlmUMxrGCE49UQYeTCSNqJlHgMdrSS7SsLhGjak5Vq9Q1TlngmL09yivM0yeEuqUw3BOohM+egEVhtp2ogCWyytMExp0byIorpPL936SfklfK+zLrcjnx7LAoCO5q9J7EBjLBylYQDvxSCwDVjBRaONWcbUvwfSW1waCW3lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760705057; c=relaxed/simple;
-	bh=BP2tLcRODLLTGYUQN3ZH9uxeI36susbN9rWaT61n7mw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q72ZQPS6G0MiEZDdvjZ0GgNKxORkjA/hPwW28D1ANEIOxiUGNSWGuwrEMmoN9O0wWYM8JMULUmIRJN0gtTIGTBSvzza4Y9ApBjtXBV3WJcGYYAjs5Saa69u4dd+XKGYhnTP1xI8rDxmXLSBCfCY8B+JeSVjS3+vB9UTAy1EDshM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1OrQ3YIQ; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760707064; c=relaxed/simple;
+	bh=bBet7OKcIFo8/SortnaFr6ndbpW4yi8PlghaYES4Z50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VjDBuOJ3/QEUFXO14lNovHQoyTvfvTIMDUYqkBCImxTOujs8gSTDxBiYDv7AUjgC85/A3fVNHlyqmmnQNjBsNNq3vK1aMvu2QPudl+6Wu+1tmxSppDSbn2r1LHmPupjlAX/kT7KGfv8Yv+i+XcTWWxLx1Tv1oEjd1KEfMF/dZa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jlLyrrzw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1OrQ3YIQ"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 893244E41141;
-	Fri, 17 Oct 2025 12:44:10 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5A865606DB;
-	Fri, 17 Oct 2025 12:44:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9F85E102F2354;
-	Fri, 17 Oct 2025 14:43:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760705048; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=/PLeJE9KR8p3lxXJm49K9+lE+MUQWAG1Y2Q1wp2iOt0=;
-	b=1OrQ3YIQQiPnuSNXZtkh4wYwdSdAx5UueEbM2yNm13HKZwXyw1ihYGUrNQYUdxkCpAGMVy
-	YkkbIcpe0CR3qCP0wbMwh0zB1hOC7TqWWodn2WW8KY4xNUI/O+AOQw8TbYSSBrfGghbWHY
-	8Gc/3LSoCg3bXhOMFn0hCZL3djPCGi05rhcyYi2XzvAHIj8BH3d3SHGs+YBu9weyvWUJj1
-	4x9y5ZrJ27Kz0QSzL86mHytkuRU1hWZsMm0cuM7FT149jkBeSq2OjLIdD2HeCYXV3oJQhQ
-	bghkZIB7Jr0R4y2M9IPMwRAhI867zJp19eaGdl5+XtIq6kavcMynCp7fukKm4Q==
-Message-ID: <c3549740-f01c-4a98-8a3e-5af70326f0eb@bootlin.com>
-Date: Fri, 17 Oct 2025 14:43:17 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jlLyrrzw"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59H80lxT020776
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 13:17:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=3LILjlfqEYOLQkEETs/dYDTn
+	PSt3uyaP94CFMKgd6Sk=; b=jlLyrrzwtrCiJc+Phc1WGAhn3uCYpQEpV6fp4kmQ
+	IgSDmMmz4nwq/hXvFoNCiLhVJQQ2/gHO/M2xmyip868BiXM7Wa5rhetqO2bY2Vkj
+	dX77ZmUZpKQ41bKC4YLYVbfYTpsaXiScROwBzLmsR/6VsfoME4Vi4ksSJXoKXxJy
+	ywT4AnumPn12zPcWe3TOUBv52zWiNFm1wU2Ir9VyuRG0DN4JPfrX8IckxmsAO/sz
+	B5HSU7OvjAiz5JQhl6hIC6B8GYIX2rE6c/o3l4xzvXioX04K4TKxKvn+lfjvxhV6
+	VZp5BuiJ3Etwr0MwahRyuBBRJTQVie5h7esPIr9IaejlIQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49sua8u1a3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 13:17:41 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-84a3a7ac082so630959985a.2
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 06:17:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760707061; x=1761311861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3LILjlfqEYOLQkEETs/dYDTnPSt3uyaP94CFMKgd6Sk=;
+        b=TRfFK+omd5e0gP2eIQK6JqF50Y8klAN1esRpweBlEcFGNrXeTN1NHPgLe+/PZ5zXYi
+         E0xe2jeAh0Cc79VPJVp8EXYMvU1uzlbxxkJK5kO9MMEOvcsH0I/+3bX4WtHmQ5dS3Tqd
+         7firTn77t+xePPSE6Q0rF5EsfECv/iJFWfi58uj7oAbtHc+u8isdF8qf0hvWrNWiEt+9
+         O9PI+53RuNOMKx0lN4QBwwy+xMOl1qK63+kgxsYA97dCvd06JroJs19P6t1Ycq5UN3Cv
+         lfyVdaz+3D3D1wt8Ey8AuPjyWdr+sEq8KOMHfB3VCarB4HjIHzDhVQDN9BHzHDS7xU7/
+         58GA==
+X-Forwarded-Encrypted: i=1; AJvYcCUl8pyTJHIYo2Zt28IoJwcbuE8enkLbXMpmtCtXqo2BqQh3iylJJpc7eY2E9J0MrfBbqzSYy3ZWIPcNTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyIYSuCm1UBWkSEnJnDXm7xFTpJvEmolLv6BdtkrjG7ZD01d5z
+	aG/swzTnaVJly1GIOTHyuZbq9S26E7mwibcPn0OR1hyZIm3+zirHhficffq9Xm8Exdi3rtE8OS+
+	lXeLBfujWEngWdbtPEuM6Wcu1CgE4yWXOCHIoIYVT5unekdLDUOrTYbFu3ChEnW1k7Q==
+X-Gm-Gg: ASbGnctN9+OvyMhe/U1ldh07VxmlGHxTr5k7UtV6XX4CRauvYNU1+PKqRfvBl28OEur
+	2LahGmh/NofRHcs9Z/zX6RMf2MqBt2WTEZMXihdzqdJchEzaagEzHOvA3f6YuKUSrbcEwwtBiTk
+	LlmvS7Me2qN5zDKDFfCzeaPgrd7+nZxib3FGFhkC1wxai9+i8znStJbTxQnnRkbo1pgKRgKaOly
+	zu/WdSL2ugIs0tOSWbkAS5R9cdqXuHKs5iIwi4XkEE99gQp+tHn+L6KlMPnAY9QJ3ybqlMoS8wQ
+	a50Y47g1+OflgRoKzz59jKeoMoE9x4ff58Xs7zdxgJ3Oqou4ttrUMHY+781NSqxVN2Tftlj7Q5f
+	N77WEsNbPOi/wB97DtrO/feG6X+IwJICApvF9ERRT10o7yfavGOkOf2hmsAAuNtTgmfTVOFZBXz
+	qGCtMLxVc1eTc=
+X-Received: by 2002:a05:622a:1482:b0:4e6:ebcc:23fb with SMTP id d75a77b69052e-4e89d2b9904mr60570551cf.36.1760707060818;
+        Fri, 17 Oct 2025 06:17:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7v+jw5TyUGE2GPu1mMtX3P0F0LCVH2wPKYMO3Oz7sZ6e30VO+kzOqFROiuxwu8cIa+k2C/g==
+X-Received: by 2002:a05:622a:1482:b0:4e6:ebcc:23fb with SMTP id d75a77b69052e-4e89d2b9904mr60569691cf.36.1760707060268;
+        Fri, 17 Oct 2025 06:17:40 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762ea3ee2asm60957181fa.50.2025.10.17.06.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 06:17:39 -0700 (PDT)
+Date: Fri, 17 Oct 2025 16:17:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: prasad.kumpatla@oss.qualcomm.com, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Rao Mandadapu <quic_srivasam@quicinc.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+Subject: Re: [PATCH v3 5/5] ASoC: dt-bindings: qcom: Add Kaanapali LPASS
+ macro codecs
+Message-ID: <nvomxjtxisrwb6gnqf2xvzo2sxgwsoquvvdiujrbhvjm7atwgw@g2jpwjusfcz4>
+References: <20251015-knp-audio-v2-v3-0-e0e3e4167d87@oss.qualcomm.com>
+ <20251015-knp-audio-v2-v3-5-e0e3e4167d87@oss.qualcomm.com>
+ <6nyqz5fsqyqgtsqk6xxm4iorzoelhkgnghm5xczh6iamvmdfpa@2vff2lk6sq7e>
+ <3d96ff4a-1d3d-4089-b571-b4d28062566a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
- helpers
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>,
- Alex Elder <elder@ieee.org>, David Laight <david.laight.linux@gmail.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Jason Baron
- <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
- Tony Luck <tony.luck@intel.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Kim Seer Paller <kimseer.paller@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Cosmin Tanislav <demonsingur@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Jianping Shen <Jianping.Shen@de.bosch.com>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <cover.1760696560.git.geert+renesas@glider.be>
- <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
- <f2b879d3e8120c7aeb0e6c9a5fd45b15a2b8e5a0.camel@gmail.com>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <f2b879d3e8120c7aeb0e6c9a5fd45b15a2b8e5a0.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d96ff4a-1d3d-4089-b571-b4d28062566a@kernel.org>
+X-Proofpoint-GUID: ZnmZARuwkiIUTSXDj7weEi7_hjKHUbo-
+X-Authority-Analysis: v=2.4 cv=e5MLiKp/ c=1 sm=1 tr=0 ts=68f241f5 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=ugvR7wMMjgv2hvCkpHgA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDEzNCBTYWx0ZWRfX57sklClxicD4
+ /WL5HN3RlgULku4dCKiruHj2MBpyaH4Mr8JG+Voq1oBViNoBzrVCvzw1bG1G6ubtkJr1pM2Wdxc
+ vnVESkvwEec+lg5mV+USuiyJVYF5OEZXXVD0sHkRPuUBvzXr/874NMhUtsNRbZhgkhGXJSWfzSP
+ KvQyYbUVLa8fsWXw6amWqlXfof+Mjw3LmTPWeRJQoM4+My1hxTIwhdpqDUpRDashHNAmxhQ/RUX
+ LeQXvX9KLLfoxY5LP23SHwqKWJiLTNW0fJg3sfCiFpXPp/StnAJrXHf1DNoX2ov9GTnBE4MGYaY
+ wPynOW0uMg0rsJsvo9EdvMkt5JHXnItMJwGiZOCO7GTfvxe9GY+KERJ8UKFrf+AWmIvaOBBLhjM
+ 76+yRJ/BK0DoR+Rzq1bm7Y3UqSejvg==
+X-Proofpoint-ORIG-GUID: ZnmZARuwkiIUTSXDj7weEi7_hjKHUbo-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-17_05,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 spamscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510140134
 
-Le 17/10/2025 à 14:33, Nuno Sá a écrit :
-> On Fri, 2025-10-17 at 12:54 +0200, Geert Uytterhoeven wrote:
->> The existing FIELD_{GET,PREP}() macros are limited to compile-time
->> constants.  However, it is very common to prepare or extract bitfield
->> elements where the bitfield mask is not a compile-time constant.
->>
->> To avoid this limitation, the AT91 clock driver and several other
->> drivers already have their own non-const field_{prep,get}() macros.
->> Make them available for general use by consolidating them in
->> <linux/bitfield.h>, and improve them slightly:
->>    1. Avoid evaluating macro parameters more than once,
->>    2. Replace "ffs() - 1" by "__ffs()",
->>    3. Support 64-bit use on 32-bit architectures.
->>
->> This is deliberately not merged into the existing FIELD_{GET,PREP}()
->> macros, as people expressed the desire to keep stricter variants for
->> increased safety, or for performance critical paths.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Acked-by: Crt Mori <cmo@melexis.com>
->> ---
+On Thu, Oct 16, 2025 at 08:59:29AM +0200, Krzysztof Kozlowski wrote:
+> On 16/10/2025 02:54, Dmitry Baryshkov wrote:
+> > On Wed, Oct 15, 2025 at 01:27:19PM +0530, Prasad Kumpatla via B4 Relay wrote:
+> >> From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> >>
+> >> Add bindings for Qualcomm Kaanapali (LPASS) RX, TX, VA and WSA
+> >> macro codecs, which is likely compatible with earlier SM8550.
+> >>
+> >> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+> >> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> > 
+> > What does this serie of SoBs mean?
 > 
-> Hopefully this gets merged soon. About time to have these variants (I do have a
-> driver submitted - in review - which is adding yet another variant of this)
->   
-> Acked-by: Nuno Sá <nuno.sa@analog.com>
+> To me looks fine (see v1 and v2). Prasad wrote the patch, Jingyi changed
+> it and sent. Then Prasad took that changed patch and changed more.
+> Perfectly fine.
 
-Same here, I would happily drop field_{get,set} from my series under 
-review to include bitfield.h
-Thanks Geert!
-
-Acked-by: Richard Genoud <richard.genoud@bootlin.com>
-
-> 
->> v4:
->>    - Add Acked-by,
->>    - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
->>      power management debugfs helper APIs") in v6.17-rc1,
->>    - Convert more recently introduced upstream copies:
->>        - drivers/edac/ie31200_edac.c
->>        - drivers/iio/dac/ad3530r.c
->>
->> v3:
->>    - Add Acked-by,
->>    - Drop underscores from macro parameters,
->>    - Use __auto_type where possible,
->>    - Correctly cast reg to the mask type,
->>    - Introduces __val and __reg intermediates to simplify the actual
->>      operation,
->>    - Drop unneeded parentheses,
->>    - Clarify having both FIELD_{GET,PREP}() and field_{get,prep}(),
->>
->> v2:
->>    - Cast val resp. reg to the mask type,
->>    - Fix 64-bit use on 32-bit architectures,
->>    - Convert new upstream users:
->>        - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
->>        - drivers/gpio/gpio-aspeed.c
->>        - drivers/iio/temperature/mlx90614.c
->>        - drivers/pinctrl/nuvoton/pinctrl-ma35.c
->>        - sound/usb/mixer_quirks.c
->>    - Convert new user queued in renesas-devel for v6.15:
->>        - drivers/soc/renesas/rz-sysc.c
->> ---
->>   drivers/clk/at91/clk-peripheral.c             |  1 +
->>   drivers/clk/at91/pmc.h                        |  3 --
->>   .../intel/qat/qat_common/adf_pm_dbgfs_utils.c |  8 +----
->>   drivers/edac/ie31200_edac.c                   |  4 +--
->>   drivers/gpio/gpio-aspeed.c                    |  5 +--
->>   drivers/iio/dac/ad3530r.c                     |  3 --
->>   drivers/iio/temperature/mlx90614.c            |  5 +--
->>   drivers/pinctrl/nuvoton/pinctrl-ma35.c        |  4 ---
->>   drivers/soc/renesas/rz-sysc.c                 |  3 +-
->>   include/linux/bitfield.h                      | 36 +++++++++++++++++++
->>   sound/usb/mixer_quirks.c                      |  4 ---
->>   11 files changed, 42 insertions(+), 34 deletions(-)
->>
->> diff --git a/drivers/clk/at91/clk-peripheral.c b/drivers/clk/at91/clk-
->> peripheral.c
->> index e700f40fd87f9327..e7208c47268b6397 100644
->> --- a/drivers/clk/at91/clk-peripheral.c
->> +++ b/drivers/clk/at91/clk-peripheral.c
->> @@ -3,6 +3,7 @@
->>    *  Copyright (C) 2013 Boris BREZILLON <b.brezillon@overkiz.com>
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/bitops.h>
->>   #include <linux/clk-provider.h>
->>   #include <linux/clkdev.h>
->> diff --git a/drivers/clk/at91/pmc.h b/drivers/clk/at91/pmc.h
->> index 5daa32c4cf2540d7..543d7aee8d248cdb 100644
->> --- a/drivers/clk/at91/pmc.h
->> +++ b/drivers/clk/at91/pmc.h
->> @@ -117,9 +117,6 @@ struct at91_clk_pms {
->>   	unsigned int parent;
->>   };
->>   
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->> -
->>   #define ndck(a, s) (a[s - 1].id + 1)
->>   #define nck(a) (a[ARRAY_SIZE(a) - 1].id + 1)
->>   
->> diff --git a/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> b/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> index 69295a9ddf0ac92f..4ccc94ed9493a64c 100644
->> --- a/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> +++ b/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> @@ -1,18 +1,12 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /* Copyright(c) 2025 Intel Corporation */
->> +#include <linux/bitfield.h>
->>   #include <linux/bitops.h>
->>   #include <linux/sprintf.h>
->>   #include <linux/string_helpers.h>
->>   
->>   #include "adf_pm_dbgfs_utils.h"
->>   
->> -/*
->> - * This is needed because a variable is used to index the mask at
->> - * pm_scnprint_table(), making it not compile time constant, so the compile
->> - * asserts from FIELD_GET() or u32_get_bits() won't be fulfilled.
->> - */
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   #define PM_INFO_MAX_KEY_LEN	21
->>   
->>   static int pm_scnprint_table(char *buff, const struct pm_status_row *table,
->> diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
->> index 5a080ab65476dacf..dfc9a9cecd74207d 100644
->> --- a/drivers/edac/ie31200_edac.c
->> +++ b/drivers/edac/ie31200_edac.c
->> @@ -44,6 +44,7 @@
->>    * but lo_hi_readq() ensures that we are safe across all e3-1200 processors.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/module.h>
->>   #include <linux/init.h>
->>   #include <linux/pci.h>
->> @@ -139,9 +140,6 @@
->>   #define IE31200_CAPID0_DDPCD		BIT(6)
->>   #define IE31200_CAPID0_ECC		BIT(1)
->>   
->> -/* Non-constant mask variant of FIELD_GET() */
->> -#define field_get(_mask, _reg)  (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   static int nr_channels;
->>   static struct pci_dev *mci_pdev;
->>   static int ie31200_registered = 1;
->> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
->> index 7953a9c4e36d7550..3da999334971d501 100644
->> --- a/drivers/gpio/gpio-aspeed.c
->> +++ b/drivers/gpio/gpio-aspeed.c
->> @@ -5,6 +5,7 @@
->>    * Joel Stanley <joel@jms.id.au>
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/cleanup.h>
->>   #include <linux/clk.h>
->>   #include <linux/gpio/aspeed.h>
->> @@ -31,10 +32,6 @@
->>   #include <linux/gpio/consumer.h>
->>   #include "gpiolib.h"
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   #define GPIO_G7_IRQ_STS_BASE 0x100
->>   #define GPIO_G7_IRQ_STS_OFFSET(x) (GPIO_G7_IRQ_STS_BASE + (x) * 0x4)
->>   #define GPIO_G7_CTRL_REG_BASE 0x180
->> diff --git a/drivers/iio/dac/ad3530r.c b/drivers/iio/dac/ad3530r.c
->> index 6134613777b8e1d4..b97b46090d808ee7 100644
->> --- a/drivers/iio/dac/ad3530r.c
->> +++ b/drivers/iio/dac/ad3530r.c
->> @@ -53,9 +53,6 @@
->>   #define AD3530R_MAX_CHANNELS			8
->>   #define AD3531R_MAX_CHANNELS			4
->>   
->> -/* Non-constant mask variant of FIELD_PREP() */
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   enum ad3530r_mode {
->>   	AD3530R_NORMAL_OP,
->>   	AD3530R_POWERDOWN_1K,
->> diff --git a/drivers/iio/temperature/mlx90614.c
->> b/drivers/iio/temperature/mlx90614.c
->> index 8a44a00bfd5ece38..1ad21b73e1b44cb0 100644
->> --- a/drivers/iio/temperature/mlx90614.c
->> +++ b/drivers/iio/temperature/mlx90614.c
->> @@ -22,6 +22,7 @@
->>    * the "wakeup" GPIO is not given, power management will be disabled.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/delay.h>
->>   #include <linux/err.h>
->>   #include <linux/gpio/consumer.h>
->> @@ -68,10 +69,6 @@
->>   #define MLX90614_CONST_SCALE 20 /* Scale in milliKelvin (0.02 * 1000) */
->>   #define MLX90614_CONST_FIR 0x7 /* Fixed value for FIR part of low pass filter
->> */
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   struct mlx_chip_info {
->>   	/* EEPROM offsets with 16-bit data, MSB first */
->>   	/* emissivity correction coefficient */
->> diff --git a/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> b/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> index cdad01d68a37e365..8d71dc53cc1de1f8 100644
->> --- a/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> +++ b/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> @@ -81,10 +81,6 @@
->>   #define MVOLT_1800			0
->>   #define MVOLT_3300			1
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   static const char * const gpio_group_name[] = {
->>   	"gpioa", "gpiob", "gpioc", "gpiod", "gpioe", "gpiof", "gpiog",
->>   	"gpioh", "gpioi", "gpioj", "gpiok", "gpiol", "gpiom", "gpion",
->> diff --git a/drivers/soc/renesas/rz-sysc.c b/drivers/soc/renesas/rz-sysc.c
->> index 9f79e299e6f41641..73eaf8b9d69f7208 100644
->> --- a/drivers/soc/renesas/rz-sysc.c
->> +++ b/drivers/soc/renesas/rz-sysc.c
->> @@ -5,6 +5,7 @@
->>    * Copyright (C) 2024 Renesas Electronics Corp.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/cleanup.h>
->>   #include <linux/io.h>
->>   #include <linux/mfd/syscon.h>
->> @@ -16,8 +17,6 @@
->>   
->>   #include "rz-sysc.h"
->>   
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   /**
->>    * struct rz_sysc - RZ SYSC private data structure
->>    * @base: SYSC base address
->> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
->> index 7ff817bdae19b468..c999fe70076f6684 100644
->> --- a/include/linux/bitfield.h
->> +++ b/include/linux/bitfield.h
->> @@ -220,4 +220,40 @@ __MAKE_OP(64)
->>   #undef __MAKE_OP
->>   #undef ____MAKE_OP
->>   
->> +/**
->> + * field_prep() - prepare a bitfield element
->> + * @mask: shifted mask defining the field's length and position
->> + * @val:  value to put in the field
->> + *
->> + * field_prep() masks and shifts up the value.  The result should be
->> + * combined with other fields of the bitfield using logical OR.
->> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
->> + */
->> +#define field_prep(mask, val)						\
->> +	({								\
->> +		__auto_type __mask = (mask);				\
->> +		typeof(mask) __val = (val);				\
->> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
->> +				       __ffs(__mask) :
->> __ffs64(__mask);	\
->> +		(__val << __shift) & __mask;	\
->> +	})
->> +
->> +/**
->> + * field_get() - extract a bitfield element
->> + * @mask: shifted mask defining the field's length and position
->> + * @reg:  value of entire bitfield
->> + *
->> + * field_get() extracts the field specified by @mask from the
->> + * bitfield passed in as @reg by masking and shifting it down.
->> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
->> + */
->> +#define field_get(mask, reg)						\
->> +	({								\
->> +		__auto_type __mask = (mask);				\
->> +		typeof(mask) __reg =  (reg);				\
->> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
->> +				       __ffs(__mask) :
->> __ffs64(__mask);	\
->> +		(__reg & __mask) >> __shift;	\
->> +	})
->> +
->>   #endif
->> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
->> index 828af3095b86ee0a..6eee89cbc0867f2b 100644
->> --- a/sound/usb/mixer_quirks.c
->> +++ b/sound/usb/mixer_quirks.c
->> @@ -3311,10 +3311,6 @@ static int snd_bbfpro_controls_create(struct
->> usb_mixer_interface *mixer)
->>   #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
->>   #define RME_DIGIFACE_INVERT BIT(31)
->>   
->> -/* Nonconst helpers */
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->> -
->>   static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int
->> item, u16 mask, u16 val)
->>   {
->>   	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-
+ok
 
 -- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+With best wishes
+Dmitry
