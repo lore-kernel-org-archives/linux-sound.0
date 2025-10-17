@@ -1,113 +1,123 @@
-Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0C227FB3A;
-	Fri, 17 Oct 2025 03:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F2A30FC02
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 06:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760672256; cv=none; b=iu6d+6ztg910KuNd8D+IIwVrN+W71LCz9zr7QcxniCYktaLgSxpN/41HIfBi54fBDcf1UeTDQqS/I9risxLztPkW3jfeGaqvz70kJlGQz0d8yGQaMalcrYlMpog4Fjfi85MvFSUBsMe8H2q/wRJqi13kU5RW3suLhoHjymUoUl0=
+	t=1760681600; cv=none; b=cnlRNv6kUeL1tNnuQwGCOf5RJOQQz8yFz9395KNOdgg9SmppOWDBSHw8auqDAJK6Z2I/1ZhtoryPQrJ5+6rj1M531mEmdLkLjner+hLym71npvL8jR3l5bBvSkuntfzqHMe/ZTvkyjIy/ZNeINQxHHqpTBVQ/uFWKB27irEZBTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760672256; c=relaxed/simple;
-	bh=6sKxFmD7xtbhw/U6fWw/5xDqmGg+lEMB/j657bkCRcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e+lOqSK/aNDBsjll22W5VconReNyNutKShTZGhXFcFEFbG0D2P5ZHcFRmV6dBcNyULBAHKi8OM1oETCX8DuO5lEsqtzfxn6NC2IVQOUA6g2toGfNSa2IA4NFTEtnFFWEWo9t+IrZF/WsmIZHlJOMZxipAmDNvLXD8gqfKAEqFG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=NrA2hetM; arc=none smtp.client-ip=15.184.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1760681600; c=relaxed/simple;
+	bh=eF6t9Vq9NRea3XnH1BHglCTN0IeLN7yA62hWb+lXoeE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HoQPsa57LUrRhE+L6bKv8Hm7tV1aNyGVc1HShxOstUzKADoTm5fTKVNvBirufmx7Rm6FcFSFSsh70m4r+XhdsEgG7wqoYvYzI7bc7C1AIz5tAQ+qwLKSaTWmUInEmTHq8Boa6E6hr+uvyugVKN3fJmYXcIRotXN6Z3rZXiTim1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gI4ptFeP; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="NrA2hetM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1760672216;
-	bh=oBjWx1I4AnKMBoTG5upDqtcSRJpj6kwgVgcH9gHhiWk=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=NrA2hetMPmqFFX5VpPiNznP6QG+gEN5FQ0Npwqqr/HbKLiz6wkybhayL4h1d/eiR5
-	 m8O8yCQN9xVCfoKwSSZrfsf5fQpCXpKqC94gyHeplIGhf3QqXXfvcS5hRkhfolud+U
-	 KVqnqKGvtPqwKVUzAt3UMoz4JDzcPUQZEOTsLuR0=
-X-QQ-mid: esmtpgz14t1760672214t0abf1794
-X-QQ-Originating-IP: TlDX3I/w/Ks7UHXpGBXnho4hAw+exomsa25mQwPtHzQ=
-Received: from = ( [61.145.255.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 17 Oct 2025 11:36:52 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 14831178928690405288
-EX-QQ-RecipientCnt: 17
-Date: Fri, 17 Oct 2025 11:36:51 +0800
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gI4ptFeP"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4711f156326so1250365e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 16 Oct 2025 23:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760681595; x=1761286395; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RHSNJ2BDwx1sBbfCkuw18NdbM457O5a6eDYxm9b/Apw=;
+        b=gI4ptFePjPd23cusxBMiooO9gPjaVXKeuVH16Sq9TrAYSb68PcoIxvuviViJjSARD/
+         k+SHjLrGB17S00Zg4tuMgiNDgHHEjjz7ue1ZRQ2FGpD+yKVE4b7mgmemATWoGEdT8Fmc
+         DUP1s85K/bsUFBIJNTpNjb9GNHnyg1/MP7qdMibT1hUzCI+VqE5cxpbXdlZcPVlSfTm2
+         eEFOPgyzttZuLv3gN18aj2y8aQD2W/GPahATDDgV4yXUe+01hpVY5tPO4SPtvZiFdT0+
+         bEdYNCX8lHsTm1ugX/cqKpyk8hoZPpLRPS7WN9YnAcrH7hSiuIkWGxi6SNkIxnDJQtj+
+         Q7EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760681595; x=1761286395;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RHSNJ2BDwx1sBbfCkuw18NdbM457O5a6eDYxm9b/Apw=;
+        b=uNu8O0KWC0TH66SwL1ljMGoDwaMQFRMfLVq+MZaYAyNBaXkTBAoiJ/pMhtQA3+zIr2
+         E15g/ZPJSg/xFT1gaPl/siOeW9VoOTIlqnWxBzOfBWZyoJGbG0smrt6CFQN1bq1sA3CA
+         cyxr3WcioEtGiACmpZ/LbTwRxyKPPlayHKneAq4d8zlK12K7PDNYMunPYpfsVg6lEEl1
+         ABuSf2EryZQijGdNzDBN0/29srsbXtdJx2soFTdyqTilVkqOdG2R/R4B1TSLUl3fuwmt
+         FS+RYnG6oF6Bj0CsqbKwwu1NGL3XFmSR0ru4T7Kzzaz36qsnyt9tNw3FNlZs/pM7oaRm
+         nbvw==
+X-Forwarded-Encrypted: i=1; AJvYcCUyFPYnStGGJcCUB5l0jY9yzo2u04bl4/HaEx129oyna91TnYymF1xfzfktP1AEgVqKCNgs3zuPsg7D3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0DD16au2BiNo0kKBigYjgShIAYGUnvpNjN+tto7w5JW1zHWkj
+	6xsf24ic74gIfkHOXdahKwE+xxQYE2qTF8CNdcPP/NRfsAFz3dlVszh/2gEHT6IJYPg=
+X-Gm-Gg: ASbGncvqAnRB9GarwBNBvII7fmHCoIkl/25pwuXxvAeBVgnVhkMN2b7+Ir603qV5VFX
+	/5h0nzui/7AQQqMa7GC6fPefJhVfOJPJLqu00tT1LiyFkOXW0wb7afNoeTMqYeSi8SVRBiPUaej
+	Vs0Ozr2xPOEdVqV7+HUQbD8s5bHX1oapeXzu5/SJg/jjpxchuOJHTjPnhYlrUS6LrhBX8sxuTnL
+	U0KAlC+KXuspcCnrj1gB362JPbYo9PrwzPyPXUTypxMnLONabdDmflAorr2Uvmxnzj3pD/6mAzX
+	Z59PvkiuStQMEypTWbIN1HmzAWtN5AmlPFb0Pkb3SS4g2R2k0WXnERC5jMY0CnyVbM+Oo4xgzw5
+	Qj1Yh/nL434qXBklG0L0KtaCRQsAQvH6TZMVCaRfMCoFfeFGZ3nn8xmtmIT7PctBBy0xN+7cmEu
+	awCQRJR5N5XZDWNAfd
+X-Google-Smtp-Source: AGHT+IFi56b/X0lBjC6eoQ5DueToZROug6pRk4AZnyscKkreLGme/V1PG6KxmiRrNewDQ22JeqVkQg==
+X-Received: by 2002:a05:600c:34d0:b0:471:1717:409 with SMTP id 5b1f17b1804b1-471179071b4mr16544585e9.23.1760681595439;
+        Thu, 16 Oct 2025 23:13:15 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7259:a00:6426:9b9b:6d3d:1da8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47114429679sm61624745e9.8.2025.10.16.23.13.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 23:13:14 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: lee@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	sboyd@kernel.org
+Cc: linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Jinmei Wei <weijinmei@linux.spacemit.com>
-Subject: Re: [PATCH v5 0/2] ASoC: spacemit: add i2s support to K1 SoC
-Message-ID: <A22605E3906E8F62+aPG50wdFlFzSMORA@kernel.org>
-References: <20251017-k1-i2s-v5-0-401ae3775fcd@linux.spacemit.com>
+	srini@kernel.org,
+	krzysztof.kozlowski@linaro.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v5] dt-bindings: mfd: qcom,spmi-pmic: add compatibles for audio blocks
+Date: Fri, 17 Oct 2025 07:13:14 +0100
+Message-ID: <20251017061314.644783-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251017-k1-i2s-v5-0-401ae3775fcd@linux.spacemit.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: Mp6z4bZjgTSTBwMUNg8zA9wA/BtlxsS9MvS/mi3uCzcjbQONLrFwQzbz
-	dz5OzhjNhIXMdzbgh/z+kgzyVmiEZE1XTmMUgo+3svy/SPM2C/AcoK9jP9QO6O8klYpQmYS
-	55IxhdsElLrIPghaVjkI/eS/o6hTz3ohnbLuzB9AaOKxxw6clpBvD3UuYmu3Raz13gdcKM4
-	qbPVQM4Bg5ILXQH3zJiCv92C/ulr67NraHCgYxj1gaIJQzYmq2QnqHYLsZqB/8XZaCYkymP
-	K0x3ypYmu+wftAFUX0NhCP+klCe85C7+MkF7jTihyDVUxEbUlz2KtOBmYpWtEFVntUnZ9R6
-	Gi0oymDYJchg8GupgKq5ow9e4dJZFE85qyaoh0MYZ1CpKboznjT2r2qhODxSFHEkCsdSdB+
-	43VId5UPNcVy2Pj0y7Z7zi7r5rsGE69Zu/EauTiEFRrHRe+dT2gdeq/o8WQc/4KVK7OI2NG
-	Y79OpeVURHVXtNyqbWUYMGPaynT2v6GAYVugQIOW3qC2S/dpfBc9Xi2Ij+2HABuh+e80UTZ
-	blXJBR5w7EPhcsL/I1ECHWoR4HVhxA6jqEFVtW5OKaOQs3jq3cpZ4xXD3KYyxRAUmfTpw8L
-	Vv29lgO/O6aTsMC+gkwXrXYoD/Y6n5G2fviaurpcFQGwxOfBwFKU+taucR0x6T189WPB02l
-	G4YT2P+Vr1e6LGazbLf1FEhIagTYPQxwrPtY2s7Cqgm6eK9/zs+Mx52VI2kba0cqW6xjfTf
-	uDV1uFKWVu/rVH2OLUVdH6+lOYZzBi0Y1qHDzPMVgWcn5fKRocfUrv8Z3V5rnyZ65szvmNG
-	YKA5t2DQn/cMrj0zepSB1AwEDBA4noDHLdfd/wwB+93EelsrBm2tCthal30yWhQi3+55Fc6
-	OjfF1Q5YXwQ9BOnAxeGy21VNyEXBY9qLCoOltTGi65fybAc4sJWWA43h4ufS6vhamYoM/6n
-	6dA4oe+c9qSnUrN3XmemxZc56cW3U2T4bv3V8un+BnW3P3za6vFii/sAhvInnsNmIXMdeke
-	4PjgDtmtYhEWjAzliw7Sq8UlIs+vBPaQT+WglQz7jXGlidmHynU8xkV0f7USxez2i8edzoW
-	sZrnwJhI2rvtxN5YmB1vYA=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 17, 2025 at 11:16:16AM +0800, Troy Mitchell wrote:
-> On the K1 SoC, there is a full-duplex I2S controller.
-> 
-> The I2S is programmable, with the sample width configurable
-> to 8, 16, 18, or 32 bits.
-> 
-> A dedicated FIFO is provided for transmit (TXFIFO) and another
-> for receive (RXFIFO). In non-packed mode, both FIFOs are 32
-> entries deep and 32 bits wide, giving a total of 32 samples each.
-> 
-> The register definitions can be found here[1]
-> 
-> Link:
-> https://developer.spacemit.com/documentation?token=Rn9Kw3iFHirAMgkIpTAcV2Arnkf#18.2-spi%2Fi2s [1]
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-> ---
-> Changes in v5:
-> - Patch 1/2:
->   - nothing
-> - Patch 2/2:
->   - dont't read sspsp value in spacemit_i2s_init()
->   - set SSPSP_FSRT bit for DSP_A mode (was missing in previous version)
-The changelog here is wrong..
-Correct version:
-    - do not set SSPSP_FSRT for DSP_B
+If/when pm4125 audio codec will be added to a device tree file, then dtbs
+check will emit messages that pmic audio-codec@f000 doesn't match any
+of the regexes: '^pinctrl-[0-9]+$'.
 
-Best regards,
-Troy
-> - Link to v4: https://lore.kernel.org/all/20250921-k1-i2s-v4-0-4f819f50e468@linux.spacemit.com/
-> 
+Add the compatibles for two possible audio codecs so the devicetree for
+such audio blocks of PMIC can be validated properly while also
+removing reference to qcom,pm8916-wcd-analog-codec schema file.
+
+Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+
+v5: implemented Krzysztof's suggestion, completely rewrote commit messasge
+
+Previous version:
+https://lore.kernel.org/linux-arm-msm/20250915-pm4125_audio_codec_v1-v4-2-b247b64eec52@linaro.org/
+
+ Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+index 078a6886f8b1..2a7a92371b55 100644
+--- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
++++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+@@ -137,7 +137,11 @@ patternProperties:
+ 
+   "^audio-codec@[0-9a-f]+$":
+     type: object
+-    $ref: /schemas/sound/qcom,pm8916-wcd-analog-codec.yaml#
++    properties:
++      compatible:
++        enum:
++          - qcom,pm4125-codec
++          - qcom,pm8916-wcd-analog-codec
+ 
+   "^battery@[0-9a-f]+$":
+     type: object
+-- 
+2.47.3
+
