@@ -1,927 +1,588 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32EA2D9ED9;
-	Fri, 17 Oct 2025 16:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760717792; cv=fail; b=qZ3WKIDsOuttxY/bndcm7/u2m00K0d5MRBVnC00rnaPPM2/ftnYuj2LLd3DwYc1Fc29fy7m91J62qVjWRZKTZuaECarNreF6qhjXyzgpHU88NbqGxxwsgj5/Pf6GQIBquuAdlIcYwWp0xgvfditZFNayE90VRJpiO8HpTrlreX8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760717792; c=relaxed/simple;
-	bh=l3pNCkiyUnZ5x3phrGFoF0xPvY5RlCLV2Ijfy53Y2Q4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Loh3UkaSYMyd/Z8W8YZijVpLiWc1WSRtdpgqFfEU7+/TsZAutOG9ERP9PxCn4VU+d2zOdTcZn4fvbyPKmBx1aRU8X/qxUTYbPSPiN4VRLKqHEmJsupRDinGBib59jXP+/BP/S+2ey4ialkOHHgK/9/SC8rFSnMQbQqQ+zPKLUdo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Vu1RV2cL; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=D6ru/oVh; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EE628468B
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 16:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760718147; cv=none; b=MbnwnXOeVzEklByJJFD9f7iC/vqoqfFGowBBNRUibPsfpLMZL577agr3pdYawH3Z4mqaRJkwNS/uEz+7fj2aLHPovvdt0LzEhkKWG89dyQn7XJpzdPCY8dSt24g82NjB1dpMXHns4b+sytpR6zVfngKvLdGd0URUtSs5dTKKeGU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760718147; c=relaxed/simple;
+	bh=ji4O3kJuvAWf9KxkSL59dxI7FAARlWgzXg5ruGa0RY0=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=oDqGdJNcBCWkVCPLgOXPykgHY6Rkyjwe8zIYlFEAzya4jgfsVcQ5yC5ZA8d9bg9w5vjCXmrkDV885LA/ZXM0bFvrV/zKdU6S6taR/Axi8o4f6DCMv1ZbYoBsBsHZjfp75O5EFZecVdtHcx8kvJX8ZyW6SC7URM8bLCrmlFCOMBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bYb7fHXr; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Vu1RV2cL";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="D6ru/oVh"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59H8PGfb4017904;
-	Fri, 17 Oct 2025 11:16:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=StCWOFfXiWO6C333jKx4E39X0RNxaz7WpvtB3gaR6Ks=; b=
-	Vu1RV2cLUxmFoNKbPfvRzriNYAj0viy1C4AYqyAIcF/1HbhUqj4pAlOjvEv8x7ZQ
-	Dk9LlyXBADDqMr7YDE2uQ2i//K/WH7ocbA57nSpg7jJXWhldyvkiMRx2OPzky0kg
-	fhsiuBqavm4QrgcwFPNKyrACEOFkQ+4S10doTY3BRcWHiR255oJnM/JfVxTcTxvi
-	VeL7/I3gMFmHuSCDMqeP88ID5zhWJFP5/CovCvQRYabxjNXkfjnSIxBkC9C9x0GG
-	26erLrMZR/CnmmwGZYnKdzO5+W8PiH0/i3HRmeGwlf+ISdW+LNrs7YmowRuw7EoT
-	Yg7gOo8P/QXWG9f1ueFwpA==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022121.outbound.protection.outlook.com [40.107.200.121])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 49u1mnhsbe-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 17 Oct 2025 11:16:01 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=orQQvOfLht3+kLwTB80M69nluEOcALa0RaOqIr+hWE8ZWPeFGAHWfzkvzEbxY7FFNAgTG+r2nwg1ywkQt4x4O7TgafEb/rnZZUKKuRchYayGFPtuDbyxWwWr0ekGychWlYTCeTTT/a4Jks53b/RM5+gPw6RzpgsW9y7k7LIRBz89QpIJ5eh/843KIay3dbE+GfCuDI2YEeriDsUtTwAXgw9NWys8V1eKYe4pxRZK8g+wh+n3ULovM5AD4ME9U9hxu49YyHlHcFQylDUTNaF7ZTcIxX4YTvtvuw83WTbeF6wzG5jI/H5LdpKXUiREHVnwC3WHLg362JoYNEWBbBm9Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=StCWOFfXiWO6C333jKx4E39X0RNxaz7WpvtB3gaR6Ks=;
- b=L/rFEDouXcNgtm9Pul2Kbq8oht45Jv9BA9lUYXWAQaE0wI2I0h67Hm4qonB927rPhLm3Oy6m+L51TVJSOXFPO167ZvCinppO5V3u9LVD9h9fUVQ+qsWrWWaorjA/6mhlbcIqFWc1J0m8xsIREToPT/Qwr1utm/ahoRDbmU98RLJJm9N0w+vevepQxjmUKNhBstUKCHgJridCkysg8JBKBbKaJbSSJJ+3osdS/zJ7KuBjbIWw6JJMBc9kJ4iP70cZ6PKjSX9dL/BkJFxPOI/uR0UdCYoH+b7tH3lW6TW8zPR4EzuAsAKnEgw/ZxApFcDkjdpSL7IMUGc8vAhCj6RJpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bYb7fHXr"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4270a0127e1so314195f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 09:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=StCWOFfXiWO6C333jKx4E39X0RNxaz7WpvtB3gaR6Ks=;
- b=D6ru/oVhuikR/FzdAgIx/gwymZ5UObSJnBD6kcgsnxiEngVdwGZCCIK67wf5MgwHons4P+1hVL/8Fc+X6Q3piF0LktZ/ROOjhqSOuspTwv3pCPtUvgMHXAjyz72189tch64kMwET7nCNwb0rUo+Fr/M50G2Sbb+ZlDOIFjJVeOI=
-Received: from SA9PR13CA0101.namprd13.prod.outlook.com (2603:10b6:806:24::16)
- by SA3PR19MB8241.namprd19.prod.outlook.com (2603:10b6:806:39e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
- 2025 16:15:58 +0000
-Received: from SN1PEPF0002BA4C.namprd03.prod.outlook.com
- (2603:10b6:806:24:cafe::7c) by SA9PR13CA0101.outlook.office365.com
- (2603:10b6:806:24::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7 via Frontend Transport; Fri,
- 17 Oct 2025 16:15:58 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SN1PEPF0002BA4C.mail.protection.outlook.com (10.167.242.69) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7
- via Frontend Transport; Fri, 17 Oct 2025 16:15:57 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 66B43406547;
-	Fri, 17 Oct 2025 16:15:56 +0000 (UTC)
-Received: from lonswws03.ad.cirrus.com (lonswws03.ad.cirrus.com [198.90.188.34])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id EDE83820249;
-	Fri, 17 Oct 2025 16:15:55 +0000 (UTC)
-From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-        devicetree@vger.kernel.org,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-Subject: [PATCH v4 07/11] ASoC: cs530x: Add CODEC and DAC support
-Date: Fri, 17 Oct 2025 17:15:34 +0100
-Message-ID: <20251017161543.214235-8-vitalyr@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251017161543.214235-1-vitalyr@opensource.cirrus.com>
-References: <20251017161543.214235-1-vitalyr@opensource.cirrus.com>
+        d=gmail.com; s=20230601; t=1760718144; x=1761322944; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5dy939i+sggNUzLELn5SkuYv/G5ubAaOJXAQKuDPefU=;
+        b=bYb7fHXrz4JMWZ5S9bqubnHLg6YzE8fHyH2pmZXcKxn/P1dBxI4nJFm2wFuzWAFahd
+         EWDZ4jWI+HDa8Tk/euVQuHWjN7MqPL5tji7g63aD1F6r1z5Lqd3i4cmIIqyqf/qdXgAc
+         Xz+bYHnl6dGZQtpbCkw72v1ms2OcFQOWbgWGnCyrV6W9YoG195hZC/zIg7Z9ejgmbD40
+         94Ic+lLQxWN3FARDbZsEkdfsEi7AD9E24r69cuZTarwDD8ib2sBerHUIy6VBAobnP3RK
+         P4xSIaCyYlziq65fRg05HG9iNbKT436r8yLHt7HZnQ7AMOUGgVxLwOuI8hPe9xIVAM6e
+         9k6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760718144; x=1761322944;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5dy939i+sggNUzLELn5SkuYv/G5ubAaOJXAQKuDPefU=;
+        b=T4rsLUoOx9EWlEFqpSffgw9C2CHBPMkDL9m7WCOVt+HJJ7oqm6zpbJ4eZxnuMSb+xI
+         JGZ5TBfiwZuFq8vUdkOfnpvc9ix+o6/3mADX0A0Yxxro/kMmisESmYL32/9dyxY1wL/C
+         3ZKS7Te2szr2AFcIfEvycrpwFZvrPZ5w2GjtoYZ0v19Yb2yLof2l5+1UfMlU6OMj95fg
+         2hgdB/qkMe3X1frasnHm8gQechj1wCZLMYy5+uGrzCboXtTa4iGodldcBGXRLeHa2CAt
+         lwp9iMWZSQuhM4x143Hu+UDsyQC3JtpIQeZGDXL1edMR1+Y5csYYOCzH3WqduUk/ycr1
+         J4qw==
+X-Gm-Message-State: AOJu0YySA+LYUjcfLrA63kMzAhE+yxgKAhmhqKzUQjNDpF1X2Hsj9aBW
+	30d6EHCBMeWtM6ndiT/N2wy7FZVIEXzeTQEl3Sm3q7WRKyHsqlM5EPB3r/A/Os6OvF2TXnTWebX
+	UVnypIoRZmoqfBIz41+m/7bSwgS5h8Ej3C1vQ
+X-Gm-Gg: ASbGncuxNAENPAy4rpJ2fmhQ/szZHD/QwNosri8npSh5oNG0xmTWfReMjguhNLY9Lot
+	KBIxfdgmL/A9uKYgTd6krAHkAezfKKVdah1Uu7b76jUtd4l8l9+VJGQcEk2WUlePFCjy7iDSb/Y
+	vHSKFo9VCfS9cwj6swSyTK5VRT6RDfdVgjI7lOxEJuxHgRaquVq7gWHLm1sChuLVQQO6nUAJSJF
+	SFTGLW9iB/quV0970uDyy26vf3UG3Mi95zrx3m8WLpcFgHPttvM+j8eeZkfawrGhDaDlVWDYnVF
+	rKVrskXkxZzp6+5N
+X-Google-Smtp-Source: AGHT+IFuqHIKBLC5zjmri8npJ2cjtntUHsi1/9aod93dMjtxXXAVfWCwBr7TMm5+oNmFoORqq6E2Er0fR8Jbplp+uFQ=
+X-Received: by 2002:a05:6000:178e:b0:3ec:2529:b4e5 with SMTP id
+ ffacd0b85a97d-42704d966c5mr3418562f8f.38.1760718143619; Fri, 17 Oct 2025
+ 09:22:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4C:EE_|SA3PR19MB8241:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 87eff520-2a6b-4be7-2767-08de0d987505
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|61400799027|7416014|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?WX2X+LItay7AfrjJjZpw3kg9k13dRTPhc2WEI/NdGWCNZCLF+iPeb+5d+i8a?=
- =?us-ascii?Q?Bv8epoZ1e9sgr1sUd9Fx8kH0fYzFmQ8Zpc7MV8an8ro2Az0Y23jQJ+FniFVp?=
- =?us-ascii?Q?OBN3JwcW1YdnITpN+VtOl7o37jqmCRnF+DT4mEcMtLVQdT61CDSDqwJQmSb1?=
- =?us-ascii?Q?rB5Kv5bCD6YJLG+SdfXm3ausxD08IyV0K1v32vVVXUabW9ierPda0vrLdLkX?=
- =?us-ascii?Q?+l9AuPi7fmAoV+TKv1aV9e7w0lZYqDLNySL2K3lT4/yoEIXOTy/tJY5sgkgb?=
- =?us-ascii?Q?0OsoUTaBst9y6jKZtvVM2hNWZcRTVIzZvdr2SjwJMyGOzX2Yv7iPW70OeiG0?=
- =?us-ascii?Q?gd8PnbUhXfEXDALaxdxiqd87x+6FY2vP6nUtMyiStNCNAEvtP2OhvX5k7utr?=
- =?us-ascii?Q?PaXXCNVHJa4rK+JTMaI/pqXVYE+ZlO/53rlx6NHMBBP5OKEb8rWtXCZqR7NC?=
- =?us-ascii?Q?HmIUHlbB34qNQon1Ppdq4krkUzS7pp3wyYdzPBqr34/tkJYXEu8K7q75HQjd?=
- =?us-ascii?Q?tmiKJh6hddaeH/Y9oYHtMNuTsFCLJac18vUuwEHF5QB9sGgEcoHOyrRbfzta?=
- =?us-ascii?Q?g21N/2zgMTAptcwjwJ9kJNLNiEjwj89xR0g2phe6wWLpYU+2Zy2f0YCjzKZh?=
- =?us-ascii?Q?b3I0MyS6I0Icq0zNrwWq8DHdOo3LXDohzwFGEoVCXomkST+vsFWHvNwXpDSh?=
- =?us-ascii?Q?YFtQTejeS5i01kXx1lk74gTWgAq5JTiecJZ9oS5ON7zNa6I7MNupWCP7clcn?=
- =?us-ascii?Q?Ilj+v3CFYs64uxfKqoYBxR5m638VFoKk/PXffhhPuzLPreU5lp/713S028qO?=
- =?us-ascii?Q?PGpknnCFh5YvmwsEM7aNgc7zPiFjDMOspHO+cWVzhpaO318Edu1kAXqCyR+O?=
- =?us-ascii?Q?9XMzeLU1Cm0+0j2sAJnldf5PVKKPZeQnJGirKrq1uQsN1nyLNAy56b2AMgAV?=
- =?us-ascii?Q?TH140O/ih5FueArOHjdVSm0JTmEeuFooTTc+Gkrqf9UiKkwRY56JR0ZlKCND?=
- =?us-ascii?Q?4amm4454Tl5hKaY/F3S0rj/Tg27uDGhUIprtznmWs5LqINSbkpJOLMAzajQY?=
- =?us-ascii?Q?Q55yMq0dIZZEhW1NkZrSrnwG5Gf+cBz0omWTB4SKvg+PGnlepiGToRoYIHin?=
- =?us-ascii?Q?JRB00ThYLpPq8UXhOX60DiJeUNardu6KPTYyGkjWijJMfP27UA+dJK7aFf2N?=
- =?us-ascii?Q?91rHlaG8wzpvGrO57DvBA7a3Oz8qI1cW2UiLiyqLBN5g6oJKjzXOJuJAOGlL?=
- =?us-ascii?Q?5J4L6N9z7b7+GaFawFwMMGvy5jhWWv1xM6lj0Va2VESMZr5QPB4VJeanhVgq?=
- =?us-ascii?Q?HutqWDsz4vNY4x5Q4xEHMikvICFqwk2KrJ08fC2Hzt/pFl+gOkunJGAN7Grg?=
- =?us-ascii?Q?a4DeOluCN3v1OXvjgU4AbFwDx/bQxUNnq8cBrvbYhgAmbeL8h/4Ws31fS2+b?=
- =?us-ascii?Q?Vx7qpV0ZSEeok6wSUwc8dXDTrwrNWbfjq7jSxLtLAJBiRh/vdyJKeduEyhAx?=
- =?us-ascii?Q?SL7WsaVVK3Cw6/ya+7ad//mdp8/EGCIZBwacb61eF9onE8f36LJVivKaT+qE?=
- =?us-ascii?Q?bOnAKvscaPPjA8LlYUo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(7416014)(376014)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 16:15:57.9945
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87eff520-2a6b-4be7-2767-08de0d987505
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF0002BA4C.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB8241
-X-Authority-Analysis: v=2.4 cv=POACOPqC c=1 sm=1 tr=0 ts=68f26bc1 cx=c_pps
- a=PlzX2GN61/O3EU/AUs1JWA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=x6icFKpwvdMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=L8ub6Hg6ihGcwRW8v1IA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: sTHUFQL9pyzinRHYBQrbkYX8741dpos2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE3MDEyMCBTYWx0ZWRfX6oBzCWv3JTkd
- 7I2hTKpjhR2p9nIrgIARmC7qsXjVQrdt0gDYN3NHgTOFuxzNUhCXbvwmwa92cgeULa+uWVzWdOM
- JICnXD8X3cYyfqLvhLYlz1wf5RF7g14wqrCF68hMvZfkZ56QJQw807UsReckaxzdTvYKrYzprnP
- MtuinYQfbjPjTcQd3YNFBMuCiDYL8tKM1E+qfNPVrMh+t8bw4YO0abJ8gxKpy9bkfpmhGPVoWg6
- EUs+dD7KbGCS/Z+xZ8rdA0mKK+79Ne15VugUZP0w3J6MNwTwk3ZAc72eXLOn+y4x1JKJ+DDohco
- WgL9NC+1DKzyNbmNt4stKhjsbywcEKDmM0vV7cAXBkAeKZKRlptNI5eAZ5EDSXnqUykEkxl9BtW
- a/qlHv3GnSxfNndhvY1trEOcABn1Kg==
-X-Proofpoint-GUID: sTHUFQL9pyzinRHYBQrbkYX8741dpos2
-X-Proofpoint-Spam-Reason: safe
+From: The-Luga <lugathe2@gmail.com>
+Date: Fri, 17 Oct 2025 13:22:12 -0300
+X-Gm-Features: AS18NWDS515xe7elMn_Sg0UkjBEBKP861Za6cSdz_oJIqVxDQHo3oQoPL-EqyU8
+Message-ID: <CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com>
+Subject: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself when
+ RGB brightness button is used under Linux
+To: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+Device: Edifier QR30 USB Speakers
+Vendor: Jieli Technology
+USB ID: 2d99:a101
+Firmware label in descriptors: "EDIFIER Hal0 2.0 SE"
+Kernel tested:  6.12.53-1-lts and 6.17.2-arch1-1
+Distribution: Arch Linux
+DE: Gnome 49
 
-- Added DAC register address constants
-- Add the new registers to the regmap config
-- Renamed constants that are shared between the DACs and ADCs
-- Add the device IDs and device names of the CODEC and DACs along with
-  their different capabilities
-- Add DAPM widgets, ALSA controls and event handling for the DAC
-  functionality
-- Add Playback DAI support
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
----
- sound/soc/codecs/cs530x-i2c.c |  16 ++
- sound/soc/codecs/cs530x.c     | 413 +++++++++++++++++++++++++++++++---
- sound/soc/codecs/cs530x.h     |  60 +++--
- 3 files changed, 441 insertions(+), 48 deletions(-)
+Problem:
+When connected via USB on Linux, rotating the built-in RGB brightness
+button on the speaker causes an immediate USB disconnect/reconnect
+(firmware reboot).
+This does NOT occur under Windows.
 
-diff --git a/sound/soc/codecs/cs530x-i2c.c b/sound/soc/codecs/cs530x-i2c.c
-index d6b7883ba7b9..ab410826f777 100644
---- a/sound/soc/codecs/cs530x-i2c.c
-+++ b/sound/soc/codecs/cs530x-i2c.c
-@@ -14,6 +14,18 @@
- 
- static const struct of_device_id cs530x_of_match[] = {
- 	{
-+		.compatible = "cirrus,cs4282",
-+		.data = (void *)CS4282,
-+	}, {
-+		.compatible = "cirrus,cs4302",
-+		.data = (void *)CS4302,
-+	}, {
-+		.compatible = "cirrus,cs4304",
-+		.data = (void *)CS4304,
-+	}, {
-+		.compatible = "cirrus,cs4308",
-+		.data = (void *)CS4308,
-+	}, {
- 		.compatible = "cirrus,cs5302",
- 		.data = (void *)CS5302,
- 	}, {
-@@ -28,6 +40,10 @@ static const struct of_device_id cs530x_of_match[] = {
- MODULE_DEVICE_TABLE(of, cs530x_of_match);
- 
- static const struct i2c_device_id cs530x_i2c_id[] = {
-+	{ "cs4282", CS4282 },
-+	{ "cs4302", CS4302 },
-+	{ "cs4304", CS4304 },
-+	{ "cs4308", CS4308 },
- 	{ "cs5302", CS5302 },
- 	{ "cs5304", CS5304 },
- 	{ "cs5308", CS5308 },
-diff --git a/sound/soc/codecs/cs530x.c b/sound/soc/codecs/cs530x.c
-index 336ed5f225ea..25dbf401b15d 100644
---- a/sound/soc/codecs/cs530x.c
-+++ b/sound/soc/codecs/cs530x.c
-@@ -45,6 +45,18 @@ static const struct reg_default cs530x_reg_defaults[] = {
- 	{ CS530X_IN_VOL_CTRL3_1, 0x8000 },
- 	{ CS530X_IN_VOL_CTRL4_0, 0x8000 },
- 	{ CS530X_IN_VOL_CTRL4_1, 0x8000 },
-+	{ CS530X_OUT_ENABLES, 0 },
-+	{ CS530X_OUT_RAMP_SUM, 0x0022 },
-+	{ CS530X_OUT_FILTER, 0 },
-+	{ CS530X_OUT_INV, 0 },
-+	{ CS530X_OUT_VOL_CTRL1_0, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL1_1, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL2_0, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL2_1, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL3_0, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL3_1, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL4_0, 0x8000 },
-+	{ CS530X_OUT_VOL_CTRL4_1, 0x8000 },
- 	{ CS530X_PAD_FN, 0 },
- 	{ CS530X_PAD_LVL, 0 },
- };
-@@ -70,6 +82,19 @@ static bool cs530x_read_and_write_regs(unsigned int reg)
- 	case CS530X_IN_VOL_CTRL3_1:
- 	case CS530X_IN_VOL_CTRL4_0:
- 	case CS530X_IN_VOL_CTRL4_1:
-+	case CS530X_OUT_ENABLES:
-+	case CS530X_OUT_RAMP_SUM:
-+	case CS530X_OUT_DEEMPH:
-+	case CS530X_OUT_FILTER:
-+	case CS530X_OUT_INV:
-+	case CS530X_OUT_VOL_CTRL1_0:
-+	case CS530X_OUT_VOL_CTRL1_1:
-+	case CS530X_OUT_VOL_CTRL2_0:
-+	case CS530X_OUT_VOL_CTRL2_1:
-+	case CS530X_OUT_VOL_CTRL3_0:
-+	case CS530X_OUT_VOL_CTRL3_1:
-+	case CS530X_OUT_VOL_CTRL4_0:
-+	case CS530X_OUT_VOL_CTRL4_1:
- 	case CS530X_PAD_FN:
- 	case CS530X_PAD_LVL:
- 		return true;
-@@ -94,6 +119,7 @@ static bool cs530x_writeable_register(struct device *dev, unsigned int reg)
- 	switch (reg) {
- 	case CS530X_SW_RESET:
- 	case CS530X_IN_VOL_CTRL5:
-+	case CS530X_OUT_VOL_CTRL5:
- 		return true;
- 	default:
- 		return cs530x_read_and_write_regs(reg);
-@@ -116,7 +142,7 @@ static int cs530x_put_volsw_vu(struct snd_kcontrol *kcontrol,
- 		goto volsw_err;
- 
- 	/* Write IN_VU bit for the volume change to take effect */
--	regmap_write(regmap, CS530X_IN_VOL_CTRL5, CS530X_IN_VU);
-+	regmap_write(regmap, CS530X_IN_VOL_CTRL5, CS530X_INOUT_VU);
- 
- volsw_err:
- 	snd_soc_dapm_mutex_unlock(dapm);
-@@ -126,7 +152,7 @@ static int cs530x_put_volsw_vu(struct snd_kcontrol *kcontrol,
- 
- static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1270, 50, 0);
- 
--static const char * const cs530x_in_filter_text[] = {
-+static const char * const cs530x_inout_filter_text[] = {
- 	"Min Phase Slow Roll-off",
- 	"Min Phase Fast Roll-off",
- 	"Linear Phase Slow Roll-off",
-@@ -134,24 +160,36 @@ static const char * const cs530x_in_filter_text[] = {
- };
- 
- static SOC_ENUM_SINGLE_DECL(cs530x_in_filter_enum, CS530X_IN_FILTER,
--			    CS530X_IN_FILTER_SHIFT,
--			    cs530x_in_filter_text);
-+			    CS530X_INOUT_FILTER_SHIFT,
-+			    cs530x_inout_filter_text);
- 
--static const char * const cs530x_in_4ch_sum_text[] = {
-+static SOC_ENUM_SINGLE_DECL(cs530x_out_filter_enum, CS530X_OUT_FILTER,
-+			    CS530X_INOUT_FILTER_SHIFT,
-+			    cs530x_inout_filter_text);
-+
-+static const char * const cs530x_4ch_sum_text[] = {
- 	"None",
- 	"Groups of 2",
- 	"Groups of 4",
- };
- 
- static SOC_ENUM_SINGLE_DECL(cs530x_in_sum_ch4_enum, CS530X_IN_RAMP_SUM,
--			    CS530X_IN_SUM_MODE_SHIFT,
--			    cs530x_in_4ch_sum_text);
-+			    CS530X_INOUT_SUM_MODE_SHIFT,
-+			    cs530x_4ch_sum_text);
- 
- static const struct snd_kcontrol_new cs530x_in_sum_4ch_controls[] = {
- SOC_ENUM("IN Sum Select", cs530x_in_sum_ch4_enum),
- };
- 
--static const char * const cs530x_in_8ch_sum_text[] = {
-+static SOC_ENUM_SINGLE_DECL(cs530x_out_sum_ch4_enum, CS530X_OUT_RAMP_SUM,
-+			    CS530X_INOUT_SUM_MODE_SHIFT,
-+			    cs530x_4ch_sum_text);
-+
-+static const struct snd_kcontrol_new cs530x_out_sum_4ch_controls[] = {
-+SOC_ENUM("OUT Sum Select", cs530x_out_sum_ch4_enum),
-+};
-+
-+static const char * const cs530x_8ch_sum_text[] = {
- 	"None",
- 	"Groups of 2",
- 	"Groups of 4",
-@@ -159,13 +197,20 @@ static const char * const cs530x_in_8ch_sum_text[] = {
- };
- 
- static SOC_ENUM_SINGLE_DECL(cs530x_in_sum_ch8_enum, CS530X_IN_RAMP_SUM,
--			    CS530X_IN_SUM_MODE_SHIFT,
--			    cs530x_in_8ch_sum_text);
-+			    CS530X_INOUT_SUM_MODE_SHIFT,
-+			    cs530x_8ch_sum_text);
- 
- static const struct snd_kcontrol_new cs530x_in_sum_8ch_controls[] = {
- SOC_ENUM("IN Sum Select", cs530x_in_sum_ch8_enum),
- };
- 
-+static SOC_ENUM_SINGLE_DECL(cs530x_out_sum_ch8_enum, CS530X_OUT_RAMP_SUM,
-+			    CS530X_INOUT_SUM_MODE_SHIFT,
-+			    cs530x_8ch_sum_text);
-+
-+static const struct snd_kcontrol_new cs530x_out_sum_8ch_controls[] = {
-+SOC_ENUM("OUT Sum Select", cs530x_out_sum_ch8_enum),
-+};
- 
- static const char * const cs530x_vol_ramp_text[] = {
- 	"0ms/6dB", "0.5ms/6dB", "1ms/6dB", "2ms/6dB", "4ms/6dB", "8ms/6dB",
-@@ -190,8 +235,8 @@ SOC_ENUM("IN DEC Filter Select", cs530x_in_filter_enum),
- SOC_ENUM("Input Ramp Up", cs530x_ramp_inc_enum),
- SOC_ENUM("Input Ramp Down", cs530x_ramp_dec_enum),
- 
--SOC_SINGLE("ADC1 Invert Switch", CS530X_IN_INV, CS530X_IN1_INV_SHIFT, 1, 0),
--SOC_SINGLE("ADC2 Invert Switch", CS530X_IN_INV, CS530X_IN2_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC1 Invert Switch", CS530X_IN_INV, CS530X_INOUT1_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC2 Invert Switch", CS530X_IN_INV, CS530X_INOUT2_INV_SHIFT, 1, 0),
- };
- 
- static const struct snd_kcontrol_new cs530x_in_3_to_4_controls[] = {
-@@ -200,8 +245,8 @@ SOC_SINGLE_EXT_TLV("IN3 Volume", CS530X_IN_VOL_CTRL2_0, 0, 255, 1,
- SOC_SINGLE_EXT_TLV("IN4 Volume", CS530X_IN_VOL_CTRL2_1, 0, 255, 1,
- 		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
- 
--SOC_SINGLE("ADC3 Invert Switch", CS530X_IN_INV, CS530X_IN3_INV_SHIFT, 1, 0),
--SOC_SINGLE("ADC4 Invert Switch", CS530X_IN_INV, CS530X_IN4_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC3 Invert Switch", CS530X_IN_INV, CS530X_INOUT3_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC4 Invert Switch", CS530X_IN_INV, CS530X_INOUT4_INV_SHIFT, 1, 0),
- };
- 
- static const struct snd_kcontrol_new cs530x_in_5_to_8_controls[] = {
-@@ -214,10 +259,10 @@ SOC_SINGLE_EXT_TLV("IN7 Volume", CS530X_IN_VOL_CTRL4_0, 0, 255, 1,
- SOC_SINGLE_EXT_TLV("IN8 Volume", CS530X_IN_VOL_CTRL4_1, 0, 255, 1,
- 		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
- 
--SOC_SINGLE("ADC5 Invert Switch", CS530X_IN_INV, CS530X_IN5_INV_SHIFT, 1, 0),
--SOC_SINGLE("ADC6 Invert Switch", CS530X_IN_INV, CS530X_IN6_INV_SHIFT, 1, 0),
--SOC_SINGLE("ADC7 Invert Switch", CS530X_IN_INV, CS530X_IN7_INV_SHIFT, 1, 0),
--SOC_SINGLE("ADC8 Invert Switch", CS530X_IN_INV, CS530X_IN8_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC5 Invert Switch", CS530X_IN_INV, CS530X_INOUT5_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC6 Invert Switch", CS530X_IN_INV, CS530X_INOUT6_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC7 Invert Switch", CS530X_IN_INV, CS530X_INOUT7_INV_SHIFT, 1, 0),
-+SOC_SINGLE("ADC8 Invert Switch", CS530X_IN_INV, CS530X_INOUT8_INV_SHIFT, 1, 0),
- };
- 
- static int cs530x_adc_event(struct snd_soc_dapm_widget *w,
-@@ -233,24 +278,110 @@ static int cs530x_adc_event(struct snd_soc_dapm_widget *w,
- 		break;
- 	case SND_SOC_DAPM_POST_PMU:
- 		regmap_clear_bits(regmap, CS530X_IN_VOL_CTRL1_0 +
--				  (w->shift * 2), CS530X_IN_MUTE);
-+				  (w->shift * 2), CS530X_INOUT_MUTE);
- 		regmap_clear_bits(regmap, CS530X_IN_VOL_CTRL1_0 +
--				  ((w->shift + 1) * 2), CS530X_IN_MUTE);
-+				  ((w->shift + 1) * 2), CS530X_INOUT_MUTE);
- 
- 		cs530x->adc_pairs_count--;
- 		if (!cs530x->adc_pairs_count) {
- 			usleep_range(1000, 1100);
- 			return regmap_write(regmap, CS530X_IN_VOL_CTRL5,
--					    CS530X_IN_VU);
-+					    CS530X_INOUT_VU);
- 		}
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_set_bits(regmap, CS530X_IN_VOL_CTRL1_0 +
--				(w->shift * 2), CS530X_IN_MUTE);
-+				(w->shift * 2), CS530X_INOUT_MUTE);
- 		regmap_set_bits(regmap, CS530X_IN_VOL_CTRL1_0 +
--				((w->shift + 1) * 2), CS530X_IN_MUTE);
-+				((w->shift + 1) * 2), CS530X_INOUT_MUTE);
- 		return regmap_write(regmap, CS530X_IN_VOL_CTRL5,
--				    CS530X_IN_VU);
-+				    CS530X_INOUT_VU);
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static SOC_ENUM_SINGLE_DECL(cs530x_ramp_out_inc_enum, CS530X_OUT_RAMP_SUM,
-+			    CS530X_RAMP_RATE_INC_SHIFT,
-+			    cs530x_vol_ramp_text);
-+
-+static SOC_ENUM_SINGLE_DECL(cs530x_ramp_out_dec_enum, CS530X_OUT_RAMP_SUM,
-+			    CS530X_RAMP_RATE_DEC_SHIFT,
-+			    cs530x_vol_ramp_text);
-+
-+static const struct snd_kcontrol_new cs530x_out_1_to_2_controls[] = {
-+SOC_SINGLE_EXT_TLV("OUT1 Volume", CS530X_OUT_VOL_CTRL1_0, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+SOC_SINGLE_EXT_TLV("OUT2 Volume", CS530X_OUT_VOL_CTRL1_1, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+
-+SOC_ENUM("OUT DEC Filter Select", cs530x_out_filter_enum),
-+SOC_ENUM("Output Ramp Up", cs530x_ramp_out_inc_enum),
-+SOC_ENUM("Output Ramp Down", cs530x_ramp_out_dec_enum),
-+
-+SOC_SINGLE("DAC1 Invert Switch", CS530X_OUT_INV, CS530X_INOUT1_INV_SHIFT, 1, 0),
-+SOC_SINGLE("DAC2 Invert Switch", CS530X_OUT_INV, CS530X_INOUT2_INV_SHIFT, 1, 0),
-+};
-+
-+static const struct snd_kcontrol_new cs530x_out_3_to_4_controls[] = {
-+SOC_SINGLE_EXT_TLV("OUT3 Volume", CS530X_OUT_VOL_CTRL2_0, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+SOC_SINGLE_EXT_TLV("OUT4 Volume", CS530X_OUT_VOL_CTRL2_1, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+
-+SOC_SINGLE("DAC3 Invert Switch", CS530X_OUT_INV, CS530X_INOUT3_INV_SHIFT, 1, 0),
-+SOC_SINGLE("DAC4 Invert Switch", CS530X_OUT_INV, CS530X_INOUT4_INV_SHIFT, 1, 0),
-+};
-+
-+static const struct snd_kcontrol_new cs530x_out_5_to_8_controls[] = {
-+SOC_SINGLE_EXT_TLV("OUT5 Volume", CS530X_OUT_VOL_CTRL3_0, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+SOC_SINGLE_EXT_TLV("OUT6 Volume", CS530X_OUT_VOL_CTRL3_1, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+SOC_SINGLE_EXT_TLV("OUT7 Volume", CS530X_OUT_VOL_CTRL4_0, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+SOC_SINGLE_EXT_TLV("OUT8 Volume", CS530X_OUT_VOL_CTRL4_1, 0, 255, 1,
-+		    snd_soc_get_volsw, cs530x_put_volsw_vu, in_vol_tlv),
-+
-+SOC_SINGLE("DAC5 Invert Switch", CS530X_OUT_INV, CS530X_INOUT5_INV_SHIFT, 1, 0),
-+SOC_SINGLE("DAC6 Invert Switch", CS530X_OUT_INV, CS530X_INOUT6_INV_SHIFT, 1, 0),
-+SOC_SINGLE("DAC7 Invert Switch", CS530X_OUT_INV, CS530X_INOUT7_INV_SHIFT, 1, 0),
-+SOC_SINGLE("DAC8 Invert Switch", CS530X_OUT_INV, CS530X_INOUT8_INV_SHIFT, 1, 0),
-+};
-+
-+static int cs530x_dac_event(struct snd_soc_dapm_widget *w,
-+			    struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct cs530x_priv *cs530x = snd_soc_component_get_drvdata(component);
-+	struct regmap *regmap = cs530x->regmap;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		cs530x->dac_pairs_count++;
-+		break;
-+	case SND_SOC_DAPM_POST_PMU:
-+		regmap_clear_bits(regmap, CS530X_OUT_VOL_CTRL1_0 +
-+				 (w->shift * 2), CS530X_INOUT_MUTE);
-+		regmap_clear_bits(regmap, CS530X_OUT_VOL_CTRL1_0 +
-+				 ((w->shift + 1) * 2), CS530X_INOUT_MUTE);
-+
-+		cs530x->dac_pairs_count--;
-+		if (!cs530x->dac_pairs_count) {
-+			usleep_range(1000, 1100);
-+			return regmap_write(regmap, CS530X_OUT_VOL_CTRL5,
-+					    CS530X_INOUT_VU);
-+		}
-+		break;
-+	case SND_SOC_DAPM_PRE_PMD:
-+		regmap_set_bits(regmap, CS530X_OUT_VOL_CTRL1_0 +
-+			       (w->shift * 2), CS530X_INOUT_MUTE);
-+		regmap_set_bits(regmap, CS530X_OUT_VOL_CTRL1_0 +
-+			       ((w->shift + 1) * 2), CS530X_INOUT_MUTE);
-+		return regmap_write(regmap, CS530X_OUT_VOL_CTRL5,
-+				    CS530X_INOUT_VU);
- 	default:
- 		return -EINVAL;
- 	}
-@@ -266,8 +397,18 @@ static const struct snd_kcontrol_new adc56_ctrl =
- 	SOC_DAPM_SINGLE_VIRT("Switch", 1);
- static const struct snd_kcontrol_new adc78_ctrl =
- 	SOC_DAPM_SINGLE_VIRT("Switch", 1);
-+static const struct snd_kcontrol_new dac12_ctrl =
-+	SOC_DAPM_SINGLE_VIRT("Switch", 1);
-+static const struct snd_kcontrol_new dac34_ctrl =
-+	SOC_DAPM_SINGLE_VIRT("Switch", 1);
-+static const struct snd_kcontrol_new dac56_ctrl =
-+	SOC_DAPM_SINGLE_VIRT("Switch", 1);
-+static const struct snd_kcontrol_new dac78_ctrl =
-+	SOC_DAPM_SINGLE_VIRT("Switch", 1);
- static const struct snd_kcontrol_new in_hpf_ctrl =
- 	SOC_DAPM_SINGLE_VIRT("Switch", 1);
-+static const struct snd_kcontrol_new out_hpf_ctrl =
-+	SOC_DAPM_SINGLE_VIRT("Switch", 1);
- 
- /* General DAPM widgets for all devices */
- static const struct snd_soc_dapm_widget cs530x_gen_dapm_widgets[] = {
-@@ -284,7 +425,7 @@ SND_SOC_DAPM_ADC_E("ADC1", NULL, CS530X_IN_ENABLES, 0, 0,
- 		   SND_SOC_DAPM_PRE_PMU),
- SND_SOC_DAPM_ADC("ADC2", NULL, CS530X_IN_ENABLES, 1, 0),
- SND_SOC_DAPM_SWITCH("ADC12 Enable", SND_SOC_NOPM, 0, 0, &adc12_ctrl),
--SND_SOC_DAPM_SWITCH("IN HPF", CS530X_IN_FILTER, CS530X_IN_HPF_EN_SHIFT,
-+SND_SOC_DAPM_SWITCH("IN HPF", CS530X_IN_FILTER, CS530X_INOUT_HPF_EN_SHIFT,
- 		    0, &in_hpf_ctrl),
- };
- 
-@@ -408,6 +549,153 @@ static void cs530x_add_34_adc_widgets(struct snd_soc_component *component)
- 				ARRAY_SIZE(adc_ch3_4_routes));
- }
- 
-+/* DAC's Channels 1 and 2 plus generic DAC DAPM events */
-+static const struct snd_soc_dapm_widget cs530x_dac_ch12_dapm_widgets[] = {
-+SND_SOC_DAPM_OUTPUT("OUT1"),
-+SND_SOC_DAPM_OUTPUT("OUT2"),
-+SND_SOC_DAPM_DAC_E("DAC1", NULL, CS530X_OUT_ENABLES, 0, 0,
-+		   cs530x_dac_event,
-+		   SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMU |
-+		   SND_SOC_DAPM_PRE_PMU),
-+SND_SOC_DAPM_DAC("DAC2", NULL, CS530X_OUT_ENABLES, 1, 0),
-+SND_SOC_DAPM_SWITCH("DAC12 Enable", SND_SOC_NOPM, 0, 0, &dac12_ctrl),
-+SND_SOC_DAPM_SWITCH("OUT HPF", CS530X_OUT_FILTER, CS530X_INOUT_HPF_EN_SHIFT,
-+		    0, &out_hpf_ctrl),
-+};
-+
-+/* DAC's Channels 3 and 4 */
-+static const struct snd_soc_dapm_widget cs530x_dac_ch34_dapm_widgets[] = {
-+SND_SOC_DAPM_OUTPUT("OUT3"),
-+SND_SOC_DAPM_OUTPUT("OUT4"),
-+SND_SOC_DAPM_DAC_E("DAC3", NULL, CS530X_OUT_ENABLES, 2, 0,
-+		   cs530x_dac_event,
-+		   SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMU |
-+		   SND_SOC_DAPM_PRE_PMU),
-+SND_SOC_DAPM_DAC("DAC4", NULL, CS530X_OUT_ENABLES, 3, 0),
-+SND_SOC_DAPM_SWITCH("DAC34 Enable", SND_SOC_NOPM, 0, 0, &dac34_ctrl),
-+};
-+
-+/* DAC's Channels 5 to 8 */
-+static const struct snd_soc_dapm_widget cs530x_dac_ch58_dapm_widgets[] = {
-+SND_SOC_DAPM_OUTPUT("OUT5"),
-+SND_SOC_DAPM_OUTPUT("OUT6"),
-+SND_SOC_DAPM_OUTPUT("OUT7"),
-+SND_SOC_DAPM_OUTPUT("OUT8"),
-+SND_SOC_DAPM_DAC_E("DAC5", NULL, CS530X_OUT_ENABLES, 4, 0,
-+		   cs530x_dac_event,
-+		   SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMU |
-+		   SND_SOC_DAPM_PRE_PMU),
-+SND_SOC_DAPM_DAC("DAC6", NULL, CS530X_OUT_ENABLES, 5, 0),
-+SND_SOC_DAPM_SWITCH("DAC56 Enable", SND_SOC_NOPM, 0, 0, &dac56_ctrl),
-+SND_SOC_DAPM_DAC_E("DAC7", NULL, CS530X_OUT_ENABLES, 6, 0,
-+		   cs530x_dac_event,
-+		   SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMU |
-+		   SND_SOC_DAPM_PRE_PMU),
-+SND_SOC_DAPM_DAC("DAC8", NULL, CS530X_OUT_ENABLES, 7, 0),
-+SND_SOC_DAPM_SWITCH("DAC78 Enable", SND_SOC_NOPM, 0, 0, &dac78_ctrl),
-+};
-+
-+static const struct snd_soc_dapm_route dac_ch1_2_routes[] = {
-+	{ "DAC1", NULL, "Global Enable" },
-+	{ "DAC2", NULL, "Global Enable" },
-+
-+	{ "DAC12 Enable", "Switch", "OUT1" },
-+	{ "DAC12 Enable", "Switch", "OUT2" },
-+	{ "DAC1", NULL, "DAC12 Enable" },
-+	{ "DAC2", NULL, "DAC12 Enable" },
-+	{ "OUT HPF", "Switch", "DAC1" },
-+	{ "OUT HPF", "Switch", "DAC2" },
-+
-+	{ "OUT HPF", NULL, "AIF Playback" },
-+	{ "DAC1", NULL, "AIF Playback" },
-+	{ "DAC2", NULL, "AIF Playback" },
-+
-+	{ "OUT1", NULL, "DAC1" },
-+	{ "OUT2", NULL, "DAC2" },
-+};
-+
-+static const struct snd_soc_dapm_route dac_ch3_4_routes[] = {
-+	{ "DAC3", NULL, "Global Enable" },
-+	{ "DAC4", NULL, "Global Enable" },
-+
-+	{ "DAC34 Enable", "Switch", "OUT3" },
-+	{ "DAC34 Enable", "Switch", "OUT4" },
-+	{ "DAC3", NULL, "DAC34 Enable" },
-+	{ "DAC4", NULL, "DAC34 Enable" },
-+	{ "OUT HPF", "Switch", "DAC3" },
-+	{ "OUT HPF", "Switch", "DAC4" },
-+
-+	{ "DAC3", NULL, "AIF Playback" },
-+	{ "DAC4", NULL, "AIF Playback" },
-+
-+	{ "OUT3", NULL, "DAC3" },
-+	{ "OUT4", NULL, "DAC4" },
-+};
-+
-+static const struct snd_soc_dapm_route dac_ch5_8_routes[] = {
-+	{ "DAC5", NULL, "Global Enable" },
-+	{ "DAC6", NULL, "Global Enable" },
-+
-+	{ "DAC56 Enable", "Switch", "OUT5" },
-+	{ "DAC56 Enable", "Switch", "OUT6" },
-+	{ "DAC5", NULL, "DAC56 Enable" },
-+	{ "DAC6", NULL, "DAC56 Enable" },
-+	{ "OUT HPF", "Switch", "DAC5" },
-+	{ "OUT HPF", "Switch", "DAC6" },
-+
-+	{ "DAC5", NULL, "AIF Playback" },
-+	{ "DAC6", NULL, "AIF Playback" },
-+
-+	{ "OUT5", NULL, "DAC5" },
-+	{ "OUT6", NULL, "DAC6" },
-+
-+	{ "DAC7", NULL, "Global Enable" },
-+	{ "DAC8", NULL, "Global Enable" },
-+
-+	{ "DAC78 Enable", "Switch", "OUT7" },
-+	{ "DAC78 Enable", "Switch", "OUT8" },
-+	{ "DAC7", NULL, "DAC78 Enable" },
-+	{ "DAC8", NULL, "DAC78 Enable" },
-+	{ "OUT HPF", "Switch", "DAC7" },
-+	{ "OUT HPF", "Switch", "DAC8" },
-+
-+	{ "DAC7", NULL, "AIF Playback" },
-+	{ "DAC8", NULL, "AIF Playback" },
-+
-+	{ "OUT7", NULL, "DAC7" },
-+	{ "OUT8", NULL, "DAC8" },
-+};
-+
-+static void cs530x_add_12_dac_widgets(struct snd_soc_component *component)
-+{
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-+
-+	snd_soc_add_component_controls(component,
-+				       cs530x_out_1_to_2_controls,
-+				       ARRAY_SIZE(cs530x_out_1_to_2_controls));
-+
-+	snd_soc_dapm_new_controls(dapm, cs530x_dac_ch12_dapm_widgets,
-+				  ARRAY_SIZE(cs530x_dac_ch12_dapm_widgets));
-+
-+	snd_soc_dapm_add_routes(dapm, dac_ch1_2_routes,
-+				ARRAY_SIZE(dac_ch1_2_routes));
-+}
-+
-+static void cs530x_add_34_dac_widgets(struct snd_soc_component *component)
-+{
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-+
-+	snd_soc_add_component_controls(component,
-+				       cs530x_out_3_to_4_controls,
-+				       ARRAY_SIZE(cs530x_out_3_to_4_controls));
-+
-+	snd_soc_dapm_new_controls(dapm, cs530x_dac_ch34_dapm_widgets,
-+				  ARRAY_SIZE(cs530x_dac_ch34_dapm_widgets));
-+
-+	snd_soc_dapm_add_routes(dapm, dac_ch3_4_routes,
-+				ARRAY_SIZE(dac_ch3_4_routes));
-+}
-+
- static int cs530x_set_bclk(struct snd_soc_component *component, const int freq)
- {
- 	struct cs530x_priv *cs530x = snd_soc_component_get_drvdata(component);
-@@ -666,8 +954,11 @@ static const struct snd_soc_dai_driver cs530x_dai = {
- 	.name = "cs530x-dai",
- 	.capture = {
- 		.stream_name = "AIF Capture",
--		.channels_min = 2,
--		.channels_max = 8,
-+		.rates = SNDRV_PCM_RATE_KNOT,
-+		.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+	},
-+	.playback = {
-+		.stream_name = "AIF Playback",
- 		.rates = SNDRV_PCM_RATE_KNOT,
- 		.formats = SNDRV_PCM_FMTBIT_S32_LE,
- 	},
-@@ -722,6 +1013,43 @@ static int cs530x_component_probe(struct snd_soc_component *component)
- 				  ARRAY_SIZE(cs530x_gen_dapm_widgets));
- 
- 	switch (cs530x->devtype) {
-+	case CS4282:
-+		cs530x_add_12_adc_widgets(component);
-+		cs530x_add_12_dac_widgets(component);
-+		break;
-+	case CS4302:
-+		cs530x_add_12_dac_widgets(component);
-+		break;
-+	case CS4304:
-+		cs530x_add_12_dac_widgets(component);
-+		cs530x_add_34_dac_widgets(component);
-+
-+		num_widgets = ARRAY_SIZE(cs530x_out_sum_4ch_controls);
-+		snd_soc_add_component_controls(component,
-+					       cs530x_out_sum_4ch_controls,
-+					       num_widgets);
-+		break;
-+	case CS4308:
-+		cs530x_add_12_dac_widgets(component);
-+		cs530x_add_34_dac_widgets(component);
-+
-+		num_widgets = ARRAY_SIZE(cs530x_out_5_to_8_controls);
-+		snd_soc_add_component_controls(component,
-+					       cs530x_out_5_to_8_controls,
-+					       num_widgets);
-+
-+		num_widgets = ARRAY_SIZE(cs530x_out_sum_8ch_controls);
-+		snd_soc_add_component_controls(component,
-+					       cs530x_out_sum_8ch_controls,
-+					       num_widgets);
-+
-+		num_widgets = ARRAY_SIZE(cs530x_dac_ch58_dapm_widgets);
-+		snd_soc_dapm_new_controls(dapm, cs530x_dac_ch58_dapm_widgets,
-+					  num_widgets);
-+
-+		snd_soc_dapm_add_routes(dapm, dac_ch5_8_routes,
-+					ARRAY_SIZE(dac_ch5_8_routes));
-+		break;
- 	case CS5302:
- 		cs530x_add_12_adc_widgets(component);
- 		break;
-@@ -825,9 +1153,20 @@ static int cs530x_check_device_id(struct cs530x_priv *cs530x)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Can't read REV ID\n");
- 
--	dev_dbg(dev, "Device ID 0x%x Rev ID 0x%x\n", dev_id, rev);
--
- 	switch (dev_id) {
-+	case CS530X_2CH_CODEC_DEV_ID:
-+		cs530x->num_dacs = 2;
-+		cs530x->num_adcs = 2;
-+		break;
-+	case CS530X_2CH_DAC_DEV_ID:
-+		cs530x->num_dacs = 2;
-+		break;
-+	case CS530X_4CH_DAC_DEV_ID:
-+		cs530x->num_dacs = 4;
-+		break;
-+	case CS530X_8CH_DAC_DEV_ID:
-+		cs530x->num_dacs = 8;
-+		break;
- 	case CS530X_2CH_ADC_DEV_ID:
- 		cs530x->num_adcs = 2;
- 		break;
-@@ -842,6 +1181,9 @@ static int cs530x_check_device_id(struct cs530x_priv *cs530x)
- 				     dev_id);
- 	}
- 
-+	dev_dbg(dev, "Device ID 0x%x Rev ID 0x%x (%d in %d out)\n", dev_id, rev,
-+		cs530x->num_adcs, cs530x->num_dacs);
-+
- 	return 0;
- }
- 
-@@ -870,6 +1212,9 @@ static int cs530x_parse_device_properties(struct cs530x_priv *cs530x)
- 			val |= CS530X_IN12_HIZ;
- 
- 		return regmap_set_bits(regmap, CS530X_IN_HIZ, val);
-+	case 0:
-+		/* No ADCs */
-+		return 0;
- 	default:
- 		return dev_err_probe(dev, -EINVAL,
- 				     "Invalid number of adcs %d\n",
-@@ -932,7 +1277,15 @@ int cs530x_probe(struct cs530x_priv *cs530x)
- 	if (ret)
- 		goto err_reset;
- 
--	cs530x->dev_dai->capture.channels_max = cs530x->num_adcs;
-+	if (cs530x->num_adcs) {
-+		cs530x->dev_dai->capture.channels_min = 2;
-+		cs530x->dev_dai->capture.channels_max = cs530x->num_adcs;
-+	}
-+
-+	if (cs530x->num_dacs) {
-+		cs530x->dev_dai->playback.channels_min = 2;
-+		cs530x->dev_dai->playback.channels_max = cs530x->num_dacs;
-+	}
- 
- 	ret = devm_snd_soc_register_component(dev,
- 					      &soc_component_dev_cs530x,
-diff --git a/sound/soc/codecs/cs530x.h b/sound/soc/codecs/cs530x.h
-index cdd54bfa259f..c10a6766cc7a 100644
---- a/sound/soc/codecs/cs530x.h
-+++ b/sound/soc/codecs/cs530x.h
-@@ -15,6 +15,10 @@
- #include <linux/regulator/consumer.h>
- 
- /* Devices */
-+#define CS530X_2CH_CODEC_DEV_ID		 0x4282
-+#define CS530X_2CH_DAC_DEV_ID		 0x4302
-+#define CS530X_4CH_DAC_DEV_ID		 0x4304
-+#define CS530X_8CH_DAC_DEV_ID		 0x4308
- #define CS530X_2CH_ADC_DEV_ID		 0x5302
- #define CS530X_4CH_ADC_DEV_ID		 0x5304
- #define CS530X_8CH_ADC_DEV_ID		 0x5308
-@@ -45,6 +49,21 @@
- #define CS530X_IN_VOL_CTRL4_1	        0x000009E
- #define CS530X_IN_VOL_CTRL5		0x00000A0
- 
-+#define CS530X_OUT_ENABLES		0x00000C0
-+#define CS530X_OUT_RAMP_SUM		0x00000C2
-+#define CS530X_OUT_DEEMPH		0x00000C4
-+#define CS530X_OUT_FILTER		0x00000C6
-+#define CS530X_OUT_INV			0x00000CA
-+#define CS530X_OUT_VOL_CTRL1_0		0x00000D0
-+#define CS530X_OUT_VOL_CTRL1_1		0x00000D2
-+#define CS530X_OUT_VOL_CTRL2_0		0x00000D4
-+#define CS530X_OUT_VOL_CTRL2_1		0x00000D6
-+#define CS530X_OUT_VOL_CTRL3_0		0x00000D8
-+#define CS530X_OUT_VOL_CTRL3_1		0x00000DA
-+#define CS530X_OUT_VOL_CTRL4_0		0x00000DC
-+#define CS530X_OUT_VOL_CTRL4_1		0x00000DE
-+#define CS530X_OUT_VOL_CTRL5		0x00000E0
-+
- #define CS530X_PAD_FN			0x0003D24
- #define CS530X_PAD_LVL			0x0003D28
- 
-@@ -124,14 +143,14 @@
- #define CS530X_14_15_TDM_SLOT_MASK	GENMASK(15, 14)
- #define CS530X_14_15_TDM_SLOT_VAL	7
- 
--/* IN_RAMP_SUM */
-+/* IN_RAMP_SUM and OUT_RAMP_SUM */
- #define CS530X_RAMP_RATE_INC_SHIFT	0
- #define CS530X_RAMP_RATE_DEC_SHIFT	4
--#define CS530X_IN_SUM_MODE_SHIFT	13
-+#define CS530X_INOUT_SUM_MODE_SHIFT	13
- 
--/* IN_FILTER */
--#define CS530X_IN_FILTER_SHIFT		8
--#define CS530X_IN_HPF_EN_SHIFT		12
-+/* IN_FILTER and OUT_FILTER */
-+#define CS530X_INOUT_FILTER_SHIFT		8
-+#define CS530X_INOUT_HPF_EN_SHIFT		12
- 
- /* IN_HIZ */
- #define CS530X_IN12_HIZ			BIT(0)
-@@ -139,21 +158,21 @@
- #define CS530X_IN56_HIZ			BIT(2)
- #define CS530X_IN78_HIZ			BIT(3)
- 
--/* IN_INV */
--#define CS530X_IN1_INV_SHIFT		0
--#define CS530X_IN2_INV_SHIFT		1
--#define CS530X_IN3_INV_SHIFT		2
--#define CS530X_IN4_INV_SHIFT		3
--#define CS530X_IN5_INV_SHIFT		4
--#define CS530X_IN6_INV_SHIFT		5
--#define CS530X_IN7_INV_SHIFT		6
--#define CS530X_IN8_INV_SHIFT		7
-+/* IN_INV and OUT_INV */
-+#define CS530X_INOUT1_INV_SHIFT		0
-+#define CS530X_INOUT2_INV_SHIFT		1
-+#define CS530X_INOUT3_INV_SHIFT		2
-+#define CS530X_INOUT4_INV_SHIFT		3
-+#define CS530X_INOUT5_INV_SHIFT		4
-+#define CS530X_INOUT6_INV_SHIFT		5
-+#define CS530X_INOUT7_INV_SHIFT		6
-+#define CS530X_INOUT8_INV_SHIFT		7
- 
--/* IN_VOL_CTLy_z */
--#define CS530X_IN_MUTE			BIT(15)
-+/* IN_VOL_CTLy_z and OUT_VOL_CTLy_z */
-+#define CS530X_INOUT_MUTE			BIT(15)
- 
--/* IN_VOL_CTL5 */
--#define CS530X_IN_VU			BIT(0)
-+/* IN_VOL_CTL5 and OUT_VOL_CTL5 */
-+#define CS530X_INOUT_VU			BIT(0)
- 
- /* System Clock Source */
- #define CS530X_SYSCLK_SRC_MCLK		0
-@@ -166,6 +185,10 @@
- #define CS530X_NUM_SUPPLIES		2
- 
- enum cs530x_type {
-+	CS4282,
-+	CS4302,
-+	CS4304,
-+	CS4308,
- 	CS5302,
- 	CS5304,
- 	CS5308,
-@@ -186,6 +209,7 @@ struct cs530x_priv {
- 	int tdm_width;
- 	int tdm_slots;
- 	int adc_pairs_count;
-+	int dac_pairs_count;
- 
- 	struct gpio_desc *reset_gpio;
- };
--- 
-2.43.0
+Steps to reproduce:
+1. Connect Edifier QR30 via USB.
+2. Confirm working playback.
+3. Rotate the RGB brightness button on the side of the speaker.
+4. Observe immediate reboot/disconnect.
 
+
+```
+> lsusb -t
+
+/:  Bus 003.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
+    |__ Port 002: Dev 002, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 12M
+    |__ Port 002: Dev 002, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 12M
+    |__ Port 002: Dev 002, If 2, Class=3DHuman Interface Device,
+Driver=3Dusbhid, 12M
+    |__ Port 002: Dev 002, If 3, Class=3DHuman Interface Device,
+Driver=3Dusbhid, 12M
+
+```
+
+I tried unbinding every HID device :
+
+```
+> echo -n '3-2:1.2' | sudo tee /sys/bus/usb/drivers/usbhid/unbind
+3-2:1.2%
+> echo -n '3-2:1.3' | sudo tee /sys/bus/usb/drivers/usbhid/unbind
+3-2:1.3%
+
+         ```
+
+When using the brightness button, reboots of the speaker still occurs.
+
+I also tried unbinding the audio itself:
+
+```
+> echo -n '3-2:1.0' | sudo tee /sys/bus/usb/drivers/snd-usb-audio/unbind
+3-2:1.0%
+> echo -n '3-2:1.1' | sudo tee /sys/bus/usb/drivers/snd-usb-audio/unbind
+3-2:1.1%
+```
+
+The reboots continues to happen.
+
+Here's the output of dmesg when the reboot of the speaker occurs:
+
+```
+> sudo dmesg -w
+
+[  994.674827] usb 3-2: USB disconnect, device number 7
+[  996.031031] usb 3-2: new full-speed USB device number 8 using xhci_hcd
+[  996.865709] usb 3-2: device descriptor read/64, error -71
+[  997.106087] usb 3-2: New USB device found, idVendor=3D2d99,
+idProduct=3Da101, bcdDevice=3D 1.00
+[  997.106094] usb 3-2: New USB device strings: Mfr=3D1, Product=3D2, Seria=
+lNumber=3D3
+[  997.106097] usb 3-2: Product: EDIFIER Hal0 2.0 SE
+[  997.106099] usb 3-2: Manufacturer: Jieli Technology
+[  997.106102] usb 3-2: SerialNumber: 4250315A34383502
+[  997.180035] input: Jieli Technology EDIFIER Hal0 2.0 SE as
+/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.2/0003:2D99:A1=
+01.0014/input/input51
+[  997.230824] hid-generic 0003:2D99:A101.0014: input,hidraw0: USB HID
+v1.00 Device [Jieli Technology EDIFIER Hal0 2.0 SE] on
+usb-0000:06:00.4-2/input2
+[  997.237434] hid-generic 0003:2D99:A101.0015: hiddev96,hidraw1: USB
+HID v2.01 Device [Jieli Technology EDIFIER Hal0 2.0 SE] on
+usb-0000:06:00.4-2/input3
+```
+
+Information of the USB device:
+
+```
+> sudo lsusb -v -d 2d99:a101
+
+Bus 003 Device 002: ID 2d99:a101 Jieli Technology EDIFIER Hal0 2.0 SE
+Negotiated speed: Full Speed (12Mbps)
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 [unknown]
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x2d99 Jieli Technology
+  idProduct          0xa101 EDIFIER Hal0 2.0 SE
+  bcdDevice            1.00
+  iManufacturer           1 Jieli Technology
+  iProduct                2 EDIFIER Hal0 2.0 SE
+  iSerial                 3 4250315A34383502
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00b6
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              100mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass          1 Audio
+      bFunctionSubClass       2 Streaming
+      bFunctionProtocol       0
+      iFunction               5 EDIFIER QR30
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      1 Control Device
+      bInterfaceProtocol      0
+      iInterface              5 EDIFIER QR30
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdADC               1.00
+        wTotalLength       0x002f
+        bInCollection           1
+        baInterfaceNr(0)        1
+      AudioControl Interface Descriptor:
+        bLength                12
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bNrChannels             2
+        wChannelConfig     0x0003
+          Left Front (L)
+          Right Front (R)
+        iChannelNames           0
+        iTerminal               0
+      AudioControl Interface Descriptor:
+        bLength                10
+        bDescriptorType        36
+        bDescriptorSubtype      6 (FEATURE_UNIT)
+        bUnitID                 2
+        bSourceID               1
+        bControlSize            1
+        bmaControls(0)       0x03
+          Mute Control
+          Volume Control
+        bmaControls(1)       0x00
+        bmaControls(2)       0x00
+        iFeature                0
+      AudioControl Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      5 (SELECTOR_UNIT)
+        bUnitID                 8
+        bNrInPins               1
+        baSourceID(0)           2
+        iSelector               0
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             3
+        wTerminalType      0x0301 Speaker
+        bAssocTerminal          0
+        bSourceID               2
+        iTerminal               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      AudioStreaming Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      1 (AS_GENERAL)
+        bTerminalLink           1
+        bDelay                  1 frames
+        wFormatTag         0x0001 PCM
+      AudioStreaming Interface Descriptor:
+        bLength                11
+        bDescriptorType        36
+        bDescriptorSubtype      2 (FORMAT_TYPE)
+        bFormatType             1 (FORMAT_TYPE_I)
+        bNrChannels             2
+        bSubframeSize           3
+        bBitResolution         24
+        bSamFreqType            1 Discrete
+        tSamFreq[ 0]        48000
+      Endpoint Descriptor:
+        bLength                 9
+        bDescriptorType         5
+        bEndpointAddress     0x03  EP 3 OUT
+        bmAttributes            9
+          Transfer Type            Isochronous
+          Synch Type               Adaptive
+          Usage Type               Data
+        wMaxPacketSize     0x0120  1x 288 bytes
+        bInterval               1
+        bRefresh                0
+        bSynchAddress           0
+        AudioStreaming Endpoint Descriptor:
+          bLength                 7
+          bDescriptorType        37
+          bDescriptorSubtype      1 (EP_GENERAL)
+          bmAttributes         0x00
+          bLockDelayUnits         0 Undefined
+          wLockDelay         0x0000
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.00
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 (null)
+          wDescriptorLength      33
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               2.01
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 (null)
+          wDescriptorLength      66
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+Device Status:     0x0000
+  (Bus Powered)
+```
+
+Here's the log of bus 3 when rebooting:
+
+```
+> sudo modprobe usbmon
+> sudo cat /sys/kernel/debug/usb/usbmon/3u > qr30.log
+
+ffff8e9c81b28fc0 1394065014 C Ii:3:001:1 0:2048 1 =3D 04
+ffff8e9c81b28fc0 1394065023 S Ii:3:001:1 -115:2048 4 <
+ffff8e9c88c2a300 1394065033 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2a300 1394065038 C Ci:3:001:0 0 4 =3D 00010100
+ffff8e9c88c2a300 1394065041 S Co:3:001:0 s 23 01 0010 0002 0000 0
+ffff8e9c88c2a300 1394065046 C Co:3:001:0 0 0
+ffff8e9c88c2bd40 1394065457 C Ii:3:009:2 -108:1 0
+ffff8e9c88c2b980 1394103576 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1394103627 C Ci:3:001:0 0 4 =3D 00010000
+ffff8e9c88c2b980 1394129013 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1394129024 C Ci:3:001:0 0 4 =3D 00010000
+ffff8e9c88c2b980 1394155010 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1394155017 C Ci:3:001:0 0 4 =3D 00010000
+ffff8e9c88c2b980 1394181022 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1394181031 C Ci:3:001:0 0 4 =3D 00010000
+ffff8e9c88c2b980 1394207292 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1394207317 C Ci:3:001:0 0 4 =3D 00010000
+ffff8e9c81b28fc0 1395205229 C Ii:3:001:1 0:2048 1 =3D 04
+ffff8e9c81b28fc0 1395205252 S Ii:3:001:1 -115:2048 4 <
+ffff8e9c88c2b980 1395205278 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395205293 C Ci:3:001:0 0 4 =3D 01010100
+ffff8e9c88c2b980 1395205300 S Co:3:001:0 s 23 01 0010 0002 0000 0
+ffff8e9c88c2b980 1395205306 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1395205310 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395205314 C Ci:3:001:0 0 4 =3D 01010000
+ffff8e9c88c2b980 1395231031 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395231049 C Ci:3:001:0 0 4 =3D 01010000
+ffff8e9c88c2b980 1395257305 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395257334 C Ci:3:001:0 0 4 =3D 01010000
+ffff8e9c88c2b980 1395283283 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395283311 C Ci:3:001:0 0 4 =3D 01010000
+ffff8e9c88c2b980 1395309287 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395309317 C Ci:3:001:0 0 4 =3D 01010000
+ffff8e9c88c2b980 1395309418 S Co:3:001:0 s 23 03 0004 0002 0000 0
+ffff8e9c88c2b980 1395309426 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1395370721 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395370746 C Ci:3:001:0 0 4 =3D 03011000
+ffff8e9c88c2b980 1395370756 S Co:3:001:0 s 23 01 0014 0002 0000 0
+ffff8e9c88c2b980 1395370762 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1395421446 S Ci:3:000:0 s 80 06 0100 0000 0040 64 <
+ffff8e9c81b28fc0 1395454957 C Ii:3:001:1 0:2048 1 =3D 04
+ffff8e9c81b28fc0 1395454979 S Ii:3:001:1 -115:2048 4 <
+ffff8e9c88c2b980 1395456684 C Ci:3:000:0 -71 0
+ffff8e9c88c2b980 1395456717 S Ci:3:000:0 s 80 06 0100 0000 0040 64 <
+ffff8e9c88c2b980 1395459710 C Ci:3:000:0 -71 0
+ffff8e9c88c2b980 1395459745 S Ci:3:000:0 s 80 06 0100 0000 0040 64 <
+ffff8e9c88c2b980 1395461696 C Ci:3:000:0 -71 0
+ffff8e9c88c2b980 1395461730 S Co:3:001:0 s 23 03 0004 0002 0000 0
+ffff8e9c88c2b980 1395461742 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1395522293 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395522315 C Ci:3:001:0 0 4 =3D 00011100
+ffff8e9c81b28fc0 1395567319 C Ii:3:001:1 0:2048 1 =3D 04
+ffff8e9c81b28fc0 1395567346 S Ii:3:001:1 -115:2048 4 <
+ffff8e9c88c2b980 1395583053 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395583070 C Ci:3:001:0 0 4 =3D 00011100
+ffff8e9c88c2b980 1395791311 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395791332 C Ci:3:001:0 0 4 =3D 00011100
+ffff8e9c81b28fc0 1395823253 C Ii:3:001:1 0:2048 1 =3D 04
+ffff8e9c81b28fc0 1395823276 S Ii:3:001:1 -115:2048 4 <
+ffff8e9c88c2b980 1395999298 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1395999325 C Ci:3:001:0 0 4 =3D 01011100
+ffff8e9c88c2b980 1395999334 S Co:3:001:0 s 23 01 0010 0002 0000 0
+ffff8e9c88c2b980 1395999339 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1395999342 S Co:3:001:0 s 23 03 0004 0002 0000 0
+ffff8e9c88c2b980 1395999347 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1396207024 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1396207040 C Ci:3:001:0 0 4 =3D 03011000
+ffff8e9c88c2b980 1396207045 S Co:3:001:0 s 23 01 0014 0002 0000 0
+ffff8e9c88c2b980 1396207049 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1396359012 S Ci:3:000:0 s 80 06 0100 0000 0040 64 <
+ffff8e9c88c2b980 1396359403 C Ci:3:000:0 0 18 =3D 12011001 ef020140
+992d01a1 00010102 0301
+ffff8e9c88c2b980 1396359408 S Co:3:001:0 s 23 03 0004 0002 0000 0
+ffff8e9c88c2b980 1396359417 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1396420014 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b980 1396420023 C Ci:3:001:0 0 4 =3D 03011000
+ffff8e9c88c2b980 1396420027 S Co:3:001:0 s 23 01 0014 0002 0000 0
+ffff8e9c88c2b980 1396420031 C Co:3:001:0 0 0
+ffff8e9c88c2b980 1396482417 S Ci:3:010:0 s 80 06 0100 0000 0012 18 <
+ffff8e9c88c2b980 1396483409 C Ci:3:010:0 0 18 =3D 12011001 ef020140
+992d01a1 00010102 0301
+ffff8e9c88c2b980 1396483422 S Ci:3:010:0 s 80 06 0200 0000 0009 9 <
+ffff8e9c88c2b980 1396485399 C Ci:3:010:0 0 9 =3D 0902b600 04010080 32
+ffff8e9c88c2acc0 1396485406 S Ci:3:010:0 s 80 06 0200 0000 00b6 182 <
+ffff8e9c88c2acc0 1396488386 C Ci:3:010:0 0 182 =3D 0902b600 04010080
+32080b00 02010200 05090400 00000101 00050924 0100012f
+ffff8e9c88c2a6c0 1396488397 S Ci:3:010:0 s 80 06 0300 0000 00ff 255 <
+ffff8e9c88c2a6c0 1396491393 C Ci:3:010:0 0 4 =3D 04030904
+ffff8e9c88c2a6c0 1396491402 S Ci:3:010:0 s 80 06 0302 0409 00ff 255 <
+ffff8e9c88c2a6c0 1396493424 C Ci:3:010:0 0 40 =3D 28034500 44004900
+46004900 45005200 20004800 61006c00 30002000 32002e00
+ffff8e9c88c2a6c0 1396493441 S Ci:3:010:0 s 80 06 0301 0409 00ff 255 <
+ffff8e9c88c2a6c0 1396495422 C Ci:3:010:0 0 34 =3D 22034a00 69006500
+6c006900 20005400 65006300 68006e00 6f006c00 6f006700
+ffff8e9c88c2a6c0 1396495437 S Ci:3:010:0 s 80 06 0303 0409 00ff 255 <
+ffff8e9c88c2a6c0 1396497827 C Ci:3:010:0 0 34 =3D 22033400 32003500
+30003300 31003500 41003300 34003300 38003300 35003000
+ffff8e9c88c2a6c0 1396507381 S Co:3:010:0 s 00 09 0001 0000 0000 0
+ffff8e9c88c2a6c0 1396508385 C Co:3:010:0 0 0
+ffff8e9c88c2a6c0 1396508469 S Ci:3:010:0 s 80 06 0305 0409 00ff 255 <
+ffff8e9c88c2a6c0 1396511390 C Ci:3:010:0 0 26 =3D 1a034500 44004900
+46004900 45005200 20005100 52003300 3000
+ffff8e9c88c2b5c0 1396511455 S Ci:3:010:0 s 80 06 0302 0409 00ff 255 <
+ffff8e9c88c2b5c0 1396513425 C Ci:3:010:0 0 40 =3D 28034500 44004900
+46004900 45005200 20004800 61006c00 30002000 32002e00
+ffff8e9c88c2b5c0 1396513435 S Ci:3:010:0 s 80 06 0301 0409 00ff 255 <
+ffff8e9c88c2b5c0 1396515418 C Ci:3:010:0 0 34 =3D 22034a00 69006500
+6c006900 20005400 65006300 68006e00 6f006c00 6f006700
+ffff8e9c88c2bec0 1396515454 S Co:3:010:0 s 01 0b 0000 0001 0000 0
+ffff8e9c88c2bec0 1396517391 C Co:3:010:0 0 0
+ffff8e9c88c2bec0 1396519380 S Co:3:010:0 s 01 0b 0001 0001 0000 0
+ffff8e9c88c2bec0 1396520379 C Co:3:010:0 0 0
+ffff8e9c88c2bec0 1396523379 S Co:3:010:0 s 01 0b 0000 0001 0000 0
+ffff8e9c88c2bec0 1396524387 C Co:3:010:0 0 0
+ffff8e9c88c2b380 1396524402 S Ci:3:010:0 s a1 81 0100 0200 0001 1 <
+ffff8e9c88c2b380 1396527394 C Ci:3:010:0 0 1 =3D 00
+ffff8e9c88c2a840 1396527409 S Ci:3:010:0 s a1 83 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396529395 C Ci:3:010:0 0 2 =3D 0fff
+ffff8e9c88c2a840 1396529405 S Ci:3:010:0 s a1 82 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396531395 C Ci:3:010:0 0 2 =3D a0e3
+ffff8e9c88c2a840 1396531405 S Ci:3:010:0 s a1 84 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396533383 C Ci:3:010:0 0 2 =3D 3000
+ffff8e9c88c2a840 1396533390 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396535463 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396535468 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396537463 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396537468 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396539462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396539467 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396541462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396541466 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396543452 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396543457 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396545461 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396545468 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396547462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396547467 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396549462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396549468 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396551462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396551468 S Co:3:010:0 s 21 04 0200 0200 0002 2 =3D 1800
+ffff8e9c88c2a840 1396553462 C Co:3:010:0 -32 0
+ffff8e9c88c2a840 1396553467 S Ci:3:010:0 s a1 84 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396555383 C Ci:3:010:0 0 2 =3D 3000
+ffff8e9c88c2a840 1396555388 S Ci:3:010:0 s a1 81 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396557382 C Ci:3:010:0 0 2 =3D 0fff
+ffff8e9c88c2a840 1396557387 S Co:3:010:0 s 21 01 0200 0200 0002 2 =3D dffe
+ffff8e9c88c2a840 1396560374 C Co:3:010:0 0 2 >
+ffff8e9c88c2a840 1396560378 S Ci:3:010:0 s a1 81 0200 0200 0002 2 <
+ffff8e9c88c2a840 1396563380 C Ci:3:010:0 0 2 =3D dffe
+ffff8e9c88c2a840 1396563384 S Co:3:010:0 s 21 01 0200 0200 0002 2 =3D 0fff
+ffff8e9c88c2a840 1396566369 C Co:3:010:0 0 2 >
+ffff8e9c88c2bb00 1396566719 S Ci:3:010:0 s 80 06 0303 0409 00ff 255 <
+ffff8e9c88c2bb00 1396569381 C Ci:3:010:0 0 34 =3D 22033400 32003500
+30003300 31003500 41003300 34003300 38003300 35003000
+ffff8e9c88c2bb00 1396569394 S Co:3:010:0 s 21 0a 0000 0002 0000 0
+ffff8e9c88c2bb00 1396571376 C Co:3:010:0 0 0
+ffff8e9c88c2bb00 1396571379 S Ci:3:010:0 s 81 06 2200 0002 0021 33 <
+ffff8e9c88c2bb00 1396573402 C Ci:3:010:0 0 33 =3D 050c0901 a1011500
+250109e9 09ea09e2 09cd09b5 09b609b3 09b77501 95088142
+ffff8e9c88c2bb00 1396573571 S Ii:3:010:2 -115:1 1 <
+ffff8e9c88c2a540 1396624419 S Ci:3:010:0 s 80 06 0303 0409 00ff 255 <
+ffff8e9c88c2a540 1396625422 C Ci:3:010:0 0 34 =3D 22033400 32003500
+30003300 31003500 41003300 34003300 38003300 35003000
+ffff8e9c88c2a540 1396625438 S Co:3:010:0 s 21 0a 0000 0003 0000 0
+ffff8e9c88c2a540 1396627394 C Co:3:010:0 0 0
+ffff8e9c88c2a540 1396627401 S Ci:3:010:0 s 81 06 2200 0003 0042 66 <
+ffff8e9c88c2a540 1396630398 C Ci:3:010:0 0 66 =3D 0613ff09 01a10115
+0026ff00 85060900 7508953d 91028507 09007508 953d8102
+ffff8e9c88c2b680 1396630828 S Ci:3:001:0 s a3 00 0000 0002 0004 4 <
+ffff8e9c88c2b680 1396630840 C Ci:3:001:0 0 4 =3D 03010000
+ffff8e9c8ae5b740 1396647084 S Co:3:010:0 s 21 01 0200 0200 0002 2 =3D 20f4
+ffff8e9c8ae5b740 1396648382 C Co:3:010:0 0 2 >
+ffff8e9d9b3c75c0 1396701374 S Co:3:010:0 s 01 0b 0001 0001 0000 0
+ffff8e9d9b3c75c0 1396702379 C Co:3:010:0 0 0
+ffff8e9c88c11ec0 1396705364 S Co:3:010:0 s 01 0b 0000 0001 0000 0
+ffff8e9c88c11ec0 1396706376 C Co:3:010:0 0 0
+ffff8e9d1ecd2780 1396711369 S Co:3:010:0 s 01 0b 0001 0001 0000 0
+ffff8e9d1ecd2780 1396712377 C Co:3:010:0 0 0
+ffff8e9c88c2b680 1396715364 S Co:3:010:0 s 01 0b 0000 0001 0000 0
+ffff8e9c88c2b680 1396716377 C Co:3:010:0 0 0
+ffff8e9d9b3c7bc0 1396729375 S Co:3:010:0 s 01 0b 0001 0001 0000 0
+ffff8e9d9b3c7bc0 1396730378 C Co:3:010:0 0 0
+ffff8e9d9b3c7bc0 1396733363 S Co:3:010:0 s 01 0b 0000 0001 0000 0
+ffff8e9d9b3c7bc0 1396734376 C Co:3:010:0 0 0
+```
+
+
+I'm not familiar with kernel development, but I=E2=80=99m happy to run any
+tests or provide additional information.
+Please just let me know which commands to execute or what logs would
+be most useful.
+
+I'm sending again in plaintext, sorry.
+
+Thank you!
