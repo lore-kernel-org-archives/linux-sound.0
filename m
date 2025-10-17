@@ -1,217 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537EB335093;
-	Fri, 17 Oct 2025 15:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF22F1946C8;
+	Fri, 17 Oct 2025 15:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760714355; cv=none; b=SQVlofZQNeyhvW6KN4vA0futUeZKq/ISyNHTjYk06nyVQwdGyZCG7xCQqd9RXJuZcaTHajfPH+D5RatfL32OrPk/gpc5Ss92pkfODZIy9+TVwZjyyfC44a+Lj8k73gWmsFUcZYhezfIoEuJ3Oq36K6/qjBcIhcS0r52OnAQDnpI=
+	t=1760715075; cv=none; b=JeJ0XxSI7pu/c68WvYCJmrsOLXaqyaaHZ29Qx263wWBqcvh0KMgCDdta1Lzrb9G5HXxdP9ehYHUclIn1EVaOt25DOTuXnkbHFB+7MD/H9OgCCzQzfcu5HrjsvImzuqNMeAp3XPPSQI6G+Ms0kzl0Sh5Vhj9dXv4YQnEnQhh1+xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760714355; c=relaxed/simple;
-	bh=Jkoxv5jBiXwh3/Xam1mL3Rb7nwPNp22HhVGe+o5k1sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lT+SAjbmhvUnXrEbcrnYhlbKwuzmp3aLg2hDmd54zgIipX3/Gso+63olqogeHhotWviM6iXqDqJSoZ/8/iNUVB9qoY2optZRxuFQOdxLlJ64Ij6XUpCvvcrLH1prSrxuM9GmR43kPdOce00cKbxeMCsrXzgpnWyFOioZdOnRvX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBJGnQw2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760715075; c=relaxed/simple;
+	bh=LTkDNHaQ/jmxgU5fMe/ssd+JUgAQiQs37x3P5Ma5Tk0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ju8ExfJgqaiE9BRKEDluIQBp2xVGZDlJb1SAFMQOWgfKWwY47n5VJ6AWXueoLXUJ6NCoWN9CtuRgNCiJBna9A4y6mjP1uenQS84blTrFr0pLv77bBYX+a6qfxW7JFO/If/iPkuyoAalTzuKdFyeJftSTbQ0FM6LRusRlrWAn/TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qs8Zeo+b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBJGnQw2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98656C4CEE7;
-	Fri, 17 Oct 2025 15:19:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qs8Zeo+b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE29C116B1;
+	Fri, 17 Oct 2025 15:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760714355;
-	bh=Jkoxv5jBiXwh3/Xam1mL3Rb7nwPNp22HhVGe+o5k1sY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DBJGnQw29zw6lCVTKtpBhIgSG7SMX4VZD9MlmLUEPUBMWipU3K8+xfy/xqlmxz8Qi
-	 mLxaq5V5Z7Et2fOTaRuUiiEspXQRrhIZZJ9xRqScULqTAgvTGjzSlFIQWaMNs3MR+A
-	 dKeaol6kFcz4lkdW7DFiMk5bbpEA1Dgh/SH6u6TIXDXdKDqoochxfVVvitpFaYDKlL
-	 bULb536qkalBIUpX9fU7Dk2QB8zCg/3nMjXL1nlc2Ddg/ayrRE+8/4gAavHoyhpk1Y
-	 0fREHXWYLfsbUhrNzXSgnVS+UpYAnpmQOfquXa1v8/EjnKyNDqrbCpraPpvMaG8lGT
-	 yY3YmE4+sr2qw==
-Date: Fri, 17 Oct 2025 08:19:12 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
- Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, David Laight
- <david.laight.linux@gmail.com>, Vincent Mailhol
- <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <20251017081912.2ad26705@kernel.org>
-In-Reply-To: <2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
-References: <cover.1739540679.git.geert+renesas@glider.be>
-	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+	s=k20201202; t=1760715075;
+	bh=LTkDNHaQ/jmxgU5fMe/ssd+JUgAQiQs37x3P5Ma5Tk0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=qs8Zeo+bxqK0ndWsTUrBN3db+UR8sokHyHMYNSFw9gWKVJZnMSMdvweCvKTFVxPRK
+	 tpot5sh7ye6Xzd9w6lGFTjMjJZJ8Q23wwIlUAjcRHtSJgzcPGn/C7nqQUH+Xop7eHe
+	 Zg9I9lKgnSpV1r0mEocB98RGdS7AT49cdZ25l8+JijgY4kcdSy5V74ABoRiCie6Fv9
+	 2rpSGQi7E9IuVSAlnlPerzFXJEYTzNUMzgUDe8WYHdsOLllVnyTkWLhCivQsQj8anT
+	 CdkuCnIDc/i8skVkbdziHEyBYjMLvFPFhdon9ghO5NLp+U9UFFi65naz9DxxqlM/8B
+	 cnvUfudnMaeKA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70E4839EF978;
+	Fri, 17 Oct 2025 15:31:00 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.18-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87a51p60fz.wl-tiwai@suse.de>
+References: <87a51p60fz.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87a51p60fz.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.18-rc2
+X-PR-Tracked-Commit-Id: 2a786348004b34c5f61235d51c40c1c718b1f8f9
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1422424187a548c24825645410fb7f691c2df47f
+Message-Id: <176071505946.2669258.14636742343060777290.pr-tracker-bot@kernel.org>
+Date: Fri, 17 Oct 2025 15:30:59 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
-> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> constants.  However, it is very common to prepare or extract bitfield
-> elements where the bitfield mask is not a compile-time constant.
-> 
-> To avoid this limitation, the AT91 clock driver and several other
-> drivers already have their own non-const field_{prep,get}() macros.
-> Make them available for general use by consolidating them in
-> <linux/bitfield.h>, and improve them slightly:
->   1. Avoid evaluating macro parameters more than once,
->   2. Replace "ffs() - 1" by "__ffs()",
->   3. Support 64-bit use on 32-bit architectures.
-> 
-> This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> macros, as people expressed the desire to keep stricter variants for
-> increased safety, or for performance critical paths.
+The pull request you sent on Fri, 17 Oct 2025 16:57:04 +0200:
 
-We already have helpers for this, please just don't know they exist :/
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.18-rc2
 
-The "const" version of the helpers are specifically defined to work
-on masks generated with BIT() and GENMASK(). If the mask is not
-constant we should expect it to have a well defined width.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1422424187a548c24825645410fb7f691c2df47f
 
-I strongly prefer that we do this instead and convert the users to
-the fixed-width version:
+Thank you!
 
----->8----------------
-
-Subject: bitfield: open code the fixed-width non-const helpers so that people see them
-
-There is a number of useful helpers defined in bitfield.h but
-they are mostly invisible to the reader because they are all
-generated by macros. Open code the 32b versions (which are
-most commonly used) to give developers a chance to discover them.
-
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- include/linux/bitfield.h | 82 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 81 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-index 5355f8f806a9..0356e535f37d 100644
---- a/include/linux/bitfield.h
-+++ b/include/linux/bitfield.h
-@@ -173,6 +173,11 @@
- 		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
- 	})
- 
-+/* Non-constant, fixed-width helpers follow
-+ * Open code u32 and le32 versions for documentation / visibility,
-+ * be32 and other widths exist but are generated using macroes.
-+ */
-+
- extern void __compiletime_error("value doesn't fit into mask")
- __field_overflow(void);
- extern void __compiletime_error("bad bitfield mask")
-@@ -188,6 +193,81 @@ static __always_inline u64 field_mask(u64 field)
- 	return field / field_multiplier(field);
- }
- #define field_max(field)	((typeof(field))field_mask(field))
-+
-+/**
-+ * u32_encode_bits() - prepare a u32 bitfield element (non-const)
-+ * @v: value to put in the field
-+ * @field: shifted mask defining the field's length and position
-+ *
-+ * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
-+ *
-+ * Note that the helper is available for other field widths (generated below).
-+ */
-+static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
-+{
-+	if (__builtin_constant_p(v) && (v & ~field_mask(field)))
-+		__field_overflow();
-+	return ((v & field_mask(field)) * field_multiplier(field));
-+}
-+
-+/**
-+ * u32_replace_bits() - change a u32 bitfield element (non-const)
-+ * @old: old u32 value to modify
-+ * @val: value to put in the field
-+ * @field: shifted mask defining the field's length and position
-+ *
-+ * Remove the current contents of the @field in @old and set it to @new.
-+ *
-+ * Note that the helper is available for other field widths (generated below).
-+ */
-+static __always_inline __u32 u32_replace_bits(__u32 old, u32 val, u32 field)
-+{
-+	return (old & ~(field)) | u32_encode_bits(val, field);
-+}
-+
-+/**
-+ * u32_get_bits() - get u32 bitfield element (non-const)
-+ * @v: value to extract the field from
-+ * @field: shifted mask defining the field's length and position
-+ *
-+ * Extract the value of the field and shift it down.
-+ *
-+ * Note that the helper is available for other field widths (generated below).
-+ */
-+static __always_inline u32 u32_get_bits(__u32 v, u32 field)
-+{
-+	return ((v) & field) / field_multiplier(field);
-+}
-+
-+static __always_inline void u32p_replace_bits(__u32 *p, u32 val, u32 field)
-+{
-+	*p = (*p & ~(field)) | u32_encode_bits(val, field);
-+}
-+
-+static __always_inline __le32 le32_encode_bits(u32 v, u32 field)
-+{
-+	if (__builtin_constant_p(v) && (v & ~field_mask(field)))
-+		__field_overflow();
-+	return cpu_to_le32((v & field_mask(field)) * field_multiplier(field));
-+}
-+
-+static __always_inline __le32 le32_replace_bits(__le32 old, u32 val, u32 field)
-+{
-+	return (old & ~cpu_to_le32(field)) | le32_encode_bits(val, field);
-+}
-+
-+static __always_inline void le32p_replace_bits(__le32 *p, u32 val, u32 field)
-+{
-+	*p = (*p & ~cpu_to_le32(field)) | le32_encode_bits(val, field);
-+}
-+
-+static __always_inline u32 le32_get_bits(__le32 v, u32 field)
-+{
-+	return (le32_to_cpu(v) & field) / field_multiplier(field);
-+}
-+
-+/* Auto-generate bit ops for other field width and endian combination */
-+
- #define ____MAKE_OP(type,base,to,from)					\
- static __always_inline __##type __must_check type##_encode_bits(base v, base field)	\
- {									\
-@@ -215,7 +295,7 @@ static __always_inline base __must_check type##_get_bits(__##type v, base field)
- 	____MAKE_OP(u##size,u##size,,)
- ____MAKE_OP(u8,u8,,)
- __MAKE_OP(16)
--__MAKE_OP(32)
-+____MAKE_OP(be32,u32,cpu_to_be32,be32_to_cpu) /* Other 32b types open coded */
- __MAKE_OP(64)
- #undef __MAKE_OP
- #undef ____MAKE_OP
 -- 
-2.51.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
