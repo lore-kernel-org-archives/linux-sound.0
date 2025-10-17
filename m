@@ -1,100 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5134F221726;
-	Fri, 17 Oct 2025 17:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA9D32A3C3
+	for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 18:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760722779; cv=none; b=PQGu7n8ZdD4ihx0s5glaaCJFel3VMqjLGzW53ri17yteryRvIFu95dNnO0ieQEkXlaDjMGY5tkGsRJ+g5gDaZNksy+YZLuwAXD4nGRjMs+07UlFzLneaIrrFWxNfWSxUX/4SZEBkduM3nvylKIbD+RAgydXTjJ4lpKjRh6CjKAI=
+	t=1760724888; cv=none; b=kblrI2kWXx/+E2ouseXu+Z6xRZabVKev32tEEI8hWpnMwD5H+hP/ai7Dm5iP7s+WjKNmOZ/fyDVZzwdxTPOWiQp70D7h8oxYwmXBgmvU4mKuhweM5jxLXp+eHgNOS+MZQRw17kG0Ds1KmtZAFlgeWtTFEame2RuEbh7KyOkuVGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760722779; c=relaxed/simple;
-	bh=RLpFlKj0oX6F2FHmvB6odL7qjqFC0HmExWxoVhIdU1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UvyS4bxtzcEfUO//Ezexi0Lj5QwG1MlYxsOIhUXmMBcMTbUGQMRLLucauGlguhJmARoqgaaw9cvBQuaGzY6+1CJ7LGjpuSGtvzaKhpsDJxtbctyDTNik1DvncTA4wlJzPPMQ55YholeG9ClBGfmsU5+bk4hjvR8zmgtANWNmdog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NT0kk5AT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760724888; c=relaxed/simple;
+	bh=ZwC6n7pCPxif6D+I/G208r1tw6fi7IyhziiTTtA6pqA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RvETHdADNWIYf4kdJLMj6B+lM05Rhc/GUJSccV93O6OMlu6qZE+08KyriS/Tm/qRzk7cYFXSLcHCcZiBWEn/ibyUphxouqpDoRdgO2m1aVvqqDWNc7hSH3YfwbeBnLZwf5GyFSh/8hYZqanWiXagrh57nUyfnzvYrBv7kEGNykY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmfwjvp8; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NT0kk5AT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD47C4CEE7;
-	Fri, 17 Oct 2025 17:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760722779;
-	bh=RLpFlKj0oX6F2FHmvB6odL7qjqFC0HmExWxoVhIdU1A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NT0kk5AT8tFG1ex9SS8EUtqaH3MN+k/hRFCGSaqU55hscTm9YrecMaHll0u79zNw6
-	 sIBNy7OA9YnQH8zcWJvaMly7J6UxVErlApIMtWqqtxuCay5hHv3uxPVR74IQZH7Eo7
-	 POgxmUZCozpR5oUMwioI8150ALcQrPO9kadHLQDIRlSHNVEt+zPMCklNd1E0+Dvk0M
-	 FLUc8epgBZ5fXzgVrxCcc2oNTqFhlAuQ56P5auW6pS+BXbjn0jHuPDkH8FdSsJSL4W
-	 uFicrrFA5Ph3zrKxR/crhBXdSf97NMqd7lwWACFyVrsYLycFeAVJesTkco7Sb8QbzJ
-	 h9rvU97EVVwQg==
-Date: Fri, 17 Oct 2025 10:39:36 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
- Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, David Laight
- <david.laight.linux@gmail.com>, Vincent Mailhol
- <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <20251017103936.49fbafdd@kernel.org>
-In-Reply-To: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
-References: <cover.1739540679.git.geert+renesas@glider.be>
-	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
-	<20251017081912.2ad26705@kernel.org>
-	<CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmfwjvp8"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47117f92e32so10661945e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 17 Oct 2025 11:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760724885; x=1761329685; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZwC6n7pCPxif6D+I/G208r1tw6fi7IyhziiTTtA6pqA=;
+        b=nmfwjvp8a+zG+3y2NY7RkqM/P1tzjJNj5GxqUsXAJC6dq7S7oDAFDk+F6X0rLAEH1L
+         Mf6ipHpNxX/Cmgikf+lOAcshf3kXouVwwdPgxg7RCf6dRQUCuUCsjbHigoN2zlHbbGSD
+         srnfkBPDLabnsfN/Xe0TfgrZp6OFvASG0Qy5CKEbDUpG5n4GjlRdMr9F4IrcXHRwk9NX
+         9X7He2wLouHltwJKKHSzLpMLx9z0C3IBWKWMeCv9MB077/014PsrAyuUUJ1tOrBPfWGr
+         tsPHF6Tig2UAxrA6K9VwcZDNSk398D8RihTKNeDPvkJuTwk1+pIXDFEsSIL9yOKpDWTL
+         ON4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760724885; x=1761329685;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZwC6n7pCPxif6D+I/G208r1tw6fi7IyhziiTTtA6pqA=;
+        b=rj0DKtLB2mnS0MKKUHAiyApHLPcR25Ge/gwyHKPUyDQ4KGUPFhcyO9PJ5rTnr9GwZ7
+         Tt8Fcczex/cadgL+1Dy2ks2+hO1yWbpgr7ucI/uM57Hk/K/MLT0x7HGXiWpTz2WrK6ih
+         vReFT91pjOSUPcQaZMKZojC3PsskZZJgD9dIkZcSv/lZRk5bq0FaRGrjhb6K+KVoL/g/
+         IBPe+ccr+T7x+d8mGGMF90ylMB9hyY3t0RHMHwNGl0mLUL5NoneT1PW6AbPkl6VsytzG
+         ktXFWZ2JDGWcs4M3jUbi7dvPwLnEPCktFjZ5/xBUOXghjCjEGxcM9yW1byAMKVqA/YrZ
+         WaZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdMCFzmB8slSjiwBC5ZZXZomFQjPmkPiSO2m3gyAdNA9IugbXX/3o0KJTYA0n+syIG/yxJFtwRjh9QoQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqhWEiKd8E68dCoryAj5zoSmykMGwqX85sWbAFDjzCaBN7uMT/
+	K9liNumUU6XJteIE6W4ulNjtsPUKjjuuJ+bsoLZspwYccKdrm/PA30C1
+X-Gm-Gg: ASbGncuHGgIAxBbkBYHzdnbzdRA/xLywvwYIwEGDizCXVvcb+rlgyUuZ1DXWbxL9i3E
+	E1lpKzXFIPsiaEr0LPTofY3gqaZrgmJJMqNT9RNRmxorOFgO4bo4HzuNP+pKM8f3pMa5Mky8yaX
+	h0fVI6xICWeImbzO5uObMIOZ0liOX0elG0TtNmlQx8PPdbaZ3AxXsq+3qUKc2lDBWpTn4yIpRMT
+	XU/PyzWO5zIG18xaZ13+8Oin/rvY2ifYPdyNfOSjUUWU/q/aoQGUuhyvkBEUrqWVrfniufZbS4M
+	IT4ANRGA6RxID5XbZHaM7ltf/ReWM8CMa88hj6XGfbElxb1J3msM/rOmtJZjhdbx+9hkrxk5mBg
+	mZS32Ul/YLtKTcDwoyT4ZgmdjyOq/7gNBGFMdO7mneraf/KhLmDwQnNUG4/Rl5PGjQsXjgMTxos
+	QUk6hPZ5SoAnu9iGYAdpG+gjb3szwOoqK03hLx0zjQxhnfcns4uWWGptxKuD4QtbDuJj8=
+X-Google-Smtp-Source: AGHT+IGStZ+dh8yVM8LCDsSNwdktgkY/Sq2aWVY3M4ozsGWWocHZl8zRjaDiyKmYeLs1M7NTvWtKrQ==
+X-Received: by 2002:a05:600c:4507:b0:46e:376c:b1f0 with SMTP id 5b1f17b1804b1-47117876744mr36716415e9.7.1760724884856;
+        Fri, 17 Oct 2025 11:14:44 -0700 (PDT)
+Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710cd833ebsm51894515e9.3.2025.10.17.11.14.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 11:14:44 -0700 (PDT)
+Message-ID: <d51a3e4e0ea960df60d5ba91817ae50eba0a4026.camel@gmail.com>
+Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
+ automatic module loading
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Mark Brown <broonie@kernel.org>, Javier Martinez Canillas
+	 <javierm@redhat.com>, Wolfram Sang <wsa@the-dreams.de>
+Cc: Herve Codina <herve.codina@bootlin.com>, David Rhodes	
+ <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>,  Nikita Shubin <nikita.shubin@maquefel.me>, Axel Lin
+ <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>,
+ linux-sound@vger.kernel.org, 	patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Date: Fri, 17 Oct 2025 20:14:43 +0200
+In-Reply-To: <5f2aeb66-97d6-41b7-8c80-87674c1b14d8@sirena.org.uk>
+References: <20251016130340.1442090-1-herve.codina@bootlin.com>
+	 <20251016130340.1442090-2-herve.codina@bootlin.com>
+	 <60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
+	 <20251017083232.31e53478@bootlin.com>
+	 <d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
+	 <4b851d47bf1d03988a27671ae21208cdeed76837.camel@gmail.com>
+	 <5f2aeb66-97d6-41b7-8c80-87674c1b14d8@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.0 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 17 Oct 2025 18:00:41 +0200 Geert Uytterhoeven wrote:
-> > +/**
-> > + * u32_encode_bits() - prepare a u32 bitfield element (non-const)
-> > + * @v: value to put in the field
-> > + * @field: shifted mask defining the field's length and position
-> > + *
-> > + * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
-> > + *
-> > + * Note that the helper is available for other field widths (generated below).
-> > + */
-> > +static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
-> > +{
-> > +       if (__builtin_constant_p(v) && (v & ~field_mask(field)))
-> > +               __field_overflow();
-> > +       return ((v & field_mask(field)) * field_multiplier(field));  
-> 
-> Unfortunately gcc emits actual divisions or __*div*() calls, and
-> multiplications in the non-constant case.
-> 
-> So I don't think this is suitable as-is.
+Hi Mark, Wolfram and all,
 
-Sorry I missed or forgot that you replied :(
+On Fri, 2025-10-17 at 16:01 +0100, Mark Brown wrote:
+> On Fri, Oct 17, 2025 at 04:41:53PM +0200, Alexander Sverdlin wrote:
+>=20
+> > indeed, that's what I've got for a fake I2C device:
+>=20
+> > # cat /sys/bus/i2c/devices/0-0010/uevent=20
+> > OF_NAME=3Dcs4271
+> > OF_FULLNAME=3D/soc/i2c@4000000/cs4271@10
+> > OF_COMPATIBLE_0=3Dcirrus,cs4271
+> > OF_COMPATIBLE_N=3D1
+> > MODALIAS=3Dof:Ncs4271T(null)Ccirrus,cs4271
+>=20
+> > to me it looks like a bug somewhere in I2C core...
+>=20
+> IIRC this has been round the loop a few times and whatever you do
+> something breaks.
 
-The inline helpers exist already have have a lot of uses. If __ffs is
-more optimal then why not make existing helpers use it as well? 
-It'd be far more beneficial:
+it turns out it has been changed back in v4.18, with commit af503716ac14
+("i2c: core: report OF style module alias for devices registered via OF"),=
+=20
 
-$ git grep u32_encode_bits | wc -l
-391
+but the change is not symmetric with SPI, and SPI core doesn't call=20
+of_device_uevent_modalias().
 
-Sorry if I'm being slow..
+Not only is this inconsistent with SPI, but I anticipate yet another proble=
+m
+if SPI would also adopt the same mechanism:
+
+for instance there are many CODEC drivers in sound/soc, which have
+SPI and I2C backends modelled as distinct modules.
+
+In the current situation most of them have MODULE_DEVICE_TABLE(i2c,
+and are therefore broken regarding module autoloading.
+
+"Reparing" them as Herve proposed would result in I2C modules being
+loaded only via "of:" style modalias and SPI still via "spi:". Which
+sounds all but consistent.
+
+If SPI ever adopts the same of_device_uevent_modalias(), both backends
+would require "of:" prefixed modalias, and it will not be possible to
+load the proper one for the corresponding bus type.
+
+What are your thoughs on this?
+
+--=20
+Alexander Sverdlin.
