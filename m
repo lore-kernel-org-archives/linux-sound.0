@@ -1,112 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646232D9EEF;
-	Fri, 17 Oct 2025 22:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF53209F5A;
+	Sat, 18 Oct 2025 03:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760740814; cv=none; b=p58wgUjSLinIIMdKm42NPcLII3AiQ/Am7EKc8Lcd33hInr0tc9ptofvN1kzBhw3O4dskWKMjQI+2eFKV0mZe+Uo9Pz7C4qbJeCNjQvNzHnd9zyFpELMOFcsN1NbAIkGzDZ+2bQJPEukm6rB2vapxaSHmNC3eILtdU+3LPIqWkNU=
+	t=1760759740; cv=none; b=C/ZowaKDOWHgBK5w0U1YBR3tKt1x9rjlxsEcF1jj4zYcIkcGXeYYfSEoSofE8Of3E70hY7jM/KTXsVec0JgK3lKzofJvTQXJ0lYUDg4UfXVfbRDQjY50MIvJi8AmOYh+Pm7SPIqJSWH/LqBtlF5KESlcBdy0jZN7sKMAIDUaxXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760740814; c=relaxed/simple;
-	bh=0HegR9daNkosgD9iCJo0B2G1/81wLynrRR6+gZ/j10Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WLaLEup1kmKDUeD+LmOiLbFdi6W69jKdFQR0YVgNyjLcH2iRcxUTXIrifCNnuoGqqIdwPwZsSAQ49TSYrL9GF5jUoNN8u1PZ/loU9llnN7VTuffxCwq5tMXr+7KpG2/yKJGGykoofhnIQ1z3FXEIls3iJRiZw+3rSpB8gxhbhGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E838ksIe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760759740; c=relaxed/simple;
+	bh=rRJKlDURKVC29REYcxOnJWnJ1HmvYNGQdBqH38oT5zk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QAds5wIISHlGXK67NJxnnK09BegNl1dvqE9+HTkbdXZOeOhfPilyT1n0d3eZqPoKhGto1+JkGC46lmzvG3rA6LhcXRH3ahZdbEIDf9vhAzc3fGaTyXl9hx/wTRXk36nmg29KTbdQ4D1yhAzppx6Peto+xSP1UeBRdTWc4WPlfiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=u0LLiaZr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jNua1nw8; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E838ksIe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D74C4CEE7;
-	Fri, 17 Oct 2025 22:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760740813;
-	bh=0HegR9daNkosgD9iCJo0B2G1/81wLynrRR6+gZ/j10Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E838ksIeG34YriLkkogKNfQZ8Y1EPk6nGfrhDkbxSxI2dm4pgcuubQLIsTDo01ayb
-	 Hl1WS5NTpeUaOTTpNxtyn3HB7Ds28XSExSYc/tGGmP5kouAKq9q/FqOMPQ6kF5ezGE
-	 gzQB8M/CCMsZt2JPaNRevh4QtL9c8oZxFQLLbV0jAKVPMkahF6rld7ortskrNmXhZE
-	 GauRpGZaM9IHGU4YTAXQoGEBIqGLjU43qGC4xvZPXxtsipjm7GejAyxvU8rrzMHTMj
-	 JOA4xMp2sy5ZUGmlEyRID3HO7PhqCt2Gepm7wm26uqH0JsruifOlLBkkerR5uccFDI
-	 hq8Fq1jXIUMlA==
-Date: Fri, 17 Oct 2025 15:42:07 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
- controller
-Message-ID: <zmi5grjg2znxddqzfsdsr35ad5olj3xgwwt6hvkiaynxzm5z33@gsgrdguj563n>
-References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
- <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
- <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
- <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="u0LLiaZr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jNua1nw8"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B056C7A011C;
+	Fri, 17 Oct 2025 23:55:36 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 17 Oct 2025 23:55:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1760759736; x=1760846136; bh=vI3U9j0VFu
+	AbqN5rE+fJwknXiqz2vQ8pUtVy5buredg=; b=u0LLiaZrM3huXszIXn8bdyCoId
+	IPew8ZWgh6odijkwRm192CqTy30g8r12glmDh5E71Kw/snZhp7PSbWUaBhb+UY8Q
+	3MiKkJyttAIQ6s+zU3YfcDBpEsQCbOo15vVZ6pUDc1JA7XHzBqQi135FWhhZgbKf
+	0ymHRaPfMIIG6EgYKWCwVk01ZvE1ellLslEwvg1QhIq61XVEj+dr/gliReAJHIiR
+	bBv11b7GNMPOjr9rGtMvdFU+XieCFhvgrTUPHPcjGkr+b+ee6lsqPWC9cEYStNcp
+	TLLJChT9iw3gj4WBavvsRTi0z3ggp3BUz4+cldpScqqeTOwhizUmHez2ylEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1760759736; x=1760846136; bh=vI3U9j0VFuAbqN5rE+fJwknXiqz2vQ8pUtV
+	y5buredg=; b=jNua1nw8J7zjolNIVMtgCctZ9THXwezPmTEhBZyTCbigwIYZrkB
+	29bJAKuJ0W0G4oq4DvdHsjl2dtg1yWHbIf/0xciIZIRU5HVw2SVibk8xzRmJ3b18
+	B76diUJmHXlQCHLdjwML13sQ2l+LGTQS2GWx7pAP/y6W5IxTV1ss/lzDinaoDOCV
+	o7SS7YcuS3zluLwxyXxfIPOLQJWXkhD8qrf0K74xvliv16riGp8NdbMTsPcUHRHc
+	xdY8opTA4zP1ed6uIP0gFsOv3DLyjMPg40t6dm85lHGybATQRBt93Ag5MYAv8se5
+	ORnST1O5IUBf8Pru7fAA1YoPpdESXrd65+g==
+X-ME-Sender: <xms:uA_zaJBYHX4Dcon_xIOXF4aUPnUeMKv5pQoagaVsHyr42eg1oOitTg>
+    <xme:uA_zaHqWYZ-6fUJdlOFEwsGqfsKmJ02cuhbBPTV7-mXKfSR40It_CLPOmF9xIx7i9
+    RPe81A7FNbsdh0mi2DXeKtqXQpjkI0fLfZBq1oNB6CAFSrKP4vKJS0>
+X-ME-Received: <xmr:uA_zaMi3CXy7-I4ymRQQwO10ipc6xFcJ4PWbPPkjJqZ3AExPpPobc4KPUVm7IbwP6wSe8oTB7J39PCOEWa3YkMaPsNN_dtK-Oc8WZ9kp_kNAFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddufedutddvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeffvdeuleffveekud
+    fhteejudffgefhtedtgfeutdfgvdfgueefudehveehveekkeenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrg
+    hmohgttghhihdrjhhppdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlsehlihhsthhsrdhsohhurhgtvg
+    hfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:uA_zaMCwz8pH0vhuQKJQmE3AgAvyjB-SzVn6BRGbvS0NlWtxUM3oTA>
+    <xmx:uA_zaJHPJNJQEFqybFmQ4eusH4hPZD854JynpcgwTNPneNEc717cjA>
+    <xmx:uA_zaMK09Hz_sfRfT5Vi2kzEJGw-IBtMPYIvus7qddWTt08ycHk_Iw>
+    <xmx:uA_zaFl4sJqaPJoo68b8ItReOkA00kuqjWhYuUmrZ_LDBlkm_n_DwQ>
+    <xmx:uA_zaGnFfNpd-2F75l5mXx2Vqa4nmCXPQ4SanMC8pjaceXE_3dftDBR9>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Oct 2025 23:55:34 -0400 (EDT)
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux1394-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/4] firewire: core: handle TASCAM FW-1884/FW-1804/FW-1082 quirk
+Date: Sat, 18 Oct 2025 12:55:28 +0900
+Message-ID: <20251018035532.287124-1-o-takashi@sakamocchi.jp>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 10, 2025 at 01:29:38PM +0100, Alexey Klimov wrote:
-> On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
-> > On 10/7/25 4:03 AM, Alexey Klimov wrote:
-> >> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
-> >> controller device node required for audio subsystem on Qualcomm
-> >> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
-> >> 
-> >> While at this, also add description of lpi_i2s2 pins (active state)
-> >> required for audio playback via HDMI/I2S.
-> >> 
-> >> Cc: Srinivas Kandagatla <srini@kernel.org>
-> >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> >> ---
-> >
-> > [...]
-> >
-> >> +			lpi_i2s2_active: lpi-i2s2-active-state {
-> >> +				data-pins {
-> >> +					pins = "gpio12";
-> >> +					function = "i2s2_data";
-> >> +					bias-disable;
-> >> +					drive-strength = <8>;
-> >> +					output-high;
-> >
-> > I.. doubt output-high is what you want?
-> 
-> Why? Or is it because of some in-kernel gpiod?
-> 
+Hi,
 
-What does "output-high" mean for a non-gpio function?
+In 2003, TEAC Corporation had released FW-1884/FW-1804/FW-1082 in its
+TASCAM brand. These devices are already supported by a driver in ALSA
+firewire stack, but they have an interoperability issue related to
+the speed of asynchronous transactions and isochronous transmissions.
+When operating at the speed described in configuration ROM, they are
+too lazy to respond, and eventually frozen.
 
-Regards,
-Bjorn
+The most likely cause of this issue is a mismatch in the gap count
+between the initiators and receivers. Theoretically, this can be
+resolved by transmitting phy configuration packets to optimize gap count.
+Nevertheless, this approach has proven ineffective, suggesting that the
+device firmware may contain a bug causing the issue.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sm4250.dtsi#n66
-> 
-> >> +				};
-> >> +
-> >> +				sck-pins {
-> >> +					pins = "gpio10";
-> >> +					function = "i2s2_clk";
-> >> +					bias-disable;
-> >> +					drive-strength = <8>;
-> >> +					output-high;
-> >> +				};
-> >> +
-> >> +				ws-pins {
-> >> +					pins = "gpio11";
-> >
-> > Please re-sort pin entries by the gpio index
-> >
-> > https://docs.kernel.org/devicetree/bindings/dts-coding-style.html#order-of-nodes
-> 
-> Ok.
-> 
-> Thanks,
-> Alexey.
-> 
+From my experience, these devices operate more reliably at lower
+transaction and transmission speeds, which provides a practical
+mitigation.
+
+This patch series addresses the interoperability issue. The core function
+of Linux FireWire subsystem is changed to read the entire configuration
+ROM at the lowest speed (S100), and to identify these devices based on its
+contents. Once identified, their maximum speed is limited to S200. The
+ALSA driver then performs asynchronous requests and isochronous
+transmission at that speed to prevent device freezes.
+
+Takashi Sakamoto (4):
+  firewire: core: code refactoring to compute transaction speed
+  firewire: core: determine transaction speed after detecting quirks
+  firewire: core: handle device quirk of TASCAM FW-1884/FW-1804/FW-1082
+  ALSA: firewire-tascam: reserve resources for transferred isochronous
+    packets at S400
+
+ drivers/firewire/core-device.c        | 86 +++++++++++++++------------
+ include/linux/firewire.h              |  3 +
+ sound/firewire/tascam/tascam-stream.c | 21 +++----
+ 3 files changed, 63 insertions(+), 47 deletions(-)
+
+
+base-commit: 15f9610fc96ac6fd2844e63f7bf5a0b08e1c31c8
+-- 
+2.51.0
+
