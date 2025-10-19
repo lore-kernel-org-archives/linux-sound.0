@@ -1,68 +1,68 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4389F42050
-	for <linux-sound@vger.kernel.org>; Sun, 19 Oct 2025 08:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0462BE02C
+	for <linux-sound@vger.kernel.org>; Sun, 19 Oct 2025 09:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760863180; cv=none; b=Am1w96wmEYPgNbjy4Q72IGL8u7YWuecntsVGvlxF+fLhhhO9tzn+KKPnImA3q3s9PoKKJfJ3vBqETnmfjNadLUIqegP+B0WSnxfur7R5VdXHRGe+gVf8lj8Ib4EAHSgV71w8kBIFnzNVRDLwFArBREox4fKxpRxmkwKQW0gKTf0=
+	t=1760865430; cv=none; b=uwjrNe/Tx8gCPNDyNWrc6wDxDPlhRGOI2I+Vwpm5UuIWDuVjSxL1qqFQkxgw2G8o/t09S5WmcEqvVPrFSS7DGqDpLWxXY/op8YiaFC+y6nJZL6hgnlqOAnHy/rSIYzAcissn/aLCya8K6tO4u6DKdM+KLYf/AiQwY9AChndLsXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760863180; c=relaxed/simple;
-	bh=XizJcdmtzfIGBXTnNvmIFU6Tr1/b3m+2Bg5b4Dtk1sA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Aem2EtBKiVkcTm3h32aVv7WFjHNyNfPoHy17nOxEnuz08BLbM9pqAL7cLiM+W9IdbEuBJdM9unOdIcnlhUidKrzmnmbCtaDbG9pyqIHvLMFjt6cbgqrK151OlK/XDU2VMNjhpHX64nMSxhvzmWvvDJU2fTsElP0QDJ6d4w0lBHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ekqKgt9x; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1760865430; c=relaxed/simple;
+	bh=mCTqfekfk6qOXn0IB0q6lh5FkE26sk2eU5PGymINVZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YcEP8qgYRAxnNNLWCWw/XBy5hSpAULMfkLSu6CrhI6xrrlHcVugErHNAcb89H/3uxHVeG+3oB0Zxr5+zIue0/4J7018hUkUZPdyafPzMls027VF8gZFoRuNDIOFhGZJicZa1xZ9xbQfo3ttqXZKy8Klk58GNE2ncbFFKKNGdXNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7Xv/Wy8; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekqKgt9x"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e542196c7so27968485e9.0
-        for <linux-sound@vger.kernel.org>; Sun, 19 Oct 2025 01:39:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7Xv/Wy8"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-471131d6121so26893885e9.1
+        for <linux-sound@vger.kernel.org>; Sun, 19 Oct 2025 02:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760863176; x=1761467976; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760865425; x=1761470225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w8OOW7C3cD8cI+vyLezuXJ7VQyKa+kmMKvcRNadAvwQ=;
-        b=ekqKgt9xkhSEWK8sQHjOFMTi7M394ka93re/6lkDbh48FVjTTp7cYJDpk1MU/SaoFv
-         VZTTWsmfoVVFX4UKUzIek89gXKyVbwGNavSKaedFZSCn7M4TPbITwSraPUAVtUjrDPBx
-         H+Cnc1GpKmPwfpb6UZwhsGF8xBsKr6hLi2KCMP5nbbsZ3IVbEKrvJUvxGaJ4zvx3dxdt
-         +FGw1sRbnnh6/KpjErBUoF5DJQxRDbok0rcChrlJUjbrqxYcbzcf8Ow0/JWz8cPwabBN
-         KWTpg/LUF38Z9MsJxGbGu3WWhEFtztHsQTLC258datbRTyXDscC+kcQCDI3yOkuGe7++
-         5wbg==
+        bh=1bTeeYKE5+epIQgyyFAu7llY+ZJZZc1/NGSonmm3rn8=;
+        b=D7Xv/Wy8DJ/DQjZwMKv19N+ittTcsf7HTYvWX6povhr+OhUrW21wZSe3CwDUlwZI6P
+         TXlw2MZ3WF4qyKAwsaljqIDfcORlF8mcxaeCdRHU7+RzoEoy8g3NcTZfosQbr+2UlBHG
+         CdK7fbWOKEeEubw4Xir/iZ6NzoSZnHPh6d2D0ML8gRxE3HOu8KWn6t/k1hVFidY7+l8f
+         CfnWBSKCMKU+y2427RxaZ4xf9GuoSVPSAbMZfhhrd2NSshW4F4JGsOi45GG7hVH33bQ1
+         ROtrJAvCjy+3BSLkeqF9EvbRQrGIfLiFe5QbViVaYyJ4m/fE0bf2Lz7aeaw+D9twRn46
+         JVyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760863176; x=1761467976;
+        d=1e100.net; s=20230601; t=1760865425; x=1761470225;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w8OOW7C3cD8cI+vyLezuXJ7VQyKa+kmMKvcRNadAvwQ=;
-        b=Q2GLfESaG9h4prJ+MI+dyqQoQN/v4IRxfGClamJCgW680B4jMm9FN5GgJyDzcYDFS8
-         xULsLNJHC+OnwxX1gbaX4QJEtauOcjyB9g4ysN+qQd9ytaJ9sDhcnmRfW33TkQzQASFm
-         qRwmmKEgP5rkLmCsC1VsFoE9t3Vw67WGG9C1txqvx9Ul/iQv3zg5eMqPDPWZp9PTFBiQ
-         PUnexiqFtJtdxbUhRi5xU4j80OTZxD2g2tmz6xh41cFglaT4jBJOi5ZG22B6oMJaJ6Bj
-         LJvJ/Azfa7nTnBtu0enq1iL4/oTrdS6YA+csDGNnN7WsPccqkV+gpxaxYcY0OiYTN6FP
-         wZyA==
-X-Gm-Message-State: AOJu0Yz2VYbCR7NPkSSwG8Q7fuKHCrBt5/Cv4fdLIbSmZ/32HQT2uwFq
-	/QCw2C2V8ZxKC/+WW/WeyWLkQygGLEQPdcQuAKsU8sSM4XX1+59/q60oJ2736sFk
-X-Gm-Gg: ASbGncsxcPbcW01E4vlTTSOtDWz+zanXhuLgX9Np1tPP8UvE3ohMNjIZzTd8Iyx0NPs
-	qi36IuHjP6FzXzMLrsI9YwgPd85CTrPiqF7QqqLFNISLaEag06hgGvynyw2H5S7KHhbDZY5uObJ
-	RExXrwHfEsiex36LFYic6/HqV2GbiBdy5jd74GEpObfcUGJILKM2myYOjQRyyPIp6CzuEEHN+xX
-	whMjQVTBuCR7Z0fs7RZ/+ccSFTn26czajCkV8/jSLUDZ/6WmKH9U9eMsp/WWmLnW5/Z3ZaNiS1f
-	rtsPFcQzxQcGSP3JRppPWkJIWzkPoTtbljF0ETPRKKw+tEFiNz/upcfxBc3PDEErw/tGe5pdmIH
-	wwZyuWgQmfwLnPa4Mxv/3CaG4vPBWCU+xc6emu8KphGFpCnnzpSmSRFY7X6oHv64PrVqW6LX48R
-	U7PdTAmls0WsH3dASBJHYpZU3WEw==
-X-Google-Smtp-Source: AGHT+IGioA/6IDr0eTqobfJgB/Trrf7ndRB0m2AqoERutdpI4CAwuN83F77QMNmQJOfm2G/vSdf/fw==
-X-Received: by 2002:a05:600c:a69d:b0:46e:1b9d:ac6c with SMTP id 5b1f17b1804b1-47109b58b51mr56618515e9.17.1760863176090;
-        Sun, 19 Oct 2025 01:39:36 -0700 (PDT)
-Received: from nixos.kykwifi.com ([95.7.251.46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710cd833ebsm86612745e9.3.2025.10.19.01.39.34
+        bh=1bTeeYKE5+epIQgyyFAu7llY+ZJZZc1/NGSonmm3rn8=;
+        b=MzA0I0joPGVla7lwLkzLMUDmdd4GQwQlCdWDARPvg1Z6sQnlYViDdz41g51keB74Zo
+         WcAV8k6sBruxPtwxg7PYTJe2HqTW9MxH3R64xxwrybwn6LbV5Ak9UdE39+lS2a8iM6+T
+         Vo/UEKIPeWIXneJlj5BXDxBvHESdYlxTnMdnQWNA/wjoNpGvrtmuEr2bde7NnjxGcL2n
+         TqocqEBg+pa/0nGDCn2snwWbgMW+OkfmbDSPkJAXdYLNgEjCXew4c6J5WYJW29LUyNZp
+         1GwNkPgI941IEJyqH6akDAKz4pgwavN3l0PjAE6vJnJUP8Tx48z8vdbkzOOcJMKGDzRt
+         JkIA==
+X-Gm-Message-State: AOJu0Yxp3++aBYIIDPF3E85ozq2cpEK2qU/q4a9XbB5zcDXURZc/NnDX
+	Z1Vcv0DkwLS+v39MCklgCUxIEJjDATDwMcQehHLKhGI3v2bvZ4SxycPHG5a+FQbV
+X-Gm-Gg: ASbGnctHIVPfTK9Btkl0Azl75cSHFUy7mGQkUi4h7tzSiV3vWSeZ3aHsWhaTX/0wpSi
+	AkRHaK9orIoFfiId7n4aMmB108HoBccB03wCvHZ6KsTplJrvgEWcqgwwD6AZYftYclkakBl4N1h
+	fQGpxOEaZuq/AbfoDou0Iq18Uo8t/10TrL7OdcfkFMXd+5IPfNfV7cqyCJQELEITm2eRZ+HgBUB
+	jwVsh+lMV1DLg6qrtBs8RpyGHckEZK6ObovIjnb0ZoXVGw2vYf9HQh2IRXT2YRnRhytwsgCscBU
+	GsoY81HrmizsSfQUzZ5TGXvOcJ2K+zT0Ogv25bxYnoMJLOXdhjlGurQ5RsHKlrkEYdDhPRQNubX
+	5Vt2VcV2rNg0ao2BLHu7HQsNh/C2BmArSXSkWtJBo64oWvDXaTsxAzi8gT5ap0TOFLOsqvQNEOi
+	eCm02iVNUkkup+U7izKFr+DbiIoTlBuc9CmsB8
+X-Google-Smtp-Source: AGHT+IFIDKr56WgTsNJxIcdCXA8uMZr6DKUGM/hYfELxZT1nrwWzXa339FjAooqtDrxxEjexyZ1rRA==
+X-Received: by 2002:a05:600d:62b1:b0:46f:b43a:aef4 with SMTP id 5b1f17b1804b1-471b5341411mr15744615e9.38.1760865424923;
+        Sun, 19 Oct 2025 02:17:04 -0700 (PDT)
+Received: from nixos.kykwifi.com ([95.7.250.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3affsm9271455f8f.12.2025.10.19.02.17.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 01:39:35 -0700 (PDT)
+        Sun, 19 Oct 2025 02:17:04 -0700 (PDT)
 From: ern775 <eren.demir2479090@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.de>,
 	ern775 <eren.demir2479090@gmail.com>
 Subject: [PATCH] ALSA: hda/realtek: Fix mute led for HP Victus 15-fa1xxx (MB 8C2D)
-Date: Sun, 19 Oct 2025 11:31:44 +0300
-Message-ID: <20251019083708.35097-3-eren.demir2479090@gmail.com>
+Date: Sun, 19 Oct 2025 12:14:18 +0300
+Message-ID: <20251019091651.2371-1-eren.demir2479090@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -72,8 +72,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The existing quirk for Victus 15-fa1xxx wasn't working on Victus 15-fa1031nt
-due to a different board id.
+The existing quirk for Victus 15-fa1xxx wasn't working on Victus 15-fa1031nt due to a different board id.
 This patch enables the existing quirk for the device with the board id 8BC8.
 
 Tested on HP Victus 15-fa1031nt (MB 8C2D). The LED behaviour works
