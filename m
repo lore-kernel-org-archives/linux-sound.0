@@ -1,283 +1,139 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6874D3002D8
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A40930214F
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760965650; cv=none; b=oQcI0Jx2Temn0v9ivaxQh0AL6AzPgz041AsCz2q8YsCQPFTE8adG7Oqt+G7b5RHDc9unUqRGJygEt3jmGVN/eOiTKfPapK2IAc+cBsHKqks7Ux6X/Gj01+LjmhBy2aUCkYgS0BM4VdXtYaBpIBgkcwhfVrONLcCEmALZpbpu3PY=
+	t=1760965938; cv=none; b=X3UhrFb0XH2BwSB09i7qsIOmSvJ+NEQLVpxfZIriQOHpNoPpDMoA62G1T7/fzG9yozs2pTEPtFIXdKc0JDV+L0ptg2xA9bRjrFIMbEUWGY4nAtMcSay3daC/NkOmRh9GFQDMKtTbBPR6TpvU8xFVQlDvyBx39PnV6CpE7znTI8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760965650; c=relaxed/simple;
-	bh=+BhpvIfdxxZ/aCetXMa1dsKCSF78eaw36kKX1XCRo0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QHf48IKUd8RrMrTZVX2SKah9Qo/CCa0q1oESkustzbKj1dMOhgq7BE3r5K20mJ+0IPK4BzmZBHXujfBrHW2jQAc+SzL75sYRzBYteixfwtG5MRrw7aL9WlGOCCUY/5rlDeZtJ44cFkZnMBjagUXLSLvhRA48m18qwGMBPfcSx2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-88fa5974432so597285185a.2
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 06:07:26 -0700 (PDT)
+	s=arc-20240116; t=1760965938; c=relaxed/simple;
+	bh=2huT2+iKEw8tW47rMwo1a4P8i0CzNs73jkjQrrzOQro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ONmj5zKGaFZifo/1QQ39M/4sDGq5x4b66AA/sDe1DRo6TB14Amq+ibRsHzbURvGV3+wTZT8nHNh73Y5a1MTL/uNt2fVXr8WE5E5+TkKygLA1+ExnZruWeztyU4kmm+deuVFVYfm8iClcnZZA7lJfPVYj6k6GjXNiCbzqA5DZc3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=C3Sf+jBa; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="C3Sf+jBa"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KBssjL022434
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=kE6h5t6yjbVzf8RgIauFFD6tv5vVHA/XW4w
+	UEUKgjiM=; b=C3Sf+jBaQTW0W8BOFWc4iq7hp/Hc5lr3AiIxJE9LdF29MF9n4K2
+	eBP2Ag2FPfpta8u0OVsxisBSZQyY1EDz2KHHgVXH3tCmZdPOh9JQkbvgz5quQkfp
+	XfZcVkf4EzzacwuCHuEtnXu7R2pdeyJ9b6YLk3sbq2rzlD4GccH302rkL/S4qwPx
+	hJihuXgl2GRKs/pCWhik81+rJc6+NotukxF8UH6p42b4H3k9sjdIhA30GQUzj/VR
+	eo2VcQm8cm7DcwcF/RWJhHRft+rUqHM7Oiu7LYfsW4ffhT9F1VhAk60xhAJT7h5l
+	EUKNXKZcsWRAiQlyX32Bv6Rz/QKDMyvTs5A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2gdvufb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:16 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-88f3c733d98so1692168985a.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 06:12:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760965645; x=1761570445;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1760965935; x=1761570735;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WTAfAvg+E5E0/JeW2qvrB22XDr/x/zemAkA2zC9bvaY=;
-        b=kBdODN+/bZJ1qTkgyuP5e9n56ipFMc1wdW1kEZLsue20iencJDv4b2pup+Z/bC8rHN
-         ZGC0seINr9Ig4fYT/ZMeUXDDkfkIlU6kyD8bM123+q5rOs36eCuRGrJOaqpOlsltfg8E
-         S/quLJd1krCny1DXz7uPBPktrRBHGpuPUa+7pU5T49PNzBU0VbZEjmd2R14y5zcsTX6x
-         rTpBOSPnh0ZFA8qufTkRPFS2DsyAkztkD0NvMgLPrZ0+uaqBWQ2vVhCQzpywsnCLNWaN
-         SkU+JTTGJYkbXx20bB2UZ1YbefPCipSkBKXB17xcUSpw/SvFfTrvIkXpmgPcr6gYehlL
-         GGtg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSTVgtSlVEmjlk8pURG2DQS0qPwRCMQwNp09KKevuJBQIhbIBsBb8zMYYAtjhGyCbSsbDpWB5xWjWfTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWCA4Uta1tWMj0seKGAMqcyUTHwo+qtRPcvcKJBI1XC6dBahYD
-	3URWk52uIS8UGvdqQtJ+VOD0OI3gXNHnIMJnxCvy73ZUcE+WNFI9P30jF4cX4JjZ
-X-Gm-Gg: ASbGncsHxWNKM+X9t6NuOUoIpZ3W2fmrNGLCuZPjwqAwwywY02k8/ERrawim1HwiiRh
-	kX3NKOg9E6ETYeTiWJMy4+rwtfMhkybtJbqVcmQ6Ncz62HVmhdvr6CEHrjfEyPl6Wwa0HuqzjkA
-	p3RiOCpBNNDwBgOdUoBWu3mSatdIoNK7FPTdqPejzQCrKj5tuE9oSzcYq4y3WalNE1c1sdkH+42
-	Gr0cYGaoS+eVu69uDtEo8YGGvptMDtN86BiF9cDrJxQAv6mbBxyDaJJ4G+k1ZuCKG4WXBYuvn8g
-	I/VSzxybWVyQsei/oPtlsQAYuzybtYXDYGUSQCTwBJVTlry/GCiXkGbHegnj5vSiIJRhK4J+VXX
-	vD298R1BWrKWabu9K7EuuWkUIdQ7yW6SG8TpkF7zF5bSG+3Z39esioJEZ5VVPGN+MqSpw/lSTZd
-	a9mCIiSyXbPCqKWgOv3D3tT4BfGflgFwi1267/Eg==
-X-Google-Smtp-Source: AGHT+IFtdBUPNG5or54pJpA87laaMzqmy06QbNrnxjbkdo3x/e6vxfNJK4L0U/O/f/I3FG8R6r9F8w==
-X-Received: by 2002:a05:620a:6884:b0:870:7185:13e4 with SMTP id af79cd13be357-8907031ccc1mr1379067385a.68.1760965645212;
-        Mon, 20 Oct 2025 06:07:25 -0700 (PDT)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com. [209.85.219.51])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-891cefba919sm555833785a.32.2025.10.20.06.07.24
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 06:07:25 -0700 (PDT)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-87c21c5d3eeso60751436d6.2
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 06:07:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXtUO2HRsD9upc+tkp5HMtiOrzQKPQLCoAw/zsG6iCQk4q443RDmuXOdYpTlSAMZQI7OVULLb9mTvqmgg==@vger.kernel.org
-X-Received: by 2002:a05:6102:f09:b0:5d5:f6ae:38d1 with SMTP id
- ada2fe7eead31-5db093f61bfmr207405137.38.1760965235930; Mon, 20 Oct 2025
- 06:00:35 -0700 (PDT)
+        bh=kE6h5t6yjbVzf8RgIauFFD6tv5vVHA/XW4wUEUKgjiM=;
+        b=tuWw+UPij3pBtH55OQBpyWk9JgECoSGGnFkSRbUdpieFDGAe5shMWWaqif2NWcPNNr
+         SRZcGmWMbcwcW4wV3sdoqjsCH2xUeWQpQ0388TPRBgd5U4uf/i722l2Q3kXymXqGgEEW
+         /QfGNqsNh7tqFsuOmn/w/dZ4ROfJk4OdsafFs1dDoVpZeZby6lM5k2anEaaVR7DMYjk+
+         TPH1NftN5j8tcf2cILf6pWbUO1RzB54zFfnOH1D+LEhsuPCJdunDp4nLkST19s5VpiES
+         lqkqfIqlItgChkPmFeq03N09ijxZVqSSERkxDzahlrWK6zvd9sy8Ypm7XviIdQOVTRW3
+         2iZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbAJrNbbs8Qt5rnRm4vBep9IFTKXbthKzs9UKslZITfJSz5J/UOh4VA3vKQW5DCGOZXCDUUy51oqzTZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2r/HYritKVxpggzmEJ5NdVDye3DF6DfGM/W55MUPrE5Q1IcxI
+	qWvuyGsp/+we8559h0MLGwIfg9XLqFJThGSDzH9P0Kt4XZSuV2j0j5gwFapa1L9+siRNWuyD+TI
+	KI9YbB147NhMzvPdTUo+uIHiL5mK4YXX67wvd3pcaKvp/S/iOR8UzMkSBRIMTatHvaQ==
+X-Gm-Gg: ASbGncuYGwRO0PNp1BHWdozkbUEV3zjeFTIjKxhUn/9MbBvL4xUVLHb9wdiF4Bb7lHA
+	/xKdYL73jnvNR9+krTZHJ1WOc/arwCF4XsYyu3qjZCzrlyKu76GFcyEVYd0CGFR0oRyVtXeNVzc
+	yNMj6FQ6a3Q+92zydMOm9p6pCoTlGB8KXRMos/FgpQQcjBWycSAoZJtEHN9rKj6FuM3siSzXagI
+	tys7oxWC/5Ev1tTXFi2Z1AGmuzSoFgJB7BzwWYXTJLXXPaYfKc244LStcoDkHBJALnQcxK5T0hE
+	MxR5GeR3oa4+4G/S2BKuDSSOi+G3c109jk8h0hE84qb2LOupPGPzai3PtYGE1YJ9/Lon7YHK+hC
+	VXzLVWWoUAjho
+X-Received: by 2002:ac8:5f93:0:b0:4e4:9d63:4a9d with SMTP id d75a77b69052e-4e890fdf96bmr207133751cf.28.1760965934674;
+        Mon, 20 Oct 2025 06:12:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFsPnvRqWl9GSvk2rCHU8mAvynF5S+0f8ghhjGvT3zvjL0DQkU5H3U0yypMThGrIIFNl+39aA==
+X-Received: by 2002:ac8:5f93:0:b0:4e4:9d63:4a9d with SMTP id d75a77b69052e-4e890fdf96bmr207132331cf.28.1760965932957;
+        Mon, 20 Oct 2025 06:12:12 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710e8037aasm118165505e9.2.2025.10.20.06.12.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 06:12:12 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, alexey.klimov@linaro.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 0/2] ASoC: qcom: sdw: fix memory leak
+Date: Mon, 20 Oct 2025 14:12:06 +0100
+Message-ID: <20251020131208.22734-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1760696560.git.geert+renesas@glider.be> <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
- <aPKQMdyMO-vrb30X@yury>
-In-Reply-To: <aPKQMdyMO-vrb30X@yury>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 20 Oct 2025 15:00:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
-X-Gm-Features: AS18NWBop_uORR3NT3_HDoVoJ_Tyxhm-9TufWw0aoroSF1IMR97eq1M8wyRugog
-Message-ID: <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}() helpers
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Shan-Chun Hung <schung@nuvoton.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
-	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfXw3eBH5hW4ZOZ
+ 85dcuwFTO1e451LR8yYtHTdyE+oqPYvImFWVppCMFdi1mgOfggS6MvG5BgbSfGy2Ko/TYwoTeLF
+ Di40xlZaegRPEyb2zm3qpQHxfirxNwPs0fEvpw7V9aBU0i7TKN735MZwCUTloyvNyxsH0OXrNoX
+ dJY/Z7S1G7KaujfmdSGeJdxV1/aVyK4ntjAZllOctX8HxSunX2UCnFIZVmrItyX9jxINuVnUtMy
+ Y7jYNgWr4TLjBd4YsXteBJU+0K6vjfp9jadZRV5adQZk9pZ14Pm0cJK59l/OvugnY9HbD+OGpK6
+ vIQVIbmv/7NZOgNftuILQ+hzTjrgdUJwYn68fef5cEc5/O6I/ow9jViYzyS1lgiAtWgdAyqwFlX
+ Y7Dki1uu7a9q+tLtjSUaTeLuFuGUiw==
+X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68f63530 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Tmn-ty_kyiCvGlHJeRgA:9
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: XtBXQYhzenM871KqHzxoThCpJOCA9ZCS
+X-Proofpoint-ORIG-GUID: XtBXQYhzenM871KqHzxoThCpJOCA9ZCS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
 
-Hi Yury,
+While testing for memoryleaks on T14s, it was found that the
+struct sdw_stream_runtime was leaking very frequently.
 
-On Fri, 17 Oct 2025 at 20:51, Yury Norov <yury.norov@gmail.com> wrote:
-> On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
-> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > constants.  However, it is very common to prepare or extract bitfield
-> > elements where the bitfield mask is not a compile-time constant.
-> >
-> > To avoid this limitation, the AT91 clock driver and several other
-> > drivers already have their own non-const field_{prep,get}() macros.
-> > Make them available for general use by consolidating them in
-> > <linux/bitfield.h>, and improve them slightly:
-> >   1. Avoid evaluating macro parameters more than once,
-> >   2. Replace "ffs() - 1" by "__ffs()",
-> >   3. Support 64-bit use on 32-bit architectures.
-> >
-> > This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> > macros, as people expressed the desire to keep stricter variants for
-> > increased safety, or for performance critical paths.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Acked-by: Crt Mori <cmo@melexis.com>
-> > ---
-> > v4:
-> >   - Add Acked-by,
-> >   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
-> >     power management debugfs helper APIs") in v6.17-rc1,
-> >   - Convert more recently introduced upstream copies:
-> >       - drivers/edac/ie31200_edac.c
-> >       - drivers/iio/dac/ad3530r.c
->
-> Can you split out the part that actually introduces the new API?
+For some reason we endedup allocating sdw_stream_runtime for every cpu dai,
+this has two issues.
+    1. we never set snd_soc_dai_set_stream for non soundwire dai, which
+       means there is no way that we can free this, resulting in memory leak
+    2. startup and shutdown callbacks can be called without
+       hw_params callback called. This combination results in memory leak
+    because machine driver sruntime array pointer is only set in hw_params
+    callback.
+    
 
-Unfortunately not, as that would cause build warnings/failures due
-to conflicting redefinitions.
-That is a reason why I want to apply this patch ASAP: new copies show
-up all the time.
+This patch series fix the issue, and while we are at it, it also remove
+some redundant code from machine drivers.
 
-> > --- a/include/linux/bitfield.h
-> > +++ b/include/linux/bitfield.h
-> > @@ -220,4 +220,40 @@ __MAKE_OP(64)
-> >  #undef __MAKE_OP
-> >  #undef ____MAKE_OP
-> >
-> > +/**
-> > + * field_prep() - prepare a bitfield element
-> > + * @mask: shifted mask defining the field's length and position
-> > + * @val:  value to put in the field
-> > + *
-> > + * field_prep() masks and shifts up the value.  The result should be
-> > + * combined with other fields of the bitfield using logical OR.
-> > + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> > + */
-> > +#define field_prep(mask, val)                                                \
-> > +     ({                                                              \
-> > +             __auto_type __mask = (mask);                            \
-> > +             typeof(mask) __val = (val);                             \
-> > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
-> > +                                    __ffs(__mask) : __ffs64(__mask); \
-> > +             (__val << __shift) & __mask;    \
->
-> __ffs(0) is undef. The corresponding comment in
-> include/asm-generic/bitops/__ffs.h explicitly says: "code should check
-> against 0 first".
+Thanks,
+Srini
 
-An all zeroes mask is a bug in the code that calls field_{get,prep}().
+Srinivas Kandagatla (2):
+  ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime
+  ASoC: qcom: sdw: remove redundant code
 
-> I think mask = 0 is a sign of error here. Can you add a code catching
-> it at compile time, and maybe at runtime too? Something like:
->
->  #define __field_prep(mask, val)
->  ({
->         unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
->         (val << __shift) & mask;
->  })
->
->  #define field_prep(mask, val)
->  ({
->         unsigned int __shift;
->         __auto_type __mask = (mask), __ret = 0;
->         typeof(mask) __val = (val);
->
->         BUILD_BUG_ON_ZERO(const_true(mask == 0));
-
-Futile, as code with a constant mask should use FIELD_PREP() instead.
-
->
->         if (WARN_ON_ONCE(mask == 0))
->                 goto out;
->
->         __ret = __field_prep(__mask, __val);
->  out:
->         ret;
->  })
-
-Should we penalize all users (this is a macro, thus inlined everywhere)
-to protect against something that is clearly a bug in the caller?
-E.g. do_div() does not check for a zero divisor either.
-
-> > +
-> > +/**
-> > + * field_get() - extract a bitfield element
-> > + * @mask: shifted mask defining the field's length and position
-> > + * @reg:  value of entire bitfield
-> > + *
-> > + * field_get() extracts the field specified by @mask from the
-> > + * bitfield passed in as @reg by masking and shifting it down.
-> > + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
-> > + */
-> > +#define field_get(mask, reg)                                         \
-> > +     ({                                                              \
-> > +             __auto_type __mask = (mask);                            \
-> > +             typeof(mask) __reg =  (reg);                            \
->
-> This would trigger Wconversion warning. Consider
->         unsigned reg = 0xfff;
->         field_get(0xf, reg);
->
-> <source>:6:26: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
->     6 |     typeof(mask) __reg = reg;
->       |                          ^~~
->
-> Notice, the __auto_type makes the __mask to be int, while the reg is
-
-Apparently using typeof(mask) has the same "issue"...
-
-> unsigned int. You need to do:
->
->         typeof(mask) __reg = (typeof(mask))(reg);
-
-... so the cast is just hiding the issue? Worse, the cast may prevent the
-compiler from flagging other issues, e.g. when accidentally passing
-a pointer for reg.
-
->
-> Please enable higher warning levels for the next round.
-
-Enabling -Wsign-conversion gives lots of other (false positive?)
-warnings.
-
-> Also, because for numerals __auto_type is int, when char is enough - are
-> you sure that the macro generates the optimal code? User can workaround it
-> with:
->
->         field_get((u8)0xf, reg)
->
-> but it may not be trivial. Can you add an example and explanation please?
-
-These new macros are intended for the case where mask is not a constant.
-So typically it is a variable of type u32 or u64.
-
-> > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
-> > +                                    __ffs(__mask) : __ffs64(__mask); \
->
-> Can you use BITS_PER_TYPE() here?
-
-Yes, I could use BITS_PER_TYPE(unsigned long) here, to match the
-parameter type of __ffs() (on 64-bit platforms, __ffs() can be used
-unconditionally anyway), at the expense of making the line much longer
-so it has to be split.  Is that worthwhile?
-
->
-> > +             (__reg & __mask) >> __shift;    \
-> > +     })
-> > +
->
-> When mask == 0, we shouldn't touch 'val' at all. Consider
->
->         field_get(0, get_user(ptr))
->
-> In this case, evaluating 'reg' is an error, similarly to memcpy().
-
-Again, a zero mask is a bug.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ sound/soc/qcom/sc7280.c   |   2 +-
+ sound/soc/qcom/sc8280xp.c |  33 +----------
+ sound/soc/qcom/sdw.c      | 116 +++++++++++++++++++++-----------------
+ sound/soc/qcom/sdw.h      |   7 +--
+ sound/soc/qcom/sm8250.c   |  33 +----------
+ sound/soc/qcom/x1e80100.c |  33 +----------
+ 6 files changed, 76 insertions(+), 148 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.51.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
