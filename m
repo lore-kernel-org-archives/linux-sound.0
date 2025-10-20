@@ -1,154 +1,144 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC21C29A326
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 18:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE7A2882A9
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 20:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760984582; cv=none; b=UWulP3GOijRAMFkrgLyiz/kaKqY1y11ifYDtk1BQ3qb79lirT67K33Ua03AD33X0lP6dIC99HBE6Ux0p3gnmf/BypPU1OVYEUB+V+4DIpKcYNKZSjmzk98TbRb84NYdEAM7vGFFRH3ioYueF/8L79fWoCtZ6SfCRk9CC/uVbDfs=
+	t=1760991315; cv=none; b=Z0wd8CUw6rAFDeISsZpsn/m3HHhCpkt73JIum/+2CXuF+iMd4Vd3+t9XOO3rjE5AsaWqFits63HYcE6R4Ov4szWZSFi4k2YcQOFVAxV/HzvMjV/7voRupFqwxkStAfHZQvwbmlKl99vgXQ2l4iiZG6ekBY2L/ildSM3xAQyYDq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760984582; c=relaxed/simple;
-	bh=nJnS4KEn5GPnGDMDu5zhj3c6qjfMfV3vNNzdaEccvcA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cDqXDS+zicfk+CBSPXMSaPQCkmEE2DJhaRzXAvv0kJDzsrHBDLBtZvJgwUuOfD/90i04oriqm2V1nxDqvIAYix3uoFE+vPLXEhRxYlpwACzDCJzDJFtGzGYYlO1SFwpiZUQ35alFV0o92vGQRRp9h9Pr8POVHYZ1kOrb2j5cxd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kI0XrO/E; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1760991315; c=relaxed/simple;
+	bh=Kc5bNmEubZl4sYZkcHdZ6Paz6xgeuvAdGnXOpQCx2+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PlQTp5jbEOItxDWrSUkk9w82oqCBWbWLMEPECxKUe/5h7dt+ED+MYVT0YRMv55y9tD0Z5S10SD2lw2FdYR1m/BXGC2ZTnjdGOaB37dUXVT3my1m5KzSuu/f2XSs14JyTipSxVopcxD3aBA3hjeT8HSWOmEfD44x3d/eugPU5asw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ClJuLIEF; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kI0XrO/E"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e6a689bd0so44210465e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 11:22:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ClJuLIEF"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59070c9111eso5244277e87.3
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760984578; x=1761589378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LobheSjDQzmXm5jTVKxbVYkJzFJNe2SiM69pvM7Dmgo=;
-        b=kI0XrO/Eddmg4iy8kHI9kFY0uunHeZe/8YUmW4Yy1oHG5zCrjgO26N9vgZ8zwA6pyd
-         SI8I/2hI9VGSosWyftCwpYriaBlih632R23bZ5MTZoCe/ocL+qX2+FE9/OfRE5q7Sj1g
-         XXnKu9CpTXUbELKW36QTkPlhwMOaJb8FnPcM26TqC+ZVGTDIAgJ9PcLYwKQE7gUZkvh/
-         q3dQ7sQQV/QPUjxRI30RKjEHtwViJmxsqKnqcxxqJMQgDbtMvY5W1DEGX/CB4UrDn5kg
-         h5s0N7fFP1fqvMAdEO7JXzaX+FrPUPkzbWoLpqA+uK1zQJ8xocmmqNuRjHLHjpkaTdzy
-         A4pg==
+        d=gmail.com; s=20230601; t=1760991311; x=1761596111; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yx98TmEVarTo1B3jRc5NyV+G055egTLPM+n1lCsyQ6c=;
+        b=ClJuLIEFIiJPE69INWvO4e7bPHcCPhR1fXVdLO0oO0qGfZlFRSWLyKx/aUTaTyXIel
+         XWO+ipy5vpTTuQ+bs/zZtTa7br4N3wPZyPX/F498lg56coIuzoWetTx5VxOoxtrq6OZA
+         uZgG8QZH3YsHbWYcy0buY0+hN6lspj+U4TFHjEgr+R6UHgXjt2atslkDuddiO+3hiqbm
+         DOYYZAICmGL3jHOj7QHX25GBH2slcvB7goFlUzcNVMKD6cBck5sRvpcbmv3kqcZiOzfb
+         H7SuZ6jTNuDnRXVRDEcAYyl1cxA4Wdz/+fgGlFhom8F6X4equ3sjGWApoUTIi5rCzY/q
+         QlOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760984578; x=1761589378;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LobheSjDQzmXm5jTVKxbVYkJzFJNe2SiM69pvM7Dmgo=;
-        b=cQYGasioqaQuq9h7xGYD6aA9nzG/ziuaA5WHdwrB5ycQxWNxdvzkX/VhoZ3p5smpkZ
-         5tWY8SVjNBmMHUjEaARneFiXobkcP88BSTocoWhWS8mTx68FwLyLgG6xPcicrfsortiR
-         aKCgQB+73IxR4OkYEio3/DLRyi57TPK9CP01vBvlApL/jUSRje7r06Kpy1e/wMxeJPFf
-         8gRgZOJlWK8sPQrugEKW5TKRoBhopdeXYf0v0WQCDLDTpObn9Ss18XOwXL6gKxU6yJ1n
-         9H22f5mgY3cLw7QQA/gNAXvFcjf6LoJTcFwsTMC04S3CShK/p0xR7ZjiF4bEIlZrLK0t
-         sPFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAfXBBnAjLP77LMy/m1UNCaKbTsJW3SX+v3utDEJ9tXUmrQYSN05jD4aTt/s4pYx4gi8Qh5yBEa7Btng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU0QfmKwp3uaiEVI0Dh2pGLqVKhzm4aq7EkBnreK8+dgl+Kn9h
-	dKIH41U4lHYx38iTSgwuwLsoxd2AUJbNzk3OX15tWuI8syEGBT/EGfpRwfM3xw==
-X-Gm-Gg: ASbGnct61feuHEGkgIKqahgqAGIItMfJgQfcW95nlMX7hGUo8A+FK07SDwchNLXPzKk
-	3InUt1xrsiEnzOVmgBhZ96pjXi5pIyRJRP1U2/ON0FC5onjCAU2DVBf1eXJBcEKx9AE/Qd2kSZc
-	jMeGS94fh4+cFZ/fBxLNKxbc7HsXtxpfbN1z009nsB6p4d0UCa27W7fJhuMjHJwxKAsdVFbd0mL
-	lC3MWF5/2E8qB8I6Z/xXZbRnJpikO/YR/d6OOtw6OofRYa9bUceQl8x8Su3NhdM6OOWUN5TjDn8
-	zQCeEm2wwkNxupmhOMdyY5ZzeoywHvGguSzVJunjzsYBnqFg8p9y69XqRsSdgngIrw++ozWVS6a
-	qxU3QYfawKl3dnZ96A4gzR89FumvCKsKgW4G2PN41bibMaRUg9ayAaafWWN6w3M5ACBnDQmpMqR
-	vROdcC2lh744XVDiu68akq3LKMC6h80yEUT5ECt3yHizg53oA+Mx4naGq4zQ==
-X-Google-Smtp-Source: AGHT+IH8xdImUVWc08yxtV5+NexJ4U7oKJ1he449w6/L8td0W1j3sEp5QRRipKGJLDowyWmFeCZmFw==
-X-Received: by 2002:a05:600c:1f93:b0:46e:761b:e7ff with SMTP id 5b1f17b1804b1-4711791c66fmr116218965e9.28.1760984577798;
-        Mon, 20 Oct 2025 11:22:57 -0700 (PDT)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a96asm16569602f8f.31.2025.10.20.11.22.56
+        d=1e100.net; s=20230601; t=1760991311; x=1761596111;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yx98TmEVarTo1B3jRc5NyV+G055egTLPM+n1lCsyQ6c=;
+        b=a91kEyf+W84rFVHDCmwvjhSw+1u79JRt5H1Ht/Btpks6lMUHdD8wDSs+p1CY+2uaRB
+         UPsVDaDqdzKia8sK3oilNqDGvicDL6+94+FiMudYrW3ONj8AzEHD4kEqbDEOm+RfNfBw
+         u1nas/9/p3xcSn/KtvsjiFIEswitcseFM8xaqt8YWJlcbnhFTmS9DqejStZdwPDP0kPZ
+         O35m2vgoTbWTSK92ywQXbeUbiwNaj8sYVpcONIpLB+LzfM/Y9DgOF1Phj0ZaeC2hnMBG
+         UPSHqPsngOhI45ldM39b1+YqzdqEdGMscMy2cPh1Mksa/HR8d4a5tujAsQnEbzv+Z73b
+         paqg==
+X-Gm-Message-State: AOJu0YzFbVaKIDGZI3FrFozZCE4CEFcSLQk4WdCGxdHeekpmm8IhtJnT
+	vjgVniBwZW0LPDDHYoj8FPh3DPbPax8ah8ZIMMWUU7zB4YrU7rkUlme2cdh1w4yK
+X-Gm-Gg: ASbGnctLTQgYQafHINiPhhXFWUpqcCukGLd/y4bOctaLPulDsf+8w14nVoczlhVqAg7
+	9R4UzYbPAmmoOnUuTPmV3BIAl6rktGjrX8StLDW+OSRYjzHXHo93nQ6SAf+vKzv7lFCb/hwbMB7
+	uYpG3BuUzNCXdiyLYYxbXA0ar1/VF4aW6ggyIVl94gbOmzKQEil2q/qoQTIOjmS6mn8OTmFmuu4
+	afzIqH63SNOsMpxfufd3dDVC3si8k90mDVsBfSta8/u3sqEBkx/7Vq6XpTxOEF63xlyvQEUCkqt
+	9vjpPP1dlKuHLT/KK+ng565mB/ocuPwdA5qg1rfJoz+AKroL7af1k9C6aLkhrGZ5qyTmTZo2RSk
+	PqcDduwRrKKXXg5WL1IgxOt2/LP7740XFWhAy0KH8eM12DkGO4ExkxfNlmvR2UEXP2x+MijE=
+X-Google-Smtp-Source: AGHT+IEvWFgIezwkdDsDDcFHAGSMPNZCPHgwzF87uxW4HDrdSPuRmCiLY4VtPk/SoLk8DdOLGGKxoA==
+X-Received: by 2002:ac2:51c8:0:b0:57d:d62e:b212 with SMTP id 2adb3069b0e04-591d8546608mr4170690e87.38.1760991310683;
+        Mon, 20 Oct 2025 13:15:10 -0700 (PDT)
+Received: from ark ([2a01:799:8db:a400::1002])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591def16b31sm2805701e87.60.2025.10.20.13.15.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 11:22:57 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@kernel.org
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum
- rate
-Date: Mon, 20 Oct 2025 20:22:55 +0200
-Message-ID: <1837721.VLH7GnMWUR@jernej-laptop>
-In-Reply-To:
- <CAGb2v66osdLJa=_nTxz9wppUkxvu2fuS=NgYN8fKOUOLHw6-Ag@mail.gmail.com>
-References:
- <20251020171059.2786070-1-wens@kernel.org> <8591609.T7Z3S40VBb@jernej-laptop>
- <CAGb2v66osdLJa=_nTxz9wppUkxvu2fuS=NgYN8fKOUOLHw6-Ag@mail.gmail.com>
+        Mon, 20 Oct 2025 13:15:10 -0700 (PDT)
+Date: Mon, 20 Oct 2025 22:15:08 +0200
+From: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.com>, Xj <xj@wp.pl>
+Subject: [PATCH] ALSA: usb-audio: don't log messages meant for 1810c when
+ initializing 1824c
+Message-ID: <aPaYTP7ceuABf8c7@ark>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dne ponedeljek, 20. oktober 2025 ob 20:09:18 Srednjeevropski poletni =C4=8D=
-as je Chen-Yu Tsai napisal(a):
-> On Tue, Oct 21, 2025 at 1:52=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrab=
-ec@gmail.com> wrote:
-> >
-> > Dne ponedeljek, 20. oktober 2025 ob 19:10:52 Srednjeevropski poletni =
-=C4=8Das je Chen-Yu Tsai napisal(a):
-> > > While the user manual states that the PLL's rate should be between 180
-> > > MHz and 3 GHz in the register defninition section, it also says the
-> > > actual operating frequency is 22.5792*4 MHz in the PLL features table.
-> > >
-> > > 22.5792*4 MHz is one of the actual clock rates that we want and is
-> > > is available in the SDM table. Lower the minimum clock rate to 90 MHz
-> > > so that both rates in the SDM table can be used.
-> >
-> > So factor of 2 could be missed somewhere?
->=20
-> Not sure what you mean? This PLL only gives *4 and *1 outputs.
+The log messages for the PreSonus STUDIO 1810c about
+device_setup are not applicable to the 1824c, and should
+not be logged when 1824c initializes.
 
-Right. Nevermind then.
+Refactor from if statement to switch statement as there
+might be more STUDIO series devices added later.
 
-Best regards,
-Jernej
+Fixes: 080564558eb1 ("ALSA: usb-audio: enable support for Presonus Studio 1824c within 1810c file")
+Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+---
+ sound/usb/mixer_s1810c.c | 33 ++++++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
 
->=20
-> > >
-> > > Fixes: 7cae1e2b5544 ("clk: sunxi-ng: Add support for the A523/T527 CC=
-U PLLs")
-> > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> >
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >
-> > Best regards,
-> > Jernej
-> >
-> > > ---
-> > >  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sun=
-xi-ng/ccu-sun55i-a523.c
-> > > index acb532f8361b..20dad06b37ca 100644
-> > > --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > > +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-> > > @@ -300,7 +300,7 @@ static struct ccu_nm pll_audio0_4x_clk =3D {
-> > >       .m              =3D _SUNXI_CCU_DIV(16, 6),
-> > >       .sdm            =3D _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24=
-),
-> > >                                        0x178, BIT(31)),
-> > > -     .min_rate       =3D 180000000U,
-> > > +     .min_rate       =3D 90000000U,
-> > >       .max_rate       =3D 3000000000U,
-> > >       .common         =3D {
-> > >               .reg            =3D 0x078,
-> > >
-> >
-> >
-> >
-> >
->=20
-
-
-
+diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
+index 89c652434f71..6e09e074c0e7 100644
+--- a/sound/usb/mixer_s1810c.c
++++ b/sound/usb/mixer_s1810c.c
+@@ -597,15 +597,6 @@ int snd_sc1810_init_mixer(struct usb_mixer_interface *mixer)
+ 	if (!list_empty(&chip->mixer_list))
+ 		return 0;
+ 
+-	dev_info(&dev->dev,
+-		 "Presonus Studio 1810c, device_setup: %u\n", chip->setup);
+-	if (chip->setup == 1)
+-		dev_info(&dev->dev, "(8out/18in @ 48kHz)\n");
+-	else if (chip->setup == 2)
+-		dev_info(&dev->dev, "(6out/8in @ 192kHz)\n");
+-	else
+-		dev_info(&dev->dev, "(8out/14in @ 96kHz)\n");
+-
+ 	ret = snd_s1810c_init_mixer_maps(chip);
+ 	if (ret < 0)
+ 		return ret;
+@@ -634,16 +625,28 @@ int snd_sc1810_init_mixer(struct usb_mixer_interface *mixer)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	// The 1824c has a Mono Main switch instead of a
+-	// A/B select switch.
+-	if (mixer->chip->usb_id == USB_ID(0x194f, 0x010d)) {
+-		ret = snd_s1810c_switch_init(mixer, &snd_s1824c_mono_sw);
++	switch (chip->usb_id) {
++	case USB_ID(0x194f, 0x010c): /* Presonus Studio 1810c */
++		dev_info(&dev->dev,
++			 "Presonus Studio 1810c, device_setup: %u\n", chip->setup);
++		if (chip->setup == 1)
++			dev_info(&dev->dev, "(8out/18in @ 48kHz)\n");
++		else if (chip->setup == 2)
++			dev_info(&dev->dev, "(6out/8in @ 192kHz)\n");
++		else
++			dev_info(&dev->dev, "(8out/14in @ 96kHz)\n");
++
++		ret = snd_s1810c_switch_init(mixer, &snd_s1810c_ab_sw);
+ 		if (ret < 0)
+ 			return ret;
+-	} else if (mixer->chip->usb_id == USB_ID(0x194f, 0x010c)) {
+-		ret = snd_s1810c_switch_init(mixer, &snd_s1810c_ab_sw);
++
++		break;
++	case USB_ID(0x194f, 0x010d): /* Presonus Studio 1824c */
++		ret = snd_s1810c_switch_init(mixer, &snd_s1824c_mono_sw);
+ 		if (ret < 0)
+ 			return ret;
++
++		break;
+ 	}
+ 
+ 	return ret;
+-- 
+2.51.1.dirty
 
