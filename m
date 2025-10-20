@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441A332EBA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1821A33342E;
 	Mon, 20 Oct 2025 17:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760980282; cv=none; b=etSkMv4uN4gYTqOmFCRH1IA+/JiPWYi1uEc7hSc9q9IUJgntxl5F2TbjA9sU+6nRcgrp9MAvb/cznt405FZRjaC90WvkxoDl5oCZXEoeakWhCmXI5yFbPH0/UbejFtQu2WtSnBqp6VZ9tIprfRLzIaQSs+3o0/lEiKh2HmrD9lE=
+	t=1760980283; cv=none; b=upCGKA/uBNe+Hkv/mSOJakNv6+k6mqqNsDg6xZNKWe1C8qAU3W5AQsSRTb19pCWaPOgGIoaMpZAf4HwzWVTNL3+KyCSp7L6fvpc4mNxe1uUfxGD8mOomo2M++hWdKzCVlgyII+XZgdRnH8wODyepzBarQXQeToO/4/CnB+PcuCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760980282; c=relaxed/simple;
-	bh=IrJnFSl0vpD3jGCn+oBa7YlslutdYfojddkzQZM95dk=;
+	s=arc-20240116; t=1760980283; c=relaxed/simple;
+	bh=0ChEAhtAFbnQFbVJGkrrhKo/Uoy5YpaI4s6lIy/TvXM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HzYWJjjZqT3I0RNdRnpf0X6yfb8E+TeUYA7Fpt1awzjwF0obQROxbyRsmb5nHyLAFuVKxX2P61b6aAAIAKjS7YZ1yNQZypEE38DN1jn0fBgGhEc/Uu+QAGv7Ds3Xqf7qw6T9gdRj7cvL8wfqE0DWBLX71gqZDb6UQJpt7KA5gLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ll1u0K+4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=nn3cHSfr+HtPN6pjM2R5W0Gp1h4gPkmL/ooKhpgNr6lbnd2JRSEC6VXy3iaZkxIi7IJh2/OPVryhaR2zIaj2YA7gVQy+Aj1eBcndmj/aQYYR2XjX70IJB/g4UfEpDhPwQRmSrAm6BB+eUU2j+n6R1wuXY9RYpEpvV0m30SmarB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFgPhNMI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ll1u0K+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD3FC113D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFgPhNMI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93322C4AF0F;
 	Mon, 20 Oct 2025 17:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1760980282;
-	bh=IrJnFSl0vpD3jGCn+oBa7YlslutdYfojddkzQZM95dk=;
+	bh=0ChEAhtAFbnQFbVJGkrrhKo/Uoy5YpaI4s6lIy/TvXM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ll1u0K+4eP+gsGLcebeYiSuIsCSyF8lilj4gby7yHw+6Xm3n7BC9FS3+kiL4RKIr8
-	 G9aTXWih4Z4rHUEHbA1WtbrlC1svYG/6DBSJHXtC3rf01P2OcNLgo1BOrzMjxzb6Jq
-	 0omSqngr32C9EmsA/OmpFuXddT91xBpOPlD8ayQYbi/k4TEt6scLSZy1KYhepV/Gl4
-	 7ActQB0DDucoi9b7qvg3ndo1UDigjgpj6ksXdVIuOO32YllCwPDoqWPO3TJiMdh2te
-	 hiFUGH0YEV9gU5YArLPP+4CmX+3nOdB8ITc84yPdyMUo5xc95YJ6yli0E38DqmOy08
-	 Q35J/32vbmsPQ==
+	b=QFgPhNMI2Jj90qwqd7mDU/ZGMu+ZjcHs5w0mLa+IsNtEgj0sgkZnwc4paZhm33RCU
+	 1LptkaLyQRXZkSYB9tWLderYNPCpMIqHX/Ca4CEdsm33tL5utK7qMOZA+7gX5vHM9j
+	 02O9+o9Olcw2OfJJsLClQ1mmOXwIdW//v02t0gaiaWWOu36vhXhPZfoAImpEDw2iKC
+	 k84LiAP8JBU9+ocen1vnga+nSR8ELeXrvBFsPLT30hR5/g+w/HhSSJyniNHy1rlEO9
+	 F44qxeo4PQAcV9RGRUpNv9fG+TDjXiAZCaKNWMDQp6+Z5pcyUOa59afKNKQTTLsKY9
+	 sRSdJjineEy7A==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 524AA5FEC0; Tue, 21 Oct 2025 01:11:18 +0800 (CST)
+	id 667A65FEEE; Tue, 21 Oct 2025 01:11:18 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej@kernel.org>,
@@ -45,9 +45,9 @@ Cc: linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org,
 	dmaengine@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum rate
-Date: Tue, 21 Oct 2025 01:10:52 +0800
-Message-ID: <20251020171059.2786070-7-wens@kernel.org>
+Subject: [PATCH 08/11] arm64: dts: allwinner: a523: Add device node for SPDIF block
+Date: Tue, 21 Oct 2025 01:10:54 +0800
+Message-ID: <20251020171059.2786070-9-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251020171059.2786070-1-wens@kernel.org>
 References: <20251020171059.2786070-1-wens@kernel.org>
@@ -59,33 +59,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While the user manual states that the PLL's rate should be between 180
-MHz and 3 GHz in the register defninition section, it also says the
-actual operating frequency is 22.5792*4 MHz in the PLL features table.
+The A523 has a SPDIF interface that is capable of both playback and
+capture.
 
-22.5792*4 MHz is one of the actual clock rates that we want and is
-is available in the SDM table. Lower the minimum clock rate to 90 MHz
-so that both rates in the SDM table can be used.
+Add a node for it.
 
-Fixes: 7cae1e2b5544 ("clk: sunxi-ng: Add support for the A523/T527 CCU PLLs")
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-index acb532f8361b..20dad06b37ca 100644
---- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
-@@ -300,7 +300,7 @@ static struct ccu_nm pll_audio0_4x_clk = {
- 	.m		= _SUNXI_CCU_DIV(16, 6),
- 	.sdm		= _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24),
- 					 0x178, BIT(31)),
--	.min_rate	= 180000000U,
-+	.min_rate	= 90000000U,
- 	.max_rate	= 3000000000U,
- 	.common		= {
- 		.reg		= 0x078,
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index 8edbd3873199..33f991dbd00b 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -818,6 +818,21 @@ mcu_ccu: clock-controller@7102000 {
+ 			#reset-cells = <1>;
+ 		};
+ 
++		spdif: spdif@7116000 {
++			compatible = "allwinner,sun55i-a523-spdif";
++			reg = <0x07116000 0x400>;
++			interrupts = <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&mcu_ccu CLK_BUS_MCU_SPDIF>,
++				 <&mcu_ccu CLK_MCU_SPDIF_TX>,
++				 <&mcu_ccu CLK_MCU_SPDIF_RX>;
++			clock-names = "apb", "tx", "rx";
++			resets = <&mcu_ccu RST_BUS_MCU_SPDIF>;
++			dmas = <&mcu_dma 2>, <&mcu_dma 2>;
++			dma-names = "rx", "tx";
++			#sound-dai-cells = <0>;
++			status = "disabled";
++		};
++
+ 		mcu_dma: dma-controller@7121000 {
+ 			compatible = "allwinner,sun55i-a523-mcu-dma",
+ 				     "allwinner,sun50i-a100-dma";
 -- 
 2.47.3
 
