@@ -1,81 +1,79 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D05313264
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2572314B81
 	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760965940; cv=none; b=KmWSN/1PLZ4GFL9E2f5sCwFpIpy+lfPbI6UkJVbuhhWa3PZwQjb0WlCaL2Tm7R8KZ195kbTAgcwhu4f1B2p8JI1FDcfyx/+t8szCXmbNgIdRhx+grnPBkWHmY+7z6tjnI0g/2IfXSCX5wMeD4SXc4z3d9yh+9opb26T9vYLc5FQ=
+	t=1760965941; cv=none; b=lvQmohOJWGcC0PrNcegNEhc8ZxcomsvguYDFWNIgbwTwrdMOP1I0qmXo1Bc5Uwfk+/fY+a28K485lGoLprMU4hXshfxoN+SUaU3uoSef55eFPHRfSDcvz7GEzhzTJkJHzelwClZ4Nm0nONdkwjF9NhxaB4tPlFVou2j3mzaur+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760965940; c=relaxed/simple;
-	bh=cL+lLsNeAu3504P42iTQdxbpOfjV6dphSblHCi2ejPE=;
+	s=arc-20240116; t=1760965941; c=relaxed/simple;
+	bh=/HFo0chNl4GSV9KBtCBODfpuGIDSCIV2oMLhJt9NfPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X0RCaAZezWV5ztRM66k1yj9EeyhzBAD+6Y5U7nfdWAkMe2FnAz4Avxc0UdfOzuUdrwNEQE6Y7731F4lVlAkMjT0ZJ4icFRdiHhjgb+dqDaLkjyibDm8kAY1AEJBws/noaxtjHV+gUL3SlkFom8JHrO0XBBpxxfTqgQlyrZGu5Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ARg4/cqX; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=JAhsbl8/DHfoJiJWk8/W2XKKggxiw0foHVQFlSCs1pfzc/ONdP7CS5qGJZiEN6JhPqp7aGFjB/hYHPAXOvYSr6tnA7NXnf2urQxOwbHa8/8oee7oABiZm0OSSJdeJTVOWD3mDH8GyhUyeTlsJgiZiEGUZ7c2hzJHSML46RMz0dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oajbwBi6; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ARg4/cqX"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KC6wln003762
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:17 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oajbwBi6"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KBu9AS020299
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=ANEMhb00kFj
-	4Hah7g8KhQQL3c2pqAVVvhaWRb8YgqSI=; b=ARg4/cqXywJ/XqU/ow0xVGySGF5
-	wvGZGYM6P7nVkVB05Rb7xpR+G0Xt0ooSx6VYNO1YSHIcLRV0vPnvB2pSXcTc0Vig
-	P/Cr0WZ9KyRVhi1DZwhSvi9TslmydylVAQv2GaKmmHUVL0SN7XxiP2al+GKwFrXm
-	tWioRzxjKNtKYQslbJD4kxAfZfjzNEdvSPslv99jM/wiF0hft6EuLMPdqvjq5wB0
-	BgO99cxJDYuJvF4OJPCAbnoPnUBblTjONNYGVLzvo1O48HC316Wx16T+S4yp2cDB
-	9lTREpMTVUXl0zryy/xxN4P2UlZKRVyewvGPey1IlYDPAdRpL7uzyzx75vA==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=XDzjsbNRreQ
+	M8IINxKudUQBopPbwW7nJ5HkVJNfp380=; b=oajbwBi6Wp2HJbEL7zZ1MPCm4JR
+	b0FadfaqV127SkiwL+6STXy9aSEqCeqosZ9JNMPMhMSHdkbyagvtioUdXQ1EY4SG
+	1c4IXPuuaC4bevRAgpvpnB3Plh8VKRvhvZd4Ze+bsS9AVZo32JorgfoTwhafPWiQ
+	B2oIrUpwe2FYuV93xzpifdES8HZ0ijqHk9G8GAuaVaSKm+gdW0e6yVnotdA9v4DE
+	vIFZ3+zCLiXNI6PsOVc3tnTu8bgAzrUijus6Aks/kkKpWc0q3Dsc3nrF27uLDapx
+	M3ePZv280JRTHdNdScmpbA4x6uv4Os3A7Po3G2AyQZMIjEzaTE77aIv6h2g==
 Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3nfct3c-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v469crpc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:17 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-87c1cc5a75dso236129746d6.0
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 13:12:18 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-79e48b76f68so227484166d6.3
         for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 06:12:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760965936; x=1761570736;
+        d=1e100.net; s=20230601; t=1760965937; x=1761570737;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ANEMhb00kFj4Hah7g8KhQQL3c2pqAVVvhaWRb8YgqSI=;
-        b=qhEhpYwQyZH8eCkOInz17DSFM0eSf+nG6lanSiKzop4QraAJlS1KPhwX3ZD1p5H48K
-         IuEAKZavREgb/+8KjX5/ztm2xgpL26fV4fToBfLt6gRVVhBs8zn/qzh3jlcuCFvGjb6X
-         cak9WRTXE0lYiPRux9HK7+JMbGjgNIOzF32C0UKo/VMIgO9YPkRSOLwbuf3GMQGkS+82
-         390TlIqhoeVyTHorDVrqGoCIwd9nYwQK9cWTkUq0x5SOneYTZlCica7/ewaSqGfrQk5Y
-         cA7vgG5/Y0NnsQhryZP3ZS2WDwKL+x2XdVlAs6CYbiEIfQSNbvOQzjm8D4Ncdc+H53t+
-         gIMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWG/nWI8As/ubjlL39tO11OC1NE7Skut0L2fh5XTVaqRdRmMfkfHcdPLTysuWazrQB1h6UhsUcVDhO5uA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqZ5GFBzY5yCXfCchRVS+ldHbyYaEvJDA17kmuRorbc/fcSij9
-	xkHx3PHG3BMzyn2ZSfUcDbSQTmkhElYWg1vFjm2aPEqYwEZ+WZgeA1JOYMx818j15/KvpExo79j
-	lR/apo806BEKEjijOzQKTFRyFzrQE2hFvhciuBDkrtEtzGSz92ynaEU/iEP7rs+QfkQ==
-X-Gm-Gg: ASbGncsKb8MMjypI3G8uKx5AWQndopENruHPF4lMdfrTgNNBWQPui+3nyE43idDnlBf
-	fFJjrTo85uqvPRZFZw9JqaDt7Z+h3UJAu/69qAVpb8f7OHwDHKmB/cmzNsrbpIDQIhj9sggAySV
-	3PIjQtIbtH+XR2GeWbNbk9Z87r/6w2QvkNnXWVSVr8/F8gfVqAwolCQI3HiPU2QKfP8BVIDHbEk
-	uwvHHd5spRpih4zM8a3JYebutxiYiJ8NWZMo8H1VQgN151oIdzGiHut+n2g66kpzjci25Qeinlj
-	q7IhLR0eRFUwK6aqHOVzmx59ajoYOkKsGtl0DecWJ14Zn1iyanWleXi/adWStheCLeATUGk70sc
-	HfIuqnnBq31/d
-X-Received: by 2002:a05:622a:1827:b0:4e8:b8f7:299d with SMTP id d75a77b69052e-4e8b8f72eaamr57986391cf.68.1760965934984;
-        Mon, 20 Oct 2025 06:12:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHtkuBs+TSeiwHochXTFUuWHrbLzWe5wwhxMns/ksWwYn9knr90nH1+9yDnFJ67IaCIxKvDgQ==
-X-Received: by 2002:a05:622a:1827:b0:4e8:b8f7:299d with SMTP id d75a77b69052e-4e8b8f72eaamr57985921cf.68.1760965934527;
-        Mon, 20 Oct 2025 06:12:14 -0700 (PDT)
+        bh=XDzjsbNRreQM8IINxKudUQBopPbwW7nJ5HkVJNfp380=;
+        b=Sq3GBmX43XTTX54huf2lKxO9ZjiwiQIYSgBqBS1hbG9Vw2Jrr9pc/qZv36e7ggIUkE
+         qTHX+3bktCji8Eggnn7uZ5R1nQwetSLCkcA0jLvHeqTNPcvU8Wr7Mq+ID1M6h9ZXTgcf
+         Q1oUS8P8Cq7lUgy/3oaU3ZtThHNcTsTUEVKl6opQRuGk1bHer47mzqOdGbKyhK4qZEMN
+         hf8odB2wNJqLtRWA6Lq5cNlEqIyMzZjILnnsY4Nhok5Z1hSvYAMBy3B6C4UFQwPU8RU8
+         R0BmTciEcDHQxSb78Mg6qON9zdZIK4iu4t581HiXXipAFfPiJZXH08uJIBW4Ddt088Vl
+         /AwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVq6r8uy6fx7Q5ovxLfU9nX3X9wjcXnMnLz1BcKJBE6c0EHw1gQvwmfkXZeBqvQtwiq6L7QZIdJG7jjBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbVNAJFjZsMkvKz/L05x3aI+ZK3S4AlQoRGAboZ/Kb4pVkGegd
+	XiiHj804t1vQ0LDPk+fHlS1md9dpo7WWe44fUi8EkQUV24zPFwobUfRb+pL8zao9dBHgtSZ40fC
+	AMUvrYvVzayTG5+4krwkUBANsvbAQv2Svho8FbPA0QjZtHVvHBHe9NrIQEUuXUexbLQ==
+X-Gm-Gg: ASbGncvBO7BvmsK0ECm2w/iP0yyIOMMTeMwPw/kfI4AwOzXcK7aLFhFWlqWdzaZBPYK
+	vr6cmkb9AFDTJeUsmPK/jeZPWd+hY62kQHsm6cpnn33KJ9KPzoL6rhW9zLum5bIR2kuQPGQe8Vs
+	K4UWUb2etl0tjjvJ+W3HEbfaFJidsx5eqpRx97h3upGmBf41+/kq8KfoB++kp4J5pu1rGUZ+0a2
+	ail6ba+PW4uBTi8jNbNonsvTVSOSNDSSYm0B8yHsjzZ1Bv/p22rnBCV35POjOy7zLs+amjYb9bh
+	1rEfvHdBs1L5BVreXCmeCr3BeTaufcCTpTVXfEHgFip43H8DC7fEwJYh34Z/cC29QPg3lfA8c6+
+	lFMKVgMJqhDEU
+X-Received: by 2002:a05:622a:1182:b0:4e8:9a7d:90fb with SMTP id d75a77b69052e-4e89d335b1amr166530111cf.50.1760965936468;
+        Mon, 20 Oct 2025 06:12:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGVPdUATgyqwUuw9C3MrPllzh7sJzA95U4vgS0PSVpRWvNjeqg+RHAgWUSvgscGhdStT/pqgA==
+X-Received: by 2002:a05:622a:1182:b0:4e8:9a7d:90fb with SMTP id d75a77b69052e-4e89d335b1amr166529721cf.50.1760965935977;
+        Mon, 20 Oct 2025 06:12:15 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710e8037aasm118165505e9.2.2025.10.20.06.12.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710e8037aasm118165505e9.2.2025.10.20.06.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 06:12:14 -0700 (PDT)
+        Mon, 20 Oct 2025 06:12:15 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org
 Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, alexey.klimov@linaro.org,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Stable@vger.kernel.org
-Subject: [PATCH 1/2] ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime
-Date: Mon, 20 Oct 2025 14:12:07 +0100
-Message-ID: <20251020131208.22734-2-srinivas.kandagatla@oss.qualcomm.com>
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 2/2] ASoC: qcom: sdw: remove redundant code
+Date: Mon, 20 Oct 2025 14:12:08 +0100
+Message-ID: <20251020131208.22734-3-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251020131208.22734-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20251020131208.22734-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -86,272 +84,354 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: LEevhvjI53cOXCFjOBZst05IMwm6JS82
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyNyBTYWx0ZWRfXxICIJYxgpXGZ
- zCaoCjzt4bXRrBxuEEL+cQ6Au/uiEPXd/nx1boTW/QBT/u5eY02zFiUYJX2eu7uYC1IBHhxmPQp
- VkpDaCyBMWko7zAPPyyoychwStJNKRE5uHYmYJWBupGPBjCmM/RICFSUQ2CliaT7x0E6H8R4SR3
- J+5hwdXwnY4RObFkIxjEcFW8NIdNjXyeD/IdiJ+uPfpTdfalgkIgbkZZ4LVFH08aF2+FJcxegUh
- ih6PVsZq+c9xEkK+imYhn6yROjzfr6UeErw2DAcv5c1TYY1LL17z2WHCJ/e3PN/YCVzEYTDLiJM
- gf6oZSkL+9dScD1UfzubFtJCbWOzniDLITf9pbtBwMlbe9pwAzS8Eqxms1Nc+Y4m4Vl5b+t9QGT
- SqARx4Ia4jffRVkcm/0DRYfTq8RRmA==
-X-Proofpoint-GUID: LEevhvjI53cOXCFjOBZst05IMwm6JS82
-X-Authority-Analysis: v=2.4 cv=EYjFgfmC c=1 sm=1 tr=0 ts=68f63531 cx=c_pps
+X-Proofpoint-ORIG-GUID: mOIB-Eqklx6wEyZY2NyX7rdAuBXTNFFt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMiBTYWx0ZWRfX6yh8Oa7dkKkk
+ Kuxpcf7GsVEZf0TpeVQtliDk6YQDavwIh6097RRNowlOmAzDf9xs4jgPu5YkcgLT3A20WFFPtkN
+ fK51CyFJI9ZPj9lXRR457kY6ma4hn0jGUSxiweSTyLHzh+cC9WnEM0rKahChtr+mWTCWedX703M
+ IrbMMFnstiDiUVN5FACGUT6Y0IA3YfoN7jUT7q8JFrrvcAaZ6s4HUCzWniJOiCnT0hp1sOTy66h
+ hLtjqmtmDSmouNTILYYV57Y+FeeVEJzrBlUYY2bZMKtgHuMrEdyLuAuXAkF04h6O5RVC933isxn
+ o1NT801MEBDG3dbkxPP+YWkb9TNs1TaGFTo2kI4RyYEay3rkDQtrhqaAYjTK+ftXHNvf/xcr9ll
+ wg6BCwVxl1+HVfm4AhopuiMDNL+G9A==
+X-Authority-Analysis: v=2.4 cv=U8qfzOru c=1 sm=1 tr=0 ts=68f63532 cx=c_pps
  a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=N47DpUgmF8P8R7KZyx8A:9 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=cvBusfyB2V15izCimMoJ:22
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=eS8ScSGqROhw0OgIVi4A:9 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-GUID: mOIB-Eqklx6wEyZY2NyX7rdAuBXTNFFt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180027
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180032
 
-For some reason we endedup allocating sdw_stream_runtime for every cpu dai,
-this has two issues.
-1. we never set snd_soc_dai_set_stream for non soundwire dai, which
-   means there is no way that we can free this, resulting in memory leak
-2. startup and shutdown callbacks can be called without
-   hw_params callback called. This combination results in memory leak
-because machine driver sruntime array pointer is only set in hw_params
-callback.
+remove redundant code and pointers to handle sdw_stream_runtime by
+making use of qcom_snd_sdw_get_stream(). This removes need of machine
+specific shutdown and hw_params sdw callbacks and also need to store
+sdw_stream_runtime pointers in machine drivers.
 
-Fix this by
- 1. adding a helper function to get sdw_runtime for substream
-which can be used by shutdown callback to get hold of sruntime to free.
- 2. only allocate sdw_runtime for soundwire dais.
-
-Fixes: d32bac9cb09c ("ASoC: qcom: Add helper for allocating Soundwire stream runtime")
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: <Stable@vger.kernel.org>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/sc7280.c   |   2 +-
- sound/soc/qcom/sc8280xp.c |   2 +-
- sound/soc/qcom/sdw.c      | 104 +++++++++++++++++++++-----------------
- sound/soc/qcom/sdw.h      |   1 +
- sound/soc/qcom/sm8250.c   |   2 +-
- sound/soc/qcom/x1e80100.c |   2 +-
- 6 files changed, 63 insertions(+), 50 deletions(-)
+ sound/soc/qcom/sc8280xp.c | 33 +++------------------------------
+ sound/soc/qcom/sdw.c      | 24 ++++++++++++------------
+ sound/soc/qcom/sdw.h      |  6 +-----
+ sound/soc/qcom/sm8250.c   | 33 +++------------------------------
+ sound/soc/qcom/x1e80100.c | 33 +++------------------------------
+ 5 files changed, 22 insertions(+), 107 deletions(-)
 
-diff --git a/sound/soc/qcom/sc7280.c b/sound/soc/qcom/sc7280.c
-index af412bd0c89f..c444dae563c7 100644
---- a/sound/soc/qcom/sc7280.c
-+++ b/sound/soc/qcom/sc7280.c
-@@ -317,7 +317,7 @@ static void sc7280_snd_shutdown(struct snd_pcm_substream *substream)
- 	struct snd_soc_card *card = rtd->card;
- 	struct sc7280_snd_data *data = snd_soc_card_get_drvdata(card);
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-+	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
- 
- 	switch (cpu_dai->id) {
- 	case MI2S_PRIMARY:
 diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 78e327bc2f07..9ba536dff667 100644
+index 9ba536dff667..5bd8e8aa1853 100644
 --- a/sound/soc/qcom/sc8280xp.c
 +++ b/sound/soc/qcom/sc8280xp.c
-@@ -73,7 +73,7 @@ static void sc8280xp_snd_shutdown(struct snd_pcm_substream *substream)
+@@ -18,7 +18,6 @@
+ struct sc8280xp_snd_data {
+ 	bool stream_prepared[AFE_PORT_MAX];
+ 	struct snd_soc_card *card;
+-	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+ 	struct snd_soc_jack jack;
+ 	struct snd_soc_jack dp_jack[8];
+ 	bool jack_setup;
+@@ -68,17 +67,6 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+ }
+ 
+-static void sc8280xp_snd_shutdown(struct snd_pcm_substream *substream)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+-	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+-
+-	pdata->sruntime[cpu_dai->id] = NULL;
+-	sdw_release_stream(sruntime);
+-}
+-
+ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 				     struct snd_pcm_hw_params *params)
+ {
+@@ -108,25 +96,13 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 	return 0;
+ }
+ 
+-static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+-				struct snd_pcm_hw_params *params)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+-
+-	return qcom_snd_sdw_hw_params(substream, params, &pdata->sruntime[cpu_dai->id]);
+-}
+-
+ static int sc8280xp_snd_prepare(struct snd_pcm_substream *substream)
+ {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct sc8280xp_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
--	struct sdw_stream_runtime *sruntime = pdata->sruntime[cpu_dai->id];
-+	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+-	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
  
- 	pdata->sruntime[cpu_dai->id] = NULL;
- 	sdw_release_stream(sruntime);
+-	return qcom_snd_sdw_prepare(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_prepare(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
+@@ -134,16 +110,13 @@ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+ 
+-	return qcom_snd_sdw_hw_free(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_hw_free(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static const struct snd_soc_ops sc8280xp_be_ops = {
+ 	.startup = qcom_snd_sdw_startup,
+-	.shutdown = sc8280xp_snd_shutdown,
+-	.hw_params = sc8280xp_snd_hw_params,
++	.shutdown = qcom_snd_sdw_shutdown,
+ 	.hw_free = sc8280xp_snd_hw_free,
+ 	.prepare = sc8280xp_snd_prepare,
+ };
 diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
-index 7d7981d4295b..d866fad04131 100644
+index d866fad04131..df5cc1dcb96f 100644
 --- a/sound/soc/qcom/sdw.c
 +++ b/sound/soc/qcom/sdw.c
-@@ -7,6 +7,36 @@
- #include <sound/soc.h>
- #include "sdw.h"
+@@ -112,19 +112,21 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
+ EXPORT_SYMBOL_GPL(qcom_snd_sdw_startup);
  
-+static bool qcom_snd_is_sdw_dai(int id)
-+{
-+	switch (id) {
-+	case WSA_CODEC_DMA_RX_0:
-+	case WSA_CODEC_DMA_TX_0:
-+	case WSA_CODEC_DMA_RX_1:
-+	case WSA_CODEC_DMA_TX_1:
-+	case WSA_CODEC_DMA_TX_2:
-+	case RX_CODEC_DMA_RX_0:
-+	case TX_CODEC_DMA_TX_0:
-+	case RX_CODEC_DMA_RX_1:
-+	case TX_CODEC_DMA_TX_1:
-+	case RX_CODEC_DMA_RX_2:
-+	case TX_CODEC_DMA_TX_2:
-+	case RX_CODEC_DMA_RX_3:
-+	case TX_CODEC_DMA_TX_3:
-+	case RX_CODEC_DMA_RX_4:
-+	case TX_CODEC_DMA_TX_4:
-+	case RX_CODEC_DMA_RX_5:
-+	case TX_CODEC_DMA_TX_5:
-+	case RX_CODEC_DMA_RX_6:
-+	case RX_CODEC_DMA_RX_7:
-+		return true;
-+	default:
-+		break;
-+	}
-+
-+	return false;
-+}
-+
- /**
-  * qcom_snd_sdw_startup() - Helper to start Soundwire stream for SoC audio card
-  * @substream: The PCM substream from audio, as passed to snd_soc_ops->startup()
-@@ -29,6 +59,9 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
- 	u32 rx_ch_cnt = 0, tx_ch_cnt = 0;
- 	int ret, i, j;
+ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+-			 struct sdw_stream_runtime *sruntime,
+ 			 bool *stream_prepared)
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct sdw_stream_runtime *sruntime;
+ 	int ret;
  
-+	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
+-	if (!sruntime)
+-		return 0;
+ 
+ 	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
+ 		return 0;
+ 
++	sruntime = qcom_snd_sdw_get_stream(substream);
++	if (!sruntime)
 +		return 0;
 +
- 	sruntime = sdw_alloc_stream(cpu_dai->name, SDW_STREAM_PCM);
- 	if (!sruntime)
- 		return -ENOMEM;
-@@ -89,19 +122,8 @@ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
- 	if (!sruntime)
- 		return 0;
- 
--	switch (cpu_dai->id) {
--	case WSA_CODEC_DMA_RX_0:
--	case WSA_CODEC_DMA_RX_1:
--	case RX_CODEC_DMA_RX_0:
--	case RX_CODEC_DMA_RX_1:
--	case TX_CODEC_DMA_TX_0:
--	case TX_CODEC_DMA_TX_1:
--	case TX_CODEC_DMA_TX_2:
--	case TX_CODEC_DMA_TX_3:
--		break;
--	default:
-+	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
- 		return 0;
--	}
- 
  	if (*stream_prepared)
  		return 0;
-@@ -129,9 +151,7 @@ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+ 
+@@ -171,26 +173,24 @@ struct sdw_stream_runtime *qcom_snd_sdw_get_stream(struct snd_pcm_substream *sub
  }
- EXPORT_SYMBOL_GPL(qcom_snd_sdw_prepare);
+ EXPORT_SYMBOL_GPL(qcom_snd_sdw_get_stream);
  
 -int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
 -			   struct snd_pcm_hw_params *params,
 -			   struct sdw_stream_runtime **psruntime)
-+struct sdw_stream_runtime *qcom_snd_sdw_get_stream(struct snd_pcm_substream *substream)
++void qcom_snd_sdw_shutdown(struct snd_pcm_substream *substream)
+ {
+-	*psruntime = qcom_snd_sdw_get_stream(substream);
+-
+-	return 0;
++	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+ 
++	sdw_release_stream(sruntime);
+ }
+-EXPORT_SYMBOL_GPL(qcom_snd_sdw_hw_params);
++EXPORT_SYMBOL_GPL(qcom_snd_sdw_shutdown);
+ 
+-int qcom_snd_sdw_hw_free(struct snd_pcm_substream *substream,
+-			 struct sdw_stream_runtime *sruntime, bool *stream_prepared)
++int qcom_snd_sdw_hw_free(struct snd_pcm_substream *substream, bool *stream_prepared)
  {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_dai *codec_dai;
-@@ -139,21 +159,23 @@ int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
- 	struct sdw_stream_runtime *sruntime;
- 	int i;
- 
--	switch (cpu_dai->id) {
--	case WSA_CODEC_DMA_RX_0:
--	case RX_CODEC_DMA_RX_0:
--	case RX_CODEC_DMA_RX_1:
--	case TX_CODEC_DMA_TX_0:
--	case TX_CODEC_DMA_TX_1:
--	case TX_CODEC_DMA_TX_2:
--	case TX_CODEC_DMA_TX_3:
--		for_each_rtd_codec_dais(rtd, i, codec_dai) {
--			sruntime = snd_soc_dai_get_stream(codec_dai, substream->stream);
--			if (sruntime != ERR_PTR(-ENOTSUPP))
--				*psruntime = sruntime;
--		}
--		break;
-+	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
-+		return NULL;
-+
-+	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-+		sruntime = snd_soc_dai_get_stream(codec_dai, substream->stream);
-+		if (sruntime != ERR_PTR(-ENOTSUPP))
-+			return sruntime;
- 	}
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_sdw_get_stream);
-+
-+int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
-+			   struct snd_pcm_hw_params *params,
-+			   struct sdw_stream_runtime **psruntime)
-+{
-+	*psruntime = qcom_snd_sdw_get_stream(substream);
- 
- 	return 0;
- 
-@@ -166,23 +188,13 @@ int qcom_snd_sdw_hw_free(struct snd_pcm_substream *substream,
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct sdw_stream_runtime *sruntime;
  
--	switch (cpu_dai->id) {
--	case WSA_CODEC_DMA_RX_0:
--	case WSA_CODEC_DMA_RX_1:
--	case RX_CODEC_DMA_RX_0:
--	case RX_CODEC_DMA_RX_1:
--	case TX_CODEC_DMA_TX_0:
--	case TX_CODEC_DMA_TX_1:
--	case TX_CODEC_DMA_TX_2:
--	case TX_CODEC_DMA_TX_3:
--		if (sruntime && *stream_prepared) {
--			sdw_disable_stream(sruntime);
--			sdw_deprepare_stream(sruntime);
--			*stream_prepared = false;
--		}
--		break;
--	default:
--		break;
-+	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
-+		return 0;
-+
-+	if (sruntime && *stream_prepared) {
-+		sdw_disable_stream(sruntime);
-+		sdw_deprepare_stream(sruntime);
-+		*stream_prepared = false;
- 	}
+ 	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
+ 		return 0;
  
- 	return 0;
++	sruntime = qcom_snd_sdw_get_stream(substream);
+ 	if (sruntime && *stream_prepared) {
+ 		sdw_disable_stream(sruntime);
+ 		sdw_deprepare_stream(sruntime);
 diff --git a/sound/soc/qcom/sdw.h b/sound/soc/qcom/sdw.h
-index 392e3455f1b1..b8bc5beb0522 100644
+index b8bc5beb0522..061a63f1ac52 100644
 --- a/sound/soc/qcom/sdw.h
 +++ b/sound/soc/qcom/sdw.h
-@@ -10,6 +10,7 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream);
+@@ -7,14 +7,10 @@
+ #include <linux/soundwire/sdw.h>
+ 
+ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream);
++void qcom_snd_sdw_shutdown(struct snd_pcm_substream *substream);
  int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
- 			 struct sdw_stream_runtime *runtime,
+-			 struct sdw_stream_runtime *runtime,
  			 bool *stream_prepared);
-+struct sdw_stream_runtime *qcom_snd_sdw_get_stream(struct snd_pcm_substream *stream);
- int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
- 			   struct snd_pcm_hw_params *params,
- 			   struct sdw_stream_runtime **psruntime);
+ struct sdw_stream_runtime *qcom_snd_sdw_get_stream(struct snd_pcm_substream *stream);
+-int qcom_snd_sdw_hw_params(struct snd_pcm_substream *substream,
+-			   struct snd_pcm_hw_params *params,
+-			   struct sdw_stream_runtime **psruntime);
+ int qcom_snd_sdw_hw_free(struct snd_pcm_substream *substream,
+-			 struct sdw_stream_runtime *sruntime,
+ 			 bool *stream_prepared);
+ #endif
 diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index f5b75a06e5bd..ce5b0059207f 100644
+index ce5b0059207f..203a8705a42f 100644
 --- a/sound/soc/qcom/sm8250.c
 +++ b/sound/soc/qcom/sm8250.c
-@@ -117,7 +117,7 @@ static void sm8250_snd_shutdown(struct snd_pcm_substream *substream)
+@@ -21,7 +21,6 @@
+ struct sm8250_snd_data {
+ 	bool stream_prepared[AFE_PORT_MAX];
+ 	struct snd_soc_card *card;
+-	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+ 	struct snd_soc_jack jack;
+ 	struct snd_soc_jack usb_offload_jack;
+ 	bool usb_offload_jack_setup;
+@@ -112,36 +111,13 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 	return qcom_snd_sdw_startup(substream);
+ }
+ 
+-static void sm8250_snd_shutdown(struct snd_pcm_substream *substream)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+-	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+-
+-	data->sruntime[cpu_dai->id] = NULL;
+-	sdw_release_stream(sruntime);
+-}
+-
+-static int sm8250_snd_hw_params(struct snd_pcm_substream *substream,
+-				struct snd_pcm_hw_params *params)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sm8250_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+-
+-	return qcom_snd_sdw_hw_params(substream, params, &pdata->sruntime[cpu_dai->id]);
+-}
+-
+ static int sm8250_snd_prepare(struct snd_pcm_substream *substream)
+ {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
  	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
 -	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-+	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
  
- 	data->sruntime[cpu_dai->id] = NULL;
- 	sdw_release_stream(sruntime);
+-	return qcom_snd_sdw_prepare(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_prepare(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static int sm8250_snd_hw_free(struct snd_pcm_substream *substream)
+@@ -149,16 +125,13 @@ static int sm8250_snd_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+ 
+-	return qcom_snd_sdw_hw_free(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_hw_free(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static const struct snd_soc_ops sm8250_be_ops = {
+ 	.startup = sm8250_snd_startup,
+-	.shutdown = sm8250_snd_shutdown,
+-	.hw_params = sm8250_snd_hw_params,
++	.shutdown = qcom_snd_sdw_shutdown,
+ 	.hw_free = sm8250_snd_hw_free,
+ 	.prepare = sm8250_snd_prepare,
+ };
 diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-index 444f2162889f..2e3599516aa2 100644
+index 2e3599516aa2..a3f4785c4bbe 100644
 --- a/sound/soc/qcom/x1e80100.c
 +++ b/sound/soc/qcom/x1e80100.c
-@@ -55,7 +55,7 @@ static void x1e80100_snd_shutdown(struct snd_pcm_substream *substream)
+@@ -18,7 +18,6 @@
+ struct x1e80100_snd_data {
+ 	bool stream_prepared[AFE_PORT_MAX];
+ 	struct snd_soc_card *card;
+-	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+ 	struct snd_soc_jack jack;
+ 	struct snd_soc_jack dp_jack[8];
+ 	bool jack_setup;
+@@ -50,17 +49,6 @@ static int x1e80100_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+ }
+ 
+-static void x1e80100_snd_shutdown(struct snd_pcm_substream *substream)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+-	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+-
+-	data->sruntime[cpu_dai->id] = NULL;
+-	sdw_release_stream(sruntime);
+-}
+-
+ static int x1e80100_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 				     struct snd_pcm_hw_params *params)
+ {
+@@ -85,16 +73,6 @@ static int x1e80100_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 	return 0;
+ }
+ 
+-static int x1e80100_snd_hw_params(struct snd_pcm_substream *substream,
+-				struct snd_pcm_hw_params *params)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+-
+-	return qcom_snd_sdw_hw_params(substream, params, &data->sruntime[cpu_dai->id]);
+-}
+-
+ static int x1e80100_snd_hw_map_channels(unsigned int *ch_map, int num)
+ {
+ 	switch (num) {
+@@ -128,7 +106,6 @@ static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
  	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
 -	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-+	struct sdw_stream_runtime *sruntime = qcom_snd_sdw_get_stream(substream);
+ 	unsigned int channels = substream->runtime->channels;
+ 	unsigned int rx_slot[4];
+ 	int ret;
+@@ -149,8 +126,7 @@ static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
+ 		break;
+ 	}
  
- 	data->sruntime[cpu_dai->id] = NULL;
- 	sdw_release_stream(sruntime);
+-	return qcom_snd_sdw_prepare(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_prepare(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static int x1e80100_snd_hw_free(struct snd_pcm_substream *substream)
+@@ -158,16 +134,13 @@ static int x1e80100_snd_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+ 
+-	return qcom_snd_sdw_hw_free(substream, sruntime,
+-				    &data->stream_prepared[cpu_dai->id]);
++	return qcom_snd_sdw_hw_free(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
+ static const struct snd_soc_ops x1e80100_be_ops = {
+ 	.startup = qcom_snd_sdw_startup,
+-	.shutdown = x1e80100_snd_shutdown,
+-	.hw_params = x1e80100_snd_hw_params,
++	.shutdown = qcom_snd_sdw_shutdown,
+ 	.hw_free = x1e80100_snd_hw_free,
+ 	.prepare = x1e80100_snd_prepare,
+ };
 -- 
 2.51.0
 
