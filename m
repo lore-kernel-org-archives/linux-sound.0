@@ -1,105 +1,300 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167942F691B
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 09:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C291E9919
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760953329; cv=none; b=lmnUa+BjF5YUkXJxObNGBxd0h31GukTc1fFQSijFHPJTyNAr6DZz8IkNAzwnnLYoByNvZ5lIAXtFlW1qA55ud8UdC1MJeK0f9SwMg+ZZDDDCR20n2BLbmhATItiO41n964fIKuZFjl3jwBlapKrOKNhjtwswWVdoH0npUqLL3Zg=
+	t=1760956176; cv=none; b=MYdRhEvpX0oQDWultWsp2N3p5XRf8NTyC8ccBwZxTXMSo5A7fEuUJN9fwRr0Rl+/+orJTOaCAO3/Mas2+R79CLcKPlIksKH8PXopWJ92SV8nhzaShdIaKr6VUAnPUjWMXDTW7kgJgn1VLo1hRUOH7tR5HfObguis7WhvmI7tYQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760953329; c=relaxed/simple;
-	bh=sjEUaWPd/Jj2ElIhymJE8eOmk6i+S46mwSJsA8AQ+EQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LSv8jzKLYksjAT0KlnJT1PuQNeK3BVqQJFIkgmLp3jGdpLLm58bzdXcPW1GkPrWcAYK9EC8PnKi4W8kEC6AN/uQKsPtrkmaimGvLOEzV1mMfIHN3n6bCX3D1ZmCutw68efUR6CUj3RNCU5B3cWU6DgDrBfTx3ECEXNeeIZ2IFOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=IcO943AZ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1760956176; c=relaxed/simple;
+	bh=tF962YWxw9azz7dtu4nHl90He2ajjnijFWcFDWZOG94=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HXl5zNo9aFqOLpfo6pqnnj/ZzCvi1p4um2VtByaJAYNVGUuiBNs+pnTnXEvdene02T5LIZLE/qBU8sltMn8eWQ5ZUFZB+25TlnCr5BN4IzQfOn76cXITj4YMu+gylh0N2BZVsFM81e8Z1oc0xBcneb5cpYwyhp9SH1cjltcjWHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=meHkDK4m; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="IcO943AZ"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59054fc6a45so4666111e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 02:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1760953326; x=1761558126; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sjEUaWPd/Jj2ElIhymJE8eOmk6i+S46mwSJsA8AQ+EQ=;
-        b=IcO943AZ4slbeY23j1wnDAiVcwPBPLOz6p7nwR3LnKZ0EWyuxZ1NV7vh4gmJ/DIdyO
-         6NBnVnJLgA6olIiUyrFMdxASrH1QtEFiA7r/E1llGQVLoET/fsgSRnAyAnwR8NcWStjO
-         FuT2KFRZGMEzwuOaEhqAI6OZQRNQgcs9YKKrdrTKxlFK2oJm2XQIc6nDLunQhkol1mbb
-         d70GOBwY51A3Hb51gRUwQxAzlPvGos30Z0gp/Sy15aqIdUTTrOReoH1dy+wfcjOsfgCW
-         7aj159DIeTlPLFh0St4Zk1tpfonVqFPLXNmWZp8b1j/WnRZHVRVzd4hwU/lmZADNgoht
-         oLcA==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="meHkDK4m"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59JJeX1c009814
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:29:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZOYhimoPa+lnW4TwlcuKOW72gVGLTvjPYcjxCfhdnFY=; b=meHkDK4m84xiKr/R
+	jqhEBijt4O8HcU/PQ6SEOvKpGk/GarSBp03r5pNthCzcEal5rZuguJ4R2Q9AHfhM
+	35kmYwttLikbdZfVkz2AXQ1xuGI1Ugci2B4i4CLJlIdyAPPZ4HKIu7Oo2AywGeco
+	aosv5hrFGmcrPLYlq9tjymJpL3jIy4yHqrzDiDZqqzpJURUSh8iv1iVvTOZvNGt0
+	YP9wN1/h+D+LVpJ+lp51nbxsC4OO1OyrYZCuOVGhvOpHwe5pJNb2QOR8FPGuh7pD
+	os2s2tCE81f3vGlEHnwcphOt+Ppy6jamTrDdsiiZB8ptQIPtR8ptuiwNVljKEgpu
+	DIyh3A==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2yv4cw9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:29:33 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8910b0fb780so535398485a.3
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 03:29:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760953326; x=1761558126;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sjEUaWPd/Jj2ElIhymJE8eOmk6i+S46mwSJsA8AQ+EQ=;
-        b=lrgdRrEjLaF0FXjhdnLrdKdQ8PN5rtAeuhaEbBQz9y2jxHk2aPVwyCM0l7POmUdAej
-         G8xl+UXScz6ULczeRq4a9vlo0182ZkDGIpPYShwSu61rnvlJCxZThU2NMStQe4ndGAUE
-         3Uzk023ltxAJgzjh6lPyIgmEZcZuqh/Dx+ShCOU+Xsq/P+eOITTJHchZsfZWRXnCbb9a
-         1ov7JWLHFw0ue+1mMdmjYHaCKzKKrm3bxbTzBbZieaRBfHgvQfhCaHb6E/wv1a56xzKw
-         J9E7VyYHhlMu/rgUyXTpvAX2HTQVxlpyK/jFogNt/phwhucLqMCt0Oj/fyLKmisVukdg
-         GYAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfHV2gx4ht12olyL8pLdlau7DHzksfZXklZhunDnfx+Kyszd0biuw1lCRP3WGyHjGi9j3rgTEisNBf+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeEsomVRgHHWklCRdDunNDkSHz5kNwJ7ZViRM6DuiCvsrVb+/3
-	4SMgavMOztrWZJqQmaeUBNOf+MnbAq4TMFo/o2Fx1ECuIdGenwUrk96a7O4F+9B/seCTAfguMaQ
-	BdzUYfhkILSPiV/8rYP40VaJd0UnBOcIj1RhPFqMFlQ==
-X-Gm-Gg: ASbGnct5cjBAbx2BY4BHt6CYhowG8mKI8vsDhw2teRS0UkIMLXOnswENRn5UBzIsJ0z
-	TIdw4BoE4jDH6ORLfmOSkrTEmsbr69FA8AAG5YuGkZneLbUmZ+Z/i2UYi7NZ46kSbd0VMzDxSdR
-	sguL629FtAuMG4FD+mPyw0kGnEAB25P2EbFWlcU+zl6AUCqgAhHfEiANg30RoGOW4ISozUgOr7O
-	fd+pihLAZIb9JKlZoCZrWahP106b3XdNOAXuJBU6TihfKX3uCrZmAH9YA6ZOJs4O0Qui7rbaXaq
-	su7M/avVkOHM8bxO
-X-Google-Smtp-Source: AGHT+IHY1EdCIXYngUyFFwGvzEW0znpDl77em9pEnOCmJRoroDyoIZB7DiA520ogK1u8lsISe3niq2HVycioLER4ci8=
-X-Received: by 2002:a05:6512:1052:b0:578:ed03:7b70 with SMTP id
- 2adb3069b0e04-591d8589aedmr3757333e87.28.1760953326040; Mon, 20 Oct 2025
- 02:42:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760956172; x=1761560972;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZOYhimoPa+lnW4TwlcuKOW72gVGLTvjPYcjxCfhdnFY=;
+        b=jaTcGK/lpS5/twI2DNnGenk5oNhZkMBU1zzeVM+peQ3cXCJlF1WYuPhdDyl8OhqCnm
+         yhX/7506KnpQpNbSEVuse+5RENLr6WLMn+X0KZ9HJXQRV55s7yuQ3iXuufqsGBry6KoX
+         MuI3khLpuift6FkhsXZDVgKZiB2W7m31DqHE+mYs0WoNLhLYi54Owrd51kGA/es1Esp2
+         fopQinT8V3GAkVfrl+0NTvxNdGlHSdIbd9hbJN2A9K8/hyARdeHTWAWe1lRL2u1pcjhq
+         IAK7QT3nmeKuhQ3Jgf0LlVkJhfZ/TQIeRS1uQJhmNuMVaa4BBYolDcZSGCSWtdG+Jf2x
+         jE9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWoxHAtl4ZAaxWkmexmcJQCRgf5e7KC3OXkwOzwc/w+LDdbcOrztDegd3LJS231i2BpqhQOOOUErFkDKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHVArToNi8WasYZBtPXOvDJXnd7bJI1dslRoiJ50Y8wy3X3SIH
+	vzyJPGoioH6Oec11HKKSFFS7+Ke3Hr5UuE5FPsXvJZQtNv3b24jOKKrN6pGFOORNabb6zkpKUno
+	HUFctHmpOupr0wsSLR6Xx6D+8rUoqj8l02CUC0hmxs7Df5A6HXjFh8OEOfi44jwQl1Q==
+X-Gm-Gg: ASbGnct/7k5O/3cwsXcjJtqmPt1tUFHYtX7OJtzy3O5rCGY1H9KQe5vn5tHTfNZpQOk
+	SmTIdv9Qf+GErSNt1CPC/di3N6TC5ozALsirqvIP1MwEJ/trev06C+ACvHXoLcRmOMWiZqxw86m
+	1tXFw6GApCLtn0/LrXSF3H97BUkAW+C1/8eFnjxUvAycaqsc9toeNPXsIzSKISdwFKzsiMenwhW
+	fuJ3bm2roXnko7BuzyF4a2I4goJG9jwOrKqKXjmgpGz0vgx2mNE2byaHrMiwTQAUzDFo4awKe+L
+	DNBUWZj9tUqSb28CbT42q0lfoBPBoyhn9WC5A5N71C7RKnZewZf4viapF8h8a5GL9sOp+xtbrUK
+	Gss3wI9poA9jHRjEbFZQRbFIgqg==
+X-Received: by 2002:ac8:5881:0:b0:4c3:b7b0:3317 with SMTP id d75a77b69052e-4e89d35c473mr169196831cf.42.1760956172535;
+        Mon, 20 Oct 2025 03:29:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFlPMeN8JhZycGRui7S8uzF3Tp8ErxdFS7DePnTDJPvNaEZfwFYGHI+INI+m+Umf5wgVdvE/A==
+X-Received: by 2002:ac8:5881:0:b0:4c3:b7b0:3317 with SMTP id d75a77b69052e-4e89d35c473mr169196491cf.42.1760956171904;
+        Mon, 20 Oct 2025 03:29:31 -0700 (PDT)
+Received: from [192.168.68.121] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-427f009a6c5sm14830637f8f.28.2025.10.20.03.29.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Oct 2025 03:29:31 -0700 (PDT)
+Message-ID: <cb6642c9-8a96-4843-933d-2321d6873719@oss.qualcomm.com>
+Date: Mon, 20 Oct 2025 11:29:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
- <CAMRc=Me4Fh5pDOF8Z2XY4MG_DYqPRN+UJh_BzKvmULL96wciYw@mail.gmail.com> <81bda56c-f18b-4bd9-abf9-9da7c2251f42@sirena.org.uk>
-In-Reply-To: <81bda56c-f18b-4bd9-abf9-9da7c2251f42@sirena.org.uk>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 20 Oct 2025 11:41:52 +0200
-X-Gm-Features: AS18NWCTv8z2cF08OaIclAyR6BuSf6xIu18qyroHsfySyW-sq8vo6xUHsWKQB4s
-Message-ID: <CAMRc=MdOCHJEyPxN+-g71ux68=Mt_Q5P9611QO7Q8J9e8UJv_A@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Srinivas Kandagatla <srini@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/12] ASoC: qcom: q6asm: Use guard() for spin locks
+To: kernel test robot <lkp@intel.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, perex@perex.cz, tiwai@suse.com,
+        srini@kernel.org, alexey.klimov@linaro.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20251017085307.4325-13-srinivas.kandagatla@oss.qualcomm.com>
+ <202510191117.BTexj8De-lkp@intel.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <202510191117.BTexj8De-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: r_arHHgXOfZgAX_rfCwrPAnfiKR8zxE5
+X-Proofpoint-GUID: r_arHHgXOfZgAX_rfCwrPAnfiKR8zxE5
+X-Authority-Analysis: v=2.4 cv=f+5FxeyM c=1 sm=1 tr=0 ts=68f60f0d cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=Pp1kaMlfcpgazL37F3AA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX5a7stYR/Gjcl
+ nI5AwHEro0nfyRhObOyrTAHMffbPaZXchYnHmbsAKh20I9X9wk7vMtYuKE6uy4+Q6U1Vtd/JgpG
+ gMcdNImQtEq/ugPf7pU5lu4ykAggkVpCHSUI/uSCrCJqFbF8Wk06Yd/NP2EnEkDujtUOWqVjIqp
+ gQwFxFHV+bCuoMA41LtEz9oKZ6WEEDdwmGXbigBBgDvL79CsLGwJ1EvRu0apDA69kkUHj0JttQO
+ OMny3HVJdQsL2h9C6B8vWJ6xHvf3ShRSLhNgXI7n2UiSWMp3tUKe6mB8pqGV/96ATWohEOkzDL7
+ bhfwkrl+QJkWb+jIEddRXhAf7iOcpQq4WHHJ6XSvoknRu4VrBYGf+fpDnWS+40IlFMU4jE1uJF5
+ X9d/cYGO1cbYGB+WO3HDgDEe9IOuzg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ adultscore=0 phishscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510180023
 
-On Fri, Oct 17, 2025 at 7:32=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Fri, Oct 17, 2025 at 07:26:51PM +0200, Bartosz Golaszewski wrote:
->
-> > Upon a closer inspection it turns out that this is not the case - the
-> > ENABLE/DISABLE events are emitted when the *logical* regulator is
-> > enabled/disabled even if this does not involve a change in the state
-> > of the shared pin.
->
-> It really should be the actual physical state change that triggers the
-> event.
 
-I guess so, but this would require some non-trivial rework of the
-regulator core. We'd need some list of deferred notifications stored
-in memory for when the physical state actually changes.
 
-Bartosz
+On 10/19/25 5:18 AM, kernel test robot wrote:
+> Hi Srinivas,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on broonie-sound/for-next]
+> [also build test ERROR on linus/master v6.18-rc1 next-20251017]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-qdsp6-q6asm-do-not-sleep-while-atomic/20251017-170114
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> patch link:    https://lore.kernel.org/r/20251017085307.4325-13-srinivas.kandagatla%40oss.qualcomm.com
+> patch subject: [PATCH 12/12] ASoC: qcom: q6asm: Use guard() for spin locks
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251019/202510191117.BTexj8De-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510191117.BTexj8De-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510191117.BTexj8De-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    sound/soc/qcom/qdsp6/q6asm.c: In function 'q6asm_stream_callback':
+>>> sound/soc/qcom/qdsp6/q6asm.c:687:41: error: 'struct audio_port_data' has no member named 'hw_ptr'
+>      687 |                         atomic_set(&port->hw_ptr, token + 1);
+>          |                                         ^~
+> 
+> 
+> vim +687 sound/soc/qcom/qdsp6/q6asm.c
+> 
+>    590	
+>    591	static int32_t q6asm_stream_callback(struct apr_device *adev,
+>    592					     struct apr_resp_pkt *data,
+>    593					     int session_id)
+>    594	{
+>    595		struct q6asm *q6asm = dev_get_drvdata(&adev->dev);
+>    596		struct aprv2_ibasic_rsp_result_t *result;
+>    597		struct apr_hdr *hdr = &data->hdr;
+>    598		struct audio_port_data *port;
+>    599		struct audio_client *ac;
+>    600		uint32_t client_event = 0;
+>    601		int ret = 0;
+>    602	
+>    603		ac = q6asm_get_audio_client(q6asm, session_id);
+>    604		if (!ac)/* Audio client might already be freed by now */
+>    605			return 0;
+>    606	
+>    607		result = data->payload;
+>    608	
+>    609		switch (hdr->opcode) {
+>    610		case APR_BASIC_RSP_RESULT:
+>    611			switch (result->opcode) {
+>    612			case ASM_SESSION_CMD_PAUSE:
+>    613				client_event = ASM_CLIENT_EVENT_CMD_PAUSE_DONE;
+>    614				break;
+>    615			case ASM_SESSION_CMD_SUSPEND:
+>    616				client_event = ASM_CLIENT_EVENT_CMD_SUSPEND_DONE;
+>    617				break;
+>    618			case ASM_STREAM_CMD_FLUSH:
+>    619				client_event = ASM_CLIENT_EVENT_CMD_FLUSH_DONE;
+>    620				break;
+>    621			case ASM_SESSION_CMD_RUN_V2:
+>    622				client_event = ASM_CLIENT_EVENT_CMD_RUN_DONE;
+>    623				break;
+>    624			case ASM_STREAM_CMD_CLOSE:
+>    625				client_event = ASM_CLIENT_EVENT_CMD_CLOSE_DONE;
+>    626				break;
+>    627			case ASM_STREAM_CMD_FLUSH_READBUFS:
+>    628				client_event = ASM_CLIENT_EVENT_CMD_OUT_FLUSH_DONE;
+>    629				break;
+>    630			case ASM_STREAM_CMD_OPEN_WRITE_V3:
+>    631			case ASM_STREAM_CMD_OPEN_READ_V3:
+>    632			case ASM_STREAM_CMD_OPEN_READWRITE_V2:
+>    633			case ASM_STREAM_CMD_SET_ENCDEC_PARAM:
+>    634			case ASM_DATA_CMD_MEDIA_FMT_UPDATE_V2:
+>    635			case ASM_DATA_CMD_REMOVE_INITIAL_SILENCE:
+>    636			case ASM_DATA_CMD_REMOVE_TRAILING_SILENCE:
+>    637				if (result->status != 0) {
+>    638					dev_err(ac->dev,
+>    639						"cmd = 0x%x returned error = 0x%x\n",
+>    640						result->opcode, result->status);
+>    641					ac->result = *result;
+>    642					wake_up(&ac->cmd_wait);
+>    643					ret = 0;
+>    644					goto done;
+>    645				}
+>    646				break;
+>    647			default:
+>    648				dev_err(ac->dev, "command[0x%x] not expecting rsp\n",
+>    649					result->opcode);
+>    650				break;
+>    651			}
+>    652	
+>    653			ac->result = *result;
+>    654			wake_up(&ac->cmd_wait);
+>    655	
+>    656			if (ac->cb)
+>    657				ac->cb(client_event, hdr->token,
+>    658				       data->payload, ac->priv);
+>    659	
+>    660			ret = 0;
+>    661			goto done;
+>    662	
+>    663		case ASM_DATA_EVENT_WRITE_DONE_V2:
+>    664			client_event = ASM_CLIENT_EVENT_DATA_WRITE_DONE;
+>    665			if (ac->io_mode & ASM_SYNC_IO_MODE) {
+>    666				phys_addr_t phys;
+>    667				int token = hdr->token & ASM_WRITE_TOKEN_MASK;
+>    668	
+>    669				guard(spinlock_irqsave)(&ac->lock);
+>    670	
+>    671				port =  &ac->port[SNDRV_PCM_STREAM_PLAYBACK];
+>    672	
+>    673				if (!port->buf) {
+>    674					ret = 0;
+>    675					goto done;
+>    676				}
+>    677	
+>    678				phys = port->buf[token].phys;
+>    679	
+>    680				if (lower_32_bits(phys) != result->opcode ||
+>    681				    upper_32_bits(phys) != result->status) {
+>    682					dev_err(ac->dev, "Expected addr %pa\n",
+>    683						&port->buf[token].phys);
+>    684					ret = -EINVAL;
+>    685					goto done;
+>    686				}
+>  > 687				atomic_set(&port->hw_ptr, token + 1);
+
+Ah.. looks like left over from adsp patches
+
+will remove this and send a v2.
+
+--srini>    688			}
+>    689			break;
+>    690		case ASM_DATA_EVENT_READ_DONE_V2:
+>    691			client_event = ASM_CLIENT_EVENT_DATA_READ_DONE;
+>    692			if (ac->io_mode & ASM_SYNC_IO_MODE) {
+>    693				struct asm_data_cmd_read_v2_done *done = data->payload;
+>    694				phys_addr_t phys;
+>    695	
+>    696				guard(spinlock_irqsave)(&ac->lock);
+>    697				port =  &ac->port[SNDRV_PCM_STREAM_CAPTURE];
+>    698				if (!port->buf) {
+>    699					ret = 0;
+>    700					goto done;
+>    701				}
+>    702	
+>    703				phys = port->buf[hdr->token].phys;
+>    704	
+>    705				if (upper_32_bits(phys) != done->buf_addr_msw ||
+>    706				    lower_32_bits(phys) != done->buf_addr_lsw) {
+>    707					dev_err(ac->dev, "Expected addr %pa %08x-%08x\n",
+>    708						&port->buf[hdr->token].phys,
+>    709						done->buf_addr_lsw,
+>    710						done->buf_addr_msw);
+>    711					ret = -EINVAL;
+>    712					goto done;
+>    713				}
+>    714			}
+>    715	
+>    716			break;
+>    717		case ASM_DATA_EVENT_RENDERED_EOS:
+>    718			client_event = ASM_CLIENT_EVENT_CMD_EOS_DONE;
+>    719			break;
+>    720		}
+>    721	
+>    722		if (ac->cb)
+>    723			ac->cb(client_event, hdr->token, data->payload, ac->priv);
+>    724	
+>    725	done:
+>    726		kref_put(&ac->refcount, q6asm_audio_client_release);
+>    727		return ret;
+>    728	}
+>    729	
+> 
+
