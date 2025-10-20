@@ -1,65 +1,65 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF47287256
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 17:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2D7330D2E
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 17:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760982666; cv=none; b=k0Ma7p0Uz9sbJt9jH3G6tF3nX5FiUAMbJIHj7NAvDIZGZcVB5hvUF/oV7rTw6xI9x9ZOFJFG7oRAtOzRPFCsKZWeb+fTu2EoT3nCZLQzJHlSmy/NgD3QU1nbYVUNSQgNVIXXMsvBaxjv69VrxjcD5Qv5feuBErh0FBwIf+OPLVA=
+	t=1760982746; cv=none; b=NrUczTY66Fu02RZCsm8gm8SQzj2FZoI6qrjQ2GD1fY+oIRIHqLx8TGYmPGkvtAvAN80CcZYWXrIeaFXROCTwjdWLa9uoclzBsqLevJsKsGUvZ/IsVQRFjG+l+/0IBv3iF10xiDHXDdaZn41H9y/NKDbd5MHvgcW3JARNF8KrD+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760982666; c=relaxed/simple;
-	bh=KnROEUass2/iW7GccrgtsymOuPjezhPd1bODirEEn90=;
+	s=arc-20240116; t=1760982746; c=relaxed/simple;
+	bh=pdYHJcuACjLxyUbGtQJb6l+Qo8ulOoDOXrsmHol9Lt0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FqjlVpiy3GUNfK3zH8/s4bT3n07XmvVDQNnIAD0l/06JS9J7Fwzmo6qjBAxCKEYH+26qge0E5ZlxxunXRwxgQKhgPrR1AsVoy1S887rQA8NiMzcqoPY8StvA1KOLZkV80NKP0pEKBBR2MRy7E6szD3UB2VZx2AnrROl1knfaibw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHnKcaCj; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version:Content-Type; b=PSK6VxLivjgSBTczmQj+TnEP3+UDg5CUjb7WV+ozBl8etnImsIeHrQbxLwciC7+2vNfTuzfh/p0JDnES/L7QJj857vtG3rJzDmXcEim/q8MSV06D9YmBZasafrsvMnYKDebdjqETJ+E38UEQD4su2ky3TSE+an0HWBls95NvZPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j87a7Qnr; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHnKcaCj"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4711b95226dso34001785e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:51:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j87a7Qnr"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-426ff694c1fso212738f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760982663; x=1761587463; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760982743; x=1761587543; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qTAyakvLktp/e+AMviKRZMNRnJVDyQcT2DmQsBGK+VQ=;
-        b=QHnKcaCjU0WebKUcgcp4j7RfJC5Q2hKxoZT175iVG+DfcNz/54MEdToww4BnqFEl7Y
-         yO4CNntkhsesJavFFqv88klF/b/CkJwiyP0Niw9w9SrcLkE2P3EknphU0e8+0kNsxeHS
-         EtP7XsqGmbh5yxNqo9ZPIbvyATw03pwhp1WIP1Yxf/xVAk1cI3uL7D9XVF6mTM4CvPgZ
-         DXLQyzjwanDG3XpxfavNK921mxAFIwSCNavEa/tBv/uMSSTtcSEyuoDga+SzluC5GAXo
-         YMpHVxPvZ8daki6wx/F6Ll39sJFR+HApA0NLGMQOW/swdTCaZaldiYDse5P+5YPbrqfE
-         Refw==
+        bh=0hPztYo4gHaE9LtG99gGwWjUyFltd44jOHvoR42cvBk=;
+        b=j87a7QnrHSHjFhEFTU4teGZPeNQZlfIdzR1xQC8IjN9UPQSSXbpPCoTiiORv/5M26V
+         XNeT9wtRjLDR26FEUpBkuYN8XedK6vEidP1psmaUBKW/DyQeDl/b1RiGH5zam0iNotsB
+         OfHnoVm3xQx1F0ZKp84uPJyBTt/8rtkJDDiAZeVowPp+iQes2QMZBZizY5s2KYWqKKGy
+         prGE+BCJv10yntaNtHknE5Z2ZudkCnDGH8Pu6aVvi3Zz+iacwJG8Opi1/3BVO4DF4cpi
+         vvQAzIDEcUZm1DFY8pIuw4yLsSr4Eo7Pcpszdpe7ABCnq1T5zMIFqjpRtLgDsWaItaNt
+         VX4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760982663; x=1761587463;
+        d=1e100.net; s=20230601; t=1760982743; x=1761587543;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qTAyakvLktp/e+AMviKRZMNRnJVDyQcT2DmQsBGK+VQ=;
-        b=kH6kGhhivw+jVV/f0VWLCHVDB58gVp6NxU6917UOcX/s5B7YdAjTSQB8V/evKUlkyS
-         +nYJ+QYvL0UzuXcFFSDYvgLLpq9sEcSjTiczsilYGY1tdu2oMmurcEnUo+fr56X4lfnT
-         Mt6ODQGd9Q21N8km32cPfCGy7v3LkJ/u4FM4lJz249gh1WT7dL9/hx6Q8OfAJsPwPBu+
-         a3bWarTagfE2iDYziiQXP9/rUwcVhKXdOsjO4KKW1++H++52l1ARj4KnTVXyMIExrkaq
-         +P0KT0auqLeaJw15G32vFJ1573RJ8MF6vnuzGNhEIBQh0PiXSuPTQTry7gJmi+pNMdEA
-         Jo8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWhbv95Po7YjMN/Tm2ZYrIgiSwXA6Y45c95RjGYuc+dnl21zmlLkOJOJ+UQKyDnGRcXjTcbjmd2KYKiIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGyYYGkkIikb5+SgihTjLLputrdkybkORA7DHHsZpZuf5KEw6l
-	cMgBLdB68aaXTixby2FLDVvmUst/44D2sHwEU/8BqsfTvBAAjMSmB8I9
-X-Gm-Gg: ASbGnctIGWhbxJAJdLXuj5YlVS3Ngay+sYmXcx9OzMyapg3HDudHUMpthUQi947Ar78
-	JpvLgDcdLjk59O4yC1fJANOUhuBcmJ1oldoAb8XqxCFRlwOJoT/qJeX1IDI9tfHBvQTVRBkyxR3
-	TYLKCUWUVwmesF0qUOfOM1i2O1JDHumrT5VFk6Q3mX7ldpyd+HhK9ykysJ4Ys/LepvTRhX092hx
-	G0NuFi44kGKrObB5Yzn5OA1StxoPxdK2IWO45RqbrYuLBvJctKs+Rou9ilZj3xlzr7Mu6PSz4UA
-	dSG28HwomZI4mWaB/jGaLI7l73pt2G8zB94pZDmvmegb7GcXgtqUysO3qaWg7PtLuytiiwMb1lx
-	Hcixrl9GtCWBE38tHqxaPALhO/5hGRZnMoUXaET4uqXI/fV8N4CMofCKbvE8xhPmNRcLAX/fUef
-	LPZoSx/CclxkOyweUxqZBmCTq9/9HnXDGfCttkisQCOnHUviLP1O1Nab1o7VpUonOl6NJGnmLns
-	gfpaW4=
-X-Google-Smtp-Source: AGHT+IEf+pLydZZJlPsNS9klI6Ppz7HfqYBrVGwlK2LGcq8ett6vc+FT1k0DRHTRyZXn1XwlZQ3W5w==
-X-Received: by 2002:a05:600c:444d:b0:46e:4cd3:7d54 with SMTP id 5b1f17b1804b1-471178b124amr91678925e9.18.1760982662640;
-        Mon, 20 Oct 2025 10:51:02 -0700 (PDT)
+        bh=0hPztYo4gHaE9LtG99gGwWjUyFltd44jOHvoR42cvBk=;
+        b=hGrQyFLESuqEUp7YCfTTa8mniL9zNSvVK5mZzlBvcYE8ghEoN6hg+idttvKw10IrE/
+         s/4AW/BPsGF6JTaWZ1lFgm5yIBkDONJ2N0pBToC+OT2MYvBAWFRnOT+YNG4csZaj1yDK
+         3j+M5wuyxaju1gRAzh79Wu9jMofX9TejeZR1U6jZw8OWyKcRohYyInl0swVqHnMhIeBZ
+         Cx/njUUmS5o9ObMpt9kxmtveh1P/vcKs0XwUc5tsi0kJTwyOcScrmuvP8MuQ+TfCCUY5
+         Hbhr9yJdXWJJx4OcxOt1jQkaAIsZF1IFYH6GW+v6tUznHPHPpuWfrdw7tsPN9kYpfeYo
+         oDuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUUfP5B7JZ5MOgD2YPkDtWU5EqTY+ZY6npZETKmAgQpi80tOjLuemzPpgYo3U9/NVbABDf+yYSok8ns5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM/sPztTPcdwvq1/1xOUcXs+sILkMxIwwhvHmlbOJaFxAls9hZ
+	T4kEK08SLI7r9D1oaf6Ri/4aqY25Rw3wlrQ4JJjYviA59dBNwM4HUDlq
+X-Gm-Gg: ASbGncuS6X+tXW4cIGnfcbxat4UHcagT/UD2AVORUDZtg69e4rLUVCTmsz6idkcf14A
+	KTtf3y/tZqAwzdsxhbrvzcyN16Ep9VxJ6wks/Dnv7kmc+U+F+SwzQSpZ//nXNCz1prwuzLSaTLR
+	Rctekg3hPtbX9wTxCtSSIPEH9ISpolm+oLB9t40FYlegrykWyyZBctaQS1CoXJJ6+pSh9jnmg+1
+	XgmbhnqHy1MnMfjsRQZ8l4C6WDnfuRkTe+oJODwR8Gi2Hfd1v4ogGNDO2/Xf3jTBzdnSvnKfJYb
+	K9xIzPvxYbSGyWTLX5z0+HO7InZDWpJFssmWiRMUJqvysJvgGAxVM5ei+/JbzhtqFnIX449U6gs
+	Q9q+/S79OiRDeen0jc2UTt9hdcO3xj+ccAYshDNiVx7C8r8sTArFbx3Y4Dkc7GmVxcYqOCd4lfG
+	DR0/7iMgXzlAkYG1MrgJ/1muJ4EnFXTsypYzfen8FtIRMGvTvyJ92/5qBaq0089Aoz6DLinzqCx
+	qHROA==
+X-Google-Smtp-Source: AGHT+IGEpXcGziVc/IPeVNYdyzKmZC+YRn2Z3nf2tImqr8LtU1jXE0yH1+EHM8IBNjLdRoUankugUA==
+X-Received: by 2002:a05:6000:26d2:b0:3e6:f91e:fa72 with SMTP id ffacd0b85a97d-42704d83dfdmr8290390f8f.7.1760982742464;
+        Mon, 20 Oct 2025 10:52:22 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715257d8b2sm187794005e9.3.2025.10.20.10.51.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3c34sm16222568f8f.17.2025.10.20.10.52.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:51:02 -0700 (PDT)
+        Mon, 20 Oct 2025 10:52:22 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
@@ -71,14 +71,14 @@ Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 05/11] clk: sunxi-ng: sun55i-a523-r-ccu: Mark bus-r-dma as
- critical
-Date: Mon, 20 Oct 2025 19:51:00 +0200
-Message-ID: <3374980.aeNJFYEL58@jernej-laptop>
-In-Reply-To: <20251020171059.2786070-6-wens@kernel.org>
+ Re: [PATCH 06/11] clk: sunxi-ng: sun55i-a523-ccu: Lower audio0 pll minimum
+ rate
+Date: Mon, 20 Oct 2025 19:52:20 +0200
+Message-ID: <8591609.T7Z3S40VBb@jernej-laptop>
+In-Reply-To: <20251020171059.2786070-7-wens@kernel.org>
 References:
  <20251020171059.2786070-1-wens@kernel.org>
- <20251020171059.2786070-6-wens@kernel.org>
+ <20251020171059.2786070-7-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,46 +88,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. oktober 2025 ob 19:10:51 Srednjeevropski poletni =C4=8D=
+Dne ponedeljek, 20. oktober 2025 ob 19:10:52 Srednjeevropski poletni =C4=8D=
 as je Chen-Yu Tsai napisal(a):
-> The "bus-r-dma" clock in the A523's PRCM clock controller is also
-> referred to as "DMA_CLKEN_SW" or "DMA ADB400 gating". It is unclear how
-> this ties into the DMA controller MBUS clock gate; however if the clock
-> is not enabled, the DMA controller in the MCU block will fail to access
-> DRAM, even failing to retrieve the DMA descriptors.
+> While the user manual states that the PLL's rate should be between 180
+> MHz and 3 GHz in the register defninition section, it also says the
+> actual operating frequency is 22.5792*4 MHz in the PLL features table.
 >=20
-> Mark this clock as critical. This sort of mirrors what is done for the
-> main DMA controller's MBUS clock, which has a separate toggle that is
-> currently left out of the main clock controller driver.
+> 22.5792*4 MHz is one of the actual clock rates that we want and is
+> is available in the SDM table. Lower the minimum clock rate to 90 MHz
+> so that both rates in the SDM table can be used.
+
+So factor of 2 could be missed somewhere?
+
 >=20
-> Fixes: 8cea339cfb81 ("clk: sunxi-ng: add support for the A523/T527 PRCM C=
-CU")
+> Fixes: 7cae1e2b5544 ("clk: sunxi-ng: Add support for the A523/T527 CCU PL=
+Ls")
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c | 2 +-
+>  drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c b/drivers/clk/sunxi=
-=2Dng/ccu-sun55i-a523-r.c
-> index 70ce0ca0cb7d..fdcdcccd0939 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c
-> @@ -121,7 +121,7 @@ static SUNXI_CCU_GATE_HW(bus_r_ir_rx_clk, "bus-r-ir-r=
-x",
->  			 &r_apb0_clk.common.hw, 0x1cc, BIT(0), 0);
-> =20
->  static SUNXI_CCU_GATE_HW(bus_r_dma_clk, "bus-r-dma",
-> -			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), 0);
-> +			 &r_apb0_clk.common.hw, 0x1dc, BIT(0), CLK_IS_CRITICAL);
->  static SUNXI_CCU_GATE_HW(bus_r_rtc_clk, "bus-r-rtc",
->  			 &r_apb0_clk.common.hw, 0x20c, BIT(0), 0);
->  static SUNXI_CCU_GATE_HW(bus_r_cpucfg_clk, "bus-r-cpucfg",
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-n=
+g/ccu-sun55i-a523.c
+> index acb532f8361b..20dad06b37ca 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+> @@ -300,7 +300,7 @@ static struct ccu_nm pll_audio0_4x_clk =3D {
+>  	.m		=3D _SUNXI_CCU_DIV(16, 6),
+>  	.sdm		=3D _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24),
+>  					 0x178, BIT(31)),
+> -	.min_rate	=3D 180000000U,
+> +	.min_rate	=3D 90000000U,
+>  	.max_rate	=3D 3000000000U,
+>  	.common		=3D {
+>  		.reg		=3D 0x078,
 >=20
 
 
