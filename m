@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B89313EFE3;
-	Mon, 20 Oct 2025 01:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05E419B5A7;
+	Mon, 20 Oct 2025 01:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760924439; cv=none; b=rdwvs7bpUdHYzFGj9ZJhSfs4tsBc4+ID8pug5J6iSUZuZYSqYoRHXbmEfT++KQKO5zuYJBKOZbO3XuzeluhdD9gyNIQWBR7ftyEkvGfHtFAGZMi3BuWVAr90HiW3NaXAzK7fwGhuESUeRRYY3WNHNVleixhMjDd4ngQlLqt2geg=
+	t=1760924518; cv=none; b=quTMJZbEK2QgLhwZd2quiMCuvFX99CbNwZB+YucTq+qPI9JawDCKxOCrAM9jV27YOMkzlp4xgrqKAivRY79/6R9kYBYNcd0ZqlNDPRrQtBeo0wWKBCdc3hPc/GkzduZva9ox73Td5vpaYcelYXyk4qzS7Vb0LvmVo9W4n9jFx7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760924439; c=relaxed/simple;
-	bh=ncV+BB5LnsdnGOmj1J0hFguoTEWuNEhshozSzbNUc7A=;
+	s=arc-20240116; t=1760924518; c=relaxed/simple;
+	bh=Cjcf1/xqZW+Uik6yvN4NeKdAMdpCcc66oIiTXtqvHEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tiVVl7r0Ihf83o6+Efs/CCLBZaRkYUqhLYGgNYK+fDklHzLC3mhrduZTNC7FRuE9f6F/Fm9+WuGFPJl5dayvxnBNB1iiwEhOzzxlQqz5ztYFiTlpFCyPT+lUpl7/w2oaE9kiASevALo19RjyPnBwhKx8+j+ChvkFtCWyk+mxeDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvK88p86; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZfMrlAP5SL5wloGTtEHGl4hynnGiOuD2odiW28w6mV3M+W+JrPMpIm/pcdymxqVu9VLHtYLtDT5vOECFqeL5SwF0XSB2rahoq9ViCOjwShYzYS3aiLLhsakU8xIIxEFsr/vNiCwfEVvbneh2Sa8HrYukF0AHSo9nBRBN1AZ8K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rFBnrjnh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvK88p86"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE6EC4CEE7;
-	Mon, 20 Oct 2025 01:40:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rFBnrjnh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5462C4CEE7;
+	Mon, 20 Oct 2025 01:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760924439;
-	bh=ncV+BB5LnsdnGOmj1J0hFguoTEWuNEhshozSzbNUc7A=;
+	s=k20201202; t=1760924517;
+	bh=Cjcf1/xqZW+Uik6yvN4NeKdAMdpCcc66oIiTXtqvHEw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lvK88p86RRCdjnK89JGlagZW3E68RzoTsvKMndOUduD71PY/+4iOo6N1qaCARElK3
-	 6sMabHEPgcmpLm89tdCduelkJJPCU9apCgDzwE3glvEMSivuGrWf7iap3KnKg6VP0X
-	 g4gG20pAqgS+lKQoiISOhhGiRgJoMPT6NijgsZp/3S05R4UTgpeRqARB2FZRNDWBr9
-	 ui+0bK018Nz7ijfc2nz19qNCYC0hOI5A0/jWibFHTkziY4j2mn7Skd8lLCBsiR3ndY
-	 hPe9r7i9zzwICvO7VcNPQ8spsu7pq26Ei1WWmPoK2l9taY2Plp0j31aInnHoQKfezd
-	 nEzx+iFKJg2jw==
-Date: Mon, 20 Oct 2025 02:40:32 +0100
+	b=rFBnrjnhLCmQwKEpYJomTQd+PHRe17PXgbHBB4kdekJI8C0VJPgCu1ZhtY4VA6y1e
+	 Qiq1mI2P5xZkqtP8SXIcXyG/NyF9npEcV/C9cBKWegmH1KahaoVQ6zhOehUslIGa9M
+	 eI0X/lpJEKQGK02U6DtDmdi/UauveO3/0k3c7U0lEURhBeAIhGAz6WZ++hL3VgpCK7
+	 D0XYiYB7hP4NgiT3VCucfnizTcgkR+j6bLMyL1Qx0fjfyToeQZ2ARhEDMCE6DnRjIh
+	 0LPM4uf0WQ7D41cTS70E/GcOD+Lno3LXEYcyHv1JMwNLtzL1lIThZBG+ex3PDA8DZU
+	 C3N8UG0igRwbQ==
+Date: Mon, 20 Oct 2025 02:41:52 +0100
 From: Mark Brown <broonie@kernel.org>
-To: wangweidong.a@awinic.com
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, arnd@arndb.de,
-	srinivas.kandagatla@oss.qualcomm.com, cy_huang@richtek.com,
-	nick.li@foursemi.com, hangyi@everest-semi.com,
-	alexey.klimov@linaro.org, niranjan.hy@ti.com, shenghao-ding@ti.com,
-	linux@treblig.org, rf@opensource.cirrus.com,
-	thorsten.blum@linux.dev, yesanishhere@gmail.com, ardb@kernel.org,
-	ebiggers@google.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, yijiangtao@awinic.com
-Subject: Re: [PATCH V2 1/7] ASoC: codecs:Rework the awinic driver lib
-Message-ID: <72907b06-c7f8-455e-8dd9-f5b4041d4bde@sirena.org.uk>
-References: <20251017101106.370742-1-wangweidong.a@awinic.com>
- <20251017101106.370742-2-wangweidong.a@awinic.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] ASoC: SOF: ipc4-topology: Correct the minimum
+ host DMA buffer size
+Message-ID: <de8f8b56-ef5d-4d58-92ec-38280badcfb0@sirena.org.uk>
+References: <20251002125322.15692-1-peter.ujfalusi@linux.intel.com>
+ <20251002125322.15692-2-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,39 +45,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OCQkiBZKWxSSnBpK"
+	protocol="application/pgp-signature"; boundary="dthMWkywLjRNJ4O0"
 Content-Disposition: inline
-In-Reply-To: <20251017101106.370742-2-wangweidong.a@awinic.com>
-X-Cookie: You are lost in the Swamps of Despair.
+In-Reply-To: <20251002125322.15692-2-peter.ujfalusi@linux.intel.com>
+X-Cookie: I'm into SOFTWARE!
 
 
---OCQkiBZKWxSSnBpK
+--dthMWkywLjRNJ4O0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 17, 2025 at 06:10:59PM +0800, wangweidong.a@awinic.com wrote:
-> From: Weidong Wang <wangweidong.a@awinic.com>
+On Thu, Oct 02, 2025 at 03:53:20PM +0300, Peter Ujfalusi wrote:
+> The firmware has changed the minimum host buffer size from 2 periods to
+> 4 periods (1 period is 1ms) which was missed by the kernel side.
 >=20
-> Extract the awxxxx driver common interfaces into
-> aw-common-firmware and aw-common-device
-> to facilitate subsequent driver usage.
+> Adjust the SOF_IPC4_MIN_DMA_BUFFER_SIZE to 4 ms to align with firmware.
 
-This doesn't apply against current code, please check and resend.
+This doesn't apply as a fix, please check and resend.
 
---OCQkiBZKWxSSnBpK
+--dthMWkywLjRNJ4O0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj1kw8ACgkQJNaLcl1U
-h9BSqwf+ItSJ3juwRzgglR51vzxFQ44jxWsGxyYIwFPapmP5ktV5gkMzDbsYsQ0G
-Qu7rzlBFixpgIcx9RyViQJ10SBxEl15M/+6SWYR8RRB4/YoFUmyfELtt4kwoSr0G
-S9kgTzHG8uWER6Cv8akG16rkfS6uXaiJqu/SLhQ8SsjipeDLV63rtHEhwudkV3Uv
-iubfQI1WMo9B5ULMmazAOlYtHw0xfkpbYnbsrprQgG52YXLhfIe3RbiPP7Ej0SD+
-lvp1Hj/c7FNjzQvu0FQkPaUsKMql/gz9E4OJYa/vilzd1LLtCmYI0uQ/fC+s/fN+
-rgz42qafn+aKak0+6Thd02TD3kmHqA==
-=wdef
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj1k2AACgkQJNaLcl1U
+h9C5CAgAhTOILLMaddbt9Pq6slTEERPkL1lmG9yKFRtZ2ymqzHGlruEBmuwkZNfh
+qUDaBYRq8CHBdyFIGEqcF63MrK6ixflEeiIF0F/WO80sEcZhWzT1RVMeFJoaul/q
+3tMZdSaWWZuMYjf0VY0UyZUDYXD/YDfsyAtOdB/og9k4GpmmBOgk7tCchNmIy2Qo
+lwKb6xzvGOLB8XjgG6S03QaOi42/CeC7OEUP2rHkBur5jqZUSuNBZco/NjQ+VwoZ
+zMI1zfoQrYGfq5ej0jqaA4BAPLDP8nU2bnWuZsWANXYzAIqeGM1yKMnmi2spYCd5
+ymPSKD9ggaUdRkh3L5wHU/RoCW2lCg==
+=zHxW
 -----END PGP SIGNATURE-----
 
---OCQkiBZKWxSSnBpK--
+--dthMWkywLjRNJ4O0--
