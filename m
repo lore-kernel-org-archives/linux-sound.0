@@ -1,65 +1,64 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BC229BDB3
-	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 17:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EB5332EC0
+	for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 17:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760983122; cv=none; b=VQMCprRwuy/mzDVzbzMkOTKOn9wMoozHBFUDA0ArwBY++Jr7GCyYcVe2AKKAB41VQlGGiCJ5Fta3J65yM8rxnKFtuPLGgsVBK+yqUxKyJqNJFSrO79YXWpbOjkQ6kg0LS2YoTBCSe2jvhyCgV67sEVPzqLVRldQ744/ZWLJBEr8=
+	t=1760983176; cv=none; b=IiHfJkBG/OzELoF7ZtSJeCJPrt+YYPcwQB4Gz6LMKzlhkMr6vt8plNf7MMtHz58m67y0GqKh+yVeY2hSTJEv3J04PPLRdwuCJztAEjPeqMtZFpvbBveVBCZt3f6PNlyjxS+rIL3u5UVXWJnaMdKIht8qi/W5mxLPxVmyISka/pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760983122; c=relaxed/simple;
-	bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
+	s=arc-20240116; t=1760983176; c=relaxed/simple;
+	bh=aUreeKtpN2WmnEqKckespxLIC5wGlm6WN8+84n04a2c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JJewvLQeltLw2lWdoMjJNOhM1IBofXrLb4qPRisQQwv6iigZjNn+RVthkinTcmlFaGLpUGeJVnsQGb7KcongMkOxyYeOwQ7/uAvWYY76nFFfBW2JnYvpzlN80NPuy/GiYiBntl8894Ak2hIGZ8rOQVdRM2MqZPbkTwZE/G5+5To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3yeKzs9; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version:Content-Type; b=q60TBL7SjSySFryXNFny55HV/c4CqaDYTJ9uKCIZoOtuMXRyV1z7ZgcOK4z2Ps28f2tEEXfg+Wq8zh/oVL53bLhvz4F74GRrBIvVqy8gEhdxR23XWWhNTy7yn0LYw7Ltsloo4MbVjEdJNOxbwmEF0ZCZwrdrQAKX7/M+74Fd5+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDAJU26Z; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3yeKzs9"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4283be7df63so1239229f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:58:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDAJU26Z"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-426fd62bfeaso2111643f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 10:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760983119; x=1761587919; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760983172; x=1761587972; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
-        b=c3yeKzs9FPBDpm8NfVTZjIYNE6HCojwEl7itqNZrHDIWTKGQXhd2ltwrRkFF8QCtQD
-         Ny9+scbR1rdywhRHMBiNfWPOQzcqGGadc2c+aHUcB43siKJXSuLZyUBYOzZ36lTOxwnj
-         ibGvhkO4KHt6Wgi7t56hlv/L877HrL3iq220+uWlidFv6c8QZEzaCv0/O/SdWbvtYuk9
-         tv09hFo9/cjPwzt+UEzVwEWeWPdOH3Bx2HPjCIEb89ZOSZ6Htrjr+vnlHpwy8FcnTNyB
-         WuHdhsRb3qMjs3lH2jtsmBPiCxoqZLJ6xH4OHZh/7TodH0DycyKrwd7fMJSJuOPVz8M4
-         sfXA==
+        bh=aUreeKtpN2WmnEqKckespxLIC5wGlm6WN8+84n04a2c=;
+        b=TDAJU26Z1JCMKfmUGDyMgFDWfG/BKzVyeythVxkCiY1UImv2QpnNdy+eFtyd9iPHvV
+         mAY9DNLERY5mNX/qTEjZT7JT9A3DEKVoJYEgpStEjf7nz4GPewjBhLLvbQZPxTrL3a2e
+         WA4RCHzI4/bPWZyQxVm+PD5BM4VYrFOAz5xMKi3B+NIYMeY9tIF3gU7tTlaDb9HfY2ht
+         Heqmi5HMQmlquHu+lpFmtBZfGTIggDmjpxl42gTzV4y50+jVxaQB91o1SAjcKZ/inJlz
+         UHMxVqZlqZb5UnGZZp7alNSrnMTaDxuqSXH4kt8Mqcq9DKt4pyoD8wsgr3NQi44cduiR
+         mE5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760983119; x=1761587919;
+        d=1e100.net; s=20230601; t=1760983172; x=1761587972;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V0ywM16huaA6vxoSrQo9VcxXEvOPk2Rt5CdRZIoeNHY=;
-        b=mKiV43im63qoe0ezlG66N30WPtMi1q/rpYvR8Ah4lWFL+FNSQ6tFqnpw58SPMOuhE3
-         Kjrsk203Ks+LXozy1j3DyLLItXilUnIVZRFrMm62WjlEF3WCKExUphqGvUcY/LVfCIsF
-         JMkSvfYkdQH9C9febYX1A9fBwtmVwD3IWOajbCti1LgRpHDoxFBYsVOC9jL3M+wdFQc/
-         JgXnowXExSNJL/S7tZSBU+hWmz7v5d6ptVhlydeVnoLKtxOeu1FcbKUfsjBBcHAmalOI
-         heAeLCvOTlgBZm7rNfWFgFzO1n9n8fkgsHd9Ijshv+VOHaqgj5FyX9ZPVqX+/85tcdWm
-         mk+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWBTGKXmzobsuwSJoz7sGx8xVai28lz8aRtdCuUKyBOu4andoXPqPwUmIgkUWrfdZIWB7i/e7EJhzqDHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5voX9OqRXUpI/hiSYzSRNxPtdoK1nMJyHo1YC5qHixkfTMf4F
-	3p7Bp8l6Z9ea+tOTAFEL1RXN2Jmipt/eiSa1KUNY+NiOhJbBcpDNQzNU
-X-Gm-Gg: ASbGncvzRMtIgbmGhoMDBuC916rBjhNaTKMcQI7V/gViOHqrwYp/yxxSlngGw/MDmZ5
-	bNLuENgpHFBtb2faAOFq5VTRogBeN3Q+1bj4HVler71r9gpEvhzt9Mw6bXE2+/f4LZIOl6NnjWo
-	ajGyLWBJV8a/z8om+RVT7emCAyvTWpQU4b4KjFFj5H0tr0UUh4ideLy9VPLkBtcSQqKqU03JCuK
-	xiv/ggTrrSE7IYZTQuhue/EjEcmfPJaF+nE6St5J0vGpGFOOp/r7VaXkdP45X7otkzSdr/TPcf8
-	yRyYgqnYysd334A2m77dLt0poBJJsaRIjlRmhqB7JjtGIGxGiArJp+xFqOnUxa0sQFUDEa3kwyd
-	4zZ5d8nkaC5gY94Yv1YdXzjTWp1QqSaSrOVeZC0uL9FGBGpRzpK97y87CfBrSbqOKEBQXJOuj6N
-	gWorvU0gwvPZ4Fi1ZgrPEJagDlxc/6ptudQPUQlwOrP1h7xqGHxPOQRQpUC1pmpO2MyypNYguCt
-	a6tKA==
-X-Google-Smtp-Source: AGHT+IFevLoNtuerBsIw1VuRArXCqqtvXfnOs340pTPBnyLhuRUJ7DD12vxDIIoA4Zumvg8MBc0QBg==
-X-Received: by 2002:a05:6000:2406:b0:427:a27:3a6c with SMTP id ffacd0b85a97d-4270a273c43mr7686143f8f.63.1760983119338;
-        Mon, 20 Oct 2025 10:58:39 -0700 (PDT)
+        bh=aUreeKtpN2WmnEqKckespxLIC5wGlm6WN8+84n04a2c=;
+        b=I2b2kLAxzhxA1cUGsJ/XDGAHmsDVLJbohumTTIORrpRkPf5yAN3Iqnq4MavHAJHLXH
+         PrzUySzo85xis1F+XEZ8YFo2FMRVJktyFre7r5Qpyyy1oIOXdxIjq7xWbI8OgCfia2hR
+         fI4AzQYfPBPdoPVatbphqrr785WRWDvApqfPpwtNMqXnCMW1DdNVb7aATFXkHMYrgwS2
+         l+WXp+c/qYLuH0Io0csNgqheVVtfucAhOHJT0U3KhTAS/zT8yzaXqjAhvJxrLy0ffTpy
+         XOn5kF/HCq6KHRX/zWRkid2BZVVuTpoGB8CF42z1mfY3aAHAKWmQo6MKxHnaklSMgkbg
+         f2Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlID9P9WO72WHULwZ53ds44X5ev3umUtAuDjVm2rYr8eVaDWlDq7UcUpWgIGdbDnwGohQiwk1OOOQBCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrZUhN2YDfdmiPn6BK4owml8ltfJM9Hy/2xrhLIWL/Jb696Yzn
+	NiJ3gC5fFoTuxIIuwUbbaczQ/5/RotMgvz74lfbjlCdwDTayO86rRNIH
+X-Gm-Gg: ASbGncsoGQX91T/X1qwHq0qUkXMT0cpHFrlgAPX8gurCjn86O1EBgnCtJRz9VNyDSlY
+	67vtDaDhYf0joaj4vfzDyExYVT3n1ykipBLLoRqJxW1O0AS5dWqWRICZdWHpikdfMqjYjr5KOVd
+	Y5PLpFWx7Rt80mRrBUsDMINJHluH4UYU7WImJ1NTvvv3yAlMQL+ypLQvMbOqo1tX/a1cy+l9QVm
+	LZGj2AAxHFHcC1f6DYxdXiWLNl+im8aLNn8nKV1mKsbNxME4hL8tcoAlPM0DlYJyx3B09P5u5S7
+	Qdgl4OzfRewV13F8unssqg/lOKvLq0UWB2W+aTVxV28MzZF7fzMZpE8lhsWNzlAM01WtFKduxe/
+	GutwvfllRmeOuJyB2dKr4LeP84c0Jrj5aUrqMBHPA2kwVv57iIW4O8OdyDvmCnU89DB3Ba7geFB
+	QbDBYegM5kp7hEiYn76C3P/W8Q2r+CzDiYhmZR/bonv5eVxDaFhenr465/KNbNk+NeKiI=
+X-Google-Smtp-Source: AGHT+IHtpDIuvy4/yF6LdQ4qVWSEOm8AetCbAHS/ajv9TB9bfuiRLOt0expo+wltP4XyjrMHK3544A==
+X-Received: by 2002:a5d:64e4:0:b0:413:473f:5515 with SMTP id ffacd0b85a97d-42704da2b6bmr9352936f8f.48.1760983171751;
+        Mon, 20 Oct 2025 10:59:31 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5a0f7dsm16168108f8f.4.2025.10.20.10.58.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a6c5sm16822163f8f.28.2025.10.20.10.59.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 10:58:39 -0700 (PDT)
+        Mon, 20 Oct 2025 10:59:31 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
@@ -71,14 +70,14 @@ Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH 08/11] arm64: dts: allwinner: a523: Add device node for SPDIF
- block
-Date: Mon, 20 Oct 2025 19:58:37 +0200
-Message-ID: <22871360.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20251020171059.2786070-9-wens@kernel.org>
+ Re: [PATCH 09/11] arm64: dts: allwinner: a523: Add device nodes for I2S
+ controllers
+Date: Mon, 20 Oct 2025 19:59:30 +0200
+Message-ID: <3906069.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20251020171059.2786070-10-wens@kernel.org>
 References:
  <20251020171059.2786070-1-wens@kernel.org>
- <20251020171059.2786070-9-wens@kernel.org>
+ <20251020171059.2786070-10-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,12 +87,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 20. oktober 2025 ob 19:10:54 Srednjeevropski poletni =C4=8D=
+Dne ponedeljek, 20. oktober 2025 ob 19:10:55 Srednjeevropski poletni =C4=8D=
 as je Chen-Yu Tsai napisal(a):
-> The A523 has a SPDIF interface that is capable of both playback and
-> capture.
+> The A523 family of SoCs have four I2S controllers capable of both
+> playback and capture. The user manual also implies that I2S2 also
+> outputs to the eDP interface controller.
 >=20
-> Add a node for it.
+> Add device nodes for all of them.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
