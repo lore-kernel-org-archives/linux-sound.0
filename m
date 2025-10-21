@@ -1,230 +1,158 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2C9342C84
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 15:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7051F33B946
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 15:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761059033; cv=none; b=lazupznaG7aGiSVRgpy/CguOQ4Mqh7akqU0+iWRZG/CRjDbbs+bZdrjDkDLVGFuo34xp5ezCMzfP2jx7uTi9VG2Bln1napUaq1Y5TLC1armkh39I3vAwivmfClpm2q6B2K3bYNK7ehCYnu6gjXApMwnc+OXpxvgxMXPqVMXWMYE=
+	t=1761061383; cv=none; b=a/gmBIaGq65AH1isnXQl1snDwBLwClvU7/DjmjenAcPC/hf9ZTsoCIRnjvZRmpWQ0Ex8RMenzFJhvA6aEbafLr8NbCaVqfZN7fY4ctaOex35XjrpJZYqy6RbLyYKj4IqFRknToh/EOONXCFI4/ELZxwUZUUVs3Az4x+giwUZB8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761059033; c=relaxed/simple;
-	bh=MTl8e6FvdDgptg0eKJyfIELgy4CuOKugQjNWa/1WMIU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ECQ4ILxdjDPBpJxzhOpfWEb3+ChaX2J+hk1vsEHid9P2oD2xR4nIGMfprqpazVWwCG/32ZCZsQAJ6g9ZnnH4IskDS1L1serc93+RZ7wtFSZXmPIVtKfeKVhTUlLe9QgAlPFaB6+rE2LJJBCtXbKsRLPJCf+Ni/YXNC7IN1YqDmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPeLLiQ1; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761061383; c=relaxed/simple;
+	bh=75YAXkRpS5AYEhu5CiBSWx6SM3C/ihZP1jjcOFswJjQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Px0GrEktfcvt5MkN8cLiUGOsDGNWooJzJuXGQMo4pdsm/hkodfv+FITZ/unevAGNyjIDzOeuvq000unG0KVcf0CKDmopaKBUjBFyTj8HPeltKg8JAbegDL+fsb2n7FSf2eEbhp1IuqcmbJPBRwqQ2LIDYPMda9GhvbkJuDFPwnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ryuKTo8W; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPeLLiQ1"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-33833a0a58cso1086434a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 08:03:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ryuKTo8W"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-474975af41dso7820525e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 08:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761059030; x=1761663830; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NtS2KYjF9C6m7c6lSBx/YCEBGO2iHFvA7LA8AcgD1BI=;
-        b=cPeLLiQ1m6ECdSlfNFwoAeJGcJ1pHqGEKWAUrFknx8pc8Ag/OboycJZ5lBwACEi4im
-         RdVe/QB+wvn5e/nNYocW3ptUIynqGTCv1da3tgJaYKEBxtuKBXy9IEGcl9JZ37uik6X5
-         MjAu7/hcqZ0qOZ0jMDpPU+4O3Wjif1R5vj4gLVafMpCep7xQxPbDDNscPTKR8coxrKAe
-         bU8QrCdQDLOSXQ8SeEb47eKlShlASEqY9TwgI0NW+53iYWDuhSER6x/cBljHgjIXR6DZ
-         ykBDiXMtGOyEaEArtvaPrPWNfU0JVPwk6GVJ5oNAKKvJqLEJh4lPmWQt5PaTiWR1XMZ1
-         6egw==
+        d=linaro.org; s=google; t=1761061379; x=1761666179; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AhuCz+PGVZVkdCu2Fi23G6TX91sa3helKlTwcjtnmzg=;
+        b=ryuKTo8WANBP2UwKrgzWZgGqU2v43XPXv1l01txN1LTT3+xHVQnLWTKPVrJaP8iamT
+         FuehqICTzqWuU1cfq7yptj/g/C2ZBKv5PDdADz+olNq/oKYwzOIUIlh1bOG8+whT1CdQ
+         GEctkBKY53F5GxoBqeYyhq948ZTzOC94fQNEboUHfgSJVVtjvCDZYVMH1iKr5AsOPbtz
+         VEg/cVrR6Nqde3Slst1tffnTbUC11fiWQ3LvUr07R1OX4UMDkXdNFoWGQ+hzyDgVuQxB
+         niuzsHCAREJ/BLpkQX3fX7lGh0lueEkUj9iHF44t47qChuUtAcny3w9cpU/C6B5CjpIM
+         6vPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761059030; x=1761663830;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NtS2KYjF9C6m7c6lSBx/YCEBGO2iHFvA7LA8AcgD1BI=;
-        b=Q0QwzyjJRw4bjCWt5bB5N4FEjyKPB4mCzYugpaptVTPor4N/Q4EgfJtYMAzHPVER4T
-         Ij3vNGpmWezv7EiV4AeGIovRDuH14hfUVWX/1wo7DKO4QZWTBjJjrZ4JU1B87tSLhRL9
-         +GD13dWCTHl2hMiahujFGFHA141IsCmKG9R0xDYlZ0iXA8aKF62t9kuQ3jvv5BBUJUtA
-         oHAMbv8Lyky1J8hDwj0PHlGoFRmiQKXGSqM75YAfLMps3iEk5yhA8SCXLGrnZvBWW+Df
-         BFIs/3W0AnuXkDFOh9dwkV+Eb2E7OYsuRXI6LONy92cYfppcKm03RI+0nNI62HScynjq
-         QWHA==
-X-Gm-Message-State: AOJu0Yz0/+pr+M4gTeV/J8ybg+eGpirNrpCbUa1rsNiYxLInfIF755FA
-	RhU1Fykd0tQM1aUYTc0uSgQ69mvJWxc4gdgnXa9NtLJg+Hqcy8U6cKvl
-X-Gm-Gg: ASbGncsaTcKJp/MQG+T1aftB7V/ufgg8jxORzKMOPWCTKUneTUH55MQUqAkbvZJc2rj
-	5KmN8G2z2gUSDXfhyaTtX8bR8XDeLNA1rgBfmaFYdR1l9t5sa/xOOKjntTTym7q/AFATJpig7OB
-	3kLnohTA3TKxdGUX6fV95jWtmLzCyi2p31BMnfsSK0j0BBOUdltJcVKcwCNGnqUqEUf2dPPF/Q1
-	UhmSgNqO4KiApE/CTyGKWwRls6LSBaAVyatiuHMAu/dsnVuJj5A6DWw5c8OwUH+Rq+yxBwVdMwR
-	loB7TqWEnhySVsmd5i/UthqEKt3jg9fZRuqh/SAJYQEMLFKYvwP1NKVX+pk8LukQ/zp05YPN3Dg
-	SBWAoDF4myOp5w7ZhEfINBg9QBxXCI/ebl38DRX/bE27uVW9OguvrjQPSegC4XLgsQXpzzj4aHn
-	NT3xONaRHy6vtGFW7uCKSBnZ0nSuvkUs7BwliDXa31Gid2KHrZBO4+q5z2BPWmceg=
-X-Google-Smtp-Source: AGHT+IF9dhdv+GnM0X8CatQYTHZGAxeDpCAPm+nYE1Dxzv/2JQ9PFVVQo2kRTiZyRHx9CBETNW4sbQ==
-X-Received: by 2002:a17:90b:3ec1:b0:33b:8b3b:4e4d with SMTP id 98e67ed59e1d1-33dfabe6c83mr2276188a91.5.1761059029368;
-        Tue, 21 Oct 2025 08:03:49 -0700 (PDT)
-Received: from [127.0.1.1] ([2401:4900:c8fb:fb07:e608:6e67:4b89:c950])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33d5ddf16bcsm11262487a91.4.2025.10.21.08.03.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 08:03:48 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-Date: Tue, 21 Oct 2025 20:33:40 +0530
-Subject: [PATCH] dt_bindings: sound: ti,pcm186x: convert to dtschema
+        d=1e100.net; s=20230601; t=1761061379; x=1761666179;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AhuCz+PGVZVkdCu2Fi23G6TX91sa3helKlTwcjtnmzg=;
+        b=TT73BgOXLnRDZNEB7C3RTUPIYZRo22LAEIg5/9Uw0h1ZnNe5PolFCOHANzEMyHIXf9
+         FXVxTtRkkD7dYHOwhULRVl5kNCRA+h1+XFcGXtypoompk7HMtEE47579qRdVnuyE/JRu
+         7ZOlFTXCg6fVCcYxIxBtgeLJsLqgjUa7WQIwEpRicoGwsvQyuK+eQe3ApLVV9RhOZFua
+         V3MVukNOq3s3YwNk5T4WNe9TAW/b2KHsILR7EfoqfjNxwlXJB3wg6utWyEO6/jeRlaMH
+         28LPrkhh4S3pOi/GpFxv1z2PMHO1CluvIQTKswvmlOfj7B5at/X4FmT0rurOemND5Yul
+         St2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW7JFLoZbZSWRBXUyUJA9cJin7jISs6Ll0L+dsWdap85/PniuOsn/YBEF9Vy/2pyZTKQDxrvUBMwl/zAw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn9BNaV+f4E9BInuaeRvksJAlP6306zfoMi//CKB3VDCwYW4SJ
+	AdHZaZhD2aCsnZ7TFHiozigbr4kZ02cv1OA/cmUFv2DbtdU9X7UemCXgYASSIgZzIe0=
+X-Gm-Gg: ASbGncvYkbnSiIpX5PhOiMcXsc+h8kajJtkvVXOr4k8FruNSNXsv+wZLdxxAD1Qu+3y
+	daccJQnD1v7a7nhCRJMsmNv5pjndTuFdBylkDJXtc6JkMus6U+ZyBFW2w+2I+LbAYdRE+B9MoIl
+	lokDw8/6Aquws5fHcZkEVPuGkLAU8VtP9+vux4Se/9kVpITFuecDyVZ3QLDYu9NEVDF4rtIQKFs
+	fgyXAOptcL2TtvyaRSl7qQY7ZFu2Ew5DkRU2DeYwZqb5MmTOFJi8wV83n2jaBPW0SfDcVR0LIIs
+	cyoS353F4NtOMs8/gazQd40mIMCC3WLfomdt4+VeOz6QPpNpGZY4SbYQCCmo6k7nPQfrj49lMsP
+	EkAo4XrPzYlBlnYAIEor/pqg1FDwdG937q5M+S1nJPTWRSVmma6+uhY/x+maxqwbipT3S1b9aJy
+	WT27RbPY7shxFQAB8=
+X-Google-Smtp-Source: AGHT+IHp7MSIsvZ3s51V1ZsAKBgYboS1prMkRndq+IeFpziSbp+//AH/rUos6US1MvtXcjHxE4wiZw==
+X-Received: by 2002:a05:600c:1d9b:b0:46e:652e:16a1 with SMTP id 5b1f17b1804b1-47117878458mr130704545e9.7.1761061378667;
+        Tue, 21 Oct 2025 08:42:58 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7259:a00:8d4e:2f09:764b:8b5a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-474949dd479sm21881025e9.0.2025.10.21.08.42.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 08:42:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251021-dtbs-v1-1-493c1aa253bc@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAMug92gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDAyND3ZSSpGJd40RjwzQzS8tkEzNDJaDSgqLUtMwKsDHRsbW1AGPujfR
- WAAAA
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
- david.hunter.linux@gmail.com, khalid@kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- Ranganath V N <vnranganath.20@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761059023; l=3793;
- i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
- bh=MTl8e6FvdDgptg0eKJyfIELgy4CuOKugQjNWa/1WMIU=;
- b=NDeufFCatSIEJ+XlUbRt6fFMRPYXUU1B2saZtZ3lyUdBa4tlln2VMNB8FrtDTvk4PN9u8vkkl
- zVRSJbLvhnMBOzpZH9I1YylZ5zQJiCGFvxoYvaIYFlMAoTsbQeJSTDt
-X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
- pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Oct 2025 16:42:57 +0100
+Message-Id: <DDO45O787X9V.1KOKIB22SVSN7@linaro.org>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@oss.qualcomm.com>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
+ controller
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: aerc 0.20.0
+References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
+ <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
+ <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
+ <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
+ <zmi5grjg2znxddqzfsdsr35ad5olj3xgwwt6hvkiaynxzm5z33@gsgrdguj563n>
+ <DDO0LYS7UTEW.3A9WGTAA5DKVO@linaro.org>
+ <56vmqgrjy3je7omzirxnfxtuocebbj356iaew5thgkagi35464@hh34y7efssow>
+In-Reply-To: <56vmqgrjy3je7omzirxnfxtuocebbj356iaew5thgkagi35464@hh34y7efssow>
 
-convert the Texas Instruments PCM186x Universal audio ADC bindings to DT schema.
+On Tue Oct 21, 2025 at 2:03 PM BST, Dmitry Baryshkov wrote:
+> On Tue, Oct 21, 2025 at 01:56:09PM +0100, Alexey Klimov wrote:
+>> On Fri Oct 17, 2025 at 11:42 PM BST, Bjorn Andersson wrote:
+>> > On Fri, Oct 10, 2025 at 01:29:38PM +0100, Alexey Klimov wrote:
+>> >> On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
+>> >> > On 10/7/25 4:03 AM, Alexey Klimov wrote:
+>> >> >> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
+>> >> >> controller device node required for audio subsystem on Qualcomm
+>> >> >> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
+>> >> >>=20
+>> >> >> While at this, also add description of lpi_i2s2 pins (active state=
+)
+>> >> >> required for audio playback via HDMI/I2S.
+>> >> >>=20
+>> >> >> Cc: Srinivas Kandagatla <srini@kernel.org>
+>> >> >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> >> >> ---
+>> >> >
+>> >> > [...]
+>> >> >
+>> >> >> +			lpi_i2s2_active: lpi-i2s2-active-state {
+>> >> >> +				data-pins {
+>> >> >> +					pins =3D "gpio12";
+>> >> >> +					function =3D "i2s2_data";
+>> >> >> +					bias-disable;
+>> >> >> +					drive-strength =3D <8>;
+>> >> >> +					output-high;
+>> >> >
+>> >> > I.. doubt output-high is what you want?
+>> >>=20
+>> >> Why? Or is it because of some in-kernel gpiod?
+>> >>=20
+>> >
+>> > What does "output-high" mean for a non-gpio function?
+>>=20
+>> This is not efficient. It will be more useful to go straight to
+>> the point.
+>
+> It is efficient. It makes everybody think about it (and ask the same
+> question in future) instead of just depending on maintainers words.
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
----
-Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
----
- .../devicetree/bindings/sound/pcm186x.txt          | 42 --------------
- .../devicetree/bindings/sound/ti,pcm186x.yaml      | 67 ++++++++++++++++++++++
- 2 files changed, 67 insertions(+), 42 deletions(-)
+No. Imagine instead of this email you've got smth like this:
+"I.. doubt efficient is what you want?"
 
-diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
-deleted file mode 100644
-index 1087f4855980..000000000000
---- a/Documentation/devicetree/bindings/sound/pcm186x.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Texas Instruments PCM186x Universal Audio ADC
--
--These devices support both I2C and SPI (configured with pin strapping
--on the board).
--
--Required properties:
--
-- - compatible : "ti,pcm1862",
--                "ti,pcm1863",
--                "ti,pcm1864",
--                "ti,pcm1865"
--
-- - reg : The I2C address of the device for I2C, the chip select
--         number for SPI.
--
-- - avdd-supply: Analog core power supply (3.3v)
-- - dvdd-supply: Digital core power supply
-- - iovdd-supply: Digital IO power supply
--        See regulator/regulator.txt for more information
--
--CODEC input pins:
-- * VINL1
-- * VINR1
-- * VINL2
-- * VINR2
-- * VINL3
-- * VINR3
-- * VINL4
-- * VINR4
--
--The pins can be used in referring sound node's audio-routing property.
--
--Example:
--
--	pcm186x: audio-codec@4a {
--		compatible = "ti,pcm1865";
--		reg = <0x4a>;
--
--		avdd-supply = <&reg_3v3_analog>;
--		dvdd-supply = <&reg_3v3>;
--		iovdd-supply = <&reg_1v8>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-new file mode 100644
-index 000000000000..f1ade490f688
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-@@ -0,0 +1,67 @@
-+﻿# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments PCM186x Universal Audio ADC
-+
-+maintainers:
-+  - Ranganath V N <vnranganath.20@gmail.com>
-+
-+description: |
-+  The Texas Instruments PCM186x family are multi-channel audio ADCs
-+  that support both I2C and SPI control interfaces, selected by
-+  pin strapping. These devices include on-chip programmable gain
-+  amplifiers and support differential or single-ended analog inputs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,pcm1862
-+      - ti,pcm1863
-+      - ti,pcm1864
-+      - ti,pcm1865
-+    description:
-+      Must be one of the supported PCM186x models.
-+
-+  reg:
-+    maxItems: 1
-+    description: |
-+      For I2C, this is the 7-bit slave address of the device.
-+      For SPI, this is the chip-select number.
-+
-+  avdd-supply: true
-+
-+  dvdd-supply: true
-+
-+  iovdd-supply: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+    description: Number of cells used to identify a DAI endpoint (fixed to 0).
-+
-+required:
-+  - compatible
-+  - reg
-+  - avdd-supply
-+  - dvdd-supply
-+  - iovdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pcm186x: audio-codec@4a {
-+            compatible = "ti,pcm1865";
-+            reg = <0x4a>;
-+
-+            avdd-supply = <&reg_3v3_analog>;
-+            dvdd-supply = <&reg_3v3>;
-+            iovdd-supply = <&reg_1v8>;
-+        };
-+    };
+>> This description of pins was taken from Qualcomm downstream code
+>> and the similar patch was applied (see provided URL in the prev email).
+>
+> And we all know that downstream can be buggy, incomplete, etc.
+>
+>> Back to your question -- does it matter here if it is gpio or non-gpio
+>> function?
+>
+> It does. The I2S data pin is supposed to be toggled in some way by a
+> certain IP core. What would it mean if we program output-high? Will the
+> pin still be toggled (by the function) or stay pulled up (because of the
+> output being programmed)?
 
----
-base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
-change-id: 20251021-dtbs-3a31f699c461
+Here the topic was switched/replaced. And the other referenced email
+suggests that they don't want to see output property regardless.
 
-Best regards,
--- 
-Ranganath V N <vnranganath.20@gmail.com>
+Anyway, as it was indicated in my previous email the problem they
+were trying to refer to was kinda understood.
 
+Thanks,
+Alexey
