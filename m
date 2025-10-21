@@ -1,62 +1,62 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A97786340
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 08:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8B12EB843
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 08:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761033729; cv=none; b=cKZBCfJcCCeG0YHkWTUjLlf7BBb1H/d97VgS6Xa5v3sgqzdjaP3o3AKK65ED2FWNvOLnVKF+SjYjDT/lTStnlFbYTcRZuzlExB4NLLihCjw2LAW6e9mF4sLym99Cscuz82CpuCWjUeb6lUd8lNH58Tkfz5erlMGjSdrUt/GgfrM=
+	t=1761033823; cv=none; b=YpyAkwFj3wL9YvjgDkQOBH4cCJ822X4FuXtNZ+Fhk4BfTAjbzw4SEGqcFuTXvk51ISl2dtK7TP1X+LWN1ClaF4oBEpBKn3PJk+RrxEjUphYDnlJWBshYoU9w5xrRYLsFH/CRaXXZLndqf7Cz/lna0XiY+j6C9qV/SHaVv05j0bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761033729; c=relaxed/simple;
-	bh=hq8OhYoVjgMwCvfTsd84mhxUKz7zh9qPPjoUpGzRkNc=;
+	s=arc-20240116; t=1761033823; c=relaxed/simple;
+	bh=6Mv7HAoZABWuGvs2JyOm9HSzUH3AHVBCynCtVRwyJAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CF7bDvznuesfC5AlGTOg0nWVcFI+1PZ1I4LHwzdRI+a2lum6DFHyS3wvuZT6jMUjBYL2toPjEYOL4KP6scsUIOTJBW8hfCv0yLLEuqAKlTdyre1eg6uUagnOH2trB+uIbtU4ZTmtlVWSf0Rt7z4veSPCBpflk2ta6d3vDJS7EQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=fqULwlNb; arc=none smtp.client-ip=209.85.208.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=u3503fvq5DYcsRPLhysUG5PcQkKXOjGoLJQDm8nE3isiHvA9QFjJgl7Mhq+weZpMDxkrPaHNRpCRTIIyJ7Kxsvloi9xgqU5jTzBcGhZMhlg+K6i/I7l/ZOycymlfvrQIpeL4UW9hx/FJTBHOwrMIkzpjBjps1GUrTRnOHXQY6+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=FM7/+tP+; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="fqULwlNb"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-63c523864caso6742445a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 01:02:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="FM7/+tP+"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b403bb7843eso978457666b.3
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 01:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1761033726; x=1761638526; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1761033820; x=1761638620; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mmJ3kbCZYasBy1tdyPRhi15Hy8S31f6BJlgZcjYUhfI=;
-        b=fqULwlNbry44WTcerBjYjOnbQ/pgWwSCc8OmzWbhPcjDJzEPvQz1xFptiFfYp9w2yp
-         xwLDL7R/tAly1nb1U/uSGO6FcXvdFdnx75RWxZca+0lPh7sW46k53YteC1NuWCxmxzlx
-         pxq18utHDrm64RSOel/jg27K8Ulcx1pPwgx0A=
+        bh=1eZOCk0G+WIeYYVlPWpiKCZVOUjneoPQzsl6dTiB4tA=;
+        b=FM7/+tP+EKbj+UA6g5fOHhfJreNzSMKP+JpMgOF/U8IigPesS5v5MNxSr8D3y+6g5w
+         5tdueylmRsGBZoY21maiZU/f9Ne79UfV10jgyKgQf+n7N7aZ70nUsyGQCYQaJc1G+pB4
+         PhnwE76FSFbhl7JJCkVlCL/CEBkGPf+DNktxA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761033726; x=1761638526;
+        d=1e100.net; s=20230601; t=1761033820; x=1761638620;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mmJ3kbCZYasBy1tdyPRhi15Hy8S31f6BJlgZcjYUhfI=;
-        b=bSwnVPk5nX19H3SFzK47Yp2uA2Qo1dx5YNaAO96o6LXtGZwC9T5ynkXsXaBoyU0a48
-         d1iFdp0qdTReLW+KZaRhKcEivKzZRLFi1NfSojsZWvlBFPnNw30bcqIWBqf6L4Ef8gWY
-         3jk+Z1JXvBa4JCOFvfa1G4vbozL40zZAdmNvCvxZjCRglQg4QWN8Q8+T4TU+jBoDLUM4
-         lRuBSKl/Q4XEwv5NYlKIAGimqbRR+rYCKfNaQNtWVgRYZOEGv85iisOdTcGWZmiVDWLo
-         1KZaN6bk85TXQTVIuk/Zy/+RSc1+2Z5dHU0qEKEnG/FnYwBkanZvvVejq8Ug3z2uw4D3
-         y48Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV6k8G7EdSbJr3+u/Rczy4uchSvIter7L5Y6k4Jge0It4fXfhNAdUi7dT5TTGMQ9NIQnsZXCLPIWhuaOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqKPvxiDGQnRTzaIa9qjh4SjDz3gGGy943EyBt4ZDB6YztaeIp
-	GrJZbrVY5H8wkhdv8ZywkNGuBta5zPLYUoRJC1yYgGmoJMS+4OvF7SW1cZPW6M4/VBA=
-X-Gm-Gg: ASbGncv0eOzo6yknlngEi9hLNUGWBhfCmUFEvzGlKvjHM6FEGKvOAYIK9W4PNHJ/qzt
-	HYQGH8WRDRf9kwIy254baBLEGuRfpr/Su6BANdf89G7t3AuPrJyJHm2/LJoObA4xt+N3Z8m8L0V
-	uB3VWKRf8BmIQ/SovHUCrQwQaEdBLEUZIiHoj0FJ1+xUCmfyvvdXac2rS0PpHhhgwOXIPE6qGOy
-	Mr8hGDCDVZiiMEqCymQx6zAvmXXRmoUqoOcDywkKGUfCOte6vbno5EeeDNJFFkD8nGZu7D8Awq9
-	H0S61lej7+Yahm3fOOSAAwxfK7vN9yow8VBTAaUeb2cTs69cy30SmTSe3f5OwzQv341swcOCdhD
-	d0C6lgQ/iDk9glEQ7LhAHL8BE7yB7GWjhguQL2K2wkfaLysl4EL528Yjfs8Gg10GxHRmcXNogXe
-	1KIqKmkWA3OZcC47yRw3HQSg==
-X-Google-Smtp-Source: AGHT+IEQBbHU46zJp3I8qzuqYSyvo8c+5/g/4Db1HXzfzGIE1r78chLA2+YlpgeKvqwNE6fWnrQZTA==
-X-Received: by 2002:a05:6402:1471:b0:62e:e722:a3c7 with SMTP id 4fb4d7f45d1cf-63c1f6345ccmr16006744a12.9.1761033725994;
-        Tue, 21 Oct 2025 01:02:05 -0700 (PDT)
+        bh=1eZOCk0G+WIeYYVlPWpiKCZVOUjneoPQzsl6dTiB4tA=;
+        b=wQjQ0wRrZeVjaN/E/hWAutH297WqzPdZDpED3cApvOjO8XzOsXgNyZS0RT4DKjAl89
+         /GvBePMVGtQL04nH5+LzU4/z94W68XXN3Q7TMw+t82IA3klM5yQ/Mq3YoE6Prrov7val
+         ZL0JyqHWgKIa8RS8atPoOvt2Dimy6prJ3OfJISPulQpIhyzL/JfimwW4RwYpQiCotS3w
+         4zxjuRAUo7q9d/znXWZOHyuBuXulA4qpSA6AW5ftc0Mj70+uAKdki3g0MFHq05m+Vayy
+         kdIouLcmqUrIEpahW9cImvOILp2gsUY6UjSkrYqPoSEMQgCp7Y6y2fOXzPZM8kxN3ToC
+         bLjw==
+X-Forwarded-Encrypted: i=1; AJvYcCWurJRQHGFCcwyhX6vLEKPLl5wV4F+LqmZeHg9qFdTdhG1Y5aZTYIlqggnvRfTy9vWxsgukznCioHzXUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj1ojGKB3upGpaUGkLNcIrSxKeR99Rm0rex3U53SO3mroxgR2i
+	UftLnZTDSJANmg/q+E9ri6YBtfCm7vW3zMCAvejBlZE+rpGtdnLr35Zcfz2HESBfJWA=
+X-Gm-Gg: ASbGncvs9T1u7soaLD2JRQaIOIW9z8Q6tbUO5NF8CZ3Sp/Obr5/WGvit1MAtk8sj77o
+	0R+43nlUfRj4IoTVlFakwdYhgsmsV5tUvJiQvH0gNF6eq9UtBVwJDwccexsGNr79GaSa1cS6sRa
+	agQwycD7X3fEltklAmmhyEe9mpLd2N8b90bpRU4WwnCeKwqcyhzfxE5UwGGcxAfdclPc/PJYiAL
+	l/yTFkE2To3/C493wltEdCwGp6zf4X4m6CtKofug7bOYdbs5Bs6N3lrJLHJYQjx4vaVQaGl8QZn
+	A57ck2J+VgH7vLRwklCnET0JrJa3+4aEnK8bEaIrqxNKiTpWL5CJBsPMLIQ1SBuMIEpHn7aKOrG
+	1beiy9vjVIZqfaJRhe3PLuhAWc8E0krd5u3YP2gikJb3zDBhyP3aR1bgGbbWT9Gf0AzcBLudwQ/
+	8Buy1l5l8/mkM=
+X-Google-Smtp-Source: AGHT+IEbmSLB+yRFZ86qxeD7wG4TxM9uG6ayZpPpFTz88clAHcJph5RIG47VQ/I34aUFg3RPcxflIg==
+X-Received: by 2002:a17:906:fe41:b0:b04:aadd:b8d7 with SMTP id a640c23a62f3a-b6471d48347mr1967108166b.13.1761033819926;
+        Tue, 21 Oct 2025 01:03:39 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63c494301aasm8934112a12.24.2025.10.21.01.02.04
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65e8581780sm992513566b.31.2025.10.21.01.03.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 01:02:05 -0700 (PDT)
-Date: Tue, 21 Oct 2025 10:02:03 +0200
+        Tue, 21 Oct 2025 01:03:39 -0700 (PDT)
+Date: Tue, 21 Oct 2025 10:03:37 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Shengjiu Wang <shengjiu.wang@nxp.com>
 Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
@@ -73,9 +73,9 @@ Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
 	devicetree@vger.kernel.org, l.stach@pengutronix.de,
 	shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] dt-bindings: display: imx: add HDMI PAI for
- i.MX8MP
-Message-ID: <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
+Subject: Re: [PATCH v7 2/7] ALSA: Add definitions for the bits in IEC958
+ subframe
+Message-ID: <aPc-Wad85lQWbqfa@phenom.ffwll.local>
 Mail-Followup-To: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
 	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
@@ -93,7 +93,7 @@ Mail-Followup-To: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
 	linux-sound@vger.kernel.org
 References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <20250923053001.2678596-2-shengjiu.wang@nxp.com>
+ <20250923053001.2678596-3-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -102,139 +102,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923053001.2678596-2-shengjiu.wang@nxp.com>
+In-Reply-To: <20250923053001.2678596-3-shengjiu.wang@nxp.com>
 X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 
-On Tue, Sep 23, 2025 at 01:29:55PM +0800, Shengjiu Wang wrote:
-> Add binding for the i.MX8MP HDMI parallel Audio interface block.
-> 
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
-> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
-> 
-> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
-> Controller compose the HDMI audio pipeline.
-> 
-> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
+On Tue, Sep 23, 2025 at 01:29:56PM +0800, Shengjiu Wang wrote:
+> The IEC958 subframe format SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE are used
+> in HDMI and DisplayPort to describe the audio stream, but hardware device
+> may need to reorder the IEC958 bits for internal transmission, so need
+> these standard bits definitions for IEC958 subframe format.
 > 
 > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Takashi Iwai <tiwai@suse.de>
 > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-dt patches need an ack from dt maintainers before you push them, please
-make sure you follow that for the next changes.
--Sima
+Would be good to get a formal ack from alsa maintainers before merging
+through drm, just to be sure.
+
+Thanks, Sima
 
 > ---
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
->  2 files changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+>  include/sound/asoundef.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> index 05442d437755..6211ab8bbb0e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> @@ -49,6 +49,10 @@ properties:
->          $ref: /schemas/graph.yaml#/properties/port
->          description: HDMI output port
+> diff --git a/include/sound/asoundef.h b/include/sound/asoundef.h
+> index 09b2c3dffb30..c4a929d4fd51 100644
+> --- a/include/sound/asoundef.h
+> +++ b/include/sound/asoundef.h
+> @@ -12,6 +12,15 @@
+>   *        Digital audio interface					    *
+>   *                                                                          *
+>   ****************************************************************************/
+> +/* IEC958 subframe format */
+> +#define IEC958_SUBFRAME_PREAMBLE_MASK	(0xfU)
+> +#define IEC958_SUBFRAME_AUXILIARY_MASK	(0xfU << 4)
+> +#define IEC958_SUBFRAME_SAMPLE_24_MASK	(0xffffffU << 4)
+> +#define IEC958_SUBFRAME_SAMPLE_20_MASK	(0xfffffU << 8)
+> +#define IEC958_SUBFRAME_VALIDITY	(0x1U << 28)
+> +#define IEC958_SUBFRAME_USER_DATA	(0x1U << 29)
+> +#define IEC958_SUBFRAME_CHANNEL_STATUS	(0x1U << 30)
+> +#define IEC958_SUBFRAME_PARITY		(0x1U << 31)
 >  
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Parallel audio input port
-> +
->      required:
->        - port@0
->        - port@1
-> @@ -98,5 +102,13 @@ examples:
->                      remote-endpoint = <&hdmi0_con>;
->                  };
->              };
-> +
-> +            port@2 {
-> +                reg = <2>;
-> +
-> +                endpoint {
-> +                    remote-endpoint = <&pai_to_hdmi_tx>;
-> +                };
-> +            };
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
-> new file mode 100644
-> index 000000000000..4f99682a308d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX8MP HDMI Parallel Audio Interface
-> +
-> +maintainers:
-> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
-> +
-> +description:
-> +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between the
-> +  Audio Subsystem to the HDMI TX Controller.
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx8mp-hdmi-pai
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: apb
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Output to the HDMI TX controller.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mp-clock.h>
-> +    #include <dt-bindings/power/imx8mp-power.h>
-> +
-> +    audio-bridge@32fc4800 {
-> +        compatible = "fsl,imx8mp-hdmi-pai";
-> +        reg = <0x32fc4800 0x800>;
-> +        interrupt-parent = <&irqsteer_hdmi>;
-> +        interrupts = <14>;
-> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>;
-> +        clock-names = "apb";
-> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PAI>;
-> +
-> +        port {
-> +            pai_to_hdmi_tx: endpoint {
-> +                remote-endpoint = <&hdmi_tx_from_pai>;
-> +            };
-> +        };
-> +    };
+>  /* AES/IEC958 channel status bits */
+>  #define IEC958_AES0_PROFESSIONAL	(1<<0)	/* 0 = consumer, 1 = professional */
 > -- 
 > 2.34.1
 > 
