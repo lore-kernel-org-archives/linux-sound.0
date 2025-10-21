@@ -1,57 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2985334A3D4;
-	Tue, 21 Oct 2025 18:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4470934D904;
+	Tue, 21 Oct 2025 18:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761072742; cv=none; b=Rx3KgA1aWeZ4/OG0xt62N/eGAjai7F3wxEJhWNwfU7htKM3bXA6CLmOh9AGvz7+vIjKMeYHE3GV+HvjdIHjyz1g0WAkYiGqoafR+ysJEmZxc8yI5tfZczybpRSnXuVRLJG7Bt/ds7H8toy165pV3BBOsBXvHb06eyxnY1Lc1k3I=
+	t=1761072744; cv=none; b=GqxgoZgKD7hZYu8bhA/cDjhMGjUZIecu5Dkwq6uai8Q6i+I5180fq1U4xlgTGbvG6FkAYzHWmFDqYtP09fZo6t/QCp6Pai6RI4qWlb4P5W10t/FXSkYbFeIVw7NKS+AP85XxQumIxjPEiw/ROX8IwWS+sfJAjIIwm6n7vrJKooc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761072742; c=relaxed/simple;
-	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mxb1X7JRuY5nNUPbvvk26lWAZPpnkMN/eZjW0tYjJEPWCKw5Eob7xEsJyPKCikckBifEM7fL8Xk1gp3WZSxi1Zv6oPWN7VIHdHswCVJ/cWOG2dLAM2nlwl5tgt3o7TBLMhWrQjxFkcQHrW+KlbExrU/15r9PY+8ZNgM0fQik8lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F411smwq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761072744; c=relaxed/simple;
+	bh=eqMg6jFMwqPdM5lNUE1xHVGWVzzrn6YTlyIqQLKmAQ8=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dnCp4nMqnZCPLLDgLBmCVZjnWwnYersAmkSHQH+jXultMkXBzLGHRInZtU4CormyvPkl8LNBHg41aqEVo7fhEewlo74cbO0wIWz3ZtHhINkc0vWacvdXJ8DFpoMQTay0q+a7/6ZxTuyed2KZaYIwKa/vaFHPXMnnMphuJ6Hvidw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXSxSRno; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F411smwq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAADFC4CEF5;
-	Tue, 21 Oct 2025 18:52:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXSxSRno"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD29C4CEF1;
+	Tue, 21 Oct 2025 18:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761072739;
-	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=F411smwqWcOG0d2J5NZJxXys/QHFqMqfadrXHqCOrLNcMA8WW8cRWSk5m/BcXF9zx
-	 jZCozPqw0LLbKMe9Xg/7Q/5qNkvpUcFxLmVtHtolTatemNDXN1nSJTjrUI9VuvXwq7
-	 WKFwmr+7x/pp0G6AK4RBsvqGwJnVh2cymY/fGszwyWytaKA9KDj4sVfS+KG78BgSZY
-	 bcEELUX1vIfLE0lvoGBje+ts88QjDTQ9wZrrgDSKAnoSPNtxc3GvyBNpQxBQo8hSIt
-	 06Xj4Zp0li6SsLoBTKYt5YN1COKgyPPPWPNwy3+TOWEwT4Yde6TiJdiW4MfOXFPNpO
-	 KQR4u8ujsV9Eg==
+	s=k20201202; t=1761072744;
+	bh=eqMg6jFMwqPdM5lNUE1xHVGWVzzrn6YTlyIqQLKmAQ8=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=LXSxSRno4MvhDebRqnJuAX/apEAeV7rtpL4n4H6eOn9okI4zQpHymxXmEH37+RkFO
+	 nNLV1Fd963qbVFT5vbRn4M2SQfu1zJQlItyPluGA9ht11WTC/kMd63q3ETd3eGyepD
+	 L1mzUh17DTBvBVcgNCTVW2fPtcDyUPCG8/UUvKIro2E2UFMkF+92WKCiqQ44D3cOBv
+	 AATuKvNSDRwHoflh8PDAvkrOOH9j9ODn7H4+rc/+dSGa62ewOUwDIT+gqgCU3J/au5
+	 e1mmfV3mVGBwL/BbkkYXNirIkEb1IG2CxINRPxWS0wl2pn03shA4wh7741f+VDaDte
+	 quHK597YDX13A==
 From: Mark Brown <broonie@kernel.org>
-To: devicetree@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
- Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
- names
-Message-Id: <176107273462.196841.10566474992325623883.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 19:52:14 +0100
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20251021090933.3470495-1-shengjiu.wang@nxp.com>
+References: <20251021090933.3470495-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_aud2htx: add IEC958_SUBFRAME_LE format in
+ supported list
+Message-Id: <176107274177.196841.9804075994703178765.b4-ty@kernel.org>
+Date: Tue, 21 Oct 2025 19:52:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,18 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-2a268
 
-On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
+On Tue, 21 Oct 2025 17:09:33 +0800, Shengjiu Wang wrote:
+> Besides S24_LE and S32_LE, the IEC958_SUBFRAME_LE format is also
+> supported by this HDMI audio interface.
 > 
-> These are all occurrences I found in linux-next as of 20251015. I did
-> run dt_bindings_check successfully. I haven't done a way to run
-> dtbs_check yet because I would need to identify the proper architecture
-> first, right? Is there some tool which tests all DTs of a certain
-> binding? At least build bot is happy, I don't know if it checks DTs as
-> well, though.
 > 
-> [...]
 
 Applied to
 
@@ -81,8 +59,8 @@ Applied to
 
 Thanks!
 
-[3/4] ASoC: dt-bindings: don't check node names
-      commit: 6a4f29bc66294d44d61a294e5bdc623eae74587b
+[1/1] ASoC: fsl_aud2htx: add IEC958_SUBFRAME_LE format in supported list
+      commit: ecba655bf54a661ffe078856cd8dbc898270e4b5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
