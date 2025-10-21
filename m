@@ -1,199 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13841DED49
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF9C220F5E
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 06:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761018663; cv=none; b=TOTfH6Pn8uqHsOXu/jP2fI9ZMA9i8DjaVA9a/3S/C+HrqepB8PP8miDdoCJTGzOCI/obSgcFyj30ycLKoZRaNTUDlY/tkf433umm6yspmwf4ysUUhLpiKt1n1BGaC0QHrYAhk2NQ5UovoevsDfADySrg9J4Iawb24QkU7mLELTw=
+	t=1761028120; cv=none; b=lQSkPR+ZaAo7vfRemUhyGOuHODtIecGQ0/hZdm1OHLee4R8j4ZKyOqKC+vA+oVWQwPiLZsgPIkRX2p0UwH40oVb3k3D8dBhTsOFNGqIQ2kGLbxBqQ/szlqGNj4J7ovvYs+ekpxdEXVS/7UxCVPXANHOocm0hk5QeVbykAIK/ZT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761018663; c=relaxed/simple;
-	bh=aJyeINSKb1G3tVPbGfkA5Oqt5hmeaylrgY+aIoalhhg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MhaodKrDNe5OAiCPIfLUAO+I6W7hYf2z6ELkG+CVr/tT5UgXvhGModyX1PrjX8kGklI6MrU/CcX0X49RR6InaRpMEw2eat1upu5qHiZ+/162Vnx9K2goYc4VaV8p2ISvqlYRm47VSHNB/mUYr33NnWo5/A6TgrlN3I5c4qfA6VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVgViDMk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761028120; c=relaxed/simple;
+	bh=7ZT5+/3pyK91GJFrcF5ExafDCugXS/qOHYOtKxtUsJc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kY4I8/0ZjGCaOb23pRXsXMZfwg5KjoEAw514S13RfnD2VfEb5R6qZ+OoRqB8PVgAi+1K/Ykj2B2RMBaOwgzyr69VCAaxcb5Dle7PJYMgocxamp9Zty4+cJnbp9PaHt1bHj2NGXqNeKyCkm+NPT+pKIE0oUCpIgenBYKzRtEix2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pjso2CWE; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVgViDMk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827BAC19425
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761018663;
-	bh=aJyeINSKb1G3tVPbGfkA5Oqt5hmeaylrgY+aIoalhhg=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=HVgViDMkKZyvApVhmfWv3KaZ8/4va6fCYtgkcHLXNQ7NMfudTTrSY5nHZ4EadmT/9
-	 XwBmth48HLf8nsMOU5qd0efJHOyRa89Y9z72n1dfnMt4DLM/8gqMn9Pix024YQu4RX
-	 5KPKEsfohJLWL9nLdcYixumNDgSRT722sxa8fLY0i83WAIgo7ePG7FZ9F/ir2iRYmy
-	 cG4swh7viqYBG+yUcLIN5Yx6x+seEABCcMcQHdbG3l8Cjx+xJkOlrKMaz/SkjIOfk/
-	 tqjmJKrP7t3jKNYeBUtXjkngniGzDxyiS7POP002wvICcSY2sRx9XWGtYEvfl3Lp+u
-	 yWPkTkLyxh/8A==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-36a6a3974fdso54819241fa.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 20:51:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWULFUT+N7UKF73it1wZCNoJjEiWMwFq8gGj4d8Pr6FTI7TFeom1f8DIuo/YAXIHoHN42m01qWN6FJE9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2UtLFSqSdGnqlllACG4c+y7uXnzDfdl1VI8w/rZBXUtyy0wVz
-	PXJB/gq+OiSVK3XEP9JZK5Af+PMsAFfsUhTEkl3KwQhSw8iB8YHXn+o4jFH0ZAvzEHTP9xXAp5r
-	4ydqzaJYSYktHhiKr5aYeNGygitldfck=
-X-Google-Smtp-Source: AGHT+IG8vasmm5hWdGe7KBlLp5chhcRp+eBr/myvEiV96lMVwrmDdir100cF1onLwBZjh0GCzdDPuKXAZ1yS7H+1U/g=
-X-Received: by 2002:a2e:bc81:0:b0:372:9e15:8970 with SMTP id
- 38308e7fff4ca-37797a0ca11mr52596901fa.23.1761018661756; Mon, 20 Oct 2025
- 20:51:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pjso2CWE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761028118; x=1792564118;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=7ZT5+/3pyK91GJFrcF5ExafDCugXS/qOHYOtKxtUsJc=;
+  b=Pjso2CWEH0BEOhJkOTgVgjdv853ajzqrDEAEYZYA546qeUyfoN1lN6hT
+   sY+dFU+2ZzbO++YWAkuy2dVgQXGSsh3TffH6dlx1qKtzKYbHPdiajLpyY
+   o/xmAEEXSdbqR5J/p6K5rUvp1oV3as4qUhL3O6xdv93VXCGPc9tp6pSr9
+   YFQACyd5klsecPcCRNRi3kUs1KcZDQXNOXtbHyvXZPrtPHWPDas+9lWYa
+   tSpPVV7HkyUSM/FrMYQDgU37h2zgKKwv4MXByWBVBmlBkcbU2jmnegJLR
+   IeN36gFyo9m27hIN9xsvNFm45t0kz1G/zsLlJpaDa0qnMJZ/F1O0JC1TH
+   g==;
+X-CSE-ConnectionGUID: VfYcz374Q+W/LUgQt0r4Vw==
+X-CSE-MsgGUID: +FIoOYpxQhGm4dExzTMQ9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66981949"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66981949"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 23:28:38 -0700
+X-CSE-ConnectionGUID: PTEkKSSrTuqffG+f+XtvLw==
+X-CSE-MsgGUID: D/8rDcP3QAOdQoN+08Mlnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="183537143"
+Received: from ettammin-desk.ger.corp.intel.com (HELO [10.245.246.42]) ([10.245.246.42])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 23:28:35 -0700
+Message-ID: <28e44e42-28c3-4c8c-99f4-c31592c7494a@linux.intel.com>
+Date: Tue, 21 Oct 2025 09:28:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251020171059.2786070-1-wens@kernel.org> <20251020171059.2786070-5-wens@kernel.org>
- <13867454.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <13867454.uLZWGnKmhe@jernej-laptop>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 21 Oct 2025 11:50:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65+U2L8=HM6DimzVw=saK6rbR4Bzg7Nwz0Jyq6UXJkf=g@mail.gmail.com>
-X-Gm-Features: AS18NWBDmVKtQm8S428O1qs2kjY6UgewUb3LycjUD4uEQoxwe6OCMS4j1ARdxWY
-Message-ID: <CAGb2v65+U2L8=HM6DimzVw=saK6rbR4Bzg7Nwz0Jyq6UXJkf=g@mail.gmail.com>
-Subject: Re: [PATCH 04/11] ASoC: sun4i-spdif: Support SPDIF output on A523 family
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] ASoC: soc-pcm: Use conditional PCM hardware parameter
+ initialization
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, shengjiu.wang@nxp.com
+References: <20251020073750.27784-1-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20251020073750.27784-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 21, 2025 at 1:49=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
+
+
+On 20/10/2025 10:37, Peter Ujfalusi wrote:
+> Component drivers can prepare snd_pcm_hardware struct based on the hardware
+> capabilities which information should not be discarded.
+> 
+> Only touch the rates, channels_max and formats if they were left to 0,
+> otherwise keep the provided configuration intact for the parameter cross
+> checking decision.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
 > Hi,
->
-> Dne ponedeljek, 20. oktober 2025 ob 19:10:50 Srednjeevropski poletni =C4=
-=8Das je Chen-Yu Tsai napisal(a):
-> > The TX side of the SPDIF block on the A523 is almost the same the
-> > previous generations, the only difference being that it has separate
-> > module clock inputs for the TX and RX side.
-> >
-> > Since this driver currently only supports TX, add support for a
-> > different clock name so that TX and RX clocks can be separated
-> > if RX support is ever added. Then add support for the A523.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > ---
-> >  sound/soc/sunxi/sun4i-spdif.c | 28 +++++++++++++++++++++++++---
-> >  1 file changed, 25 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdi=
-f.c
-> > index 34e5bd94e9af..6a58dc4311de 100644
-> > --- a/sound/soc/sunxi/sun4i-spdif.c
-> > +++ b/sound/soc/sunxi/sun4i-spdif.c
-> > @@ -177,6 +177,7 @@ struct sun4i_spdif_quirks {
-> >       bool has_reset;
-> >       unsigned int val_fctl_ftx;
-> >       unsigned int mclk_multiplier;
-> > +     const char *tx_clk_name;
-> >  };
-> >
-> >  struct sun4i_spdif_dev {
-> > @@ -323,6 +324,7 @@ static int sun4i_spdif_hw_params(struct snd_pcm_sub=
-stream *substream,
-> >       }
-> >       mclk *=3D host->quirks->mclk_multiplier;
-> >
-> > +     dev_info(&pdev->dev, "Setting SPDIF clock rate to %u\n", mclk);
-> >       ret =3D clk_set_rate(host->spdif_clk, mclk);
-> >       if (ret < 0) {
-> >               dev_err(&pdev->dev,
-> > @@ -542,7 +544,6 @@ static struct snd_soc_dai_driver sun4i_spdif_dai =
-=3D {
-> >               .formats =3D SUN4I_FORMATS,
-> >       },
-> >       .ops =3D &sun4i_spdif_dai_ops,
-> > -     .name =3D "spdif",
->
-> Why this change?
+> 
+> this patch in essence extends the special casing of formats done by
+> 083a25b18d6a ("ASoC: soc-pcm: fix hw->formats cleared by soc_pcm_hw_init() for dpcm")
+> 
+> Other parameters might have been set in the same way as the formats
+> and preserving these are equally important.
+> 
+> A case for this is SOF used with HDA codec (analog or more importantly, HDMI)
+> where the hw-> params are set based on the connected display/device and
+> should be preserved so we can report correct rate, format and channels
+> supported by the equipment.
+> 
+> If the hw-> parameters are left uninitialized then we still need to
+> set the UINT/ULLONG_MAX for the refining code to work.
+> 
+> This applies only for FE setup, in other cases we shall (as before) do
+> a full re-initialization.
+> 
+> I think this makes sense and I cannot think where this might flop, but
+> sent as RFC to see what people think. 
+> 
+> Br,
+> Peter
+> 
+> 
+>  sound/soc/soc-pcm.c | 39 ++++++++++++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 13 deletions(-)
+> 
+> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+> index 2c21fd528afd..e4bbcf4bcc9d 100644
+> --- a/sound/soc/soc-pcm.c
+> +++ b/sound/soc/soc-pcm.c
+> @@ -570,14 +570,31 @@ static void soc_pcm_apply_msb(struct snd_pcm_substream *substream)
+>  	soc_pcm_set_msb(substream, cpu_bits);
+>  }
+>  
+> -static void soc_pcm_hw_init(struct snd_pcm_hardware *hw)
+> +static void soc_pcm_hw_init(struct snd_pcm_hardware *hw, bool preserve_config)
+>  {
+> -	hw->rates		= UINT_MAX;
+> -	hw->rate_min		= 0;
+> -	hw->rate_max		= UINT_MAX;
+> -	hw->channels_min	= 0;
+> -	hw->channels_max	= UINT_MAX;
+> -	hw->formats		= ULLONG_MAX;
+> +	if (preserve_config) {
+> +		/*
+> +		 * preserve the configuration which might be done by components
+> +		 * Note: if the rates/rate_max/channels_max/formats are left to
+> +		 * 0 we still need to initialize them for the parameter updates
+> +		 * to work
+> +		 */
+> +		if (!hw->rates)
+> +			hw->rates = UINT_MAX;
+> +		if (!hw->rate_max)
+> +			hw->rate_max = UINT_MAX;
+> +		if (!hw->channels_max)
+> +			hw->channels_max = UINT_MAX;
+> +		if (!hw->formats)
+> +			hw->formats = ULLONG_MAX;
+> +	} else {
+> +		hw->rates = UINT_MAX;
+> +		hw->rate_min = 0;
+> +		hw->rate_max = UINT_MAX;
+> +		hw->channels_min = 0;
+> +		hw->channels_max = UINT_MAX;
+> +		hw->formats = ULLONG_MAX;
+> +	}
+>  }
+>  
+>  static void soc_pcm_hw_update_rate(struct snd_pcm_hardware *hw,
+> @@ -626,7 +643,7 @@ int snd_soc_runtime_calc_hw(struct snd_soc_pcm_runtime *rtd,
+>  	unsigned int cpu_chan_min = 0, cpu_chan_max = UINT_MAX;
+>  	int i;
+>  
+> -	soc_pcm_hw_init(hw);
+> +	soc_pcm_hw_init(hw, false);
+>  
+>  	/* first calculate min/max only for CPUs in the DAI link */
+>  	for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+> @@ -1738,13 +1755,9 @@ static void dpcm_runtime_setup_fe(struct snd_pcm_substream *substream)
+>  	struct snd_pcm_hardware *hw = &runtime->hw;
+>  	struct snd_soc_dai *dai;
+>  	int stream = substream->stream;
+> -	u64 formats = hw->formats;
+>  	int i;
+>  
+> -	soc_pcm_hw_init(hw);
+> -
+> -	if (formats)
+> -		hw->formats &= formats;
+> +	soc_pcm_hw_init(hw, true);
 
-Now that you mention it, this looks bogus to me as well. I'll drop it.
+Instead of changing the soc_pcm_hw_init() it might be better to move the
+relevant implementation inline here. I will do this for the patch.
 
-> >  };
-> >
-> >  static const struct sun4i_spdif_quirks sun4i_a10_spdif_quirks =3D {
-> > @@ -572,6 +573,14 @@ static const struct sun4i_spdif_quirks sun50i_h6_s=
-pdif_quirks =3D {
-> >       .mclk_multiplier =3D 1,
-> >  };
-> >
-> > +static const struct sun4i_spdif_quirks sun55i_a523_spdif_quirks =3D {
-> > +     .reg_dac_txdata =3D SUN8I_SPDIF_TXFIFO,
-> > +     .val_fctl_ftx   =3D SUN50I_H6_SPDIF_FCTL_FTX,
-> > +     .has_reset      =3D true,
-> > +     .mclk_multiplier =3D 1,
-> > +     .tx_clk_name    =3D "tx",
-> > +};
-> > +
-> >  static const struct of_device_id sun4i_spdif_of_match[] =3D {
-> >       {
-> >               .compatible =3D "allwinner,sun4i-a10-spdif",
-> > @@ -594,6 +603,15 @@ static const struct of_device_id sun4i_spdif_of_ma=
-tch[] =3D {
-> >               /* Essentially the same as the H6, but without RX */
-> >               .data =3D &sun50i_h6_spdif_quirks,
-> >       },
-> > +     {
-> > +             .compatible =3D "allwinner,sun55i-a523-spdif",
-> > +             /*
-> > +              * Almost the same as H6, but has split the TX and RX clo=
-cks,
-> > +              * has a separate reset bit for the RX side, and has some
-> > +              * expanded features for the RX side.
-> > +              */
-> > +             .data =3D &sun55i_a523_spdif_quirks,
-> > +     },
-> >       { /* sentinel */ }
-> >  };
-> >  MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
-> > @@ -635,6 +653,7 @@ static int sun4i_spdif_probe(struct platform_device=
- *pdev)
-> >       const struct sun4i_spdif_quirks *quirks;
-> >       int ret;
-> >       void __iomem *base;
-> > +     const char *tx_clk_name =3D "spdif";
->
-> Reverse tree?
+>  
+>  	for_each_rtd_cpu_dais(fe, i, dai) {
+>  		const struct snd_soc_pcm_stream *cpu_stream;
 
-I think that only applies to the network tree.
+-- 
+Péter
 
-> Otherwise it looks good.
-
-Thanks!
-
-ChenYu
-
-> Best regards,
-> Jernej
->
-> >
-> >       dev_dbg(&pdev->dev, "Entered %s\n", __func__);
-> >
-> > @@ -671,9 +690,12 @@ static int sun4i_spdif_probe(struct platform_devic=
-e *pdev)
-> >               return PTR_ERR(host->apb_clk);
-> >       }
-> >
-> > -     host->spdif_clk =3D devm_clk_get(&pdev->dev, "spdif");
-> > +     if (quirks->tx_clk_name)
-> > +             tx_clk_name =3D quirks->tx_clk_name;
-> > +     host->spdif_clk =3D devm_clk_get(&pdev->dev, tx_clk_name);
-> >       if (IS_ERR(host->spdif_clk)) {
-> > -             dev_err(&pdev->dev, "failed to get a spdif clock.\n");
-> > +             dev_err(&pdev->dev, "failed to get the \"%s\" clock.\n",
-> > +                     tx_clk_name);
-> >               return PTR_ERR(host->spdif_clk);
-> >       }
-> >
-> >
->
->
->
->
