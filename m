@@ -1,86 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B52332B99A;
-	Tue, 21 Oct 2025 14:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B241333DEDB
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 14:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761055836; cv=none; b=ILNNAut1tM4GmVjDRXP9RBjRcbj46zmyJRYPwknVxVviNf+zuPJir3R7w25qouxIDDen9IG73DTXGnJlvXnAUh5lL+bRqKMo02LjTRcH7F0yUXpxkUhpGrUgSipVPQoWozPH6Isd//nDTQHJJ63XGYcK4pIq6dmMdJkRBS6tH4U=
+	t=1761057748; cv=none; b=AvwZdpQDOq2lgD7AJIJE/yuCY5nFexf3mR1iTdA80ntoD8kAX0p3iluHcQ968A5W6rUNvtdCBywkJiVu1oWGgTbbiho7sC1eVei8VSldbQTQ1aIpWm2sL9QCxZg8hErEU39lUcd1M73PWGE8CTqDavrKDgAvWYbThcG6BUjVlho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761055836; c=relaxed/simple;
-	bh=JRM2odY9VW0S4l+Z2OfO9X4SU0hKm51fzDYSn1D9qOY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jCGUQtk1uBO6Xcfq6tnXyBh+w3KI4JZCdMRWEVe2gAixbJ2QaWQ8dVHwXzdbAhskk2CklQqAmYj9U7z5SeszZ08dB7spJKnu2PHEEoaNJ0CdHMGOHjtKOpksd2VmQqsPV+SnQORw7D45VrYBCim6dnmRwsjytpg72qqyu5UJW2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zqq3vw01; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761057748; c=relaxed/simple;
+	bh=VGc4m4oF+KXusmvdq7HCQy/1KNZxYxwVZz9pTwsoGlI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=njLz7FMleOASTTXMPdH+EIxaEuYl8T/Lrz4nXq23aMPYos3hiSfNEGn47+wgx7Jw9SLAaZ8joF+8gOJwBrybp53+lY1qLVR5f6HSFzI3AGTrpXJ8KucMMlYEtqxVJIwIIsB/O8YlVN8mkufeGkjAAGkAUJoeuDbI0wviFsNMHAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=toizFAjN; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zqq3vw01"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8498CC4CEF1;
-	Tue, 21 Oct 2025 14:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761055835;
-	bh=JRM2odY9VW0S4l+Z2OfO9X4SU0hKm51fzDYSn1D9qOY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Zqq3vw01LYZ7LCwbJr9YNGgmjgAgPqXAd3BF6WMCeNduXlbS0kgbPtAphmnurDtlc
-	 vr6jYgHl3mTwWPsge18Mg4iNn+zuo6NH6eosBn/AAF16W4bjwx9aFzyyy3zxz6xdoh
-	 +DofeyNNQG+fQhVorrJS754m20H34cSw784xKRmyBBaB5JkVRaPsg9Wy7X1MqyoUj/
-	 qzCPTcYzM2CVUwalJVo7pJ52bZuarYWtv+kVm6xdJ4SL1xWLurhdf0/hswA5qjzp4l
-	 VVA/KMFuCu4mTr5i6cW4qEboaEOQbzOk4K5hphwPMSZ6Qvsqez+Mzck4aYWz1cLp0m
-	 Tri2lloucd8WA==
-From: Mark Brown <broonie@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
- Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-In-Reply-To: <aPMyw_ryay9LA5SW@stanley.mountain>
-References: <aPMyw_ryay9LA5SW@stanley.mountain>
-Subject: Re: [PATCH next] ASoC: codecs: va-macro: Clean up on error path in
- probe()
-Message-Id: <176105583329.178516.13846738418896857989.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 15:10:33 +0100
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="toizFAjN"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-57b35e176dbso7002264e87.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 07:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761057745; x=1761662545; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mZCOMUry8QgJDtmQTlzvKx4nzmcRl8rasbY1MAd0sQY=;
+        b=toizFAjNvCxbdmiRGHruks9lNdp+nDZh6F3FBjY+riJ8JqXmbf8qB/h7+Yy/Y+PNIb
+         Y1XHXq4NDJJhOOqfxm/B+jydgEWe/9Uh/MXHDM5RbRe8a7PtdrLX+JiHKn4GDYxrYmWL
+         cOfNr6JwMpieNDY7kHJyV8HRzkNbtyzGmXnDIK4UX1Mw6dUVgzxMELa0T0vA8EOGLNMA
+         jqY7Sjbn7vgOSe5dCIsnGfecudQM+vy7tb3EJjha7NZHtBSmq2u7wekCDL4TLhwGJM5v
+         CpjZSkefszox10VDBWnaazFTX1dxZ0auiMh1zf8/hSGuMYXJbT2JkayM2lXFAhtddoeH
+         jF9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761057745; x=1761662545;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mZCOMUry8QgJDtmQTlzvKx4nzmcRl8rasbY1MAd0sQY=;
+        b=omquvTBY1IFS0jB95tb1bhzovsnxUco3XxV0SgpBEmLnMoZtkEJNGxMinDk+b8O/FN
+         MLub1Npv16wSN9KRd8cvCFHs8RnhP0+Rmca+UvVqiVk3nU3yzifJnXtFI0kF9+f9Pccg
+         wac3JDCofq8aHf9ulpNw+8NYNhPMRxd2HCd7F7fZUeEcq8FvqufseJLeD00xbdS76/oE
+         BpRoyNEn3GFUoiznC8Z7keZZDOE2pZcZWPwa2MhoxAEIYzZ37jk/D/JtoMZGc5/Sebvb
+         ouS0r4eFeMXR5WjXaKSEMtC2+Ng/HGEjUILSKgT66vR7elGfCAUSfFeJ7r2wPhfXM+Dx
+         WORA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTUrodzdlBvEbGW9YTqoW7lgmc9MTa3khJDfrr/3W5q+5SWT6DOhGDSnG0Rr6n1nWUsYA5ONY+Tryifg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0hsc1I+fYxfD1T6uCjSV6elDApHwCIWOId+rB305jNy0OmlcH
+	H/N2gpyzG3uoRomSR19mvz4dCDjfleIX0HlL43cvOsf/7nqSBoCT/ajxRCu+3n9RbDU/ia+KQOx
+	Z0vi8daP9ZHoTsMTyp9r4xx9UB+cWoZWBuAJxWYPxXw==
+X-Gm-Gg: ASbGncvptjeCIqEBCCFcEkQxdw7VHFN4UjYOyGt8ng4CSK3zV4eDR7BYv9yEo8SM/Eb
+	Z/zc454X7gvhTuJZy+zMxAyMCdOn5WX5xboI5Ws0bFLVauuHoj6zqOvQpPOor/Egp/GiL/C1jSl
+	GM4L+U70bOrQ3m1PCoFGVmRxd2H2MP/y44wiQg48etcGdjHSn1hi6th47YRbwbzwVllnDWIkbL4
+	CuL4HECpaLHMUOvON4b/b9IFowkDm+/ec3ultz3EDN5ci25Z2telmpnMnAjIKRnpI2sg64uJi7m
+	G7RxowWFttsxJVlU
+X-Google-Smtp-Source: AGHT+IEAFGsFmUFG/YnJHTCDdPAr/87ZFEb44yMmd6QhcxQ6kY+xN7c3ywaYXlVUOsQLkH0hiixQGCRd64K7uAmIpvc=
+X-Received: by 2002:a05:6512:4014:b0:586:9636:6e4d with SMTP id
+ 2adb3069b0e04-591d85622ddmr6106679e87.50.1761057744764; Tue, 21 Oct 2025
+ 07:42:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-2a268
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+ <CAMRc=Me4Fh5pDOF8Z2XY4MG_DYqPRN+UJh_BzKvmULL96wciYw@mail.gmail.com>
+ <81bda56c-f18b-4bd9-abf9-9da7c2251f42@sirena.org.uk> <CAMRc=MdOCHJEyPxN+-g71ux68=Mt_Q5P9611QO7Q8J9e8UJv_A@mail.gmail.com>
+ <0e1f3a1b-46ab-4eb5-ad05-70784f9b9103@sirena.org.uk>
+In-Reply-To: <0e1f3a1b-46ab-4eb5-ad05-70784f9b9103@sirena.org.uk>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 21 Oct 2025 16:42:11 +0200
+X-Gm-Features: AS18NWCeEZ0pLB4tS_IEx2MtW9IQz_axw-1Q3NqtyOuzDmGpEP1ZzpOriXTSxmo
+Message-ID: <CAMRc=Md1Ve4hnYQOryYEXG6_HSPJrANrr9gj2FMzCwsD+q5Cuw@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 18 Oct 2025 09:25:07 +0300, Dan Carpenter wrote:
-> Do some clean up before returning the error code.
-> 
-> 
+On Tue, Oct 21, 2025 at 4:08=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Mon, Oct 20, 2025 at 11:41:52AM +0200, Bartosz Golaszewski wrote:
+> > On Fri, Oct 17, 2025 at 7:32=E2=80=AFPM Mark Brown <broonie@kernel.org>=
+ wrote:
+>
+> > > It really should be the actual physical state change that triggers th=
+e
+> > > event.
+>
+> > I guess so, but this would require some non-trivial rework of the
+> > regulator core. We'd need some list of deferred notifications stored
+> > in memory for when the physical state actually changes.
+>
+> I'm not sure I see the need for deferred notifications?  We'd need to go
+> round all the users whenever a physical change to the GPIO happens but
+> it's not clear what we'd need to store beyond the list of users?
 
-Applied to
+In my mind I was thinking that we only need to send the notifications
+to users who already enabled/disabled the regulator too but you're
+right, it seems like a loop over the relevant pins should be enough.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+In any case: this is outside the scope of this series but I'll see if
+it's easy enough to add separately.
 
-Thanks!
-
-[1/1] ASoC: codecs: va-macro: Clean up on error path in probe()
-      commit: 7e1906643a7374529af74b013bba35e4fa4e6ffc
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Bartosz
