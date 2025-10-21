@@ -1,192 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7E92F7477;
-	Tue, 21 Oct 2025 09:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCD02F068E
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761039854; cv=none; b=uC4nMcpzLiAYSDSmmfaHS9CrKALN9Tf4/x7Y7xnLjHyYGAAvfRPFVtO7CZxBH0spF8z5aWEaequE5w+z4+LFr49LIGupe70B+DYHKV+fRo9vgvTWlxEibPfJ70Nq7IvRNKxZvakjk7yITTKs5lsb8NlDhB3qA4+6PkzOBf/b8fc=
+	t=1761043038; cv=none; b=X79eRMdGuZdfJplf3YGm5rPtvyw1GiJHR7PwozoDPyXKJtsKP6E4q7H18PA7HuLL4aBq+Es3lshSG+sneJbenCnHNWKLsj331enzJlgoJ0+XROU1shi2GF8AHKknwmrznHjg9bb/fcpM8/ZZdAeaCNJPWArzuQ3+l0Tl0Gqjg5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761039854; c=relaxed/simple;
-	bh=OWlyyNOYBGSGibczZQ13ngOi8rR10xLww/Jd9naPUoo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p7i+/zvJ7S6RtjmcwTZGQzjIT0NIf4oBL2cKyb/baCD7BxnAMdXR7MnSo7NDIU8cGEThbGjuIdi0rsD4a+cSumQBD1kDwj5chNW4/g40dBwqvp0jLx3lm4wf/H+JQYNjGxClC4dEQjixjNjjjKvYBK2b+3gQa84EocxHTHjmDt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJl3JGZf; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1761043038; c=relaxed/simple;
+	bh=q2nB0DwM2YccZrwzAwnGe8JbGMPoOZkWXyOBvo6HqOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ns7dF8I4NbjXj8VZSLjS8cJMOrraRw6jawXHD/rgLJwTtIC5Iz2ufyb0Z8vUMX2+d5ItYIiGL0ngPZXxLChBKXcd6l/qo7IkoZdf/PnLWY47k1i/uh2GK8YrouRQxfmqr43UvVjE7J6zJ+Y696QiNuCpNImUitIm15mndO4S+X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fVVVHy8s; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJl3JGZf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761039853; x=1792575853;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OWlyyNOYBGSGibczZQ13ngOi8rR10xLww/Jd9naPUoo=;
-  b=WJl3JGZfHMKvcUBDA8cS4xhkjyltRUQyAYXdQD0Py64ahn7K4OjbwbDW
-   Zv4mju3A7kC7twQftPursTRyDaxWFmrm7eYT/3nORpBQs3/c/MePr1+Oh
-   trch2f8d66rKWKN6UrxqBDasZTPVg3iCj/SVBUpyAOlNYVYYpZMCaOQv9
-   sURWLC33FZ7NRi3FiYLjPtR54DdpRZVLzuumpxF2kmqq0DW9AT4oJylYT
-   RIHIPXXLDOZL4HitTRu0BW78H5gtKpTqUSoUeMFULv4ztTUWoGv/eeIoD
-   BhrEIXv6wUq/Qx2ua1YUqJ5fjnLPZ3qN6ObRpYAPvKIxWxwNoCD0vHZTX
-   A==;
-X-CSE-ConnectionGUID: t79QAjKNRR+ifY2H6cvTjA==
-X-CSE-MsgGUID: cL4Q2sMbSXirH2oDz91/GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63259380"
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="63259380"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:44:12 -0700
-X-CSE-ConnectionGUID: DG1ESi1VTtmCMxjPK2oflg==
-X-CSE-MsgGUID: mFiaFOHDTSaxVYzMzphcew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="182753545"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:44:11 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 3/3] soundwire: intel_ace2x: handle multi BPT sections
-Date: Tue, 21 Oct 2025 17:43:54 +0800
-Message-ID: <20251021094355.132943-4-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251021094355.132943-1-yung-chuan.liao@linux.intel.com>
-References: <20251021094355.132943-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fVVVHy8s"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-780fe73e337so69183977b3.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761043034; x=1761647834; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ph/ecut6A6hic5K1NGZ8Pu7nJ7zUO/n0Ty1uOi3Gzxk=;
+        b=fVVVHy8sLoQob27t0rEA0gaFAsTwrvZWMtiHra06oGlAgVvBRbCvi9Q0R5PsssM2VP
+         3opZzsj2yjl4mZN0m0fQOUCFaPGUlU0hdJQVEOAICP/F9edy4PeFxMDNRgqqE+vWlBwq
+         gRo4WOltCc2x1w7tzNmnsiUe7DLW4Wk385fOAjvx4xAjIy6N//5jx7kmheOrtwD7tWpE
+         2Ptn2+1PdgjD7SRm8u6GwWspp5Qow93y+PUJ1zdNcZ+cXFL0Hl9twy5pncYwDDJCM4IE
+         DPQhhySXv3aD4ZgJwdVFZNuZDXb8ihiBpVJW+A5z81zJ6Ce1m/3ygAE/YqYBEV2Yts0D
+         y4xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761043034; x=1761647834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ph/ecut6A6hic5K1NGZ8Pu7nJ7zUO/n0Ty1uOi3Gzxk=;
+        b=PC2RjKcZ9bCiG4Haou2qwXwcZSGqo6UEg/hhVcUljQ+a5VJD1UE9OzPpvlNi1tdOpJ
+         /ZGbgMigMcoH/JoqT/93B3Vb9miAFZNqXnikNoFYYHznwUGvPsqs8iX2A0y3wUOzCM3n
+         USWw23yhSEpSGrYUQ/sHN4cYxnVuhHg3yFmC6jyui2ldbKgTvbrDIRED5jHFvC6+5VTh
+         b9YjE1ub6FUP4u2OiWVov/2i4C/Be97C4mFGuL7hRhofKV/SfL6lS9nBd0qoSn7/k1GH
+         K6GPcyVJgJGSeH+vxKRB0Xh/n/vJHA7lunGzxdr9QkhlWWtdYyfJXsYpfOh+hLi/CT+9
+         byoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV25zjX0siEJ7zpoupEaKUmwhFO49nkqyNoRBJ0vmnwr5hjeiBJv21zDBXrcEGsVRbYoxbFqE7qS044iA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4UksUr5gOWWOUlqc+lmgyNfJxY4S3fqkrNe9biI2vhMeag9mq
+	yX9d9c6tiF22OvISUVcYEyycxjBUq0NwDzE5tepzXdlzWoMyekW9cWVLFfKOyl06HopNUw+/gS0
+	VQGVTfkl8DtZ41i4DzSNo/y5vRIYlHYdYf9FC9zl9VA==
+X-Gm-Gg: ASbGnct/WQ1L12wc5613Ok1tvwSvOdivfJeWZpRLl3AmNsB8wMtxxhokdFKQMLx94A+
+	Hl9zB/pmgCSBeZz7y27NkJ/HhQsHq2S2IuJaovs0uEH3umtDCmhnikuiEMWWInigJCWtZJb6xkW
+	ima3KvZg/t1As4r6jkB6SBDfG/Fz0C6luILFD5u9TxyTsFzTtGC5cwGibxlyWKZgaRzkUgvj8k9
+	hqUu0+5LL/jA6keMC6aAoM805P+rb885ix9473CJseMHehgYvEr9TH3CUJGpRyzV7Ig1Fwm
+X-Google-Smtp-Source: AGHT+IFNWe0p4ctoYWfajWc50aGmHTb0xLSf46n4ozIzG6IhVoLkeVF1uvz+zd4LTY4qziEKltpM47W2yp2BVV5LtGg=
+X-Received: by 2002:a05:690e:1c1d:b0:63f:2123:f966 with SMTP id
+ 956f58d0204a3-63f2123f9b3mr679700d50.69.1761043034054; Tue, 21 Oct 2025
+ 03:37:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251015071420.1173068-1-herve.codina@bootlin.com> <20251015071420.1173068-3-herve.codina@bootlin.com>
+In-Reply-To: <20251015071420.1173068-3-herve.codina@bootlin.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 21 Oct 2025 12:36:38 +0200
+X-Gm-Features: AS18NWAASdG0xF_SzF3JiceFgjGSp70iEL12-_KJqlp8PTGQyhYi7YmRbNtNg04
+Message-ID: <CAPDyKFqKfCTab2OcY9Sj9xS949o+y5PpJvO0CP80eV2qr-0sdg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/29] driver core: Rename get_dev_from_fwnode()
+ wrapper to get_device_from_fwnode()
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
+	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Calculate required PDI buffer and pass the section number to the cdns
-BPT helpers.
+On Wed, 15 Oct 2025 at 09:16, Herve Codina <herve.codina@bootlin.com> wrote:
+>
+> get_dev_from_fwnode() calls get_device() and so it acquires a reference
+> on the device returned.
+>
+> In order to be more obvious that this wrapper is a get_device() variant,
+> rename it to get_device_from_fwnode().
+>
+> Suggested-by: Mark Brown <broonie@kernel.org>
+> Link: https://lore.kernel.org/lkml/CAGETcx97QjnjVR8Z5g0ndLHpK96hLd4aYSV=iEkKPNbNOccYmA@mail.gmail.com/
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Saravana Kannan <saravanak@google.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Tested-by: Shuming Fan <shumingf@realtek.com>
----
- drivers/soundwire/intel_ace2x.c | 46 ++++++++++++++++++++++++---------
- 1 file changed, 34 insertions(+), 12 deletions(-)
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 300ede6bc7f1..1ed0251d2592 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -57,6 +57,8 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	struct sdw_port_config *pconfig;
- 	unsigned int pdi0_buf_size_pre_frame;
- 	unsigned int pdi1_buf_size_pre_frame;
-+	unsigned int pdi0_buffer_size_;
-+	unsigned int pdi1_buffer_size_;
- 	unsigned int pdi0_buffer_size;
- 	unsigned int tx_dma_bandwidth;
- 	unsigned int pdi1_buffer_size;
-@@ -68,6 +70,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	struct sdw_cdns_pdi *pdi1;
- 	unsigned int rx_alignment;
- 	unsigned int tx_alignment;
-+	unsigned int num_frames_;
- 	unsigned int num_frames;
- 	unsigned int fake_size;
- 	unsigned int tx_pad;
-@@ -76,6 +79,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	int ret1;
- 	int ret;
- 	int dir;
-+	int len;
- 	int i;
- 
- 	stream = sdw_alloc_stream("BPT", SDW_STREAM_BPT);
-@@ -155,12 +159,25 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	if (ret < 0)
- 		goto deprepare_stream;
- 
--	ret = sdw_cdns_bpt_find_buffer_sizes(command, cdns->bus.params.row, cdns->bus.params.col,
--					     msg->sec[0].len, SDW_BPT_MSG_MAX_BYTES,
--					     &data_per_frame, &pdi0_buffer_size, &pdi1_buffer_size,
--					     &num_frames);
--	if (ret < 0)
--		goto deprepare_stream;
-+	len = 0;
-+	pdi0_buffer_size = 0;
-+	pdi1_buffer_size = 0;
-+	num_frames = 0;
-+	/* Add up pdi buffer size and frame numbers of each BPT sections */
-+	for (i = 0; i < msg->sections; i++) {
-+		ret = sdw_cdns_bpt_find_buffer_sizes(command, cdns->bus.params.row,
-+						     cdns->bus.params.col,
-+						     msg->sec[i].len, SDW_BPT_MSG_MAX_BYTES,
-+						     &data_per_frame, &pdi0_buffer_size_,
-+						     &pdi1_buffer_size_, &num_frames_);
-+		if (ret < 0)
-+			goto deprepare_stream;
-+
-+		len += msg->sec[i].len;
-+		pdi0_buffer_size += pdi0_buffer_size_;
-+		pdi1_buffer_size += pdi1_buffer_size_;
-+		num_frames += num_frames_;
-+	}
- 
- 	sdw->bpt_ctx.pdi0_buffer_size = pdi0_buffer_size;
- 	sdw->bpt_ctx.pdi1_buffer_size = pdi1_buffer_size;
-@@ -205,7 +222,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	}
- 
- 	dev_dbg(cdns->dev, "Message len %d transferred in %d frames (%d per frame)\n",
--		msg->sec[0].len, num_frames, data_per_frame);
-+		len, num_frames, data_per_frame);
- 	dev_dbg(cdns->dev, "sizes pdi0 %d pdi1 %d tx_bandwidth %d rx_bandwidth %d\n",
- 		pdi0_buffer_size, pdi1_buffer_size, tx_dma_bandwidth, rx_dma_bandwidth);
- 
-@@ -220,12 +237,12 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	}
- 
- 	if (!command) {
--		ret = sdw_cdns_prepare_write_dma_buffer(msg->dev_num, msg->sec, 1,
-+		ret = sdw_cdns_prepare_write_dma_buffer(msg->dev_num, msg->sec, msg->sections,
- 							data_per_frame,
- 							sdw->bpt_ctx.dmab_tx_bdl.area,
- 							pdi0_buffer_size, &tx_total_bytes);
- 	} else {
--		ret = sdw_cdns_prepare_read_dma_buffer(msg->dev_num, msg->sec, 1,
-+		ret = sdw_cdns_prepare_read_dma_buffer(msg->dev_num, msg->sec, msg->sections,
- 						       data_per_frame,
- 						       sdw->bpt_ctx.dmab_tx_bdl.area,
- 						       pdi0_buffer_size, &tx_total_bytes,
-@@ -304,11 +321,16 @@ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *s
- 				      struct sdw_bpt_msg *msg)
- {
- 	struct sdw_cdns *cdns = &sdw->cdns;
-+	int len = 0;
- 	int ret;
-+	int i;
- 
--	if (msg->sec[0].len < INTEL_BPT_MSG_BYTE_MIN) {
-+	for (i = 0; i < msg->sections; i++)
-+		len += msg->sec[i].len;
-+
-+	if (len < INTEL_BPT_MSG_BYTE_MIN) {
- 		dev_err(cdns->dev, "BPT message length %d is less than the minimum bytes %d\n",
--			msg->sec[0].len, INTEL_BPT_MSG_BYTE_MIN);
-+			len, INTEL_BPT_MSG_BYTE_MIN);
- 		return -EINVAL;
- 	}
- 
-@@ -368,7 +390,7 @@ static int intel_ace2x_bpt_wait(struct sdw_intel *sdw, struct sdw_slave *slave,
- 	} else {
- 		ret = sdw_cdns_check_read_response(cdns->dev, sdw->bpt_ctx.dmab_rx_bdl.area,
- 						   sdw->bpt_ctx.pdi1_buffer_size,
--						   msg->sec, 1, sdw->bpt_ctx.num_frames,
-+						   msg->sec, msg->sections, sdw->bpt_ctx.num_frames,
- 						   sdw->bpt_ctx.data_per_frame);
- 		if (ret < 0)
- 			dev_err(cdns->dev, "%s: BPT Read failed %d\n", __func__, ret);
--- 
-2.43.0
+Kind regards
+Uffe
 
+
+> ---
+>  drivers/base/core.c     | 18 +++++++++---------
+>  drivers/pmdomain/core.c |  4 ++--
+>  include/linux/device.h  |  2 +-
+>  3 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 3c533dab8fa5..334f5a4fbb9e 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -1888,7 +1888,7 @@ static bool fwnode_init_without_drv(struct fwnode_handle *fwnode)
+>         if (!(fwnode->flags & FWNODE_FLAG_INITIALIZED))
+>                 return false;
+>
+> -       dev = get_dev_from_fwnode(fwnode);
+> +       dev = get_device_from_fwnode(fwnode);
+>         ret = !dev || dev->links.status == DL_DEV_NO_DRIVER;
+>         put_device(dev);
+>
+> @@ -1957,7 +1957,7 @@ static struct device *fwnode_get_next_parent_dev(const struct fwnode_handle *fwn
+>         struct device *dev;
+>
+>         fwnode_for_each_parent_node(fwnode, parent) {
+> -               dev = get_dev_from_fwnode(parent);
+> +               dev = get_device_from_fwnode(parent);
+>                 if (dev) {
+>                         fwnode_handle_put(parent);
+>                         return dev;
+> @@ -2013,8 +2013,8 @@ static bool __fw_devlink_relax_cycles(struct fwnode_handle *con_handle,
+>                 goto out;
+>         }
+>
+> -       sup_dev = get_dev_from_fwnode(sup_handle);
+> -       con_dev = get_dev_from_fwnode(con_handle);
+> +       sup_dev = get_device_from_fwnode(sup_handle);
+> +       con_dev = get_device_from_fwnode(con_handle);
+>         /*
+>          * If sup_dev is bound to a driver and @con hasn't started binding to a
+>          * driver, sup_dev can't be a consumer of @con. So, no need to check
+> @@ -2153,7 +2153,7 @@ static int fw_devlink_create_devlink(struct device *con,
+>         if (sup_handle->flags & FWNODE_FLAG_NOT_DEVICE)
+>                 sup_dev = fwnode_get_next_parent_dev(sup_handle);
+>         else
+> -               sup_dev = get_dev_from_fwnode(sup_handle);
+> +               sup_dev = get_device_from_fwnode(sup_handle);
+>
+>         if (sup_dev) {
+>                 /*
+> @@ -2222,7 +2222,7 @@ static void __fw_devlink_link_to_consumers(struct device *dev)
+>                 bool own_link = true;
+>                 int ret;
+>
+> -               con_dev = get_dev_from_fwnode(link->consumer);
+> +               con_dev = get_device_from_fwnode(link->consumer);
+>                 /*
+>                  * If consumer device is not available yet, make a "proxy"
+>                  * SYNC_STATE_ONLY link from the consumer's parent device to
+> @@ -5279,7 +5279,7 @@ void device_set_node(struct device *dev, struct fwnode_handle *fwnode)
+>  EXPORT_SYMBOL_GPL(device_set_node);
+>
+>  /**
+> - * get_dev_from_fwnode - Obtain a reference count of the struct device the
+> + * get_device_from_fwnode - Obtain a reference count of the struct device the
+>   * struct fwnode_handle is associated with.
+>   * @fwnode: The pointer to the struct fwnode_handle to obtain the struct device
+>   * reference count of.
+> @@ -5297,11 +5297,11 @@ EXPORT_SYMBOL_GPL(device_set_node);
+>   * This is possible since struct fwnode_handle has its own reference count and
+>   * hence can out-live the struct device it is associated with.
+>   */
+> -struct device *get_dev_from_fwnode(struct fwnode_handle *fwnode)
+> +struct device *get_device_from_fwnode(struct fwnode_handle *fwnode)
+>  {
+>         return get_device((fwnode)->dev);
+>  }
+> -EXPORT_SYMBOL_GPL(get_dev_from_fwnode);
+> +EXPORT_SYMBOL_GPL(get_device_from_fwnode);
+>
+>  int device_match_name(struct device *dev, const void *name)
+>  {
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index 61c2277c9ce3..5a7822de5d8a 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -2678,7 +2678,7 @@ int of_genpd_add_provider_simple(struct device_node *np,
+>         genpd->dev.of_node = np;
+>
+>         fwnode = of_fwnode_handle(np);
+> -       dev = get_dev_from_fwnode(fwnode);
+> +       dev = get_device_from_fwnode(fwnode);
+>         if (!dev && !genpd_is_no_sync_state(genpd)) {
+>                 genpd->sync_state = GENPD_SYNC_STATE_SIMPLE;
+>                 device_set_node(&genpd->dev, fwnode);
+> @@ -2753,7 +2753,7 @@ int of_genpd_add_provider_onecell(struct device_node *np,
+>                 data->xlate = genpd_xlate_onecell;
+>
+>         fwnode = of_fwnode_handle(np);
+> -       dev = get_dev_from_fwnode(fwnode);
+> +       dev = get_device_from_fwnode(fwnode);
+>         if (!dev)
+>                 sync_state = true;
+>         else
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index b031ff71a5bd..d8906136c086 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -1090,7 +1090,7 @@ void device_set_node(struct device *dev, struct fwnode_handle *fwnode);
+>  int device_add_of_node(struct device *dev, struct device_node *of_node);
+>  void device_remove_of_node(struct device *dev);
+>  void device_set_of_node_from_dev(struct device *dev, const struct device *dev2);
+> -struct device *get_dev_from_fwnode(struct fwnode_handle *fwnode);
+> +struct device *get_device_from_fwnode(struct fwnode_handle *fwnode);
+>
+>  static inline struct device_node *dev_of_node(struct device *dev)
+>  {
+> --
+> 2.51.0
+>
