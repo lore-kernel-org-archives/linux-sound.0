@@ -1,145 +1,146 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CF32E748
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F4C261B9A
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761043051; cv=none; b=n0CJDfoN0EfvFx1FMY1bpJsDmsbUDuB9d+pKqaWnk//aq8BQqYECKEq9Yj/ysrBzidrt1SCGph6qw+28RNYLVU2n0mkmC7228Yifapa5X2gPFMJ8OOitST53xurAH+1JTHC13888pQX6s9u3M2Fzm3aec6zVYKqAR4mT67cA664=
+	t=1761043210; cv=none; b=bml4QT1AakOIRmPHoV0hiQtNOCDTv7o3Q4WNjbJjORZvEW0sgztIEFyEjlBUwV+34q40/ZY1oA7ShjVA0zs20Ylb+/v3lNyS+Tu/6YFoCZ0kLibk+aaBT+JIWBHggLTw0xoGfC72gVI2HWTmOyOC/d5mrnEKeSWmKS+rbzqetdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761043051; c=relaxed/simple;
-	bh=G8bIrdKOREeaQWFYl+BVblIyK/tNvhnzk9i8+sGZ5Dk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VxqdyTLhD9aY9XK0Hvmp0slieMFxaxHrdIDiEsUEMBeF3z4PE25xnGhEZl0RbAjl9Mk//9eqWjL964ZuyB02l1VjGTkAGouC+H4e8yKEUjU+piHCbCLnKkZ6Mj6e+2ztu5doKUDpc2XO4aN0aVU42DZuNP4PLCUZC/WYDb3UPQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OV4FJNFQ; arc=none smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761043210; c=relaxed/simple;
+	bh=0U8hAB45yH8EGsTy3EJNkB+JbnjcAFL7FugSc4yQ26c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XMOvcraLI46rkkeH9dthGdfKjdV7aiE7wu2FZTwsoG2MiMqV88UEebKMp+W4xz7J89D6hbqL/jreLQEOSI7Xwr0/3+mr2By4F8EsLfJVG0G7Z2Td5hZkClJG6fcqPEx7Q0iqmgOn7IaOv9aiSdfT02q9Ee/hBHQ8cdLc2cN3RwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SXJfatr3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OV4FJNFQ"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-63e35e48a25so2420272d50.1
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761043046; x=1761647846; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=du/uiA2g0ruAK2UrT7r+xEuTy7bML0SpAVcY8ooVq04=;
-        b=OV4FJNFQ1uapnGqxwNArp1c3sMnou9Gn5Mulg7FgaRBpu3ejO833yxc66+0QPR5qku
-         aA6EtTV2yORIXSU8/KOKiCgkLr08ed7m+oB3VG68OcVm4IkfQWuf0NSFnvDvBvHYEmGO
-         s7eoCUGrMzgib3JPXWKNfiFjGSXvsakVOwKCpyf53cvuthskb+tI6l295G2g2M067qv0
-         G6+Xk1iy4eqtknYhBYxWVNcWvuKiCEb1jHN6XCahAmWGOYfMn+CWYLTXienvZkfJa3Lm
-         e+zGW8er2mG1JDxIljGhsR0OOWqP1w+F6NtkkmNhuPT00c+L0r+NcJ0Wx1GHFOjnhc7B
-         L2yw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SXJfatr3"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59L8OKHi010821
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:40:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=EbXFKjfP9YV4IPAFXNS5yLFyAT4bZfexbjP
+	y0N72g9w=; b=SXJfatr3apnPlPBnqM8wKB0PoiyDlgDFs09jgJ2elDGlV/PTeqB
+	vK8qBrm+1bPX0AdzYNCMXzPU4KXl9UVQQiwm+n9OxutRPfwWidOdDKIY8a65ckhZ
+	7a+iyrVy3QmixHEpg1+WeyB57BeJNQXgiNTXbXdrkjM4Ho0cVSToBaf84vutvTfa
+	l2h/rou3aeRxnBTv7Tf/hDkvt2FfrNhg4nqk+Ebm0g69XI5hJcqcbV1zDXW2HLG8
+	HYm9EgrmGKB5o7AEYPF3lj0jRP+vdCXnWPs8goDGHwMBL0nVR3UtgKPY7fEuS1U0
+	JEMB9SmF2ZlqGHzwHsHg/cQwyop2wX9voEg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wtgetmdh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:40:07 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8908a248048so796093285a.0
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:40:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761043046; x=1761647846;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761043207; x=1761648007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=du/uiA2g0ruAK2UrT7r+xEuTy7bML0SpAVcY8ooVq04=;
-        b=iXg4hmsgVgYt6YHee4VtzqkKKDv9TuIU2pK5F5VPyiM7W+N8jIN/6FxkxijSy8hDhX
-         sIsm8qX+qeRtQC/nyJaul2wRCBi8mOQ2ZzwIZnhDZOux9el0h484BDPXEAwKeMTNwqDO
-         O43u6YtKNHE36BTPNWqDCPPEwgIHlTQM59Er5QnYF5zKpFiXYvNL7sxnRBb+o1Qfuld/
-         JeEKRvaukxl24GdQGCWE/plFZwFd4P80Elx8UbqjysgvecDhRkCYQ0HAwIPHKzZn6VHH
-         /P3WUi1w9WSzYU87VE8g5jvZuYN7V36swUZsJImSUVE9BgUIkJ9GclqXwOm2kcxrpMSP
-         2tNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFmfyB8nDrFQheLMAMTSncK2SSMsm7h+tH0FTSm/Hc+vWjTSD0qg7/p/qwmSBZEpIHwIVtTZcET/aqPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy+8rbLvL6l+10gOlxnTlNzX7P302xpW3QQiHTiqr4msGbSX9a
-	aHntdaNjphjjNs+tM0hvcIe/QpiWMY29jHAbnAMG2F+gkYTzkyYigciQkB0bk5HWTeJlR8jBH7T
-	EmFJxH/kiZmWTmxIKpdopGvXom3LVOT6yClBx8tRpSg==
-X-Gm-Gg: ASbGncsUzGj53m1z5iV5BHv3W9pf0B1G70tJowlme+hrLCYf26yhTRm4IYWhybfspyg
-	eRmMtjUUpbS1oEAmPAcbnA48PkF3Vaja52a5GFCOIJ5Fs+Dd2n1kG4cyHl6CXHueokxd3uhy/u1
-	vryhvDj5Hw+8cWX4DuNXNnf2q0vx6RMfln+7FcbHTl0+WPKv9uJDJOFbFXd310G6rZmAwe/YHw9
-	qbef5bomqFvRUzqTb3U04XKQuGVjCo9NQf3bp94Pk8bCAklbuZvpQacCIZDNw==
-X-Google-Smtp-Source: AGHT+IFFOhRKu4kQW/XKD1Pm8VUPug9hRZQumhyHTlK9vebZPyquvLC0TgCPXJX5yR8+F8jVszRXlOsVXxUxv7obTms=
-X-Received: by 2002:a05:690e:4090:b0:63e:3e77:a7c4 with SMTP id
- 956f58d0204a3-63e3e77a7fdmr3660188d50.1.1761043045615; Tue, 21 Oct 2025
- 03:37:25 -0700 (PDT)
+        bh=EbXFKjfP9YV4IPAFXNS5yLFyAT4bZfexbjPy0N72g9w=;
+        b=BCF+hKixxZI/J6XfjeQC8i2q1QfTRve9UuuqjvzQWwQV4MxMghr8Kqnv8zWHHYZxap
+         JcL4+Er/8LEpIbTzlIlGOJONITGIvxUgJ7mAUhwNFVK/rSm9SJaN1k8F0QKIpV6QDsHW
+         Jwa6l4tZiGwh0ag/u4hCEjC753r7Y5/Y9Rv1Zt9x81BY6jdLpWWot9TpG3Wzbg/xndL4
+         iZ8x9cPdq9/4mVixNV5izgx6K8w+aWul+Deddvhy+hpJD+GFPwBuhCMosMyqJTld729X
+         Y6Q7nuru0cqtNnw7P1vW6IuscVEZxiDieIA7LfC/S2ypaeNWHqWO3UYstcSEW1aSe8XE
+         rB1g==
+X-Forwarded-Encrypted: i=1; AJvYcCV9LLxXZ/uwY49DTDlG511sqGqUDfk/uv1YhqXVkedek1Og3WoNGg1f5PeXk3KMytmXikzub3wDNkObrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyn5Up91RLd0BsSm1UrdrooOcRTxt/co49+N4scAd8Xi5P8Gehr
+	NfFjvuq1V/0OBreDuUP90QAZdQPHvLVbCtYP8QtkSBMZQhti9q3LToAXaiWpowxWw4IqpJbhu7z
+	mUDYA///tMXQE7tiBffEMTrWtUoS5axsCI7rbWHLko+//04hPFafVVXXxdaKOkt2+0w==
+X-Gm-Gg: ASbGnctuUw4D15HzdxgTCP6jKqQcXTOPwwRo7aanI3X9f0h1z67IdYa6ZahfevZSPkv
+	Vwqi9LaFs3/lt4/WvOBmLwV85u6qCQUViw0XxUH6h83UBlrO1kVKy/9LuEThxqG/lD/J3/bJC3z
+	UUyJPyYG7IbEkYGmbBYyUrYE6Om5ST6zlmyVAnNHdoTsQlVNfvWCi2LS0rPGKsnyYTw+Y7X0tI9
+	oyjDMGmfPIeswbvgy6HAo1B458VlxWywAUZn1FxqaO06/xikoX5N61sYSTnRiBDbG9/Ua0N0KNF
+	k21vML+ATJ92QjHFvJGaXMLYT4NvruByAlw71Qp49EJjgK3JakGMs10hwaITTG2jbIxO9NRRDXY
+	8A+plSJAGFs/T
+X-Received: by 2002:ac8:5a11:0:b0:4e8:b55f:af22 with SMTP id d75a77b69052e-4e8b55fb2d4mr121141811cf.53.1761043206566;
+        Tue, 21 Oct 2025 03:40:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEK7ENmoHQ2RT/4VjoSrYVZ4wOzzLy46jV66xunwwgH1MxVbYZONvkuQCmOMnkT2v/D3Mvg2Q==
+X-Received: by 2002:ac8:5a11:0:b0:4e8:b55f:af22 with SMTP id d75a77b69052e-4e8b55fb2d4mr121141551cf.53.1761043206041;
+        Tue, 21 Oct 2025 03:40:06 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a976sm20087938f8f.32.2025.10.21.03.40.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 03:40:05 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, alexey.klimov@linaro.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v2 0/4] ASoC: qcom: sdw: fix memory leak
+Date: Tue, 21 Oct 2025 11:39:58 +0100
+Message-ID: <20251021104002.249745-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015071420.1173068-1-herve.codina@bootlin.com> <20251015071420.1173068-10-herve.codina@bootlin.com>
-In-Reply-To: <20251015071420.1173068-10-herve.codina@bootlin.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 21 Oct 2025 12:36:49 +0200
-X-Gm-Features: AS18NWAi-o77CPd71JT42D3mLl8vqFN7eYPAV53oOUDllJc5eKGrXIzOLUEhLMM
-Message-ID: <CAPDyKFrkJp4Ny1kUoWy6LHmv6zCOGK-jVEYk95s2ayhqEbDOpw@mail.gmail.com>
-Subject: Re: [PATCH v4 09/29] drivers: core: Use fw_devlink_set_device()
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: PEQI1JxJw6RZuyTmFrOLWB79WXBMYx9y
+X-Authority-Analysis: v=2.4 cv=JeaxbEKV c=1 sm=1 tr=0 ts=68f76307 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Tmn-ty_kyiCvGlHJeRgA:9
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: PEQI1JxJw6RZuyTmFrOLWB79WXBMYx9y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE1NCBTYWx0ZWRfX+GuVGF5ConBZ
+ CW8fdc/z5F3fqSe5SiIvfGlqM1dG2YZaGEBFIcCCiAwZnkIJMx/gX3l1KC3zK/G+oQM0ixaDrjX
+ WxFnRqYhVTEAPsdWVDDFdG3RtV+alCT6TFSSvB9NRtSw/JKFiRK7OztYKUnLwA5OCvWMkhMucUM
+ LRFev+vkmRtSHef4GovYD21YZjzfIToNanPEbcEY0y+qJMa3Gtp/YDCkigNdnUxQvBKPcPTeqgY
+ ozq8ss7dIzLQDLZTU3tw2Y1xFoSBFAI23Rj3f19VMNQHZ3evEGTAbOONLknncsFANflNMKZQ+CH
+ NwwxXOCzqp6TTl+igY/ucxpunous5OZit3D9t6nwmA+ISf0MFuDo00HTUDP3Sp577gmDMJSIN7B
+ wjfzKzJOIggkem15KurbwRXB7fIiBA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-21_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200154
 
-On Wed, 15 Oct 2025 at 09:18, Herve Codina <herve.codina@bootlin.com> wrote:
->
-> The code set directly fwnode->dev field.
->
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
->
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+For some reason we endedup allocating sdw_stream_runtime for every cpu dai,
+this has two issues.
+    1. we never set snd_soc_dai_set_stream for non soundwire dai, which
+       means there is no way that we can free this, resulting in memory leak
+    2. startup and shutdown callbacks can be called without
+       hw_params callback called. This combination results in memory leak
+    because machine driver sruntime array pointer is only set in hw_params
+    callback.
+    
+All the machine drivers have these memory leaks, so cleanup the mess and
+make them use common helpers from sdw.c
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+This patch series fix the issue, and while we are at it, it also remove
+some redundant code from machine drivers.
 
-Kind regards
-Uffe
+Thanks,
+Srini
 
+Changes since v1:
+	- added missing dais for sdm845
+	- moved all the machine drivers (sdm845 and sc7280) to use
+	  common helpers to avoid memory leaks.
 
-> ---
->  drivers/base/core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 3e81b1914ce5..9da630d75d17 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3739,7 +3739,7 @@ int device_add(struct device *dev)
->          * device and the driver sync_state callback is called for this device.
->          */
->         if (dev->fwnode && !dev->fwnode->dev) {
-> -               dev->fwnode->dev = dev;
-> +               fw_devlink_set_device(dev->fwnode, dev);
->                 fw_devlink_link_device(dev);
->         }
->
-> @@ -3899,7 +3899,7 @@ void device_del(struct device *dev)
->         device_unlock(dev);
->
->         if (dev->fwnode && dev->fwnode->dev == dev)
-> -               dev->fwnode->dev = NULL;
-> +               fw_devlink_set_device(dev->fwnode, NULL);
->
->         /* Notify clients of device removal.  This call must come
->          * before dpm_sysfs_remove().
-> --
-> 2.51.0
->
+Srinivas Kandagatla (4):
+  ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime
+  ASoC: qcom: sdw: remove redundant code
+  ASoC: qcom: sdm845: make use of common helpers
+  ASoC: qcom: sc7280: make use of common helpers
+
+ sound/soc/qcom/sc7280.c   |  67 +-------------------
+ sound/soc/qcom/sc8280xp.c |  33 +---------
+ sound/soc/qcom/sdm845.c   |  53 +---------------
+ sound/soc/qcom/sdw.c      | 127 ++++++++++++++++++++++----------------
+ sound/soc/qcom/sdw.h      |   7 +--
+ sound/soc/qcom/sm8250.c   |  33 +---------
+ sound/soc/qcom/x1e80100.c |  33 +---------
+ 7 files changed, 92 insertions(+), 261 deletions(-)
+
+-- 
+2.51.0
+
