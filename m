@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F48D32AAD2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31AE32B996;
 	Tue, 21 Oct 2025 10:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761043837; cv=fail; b=uonyTNkT0a9SEZshGFYSanYZAOZUEfFfIVstCvmmZTccgIhimXak/Pk2tFsPIodLKLio+tdh129y0XgYNlXd4cLuljg+tXg2badCOrhIMOuQz+gS36145eutjRc49NjgFv7cHkvYA9s42TNqQ7hWUwaK+hGfu9nzj7n5wnu2ICI=
+	t=1761043837; cv=fail; b=WQ9RmTZfw1Yh7yVYXfwt6Ri7rU3AbmEA4O0IxSBRAGMYs2VwM/NHuhpeWHWYt7YwLs2y8sPb7Zkkd3PsrkJkZGflLtLqhqAT4TfwSHKg+iwF4KuAiISMDM+Yj9Q/8RTub93xzPjJ5A+VWA+h6FjLdVSYZcmK5xbaGORfjZ4RQ40=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761043837; c=relaxed/simple;
-	bh=5AXriAOEXg4ph11wWq2D48nBeokCKrLu7FlO4H/a0HI=;
+	bh=37q0JKpe2Mp0YgPPauiFM104kzzC7XRXuOaUpd0wYF8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j0QyUcIJmigRVKvvZbXuzGDZLvskj5mO21KDO0XauAzb9uf7sH1ps3HVwATt5b4P6rGISTNkNv/wIbD04IC5iqCw0sn0J1tkvdrDbuMfkGZDHyfuWuzThqIS3cUNCKeg2A5ldeLk+Jk1CIN9GldlnYMnwpjcvYV+YXoRJ4mYQYU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MJQ6ihO6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=iegHYSU2; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=PRij3gVXEd7szyagaVsDFzIzklf2zR+8iNJRG0Mwr/0So8RGzlBnFigPSdef1qQMRYtF6piSchkmKIIIa+5V0+6tfM86LgtJJOhOACIUrQFxARxD0z4IKnniGRrEDfHYsZTsANOAO1zhMcL2r2nyIu83EUO2WG9yBVEemexFc+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=JdibM4eZ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=D7ZKzrs2; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MJQ6ihO6";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="iegHYSU2"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59L5824B988201;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="JdibM4eZ";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="D7ZKzrs2"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59KNfWTY1890847;
 	Tue, 21 Oct 2025 05:50:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=BfXbS79G3ctaThncG4NMQkfeIrMFbOISXRpBpKSZioM=; b=
-	MJQ6ihO6pW6fPT3dykcPJslRXs1KxWdaco1FDi9e1kmVeVQUFmxIVW2uGMTQyrhD
-	2nYCcvLHqRcQP83W+UBQwMDavDyXFzy5sxxTvFSRuC4n5W/YOqJ/ZPhtlSyyIBmF
-	Nrnr8nmDavcwh44ZBKYzM1JRqIlCsge33vwROA7e3z06V1VvX4cSJ4W2GqdzclnX
-	+dVVQ94IvcBLAWW7TyI47bMuNbz+KNH/3eQTIomQJBlUD8gPGpBoG2d2wfvDD89q
-	/ZySsUVKz0wvKhHZkJQR3aPvSIUp5xRLgXHpgCtfyoqqTaqgCkHvHOGT09GZ2waz
-	8W8/bHnqoaRRF7CIUThu0g==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022114.outbound.protection.outlook.com [52.101.53.114])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49wnc4sdqk-1
+	PODMain02222019; bh=5hR3KxRU+QBSaVTOizQdCCRhJEsaXyEtCKttqx10ozs=; b=
+	JdibM4eZmlSknS5qFr4EmVQ3tgJU4XbgRTgTGkiFvhX/1hrrRfgzxUEjPb+DilCe
+	YARNhAtaDaNiHeSl8rtqp3jbuGSnzLGhyXZl3z/OKRpBDdG8tZ92O/2wgXy2CEZv
+	6RvbsGQbfLUQEXAoPE55y3z/RpGMHBqshAjRfp8FjT7/uPMcqvsMa0o/x6iDaxkP
+	KtF17gCuG1n75t+VMSD8/hXLzdhTYumYVzz4eoaPIXA/yE3Cs2idyUjfIEDoiN0K
+	71SFX+wt6t0wKRTc7Cpp52vfKk70aKcvDKt+Sz3Jv2+lB9ZySh62bEWLVdF47FeX
+	dnqU0KXTe/NsURA+VlvgPQ==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023087.outbound.protection.outlook.com [40.107.201.87])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 49v7aj3eg2-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Tue, 21 Oct 2025 05:50:31 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x+hWc+wRGruywDRorqFNm7nRXfIXXMoc8N0DOb7DewgXxp9+pvow0CBcFCIOUotqSautXRiEIh0siRrofg5B7Jt8mXtc2PfgD8G4HOZ9RlTQMV9PrhD6XLbmNCpCYbHVsxHZOwXF+1Mel5f5RXHWYinxhuMVeXodcGssw1XHpARSBFfjP4KCLoPmkY+YuM49IN9hfweLfEo5xHZkxZQPfPSLvFYUTXgtidCBv0AdCibOlEDl+EpM0l7KH8YmeYs8LyqAntq5sS+yrUOiT/8EU9qatIuRQog81moADjaz4sTlmAdLSlp5vIpHUZyEeKsF1OzMzmynI5dhjuCcfsoq5w==
+ b=PVwI2ZftsBdVhfvWMrYPZqspDDC99/IlATFG6gtIKcUKia2IB8FmnC5IvvQME4Yb+oQLgTz3xKKSrBUnnLiWDRmtvkQtriDt6vFwSechl1mMK8NX5h3pj8WYtm82rZp9sZvzRAc+hPn2UeRQxGoxxtbEGLeMFEXDTfpSnNrFmyy8nqwbjaA/tEigVB9EZ415o1JNOH0zCXH0LncMv01AJbLSwMjLEHFhDPbAg2JlaeodleQfsV5oDsMMLi6tAhDooIOkLQl69PUhjsCh3B8JD87dda+4WSYWQ0INYisvLTXcY2E2eQbbltihoC0JTqJY2eaNiThDzV0SXvdU4LAxxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BfXbS79G3ctaThncG4NMQkfeIrMFbOISXRpBpKSZioM=;
- b=PzeEdsNOxg9Bk5Lb3ZTRj8fOXtIARQitVdoMr1nGrRL1Js3KmKy5qdjxMBWMdk6UMpcwy5BpNZXJrdbY4iVvBN9zXr4+vTY938Pf6QUL2FTipkW290larmfmDWW/WvCDlF9D1nLba6YVPHd0frtGh9Ja+CEN7zZi5EMx/87fAs6HyX+T8ga9TegZAZRX5lfTvaPuN4/iQsL8nnskZCp6CfAoERdGbqr4cXAy5TPU5GwsKkCOY0GMVzPA1ahQimT+Q8zIzKKkn3PkYMwhk1CcryQlPa4YzeQwGNpKWbEyVFpWCu1x43/qaTSMyLgokpxz13nvLbElFZEqy6KydPj8wg==
+ bh=5hR3KxRU+QBSaVTOizQdCCRhJEsaXyEtCKttqx10ozs=;
+ b=RaNp2u0L3cLmr4gBk+RohOJqtWqH6xGkwE8BmC3KUeBn3Qsx67DyPJR3VsUO78WxLWOpKEYXV7ALhD2aCpmZVtz6mxwgtVcSAjeB48Ex5Z+Yv/VMyaXYvKtDTm/8Uz6Xn3d7WQp+G9U5lz9HjRncdpM6qMljUJLAJNME9W0hJ5fLGpWaGkTPGbDyWu9Rb6WkFvTTD/AZsErZB/Zi+EOR/HUrfmfTaGOMHLqmKyVZJDAWhAbcBdmMsb6ZGJWec80jHk/89v8FZRmpR0XcuKv36ku4OlewCEwnD5tXiDfM8QlN8/EIPMj97U3zb8qlZ58fd48GZJemTfXYsDVZlrQ+HA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BfXbS79G3ctaThncG4NMQkfeIrMFbOISXRpBpKSZioM=;
- b=iegHYSU2MZE7ptuR8BqnyYQiPoxerpoZ4lzN1TVmSgvnjwjcqWME1mSN2tppmQptdPb5nrFUP7ia6oLvEAlA952Yli0AUTKmTtt6jmLWZMye+hVT7dg4DRjBW7iF3SHiBdmWG8xwgiZBVXvjF2RsEtf2JM8/GGvj8fYWatubXH4=
-Received: from BYAPR21CA0026.namprd21.prod.outlook.com (2603:10b6:a03:114::36)
- by PH8PR19MB6715.namprd19.prod.outlook.com (2603:10b6:510:1ca::12) with
+ bh=5hR3KxRU+QBSaVTOizQdCCRhJEsaXyEtCKttqx10ozs=;
+ b=D7ZKzrs2nleo1HcGJJyfMXQ6KmZGwvjIDglJfOx07j4ojlyCHy5NnL3kfZov00xLxkto5YiAS8jHVIz5xu6VJWeYJucvm637GU+l8bbK8jVGY14w/TO5T2C45Tha2ZQA0Hc2XDsz3084KnRuGsaqO4aFBUQEcWDzixf7IUmC71g=
+Received: from BYAPR11CA0092.namprd11.prod.outlook.com (2603:10b6:a03:f4::33)
+ by BN5PR19MB8966.namprd19.prod.outlook.com (2603:10b6:408:2ac::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Tue, 21 Oct
- 2025 10:50:28 +0000
-Received: from SJ1PEPF000023D0.namprd02.prod.outlook.com
- (2603:10b6:a03:114:cafe::93) by BYAPR21CA0026.outlook.office365.com
- (2603:10b6:a03:114::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.4 via Frontend Transport; Tue,
- 21 Oct 2025 10:50:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Tue, 21 Oct
+ 2025 10:50:26 +0000
+Received: from SJ1PEPF00002326.namprd03.prod.outlook.com
+ (2603:10b6:a03:f4:cafe::a) by BYAPR11CA0092.outlook.office365.com
+ (2603:10b6:a03:f4::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.17 via Frontend Transport; Tue,
+ 21 Oct 2025 10:50:25 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,22 +69,22 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ1PEPF000023D0.mail.protection.outlook.com (10.167.244.4) with Microsoft
+ SJ1PEPF00002326.mail.protection.outlook.com (10.167.242.89) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7
- via Frontend Transport; Tue, 21 Oct 2025 10:50:26 +0000
+ via Frontend Transport; Tue, 21 Oct 2025 10:50:24 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B3BC7406559;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id AFF0F406555;
 	Tue, 21 Oct 2025 10:50:22 +0000 (UTC)
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7C9C6822545;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7521E822543;
 	Tue, 21 Oct 2025 10:50:22 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: broonie@kernel.org, tiwai@suse.com
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v2 06/11] ASoC: cs-amp-lib-test: Add cases for factory calibration helpers
-Date: Tue, 21 Oct 2025 11:50:17 +0100
-Message-ID: <20251021105022.1013685-7-rf@opensource.cirrus.com>
+Subject: [PATCH v2 04/11] ASoC: cs35l56: Create debugfs files for factory calibration
+Date: Tue, 21 Oct 2025 11:50:15 +0100
+Message-ID: <20251021105022.1013685-5-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251021105022.1013685-1-rf@opensource.cirrus.com>
 References: <20251021105022.1013685-1-rf@opensource.cirrus.com>
@@ -97,207 +97,347 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D0:EE_|PH8PR19MB6715:EE_
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002326:EE_|BN5PR19MB8966:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d4e67546-0660-4ce5-deb3-08de108fa53a
+X-MS-Office365-Filtering-Correlation-Id: 82a2e39f-1490-4274-3da9-08de108fa3e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|61400799027|376014|82310400026;
+	BCL:0;ARA:13230040|61400799027|36860700013|376014|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0qDK5xl4Rh2Fh2WJTEId2uedSIe+dfj59CP/1maJ9pKE4n1IaeagJkfN6OqX?=
- =?us-ascii?Q?YXR8pVP0q/qTQGwC70F09pBTMAl90Q25aBGr1Z7DlEyB0gGMCdpvxzywQR5l?=
- =?us-ascii?Q?yeMg46t926W1t3QQH6ogqNsEosKss44kIrb6eNWmjD8IlffzsBD5sln19GYV?=
- =?us-ascii?Q?+uCiT9JasvOWE865pBCIQKVogKKFK+cAW5T1qB17+R7Wq90aDJ7wi0NNr3dw?=
- =?us-ascii?Q?ahomHVQLAKAjPj30svWv+JWF9ynZH9zk4pDt8FkSjQNvb79kQBtHl1LrtVtc?=
- =?us-ascii?Q?Vhmp8GDijs+RpIlUO6fO4a0blgPSjp538RgoLd5456kdgIVMAP96MoFCD/7N?=
- =?us-ascii?Q?yQlFlBCR0+gRd3hZtRhpBSmrIRgDODlhpOYmmkT4WCisaBY/elrS23mf74wi?=
- =?us-ascii?Q?eUMyJlQgGY4eDE9wAbulO5bonFnfMHOR2zM6CT2VX5VbnIctkRKMHS/7XsXQ?=
- =?us-ascii?Q?3HaQ9FpQTLQpDiBa7Tot85HLcal1mckQHmVHhH5bsb3D3q8Y6EU4NooWYRlB?=
- =?us-ascii?Q?FKqZZCOSLSj5qOmitW8n+afF8PF7vuacZ9nbTWbnNZkwq99kkR8rQZ1jFw/9?=
- =?us-ascii?Q?pH6LoELldGvJvz8nuOYDi7aEwXbuUkqo36zdo9JSloOsqdB+PleNT/su0dSq?=
- =?us-ascii?Q?QdFHRV26lWX8NsWszsf+uf7EEZ9UtsJM9agJ6aqCqK+wdsm3+gZXLTOmI1j+?=
- =?us-ascii?Q?iB8yF5z42VePGXFsouue3uLOYm1nlRk/YlAGAndfqYxBcb6CaL5KhcKhj9/F?=
- =?us-ascii?Q?BOOF90DwDs7xVSkDY0ZbaPdiK1d8agCd7vvYAOzFyNVO+vXUV4UAxeZl/a/B?=
- =?us-ascii?Q?fRnTOltd4pRa+A/iMTfzNi4jBwMkBwjjiNN23DaBdN6oz1GRuLB7BxUMci/7?=
- =?us-ascii?Q?O0QwZYZaIt6m6TW8vxQc/lSHfEGsm2P+ewc3zA+bMCd8UaPJHCs6x/GW3cGM?=
- =?us-ascii?Q?xyAg9l1B/sE45j77vZN8dn82Qe8RrGdwhUOfkcCTqJ5ilULmZ6o9TQjoyNEm?=
- =?us-ascii?Q?QWOC1t4GAFWNkLz+ZKxGy0I8jNh0NAh99p8mEwbtltJTXK4O7OHcGk+I39Rj?=
- =?us-ascii?Q?CmoewPVlogxtGO3rRCDERScXDJTiRQb4TlOahsF6mcapctT1fyOnCfwniQSx?=
- =?us-ascii?Q?6rooqkEI6Cn1utoI2Gq42hRFiM8QQRdj5nDK/GXEq/2Goch+ZxUcFPnEcDpp?=
- =?us-ascii?Q?260IUesF4uiLad6FsVeLfzJUzMsWYCqMIFpByAORcpACeCzML2/LicGSxPNi?=
- =?us-ascii?Q?+jVTrHTliK7Gss2JH9kIpOCAysqE6/VHDacSxN1awGJihRq06Lxqc1g0R77+?=
- =?us-ascii?Q?kzSZL60SNFmcRs9EcJ8/AeO2w7qOKOELz5qjqeUGXMr+AM5ywfMqyW3R/kOI?=
- =?us-ascii?Q?6/dibI2TTUT2v6x3KxYdUbqnowGlgsWh1EEJd3xrim0dwm6uQtclhH7yvFh7?=
- =?us-ascii?Q?NzNI4oonNvLRyGUxUA9onQBESl3zpKEDCG4c5zFRAgB3y+FaRsNHl0Qu3qJO?=
- =?us-ascii?Q?ShnhChSC8IW46IKkxYjmQ2bS9jK8cP3c8K6kLFD6x291e5peld9S9TvdGw32?=
- =?us-ascii?Q?3opJ4buNqJVNlCzG49o=3D?=
+	=?us-ascii?Q?f7ofE7OCT2XsVABTnRjEcZYDUwxY85WO0LLHdEOH7f8MJL6kXjYXc9qyxrAq?=
+ =?us-ascii?Q?ZGS95m/WoT6u3h/eYiOEsWh4sdx8v9Oz7V1F6HUWvBGg0mZO5/bUJdtwN2qO?=
+ =?us-ascii?Q?wYDftLnew5vpjCruy8wOxQiazLkw+e4UaUL/XKhgbvGlYjBVVWNZImH1pNaC?=
+ =?us-ascii?Q?tHxgsJhcIsjGraswn7vGhk1X+mjXFHZU5SnvVjaJsyA87UM8Cjq0gsAuY/wc?=
+ =?us-ascii?Q?dfNwYZko4xgiZL6gZ31FsXCAB64nuWp3eAh5T3HX33wFDBAqpbPaKyJmIuQv?=
+ =?us-ascii?Q?dMu39m41uFZkxjvyDhF+8uHVfHn7YgsTei2wv4lEhhLQRDvEuHd9eQfAXmOj?=
+ =?us-ascii?Q?VbrC96t90THmiPSLFoL21HiwsTDeiTnLuV/h/eDZOTG3S4cLAlZ9gu+FJB92?=
+ =?us-ascii?Q?4qO6jyJMdI4rxSL1RRzeEgVLxcXPH8zj5pAp/KWRTyw5s5cs6dsAxf7crAuR?=
+ =?us-ascii?Q?2R8WQxjwG5zuNnVSr6k40zsVLyPlh1W0Mg9jLvT5ihM9fzeXXoKbvVJBDf03?=
+ =?us-ascii?Q?Wj4szZUeyjiJa03HkseLpBfp2R3JfVH0h0YeUGDGTNdV2yvngWE3wXJjz714?=
+ =?us-ascii?Q?RQpo5uSfdH6mFQZnk8YIhsctpr//2441YUa4YhbbN4LHHQYEvqjKYXbvd46f?=
+ =?us-ascii?Q?j/xjPQUSF2fh0S5ECxTB50nNw47P0dvuUVnWrA+Rg8uHpYSnxmU2wZjgVGWd?=
+ =?us-ascii?Q?WeA/cd1/N68Kc5KRF8y7yf6o2qnv8hsdayN/r2Kp7xafoICHvadbit2eVLrp?=
+ =?us-ascii?Q?50uxGEvDi5MYqThHge/B8aGYdRo4zU80aURFFCrulwgVrTe+S1djRWSI0KxT?=
+ =?us-ascii?Q?sop+W+SEVC7gqn6aSQqMkax4h0tSUbZ4pykxJDwU7LOXCstOhCLq4sPbTI2i?=
+ =?us-ascii?Q?x25l66MES2yc1EVmb3jxVmmNAqHWnitg1ZxshOMcWvTeyo0o7Dx7OkPHZMvJ?=
+ =?us-ascii?Q?DrGKo+b0tqBmoxpptQZEu/iY9fX98ZZTMLEOk5ppb9D2N+8Ey4JKdmaF1NH1?=
+ =?us-ascii?Q?vgynWncJIeJkJqTJ7Wh9NfRKUmAk+FzLuS6POaufGtfx+eDX1pXgLt9Fuv/H?=
+ =?us-ascii?Q?QjfamddR6F2vyQJ+jjVWR7R2hmZ85H6hAswyoBig4Q4/257t94PFScm72Zqm?=
+ =?us-ascii?Q?/Trkgrw/9MVKkZKBI2MqeFDbBLNW2IfstSQuVoKdrPSK8c++rfDCJnx12Cc9?=
+ =?us-ascii?Q?wZvxtR9TbqwWGKt9871v6TnPb5hetnlKhlnxfwHIDGGHwPq+vTEz6grYLNZq?=
+ =?us-ascii?Q?TUHdTyk1QeIm73iy4iauQBNQ4ZWsaKvfWl0r/e5Eewj/vl+L8o0Kq50vGkxv?=
+ =?us-ascii?Q?5Qg2i1WSq4jcmBHTVj/nLUIwH1oEUHz7NPiuPVwBPnP6cqIKid/S5PbttHcL?=
+ =?us-ascii?Q?fABS0IbKtrhyTJZyMy6b3+cqwH+GibK2sbG0TXT5jKeSY2QPDfXYlz2L+uKR?=
+ =?us-ascii?Q?l1RQN5cRCB400RFKHpTifjLVTISDJ2bWMWrAKNmkA9I/ha9Crs6SZvhkAU9l?=
+ =?us-ascii?Q?EysrR2+SsBj/NlMuaj3VmxwXdiCIlBuzyp4OTSWHqU/ki8wmeMaKDQk2Nc7q?=
+ =?us-ascii?Q?L9xp/tPhB7l4sTIPC0A=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(376014)(82310400026);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 10:50:26.8307
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 10:50:24.5849
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4e67546-0660-4ce5-deb3-08de108fa53a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82a2e39f-1490-4274-3da9-08de108fa3e4
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000023D0.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF00002326.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB6715
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDA4NSBTYWx0ZWRfXwbvx3AxT4A2a
- eyoNtVoM687tUaerPUN+/n1h5H5jfVAiejbnj5xJu0UbGWQ3A76U0s8BLPoqcmOgtYxSCB+HnLo
- iNISxnTad8cSUrfmA5uuHlbEEQJykCJu9/fjkiaxqetgiJhh8+oTYpEl7dsc6NqKDqM9LVMf6vw
- Mq7eCN4f1DWaQmJuGrS9O71985+h8J1ggFVZp1bJu0wn2XUmmoPCkCZkczqr8y2QW6Eqks8dmaV
- enM+7LYJszL3sADd1LAqTdB7qca1Pgs0SiyzFUDU4N1BxBwZVjK02dsvbCdH5jRAU0NsUdACMLt
- wJo01rs6HrUujgTDbEUGNqmXYbu6FoU2FuCLkEYZosc60Z54/N9fkKwiWTpQ9npRJzPvYVtmhZY
- k+DQMjB79G5ZVGtdPTNuahlJnv7Tlw==
-X-Proofpoint-GUID: WwNT4A3BCrXJpUFuWBXzP5nO6kH7KYJL
-X-Proofpoint-ORIG-GUID: WwNT4A3BCrXJpUFuWBXzP5nO6kH7KYJL
-X-Authority-Analysis: v=2.4 cv=bf1mkePB c=1 sm=1 tr=0 ts=68f76577 cx=c_pps
- a=PPij9JC9dsFwf49xmEs+Gw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR19MB8966
+X-Proofpoint-ORIG-GUID: E7K8ts0c7D8umh3EAo4qIQIMNb3pMx_4
+X-Proofpoint-GUID: E7K8ts0c7D8umh3EAo4qIQIMNb3pMx_4
+X-Authority-Analysis: v=2.4 cv=bdNmkePB c=1 sm=1 tr=0 ts=68f76577 cx=c_pps
+ a=poqohWOkhvWL7PloZTu5+Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=x6icFKpwvdMA:10 a=RWc_ulEos4gA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=w1d2syhTAAAA:8 a=tIIsFs4PSpDOh4qjPvUA:9
+ a=x6icFKpwvdMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=FN_7tG6lu9g4JpDWAFIA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDA4NSBTYWx0ZWRfX0mf6LwxylrLF
+ Lfc0h4wYk34cjKs1F/TD/5fCp2Bqc34xtgJvisa5GmT8sG7SH7OPXIb172IjCGH/i1adYK2rXtF
+ pHWA8yCoP8Kygk8pCg8JQQvlkY4Jk52lmNn62eYbkGgW3a7xiTkQK7hUjVKgOP0IxoMbY5HW3Y0
+ TEAsj2mv77rNI4+CYjAR0wO1tSy4W0g8bwO8FaA9O386ilO+muLLc0owv2FGLyW7yczUHixcPRy
+ OEwHOK2vZtvqRqiDm13UKgOH3XF127blUXlM7naIFDntvNNG57RXHpb9Wv+JUwflNKQjBltHXWm
+ xwl7nin7Iu28gA/yf86fWGSvRPg2Y9sb2ZTTWhV1NlzDfsBAZbf1Ye02KuKXvQWpk+2B/kJxYlE
+ knO9xEwlUGr1LoZqW1mVMB9HPG3s2A==
 X-Proofpoint-Spam-Reason: safe
 
-Add test cases for the cs_amp_read_cal_coeffs() and
-cs_amp_write_ambient_temp() functions.
+Create debugfs files that can be used to perform factory calibration.
 
-In both cases the test is simply to confirm that the correct data
-value(s) get passed back to the caller.
+During manufacture, the production line must perform a factory calibration
+of the amps. This patch adds this functionality via debugfs files.
+
+As this is only needed during manufacture, there is no need for this to be
+available in a normal system so a Kconfig item has been added to enable
+this. The new Kconfig option is inside a sub-menu because items do not
+group and indent if the parent is invisible or there are multiple parent
+dependencies. Anyway the sub-menu reduces the clutter.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
-No changes since V1.
+Changes in V2:
+- File callbacks rewritten to be debugfs callbacks instead of
+  sysfs callbacks.
+- Replace the sysfs file definition and creation with debugfs creation.
 
- include/sound/cs-amp-lib.h         |  5 +-
- sound/soc/codecs/cs-amp-lib-test.c | 75 +++++++++++++++++++++++++++++-
- sound/soc/codecs/cs-amp-lib.c      |  1 +
- 3 files changed, 79 insertions(+), 2 deletions(-)
+ sound/soc/codecs/Kconfig   |  15 ++++
+ sound/soc/codecs/cs35l56.c | 159 +++++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/cs35l56.h |   6 ++
+ 3 files changed, 180 insertions(+)
 
-diff --git a/include/sound/cs-amp-lib.h b/include/sound/cs-amp-lib.h
-index 5b094f8e8a6f..efa744133a35 100644
---- a/include/sound/cs-amp-lib.h
-+++ b/include/sound/cs-amp-lib.h
-@@ -72,8 +72,11 @@ struct cs_amp_test_hooks {
- 	int (*write_cal_coeff)(struct cs_dsp *dsp,
- 			       const struct cirrus_amp_cal_controls *controls,
- 			       const char *ctl_name, u32 val);
--};
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 6bb24325c2d0..1e649da53ed9 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -899,6 +899,21 @@ config SND_SOC_CS35L56_SDW
+ config SND_SOC_CS35L56_CAL_DEBUGFS_COMMON
+ 	bool
  
-+	int (*read_cal_coeff)(struct cs_dsp *dsp,
-+			      const struct cirrus_amp_cal_controls *controls,
-+			      const char *ctl_name, u32 *val);
-+};
- extern const struct cs_amp_test_hooks * const cs_amp_test_hooks;
- 
- #endif /* CS_AMP_LIB_H */
-diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
-index 2fde84309338..6878941a8f57 100644
---- a/sound/soc/codecs/cs-amp-lib-test.c
-+++ b/sound/soc/codecs/cs-amp-lib-test.c
-@@ -701,6 +701,77 @@ static void cs_amp_lib_test_write_cal_data_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, entry->value, data.calStatus);
- }
- 
-+static int cs_amp_lib_test_read_cal_coeff(struct cs_dsp *dsp,
-+					  const struct cirrus_amp_cal_controls *controls,
-+					  const char *ctl_name, u32 *val)
-+{
-+	struct kunit *test = kunit_get_current_test();
++menu "CS35L56 driver options"
++	depends on SND_SOC_CS35L56
 +
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctl_name);
-+	KUNIT_EXPECT_PTR_EQ(test, controls, &cs_amp_lib_test_calibration_controls);
++config SND_SOC_CS35L56_CAL_DEBUGFS
++	bool "CS35L56 create debugfs for factory calibration"
++	default N
++	depends on DEBUG_FS
++	select SND_SOC_CS35L56_CAL_DEBUGFS_COMMON
++	help
++	  Create debugfs entries used during factory-line manufacture
++	  for factory calibration.
 +
-+	if (strcmp(ctl_name, controls->ambient) == 0)
-+		*val = 19;
-+	else if (strcmp(ctl_name, controls->calr) == 0)
-+		*val = 1077;
-+	else if (strcmp(ctl_name, controls->status) == 0)
-+		*val = 2;
-+	else
-+		kunit_fail_current_test("Bad control '%s'\n", ctl_name);
++	  If unsure select "N".
++endmenu
 +
-+	return 0;
-+}
+ config SND_SOC_CS40L50
+ 	tristate "Cirrus Logic CS40L50 CODEC"
+ 	depends on MFD_CS40L50_CORE
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 2c1edbd636ef..091a72325507 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -10,6 +10,7 @@
+ #include <linux/completion.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
++#include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+@@ -250,6 +251,8 @@ static const struct snd_soc_dapm_widget cs35l56_dapm_widgets[] = {
+ 	SND_SOC_DAPM_SIGGEN("VDDBMON ADC"),
+ 	SND_SOC_DAPM_SIGGEN("VBSTMON ADC"),
+ 	SND_SOC_DAPM_SIGGEN("TEMPMON ADC"),
 +
-+static void cs_amp_lib_test_read_cal_data_test(struct kunit *test)
-+{
-+	struct cs_amp_lib_test_priv *priv = test->priv;
-+	struct cirrus_amp_cal_data data = { 0 };
-+	struct cs_dsp *dsp;
-+	int ret;
-+
-+	dsp = kunit_kzalloc(test, sizeof(*dsp), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dsp);
-+	dsp->dev = &priv->amp_dev->dev;
-+
-+	kunit_activate_static_stub(test,
-+				   cs_amp_test_hooks->read_cal_coeff,
-+				   cs_amp_lib_test_read_cal_coeff);
-+
-+	ret = cs_amp_read_cal_coeffs(dsp, &cs_amp_lib_test_calibration_controls, &data);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+
-+	KUNIT_EXPECT_EQ(test, 19, data.calAmbient);
-+	KUNIT_EXPECT_EQ(test, 1077, data.calR);
-+	KUNIT_EXPECT_EQ(test, 2, data.calStatus);
-+	KUNIT_EXPECT_NE(test, 0, data.calTime[0] | data.calTime[1]);
-+}
-+
-+static void cs_amp_lib_test_write_ambient_test(struct kunit *test)
-+{
-+	struct cs_amp_lib_test_priv *priv = test->priv;
-+	struct cs_amp_lib_test_ctl_write_entry *entry;
-+	struct cs_dsp *dsp;
-+	int ret;
-+
-+	dsp = kunit_kzalloc(test, sizeof(*dsp), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dsp);
-+	dsp->dev = &priv->amp_dev->dev;
-+
-+	/* Redirect calls to write firmware controls */
-+	kunit_activate_static_stub(test,
-+				   cs_amp_test_hooks->write_cal_coeff,
-+				   cs_amp_lib_test_write_cal_coeff);
-+
-+	ret = cs_amp_write_ambient_temp(dsp, &cs_amp_lib_test_calibration_controls, 18);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+
-+	KUNIT_EXPECT_EQ(test, list_count_nodes(&priv->ctl_write_list), 1);
-+
-+	entry = list_first_entry(&priv->ctl_write_list, typeof(*entry), list);
-+	KUNIT_EXPECT_STREQ(test, entry->name, cs_amp_lib_test_calibration_controls.ambient);
-+	KUNIT_EXPECT_EQ(test, entry->value, 18);
-+}
-+
- static void cs_amp_lib_test_spkid_lenovo_not_present(struct kunit *test)
- {
- 	struct cs_amp_lib_test_priv *priv = test->priv;
-@@ -973,8 +1044,10 @@ static struct kunit_case cs_amp_lib_test_cases[] = {
- 			 cs_amp_lib_test_get_cal_gen_params),
- 	KUNIT_CASE(cs_amp_lib_test_get_efi_cal_empty_entry_test),
- 
--	/* Tests for writing calibration data */
-+	/* Tests for writing and reading calibration data */
- 	KUNIT_CASE(cs_amp_lib_test_write_cal_data_test),
-+	KUNIT_CASE(cs_amp_lib_test_read_cal_data_test),
-+	KUNIT_CASE(cs_amp_lib_test_write_ambient_test),
- 
- 	/* Test cases for speaker ID */
- 	KUNIT_CASE(cs_amp_lib_test_spkid_lenovo_not_present),
-diff --git a/sound/soc/codecs/cs-amp-lib.c b/sound/soc/codecs/cs-amp-lib.c
-index f9d5c4adf3f2..f9f79da3a9ea 100644
---- a/sound/soc/codecs/cs-amp-lib.c
-+++ b/sound/soc/codecs/cs-amp-lib.c
-@@ -541,6 +541,7 @@ EXPORT_SYMBOL_NS_GPL(cs_amp_create_debugfs, "SND_SOC_CS_AMP_LIB");
- static const struct cs_amp_test_hooks cs_amp_test_hook_ptrs = {
- 	.get_efi_variable = cs_amp_get_efi_variable,
- 	.write_cal_coeff = cs_amp_write_cal_coeff,
-+	.read_cal_coeff = cs_amp_read_cal_coeff,
++	SND_SOC_DAPM_INPUT("Calibrate"),
  };
  
- const struct cs_amp_test_hooks * const cs_amp_test_hooks =
+ #define CS35L56_SRC_ROUTE(name) \
+@@ -286,6 +289,7 @@ static const struct snd_soc_dapm_route cs35l56_audio_map[] = {
+ 	{ "DSP1", NULL, "ASP1RX1" },
+ 	{ "DSP1", NULL, "ASP1RX2" },
+ 	{ "DSP1", NULL, "SDW1 Playback" },
++	{ "DSP1", NULL, "Calibrate" },
+ 	{ "AMP", NULL, "DSP1" },
+ 	{ "SPK", NULL, "AMP" },
+ 
+@@ -874,6 +878,152 @@ static void cs35l56_dsp_work(struct work_struct *work)
+ 	pm_runtime_put_autosuspend(cs35l56->base.dev);
+ }
+ 
++static struct snd_soc_dapm_context *cs35l56_power_up_for_cal(struct cs35l56_private *cs35l56)
++{
++	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(cs35l56->component);
++	int ret;
++
++	ret = snd_soc_component_enable_pin(cs35l56->component, "Calibrate");
++	if (ret)
++		return ERR_PTR(ret);
++
++	snd_soc_dapm_sync(dapm);
++
++	return dapm;
++}
++
++static void cs35l56_power_down_after_cal(struct cs35l56_private *cs35l56)
++{
++	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(cs35l56->component);
++
++	snd_soc_component_disable_pin(cs35l56->component, "Calibrate");
++	snd_soc_dapm_sync(dapm);
++}
++
++static ssize_t cs35l56_debugfs_calibrate_write(struct file *file,
++					       const char __user *from,
++					       size_t count, loff_t *ppos)
++{
++	struct cs35l56_base *cs35l56_base = file->private_data;
++	struct cs35l56_private *cs35l56 = cs35l56_private_from_base(cs35l56_base);
++	struct snd_soc_dapm_context *dapm;
++	ssize_t ret;
++
++	dapm = cs35l56_power_up_for_cal(cs35l56);
++	if (IS_ERR(dapm))
++		return PTR_ERR(dapm);
++
++	snd_soc_dapm_mutex_lock(dapm);
++	ret = cs35l56_calibrate_debugfs_write(&cs35l56->base, from, count, ppos);
++	snd_soc_dapm_mutex_unlock(dapm);
++
++	cs35l56_power_down_after_cal(cs35l56);
++
++	return ret;
++}
++
++static ssize_t cs35l56_debugfs_cal_temperature_write(struct file *file,
++						     const char __user *from,
++						     size_t count, loff_t *ppos)
++{
++	struct cs35l56_base *cs35l56_base = file->private_data;
++	struct cs35l56_private *cs35l56 = cs35l56_private_from_base(cs35l56_base);
++	struct snd_soc_dapm_context *dapm;
++	ssize_t ret;
++
++	dapm = cs35l56_power_up_for_cal(cs35l56);
++	if (IS_ERR(dapm))
++		return PTR_ERR(dapm);
++
++	ret = cs35l56_cal_ambient_debugfs_write(&cs35l56->base, from, count, ppos);
++	cs35l56_power_down_after_cal(cs35l56);
++
++	return ret;
++}
++
++static ssize_t cs35l56_debugfs_cal_data_read(struct file *file,
++					     char __user *to,
++					     size_t count, loff_t *ppos)
++{
++	struct cs35l56_base *cs35l56_base = file->private_data;
++	struct cs35l56_private *cs35l56 = cs35l56_private_from_base(cs35l56_base);
++	struct snd_soc_dapm_context *dapm;
++	ssize_t ret;
++
++	dapm = cs35l56_power_up_for_cal(cs35l56);
++	if (IS_ERR(dapm))
++		return PTR_ERR(dapm);
++
++	ret = cs35l56_cal_data_debugfs_read(&cs35l56->base, to, count, ppos);
++	cs35l56_power_down_after_cal(cs35l56);
++
++	return ret;
++}
++
++static int cs35l56_new_cal_data_apply(struct cs35l56_private *cs35l56)
++{
++	struct snd_soc_dapm_context *dapm;
++	int ret;
++
++	if (!cs35l56->base.cal_data_valid)
++		return -ENXIO;
++
++	if (cs35l56->base.secured)
++		return -EACCES;
++
++	dapm = cs35l56_power_up_for_cal(cs35l56);
++	if (IS_ERR(dapm))
++		return PTR_ERR(dapm);
++
++	snd_soc_dapm_mutex_lock(dapm);
++	ret = cs_amp_write_cal_coeffs(&cs35l56->dsp.cs_dsp,
++				      cs35l56->base.calibration_controls,
++				      &cs35l56->base.cal_data);
++	if (ret == 0)
++		cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
++	else
++		ret = -EIO;
++
++	snd_soc_dapm_mutex_unlock(dapm);
++	cs35l56_power_down_after_cal(cs35l56);
++
++	return ret;
++}
++
++static ssize_t cs35l56_debugfs_cal_data_write(struct file *file,
++					      const char __user *from,
++					      size_t count, loff_t *ppos)
++{
++	struct cs35l56_base *cs35l56_base = file->private_data;
++	struct cs35l56_private *cs35l56 = cs35l56_private_from_base(cs35l56_base);
++	int ret;
++
++	ret = cs35l56_cal_data_debugfs_write(&cs35l56->base, from, count, ppos);
++	if (ret == -ENODATA)
++		return count;	/* Ignore writes of empty cal blobs */
++	else if (ret < 0)
++		return -EIO;
++
++	ret = cs35l56_new_cal_data_apply(cs35l56);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
++static const struct cs35l56_cal_debugfs_fops cs35l56_cal_debugfs_fops = {
++	.calibrate = {
++		.write = cs35l56_debugfs_calibrate_write,
++	},
++	.cal_temperature = {
++		.write = cs35l56_debugfs_cal_temperature_write,
++	},
++	.cal_data = {
++		.read = cs35l56_debugfs_cal_data_read,
++		.write = cs35l56_debugfs_cal_data_write,
++	},
++};
++
+ static int cs35l56_set_fw_suffix(struct cs35l56_private *cs35l56)
+ {
+ 	if (cs35l56->dsp.fwf_suffix)
+@@ -971,6 +1121,13 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
+ 	if (ret)
+ 		return dev_err_probe(cs35l56->base.dev, ret, "unable to add controls\n");
+ 
++	ret = snd_soc_component_disable_pin(component, "Calibrate");
++	if (ret)
++		return ret;
++
++	if (IS_ENABLED(CONFIG_SND_SOC_CS35L56_CAL_DEBUGFS))
++		cs35l56_create_cal_debugfs(&cs35l56->base, &cs35l56_cal_debugfs_fops);
++
+ 	queue_work(cs35l56->dsp_wq, &cs35l56->dsp_work);
+ 
+ 	return 0;
+@@ -982,6 +1139,8 @@ static void cs35l56_component_remove(struct snd_soc_component *component)
+ 
+ 	cancel_work_sync(&cs35l56->dsp_work);
+ 
++	cs35l56_remove_cal_debugfs(&cs35l56->base);
++
+ 	if (cs35l56->dsp.cs_dsp.booted)
+ 		wm_adsp_power_down(&cs35l56->dsp);
+ 
+diff --git a/sound/soc/codecs/cs35l56.h b/sound/soc/codecs/cs35l56.h
+index 40a1800a4585..4c59f92f3206 100644
+--- a/sound/soc/codecs/cs35l56.h
++++ b/sound/soc/codecs/cs35l56.h
+@@ -10,6 +10,7 @@
+ #define CS35L56_H
+ 
+ #include <linux/completion.h>
++#include <linux/container_of.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/workqueue.h>
+@@ -54,6 +55,11 @@ struct cs35l56_private {
+ 	u8 sdw_unique_id;
+ };
+ 
++static inline struct cs35l56_private *cs35l56_private_from_base(struct cs35l56_base *cs35l56_base)
++{
++	return container_of(cs35l56_base, struct cs35l56_private, base);
++}
++
+ extern const struct dev_pm_ops cs35l56_pm_ops_i2c_spi;
+ 
+ int cs35l56_system_suspend(struct device *dev);
 -- 
 2.47.3
 
