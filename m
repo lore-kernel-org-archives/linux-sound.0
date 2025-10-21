@@ -1,48 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD7D34C834;
-	Tue, 21 Oct 2025 18:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3833634A3D9
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 18:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761072734; cv=none; b=fCW3PWJ0HYnDZqgrL77HOlW5U8CvU4VmslJBgoeOnHnyfBTXe/SvPcAhhl645UKnpKadg6SyRfyZWEwmJ7Zvt5rLwR6r7TWK1+W9sxLFHZ/4956c1lTRBJw/SHJwHsvY9E6qZkBJUCd/ssdQ4Dbe/7WB5tIz8zGkqxpyO/HtWOI=
+	t=1761072741; cv=none; b=LQScw1B2clO//oJgqs6uqmPzpUX1G7ozScwY0UKnECrO968lpHtI28m79SyL1TySWpncfMj1k5p3qjpyUzcOgvgAgj30oNoYd8u6H17wWV9TbyWy8nDbcl0AE7K6Oj/klt4avIR19RYIqkYN/fQvk4ajAElafcGugNG4kk3yUOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761072734; c=relaxed/simple;
-	bh=jTJGo1a5Vybzx2bfQmxlWwpD2oIUSFEBoWaTwwHmxsI=;
+	s=arc-20240116; t=1761072741; c=relaxed/simple;
+	bh=xOnTb2HtWJBukNjpMV4Pxvou2fc8+2/iiTHNKwSvLmo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k5o2P/9pAE8EWlT4UIus35BobCtLsMk7fb21ruiwV4/IhGmZ657TQkWeVBUfqvO9U2meTgumesmSxwBYmzEFIEPpGc91JyItmwJY1t2Ne+mozVYTQJsQ0+wkNvYaszXFMVhf0KPTqyv928ifOro99OX31o8oQSk91nEMxyYOYvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tfzj5ljG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Quw5wHrQUdF2V/rI9uMAVwkkUGVPH7ba22Lxm11EPrDUg7KhfznYZl5/vjCThQH05T7ExfjZm3Fb5Cu9eFvwoneEGrGWctfqQqYBBpUuUw0x4SCwWNfZ/GPHux6sj3GrSAetm6Pd6y7NJ8/RgKDqIDdEYdy3WiWU0OUXrF0t/Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YEFyhXcL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tfzj5ljG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1574C4CEF1;
-	Tue, 21 Oct 2025 18:52:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YEFyhXcL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED21C4CEF1;
+	Tue, 21 Oct 2025 18:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761072734;
-	bh=jTJGo1a5Vybzx2bfQmxlWwpD2oIUSFEBoWaTwwHmxsI=;
+	s=k20201202; t=1761072741;
+	bh=xOnTb2HtWJBukNjpMV4Pxvou2fc8+2/iiTHNKwSvLmo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Tfzj5ljGWUHoeehh4LAev6SfHTfBfPTH2HrIPoTSAX7kotdFk94Kehfmox0a8gNYu
-	 cfLNIDo58gatBuNcR+cUtFMXuLTQD5MzvYPW/69K2z/c2Dhty+XbaCDEv7P2XMzqq9
-	 GNCvdLJU95APeWnRnmxN2XIpNt7OYyuNJ4nSEaFyW0vrD3HaKoQ6hxpqhHxwmHeUbT
-	 CTvB97sItty4efTg3GTGNpJhwGwmzGhIQOx+e6Xe/lTEpRz8LpV/xL7/e2jXMjEV5w
-	 4hLPT5ylExWfokI8G2XUnYmPYZiTHc+WpnoKFE9bCTHgNEyKnWFJJEPykAsyA65uGR
-	 2Tl1nYSTYfmuw==
+	b=YEFyhXcLPtbpnjeIJ5izdzo31xkDyK8+9EZ20PCPmBfCamEfXh9Lwolm4i/O8nCr6
+	 JVipjKusMuiNofyv1IpOdqtyR0QbB4o7dqE6l/yiS33ZFJwSxcmGhAOp+f7VQuc+PD
+	 32tpsp1j0QYEMi1pa+s+9zGz4CbrzS1Kv/Y3yTAajCeYTcWU0e3f4u/1PBetBFV4w6
+	 mygGljmpaOr31JDkHDcX5x6ear1vFvqmFFdDFL2Qd9Z3hYjJYLpOvUnT1bEx43MKZw
+	 WSOsQmjoRdGihxSRa2vCSyGU7DknmvonTrwSqBXhY+F4IX+MY0Vmmv6NNPO0VpF6ey
+	 FNp65V0Op+jug==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, Colin Ian King <colin.i.king@gmail.com>, 
- Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Anand Moon <linux.amoon@gmail.com>, 
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>, 
- Colin Ian King <colin.i.king@gmail.com>
-In-Reply-To: <115fba03-e8ba-4bc1-84d8-7d483c06208c@web.de>
-References: <115fba03-e8ba-4bc1-84d8-7d483c06208c@web.de>
-Subject: Re: [PATCH] ASoC: rockchip: i2s-tdm: Omit a variable reassignment
- in rockchip_i2s_tdm_probe()
-Message-Id: <176107273158.196841.8935507815109050831.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 19:52:11 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
+In-Reply-To: <20251021065700.130810-1-yung-chuan.liao@linux.intel.com>
+References: <20251021065700.130810-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: add hyphen between name and index to
+ amp name_prefix
+Message-Id: <176107273998.196841.1402911891887643938.b4-ty@kernel.org>
+Date: Tue, 21 Oct 2025 19:52:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,15 +45,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-2a268
 
-On Mon, 20 Oct 2025 18:23:27 +0200, Markus Elfring wrote:
-> An error code was assigned to a variable and checked accordingly.
-> This value was passed to a dev_err_probe() call in an if branch.
-> This function is documented in the way that the same value is returned.
-> Thus delete a redundant variable reassignment.
+On Tue, 21 Oct 2025 14:57:00 +0800, Bard Liao wrote:
+> For those amps that use their name as name prefix the amp id should be
+> added after a hyphen symbol. Like "rt1320-1".
 > 
-> The source code was transformed by using the Coccinelle software.
 > 
-> [...]
 
 Applied to
 
@@ -69,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rockchip: i2s-tdm: Omit a variable reassignment in rockchip_i2s_tdm_probe()
-      commit: 900da53226121c1e710ca95857806a136ab281a2
+[1/1] ASoC: SOF: Intel: add hyphen between name and index to amp name_prefix
+      commit: 5cd5f8fc29fa1b6d7c0a8f2b0a95b896ecadfa42
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
