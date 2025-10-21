@@ -1,112 +1,199 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602677E105;
-	Tue, 21 Oct 2025 01:53:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13841DED49
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761011633; cv=none; b=Nan5ivN2ygUsnQmNh87iyEGnH+wBLX79LXo4KkDNOJ/xETWHTK90lRjlNPlgb++OOY9nZirMtSz6p1ApsnOTk5CeNgga9HDy7Nwl3+xfQ6ozi9vtDaTLdsaTG+QjWccOUikv1F7sR/Bx4cgOe0sTYucgDuNwhbfAIlsVPnnUaHU=
+	t=1761018663; cv=none; b=TOTfH6Pn8uqHsOXu/jP2fI9ZMA9i8DjaVA9a/3S/C+HrqepB8PP8miDdoCJTGzOCI/obSgcFyj30ycLKoZRaNTUDlY/tkf433umm6yspmwf4ysUUhLpiKt1n1BGaC0QHrYAhk2NQ5UovoevsDfADySrg9J4Iawb24QkU7mLELTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761011633; c=relaxed/simple;
-	bh=gEFXq3ZbGcZ2wLt1kNCnmyzf7qCy7XGcSSRG5SuAU8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UsRvVCV9Ppb7irG60tSaY2kqpg1jfIMnGFwUrkBJug0Memnyr9qzVNH8zV2R0qJb2ZR5/GoMjwEUbaoKkbfVBO3CLqlIWk4OBUkO+zFJWiG2rm5x1PA4ZTyIha0cibcUYD7gpyfFZ2pbzGGJDEOxgCF5xuDIiEGOWRwxplFY33o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhSer6FA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761018663; c=relaxed/simple;
+	bh=aJyeINSKb1G3tVPbGfkA5Oqt5hmeaylrgY+aIoalhhg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MhaodKrDNe5OAiCPIfLUAO+I6W7hYf2z6ELkG+CVr/tT5UgXvhGModyX1PrjX8kGklI6MrU/CcX0X49RR6InaRpMEw2eat1upu5qHiZ+/162Vnx9K2goYc4VaV8p2ISvqlYRm47VSHNB/mUYr33NnWo5/A6TgrlN3I5c4qfA6VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVgViDMk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhSer6FA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C0EC4CEFB;
-	Tue, 21 Oct 2025 01:53:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVgViDMk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827BAC19425
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761011633;
-	bh=gEFXq3ZbGcZ2wLt1kNCnmyzf7qCy7XGcSSRG5SuAU8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lhSer6FAbofHcgD61qoh5QzZYC4905I96PcCZWfI86ac1ynePuJi3fg0VrjU9ztAo
-	 XkR6dgKlCQnBR0dsVJeZNZPgnQB/RUGODC9QoLTYhQjR6KMtKOAmjqopw3rdEynIfH
-	 Vmbx1RjuwgnyFqnleQEZTrdFrVMapKDurCZ6J2JRxqY/dHT6Ar+xeS0eD68/DIOKvI
-	 Ysb7LH67G5pD87/ezpN+lEAEQPCuYRmpogqeTZbdxOD/3O1PmZOJawv0JS8N3wEeMx
-	 +kifMX87l6Y3ReoHxNohaM65naJhnkJwFJXQEKTfd9ZAYoODmDf/CaWQMRURoY0Bxa
-	 xbw5EKuNfqZIA==
-Date: Tue, 21 Oct 2025 07:23:38 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
-Message-ID: <rvsyll4u6v4tpaxs4z3k4pbusoktkaocq4o3g6rjt6d2zrzqst@raiuch3hu3ce>
-References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
- <hyzzrjn7jzo3tt3oyg7azijouawe3zopfjzq6zfhoo6e6z2m4t@ssl5vl4g557e>
- <zk4ea5cibrkp4vttuy4evrqybf76b3nop5lnyck4ws4nyf2yc4@ghj2eyswsoow>
- <CAMRc=MdWmO4wvX6zpzN0-LZF1pF5Y2=sS8fBwr=CKMGWHg+shA@mail.gmail.com>
- <rfr5cou6jr7wmtxixfgjxhnda6yywlsxsei7md7ne3qge7r3gk@xv6n5pvcjzrm>
- <CAMRc=Me9Td5G9qZV8A98XkGROKw1D2UeQHpFzt8uApF8995MZw@mail.gmail.com>
+	s=k20201202; t=1761018663;
+	bh=aJyeINSKb1G3tVPbGfkA5Oqt5hmeaylrgY+aIoalhhg=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=HVgViDMkKZyvApVhmfWv3KaZ8/4va6fCYtgkcHLXNQ7NMfudTTrSY5nHZ4EadmT/9
+	 XwBmth48HLf8nsMOU5qd0efJHOyRa89Y9z72n1dfnMt4DLM/8gqMn9Pix024YQu4RX
+	 5KPKEsfohJLWL9nLdcYixumNDgSRT722sxa8fLY0i83WAIgo7ePG7FZ9F/ir2iRYmy
+	 cG4swh7viqYBG+yUcLIN5Yx6x+seEABCcMcQHdbG3l8Cjx+xJkOlrKMaz/SkjIOfk/
+	 tqjmJKrP7t3jKNYeBUtXjkngniGzDxyiS7POP002wvICcSY2sRx9XWGtYEvfl3Lp+u
+	 yWPkTkLyxh/8A==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-36a6a3974fdso54819241fa.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Oct 2025 20:51:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWULFUT+N7UKF73it1wZCNoJjEiWMwFq8gGj4d8Pr6FTI7TFeom1f8DIuo/YAXIHoHN42m01qWN6FJE9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2UtLFSqSdGnqlllACG4c+y7uXnzDfdl1VI8w/rZBXUtyy0wVz
+	PXJB/gq+OiSVK3XEP9JZK5Af+PMsAFfsUhTEkl3KwQhSw8iB8YHXn+o4jFH0ZAvzEHTP9xXAp5r
+	4ydqzaJYSYktHhiKr5aYeNGygitldfck=
+X-Google-Smtp-Source: AGHT+IG8vasmm5hWdGe7KBlLp5chhcRp+eBr/myvEiV96lMVwrmDdir100cF1onLwBZjh0GCzdDPuKXAZ1yS7H+1U/g=
+X-Received: by 2002:a2e:bc81:0:b0:372:9e15:8970 with SMTP id
+ 38308e7fff4ca-37797a0ca11mr52596901fa.23.1761018661756; Mon, 20 Oct 2025
+ 20:51:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Me9Td5G9qZV8A98XkGROKw1D2UeQHpFzt8uApF8995MZw@mail.gmail.com>
+References: <20251020171059.2786070-1-wens@kernel.org> <20251020171059.2786070-5-wens@kernel.org>
+ <13867454.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <13867454.uLZWGnKmhe@jernej-laptop>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 21 Oct 2025 11:50:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65+U2L8=HM6DimzVw=saK6rbR4Bzg7Nwz0Jyq6UXJkf=g@mail.gmail.com>
+X-Gm-Features: AS18NWBDmVKtQm8S428O1qs2kjY6UgewUb3LycjUD4uEQoxwe6OCMS4j1ARdxWY
+Message-ID: <CAGb2v65+U2L8=HM6DimzVw=saK6rbR4Bzg7Nwz0Jyq6UXJkf=g@mail.gmail.com>
+Subject: Re: [PATCH 04/11] ASoC: sun4i-spdif: Support SPDIF output on A523 family
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 07, 2025 at 02:29:01PM +0200, Bartosz Golaszewski wrote:
-> On Tue, Oct 7, 2025 at 12:09 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
+On Tue, Oct 21, 2025 at 1:49=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Hi,
+>
+> Dne ponedeljek, 20. oktober 2025 ob 19:10:50 Srednjeevropski poletni =C4=
+=8Das je Chen-Yu Tsai napisal(a):
+> > The TX side of the SPDIF block on the A523 is almost the same the
+> > previous generations, the only difference being that it has separate
+> > module clock inputs for the TX and RX side.
 > >
-> > > >
-> > > > Not always... For something like shared reset line, consumers request the line
-> > > > as GPIO and expect gpiolib to do resource manangement.
-> > > >
-> > >
-> > > They could use the reset API and it would implicitly create a virtual
-> > > device that requests the reset GPIO and controls its enable count.
-> > > Except that some devices also do a specific reset sequence with delays
-> > > etc. That would require some additional logic in reset-gpio.
-> > >
+> > Since this driver currently only supports TX, add support for a
+> > different clock name so that TX and RX clocks can be separated
+> > if RX support is ever added. Then add support for the A523.
 > >
-> > I was referring to the PCIe PERST# line, for which the 'reset-gpios' property
-> > already exist in the schema. Now, you want me to model this simple GPIO as a
-> > fake reset controller and use it the PCIe Bridge nodes through 'resets'
-> > property?
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > ---
+> >  sound/soc/sunxi/sun4i-spdif.c | 28 +++++++++++++++++++++++++---
+> >  1 file changed, 25 insertions(+), 3 deletions(-)
 > >
-> 
-> No, not at all. It's just that a shared `reset-gpios` property is
-> pretty common and Krzysztof implemented the reset-gpio driver[1] to
-> address it. Drivers that request a reset control via the OF interface
-> will notice that there's no `resets` property but if there's a
-> `reset-gpios`, the reset core will create a virtual device binding to
-> the reset-gpio driver which requests the GPIO in question (once!) and
-> registers with the reset subsystem providing shared reset control to
-> users. Basically the abstraction Srini mentioned minus any reset
-> sequence.
-> 
-> That only happens if the driver uses the reset API. If you go with the
-> GPIOLIB then none of this matters. I definitely don't want to change
-> the existing DT sources either but I want to find out if the code in
-> this series is suitable (with some modifications) for supporting the
-> PERST# line or if the logic behind it is more complex and possibly
-> requires separate, more fine-grained handling.
-> 
+> > diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdi=
+f.c
+> > index 34e5bd94e9af..6a58dc4311de 100644
+> > --- a/sound/soc/sunxi/sun4i-spdif.c
+> > +++ b/sound/soc/sunxi/sun4i-spdif.c
+> > @@ -177,6 +177,7 @@ struct sun4i_spdif_quirks {
+> >       bool has_reset;
+> >       unsigned int val_fctl_ftx;
+> >       unsigned int mclk_multiplier;
+> > +     const char *tx_clk_name;
+> >  };
+> >
+> >  struct sun4i_spdif_dev {
+> > @@ -323,6 +324,7 @@ static int sun4i_spdif_hw_params(struct snd_pcm_sub=
+stream *substream,
+> >       }
+> >       mclk *=3D host->quirks->mclk_multiplier;
+> >
+> > +     dev_info(&pdev->dev, "Setting SPDIF clock rate to %u\n", mclk);
+> >       ret =3D clk_set_rate(host->spdif_clk, mclk);
+> >       if (ret < 0) {
+> >               dev_err(&pdev->dev,
+> > @@ -542,7 +544,6 @@ static struct snd_soc_dai_driver sun4i_spdif_dai =
+=3D {
+> >               .formats =3D SUN4I_FORMATS,
+> >       },
+> >       .ops =3D &sun4i_spdif_dai_ops,
+> > -     .name =3D "spdif",
+>
+> Why this change?
 
-All PCI controllers relied on '{reset/perst}-gpios' property for handling the
-PERST# signal. Now if we change it to a reset line, then the drivers have to
-first detect it as a reset line and use the reset APIs, if not fallback to gpiod
-APIs (for DT backwards compatibility), which will add unncessary churn IMO.
+Now that you mention it, this looks bogus to me as well. I'll drop it.
 
-But if there is no way the GPIO subsystem is going to support shared GPIOs, then
-we have to live with it.
+> >  };
+> >
+> >  static const struct sun4i_spdif_quirks sun4i_a10_spdif_quirks =3D {
+> > @@ -572,6 +573,14 @@ static const struct sun4i_spdif_quirks sun50i_h6_s=
+pdif_quirks =3D {
+> >       .mclk_multiplier =3D 1,
+> >  };
+> >
+> > +static const struct sun4i_spdif_quirks sun55i_a523_spdif_quirks =3D {
+> > +     .reg_dac_txdata =3D SUN8I_SPDIF_TXFIFO,
+> > +     .val_fctl_ftx   =3D SUN50I_H6_SPDIF_FCTL_FTX,
+> > +     .has_reset      =3D true,
+> > +     .mclk_multiplier =3D 1,
+> > +     .tx_clk_name    =3D "tx",
+> > +};
+> > +
+> >  static const struct of_device_id sun4i_spdif_of_match[] =3D {
+> >       {
+> >               .compatible =3D "allwinner,sun4i-a10-spdif",
+> > @@ -594,6 +603,15 @@ static const struct of_device_id sun4i_spdif_of_ma=
+tch[] =3D {
+> >               /* Essentially the same as the H6, but without RX */
+> >               .data =3D &sun50i_h6_spdif_quirks,
+> >       },
+> > +     {
+> > +             .compatible =3D "allwinner,sun55i-a523-spdif",
+> > +             /*
+> > +              * Almost the same as H6, but has split the TX and RX clo=
+cks,
+> > +              * has a separate reset bit for the RX side, and has some
+> > +              * expanded features for the RX side.
+> > +              */
+> > +             .data =3D &sun55i_a523_spdif_quirks,
+> > +     },
+> >       { /* sentinel */ }
+> >  };
+> >  MODULE_DEVICE_TABLE(of, sun4i_spdif_of_match);
+> > @@ -635,6 +653,7 @@ static int sun4i_spdif_probe(struct platform_device=
+ *pdev)
+> >       const struct sun4i_spdif_quirks *quirks;
+> >       int ret;
+> >       void __iomem *base;
+> > +     const char *tx_clk_name =3D "spdif";
+>
+> Reverse tree?
 
-- Mani
+I think that only applies to the network tree.
 
--- 
-மணிவண்ணன் சதாசிவம்
+> Otherwise it looks good.
+
+Thanks!
+
+ChenYu
+
+> Best regards,
+> Jernej
+>
+> >
+> >       dev_dbg(&pdev->dev, "Entered %s\n", __func__);
+> >
+> > @@ -671,9 +690,12 @@ static int sun4i_spdif_probe(struct platform_devic=
+e *pdev)
+> >               return PTR_ERR(host->apb_clk);
+> >       }
+> >
+> > -     host->spdif_clk =3D devm_clk_get(&pdev->dev, "spdif");
+> > +     if (quirks->tx_clk_name)
+> > +             tx_clk_name =3D quirks->tx_clk_name;
+> > +     host->spdif_clk =3D devm_clk_get(&pdev->dev, tx_clk_name);
+> >       if (IS_ERR(host->spdif_clk)) {
+> > -             dev_err(&pdev->dev, "failed to get a spdif clock.\n");
+> > +             dev_err(&pdev->dev, "failed to get the \"%s\" clock.\n",
+> > +                     tx_clk_name);
+> >               return PTR_ERR(host->spdif_clk);
+> >       }
+> >
+> >
+>
+>
+>
+>
