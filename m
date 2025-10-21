@@ -1,40 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3833634A3D9
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 18:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2985334A3D4;
+	Tue, 21 Oct 2025 18:52:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761072741; cv=none; b=LQScw1B2clO//oJgqs6uqmPzpUX1G7ozScwY0UKnECrO968lpHtI28m79SyL1TySWpncfMj1k5p3qjpyUzcOgvgAgj30oNoYd8u6H17wWV9TbyWy8nDbcl0AE7K6Oj/klt4avIR19RYIqkYN/fQvk4ajAElafcGugNG4kk3yUOQ=
+	t=1761072742; cv=none; b=Rx3KgA1aWeZ4/OG0xt62N/eGAjai7F3wxEJhWNwfU7htKM3bXA6CLmOh9AGvz7+vIjKMeYHE3GV+HvjdIHjyz1g0WAkYiGqoafR+ysJEmZxc8yI5tfZczybpRSnXuVRLJG7Bt/ds7H8toy165pV3BBOsBXvHb06eyxnY1Lc1k3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761072741; c=relaxed/simple;
-	bh=xOnTb2HtWJBukNjpMV4Pxvou2fc8+2/iiTHNKwSvLmo=;
+	s=arc-20240116; t=1761072742; c=relaxed/simple;
+	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Quw5wHrQUdF2V/rI9uMAVwkkUGVPH7ba22Lxm11EPrDUg7KhfznYZl5/vjCThQH05T7ExfjZm3Fb5Cu9eFvwoneEGrGWctfqQqYBBpUuUw0x4SCwWNfZ/GPHux6sj3GrSAetm6Pd6y7NJ8/RgKDqIDdEYdy3WiWU0OUXrF0t/Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YEFyhXcL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Mxb1X7JRuY5nNUPbvvk26lWAZPpnkMN/eZjW0tYjJEPWCKw5Eob7xEsJyPKCikckBifEM7fL8Xk1gp3WZSxi1Zv6oPWN7VIHdHswCVJ/cWOG2dLAM2nlwl5tgt3o7TBLMhWrQjxFkcQHrW+KlbExrU/15r9PY+8ZNgM0fQik8lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F411smwq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YEFyhXcL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED21C4CEF1;
-	Tue, 21 Oct 2025 18:52:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F411smwq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAADFC4CEF5;
+	Tue, 21 Oct 2025 18:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761072741;
-	bh=xOnTb2HtWJBukNjpMV4Pxvou2fc8+2/iiTHNKwSvLmo=;
+	s=k20201202; t=1761072739;
+	bh=/CjlmkvSVehb9uKQ22ITRCOwatYs4Z+DyN9C4O9799g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YEFyhXcLPtbpnjeIJ5izdzo31xkDyK8+9EZ20PCPmBfCamEfXh9Lwolm4i/O8nCr6
-	 JVipjKusMuiNofyv1IpOdqtyR0QbB4o7dqE6l/yiS33ZFJwSxcmGhAOp+f7VQuc+PD
-	 32tpsp1j0QYEMi1pa+s+9zGz4CbrzS1Kv/Y3yTAajCeYTcWU0e3f4u/1PBetBFV4w6
-	 mygGljmpaOr31JDkHDcX5x6ear1vFvqmFFdDFL2Qd9Z3hYjJYLpOvUnT1bEx43MKZw
-	 WSOsQmjoRdGihxSRa2vCSyGU7DknmvonTrwSqBXhY+F4IX+MY0Vmmv6NNPO0VpF6ey
-	 FNp65V0Op+jug==
+	b=F411smwqWcOG0d2J5NZJxXys/QHFqMqfadrXHqCOrLNcMA8WW8cRWSk5m/BcXF9zx
+	 jZCozPqw0LLbKMe9Xg/7Q/5qNkvpUcFxLmVtHtolTatemNDXN1nSJTjrUI9VuvXwq7
+	 WKFwmr+7x/pp0G6AK4RBsvqGwJnVh2cymY/fGszwyWytaKA9KDj4sVfS+KG78BgSZY
+	 bcEELUX1vIfLE0lvoGBje+ts88QjDTQ9wZrrgDSKAnoSPNtxc3GvyBNpQxBQo8hSIt
+	 06Xj4Zp0li6SsLoBTKYt5YN1COKgyPPPWPNwy3+TOWEwT4Yde6TiJdiW4MfOXFPNpO
+	 KQR4u8ujsV9Eg==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
-In-Reply-To: <20251021065700.130810-1-yung-chuan.liao@linux.intel.com>
-References: <20251021065700.130810-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: add hyphen between name and index to
- amp name_prefix
-Message-Id: <176107273998.196841.1402911891887643938.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 19:52:19 +0100
+To: devicetree@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
+ names
+Message-Id: <176107273462.196841.10566474992325623883.b4-ty@kernel.org>
+Date: Tue, 21 Oct 2025 19:52:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +62,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-2a268
 
-On Tue, 21 Oct 2025 14:57:00 +0800, Bard Liao wrote:
-> For those amps that use their name as name prefix the amp id should be
-> added after a hyphen symbol. Like "rt1320-1".
+On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
+> Node names are already and properly checked by the core schema. No need
+> to do it again.
 > 
+> These are all occurrences I found in linux-next as of 20251015. I did
+> run dt_bindings_check successfully. I haven't done a way to run
+> dtbs_check yet because I would need to identify the proper architecture
+> first, right? Is there some tool which tests all DTs of a certain
+> binding? At least build bot is happy, I don't know if it checks DTs as
+> well, though.
 > 
+> [...]
 
 Applied to
 
@@ -57,8 +81,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: add hyphen between name and index to amp name_prefix
-      commit: 5cd5f8fc29fa1b6d7c0a8f2b0a95b896ecadfa42
+[3/4] ASoC: dt-bindings: don't check node names
+      commit: 6a4f29bc66294d44d61a294e5bdc623eae74587b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
