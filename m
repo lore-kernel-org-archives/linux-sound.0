@@ -1,71 +1,71 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACF732E6A6
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CF32E748
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 10:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761043045; cv=none; b=ef8N7RNNddk84F8qLyCqbTpt7QWqCczTfd7ocucFvrTcrvNsgrLuo+qLML8UY3iiOHV+aB3nVc465hquS1kvAOObwWPH3ZFBQ4mW8D/z+HezK0KlubdKZzChCMD/nap7jWLZ2DpwVgfrH696YNOYAO1FvJ1Ly3PmelLPovR8/xo=
+	t=1761043051; cv=none; b=n0CJDfoN0EfvFx1FMY1bpJsDmsbUDuB9d+pKqaWnk//aq8BQqYECKEq9Yj/ysrBzidrt1SCGph6qw+28RNYLVU2n0mkmC7228Yifapa5X2gPFMJ8OOitST53xurAH+1JTHC13888pQX6s9u3M2Fzm3aec6zVYKqAR4mT67cA664=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761043045; c=relaxed/simple;
-	bh=jY85f0BTm4xZQJc0duQtrHNO8Jvd21YwmPqak4eZGgY=;
+	s=arc-20240116; t=1761043051; c=relaxed/simple;
+	bh=G8bIrdKOREeaQWFYl+BVblIyK/tNvhnzk9i8+sGZ5Dk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gTmcdQu0fuayg6au78qtjWTSxKkZIV9GutUsIPfFZoLBoEsSKPvbIWuFBcLM0fRedDfTQpyv0l6C3pJteMqz5HW0w9KiZHbc70Mzu6J2cSMCkLE5n2AHNu6c/xklw0Ft3EJGXk48C3vfaURl7PDfaNskic7xqfqGpjzdMvUDkZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AGShXXRu; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=VxqdyTLhD9aY9XK0Hvmp0slieMFxaxHrdIDiEsUEMBeF3z4PE25xnGhEZl0RbAjl9Mk//9eqWjL964ZuyB02l1VjGTkAGouC+H4e8yKEUjU+piHCbCLnKkZ6Mj6e+2ztu5doKUDpc2XO4aN0aVU42DZuNP4PLCUZC/WYDb3UPQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OV4FJNFQ; arc=none smtp.client-ip=74.125.224.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AGShXXRu"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7847f4265e3so31363537b3.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:37:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OV4FJNFQ"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-63e35e48a25so2420272d50.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 03:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761043041; x=1761647841; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1761043046; x=1761647846; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/A+ENDDOHSgvE5iS6/3zjzMWUCCsA0O3Bo7N+5kZEq0=;
-        b=AGShXXRuJ5ITWwpLzZJQ1VXWyVfQymzdKhuGNk25riiEfXTuHcL4EPvn7WHIF3kH8x
-         OhnKKvNizFxKrcRYmouNm2QzTLg9F6U6J1RI+oX2GED2eZgbASnNHqfEOqrZ3TtI9iPF
-         J5p310mP9UUOexfReXcEVrhGi5lqK3bZr2ur3ZtTX8FB0jcsNJtRSxI/NCjnUrdGeVLy
-         Rc0DkmPO2AB4WidOkKeisoVL7e3xqpHy96K6x11xdTr9NJgOLXMVhbEhXVg9VaRRC5mY
-         qnUdIVVTDcJ6Dl1jgkN3+L8UZR4GCsuyyzZd3iqsSfgDUEoErOhqbDjsu9V2mbDNm0CM
-         qEyA==
+        bh=du/uiA2g0ruAK2UrT7r+xEuTy7bML0SpAVcY8ooVq04=;
+        b=OV4FJNFQ1uapnGqxwNArp1c3sMnou9Gn5Mulg7FgaRBpu3ejO833yxc66+0QPR5qku
+         aA6EtTV2yORIXSU8/KOKiCgkLr08ed7m+oB3VG68OcVm4IkfQWuf0NSFnvDvBvHYEmGO
+         s7eoCUGrMzgib3JPXWKNfiFjGSXvsakVOwKCpyf53cvuthskb+tI6l295G2g2M067qv0
+         G6+Xk1iy4eqtknYhBYxWVNcWvuKiCEb1jHN6XCahAmWGOYfMn+CWYLTXienvZkfJa3Lm
+         e+zGW8er2mG1JDxIljGhsR0OOWqP1w+F6NtkkmNhuPT00c+L0r+NcJ0Wx1GHFOjnhc7B
+         L2yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761043041; x=1761647841;
+        d=1e100.net; s=20230601; t=1761043046; x=1761647846;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/A+ENDDOHSgvE5iS6/3zjzMWUCCsA0O3Bo7N+5kZEq0=;
-        b=H86dhUY6+Rj31crvC+Vr9pYSHDsZHgClmf8vBXRLqg9kyeqoboqALUYDj9IfeQ45A2
-         COuABbiMksJpe25JGlZ5ixQGt0SdXzUCux7vwmBJNm0L6/Ns1fwFKyVaMeh+K0vrvqaF
-         /YiyWXVbceHwVAS/XAflzmBSj4QEgcfr4j6gDYeba6UsGUd5VjmfR3MMa1t9aEwidaYF
-         6C71UpE08/k38WhqRSdNcwWlYReK2rC1VWBCc7YbfX7osNtDjnUYSlshAxTQAzw+YuqS
-         6ZQQgdUbyTBBq9tZCpcbYpqQKw/3UPsTGsEUura4NdLQ9Oc19HJaOpO6Z+36BjK3Vtl8
-         R+cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXs4nxvnl/fx1Cx7im9gXa7YYdH0DfJN2vMBqqYtHZGML+yZtRGIYo4LZXWnmCDalEHQA8KcivN+TndtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwkwVURfj98tUIlJx7/BkvFUnF9B0qZTphuJEqOXCCFalIp9hh
-	tk503NHkCktJUpCrwvWR9fojBWWwTPWWADZO1nrfBBeXABTvVZ391EVGkjh7aS+iEgsyRte25JY
-	T43y1Ba/SZ1Ffk3UBgHinH4uxYmKqGnDY5ZZxJWpAzw==
-X-Gm-Gg: ASbGncs3CZYeuyx80bKdBn1IWPbK1Vbc1HqCrtql4ZdMrctx2r1wO3+yzbttmMdcczs
-	WM6EboxYPP7HPUYhqS5u+JLUP3OYPAzuIzTHkNwrEyO7+wM4DHGmDtnhUxNHiWIq+Hyb4zfQYSi
-	i3Iqq+pN/bsatfDxTaeC9jQTPCdGd3kfBsAg7ngy0360dv7Iaov5uILoiACe0pafrW5YnAFGh2V
-	PNoNYk991yiUwNQhdDw9IN45i6WyPJgSem/pdXT3plStEmRhL3blHKbn711fw==
-X-Google-Smtp-Source: AGHT+IHoJvOW0/D6MieN+AKPcyEQMvpsuZMp0uNhFRTQ30AAyYSDWJV0Zne8KGeUusjjnlwIFn81QpMo/9iO3PYky6c=
-X-Received: by 2002:a05:690e:134a:b0:63e:34ed:a11f with SMTP id
- 956f58d0204a3-63e34eda840mr5668133d50.27.1761043041095; Tue, 21 Oct 2025
- 03:37:21 -0700 (PDT)
+        bh=du/uiA2g0ruAK2UrT7r+xEuTy7bML0SpAVcY8ooVq04=;
+        b=iXg4hmsgVgYt6YHee4VtzqkKKDv9TuIU2pK5F5VPyiM7W+N8jIN/6FxkxijSy8hDhX
+         sIsm8qX+qeRtQC/nyJaul2wRCBi8mOQ2ZzwIZnhDZOux9el0h484BDPXEAwKeMTNwqDO
+         O43u6YtKNHE36BTPNWqDCPPEwgIHlTQM59Er5QnYF5zKpFiXYvNL7sxnRBb+o1Qfuld/
+         JeEKRvaukxl24GdQGCWE/plFZwFd4P80Elx8UbqjysgvecDhRkCYQ0HAwIPHKzZn6VHH
+         /P3WUi1w9WSzYU87VE8g5jvZuYN7V36swUZsJImSUVE9BgUIkJ9GclqXwOm2kcxrpMSP
+         2tNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFmfyB8nDrFQheLMAMTSncK2SSMsm7h+tH0FTSm/Hc+vWjTSD0qg7/p/qwmSBZEpIHwIVtTZcET/aqPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy+8rbLvL6l+10gOlxnTlNzX7P302xpW3QQiHTiqr4msGbSX9a
+	aHntdaNjphjjNs+tM0hvcIe/QpiWMY29jHAbnAMG2F+gkYTzkyYigciQkB0bk5HWTeJlR8jBH7T
+	EmFJxH/kiZmWTmxIKpdopGvXom3LVOT6yClBx8tRpSg==
+X-Gm-Gg: ASbGncsUzGj53m1z5iV5BHv3W9pf0B1G70tJowlme+hrLCYf26yhTRm4IYWhybfspyg
+	eRmMtjUUpbS1oEAmPAcbnA48PkF3Vaja52a5GFCOIJ5Fs+Dd2n1kG4cyHl6CXHueokxd3uhy/u1
+	vryhvDj5Hw+8cWX4DuNXNnf2q0vx6RMfln+7FcbHTl0+WPKv9uJDJOFbFXd310G6rZmAwe/YHw9
+	qbef5bomqFvRUzqTb3U04XKQuGVjCo9NQf3bp94Pk8bCAklbuZvpQacCIZDNw==
+X-Google-Smtp-Source: AGHT+IFFOhRKu4kQW/XKD1Pm8VUPug9hRZQumhyHTlK9vebZPyquvLC0TgCPXJX5yR8+F8jVszRXlOsVXxUxv7obTms=
+X-Received: by 2002:a05:690e:4090:b0:63e:3e77:a7c4 with SMTP id
+ 956f58d0204a3-63e3e77a7fdmr3660188d50.1.1761043045615; Tue, 21 Oct 2025
+ 03:37:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015071420.1173068-1-herve.codina@bootlin.com> <20251015071420.1173068-9-herve.codina@bootlin.com>
-In-Reply-To: <20251015071420.1173068-9-herve.codina@bootlin.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com> <20251015071420.1173068-10-herve.codina@bootlin.com>
+In-Reply-To: <20251015071420.1173068-10-herve.codina@bootlin.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 21 Oct 2025 12:36:44 +0200
-X-Gm-Features: AS18NWD7omNxrmhFqrJYVWmQS9VjywGnfIZM0lhZMuwUv9gCSC75_xRcZL7iDfA
-Message-ID: <CAPDyKFr8C2VifsPa4YRPBEt4iAtM3eqnpH+C6wdSASF10fMO0w@mail.gmail.com>
-Subject: Re: [PATCH v4 08/29] driver core: fw_devlink: Introduce fw_devlink_set_device()
+Date: Tue, 21 Oct 2025 12:36:49 +0200
+X-Gm-Features: AS18NWAi-o77CPd71JT42D3mLl8vqFN7eYPAV53oOUDllJc5eKGrXIzOLUEhLMM
+Message-ID: <CAPDyKFrkJp4Ny1kUoWy6LHmv6zCOGK-jVEYk95s2ayhqEbDOpw@mail.gmail.com>
+Subject: Re: [PATCH v4 09/29] drivers: core: Use fw_devlink_set_device()
 To: Herve Codina <herve.codina@bootlin.com>
 Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -98,15 +98,15 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 15 Oct 2025 at 09:17, Herve Codina <herve.codina@bootlin.com> wrote:
+On Wed, 15 Oct 2025 at 09:18, Herve Codina <herve.codina@bootlin.com> wrote:
 >
-> Setting fwnode->dev is specific to fw_devlink.
+> The code set directly fwnode->dev field.
 >
-> In order to avoid having a direct 'fwnode->dev = dev;' in several
-> place in the kernel, introduce fw_devlink_set_device() helper to perform
-> this operation.
+> Use the dedicated fw_devlink_set_device() helper to perform this
+> operation.
 >
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
@@ -115,24 +115,31 @@ Uffe
 
 
 > ---
->  include/linux/fwnode.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/base/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-> index a921ca2fe940..a1345e274125 100644
-> --- a/include/linux/fwnode.h
-> +++ b/include/linux/fwnode.h
-> @@ -231,4 +231,10 @@ void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
->  void fw_devlink_refresh_fwnode(struct fwnode_handle *fwnode);
->  bool fw_devlink_is_strict(void);
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 3e81b1914ce5..9da630d75d17 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -3739,7 +3739,7 @@ int device_add(struct device *dev)
+>          * device and the driver sync_state callback is called for this device.
+>          */
+>         if (dev->fwnode && !dev->fwnode->dev) {
+> -               dev->fwnode->dev = dev;
+> +               fw_devlink_set_device(dev->fwnode, dev);
+>                 fw_devlink_link_device(dev);
+>         }
 >
-> +static inline void fw_devlink_set_device(struct fwnode_handle *fwnode,
-> +                                        struct device *dev)
-> +{
-> +       fwnode->dev = dev;
-> +}
-> +
->  #endif
+> @@ -3899,7 +3899,7 @@ void device_del(struct device *dev)
+>         device_unlock(dev);
+>
+>         if (dev->fwnode && dev->fwnode->dev == dev)
+> -               dev->fwnode->dev = NULL;
+> +               fw_devlink_set_device(dev->fwnode, NULL);
+>
+>         /* Notify clients of device removal.  This call must come
+>          * before dpm_sysfs_remove().
 > --
 > 2.51.0
 >
