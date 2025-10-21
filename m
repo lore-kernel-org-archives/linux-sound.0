@@ -1,158 +1,159 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7051F33B946
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 15:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29031340A62;
+	Tue, 21 Oct 2025 15:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761061383; cv=none; b=a/gmBIaGq65AH1isnXQl1snDwBLwClvU7/DjmjenAcPC/hf9ZTsoCIRnjvZRmpWQ0Ex8RMenzFJhvA6aEbafLr8NbCaVqfZN7fY4ctaOex35XjrpJZYqy6RbLyYKj4IqFRknToh/EOONXCFI4/ELZxwUZUUVs3Az4x+giwUZB8k=
+	t=1761062195; cv=none; b=eXVdzoEfv65fAoyi2qHodJpsstf5pX8R3LMESkpHyxs9g58PSQslpKVRr2iQJCjxreQBVyRo3DvmT33EmrrhCh0aV/vUkWHHy/8WhCJjCfEJ2V+wRJbQ2efYscpRk+Kpawrd1Gcso7AbffIwbT+UqSZKJ2LKH1F0DSydX1RWrwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761061383; c=relaxed/simple;
-	bh=75YAXkRpS5AYEhu5CiBSWx6SM3C/ihZP1jjcOFswJjQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Px0GrEktfcvt5MkN8cLiUGOsDGNWooJzJuXGQMo4pdsm/hkodfv+FITZ/unevAGNyjIDzOeuvq000unG0KVcf0CKDmopaKBUjBFyTj8HPeltKg8JAbegDL+fsb2n7FSf2eEbhp1IuqcmbJPBRwqQ2LIDYPMda9GhvbkJuDFPwnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ryuKTo8W; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761062195; c=relaxed/simple;
+	bh=jq4JC8Ux1vFQg5wDBSPB01/bGxMh9cnLPXkN0FYtWFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=minOEYxm6CsKtzWnwyQgfkzbK3otwFj+FxDCrkHKnYh4z8psaVJJPiC8D5A7tCZtkrMLVDmbJVwBPb+0Ur1PWQYq+P1trz840i9M/ALMTlEB7UUKoeT9EMyMuSZCnA+dd2K9fwLtF/rMphOvzsWJKKg9WRE6IcD3pVnq3YuKPJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwc1EMi8; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ryuKTo8W"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-474975af41dso7820525e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 08:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761061379; x=1761666179; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AhuCz+PGVZVkdCu2Fi23G6TX91sa3helKlTwcjtnmzg=;
-        b=ryuKTo8WANBP2UwKrgzWZgGqU2v43XPXv1l01txN1LTT3+xHVQnLWTKPVrJaP8iamT
-         FuehqICTzqWuU1cfq7yptj/g/C2ZBKv5PDdADz+olNq/oKYwzOIUIlh1bOG8+whT1CdQ
-         GEctkBKY53F5GxoBqeYyhq948ZTzOC94fQNEboUHfgSJVVtjvCDZYVMH1iKr5AsOPbtz
-         VEg/cVrR6Nqde3Slst1tffnTbUC11fiWQ3LvUr07R1OX4UMDkXdNFoWGQ+hzyDgVuQxB
-         niuzsHCAREJ/BLpkQX3fX7lGh0lueEkUj9iHF44t47qChuUtAcny3w9cpU/C6B5CjpIM
-         6vPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761061379; x=1761666179;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AhuCz+PGVZVkdCu2Fi23G6TX91sa3helKlTwcjtnmzg=;
-        b=TT73BgOXLnRDZNEB7C3RTUPIYZRo22LAEIg5/9Uw0h1ZnNe5PolFCOHANzEMyHIXf9
-         FXVxTtRkkD7dYHOwhULRVl5kNCRA+h1+XFcGXtypoompk7HMtEE47579qRdVnuyE/JRu
-         7ZOlFTXCg6fVCcYxIxBtgeLJsLqgjUa7WQIwEpRicoGwsvQyuK+eQe3ApLVV9RhOZFua
-         V3MVukNOq3s3YwNk5T4WNe9TAW/b2KHsILR7EfoqfjNxwlXJB3wg6utWyEO6/jeRlaMH
-         28LPrkhh4S3pOi/GpFxv1z2PMHO1CluvIQTKswvmlOfj7B5at/X4FmT0rurOemND5Yul
-         St2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW7JFLoZbZSWRBXUyUJA9cJin7jISs6Ll0L+dsWdap85/PniuOsn/YBEF9Vy/2pyZTKQDxrvUBMwl/zAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxn9BNaV+f4E9BInuaeRvksJAlP6306zfoMi//CKB3VDCwYW4SJ
-	AdHZaZhD2aCsnZ7TFHiozigbr4kZ02cv1OA/cmUFv2DbtdU9X7UemCXgYASSIgZzIe0=
-X-Gm-Gg: ASbGncvYkbnSiIpX5PhOiMcXsc+h8kajJtkvVXOr4k8FruNSNXsv+wZLdxxAD1Qu+3y
-	daccJQnD1v7a7nhCRJMsmNv5pjndTuFdBylkDJXtc6JkMus6U+ZyBFW2w+2I+LbAYdRE+B9MoIl
-	lokDw8/6Aquws5fHcZkEVPuGkLAU8VtP9+vux4Se/9kVpITFuecDyVZ3QLDYu9NEVDF4rtIQKFs
-	fgyXAOptcL2TtvyaRSl7qQY7ZFu2Ew5DkRU2DeYwZqb5MmTOFJi8wV83n2jaBPW0SfDcVR0LIIs
-	cyoS353F4NtOMs8/gazQd40mIMCC3WLfomdt4+VeOz6QPpNpGZY4SbYQCCmo6k7nPQfrj49lMsP
-	EkAo4XrPzYlBlnYAIEor/pqg1FDwdG937q5M+S1nJPTWRSVmma6+uhY/x+maxqwbipT3S1b9aJy
-	WT27RbPY7shxFQAB8=
-X-Google-Smtp-Source: AGHT+IHp7MSIsvZ3s51V1ZsAKBgYboS1prMkRndq+IeFpziSbp+//AH/rUos6US1MvtXcjHxE4wiZw==
-X-Received: by 2002:a05:600c:1d9b:b0:46e:652e:16a1 with SMTP id 5b1f17b1804b1-47117878458mr130704545e9.7.1761061378667;
-        Tue, 21 Oct 2025 08:42:58 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:8d4e:2f09:764b:8b5a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-474949dd479sm21881025e9.0.2025.10.21.08.42.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 08:42:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwc1EMi8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761062194; x=1792598194;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jq4JC8Ux1vFQg5wDBSPB01/bGxMh9cnLPXkN0FYtWFo=;
+  b=lwc1EMi8LKYndvhjk7OqSPK8mLDb5qcgMjYSj8ODdGScOocBE5JIX6jx
+   Nq+EdyNBt49SU5VQEX02p8DabwI70vlSVrl5kSJlsdHPhtCeKuXG6Jfhv
+   BgwbFHZP9Fz/yqf0Vs4J7RtjQAWkyOlA5ANY5fEYOZ6GIj4x2Roa/6nXC
+   c+cmMM9o4nldVjcP9qAqIhiIr8IpEkS1jY2UB6MY4Ik/l7oo818x0eUip
+   cq0Hke0R23/qs3tIsJZfJLNYtt2GWT5Lxv1IQvIm/epoJHPEvCW6nywTU
+   T/tNm1iGIhpMHPYkq1msmOH0yQcsyKnW5K9A/6Bu4FOJZNbGBSm3jOVs9
+   A==;
+X-CSE-ConnectionGUID: cXPxoEQDRqy59YxaQeSWNg==
+X-CSE-MsgGUID: sknLNDdhSoeIHmfTZVpZsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63288034"
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="63288034"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:56:24 -0700
+X-CSE-ConnectionGUID: ZJo85j7gSq2uWsrYv4yW5A==
+X-CSE-MsgGUID: K1YUBjw8Sr6lspBiL2Hzbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
+   d="scan'208";a="188736412"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.148])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:56:17 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1vBEib-00000001XFh-1JOW;
+	Tue, 21 Oct 2025 18:56:13 +0300
+Date: Tue, 21 Oct 2025 18:56:13 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH RFC 0/9] gpio: improve support for shared GPIOs
+Message-ID: <aPetHXE0zuWANRNd@smile.fi.intel.com>
+References: <20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org>
+ <hyzzrjn7jzo3tt3oyg7azijouawe3zopfjzq6zfhoo6e6z2m4t@ssl5vl4g557e>
+ <zk4ea5cibrkp4vttuy4evrqybf76b3nop5lnyck4ws4nyf2yc4@ghj2eyswsoow>
+ <CAMRc=MdWmO4wvX6zpzN0-LZF1pF5Y2=sS8fBwr=CKMGWHg+shA@mail.gmail.com>
+ <rfr5cou6jr7wmtxixfgjxhnda6yywlsxsei7md7ne3qge7r3gk@xv6n5pvcjzrm>
+ <CAMRc=Me9Td5G9qZV8A98XkGROKw1D2UeQHpFzt8uApF8995MZw@mail.gmail.com>
+ <rvsyll4u6v4tpaxs4z3k4pbusoktkaocq4o3g6rjt6d2zrzqst@raiuch3hu3ce>
+ <CAMRc=Me+4H6G+-Qj_Gz2cv2MgRHOmrjMyNwJr+ardDR1ndYHvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Oct 2025 16:42:57 +0100
-Message-Id: <DDO45O787X9V.1KOKIB22SVSN7@linaro.org>
-Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konrad.dybcio@oss.qualcomm.com>, "Linus Walleij"
- <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Konrad Dybcio" <konradybcio@kernel.org>, "Srinivas Kandagatla"
- <srini@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
- controller
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: aerc 0.20.0
-References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
- <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
- <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
- <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
- <zmi5grjg2znxddqzfsdsr35ad5olj3xgwwt6hvkiaynxzm5z33@gsgrdguj563n>
- <DDO0LYS7UTEW.3A9WGTAA5DKVO@linaro.org>
- <56vmqgrjy3je7omzirxnfxtuocebbj356iaew5thgkagi35464@hh34y7efssow>
-In-Reply-To: <56vmqgrjy3je7omzirxnfxtuocebbj356iaew5thgkagi35464@hh34y7efssow>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Me+4H6G+-Qj_Gz2cv2MgRHOmrjMyNwJr+ardDR1ndYHvQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue Oct 21, 2025 at 2:03 PM BST, Dmitry Baryshkov wrote:
-> On Tue, Oct 21, 2025 at 01:56:09PM +0100, Alexey Klimov wrote:
->> On Fri Oct 17, 2025 at 11:42 PM BST, Bjorn Andersson wrote:
->> > On Fri, Oct 10, 2025 at 01:29:38PM +0100, Alexey Klimov wrote:
->> >> On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
->> >> > On 10/7/25 4:03 AM, Alexey Klimov wrote:
->> >> >> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
->> >> >> controller device node required for audio subsystem on Qualcomm
->> >> >> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
->> >> >>=20
->> >> >> While at this, also add description of lpi_i2s2 pins (active state=
-)
->> >> >> required for audio playback via HDMI/I2S.
->> >> >>=20
->> >> >> Cc: Srinivas Kandagatla <srini@kernel.org>
->> >> >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->> >> >> ---
->> >> >
->> >> > [...]
->> >> >
->> >> >> +			lpi_i2s2_active: lpi-i2s2-active-state {
->> >> >> +				data-pins {
->> >> >> +					pins =3D "gpio12";
->> >> >> +					function =3D "i2s2_data";
->> >> >> +					bias-disable;
->> >> >> +					drive-strength =3D <8>;
->> >> >> +					output-high;
->> >> >
->> >> > I.. doubt output-high is what you want?
->> >>=20
->> >> Why? Or is it because of some in-kernel gpiod?
->> >>=20
->> >
->> > What does "output-high" mean for a non-gpio function?
->>=20
->> This is not efficient. It will be more useful to go straight to
->> the point.
->
-> It is efficient. It makes everybody think about it (and ask the same
-> question in future) instead of just depending on maintainers words.
+On Tue, Oct 21, 2025 at 02:06:30PM +0200, Bartosz Golaszewski wrote:
+> On Tue, Oct 21, 2025 at 3:53 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
 
-No. Imagine instead of this email you've got smth like this:
-"I.. doubt efficient is what you want?"
+...
 
->> This description of pins was taken from Qualcomm downstream code
->> and the similar patch was applied (see provided URL in the prev email).
->
-> And we all know that downstream can be buggy, incomplete, etc.
->
->> Back to your question -- does it matter here if it is gpio or non-gpio
->> function?
->
-> It does. The I2S data pin is supposed to be toggled in some way by a
-> certain IP core. What would it mean if we program output-high? Will the
-> pin still be toggled (by the function) or stay pulled up (because of the
-> output being programmed)?
+> > > That only happens if the driver uses the reset API. If you go with the
+> > > GPIOLIB then none of this matters. I definitely don't want to change
+> > > the existing DT sources either but I want to find out if the code in
+> > > this series is suitable (with some modifications) for supporting the
+> > > PERST# line or if the logic behind it is more complex and possibly
+> > > requires separate, more fine-grained handling.
+> >
+> > All PCI controllers relied on '{reset/perst}-gpios' property for handling the
+> > PERST# signal. Now if we change it to a reset line, then the drivers have to
+> > first detect it as a reset line and use the reset APIs, if not fallback to gpiod
+> > APIs (for DT backwards compatibility), which will add unncessary churn IMO.
 
-Here the topic was switched/replaced. And the other referenced email
-suggests that they don't want to see output property regardless.
+Can't the reset check be added into a common place once for all the PCI controllers?
+Also one can make a helper that does all necessary checks and if required falls back
+to the GPIO.
 
-Anyway, as it was indicated in my previous email the problem they
-were trying to refer to was kinda understood.
+int pcie_controller_get_perst(... dev, const chat *con_id /* fallback */);
 
-Thanks,
-Alexey
+(name is from top of my mind without following any patterns).
+
+
+> Ok so some platforms define perst-gpios while others use reset-gpios,
+> I see now. Yeah, it's better to go with explicit GPIOs then.
+> 
+> > But if there is no way the GPIO subsystem is going to support shared GPIOs, then
+> > we have to live with it.
+> 
+> Well, there is going to be. We already de-facto have it but it doesn't
+> work very well and is fragile (I'm talking about the non-exclusive
+> flag). I very much intend to bring this upstream.
+> 
+> My question wrt PCI PERST# was whether this is useful for it because
+> IIRC all endpoints sharing the signal will assert it (or rather their
+> pwrctl drivers will) and then only deassert it once all endpoints are
+> powered up. This would translate to the pwrctl driver doing the
+> following for each endpoint:
+> 
+> perst = gpiod_get(dev, "perst");
+> gpiod_set_value_cansleep(perst, 1);
+> 
+> Do the power up.
+> 
+> gpiod_set_value_cansleep(perst, 0);
+> 
+> And with the implementation this series proposes it would mean that
+> the perst signal will go high after the first endpoint pwrctl driver
+> sets it to high and only go down once the last driver sets it to low.
+> The only thing I'm not sure about is the synchronization between the
+> endpoints - how do we wait for all of them to be powered-up before
+> calling the last gpiod_set_value()?
+
+The refcount inside GPIO descriptor? Then gpiod_set_value() will do the magic.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
