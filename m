@@ -1,83 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4470934D904;
-	Tue, 21 Oct 2025 18:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268CA26F299;
+	Tue, 21 Oct 2025 19:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761072744; cv=none; b=GqxgoZgKD7hZYu8bhA/cDjhMGjUZIecu5Dkwq6uai8Q6i+I5180fq1U4xlgTGbvG6FkAYzHWmFDqYtP09fZo6t/QCp6Pai6RI4qWlb4P5W10t/FXSkYbFeIVw7NKS+AP85XxQumIxjPEiw/ROX8IwWS+sfJAjIIwm6n7vrJKooc=
+	t=1761073225; cv=none; b=Jo4Hlf4mJ6DyIVgQOKi3YvfRpS078c75yfwClSraM5SbjQFw+uXXhuKUUghwRQP1WKTyT2sRuIf1bn6oxoXnhEFiCkUXQpXHmnLoICGbhidJJZJNVhXXF/cOBmEhoNdijzopjMBOUaD0mNZtT4Wl7c/7c8GkKPDUUZ6puJ5jRRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761072744; c=relaxed/simple;
-	bh=eqMg6jFMwqPdM5lNUE1xHVGWVzzrn6YTlyIqQLKmAQ8=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dnCp4nMqnZCPLLDgLBmCVZjnWwnYersAmkSHQH+jXultMkXBzLGHRInZtU4CormyvPkl8LNBHg41aqEVo7fhEewlo74cbO0wIWz3ZtHhINkc0vWacvdXJ8DFpoMQTay0q+a7/6ZxTuyed2KZaYIwKa/vaFHPXMnnMphuJ6Hvidw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXSxSRno; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761073225; c=relaxed/simple;
+	bh=Sf0Qca7JPp4GCBsTXBvE+iV8s2TZnluhENYJ53JTcCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IofKjkvWGTYWVcOIDlO2cE979ITyCuiwzuGqiucUjqNV6ErNywCUnq+LU8X6dU742+xamss25lpcmjPQtU+6MT4kK12IJgkaZlPjVSBDLMmXa2kiJ0GM82DACVof3WwBKva5bVYAqxLk9dOOFWLzMqMiStMgY/slrJAYepItwic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+uho2GA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXSxSRno"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD29C4CEF1;
-	Tue, 21 Oct 2025 18:52:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+uho2GA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E837C4CEF1;
+	Tue, 21 Oct 2025 19:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761072744;
-	bh=eqMg6jFMwqPdM5lNUE1xHVGWVzzrn6YTlyIqQLKmAQ8=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=LXSxSRno4MvhDebRqnJuAX/apEAeV7rtpL4n4H6eOn9okI4zQpHymxXmEH37+RkFO
-	 nNLV1Fd963qbVFT5vbRn4M2SQfu1zJQlItyPluGA9ht11WTC/kMd63q3ETd3eGyepD
-	 L1mzUh17DTBvBVcgNCTVW2fPtcDyUPCG8/UUvKIro2E2UFMkF+92WKCiqQ44D3cOBv
-	 AATuKvNSDRwHoflh8PDAvkrOOH9j9ODn7H4+rc/+dSGa62ewOUwDIT+gqgCU3J/au5
-	 e1mmfV3mVGBwL/BbkkYXNirIkEb1IG2CxINRPxWS0wl2pn03shA4wh7741f+VDaDte
-	 quHK597YDX13A==
+	s=k20201202; t=1761073224;
+	bh=Sf0Qca7JPp4GCBsTXBvE+iV8s2TZnluhENYJ53JTcCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p+uho2GAf8Vjb4A4SydAjBzWs0/5EGqsqBYFt/vQ9TE+rzlCFJvT/o1w9y53nvfaL
+	 0IxfDiVsOxNmhhu97BZBqmLsFZ9nJ2kC0pGyvUIDjNw7bmZV/rW3A26Q2rsEyXPFGP
+	 vx3OjhPHuFq9163mJ0jj1/c5WhYZRBgZCu3TxsKxxzfjlmoHKcz2SFR5wO0lOX6oY/
+	 UDGeiYUibskItbUPi3MNNMU6YHJgt+KTj/S3fc0vHr50+56DYsLOrawuTA9c6W79GU
+	 WhzZonIuC+acHjPBVh6+/U0xk8BzV3mrdbUS5jMpZBQROo+9eoj1Ofw5OW4D6IOw0l
+	 9fDl7ifm5kSBQ==
+Date: Tue, 21 Oct 2025 20:00:13 +0100
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20251021090933.3470495-1-shengjiu.wang@nxp.com>
-References: <20251021090933.3470495-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_aud2htx: add IEC958_SUBFRAME_LE format in
- supported list
-Message-Id: <176107274177.196841.9804075994703178765.b4-ty@kernel.org>
-Date: Tue, 21 Oct 2025 19:52:21 +0100
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+	Wolfram Sang <wsa@the-dreams.de>,
+	Herve Codina <herve.codina@bootlin.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Nikita Shubin <nikita.shubin@maquefel.me>,
+	Axel Lin <axel.lin@ingics.com>,
+	Brian Austin <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
+ automatic module loading
+Message-ID: <42f11845-35f2-40e0-b860-c25ba6f8d503@sirena.org.uk>
+References: <20251016130340.1442090-1-herve.codina@bootlin.com>
+ <20251016130340.1442090-2-herve.codina@bootlin.com>
+ <60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
+ <20251017083232.31e53478@bootlin.com>
+ <d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
+ <4b851d47bf1d03988a27671ae21208cdeed76837.camel@gmail.com>
+ <5f2aeb66-97d6-41b7-8c80-87674c1b14d8@sirena.org.uk>
+ <d51a3e4e0ea960df60d5ba91817ae50eba0a4026.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-2a268
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RRkNqY/s75ow4Lmx"
+Content-Disposition: inline
+In-Reply-To: <d51a3e4e0ea960df60d5ba91817ae50eba0a4026.camel@gmail.com>
+X-Cookie: Accordion, n.:
 
-On Tue, 21 Oct 2025 17:09:33 +0800, Shengjiu Wang wrote:
-> Besides S24_LE and S32_LE, the IEC958_SUBFRAME_LE format is also
-> supported by this HDMI audio interface.
-> 
-> 
 
-Applied to
+--RRkNqY/s75ow4Lmx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Oct 17, 2025 at 08:14:43PM +0200, Alexander Sverdlin wrote:
 
-Thanks!
+> "Reparing" them as Herve proposed would result in I2C modules being
+> loaded only via "of:" style modalias and SPI still via "spi:". Which
+> sounds all but consistent.
 
-[1/1] ASoC: fsl_aud2htx: add IEC958_SUBFRAME_LE format in supported list
-      commit: ecba655bf54a661ffe078856cd8dbc898270e4b5
+> If SPI ever adopts the same of_device_uevent_modalias(), both backends
+> would require "of:" prefixed modalias, and it will not be possible to
+> load the proper one for the corresponding bus type.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> What are your thoughs on this?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Or at least you'd get both modules loaded with one being redundant.  TBH
+I'm very reluctant to touch this stuff for SPI without some very careful
+analysis that it's not going to cause things to explode on people, right
+now things seem to be working well enough so I'm not clear we'd be
+solving an actual problem.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--RRkNqY/s75ow4Lmx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj32D0ACgkQJNaLcl1U
+h9B4/gf/Qw59HOWc4ilMWJnjdUicTkgCUxQ3osOR8HN/nvogeVLYFIAI2fnWKTj2
+7+ko/Het774CE6g63V+xH1QzprNvkJWXEOvzZ4kYtHg9x9dA0TS2VsfwuMNn5fSm
+e+wGtFLnoxkLklNmMNQdUwNQPPt3pxZntpnt8DPBZl8jSJv6KoEwFVgWpRq4OA9u
+Td9dQDcov8GT221pj3pm5+Mkw7DJO49d+NA3yvkLPjFttWtpK0bbpi5wAUeoW1cp
++08yG1rglqTB/GHKN0+m+4tdbUe4U3M6yBOXe+pcGXFDjWDsJux0RT0S8VF9ZPdg
+T73vPe6Jw5f8wjJmpm2jWMyv1snv+A==
+=w1Tc
+-----END PGP SIGNATURE-----
 
+--RRkNqY/s75ow4Lmx--
