@@ -1,134 +1,161 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB9234B1B2
-	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 19:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CC314286
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 20:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761073938; cv=none; b=FXIIRC5sdPgWEgcPc35yBFAdO4+EP5qKjZB4GjVWP2GUCvHrqBnLkAOHP46noRWegfJvcg6H8CIaSc2rTdkozYiJZ5Zz56KgSDUXciplq1dNI2onEWSYQYb0mVCAG/PLb+ghzI8oJcazFAOm1U1kYWL8eWJkVQmwaHO+CkuwZJY=
+	t=1761078121; cv=none; b=Cs2IWeEIrisrdzJsuNOi7+xhv/p18XOhBc5Kn/0r28y2TMEfF6fjH0pI5DGyiqCIP74o8YtWzVHveD4P84F4kF5T1MFgONFWu7mEY/G/jA4/0GjkcjzzzATYXcVMxwObrQgfHI0TlpjJMP7dnt19+oqCEqr7yAGzcez44iQzE7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761073938; c=relaxed/simple;
-	bh=hstBXS/TVUOaaiIRmLPtbLaaswkp/Zt78i4TpWCCmEw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZljrKechhDGxZeQ1aTmeYl/7PXRczzFs+ZIZLLoAxnu2bL3HmevaIF7XO7I6ln4i6Vtgek5dXbctDH8VFpSYZ29rFUAKespGJQycvj/m2elFh/BkiWJ9/Xx/RDJj6LaIRQzy1Nb2QT7O7zbfTA36wg+3zTrF+iq0ypuKVOHJb68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KrlaPjw/; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761078121; c=relaxed/simple;
+	bh=mEZXhTwzQ6zamixvVZuTYhTDWMuXgP7sdkSYV/2gvAM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qHNNJuEVK19kExyXGYuXBZtpa3+Pn67vlycrWxN9pQtco6WQytVaAJtCx7F/QgMZpChIDae/HTYvJqqMQ4WgJ5Jdan4oB5FMwbRUuz/7VdbxbmEPlYr5V3PO6p3W1H5ySBe/PZbHRQRvQgcKymrrmxjsYLmjRS8PJRzLFQ+3yRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hBV30zSU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KrlaPjw/"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-63e18829aa7so212996a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 12:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761073935; x=1761678735; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hstBXS/TVUOaaiIRmLPtbLaaswkp/Zt78i4TpWCCmEw=;
-        b=KrlaPjw/zw83E0ZbRGZ0Td1jS6BrwjCH6V1EXhGzJF/Writem6G3OOPRA1cx4kzrDC
-         uP2sHV+R58D51KsXZEc9Wm0rp6q4cdHKl8t5mbztfxbpy6KGhal5lG5mqd0KHu+6u2qI
-         6pUDBWgh+DLkX61WWTOVbHkWXu2n0z/jrw/TcHvHTpa9SlpUtO9YIAMWjYo5NnYHhuQn
-         nB0bWhkFTSOb6kY2VYBFxKAnzfjF0pJcYb+UDbGxYpP6hN9WdnsRklvxVqnnCxj7Y72a
-         TPKKnVwAwMGGQVwMkKtLN6YqJdYUWHCL75OHVbLmafpIbda6fzGD/eNAlhuGL7Z86FIj
-         nfHw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hBV30zSU"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59LErbMe024667
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 20:21:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	eM8vsS1Fj2EgGJzHKnEsypCDm1Za4pqWpIHUVJFKPDk=; b=hBV30zSUakfpmIbx
+	5/HlyYtqhz4d70KQwHniE9dhqdldMs7St0cNT5qfSmx2HxK13EMW5fCQxDSgD88Q
+	OOdJGLedLJTLrD/8ROvetPWsHmS7HeV2S4Z8HRrfmE2ZHZlyO1KLbUQ3obTsssQe
+	troOM3BUgjUE9n2KPS1duTW1OD1HjVG1xM+YCxUg7qLUH43SvreytEOiauMjrU6z
+	NXg8eKiZwKhZAvsajQbOpSP2tTLz8jsoM21Xsa3xvePZJtSeCb6Jnjc1i0yto6t9
+	i2Q6bZtmzR9XWvTXbzsc6LpfYcuvZkk5n+UBZp4FgJ2lHNTVFDhXl1Tx6zH83pbB
+	3OWN5Q==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wsws4gs6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 20:21:58 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4e8b8db4a35so8703601cf.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 13:21:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761073935; x=1761678735;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hstBXS/TVUOaaiIRmLPtbLaaswkp/Zt78i4TpWCCmEw=;
-        b=Ee15dajLB++NcmgMWQPLF2K3y7i4ZpDqHanjKpTiiNEhx/qUjKx9AU0QueVM06btI7
-         4bz6smm1Iplp7dJPbxFREJgtQAnWx971ILrTSa8ZCYhcfca9LekOnSxuvPsC/RrUh1dJ
-         X78A7v93O//W26MzrCtQQg7t2MYbNCJ/ECPULqMtBRSlSQ3UyEOi/Ppywdk49qMWOFPg
-         OnD2HE7rncZ5gH0h82QtCdus6R05WsslG0lZjLcNNL+T6iwjDCIGekkZ+8hZ8BG0WWGb
-         J3g0SynZlMvYwZF6RmmklBf/MUgudYnutPXNQGNTiU1BN5r+GpYvM7tUqI2eCvs0LmBE
-         eleA==
-X-Forwarded-Encrypted: i=1; AJvYcCVoltZ92XpxNdrxsET0nBn524pE2PxgZGpjGzRGcUD9l+m/AoD/P56hpTiY/6hJ3wnRi8YG09s67/sLwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuECEbdwRPtaTDXsrUuV65ubcZ1kklliIJE71NPKYbKlFzAXFX
-	zZcG8ZpKUKGsDdvunERCKrXiys9afZz5psyLiSwXbmCmSmU0XLZNb3TM
-X-Gm-Gg: ASbGncsHMeUoV1sZOp41D1XlAtNmcCLBOQPI+n3TdoORJYBOsPfFAP9ejKj1gcXBnNb
-	wVMoZ+EHRSgDCvIGVVE8fmFm3gqYBaiwiVUUv8VNk6aMoL0v181shActu4k6KRZgZG6aEJASznp
-	MFMafhol/5LsZsgNAJOqv7Z4JmaI4xd75JjswIjLFUggqSXCvyqSpl8k2B6myMq1fqvrQ7eQLKC
-	49G7fagxCoYEs757OyLYcNIVenkrhRHURNnSh8QC8x6AS1XsdYdp9wgAG2PPJBe2u4aa4lkrtPf
-	BD5wWWDAPel5n3z1jdyQuTNGraHEeS+t6zQSMDbuB0+XL4qiqAC4F0PPi+B/2COrSujIU3ejlzB
-	63HQ87JkXb7HWxMcXc+bjnNnC83pQEo6pPxCHcECNZGdsIS4WYtcVtjhntP2Vt9BBSr0cx/Rek7
-	nEsOgevlvVROGkDN30bHGbuoF00t8IKF40fLlJDnECiOi9VkN2B2IERSDq
-X-Google-Smtp-Source: AGHT+IF/mcKyBnV5vQ1RTt10Y+TO7vaXwW267VWXkDS1GyTMV+9b8aBDdkZD6aV3L8pfV3t1oFBifw==
-X-Received: by 2002:a05:6402:1d49:b0:63c:43e6:16f7 with SMTP id 4fb4d7f45d1cf-63c43e618d3mr16489930a12.26.1761073935222;
-        Tue, 21 Oct 2025 12:12:15 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63c4945ef35sm10305713a12.28.2025.10.21.12.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 12:12:14 -0700 (PDT)
-Message-ID: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>, Wolfram Sang	
- <wsa@the-dreams.de>, Herve Codina <herve.codina@bootlin.com>, David Rhodes	
- <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>,  Nikita Shubin <nikita.shubin@maquefel.me>, Axel Lin
- <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>,
- linux-sound@vger.kernel.org, 	patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Date: Tue, 21 Oct 2025 21:12:13 +0200
-In-Reply-To: <42f11845-35f2-40e0-b860-c25ba6f8d503@sirena.org.uk>
-References: <20251016130340.1442090-1-herve.codina@bootlin.com>
-	 <20251016130340.1442090-2-herve.codina@bootlin.com>
-	 <60fbaaef249e6f5af602fe4087eab31cd70905de.camel@gmail.com>
-	 <20251017083232.31e53478@bootlin.com>
-	 <d6bd466a5d11b016183db0ac3c25185fad3036fc.camel@gmail.com>
-	 <4b851d47bf1d03988a27671ae21208cdeed76837.camel@gmail.com>
-	 <5f2aeb66-97d6-41b7-8c80-87674c1b14d8@sirena.org.uk>
-	 <d51a3e4e0ea960df60d5ba91817ae50eba0a4026.camel@gmail.com>
-	 <42f11845-35f2-40e0-b860-c25ba6f8d503@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 
+        d=1e100.net; s=20230601; t=1761078117; x=1761682917;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eM8vsS1Fj2EgGJzHKnEsypCDm1Za4pqWpIHUVJFKPDk=;
+        b=vRx/eAmpqLIem5Ftm/sjF/+zlb7ZmGqzv5oGblYXZNMZMKfGoEyuItKTl3NtBxafYE
+         tELOPJeHcyxHFPL78dLsW/D7XP4rL8VwlWMJ1CdJpXOP17LljPMIj6gtAR4Kow8up4z+
+         GZ0by8MRpdzV94vUO+314MxZ4dlp+AeRbSAZF6Y3L3/kDIcsD7r7NAse05pubiZK9njn
+         p4vdHZPssr6QhDCbvLeodtLvluf4LmaRa72dfh6pf6Vn8j+Bvoshlbuvf5iMmADErUu7
+         zyphhqI3yYCG8S+vCFZdnfSeoDbFmkzYM/WVjDZgdC7KTz19aD+rsNf6Akrc+xSi7xff
+         SXlQ==
+X-Gm-Message-State: AOJu0YwDTeEmh0Y8US58mPNgn5JEWiHleSKevLTe/7drssd1HSdG4KL7
+	HcCP3i268cNGvzv1un30Tl1KYTivK9zhk5Rr1daFiT68+jpaXGirFYTBYwPAtjdeqBw9U5tB+LX
+	CoFwytE74JQ/PxmdrJs9el1Y2AON4obrny5QQEM59c0EVdL+DATqXNT4BNuV0ewoQDQ==
+X-Gm-Gg: ASbGnctThuzGgEKItz7RZ4YHH3PfZrv855m5oh0zR0HFGhiik5+zt6+gRWYa3qsmJ3i
+	4W4yYF/159BTn5KxiIeLdi1P+A/63oufKfAp2G8FSZwpYqNQlNyOTuh3fS8NS0ATbJ9/ts8dOCl
+	FyphNNnGYHZRMI5xf4ktJGuLYjsi3GBC7IrgkceiLC/Tee6Vx03TSX1ht0AuuU1qAq9VYvndTny
+	gyODTAnmxjJwzSZuHWiK+i4dS8o3b1F1TGkgtucMmdNXneaelx5HMQ9MHGjsxDjKa/IsqvSWRRn
+	z5HLufmEtSXqDI45ZBHKIKnVx1dejVglNs+M496qiKcEafPqN8bRr+K//UthWFVYAAXt9Jjs7e+
+	/8f5THyYmAf0pTqG4TfOtmmDVMA==
+X-Received: by 2002:ac8:5d56:0:b0:4e8:9a7d:90eb with SMTP id d75a77b69052e-4e8c1ab2c39mr118226791cf.38.1761078117506;
+        Tue, 21 Oct 2025 13:21:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHixFYbK42Dq8yGad0erFEwbVWJxy1epl4bH074jwzXpoHLLA1EBx5YyFLZLspcYCGSJAFyvA==
+X-Received: by 2002:ac8:5d56:0:b0:4e8:9a7d:90eb with SMTP id d75a77b69052e-4e8c1ab2c39mr118226431cf.38.1761078116987;
+        Tue, 21 Oct 2025 13:21:56 -0700 (PDT)
+Received: from [192.168.68.121] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-427ea5b3c56sm22096646f8f.18.2025.10.21.13.21.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 13:21:55 -0700 (PDT)
+Message-ID: <29d6d523-020a-4eb3-80da-b83e7797d2a2@oss.qualcomm.com>
+Date: Tue, 21 Oct 2025 21:21:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/3] ASoC: qcom: x1e80100: Add sound card support for
+ Dell XPS13 9345
+To: Abel Vesa <abel.vesa@linaro.org>, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+References: <20251021-dell-xps13-9345-enable-audio-v1-0-6f3f6bbd977b@linaro.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20251021-dell-xps13-9345-enable-audio-v1-0-6f3f6bbd977b@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE0OCBTYWx0ZWRfX7rbQX1NimzuN
+ UN6u6Kvqo3OuwP8U73CcNRpdIBNS0H66kiyxDCFUBCy5JmSGg6Vy44sWyh1lsHK6IlGNkbLlDNt
+ m6OzO3tG1mXVCT7RG4x9Obii0lxL6bXLWloJx7KRm+1cpCbHn7/i4NWP1xfYEgsrrUEPMrpKePY
+ VUOMBioXug0fb6gFcFAYA/eg/l3v8G8e11sR3i+Qn63Tfwitl+z/0RigJ8BdIIP7VjpAEvXhTdl
+ 7tcTS1Ysd45+gZOi/X84NK2rRJOp58JMTMfD215X5HA8o8HuF8zlutr4OWAHYlyKGi3IkAXQtxO
+ Xo2JItt8BPNg3UPFl3HdvIWwlQz8RjKJmfrQeH+Fm2lJK/gY7BZ7LK5/2Q9vjw2TAhKy81+RpLa
+ pSIO4N9FUr2F/QGQDeq2LtwbuT/NGQ==
+X-Proofpoint-GUID: 0KDWk3Gd81Gvmh8_L0HOE11QtXvbMF1I
+X-Proofpoint-ORIG-GUID: 0KDWk3Gd81Gvmh8_L0HOE11QtXvbMF1I
+X-Authority-Analysis: v=2.4 cv=a+E9NESF c=1 sm=1 tr=0 ts=68f7eb66 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=KKAkSRfTAAAA:8 a=5VL5Wpq1lgPoopIZa9UA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-21_03,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200148
 
-Hi Mark!
+Thanks Abel for sending this one out.
 
-On Tue, 2025-10-21 at 20:00 +0100, Mark Brown wrote:
-> On Fri, Oct 17, 2025 at 08:14:43PM +0200, Alexander Sverdlin wrote:
->=20
-> > "Reparing" them as Herve proposed would result in I2C modules being
-> > loaded only via "of:" style modalias and SPI still via "spi:". Which
-> > sounds all but consistent.
->=20
-> > If SPI ever adopts the same of_device_uevent_modalias(), both backends
-> > would require "of:" prefixed modalias, and it will not be possible to
-> > load the proper one for the corresponding bus type.
->=20
-> > What are your thoughs on this?
->=20
-> Or at least you'd get both modules loaded with one being redundant.=C2=A0=
- TBH
+On 10/21/25 2:50 PM, Abel Vesa wrote:
+> The current X Elite driver for sound card is mapping the channels from
+> left to right on all X Elite based laptops. The Dell XPS13 9345 seems to
+> be the one-off when the speakers/tweeters are mapped starting from right
+> to left.
+> 
+> So rework the driver to bring in a swapped mapping for 4 channels setups
+> and use it with the dedicated XPS13 compatible.
+> 
+> The devicetree node is included for proof-of-concept purposes.
+> 
+> Sending this as an RFC since it probably will need more discussion
+> before settling on the approach on how to handle this properly on future
+> devices.
+We have few options here, one is the way that you have done, other way
+is to add a mixer control in the machine driver which should allow xps
+ucm to select correct channel map.
+This should also allow bit more flexibility incase any other machines
+have different wiring of tweeters and main speakers.
 
-I'm quite confident that udev/modprobe will load only the first module
-from modules.alias file.
+--srini
 
-> I'm very reluctant to touch this stuff for SPI without some very careful
-> analysis that it's not going to cause things to explode on people, right
-> now things seem to be working well enough so I'm not clear we'd be
-> solving an actual problem.
+> 
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+> Abel Vesa (2):
+>       ASoC: dt-bindings: qcom,sm8250: Add Dell XPS13 9345 sound card
+>       ASoC: qcom: x1e80100: Add Dell XPS13 9345 support
+> 
+> Sibi Sankar (1):
+>       arm64: dts: qcom: x1e80100-dell-xps13-9345: Add Left/Right Speakers and Tweeter
+> 
+>  .../devicetree/bindings/sound/qcom,sm8250.yaml     |   1 +
+>  .../boot/dts/qcom/x1e80100-dell-xps13-9345.dts     | 139 +++++++++++++++++++++
+>  sound/soc/qcom/x1e80100.c                          |  49 +++++++-
+>  3 files changed, 184 insertions(+), 5 deletions(-)
+> ---
+> base-commit: fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
+> change-id: 20251021-dell-xps13-9345-enable-audio-799bfbd7e7ed
+> 
+> Best regards,
 
-The actual problem is that i2c-core is producing "of:" prefixed uevents
-instead of "i2c:" prefixed uevents starting from v4.18.
-
-Most of the dual-bus ASoC CODECs are affected.
-
-Now declaring "of:" to be the new I2C bus prefix for uevents starting from
-Linux v4.18 sounds strange.
-
---=20
-Alexander Sverdlin.
