@@ -1,128 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC1A322DD4;
-	Wed, 22 Oct 2025 10:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5102732AAAC
+	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 12:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761130597; cv=none; b=E9o9caCGeVD/WxWCUzcVHr8gx15Z9qpmEgFWwSlJnXHMXfcM++fxqw31FkTT6y0LfCnles45WfYkVRIxrKY/tZnjfSnCE16otvL6HIksE8N+1BQM/TUkB7njQJHiMlHCLXWIfMph7YvRsyCrgVj74ISVilt03+Xf/yDscEtMaK4=
+	t=1761134444; cv=none; b=tK9WgY1hYJqfmcIXMpbJTGf37Ic+a0xDBZrgcdrIU7tRKT7r1XO612fAI89hBvqlKHBseMuX9uqhkbvXEF3Ps1vCYwL/EPTjZ8LZy4DclKoDO+k35lVWPgETRbLHJtWXYFm0kHWflFSHqU9IDE6/1Mw9MuBlVzh9btWK2pTdSmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761130597; c=relaxed/simple;
-	bh=oqr78uUyBEWcCUquYVEATITHQrDG4IMUf0U0DRBBgnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F/5ceKA8xGa2uh7yqleWZU6+8Gaqg06Jpgf1jxGwKRgMTCiis6uwo6der9/25RMqv/KS+Xnba2zkQi+8Hf3VgMGvqJ+sWwkAht5zEl2Qpc90Gg/yIKd5LjmhKLvSefgCsgz1yRku3jsxMw0HXUHdjZ1CyEhnpVEKirVyNfl5b6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrPI57qc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761134444; c=relaxed/simple;
+	bh=97a8tZjKqwRtHNr6BZl+meSJb3s8o64hqDASwzxbu5E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QbSAx3Xo3HuCMAcTg0YE/csSotp9xGiMAvCJtt/pBmtGpSSvdIr4yqYZjNjMhJYjGmtTWSEuN0wEFUfDhpxFjPhUby5nuTz4T0T7qT3jIE/IWS9ngZx833/ut8t1wcSCmcA2B9H2Y3FcizYiv416FFdnFhuZvHl/qZeA6e/ovEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZU0fnZtG; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrPI57qc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54575C4CEE7;
-	Wed, 22 Oct 2025 10:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761130596;
-	bh=oqr78uUyBEWcCUquYVEATITHQrDG4IMUf0U0DRBBgnk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YrPI57qcmHIU9m6kxmjdwTJE/B93EtZE7Vvz8QNrikgtztNC7bT1aaIZ3NvORZ6Kf
-	 naqjWeIxZyuOqglNKgfAIw3F25yu4SJhB50AER83FuwHhkOruatE5iuvKaQN0V5NfT
-	 EozVF4PCExPl9hHmHZzHm44Fh99Jd68+zF9HhYGCdRwApXoGhOv8QsE4oBvfeued43
-	 JqG/6rO33IzIM/ONO0v61TLj4OUKI3P5xtjng3Qoua1B0U4hbCWcUcsEOSisPbftIT
-	 GnJbJ+OXGR+SKuqD83x5DlZ8+zl8A5RUrfnm4wkgqEjpBU+ibGEYkKMxeL0CmRRDD5
-	 t6iRaFhPYSGaA==
-Message-ID: <224288d8-9a04-4a76-95c7-c0af4ed967e3@kernel.org>
-Date: Wed, 22 Oct 2025 12:56:31 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZU0fnZtG"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7836853a0d6so17724217b3.1
+        for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 05:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761134440; x=1761739240; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/6uhgqipKW89TbAKSJ0VsiSw+i7Bc0BvME8dlqiNOkU=;
+        b=ZU0fnZtGUkFNuLa8Ca6e43Ct9sxzfOOMFNaD/PsOrrOIveuOY7JsxWvOuqyz8EarfA
+         TooN8WmQWzEWlnMScJOSM9H4gtWDzlxtj2bqLSlXnMxv0gtZQWk19KaRQ6tm6BgZcxaw
+         Qb3DRFQZDjD4/xKWBl9AaBFWNUCPir1scC3exaxZbF8lDVV5NpArwYWzo11fwi5ii4F1
+         Pfr1ZMmDhOrTvcm2Z57Zj4GIAHL1RIexvGC6RgHQaUCD25y23vjfBen9k2VukcKern18
+         AvQL9FnGDL790sKs1WsCuE7JW3o3X4bA5UfnYJLtpa36JrSFOmKfMUKlPZxJAj+Hn42y
+         AQiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761134440; x=1761739240;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/6uhgqipKW89TbAKSJ0VsiSw+i7Bc0BvME8dlqiNOkU=;
+        b=n7w3u650rhMHfCAEbaiAfv+c/yX7Dte9VwVnSK6sy8qkJlC+SaembngaezV1oh/JG4
+         uPBo8NawuglpcfpgsQl4BsvQDEOsfQLVxxIZ0UxZcekziaybOCibWN4xGK1kdyCQ5Thg
+         /hPe9W2soioWIbVJh+WpQD3GcsH3SYfyequqcSw534oQfp2tVi8tmiifmfxpCdw9jgDX
+         zYFI9XUcFp1mJ0beq8ENMGt3xpZqtRsLcpLzcyV/ilh1cuMlEYFwbq48TbKYZohvVhee
+         C1kPKEn9WhHfll3ri265bw2OJj9xw6fp5eURBU2bu4yowPuaa2f78cB3kHbdx4MwzmjW
+         Uz6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWnRq3we0KqMXlgchqJKbuF6Z8tNoXOcKmy4EEcxJrPrOTPhcaRbxXUql0thhV1MGJuHtFCJLIDF9bRLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/xU6UTQeFkJuHUKd549vZLqZlI2mWD9UifveFeTU5BJAd7tJH
+	I2ZyCWIOhN/OrOef08bjRkiImTYx7X6Z0ZyYPu9pb3NKpWZw6uool5xWnvtQpjXynYymYwEQrY6
+	TNBOUOUz4L/V89Rs4gRjx69RkhoeOGR0=
+X-Gm-Gg: ASbGncsk+TQ5Bb3+niRXGAuq03/bXz+la3mNEt/jlK2xR7FPvDlYIi/9tAAkx8p7f4r
+	kf8WpYyMcvqTSWj0iEjrxHWRwawtG5SuQ/ODLzK57T5bUV+I2p78ssMRoO9kyvBP4JCHmh3z92t
+	DVQFcsoOQy3h3qa3XG+I0dKv5LxYZPZdo+yCgHdOkFcGTzj4UBB1D8yEfjD/nDvZnC5LvaXSwER
+	62jxlXwu1q7wzbiQW2wFBRaEBUC4Sk8U4v8q62wIQcxI9fPkwljJBKfLwQ4pw==
+X-Google-Smtp-Source: AGHT+IHe7HPf6WFvrCRkjbNGAn3hqNruzzhDGzkeQpPjDeNqpVAuLbWf1eiEYp5Q7LepTL72CtjhjX2Ia5Crn9kuh08=
+X-Received: by 2002:a05:690e:1a8d:b0:63b:a941:90c1 with SMTP id
+ 956f58d0204a3-63f2f5b4e47mr755807d50.12.1761134440040; Wed, 22 Oct 2025
+ 05:00:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/3] ASoC: dt-bindings: qcom,sm8250: Add Dell XPS13
- 9345 sound card
-To: Abel Vesa <abel.vesa@linaro.org>, Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251021-dell-xps13-9345-enable-audio-v1-0-6f3f6bbd977b@linaro.org>
- <20251021-dell-xps13-9345-enable-audio-v1-1-6f3f6bbd977b@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251021-dell-xps13-9345-enable-audio-v1-1-6f3f6bbd977b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251021104002.249745-2-srinivas.kandagatla@oss.qualcomm.com>
+ <20251022003429.4445-1-threeway@gmail.com> <76567559-4cac-467f-9740-e8a539a445f7@oss.qualcomm.com>
+In-Reply-To: <76567559-4cac-467f-9740-e8a539a445f7@oss.qualcomm.com>
+From: Steev Klimaszewski <threeway@gmail.com>
+Date: Wed, 22 Oct 2025 07:00:29 -0500
+X-Gm-Features: AS18NWAgMZIyWSBaRtc28HmRupfvFkfndCADg6zxwcxhZ5F7Sr-vfM6vIit3CAM
+Message-ID: <CAOvMTZjjCn5gDgOrf_2++QjfdCxz2PXTey5Nh_-=caB4wX1g5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] ASoC: qcom: sdw: fix memory leak
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Stable@vger.kernel.org, alexey.klimov@linaro.org, broonie@kernel.org, 
+	krzysztof.kozlowski@linaro.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	srini@kernel.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21/10/2025 15:50, Abel Vesa wrote:
-> The Dell XPS13 9345 maps the speakers and tweeters starting from
-> the right side instead of left, which means we need to handle it
-> differently then the rest of the X Elite platforms.
-> 
-> So document its new compatible.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> index 868acc077046596120ea7f427e802282ed03c853..20566224d2e42574ab96f93c11924bbeae22f0bc 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> @@ -29,6 +29,7 @@ properties:
->                - qcom,sm8750-sndcard
->            - const: qcom,sm8450-sndcard
->        - enum:
-> +          - dell,xps13-9345-sndcard
+Hi Srini,
 
-When I explained you how to proceed, I said - you need front compatible,
-because this sound card is compatible with existing one, with a quirk
-needed.
+On Wed, Oct 22, 2025 at 4:52=E2=80=AFAM Srinivas Kandagatla
+<srinivas.kandagatla@oss.qualcomm.com> wrote:
+>
+> On 10/22/25 1:34 AM, Steev Klimaszewski wrote:
+> > Hi Srini,
+> >
+> > On the Thinkpad X13s, with this patchset applied, we end up seeing a NU=
+LL
+> > pointer dereference:
+> >
+>
+> Thanks Steev,
+> I think I know the issue, There was a silly typo in 3/4 patch.
+> Could you please try this change, I will send this in v3 anyway;
+>
+>
+> -------------------------->cut<------------------------
+> diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+> index 16bf09db29f5..6576b47a4c8c 100644
+> --- a/sound/soc/qcom/sdw.c
+> +++ b/sound/soc/qcom/sdw.c
+> @@ -31,6 +31,7 @@ static bool qcom_snd_is_sdw_dai(int id)
+>         case RX_CODEC_DMA_RX_6:
+>         case RX_CODEC_DMA_RX_7:
+>         case SLIMBUS_0_RX...SLIMBUS_6_TX:
+> +               return true;
+>         default:
+>                 break;
+>         }
+>
+> -------------------------->cut<------------------------
+>
+> thanks,
+> Srini>
 
-Might not matter if we go with mixers solution as suggested by Srini.
+Yep, that does it :)  Thanks for the quick fix.
 
-Best regards,
-Krzysztof
+Tested-by: Steev Klimaszewski <threeway@gmail.com> # Thinkpad X13s
+
+-- steev
