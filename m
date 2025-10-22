@@ -1,64 +1,64 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AB929BDA3
-	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 16:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB37335B15F
+	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 16:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761151609; cv=none; b=lmKMCTb/dJ1JsU8Wo7UdVPDiltJ4n0HIEHIaT7IRh+E4u3oJuzQbN0+Gy9aDx9A03HFKprCA4yYAbpuCHrlxL+5pf0OVhia/Uyo/eH/9JPKf6gpmEs3FQf3aMJFQIe4/UYVa7MyjM6Z72ZuX7eELr0Tjr3taqR/zOxM1VJUyFhg=
+	t=1761151949; cv=none; b=MKQE9MjvTQtrB2iNU0a9TWYus03KlQrSiVT9PzUSOhp/zHRwEQbinsaZ6R0x7gBu/GqZgrAS6ys/5JsKOOjCrFOJdSutvUL9vkrecMBRqs1dW7RwfMdc6whsniNb76NEO+o4mv7CXCe/4KFTAzMZxQQXe2RgcGaK1rZi9fJQ+hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761151609; c=relaxed/simple;
-	bh=kzK0X3PESTcd0Pn7d03B0oVRUrs6ifjmGrqa6trxFU4=;
+	s=arc-20240116; t=1761151949; c=relaxed/simple;
+	bh=k1lox5HCPqKeslKTFtUQDp54wxWlGvYzkemwVt7zj5A=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=XOG8RyDgR+uSLYtxdaSC+5LKokoiOMQZi0Los2RX6GR/qrZbKiJjWKPEXaEPe35YcaNajBfDuy0N7kNxofoJjKnQsJN2xRhEyXd/svkoSuQvmaG2WszGEVsGWq0sd7V1ZBfjJIeB+yFDbDmr1+omTioq4KWTZ5SnbgT0S3vr2KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PTZgqxQh; arc=none smtp.client-ip=209.85.221.53
+	 References:In-Reply-To; b=H1VpB3q3hMd2LGIhKIHKlVVaFtXiQv+Iy0a+PtcV1FAvQHmFdMxONLkGvL875t18VydRKOakpWddWZLXo8TdfD6a2t6P2KxQZtjTYlBE12Z9yECHdG2cXpnlBDijo58M5T7azS2hZwKX9hrYArtG5hxjMv7e2XXYEkkyWz7TEwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lEv1KweE; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PTZgqxQh"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so4317024f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 09:46:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lEv1KweE"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4285169c005so962702f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 09:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761151606; x=1761756406; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1761151945; x=1761756745; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hB/kxv3520VBWvRt90QZf897nQckO35BdxVzd7xmja0=;
-        b=PTZgqxQh0FAFLKNMK5gF/Sl/decW5TjYrWfZ+dOhQ3RDXp1tX7oQPY/9YAlUR4wBMO
-         emIb+1KUgcwNPxJQUvJewVkSts5oD+hjJA2SnXfREkVbzxosYgctYK/COSKK9mKOU3+i
-         PZlCkCtei1u6ylPJfv3z0e55lkKkWrjbxdj44D4Ec7vKHycEIXgF9qCtiGdhjDIRSvqE
-         /oijCbkj95mBAJOinAzS+QHMmpDcsJxHhgSQHxZv3jC8WMNdp8ITQikZFfffZbDQhvrI
-         eo9N6IkMNa6hCZbC2Lv49K0XJClTRfTe3V627rHQF4hlRwBhoHtgQdVXBufEOYBBCa2O
-         ZcWQ==
+        bh=37XacdJ9gFpbky/Uw+xLJQSiuMj+QNcWOMBwNotXM/U=;
+        b=lEv1KweEBDKg9u7eYdVo0a1ZFQFmbcAZxo7jZ0qD0H7f3XM8YtOkhmwLLwT3U3VVbc
+         UFZs3OhHe8ShNYy7060ykLAN+D4w8ttIf24L4/7wKYRSdyRrxi5tyfIkOEjZpbwdqAe7
+         Lp3/wPxXPQLkpMO+GPSERkp/cMwNhHiEGIHhQ1qWLufeG5GJRSRR6J9kZe/wVvchy4zN
+         LTvXYrvtHuu6Ozoa1seu+cF3fp60DIR+T+kyj/O7aWk4pz1ChGyOpGxOVZcDBssNVime
+         juh8jDl+jAWm7GcZZAfYNAbPkSwxrQT9VWfM0Dqel4SU9TlcrDkaZw8YRJzpgIHKJGss
+         1BDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761151606; x=1761756406;
+        d=1e100.net; s=20230601; t=1761151945; x=1761756745;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hB/kxv3520VBWvRt90QZf897nQckO35BdxVzd7xmja0=;
-        b=qurx09GizFwKwHyEPLfVnHEON1cfsAJUJ9RGjmsDOwAlVBX6knZnLFF1+v0y+tyZII
-         sfKi+UwFL44DaG18yNV1vwSreQJ80A6TKyEXrz9Zv4rxD+gRlCspB0f++kZ7VR52NfJK
-         uk5C4vao7zpGGwdvRuQ8/i7Aat+20VM4VsOAZCttGocV1WN0tPbT/F7/tXijRhXCSn41
-         k+8VyjXZj5G8iJ4RRml5H1idUiK96DHzTE721xblhdtp5/L1V/Uo3f7ckTDQApga06BP
-         RMaK9p6phQ/CLMGk9Rh7kFomRwLSJBw94yx3n561DNeT6iLk5VzTAZzRIyyvKme9YJgi
-         ZXzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFnF54mtE32h3TVTvWQcNfEjUUbiIZhGJ3/39P4Q94IHF4aHR9w0XXRy8JXxRsvTfz+J2aOKURltWoug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ1YMb0K4P7nONEFTQ++CSpiwEqtH49c3HaJnYD3JSdwn4Ub1n
-	57RgS4HtKt9+O+//Oq9+xrObOb63mTmd83tJBdhr8jucWP2IqyFBcDNiMrorH4BKbUY=
-X-Gm-Gg: ASbGncuCeWVWBbg1gOX/5dqRKIzzaozsoWF9BbuRrzQ2dUSQaoQNjiFOPebKIWEu6Ks
-	SuYJes30A2sEDQJqbmXusvwx2VxJIsFlkNKP9zjibHAjx+zIGJOPnJO8zBpuwyKf6GQAJ2M08Ew
-	nhYQX4hrlS2rLVgXeX9dFsarXEHnGpU6S3Oz3wupOT5h3eENZBlA+DIwH1rsI1PK0PUTSVj6i7T
-	6KlNFb+WBR23xFbV083wPZzY50AxLOe5K/kbfXNWKlS74dQ5pLLEmNXYSARyQllraI0ysTOU1Xj
-	1WWMND5HFqcUuNAaf8h6bS8KuC9+Uen+4ZTc0TFMD64pi15j5NEIj6xChBe4UJ20ZooMmR1KhEy
-	6OYsbM2h7BZM9XFqTmAkso3VrJ2w063t5BP1K2JmFE0PxVZgI1Qlx7jn7E9c8sThG9OcisoxJrP
-	LXc/AcPCQ37ZRvqOc=
-X-Google-Smtp-Source: AGHT+IHC0nEVJ9kS8jNlN1CcS2Es7FqGZUD1CeVHVY8B/z53AT+D2UQg55S0hwzJKEC6PDUH79Dojg==
-X-Received: by 2002:a05:6000:26d1:b0:425:7cf6:5b9e with SMTP id ffacd0b85a97d-42704d146a5mr15287672f8f.3.1761151605615;
-        Wed, 22 Oct 2025 09:46:45 -0700 (PDT)
+        bh=37XacdJ9gFpbky/Uw+xLJQSiuMj+QNcWOMBwNotXM/U=;
+        b=OilZnu8t7OKWtrxPe6VY1QsVJi4BZlIZI4+G8yzSoBtZ0mWDyg1BChrD0oeobRakRf
+         9C1VZNsJ+pHwDk0AFNQLauQ4E3Id/s9MIC9tOo4AKkJs1CxBmNzETeVih1tH3QcXoqmQ
+         oUUcHBZ5Ck0wlmwLmhoizGNe+F9cpnnidISToCM7MHh9F2g6fbXRUW9/bAjsr5GeGKL3
+         NwsCJtIJmYrkqMH02Y9p9XTKm9jAKHZ/ky9MF0ZovJGHsY20FJf2PnTSms3ORE32l7QW
+         mPKnryJvum8AjzM3E9uX7bonB+3yh2j/L40rGZZ9LdcE1zVHsVxle0GJCBAaqJsJlZfB
+         aj4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXD0o/DMncsWzgUwt4Ek8gGgXPvl3a7QEwQt5MqOns89OnvNbBUp8Q+RCNLUQ3GydS4eY1A8I9vTqwddA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKxN1SLji5iy2VL7aCzP5GeXSeF2fUABgZR/vDGcklaRYgBdMF
+	n1FoqRJVFTapAvpzT8niQ2Nm+DxQEh1LslLx+sPqxKrld4Q3V1wgUafsNoAj0RaQc9E=
+X-Gm-Gg: ASbGncsVFEaHhG4hL4TzE3u3mcT/s7VdDuMx2OBs3/L3wUz0ZKXGEcF7kNA5hEcmTSC
+	Q6BjNEX5hgwnDBBVp6TpH3aoukfgUqgI5SfcLyTRdQMVPA99i8+zzXWVUiZuq18gemEQX3azws2
+	5Da/A0xxkOd8AFv9jRAc9KUT1UxrOFsrQBbg0/b2TNeig6/Qp9L38KaHOjEp4L/QhezOktr5ASl
+	4N2Frf5x4HO0W3JRLAICzqxxJxlr2gxxUkCzzqV91tsmTCtnEmBvMEEEW7W35gMWBKawNVvIPEi
+	OCP/sWkq8K71MMaLrewM2WIgjAJUmAYZ4waa+hOElDoOIPdNRkCOAXJewzMzpQWR7fxEsNcJNFk
+	gFNOu5QmFom6HhZHcwl9+F7f6c5CQDUVBy8xHlJQhMnXjcgVx2lZ94k0cIfyxsSUw2/aB5MWgrC
+	+SjJx86Uhy5qYlGfk=
+X-Google-Smtp-Source: AGHT+IGFOe7mdI2kEMdRKUAfbbhGpFj/a5aNDnUXnkpzyrx/acBYIYP5vLTNIADhuJOIFJaea5le2Q==
+X-Received: by 2002:a05:6000:400a:b0:425:769e:515a with SMTP id ffacd0b85a97d-42704d9e8f7mr16851522f8f.42.1761151945204;
+        Wed, 22 Oct 2025 09:52:25 -0700 (PDT)
 Received: from localhost ([2a02:c7c:7259:a00:11f4:2b3f:7c5a:5c10])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a797sm26064120f8f.27.2025.10.22.09.46.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce3aesm26307158f8f.48.2025.10.22.09.52.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 09:46:45 -0700 (PDT)
+        Wed, 22 Oct 2025 09:52:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,97 +67,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Oct 2025 17:46:44 +0100
-Message-Id: <DDP051W3LY8F.3FK5FJT1ABLTG@linaro.org>
-Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela"
- <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: qcom,sm8250: add QRB2210 and
- RB1 soundcards
+Date: Wed, 22 Oct 2025 17:52:23 +0100
+Message-Id: <DDP09DUCGNDL.24UBAKUA640NO@linaro.org>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@oss.qualcomm.com>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] arm64: dts: qcom: qcm2290: add LPASS LPI pin
+ controller
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
 To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>
+ Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: aerc 0.20.0
-References: <20251007-qrb2210-qcm2290-sndcard-v1-0-8222141bca79@linaro.org>
- <20251007-qrb2210-qcm2290-sndcard-v1-1-8222141bca79@linaro.org>
- <b0d9cec5-1162-476b-8438-8239e1458927@oss.qualcomm.com>
- <CAO9ioeVcqT_Yhvz-RMCucLtcpa4xCLrA+srM8Vy_ZZ-650ZQnw@mail.gmail.com>
- <DDKF9YV37ETZ.3DXIDZA4ZU6I3@linaro.org>
- <695ff482-ad53-45fc-9ab0-ad69d8bc89d5@oss.qualcomm.com>
-In-Reply-To: <695ff482-ad53-45fc-9ab0-ad69d8bc89d5@oss.qualcomm.com>
+References: <20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org>
+ <20251007-rb1_hdmi_audio-v2-3-821b6a705e4c@linaro.org>
+ <b6223af9-2d9e-4ccd-b297-79f63167242b@oss.qualcomm.com>
+ <DDEN5NSLDIHD.C1IELQW0VOG3@linaro.org>
+ <zmi5grjg2znxddqzfsdsr35ad5olj3xgwwt6hvkiaynxzm5z33@gsgrdguj563n>
+ <DDO0LYS7UTEW.3A9WGTAA5DKVO@linaro.org>
+ <56vmqgrjy3je7omzirxnfxtuocebbj356iaew5thgkagi35464@hh34y7efssow>
+ <450cac8b-598b-4f47-8bf0-43c805038e7c@oss.qualcomm.com>
+In-Reply-To: <450cac8b-598b-4f47-8bf0-43c805038e7c@oss.qualcomm.com>
 
-On Fri Oct 17, 2025 at 12:27 PM BST, Srinivas Kandagatla wrote:
-> On 10/17/25 8:35 AM, Alexey Klimov wrote:
->> On Thu Oct 16, 2025 at 8:46 PM BST, Dmitry Baryshkov wrote:
->>> On Thu, 16 Oct 2025 at 18:08, Srinivas Kandagatla
->>> <srinivas.kandagatla@oss.qualcomm.com> wrote:
->>>>
->>>>
->>>>
->>>> On 10/7/25 2:26 AM, Alexey Klimov wrote:
->>>>> Add soundcard compatible for QRB2210 (QCM2290) platforms.
->>>>> While at this, also add QRB2210 RB1 entry which is set to be
->>>>> compatible with QRB2210 soundcard.
+On Tue Oct 21, 2025 at 2:13 PM BST, Srinivas Kandagatla wrote:
+>
+>
+> On 10/21/25 2:03 PM, Dmitry Baryshkov wrote:
+>> On Tue, Oct 21, 2025 at 01:56:09PM +0100, Alexey Klimov wrote:
+>>> On Fri Oct 17, 2025 at 11:42 PM BST, Bjorn Andersson wrote:
+>>>> On Fri, Oct 10, 2025 at 01:29:38PM +0100, Alexey Klimov wrote:
+>>>>> On Tue Oct 7, 2025 at 1:39 PM BST, Konrad Dybcio wrote:
+>>>>>> On 10/7/25 4:03 AM, Alexey Klimov wrote:
+>>>>>>> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
+>>>>>>> controller device node required for audio subsystem on Qualcomm
+>>>>>>> QRB2210 RB1. QRB2210 is based on qcm2290 which is based on sm6115.
+>>>>>>>
+>>>>>>> While at this, also add description of lpi_i2s2 pins (active state)
+>>>>>>> required for audio playback via HDMI/I2S.
+>>>>>>>
+>>>>>>> Cc: Srinivas Kandagatla <srini@kernel.org>
+>>>>>>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>>>>>>> ---
+>>>>>>
+>>>>>> [...]
+>>>>>>
+>>>>>>> +			lpi_i2s2_active: lpi-i2s2-active-state {
+>>>>>>> +				data-pins {
+>>>>>>> +					pins =3D "gpio12";
+>>>>>>> +					function =3D "i2s2_data";
+>>>>>>> +					bias-disable;
+>>>>>>> +					drive-strength =3D <8>;
+>>>>>>> +					output-high;
+>>>>>>
+>>>>>> I.. doubt output-high is what you want?
 >>>>>
->>>>> Cc: Srinivas Kandagatla <srini@kernel.org>
->>>>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->>>>> ---
->>>>>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 5 +++++
->>>>>  1 file changed, 5 insertions(+)
+>>>>> Why? Or is it because of some in-kernel gpiod?
 >>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml=
- b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> index 8ac91625dce5ccba5c5f31748c36296b12fac1a6..c29e59d0e8043fe2617b9=
-69be216525b493458c4 100644
->>>>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->>>>> @@ -21,6 +21,10 @@ properties:
->>>>>                - lenovo,yoga-c630-sndcard
->>>>>                - qcom,db845c-sndcard
->>>>>            - const: qcom,sdm845-sndcard
->>>>> +      - items:
->>>>> +          - enum:
->>>>> +              - qcom,qrb2210-rb1-sndcard
->>>> I don't think you need rb1 specific compatible here, unless there this
->>>> is totally different to what the base compatible can provide.
+>>>>
+>>>> What does "output-high" mean for a non-gpio function?
 >>>
->>> Why do we need to deviate from other platforms which declare
->>> board-specific compat too?
+>>> This is not efficient. It will be more useful to go straight to
+>>> the point.
 >>=20
->> There seems to be now a few incompatible suggestions for rb1 sndcard:
->> - make it compatible/fallback to qcom,sm8250-sndcard (1);
->> - make it compatible/fallback to qcom,qrb4210-rb2-sndcard (2);
->> - add separate compatible/enum for rb1 sndcard as qcom,qrb2210-rb1-sndca=
-rd (3);
->> - add base compatible as qcom,qrb2210-sndcard and fallback
->> rb1 sndcard compatible to it.
+>> It is efficient. It makes everybody think about it (and ask the same
+>> question in future) instead of just depending on maintainers words.
 >>=20
->> The latter one is ruled out because base compatible should be used and
->> it is not going to.
+>>> This description of pins was taken from Qualcomm downstream code
+>>> and the similar patch was applied (see provided URL in the prev email).
 >>=20
->> As far as I can see the last addition went simply with (3).
->> Which one finally you all want?
+>> And we all know that downstream can be buggy, incomplete, etc.
+>>=20
+>>> Back to your question -- does it matter here if it is gpio or non-gpio
+>>> function?
+>>=20
+>> It does. The I2S data pin is supposed to be toggled in some way by a
+>> certain IP core. What would it mean if we program output-high? Will the
+>> pin still be toggled (by the function) or stay pulled up (because of the
+>> output being programmed)?
+> I2S lines are configured in push-pull mode which means that the lines
+> are driven high and low actively, am not sure why output-high is needed
+> an what it means here as these lines are actively driven by the controlle=
+r.
 >
-> Am fine with either "qcom,sm8250-sndcard" or "qcom,qrb4210-rb1-sndcard"
-> as long as we reflect that correct driver name in machine driver.
+> @Alexey, what issues do you see without this?
 >
-> traditionally we have SoC level compatible which works fine for 99% of
-> the boards for that SoC, expectation was that if there is any deviation
-> or board specific changes required, this can be accommodate using model
-> information. am fine with board specific compatible too, however am not
-> okay with both "qcom,sm8250-sndcard" and "qcom,qrb4210-rb1-sndcard"  or
-> falling back to another board compatible for various reason one being ucm=
+> Am not sure if pinctrl driver even cares about this if we are in alt mode=
 .
->
-> So 1 and 2 re *NOK*
->
-> I hope this provides some clarity here.
 
-Yes. Thanks. I went with SoC-level compatible in the latest version.
+No issues. Not sure why the problem (if it exists) wasn't reported or
+fixed, say, for sm4250.
 
 Thanks,
 Alexey
+
