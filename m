@@ -1,87 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD882F9DBB
-	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 07:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5917D2F28F2;
+	Wed, 22 Oct 2025 07:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761118804; cv=none; b=ZGLIWk2PtmURz7uYjuAcvHcFId1TnTRv2WSOLBb351sx/TzpCfsk1QHKB7IQvfZcY9Yz/lWW4IUtkiWMaso9KYJR7Q5AOhZGmub7LALLETIAZj5NjNXH+wwE8vmO7iaPI0PLxo5JRMh9bKyR8INEgkjN1nR5Qs0fXFAMKSk0EQ8=
+	t=1761119861; cv=none; b=F7cB0StrLCRppiJbbV1xvKAwvw0mH853K5ggZSZD9TREXHwpCvKoui2IcuQa1f3w7amYl9ZJ828zglxU64OdeNgMTKYcZ7N3Ndj6pmG+Em54tIdq725OPSEUgHFCNbOP47EVEWp8yySw9wjsN4wT2bcjio1O+LvX9VOgoYsThEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761118804; c=relaxed/simple;
-	bh=R5qnRs2N6wyVFTGd9AN0S4IcmdvZ3FbH+6e8OegHPnw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FXjq6l5E4wrF27vpkHqaJ62GavghmoGxU6HBFbD/TjQbHGE8HODPZB77NwfWMENL5zZwtp8cviSrmXEPkaAp6X+cB/vre3gfRTBLTC3L6hxmSnH6n4DHWHZ8Zn/mLGjPFIx8g++cLMArSLRVyXE0vSwW0bZTQZy7mMWmi236BtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdD6Kw42; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1761119861; c=relaxed/simple;
+	bh=3ZD+uLg3U4eTWS54cwa/z6qXW4MaPy/85wVoaONKWEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VXIF6+lh9N0+TQWgj2gOcDxFJorytwjXjvbfr2dNTVMzv5UGqoBLe+uKwAXDmP+dbVSY5S/gjpW2h5X4lyTfjrQ8ONCvP4mkcQdp/2KNPnDRDexChCrPZYyEUzSQYE/qBLJle/zOivv7pdsSiVYx8Zh1l76BlxxylltmmA7fwhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YEgsIC0s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdD6Kw42"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761118803; x=1792654803;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=R5qnRs2N6wyVFTGd9AN0S4IcmdvZ3FbH+6e8OegHPnw=;
-  b=ZdD6Kw42tI6OCqSdaNB3MM82d3iiJyncISwdDnt6bvGRnHMaGW96Gzfh
-   +TTM5oZwbM4tFmJO2r1VfB72r1JraMILOmIGNPHdK7lNduLjq/GVHoM9b
-   vW8key7awLN1FouZ/jG7l3LiNZxPEV2GOVQSLi991dCmup0wRJxWDsLQa
-   2tllRuCDe6IMWQgyhlR4CaQGcXz6zooPoUqBTFt3tvWgrHCp2i75+biZE
-   kh+0nIYf0sxEOuRNTxj2B33p0JUPOZYRxAyecb63A3k4ulAzs2XMvUauh
-   hmjetWg/e3Q02BcP2YzqcDv//9FCDR5DMvRXwUPBlAU4IZhBJLOqRMs9W
-   w==;
-X-CSE-ConnectionGUID: top5BJ14Rl+DupYogHco/w==
-X-CSE-MsgGUID: Txm3n3NNRqCP+t2fYHAKHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80696204"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="80696204"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 00:40:03 -0700
-X-CSE-ConnectionGUID: Xkf0pyJTR/yp0dkuakAz8A==
-X-CSE-MsgGUID: 9LuQflEPSNu/K6/UDP2azg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="184581087"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 00:40:00 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	shumingf@realtek.com
-Subject: [PATCH] ASoC: sdw_utils: add name_prefix for rt1321 part id
-Date: Wed, 22 Oct 2025 15:39:52 +0800
-Message-ID: <20251022073952.327451-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YEgsIC0s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56978C4CEE7;
+	Wed, 22 Oct 2025 07:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761119860;
+	bh=3ZD+uLg3U4eTWS54cwa/z6qXW4MaPy/85wVoaONKWEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YEgsIC0s1wDquXSSpNOwkpClJsI3ofRyAXf9+owslEz1qwKDYU5oSeUtncaC+8GHa
+	 V9fSI3d+3plqzhyTPFow0TSs47UloPIQEyY4tFw9Cz1J25ehWkhtYuE19HR1Pf/5KI
+	 AMWBevMA4G+lua7x67kr3dgyVvaikRjGP05xG/cVp9Fp4d7Vufw5uSmCxG834k+Di0
+	 HnoX6hE4W+AU6cO7SuWndJ5odRifqth41IyG9KhU5RDO793fjfVKbnkkwD/BraGYwp
+	 htWDQP38NGgyhsh+Si7VTdb+6KQCJm3GdxULTSyoys7eZuAKmOjqhRBSmdgbYomsmc
+	 8F8D79QHGoNDQ==
+Date: Wed, 22 Oct 2025 09:57:38 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>, Nikita Shubin <nikita.shubin@maquefel.me>, 
+	Axel Lin <axel.lin@ingics.com>, Brian Austin <brian.austin@cirrus.com>, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: cirrus,cs4271: Document mclk clock
+Message-ID: <20251022-aquatic-pigeon-of-masquerade-4c4369@kuoka>
+References: <20251016130340.1442090-1-herve.codina@bootlin.com>
+ <20251016130340.1442090-3-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251016130340.1442090-3-herve.codina@bootlin.com>
 
-From: Shuming Fan <shumingf@realtek.com>
+On Thu, Oct 16, 2025 at 03:03:38PM +0200, Herve Codina wrote:
+> The Cirrus CS4271 codec can use an external clock as an input Master
+> Clock. When no crystal is used, the CS4271 component considers its MCLK
+> pin as an input pin and expects the external clock connected to provide
+> the Master Clock.
+> 
+> This clock is not documented in the binding.
+> 
+> Add the missing clock.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  .../devicetree/bindings/sound/cirrus,cs4271.yaml       | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-This patch adds name_prefix for rt1321 part id in the codec_info_list.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 92e071f6b054..cfa6255be387 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -325,6 +325,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 	},
- 	{
- 		.part_id = 0x1321,
-+		.name_prefix = "rt1320",
- 		.dais = {
- 			{
- 				.direction = {true, false},
--- 
-2.43.0
+Best regards,
+Krzysztof
 
