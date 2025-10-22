@@ -1,91 +1,82 @@
-Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE3C30F54C
-	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 09:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107172FAC0C;
+	Wed, 22 Oct 2025 09:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761123702; cv=none; b=di3osoTYrJsDzI8349V5QkkyWNW2KHVCEu0h4m2hu0MovF3nIRtEzt1GFABlBV80fj/cLH86+zKAHLQ66cN0Ml2AhHzHFOuNza6y2QeP8I3oAUDn1T5MdEE6HL1pMy0L1LtihUJHvwDl6MkvD+dKw+IfXr1owflHuYtmGam+nD8=
+	t=1761125035; cv=none; b=gLinRPYwKBIn86a3aa2xh7mM/Sb4tnHj4UXn/rOp4xbLmG02460MQxC3JZMGewueef7CXeekprztkilJggmUqqFcvnYhnqwHLmYUcQ34ub2T82BOswBCjmnHaBHqnvaR/hMTITxj4FaZ4WuGgr5bd2+oJtjW+nRYPvIyUSW6w0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761123702; c=relaxed/simple;
-	bh=exW8I+sKNQk/2bOIgYQgH83ArjIfH8n54jVGuR5uqLM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q8nQ0H7KrpU3fDNn/YJezlRpwzVVbJoGMkiuk27Hf5rvullSYZmj4wunIwKnTu6HOC9nzk4gZwg3rkSGMTUFezgCaQZwAhKHSpvEYdYW3lytq5WG1aXvAOvzyvngd98pc9n1GD/EVQJuJxXdcxRg3YHgKTvJpn1lRZjR74AOA9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=jTvI9p+q; arc=none smtp.client-ip=85.9.206.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="jTvI9p+q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1761123682; x=1761382882;
-	bh=exW8I+sKNQk/2bOIgYQgH83ArjIfH8n54jVGuR5uqLM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=jTvI9p+qUfzjkQlnfYuz3jC43dYwLCHduIct2bDadI4ZmHp973JcLUC4BX3Z5ukIa
-	 lUkW+3IX5prRKeAEi8sPS2LD1iFyYkS+YrpEaodlzFqu3a1E66GFcw+gztQIJ0f0VE
-	 vXh8NAbb+wfbecpZTzrRNPIr7hgIG4gLTMXyzs8pWswM88ysev+lwNqvTbtA+wy8fV
-	 4EbyLUIO1ZLLoB7GSDZ+p3DZuYBHt+wrdQ4xYIZUseGw+ObnNtcMNIQC9gH8Gtdrf8
-	 Jrymxj88wBinwhSK2c9HuNDMbHYc+e8Bl8Q5nH8nSnOFNrUO3hZntS/qW5eXbfy6yQ
-	 IZM6sE/cRT7yg==
-Date: Wed, 22 Oct 2025 09:01:18 +0000
-To: =?utf-8?Q?Tomasz_Dro=C5=BCd=C5=BC?= <tomasz.drozdz.1@protonmail.com>
-From: =?utf-8?Q?Tomasz_Dro=C5=BCd=C5=BC?= <tomasz.drozdz.1@protonmail.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Realtek ALC897 - no 5.1 surround sound.
-Message-ID: <WVwbXybhbdHdGv4lpPCFz_52Ls7g3ShVFnHdDvJKgAeP4nZQVw2pEuxIhYby9V9FA7HGBK6DCrNJsRrUvDV5RaUuIObpufcaJEDBEeGZyVQ=@protonmail.com>
-In-Reply-To: <WpC4wmD50rlPuivdEgS0NV22vN6CliRVVqhTaCpmVnY0D4ejo4Ny34F0hO5xaYWunIhVTf5O636OrGRzy3tyA5Ews6KHfWwmckXcHOIvhKo=@protonmail.com>
-References: <WpC4wmD50rlPuivdEgS0NV22vN6CliRVVqhTaCpmVnY0D4ejo4Ny34F0hO5xaYWunIhVTf5O636OrGRzy3tyA5Ews6KHfWwmckXcHOIvhKo=@protonmail.com>
-Feedback-ID: 6711154:user:proton
-X-Pm-Message-ID: a22a4a68eace4a375f58261e61ba86a54af9ecbd
+	s=arc-20240116; t=1761125035; c=relaxed/simple;
+	bh=FS/89PN8qDAUhNvRrmv/cZIPZfOKC45KSNnfXsGhzag=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U7tgpde93zC4BlLC9TkNlojXwa+yWt3f9JhR33OoEBwi9VB04v2f1qcMR/ygLppyrsiOjY3fauWedgyXLNjkd5bOaeqeMhg3A3fY/N9Gx841xpdRYVZfElx1D9O9OwbCI8Dq18SsjmqT/GTCz7tJSnz+UooaGMB/TfqGwvMYbiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: cdcd0a5eaf2811f0a38c85956e01ac42-20251022
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:a6a34b9b-a3c7-425c-9117-c34af9cac9f4,IP:0,UR
+	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-20
+X-CID-META: VersionHash:a9d874c,CLOUDID:5f6b7654d728f41e1e322f698f121a6e,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:1|19,IP:
+	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: cdcd0a5eaf2811f0a38c85956e01ac42-20251022
+X-User: tanze@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <tanze@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 897223618; Wed, 22 Oct 2025 17:23:43 +0800
+From: tanze <tanze@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	phasta@kernel.org,
+	linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	tanze <tanze@kylinos.cn>
+Subject: [PATCH] ALSA: maestro3: using vmalloc_array() to handle the code
+Date: Wed, 22 Oct 2025 17:23:39 +0800
+Message-Id: <20251022092339.551438-1-tanze@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello all.
+Change array_size() to vmalloc_array(), Due to vmalloc_array()
+is optimized better,uses fewer instructions, and handles
+overflow more concisely
 
-Anyone - please - can I get any info from you like:
-- we heard you but do not have resources to look at it now
-- we do not plan to add support for Realtek ALC897
-- ...
+Signed-off-by: tanze <tanze@kylinos.cn>
+---
+ sound/pci/maestro3.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/sound/pci/maestro3.c b/sound/pci/maestro3.c
+index bddf47a1f263..3353980d5cd8 100644
+--- a/sound/pci/maestro3.c
++++ b/sound/pci/maestro3.c
+@@ -2571,9 +2571,9 @@ snd_m3_create(struct snd_card *card, struct pci_dev *pci,
+ 
+ 	if (IS_ENABLED(CONFIG_PM_SLEEP)) {
+ 		chip->suspend_mem =
+-			vmalloc(array_size(sizeof(u16),
+-					   REV_B_CODE_MEMORY_LENGTH +
+-					   REV_B_DATA_MEMORY_LENGTH));
++			vmalloc_array(REV_B_CODE_MEMORY_LENGTH +
++				      REV_B_DATA_MEMORY_LENGTH,
++				      sizeof(u16));
+ 		if (!chip->suspend_mem)
+ 			dev_warn(card->dev, "can't allocate apm buffer\n");
+ 	}
+-- 
+2.25.1
 
-
-
-
-
-Sent with Proton Mail secure email.
-
-On Wednesday, October 15th, 2025 at 8:35 AM, Tomasz Dro=C5=BCd=C5=BC <tomas=
-z.drozdz.1@protonmail.com> wrote:
-
-> Hello all.
->=20
-> I use Fedora Silverblue.
-> I have: 7.1 CH HD Audio (Realtek ALC897 Audio Codec), Nahimic Audio, as m=
-y sound card.
-> But unfortunately I can not set it to work in 5.1, 7.1 surround mode.
->=20
-> I do not see my model here: https://docs.kernel.org/sound/hd-audio/models=
-.html
-> so I think it may be not supported by Linux ?
->=20
-> I have asked for help:
-> - https://discussion.fedoraproject.org/t/5-1-7-1-sound-speakers/156932/5
-> - https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4788
-> - https://github.com/alsa-project/alsa-ucm-conf/issues/590
->=20
-> and they said I should ask on kernel mailing list.
->=20
-> What more info can I provide to You ?
-> Can You please assist, help ?
->=20
->=20
->=20
->=20
-> Sent with Proton Mail secure email.
