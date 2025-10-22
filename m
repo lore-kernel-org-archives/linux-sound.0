@@ -1,370 +1,141 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659E728FFF6
-	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 04:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61802EC097
+	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 06:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761106828; cv=none; b=ORIgvV23acbQRYO5sgDRPnYLXGGtkPRD/AG+jzvfHU3dq21BOfNliDZDK8wGvxyzYS8b9AsFuixA0G/HuS0/vNrrhPdsfAeNn3Hd/TfUSiZmmcuuGQZEyGbVj3/ItxnnTxhTmDwWTG2Nd+LkVcN8t+PrUcR2yCG47p7tnhPI4Pg=
+	t=1761113228; cv=none; b=V2r11bqWv7CENaZY+GV2JW/dy6gMEq6XYxwUhex2rhwYqbRfBWbwx4ssrei6T4XePwx1RaPKd2igC3BG7zgDJLTnc9jJ0iYY5M7zBNpubSNFKQXMfObIgBbSofvoFm4SaUOQFAD8OCPaYaaoI1HtI+VkUlTsWsD6QUNEzFgb5is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761106828; c=relaxed/simple;
-	bh=2LvoX8vCx1tufVUw3MgzD/5yh2XJb4pcCLw0O06vvgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SARqUyu1BDVE337cz42RaCc295K8Cy0ET22aJ1cUHhD8xjIYwnsg3Wk64YI8C2VX841AmGlmrtOyfbFpqIj0M+QNtxxoaenn68YHUTHl9no5Nc//D2OfZVKvdPGho+CA+rlAjLQhWtUxylz9I3HJPIzsvvcw/NlCBMRObz1xdts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+8RY0mo; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761113228; c=relaxed/simple;
+	bh=Wc+9aLfvtHVyed7cQcVOx9+S7rwdlkRIeIM/CGWU29w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TQ20BzPtlbm5vrNGeBMv7LNeRyz3k7GGjUIQ+kBXdvkjpdBd2YFelV/zCNHRETw4oTILHx/SLRk1bzs0QHETQsMu1m/X8P9N4WEG1PCYzktTEP9Anua2AnnI7wbJX9BWhxzrEkoJV9w41qErRAG28+0Of4CWg8inNYIkkiiKsNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GVHy7XnF; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+8RY0mo"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-88ed6837e2eso1347402885a.1
-        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 21:20:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GVHy7XnF"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-475c696ab72so635585e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Oct 2025 23:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761106825; x=1761711625; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ODhNpK7RnCdLY40s70BovQLD/n6xOeEpw27aGxRtg2g=;
-        b=T+8RY0mo3meFeGrhtNs+SAdbYh9kG5VFitFWNSDnMij0o+QbhBGCv+rDwxpRy2qLYo
-         EGWSBn2jnRpMcVRu20fkCv/jKd94mIw5/860KfVkpF6fKtKLAsB84FINpiplQt8Qa6NE
-         Z/XXwywgxJCr6qlQ+RHmOhCzfzYbZ/0t4OV87C8hefJ9MhxIXWfVNccCP5EFzmsy+52R
-         AE128zR2vcG1vjP4s1ExGkBra15uUU5wtN0ga3AYAcVnNaYIw9Hg5DmG82xlw5E9N0Yf
-         GspTUqa8lXbptoM923M+LWCHz/kWUCqF94edYTHA4Vo6DX+J68qYSgvsV/O6wnh/ftM3
-         WHXA==
+        d=linaro.org; s=google; t=1761113225; x=1761718025; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D1ezpd/u211WU4FX5YLh5Rh1v3SfD1aW9qKd6XPe2Q0=;
+        b=GVHy7XnFwsYSba2MZonJ2Gzn2iJmRqeCVD6shwWqCChLkOHrd5JhKmfW/KYk0jJq4P
+         7Ioq6OWKgBK4gLUz7WXDGNGWOqff/fIDCJ3tE+xxiDlXPKh98QQLaWkDCcmdkN6hgIZm
+         +uWRUJQ8ifksF4VADHJ9t7lfG4ZsvOIevmtBKcLo1factVhPUfXrDt8NbRh33/kSGQ4E
+         WpNkkI8eDFTIRtVLHyx22Njb7QExaM0GRI5DHaEyDU3QrRGbDR4N4o/le+B04g2l1VJW
+         Gr3TjddUx3nKnaL1vgtaTahxaYAVxJ1LH3ue7zOjLxgsAYGmMwUovVjJPktBdxk1K/F9
+         gtJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761106825; x=1761711625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ODhNpK7RnCdLY40s70BovQLD/n6xOeEpw27aGxRtg2g=;
-        b=so5vFSyDl997sQOIDISY58id7cwT8yHhCcDfXrA4qWmrYckev+elbXjmwXdtUdP4ap
-         DMqoZZnJzgWu/WdVNx3UGHFKZgbY6WIDek824hnirFiCTkrw3yk+FmnhS00S3Ab2Srah
-         4CemkEriuZ1/3uv1itnLnyaRlTJVYKlY7WXCdC+cMzjD/qDnClSMuVmf9c6ax3aGUzrs
-         rOBCDGKu5ELlvqxVDbEwMAV5pIYRSwEkG+LU0dswpBxPbcirgsMN0UnrhrUsvteec7qT
-         rB7jGnjP5KR/WQwwUKnH4C4ENMyrEJ/FvrGIfvxtLI+H2Axk4Y3eYA3+0U65jzndWiv0
-         auHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVOsXbECmRH2aU+Kn1avNRc+iQDu+UQsxjnzbH2h8SBiF54Ggxi9lsUDSUe0SRcRDGrBjmxrXihNPsGcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwX161DLY4L80ojocCalLnB6ct2r9EJM3PTD72cDMcJN94j5xPw
-	e8sS413p7Fj2MH4Jsgab9LklDi0A9QLQT9SVGveZcE+RW673siV1hwOh
-X-Gm-Gg: ASbGncvtPnplb/bu/TIwpVisB5GquVAdnROKKMONLHXSDFymLhj3clfELNvJL9r1Mmn
-	Y3ondlCxo8k7heB4KP0aSNBRY9nN3ufDSf9tfTLCcWaLSU2CYY4hzTX2TlJUbtx/q9/iRJEfDCC
-	7N+3wRq7DmT/kvN06PR5aJ8JYecZ9w42uWSNnZAWZXY+nNJseEy1sKqIgYh8R5/2kc+llRhFuw3
-	c5N1TnPrviDyCFpzK7DuzC/3SKvb6jGywGBHXFj6J+1jVQ514XGQGUnDA/utOoOc+83Xs6vZ0V6
-	Sx8N23zxoGwWt8DG0I15T4vH4TDld5uFVcQssHDQdUj9XTqX8o4GcxXMWrYncKwE+VN+szUgKH4
-	5ErJQ7mnxptI/5k0LVw25RSOASwSgtWF1kBJrzfBljut8Ejn3qp58H8b4ZQnhfsXbW17Qo5tp
-X-Google-Smtp-Source: AGHT+IFKpjZaqHyEdyKVtERVYcIxj+O15A9VpaXXOseaN7ns0Zwp6c8+X3yhxQ/MJYZF6q3dxlGylA==
-X-Received: by 2002:a05:620a:170c:b0:891:81e2:fca8 with SMTP id af79cd13be357-89181e2fe2fmr1995019985a.69.1761106824637;
-        Tue, 21 Oct 2025 21:20:24 -0700 (PDT)
-Received: from localhost ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-891cfb56807sm902420985a.63.2025.10.21.21.20.22
+        d=1e100.net; s=20230601; t=1761113225; x=1761718025;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D1ezpd/u211WU4FX5YLh5Rh1v3SfD1aW9qKd6XPe2Q0=;
+        b=VsZnq5nrwrBP5xyPFM/jl93i7WiO2LsG318/uQMwLbVCrNSGh9PNxjOckMTVQOidqU
+         UirfceKbTSAlbXumrGDq34LxGA3K8uEqFlSDhw5B2gqDfLxMw8KUgww87we5Cz9WXDBQ
+         pnizoP5CitZSywAAqa4Zvu098N680+g3fHn45fL5vE3GDNYI1aOBMy/+JIq+V995HOx6
+         /UjG6K9NwXjckyzdssGT+WKgKruT3dJZFWvcHNrY2u9VW0Kk3u6wD89O8EqoIDE0qmev
+         HrFGpEz1eZOGauYAWsXJTbxdflO2iRfXEJlVG7yNxo60OkCHMZB5rxMCx5e+JI0kjiNY
+         34UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKyfcS5VtjcctiZxPibgIgtfItniw7OOIitP2WOhClVeEPLRVZzHaVaQbc/iQwE2RWawPezWdSoi0HcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqQxWyEm3Qc0cvunnZZl5xgRq2EVn8tOOpYgc4jXA9NCXxZfuZ
+	I41rbRQKVG1fuiysayyhWGsLO/Krm1TjwDypl/EHPhFQ+BLQrTBJZPbgV9CwlQ4m+C0=
+X-Gm-Gg: ASbGncut727to+0v5x3zQx61lDS24av9KioeM0py+b0Fr4gDDzFT1t/RoOJmcWEyn0y
+	kbYrKkkP3xS35JZ0/89o9WirloHuKocBaDuDqP7aBL6ZM6L4DPMf5RYsy1+VLk4rSwN0bdobFkk
+	qoFNLmKiK0egFXviT1LnbaHKzOAsdd+pyoRLDQPC7T48iBlVZuVyxyA7ILTYOIQnelYFChZ2jCF
+	AxCt887jDmkZivsM4NUsQwQYtb7912ENP/K3OR5MXH/IEAXsDFHOhXqgwBBpM2Kx9gNWf6MGp85
+	hrdYXFXKKEqEFEPXclY/+y7jEPjWzWJDioN3vPPxEqa7lGVIp1TNtyK1j/5l8ziuJxcsabh1/Cn
+	Y3GLhqxw4JE0loBjZ8DExbnerHHUHhACGmeVOrHYKP7ZHc/tjYczEomMThT0VPx/9auL3ssmvSa
+	w2JQgR7tRgZ7Gde896
+X-Google-Smtp-Source: AGHT+IHQlLLVtQZomqH0HG6Yx6ZDZd/udLMqmbW845DvtekPfRZWQRMJ3upIHekLHFXYi8rRCsrr5A==
+X-Received: by 2002:a05:600c:3b8d:b0:46e:35a0:3587 with SMTP id 5b1f17b1804b1-471179174cfmr140105965e9.27.1761113224875;
+        Tue, 21 Oct 2025 23:07:04 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7259:a00:11f4:2b3f:7c5a:5c10])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a75bsm23794067f8f.23.2025.10.21.23.07.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 21:20:23 -0700 (PDT)
-Date: Wed, 22 Oct 2025 00:20:21 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
- helpers
-Message-ID: <aPhbhQEWAel4aD9t@yury>
-References: <cover.1760696560.git.geert+renesas@glider.be>
- <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
- <aPKQMdyMO-vrb30X@yury>
- <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
+        Tue, 21 Oct 2025 23:07:04 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+Subject: [PATCH v3 0/3] qrb2210-rb1: HDMI/I2S audio playback support
+Date: Wed, 22 Oct 2025 07:06:40 +0100
+Message-Id: <20251022-rb1_hdmi_audio-v3-0-0d38f777a547@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHF0+GgC/3WPwWrDMBBEf8XoXBVpJdmNT/2PEsJKu4oFtRVLj
+ mkJ/vc6CZReenwDM7y5icolcRV9cxOF11RTnnYwL40IA05nlol2FqDAaaU6Wbw+DTSmE14pZan
+ Rm0AHE8OBxV66FI7p6zH4cXxy4fm67y7PUHisLEMex7T0TWTrjINAWrXIVnuHZKJSbRuAnSXvg
+ SJ1Svz16Ztfm7l4AK3kHEaAg5J1ooCFJKGzYB0im9ivIO4qQ6pLLt+Pq3t0d/nv1QpSyTfQvsV
+ OObbh/TNNWPJrLmdx3LbtBwpqbK44AQAA
+X-Change-ID: 20251007-rb1_hdmi_audio-1ab3cd93fc9e
+To: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Alexey Klimov <alexey.klimov@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
 
-On Mon, Oct 20, 2025 at 03:00:24PM +0200, Geert Uytterhoeven wrote:
-> Hi Yury,
-> 
-> On Fri, 17 Oct 2025 at 20:51, Yury Norov <yury.norov@gmail.com> wrote:
-> > On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
-> > > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > > constants.  However, it is very common to prepare or extract bitfield
-> > > elements where the bitfield mask is not a compile-time constant.
-> > >
-> > > To avoid this limitation, the AT91 clock driver and several other
-> > > drivers already have their own non-const field_{prep,get}() macros.
-> > > Make them available for general use by consolidating them in
-> > > <linux/bitfield.h>, and improve them slightly:
-> > >   1. Avoid evaluating macro parameters more than once,
-> > >   2. Replace "ffs() - 1" by "__ffs()",
-> > >   3. Support 64-bit use on 32-bit architectures.
-> > >
-> > > This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> > > macros, as people expressed the desire to keep stricter variants for
-> > > increased safety, or for performance critical paths.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > Acked-by: Crt Mori <cmo@melexis.com>
-> > > ---
-> > > v4:
-> > >   - Add Acked-by,
-> > >   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
-> > >     power management debugfs helper APIs") in v6.17-rc1,
-> > >   - Convert more recently introduced upstream copies:
-> > >       - drivers/edac/ie31200_edac.c
-> > >       - drivers/iio/dac/ad3530r.c
-> >
-> > Can you split out the part that actually introduces the new API?
-> 
-> Unfortunately not, as that would cause build warnings/failures due
-> to conflicting redefinitions.
-> That is a reason why I want to apply this patch ASAP: new copies show
-> up all the time.
+This series adds a feature to playback/output audio via HDMI
+on the Qualcomm RB1 board. Since RB1 and RB2 are very similar
+to each and other and most likely use the same mainboard therefore
+this series is pretty much a rework of the similar patchset for RB2.
 
-In a preparation patch, for each driver:
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+Changes in v3:
+- corrected compatible for sound node for rb1;
+- sound node model name contains "Speaker" instead of "Speakers" now
+  to indicate that output is single channel (mono);
+- resorted pins by gpio indexes (as asked by Konrad), back to the initial
+  version;
+- dropped output-high from lpass pins description;
+- dropped patch ("dt-bindings: pinctrl: qcom,sm6115-lpass-lpi: add QCM2290 compatible")
+  applied by Linus;
+- Link to v2: https://lore.kernel.org/r/20251007-rb1_hdmi_audio-v2-0-821b6a705e4c@linaro.org
 
- +#ifndef field_prep
- #define field_prep() ...
- +#endif
+Changes in v2:
+- added tags;
+- patch that adds sndcard compatble is moved into separate series
+and also one new patch is added there;
+here: https://lore.kernel.org/linux-sound/20251007-qrb2210-qcm2290-sndcard-v1-0-8222141bca79@linaro.org/
+- resorted cpu,codec,platform subnodes of HDMI DAI link
+(as asked by Konrad);
+- apr => APR in "arm64: dts: qcom: qcm2290: add apr and its services"
+(as suggested by Dmitry);
+- resorted pins in LPASS TLMM node (as asked by Konrad);
 
-Or simply
+Previous version:
+https://lore.kernel.org/linux-sound/20250302-rb1_hdmi_sound_first-v1-0-81a87ae1503c@linaro.org/
 
- +#undef field_prep
- #define field_prep() ...
+---
+Alexey Klimov (3):
+      arm64: dts: qcom: qcm2290: add APR and its services
+      arm64: dts: qcom: qcm2290: add LPASS LPI pin controller
+      arm64: dts: qcom: qrb2210-rb1: add HDMI/I2S audio playback support
 
-Then add the generic field_prep() in a separate patch. Then you can drop
-ifdefery in the drivers.
+ arch/arm64/boot/dts/qcom/qcm2290.dtsi    | 110 +++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts |  55 ++++++++++++++++
+ 2 files changed, 165 insertions(+)
+---
+base-commit: fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
+change-id: 20251007-rb1_hdmi_audio-1ab3cd93fc9e
+prerequisite-change-id: 20251007-qrb2210-qcm2290-sndcard-da54245aae3f:v2
+prerequisite-patch-id: 56bfb709f3b52ca03a04df1090f3413764985be8
+prerequisite-patch-id: 986319766f2f9e41cc702af7f6ebbb764f5117da
 
-Yeah, more patches, but the result is cleaner.
+Best regards,
+-- 
+Alexey Klimov <alexey.klimov@linaro.org>
 
-> > > --- a/include/linux/bitfield.h
-> > > +++ b/include/linux/bitfield.h
-> > > @@ -220,4 +220,40 @@ __MAKE_OP(64)
-> > >  #undef __MAKE_OP
-> > >  #undef ____MAKE_OP
-> > >
-> > > +/**
-> > > + * field_prep() - prepare a bitfield element
-> > > + * @mask: shifted mask defining the field's length and position
-> > > + * @val:  value to put in the field
-> > > + *
-> > > + * field_prep() masks and shifts up the value.  The result should be
-> > > + * combined with other fields of the bitfield using logical OR.
-> > > + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> > > + */
-> > > +#define field_prep(mask, val)                                                \
-> > > +     ({                                                              \
-> > > +             __auto_type __mask = (mask);                            \
-> > > +             typeof(mask) __val = (val);                             \
-> > > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
-> > > +                                    __ffs(__mask) : __ffs64(__mask); \
-> > > +             (__val << __shift) & __mask;    \
-> >
-> > __ffs(0) is undef. The corresponding comment in
-> > include/asm-generic/bitops/__ffs.h explicitly says: "code should check
-> > against 0 first".
-> 
-> An all zeroes mask is a bug in the code that calls field_{get,prep}().
-
-It's a bug in FIELD_GET() - for sure. Because it's enforced in
-__BF_FIELD_CHECK(). field_get() doesn't enforce it, doesn't even
-mention that in the comment.
-
-I'm not fully convinced that empty runtime mask should be a bug.
-Consider memcpy(dst, src, 0). This is a no-op, but not a bug as
-soon as the pointers are valid. If you _think_ it's a bug - please
-enforce it.
-
-> > I think mask = 0 is a sign of error here. Can you add a code catching
-> > it at compile time, and maybe at runtime too? Something like:
-> >
-> >  #define __field_prep(mask, val)
-> >  ({
-> >         unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
-> >         (val << __shift) & mask;
-> >  })
-> >
-> >  #define field_prep(mask, val)
-> >  ({
-> >         unsigned int __shift;
-> >         __auto_type __mask = (mask), __ret = 0;
-> >         typeof(mask) __val = (val);
-> >
-> >         BUILD_BUG_ON_ZERO(const_true(mask == 0));
-> 
-> Futile, as code with a constant mask should use FIELD_PREP() instead.
-
-It's a weak argument. Sometimes compiler is smart enough to realize
-that something is a constant, while people won't. Sometimes code gets
-refactored. Sometimes people build complex expressions that should
-work both in run-time and compile time cases. Sometimes variables are
-compile- or run-time depending on config (nr_cpu_ids is an example).
-
-The field_prep() must handle const case just as good as capitalized
-version does.
- 
-> >         if (WARN_ON_ONCE(mask == 0))
-> >                 goto out;
-> >
-> >         __ret = __field_prep(__mask, __val);
-> >  out:
-> >         ret;
-> >  })
-> 
-> Should we penalize all users (this is a macro, thus inlined everywhere)
-> to protect against something that is clearly a bug in the caller?
-
-No. But we can wrap it with a config:
-
- #ifdef CONFIG_BITFIELD_HARDENING
-         if (WARN_ON_ONCE(mask == 0))
-                 goto out;
- #endif
-
-The real question here: do you want to help people to catch their bugs,
-or you want them to fight it alone?
-
-The _BF_FIELD_CHECK() authors are nice people and provide helpful guides.
-(I don't insist, it's up to you.)
-
-> E.g. do_div() does not check for a zero divisor either.
->
-> > > +/**
-> > > + * field_get() - extract a bitfield element
-> > > + * @mask: shifted mask defining the field's length and position
-> > > + * @reg:  value of entire bitfield
-> > > + *
-> > > + * field_get() extracts the field specified by @mask from the
-> > > + * bitfield passed in as @reg by masking and shifting it down.
-> > > + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
-> > > + */
-> > > +#define field_get(mask, reg)                                         \
-> > > +     ({                                                              \
-> > > +             __auto_type __mask = (mask);                            \
-> > > +             typeof(mask) __reg =  (reg);                            \
-> >
-> > This would trigger Wconversion warning. Consider
-> >         unsigned reg = 0xfff;
-> >         field_get(0xf, reg);
-> >
-> > <source>:6:26: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
-> >     6 |     typeof(mask) __reg = reg;
-> >       |                          ^~~
-> >
-> > Notice, the __auto_type makes the __mask to be int, while the reg is
-> 
-> Apparently using typeof(mask) has the same "issue"...
-> 
-> > unsigned int. You need to do:
-> >
-> >         typeof(mask) __reg = (typeof(mask))(reg);
-> 
-> ... so the cast is just hiding the issue? Worse, the cast may prevent the
-> compiler from flagging other issues, e.g. when accidentally passing
-> a pointer for reg.
- 
-Ok, makes sense.
-
-> > Please enable higher warning levels for the next round.
-> 
-> Enabling -Wsign-conversion gives lots of other (false positive?)
-> warnings.
-> 
-> > Also, because for numerals __auto_type is int, when char is enough - are
-> > you sure that the macro generates the optimal code? User can workaround it
-> > with:
-> >
-> >         field_get((u8)0xf, reg)
-> >
-> > but it may not be trivial. Can you add an example and explanation please?
-> 
-> These new macros are intended for the case where mask is not a constant.
-> So typically it is a variable of type u32 or u64.
-
-You never mentioned that. Anyways, it's again a weak argument.
- 
-> > > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
-> > > +                                    __ffs(__mask) : __ffs64(__mask); \
-> >
-> > Can you use BITS_PER_TYPE() here?
-> 
-> Yes, I could use BITS_PER_TYPE(unsigned long) here, to match the
-> parameter type of __ffs() (on 64-bit platforms, __ffs() can be used
-> unconditionally anyway), at the expense of making the line much longer
-> so it has to be split.  Is that worthwhile?
- 
-Not sure I understand... The
-
-        "unsigned int __shift = BITS_PER_TYPE(mask) < 64 ?"
-
-is 49 chars long vs 42 in your version. Even if you add two tabs, it's
-still way below limits. And yes, 
-
-        unsigned int __shift = sizeof(mask) <= 4 ?               \
-                                __ffs(__mask) : __ffs64(__mask); \
-
-is worse than
-
-        unsigned int __shift = BITS_PER_TYPE(mask) < 64 ?        \
-                                __ffs(__mask) : __ffs64(__mask); \
-
-> > > +             (__reg & __mask) >> __shift;    \
-> > > +     })
-> > > +
-> >
-> > When mask == 0, we shouldn't touch 'val' at all. Consider
-> >
-> >         field_get(0, get_user(ptr))
-> >
-> > In this case, evaluating 'reg' is an error, similarly to memcpy().
-> 
-> Again, a zero mask is a bug.
-> 
-> Thanks!
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
