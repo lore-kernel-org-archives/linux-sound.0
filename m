@@ -1,47 +1,48 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107172FAC0C;
-	Wed, 22 Oct 2025 09:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94E1C5F13;
+	Wed, 22 Oct 2025 09:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761125035; cv=none; b=gLinRPYwKBIn86a3aa2xh7mM/Sb4tnHj4UXn/rOp4xbLmG02460MQxC3JZMGewueef7CXeekprztkilJggmUqqFcvnYhnqwHLmYUcQ34ub2T82BOswBCjmnHaBHqnvaR/hMTITxj4FaZ4WuGgr5bd2+oJtjW+nRYPvIyUSW6w0E=
+	t=1761125272; cv=none; b=F2EU6f4fMoelt0tAAbAGY/YljN5xcuh4ZLP79NWFWvOU8NbncnjavntacrwOqKuhyjYNhsGUz7reD7B9Ae1XO+rbpuyxVty2GOMqCantO+Gle7VMUh9CLcUPoMynnzr/nHseeMoZPJOEQQmUoKxpfWr8Tt//hHwBySqABmDB1Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761125035; c=relaxed/simple;
-	bh=FS/89PN8qDAUhNvRrmv/cZIPZfOKC45KSNnfXsGhzag=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U7tgpde93zC4BlLC9TkNlojXwa+yWt3f9JhR33OoEBwi9VB04v2f1qcMR/ygLppyrsiOjY3fauWedgyXLNjkd5bOaeqeMhg3A3fY/N9Gx841xpdRYVZfElx1D9O9OwbCI8Dq18SsjmqT/GTCz7tJSnz+UooaGMB/TfqGwvMYbiY=
+	s=arc-20240116; t=1761125272; c=relaxed/simple;
+	bh=sIuyb8KEXIaKo3Sb0cL1wkD9VQVKTJYf+YA8py0dayY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UdqVyD2TPXzP21a2xK9YkRsVFIxZANDwPAm67yxFXZypDKSkPvyLQY8XUM5vVftRga4Gr1tpf+HEiseMfN+cnxRWgkBD1AtRcx6AtibkzeJaW10b1bFvgqWwbP5GWl4ZpPfnYzaraZUL3rFb+yh/zx9LMBPcklkkKO8ftd2makc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: cdcd0a5eaf2811f0a38c85956e01ac42-20251022
+X-UUID: 5c64c57caf2911f0a38c85956e01ac42-20251022
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:a6a34b9b-a3c7-425c-9117-c34af9cac9f4,IP:0,UR
-	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-20
-X-CID-META: VersionHash:a9d874c,CLOUDID:5f6b7654d728f41e1e322f698f121a6e,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:1|19,IP:
-	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
-	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.6,REQID:5b3b2896-62b1-4ce1-9f4c-504d5369b936,IP:0,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:-5
+X-CID-META: VersionHash:a9d874c,CLOUDID:929f9d4c16aae49b4298164fae7fd094,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: cdcd0a5eaf2811f0a38c85956e01ac42-20251022
+X-UUID: 5c64c57caf2911f0a38c85956e01ac42-20251022
 X-User: tanze@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <tanze@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 897223618; Wed, 22 Oct 2025 17:23:43 +0800
+	with ESMTP id 1847635776; Wed, 22 Oct 2025 17:27:42 +0800
 From: tanze <tanze@kylinos.cn>
 To: perex@perex.cz,
 	tiwai@suse.com,
 	phasta@kernel.org,
+	andriy.shevchenko@linux.intel.com,
 	linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	tanze <tanze@kylinos.cn>
-Subject: [PATCH] ALSA: maestro3: using vmalloc_array() to handle the code
-Date: Wed, 22 Oct 2025 17:23:39 +0800
-Message-Id: <20251022092339.551438-1-tanze@kylinos.cn>
+Subject: [PATCH] ALSA: emu10k1: using vmalloc_array() to handle the code
+Date: Wed, 22 Oct 2025 17:27:38 +0800
+Message-Id: <20251022092738.552700-1-tanze@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -57,26 +58,56 @@ overflow more concisely
 
 Signed-off-by: tanze <tanze@kylinos.cn>
 ---
- sound/pci/maestro3.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/pci/emu10k1/emu10k1_main.c | 8 ++++----
+ sound/pci/emu10k1/emufx.c        | 2 +-
+ sound/pci/emu10k1/p16v.c         | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/sound/pci/maestro3.c b/sound/pci/maestro3.c
-index bddf47a1f263..3353980d5cd8 100644
---- a/sound/pci/maestro3.c
-+++ b/sound/pci/maestro3.c
-@@ -2571,9 +2571,9 @@ snd_m3_create(struct snd_card *card, struct pci_dev *pci,
+diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_main.c
+index b2fe2d164ba8..bdbd2dea1c4a 100644
+--- a/sound/pci/emu10k1/emu10k1_main.c
++++ b/sound/pci/emu10k1/emu10k1_main.c
+@@ -1574,10 +1574,10 @@ int snd_emu10k1_create(struct snd_card *card,
+ 		(unsigned long)emu->ptb_pages.addr,
+ 		(unsigned long)(emu->ptb_pages.addr + emu->ptb_pages.bytes));
  
- 	if (IS_ENABLED(CONFIG_PM_SLEEP)) {
- 		chip->suspend_mem =
--			vmalloc(array_size(sizeof(u16),
--					   REV_B_CODE_MEMORY_LENGTH +
--					   REV_B_DATA_MEMORY_LENGTH));
-+			vmalloc_array(REV_B_CODE_MEMORY_LENGTH +
-+				      REV_B_DATA_MEMORY_LENGTH,
-+				      sizeof(u16));
- 		if (!chip->suspend_mem)
- 			dev_warn(card->dev, "can't allocate apm buffer\n");
- 	}
+-	emu->page_ptr_table = vmalloc(array_size(sizeof(void *),
+-						 emu->max_cache_pages));
+-	emu->page_addr_table = vmalloc(array_size(sizeof(unsigned long),
+-						  emu->max_cache_pages));
++	emu->page_ptr_table = vmalloc_array(emu->max_cache_pages,
++					    sizeof(void *));
++	emu->page_addr_table = vmalloc_array(emu->max_cache_pages,
++					     sizeof(unsigned long));
+ 	if (!emu->page_ptr_table || !emu->page_addr_table)
+ 		return -ENOMEM;
+ 
+diff --git a/sound/pci/emu10k1/emufx.c b/sound/pci/emu10k1/emufx.c
+index 37af7bf76347..091f6accfc44 100644
+--- a/sound/pci/emu10k1/emufx.c
++++ b/sound/pci/emu10k1/emufx.c
+@@ -2629,7 +2629,7 @@ int snd_emu10k1_efx_alloc_pm_buffer(struct snd_emu10k1 *emu)
+ 	if (! emu->tram_val_saved || ! emu->tram_addr_saved)
+ 		return -ENOMEM;
+ 	len = emu->audigy ? 2 * 1024 : 2 * 512;
+-	emu->saved_icode = vmalloc(array_size(len, 4));
++	emu->saved_icode = vmalloc_array(len, 4);
+ 	if (! emu->saved_icode)
+ 		return -ENOMEM;
+ 	return 0;
+diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
+index b74128e61254..79b097ada22b 100644
+--- a/sound/pci/emu10k1/p16v.c
++++ b/sound/pci/emu10k1/p16v.c
+@@ -791,7 +791,7 @@ int snd_p16v_mixer(struct snd_emu10k1 *emu)
+ 
+ int snd_p16v_alloc_pm_buffer(struct snd_emu10k1 *emu)
+ {
+-	emu->p16v_saved = vmalloc(array_size(NUM_CHS * 4, 0x80));
++	emu->p16v_saved = vmalloc_array(NUM_CHS * 4, 0x80);
+ 	if (! emu->p16v_saved)
+ 		return -ENOMEM;
+ 	return 0;
 -- 
 2.25.1
 
