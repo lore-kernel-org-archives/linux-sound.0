@@ -1,115 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B20635BDB8;
-	Wed, 22 Oct 2025 14:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AD31FE47C;
+	Wed, 22 Oct 2025 15:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761144990; cv=none; b=KPCBZt0sFTPg3p7V7C4OWvzVpOpRGKs/JMGtZu09Vig15/p0AF9Ne28nOqZcro0wDFJj/2hO5Pj9qHuVZtYDfUPS1pYQvkByY6P4Fx4C3BAeTW3QXc+3GZiXGlJtO16EoAyvJWJY1rS7xu/OLwLRbkiZi+vq4VezjW8gm/yOo98=
+	t=1761146641; cv=none; b=bnBVRtovMBIxBQvv58rw/s3XKD6xPd0B+wZD3RhcbuCaGhf4wUlt5DUQCn2fXz+jYVvBuajvUElfmOD75rdxoR8fU/ZcYX3x8IZDa0UDLRzVi+qda/BRcnbKTL8d7ay60uko/+uBvRA9aPa9QyB54vFS5Uaw+ACyuE9iaktbi1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761144990; c=relaxed/simple;
-	bh=Y0/Qsj5JIMYuznL9ResIUaTDl4hth2V0/GJK4iH2b6A=;
+	s=arc-20240116; t=1761146641; c=relaxed/simple;
+	bh=3H2G3e9u/HWbF1bcYxs8o9niOojFUMCOW6N5igyK8zE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MLpXgMjJb3ZBkTo4G2W9T4eCGXA9UQlTX3LeF/5zrZxDz03PILXRXa3vwyP0ike3SqQFVrAmvPZy7Ww2JIUbVUeCyhNsINW2HEffFzXPAih5/QqFdw7jHGn29LFAEb5h04Dy8RbhnNYnEaVGzUyrjByOBoBeo0jc/ctI6rHZj0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paOWUNtT; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=G9HK/dj8ZmjCE2ourUGdyjTuexTUveAyRYqLKhmJvLyAj4lliPgVWyup0aODC+wqO5fbGWtXXDLbtIPLFb1Zal4uzfZTlyPkLQVINo7yzfn1JHWNCK/svL3HOtra3XkDpdQbMjft+2slBOJm3NF0Dybh3IL+jJGEKvJ59+gM+5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3v7/V21; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paOWUNtT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87040C4CEE7;
-	Wed, 22 Oct 2025 14:56:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761144989;
-	bh=Y0/Qsj5JIMYuznL9ResIUaTDl4hth2V0/GJK4iH2b6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=paOWUNtTBD4Qy/+mQnAgI1bho5pkHdRpk5XmyrpTkjalZeXoUoiLIayDZofCtytkh
-	 yqLsP1lEo9MyU/klHMGqlaBWkEET+ANXU0UZoehxyfTLm5Wvpc2jHif5sINR8aSc68
-	 c0M7skBTbvK4wKYhZ3NGbSTvzGb/pJtuAe4uj2dm0+RDPxWDdv2D9s+ihMfwC9fXJ5
-	 G2BTK/OfofMykbtyhqGlNeRYxn2NEzZpSFTFM0qXd7Q4DoIctgbwNfviaZKNzaoWRx
-	 Zj8JO0pdrwlFVQDDGNNbsICI8dVHe1WmqjsPmjVGnSlwofo4xC6d6s2eqXAdMZnXoX
-	 phmzfit+96CTw==
-Date: Wed, 22 Oct 2025 15:56:22 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
-	Wolfram Sang <wsa@the-dreams.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3v7/V21"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761146640; x=1792682640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=3H2G3e9u/HWbF1bcYxs8o9niOojFUMCOW6N5igyK8zE=;
+  b=n3v7/V215f4BRGyXnj0oQ1ITHMGFuNdyPkAuljrhGGsQEOqj28NMbvfS
+   3xAYIW1ux6JcYcCLqOwqU+TLXFyk09xfNTdGsE4NU+cIYbBHPdj3NVwBW
+   aEAIVp0OaPpOE7TZBDfoqkrYNeAnox5Yln7Luym1viYd8jYjs7yRJ9238
+   eUaHkaCt9cu/WdNIrJ8aLhqyVpycpAcRkoH6Gerkb8eCrs4vV0kjpEdGn
+   kwyPQGXYyE5yAYQDsaBApEPb1uI2771RCeRQws+2GnIGeyE+BE3zJHIk3
+   hGH1lEy2kl7mHpWosdMUfW578X6Rp+8rEYsirLpsvVF7oUY7a7ypkHYvc
+   Q==;
+X-CSE-ConnectionGUID: Vr00pNxkTMeHPgllQsXDyA==
+X-CSE-MsgGUID: xvHiBryyTsurvSkTuWksyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63338941"
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="63338941"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 08:23:59 -0700
+X-CSE-ConnectionGUID: aZfCjIYeSgCfOShAlazg4A==
+X-CSE-MsgGUID: ATEEnZdDSyiOXykbwDzTrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="189179298"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.83])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 08:23:53 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1vBago-00000001jCg-2CaW;
+	Wed, 22 Oct 2025 18:23:50 +0300
+Date: Wed, 22 Oct 2025 18:23:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Nikita Shubin <nikita.shubin@maquefel.me>,
-	Axel Lin <axel.lin@ingics.com>,
-	Brian Austin <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-Message-ID: <d38779a7-a1af-49e4-b429-5ebd791e2168@sirena.org.uk>
-References: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v2 01/10] string: provide strends()
+Message-ID: <aPj3BlmgdnJU9DM4@smile.fi.intel.com>
+References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
+ <20251022-gpio-shared-v2-1-d34aa1fbdf06@linaro.org>
+ <CAHp75Vewc2OoD7=eoFtrkPrGRuB9ZGT2vu4Z_wdHZUDZ8igUtw@mail.gmail.com>
+ <CAMRc=Mf_qfFzWqy6ND+YDuXcv5NOYiRTo9QY76V719PqJBMxPA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tOG5GnSnDDCzxrVp"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
-X-Cookie: Remember the... the... uhh.....
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Mf_qfFzWqy6ND+YDuXcv5NOYiRTo9QY76V719PqJBMxPA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Wed, Oct 22, 2025 at 03:40:00PM +0200, Bartosz Golaszewski wrote:
+> On Wed, Oct 22, 2025 at 3:34 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wed, Oct 22, 2025 at 4:11 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+
+...
+
+> > > static inline bool strstarts(const char *str, const char *prefix)
+
+> > >         return strncmp(str, prefix, strlen(prefix)) == 0;
+> > >  }
+> > >
+> > > +bool strends(const char *str, const char *suffix);
+> >
+> > Why not static inline as strstarts()?
+> 
+> Because it's not a oneliner.
+
+So, and how does it answer the question? What is the obstacle here that it may
+not be a static inline few-liner?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---tOG5GnSnDDCzxrVp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 21, 2025 at 09:12:13PM +0200, Alexander Sverdlin wrote:
-> On Tue, 2025-10-21 at 20:00 +0100, Mark Brown wrote:
-
-> > Or at least you'd get both modules loaded with one being redundant.=A0 =
-TBH
-
-> I'm quite confident that udev/modprobe will load only the first module
-> from modules.alias file.
-
-Oh, I'm sure that's the case now but I can see someone changing that.
-
-> > I'm very reluctant to touch this stuff for SPI without some very careful
-> > analysis that it's not going to cause things to explode on people, right
-> > now things seem to be working well enough so I'm not clear we'd be
-> > solving an actual problem.
-
-> The actual problem is that i2c-core is producing "of:" prefixed uevents
-> instead of "i2c:" prefixed uevents starting from v4.18.
-
-> Most of the dual-bus ASoC CODECs are affected.
-
-That's a description of what change but not of a concrete problem that
-users are experiencing.
-
-> Now declaring "of:" to be the new I2C bus prefix for uevents starting from
-> Linux v4.18 sounds strange.
-
-I think a robust solution would involve having the OF aliases namespaced
-by bus, or just not using the OF aliases but potentially having
-collisions if two vendors pick the same device name.
-
---tOG5GnSnDDCzxrVp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj48JUACgkQJNaLcl1U
-h9An0Af9EGASCGgg9J0nbEkxfOLan+MEdKSUHqCxepMM6NXEHuCA/sRRv4zz2lnS
-SY3xPDrq6KjkhdkAjGCTKGpL6xMQ3LHSVcsDlLle4C/h+nIvPirFyPVh9OqqHSi+
-KwE94+8b5/YmoRtb5zw5T3TpBCHLcT1w2tdsSWbNaY4IcXRmaE+qzt/s9QRT9dgq
-2RrcMS1m956Ll6sg0K1DjRK7LPVx9KKOwKhSJQHLzTX1pvtWmr5JYDHaqrl1wgIJ
-zqLOeAePbm0jwnKedgG1/pphbckXTNTmOtdJNb9kWV+Y2feXYyh+vERtoNJ9HxYG
-jbVav2epAVmTcFa97pqz5NVim3zl1g==
-=Uwr2
------END PGP SIGNATURE-----
-
---tOG5GnSnDDCzxrVp--
