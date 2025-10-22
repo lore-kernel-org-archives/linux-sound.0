@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD44347BC5;
-	Wed, 22 Oct 2025 13:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2BB26ED20;
+	Wed, 22 Oct 2025 13:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761140583; cv=none; b=AD6wb7n/g8YXxbMeqIWgQG9mVTFwTdY2d8BOXBVCheX01x0E7oInxsLPalTBlmqkYerUTSQGYbd22hNkGk7ktQFjTgNnWuCWCjMUFooZEXs4mK77sfWHfqZSzakJKPRXi0s6r2+5kOUGSXvcP6NyDAx1bOrAL+0Wto+We0vh7Ug=
+	t=1761141015; cv=none; b=Psk84tEXHwg1r//GZcg+4+NX3pRfrjWxMu/knHCJFdYKtT//AVxTp4UN672d8KbpeLlbMpzqJEPmFbs4r36STuyP8KMfHCcere8uY5L25kjaIZV5JVA46lPoOrLkCld+8WUZbb8CooOXarUhhxuRRIs1AgQXjuUB8VRX8OEdgo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761140583; c=relaxed/simple;
-	bh=OHIuqSYAMSWwC2mR3fyIfTLQ2n23hPsjeCdK4RwoUn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mzLgO3NJMczP9c0fyBTMd3Smdx3JFyWVMNBcWbaBJ59AeVgvbzY5GkhZ0WmlcHulDD7MM8z63Vz7IfEjKm8pXD7sLrFyhEU1jHX7Hm5xJJYkL88n2oV9eRW2KcC1LOubSQzFH6WrYeOQVxkwIxCShCmcDFavMoZiS/82FDLnnRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAbY+kjK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761141015; c=relaxed/simple;
+	bh=oB3bKboHTw7iP0L7japGkWgmzMrqylstVAz/46byDWQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gjz6kA/yvkF1jsJruDdwUNHMKLfasix6aOFqTdMBLX+p+S6Z9tzbHYGbFiI99AHd52PviRs9/hrX0EzMwDnikQdrIIfQwET1gUYh2uFr+mhcTR05p0SX0DCRLUbaz6N8NVitz3DB2ZLoj80NGGH+XN4cyMhGCCFoJq7Po2L85Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L42fZI8/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAbY+kjK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB09FC4CEE7;
-	Wed, 22 Oct 2025 13:42:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L42fZI8/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8194C4CEE7;
+	Wed, 22 Oct 2025 13:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761140583;
-	bh=OHIuqSYAMSWwC2mR3fyIfTLQ2n23hPsjeCdK4RwoUn0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fAbY+kjKCv3HaCjh5V3vAJRRvydwad+CX10uiQ8rwomSRwNYR6yaB91wsu166tcrG
-	 d1pROnlOV2Bm6G/3OoF5jmylmWYDZ8Gy40n7O8HmYvkTbK1+xaMbZEYeKO4Miw1N0F
-	 DiGDCx0HtSnopCOa5EZ+821eO2URZm+9OHfmWEmEv5u/yP9yJrTAXSdhHBo0otL1Z5
-	 n7f2F2uV5sl67moeBsRCbVWa4VQI3s8eOBCkFz+H6tXpRmVoa5SSpnFw23DTKM21Gz
-	 QlQVECmQ/HgikfqM09g8sv8WOQ1RZluXKGcfpLk4wU05EFyEB1hyTHb5Ap92EaC6ch
-	 9LM8y01p1U7sA==
-Message-ID: <882aa222-fe4f-4724-87eb-4480de91919d@kernel.org>
-Date: Wed, 22 Oct 2025 15:42:58 +0200
+	s=k20201202; t=1761141015;
+	bh=oB3bKboHTw7iP0L7japGkWgmzMrqylstVAz/46byDWQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=L42fZI8/iyfUhSO0Nzyn91fXsTVsf63iPFFXHfAtQdoyiuwJGo+YSP1hk+VfHTnX4
+	 GbwzMsWRZ73wu8A6Be42BMAJ+jUgfQfmhqn7ysKeZiKlDqWXrK/TfQX81x1fR1CtiS
+	 gVest76et51FbMeVPiekVKKiBWXsRHT4D+FSdG79+/6UTDQCIIjOkgnGfFyBHhDUwx
+	 snpk0znHH3/IHh9M3q4CBgL2j0WXm4sZh52/tnWWgTGqhpHavn4b224ezvh+lea/4b
+	 +owWkyB43dThfvDBW/wRv2i2asvs03b6nHSckowJQkmmOaQwvDeRuSoZq9nl2OVdmQ
+	 CwamT2OqCvwnw==
+Message-ID: <a567b0d6-f489-4d71-be52-b7d8e0179d51@kernel.org>
+Date: Wed, 22 Oct 2025 15:50:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,6 +37,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 11/12] ASoC: dt-bindings: sound: cirrus: cs530x: add
  spi bus properties
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
  Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -48,7 +49,7 @@ Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
  devicetree@vger.kernel.org
 References: <20251022133914.160905-1-vitalyr@opensource.cirrus.com>
  <20251022133914.160905-12-vitalyr@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <882aa222-fe4f-4724-87eb-4480de91919d@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -93,25 +94,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251022133914.160905-12-vitalyr@opensource.cirrus.com>
+In-Reply-To: <882aa222-fe4f-4724-87eb-4480de91919d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/10/2025 15:38, Vitaly Rodionov wrote:
-> This patch adds property for cs530x SPI control bus
-> with max frequency 24MHz.
+On 22/10/2025 15:42, Krzysztof Kozlowski wrote:
+> On 22/10/2025 15:38, Vitaly Rodionov wrote:
+>> This patch adds property for cs530x SPI control bus
+>> with max frequency 24MHz.
+> 
+> Why?
+> 
+> You described what you did, we see that from the diff. Explain why you
+> are doing this, e.g. hardware is like that? Old hardware? New hardware?
+> Both? If only new, then why this is a separate patch?
+> 
+> Also, since I expect new version:
+> Please do not use "This commit/patch/change", but imperative mood. See
+> longer explanation here:
+> https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
+>
 
-Why?
-
-You described what you did, we see that from the diff. Explain why you
-are doing this, e.g. hardware is like that? Old hardware? New hardware?
-Both? If only new, then why this is a separate patch?
-
-Also, since I expect new version:
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
-
+And after looking at next patch I understand why - you add SPI which was
+not there, so this patch is not correct alone anyway. You need a ref to
+spi-peripheral-props (see any other SPI device). My previous questions
+still stay valid though - how this relates to existing devices and to
+earlier patch.
 
 Best regards,
 Krzysztof
