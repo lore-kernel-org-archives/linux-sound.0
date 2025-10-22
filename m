@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE93B34B406;
-	Wed, 22 Oct 2025 13:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD44347BC5;
+	Wed, 22 Oct 2025 13:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761140513; cv=none; b=SW+XTxWwPorrOR+TBIlAWVXx6o259w8y/qacbkQRMT7TeYydYABak5OUWYDpW/Se5CwDia04KOcGF478j5SXr/gr3Sr2O+cdhm9RYKkzMaXZ2u5I54TTSrrvtWppgxmDTBzHl4bj5tFPZAldlXp8qtrsme44u1p6/8ROyZ3bujQ=
+	t=1761140583; cv=none; b=AD6wb7n/g8YXxbMeqIWgQG9mVTFwTdY2d8BOXBVCheX01x0E7oInxsLPalTBlmqkYerUTSQGYbd22hNkGk7ktQFjTgNnWuCWCjMUFooZEXs4mK77sfWHfqZSzakJKPRXi0s6r2+5kOUGSXvcP6NyDAx1bOrAL+0Wto+We0vh7Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761140513; c=relaxed/simple;
-	bh=Z5X2t6VPFogBI7gtSMTZRTZHwv+JfUX6WRNE3XxAqKQ=;
+	s=arc-20240116; t=1761140583; c=relaxed/simple;
+	bh=OHIuqSYAMSWwC2mR3fyIfTLQ2n23hPsjeCdK4RwoUn0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N9W1P9njQwKaLSpXdNwHDR77ac8Bj/LRjHdzHATErFnSsUZ2NVtcnZM3pFI8+v0Jd9RnuqTQEh3K3hJTrECub64OsswlAz+x0aOPo3dLQOjE5jFBL3WmEmvlGCG7mnlmfDqPW8Cw0mH2WIGtY+HgDfDpl7LQVRHp/Xv7T2g3oGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMAEaLNt; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=mzLgO3NJMczP9c0fyBTMd3Smdx3JFyWVMNBcWbaBJ59AeVgvbzY5GkhZ0WmlcHulDD7MM8z63Vz7IfEjKm8pXD7sLrFyhEU1jHX7Hm5xJJYkL88n2oV9eRW2KcC1LOubSQzFH6WrYeOQVxkwIxCShCmcDFavMoZiS/82FDLnnRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAbY+kjK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMAEaLNt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D5FC4CEE7;
-	Wed, 22 Oct 2025 13:41:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAbY+kjK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB09FC4CEE7;
+	Wed, 22 Oct 2025 13:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761140512;
-	bh=Z5X2t6VPFogBI7gtSMTZRTZHwv+JfUX6WRNE3XxAqKQ=;
+	s=k20201202; t=1761140583;
+	bh=OHIuqSYAMSWwC2mR3fyIfTLQ2n23hPsjeCdK4RwoUn0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HMAEaLNtFvuI2bfkQBDctPMkAF/JNr29YzXRZlyeOs1IIBxPNsDuuvdLhf2vopry9
-	 lTGwGK7XR16Vw6mFa6HBHvYUwXVo3M4gNQxx4NHZ3yTnnsSyWSmEJMd2o+DSU9faZh
-	 fuT98aygG6hWUwZ5LhkiChqc3T3mXwjyjuPfmLEpIRwrfbELs975DR2s4hUV+IpTgj
-	 7goG8t9VplZZ1+r5Hghd+wvSLMeI/v6piETXi5ILRXgZ6VrDzri9C25qZJp6h+UGMK
-	 BsPRaU3fwtJyvpKLaifngf9gCNIkcZY4j7xaaAenZTxyj6QoXVFDMgNZgLx4GMSCpf
-	 0OtFvGgM79wxw==
-Message-ID: <8d6c1cfe-ac05-4ba3-8e5a-7ba386fa7a68@kernel.org>
-Date: Wed, 22 Oct 2025 15:41:47 +0200
+	b=fAbY+kjKCv3HaCjh5V3vAJRRvydwad+CX10uiQ8rwomSRwNYR6yaB91wsu166tcrG
+	 d1pROnlOV2Bm6G/3OoF5jmylmWYDZ8Gy40n7O8HmYvkTbK1+xaMbZEYeKO4Miw1N0F
+	 DiGDCx0HtSnopCOa5EZ+821eO2URZm+9OHfmWEmEv5u/yP9yJrTAXSdhHBo0otL1Z5
+	 n7f2F2uV5sl67moeBsRCbVWa4VQI3s8eOBCkFz+H6tXpRmVoa5SSpnFw23DTKM21Gz
+	 QlQVECmQ/HgikfqM09g8sv8WOQ1RZluXKGcfpLk4wU05EFyEB1hyTHb5Ap92EaC6ch
+	 9LM8y01p1U7sA==
+Message-ID: <882aa222-fe4f-4724-87eb-4480de91919d@kernel.org>
+Date: Wed, 22 Oct 2025 15:42:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/12] ASoC: dt-bindings: sound: cirrus: cs530x: Add
- cs530x
+Subject: Re: [PATCH v5 11/12] ASoC: dt-bindings: sound: cirrus: cs530x: add
+ spi bus properties
 To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
  Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -47,7 +47,7 @@ Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
  linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
  devicetree@vger.kernel.org
 References: <20251022133914.160905-1-vitalyr@opensource.cirrus.com>
- <20251022133914.160905-6-vitalyr@opensource.cirrus.com>
+ <20251022133914.160905-12-vitalyr@opensource.cirrus.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,25 +93,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251022133914.160905-6-vitalyr@opensource.cirrus.com>
+In-Reply-To: <20251022133914.160905-12-vitalyr@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 22/10/2025 15:38, Vitaly Rodionov wrote:
-> This patch adds additional cs530x family variants.
-> 
-> cirrus,cs4282 - high-performance, 32-bit resolution, stereo CODEC
-> cirrus,cs4302 - high performance stereo DAC, 2 channels
-> cirrus,cs4304 - high performance stereo DAC, 4 channels
-> cirrus,cs4308 - high performance stereo DAC, 8 channels
-> 
-> Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-> ---
->  Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+> This patch adds property for cs530x SPI control bus
+> with max frequency 24MHz.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Why?
+
+You described what you did, we see that from the diff. Explain why you
+are doing this, e.g. hardware is like that? Old hardware? New hardware?
+Both? If only new, then why this is a separate patch?
+
+Also, since I expect new version:
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
+
 
 Best regards,
 Krzysztof
