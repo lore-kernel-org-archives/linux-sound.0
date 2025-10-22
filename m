@@ -1,287 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699682D0C60;
-	Wed, 22 Oct 2025 17:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C1A2D94A8
+	for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 17:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761154458; cv=none; b=Mx0KvpaHNBLJkkfFoKF3KEDCAKeomD/IxtAwsl9z0dUWFNAZwLI8gJRbNG6582FYlTkKsRPt0om413lUsyuJ92d6crpa2lzT7Z9shWDobPsVEs6AWRKO9Ai1+2jSolAvuDTKuvamgp7fpcNjhIKxM8VEU9RSmJmSclVvbf5fAp0=
+	t=1761155192; cv=none; b=Ibc25K1dMbdCqmdFQtBWOKZ3s8aRXXzHxZHvGKnlB/xIVQJtV/l60omKc3HTd9rHeG5hNyZiX4c6oAHRsTUliqFikbBCQw6ZRYYERyHzDzYb80P/9VE7vMUZFQ4RZFPLVnYiMsH7X2YzR0+iW3qtJ1rzQjyz4jjWgHhF4KyxV2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761154458; c=relaxed/simple;
-	bh=dV+5NKwJdbhUSGEqeN+AL+dVtPcIoMxzkpXqx3wMka4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fT93nrcVuTl7xHjYqjt0qxRT87QAKokUAS8WCbp1ZtiCJ/zE2fcHhkW1jXGQQPmWIKV3VTMJDfGS68GLSr22B3hTtzbQZFMaGsFMI/qfUG+KbW+cdWjuUI7q9YXtYCMUMTLYJ7EfZGeUDNsYeWOkEMYEFTbwGeHI+C25Uixuvl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEpl5Qva; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761155192; c=relaxed/simple;
+	bh=ZO9k478u1ngiqeGGIY3WNX6oKY50clVVErq42QbTs/Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fG5uazpyYxvUt7g66OB4UPwxFLFFuvGds7qKF4gCRXsr2qiDC7WCvOHOonPcG+Pd5VO19W4xZacavHDmkTUWjAgD/JkPBZTQnczpX60iPVUNy2/nosxEE03bD44nU1S/MkWRgOpdEztAiQEQwJvLq1D7e8nAKjzPAOL/YdxndWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YZkRdKPT; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEpl5Qva"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761154456; x=1792690456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dV+5NKwJdbhUSGEqeN+AL+dVtPcIoMxzkpXqx3wMka4=;
-  b=iEpl5QvagBe8QTi77Kos2/H0Rmqmq68hu6eaxCDXkCXdWgt9X5NQ9CrS
-   dbOYWAVNOPVg2N1y2AuKu15evlR6B5meW7fK/XVYpgQYkUlP1SK/cWe8F
-   BXveU2kmw/0ujkx9IadkeRA/CG+euedewavEBz8t1cJHm+60JnN0xS0Jj
-   gN5C5VFl0QVYZyfB/rD2svEYZBOFdNph9LQqgKjaDyMJX9a3JaHgcwFaY
-   If8RVdsCGOYn49Wp459fDvBJxOlu2rOwOuy9BThBJmM2rcil3zaO/Y2y6
-   j7doRg4iuHoQol18QN96b7PNq39awVlM/GAnV/I3cROciWyt3N7EIwWfO
-   A==;
-X-CSE-ConnectionGUID: 6vZEv/DNTliRjRehUvLAcA==
-X-CSE-MsgGUID: CeD4EQwPSM2kUaXP+if3rA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74751315"
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="74751315"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 10:34:15 -0700
-X-CSE-ConnectionGUID: X7hpJLYNShiXzOXB9nCdEA==
-X-CSE-MsgGUID: jAZp2GJASS2/Swqf9D3Xmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="184326068"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.83])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 10:34:10 -0700
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vBcit-00000001l1m-0V63;
-	Wed, 22 Oct 2025 20:34:07 +0300
-Date: Wed, 22 Oct 2025 20:34:06 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v2 03/10] gpiolib: implement low-level, shared GPIO
- support
-Message-ID: <aPkVjoWkP04Q-2xP@smile.fi.intel.com>
-References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
- <20251022-gpio-shared-v2-3-d34aa1fbdf06@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YZkRdKPT"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b457d93c155so1094214466b.1
+        for <linux-sound@vger.kernel.org>; Wed, 22 Oct 2025 10:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761155188; x=1761759988; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZO9k478u1ngiqeGGIY3WNX6oKY50clVVErq42QbTs/Y=;
+        b=YZkRdKPT8pBjRz95XUgoi033TzSjMyLT+va7nkpxPFJcIM6sAHgxpPXeBqDzxRhrDL
+         1ibGckJb7OBlfnv6DwAvxnXnOLhC2dSjsi8GVstRUUwJMYX3LEbSm84KegKmsCn0GDbq
+         dXQm+uQ/sfDwT5umd2I6/8U2uBToOmFg3oaUBpGA9cGjmfYPWfHnZom6J5c1B9DqnWx6
+         OJ5bT89BtiIro7S4Ukk09fa0Jr8Y/vkcsxbjG4QblzyfxQ/ikkDwWwakcWGLQkHNI1Ht
+         /mbcpcEqQPzmGTsfnKnI26vO/6VMxcCi6MNOLMMl77yY1NENlS/OfMGYqUevJpF32T0W
+         yAPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761155188; x=1761759988;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZO9k478u1ngiqeGGIY3WNX6oKY50clVVErq42QbTs/Y=;
+        b=CGV9HUYniVuOelTuizty6pGUmPVeF0TQeL+MEzkyXr8RMDzWA8EJuQkRckXZ9LXHv7
+         ZEsyORWKhsNJNmlnVqHghySbWlqr18RJD9dpoxxyyPclyyR/BStxZYInAICg5pO7Jgie
+         SA3gYtcv/ucJ7O74KoUxbJE7SGLsmk9pTSIkzTMuwVRMxfTWtATWIJSFg/xciddoftdI
+         9yhxxFfG/U+hUyivCAQzyh6qTqN7JotBA1KJT0pY1BmOnrdvvzxpY+bUWN+3JgJZ3p1z
+         91LuiYxiwbE3Lw3NQlMxxPBUKjj76DbbCwlbkwoVYgJ93I/msRRsEgoGQKuG0vXsYvt6
+         rzhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5GtnitfUdtRD6DNdhHtWtTBUFQfsn5ZbkgXEe0xYk+EbNp7KEddT5kQDpWpQBzvnt0UWvU7epzD6fnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDwNFzryK36xceCFysVaX6gUkPiLuUQYjI8f1nPTjP+KiExRUW
+	sa16NMv2j4IEP1xXic1F4RtnvvliltFeLp22P7RyGnXApyed50jw5/6y
+X-Gm-Gg: ASbGncsL7HebPP+jhPqOZ10p5quX+FopMR7+/NSUWjhFTr4LXmx5bXaIuPQEHsOeeix
+	T4aLsdA2qBWDORTb8MUNbWnoZquAhE8fsItKqd7Gr1JZZLDDrwKIYzbYaPNxPjcF5NgsyOBhchl
+	in/eaWkQJH5P99al2aGcnFlIi8/JaDoWXla/mwdO+vGHVFC/oQT6j1krUvfvCQYIbLpeVKsbEtL
+	SnqvWdPymNSbqwdII5fZGqSjoaNZs0VGZXQijBRmZdVWzFgX2ZEI6vLkWu38sM+C/CHJ6FX0E4X
+	Qy0zioqLSlgPW3pCVfTa5AyY8OQdjcvO+ie+XTIRzK8RexdtehmvGNNyavH4NMbfdiqwD6end0Y
+	er9Ht/MpS+pkXx7GAJ3UNRSJ8DsETzJsrcT0uTDNSbR+ywOb+QK9yAyLgsELZQ9u33ByOhXBh2c
+	48Kciax4EPmC4+ZyT/i4OSRQ3RWz/dH/I+z0VTWcxNcK5OACFH+RbHTqP3uS4CPe1buWQ=
+X-Google-Smtp-Source: AGHT+IHCalBjEk5A4VepIJrx2VZmsQyalUaHdRlIahxdnPTXIoiiuFZ8zgGAwcDIXssdST0QDBYUzA==
+X-Received: by 2002:a17:907:3f88:b0:b3d:5088:214e with SMTP id a640c23a62f3a-b647501277bmr2370373466b.64.1761155188114;
+        Wed, 22 Oct 2025 10:46:28 -0700 (PDT)
+Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65e83960e6sm1393779166b.33.2025.10.22.10.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 10:46:27 -0700 (PDT)
+Message-ID: <d42ab1a0665f55731aabd1e9fcb31b8401b7913f.camel@gmail.com>
+Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
+ automatic module loading
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>, Wolfram Sang	
+ <wsa@the-dreams.de>, Herve Codina <herve.codina@bootlin.com>, David Rhodes	
+ <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>,  Nikita Shubin <nikita.shubin@maquefel.me>, Axel Lin
+ <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>,
+ linux-sound@vger.kernel.org, 	patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Date: Wed, 22 Oct 2025 19:46:26 +0200
+In-Reply-To: <d38779a7-a1af-49e4-b429-5ebd791e2168@sirena.org.uk>
+References: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
+	 <d38779a7-a1af-49e4-b429-5ebd791e2168@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.0 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022-gpio-shared-v2-3-d34aa1fbdf06@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Oct 22, 2025 at 03:10:42PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> This module scans the device tree (for now only OF nodes are supported
-> but care is taken to make other fwnode implementations easy to
-> integrate) and determines which GPIO lines are shared by multiple users.
-> It stores that information in memory. When the GPIO chip exposing shared
-> lines is registered, the shared GPIO descriptors it exposes are marked
-> as shared and virtual "proxy" devices that mediate access to the shared
-> lines are created. When a consumer of a shared GPIO looks it up, its
-> fwnode lookup is redirected to a just-in-time machine lookup that points
-> to this proxy device.
-> 
-> This code can be compiled out on platforms which don't use shared GPIOs.
+Hi Mark,
 
-...
+On Wed, 2025-10-22 at 15:56 +0100, Mark Brown wrote:
+> > > I'm very reluctant to touch this stuff for SPI without some very care=
+ful
+> > > analysis that it's not going to cause things to explode on people, ri=
+ght
+> > > now things seem to be working well enough so I'm not clear we'd be
+> > > solving an actual problem.
+>=20
+> > The actual problem is that i2c-core is producing "of:" prefixed uevents
+> > instead of "i2c:" prefixed uevents starting from v4.18.
+>=20
+> > Most of the dual-bus ASoC CODECs are affected.
+>=20
+> That's a description of what change but not of a concrete problem that
+> users are experiencing.
 
-> +		if (!strends(prop->name, "-gpios") &&
-> +		    !strends(prop->name, "-gpio") &&
+the concrete problem Herve has experienced is that cs4271-i2c will not be
+loaded automatically starting with Linux v4.18 (commit af503716ac14
+"i2c: core: report OF style module alias for devices registered via OF").
 
-> +		    strcmp(prop->name, "gpios") != 0 &&
-> +		    strcmp(prop->name, "gpio") != 0)
+> > Now declaring "of:" to be the new I2C bus prefix for uevents starting f=
+rom
+> > Linux v4.18 sounds strange.
+>=20
+> I think a robust solution would involve having the OF aliases namespaced
+> by bus, or just not using the OF aliases but potentially having
+> collisions if two vendors pick the same device name.
 
-We have gpio_suffixes for a reason (also refer to for_each_gpio_property_name()
-implementation, and yes I understand the difference, this is just a reference
-for an example of use of the existing list of suffixes).
+But this sounds like the situation before the above mentioned commit
+af503716ac14, when both i2c and spi were symmetrically namespaced with
+i2c: and spi: respectively and contained the "compatible" stripped of the
+vendor prefix.
 
-> +			continue;
+And I must admit that I had more understanding for the prior state of thing=
+s.
 
-...
-
-> +			if (strends(prop->name, "gpios"))
-> +				suffix = "-gpios";
-> +			else if (strends(prop->name, "gpio"))
-> +				suffix = "-gpio";
-> +			else
-> +				suffix = NULL;
-> +			if (!suffix)
-> +				continue;
-
-In a similar way.
-
-> +			/* We only set con_id if there's actually one. */
-> +			if (strcmp(prop->name, "gpios") && strcmp(prop->name, "gpio")) {
-
-And again...
-
-> +				ref->con_id = kstrdup(prop->name, GFP_KERNEL);
-> +				if (!ref->con_id)
-> +					return -ENOMEM;
-> +
-> +				con_id_len = strlen(ref->con_id);
-> +				suffix_len = strlen(suffix);
-> +
-> +				ref->con_id[con_id_len - suffix_len] = '\0';
-> +			}
-
-...
-
-> +	adev->dev.parent = gdev->dev.parent;
-> +	/* No need to dev->release() anything. */
-
-And is it okay?
-
-See drivers/base/core.c:2567
-
-WARN(1, KERN_ERR "Device '%s' does not have a release() function, it is broken and must be fixed. See Documentation/core-api/kobject.rst.\n",
-
-...
-
-> +	pr_debug("Created an auxiliary GPIO proxy %s for GPIO device %s\n",
-> +		 dev_name(&adev->dev), gpio_device_get_label(gdev));
-
-Are you expecting dev_name() to be NULL in some cases? Otherwise why is this
-not a dev_dbg() call?
-
-
-> +	return 0;
-> +}
-
-...
-
-> +			char *key __free(kfree) =
-> +				kasprintf(GFP_KERNEL,
-> +					  KBUILD_MODNAME ".proxy.%u",
-> +					  ref->adev.id);
-
-This looks awful. Just allow a bit longer line
-
-> +			if (!key)
-> +				return -ENOMEM;
-
-...
-
-> +static void gpio_shared_remove_adev(struct auxiliary_device *adev)
-> +{
-> +	lockdep_assert_held(&gpio_shared_lock);
-> +
-> +	auxiliary_device_uninit(adev);
-> +	auxiliary_device_delete(adev);
-
-_destroy() ? Esp. taking into account the (wrong?) ordering.
-
-> +}
-
-...
-
-> +		set_bit(GPIOD_FLAG_SHARED, flags);
-
-Do you need this to be atomic?
-
-> +		/*
-> +		 * Shared GPIOs are not requested via the normal path. Make
-> +		 * them inaccessible to anyone even before we register the
-> +		 * chip.
-> +		 */
-> +		set_bit(GPIOD_FLAG_REQUESTED, flags);
-
-Ditto.
-
-...
-
-> +struct gpio_shared_desc *devm_gpiod_shared_get(struct device *dev)
-> +{
-> +	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-> +	struct gpio_shared_desc *shared_desc;
-> +	struct gpio_shared_entry *entry;
-> +	struct gpio_shared_ref *ref;
-> +	struct gpio_device *gdev;
-> +	int ret;
-
-> + +	scoped_guard(mutex, &gpio_shared_lock) {
-
-Much better to split the below to a helper and make it run under a
-scoped_guard() here or call a guard()() there.
-
-> +		list_for_each_entry(entry, &gpio_shared_list, list) {
-> +			list_for_each_entry(ref, &entry->refs, list) {
-> +				if (adev != &ref->adev)
-> +					continue;
-> +
-> +				if (entry->shared_desc) {
-> +					kref_get(&entry->ref);
-> +					shared_desc = entry->shared_desc;
-> +					break;
-> +				}
-> +
-> +				shared_desc = kzalloc(sizeof(*shared_desc), GFP_KERNEL);
-> +				if (!shared_desc)
-> +					return ERR_PTR(-ENOMEM);
-> +
-> +				gdev = gpio_device_find_by_fwnode(entry->fwnode);
-> +				if (!gdev) {
-> +					kfree(shared_desc);
-> +					return ERR_PTR(-EPROBE_DEFER);
-> +				}
-> +
-> +				shared_desc->desc = &gdev->descs[entry->offset];
-> +				shared_desc->can_sleep = gpiod_cansleep(shared_desc->desc);
-> +				if (shared_desc->can_sleep)
-> +					mutex_init(&shared_desc->mutex);
-> +				else
-> +					spin_lock_init(&shared_desc->spinlock);
-> +
-> +				kref_init(&entry->ref);
-> +				entry->shared_desc = shared_desc;
-> +
-> +				pr_debug("Device %s acquired a reference to the shared GPIO %u owned by %s\n",
-> +					 dev_name(dev), desc_to_gpio(shared_desc->desc),
-> +					 gpio_device_get_label(gdev));
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(dev, gpiod_shared_put, entry);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return shared_desc;
-> +}
-
-...
-
-> +/*
-> + * This is only called if gpio_shared_init() fails so it's in fact __init and
-> + * not __exit.
-> + */
-
-Fine. Have you checked if there are any section mismatch warnings during kernel
-(post)build?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--=20
+Alexander Sverdlin.
