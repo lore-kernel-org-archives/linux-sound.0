@@ -1,81 +1,261 @@
-Received: from out28-193.mail.aliyun.com (out28-193.mail.aliyun.com [115.124.28.193])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D38298CA6;
-	Thu, 23 Oct 2025 12:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8505277CBD
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 12:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761221123; cv=none; b=gfav7/6WwhhKOJpNBQGgBJdqvN60OJFcbJjEe9whBA/78qzTy6Y1wYoFRL8wQc8yD+Syf2RkILE+Yx6k0MIc+Xnlb097heKqEiZu5JgnSe+e0Gtmn58myuObK+6jLsno+ZsmaSqz0Srpmc3+hVbxjB9BV7g7OATGRbe7aEHaH2I=
+	t=1761222289; cv=none; b=T2n9awCexraj/C7PkNJpShtipFicNs9SnkYeHEzHNLRgMJsulIdm7uv0P5J/GeOX/dkf2FDX3apoxKOG0zJFO/iw08YOto/N7ZoPhrhM1LmOXEy+A6FCfdT1EUMIyfafpcygNf1Qz6SlY0p0mdL6vTJ/9x7cHe24ZTVSZXM5S+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761221123; c=relaxed/simple;
-	bh=3k0NUeQDwjZf1pkCpBUsVQA3kbq6yFLrPLifdQ5IT5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ApcJm29ihCwrrRRe1C6fxA2sqF0aWCBo9hfVR1eAKV47BsAK1ENk4LycytXU+4IflHir25IeWBWTk9nN0Os2SKwVS46QeQmgD7VmnQC+tL4gFcJdPPYYQSznYFRRofDicvo7tL4ZXHto/816251jtYxGDPAF0eRIDhxQ6+YTf7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b=dOC9oOZ3; arc=none smtp.client-ip=115.124.28.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
+	s=arc-20240116; t=1761222289; c=relaxed/simple;
+	bh=xUH8q+2SHnhWkhQOLL+vv5l6h2lHGatDGUNWMUJNVZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b9JBQS3+kCQmPkejPFwulk1kZ+lR1cveP62WYiNxe7ojacfM2PsONcPljTzOiOBKho911uwUsAt44p+T8g8+M5Gy2uAsFGcaiubuR/ZkYx59iWkWCh3oP8BcAlxYy+EHRoI4BOsgUTRVKX+BWRABK6unwpIR51x1oPHO2XpKzT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QjYN0jDE; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b="dOC9oOZ3"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=awinic.com; s=default;
-	t=1761221110; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=JTOkdgREhZr6P8sc2B87Q0nNG83Ch+Fq1cqU5rxpBL4=;
-	b=dOC9oOZ3uqFX4X/9aAQYCbXNz/zXE6pLfmFKEUUjCTPGI0e0K/MKSXzS7VQeqUaeNt/u1xtRnXu1VOSMxNvmV7vUBXOPKlG2dghtzfV8TG8IOF4OjjecYSVCZ/34Wa/bNkYUR/sJTecw0aNJHD6EK/gBIV5M6T2yESD9aTU9Kdmq6ylZv//zPeznhWWIXbfGyVm+a7Gm9z4HxOdwryRWAauU6pk+An7Y0Gq4MjN3hX7IFmL6LwuJGxLyQIbyiYwJp+kRfYBecmVv3fhGDJhTLrTHsDzftAw1X6bMt3iiukPjLl08MXYtoDDI9jcGdNymzqIwJK5+R7yDg4ZxgC5tog==
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.f5erwzP_1761221106 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 23 Oct 2025 20:05:08 +0800
-From: wangweidong.a@awinic.com
-To: broonie@kernel.org
-Cc: alexey.klimov@linaro.org,
-	ardb@kernel.org,
-	arnd@arndb.de,
-	cy_huang@richtek.com,
-	ebiggers@google.com,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux@treblig.org,
-	nick.li@foursemi.com,
-	niranjan.hy@ti.com,
-	perex@perex.cz,
-	shenghao-ding@ti.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	thorsten.blum@linux.dev,
-	tiwai@suse.com,
-	wangweidong.a@awinic.com,
-	yesanishhere@gmail.com,
-	yijiangtao@awinic.com
-Subject: Re: [PATCH V2 1/7] ASoC: codecs:Rework the awinic driver lib
-Date: Thu, 23 Oct 2025 20:05:06 +0800
-Message-ID: <20251023120506.35628-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <ad81a2b7-5df4-4e41-9bf1-6949723d43b8@sirena.org.uk>
-References: <ad81a2b7-5df4-4e41-9bf1-6949723d43b8@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QjYN0jDE"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6UGPj018586
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 12:24:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=uXuANgXqsKXGKeLuCYHue4m8
+	RvWUrBUEqqVkisMKjFI=; b=QjYN0jDEbXXPW528UXuem7IR6xFnUhjh8YPcgqRP
+	Zu/ImmCyd/69SomauaI7UnWGQGcDb7TWP28Nkv8t56md3HrrEdvDdZKDyOa7Tl10
+	H+AWCoCZ1qq5cK/CNU7zDWtnBU0DBZb9IJYe6TKh6hgCS9i8r7hbQuO8sCwPcfEu
+	QIFDSbD6ssAz+tNvxJRRg+NeVrCMPkzQCJg8Zv75Rk5ukbZiGX5rxAfD6QjWxQoP
+	QW6KzXbyHcEXRV+5JEQHVgHyY5lZLkmVUBTltYEFLZ9yIsnli8ydKAVEFon9r22x
+	UKiWqJ3Mh2bQo/9czrwlk7Zo8svrW5MD/CbaDVPIRHpOTg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v08prkc1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 12:24:46 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4e8a2ef0249so23320051cf.3
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 05:24:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761222286; x=1761827086;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uXuANgXqsKXGKeLuCYHue4m8RvWUrBUEqqVkisMKjFI=;
+        b=Cv2iipzDDV0HELHvbhFsXV7psMn8CB2rkw6P/cCaeowZwGglCXhQt9pVfxSeDaDo//
+         EhKLnvF+pOfTPCKJnITfuz4fwmMfzFwciEO9c/jZ18jUtme6qIv9gsjsUHvmBKlQ7XSE
+         8IhomnoL3xqgHkpSq6+3uhD+GmORY9Z5ZBls7McmgAq1IAy80W0cESu80UAokJT6RVZE
+         lZ5pPi8rJvS4QL0L/NPQsE/RwS/sj2/hptPR7XJnfxJaJCWEru1wl6K0z8yLYiQW1gZP
+         dA80i9lTpIrPW4/L14ZFK0Twrbm/WeAismt+upZnS0UJbG8h+yh8tQDzzE3Ty/skvjtw
+         wTFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXRENbj0V4n8NjHfobRpt9R98RLjTB1biUEZrkYllNAdjBotAgrsePiNiw1aJBsK/IRvYDb0BGmcVa9Uw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8ZiuqJulbV9rdSXpC2OuYh4MfAFid3ciVBUL1o7gYyZwM/lNs
+	zYuBsBKGC9Hii2cZJFnwVNHtOF2/uBPgWzLxpCX9Ve3I5GctQ5NDuQetmqXtPJNcFbZXets2FaT
+	mpXr/nJsHqXQR7jn0wAxTPZRnfXLmIQWGzCGP8C25tgmpXCbOmgwNrdwCwG3VtGFkSA==
+X-Gm-Gg: ASbGncuwWlyfq/gdjbfFOw8G9g/UMffOfSmtk2bYHq6nbr1zKZxpD5KnADDFrYUbi7x
+	wycINUBzDFfCAgh5tT3kgKPTSzJgRQDkL/z13gNNdYD9bQgRSgDJL1DRxBv5YE348jeXIHxoqw1
+	ZDYc1UYy/yPxLJjhQiKqJcloelS9Hisjn+kOKik3h+Fv8X4OWhrhOR3lpeQ3E9uhBx2QufRUW1+
+	I76O/MTX7Q6yuWi3ppLF/lxOLL8zAwDbKjDbBqRJFQGqks507ALLXuc+w1KweGqsXGoN5Pl60bw
+	bN2XwCIkZbHjwYG2fzxQhFAxs0VfvEX8WY7sikWQWNhmmLnjOSjfKZaedLPdhXtJXiMrpXsuDIs
+	dbVm06cdA6q6ukRCRRU3z7AL3eQqeJDTFBaNnpPldj8IQwdgpCz8iuokIUiVOk4CBVN6StfPO04
+	c0jkilq47eBUDx
+X-Received: by 2002:ac8:7f06:0:b0:4e8:a967:953e with SMTP id d75a77b69052e-4e8a9679e65mr251441091cf.24.1761222285517;
+        Thu, 23 Oct 2025 05:24:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVfVx4NRvt1CYWR2h8fbEsyadOtBDfpsDEnBpaGw2vZHVqcYjFk6imZkMy/IOObieOX2c1UQ==
+X-Received: by 2002:ac8:7f06:0:b0:4e8:a967:953e with SMTP id d75a77b69052e-4e8a9679e65mr251440601cf.24.1761222284973;
+        Thu, 23 Oct 2025 05:24:44 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378d66bb005sm4458881fa.10.2025.10.23.05.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 05:24:43 -0700 (PDT)
+Date: Thu, 23 Oct 2025 15:24:41 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Jianfeng Liu <liujianfeng1994@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
+        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
+ drm_connector_hdmi_audio_ops
+Message-ID: <zlu5x6v2xkum67prrtk26r7govenczuntjvlrflvdb6lpd2ssy@jgrnl6elophe>
+References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
+ <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
+ <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
+ <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
+ <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
+ <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
+ <f9c922f5-52af-45bb-a4ca-7ca80c0c3534@kernel.org>
+ <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
+ <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
+ <f1338318-0135-415e-ab65-482cef20f919@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f1338318-0135-415e-ab65-482cef20f919@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAwMCBTYWx0ZWRfX1S+kvyQI62br
+ GiA/T7wZmoBvfo+Em31Nr+bBZGyd/FovwYjVUImronhW3woiIKHITL94ahcfENLFhbpVeTpslVu
+ T7fDssSmSekl3jR7nKgr2eU6+ITxxO1BVvBGLnsAhje7gAu8yK3OPT2b3JTHE7kWstrLVMbQmdP
+ NgLCQNG1ZyRqbhJMYjFs8znmrrPctJlIoBqCe+8ptZ1AbqRgmrSJN2svMMOXTHXO39vfJMjXpuA
+ bSM1u+DpOaZL4f52ndIzOuWhTDaZi3YUTwO1IgmPR6bqJ0yFRWf4rYmTNdnAAnCHEt9Vqtc4bQI
+ 9fss+o9fmeI6PZcoKt+C9TZElno+EYQguZ3dE87yRv2nR2m7XU4XWRXZVARIk1dl0sD/9dMYs5z
+ tt4mwjt9hmoSqXW57NubBHAOSU6+yQ==
+X-Proofpoint-GUID: LcmWwlTpXWc_UsLIhAUD5-0yIrQNyq8L
+X-Authority-Analysis: v=2.4 cv=Up1u9uwB c=1 sm=1 tr=0 ts=68fa1e8e cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8
+ a=grqte4VfTkGWRzHCIIUA:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: LcmWwlTpXWc_UsLIhAUD5-0yIrQNyq8L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180000
 
-On Mon, Oct 23, 2025 at 12:55:49 +0100, broonie@kernel.org wrote:
-> On Thu, Oct 23, 2025 at 07:50:37PM +0800, wangweidong.a@awinic.com wrote:
->> On Mon, Oct 20, 2025 at 02:40:32 +0100, broonie@kernel.org wrote:
+On Thu, Oct 23, 2025 at 12:48:59PM +0100, Srinivas Kandagatla wrote:
+> 
+> 
+> On 10/23/25 12:43 PM, Dmitry Baryshkov wrote:
+> > On Sun, Oct 05, 2025 at 06:29:20PM +0300, Dmitry Baryshkov wrote:
+> >> On Sat, Oct 04, 2025 at 02:16:08PM +0100, Srinivas Kandagatla wrote:
+> >>>
+> >>>
+> >>> On 10/3/25 6:02 PM, Dmitry Baryshkov wrote:
+> >>>> On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
+> >>>>>> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
+> >>>>>>>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
+> >>>>>>>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
+> >>>>>>>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
+> >>>>>>>>> use msm_dp_audio_prepare instead. While userspace is still calling
+> >>>>>>>>> hw_params to do audio initialization, and we get the following errors:
+> >>>>>>>>>
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> >>>>>>>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> >>>>>>>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
+> >>>>>>>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
+> >>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
+> >>>>>>>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
+> >>>>>>>>
+> >>>>>>>> And a call to hdmi_codec_prepare() comes only at this place.
+> >>>>>>>>
+> >>>>>>>> Srini, Mark, when selecting to only implement .prepare for codec ops I
+> >>>>>>>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
+> >>>>>>>> hook"), which documents that IEC958 status bit is set after
+> >>>>>>>> .hw_params(), so it's only visible during .prepare(). Is it okay to
+> >>>>>>>> implement both callbacks? Or should the audioreach DAI driver be fixed
+> >>>>>>>> somehow instead (I suppose it assumes that the port is available after
+> >>>>>>>> .hw_params(), not sure if that assumption is correct)?
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
+> >>>>>>>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
+> >>>>>>>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
+> >>>>>>>>> hdmi-codec driver can work with userspace alsa.
+> >>>>>>>>>
+> >>>>>>>>> Tested with Radxa Dragon Q6A.
+> >>>>>>>>>
+> >>>>>>>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
+> >>>>>>>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> >>>>>>>>
+> >>>>>>>> The patch LGTM, but I would wait for response from audio maintainers.
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> The ordering matters in this case as we need clocks and audio
+> >>>>>>> configuration on DP codec side to be setup before we start configuring
+> >>>>>>> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
+> >>>>>>> even before it is ready.
+> >>>>>>>
+> >>>>>>> q6apm prepare loads the dsp pipeline and starts configuring the
+> >>>>>>> endpoints, if the DP endpoint is not ready dsp would throw an error.
+> >>>>>>>
+> >>>>>>> We might be able to pull in some dsp logs to confirm this, but I dont
+> >>>>>>> have a setup that I can reproduce this issue.
+> >>>>>>
+> >>>>>> What would be your recommendation to proceed? Is it okay for the DAI
+> >>>>>> driver to depend on the .hw_params enabling the clock? Also I see that
+> >>>>>> the error regarding the clocks comes from .prepare callback too. What is
+> >>>>>> the order of .prepare callbacks()? Can we influence it?
+> >>>>>
+> >>>>> prepare follows hw-params, and prepare can be called multiple times
+> >>>>>
+> >>>>> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
+> >>>>> backend dia link drivers ?
+> >>>>
+> >>>> Yes. Here we got a dependency from the cpu dai to be prepare()'d after
+> >>>> the DP driver performs some actions, which were a part of hw_params()
+> >>>> callback but were moved to be executed during prepare() callback.
+> >>>>
+> >>>> This leads me to two sets of questions:
+> >>>> - In which order are those callbacks executed? Can we make the ASoC
+> >>>>   enforce some order of DAI's prepare() callbacks?
+> >>>>
+> >>>> - More improtantly, isn't it a sympthom of DP driver (incorrectly)
+> >>>>   performing too much in the .hw_params() / .prepare() callback? Should
+> >>>>   we move some of the setup to the .audio_startup() instead? What is the
+> >>>>   expected split between those callbacks?
+> >>>
+> >>> I have not looked at full dp sequences but, if prepare is the only place
+> >>> when it enables the required clocks for audio block, then it is a
+> >>> problem, we should do it early so that DSP can enable the required
+> >>> configuration in prepare.
+> >>
+> >> As I wrote, previously it was done as a part of hw_params, which is
+> >> also not optimal as hdmi-codec clearly defines both callbacks as
+> >> optional, requiring only one of them. Do you know, what is actually
+> >> required on the DP side for the DSP to be able to preapre()?
+> > 
+> > Srinivas, did you have a chance to look at this? Or the .hw_prepare
+> > ordering? I really don't want to land this fix only to face the same
+> > issue because on some of the platforms .hw_prepare() callbacks will be
+> > called in a different order.
+> > 
+> Dmitry, few days back Krzysztof was enabling DP audio on T14s, and we
+> have seen that the DSP is not happy and returning error 1 when we try to
+> prepare the dp port. The exact reason is codec is not ready at that point.
+> 
+> 
+> By adding this patch, Krzystof managed to get DP working.
+> XElite platforms were working before 2fef64eec23a ("ASoC: hdmi-codec:
+> Add a prepare) patch was merged, basically 2fef64eec23a broke what was
+> working before.
+> 
+> Am happy with this patch, better move to hw_params instead of prepare.
 
->>> This doesn't apply against current code, please check and resend.
+And I'm not happy with it :-)
 
->> Thank you very much for your review.
->> Could you help me? What caused this?
+hdmi-codec defines that one of the callbacks can be optional. We know
+that at .hw_params time we don't have IEC 958 status bits, so we will be
+programming incorrect audioframe.
 
-> Whatever tree you used to base the patch on is different enough to my
-> tree that the patches didn't apply.  My tree, as listed in MAINTAINERS,
-> is:
+Should some bits of code be moved to .audio_enable isntead? If so, which
+bits?
 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I agree that there is a regression and that this patch fixes it. I argue
+that the fix is incorrect.
 
-OK, I see. Thank you very much
-I will replace tree.
-
-Best regards,
-Weidong Wang
+-- 
+With best wishes
+Dmitry
