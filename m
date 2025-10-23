@@ -1,91 +1,80 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7F233DEFF;
-	Thu, 23 Oct 2025 17:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37962DCF6B;
+	Thu, 23 Oct 2025 18:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761239028; cv=none; b=GMMlYWD92qAuLH4jNAp0B1kM0L593G2MduIkoksTBVijuO5dDHpwyzCXCfLczRqg6+uZotvNYSvhJGx/kIeXD4GFKVGqqzHtmIZPCC9OjSDhmZYsc/YwxdsDW+XSF6f4IOy+yEdjLx2xJky8d6hg7e83X1eJZH7RLZ+dkMYSLHk=
+	t=1761243078; cv=none; b=kOgLeBtK4Jh31rf3DAS7BTMBbhtGxbIXRcizVfO/ntJ5+zbjSzDgnz+S8WucLXzKkRhQs/bIsm8b9zWTBM7CBehSA8cJdFlA+lej8Eczy9QPz50hawgnWTZij6S986jYls7GXo1hnYmTNKTZELocbZnJ97b2295DlnulvAx+xkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761239028; c=relaxed/simple;
-	bh=nxTUBjHrTQSW+359MSp0LTYbt0Gb5eQbxn246r4LBZQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JB7Xg+ClrWTPrJuwkjZTK4RHhNt9ZMteaRaLB0tCxCdvmVHK7Kn6+LJPtvdiU9TQIKpRGPIqPZv/CUifsd/BZUtBIo/sniJe6E49yhx6gkXmQQEJ+nb/Ktw3/XBVCwbyJCy0U6QRLoC0pWoWg7nZ3NuAdMQAw3OOE6+XAUe+0O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cssjR1QSNz6HJjd;
-	Fri, 24 Oct 2025 01:00:27 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 226131402FB;
-	Fri, 24 Oct 2025 01:03:43 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 23 Oct
- 2025 18:03:40 +0100
-Date: Thu, 23 Oct 2025 18:03:39 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, Moritz Fischer <mdf@kernel.org>, Xu Yilun
-	<yilun.xu@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck
-	<linux@roeck-us.net>, Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron
-	<jic23@kernel.org>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, Georgi
- Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Joerg
- Roedel <joro@8bytes.org>, "Jassi Brar" <jassisinghbrar@gmail.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Miquel
- Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>,
-	"Vignesh Raghavendra" <vigneshr@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	"Jakub Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Johannes
- Berg <johannes@sipsolutions.net>, Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=
-	<kwilczynski@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, "Bjorn
- Helgaas" <bhelgaas@google.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Uwe =?UTF-8?Q?Kleine-K=C3=B6nig?=
-	<ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, Olivia
- Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
-	<dmaengine@vger.kernel.org>, <linux-fpga@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<iommu@lists.linux.dev>, <linux-media@vger.kernel.org>,
-	<linux-mtd@lists.infradead.org>, <netdev@vger.kernel.org>,
-	<linux-wireless@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-phy@lists.infradead.org>, <linux-pwm@vger.kernel.org>,
-	<linux-remoteproc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <20251023180339.0000525e@huawei.com>
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
-References: <20251023143957.2899600-1-robh@kernel.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1761243078; c=relaxed/simple;
+	bh=Ljvetg2fVYvsV5S84YIrfw1dMOgbHyndFwdWVn8d3mg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Q4aJzDyl3lPogQPM6AVj1TSoC3ewkIW3+PSzFn7KJRttlffs7woznfHjfcEmopzDCD3a2FqyPoqdqlp7glljAJIX2PaUyNsNDb33++pSdKktWy7R/cz+wtPa+5V9EOfZuGIL+2cbN1UYEL4XsnWnE9X4BkooM/ljjO4LgLw6Z7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obpievaU; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obpievaU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB51C4CEE7;
+	Thu, 23 Oct 2025 18:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761243078;
+	bh=Ljvetg2fVYvsV5S84YIrfw1dMOgbHyndFwdWVn8d3mg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=obpievaU9n+n1V7vQ0F6oazKXiv1ZS80TBKuAg5G6fn8YWggIqvAl5J3mjkKYS9za
+	 49p+KwbKsH3BLuUa/TDT1xByGlhY5eBVebRdXYp2uzRk9e+gG3NmD6t/rHIybTBgdb
+	 Trsgi/SIG/B8mC1ScDCAF7bVQsd6pYY39FMYC/RNI+GmjEjMGH1wsI4OKqW33NfM+c
+	 KruUcBYQNbV0MTSSxc68D4+MqpEf0al/1alQML6wOkIqKDezPnmvjr3S+l7GnM0614
+	 RiZb58kkY62ZvjThqqp4PuNBZnW1x38tH6Gqv4O1+SLiBNUfNffuodoH6Eey3cz5bT
+	 gP5DsxskFxPMw==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20251023110824.1587-1-rf@opensource.cirrus.com>
+References: <20251023110824.1587-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: soc_sdw_utils: add cs35l57 support
+Message-Id: <176124307698.209591.15766121674653140106.b4-ty@kernel.org>
+Date: Thu, 23 Oct 2025 19:11:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 23 Oct 2025 09:37:56 -0500
-"Rob Herring (Arm)" <robh@kernel.org> wrote:
-
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
+On Thu, 23 Oct 2025 12:08:24 +0100, Richard Fitzgerald wrote:
+> cs35l57 uses the same codec driver as cs35l56.
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> 
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: soc_sdw_utils: add cs35l57 support
+      commit: 61eb4112a8fbed999e3906a6c35e0731cf688c43
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
