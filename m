@@ -1,79 +1,79 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2625B30DD30
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B9D30DD13
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761215175; cv=none; b=jpTiAoi39LRBAmscCuRdDu1Uomiv08Hfecv/HjZZsNVN0UHcGV1X77rW5E8eSJttAD/REM4FHCKJgl7s/omS/mMv98CZlQaR4kIdeg1THOlSpPEBgQgDE4wrxJM3XCoRcrzt4uzcgbjZu4COaZ/BsxlAy1aU7+128HOYlWz7yi0=
+	t=1761215176; cv=none; b=Lm3kD6DPQLuquIoAMNt+HOt1E+mtjpEH4QZKCJRbZ3fJMMFGYoHBtHTCNvCbJzqukcOfokG3QiDZdAttuL3rFf2Cc3s+9aJw8ekr1R3wsPkVjOytUx2GtRWXzFyPPvnUm84Ma5TCKAhXg+gIq94tsO3cizqw0n+QrBxcdnurJGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761215175; c=relaxed/simple;
-	bh=efgASbqYZBC7oC8H4oyO3InmxDlFSye4eEvOlegSpd0=;
+	s=arc-20240116; t=1761215176; c=relaxed/simple;
+	bh=yBNFWfi7nb0NEEgHL4lbgPtCESQBjN8cUW0xWV+hUrs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BAhvpBT1qFInmShkCXVNPWgj1MPd/Db9tMrz09A5vLLrMyWydHKDOy3JBqmeMCRpqddhI7Pma5c0ErSYepnpuH1dSQYTlmskwcyk2zGP+BTtDeRjFIBUd3RtuIhiYWAYyklqomkE2OI+WSYJs0uhTI0aR9pBfAjKglB5C0XiTpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aSY9SEca; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=rqcKKBDtY97ZoN+DpfCtrj9NQSBzeUzlDziyiiqq6xfZHmIlkC8W2V7f88b3+QEZKEA/h1GTvuyrhTyXZnYVetg/13Iv8ZBCx8ZjbfF5OrU71xdtF5ighwS+VP/bSNADWYp2WK8x/ueiUB6YciUoQpKyClfvhyXORxEuGs+J+Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dDO9t2yh; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aSY9SEca"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N7ahoR026566
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:10 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dDO9t2yh"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6dfsH000663
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=5mIm3I5zPap
-	dYI6nLcnHbldFinCOWD4sq8Qf2hihJDg=; b=aSY9SEcaX4mPJed2TL5Z6pZ9xuP
-	uz/+3oLVpFMbTm5z4APdCQJwNJMBcTwHnC8h85C3yPv/o0lWlFxd6E6kIw7bmQeY
-	ykgbyPz9j9cmH6m6u9Bqi0ql22p5LeSV2ZSLVOx0s3tFOKS9DfXB9UejbCLTt0tt
-	uPnkgaWNHazOJoJf0IF2zLmridOl6dfi5kitVMwOLoq7VeyQVBeD0dz1yfitoaZQ
-	F1woEA4bri8L8HDBEX2DqmtGrgjvqUKI7jAPABe0FuT/9Vj93Hv6qzb3SScCmrJp
-	k62k8jJM4fbe5oGIpAJrLP7Cp/Rz2M8FooTJKPApYbIXCtd89gRDm+WUiuQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49y5x8j43s-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=nDvlp40m+Ni
+	viZ7Prwo/9bXT1BrtIsyNq1nV9QUwJU8=; b=dDO9t2yhoTDMVFCW+mn8OSfyqXp
+	xIdNp9640vYTcXOYyx6ab9I/NSNxUQP8hUsaOQBSQGOn1rz9tXoQB2Z+0L4olJez
+	yTZmCn9cJkbBn5zS+wWOUHlInJ4erMbnP5R1Gf5rZ/70FT83UuSageEkyT7rXgj5
+	yfZm2GB4P8HpmAMAm5mXB2exFnPaH/eUxeTuQquyBJcil3KwBOz8c8fRT/IBeksG
+	CRK6j/wK+XkZzDNoKBcjgZHVWSz7n8xCT9fYPH73kyBD7pDUmnjEfNESlNDpgNVt
+	9F2eEczoYsrZjrDap/oHK1yWlYaeH3gTs6LuACxIu5GDRvCq8oQTxOvvfqg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49w08wdp1v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:10 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4e899262975so20125821cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 03:26:10 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:13 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4e8b15de40fso31054931cf.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 03:26:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761215170; x=1761819970;
+        d=1e100.net; s=20230601; t=1761215172; x=1761819972;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5mIm3I5zPapdYI6nLcnHbldFinCOWD4sq8Qf2hihJDg=;
-        b=UQtpoeO1jLZivobIzNM6QXjtkzZLYkVDrnGvsu1am5Oeqa1SLJ41ZMtUPsfLiYeHbv
-         ENkhl4yOYJu8H0p8N5qwv8EY6ScuAtQTO1f2N38aJav3TzGqCG+ln/Zf9/IRXuzQ61Eg
-         eBubXl7UAbE6o9AaSGT9NajMWl1r00fu3QGfITlZrCfpNKDWpgTdIr40g1TA5DreB3VP
-         hJJUFMcmh0AirgE9mJTvIMYj9jgDmXRBfmNdLdK6bSkDuqVdSnH7Pz+m2dYhusRXdulL
-         zqziGm0d0eAI5NO3U4MyW54AJa+oC5baJjvo8IFE7cSTWVtPAWeQyREsb/AML3z0+2kz
-         TDcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXhtjwEhmduJ5xT05sQxrWiDwmPaq9YKXDZMzKn6tJslsGkmZBb8TOQVMThObtvXIl4aH2KzNRPM8GxxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzJtqCTU0KXxukaNifm/2kclmSIkRYg4lpaMn/donK8ZqblwHH
-	YXhoy0qjjELpYgbEl1UK5VIc/IjmoOpx6fIxFDvja06YBjyQfpAPRL8XsItoexVsYPhfz70Vx/2
-	czp//z54NlPnP5dFT5OC2/JH6CXk7QpfW+n1G/TyNiw8RnxgqL9lnYo00oT/fuR+0Yg==
-X-Gm-Gg: ASbGncvOWyUwH65S8AFoB2WRhrxbFjQxoh3O3zDiuOCEotm7oKLsaWYcPytB/1TNK38
-	DraI8qLoG9saE0IGnBmQ/hSOXUqpVlnuXYMnrv0XsYH1atZ5Zm17IM3Tj7cOpclJBRcdb6YaJFA
-	Fi8RLqSd+7YqJyhboyjW6yvqF+3aGs2YtBEr/YVKLRGb6ohjlMxE8QccGKjgKl6KHa3HVb7SsHa
-	pjI34F0dAUJ83nzALY4HmcyUoq4ZScipIfsbU29m8IQ6yqptRI/u5TQxhGl3c78l+whd2M6Gey+
-	g/thmp5zvojNJWWChJBf9c5gEF1XchNUJHf0ZomG2i16LZ11sHVJ2osRQ2u4JtTMvfsoeWRm4fO
-	oBfcfmZoRjs+3
-X-Received: by 2002:a05:622a:1ba9:b0:4b2:cf75:bf10 with SMTP id d75a77b69052e-4eb810200bbmr17683571cf.17.1761215169581;
-        Thu, 23 Oct 2025 03:26:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFCxbXwAwH8/piF9N5ArRwBBXQc1WxpFAuGEHAuJeED3UURZNc6QrdvOKru0sgTFO8mGeU9g==
-X-Received: by 2002:a05:622a:1ba9:b0:4b2:cf75:bf10 with SMTP id d75a77b69052e-4eb810200bbmr17683291cf.17.1761215169024;
-        Thu, 23 Oct 2025 03:26:09 -0700 (PDT)
+        bh=nDvlp40m+NiviZ7Prwo/9bXT1BrtIsyNq1nV9QUwJU8=;
+        b=ruA+KGoXzSGOXbFbm8AtoBAG+Id1QzhbsDAJrHRu6lc+NvPURTCEARFppdtPOUgMIM
+         qFg6rTvzkQq0ZTKLSmE64XUKvSHdomnkTMtBYYZZ9Akd99uRLyMFOUKCcn5plkwdOPTU
+         xycTTSOXvy+hUwzAEyFJxdKnueHDU7kt78J3JYXTBTcGhYnk8n9sUlwBY4ebZqwr4w3e
+         JFDKmRMGzsjcTG1AUIjTR4Jt1Fdl+j75Ow7IXcrhnHXQ52cYhZeT9rRBflyJhdfgWyfE
+         lp+hx1bz4JZhQiDKotgzkO6bOFDGVfk6bu9Cpvy3eTCTiiXfAlaFW6p4OKoaRM5cNzEr
+         N0jA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNjUhLn4Xlpw/i4OSMe9aAFYBDAnsa/SOuWehBO9qgbKkFfTIzXnRJiM5R0C7pfpVF/VlFfKdWRa89Ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOhGNz/TYU8HRY82eSFe6ET2/0PXDyWdldH398l/wmrSr33oiZ
+	EjPwY0VuI8KGaq74WxKhXUPIBINROtc+aYXknLCcKoup8P3toKpSa17hlN/fvUZI10b6bLxvQoY
+	8G4aEnqhz9nOhR8cGIxSlX4Vd4KZeqnWtkvSHKX/jNNaRn4BiBpj0O8jALxQzAwDKdA==
+X-Gm-Gg: ASbGncup+IPt4dXxDjDijEGyQ7izdQveD0YPuWSm9UPttN8JN+NC0xC8WSUq2MiGYiR
+	QPGWxKpo6NzRqZdNnNQF2sIDR5xibyAFSJoGZSUEdq4NJiU/15tkfESZE1E/kBMW+tFnoUrmpIb
+	lzFhc1qpmRQWbHLDEsKs2w7k3DfnUI1IpbsvlJAatR8z0qnN3KvjuADSWLCUYpPOG0y2Mw2SkmH
+	jS0R96ck1DQnFv13wqZehr+USdgv5e76IeN9dZZNNSEeNhi6V7mWXT5mTmxZpDK9XoaAvIOTdvV
+	i8SbW3WkE19qvcj63jCkjexRoqsMvXzxjG2I5CA9F0yTZtJJCbm2i2d/re5v80wu1RiNbG8aIAR
+	INh4jOSnUiWDu
+X-Received: by 2002:a05:622a:138b:b0:4e6:f8b8:50f7 with SMTP id d75a77b69052e-4e89d33642bmr329289621cf.44.1761215171944;
+        Thu, 23 Oct 2025 03:26:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEO3GrQVUuEv9NnqplDFxqKgL+KC3Vx8puoDERmcPhpNTD+7RpwHEoz9azTtHB75fZgXP5pTQ==
+X-Received: by 2002:a05:622a:138b:b0:4e6:f8b8:50f7 with SMTP id d75a77b69052e-4e89d33642bmr329289291cf.44.1761215171349;
+        Thu, 23 Oct 2025 03:26:11 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c427f77bsm92220685e9.3.2025.10.23.03.26.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c427f77bsm92220685e9.3.2025.10.23.03.26.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 03:26:08 -0700 (PDT)
+        Thu, 23 Oct 2025 03:26:10 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org
 Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v2 11/20] ASoc: qcom: audioreach: Use automatic cleanup of kfree()
-Date: Thu, 23 Oct 2025 11:24:35 +0100
-Message-ID: <20251023102444.88158-12-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v2 13/20] ASoc: qcom: q6afe: Use automatic cleanup of kfree()
+Date: Thu, 23 Oct 2025 11:24:37 +0100
+Message-ID: <20251023102444.88158-14-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -84,27 +84,27 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: UuMPiHl48TMhM0nwHkyU2wkMgfQgZRu4
-X-Proofpoint-GUID: UuMPiHl48TMhM0nwHkyU2wkMgfQgZRu4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDE2NCBTYWx0ZWRfX/eKMkV53yhKT
- DpyCR6uzwfhiSQbP19uaKKsHceju9/ulQwO8lM+tDbl9KIEp9lnhUJ4MXtbvne0iTw9boAn2epE
- 70gAm+1wFgTsz7R+56shEyhdr7yVOZPYmaTCb6CBcE7yMrElW6b67XUhAlwqKndevhJSZfcgp1O
- OARcmJuyddJIIH/SzWhNpC0mcCWZoURib/8mE9D8FGvyscHZv22LKYwShtQU5DykTRYivG7ueGD
- woDlsF4Vr/gQ/XV4GizhW7Fmhiijq+LCmIwdpBPac4Nz8PpIi0GJxZyu/r8SnKzvfVAe/iVBK4C
- i5ktZ0LLln1O83xAZ4xByo/0AEfg8rB7kle5R2hRO0G+ycttOtdTnaS6kkxJBjyQdtIHMniASQc
- Hyq7SDnzk8JI7lA5B5u1vNHt8s4Nqg==
-X-Authority-Analysis: v=2.4 cv=UOTQ3Sfy c=1 sm=1 tr=0 ts=68fa02c2 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-ORIG-GUID: 4A1YStehuaCeSaXuLtL__KLxCip6fjm9
+X-Proofpoint-GUID: 4A1YStehuaCeSaXuLtL__KLxCip6fjm9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE5MDA5MCBTYWx0ZWRfXzmGREdd0AOpe
+ 1mtpa+rqhp4pcEnjuZ2Ue2PjaHcO6M8s6oLexkPRAGlAa63obh2q6mrsKBFyJGGWpK5wNM9xhUp
+ kPIM7MNV0i9FqeDeDEtBtmCn46fEuDHQlGMqw4SXqq/E/qAzsxIf1muXft3ulU516IP6ZcWGOr/
+ OvGdMzmFZBG75/eNPAxaYCOBdgv0KZX68Q9XUyvryoyQhGyvQPw+pYgNq7fOYtZByQ8dKjmHwL6
+ oGhBJL9sEzAh1zYMKNodzDPwWgQIHq57OJJWJwQKv+UAZ0MFH17eGq8tBpmh9u4wIXyNE9RiaZ7
+ A1mGbdhr+rAuCrc0WHwIXSazBIISr90f6ayJB0+sEqkURUzy5aWbsTTmojlF4oqlyZjfxh7r9Rg
+ ig9VIj09xEQhEV4jRU7WSBW8O/A4vw==
+X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=68fa02c5 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=eMYRZwCK-RnsMZ2OX8QA:9 a=kacYvNCVWA4VmyqE58fU:22
+ a=92AZDs2nESXm7HPk3LYA:9 a=dawVfQjAaf238kedN5IG:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 adultscore=0 clxscore=1015 phishscore=0
- bulkscore=0 malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510220164
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510190090
 
 Its common pattern in q6dsp code to allocate temporary buffer
 to send gpr/apr packets and free at the function exit.
@@ -114,464 +114,138 @@ No functional changes.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.c | 232 +++++++++---------------------
- 1 file changed, 66 insertions(+), 166 deletions(-)
+ sound/soc/qcom/qdsp6/q6afe.c | 41 +++++++++++-------------------------
+ 1 file changed, 12 insertions(+), 29 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index 0456d4689034..ded49124581b 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -612,18 +612,12 @@ static int audioreach_display_port_set_media_format(struct q6apm_graph *graph,
- 	struct apm_module_frame_size_factor_cfg *fs_cfg;
- 	struct apm_module_param_data *param_data;
- 	struct apm_module_hw_ep_mf_cfg *hw_cfg;
--	int ic_sz, ep_sz, fs_sz;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int ic_sz = APM_DP_INTF_CFG_PSIZE;
-+	int ep_sz = APM_HW_EP_CFG_PSIZE;
-+	int fs_sz = APM_FS_CFG_PSIZE;
-+	int size = ic_sz + ep_sz + fs_sz;
- 	void *p;
+diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+index 7b59d514b432..56f85f1c2425 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.c
++++ b/sound/soc/qcom/qdsp6/q6afe.c
+@@ -1077,11 +1077,9 @@ static int q6afe_set_param(struct q6afe *afe, struct q6afe_port *port,
+ 	struct afe_svc_cmd_set_param *param;
+ 	struct afe_port_param_data_v2 *pdata;
+ 	struct apr_pkt *pkt;
+-	int ret, pkt_size;
+-	void *p, *pl;
 -
--	ic_sz = APM_DP_INTF_CFG_PSIZE;
--	ep_sz = APM_HW_EP_CFG_PSIZE;
--	fs_sz = APM_FS_CFG_PSIZE;
--
--	payload_size = ic_sz + ep_sz + fs_sz;
--
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
+-	pkt_size = APR_HDR_SIZE + sizeof(*param) + sizeof(*pdata) + psize;
+-	p = kzalloc(pkt_size, GFP_KERNEL);
++	int ret, pkt_size = APR_HDR_SIZE + sizeof(*param) + sizeof(*pdata) + psize;
++	void *pl;
++	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
+ 	if (!p)
+ 		return -ENOMEM;
  
-@@ -662,11 +656,7 @@ static int audioreach_display_port_set_media_format(struct q6apm_graph *graph,
- 	intf_cfg->cfg.mst_idx = 0;
- 	intf_cfg->cfg.dptx_idx = cfg->dp_idx;
+@@ -1112,7 +1110,6 @@ static int q6afe_set_param(struct q6afe *afe, struct q6afe_port *port,
+ 	if (ret)
+ 		dev_err(afe->dev, "AFE set params failed %d\n", ret);
  
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
 -	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ 	return ret;
  }
  
- /* LPASS Codec DMA port Module Media Format Setup */
-@@ -679,19 +669,13 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	struct apm_module_hw_ep_power_mode_cfg *pm_cfg;
- 	struct apm_module_param_data *param_data;
- 	struct apm_module_hw_ep_mf_cfg *hw_cfg;
--	int ic_sz, ep_sz, fs_sz, pm_sz;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int ic_sz = APM_CDMA_INTF_CFG_PSIZE;
-+	int ep_sz = APM_HW_EP_CFG_PSIZE;
-+	int fs_sz = APM_FS_CFG_PSIZE;
-+	int pm_sz = APM_HW_EP_PMODE_CFG_PSIZE;
-+	int size = ic_sz + ep_sz + fs_sz + pm_sz;
- 	void *p;
+@@ -1131,11 +1128,9 @@ static int q6afe_port_set_param_v2(struct q6afe_port *port, void *data,
+ 	struct q6afe *afe = port->afe;
+ 	struct apr_pkt *pkt;
+ 	u16 port_id = port->id;
+-	int ret, pkt_size;
+-	void *p, *pl;
 -
--	ic_sz = APM_CDMA_INTF_CFG_PSIZE;
--	ep_sz = APM_HW_EP_CFG_PSIZE;
--	fs_sz = APM_FS_CFG_PSIZE;
--	pm_sz = APM_HW_EP_PMODE_CFG_PSIZE;
--
--	payload_size = ic_sz + ep_sz + fs_sz + pm_sz;
--
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
+-	pkt_size = APR_HDR_SIZE + sizeof(*param) + sizeof(*pdata) + psize;
+-	p = kzalloc(pkt_size, GFP_KERNEL);
++	int ret, pkt_size = APR_HDR_SIZE + sizeof(*param) + sizeof(*pdata) + psize;
++	void *pl;
++	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
+ 	if (!p)
+ 		return -ENOMEM;
  
-@@ -739,24 +723,17 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	param_data->param_size = pm_sz - APM_MODULE_PARAM_DATA_SIZE;
- 	pm_cfg->power_mode.power_mode = 0;
+@@ -1168,7 +1163,6 @@ static int q6afe_port_set_param_v2(struct q6afe_port *port, void *data,
+ 		dev_err(afe->dev, "AFE enable for port 0x%x failed %d\n",
+ 		       port_id, ret);
  
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
 -	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ 	return ret;
  }
  
- int audioreach_send_u32_param(struct q6apm_graph *graph, struct audioreach_module *module,
- 			      uint32_t param_id, uint32_t param_val)
- {
- 	struct apm_module_param_data *param_data;
--	struct gpr_pkt *pkt;
-+	struct gpr_pkt *pkt __free(kfree) = NULL;
- 	uint32_t *param;
--	int rc, payload_size;
+@@ -1285,7 +1279,7 @@ int q6afe_port_stop(struct q6afe_port *port)
+ 	int port_id = port->id;
+ 	int ret = 0;
+ 	int index, pkt_size;
+-	void *p;
++	void *p __free(kfree) = NULL;
+ 
+ 	index = port->token;
+ 	if (index < 0 || index >= AFE_PORT_MAX) {
+@@ -1316,7 +1310,6 @@ int q6afe_port_stop(struct q6afe_port *port)
+ 	if (ret)
+ 		dev_err(afe->dev, "AFE close failed %d\n", ret);
+ 
+-	kfree(pkt);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(q6afe_port_stop);
+@@ -1676,7 +1669,7 @@ int q6afe_port_start(struct q6afe_port *port)
+ 	int ret, param_id = port->cfg_type;
+ 	struct apr_pkt *pkt;
+ 	int pkt_size;
+-	void *p;
++	void *p __free(kfree) = NULL;
+ 
+ 	ret  = q6afe_port_set_param_v2(port, &port->port_cfg, param_id,
+ 				       AFE_MODULE_AUDIO_DEV_INTERFACE,
+@@ -1722,7 +1715,6 @@ int q6afe_port_start(struct q6afe_port *port)
+ 		dev_err(afe->dev, "AFE enable for port 0x%x failed %d\n",
+ 			port_id, ret);
+ 
+-	kfree(pkt);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(q6afe_port_start);
+@@ -1845,11 +1837,8 @@ int q6afe_unvote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 	struct afe_cmd_remote_lpass_core_hw_devote_request *vote_cfg;
+ 	struct apr_pkt *pkt;
+ 	int ret = 0;
+-	int pkt_size;
 -	void *p;
 -
--	payload_size = sizeof(uint32_t) + APM_MODULE_PARAM_DATA_SIZE;
--	p = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	int payload_size = sizeof(uint32_t) + APM_MODULE_PARAM_DATA_SIZE;
-+	void *p = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(p))
+-	pkt_size = APR_HDR_SIZE + sizeof(*vote_cfg);
+-	p = kzalloc(pkt_size, GFP_KERNEL);
++	int pkt_size = APR_HDR_SIZE + sizeof(*vote_cfg);
++	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
+ 	if (!p)
  		return -ENOMEM;
  
-@@ -773,11 +750,7 @@ int audioreach_send_u32_param(struct q6apm_graph *graph, struct audioreach_modul
- 	param = p;
- 	*param = param_val;
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- EXPORT_SYMBOL_GPL(audioreach_send_u32_param);
- 
-@@ -813,24 +786,17 @@ static int audioreach_set_module_config(struct q6apm_graph *graph,
- 					struct audioreach_module *module,
- 					struct audioreach_module_config *cfg)
- {
--	int payload_size = le32_to_cpu(module->data->size);
--	struct gpr_pkt *pkt;
--	int rc;
-+	int size = le32_to_cpu(module->data->size);
- 	void *p;
--
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
- 	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
- 
--	memcpy(p, module->data->data, payload_size);
--
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
-+	memcpy(p, module->data->data, size);
+@@ -1871,7 +1860,6 @@ int q6afe_unvote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 	if (ret < 0)
+ 		dev_err(afe->dev, "AFE failed to unvote (%d)\n", hw_block_id);
  
 -	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ 	return ret;
  }
- 
- static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
-@@ -840,15 +806,11 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	struct apm_module_param_data *param_data;
- 	struct param_id_mfc_media_format *media_format;
- 	uint32_t num_channels = cfg->num_channels;
--	int payload_size;
--	struct gpr_pkt *pkt;
--	int rc, i;
-+	int payload_size = APM_MFC_CFG_PSIZE(media_format, num_channels) +
-+				APM_MODULE_PARAM_DATA_SIZE;
-+	int i;
- 	void *p;
+ EXPORT_SYMBOL(q6afe_unvote_lpass_core_hw);
+@@ -1883,11 +1871,8 @@ int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 	struct afe_cmd_remote_lpass_core_hw_vote_request *vote_cfg;
+ 	struct apr_pkt *pkt;
+ 	int ret = 0;
+-	int pkt_size;
+-	void *p;
 -
--	payload_size = APM_MFC_CFG_PSIZE(media_format, num_channels) +
--		APM_MODULE_PARAM_DATA_SIZE;
--
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -868,11 +830,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	for (i = 0; i < num_channels; i++)
- 		media_format->channel_mapping[i] = cfg->channel_map[i];
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
- static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
-@@ -960,31 +918,24 @@ static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
- int audioreach_compr_set_param(struct q6apm_graph *graph, struct audioreach_module_config *mcfg)
- {
- 	struct media_format *header;
--	struct gpr_pkt *pkt;
--	int iid, payload_size, rc;
-+	int rc;
- 	void *p;
--
--	payload_size = sizeof(struct apm_sh_module_media_fmt_cmd);
--
--	iid = q6apm_graph_get_rx_shmem_module_iid(graph);
--	pkt = audioreach_alloc_cmd_pkt(payload_size, DATA_CMD_WR_SH_MEM_EP_MEDIA_FORMAT,
--			0, graph->port->id, iid);
--
-+	int iid = q6apm_graph_get_rx_shmem_module_iid(graph);
-+	int payload_size = sizeof(struct apm_sh_module_media_fmt_cmd);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_cmd_pkt(payload_size,
-+					DATA_CMD_WR_SH_MEM_EP_MEDIA_FORMAT,
-+					0, graph->port->id, iid);
- 	if (IS_ERR(pkt))
+-	pkt_size = APR_HDR_SIZE + sizeof(*vote_cfg);
+-	p = kzalloc(pkt_size, GFP_KERNEL);
++	int pkt_size = APR_HDR_SIZE + sizeof(*vote_cfg);
++	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
+ 	if (!p)
  		return -ENOMEM;
  
-+
- 	p = (void *)pkt + GPR_HDR_SIZE;
- 	header = p;
- 	rc = audioreach_set_compr_media_format(header, p, mcfg);
--	if (rc) {
--		kfree(pkt);
-+	if (rc)
- 		return rc;
--	}
--
--	rc = gpr_send_port_pkt(graph->port, pkt);
--	kfree(pkt);
+@@ -1911,8 +1896,6 @@ int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 	if (ret)
+ 		dev_err(afe->dev, "AFE failed to vote (%d)\n", hw_block_id);
  
--	return rc;
-+	return gpr_send_port_pkt(graph->port, pkt);
- }
- EXPORT_SYMBOL_GPL(audioreach_compr_set_param);
- 
-@@ -996,18 +947,12 @@ static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
- 	struct apm_module_param_data *param_data;
- 	struct apm_i2s_module_intf_cfg *intf_cfg;
- 	struct apm_module_hw_ep_mf_cfg *hw_cfg;
--	int ic_sz, ep_sz, fs_sz;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int ic_sz = APM_I2S_INTF_CFG_PSIZE;
-+	int ep_sz = APM_HW_EP_CFG_PSIZE;
-+	int fs_sz = APM_FS_CFG_PSIZE;
-+	int size = ic_sz + ep_sz + fs_sz;
- 	void *p;
--
--	ic_sz = APM_I2S_INTF_CFG_PSIZE;
--	ep_sz = APM_HW_EP_CFG_PSIZE;
--	fs_sz = APM_FS_CFG_PSIZE;
--
--	payload_size = ic_sz + ep_sz + fs_sz;
--
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -1058,11 +1003,7 @@ static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
- 	param_data->param_size = fs_sz - APM_MODULE_PARAM_DATA_SIZE;
- 	fs_cfg->frame_size_factor = 1;
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
 -
 -	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ 	return ret;
  }
- 
- static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
-@@ -1070,12 +1011,9 @@ static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
- {
- 	struct apm_module_param_data *param_data;
- 	struct data_logging_config *cfg;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int size = sizeof(*cfg) + APM_MODULE_PARAM_DATA_SIZE;
- 	void *p;
--
--	payload_size = sizeof(*cfg) + APM_MODULE_PARAM_DATA_SIZE;
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -1085,7 +1023,7 @@ static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
- 	param_data->module_instance_id = module->instance_id;
- 	param_data->error_code = 0;
- 	param_data->param_id = PARAM_ID_DATA_LOGGING_CONFIG;
--	param_data->param_size = payload_size - APM_MODULE_PARAM_DATA_SIZE;
-+	param_data->param_size = size - APM_MODULE_PARAM_DATA_SIZE;
- 
- 	p = p + APM_MODULE_PARAM_DATA_SIZE;
- 	cfg = p;
-@@ -1093,11 +1031,7 @@ static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
- 	cfg->log_tap_point_id = module->log_tap_point_id;
- 	cfg->mode = module->log_mode;
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
- static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
-@@ -1108,8 +1042,8 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	uint32_t num_channels = mcfg->num_channels;
- 	struct apm_pcm_module_media_fmt_cmd *cfg;
- 	struct apm_module_param_data *param_data;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int payload_size;
-+	struct gpr_pkt *pkt __free(kfree) = NULL;
- 
- 	if (num_channels > 4) {
- 		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
-@@ -1144,11 +1078,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	media_cfg->bits_per_sample = mcfg->bit_width;
- 	memcpy(media_cfg->channel_mapping, mcfg->channel_map, mcfg->num_channels);
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
- static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
-@@ -1160,7 +1090,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 	struct payload_media_fmt_pcm *cfg;
- 	struct media_format *header;
- 	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	struct gpr_pkt *pkt __free(kfree) = NULL;
- 	void *p;
- 
- 	if (num_channels > 4) {
-@@ -1202,29 +1132,20 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 		memcpy(cfg->channel_mapping, mcfg->channel_map, mcfg->num_channels);
- 	} else {
- 		rc = audioreach_set_compr_media_format(header, p, mcfg);
--		if (rc) {
--			kfree(pkt);
-+		if (rc)
- 			return rc;
--		}
- 	}
- 
--	rc = audioreach_graph_send_cmd_sync(graph, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return audioreach_graph_send_cmd_sync(graph, pkt, 0);
- }
- 
- int audioreach_gain_set_vol_ctrl(struct q6apm *apm, struct audioreach_module *module, int vol)
- {
- 	struct param_id_vol_ctrl_master_gain *cfg;
- 	struct apm_module_param_data *param_data;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
-+	int size = sizeof(*cfg) + APM_MODULE_PARAM_DATA_SIZE;
- 	void *p;
--
--	payload_size = sizeof(*cfg) + APM_MODULE_PARAM_DATA_SIZE;
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -1234,16 +1155,12 @@ int audioreach_gain_set_vol_ctrl(struct q6apm *apm, struct audioreach_module *mo
- 	param_data->module_instance_id = module->instance_id;
- 	param_data->error_code = 0;
- 	param_data->param_id = PARAM_ID_VOL_CTRL_MASTER_GAIN;
--	param_data->param_size = payload_size - APM_MODULE_PARAM_DATA_SIZE;
-+	param_data->param_size = size - APM_MODULE_PARAM_DATA_SIZE;
- 
- 	p = p + APM_MODULE_PARAM_DATA_SIZE;
- 	cfg = p;
- 	cfg->master_gain =  vol;
--	rc = q6apm_send_cmd_sync(apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(apm, pkt, 0);
- }
- EXPORT_SYMBOL_GPL(audioreach_gain_set_vol_ctrl);
- 
-@@ -1251,11 +1168,8 @@ static int audioreach_gain_set(struct q6apm_graph *graph, struct audioreach_modu
- {
- 	struct apm_module_param_data *param_data;
- 	struct apm_gain_module_cfg *cfg;
--	int rc, payload_size;
--	struct gpr_pkt *pkt;
--
--	payload_size = APM_GAIN_CFG_PSIZE;
--	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	int size = APM_GAIN_CFG_PSIZE;
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -1265,15 +1179,11 @@ static int audioreach_gain_set(struct q6apm_graph *graph, struct audioreach_modu
- 	param_data->module_instance_id = module->instance_id;
- 	param_data->error_code = 0;
- 	param_data->param_id = APM_PARAM_ID_GAIN;
--	param_data->param_size = payload_size - APM_MODULE_PARAM_DATA_SIZE;
-+	param_data->param_size = size - APM_MODULE_PARAM_DATA_SIZE;
- 
- 	cfg->gain_cfg.gain = module->gain;
- 
--	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
--
--	kfree(pkt);
--
--	return rc;
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
- int audioreach_set_media_format(struct q6apm_graph *graph, struct audioreach_module *module,
-@@ -1358,9 +1268,9 @@ int audioreach_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, s
- 	struct apm_cmd_shared_mem_map_regions *cmd;
- 	uint32_t num_regions, buf_sz, payload_size;
- 	struct audioreach_graph_data *data;
--	struct gpr_pkt *pkt;
-+	struct gpr_pkt *pkt __free(kfree) = NULL;
- 	void *p;
--	int rc, i;
-+	int i;
- 
- 	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
- 		data = &graph->rx_data;
-@@ -1407,23 +1317,16 @@ int audioreach_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, s
- 	}
- 	mutex_unlock(&graph->lock);
- 
--	rc = audioreach_graph_send_cmd_sync(graph, pkt, APM_CMD_RSP_SHARED_MEM_MAP_REGIONS);
--
--	kfree(pkt);
--
--	return rc;
-+	return audioreach_graph_send_cmd_sync(graph, pkt, APM_CMD_RSP_SHARED_MEM_MAP_REGIONS);
- }
- EXPORT_SYMBOL_GPL(audioreach_map_memory_regions);
- 
- int audioreach_shared_memory_send_eos(struct q6apm_graph *graph)
- {
- 	struct data_cmd_wr_sh_mem_ep_eos *eos;
--	struct gpr_pkt *pkt;
--	int rc = 0, iid;
--
--	iid = q6apm_graph_get_rx_shmem_module_iid(graph);
--	pkt = audioreach_alloc_cmd_pkt(sizeof(*eos), DATA_CMD_WR_SH_MEM_EP_EOS, 0,
--				       graph->port->id, iid);
-+	int iid = q6apm_graph_get_rx_shmem_module_iid(graph);
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_cmd_pkt(sizeof(*eos),
-+					DATA_CMD_WR_SH_MEM_EP_EOS, 0, graph->port->id, iid);
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -1431,9 +1334,6 @@ int audioreach_shared_memory_send_eos(struct q6apm_graph *graph)
- 
- 	eos->policy = WR_SH_MEM_EP_EOS_POLICY_LAST;
- 
--	rc = gpr_send_port_pkt(graph->port, pkt);
--	kfree(pkt);
--
--	return rc;
-+	return gpr_send_port_pkt(graph->port, pkt);
- }
- EXPORT_SYMBOL_GPL(audioreach_shared_memory_send_eos);
+ EXPORT_SYMBOL(q6afe_vote_lpass_core_hw);
 -- 
 2.51.0
 
