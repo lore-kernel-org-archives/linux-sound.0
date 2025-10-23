@@ -1,87 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC1C2D5955
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 14:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F813329C51
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 14:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761228808; cv=none; b=sIBcdRWx6/IpGGzCl0OXPWjNeiTzRSVUaRJZgXO+yv4gVH3MBtX80kGFe7BDucXeSMzq17/tEgOX1i6DD5SdMke515igafb7WmnM0DHSf2YBMNZ71pUJI/mSADX2JvsOxT0XQXiCH0+aIgTwsvkC0kBcJzUn0m1Goq6DN+uOy0Q=
+	t=1761229287; cv=none; b=Kx+QTPN+/N8fSL2674pbI4qNIkBbZRX7+qoH6NU2LacLOP2kd4pgRY+svSL6boUCA3F12uaC3bDuThn35zrZTBcts5JEbGpqyPcTCAwW/lIGSshn/FCccuk85VSvccBeVKs6xDlsgtxiRAz8llNdBO141IJ+vR9AQDsZ6wqph8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761228808; c=relaxed/simple;
-	bh=kYjh8DSjSx6ZWe+8LDEJ668FAOCHysQaImJKgj/p64Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtfXG0Fo91cB0MhGbNbkgUoQX7hr6UpGGFaYnj6/+CBmBQfXdvyOVl9Zdz0q0w6P1Kx4rXyx6ltgwev4syTBK0CRJ2+Ov0LSsnTt4sCQngSSlgQgU7m7t+8dzwGPlQcw+Y9CE4qZwKJPqINhqb43bhhgMxFvJSDqADfgyThXxik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rikYWS5C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761229287; c=relaxed/simple;
+	bh=IpvvKMDeUVDhUPvWRXSZe9FOqh+M52LzGhFaBjsBh/g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=srRUkilHzvSNS3WGcUfQdUXMrtVykeaC6ukEWS/7en+6GDt16jw2gbUxcJ6QQp1yq9ZVFVkdlDYv2pkCzG805kF/hV/bzmH6tuul5OO7otiuuL393dinTr8caWMFXJ3VH9GGWbiK78qveqL+7x8tEqgReP8ECXWc0EIUcCWc0eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FEDLHGuL; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rikYWS5C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF9BBC4CEE7;
-	Thu, 23 Oct 2025 14:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761228807;
-	bh=kYjh8DSjSx6ZWe+8LDEJ668FAOCHysQaImJKgj/p64Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rikYWS5CjaTs2u6Vqp9IXID3hQ8S/OeDfRpM84zhanvk6gmnkcPNYEVL1AJHaau8r
-	 LuZpFvFm39zF6Ml9t/iWpfqA8rivtnmrxQvA3ZGKorNVy78djg+u6oHlNaJWXGxFPE
-	 N5Axeev6vZ1ZIt9gCjqeSBEnYd53kNm/ottvJeTU7LKqbFPTtNgWW2oj7EY2OmsX7H
-	 HVQiaGOllcaJKgEYg3fiwGuaGu/qjsnP5Px53+3+T765m7d9NyZCU6PCFI6eYBxUM1
-	 b24dkG79ZkYHkfGLFS4GbXPetkxO6dWT6Dws3zVj5jmT97P0HAQOKEpeqe8jHP1ZFQ
-	 FXq6KQKPDp7fg==
-Date: Thu, 23 Oct 2025 15:13:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Sharique Mohammad <sharq0406@gmail.com>
-Cc: perex@perex.cz, linux-sound@vger.kernel.org, lgirdwood@gmail.com
-Subject: Re: [PATCH 4/4] ASoC: max98090/91: adding DAPM routing for digital
- output for max98091
-Message-ID: <82f0d07c-f10e-46ba-9caa-45c264ced5bd@sirena.org.uk>
-References: <20251023135438.2245693-1-sharq0406@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FEDLHGuL"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-475c1f433d8so7429675e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 07:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761229284; x=1761834084; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R/eMMiYExXphSaV0eJ7915+DqGCkBLLJG3TnOqbWPUA=;
+        b=FEDLHGuLfUgd4pS7wCBIfctqStZPMGmyRSJAlIBLk7tBs8Zf7i4UAGfEPGCJMuq+KI
+         WWqqLaETPFGETcB9HXW0qnVREZlsgyHszpR3YRqPoj/IwwXrQoXLuSGUgCR2F3nXhosE
+         CTVlArop07/vz+PKl/O2dCFWNQsgQ7ZEM90oeh5uDt1V+Bibrwrf0ctRMAAuMyvgUTmR
+         4QyNMomofEGZM631HjWLl7piNk0hr5OcyXTRQzyM2wNVZ5OhMuz3zE1MAHgQNVPzoCd4
+         iOR8bRw2KXqyInr4n0bnlHayAwWWia8pSwv6Vx981Baqyv5nfdPMCQtloENAR5B7Gpnw
+         sZxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761229284; x=1761834084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R/eMMiYExXphSaV0eJ7915+DqGCkBLLJG3TnOqbWPUA=;
+        b=jZzNemKTnMIqJ/P/GqqRiw9J89EPEfEsZtu4hHjbOIBkEeJf6rcVpl1t1BILjRb3pt
+         AjxEYs0l/zFDhfwIz19jRumir1DbbbvJOwBWBIWdvWpGAvjoO75OUSuM9Yzx2PVUoRZR
+         w28Nrm4J6LirHty4hfyT2SGpkvH1mIuEKw61p2AXuTyWujnnaLcrbM0M6QjWYT2O7G1U
+         E6uG1WmDe2CT78teH6KicIZBVu90+chs4W0dFmo1WS8l6aZ76fHV8+QH9Zg5T/3Ct20f
+         49LaIcPcNSKJWNgw3GzqGlUvn/PKkIj0B86eyDg7P4YOyUT2YP7Yr6WQvvBdYIQAC2oZ
+         RxKg==
+X-Forwarded-Encrypted: i=1; AJvYcCX0Kl20CthXI7xRofDS0kNBs5tq9rilr9kIpbXieKQTaApGC5zQSDEUDZVCm/Q85vYWwTXLOWivZdWLKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtQB5v3q81fbb/Bmorsj7AR6EryBOzuk5sdvw4zp9WrkP0z/7p
+	SSha1fpXRv3w2aG3ZXSWQVGBenFXAKAthe2zDXfWXGj5h0aQQnWVVuYC
+X-Gm-Gg: ASbGncsfc5ZAL3tsFv68vj5R3z9Wdmkwp2+hWWwp15zQH7jAG5TUr7spD5xJOKzs6rk
+	8K/SaKj4QfkIANY8Di5b9xwlQhbZPemgYsrfZB7eyMUVn7etIE3cho0xPTyp0pqcjuCq/hMyP9x
+	bH/8TUQhLIAUAUR1jrYAq3KssdcN2mEZ19gFCdxu4eLre3N88HByI/eH2z+SOmNelrSp5ckG9wW
+	EF1Srxa+cG5w5ygtE4gFB0IPCEvfWIjMH37I1bbHe+VcVm3zz+4QoH8UUMRXUahvfaXJFR13cV5
+	zlT5mtHtJZpUI9CIdaLLp2l1obY954ssP+2hAtV9yqEHeMIR6TFg0GAEqn1xTEVf/nTDhKG5Iw2
+	gowgyQsqo0wO1cdYvR2Be6n8C1FUZyqXqITK53USJYVc6MjS6WYCJK9oy3fSaqTpeSNAzMMk5Sp
+	CouhsioKnHGR3lr0/Gq3LfkNqwAbC6ILMyMFozZRrt/Vk=
+X-Google-Smtp-Source: AGHT+IFL08q1MS2S/p7E47KzM6eARo+lq1yMEc9iupRUimZVu63q+M0knvp4VE7DkFbjmiryOQC+Og==
+X-Received: by 2002:a05:600c:6290:b0:46e:2cfe:971c with SMTP id 5b1f17b1804b1-471177c0f91mr178647585e9.0.1761229282180;
+        Thu, 23 Oct 2025 07:21:22 -0700 (PDT)
+Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47494b365adsm61847845e9.6.2025.10.23.07.21.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 07:21:21 -0700 (PDT)
+From: Sharique Mohammad <sharq0406@gmail.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com,
+	Sharique Mohammad <sharq0406@gmail.com>
+Subject: [PATCH 1/1] ASoC: max98090/91: adding DAPM routing for digital output for max98091
+Date: Thu, 23 Oct 2025 16:20:44 +0200
+Message-Id: <20251023142044.2247989-1-sharq0406@gmail.com>
+X-Mailer: git-send-email 2.30.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BBtM6gtYeVQB1+Mi"
-Content-Disposition: inline
-In-Reply-To: <20251023135438.2245693-1-sharq0406@gmail.com>
-X-Cookie: I've got a bad feeling about this.
+Content-Transfer-Encoding: 8bit
 
+Each route connects two widgets, so in this patch, the widget "AIFOUT2L"
+audio interface output left secondary mic and "AIFOUT2R" audio interface
+output right secondary mic is connected to "SHDN" and also to "SDIEN".
+Route with "SHDN" as source is required because "SHDN" controls the
+shutdown and must be ON for codec to operate. Therefore, "AIFOUT2L" and
+"AIFOUT2R" must be active when "SHDN" is ON. Route with "SDIEN"
+is required as serial interface logic must be enabled, that means
+serial port must be enabled, which ensures I2S/TDM clocks and serial data
+lines are running. This is also the case with audio interface outputs
+"AIFOUTL" and "AIFOUTR" in primary mic.
 
---BBtM6gtYeVQB1+Mi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
 
-On Thu, Oct 23, 2025 at 03:54:38PM +0200, Sharique Mohammad wrote:
-> Each route connects two widgets, so in this patch, the widget "AIFOUT2L"
-> audio interface output left secondary mic and "AIFOUT2R" audio interface
-> output right secondary mic is connected to "SHDN" and also to "SDIEN".
+---
+ sound/soc/codecs/max98090.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-To repeat my prior comment:
+diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
+index ef0c4f2ce1b2..2e6ec2ac5327 100644
+--- a/sound/soc/codecs/max98090.c
++++ b/sound/soc/codecs/max98090.c
+@@ -1436,6 +1436,11 @@ static const struct snd_soc_dapm_route max98091_dapm_routes[] = {
+ 	{"DMIC4", NULL, "DMIC4_ENA"},
+ 	{"DMIC3", NULL, "DMIC34_HPF"},
+ 	{"DMIC4", NULL, "DMIC34_HPF"},
++
++	{"AIFOUT2L", NULL, "SHDN"},
++	{"AIFOUT2R", NULL, "SHDN"},
++	{"AIFOUT2L", NULL, "SDOEN"},
++	{"AIFOUT2R", NULL, "SDOEN"},
+ };
+ 
+ static int max98090_add_widgets(struct snd_soc_component *component)
+-- 
+2.30.5
 
-  This is numbered as though it were part of a series but it's just a
-  loose patch, patch numbers only make sense within a series and create
-  confusion when included outside them.
-
-Please don't ignore review comments, people are generally making them
-for a reason and are likely to have the same concerns if issues remain
-unaddressed.  Having to repeat the same comments can get repetitive and
-make people question the value of time spent reviewing.  If you disagree
-with the review comments that's fine but you need to reply and discuss
-your concerns so that the reviewer can understand your decisions.
-
---BBtM6gtYeVQB1+Mi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj6OAMACgkQJNaLcl1U
-h9BRWwf/fVNs8Xi6y8ZbkRSTiHnLEftX3QhNJBqydQqGP6i3zA2qtREcvybl7KZ3
-VZeR9MyhRjOG+Bs/UbbrQ2V5CCr2tIc4k0Yi5Fa6rqcOyCplGAMk3F456SwmN9Bm
-p8CKYeuaZQWqvQzIOyWg1EN8df86MvJtrgUmEunUAu12wDkIcYisZvX77OJE6Rcj
-ddC1tth5JCv+Yst7fnuVl0ejg5UVOWQU0rXCOJWHwj7IOY4I0Yak3btMmbHsY68k
-KN+5QwJGLz2qE8XgG5KyGMRWDsUB41Wo/4WTdHjYfjSx60wTywhbwWzwfMHYlDwP
-OrRQWw3wL4rSmAEUgb5XtM0Ar/0wnA==
-=MkJ3
------END PGP SIGNATURE-----
-
---BBtM6gtYeVQB1+Mi--
