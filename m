@@ -1,101 +1,128 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A66423D288
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 07:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E452C0287
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 07:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761203049; cv=none; b=J61I2q3VyvkPi79pGbmUpzVbTFibEcK3HjMRLJRQV/eAycrRlXA0/QIYH2zOiSpaRRtSuAHEQCmVnVLxxRrXQeuyIH+yDZx7ifZYDtcOFR69cUVFj0dWD6/OWdP3ci8sQ6yBJS5GwdbCn63r6Mb9CC4S9tZyiviFt7kusZLY5I8=
+	t=1761203424; cv=none; b=LAaWE2N1EKx6Hl7aV7S4YbWh/tvQLT9BlFHw8/qE0Vo2eX25YIeWjxT06SZtJGjMFJzEuk4t5fOftOvcTJUDxv5AojzZG8zhobt2XbNomVL7OKtBM1CNNSuO9dl7XXg4b9Ul7vzy3hWRWTwIZ5SK7GuF/23nSc9IbP4st6lmdjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761203049; c=relaxed/simple;
-	bh=9/wG5C8tf2d4SlOGlsjpQmQI++ChscmD8P2cCyl0g+8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c026pj8zQtIqYbc2eF6FDkm2fSx31NHwtrQKRQUnd9b+xkMxzc69pjxhX0WqemmpWX8HJxUj9RXsQMu8MFeK5cGz9rGBLNeVBmh7fCxam0jBH6jVxoZXAv40crjVgehaSnnLKEOsFiplSYHo5gNBo86jnBLWtG5Bd67peO0NAuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RY8N5/TE; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1761203424; c=relaxed/simple;
+	bh=atSHiBv6EOD3kMNIDMzYEJsOitPHWi/LcNVnt9jVTkU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EXJTSqPOUAaqn4/zBY4mVu4HOenLYypzndjOkOhzHGgvGLgIRVVJDKi9LeE547D2Jpt3sJcyaIIvqfzcaPIteEJ+NnriBs4cFYgtF0/8idMjJr6GKckUqg5HfleHQzIS8hysByTrOHb81RwFj4o4fQua/zjU72JeLtNFXZB6ZjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YylWJdDA; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RY8N5/TE"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e6ba26c50so2981675e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 00:04:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YylWJdDA"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso439353a12.3
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 00:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761203045; x=1761807845; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nRQn630rwgoGuh9EbUUNebeySQ4OLO3/MGfSPV3tXsw=;
-        b=RY8N5/TEhdr4/G32G1KT7cnbb5aHhcdc9AfPX2+1nKmjIXBM17efsiOoCBX+voDVNB
-         AZ5dBNSPap/F7ncytI0H2SWgsS4ODhZb1gIZT86VlxkkD9Ki0GhBUIDHgiy4hlyDRAwD
-         YjSy3jZ2ByR2t0RhpP5nGhRRFFWEY4llXdS1kzFBzuyFhi4sAWZGDSoCvhcd1QiOZ1Aa
-         hp9sVJZMLJysHxtW1xQ6e0HhLrHrIxMhvfMvUQae59ax3hlGxY4Q9Kq4t1ZTOXIgd+Nc
-         Soc5kfgO46mdV6zQWRU9layC6x/Gvws1ObZsRvYiJ6fnZydvxVWBQk0qXYUUPwBUrn0v
-         FsLQ==
+        d=gmail.com; s=20230601; t=1761203421; x=1761808221; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ojo0D0SUrVi8rANl2uoQB3ZeIV6seeVTI9tIuETGh2U=;
+        b=YylWJdDAWIKc4/vBOz+vbSYll8wN63MLpsI9Q0obiDNraaiEQFbeM0U0YwKnDsnpIz
+         fS5KZ03I5LZ5/ny42IoAM4R3KyGX1r/L8rPaypxUWT25ZQxy6iCsqJ9Ww5ufi+qEkFDK
+         baCUwAyA+Z475dvwyd5zAmHrZWPiKArdx/2bTy/Wjt8ku7VBmTThtxzvtTxeDSkjnnaZ
+         P9hu3lawAU0RGgdItt8HoCy4yIU5gPWNWnEV1TphPEz1uxIb86DXgyNxUrOUgrwWEnE8
+         q8GxG/x7byEFSmRe2np4MBJJu4MqMEm8wK1jplX5wSVGl6tnmyXVICRJu7dxSj2kVjM/
+         ll6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761203045; x=1761807845;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nRQn630rwgoGuh9EbUUNebeySQ4OLO3/MGfSPV3tXsw=;
-        b=Zcyst0KxRtIZE7bXNagwvc4OoNoVTC8vXo23w1XahxDtaqQQrAofiKsErJ3q9q3Nab
-         /s1NRpUKoj4LPbb+DF5Lsbzrcht9VgLwqvQXVe5r+EfoDz7PPC51qJWjnawQmibddOhf
-         cF3EXqc0+7HPTLz0M9rWT1kpDxfRGd1Hcq2DgpnrQKwTKNlFkgGdYZBK/x98UH6Ue9qq
-         i6fFX54Em7gL8FbD8G8dZ4/E2B5Y6mfAhtalT/3EFrNnejsuJsKVe0N5cMCAyxus5KLN
-         qaBHNtC4FcrSZD2oWfRkS9SbdDM+4OIe5t5TmVB1wXKlzW4bd80QavRtJiO3fgJUrwf+
-         HjpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvHUAsuSF3RBWMGv9H25biDXhdLPxjexqzUGklfl66kRLJEPE87+ICJzJPpkV1uFmHbTxQAgLut4TnxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8lTlyle1EVCNKeYvtzF1IGMGETRoOnfw8LoMmqzdpumn58rul
-	eiVHMtTJwjXlRo/3/AcGPrbNqhjZel/kTYmL5SQ9heLGAnrr5txltwfWEsbqkN0t
-X-Gm-Gg: ASbGncuYXBrGLvYLJvZEUaQRoCyqusnb+nPkxmvrdHi6C0VVOwUAOgHyCHqQz40Ribj
-	azUGH3La4pxWlXUTvIggMtg6etcbGoBuBUqq0BHSHdq0DtYP5jRtV/uP0NK8mDcL2g+iMHpjniU
-	de4xUQc51N+CMRSvj7T/YFPxAtq/P9YkPHgo8cF+/I9BixHUALxaaHn5rjNPdLQWb3mjSsOO1WN
-	gR0bm4AUlDpklePGRwE0PXhFTgkuL2NCJH+EPL4djLD7qtTJrO+1oNE4irMIfvSucx9qxB+TD+V
-	Qm7U1uTCNsFcGCcSq1UtJuwS93BYzthaZ9F2XT9gRhj+WqcKqx5BrkElxC15hYWA9VDYGjC3/yH
-	svHV3mQeiFswOZproed6wAsF/25q7WyzqDId+s6IzkCNLjytVd69u/oMkH7OWTiz4Wn9iLmVkw2
-	IdboY5tGXtfkvnBhcV7utM/qlZm5Z+NlBhsgdNXBCwIi7Y3IEzZIDsWQ==
-X-Google-Smtp-Source: AGHT+IEE2jIbsK11fXUGnECvWop/d3uobF3Jp2J/r/Q3QogKJT3IBs8YQulCH5YAaWYBoFAlOVlSMg==
-X-Received: by 2002:a05:600c:3b03:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-47117874978mr169644785e9.3.1761203045265;
-        Thu, 23 Oct 2025 00:04:05 -0700 (PDT)
-Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475cae924a1sm23347785e9.2.2025.10.23.00.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 00:04:04 -0700 (PDT)
-From: Sharique Mohammad <sharq0406@gmail.com>
-To: broonie@kernel.org
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	lgirdwood@gmail.com,
-	Sharique Mohammad <sharq0406@gmail.com>
-Subject: [PATCH 4/4] ASoC: max98090/91: fixing a space
-Date: Thu, 23 Oct 2025 09:03:47 +0200
-Message-Id: <20251023070347.1936838-1-sharq0406@gmail.com>
-X-Mailer: git-send-email 2.30.5
+        d=1e100.net; s=20230601; t=1761203421; x=1761808221;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ojo0D0SUrVi8rANl2uoQB3ZeIV6seeVTI9tIuETGh2U=;
+        b=p0+DOsoYzaHkJ+J6kkMmeIDMTvjwEZ16dbSsUwwSLbmSqryrJqvayMbw0qKmqSIcn0
+         Ec5vC73ZuJEceinpHT78eDacwrdiy0XKCdijVuQ4nJXSiv1RtqqZ1so+8oeUyTsHZmSL
+         56nqEnBJULdviwDY2Co+wj3dHpekTNW7l4exeu/OZjYVjNpZua7k9tOT46qz+fLBXA+S
+         ek5dMIYosmPuLyq/6UwM/tmZP4RIRDjz0z52FPkNcX37J5yKfzDvLdrnH+zIgeVypvq0
+         HmZa/xsn0j3w2NzPYwzFygtvGt3NjimpAHiqMdgfj2JcfUfWK7+XpNS1JLWRd12EmPbq
+         HjwA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+psROuqGZmUVk98TaAw9JblcXN8fbaNqabydIGwCoBBOVWg6zsVceLp29UXuwlGYJJzYBhePV0BYKwg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDoAB427DrgOHD8hCDpKPfvf+GZ06nTvhqAB0OAepuWv7YuFZ6
+	+2WRPkTzETg4GC9Mk0/JnItprKcZznmpYDLVkeH2TMeid97+D4LKwMaFFloq7vIEdtN3xXaJMW9
+	N+SwlIgS5YjFRKi8YwtBxVTUZHYLcTAM=
+X-Gm-Gg: ASbGncsjBvDNby7+C/GF6dZwtYfHq7jYxXFC7SVJMcNIWj105c3OXUX+/l+ztmHhN5g
+	0FFORcXy1fz2+FSjmJ5823GgrcPY9EVyUX02X8kRWCHV5dS/g6VUEppGOw41YXSVEGoHV9iZQIk
+	5wxwpZUlUoDUak4BkD3T+iNxlO6vIfzhkp0AEoW7BQHUXqn9MvHwfLUF821CWDEUwsx/NSZ0mRg
+	gg4TJW1AxT9eBv0NYa59up4PRyLyowicfdwcmc1kBto91SvGD7z5bJuSstXcSEd2qQf6rLIJliY
+	BDBty9Gj8bcG0w==
+X-Google-Smtp-Source: AGHT+IEtJBcARSautKMltyAqLGBQ/Gd8B1xihDkjxP19PBXKTkpvD+Eo/uq58hE6h11K8gLvUb2NUw09soHy4QEpmTY=
+X-Received: by 2002:a17:903:46c7:b0:274:aab9:4ed4 with SMTP id
+ d9443c01a7336-290cb65f861mr305187765ad.57.1761203421516; Thu, 23 Oct 2025
+ 00:10:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251023064538.368850-1-shengjiu.wang@nxp.com> <20251023064538.368850-3-shengjiu.wang@nxp.com>
+In-Reply-To: <20251023064538.368850-3-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Thu, 23 Oct 2025 10:12:39 +0300
+X-Gm-Features: AS18NWCgBWlr59lTgB1C8kcLIypbCmmlbtXSZ7g6CCjdzuXK7TY5j-4JWGWmtC0
+Message-ID: <CAEnQRZB+rFudpHB7TKFOCumh4Ni9q-421X3jRL2y8UbV74e-xQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: fsl_micfil: correct the endian format for DSD
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-removed an extra space
+oldest - > most significant bit.
 
-Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
+With that,
 
----
- sound/soc/codecs/max98090.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 03cc6e0fc88d..ef0c4f2ce1b2 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -2380,7 +2380,7 @@ static struct snd_soc_dai_driver max98090_dai = {
- 		.rates = MAX98090_RATES,
- 		.formats = MAX98090_FORMATS,
- 	},
--	 .ops = &max98090_dai_ops,
-+	.ops = &max98090_dai_ops,
- };
- 
- static int max98090_probe(struct snd_soc_component *component)
--- 
-2.30.5
 
+On Thu, Oct 23, 2025 at 9:48=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> The DSD format supported by micfil is that oldest bit is in bit 31, so
+> the format should be DSD little endian format.
+>
+> Fixes: 21aa330fec31 ("ASoC: fsl_micfil: Add decimation filter bypass mode=
+ support")
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  sound/soc/fsl/fsl_micfil.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
+> index aabd90a8b3ec..cac26ba0aa4b 100644
+> --- a/sound/soc/fsl/fsl_micfil.c
+> +++ b/sound/soc/fsl/fsl_micfil.c
+> @@ -131,7 +131,7 @@ static struct fsl_micfil_soc_data fsl_micfil_imx943 =
+=3D {
+>         .fifos =3D 8,
+>         .fifo_depth =3D 32,
+>         .dataline =3D  0xf,
+> -       .formats =3D SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_DSD_U32_B=
+E,
+> +       .formats =3D SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_DSD_U32_L=
+E,
+>         .use_edma =3D true,
+>         .use_verid =3D true,
+>         .volume_sx =3D false,
+> @@ -823,7 +823,7 @@ static int fsl_micfil_hw_params(struct snd_pcm_substr=
+eam *substream,
+>                 break;
+>         }
+>
+> -       if (format =3D=3D SNDRV_PCM_FORMAT_DSD_U32_BE) {
+> +       if (format =3D=3D SNDRV_PCM_FORMAT_DSD_U32_LE) {
+>                 micfil->dec_bypass =3D true;
+>                 /*
+>                  * According to equation 29 in RM:
+> --
+> 2.34.1
+>
+>
