@@ -1,277 +1,242 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC61830CD8D
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE42A134AC
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761219667; cv=none; b=mWC2bBo4pnpwRq4ApFZ5N6HAZyv4JzERzlWQN3fscl7T9gWbYpBGJykhjCbakdHuBr/GTrYCONDMuw6kcFiVACxtGfsoncsj4QKhjcbOakslftSXXm/c0LKzS+s81n3KWlrMSGYnxVN0Lzr5RcWRhYRGtZ3PoiMv2fXfVPnpWUo=
+	t=1761219799; cv=none; b=MadB9UvrT0A7OTimboIubfBE/8Y3FVZF3/OofdOs0TleW4kmLlmyH+oY7WvEK36T/MwrDK2LXaBKQ+theQtqzuN/u3Wx+/UGfbGqednqnr8kJtjCylBCb1aZuZPbuQePfSdAzsWQLr8iXxdvs46c+YIwZjVIJxW3zvFDe1A7uFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761219667; c=relaxed/simple;
-	bh=JfGhgHwpLMY8ZN7NE0j1mONCcInEbkiYXtkGIpf9Hnw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PusLMJ+9L1/aWtE3femnOscNJh/cLlW4m+KGFboQQgHjNIlpvZYH2EGOXZzDZlBY4LgFpc+48rUSVTmZCdCbxOUy7U9XpPiOGcdWUAgeMwTv4PT6ljwf30+1xJLzvFt7U73hWEkQ0IZS20w5D7+jo1yfu6i1C3hG9pvEf5y3IWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OpgFkIeF; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761219799; c=relaxed/simple;
+	bh=iOv6HrFN/GyaoxkmibXJeE3HzCloZJr9e+zIqeHbdlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SgyfZ/CmZ+awSKF7eP5Yi9OJvrJObEXxg0b+klxh10jxNU1GO3r4wV8WymxUkQf107N0MdblVpLPwDYSaWzId/zlsf+D6Xn77doo8tHZG0BZzsYPOlH5BrOhpHE1MaZB0e59gMQrBHNO+izrLVq66m1tlb0AuFLuqRv/Ml6bgZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NasfqWk2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OpgFkIeF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761219662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JTfoGAYLgYIX6GNAITLHC8PU3VE7pVSsb7UI9EQm0+E=;
-	b=OpgFkIeF+6b94FB/qThR7CT03noK6bkGQeBNIO+ZvzeL/ZeagccJL9v9q3FpJSsFNRSGZE
-	owKcBBv6vxYfU8oF7o0ZPeR0hWyHPH2ctqJEr2fusPvOOSGAdRKhHtCZZcZy11V40yHVYv
-	mdMAahwOSOeuaE0F5kOQEK1QSB3dXZ8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-134-XtrvFgT5OlO8Tftgj-2d6g-1; Thu, 23 Oct 2025 07:41:01 -0400
-X-MC-Unique: XtrvFgT5OlO8Tftgj-2d6g-1
-X-Mimecast-MFC-AGG-ID: XtrvFgT5OlO8Tftgj-2d6g_1761219661
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ece0fd841cso333264f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:41:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NasfqWk2"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6hM8u014644
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:43:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=U/OA0PZSj4gKuY85d/FcU28n
+	UQY1lg/5GJi4GwVamFc=; b=NasfqWk2ZECADNbBffa76Z/5DHnIlE36d1p3SbdH
+	sS7Oe5NMUQSXdQezZOW52Gtugyq+X7iX9mdSy9bhV9WcWwdp/YNtWsHqdnKiq+UF
+	AR0JuuoJTBpEXpVObW9gRARYcSYl1TkC+e9ZF8en9DGdJ0Ob/W0Ed9fLeF3nXiUe
+	/+Uk60be9CbaEeArKq39/acKaVq1LjpWMTjxUUhJFYqK5V0jxjd5n5B8xK4SlVqB
+	YZc48Zj+x4otifWHMUUfuIUYrhRaQs/zAosbj5eVaSd0T5dW8RwUcvjeJN9zs0Hm
+	X+urzMIe2t6V7ZqXBf9CmLwYjv5XjnEe9Axt74r6bwsxzA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xhe0p5r9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:43:16 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4e8916e8d4aso34410231cf.2
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:43:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761219660; x=1761824460;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JTfoGAYLgYIX6GNAITLHC8PU3VE7pVSsb7UI9EQm0+E=;
-        b=BksevBFfpwRJ6MPeJoaaA/H97vPK/KDntgh23dpmloW1cpYPjI/Iwug1BQ+Rn6aKZl
-         GtZDVamfE/mrETWNST5K5KFmFYxloQcKtGiuGNyB6hF/WGUzk4ZRIFQ0xweesvvdFOAB
-         UPm1VzQSx3LxiR1EKAudMyo6diZCjA8uzvcz+gowDO/hhfpO+2DcRHfCToWshEK8lj1Y
-         z+sIXb7RL11neBOU0I38I437/e9KZlGxyl74jKAAWSQMJA7nN5NgLOQdO62z9oILaaDR
-         vbqdxESdwAi8fjpo0wPcqMM6uCWZnyZvyWt49KxZN29Pq12v6i3BnO0TD1cy+HFWj2R7
-         eImg==
-X-Forwarded-Encrypted: i=1; AJvYcCVK1YpaTcj98rWA0tJGO+n+NlTPwYTX9aI34bS45gVjt6ys3B+cyK+9Z5UG3MXWiNDNt2Ia+7i8KugK/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQna3VTNKOAkgj002yajBOsHxNCvFn/hf7+x0kGnLdVRbF4jVS
-	h5VjRQ9foksPa136lXnXw+uKRmhQ10H0wjigsyaKII9bi6zwVXrM7INFod8dmsexy2VBT34fVCB
-	FaRhWkLEf8vlv0MstnTGj4ow7eE1ASZKWCVXl9X5o6g7h61S/yU1T6npI+xYt3+lj
-X-Gm-Gg: ASbGnctSPxAHsS4xkW5GtFzoitHNWb/3G4y5ZVmHKRLEXgCQnYJ6gUlG/WH0qFLsEHl
-	rWeZXhCjbSn1+xMrajebuewAXoiS4VWgo6FC9Wjj9XE9g32yS6wMPtTw1VfafEZOND8vsP7aPKJ
-	AofvQMJPxiSLKrmqh1mNs2OT505q8DkklhV/ORUuUrq8S7dDTJEDTzjot1nqxNI0ytoj52nNMRT
-	qAhZDeGfzImGm3rUJzr6PH7xscpUf0u/IstFlUsKEe4m4vmiDaaiXMar1ACXIRgNjdsoD7MczRo
-	LSZNqd2OFaqJtNQXHhQHkGcciF79Y1KsfHrw0KrJ6wP2usE/MJr5NhC+xJmc6ghkO3kKlaPlqIz
-	iWcvkwDjiS6ZmP+pNzhGFWtHmJuAyRdgVAdjHUdkfQhA0fPcYNyHiTeC7RA==
-X-Received: by 2002:a05:6000:290d:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-42709d787bemr16501625f8f.47.1761219660478;
-        Thu, 23 Oct 2025 04:41:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGga/dbFzBh/7CGunH02MO0/qgRvCo8R5WOxXoe6UrfNz3I55XAJXxS7UJN68rIPt2eReX/zA==
-X-Received: by 2002:a05:6000:290d:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-42709d787bemr16501585f8f.47.1761219659993;
-        Thu, 23 Oct 2025 04:40:59 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429898acd69sm3562102f8f.24.2025.10.23.04.40.59
+        d=1e100.net; s=20230601; t=1761219796; x=1761824596;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U/OA0PZSj4gKuY85d/FcU28nUQY1lg/5GJi4GwVamFc=;
+        b=Fk0pMhbIixqbUcCR/LzB2ywWEAJLD9e3j4zc9uq9ZVaKI+8A+WeyP76CVHQlXsPeP2
+         08EwKR96yXO8TbLBBMsg417WpCbQd/MUKZUQ36JZLKBJuYCW6KlnQs/iG7kB75sxexRG
+         UdbiZBu5rTg2lQP9L2l52hI1hKXUIGxK1+reUqc8FRzr2QitmkIVjr/2XTBnbBxJJloo
+         Zn6oKIiiiMQqaA7FKjYiTFVyuoVOmdb6Zh5HnDJ7aYcRtEUgEVYexUMMi4HGeWBlENTj
+         EHL+5NfZlWX8Kxz/YSxQFjM1OWhCzEjQ0reurkL3yW7IMbTshl4ZEoy8R11CniN1gHPB
+         dSkg==
+X-Forwarded-Encrypted: i=1; AJvYcCUm4fkJTXg5ymX4EiPuNYiNuZSTwuCfpOz7ZVGJ3tUTwj/eIL3v7HPS+17G3Q8ZV5qZIJp7TlKhQq6xKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz7EM7VgjQF2iEfpfqiFEx0zyxk+OW7SY8iHHJZh1trlB2e7Ro
+	/YIa0tvXIhd+ntkBb1MSIqnWzpo/qstwfIRBRRXop1yUGYHLZWpBodb2gcAujL8TGRXkhcD3mxV
+	usra7FBGigPOaq9dNKskddj3755N+aIZx+tFuY/qTYhJJ9t7WeXgRxAJCngoBpJgdWg==
+X-Gm-Gg: ASbGnctb3Rg0xigHuQAOxfBDOncJguS7MfPZBsPt+7pqM752Ohu4yqj23+/WQ14fha/
+	OTydb37anfs3hXn5ma2QdoKPEEk2H3JljEwHmbjFogzxiLkxcUSLeS1pDZsy2E6HkCoSiYWeeiM
+	ydB8+n3PC6BZQ57cirPfx+kzr7DnyjWGLand3LILfnFBfW/TCmB2uIq3Zcx//xEaxQMccBcXTfV
+	4bJ1yFPOpdXP9ZKGbs61GcZtp3aRMCl1UQOCDRKoe/ik9PNPYALID/sCxkfew1nxmnYvSfmr/0+
+	9NlmLJD/dvrPl//s1+L+zYDQWlpP+JiDIsJc6LEFQbpkiar8OJYJvTAw+gXZqre9c6Br1sb1pB5
+	S58V3B46FEsz4wiHClglVmT7Na1GAs8sBIrrfz/vctM0GucuHG/Xx5pItNXiXKFccprAuPodhk8
+	Z1MKL9P6eO0c/h
+X-Received: by 2002:a05:622a:5d0:b0:4e8:97b3:abfb with SMTP id d75a77b69052e-4e89d35d2f9mr291370391cf.55.1761219795535;
+        Thu, 23 Oct 2025 04:43:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXyOFCl7kcBIEN/wDP5UVI6A64TolHRUI28nTCF4yEdOZomT5Qgfo9kDVTDA2p9pMBrG3vEQ==
+X-Received: by 2002:a05:622a:5d0:b0:4e8:97b3:abfb with SMTP id d75a77b69052e-4e89d35d2f9mr291370091cf.55.1761219795026;
+        Thu, 23 Oct 2025 04:43:15 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378d67dc640sm4062841fa.40.2025.10.23.04.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 04:40:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>, Mark Brown
- <broonie@kernel.org>
-Cc: Wolfram Sang <wsa@the-dreams.de>, Herve Codina
- <herve.codina@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nikita Shubin
- <nikita.shubin@maquefel.me>, Axel Lin <axel.lin@ingics.com>, Brian Austin
- <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-In-Reply-To: <d42ab1a0665f55731aabd1e9fcb31b8401b7913f.camel@gmail.com>
-References: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
- <d38779a7-a1af-49e4-b429-5ebd791e2168@sirena.org.uk>
- <d42ab1a0665f55731aabd1e9fcb31b8401b7913f.camel@gmail.com>
-Date: Thu, 23 Oct 2025 13:40:58 +0200
-Message-ID: <873479ong5.fsf@ocarina.mail-host-address-is-not-set>
+        Thu, 23 Oct 2025 04:43:14 -0700 (PDT)
+Date: Thu, 23 Oct 2025 14:43:12 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Jianfeng Liu <liujianfeng1994@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
+ drm_connector_hdmi_audio_ops
+Message-ID: <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
+References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
+ <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
+ <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
+ <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
+ <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
+ <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
+ <f9c922f5-52af-45bb-a4ca-7ca80c0c3534@kernel.org>
+ <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: o7CT-ObaqabO0tDn145l68tOGimymE9SvWb0rYei738_1761219661
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE2NyBTYWx0ZWRfX4yf36X667f65
+ JfgDmYMhSCLw5K9hCWm7Ab0JiFzCDx4i9dHwjxTaT/xJ7vGa4MbYn7LTNVwl8S4iL1n58cTcodm
+ X6QIpoQOlQyKqCZIhbExmPtEdMn8SwajRXCIYAeE8IUppXws+Imn8cc+AN/75GlpeZQYn/doh35
+ +QiN4P3HcdTRXaYN9zhaItV9Al17P3balVOO6UVZSaOX5TmGjPEufMLaZYTtrU9Nkc+HkexCDKc
+ n1Jpwc7i5pQF4DZkREIjJm1rjpXnDVxTk/6ErhTZ79CF3OynJ3jyRP/vyb0TWEShnovvUQEK9Vu
+ QVyWOanSFU6I0dYGcyOXZsbN2ObJL7CczUcvopmsJPGRU1Cep29zM8iW+XyzesewT1B1vmPHJbI
+ NCHlnLT+fldzXBxergINp2yquA1c7w==
+X-Proofpoint-ORIG-GUID: QGoGn3iQ0cnraMNfZgyJRdgdQ0zEiJTL
+X-Authority-Analysis: v=2.4 cv=WYUBqkhX c=1 sm=1 tr=0 ts=68fa14d4 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8
+ a=HstBAKh7-VjeVNBl2p8A:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: QGoGn3iQ0cnraMNfZgyJRdgdQ0zEiJTL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510210167
 
-Alexander Sverdlin <alexander.sverdlin@gmail.com> writes:
+On Sun, Oct 05, 2025 at 06:29:20PM +0300, Dmitry Baryshkov wrote:
+> On Sat, Oct 04, 2025 at 02:16:08PM +0100, Srinivas Kandagatla wrote:
+> > 
+> > 
+> > On 10/3/25 6:02 PM, Dmitry Baryshkov wrote:
+> > > On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
+> > >>
+> > >>
+> > >> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
+> > >>> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
+> > >>>>
+> > >>>>
+> > >>>> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
+> > >>>>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
+> > >>>>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
+> > >>>>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
+> > >>>>>> use msm_dp_audio_prepare instead. While userspace is still calling
+> > >>>>>> hw_params to do audio initialization, and we get the following errors:
+> > >>>>>>
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> > >>>>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+> > >>>>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
+> > >>>>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
+> > >>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
+> > >>>>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
+> > >>>>>
+> > >>>>> And a call to hdmi_codec_prepare() comes only at this place.
+> > >>>>>
+> > >>>>> Srini, Mark, when selecting to only implement .prepare for codec ops I
+> > >>>>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
+> > >>>>> hook"), which documents that IEC958 status bit is set after
+> > >>>>> .hw_params(), so it's only visible during .prepare(). Is it okay to
+> > >>>>> implement both callbacks? Or should the audioreach DAI driver be fixed
+> > >>>>> somehow instead (I suppose it assumes that the port is available after
+> > >>>>> .hw_params(), not sure if that assumption is correct)?
+> > >>>>>
+> > >>>>>>
+> > >>>>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
+> > >>>>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
+> > >>>>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
+> > >>>>>> hdmi-codec driver can work with userspace alsa.
+> > >>>>>>
+> > >>>>>> Tested with Radxa Dragon Q6A.
+> > >>>>>>
+> > >>>>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
+> > >>>>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+> > >>>>>
+> > >>>>> The patch LGTM, but I would wait for response from audio maintainers.
+> > >>>>>
+> > >>>>
+> > >>>> The ordering matters in this case as we need clocks and audio
+> > >>>> configuration on DP codec side to be setup before we start configuring
+> > >>>> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
+> > >>>> even before it is ready.
+> > >>>>
+> > >>>> q6apm prepare loads the dsp pipeline and starts configuring the
+> > >>>> endpoints, if the DP endpoint is not ready dsp would throw an error.
+> > >>>>
+> > >>>> We might be able to pull in some dsp logs to confirm this, but I dont
+> > >>>> have a setup that I can reproduce this issue.
+> > >>>
+> > >>> What would be your recommendation to proceed? Is it okay for the DAI
+> > >>> driver to depend on the .hw_params enabling the clock? Also I see that
+> > >>> the error regarding the clocks comes from .prepare callback too. What is
+> > >>> the order of .prepare callbacks()? Can we influence it?
+> > >>
+> > >> prepare follows hw-params, and prepare can be called multiple times
+> > >>
+> > >> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
+> > >> backend dia link drivers ?
+> > > 
+> > > Yes. Here we got a dependency from the cpu dai to be prepare()'d after
+> > > the DP driver performs some actions, which were a part of hw_params()
+> > > callback but were moved to be executed during prepare() callback.
+> > > 
+> > > This leads me to two sets of questions:
+> > > - In which order are those callbacks executed? Can we make the ASoC
+> > >   enforce some order of DAI's prepare() callbacks?
+> > > 
+> > > - More improtantly, isn't it a sympthom of DP driver (incorrectly)
+> > >   performing too much in the .hw_params() / .prepare() callback? Should
+> > >   we move some of the setup to the .audio_startup() instead? What is the
+> > >   expected split between those callbacks?
+> > 
+> > I have not looked at full dp sequences but, if prepare is the only place
+> > when it enables the required clocks for audio block, then it is a
+> > problem, we should do it early so that DSP can enable the required
+> > configuration in prepare.
+> 
+> As I wrote, previously it was done as a part of hw_params, which is
+> also not optimal as hdmi-codec clearly defines both callbacks as
+> optional, requiring only one of them. Do you know, what is actually
+> required on the DP side for the DSP to be able to preapre()?
 
-Hello Alexander,
+Srinivas, did you have a chance to look at this? Or the .hw_prepare
+ordering? I really don't want to land this fix only to face the same
+issue because on some of the platforms .hw_prepare() callbacks will be
+called in a different order.
 
-> Hi Mark,
->
-> On Wed, 2025-10-22 at 15:56 +0100, Mark Brown wrote:
->> > > I'm very reluctant to touch this stuff for SPI without some very careful
->> > > analysis that it's not going to cause things to explode on people, right
->> > > now things seem to be working well enough so I'm not clear we'd be
->> > > solving an actual problem.
->> 
->> > The actual problem is that i2c-core is producing "of:" prefixed uevents
->> > instead of "i2c:" prefixed uevents starting from v4.18.
->> 
->> > Most of the dual-bus ASoC CODECs are affected.
->> 
->> That's a description of what change but not of a concrete problem that
->> users are experiencing.
->
-> the concrete problem Herve has experienced is that cs4271-i2c will not be
-> loaded automatically starting with Linux v4.18 (commit af503716ac14
-> "i2c: core: report OF style module alias for devices registered via OF").
->
->> > Now declaring "of:" to be the new I2C bus prefix for uevents starting from
->> > Linux v4.18 sounds strange.
->>
-
-I don't find that strange at all. My opinion is that is the correct
-thing to do for the following reasons:
-
-* The struct of_device_id table (and not the struct i2c_device_id table)
-  is used to match registered devices through DT / OF with I2C drivers.
-
-* All other bus types but SPI report an MODALIAS=of: for devices that
-  are registered through OF.
-
-* I2C (and even SPI) devices registered by ACPI report a MODALIAS=acpi:
-  and not a MODALIAS=i2c: or MODALIAS=spi:.
-
-So I would claim that I2C reporting MODALIAS=of: when devices are 
-registered through OF are consistent with other buses, using the same
-data to both load modules and match drivers and also more consistent
-on how the I2C subsystem handles registration through ACPI, OF and pdata.
-
-Unfortunately the DT support in SPI was not complete at the time, and I
-don't think it can't be changed at this time without breaking something
-as Mark correctly said.
-
-I fixed a lot of I2C drivers and DTS when doing the I2C converstion and
-even with that some regressions were introduced like the one you report.
-
->> I think a robust solution would involve having the OF aliases namespaced
->> by bus, or just not using the OF aliases but potentially having
->> collisions if two vendors pick the same device name.
->
-> But this sounds like the situation before the above mentioned commit
-> af503716ac14, when both i2c and spi were symmetrically namespaced with
-> i2c: and spi: respectively and contained the "compatible" stripped of the
-> vendor prefix.
->
-
-Is not the same for the reasons I mentioned above. What Mark suggests is
-to encode the bus type information in the OF compatible string, while still
-being consistent about the table used to report modaliases and match devices.
-
-Maybe we could have something like the following (not much tested) patch ?
-
-From b00f5914606fb72a5f7bdb38e63d109264261dee Mon Sep 17 00:00:00 2001
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Thu, 23 Oct 2025 13:32:04 +0200
-Subject: [PATCH RFC] of: Report the bus type in module alias type sub-field
-
-The modaliases for devices registered through Device Trees don't have any
-information about the bus of the device. For example, an I2C device has:
-
-$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent
-DRIVER=ssd130x-i2c
-OF_NAME=oled
-OF_FULLNAME=/soc/i2c at 7e804000/oled at 3c
-OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
-OF_COMPATIBLE_N=1
-MODALIAS=of:NoledT(null)Csolomon,ssd1306fb-i2c
-
-$ modinfo ssd130x-i2c | grep alias
-alias:          of:N*T*Csolomon,ssd1309fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1309fb-i2c
-alias:          of:N*T*Csolomon,ssd1307fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1307fb-i2c
-alias:          of:N*T*Csolomon,ssd1306fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1306fb-i2c
-alias:          of:N*T*Csolomon,ssd1305fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1305fb-i2c
-alias:          of:N*T*Csinowealth,sh1106-i2cC*
-alias:          of:N*T*Csinowealth,sh1106-i2c
-
-The module aliases and compatible string have the bus (-i2c) as suffix to
-denote that is a driver for a device that can be accessed through I2C.
-
-This is done to prevent disambiguate in the case that the same device can
-be accessed through another bus (i.e: SPI) and have a different driver.
-
-To prevent this and allow to use the same compatible string for the same
-device regardless of the bus type used, let's add information about the
-bus type in the devide type module aliases sub-field that are reported to
-user-space. The same device then will report something like following:
-
-$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent
-DRIVER=ssd130x-i2c
-OF_NAME=oled
-OF_FULLNAME=/soc/i2c at 7e804000/oled at 3c
-OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
-OF_COMPATIBLE_N=1
-OF_TYPE=i2c
-MODALIAS=of:NoledTi2cCsolomon,ssd1306fb-i2c
-
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/of/device.c | 6 ++++--
- drivers/of/module.c | 8 ++++++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index f7e75e527667..4187decc2873 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -225,8 +225,10 @@ void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	add_uevent_var(env, "OF_NAME=%pOFn", dev->of_node);
- 	add_uevent_var(env, "OF_FULLNAME=%pOF", dev->of_node);
- 	type = of_node_get_device_type(dev->of_node);
--	if (type)
--		add_uevent_var(env, "OF_TYPE=%s", type);
-+	if (!type)
-+		type = dev_bus_name(dev);
-+
-+	add_uevent_var(env, "OF_TYPE=%s", type);
- 
- 	/* Since the compatible field can contain pretty much anything
- 	 * it's not really legal to split it out with commas. We split it
-diff --git a/drivers/of/module.c b/drivers/of/module.c
-index 1e735fc130ad..f22ddc83ef40 100644
---- a/drivers/of/module.c
-+++ b/drivers/of/module.c
-@@ -11,6 +11,7 @@
- ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
- {
- 	const char *compat;
-+	const char *type;
- 	char *c;
- 	struct property *p;
- 	ssize_t csize;
-@@ -24,10 +25,13 @@ ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
- 	if ((len > 0 && !str) || len < 0)
- 		return -EINVAL;
- 
-+	type = of_node_get_device_type(dev->of_node);
-+	if (!type)
-+		type = dev_bus_name(dev);
-+
- 	/* Name & Type */
- 	/* %p eats all alphanum characters, so %c must be used here */
--	csize = snprintf(str, len, "of:N%pOFn%c%s", np, 'T',
--			 of_node_get_device_type(np));
-+	csize = snprintf(str, len, "of:N%pOFn%c%s", np, 'T', type);
- 	tsize = csize;
- 	if (csize >= len)
- 		csize = len > 0 ? len - 1 : 0;
-
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
--- 
-2.51.0
+> 
+> > 
+> > Its also doable to move out the clock related settings from  prepare to
+> > startup which should work aswell.
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+With best wishes
+Dmitry
