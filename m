@@ -1,129 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010043.outbound.protection.outlook.com [52.101.69.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78663272E41;
-	Thu, 23 Oct 2025 06:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761201568; cv=none; b=oJ/TdqSysROiR4HreVBqQZ/hJaKnhCaSkyMpgUiowbkhAUS144eSuwhyUGY6isTw2YFxhHTcGtEa75kamYnVHe6Qao13HIwrQM5F2RqBTSu0qHCSuwJBv+yEjNXQ97SYw2SHZZF6M+0W2YP13bqTT0lrd2kMmN3M3ZXnkbOL9ck=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761201568; c=relaxed/simple;
-	bh=IjoIJ46m5G2Srg/5nswfnJndfZbxt7ecWzpQzMbgZhE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r4SPGG0CRYa1dj/hyeJRWdmCrJhyLiKj2QyYP5O9TP7NQIkr/vbHmskKD/UWMTNpfdKR5VlFXN4C5LhNYpRgBykOGBOC4vb9YHu7vjr9s6hne/gxQFV2tyKUYz5Rw+KabQaEgb8YONBDoTuth4J+ExX9EQ5shnXDOB+RN32hS4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUnDempr; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08592BD013;
+	Thu, 23 Oct 2025 06:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761201973; cv=fail; b=kcmgm29XwMYZq7nDbWLaVr3fTRDfz0f8ZVvJS7oSCEYA/wC+LCcb5Te1lJA2aEjuIw1j/tTyOKW90oGNPGXJAr6z8CsqjXWk5rgWSHAHUWT/5XrtoTyr19nrCnmoaKyTmOrJilY6AJ7tRvvvntOqvxWAYAO8PGVIBe2f2s+pIwQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761201973; c=relaxed/simple;
+	bh=ByzpEjpiAKAxQJuvvoeEM9IBoZX7/A1Frjd1J1sx5yg=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=M/pHqhq+dRl3gS8MNSlC6rhMlfguJKvGzNzQd3x1Uolrc5fIuApmZ8rSrnJBjYDa6O9gA1w71i4U+SuKL4GlF7IiN9S1OkBcducyoH2r03jfmpwyzMnfheMdkh3f2zQrSI62rF4Pazm+g4jP0mZ5SRdUGpTlv7SXVHVk4tTCm30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lPPCyHvj; arc=fail smtp.client-ip=52.101.69.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUnDempr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761201567; x=1792737567;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IjoIJ46m5G2Srg/5nswfnJndfZbxt7ecWzpQzMbgZhE=;
-  b=JUnDemprdu+WqDZF1k/iFHiim5DE0hBjjZcbLoPpHsnmnT784X5s9o+5
-   h0JDUBxRm/zDktvyl9qGigATjuj2lv5vM91cLUneqk4zfzVJQLcftP190
-   FdUVTonL3R0dcMHuDGvDW+B2W8qOipEN4uI5LezLIeRMIK9ixS7gTbXBP
-   XHRBRZKBsPhYfRPpJinvICHUIdSbT8xOX7DLeARLiPaZpVZrCEAM+2Kq/
-   W3e+KMZdbaz1LCrkXfpaaCSKCS2/AQEScoCoMnX9ZqYZ8sql1jsqUcC1j
-   CB8JUjACDk1mC9yNRFj5RWMelbw2grAFxu3zOkjbsGt0cPwT7evW4B032
-   g==;
-X-CSE-ConnectionGUID: U99k0GdKQkq0hC9kaJaQJw==
-X-CSE-MsgGUID: gKjhNUyPTny9BGFe/MX1CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62570458"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="62570458"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:39:26 -0700
-X-CSE-ConnectionGUID: eWAiBujDR8uX1nRj9EuO5A==
-X-CSE-MsgGUID: Y3Ll4AUfSEu+xoBLv0ZhRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="184849576"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.145]) ([10.245.246.145])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:39:22 -0700
-Message-ID: <a464eb64-4c07-41d0-989a-bdc9eaae9acf@linux.intel.com>
-Date: Thu, 23 Oct 2025 09:39:28 +0300
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lPPCyHvj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CZLw7JC493fjS144mP2TO2SvhUAcLWs3+ks3SinXtbpxMpVDeSdQ6Df6Wd/NsrFievd7ntF1fWnJiA+bshbqMgrTXY6bvYXNLdJ7apCstAVlYeQqwV1OqeGz1YHVvwJAEQy/qt4Sqy7VJkQwgGKeQjkOkGHEgt4Otj1W0nMOgfYIgwpoT9nTkQrU8MeEeAliyRUxMzeBpDAPYklLqPhG/GfVRoj7yk6fgw/8wdiLH2DpxHWFmlmdbjDvYRec/sxZ2StBIm0lSsddLdmaGs15PwvUcg0TBJ/UYCeYnZGuHuk8O1iTF8shGzDwIALSw47JMl7Vj7pyC0Kr3b5I4F8FPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QCb/xkwLUlQVVnKwYCV9Xi11pTwlAoCTP3hYs/qNpyQ=;
+ b=bIjYUQoD8kX4uA+BC1GK/rA3v7hZxCyTKPua5DSRgWZ3cOtYNd/C5N6IZaOG/1VA8wUAS/9PMr4wAsMa0xaPEVhoV8LRmjVgpfeRu3P4mGzvz2lRv82NIUMcAx4DFD+6bz3J4SI2xSyJqmSDe6Fv8wYl32TX8XOaUYMfqMMdG5Jc2u4AK/GAgDPkaoNfGKNQaCSm5TXpke/81cUnekd3dIwLWCFd+VeiEGWVYVjnGOM+6s1AETI7pO66Vqghbwv26scnJ4yLKSNmuh93A/4fpbkefXOrz7AapebUcO6zLjQn8VoWQ9vup/mTUnAmZMcaHIhlbWY3NjNobpVmKQ1u5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QCb/xkwLUlQVVnKwYCV9Xi11pTwlAoCTP3hYs/qNpyQ=;
+ b=lPPCyHvjaAn14UK46jc0OwyDqAdsfzdf91qy4QfVPVkG/o54bj/mXffNLmsTqMPCFvMT60kRsS1FxxBssh5WmeWkfGKQILM4UhxphmEHSl9tbQdrLvcbdWiDyoJKQXGyOucJG4Fh8MOAAtgkQ0u7tO48poqt7eEDACsEQLyCsYS+dQhzrouBpf6Y+yBXvpr/yN4ftQoaAM8QS7IV21381K03Slz46URSyLVEe95GB3mW+zrfU5DdbfPO7e12IixupdPJkNPam+ziZciG1mcUN1Nv4+gd24HTOejBFvUOFEek1yl8KljS4IhoeXOSG2+fEu42U37vqLwQ9H2F30QE8w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by AS8PR04MB8006.eurprd04.prod.outlook.com (2603:10a6:20b:288::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
+ 2025 06:46:06 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 06:46:05 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ASoC: fsl: correct the bit order issue for DSD
+Date: Thu, 23 Oct 2025 14:45:36 +0800
+Message-Id: <20251023064538.368850-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
+ To AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Fix function topology name check in profile
- info output
-To: Chen-Yu Tsai <wenst@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org
-References: <20251023061226.1127345-1-wenst@chromium.org>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20251023061226.1127345-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|AS8PR04MB8006:EE_
+X-MS-Office365-Filtering-Correlation-Id: 987cce5c-5424-4dbc-9f40-08de11ffd6ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|52116014|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?G+ovGP6HQwUm8SZyvAz0OsRc52Fr7+GsVxAvXOec7NUy4A9u5XgwYFAwGAKZ?=
+ =?us-ascii?Q?vDU8gAM5nEDTjs6GGKhPA0nuw8xWRNg6ck8iLN1hB7l/g//t9WQEH1Whg5Su?=
+ =?us-ascii?Q?vVHLotfXdAWEoc/kXl5lx9hhtDmKuMq4AYl82I6qAZXmKhLDl8LNHtPkv6iX?=
+ =?us-ascii?Q?P5PhtAN5GcjsabPEYNWVh2c2KyFbKeDnrNioChyiG8AYCEiNlyfaApja8nQp?=
+ =?us-ascii?Q?9We1SFzC6sX4DCIeptM34BWAvK02NsbwjXZQ/DcJ8nNbflCJlKuLTU8nscn4?=
+ =?us-ascii?Q?DdmkdzUkHD3PC2eDe/nYSr4JgEDor4xniXqeLTxhcnSKTeEumpC0leh+FSal?=
+ =?us-ascii?Q?k/YVbrORk4y9jf+FUiSyEA8h19fxTcajFSHphXfqbBYXyQ+R8oH1qIHO+qRs?=
+ =?us-ascii?Q?B/MCr7hKd5VQefWFZdKGAEtpCIb5JKbIWZlNCzqaI0J0RYLsFWseGUd9VMVm?=
+ =?us-ascii?Q?bBSjCLdcJzzucU+5SPF72BHM+jRFDvu3O4Rs2TFgGy9PkUqWik76WIZs9+w+?=
+ =?us-ascii?Q?eTrrab7JDHNz9lbL/61bvTpz4txDoSiw2Y7RGahKQcuSDBHfHtMibCk/a+d/?=
+ =?us-ascii?Q?DzQS2D3FsFG1rtLdgaQJY2RW5Lw+vcXrCXwnvvyF/86mIIxwyLWbUzth/1RG?=
+ =?us-ascii?Q?pz34wgeD9TeX7cutwIYw2fB37RSU0zqo/vtPWb++4IypxxQBLY1hdODVlSRZ?=
+ =?us-ascii?Q?xtiLMPteUUbQKSjPm392d6cX9CbvQdPsKmBv8LPK7EdasylFadBrIcXJUJZk?=
+ =?us-ascii?Q?zwHUHshVZh3oQkV5z7RK/xSjIRpoGPmQ8KUIxmJkN7omcgHEphYhZ8Mu2cWp?=
+ =?us-ascii?Q?B+7CcK8ItYdiNBI/XUg++vjV43Nd56rHC7m1qVpUNNKKjH3lckniQcz0xbyj?=
+ =?us-ascii?Q?rL4REgngdc9pP1IvpKJX9Z2zNmf1xRgRjBjSBmXR/9px8z2mLAPk/QYhRvSK?=
+ =?us-ascii?Q?lr2g6O79RGIJGyCcF2MyOWvYkJao0QMsNMIdP/yt7YiXtsVQMNtWu+b39eUk?=
+ =?us-ascii?Q?Wvt6ksHO1kM+Uu3m1bxhBtxUUuaOwFan8zmBI8qUqIwXCtNzGwc8qlY7Ylra?=
+ =?us-ascii?Q?nU1PzJZjRhRpzRncgV/2iawLhRLzgBzNLSexGizvz2Qpo/Yfxlp8auYBnBds?=
+ =?us-ascii?Q?DDLUB5xK6/M4oKU0OBtAnoz3vnn2TELUWcbRT5lvAFcYwry3j5Qu5KB27Ds/?=
+ =?us-ascii?Q?/CSu1GF2rUlnwewdH1xpu4ij/Lteppj+jzpYsWYDtkQV7i3Zk+2awtdgVprI?=
+ =?us-ascii?Q?/7VA56l1wpkZq3Vi/HgtG/ExnFw1KrHMWjZzaWXGxCKyWB0vNQDyDcSX5JM3?=
+ =?us-ascii?Q?FehFfkuy3SEFOIcWWXwyQTpLysh8ICxplOygQiYx7QvspS/tofxDY6ewMdNu?=
+ =?us-ascii?Q?MSE7K4QCWRNz0bx+DQR54zWhhMkAsNUIKdCpwODK1lHWqjTGzq26NavrK6SU?=
+ =?us-ascii?Q?HEhsOIWspnvN4FD3XOiXqqQUeqIWEB2x7HNj197cCeaRHzqUnsfWaopeJ2XS?=
+ =?us-ascii?Q?iyr/JYV2j5s0/EU9Txmmtalb4RbG+OhIOEd5k7Efz9uQ2XJuAfVZlHMukA?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(52116014)(366016)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?sg/Du2O5B97sWkt1sa6KtD/Xq6TeCvuFTZ217klgHFUFJFjyvcK9fbSS6759?=
+ =?us-ascii?Q?mKfwFet5h5DcV5seIVYroeIDd98xSoE4rsV1idrs4a4+j5FR6mMvbYSCc5C5?=
+ =?us-ascii?Q?iZ3Mu35JRAjocP4pTanZnoIFUvsqMqLPg2LW7VZq5r5lehz5MnUXT+5YA5c5?=
+ =?us-ascii?Q?LUh3TiJZMm3gN4llVwB0kjeZxb5RIknK4ZBJSuZ8JPw94siPQK0kja70QGRt?=
+ =?us-ascii?Q?08OT+VbADKhOYZqyHnGkYi0YA8YzrmOf1KmRJrACUujrGkWFH3kmkrCtTzxq?=
+ =?us-ascii?Q?w6YpRTbnWlFUzk+Biek72h+RgUWnNS80xDqmxstLza/jG3xdn78ulKMEf4LZ?=
+ =?us-ascii?Q?OmNR6FYRZBJWRGgsfxME+Q3dH+OyVozHwZASFTRQDUoJ82k9ife6SfM5Jn1p?=
+ =?us-ascii?Q?i5TuGbO1S9E56YShj6+gvEbNS43hhKmKAz8UcdPRylfTYgQsqOeo5VSn04XJ?=
+ =?us-ascii?Q?Vu8R+8YIde9YKbgylblLD7Wo6Ik99dg36Q3UqJIX8uKQcVIwo43PzOkOQdIW?=
+ =?us-ascii?Q?yBrPiP82qHBqkt/Zrfta3/OkUIwKR1V9aRPDl/mhsMdwQ8PT+tvBmryEWez3?=
+ =?us-ascii?Q?hl8JQBfOGZoDnU61XyAZY6kj+/lWjEbqIfphPFUULpGpvV9k5SGtbk80eyrh?=
+ =?us-ascii?Q?MkCWFJVWBtqxyFspYTBp1GlK+p0k6CxJQqh39J4UZ2DHT1PTMzq3TQMFxffs?=
+ =?us-ascii?Q?vrOX0w8ZRaquvhLl4/dw74daTNEpsDO1+axSRQFs1KN0AQ15T+HbbhieB0lv?=
+ =?us-ascii?Q?uY79e2KewdU3TPaTVl2HEGwfvKCr64r38DI9UPZ13lTqIJ4M/9u3LWxFFrMv?=
+ =?us-ascii?Q?xC1hseOlKu08acKttnFd8ERmJOGkqh1q8UTFAoPgx3Rz81j8xYkVY8p5SoDd?=
+ =?us-ascii?Q?TMTlmxwUKFxb/AYqEfy294HHz0zlI/XYSpS4Z8mPOI232zU+oP/4uGwzvAdN?=
+ =?us-ascii?Q?xB+ClHsd/IU7V7TxZBsLE+KCjf0besL/MPCNiMxv7OhL8J8hO6wep1evN85p?=
+ =?us-ascii?Q?UG/l+4bo/+R/fGVsrwFGiNRcbGYFaX2DXoIIsCSZxcG5eU1Jp6zy+N4MZUxZ?=
+ =?us-ascii?Q?LWCyRjJGAjmwYR8pezRynmwjY76GHgq97GhVHqJTc9oLmG0yaHBitbQPuqjk?=
+ =?us-ascii?Q?3n+ffHf7bcA8sSw4Vuy4Zm5kUCSkWfOywULBYAP6Dd3JalPLiWzygvG3nKtH?=
+ =?us-ascii?Q?FGSj314PPqo2zW7VxfnCZxYmob2ZLwp/blS5xhYAUFgJIjtoXXiS0iNIOCTX?=
+ =?us-ascii?Q?eQRDCeDYdk2pT4dwq1TM7Y0Z6E2EZQh7PrMo/3IYrGBSBErz01KPxZiYKwLx?=
+ =?us-ascii?Q?pFqUzgYvMku/vUU3D1okSJqU76tlfF+Vc3SDlj3V4vaeDLJMN9T91LEPStF+?=
+ =?us-ascii?Q?IHSMaSFppTXImm6VCF5OEECjw4k6T40EQLTu5+sILOywV9CEuhCaUMym3GqN?=
+ =?us-ascii?Q?8HUt8YaGd/hGY0s8vChxlDHhDVaulg29C0diP5fMtYg/h2fAWNC7HmweePY6?=
+ =?us-ascii?Q?LeR03fkidou/toeTMwB9pXp3Qc9nRhaloLRXvAS/FXwfRRf6s4u2LzI8sGCV?=
+ =?us-ascii?Q?0Ybb8G2rkLJvUedmPPrWqdRSE3EmYyIytxgeXhj7?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 987cce5c-5424-4dbc-9f40-08de11ffd6ba
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 06:46:05.3678
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wvnAaXWSxvkt10MVKVMhglTPuurLKk6SwOlpiFC4zTJ/3oHrmuKP1gNRrrK9DQSm8IEiL14s1ltir8nwoYMONQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8006
 
+The DSD little endian format requires the msb first, the previous
+understanding is not correct. The issue is found by testing with
+pipewire.
 
+Shengjiu Wang (2):
+  ASoC: fsl_sai: fix bit order for DSD format
+  ASoC: fsl_micfil: correct the endian format for DSD
 
-On 23/10/2025 09:12, Chen-Yu Tsai wrote:
-> The function topology feature, and the plat_data->machine field that
-> specifies this feature, is ACPI specific. The check didn't take this
-> into consideration, which causes a NULL pointer dereference splat on
-> OF platforms:
-> 
->     BUG: KASAN: null-ptr-deref in sof_create_ipc_file_profile (sound/soc/sof/fw-file-profile.c:291 sound/soc/sof/fw-file-profile.c:340) snd_sof
->     Read of size 8 at addr 00000000000000c8 by task (udev-worker)/247
-> 
->     CPU: 7 UID: 0 PID: 247 Comm: (udev-worker) Not tainted 6.18.0-rc2-next-20251023-03804-g93b191bc0c26-dirty #747 PREEMPT  ba3c303a11d89508de4087cb5b4f8985b6d87b6f
->     Hardware name: Google Ciri sku2 board (DT)
->     Call trace:
->     [KASAN stuff]
->     sof_create_ipc_file_profile (sound/soc/sof/fw-file-profile.c:291 sound/soc/sof/fw-file-profile.c:340) snd_sof
->     snd_sof_device_probe (sound/soc/sof/core.c:304 sound/soc/sof/core.c:388 sound/soc/sof/core.c:460 sound/soc/sof/core.c:719) snd_sof
->     sof_of_probe (sound/soc/sof/sof-of-dev.c:84) snd_sof_of
->      platform_probe (drivers/base/platform.c:1405)
->     [...]
-> 
-> Check that the ACPI specific field is actually valid before accessing
-> it.
-> 
-> This was seen on a MediaTek based Chromebook.
-
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
-> 
-> Fixes: 2b92b98cc476 ("ASoC: SOF: Don't print the monolithic topology name if function topology may be used")
-> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  sound/soc/sof/fw-file-profile.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
-> index 4a2afc04f338..76bde2e0be1d 100644
-> --- a/sound/soc/sof/fw-file-profile.c
-> +++ b/sound/soc/sof/fw-file-profile.c
-> @@ -288,7 +288,8 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
->  	if (profile->fw_lib_path)
->  		dev_info(dev, " Firmware lib path: %s\n", profile->fw_lib_path);
->  
-> -	if (plat_data->machine->get_function_tplg_files && !plat_data->disable_function_topology)
-> +	if (plat_data->machine && plat_data->machine->get_function_tplg_files &&
-> +	    !plat_data->disable_function_topology)
->  		dev_info(dev, " Topology file:     function topologies\n");
->  	else
->  		dev_info(dev, " Topology file:     %s/%s\n",
+ sound/soc/fsl/fsl_micfil.c | 4 ++--
+ sound/soc/fsl/fsl_sai.c    | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
 -- 
-Péter
+2.34.1
 
