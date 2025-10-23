@@ -1,215 +1,179 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9334D30F93B
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6D13093C7
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761215184; cv=none; b=lJOPhWyQm105KbTSGR4r8mL+tHWdIw1Vey5UeyXwFZFWbr5FXli9xIKpx+zGjQYGG0JSblX1aik4Dwvp1Vf0HCLKf7w46oOU4Q8KAAYmSWsU4ud/mo3xgjBHPKII23gbDiA/QdlUf+MqSgl3pXZehkqeX3CV0QVS2G1x2TDSLQQ=
+	t=1761217209; cv=none; b=YI7xJouEnXaGbdUQIdoDjZCkicfnnKa5oWA2FzijOGk+KKiBOogxZCYeBTUFhna2mD9oASJi2Uh+Mv3wT4271t/QP1SUkBGk27RhAKAUSwXw6a4qkpH+fshHhCb/YC9wFSR2h0Fm+uI3bQqV/47kNsSPA/F1En7tgQVC+TCPs1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761215184; c=relaxed/simple;
-	bh=GHK0Bqp+aTp5qa54qoIO0zDF/pnvyDKyrzUXWBxCkX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y6XoOY2shVXKhi1eRysvd/QgMcEl/8zKdSZSUTDXzO/REo1mQf4EMDI4Vh84+zgH04JBkw67G/yXw9lVT8EcSgig8sxB9vSThDJ8uoe5SNXoDJgCD+Sf5E4QGNjzBCEEjpg/IobqpxIgGvT00piRALLEhevtKToCzcWW0yQikSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BpDD0I/c; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1761217209; c=relaxed/simple;
+	bh=AOc1t+xF0k55Bn9gM+fvWV2KlW2EJ2nPYROzMERtmAM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dcBhhMvUa6y2Ww2LJATLqVxdev08y/HotgSgE8mrHoqwTYFOYvBPBybxjqRI+dYGPHR2JmRRNNiYHFyJW1E+EAYklBG9/aEe9RgCkTPzGKYwCVWwVGSMVcaBPWt5MDRCQbix6G5SpFONiN/zi18Iz3eDTRkP5d9X2yLfPEdNWks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOz4PaJF; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BpDD0I/c"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N7n97c019079
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=p73jpS1MlOw
-	p0RMwgOu6rekzfzyJhQno1fUo+yocZrI=; b=BpDD0I/crsGM338CVtCzuLSppkw
-	zHBj7MZmLlOhDwm5xuk29i0aw61khuSDX347KL2i7tgMv2Aq/lZjN4ZGuKnWfVMO
-	ndnNoVjhu4MgojrsoahLFhBC/siPqL+q5QDGl+aTht+UtdQUfrmhJ9gIYyyHVSUa
-	7AHXMFsC/Sul5J+hGNuG9He6RI6iLXxtn3dLlGn3uk15Ml0fzx/ApzPRbL1D/j0f
-	/xWFq7Mv6ZNhxPhlK9q0hrbM+FRur3N7bi1PFnfwzyLlmCBePn7sQw4kMuIEfp0u
-	6Q0syuQ02jF05/fm41VoQ2oMGl0ldPN62D6PJ6EuG65X93F4kOvQPRkOHkg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49y67qhyxy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 10:26:21 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-890f1090e44so149907385a.3
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 03:26:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOz4PaJF"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-26808b24a00so1130325ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761217207; x=1761822007; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QAvypL/j/KTTtZz9aXHo2dPeEwbDKfKVRkGLT1fSsUo=;
+        b=YOz4PaJFl32sdBEEmwsURuLcETVQnXxh3oBaybPUFcdzHOB0xUr4X/9ajR9j7Jq3Ra
+         YRIySaW14VEnocO9zlmuCr973d5+MTZP5+3nF5Cf73ToNTcxDYukL0LOmfnuGJDBVmxN
+         nhlOzhWDtPec9lL04YUONuUgLd5VQkUGmf/wk9ro1g2J83edE8vAqcXXyvavsUabOjnX
+         JB3tJ9Zt5P1TPg4R60YtI9SSUJLBRmqTp/4OXwg9LFygzmkVln/45/xqGlnCqfMqd6DM
+         LmGgtGgKvSEcyl3xUMf5zleVxPSinhTyNVCBElFfDHWoKfYksiRXnnvHSvP2Ux1iR9g3
+         /Edw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761215180; x=1761819980;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p73jpS1MlOwp0RMwgOu6rekzfzyJhQno1fUo+yocZrI=;
-        b=r+E2UWricpOhulZUUKt+NrwCctrgUEteArVc4A16hAQiqPGgPUIz1WCudl2EPkaZdH
-         2dn7HUFoqxF3hcO7INxc2fDi0nT6ylVkuHvMeN29+lEEF7eAmtz8f0s+yeucPBSTo0WL
-         DdYC+JLRZ3mqX3AWnrqxAjNXAoyFMDHBtkdDv3UB2UchaAK0eC9bM2li7RnY/ICuCcca
-         Tqnuj/0stc2E5VT/Rw20bkXk7Np4y7MUSODbxJ4YdqXszwEW8fMavqll/8O+1g2hkZUM
-         lL3SzYKNCTaQ58DML9/WZ9kcMm9opV1z8CJ4sFs2mnc0dXIpzlpICBmQ9HJe4E02J+WD
-         QCEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVoP46cK29M5cEBieEt+BvmxGfx9wI/WGqJGYD7/6PJOWYe1CpLKRcnHSVFpqvojAICukBv0hvtSY2Ww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJU5sdA9O2t5DhPmy2eoxY0refikX1HdTuYmNglZ/JWJ33Px0M
-	1s2UXrFz6qPiDbiO5/kDsTtUxMi6Pr+jHq4NOnhVoPDwmMe2I4T0hsWFUs7Nie7ESlkl2j/bnnL
-	tayqNAp3cBN9zxl0Hn3x4HusF5CCRhkgcNI5l+6zOIHSH+6b/tibQziJ9cTol0wkRsw==
-X-Gm-Gg: ASbGncu1EroCaKk831pcPqBYTCICbkdUAUW7fppdbxcwGUQ/BmkZVTA1A9WKzK059gM
-	WBRnOOx58NZdxVgzwj0UeCelOUkU1TqNPeuwnFq+6F19tBEysmtEmkThz6EuIYiL8lLIqc1syNv
-	YWOFvhnjzACQS2HYV3ZvAf2+jX65TdgXNgimJmxEO6qyjyldA5DTWw43R0X4FCr2TtDylAipMo5
-	e5ErOCVvqzcAieTmb40ekepUR4bIgIORy2fqJxFXSZku3tlYXRchvqg9nStINSbNI0vzhrZJdGG
-	UBP0xn8Bc6qhenT9g9ddiJXid+XSMGLsBXRc68hJFYQ0pY1MOPiZ1RHTfzd5zLWz4l/Hb3HgN5O
-	BGpb9LxjpwlLA
-X-Received: by 2002:ac8:5e12:0:b0:4e8:a8dd:9f1d with SMTP id d75a77b69052e-4e8a8dda67dmr231425211cf.59.1761215180545;
-        Thu, 23 Oct 2025 03:26:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFla5PtPNq5rn1k275rdtDmgbOjAIyKKrz4PKBO1yGkb8lsA6j+rK15MhKTPeqe4vSpMLSntw==
-X-Received: by 2002:ac8:5e12:0:b0:4e8:a8dd:9f1d with SMTP id d75a77b69052e-4e8a8dda67dmr231425031cf.59.1761215179964;
-        Thu, 23 Oct 2025 03:26:19 -0700 (PDT)
-Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c427f77bsm92220685e9.3.2025.10.23.03.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 03:26:19 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org
-Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v2 20/20] ASoC: qcom: q6asm: Use guard() for spin locks
-Date: Thu, 23 Oct 2025 11:24:44 +0100
-Message-ID: <20251023102444.88158-21-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1761217207; x=1761822007;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QAvypL/j/KTTtZz9aXHo2dPeEwbDKfKVRkGLT1fSsUo=;
+        b=uYfTrWpuXPE1oSZRcrZGWSK4Cx3XjvZfmA5tWqz6EhL/z1I51wqErXxKxWi/+bl5jv
+         RWP5BZr9Yro9kCBqlzk5B2t+puRZcGRtGyIwUHCteqsuDFmUQ1/3KPl5S+6/jozL8jFZ
+         p9/iPrnn2bjdnsySFiGEWWRIFj58Ryo0IBlsJnU2WCPO+YqzrATPUz5Ze93g9z3FE6mR
+         kJCQIVsS0SGhqaNsS/d+2272mpO8oKx6ier2YJY1yYBIPMYzdzwguWSn8zfyC9dn3rsl
+         UG7eEFoFGOQLeFpM0v4P9/9irgu6hA0En8LZaflTdbHqZsk3ZQluW4wVjjOYIhIVbcxX
+         V26Q==
+X-Gm-Message-State: AOJu0YwBc6uiRVKWsc4LS5BehE9kQLRyAFv8NYVCjiXl6aMRf9sUAHZ0
+	uO8MnVQSlIflfTCmQXaUzx/2qqZDa2g1rPryE/l0pppLS9L9OSnWggn0qt/Rkw==
+X-Gm-Gg: ASbGncv31unvEFX+L3kD8+Hpr3P26BkE6Q3kAcIBMFdsH3bk8QkLXmpZeX8OzIXGkEj
+	kwxikY4AJcOhP+B71l4w2Mx8DcesgjWb2nLFPt23lbc/pvLFgye9Ehn3hMAdcU3qzlmLhQo2CSf
+	2VbrhgRiaWUbJ6xJKHnS7ruPcuX5UAY6qD+jYg1/5un/caeqp4YjhIrJvbvp3obE9DUF82zQ8TC
+	nqL0179skNxee+tmSO/dREGcRjwMJkZzi3QwYP54LHsXd5e7Z1TaP8YMHnZmPXywC9rhvCOapWg
+	YsbBT59kPCZathshmpo7l3339zYP5Jd8pgXt+7wpB44PL1tqUSfUnqxtLGqNqmIl/sT7mDR2N19
+	yXaf14ZnO5iB8XZve7ETDDpTXksqiWqrNVnwXTfOy644JYSF7vV7HBSnRpz/yktPMC24/rdqDle
+	kGEE6sVKwTQoM/qhJibFkBn5Wx645FtCFuCJwDzZ+c+GfM+g==
+X-Google-Smtp-Source: AGHT+IFAmueG86Eixdrvt67EZK2lf9jJoqphdApj2KGYFOULKX8STzTEFyxhl+6HgVjeDIUZZHBp6A==
+X-Received: by 2002:a17:903:90d:b0:290:ab25:29a7 with SMTP id d9443c01a7336-292d3f611a1mr60497535ad.5.1761217206899;
+        Thu, 23 Oct 2025 04:00:06 -0700 (PDT)
+Received: from [192.168.1.200] (21.65.233.220.static.exetel.com.au. [220.233.65.21])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946e0f0654sm19927365ad.81.2025.10.23.04.00.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 04:00:06 -0700 (PDT)
+Message-ID: <c6af69f7-8f82-4307-9550-cf47777732b9@gmail.com>
+Date: Thu, 23 Oct 2025 22:00:03 +1100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDE2OCBTYWx0ZWRfX/6FMpO/lnoJY
- O+KslVZf/3fC5ci5n4LKHA94jxpOQKG6JVinPCbC0Eg2XYSu7Ay4QgyL7U0/Sotfh/T4N6qm8yB
- 4785fdJc0BtMAO7XVVZwmEY28V2Jw922/0BEhtlVXLsA6wMJl/QyMUDMHFymYZ2vppn7Re/2eXy
- dZK5w8TZK5nhczmYyyU+IQrAesQxNZadOrmmo+1WLOpoosJ8QHnvpn2rk9gVfR3WUEHXKP3+vX4
- urU7VSY69DCuRJMs3PZMOKG4xD9nvnEYHWxN2QaChg1aIWLIze7MgDk43JEM/e3FrCmNbFPhqKE
- lQRvC0a2EEWymQOXnZ6ZLfRld5YH4PecHzPPrAfm6Jvg+u0OX6BnXwpo9J4CB5IF/9esMtbGQ4V
- B6DpfQbzISGsj6L+iUDu2Juk22wq/A==
-X-Authority-Analysis: v=2.4 cv=LMRrgZW9 c=1 sm=1 tr=0 ts=68fa02cd cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=C-aEvXguSqPNF6A64mIA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: UDQsqEvRVZoPN6PzBdV0Z93FpYl4anKN
-X-Proofpoint-ORIG-GUID: UDQsqEvRVZoPN6PzBdV0Z93FpYl4anKN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 priorityscore=1501 impostorscore=0 phishscore=0
- bulkscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510220168
+User-Agent: Mozilla Thunderbird
+Subject: Re: PROBLEM: Linux 6.17.4 - no audio on Hardkernel Odroid Go Ultra
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-sound@vger.kernel.org
+References: <9e966ea8-487e-4d0a-bf39-61428b3f9163@gmail.com>
+ <1jldl22esc.fsf@starbuckisacylon.baylibre.com>
+Content-Language: en-US
+From: John Williams <porschemad911@gmail.com>
+In-Reply-To: <1jldl22esc.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Clean up the code using guard() for spin locks.
+Thank you very much Jerome, adding CONFIG_RESET_MESON_AUX to kconfig did 
+indeed solve the problem.
 
-No functional changes, just cleanup.
+Regards,
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
----
- sound/soc/qcom/qdsp6/q6asm.c | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+John Williams
 
-diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
-index 431a99776dcc..e7295b7b2461 100644
---- a/sound/soc/qcom/qdsp6/q6asm.c
-+++ b/sound/soc/qcom/qdsp6/q6asm.c
-@@ -571,9 +571,8 @@ static struct audio_client *q6asm_get_audio_client(struct q6asm *a,
- 						   int session_id)
- {
- 	struct audio_client *ac = NULL;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&a->slock, flags);
-+	guard(spinlock_irqsave)(&a->slock);
- 	if ((session_id <= 0) || (session_id > MAX_SESSIONS)) {
- 		dev_err(a->dev, "invalid session: %d\n", session_id);
- 		goto err;
-@@ -588,7 +587,6 @@ static struct audio_client *q6asm_get_audio_client(struct q6asm *a,
- 	ac = a->session[session_id];
- 	kref_get(&ac->refcount);
- err:
--	spin_unlock_irqrestore(&a->slock, flags);
- 	return ac;
- }
- 
-@@ -681,15 +679,13 @@ static int32_t q6asm_stream_callback(struct apr_device *adev,
- 		client_event = ASM_CLIENT_EVENT_DATA_WRITE_DONE;
- 		if (ac->io_mode & ASM_SYNC_IO_MODE) {
- 			phys_addr_t phys;
--			unsigned long flags;
- 			int token = hdr->token & ASM_WRITE_TOKEN_MASK;
- 
--			spin_lock_irqsave(&ac->lock, flags);
-+			guard(spinlock_irqsave)(&ac->lock);
- 
- 			port =  &ac->port[SNDRV_PCM_STREAM_PLAYBACK];
- 
- 			if (!port->buf) {
--				spin_unlock_irqrestore(&ac->lock, flags);
- 				ret = 0;
- 				goto done;
- 			}
-@@ -700,11 +696,9 @@ static int32_t q6asm_stream_callback(struct apr_device *adev,
- 			    upper_32_bits(phys) != result->status) {
- 				dev_err(ac->dev, "Expected addr %pa\n",
- 					&port->buf[token].phys);
--				spin_unlock_irqrestore(&ac->lock, flags);
- 				ret = -EINVAL;
- 				goto done;
- 			}
--			spin_unlock_irqrestore(&ac->lock, flags);
- 			atomic_set(&port->hw_ptr, token + 1);
- 		}
- 		break;
-@@ -712,13 +706,11 @@ static int32_t q6asm_stream_callback(struct apr_device *adev,
- 		client_event = ASM_CLIENT_EVENT_DATA_READ_DONE;
- 		if (ac->io_mode & ASM_SYNC_IO_MODE) {
- 			struct asm_data_cmd_read_v2_done *done = data->payload;
--			unsigned long flags;
- 			phys_addr_t phys;
- 
--			spin_lock_irqsave(&ac->lock, flags);
-+			guard(spinlock_irqsave)(&ac->lock);
- 			port =  &ac->port[SNDRV_PCM_STREAM_CAPTURE];
- 			if (!port->buf) {
--				spin_unlock_irqrestore(&ac->lock, flags);
- 				ret = 0;
- 				goto done;
- 			}
-@@ -732,11 +724,9 @@ static int32_t q6asm_stream_callback(struct apr_device *adev,
- 					&port->buf[hdr->token].phys,
- 					done->buf_addr_lsw,
- 					done->buf_addr_msw);
--				spin_unlock_irqrestore(&ac->lock, flags);
- 				ret = -EINVAL;
- 				goto done;
- 			}
--			spin_unlock_irqrestore(&ac->lock, flags);
- 		}
- 
- 		break;
-@@ -1561,14 +1551,12 @@ EXPORT_SYMBOL_GPL(q6asm_write_async);
- static void q6asm_reset_buf_state(struct audio_client *ac)
- {
- 	struct audio_port_data *port;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&ac->lock, flags);
-+	guard(spinlock_irqsave)(&ac->lock);
- 	port = &ac->port[SNDRV_PCM_STREAM_PLAYBACK];
- 	port->dsp_buf = 0;
- 	port = &ac->port[SNDRV_PCM_STREAM_CAPTURE];
- 	port->dsp_buf = 0;
--	spin_unlock_irqrestore(&ac->lock, flags);
- }
- 
- static int __q6asm_cmd(struct audio_client *ac, uint32_t stream_id, int cmd,
--- 
-2.51.0
-
+On 23/10/25 19:38, Jerome Brunet wrote:
+> On Thu 23 Oct 2025 at 14:34, John Williams <porschemad911@gmail.com> wrote:
+>
+>> [1.] One line summary of the problem: Linux 6.17.4 - no audio on Hardkernel Odroid Go Ultra
+>>
+>> [2.] Full description of the problem/report: I am working on upgrading ROCKNIX on the Odroid Go Ultra from Linux 6.12.43 to 6.17.4 (via 6.16.9 as an interim step for testing) - PR https://github.com/ROCKNIX/distribution/pull/1898
+>>
+>> Kernel config was updated via 'olddefconfig' from 6.12.43 to 6.17.4
+>>
+>> Audio works fine with 6.12.43, works fine (after a wireplumber restart, not on first boot) with 6.16.9, but does not work at all with 6.17.4.
+>>
+>> No sound cards / sinks picked up by alsa / pactl / wpctl.
+>>
+>> dmesg log is attached (desg.txt), important messages are:
+>>
+>> [    1.916788] ALSA device list:
+>> [    1.916818]   No soundcards found.
+>> ...
+>> [   17.645092] platform sound: deferred probe pending: (reason unknown)
+>> [   17.645109] platform ff642340.audio-controller: deferred probe pending: axg-tdmin: failed to get reset
+>> [   17.645115] platform ff642540.audio-controller: deferred probe pending: axg-tdmout: failed to get reset
+>>
+> You are missing CONFIG_RESET_MESON_AUX
+>
+>> [3.] Keywords (i.e., modules, networking, kernel): amlogic, meson, axg, sound, audio
+>>
+>> [4.] Kernel information
+>> [4.1.] Kernel version (from /proc/version): Linux version 6.17.4 (docker@323dec686e20) (aarch64-rocknix-linux-gnueabi-gcc-14.2.0 (GCC) 14.2.0, GNU ld (GNU Binutils) 2.44) #1 SMP PREEMPT Wed Oct 22 23:21:15 UTC 2025
+>> [4.2.] Kernel .config file: see attached .config
+>>
+>> [5.] Most recent kernel version which did not have the bug: 6.16.9
+>>
+>> [6.] Output of Oops.. message (if applicable) with symbolic information
+>>       resolved (see Documentation/admin-guide/bug-hunting.rst)
+>>
+>> [7.] A small shell script or example program which triggers the
+>>       problem (if possible)
+>>
+>> [8.] Environment
+>>
+>> [8.1.] Software (add the output of the ver_linux script here)
+>>
+>> Linux S922X 6.17.4 #1 SMP PREEMPT Wed Oct 22 23:21:15 UTC 2025 aarch64 GNU/Linux
+>>
+>> Util-linux          	799088
+>> Mount               	799088
+>> Module-init-tools   	34.2
+>> E2fsprogs           	1.47.0
+>> Linux C++ Library   	6.0.33
+>> Dynamic linker (ldd)	2.40
+>> Procps              	4.0.5
+>> Udev                	255
+>> Modules Loaded      	cdc_ether cdc_ncm cfg80211 drm_shmem_helper gpu_sched nfnetlink ntfs3 overlay panfrost pkcs8_key_parser rfkill rocknix_joypad rtc_meson_vrtc usbnet zram zsmalloc
+>>
+>>
+>> [8.2.] Processor information (from /proc/cpuinfo): see attached cpuinfo.txt
+>> [8.3.] Module information (from /proc/modules): see attached modules.txt
+>> [8.4.] Loaded driver and hardware information (/proc/ioports, /proc/iomem): see attached iomem.txt
+>> [8.5.] PCI information ('lspci -vvv' as root): N/A - no PCI bus
+>> [8.6.] SCSI information (from /proc/scsi/scsi): N/A - no SCSI
+>>
+>> [8.7.] Other information that might be relevant to the problem
+>>         (please look in /proc and include all information that you
+>>         think to be relevant):
+>>
+>> - see attached alsa-info.txt.XXXX7OPGP3 (no soundcards found)
+>> - see attached decompiled devicetree pulled from the Odroid Go Ultra
+>>
+>> [X.] Other notes, patches, fixes, workarounds:
+>>
+>> In testing this issue, I have removed any downstream patches to relevant devicetree nodes, these results are purely with the 6.17.4 mainline devicetrees.
+>>
+>> I apologize if I have not filled this issue report correctly, this is my first attempt.
+>>
+>> Regards,
+>>
+>> John Williams
+>> porschemad911@gmail.com
+>>
+>> [2. text/plain; .config]...
+>>
+>> [3. text/plain; dmesg.txt]...
+>>
+>> [4. text/plain; cpuinfo.txt]...
+>>
+>> [5. text/plain; modules.txt]...
+>>
+>> [6. text/plain; iomem.txt]...
+>>
+>> [7. text/plain; alsa-info.txt.XXXX7OPGP3]...
+>>
+>> [8. audio/vnd.dts; meson-g12b-odroid-go-ultra.dts]...
