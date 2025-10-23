@@ -1,39 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF04254AE4
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 21:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA40254AE4;
+	Thu, 23 Oct 2025 21:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761254058; cv=none; b=ErCocc+jmg93DN9lpw7NlsvhDqbyHvDpOzBSzpQOJsjH1/sOv/hbdLzPhQymXfNd45EXFFJYt1a3CeaXbjFVWSpitBKeSXrN4DC+xMFydvYneZYJ7zGAdOkXD8p6DIM0VQ+cKUXWCmF0gy7YMyh8Lux5d+jzKFnFenBIOd91shQ=
+	t=1761254061; cv=none; b=GYYBxxxzsVA0v0UH3i5N2XbknuOiZ81UvndjBHAR9tKwhhUGpfD+grdzj+2zPEPEfuq97Sl5oGjSPhvXLmEP9gEj0g4RxtLlY5SDFt4CjzfQNWm8FX1kHTOdhFW6jgyCaEkWueU9H2wCBPds4YqEnpL34MnjrkMa9TB4sfc2EMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761254058; c=relaxed/simple;
-	bh=vBKZD7xyG/FpKmEBawDLjc6IaCvTxGiWV7/1KlwFVmY=;
+	s=arc-20240116; t=1761254061; c=relaxed/simple;
+	bh=wbkNBMIZ6jB8PHwxsS3CPuYPXG0TkXccuiVzpdAw1Rw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gVTxwNm+UaPoWfhCHmxbD3sFpaw5GrqDH3cPDhNIXnh4YHzb6/7+Ellwb1kxUTxWhgIS3DgANqWU1G9Y9Y8uIIqkdcS6gBfJ728HKIiYnzYWAyA9hQR/xcN5xagcz6x6VzojPPR02D+Zt4QHYaDlrDMzB/qmYKCRxapTce2Q5r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQzyuAsB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Woclu7JDcRtmRxe2bGdUF62OgvbyOHg0jjvwIz0vgu3S12VpCQcUo3SF5BfSnA926w+bG+gjB/g+ED596T17RjnDk2Ib0U1oEZO2TiUpOqw8Z3V2vEJktyzrIY4RwmFnKtPf5qdoNk9rcyrhHwEvPLiYCXZWfY9reoAB63qsQqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXc5VAGy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQzyuAsB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9F28C4CEE7;
-	Thu, 23 Oct 2025 21:14:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXc5VAGy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D162C4CEFB;
+	Thu, 23 Oct 2025 21:14:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761254057;
-	bh=vBKZD7xyG/FpKmEBawDLjc6IaCvTxGiWV7/1KlwFVmY=;
+	s=k20201202; t=1761254061;
+	bh=wbkNBMIZ6jB8PHwxsS3CPuYPXG0TkXccuiVzpdAw1Rw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZQzyuAsB+phon3XHtf7sQs5aEaCS83tNMl8YVGd21M0KSP3vMbEADF+t0nehucXa1
-	 W1OMC11Xr8NVqS/sgzy4qUL09h5vWil0ZaXeMMUa+/t4zrwvJBGIOhTlTih5rwSfVJ
-	 aCYHraLIixYVSmaV6Dqc1ovIvSViA5Z8PMuMmXu6xAl61Nu09ye0ocj+VDLkHl3AiA
-	 SWHTMUS/btDuKFXeq6C42XJZLIOmoMShGpPgTFyCD7lmzRBedOsxedflwy30uqB9Kp
-	 7H9Lckj0n5q8hjN9jo9Gimu0sYFUYuFTQssQ5dGBG4gRGUco1mKR7ztg7RD/JPDepf
-	 Vo3UOKl0ZSd0w==
+	b=uXc5VAGy6Qh4nlLaNesi8kKyhhPkyrSPzmpW5+g6s1O7HowK/rPStGj8eMfmPM4ph
+	 CFNNanD9GSMiKNMLOyIFiIUJnKwhGpaVH7J25ZvWLlbkzaCJD9lGSXzhldxn31pERz
+	 t1CEC/Lv0l88pGda5Dfcfr5dGrn5z/ga3zHbBnpSxPjTc2zV+SwwHO8+ovcCWF/LLA
+	 7Ay9Tg0Qos8DYrQid/wr020rlv45Qd6wTtaGOkVy8bgXEXE3/widDH6LG0Au2U2I2n
+	 UmhF5uNi9SeboTwljJ+hYnK5/nrZEUOQOHEYJQVmcgU6LVTsYsRRevUijBWPUFaHwG
+	 bFpxwFDlz18Yg==
 From: Mark Brown <broonie@kernel.org>
-To: Sharique Mohammad <sharq0406@gmail.com>
-Cc: perex@perex.cz, linux-sound@vger.kernel.org, lgirdwood@gmail.com
-In-Reply-To: <20251023070347.1936838-1-sharq0406@gmail.com>
-References: <20251023070347.1936838-1-sharq0406@gmail.com>
-Subject: Re: [PATCH 4/4] ASoC: max98090/91: fixing a space
-Message-Id: <176125405646.267603.6195863936385992977.b4-ty@kernel.org>
-Date: Thu, 23 Oct 2025 22:14:16 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20251023061226.1127345-1-wenst@chromium.org>
+References: <20251023061226.1127345-1-wenst@chromium.org>
+Subject: Re: [PATCH] ASoC: SOF: Fix function topology name check in profile
+ info output
+Message-Id: <176125405790.267603.9724280623055175546.b4-ty@kernel.org>
+Date: Thu, 23 Oct 2025 22:14:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,10 +56,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 23 Oct 2025 09:03:47 +0200, Sharique Mohammad wrote:
-> removed an extra space
+On Thu, 23 Oct 2025 14:12:24 +0800, Chen-Yu Tsai wrote:
+> The function topology feature, and the plat_data->machine field that
+> specifies this feature, is ACPI specific. The check didn't take this
+> into consideration, which causes a NULL pointer dereference splat on
+> OF platforms:
 > 
+>     BUG: KASAN: null-ptr-deref in sof_create_ipc_file_profile (sound/soc/sof/fw-file-profile.c:291 sound/soc/sof/fw-file-profile.c:340) snd_sof
+>     Read of size 8 at addr 00000000000000c8 by task (udev-worker)/247
 > 
+> [...]
 
 Applied to
 
@@ -55,8 +73,8 @@ Applied to
 
 Thanks!
 
-[4/4] ASoC: max98090/91: fixing a space
-      commit: 310bf433c01f78e0756fd5056a43118a2f77318c
+[1/1] ASoC: SOF: Fix function topology name check in profile info output
+      commit: edf5c8920240dcafe830908549a0edee4ba3b4b0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
