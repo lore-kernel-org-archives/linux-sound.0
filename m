@@ -1,60 +1,60 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE73230BCC
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 18:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97D02BE7B2
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 18:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761245044; cv=none; b=UTSBmbK1NKDwSqDlQUf7TRcCegRlAlu4EPrNYOH6A6hJf+kRm5FyJX/aOc7G35Bfu0O1vhHBvmEWkUDv/fu4CjSuQteYTf8GABnoMeCLltB7NFYVgnmjnMtY/DizDdff7HORe23564HahndNpxGCIIyJHe5EXnmwwL3CtqcrGc0=
+	t=1761245744; cv=none; b=j9clPH0+KLiUwYkZaeawYFNSkauCZSQBxzL32FU17t/UU7PlitFETL5UFXlJ9830y96xO0WkkSxGOBY/BRtZelTb1Sz/4YLYUkIQInadcvclOx0DRSsXH386BWtLMwtMdFa/7mTr//wfFBl3SWNAxZBFXvIcOwHlrB4SBJpCnlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761245044; c=relaxed/simple;
-	bh=PYp52JdL1zIXM3tFl6ymQmTmBEsgbvGo+/rL6L5cfGI=;
+	s=arc-20240116; t=1761245744; c=relaxed/simple;
+	bh=YsY+s/rGdh5hcfsUD4Fnaa8qCovQYoUtKz8GwNeVRpo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LuKZx41SvJdprYgcWejQm14IVZiIBfbqqCArTfgU0cP+p3MZoCcQAVyejRmk5ow3IjWSdBm3lRFjVEsBCvzLo7INurSEcxO0VJlm3fD1zL4DOfsEbN6X78oxkR1LVOxvpNVZ6AE6t6y8l5s0ajZRcBCHJiPupnIWbzzXtNyzdS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=s0yNVa/e; arc=none smtp.client-ip=209.85.167.42
+	 To:Cc:Content-Type; b=bbdtDYMqwa7QYoJEO4h9a48ZtNjSM88N/fftkAnNMEBaKx+elcC1nDgCeux1Ra9DlLhhL53m0T4ls+knhpy2UI5O91XTIaMw56Kv452+ZZVez5VBYJh6ZEfWq76+g2j2FKrF2UIV2B3ax2vXmEY7Dvb4dCxY/nGhNv70tZ/EtvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Phujqa+3; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="s0yNVa/e"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-58b025fce96so1079422e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:44:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Phujqa+3"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b6cf1a95274so912607a12.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761245041; x=1761849841; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761245742; x=1761850542; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FILWuJP7z4ne8yyln1112yG3l4Q4g1VKcs5bhTHsJnM=;
-        b=s0yNVa/eJZhfoD3bMLT1xWtZBJPc1t8A/Zn2xYvJEgb/5MtqNO0u6wsuFrM8+isO8U
-         a8RqaMEzvq4KU+ucS1pGmFbO1lJkh200XIxtI+uKBrtnG6LYvmZhKlbST26f1dgZKE1G
-         dOKkExTkR8MKfeKYs7aXi148bX5ANT4YL2UKuU8MsQpC5zW3VrySCfAv6AqUxxr4U7+w
-         YLQx0lhCkihrCpKURL10BMLreCwmNrK2c+SVDNma9CEgKoPeWpeXS4Dtfjcr7DRXw/5I
-         R22ChlayhU94emhkIFIMNElmKGF4HJbaff2HtFXiz2ZXhy5tspL9shNNfuFjMpURLrzh
-         TvKQ==
+        bh=5nqesmbadsL4TcQ6pyvWq3P8etXMU87cVhZImzGQo0w=;
+        b=Phujqa+3+zuqg3kTd1t9vqtp68AqFMM+/nR0KnTXStigjI5pUe5rMhfwz9KsAcpEwz
+         nqIOJ42YV8LWSO9mQyLON1lccquxOsEUJ/BufvWOvBrws/wYnbHg0UyiG9uXGlJc7q7u
+         cvhAfnFwTTrQ35u3peO3l7v86IikrnOvNyV5H+mm/k52eYwgo20j9z8waLpwx5FmzZGb
+         felO2UsNcAZIPA+QVpvVpXbcOzG90JWhfA1ZxnQTOcfEi62U/tv+P4OZzPYZBsNxpvti
+         KmxHTaX2MTB+/YZnEt7tIk9Ozfn9LrRiTaJUQj0LgjQXD41aWQkUmsWsUstbYPEc/BkD
+         hBuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761245041; x=1761849841;
+        d=1e100.net; s=20230601; t=1761245742; x=1761850542;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FILWuJP7z4ne8yyln1112yG3l4Q4g1VKcs5bhTHsJnM=;
-        b=L+b/PSFKO1dt4rw/sIMq0FFeTyjEGe25dqmzNNFzzkcs9vfQ81yTp58+V9ucayDpOC
-         dm3mAamWX2nbaEJ21GYZVG8NnydQpJzpk791eFSpt1o6kJAyvPAwSE4ATq2qmdYzNvTq
-         Iqoa4gXuXMQI/pOBkKe450g5Id4oYlOfd8iIK0rdvCMDVQzfVxwxOm2uJRBo9b4Ew3Am
-         NKZQrdd4L0qjtknV4j+QCVmfM0xwuTsqGyC/Qaq6jl7uOm7CT5XqYhWWn7OmP43CceEf
-         cGKUN+jzdJJhTXJKLewneSxdW4krchHcHKonKgmekIYj+UjplzXYjvUWB9QQuy3DhVVa
-         IVaA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9rwHTz6V0Sj344vEmnWv/T2Y18bE193au9PMNW67naDImv9/wFVqI1EJ+3fPDiZwgzURTEpHQanOkog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoWWw5A9A30DRtpuTFgesKlSMXrod27bAX/1lI/QGQjz4GnqjJ
-	ohiiUFZqUfs/vdQSGwwCLk+d/7CdHI1Bu8ilG4D4RHZmda1t5/KRBJgF0rbtYA6HirM+RxSgbi7
-	Xe4P7cEGX/EUOiak3+VA3A9ue824W4tY+Oq9rjgDPXA==
-X-Gm-Gg: ASbGncuoccW+cWX8jmZ9pQ/cZH7ol1nX8j7DNk7xyAL/OZN8PpB6MnFa/76QU04QnpQ
-	YCPB2/eeaCbrr2ZHm+GXjpYbQWQzGaGV+x2UiPuu7WSosWw5OnUdE8eXtvLMSVdSCC+VoQGgmik
-	sT7+54du5qlc6E3UvJ0GW5HTlC+9SCEK/7bJ2WxbZx/IJpLK0sJ5ByV2WnjxxpQ7LZZS0z3CgGJ
-	MieW8ZwvBhvVH23finckwOzaSSU21/0SlY/WRVJPE18q9+RBEej+8glNJJvp4uYAO50AEavbx5k
-	pcYIqPHoOaVifaqDT4Smloolsg==
-X-Google-Smtp-Source: AGHT+IHraJus61bT3Hr2N07s+Ur3YCVMAET0C9pakpGhymtxfywdhGOWwy5gv3wy+GpPvNZ0Z7OpA/pQbI51BbDb264=
-X-Received: by 2002:a05:6512:3b1e:b0:58a:fc55:883a with SMTP id
- 2adb3069b0e04-591d84eb531mr9214189e87.4.1761245040819; Thu, 23 Oct 2025
- 11:44:00 -0700 (PDT)
+        bh=5nqesmbadsL4TcQ6pyvWq3P8etXMU87cVhZImzGQo0w=;
+        b=CkDNvfxc4syBlBMoqMts8LSNNCfj1jWj/U3xucW4m5h54M93BMAQIeCFTKt7aAzgQr
+         +U9UbTJuTGHRRNoabbSFzkiVQXUlM3t91Nm5wgFj3OmE3Oz5voKI5fMq+pQ69tK6VjvF
+         Oi5ANoibHjsk/BQ5nlKdidz8/Dyt9xi22iVwjTxa5ehJTvn5DP+yjVdFEh5GLz9pUyFy
+         lVLvftOXnoql2kRlfGASIXP2g32yYVr+Fyux2C/iV5cSqHI7XnvIenpKf7OfPr9lpDGt
+         KwMv22BhtBSmqbkCLuRH6OwCLT/lh176TP/a3GWEJCJMIrlIhRFkVLoFvweSay2QJmmT
+         R9lA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTt5gWvLPqr2mBtelBNMcOoVFmGw7o61VwFNKtHhUI6alZR0cpCiA1Is9b2F23zEDYzoKmRdjbaPMVVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxnghN760+68wV2DmN9TZ8trzVxPuY6EUH0040qiS5cqLyQY9M
+	5UmGngcpG61D0ZqbSMDNPgJUtptWT1/BnbyO0OmRNo2u3IEGAixQowGexqz8EwzKMa1dUhKvANr
+	AHdCMY7EI+yquO0bK86q/nUMuR7cB80rT+EYarUrlqw==
+X-Gm-Gg: ASbGncvKEAMWW/ZB9r/CE66mRoBMNBH2LPyq9auoMRvY7X4/KomrrYJPSq3n9u3Yoek
+	OHY+p2s+mMDx05KmX2rigEryp4iIs4M0uGRp9Z3m10eGyzypahM2/xQBGuT1wOzCScXu4R6lmrV
+	AlXC/3twjbecD5/pBByarNce+wLMIK4I0shwLVbHix7qecyndIqOY3+dXCIPHW7k6rXTiZlEtE2
+	hID9KWGBcJ9tXrHEc1ibnQ6d1bxaUui3U3lUf8lVOE/CjDm4nf09mKwIcYUMlQ+N9cbI26XI7ad
+	cMuKJAIo9aCuJmA=
+X-Google-Smtp-Source: AGHT+IGxmBYon2RitVIqN2x+MkXSzGe0lcwNoOIre6xyOPwk6oa5iMaQ33lq9vtGEhqgaIyKokK/WKNyenpypK0wQKs=
+X-Received: by 2002:a17:902:da88:b0:24c:9a51:9a33 with SMTP id
+ d9443c01a7336-290c9cbc119mr319435045ad.22.1761245741736; Thu, 23 Oct 2025
+ 11:55:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,14 +62,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
- <20251022-gpio-shared-v2-1-d34aa1fbdf06@linaro.org> <aPj3fCYj-NQdDSQT@smile.fi.intel.com>
- <CAMRc=MeSFKRo1rHq5ENzKqws+gOAX=-nCsGtw5MXvsOwJr=XpQ@mail.gmail.com> <aPkQi_Zn-17JKG0s@smile.fi.intel.com>
-In-Reply-To: <aPkQi_Zn-17JKG0s@smile.fi.intel.com>
+ <20251022-gpio-shared-v2-3-d34aa1fbdf06@linaro.org> <aPkVjoWkP04Q-2xP@smile.fi.intel.com>
+In-Reply-To: <aPkVjoWkP04Q-2xP@smile.fi.intel.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 23 Oct 2025 20:43:47 +0200
-X-Gm-Features: AS18NWCf9BHk3M78U-yTtMgDQhhnI1g2CI7k-KfJvPnPOvApY9tkkzNXTL8vud4
-Message-ID: <CAMRc=Mdah6ve68h=d93VHXGij7KAQiGWuOGtzX_7VSPsCi=bbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] string: provide strends()
+Date: Thu, 23 Oct 2025 20:55:27 +0200
+X-Gm-Features: AS18NWDv3cyfZzHn3g6_AZq2diutRl3UpTCleLdYUvzFU1eXCFlVn9tXiFa-dw4
+Message-ID: <CAMRc=Mc165HSLdug1F+t3qcOoE52mR1e_zEh=rSTUKN_-dB5NA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] gpiolib: implement low-level, shared GPIO support
 To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,51 +85,217 @@ Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 22, 2025 at 7:12=E2=80=AFPM Andy Shevchenko
+On Wed, Oct 22, 2025 at 7:34=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@intel.com> wrote:
 >
-> On Wed, Oct 22, 2025 at 05:36:33PM +0200, Bartosz Golaszewski wrote:
-> > On Wed, Oct 22, 2025 at 5:25=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote:
-> > > On Wed, Oct 22, 2025 at 03:10:40PM +0200, Bartosz Golaszewski wrote:
+> On Wed, Oct 22, 2025 at 03:10:42PM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > This module scans the device tree (for now only OF nodes are supported
+> > but care is taken to make other fwnode implementations easy to
+> > integrate) and determines which GPIO lines are shared by multiple users=
+.
+> > It stores that information in memory. When the GPIO chip exposing share=
+d
+> > lines is registered, the shared GPIO descriptors it exposes are marked
+> > as shared and virtual "proxy" devices that mediate access to the shared
+> > lines are created. When a consumer of a shared GPIO looks it up, its
+> > fwnode lookup is redirected to a just-in-time machine lookup that point=
+s
+> > to this proxy device.
+> >
+> > This code can be compiled out on platforms which don't use shared GPIOs=
+.
 >
 > ...
 >
-> > > > +static void string_test_strends(struct kunit *test)
-> > > > +{
-> > > > +     KUNIT_EXPECT_TRUE(test, strends("foo-bar", "bar"));
-> > > > +     KUNIT_EXPECT_TRUE(test, strends("foo-bar", "-bar"));
-> > > > +     KUNIT_EXPECT_TRUE(test, strends("foobar", "foobar"));
-> > > > +     KUNIT_EXPECT_TRUE(test, strends("foobar", ""));
-> > > > +     KUNIT_EXPECT_FALSE(test, strends("bar", "foobar"));
-> > > > +     KUNIT_EXPECT_FALSE(test, strends("", "foo"));
-> > > > +     KUNIT_EXPECT_FALSE(test, strends("foobar", "ba"));
-> > > > +     KUNIT_EXPECT_TRUE(test, strends("", ""));
-> > > > +}
-> > >
-> > > Have you checked the binary file? If you want this to be properly imp=
-lemented,
-> > > generate the suffix. (Actually making the function static inline make=
-s my point
-> > > really visible)
-> >
-> > Andy, this is bikeshedding. This is literally the least important
-> > piece of this series. It doesn't matter for the big picture whether
-> > this is inlined or not.
+> > +             if (!strends(prop->name, "-gpios") &&
+> > +                 !strends(prop->name, "-gpio") &&
 >
-> It's definitely not a bikeshedding. I try to keep a bit consistency here =
-and
-> I don't see the point of bloating a kernel (binary as well) for the funct=
-ion
-> that just a couple of lines with simple basic calls.
+> > +                 strcmp(prop->name, "gpios") !=3D 0 &&
+> > +                 strcmp(prop->name, "gpio") !=3D 0)
 >
-> Also note that with inlined version strlen() for string literals will be
-> calculated at _compile-time_! This is clear benefit.
->
-> Really, library code is not as simple as dropping something to somewhere.=
-..
+> We have gpio_suffixes for a reason (also refer to for_each_gpio_property_=
+name()
+> implementation, and yes I understand the difference, this is just a refer=
+ence
+> for an example of use of the existing list of suffixes).
 >
 
-Ok, whatever I'll make it static inline.
+And how would you use them here - when you also need the hyphen -
+without multiple dynamic allocations instead of static strings?
 
-Bart
+>
+> > +     adev->dev.parent =3D gdev->dev.parent;
+> > +     /* No need to dev->release() anything. */
+>
+> And is it okay?
+>
+> See drivers/base/core.c:2567
+>
+> WARN(1, KERN_ERR "Device '%s' does not have a release() function, it is b=
+roken and must be fixed. See Documentation/core-api/kobject.rst.\n",
+>
+
+Huh... you're not wrong but I haven't seen this warning. Do people
+just use empty functions in this case?
+
+> ...
+>
+> > +     pr_debug("Created an auxiliary GPIO proxy %s for GPIO device %s\n=
+",
+> > +              dev_name(&adev->dev), gpio_device_get_label(gdev));
+>
+> Are you expecting dev_name() to be NULL in some cases? Otherwise why is t=
+his
+> not a dev_dbg() call?
+>
+
+It's the low-level code saying: "I created device X for Y", not "Hey,
+here's X, I'm here for Y".
+
+>
+> > +     return 0;
+> > +}
+>
+> ...
+>
+> > +                     char *key __free(kfree) =3D
+> > +                             kasprintf(GFP_KERNEL,
+> > +                                       KBUILD_MODNAME ".proxy.%u",
+> > +                                       ref->adev.id);
+>
+> This looks awful. Just allow a bit longer line
+>
+
+Ok
+
+> > +                     if (!key)
+> > +                             return -ENOMEM;
+>
+> ...
+>
+> > +static void gpio_shared_remove_adev(struct auxiliary_device *adev)
+> > +{
+> > +     lockdep_assert_held(&gpio_shared_lock);
+> > +
+> > +     auxiliary_device_uninit(adev);
+> > +     auxiliary_device_delete(adev);
+>
+> _destroy() ? Esp. taking into account the (wrong?) ordering.
+>
+
+You're right about the order but if you _add() then you should
+_delete(). You typically _destroy() if you earlier _create().
+
+> > +}
+>
+> ...
+>
+> > +             set_bit(GPIOD_FLAG_SHARED, flags);
+>
+> Do you need this to be atomic?
+>
+> > +             /*
+> > +              * Shared GPIOs are not requested via the normal path. Ma=
+ke
+> > +              * them inaccessible to anyone even before we register th=
+e
+> > +              * chip.
+> > +              */
+> > +             set_bit(GPIOD_FLAG_REQUESTED, flags);
+>
+> Ditto.
+>
+
+Ok
+
+> ...
+>
+> > +struct gpio_shared_desc *devm_gpiod_shared_get(struct device *dev)
+> > +{
+> > +     struct auxiliary_device *adev =3D to_auxiliary_dev(dev);
+> > +     struct gpio_shared_desc *shared_desc;
+> > +     struct gpio_shared_entry *entry;
+> > +     struct gpio_shared_ref *ref;
+> > +     struct gpio_device *gdev;
+> > +     int ret;
+>
+> > + +   scoped_guard(mutex, &gpio_shared_lock) {
+>
+> Much better to split the below to a helper and make it run under a
+> scoped_guard() here or call a guard()() there.
+>
+
+I'm not following, please rephrase.
+
+> > +             list_for_each_entry(entry, &gpio_shared_list, list) {
+> > +                     list_for_each_entry(ref, &entry->refs, list) {
+> > +                             if (adev !=3D &ref->adev)
+> > +                                     continue;
+> > +
+> > +                             if (entry->shared_desc) {
+> > +                                     kref_get(&entry->ref);
+> > +                                     shared_desc =3D entry->shared_des=
+c;
+> > +                                     break;
+> > +                             }
+> > +
+> > +                             shared_desc =3D kzalloc(sizeof(*shared_de=
+sc), GFP_KERNEL);
+> > +                             if (!shared_desc)
+> > +                                     return ERR_PTR(-ENOMEM);
+> > +
+> > +                             gdev =3D gpio_device_find_by_fwnode(entry=
+->fwnode);
+> > +                             if (!gdev) {
+> > +                                     kfree(shared_desc);
+> > +                                     return ERR_PTR(-EPROBE_DEFER);
+> > +                             }
+> > +
+> > +                             shared_desc->desc =3D &gdev->descs[entry-=
+>offset];
+> > +                             shared_desc->can_sleep =3D gpiod_cansleep=
+(shared_desc->desc);
+> > +                             if (shared_desc->can_sleep)
+> > +                                     mutex_init(&shared_desc->mutex);
+> > +                             else
+> > +                                     spin_lock_init(&shared_desc->spin=
+lock);
+> > +
+> > +                             kref_init(&entry->ref);
+> > +                             entry->shared_desc =3D shared_desc;
+> > +
+> > +                             pr_debug("Device %s acquired a reference =
+to the shared GPIO %u owned by %s\n",
+> > +                                      dev_name(dev), desc_to_gpio(shar=
+ed_desc->desc),
+> > +                                      gpio_device_get_label(gdev));
+> > +                             break;
+> > +                     }
+> > +             }
+> > +     }
+> > +
+> > +     ret =3D devm_add_action_or_reset(dev, gpiod_shared_put, entry);
+> > +     if (ret)
+> > +             return ERR_PTR(ret);
+> > +
+> > +     return shared_desc;
+> > +}
+>
+> ...
+>
+> > +/*
+> > + * This is only called if gpio_shared_init() fails so it's in fact __i=
+nit and
+> > + * not __exit.
+> > + */
+>
+> Fine. Have you checked if there are any section mismatch warnings during =
+kernel
+> (post)build?
+>
+
+Yes, there are none.
+
+Bartosz
