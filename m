@@ -1,292 +1,264 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AA8303A26
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F523009CA
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761219863; cv=none; b=nVA20tm7sjqeLCn64fn4BgJwOUyFDFHUr/gIOH4MPSUVLIKdifZcj1bFjJErmNWDMh+tyrvHPP5npcxviW9bqh1egZYHIFN7kH2S9+saiUVquZvNH1bimqem5lbTxYKLwycSL7iEHI35Oi0eo05Ne248H2B1z67jCoq5SO/zcQc=
+	t=1761220146; cv=none; b=SKLGJiIkbK+un0XtzasilDm7wOzq0L+wneswB8int9l3RBL3N2FgKSvR2at7JTUtJoxvgAkstA+8RHUoidVXtb4fj4mZpwK8a5Ud4kMZ4sjdHDpmIB8O0Vv8Slh1a5VQVPlyPCHFFWtA9BtaoXSJzbAqZeqHvEIS4hRjN1snOrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761219863; c=relaxed/simple;
-	bh=t2b3ao92xy0ESrIeC6f3Ix11H+BajiEZp3Qjq0JyHMk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AaYt40KLnE0cO/qXgykpsPyAZ7uxuk2s5qiQLXDeiGduokzjkZ4hAzQUDUEyFbUG9C60uONIfIUmsrbW0NRRf/5Nhq3fD/asNl6zuDE5LgrCWuOw4Qi8XuljTAp85RFjCQCu7QkLa063SmDVvsaOprOSqX8q4+I3D/EBC6Y6kdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-88f27b67744so75685685a.0
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:44:21 -0700 (PDT)
+	s=arc-20240116; t=1761220146; c=relaxed/simple;
+	bh=4dgoVQlnEo4oODVa6YMvMXaJOlp99dhpE2pG4GcsxJM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jSzPISaV80l3YPXdd+14yp5H7VJm1cKI4CviAEUFj0VGirHze8fQOF/WIY4/PCK4PGuqmg5WU9fQC86s4AQb5hUXZAErQ1qMzXxpOgWm2o4EPMRSlCq95uWbM2ccWheks+ph7MBudRT2l1CIe/JtHxKbbW1sqFZOrnaEGeJ4L3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BrTp11Tg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BrTp11Tg"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6vYF6005702
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:49:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	+0Pbe/M8gSqUaSIRE3HIPvDZn2zygmrcLdsFcuo0zoM=; b=BrTp11TgbKo8PYk1
+	EN1/4XeUyWLbVij/x/3psUVKGG5BHT3vNFcEwOZ5u2bcRyIuhoCnGnKNIiOu+YnM
+	1/ENhRYsqMuL24zGiWIy1FmP0pTsZf4uN0GqqGfKAUHcCOuNeab2oPHWixrL4ZON
+	4Ri7dpjWkCASFQrbXk1N+KfkfwZyqKEhMPJeVbzGOdJgbPfI2b2Cvo9H/EUfzSip
+	kTNXb/VHWmurnKoyDLLajJv5j5L1cVV59afUFyoVr8FiQNfZ75sVU6T4+a3zdSoJ
+	h+yFK5vj5+GtKVDr70vkLCGBIE8/Jf54jtJ8yanTs6Qhkv42ceVWDUkaIZJZS8oW
+	yBf1Vg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v27j86eg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:49:03 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4e8984d8833so33356171cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:49:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761219860; x=1761824660;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YGr3v7S6fzDOU9nQBXt6OSyvvunrcw7Wuu74VRCbNxc=;
-        b=PFgbdqG3CWSqKtS8jVrp13fzfmY+3h0xLhfRWEPRjGEnlaJrYYWQgCQ5bKVsqtIZEV
-         0rNtadgF+urkMuLIhz7fDVCsbZKy1uxzDNA5IeYytkizUUN5QEavcX8xwI5SDCBChJl3
-         lZCe0ZG3yNIIRAES2BT9GoCe3H5ZeiuYjiPoTbMeoggU6YPqHxBKYpkZkLa8RgRWvYP+
-         eAosYSoJsfDIu9HPYgF5iTiSs5w3AGkQzNJM2oCxdNwVvqgRPNSPPoPu+dR+JBxGNEib
-         HramGBb2ZqhDvpljwtfvBLeYszzvGvg3W+Di0ApgP4BbsmsLHRMBo5zvGmSDuAMPCS6X
-         N3eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVq/Gs4XaV67fJld+CRpTaEeKuV2nb9C2RfyM6EdsSn9Sv4aUU24oiILPURJ7zoVvl2HtiNmoMi110ocQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwULkoU2qmWs2E/HRAHRkzNYSNJazwFzNctQUSUScxbW7cCv1A1
-	snfAq07XMcy3Rc2ITgW8UdLCEspXskXJQDpGUmzAPj4DJ4JMiaqi8EArJz6PmrYG
-X-Gm-Gg: ASbGncvtodijjT9/VgOISeidh+gjCkR/S2ibW7PErTrbhVw0v7mffGb3rngzThrJHqI
-	4mtUy7BO5wh7roIdbolg9J4WUzZL1umvRic06kVGNUti77vtplFN6LAHK6vu0dvj4yqDiYZaVij
-	LNAcDnQB3CHR1ZBrwGqSbqbmPdBVO2sRQfR3uDd0tYrcdVi7MtNtqXwpzYYqatFRbwIwhZGDKXW
-	cWvXi9Ug4J9pSSVVuBLIxgxvZykhpXsGtiDs8ZOSZoaSwPW6QrH89PFmB9574MmXpjsrTSenE28
-	TOdIRzUQh1j10phCgc4aPPaG243VBNFNXww5ZqpH7dxWcqajjPCS1+5HfdR8cz9vOnHtrxV9e9V
-	4B9y1KVIdpQl2tLfWeFOy9FfmRFTBUnG4fDS1dGPmoEiiGmxjTMdP9BrmhKeT+l3k3vzR5Otets
-	w+RYoLGOw5cjCtnsm4pCKOjMrcs2g5NKcqwZmGiH7MnJb8wgVa/v9Z
-X-Google-Smtp-Source: AGHT+IEvN7xGXUqY6/xKfe/ActQpeg46Qt1+LOmsIYE4ElJI19Wejqrs1iRNuTQh45ggA8Fb3jKiVg==
-X-Received: by 2002:a05:620a:17a4:b0:891:ff1e:f6a9 with SMTP id af79cd13be357-891ff1ef6fdmr2484629385a.75.1761219860188;
-        Thu, 23 Oct 2025 04:44:20 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-89c0a44b4cfsm149223085a.0.2025.10.23.04.44.19
-        for <linux-sound@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1761220143; x=1761824943;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+0Pbe/M8gSqUaSIRE3HIPvDZn2zygmrcLdsFcuo0zoM=;
+        b=hgXtQ/5dMEGFM3QeKrSNTk+gPKfMFocYYer51wpae7DtnQS0aj4PY4/LnCDtkzkPWk
+         qE1uW9RO7FzXpAvyMxfVtkAAWjFCKDZyBBW07/1p+oQn/FctSF72WfBMBvd/pCifegnf
+         vGFd2iCehOctciW9IP6k3IWymcdp6CoAZcYa67xMuDxGqn5MWcoon96RSOQbQW1ucc+Z
+         XIREPkN6Oa24mh+UXtFd00Yqfa76+hRpdMFBj3lAm3AfLakSZCXvqINhkT+DxkMgIMLw
+         G9pJ3L/+nuw+062b7lP7VcBWlVcKQ9dY1dWoLsN87lnEQ2XZ67ltxIq/nhiE6OVBDKJ+
+         h+5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWHt9Ky6DznCpULkA3qTTfrqt6MFUkFaAUbkPzeAIO6T7hNXWYEkGRsewBEbBDahmGzOuOk5zDn1n6R+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz93HTTwx7USfem9TH7q4/m2cZnW/qD/Nc9SKIr66hfxK7Nfvdl
+	7YACkVUYdengO+Ymg01oZcTcckYvGPXeVOcdFZWiGncH7GtGMAicLUUwiiBxl0pIO+UknQ6UVvM
+	8o0HottoRK4EkaeCPEJzXM00eZ3wCq5T6PeG6plsbnWl4smXVqvCYq2cNA8ozwx3lsg==
+X-Gm-Gg: ASbGncuT6ofIymYyF6mjjzgsRcNI2DfSFfKX6L2mmmCloKAUM/rys/JoGqwNKz1ltaC
+	h9eN8wLnwM8dSunVajEBG3pptrfpkpFxaBuboRSvMJx87/WOv7pGkbIUV0PAizQfEMBal4aImtB
+	Eqdrhn/lYsrdtDV+3tylOnfu6K/WqpOSEN6ZdLkLQGbB0Yb4sDzDipv0tC2y7VxO/E5l3KbDIdO
+	Y+NBa5iUoGiHvgB7a5VFOJnDe3SCmrkesdlsa/swxsBBTAeZWHb3Div8lFsCQkGGdY3/ltX+Wpn
+	ZelpPB7CEU9sPBKNgvU6d98mgj4UnQZ2Mjbl97MkIcmCLD+H4ENq1lD+av6h8S7ISLzp7Fh0uDd
+	bw+gGmabAka6Ixedn4QWRBhUkRg==
+X-Received: by 2002:ac8:5fd0:0:b0:4b5:e9e3:3c90 with SMTP id d75a77b69052e-4e89d1d7746mr304723611cf.9.1761220142681;
+        Thu, 23 Oct 2025 04:49:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEndSouLbaMqStBpGLIXSKQaZY6PXSsB/L1/iDncCBlOBKARZQJeEDJAjh9nsoFFo47+XIJuQ==
+X-Received: by 2002:ac8:5fd0:0:b0:4b5:e9e3:3c90 with SMTP id d75a77b69052e-4e89d1d7746mr304723361cf.9.1761220142226;
+        Thu, 23 Oct 2025 04:49:02 -0700 (PDT)
+Received: from [192.168.68.121] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-475c4369b33sm92047225e9.14.2025.10.23.04.49.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 04:44:19 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4e8b4e4ce70so8433791cf.3
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:44:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXDIZGNgWNgsT1QFH2GT5CLn65M5xSQ2POj58TfLXQUnFZ+E//4LvlUfLdMZrtF0UguG1pieDnE6RDWsQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:c8b:b0:5db:350f:2c6b with SMTP id
- ada2fe7eead31-5db350f2f90mr173817137.38.1761219546544; Thu, 23 Oct 2025
- 04:39:06 -0700 (PDT)
+        Thu, 23 Oct 2025 04:49:01 -0700 (PDT)
+Message-ID: <f1338318-0135-415e-ab65-482cef20f919@oss.qualcomm.com>
+Date: Thu, 23 Oct 2025 12:48:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1760696560.git.geert+renesas@glider.be> <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
- <aPKQMdyMO-vrb30X@yury> <CAMuHMdXq7xubX4a6SZWcC1HX+_TsKeQigDVQrWvA=js5bhaUiQ@mail.gmail.com>
- <aPhbhQEWAel4aD9t@yury> <CAMuHMdUOX=ToDU_44fHrqKWUtee1LKpgisfTKOe4R33er9g+DA@mail.gmail.com>
- <aPj9Tu75OFenm7U0@yury>
-In-Reply-To: <aPj9Tu75OFenm7U0@yury>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 13:38:55 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX0dmJ_bEkKBZkzqXwM9m-Agwr_zMhMDXgdS+LSyoeG5w@mail.gmail.com>
-X-Gm-Features: AWmQ_bkfy7WIJP3UTtd6EyoPnmrw_M6kCYJ9kC1xrPr1U7jSNAuuLhNrJ5p1ts4
-Message-ID: <CAMuHMdX0dmJ_bEkKBZkzqXwM9m-Agwr_zMhMDXgdS+LSyoeG5w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}() helpers
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Shan-Chun Hung <schung@nuvoton.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
-	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
+ drm_connector_hdmi_audio_ops
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Jianfeng Liu <liujianfeng1994@gmail.com>,
+        Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
+        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
+ <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
+ <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
+ <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
+ <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
+ <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
+ <f9c922f5-52af-45bb-a4ca-7ca80c0c3534@kernel.org>
+ <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
+ <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxOCBTYWx0ZWRfX4QmPYGApo+vw
+ XRHR5WCMwE1J7kXPBUBmNroVPY9EoOx3AR8s32z0twYqnAyx2W0nkWUmxJjfAVlOYnBHWksfzZN
+ 1UPU9+k7D9/5kGJB4gYgm/rjF7zB2GlfMFsVLZely5A3Kv7u2c5arja4Day+NjF9JF87lyJ5LkZ
+ FW5XQL0p3U5heiDIqBr5qz9nOD+hhVQHaDRjbKMNrqQ6/uzbG0ZuFYTacPQTw9fDnR4j3PH3Nz0
+ e5+ajnZ5panuNyOBs0fx1j8NOz2HLLF/oNH/mOzKorFJEKXOF4itoORKXGug6GeSaWDd1TUPk8o
+ 4HWEmUKJksENTohFaQSUdji7aiNCf9FBAZjtKfJvkYprjvRpaj4UuCDPi1CmJALGPFv0hPW3iy5
+ 9vEmidTTMpprIZQ49Ov3wmgtdb99Ww==
+X-Authority-Analysis: v=2.4 cv=G4UR0tk5 c=1 sm=1 tr=0 ts=68fa162f cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=flf6Z5GiNIarb4g2JskA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: Q58qYuE87Ckdrai7nZarm-j2LfiSuszn
+X-Proofpoint-ORIG-GUID: Q58qYuE87Ckdrai7nZarm-j2LfiSuszn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510180018
 
-Hi Yury,
 
-On Wed, 22 Oct 2025 at 17:50, Yury Norov <yury.norov@gmail.com> wrote:
-> On Wed, Oct 22, 2025 at 12:01:37PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, 22 Oct 2025 at 06:20, Yury Norov <yury.norov@gmail.com> wrote:
-> > > On Mon, Oct 20, 2025 at 03:00:24PM +0200, Geert Uytterhoeven wrote:
-> > > > On Fri, 17 Oct 2025 at 20:51, Yury Norov <yury.norov@gmail.com> wrote:
-> > > > > On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
-> > > > > > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > > > > > constants.  However, it is very common to prepare or extract bitfield
-> > > > > > elements where the bitfield mask is not a compile-time constant.
-> > > > > >
-> > > > > > To avoid this limitation, the AT91 clock driver and several other
-> > > > > > drivers already have their own non-const field_{prep,get}() macros.
-> > > > > > Make them available for general use by consolidating them in
-> > > > > > <linux/bitfield.h>, and improve them slightly:
-> > > > > >   1. Avoid evaluating macro parameters more than once,
-> > > > > >   2. Replace "ffs() - 1" by "__ffs()",
-> > > > > >   3. Support 64-bit use on 32-bit architectures.
-> > > > > >
-> > > > > > This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> > > > > > macros, as people expressed the desire to keep stricter variants for
-> > > > > > increased safety, or for performance critical paths.
-> > > > > >
-> > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > > > > > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > > > > Acked-by: Crt Mori <cmo@melexis.com>
-> > > > > > ---
-> > > > > > v4:
-> > > > > >   - Add Acked-by,
-> > > > > >   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
-> > > > > >     power management debugfs helper APIs") in v6.17-rc1,
-> > > > > >   - Convert more recently introduced upstream copies:
-> > > > > >       - drivers/edac/ie31200_edac.c
-> > > > > >       - drivers/iio/dac/ad3530r.c
-> > > > >
-> > > > > Can you split out the part that actually introduces the new API?
-> > > >
-> > > > Unfortunately not, as that would cause build warnings/failures due
-> > > > to conflicting redefinitions.
-> > > > That is a reason why I want to apply this patch ASAP: new copies show
-> > > > up all the time.
-> > >
-> > > In a preparation patch, for each driver:
-> > >
-> > >  +#ifndef field_prep
-> > >  #define field_prep() ...
-> > >  +#endif
-> > >
-> > > Or simply
-> > >
-> > >  +#undef field_prep
-> > >  #define field_prep() ...
-> > >
-> > > Then add the generic field_prep() in a separate patch. Then you can drop
-> > > ifdefery in the drivers.
-> > >
-> > > Yeah, more patches, but the result is cleaner.
-> >
-> > And we need 3 kernel releases, as the addition of the macros to
-> > the header file now has a hard dependency on adding the #undefs?
-> > Unless I still apply all of them to an immutable branch, but then what
-> > is the point?
->
-> Not sure what do you mean. You can do it in a single series, and you
-> don't need and should not split the series across releases. Consider
-> my recent cpumask_next_wrap() rework as an example:
->
-> https://lore.kernel.org/all/20250128164646.4009-1-yury.norov@gmail.com/
->
-> 1. #1-4 switch kernel users to alternative functions;
-> 2. #5 deprecates cpumask_next_wrap(), making sure it's a pure renaming,
->    i.e. no-op.
-> 3. #6 introduces the new nice implementation. It's the core-only patch,
->    no drivers are touched.
-> 4. #7-12 switch the rest of codebase from old version to new.
-> 5. #13 drops deprecated old function.
->
-> This is the most common scheme. In you case you can cut the corners.
->
-> The goals here are:
->
->  - keep core patches free of non-core code;
->  - switch drivers to the new functionality one-by-one in sake of
->    bisectability.
 
-OK, I'll make it so...
+On 10/23/25 12:43 PM, Dmitry Baryshkov wrote:
+> On Sun, Oct 05, 2025 at 06:29:20PM +0300, Dmitry Baryshkov wrote:
+>> On Sat, Oct 04, 2025 at 02:16:08PM +0100, Srinivas Kandagatla wrote:
+>>>
+>>>
+>>> On 10/3/25 6:02 PM, Dmitry Baryshkov wrote:
+>>>> On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
+>>>>>
+>>>>>
+>>>>> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
+>>>>>> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
+>>>>>>>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
+>>>>>>>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
+>>>>>>>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
+>>>>>>>>> use msm_dp_audio_prepare instead. While userspace is still calling
+>>>>>>>>> hw_params to do audio initialization, and we get the following errors:
+>>>>>>>>>
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
+>>>>>>>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
+>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
+>>>>>>>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
+>>>>>>>>
+>>>>>>>> And a call to hdmi_codec_prepare() comes only at this place.
+>>>>>>>>
+>>>>>>>> Srini, Mark, when selecting to only implement .prepare for codec ops I
+>>>>>>>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
+>>>>>>>> hook"), which documents that IEC958 status bit is set after
+>>>>>>>> .hw_params(), so it's only visible during .prepare(). Is it okay to
+>>>>>>>> implement both callbacks? Or should the audioreach DAI driver be fixed
+>>>>>>>> somehow instead (I suppose it assumes that the port is available after
+>>>>>>>> .hw_params(), not sure if that assumption is correct)?
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
+>>>>>>>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
+>>>>>>>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
+>>>>>>>>> hdmi-codec driver can work with userspace alsa.
+>>>>>>>>>
+>>>>>>>>> Tested with Radxa Dragon Q6A.
+>>>>>>>>>
+>>>>>>>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
+>>>>>>>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+>>>>>>>>
+>>>>>>>> The patch LGTM, but I would wait for response from audio maintainers.
+>>>>>>>>
+>>>>>>>
+>>>>>>> The ordering matters in this case as we need clocks and audio
+>>>>>>> configuration on DP codec side to be setup before we start configuring
+>>>>>>> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
+>>>>>>> even before it is ready.
+>>>>>>>
+>>>>>>> q6apm prepare loads the dsp pipeline and starts configuring the
+>>>>>>> endpoints, if the DP endpoint is not ready dsp would throw an error.
+>>>>>>>
+>>>>>>> We might be able to pull in some dsp logs to confirm this, but I dont
+>>>>>>> have a setup that I can reproduce this issue.
+>>>>>>
+>>>>>> What would be your recommendation to proceed? Is it okay for the DAI
+>>>>>> driver to depend on the .hw_params enabling the clock? Also I see that
+>>>>>> the error regarding the clocks comes from .prepare callback too. What is
+>>>>>> the order of .prepare callbacks()? Can we influence it?
+>>>>>
+>>>>> prepare follows hw-params, and prepare can be called multiple times
+>>>>>
+>>>>> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
+>>>>> backend dia link drivers ?
+>>>>
+>>>> Yes. Here we got a dependency from the cpu dai to be prepare()'d after
+>>>> the DP driver performs some actions, which were a part of hw_params()
+>>>> callback but were moved to be executed during prepare() callback.
+>>>>
+>>>> This leads me to two sets of questions:
+>>>> - In which order are those callbacks executed? Can we make the ASoC
+>>>>   enforce some order of DAI's prepare() callbacks?
+>>>>
+>>>> - More improtantly, isn't it a sympthom of DP driver (incorrectly)
+>>>>   performing too much in the .hw_params() / .prepare() callback? Should
+>>>>   we move some of the setup to the .audio_startup() instead? What is the
+>>>>   expected split between those callbacks?
+>>>
+>>> I have not looked at full dp sequences but, if prepare is the only place
+>>> when it enables the required clocks for audio block, then it is a
+>>> problem, we should do it early so that DSP can enable the required
+>>> configuration in prepare.
+>>
+>> As I wrote, previously it was done as a part of hw_params, which is
+>> also not optimal as hdmi-codec clearly defines both callbacks as
+>> optional, requiring only one of them. Do you know, what is actually
+>> required on the DP side for the DSP to be able to preapre()?
+> 
+> Srinivas, did you have a chance to look at this? Or the .hw_prepare
+> ordering? I really don't want to land this fix only to face the same
+> issue because on some of the platforms .hw_prepare() callbacks will be
+> called in a different order.
+> 
+Dmitry, few days back Krzysztof was enabling DP audio on T14s, and we
+have seen that the DSP is not happy and returning error 1 when we try to
+prepare the dp port. The exact reason is codec is not ready at that point.
 
-> > > > > > --- a/include/linux/bitfield.h
-> > > > > > +++ b/include/linux/bitfield.h
-> > > > > > @@ -220,4 +220,40 @@ __MAKE_OP(64)
-> > > > > >  #undef __MAKE_OP
-> > > > > >  #undef ____MAKE_OP
-> > > > > >
-> > > > > > +/**
-> > > > > > + * field_prep() - prepare a bitfield element
-> > > > > > + * @mask: shifted mask defining the field's length and position
-> > > > > > + * @val:  value to put in the field
-> > > > > > + *
-> > > > > > + * field_prep() masks and shifts up the value.  The result should be
-> > > > > > + * combined with other fields of the bitfield using logical OR.
-> > > > > > + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> > > > > > + */
-> > > > > > +#define field_prep(mask, val)                                                \
-> > > > > > +     ({                                                              \
-> > > > > > +             __auto_type __mask = (mask);                            \
-> > > > > > +             typeof(mask) __val = (val);                             \
-> > > > > > +             unsigned int __shift = sizeof(mask) <= 4 ?              \
-> > > > > > +                                    __ffs(__mask) : __ffs64(__mask); \
-> > > > > > +             (__val << __shift) & __mask;    \
-> > > > >
-> > > > > __ffs(0) is undef. The corresponding comment in
-> > > > > include/asm-generic/bitops/__ffs.h explicitly says: "code should check
-> > > > > against 0 first".
-> > > >
-> > > > An all zeroes mask is a bug in the code that calls field_{get,prep}().
-> > >
-> > > It's a bug in FIELD_GET() - for sure. Because it's enforced in
-> > > __BF_FIELD_CHECK(). field_get() doesn't enforce it, doesn't even
-> > > mention that in the comment.
-> > >
-> > > I'm not fully convinced that empty runtime mask should be a bug.
-> >
-> > Getting (and using) data from nowhere is a bug.
 
-^^^ This is about field_get().
+By adding this patch, Krzystof managed to get DP working.
+XElite platforms were working before 2fef64eec23a ("ASoC: hdmi-codec:
+Add a prepare) patch was merged, basically 2fef64eec23a broke what was
+working before.
 
-> > Storing data where there is no space to store is also a bug.
+Am happy with this patch, better move to hw_params instead of prepare.
 
-^^^ This is about field_prep().
 
-> > I will add a comment.
-> >
-> > > Consider memcpy(dst, src, 0). This is a no-op, but not a bug as
-> > > soon as the pointers are valid. If you _think_ it's a bug - please
-> > > enforce it.
-> >
-> > memcpy() with a fixed size of zero is probably a bug.
-> > memcpy() with a variable size is usually used to copy "as much as is
-> > needed", so zero is usually not a bug.
+--srini
 
-^^^ These 3 lines are about memcpy().
+>>
+>>>
+>>> Its also doable to move out the clock related settings from  prepare to
+>>> startup which should work aswell.
+>>>
+>>
+>> -- 
+>> With best wishes
+>> Dmitry
+> 
 
-> 5 lines above you say: "Getting (and using) data from nowhere is a bug".
-> Now you're saying: "so zero is usually not a bug". So, is it a bug or
-> not?
-
-> > > > > I think mask = 0 is a sign of error here. Can you add a code catching
-> > > > > it at compile time, and maybe at runtime too? Something like:
-> > > > >
-> > > > >  #define __field_prep(mask, val)
-> > > > >  ({
-> > > > >         unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
-> > > > >         (val << __shift) & mask;
-> > > > >  })
-> > > > >
-> > > > >  #define field_prep(mask, val)
-> > > > >  ({
-> > > > >         unsigned int __shift;
-> > > > >         __auto_type __mask = (mask), __ret = 0;
-> > > > >         typeof(mask) __val = (val);
-> > > > >
-> > > > >         BUILD_BUG_ON_ZERO(const_true(mask == 0));
-> > > >
-> > > > Futile, as code with a constant mask should use FIELD_PREP() instead.
-> > >
-> > > It's a weak argument. Sometimes compiler is smart enough to realize
-> > > that something is a constant, while people won't. Sometimes code gets
-> > > refactored. Sometimes people build complex expressions that should
-> > > work both in run-time and compile time cases. Sometimes variables are
-> > > compile- or run-time depending on config (nr_cpu_ids is an example).
-> > >
-> > > The field_prep() must handle const case just as good as capitalized
-> > > version does.
-> >
-> > OK, I will add the (build-time) check.
->
-> If mask is compile-time, you can wire field_prep() to FIELD_PREP(), so
-> it will do the work for you.
-
-OK, I will look into it.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
