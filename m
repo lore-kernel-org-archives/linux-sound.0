@@ -1,105 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070DE35B135;
-	Thu, 23 Oct 2025 06:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78663272E41;
+	Thu, 23 Oct 2025 06:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761201352; cv=none; b=WV7iU5pbMb2CC8CbznLP5ft98dluYnvDZapNXjOTepIgClvafMju7v3r7QxuIZJQap7Tiy6e++XfKa5XYLYmwp0RbsVVFs0N0YT4duc+A0kJQK7Dek9HWxTV/vVg6OBaymOSp8Yr+uU9SVjigo31SkC4/MNu7WQR+XRoLTaDOpw=
+	t=1761201568; cv=none; b=oJ/TdqSysROiR4HreVBqQZ/hJaKnhCaSkyMpgUiowbkhAUS144eSuwhyUGY6isTw2YFxhHTcGtEa75kamYnVHe6Qao13HIwrQM5F2RqBTSu0qHCSuwJBv+yEjNXQ97SYw2SHZZF6M+0W2YP13bqTT0lrd2kMmN3M3ZXnkbOL9ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761201352; c=relaxed/simple;
-	bh=fya6JIMrS+OIuollUmg2wSlehVc8GRn4ej1rxn7QQFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SmgotNIUqoyCy0+tvBy13o/0C8hRpNy2jeqbUEEX8kRWRteXCme4vnk//rdNMID6Nm/ZVJeusA+747F8yauLA9aAmTvHOLIITbCkkPV1LSZfH0Q+XsziTFrIeFBmPBGwtLvcZbYIMvnZZg9vnyW8VxAh1pDpK5gG1NGLlMw+G0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2Rav+Hf; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1761201568; c=relaxed/simple;
+	bh=IjoIJ46m5G2Srg/5nswfnJndfZbxt7ecWzpQzMbgZhE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r4SPGG0CRYa1dj/hyeJRWdmCrJhyLiKj2QyYP5O9TP7NQIkr/vbHmskKD/UWMTNpfdKR5VlFXN4C5LhNYpRgBykOGBOC4vb9YHu7vjr9s6hne/gxQFV2tyKUYz5Rw+KabQaEgb8YONBDoTuth4J+ExX9EQ5shnXDOB+RN32hS4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JUnDempr; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2Rav+Hf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JUnDempr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761201351; x=1792737351;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fya6JIMrS+OIuollUmg2wSlehVc8GRn4ej1rxn7QQFI=;
-  b=T2Rav+Hfg5MriKJRR3w/7V/pfIIslth4uBjPV3NrCcM8D7GXwGnCGSdL
-   Fhh/8in5zatlkfd6zF6g7XjQDRYQlQRKcfluvxmx0u/nKOKx4L4elVl4m
-   WgjT0jFAivqdTDyAcIMcWtMK0T4tqk8K7IyrPs9TVcrJQgZXrMKpnNWqW
-   qBUo9K9EpXllfifqt3cn8qVuTAXCFT2/tW9nJDRnr2aNjtB6FGA4ez3bn
-   ZAvnluWfkgmGVJjGHwdit3oZQT3aUuTP4ax+Hyss7UrqptA0Ss9k/7uex
-   bxnBwzL0TTE1u8CulHVXtZxecWmp7xVr06CYRESybqO6zFuicAk0V2ptI
+  t=1761201567; x=1792737567;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=IjoIJ46m5G2Srg/5nswfnJndfZbxt7ecWzpQzMbgZhE=;
+  b=JUnDemprdu+WqDZF1k/iFHiim5DE0hBjjZcbLoPpHsnmnT784X5s9o+5
+   h0JDUBxRm/zDktvyl9qGigATjuj2lv5vM91cLUneqk4zfzVJQLcftP190
+   FdUVTonL3R0dcMHuDGvDW+B2W8qOipEN4uI5LezLIeRMIK9ixS7gTbXBP
+   XHRBRZKBsPhYfRPpJinvICHUIdSbT8xOX7DLeARLiPaZpVZrCEAM+2Kq/
+   W3e+KMZdbaz1LCrkXfpaaCSKCS2/AQEScoCoMnX9ZqYZ8sql1jsqUcC1j
+   CB8JUjACDk1mC9yNRFj5RWMelbw2grAFxu3zOkjbsGt0cPwT7evW4B032
    g==;
-X-CSE-ConnectionGUID: HXQsx1eLQDeCCvGf5ck4Sw==
-X-CSE-MsgGUID: /Mv80SpcSaqG3E8XUBmapQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63455509"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63455509"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:35:50 -0700
-X-CSE-ConnectionGUID: 7iSXPJDGSyCTieNDqv+A8w==
-X-CSE-MsgGUID: fTsV59OuQrWmJNyqfIgNcg==
+X-CSE-ConnectionGUID: U99k0GdKQkq0hC9kaJaQJw==
+X-CSE-MsgGUID: gKjhNUyPTny9BGFe/MX1CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62570458"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="62570458"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:39:26 -0700
+X-CSE-ConnectionGUID: eWAiBujDR8uX1nRj9EuO5A==
+X-CSE-MsgGUID: Y3Ll4AUfSEu+xoBLv0ZhRQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="188123714"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.163])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:35:49 -0700
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vBovJ-00000001rej-357D;
-	Thu, 23 Oct 2025 09:35:45 +0300
-Date: Thu, 23 Oct 2025 09:35:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: tanze <tanze@kylinos.cn>
-Cc: perex@perex.cz, tiwai@suse.com, phasta@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: emu10k1: using vmalloc_array() to handle the code
-Message-ID: <aPnMwXMuOk7bijHG@smile.fi.intel.com>
-References: <20251022092738.552700-1-tanze@kylinos.cn>
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="184849576"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.145]) ([10.245.246.145])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:39:22 -0700
+Message-ID: <a464eb64-4c07-41d0-989a-bdc9eaae9acf@linux.intel.com>
+Date: Thu, 23 Oct 2025 09:39:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022092738.552700-1-tanze@kylinos.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: Fix function topology name check in profile
+ info output
+To: Chen-Yu Tsai <wenst@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org
+References: <20251023061226.1127345-1-wenst@chromium.org>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20251023061226.1127345-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 22, 2025 at 05:27:38PM +0800, tanze wrote:
-> Change array_size() to vmalloc_array(), Due to vmalloc_array()
-> is optimized better,uses fewer instructions, and handles
 
-better, uses
 
-(mind a space after a comma)
+On 23/10/2025 09:12, Chen-Yu Tsai wrote:
+> The function topology feature, and the plat_data->machine field that
+> specifies this feature, is ACPI specific. The check didn't take this
+> into consideration, which causes a NULL pointer dereference splat on
+> OF platforms:
+> 
+>     BUG: KASAN: null-ptr-deref in sof_create_ipc_file_profile (sound/soc/sof/fw-file-profile.c:291 sound/soc/sof/fw-file-profile.c:340) snd_sof
+>     Read of size 8 at addr 00000000000000c8 by task (udev-worker)/247
+> 
+>     CPU: 7 UID: 0 PID: 247 Comm: (udev-worker) Not tainted 6.18.0-rc2-next-20251023-03804-g93b191bc0c26-dirty #747 PREEMPT  ba3c303a11d89508de4087cb5b4f8985b6d87b6f
+>     Hardware name: Google Ciri sku2 board (DT)
+>     Call trace:
+>     [KASAN stuff]
+>     sof_create_ipc_file_profile (sound/soc/sof/fw-file-profile.c:291 sound/soc/sof/fw-file-profile.c:340) snd_sof
+>     snd_sof_device_probe (sound/soc/sof/core.c:304 sound/soc/sof/core.c:388 sound/soc/sof/core.c:460 sound/soc/sof/core.c:719) snd_sof
+>     sof_of_probe (sound/soc/sof/sof-of-dev.c:84) snd_sof_of
+>      platform_probe (drivers/base/platform.c:1405)
+>     [...]
+> 
+> Check that the ACPI specific field is actually valid before accessing
+> it.
+> 
+> This was seen on a MediaTek based Chromebook.
 
-> overflow more concisely
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-concisely.
-
-(mind a period at the end)
-
-...
-
-> -	emu->p16v_saved = vmalloc(array_size(NUM_CHS * 4, 0x80));
-> +	emu->p16v_saved = vmalloc_array(NUM_CHS * 4, 0x80);
-
-I think this should be
-
-	emu->p16v_saved = vmalloc(array3_size(NUM_CHS, 4, 0x80));
-
-Or, if we have vmalloc_array3(), which I doubt, use it.
-
-But since NUM_CHS sounds like a compile time constant, the above approach may
-work too.
-
-Anyway, this can be addressed later.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Fixes: 2b92b98cc476 ("ASoC: SOF: Don't print the monolithic topology name if function topology may be used")
+> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  sound/soc/sof/fw-file-profile.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+> index 4a2afc04f338..76bde2e0be1d 100644
+> --- a/sound/soc/sof/fw-file-profile.c
+> +++ b/sound/soc/sof/fw-file-profile.c
+> @@ -288,7 +288,8 @@ static void sof_print_profile_info(struct snd_sof_dev *sdev,
+>  	if (profile->fw_lib_path)
+>  		dev_info(dev, " Firmware lib path: %s\n", profile->fw_lib_path);
+>  
+> -	if (plat_data->machine->get_function_tplg_files && !plat_data->disable_function_topology)
+> +	if (plat_data->machine && plat_data->machine->get_function_tplg_files &&
+> +	    !plat_data->disable_function_topology)
+>  		dev_info(dev, " Topology file:     function topologies\n");
+>  	else
+>  		dev_info(dev, " Topology file:     %s/%s\n",
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Péter
 
