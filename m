@@ -1,75 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E2C30DEC5
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC61830CD8D
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761219165; cv=none; b=k3R8MtiW37D8Zc4cKWlwRyY+RiakOavqLQLNt+37bEPs6OaZ/VlG1xkveFCxyDVp34/HmOtpUq1Xptm1M/02mOQoQI9z7RmiKIpHtCfUym6sP1OpiVqA+/WNo+DnooHNqwCryLnSEvEUW49la/6t5o4UvFF2ACmNz3OpPDhBfzw=
+	t=1761219667; cv=none; b=mWC2bBo4pnpwRq4ApFZ5N6HAZyv4JzERzlWQN3fscl7T9gWbYpBGJykhjCbakdHuBr/GTrYCONDMuw6kcFiVACxtGfsoncsj4QKhjcbOakslftSXXm/c0LKzS+s81n3KWlrMSGYnxVN0Lzr5RcWRhYRGtZ3PoiMv2fXfVPnpWUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761219165; c=relaxed/simple;
-	bh=xW5OUG8Q8l7Lz4izuT+s8bBaC4n+K0ztT6HLKvlm7V0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/6iGo7WZjfusREJo88eubMAOdmf/g+5gcYurAwVUgzo8ZvClnGzuzhr8YaIzhJrKVawAJB5F7aTaaUd2o7WqqVnLLoq+fNx8LZznt7drpl+qVDVwr3b7dKOyZ6qGZQlYGQMZPS9Pn7oUGrdL9WvQoqlIEhWAIMu9khaF6FJ2QE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYmHGocV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761219667; c=relaxed/simple;
+	bh=JfGhgHwpLMY8ZN7NE0j1mONCcInEbkiYXtkGIpf9Hnw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PusLMJ+9L1/aWtE3femnOscNJh/cLlW4m+KGFboQQgHjNIlpvZYH2EGOXZzDZlBY4LgFpc+48rUSVTmZCdCbxOUy7U9XpPiOGcdWUAgeMwTv4PT6ljwf30+1xJLzvFt7U73hWEkQ0IZS20w5D7+jo1yfu6i1C3hG9pvEf5y3IWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OpgFkIeF; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYmHGocV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3547C4CEE7;
-	Thu, 23 Oct 2025 11:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761219164;
-	bh=xW5OUG8Q8l7Lz4izuT+s8bBaC4n+K0ztT6HLKvlm7V0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gYmHGocVNhwt810V4M3tskJPptl7WkO9wS2T351JFqvo8PFUTZKV5WD0Z1hg7XrnY
-	 Bh0LfrwVRWDvtJY+zo3u0DrU6FkkCJ2uMaq/xJxVubxY0TxSht+HRGkWTGYbSQvKbc
-	 6pnE+qxaY9E/rgiMC1LadfMR6biqgVdL8uJaJQdWdUj3TFc/T77WmnC1fnvvYedNd8
-	 +aiqUBMeZH3QDbaRfZvjxq9//ve2bDUkezeY4oEZcS73bJ/98K3BIryU/xaO5noWTX
-	 kD9uh0EG7n93BLKpqdSU8oPi2hIB0ZfsnkWeBwe1SDnvG8b0EzUm1oB1Q+Qw9zW9p9
-	 1yGyhyNwQddTQ==
-Date: Thu, 23 Oct 2025 12:32:40 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Sharique Mohammad <sharq0406@gmail.com>
-Cc: perex@perex.cz, linux-sound@vger.kernel.org, lgirdwood@gmail.com
-Subject: Re: [PATCH 4/4] ASoC: max98090/91: fixing a space
-Message-ID: <e2d5012c-be80-4b5f-a955-ee026d8c4d3a@sirena.org.uk>
-References: <20251023070347.1936838-1-sharq0406@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OpgFkIeF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761219662;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JTfoGAYLgYIX6GNAITLHC8PU3VE7pVSsb7UI9EQm0+E=;
+	b=OpgFkIeF+6b94FB/qThR7CT03noK6bkGQeBNIO+ZvzeL/ZeagccJL9v9q3FpJSsFNRSGZE
+	owKcBBv6vxYfU8oF7o0ZPeR0hWyHPH2ctqJEr2fusPvOOSGAdRKhHtCZZcZy11V40yHVYv
+	mdMAahwOSOeuaE0F5kOQEK1QSB3dXZ8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-134-XtrvFgT5OlO8Tftgj-2d6g-1; Thu, 23 Oct 2025 07:41:01 -0400
+X-MC-Unique: XtrvFgT5OlO8Tftgj-2d6g-1
+X-Mimecast-MFC-AGG-ID: XtrvFgT5OlO8Tftgj-2d6g_1761219661
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3ece0fd841cso333264f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 04:41:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761219660; x=1761824460;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JTfoGAYLgYIX6GNAITLHC8PU3VE7pVSsb7UI9EQm0+E=;
+        b=BksevBFfpwRJ6MPeJoaaA/H97vPK/KDntgh23dpmloW1cpYPjI/Iwug1BQ+Rn6aKZl
+         GtZDVamfE/mrETWNST5K5KFmFYxloQcKtGiuGNyB6hF/WGUzk4ZRIFQ0xweesvvdFOAB
+         UPm1VzQSx3LxiR1EKAudMyo6diZCjA8uzvcz+gowDO/hhfpO+2DcRHfCToWshEK8lj1Y
+         z+sIXb7RL11neBOU0I38I437/e9KZlGxyl74jKAAWSQMJA7nN5NgLOQdO62z9oILaaDR
+         vbqdxESdwAi8fjpo0wPcqMM6uCWZnyZvyWt49KxZN29Pq12v6i3BnO0TD1cy+HFWj2R7
+         eImg==
+X-Forwarded-Encrypted: i=1; AJvYcCVK1YpaTcj98rWA0tJGO+n+NlTPwYTX9aI34bS45gVjt6ys3B+cyK+9Z5UG3MXWiNDNt2Ia+7i8KugK/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQna3VTNKOAkgj002yajBOsHxNCvFn/hf7+x0kGnLdVRbF4jVS
+	h5VjRQ9foksPa136lXnXw+uKRmhQ10H0wjigsyaKII9bi6zwVXrM7INFod8dmsexy2VBT34fVCB
+	FaRhWkLEf8vlv0MstnTGj4ow7eE1ASZKWCVXl9X5o6g7h61S/yU1T6npI+xYt3+lj
+X-Gm-Gg: ASbGnctSPxAHsS4xkW5GtFzoitHNWb/3G4y5ZVmHKRLEXgCQnYJ6gUlG/WH0qFLsEHl
+	rWeZXhCjbSn1+xMrajebuewAXoiS4VWgo6FC9Wjj9XE9g32yS6wMPtTw1VfafEZOND8vsP7aPKJ
+	AofvQMJPxiSLKrmqh1mNs2OT505q8DkklhV/ORUuUrq8S7dDTJEDTzjot1nqxNI0ytoj52nNMRT
+	qAhZDeGfzImGm3rUJzr6PH7xscpUf0u/IstFlUsKEe4m4vmiDaaiXMar1ACXIRgNjdsoD7MczRo
+	LSZNqd2OFaqJtNQXHhQHkGcciF79Y1KsfHrw0KrJ6wP2usE/MJr5NhC+xJmc6ghkO3kKlaPlqIz
+	iWcvkwDjiS6ZmP+pNzhGFWtHmJuAyRdgVAdjHUdkfQhA0fPcYNyHiTeC7RA==
+X-Received: by 2002:a05:6000:290d:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-42709d787bemr16501625f8f.47.1761219660478;
+        Thu, 23 Oct 2025 04:41:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGga/dbFzBh/7CGunH02MO0/qgRvCo8R5WOxXoe6UrfNz3I55XAJXxS7UJN68rIPt2eReX/zA==
+X-Received: by 2002:a05:6000:290d:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-42709d787bemr16501585f8f.47.1761219659993;
+        Thu, 23 Oct 2025 04:40:59 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429898acd69sm3562102f8f.24.2025.10.23.04.40.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 04:40:59 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>, Mark Brown
+ <broonie@kernel.org>
+Cc: Wolfram Sang <wsa@the-dreams.de>, Herve Codina
+ <herve.codina@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nikita Shubin
+ <nikita.shubin@maquefel.me>, Axel Lin <axel.lin@ingics.com>, Brian Austin
+ <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 1/3] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
+ automatic module loading
+In-Reply-To: <d42ab1a0665f55731aabd1e9fcb31b8401b7913f.camel@gmail.com>
+References: <e7873e6ce07cd92f4b5ce8880aa81b12c2a08ed3.camel@gmail.com>
+ <d38779a7-a1af-49e4-b429-5ebd791e2168@sirena.org.uk>
+ <d42ab1a0665f55731aabd1e9fcb31b8401b7913f.camel@gmail.com>
+Date: Thu, 23 Oct 2025 13:40:58 +0200
+Message-ID: <873479ong5.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ek1LAPCOQ077uUrL"
-Content-Disposition: inline
-In-Reply-To: <20251023070347.1936838-1-sharq0406@gmail.com>
-X-Cookie: I've got a bad feeling about this.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: o7CT-ObaqabO0tDn145l68tOGimymE9SvWb0rYei738_1761219661
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
+Alexander Sverdlin <alexander.sverdlin@gmail.com> writes:
 
---ek1LAPCOQ077uUrL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hello Alexander,
 
-On Thu, Oct 23, 2025 at 09:03:47AM +0200, Sharique Mohammad wrote:
-> removed an extra space
+> Hi Mark,
+>
+> On Wed, 2025-10-22 at 15:56 +0100, Mark Brown wrote:
+>> > > I'm very reluctant to touch this stuff for SPI without some very careful
+>> > > analysis that it's not going to cause things to explode on people, right
+>> > > now things seem to be working well enough so I'm not clear we'd be
+>> > > solving an actual problem.
+>> 
+>> > The actual problem is that i2c-core is producing "of:" prefixed uevents
+>> > instead of "i2c:" prefixed uevents starting from v4.18.
+>> 
+>> > Most of the dual-bus ASoC CODECs are affected.
+>> 
+>> That's a description of what change but not of a concrete problem that
+>> users are experiencing.
+>
+> the concrete problem Herve has experienced is that cs4271-i2c will not be
+> loaded automatically starting with Linux v4.18 (commit af503716ac14
+> "i2c: core: report OF style module alias for devices registered via OF").
+>
+>> > Now declaring "of:" to be the new I2C bus prefix for uevents starting from
+>> > Linux v4.18 sounds strange.
+>>
 
-This is numbered as though it were part of a series but it's just a
-loose patch, patch numbers only make sense within a series and create
-confusion when included outside them.
+I don't find that strange at all. My opinion is that is the correct
+thing to do for the following reasons:
 
---ek1LAPCOQ077uUrL
-Content-Type: application/pgp-signature; name="signature.asc"
+* The struct of_device_id table (and not the struct i2c_device_id table)
+  is used to match registered devices through DT / OF with I2C drivers.
 
------BEGIN PGP SIGNATURE-----
+* All other bus types but SPI report an MODALIAS=of: for devices that
+  are registered through OF.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj6ElcACgkQJNaLcl1U
-h9COywf/biKYX0iUOc/ktLle0lhgZfVffynt4igSjaV6pX2jbBgDbegCGktgbh3l
-7y2lxmKKAbOxClbV3AsPcQKDdhMDgPbjBmVmHdu6KzloLB1ByoJcqJpXstjzIA4x
-/MQ5DbWZXfvOviWn7aOKEBI0ks67F3KN1gWYO4dP/JVUzthtS0bAUOPqcn67OpTQ
-qn5BzGcw8kaLqtZ1i6cxjuqIHdPARGGeG0+Gv4EmT9W8DX/izh3BxbeB37fFXpAn
-UJ11DdVKv/6ofXR5W3sRdzfNQQHdSEpx1+yge5CBSmVXbWWunG6dS3Z9ujSOwAJD
-FOMv9SbBMra4RhYKZG+6z9HErUzCdg==
-=2MrI
------END PGP SIGNATURE-----
+* I2C (and even SPI) devices registered by ACPI report a MODALIAS=acpi:
+  and not a MODALIAS=i2c: or MODALIAS=spi:.
 
---ek1LAPCOQ077uUrL--
+So I would claim that I2C reporting MODALIAS=of: when devices are 
+registered through OF are consistent with other buses, using the same
+data to both load modules and match drivers and also more consistent
+on how the I2C subsystem handles registration through ACPI, OF and pdata.
+
+Unfortunately the DT support in SPI was not complete at the time, and I
+don't think it can't be changed at this time without breaking something
+as Mark correctly said.
+
+I fixed a lot of I2C drivers and DTS when doing the I2C converstion and
+even with that some regressions were introduced like the one you report.
+
+>> I think a robust solution would involve having the OF aliases namespaced
+>> by bus, or just not using the OF aliases but potentially having
+>> collisions if two vendors pick the same device name.
+>
+> But this sounds like the situation before the above mentioned commit
+> af503716ac14, when both i2c and spi were symmetrically namespaced with
+> i2c: and spi: respectively and contained the "compatible" stripped of the
+> vendor prefix.
+>
+
+Is not the same for the reasons I mentioned above. What Mark suggests is
+to encode the bus type information in the OF compatible string, while still
+being consistent about the table used to report modaliases and match devices.
+
+Maybe we could have something like the following (not much tested) patch ?
+
+From b00f5914606fb72a5f7bdb38e63d109264261dee Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Thu, 23 Oct 2025 13:32:04 +0200
+Subject: [PATCH RFC] of: Report the bus type in module alias type sub-field
+
+The modaliases for devices registered through Device Trees don't have any
+information about the bus of the device. For example, an I2C device has:
+
+$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent
+DRIVER=ssd130x-i2c
+OF_NAME=oled
+OF_FULLNAME=/soc/i2c at 7e804000/oled at 3c
+OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
+OF_COMPATIBLE_N=1
+MODALIAS=of:NoledT(null)Csolomon,ssd1306fb-i2c
+
+$ modinfo ssd130x-i2c | grep alias
+alias:          of:N*T*Csolomon,ssd1309fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1309fb-i2c
+alias:          of:N*T*Csolomon,ssd1307fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1307fb-i2c
+alias:          of:N*T*Csolomon,ssd1306fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1306fb-i2c
+alias:          of:N*T*Csolomon,ssd1305fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1305fb-i2c
+alias:          of:N*T*Csinowealth,sh1106-i2cC*
+alias:          of:N*T*Csinowealth,sh1106-i2c
+
+The module aliases and compatible string have the bus (-i2c) as suffix to
+denote that is a driver for a device that can be accessed through I2C.
+
+This is done to prevent disambiguate in the case that the same device can
+be accessed through another bus (i.e: SPI) and have a different driver.
+
+To prevent this and allow to use the same compatible string for the same
+device regardless of the bus type used, let's add information about the
+bus type in the devide type module aliases sub-field that are reported to
+user-space. The same device then will report something like following:
+
+$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent
+DRIVER=ssd130x-i2c
+OF_NAME=oled
+OF_FULLNAME=/soc/i2c at 7e804000/oled at 3c
+OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
+OF_COMPATIBLE_N=1
+OF_TYPE=i2c
+MODALIAS=of:NoledTi2cCsolomon,ssd1306fb-i2c
+
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/of/device.c | 6 ++++--
+ drivers/of/module.c | 8 ++++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/of/device.c b/drivers/of/device.c
+index f7e75e527667..4187decc2873 100644
+--- a/drivers/of/device.c
++++ b/drivers/of/device.c
+@@ -225,8 +225,10 @@ void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	add_uevent_var(env, "OF_NAME=%pOFn", dev->of_node);
+ 	add_uevent_var(env, "OF_FULLNAME=%pOF", dev->of_node);
+ 	type = of_node_get_device_type(dev->of_node);
+-	if (type)
+-		add_uevent_var(env, "OF_TYPE=%s", type);
++	if (!type)
++		type = dev_bus_name(dev);
++
++	add_uevent_var(env, "OF_TYPE=%s", type);
+ 
+ 	/* Since the compatible field can contain pretty much anything
+ 	 * it's not really legal to split it out with commas. We split it
+diff --git a/drivers/of/module.c b/drivers/of/module.c
+index 1e735fc130ad..f22ddc83ef40 100644
+--- a/drivers/of/module.c
++++ b/drivers/of/module.c
+@@ -11,6 +11,7 @@
+ ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+ {
+ 	const char *compat;
++	const char *type;
+ 	char *c;
+ 	struct property *p;
+ 	ssize_t csize;
+@@ -24,10 +25,13 @@ ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+ 	if ((len > 0 && !str) || len < 0)
+ 		return -EINVAL;
+ 
++	type = of_node_get_device_type(dev->of_node);
++	if (!type)
++		type = dev_bus_name(dev);
++
+ 	/* Name & Type */
+ 	/* %p eats all alphanum characters, so %c must be used here */
+-	csize = snprintf(str, len, "of:N%pOFn%c%s", np, 'T',
+-			 of_node_get_device_type(np));
++	csize = snprintf(str, len, "of:N%pOFn%c%s", np, 'T', type);
+ 	tsize = csize;
+ 	if (csize >= len)
+ 		csize = len > 0 ? len - 1 : 0;
+
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+-- 
+2.51.0
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
