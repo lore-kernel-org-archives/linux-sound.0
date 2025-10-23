@@ -1,277 +1,113 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B75314D1B
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 13:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674473148CF
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 13:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761225711; cv=none; b=UVv+/RTpc+gTqgEoThEyW0gW0mkc2DkYcwQhDLufTd86K3kzVTqPEOFhxznSA/t6s2kr6RY6N6j5AvcbbhTzNlj96O+cLc9PFSVvpCZNl/hqs1r2e84Bk+cR+9Ph74C9pgTnNNw43enm4UzASk9HNoNYtQYU1S+rFMHG7UO1FJ8=
+	t=1761227752; cv=none; b=dBd9wQywse+iIsH3n1F/mSJ2NBACsJjjW+mFjadULBr/aS4T0jUQSSqtf1qsV+gTjFaWRXlgVGau2A40XzvgQ+afzN/+SUTH1g8ya0pZPFagirr1DgzLIu0rxzLb57veA4L2Ozih39ekY8x27J63BtMF4clGTEOhyrO5R9706dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761225711; c=relaxed/simple;
-	bh=bI1LhXXoCjT+GSMT3kkm1ZRzd54PARffICLaqyu0YAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GR4uGNYkjxHxJ4Y3iQ2AKHEhEWN8nJu4mbUue2BpuqYGEcrbyw3pTHsMNQmuLrxTHi9gjW/eTqqEc0nBTO25KI5di4y/DfkrmcPruBfiH2Dcib1cUkgmb+65T10leTblyxpOd5/xZodxJZNNH1BO3U8DzdohDkiY0JNh0S2ZYV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RxSTbIfX; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1761227752; c=relaxed/simple;
+	bh=IpvvKMDeUVDhUPvWRXSZe9FOqh+M52LzGhFaBjsBh/g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f35qZOetjuezT9JMEmq/6xRfkC486K6mwRDISMYIuzubzHOna/ugzV9hfYXm0Mc4tVOZX3XZBs6DobsyW6pz/YlIxTswDJkY4fVrw0wL9tEU+5LRtDDlitToQpdQwSPHxfwgYOEFt9U29wuPxMN0vGLfnSmi2oZQQV2KqnWwa6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hUAZArw0; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RxSTbIfX"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N7FCqr011761
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 13:21:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=aYiJGBEDwxxPKH+N+F2798Tx
-	YOZYqgIe5iOrPfIMAgs=; b=RxSTbIfX6WG+geB19i3oVps81Cx20gAbAdkOV/mC
-	AbW4Dd7b8SuySz4ePyO3/taOAD9FOa5/YzH6ipJVMJaFJjFPnyNCbVRG4Th+p9HB
-	L80vhVrEyvRwqJdJLhtBYBWeAOtlTDSdBQ/nZ9BbNaVT8mpGhGIyd2JlocTbaSBf
-	IpP8gj2/lXNoFffQOtKpwcjiZ6SdNFyNQRwVCxGwLbhn30Uu6mnRuDWlLS7xeBsK
-	PfAK3xDkIFF1Y7N4HkhYYTcpY1u7nwyv+acRhusQwg61aYhyb09TziQwzbP1Jl5Z
-	2goJyPO5dinCRkze3U1fqaph6diKVh5f/z34z2PSkRct0w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49y524aqdn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 13:21:48 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4e88947a773so37567471cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 06:21:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hUAZArw0"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-427015003eeso831059f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 06:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761227749; x=1761832549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R/eMMiYExXphSaV0eJ7915+DqGCkBLLJG3TnOqbWPUA=;
+        b=hUAZArw0My6j3bBwXBePWetjuCW2WWKKQGVUT9OJqnZx6/aiMhytdldMx177LISTYb
+         KSYQuxxfZXWfVtLFzfDn2dfxOpH1DMAzjpRrvXMZoY6bPX4KXmLVZkrpRtQAMbamxY50
+         kgQV1pld1hMLeb6v4Fsfv8wcpH2QjSrscE0JX9skeILpXFO9GoOVA/MmLkRODZblpgY5
+         FBu6w+kfvYqTiUdTEhBXMFDvOGR0Lp0ZRomro7FXEuRbuLXRYmskotXOFIfHuGN+vqok
+         c0DRRjyPNJenYjANPm4U+Su852BKmrwtfY8+exrCuT9b4Lb27McP5DjKWrdWMh2eEEHE
+         NQNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761225708; x=1761830508;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aYiJGBEDwxxPKH+N+F2798TxYOZYqgIe5iOrPfIMAgs=;
-        b=dy6GcQW3wk4VHbuVWvEEs2SaifJMa86WPCpgwrzg8yRyKl1xDxd6+ckKdurtLNeRNd
-         +fM1lLta745ko4mPWbn1YhC0uhpthtlQiPzPYdrB9aUjpwSmoI2v6Wrsfd1Lm0TSX5EI
-         9Xo4O9EVqBRZCGQuZWKOWKAj3CpgsojvJ9uqjY1oGJimnnOUPYWsDPccjfQXYTP0csD9
-         OMJGkc7QXxsUH+opMOCISgmi9GWPniWuzbhxE/UW0AyG4kpdQ/FQ85IsO+h9/KQPksWD
-         ZWv2KdMhYuT9dF5ZjR9rcBv2k8Af1hBykZPPN6i6R5D9Elz5i9tEk80iKmEBgqHdqcBL
-         z8jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULH1C4HKjexwgmDg3eTt2ICMo2BceAd2o8y0KSs2fxPyqPs7cUzJ4eHzeRq532CMzCf/5N7KXmPdkrEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzs2GWpKRQnH/AeCIRM6FlKsZTpOATGBnjULzRHOip6VcYh6oR
-	mpO2so8a8VB6SLh7Niof29iBB4n+3LdbYiiPaLv3PLTtclHemeGEF681zYikQ0Ulgg8JuohlMtA
-	NUWzDNKpReQ1f6LJDU468tMZ2gHbczFuWiaBBhnFngl7zrN0eT0WsqzAdHI2Nn4FUgQ==
-X-Gm-Gg: ASbGncuK52YxpTy+GXVdkXWLoZpf3CGDI1W/2ja9E206neFY7Z8u5Xm/Uy9qYK5G4z2
-	phOWb5qFQTuQl5qjBXRY5fS1FOUv3i+Mc6gd4iPvKyh5n0PjQAx33RaLDaUmaiEPtTVoNxWIvxH
-	qZOb2MghHXmVgCdqK+YEgE/zVOEjEF1rspWDdIhIWyEs9qt8GZ2APZ36Ex6ZrMgDGX+/KQzph9C
-	AE8cRDR9wGpnvz9k1t2LPuMr6r3QhWjsj2pHv8mMd9wm+HSNLfPFszyD+mfJnU9dSuPXlpTtrkD
-	hw92/H5JIYzC4lCqhqZaBhPSCQdzOHOGDca+UIzDrnrWcNFFn7sJfmHy+V8ksGvK4joS/aZnRnK
-	3/VXnq+fuW53DvydWvxOvpUDni77b4XXRpz5iFB/2n0M0i2r5oZR+Th3UUt2OG2zRargEI+jzTa
-	XGkpR2upmbn/OC
-X-Received: by 2002:ac8:7fd3:0:b0:4b7:9abe:e1d6 with SMTP id d75a77b69052e-4e89d1dd370mr311674611cf.17.1761225707437;
-        Thu, 23 Oct 2025 06:21:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuq5dFF2lUVdMzxUAI6oXyVuLskGEYUhb5l3Z3iRkPe+t8Xmf8Pbu8yBQXt8fpjtm/vTvAcw==
-X-Received: by 2002:ac8:7fd3:0:b0:4b7:9abe:e1d6 with SMTP id d75a77b69052e-4e89d1dd370mr311674051cf.17.1761225706796;
-        Thu, 23 Oct 2025 06:21:46 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592f4d1f51dsm738183e87.80.2025.10.23.06.21.45
+        d=1e100.net; s=20230601; t=1761227749; x=1761832549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R/eMMiYExXphSaV0eJ7915+DqGCkBLLJG3TnOqbWPUA=;
+        b=fj5lwYa+v9npu1z/rrTs8UwCNZ2PxMPEUVJ5f7JmNwamzVuL87x+f6i3+olctNq4Up
+         AxLjoheaF1QPMdHSzBmqGh4ktO+zYhuVHLvcEmxhG4PWjCW2t860WiQFKWi+2SM54yjg
+         5Gmj8E02Sj6e0YxHYTu90R0wzyW8pnkORx+0R/NMMfb03kigyUpCjeCmb8p5jBJOImkQ
+         SbrcY/paaWYDNSnECIZI5H7WWCNP5sA5ZuQo6WhwidOkGvza3XG4thhWD4UY/GfMeLtm
+         t2/pcXBvFDv3txxoesS5oTfPmGgqUS8pzPcB/vNwSs46DtCDRyqM5bdVfFg1WDzn3+11
+         bb8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVtSM4mRFzCBWkebhK3QyJtTa8IjVbEDxiAHPYqywqdd17iDTZkTjzZ6c8IYE0CN/7KN4u6uI3n1JEkHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw8E1FGCFvSzEUq9cOZWwSsF6bC7d+RBJFqOIIbfNBZ6xstD02
+	Xgh/ymKZdIpsAIJuDaimAU7a04LYwYnT8SDJGZnKDSNMvvnTBwh/Ttn1
+X-Gm-Gg: ASbGncsisskh4vD4Iacg82hpyCHveQIMvcU0AKQ7D2Bi9cf/+9gphswi1O74R7yYKEU
+	kPV5Rv2xpUaDDEb9xWgxPbt30/R77rif4ivAaWBKlLoks1Fj8LbSbjglQcGV3DZv4zzQxX7e57E
+	B+U56DJ1hAMtqNeZuswVYQ1ixyNQrgBsdYto3Xcqz00heW9F9mhR2cfrPQiK1a2V2XYT6QzbvYf
+	++ScGDH+wf1yQcx647qmuOySbH7OIg6mLAMW3jPbTeuSRMU1ZDOyxs9RxxHioDFC7B0Ye1+o78y
+	zI99VyZ/TzOPBqP8CarEj9cf+rQ5ko1w8gh+9+Gz3UPA2NatjMtPiuf1z3eUH2w7yErRax9LAiH
+	UoHs4QyHKx7xUt1ML+w7FrCKp+JGge5HJWUz3HYeVVrhZAZF7A/V9/1QVTuORcQcelq+G583oAn
+	OWDB4e0DsVmYijAMXFxdqCWtIl/92lW8lnBDMDG127C8Gpt6U4NMGmWA==
+X-Google-Smtp-Source: AGHT+IEFMXtBhGlwydY+8NEah9cTIdVlF37W8QggkFOe+uBfl90n+GxwvtCkgvqo+SsLBMKJaECmTA==
+X-Received: by 2002:a05:6000:2887:b0:429:8a19:96cc with SMTP id ffacd0b85a97d-4298a199962mr1584427f8f.32.1761227748501;
+        Thu, 23 Oct 2025 06:55:48 -0700 (PDT)
+Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429898ecabdsm4327126f8f.47.2025.10.23.06.55.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 06:21:45 -0700 (PDT)
-Date: Thu, 23 Oct 2025 16:21:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Jianfeng Liu <liujianfeng1994@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
-        David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-Message-ID: <7vtf5dlfvwkhms7c6licxf6hw3653uckv2trqjmy5sfl33lbuy@565k4iqcvwhg>
-References: <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
- <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
- <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
- <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
- <f9c922f5-52af-45bb-a4ca-7ca80c0c3534@kernel.org>
- <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
- <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
- <f1338318-0135-415e-ab65-482cef20f919@oss.qualcomm.com>
- <zlu5x6v2xkum67prrtk26r7govenczuntjvlrflvdb6lpd2ssy@jgrnl6elophe>
- <2ded2868-ae77-4c9d-9456-ac2af775a219@oss.qualcomm.com>
+        Thu, 23 Oct 2025 06:55:48 -0700 (PDT)
+From: Sharique Mohammad <sharq0406@gmail.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com,
+	Sharique Mohammad <sharq0406@gmail.com>
+Subject: [PATCH 4/4] ASoC: max98090/91: adding DAPM routing for digital output for max98091
+Date: Thu, 23 Oct 2025 15:54:38 +0200
+Message-Id: <20251023135438.2245693-1-sharq0406@gmail.com>
+X-Mailer: git-send-email 2.30.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ded2868-ae77-4c9d-9456-ac2af775a219@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDE1NSBTYWx0ZWRfX6MKUsmZeiAq3
- vb33EUWo80EWWkUkQxKjyc4JBdAvazyIdqRTM4DiwnHF4FFgoWifcJryqzptcBWMu81Gk5CaQCG
- xIzTBKorLj3uovRBQq9y8vWqUTGrvui7R4WyQXWMLDY4gv3CdYsGRjVKid2lCmqooxRfcOdA+vf
- e4QoWNIWpWh7/fGzsO25iBzz6RBY4QjHBAUooUYnqvm+k0cwTkV2UH8b70dPVpV9SA/2w4plRGG
- Lz8YkcHRkkPtN3uBC5lMwIHyPuqgdFbAl61sSzR+hK9Fz7SRvkYmH3uyVCLZRdjp7R4YVBLmXc/
- 5KZqnrqJlQOwRXezuV1rC2QFuyldjcVdbhKSUztDwmzED9AuwtZ3JCoMb5oS/bTuo+Ix47mH2Gd
- IQVFfSWD5hLfe//oheT1hqNT1ha+NQ==
-X-Authority-Analysis: v=2.4 cv=Uotu9uwB c=1 sm=1 tr=0 ts=68fa2bed cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
- a=9F4OQHvmJvbc7bxQTiYA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: bvsU8o9AClNpOJWweN4wzB4xYZiq9E7c
-X-Proofpoint-ORIG-GUID: bvsU8o9AClNpOJWweN4wzB4xYZiq9E7c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-23_01,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- adultscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510220155
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 23, 2025 at 01:47:33PM +0100, Srinivas Kandagatla wrote:
-> 
-> 
-> On 10/23/25 1:24 PM, Dmitry Baryshkov wrote:
-> > On Thu, Oct 23, 2025 at 12:48:59PM +0100, Srinivas Kandagatla wrote:
-> >>
-> >>
-> >> On 10/23/25 12:43 PM, Dmitry Baryshkov wrote:
-> >>> On Sun, Oct 05, 2025 at 06:29:20PM +0300, Dmitry Baryshkov wrote:
-> >>>> On Sat, Oct 04, 2025 at 02:16:08PM +0100, Srinivas Kandagatla wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 10/3/25 6:02 PM, Dmitry Baryshkov wrote:
-> >>>>>> On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
-> >>>>>>>> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
-> >>>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
-> >>>>>>>>>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
-> >>>>>>>>>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
-> >>>>>>>>>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
-> >>>>>>>>>>> use msm_dp_audio_prepare instead. While userspace is still calling
-> >>>>>>>>>>> hw_params to do audio initialization, and we get the following errors:
-> >>>>>>>>>>>
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>>>>>>>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> >>>>>>>>>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-> >>>>>>>>>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-> >>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-> >>>>>>>>>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-> >>>>>>>>>>
-> >>>>>>>>>> And a call to hdmi_codec_prepare() comes only at this place.
-> >>>>>>>>>>
-> >>>>>>>>>> Srini, Mark, when selecting to only implement .prepare for codec ops I
-> >>>>>>>>>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
-> >>>>>>>>>> hook"), which documents that IEC958 status bit is set after
-> >>>>>>>>>> .hw_params(), so it's only visible during .prepare(). Is it okay to
-> >>>>>>>>>> implement both callbacks? Or should the audioreach DAI driver be fixed
-> >>>>>>>>>> somehow instead (I suppose it assumes that the port is available after
-> >>>>>>>>>> .hw_params(), not sure if that assumption is correct)?
-> >>>>>>>>>>
-> >>>>>>>>>>>
-> >>>>>>>>>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
-> >>>>>>>>>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
-> >>>>>>>>>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
-> >>>>>>>>>>> hdmi-codec driver can work with userspace alsa.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Tested with Radxa Dragon Q6A.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
-> >>>>>>>>>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> >>>>>>>>>>
-> >>>>>>>>>> The patch LGTM, but I would wait for response from audio maintainers.
-> >>>>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> The ordering matters in this case as we need clocks and audio
-> >>>>>>>>> configuration on DP codec side to be setup before we start configuring
-> >>>>>>>>> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
-> >>>>>>>>> even before it is ready.
-> >>>>>>>>>
-> >>>>>>>>> q6apm prepare loads the dsp pipeline and starts configuring the
-> >>>>>>>>> endpoints, if the DP endpoint is not ready dsp would throw an error.
-> >>>>>>>>>
-> >>>>>>>>> We might be able to pull in some dsp logs to confirm this, but I dont
-> >>>>>>>>> have a setup that I can reproduce this issue.
-> >>>>>>>>
-> >>>>>>>> What would be your recommendation to proceed? Is it okay for the DAI
-> >>>>>>>> driver to depend on the .hw_params enabling the clock? Also I see that
-> >>>>>>>> the error regarding the clocks comes from .prepare callback too. What is
-> >>>>>>>> the order of .prepare callbacks()? Can we influence it?
-> >>>>>>>
-> >>>>>>> prepare follows hw-params, and prepare can be called multiple times
-> >>>>>>>
-> >>>>>>> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
-> >>>>>>> backend dia link drivers ?
-> >>>>>>
-> >>>>>> Yes. Here we got a dependency from the cpu dai to be prepare()'d after
-> >>>>>> the DP driver performs some actions, which were a part of hw_params()
-> >>>>>> callback but were moved to be executed during prepare() callback.
-> >>>>>>
-> >>>>>> This leads me to two sets of questions:
-> >>>>>> - In which order are those callbacks executed? Can we make the ASoC
-> >>>>>>   enforce some order of DAI's prepare() callbacks?
-> >>>>>>
-> >>>>>> - More improtantly, isn't it a sympthom of DP driver (incorrectly)
-> >>>>>>   performing too much in the .hw_params() / .prepare() callback? Should
-> >>>>>>   we move some of the setup to the .audio_startup() instead? What is the
-> >>>>>>   expected split between those callbacks?
-> >>>>>
-> >>>>> I have not looked at full dp sequences but, if prepare is the only place
-> >>>>> when it enables the required clocks for audio block, then it is a
-> >>>>> problem, we should do it early so that DSP can enable the required
-> >>>>> configuration in prepare.
-> >>>>
-> >>>> As I wrote, previously it was done as a part of hw_params, which is
-> >>>> also not optimal as hdmi-codec clearly defines both callbacks as
-> >>>> optional, requiring only one of them. Do you know, what is actually
-> >>>> required on the DP side for the DSP to be able to preapre()?
-> >>>
-> >>> Srinivas, did you have a chance to look at this? Or the .hw_prepare
-> >>> ordering? I really don't want to land this fix only to face the same
-> >>> issue because on some of the platforms .hw_prepare() callbacks will be
-> >>> called in a different order.
-> >>>
-> >> Dmitry, few days back Krzysztof was enabling DP audio on T14s, and we
-> >> have seen that the DSP is not happy and returning error 1 when we try to
-> >> prepare the dp port. The exact reason is codec is not ready at that point.
-> >>
-> >>
-> >> By adding this patch, Krzystof managed to get DP working.
-> >> XElite platforms were working before 2fef64eec23a ("ASoC: hdmi-codec:
-> >> Add a prepare) patch was merged, basically 2fef64eec23a broke what was
-> >> working before.
-> >>
-> >> Am happy with this patch, better move to hw_params instead of prepare.
-> > 
-> > And I'm not happy with it :-)
-> > 
-> > hdmi-codec defines that one of the callbacks can be optional. We know
-> > that at .hw_params time we don't have IEC 958 status bits, so we will be
-> > programming incorrect audioframe.
-> Your statement is contradicting with callbacks that are supported by
-> hdmi-codec.
-> 
-> hdmi-codec uses IEC 958 status bits both in hw_params and prepare, if
-> hw_params is not the right place, then that should be clarified and not
-> correct for any of the codec drivers to use this callback.>
+Each route connects two widgets, so in this patch, the widget "AIFOUT2L"
+audio interface output left secondary mic and "AIFOUT2R" audio interface
+output right secondary mic is connected to "SHDN" and also to "SDIEN".
+Route with "SHDN" as source is required because "SHDN" controls the
+shutdown and must be ON for codec to operate. Therefore, "AIFOUT2L" and
+"AIFOUT2R" must be active when "SHDN" is ON. Route with "SDIEN"
+is required as serial interface logic must be enabled, that means
+serial port must be enabled, which ensures I2S/TDM clocks and serial data
+lines are running. This is also the case with audio interface outputs
+"AIFOUTL" and "AIFOUTR" in primary mic.
 
-See https://lore.kernel.org/all/20210525132354.297468-6-maxime@cerno.tech/
+Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
 
-> > Should some bits of code be moved to .audio_enable isntead? If so, which
-> > bits?
-> 
-> I have not read the data sheet of msm dp block yet, but what it looks to
-> me is the audio engine in the DP is powered off while dsp is trying to
-> set it up.
+---
+ sound/soc/codecs/max98090.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Okay. What exactly is expected by the DSP? Which part, signal or clock
-should be on?
-
+diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
+index ef0c4f2ce1b2..2e6ec2ac5327 100644
+--- a/sound/soc/codecs/max98090.c
++++ b/sound/soc/codecs/max98090.c
+@@ -1436,6 +1436,11 @@ static const struct snd_soc_dapm_route max98091_dapm_routes[] = {
+ 	{"DMIC4", NULL, "DMIC4_ENA"},
+ 	{"DMIC3", NULL, "DMIC34_HPF"},
+ 	{"DMIC4", NULL, "DMIC34_HPF"},
++
++	{"AIFOUT2L", NULL, "SHDN"},
++	{"AIFOUT2R", NULL, "SHDN"},
++	{"AIFOUT2L", NULL, "SDOEN"},
++	{"AIFOUT2R", NULL, "SDOEN"},
+ };
+ 
+ static int max98090_add_widgets(struct snd_soc_component *component)
 -- 
-With best wishes
-Dmitry
+2.30.5
+
