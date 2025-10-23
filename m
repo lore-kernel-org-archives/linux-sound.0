@@ -1,130 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FDBEEAB;
-	Thu, 23 Oct 2025 18:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE73230BCC
+	for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 18:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761243330; cv=none; b=I4uQgZHinJdv7B7eOzNgUrB0gXYc4ptPSwIytd8MUXuS9hT3kQxiWi1dBg1cB2oOC8Na18XR9/hy1GtRCArFiJtw1MAyV/TSZsLuZYD8G7Kw1WTGUCV9zOfY+YakBe6wezlOgJj5ve6lPfXZWvDC9NvTJgz4mnYs0g6OnAy0g7g=
+	t=1761245044; cv=none; b=UTSBmbK1NKDwSqDlQUf7TRcCegRlAlu4EPrNYOH6A6hJf+kRm5FyJX/aOc7G35Bfu0O1vhHBvmEWkUDv/fu4CjSuQteYTf8GABnoMeCLltB7NFYVgnmjnMtY/DizDdff7HORe23564HahndNpxGCIIyJHe5EXnmwwL3CtqcrGc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761243330; c=relaxed/simple;
-	bh=nxY+HuqTIpPkP+CSbToqpWvLHkXZOSn2v3/twOPxEK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gL8vxyQIDU8PBgbtPtzQbQFdo2im9iv5/BmsZ4qz/nLO3wj1mVLUPJMUbiYkI2VWr6nD+Y2Dc9WnEJVZUnE5w3CE8EXYCE3su83MECr8GjXW81SzW+z5OcHBjUa9IbT+a9uqDR3dov7ckqOOnFpsYU1hNa64w7aTYSWMjj0vDzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rc1/R/ZQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761245044; c=relaxed/simple;
+	bh=PYp52JdL1zIXM3tFl6ymQmTmBEsgbvGo+/rL6L5cfGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LuKZx41SvJdprYgcWejQm14IVZiIBfbqqCArTfgU0cP+p3MZoCcQAVyejRmk5ow3IjWSdBm3lRFjVEsBCvzLo7INurSEcxO0VJlm3fD1zL4DOfsEbN6X78oxkR1LVOxvpNVZ6AE6t6y8l5s0ajZRcBCHJiPupnIWbzzXtNyzdS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=s0yNVa/e; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rc1/R/ZQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8A0C4CEE7;
-	Thu, 23 Oct 2025 18:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761243329;
-	bh=nxY+HuqTIpPkP+CSbToqpWvLHkXZOSn2v3/twOPxEK0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Rc1/R/ZQa1d/72zD1UgfhxRZSvRM5QVh4DIPIIflsCQp3uzoklRZVUbgxT7zDg5i0
-	 91neO92uQaWUwYSR0cTyMQ4ryqgRhRMXThQ/YkbqXywo8LFPewVgG7hrwIgCQqW4XS
-	 usfDAW1s2L1XrhlwrJQUZtgdWt06SHDC2knOfCze2XcKr4pxLXd8ba3RZAq/4iifVI
-	 iNejbVlCjcUsozOxGLGRy/5CoTE0Xkg/GBkJ5CyIS4jokDazQSd2IlJOoTQmqD/0U6
-	 VTxYVnwkR1p/H2jlPjAdb+zIv8eQkYjmMC+xi/Ji2zxf3vP61m5m8J7GD2Lt1poAKF
-	 SI67Cb6dHkW/A==
-Message-ID: <fa397247-6271-47eb-bea6-ccd83808df74@kernel.org>
-Date: Thu, 23 Oct 2025 20:15:24 +0200
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="s0yNVa/e"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-58b025fce96so1079422e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Oct 2025 11:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761245041; x=1761849841; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FILWuJP7z4ne8yyln1112yG3l4Q4g1VKcs5bhTHsJnM=;
+        b=s0yNVa/eJZhfoD3bMLT1xWtZBJPc1t8A/Zn2xYvJEgb/5MtqNO0u6wsuFrM8+isO8U
+         a8RqaMEzvq4KU+ucS1pGmFbO1lJkh200XIxtI+uKBrtnG6LYvmZhKlbST26f1dgZKE1G
+         dOKkExTkR8MKfeKYs7aXi148bX5ANT4YL2UKuU8MsQpC5zW3VrySCfAv6AqUxxr4U7+w
+         YLQx0lhCkihrCpKURL10BMLreCwmNrK2c+SVDNma9CEgKoPeWpeXS4Dtfjcr7DRXw/5I
+         R22ChlayhU94emhkIFIMNElmKGF4HJbaff2HtFXiz2ZXhy5tspL9shNNfuFjMpURLrzh
+         TvKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761245041; x=1761849841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FILWuJP7z4ne8yyln1112yG3l4Q4g1VKcs5bhTHsJnM=;
+        b=L+b/PSFKO1dt4rw/sIMq0FFeTyjEGe25dqmzNNFzzkcs9vfQ81yTp58+V9ucayDpOC
+         dm3mAamWX2nbaEJ21GYZVG8NnydQpJzpk791eFSpt1o6kJAyvPAwSE4ATq2qmdYzNvTq
+         Iqoa4gXuXMQI/pOBkKe450g5Id4oYlOfd8iIK0rdvCMDVQzfVxwxOm2uJRBo9b4Ew3Am
+         NKZQrdd4L0qjtknV4j+QCVmfM0xwuTsqGyC/Qaq6jl7uOm7CT5XqYhWWn7OmP43CceEf
+         cGKUN+jzdJJhTXJKLewneSxdW4krchHcHKonKgmekIYj+UjplzXYjvUWB9QQuy3DhVVa
+         IVaA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9rwHTz6V0Sj344vEmnWv/T2Y18bE193au9PMNW67naDImv9/wFVqI1EJ+3fPDiZwgzURTEpHQanOkog==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoWWw5A9A30DRtpuTFgesKlSMXrod27bAX/1lI/QGQjz4GnqjJ
+	ohiiUFZqUfs/vdQSGwwCLk+d/7CdHI1Bu8ilG4D4RHZmda1t5/KRBJgF0rbtYA6HirM+RxSgbi7
+	Xe4P7cEGX/EUOiak3+VA3A9ue824W4tY+Oq9rjgDPXA==
+X-Gm-Gg: ASbGncuoccW+cWX8jmZ9pQ/cZH7ol1nX8j7DNk7xyAL/OZN8PpB6MnFa/76QU04QnpQ
+	YCPB2/eeaCbrr2ZHm+GXjpYbQWQzGaGV+x2UiPuu7WSosWw5OnUdE8eXtvLMSVdSCC+VoQGgmik
+	sT7+54du5qlc6E3UvJ0GW5HTlC+9SCEK/7bJ2WxbZx/IJpLK0sJ5ByV2WnjxxpQ7LZZS0z3CgGJ
+	MieW8ZwvBhvVH23finckwOzaSSU21/0SlY/WRVJPE18q9+RBEej+8glNJJvp4uYAO50AEavbx5k
+	pcYIqPHoOaVifaqDT4Smloolsg==
+X-Google-Smtp-Source: AGHT+IHraJus61bT3Hr2N07s+Ur3YCVMAET0C9pakpGhymtxfywdhGOWwy5gv3wy+GpPvNZ0Z7OpA/pQbI51BbDb264=
+X-Received: by 2002:a05:6512:3b1e:b0:58a:fc55:883a with SMTP id
+ 2adb3069b0e04-591d84eb531mr9214189e87.4.1761245040819; Thu, 23 Oct 2025
+ 11:44:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/12] ASoC: dt-bindings: sound: cirrus: cs530x: Add
- cs530x
-To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org
-References: <20251023090327.58275-1-vitalyr@opensource.cirrus.com>
- <20251023090327.58275-6-vitalyr@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251023090327.58275-6-vitalyr@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
+ <20251022-gpio-shared-v2-1-d34aa1fbdf06@linaro.org> <aPj3fCYj-NQdDSQT@smile.fi.intel.com>
+ <CAMRc=MeSFKRo1rHq5ENzKqws+gOAX=-nCsGtw5MXvsOwJr=XpQ@mail.gmail.com> <aPkQi_Zn-17JKG0s@smile.fi.intel.com>
+In-Reply-To: <aPkQi_Zn-17JKG0s@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 23 Oct 2025 20:43:47 +0200
+X-Gm-Features: AS18NWCf9BHk3M78U-yTtMgDQhhnI1g2CI7k-KfJvPnPOvApY9tkkzNXTL8vud4
+Message-ID: <CAMRc=Mdah6ve68h=d93VHXGij7KAQiGWuOGtzX_7VSPsCi=bbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] string: provide strends()
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 23/10/2025 11:03, Vitaly Rodionov wrote:
-> This patch adds additional cs530x family variants.
-> 
-> cirrus,cs4282 - high-performance, 32-bit resolution, stereo CODEC
-> cirrus,cs4302 - high performance stereo DAC, 2 channels
-> cirrus,cs4304 - high performance stereo DAC, 4 channels
-> cirrus,cs4308 - high performance stereo DAC, 8 channels
-> 
+On Wed, Oct 22, 2025 at 7:12=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Wed, Oct 22, 2025 at 05:36:33PM +0200, Bartosz Golaszewski wrote:
+> > On Wed, Oct 22, 2025 at 5:25=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@intel.com> wrote:
+> > > On Wed, Oct 22, 2025 at 03:10:40PM +0200, Bartosz Golaszewski wrote:
+>
+> ...
+>
+> > > > +static void string_test_strends(struct kunit *test)
+> > > > +{
+> > > > +     KUNIT_EXPECT_TRUE(test, strends("foo-bar", "bar"));
+> > > > +     KUNIT_EXPECT_TRUE(test, strends("foo-bar", "-bar"));
+> > > > +     KUNIT_EXPECT_TRUE(test, strends("foobar", "foobar"));
+> > > > +     KUNIT_EXPECT_TRUE(test, strends("foobar", ""));
+> > > > +     KUNIT_EXPECT_FALSE(test, strends("bar", "foobar"));
+> > > > +     KUNIT_EXPECT_FALSE(test, strends("", "foo"));
+> > > > +     KUNIT_EXPECT_FALSE(test, strends("foobar", "ba"));
+> > > > +     KUNIT_EXPECT_TRUE(test, strends("", ""));
+> > > > +}
+> > >
+> > > Have you checked the binary file? If you want this to be properly imp=
+lemented,
+> > > generate the suffix. (Actually making the function static inline make=
+s my point
+> > > really visible)
+> >
+> > Andy, this is bikeshedding. This is literally the least important
+> > piece of this series. It doesn't matter for the big picture whether
+> > this is inlined or not.
+>
+> It's definitely not a bikeshedding. I try to keep a bit consistency here =
+and
+> I don't see the point of bloating a kernel (binary as well) for the funct=
+ion
+> that just a couple of lines with simple basic calls.
+>
+> Also note that with inlined version strlen() for string literals will be
+> calculated at _compile-time_! This is clear benefit.
+>
+> Really, library code is not as simple as dropping something to somewhere.=
+..
+>
 
-<form letter>
-This is a friendly reminder during the review process.
+Ok, whatever I'll make it static inline.
 
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-of patchset, under or above your Signed-off-by tag, unless patch changed
-significantly (e.g. new properties added to the DT bindings). Tag is
-"received", when provided in a message replied to you on the mailing
-list. Tools like b4 can help here. However, there's no need to repost
-patches *only* to add the tags. The upstream maintainer will do that for
-tags received on the version they apply.
-
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
-
-Best regards,
-Krzysztof
+Bart
