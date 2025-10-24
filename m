@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7953730F943;
-	Fri, 24 Oct 2025 10:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5AD30FF08
+	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 10:23:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761301427; cv=none; b=D1Aq8ecefKP15pu4YdoYj/q2+hinX//zAFvS2GQQUQjF66bVmFCv/1LQVlK7a3dDU7zpaGJTfKwzIj6ZdKDgwfCBwP0OHMjF60/4G5qvfLIeoC3NRmxtxi0UKmnU3HV1QsrA3uUfVAZOxvb5cJ2FeTFs3Jmorv2wYJvX2pIg+Fs=
+	t=1761301428; cv=none; b=onBVBoRXWecfP0uVsy47JzW+wdYvT2unfsntAEiCdN6wJi3cJAcHv8Px57ujndvibPpkmwh8OlxebMOnhS1DH1vo7U1I0y0HJqV+q+bPuHQkKxcBQ6L/Kl+7HGAJC0/wDLsps7EqFlhxa6ZHXludg2yOdz7tthxHXKaeYaSN2LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761301427; c=relaxed/simple;
-	bh=Ljvetg2fVYvsV5S84YIrfw1dMOgbHyndFwdWVn8d3mg=;
+	s=arc-20240116; t=1761301428; c=relaxed/simple;
+	bh=ewwHoBO5hyBSShEsXADH6ATkKhiGMstG4l531OoXCzk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gLSeEpHpqRRdaPag04cLEG3TgenrMIcFJll0aia8njR1+ww1UePzXVKfdUVm53RFjDsU5hMvtfE9ep7RgbMyVt1mk9pdAPCkVbMTvz3rSgkE0niF/Je4BDdAH4oazsP2NYIoI7rHLMYRqOruWszW3Q9WTsp3GybIyjvdyAGzt7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P7IYKiHt; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=RNy5u/O3p8vh/PPuU3fq1e8nScG3nuDhok77HzwSr/5Sl7xHUCF6tBfj4EC2VumHdbWucTGwAoCBi17akPGCEqw7xPV6Kgbdqc6ZbePZdUgcpC0bu0fJd2Q32yep7rK8WUte3VRnfrevx6nOXL4T/5uQHhc8Uw+fSqN6OAnsfYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEuo0b1R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P7IYKiHt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE4EC4CEF5;
-	Fri, 24 Oct 2025 10:23:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEuo0b1R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7494AC116B1;
+	Fri, 24 Oct 2025 10:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761301427;
-	bh=Ljvetg2fVYvsV5S84YIrfw1dMOgbHyndFwdWVn8d3mg=;
+	s=k20201202; t=1761301428;
+	bh=ewwHoBO5hyBSShEsXADH6ATkKhiGMstG4l531OoXCzk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=P7IYKiHt9bKO6xANQumPQiKBSyuwZS6rgRk56fpsCRcYavXuyODYaXKRzaNbn1PyJ
-	 mSB+P0QEnf10WG5fgqxrzpY14nZXcH46+GcAZDeEKnexGx/A7/2n7scgy7/mCBULsx
-	 0r/1nH+Rz9ULKMg0TJM3c+FDTR+ELvFaP+enB2omwpGkz1fSJJIUbWHaAJhJkKWbbu
-	 iP+FteKzElN8XpUAVW7inGesCPX0EvpnqVXDLlXT6WROhKY+mfbrSKpfr/RZojxrc7
-	 bFlj6GYnCIavZSSojPtpTKbtOAeU10eiHm0sLvz8VZReZulCfDEOoGuOHSMMbMJy7+
-	 lAtRR/QdXE+LA==
+	b=jEuo0b1RV/zpUWO5nrcGR1P78n6pXagWXQGdBZdmzy3gEtwMhGwoaIhMgTOHNoSYf
+	 o4RM5GdYUDalgsZcZXLYzia/AxnAn9OfqyQCxi8WmKupuytAic1GePk4e7zxAFUBhL
+	 B2yBaPLsiLQ3C9D0qvipFKNFNBOH0nU5aahgqFP7wl7c//njq9PV7vNiEsHEzeI+Ex
+	 uPZdHrGSoJ93NwW7CGiYTN55f9UTsOzVm4foV6jItTEUSn1HgCWihs2noE7fbMROgI
+	 6vDZYIzyr36wIKxE4FjwThYjBdzjqYjvSMqSUlcLuAxcewSJbg159/QfbDaWlDSY3Z
+	 KVY7FnYkDQTdQ==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20251023110824.1587-1-rf@opensource.cirrus.com>
-References: <20251023110824.1587-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: soc_sdw_utils: add cs35l57 support
-Message-Id: <176130142568.10077.8554790639434736675.b4-ty@kernel.org>
-Date: Fri, 24 Oct 2025 11:23:45 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, shumingf@realtek.com
+In-Reply-To: <20251022073952.327451-1-yung-chuan.liao@linux.intel.com>
+References: <20251022073952.327451-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: sdw_utils: add name_prefix for rt1321 part id
+Message-Id: <176130142719.10077.2553881928350299183.b4-ty@kernel.org>
+Date: Fri, 24 Oct 2025 11:23:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,8 +44,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 23 Oct 2025 12:08:24 +0100, Richard Fitzgerald wrote:
-> cs35l57 uses the same codec driver as cs35l56.
+On Wed, 22 Oct 2025 15:39:52 +0800, Bard Liao wrote:
+> This patch adds name_prefix for rt1321 part id in the codec_info_list.
 > 
 > 
 
@@ -56,8 +55,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc_sdw_utils: add cs35l57 support
-      commit: 61eb4112a8fbed999e3906a6c35e0731cf688c43
+[1/1] ASoC: sdw_utils: add name_prefix for rt1321 part id
+      commit: 3293d3d7b08872cf174bb768b890655f1b22526a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
