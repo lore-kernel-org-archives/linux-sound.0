@@ -1,122 +1,144 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365BF31076A;
-	Fri, 24 Oct 2025 11:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACEF31960D
+	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 11:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761303967; cv=none; b=CtXhQHEJZSQTtkDQ37hlrxOOdHZXokjQ7tIet0CPeQSevH45gLrsXlQCB4/jAPEjzAihvn4EuAA9E7QlBZslk0cEc6QfhVG61t/fxMgcHbh+gw7uJ/4UmYvvtAbGUACb0H0F4aJHAHzNFOXrdcmM5MD6ZHTmCYoVF6TBiZ4sg8U=
+	t=1761305148; cv=none; b=Yi3e44wEl88eE4diF9fhE0skYQ+EpeZZHeM9fqaF8qQzx55Xz432Sa+geh03+KnNqf5Kbbeu2wTL/YvKeCo++I23ZMMOfk5xsbxaWWl4oYfKHhu7QiDmvILqd89FiiGg4FBe8in36gZe6j1MByL3Zrt0Hi7C29VUT25s4gj2Gg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761303967; c=relaxed/simple;
-	bh=lUtbpOm0HNwvHu4CwXbJ5Zxe40Lsed5WgdfeTdpcNoM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Lwqd0TalYM7EGCzHlsxGU/dXT2z8YuW7lAek1QO4SlW4Ks7Btdwrt4Ghmcr/JukD00eDvU4XQVZRzKjcBRhwoXQC480p5ByJ+ZIy058Tit4yuee9bJhpSGr3eBF27nVs8pmzQxUZZrhTwa7o/wrrYCVfeHBA0POvsEgv319YoXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=s6/2aArz; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1761305148; c=relaxed/simple;
+	bh=ZAs04S7e6L0yM5gZ4z8BuM0hDmPUY26t3U7lZ2eGr+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tsIbpOoIuqPlhhAImmOPP6evUBgFN25clH9remqZ4QBg4Yho4VRBkNdaQRLVzgQc9y1VE/YaclBLG2W7c6Kk/qD775ja5bD7jHc5ieECNcKkjk0mZLfUZffr5oNRFkHUTlBdE0X/omnn23/oMiPVRhd0+YhrOsn8jrNWmdGXkkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ttjCVmbw; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="s6/2aArz"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ctKny0yWwz9tTX;
-	Fri, 24 Oct 2025 13:05:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761303958; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZtxpLaIOr4yTBDhQd/HrFTnKf9ZfodYckqNGD8tLD/Y=;
-	b=s6/2aArzcq5R0lYNtxdfUkEh7D9GN+NDcC42bF1OY9Rh8t+Ztz+X9YQMVy2ERsqtn/XB3B
-	YTkmmgy1UwAVrRPh/E/uIS5JaF8Mmr0BxttGZiKvRnlYi2zfYrK+8+EHj2zsJlHf7Qr5Pk
-	Rp0pTXYvwENvleDERrC4gF4VJHuYkkqEl5M75DYopZOE0M3G+CicjCp0WLyFog77FzNDAy
-	6T1R2HcFBjol93jtuXg4dejoJqh3qDHW1Lr4HjwBY5R64/U89q6FrFQalKMscvWaM3XhwK
-	T11ouw11q2nNiJoHZOwIywbfyFfkiYnY4I+nOs/tgcJ6e1HKsuIWRxVdFW0Zxw==
-Message-ID: <e189784c286a2d7f839e973eb88e287c9ea0774d.camel@mailbox.org>
-Subject: Re: [PATCH v2] ALSA: maestro3: using vmalloc_array() to handle the
- code
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: tanze <tanze@kylinos.cn>, perex@perex.cz, phasta@kernel.org,
- tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Date: Fri, 24 Oct 2025 13:05:55 +0200
-In-Reply-To: <20251024105549.210654-1-tanze@kylinos.cn>
-References: <20251024105549.210654-1-tanze@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ttjCVmbw"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4270a0127e1so1388930f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 04:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761305145; x=1761909945; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uNeE/cHbHg6zZnCX2aCbRT+il/304F0EXYg7yJD4/Vg=;
+        b=ttjCVmbw6JTVEttyFPKj/8LRzgbawarY1zNK7dbDxu0kNyAYC5rpbbp0xu9ViIX4l5
+         D8QrHLU4gGFnMwXNimIf0a8BC4UeyQ1By5JQzp4t86ZuMqaMD+zpaunXyXYcpIV/ahRG
+         penECmeo732tCsE29xbJc2LVK52axqi/U+ulwZEnIbjn+1AYLy0diUtaRUhWuoVrFA35
+         zAmx68DuxYi7gy0I4gb9yGpA4PfXFB4LI3kSAl39x38VzHKBWMfITo8mCCme3QXEgvGG
+         5NFqcZ2VxXkpsYPBLI8tzaOwatwO3YyloH92hZ8oFbp2qPopsUpkIpQQVrF7wOhbWj0R
+         QyEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761305145; x=1761909945;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uNeE/cHbHg6zZnCX2aCbRT+il/304F0EXYg7yJD4/Vg=;
+        b=R6yq9RTpmUL1DVJo9nF4Oh25xIMzYOAfXACFqsqBIyVg6yk+ljGgjHNTC5Bkk3yQ+/
+         amOKg4cXltn6j7nP04ntf+6SJ6msYVw9Ss3duO3sJV0bmTZ2QB/8hQtQjqN+hBR27Sja
+         khhIy8gBTwNVEO+jjcd2XUjGsGPTPYf7ycCwe7DmK0AGHzLjeAtW2Kpkom5JsGYY59wR
+         SB7tm2XvpRy20tc/CL2j1cDqdnnjbTFaUr8ncMopyOtS6uWd4oNQXBp9/NHEU7DOKjBV
+         0aARSxb7vMaqkBd1ZUpNWmamOgQgsg9x48+Whwt9wWJsipQr+RuSMWX9TtKAmWYgDZDj
+         2ZNA==
+X-Gm-Message-State: AOJu0YyTQep1785hA8Lrd1FKn0YBTJaF/bqMBUTe39SCGxYEw/o/dQsM
+	d4LlvxzUIAX9Mo16SyktUH6iA7zUU1adA+FzF6ECoDqgzTPZDv89QDh/cAYuHJNKesA=
+X-Gm-Gg: ASbGncvbE0jtpmPQCqqr5bOaX+qhl/tSNqDk7yJs1z3QqNqAvvM6t7ITZex4mbp8xt7
+	4mVAGveorcaxPxf3/zBVLagr0FD1wXK0PbIBeRbUIBvdmv5uqNjYRP0ss5cHU4k5hUuckUAhAh+
+	Sor4V5aoHXCo3LsNzzxP2XIK+Xhc2ibm4TwgJjR4Bv1rTcJAU4v5/fa+8OATg9S0dw77NJopoH4
+	r1ikyfOUnCNHrg4xJf0Ob+oDl1e8KwrEtUjv5ZvZnUElI8RvRaHiWfG0maXri259VfyaqqU3NpS
+	7pEcZQ4/5PcRabNpI5XrZbcF3IDRhX2QZPE207VPmySig3xX/Yj4/C3agvaO+NpfIzNX+PwNEia
+	XMmgQf6OU/8DUunE2hAfUrcO0hrCpAtkfwYGDgflQbF6lj+hFwYJ9ZDIzeMezHzZMR9OGwTs6yC
+	v638xcTeRj6HvIPv0P
+X-Google-Smtp-Source: AGHT+IH4BOOMng7wIY/cWDbuAz1zzM1xjBdhfECUjKsYQl6JyeafHNEV0BuRxCbd43qEQDsevg4+ag==
+X-Received: by 2002:a05:6000:2c04:b0:428:4004:8241 with SMTP id ffacd0b85a97d-4284004abcdmr13747779f8f.40.1761305144643;
+        Fri, 24 Oct 2025 04:25:44 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429897e763csm8893712f8f.6.2025.10.24.04.25.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 04:25:44 -0700 (PDT)
+Date: Fri, 24 Oct 2025 14:25:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, spacemit@lists.linux.dev
+Subject: [bug report] ASoC: spacemit: add i2s support for K1 SoC
+Message-ID: <aPtiNCZ_KBezL2Dr@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: c9c6a7fe836045d3a96
-X-MBO-RS-META: 35ty37qrsetkaz6zy9m36b3hfj9jntuy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2025-10-24 at 18:55 +0800, tanze wrote:
-> Change array_size() to vmalloc_array(), due to vmalloc_array()
-> being optimized better, using fewer instructions, and handles
-> overflow more concisely.
->=20
-> Signed-off-by: tanze <tanze@kylinos.cn>
+Hello Troy Mitchell,
 
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
+Commit fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
+from Oct 17, 2025 (linux-next), leads to the following Smatch static
+checker warning:
 
-> ---
-> Hi, Philipp Stanner,
->=20
-> Thank you for your suggestions.
-> I have made revisions according to your requirements.
->=20
-> Regarding the issue of my full name, thank you for your=20
-> attention to detail. Since I am in China, I use the name=20
-> "tanze" on many occasions, and the code I previously submitted=20
-> to the upstream community was also under this name.
-> ---
-> Changes in v2:
-> =C2=A0- Fix some issues in the commit message.
->=20
-> v1:
-> =C2=A0- patch: https://lore.kernel.org/all/20251022092339.551438-1-tanze@=
-kylinos.cn/
->=20
-> Best regards,
-> Ze Tan=20
+	sound/soc/spacemit/k1_i2s.c:435 spacemit_i2s_probe()
+	error: uninitialized symbol 'dai'.
 
-Well, if your name is Ze Tan you could use that :)
+sound/soc/spacemit/k1_i2s.c
+    389 static int spacemit_i2s_probe(struct platform_device *pdev)
+    390 {
+    391         struct snd_soc_dai_driver *dai;
+    392         struct spacemit_i2s_dev *i2s;
+    393         struct resource *res;
+    394         struct clk *clk;
+    395         int ret;
+    396 
+    397         i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
+    398         if (!i2s)
+    399                 return -ENOMEM;
+    400 
+    401         i2s->dev = &pdev->dev;
+    402 
+    403         i2s->sysclk = devm_clk_get_enabled(i2s->dev, "sysclk");
+    404         if (IS_ERR(i2s->sysclk))
+    405                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->sysclk),
+    406                                      "failed to enable sysbase clock\n");
+    407 
+    408         i2s->bclk = devm_clk_get_enabled(i2s->dev, "bclk");
+    409         if (IS_ERR(i2s->bclk))
+    410                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->bclk), "failed to enable bit clock\n");
+    411 
+    412         clk = devm_clk_get_enabled(i2s->dev, "sspa_bus");
+    413         if (IS_ERR(clk))
+    414                 return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable sspa_bus clock\n");
+    415 
+    416         i2s->sspa_clk = devm_clk_get_enabled(i2s->dev, "sspa");
+    417         if (IS_ERR(clk))
+    418                 return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable sspa clock\n");
+    419 
+    420         i2s->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+    421         if (IS_ERR(i2s->base))
+    422                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->base), "failed to map registers\n");
+    423 
+    424         i2s->reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+    425         if (IS_ERR(i2s->reset))
+    426                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->reset),
+    427                                      "failed to get reset control");
+    428 
+    429         dev_set_drvdata(i2s->dev, i2s);
+    430 
+    431         spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
+                                           ^^^^
+dai is not initialized on failure.  Generally in the kernel we always
+check for allocation failures.  Even when they can't happen in real life.
+I was hoping they were going to make a rule that allocations under 4k
+wouldn't have to be checked but it hasn't happened yet.
 
-Don't get me wrong, it's not a huge issue; tanze just might raise an
-eyebrow here and there and have people wonder whether that's a
-pseudonym or nickname or sth.
+    432 
+    433         ret = devm_snd_soc_register_component(i2s->dev,
+    434                                               &spacemit_i2s_component,
+--> 435                                               dai, 1);
+    436         if (ret)
+    437                 return dev_err_probe(i2s->dev, ret, "failed to register component");
+    438 
+    439         return devm_snd_dmaengine_pcm_register(&pdev->dev, &spacemit_dmaengine_pcm_config, 0);
+    440 }
 
-What's fine for Takashi is fine for me.
-
-Regards
-Philipp
-
-> ---
-> =C2=A0sound/pci/maestro3.c | 6 +++---
-> =C2=A01 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/sound/pci/maestro3.c b/sound/pci/maestro3.c
-> index bddf47a1f263..3353980d5cd8 100644
-> --- a/sound/pci/maestro3.c
-> +++ b/sound/pci/maestro3.c
-> @@ -2571,9 +2571,9 @@ snd_m3_create(struct snd_card *card, struct pci_dev=
- *pci,
-> =C2=A0
-> =C2=A0	if (IS_ENABLED(CONFIG_PM_SLEEP)) {
-> =C2=A0		chip->suspend_mem =3D
-> -			vmalloc(array_size(sizeof(u16),
-> -					=C2=A0=C2=A0 REV_B_CODE_MEMORY_LENGTH +
-> -					=C2=A0=C2=A0 REV_B_DATA_MEMORY_LENGTH));
-> +			vmalloc_array(REV_B_CODE_MEMORY_LENGTH +
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REV_B_DATA_MEMORY_LENGTH,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(u16));
-> =C2=A0		if (!chip->suspend_mem)
-> =C2=A0			dev_warn(card->dev, "can't allocate apm buffer\n");
-> =C2=A0	}
-
+regards,
+dan carpenter
