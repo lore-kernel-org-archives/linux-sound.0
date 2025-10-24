@@ -1,39 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5AD30FF08
-	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 10:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D4C2F7AD3;
+	Fri, 24 Oct 2025 10:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761301428; cv=none; b=onBVBoRXWecfP0uVsy47JzW+wdYvT2unfsntAEiCdN6wJi3cJAcHv8Px57ujndvibPpkmwh8OlxebMOnhS1DH1vo7U1I0y0HJqV+q+bPuHQkKxcBQ6L/Kl+7HGAJC0/wDLsps7EqFlhxa6ZHXludg2yOdz7tthxHXKaeYaSN2LA=
+	t=1761301453; cv=none; b=RQL8QelSMOgtimfS0ChdWCzPWUZDa28CqEWKPfngrmaC3Z5LuM2h5BPSXmWOWpRpKJuHh2jv0cBnrX7JJptNEkHjGft2DecWmjNXfDhBJulhFSl79QvfxX2x9IbB71XAF8Pkpa74uQxiqjirq7pHKmkaGpfJTq56zlOD9qzwf9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761301428; c=relaxed/simple;
-	bh=ewwHoBO5hyBSShEsXADH6ATkKhiGMstG4l531OoXCzk=;
+	s=arc-20240116; t=1761301453; c=relaxed/simple;
+	bh=mP6SmCP7woCF8wcDSk+2F5q73XTTlR0r8Zgwb35TMho=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RNy5u/O3p8vh/PPuU3fq1e8nScG3nuDhok77HzwSr/5Sl7xHUCF6tBfj4EC2VumHdbWucTGwAoCBi17akPGCEqw7xPV6Kgbdqc6ZbePZdUgcpC0bu0fJd2Q32yep7rK8WUte3VRnfrevx6nOXL4T/5uQHhc8Uw+fSqN6OAnsfYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEuo0b1R; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ALNR76p0rFL7+2PyeE5hziCazx/4Lre4vgZ9rllLOnAEbw4FbQKcOFvNaI/QyR+TzQO0CtKMugI36O5VN4ESnRq4A5nGWSTVsVP3yQIFUL/P4n91I6uLd1AvUSlyqJ8nOw729cpUtwJw6zqfWXEOb00oFrY2nwuKcYN9uyHBbRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRDUWkaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEuo0b1R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7494AC116B1;
-	Fri, 24 Oct 2025 10:23:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRDUWkaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE23C4CEF1;
+	Fri, 24 Oct 2025 10:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761301428;
-	bh=ewwHoBO5hyBSShEsXADH6ATkKhiGMstG4l531OoXCzk=;
+	s=k20201202; t=1761301453;
+	bh=mP6SmCP7woCF8wcDSk+2F5q73XTTlR0r8Zgwb35TMho=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jEuo0b1RV/zpUWO5nrcGR1P78n6pXagWXQGdBZdmzy3gEtwMhGwoaIhMgTOHNoSYf
-	 o4RM5GdYUDalgsZcZXLYzia/AxnAn9OfqyQCxi8WmKupuytAic1GePk4e7zxAFUBhL
-	 B2yBaPLsiLQ3C9D0qvipFKNFNBOH0nU5aahgqFP7wl7c//njq9PV7vNiEsHEzeI+Ex
-	 uPZdHrGSoJ93NwW7CGiYTN55f9UTsOzVm4foV6jItTEUSn1HgCWihs2noE7fbMROgI
-	 6vDZYIzyr36wIKxE4FjwThYjBdzjqYjvSMqSUlcLuAxcewSJbg159/QfbDaWlDSY3Z
-	 KVY7FnYkDQTdQ==
+	b=MRDUWkaZavqJ8zqtZrN8TV+fbecejBQ6lfljI8HBEI5ozMc9cDeHm+Imy9BNGtmbi
+	 QvJmOk1jPfARrhjR8RcuhKHZxCcArwZDFjKtKBaYI278DpExcwQ8RGurp0lq7oN9TE
+	 alfagv9VzcQSzlK/WJr3FjD30zNCda9PiX1xPHIfwZTspN0mgnUdZmvEQC5njCWZYQ
+	 5gLINhyXbo8FRwx+doWTZz4Kem6Gca+vhAGY0cZxFyDGwAkBmObRim4YtjI1hRTD3f
+	 LxTbFtFnHYLDx7Fpz1kSeVyb54KMoqacr8w35rBTpSIzvicn9kZO1zPmpZk4xJctu7
+	 G61H8R3sQwZsw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, shumingf@realtek.com
-In-Reply-To: <20251022073952.327451-1-yung-chuan.liao@linux.intel.com>
-References: <20251022073952.327451-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: sdw_utils: add name_prefix for rt1321 part id
-Message-Id: <176130142719.10077.2553881928350299183.b4-ty@kernel.org>
-Date: Fri, 24 Oct 2025 11:23:47 +0100
+To: devicetree@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+ Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
+Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
+ names
+Message-Id: <176130144489.10577.5538260652511597774.b4-ty@kernel.org>
+Date: Fri, 24 Oct 2025 11:24:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,19 +62,27 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 22 Oct 2025 15:39:52 +0800, Bard Liao wrote:
-> This patch adds name_prefix for rt1321 part id in the codec_info_list.
+On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
+> Node names are already and properly checked by the core schema. No need
+> to do it again.
 > 
+> These are all occurrences I found in linux-next as of 20251015. I did
+> run dt_bindings_check successfully. I haven't done a way to run
+> dtbs_check yet because I would need to identify the proper architecture
+> first, right? Is there some tool which tests all DTs of a certain
+> binding? At least build bot is happy, I don't know if it checks DTs as
+> well, though.
 > 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
 Thanks!
 
-[1/1] ASoC: sdw_utils: add name_prefix for rt1321 part id
-      commit: 3293d3d7b08872cf174bb768b890655f1b22526a
+[4/4] dt-bindings: spi: don't check node names
+      commit: 7c69694cec869e3bf7c810fd94f860253aeb8053
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
