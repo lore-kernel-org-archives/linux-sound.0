@@ -1,121 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E65930F934;
-	Fri, 24 Oct 2025 10:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65A72C08C5;
+	Fri, 24 Oct 2025 10:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761301525; cv=none; b=cA473g6xuMK8XUWNVVnE/k7j3+mIkGSqQybnTXUeUAXsIWD6Z/hocwjCiGug6naUh9ZViNQYj8l815lZSOSzTwWydLXxaA0TeR9JqsrwbxYAYczaAVq3A5zETOmkeguSi501Ou8CxepTGZ0/LogwJ2J4zWgtN78wK8jANV3MyJM=
+	t=1761301843; cv=none; b=WqszXQ8Y1GDhUpTUg/4Blg8h60kIOww2lHd7bdc1E5ECjLi8LEM9hShjyATOBDbKwo7ObuBo6lNVlH1Pn3aHzwn3zx3999FjBRwTzxlOKoFCew6LNvvc7Y5CQrPHfPO6S83gYCcNTy9zDD3g3bN1XJDkiBR0yyOz3t4GtdNYIOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761301525; c=relaxed/simple;
-	bh=SpLZn7BSv4Vw3pFCms90Qtx52dcb5B/g42/myX03T7w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=J4GWWet2cKoep2Wl/Q1UymywWY8CPK8FDqxlCzK+TR8jcc7859ZtrPOHDri3RK0bGrbHo9fHaa/oEBdphoSHAxj1mnLM1tBqXSyhPBtOYIOFa3kn4OQ4Aft7Y4cGdHXDGbCVTrMbLdCW4ckJxnhnUNicFrJMuAjZMhx29nebx1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDKhpq/W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761301843; c=relaxed/simple;
+	bh=xjBMkmI+qsDoGp9ZiRzBUp/jILZSgk47twlvE8podR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V3tLwzIjbKeEYPSi2uB1jC8xElcJElsFUQBW+bL3lag82L5dWdGogO0j2ND7PJNmpxax1BRahWTKnVW+FwatlmBO0j0TZaCR8rUzoFUPWoMS+UDuM5Akun5De4LI/orJEy7f4PX/+EC41MlB1w3ZYxwADrK6fwIjDdmBSK+BABM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/d2Y+U8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDKhpq/W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BD3C4CEF1;
-	Fri, 24 Oct 2025 10:25:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/d2Y+U8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E75CC4CEF1;
+	Fri, 24 Oct 2025 10:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761301525;
-	bh=SpLZn7BSv4Vw3pFCms90Qtx52dcb5B/g42/myX03T7w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=eDKhpq/Wujx7wo/wzDNrOp6rQ1OF933VW2NQJ9FoRNO6AF/Hc9Y6VMq8TbtZYI0hZ
-	 7n1Xg0gW4rOGSc9KDcP7ZViXFjOONGvsNnzmU+D/L+Ccq29fyqOolFTWwaZMTP8y5a
-	 bLF4FayRHyKwsYT7J/gpMnRo4KMIVKo2vXin7DwrKFdHJ9oyd/DYshop1Eq2fuOJ11
-	 ybGNTIYw78Cdpz1dWTRq2WtrjslFA5ecpdd3d6327Oo8/362bWsAYcy/OekdQe5kdA
-	 4W7hyBYLYlPMwnrkqnkTKFEYXojlS3i41POsstov9Lm31h6RMeF5IRidtwNXZ9HDYj
-	 HtsvyEQnhTyYg==
-From: Mark Brown <broonie@kernel.org>
-To: gregkh@linuxfoundation.org, srini@kernel.org, 
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: rafael@kernel.org, dakr@kernel.org, make24@iscas.ac.cn, steev@kali.org, 
- dmitry.baryshkov@oss.qualcomm.com, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- abel.vesa@linaro.org, stable@vger.kernel.org
-In-Reply-To: <20251022201013.1740211-1-alexey.klimov@linaro.org>
-References: <20251022201013.1740211-1-alexey.klimov@linaro.org>
-Subject: Re: [PATCH v2] regmap: slimbus: fix bus_context pointer in regmap
- init calls
-Message-Id: <176130152229.12682.10943579014725901124.b4-ty@kernel.org>
-Date: Fri, 24 Oct 2025 11:25:22 +0100
+	s=k20201202; t=1761301842;
+	bh=xjBMkmI+qsDoGp9ZiRzBUp/jILZSgk47twlvE8podR4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l/d2Y+U8bQs8VF+XsPwC/lo+bxBE0j4eWS6VDHNCD/dOyGEFM7pOVi7s1xB8wyT1F
+	 jv0kcNfIyneAU7DFc2XMuu8oHJ2C93dqlydWRrXYT3RCBqDbolkiQ18EsFfqCwzdIT
+	 F0FJ+u2jbBRNARJVywQ0ZMr1PM6LZQ50TTD9W4llmkHp0cxkQM8R7YTAZNZuhKj472
+	 K02nhKLn9f/Q1d19EUPlbhQT59235yFCKn8XDWmWaJOjbnUv34C0E0GbdT7yY2B8c1
+	 q4jVSAnw+7Qfl9JCs14YGXOOwUUitTY/lsolUgoznKOAtNMsr23PjYx6i1nIOnN4f/
+	 YsZZGbsmS20jw==
+Date: Fri, 24 Oct 2025 12:30:37 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>, 
+	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
+Message-ID: <fncqrwr6pi3ttxkf44hncy35ogxqdvql52hdcycq4yakbkeose@gv6lxr6a4uri>
+References: <20251023143957.2899600-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
 
-On Wed, 22 Oct 2025 21:10:12 +0100, Alexey Klimov wrote:
-> Commit 4e65bda8273c ("ASoC: wcd934x: fix error handling in
-> wcd934x_codec_parse_data()") revealed the problem in the slimbus regmap.
-> That commit breaks audio playback, for instance, on sdm845 Thundercomm
-> Dragonboard 845c board:
+Hi Rob,
+
+On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
+> Generally at most 1 blank line is the standard style for DT schema
+> files. Remove the few cases with more than 1 so that the yamllint check
+> for this can be enabled.
 > 
->  Unable to handle kernel paging request at virtual address ffff8000847cbad4
->  ...
->  CPU: 5 UID: 0 PID: 776 Comm: aplay Not tainted 6.18.0-rc1-00028-g7ea30958b305 #11 PREEMPT
->  Hardware name: Thundercomm Dragonboard 845c (DT)
->  ...
->  Call trace:
->   slim_xfer_msg+0x24/0x1ac [slimbus] (P)
->   slim_read+0x48/0x74 [slimbus]
->   regmap_slimbus_read+0x18/0x24 [regmap_slimbus]
->   _regmap_raw_read+0xe8/0x174
->   _regmap_bus_read+0x44/0x80
->   _regmap_read+0x60/0xd8
->   _regmap_update_bits+0xf4/0x140
->   _regmap_select_page+0xa8/0x124
->   _regmap_raw_write_impl+0x3b8/0x65c
->   _regmap_bus_raw_write+0x60/0x80
->   _regmap_write+0x58/0xc0
->   regmap_write+0x4c/0x80
->   wcd934x_hw_params+0x494/0x8b8 [snd_soc_wcd934x]
->   snd_soc_dai_hw_params+0x3c/0x7c [snd_soc_core]
->   __soc_pcm_hw_params+0x22c/0x634 [snd_soc_core]
->   dpcm_be_dai_hw_params+0x1d4/0x38c [snd_soc_core]
->   dpcm_fe_dai_hw_params+0x9c/0x17c [snd_soc_core]
->   snd_pcm_hw_params+0x124/0x464 [snd_pcm]
->   snd_pcm_common_ioctl+0x110c/0x1820 [snd_pcm]
->   snd_pcm_ioctl+0x34/0x4c [snd_pcm]
->   __arm64_sys_ioctl+0xac/0x104
->   invoke_syscall+0x48/0x104
->   el0_svc_common.constprop.0+0x40/0xe0
->   do_el0_svc+0x1c/0x28
->   el0_svc+0x34/0xec
->   el0t_64_sync_handler+0xa0/0xf0
->   el0t_64_sync+0x198/0x19c
-> 
-> [...]
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
-
-Thanks!
-
-[1/1] regmap: slimbus: fix bus_context pointer in regmap init calls
-      commit: 434f7349a1f00618a620b316f091bd13a12bc8d2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
 Thanks,
-Mark
-
+Andi
