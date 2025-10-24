@@ -1,102 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8847F31D364;
-	Fri, 24 Oct 2025 15:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157741F542A
+	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 16:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761321440; cv=none; b=C9CuZXU11rWFoqPmjqQj9piDI57DP75J6HyxxEV6+yPtB6raEOaMlCngKlJf3/uj8VdAwrrunW1/KAEOs3WlevKqI0t2rUikR3qDOBKK8CRHDMgSDgJh8e0S5N8wcb0EDQVJ7QCc0su1xUIlBdajtfEKVFLidaceThwpE99fx6Q=
+	t=1761321971; cv=none; b=fNeYXeO2a/jkLoFsZ9c8NZzks3oSQnpV/aL86jJ/SVEeyVofXdAvjqAuQxblWuLV5p08XKrx3wp2BWWW85SRB5PrWqGkzCu0abib6DMkKmw1wnzhbZcTACAMSK4LiVcD46VTj/ColWBrKNbuWF39eJbYtQVOfcHMz4gZmqHwCSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761321440; c=relaxed/simple;
-	bh=y/2p9MvtkqH9Qg/NebfkyrFfV4fKsGJ56PpnL6OBI1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8gUErEt5SHzFGCuUx1oUcbZ+uMOTm7JAmnH/lAgEeegIFEd1Iv8RFljmuiDE5u9AodBoJiTZYvGnLkHBOAVWInzlBv6EE7Pbb9EwCMi4FTk7+Pr6XnRiuEwK1b0shfCOJwluiNKYT7fzz359cpr1pX7kX8cKygXggw5LSGxEBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N2bHIdre; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761321971; c=relaxed/simple;
+	bh=3c7bOwm7cR8w0+Jt/bY89sbewv1n9qT9ayt2xE6Ure4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZH/Rali+l1NjVIy3tvBBnLQHuV3vuuVpLRVHiytyy/ucRJpqaxXjOU8FasPl8Vyxj1ZIIBqaVHoOnYfVCyC3KpNUdoAN/ZcyA5vuprJ5EYEPEaUPNnFSfmXHFkWS3+EadUD+ZVbSb+Rx/nKwlM3nbSUuyZHCaRViBW3ULDkbx/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=NyCS1FDO; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N2bHIdre"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2070C4CEFB;
-	Fri, 24 Oct 2025 15:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761321440;
-	bh=y/2p9MvtkqH9Qg/NebfkyrFfV4fKsGJ56PpnL6OBI1E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N2bHIdreGnRexQUR30mWTpCu81eX85MpLWKXCpRNJA98dYcySvdndBlOFYcd9R45B
-	 5uJ8t6oVTJ43DbfKwnzVYYo3XV0xRgQyZJxn5mVEGJKbC3n3BActAFsydjWB/+Flcm
-	 sXkyMrwiTj7QXwm5OgjJbT1j6dr3MSScxJKGooujQwolNJHYRlEPpESlvJlke6OvC9
-	 GALaeY+y32DCBsWTZKer7g3HHgHEaOQLN/0aHr5+z0rDFLj+8LKPDzx5qKhNq5qa0/
-	 Kk+Nx8lBV4RKpUM4KV+2mSX8wN4uYbhCUYSzXsNI9TgaX64KCwCtvoaUkPNV2RDQSY
-	 Gj7BWMdcEfraA==
-Date: Fri, 24 Oct 2025 16:57:11 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v2 10/10] regulator: make the subsystem aware of shared
- GPIOs
-Message-ID: <aPuh16uHcJieSaS1@finisterre.sirena.org.uk>
-References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
- <20251022-gpio-shared-v2-10-d34aa1fbdf06@linaro.org>
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="NyCS1FDO"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-88703c873d5so83168239f.3
+        for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 09:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1761321968; x=1761926768; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DqiQwabN7+SNaCM6YCpwJPboZ1StVYh2yuL/aC6ivg4=;
+        b=NyCS1FDOuPoLtP0aUNpF/CqvGVZ5qm9FEFHxaSJiNraCm5mKwaHm64PnGQzrFKQNdw
+         kFOtWeuEeF1ok4+Rz+CmA+I+Tr+FScD70gfzeGdazDQOMKFJ9cx0HNeW7Mtw4W3tUX6q
+         IC8LVuZ2wV30ODj5sv+DtDNj6lKY2xNvt1zsY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761321968; x=1761926768;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DqiQwabN7+SNaCM6YCpwJPboZ1StVYh2yuL/aC6ivg4=;
+        b=vqYSVPqrgb8S1zstlGjze/j9VQKMugGsqWUrsD/h1uaKZ/raWE0/JOxa1j2mILYPvC
+         AvGqtutoT/6GQ+oX6Bgs5U+SrjsezfwE+F2VP+kdsw3Wn+yG7OXwFF+KGUd0TzH5iOr3
+         6Y/GXZDhuFCepK43CLIpw/l8As2GocpnG0QAgPdOmLHDSu+EK26YXu1w2xgDCVh49UpW
+         IclXyJGTkDbzZ1CBPXChJtjUDacAyYBkimCvQgaNNTKzugIuYfP9IOqTJtd4v0UNa0m0
+         holajqlnTIjAvkQoyfgfe3xqtgTGMYODFKeNL3SToOu+++tBT4efP0tGVxvBgC0A/TcM
+         uoRw==
+X-Gm-Message-State: AOJu0YzI1FVqaGRPARIolIQhWfBeLgI3VpEOTiXKXvJuSrdo0Ur5rexa
+	IBMBzlblxDPb4VS9AxTyZElYVglJtFeZCzAf15OUV/PQEjn5PiWl4e0Y/H2UTTKBUeStpsdcauq
+	by/Q=
+X-Gm-Gg: ASbGncttbJ99NcnECYClENDL9CStIqNYDL6+4Z7IaU7HNrjq4ytDmllC/wBpAgBpDld
+	WfLzThvMlS7GNvR1s/8RKUG6ODmpUcCjIyYlsXpjXidBWp9od3uAMJE0QDR0DA1A+fRRQkDFbFY
+	b4RPUyBksHB1eQ5/SqK65ogws6IxxpdWZE7DWWoSmR3BmGKOrAzmKzlq0FRFOncoKF5p+mMrQ6L
+	4D3/39Gb9WuB7YddT/GlTtQ7rEqtsAQJ57kKp/luj5wZ3iXWoTfaReaqBRhfToVnjX9vM3Bzp/F
+	Q4iwS+1YisywiviSXiwS2k/a3QVGzoiZobWKWfdpRjlp1VhvdHAO0JEMtlD93sZVW9GF0VUA4vZ
+	a9Rq8NESk0HleQtVVSrppv2K6RSPrURKVM63Y2PvmThILuLsCA/9UznMhWfzFGhw+W6vNkka520
+	rLKsLiVoSZ0rNiUWEgTq46HxcMu1DMPottanQyh8GDzgiV4DXXZYShVGOYCRU=
+X-Google-Smtp-Source: AGHT+IFmAZGPxYIrzjo/bVeYrd6msMNtUtiLRt6F5A4V5iIvDEZmEFUheqr1kCxRWvtPHxZLRSm8ow==
+X-Received: by 2002:a05:6602:3426:b0:93e:8817:dac1 with SMTP id ca18e2360f4ac-93e8817de47mr3939194039f.8.1761321968049;
+        Fri, 24 Oct 2025 09:06:08 -0700 (PDT)
+Received: from [10.211.55.5] (c-75-72-117-212.hsd1.mn.comcast.net. [75.72.117.212])
+        by smtp.googlemail.com with ESMTPSA id ca18e2360f4ac-94102f86196sm191322139f.18.2025.10.24.09.06.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Oct 2025 09:06:06 -0700 (PDT)
+Message-ID: <eee35fa0-0a5f-4730-b6e4-a1b92dc5000f@ieee.org>
+Date: Fri, 24 Oct 2025 11:06:04 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KSzs8cR3CPCR8pfX"
-Content-Disposition: inline
-In-Reply-To: <20251022-gpio-shared-v2-10-d34aa1fbdf06@linaro.org>
-X-Cookie: If in doubt, mumble.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] ASoC: spacemit: add i2s support for K1 SoC
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, spacemit@lists.linux.dev
+References: <aPtiNCZ_KBezL2Dr@stanley.mountain>
+ <E26A36F90026E89B+aPtkgbhoPoTzVnRN@troy-wujie14pro-arch>
+ <aPtmbe9uoHIPfZz7@stanley.mountain>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <aPtmbe9uoHIPfZz7@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 10/24/25 6:43 AM, Dan Carpenter wrote:
+> On Fri, Oct 24, 2025 at 07:37:51PM +0800, Troy Mitchell wrote:
+>> On Fri, Oct 24, 2025 at 02:25:40PM +0300, Dan Carpenter wrote:
+>>>      424         i2s->reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>>>      425         if (IS_ERR(i2s->reset))
+>>>      426                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->reset),
+>>>      427                                      "failed to get reset control");
+>>>      428
+>>>      429         dev_set_drvdata(i2s->dev, i2s);
+>>>      430
+>>>      431         spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
+>>>                                             ^^^^
+>>> dai is not initialized on failure.  Generally in the kernel we always
+>>> check for allocation failures.  Even when they can't happen in real life.
+>>> I was hoping they were going to make a rule that allocations under 4k
+>>> wouldn't have to be checked but it hasn't happened yet.
+>> Should I send a fix patch now, or should I wait for the maintainer to
+>> revert it first, and then fix this error and send?
+>>
+>> Thanks for your report!
+>>
+> 
+> You should send a follow on patch which just fixes the one issue.  If the
+> maintainer wants to squash them together that's very easy to do in git.
+
+Yes I agree, send a new patch, no point in reverting.  But I think
+a fix commit is better than squashing (for what that's worth).
 
 
---KSzs8cR3CPCR8pfX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A very simple fix is assigning *dp to NULL in spacemit_i2s_init_dai().
 
-On Wed, Oct 22, 2025 at 03:10:49PM +0200, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->=20
-> GPIOLIB is now aware of shared GPIOs and - for platforms where access to
-> such pins is managed internally - we don't need to keep track of the
-> enable count.
->=20
-> Once all users in the kernel switch to using the new mechanism, we'll be
-> able to drop the internal counting of users from the regulator code.
+         if (dp)
+                 *dp = dai ? : NULL;
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Also:  Why aren't you checking for spacemit_i2s_init_dai() returning
+an error?  (Another--separate--suggested fix.)
 
---KSzs8cR3CPCR8pfX
-Content-Type: application/pgp-signature; name="signature.asc"
+					-Alex
 
------BEGIN PGP SIGNATURE-----
+> 
+> regards,
+> dan carpenter
+> 
+> 
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj7odYACgkQJNaLcl1U
-h9Czzgf/UuNoMQPXZdBLbbDRbzUtokhQvJnF5147crhjmrifiVMNR1IjkSYrfUN0
-Z6goll2IBjf8KdgoVDKTun9xYgsWOhd9hApxnL6YyNhvrcRm9YpIc2MmUOIa0Lkz
-JeOQVo3S7NXfWJhdcmtGJKO/LzMPpsUlLC5r98dDBs0ij+cUr9oNje4BX3w7pJrH
-PJPz9EkboVEn5Se18EiLClDP68bWgKqhLH3ZYLd9pMVR457ruZRd1JG6AmgQ/igX
-A9dKEPqz8VPR+zzyw7qcyCHu3to+EOs2jz/TkWxUcDFEDsXA/Ol/igj1OhC6HFax
-4quIU27MOKSF9e92h/qYwhx1JL7Uag==
-=5bws
------END PGP SIGNATURE-----
-
---KSzs8cR3CPCR8pfX--
