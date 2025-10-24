@@ -1,137 +1,110 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3E92F5A22;
-	Fri, 24 Oct 2025 23:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761348269; cv=pass; b=tESIZXI3rYe74n1MlkmYxetEG3LosKmeN3UR1hdQDjz99Tbz9srsmGVoDx8Wt4YvF1W87bGfcvNavQPxn7Nj7P9kXzzJ6n6TRvefIAhbizE8PqujlDCJzBPDyifyWVTwv1CLlkT+FvgpXTXTWHecJR+SB7Zsfo10l0t51+fECNY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761348269; c=relaxed/simple;
-	bh=NQ0CrT99S0HB3iA81tiE1fKOXNruYRsIn5L3vGBZdtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R8JSdoh30zTpkv6DtPR9UqjoEILC8+z0s+1Ndj9y9flFG9S6SiV2d8jrt6hAqlx98mamkkU772V9SXHMqb6FLq9Q8oF2I6f1yTOpM0T8cJsnr2EL37uclg12YjC5zQnpg1dIRbZ+1QTDUVK5x58ziodwvrPG+7DKkUIVgQ0ROQc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=jUTlBQ2h; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6FA2FE56F
+	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 23:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761348779; cv=none; b=q1l3wwBRRbrZGvlvjgcMMsX8g4m1xnlLUq/XO40ZnOE0mlbluJ4VBz/jrCQ0akiSwPHpRWFNtBTwfKY81JwPPDi1BWbFld2nE916PCaTa0w0P+7arRVSjRAwxxNrqciVTtUkNCSIZi0ihlJ2A1JzjPVME+yUvaSbvi0Q+A7eq00=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761348779; c=relaxed/simple;
+	bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=YIXCqTiqxEaNm3e8srUFWpZbqthoEfCFX6L874NFjjfo1Mna9nRby/lr0QUbjYncDNWCsb/Q2VCixIiurqAhMxbIS9S15XyxU5CkVLRBa12koVKiAFTWxs8qWPJS+4ESRde8fPjb1wCxGBG6zXdJbeJmk3Y21UtfHa7Xrm7c3VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g6m6IVA8; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="jUTlBQ2h"
-ARC-Seal: i=1; a=rsa-sha256; t=1761348264; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=E7jo3eFGtMbYc4umajgAJrDaAAeoH78FvXSvtwIPzMd+KALm6TW6J/PZo3Gl8IAj7J4S4JOqDkVaqCJ4DpyxUkL/D7r/nDZxCDXQIylw9m80ZHFV7ZnmYl6fN+yD1hWHfO07oqL+vl1wjfMlpqfazjWlj918MvnuxIHK7Hk60jc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1761348264; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=TolhaGIsyaj1gVoV8dHb9QimZIX1Tzw1zXYiEcETqjM=; 
-	b=ERHFHpBMKqE6LtNxoI7EvA9o2mCsVLRI6J1+/qPThd+k1qt+nO9OwZhbx5E81USsXE7RyOCW1GyB5isp3iLRSkJC/p6ufY9tyScGPtH6liK71Qdq4msBQsSye0JsA4aNBjxrfKHSyGI+LcIwBsP7dWSDg8vI9r+LX3h+vlO9w2c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761348264;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=TolhaGIsyaj1gVoV8dHb9QimZIX1Tzw1zXYiEcETqjM=;
-	b=jUTlBQ2h6Tuak+aNMb2CNTnEQ4BDpyDVgaRRROiBpKRCvZOPLn1o5LGy8JyX0l9X
-	sOXFCDgYktIsDNXusx7tmsAjPkY6Gy0P2EcQplSNWKOk61O5CR3GNBKVdk6o+/41U8c
-	rO3cD7tc7lCrL45EbJ0fyWmdAPtKKmAhIvpw6Ir4=
-Received: by mx.zohomail.com with SMTPS id 1761348261746725.1283250784594;
-	Fri, 24 Oct 2025 16:24:21 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 476FE181935; Sat, 25 Oct 2025 01:24:06 +0200 (CEST)
-Date: Sat, 25 Oct 2025 01:24:06 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>, 
-	Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Georgi Djakov <djakov@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <god73pukywwznfyym7tym6m5k6fn3u7hwzj5gwhrxytt7oinfv@pokb4aos7pp6>
-References: <20251023143957.2899600-1-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g6m6IVA8"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4711810948aso18783425e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 16:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761348776; x=1761953576; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
+        b=g6m6IVA87/GJJD3ajlCcB5mbco1inUtXBb29ngwEz+UlyLtfO7o1SDUOt7KRPkUN3d
+         xseovnqYPPnyZtl6eiSZsomtkBdydtDl6uW9JG9AsU8LLCs4DJdnTNyieJzPf+XQbxUg
+         eb8kLwiusjAqiJKvOMnr6hThcKURx7oTGYgUAYpVc7Ninf/LBC2ZqCeyQPSOg7NpVHqv
+         WtoShpKH3T/x9ThuF/6zDujqgusvu0Iw9SPjHJdePP7qugd/Lz7+gYcWUeupYzvd3LdH
+         0fBpwgsj6eskwRr+v5bW72PZPZbzw6Nfj+ZuaHecOcTfu/Mm6s4IeckmDqyeCCWpcQw9
+         lt7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761348776; x=1761953576;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
+        b=Pys1jj/aexTJsMVAWYWFPayegF3tceaoAvlqowQHTZ8HO/Fkvc7CxnHBOTtQa0pnqs
+         ZYkJULmWw4h3pmdNLKCw6tqrAhhSrwLbFVdoSq0F3C7jKsPIaiaqnC/aAUupVVxQa/Fo
+         dBf68sOrDX2bQ7QNktd7Qa8qj8kV3w/NLGhvkGsioYvPO0ko42LuZNJmn8oUFAZJXqQD
+         QnhnjMRdZztaQsVF4L+a8HLZa6xePc7NGo2m8AcYRqHkvt0oz542vNAIrXnQ0hZ2PwT0
+         0o0X9q1eXzU7RBhP7hvG0AN2n0a0bvA17EKa8FwwN+o4rhyk5r7aYj953OJ7mKIRkFxs
+         G+Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCXMwhbzYzeg2KM3Rwf3q5llX91JeWMyJ7wpb4Pn8By4z1lKPGyCZml8th80sMGH594COCUQZ+PCJrxM1Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMRrlo2vzFEBVUqqibzYXSXCDNwgGOF8bBV4YLtoFB86dUO3T9
+	+6ihp/3mkPM/zIOZilu/0zR2tvvWayJ/kgLKCuKbW/YJ/hrcEnQMvH4ZdjMILHoGCR0=
+X-Gm-Gg: ASbGncvoudKwGs0DnfaEIsIriDVcaBKvT5PVRk3xUYFWFoUtXlDeyRlGvgjlpZRdKd6
+	KCTxj5FIhI85nQpJbuM325LKxxEoy3YHSSusKA1yv8hZeasQSwFL+f+TVoXg0aPqRQnUOYf0rXy
+	y4KlsAilkTw9AJ4J8799HbpvHdP9KIhZa9OGWbHiRUeIcK4rPVXhducFpvX+0huzhLvGPnRy/h9
+	nwz8zQKTNraEPgMI3MOf3fhoVJ9/S6zsNC2Yy4lPwMcquuERJd/bBq0dOyNf+Ae6Q2Vv9Z+zAtm
+	MCQHwGhBwQ36ppZm3nvuIoiO7KkdIP/MRiM8X9294OLMqpE6LQ+PWTVoA8Yb8O3bwtb6K8tE+0x
+	o6ujZBV3PABh9MHFOwJJ6qIlLfopeS6P6hxqH0NnGEMDrXQNfBcmHfg853x2tZX4perV4wktZq6
+	vcO1q+ssXZlxy5Hy4=
+X-Google-Smtp-Source: AGHT+IGpS+9bXxIYVkmYN3aYKTkh9rmryEYIUIEOWTNg7RqiVEj4YoqfyQVte/UCsJWhkp/A2ApwYQ==
+X-Received: by 2002:a05:600d:630a:b0:471:1b25:fa00 with SMTP id 5b1f17b1804b1-4711b25fd7cmr148300005e9.36.1761348775627;
+        Fri, 24 Oct 2025 16:32:55 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7259:a00:7969:1fa8:db69:6159])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd47794asm6627875e9.1.2025.10.24.16.32.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Oct 2025 16:32:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4uianbie6i5kbvu2"
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/261.330.82
-X-ZohoMailClient: External
-
-
---4uianbie6i5kbvu2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 25 Oct 2025 00:32:54 +0100
+Message-Id: <DDQY14HJJS8U.30QSLJ4PCYJQ@linaro.org>
+Subject: Re: [PATCH v2 08/10] ASoC: wsa881x: drop
+ GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Bartosz Golaszewski" <brgl@bgdev.pl>
+Cc: "Kees Cook" <kees@kernel.org>, "Mika Westerberg" <westeri@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Linus Walleij" <linus.walleij@linaro.org>,
+ "Manivannan Sadhasivam" <mani@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Saravana Kannan" <saravanak@google.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Andy Shevchenko"
+ <andy@kernel.org>, "Catalin Marinas" <catalin.marinas@arm.com>, "Will
+ Deacon" <will@kernel.org>, "Srinivas Kandagatla" <srini@kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>, "Bartosz
+ Golaszewski" <bartosz.golaszewski@linaro.org>
+X-Mailer: aerc 0.20.0
+References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
+ <20251022-gpio-shared-v2-8-d34aa1fbdf06@linaro.org>
+In-Reply-To: <20251022-gpio-shared-v2-8-d34aa1fbdf06@linaro.org>
 
-Hi,
+On Wed Oct 22, 2025 at 2:10 PM BST, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> This driver is only used on Qualcomm platforms which now select
+> HAVE_SHARED_GPIOS so this flag can be dropped.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
->=20
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../devicetree/bindings/power/supply/mt6360_charger.yaml     | 1 -
->  .../bindings/power/supply/stericsson,ab8500-charger.yaml     | 1 -
+I tested the whole series on db845 RB3 board, looks ok.
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Reviewed-and-tested-by: Alexey Klimov <alexey.klimov@linaro.org> # RB3
 
--- Sebastian
 
---4uianbie6i5kbvu2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmj8CpEACgkQ2O7X88g7
-+pqEIQ//WxlORWTU9xe37JxSV9323KQXYJPU3wtmtK4U8OlNGoVKu9XeR3w5pitG
-uy2cIzo80EdVMKsq5GKcONqwht31w9+RJaWZmytnll9Wbe3eiW3Lu6Ymx2zopgcW
-OoRuaiPPQUqGdgt7+VKgNt+4kH1sX/ur8z/Zd1rUrK9Xkks09pdqcZ/wpjm6KlQw
-e7x03OaDQ5h17Cg56SgH7NwoYjoUXDuSEKoZDx4wv5DQWh171Ez0/tWvYwYxM7+a
-Pxqt+zTDC1hdh6j1CaiOuwNb7pbdfcOWS7WZC8BPHNYW3eqFk5OQg+tZwEgoK9zV
-GLO0FrPPimJLgL2mfnq5FP0SzYU7FNgJD6gD/qKPzjsQlFLnwn69QCH/nTA9J/ZT
-ajcxgv6FLs3R3CGRptDBEUPOXez3dJeMeaN7hNeoswZNAe9uw1irXmedEzxLDO7S
-8WDVz6MvUAXOdXEcI+pUvuYfGWPwuJHspOgPuOwzO2sqg212V3sScOGcATq2BTDD
-mpc8LtRdKoZ3vUS9cVLRxtqLo8YB5roCBg0HEOexrwJayA074TSteqXhF2LH7LOW
-IcSZ37y+8QgWjTO2aXsiLJjoK2PsOLnvKzBRD5aeLhMd4H1Lw1xCxi75ut/fJPUY
-MLaS7WMtq7TVMRxBrjz8kaiR4opj84mVIXbVgoiISYooEKbbdic=
-=pPcb
------END PGP SIGNATURE-----
-
---4uianbie6i5kbvu2--
+Thanks,
+Alexey
