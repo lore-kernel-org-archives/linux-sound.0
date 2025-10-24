@@ -1,125 +1,102 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [94.124.121.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A158316915;
-	Fri, 24 Oct 2025 13:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45CD321441
+	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 13:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761311576; cv=none; b=DnkulhbHf3pahGxC7YZTuKtp18vCPMCKGeL2UeSj/S1LBCg9nUYRfM6JaSeTFryOkWD2COnPDsoXVB5DDMZI9tq1Ubo4MUnblyp4+R54mHywdKwmQx/ZYRB6h7/KUYx/rSErWJuKotmyq1/R3CpfQdlpDrg/wBa3oAPTZ/u1BQY=
+	t=1761314298; cv=none; b=Ze5CFtjeBGRxk9nnxPGTZdxOZpuXOOY4Ix3LLkuf8W8bKVQ4RE3EBFzstTEgW3nO0DgJzjsEm4G4GzNnVa5jC8THN3vqS6RmZNH/EszXHh6WCOTSzuqUYweYj/7/fvxTfecHWghKlbc7EL52rTc5Q0R7d9XdGR0Cgmn5XDwzMiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761311576; c=relaxed/simple;
-	bh=2aewrvQsu5cZfDk5up019SNDTifSNkr8oCASbDhfrB0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=C9kgRamhNb9mEY/5Cz083s3UXvEocLYqggo1s7sqt8tueCECABSsSSiQ3rgUM8Vg6o3eQIfh80l7qHymfc1VJ+zkCqjYl0cZb2xF4rYXHte0OihVfMXzwOhZFIMPODVnHpmb/vG62Ln8lopj0SCZDk0GUZzp1kPvlF5csaWSpZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=qb+/eio9; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1761314298; c=relaxed/simple;
+	bh=DStSGKatGmrev5tmHwVq9RguAZktbzzq7CaSyteKbOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OBr0oVXwWmjdaOBzXvgAy9GPA/+GvamPZxMj0WPc5wVAh4Och3cob9P8Pu5HaTLvb/CEllZ3OaR9l5AJczsXIcuwk61KbhgjWJ/QSCE9V230xbILIB7LUePAdbF42avKUHo+iGJ1d7p/Eq1fagO1MgwqPU1jrmGBpRnYNPwcKBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zanders.be; spf=pass smtp.mailfrom=zanders.be; dkim=pass (2048-bit key) header.d=zanders.be header.i=@zanders.be header.b=KjvhtKgE; arc=none smtp.client-ip=94.124.121.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zanders.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zanders.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="qb+/eio9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1761311468;
-	bh=9JV18j4VlfTipOLVghQOb8o4MFvZkdIXPEwg/4zYbWw=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=qb+/eio9LibALNgbrzIaDIItBJgDEYDxO3MRxe9Pxiojak0XWgPpwKmiJYmauEaWK
-	 2W8oS9lwABsYT5whvhj1WQ7KmogMZW+w+C444sRlBuObLG7Yq8+gbJ8YLIlwCBxAam
-	 Z/kWeTMLfEO5d4tt49Gvmpec2HfCHek6f6Lj9RzQ=
-X-QQ-mid: zesmtpip4t1761311465te44400d9
-X-QQ-Originating-IP: QoGeJjgVTLr+B6Q6EcmsTcYvLVeLIBLRdDiYkS5sJBQ=
-Received: from = ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 24 Oct 2025 21:11:04 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 17065809346992104462
-EX-QQ-RecipientCnt: 11
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Fri, 24 Oct 2025 21:11:01 +0800
-Subject: [PATCH] ASoC: spacemit: add failure check for
- spacemit_i2s_init_dai()
+	dkim=pass (2048-bit key) header.d=zanders.be header.i=@zanders.be header.b="KjvhtKgE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=zanders.be; s=202002;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=C48gu7NXP8y9dk94tbYBWS5GwTbZ0M7NmzNqhOYrSd4=;
+	b=KjvhtKgExdpcHYFilqCL/n3gSrBhfxpmDPuL5KhQYQniH2SckHkfQfl0G0TdKrdljobuZ0t4/oKn3
+	 zlxgX3bOVmPGQt//fSkWkHAfUQ3CHEitL+D63lQY6oor3b8A0uUbOEo2bItFey7M++/SyRGJeDCriF
+	 WoeVMY0l1T8+ZEqU7WgjI3f9ptb1/n3ZLyl7oVueLdzpSod1HXJBeN7Stro84l3y89obs40vbrhXkn
+	 7iWeq/JoBPjAy0lMTSvIR7DrCKEVpAPzr+LBThbF2im/t2isyYzwG1mna5IBN1oDKuNdx/B5FAsNio
+	 MIbhsdVGxyjODj/30hd2vQouQIs58/w==
+X-MSG-ID: 75dfb013-b0e1-11f0-bf45-0050568164d1
+From: Maarten Zanders <maarten@zanders.be>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Zidan Wang <zidan.wang@freescale.com>
+Cc: Maarten Zanders <maarten@zanders.be>,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_sai: Fix sync error in consumer mode
+Date: Fri, 24 Oct 2025 15:57:15 +0200
+Message-ID: <20251024135716.584265-1-maarten@zanders.be>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251024-fix-k1-i2s-dai-mem-v1-1-15f5f1ec294a@linux.spacemit.com>
-X-B4-Tracking: v=1; b=H4sIAOR6+2gC/x2MQQqAIBAAvxJ7bsGVyugr0UF0qyW0UIgg/HvSc
- WBmXsichDNMzQuJb8lyxgrUNuB2GzdG8ZVBK92T0h2u8uBBKDqjt4KBAxpLI3Xs3WA81PBKXK1
- /Oi+lfGY0fcBkAAAA
-X-Change-ID: 20251024-fix-k1-i2s-dai-mem-7a1814edc67d
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Yixun Lan <dlan@gentoo.org>
-Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761311464; l=1205;
- i=troy.mitchell@linux.spacemit.com; s=20250712; h=from:subject:message-id;
- bh=2aewrvQsu5cZfDk5up019SNDTifSNkr8oCASbDhfrB0=;
- b=oFTTIP2sJJhiz+ZVGA4xIkkKuXYvu9i5W2/Y+Af/20Lbi35uQ525bl6kreU3ivgjK6kElXDks
- 4cD9xOpPJoyAJrTQ0NNyPAnusC5raEvjznDEOILs6x+VYSoTv0f1lRI
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=zhRP1xE0bftrurqSWI+SzcSdJGIZ0BTTY9Id0ESzqlI=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MQSJ42kM78w4IN4m8F7ewha38AwA6ruOftcyyZZbtGqDqrwtvgTCRFpg
-	tAJfcQb8NsFadiqye4C3XL+9Npsb74TQzUGJDrweXtCbvWLtnMhIgODEwfya2iRsS/1jlyd
-	IaYNr5CfcJ1cXuWz0hJbmzgH7NO3vVADX97cSQYkb4ALB+XVppFQkfuiJbhP8wRZZaof7Ez
-	vhEDcQ5p3aGWMaWxbLgfX9hjA+aWxfa0RU142sSaqKqwC6ZeyH1OnJfQmJ4TusxN5KqJfsi
-	bI848K8PyzkEG6y8JqtB6O+e9ejd9FJy2fGDVpaNJfn16Ow5kRuR0wwCBaIM/rnP8kkDuG3
-	dxnkANevDmf6RosOomNjkw1P5SDyVJXTeh6zDj0p3LSMA9olhWy5h9qQlkaqfA559Xb4G5H
-	PChO6Rs1QRrlnO3bXKAFUV6T+obpjHZgRS/gTtvJ7gGSxymxR7SgBTS7ORjw6UfJGmfef2m
-	kf/7W9/TCpk/eFe8mAtxb3pJOlaxuAnvW1Usu+WLqrMJwJqPP85qw7Q9Co841iyUimPsEvh
-	hfj4AQNRkX84BhR21MfL3f/CT13BdC2JNr6lUX5dFa1vl/jH9y/FItmU12gR1yX42kdTjAB
-	fQ7vps379Uq+fsOXMJDfQnM0nkmHwg8ywZiGn0MwChzuB762fM7EZqHVKAaUmEwAe0dF/w2
-	ykQES+AdtSPYpif2+rP7vsQk4meiNHwDGyGfGp55fn7Ampiux4YkZyNZwrOQFGfS18RpzDW
-	qOo7bGO7dqDWoikLt2WbUPMCfPSfz9yfPNkoKcntnQsC2hKoAolsi+LoUa1gFCwKSZoa4/J
-	1a1UFlVqB1P/2Tx+CqcZ0wBby9JbjhlDJVJ9nukJYkdM6rxLcLgJkUH8VPaT9jRw/JBCTrd
-	B2MMsuomNq3Mp1n1AkIHt4pSTfwVCE9k8AKsipVdBvxQTyPEUHUf5FZbIATsTQira7mZvKp
-	w2T/xkRBHltMDsDk0fmlgjseGvq/wtHEedtbDAq2dKeRo81riDlKpvFYMLh4KxPyjczFxyb
-	A0sHpvY7UvdDHdaXREKkkGFGNsHXsK2VDOXCk9ijA6C3Y2ayFK3/ITRcQPmTaM24UMroASF
-	/G/+OtKJuElYKJVr3dth9KXQ6xvEA4Mz3pxUH8k1RX9jm3tQdyRuYLQNlPRpCvbrADigq/4
-	4/s2CTfNMnuLIvQ=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-Add error handling when memory allocation for dai fails in
-spacemit_i2s_init_dai() call.
+When configured for default synchronisation (Rx syncs to Tx) and the
+SAI operates in consumer mode (clocks provided externally to Tx), a
+synchronisation error occurs on Tx on the first attempt after device
+initialisation when the playback stream is started while a capture
+stream is already active. This results in channel shift/swap on the
+playback stream.
+Subsequent streams (ie after that first failing one) always work
+correctly, no matter the order, with or without the other stream active.
 
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+This issue was observed (and fix tested) on an i.MX6UL board connected
+to an ADAU1761 codec, where the codec provides both frame and bit clock
+(connected to TX pins).
+
+To fix this, always initialize the 'other' xCR4 and xCR5 registers when
+we're starting a stream which is synced to the opposite one, irregardless
+of the producer/consumer status.
+
+Fixes: 51659ca069ce ("ASoC: fsl-sai: set xCR4/xCR5/xMR for SAI master mode")
+
+Signed-off-by: Maarten Zanders <maarten@zanders.be>
 ---
-Dan reported here [1].
+ sound/soc/fsl/fsl_sai.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Link: https://lore.kernel.org/all/aPtiNCZ_KBezL2Dr@stanley.mountain/#t [1]
----
- sound/soc/spacemit/k1_i2s.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index abc439b53e3d4358570df2e69e636bf54820d9ce..8af05e1604f518b63cbbbaa66b73cfee8262d87f 100644
---- a/sound/soc/spacemit/k1_i2s.c
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -428,7 +428,9 @@ static int spacemit_i2s_probe(struct platform_device *pdev)
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index 757e7868e322..178a6e8fbe2c 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -653,12 +653,12 @@ static int fsl_sai_hw_params(struct snd_pcm_substream *substream,
+ 		val_cr4 |= FSL_SAI_CR4_CHMOD;
  
- 	dev_set_drvdata(i2s->dev, i2s);
+ 	/*
+-	 * For SAI provider mode, when Tx(Rx) sync with Rx(Tx) clock, Rx(Tx) will
+-	 * generate bclk and frame clock for Tx(Rx), we should set RCR4(TCR4),
+-	 * RCR5(TCR5) for playback(capture), or there will be sync error.
++	 * When Tx(Rx) sync with Rx(Tx) clock, Rx(Tx) will provide bclk and
++	 * frame clock for Tx(Rx). We should set RCR4(TCR4), RCR5(TCR5)
++	 * for playback(capture), or there will be sync error.
+ 	 */
  
--	spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
-+	ret = spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_snd_soc_register_component(i2s->dev,
- 					      &spacemit_i2s_component,
-
----
-base-commit: 72fb0170ef1f45addf726319c52a0562b6913707
-change-id: 20251024-fix-k1-i2s-dai-mem-7a1814edc67d
-
-Best regards,
+-	if (!sai->is_consumer_mode[tx] && fsl_sai_dir_is_synced(sai, adir)) {
++	if (fsl_sai_dir_is_synced(sai, adir)) {
+ 		regmap_update_bits(sai->regmap, FSL_SAI_xCR4(!tx, ofs),
+ 				   FSL_SAI_CR4_SYWD_MASK | FSL_SAI_CR4_FRSZ_MASK |
+ 				   FSL_SAI_CR4_CHMOD_MASK,
 -- 
-Troy Mitchell <troy.mitchell@linux.spacemit.com>
+2.51.0
 
