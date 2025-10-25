@@ -1,91 +1,125 @@
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE13A2571C7;
-	Sat, 25 Oct 2025 09:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A112F5B;
+	Sat, 25 Oct 2025 16:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761384041; cv=none; b=s/Mr7i0gSK+g4UpPehkzkw85dtpJsLnpGstRdWLfrcvnfHFsRuQR9+Uyx5sV3X9mU2YxJoxK0kK/9NeQrWsfB4vlOFsn4fzcu8KmH33jgLjBIR6QmTg75oxtMx8RM/r+kgUZN3ItChX71kPovpG8oITfWEa5/zG3+hpdDJlcqZY=
+	t=1761408704; cv=none; b=B7e05FOOXYBcxbXnw7CDehHvQ6P9fbqVLy7mPPNwTz2UQqEf4ihISC1DvK145G4q95V+yOHzry6ZCQkJXTS02T9pIzgu9HqeUqjjBi62JQvhO/B7xr88HhOl8wlypLHdQqUz+yH6ZbksX6BR1usiv9v33/9mkfsNbX+8D8FRMk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761384041; c=relaxed/simple;
-	bh=a/7w0cv9SePtN+yT6WvEUld+KZUwIPYLnxRDREiCCIE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XX75M9cn4y5b/GDwLqmBPtijAG8xl0Kx/cU0T+Z91izn+Qs2NamRbKWZkxzWjt3mTTCS2ilK1jYmlc6+nL+qiibTrReLd9zIx+7jhVm9pRe70AKiT7oZ4u5TB0gU2FllHq69lZZS1zmyG0q5IAAzfGIyJNWiwEV9mekb3HlBe94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
-Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 1E8C44CE13;
-	Sat, 25 Oct 2025 11:13:54 +0200 (CEST)
-Received: from belgarion.local (unknown [IPv6:2a01:e0a:a6a:5f90:41bc:b925:1818:463c])
-	by smtp6-g21.free.fr (Postfix) with ESMTPS id 50F58780505;
-	Sat, 25 Oct 2025 11:13:36 +0200 (CEST)
-From: Robert Jarzmik <robert.jarzmik@free.fr>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Peng Fan" <peng.fan@nxp.com>,  "Daniel Mack" <daniel@zonque.org>,
-  "Haojian Zhuang" <haojian.zhuang@gmail.com>,  "Jaroslav Kysela"
- <perex@perex.cz>,  "Takashi Iwai" <tiwai@suse.com>,  "Mark Brown"
- <broonie@kernel.org>,  linux-kernel@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: codec: Remove pxa2xx-ac97.c
-In-Reply-To: <fd5451a1-9720-417a-915c-1ee3149426f2@app.fastmail.com> (Arnd
-	Bergmann's message of "Thu, 18 Sep 2025 09:15:23 +0200")
-References: <20250918-audio-v1-0-e9d0df5c60d2@nxp.com>
-	<20250918-audio-v1-1-e9d0df5c60d2@nxp.com>
-	<fd5451a1-9720-417a-915c-1ee3149426f2@app.fastmail.com>
-User-Agent: mu4e 1.12.13; emacs 29.4
-Date: Sat, 25 Oct 2025 11:13:05 +0200
-Message-ID: <m2jz0j4a5a.fsf@free.fr>
+	s=arc-20240116; t=1761408704; c=relaxed/simple;
+	bh=/cI56iyJL+UlSwCls/Va19+RSXDoKFw2JWm5fDdtKP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uRXycIqjb9X4q+IdUMiOKcAtmXbCTNkyDLUtXE+tHaDHleKwB2h8lSoKzMSdYEw1OfOWLeJz5mSBs8wBiN96cdGdB1gSYvhnlOMYAAUlB0AC4B2irBOjWoanWbYCX4QZUtdDTSQIKYcrrK4B68vEjNwnydutOgn2s+d7eNZclOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YP1g4Jz9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YP1g4Jz9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC34C4CEFB;
+	Sat, 25 Oct 2025 16:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761408704;
+	bh=/cI56iyJL+UlSwCls/Va19+RSXDoKFw2JWm5fDdtKP0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YP1g4Jz9XdODV4Qmr1l/LWsownIqWR4W1or4KHTor9x5yfKJd4FddkdmuEYgQOSzZ
+	 xsn6uOciJNLc5Ng1Psx/tNz8HO5qUHhTJ2jub72cDah4sSK1Hmw4dC+VOOMgyQ0T3p
+	 PvfG7x0BIstN/boioXGWw/SNNNJ3hCBR1/Ql3NKkhPyx3bd5nK3LMPQ/X3DzVtXy0o
+	 J/LhTjGtxGtUtyIGjOP497UCMTgaTt8OF7AEEZ4Jx6yhMn6nlPrLogtylkzJHb5n3m
+	 CGlkwrCy6trEC+O6+H74AXK3/m3b5B2UHZK4u5HLdTCEA0V5BdFJorxZ4eOm5kkzCQ
+	 TgjwetCIQouEg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Niranjan H Y <niranjan.hy@ti.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.17] ASoC: ops: improve snd_soc_get_volsw
+Date: Sat, 25 Oct 2025 11:54:39 -0400
+Message-ID: <20251025160905.3857885-48-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
+References: <20251025160905.3857885-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+From: Niranjan H Y <niranjan.hy@ti.com>
 
-> On Thu, Sep 18, 2025, at 07:44, Peng Fan wrote:
->> With commit ce79f3a1ad5f ("ARM: pxa: prune unused device support") and
->> commit 2548e6c76ebf ("ARM: pxa: pxa2xx-ac97-lib: use IRQ resource"), there
->> is no 'pxa2xx-ac97' platform device created by machine level code, so this
->> driver could be removed.
->>
->> Signed-off-by: Peng Fan <peng.fan@nxp.com>
->> ---
->>  sound/arm/Kconfig       |  10 --
->>  sound/arm/Makefile      |   3 -
->>  sound/arm/pxa2xx-ac97.c | 286 ------------------------------------------------
->>  3 files changed, 299 deletions(-)
->
-> I think you are right, I was sure there was still a way to use this
-> driver either as part of sound/soc/pxa/*, or as an alternative,
-> but now I don't see how.
->
-> If we do this, I think we should just merge pxa2xx-pcm-lib.c and
-> snd-pxa2xx-lib.c into the respective callers in the sound/soc/pxa/
-> driver.
->
-> Robert, can you confirm?
-Hi Arnd,
+[ Upstream commit a0ce874cfaaab9792d657440b9d050e2112f6e4d ]
 
-That'a a way of doing it, yet I would have chosen another path.
-I would have taken all the code out of sound/arm/pxa2xx-pcm-lib.c, and
-injected it into sound/soc/pxa2xx-pcm.c The reason is that the PCM code
-is used across AC97, I2S and SSP. You would have to duplicate that if
-you were to inject it to its callers.
+* clamp the values if the register value read is
+  out of range
 
-I would also see with a keen eye the removal of sound/arm/*. Unless I'm
-mistaken, this code only works in platform_data environments. And if you
-want to leave only DT code, well ... the long term should be to remove
-this part.
-
-The code in sound/soc/pxa provides another access to the same
-functionality (ie. sound on pxa platforms), and is DT compliant.
-
-On a personal note, I only ever used sound/soc/pxa/* in all my boards,
-and never arm/pxa/*. I'm not aware of any remaining users of sound/arm/*. 
-
-Cheers.
-
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+[This patch originally had two changes in it, I removed a second buggy
+ one -- broonie]
 --
-Robert
+v5:
+ - remove clamp parameter
+ - move the boundary check after sign-bit extension
+Link: https://patch.msgid.link/20250912083624.804-1-niranjan.hy@ti.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+YES
+- The fix clamps the register-derived value before it is re-based in
+  `soc_mixer_reg_to_ctl()` (`sound/soc/soc-ops.c:113-127`), preventing
+  it from wandering outside `[mc->min, mc->max]`. Without this, any
+  register value below `mc->min` (common when a codec powers up with
+  zero while the control’s logical minimum is >0 or negative) underflows
+  when `mc->min` is subtracted and then wraps through the `& mask`, so
+  userspace can observe bogus values above the advertised maximum from
+  `snd_soc_get_volsw()` and `snd_soc_get_volsw_sx()`. That mismatch
+  breaks ALSA controls built with `SOC_SINGLE_RANGE`,
+  `SOC_DOUBLE_R_RANGE`, `SOC_*_S8_TLV`, etc., all of which rely on the
+  helper to enforce the declared range.
+- Hardware already rejects out-of-range writes via
+  `soc_mixer_valid_ctl()`/`soc_mixer_ctl_to_reg()` (`sound/soc/soc-
+  ops.c:160-205`), so the user-visible read path was the lone gap;
+  adding `clamp()` makes readback consistent with the rest of the
+  subsystem and the limits reported by `soc_info_volsw()`.
+- This bug is long-standing: older kernels (e.g. v6.9’s
+  `snd_soc_get_volsw_sx`) perform the same `value - min` arithmetic
+  without any bounds check before masking, so stable trees inherit the
+  same failure mode. Backporting only adds the clamp line and has no
+  architectural fallout or API change.
+- Risk is minimal: `clamp()` is already available, the new bound check
+  happens after optional sign-extension (meeting the requirement for
+  signed controls), and only narrows the set of values we propagate to
+  userspace. Given it fixes real misreports while touching a single
+  helper used by all range-aware mixer gets, it fits stable policy well.
+
+Next steps: consider sanity-testing a couple of affected controls (e.g.
+via `amixer`) on hardware that boots with out-of-range defaults to
+confirm the user-visible values now saturate instead of wrapping.
+
+ sound/soc/soc-ops.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index a629e0eacb20e..d2b6fb8e0b6c6 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -118,6 +118,7 @@ static int soc_mixer_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_v
+ 	if (mc->sign_bit)
+ 		val = sign_extend32(val, mc->sign_bit);
+ 
++	val = clamp(val, mc->min, mc->max);
+ 	val -= mc->min;
+ 
+ 	if (mc->invert)
+-- 
+2.51.0
+
