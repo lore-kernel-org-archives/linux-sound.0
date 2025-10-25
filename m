@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E180307AD4;
-	Sat, 25 Oct 2025 16:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0271313AD3F;
+	Sat, 25 Oct 2025 16:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409199; cv=none; b=kRXRCwSx+fn7vVQm2rfmtp2MvSgeORL6gpUNvRywaCCkQJtX0HOIKvc29PMMgtTI0+7wubKbAta48ajykzKmtPdA/gUElY0qlyFW3oXWT3zqW3b8VnzlWBcNi+WIxwN7UMQsYZ+YrN1AJwEzR1l1BmKfjkIf906d+heabZxbqhc=
+	t=1761409283; cv=none; b=iWYuw7hGDvfzNF/IJ1X6KvXCcMAZGTqdbWXVz258HJsuLDNMI3Yk5AJSbZXLljlpBtyl7IiWDrJ8rEsJPjqettEbZB4aC0nGn+6LTNx7zvDsL1YGyDQEyvsFlsj2kJCVqpmtsfBsPAGiOH9v2Cis07HLkZyxxABhXDLz77jfULY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409199; c=relaxed/simple;
-	bh=tlFGWlbofj8Y5mA4QVtuR6zl8CZuuqNUOHeT46Qm3A8=;
+	s=arc-20240116; t=1761409283; c=relaxed/simple;
+	bh=EVEwCBOHwD3E+CFJT3PvAv4ES+hDr4wbikh8kpOQngo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P7C1mmtxRCzFv9heK15k2l1uC4tq3rQPC2RMlG9e55Xuc2DUpD519ql6N3Oa2Ia8lGngdIRZfI5CRdrY+cCu7GwhROzDPV+J6bya5PTAT0RMIdQVBTtXKTpBcikgBwwtg18AKvcC/h5jNnnJw/6Y5CNVRsnrcoxbub4NV1PNsP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5qjZ11I; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YomJ7t+jvzoHIxATF2nDN+HpxKikX/dLjEmxTSGHO+ktUmAibVwUqz2IVg2O0HRoxf4UJxsdIhTtnFlKok96JoOkjFkDVr9XWKmrAFwpV/4y29M01UVffmjZ0yJwjGVOHeGzHZ36c5DW5L/mnG2vg9slg5EdPLtdLYy2P4n0agw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0F76UVW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5qjZ11I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C08C4CEFF;
-	Sat, 25 Oct 2025 16:19:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0F76UVW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E368AC19423;
+	Sat, 25 Oct 2025 16:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409199;
-	bh=tlFGWlbofj8Y5mA4QVtuR6zl8CZuuqNUOHeT46Qm3A8=;
+	s=k20201202; t=1761409282;
+	bh=EVEwCBOHwD3E+CFJT3PvAv4ES+hDr4wbikh8kpOQngo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D5qjZ11I86aZpnCyndmpukP71D+77ZDs74ww0nZsK99jYUKMLD0rY4int363EBePP
-	 Ke+zE4xPtoxpImz7xz4X5IWsB/eP3j1Hf2cN7s15rbZkW42dzJZDbS977jrwYsjSeK
-	 5dPk8PWPZJ/Y0UfHAjAAPPqf7SY2EJ+/CMwR+eIG9o/vtjhNgoYF23i3M0HpGi1Csv
-	 NWAOUohg6/Y859wtKTMjgShf3I0oNfQwKlgIvN21Qg+H5bCx1AE2xCWsI7IOSHcrp3
-	 Axtg/ltg0JWy0lCKnx+qaYcb8BWjCrOKcJO1mYzjXa+zctA2lnmTrGSAG1dKJtEf1e
-	 ebyEJG3hSWGew==
+	b=t0F76UVWv+rhbtiYRr+ZTQREfpms4CYWPTLMRToUotizaUW93I1oedY+A1/BrJtSl
+	 4GOd3FaxEajogMhzyylHHEWxH+CeViDMUvCbADFZQ2XE8Vrmrt8si4FGRY5NsREbGb
+	 v6lxfCXVyylhAYP3XkWN9dhggEKrx6haNUCiYFOc6ZBl59dQY/qypCZFH8BvmZqwcy
+	 7b6j4cvNK1uGAF/9EDbDMQRsWt9llL2ElH4/VjJjMiNWOd1GHHlV0TU5udISLQedcm
+	 sHvcAfzHDis7lYJP3QbEgFj+iAJd9cgx+ZpSrLGkTut9F8IVSHQtFUCE9z8H3txW2A
+	 iOG9k5h3bi5qw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Yusuke Goda <yusuke.goda.sx@renesas.com>,
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	p.zabel@pengutronix.de,
+	srini@kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17] ASoC: renesas: msiof: use reset controller
-Date: Sat, 25 Oct 2025 11:57:52 -0400
-Message-ID: <20251025160905.3857885-241-sashal@kernel.org>
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.17-6.1] ASoC: qcom: sc8280xp: explicitly set S16LE format in sc8280xp_be_hw_params_fixup()
+Date: Sat, 25 Oct 2025 11:58:12 -0400
+Message-ID: <20251025160905.3857885-261-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -56,162 +53,76 @@ X-stable-base: Linux 6.17.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-[ Upstream commit 25226abc1affd4bf4f6dd415d475b76e7a273fa8 ]
+[ Upstream commit 9565c9d53c5b440f0dde6fa731a99c1b14d879d2 ]
 
-MSIOF has TXRST/RXRST to reset FIFO, but it shouldn't be used during SYNC
-signal was asserted, because it will be cause of HW issue.
+Setting format to s16le is required for compressed playback on compatible
+soundcards.
 
-When MSIOF is used as Sound driver, this driver is assuming it is used as
-clock consumer mode (= Codec is clock provider). This means, it can't
-control SYNC signal by itself.
-
-We need to use SW reset (= reset_control_xxx()) instead of TXRST/RXRST.
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Tested-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
-Link: https://patch.msgid.link/87cy7fyuug.wl-kuninori.morimoto.gx@renesas.com
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Link: https://patch.msgid.link/20250911154340.2798304-1-alexey.klimov@linaro.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-YES — The change should go to stable. The MSIOF audio block needs its
-FIFOs cleared between runs, but the on-IP `TXRST/RXRST` bits cannot be
-touched while SYNC is asserted, which is exactly the situation for
-clock-consumer audio links; the original driver therefore has no safe
-way to recover from prior transfers and will hit the documented HW
-issue. The patch switches the driver to the module reset line, gated by
-a local user-count, so the FIFOs are flushed without touching the
-fragile in-block resets.
+YES – forcing S16LE in the backend fixup is a necessary bug fix and safe
+to carry into stable.
 
-Key pieces:
-- `sound/soc/renesas/rcar/msiof.c:112-121` adds a reset-controller
-  handle plus a stream user counter so the module reset can be shared by
-  playback and capture safely.
-- `msiof_hw_start()` now drops the module reset on the first active
-  stream (`sound/soc/renesas/rcar/msiof.c:189-207`), guaranteeing the
-  hardware starts from a clean state without poking the unsafe FIFO
-  reset bits.
-- `msiof_hw_stop()` balances that by re-asserting the reset once the
-  last stream stops (`sound/soc/renesas/rcar/msiof.c:316-319`), ensuring
-  the block is quiesced even if the codec keeps SYNC running.
-- `msiof_probe()` acquires the reset line and asserts it at probe
-  (`sound/soc/renesas/rcar/msiof.c:587-599`), aligning the power-on
-  state with the new sequencing.
+- `sc8280xp_be_hw_params_fixup()` now applies `snd_mask_set_format(fmt,
+  SNDRV_PCM_FORMAT_S16_LE)` (sound/soc/qcom/sc8280xp.c:92-101) and
+  includes the proper header to access that helper
+  (sound/soc/qcom/sc8280xp.c:10). Without this restriction the BE
+  inherits whatever format the FE negotiated (often S32_LE), so the CDC
+  DMA path tries to run at the wrong width.
+- The hardware side really needs the negotiated width to be 16-bit: the
+  Q6 backend programs `cfg->bit_width = params_width(params);` before
+  starting the CDC DMA port (sound/soc/qcom/qdsp6/q6afe-dai.c:364-366).
+  When the format stays at 32‑bit the DSP refuses to start compressed-
+  playback streams, which is the user-visible failure cited in the
+  commit message.
+- Other Qualcomm soundwire machine drivers already lock their BE formats
+  to S16LE (e.g. sound/soc/qcom/sm8250.c:62-71), so this change simply
+  brings sc8280xp into line with established practice and with the
+  firmware expectations of the WCD/WSA codecs on this platform.
+- The patch is tiny, contained to the machine driver, and has no
+  architectural fallout. It fixes a real regression (compressed playback
+  breaking on supported boards) and does not alter the channel/rate
+  handling beyond what was already enforced, so the regression risk is
+  minimal.
 
-The change is confined to the new MSIOF sound driver, depends only on
-the already-required DT `resets` property (verified in the binding), and
-doesn’t alter wider ASoC infrastructure. Given it fixes a real hardware
-malfunction and carries low regression risk, it is a solid stable
-backport candidate.
+Given the clear user impact, alignment with existing platforms, and the
+low risk of the change, it should be backported to stable kernels that
+carry the sc8280xp machine driver.
 
- sound/soc/renesas/rcar/msiof.c | 39 +++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ sound/soc/qcom/sc8280xp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/renesas/rcar/msiof.c b/sound/soc/renesas/rcar/msiof.c
-index 7a9ecc73231a8..3a1a6496637dd 100644
---- a/sound/soc/renesas/rcar/msiof.c
-+++ b/sound/soc/renesas/rcar/msiof.c
-@@ -24,12 +24,25 @@
-  * Clock/Frame Consumer Mode.
-  */
- 
-+/*
-+ * [NOTE-RESET]
-+ *
-+ * MSIOF has TXRST/RXRST to reset FIFO, but it shouldn't be used during SYNC signal was asserted,
-+ * because it will be cause of HW issue.
-+ *
-+ * When MSIOF is used as Sound driver, this driver is assuming it is used as clock consumer mode
-+ * (= Codec is clock provider). This means, it can't control SYNC signal by itself.
-+ *
-+ * We need to use SW reset (= reset_control_xxx()) instead of TXRST/RXRST.
-+ */
-+
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_dma.h>
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- #include <linux/spi/sh_msiof.h>
- #include <sound/dmaengine_pcm.h>
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index 6847ae4acbd18..78e327bc2f077 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -7,6 +7,7 @@
  #include <sound/soc.h>
-@@ -61,10 +74,13 @@
- struct msiof_priv {
- 	struct device *dev;
- 	struct snd_pcm_substream *substream[SNDRV_PCM_STREAM_LAST + 1];
-+	struct reset_control *reset;
- 	spinlock_t lock;
- 	void __iomem *base;
- 	resource_size_t phy_addr;
+ #include <sound/soc-dapm.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include <linux/soundwire/sdw.h>
+ #include <sound/jack.h>
+ #include <linux/input-event-codes.h>
+@@ -86,8 +87,10 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
  
-+	int count;
-+
- 	/* for error */
- 	int err_syc[SNDRV_PCM_STREAM_LAST + 1];
- 	int err_ovf[SNDRV_PCM_STREAM_LAST + 1];
-@@ -126,6 +142,16 @@ static int msiof_hw_start(struct snd_soc_component *component,
- 	 *	RX: Fig 109.15
- 	 */
- 
-+	/*
-+	 * Use reset_control_xx() instead of TXRST/RXRST.
-+	 * see
-+	 *	[NOTE-RESET]
-+	 */
-+	if (!priv->count)
-+		reset_control_deassert(priv->reset);
-+
-+	priv->count++;
-+
- 	/* reset errors */
- 	priv->err_syc[substream->stream] =
- 	priv->err_ovf[substream->stream] =
-@@ -144,7 +170,6 @@ static int msiof_hw_start(struct snd_soc_component *component,
- 		val = FIELD_PREP(SIMDR2_BITLEN1, width - 1);
- 		msiof_write(priv, SITMDR2, val | FIELD_PREP(SIMDR2_GRP, 1));
- 		msiof_write(priv, SITMDR3, val);
--
- 	}
- 	/* SIRMDRx */
- 	else {
-@@ -217,6 +242,11 @@ static int msiof_hw_stop(struct snd_soc_component *component,
- 			 priv->err_ovf[substream->stream],
- 			 priv->err_udf[substream->stream]);
- 
-+	priv->count--;
-+
-+	if (!priv->count)
-+		reset_control_assert(priv->reset);
-+
- 	return 0;
- }
- 
-@@ -493,12 +523,19 @@ static int msiof_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
-+	priv->reset = devm_reset_control_get_exclusive(dev, NULL);
-+	if (IS_ERR(priv->reset))
-+		return PTR_ERR(priv->reset);
-+
-+	reset_control_assert(priv->reset);
-+
- 	ret = devm_request_irq(dev, irq, msiof_interrupt, 0, dev_name(dev), priv);
- 	if (ret)
- 		return ret;
- 
- 	priv->dev	= dev;
- 	priv->phy_addr	= res->start;
-+	priv->count	= 0;
- 
- 	spin_lock_init(&priv->lock);
- 	platform_set_drvdata(pdev, priv);
+ 	rate->min = rate->max = 48000;
++	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
+ 	channels->min = 2;
+ 	channels->max = 2;
+ 	switch (cpu_dai->id) {
 -- 
 2.51.0
 
