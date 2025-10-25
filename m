@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3617A303CA8;
-	Sat, 25 Oct 2025 16:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F7430B527;
+	Sat, 25 Oct 2025 16:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761408888; cv=none; b=u4V8y6RtPlLca4M+eRxZgFKiMVFOK9ngYyeqqMEtpzlswhyaXDY6VaUATQHuxRec9jNtiYSJ7Dc1g4uM44ZzJm5a2uXDqBSUB2DXkM2B1kXibRXsQDo8MUitBu9SP0ZgsRQumrhj3gk61ba5xjy73JoJd8dGsCQBB8mLFlvfTt8=
+	t=1761409034; cv=none; b=TojiKiE5pWlIlvCY+TSXz4V+PoFVeeDR1VPkGzJ+KPZMgs1xknITZQ1bd7h75JI70uPS7WR2ynUXtAl82bcRfDpUWsr/ctLCCRZ/kgoYN2YVPV/VN+ORRyp+T7xt5WGlQfOU33o4QOcqFNMoC31I8xCWWp6e31aYhqtWIoW3rxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761408888; c=relaxed/simple;
-	bh=2Bob0ZNJjMEU9xhD7EfrULhkbCgZghUlFHEdnIxTbBU=;
+	s=arc-20240116; t=1761409034; c=relaxed/simple;
+	bh=+Q4I3s1hMoccXGt3od3BjlqiRClbKs+el/X4XfZ2330=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=suRalEIkQqTu/BLgnptXXGPa+sfCnZZlLXfTj5DwPodoAMh8qzJu3+vrg9ChSMJTllVOHwxyZ1IH8mK1DQpmnFBHhnHLtTfSoO8lMEv/r05F9kYRRN9hojvhMiKIgXW+DOUAKthqI6mnrCJ7QcUot8Eo8GsO/Nes6by7Ij3XkOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P20H9yEa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Qldg8RdpDdXgC4qmSeMNBqzzISEhvFmfDNZs5fJlLPKLExnpfAHNc5wNPjlqa4WAoZcTuPvH0FILXtlZsc1IGxg7E4B2EkY4INh8obc9Y55eJf3RUGORMgIa4OLuEXKVgD/uzJjbWn+LXGp/tOp90TCJDLfDvl8ekq3HTGQG3oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKq2cwbQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P20H9yEa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E17AC4CEFB;
-	Sat, 25 Oct 2025 16:14:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKq2cwbQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0238CC4CEFB;
+	Sat, 25 Oct 2025 16:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761408886;
-	bh=2Bob0ZNJjMEU9xhD7EfrULhkbCgZghUlFHEdnIxTbBU=;
+	s=k20201202; t=1761409034;
+	bh=+Q4I3s1hMoccXGt3od3BjlqiRClbKs+el/X4XfZ2330=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P20H9yEalV+y9kfjFq941pj8zuxNdnrJypTXegrY9TBNBY9JcoeoUCTHxqD1B36TL
-	 p1buiE9RqT9jJ4ToyrYAhWXVLci+F6Sf3JOHMnEIPoPBk/Q04VN5c9LGQH3Asvi9N3
-	 ecrce/ZmOzZYB4SGGEhp/JllFTloVpoY3Md9mOWi0l2pMhFvHpjMsxmNYma5HoSQ/S
-	 VjN3TNvP6gjoCbW6U59YKX+l+f6f4BHrtj4RouzMMSUxyv57EWB/eMPP5GnVQ0W/JX
-	 rqcjhZqxNbc4Rg4eLSi6zTXXVeD0/LlwIanpR5+X6lGr+LfaBfRk41kekN5niFiVbX
-	 28JTpYFAGTDLg==
+	b=dKq2cwbQYmXFqruCATCCVZPEB3G/jvysdtmNj6TpNQu1R5mwNeQyo9VoGsfo2E5hY
+	 KVmzsP+0Mojna+KYeTCXc4CSJVHps5qbakPOIzEc8+kKS8IvqMd6Z/Q1roobUk/WL6
+	 fRy2UTGvVYEKqyoxdzxuMpXCj40Y2UEXP9y4ZWINVulgNwPoMWub5XQmxgyXTj4+LH
+	 hGU8GKbmrMmCHUEIhepoqPTWO8UjeJk5E5mB4K+5Rvxgk28FqklqGApRh/qSOnDlJi
+	 TlI+Cair3fPwp54i1rrkwzkESoMPtl6la4AQWKXXZjGigQ4EUsqUD2zvSoEKlLMwbm
+	 OSjsg0JPAopQw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
+Cc: Primoz Fiser <primoz.fiser@norik.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	shenghao-ding@ti.com,
 	kevin-lu@ti.com,
 	baojun.xu@ti.com,
-	perex@perex.cz,
-	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17] ASoC: tas2781: Add keyword "init" in profile section
-Date: Sat, 25 Oct 2025 11:55:45 -0400
-Message-ID: <20251025160905.3857885-114-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.6] ASoC: tlv320aic3x: Fix class-D initialization for tlv320aic3007
+Date: Sat, 25 Oct 2025 11:56:50 -0400
+Message-ID: <20251025160905.3857885-179-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -55,16 +54,27 @@ X-stable-base: Linux 6.17.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Shenghao Ding <shenghao-ding@ti.com>
+From: Primoz Fiser <primoz.fiser@norik.com>
 
-[ Upstream commit e83dcd139e776ebb86d5e88e13282580407278e4 ]
+[ Upstream commit 733a763dd8b3ac2858dd238a91bb3a2fdff4739e ]
 
-Since version 0x105, the keyword 'init' was introduced into the profile,
-which is used for chip initialization, particularly to store common
-settings for other non-initialization profiles.
+The problem of having class-D initialization sequence in probe using
+regmap_register_patch() is that it will do hardware register writes
+immediately after being called as it bypasses regcache. Afterwards, in
+aic3x_init() we also perform codec soft reset, rendering class-D init
+sequence pointless. This issue is even more apparent when using reset
+GPIO line, since in that case class-D amplifier initialization fails
+with "Failed to init class D: -5" message as codec is already held in
+reset state after requesting the reset GPIO and hence hardware I/O
+fails with -EIO errno.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-Link: https://patch.msgid.link/20250803131110.1443-1-shenghao-ding@ti.com
+Thus move class-D amplifier initialization sequence from probe function
+to aic3x_set_power() just before the usual regcache sync. Use bypassed
+regmap_multi_reg_write_bypassed() function to make sure, class-D init
+sequence is performed in proper order as described in the datasheet.
+
+Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
+Link: https://patch.msgid.link/20250925085929.2581749-1-primoz.fiser@norik.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -72,133 +82,98 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 LLM Generated explanations, may be completely bogus:
 
 YES
+- Moving the class‑D init to the power‑on path ensures the sequence
+  actually programs the codec after reset:
+  `regmap_multi_reg_write_bypassed()` now runs immediately after
+  regulators are enabled and the reset GPIO is deasserted
+  (`sound/soc/codecs/tlv320aic3x.c:1394-1408`), so the class‑D block on
+  tlv320aic3007 finally comes out of reset with the datasheet‑mandated
+  ordering retained (`drivers/base/regmap/regmap.c:2649-2684`).
+- The prior implementation wrote the same register sequence during probe
+  while the chip was still (or about to be) reset
+  (`sound/soc/codecs/tlv320aic3x.c:1553-1559`,
+  `sound/soc/codecs/tlv320aic3x.c:1794-1815`), yielding -EIO failures
+  and undoing the configuration; removing that probe-time call
+  (`sound/soc/codecs/tlv320aic3x.c:1782-1828`) eliminates the window
+  where the codec couldn’t be addressed.
+- Change scope is tight: the new sequence is guarded by `aic3x->model ==
+  AIC3X_MODEL_3007` and only affects the existing power/bias flow, so
+  other aic3x variants and runtime paths remain untouched.
+- This clearly fixes a user-visible regression (class‑D amp never
+  enables on systems using the reset GPIO), introduces no new APIs, and
+  aligns with stable rules for targeted bug fixes.
 
-Why this matters
-- Fixes a functional gap for RCA firmware ≥ 0x105: since that format
-  introduces an “init” profile with common chip settings, failing to
-  apply it can leave later (non-init) profiles missing required base
-  configuration, causing misconfiguration or degraded audio. This is a
-  user-visible bug for systems shipping new firmware files.
+Suggested next step: 1) Validate audio output on hardware carrying
+tlv320aic3007 with reset GPIO asserted to confirm the class‑D amplifier
+now powers up correctly.
 
-What the change does (specific code references)
-- Adds per-firmware init profile tracking
-  - include/sound/tas2781-dsp.h:172 adds `int init_profile_id;` to
-    `struct tasdevice_rca` with comment clarifying semantics (negative
-    means no init profile). Internal-only struct, no UAPI/ABI impact.
-- Detects “init” profile while parsing RCA configs
-  - sound/soc/codecs/tas2781-fmwlib.c:171 is the existing place where,
-    for binary_version_num ≥ 0x105, the code skips a 64‑byte profile
-    header. The patch scans those 64 bytes for the keyword “init” and
-    records the last such profile in `rcabin.init_profile_id`. It also
-    initializes `rca->init_profile_id = -1;` at the start of
-    `tasdevice_rca_parser` (around
-    sound/soc/codecs/tas2781-fmwlib.c:290).
-- Applies init profile at probe/firmware ready
-  - sound/soc/codecs/tas2781-i2c.c:1423 currently loads program 0 and
-    sets `cur_prog`. The patch adds a guarded call to
-    `tasdevice_select_cfg_blk(..., TASDEVICE_BIN_BLK_PRE_POWER_UP)`
-    using `rcabin.init_profile_id` when available, seeding the common
-    settings before normal profile usage.
+ sound/soc/codecs/tlv320aic3x.c | 32 ++++++++++++++------------------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
 
-Why it fits stable
-- Bug fix impact: Enables correct initialization with new RCA files (≥
-  0x105) that rely on a separate init profile for common settings.
-  Without it, normal profiles may miss required base settings.
-- Small and contained: Touches only ASoC TAS2781 driver and its header,
-  with minimal code paths. No architectural changes or core subsystem
-  impact.
-- Backward-compatible and low risk:
-  - Fully gated on `binary_version_num >= 0x105`. For older firmware,
-    behavior is unchanged.
-  - If no “init” profile is present, `init_profile_id` remains -1 and
-    the new path is skipped.
-  - Profile application uses the existing `tasdevice_select_cfg_blk()`
-    mechanism; no new behavior beyond one extra PRE_POWER_UP block.
-- No ABI/UAPI changes: The new struct member is internal to the driver.
-- Regression risk: Minimal. The “init” string search only operates on a
-  bounded 64‑byte header already being skipped
-  (sound/soc/codecs/tas2781-fmwlib.c:171). Extra initialization writes
-  are vendor-authored and expected by the new firmware format.
-
-Notes
-- Commit message doesn’t carry a Fixes or Cc: stable tag, but the change
-  corrects behavior for newly formatted firmware files and is safe to
-  backport.
-- One subtlety: it uses a substring match (“init”) over the 64‑byte
-  profile header. This mirrors vendor intent; risk of false positives in
-  profile naming is low and limited to ≥ 0x105 images.
-
- include/sound/tas2781-dsp.h       |  8 ++++++++
- sound/soc/codecs/tas2781-fmwlib.c | 12 ++++++++++++
- sound/soc/codecs/tas2781-i2c.c    |  6 ++++++
- 3 files changed, 26 insertions(+)
-
-diff --git a/include/sound/tas2781-dsp.h b/include/sound/tas2781-dsp.h
-index c3a9efa73d5d0..a21f34c0266ea 100644
---- a/include/sound/tas2781-dsp.h
-+++ b/include/sound/tas2781-dsp.h
-@@ -198,6 +198,14 @@ struct tasdevice_rca {
- 	int ncfgs;
- 	struct tasdevice_config_info **cfg_info;
- 	int profile_cfg_id;
-+	/*
-+	 * Since version 0x105, the keyword 'init' was introduced into the
-+	 * profile, which is used for chip initialization, particularly to
-+	 * store common settings for other non-initialization profiles.
-+	 * if (init_profile_id < 0)
-+	 *         No init profile inside the RCA firmware.
-+	 */
-+	int init_profile_id;
+diff --git a/sound/soc/codecs/tlv320aic3x.c b/sound/soc/codecs/tlv320aic3x.c
+index f1649df197389..eea8ca285f8e0 100644
+--- a/sound/soc/codecs/tlv320aic3x.c
++++ b/sound/soc/codecs/tlv320aic3x.c
+@@ -121,6 +121,16 @@ static const struct reg_default aic3x_reg[] = {
+ 	{ 108, 0x00 }, { 109, 0x00 },
  };
  
- void tasdevice_select_cfg_blk(void *context, int conf_no,
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index c9c1e608ddb75..8baf56237624a 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -180,6 +180,16 @@ static struct tasdevice_config_info *tasdevice_add_config(
- 			dev_err(tas_priv->dev, "add conf: Out of boundary\n");
- 			goto out;
- 		}
-+		/* If in the RCA bin file are several profiles with the
-+		 * keyword "init", init_profile_id only store the last
-+		 * init profile id.
-+		 */
-+		if (strnstr(&config_data[config_offset], "init", 64)) {
-+			tas_priv->rcabin.init_profile_id =
-+				tas_priv->rcabin.ncfgs - 1;
-+			dev_dbg(tas_priv->dev, "%s: init profile id = %d\n",
-+				__func__, tas_priv->rcabin.init_profile_id);
-+		}
- 		config_offset += 64;
- 	}
- 
-@@ -283,6 +293,8 @@ int tasdevice_rca_parser(void *context, const struct firmware *fmw)
- 	int i;
- 
- 	rca = &(tas_priv->rcabin);
-+	/* Initialize to none */
-+	rca->init_profile_id = -1;
- 	fw_hdr = &(rca->fw_hdr);
- 	if (!fmw || !fmw->data) {
- 		dev_err(tas_priv->dev, "Failed to read %s\n",
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 0e09d794516fc..ea3cdb8553de1 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -1641,6 +1641,12 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 	tasdevice_prmg_load(tas_priv, 0);
- 	tas_priv->cur_prog = 0;
- 
-+	/* Init common setting for different audio profiles */
-+	if (tas_priv->rcabin.init_profile_id >= 0)
-+		tasdevice_select_cfg_blk(tas_priv,
-+			tas_priv->rcabin.init_profile_id,
-+			TASDEVICE_BIN_BLK_PRE_POWER_UP);
++static const struct reg_sequence aic3007_class_d[] = {
++	/* Class-D speaker driver init; datasheet p. 46 */
++	{ AIC3X_PAGE_SELECT, 0x0D },
++	{ 0xD, 0x0D },
++	{ 0x8, 0x5C },
++	{ 0x8, 0x5D },
++	{ 0x8, 0x5C },
++	{ AIC3X_PAGE_SELECT, 0x00 },
++};
 +
- #ifdef CONFIG_SND_SOC_TAS2781_ACOUST_I2C
- 	if (tas_priv->name_prefix)
- 		acoustic_debugfs_node = devm_kasprintf(tas_priv->dev,
+ static bool aic3x_volatile_reg(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
+@@ -1393,6 +1403,10 @@ static int aic3x_set_power(struct snd_soc_component *component, int power)
+ 			gpiod_set_value(aic3x->gpio_reset, 0);
+ 		}
+ 
++		if (aic3x->model == AIC3X_MODEL_3007)
++			regmap_multi_reg_write_bypassed(aic3x->regmap, aic3007_class_d,
++							ARRAY_SIZE(aic3007_class_d));
++
+ 		/* Sync reg_cache with the hardware */
+ 		regcache_cache_only(aic3x->regmap, false);
+ 		regcache_sync(aic3x->regmap);
+@@ -1723,17 +1737,6 @@ static void aic3x_configure_ocmv(struct device *dev, struct aic3x_priv *aic3x)
+ 	}
+ }
+ 
+-
+-static const struct reg_sequence aic3007_class_d[] = {
+-	/* Class-D speaker driver init; datasheet p. 46 */
+-	{ AIC3X_PAGE_SELECT, 0x0D },
+-	{ 0xD, 0x0D },
+-	{ 0x8, 0x5C },
+-	{ 0x8, 0x5D },
+-	{ 0x8, 0x5C },
+-	{ AIC3X_PAGE_SELECT, 0x00 },
+-};
+-
+ int aic3x_probe(struct device *dev, struct regmap *regmap, kernel_ulong_t driver_data)
+ {
+ 	struct aic3x_priv *aic3x;
+@@ -1823,13 +1826,6 @@ int aic3x_probe(struct device *dev, struct regmap *regmap, kernel_ulong_t driver
+ 
+ 	aic3x_configure_ocmv(dev, aic3x);
+ 
+-	if (aic3x->model == AIC3X_MODEL_3007) {
+-		ret = regmap_register_patch(aic3x->regmap, aic3007_class_d,
+-					    ARRAY_SIZE(aic3007_class_d));
+-		if (ret != 0)
+-			dev_err(dev, "Failed to init class D: %d\n", ret);
+-	}
+-
+ 	ret = devm_snd_soc_register_component(dev, &soc_component_dev_aic3x, &aic3x_dai, 1);
+ 	if (ret)
+ 		return ret;
 -- 
 2.51.0
 
