@@ -1,110 +1,163 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6FA2FE56F
-	for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 23:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426E525C80D
+	for <linux-sound@vger.kernel.org>; Sat, 25 Oct 2025 04:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761348779; cv=none; b=q1l3wwBRRbrZGvlvjgcMMsX8g4m1xnlLUq/XO40ZnOE0mlbluJ4VBz/jrCQ0akiSwPHpRWFNtBTwfKY81JwPPDi1BWbFld2nE916PCaTa0w0P+7arRVSjRAwxxNrqciVTtUkNCSIZi0ihlJ2A1JzjPVME+yUvaSbvi0Q+A7eq00=
+	t=1761366622; cv=none; b=VF4KGfHUOiFxnPzias+Gu4+TomW0dvFohsx8FsCOdGkW5SFr3FAyn7MrUH6wdGBGetjnRLFvJy5NKfbRXYQXRfUrQZcuqLWsVScM3ofVw6+ogjZ1Xhe1A6D3uudxe599kZrOv90cGDeeXHjORWN6aBx5bMYc/GYbum6/GggJiwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761348779; c=relaxed/simple;
-	bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=YIXCqTiqxEaNm3e8srUFWpZbqthoEfCFX6L874NFjjfo1Mna9nRby/lr0QUbjYncDNWCsb/Q2VCixIiurqAhMxbIS9S15XyxU5CkVLRBa12koVKiAFTWxs8qWPJS+4ESRde8fPjb1wCxGBG6zXdJbeJmk3Y21UtfHa7Xrm7c3VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g6m6IVA8; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761366622; c=relaxed/simple;
+	bh=uM1zICi2IeNzgDiSdnW52W6bh7sjCXEC60ZWMbk1sEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mXCUjEe4xNKK8U1Os+TK+eu1fMZPcu8qtb/i1rA8w6uDdYsj3yqk2alqLOXwqF5939xm4dvUilg9oKO0CaaXGHsVUo/k/hOWUziI/aYGlHh6bPbZGkWlQUuneupUykbswgZOpTL5Ew4ZyEInlSaBpkIic9QLrNuIA3d8N5+Qwy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYTyfUSd; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g6m6IVA8"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4711810948aso18783425e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 16:32:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYTyfUSd"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-782e93932ffso2230367b3a.3
+        for <linux-sound@vger.kernel.org>; Fri, 24 Oct 2025 21:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761348776; x=1761953576; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
-        b=g6m6IVA87/GJJD3ajlCcB5mbco1inUtXBb29ngwEz+UlyLtfO7o1SDUOt7KRPkUN3d
-         xseovnqYPPnyZtl6eiSZsomtkBdydtDl6uW9JG9AsU8LLCs4DJdnTNyieJzPf+XQbxUg
-         eb8kLwiusjAqiJKvOMnr6hThcKURx7oTGYgUAYpVc7Ninf/LBC2ZqCeyQPSOg7NpVHqv
-         WtoShpKH3T/x9ThuF/6zDujqgusvu0Iw9SPjHJdePP7qugd/Lz7+gYcWUeupYzvd3LdH
-         0fBpwgsj6eskwRr+v5bW72PZPZbzw6Nfj+ZuaHecOcTfu/Mm6s4IeckmDqyeCCWpcQw9
-         lt7w==
+        d=gmail.com; s=20230601; t=1761366620; x=1761971420; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VKM1l0S1H1voKqVnV3wmOtndsVV1rHqN2zk5FLIUsHQ=;
+        b=nYTyfUSdkQ9YjK1mqym09CgvGehUcPGjD9qFUzAkXsnOK3cTlPy6CpXVt8ZcOwnXwl
+         oMzwM0mh0eeqeptWXA/mOuoOWq0N0DwdMqxFwXok5LLGnLFq6ZZ6Q6cuVPVvanHuvoQQ
+         0CcogXNjcOIywn3hu4eJkgKYIYFd/AM3MmBa7+vaWYr2MHbR3L+ydcMfrQ84/4y9brrH
+         5rlm5WHfNxahmwQ1xXu61YLxNevCEAp6yma38/XcICZSrF0T5u/eFz4k2ArXA/LOJxIv
+         wGpLXN8xo/h8jyXoK9Qlb4Jqa/hAZH5sHpbqV8TNz7lFffnElOmzBRCXfYh0CaTsO/CM
+         5riw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761348776; x=1761953576;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uTAvhktvg0QkcPyr0Q0jFjF0psJGVFRyizayHmkabGk=;
-        b=Pys1jj/aexTJsMVAWYWFPayegF3tceaoAvlqowQHTZ8HO/Fkvc7CxnHBOTtQa0pnqs
-         ZYkJULmWw4h3pmdNLKCw6tqrAhhSrwLbFVdoSq0F3C7jKsPIaiaqnC/aAUupVVxQa/Fo
-         dBf68sOrDX2bQ7QNktd7Qa8qj8kV3w/NLGhvkGsioYvPO0ko42LuZNJmn8oUFAZJXqQD
-         QnhnjMRdZztaQsVF4L+a8HLZa6xePc7NGo2m8AcYRqHkvt0oz542vNAIrXnQ0hZ2PwT0
-         0o0X9q1eXzU7RBhP7hvG0AN2n0a0bvA17EKa8FwwN+o4rhyk5r7aYj953OJ7mKIRkFxs
-         G+Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMwhbzYzeg2KM3Rwf3q5llX91JeWMyJ7wpb4Pn8By4z1lKPGyCZml8th80sMGH594COCUQZ+PCJrxM1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMRrlo2vzFEBVUqqibzYXSXCDNwgGOF8bBV4YLtoFB86dUO3T9
-	+6ihp/3mkPM/zIOZilu/0zR2tvvWayJ/kgLKCuKbW/YJ/hrcEnQMvH4ZdjMILHoGCR0=
-X-Gm-Gg: ASbGncvoudKwGs0DnfaEIsIriDVcaBKvT5PVRk3xUYFWFoUtXlDeyRlGvgjlpZRdKd6
-	KCTxj5FIhI85nQpJbuM325LKxxEoy3YHSSusKA1yv8hZeasQSwFL+f+TVoXg0aPqRQnUOYf0rXy
-	y4KlsAilkTw9AJ4J8799HbpvHdP9KIhZa9OGWbHiRUeIcK4rPVXhducFpvX+0huzhLvGPnRy/h9
-	nwz8zQKTNraEPgMI3MOf3fhoVJ9/S6zsNC2Yy4lPwMcquuERJd/bBq0dOyNf+Ae6Q2Vv9Z+zAtm
-	MCQHwGhBwQ36ppZm3nvuIoiO7KkdIP/MRiM8X9294OLMqpE6LQ+PWTVoA8Yb8O3bwtb6K8tE+0x
-	o6ujZBV3PABh9MHFOwJJ6qIlLfopeS6P6hxqH0NnGEMDrXQNfBcmHfg853x2tZX4perV4wktZq6
-	vcO1q+ssXZlxy5Hy4=
-X-Google-Smtp-Source: AGHT+IGpS+9bXxIYVkmYN3aYKTkh9rmryEYIUIEOWTNg7RqiVEj4YoqfyQVte/UCsJWhkp/A2ApwYQ==
-X-Received: by 2002:a05:600d:630a:b0:471:1b25:fa00 with SMTP id 5b1f17b1804b1-4711b25fd7cmr148300005e9.36.1761348775627;
-        Fri, 24 Oct 2025 16:32:55 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:7969:1fa8:db69:6159])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd47794asm6627875e9.1.2025.10.24.16.32.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Oct 2025 16:32:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761366620; x=1761971420;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VKM1l0S1H1voKqVnV3wmOtndsVV1rHqN2zk5FLIUsHQ=;
+        b=WXBWrpk0uulGtQHOAAdcd0GtoX7Rosu9BRwZD+9/6veGg0xe4PlIudH6JdBeiL+Axy
+         mkrTmi8W9yosuM+CLGa88HXK2UsFjTTpKP57ST++N1F6ZPXY/Pez+jDoTTdVvamCv5St
+         SaiyS/9rfxyfRFud34tVCQz+BFwowLVc162d0dpVicnbChSrdJ7CJwuX9fhACTIoiPva
+         okai4yMMrCZMLrIvu5RyD4xScjTwxdpGz4tS3uuGy0d2DpoZwSyZJKcLju566bT6hlAG
+         TcIeUgN4usr7RUY/VHt8xOmjBjKJzbQlHkZo220CQ/7yyO6U+OAskUj8qYV4Ub/uaDi4
+         0L6A==
+X-Forwarded-Encrypted: i=1; AJvYcCW1nQ+4ShNAYlN7vCrqx2RfRyGU7/4xN0lV+O6fKqpuY7jQaiS4ZiZAplqubeYBFNZ/aBe248I6QTXfXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3Q2unGV2Z8Fus1xs4wiGnJEqvuYfxf1soDwZBxBZUgeqWfjW8
+	7VedF3mO/3zXRLx/GGKsaQh4IpLsCu29NzQcSRj1bkANAuNBM0ZLgEPY
+X-Gm-Gg: ASbGncsB/zeB+tUxE80aXsvIQCl6Un+hXTgYeIb4+K61wIvjJnH/tD0iwbpmM/h0wQ6
+	FZy1x53G2mveXwuwO9FGiHivfSsOBsDFjuRG4HjQvaFpCglHlStqgh0gMdmXpD40MI0ZR/tme/L
+	8nCA1AmzjtyCnS1TxJfjFHOlcF57ofVdEUiZqRdNevOV/uJvkSoNo3T2buGK7mSpo2Ksd6gmVpG
+	I2fm4HgfXPP/BNiK+/RxGq+rpPoYaWiDae0H38WIYiAAT+JIIQRjhwwH7a67Rtl5t17sQtsyHQW
+	/6blJfqjWeXuD8oa9gC7EJeK+/JKqTmoXMjwBMsGsMMzpEGitJ6qiK8b3+ojyfxjNs/jjssC5oE
+	Ip0BY8FDFiLqj847/ubalOWeG5UtaE1DHLMkua71gnp05Eh073YZ2BTrqyGaFHtl1DyltLihA9V
+	U=
+X-Google-Smtp-Source: AGHT+IHnxtIhiuCO0WxN5X1kEHXzwK1hnW/lH3LtDeMQqk+92JN/kd97ffteykynOMj24ZQ8sJlSGw==
+X-Received: by 2002:a05:6a00:2e1f:b0:7a2:7df5:5bb2 with SMTP id d2e1a72fcca58-7a27df562dfmr7690599b3a.10.1761366620399;
+        Fri, 24 Oct 2025 21:30:20 -0700 (PDT)
+Received: from gmail.com ([49.37.171.52])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414066d0esm910393b3a.43.2025.10.24.21.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Oct 2025 21:30:19 -0700 (PDT)
+From: hariconscious@gmail.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	kuninori.morimoto.gx@renesas.com,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ASoC: codec: wm8400: replace printk() calls with dev_*() device aware logging
+Date: Sat, 25 Oct 2025 10:00:11 +0530
+Message-ID: <20251025043011.598300-1-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 25 Oct 2025 00:32:54 +0100
-Message-Id: <DDQY14HJJS8U.30QSLJ4PCYJQ@linaro.org>
-Subject: Re: [PATCH v2 08/10] ASoC: wsa881x: drop
- GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Cc: "Kees Cook" <kees@kernel.org>, "Mika Westerberg" <westeri@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Manivannan Sadhasivam" <mani@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Saravana Kannan" <saravanak@google.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Andy Shevchenko"
- <andy@kernel.org>, "Catalin Marinas" <catalin.marinas@arm.com>, "Will
- Deacon" <will@kernel.org>, "Srinivas Kandagatla" <srini@kernel.org>, "Liam
- Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>, "Bartosz
- Golaszewski" <bartosz.golaszewski@linaro.org>
-X-Mailer: aerc 0.20.0
-References: <20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org>
- <20251022-gpio-shared-v2-8-d34aa1fbdf06@linaro.org>
-In-Reply-To: <20251022-gpio-shared-v2-8-d34aa1fbdf06@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Oct 22, 2025 at 2:10 PM BST, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> This driver is only used on Qualcomm platforms which now select
-> HAVE_SHARED_GPIOS so this flag can be dropped.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
-I tested the whole series on db845 RB3 board, looks ok.
+Replace direct printk() calls with the appropriate dev_*() logging
+APIs.Use dev_err, dev_warn, dev_info, or dev_dbg to reflect the correct
+severity level. Pass the canonical struct device pointer so logs
+include device context and become traceable to specific hardware
+instances.Improve log clarity, make messages filterable by device
+and align the driver with kernel logging conventions to aid
+debugging and maintenance.
 
-Reviewed-and-tested-by: Alexey Klimov <alexey.klimov@linaro.org> # RB3
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
 
+This patch replaces direct printk() calls with the dev_*() logging APIs.
+The change uses dev_err/dev_warn/dev_info/dev_dbg and converts messages 
+to dev_*() where applicable. Note that this file already uses dev_*() 
+logging in other sections and the patch makes the remaining calls 
+consistent with those existing usages. I have verified compilation with 
+the configs "CONFIG_COMPILE_TEST","CONFIG_MFD_WM8400" enabled and booted.
+Runtime testing is requested to confirm logging output, device prefixes 
+and that there are no regressions.Please report any failures or unexpected 
+log behavior and I will update the patch accordingly.
 
-Thanks,
-Alexey
+ sound/soc/codecs/wm8400.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/wm8400.c b/sound/soc/codecs/wm8400.c
+index 5ad6d5b63ffc..d716775cedc2 100644
+--- a/sound/soc/codecs/wm8400.c
++++ b/sound/soc/codecs/wm8400.c
+@@ -318,6 +318,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+ 	struct soc_mixer_control *mc =
+ 		(struct soc_mixer_control *)kcontrol->private_value;
++	struct wm8400_priv *wm8400 = snd_soc_component_get_drvdata(component);
+ 	u32 reg_shift = mc->shift;
+ 	int ret = 0;
+ 	u16 reg;
+@@ -326,7 +327,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
+ 	case WM8400_SPEAKER_MIXER | (WM8400_LDSPK << 8) :
+ 		reg = snd_soc_component_read(component, WM8400_OUTPUT_MIXER1);
+ 		if (reg & WM8400_LDLO) {
+-			printk(KERN_WARNING
++			dev_warn(wm8400->wm8400->dev,
+ 			"Cannot set as Output Mixer 1 LDLO Set\n");
+ 			ret = -1;
+ 		}
+@@ -334,7 +335,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
+ 	case WM8400_SPEAKER_MIXER | (WM8400_RDSPK << 8):
+ 		reg = snd_soc_component_read(component, WM8400_OUTPUT_MIXER2);
+ 		if (reg & WM8400_RDRO) {
+-			printk(KERN_WARNING
++			dev_warn(wm8400->wm8400->dev,
+ 			"Cannot set as Output Mixer 2 RDRO Set\n");
+ 			ret = -1;
+ 		}
+@@ -342,7 +343,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
+ 	case WM8400_OUTPUT_MIXER1 | (WM8400_LDLO << 8):
+ 		reg = snd_soc_component_read(component, WM8400_SPEAKER_MIXER);
+ 		if (reg & WM8400_LDSPK) {
+-			printk(KERN_WARNING
++			dev_warn(wm8400->wm8400->dev,
+ 			"Cannot set as Speaker Mixer LDSPK Set\n");
+ 			ret = -1;
+ 		}
+@@ -350,7 +351,7 @@ static int outmixer_event (struct snd_soc_dapm_widget *w,
+ 	case WM8400_OUTPUT_MIXER2 | (WM8400_RDRO << 8):
+ 		reg = snd_soc_component_read(component, WM8400_SPEAKER_MIXER);
+ 		if (reg & WM8400_RDSPK) {
+-			printk(KERN_WARNING
++			dev_warn(wm8400->wm8400->dev,
+ 			"Cannot set as Speaker Mixer RDSPK Set\n");
+ 			ret = -1;
+ 		}
+
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+-- 
+2.43.0
+
