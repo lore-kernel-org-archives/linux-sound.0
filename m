@@ -1,49 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E383304BB8;
-	Sat, 25 Oct 2025 16:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E180307AD4;
+	Sat, 25 Oct 2025 16:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409117; cv=none; b=smSkMJ/dGzJnqe+1uS7ATBaC/QBXhYF8I2rs90jrXnnQpzbWSjwpP7LYkBEmjNG42XYX2jrh0Rh6Q7yuoU32CyRNCVe2XRGNwtNhAITk+C+e4NvlgJsVJK/XHQBPaFYjTl8RpHB8o8HUuCousjCHeDgfBZFGrXQSXZJ+L45YXGU=
+	t=1761409199; cv=none; b=kRXRCwSx+fn7vVQm2rfmtp2MvSgeORL6gpUNvRywaCCkQJtX0HOIKvc29PMMgtTI0+7wubKbAta48ajykzKmtPdA/gUElY0qlyFW3oXWT3zqW3b8VnzlWBcNi+WIxwN7UMQsYZ+YrN1AJwEzR1l1BmKfjkIf906d+heabZxbqhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409117; c=relaxed/simple;
-	bh=MqWjGTemgYbJk4aKJXikLaSuGnhNkeFWTQuYp2fq9qA=;
+	s=arc-20240116; t=1761409199; c=relaxed/simple;
+	bh=tlFGWlbofj8Y5mA4QVtuR6zl8CZuuqNUOHeT46Qm3A8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n90mTiVhZm6kkG+ETbT0vPKJwflIz7yxewyo+EvsPYvcQWpsb9h8cqvL6mJV5P8WVhFSkwE7ylNAog6SlmhZr1YfwYj+WrEDOLVXKkQx3CtABjtZ6uoE9zhvaM5D3Xp5h9q8fUSBHhGiIiXdm/RslGEoV84gyptKIoWorbHrkCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eiv/itaA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=P7C1mmtxRCzFv9heK15k2l1uC4tq3rQPC2RMlG9e55Xuc2DUpD519ql6N3Oa2Ia8lGngdIRZfI5CRdrY+cCu7GwhROzDPV+J6bya5PTAT0RMIdQVBTtXKTpBcikgBwwtg18AKvcC/h5jNnnJw/6Y5CNVRsnrcoxbub4NV1PNsP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5qjZ11I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eiv/itaA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AB5C4CEF5;
-	Sat, 25 Oct 2025 16:18:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5qjZ11I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C08C4CEFF;
+	Sat, 25 Oct 2025 16:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409117;
-	bh=MqWjGTemgYbJk4aKJXikLaSuGnhNkeFWTQuYp2fq9qA=;
+	s=k20201202; t=1761409199;
+	bh=tlFGWlbofj8Y5mA4QVtuR6zl8CZuuqNUOHeT46Qm3A8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Eiv/itaAJz4Z24KXEuDNoVqMeDLruzhZEDGOz90JGYBoDVW5ULH5W23kcwcK+SK4A
-	 nreaZsjdwvz/5o0mgVYeDC956spgFGMqFL4QsxzCWbPyUmHCXnlGTWUNA34KRdxmRQ
-	 n/VWA1+i98TO3F0/1Fqn1loXyiouIfli+yfgSLDQhYvCD34YTlKhb8qgZlXNfAZlof
-	 qiJ6xIA6VwSM1sIPSO4ijfrkI3+UrBAU8A2QMod3zkrhZIWJtnFkkoZWp1GTI/PCok
-	 rpdEUoGb9tlqJONxiTPyQGSnLWNghvu0NHSSk0o1t+UVIw1c9LtnoFPS+Dsdu4CsSJ
-	 FG7OwXmRhUTDg==
+	b=D5qjZ11I86aZpnCyndmpukP71D+77ZDs74ww0nZsK99jYUKMLD0rY4int363EBePP
+	 Ke+zE4xPtoxpImz7xz4X5IWsB/eP3j1Hf2cN7s15rbZkW42dzJZDbS977jrwYsjSeK
+	 5dPk8PWPZJ/Y0UfHAjAAPPqf7SY2EJ+/CMwR+eIG9o/vtjhNgoYF23i3M0HpGi1Csv
+	 NWAOUohg6/Y859wtKTMjgShf3I0oNfQwKlgIvN21Qg+H5bCx1AE2xCWsI7IOSHcrp3
+	 Axtg/ltg0JWy0lCKnx+qaYcb8BWjCrOKcJO1mYzjXa+zctA2lnmTrGSAG1dKJtEf1e
+	 ebyEJG3hSWGew==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Yusuke Goda <yusuke.goda.sx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	srini@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
 	p.zabel@pengutronix.de,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17] ASoC: codecs: wsa883x: Handle shared reset GPIO for WSA883x speakers
-Date: Sat, 25 Oct 2025 11:57:16 -0400
-Message-ID: <20251025160905.3857885-205-sashal@kernel.org>
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.17] ASoC: renesas: msiof: use reset controller
+Date: Sat, 25 Oct 2025 11:57:52 -0400
+Message-ID: <20251025160905.3857885-241-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -59,217 +56,162 @@ X-stable-base: Linux 6.17.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[ Upstream commit cf65182247761f7993737b710afe8c781699356b ]
+[ Upstream commit 25226abc1affd4bf4f6dd415d475b76e7a273fa8 ]
 
-On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
-WSA8830/WSA8835 speaker amplifiers share a common reset (shutdown) GPIO.
+MSIOF has TXRST/RXRST to reset FIFO, but it shouldn't be used during SYNC
+signal was asserted, because it will be cause of HW issue.
 
-To handle such scenario, use the reset controller framework and its
-"reset-gpio" driver to handle such case. This allows proper handling
-of all WSA883x speaker amplifiers on QCS6490-RB3Gen2 board.
+When MSIOF is used as Sound driver, this driver is assuming it is used as
+clock consumer mode (= Codec is clock provider). This means, it can't
+control SYNC signal by itself.
 
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Link: https://patch.msgid.link/20250815172353.2430981-3-mohammad.rafi.shaik@oss.qualcomm.com
+We need to use SW reset (= reset_control_xxx()) instead of TXRST/RXRST.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Tested-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
+Link: https://patch.msgid.link/87cy7fyuug.wl-kuninori.morimoto.gx@renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-YES
+YES — The change should go to stable. The MSIOF audio block needs its
+FIFOs cleared between runs, but the on-IP `TXRST/RXRST` bits cannot be
+touched while SYNC is asserted, which is exactly the situation for
+clock-consumer audio links; the original driver therefore has no safe
+way to recover from prior transfers and will hit the documented HW
+issue. The patch switches the driver to the module reset line, gated by
+a local user-count, so the FIFOs are flushed without touching the
+fragile in-block resets.
 
-- What it fixes
-  - Addresses real functional issues on platforms where multiple WSA883x
-    amplifiers share a single shutdown/reset line (e.g.,
-    QCS6490-RB3Gen2). Using a plain GPIO per-device does not coordinate
-    shared users; one instance toggling the line can inadvertently reset
-    others. The patch switches to the reset controller framework with
-    the reset‑gpio backend to handle shared lines correctly.
+Key pieces:
+- `sound/soc/renesas/rcar/msiof.c:112-121` adds a reset-controller
+  handle plus a stream user counter so the module reset can be shared by
+  playback and capture safely.
+- `msiof_hw_start()` now drops the module reset on the first active
+  stream (`sound/soc/renesas/rcar/msiof.c:189-207`), guaranteeing the
+  hardware starts from a clean state without poking the unsafe FIFO
+  reset bits.
+- `msiof_hw_stop()` balances that by re-asserting the reset once the
+  last stream stops (`sound/soc/renesas/rcar/msiof.c:316-319`), ensuring
+  the block is quiesced even if the codec keeps SYNC running.
+- `msiof_probe()` acquires the reset line and asserts it at probe
+  (`sound/soc/renesas/rcar/msiof.c:587-599`), aligning the power-on
+  state with the new sequencing.
 
-- Scope and minimality
-  - Single-file, localized change in `sound/soc/codecs/wsa883x.c`.
-  - No ABI or architectural changes; strictly startup/shutdown control
-    path in probe.
-  - Optional feature: falls back to existing `powerdown-gpios` behavior
-    if no reset controller is provided, keeping backward compatibility.
+The change is confined to the new MSIOF sound driver, depends only on
+the already-required DT `resets` property (verified in the binding), and
+doesn’t alter wider ASoC infrastructure. Given it fixes a real hardware
+malfunction and carries low regression risk, it is a solid stable
+backport candidate.
 
-- Specific code changes and rationale
-  - Adds reset framework usage
-    - Include added: `#include <linux/reset.h>` in
-      `sound/soc/codecs/wsa883x.c`.
-    - Private data gains an optional reset handle: `struct reset_control
-      *sd_reset;` alongside the existing `sd_n` GPIO
-      (sound/soc/codecs/wsa883x.c:462).
-  - Centralized assert/deassert helpers
-    - New helpers `wsa883x_reset_assert()` and
-      `wsa883x_reset_deassert()` switch between
-      `reset_control_assert/deassert()` and
-      `gpiod_direction_output(sd_n, 1/0)` depending on whether a reset
-      control is present.
-  - Robust resource acquisition with graceful fallback
-    - New `wsa883x_get_reset()` first tries
-      `devm_reset_control_get_optional_shared(dev, NULL)` and, if none,
-      falls back to the existing `devm_gpiod_get_optional(dev,
-      "powerdown", ...)` path. This keeps old DTs working while enabling
-      shared-reset handling when “resets”/“reset-gpios” is used.
-  - Safer cleanup on errors/unbind
-    - In `wsa883x_probe()`, instead of manually asserting the GPIO only
-      on regmap-init failure (previous code:
-      `gpiod_direction_output(wsa883x->sd_n, 1)` in the error path at
-      sound/soc/codecs/wsa883x.c:1579–1585), the patch calls
-      `wsa883x_reset_deassert(wsa883x)` to bring the device out of
-      reset, then registers `devm_add_action_or_reset(dev,
-      wsa883x_reset_assert, wsa883x)`. This guarantees the reset is
-      asserted on any probe failure or device removal, mirroring the
-      established pattern used in other codecs.
-  - Probe flow changes (localized, low risk)
-    - Replaces the hardwired GPIO bring-up:
-      - Old: acquire `powerdown-gpios` then
-        `gpiod_direction_output(sd_n, 0)` to deassert
-        (sound/soc/codecs/wsa883x.c:1572–1575, 1561–1568).
-      - New: `wsa883x_get_reset()` and `wsa883x_reset_deassert()` with
-        `devm_add_action_or_reset` to ensure deterministic cleanup.
-        Functionally equivalent for non-shared setups, but robust for
-        shared lines.
+ sound/soc/renesas/rcar/msiof.c | 39 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
-- Precedent and consistency
-  - The WSA884x codec already uses the same reset-controller-with-
-    fallback pattern (e.g., `sound/soc/codecs/wsa884x.c:1999–2060`),
-    demonstrating the approach is accepted upstream and low risk. This
-    change brings WSA883x in line with WSA884x.
-
-- Backport risk assessment
-  - Small, contained, and backwards compatible: if no reset controller,
-    code behaves as before with the `powerdown-gpios` line.
-  - No behavioral change to runtime PM/audio paths; only reset/powerdown
-    handling in probe/cleanup is touched.
-  - No dependencies beyond standard reset framework and `reset-gpio`,
-    both present in stable series; the driver already builds with reset
-    APIs (used elsewhere in tree).
-  - Documentation note: current 6.17 binding for WSA883x
-    (`Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml`) lists
-    `powerdown-gpios`, not `reset-gpios`/`resets`. Functionally this is
-    fine (fallback keeps working), but if boards want to use shared
-    reset via reset-gpio, a binding backport (to allow `reset-gpios` or
-    `resets`) may be desirable to avoid dtbs_check warnings. This is
-    documentation-only and does not affect runtime.
-
-- Stable criteria
-  - Fixes a real platform issue (shared reset handling) affecting users.
-  - No new features to the audio path; no architectural refactor.
-  - Very low regression risk, self-contained, and aligns with existing
-    patterns in sibling drivers.
-  - While there is no explicit “Fixes:” or “Cc: stable”, the change
-    clearly improves correctness on affected hardware with minimal
-    impact elsewhere, making it a good stable candidate.
-
- sound/soc/codecs/wsa883x.c | 57 ++++++++++++++++++++++++++++++++------
- 1 file changed, 49 insertions(+), 8 deletions(-)
-
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 188363b03b937..ca4520ade79aa 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -14,6 +14,7 @@
- #include <linux/printk.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
+diff --git a/sound/soc/renesas/rcar/msiof.c b/sound/soc/renesas/rcar/msiof.c
+index 7a9ecc73231a8..3a1a6496637dd 100644
+--- a/sound/soc/renesas/rcar/msiof.c
++++ b/sound/soc/renesas/rcar/msiof.c
+@@ -24,12 +24,25 @@
+  * Clock/Frame Consumer Mode.
+  */
+ 
++/*
++ * [NOTE-RESET]
++ *
++ * MSIOF has TXRST/RXRST to reset FIFO, but it shouldn't be used during SYNC signal was asserted,
++ * because it will be cause of HW issue.
++ *
++ * When MSIOF is used as Sound driver, this driver is assuming it is used as clock consumer mode
++ * (= Codec is clock provider). This means, it can't control SYNC signal by itself.
++ *
++ * We need to use SW reset (= reset_control_xxx()) instead of TXRST/RXRST.
++ */
++
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
 +#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-@@ -468,6 +469,7 @@ struct wsa883x_priv {
- 	struct sdw_stream_runtime *sruntime;
- 	struct sdw_port_config port_config[WSA883X_MAX_SWR_PORTS];
- 	struct gpio_desc *sd_n;
-+	struct reset_control *sd_reset;
- 	bool port_prepared[WSA883X_MAX_SWR_PORTS];
- 	bool port_enable[WSA883X_MAX_SWR_PORTS];
- 	int active_ports;
-@@ -1546,6 +1548,46 @@ static const struct hwmon_chip_info wsa883x_hwmon_chip_info = {
- 	.info	= wsa883x_hwmon_info,
- };
+ #include <linux/spi/sh_msiof.h>
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/soc.h>
+@@ -61,10 +74,13 @@
+ struct msiof_priv {
+ 	struct device *dev;
+ 	struct snd_pcm_substream *substream[SNDRV_PCM_STREAM_LAST + 1];
++	struct reset_control *reset;
+ 	spinlock_t lock;
+ 	void __iomem *base;
+ 	resource_size_t phy_addr;
  
-+static void wsa883x_reset_assert(void *data)
-+{
-+	struct wsa883x_priv *wsa883x = data;
++	int count;
 +
-+	if (wsa883x->sd_reset)
-+		reset_control_assert(wsa883x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa883x->sd_n, 1);
-+}
-+
-+static void wsa883x_reset_deassert(struct wsa883x_priv *wsa883x)
-+{
-+	if (wsa883x->sd_reset)
-+		reset_control_deassert(wsa883x->sd_reset);
-+	else
-+		gpiod_direction_output(wsa883x->sd_n, 0);
-+}
-+
-+static int wsa883x_get_reset(struct device *dev, struct wsa883x_priv *wsa883x)
-+{
-+	wsa883x->sd_reset = devm_reset_control_get_optional_shared(dev, NULL);
-+	if (IS_ERR(wsa883x->sd_reset))
-+		return dev_err_probe(dev, PTR_ERR(wsa883x->sd_reset),
-+				     "Failed to get reset\n");
+ 	/* for error */
+ 	int err_syc[SNDRV_PCM_STREAM_LAST + 1];
+ 	int err_ovf[SNDRV_PCM_STREAM_LAST + 1];
+@@ -126,6 +142,16 @@ static int msiof_hw_start(struct snd_soc_component *component,
+ 	 *	RX: Fig 109.15
+ 	 */
+ 
 +	/*
-+	 * if sd_reset: NULL, so use the backwards compatible way for powerdown-gpios,
-+	 * which does not handle sharing GPIO properly.
++	 * Use reset_control_xx() instead of TXRST/RXRST.
++	 * see
++	 *	[NOTE-RESET]
 +	 */
-+	if (!wsa883x->sd_reset) {
-+		wsa883x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
-+							GPIOD_FLAGS_BIT_NONEXCLUSIVE |
-+							GPIOD_OUT_HIGH);
-+		if (IS_ERR(wsa883x->sd_n))
-+			return dev_err_probe(dev, PTR_ERR(wsa883x->sd_n),
-+					     "Shutdown Control GPIO not found\n");
-+	}
++	if (!priv->count)
++		reset_control_deassert(priv->reset);
 +
-+	return 0;
-+}
++	priv->count++;
 +
- static int wsa883x_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1566,13 +1608,9 @@ static int wsa883x_probe(struct sdw_slave *pdev,
+ 	/* reset errors */
+ 	priv->err_syc[substream->stream] =
+ 	priv->err_ovf[substream->stream] =
+@@ -144,7 +170,6 @@ static int msiof_hw_start(struct snd_soc_component *component,
+ 		val = FIELD_PREP(SIMDR2_BITLEN1, width - 1);
+ 		msiof_write(priv, SITMDR2, val | FIELD_PREP(SIMDR2_GRP, 1));
+ 		msiof_write(priv, SITMDR3, val);
+-
+ 	}
+ 	/* SIRMDRx */
+ 	else {
+@@ -217,6 +242,11 @@ static int msiof_hw_stop(struct snd_soc_component *component,
+ 			 priv->err_ovf[substream->stream],
+ 			 priv->err_udf[substream->stream]);
+ 
++	priv->count--;
++
++	if (!priv->count)
++		reset_control_assert(priv->reset);
++
+ 	return 0;
+ }
+ 
+@@ -493,12 +523,19 @@ static int msiof_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
++	priv->reset = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(priv->reset))
++		return PTR_ERR(priv->reset);
++
++	reset_control_assert(priv->reset);
++
+ 	ret = devm_request_irq(dev, irq, msiof_interrupt, 0, dev_name(dev), priv);
  	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to enable vdd regulator\n");
+ 		return ret;
  
--	wsa883x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
--						GPIOD_FLAGS_BIT_NONEXCLUSIVE | GPIOD_OUT_HIGH);
--	if (IS_ERR(wsa883x->sd_n)) {
--		ret = dev_err_probe(dev, PTR_ERR(wsa883x->sd_n),
--				    "Shutdown Control GPIO not found\n");
-+	ret = wsa883x_get_reset(dev, wsa883x);
-+	if (ret)
- 		goto err;
--	}
+ 	priv->dev	= dev;
+ 	priv->phy_addr	= res->start;
++	priv->count	= 0;
  
- 	dev_set_drvdata(dev, wsa883x);
- 	wsa883x->slave = pdev;
-@@ -1595,11 +1633,14 @@ static int wsa883x_probe(struct sdw_slave *pdev,
- 	pdev->prop.simple_clk_stop_capable = true;
- 	pdev->prop.sink_dpn_prop = wsa_sink_dpn_prop;
- 	pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
--	gpiod_direction_output(wsa883x->sd_n, 0);
-+
-+	wsa883x_reset_deassert(wsa883x);
-+	ret = devm_add_action_or_reset(dev, wsa883x_reset_assert, wsa883x);
-+	if (ret)
-+		return ret;
- 
- 	wsa883x->regmap = devm_regmap_init_sdw(pdev, &wsa883x_regmap_config);
- 	if (IS_ERR(wsa883x->regmap)) {
--		gpiod_direction_output(wsa883x->sd_n, 1);
- 		ret = dev_err_probe(dev, PTR_ERR(wsa883x->regmap),
- 				    "regmap_init failed\n");
- 		goto err;
+ 	spin_lock_init(&priv->lock);
+ 	platform_set_drvdata(pdev, priv);
 -- 
 2.51.0
 
