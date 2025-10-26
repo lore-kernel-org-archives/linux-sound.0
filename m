@@ -1,120 +1,68 @@
-Received: from smtp.smtpout.orange.fr (smtp-78.smtpout.orange.fr [80.12.242.78])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E93D1E1E00;
-	Sun, 26 Oct 2025 19:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52F71D90DF;
+	Sun, 26 Oct 2025 22:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761507953; cv=none; b=Ed6JXOXYUV/eGi1QD6qllcwWvqn/lgGW1vpWL7nccex1X/MU9kf2Ywb8F5pPlWei+copfciScY9gwD+sKC8uQ6PxFmGRLFzjQC+0GeHf8eh7hnU+/A3ioh69C7A4Oy5loWoSlfyc8i2Em+zn7IjTE21iWFLDQo5PH1r87EnzPx0=
+	t=1761516532; cv=none; b=iKkM60ZI01UKRqvWNI+lIi/qUHyPj/oCiwvp1Zvu4w8MBG4UfqjcXqwPsdsPLefZinW/hNqelW2094cG7mLNFdlNY8DvMF4l2WRFQ14rR4oriG32aCca9Zt9PKkvfnjzljQlrYZtPAImEf537o8PLJJOC0kwnpbqNTtUY2Hyx08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761507953; c=relaxed/simple;
-	bh=cVd3sbdy7pg7X7h9vyHc02qG9eC+V5V0ssFO2+tD4VE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DGeIV04AHk6UEBgtWk6zA8TYJ5zCpRGEjZwoa+hbxqCC9ZIkyzaORQD/mqUCJ6XAXkYjy5dXSHhdoOsUpExLz2bdeHDWyOzv/T1Aovsdrk2Y9bXPYWKmyeMmec1tkmNZGYumrOBr/UpCKDYXzV9qRnydn9vO3LOVIDvH6ez/4nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=jwf37y9p; arc=none smtp.client-ip=80.12.242.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1761516532; c=relaxed/simple;
+	bh=fn4oj68D497iz81cigKaDwQEThcbsKJegLo2/Pz6azg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F1smQIX0UQ3wSdi41M/MyDXcxk69NrBaXLvloVmxJTFOtXskT0FhCpMjA+7eoUmGzOe3uerkc0qt4ydGvqSSBb/mq2prbhTO4Zxt20R/E9xuoWArcBFxOUuPM+xrNawc8IDiQNm4kizdPXp1JFH0gownFXDpF0metxvWzBI6hG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtXQqWaY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="jwf37y9p"
-Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id D6gPvBiBbZqBKD6gPvMqUG; Sun, 26 Oct 2025 20:45:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1761507943;
-	bh=sgyZZOwRfz3Iv3c9vpvnbeivUD/2VWnHJScxHYskNDE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=jwf37y9pdq4WysFrgAIq5wrDIrcnzPt48g3/ZMtB56BSCFqvvUavrtwau14yKqrxB
-	 TD0HyMzTMM9AcVj3CWH+qPOBysmCMzGltfItu4Y2CRx9nC15XUoQ65aPy67HHqT/2j
-	 QYZlhBIQ5YnAWEvjmQaf+LSfVc7rGeq4WwW/H64frHQXnS73Hynh39RLlCEwxKxZlD
-	 UyViu8Ppbjfx930xc2FX81nZx9MWZ203LY5Gcq2RjSyEYApLunXpYvnzbGNs8XUVud
-	 DoQVoYzxthTrzT5aTPoDv9ARqM9kBO4PSoEem8NJ7WDl7lKk1H2dthO24M7HgwfTiF
-	 pnkDPXYZP++AQ==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 26 Oct 2025 20:45:43 +0100
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtXQqWaY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDD9C4CEF7;
+	Sun, 26 Oct 2025 22:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761516530;
+	bh=fn4oj68D497iz81cigKaDwQEThcbsKJegLo2/Pz6azg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YtXQqWaYL0d4rIc8JITJBw4GN2e4v9XyjsAlD7tkMLLyjp5ORu7ohZMBdHyZSzjXK
+	 WewjgtLwA6pzh9FDgWME4tcJ+bt94o4Ydm15D2hxP6942KFhFAEbHizyzTmcqNszj7
+	 pj0xbqLpiF0t4UWR4VJ7JHkGMtI8m4BSKrpvUt4WWBZHHjxUzstdR75IygAf0CIzpr
+	 Qwjpm3yPi6SEUlrjFAI2SgSZma8z50NCQlOwfQ8hS7Fehgll32qKtIp1jOShRW5jkx
+	 s3bW/PTZnRN+wBIVojxoZuZw3uIMyyB5yIhWK0Zl8i6iGZHl4toF8khYkiLTTK3V4W
+	 2cFBYHz9yrRpg==
+Date: Sun, 26 Oct 2025 17:08:48 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] ASoC: renesas: fsi: Constify struct fsi_stream_handler
-Date: Sun, 26 Oct 2025 20:43:36 +0100
-Message-ID: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.51.0
+	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	Srinivas Kandagatla <srini@kernel.org>
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,sm8250: add QRB2210
+ soundcard
+Message-ID: <176151652614.3024086.8105515420763759094.robh@kernel.org>
+References: <20251022-qrb2210-qcm2290-sndcard-v2-0-32e9e269a825@linaro.org>
+ <20251022-qrb2210-qcm2290-sndcard-v2-1-32e9e269a825@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022-qrb2210-qcm2290-sndcard-v2-1-32e9e269a825@linaro.org>
 
-'struct fsi_stream_handler' is not modified in this driver.
 
-Constifying this structure moves some data to a read-only section, so
-increases overall security, especially when the structure holds some
-function pointers.
+On Wed, 22 Oct 2025 04:58:49 +0100, Alexey Klimov wrote:
+> Add soundcard compatible for QRB2210 (QCM2290) SoCs, where the older
+> non-audioreach audio architecture is implemented.
+> 
+> Cc: Srinivas Kandagatla <srini@kernel.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-  51837	  12312	     64	  64213	   fad5	sound/soc/renesas/fsi.o
-
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-  52125	  12024	     64	  64213	   fad5	sound/soc/renesas/fsi.o
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- sound/soc/renesas/fsi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-index 630c2f52e1cf..1491c2f2cc96 100644
---- a/sound/soc/renesas/fsi.c
-+++ b/sound/soc/renesas/fsi.c
-@@ -220,7 +220,7 @@ struct fsi_stream {
- 	/*
- 	 * these are initialized by fsi_handler_init()
- 	 */
--	struct fsi_stream_handler *handler;
-+	const struct fsi_stream_handler *handler;
- 	struct fsi_priv		*priv;
- 
- 	/*
-@@ -1215,13 +1215,13 @@ static int fsi_pio_pop_init(struct fsi_priv *fsi, struct fsi_stream *io)
- 	return 0;
- }
- 
--static struct fsi_stream_handler fsi_pio_push_handler = {
-+static const struct fsi_stream_handler fsi_pio_push_handler = {
- 	.init		= fsi_pio_push_init,
- 	.transfer	= fsi_pio_push,
- 	.start_stop	= fsi_pio_start_stop,
- };
- 
--static struct fsi_stream_handler fsi_pio_pop_handler = {
-+static const struct fsi_stream_handler fsi_pio_pop_handler = {
- 	.init		= fsi_pio_pop_init,
- 	.transfer	= fsi_pio_pop,
- 	.start_stop	= fsi_pio_start_stop,
-@@ -1418,7 +1418,7 @@ static int fsi_dma_remove(struct fsi_priv *fsi, struct fsi_stream *io)
- 	return 0;
- }
- 
--static struct fsi_stream_handler fsi_dma_push_handler = {
-+static const struct fsi_stream_handler fsi_dma_push_handler = {
- 	.init		= fsi_dma_init,
- 	.probe		= fsi_dma_probe,
- 	.transfer	= fsi_dma_transfer,
--- 
-2.51.0
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
