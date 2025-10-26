@@ -1,176 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B236BF9C1;
-	Sun, 26 Oct 2025 15:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D1F2222AA
+	for <linux-sound@vger.kernel.org>; Sun, 26 Oct 2025 17:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761492814; cv=none; b=jFJA2oDK+0ALqHN1uGmhIVlPxqj0abKpJXRhdzeJWhygt6DE0tSXe69XLRz2NAwPy9f+ZG4htbgCzq2dWWFq65Liy923K6VBUAZJMris7qEZWrs+gfGzFq+seNzM3peSoZspLzQoVAjI2Q9PIstMEyaj/1wQCyQB8s0nIw5VM0A=
+	t=1761499590; cv=none; b=RacPUMMwOjuNxIihH4eO3kaDaBe4LXw7vAtRAhRuyeAemzlaIbGf6bOY/mZeJHkxlIytxhub9ZypOHlLbUyOJUIg9zqOFWYElmse/3TO96CFAGJtgt4DIcmhqXm2CB4BZa1MfDBC2cE/BHz1KmMPAfbbBAj0CxVIqx5b/SZqVsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761492814; c=relaxed/simple;
-	bh=xcyneBcmqEXh1gtIGSMH8hZ6blwtbmsHjpXAgiQk4og=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WBi40C7la0e99wtQN9qJd9atfOEQZLYyChbkC5OT3+TYnTRRqvC/X5BBM3DpoDsJF7hKWbZNrvLZ+FDFnlwgQfbAeXq8lThfNd9UFXpnH5cnuX0tY7Rf+Cg28zsOx38Z+f6gdMyMnZ5uP+Qc0dGmWrp32upcUB5d6PoCq3xbUk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMOgmYUh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761499590; c=relaxed/simple;
+	bh=PUQmCPoHMTdvsW8ctn14E6LZQyRG6SCbf1UxlHwI0Nk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=D4EkYMZ2ICJdQCJxoNub0NAF9bFuiWXW6e7nOnO+2k2DR/wr1wmXFir6tbteRNluoZV/ocR4ZBb3opsTtSjQW9QT+xfnDGwMwxWmUnx/sx13+if65RTsVfWeiUZovvHRs5qFbxt8yA57gW7Nah7D62UzkU/yqFsCkCZbbVqkev0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGJk9bae; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMOgmYUh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08561C4CEE7;
-	Sun, 26 Oct 2025 15:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761492813;
-	bh=xcyneBcmqEXh1gtIGSMH8hZ6blwtbmsHjpXAgiQk4og=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fMOgmYUhH5CWiLpmpAcqvE2aJlNaa9a4g/kR0KAf7QFm3VqHWnqDGFH6fiFiRXAM7
-	 719RKdGnJaRpD5lYwjB9/+FGx+ADZLfA27ZyDl+Nos3NEnpOzfd+82u1znie4kyKSe
-	 ZeWvy7BGLefzertq5pdnKd+TYG5J5Um+zmnxR3uIjWn6yiEJa551R7aZZa14y0K8WO
-	 d7ZGFTNbDc10a6h73Aa5T1L5ejIPcXo3g9WBxrp6mfEbYBuGSKF70AzOnB1Vkp0OvV
-	 dj/+Pk8065yu30LhoAjkLSPUFLhaPWozHEb6dt0QS2vN8PkeW5pBlRGGfsWvGvs3J8
-	 fmkxtoOgOOKWQ==
-Date: Sun, 26 Oct 2025 21:03:07 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>, 
-	Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Georgi Djakov <djakov@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <hodycue2cqii22epdawn2pqx7twy5mzgrrlb53u7nj4h5w37ek@yvptyb2u6jj2>
-References: <20251023143957.2899600-1-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGJk9bae"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-33badfbd87aso904088a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 26 Oct 2025 10:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761499588; x=1762104388; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBFcLw5BpNBFfDz3lZj9Yn2OsQ5b+bNAVNgkkfKHEVQ=;
+        b=HGJk9bae6QHNJUM/R3HooKnD4t3y+U2DB4WeE7FZEvruMnn9Q9LFNQIN8XXwrpjXi8
+         s7GhpWPsNc2J5fPJ/gFb5xXy9MZnUh54/YZjnodmfYZ1JfRP0VuvDP/POkag6sKn8Ck3
+         L4DH+ssn5oHUSKpLYNbaRTgKpiyfmDDcop/QHgcHWGCBe+HYgskF0+BRPPW3dxreNvs1
+         WhlHXV2dv9L+Cyrk9M0sPGFB97kSXauu7owgHBcs7pE7Cc9exIjvQS19qxirOL/Pcgj9
+         NbwVlRdxIiZPYGfI1pxuATEtwLmoCxoGYrQNa/G2nj5IoCFVAwp/AFW+ohCSCRFU5Doi
+         cpaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761499588; x=1762104388;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XBFcLw5BpNBFfDz3lZj9Yn2OsQ5b+bNAVNgkkfKHEVQ=;
+        b=lI5yZ2P8geFpU86AQl+v7g6LEmfZwqEgpMXIifDX/HiIr31ppOkq+ygIa1RAu0xeUV
+         bDNLVjKupSve+pCvRMfguDx/l62101S49Yidc6TcFOdlzBROjduMCCeYC8LXxTvtLFQM
+         0vth0mLsknHNa4r6gbHHZYR5KBhCaZrQ4WzYdSPVUcUVeSa3XvXf6o/TJZD3dVyRi/xH
+         xjLTfd0jCxI4ebxhcVgnAI4WVfV99lSos0P0MtVVktRCKcEaQqEDHniVcvJOy8Muvdo8
+         NS7EsO7NMC5IuO/SLdZ7JY5qQBL+m9xc4On2doqP4FYt050x3d9rRT1XFlYbrUf7cNIQ
+         2TRg==
+X-Gm-Message-State: AOJu0Yw+qbLDQQSQxqIWvF90KOBWcnHLUsXVqpPZLCBMJ8nynThnnPWV
+	szNt0zHSkzjpZKf7BQf42zPlVgv56T1H9L/WvMzHczfoEKTZrmR8O6MU
+X-Gm-Gg: ASbGncvkN0QfZ/45PoeYpFTf6LkzBYc3pZ4KokNUbWMEXU7KXHTQAHtLmPlEdGXN/Kx
+	h+aatfYpI8ij8T5P+fnHHsKD5bIS6YqFJUeddaewLl/DBeYCn1nbwUzTfuhhrJCjyMRFNyUQjqE
+	EfzDZGd1nqgc+znidDfJJ0CcveTzAuIPPya9duujlAlEnRFdjz1jMeGur8YF8cH20hZLd7Q+OjL
+	mErwnG+7ixZSdnPsvN6+l36xJY409TgskdcqfTS54pbcD31s9D0t8m2OanH8M9g5amJwqZ5cdts
+	L3HvK205uSONPgNcALD/r6CmNTFuPkhnjQk9w+yBvT6qaY4q/qfRBb/WTu17DxENtg6BagkgrE2
+	9zU5NLmsjGNEk4iOTafPgJ1AyHUVqM6T6Ax/52CUS2lXG4Lwufu7GCX0vP3GN/K/2Bh5nkfpC5E
+	vW1k1pUNMV7nrEA1g3uXuFGd7vce4WgSc3AP4vyZrd+cbya7QyWfP4
+X-Google-Smtp-Source: AGHT+IExMSyElm0YxdAezEoVlByvabJImhmVB6WrfVipcFwJosQYBkwt4hrxz8uBWbeds5UW5QFeaA==
+X-Received: by 2002:a05:6a20:258a:b0:334:8d22:f95d with SMTP id adf61e73a8af0-3392f835684mr14940008637.2.1761499587735;
+        Sun, 26 Oct 2025 10:26:27 -0700 (PDT)
+Received: from [127.0.1.1] ([2406:7400:10c:a59a:f324:3a40:f5b9:3811])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414015724sm5433692b3a.14.2025.10.26.10.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 10:26:27 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+Date: Sun, 26 Oct 2025 22:56:16 +0530
+Subject: [PATCH v2] dt_bindings: sound: ti,pcm186x: convert to dtschema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+Message-Id: <20251026-dtbs-v2-1-cd3b713a288e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIALdZ/mgC/13MQQqDMBCF4avIrJviJCqkq96juIhj1IFqSkZCi
+ +TuTV12+T8e3wHiI3uBW3VA9ImFw1ZCXyqgxW2zVzyWBl3rFmuNatwHUcYZnDprqekQyvUV/cT
+ vk3n0pReWPcTPqSb8rX9AQoWqsYbQOd2age7z6vh5pbBCn3P+AvDPeSaYAAAA
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ Ranganath V N <vnranganath.20@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761499583; l=3652;
+ i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
+ bh=PUQmCPoHMTdvsW8ctn14E6LZQyRG6SCbf1UxlHwI0Nk=;
+ b=kjNKEEdaT5Oxrzi0nbqHtUt2Gaytpog/0p+HvEumeOqM+G4795JeBDHfr1TnC1bRxuwtHWRRd
+ GE0gKtCdUjDD18/H2P3fSzgT5unbP7owrLdnTh3nazo3O3fS1FLhm4K
+X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
+ pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
 
-On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/.yamllint                  | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml              | 1 -
->  .../bindings/clock/allwinner,sun4i-a10-gates-clk.yaml        | 1 -
->  .../devicetree/bindings/clock/renesas,cpg-mssr.yaml          | 1 -
->  .../devicetree/bindings/clock/xlnx,clocking-wizard.yaml      | 1 -
->  .../display/allwinner,sun4i-a10-display-frontend.yaml        | 1 -
->  .../devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml | 1 -
->  .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml       | 1 -
->  .../devicetree/bindings/display/amlogic,meson-vpu.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/adi,adv7511.yaml      | 1 -
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml | 1 -
->  .../devicetree/bindings/display/ilitek,ili9486.yaml          | 1 -
->  Documentation/devicetree/bindings/display/msm/gpu.yaml       | 1 -
->  .../devicetree/bindings/display/panel/panel-timing.yaml      | 1 -
->  .../devicetree/bindings/display/panel/tpo,tpg110.yaml        | 1 -
->  .../devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml | 1 -
->  .../devicetree/bindings/display/simple-framebuffer.yaml      | 1 -
->  .../devicetree/bindings/dma/snps,dma-spear1340.yaml          | 1 -
->  Documentation/devicetree/bindings/dma/stericsson,dma40.yaml  | 1 -
->  .../devicetree/bindings/dma/stm32/st,stm32-dma.yaml          | 1 -
->  Documentation/devicetree/bindings/edac/apm,xgene-edac.yaml   | 1 -
->  .../devicetree/bindings/firmware/qemu,fw-cfg-mmio.yaml       | 1 -
->  Documentation/devicetree/bindings/fpga/fpga-region.yaml      | 5 -----
->  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml        | 1 -
->  .../devicetree/bindings/gpio/fairchild,74hc595.yaml          | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml     | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,max31827.yaml    | 1 -
->  Documentation/devicetree/bindings/hwmon/national,lm90.yaml   | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml       | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml     | 1 -
->  Documentation/devicetree/bindings/i2c/i2c-mux-gpmux.yaml     | 1 -
->  .../devicetree/bindings/i2c/realtek,rtl9301-i2c.yaml         | 1 -
->  Documentation/devicetree/bindings/i2c/tsd,mule-i2c-mux.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7949.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml   | 1 -
->  .../devicetree/bindings/iio/adc/cosmic,10001-adc.yaml        | 1 -
->  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 1 -
->  .../devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml     | 1 -
->  .../devicetree/bindings/iio/afe/voltage-divider.yaml         | 1 -
->  .../devicetree/bindings/iio/frequency/adi,admv4420.yaml      | 1 -
->  .../devicetree/bindings/iio/pressure/murata,zpa2326.yaml     | 1 -
->  .../devicetree/bindings/iio/proximity/semtech,sx9324.yaml    | 1 -
->  .../devicetree/bindings/iio/temperature/adi,ltc2983.yaml     | 1 -
->  Documentation/devicetree/bindings/input/ti,drv266x.yaml      | 1 -
->  .../devicetree/bindings/interconnect/qcom,rpmh.yaml          | 1 -
->  .../devicetree/bindings/interrupt-controller/arm,gic-v3.yaml | 1 -
->  .../bindings/interrupt-controller/aspeed,ast2700-intc.yaml   | 1 -
->  .../bindings/interrupt-controller/fsl,vf610-mscm-ir.yaml     | 1 -
->  .../bindings/interrupt-controller/loongson,liointc.yaml      | 1 -
->  .../bindings/interrupt-controller/mediatek,mtk-cirq.yaml     | 1 -
->  .../bindings/interrupt-controller/mscc,ocelot-icpu-intr.yaml | 1 -
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml        | 4 ----
->  Documentation/devicetree/bindings/mailbox/arm,mhu.yaml       | 1 -
->  Documentation/devicetree/bindings/mailbox/arm,mhuv2.yaml     | 1 -
->  Documentation/devicetree/bindings/mailbox/mtk,adsp-mbox.yaml | 1 -
->  Documentation/devicetree/bindings/media/amphion,vpu.yaml     | 1 -
->  Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml | 2 --
->  .../devicetree/bindings/media/i2c/techwell,tw9900.yaml       | 1 -
->  Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml   | 1 -
->  .../devicetree/bindings/media/qcom,sc8280xp-camss.yaml       | 1 -
->  .../bindings/media/samsung,exynos4212-fimc-is.yaml           | 1 -
->  .../devicetree/bindings/media/samsung,s5pv210-jpeg.yaml      | 1 -
->  Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml  | 1 -
->  .../devicetree/bindings/media/video-interface-devices.yaml   | 4 ----
->  .../memory-controllers/qcom,ebi2-peripheral-props.yaml       | 1 -
->  Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml | 1 -
->  .../devicetree/bindings/mtd/amlogic,meson-nand.yaml          | 1 -
->  .../devicetree/bindings/mtd/marvell,nand-controller.yaml     | 1 -
->  Documentation/devicetree/bindings/mux/mux-controller.yaml    | 1 -
->  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml   | 2 --
->  Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml     | 1 -
->  .../devicetree/bindings/net/brcm,mdio-mux-iproc.yaml         | 1 -
->  .../devicetree/bindings/net/cortina,gemini-ethernet.yaml     | 1 -
->  Documentation/devicetree/bindings/net/fsl,gianfar.yaml       | 2 --
->  .../devicetree/bindings/net/mdio-mux-multiplexer.yaml        | 1 -
->  Documentation/devicetree/bindings/net/qcom,ipa.yaml          | 1 -
->  Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml    | 1 -
->  .../devicetree/bindings/net/wireless/ti,wlcore.yaml          | 1 -
->  .../devicetree/bindings/pci/altr,pcie-root-port.yaml         | 1 -
->  Documentation/devicetree/bindings/pci/loongson.yaml          | 1 -
->  Documentation/devicetree/bindings/pci/rockchip-dw-pcie.yaml  | 1 -
->  .../devicetree/bindings/pci/starfive,jh7110-pcie.yaml        | 1 -
+convert the Texas Instruments PCM186x Universal audio ADC bindings to DT schema.
 
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
+Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
+---
+Changes in v2:
+- Fixes as per the reviews suggested for the v1.
+- Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
+---
+ .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
+ .../devicetree/bindings/sound/ti,pcm186x.yaml      | 61 ++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 42 deletions(-)
 
-Acked-by: Manivannan Sadhasivam <mani@kernel.org> # For PCI controller bindings
+diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
+deleted file mode 100644
+index 1087f4855980..000000000000
+--- a/Documentation/devicetree/bindings/sound/pcm186x.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Texas Instruments PCM186x Universal Audio ADC
+-
+-These devices support both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-
+- - compatible : "ti,pcm1862",
+-                "ti,pcm1863",
+-                "ti,pcm1864",
+-                "ti,pcm1865"
+-
+- - reg : The I2C address of the device for I2C, the chip select
+-         number for SPI.
+-
+- - avdd-supply: Analog core power supply (3.3v)
+- - dvdd-supply: Digital core power supply
+- - iovdd-supply: Digital IO power supply
+-        See regulator/regulator.txt for more information
+-
+-CODEC input pins:
+- * VINL1
+- * VINR1
+- * VINL2
+- * VINR2
+- * VINL3
+- * VINR3
+- * VINL4
+- * VINR4
+-
+-The pins can be used in referring sound node's audio-routing property.
+-
+-Example:
+-
+-	pcm186x: audio-codec@4a {
+-		compatible = "ti,pcm1865";
+-		reg = <0x4a>;
+-
+-		avdd-supply = <&reg_3v3_analog>;
+-		dvdd-supply = <&reg_3v3>;
+-		iovdd-supply = <&reg_1v8>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
+new file mode 100644
+index 000000000000..306905eebd68
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
+@@ -0,0 +1,61 @@
++﻿# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments PCM186x Universal Audio ADC
++
++maintainers:
++  - Ranganath V N <vnranganath.20@gmail.com>
++
++description:
++  The Texas Instruments PCM186x family are multi-channel audio ADCs
++  that support both I2C and SPI control interfaces, selected by
++  pin strapping. These devices include on-chip programmable gain
++  amplifiers and support differential or single-ended analog inputs.
++
++properties:
++  compatible:
++    enum:
++      - ti,pcm1862
++      - ti,pcm1863
++      - ti,pcm1864
++      - ti,pcm1865
++
++  reg:
++    maxItems: 1
++
++  avdd-supply: true
++
++  dvdd-supply: true
++
++  iovdd-supply: true
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - dvdd-supply
++  - iovdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@4a {
++            compatible = "ti,pcm1865";
++            reg = <0x4a>;
++
++            avdd-supply = <&reg_3v3_analog>;
++            dvdd-supply = <&reg_3v3>;
++            iovdd-supply = <&reg_1v8>;
++        };
++    };
 
-- Mani
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251021-dtbs-3a31f699c461
 
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Ranganath V N <vnranganath.20@gmail.com>
+
