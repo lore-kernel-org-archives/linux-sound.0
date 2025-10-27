@@ -1,205 +1,92 @@
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88102E7BA3
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 08:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2422FBDE9;
+	Mon, 27 Oct 2025 08:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761554080; cv=none; b=Yq8wLbR/dpAiyCELsgp2H9OI7N5st9svgLLNHOkxMyeYEZhecNUNQsr6auPK/ofOhCHHfHCQujVccE0eseLETgAkKJC9g7E4Xo62p1tS7DdD40/M8zwlgq+QsN1RsS7ZpM7bzIMqpZJADvB81RLbiaev4zA8YGzD5dE+Xpzpj8I=
+	t=1761554829; cv=none; b=mFeF+I+QM+woZmJFi7PgZwRHjOeGFx6JzYHbNHZFAasLKViblX+M6xQ9emmAJk23KN00DHu6Y9xp0dST2tha+kOm2Nrn+E80S8sNlhHhKoxbH+A9eZK07IiW0krGSJRubcpxe/2Qzp8z8XwDTnTbLLOHruSnDEzNIYxRzzKinGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761554080; c=relaxed/simple;
-	bh=C6DuS6khdSzTLBc1qnT3CBBz4b9mTwrsccfpDKu/4lE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EhxBn96EIyctuhluSKsgpOgQrpIHwNHe9dVAnBbHMrsGOogUMjjqaGJH/eGo4fbzuQgDmGx5Q0ltQkFcONz+M4ZLNGMAMlCrTC2hwq3Gy0s3i4NYixrSTLwpzD6/WsElFAfMUzH4cKtSfUHLdyJW391HTH14AJFBC2k2c6qsvWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Re+KJNxI; arc=none smtp.client-ip=37.27.248.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1761554829; c=relaxed/simple;
+	bh=FG7xuo5PggZ8cRzKnFZsudZmaT6IpZPajmInZq+Jg6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g5mlKBuTJtQTQOiFVYq1dUB/YKGXBdB57gGoirhtfx8c814CaNCrepZOBK+lpnVvQ+PePiOeLhSJHSjZ/+N1W8cYDsHm6Asla8lDoEezXeUvdKtF4eiwu915l9a0qZeYpCE3VbQ66LYsR5wzOSSx+lRCEr4QsLkPLmTOg5K00XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4bpkMT/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Re+KJNxI"
-Received: from relay10 (localhost.localdomain [127.0.0.1])
-	by relay10.grserver.gr (Proxmox) with ESMTP id CFFAA42920
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:34:35 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay10.grserver.gr (Proxmox) with ESMTPS id 1087C4238E
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:34:35 +0200 (EET)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 557D21FE4CD
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:34:34 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1761554074;
-	bh=o245JY/HeDSM3dcCLVqmKK/Oj4MHPHb0LGkJmADaEF0=;
-	h=Received:From:Subject:To;
-	b=Re+KJNxIAEDsm+u2+XwB7ifxbvtYwD/HDrdDhb7Xh9uMbu8BTFtcXEhkuYJDw+42t
-	 2eZ/7IpXZ+fWeJbRzqN25/WPZ9q8kvSLh9kO53newSpS/BodyukLPwVl05pSyEw40d
-	 Lmcx660Y3lgs8j4RvR6VkecCLTABpl+501py3cQNupfQ2i18cc8WKZss51fP8gpCWV
-	 XlAmHLIYxH0P5YiH3XFIhw692O4x24edWNlzR7ilJ6P0Fd+bSZd+8tRq1asE4GhuR4
-	 BF/+RMAFhNghTVMZhK+nb7QqQdq9SMK5JcwovWPgQTzfdqjjzxLDrR1DIL14bScQxS
-	 pMEJTlZmZuzuQ==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.179) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f179.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-36bf096b092so42678701fa.1
-        for <linux-sound@vger.kernel.org>;
- Mon, 27 Oct 2025 01:34:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5xisYKwESUvfsKhGBxUwtCInb778MPVv/EGkkhDRSUP+ObLKCFP+rlOvafxgDm8/BbKaZXlekHMXdWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd8nq9Yrw18GmeXNXNnRI2RbHvVQoMBsy0dn9xjInqUT+j6cXs
-	QSSUbOUxJ2iMIjXmAhft08DguHd54uuOk288xi+ofxO8UfkKdpHo2PzRLx4J/uZx9Fw9yRBjpn5
-	Yj/UkP64DJGs/yjx9Kt5Q+6TY1Ir/EsA=
-X-Google-Smtp-Source: 
- AGHT+IH0CBaIS6dsKE6LFWhp6Pd2Rr/eQNT5RTffVCMTh2qW4zMR0Pd9VQ9fUchPl9B2w9m99WZ7CniJpzj8vao/+yk=
-X-Received: by 2002:a2e:a801:0:b0:36c:7a76:d17a with SMTP id
- 38308e7fff4ca-3779782d1e8mr108927001fa.9.1761554073908; Mon, 27 Oct 2025
- 01:34:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4bpkMT/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD50C4CEFD;
+	Mon, 27 Oct 2025 08:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761554828;
+	bh=FG7xuo5PggZ8cRzKnFZsudZmaT6IpZPajmInZq+Jg6E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O4bpkMT/8pHM3kQkf8n/IetbsLdf0Hk986MT9yUThljNjzsuzWVgOFgIB6CRgVjFb
+	 Y7jpDGqzn9nyhRbK2SlMDOGplFSkvFKn7qvx2+0FeEWeM56QCZTZZ+ErXDO/Qkf3HU
+	 YAXkI7RLtxYsGq9qo88L15La4rXYqHeTA4dqNzF1CbsbHl1IKVjjkOu7UxlnrZXvbX
+	 ovTwsUBf+z/EpNiNILMGo4UyTanRJR4AIy/0q36sR1+SOgHHyR8xPsQFIKAxoddd2J
+	 tLmvO05CBUOgoThG13R0sIBs5GypPILv68yRlBWC5nP3s2aJDJtD0FFhnhL4bi16K5
+	 MhWquqaOJVIWQ==
+Date: Mon, 27 Oct 2025 09:47:05 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 11/12] ASoC: dt-bindings: sound: cirrus: cs530x: Add
+ SPI bus support
+Message-ID: <20251027-tacky-electric-wildebeest-ff8ad6@kuoka>
+References: <20251023090327.58275-1-vitalyr@opensource.cirrus.com>
+ <20251023090327.58275-12-vitalyr@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251026191635.2447593-1-lkml@antheas.dev>
- <20251026191635.2447593-2-lkml@antheas.dev>
- <CAGwozwEwPj9VRRo2U50ccg=_qSM7p-1c_hw2y=OYA-pFc=p13w@mail.gmail.com>
- <35A5783A-CA60-4B10-8C7B-5820B65307FE@linux.dev>
- <CAGwozwFtah66p=5oy9rf5phVGdDTiWg0WuJBT3qGpWdP3A62Pg@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwFtah66p=5oy9rf5phVGdDTiWg0WuJBT3qGpWdP3A62Pg@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Mon, 27 Oct 2025 09:34:21 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwE0gu1f+EQ9_xN_hQj3OCRRNd8t3F0BpDau9V8Au04Tqg@mail.gmail.com>
-X-Gm-Features: AWmQ_bm85B0TDchtQOOa1HpwV5i2MowPnQPS2FAHdClALsEjFj_SH97joL4-pYM
-Message-ID: 
- <CAGwozwE0gu1f+EQ9_xN_hQj3OCRRNd8t3F0BpDau9V8Au04Tqg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] ALSA: hda/realtek: Add match for ASUS Xbox Ally
- projects
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <176155407459.33162.13736931638806292404@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251023090327.58275-12-vitalyr@opensource.cirrus.com>
 
-On Mon, 27 Oct 2025 at 09:23, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->
-> On Mon, 27 Oct 2025 at 07:02, Matthew Schwartz
-> <matthew.schwartz@linux.dev> wrote:
-> >
-> >
-> >
-> > > On Oct 26, 2025, at 12:19=E2=80=AFPM, Antheas Kapenekakis <lkml@anthe=
-as.dev> wrote:
-> > >
-> > > On Sun, 26 Oct 2025 at 20:16, Antheas Kapenekakis <lkml@antheas.dev> =
-wrote:
-> > >>
-> > >> Bind the realtek codec to TAS2781 I2C audio amps on ASUS Xbox Ally
-> > >> projects. While these projects work without a quirk, adding it incre=
-ases
-> > >> the output volume significantly.
-> > >
-> > > Also, if you can upstream the firmware files:
-> > > TAS2XXX13840.bin
-> > > TAS2XXX13841.bin
-> > > TAS2XXX13940.bin
-> > > TAS2XXX13941.bin
-> >
-> > This is the firmware at [1], correct? I=E2=80=99m testing the series wi=
-th that firmware on my ROG Xbox Ally X, and I found something interesting.
-> >
-> > By default, with just your kernel patches and the firmware files hosted=
- at [1], my unit is loading:
-> >
-> > tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: Loaded FW: TAS2XXX13840.bin,=
- sha256: 58cffa36ae23a2d9b2349ecb6c1d4e89627934cd79218f6ada06eaffe6688246
-> >
-> > However, with this firmware file,  TAS2XXX13840.bin, there is significa=
-nt audio clipping above 75% speaker level on my individual unit.
-> >
-> > Then, I tried renaming the other firmware file, TAS2XXX13841.bin, into =
-TAS2XXX13840.bin. Now my unit is loading:
-> >
-> > tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: Loaded FW: TAS2XXX13840.bin,=
- sha256: 0fda76e7142cb455df1860cfdb19bb3cb6871128b385595fe06b296a070f4b8c
-> >
-> > With this firmware file, audio is perfect all the way to 100% speaker l=
-evel.
-> >
-> > If I recall, there have been other ASUS products that required matching=
- amplifier hardware with firmware correctly, right? It looks like this migh=
-t be another case of since it seems my unit is loading the wrong firmware f=
-or its amplifiers.
->
-> The original Ally X had a similar setup, yes.
->
-> First patch might not be perfect and your speaker pin might be 1. My
-> Xbox Ally's pin is 1. It loads:
-> Loaded FW: TAS2XXX13941.bin, sha256:
-> 0fda76e7142cb455df1860cfdb19bb3cb6871128b385595fe06b296a070f4b8c
->
-> And it sounds loud and crisp. So the pin is read.
->
-> I had multiple users verify the X works, but perhaps it is not perfect
-> yet. Make sure you are not using a dsp that might be interfering
->
-> Antheas
->
-> > Matt
-> >
-> > [1]: https://github.com/hhd-dev/hwfirm
+On Thu, Oct 23, 2025 at 10:03:19AM +0100, Vitaly Rodionov wrote:
+> The CS530x device family supports multiple control interfaces.
+> At present, only the I2C interface is implemented. Adding support
+> for the SPI control interface, operating at up to 24 MHz.
 
-[1] is straight from the windows driver with no renaming
+subject - too many sound prefixes. It is ASoC and dt-bindings. ASoC
+defines sound.
 
-> > >
-> > > That would be great :)
-> > >
-> > > Antheas
-> > >
-> > >> Cc: stable@vger.kernel.org # 6.17
-> > >> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > >> ---
-> > >> sound/hda/codecs/realtek/alc269.c | 2 ++
-> > >> 1 file changed, 2 insertions(+)
-> > >>
-> > >> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/re=
-altek/alc269.c
-> > >> index 8ad5febd822a..d1ad84eee6d1 100644
-> > >> --- a/sound/hda/codecs/realtek/alc269.c
-> > >> +++ b/sound/hda/codecs/realtek/alc269.c
-> > >> @@ -6713,6 +6713,8 @@ static const struct hda_quirk alc269_fixup_tbl=
-[] =3D {
-> > >>        SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", ALC256_FIXUP_ASU=
-S_MIC_NO_PRESENCE),
-> > >>        SND_PCI_QUIRK(0x1043, 0x1313, "Asus K42JZ", ALC269VB_FIXUP_AS=
-US_MIC_NO_PRESENCE),
-> > >>        SND_PCI_QUIRK(0x1043, 0x1314, "ASUS GA605K", ALC285_FIXUP_ASU=
-S_GA605K_HEADSET_MIC),
-> > >> +       SND_PCI_QUIRK(0x1043, 0x1384, "ASUS RC73XA", ALC287_FIXUP_TX=
-NW2781_I2C),
-> > >> +       SND_PCI_QUIRK(0x1043, 0x1394, "ASUS RC73YA", ALC287_FIXUP_TX=
-NW2781_I2C),
-> > >>        SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASU=
-S_MIC_NO_PRESENCE),
-> > >>        SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", ALC269VB_=
-FIXUP_ASUS_ZENBOOK),
-> > >>        SND_PCI_QUIRK(0x1043, 0x1433, "ASUS GX650PY/PZ/PV/PU/PYV/PZV/=
-PIV/PVV", ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
-> > >> --
-> > >> 2.51.1
-> > >>
-> > >>
-> > >
-> > >
-> >
-> >
+Please use subject prefixes matching the subsystem. You can get them for
+example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+> 
+> Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+> ---
+
+<form letter>
+This is an automated instruction, just in case, because many review
+tags are being ignored. If you know the process, just skip it entirely
+(please do not feel offended by me posting it here - no bad intentions
+intended, no patronizing, I just want to avoid wasted efforts). If you
+do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here ('b4 trailers -u ...').
+However, there's no need to repost patches *only* to add the tags. The
+upstream maintainer will do that for tags received on the version they
+apply.
+
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/process/submitting-patches.rst#L591
+</form letter>
+
+Best regards,
+Krzysztof
 
