@@ -1,141 +1,148 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36A01DE2AF
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 05:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801932D94BE
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 06:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761543562; cv=none; b=Bh017QrM9RgSK/C802hkx1ElQvDZ7v759K4YIFBrGarhZXKqnZsZGpavSVZp/8+mYkTvTxCEllPQTRudAp/kx1XiG42EM5OlqP8cRLl+WBahU1iAaOVxRaTU+FTh5J0M+/ElE0Cq3W0bBycmckE4ow224RpKjVl2VxPy5UAiv1c=
+	t=1761544960; cv=none; b=josSRtArEBRejPuD6C+OHd5rjwj3PLehusEykTd1kQUtfMWer+k4Wob4Ij8JF7T9J3UH2QaG+mMr4ktxe2U1nVCOjcgpcvd5WBequwyo5T80sLdZWlo96b4SIzWuMybyrLdWyprMqvVSVivOTl3l0J1OSuXgIl3kUIFHMxFBFi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761543562; c=relaxed/simple;
-	bh=Dyg2lhD4hCvz2MTn5rxtowsyJjy35Ud3uF3/0mWHWLE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qZW7+ubsaK0B8TWNLTBd4ViZmnqIqUzXqJOw5DeXOXMZWIWuQ44pumjVUvSCazuI+y7NKWmv2LCuNDrIsDRQ8ElZCIow6M/SCx6VmF6vNmwUVKGXQLONANgMtAAgzLdMyGsVlUbgkzqnPH4YGuUcl1mpS/MiX7hVunDa+ihCsRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+TJQiGU; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761544960; c=relaxed/simple;
+	bh=wwxjb9DR1LvG1RHmq4IzS3Xkgi6qBkuv3E66RDriplY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=a+nAtEUvtPG7DKmTHWA2FK0HRUrHwW/WyUkmYQ1M8XA5wkgRawhgW8ufpQnRLJfkCaio9miSoGLWkxvBCzC35HSelDNgUcinhay4dmUVsa5bneSLbgFjjxaq8BHlvz7hf5IldTGiTG/C3o+qUwL47ST54FfCVKkZ4QVcB3LUW/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eW3t6yED; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+TJQiGU"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-33c4252c3c5so3922164a91.0
-        for <linux-sound@vger.kernel.org>; Sun, 26 Oct 2025 22:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761543560; x=1762148360; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xGtjzD1BeaBjDHddgtdZ9WU8el5Ygry6H8PZ/jMJrRs=;
-        b=Z+TJQiGUIBr8NxgwAtm8f4WI/aheE2iCoZ4DvWg7SIOJy3Um8nsJtKwESROFjrZ2RM
-         NAVtCTqE/Wyc/TnVrYuLYACC3wX5YkNlmHhw3mp74ao6C1rlQSTt5ul23ci8dliLAF0A
-         FgVlxDHeRNC/juDMceFcgQLMY/gGpb7EO5S7R6KF0ULrZC2skaJHEHI/NQcWby0oeFiw
-         wkEjmybT68s7E7QulpyMbBrZi8+GrYVGXx6vdeQ8oIiH5KCc7lIqJp6BkFScEYwLZXhp
-         4mBMNlj/nel1qibhAFN+6N5c3/9xDILDr6UmRy+MCWvtHlmTrU69KVGQUFpR6Yw10lf8
-         zcjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761543560; x=1762148360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xGtjzD1BeaBjDHddgtdZ9WU8el5Ygry6H8PZ/jMJrRs=;
-        b=br+MqaTG/XZvkS5nE5tPpdh+cDtl9E+ux5FIIimVdvMhU2VlUXAPWycJiRSxWd6LjL
-         x50wkkfcztiHYvZRkEriaiIvtH8aHqhtzVoGknL7tmy78OfugYuwZKFoKcoEG2ocYJMk
-         JOwLiOzQTVZm22BSIf4Zfu8QxCEhCMDuBhhJxM3HN8zUDhUTgZ5op8B/UyNj0vxPb1RT
-         e6eHs6y7MdWTiz2q3zFoY6AADhQJbjoJ1eFQoDJyeiVdVTWW/HAK8ByHFLfB2DuER86h
-         Fvb+yHgzey6n3xX4HmPsC2drFUwvSB60IDKS+VPHYPI6g7R7u89v6MuCyxJZn3o0f6tr
-         FekA==
-X-Forwarded-Encrypted: i=1; AJvYcCWp8cdqTUTzN7boT6rOhFWfi0Wq9qits8yM2JpnKR2i4h0rgF75e+J2O4hkK7yTgXLTIG9NghnyjzOGiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWhmXklLoKwJSAkBTeCL6b+PljnJNICJY85HTlycOxJej8ry8U
-	Dmz0eDvtyBRv7xFtSCoqFPFxnWyHz9ot0j4aKQuq85+xrLv0uc8jwX1tDh4QBppcG6dUqwe8PvJ
-	nrCzaVn5SGhW8JeK8uDzu9cgExIbQU9c=
-X-Gm-Gg: ASbGncs9ktLJvoqhRyTuwHfdwuAHm8DyObrWNKoR+6eVCj6WVlREQfQZvsycUcOhqZJ
-	gSu4EUfETjZPUbPjl2+NrlErtizrZr/cDLA17WPb6fkGQv9SLr5dNN3/06P+wo4inXrDaciIa9O
-	Tw/ky2UnIyQjT189R4+I+RebiKAvJbJGlmgEXjQatqmadHYnKqt70VGpaznHsRX53c2NLDIg32O
-	fWEO8l3Uy0YWjkR2CVMLjKTPtyhilqECEscjffPpwh6YPtntWN4ThMNKlx7
-X-Google-Smtp-Source: AGHT+IG5Sf9tB2N+w1t0iXdjYTK5KXV5g3IANtwtYYJO6ljlk9IRhJTfDvRLeuH3axMGpYEhZU1jh4opBb4+H/Jk7Js=
-X-Received: by 2002:a17:90b:3d0d:b0:334:e020:2f16 with SMTP id
- 98e67ed59e1d1-33fafbab2b3mr18325423a91.11.1761543560049; Sun, 26 Oct 2025
- 22:39:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eW3t6yED"
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1761544944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Bj8GkUukbIV/nY1dITAAUkOq2qqZTJboBaZcti6jOVo=;
+	b=eW3t6yEDhpSPFgg2UJi5MB6cQTIbszIT8oDC7AjP4L3JyOp2HpNkvz00n6WHt/U2KGx+Ut
+	RI61OU/Q/LncM/4s6Q3kJevv80jt51KK5SCbahc7PsDAmjBxRYip9U50cYBXHq0aJtDqch
+	gpeQzoAP3Lpd/sOj54YC0svDbY+Y+Xs=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251024135716.584265-1-maarten@zanders.be>
-In-Reply-To: <20251024135716.584265-1-maarten@zanders.be>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 27 Oct 2025 13:39:07 +0800
-X-Gm-Features: AWmQ_bkivSeLBDrdFcjjCqIEzy1egjp-oNFnxwaFGOsZDh-2ho7GB46pKzHMgAQ
-Message-ID: <CAA+D8ANhErMaJWAOvjMWc=2xq+bsYBJ5eLeN+jg8B4=K+aQsnQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_sai: Fix sync error in consumer mode
-To: Maarten Zanders <maarten@zanders.be>
-Cc: Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Zidan Wang <zidan.wang@freescale.com>, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
+Subject: Re: [PATCH v1 2/2] ALSA: hda/realtek: Add match for ASUS Xbox Ally
+ projects
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+In-Reply-To: <CAGwozwEwPj9VRRo2U50ccg=_qSM7p-1c_hw2y=OYA-pFc=p13w@mail.gmail.com>
+Date: Sun, 26 Oct 2025 23:01:54 -0700
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>,
+ Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <35A5783A-CA60-4B10-8C7B-5820B65307FE@linux.dev>
+References: <20251026191635.2447593-1-lkml@antheas.dev>
+ <20251026191635.2447593-2-lkml@antheas.dev>
+ <CAGwozwEwPj9VRRo2U50ccg=_qSM7p-1c_hw2y=OYA-pFc=p13w@mail.gmail.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Oct 24, 2025 at 9:58=E2=80=AFPM Maarten Zanders <maarten@zanders.be=
-> wrote:
->
-> When configured for default synchronisation (Rx syncs to Tx) and the
-> SAI operates in consumer mode (clocks provided externally to Tx), a
-> synchronisation error occurs on Tx on the first attempt after device
-> initialisation when the playback stream is started while a capture
-> stream is already active. This results in channel shift/swap on the
-> playback stream.
-> Subsequent streams (ie after that first failing one) always work
-> correctly, no matter the order, with or without the other stream active.
->
-> This issue was observed (and fix tested) on an i.MX6UL board connected
-> to an ADAU1761 codec, where the codec provides both frame and bit clock
-> (connected to TX pins).
->
-> To fix this, always initialize the 'other' xCR4 and xCR5 registers when
-> we're starting a stream which is synced to the opposite one, irregardless
-> of the producer/consumer status.
->
-> Fixes: 51659ca069ce ("ASoC: fsl-sai: set xCR4/xCR5/xMR for SAI master mod=
-e")
->
-> Signed-off-by: Maarten Zanders <maarten@zanders.be>
 
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-Best regards
-Shengjiu wang
-> ---
->  sound/soc/fsl/fsl_sai.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-> index 757e7868e322..178a6e8fbe2c 100644
-> --- a/sound/soc/fsl/fsl_sai.c
-> +++ b/sound/soc/fsl/fsl_sai.c
-> @@ -653,12 +653,12 @@ static int fsl_sai_hw_params(struct snd_pcm_substre=
-am *substream,
->                 val_cr4 |=3D FSL_SAI_CR4_CHMOD;
->
->         /*
-> -        * For SAI provider mode, when Tx(Rx) sync with Rx(Tx) clock, Rx(=
-Tx) will
-> -        * generate bclk and frame clock for Tx(Rx), we should set RCR4(T=
-CR4),
-> -        * RCR5(TCR5) for playback(capture), or there will be sync error.
-> +        * When Tx(Rx) sync with Rx(Tx) clock, Rx(Tx) will provide bclk a=
-nd
-> +        * frame clock for Tx(Rx). We should set RCR4(TCR4), RCR5(TCR5)
-> +        * for playback(capture), or there will be sync error.
->          */
->
-> -       if (!sai->is_consumer_mode[tx] && fsl_sai_dir_is_synced(sai, adir=
-)) {
-> +       if (fsl_sai_dir_is_synced(sai, adir)) {
->                 regmap_update_bits(sai->regmap, FSL_SAI_xCR4(!tx, ofs),
->                                    FSL_SAI_CR4_SYWD_MASK | FSL_SAI_CR4_FR=
-SZ_MASK |
->                                    FSL_SAI_CR4_CHMOD_MASK,
-> --
-> 2.51.0
->
+> On Oct 26, 2025, at 12:19=E2=80=AFPM, Antheas Kapenekakis =
+<lkml@antheas.dev> wrote:
+>=20
+> On Sun, 26 Oct 2025 at 20:16, Antheas Kapenekakis <lkml@antheas.dev> =
+wrote:
+>>=20
+>> Bind the realtek codec to TAS2781 I2C audio amps on ASUS Xbox Ally
+>> projects. While these projects work without a quirk, adding it =
+increases
+>> the output volume significantly.
+>=20
+> Also, if you can upstream the firmware files:
+> TAS2XXX13840.bin
+> TAS2XXX13841.bin
+> TAS2XXX13940.bin
+> TAS2XXX13941.bin
+
+This is the firmware at [1], correct? I=E2=80=99m testing the series =
+with that firmware on my ROG Xbox Ally X, and I found something =
+interesting.
+
+By default, with just your kernel patches and the firmware files hosted =
+at [1], my unit is loading:
+
+tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: Loaded FW: TAS2XXX13840.bin, =
+sha256: 58cffa36ae23a2d9b2349ecb6c1d4e89627934cd79218f6ada06eaffe6688246
+
+However, with this firmware file,  TAS2XXX13840.bin, there is =
+significant audio clipping above 75% speaker level on my individual =
+unit.
+
+Then, I tried renaming the other firmware file, TAS2XXX13841.bin, into =
+TAS2XXX13840.bin. Now my unit is loading:
+
+tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: Loaded FW: TAS2XXX13840.bin, =
+sha256: 0fda76e7142cb455df1860cfdb19bb3cb6871128b385595fe06b296a070f4b8c
+
+With this firmware file, audio is perfect all the way to 100% speaker =
+level.
+
+If I recall, there have been other ASUS products that required matching =
+amplifier hardware with firmware correctly, right? It looks like this =
+might be another case of since it seems my unit is loading the wrong =
+firmware for its amplifiers.
+
+Matt
+
+[1]: https://github.com/hhd-dev/hwfirm
+
+>=20
+> That would be great :)
+>=20
+> Antheas
+>=20
+>> Cc: stable@vger.kernel.org # 6.17
+>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>> ---
+>> sound/hda/codecs/realtek/alc269.c | 2 ++
+>> 1 file changed, 2 insertions(+)
+>>=20
+>> diff --git a/sound/hda/codecs/realtek/alc269.c =
+b/sound/hda/codecs/realtek/alc269.c
+>> index 8ad5febd822a..d1ad84eee6d1 100644
+>> --- a/sound/hda/codecs/realtek/alc269.c
+>> +++ b/sound/hda/codecs/realtek/alc269.c
+>> @@ -6713,6 +6713,8 @@ static const struct hda_quirk =
+alc269_fixup_tbl[] =3D {
+>>        SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", =
+ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+>>        SND_PCI_QUIRK(0x1043, 0x1313, "Asus K42JZ", =
+ALC269VB_FIXUP_ASUS_MIC_NO_PRESENCE),
+>>        SND_PCI_QUIRK(0x1043, 0x1314, "ASUS GA605K", =
+ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC),
+>> +       SND_PCI_QUIRK(0x1043, 0x1384, "ASUS RC73XA", =
+ALC287_FIXUP_TXNW2781_I2C),
+>> +       SND_PCI_QUIRK(0x1043, 0x1394, "ASUS RC73YA", =
+ALC287_FIXUP_TXNW2781_I2C),
+>>        SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", =
+ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+>>        SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", =
+ALC269VB_FIXUP_ASUS_ZENBOOK),
+>>        SND_PCI_QUIRK(0x1043, 0x1433, "ASUS =
+GX650PY/PZ/PV/PU/PYV/PZV/PIV/PVV", ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
+>> --
+>> 2.51.1
+>>=20
+>>=20
+>=20
+>=20
+
