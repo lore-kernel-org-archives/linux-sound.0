@@ -1,206 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BF12E8B77
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 09:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734F9481B1
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761556172; cv=none; b=mN7QoSDz2l2WMJzKXNL/TddgiA5+S1qN4v5qGtEvSf1tgLbo7vP4HzTH+2gmL3SmqebAs2YOl/zS3Jsy3dm2B3/92Rui+xcxvHhrB/L39LL7ZVy2OnaVyOEBshZ4SRflwlMQxyU4cR/psM5BTyHg549Dio68gVIm3gy4TtpqDBk=
+	t=1761561163; cv=none; b=azbhONw8R5QcuTAioVKuZipGOBt0pde1den1BMLOz3nve/vPhwxy1IAj43Ptzk/WHaHHhKBBIoKCG9Tfp7U83w2U1EKnbvFsHsDhrFyrtVb3A7CWOhJgESwELjE3OuNtb7C0IhkD/uGF5K+ABdUdAi+uZbYv4z0JB4B4ynHmGDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761556172; c=relaxed/simple;
-	bh=Gtcui8dqa/qQGi4qt9IgdDczsIPejIwG0darUD5Wml0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kui3IU47r5XX0+GlHXReqck1BKJWZD1d6SMupZm9EXGYyqGbqGvo/g1mqHU4db65Lhd5Qnp7g37Ux7IF1JAtjxTM8zHU6WoL7WvYlT5rfFQ4o1Qwvd1J2Paxm9U8n58es6QWKc4ZbPpGK23TstyOosDLAv1cqt0jxpr9zuwchpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jf+wOeo7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WqgEE3C3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jf+wOeo7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WqgEE3C3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761561163; c=relaxed/simple;
+	bh=Qmvabv3V1lJkuQff1i4xLJHfqpykGwTrf6/8Vejg9gY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wrgpq1HsC8iudMpGSwdoG8trLUMw+4MObTwsfs0SnN6wMe/tmJ6UygjYexi/PmpPpD4BSzuQVJXhM1rjI/CvlXEDbpP/SV+eymN93LlFxTKvn0PP1guccBk3DzY3zB5RdrXpuYtE/mAk29l5DoyY0HfSJM0LKnhDqlm0GncuNi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=rVSR6N7Z; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jf+wOeo7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WqgEE3C3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jf+wOeo7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WqgEE3C3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 34A471F385;
-	Mon, 27 Oct 2025 09:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761556169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vul14eerM87A+4Tvr8jejTW2bah93jw1wD7M5xM7ZQY=;
-	b=jf+wOeo7ATSQ5XpsC9xOboLrFdt0Pa8ta2NJrojjXM0oW/lG2E8P7/weFDpqqIfdI6Iuql
-	mUj6nt3+fE82yK5StKL4n1adnwUrZiVMYq1jIDy+zT7sLIwrFD4MoMXQ2rwRH+OFa04qFD
-	lND44gEtdcBevzsSWDdEkFZIe7y/mUc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761556169;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vul14eerM87A+4Tvr8jejTW2bah93jw1wD7M5xM7ZQY=;
-	b=WqgEE3C3lGqeTL8PcGF8a7WnTr3m70gVe/zC49oTIIpF7rjBYMDvLMtT0Q8P6bhhy10SAI
-	u67knSb7BOUhoIDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jf+wOeo7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WqgEE3C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761556169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vul14eerM87A+4Tvr8jejTW2bah93jw1wD7M5xM7ZQY=;
-	b=jf+wOeo7ATSQ5XpsC9xOboLrFdt0Pa8ta2NJrojjXM0oW/lG2E8P7/weFDpqqIfdI6Iuql
-	mUj6nt3+fE82yK5StKL4n1adnwUrZiVMYq1jIDy+zT7sLIwrFD4MoMXQ2rwRH+OFa04qFD
-	lND44gEtdcBevzsSWDdEkFZIe7y/mUc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761556169;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vul14eerM87A+4Tvr8jejTW2bah93jw1wD7M5xM7ZQY=;
-	b=WqgEE3C3lGqeTL8PcGF8a7WnTr3m70gVe/zC49oTIIpF7rjBYMDvLMtT0Q8P6bhhy10SAI
-	u67knSb7BOUhoIDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B6FAB136CF;
-	Mon, 27 Oct 2025 09:09:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a8VDK8g2/2hwSAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Oct 2025 09:09:28 +0000
-Date: Mon, 27 Oct 2025 10:09:28 +0100
-Message-ID: <87frb43e47.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 04/21] ALSA: rename BITS to R_BITS
-In-Reply-To: <20251025162858.305236-5-yury.norov@gmail.com>
-References: <20251025162858.305236-1-yury.norov@gmail.com>
-	<20251025162858.305236-5-yury.norov@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="rVSR6N7Z"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 59RAW0F70557527, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1761561120; bh=vA3s57Z4s/MtsH7S6WHlOSMw63ibQDdESWD+kzuf1vE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=rVSR6N7ZVna+YxFacVOLaHKp8mZbYrNmJu1ffDAOUv2BjscA7zLHx41Yf6g/k277E
+	 bnKqTHUAws+/YO9qnrDwm7W6mBmILEa8VPlTrYY47eveKUX+u87s+h7jyKuctLtPWz
+	 i9dn1mX7p60xcsQN7G+RjgjRtWRmHfMjn1Nrjj0HQZT/rGXSNJfFJSOVKmDF13Nyke
+	 VHGCIZLXXDoZUvx4E04CBIEHTjM/+kBFSYB3BzREItsPADsVujqVQnCYxwjnJtOEX0
+	 A8IFQC9xQmUoSBewHFOo7rgrZWH39lLCgz0nEHKhtOgKrhe0OM7mbvhTkiyZ1JRRns
+	 +iCUmEh+OPNNA==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 59RAW0F70557527
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Oct 2025 18:32:00 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Mon, 27 Oct 2025 18:32:01 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Mon, 27 Oct 2025 18:32:01 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
+ 15.2.1544.27 via Frontend Transport; Mon, 27 Oct 2025 18:32:01 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <Vijendar.Mukunda@amd.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt721: fix prepare clock stop failed
+Date: Mon, 27 Oct 2025 18:33:33 +0800
+Message-ID: <20251027103333.38353-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 34A471F385
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Sat, 25 Oct 2025 18:28:40 +0200,
-Yury Norov (NVIDIA) wrote:
-> 
-> In preparation for adding generic BITS() macro, rename the local one.
-> 
-> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+From: Shuming Fan <shumingf@realtek.com>
 
-I suppose it'll be taken together with other patches?
-If so,
+This patch adds settings to prevent the 'prepare clock stop failed' error.
 
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt721-sdca.c | 4 ++++
+ sound/soc/codecs/rt721-sdca.h | 1 +
+ 2 files changed, 5 insertions(+)
 
+diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+index a4bd29d7220b..5f7b505d5414 100644
+--- a/sound/soc/codecs/rt721-sdca.c
++++ b/sound/soc/codecs/rt721-sdca.c
+@@ -281,6 +281,10 @@ static void rt721_sdca_jack_preset(struct rt721_sdca_priv *rt721)
+ 	rt_sdca_index_write(rt721->mbq_regmap, RT721_BOOST_CTRL,
+ 		RT721_BST_4CH_TOP_GATING_CTRL1, 0x002a);
+ 	regmap_write(rt721->regmap, 0x2f58, 0x07);
++
++	regmap_write(rt721->regmap, 0x2f51, 0x00);
++	rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
++		RT721_MISC_CTL, 0x0004);
+ }
+ 
+ static void rt721_sdca_jack_init(struct rt721_sdca_priv *rt721)
+diff --git a/sound/soc/codecs/rt721-sdca.h b/sound/soc/codecs/rt721-sdca.h
+index 71fac9cd8739..24ce188562ba 100644
+--- a/sound/soc/codecs/rt721-sdca.h
++++ b/sound/soc/codecs/rt721-sdca.h
+@@ -137,6 +137,7 @@ struct rt721_sdca_dmic_kctrl_priv {
+ #define RT721_HDA_LEGACY_UAJ_CTL		0x02
+ #define RT721_HDA_LEGACY_CTL1			0x05
+ #define RT721_HDA_LEGACY_RESET_CTL		0x06
++#define RT721_MISC_CTL				0x07
+ #define RT721_XU_REL_CTRL			0x0c
+ #define RT721_GE_REL_CTRL1			0x0d
+ #define RT721_HDA_LEGACY_GPIO_WAKE_EN_CTL	0x0e
+-- 
+2.51.1
 
-thanks,
-
-Takashi
-
-> ---
->  sound/core/oss/rate.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/core/oss/rate.c b/sound/core/oss/rate.c
-> index b56eeda5e30e..90a40221e4ce 100644
-> --- a/sound/core/oss/rate.c
-> +++ b/sound/core/oss/rate.c
-> @@ -25,8 +25,8 @@
->  #include "pcm_plugin.h"
->  
->  #define SHIFT	11
-> -#define BITS	(1<<SHIFT)
-> -#define R_MASK	(BITS-1)
-> +#define R_BITS	(1<<SHIFT)
-> +#define R_MASK	(R_BITS-1)
->  
->  /*
->   *  Basic rate conversion plugin
-> @@ -104,7 +104,7 @@ static void resample_expand(struct snd_pcm_plugin *plugin,
->  					src += src_step;
->  				}
->  			}
-> -			val = S1 + ((S2 - S1) * (signed int)pos) / BITS;
-> +			val = S1 + ((S2 - S1) * (signed int)pos) / R_BITS;
->  			if (val < -32768)
->  				val = -32768;
->  			else if (val > 32767)
-> @@ -162,7 +162,7 @@ static void resample_shrink(struct snd_pcm_plugin *plugin,
->  			}
->  			if (pos & ~R_MASK) {
->  				pos &= R_MASK;
-> -				val = S1 + ((S2 - S1) * (signed int)pos) / BITS;
-> +				val = S1 + ((S2 - S1) * (signed int)pos) / R_BITS;
->  				if (val < -32768)
->  					val = -32768;
->  				else if (val > 32767)
-> @@ -191,7 +191,7 @@ static snd_pcm_sframes_t rate_src_frames(struct snd_pcm_plugin *plugin, snd_pcm_
->  		return 0;
->  	data = (struct rate_priv *)plugin->extra_data;
->  	if (plugin->src_format.rate < plugin->dst_format.rate) {
-> -		res = (((frames * data->pitch) + (BITS/2)) >> SHIFT);
-> +		res = (((frames * data->pitch) + (R_BITS/2)) >> SHIFT);
->  	} else {
->  		res = DIV_ROUND_CLOSEST(frames << SHIFT, data->pitch);
->  	}
-> @@ -226,7 +226,7 @@ static snd_pcm_sframes_t rate_dst_frames(struct snd_pcm_plugin *plugin, snd_pcm_
->  	if (plugin->src_format.rate < plugin->dst_format.rate) {
->  		res = DIV_ROUND_CLOSEST(frames << SHIFT, data->pitch);
->  	} else {
-> -		res = (((frames * data->pitch) + (BITS/2)) >> SHIFT);
-> +		res = (((frames * data->pitch) + (R_BITS/2)) >> SHIFT);
->  	}
->  	if (data->old_dst_frames > 0) {
->  		snd_pcm_sframes_t frames1 = frames, res1 = data->old_src_frames;
-> -- 
-> 2.43.0
-> 
