@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB1630DED8
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 12:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDB8311C20;
+	Mon, 27 Oct 2025 12:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761568628; cv=none; b=MM4xsvX+9OEMkv371Vt4n+uk/GMclAe0Rdmemw5kp0zHFalSQGFVDcEr0CA0vBExfzqpD7ZD6nMq7V5MV196/mgmBaz0mEjwp8JcqHiWzFxwuvcpVU7EjWQo3tB1cFRzMyvSVJHGeqwh1sTKyj39nmj98nlKFp16XMKIcD0mdew=
+	t=1761568628; cv=none; b=ImmS9xvimLXYLcgMJtdVfdt+PZ7jYIzK+zZgUnv2ghgr9eWC6ifFoLPHi5sPLjdJp67nrcoRb8kp/mJK45Hu4Azv16yenPh2UynuOyBaPoN4yPJhxZgGpb03s/EVqfb/QunDiK5uZAsLpioe6z08lm01Fa0kskkXBb+0Slt+HfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761568628; c=relaxed/simple;
-	bh=qCO0j2nEFIQzj427hOpYlFTkCxqqtt6AEA+PaLWtpug=;
+	bh=O7wPv4QpTRw78qivSWIaU96EqkWfkdAYzMszaHVERm4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BIErUdJtURNBVFqyoa6xMK+GzovgnTCABO99aVp03jsb8C7cn61ou05g1CP3MdT0u7IajU2+Qcbj0Ecxw/0m2vZyE5x2ZXSoHzJD7vJcbovkcp8IqSledFY4fgH4wEk3TkOnlEsI5TRMssSGo1n+HWI15WGb6KyVHSfgp0KISmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nc1rSK1E; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Tzlz2j949IR02Y44o0Z2C1u1EDvtzBk9L/KBUPTh3qW8Es6z5+kqFlbj3p+uovUdn3b9bozC5foCj3QSCtF0bdYw+viXulamVbFGbJfaDw95GgSU5KKLRr+InfYqz5k96S9+zd1J1kXcR7J3ZSrtTbAJ6NHJo91Lmr/0Jpdksv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUkKMtA1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nc1rSK1E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4084DC4CEFF;
-	Mon, 27 Oct 2025 12:37:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUkKMtA1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03E2C4CEF1;
+	Mon, 27 Oct 2025 12:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761568625;
-	bh=qCO0j2nEFIQzj427hOpYlFTkCxqqtt6AEA+PaLWtpug=;
+	s=k20201202; t=1761568627;
+	bh=O7wPv4QpTRw78qivSWIaU96EqkWfkdAYzMszaHVERm4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nc1rSK1E+aN4Vog/KL07Tpm8bN1O4n7aVnuYCjowR/WnddQ9W99yEU9UpES0Jh1Or
-	 uVuKsaRklJyjr9XJ3eAnFmknGIzza9DqMh4vvgujWVc1t0XhUdex1TFqVRgi7BikhU
-	 tFHAKl7TXGWfEMWZIlGJWhNmCJdOWzn+7y6f4pXqwOoFe9G4LE58wseLZCZ21nb1Jc
-	 vjpwvA0qkgmrCDDUgG4C/8YNwuoLWrsjAiJ07MvVmnBq6T0WSBcq0THCqro4ZlI3zz
-	 EfI3ojnWZFX25HuJMZ/YxHD4LxBRHQUB3btjQNZpZKQsXiluKPdQKYrRuObbkD0nE8
-	 En8E0Uhd3pQEA==
+	b=TUkKMtA1UWpAOfIwCQWcAE20v1PJ11TY2O4atvut12Bj3GR9sqpzLjkH0FzI8MTdt
+	 6E5zjBvpchZ9HuqQhuwOgF9iRHWOp2TchvnH2lnJLrKbrRrCQajCGIaVBe3hhBi4Ly
+	 2uP0bRRMDHO3yYeO5cWxxu9Cxk76joo/rkJ6/QYSCAyKpaKGga0pdNgZV6rW9tq3QF
+	 i0hxzOX26y02bMLuu9F1ISjeS19L4w/mn7no23gzPJSbPyo70Yq9K0Igqm00CfJv3e
+	 oZlQcHHFkTlmZIO6H9/dYgOK2rTNuXvLSYAN8T+9TKrrtWWf14lSxtlQ6Mr30lFiNE
+	 pVYnkRWOdnRIQ==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amadeusz.slawinski@gmail.com, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20251023092348.3119313-1-cezary.rojewski@intel.com>
-References: <20251023092348.3119313-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/3] ASoC: Intel: avs: Set of streaming fixes
-Message-Id: <176156862398.24382.11924777676621413706.b4-ty@kernel.org>
-Date: Mon, 27 Oct 2025 12:37:03 +0000
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20251020170440.585-1-vulab@iscas.ac.cn>
+References: <20251020170440.585-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: mediatek: Fix double pm_runtime_disable in
+ remove functions
+Message-Id: <176156862550.24382.7526074553836824881.b4-ty@kernel.org>
+Date: Mon, 27 Oct 2025 12:37:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,17 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 23 Oct 2025 11:23:45 +0200, Cezary Rojewski wrote:
-> Small set of patches two of which fix problems observed during shutdown
-> and XRUN scenarios for PCM streaming. These ensure HDAudio HOST stream
-> is reset and re-setup during XRUNs and synchronize avs_dai_fe_shutdown()
-> and period-elapsed work (thread) so that no slab-use-after-free panics
-> occur.
+On Tue, 21 Oct 2025 01:04:40 +0800, Haotian Zhang wrote:
+> Both mt8195-afe-pcm and mt8365-afe-pcm drivers use devm_pm_runtime_enable()
+> in probe function, which automatically calls pm_runtime_disable() on device
+> removal via devres mechanism. However, the remove callbacks explicitly call
+> pm_runtime_disable() again, resulting in double pm_runtime_disable() calls.
 > 
-> The last change makes the 'format' parameter provided by a
-> compress-application taken into account - currently its ignored. Such
-> approach helps us increase the coverage of data probing (debug)
-> functionality.
+> Fix by removing the redundant pm_runtime_disable() calls from remove
+> functions, letting the devres framework handle it automatically.
 > 
 > [...]
 
@@ -65,12 +65,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: Intel: avs: Unprepare a stream when XRUN occurs
-      commit: cfca1637bc2b6b1e4f191d2f0b25f12402fbbb26
-[2/3] ASoC: Intel: avs: Disable periods-elapsed work when closing PCM
-      commit: 845f716dc5f354c719f6fda35048b6c2eca99331
-[3/3] ASoC: Intel: avs: Use snd_codec format when initializing probe
-      commit: 64007ad3e2a0e0a0ded8b2c6a72c0bb7883d3a33
+[1/1] ASoC: mediatek: Fix double pm_runtime_disable in remove functions
+      commit: 79a6f2da168543c0431ade57428f673c19c5b72f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
