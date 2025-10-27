@@ -1,64 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DFD3161AD
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 17:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440DF31812E
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 17:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761587814; cv=none; b=fvEe8wgVsChUrIFTtQeVpt55Mp8N3hhXZCmNBao10UuIcR+78P0/OWQ8sCiCXIoqInfd57rtVeaHH+dQIhnDJlnKUw6/oG0nI1cti/n0LePzTvFdsKbIGfPt8rba/Edwk6UBrVfdit+Yf6I7qQZfc4nC/k4O9cA5hp+rWOz8nnM=
+	t=1761587927; cv=none; b=k2ffVyXrzPizQEJppE/gpBdinBZvAgKyEjMyKAOC/ciofZdpeHz0hpeIheNYIm5GZv7bHutEWCBKIwIbhMwX6s/6skRGOokVNJKy5+EbizhyLjdP5IiOTyZslLwDVj9qamiqWDgo/LjmWioDLg+oABKI/EFpIMVvDz07phG+CVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761587814; c=relaxed/simple;
-	bh=SCIPeksxx2uDarfAhuXFCN/oVVLcwA7r7uPbkIEyGqU=;
+	s=arc-20240116; t=1761587927; c=relaxed/simple;
+	bh=lrLZa5alrgHzC1J99K289oAUToN5br+ZIZn9l5DB14I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I76Hyt57PLHsyXebhAvy/VgYggsPUXBwF7kz4A0Vye5Rt6beBkGKOKzDex2GAR9bYXF9QylV/nxcqC8xT9GnmfVo3O5kh216K8B8n3Nldcr6rDIv4ZsrYr0tqvKjEvD21NugT1ljudMFGyJtZxefAVPSGOSP4lntlICAh5JjyBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IS5CI5rQ; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=n5GEtHxvp1p1kb9JiT0bOblMP6uhrAgnTRgTuXPAUx2SYXRH7FYfAnnjmeHASpgSQeWP87muaFSg8L91d4LY2rtPN97Fd0qa+exjNkT1ffHH6MppaY8N+v76JKIja6k6FrtgvWfOvfNVuAkzeoJ0s3zGc/sPYvf5SK0isBoA188=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5dMn04R; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IS5CI5rQ"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-475e01db75aso16712305e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:56:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5dMn04R"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so3476977f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761587811; x=1762192611; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761587923; x=1762192723; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SCIPeksxx2uDarfAhuXFCN/oVVLcwA7r7uPbkIEyGqU=;
-        b=IS5CI5rQdF27eg/WCpXgLI2Zyv+9BcInRCb9Eu9VOCfKCHxPuKzd3ul3LeVDp2Rz25
-         gv5lDFoGKy+UukPfyev+KGMqnFRw8ZBsw49dGyuiQERap0Ekw2dz9pzDLupUR5pqeAfG
-         tsJloMnfa2Bi7Mo3FtfHqxVSuOLOVuePsGJzdqNtmAQT28TIyIJ1uddZevmBbmJDzSUx
-         KIFizCr2A6Axgcwcj3YBPoyk7AUqNr4zLmghZ827LJZ7qi+z9A6hUVc1akUwjUFQ+Qu/
-         JUhawW2kDFauJuWErOZ9Ho2AYfzYlK3l7gmMQYL9r/QAbDv9ycriWM3IWUOQ9O7tZind
-         H8gQ==
+        bh=lrLZa5alrgHzC1J99K289oAUToN5br+ZIZn9l5DB14I=;
+        b=b5dMn04RsBnItqzMCrb5hnhZy7S5RbR+b34HZ83ocRWHgAEC+41JFR/XB9gGdXfhOX
+         AEy5dHe3CpmqPWYAgEgp0XIQeIxawt1YD8j9ObNaAUgkN3kj46zrjZFzuGKGz3Y/LxYd
+         QiL6xQ/8/epQfyOZPzu/5eFO4BhrmoRE+nOqooYLV3lLQrJBMpedGZHDyGCF49BuTo+p
+         xQhOmLbKmtWl9p/JnsxUHeO+NRKpI2GZvDsho5pqpVjW6X9OvTKtgA6dpYMO9OjnSiSL
+         EW/edlUyJLao0lgmcVIoziB0HYEPyN75dIvuePvJPwahmVPokHxRYM3kj1dgB00w8wCS
+         iwYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761587811; x=1762192611;
+        d=1e100.net; s=20230601; t=1761587923; x=1762192723;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SCIPeksxx2uDarfAhuXFCN/oVVLcwA7r7uPbkIEyGqU=;
-        b=quyXIvTpPUobRBtYBaGkEfLk7y0nd05B8mkQNlVzMlE/DINHAUTDQiQGlyOsGMQ32V
-         zpPq/hRQMqN6VZ6eiJu+hgwIdbt3nmYiVfkzdd1dctUDE6CrM65ItuVtYXfGUHQ8u6c4
-         t944ZsEq8qLFymzhsF6hZ5BJKMvvPizdXiXPV034MiUaqy+vAuRtG25FeA99dLk4Mn0B
-         eAK1qtYrRtWYrC6noKv7KogukOxhoLNicoVp1TBN9d+Sw6IgFUJy+ukyhmwnwQDX/PP8
-         8Blv1vMM3VTYOhp5YY+kojwyZ2Srnxr8n8EIoUueoASyK+ZENk8etr8CiyZV+LCdzpJX
-         VIUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBQBh9vcmMpEfVdVSix2OcAYHJphSaoKaMKUO7ijdaa9iUAfjS588jywJeuN+TLQsnRVeixbzdeZKcLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+peVmGGyrzr14pWRbG65rYWNT1htdBAK3tm4cN7a6yIJuctVv
-	hj6dXUV2k1BPiacU4FjAYTSeQvToLLM91BejsnM7Wj8oyZEj5POdkhpT
-X-Gm-Gg: ASbGncsKTCbH0nfDi7+OlMbErcnBG3eQNnHI1/It6KZwvHcLuaNR03d5KZFo9FgvpuQ
-	9a3BeGKphMyPtr8c/VWWuUbcUJbnE+K5PWwkFA7AEXzIZiXAicKAxaZdxnIsSaWXyYZDgsol7Eb
-	6GqYWFUj4V+llOx4VjG6fmQgsZwHMVcaNUOm2NslcJHj4zjVhSPN1QMzBuHTkBypYgY/fvrFQmE
-	LpXErJWx3UGhQOPYzYjuF7Yuw5kR+uveeo6PBCAKaVbbjUY+yPpqsTSJCh65SzT93Pf8E7BEvrg
-	s84JijoldtKgywallF/Ja4XpL4T1CO3P2IglF4dn1pSXt/fDtVERphnRzuPg3G1lPsa58Wn9KUe
-	vSQQ6Q2vBRKxgckCytNiOfdUtyRdEi/Y+Nf3ftNfeyttYk8PF6q4OtdMvuR/JVC2QH4FObuBsmb
-	C1UVOoSUz3I69BcCK6BRlgjEp7H7smiqsi4KS9CDMGUb5LayhCIJ0fvzUyDQ==
-X-Google-Smtp-Source: AGHT+IEihm/mMfPTi4flOTdp91sIkNaqwi2a8InYOu2pJ2ai1utyKQHaHYaafUG+/91FRnDBC8gdGw==
-X-Received: by 2002:a05:600c:64c4:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-47717e512bamr4754785e9.27.1761587810623;
-        Mon, 27 Oct 2025 10:56:50 -0700 (PDT)
+        bh=lrLZa5alrgHzC1J99K289oAUToN5br+ZIZn9l5DB14I=;
+        b=sGYzits2zjfhISxyQUceMAc7nlmooa1zJN8SVD2WxXbXXeI0gAhelV9ZjjzVdlfL6E
+         fLwR8w5Nk8QaARmg93L6OSRUKw+PtpV+87wK+P10trkXwDIgjiDnC/caFmrjKsVLzmjS
+         nib22hUuAmXBIuVcu0KHPLPoQlyBD8m95tvO8jkXYN9U5ylkFl2N/JT0jzVraHJ2nOvg
+         qeGCvvK7PXNzvAptj5tjsFFkqp5fD3NoEbhc6krDIKVLAa/5b7bm92pg88SvyXWPmPhu
+         aIcRF118p7mT1pNeaIec3h3A7zwx3phmRtPvqAA5Fc707eBAfKtq3lO7pM67b8W5ha/E
+         1JoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVm9Pv64zrfmsaYFmlvAjQ6jXiYTHF57hqjtDXROGbov/EXyjB0oEswf8kD7FhVLnFxjnU+p9+LIGSn3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEIT9edgaF62iAwGBFLqYqMYBCRVMkrkec7poiVaYHdxqeJ9xz
+	sdKLWMtJRg28oiycihecdbpSB4Ewo4tvUe6S4gAVlAGuXGexgN8aXP+G
+X-Gm-Gg: ASbGncvctvd9BQatrinXJN0YN7FIlEfrTYVOD0bcykatqto03/IyDfj9wW+WGLILuVF
+	LyRWCK1XodIRmkOKu5OPp4WyJRmT3y+zXNNDVDTGYXLCpA5UwYBNmBx9LOvnmFvYYIAZDSHiL97
+	0NBPzfYps0kFc0GPBBPbG3YkslNqeiaixeRXprwYA6AxpXO4ibQRy2ycuDdiEYREgHjnGV4cYYh
+	jYGAN74/Yo6GvJ5DOIGAI0g/k/30pdItnNgVWJ3DseuksEURzPGoHwOaRihCZIrUhtz7/iNCnNq
+	INqW+tVNyMVQ086T29HH4YBonTM7eOzWIinHISj8QbGVI3W7YL+ek4M9NymQSzdLPOVdf+pzgG2
+	16c+1GiatFAD8spQ6h1M9Kb/oE2MxLanZ7KDCHJKKTpy86FpIEwLSBo3tuU80L+GVMxkDwMHKbj
+	uJ/wtchnDD56i3Q4b+/fOB/zPzRzCH7oiGD6lxPJItIUUWn8Cv5NugUz6r9QlyUfc0T19m
+X-Google-Smtp-Source: AGHT+IEEbY/WNAlAvL+pz8s7XDkjY8oak1WE3FbbRf2JSc/Ve9J9gkYo1nnN4xz8/yWauuSoOfnmDA==
+X-Received: by 2002:a05:6000:2287:b0:401:5ad1:682 with SMTP id ffacd0b85a97d-429a7e59dbemr594649f8f.14.1761587922569;
+        Mon, 27 Oct 2025 10:58:42 -0700 (PDT)
 Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net. [178.79.73.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd4cc596sm152270065e9.15.2025.10.27.10.56.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952df3c7sm15264123f8f.40.2025.10.27.10.58.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 10:56:50 -0700 (PDT)
+        Mon, 27 Oct 2025 10:58:42 -0700 (PDT)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
  Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>,
@@ -69,13 +69,14 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Subject:
- Re: [PATCH v2 04/10] ASoC: sun4i-spdif: Support SPDIF output on A523 family
-Date: Mon, 27 Oct 2025 18:56:49 +0100
-Message-ID: <6204310.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20251027125655.793277-5-wens@kernel.org>
+ Re: [PATCH v2 09/10] arm64: dts: allwinner: a523: Add SPDIF TX pin on PB and
+ PI pins
+Date: Mon, 27 Oct 2025 18:58:41 +0100
+Message-ID: <4686611.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20251027125655.793277-10-wens@kernel.org>
 References:
  <20251027125655.793277-1-wens@kernel.org>
- <20251027125655.793277-5-wens@kernel.org>
+ <20251027125655.793277-10-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,19 +86,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 27. oktober 2025 ob 13:56:45 Srednjeevropski standardni =C4=
+Dne ponedeljek, 27. oktober 2025 ob 13:56:50 Srednjeevropski standardni =C4=
 =8Das je Chen-Yu Tsai napisal(a):
-> The TX side of the SPDIF block on the A523 is almost the same the
-> previous generations, the only difference being that it has separate
-> module clock inputs for the TX and RX side.
+> The SPDIF TX (called OWA OUT in the datasheet) is available on three
+> pins. Of those, the PH pin is unlikely to be used since it conflicts
+> with the first Ethernet controller.
 >=20
-> Since this driver currently only supports TX, add support for a
-> different clock name so that TX and RX clocks can be separated
-> if RX support is ever added. Then add support for the A523.
+> The Radxa Cubie A5E exposes SPDIF TX through the PI pin group on the
+> 40-pin GPIO header.
+>=20
+> The Orange Pi 4A exposes SPDIF TX through both the PB and PI pin
+> groups on the 40-pin GPIO header. The PB pin alternatively would be
+> used for I2S0 though.
+>=20
+> Add pinmux settings for both options so potential users can directly
+> reference either one.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
