@@ -1,131 +1,78 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD5324E4B4;
-	Mon, 27 Oct 2025 20:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ED52E54BC;
+	Mon, 27 Oct 2025 22:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761597457; cv=none; b=FTJbrdb9j82IbdOxfUlP7n6+7zD0E9tK44pXyfiFe7rK5zUEhKpRNTwbR4YERwUh06TPNbODVG+HShyXM2AxcncrbhSVBgWJl7ZuNnM2TM1LsJfX9rzUP4wcG0xmQOrSLylRr/fILMFCWp4IMoA29C4kVvYzetCeLaL5wlryfVw=
+	t=1761604490; cv=none; b=X14rNPZSEoFGnN36VqRsUpNIBOeX9Fm0Ur5sZ9+sglKktxoUvX1yGHtNLxBu8f6aZo2SHv6wHKCEamLoWpsZw4atpnkuJZN1O02B8l638iJ2DUz8noxeFo7Vx6+1bX4fRe3IA4yLyLJMlRpL9IHePT/Fa1T/MQZWNWOY3PljjYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761597457; c=relaxed/simple;
-	bh=5m1IrsDTkf+F/nhzqJRjiWrZIfJDK8f7MvjheZ4CUKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CP/dmW+0WfJj5gL3EzZQNEGCMci9r4BvFTFa9PUQCi+rnzXaStbsVHZAH1xgaIDLUE88y44xzIbzmmrZkeS4J0Bhz7GmzGC1gjqFCMOZeSiKM4sHu9G+2iOFTBecMbrqKm8pZySH/FRab3/ipu2oxGIYDHNqf4vfwSvR/thYWAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=D0FvDvo6; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1761604490; c=relaxed/simple;
+	bh=Gtc2AYnPB4za2PS+Rr6W7no/j9YNfqzzRZSlGpPjRzY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dm5eU0zFahy8Ras15bOuRBU0S+x3nGpHNz/2EATaiKHNK8oFHCSbR6CDHO/VdyinfRg4suy1leSjWhiT+QeRAetAh3SVly/yQGuBYO28NbyU0LBqn02V1FWb2WDkQxfXd7zgdsyrPRfjOU7PpCslVhwxeXOcglyWEkibi8RY86o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQDrgJyK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="D0FvDvo6"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 27B114E4137B;
-	Mon, 27 Oct 2025 20:37:31 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D91106062C;
-	Mon, 27 Oct 2025 20:37:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6F94102F2494;
-	Mon, 27 Oct 2025 21:36:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761597449; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=ivu3nqaTqww2kM8ddgXsb86XR8Ecjso6qu9XWZHw9NQ=;
-	b=D0FvDvo6wBdzyM4yGf/Mo92JGsnDp3FEhnzQXToKT1lTmRgmCAobeQwwgIerEldSavB9Wj
-	8Fa1YqUSJN1a+KiX1LsgxoTiLAWFpjtTkZ/psXHq539twWXUsfVfZ1tOA47yFwLd40ImsE
-	G9WDXQxl4673JnnqnSaS0aJnztT1jPuWGeK5RQylZ1VZl0DiiBjKRSdLHbVPGru9aMBn/L
-	/NPFjf5YF1MLpjQf7UlDDcAIkfmZHS4oVHjAeodKNVAVJDdwuc8RjEgecO9ymeKN374J5m
-	aI0g1qxMk56Vwb3LCXgHJanQvqdAAA00oe5CNpFNb2x5v0Y/CqIa0frpfHITdQ==
-Date: Mon, 27 Oct 2025 21:36:40 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 01/23] clk: at91: pmc: #undef field_{get,prep}()
- before definition
-Message-ID: <20251027203640291d726b@mail.local>
-References: <cover.1761588465.git.geert+renesas@glider.be>
- <a26cfb39f4ac309ffbff339ffa5f54db12bd8c12.1761588465.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQDrgJyK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE64BC4CEF1;
+	Mon, 27 Oct 2025 22:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761604489;
+	bh=Gtc2AYnPB4za2PS+Rr6W7no/j9YNfqzzRZSlGpPjRzY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dQDrgJyKYsIdj28xx2RCyh3Btr12CwSRl2QygYxaEr6cwBCKjd4hOb4Sowwli7tgV
+	 NKsma/GsH+vTkiBLO1di4cmHF9Lq/j4AIBjlVMGHRO8Z1aoEvVEhxVxzG3K8Ed1ghc
+	 tVgOz9EsP/2tB8+FQAZQk6ChtNs0XSmFMf2OJ6MIiyvj99DhU8LVGpDsbnc+N6yez9
+	 lPDXdmTdHwmUZiIO2ZVcez7sGXHHYw5VgRZ3yRaTJ8n9Aq+Na4rKrtni5peXoIRoVN
+	 GC2R/RXQeqg3mRd1ow3JSFaBbmq0bZnCbluXt0W5yyjI95GThUh0k9nN49G8xX392u
+	 6+xP+D2Np/zqw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v3 0/3] qrb2210-rb1: HDMI/I2S audio playback support
+Date: Mon, 27 Oct 2025 17:36:45 -0500
+Message-ID: <176160465245.73268.4944449689124127284.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251022-rb1_hdmi_audio-v3-0-0d38f777a547@linaro.org>
+References: <20251022-rb1_hdmi_audio-v3-0-0d38f777a547@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a26cfb39f4ac309ffbff339ffa5f54db12bd8c12.1761588465.git.geert+renesas@glider.be>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 27/10/2025 19:41:35+0100, Geert Uytterhoeven wrote:
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
+
+On Wed, 22 Oct 2025 07:06:40 +0100, Alexey Klimov wrote:
+> This series adds a feature to playback/output audio via HDMI
+> on the Qualcomm RB1 board. Since RB1 and RB2 are very similar
+> to each and other and most likely use the same mainboard therefore
+> this series is pretty much a rework of the similar patchset for RB2.
 > 
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-
-> --
-> v5:
->   - New.
-> ---
->  drivers/clk/at91/pmc.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/clk/at91/pmc.h b/drivers/clk/at91/pmc.h
-> index 5daa32c4cf2540d7..78a87d31463e98b0 100644
-> --- a/drivers/clk/at91/pmc.h
-> +++ b/drivers/clk/at91/pmc.h
-> @@ -117,7 +117,9 @@ struct at91_clk_pms {
->  	unsigned int parent;
->  };
->  
-> +#undef field_get
->  #define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> +#undef field_prep
->  #define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->  
->  #define ndck(a, s) (a[s - 1].id + 1)
-> -- 
-> 2.43.0
 > 
 
+Applied, thanks!
+
+[1/3] arm64: dts: qcom: qcm2290: add APR and its services
+      commit: f8d21b5e4caa7a8e06cf6c08d85f6e992562a667
+[2/3] arm64: dts: qcom: qcm2290: add LPASS LPI pin controller
+      commit: 1fc30731562bb45e53e09d40fc69bc4364310b6e
+[3/3] arm64: dts: qcom: qrb2210-rb1: add HDMI/I2S audio playback support
+      commit: acb854eba80dceb12329cbe162122491f13a8a2a
+
+Best regards,
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Bjorn Andersson <andersson@kernel.org>
