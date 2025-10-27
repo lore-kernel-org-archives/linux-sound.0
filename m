@@ -1,125 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F50E326D74;
-	Mon, 27 Oct 2025 18:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F35209F43;
+	Mon, 27 Oct 2025 19:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761590745; cv=none; b=uqbbbk5o8wLp/IfrkseYhTj9Gh4OIrYrQ7SkCYjeP1Wyp4K/AbWuz3Knj/UAb8cs66K2iq1WNWjRnKAi2tt6mOLwTtgshBdPIcosnR47PIebZT+REMAIXjHwENt94CaMi+cjrl+7addzmEXeY5W5p5R5Qd1uOuqnTUCZ4ASguZo=
+	t=1761594020; cv=none; b=mafn8z39vaGjiORy6+MbNzsWOC7hVUAfr4EyFkSv2LmzwAHDhzL3MxbDmLMrlVsIvkYqxgqwTqEf6PF0enF6xykSNpcESEmXiIlqL2qT/ietbGE24HKjp0HFd2Jq1/dxDxVJvVwgmZIVa6PIe4WAhvnNOpGYPzgNp24L3YOLeuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761590745; c=relaxed/simple;
-	bh=l+k3T8WhLZTpDb7CbRpBhiGt+Z826lr9zR8apoxyAS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FXP3SppS/Vt306GfL9WiCUbaMA/n0mm33Hc6xJ3anbSmMkBzEhm/2liwH47C2ELbGICr7+vKEwZeOsiEh1VRy7aWTm1q2IFGUjF9f7XorLdeUbMWNnjyTEpncns3+Wuon1nMzeRyjcPiR5bQMqwHtlA/FX2RTqppE3PszjSLq+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E1DC4CEF1;
-	Mon, 27 Oct 2025 18:45:35 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>
-Cc: linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	qat-linux@intel.com,
-	linux-gpio@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v5 23/23] soc: renesas: Use bitfield helpers
-Date: Mon, 27 Oct 2025 19:41:57 +0100
-Message-ID: <c6520836ab8f061f6f3f4be3bf63cda8d04101f7.1761588465.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1761588465.git.geert+renesas@glider.be>
-References: <cover.1761588465.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1761594020; c=relaxed/simple;
+	bh=LBVMDVCrP2gD2L6aDDMW4YplNQQg6wbF1zUk45nqBYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQqsKDQKFXPvarrumat6PfjIn1w0Sx+Je9pREN6KxvNqWozhM7mf3zHxQcZSHUP13YcgE0istjJ1ueYFf5M1q84qZtvkZMTG+lfnucOXFmqHEqxwIaGB63rrlGID+4EBMOzrlhj+uxt18oHmgdo4Mlyrn9jcodKYBPTV6VVJWqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FANvynyH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FANvynyH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B92FC4CEF1;
+	Mon, 27 Oct 2025 19:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761594019;
+	bh=LBVMDVCrP2gD2L6aDDMW4YplNQQg6wbF1zUk45nqBYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FANvynyHudqCahbTJmZRNDh5L5Vz8iiW7AquNMQVLjjSWtjVcxEe9k6u5izHUbI94
+	 R7M5T34cIHryksdf4qTCwOy+DC93mzch2n3TU1ZAU0B1baGH4y1PSjhos9FH0u2/V2
+	 hg11mzaMg0ne1XCwOk1kDN7ifLAiXfxtDTvgwISDkV4pmgJ9mYigobLSM+huR/piCN
+	 O28LnQxb1A6QRxDrNEeYaG6FI0+U3CEsd4cIS6ebISZexYIW71ZhTphn8WsoJJaGrQ
+	 v2+GnVg6YNMMb0ZS0wBlK0ABtMTrIQ0TdrK8qqSiNHZX5AHy82AHH91ItSp2xHaXBm
+	 ABCX0EJu6hQwQ==
+Date: Mon, 27 Oct 2025 14:40:18 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ranganath V N <vnranganath.20@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] dt_bindings: sound: ti,pcm186x: convert to dtschema
+Message-ID: <20251027194018.GA1466990-robh@kernel.org>
+References: <20251026-dtbs-v2-1-cd3b713a288e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251026-dtbs-v2-1-cd3b713a288e@gmail.com>
 
-Use the field_get() helper, instead of open-coding the same operation.
+On Sun, Oct 26, 2025 at 10:56:16PM +0530, Ranganath V N wrote:
+> convert the Texas Instruments PCM186x Universal audio ADC bindings to DT schema.
+> 
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
+> Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
+> ---
+> Changes in v2:
+> - Fixes as per the reviews suggested for the v1.
+> - Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v5:
-  - No changes,
+Still fails to apply I guess due to the unicode control char.
 
-v4:
-  - No changes,
-
-v3:
-  - No changes,
-
-v2:
-  - Drop RFC, as a dependency was applied.
----
- drivers/soc/renesas/renesas-soc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 1eb52356b996bdd7..ee4f17bb4db45db7 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2014-2016 Glider bvba
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/io.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -524,8 +525,7 @@ static int __init renesas_soc_init(void)
- 							   eshi, eslo);
- 		}
- 
--		if (soc->id &&
--		    ((product & id->mask) >> __ffs(id->mask)) != soc->id) {
-+		if (soc->id && field_get(id->mask, product) != soc->id) {
- 			pr_warn("SoC mismatch (product = 0x%x)\n", product);
- 			ret = -ENODEV;
- 			goto free_soc_dev_attr;
--- 
-2.43.0
-
+> ---
+>  .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
+>  .../devicetree/bindings/sound/ti,pcm186x.yaml      | 61 ++++++++++++++++++++++
+>  2 files changed, 61 insertions(+), 42 deletions(-)
