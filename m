@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7AC2F531A
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57462E7BC3
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 10:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761561637; cv=none; b=qB8Fk3ZniW0K2NA8v+2iSkQU9WECPl0FPQs5tTl2IsLU4EXkdICqAMqMcHEdOA4857Idvn7kCaibi/x8cWcGA+XYxs+/ALbGg9TVYIyGwqEZ+Cg5ZsjPHfRmLsjBoZQm3TnQIGHi+763fR4VB5vDqnsLs760QXZiayldsvhNKG4=
+	t=1761561640; cv=none; b=eRligkM/T7j5edrc9tYMlxm2I6iIEJ8bx8MUkBuoIUM5C4ZcDG1n6IXvUdxxzaC7UEDlBji9wWbyAVYBkPWQ+qhRNQ98iyZrNINtHZVaSxPclFR9urwIFUGfojdRZ0AZWbxY6ZyActvz+gqWJyup22qF/zY2/hMavx98aqSYtFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761561637; c=relaxed/simple;
-	bh=4PHtU+VTOiidm3VJLVWryCpeeYQSBABZ+1LV7RLnzSA=;
+	s=arc-20240116; t=1761561640; c=relaxed/simple;
+	bh=tt+lLFBxLClx6KY6g8iMBfEafIrDamYbt17ZLec2uVs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RSW8JcdvE5LsqQM/cIXub8Fx1WFeyFIEwt1dl8Nodw32VJh6s3c8Z/lM19lxMvHhhdeRdQ/U7AqWVuWfjWdIuBtOv1jGuirFb4cSEnj2dtAhK/8WfBmWDJ/aXgYvPjQXd3Ppboclc/nPen9Ct+UqHj2qQngU3BThkHGX6crodoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKlKqiwY; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=VyY4Cjg6iGA+uh/TZ9E9FXlgJ5Vfyqn+19ScKt8hKxt+wR3jil4AcY75/Ih3SevAZ+P2PFzvsH/OH+FCMFZjxp/uAuXbcISX0G5p80nbVkGov3FV+CNdNMnRATGEo08kTk3V0bVM5RJUVXOpFa1qYRMePgPjITBKVzmC2AVPixs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mxFya7oW; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKlKqiwY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mxFya7oW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761561636; x=1793097636;
+  t=1761561639; x=1793097639;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=4PHtU+VTOiidm3VJLVWryCpeeYQSBABZ+1LV7RLnzSA=;
-  b=EKlKqiwY7WkIJXOtM8qpe2wc2Ms/9/zqTm//mfEc0oMxpKWGMjnGWymb
-   +5beQGFv2YknGH8L5KMHA1RXk2+TQqQneK553ctuww4xpCXUJZtCjSKKN
-   Yr4kzpbpEoaa3tk0kCK2mI87nqxqB/4+Ibdl4KUyIDAA36TPlXrXKowtE
-   +M8bo1f6aFuPd3B0QVd6ZsFjth0Uo19+wY63cmCWaCRhfPQ1T1VXPrAlX
-   rUGqWel9RrvppuX3RmpPrrZMhenMLXzP5gZj9eqHE57pyM1dsvnp/h7mO
-   0hRRKeiHgM5AkWRdbnbKHmGky14GMORF1rHbdYZFw3X1cgPcAha+PTM/J
-   g==;
-X-CSE-ConnectionGUID: QcU15aneQTGeV/VzdYRKPQ==
-X-CSE-MsgGUID: pKPsLZ4fTXKSF9Bb0YRRRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63672084"
+  bh=tt+lLFBxLClx6KY6g8iMBfEafIrDamYbt17ZLec2uVs=;
+  b=mxFya7oWaLxY/qy2QRNzhzKP9+K2gUIUMTWSAbLNyjbjYhLhms3tUQvB
+   EB4xFZadwqi34xzntTRu0h6gZZ+qntsNftjMqBXKNiY4c2qWHdq6uBS4i
+   su5hKNyix2shIOo5ZYQOMe5/DU1Sh55JWLALuTpFgJNLtH/lYKqS7vMz6
+   qPsSfj90tscUVYmNL7S0HprtAFFfg9HbnGzPXg9Gqgb21iHltnQBbUNyY
+   dUlOGURMNyUVtjJA4f7Z1LVxokRfSeWvhScMbZbzRsYkNb6uw6K8ttVzJ
+   qdDFRpI/8uLHMGR+jaBTQHidTaxx1Yi5XpLXmWvVAA2ttfpP/omb/MOsP
+   Q==;
+X-CSE-ConnectionGUID: rfuFXI0iTKefW8K/+gkkYA==
+X-CSE-MsgGUID: cwDvhDQNQbunX9tTge92+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63672088"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="63672084"
+   d="scan'208";a="63672088"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 03:40:36 -0700
-X-CSE-ConnectionGUID: 6AOR0msXRO2jBPvYHOA0Kw==
-X-CSE-MsgGUID: qErSNeTISYGnMhPi1N1dmg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 03:40:38 -0700
+X-CSE-ConnectionGUID: Ij4dqx0TTqqCO+UUfDaZdA==
+X-CSE-MsgGUID: VB9KeDEVTwCmwa2eYjnbCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="189051600"
+   d="scan'208";a="189051612"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa003.jf.intel.com with ESMTP; 27 Oct 2025 03:40:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Oct 2025 03:40:37 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amadeusz.slawinski@gmail.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 2/3] ASoC: Intel: avs: Disable periods-elapsed work when closing PCM
-Date: Mon, 27 Oct 2025 12:01:05 +0100
-Message-Id: <20251027110106.3157415-3-cezary.rojewski@intel.com>
+Subject: [PATCH v2 3/3] ASoC: Intel: avs: Use snd_codec format when initializing probe
+Date: Mon, 27 Oct 2025 12:01:06 +0100
+Message-Id: <20251027110106.3157415-4-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251027110106.3157415-1-cezary.rojewski@intel.com>
 References: <20251027110106.3157415-1-cezary.rojewski@intel.com>
@@ -64,29 +64,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-avs_dai_fe_shutdown() handles the shutdown procedure for HOST HDAudio
-stream while period-elapsed work services its IRQs. As the former
-frees the DAI's private context, these two operations shall be
-synchronized to avoid slab-use-after-free or worse errors.
+The data probing is a debug feature. Currently parameters channels and
+rate specified by the application are read while the format is ignored.
+More robust approach is to read all of them.
 
-Fixes: 0dbb186c3510 ("ASoC: Intel: avs: Update stream status in a separate thread")
+Audio format, while not used by the Probe module for PCM streaming,
+takes part in the gateway initialization on the DSP side. With full
+parametrization we gain better coverage with the data probing feature.
+
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/pcm.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/intel/avs/probes.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 501466bd1f7f..80c001120cdd 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -651,6 +651,7 @@ static void avs_dai_fe_shutdown(struct snd_pcm_substream *substream, struct snd_
+diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
+index c7b70006354a..7bb5dec257b4 100644
+--- a/sound/soc/intel/avs/probes.c
++++ b/sound/soc/intel/avs/probes.c
+@@ -14,8 +14,8 @@
+ #include "debug.h"
+ #include "messages.h"
  
- 	data = snd_soc_dai_get_dma_data(dai, substream);
+-static int avs_dsp_init_probe(struct avs_dev *adev, union avs_connector_node_id node_id,
+-			      size_t buffer_size)
++static int avs_dsp_init_probe(struct avs_dev *adev, struct snd_compr_params *params, int bps,
++			      union avs_connector_node_id node_id, size_t buffer_size)
+ {
+ 	struct avs_probe_cfg cfg = {{0}};
+ 	struct avs_module_entry mentry;
+@@ -27,12 +27,16 @@ static int avs_dsp_init_probe(struct avs_dev *adev, union avs_connector_node_id
+ 		return ret;
  
-+	disable_work_sync(&data->period_elapsed_work);
- 	snd_hdac_ext_stream_release(data->host_stream, HDAC_EXT_STREAM_TYPE_HOST);
- 	avs_dai_shutdown(substream, dai);
- }
+ 	/*
+-	 * Probe module uses no cycles, audio data format and input and output
+-	 * frame sizes are unused. It is also not owned by any pipeline.
++	 * Probe module uses no cycles, input and output frame sizes are unused.
++	 * It is also not owned by any pipeline.
+ 	 */
+ 	cfg.base.ibs = 1;
+ 	/* BSS module descriptor is always segment of index=2. */
+ 	cfg.base.is_pages = mentry.segments[2].flags.length;
++	cfg.base.audio_fmt.sampling_freq = params->codec.sample_rate;
++	cfg.base.audio_fmt.bit_depth = bps;
++	cfg.base.audio_fmt.num_channels = params->codec.ch_out;
++	cfg.base.audio_fmt.valid_bit_depth = bps;
+ 	cfg.gtw_cfg.node_id = node_id;
+ 	cfg.gtw_cfg.dma_buffer_size = buffer_size;
+ 
+@@ -128,8 +132,6 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
+ 	struct hdac_ext_stream *host_stream = avs_compr_get_host_stream(cstream);
+ 	struct snd_compr_runtime *rtd = cstream->runtime;
+ 	struct avs_dev *adev = to_avs_dev(dai->dev);
+-	/* compr params do not store bit depth, default to S32_LE. */
+-	snd_pcm_format_t format = SNDRV_PCM_FORMAT_S32_LE;
+ 	unsigned int format_val;
+ 	int bps, ret;
+ 
+@@ -142,7 +144,7 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
+ 	ret = snd_compr_malloc_pages(cstream, rtd->buffer_size);
+ 	if (ret < 0)
+ 		return ret;
+-	bps = snd_pcm_format_physical_width(format);
++	bps = snd_pcm_format_physical_width((__force snd_pcm_format_t)params->codec.format);
+ 	if (bps < 0)
+ 		return bps;
+ 	format_val = snd_hdac_stream_format(params->codec.ch_out, bps, params->codec.sample_rate);
+@@ -166,7 +168,7 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
+ 		node_id.vindex = hdac_stream(host_stream)->stream_tag - 1;
+ 		node_id.dma_type = AVS_DMA_HDA_HOST_INPUT;
+ 
+-		ret = avs_dsp_init_probe(adev, node_id, rtd->dma_bytes);
++		ret = avs_dsp_init_probe(adev, params, bps, node_id, rtd->dma_bytes);
+ 		if (ret < 0) {
+ 			dev_err(dai->dev, "probe init failed: %d\n", ret);
+ 			avs_dsp_enable_d0ix(adev);
 -- 
 2.25.1
 
