@@ -1,85 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B682E764E
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 08:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02F22F1FE4
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 09:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761555586; cv=none; b=KV76a0g383Xq/M4oCfoMHoVtm8pbt5jP7YT00VmeGT19VZQzhxX/v31lfXMQ6Kddng1ZHN9Ec8QLy0ch1q/GX5Qo33LHlZyPyzgvSLhpfXhydRNalJWusss1Ig34LyDKneiK4ykUW4rClMb5DtLk+0keynqplSuPLKXm+CwVXNM=
+	t=1761555732; cv=none; b=aYCOz9ed2MtEUKuR3zH2M8cR1vb0tRby4Petpx2vOcYpX28uka5Iknx7+PzryWlVh8fpX9N9hygpqPpkkHkpJm87QqiB/zLquw7KKJb2k1rtIY2extH4riAsVOSzoneOuAGCyx00NIawEgm2hFW2krSPMvZ/XcopWexmSNgfiRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761555586; c=relaxed/simple;
-	bh=Fr3Ih41NdZI3LuYaEBjLrhu63HXbYQ+0pYu8mLZtKyQ=;
+	s=arc-20240116; t=1761555732; c=relaxed/simple;
+	bh=5yDMD5SPHiQ/2N0GD+XLRmqOKlTDVH/VQHlyBzIFPBM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lxYora73zYLng2VUllCL5RFqU0WcDhmecK5F5OUTb+Jdz0Vy6Lw3VfVZzhKImbOpWOieV7WBZ6LHcb8MW21qeHQfV87/K06qp/t4J/NuVyBOOloeNMPAfxtgnpVR2bpyf+XnxQC+dLQF8Gin0IhQ+P0dZCVWEusXnHOwPfzdPOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dydpZv/w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9POk/3+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dydpZv/w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9POk/3+; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=cvK15vyY0bojOi3MnucAR0NUnr3dKoOPxraXeNibFGZgyBCi8GpsMDY1rGdc6FRmq+1IvADiVzKfjx6zp59oY5yCqgr6m0fdQY6R8CZEJsI8L9GsxGQYdJDLArEIubgbq+4TNYVRfITxTynkzlNIVRt2zHqs7d80Eo+dQIjNEFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p/+LU4LE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WpccB66u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p/+LU4LE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WpccB66u; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dydpZv/w";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9POk/3+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dydpZv/w";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9POk/3+"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p/+LU4LE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WpccB66u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p/+LU4LE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WpccB66u"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8BE7221A57;
-	Mon, 27 Oct 2025 08:59:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B31971F385;
+	Mon, 27 Oct 2025 09:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761555583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1761555727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olfN+gz3xIXVKmQ5nKu1A+e0BKiORLWSARZVd6xBzfM=;
-	b=dydpZv/wAv/7MMJk3r9Jg/a72TQwPja/VAG3qGj0U5zW3Nu+FmVCewcO9MI9FM1DmbI+O0
-	2G87NRtLjtfS9cSEDPcOKs2ypPWr+UldFwiTF4OOMcRQlZkRjJLbS6zCgUmToWym3xftG4
-	pyKdDlzwC5nIfXCeb4Z3TcJkylhzHSg=
+	bh=grxlaZtodfngfRM/DpYNmglZ5nY6vDltXt0NMp0Ywjw=;
+	b=p/+LU4LEeVq08aML9tInxaCAvvb2HImNkg/740OqJiPxBlVB6dWdmlFSvEI0X2vS6451Sj
+	aBh6QoXFWaHnMa5l9npFTR57lYxcXwWF9r+G+0wtq56t7AirPe5MZIMq2csBbDAKHZyyUI
+	P3Krowt2QMI7q7YtK1VhMO2SBQeAnnk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761555583;
+	s=susede2_ed25519; t=1761555727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olfN+gz3xIXVKmQ5nKu1A+e0BKiORLWSARZVd6xBzfM=;
-	b=s9POk/3+z2hqEv8uzlpuFFVfdYnwcHkPVaCqin01hpnBeP5NLz/N0ka9Hb1RtYHP2adPAk
-	6ZJf4ZPtiw3wseCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="dydpZv/w";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="s9POk/3+"
+	bh=grxlaZtodfngfRM/DpYNmglZ5nY6vDltXt0NMp0Ywjw=;
+	b=WpccB66uxh+epXC99yIGrQ9vk5HkoWmcmkxmafIuCwZSl1O08tBByvCjc+Ww+YfdxAw90h
+	UXev+KrZLUbckfBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="p/+LU4LE";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WpccB66u
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761555583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1761555727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olfN+gz3xIXVKmQ5nKu1A+e0BKiORLWSARZVd6xBzfM=;
-	b=dydpZv/wAv/7MMJk3r9Jg/a72TQwPja/VAG3qGj0U5zW3Nu+FmVCewcO9MI9FM1DmbI+O0
-	2G87NRtLjtfS9cSEDPcOKs2ypPWr+UldFwiTF4OOMcRQlZkRjJLbS6zCgUmToWym3xftG4
-	pyKdDlzwC5nIfXCeb4Z3TcJkylhzHSg=
+	bh=grxlaZtodfngfRM/DpYNmglZ5nY6vDltXt0NMp0Ywjw=;
+	b=p/+LU4LEeVq08aML9tInxaCAvvb2HImNkg/740OqJiPxBlVB6dWdmlFSvEI0X2vS6451Sj
+	aBh6QoXFWaHnMa5l9npFTR57lYxcXwWF9r+G+0wtq56t7AirPe5MZIMq2csBbDAKHZyyUI
+	P3Krowt2QMI7q7YtK1VhMO2SBQeAnnk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761555583;
+	s=susede2_ed25519; t=1761555727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=olfN+gz3xIXVKmQ5nKu1A+e0BKiORLWSARZVd6xBzfM=;
-	b=s9POk/3+z2hqEv8uzlpuFFVfdYnwcHkPVaCqin01hpnBeP5NLz/N0ka9Hb1RtYHP2adPAk
-	6ZJf4ZPtiw3wseCA==
+	bh=grxlaZtodfngfRM/DpYNmglZ5nY6vDltXt0NMp0Ywjw=;
+	b=WpccB66uxh+epXC99yIGrQ9vk5HkoWmcmkxmafIuCwZSl1O08tBByvCjc+Ww+YfdxAw90h
+	UXev+KrZLUbckfBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 683A0136CF;
-	Mon, 27 Oct 2025 08:59:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79281136CF;
+	Mon, 27 Oct 2025 09:02:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RAQqGH80/2hHPwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Oct 2025 08:59:43 +0000
-Date: Mon, 27 Oct 2025 09:59:42 +0100
-Message-ID: <87ldkw3ekh.wl-tiwai@suse.de>
+	id kr4rHA81/2ikQQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Oct 2025 09:02:07 +0000
+Date: Mon, 27 Oct 2025 10:02:07 +0100
+Message-ID: <87jz0g3egg.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Xj <xj@wp.pl>
-Subject: Re: [PATCH] ALSA: usb-audio: don't log messages meant for 1810c when initializing 1824c
-In-Reply-To: <aPaYTP7ceuABf8c7@ark>
-References: <aPaYTP7ceuABf8c7@ark>
+To: Mark Brown <broonie@kernel.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 00/11] ALSA: cs35l56: Add support for factory calibration
+In-Reply-To: <c45840e4-af1e-4658-9e13-bd6b9f66598f@sirena.org.uk>
+References: <20251021105022.1013685-1-rf@opensource.cirrus.com>
+	<c45840e4-af1e-4658-9e13-bd6b9f66598f@sirena.org.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,52 +93,54 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 8BE7221A57
+X-Rspamd-Queue-Id: B31971F385
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,wp.pl];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.com,wp.pl];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Score: -2.01
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-On Mon, 20 Oct 2025 22:15:08 +0200,
-Roy Vegard Ovesen wrote:
+On Wed, 22 Oct 2025 21:14:45 +0200,
+Mark Brown wrote:
 > 
-> The log messages for the PreSonus STUDIO 1810c about
-> device_setup are not applicable to the 1824c, and should
-> not be logged when 1824c initializes.
+> On Tue, Oct 21, 2025 at 11:50:11AM +0100, Richard Fitzgerald wrote:
 > 
-> Refactor from if statement to switch statement as there
-> might be more STUDIO series devices added later.
+> > NOTE: unfortunately this is yet another series that is mainly ASoC but
+> > also needs some changes to the HDA driver, and they have build dependencies
+> > on the ASoC code. I suggest taking this all through Mark's tree and we'll
+> > avoid sending any other commits to the HDA driver until it has all landed
+> > in Takashi's tree.
 > 
-> Fixes: 080564558eb1 ("ALSA: usb-audio: enable support for Presonus Studio 1824c within 1810c file")
-> Signed-off-by: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
+> That seems like a reasonable plan to me, Takashi?
 
-Applied now.  Thanks.
+Sorry for the late reaction, as I was off in the last week.
 
+Let's get them through Mark's tree as suggested.
+Feel free to take my ack:
+
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
+
+
+thanks,
 
 Takashi
