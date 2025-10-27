@@ -1,127 +1,141 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A3629E0E7
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 02:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36A01DE2AF
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 05:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761533477; cv=none; b=Kqw80WXA1PyTzlYdl/s4fhdNBoklvQz+fMcXO0x3Bu71MjNxsq1TgIk38mwNi3pkkzcOziv7aKu5wskQU4EaEtltINjXmG0ggmpbSoGBk1yfQ/dI5e+EVuIgjDE2dSX9G9M300f95kuK9Cni8gZfo+N6tO6eGPSnAIPZhykJE30=
+	t=1761543562; cv=none; b=Bh017QrM9RgSK/C802hkx1ElQvDZ7v759K4YIFBrGarhZXKqnZsZGpavSVZp/8+mYkTvTxCEllPQTRudAp/kx1XiG42EM5OlqP8cRLl+WBahU1iAaOVxRaTU+FTh5J0M+/ElE0Cq3W0bBycmckE4ow224RpKjVl2VxPy5UAiv1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761533477; c=relaxed/simple;
-	bh=Oew37RkaG/8wJgFnXEkXtYo2sZTKwQHokzlp2xcY0P4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tpCpgAebk71sc9Oad0x2LRqKuQ77hyxdumvMCqNwziPa3ipv98sD2c818Gr71gICengkvVDiZ4t3wE6krjsowK6XguYDiIgNskZvRbLR2E54CqUoJoRG3yrGZR/95LzGCXav8Y+9YwkKZms2NGIgvpRHuvZPXBqSieTM271mRb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=Kb5CEHr/; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1761543562; c=relaxed/simple;
+	bh=Dyg2lhD4hCvz2MTn5rxtowsyJjy35Ud3uF3/0mWHWLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qZW7+ubsaK0B8TWNLTBd4ViZmnqIqUzXqJOw5DeXOXMZWIWuQ44pumjVUvSCazuI+y7NKWmv2LCuNDrIsDRQ8ElZCIow6M/SCx6VmF6vNmwUVKGXQLONANgMtAAgzLdMyGsVlUbgkzqnPH4YGuUcl1mpS/MiX7hVunDa+ihCsRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+TJQiGU; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="Kb5CEHr/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1761533427;
-	bh=HmT/TP3f4Bj2xNH9Km83ZlO47Z9XjZQYSXegjluuhgc=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=Kb5CEHr/uWdaktq2DCRPTxOCqOI36wYjEemVbWyIbA+cnvY/CCYYjPl+Iiw0oQ6M8
-	 ULCbRZk/ixnfEg0YxmxxW8wMxTUeWy/VBYa0UX3g6t7YCKaWFUsW/r4DSSBaeeuvLF
-	 CYKO5sWs1FK6nbBxEASehPYtoeQ/TrfNUKTFpCgM=
-X-QQ-mid: zesmtpsz6t1761533421t4cff6fd3
-X-QQ-Originating-IP: 50wGhaxJ5u7t90/gV9tqInxDy8Z+DPU1fiWtwtZoqUw=
-Received: from = ( [183.48.247.177])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 27 Oct 2025 10:50:19 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5817616806356999324
-EX-QQ-RecipientCnt: 5
-Date: Mon, 27 Oct 2025 10:50:19 +0800
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-To: Alex Elder <elder@ieee.org>, Dan Carpenter <dan.carpenter@linaro.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: linux-sound@vger.kernel.org, spacemit@lists.linux.dev
-Subject: Re: [bug report] ASoC: spacemit: add i2s support for K1 SoC
-Message-ID: <7804C2A506CC6DCB+aP7d6y8yrqlbKwbN@kernel.org>
-References: <aPtiNCZ_KBezL2Dr@stanley.mountain>
- <E26A36F90026E89B+aPtkgbhoPoTzVnRN@troy-wujie14pro-arch>
- <aPtmbe9uoHIPfZz7@stanley.mountain>
- <eee35fa0-0a5f-4730-b6e4-a1b92dc5000f@ieee.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+TJQiGU"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-33c4252c3c5so3922164a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 26 Oct 2025 22:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761543560; x=1762148360; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xGtjzD1BeaBjDHddgtdZ9WU8el5Ygry6H8PZ/jMJrRs=;
+        b=Z+TJQiGUIBr8NxgwAtm8f4WI/aheE2iCoZ4DvWg7SIOJy3Um8nsJtKwESROFjrZ2RM
+         NAVtCTqE/Wyc/TnVrYuLYACC3wX5YkNlmHhw3mp74ao6C1rlQSTt5ul23ci8dliLAF0A
+         FgVlxDHeRNC/juDMceFcgQLMY/gGpb7EO5S7R6KF0ULrZC2skaJHEHI/NQcWby0oeFiw
+         wkEjmybT68s7E7QulpyMbBrZi8+GrYVGXx6vdeQ8oIiH5KCc7lIqJp6BkFScEYwLZXhp
+         4mBMNlj/nel1qibhAFN+6N5c3/9xDILDr6UmRy+MCWvtHlmTrU69KVGQUFpR6Yw10lf8
+         zcjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761543560; x=1762148360;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xGtjzD1BeaBjDHddgtdZ9WU8el5Ygry6H8PZ/jMJrRs=;
+        b=br+MqaTG/XZvkS5nE5tPpdh+cDtl9E+ux5FIIimVdvMhU2VlUXAPWycJiRSxWd6LjL
+         x50wkkfcztiHYvZRkEriaiIvtH8aHqhtzVoGknL7tmy78OfugYuwZKFoKcoEG2ocYJMk
+         JOwLiOzQTVZm22BSIf4Zfu8QxCEhCMDuBhhJxM3HN8zUDhUTgZ5op8B/UyNj0vxPb1RT
+         e6eHs6y7MdWTiz2q3zFoY6AADhQJbjoJ1eFQoDJyeiVdVTWW/HAK8ByHFLfB2DuER86h
+         Fvb+yHgzey6n3xX4HmPsC2drFUwvSB60IDKS+VPHYPI6g7R7u89v6MuCyxJZn3o0f6tr
+         FekA==
+X-Forwarded-Encrypted: i=1; AJvYcCWp8cdqTUTzN7boT6rOhFWfi0Wq9qits8yM2JpnKR2i4h0rgF75e+J2O4hkK7yTgXLTIG9NghnyjzOGiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWhmXklLoKwJSAkBTeCL6b+PljnJNICJY85HTlycOxJej8ry8U
+	Dmz0eDvtyBRv7xFtSCoqFPFxnWyHz9ot0j4aKQuq85+xrLv0uc8jwX1tDh4QBppcG6dUqwe8PvJ
+	nrCzaVn5SGhW8JeK8uDzu9cgExIbQU9c=
+X-Gm-Gg: ASbGncs9ktLJvoqhRyTuwHfdwuAHm8DyObrWNKoR+6eVCj6WVlREQfQZvsycUcOhqZJ
+	gSu4EUfETjZPUbPjl2+NrlErtizrZr/cDLA17WPb6fkGQv9SLr5dNN3/06P+wo4inXrDaciIa9O
+	Tw/ky2UnIyQjT189R4+I+RebiKAvJbJGlmgEXjQatqmadHYnKqt70VGpaznHsRX53c2NLDIg32O
+	fWEO8l3Uy0YWjkR2CVMLjKTPtyhilqECEscjffPpwh6YPtntWN4ThMNKlx7
+X-Google-Smtp-Source: AGHT+IG5Sf9tB2N+w1t0iXdjYTK5KXV5g3IANtwtYYJO6ljlk9IRhJTfDvRLeuH3axMGpYEhZU1jh4opBb4+H/Jk7Js=
+X-Received: by 2002:a17:90b:3d0d:b0:334:e020:2f16 with SMTP id
+ 98e67ed59e1d1-33fafbab2b3mr18325423a91.11.1761543560049; Sun, 26 Oct 2025
+ 22:39:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eee35fa0-0a5f-4730-b6e4-a1b92dc5000f@ieee.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: M3ziZXKDk+iOM4VUtC0VCr0J8CVDH9Gl162uooq9pYPX23/9U+xMSpcX
-	50hIE3cLuR8iRFbk3fxE9Bl2qpHUVPRuNBuYa5wJV+SJ8jT0cNpbMjlpKtR/Aing+soMypu
-	cLMcPGM/DYPQ5oVeTcIkWU4LJNeEf+FjmQY5UEOSm8Vjjf7JFe+cw2EA3fyaC0elWKbKX8y
-	py5FQikLaE/eMAjdiUuoUmT9+zJEzSkRk03uFUMJI4yWjVzkJekvlqBRii/Jpub/RUECwGZ
-	drHI7wiG4j8VmS5os4SmcZm4SCwzNWvpa2yGk6y6fpbSbfhOFl0iZHZA5el6VSWWZiQm3Vf
-	W6xumeNDw27ucs6rOjRe8o0O+ZfnP0QMigpe0o8Ob5Zs26dJeAQDBqAmO78f9zO/XDWOXCR
-	/+XC3/ChbjyraTwTK0vXcKOLdYDhAOoYe10kCWrVRbU1me6mUGwZMEKImHPXH0vc3oI3zA7
-	7Sz3cLy2NE+o0GWSLzp3qSwFnOlB+zdcNUNBpHyzni+5Cz7faY2nBfAqKDHi0wOpWXxzI2x
-	usNoiHmqPA71BuDAOOtUZ6Mgl4P1Z/udnv7ohlpPavsZGd0fvlTMV3ArrBhvbhWB/tssW/C
-	HAwavuHV03ewsIUsxnblxy4nT03SQSb50O4Db6QG1F+h1qqdQWR4Phh6bN05YW3uwWXO2Jy
-	t6kGBshjiKGrv11Kd7MJWhnqB2icRvrtoOcRMc+m30VM4x/yyX4aLd6WgM4nbzV+P2pqn4x
-	WffB3xqfhNcHpLGJmS2oUswrUDNs3NO2mFwjMhnfbLNIUqwpU49QD8+/9MZuO25lgJofm9o
-	j4nrMXyDpkho6uW2MxA1sdrIW4DFuGqq7wk5wsVBk2hEGm5xSWDXO0+fzD3i9dTqI2pHq4S
-	ZOGu1dPLsm+lX9qPNOkvK/PePeWkz+iIf4IPv4J/6LaG4KhC0K0n/ZwCRPNyeP2wxycflTW
-	58Nkk/i61Bx9uLaMbxw3EgN9M99kI34ZoCcuYIcq3G6UNO7eoDE2bg+iImnHKSQssCcylsT
-	L6ZtAR/lfulc+AYY/cPumeh77t9ZGiiwirZ3UGnnSHWlVIAGabD8kTwCSFDrC6Tj9HzhGFy
-	w==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+References: <20251024135716.584265-1-maarten@zanders.be>
+In-Reply-To: <20251024135716.584265-1-maarten@zanders.be>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 27 Oct 2025 13:39:07 +0800
+X-Gm-Features: AWmQ_bkivSeLBDrdFcjjCqIEzy1egjp-oNFnxwaFGOsZDh-2ho7GB46pKzHMgAQ
+Message-ID: <CAA+D8ANhErMaJWAOvjMWc=2xq+bsYBJ5eLeN+jg8B4=K+aQsnQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_sai: Fix sync error in consumer mode
+To: Maarten Zanders <maarten@zanders.be>
+Cc: Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Zidan Wang <zidan.wang@freescale.com>, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 24, 2025 at 11:06:04AM -0500, Alex Elder wrote:
-> On 10/24/25 6:43 AM, Dan Carpenter wrote:
-> > On Fri, Oct 24, 2025 at 07:37:51PM +0800, Troy Mitchell wrote:
-> > > On Fri, Oct 24, 2025 at 02:25:40PM +0300, Dan Carpenter wrote:
-> > > >      424         i2s->reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > > >      425         if (IS_ERR(i2s->reset))
-> > > >      426                 return dev_err_probe(i2s->dev, PTR_ERR(i2s->reset),
-> > > >      427                                      "failed to get reset control");
-> > > >      428
-> > > >      429         dev_set_drvdata(i2s->dev, i2s);
-> > > >      430
-> > > >      431         spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
-> > > >                                             ^^^^
-> > > > dai is not initialized on failure.  Generally in the kernel we always
-> > > > check for allocation failures.  Even when they can't happen in real life.
-> > > > I was hoping they were going to make a rule that allocations under 4k
-> > > > wouldn't have to be checked but it hasn't happened yet.
-> > > Should I send a fix patch now, or should I wait for the maintainer to
-> > > revert it first, and then fix this error and send?
-> > > 
-> > > Thanks for your report!
-> > > 
-> > 
-> > You should send a follow on patch which just fixes the one issue.  If the
-> > maintainer wants to squash them together that's very easy to do in git.
-> 
-> Yes I agree, send a new patch, no point in reverting.  But I think
-> a fix commit is better than squashing (for what that's worth).
-> 
-> 
-> A very simple fix is assigning *dp to NULL in spacemit_i2s_init_dai().
-> 
->         if (dp)
->                 *dp = dai ? : NULL;
-> 
-> Also:  Why aren't you checking for spacemit_i2s_init_dai() returning
-> an error?  (Another--separate--suggested fix.)
-The cause of this error was that we did not check the return value.
-Indeed, this was an oversight on my part, and I have sent a fix for it.
+On Fri, Oct 24, 2025 at 9:58=E2=80=AFPM Maarten Zanders <maarten@zanders.be=
+> wrote:
+>
+> When configured for default synchronisation (Rx syncs to Tx) and the
+> SAI operates in consumer mode (clocks provided externally to Tx), a
+> synchronisation error occurs on Tx on the first attempt after device
+> initialisation when the playback stream is started while a capture
+> stream is already active. This results in channel shift/swap on the
+> playback stream.
+> Subsequent streams (ie after that first failing one) always work
+> correctly, no matter the order, with or without the other stream active.
+>
+> This issue was observed (and fix tested) on an i.MX6UL board connected
+> to an ADAU1761 codec, where the codec provides both frame and bit clock
+> (connected to TX pins).
+>
+> To fix this, always initialize the 'other' xCR4 and xCR5 registers when
+> we're starting a stream which is synced to the opposite one, irregardless
+> of the producer/consumer status.
+>
+> Fixes: 51659ca069ce ("ASoC: fsl-sai: set xCR4/xCR5/xMR for SAI master mod=
+e")
+>
+> Signed-off-by: Maarten Zanders <maarten@zanders.be>
 
-                                - Troy
-> 
-> 					-Alex
-> 
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> > 
-> 
-> 
+Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+
+Best regards
+Shengjiu wang
+> ---
+>  sound/soc/fsl/fsl_sai.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+> index 757e7868e322..178a6e8fbe2c 100644
+> --- a/sound/soc/fsl/fsl_sai.c
+> +++ b/sound/soc/fsl/fsl_sai.c
+> @@ -653,12 +653,12 @@ static int fsl_sai_hw_params(struct snd_pcm_substre=
+am *substream,
+>                 val_cr4 |=3D FSL_SAI_CR4_CHMOD;
+>
+>         /*
+> -        * For SAI provider mode, when Tx(Rx) sync with Rx(Tx) clock, Rx(=
+Tx) will
+> -        * generate bclk and frame clock for Tx(Rx), we should set RCR4(T=
+CR4),
+> -        * RCR5(TCR5) for playback(capture), or there will be sync error.
+> +        * When Tx(Rx) sync with Rx(Tx) clock, Rx(Tx) will provide bclk a=
+nd
+> +        * frame clock for Tx(Rx). We should set RCR4(TCR4), RCR5(TCR5)
+> +        * for playback(capture), or there will be sync error.
+>          */
+>
+> -       if (!sai->is_consumer_mode[tx] && fsl_sai_dir_is_synced(sai, adir=
+)) {
+> +       if (fsl_sai_dir_is_synced(sai, adir)) {
+>                 regmap_update_bits(sai->regmap, FSL_SAI_xCR4(!tx, ofs),
+>                                    FSL_SAI_CR4_SYWD_MASK | FSL_SAI_CR4_FR=
+SZ_MASK |
+>                                    FSL_SAI_CR4_CHMOD_MASK,
+> --
+> 2.51.0
+>
