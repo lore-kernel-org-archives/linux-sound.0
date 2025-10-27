@@ -1,183 +1,146 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA261FC3
-	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 15:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2272C15BB
+	for <linux-sound@vger.kernel.org>; Mon, 27 Oct 2025 15:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761578718; cv=none; b=ZhHgD171zhcIPmRefjkpv/oFJrRyjNlEBBM8iXCZpNUAVQe22/yhbFaSKFjMgvES6fGvz4oWhibVgkIxdaWECTsfEaWCy+IUicMOAnEDv4Eo8OfYhPoTXCeWCu8msbox18d05MyOMJg/U+8xunSqR2UQznAL+S1cQakG+jUMXHs=
+	t=1761578720; cv=none; b=HjZOgMNEznq/leyf0Pmzt4kIIsTOIW6lPb2xz1pmqiktjEUlLz2rHJzi5zGiBmI3yt1ukyKc/4ZVj8zk8sA/C5p/c7Auexbrz3sEeGVIH3I4JUXjR8Mz03iI+ByVOc2ZJ4MloVg63wSNZgevpObU+zUKGgmH4rE9d2oQz3v2Ojw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761578718; c=relaxed/simple;
-	bh=RvlExb/QUBvuVlsgcTdHB9/OSS73nTDeMklz+rpaTns=;
+	s=arc-20240116; t=1761578720; c=relaxed/simple;
+	bh=T8zAZKKfgW+uSWSNt5IGX/BHiCSiW08v+PRZ4Lgg+6Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kjn87F5vuVQOzkiOX6PwSd4td/eGtd01FDqBSzu4Ebx219GgHLmDlbuECfixeU1Xk0sAT6WivjVcDIk6OoMMxiXgTWI5lHQ3qShFjnwUXY/6cQl3OY9w/z6KFaqnU6+cxvvG71ntS93NtzguT5YW78454nz8S/rVqx+BbYuCSsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vizRuQgF; arc=none smtp.client-ip=95.215.58.174
+	 In-Reply-To:Content-Type; b=KxT2Aj4uqpS8KxBcjREkSX+Dd1bR+zZHwyWbVILsRS9ii7Ms37inkg4CORmQughzeqLVsdOsE2fJw75LrrkeqqGOl+Ne6reEFqcv8RLrHM+6KFm/lYKK4/5+wBzhEUFyAAIjMS0GiqzuppXBreHMQJxh3JeVAWQsfoLTWHhrHb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oUSNb/4A; arc=none smtp.client-ip=95.215.58.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vizRuQgF"
-Message-ID: <39108baa-b379-4171-8426-c3b00a94e5f9@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oUSNb/4A"
+Message-ID: <56b67df2-4545-4882-8fbf-de5080dbb537@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1761578713;
+	t=1761578715;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F/cmn7m07XJ28hqKVtW81bEo3jZbPI1gYoKGgoOY+a0=;
-	b=vizRuQgFnY2JVXzhn8mbcEKjbEQQ6W7htWVZFsuAlpZXtqw+mCX5gXy5KMPxA+/8bsgmLE
-	GzN2effYtOkf+HdtZe+lPc4ZHeqOqFmV1wM6SB0U5LmSmrg4UBaeebiAqaFcRPTm/DoXpg
-	HAafa2SxyxTEl82pJBceMsHVKIU2j7A=
-Date: Mon, 27 Oct 2025 15:39:40 +0100
+	bh=bMGZ5MzKKLr8JW7OLgrf4McDcfAULa1WMojMZu1nNlg=;
+	b=oUSNb/4AkexPGXLdAneYc0CywP2gXbg39gG2lrwjlsUlxv2CF7f6ZMaaAUaYfrsusrxjvr
+	JySpIj+fQxl3T8r9JaBA2IavQOt9Jjs6mkFH2t4tudoBdocp9i9agjnT4sAUg4A5yq6ZMs
+	s9Ve9SWBXrOXVoY3BZYk5V+DFpwRiwU=
+Date: Mon, 27 Oct 2025 15:43:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 RESEND 14/19] ASoC: SDCA: Add FDL library for XU
- entities
+Subject: Re: [PATCH v3 RESEND 00/19] Add SDCA UMP/FDL support
 To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
 Cc: yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
  shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
  patches@opensource.cirrus.com
 References: <20251020155512.353774-1-ckeepax@opensource.cirrus.com>
- <20251020155512.353774-15-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20251020155512.353774-15-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20251020155512.353774-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
+On 10/20/25 17:54, Charles Keepax wrote:
+> Next installment of the SDCA changes, hopefully the next series after
+> this should be the full class driver. It is worth noting this series has
+> a build dependency on a patch working its way through the PM/ACPI tree:
+> 
+> commit ac46f5b6c661 ("ACPICA: Add SoundWire File Table (SWFT)
+> signature")
+> git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+> 
+> But we can probably worry about that later, as normally there is a
+> reasonable amount of review on these SDCA series'.
+> 
+> This series broadly breaks down into 3 chunks, first there are several
+> changes to remove the assumption that the struct device used for SDCA
+> purposes represents the SoundWire slave. This is because the SDCA class
+> driver will be made of an auxiliary driver for each SDCA Function, thus
+> the SoundWire slave will be on the parent device for each individual
+> driver. Then there are patches to add support for UMP/FDL. And then
+> finally since the rest of the HID support is there and UMP was the last 
+> missing part required a small patch to add a function to allow reporting
+> of HID events from SDCA devices.
 
-> +config SND_SOC_SDCA_FDL
-> +	bool "SDCA FDL (File DownLoad) support"
-> +	depends on SND_SOC_SDCA
-> +	default y
-> +	help
-> +	  This option enables support for the File Download using UMP,
-> +	  typically used for downloading firmware to devices.
+I added minor comments on one FDL patch, but no reason to delay this series further, firmware download is a must-have for newer devices.
 
-nit-pick: shouldn't this option be selected by device drivers who need this library? There should be guardrails to prevent the fallback helpers from being used silently.
+For the series: 
 
-> +int sdca_reset_function(struct device *dev, struct sdca_function_data *function,
-> +			struct regmap *regmap)
-> +{
-> +	unsigned int reg = SDW_SDCA_CTL(function->desc->adr,
-> +					SDCA_ENTITY_TYPE_ENTITY_0,
-> +					SDCA_CTL_ENTITY_0_FUNCTION_ACTION, 0);
-> +	unsigned int val, poll_us;
-> +	int ret;
-> +
-> +	ret = regmap_write(regmap, reg, SDCA_CTL_ENTITY_0_RESET_FUNCTION_NOW);
-> +	if (ret) // Allowed for function reset to not be implemented
-> +		return 0;
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
-nit-pick: maybe document why this is allowed. This doesn't seem very good in terms of design.
+Nice work Charles!
 
-> +
-> +	if (!function->reset_max_delay) {
-> +		dev_err(dev, "No reset delay specified in DisCo\n");
-> +		return -EINVAL;
-> +	}
-
-nit-pick: or maybe fallback to a reasonable default? Making the entire download dependent on Disco correctness isn't going to work long-term.
-
-> +
-> +	poll_us = umin(function->reset_max_delay >> 4, 1000);
-
-add comment on what this >> 4 means.
-
-> +
-> +	ret = regmap_read_poll_timeout(regmap, reg, val, !val, poll_us,
-> +				       function->reset_max_delay);
-> +	if (ret) {
-> +		dev_err(dev, "Failed waiting for function reset: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS(sdca_reset_function, "SND_SOC_SDCA");
-
-> +/**
-> + * sdca_fdl_process - Process the FDL state machine
-> + * @interrupt: SDCA interrupt structure
-> + *
-> + * Based on section 13.2.5 Flow Diagram for File Download, Host side.
-> + *
-> + * Return: Zero on success or a negative error code.
-> + */
-> +int sdca_fdl_process(struct sdca_interrupt *interrupt)
-> +{
-> +	struct device *dev = interrupt->dev;
-> +	struct sdca_entity_xu *xu = &interrupt->entity->xu;
-> +	unsigned int reg, status;
-> +	int response, ret;
-> +
-> +	ret = sdca_ump_get_owner_host(dev, interrupt->function_regmap,
-> +				      interrupt->function, interrupt->entity,
-> +				      interrupt->control);
-> +	if (ret)
-> +		goto reset_function;
-> +
-> +	reg = SDW_SDCA_CTL(interrupt->function->desc->adr, interrupt->entity->id,
-> +			   SDCA_CTL_XU_FDL_STATUS, 0);
-> +	ret = regmap_read(interrupt->function_regmap, reg, &status);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to read FDL status: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(dev, "FDL status: %#x\n", status);
-> +
-> +	ret = fdl_status_process(interrupt, status);
-> +	if (ret < 0)
-> +		goto reset_function;
-> +
-> +	response = ret;
-> +
-> +	dev_dbg(dev, "FDL response: %#x\n", response);
-> +
-> +	ret = regmap_write(interrupt->function_regmap, reg,
-> +			   response | (status & ~SDCA_CTL_XU_FDLH_MASK));
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to set FDL status signal: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = sdca_ump_set_owner_device(dev, interrupt->function_regmap,
-> +					interrupt->function, interrupt->entity,
-> +					interrupt->control);
-> +	if (ret)
-> +		return ret;
-> +
-> +	switch (response) {
-> +	case SDCA_CTL_XU_FDLH_RESET_ACK:
-> +		dev_dbg(dev, "FDL request reset\n");
-> +
-> +		switch (xu->reset_mechanism) {
-> +		default:
-> +			dev_warn(dev, "Requested reset mechanism not implemented\n");
-> +			fallthrough;
-
-this fallthrough looks odd since it forces a check on the reset a second time ...
-
-> +		case SDCA_XU_RESET_FUNCTION:
-> +			goto reset_function;
-> +		}
-> +	default:
-> +		return 0;
-> +	}
-> +
-> +reset_function:
-
-... inside this function call
-
-> +	sdca_reset_function(dev, interrupt->function, interrupt->function_regmap);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(sdca_fdl_process, "SND_SOC_SDCA");
+> Changes since v2:
+>  - Add mutex to lock between UMP timeout work and IRQ handlers
+>  - Clean up UMP timeout work after FDL fails
+>  - Use IRQ number rather than a boolean to track used IRQs
+>  - Reduce FDL retries to 6
+>  - Check disk size of firmwares
+>  - Reset on more FDL failure paths
+>  - Reorder volatile control check by entity
+> 
+> Changes since v1:
+>  - Add timeout for UMP buffer transfers
+>  - Add function reset
+>  - Parse XU properties from DisCo
+>  - Rename entity_xu library to FDL
+>  - Add a limit to the number of times it will try the FDL process
+>  - Rename soundwire device pointers to sdev to distinguish from Function
+>    devices pointers
+> 
+> Charles Keepax (16):
+>   ASoC: SDCA: Rename SoundWire struct device variables
+>   regmap: sdw-mbq: Don't assume the regmap device is the SoundWire slave
+>   ASoC: SDCA: Add manual PM runtime gets to IRQ handlers
+>   ASoC: SDCA: Pass SoundWire slave to HID
+>   ASoC: SDCA: Pass device register map from IRQ alloc to handlers
+>   ASoC: SDCA: Update externally_requested flag to cover all requests
+>   ASoC: SDCA: Factor out a helper to find SDCA IRQ data
+>   ASoC: SDCA: Rely less on the ASoC component in IRQ handling
+>   ASoC: SDCA: Force some SDCA Controls to be volatile
+>   ASoC: SDCA: Parse XU Entity properties
+>   ASoC: SDCA: Parse Function Reset max delay
+>   ASoC: SDCA: Add UMP buffer helper functions
+>   ASoC: SDCA: Add completion for FDL start and stop
+>   ASoC: SDCA: Add UMP timeout handling for FDL
+>   ASoC: SDCA: Add early IRQ handling
+>   ASoC: SDCA: Add HID button IRQ
+> 
+> Maciej Strozek (3):
+>   ASoC: SDCA: Add SDCA FDL data parsing
+>   ASoC: SDCA: Add FDL library for XU entities
+>   ASoC: SDCA: Add FDL-specific IRQ processing
+> 
+>  drivers/base/regmap/regmap-sdw-mbq.c |  23 +-
+>  include/linux/regmap.h               |  21 +-
+>  include/sound/sdca.h                 |   5 +
+>  include/sound/sdca_fdl.h             |  75 ++++
+>  include/sound/sdca_function.h        | 119 ++++++-
+>  include/sound/sdca_hid.h             |  21 +-
+>  include/sound/sdca_interrupts.h      |  19 +-
+>  include/sound/sdca_ump.h             |  50 +++
+>  sound/soc/codecs/rt722-sdca-sdw.c    |   4 +-
+>  sound/soc/sdca/Kconfig               |   8 +
+>  sound/soc/sdca/Makefile              |   4 +-
+>  sound/soc/sdca/sdca_device.c         |  20 ++
+>  sound/soc/sdca/sdca_fdl.c            | 499 +++++++++++++++++++++++++++
+>  sound/soc/sdca/sdca_functions.c      | 212 +++++++++++-
+>  sound/soc/sdca/sdca_hid.c            |  58 +++-
+>  sound/soc/sdca/sdca_interrupts.c     | 271 ++++++++++++---
+>  sound/soc/sdca/sdca_regmap.c         |   9 +-
+>  sound/soc/sdca/sdca_ump.c            | 262 ++++++++++++++
+>  18 files changed, 1573 insertions(+), 107 deletions(-)
+>  create mode 100644 include/sound/sdca_fdl.h
+>  create mode 100644 include/sound/sdca_ump.h
+>  create mode 100644 sound/soc/sdca/sdca_fdl.c
+>  create mode 100644 sound/soc/sdca/sdca_ump.c
+> 
 
