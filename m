@@ -1,155 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945F2D8792;
-	Mon, 27 Oct 2025 12:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1C52580FB;
+	Mon, 27 Oct 2025 13:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761569822; cv=none; b=m1WqNcEgYFGubV3Jt5Enoq01mFVfEq2szRj1uFVCM7PfJhKTzTwfFmKkYWrEeJg5HO8MNfB78u44FwYMcsJYSLn5a4pURd5ckumazRDSafHHebiY1H2KZaQFHMeoNHiW8qkdMHgO7AJJlfb0tVoEzCpxolFXvU9MHgCeTAtcbi0=
+	t=1761570650; cv=none; b=LsK+cgWdtUGecXGuicSS+ThwXZgbkxgYcSQvHxHfZtkZdAB16hNZvQx2pVSh7XwCK0Cj5C0HUPO6pC+n8okPJ7EsLGu3ijnzQy7Y1DIglVVCNWChqh8UpPYxLreUccaGk12D7QTtZz7g8nnVNCJtegTEcuUr8oLxq7RU3XZuLh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761569822; c=relaxed/simple;
-	bh=7WylpHCfl5v2xSL09jxwrG9Ik/L6u+sN2kDjKM+sdbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sPplHthEXJKouMLRFkFj1H0ofXkGUpjNNC/Pzn9TRtlqic38iKEOPf+PzYDJUD9FYWOmQAR5mr0d2YvlWbaETMWNIrk+h6cZnhJncnw+9pWl3JkMTzV5fkFU8xKgNxSyKqgjLCRwHqAwEEg70h3YWa/3tApJlOKc7wygHb3wpcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AytX+UM2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761570650; c=relaxed/simple;
+	bh=f9IEcVfP2kRCqxut50nXsL8UsN+mLFg9FFXWZh9r9Ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Udun/wBOZ9FTxbgjnQleYxRCcaQZZZsixj1s+WqlbaViaYhB9YMBEtJ8XiSuYhFIMfRTU/LuF+rjZSJT80pe6S3/D5csRusvmh1H82vWtjyq3953ig3Z0+fT1evet4e6WiCeCy7Bi+pH32boWWBP0igLt7x0XiEQF7X/UMhDvfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f097X8kx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AytX+UM2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1EFC2BC87;
-	Mon, 27 Oct 2025 12:57:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f097X8kx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C89C4CEF1;
+	Mon, 27 Oct 2025 13:10:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761569822;
-	bh=7WylpHCfl5v2xSL09jxwrG9Ik/L6u+sN2kDjKM+sdbI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AytX+UM2VJpPevBJmVH1Guw+dpV6MPA9jbKvvQQHiS7kw9AfqGTx0FrICPKUZUkXe
-	 6e4CkYRLhzVMvy9sfDOv4HX/uKFcb2Xhp8o3JgnjwFvQbtA0Cw+EzT64dtVckmdoFz
-	 6asLarvlAUHXRrNNH4kghjBNEsz1CdIdiLz9bhFE8+cyEPA3z3C+C9omB/nvfR6C2R
-	 GLLFeU4geEafPxvRycr9XsIIfF6i4j2bCzOclYbNvEb0XEmyTJ6R4py5QrsHBDFZeJ
-	 btAiPlc5igKle+32Ffzt5Se1r0B2XjcnRSvWzPd+xuKic36v1TwvSYeduYk3jdLebl
-	 2Q73IV9Kql5Fw==
-Received: by wens.tw (Postfix, from userid 1000)
-	id C5E7E5FFAB; Mon, 27 Oct 2025 20:56:57 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
+	s=k20201202; t=1761570649;
+	bh=f9IEcVfP2kRCqxut50nXsL8UsN+mLFg9FFXWZh9r9Ac=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f097X8kxQ29rBIOYCXwgi0kQSgxeowPnkNwptbuTFkWy5FIvO+TtOaiMB3B0MSjpY
+	 sjORIp3f0qoAe+JsuojLKEnx6JO+n/Nr1ZOFOufKlh/hEzgFjapssLK65EGCDPx4vo
+	 VHi4eN8IRC8f+9Sn6Ef3m7aKs3wtxMkE/CrrCu2+iLqmjZR3cmYOX0tb9SPDXQDgW7
+	 NPItTTT8vcyYhsn4qqKB8sA+l2khRCMBP0SzIHokzipz6fN/09xyFJIPd9BbCh1+XV
+	 DIP9JNlraKIPn3wI42gEnOq279jGDTGK7/etbVSzdmpjmiazpTWI+8y3Z8Yvm1N5/R
+	 a+fsXXfRX6NdQ==
+Date: Mon, 27 Oct 2025 13:10:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/10] [EXAMPLE] arm64: dts: allwinner: a527-cubie-a5e: Enable I2S and SPDIF output
-Date: Mon, 27 Oct 2025 20:56:51 +0800
-Message-ID: <20251027125655.793277-11-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
-References: <20251027125655.793277-1-wens@kernel.org>
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, kernel@collabora.com,
+	linux-mmc@vger.kernel.org, linux-sound@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 11/21] drivers: don't use GENMASK() in FIELD_PREP_WM16()
+Message-ID: <432db4d2-1f36-4531-b0b3-2a06ae682fd1@sirena.org.uk>
+References: <20251025164023.308884-1-yury.norov@gmail.com>
+ <20251025164023.308884-12-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tcUV2s8VfPxXlH7h"
+Content-Disposition: inline
+In-Reply-To: <20251025164023.308884-12-yury.norov@gmail.com>
+X-Cookie: How do I get HOME?
 
-This is an example change.
 
-The Radxa Cubie A5E exposes I2S2 and SPDIF on the 40-pin header. Enable
-both.
+--tcUV2s8VfPxXlH7h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In this example, I2S2 is connected to adafruit speaker bonnet, which
-sports a pair of MAX98357A for speaker amplication. SPDIF is connected
-to a SPDIF interface card for PCs, which has both coaxial and optical
-outputs. The output was connected via optical cable to a dumb SPDIF to
-analog audio converter.
+On Sat, Oct 25, 2025 at 12:40:10PM -0400, Yury Norov (NVIDIA) wrote:
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- .../dts/allwinner/sun55i-a527-cubie-a5e.dts   | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+> Recently added FIELD_PREP_WM16() in a few places uses GENMASK. It's
+> confusing and may mislead readers. Switch to BITS() or FIRST_BITS()
+> as appropriate.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-index bfdf1728cd14..828d101d28e8 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-@@ -64,6 +64,46 @@ reg_usb_vbus: vbus {
- 		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>;	/* PL8 */
- 		enable-active-high;
- 	};
-+
-+	codec: audio-codec {
-+		compatible = "maxim,max98360a";
-+		#sound-dai-cells = <0>;
-+	};
-+
-+	sound-i2s {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "I2S";
-+		simple-audio-card,format = "left_j";
-+		simple-audio-card,bitclock-master = <&dailink_cpu>;
-+		simple-audio-card,frame-master = <&dailink_cpu>;
-+		simple-audio-card,mclk-fs = <128>;
-+
-+		dailink_cpu: simple-audio-card,cpu {
-+			sound-dai = <&i2s2>;
-+		};
-+
-+		dailink0_master: simple-audio-card,codec {
-+			sound-dai = <&codec>;
-+		};
-+	};
-+
-+	sound-spdif {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "spdif-out";
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&spdif>;
-+		};
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&spdif_out>;
-+		};
-+	};
-+
-+	spdif_out: spdif-out {
-+		#sound-dai-cells = <0>;
-+		compatible = "linux,spdif-dit";
-+	};
- };
- 
- &ehci0 {
-@@ -101,6 +141,12 @@ &gpu {
- 	status = "okay";
- };
- 
-+&i2s2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2s2_pi_pins>;
-+	status = "okay";
-+};
-+
- &mdio0 {
- 	ext_rgmii0_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -344,6 +390,12 @@ &r_pio {
- 	vcc-pm-supply = <&reg_aldo3>;
- };
- 
-+&spdif {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spdif_out_pi_pin>;
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
--- 
-2.47.3
+This doesn't seem to line up with the actual change, you're not altering
+FIELD_PREP_WM16() at all but rather altering things that use it.
 
+As mentioned in submitting-patches.rst when submitting a patch series
+you should supply a cover letter for that patch series which describes
+the overall content of the series.  This helps people understand what
+they are looking at and how things fit together.
+
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_lvds.h             | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c         | 4 ++--
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 4 ++--
+>  drivers/mmc/host/dw_mmc-rockchip.c                   | 4 ++--
+>  drivers/soc/rockchip/grf.c                           | 4 ++--
+>  sound/soc/rockchip/rockchip_i2s_tdm.h                | 2 +-
+>  6 files changed, 10 insertions(+), 10 deletions(-)
+
+It doesn't help to send changes to unrelated subsystems in one patch
+either...
+
+> --- a/sound/soc/rockchip/rockchip_i2s_tdm.h
+> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.h
+> @@ -287,7 +287,7 @@ enum {
+>  #define I2S_TDM_RXCR	(0x0034)
+>  #define I2S_CLKDIV	(0x0038)
+> =20
+> -#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(GENMASK((h), (l)),=
+ (v)))
+> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(BITS((l), (h)), (v=
+)))
+
+This is adjusting the implementation of something that takes in h, l to
+use l, h which if anything seems likely to introduce confusion, and
+definitely feels well into bikeshed territory.  I don't *super* care but
+I'm having a hard time seeing the benefit.
+
+--tcUV2s8VfPxXlH7h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj/b08ACgkQJNaLcl1U
+h9BrOgf/WZesOvGZkIjzC0cgXcITxYU+d0wJLcf0GA0ADyZjEl0v5GWiIXwSKFZ2
+96/4KlYfP+QnWypd7OPgmCe0w8QeJJAea7lmFwnE8sqRkjyYikoRC318PN1ywNB1
+Pyuh/mtAE5cQ+9UzI7j4nKoW3MTx2p2/bulGH1TQs5DyOO9iQK1jeaVwrD3k+ZdI
+mEER+xUO2NH09agCTqrQQONeRG9S0Sfs/PstH4X744VpErUsWyuYu794BxrtC8Un
+U18ljABlmQfvRVjCV9pDq73C4qwAqAlpsW/X+bTBa0JmLo/1n84hOjdI7Fobo6Kw
+cyxDW3840JcPzrlIo2WKdbrXXVH/xw==
+=OWcQ
+-----END PGP SIGNATURE-----
+
+--tcUV2s8VfPxXlH7h--
