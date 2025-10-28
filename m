@@ -1,126 +1,115 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52871BBBE5;
-	Tue, 28 Oct 2025 00:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A889F5227
+	for <linux-sound@vger.kernel.org>; Tue, 28 Oct 2025 01:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761612183; cv=none; b=JI47o/0NmLmNQOXJ4nurLCuK69TCdQVJTvOWUsqIDI1QojVInDrt9X0CzcVyX2GCmTCw619t+frYJ0jlgPKDf2B+o1dcs20XOTpXeltkiT+LhwDyJnz/p9NvOrvSk9DhMdZTsdAQDSij3RoQk3TkUcLN085xVRXd41k9gYJDqCU=
+	t=1761615157; cv=none; b=IrSjCrPtV3+a/YUsTh/buXj0tPRcazaAdkavrYBRnw7DzZObwYV69cEpEUhnVfBnL+jJL7SYk5ISsHkNbxb4Ajh1ZSpnGqKdU2NVfUxIgb61kQ1WFuvb8NCCYkxy9Mj3SjcMlCJ30s+ANeDDtT0eGPWVSUUrFpjR6kx5KsYQvqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761612183; c=relaxed/simple;
-	bh=NpleAUsPv8tyterDaTQdtwZ7noPPJ/SFO2adnNZi/8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RP2LQg1SLNO5d2qdH3vHDFISJDOJ7KcbPilL4OV2S2av/De4vH//dCNM3Sg5aahEP0VH5kBH+30Wi7779UAiBuz+hv56Nt17RrJ75EbQnADh2zVebVYG2QWz0jlpWhBqjk667EmZnkN6/kU7EasXzSMF6QM3MBXEp7ZFY17XXOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=FtGKA5E7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ijBE9gLX; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1761615157; c=relaxed/simple;
+	bh=qOmd380iXlJDWlWR9Xlc5Z0tovU3eJ4ZmmZbJEfhhLs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tQRBGzgABPOlEDVYuK4welrNbZ3n5Ij9kT53xpRv3yZuRRudHlmR35datwoExZyeXMgWZ/ZNzCq0knFFHzjEiYFT0JKAjXDFHOzH9I70CLi/NaWy9tDa6D9XxU7UvxXjFjEzZfvqdlCxxqdWA4RXtIXd0r6i9dL63RF0LkFD0g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=UkkZXy8h; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="FtGKA5E7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ijBE9gLX"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id DC02C140010B;
-	Mon, 27 Oct 2025 20:42:58 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 27 Oct 2025 20:42:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1761612178; x=
-	1761698578; bh=b66zlWBixK0izKr3d/veWV/xQufa7n1aK2ZSQQUrqfc=; b=F
-	tGKA5E7cuYj7NFqCYEJT2cRilNMEuVn92Z/Yq7Lj63XyVkj+NrBPF0hNqB/WLB6W
-	FKSIPBl/4MpBf7+FHgma4bfx/n7U6TGeZIT5cvRAJ5h21yI3d/FkorVpD/QA9BL1
-	7Yy+HmX3fhW8CIjrtq8yepZtZtViSwc3caEDaaSh7lf1mwxd4Mu52oQWJSX8WuWu
-	bcqmpKuGlAXP1iETZcaCgDPO5pKDvuRKebaNdqR3RL0qjARamtDB5gQghoPTqkN0
-	Cwk/9wOZY0JfGnXyAwslA7PL0HPlZhyHTgYuWpIbbOn3ERtXuj+wEx++ozYBIisu
-	EiypnGSQwBE4i37RzMgOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1761612178; x=1761698578; bh=b66zlWBixK0izKr3d/veWV/xQufa7n1aK2Z
-	SQQUrqfc=; b=ijBE9gLXSz6jJpJQ9mRY1d43+YZBneNYpupck+u4R2oAVK2FWu/
-	hh1xKO3PzyR9q0fFw4YafTDfybukutsJk3TGDVC5k+A85aZ3SGH65gn08LPYm9Fx
-	B5KaVkV7ssUdnugshbVB9ljuEAh3NgiqW/bl0FP2KRKxrtCu8+qj0U+MSUF0jtA/
-	rdLhsSJZyPzXsGGiM72J9lZCayJpd2t1/3eNAtM8bcBu4B/msP7fw1jhw9W1vTR/
-	9gnhciG2pCcQoqxql285qbkLCj/nMB36Fg/6MVi+9D9ymF7MOoxwgj6ToyezxI2n
-	MaHFFaQEM8WDbPHA5jMNBZJ6SgK8M0XgA2w==
-X-ME-Sender: <xms:kREAadnZXwOeLjNbXeNPPOsoWn9wVJPDu46l7lbGtwWm7k5-FSSthQ>
-    <xme:kREAaX6y_R1SyYGYtnXFNLDAw-UGRTfE8tdc6-0mCVj4kLxsCv8eSCP6y5p4ZgXmu
-    S9G18-bSPd4TB-JGFUSdy3bVvCNd7dZzjQbuCmD6fCwapKd-CGTFvg>
-X-ME-Received: <xmr:kREAaZ3xFhcpsQ1WzZNgGz0shWUs6aDLjjRV3w_ZwcLnXGr1HiH3GVBeapPuTlu36abp6Beyt_ShcTyFPx6XHhqkMqrvIDa5gz2S>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheelgeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhh
-    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-    eqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeeiieet
-    vdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghr
-    tghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhsthhrohiivg
-    hksehophgvnhhsohhurhgtvgdrtghirhhruhhsrdgtohhmpdhrtghpthhtohepthhifigr
-    ihesshhushgvrdguvgdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtph
-    htthhopegrlhhsrgdquggvvhgvlhesrghlshgrqdhprhhojhgvtghtrdhorhhgpdhrtghp
-    thhtohepphgrthgthhgvshesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomhdprh
-    gtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:kREAaaELfclbnZP2vhwTRYYq4JD70YUS6P3oxnyJkHEq-rcISSEqHw>
-    <xmx:kREAaQgoW6Eu3Rx5wgvjxiDhhU5UpCtPh6QbNyvk_55QxyJnq1n3OQ>
-    <xmx:kREAaVA531EsupR1fKS2GuuzwNWWQ6xnTL6yM8mfe7GdCKGTQ3oQcg>
-    <xmx:kREAaaSXDCK5GtaaFu-UUdN6XhnZb37MzeEVGnItOwNjHdf9WwiHkA>
-    <xmx:khEAaZ_DJlb-vWJWYikgArjlHmvu_9L8ntLeg3uat_c4nMGcDZ0rTsIK>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Oct 2025 20:42:55 -0400 (EDT)
-Date: Tue, 28 Oct 2025 09:42:52 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: sound: Increase max size of components field
-Message-ID: <20251028004252.GA553484@workstation.local>
-Mail-Followup-To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251023092754.84095-1-mstrozek@opensource.cirrus.com>
- <318f2ed3-57e6-495c-a773-4a094a3784cb@perex.cz>
- <87ikg03ecf.wl-tiwai@suse.de>
- <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="UkkZXy8h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1761615149;
+	bh=JV2sw478GwgVmAvh9ZYNj7weQN2ACESG19aqgi3tUF0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To;
+	b=UkkZXy8hXVM6qvkcnLOn2Icp8OOgFIoGrJSPUrSU9lWDatdZUCBh/AMPdiIUkE/VW
+	 AYkd523+7u61iDV+tx/ZZcQSE6+NmvteaXI2W3tBBqP8KWBd02X/6ULb1Ljy0C3bx5
+	 E4VkkgsMGQ+sxybdXqOt66TLKobVJ9AXUYK/MHQs=
+X-QQ-mid: esmtpgz12t1761615147ta74469fb
+X-QQ-Originating-IP: 8wCQ6xC5UakYb8SmmwWGhNtmwz8bc9zXXh/aSm36HwU=
+Received: from = ( [183.48.246.218])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 28 Oct 2025 09:32:25 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 9672489745579195001
+EX-QQ-RecipientCnt: 13
+From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Subject: [PATCH v2 0/2] ASoC: spacemit: fix build warning and error
+Date: Tue, 28 Oct 2025 09:32:08 +0800
+Message-Id: <20251028-fix-k1-i2s-v2-0-a547c15ed5c3@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABgdAGkC/02MywqDMBBFf0Vm3REzGl+r/kfpIsRJHdqoJFYE8
+ d8bupK7OlzOOSByEI7QZwcE3iTKPCWgWwZ2NNOLUYbEQAVpVVCLTnZ8KxSKWJIuqald23Q1JGE
+ JnN5/7PFM7MLscR0Dm2uiuiYGI+jZ46YwTTvtFFvqKnP/yPTd87gYy17W3M4ezvMHD08po68AA
+ AA=
+X-Change-ID: 20251028-fix-k1-i2s-3253276f8796
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Yixun Lan <dlan@gentoo.org>, Jinmei Wei <weijinmei@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761615145; l=983;
+ i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
+ bh=qOmd380iXlJDWlWR9Xlc5Z0tovU3eJ4ZmmZbJEfhhLs=;
+ b=9G3DYpc2xt8cUtQdYiNu+NtFBEk+OlPqTrDLNxrZ3ciGpOv7smxp+5koz2bO0eHJpkmLFgtHp
+ xHqPLE03bt1CT18jTzuBBLkaIamdcgfTR+wtiGPtwQentODahg8K++b
+X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
+ pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MCk7GSmjSGXyko7IypzIlZB/rFxSff8Sy1xHi3TJ+KhEWginf3yF90sg
+	rl3EsxGER7MNdeXXTLpMGknnEvgFEWsIdauMIVcNrAzNZ2NPjdFj46Z2YAKEk1PlV2mI3XF
+	IBsP7SikAzvj8k83decgfzeZNxTlRbj0hWi3AS3TJpgsBME8GfHS7+6/MuYEpsIyhI+jzsb
+	1OK05Sf0FIcNMYOWB2tzvwbOPO/1AcrTLFXEIbg1hi4Af43HV2RLjv/k94+bi/HZRfnd7Kn
+	PhtJj8WFu1PeXVnfuFgvrueE0ZWiOqs3YMcrktGW526Mr/7GzxqdncjFeKxTy4e8u23CpFp
+	98e165sLZ6aw8ABlAyK32m897usYcnje2ujSAzBo8khswY+IU26lCXVrhJ5WbV5rZgTbfPt
+	VC2fiuOK1QQzoMcnxNgmdl4J9tTMMtJbs1cgsh2SVd5+CXywEKrxiXem+vmIMAW62q7bGQ4
+	ZxTtcumbzJyVyD3YD5JQmSTIsjEhCY6rfCqp1bOzgNHiN7seBXZGi4lecYOyuxjyYgZiePi
+	aa5c56R2FSlQWiLXLzTJD3EyH4r1pIw45+oX2LVoTBCTR/frBXq90oVCKZzPKF1iXFj77ju
+	a6xopIzyh4zQiEGDVaLDIdOz7+LP22kF7xLD4B2d3jO2Ip+9NRqNQLNk0Jnebuq7ulkIaah
+	FeAiMwYD6fmf7MPiQy46cZg9qK5OoW3ZFDavFPI+KoR5T7QGfC5AdIDrrxT+4hgVJEOBU69
+	BLFDCFEUjiPsdoJngX9J3r/mvQmIyRjygPdooi+RCjUJ7nyYR5pM4swYuDpNvob3R5HK1pp
+	T0+9lWxNzzhG1dhWz/QnCiMYaxSHj04QkqQcH+nXxvSrFJgOec6XMMP+HeU/bBv5JjJdMmz
+	TKNIifSMR0S2cHMQhHk9y/Kz/dufMVgyNDfiTcSh0UJPkasOSuGWsJDVgtVbkd0rZZQnaUj
+	x/0F4qDtNgcJy6/6wwPs0LwBzKwLRWaHewS8oz+FiLKe0CycYegEwMOnlkg8QMNbpaExmF3
+	nEXqaJS5GFNA4cmBFQbxPNjq1j/SoW/5ZtfeZ4MzGPbCoaKgaVAcEPGryY3qtns2cvr7pDu
+	A//qwbHugdWhxwiiQ0aTG4dKg6jPs5CBV1yjLlnNP3DAWTa4juMqa/BCBQECatMPA==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-Hi,
+After the i2s patch for K1 was merged, two issues were identified:
+- Missing error handling for the init_dai() function [1],
+  which is required since the function allocates memory internally.
+- The Kconfig entry ignored the dependency chain of DMA_CMA [2].
 
-On Mon, Oct 27, 2025 at 11:50:32AM +0000, Maciej Strozek wrote:
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index c302698fb685..7d53f6da59e2 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -1069,7 +1069,12 @@ struct snd_ctl_card_info {
->         unsigned char longname[80];
->         unsigned char reserved_[16];
->         unsigned char mixername[80];
-> -       unsigned char components[256];
-> +       unsigned char components[128];
-> +};
+This series fixes both issues.
 
-Any approach to change the result of 'sizeof(struct snd_ctl_card_info)'
-breaks ABI to userspace application. This is the reason that Jaroslav
-addresses to the new PCM ioctl command. Unless, the userspace
-application build with the UAPI header provided by the existing version
-of Linux kernel does not work as expected in your version of Linux
-kernel, in respect to the sound subsystem.
+Link: https://lore.kernel.org/all/aPtiNCZ_KBezL2Dr@stanley.mountain/#t [1]
+Link: https://lore.kernel.org/all/20251022141705.714b19b5@canb.auug.org.au/ [2]
 
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+---
+Troy Mitchell (2):
+      ASoC: spacemit: add failure check for spacemit_i2s_init_dai()
+      ASoC: spacemit: use `depends on` instead of `select`
 
-Regards
+ sound/soc/spacemit/Kconfig  | 3 +--
+ sound/soc/spacemit/k1_i2s.c | 4 +++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 507d05188939fd47c9a11c3ab647f7db1bbef58c
+change-id: 20251028-fix-k1-i2s-3253276f8796
 
-Takashi Sakamoto
+Best regards,
+-- 
+Troy Mitchell <troy.mitchell@linux.spacemit.com>
+
