@@ -1,120 +1,123 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E8D23DEB6;
-	Tue, 28 Oct 2025 01:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F40F261B62;
+	Tue, 28 Oct 2025 03:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761615283; cv=none; b=fFzLsIwjEDOcm7NLUgFqyJiuwbRF7Bat6FqCq2/C/wluDKAVn3AB9thQL0MchbhAd0yQm5caPUOlSFp53ROe2f5mr4Fkk06+qM/73lU8KxZvA0BHq27Wwp+6zRBRs7lCzpSGxm97Qp5JvatlmSXdp9Vqe0iNxU3oYQBTKmNZ+6c=
+	t=1761620802; cv=none; b=aOgaHlbClfW/6+ezD4gG7aXYqJ7k2+OcOFoCOqZUsuVICDMG6uIaPJEuJrp/khJSZQZeqyLtH5rknhuuWaWNXhAeEoanANvXbwBz8sweHn3gPWmGDVfjGmVWiryA/sO1+B/Wy/apFTD0CMp9e9Xbt4Wg/JLJavyP2J0eEtAsKkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761615283; c=relaxed/simple;
-	bh=+67PEqmzb/LxXS8vH/GQ0qhgTnbL8aAKvZ6J79lPqxw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EeRqO+PuzudSYT05Uh8HlcCqiI+Wa4FARdw/Vv8EFEnDykQ/i3dfvtN0ut33wBfxNZGSef64OhrL8q7hEnvrkLmxAkal5he0uSvjJMXGJ2ctYybRbw4URMPF1LoXdChbAct3q9Tg4KuacldSU8IXhsu1xNolKSLodsSWknb4h80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=WHzyoKco; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="WHzyoKco"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1761615157;
-	bh=wSCQMvjLrBLNf5FX7IDdcyBql0gKoQDnL87jngKGghM=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=WHzyoKcoOAdw2sUwGqw9ugfAe5PyEMcMmz8/mBza/b/g5j88TI9bH3tlXHz8MFZ3H
-	 w8tCPCunRiHD0aCw+NlNXN/OXRt8IXjQZGKt6AbHAhEjp4WCdS2sGOBnBlkR0eTcGR
-	 K5YZCmDPCEB1eGm5nId2HSUss4/P7Sd4rbQhD4Ho=
-X-QQ-mid: zesmtpgz5t1761615155te7b3f33f
-X-QQ-Originating-IP: zYhKlthU7CIU0Jej9Zs4hktewHtXVQCI+5u9h2T/gg0=
-Received: from = ( [183.48.246.218])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 28 Oct 2025 09:32:33 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16365730684758387002
-EX-QQ-RecipientCnt: 12
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Tue, 28 Oct 2025 09:32:10 +0800
-Subject: [PATCH v2 2/2] ASoC: spacemit: use `depends on` instead of
- `select`
+	s=arc-20240116; t=1761620802; c=relaxed/simple;
+	bh=xi+ep9AqfcitjP965lSyZpmqI/csG2eRmyCGJx4QXNc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=j87yH9qOTZ7Ha8SPo8yCoZq/X3T3HNElvb9VPlStgV3JwvJSqyqSYRAx38GLV9WlIYXf5X5TAzsmAfFA9M3EAZ4/YUK/K2Ugs1SZN+JXuqgtzlf1Pii/z/VblswJ+R4nuuqe76XfwYsgDM9BOVa2cymo+FdS7Ss9aGJLrAcyP1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-03 (Coremail) with SMTP id rQCowAB3_GAtMwBpwRTYAw--.17941S2;
+	Tue, 28 Oct 2025 11:06:23 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH v2] pinctrl: cirrus: Fix fwnode leak in cs42l43_pin_probe()
+Date: Tue, 28 Oct 2025 11:05:09 +0800
+Message-ID: <20251028030509.835-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20250929031031.2230-1-vulab@iscas.ac.cn>
+References: <20250929031031.2230-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251028-fix-k1-i2s-v2-2-a547c15ed5c3@linux.spacemit.com>
-References: <20251028-fix-k1-i2s-v2-0-a547c15ed5c3@linux.spacemit.com>
-In-Reply-To: <20251028-fix-k1-i2s-v2-0-a547c15ed5c3@linux.spacemit.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Yixun Lan <dlan@gentoo.org>, Jinmei Wei <weijinmei@linux.spacemit.com>
-Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761615145; l=1132;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=+67PEqmzb/LxXS8vH/GQ0qhgTnbL8aAKvZ6J79lPqxw=;
- b=VOWimUOVSwFKWgSLTrUiIufRFt0iUVPmpDwW51/t5wGbzbSxDMEhrsR3Uq7MBL9TRUUXOOcca
- Isi0Vcpdw0lD96nhYSnuNG6Jh6DoHxU7YdQ9AeJ4OZgIlYY1Vjc0Ycz
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OKX6byuwCvg7cP3ud8MQUPeHZXSvWhUS1PFKuyXueDozw9veylqBV9rZ
-	7wHdaJ7xkpe5dcdD+ODDTr/wwk7HtWLp6RTPWI6z0EFPAhLapqlRJkBmV/E71t2ttSDM/Hh
-	2RyJ4ZiFFFczJQIRrV5dfn/7SvtnZ6tgVJTRYrtdpUB/36XrTu0+Um5s4WK4yfPTsGeq5YO
-	FCiD96s5HD883w0T/BlnX5spptZQd8W7V33AE3MDceRoWKMoH5UvDlAxJgDIJBrZj13Zd+G
-	dOZjjteK2qkmdplNBz6Lc1KD1VtVGwEFtZzUA54KhxYCp6LqNob1vJAv/QsTWIV25s1F7h2
-	Jj7uhJg3Foj/m1mqnz6MQV8J0krFkJQepO/xXX0NstQXDvpA8uIiO5lAiO6/foVs2DphCM/
-	c/oWueqb8n7vGJizL97xZUW+ZrbdcP9owUewfivmI5UeWTkr7UNHfjqwKEpz5HZqjbBXsPN
-	K63jMAarZg8Ibu50V1cl1QukT65NSlmWlZFobp2PiI8c1Iu3lcQZiFf1qtZfOJH9J4UKXmD
-	Ai2W44gWrJ+M933o9kc862epRJUEtli/XEDc3ZI2Z/de+CQUZn9wYPCqlv85fh6H+pLI+N+
-	d8o24Sgd7hsQNnvq9Pe9UCJfFWPtKb8m+wFPTQmIwdrk8Bzc7aC45oEbj8cZcW2IiY6WT4v
-	AQ+xj5nPcAzsz1CTPWnyBGWYEWipgEt9AniJfQrxphUcRx7GkCXvRm6MW4S5EBIBpzw2M69
-	SXNPIjecQzFMz8EVDc1q7+TyMOzJnWfQlTXCxtD5eHQsqJEY1gI8UbQ8x37I/H9Qj7bUlbr
-	OkPVbDetqIVHIH8GjAx1iAsBIIIqwbhmqv3y0CNCH/OOm8z7M/bx9O+SXP40Bszsk7eUkO3
-	S/K0ZLJ0U1G3qbfAs/M2hBUPZQcIn4jwTKIPmQhtsefahgregrqKc8LXG0VtgTjjinnNiQC
-	xfLSU/pPgruiYOBNyhaEhH8+dWTNEHdSTbvm1wDz9bDCdmquNjQwVQAr11DhV0LE/kBc3SO
-	X+VCPyhX90lJk0VpsbRWfAKP2qnt0PS3RTPDVATXA7y6wEFfRpp0cO7PUC621VYTurjVnXn
-	vLjeUrvRCp8hCM+vk3pmfmzv8SbhLQn4qnu/gucFk2GAI9QgrlWIUJi+4Zty3vcmUccPEN6
-	NXwj
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAB3_GAtMwBpwRTYAw--.17941S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrW3Kw4rCrW3WFW7KrykKrg_yoW8Zw1rpr
+	W3WrWayr4DJr47Gas8t3y5ZFW3C3WIqFWxGayIka47urZ8tF9rJr1UK3ZIqFZ8GrZ5CF45
+	tF45ta4kWF4DAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AK
+	xVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+	AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbGQ6J
+	UUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgsJA2kAKDQxDQAAsO
 
-Selecting DMA_CMA directly bypasses its dependency chain.
-This can cause build warnings or errors if the required
-dependencies are not enabled.
+The driver calls fwnode_get_named_child_node() which takes a reference
+on the child node, but never releases it, which causes a reference leak.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/all/20251022141705.714b19b5@canb.auug.org.au/
-Fixes: fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Fix by using devm_add_action_or_reset() to automatically release the
+reference when the device is removed.
+
+Fixes: d5282a539297 ("pinctrl: cs42l43: Add support for the cs42l43")
+Suggested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 ---
-Changelog in v2:
-- this patch is introduced in v2
+Changes in v2:
+  - Use devm_add_action_or_reset() instead of manual put in success path
+    to properly manage fwnode lifetime throughout device lifecycle
+    (suggested by Charles Keepax)
 ---
- sound/soc/spacemit/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/spacemit/Kconfig b/sound/soc/spacemit/Kconfig
-index 2179f94f3f179c54cd06e6ced5523ed3f5225cf4..e11f600a327f58681ce46df6e0e7a70f5f1d1234 100644
---- a/sound/soc/spacemit/Kconfig
-+++ b/sound/soc/spacemit/Kconfig
-@@ -6,8 +6,7 @@ menu "SpacemiT"
- config SND_SOC_K1_I2S
- 	tristate "K1 I2S Device Driver"
- 	select SND_SOC_GENERIC_DMAENGINE_PCM
--	select CMA
--	select DMA_CMA
-+	depends on DMA_CMA
- 	help
- 	  Say Y or M if you want to add support for I2S driver for
- 	  K1 I2S controller. The device supports up to maximum of
-
+diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+index 68abb6d6cecd..a8f82104a384 100644
+--- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
++++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+@@ -532,6 +532,11 @@ static int cs42l43_gpio_add_pin_ranges(struct gpio_chip *chip)
+ 	return ret;
+ }
+ 
++static void cs42l43_fwnode_put(void *data)
++{
++	fwnode_handle_put(data);
++}
++
+ static int cs42l43_pin_probe(struct platform_device *pdev)
+ {
+ 	struct cs42l43 *cs42l43 = dev_get_drvdata(pdev->dev.parent);
+@@ -563,10 +568,20 @@ static int cs42l43_pin_probe(struct platform_device *pdev)
+ 	priv->gpio_chip.ngpio = CS42L43_NUM_GPIOS;
+ 
+ 	if (is_of_node(fwnode)) {
+-		fwnode = fwnode_get_named_child_node(fwnode, "pinctrl");
+-
+-		if (fwnode && !fwnode->dev)
+-			fwnode->dev = priv->dev;
++		struct fwnode_handle *child;
++
++		child = fwnode_get_named_child_node(fwnode, "pinctrl");
++		if (child) {
++			ret = devm_add_action_or_reset(&pdev->dev,
++				cs42l43_fwnode_put, child);
++			if (ret) {
++				fwnode_handle_put(child);
++				return ret;
++			}
++			if (!child->dev)
++				child->dev = priv->dev;
++			fwnode = child;
++		}
+ 	}
+ 
+ 	priv->gpio_chip.fwnode = fwnode;
 -- 
-2.51.1
+2.50.1.windows.1
 
