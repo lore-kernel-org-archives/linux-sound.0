@@ -1,93 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14371263889;
-	Tue, 28 Oct 2025 11:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569A51BC41;
+	Tue, 28 Oct 2025 11:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761650246; cv=none; b=mcSuPaHMEyv12Po6paXb6VvMuvX6RyoJRGyI5EF7Zv65rCt3tyk5DhpU6/aE6RYUfqyX2IlaSTGVvV6tKgtZw32Jbd65WymZWUlL3x7NqzUu2RIkx83MM1wgLZBIyG6VnLbgDNE/ZneKEnEIXM9NdyYnGaN81ec+wHJL/vjwpLg=
+	t=1761651600; cv=none; b=PtCS8WTdXmgS/CIvWdaqcXLwuaIUF4y9wMdTEuDlOWR4rA3KYmyd1xoXjHyOT9ATzdN9rEskCSgyhCIPgh5o4RTNRmbD/QCNvSnVDZk02m/40Ay8sBeLWXZw2siXkfIh+gpKsIpKLEHQ0vdbZphtyyDlW/52wwunZQE7WmpE6x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761650246; c=relaxed/simple;
-	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jHBGouf382MWGWpyPkWeJn95OOceQQEdeWI1A4aIjRimE/w6BdKnzVHZdw5TB/ucnnh/VtSDDiYpeggh2txPqNOb4lSyMM+nACzuct0HG2SC4cSwLdzkOamU9ivbPTGc5HIBbPSV3xFjx5Zwd4jWJWg9dsdTSVL8TLUCtJsdJOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5H4tEaX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761651600; c=relaxed/simple;
+	bh=XVFx8SJbdZrM/48CxwReR4w+sE1ZL93VFdW81KWJopo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=NOMXObQgh2+jltfO8wp/JPoa7fVALAw/9AA/cev9bu32W2N6w0X02hhS0pzGCpQrhbsM2s32+SCfAvjG3wAG9kn4bh6casZ6I4F1jwvQFJSdDqF+VMXrQ7pzoJ45SEQswj5sTjixVEMwc1TubzqZKaXYfsKB7rMG2QadySSFl74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=NfyzdffH; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5H4tEaX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0770CC4CEE7;
-	Tue, 28 Oct 2025 11:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761650245;
-	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=d5H4tEaXQrvd+/Y4j0wURACpp3nMe07KwZk54dIDeBcKWhE9HWhZmzNo0PnK1+EiS
-	 hJcoXhuEu82RkY/LBYlmU6CGVCqa0OjIfsBNFJSSSpj/Gonx9nez5zk4hXGjKbpC6L
-	 5Fm3tFWuQVn45OPd5/UMeMW4e9BaOWwxTz98sf3qSLwE7zhm+dYBlKRDR8iecHmVkl
-	 NR12rU7DJf1NtZH2nCXox5iYdaghUfvlIECuRZYtrZD/f+c72WoyEElvG+TRONEFNK
-	 tpFFjc+KLOgZqLUozAf6jAd+c96poOIZ1JGicC6va+F9bfDxq5F29h8gwjKs/RzEuk
-	 77OL8NEAvglfQ==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
-References: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] ASoC: renesas: fsi: Constify struct fsi_stream_handler
-Message-Id: <176165024378.34272.12649082972979023920.b4-ty@kernel.org>
-Date: Tue, 28 Oct 2025 11:17:23 +0000
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="NfyzdffH"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 6F7D538C38;
+	Tue, 28 Oct 2025 12:39:47 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 6F7D538C38
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1761651587; bh=PS3nwoVEr99X0Be/ELVpdNni95tGHNA/TGoMqBq23cY=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=NfyzdffHf8xlnFkMcCL3sMT7QIu7PcSGlWoMcbi4pCCllYnRcAhQrIM221PCQkDOs
+	 FydawLfzWDj7cX7KvIwLfbAjaGHgIr6x+CgpTV3vojVT8H2+2gHXer8ryIF9NoAY23
+	 jBipAIAMHmWCpQhofbGhhCIxr7lzUFmuKo2q1aEk=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 28 Oct 2025 12:39:40 +0100 (CET)
+Message-ID: <9b05914d-34f0-4149-b715-b4af6bba6701@perex.cz>
+Date: Tue, 28 Oct 2025 12:39:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: sound: Increase max size of components field
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.de>
+References: <20251023092754.84095-1-mstrozek@opensource.cirrus.com>
+ <318f2ed3-57e6-495c-a773-4a094a3784cb@perex.cz> <87ikg03ecf.wl-tiwai@suse.de>
+ <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+Cc: ALSA development <alsa-devel@alsa-project.org>,
+ patches@opensource.cirrus.com,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kernel development <linux-kernel@vger.kernel.org>
+In-Reply-To: <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 26 Oct 2025 20:43:36 +0100, Christophe JAILLET wrote:
-> 'struct fsi_stream_handler' is not modified in this driver.
+On 10/27/25 12:50, Maciej Strozek wrote:
+> W dniu pon, 27.10.2025 o godzinie 10∶04 +0100, użytkownik Takashi Iwai
+> napisał:
+>> On Thu, 23 Oct 2025 13:56:26 +0200,
+>> Jaroslav Kysela wrote:
+>>>
+>>> Or, we may introduce a separate ioctl for the components string.
+>>> The
+>>> stripped components string in struct snd_ctl_card_info may have a
+>>> special ASCII mark like '>' at the end of string specifying the
+>>> availability of the complete string through another ioctl. I would
+>>> prefer this solution.
+>>>
+>>> Also, the components string may be dynamic in the kernel structure
+>>> (pointer) to save some space. 256 bytes is not small number.
+>>
+>> As Jaroslav suggested, we need a different solution to keep the
+>> compatibility.
+>>
+>> My gut feeling is for the option to provide a new ioctl as it can be
+>> most straightforward, but we can discuss further which is the good
+>> choice.
+>>
 > 
-> Constifying this structure moves some data to a read-only section, so
-> increases overall security, especially when the structure holds some
-> function pointers.
+> Thank you for the advice! Not sure if I understand Jaroslav's new ioctl
+> approach properly, can you have a look at the quick draft below and say
+> if this is (more or less) what you would expect? If it is OK then I
+> will prepare a proper V2 patch here with a corresponding change for
+> alsa-lib repo too.
 > 
-> On a x86_64, with allmodconfig:
-> Before:
-> ======
->    text	   data	    bss	    dec	    hex	filename
->   51837	  12312	     64	  64213	   fad5	sound/soc/renesas/fsi.o
 > 
-> [...]
+> diff --git a/include/sound/core.h b/include/sound/core.h
+> index 0eb2e3ee0dd5..c4e52fb1704b 100644
+> --- a/include/sound/core.h
+> +++ b/include/sound/core.h
+> @@ -88,7 +88,9 @@ struct snd_card {
+>          char irq_descr[32];             /* Interrupt description */
+>          char mixername[80];             /* mixer name */
+>          char components[256];           /* card components delimited
+> with
+> -                                                               space
+> */
+> +                                                       space */
+> +       char *components_pointer;       /* full components string */
 
-Applied to
+Keep only this, remove the array and don't use the length member (null 
+terminated string).
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> +       size_t components_pointer_len;  /* length of full components
+> string */
+>          struct module *module;          /* top-level module */
+>   
+>          void *private_data;             /* private data for soundcard
+> */
+> @@ -297,6 +299,7 @@ int snd_card_info_init(void);
+>   int snd_card_add_dev_attr(struct snd_card *card,
+>                            const struct attribute_group *group);
+>   int snd_component_add(struct snd_card *card, const char *component);
+> +int snd_card_add_components(struct snd_card *card, const char
+> *component);
+>   int snd_card_file_add(struct snd_card *card, struct file *file);
+>   int snd_card_file_remove(struct snd_card *card, struct file *file);
+>   
+> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+> index c302698fb685..7d53f6da59e2 100644
+> --- a/include/uapi/sound/asound.h
+> +++ b/include/uapi/sound/asound.h
 
-Thanks!
+...
 
-[1/1] ASoC: renesas: fsi: Constify struct fsi_stream_handler
-      commit: d29479abaded34b2b1dab2e17efe96a65eba3d61
+> +struct snd_ctl_card_components {
+> +       int len;
+> +       unsigned char *components;
+>   };
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Use array here. It makes things simpler. Perhaps, we can use 512 bytes / 
+characters here to avoid future problems.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>   int snd_component_add(struct snd_card *card, const char *component)
+>   {
+>          char *ptr;
+>          int len = strlen(component);
+> +       int new_len;
+> +       char *buffer;
+>   
+>          ptr = strstr(card->components, component);
+>          if (ptr != NULL) {
+> @@ -1035,8 +1040,28 @@ int snd_component_add(struct snd_card *card,
+> const char *component)
+>                          return 1;
+>          }
+>          if (strlen(card->components) + 1 + len + 1 > sizeof(card-
+>> components)) {
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I don't think that it's the right place to do the striping here. Just keep the 
+full string in snd_card structure and handle the split/trim in 
+snd_ctl_card_info().
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+The new ioctl should return the full components string.
 
-Thanks,
-Mark
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
