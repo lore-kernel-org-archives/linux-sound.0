@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6E12BDC34
-	for <linux-sound@vger.kernel.org>; Tue, 28 Oct 2025 11:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14371263889;
+	Tue, 28 Oct 2025 11:17:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761650244; cv=none; b=efqYBgX9X2lh3x1u6BzApnbjluUdt1TEhb8ruBbg5NJqacnHHb+TycbmJDSJ/NodCJxT0+glF7IC9bNwb1OmIpGuVm1UWUlc+07DrqQ/7gTf8wMoXAH2G/SChn7PU4PtcDD43fElvs24iX7LTeBwhjGz63zHgtGPYGoCxGR7c30=
+	t=1761650246; cv=none; b=mcSuPaHMEyv12Po6paXb6VvMuvX6RyoJRGyI5EF7Zv65rCt3tyk5DhpU6/aE6RYUfqyX2IlaSTGVvV6tKgtZw32Jbd65WymZWUlL3x7NqzUu2RIkx83MM1wgLZBIyG6VnLbgDNE/ZneKEnEIXM9NdyYnGaN81ec+wHJL/vjwpLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761650244; c=relaxed/simple;
-	bh=jLa2rDKRdYuHJ+bnPB8aSzbeYQkHl3ap0yM+hEdzSeI=;
+	s=arc-20240116; t=1761650246; c=relaxed/simple;
+	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OcKWE87meAj5UAi/tnnyLqeglSOdkEVX8ldURodaoQld1j3YuAmMWZMtYrrIQi6Vl2CJCmILTo2beRUltm4tB/rawrEi9HGUlP4gxG8ruD0aVZR9AB3uGDSILMx6Xw7UVkXIrccMMUE/3/RcC9Z1djMda/M5Vg0Axy8iiYmVEBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwV8WESn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=jHBGouf382MWGWpyPkWeJn95OOceQQEdeWI1A4aIjRimE/w6BdKnzVHZdw5TB/ucnnh/VtSDDiYpeggh2txPqNOb4lSyMM+nACzuct0HG2SC4cSwLdzkOamU9ivbPTGc5HIBbPSV3xFjx5Zwd4jWJWg9dsdTSVL8TLUCtJsdJOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5H4tEaX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwV8WESn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED863C116B1;
-	Tue, 28 Oct 2025 11:17:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5H4tEaX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0770CC4CEE7;
+	Tue, 28 Oct 2025 11:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761650243;
-	bh=jLa2rDKRdYuHJ+bnPB8aSzbeYQkHl3ap0yM+hEdzSeI=;
+	s=k20201202; t=1761650245;
+	bh=KFHmoskfEoZUtq2ZnSkL6BqQjR0sDUKkeQJSEpcbWG4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JwV8WESn/+B/azfhGjtlrvMLnEs7i07As1jBGhVplyWsRWagPUtRy3QJVum4w865k
-	 FBdl+Is0B7k1pmuw/rkihehRBDH4uxzJiPx95tyYJlQFMM5QaV/bBacjpsDBsYYjfG
-	 BCIBevRnD/Rt28lhnPuwsk/IinHkJ//+gIBSViJzn6v6Tz8b5uhKlv3K+ypSr/PfJt
-	 7Xf3H8TfWYeJFypMnn+I7TNcY5iQ3weT7+B8+6LFMKjhnDjv0FJLbyrQVXvHMflKhE
-	 DpTufLd6RV+VOWJtaAN7SkGf27JnP00SIcR8pcqO8h/bnVUGrSpNJp8ZFGQR6vbsK6
-	 Mtxdhj/QmMvpA==
+	b=d5H4tEaXQrvd+/Y4j0wURACpp3nMe07KwZk54dIDeBcKWhE9HWhZmzNo0PnK1+EiS
+	 hJcoXhuEu82RkY/LBYlmU6CGVCqa0OjIfsBNFJSSSpj/Gonx9nez5zk4hXGjKbpC6L
+	 5Fm3tFWuQVn45OPd5/UMeMW4e9BaOWwxTz98sf3qSLwE7zhm+dYBlKRDR8iecHmVkl
+	 NR12rU7DJf1NtZH2nCXox5iYdaghUfvlIECuRZYtrZD/f+c72WoyEElvG+TRONEFNK
+	 tpFFjc+KLOgZqLUozAf6jAd+c96poOIZ1JGicC6va+F9bfDxq5F29h8gwjKs/RzEuk
+	 77OL8NEAvglfQ==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
- Vijendar.Mukunda@amd.com
-In-Reply-To: <20251027103333.38353-1-shumingf@realtek.com>
-References: <20251027103333.38353-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: rt721: fix prepare clock stop failed
-Message-Id: <176165024171.34272.5250868958229309021.b4-ty@kernel.org>
-Date: Tue, 28 Oct 2025 11:17:21 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+In-Reply-To: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
+References: <88ca34df9006b74a7596b91714e700bcff666c4b.1761507792.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] ASoC: renesas: fsi: Constify struct fsi_stream_handler
+Message-Id: <176165024378.34272.12649082972979023920.b4-ty@kernel.org>
+Date: Tue, 28 Oct 2025 11:17:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,10 +48,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Mon, 27 Oct 2025 18:33:33 +0800, shumingf@realtek.com wrote:
-> This patch adds settings to prevent the 'prepare clock stop failed' error.
+On Sun, 26 Oct 2025 20:43:36 +0100, Christophe JAILLET wrote:
+> 'struct fsi_stream_handler' is not modified in this driver.
 > 
+> Constifying this structure moves some data to a read-only section, so
+> increases overall security, especially when the structure holds some
+> function pointers.
 > 
+> On a x86_64, with allmodconfig:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>   51837	  12312	     64	  64213	   fad5	sound/soc/renesas/fsi.o
+> 
+> [...]
 
 Applied to
 
@@ -57,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt721: fix prepare clock stop failed
-      commit: d914ec6f07548f7c13a231a4f526e043e736e82e
+[1/1] ASoC: renesas: fsi: Constify struct fsi_stream_handler
+      commit: d29479abaded34b2b1dab2e17efe96a65eba3d61
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
