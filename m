@@ -1,29 +1,28 @@
-Received: from out198-23.us.a.mail.aliyun.com (out198-23.us.a.mail.aliyun.com [47.90.198.23])
+Received: from out198-9.us.a.mail.aliyun.com (out198-9.us.a.mail.aliyun.com [47.90.198.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D85932BF5B;
-	Tue, 28 Oct 2025 12:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0261032D7DA;
+	Tue, 28 Oct 2025 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761654870; cv=none; b=WsDbfjreTwqtJTtXCQCoySLNvucY+tHUbTbF98PEqZUIFgivlj38ggi8QGoGBVgtEA7c6h/DUsyX7r48F8kNhTTTKPX+xNBfOvBtBwXfMAqSA74+C0cduotXUSabta51Bfr47CsiKvEx4k+913kIOkb5zlyhPTdKegygP/2GNeE=
+	t=1761655180; cv=none; b=d5BomGDJfmMIbN6FI704PacYLdx9aZ5Hmespgu5AZQffO99Mq684U3pUNdz2b5psK5GZu6EZ9Zu4SB1IPku7s4r52crXP/Ly+J7uaMTDMX06JEZ14bFHXPoFtP2fP8vY0qC313kd3g4PV326uldll8Jk1yJM4pmfsYQPafGg8Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761654870; c=relaxed/simple;
-	bh=VuEnwqvbtyp9zrV7y7H0RaWhWmEyxk+VDj79aU/8KpY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A0y4tnrxOLIwUMItEcBTxwc5gwKL5J0SE087AqP9RrHSh0kyVKRGjMI38S0LxwbRiok4A8EXmMS2TrRJowmBrDvw5r3ufxaxy/Ru5hJcqmttN6VtNbk0J7E7ahh8MNF4bgTFdJRvFa2Kemf8rPm7FMXdml7u2U96XCG5VjRFALM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b=cnR8TMPm; arc=none smtp.client-ip=47.90.198.23
+	s=arc-20240116; t=1761655180; c=relaxed/simple;
+	bh=tIBFUfB6QlsKoLYSLzx7JqIy3Ba4v25jwlLLmDYWlmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b8Vpv1EwT51qb/0WBpzMW/BbbAxrXoVmfQxBpLd1tyID/KVk0p+8I/h3sUty3tUQ/bQNe8ZJwAFQewgmllPXCI5Vh6wPNoF+P8BA9yqFfzfemh9vuhNvbSlgyUN9LWYBxWI4c1+YMXyzA3HEMvNWWoJtobs7n9vOGJBAz3ose3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b=VNx6oLH0; arc=none smtp.client-ip=47.90.198.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b="cnR8TMPm"
+	dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b="VNx6oLH0"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=awinic.com; s=default;
-	t=1761654849; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=yTaZ9WKK6+Wog8z8pdZcMi56u0KyufhqBxn/sQxeM7M=;
-	b=cnR8TMPmI4yYG0E3mDfEkFcw4l1N0Fmv6TeV4SFA1MVA+Y2KVB0Yq09LRAo0llZmG07NunVkn1y1//Fsfoo70VdmNZnR725dFzDzuPLpTnSPCi9xdky+WIeYu1ey6M5BRKuPW3b0qIktC9L7h+KpUbXGRWKo+N6ZYEqs0pACuX1pWwSWxz7LfpnYER3jswx0QHXoNaNqP4cJIljRcCMlRq8+wR0rgOxHFigOIqAp73KYVoJLsN0Nt+oaY9/G19Bv2IWsFzIYMEhRnZV3Fqm9f35z575DJNbLG4e+OOAXG4quDUpH9QAkqQMYK3jCiKPjEGP9G5L/hYjNCCbzqhG5hA==
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.f9Oy7GJ_1761654846 cluster:ay29)
+	t=1761655163; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=8rFH4thlQmElnslr1bW600elt3sgQ3K0TLP6mKWzDnc=;
+	b=VNx6oLH0Gz8KP+ODdcFX7JgcAC0rR4oEgDe+L2EcJoDWtsvxN3Iyqho5dv+Z7CrJQ9TyjTCo6TnROKlTNjNI6Oe9LL5ovpwZrMiHPXmnG+HW+s+c3HeHkGfufkYyc0wG0+eL5v3ED9DVK17BNpe8xKXUfzBZBAq2EJ7Z5foiwX56uhCXcVi/NHjBRZgmbprMmV87SdnzUa/65A6PJxHPbsO9r3cNMqhd1B3QGhnQi52gt8UjFeq+1YvwKrATvUvPDQmaKeUZ7M5W08OpnP3lGGh1I39r8qJ4Z1MXAsrb9q9Sc+hYR5uzCJfNhH+sR3GE/omkL6OF9IrD8/OnMffnLw==
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.f9Oy78H_1761654839 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Tue, 28 Oct 2025 20:34:07 +0800
+          Tue, 28 Oct 2025 20:34:01 +0800
 From: wangweidong.a@awinic.com
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -48,12 +47,10 @@ To: lgirdwood@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
 Cc: yijiangtao@awinic.com
-Subject: [PATCH V3 3/7] ASoC: codecs: Rework the aw87390 driver
-Date: Tue, 28 Oct 2025 20:33:53 +0800
-Message-ID: <20251028123357.46161-4-wangweidong.a@awinic.com>
+Subject: [PATCH V3 0/7] Rework the awinic driver
+Date: Tue, 28 Oct 2025 20:33:50 +0800
+Message-ID: <20251028123357.46161-1-wangweidong.a@awinic.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20251028123357.46161-1-wangweidong.a@awinic.com>
-References: <20251028123357.46161-1-wangweidong.a@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,251 +61,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Weidong Wang <wangweidong.a@awinic.com>
 
-Modify the interface for calling the aw87390 driver
-to adapt it for aw-common-device.c and aw-common-firmware.c
+Rework the awinic driver, extracting common components into 
+separate aw-commmon-firmware.c and aw-common-device.c files.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
----
- sound/soc/codecs/aw87390.c | 118 ++++++-------------------------------
- sound/soc/codecs/aw87390.h |  16 -----
- 2 files changed, 18 insertions(+), 116 deletions(-)
+v2 -> v3: Change the tree to
+          https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
 
-diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
-index 460b782e96a1..4ac0a5eaa9a4 100644
---- a/sound/soc/codecs/aw87390.c
-+++ b/sound/soc/codecs/aw87390.c
-@@ -12,8 +12,14 @@
- #include <linux/regmap.h>
- #include <sound/soc.h>
- #include "aw87390.h"
--#include "aw88395/aw88395_data_type.h"
--#include "aw88395/aw88395_device.h"
-+#include "aw-common-device.h"
-+#include "aw-common-firmware.h"
-+
-+struct aw87390 {
-+	struct aw_device *aw_pa;
-+	struct mutex lock;
-+	struct regmap *regmap;
-+};
- 
- static const struct regmap_config aw87390_remap_config = {
- 	.val_bits = 8,
-@@ -47,38 +53,6 @@ static int aw87390_dev_reg_update(struct aw_device *aw_dev,
- 	return 0;
- }
- 
--static int aw87390_dev_get_prof_name(struct aw_device *aw_dev, int index, char **prof_name)
--{
--	struct aw_prof_info *prof_info = &aw_dev->prof_info;
--	struct aw_prof_desc *prof_desc;
--
--	if ((index >= aw_dev->prof_info.count) || (index < 0)) {
--		dev_err(aw_dev->dev, "index[%d] overflow count[%d]\n",
--			index, aw_dev->prof_info.count);
--		return -EINVAL;
--	}
--
--	prof_desc = &aw_dev->prof_info.prof_desc[index];
--
--	*prof_name = prof_info->prof_name_list[prof_desc->id];
--
--	return 0;
--}
--
--static int aw87390_dev_get_prof_data(struct aw_device *aw_dev, int index,
--			struct aw_prof_desc **prof_desc)
--{
--	if ((index >= aw_dev->prof_info.count) || (index < 0)) {
--		dev_err(aw_dev->dev, "%s: index[%d] overflow count[%d]\n",
--				__func__, index, aw_dev->prof_info.count);
--		return -EINVAL;
--	}
--
--	*prof_desc = &aw_dev->prof_info.prof_desc[index];
--
--	return 0;
--}
--
- static int aw87390_dev_fw_update(struct aw_device *aw_dev)
- {
- 	struct aw_prof_desc *prof_index_desc;
-@@ -86,7 +60,7 @@ static int aw87390_dev_fw_update(struct aw_device *aw_dev)
- 	char *prof_name;
- 	int ret;
- 
--	ret = aw87390_dev_get_prof_name(aw_dev, aw_dev->prof_index, &prof_name);
-+	ret = aw_dev_get_prof_name(aw_dev, aw_dev->prof_index, &prof_name);
- 	if (ret) {
- 		dev_err(aw_dev->dev, "get prof name failed\n");
- 		return -EINVAL;
-@@ -94,7 +68,7 @@ static int aw87390_dev_fw_update(struct aw_device *aw_dev)
- 
- 	dev_dbg(aw_dev->dev, "start update %s", prof_name);
- 
--	ret = aw87390_dev_get_prof_data(aw_dev, aw_dev->prof_index, &prof_index_desc);
-+	ret = aw_dev_get_prof_data(aw_dev, aw_dev->prof_index, &prof_index_desc);
- 	if (ret) {
- 		dev_err(aw_dev->dev, "aw87390_dev_get_prof_data failed\n");
- 		return ret;
-@@ -102,8 +76,8 @@ static int aw87390_dev_fw_update(struct aw_device *aw_dev)
- 
- 	/* update reg */
- 	sec_desc = prof_index_desc->sec_desc;
--	ret = aw87390_dev_reg_update(aw_dev, sec_desc[AW88395_DATA_TYPE_REG].data,
--					sec_desc[AW88395_DATA_TYPE_REG].len);
-+	ret = aw87390_dev_reg_update(aw_dev, sec_desc[AW_DATA_TYPE_REG].data,
-+					sec_desc[AW_DATA_TYPE_REG].len);
- 	if (ret) {
- 		dev_err(aw_dev->dev, "update reg failed\n");
- 		return ret;
-@@ -159,19 +133,6 @@ static int aw87390_power_on(struct aw_device *aw_dev)
- 	return 0;
- }
- 
--static int aw87390_dev_set_profile_index(struct aw_device *aw_dev, int index)
--{
--	if ((index >= aw_dev->prof_info.count) || (index < 0))
--		return -EINVAL;
--
--	if (aw_dev->prof_index == index)
--		return -EPERM;
--
--	aw_dev->prof_index = index;
--
--	return 0;
--}
--
- static int aw87390_profile_info(struct snd_kcontrol *kcontrol,
- 			 struct snd_ctl_elem_info *uinfo)
- {
-@@ -196,7 +157,7 @@ static int aw87390_profile_info(struct snd_kcontrol *kcontrol,
- 
- 	count = uinfo->value.enumerated.item;
- 
--	ret = aw87390_dev_get_prof_name(aw87390->aw_pa, count, &prof_name);
-+	ret = aw_dev_get_prof_name(aw87390->aw_pa, count, &prof_name);
- 	if (ret) {
- 		strscpy(uinfo->value.enumerated.name, "null");
- 		return 0;
-@@ -226,7 +187,7 @@ static int aw87390_profile_set(struct snd_kcontrol *kcontrol,
- 	int ret;
- 
- 	mutex_lock(&aw87390->lock);
--	ret = aw87390_dev_set_profile_index(aw87390->aw_pa, ucontrol->value.integer.value[0]);
-+	ret = aw_dev_set_profile_index(aw87390->aw_pa, ucontrol->value.integer.value[0]);
- 	if (ret) {
- 		dev_dbg(codec->dev, "profile index does not change\n");
- 		mutex_unlock(&aw87390->lock);
-@@ -244,53 +205,10 @@ static int aw87390_profile_set(struct snd_kcontrol *kcontrol,
- }
- 
- static const struct snd_kcontrol_new aw87390_controls[] = {
--	AW87390_PROFILE_EXT("AW87390 Profile Set", aw87390_profile_info,
-+	AW_PROFILE_EXT("AW87390 Profile Set", aw87390_profile_info,
- 		aw87390_profile_get, aw87390_profile_set),
- };
- 
--static int aw87390_request_firmware_file(struct aw87390 *aw87390)
--{
--	const struct firmware *cont = NULL;
--	int ret;
--
--	aw87390->aw_pa->fw_status = AW87390_DEV_FW_FAILED;
--
--	ret = request_firmware(&cont, AW87390_ACF_FILE, aw87390->aw_pa->dev);
--	if (ret)
--		return dev_err_probe(aw87390->aw_pa->dev, ret,
--					"load [%s] failed!\n", AW87390_ACF_FILE);
--
--	dev_dbg(aw87390->aw_pa->dev, "loaded %s - size: %zu\n",
--			AW87390_ACF_FILE, cont ? cont->size : 0);
--
--	aw87390->aw_cfg = devm_kzalloc(aw87390->aw_pa->dev,
--				struct_size(aw87390->aw_cfg, data, cont->size), GFP_KERNEL);
--	if (!aw87390->aw_cfg) {
--		release_firmware(cont);
--		return -ENOMEM;
--	}
--
--	aw87390->aw_cfg->len = cont->size;
--	memcpy(aw87390->aw_cfg->data, cont->data, cont->size);
--	release_firmware(cont);
--
--	ret = aw88395_dev_load_acf_check(aw87390->aw_pa, aw87390->aw_cfg);
--	if (ret) {
--		dev_err(aw87390->aw_pa->dev, "load [%s] failed!\n", AW87390_ACF_FILE);
--		return ret;
--	}
--
--	mutex_lock(&aw87390->lock);
--
--	ret = aw88395_dev_cfg_load(aw87390->aw_pa, aw87390->aw_cfg);
--	if (ret)
--		dev_err(aw87390->aw_pa->dev, "aw_dev acf parse failed\n");
--
--	mutex_unlock(&aw87390->lock);
--
--	return ret;
--}
--
- static int aw87390_drv_event(struct snd_soc_dapm_widget *w,
- 				struct snd_kcontrol *kcontrol, int event)
- {
-@@ -331,10 +249,10 @@ static int aw87390_codec_probe(struct snd_soc_component *component)
- 	struct aw87390 *aw87390 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
--	ret = aw87390_request_firmware_file(aw87390);
-+	ret = aw_dev_request_firmware_file(aw87390->aw_pa, AW87390_ACF_FILE);
- 	if (ret)
- 		return dev_err_probe(aw87390->aw_pa->dev, ret,
--				"aw87390_request_firmware_file failed\n");
-+				"aw_request_firmware_file failed\n");
- 
- 	return 0;
- }
-@@ -392,7 +310,7 @@ static int aw87390_init(struct aw87390 **aw87390, struct i2c_client *i2c, struct
- 	aw_dev->acf = NULL;
- 	aw_dev->prof_info.prof_desc = NULL;
- 	aw_dev->prof_info.count = 0;
--	aw_dev->prof_info.prof_type = AW88395_DEV_NONE_TYPE_ID;
-+	aw_dev->prof_info.prof_type = AW_DEV_NONE_TYPE_ID;
- 	aw_dev->channel = AW87390_DEV_DEFAULT_CH;
- 	aw_dev->fw_status = AW87390_DEV_FW_FAILED;
- 	aw_dev->prof_index = AW87390_INIT_PROFILE;
-diff --git a/sound/soc/codecs/aw87390.h b/sound/soc/codecs/aw87390.h
-index d0d049e65991..6023d4d5a0f9 100644
---- a/sound/soc/codecs/aw87390.h
-+++ b/sound/soc/codecs/aw87390.h
-@@ -52,15 +52,6 @@
- #define AW87390_I2C_NAME		"aw87390"
- #define AW87390_ACF_FILE		"aw87390_acf.bin"
- 
--#define AW87390_PROFILE_EXT(xname, profile_info, profile_get, profile_set) \
--{ \
--	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, \
--	.name = xname, \
--	.info = profile_info, \
--	.get = profile_get, \
--	.put = profile_set, \
--}
--
- enum aw87390_id {
- 	AW87390_CHIP_ID = 0x76,
- };
-@@ -75,11 +66,4 @@ enum {
- 	AW87390_DEV_PW_ON,
- };
- 
--struct aw87390 {
--	struct aw_device *aw_pa;
--	struct mutex lock;
--	struct regmap *regmap;
--	struct aw_container *aw_cfg;
--};
--
- #endif
+Weidong Wang (7):
+  ASoC: codecs:Rework the awinic driver lib
+  ASoC: codecs: Rework the aw88395 driver
+  ASoC: codecs: Rework the aw87390 driver
+  ASoC: codecs: Rework the aw88081 driver
+  ASoC: codecs: Rework the aw88166 driver
+  ASoC: codecs: Rework the aw88261 driver
+  ASoC: codecs: Rework the aw88399 driver
+
+ sound/soc/codecs/Kconfig                      |   14 +-
+ sound/soc/codecs/Makefile                     |    8 +-
+ sound/soc/codecs/aw-common-device.c           |  507 +++++
+ sound/soc/codecs/aw-common-device.h           |  204 ++
+ .../aw88395_lib.c => aw-common-firmware.c}    |  150 +-
+ sound/soc/codecs/aw-common-firmware.h         |  211 ++
+ sound/soc/codecs/aw87390.c                    |  118 +-
+ sound/soc/codecs/aw87390.h                    |   16 -
+ sound/soc/codecs/aw88081.c                    |  357 +---
+ sound/soc/codecs/aw88081.h                    |   33 -
+ sound/soc/codecs/aw88166.c                    |  819 ++------
+ sound/soc/codecs/aw88166.h                    |   58 -
+ sound/soc/codecs/aw88261.c                    |  427 +---
+ sound/soc/codecs/aw88261.h                    |   52 -
+ sound/soc/codecs/aw88395.c                    | 1333 +++++++++++++
+ .../{aw88395/aw88395_reg.h => aw88395.h}      |   58 +-
+ sound/soc/codecs/aw88395/aw88395.c            |  576 ------
+ sound/soc/codecs/aw88395/aw88395.h            |   58 -
+ sound/soc/codecs/aw88395/aw88395_data_type.h  |  142 --
+ sound/soc/codecs/aw88395/aw88395_device.c     | 1720 -----------------
+ sound/soc/codecs/aw88395/aw88395_device.h     |  214 --
+ sound/soc/codecs/aw88395/aw88395_lib.h        |   92 -
+ sound/soc/codecs/aw88399.c                    | 1027 ++--------
+ sound/soc/codecs/aw88399.h                    |   93 +-
+ 24 files changed, 2926 insertions(+), 5361 deletions(-)
+ create mode 100644 sound/soc/codecs/aw-common-device.c
+ create mode 100644 sound/soc/codecs/aw-common-device.h
+ rename sound/soc/codecs/{aw88395/aw88395_lib.c => aw-common-firmware.c} (89%)
+ create mode 100644 sound/soc/codecs/aw-common-firmware.h
+ create mode 100644 sound/soc/codecs/aw88395.c
+ rename sound/soc/codecs/{aw88395/aw88395_reg.h => aw88395.h} (91%)
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395.c
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395.h
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395_data_type.h
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395_device.c
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395_device.h
+ delete mode 100644 sound/soc/codecs/aw88395/aw88395_lib.h
+
+
+base-commit: 2103a2df654868faf4ac0924ce529b11cca729bc
 -- 
 2.47.0
 
