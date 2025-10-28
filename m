@@ -1,41 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE9A345753;
-	Tue, 28 Oct 2025 16:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25992346A0F;
+	Tue, 28 Oct 2025 16:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761667796; cv=none; b=LRMwViAe2ReZVKX4wfWrlDdczGTTr3wV2WzVTcKIYT1jrsGMYJH+2ui+vDJtV/p7Qzqa2dCq4IdskWV9ezlbP5Ygbw4wZEE2pfBHcVOhSj9D5uqeeXhvCOROLC8UEa5kuZiyM/SkQvfhHdA2xZZjhj3AvRKK/sOCLlvS57gsMmU=
+	t=1761667799; cv=none; b=Pl6R1yniyprb60OuuADozUbqOCxOGSAKzYuTg93NWIkL0F7YBj2eJBpxIwvTa+imNVVOo/byPr/tOs5N8IXof3ilqFO/tfCE+nKHNAFHmFIKJkBiGgDK7kJZIraY1IhB8wQTMGT5z+9zxohsv+A8tYQU0N1JZdzdI7kjuAGAqgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761667796; c=relaxed/simple;
-	bh=vCdR3/rZz20yMOq7v/d2UI1upiB2Yl6XUmdojd8yJmg=;
+	s=arc-20240116; t=1761667799; c=relaxed/simple;
+	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=brBdO+YmLwMBnJ0K3XjcOHUDvDMf7v97WNL0+Nh33lA9rsMid6XUzMTvYKErXnPPSFmuATHVnhiOCUryaXaVikfg06pm5pj9PrT5xEEJJnpcHENDgKvRTSQgFwQWItl/hQ/8a9hsYK2wr8r8oJEBRBuWN9ypuec08wg715ueVRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my88TeD2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lS0YWxnOmJQ+x9j5u5Bxg9KJg4Ewj06ar3EjM25qBQSBh1M1FB0rQE42TciuEjuedF416sXUdlrOMEoXZi1/O3LCHcu8kCyM9/Shgg2RvYKNN3AWp7QsamwcDuujc/0tnd1/vGpSxRJ35K/gSShGBLu1dpV6ogBoEaKLmmrgj8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Klvoy4DM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="my88TeD2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5A90C4CEE7;
-	Tue, 28 Oct 2025 16:09:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Klvoy4DM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713ECC113D0;
+	Tue, 28 Oct 2025 16:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761667795;
-	bh=vCdR3/rZz20yMOq7v/d2UI1upiB2Yl6XUmdojd8yJmg=;
+	s=k20201202; t=1761667798;
+	bh=yS9M85o0R1tVxIA9C9jEiGOV1H8VwCUJawV1LHO0FmI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=my88TeD2/GWGKsOFoX4u37HOUHcRL31zjYBNFecsKUHHnPN2xvonRf+8rdyUzJdev
-	 iN3MbI5+SX5JO1fwY7XIjlwmTgPCRZ6ruC05YGiSkx82SbFNmCtQdjirnqaxHe3Yb7
-	 mqwhbds5QYQH+sTX9RjBC3bEg1lOkU1DE7Pu1piGb5m8Pe8J3JZmGSbvgyC5mpCwVv
-	 MDj7PwovIsL/wm++m1uxnV4+AgTuvFuTNHUc9DCzPPyBBkwqeXcHY5XV7cNdeWaNpA
-	 b+ilYbmXFz0jf1FxELheIipIQ3JtukuYmLSSQgCAyM6CkQV0AktG374uL7MhN8BL2H
-	 0J36McFSg1VLg==
+	b=Klvoy4DM0bfRyYdMUJy+zBkWNEL+Q2goNadja/TnrTf4DM91nNMBozc1k89jNw1Of
+	 pC7+YdVRhVKTlzhIA5Y38VSaMSCqAJX3RU1Dx9ltV548c6zTJ+UhdQejy919N8WQX2
+	 x86YaAuQDf99auJcSlOv9y7wAtAmwKiXSVkTg2mAFOkAiLdcQ5Yfeuctn4bSwtVL2n
+	 bL/iCAd35vlxMFBvU1MPX34VzDWiqB9KEde1exDoHxv35O1dF5BBoKNdwWcXuPm4wE
+	 Gg7tJ8EZ3KIOFONRcW03HRdTmdN/z8oMvto6rRoIQrdmHD1/LKdQCUUgORlsTIuXkE
+	 bhbVwN8bkHmOQ==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251021105022.1013685-1-rf@opensource.cirrus.com>
-References: <20251021105022.1013685-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH v2 00/11] ALSA: cs35l56: Add support for factory
- calibration
-Message-Id: <176166779456.143847.13511200470716720703.b4-ty@kernel.org>
-Date: Tue, 28 Oct 2025 16:09:54 +0000
+To: Jernej Skrabec <jernej@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251027125655.793277-1-wens@kernel.org>
+References: <20251027125655.793277-1-wens@kernel.org>
+Subject: Re: (subset) [PATCH v2 00/10] allwinner: a523: Enable I2S and
+ SPDIF TX
+Message-Id: <176166779616.143847.10303188319180115816.b4-ty@kernel.org>
+Date: Tue, 28 Oct 2025 16:09:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,14 +51,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Tue, 21 Oct 2025 11:50:11 +0100, Richard Fitzgerald wrote:
-> Until now, all products with an amplifier supported by the cs35l56 driver
-> have shipped with Microsoft Windows pre-installed. The factory calibration
-> of speaker protection has therefore been done using the Windows driver.
+On Mon, 27 Oct 2025 20:56:41 +0800, Chen-Yu Tsai wrote:
+> This is v2 of my Allwinner A523 family I2S and SPDIF enablement series.
 > 
-> However, products that ship with a Linux-based distro must be able to
-> perform the factory calibration procedure from within the Linux-based
-> environment. This patch series adds that support.
+> Changes since v1:
+> - Collected tags
+> - Dropped clk patches that were merged
+> - Added patch for SPDIF pinmux settings that was missing in v1
+> - Dropped bogus change to DAI name in SPDIF driver
+> - Dropped clk rate message in SPDIF driver
+> - Switched my email to kernel.org one
 > 
 > [...]
 
@@ -63,28 +70,12 @@ Applied to
 
 Thanks!
 
-[01/11] ASoC: cs35l56: Read silicon ID during initialization and save it
-        commit: 1afc05996299b4546e8be9b13c89f78e19912c7d
-[02/11] ASoC: cs-amp-lib: Add helpers for factory calibration
-        commit: cdd27fa3298ad2f39788804f7d09ab31af2b416c
-[03/11] ASoC: cs35l56: Add common code for factory calibration
-        commit: f7097161e94cd39df7a8848ad0de5f394124ed69
-[04/11] ASoC: cs35l56: Create debugfs files for factory calibration
-        commit: 191a27faf53edf9e9101901e402bfee49c44073c
-[05/11] ALSA: hda/cs35l56: Create debugfs files for factory calibration
-        commit: 46a3df50b0cab466099515f2375b01c5be4fb95c
-[06/11] ASoC: cs-amp-lib-test: Add cases for factory calibration helpers
-        commit: cf6290eebe3cc4eb677d11aa061d10cb1df12ab9
-[07/11] ASoC: cs-amp-lib: Return attributes from cs_amp_get_efi_variable()
-        commit: 959400caf51eb31f95d1ab754a285b5546ebd3e4
-[08/11] ASoC: cs-amp-lib: Add function to write calibration to UEFI
-        commit: 2b62e66626f05e277c8fdeb50d4c1e0cbab2fe0e
-[09/11] ASoC: cs35l56: Add calibration command to store into UEFI
-        commit: ef24466ee1912997c2bd526194006bbca424c24f
-[10/11] ALSA: hda/cs35l56: Set cal_index to the amp index
-        commit: 64670a6c062c4d183c366d46e71ee76395af6a15
-[11/11] ASoC: cs-amp-lib-test: Add test cases for cs_amp_set_efi_calibration_data()
-        commit: 4795375d8aa072e9aacb0b278e6203c6ca41816a
+[02/10] ASoC: dt-bindings: allwinner,sun4i-a10-i2s: Add compatible for A523
+        commit: 67e4b0dfcc6702a31fbb6a3015c0dc867e295eb4
+[03/10] ASoC: dt-bindings: allwinner,sun4i-a10-spdif: Add compatible for A523
+        commit: 6ddcd78aa7f85e1d94ab7f90c72d1ad0c0c7b6ea
+[04/10] ASoC: sun4i-spdif: Support SPDIF output on A523 family
+        commit: 4a5ac6cd05a7e54f1585d7779464d6ed6272c134
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
