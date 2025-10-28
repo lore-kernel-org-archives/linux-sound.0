@@ -1,78 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ED52E54BC;
-	Mon, 27 Oct 2025 22:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52871BBBE5;
+	Tue, 28 Oct 2025 00:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761604490; cv=none; b=X14rNPZSEoFGnN36VqRsUpNIBOeX9Fm0Ur5sZ9+sglKktxoUvX1yGHtNLxBu8f6aZo2SHv6wHKCEamLoWpsZw4atpnkuJZN1O02B8l638iJ2DUz8noxeFo7Vx6+1bX4fRe3IA4yLyLJMlRpL9IHePT/Fa1T/MQZWNWOY3PljjYg=
+	t=1761612183; cv=none; b=JI47o/0NmLmNQOXJ4nurLCuK69TCdQVJTvOWUsqIDI1QojVInDrt9X0CzcVyX2GCmTCw619t+frYJ0jlgPKDf2B+o1dcs20XOTpXeltkiT+LhwDyJnz/p9NvOrvSk9DhMdZTsdAQDSij3RoQk3TkUcLN085xVRXd41k9gYJDqCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761604490; c=relaxed/simple;
-	bh=Gtc2AYnPB4za2PS+Rr6W7no/j9YNfqzzRZSlGpPjRzY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dm5eU0zFahy8Ras15bOuRBU0S+x3nGpHNz/2EATaiKHNK8oFHCSbR6CDHO/VdyinfRg4suy1leSjWhiT+QeRAetAh3SVly/yQGuBYO28NbyU0LBqn02V1FWb2WDkQxfXd7zgdsyrPRfjOU7PpCslVhwxeXOcglyWEkibi8RY86o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQDrgJyK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761612183; c=relaxed/simple;
+	bh=NpleAUsPv8tyterDaTQdtwZ7noPPJ/SFO2adnNZi/8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RP2LQg1SLNO5d2qdH3vHDFISJDOJ7KcbPilL4OV2S2av/De4vH//dCNM3Sg5aahEP0VH5kBH+30Wi7779UAiBuz+hv56Nt17RrJ75EbQnADh2zVebVYG2QWz0jlpWhBqjk667EmZnkN6/kU7EasXzSMF6QM3MBXEp7ZFY17XXOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=FtGKA5E7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ijBE9gLX; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQDrgJyK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE64BC4CEF1;
-	Mon, 27 Oct 2025 22:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761604489;
-	bh=Gtc2AYnPB4za2PS+Rr6W7no/j9YNfqzzRZSlGpPjRzY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dQDrgJyKYsIdj28xx2RCyh3Btr12CwSRl2QygYxaEr6cwBCKjd4hOb4Sowwli7tgV
-	 NKsma/GsH+vTkiBLO1di4cmHF9Lq/j4AIBjlVMGHRO8Z1aoEvVEhxVxzG3K8Ed1ghc
-	 tVgOz9EsP/2tB8+FQAZQk6ChtNs0XSmFMf2OJ6MIiyvj99DhU8LVGpDsbnc+N6yez9
-	 lPDXdmTdHwmUZiIO2ZVcez7sGXHHYw5VgRZ3yRaTJ8n9Aq+Na4rKrtni5peXoIRoVN
-	 GC2R/RXQeqg3mRd1ow3JSFaBbmq0bZnCbluXt0W5yyjI95GThUh0k9nN49G8xX392u
-	 6+xP+D2Np/zqw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v3 0/3] qrb2210-rb1: HDMI/I2S audio playback support
-Date: Mon, 27 Oct 2025 17:36:45 -0500
-Message-ID: <176160465245.73268.4944449689124127284.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251022-rb1_hdmi_audio-v3-0-0d38f777a547@linaro.org>
-References: <20251022-rb1_hdmi_audio-v3-0-0d38f777a547@linaro.org>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="FtGKA5E7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ijBE9gLX"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DC02C140010B;
+	Mon, 27 Oct 2025 20:42:58 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 27 Oct 2025 20:42:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1761612178; x=
+	1761698578; bh=b66zlWBixK0izKr3d/veWV/xQufa7n1aK2ZSQQUrqfc=; b=F
+	tGKA5E7cuYj7NFqCYEJT2cRilNMEuVn92Z/Yq7Lj63XyVkj+NrBPF0hNqB/WLB6W
+	FKSIPBl/4MpBf7+FHgma4bfx/n7U6TGeZIT5cvRAJ5h21yI3d/FkorVpD/QA9BL1
+	7Yy+HmX3fhW8CIjrtq8yepZtZtViSwc3caEDaaSh7lf1mwxd4Mu52oQWJSX8WuWu
+	bcqmpKuGlAXP1iETZcaCgDPO5pKDvuRKebaNdqR3RL0qjARamtDB5gQghoPTqkN0
+	Cwk/9wOZY0JfGnXyAwslA7PL0HPlZhyHTgYuWpIbbOn3ERtXuj+wEx++ozYBIisu
+	EiypnGSQwBE4i37RzMgOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1761612178; x=1761698578; bh=b66zlWBixK0izKr3d/veWV/xQufa7n1aK2Z
+	SQQUrqfc=; b=ijBE9gLXSz6jJpJQ9mRY1d43+YZBneNYpupck+u4R2oAVK2FWu/
+	hh1xKO3PzyR9q0fFw4YafTDfybukutsJk3TGDVC5k+A85aZ3SGH65gn08LPYm9Fx
+	B5KaVkV7ssUdnugshbVB9ljuEAh3NgiqW/bl0FP2KRKxrtCu8+qj0U+MSUF0jtA/
+	rdLhsSJZyPzXsGGiM72J9lZCayJpd2t1/3eNAtM8bcBu4B/msP7fw1jhw9W1vTR/
+	9gnhciG2pCcQoqxql285qbkLCj/nMB36Fg/6MVi+9D9ymF7MOoxwgj6ToyezxI2n
+	MaHFFaQEM8WDbPHA5jMNBZJ6SgK8M0XgA2w==
+X-ME-Sender: <xms:kREAadnZXwOeLjNbXeNPPOsoWn9wVJPDu46l7lbGtwWm7k5-FSSthQ>
+    <xme:kREAaX6y_R1SyYGYtnXFNLDAw-UGRTfE8tdc6-0mCVj4kLxsCv8eSCP6y5p4ZgXmu
+    S9G18-bSPd4TB-JGFUSdy3bVvCNd7dZzjQbuCmD6fCwapKd-CGTFvg>
+X-ME-Received: <xmr:kREAaZ3xFhcpsQ1WzZNgGz0shWUs6aDLjjRV3w_ZwcLnXGr1HiH3GVBeapPuTlu36abp6Beyt_ShcTyFPx6XHhqkMqrvIDa5gz2S>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheelgeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhh
+    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+    eqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeeiieet
+    vdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghr
+    tghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhsthhrohiivg
+    hksehophgvnhhsohhurhgtvgdrtghirhhruhhsrdgtohhmpdhrtghpthhtohepthhifigr
+    ihesshhushgvrdguvgdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtph
+    htthhopegrlhhsrgdquggvvhgvlhesrghlshgrqdhprhhojhgvtghtrdhorhhgpdhrtghp
+    thhtohepphgrthgthhgvshesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomhdprh
+    gtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:kREAaaELfclbnZP2vhwTRYYq4JD70YUS6P3oxnyJkHEq-rcISSEqHw>
+    <xmx:kREAaQgoW6Eu3Rx5wgvjxiDhhU5UpCtPh6QbNyvk_55QxyJnq1n3OQ>
+    <xmx:kREAaVA531EsupR1fKS2GuuzwNWWQ6xnTL6yM8mfe7GdCKGTQ3oQcg>
+    <xmx:kREAaaSXDCK5GtaaFu-UUdN6XhnZb37MzeEVGnItOwNjHdf9WwiHkA>
+    <xmx:khEAaZ_DJlb-vWJWYikgArjlHmvu_9L8ntLeg3uat_c4nMGcDZ0rTsIK>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Oct 2025 20:42:55 -0400 (EDT)
+Date: Tue, 28 Oct 2025 09:42:52 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: sound: Increase max size of components field
+Message-ID: <20251028004252.GA553484@workstation.local>
+Mail-Followup-To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251023092754.84095-1-mstrozek@opensource.cirrus.com>
+ <318f2ed3-57e6-495c-a773-4a094a3784cb@perex.cz>
+ <87ikg03ecf.wl-tiwai@suse.de>
+ <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3cb73dae8e8ac1a29c856dc5c86064d568003316.camel@opensource.cirrus.com>
+
+Hi,
+
+On Mon, Oct 27, 2025 at 11:50:32AM +0000, Maciej Strozek wrote:
+> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+> index c302698fb685..7d53f6da59e2 100644
+> --- a/include/uapi/sound/asound.h
+> +++ b/include/uapi/sound/asound.h
+> @@ -1069,7 +1069,12 @@ struct snd_ctl_card_info {
+>         unsigned char longname[80];
+>         unsigned char reserved_[16];
+>         unsigned char mixername[80];
+> -       unsigned char components[256];
+> +       unsigned char components[128];
+> +};
+
+Any approach to change the result of 'sizeof(struct snd_ctl_card_info)'
+breaks ABI to userspace application. This is the reason that Jaroslav
+addresses to the new PCM ioctl command. Unless, the userspace
+application build with the UAPI header provided by the existing version
+of Linux kernel does not work as expected in your version of Linux
+kernel, in respect to the sound subsystem.
 
 
-On Wed, 22 Oct 2025 07:06:40 +0100, Alexey Klimov wrote:
-> This series adds a feature to playback/output audio via HDMI
-> on the Qualcomm RB1 board. Since RB1 and RB2 are very similar
-> to each and other and most likely use the same mainboard therefore
-> this series is pretty much a rework of the similar patchset for RB2.
-> 
-> 
+Regards
 
-Applied, thanks!
-
-[1/3] arm64: dts: qcom: qcm2290: add APR and its services
-      commit: f8d21b5e4caa7a8e06cf6c08d85f6e992562a667
-[2/3] arm64: dts: qcom: qcm2290: add LPASS LPI pin controller
-      commit: 1fc30731562bb45e53e09d40fc69bc4364310b6e
-[3/3] arm64: dts: qcom: qrb2210-rb1: add HDMI/I2S audio playback support
-      commit: acb854eba80dceb12329cbe162122491f13a8a2a
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Takashi Sakamoto
