@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956032580E2
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 22:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64622580E2
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 22:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761775340; cv=none; b=Kx2RB1Cq+FpPJ2fxJpBMc4tEa8JZ2gaKVBOIgaWX+BQkNKbwGJZZcPxGQXwgd0NVskGM8H8rMsknTOzavAsZEGxvJCtn0WlFHaAaGKfWauxtZ+IHsbCrdNvg20oolU6JdtqqmsiDjhQaNYKkmud2qvAjR5rjzV+43w5gJDSvMSY=
+	t=1761775342; cv=none; b=HqzIvUxs/VULIA0lD9ydjQIHe0Wvt7vQCDN8hWP5EPAiJnn53Bn5QPeUoAHINJsvnQAn2Z1BCJSKH9depOYjIzRUnDOhFlkHZBGTAICtnHRx3hft8Tv2aphbuCuldc0PH9SZi82A0ipfRHYYBgRUjtW2EUy37T7L1RilkmZvrJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761775340; c=relaxed/simple;
-	bh=xpmki/XWJKPR/EC4obTt+7AnWa0PvyJrdxz+w1puQvo=;
+	s=arc-20240116; t=1761775342; c=relaxed/simple;
+	bh=FseTn+2Lv7ChxepX15nJb5kAjotDKfDw7Sg6ts3BZQo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=AdlR/0KpgyKwb9moZU9STae+5YqQGJBnLKuk+f9MmQfed+6Wh77ZjnZeErgof2VDQvv4J4GgSh4L0h33JlgNb6AiF1/y5/YI0qjFOTd8nrVZ1MU49b4vUov8fgT0vjWFi3VdV8kGh9zkr1b9Bucg03Lyrwge7AfxQZivjffM3Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFzzv7zT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lHvuw3bNAn7UJw8S55sFyMpD50NWkYayFnunHhcF95fUD3aJurJysn/JwyuvHRlqo8JXkjMMAYbpLNBHuSjVMY1Opt7ueyT9GsQYH2uDxlwwEP8ZA6Jyf7sbq+QcjNDvm9VJV2xG1d7ne4JUpRM1n1R3QZ7Fglh1BRGVlGdjwwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFTHm/wR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFzzv7zT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9B1C4CEF7;
-	Wed, 29 Oct 2025 22:02:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFTHm/wR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956F8C4CEFB;
+	Wed, 29 Oct 2025 22:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761775340;
-	bh=xpmki/XWJKPR/EC4obTt+7AnWa0PvyJrdxz+w1puQvo=;
+	s=k20201202; t=1761775342;
+	bh=FseTn+2Lv7ChxepX15nJb5kAjotDKfDw7Sg6ts3BZQo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nFzzv7zTS3OA+YbF5EYcbR1YmL2D3bTTF4FUDx8oW1kfnGLuuNUhARNfLek+QbwA2
-	 8TDaHq4sAM0umi8QaPgVAJG5P/sPn1q5oi0GTLmlqK+YH1XHjMYWQk6mLnGGDvytGV
-	 BbG4QyxpFL1PUBT6C4wLueKK6DZFTjNw5cYce3U3Fp3n5Rwe9FrCn5FAt+6SG9VrKk
-	 INJkLBki5s1R+yzplVvG9uFvkimagvlDu18bFfpBAFCy9Dj4C817b1OmNkEliQMgoR
-	 2oEeMU84+S4Pm7Ms+w/EYFkWHzcQpE6XLvZvLbKJz+AkmEmK0k5nZK9+I/K+u0yNtT
-	 /mQHW5dQLhWYA==
+	b=bFTHm/wR8m2BMm+p5IOzn89xCygHLx3fkgVaNCPDV7mZlIj2Txw1ueNFedhpgShxd
+	 HvymQzMCU3ABq+aXvgznF9TaiobdKxINFOKijZp9uZJVQjN4GtgRILLTZF5FRRWWWX
+	 CLQX4+N+5BNQXjJh9dIGNutjNt3YU9XZaKgs3o7mbLO05wPXAL1hkNIcm4w1CC0jjT
+	 q32M3VKNZ38w8GG9qkEFoH7Ol8MW2/hY2+eMhZo44TqzMoLv3syRF5DcyypbECBSIP
+	 ZJ+PG2icPh4qQw77BrK3598Gm276RFKUaOwTWiHxvzcZxFCyLuuNYRABzPOWTJU4Uu
+	 rpHZXqI+zPgmg==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com, 
  pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
  shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20250912103504.2679226-1-ckeepax@opensource.cirrus.com>
-References: <20250912103504.2679226-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v2 00/20] Add SDCA UMP/FDL support
-Message-Id: <176177533807.1198235.8173672764831335475.b4-ty@kernel.org>
-Date: Wed, 29 Oct 2025 22:02:18 +0000
+In-Reply-To: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
+References: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v3 00/19] Add SDCA UMP/FDL support
+Message-Id: <176177534033.1198235.14063845818573444823.b4-ty@kernel.org>
+Date: Wed, 29 Oct 2025 22:02:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Fri, 12 Sep 2025 11:34:45 +0100, Charles Keepax wrote:
+On Thu, 25 Sep 2025 11:53:22 +0100, Charles Keepax wrote:
 > Next installment of the SDCA changes, hopefully the next series after
 > this should be the full class driver. It is worth noting this series has
 > a build dependency on a patch working its way through the PM/ACPI tree:
