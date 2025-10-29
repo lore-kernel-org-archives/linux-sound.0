@@ -1,170 +1,211 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56EE3128CA
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 11:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E2C3115A1
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 11:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761736832; cv=none; b=UrVSsUz2gDKlodzQMAjL37hWt1AdZB/g+uDLEuxRzrd7Dwj9cI6GKIaryjzUMVRLeDGV/dN6ekkleCB1O3eO2jnx0uFIJyxoIYmh3OoECMKmEVlv8zxVzsmzLRMp5olEXLAVcCC3IQyiqR/9XN+0J0cWsODJy17urAD2Ia6UG3I=
+	t=1761736861; cv=none; b=d/llVCGbcV1tbtp6CqQtQKaNlg1V4wsYmzKpBkeL1gcqKi3vmLMu9HAra5hgzWS/QkUIp2MgcNgaEuFx/RruBDxA9iQC7ZJFhZ5RQNw19bpAYAHrwQ7C48HWIekdhjqvaJY3Oh7He2b9himY7zqMYD0wl7RRHgZHDVJfviVsJjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761736832; c=relaxed/simple;
-	bh=/Lq1lPRHXdJOiVrLRakI46aOAQVAhyDdlFz3qv+W8D4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CgaW2iAGnRArQ7+DAYYc6dDtn/pWdxlMOoefS3YIxMiq+wlGPzSO+Ec/XQiimieXgw6SDhCl5SH/cm/9RQ6s0/QJkHOFNVL+1HICSQWB1tF9z/DeNuZDoXViOmce36fmEhJlpSWitrPelbd7vmfgz8XDTfApTkMEh5QNMDwkJjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GxWxNvxu; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761736861; c=relaxed/simple;
+	bh=bgbw2Ft4/u1XwJQBHfFlQ3MV2AqD0Imvh5HsmytZj4c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DkCRWkuXMZC+K6HwPc6CE6IzR1G+fs0p/n1QaPNLx7Ssic6UaLfdMquhx7efXjPyOuMGnj3pB8nhJ/Au/Z2XsQD0sXKOX8Q2PAGzqikCB4Ch1hpJ82UckUP/pe91o8Su3yUtcmqrJLfBfnIkIuhM+oj8iQ+BGQbaYdlFdaB3FFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=d/6wY/Zy; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GxWxNvxu"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-426fc536b5dso4922574f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 04:20:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="d/6wY/Zy"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4283be7df63so3480359f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 04:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761736829; x=1762341629; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7ql16YW9WqR8j8DuPKb3smT3vuE3z26xd898qIsWDm8=;
-        b=GxWxNvxuYleJmWgmNxL5KbhLK0lvEyJnNPbupu+h2MmNUYndxNVq87f9Ze/jKewx6R
-         gyChdHkvGta1D3VUWILjVwiKpBxj1viVNMvqqd4/c7kvSTPbIR9yHjOv7qvgGyNVykoG
-         HIm71Tbec0k/UvQmUqirMjvYoW0Yf2q05VCkTIVjfqQD3EKdVwF0zWDB34/NTmNDHaH5
-         DU9dnUeyF1ckvDS3ODJTfhs/7v2hGnJocyfkQ23UByPbAaI0/yzy2HypzAzy8qFybsfQ
-         AslnqKs797lLnZwi633FvWGwC8wyoQ1NKq/qzJjT31aTNMbU6+eg8VC7JArMRJ1LME4n
-         1B9A==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761736857; x=1762341657; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=drLJ70XtGpDzIlyNv3z+1we52syz/zd9JPxUjCCEh6E=;
+        b=d/6wY/Zy7IzTe6QzrRPVbRXNrwryBdOWGVJTcm03U//Qj9jLEzgBAoUABXsGtblrQ4
+         mm128tqQbBx8+sqCYmHNoxLgOvBkWJD32O//cbaHkg0KTgzVFe67iEFcjl4MquxGNERV
+         qkNlzFUPGSSqmkcxuLcgA4GKvEHghycAzlcskNS51Oyzqn5kEKVLOctMvPZn4AkG6u3A
+         gxVIvAOY6dqanOUBpOphlOvZi6tJn9RmMDVKlD0i/wFoPLoK4pQiYKonHl6YJvV2NDiE
+         cgu0NLX/8kvxGLMkTilNQvRWZNB1cCL1iAIDD7UKCkRw36INL/RoCddJY18toyulNjRm
+         EHvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761736829; x=1762341629;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7ql16YW9WqR8j8DuPKb3smT3vuE3z26xd898qIsWDm8=;
-        b=Wt81UYRd3frEiFNyjoIF9whJfcSHFl5UjciL94y/I9Tzpwo9zYzf15yMMUkfpeW+R7
-         O/PrgS7E/cFwt7nj+BYOveZRQf6ZGaRvCBxWq6xHnsuajk8aV6antRdtZGQqScdkvYGx
-         iIgvSr6uDF/HiRjjpVlavaNTo71MoWG5bPsTYJG25xaSeHP/YlTfC8x0Silw7NZiKhIw
-         W1s2JU/R7skoD5zm0RkCI+siF9sKwnq4HuPld8Vr/GDJ1gV5mibVC6rJbmEa8ZbokGZZ
-         goXIQBFY9BUfODghv/tdGdqqyNpRseOverHgKPY9TLD6ceey1LBdGi4OF+dyhICkBSyf
-         tAHA==
-X-Gm-Message-State: AOJu0YxGDbp8JfzKxADeyqAAeNApPUPj4cvgKkK7w02QwddFDAZ/UtuL
-	v1Mpy4lVZPBMaRp3iN/4PcrS72YbppWysGL16PPxFEjKt4qPzhBjl50v
-X-Gm-Gg: ASbGncvknglj7jSfgjDi5XIhUVxszw6I16pNpLnHlERQrUBQMP8LugW28g2poy4XzI4
-	dIwAsyQckoxCF3FepCHNG98x84HmTAYWtdBbyrigY/j7nSxUpFa1W3/oFuHkvdQtx8784CMBKqi
-	P83L6INJgu4QK1YS7m5bbxi3VuApfbkQ6wVHBLPprKgCGkcIYIrB97B7rj8L3MSw7lk6NAJV6AS
-	XQegfrYnmdat0DryvWZdm+trbIz7jhuTqnPgPaWU7zU5pPdbzdbqiLP9ny6H+lM0ekGvKO8LB0P
-	e1imRwGM9sTURXn6dgCLSvljifV5h5xKrb5QsaAWBzBPJZnoQxn1jf12HScGXRumO3Dyv28+BFP
-	0JSkNmzwL/FYMuJovO4FeombPh6RQNpI4QFo7qGH+Ivjh6al8i97980YpOmg8j6PnR5MsQYLoRm
-	LHmmIpaK6KJZrXci5b5vTkLUHm67+TORBrjiazfdM4Vy10P0jKtB5ssTM1
-X-Google-Smtp-Source: AGHT+IHULzXErkSsEG3TMr3Q8o0v4oD7pQEX9oBN3fzux7GpGFXrbKGi1PsMMby5frMRS0kt4tylZA==
-X-Received: by 2002:a05:6000:290e:b0:426:f10c:c512 with SMTP id ffacd0b85a97d-429aefef407mr1859148f8f.43.1761736828809;
-        Wed, 29 Oct 2025 04:20:28 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952d5985sm25843460f8f.25.2025.10.29.04.20.28
+        d=1e100.net; s=20230601; t=1761736857; x=1762341657;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=drLJ70XtGpDzIlyNv3z+1we52syz/zd9JPxUjCCEh6E=;
+        b=gdxXRUJ9h/fYkj+JqIef5CZ4vPdDu+XTAQVzk6Fts4st+PPXb06PS+6gLkaLpECaYi
+         R8msGyE1Mmh3AHrD/xCYLs6/CrL90YCCCeQ1BgV8MuW2R0j3mOW5FQavO+c04B9vGchO
+         5TRv82agxwvOuKi9HdczDx4u/6NDKOEJwrSnwQpq/aDl83nw0gjD0sxER/FtcZVIqXJ8
+         VCmp4z6hvXBBF8SmVV37G7m1dq2hmqkeVcLa3w/oqtAku7Slc2H3BIn7KZMDxpDSC1Mz
+         RzievqEzKhNsQgkHoT37Sv3GY6Lu1+YnsCDLiu9/Ciqj6AI4jICWAxavMdc+A7u72qM6
+         X9Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCX5y+6/Z9pnhhM3PL6FsyXM/hHq/VIKiwZ2193ek+o7yM7tZFjLR7hTyljuarW3eCXXF7NfNuDtDdY+yQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcS3/dnPG9Y8UYzEmdYWzFsnwp8GaGmHLHADSwEmfTM/yOcrdQ
+	PQgceitO5RLR2wqysNVnpu91bwmVy36pgFC/vwj8tA5zaU7MVNdJiPWPEkDzh81o51I=
+X-Gm-Gg: ASbGncuAwbuDNwqmYfbj48Luf83QiTUGL0bI02hjFoSXmt0XoUjQPTgOA7nm5HPbnLI
+	NmJ4Cdt5n6wbEgmol5y7kzNFEAVTBYGjR2dSBUVUa24XiSitfimu8nXLN6snPbjYJ52ul6a4cK0
+	0SgNwOb/YpmiYBgrU4SOEFcNLnG+R6zGoGqOtbhzPAKUdYkC0HCsJLrGRencQV24yiVp7+HAj5r
+	mm0FLOiATHUAuVJE66VgqWxnE5hVcTfKtlQgV7td/ep8k5SnU0CHx4UgVFQk9S7Y59q8z+MM7Tq
+	YJ6jYM9XrRVRQ4Az1HOCtDH1XOc2G8t70EPeqzd7SpbyPW71XRP2ZHXvUWOUhw/WHC30a8sWU5w
+	NLzDlaowfE6UT68DgTqyAKFc9C4eDYAfSw16IilUp6ky3+gGglmWrSh/zrOg5t7rTHfbQdg==
+X-Google-Smtp-Source: AGHT+IHJ6rI2i+ynX6AlOMcC1L9DubGba4dH9C14YMhZnd+DNhMtpSBjmYNVey1S91mBt/C7vXaflQ==
+X-Received: by 2002:a05:6000:1ace:b0:427:9d7:86f9 with SMTP id ffacd0b85a97d-429aefca833mr1978121f8f.47.1761736857377;
+        Wed, 29 Oct 2025 04:20:57 -0700 (PDT)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:69f2:5f2d:9ffc:a805])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952df682sm25657486f8f.43.2025.10.29.04.20.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 04:20:28 -0700 (PDT)
-Message-ID: <06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
-Subject: Re: [PATCH v2 1/4] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
- automatic module loading
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Herve Codina <herve.codina@bootlin.com>, David Rhodes	
- <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
- Herring <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela	 <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Nikita Shubin	 <nikita.shubin@maquefel.me>,
- Axel Lin <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni
-	 <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-Date: Wed, 29 Oct 2025 12:20:27 +0100
-In-Reply-To: <20251029093921.624088-2-herve.codina@bootlin.com>
-References: <20251029093921.624088-1-herve.codina@bootlin.com>
-	 <20251029093921.624088-2-herve.codina@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 
+        Wed, 29 Oct 2025 04:20:56 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH v3 00/10] gpio: improve support for shared GPIOs
+Date: Wed, 29 Oct 2025 12:20:36 +0100
+Message-Id: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIT4AWkC/1XM0QqDIBTG8VcJr+fQY2Xb1d5j7ELzWAdGhg7Zi
+ N59FmPQ5ffB/7ewhJEwsWu1sIiZEoWpDHWqWD+aaUBOrmwGAhpxER0fZgo8jSai463GXjXQdbV
+ tWSnmiJ7eu3Z/lD1SeoX42fEst/fnQH1wsuSCa92gRo9WGnV70mRiOIc4sA3K8I+lADjGUGKna
+ mOkt86L9hCv6/oFjFofyOQAAAA=
+X-Change-ID: 20250908-gpio-shared-67ec352884b6
+To: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Alexey Klimov <alexey.klimov@linaro.org>
+Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4883;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=bgbw2Ft4/u1XwJQBHfFlQ3MV2AqD0Imvh5HsmytZj4c=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBpAfiO0lKX2uiEhxK9yUquvK25+YyEc4xHnn5Di
+ 6uUrJIyD/uJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCaQH4jgAKCRARpy6gFHHX
+ cllaD/9iCWfjjy9wCBEUEy147bi9+0/W1kuNnYZ+UDEaCjVYFMrc3rnAyXaayf35gvRx0wqUxb9
+ aF2MptBGcVL2dTzCve7ldmBTQxHRYosBuTHZNDe/XakCnVLKYFDNujY4wFvDmm8dSOmPOtpa5vc
+ mdATGn9cS9Ua4WlnEXGhPiUL1V1O52C76xYn1eWlYwNVCnaeB0yeqW3NZjh9Waw9hNU2LKXkA0S
+ OqSBFUrtF1AgLzoFKeBS1F+gdItxUUqhMgNCeNsRyhc851bmLDSxr7bp7WuteA7X39az6KIFfFD
+ lpLW6X1Ey9Rg0DdG5mOdk16BiW4tWHYX/vbWoHNY4jd74uY9THR82FG5ZUIsLB7WKUK965A6MDe
+ taNJDPnzdrjFOgwxbAc6egfn0yY8fYpnkKsdo2po44r8P1N63fJHNobX0XXuasoudCGQ4Zny5Oz
+ LgWo6bQh4ukHof7dBFhLOImgSXZvqZSkl6A3yEf4eqmHFZ9rL6Kjn9x2a4GGQvqW9JjF5FtpKzU
+ biXyJi8q9yFoiL7Bv9xEhJ0fmpNjy/W2mfMtWi3BREAIAwXUXZJI77sUacAaJ4YuuiSDvd8VUIg
+ bkZRRywzwADq/pwIL3M1CgOYGhYWYMtJexXyJYaD2aBKBVKStP5HExBXO5tXSbgi20Hb7Qih8G9
+ d6Q/OI1u4kZr6/g==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-Hi Herve,
+Problem statement: GPIOs are implemented as a strictly exclusive
+resource in the kernel but there are lots of platforms on which single
+pin is shared by multiple devices which don't communicate so need some
+way of properly sharing access to a GPIO. What we have now is the
+GPIOD_FLAGS_BIT_NONEXCLUSIVE flag which was introduced as a hack and
+doesn't do any locking or arbitration of access - it literally just hand
+the same GPIO descriptor to all interested users.
 
-On Wed, 2025-10-29 at 10:39 +0100, Herve Codina wrote:
-> In commit c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into
-> different modules") the driver was slit into a core, an SPI and an I2C
-> part.
->=20
-> However, the MODULE_DEVICE_TABLE(of, cs4271_dt_ids) was in the core part
-> and so, module loading based on module.alias (based on DT compatible
-> string matching) loads the core part but not the SPI or I2C parts.
->=20
-> In order to have the I2C or the SPI module loaded automatically, move
-> the MODULE_DEVICE_TABLE(of, ...) the core to I2C and SPI parts.
-> Also move cs4271_dt_ids itself from the core part to I2C and SPI parts
-> as both the call to MODULE_DEVICE_TABLE(of, ...) and the cs4271_dt_ids
-> table itself need to be in the same file.
->=20
-> Fixes: c973b8a7dc50 ("ASoC: cs4271: Split SPI and I2C code into different=
- modules")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> ---
-> =C2=A0sound/soc/codecs/cs4271-i2c.c |=C2=A0 6 ++++++
-> =C2=A0sound/soc/codecs/cs4271-spi.c | 13 +++++++++++++
-> =C2=A0sound/soc/codecs/cs4271.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 -------=
---
-> =C2=A0sound/soc/codecs/cs4271.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
-> =C2=A04 files changed, 19 insertions(+), 10 deletions(-)
->=20
-> diff --git a/sound/soc/codecs/cs4271-i2c.c b/sound/soc/codecs/cs4271-i2c.=
-c
-> index 1d210b969173..cefb8733fc61 100644
-> --- a/sound/soc/codecs/cs4271-i2c.c
-> +++ b/sound/soc/codecs/cs4271-i2c.c
-> @@ -28,6 +28,12 @@ static const struct i2c_device_id cs4271_i2c_id[] =3D =
-{
-> =C2=A0};
-> =C2=A0MODULE_DEVICE_TABLE(i2c, cs4271_i2c_id);
-> =C2=A0
-> +static const struct of_device_id cs4271_dt_ids[] =3D {
-> +	{ .compatible =3D "cirrus,cs4271", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
-> +
-> =C2=A0static struct i2c_driver cs4271_i2c_driver =3D {
-> =C2=A0	.driver =3D {
-> =C2=A0		.name =3D "cs4271",
-> diff --git a/sound/soc/codecs/cs4271-spi.c b/sound/soc/codecs/cs4271-spi.=
-c
-> index 4feb80436bd9..28dd7b8f3507 100644
-> --- a/sound/soc/codecs/cs4271-spi.c
-> +++ b/sound/soc/codecs/cs4271-spi.c
-> @@ -23,11 +23,24 @@ static int cs4271_spi_probe(struct spi_device *spi)
-> =C2=A0	return cs4271_probe(&spi->dev, devm_regmap_init_spi(spi, &config))=
-;
-> =C2=A0}
-> =C2=A0
-> +static const struct spi_device_id cs4271_id_spi[] =3D {
-> +	{ "cs4271", 0 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(spi, cs4271_id_spi);
-> +
-> +static const struct of_device_id cs4271_dt_ids[] =3D {
-> +	{ .compatible =3D "cirrus,cs4271", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);
+The proposed solution is composed of three major parts: the high-level,
+shared GPIO proxy driver that arbitrates access to the shared pin and
+exposes a regular GPIO chip interface to consumers, a low-level shared
+GPIOLIB module that scans firmware nodes and creates auxiliary devices
+that attach to the proxy driver and finally a set of core GPIOLIB
+changes that plug the former into the GPIO lookup path.
 
-So currently SPI core doesn't generate "of:" prefixed uevents, therefore th=
-is
-currently doesn't help? However, imagine, you'd have both backends enabled
-as modules, -spi and -i2c. udev/modprobe currently load just one module it
-finds first. What is the guarantee that the loaded module for the "of:"
-prefixed I2C uevent would be the -i2c module?
+The changes are implemented in a way that allows to seamlessly compile
+out any code related to sharing GPIOs for systems that don't need it.
 
-> +
-> =C2=A0static struct spi_driver cs4271_spi_driver =3D {
+The practical use-case for this are the powerdown GPIOs shared by
+speakers on Qualcomm db845c platform, however I have also extensively
+tested it using gpio-virtuser on arm64 qemu with various DT
+configurations.
 
---=20
-Alexander Sverdlin.
+I'm Cc'ing some people that may help with reviewing/be interested in
+this: OF maintainers (because the main target are OF systems initially),
+Mark Brown because most users of GPIOD_FLAGS_BIT_NONEXCLUSIVE live
+in audio or regulator drivers and one of the goals of this series is
+dropping the hand-crafted GPIO enable counting via struct
+regulator_enable_gpio in regulator core), Andy and Mika because I'd like
+to also cover ACPI (even though I don't know about any ACPI platform that
+would need this at the moment, I think it makes sense to make the
+solution complete), Dmitry (same thing but for software nodes), Mani
+(because you have a somewhat related use-case for the PERST# signal and
+I'd like to hear your input on whether this is something you can use or
+maybe it needs a separate, implicit gpio-perst driver similar to what
+Krzysztof did for reset-gpios) and Greg (because I mentioned this to you
+last week in person and I also use the auxiliary bus for the proxy
+devices).
+
+Merging strategy: patches 1-6 should go through the GPIO tree and then
+ARM-SoC, ASoC and regulator trees can pull these changes from an
+immutable branch and apply the remaining patches.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Changes in v3:
+- Make strends() a static inline function
+- Use an empty release() callback for auxiliary devices
+- Refactor the code for finding the shared descriptors in the GPIOLIB
+  shared module, split it into several smaller functions
+- Use str_high_low() where applicable
+- Use non-atomic bit ops where atomicity is not required
+- Link to v2: https://lore.kernel.org/r/20251022-gpio-shared-v2-0-d34aa1fbdf06@linaro.org
+
+Changes in v2:
+- Fix a memory leak in error path in gpiolib-shared
+- Drop the gpio-wcd934x fix that already went upstream
+- Free resources used during scanning by GPIOs that turned out to be
+  unique
+- Rework the OF property scanning
+- Add patches making the regulator subsystem aware of shared GPIOs
+  managed by GPIOLIB
+- Link to v1: https://lore.kernel.org/r/20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org
+
+---
+Bartosz Golaszewski (10):
+      string: provide strends()
+      gpiolib: define GPIOD_FLAG_SHARED
+      gpiolib: implement low-level, shared GPIO support
+      gpio: shared-proxy: implement the shared GPIO proxy driver
+      gpiolib: support shared GPIOs in core subsystem code
+      gpio: provide gpiod_is_shared()
+      arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
+      ASoC: wsa881x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
+      ASoC: wsa883x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
+      regulator: make the subsystem aware of shared GPIOs
+
+ arch/arm64/Kconfig.platforms     |   1 +
+ drivers/gpio/Kconfig             |  17 ++
+ drivers/gpio/Makefile            |   2 +
+ drivers/gpio/gpio-shared-proxy.c | 333 +++++++++++++++++++++++
+ drivers/gpio/gpiolib-shared.c    | 558 +++++++++++++++++++++++++++++++++++++++
+ drivers/gpio/gpiolib-shared.h    |  71 +++++
+ drivers/gpio/gpiolib.c           |  70 ++++-
+ drivers/gpio/gpiolib.h           |   2 +
+ drivers/regulator/core.c         |   8 +
+ include/linux/gpio/consumer.h    |   9 +
+ include/linux/string.h           |  18 ++
+ lib/tests/string_kunit.c         |  13 +
+ sound/soc/codecs/wsa881x.c       |   3 +-
+ sound/soc/codecs/wsa883x.c       |   7 +-
+ 14 files changed, 1096 insertions(+), 16 deletions(-)
+---
+base-commit: 2a3cf7aa49244fafeedf9f334d3e88fe8ee05b50
+change-id: 20250908-gpio-shared-67ec352884b6
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
