@@ -1,235 +1,168 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356592F5A02
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 05:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE842D2494
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 07:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761715404; cv=none; b=A5XlwILF2llm7MAuxguPy1vwhAuetMSAvwj59VGReGTONzETdMACbPTU5gUwSnNolg2gzsl3DGyx58pC226f6M2MBPYcZ8D+E/yA8H0pBxr+lfCQQN0+71GNZope6ULcjslzdzOkEK2AZnNbVmCHkkVqEfzoeT8azOWYFINTaHg=
+	t=1761722303; cv=none; b=gmXsnitTcf6avQ/CJnoRblQ2F1tW9MLqfn0DQXlvJSq+DNHKhND5+bzwi0jUrgK0DuUe7LynQ/61MIGEc75z9VOcPI+s09d9LT1kX0CRN5l97A/1EoogiBOcFLo4Q1YyLExWNloDASh5uGsJPr0XZReZlv38YiAaBIUpgx6ypdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761715404; c=relaxed/simple;
-	bh=MVV4fn2U9kldtqYBjWGUoCfEKkSN8LPsc75pCGRRe34=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FG4DoOZHHrKW8YYfESAjhLmeCW80aF+4fD9dTTJFsBdNuyWmsHriFGYif0iKlr5CkcCzvOyUWXCgiG/tuZZnkNTjgtdTGB7b1ein/SwaZq7aXIpxMJQcfEfu6Pa/9HVavQfVZ57Mc53LwLXMGal/6trqRn8otvUIiv5DRxqUgHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GC/QrFDj; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1761722303; c=relaxed/simple;
+	bh=ecmgWyt/r3NhyI7KAZNK27WV0ALYJNBfyBVF8Ko8M+s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z9+Uqgc8REsDpAuzFqhRrdvDcwWSi7O80XFlpqJbuftUKO9Od+Gfl5h7LUuve/z+pOLoz1lDFGHTRwHLE5KExuD4vSAXQXgpCeVqC1ha3vic7etcoT2H5jd2nQRX2eR+v5yuugA4UmbHPVVqyQnDGE0upUhmSR+e3E+NyPLjgeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDQCTVCm; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GC/QrFDj"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-290a38a2fe4so6329865ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 28 Oct 2025 22:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDQCTVCm"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7a435a3fc57so3105788b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 00:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761715402; x=1762320202; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vsPKJDbsU1HLDhh7a3z0A0GhLekMgmfq9Z2ctQNja8o=;
-        b=GC/QrFDjzTQefo+2XMGdE/1zagpDaZDNeeH7zCtE+aX97yhhU3ZcsVQF44ltH8XgfQ
-         qtrNDGshfOGm4rSJYSfRRXaw9pWk/SBX6qBBmP1T2RIfw0T5EIKyghqBn4WK90y5VOpj
-         BAWWB+Rb0TxTttfeoub4aYm/z0gTcXYy/Rj01x8zQFedSxJgdouYIyQ8dEQs/p5QAe/a
-         addg/nJ5hkz/LY5pyI2Fqq8pahfP5sjt8NPYr8XMy+H4NwdGXa01ZVVRbVm/wsXeQwgy
-         hpPFZ2ZkHwi2a1NhoskQqZJcfQ0sjcF8cxYaInE/FZlp1qC1OzZ5lX0PP6TvlxIhPW9j
-         b1Cw==
+        d=gmail.com; s=20230601; t=1761722301; x=1762327101; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yKR2JIltJZH3d6vVv5ttIX5RgDXhzdjyF6WPgCyyT+Q=;
+        b=MDQCTVCmZeJ+qqaZ3RDqhw0rJGyAPPzPOsQXY+GTWdKptbSIQnSNaAcqvagcs91cA5
+         S3kqfgIyz9hgulz0BoDJ2R6wYWkaXzQNam7P2v4EPqxmeNs0C/NDMP419yrNM3uiX3Oj
+         v2A9KC+iPw7lbUwh9ZP40im5OTS9/GLjSz6WDsVJOSSIVFuvD2e4u6bR5Ukf0MeAuhgF
+         n7Ta0Hoj4SVLN9KPPUKPb9asuHUmdfosWCzpQ1p0CmHaaGgPLQA3LNHUyiiNe/9o1KJH
+         qdtodEORxdJGsge8V0zEdf2ug+1D+OjI6z1IPCu7m8WeJ8XquQ67a0AvP9VZHYJh3Bcz
+         kLNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761715402; x=1762320202;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761722301; x=1762327101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vsPKJDbsU1HLDhh7a3z0A0GhLekMgmfq9Z2ctQNja8o=;
-        b=scRSbO38WH6GlI/ce8Ir4DAH3cKSTm731iK8dlKbSRTT43lOMQYWV5A7A/N2gP4aZP
-         ivbYFmZl3W1Dt6dSjIo3uEMqwrLCc19CmtaLVl0g3JQSxDN7NaeZA9ZaZMCbmKSN5j2v
-         6+oUPMFtMKf+1ahnLghLTNgZdBl3yjWNVhqtV0jBhqeGUYmxuFsCFXdaGOpGXy70GmDy
-         4P7WBe/hGaOHASpdVx8ZWeRFPUHNpymdM/mniCpRNs0YDPmwZzsDXK3hO+1sHhVybmk1
-         jeINflyfHSFy0wRaLC+TWXwJEWt8CVcbUeuVmUYJcqSfXfh0Tmx0xP69wArHwPrQe+D0
-         0T4Q==
-X-Gm-Message-State: AOJu0YyDLaBwt5bFQCKf23jEyyWyUfOe2gY7kNo33N2riH32l6h/4XIJ
-	rBMM4rOq15Pog1hqCvIBZLM0tHX/PSlYc/jBcwllmABR8JJIdvMmkoRz
-X-Gm-Gg: ASbGnctO8B2ezi8XVhafx+SLWFPTzCvySB0MBtVcbYc5HdE6w+b9CC94sA9vyMQqOdI
-	YsEjiWBILX8YojBKc96h8MujRuSAejCyEqiP2g6hJYlTM2d75t1rYzmF7EZShL5SLiNwrsEXFCp
-	3ibzYPtG9WdOMu3rfYmSYA/1yYFSYDklG/0rCQCd9PAsg7Nd7bYZjk0ilxocWA152TCkoeHuhQt
-	nJznRHAKErsXmhp2tybEfBOKSsSK468Ex7x0VR7wl9Qf9aT9Tr0FC5z/xHrRxabftiOhcGFk2HC
-	Izx3yNOQWgSu1tDR0Wb+pdF/ZthThFIjpaoz5isU1wnYI5gmBepwPGTsCF132whDiG3+ChlQwIk
-	7TqIvfaX53hOE39Sh9o21RKAUIoWtq5xBIUgJB/uc5f1Xd6i/Znobl93LgbZ30bT7VYofK9ra2L
-	HkfO4gIojGYEVmDJyZBqGoPZDPXo59qA91XIY3ICwNzUyMhFNZMEDs
-X-Google-Smtp-Source: AGHT+IFPBXAWHtWxVsH6BOk7hvQzebVLwsPZzDMBXOrqfB/oOU+pnQqSXpGyG55Woj+zHUIo1/Vq5Q==
-X-Received: by 2002:a17:902:ea05:b0:290:af0d:9381 with SMTP id d9443c01a7336-294deec2ed0mr11818285ad.7.1761715402314;
-        Tue, 28 Oct 2025 22:23:22 -0700 (PDT)
-Received: from [127.0.1.1] ([2406:7400:10c:6625:afa3:1ffa:3262:fea9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e41697sm135526985ad.98.2025.10.28.22.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 22:23:21 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-Date: Wed, 29 Oct 2025 10:53:04 +0530
-Subject: [PATCH v3] dt_bindings: sound: ti,pcm186x: convert to dtschema
+        bh=yKR2JIltJZH3d6vVv5ttIX5RgDXhzdjyF6WPgCyyT+Q=;
+        b=wrrJ9ZNU3B/5yrBHdGLR/Ud9OYJ4kH1FSrjvbOId6I1yYPD8w9sMcExY9GFqAIeAjH
+         NlFQq+55xBTgyuyctUwI0cAKSWWuNqq/VUneSVDWxdBiuyTbi6Ybqdm1O6ZO2C7A9Svy
+         O/BhSAdVx+bIS+apj2P+1601SzeC1OOkqK2Txc8oZ7TAV0/Yw9/KQOMcxqoTa2B9vsAC
+         VJVRRGKxNahLW3Hb/HMRp9iMhm4xCaQZudIJDBHmgTXTkWExmwK+lsXUd/3Qwn/tJKBn
+         HRAx7bwtCI7PelZWiNZM2JQF7xle05aDUNH4ohTBmQ62/bVhJmJq5yRiVm8k7fFQYiir
+         a5dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvVIDlZX1Az18zMlYoWUMbEUBI3YMY5VGO5hQbqHXuA2jRw+uybOcCpeJN3SaLXO6mXvnw0HnQjjm33A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoT5/XO6rg4O11r1R+iCLp4gmfp/Hvw3EQj4a86b4YgQV9TB+A
+	3NeWfro9D29e1qR1/4Ro0Z4MoztgQ44+kUSXbdBdPnGFJ6pWJTHw4VeD
+X-Gm-Gg: ASbGncsCtDFWtaYDh2Yxgucw70WH8HFgl2IqheYul2ajYE/k08RJcTNCMp6aJLsQVZs
+	yW3c/M1hH18n2lgM7+zBTje9ZdB5jvI1jnqFjdcoogqLGhH7rQVWySnkh/hUrwRbg8og2meynXf
+	PbHwg9X5cMMmCg39btlmvWCr0W5UUe1J/PRSbq4MObYsmH1PkQgCoeseSdR8+3y9jHed0LHR1Mk
+	Pm/W8L8S1CwbrDVhme9rX0hMpr0F17d3USjlKj0NhNZzGISsEokZ3LY/cZW7k7U9OI2I21AbNNo
+	JuSgD4IGB4dX3DloGPUykh68ex+dByl8LhZQXFt328uc6TU+C5jgeCVbXuO8xtwsqaSY6GsbccB
+	bdHJ1AvydRDeIwa4gtIr2ICfYhPAWtDFc1zhqXBAOhJgc4bz2BlQrKhB3ap33xEXJwNPB3LoRn5
+	m4oBwFK6NDlBkTqwHAWquXXQ==
+X-Google-Smtp-Source: AGHT+IGsSohj8ZyfRUklbkOshcfGyTov32rF3rhJPbt86LKk5fmrvTuOuT8071qzdtGvIsEZK/0xXw==
+X-Received: by 2002:a05:6a20:3ca6:b0:342:44f3:d1bc with SMTP id adf61e73a8af0-34653146b2amr2346432637.35.1761722301330;
+        Wed, 29 Oct 2025 00:18:21 -0700 (PDT)
+Received: from localhost.localdomain ([124.77.218.104])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-7a41407a0fasm13910908b3a.54.2025.10.29.00.18.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 29 Oct 2025 00:18:20 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Niranjan H Y <niranjan.hy@ti.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Shuming Fan <shumingf@realtek.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: sdw_utils: fix device reference leak in is_sdca_endpoint_present()
+Date: Wed, 29 Oct 2025 15:17:58 +0800
+Message-Id: <20251029071804.8425-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251029-dtbs-v3-1-3cc162221c22@gmail.com>
-X-B4-Tracking: v=1; b=H4sIALekAWkC/12MQQ6CMBBFr0JmbQ0zAwiuvIdxUUqBSQRMSxoN4
- e4W4oK4fD//vQW8dWI9XJMFnA3iZRoj8CkB0+uxs0qayEAp5ZgSqmauvWLN2BZVZbICIV5fzrb
- y3jP3R+Re/Dy5z14NuK1/gYAKVVaxQa0p59rcukHL82ymAbZAoKNU/CSKkmm4viBrKkt7lNZ1/
- QJfhABfzQAAAA==
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
- david.hunter.linux@gmail.com, khalid@kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- Ranganath V N <vnranganath.20@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761715398; l=3848;
- i=vnranganath.20@gmail.com; s=20250816; h=from:subject:message-id;
- bh=MVV4fn2U9kldtqYBjWGUoCfEKkSN8LPsc75pCGRRe34=;
- b=1ls32d42eEBD+XkDNskmfxIMVqWl1ESc2Gf9poGBFGwsENkGraiUn6GcqjlYtdXsIxiDLAvqj
- 03+OT+JCrjyDq3Vhx3BRE9kqVVqeoBuM518WDawPW8BNtayh46nVJXv
-X-Developer-Key: i=vnranganath.20@gmail.com; a=ed25519;
- pk=7mxHFYWOcIJ5Ls8etzgLkcB0M8/hxmOh8pH6Mce5Z1A=
+Content-Transfer-Encoding: 8bit
 
-convert the Texas Instruments PCM186x Universal audio ADC bindings
-to DT schema.
+The bus_find_device_by_name() function returns a device pointer with an
+incremented reference count, but the original code was missing put_device()
+calls in some return paths, leading to reference count leaks.
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+Fix this by ensuring put_device() is called before function exit after
+  bus_find_device_by_name() succeeds
+
+This follows the same pattern used elsewhere in the kernel where
+bus_find_device_by_name() is properly paired with put_device().
+
+Found via static analysis and code review.
+
+Fixes: 4f8ef33dd44a ("ASoC: soc_sdw_utils: skip the endpoint that doesn't present")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
-Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
----
-Changes in v3:
-- Unicode FEFF character was present in the begining of the file,
-- Removed unicode character.
-- Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+ sound/soc/sdw_utils/soc_sdw_utils.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-Changes in v2:
-- Fixes as per the reviews suggested for the v1.
-- Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
----
- .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
- .../devicetree/bindings/sound/ti,pcm186x.yaml      | 61 ++++++++++++++++++++++
- 2 files changed, 61 insertions(+), 42 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/pcm186x.txt b/Documentation/devicetree/bindings/sound/pcm186x.txt
-deleted file mode 100644
-index 1087f4855980..000000000000
---- a/Documentation/devicetree/bindings/sound/pcm186x.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Texas Instruments PCM186x Universal Audio ADC
--
--These devices support both I2C and SPI (configured with pin strapping
--on the board).
--
--Required properties:
--
-- - compatible : "ti,pcm1862",
--                "ti,pcm1863",
--                "ti,pcm1864",
--                "ti,pcm1865"
--
-- - reg : The I2C address of the device for I2C, the chip select
--         number for SPI.
--
-- - avdd-supply: Analog core power supply (3.3v)
-- - dvdd-supply: Digital core power supply
-- - iovdd-supply: Digital IO power supply
--        See regulator/regulator.txt for more information
--
--CODEC input pins:
-- * VINL1
-- * VINR1
-- * VINL2
-- * VINR2
-- * VINL3
-- * VINR3
-- * VINL4
-- * VINR4
--
--The pins can be used in referring sound node's audio-routing property.
--
--Example:
--
--	pcm186x: audio-codec@4a {
--		compatible = "ti,pcm1865";
--		reg = <0x4a>;
--
--		avdd-supply = <&reg_3v3_analog>;
--		dvdd-supply = <&reg_3v3>;
--		iovdd-supply = <&reg_1v8>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-new file mode 100644
-index 000000000000..72a3e1dde0fa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm186x.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 270c66b90228..ea594f84f11a 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1278,7 +1278,7 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	struct sdw_slave *slave;
+ 	struct device *sdw_dev;
+ 	const char *sdw_codec_name;
+-	int i;
++	int ret, i;
+ 
+ 	dlc = kzalloc(sizeof(*dlc), GFP_KERNEL);
+ 	if (!dlc)
+@@ -1308,13 +1308,16 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	}
+ 
+ 	slave = dev_to_sdw_dev(sdw_dev);
+-	if (!slave)
+-		return -EINVAL;
++	if (!slave) {
++		ret = -EINVAL;
++		goto put_device;
++	}
+ 
+ 	/* Make sure BIOS provides SDCA properties */
+ 	if (!slave->sdca_data.interface_revision) {
+ 		dev_warn(&slave->dev, "SDCA properties not found in the BIOS\n");
+-		return 1;
++		ret = 1;
++		goto put_device;
+ 	}
+ 
+ 	for (i = 0; i < slave->sdca_data.num_functions; i++) {
+@@ -1323,7 +1326,8 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 		if (dai_type == dai_info->dai_type) {
+ 			dev_dbg(&slave->dev, "DAI type %d sdca function %s found\n",
+ 				dai_type, slave->sdca_data.function[i].name);
+-			return 1;
++			ret = 1;
++			goto put_device;
+ 		}
+ 	}
+ 
+@@ -1331,7 +1335,11 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 		"SDCA device function for DAI type %d not supported, skip endpoint\n",
+ 		dai_info->dai_type);
+ 
+-	return 0;
++	ret = 0;
 +
-+title: Texas Instruments PCM186x Universal Audio ADC
-+
-+maintainers:
-+  - Ranganath V N <vnranganath.20@gmail.com>
-+
-+description:
-+  The Texas Instruments PCM186x family are multi-channel audio ADCs
-+  that support both I2C and SPI control interfaces, selected by
-+  pin strapping. These devices include on-chip programmable gain
-+  amplifiers and support differential or single-ended analog inputs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,pcm1862
-+      - ti,pcm1863
-+      - ti,pcm1864
-+      - ti,pcm1865
-+
-+  reg:
-+    maxItems: 1
-+
-+  avdd-supply: true
-+
-+  dvdd-supply: true
-+
-+  iovdd-supply: true
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - avdd-supply
-+  - dvdd-supply
-+  - iovdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        audio-codec@4a {
-+            compatible = "ti,pcm1865";
-+            reg = <0x4a>;
-+
-+            avdd-supply = <&reg_3v3_analog>;
-+            dvdd-supply = <&reg_3v3>;
-+            iovdd-supply = <&reg_1v8>;
-+        };
-+    };
-
----
-base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
-change-id: 20251021-dtbs-3a31f699c461
-
-Best regards,
++put_device:
++	put_device(sdw_dev);
++	return ret;
+ }
+ 
+ int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
 -- 
-Ranganath V N <vnranganath.20@gmail.com>
+2.39.5 (Apple Git-154)
 
