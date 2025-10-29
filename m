@@ -1,130 +1,175 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B250355046
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 18:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593A719A288
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 18:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761761539; cv=none; b=ltNP7mPzFNI3YLZ/STHGYeadi/QzVxBkuwkI3+i43YL1fFayw/pblqyfqjisRFyXnn6KnB9bNLA7ZgZcVkM+WzAKOhxyqN8pTZArWdNJxsxYoLNbznQAf5wb19V08kNmQy91WoASywMsTVUBItC1kwFNMYZtNQnPHbA7kKflqUo=
+	t=1761761902; cv=none; b=UPKzz/eoJl1TLiNL2HU4LO+WQUb9a37VGGKyEV8BUgKnlEALwHKR3OQBqUoe2GYj5acKwcktgHftsxTZAuATfRrFnp/T53xU8DOEanPKbmqVyAEBAP4n4/2nc16wo841J8ZJwdDIycDOl0rlCHR6KWGR9y5TbozmigZteK6pyaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761761539; c=relaxed/simple;
-	bh=0cHmfPpwQRUncw6ailNncA/HG4OJbBt0bXiKo1tivTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mcvcv9PgkCDrrIT0b6wTqZxj0/LrlXuUGXbSTBmakd9JQ5vZCwApN5FiHi9plNq+pkCWHGcSod8UYq+XkPjDJChfETs+IfluAvod/aEfeSuTYGp0V3Ye6+dHWQmt7sKD5rzYpjDbCFoXc6O5FufYFEvo3r1EB/1OwSjNVpY9ygQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KFqVNPXI; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761761902; c=relaxed/simple;
+	bh=ooacL6JlPaVFf5YvOxGwwAwuM7qsq5PLFLhcu6sftmA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=WOY9Z+UgKTzaE+r9Xd7Fzu/5E9VGVvrIxv4yopFj/lyn2SfcK04JV930yH9a8NFCB3Sdzom7opwOWuXqk2hrRlwkecbzxGWQfB+Bw0MmfmP1EsXcg07mEcBF7Kfy3N9keWn1v8F+nTx3xqLlLCG6k0vg7Z8hKOeaUcYVrgsYwdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nadim.email; spf=pass smtp.mailfrom=nadim.email; dkim=pass (2048-bit key) header.d=nadim.email header.i=@nadim.email header.b=vkf48/08; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OkvzfVFB; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nadim.email
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nadim.email
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KFqVNPXI"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a2738daea2so207151b3a.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 11:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761761536; x=1762366336; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4fM675FWHZG0xlF23ngbvLV+PkmWX/yNsjPmEemg5TU=;
-        b=KFqVNPXIAnnjUaN5gsI+9Mlz8e0Hg+iMH2J0QQpCTyMREcI2in3rYtJJVD5aC1VQHQ
-         Ot4jr/buP8bxDWbkBFgAShrYIcukAALXZMyYnX0aDmhWBbvDShU4g+A8NjxnM1GkhLuR
-         8NxZdpVuPZnKcfM/2uX7rBQc/BJPz18A4cLJvyODhTcBBMNBOh06kCfqUiOqiYda+Tma
-         itYCs56FAnuSIiauPhtFO8ExZ9SNEwkTwiVyQH1FwHgInteXU6w0cqSyqzkUDQSx3d0I
-         dibvKx8iwsjItzU714bwW4bvXl5CF4mvg/vGe6Kj+Z4XaJEvJQEQWi0e/zgYym0IPASB
-         T78w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761761536; x=1762366336;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4fM675FWHZG0xlF23ngbvLV+PkmWX/yNsjPmEemg5TU=;
-        b=Sr4V1CX7XRxt8G4+4nME6NQId5Y4IUBEx0kKpbCVxSIBTUXDhCbKx8FvCQqCc7v0zF
-         BFeMfwvLFS/Egi03ExWug3aXLwYJzO9wVUEcK9RLgzq8onRI9FAzmfvU/7jGpcajG8PO
-         r+xQNNtm9KXWTp0E/d81QcNzadzrcNx6DocxjpuIQ3cPsJf7DovnLExHI9yLPScqqgfk
-         TAAu8Ek33nvwYJ3ppuVb2TxuwzualCThHruKkU+Lun6waXLdD/X8kc9fY+Gr3c0mKi6o
-         15Xwj/ImL1jCb8E4+pJO589V+fmvfuqpia079Oec85RpHsgR3rIKCPzrYFi/5uuF+WGF
-         MGPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZhfDFKVUmN4fZg2jyT35wrYdqzIpd+v/NQITVVVo8V9OOoHgmaS3DhOWro2Zvlk+0fMDhGsp2GxdXRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj+ZZHHmz/fmmJj5m6WDFEkIbAJj8kg+TG05fuewUllFJOwmBm
-	f31nCH+tlufaMjX/pt1OBxsYLQkBTotkDUAxcrkM2EBgBTf3Sw422pMz0ekNk1WQ
-X-Gm-Gg: ASbGncsQ8AXm7YQc9q1+s8LgcWEs6LMOFS7KrtYSWjaN4OHjAFJCIna2NgIbxmPYaXy
-	GFedaAYsluBqDdUsGAXlmVdKrPnN53mOBKGA2ZLmNTTvYTzAhxUy4B2RTIsWoJlt9e5KTvvIuAq
-	1U1q4gdbv/CH6AGpbKVzjhpbxbR8A+TiFKR9swzQIQMu2bTpzyFF8wjBFf8yKFghhaZtKjPCTMH
-	r0FjRAbYrj6wG+mq7WLP+UpArJRHaJO/EaHCNsba14OG+mDvvQdjuTDpuJTLHb0kOaYFlarTSCV
-	1LWVMd1CSrkiS29DeE+iqReQQzHn5/EghyJ5pfOd6AV/pp60yMvspCUhU51bz/wPUqpRw/Tp/rw
-	3uiwx3nZzQccDmx0bdIGqpeW6Tnkwh7JMANDLNX0kvHC7IsE237tLDF8ptcU/COsn7fOpiCnNZV
-	LkhvwqKC/8rL1tu7dbWw==
-X-Google-Smtp-Source: AGHT+IF1iztqeEvlPkCmhJVVsUDNgxlyocxHM5e+Cao8IG24USp/FUjlf8iFINN3ikKQR8qFpw9rhg==
-X-Received: by 2002:a05:6a20:3d86:b0:342:9cb7:64a3 with SMTP id adf61e73a8af0-34654af9f15mr4348450637.34.1761761535578;
-        Wed, 29 Oct 2025 11:12:15 -0700 (PDT)
-Received: from localhost.localdomain ([187.17.229.36])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b712f0c1859sm14082250a12.35.2025.10.29.11.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 11:12:15 -0700 (PDT)
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	chris.chiu@canonical.com,
-	edip@medip.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	edson.drosdeck@gmail.com
-Subject: [PATCH] ALSA: hda/realtek: Enable mic on Vaio RPL
-Date: Wed, 29 Oct 2025 15:11:52 -0300
-Message-ID: <20251029181152.389302-1-edson.drosdeck@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=nadim.email header.i=@nadim.email header.b="vkf48/08";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OkvzfVFB"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 7217F1D0015C;
+	Wed, 29 Oct 2025 14:18:18 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Wed, 29 Oct 2025 14:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nadim.email; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1761761898; x=1761848298; bh=8y
+	s6EZhWEYnhZTsMojjCxqs5ttIiY2Z7LRFyy/3Hq9k=; b=vkf48/08q7BbnGaL0E
+	9VdfA1bPY+yKBg5actnkrJP7atHtQM0J+nelCTM+Xc2fxCULFxvp6OHAHH+mnmGy
+	ViiZoftAC3YGduvvClvTvYfZrJkp4EjkXYavvzr3Gnk/FIbX8KWI3vxE7E4OzySN
+	7PBgfVndWYnTAducopIh/1NgTz4eDrOE49O7nqhty88ENr7wODXX1AH6K41awmDX
+	+Bg8af+EoIhjW7f6cWbVFrUNMC6QNZdzBH5ZHywanwJyajjJH9pA7qO/zW9rf4o2
+	dlhJHYFK7QN5kj83cVruQcfrY7kJn+tWiB59rKb90LwS1IaXnOkRTm/V4gkTptuL
+	LElg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1761761898; x=1761848298; bh=8ys6EZhWEYnhZTsMojjCxqs5ttIi
+	Y2Z7LRFyy/3Hq9k=; b=OkvzfVFBXBRml7YTgctmoMEAZhGX7Fi+eCAQU8zkqCBJ
+	hw3r2pDOc/er8gEfZ5qnhx63Bd93dSrDs/VzfrCgmsmrhQEI92E+YiZoHFpg8CN4
+	EgI6mGCduZojzoncEVnAnvnJbggYN5KYV9U1vEoBIHITFG07CSv6h2Q0nUBfiPda
+	OKdnJh+9+/e6HRLYjDHK0CBelg45LlIWYOrwBwaxFGdcFgEsDPPVLFPVMh7mo+3P
+	XC+ryrf51Bn0deHDHyb7erkLNe+FMiwVRgodIi0HyHQNHD6cieBQI8Bu6yRamdOt
+	c0hDal8w42DnfNf28D5JaT0vYc4Uv+cDUPmnjT+9RA==
+X-ME-Sender: <xms:aVoCaSzYY0SM1l41FOL-B7mMNxhIeUUg-BZ863IUFi7dQzR93XC7DQ>
+    <xme:aVoCaWAWFSyYkMx_nHnKoDYQEsnE9odR0IlLDVV-58LnDjhR3Xyt850TDZ5BMYfGi
+    kr9z6cleilnwB-ZnwoZEn85WIjntTqDUY6S5fL7twPjboSX2UOGNf0>
+X-ME-Received: <xmr:aVoCaXZC9gFLtEQMTgJXoX69_LWOsxJ1RHGMI2XjODCyAbKIlUZhvcyB1ROM3krb6pI8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieeggeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkffggfgfvvefhufgtgfesthekredttd
+    dvjeenucfhrhhomheppfgrughimhcumfhosggvihhsshhiuceonhesnhgrughimhdrvghm
+    rghilheqnecuggftrfgrthhtvghrnhepieefhfegleekfeeutedtledtudevuefhfedvle
+    dvvdffgeejffevvdeihfefteefnecuffhomhgrihhnpehtphhlghdrhhhofidpkhgvrhhn
+    vghlrdhorhhgpdhgrghruhgurghlihhnuhigrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepnhesnhgrughimhdrvghmrghilhdpnhgs
+    pghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugi
+    dqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtihgrfihi
+    sehsuhhsvgdruggvpdhrtghpthhtohepphgvthgvrhdruhhjfhgrlhhushhisehlihhnuh
+    igrdhinhhtvghlrdgtohhm
+X-ME-Proxy: <xmx:aVoCaWjR6bh8f3YyVjSCrzzHv41QZiE6yMBm4Tiw-iA4Ws67Z04nIQ>
+    <xmx:aVoCaR6jZHciUNA9lk4rd42H2r_Y-4J21odBsC2p5q4EcIQuPQHDng>
+    <xmx:aVoCaV4oPQdHGwSplzSCXz0FI7e-Fa9xdD2WesEs1M182_l0WhnJUA>
+    <xmx:aVoCadex4C8afHdU1BbrPl5IMykjyDT66oDAd5X5VtddJHwDjK2IsA>
+    <xmx:aloCaVyHtemjiglFzcCZ2Easv1EgjGmZIV7KNUDmqVFBpXGlfIAaA4Sn>
+Feedback-ID: ica9149ee:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Oct 2025 14:18:17 -0400 (EDT)
+Message-ID: <2a5892fb-7858-48f1-a91c-1f3ff4a3a9e0@nadim.email>
+Date: Wed, 29 Oct 2025 20:18:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-sound@vger.kernel.org
+Cc: tiawi@suse.de, peter.ujfalusi@linux.intel.com
+From: Nadim Kobeissi <n@nadim.email>
+Subject: [HELP NEEDED] Legion Pro 7 16IAX10H - Missing ALC287+AW88399 topology
+ and quirks
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Vaio RPL is equipped with ACL256, and needs a
-fix to make the internal mic and headphone mic to work.
-Also must to limits the internal microphone boost.
+Dear linux-sound group and Mr. Takashi Iawai,
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I was advised to contact you by Mr. Péter Ujfalusi from Intel after 
+reporting the audio issues being faced on the Lenovo Pro 7 16IAX10H on 
+the Sound Open Firmware (SOF) mailing list.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 8ad5febd822a..cab4603c425b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3736,6 +3736,7 @@ enum {
- 	ALC285_FIXUP_ASUS_GA605K_I2C_SPEAKER2_TO_DAC1,
- 	ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC,
- 	ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK,
-+	ALC256_FIXUP_VAIO_RPL_MIC_NO_PRESENCE,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6172,6 +6173,16 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ 0x1e, 0x90170150 }, /* Internal Speaker */
- 			{ }
- 		},
-+	},
-+	[ALC256_FIXUP_VAIO_RPL_MIC_NO_PRESENCE] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x03a1113c }, /* use as headset mic, without its own jack detect */
-+			{ 0x1a, 0x22a190a0 }, /* dock mic */
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
- 	}
- };
- 
-@@ -6959,6 +6970,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1558, 0x971d, "Clevo N970T[CDF]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1558, 0xa500, "Clevo NL5[03]RU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1558, 0xa554, "VAIO VJFH52", ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x1558, 0xa559, "VAIO RPL", ALC256_FIXUP_VAIO_RPL_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1558, 0xa600, "Clevo NL50NU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1558, 0xa650, "Clevo NP[567]0SN[CD]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1558, 0xa671, "Clevo NP70SN[CDE]", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+The issue is as follows:
+
+Right now, the laptop speakers on the Lenovo Legion Pro 7 16IAX10H 
+(subsystem ID 17aa:3906/17aa:3907) do not work. This laptop uses an 
+Intel Arrow Lake-S platform with:
+
+- Codec: Realtek ALC287 (detected as ALC287, but listed on the spec 
+sheet as ALC3306)
+- Amplifiers: Awinic AWDZ8399 (x2) on i2c-2 at 0x34 and 0x35
+- ACPI device: _SB.PC02.I2C2.SPKR with device ID “AWDZ8399"
+
+Current Status:
+
+The good news is that the snd_soc_aw88399 codec driver exists (kernel 
+6.7+) and successfully binds to the I2C devices. When I force SOF with 
+snd_intel_dspcfg.dsp_driver=3:
+
+- sof-audio-pci-intel-mtl claims the device successfully
+- SOF firmware loads: intel/sof-ipc4/arl-s/sof-arl-s.ri (v2.13.0.1)
+- However, it falls back to the generic machine driver (skl_hda_dsp_generic)
+- This loads intel/sof-ace-tplg/sof-hda-generic.tplg
+- This topology only includes HDA codec paths - NO I2C amplifier integration
+
+The Problem:
+
+Without proper topology and machine driver integration, the AW88399 
+amplifiers aren't connected to the audio pipeline. Currently, audio is 
+extremely quiet and tinny (sounds like only tweeters working?)
+
+What's Needed:
+
+- A topology file for ALC287 + AW88399 combination (e.g., 
+"sof-arl-alc287-aw88399.tplg")
+- ACPI/DMI quirk entries for 17aa:3906 and 17aa:3907 that:
+- Force SOF driver instead of legacy snd_hda_intel
+- Select appropriate machine driver (not generic)
+- Configure SSP routing for codec + I2C amplifiers
+- This might be distantly similar to existing implementations like 
+sof-mtl-rt5682-max98357a.tplg.
+
+How I Can Help:
+
+I'm happy to:
+
+- Test patches and provide detailed logs
+- Provide ACPI dumps or any other system information needed
+- Help with debugging and validation
+
+This issue affects multiple recent Lenovo laptops with ALC3306 codecs 
+(see kernel bugzilla #219651), so a fix would benefit many users.
+
+We've already discussed this issue extensively here: 
+https://bugzilla.kernel.org/show_bug.cgi?id=218329
+
+There are also discussions here: 
+https://forum.garudalinux.org/t/audio-issues-on-lenovo-legion-pro-7-16iax10h/46291
+
+Finally, Péter provided the following insight:
+
+ > $ cat sound/hda/codecs/realtek/alc269.c | grep "Legion Pro"
+ >        HDA_CODEC_QUIRK(0x17aa, 0x38a8, "Legion Pro 7 16ARX8H", 
+ALC287_FIXUP_TAS2781_I2C), /* this must match before PCI SSID 17aa:386f 
+below */
+ >       SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7i 16IAX7", 
+ALC287_FIXUP_CS35L41_I2C_2),
+ >
+ > Looks like the Legion Pro 7 comes in pretty wide array of config as 
+well, but you need some thing along these lines.
+
+Also, Péter mentioned that it would be a good idea to capture the HDA 
+verbs used by the Windows driver. Could anyone share some guidance on 
+how I can do this so that I can share my findings?
+
+Any guidance or pointers would be greatly appreciated!
+
+Thank you!
+
 -- 
-2.47.3
+Nadim
+Sent from my computer
 
