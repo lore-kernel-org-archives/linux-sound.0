@@ -1,175 +1,116 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D4B342C95
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 16:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD12ECE86;
+	Wed, 29 Oct 2025 16:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761753689; cv=none; b=SEFpZ0Hz9b4e7z+dLy2vJdc6MsJFmtSw1vwKhNqS+F6wTkZSGPRMCUt60Cr5Dg3RRJXEZL+R/DkjFNLcdF9BNcIvspn8h1Owmk1YpnJHD0QAeyUBqROOt9IKbMzSeXdkeiLMu5CK7/z7C18KV6L1smyZYZvBuZRGJ7gnBaT3A3s=
+	t=1761754500; cv=none; b=g/VWG6+1pIIq89KorSbW6mRnHS+rFojA/GGZ5dUcPmY6xJYUvgtQwryVU9KeDX1BJviO0FHPgVe+g19UoEBlGJq7NSjw0cL1eJu3YBj7nDfLJetoZKcg/wKGOdszBqZsdSybnzj/n0KjPJ6yHJnqOQ2qVfyAGacRwZuS0EisxyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761753689; c=relaxed/simple;
-	bh=EKU/HsGn5C1um2y0d1RTOlDdIIAAM6JbAG4htV2yCb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qpwYluI6WFGxuLN8z/QRuZd53nEJSCXVGeusEbKq8thuDB69OVn9Q005XzpElLJBHRLV57WiiOYvqHiMZXdDIr9O3WeHCBq9T4risjFCvvYs79ZjchsePxz9I8kx0cIomIQuNtHyekj2ZFvurRWgLxzusDRmu8yvgkQaOG3xhy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Fp4KlcOi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YHwQMDMk; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1761754500; c=relaxed/simple;
+	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KIZs+SS4rpvGAtrximgLZwMy3Pf1+tPfenLl49vM9sMw7i6EXaa/n1wKkIvNRbkUm/zBDwT9poLyxsc3DhE2TADlHOsI5iyaqaEEq+3SxlRi9Ztn3jwwsy/awY0wLaW3+yeYIbgqVpYEFOKS6CQ4UViCN5LV9bD/hArWKh/TJkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjE37pNN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fp4KlcOi";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YHwQMDMk"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59TDcvHk567996
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 16:01:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=IEq2aSb00s4
-	qKXheRiZL2KxJNF7/Ul190P2t2smNwvw=; b=Fp4KlcOisn08BOseA3d2L7cvsCh
-	+XpBrZOspxy9+Xgbu+dU0wa2K2vKPOtqFvNgvjGeX50hQCwyczD6UPIKVci6Z8yR
-	LtWEj2lBNTTCQRvodytoceCXnPiiFH/SnZn8F5nGAujRGdkByChv05TrW9Doe+uG
-	u1RqPO4OtY1SDq/73NvjxToORamprtc6h+sFnF7b+lUqjofQglI6yPagrpVYesRb
-	il4Mzuc5mdakde9uvcnyJ/P+oUBOxW+vXKy+EUWoedtlO4XOqHfOiUNRnlTUy6zT
-	0tK2zzEnTfwMGT4Z4qogmS6FeLSUBlyhqs1eewbCdlNn1vGC32DV5uT42qg==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3m0bgfar-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 16:01:27 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-5579e776f49so16046909e0c.1
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 09:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1761753687; x=1762358487; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IEq2aSb00s4qKXheRiZL2KxJNF7/Ul190P2t2smNwvw=;
-        b=YHwQMDMk7FT6G1oz2wu1+zFIaFhwT/dPia02csxOw78QrnVBMPcYqzXJkqJmmRpqn5
-         4XLdiCY4SeCYs/Y/5ruZessqFpPtY7F/BTumT6KHLt7ErPQdew3Rk7JECmcHwiMz80ho
-         5wfEjrb8a/rZhOrX6nQXIJRZlcewutzb4a83ZJuTxEMX42PBG7ZH+DiSZlLYJ7w4TErD
-         QvtZ1Pft7LbCeP5v+AA0ZKQMQnc2MzgeiclSAN66LusjXFLP/UvbfHyEjkRfQJH2l9P1
-         yPgo48Xl9tqEv+0KANbrZJFCwWdGGNy6AG8npC3cC6NLXM+GAFUrJIMZbDtDfQ1VMlab
-         gZaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761753687; x=1762358487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IEq2aSb00s4qKXheRiZL2KxJNF7/Ul190P2t2smNwvw=;
-        b=qVwXYN4O4qjVYJJHSCZBCGKtINtW/8aZ7rjNPcQFvgCD4VqsOZ3avEh5FMlqocPOc7
-         iHcskWqswdh3OWN/jneI4BcgJ/XfyX1ioMJjyqPNX6O7u84xEVKv0Hr6e/k2Jmrf8CDa
-         NRZEEN6S7325wKSbbmg2QmSUzJg2SQ0/ajGPPTf2HCZlomjUX3qhwDC5nHEm657BpTLl
-         oN1z7CpTIvR6TnWH0BuWtmjiq1YqFKYA1fwicBN767sWCH3Ufp0+mM1dtlnSx1wO1nbE
-         odFvvXV1PKvnGSFbGFb9FRrt9py2EX5rBwXCS08E0PMNKRDOrQb1FQcV6kuuW7aunn2B
-         /Fag==
-X-Forwarded-Encrypted: i=1; AJvYcCUJzRq6IYjtFJfXcjz/SqAOkPl3pTOpy7X6a2rJYqiSVHH70Cu3ymrxlBZLE3nCYXjq4NsDSDQ1xTAtWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi3QQiMCT33Z7bOhKyBtPNbRU2s9XV7Ib11k3U645RCkgyzG5v
-	7uItBZVdBug1ar9nYVyw4Stood3JZxbzNqrziXDjwK+fpMb2pShGIR3c/owNPPEncBUuMOr0/sG
-	lYLNot/7JcnRd1Oi7lBya5YZEq1n7zMV9eUht/Ecmsf7IsFYboeec6uH6qlb+ACfe6w==
-X-Gm-Gg: ASbGnctQJAczv7VRaDDhfOgHWyQmaxpLlqLVsrMTs135e4uDwOIKUqgATxT4LO//gcR
-	g4LX6GqEhOQFlWitsUBZn9MUN8lxtpq0Cn/9ObTaD9HFtHnHdp9nu5K47E1x5NNh44Os36rAXqp
-	TZx0LGHKgjIM7oUhNxY4BE8s00gPyTG+eNtSirzODRxoL5ezODDM6toSxZQZ3mdAfTHQ2KEWb5E
-	ER7EJXOjQlu1q3rrasNd6IKJV4bKF97Gmw9A7B8Jf8cUvdKQnCVFnJvGzU3w+BNckRqKUZJMPsG
-	5lbsDNQGDOLrMYGtGbVvQMmFFh+RiqPAv5mRIH54eMJ6V5x4vcvjyjzHljMaJktgU+8/gmjBxsX
-	QEHZScpKskB5a
-X-Received: by 2002:a05:6122:90a:b0:556:97dc:4a83 with SMTP id 71dfb90a1353d-55814267160mr1315483e0c.14.1761753682092;
-        Wed, 29 Oct 2025 09:01:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH3Y9WaBzilw+bQFAcYPxp8fJjA+27I+dMEnAhZub51yTwrAHnCEemtfq+h8JeZrRrzVZ13BQ==
-X-Received: by 2002:a05:6122:90a:b0:556:97dc:4a83 with SMTP id 71dfb90a1353d-55814267160mr1314998e0c.14.1761753680063;
-        Wed, 29 Oct 2025 09:01:20 -0700 (PDT)
-Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771e27f7b8sm57154535e9.0.2025.10.29.09.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 09:01:19 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: robh@kernel.org, broonie@kernel.org
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-        perex@perex.cz, tiwai@suse.com, srini@kernel.org,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, alexey.klimov@linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 4/4] ASoC: dt-bindings: qcom,lpass-va-macro: Add sm6115 LPASS VA
-Date: Wed, 29 Oct 2025 16:01:01 +0000
-Message-ID: <20251029160101.423209-5-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251029160101.423209-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251029160101.423209-1-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjE37pNN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E76FC4CEF7;
+	Wed, 29 Oct 2025 16:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761754500;
+	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QjE37pNN/L94+0MLl21IS08uJ68If0bQz6Nldnoci1SWL74a5JkjwbGiXLqZBK6Cv
+	 3f77yW0B2+xKct/DP4OFLB6B/MDEmlMZJ/Im+RzJYLT7Kxdl4EoItpZcu9WEUPbjhx
+	 7wbSgeOp1IkG6gqY0wLC7QitMyN6pUXzJyty7urTyi/C/Tf0XE+Oqo0he9Es0uUo0J
+	 zycg7LRL6yN2spgA6gBOiOrBjQNRhTULUdvrG/w90LDoVakhV9uaEXZr7VTRwHwDNi
+	 KQUmoMx/Ltsm/rjj8vJLGIsdCh6fg0SSt8YuQMnKSHtniDuiP+KHFwPR4X8Tc4wyZ1
+	 CvdB7/RRxn4xg==
+Date: Wed, 29 Oct 2025 16:14:55 +0000
+From: Mark Brown <broonie@kernel.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: codecs: Use component driver suspend/resume
+Message-ID: <56911e0e-0f25-4134-92fd-f89cb47fd9b6@sirena.org.uk>
+References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
+ <20251029141134.2556926-2-claudiu.beznea.uj@bp.renesas.com>
+ <bdb14543-e611-42d0-a603-300c0ea17335@sirena.org.uk>
+ <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: U30FlhMb0511Q9x0qAXG6xMA7oq6wbLs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDEyNSBTYWx0ZWRfX1fsF2cwMn16e
- Nh8RiSQglu/gdCSc3JzMQG5Qr4CtYk9LguyyGsUMF6eASiKyxlzkZDg8Rt4D2pfZSe/JunAmxLa
- 6YfariJEEVwyUx3BEN/fUCNczXW14IFE9WLpupUjvQ/Ll15o/uH/o8SoT/O/Ub38GU5pq/jvL3p
- KtSaEOMRGJ2kCvouxJGy3J5cY9FlxFFetFiflycgGMYIph+oTrkHpJjNEaR4nrvnmiJBnSZxbor
- jqc/6HRgGw7Azx9e+fexQp8fJYdDgEKiwoh79hkq3lF+MTsdr/CPxkNX4iAHT8y/SQjv1ELGWDB
- NS/rrG3qItKgNZ8O8j/Owvac3Ne+ZAdm+hfBVuLIvm32YS5E0+XwV0CtNb5bcALs/QDEJqgN0H7
- cugO4cwLzFzRVIFzZnyE9IM7jQLSUw==
-X-Proofpoint-GUID: U30FlhMb0511Q9x0qAXG6xMA7oq6wbLs
-X-Authority-Analysis: v=2.4 cv=YLySCBGx c=1 sm=1 tr=0 ts=69023a57 cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=0AadgyblTOGOoKeRh1oA:9 a=XD7yVLdPMpWraOa8Un9W:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-29_06,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290125
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JpTtvZk+/JgRadlt"
+Content-Disposition: inline
+In-Reply-To: <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
+X-Cookie: Goes (Went) over like a lead balloon.
 
-Add bindings for Qualcomm SM6115 SoC Low Power Audio SubSystem (LPASS)
-VA macro codec, which looks like compatible with SM8450, however one of
-the clocks macro is available in this SoC. So updated the bindings to
-allow min-clocks to be 3 to be able to use SM8450 compatible for
-SM6115.
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
----
- .../devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+--JpTtvZk+/JgRadlt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-index 5b450f227b70..1ac3392776ca 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-@@ -26,6 +26,10 @@ properties:
-               - qcom,sm8750-lpass-va-macro
-               - qcom,x1e80100-lpass-va-macro
-           - const: qcom,sm8550-lpass-va-macro
-+      - items:
-+          - enum:
-+              - qcom,sm6115-lpass-va-macro
-+          - const: qcom,sm8450-lpass-va-macro
- 
-   reg:
-     maxItems: 1
-@@ -44,9 +48,9 @@ properties:
-     minItems: 1
-     items:
-       - const: mclk
--      - const: macro
-       - const: dcodec
-       - const: npl
-+      - const: macro
- 
-   clock-output-names:
-     maxItems: 1
-@@ -125,10 +129,10 @@ allOf:
-     then:
-       properties:
-         clocks:
--          minItems: 4
-+          minItems: 3
-           maxItems: 4
-         clock-names:
--          minItems: 4
-+          minItems: 3
-           maxItems: 4
- 
-   - if:
--- 
-2.51.0
+On Wed, Oct 29, 2025 at 05:22:26PM +0200, claudiu beznea wrote:
+> On 10/29/25 16:37, Mark Brown wrote:
 
+> > The theory here is that the power management core uses the device
+> > instantiation order for both suspend and resume (reversed on suspend) so
+> > the fact that we use probe deferral to make sure that the card
+> > components are ready should ensure that the card suspends before
+> > anything in the card.  If that is no longer the case then we need to
+> > ensure that all drivers have system PM ops which trigger the card, this
+> > won't be a driver specific issue.
+
+> I also saw the behavior described in this commit with the rz-ssi.c driver as
+> well. The fix there was commit c1b0f5183a44 ("ASoC: renesas: rz-ssi: Use
+> NOIRQ_SYSTEM_SLEEP_PM_OPS()").
+
+> In case of this this codec, I saw the code in da7213_runtime_resume() and
+> soc_resume_deferred() racing each other on system resume.
+
+So I guess we need the more general fix then, with everything calling
+into the core to suspend the cards.
+
+> > If the device actually lost power during a runtime
+> > suspend then we'll end up having a bad time.  There was also no mention
+> > of runtime PM in the patch description...
+
+> I had no issues with runtime PM, but only with suspend to RAM, when this
+> function was called though
+> struct dev_pm_ops::resume = pm_runtime_force_resume().
+
+Calling regulator_disable() doesn't guarantee the regulator will be
+disabled, the constraints or other devices can ensure that the device
+retains power so there's no effect on the actual hardware.
+
+> Would keeping the regcache_cache_only() + regcache_sync() here along with
+> populating the struct snd_soc_component_driver::{suspend, resume} be an
+> acceptable solution for you? I think that will work as well.
+
+I'm not sure what you're intending to populate the component with there.
+
+--JpTtvZk+/JgRadlt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkCPX4ACgkQJNaLcl1U
+h9DVIAf/cAd0aKUG7ztZYiPY/cyhA7SyqjfnlvJMZkM4AqWOp+nc2Lq76IWOKckx
+esVqlDB71tZI+wtddbYyDVc8G4OQUAFnftjSyFl97/CYACADQ9FjUzWpUgbaUo0h
+9KbIQUFejzoao8zsg6jIfMgeh8F90M9JaxoMjNjpTfpLfpGw0XHGZZPfRq7z1v41
+B1Oxl52EIMC9enrkF8sKEOJ3WQwNK9w6XjAY9vctTbSgkAdb/twf0BQEmWOxcOkU
+U1zK/LTjNfbBtl3ZMhXcupoyLVBXOuYdNxT76ZH2ziGhB3hGvl6UYVorkXf9+kzY
+foTIXsTVHNwWQz6ZpmpwcgZmwCzIhw==
+=MYlh
+-----END PGP SIGNATURE-----
+
+--JpTtvZk+/JgRadlt--
