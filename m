@@ -1,200 +1,117 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DFB27B32D
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 14:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F162641E7
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761747116; cv=none; b=W0WM4KEiQu4MMVuguPar6K9nlkEHCxmumw5b9DxTcEU6Wa7o3qZKBEmS0D+weaodrbhESCHOjljaDvQVX9zWmmsi3/9NJ5isL+A3nlrkppegnb0JKhsL+D+hfdZAQ5/4QKfXa6Jk149ErwNznSIFxCmkZzoE3HgdBYwdPY/GGpI=
+	t=1761747601; cv=none; b=HkEsIeDTgax+acUQMC8Q9nE11y1KtPpY0lRijRNrLeBIlQKSobFXUlW55gcYLVPyGtrwqN7z6vrFjf62Rk4fcVSzICsOCr1eZtWH1LjIvE6xaPVaUTp4xqV9QOu2vgKMvPgpfL8YG+GzO1pnMzjNCK26xPJpyA10pu7uDavbffM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761747116; c=relaxed/simple;
-	bh=syzyZO/mJBKfFjprlnJbjqObQo3iQm+ErRfFxq3DXAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nSYazxsw26AmHLI1B+0bYOe6oS5E2zMUMZsAYZJngGFaoVgP9I1SralAC6O97MkX4AZcP1GHNJw7t3hla2CJJBvlsbxbARl4bKLEj8NpD1147RayhTrQ5BY5ewSvx4DIMc/qmyMjz3zgIP+fsZGcREx5z2hKti5TUWCp72FxpQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aLF0q0Oz; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1761747601; c=relaxed/simple;
+	bh=1CX+8+kOSf10qsVFbiIqXKLPwxKNZKPK3M5tdY2U3zQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WzEVhWx9ocJyvok37aOqojmrF+dFzlelBdHQStltXNPCD2xw0Ztc/YhpVyOplcehcnioW9xVitImG7uMcx1Ktt/rhUDLTkghCDm/RGd+PxWgrRQdbtkPbK5R+4zJMiAsY7xiFLNr+jVV3djqWudtDsa1L7metkUg5x2CEUTYVpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=STdMHBQT; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aLF0q0Oz"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4298a028de6so705690f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 07:11:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="STdMHBQT"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59093250aabso7954414e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 07:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1761747112; x=1762351912; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1761747598; x=1762352398; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mp6r0mmEiz+yEn07q0vDicoMrtrxWqGLSLuaBkcXGQs=;
-        b=aLF0q0OzTId9NZLe36VsKpLHpZnT+JaFchqNfRd5UQeMwitv/AqoFAPIcCuYyEkplI
-         eXyv/kAWNvzcjVD0JA/DVzbLAKp52WrUC/CmrXgPIMMPA2ElFZ0OvSKp3euqSOZy3kul
-         xdHCGHtt+UyBxS/LJ82aWqmy0l0mE5B0/QTTeJxsD0cheCJV+3tuE3bd2/1r8qdzINk+
-         OCuQH6OqRrMY8NoJcvY9QwEyIdFRxTXqOsBLNLtHQZkoTFoVEWkhhxlfAiCGzuiIHJNx
-         2Pv5j6Gu3tpApdoWKor4/Fxd18DLWof6x5139r2gKQODR9ryHW/BnTGJALSSljyNneK+
-         pL8g==
+        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
+        b=STdMHBQT12yVVhenBH9kjtzktzfxhBOPKOo9apSlTLueZcsupwgg31te2NoZ1MYB8V
+         MSCDsKHm3FOvPOU5eIBCDfHMdlRjXQ/WaIfGw7guwrNmTT3BzH6WS72IQ0rngTeIuIKG
+         geIpbGtk9/KkbvqJ4ys0/EumZ1gCsCKUv+qxxEKzmywlju+PTnHhCdTYr2IGsTbcyPmT
+         1dv7mnHne5W/9nCZuPRS5MOiokEytiREtrQcf4/hBmfAUMtMcLusUKfTMKcUvAn01g/8
+         YYl2+QIB5DhWKuvrDaYdcUxOB+ZWEQK/1a4i5MEDu6ruYYw7g+OmbE5blhnTFS7GFVRk
+         77Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761747112; x=1762351912;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1761747598; x=1762352398;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mp6r0mmEiz+yEn07q0vDicoMrtrxWqGLSLuaBkcXGQs=;
-        b=a7L9xPj8AgJ0dgCWsuCJe/YrtL/DrHsdEkMC0EVCez80RMg2oDb9Ez7YnYduGnoPt0
-         /qstI7RclpiV4677eLb/hs76wgY7K6pFS8Ls8a4R8cRVKVqT0f+Ul2QCZJI6KcNYYExj
-         S7/v/WXIXTryYVqJbGc1vkOWJU8P7kddEM5tODwaTIp+CQv49w53dFUWy8inUmRwj3N7
-         KdLyei/CujtYH10usEFvInHDtBEsvVMmps4IkZ0r08Mq8nKaoToVoVcCk/NET6wBjTe9
-         b3OmkTPufXlGA+w2Pr0qo4Uhvs9LJmsN4hWiDhGPvzrhb0ABNcr1+5Llc8YzGCeBN+PU
-         axgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUx7yJ+ViZJ/3Sz+SvWnHC2F+uvMN1wrYgaC2v4G+ciYMLjCxfNPPxkB5J4fmDyMMlKqY++EDB6NJL5vA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKJ6q2FLBsNeBvqtcmZJ2CUxtT5ys6rTO8hBc60ZowL/Nqci3o
-	i3dtzCdrqWMbZr5MVDlpUXlT3J0xO585uELUGWfYbOhsnBm1NyWPu9qhGvAmeMKl4WA=
-X-Gm-Gg: ASbGncunCADFnb31rJkWva8TbB5r/jC5cBoIqJnqf4wF6DhGUNz8YCNk5bAqYqt8TvY
-	SEIhqowIJFqRlK9q/76I/ER37KTDvCsHpdc7EJ8I5F+44rSgz/nlxpPj+yTOLcJA56Lr2hnykNP
-	P5nx2gjyTbFr9MgGB9GMnG7z82EakewxuTnms7pWFrlA+gGbqe4Auvqlpj28k6xPkPCrvA/Xbj1
-	MNo0P80QqoDOaFxysicwHIb3uMUgErEZO63guAdiCbY1ink90Wgnj0bvp+OthDqe88mosNPozWQ
-	AnG65Z1yThAWsvlhQoMZ86bNbMoeOV9MEwkMvK43AB7OOT3RFanR5XiXS7nUUEeGxRCkxwewQrP
-	D+CVanEB6x13aTeie0HdEy/FxhP18YEIIFMFRIiqMX2790P1HUsDVR6gggiaZtNHPPI5FolOtJr
-	zNJkeCThEJ/iJgCIEj0U7L1fdnRQPBeGKi09JLZg2xGbpzxO9vZoJpuCrGubVl
-X-Google-Smtp-Source: AGHT+IF0Hr0vldeCHlMvpdjLo7kANvDVUkMSknePlPVoEwlL5eF+LbbvELXIRDurzNHdmZ/2Jwl5Lw==
-X-Received: by 2002:a05:6000:401e:b0:411:3c14:3ad9 with SMTP id ffacd0b85a97d-429aeb09960mr3002731f8f.21.1761747112092;
-        Wed, 29 Oct 2025 07:11:52 -0700 (PDT)
-Received: from claudiu-TUXEDO-InfinityBook-Pro-AMD-Gen9.. ([2a02:2f04:6302:7900:aafe:5712:6974:4a42])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952db9c6sm27076286f8f.36.2025.10.29.07.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 07:11:51 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: support.opensource@diasemi.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: renesas: rz-ssi: Use proper dma_buffer_pos after resume
-Date: Wed, 29 Oct 2025 16:11:34 +0200
-Message-ID: <20251029141134.2556926-3-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
+        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
+        b=IYJ5v16rFeWk4HjmiQ/6hamFLn1o0kNiJTA0CJ64Y0ufB9U1hozaJ5dQyZvIVjLb42
+         LzKO+wXkCdl7XlH/zIoVay5/XFlAOhuld0GLUiM5Wwjahh1f/p9fUIc5LRGacrrchSMT
+         ZDWedDzAdkQuiR0FUoNNUNxaFbEdEayHSUJ3eJrEb9a+29KOIb6pRIMXdOz2pzuqpDem
+         Rwid0zfGaRPW08M0twwgtpfXv31ZOrNYcQUwNnTLBf5ACpNY2DYHM9IimmZ4ENJpPH57
+         bODCR4FMysDSQqF7mGKHl28HKtG7riN/tO/qLShWpYRBq75k2PS1ou+Bk1zADDhAZUu3
+         VHsg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeJgAmiyYvIgQ+F09dSewrKHAqA+Lh6whKY9LgBX1JlmNlyFTNyBAOYf2vcFaqGrlKzlvGLxMbAgIORw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxX/2UUNMUwyiewtaJNm1iMrBz94d+2UfazYfdV/zLKccCAQmH
+	IWanqIzuXmQ62aBQREHRt7tO38d73t66dF8RGM31l+oOnqDiRqxRjfYxQBT49rKEKLeF5TQ4nXs
+	w48PNOKssw8SAlQ75xMQR6eL3+CqjHzgU1/pfzUEnqg==
+X-Gm-Gg: ASbGncv49Sk/RteJH9E2RgnRKiFy5MpFru2bJp3sLShI4cUMCWhrzXCbixivdcgFfke
+	QMH6mTaSDhbfTyL/DsCoRxNWqd3BJSJEzU3l7IbwGgFjDfgNXdj4RBX9irepZw5BNxp3WQCx/8s
+	pLqKhb1pn4bgjQ/WA2IARGjWdp0F0wbasTBKgqVm5XMapCuxiccY3taE79sPNnLdV5nsq1iG+Sl
+	QpvtCaXMfRtxoAYz7NJtXx8dwUujNbbL3LvU8R4ihayDAhpNWBa9btnv4A0dvYl2rjJclVSHpoa
+	DYW9Kg==
+X-Google-Smtp-Source: AGHT+IG59+bQUerf6uihfCFWCYSjQICr8Xo4ZbiwSS1E65/x2rl3ls+2t5ioYCJKzMBcQXa5Sk43LYjN69G8TJb8SWg=
+X-Received: by 2002:a05:6512:3055:b0:592:fc68:5b9d with SMTP id
+ 2adb3069b0e04-594128623cfmr1174582e87.10.1761747597543; Wed, 29 Oct 2025
+ 07:19:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1761588465.git.geert+renesas@glider.be> <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+In-Reply-To: <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Oct 2025 15:19:45 +0100
+X-Gm-Features: AWmQ_bk2MMp0FQz04qrj-8hmhOAMRkHeQZjiqCVvFpO75M_-67m5zTnOfqmkGUQ
+Message-ID: <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
+Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
+ local definition
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Geert,
 
-When the driver supports DMA, it enqueues four DMA descriptors per
-substream before the substream is started. New descriptors are enqueued in
-the DMA completion callback, and each time a new descriptor is queued, the
-dma_buffer_pos is incremented.
+thanks for your patch!
 
-During suspend, the DMA transactions are terminated. There might be cases
-where the four extra enqueued DMA descriptors are not completed and are
-instead canceled on suspend. However, the cancel operation does not take
-into account that the dma_buffer_pos was already incremented.
+On Mon, Oct 27, 2025 at 7:43=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Previously, the suspend code reinitialized dma_buffer_pos to zero, but this
-is not always correct.
+> Prepare for the advent of globally available common field_get() and
+> field_prep() macros by undefining the symbols before defining local
+> variants.  This prevents redefinition warnings from the C preprocessor
+> when introducing the common macros later.
+>
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-To avoid losing any audio periods during suspend/resume and to prevent
-clip sound, save the completed DMA buffer position in the DMA callback and
-reinitialize dma_buffer_pos on resume.
+Do you want me to just merge this patch to the pinctrl tree or do
+you have other plans?
 
-Cc: stable@vger.kernel.org
-Fixes: 1fc778f7c833a ("ASoC: renesas: rz-ssi: Add suspend to RAM support")
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- sound/soc/renesas/rz-ssi.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
-
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index e00940814157..81b883e8ac92 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -85,6 +85,7 @@ struct rz_ssi_stream {
- 	struct snd_pcm_substream *substream;
- 	int fifo_sample_size;	/* sample capacity of SSI FIFO */
- 	int dma_buffer_pos;	/* The address for the next DMA descriptor */
-+	int completed_dma_buf_pos; /* The address of the last completed DMA descriptor. */
- 	int period_counter;	/* for keeping track of periods transferred */
- 	int sample_width;
- 	int buffer_pos;		/* current frame position in the buffer */
-@@ -215,6 +216,7 @@ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- 	rz_ssi_set_substream(strm, substream);
- 	strm->sample_width = samples_to_bytes(runtime, 1);
- 	strm->dma_buffer_pos = 0;
-+	strm->completed_dma_buf_pos = 0;
- 	strm->period_counter = 0;
- 	strm->buffer_pos = 0;
- 
-@@ -437,6 +439,10 @@ static void rz_ssi_pointer_update(struct rz_ssi_stream *strm, int frames)
- 		snd_pcm_period_elapsed(strm->substream);
- 		strm->period_counter = current_period;
- 	}
-+
-+	strm->completed_dma_buf_pos += runtime->period_size;
-+	if (strm->completed_dma_buf_pos >= runtime->buffer_size)
-+		strm->completed_dma_buf_pos = 0;
- }
- 
- static int rz_ssi_pio_recv(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
-@@ -778,10 +784,14 @@ static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
- 	return -ENODEV;
- }
- 
--static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
-+static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
-+	struct snd_pcm_substream *substream = strm->substream;
-+	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int ret;
- 
-+	strm->dma_buffer_pos = strm->completed_dma_buf_pos + runtime->period_size;
-+
- 	if (rz_ssi_is_stream_running(&ssi->playback) ||
- 	    rz_ssi_is_stream_running(&ssi->capture))
- 		return 0;
-@@ -794,16 +804,6 @@ static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
- 				ssi->hw_params_cache.channels);
- }
- 
--static void rz_ssi_streams_suspend(struct rz_ssi_priv *ssi)
--{
--	if (rz_ssi_is_stream_running(&ssi->playback) ||
--	    rz_ssi_is_stream_running(&ssi->capture))
--		return;
--
--	ssi->playback.dma_buffer_pos = 0;
--	ssi->capture.dma_buffer_pos = 0;
--}
--
- static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 			      struct snd_soc_dai *dai)
- {
-@@ -813,7 +813,7 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_RESUME:
--		ret = rz_ssi_trigger_resume(ssi);
-+		ret = rz_ssi_trigger_resume(ssi, strm);
- 		if (ret)
- 			return ret;
- 
-@@ -852,7 +852,6 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
- 		rz_ssi_stop(ssi, strm);
--		rz_ssi_streams_suspend(ssi);
- 		break;
- 
- 	case SNDRV_PCM_TRIGGER_STOP:
--- 
-2.43.0
-
+Yours,
+Linus Walleij
