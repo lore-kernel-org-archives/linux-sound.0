@@ -1,106 +1,122 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28C730B526
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 11:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99DB30BF53;
+	Wed, 29 Oct 2025 11:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761737091; cv=none; b=foMl10v/G/f5XfJaZTxZQZI3t9l9lqNvjVrVXo2PcduIlz22sktoj4lY39nwsKTNTanAyBNmb4QjhJmGOYG7QY7/4k7MbuCzQK/X8VfYpwDqrs7OzUDKN2V0shIohL08pLq/7cLp/vmAANWQEwNXsRw1B5ltHqUYVmjLNFbZcsc=
+	t=1761738125; cv=none; b=TXhPs8xlVUAojevDwpssgki/QEbrJqgANMskHtQGRQA0e0/PMSEQ+vNBSgBWxP3dt+X6X9cJ5mkfIQyAjNrxedi6eS0MD65StKFlDJtjR9gtReDDWvToDgbgkib+6V4HFtHkl3A7OmcZ/sFV7y3NnAFDpeTL5/f6b8WUEfx2iVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761737091; c=relaxed/simple;
-	bh=SSN7+2SHUlqyDZJ7M9gECbgIzqZWKI8o2SRJwxBxLK0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ULaS38/wDrJFG+hodT0I+YcdlsbnlJhs08VUns1VPVgHb2RAGbVkNEGWHkqoX+QNQVWnrfIE7+E0Cq3nerZPaOvz++eZ4ZpwRVmvlqHveXETyfHC65O0WeInGckT+VYpLo79yI5CtogTsV+zBTkPJv7sdouTPj3+HTWjOEl90S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SMLLqUHO; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761738125; c=relaxed/simple;
+	bh=CWuanT4v89ELYuCd8YftnASQ94vUasO0QCGZu7kMtN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pO2CRi/a4d8ldFFd4PPFm8U7LYKO58sCYFHcosUiOPYR5Xkzz6s463Z3TQUKJWK/+IesUBcFOu53cRPgQ7RfaPNH+SFu19sTM5DPElsIGINNldq50HiyGbL7iatNMhSlsFDi3x6NQTdwEGqfGTs8gLFI9xdZZmHBMRnN5CKP5Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeQdr/1X; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SMLLqUHO"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-421851bcb25so4371085f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 04:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761737088; x=1762341888; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SSN7+2SHUlqyDZJ7M9gECbgIzqZWKI8o2SRJwxBxLK0=;
-        b=SMLLqUHOvRiXo5bzPpbV90MNXbK/6aZbH/ta4d0TPKSfwmHmyv9AW0FO+PiQqFzDkI
-         D9ahNnTjW9Gs+quiAyT5UMxyRNJXHrXOHOuyPqaXEpwAZSgYe+Hy8QaYPg4FrzjTbrPn
-         USgHEQIYkKkRZM0tR/wFzFCHbzQWYI5hhcnr935wl1urUHxYozlS8k5+uI7D5dHHarpm
-         Zcby/6r9AYLl9hpHOF0iMH6cdmPWo8ZYanRKPEQuRuSFSd3aBcCt/EuCsENAupKv3LwD
-         qcNm/oGtx0Ft3E0n+yyJ2DhhaWXWWrbpmiAN76thzPnCD+jsTYlGivMamgKNCnA4T+6t
-         H/qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761737088; x=1762341888;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SSN7+2SHUlqyDZJ7M9gECbgIzqZWKI8o2SRJwxBxLK0=;
-        b=ZISBCTZ7pm+8ffgKsosrksa6co1hoIFhHxzvptCAXg2dNoQoVqS6nRXD5AIi0Po0lS
-         m3A5YW1iRSvIczSbbOc/AvTYwd3oKzciT0r2QFJLJzHZ71RrK0jnbhYj1JDQ82qK5mwM
-         w+qEHsW1QfCJuKk08zAceBu1J48pVTzj+CY6ImcHSco4bBKqkvbinThYlS7mtlsLBqdL
-         9mMWlBbV6udPp5/ZQNoGH4I179di8aBOmZ39HjOyAGqtxSZvHMpbXCHGacP58mh6GVmG
-         /qWw+tQDlDFEQ1sV2eY00eppk1ufbgfZldcSIfcVt6D5xjHRkM+62U/utcXghfsAyDBQ
-         ByoQ==
-X-Gm-Message-State: AOJu0YzAK+uASjDX8n8tlB0zIctLoVXjbkZfsl44LrtZ3+AqhT5PD4jC
-	TODRrQKBkcGS9axp/WH7DHsJYhhi5irjH0IVzW0iFuIWkYFzBjVFVLFL
-X-Gm-Gg: ASbGncvDMMnqPbVWubFq+8UIdC3iI95PO2ay/YBWF9RTmk2T0ZY0JsJgri0NHyLsVQX
-	Mcb+bmnFp92eaQQMI2StfrYVqh/hQehxN9Ho+fiQ5KYOAN8G7oSxYce3n2bfHtwg4mCQX67v11y
-	1CxSIk2LJtv0CcPws4lrZa+woSxOtHEzbP0+zAmxuc8+6urkHIA6Pjt2/vAJZhahaJ5eDsNsB+8
-	9tizmvkNJhJ+2YeC4VGvfo9cns+bSONN/lLe21Lie/9jl0s4QGWEPSMBlqe0b7gia1haNbBI2oD
-	VPeNzyyGI0GNfK/s7nRfZiG0leJ03NTw3vXPt9OX9R7D5JY0Sk6D8cuiXIP99rpjq2MB1T9n6j9
-	nsMI8aOUrxQhaAWPCsc7HmhlMn369ldL4EeIGQTTSgJPO8IrNWdRRmm0P4sSyakXCL1otyTbO35
-	wJALql3tYOlnQK05xUwzelBUkBUfSLwOo5b63EMeb4aaBbgD3X/u9RNWLr
-X-Google-Smtp-Source: AGHT+IEkpyQtLQ97U7LSxA+GQnz86sOiezs7Bj4Kw0ZYAFnyDPGMmE4GKO5EGWyqrEBvSGThbDG3RA==
-X-Received: by 2002:a5d:584d:0:b0:425:856f:70ff with SMTP id ffacd0b85a97d-429aefcda6amr2551180f8f.45.1761737088137;
-        Wed, 29 Oct 2025 04:24:48 -0700 (PDT)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b22sm25422572f8f.9.2025.10.29.04.24.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 04:24:47 -0700 (PDT)
-Message-ID: <3e2ebf04f53cbf801e13fd808d8438c6d2cee412.camel@gmail.com>
-Subject: Re: [PATCH v2 4/4] ASoC: cs4271: Add support for the external mclk
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni	
- <thomas.petazzoni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,  Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Jaroslav Kysela	 <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Nikita Shubin	 <nikita.shubin@maquefel.me>, Axel Lin
- <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>
-Date: Wed, 29 Oct 2025 12:24:47 +0100
-In-Reply-To: <20251029093921.624088-5-herve.codina@bootlin.com>
-References: <20251029093921.624088-1-herve.codina@bootlin.com>
-	 <20251029093921.624088-5-herve.codina@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeQdr/1X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761738124; x=1793274124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CWuanT4v89ELYuCd8YftnASQ94vUasO0QCGZu7kMtN0=;
+  b=FeQdr/1XArOu2pfSe+uusea5G6d+4zj25pfFxPMckNw264XlPadxuvka
+   +UTqpj3X37q1/hZvi2NhWO+T4bC/HRBfsai2++FTykXoHY/EquFEyuc38
+   EQK4v7Jo/nLiBJrLqQ/y2E+H9fm1HUe5RNoH2RdMd4/N5ywHyNVxTvg6U
+   6li110I7xc0jS9kgRmMkajzJDzr8Uh2q9pDthASxv4Ys21M7GQLjC7K3l
+   1jhlTLSEERgjYwaY8hD0/ad079ErlGTusJc5FvIaz1ZRTT4eqIFEpVvvP
+   OopJjqDx8X+e+5D4meI1HaE0mT4lRREnFMRhtPfLa2GhdPeYxrmDEN2UG
+   Q==;
+X-CSE-ConnectionGUID: i6O8d8mRSem569vz1pO6tg==
+X-CSE-MsgGUID: ufQTnPpWR0O6UGDmTgGrRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11596"; a="51429798"
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="51429798"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 04:42:02 -0700
+X-CSE-ConnectionGUID: 4nHoIBj6QnSvV/LLtgGNBQ==
+X-CSE-MsgGUID: Tm0xW4g9SaCREL+ybcXZHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="189702787"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.248])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 04:41:55 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1vE4Yq-00000003bB9-1kAi;
+	Wed, 29 Oct 2025 13:41:52 +0200
+Date: Wed, 29 Oct 2025 13:41:52 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v3 01/10] string: provide strends()
+Message-ID: <aQH9gE_fB119CW3l@smile.fi.intel.com>
+References: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org>
+ <20251029-gpio-shared-v3-1-71c568acf47c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029-gpio-shared-v3-1-71c568acf47c@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi!
+On Wed, Oct 29, 2025 at 12:20:37PM +0100, Bartosz Golaszewski wrote:
+> 
+> Implement a function for checking if a string ends with a different
+> string and add its kunit test cases.
 
-On Wed, 2025-10-29 at 10:39 +0100, Herve Codina wrote:
-> The mclk (master clock) of the cs4271 codec can be an input clock.
->=20
-> In this case the connected clock needs to be enabled outside of any
-> audio stream. Indeed, this clock is needed for i2c communication.
->=20
-> Add support of this clock and enable it before the first i2c transfer.
->=20
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> ---
-> =C2=A0sound/soc/codecs/cs4271.c | 29 ++++++++++++++++++++++++++---
-> =C2=A01 file changed, 26 insertions(+), 3 deletions(-)
+...
 
-Reviewed-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+> +/**
+> + * strends - Check if a string ends with another string.
+> + * @str - NULL-terminated string to check against @suffix
+> + * @suffix - NULL-terminated string defining the suffix to look for in @str
+> + *
+> + * Returns:
+> + * True if @str ends with @suffix. False in all other cases.
+> + */
+> +static inline bool strends(const char *str, const char *suffix)
+> +{
+> +	unsigned int str_len = strlen(str), suffix_len = strlen(suffix);
+> +
+> +	if (str_len < suffix_len)
+> +		return false;
+> +
+> +	return !(strcmp(str + str_len - suffix_len, suffix));
+> +}
 
---=20
-Alexander Sverdlin.
+Can you rather re-use strcmp_suffix() from drivers/of/property.c?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
