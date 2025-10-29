@@ -1,116 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD12ECE86;
-	Wed, 29 Oct 2025 16:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D248424C076
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 16:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761754500; cv=none; b=g/VWG6+1pIIq89KorSbW6mRnHS+rFojA/GGZ5dUcPmY6xJYUvgtQwryVU9KeDX1BJviO0FHPgVe+g19UoEBlGJq7NSjw0cL1eJu3YBj7nDfLJetoZKcg/wKGOdszBqZsdSybnzj/n0KjPJ6yHJnqOQ2qVfyAGacRwZuS0EisxyI=
+	t=1761756100; cv=none; b=aSl5EdNUw2Sdsh0nWNCCwXhAZlV3BQECu/nSFVcpENEwr+KPPsUzKUUK7bVVbTVDUOArCZ+iios+0kI8mpX7y+aKuUMOCO3N7XWpV01WaIq9ETW+Uh6z5N/xsi0Wb9Mfpp7PPbH42bZ7qB46wBtOGGvt2R7SdVtiHZn6ewgaTRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761754500; c=relaxed/simple;
-	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KIZs+SS4rpvGAtrximgLZwMy3Pf1+tPfenLl49vM9sMw7i6EXaa/n1wKkIvNRbkUm/zBDwT9poLyxsc3DhE2TADlHOsI5iyaqaEEq+3SxlRi9Ztn3jwwsy/awY0wLaW3+yeYIbgqVpYEFOKS6CQ4UViCN5LV9bD/hArWKh/TJkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjE37pNN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761756100; c=relaxed/simple;
+	bh=bK8V/r1vMqRPnTrBJEHJlk2rl2cERA+TWYlibgHEaIk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C3GXft1/ZzDco+/AAlPHTCEY6Y5cVeDL5ZwFjKfTBuOVQDg8r+er1uWlbCPAtMP+L+COAMRZHDjIgFajebZ4XE58sFCz6H64UktbgW/YgTBdrrzeaZBsqKnTMlbitFsjTifGdAzA5BbEYe//9WSnYOjXq60MuotjcVgZbdD/MYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUqKByr5; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjE37pNN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E76FC4CEF7;
-	Wed, 29 Oct 2025 16:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761754500;
-	bh=MzDiNBwjOd5bG+qpBunqHUPL5TbDLkEqeHNOr5ncI3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QjE37pNN/L94+0MLl21IS08uJ68If0bQz6Nldnoci1SWL74a5JkjwbGiXLqZBK6Cv
-	 3f77yW0B2+xKct/DP4OFLB6B/MDEmlMZJ/Im+RzJYLT7Kxdl4EoItpZcu9WEUPbjhx
-	 7wbSgeOp1IkG6gqY0wLC7QitMyN6pUXzJyty7urTyi/C/Tf0XE+Oqo0he9Es0uUo0J
-	 zycg7LRL6yN2spgA6gBOiOrBjQNRhTULUdvrG/w90LDoVakhV9uaEXZr7VTRwHwDNi
-	 KQUmoMx/Ltsm/rjj8vJLGIsdCh6fg0SSt8YuQMnKSHtniDuiP+KHFwPR4X8Tc4wyZ1
-	 CvdB7/RRxn4xg==
-Date: Wed, 29 Oct 2025 16:14:55 +0000
-From: Mark Brown <broonie@kernel.org>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: codecs: Use component driver suspend/resume
-Message-ID: <56911e0e-0f25-4134-92fd-f89cb47fd9b6@sirena.org.uk>
-References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
- <20251029141134.2556926-2-claudiu.beznea.uj@bp.renesas.com>
- <bdb14543-e611-42d0-a603-300c0ea17335@sirena.org.uk>
- <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUqKByr5"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b626a4cd9d6so14434166b.3
+        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 09:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761756097; x=1762360897; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntuNS1GJb6xyWRPcHR8LQRNb1Co3tBR57KGeyLs9sDo=;
+        b=mUqKByr5EUvqGzhQIwCY6sk69KtAKCekpDKP84EidzWfTZuhb1qYWiLQ7mH/0ymwTL
+         lYcvGi/ts3zROyGarSP+7D6cNOV/zMHLrZlIVQJ9yqtSULL33fGoA/dHIp4kSNAIS6kZ
+         k6b2FuyaSih9BjNk5M7G3hOJ8XLXrkUg6ZebzBWg9/w282IrHr3NRx4FhpeqcSOpukAf
+         Eyi1Qgm10ynb09NjcY3bU9g+cGQEzt7vHZ3fxxqXYqrVOOh3Qbn/pXKlprVE7uLsBGxQ
+         GDVC4unqSR/I7xv3gUs+bGAqxCWCvrU/XZUncZQzEe6I/kGCQpE8R21hKM+ubsfGRz3g
+         E35w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761756097; x=1762360897;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ntuNS1GJb6xyWRPcHR8LQRNb1Co3tBR57KGeyLs9sDo=;
+        b=emfyt8jFMMu+/j6ex6Q4HWx0zxsJYDEkL5DSr4czE9qdqpurRPXtD2e6Bh9pKA+Wjw
+         HE6QZEDY8qw5phujJGXC9Cdy/3K0fqjYSolp46/kYcUTID0/DbVfw2DQz3U+z4J/yTfb
+         FHl8VxaxyYcf0/uuetbEYdITlkKB/j1TewFUTHYcv1Ye0KAQ07/V9vhPotnt1+rD6LCK
+         ElusbxGydRF5+wh6Ovkt8QQpPLyiJCQcHmlF6PPPOgfzp0rZH3CpwmrJ7Y8TfQYpnvBF
+         bnckJzBhy+hbe8iTSnEdJ28Qr0FSmm2B/hMzoiH8UnVEoJ4Eoy2D8NjDjhZ7QloodFTB
+         8abQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULLB+uaiK1GQjWyEuP1FOcUjAYeM0fyXhXVGH+/4+f7V92Qk/dPcqOZ0/ks1p9rA6PQypP9DnjYZAfvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHmD2xEnCfIQS9U+7OPyn3/R2uD2GPN8XEd99mlz1AFgbtxAGW
+	dvEtiWspbg7pz2/iXreYZ56yQMb3dmue+SL5bukDAMBogjcbOp51ri2v
+X-Gm-Gg: ASbGncsvIq1Jv8xbuQD5k/g+AM3kyTh7BK2OdQBjXHX0nH7kuKHQs9NYsNvsg0Lkj9P
+	WbOwunCWaTFLtMzcVUVOTXBjXHRq7nZ4vfTpR7o9BGrXq8BT6pjNs5MrNkvCdej3vGEHAozbvHs
+	FinqJpXGYNCKBgDVaFpt206OG6hqR0N4zigroDc1wkBpZl6nlgldVO2JcvNQdSrYquoym14QuZP
+	tvjG4bSl2yAkCVpPyyr8MxR58XXcobd33GvfchvFhiVoZc8qt14Lq+gT3/KFcNLauRtAl0kIOqR
+	V/xRQuuggew0RHjRp2sKeb9GCD4qlhAWO1dAUnh659jnRu/FgWYFy08QCAmoPt/cMgAWvf43KS2
+	WipH/n8iPGesnhyJszAjHRCQuKnqbTqdEf4X7mGi+SsAzLzxb2TxnBSK5cBMj+CgDlCa9PBCpy8
+	+OTPUj4RoFq0/5gcU2P1OpoH1Q45Itd8Qg5sIm+R7Ajd0uTaCyL4MWoQ==
+X-Google-Smtp-Source: AGHT+IE5ZDJmVtVTajVcHA0yKPLibrZMyGe97/rlp1JY2BvzhBfy7IZpUsLHyr+no1Pve6JrQ0ywpg==
+X-Received: by 2002:a17:907:1b03:b0:b46:31be:e8fd with SMTP id a640c23a62f3a-b703d2fe419mr355708666b.26.1761756096987;
+        Wed, 29 Oct 2025 09:41:36 -0700 (PDT)
+Received: from sharique-Precision-3640-Tower.hw.mobotix.net ([213.183.84.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d85398463sm1443155166b.34.2025.10.29.09.41.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 09:41:36 -0700 (PDT)
+From: Sharique Mohammad <sharq0406@gmail.com>
+To: broonie@kernel.org
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com,
+	Sharique Mohammad <sharq0406@gmail.com>
+Subject: [PATCH 1/1] ASoC: max98090/91: fixing the stream index
+Date: Wed, 29 Oct 2025 17:41:34 +0100
+Message-Id: <20251029164134.4123618-1-sharq0406@gmail.com>
+X-Mailer: git-send-email 2.30.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JpTtvZk+/JgRadlt"
-Content-Disposition: inline
-In-Reply-To: <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
-X-Cookie: Goes (Went) over like a lead balloon.
+Content-Transfer-Encoding: 8bit
 
+The function SND_SOC_DAPM_AIF_OUT has its third parameter
+as stream index. The stream index is numbered from 0 to 3 for
+every output interface widget but with same stream name
+"HiFi Capture". So, if the stream name is same, the stream
+index cannot be different. Also for capture, there is only one
+stream "HiFi Capture", so only one stream index. Therefore,
+with this patch changed the stream index to 0 for all the output
+interface widgets with stream name "HiFi Capture".
 
---JpTtvZk+/JgRadlt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Sharique Mohammad <sharq0406@gmail.com>
+---
+ sound/soc/codecs/max98090.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Wed, Oct 29, 2025 at 05:22:26PM +0200, claudiu beznea wrote:
-> On 10/29/25 16:37, Mark Brown wrote:
+diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
+index 2e6ec2ac5327..0891ffd0e123 100644
+--- a/sound/soc/codecs/max98090.c
++++ b/sound/soc/codecs/max98090.c
+@@ -1144,7 +1144,7 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
+ 
+ 	SND_SOC_DAPM_AIF_OUT("AIFOUTL", "HiFi Capture", 0,
+ 		SND_SOC_NOPM, 0, 0),
+-	SND_SOC_DAPM_AIF_OUT("AIFOUTR", "HiFi Capture", 1,
++	SND_SOC_DAPM_AIF_OUT("AIFOUTR", "HiFi Capture", 0,
+ 		SND_SOC_NOPM, 0, 0),
+ 
+ 	SND_SOC_DAPM_MUX("LBENL Mux", SND_SOC_NOPM,
+@@ -1242,9 +1242,9 @@ static const struct snd_soc_dapm_widget max98091_dapm_widgets[] = {
+ 	SND_SOC_DAPM_SUPPLY("DMIC34_HPF", M98090_REG_FILTER_CONFIG,
+ 		M98090_FLT_DMIC34HPF_SHIFT, 0, NULL, 0),
+ 
+-	SND_SOC_DAPM_AIF_OUT("AIFOUT2L", "HiFi Capture", 2,
++	SND_SOC_DAPM_AIF_OUT("AIFOUT2L", "HiFi Capture", 0,
+ 		SND_SOC_NOPM, 0, 0),
+-	SND_SOC_DAPM_AIF_OUT("AIFOUT2R", "HiFi Capture", 3,
++	SND_SOC_DAPM_AIF_OUT("AIFOUT2R", "HiFi Capture", 0,
+ 		SND_SOC_NOPM, 0, 0),
+ };
+ 
+-- 
+2.30.5
 
-> > The theory here is that the power management core uses the device
-> > instantiation order for both suspend and resume (reversed on suspend) so
-> > the fact that we use probe deferral to make sure that the card
-> > components are ready should ensure that the card suspends before
-> > anything in the card.  If that is no longer the case then we need to
-> > ensure that all drivers have system PM ops which trigger the card, this
-> > won't be a driver specific issue.
-
-> I also saw the behavior described in this commit with the rz-ssi.c driver as
-> well. The fix there was commit c1b0f5183a44 ("ASoC: renesas: rz-ssi: Use
-> NOIRQ_SYSTEM_SLEEP_PM_OPS()").
-
-> In case of this this codec, I saw the code in da7213_runtime_resume() and
-> soc_resume_deferred() racing each other on system resume.
-
-So I guess we need the more general fix then, with everything calling
-into the core to suspend the cards.
-
-> > If the device actually lost power during a runtime
-> > suspend then we'll end up having a bad time.  There was also no mention
-> > of runtime PM in the patch description...
-
-> I had no issues with runtime PM, but only with suspend to RAM, when this
-> function was called though
-> struct dev_pm_ops::resume = pm_runtime_force_resume().
-
-Calling regulator_disable() doesn't guarantee the regulator will be
-disabled, the constraints or other devices can ensure that the device
-retains power so there's no effect on the actual hardware.
-
-> Would keeping the regcache_cache_only() + regcache_sync() here along with
-> populating the struct snd_soc_component_driver::{suspend, resume} be an
-> acceptable solution for you? I think that will work as well.
-
-I'm not sure what you're intending to populate the component with there.
-
---JpTtvZk+/JgRadlt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkCPX4ACgkQJNaLcl1U
-h9DVIAf/cAd0aKUG7ztZYiPY/cyhA7SyqjfnlvJMZkM4AqWOp+nc2Lq76IWOKckx
-esVqlDB71tZI+wtddbYyDVc8G4OQUAFnftjSyFl97/CYACADQ9FjUzWpUgbaUo0h
-9KbIQUFejzoao8zsg6jIfMgeh8F90M9JaxoMjNjpTfpLfpGw0XHGZZPfRq7z1v41
-B1Oxl52EIMC9enrkF8sKEOJ3WQwNK9w6XjAY9vctTbSgkAdb/twf0BQEmWOxcOkU
-U1zK/LTjNfbBtl3ZMhXcupoyLVBXOuYdNxT76ZH2ziGhB3hGvl6UYVorkXf9+kzY
-foTIXsTVHNwWQz6ZpmpwcgZmwCzIhw==
-=MYlh
------END PGP SIGNATURE-----
-
---JpTtvZk+/JgRadlt--
