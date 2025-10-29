@@ -1,105 +1,132 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03C536C246
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 12:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED983587A4
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 12:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761740610; cv=none; b=uA2xlT3feaEcN1NsBIiCP0IBJmHfjuZ7BDc0oPWvOhSUGPBYpAHaOGRDBeoYGC9HhwSn+b4XzNbaZdGxOfOwL0ydVgqFwYl2hYdAlFcefrST2SdcDVo5mBau3DQsDzz+RAF98F/SdxTBceAvukLNItlX+c+uaQv5l9GnyZ38UAg=
+	t=1761741431; cv=none; b=ljqs87Anhr3V3D8JLwfZTdIbARaXQo+N17tPAvWuzsJ+EjAnLWjM+6TwR8nugsOp1kgw4YGLlqJYv8rwTtSuEVuZX5EVru0x5u9u2fwapduIkYsAMcv14bmg+iRAg+97HPCHsL2mFszU9ZzvhAVqcPvbrsE4mjiPpVSr/4pWBcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761740610; c=relaxed/simple;
-	bh=GHebTe5G7CtxFjuUCS9MwRFp7u787YUWK2Q8YSzn0h4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D1pLc9iSy751Unak+M9CdNSA7mqOr1CQEz5mvdNzXzoB62mgyFN5fnaKZGFoZf0ArxoDBTdv21tmCEhKssqpPQDGX2P4ZApVdFVZ/obc3t0eIV+exF4JjtMyUQ0ejM1vjZVfQ02Q8kJL5YBnqBLrQq5GDydqLtUQfSmyzDUMnac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EGtTCmkK; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761741431; c=relaxed/simple;
+	bh=ni2P6AAAIna0hjFuAO82zYVMn0J7WfuU6b6IJiF1kKs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XXRXVjb9knIiiGpwOFnaQJSi4rNtNFLJs+DEvr+eZyg99H5CX731tChip56QMT2gTUZueGlTCbyF0DCQoQfvCv87Zpe0ffOjai1Vpp0CTAwPeaLhNeIBRZzEe6Jz8Pl0clcMpaKF15fToHdaUsHFZw0vFT+HIArwd71CZy9hsvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=F87I/2HK; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EGtTCmkK"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b6d83bf1077so490053766b.3
-        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 05:23:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="F87I/2HK"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-592f1988a2dso1030521e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 05:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761740607; x=1762345407; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761741427; x=1762346227; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UDFNzSZSOfNylxri3WZM3/PhA4N5a3TRvkg+xuhc0cY=;
-        b=EGtTCmkK+O5AbJ0OrfL97xbKPG1YZbEl6fWoRYbbt6DLisXk/zQgbqQRVtyRSoVPTP
-         avQvhrrLi1XXOH60dcZx7EjWNQTMoVx2Z627es3gKfVRQ63ioLXZT5jnlABGI5KeJnX7
-         AzTeUUt6+3fq7esNdSkpYhC+Au8jN5NN9se8mmK3niyE3kOZW2BrdOwcW/DqfsXGYiS3
-         kApjy6Tjydkc4lD6Ungxo2kUJWaoQvEVsAp5Bz/hhbuWyzxygURwUfVNI0yA5hVQmyR3
-         kU/Xj4/4pdEk5SveSGhPVsZfnAvu+bVIuuYIKhFGpmbzc0LvNVmnwZe/ABZhBgodcrDm
-         hWJw==
+        bh=e7av6/+8iNuXmmgvTwlUka4Y7XmkOmuVd9YoxH52DeM=;
+        b=F87I/2HK8EHJQ7q4NQauRZSN2gkF3Pa6uWaxKT5wFbnJ02O9XJM9CVQa76aAk0TSaF
+         76edmu0GN4qf8O7hLOGmgl2m1E/wZWlSCbCwBKWravWbrzWOVNd2Wqlt7J+Ua6qOxZxV
+         Vo25gJ6FNxMMGcNYpCsgsF/Dew11WFweBBQN5b/PSxkUJYaDWPJMhjW8sS4ajHDy6GUk
+         UcOdOSnXu53Sjp2FtHMI3QAxxu+nHioY2KQfxl0H50DDrK7277Tkwx4zmGEf+2VqRYAC
+         XTokfkhjUfDrPSSnkP3OTTs8R08HxGteHAfjxqZNthOIwQp4OQb3FHhc2UN/G9S0PpM9
+         LdQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761740607; x=1762345407;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1761741427; x=1762346227;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UDFNzSZSOfNylxri3WZM3/PhA4N5a3TRvkg+xuhc0cY=;
-        b=E4KY7vlqAEkpIQT30dyRuJIo8+7ZK9f9T8BV6UzaJ+ewW2ofPwNli+eCGJmL5nPL7K
-         DooxyWWQNP3OIa+zLu7XVTKI2akfTfamt6Gn93IAQ/z7BcxtNCzkhTHbg8LWPGrHuotc
-         sBZy5avRSt2k8W9uJ4TDQVG9y0ULOTauZApqnq2CN9sr9pogTIY0XKitTksLMy28f9W1
-         PjP7o/HfGK+rU7QehdFOU2cG+8VVcjKtSvAfQNX0+QXzJA80e11GibnrOr3qoTSNfIbp
-         2Dazr/SpmH9+pBZc04eQ0hW6EM+WtQZJNbDQBQKBevAHNNpUqsPahWhul7Pt7q8TWsN2
-         uMQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtL8rFBM6TyO+wKonZrSGshCKWaFqP/nlkn4Y6tMoCbd2WBKVYq0FekgRH/mJTX3l5erpaYd4Ts+Tu3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEebVPANRO+9WzSCs04d1wkYvYJkEjWYiRd6ieBB6NVW/fPmzp
-	CPctvz/+rHrmSrQ1S6TrJnVO09juyQf1/sSUNZZaii9KYcx2iCzOZsWY
-X-Gm-Gg: ASbGnctVRC7kkeEFI6SKFZoKNQqq+Ri1KhXRz0HeR/VfTmcVSBiY0HNkbiqS0UXrzrb
-	gUyLecjiFd7JggZsa0xACA0dT5PL8XhW5zuIzUOte5ilRP11uonQfI52LCjiWYDtIc+7P0EWREZ
-	ftiKW+xCnHcOoF1cfY3pPobgjvwK35FU14HQsHzH/HQUE1ck6xRBR0aGsRVdvFLPD1cbCf9gsVn
-	4kxYP53Vp7PTTXpKHhJ3JfM4VBJ07T8TmzMSmS3qZFdUL7ZwSdzCURX59ILq0DI9fq3Srwu2OGb
-	b3Wne1mXom7CuvyKL19rQv2tEkFKbD3sxJl7YwSz8e/QKxpTbCujhH1M59Q3YMvM2LemY7CxwEM
-	y74l1EG+EJ6u5LJSK/Z0A29fzyX5A9WMNo/LX8/H9WzMS3V+ms+k6kb9gcn/Sj2yRwTUoIQjj9P
-	7d
-X-Google-Smtp-Source: AGHT+IFZ92S7NaPGWXm45s0LWGTqMNYg+U+gNAWRIpECOO59GP6wM/kQVqXjgCnLzIvK7qpJfcLAlA==
-X-Received: by 2002:a17:907:728f:b0:b3f:294c:2467 with SMTP id a640c23a62f3a-b703d2cdea2mr273434766b.10.1761740606866;
-        Wed, 29 Oct 2025 05:23:26 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b704d7a9867sm39889766b.46.2025.10.29.05.23.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 05:23:26 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: tiwai@suse.de
-Cc: Dell.Client.Kernel@dell.com,
-	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	dxu@dxuuu.xyz,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
-	linux-kbuild@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	masahiroy@kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	nathan@kernel.org,
-	nsc@kernel.org,
-	ojeda@kernel.org,
-	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,
-	rf@opensource.cirrus.com,
-	safinaskar@gmail.com,
-	sam@gentoo.org,
-	thomas.weissschuh@linutronix.de
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-Date: Wed, 29 Oct 2025 15:23:21 +0300
-Message-ID: <20251029122321.2872-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <878qgvgrk0.wl-tiwai@suse.de>
-References: <878qgvgrk0.wl-tiwai@suse.de>
+        bh=e7av6/+8iNuXmmgvTwlUka4Y7XmkOmuVd9YoxH52DeM=;
+        b=OzFW5opQ+VdPi/a2XUaF/dEpLEfnWE3Nfwzw2NqbbWfek3dUlozHaNt8p7HHu9C2/I
+         BQYWALEwwLRrFo7ZoZwJi7v39ezW7TuqZGarCcoo2BJoDYdLse+VTJIrdbxDvVyRqwnN
+         a0aYBLQcbdcCvQuD4vSb03DJOSxmDN27TuKN46Qq56ckGoPL1Oe3ZKyw1D/1cF97c8b7
+         L0Iwg/0y6qrWWG4PVYyBN9U729pIZZUD3c1LRFKzcxeDjsQY5UyO4hGhfKc5y672/96k
+         i/L05KeA/3jluFen3uqMfxNq/SIrAznl/DsZR+OjZtsuwAy7mvppQ3zn+GtvdeDthaF4
+         SLcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/MEep11aZByKypFXAqOYYlaxXc7pzXHhlawCY76kjz+u6V9OvBg/5SsHYzqMa/kPc0hqiZQhK7VsReQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyeh/PK7UXc3GwSUwcr8UUTcXLZpdp8TWstsmDV73pH20Phyvuy
+	po/b1XNjKI+WOtuoPeun42S0Fxqzi3ewmuwlxmB9rL/7mUvUaH9xyZwedEdrkxfbEuVQxHFJr5s
+	+FQXp3PuDmybviza/SaRF481xjTTBMc4x3byOQeAXqg==
+X-Gm-Gg: ASbGncufGK1Mf3TP9YTolo2Gn3D1eE/Sg1WXoNIRVGfF2qsABHjHWguinjHTeMxGJjx
+	YrEJx3TCRnAUVgecqIj6wl8JKdR3nbpD9H7z+KXaZq+LCdZAuaHjUouV18KbsrFHBe62vtVVYyz
+	uA9eJhxMcBbMh50qE3NC0QcEHIlCItvCq1LGKFfHraDmD5jeAEvSCvdgWy4QxngsCwp37XL3IUZ
+	rWPv8hYEUzXYQBPEsGe61Oi3X45pL7fswer573jU4EPeRnPInxaObovI2UApRaf76s+ipZK7b/w
+	WhnUX94kkkq57AgkhsTwqiQgnvM=
+X-Google-Smtp-Source: AGHT+IEUmGu04036ormM4pltNB2Am321w2VXbEnKTAs3EJCIFCtIkYSiyRchfH1o5wZ/LZR6U90hsv4wZnUUYh2RdrI=
+X-Received: by 2002:a05:6512:31d5:b0:591:c763:78e5 with SMTP id
+ 2adb3069b0e04-5930ee00135mr2032537e87.23.1761741427164; Wed, 29 Oct 2025
+ 05:37:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org>
+ <20251029-gpio-shared-v3-1-71c568acf47c@linaro.org> <aQH9gE_fB119CW3l@smile.fi.intel.com>
+In-Reply-To: <aQH9gE_fB119CW3l@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 29 Oct 2025 13:36:55 +0100
+X-Gm-Features: AWmQ_blmOzETrnBiOxNQNAG3OMw6fz-E4Nx4SOD4Wgu8a41SpvuD7mJ9RHyBeG8
+Message-ID: <CAMRc=MdKfXJx-cxNr1uOCkifD6YVE2t5w4hkuYy7jcnidiid2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] string: provide strends()
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I just noticed (when debugging unrelated bug) another thing: whether audio
-works depends on what initramfs
-generator I use. "initramfs-tools" vs hand-written one. So it seems that
-set of modules loaded by initramfs affects whether audio works.
+On Wed, Oct 29, 2025 at 12:42=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Wed, Oct 29, 2025 at 12:20:37PM +0100, Bartosz Golaszewski wrote:
+> >
+> > Implement a function for checking if a string ends with a different
+> > string and add its kunit test cases.
+>
+> ...
+>
+> > +/**
+> > + * strends - Check if a string ends with another string.
+> > + * @str - NULL-terminated string to check against @suffix
+> > + * @suffix - NULL-terminated string defining the suffix to look for in=
+ @str
+> > + *
+> > + * Returns:
+> > + * True if @str ends with @suffix. False in all other cases.
+> > + */
+> > +static inline bool strends(const char *str, const char *suffix)
+> > +{
+> > +     unsigned int str_len =3D strlen(str), suffix_len =3D strlen(suffi=
+x);
+> > +
+> > +     if (str_len < suffix_len)
+> > +             return false;
+> > +
+> > +     return !(strcmp(str + str_len - suffix_len, suffix));
+> > +}
+>
+> Can you rather re-use strcmp_suffix() from drivers/of/property.c?
+>
 
--- 
-Askar Safin
+I think that strends() and its boolean return value are a bit more
+intuitive to use than strcmp_suffix() and its integer return value,
+the meaning of which you typically have to look-up to figure out. If
+there are no objections, I'd like to keep it and - when it's upstream
+- convert property.c to using it instead. Also: the name
+strcmp_suffix() could use some improvement, seeing how I wasn't able
+to find it, even though I looked hard across the kernel source, while
+I easily stumbled upon a similar implementation of strends() already
+existing in dtc sources.
+
+Bart
