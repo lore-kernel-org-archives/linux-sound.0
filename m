@@ -1,64 +1,61 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1EA3328F7;
-	Wed, 29 Oct 2025 09:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE71A1D27B6
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 10:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761730783; cv=none; b=OqiI8DZmguJZsYMwxln6d0DSimTo4BmL8z6/y6FLSiuj+RCMVsxTCEGi5aoGrnTMnmEwbIwMCMTf4JP1oFA1RlC0H0LE1PWHNoQL+b/8h3mVVWsbtrehGuVki1F45UA2k+6iHUma3wM9yXHskc7EA2IPt2xnuViVo6r65CIgN+s=
+	t=1761735089; cv=none; b=KKT1IKMvSqHkBJm32A1YxUOz+rb7eVDzUQla3Vk3YeYloqUSTjMR546SJM5YQn3CR57xotDCRmgLrfKmxEqpsxMnakQuNoMxdgRJDKTbM4nhGuKnYEC2F6VnOh121TlN21BnD7oAEYNuHeh4vzcgNNcltaKXAA5TDWwM3P4hRIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761730783; c=relaxed/simple;
-	bh=9Jrp+ehv1bHsY53MY3h58OEcHjCmI5PtpCsDcMmBsMo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Yj3YFidBt/dhj64ks2iwt0nxvdSeEAVRxmO7I+bZcqRDhd1ldgEM9wqBR7eWfcOm6rmpIgzKfYQide/X1HRSyYb9nk+6rQUQ6HGo2yPuDgGM1s/wXQAvyv163//1ZTdef/SBHAgA0W1NvBhF7fX9Bd9NNdk2FaTFTU3OPHkQUfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=McJClldz; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1761735089; c=relaxed/simple;
+	bh=ygmtqX4Jtg2p0q+D64BjwBFbAyhKHMZgt1zgU4h+o2A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TzMM63d9dBcF96T67KLwKtWfuHGlzzdXX0GAaCLzWrAbEvCpnF1s37Rfum/Hcs79Nlxg3OUuMIzSXA9oSDkNpiTHLraSWuuqzwt0ksJOAitD9aE23n87r4zTvOGNF2PPCzAR4TY2Fu/ARzsVhaJLYXklblZp6B/NULa91jOfrrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/U8vpEq; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="McJClldz"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9169C1A171D;
-	Wed, 29 Oct 2025 09:39:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 60D4B606E8;
-	Wed, 29 Oct 2025 09:39:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BE099117F19E1;
-	Wed, 29 Oct 2025 10:39:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761730779; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=cag2UQaMgFonyUk6auPnw8wxwz30sT+vgy2pDfTh9FE=;
-	b=McJClldzrIeRFKB4lV5B+LrsznjEJVBrhnFiYKfRM/oF0P+2JHq4H5AU1C3vQRIZKH/+m0
-	zdpgbyD5+rxfmQLC7ag4iUh/+wi+MH8hUgvlx2evyb546mf6kP28pTmknpX0C3OX9y10eA
-	OfykYcrXqc97WrBipy16emLqhOS3jmqh/Ds6N63k02x7KzcS8euA44ZTfZ64OPXf+XU7E3
-	iVFebs5g2Ap6JWxY8KkVFHX9B3v0E4Zwa4pr+Kj+Qj9OCcvrDAUM1YzkPkYlrN1Bp3A6vL
-	NgdmGyXHACqDjhn+czoywIA5c8R6NR5TRoktWagR9ifEtxddB8hfW+1FW79C+Q==
-From: Herve Codina <herve.codina@bootlin.com>
-To: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Nikita Shubin <nikita.shubin@maquefel.me>,
-	Axel Lin <axel.lin@ingics.com>,
-	Brian Austin <brian.austin@cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/U8vpEq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761735088; x=1793271088;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ygmtqX4Jtg2p0q+D64BjwBFbAyhKHMZgt1zgU4h+o2A=;
+  b=j/U8vpEqLyoUHdtC4D3SYVBlQbr2on+QzHbhJHJ5qstc5QYOZTh5dxsD
+   S5k08UpUfVixJKoV6yPE87MR2v/GaKwkI1VlkArc5gcKv/ZfQhyuJEwDK
+   XtTHHJdlA0rkTsbaHF16mldZ0zwO+l7tZxl2PmMful9p3xrSAAcE6ClAz
+   o0H6VQdTdAuxtmNgicFoQyA1FbFmJzGV4EhLGYNC83EzQsXyFenF/pkP0
+   fOPgjsKi9H7fyzgIkgilFuDoB2G5w4Ixfky6p+AIIn+oRFu/rPr7E6LyZ
+   zcKWGve53vu5RVKMlKiU/4u/H0V3+b9ug8dyGjTBUVHfLK0HLXTGb1QxK
+   g==;
+X-CSE-ConnectionGUID: l4aSb6niTH+4yUEO+I3CEw==
+X-CSE-MsgGUID: WRJbgBl9TAe6DYhV5hrvwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11596"; a="63553567"
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="63553567"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 03:51:28 -0700
+X-CSE-ConnectionGUID: kavka/oESxuCeOYsK006EA==
+X-CSE-MsgGUID: A3LbLD8YQm2TpCz/SIfraQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="184861507"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.138])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 03:51:25 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v2 4/4] ASoC: cs4271: Add support for the external mclk
-Date: Wed, 29 Oct 2025 10:39:20 +0100
-Message-ID: <20251029093921.624088-5-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251029093921.624088-1-herve.codina@bootlin.com>
-References: <20251029093921.624088-1-herve.codina@bootlin.com>
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	perex@perex.cz,
+	arun@arunraghavan.net
+Subject: [PATCH] ASoC: SOF: pcm: Set the PCM device name for HDMI
+Date: Wed, 29 Oct 2025 12:51:34 +0200
+Message-ID: <20251029105134.1342-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,122 +63,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-The mclk (master clock) of the cs4271 codec can be an input clock.
+User space (alsa-lib) uses the PCM device name to detect HDMI devices, the
+name is expected to be in form of 'HDMI'+<space>+number.
+The PCM device name is not configured in ASoC, only the PCM id is set based
+on the loaded topology.
 
-In this case the connected clock needs to be enabled outside of any
-audio stream. Indeed, this clock is needed for i2c communication.
+Detect the HDMI PCM playback devices and configure the name to help user
+space to handle HDMI PCMs correctly.
 
-Add support of this clock and enable it before the first i2c transfer.
+aplay -l | grep HDMI (Audio capable monitor connected)
+Before the change:
+card 0: sofhdadsp [sof-hda-dsp], device 3: HDMI1 (*) []
+card 0: sofhdadsp [sof-hda-dsp], device 4: HDMI2 (*) []
+card 0: sofhdadsp [sof-hda-dsp], device 5: HDMI3 (*) []
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+after the change:
+card 0: sofhdadsp [sof-hda-dsp], device 3: HDMI1 (*) [DELL P1917S]
+card 0: sofhdadsp [sof-hda-dsp], device 4: HDMI2 (*) [HDMI 2]
+card 0: sofhdadsp [sof-hda-dsp], device 5: HDMI3 (*) [HDMI 3]
+
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/codecs/cs4271.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ sound/soc/sof/pcm.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
-index a9d333e6c723..b8a50b9001e1 100644
---- a/sound/soc/codecs/cs4271.c
-+++ b/sound/soc/codecs/cs4271.c
-@@ -10,6 +10,7 @@
-  * DAPM support not implemented.
-  */
- 
-+#include <linux/clk.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/delay.h>
-@@ -163,6 +164,7 @@ struct cs4271_private {
- 	/* enable soft reset workaround */
- 	bool				enable_soft_reset;
- 	struct regulator_bulk_data      supplies[ARRAY_SIZE(supply_names)];
-+	struct clk *clk;
- };
- 
- static const struct snd_soc_dapm_widget cs4271_dapm_widgets[] = {
-@@ -505,6 +507,7 @@ static int cs4271_soc_suspend(struct snd_soc_component *component)
- 		return ret;
- 
- 	regcache_mark_dirty(cs4271->regmap);
-+	clk_disable_unprepare(cs4271->clk);
- 	regulator_bulk_disable(ARRAY_SIZE(cs4271->supplies), cs4271->supplies);
- 
- 	return 0;
-@@ -522,6 +525,12 @@ static int cs4271_soc_resume(struct snd_soc_component *component)
- 		return ret;
- 	}
- 
-+	ret = clk_prepare_enable(cs4271->clk);
-+	if (ret) {
-+		dev_err(component->dev, "Failed to enable clk: %d\n", ret);
-+		return ret;
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index fe43de1fe96c..cee04574264e 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -613,6 +613,24 @@ static int sof_pcm_new(struct snd_soc_component *component,
+ 	snd_pcm_set_managed_buffer(pcm->streams[stream].substream,
+ 				   SNDRV_DMA_TYPE_DEV_SG, sdev->dev,
+ 				   0, le32_to_cpu(caps->buffer_size_max));
++
++	/* Set the PCM device name for HDMI playback */
++	if (!strncmp(pcm->id, "HDMI", 4)) {
++		int hdmi_idx;
++
++		/*
++		 * Make sure that the name is in"HDMI<SPACE>x" format as this is
++		 * expected by user space.
++		 * See alsa-lib's __snd_pcm_info_eld_fixup_check() which is
++		 * guarding the __snd_pcm_info_eld_fixup() in
++		 * snd_ctl_hw_pcm_info() and snd_pcm_hw_info() library functions
++		 */
++		if (sscanf(pcm->id, "HDMI%d", &hdmi_idx) == 1)
++			snprintf(pcm->name, sizeof(pcm->name), "HDMI %d",
++				 hdmi_idx);
++		else
++			strscpy(pcm->name, pcm->id, sizeof(pcm->name));
 +	}
-+
- 	/* Do a proper reset after power up */
- 	cs4271_reset(component);
- 
-@@ -567,22 +576,29 @@ static int cs4271_component_probe(struct snd_soc_component *component)
- 		cs4271->enable_soft_reset = cs4271plat->enable_soft_reset;
- 	}
- 
-+	ret = clk_prepare_enable(cs4271->clk);
-+	if (ret) {
-+		dev_err(component->dev, "Failed to enable clk: %d\n", ret);
-+		goto err_disable_regulators;
-+	}
-+
- 	/* Reset codec */
- 	cs4271_reset(component);
- 
- 	ret = regcache_sync(cs4271->regmap);
- 	if (ret < 0)
--		goto err_disable_regulators;
-+		goto err_disable_clk;
- 
- 	ret = regmap_update_bits(cs4271->regmap, CS4271_MODE2,
- 				 CS4271_MODE2_PDN | CS4271_MODE2_CPEN,
- 				 CS4271_MODE2_PDN | CS4271_MODE2_CPEN);
- 	if (ret < 0)
--		goto err_disable_regulators;
-+		goto err_disable_clk;
- 	ret = regmap_update_bits(cs4271->regmap, CS4271_MODE2,
- 				 CS4271_MODE2_PDN, 0);
- 	if (ret < 0)
--		goto err_disable_regulators;
-+		goto err_disable_clk;
-+
- 	/* Power-up sequence requires 85 uS */
- 	udelay(85);
- 
-@@ -593,6 +609,8 @@ static int cs4271_component_probe(struct snd_soc_component *component)
- 
- 	return 0;
- 
-+err_disable_clk:
-+	clk_disable_unprepare(cs4271->clk);
- err_disable_regulators:
- 	regulator_bulk_disable(ARRAY_SIZE(cs4271->supplies), cs4271->supplies);
- 	return ret;
-@@ -607,6 +625,7 @@ static void cs4271_component_remove(struct snd_soc_component *component)
- 
- 	regcache_mark_dirty(cs4271->regmap);
- 	regulator_bulk_disable(ARRAY_SIZE(cs4271->supplies), cs4271->supplies);
-+	clk_disable_unprepare(cs4271->clk);
- };
- 
- static const struct snd_soc_component_driver soc_component_dev_cs4271 = {
-@@ -641,6 +660,10 @@ static int cs4271_common_probe(struct device *dev,
- 				     "error retrieving RESET GPIO\n");
- 	gpiod_set_consumer_name(cs4271->reset, "CS4271 Reset");
- 
-+	cs4271->clk = devm_clk_get_optional(dev, "mclk");
-+	if (IS_ERR(cs4271->clk))
-+		return dev_err_probe(dev, PTR_ERR(cs4271->clk), "Failed to get mclk\n");
-+
- 	for (i = 0; i < ARRAY_SIZE(supply_names); i++)
- 		cs4271->supplies[i].supply = supply_names[i];
+ capture:
+ 	stream = SNDRV_PCM_STREAM_CAPTURE;
  
 -- 
-2.51.0
+2.51.2
 
