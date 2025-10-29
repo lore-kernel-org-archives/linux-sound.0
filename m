@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64622580E2
-	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 22:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A202580E2
+	for <linux-sound@vger.kernel.org>; Wed, 29 Oct 2025 22:02:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761775342; cv=none; b=HqzIvUxs/VULIA0lD9ydjQIHe0Wvt7vQCDN8hWP5EPAiJnn53Bn5QPeUoAHINJsvnQAn2Z1BCJSKH9depOYjIzRUnDOhFlkHZBGTAICtnHRx3hft8Tv2aphbuCuldc0PH9SZi82A0ipfRHYYBgRUjtW2EUy37T7L1RilkmZvrJE=
+	t=1761775345; cv=none; b=Hn8xhjDBk8XkNbqDTTk4hyMh1PKY90hci9AwqzYCQDPDS5LeeMZ/0mZT7RyJBhr3Wsf6L3RvTaKCCZ6TJJY0ezlCwxzQiJbuMef0i3oG2igHF7yJgnrUDCtoAz5nLpc6abCe/qFl0gcOTvXJ5QczS7KjOHZ59RSIMXnmizg2/fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761775342; c=relaxed/simple;
-	bh=FseTn+2Lv7ChxepX15nJb5kAjotDKfDw7Sg6ts3BZQo=;
+	s=arc-20240116; t=1761775345; c=relaxed/simple;
+	bh=4IfA1eojBA7lr5OboxmLCnWf0vMG2zuCQpuewDuh2Ew=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lHvuw3bNAn7UJw8S55sFyMpD50NWkYayFnunHhcF95fUD3aJurJysn/JwyuvHRlqo8JXkjMMAYbpLNBHuSjVMY1Opt7ueyT9GsQYH2uDxlwwEP8ZA6Jyf7sbq+QcjNDvm9VJV2xG1d7ne4JUpRM1n1R3QZ7Fglh1BRGVlGdjwwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFTHm/wR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ERcoLP442tEBMLgbXaUA5uUhpSdXWJe4Aee/2eo988q3CL9y8OXfCE4eZeOQV07+65vXveNfAia96ZqsHLihXZrzdhm4wrhr6nhO2gmf4Z8I3bQeZC4Grbwk9I1Ojp/Hd2zKJXcm1nKyrDs7qQjRLLjKUt8YGuOBlhub2SnewtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pbzx0ff+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFTHm/wR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956F8C4CEFB;
-	Wed, 29 Oct 2025 22:02:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pbzx0ff+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDABBC4CEF7;
+	Wed, 29 Oct 2025 22:02:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761775342;
-	bh=FseTn+2Lv7ChxepX15nJb5kAjotDKfDw7Sg6ts3BZQo=;
+	s=k20201202; t=1761775344;
+	bh=4IfA1eojBA7lr5OboxmLCnWf0vMG2zuCQpuewDuh2Ew=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bFTHm/wR8m2BMm+p5IOzn89xCygHLx3fkgVaNCPDV7mZlIj2Txw1ueNFedhpgShxd
-	 HvymQzMCU3ABq+aXvgznF9TaiobdKxINFOKijZp9uZJVQjN4GtgRILLTZF5FRRWWWX
-	 CLQX4+N+5BNQXjJh9dIGNutjNt3YU9XZaKgs3o7mbLO05wPXAL1hkNIcm4w1CC0jjT
-	 q32M3VKNZ38w8GG9qkEFoH7Ol8MW2/hY2+eMhZo44TqzMoLv3syRF5DcyypbECBSIP
-	 ZJ+PG2icPh4qQw77BrK3598Gm276RFKUaOwTWiHxvzcZxFCyLuuNYRABzPOWTJU4Uu
-	 rpHZXqI+zPgmg==
+	b=Pbzx0ff+p31UIVZJbFE9O1C2hua8MJ76Ojm0oSqWmznCyhbh3lAbTS+6LwIAk0Eq3
+	 eCRcF/YwPYfOGmAJKQDWEK0S82RtGW6hjcr87FgQFS6Jf7xbP2btNV8m+8nfSH1ZLK
+	 R2O2i57dV7ABB4VZvJb0gyBUk+x26VOf9JthJZ9qZ5eX54vDTeUg1puUmEWQD6jnWe
+	 VLMzNnY4df0KqyNBURw/VRAVddNx8GfDdaqC4n/qGnr1fh4OBpIvBkvxHWhgnTu8Kr
+	 mh9luDGHVo+MRZODLhAakdVn/cMh3t4sNI5fuXBhsw0PmJ6a5ku5d0c8LVTb9nvRtU
+	 ekQoygskYUx7A==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
-References: <20250925105341.194178-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v3 00/19] Add SDCA UMP/FDL support
-Message-Id: <176177534033.1198235.14063845818573444823.b4-ty@kernel.org>
-Date: Wed, 29 Oct 2025 22:02:20 +0000
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20251020155512.353774-1-ckeepax@opensource.cirrus.com>
+References: <20251020155512.353774-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v3 RESEND 00/19] Add SDCA UMP/FDL support
+Message-Id: <176177534256.1198235.13179064498290932859.b4-ty@kernel.org>
+Date: Wed, 29 Oct 2025 22:02:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,12 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 25 Sep 2025 11:53:22 +0100, Charles Keepax wrote:
+On Mon, 20 Oct 2025 16:54:53 +0100, Charles Keepax wrote:
 > Next installment of the SDCA changes, hopefully the next series after
 > this should be the full class driver. It is worth noting this series has
 > a build dependency on a patch working its way through the PM/ACPI tree:
 > 
-> commit ac46f5b6c661 ("ACPICA: Add SoundWire File Table (SWFT) signature")
+> commit ac46f5b6c661 ("ACPICA: Add SoundWire File Table (SWFT)
+> signature")
 > git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
 > 
 > [...]
