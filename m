@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE72C333444
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 06:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A863195F0;
+	Thu, 30 Oct 2025 07:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761807316; cv=none; b=dNDlfaGebJWYnG+wv8FtVRpw2rMPp/m9lS7rG4bXR4psgX87f92l4B2kFkhW7QTYTvjTO4QgmEjeHHcHd55V9Uj/oQAhtmIhj3hyX8Nkydyo8MqFYddjIk8G/EBJej1S0JPZtPHHwMI6Zb2T81NhJdkKTgGexXo2TmKKThW1v1M=
+	t=1761807823; cv=none; b=fdKElzw+5xQKL+RAFqHbA5+CRafOo15FuvVQTqz5BFRJCfIhxpZAJGp+clQ9ILnT0co8JxlBFDP/HzByID2Q/sUMNusIllXzEqQmd4hh8VC3rMxLM4gahcbXVSmgH/2nCFloZlurUU0wKdLFC5u0SLr1ICt4b8KED3JZIJ4t20g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761807316; c=relaxed/simple;
-	bh=tLWkrPvjskGwcbgWZ5gEZLLIqS82dXoxcp+wgT21EdQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sBLl4eDCBzCA42EFqonScxSRYGeLKvh4IcUDrhUMpUZdbw53PRtTnTw+3547pr+MxkxrkMekxrWPtZalzZWmMNrHmAJoAYorzZRVLnSSVj3E36xZ3gJi8iQFkq20afZeeJHB1fGBrrlVEn7MQ9rFU8xWqA2GNLW6UGQqbyb6N3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bc900hj+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1761807823; c=relaxed/simple;
+	bh=JEwYEiTF+lrV+WrYB82xOF+okUr2wYSqJC8XxFxiDBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ivc7uPi8KgrYZDu/XUTy4IuM/S/rXJTX9bH5dRwNX/CTO/peXjCmM3o42YmM/3j4u5k6rloI+BxELYeimNtK8rk1Mzkza9UiUijdV13BTcG6Q8Q8sUNFn9Iihx6jhwJs9UqMXQVCXL0pU3qzGlV7xENbVon2+LG+mMaAUCqjbaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnxUwneK; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bc900hj+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnxUwneK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761807315; x=1793343315;
+  t=1761807822; x=1793343822;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=tLWkrPvjskGwcbgWZ5gEZLLIqS82dXoxcp+wgT21EdQ=;
-  b=Bc900hj+4zI6jRsRLV5uDRjoXYPzR7BRB6cjdRgj/V081lbuW8AEIBji
-   7fJor7O41L2kD4akY9edqwdim/qEmNoJchKnVIz28krMtEtpuCY7/M2gv
-   hTNeslOSsUAQ4Gs5ciEsagAq3PgLNpfX3QShW8cb6s/+2LIkVTD0FZji3
-   Bq+YhL8y9b7T9aqiN1kWF3i1mARj+v6twBqT8kG9I1nTZ5GmzNEfVRBly
-   NrA56TGdwYleHI9alGdfydwEJGkJvFhOPQr3GULIN6Wu5cAX/OmR1xZtb
-   9XE5RG9AqmzPT5SVvgH6DOWU9KwNH3JaFj10zM/nFc4eGPaNYOItksYaQ
-   Q==;
-X-CSE-ConnectionGUID: A3yENAvXSbOFi9hQulqLuA==
-X-CSE-MsgGUID: mLNYWWBeTXO9MqTQBttqGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="62962650"
+  bh=JEwYEiTF+lrV+WrYB82xOF+okUr2wYSqJC8XxFxiDBo=;
+  b=ZnxUwneKkYrkpRrfpYoEvwIrYx30i2O5rUm8TXiT/y+SqqCHnRRJrmOJ
+   kceRTjojJeBdiypn+krtTOobIDu6ZNx8HFr5kSALsa3otX7W4/H0wmfxq
+   IGLlsz5Tv6yWsEClc2qYbpsPp2JzeCXhqljMisrps2yob4Ob0VCDTS8Km
+   MwD4iXEkJKl5Ve93VBCOZtmxNgSfTovjw11CzmGOawbnwbwfwmcKjLjzN
+   7tOjwCEjPg19hTNLMRymy0AzX2SyfPJtRbpDZS7OYaebi5sdqbUjpvjYb
+   Heq/3C3rtdEJShyI5t+Cf2OM0/MVAy+KSI86+yeuXGs4t5yU47QSHP4U1
+   g==;
+X-CSE-ConnectionGUID: oraT6m/kSBqLDYzILKxj5w==
+X-CSE-MsgGUID: M7UhgjktQrmUVBbz+Znp8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="81359510"
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="62962650"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 23:55:14 -0700
-X-CSE-ConnectionGUID: I82QGNlqQ/6qV/79zQjbVA==
-X-CSE-MsgGUID: sx5WdUP8SnqmuK6C/FNhxw==
+   d="scan'208";a="81359510"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 00:03:41 -0700
+X-CSE-ConnectionGUID: xkL4niZbQbqVdjxglRaEVQ==
+X-CSE-MsgGUID: D4fUBBM1RWCpo7biYUWofg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="185529311"
+   d="scan'208";a="186621352"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 23:55:13 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 00:03:38 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org,
+	broonie@kernel.org,
 	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH] ASoC: SOF: Intel: remove hyphen from AMP<index> name_prexix
-Date: Thu, 30 Oct 2025 14:55:03 +0800
-Message-ID: <20251030065503.1216419-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH RESEND 0/7] ASoC/soundwire: add fake BPT frame to align Intel DMA buffer size
+Date: Thu, 30 Oct 2025 15:02:46 +0800
+Message-ID: <20251030070253.1216871-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -57,40 +61,32 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-For those amp with "AMP" name_prefix in the codec_info_list[], use the
-AMP<index> format to meet the UCM expectation.
+There is a constraint on Intel DMA buffer size that needs to be a
+multiple of data block size. This series adds some fake BRA frames
+to add some extra buffer size to meet the constraint.
+The change is mainly on the soundwire tree. It would be better to go
+through the soundwire tree.
 
-Fixes: 5cd5f8fc29fa ("ASoC: SOF: Intel: add hyphen between name and index to amp name_prefix")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/intel/hda.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Bard Liao (7):
+  soundwire: cadence_master: make frame index trace more readable
+  soundwire: only compute BPT stream in sdw_compute_dp0_port_params
+  soundwire: cadence_master: set data_per_frame as frame capability
+  soundwire: cadence: export sdw_cdns_bpt_find_bandwidth
+  ASoC: SOF: Intel: export hda_sdw_bpt_get_buf_size_aligment
+  soundwire: cadence_master: add fake_size parameter to
+    sdw_cdns_prepare_read_dma_buffer
+  soundwire: intel_ace2x: add fake frame to BRA read command
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 4a59dd53c569..c1518dbee1b7 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1260,7 +1260,15 @@ static struct snd_soc_acpi_adr_device *find_acpi_adr_device(struct device *dev,
- 								    "AMP", *amp_index);
- 			break;
- 		}
-+	} else if (!strcmp(name_prefix, "AMP")) {
-+		adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL, "%s%d",
-+							    name_prefix,
-+							    *amp_index);
- 	} else {
-+		/*
-+		 * The name_prefix will be the amp name if it is not "Left" or "AMP", set it to
-+		 * <name_prefix>-<amp_index> format. Like rt1320-1
-+		 */
- 		adr_dev[index].name_prefix = devm_kasprintf(dev, GFP_KERNEL, "%s-%d",
- 							    name_prefix,
- 							    *amp_index);
+ drivers/soundwire/cadence_master.c            | 85 +++++++++++++++++--
+ drivers/soundwire/cadence_master.h            |  7 +-
+ .../soundwire/generic_bandwidth_allocation.c  |  3 +
+ drivers/soundwire/intel_ace2x.c               | 61 +++++++++++--
+ include/sound/hda-sdw-bpt.h                   |  7 ++
+ sound/soc/sof/intel/hda-sdw-bpt.c             | 13 +++
+ 6 files changed, 161 insertions(+), 15 deletions(-)
+
 -- 
 2.43.0
 
