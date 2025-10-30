@@ -1,42 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD680365D2B;
-	Thu, 30 Oct 2025 16:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080B9264F9C;
+	Thu, 30 Oct 2025 16:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761840415; cv=none; b=upAkfIk1p/vHmM+YmKdXzOW+4MqyZByyK/djyi701ZYJ4CMHPvxq+zCySooCOzSkdP5lepUC6EBjuoElLC8l6phzqSp8fdXLqjpyZDY1Q1srbfjaudEqmv0e2QWOmdXWjZuFVBnKWcQH5vzntKfQF0KuWyJjPHUNN2cIxEDJe7g=
+	t=1761843012; cv=none; b=PamIKfj9MGeQce/QwPaSa897Ykh0w1GyIXaqo8k8MM59DfEbzFuRefHPK2wd3VN0DRbk1L3/uA09moLS7t3/0Ch2cwESS5FQMj6FXvHE1VPboqCeptvcz9IVMxlEra3BR5olq/2oQ5nrmIEpy8FqhTMPhQolvWeOpgzqB0hi1Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761840415; c=relaxed/simple;
-	bh=vSocyJxmK+C8/VLepflVLh997nUzrmbdX63MsbdhqDo=;
+	s=arc-20240116; t=1761843012; c=relaxed/simple;
+	bh=2AgScSgFG6KmiHrgMKTGpPXiiYnevIIc9U4Q25rTP9E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kKrHgKQlJ5ngnsALJYy1r4L1mrFD6J3p58C1nkVjkTxWatep2FrYll0TS6Oc17U96igxFKrxb03IhP5hAxsKaplPF1tS7r/MY2ZJckCubUJAjSPOXDnf5VQ5RMLYgI5Z8G1NutzKidAH9q+/vTdZze3byQU1Ngk0KX6S47TEMT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjy1QRR1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=o38tCV3LUkoh2fVVIzbFjJNaFgT8eOOu1pomX+RjpCNtXVWWVJtsNFvP8n33VoKQ17WgINGo+E2DFNvh7BX4qFJxqAtB1Ylzo18tPvgUAzQyL4yz8xwyW58ULwKVs3/hyEcmsbrO3b3SUg1g1UbOBw6Yq/kgu5R28s1fk4IqpEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6qVH5W5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjy1QRR1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C65F9C113D0;
-	Thu, 30 Oct 2025 16:06:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6qVH5W5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75B0DC4CEF1;
+	Thu, 30 Oct 2025 16:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761840414;
-	bh=vSocyJxmK+C8/VLepflVLh997nUzrmbdX63MsbdhqDo=;
+	s=k20201202; t=1761843011;
+	bh=2AgScSgFG6KmiHrgMKTGpPXiiYnevIIc9U4Q25rTP9E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qjy1QRR1xDd+9YQgRMwE1zjXt3ACLmw4tni78W2Qpd+eCPNQNHseRhc/r3lVgER5v
-	 /Kqta+exeOWNTyogoEODm5R9MhTVcjSewWYaIP3mUg+iREkHuVnsJlzFNOBgSM/4K4
-	 jwJkqPIinymZ1tEp3FwzRPyGVpIhMEbMKL+f4vgFGuUvnsn5uKw17W6cX+cNJone/+
-	 9YWT9OkaV0U3hf4SdREyjdM7dARhLAAI8yrufM2M418tRHVqHakfM5PlqwKEoWcz4A
-	 HJLI0J0A/cGT+ug6CVN7JtAkTD5pYq/+8QDeWrtCyetI0wkNqrfhTtmcKWuGwweBik
-	 /HB/S3Vfr+gNA==
+	b=h6qVH5W5vYLUQDpex+WP8aa3elxFOZ/pMFQRACcr8YqVvfQF42fTV+kZRY2GtQTbG
+	 2HsODoHVhydin98rNGobOTPkyt/cQGCgjxhkfDD83QTbmzNfEII83SKUw4dV6eE0Ky
+	 mmaZ87HWaRpqp+wHeZxLfP6AyE4V18YJwkw/06/iJZf71ylXS47VLy7cbHdIfZKg8z
+	 y/VAcr3H7QgU3NTXHdoUmDJvmqN5LYWPwbNdEv+/XVySnh0Fyulf54SrHBjDvvOsEg
+	 RR0Z0MTQCpcolhN1aAWUkLFk47wbn/ipemYmrDdJRz73jFDAiVuzs3IFqRyubWo9zq
+	 BCyVIhaPypN2Q==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- hariconscious@gmail.com
-Cc: khalid@kernel.org, shuah@kernel.org, david.hunter.linux@gmail.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251030105313.32199-2-hariconscious@gmail.com>
-References: <20251030105313.32199-2-hariconscious@gmail.com>
-Subject: Re: [PATCH] ASoC: soc-core: check ops & auto_selectable_formats in
- snd_soc_dai_get_fmt() to prevent dereference error
-Message-Id: <176184041256.112563.18061585609686605525.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 16:06:52 +0000
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+ Nikita Shubin <nikita.shubin@maquefel.me>, Axel Lin <axel.lin@ingics.com>, 
+ Brian Austin <brian.austin@cirrus.com>, 
+ Herve Codina <herve.codina@bootlin.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+In-Reply-To: <20251029093921.624088-1-herve.codina@bootlin.com>
+References: <20251029093921.624088-1-herve.codina@bootlin.com>
+Subject: Re: (subset) [PATCH v2 0/4] Add support for an external Master
+ Clock in the Cirrus CS4271 codec
+Message-Id: <176184300823.119935.16469243761262240818.b4-ty@kernel.org>
+Date: Thu, 30 Oct 2025 16:50:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,14 +56,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 30 Oct 2025 16:23:14 +0530, hariconscious@gmail.com wrote:
-> Smatch reported an issue that "ops" could be null (see
-> line 174) where later "ops" is dereferenced to extract
-> the dai fmts, also auto_selectable_formats can also be
-> null.
+On Wed, 29 Oct 2025 10:39:16 +0100, Herve Codina wrote:
+> The Cirrus CS4271 codec can have its Master Clock provided by an
+> external clock when no crystal is used.
 > 
-> Add a proper null check before accessing both the ptrs
-> to ensure a safe execution.
+> This series adds support for this external Master clock.
+> 
+> The first patch in the series is not related to the clock but fixes an
+> issue related to module loading and MODULE_DEVICE_TABLE() due to a
+> driver split between i2c part and spi part.
 > 
 > [...]
 
@@ -64,8 +74,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-core: check ops & auto_selectable_formats in snd_soc_dai_get_fmt() to prevent dereference error
-      commit: e73b743bfe8a6ff4e05b5657d3f7586a17ac3ba0
+[2/4] ASoC: cs4271: Disable regulators in component_probe() error path
+      commit: 1e5351ba60f5355809f30c61bbd27e97611d2be9
+[3/4] ASoC: dt-bindings: cirrus,cs4271: Document mclk clock
+      commit: 3cd523ba270665861647304aa30500f238ebf26e
+[4/4] ASoC: cs4271: Add support for the external mclk
+      commit: cf6bf51b53252284bafc7377a4d8dbf10f048b4d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
