@@ -1,88 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128D4242D9B;
-	Thu, 30 Oct 2025 13:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3955425A354;
+	Thu, 30 Oct 2025 13:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761831365; cv=none; b=H48YjjhXceLVh6IfUsjvxQRwo4WfLig8iQeOrGGbM9ybCQz+ODAnJPF03Gcrh2zpxgbLPqU4DbJyHJ7wR+nGdE9l+IDWDMMgk8rGYXjy7RhRiEW27prADr0EoytN6VbRTz6DsliHqS3TootTRofsR7g8jr3jX1tbPZCsYf2OIgk=
+	t=1761831812; cv=none; b=dxNQ4+/KBuV5lrPV/gMfKLCZ6Cy/iStcKp34ObJgf+L4fCb5UdhfrmbAocwAK8V6XjHoXFehqwHsug0Qes7bQ0o90eCPu9EsNo97lEi+eFmEHK/7MHmRT3MSrDLalPcYT+XZquU90bdNm0zAyxgg2qmZ2+i76hmDLJQjaLssmKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761831365; c=relaxed/simple;
-	bh=skDcBwIOHhfQXGcqlGA/LEwUkbZKYplwlozeBad9QOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSEqmRsznyhjzBuwGvrlS7v+TIuCDZu5kHfr8fKIFFuYmFOUo20dMo/pP3bI6k2/N8UMXUEgYMpfIQdzC84ZzO+l6MJDFq/8eFRhFEfGOqMPwaE/I4lrZhWKrl9pRSrOwqcEeynX/PvAXWi5jLfQncJOjevJpZb0Rjtay0cXF/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aIFeA7NJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761831812; c=relaxed/simple;
+	bh=+MGk1Y3VPikDiOf9J0ZfQJWgfYODUyIASv3ygzp6UYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A5NP+RMq148W71AVzl+65S7F6hzzRFSwDP+lr8YB3ky3fh+EIUTgb/y1DE1IvGtBBDX0+tiJKPONtku4dPUKtVjSYePYCisBrhvMIWQnYpQ8bz2i0+V0KdhvMKjAoXwY+Tu5flXWriMJyPWszRdg8wJKh/5TMVQ+hVi278Mykeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VsKbr63m; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aIFeA7NJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B435C4CEF1;
-	Thu, 30 Oct 2025 13:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761831364;
-	bh=skDcBwIOHhfQXGcqlGA/LEwUkbZKYplwlozeBad9QOY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aIFeA7NJUJOWrSDA9pGqC8MaKPLKi+lpQRRuXL7ckWZUVsDUHN4irB5QDZoyh9bVq
-	 3+WYnAHHUAvSeAtQ2cniycQkp4C8ZE6rJG8H/eeavKFZaMcKjen27K1eD+DBX4qeXA
-	 AbnmRO3D/tv3/zzhUqzMU1XXy9C6kD3bblXjaYY6LtT+nyMcjCgmF1NLpd/8ZrrZAi
-	 /4rcT5otqRcLDavdndxtpebWbN3OUiQBa8UhLYXDv5UD1/Uuub6fsECRRKnmduHQAi
-	 9yoxuYx4CR0Ms16r/IyQ/2t9DlRPJDoNC12vVChYZMb0Cd6eoRZoqQz7YTMv8aNWer
-	 Ags2ZLTy+g3vA==
-Date: Thu, 30 Oct 2025 14:35:59 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, 
-	Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	David Rhodes <david.rhodes@cirrus.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 17/29] i2c: mux: Set adapter physical device
-Message-ID: <llu7m5f2qi6o5nzgssxw3qpp4sya6a2qrg4gna7y6atl2y7amk@ld5wow6brflb>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
- <20251015071420.1173068-18-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VsKbr63m"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2079D4E41406;
+	Thu, 30 Oct 2025 13:43:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E705D6068C;
+	Thu, 30 Oct 2025 13:43:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDF8A11808A57;
+	Thu, 30 Oct 2025 14:43:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761831805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Vd/kfU9OxYb1b6llU5Rmw3RyZb77Ylq8cw6lND80BU4=;
+	b=VsKbr63mPIs9yUvMKlkj3cNdzhRSAdzBvvf+pP5P1v3o9sHqExExNM501MGKnXkvdo5ITC
+	iWeeE0K2WtXQC6fvAJUcEZm5KOxs431qM7Oo+rzyVuITNX+0N515WVLe/Z9mCM/QGdd5L/
+	u5KRMiaWIlXu6FHp3//Ebcmr0rzaAFayHVBJ38WwrfD+nC+bDAd9OpBhjcrp6ocWfItjyw
+	U3F9QQagbDox04QrE/9OUNBDP7Z7zYx6OmhZvOaJSJgMXJTDQ8b7F+gjzdEO6yxu8t6Ypf
+	SSJn8xc7K0Noaet2ES4GCuVOG4UXOLyE6cTvw46ChwKydLojNFvfVXZQXsAFgQ==
+Date: Thu, 30 Oct 2025 14:43:19 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Alexander Sverdlin <alexander.sverdlin@gmail.com>, Mark Brown
+ <broonie@kernel.org>
+Cc: David Rhodes	 <david.rhodes@cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jaroslav Kysela	 <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Nikita Shubin	 <nikita.shubin@maquefel.me>, Axel Lin
+ <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni
+  <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
+ automatic module loading
+Message-ID: <20251030144319.671368a2@bootlin.com>
+In-Reply-To: <06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
+References: <20251029093921.624088-1-herve.codina@bootlin.com>
+	<20251029093921.624088-2-herve.codina@bootlin.com>
+	<06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251015071420.1173068-18-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Herve,
+Hi Alexander,
 
-On Wed, Oct 15, 2025 at 09:14:04AM +0200, Herve Codina wrote:
-> For i2c muxes, the parent of the mux adapter device is the adapter
-> device the mux is connected to.
+On Wed, 29 Oct 2025 12:20:27 +0100
+Alexander Sverdlin <alexander.sverdlin@gmail.com> wrote:
+
+...
+
+> > diff --git a/sound/soc/codecs/cs4271-spi.c b/sound/soc/codecs/cs4271-spi.c
+> > index 4feb80436bd9..28dd7b8f3507 100644
+> > --- a/sound/soc/codecs/cs4271-spi.c
+> > +++ b/sound/soc/codecs/cs4271-spi.c
+> > @@ -23,11 +23,24 @@ static int cs4271_spi_probe(struct spi_device *spi)
+> >  	return cs4271_probe(&spi->dev, devm_regmap_init_spi(spi, &config));
+> >  }
+> >  
+> > +static const struct spi_device_id cs4271_id_spi[] = {
+> > +	{ "cs4271", 0 },
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(spi, cs4271_id_spi);
+> > +
+> > +static const struct of_device_id cs4271_dt_ids[] = {
+> > +	{ .compatible = "cirrus,cs4271", },
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);  
 > 
-> This parent is not the physical device related to the mux adapter.
-> Indeed, the physical device of the mux adapter is the mux device itself.
+> So currently SPI core doesn't generate "of:" prefixed uevents, therefore this
+> currently doesn't help? However, imagine, you'd have both backends enabled
+> as modules, -spi and -i2c. udev/modprobe currently load just one module it
+> finds first. What is the guarantee that the loaded module for the "of:"
+> prefixed I2C uevent would be the -i2c module?
 > 
-> Fill the adap.physdev with the mux device.
-> 
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+I hesitate to fully remove cs4271_dt_ids in the SPI part.
 
-Thanks,
-Andi
+I understood having it could lead to issues if both SPI and I2C parts
+are compiled as modules but this is the pattern used in quite a lot of
+drivers.
+
+Maybe this could be handle globally out of this series instead of introducing
+a specific pattern in this series.
+
+But well, if you and Mark are ok to fully remove the cs4271_dt_ids from the
+SPI part and so unset the of_match_table from the cs4271_spi_driver, I can
+do the modification.
+
+Let me know if I should send a new iteration with cs4271_dt_ids fully removed
+from the SPI part.
+
+Also, last point, I don't have any cs4271 connected to a SPI bus.
+I use only the I2C version and will not be able to check for correct
+modifications on the SPI part.
+
+Best regards,
+Hervé
