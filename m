@@ -1,105 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF402E9EA0;
-	Thu, 30 Oct 2025 13:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128D4242D9B;
+	Thu, 30 Oct 2025 13:36:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761829586; cv=none; b=XPkTsJuVpRdpoejDHGDDb95OWAl/FJyrObIfFQfjJO59+p+vL/TYUJI2G5w5wKX+m7176cEnVSoCJX3zi7TUf9691C/K4FN0ncbxWHSWhl/P80ynleDATbaLlFL2qyTZZpSF8luBBnGTY/XoktEWf7tkXRtPs2iA6bW2bo4UZfs=
+	t=1761831365; cv=none; b=H48YjjhXceLVh6IfUsjvxQRwo4WfLig8iQeOrGGbM9ybCQz+ODAnJPF03Gcrh2zpxgbLPqU4DbJyHJ7wR+nGdE9l+IDWDMMgk8rGYXjy7RhRiEW27prADr0EoytN6VbRTz6DsliHqS3TootTRofsR7g8jr3jX1tbPZCsYf2OIgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761829586; c=relaxed/simple;
-	bh=Km12nL8qt3xEm3JrEGnnnbq5x4pUk4viwfLeDAB8Rpk=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=JayRLGxeXvRaTvX2VidOXnIJkiPsY1S1plAKMpoX4LdyF/9Phd24mFyD72UTJPkqHXtQBLMDC4JPx5HJmZsqBWQF7oZzL8FuNb3TrSC2AdLvwaants57R6rF00nZnN0yF+ya5IuIcNQYrS/Ec8ysEvoP28wB4/XQWEdgyvMh4s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=stsLZFnS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761831365; c=relaxed/simple;
+	bh=skDcBwIOHhfQXGcqlGA/LEwUkbZKYplwlozeBad9QOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZSEqmRsznyhjzBuwGvrlS7v+TIuCDZu5kHfr8fKIFFuYmFOUo20dMo/pP3bI6k2/N8UMXUEgYMpfIQdzC84ZzO+l6MJDFq/8eFRhFEfGOqMPwaE/I4lrZhWKrl9pRSrOwqcEeynX/PvAXWi5jLfQncJOjevJpZb0Rjtay0cXF/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aIFeA7NJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="stsLZFnS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14AA5C4CEF1;
-	Thu, 30 Oct 2025 13:06:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aIFeA7NJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B435C4CEF1;
+	Thu, 30 Oct 2025 13:36:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761829585;
-	bh=Km12nL8qt3xEm3JrEGnnnbq5x4pUk4viwfLeDAB8Rpk=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=stsLZFnS7+Fs54+KeR3medcbYbhv5FbyAjpvYu/4fnsjhtVXcEVBT2YtoTeXCRNKj
-	 kBG4Ll5J8HVtN8S0AtuNWnL2GLLvpDfAE5e+ZvHCwsB05645s5Bce8XGnRjFVL8uhk
-	 YWWsHaXisQ8vhca6EAPWa2xQGOop+CI4yhHXAD3UCGTsnchVRZEkqrjBVMrhGp69n2
-	 /UCZTcp6D5x2A/Jl73xnKoCmngjdNG+qR6Bjm5Jlh505ZzqcpaF1lp1dMtB5Q15nVS
-	 dcL8sKd0jXm5/L0Bsl3Ev8D7URROt3OE/4P8zbkJxlubA4ARYk4fQP89OhdLhYbgcz
-	 Rj0WYxzuINB4g==
-Date: Thu, 30 Oct 2025 08:06:20 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1761831364;
+	bh=skDcBwIOHhfQXGcqlGA/LEwUkbZKYplwlozeBad9QOY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aIFeA7NJUJOWrSDA9pGqC8MaKPLKi+lpQRRuXL7ckWZUVsDUHN4irB5QDZoyh9bVq
+	 3+WYnAHHUAvSeAtQ2cniycQkp4C8ZE6rJG8H/eeavKFZaMcKjen27K1eD+DBX4qeXA
+	 AbnmRO3D/tv3/zzhUqzMU1XXy9C6kD3bblXjaYY6LtT+nyMcjCgmF1NLpd/8ZrrZAi
+	 /4rcT5otqRcLDavdndxtpebWbN3OUiQBa8UhLYXDv5UD1/Uuub6fsECRRKnmduHQAi
+	 9yoxuYx4CR0Ms16r/IyQ/2t9DlRPJDoNC12vVChYZMb0Cd6eoRZoqQz7YTMv8aNWer
+	 Ags2ZLTy+g3vA==
+Date: Thu, 30 Oct 2025 14:35:59 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, 
+	Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	David Rhodes <david.rhodes@cirrus.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 17/29] i2c: mux: Set adapter physical device
+Message-ID: <llu7m5f2qi6o5nzgssxw3qpp4sya6a2qrg4gna7y6atl2y7amk@ld5wow6brflb>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <20251015071420.1173068-18-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
- david.hunter.linux@gmail.com, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sound@vger.kernel.org, 
- khalid@kernel.org, skhan@linuxfoundation.org
-To: Ranganath V N <vnranganath.20@gmail.com>
-In-Reply-To: <20251030-dtbs-v4-1-3fff32221119@gmail.com>
-References: <20251030-dtbs-v4-1-3fff32221119@gmail.com>
-Message-Id: <176182958078.3695318.10308804635048034182.robh@kernel.org>
-Subject: Re: [PATCH v4] Asoc: dt_bindings: ti,pcm186x: convert to dtschema
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251015071420.1173068-18-herve.codina@bootlin.com>
 
+Hi Herve,
 
-On Thu, 30 Oct 2025 12:24:30 +0530, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings
-> to DT schema.
+On Wed, Oct 15, 2025 at 09:14:04AM +0200, Herve Codina wrote:
+> For i2c muxes, the parent of the mux adapter device is the adapter
+> device the mux is connected to.
 > 
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> ---
-> Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
-> ---
-> Changes in v4:
-> - Corrected subject dt_bindings:sound to Asoc: dt_bindings:
-> - Corrected the filename to match one of the compitables in the file
-> - ti,pcm186x.yaml to ti,pcm1862.yaml
-> - Link to v3: https://lore.kernel.org/r/20251029-dtbs-v3-1-3cc162221c22@gmail.com
+> This parent is not the physical device related to the mux adapter.
+> Indeed, the physical device of the mux adapter is the mux device itself.
 > 
-> Changes in v3:
-> - Unicode FEFF character was present in the begining of the file,
-> - Removed unicode character.
-> - Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+> Fill the adap.physdev with the mux device.
 > 
-> Changes in v2:
-> - Fixes as per the reviews suggested for the v1.
-> - Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
-> ---
->  .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
->  .../devicetree/bindings/sound/ti,pcm1862.yaml      | 61 ++++++++++++++++++++++
->  2 files changed, 61 insertions(+), 42 deletions(-)
-> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
- 	 $id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml
- 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251030-dtbs-v4-1-3fff32221119@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks,
+Andi
