@@ -1,135 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437D82F744F
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 06:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9239A2F744F;
+	Thu, 30 Oct 2025 06:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761805640; cv=none; b=CIXKdzuzjq9vN08qJMATkCTaRJ1X6Ma5GTiq4xMds/+llxRRapMVQQ3NC02Ig3Z/l5RE6cwrGxeJiJm205VOxhL5su0V6D4RADDZERXKO7hwXDNMAPSUofVweE+bBzO3JtWZMqM4KfWHKaXkeBwoAgRmt1gsbGZV96n1l1p0x10=
+	t=1761805810; cv=none; b=c3OGvwJzGNc1HXF/y1a6+l5YQdOgxJ9KorMpzY+LJ2EJ9lgU4pVEpDAOG6LKt+0kc+iacPcIW7+Ac9D1SsAYCYN3TvwSSRsC11+Gna3smkui+cm/gOR1/eoLguLa7O+719M++ojNeko0uidQRYi5JW7jp5XVNxAYyG/wCr8fGL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761805640; c=relaxed/simple;
-	bh=xzdUhIOqirpm/E0sjloLaoAGmpDBjbR+GEN6VsncgF4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rySKhLt3ZwiewkzcoHLCUms19bP+XXlEIVfaDF4o+F2n6OUjlwL5WfzkaHW9g8oHQ5R1YqOUwDXWNO5orYXBA2r2YkpBYqvGNYm4/jCvd0tnpHW5k2xH5HuUuy7qsi6DxSfMhwYEpjqopTJxWXzmaw6FGCFqHnaHkbZS3ZT7p64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mWZVzjf/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J8agQIQP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mWZVzjf/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J8agQIQP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761805810; c=relaxed/simple;
+	bh=qj2BZ/nv8I7YMpz8gUgYrt5ObvzXmgUVZDC2GuWXJjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f13QaZH5Ef0l08SvtED+prEyBs16QcUoxgm9EkAXeOKdMmtpR8HC5r28dhHyeks8+faezVgiZXcJBFj5zOGKJ144TngCS2qIIzpqiSYhhkLt1LzF8D/jWsdjF8HFxuN3nnomOd3lleoBf0KhRPw/js9y0KvDXaY12MWb+lQgUyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r8fcdWt3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mWZVzjf/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J8agQIQP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mWZVzjf/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J8agQIQP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 673651F79D;
-	Thu, 30 Oct 2025 06:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761805635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekN0M4ZsiNEZDhioT+YAy/2Ebin5suoZuw/IzZBktRs=;
-	b=mWZVzjf/jFRTZMHmi3y68YMElYlvt7D+ozZ1EU3o4HYrBcQ5tJUipAvLx+aVQFeXM8JLlr
-	ZR4YqcMzjFf4n9ZaYaBrzphSWCsSEKMkGowDw21a4AzGiKoY3oVtjJbF7S68hinTOITxtg
-	AGL1ZRS30CC0RDA8oaz5ibTKyTlRsSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761805635;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekN0M4ZsiNEZDhioT+YAy/2Ebin5suoZuw/IzZBktRs=;
-	b=J8agQIQPpH2kq1aH7fBu636ZaSTshKrNlFjytfFYH5fFCKdRhYKloIxsRefJEa3SKXw7uE
-	4UFYvrwaZWvYX+CQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761805635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekN0M4ZsiNEZDhioT+YAy/2Ebin5suoZuw/IzZBktRs=;
-	b=mWZVzjf/jFRTZMHmi3y68YMElYlvt7D+ozZ1EU3o4HYrBcQ5tJUipAvLx+aVQFeXM8JLlr
-	ZR4YqcMzjFf4n9ZaYaBrzphSWCsSEKMkGowDw21a4AzGiKoY3oVtjJbF7S68hinTOITxtg
-	AGL1ZRS30CC0RDA8oaz5ibTKyTlRsSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761805635;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekN0M4ZsiNEZDhioT+YAy/2Ebin5suoZuw/IzZBktRs=;
-	b=J8agQIQPpH2kq1aH7fBu636ZaSTshKrNlFjytfFYH5fFCKdRhYKloIxsRefJEa3SKXw7uE
-	4UFYvrwaZWvYX+CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D45413393;
-	Thu, 30 Oct 2025 06:27:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id crLSBUMFA2kAQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 30 Oct 2025 06:27:15 +0000
-Date: Thu, 30 Oct 2025 07:27:14 +0100
-Message-ID: <87a51852gt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	chris.chiu@canonical.com,
-	edip@medip.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable mic on Vaio RPL
-In-Reply-To: <20251029181152.389302-1-edson.drosdeck@gmail.com>
-References: <20251029181152.389302-1-edson.drosdeck@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r8fcdWt3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C71C4CEF1;
+	Thu, 30 Oct 2025 06:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761805809;
+	bh=qj2BZ/nv8I7YMpz8gUgYrt5ObvzXmgUVZDC2GuWXJjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r8fcdWt31RUFiEJhdm8gcCMkZu4AfT57uA2txrYNY7upTZj2gt2PDEQeQY1pVw+tf
+	 2Wa1WMl5SaPdJ7lNXSyR/+RjhNfOiBS5qUmfG6iuWQogNOXNF+RzCnN+uWYbTEuk0/
+	 ZP/L8H/ufRRyhoMTCOM8yOWeArImBlmw+yfh4Bz5FRD2V4fusweJNAjT7hTmQzfkbj
+	 oyUS4wcLi2NsPZGCuwmjGRsssLQTBkf2jV5VEOpqnM3oKVqXBN09LIDn8baz8BueaZ
+	 AJMdH5wg/LsH0bTMb1hVoWgpDNAq6dL4G7iplRPyLZtNSSSXW89eSR3nmCFjYIAZte
+	 VAc0xLoXiT2qQ==
+Date: Thu, 30 Oct 2025 07:30:06 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, broonie@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, perex@perex.cz, tiwai@suse.com, 
+	srini@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, alexey.klimov@linaro.org
+Subject: Re: [PATCH 4/4] ASoC: dt-bindings: qcom,lpass-va-macro: Add sm6115
+ LPASS VA
+Message-ID: <20251030-flat-elated-pony-de74ab@kuoka>
+References: <20251029160101.423209-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20251029160101.423209-5-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.79 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.19)[-0.949];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -1.79
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251029160101.423209-5-srinivas.kandagatla@oss.qualcomm.com>
 
-On Wed, 29 Oct 2025 19:11:52 +0100,
-Edson Juliano Drosdeck wrote:
+On Wed, Oct 29, 2025 at 04:01:01PM +0000, Srinivas Kandagatla wrote:
+> Add bindings for Qualcomm SM6115 SoC Low Power Audio SubSystem (LPASS)
+> VA macro codec, which looks like compatible with SM8450, however one of
+> the clocks macro is available in this SoC. So updated the bindings to
+
+is or is not? Which clock?
+
+> allow min-clocks to be 3 to be able to use SM8450 compatible for
+> SM6115.
 > 
-> Vaio RPL is equipped with ACL256, and needs a
-> fix to make the internal mic and headphone mic to work.
-> Also must to limits the internal microphone boost.
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
+> index 5b450f227b70..1ac3392776ca 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
+> @@ -26,6 +26,10 @@ properties:
+>                - qcom,sm8750-lpass-va-macro
+>                - qcom,x1e80100-lpass-va-macro
+>            - const: qcom,sm8550-lpass-va-macro
+> +      - items:
+> +          - enum:
+> +              - qcom,sm6115-lpass-va-macro
+> +          - const: qcom,sm8450-lpass-va-macro
+>  
+>    reg:
+>      maxItems: 1
+> @@ -44,9 +48,9 @@ properties:
+>      minItems: 1
+>      items:
+>        - const: mclk
+> -      - const: macro
 
-Applied now.  Thanks.
+No, that's ABI break and I know existing code works fine, so there
+cannot be justification for exception here.
 
 
-Takashi
+Best regards,
+Krzysztof
+
