@@ -1,90 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA44326D4A;
-	Thu, 30 Oct 2025 12:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF402E9EA0;
+	Thu, 30 Oct 2025 13:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761828140; cv=none; b=Az1MVlihMVT1PwOtVKkxWw67kPT7piuVGe8AS8w6PrhuN1wRv0C4NXUMFZFbDvfAyvnwaA0c7H2fzoCPAIkdRWl9yhydeXn72Bi8t9yxNBkeKo/6QTw4b7TRPmSaT+RT3lpQ05H6lauURF6oyyuJl35kgjN9Nx30CExKAMrn1wE=
+	t=1761829586; cv=none; b=XPkTsJuVpRdpoejDHGDDb95OWAl/FJyrObIfFQfjJO59+p+vL/TYUJI2G5w5wKX+m7176cEnVSoCJX3zi7TUf9691C/K4FN0ncbxWHSWhl/P80ynleDATbaLlFL2qyTZZpSF8luBBnGTY/XoktEWf7tkXRtPs2iA6bW2bo4UZfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761828140; c=relaxed/simple;
-	bh=/XfJU+cdY0jpYU5tPGaNdi+JWjcrGHtgmumVolcAM3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q6JyOFWYZVR/V3pYRgj6Rr7Koga949rcWl4BTeoky1556i+QEEbeK2eTvneFKIeMOTeWtZ2mzw84WbxTIdpXMMnl4o+KeENCTd05RprdvBWwE7Eu2Hn4BlVvm9IXMjuEUDn6cMaa/6x6z0ZsRvqtt3dTjHAy+rYHrCsN3aXh6xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnkvz0/J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761829586; c=relaxed/simple;
+	bh=Km12nL8qt3xEm3JrEGnnnbq5x4pUk4viwfLeDAB8Rpk=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=JayRLGxeXvRaTvX2VidOXnIJkiPsY1S1plAKMpoX4LdyF/9Phd24mFyD72UTJPkqHXtQBLMDC4JPx5HJmZsqBWQF7oZzL8FuNb3TrSC2AdLvwaants57R6rF00nZnN0yF+ya5IuIcNQYrS/Ec8ysEvoP28wB4/XQWEdgyvMh4s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=stsLZFnS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnkvz0/J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12984C4CEF1;
-	Thu, 30 Oct 2025 12:42:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="stsLZFnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14AA5C4CEF1;
+	Thu, 30 Oct 2025 13:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761828139;
-	bh=/XfJU+cdY0jpYU5tPGaNdi+JWjcrGHtgmumVolcAM3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bnkvz0/JD8J1nSXnJ80taDNxCsASTKz4tmkyiMkkB/j8+6HPEoS0bGyb28DXdik3x
-	 UYDUzI/hUqwDDLDyxaGifTacj9v6Mo1cFbwsMnju1hpAh4utcL7rJfVVTOhsLVnK7x
-	 6YVMMdepfOqU5WE0UNuNyUUPN6KZb3gXj1fLBhFrlcUzsClHHiB2HEkampof0ksiwU
-	 IOZ1iFcsp2h1Dz8e871zofCPExK4fwLo6CXd+NRK6w37w5Maj2ux0SuOFXoDiQHwnb
-	 6VRezHmiO2+wOwZv6QF+LuSmXt8R9bJzFiJb3nuqDE17ZIRPWQqGEVgHyymNhrLV7T
-	 CRjXjG/vfeWlw==
-Date: Thu, 30 Oct 2025 12:42:10 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Liao, Bard" <bard.liao@intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"vkoul@kernel.org" <vkoul@kernel.org>,
-	"tiwai@suse.de" <tiwai@suse.de>,
-	"vinod.koul@linaro.org" <vinod.koul@linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH RESEND 5/7] ASoC: SOF: Intel: export
- hda_sdw_bpt_get_buf_size_aligment
-Message-ID: <8dac7fb5-ca36-4150-93e8-18d3173efe5f@sirena.org.uk>
-References: <20251030070253.1216871-1-yung-chuan.liao@linux.intel.com>
- <20251030070253.1216871-6-yung-chuan.liao@linux.intel.com>
- <fa2758bc-7149-43db-8dd9-610d97d86137@sirena.org.uk>
- <SJ2PR11MB84240C3B09792E128D1D057EFFFBA@SJ2PR11MB8424.namprd11.prod.outlook.com>
+	s=k20201202; t=1761829585;
+	bh=Km12nL8qt3xEm3JrEGnnnbq5x4pUk4viwfLeDAB8Rpk=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=stsLZFnS7+Fs54+KeR3medcbYbhv5FbyAjpvYu/4fnsjhtVXcEVBT2YtoTeXCRNKj
+	 kBG4Ll5J8HVtN8S0AtuNWnL2GLLvpDfAE5e+ZvHCwsB05645s5Bce8XGnRjFVL8uhk
+	 YWWsHaXisQ8vhca6EAPWa2xQGOop+CI4yhHXAD3UCGTsnchVRZEkqrjBVMrhGp69n2
+	 /UCZTcp6D5x2A/Jl73xnKoCmngjdNG+qR6Bjm5Jlh505ZzqcpaF1lp1dMtB5Q15nVS
+	 dcL8sKd0jXm5/L0Bsl3Ev8D7URROt3OE/4P8zbkJxlubA4ARYk4fQP89OhdLhYbgcz
+	 Rj0WYxzuINB4g==
+Date: Thu, 30 Oct 2025 08:06:20 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="djrmMc/L29cExWVT"
-Content-Disposition: inline
-In-Reply-To: <SJ2PR11MB84240C3B09792E128D1D057EFFFBA@SJ2PR11MB8424.namprd11.prod.outlook.com>
-X-Cookie: Is there life before breakfast?
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ david.hunter.linux@gmail.com, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ khalid@kernel.org, skhan@linuxfoundation.org
+To: Ranganath V N <vnranganath.20@gmail.com>
+In-Reply-To: <20251030-dtbs-v4-1-3fff32221119@gmail.com>
+References: <20251030-dtbs-v4-1-3fff32221119@gmail.com>
+Message-Id: <176182958078.3695318.10308804635048034182.robh@kernel.org>
+Subject: Re: [PATCH v4] Asoc: dt_bindings: ti,pcm186x: convert to dtschema
 
 
---djrmMc/L29cExWVT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 30 Oct 2025 12:24:30 +0530, Ranganath V N wrote:
+> convert the Texas Instruments PCM186x Universal audio ADC bindings
+> to DT schema.
+> 
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
+> Convert the Texas Instruments PCM186x audio ADC bindings to DT schema.
+> ---
+> Changes in v4:
+> - Corrected subject dt_bindings:sound to Asoc: dt_bindings:
+> - Corrected the filename to match one of the compitables in the file
+> - ti,pcm186x.yaml to ti,pcm1862.yaml
+> - Link to v3: https://lore.kernel.org/r/20251029-dtbs-v3-1-3cc162221c22@gmail.com
+> 
+> Changes in v3:
+> - Unicode FEFF character was present in the begining of the file,
+> - Removed unicode character.
+> - Link to v2: https://lore.kernel.org/r/20251026-dtbs-v2-1-cd3b713a288e@gmail.com
+> 
+> Changes in v2:
+> - Fixes as per the reviews suggested for the v1.
+> - Link to v1: https://lore.kernel.org/r/20251021-dtbs-v1-1-493c1aa253bc@gmail.com
+> ---
+>  .../devicetree/bindings/sound/pcm186x.txt          | 42 ---------------
+>  .../devicetree/bindings/sound/ti,pcm1862.yaml      | 61 ++++++++++++++++++++++
+>  2 files changed, 61 insertions(+), 42 deletions(-)
+> 
 
-On Thu, Oct 30, 2025 at 12:05:23PM +0000, Liao, Bard wrote:
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> > The rest of ASoC is _GPL?
+yamllint warnings/errors:
 
-> All functions exported in hda-sdw-bpt.c are with EXPORT_SYMBOL_NS.=20
-> I suppose it is ok?
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/sound/ti,pcm186x.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,pcm1862.yaml
 
-OK, I guess that's fine.
+doc reference errors (make refcheckdocs):
 
-Acked-by: Mark Brown <broone@kernel.org>
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251030-dtbs-v4-1-3fff32221119@gmail.com
 
---djrmMc/L29cExWVT
-Content-Type: application/pgp-signature; name="signature.asc"
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
------BEGIN PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkDXSEACgkQJNaLcl1U
-h9DaPwf+LMg2s588T2+Z7Of6rjQBKPF6uk7MvdSUB7VGvcOZfwVih4WNljG4U8JV
-0NyluuKSleyB2fnn+jvyHBe04dN83pDkJ5vfXmF7nwVeFkvZGNODgXxudNVf9mOp
-hUPdHOoNdgNSMsxMw+zeaoJfFUIb8vFbThM7Yza08ZMetOIgUdABqDqije1lt05S
-wHHt4k/CxbUKtWWn37GO/aicuygHXWDaxJxi7eY4hplj+6OKRMZlvQec5Q1HjV0P
-F/je+dE9CSP5E/DpZr5tidpwUl6gI6tGfQBHQzHKg2NZcrM/vM/wvJmCKfMQJMhn
-hE4E/PKOrufGvoUAhTYDnrs01Sm1ZA==
-=819G
------END PGP SIGNATURE-----
+pip3 install dtschema --upgrade
 
---djrmMc/L29cExWVT--
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
