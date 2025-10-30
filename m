@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87C83451CE;
-	Thu, 30 Oct 2025 11:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CB73385A2;
+	Thu, 30 Oct 2025 11:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761822546; cv=none; b=V3ni9lQZIEaH88zxPYsNKt4lTANwyg+PGEzIzXqgt+zuVcHpqLCAOGI7UXYUxuAbNSnZX/jOiZKHmbWxIPcBuJQz2qh/SSI7eiW++q7AmfR7jk5NUhrw7P/NaXCDJtS0+lljrpt/mGz0NYoZdCNAQ9AKRqcGvduSJiiFZcHUD84=
+	t=1761822549; cv=none; b=sZb2vikoxOQSpjUjA+JlqMEz2a23BoY6Flnk/geSvz1YjrMMXda/I/Oot1ZgRkWfmBOskOM2dlYNiaPu3x6FonXay617ARMzUn5Zp0OIXDon9U+H+6qiyE4mDSfzrHpUVRuS1kwikFZnUKSCIkpI3srOgvccEg34njF/uqDe3ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761822546; c=relaxed/simple;
-	bh=FCX7kNsLtyLNRubAudMV6rykTX7imV/sp3uCo7Q9xcw=;
+	s=arc-20240116; t=1761822549; c=relaxed/simple;
+	bh=5sssoAjoQoDvPEzBSze896Vb6vJStPAy9dsma0PQ1xQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uWffV/4lNIfWFaenAZKS3saujt/Wb8FbeyMObSPUjWUbZzSbJ2aE02oC+MucKCM6xLBhJjFRrZWb6t32Afk+Rx5I81oY1mDrF1AELlJVrry6XDVM7Id6FrDwn2X/Ei2354kZEtoeSLgCMBHZCEpMar1PBbSOO6mVMD5nulqQBk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jT+p3rrv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=U3cKMxHJ6VrlO5RU8BXboWp90xxciGCnhnG2CiPQcAWuhbG85Y0Rma/LANfEDk/4XZ2RjlRUBAH/WiVcDhlyjs6+QQEGJWT3k1CjsRO/63K7Lt4uolx3irqK0iMXxJji2pWS4y2lFoHMUqXoUjZFE3dUuQkb7nMkkFVmpjVai3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBhzJd1z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jT+p3rrv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F935C4CEF8;
-	Thu, 30 Oct 2025 11:09:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBhzJd1z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234CEC4CEF1;
+	Thu, 30 Oct 2025 11:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761822545;
-	bh=FCX7kNsLtyLNRubAudMV6rykTX7imV/sp3uCo7Q9xcw=;
+	s=k20201202; t=1761822549;
+	bh=5sssoAjoQoDvPEzBSze896Vb6vJStPAy9dsma0PQ1xQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jT+p3rrvueaTyZ+BHjB/QHqFfsKtnfxdsnxKbDRU8JxqFhdUvkwVANSu8JeCoU5yu
-	 pBi5lWLRF38b7M/RTVlPR8tgLkulLgexFG7bHDTqXSHRIoNO4Eyy8loQzglD4Z6/zv
-	 ZNkxQ9qZOr++5Mj01AP0pm/+4S56bqTc5spjUN4Wvj/dJqoQv9nH75tz01/EcAJmN1
-	 65fE0JPttKhH8GTuhUW8xF2U0WV6nfm2FeVZSgmUBJzDUlgMp/9dPubRVnswroxU65
-	 SXw7ORSxCXkQoMgWWiQGmQJ2PKo1bqKxf9uIPcOJ24E/aM35SGPqPykYRX+kUbVvJM
-	 kTSooJYfbE8vQ==
+	b=HBhzJd1zVXxiJ2Eg+bj3+rQDkcvLndDcnp94K8MUIA7QgIw0PBEQAbkmbr7RznMjs
+	 sPDigNcn9KKP4cW9LEu0v0bdDCAM0rfPBnLImfZWm0+W9o+qO3UcRP5XVuLiLKXNC4
+	 Vnoat9aKTsamm4Nhu4M/PyqPsOBJ64ZvO8pZNERJK5vpqg0tWe3NKV9RWa6y9ZGdTE
+	 /ZhAyuLgK8Aa6x6YL5s0GfRztcPEDL9AUw3Wv7JQHUSjhGL4BsNAOEUcNBD1lfpla7
+	 pKwLECzcx/Nxuq5dnI8vtcWurwdAEwjwOLHsp7TZo6TNRE+kztbRxig945OQRzNr9J
+	 7AOVb0jxoG5Qg==
 From: Mark Brown <broonie@kernel.org>
-To: robh@kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- perex@perex.cz, tiwai@suse.com, srini@kernel.org, 
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, 
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org
-In-Reply-To: <20251029144636.357203-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251029144636.357203-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: pm4125-sdw: correct number of
- soundwire ports
-Message-Id: <176182254287.10093.1638379572271955116.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 11:09:02 +0000
+ linux-arm-msm@vger.kernel.org, konrad.dybcio@oss.qualcomm.com, 
+ prasad.kumpatla@oss.qualcomm.com
+In-Reply-To: <20251029144336.356816-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20251029144336.356816-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: codecs: va-macro: fix revision checking
+Message-Id: <176182254570.10093.9949103757388632951.b4-ty@kernel.org>
+Date: Thu, 30 Oct 2025 11:09:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,11 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 29 Oct 2025 14:46:36 +0000, Srinivas Kandagatla wrote:
-> For some reason we ended up limiting the number of soundwire ports to 2
-> in the bindings, the actual codec supports 4 rx and 5 tx ports.
+On Wed, 29 Oct 2025 14:43:35 +0000, Srinivas Kandagatla wrote:
+> The revision rework patch seems to have reversed the bit positions for
+> macro presence in core_id_1 register.
+> 
+> This broken RB1 and Arduino UnoQ audio.
+> Fix these bit positions to correctly reflect the register definition.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -61,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: pm4125-sdw: correct number of soundwire ports
-      commit: 5e5c8aa73d99f1daa9f2ec1474b7fc1a6952764b
+[1/1] ASoC: codecs: va-macro: fix revision checking
+      commit: 20bcda681f8597e86070a4b3b12d1e4f541865d3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
