@@ -1,94 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48B72EDD50;
-	Thu, 30 Oct 2025 16:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EA572639;
+	Thu, 30 Oct 2025 17:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761843013; cv=none; b=qZwF5X9bzSN2fFgpontRKWAS7r1sauwPZ9+EXkCqleao9Y2b3MqEknCwSgLzfFUCCFWJZ81zW9LICjONfDxRm+Q0uaXfW0rw0CYgDDneZxwsz9YAxwORbhzx0IGUArVv0vlQyLWmdjMGdhxMrLyf9cyT/GPZlRfv1l0i85t60tg=
+	t=1761846372; cv=none; b=n5f8Txq4n8t+OpdBRFNNU8U6nzFw1YPTAgyPFMoz2H/5AAS0vT73o9UZqkxKGlNU5bqJt8BizRziXzBdnNGjG+D2IR7xe24m69CeOPGwRYOlk3sYSkXCBBNpmdJPYxQOe8L7yisE6ELu4GeRKwqGEa7W51PI3ix27LLT+Ta+Wlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761843013; c=relaxed/simple;
-	bh=wM6l7e3Nf4LcvVJrb3Xhd7nnE+R01eov2qbOdpkRQbk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mWuQcvHtykDd4AWjw6Fjtj3Lba4AK1gHhgML44m7H5IVAmUTZt028CPcJZt3SOgB608wcLV2UtMTjwIyErlLXgvKoWNlzyOdfz+Z3sdQ4h0kW+cQx8vUVXwQajx7cmV4u5yWrHpo9MnsxI5irsSeSPxlo6BDd51iByPU0YV/MRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPWo7jGB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761846372; c=relaxed/simple;
+	bh=b2xexS6Qluhsr9ZmEqlGOXtDsR48B9OmLyAHTqqnzbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LjoLq0MKGeFrLfUrUIe51XbsZqc5fwnua1H39mqhbrIWWIPo7VrKdPaH3TeEFTgHvFB/FYbNyqZ9N1x/rhz3Q/NlLsCiX+znGeQgYfu1ZfxerfyNVXKjQxSCz4/Vf9VU4tuL+xaSqzqYJZ2n5USdHGQYoe4A/PXYHfWY9Fku9KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a9aZc+oa; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPWo7jGB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E90C4CEF8;
-	Thu, 30 Oct 2025 16:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761843013;
-	bh=wM6l7e3Nf4LcvVJrb3Xhd7nnE+R01eov2qbOdpkRQbk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mPWo7jGB0+RCc2HY/paQ5LkzfNA8fPPqZFC4DhvcTadifV1BuymYXSTATrSNgjjXI
-	 bRPltFREqJEH/cSnaEzu1c2VpNa1pboTkxFmQTqAI5I4UAwt03pMAKvuUpXu50PbWj
-	 Ghqr/ODrKHVUqQAR5TP/qBvRFqOUg48UhW70n3TO3fzrGClzwrTkszKqjdhi/wvbnb
-	 zs4tzSiHxICMKqD2JIVAi+4z4l4fWo01tw/Kml5lTqA+K4C5q3r4FBLMzZTdXVIeIH
-	 QnbZgkDuYolGufDsZwCqcSE5wI42N/wv3nVhTdLjUEjKm58UnsmqFb89uV2Zrv4umJ
-	 pS0k3xo4SAgLw==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, 
- alexey.klimov@linaro.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <20251022143349.1081513-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251022143349.1081513-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v3 0/4] ASoC: qcom: sdw: fix memory leak
-Message-Id: <176184301177.119935.14003591741907115293.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 16:50:11 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9aZc+oa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761846371; x=1793382371;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b2xexS6Qluhsr9ZmEqlGOXtDsR48B9OmLyAHTqqnzbk=;
+  b=a9aZc+oalwpkkO3hWqBjbs+vMi2rgj2oCJWDp9pLe3pUWSPg17iqCDkk
+   qtoML0dPBqScbo9FxrwSY7YmQ7R/AZQMGRtMEp8FyyOxwlGnBwjCp0Vvd
+   L5zCnMqUbvo4RtH77w62IQLIkhCDtzYEjNT4TpN6wIfv+x4EAb205jkxB
+   97ro6/cHB+/K2qd2xpsYHiqeTsw97hnUSzPDmTo3cwvzxloXWSuyDIOCt
+   bDsIGdyu3BwN9yVxbg8OTj1KZ84jVX/0rH6qbmoBK+b/LarR1PP3eI258
+   KPdDmAphYmaudT3bb5j5vaY6vXMiTcU8IyniGCQX7e13RwYO0LDCgyrqd
+   A==;
+X-CSE-ConnectionGUID: O6WR9q+wTHSEKlMPPgKEkA==
+X-CSE-MsgGUID: khR0DuIRQTuTyy4OBIblWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64039302"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="64039302"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 10:46:10 -0700
+X-CSE-ConnectionGUID: b/GmOWjcS2aKDC4H8SgNzQ==
+X-CSE-MsgGUID: HAspeAjwQ7KrOmmY4Vdu1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="191158265"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.174])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 10:45:58 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vEWif-00000003zFy-3ih6;
+	Thu, 30 Oct 2025 19:45:53 +0200
+Date: Thu, 30 Oct 2025 19:45:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
+	Saravana Kannan <saravanak@google.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 18/29] i2c: mux: Create missing devlink between mux
+ and adapter physical device
+Message-ID: <aQOkUa1IwuiOeSvT@smile.fi.intel.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <20251015071420.1173068-19-herve.codina@bootlin.com>
+ <6tgbavtf2dqc44ebfighrs5chzx4j4zdmjk77fmulwqbhrex2b@lou7ekbsjekr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6tgbavtf2dqc44ebfighrs5chzx4j4zdmjk77fmulwqbhrex2b@lou7ekbsjekr>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, 22 Oct 2025 15:33:45 +0100, Srinivas Kandagatla wrote:
-> For some reason we endedup allocating sdw_stream_runtime for every cpu dai,
-> this has two issues.
->     1. we never set snd_soc_dai_set_stream for non soundwire dai, which
->        means there is no way that we can free this, resulting in memory leak
->     2. startup and shutdown callbacks can be called without
->        hw_params callback called. This combination results in memory leak
->     because machine driver sruntime array pointer is only set in hw_params
->     callback.
+On Thu, Oct 30, 2025 at 04:23:24PM +0100, Andi Shyti wrote:
+
+...
+
+> > +	dl = device_link_add(muxc->dev, parent_physdev, DL_FLAG_AUTOREMOVE_CONSUMER);
 > 
-> [...]
+> Not to call twice put_device, I would add it once here and then
+> check for !dl.
 
-Applied to
+I was almost commenting the same in one of the previous rounds, but...
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> > +	if (!dl) {
+> > +		dev_err(muxc->dev, "failed to create device link to %s\n",
+> > +			dev_name(parent_physdev));
 
-Thanks!
+...haven't you noticed this use? With your (and my old) suggestion this may
+lead to NULL / stale pointer dereference.
 
-[1/4] ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime
-      commit: bcba17279327c6e85dee6a97014dc642e2dc93cc
-[2/4] ASoC: qcom: sdw: remove redundant code
-      commit: d02460317ed9c95aa2c5f6ff1c70e22e1857d95d
-[3/4] ASoC: qcom: sdm845: make use of common helpers
-      commit: 5fa671232f703a404caa05c581411ea858c4cf16
-[4/4] ASoC: qcom: sc7280: make use of common helpers
-      commit: 8fdb030fe283c84fd8d378c97ad0f32d6cdec6ce
+> > +		put_device(parent_physdev);
+> > +		ret = -EINVAL;
+> > +		goto err_free_priv;
+> > +	}
+> > +	put_device(parent_physdev);
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
