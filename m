@@ -1,136 +1,274 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305E9351FB5
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 10:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761821745; cv=none; b=ga6airRR7XLGD+qhb+XAOis4sCt+XIWwJ32Vb31pGbQZUK5zoBJwywwGqW8jDlsb1Hlr4uCAXh26tbypcgsy8oWE7frYGNueMFb1RL0RGUeQbXocG3P+O0o5vW4GYuxiOTHvmbmL1HUUkMJ/qkdn8ek9NrrmTcjQ1TQClZiwhkY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761821745; c=relaxed/simple;
-	bh=Hs4hTUzQ6BSYyYqkQGWYwzMV6aX4ms6lWAYNhzovJs8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O5DwgTqvoj0U7R1E8WDLXFnj5agNNsrUCISj3954GWHrofzAbgSxaHzmG90YqsfvyiOE+et27Ev6w9hm6G/q/uOyImkJ2vnih7lg3sQZsmiKOkycffFyfU2uYXLJ5K7K/tFC6L52JhzyrvmvaIMdQAdlvvtgQrkB80/36CkrTfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+gFiaHP; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E3B3595B
+	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 11:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761822111; cv=fail; b=Xl2o0aR2rCG0KckwG8HRVvz+QqmRbNRk4Pr4ri+OoY/WoC4bMkKbsQL19n6zQnzf8E7Cx/8fti6jJroLnsNozcz6ztcyJlM+Fw34MzxE8zHaxBJt3dx+yJ0oeirytsAgq4MQWz6Ua/JRjK2u8d4FQWh3DtlH2HAWrXxMlU5a4ys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761822111; c=relaxed/simple;
+	bh=M0rvxxuTblhlDJrKk/OWzVoTPxzZZMx11c4ymKQMIeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qQWfqonbSk9URdRgHVNjAtMb0LFhOnE+kv09X3jH2EKwSCqtjmnElTqUtcfBzyhIXeuByLPPY+xVUR2Ji62Ks2K1ubaFlVnCF48KW/Q9kbWA8Npkq17AVVp0v5M2GbzRSzFsvju9JxDfvg+XIph7C6ecx/O4GvPa+gza6Wo5ZHw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cu1M6+Ft; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=d0O7/OZ8; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+gFiaHP"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7833765433cso1266989b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 03:55:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cu1M6+Ft";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="d0O7/OZ8"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59TI9WdZ692320;
+	Thu, 30 Oct 2025 06:01:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=ZHzLLfUKzySAFvoeH1
+	daIsW6XuFLd0V2bcvd2UZoCmI=; b=cu1M6+FtofKza8kGN0iKMKDbQCZvD99WFz
+	VDOxd+Wx5lY8Qi+3bOO8lQ0A4Ush6qpt5Ogy9+rSn0gMkkd+2HQ+uYHge7BOzZyy
+	WPcyuqdlvBJau3wYsUiIL2yCkMb3TVUsQirkgIEuIwAVzvtNGrtv5KvVEruNdA8q
+	qNgu1QqxIBhDJQ47wjngW1SuUaPu4KTBGkyY47nwJu2+ADz3Xqwz1FTYMLMqTzGs
+	g8jR/Izfvp1nSxXtTllYXQNMgIa98IRlrsHgyQ/tYyOGaUt/NGunt6un+exaUklJ
+	IHZaueqSqKZZSz7yAsudtgz8D4xb/2tapVBJN5eijsEYrRR14RQQ==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020139.outbound.protection.outlook.com [40.93.198.139])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4a34a3td57-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 30 Oct 2025 06:01:21 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rJDurDG8rrAAjn0p8KvGrkB+VL2QW7JEkuf6YN32/kUZturH5DfjZteONbrkkTzlR6JXfuX7LH+VebwidARmIPzYpO/I1oWiMf+Bt7nJavbCP94sTaT/Ja53KscR0UZkilBue0MZqrZ+vRYnYfh94ICAlxjlOP6gmu4Hhz0DFHaSesnXtNm1WGVQtCYBAUv2FgcskbHwlIUhE0QDtQRtz0VyttbHEQ/TJw6FowZ5tyE9WWUHykQlFbQFiRsm/ExIbIXck9WDdzIOaf/IobCJMvzagkb3bQ+t3jv5wtgnzyBUeXMJLBFs6l0iI82upUWUsg1ZTJAyfm34O/KCzfijfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZHzLLfUKzySAFvoeH1daIsW6XuFLd0V2bcvd2UZoCmI=;
+ b=AbW7sHm5uO4u0wCpJWP4Aquz05ii4pGXPZLUBqR88nnkOZzYqRVOu0l0jGZGYyvANxaz45SAgWAONEd740+X+P7He0yvDZ/CT8IwJ8cODDmwOHtmCIs63HOas5j8hw8PMyNs87FKAgrKiZV99nH9iy24Fd99YsNZR3/VIvKmAnjxZxoKHsQO2TD0L4QALtq6g6CticdnF+QRWwbGfYhn9Uhy6oO/Av61xnodLYfLrEe/06Ajl+pBaj8QxoS26eeUiAv9RZK1qnPNyfpt3YMof0vZz9qaLSxIT3W52ZjVV0LyXTpyVJEVxiQmHYAzPitLYPswLeQWi1MVMzayc4YHow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761821743; x=1762426543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OdbZeLQdr2GndyflsV+Dqob/8hVKHQK+9QLhrbLboBM=;
-        b=g+gFiaHPw4ahn+0h8Iwm3zpWIWdT3gdRf/eblhYcybAyuZq0sG4rZXdJK6qKutEoz/
-         6UFh0yXg6rtBySDNXkaY3fIuUHrZ83hz2MKcwgft7AVe0hmB+gy79GJG3ZPEbhjd2hn5
-         GedunSi0FE+HNpW528a5B/2Cynpsvx+pRmHEL8npyHfHO1EsgvlNtCZAgGyLp2a7wmzV
-         MfLeankB+/4YWLjtvaMRByDt0CnNaXAS1AJ8kdINY07LfMxXw/5EfkDzEX+mH2zAp/2+
-         EB++Q+Aq5YkSilFd/z3Y0M6Yukw5SkgBwC+PsjKB/A8jX3Atzso+lHkeKSRhkUQYe7SD
-         vF4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761821743; x=1762426543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OdbZeLQdr2GndyflsV+Dqob/8hVKHQK+9QLhrbLboBM=;
-        b=JIs5yIG7PYoYoKemX6aDj56WkZPP7BLK7rqeB2uxTyqkTj3ddiKsvhbBAVTCH1lOIM
-         OcOyfX3drYWHd5a5tVr3Nz97YF5mM+QJe2Qj2HciS2LcldOIsOb+GBDqGys/LyiYoZ8F
-         bcswN/ouxNiZcrKwkEMtmzS6qGn3ZiMSO3Nd5RMTyyc0o+O7xlY62fNWXmbk/k3VrTou
-         omErE/1bT8jlHhunKkBKeCeghuvmGDrK3F/hkr4mRm/w/34d2EN+79YJCL8gXhJroj30
-         S+hAM8mGe4Vyt/k0qLg8sbrqD6H8AQW4AEjNbuWnW92r3Prm4XNN1uK2fnM1ntXuOXjc
-         jUyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXaneys0OdUdeDMbbv1WO6Od1ZieVfffqPggteGDhOo3woBDJ/0zWhplerpI+4BzWK5DIT3qqcERW1+GA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmuOElkoayj1+ohQY/E936DGeMB5u8pgC68Ne8ZmZBQuuXQZg/
-	Sbjk0GXw78pRqcd/dOfVksEm9wkt7FAQ8ivNsOYC3nxAsyVGbovc4GNz
-X-Gm-Gg: ASbGncv+jaSXxMBdoFyQY+Jip5LgU2Vw77lZ8OUFDDJbIN6JbiDP1KfAbQg3JUavSww
-	y8U1YwHU16Q+62DuLR9WeUHCRVZfSUyiuu/0wPapiuL27d7aqbEFvvncfAQTEJXRFwnFiBQWlZ4
-	oEIc/CP12mQNmuXXLKwMq1OgBaDyJ7sb7rlzdktASXDyuW8cdZ9Fm78RhJ3w8KzRPcIyWLO6hnj
-	nKheyma92eVZa0tzFInwUU6qaM66jojLLJOX4T/BnAxwJBRB9P2fpdL7Hx6xTfc5//HZs50AUvl
-	6ywQdTQrweXwQe7+xN1mr28OQsuIUDDxjZx+mDAINmRFi3jujWjTeYfaxDV3GQIP+Rd9Z2KXIMr
-	S8LvFU1xbC79N0xGAjDSvMDyb9M6gkzW8338i6LzKK2BeLYmbMpz6oUvsiob5CB+5gpFynQolpN
-	yX2h1E
-X-Google-Smtp-Source: AGHT+IHFHTgPiy6LdfKjy1W3MoUmDrMxQLVFdcBtTtfjMOw7wO5m5u9VK5UDUVwyvZbo3B6KYA7cnw==
-X-Received: by 2002:a17:902:d2d1:b0:274:746c:b09 with SMTP id d9443c01a7336-294deef46f6mr82782085ad.55.1761821743235;
-        Thu, 30 Oct 2025 03:55:43 -0700 (PDT)
-Received: from gmail.com ([152.57.106.74])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf3b64sm187367135ad.3.2025.10.30.03.55.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 03:55:42 -0700 (PDT)
-From: hariconscious@gmail.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HariKrishna Sagala <hariconscious@gmail.com>
-Subject: [PATCH] ASoC: soc-core: check ops & auto_selectable_formats in snd_soc_dai_get_fmt() to prevent dereference error
-Date: Thu, 30 Oct 2025 16:23:14 +0530
-Message-ID: <20251030105313.32199-2-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZHzLLfUKzySAFvoeH1daIsW6XuFLd0V2bcvd2UZoCmI=;
+ b=d0O7/OZ8qn07sKs50vQqDGjyIZYKCB/TRkt8pumT7stjIPunKjSRzFqThpwbGWaX27VUA5Sm7YnhXy5mWHfp0khEityzkcEmNBQd52OcuGwCBYJgjk/RHY14FWsF2iGVSq+XlkVZ+OWt9Al9+2cvaVMAPf9nPBtXO5E4n0yBwEo=
+Received: from CH0PR04CA0041.namprd04.prod.outlook.com (2603:10b6:610:77::16)
+ by SA1PR19MB6598.namprd19.prod.outlook.com (2603:10b6:806:252::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Thu, 30 Oct
+ 2025 11:01:19 +0000
+Received: from CH1PEPF0000AD74.namprd04.prod.outlook.com
+ (2603:10b6:610:77:cafe::34) by CH0PR04CA0041.outlook.office365.com
+ (2603:10b6:610:77::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.15 via Frontend Transport; Thu,
+ 30 Oct 2025 11:01:18 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH1PEPF0000AD74.mail.protection.outlook.com (10.167.244.52) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.10
+ via Frontend Transport; Thu, 30 Oct 2025 11:01:18 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 93987406541;
+	Thu, 30 Oct 2025 11:01:16 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 960EE820257;
+	Thu, 30 Oct 2025 11:01:15 +0000 (UTC)
+Date: Thu, 30 Oct 2025 11:01:06 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: broonie@kernel.org, yung-chuan.liao@linux.intel.com,
+        peter.ujfalusi@linux.intel.com, shumingf@realtek.com,
+        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH v3 RESEND 14/19] ASoC: SDCA: Add FDL library for XU
+ entities
+Message-ID: <aQNFcpAnoaMzRZD0@opensource.cirrus.com>
+References: <20251020155512.353774-1-ckeepax@opensource.cirrus.com>
+ <20251020155512.353774-15-ckeepax@opensource.cirrus.com>
+ <39108baa-b379-4171-8426-c3b00a94e5f9@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39108baa-b379-4171-8426-c3b00a94e5f9@linux.dev>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD74:EE_|SA1PR19MB6598:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9021f38f-cd7b-4479-dcfa-08de17a3a712
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?bIxCV0sS+1byaqNarKJ2i/aFRCb8Mv6kJnwoFfEBRkhBv3Ks6zLdKbOUkDnV?=
+ =?us-ascii?Q?w37tIYoVzY1CM5N5xMmJBtqcgEknRR7ws3+uJ+9MpGmy+3LO3vw2CDzTqmJc?=
+ =?us-ascii?Q?ssuVAmJrj5huoilZNerjAWM1XtipTEcd0dxNOxt1ET0Lfdy+xojAEAVa/ew1?=
+ =?us-ascii?Q?n1PrVbIgcKVTaoyiKd+g8Sx/Qb8gnchwf7PZAwOyY7sw9K4zfMMocKzYTTtL?=
+ =?us-ascii?Q?ngvRKq9oQdGLldGDdI2+0tRFLkFmjh7aBi6QN0SnWe4lDc0NA46F18twL+H3?=
+ =?us-ascii?Q?pAq6ytm3pAChgNOCWLWdSMnnNmaW0FEKB88cL1s3wuby2qZnt+rqZYCPD8bl?=
+ =?us-ascii?Q?cSqn9AJuvzF4X0KJSpHeFhqOCz8NgfXPy5oo5xxd6oZ120fS2dem064DVMqd?=
+ =?us-ascii?Q?FAAnK7evuBxuZmQ9rke+ueJvssNBEZINMA4djsQA8XTr8KOx+qyKBpY/VR6q?=
+ =?us-ascii?Q?CmKz8+3guwF4s6qeNTEIkY8iP6tXfzatWsyrmu/ZO3sp7HBcDWZTYM1jgGz1?=
+ =?us-ascii?Q?mdpmLFrSSQJmYAnTSvRvY/1Zggu2Fm89fSiKPYxgo9DX5zi9dcGNsijNuEjd?=
+ =?us-ascii?Q?VDNTh1chr4R0tki9maj0hbLOBV+TeyYvlVSwBz8PofJpvL0mHyHqMxNqb7MR?=
+ =?us-ascii?Q?UdQT0HFvc+sKYUCPmiBcVUrUUPqNhmcknlpMD3XqAsMSPkLa5z3m+lsakJdm?=
+ =?us-ascii?Q?tFCKBN7eLILdYE5VFVjL+oGtKhXHmyGoU0nt57w3q8fqiZnuPFsaa5EKXRF3?=
+ =?us-ascii?Q?O2gyoMGiaQl6IqGRt76RYA9N+Ku+MxyodR8RtJKiHPl9PWYqvvqWKJqfMivj?=
+ =?us-ascii?Q?NuNH+JLKEJW10J9k+O1Criy3l/emR58e/iSiM+Esman0fIlQgc5TrasKN2CN?=
+ =?us-ascii?Q?WtjBT3b/U9B65RXxtsEoVg+LmtaM8airxu8AiS9919leeHuuc84USytRmiHn?=
+ =?us-ascii?Q?pXiFKtPdKEJX16DElMAl+0/7Q1DdpChDkSyzvEG1tfhK4bbuTGiMKPh6aZlU?=
+ =?us-ascii?Q?oKKCgkcAPeVjJGBIKfhI1XVI0PyBEUGCuqy79fHimDk30zutFJgC4Y7OLFR5?=
+ =?us-ascii?Q?HBmjECxOdOSJQEkt7N2o5uSkEBQlyr6/1z97Qjrv2hvDJ2oQDdJl0cDcfoJL?=
+ =?us-ascii?Q?DR6i3XFYlgu2WUEbY9dNdP+73u+RHZ0cDZZ+ohY4nkWSEMlQBq6fI9F96GWO?=
+ =?us-ascii?Q?sY7023Hc1M45K59UcbipWlM1qzeNmPH3bTSVBYRZdWlsiinastNcYoSrsfKs?=
+ =?us-ascii?Q?mgM2gdN4jTY76X51fmUyTJa1oBAXqxIbJaq4FGYQ4vZra6W7NTBqwda6iqvP?=
+ =?us-ascii?Q?DZpaGYzT1qhFQ4Reg2rX5a8MHMHe88X2acKXcbYcnHt5mbxY4NKJS5vqgfQs?=
+ =?us-ascii?Q?nUWB8lCqqgdP97GSqOE2sm1/q8p5btnizTBo/jTbBR/Pomd4JbNkg0rgMftm?=
+ =?us-ascii?Q?YwcL/s625Sdc/cOsCITGD4Kph/zvzRZ2chR2C1FYn7MkkOI8w+twjwfRP/Yg?=
+ =?us-ascii?Q?VXhPj1q3EGu/5EXIAtW0Dg/W1bNYGMCWlSnF2tHU7Fr6TMIICPJBvjyzXqvJ?=
+ =?us-ascii?Q?V5UtqWZ5eZUo8MG96lk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 11:01:18.0147
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9021f38f-cd7b-4479-dcfa-08de17a3a712
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD74.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB6598
+X-Authority-Analysis: v=2.4 cv=Wq4m8Nfv c=1 sm=1 tr=0 ts=69034581 cx=c_pps
+ a=dNw5gGrGfw7lLk+3QxxirQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=nmL8fkkZafKExq16iBIA:9 a=CjuIK1q_8ugA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: PFr-nHrVhYn5yRhV4AtoNBkw5tU-GX6t
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDA4OSBTYWx0ZWRfXxT9Vxy15lWCW
+ UFN1/y2tl1KRA/Vmcw3QTJ2CXPaN3uSB8lwi4MMpuI5X4u0syBpZ1Z/1V5Bk1VYNqE98foPCcJR
+ RsNUY99iwWyzIRF7CnLCPJEIciQZFtW6zo6Nd1oBuESAlr0ijJLF20xtqVfpr6oUIdxYv2tRVwb
+ hL9wcpoP8y2QQ5GDp0nQjZd9ow1hcKY6MmH2VBhjF4W1YKqFdar+rcWnGlMgX5Efc93AaOPVy6C
+ 8AlnpTLwOqIMGZuUDNP0dq3GqLKHxDcI1v7fWMbtsvtmxdhGzCfu/AMkmtI5YOfp7AHaMnPxymi
+ 16S+PJ6NTVEvw/09PTSCOzOv7GwPYPfPpoF9liiQ6Bn9wFgVs10v16+0EOe2vy0WiCODO2XimY0
+ ubBJNcbyleFsv0/5+hyQlmoqw04VKg==
+X-Proofpoint-GUID: PFr-nHrVhYn5yRhV4AtoNBkw5tU-GX6t
+X-Proofpoint-Spam-Reason: safe
 
-From: HariKrishna Sagala <hariconscious@gmail.com>
+On Mon, Oct 27, 2025 at 03:39:40PM +0100, Pierre-Louis Bossart wrote:
+> > +config SND_SOC_SDCA_FDL
+> > +	bool "SDCA FDL (File DownLoad) support"
+> > +	depends on SND_SOC_SDCA
+> > +	default y
+> > +	help
+> > +	  This option enables support for the File Download using UMP,
+> > +	  typically used for downloading firmware to devices.
+> 
+> nit-pick: shouldn't this option be selected by device drivers
+> who need this library?
 
-Smatch reported an issue that "ops" could be null (see
-line 174) where later "ops" is dereferenced to extract
-the dai fmts, also auto_selectable_formats can also be
-null.
+These bits are all bools that add additional stuff into the main
+SDCA module, so they do nothing if SDCA isn't selected. So the
+device driver would just select SDCA generally speaking and I
+think it makes sense if you enable SDCA that you get all the
+functionality. If a certain config wants less they can disable
+but that feels like its just for people really trying to size
+optimise their kernel.
 
-Add a proper null check before accessing both the ptrs
-to ensure a safe execution.
+> There should be guardrails to prevent the fallback helpers from
+> being used silently.
 
-Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
----
-Hi,
+A top level driver has to bind to the device and it still
+basically controls what happens, it has to register the stuff for
+FDL to happen before it will happen.
 
-Smatch flagged a null-pointer check in the function "snd_soc_dai_get_fmt". 
-But the same validation is already performed in the earlier function call
-"snd_soc_dai_get_fmt_max_priority" before calling into "snd_soc_dai_get_fmt".
-While Smatch flags this, seeing it as a false positive, redundant null check 
-added to make "snd_soc_dai_get_fmt" safe for independent reuse (if).
+> > +int sdca_reset_function(struct device *dev, struct sdca_function_data *function,
+> > +			struct regmap *regmap)
+> > +{
+> > +	unsigned int reg = SDW_SDCA_CTL(function->desc->adr,
+> > +					SDCA_ENTITY_TYPE_ENTITY_0,
+> > +					SDCA_CTL_ENTITY_0_FUNCTION_ACTION, 0);
+> > +	unsigned int val, poll_us;
+> > +	int ret;
+> > +
+> > +	ret = regmap_write(regmap, reg, SDCA_CTL_ENTITY_0_RESET_FUNCTION_NOW);
+> > +	if (ret) // Allowed for function reset to not be implemented
+> > +		return 0;
+> 
+> nit-pick: maybe document why this is allowed. This doesn't seem
+> very good in terms of design.
 
-one way:
-redundancy can also be removed in the line no.174
+It's what the spec says, as often is the case I tend to agree with
+you its not the best design decision. I guess perhaps the wording
+could be tweaked but in general where the comments say this weird
+thing is allowed/required they are referring to the spec.
 
-another way:
-to have a null check considering independent functions
+> > +	if (!function->reset_max_delay) {
+> > +		dev_err(dev, "No reset delay specified in DisCo\n");
+> > +		return -EINVAL;
+> > +	}
+> 
+> nit-pick: or maybe fallback to a reasonable default? Making the
+> entire download dependent on Disco correctness isn't going to work
+> long-term.
 
-Please let me know.
+I don't have any objections to a default here, although it should
+also have a comment to say why, since the spec requires this
+property if function reset is implemented.
 
-Thanks.
+On a wider point I am not sure I totally agree with the DisCo
+correctness point. I guess we have to cross those bridges as we find
+them but in general an awful lot of this class driver relies on DisCo
+correctness. We build the whole function topology from DisCo if that
+is incorrect there is a fairly good chance the part won't work.
+Although for the most part my thinking has been if someone stuffs
+up the DisCo too badly they will have to implement a custom
+driver to handle it rather than relying on the class driver, but
+for cases like this I think we can be a little flexible.
 
- sound/soc/soc-dai.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> > +
+> > +	poll_us = umin(function->reset_max_delay >> 4, 1000);
+> 
+> add comment on what this >> 4 means.
 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index f231b4174b5f..a1e05307067d 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -177,8 +177,9 @@ u64 snd_soc_dai_get_fmt(const struct snd_soc_dai *dai, int priority)
- 	if (max < until)
- 		until = max;
- 
--	for (i = 0; i < until; i++)
--		fmt |= ops->auto_selectable_formats[i];
-+	if (ops && ops->auto_selectable_formats)
-+		for (i = 0; i < until; i++)
-+			fmt |= ops->auto_selectable_formats[i];
- 
- 	return fmt;
- }
+Yeah that could use a comment I will add one.
 
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
--- 
-2.43.0
+> > +	switch (response) {
+> > +	case SDCA_CTL_XU_FDLH_RESET_ACK:
+> > +		dev_dbg(dev, "FDL request reset\n");
+> > +
+> > +		switch (xu->reset_mechanism) {
+> > +		default:
+> > +			dev_warn(dev, "Requested reset mechanism not implemented\n");
+> > +			fallthrough;
+> 
+> this fallthrough looks odd since it forces a check on the reset a second time ...
+> 
+> > +		case SDCA_XU_RESET_FUNCTION:
+> > +			goto reset_function;
+> > +		}
+> > +	default:
+> > +		return 0;
+> > +	}
+> > +
+> > +reset_function:
+> 
+> ... inside this function call
+> 
+> > +	sdca_reset_function(dev, interrupt->function, interrupt->function_regmap);
 
+Not sure I totally follow this one, there isn't a second check of
+reset_mechanism inside sdca_reset_function(). Perhaps this was an
+earlier iteration of the code.
+
+Thanks,
+Charles
