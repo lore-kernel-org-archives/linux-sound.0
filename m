@@ -1,123 +1,97 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3955425A354;
-	Thu, 30 Oct 2025 13:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDE41EF39E;
+	Thu, 30 Oct 2025 13:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761831812; cv=none; b=dxNQ4+/KBuV5lrPV/gMfKLCZ6Cy/iStcKp34ObJgf+L4fCb5UdhfrmbAocwAK8V6XjHoXFehqwHsug0Qes7bQ0o90eCPu9EsNo97lEi+eFmEHK/7MHmRT3MSrDLalPcYT+XZquU90bdNm0zAyxgg2qmZ2+i76hmDLJQjaLssmKg=
+	t=1761832369; cv=none; b=frtS1zMG4c3uT/iTeFtVFOgzt0ZVsMEElx8vdqbdu/k5JaDBmm8fV6QQP+oGbOfoXDwQ8NYE91jeUbdbRGXE6xB5fl+rF5yP/Bnl05Fd8KI2UJmDgeIqubUbmsWhDj6aSoOlfqzKbs5i2d4Xh6xYwQ5RrfSWaxJaAPBMp+hroqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761831812; c=relaxed/simple;
-	bh=+MGk1Y3VPikDiOf9J0ZfQJWgfYODUyIASv3ygzp6UYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A5NP+RMq148W71AVzl+65S7F6hzzRFSwDP+lr8YB3ky3fh+EIUTgb/y1DE1IvGtBBDX0+tiJKPONtku4dPUKtVjSYePYCisBrhvMIWQnYpQ8bz2i0+V0KdhvMKjAoXwY+Tu5flXWriMJyPWszRdg8wJKh/5TMVQ+hVi278Mykeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VsKbr63m; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1761832369; c=relaxed/simple;
+	bh=eZjyLvOFzMZRQj65+8qH5o8o4HIvM8oDUkHkj4nGFLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MebICFmhtl85p1tI20C/DgHj0MHK4KeTWL5MJ5toNdaT9Y+9NdXB85lFSGJOTklcpumrbmd513jqa1vISQ7CcaJuE10/1avQDvMjClPzmAXD+rkwNMhVYV5o6A/baJED5IyR73WPENe1pgAa+1SWpHMc7czetxWNZuOvkVgQvXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MIR6j42j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VsKbr63m"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2079D4E41406;
-	Thu, 30 Oct 2025 13:43:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E705D6068C;
-	Thu, 30 Oct 2025 13:43:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDF8A11808A57;
-	Thu, 30 Oct 2025 14:43:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761831805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Vd/kfU9OxYb1b6llU5Rmw3RyZb77Ylq8cw6lND80BU4=;
-	b=VsKbr63mPIs9yUvMKlkj3cNdzhRSAdzBvvf+pP5P1v3o9sHqExExNM501MGKnXkvdo5ITC
-	iWeeE0K2WtXQC6fvAJUcEZm5KOxs431qM7Oo+rzyVuITNX+0N515WVLe/Z9mCM/QGdd5L/
-	u5KRMiaWIlXu6FHp3//Ebcmr0rzaAFayHVBJ38WwrfD+nC+bDAd9OpBhjcrp6ocWfItjyw
-	U3F9QQagbDox04QrE/9OUNBDP7Z7zYx6OmhZvOaJSJgMXJTDQ8b7F+gjzdEO6yxu8t6Ypf
-	SSJn8xc7K0Noaet2ES4GCuVOG4UXOLyE6cTvw46ChwKydLojNFvfVXZQXsAFgQ==
-Date: Thu, 30 Oct 2025 14:43:19 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Alexander Sverdlin <alexander.sverdlin@gmail.com>, Mark Brown
- <broonie@kernel.org>
-Cc: David Rhodes	 <david.rhodes@cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jaroslav Kysela	 <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Nikita Shubin	 <nikita.shubin@maquefel.me>, Axel Lin
- <axel.lin@ingics.com>, Brian Austin	 <brian.austin@cirrus.com>,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Thomas Petazzoni
-  <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MIR6j42j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE95C4CEF8;
+	Thu, 30 Oct 2025 13:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761832368;
+	bh=eZjyLvOFzMZRQj65+8qH5o8o4HIvM8oDUkHkj4nGFLo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MIR6j42jULIRRKr1pBBLheADEM/ved2LDyNs82hTw9WEr2VDXtvVVUdiXzdWVnuZn
+	 3RW34veyevcDc7pSh/Ja7X8z+J8VGQ3/l1aApVoSCHZZZhJbXDvgCufsjTR3dWD89g
+	 J0H3inRTuBS6MroR/tNZsAQQwuQ2z/M85HdSkTMzYeLuhXMIPveFn7DQg9auBAgo7I
+	 JzgqqQjhLUCpGLHSqhjKaEGMW3ush3rMrYGIa0vn/yfpDMHvTu+kzcWLu+c3T3S6hH
+	 G7IA1PTHISS7zVl4Do07L+kZJLNKKn97XyAeGMtXXaS+MLeaLXqwL/6BOyfvXZv49j
+	 ffHQ74/XK655A==
+Date: Thu, 30 Oct 2025 13:52:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Nikita Shubin <nikita.shubin@maquefel.me>,
+	Axel Lin <axel.lin@ingics.com>,
+	Brian Austin <brian.austin@cirrus.com>, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	stable@vger.kernel.org
 Subject: Re: [PATCH v2 1/4] ASoC: cs4271: Fix cs4271 I2C and SPI drivers
  automatic module loading
-Message-ID: <20251030144319.671368a2@bootlin.com>
-In-Reply-To: <06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
+Message-ID: <794c1c49-83f8-4bff-b602-5f20f589aaa1@sirena.org.uk>
 References: <20251029093921.624088-1-herve.codina@bootlin.com>
-	<20251029093921.624088-2-herve.codina@bootlin.com>
-	<06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ <20251029093921.624088-2-herve.codina@bootlin.com>
+ <06766cfb10fd6b7f4f606429f13432fe8b933d83.camel@gmail.com>
+ <20251030144319.671368a2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KuymU7zciVsA1ocq"
+Content-Disposition: inline
+In-Reply-To: <20251030144319.671368a2@bootlin.com>
+X-Cookie: Is there life before breakfast?
 
-Hi Alexander,
 
-On Wed, 29 Oct 2025 12:20:27 +0100
-Alexander Sverdlin <alexander.sverdlin@gmail.com> wrote:
+--KuymU7zciVsA1ocq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Oct 30, 2025 at 02:43:19PM +0100, Herve Codina wrote:
+
+> I hesitate to fully remove cs4271_dt_ids in the SPI part.
 
 ...
 
-> > diff --git a/sound/soc/codecs/cs4271-spi.c b/sound/soc/codecs/cs4271-spi.c
-> > index 4feb80436bd9..28dd7b8f3507 100644
-> > --- a/sound/soc/codecs/cs4271-spi.c
-> > +++ b/sound/soc/codecs/cs4271-spi.c
-> > @@ -23,11 +23,24 @@ static int cs4271_spi_probe(struct spi_device *spi)
-> >  	return cs4271_probe(&spi->dev, devm_regmap_init_spi(spi, &config));
-> >  }
-> >  
-> > +static const struct spi_device_id cs4271_id_spi[] = {
-> > +	{ "cs4271", 0 },
-> > +	{}
-> > +};
-> > +MODULE_DEVICE_TABLE(spi, cs4271_id_spi);
-> > +
-> > +static const struct of_device_id cs4271_dt_ids[] = {
-> > +	{ .compatible = "cirrus,cs4271", },
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, cs4271_dt_ids);  
-> 
-> So currently SPI core doesn't generate "of:" prefixed uevents, therefore this
-> currently doesn't help? However, imagine, you'd have both backends enabled
-> as modules, -spi and -i2c. udev/modprobe currently load just one module it
-> finds first. What is the guarantee that the loaded module for the "of:"
-> prefixed I2C uevent would be the -i2c module?
-> 
+> Maybe this could be handle globally out of this series instead of introducing
+> a specific pattern in this series.
 
-I hesitate to fully remove cs4271_dt_ids in the SPI part.
+Yes, it feels sensible to be consistant and if there's practical issues
+fix everyone rather than have one driver that works randomly differently.
 
-I understood having it could lead to issues if both SPI and I2C parts
-are compiled as modules but this is the pattern used in quite a lot of
-drivers.
+--KuymU7zciVsA1ocq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Maybe this could be handle globally out of this series instead of introducing
-a specific pattern in this series.
+-----BEGIN PGP SIGNATURE-----
 
-But well, if you and Mark are ok to fully remove the cs4271_dt_ids from the
-SPI part and so unset the of_match_table from the cs4271_spi_driver, I can
-do the modification.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkDbakACgkQJNaLcl1U
+h9Bs1Qf/W5JnT2/KHyguMuqqdBHz6kDJg3xv4gpOSoK17mPlbwQBgUa4kupa8/zd
+w3XnVQzm2oEvRJrBlLLGNrxT0Dpz08xhIEE01pEVE/FHfPcAruASOoJNFM1gyJPX
+9ItqNU5kv/EM8Cyf7ftdanmBE9CEnPaHE0HYDh+3DlYr7iiULP3IEE94S1owH10S
+0j1KvlxKxz5yJuckqHvkwIuW19/Bveqp7pa4I3bA+4FbnCMNuBDMtuqfCXDimphR
+ax/CjFIwyXa50p49oyxKOfROKbf8lwfU/OBhPbkJ8Pme2DLToPfSVmZTsN/kC8te
+f+sDdDFul/6GS5+sP7LqQTcdLhNbqw==
+=15HB
+-----END PGP SIGNATURE-----
 
-Let me know if I should send a new iteration with cs4271_dt_ids fully removed
-from the SPI part.
-
-Also, last point, I don't have any cs4271 connected to a SPI bus.
-I use only the I2C version and will not be able to check for correct
-modifications on the SPI part.
-
-Best regards,
-Hervé
+--KuymU7zciVsA1ocq--
