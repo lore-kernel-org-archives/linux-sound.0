@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C633595B
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 11:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3CB2D4B61
+	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 11:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761822538; cv=none; b=KrXap4p4/rUgYCJXJwcsw2kP9GlDcrflh6Oviaeo9YAamb88KHzsahWoH/cS24aCHs/oRUqB0PMLzqL7zAdHWtQMHriSsDMsLYzsyyJ4E8wJvY3s1soUtFaHPKIVAyAW6GdbX/oGiIt1abU+8tFm9JsRWbpjACbZdtVkhSxIUFQ=
+	t=1761822540; cv=none; b=GcD7OUjwX3AoEbuRX8NZK0ZttcvLvuYIh/OQ83dnY6cchXHJHpqo7rG1XhfHd4CpvV48m4nOlCxbHSGaCkcGwZqDkUf+DkbSLLP1jO0Jp4Dp8sjoInOwiURoLDnp/rNZ68mRLUOKALDVm/GSZ5NJqRvAahM/haEmC8zCfyWdiUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761822538; c=relaxed/simple;
-	bh=cEwfPjBPX4TwCrIA6L1Tqt8WgXJ3aDyzcfo0p5XkacM=;
+	s=arc-20240116; t=1761822540; c=relaxed/simple;
+	bh=mZgOfDQ4SR1uo0DiKaYtH2o5JmThDJJrrPw+Gg9pQ+8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LN6jKGWPBtidoGr9Pln27VWuMu703DCwGefpbQGa3bFfTf1uDDjX4/ZVUHFCZPVCl7S/akoOLEebVQxv+CvlNA1eevXm33nVs8DyRDk1RbEUcuQGS7X2NPowCmfY07PanRiqZ3nUrGq4QB7r6641ts0Q6TP/Ee14iWmURJlsE74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrnlZEgH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EphczX2YAKz3IftfVtF6llbs6sDWUrqz1R/45Xx0czvwjC3fQRqP2rivBzkse3QlkbtOKi3j1+iHxOVhk+CCjEMoHSNPQ0JSE8PkL/byDTNL8XSoEhLSFv3NTuuMTPIjfwpfLvhWulERyhLvjoOYVOIQSHpXY0hG0DpKpe7WKK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsvg1nB5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrnlZEgH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB52BC4CEF1;
-	Thu, 30 Oct 2025 11:08:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsvg1nB5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9383C4CEF8;
+	Thu, 30 Oct 2025 11:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761822538;
-	bh=cEwfPjBPX4TwCrIA6L1Tqt8WgXJ3aDyzcfo0p5XkacM=;
+	s=k20201202; t=1761822540;
+	bh=mZgOfDQ4SR1uo0DiKaYtH2o5JmThDJJrrPw+Gg9pQ+8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PrnlZEgHCOmb81I/WbrAuye0caJlwQzNo5iDxaM5vNZDqqYkN1r7niJ1YWeiZTbW+
-	 cy95t89WjpSZUz3d1berj5oyw7PyXahPlmZt334mXUZ2FqumdUOtoJyeGkHNn3ohh8
-	 zP/JafjAh4a9zgV6S3N9q1F7HsbGB765IvddO/Z1dmrSpb+r4Lc3KLQaqc/8yS+2sJ
-	 yRCEku+FGkx42B7d8v7bYkvKGal/8gf3qCOfo02Gc+MOuwqgaRLPQT+3CotnjGrh0d
-	 U6Bdkg3HdMqm/eoqohsnW1eNmHEA7MXu+kUcCmGZCx2BJ3n9v4OJmm1hfeolxuaCGW
-	 Z2MPCQ58tX3Vw==
+	b=jsvg1nB5XwliVyzx2xlZ22ul5DY/5OCMkTN+58pwAJfK9G4Sn4h7FsEwcXpXpXDGg
+	 dv9EI7NcPLn1Ei6YUmk32esWABo9/PuD5pIll1oUzOI4a2iVqI2VH7WY4mjgoqv5JD
+	 QR5iay0RbKF//CfWqrAvbKZhMCk64TOYkR1PujUD2+uzztbtVH5Mai645dvDt+zRDo
+	 o4j39/V0dq6OtEpKU0gB3XLJb+U3QJCOQuPXBsygP8P32skPzuWaT71qjjlDcFeEOn
+	 IpBYISr0PuruxDywifni11OqEYBlRZ75zCFS/kSZpP+PvELoc/ZyRvkENpPZhFoFk0
+	 8TtrWjFAuN6ng==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, perex@perex.cz, arun@arunraghavan.net
-In-Reply-To: <20251029105134.1342-1-peter.ujfalusi@linux.intel.com>
-References: <20251029105134.1342-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: pcm: Set the PCM device name for HDMI
-Message-Id: <176182253626.10093.3505988510587920910.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 11:08:56 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com
+In-Reply-To: <20251029040344.1116201-1-yung-chuan.liao@linux.intel.com>
+References: <20251029040344.1116201-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: select SND_SOC_SDW_UTILS in
+ SND_SOC_SOF_HDA_GENERIC
+Message-Id: <176182253861.10093.4445070627387019115.b4-ty@kernel.org>
+Date: Thu, 30 Oct 2025 11:08:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 29 Oct 2025 12:51:34 +0200, Peter Ujfalusi wrote:
-> User space (alsa-lib) uses the PCM device name to detect HDMI devices, the
-> name is expected to be in form of 'HDMI'+<space>+number.
-> The PCM device name is not configured in ASoC, only the PCM id is set based
-> on the loaded topology.
+On Wed, 29 Oct 2025 12:03:44 +0800, Bard Liao wrote:
+> The "ASoC: SOF: Intel: use sof_sdw as default SDW machine driver" commit
+> uses asoc_sdw_get_codec_info_list_count() and codec_info_list[] in the
+> hda_sdw_machine_select() function. Select SND_SOC_SDW_UTILS to fix the
+> function undefined issue.
 > 
-> Detect the HDMI PCM playback devices and configure the name to help user
-> space to handle HDMI PCMs correctly.
 > 
-> [...]
 
 Applied to
 
@@ -63,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: pcm: Set the PCM device name for HDMI
-      commit: 541aecd34383a85eaf7c8556779466e394554fed
+[1/1] ASoC: SOF: Intel: select SND_SOC_SDW_UTILS in SND_SOC_SOF_HDA_GENERIC
+      commit: 2b4d53eb5cf32c5b7b7616f23f08471fd8b3708e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
