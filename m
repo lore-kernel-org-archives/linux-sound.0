@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ADC2475C7
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 14:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28242475C7;
+	Thu, 30 Oct 2025 14:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761834720; cv=none; b=UFjMm9dmlZu18v5orZkzwhlEF23OsEf+AbSIwu0pfCSsPFMcnR3odrj8QYuNMvaF/vzTyW+Ej2gtA1zaHhxXb+d8gHPlljlTVTx/dcRXSwYBtXzOZjt9yBgfs0wgZP446h4456/PAZiJJhpVIPpjr02Ips+zSAH0qIt7DC42pPY=
+	t=1761834723; cv=none; b=isrb0C+0sahj7WjhsOL0Lad9Yp7wWt/djo/AoZugWI1XX0OymeYAYTponaFx08vTWDx/I42mFGs1JYka1L9EkX52cslVsorJcb0/ci9qDhMVPX7Vah5Y97DQNK8gxyf/GwAAPaDv3Opy1Fo9c8QYddlCy7DfJrqJ/aKjCAzVxBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761834720; c=relaxed/simple;
-	bh=fFJBqM48X7S8Udvft7zUNjoHLa8VwylY9K7G95Lleic=;
+	s=arc-20240116; t=1761834723; c=relaxed/simple;
+	bh=k3H8jsiZTGUXxdkwpwxpn0XrTdrEfAY+7KJsVjaBrMw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=btQ6Gqy+31wJBMaodnnfpbYV9vWZ8rUY2xdFwnZZ/OYPwX9km5d4wY+YyBkPXb/+Fw+lVep7p7YwwPUNfCULvtYda59VeSV88783qWqMzLIHU1GIs9ZOpDlwDPcq2YHHmEuPFVb38FM9y6rt9xxI+SPSFFuKYlq76fedCgT9s8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VlP8NDhs; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=p/3vZufgSu6nvY79H95o1dAGiJ96GjB34w7xU3vXSGy3E/fc9cv0m8j5OUoMRNqPf6Zpc6LHWz0+bjBDftlU0S4QlTGBZlkxE1wa0ma40VVH1RKgo9Nyy4zXYky8EQcp6ey9f+8etL+CAzSslOl/f1N7XO23+jutggc881TZ8qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YIyo4OWP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VlP8NDhs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 252C4C4CEF8;
-	Thu, 30 Oct 2025 14:31:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YIyo4OWP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E932C113D0;
+	Thu, 30 Oct 2025 14:32:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761834719;
-	bh=fFJBqM48X7S8Udvft7zUNjoHLa8VwylY9K7G95Lleic=;
+	s=k20201202; t=1761834722;
+	bh=k3H8jsiZTGUXxdkwpwxpn0XrTdrEfAY+7KJsVjaBrMw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VlP8NDhstu3xauPDIPfSbzFMDu4MVAOGfbbVJeKq1gOog6LiINMVkXGuQ9ZIETU7i
-	 6tpk3ckFs5faeaa+KNsKdyFCry6duAt/gGbe0XkITRYrkZ+LpRmWMoXiFu161347hG
-	 ZDzCukPFCcHJw15W9dvO3b+B9rCx2I61DKpPKY2tNWVYdwOJhfwDh5WDnwushYjL/f
-	 YIFO3C+lFNLFVVCKUOqu/Yf+jvdGqOqXwArEjN3Sv+Mh36RAY16OFDNtWyQZib5hvD
-	 /Xs2OZtkWjWPQf2rsezMjKLG8eu+fraYYNDwXCnoNeI7LApizuqMJ2Tu0opn82P+1Y
-	 ueusS+vVO+H6g==
+	b=YIyo4OWPjDQedXN6sko3BSB3gvVCNXXFKPSI6H+Y3HhXpja1Hy710ylcrWjcbSA/W
+	 GybZP4C+M2CgUktvshYOsCdcYP5lQmnoI7dFcYj2Ahl0eWzkK454HPsyMoKSkXeTzn
+	 mlVXhbNj+gBQlV71Vo5bdPQu4z9Wb5dwar1OgodKbNcO+mvUdvPY5YHvUEYvFn2grK
+	 2Mv7oHbGpWnuPaZF9WJjc42ePzVdmk7lSXlbDt+5MlbKl8C01cZjtodwyuSYSQLs+H
+	 45dRnXT7I08c0+pN5/5R9PQaJGBCmNHWRG745ff0xe2iofI7nQTpJq2H3TYc+R64Xs
+	 cqQXhkxL67RSg==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
-In-Reply-To: <20251030065503.1216419-1-yung-chuan.liao@linux.intel.com>
-References: <20251030065503.1216419-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: remove hyphen from AMP<index>
- name_prexix
-Message-Id: <176183471890.63092.18246699861274776507.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 14:31:58 +0000
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ hariconscious@gmail.com
+Cc: khalid@kernel.org, shuah@kernel.org, david.hunter.linux@gmail.com, 
+ kuninori.morimoto.gx@renesas.com, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251025043011.598300-1-hariconscious@gmail.com>
+References: <20251025043011.598300-1-hariconscious@gmail.com>
+Subject: Re: [PATCH] ASoC: codec: wm8400: replace printk() calls with
+ dev_*() device aware logging
+Message-Id: <176183472016.63092.11146848509492024868.b4-ty@kernel.org>
+Date: Thu, 30 Oct 2025 14:32:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +48,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 30 Oct 2025 14:55:03 +0800, Bard Liao wrote:
-> For those amp with "AMP" name_prefix in the codec_info_list[], use the
-> AMP<index> format to meet the UCM expectation.
+On Sat, 25 Oct 2025 10:00:11 +0530, hariconscious@gmail.com wrote:
+> Replace direct printk() calls with the appropriate dev_*() logging
+> APIs.Use dev_err, dev_warn, dev_info, or dev_dbg to reflect the correct
+> severity level. Pass the canonical struct device pointer so logs
+> include device context and become traceable to specific hardware
+> instances.Improve log clarity, make messages filterable by device
+> and align the driver with kernel logging conventions to aid
+> debugging and maintenance.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -57,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: remove hyphen from AMP<index> name_prexix
-      commit: ef37146360385282b5f6a5b4bf695db30d609887
+[1/1] ASoC: codec: wm8400: replace printk() calls with dev_*() device aware logging
+      commit: 6ef8e042cdcaabe3e3c68592ba8bfbaee2fa10a3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
