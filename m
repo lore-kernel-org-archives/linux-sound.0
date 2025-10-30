@@ -1,86 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618EF19E7F7
-	for <linux-sound@vger.kernel.org>; Thu, 30 Oct 2025 12:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA44326D4A;
+	Thu, 30 Oct 2025 12:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761827689; cv=none; b=WtJwUtKVepE+k7k+EDwNRWuA80F4VojrupsuCu0YfM3+AyqwNiRVE28JzSU8RoPuDZJfjgJsPOKau/IezmYt/K88pHsQhDSQ1zNOvQ36J8SOZgeK/oDYwbeg/lkGFTrQPihJ+qcVA6x1oQ78W94fW8Upw+RVV4KE6lkl4RTghY4=
+	t=1761828140; cv=none; b=Az1MVlihMVT1PwOtVKkxWw67kPT7piuVGe8AS8w6PrhuN1wRv0C4NXUMFZFbDvfAyvnwaA0c7H2fzoCPAIkdRWl9yhydeXn72Bi8t9yxNBkeKo/6QTw4b7TRPmSaT+RT3lpQ05H6lauURF6oyyuJl35kgjN9Nx30CExKAMrn1wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761827689; c=relaxed/simple;
-	bh=kDB7somchZbPxWYbdhYvzLjlheKddYclnvYxzFEKFzI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fO8OnouiGVHYltv/twa7cffDo0AVC+h0M9SN2gA+vIRfup09rvGpEsO6g1hwJeBGluvfx3Wrpdsybr8ACiJ71gUzPi+YVb1f+/JhbrykieaI56Ar38kl8VZaifS7LxxnB7PDdR9xTt7P8U8l2sla17Y9eWtrl7L7C2AH3gAHgAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IsKxaTLO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761828140; c=relaxed/simple;
+	bh=/XfJU+cdY0jpYU5tPGaNdi+JWjcrGHtgmumVolcAM3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q6JyOFWYZVR/V3pYRgj6Rr7Koga949rcWl4BTeoky1556i+QEEbeK2eTvneFKIeMOTeWtZ2mzw84WbxTIdpXMMnl4o+KeENCTd05RprdvBWwE7Eu2Hn4BlVvm9IXMjuEUDn6cMaa/6x6z0ZsRvqtt3dTjHAy+rYHrCsN3aXh6xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnkvz0/J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IsKxaTLO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C5CEC4CEF1;
-	Thu, 30 Oct 2025 12:34:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnkvz0/J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12984C4CEF1;
+	Thu, 30 Oct 2025 12:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761827689;
-	bh=kDB7somchZbPxWYbdhYvzLjlheKddYclnvYxzFEKFzI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IsKxaTLOBNO3WY+2FDl4ENv1o/DFefAoocPVtPwNlTUKcR2rzonIufpGDIKZ+Fh8u
-	 H/fHRIUVpIr/XxcY5sc0TLAwKl8SqV16+wvI/C+M/if7wfCe/lfhyKZToYxmP66VmG
-	 iJKKj8kVPfyUTK0vL3auium1Mgw1Rm93bwpJy9XMf1NIYvq2w32gphKVuF++j/ANxY
-	 ShhT27QODXfZRi2AIJi4VCO4kaxJ9JD3BTStHB8fctNALomHMKx6O4R14+2+MxL7RU
-	 IpvojI+nPxs6tVUDYFx7w6jHQvYlkfbUZkLJEWlzJW8k/UQ+s58gbCzmF2H3zmK8a8
-	 7bCvcBqnvhWIg==
+	s=k20201202; t=1761828139;
+	bh=/XfJU+cdY0jpYU5tPGaNdi+JWjcrGHtgmumVolcAM3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bnkvz0/JD8J1nSXnJ80taDNxCsASTKz4tmkyiMkkB/j8+6HPEoS0bGyb28DXdik3x
+	 UYDUzI/hUqwDDLDyxaGifTacj9v6Mo1cFbwsMnju1hpAh4utcL7rJfVVTOhsLVnK7x
+	 6YVMMdepfOqU5WE0UNuNyUUPN6KZb3gXj1fLBhFrlcUzsClHHiB2HEkampof0ksiwU
+	 IOZ1iFcsp2h1Dz8e871zofCPExK4fwLo6CXd+NRK6w37w5Maj2ux0SuOFXoDiQHwnb
+	 6VRezHmiO2+wOwZv6QF+LuSmXt8R9bJzFiJb3nuqDE17ZIRPWQqGEVgHyymNhrLV7T
+	 CRjXjG/vfeWlw==
+Date: Thu, 30 Oct 2025 12:42:10 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Sharique Mohammad <sharq0406@gmail.com>
-Cc: perex@perex.cz, linux-sound@vger.kernel.org, lgirdwood@gmail.com
-In-Reply-To: <20251029164134.4123618-1-sharq0406@gmail.com>
-References: <20251029164134.4123618-1-sharq0406@gmail.com>
-Subject: Re: [PATCH 1/1] ASoC: max98090/91: fixing the stream index
-Message-Id: <176182768807.38616.12436935956497313906.b4-ty@kernel.org>
-Date: Thu, 30 Oct 2025 12:34:48 +0000
+To: "Liao, Bard" <bard.liao@intel.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"vkoul@kernel.org" <vkoul@kernel.org>,
+	"tiwai@suse.de" <tiwai@suse.de>,
+	"vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>
+Subject: Re: [PATCH RESEND 5/7] ASoC: SOF: Intel: export
+ hda_sdw_bpt_get_buf_size_aligment
+Message-ID: <8dac7fb5-ca36-4150-93e8-18d3173efe5f@sirena.org.uk>
+References: <20251030070253.1216871-1-yung-chuan.liao@linux.intel.com>
+ <20251030070253.1216871-6-yung-chuan.liao@linux.intel.com>
+ <fa2758bc-7149-43db-8dd9-610d97d86137@sirena.org.uk>
+ <SJ2PR11MB84240C3B09792E128D1D057EFFFBA@SJ2PR11MB8424.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="djrmMc/L29cExWVT"
+Content-Disposition: inline
+In-Reply-To: <SJ2PR11MB84240C3B09792E128D1D057EFFFBA@SJ2PR11MB8424.namprd11.prod.outlook.com>
+X-Cookie: Is there life before breakfast?
 
-On Wed, 29 Oct 2025 17:41:34 +0100, Sharique Mohammad wrote:
-> The function SND_SOC_DAPM_AIF_OUT has its third parameter
-> as stream index. The stream index is numbered from 0 to 3 for
-> every output interface widget but with same stream name
-> "HiFi Capture". So, if the stream name is same, the stream
-> index cannot be different. Also for capture, there is only one
-> stream "HiFi Capture", so only one stream index. Therefore,
-> with this patch changed the stream index to 0 for all the output
-> interface widgets with stream name "HiFi Capture".
-> 
-> [...]
 
-Applied to
+--djrmMc/L29cExWVT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Oct 30, 2025 at 12:05:23PM +0000, Liao, Bard wrote:
 
-Thanks!
+> > The rest of ASoC is _GPL?
 
-[1/1] ASoC: max98090/91: fixing the stream index
-      commit: f1dfbc1b5cf8650ae9a0d543e5f5335fc0f478ce
+> All functions exported in hda-sdw-bpt.c are with EXPORT_SYMBOL_NS.=20
+> I suppose it is ok?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+OK, I guess that's fine.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Acked-by: Mark Brown <broone@kernel.org>
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--djrmMc/L29cExWVT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkDXSEACgkQJNaLcl1U
+h9DaPwf+LMg2s588T2+Z7Of6rjQBKPF6uk7MvdSUB7VGvcOZfwVih4WNljG4U8JV
+0NyluuKSleyB2fnn+jvyHBe04dN83pDkJ5vfXmF7nwVeFkvZGNODgXxudNVf9mOp
+hUPdHOoNdgNSMsxMw+zeaoJfFUIb8vFbThM7Yza08ZMetOIgUdABqDqije1lt05S
+wHHt4k/CxbUKtWWn37GO/aicuygHXWDaxJxi7eY4hplj+6OKRMZlvQec5Q1HjV0P
+F/je+dE9CSP5E/DpZr5tidpwUl6gI6tGfQBHQzHKg2NZcrM/vM/wvJmCKfMQJMhn
+hE4E/PKOrufGvoUAhTYDnrs01Sm1ZA==
+=819G
+-----END PGP SIGNATURE-----
 
+--djrmMc/L29cExWVT--
