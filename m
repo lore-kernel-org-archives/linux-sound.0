@@ -1,81 +1,83 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFA034403D
-	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D83347FD3
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761912456; cv=none; b=bU1p6VIrefyI5zLkCGNd1iJBhdXHAUaIlxqMtVa/FtAunz6S2NNvGxmQ6qHUWvwxjr0J6p8O0C+4+SSMlOAlhEXMyv+CK7KyYXJrRfVkth1n0AEs3SgRgQ6UP8z5Bcjl3yB/BWUCuX4m1JSHe36q/hCyre7X66UGlqjWaqNh4Jc=
+	t=1761912458; cv=none; b=uPMc1ER/CpmUQdrv0knOkEOlV892eMrgecQEclB4L0ddWeJYHHVvetlRsuH1XKF9u527BpTiMpSD1UWeOCKV3ioXH2HKFX4yzHWJblT7hoydAUZzMGdo3pwHA07Qg2CICbDUZuZXwU7x85j1mhpf3NniSioQc3iy0ZCzbhF5/qU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761912456; c=relaxed/simple;
-	bh=FBHTA+kR2fbsMsa/SrJEtQSqf/pZXq187Gm8uu9urMc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i/4+p2LXVHavCkzi3Fgpq8NgRWfZFF6OoVsXzfD2ivetfEjtHsEmcIAjIHZ/A7A3QXYubD+ArhGEIC+9P6SrB3Eykb/NmqUbLIwRq+x59B7bcTv1QlGa4OlWLrY5AgcPqErYuOvjhEwu2cT01SrwVDTpf8QYAnuWLT905hVZQaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fSdKXISG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YT8qa4ZK; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1761912458; c=relaxed/simple;
+	bh=tBK1qwBUvRQMVKV0Br5+JUjYr+yEhU8c8RDgQyKsT2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=V+P96zu1PexLl6IajW2nBIUxk/xTP4owWot6yQh8eFUy92/GBVOTcbqsiwby23+dr7B7LMYWdVmB70m6sjxTHZcxg8kt+/CZ5WoTRAa26K78jWRoYZvXanzigRPOyL93wE8h1ds5jfAp6t6haZyABL10bRxbEGq5ODD4ZqGE4pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gN1t8NyA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ja1MbekQ; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fSdKXISG";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YT8qa4ZK"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59VA3qk32558892
-	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:34 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gN1t8NyA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ja1MbekQ"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59V7eGea872581
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=4032bjOkzCR7p70VNAqkoxOuXsJLBApNSv9
-	jSTqGdeI=; b=fSdKXISGFb51HUKLJs7JReOl4+DP6ySMFtD8dxrCiwqaW5ImG+f
-	BmohCnrnQtRctcsIf8luHV+SBB6W/LIwHRU8zVsFg5OXiGYGfuD3sbcuQTPSLTtY
-	dcCmVoZg/Hop7xNEcHIYUBHOXIdl2aRSmxR8FB6eO0czuGUqGn00j4EPnkzogdUf
-	H7eMitzzbVzWqmvkecrvDRjie3rSsqv2HsaoW5u7f0FYTy/JQPtbBg0XeEe9s5+h
-	l2SVdQXdtJ20kQd/2/UHL81QFBf9h8AB/q9LO7obCXhpu/IdYNWCsGC1nUDV1ibu
-	CMUdYjuQ+3xrZ4LkXx85AQqLmBhvm3MfOEw==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4u1gra1s-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=ZWwpst+Hrx7
+	G02/RkAKzDN+ldfPPWqoovAXsun6iEuQ=; b=gN1t8NyAcBVi60Vvai+eb/AFnpz
+	mJJrg9q+PLn6babOQyCZWdbP99SjWSpjQPsNxXaK19GL5a71MZPwB2zID1xwtgaB
+	xzoRUsQSggjuuST1LjGO7ut4Qkcyj4fMb63cNkSJ0mSmCcj3FTbNFaXXJtBatJge
+	Wdf7dU49CLdVkEhiPXAM2fIe+LC8gf1OtwEOALxgeU4wlEhBolBdlt8uiy0bj1dH
+	oJbcykGiZphWIB670vq0K0KxRKEjn3rDEM6OSHyuAabtdu9yXPz8/pXP9jgTBYfZ
+	WF33jk+EZ+0OGWF6aJo2O7hJSzSPApNcRAUWm1kzFVurV5D5GYN8RagFOgA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4fqn227a-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:33 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-554e68b14cbso933449e0c.3
-        for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 05:07:33 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 12:07:36 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4eba930d6ecso54575901cf.3
+        for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 05:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1761912453; x=1762517253; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4032bjOkzCR7p70VNAqkoxOuXsJLBApNSv9jSTqGdeI=;
-        b=YT8qa4ZKck+WGZpnQoxOyOcL0EHKjt/tPH5feZz9qL6+lXV6kRRhx/D9aYNWFZpWaB
-         iMGD7AFdemgiY8iY+A8wnKfQsV5DtYikRALuM268xXmAqUiJQnV14cryPqcCe9O7dwDr
-         9aX79KbS7VfpkFnBqqjqTXgQRFIC7uMnTy1zlP30xXsZo0QJSMrVer8bV+Hd/d2u7HgA
-         2UUTNEKOfDXwX3VqA9d8lZLArLM+iHWXSZ5/062f6CSbHe/ARbEOXq5Bo/vdw77mcokE
-         ngf8mYsUToyDddt0a5hU8JHA7wt7IoB0qCWV3PmC1uiqmMOLVnCFirk4qeVECwv+xkHP
-         F6aQ==
+        d=oss.qualcomm.com; s=google; t=1761912455; x=1762517255; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZWwpst+Hrx7G02/RkAKzDN+ldfPPWqoovAXsun6iEuQ=;
+        b=Ja1MbekQg1Zs3yQShBeYdzUqi0r7QixB1al9xwafsSl1EOR5XARcm8JRxScESc+zyb
+         oldJ2ku3MzwKAm9ApejYX5ACx21UArsLB/tV/i4z7CmVYNhaGCSawqL2yrFCY3JSXCmh
+         28ShcBP/39PPYk7xlDnyjvNR58RUQeBhJXhUl1LeqB6Jy1ZI5NWiBL3RfeLfGZEneyJ8
+         NTGj2sNYEgQFiIl8HnkAcMoJch0kTGfWW6S2CgR5cMJpoIUBAnvsW53VcWzuMKgHbjC7
+         8Fe67EtbTxi6e5uHWgaiKAzsKwMTHI/1XyIB81JQFoNw3LdJTbYXDMtxtON+BNWb4K7i
+         Th4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761912453; x=1762517253;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4032bjOkzCR7p70VNAqkoxOuXsJLBApNSv9jSTqGdeI=;
-        b=sRod//zjZ/M+Nri+bcnBf1frTfhqgeXVEV5zgd4uVy0x8xHyWinvkIvLQhhgrT3XK9
-         HV/hMXpl4au5tidVrWkWxc+0umna+6Hj9zedazg0htAQRzjp+3kJSZTBOb+2YCjp0Rc4
-         CvjgqTkVzEPFZK6WdgZziDLoW9QxIeRz2A2JMKAwTEf/nm9FgSPQcC3+0b/KFC76SVFq
-         pgiLrL093C24aUCdoN8XMVbYzgWpJ7DJBiBc20SYl61dDvoO13DccIZZn8R9RAdW/qNn
-         0ySzzzxiOI0CM/9/EJQkemI2N08EzQkuM9xsIqwbGbK1yi62snyhZYxEtdMeCJjh8v3r
-         rd1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWwaLwhzv32HA485cBWccy3h56DRZIw8wna5zK2mAaj892UGQ1tg3LVH2jfMfQU7raiziMZ6Mj1K2VTKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+oVx6ZTSDpNFVwnd6J4EHPnIMRHp4mNN1aw8vkNIPwjtaQn9r
-	xAA9SzhtWdqxqBI1KBiFQNV5qygy2/G2BBVUE8agPON+xWluT1LjwcROITvUYVq2m7+yNJubvJ7
-	NSIlkaHa3+rnsoI5MxHMMa6rhYQLSkr0kFBetHJ2T+lTCHUmUbgKI8LTuFmZxEYR00g==
-X-Gm-Gg: ASbGncvOp2fUjwJBJW3lydZCrAfyY45q0sllUxMp4d/FniK4XjaorGRpfWRwsCnZa+z
-	bDseaBrglTvXlAKc8eie4C9oYrgB0DX89nW7QEae+nUxEDxRC5+VE7zxRU3GQ2EF6E0V5+kFwQn
-	sZy/KITW6T8KMokwQelaoQvSF3k7nnZINoa4umkexNxZBDmVEoAyHp+a2AASj9V3Oly8U1XBbxU
-	mEHRIGj2cIrfulDJTJ1IVb19Af0uiVnOCeU64KPocOsRUArmbrhOld1yNNNDyMrhXsQg/WO0qMx
-	1GD+Prc9AHQpljHBSDHMyiDhyLCzco9SDwb56c/ZuMdi+kTHnlCgq1Wsq67GnVLxz99VGhFfrmm
-	TqqYj0bSs+iQx
-X-Received: by 2002:a05:6122:3711:b0:556:745f:6a06 with SMTP id 71dfb90a1353d-5593e563b6dmr1087779e0c.10.1761912453077;
-        Fri, 31 Oct 2025 05:07:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHIcGE2eWLXSFTHonsnjJICwses9jJ9xucL5+zcIhg+h+3QNnE7/PCg9OINg4FnGuKQHFTSlg==
-X-Received: by 2002:a05:6122:3711:b0:556:745f:6a06 with SMTP id 71dfb90a1353d-5593e563b6dmr1087747e0c.10.1761912452655;
-        Fri, 31 Oct 2025 05:07:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761912455; x=1762517255;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZWwpst+Hrx7G02/RkAKzDN+ldfPPWqoovAXsun6iEuQ=;
+        b=Qa2PxfGnJRtEL6VBI3jZamVpLPRDQKL6qdSnE9X4Wm+k+gVLgl0yltDux6Zl+IY9rg
+         4DUkj0sZmcLSUw5Lv3aHAA+0jfiVkJIN2vYXzRRLZmgztC9LvBaWAtZH4coxxAmlKXIt
+         9IIctiSBGrzuVg5xwEDgdmLNxZNFoJYHcXNU3RZJVHSEIz+bBkjp1E5frZLrM1OwkwgG
+         ehHVw5+MVeetJsy1Km4XqwXg6YToJv4EVCx74NMxo6/85GXpIsUE8XNaAjp5a0s2yrtv
+         6aUgO4povffov/YstlHnBnv7jHOwDoDZOa6GmQjsKtn/XfKs4iQ8POh2Ijk99BBwnuTq
+         /iKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGuHJ32+I+fm9zhAgybyMnIrYLfau5sAMtKKgI1GjviKdOviwdVpIu8TQYDpI8pHp9YBKR7ARYDq2oXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBBUvcitI/IBbgOjRe4ld5fye4EL4ZXkLHP76E3K74tapDhp84
+	i+otcdDxQ4rpqYH/AGPp6youpwW/OJYj0W4o2vIXjVTOvdzVY6YO1rbVAUUdRAPtrh45H4XyruT
+	Wb9ac96rmjt/Y11/Qu1CHIygpN1JysxDeM2JlJNr479TXGYl/zweIRkqXkR7Mw8EayQ==
+X-Gm-Gg: ASbGncu/VlMb/wJNq9d3mHrhfbnorJaf4ZYAlRZzSQEZzXghRPJc+iSas6bGLMGH6Vw
+	qicQZmFK9GtLy4bhBrhPmCgOezp3CjO9Tt2muEM2i6xZgmSKGwAeVW+Y3V8R9SAouxykJLxWZVo
+	kHeiE5mrXUFWglp4O/JVT7bpBqvTQUEBspIdBHc/18M4yVNFGlzWwbE5GjkpqGdqILzYSaY1hWu
+	BMcVtLYHWKkGdVfFT6bvSqxMfZvJcPejQDvBHYY+FVHKCnaHplcTYrk7kJ/aZIX2S5cROatRiPt
+	NLeeJYCYOeCMC/cSeQ1M3M3RpMTif5c0vfFLmwi6Q78UVLPXYv0ODdFHFsLztiXMhV89Cj5ct5D
+	puazmV2iAWVK/
+X-Received: by 2002:a05:622a:1f1a:b0:4eb:a3eb:2ad1 with SMTP id d75a77b69052e-4ed30f9c8bcmr39361011cf.53.1761912455281;
+        Fri, 31 Oct 2025 05:07:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFubrQw4XO/dt+yCzz4q2Xa+aUfqymGqW7ebuZTqajutjz+f81U2jcLSjc0jlESDX5Kqxd0BA==
+X-Received: by 2002:a05:622a:1f1a:b0:4eb:a3eb:2ad1 with SMTP id d75a77b69052e-4ed30f9c8bcmr39359921cf.53.1761912454522;
+        Fri, 31 Oct 2025 05:07:34 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4772fd280fbsm21273995e9.5.2025.10.31.05.07.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4772fd280fbsm21273995e9.5.2025.10.31.05.07.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Oct 2025 05:07:32 -0700 (PDT)
+        Fri, 31 Oct 2025 05:07:34 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: robh@kernel.org, broonie@kernel.org
 Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
@@ -83,11 +85,14 @@ Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, alexey.klimov@linaro.org,
         konradybcio@kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v3 0/6] ASoC: codecs: lpass-macro: complete sm6115 support
-Date: Fri, 31 Oct 2025 12:06:57 +0000
-Message-ID: <20251031120703.590201-1-srinivas.kandagatla@oss.qualcomm.com>
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Stable@vger.kernel.org
+Subject: [PATCH v3 1/6] ASoC: codecs: lpass-tx-macro: fix SM6115 support
+Date: Fri, 31 Oct 2025 12:06:58 +0000
+Message-ID: <20251031120703.590201-2-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251031120703.590201-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20251031120703.590201-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -95,61 +100,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=Lo+fC3dc c=1 sm=1 tr=0 ts=6904a685 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Authority-Analysis: v=2.4 cv=RL2+3oi+ c=1 sm=1 tr=0 ts=6904a688 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=XNMdb2pSUVPagnxhOkYA:9 a=tNoRWFLymzeba-QzToBc:22
-X-Proofpoint-ORIG-GUID: E9QN3G4aOtZU83F9Pecw4caeB2vb0EyC
-X-Proofpoint-GUID: E9QN3G4aOtZU83F9Pecw4caeB2vb0EyC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDEwOCBTYWx0ZWRfX6je1OzaFYkvP
- WIuiGG2vpBQaNx5jg+rMtQRq5V+IUOizgkpR8OxJMl7+NLAYDKgp05HYdhWPZEjwLQMwRBY44Gb
- j2JBjW4BGxLJ9iV4NUCTjJyN97hhqz1zdBrp6kHe8EiMdyamKKr7ZnOYDMSFnyxTMWva/Z3C6VU
- Lu+f9gqy+NFfoWaD0xdQlp66RHHTbYUvrV7BQ1H0ZApqAgbmJh00RgbvU0hFzeUKF/DDNaK2cTR
- yL2MW/fe8tCMI2z3auTa2DjeGZ7Jt7qINdKPFFeeoWWPoZlggpuRE6Dpwa39lC+MXc/W713XJsT
- xtq9W6eypUYSwMftUlNI67truU9iuiDG3PF3mIuFsCFsp6n+RdMbuIr8CU7bdlnhpxSbD8WE5+W
- u0c0xmhwg6n5GJRND0J8BBrVu2LlDA==
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=9D4bFhRDwPOLDOHaW_wA:9
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: C5o6peoCt-4KfCEjfsf_Vc7KW29jgIc6
+X-Proofpoint-GUID: C5o6peoCt-4KfCEjfsf_Vc7KW29jgIc6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDEwOCBTYWx0ZWRfXz/BSJyntCJOl
+ Q77S/DChAiuDwTnglZ4lu3rhRR4C3NxAcsx970zk40+Jg+ghn/6Edv+y94sbVScuzQYo/5PgwaA
+ lscmG7ifjGA/gGElExVSzNN9CQAIlmVBzBq+q3QEyqOBCKW+Q5w1EJtM1x6cAabJizTPjNY7o8z
+ stanXBCWI8p6s6j2KLC6xFUy6AlwtjEsUCtrH8s3zQ/uaCxIwLX9Fn5Q17/9q9LvMerc4n1r1nI
+ glXfSfhEuaWDIBMORzd9ofYNDRGYmClsD8WPJVy1L7MZ0Fo8YpHPQpT0KTgFKMbczI79J5ZV6i5
+ 4sDOuOsR0gQ4vJaLr7tTV+KRfP/mMaW3F4UIwTlAl8/4O+xiugHoPUoo5FzzwuhdV7l6ejPqoQP
+ MswQsgkNGaOBiazV7xwKcltFXM0vLA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-10-31_03,2025-10-29_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310108
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ phishscore=0 bulkscore=0 adultscore=0 spamscore=0 clxscore=1015
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2510310108
 
-This patch series fixes SM6115 lpass codec macro support and adding
-missing dt-bindings to complete support for SM6115.
+SM6115 does have soundwire controller in tx. For some reason
+we ended up with this incorrect patch.
 
-SM6115 lpass codec macro support is added partially and broken to some
-extent, Fix this broken support and add complete lpass macro support for
-this SoC.
+Fix this by adding the flag to reflect this in SoC data.
 
+Fixes: 510c46884299 ("ASoC: codecs: lpass-tx-macro: Add SM6115 support")
+Cc: <Stable@vger.kernel.org>
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+---
+ sound/soc/codecs/lpass-tx-macro.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes since v2:
-	- fixed a wrong patch that was sent in v1.
-
-Changes since v1:
-	- cleaned up va-macro bindings for clock-names.
-	- cleaned up va-macro codec driver to include soundwire reset
-	  for sm6115
-	- updated tx and rx codec driver and bindings to have a dedicated 
-	compatible due to changes in number of clocks.
-
-Srinivas Kandagatla (6):
-  ASoC: codecs: lpass-tx-macro: fix SM6115 support
-  ASoC: dt-bindings: qcom,lpass-rx-macro: Add sm6115 LPASS RX
-  ASoC: dt-bindings: qcom,lpass-va-macro: re-arrange clock-names
-  ASoC: dt-bindings: qcom,lpass-va-macro: Add sm6115 LPASS VA
-  ASoC: codecs: lpass-va-macro: add SM6115 compatible
-  ASoC: codecs: lpass-rx-macro: add SM6115 compatible
-
- .../bindings/sound/qcom,lpass-rx-macro.yaml   | 18 +++++++
- .../bindings/sound/qcom,lpass-va-macro.yaml   | 49 +++++++++++++------
- sound/soc/codecs/lpass-rx-macro.c             |  3 ++
- sound/soc/codecs/lpass-tx-macro.c             |  3 +-
- sound/soc/codecs/lpass-va-macro.c             |  1 +
- 5 files changed, 59 insertions(+), 15 deletions(-)
-
+diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
+index 1aefd3bde818..dbd8d0e4bc75 100644
+--- a/sound/soc/codecs/lpass-tx-macro.c
++++ b/sound/soc/codecs/lpass-tx-macro.c
+@@ -2473,7 +2473,8 @@ static const struct tx_macro_data lpass_ver_9_2 = {
+ };
+ 
+ static const struct tx_macro_data lpass_ver_10_sm6115 = {
+-	.flags			= LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
++	.flags			= LPASS_MACRO_FLAG_HAS_NPL_CLOCK |
++				  LPASS_MACRO_FLAG_RESET_SWR,
+ 	.ver			= LPASS_VER_10_0_0,
+ 	.extra_widgets		= tx_macro_dapm_widgets_v9_2,
+ 	.extra_widgets_num	= ARRAY_SIZE(tx_macro_dapm_widgets_v9_2),
 -- 
 2.51.0
 
