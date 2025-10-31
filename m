@@ -1,167 +1,153 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA0832ABDB
-	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 11:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A75C3446AC
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 11:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761910597; cv=none; b=i+/40TsKMHhKPESSEzAx+cFr8MzvfRtWaomHh4Uzp8B3UJ+NMb8fMuPSbTRlqqJUj5+shfg+93lx5/avw2PJOOgJ3dh88FNgY85hXCvRNVSnDqY0LZGXT3/L8Mw0ypL3RXtmrM8XibVcIrCcUhiHAnHHkIh1dWtOoJ9Q0JUOUu0=
+	t=1761911306; cv=none; b=rlr4h7rnpk6rJZOD9e/yXGIiKIXiAxmBs4NPGbCOBzDUcjPTVQvrOYVAiEmiDYv1cpsBq2TWtdOPTH67SkFrigcRDJVpRcyfnia+ONT9BfMOg8on73o8I69ixMQgXlFuMhp6wTdeS0PtEu6Jdmtd5Ae5SWjFS9jIsHEmr50ReNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761910597; c=relaxed/simple;
-	bh=6bc3P7DrsiF+cW+oH2mucW+V/iWFZK7LGVXCCfAzVmo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sOK2UDxLYNL8BJi5F6rpXjUBWzj/zPoUhVrJnbWhPd/4EDFNrffLHUd4kK29oV0tBrmW6lNMDzeSnNX6O8pMWfMrop+6fnkWm74Y0sS9MuL46bynyU5o1qg9rpFnV9JgwCVF4Ur5lcRADcqksIq8Ejw5i9AO3Z/CzNJEX5Bo34s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bKMpKse9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pMPA5Dlg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T9FCT3e7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2Om+i6Ho; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761911306; c=relaxed/simple;
+	bh=dItJdgHUJs1UViTcltNYdVRQKbflbnmQjHFvKJeVGJA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l+GBhjpQqWCYRUvuwHwmHzuRttU9Tds+vLBgyO4rv9WtLgks6wbTcaVFEWVFcl3yTYMqPaOrYz1dojwfSl/MRMLh0NLWh5BmF43pf2GfOIL0yqe2hXthTqEmeABVb3rSxxIVESJYpP3tqxbIfY5sBaQM/aM1JFFka5h46R7FRcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P8rN4qxx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Tr1VXJl0; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bKMpKse9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pMPA5Dlg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T9FCT3e7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2Om+i6Ho"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B84FD21F4C;
-	Fri, 31 Oct 2025 11:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761910594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=szMEw9D3/QE6hoGf/A51E4/DXuZVNHTUsNxlNfYmzRk=;
-	b=bKMpKse9mSp30qw2z6IuoRcgXheoitD7teFGtp04PUeiIOj4SKYfjLHcAZFJOWuoJLSMCE
-	4W7Q5lkAKdz62dF1qKhGa94F/d+r6P1LAREgFnW08h8c4YjgQd/cUlNd6AQaEZmrDQAhwt
-	aHWemRJggqjqwCjfPJCHG8r7dugcOHo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761910594;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=szMEw9D3/QE6hoGf/A51E4/DXuZVNHTUsNxlNfYmzRk=;
-	b=pMPA5DlgdmFs5jfzfT0l/vO7DN4xOjHuqiMeTnJWySc92KVoigKukuvJNsmDhZfCNh4gcu
-	53xON9GPOsAxeHBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T9FCT3e7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2Om+i6Ho
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761910593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=szMEw9D3/QE6hoGf/A51E4/DXuZVNHTUsNxlNfYmzRk=;
-	b=T9FCT3e7vj/n2kAEHY6Mb7TwsyTrD5m08VYbm6JXlw+DwA3izoBAh1v7vheBDetwYHxAln
-	1B4Mv8bx409vYp2O2vmmR/QhXsPkxALE4oRUN2kQXH+hyoWqlbh9GJReMi0AIZcEaJSMsZ
-	5Mlfzh2zITPPEg1k5D6XqoK9WIBTOX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761910593;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=szMEw9D3/QE6hoGf/A51E4/DXuZVNHTUsNxlNfYmzRk=;
-	b=2Om+i6HoQ8sdEu0gplZM7qkxQxwn67/tMgV5/Y7VGvyIU2oe+LUjHiPZw1ryhIUO5FYZDT
-	GPM13AkZAuhy3HAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6377C13991;
-	Fri, 31 Oct 2025 11:36:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id udMsFkGfBGnuWAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 31 Oct 2025 11:36:33 +0000
-Date: Fri, 31 Oct 2025 12:36:32 +0100
-Message-ID: <87ldkrjoan.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org,	Jun Zhan
- <zhanjun@uniontech.com>,	=?GB2312?B?xPSzzw==?= <niecheng1@uniontech.com>,
-	Guan Wentao <guanwentao@uniontech.com>,	Feng Yuan <fengyuan@uniontech.com>,
-	kernel <kernel@uniontech.com>,	Cryolitia PukNgae <cryolitia@uniontech.com>
-Subject: Re: [RFC] sound: add uevent notifications for jack events
-In-Reply-To: <c6a869fc-8b4a-4311-b14e-28a131d6a706@linux.dev>
-References: <c6a869fc-8b4a-4311-b14e-28a131d6a706@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P8rN4qxx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Tr1VXJl0"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59V7jrCI832852
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 11:48:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=CREb++Zs7HHNjOQFOKPIizCrDGl0LQjv6t/
+	Y+I+Q4V0=; b=P8rN4qxx7VmSIKd4cYMyGrZzDcDD9V0DO+LHGZYh6a+YBb0rwOn
+	qFCnFDVV0NnL8VALMM8N6X7Ye1dY5x98HJ0yddxuM6VtQUXclxlCGQISmfqpl5WK
+	IIcKJiPxfSEdhjxlhFh2PHuvD0W3mqOrwZ09l0/bn1vQXo8Abj04kk55oAhBhLna
+	fOc6M9gAdkN4cV8SXgoXMJgj9rlberGWiXQWFCzKgU7dzi3S3PlDaA/KbxzQgy8g
+	qtuinX9CWMNVpa8d6ImwbI+h0xrw+kVsMXuCQkw8BB0Tnf7wuXWF3SlKcuJGAvZY
+	8oShi3Vc49EJSBHBy356qTCbcVlcy7zz/+w==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4ffb2312-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 11:48:23 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4eba10ad6e1so26557991cf.3
+        for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 04:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1761911302; x=1762516102; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CREb++Zs7HHNjOQFOKPIizCrDGl0LQjv6t/Y+I+Q4V0=;
+        b=Tr1VXJl0FZVkD+0rJC2o4jsnuKafhMOxaRJDyn3rNq8Y7BtCrFOSM1S5BDPjzFixYN
+         aYrQYjAcA3QKbwts0vkDoZ14i6G2wdhVSsng3uuhOQmS77agCekAerTIF+YcvlngjO/P
+         /1vXSiGMpHlcnrR+g9zgFVYuZWeicVy+J3IckL2+ureUrYJ1fJZbG8iDxztMEm+YTiEK
+         QN+3A6PGzc0cPpEO1GNoqsJ6NAUkAJs2/sAkE/NH7wYNHTRz3wafaQPUAoRT4KZP/tk8
+         XEtbzNP2FC44d96FhdnxSkr8dnuWDwgooEec/H3faaAOeJMMdFE/81NP68fSJzU/1fnt
+         SONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761911302; x=1762516102;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CREb++Zs7HHNjOQFOKPIizCrDGl0LQjv6t/Y+I+Q4V0=;
+        b=u1dF5HGxCTzi6KYY4gWCPeqaGKcmNt9BFa1KqIMTbAUFqkURptfw3+KHsiPZEBEdV4
+         Yhw22k6vA0XfFUg3U6q6pXGEJpp15qhZfpHYugt0nHBo0zm09QyOYp0IX5ubRz568W+n
+         yHBjGJZ1QaiMn4iUnWbLz/PGuDAe3qeoprMhsquVQiUt/yaTst3IrDndiJLUOIMJUwLh
+         cy2dQrefWSk8y6ImPyR0L+LmliEH5tzWrGoOILtr/YlZWCLf2umn8p0WJvJMC9yw/X6b
+         7c1ewCG4y/ZcC1GyL19QzsOt1C3YCnBV47i4+CDnCZfDIO4v277U6NJKKdnOrjcrZlU9
+         SzMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtPELIzdeubkJOoEFwmyi4IkdVU1aSlJzuCmBw9fYuB8en15aAvu8AZKw4LXaxpXD0XFss6DGk5P6Mfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyGpq29ZrKtdGv5dzZ0aJ+WUsrbzgFmZUu43yqztdWNf2LkMLn
+	DnrCKj2rIy6jhLYY8lCrlsdwWhvWkxLU27Q+w32WRYf2hNG88lZe++vCAa8jq9swxwFlLg8toa/
+	bwO+79e8+iki64t7Gq9vfq0zytTecJiPG6Tvv1sGCnY1ViWmLls7L3nddmx9X4wM6lXULTZfUbA
+	==
+X-Gm-Gg: ASbGnctwFg0svOiFNjwSAw69vfoQK2Y/rL5JOZLpgW8260slP11kE2itesj/1/vdakq
+	iY8CzoEEwHymsx0VaEnuUUEWkAufcmpg/Nd1iOGVhXL+UbsAbeZiDDyajdjqlFDzI/retMrmK86
+	ppXbkiMPI9djE+r/xL0E8zh1nGcl7ERYibS/97fJnEbJI15R2iC7hpjtje/tdftGc3XKNSxx/Ji
+	ueWKs4cMeWGZkNZMIYVdtB1/dqAGW9T6A2XENTKgGR0zDNjaQs/oTBLcJeRM0KoayzSSXEVKjbA
+	g/B25oxvSx+6+YIC5euWzVhHZxjYdNJRd8A22jwKBiWAJC7O48MxfWbVi0HZmurDi8NG/31zikd
+	sptY+4ybXQvEZ
+X-Received: by 2002:a05:622a:1a0e:b0:4e8:9ade:108c with SMTP id d75a77b69052e-4ed30e17a3amr35245291cf.34.1761911302378;
+        Fri, 31 Oct 2025 04:48:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrLMBqXq1lpss5fYYEYEBdkpGMMktplpYGgijhBBMxwiDCmZvkiKiAaqFkPlxpIxhU0z65pg==
+X-Received: by 2002:a05:622a:1a0e:b0:4e8:9ade:108c with SMTP id d75a77b69052e-4ed30e17a3amr35244861cf.34.1761911301871;
+        Fri, 31 Oct 2025 04:48:21 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47728aa915asm86831165e9.16.2025.10.31.04.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 04:48:21 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: robh@kernel.org, broonie@kernel.org
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+        perex@perex.cz, tiwai@suse.com, srini@kernel.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, alexey.klimov@linaro.org,
+        konradybcio@kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v2 0/6] ASoC: codecs: lpass-macro: complete sm6115 support
+Date: Fri, 31 Oct 2025 11:47:46 +0000
+Message-ID: <20251031114752.572270-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: B84FD21F4C
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: Xhn3RyiGOaSTrYTAmRrdfynfHr9wFIgZ
+X-Authority-Analysis: v=2.4 cv=fpjRpV4f c=1 sm=1 tr=0 ts=6904a207 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=XNMdb2pSUVPagnxhOkYA:9 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: Xhn3RyiGOaSTrYTAmRrdfynfHr9wFIgZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDEwNiBTYWx0ZWRfX0DFvSEei/rIy
+ QKxaRuKE1El0tiIOi2oG4cAZO7jDd6XDdH7fN7FEXY3qwrtBo4/GoNcPnDkBvLg3YSmw9Yi+xEa
+ LCrjxjIBG4cEdBpZEEjNCWfjy6ncyXbxispt9OPvYQV/mIV+8lBQENHc+CgkRyZwQWi61AiDSFo
+ DNAN1VyV7mb5vIQpCS0Ptg8kgLZmA3AT/1KxYbkdMLGVBl+OWlS71hcELCT5sAP39UVYheIwZWN
+ CFAxPAQkrfntgx1IkUE7dtyH4sLziT6xtVANuKHHpJMCTgD3KBGAVdmyoXJ7hKuzb5D+Kgwvm9C
+ y2H0pDiClqkwL/MrvhQ+mH/qiNjLDacB8TJW9LWxs77PAmjeBBc2eJ70fE8yWHeJHwihrZru5vO
+ 8C7hNgxQ0F1cqg4rhsHJXWkpjR90tw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-31_03,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310106
 
-On Wed, 29 Oct 2025 09:11:56 +0100,
-Cryolitia PukNgae wrote:
-> 
-> I propose adding uevent notifications for all audio jack events in the
-> sound subsystem, including headphone and microphone jacks.
-> 
-> The kernel already sends uevents for certain jack types like HDMI,
-> demonstrating this pattern is well-established. However, other common
-> audio jacks like headphones and microphones only generate input events,
-> not uevents.
-> 
-> This inconsistency affects userspace tools that rely on uevents for
-> device management. Adding uevents for all jack types would provide a
-> uniform interface for monitoring audio connection state changes.
-> 
-> My proposal is straightforward: extend the existing uevent mechanism to
-> cover all audio jack plug/unplug events in the sound subsystem. This
-> change would maintain backward compatibility with existing input event
-> consumers while providing consistent device notification for all jack
-> types.
-> 
-> The change aligns with the semantic purpose of uvents - to notify about
-> hardware state changes. Physical connection events naturally fit this
-> category.
-> 
-> If there are objections or historical context I should consider, I would
-> appreciate hearing them.
-> 
-> Thanks.
-> 
-> Best regards,
-> Cryolitia PukNgae
+This patch series fixes SM6115 lpass codec macro support and adding
+missing dt-bindings to complete support for SM6115.
 
-Honestly speaking, I have a mixed feeling for this approach.
-I understand that uevents can be used for handling commonly for all
-jack events, but OTOH, it means that we may spam a lot there.
-
-FWIW, as generic jack event handling, there is the notification via
-ALSA control API for each sound card, not only the input devices,
-too.  If any, we may add yet another notifications on top of that with
-uevents; but this must not be enabled blindly.
+SM6115 lpass codec macro support is added partially and broken to some
+extent, Fix this broken support and add complete lpass macro support for
+this SoC.
 
 
-thanks,
+Changes since v1:
+	- cleaned up va-macro bindings for clock-names.
+	- cleaned up va-macro codec driver to include soundwire reset
+	  for sm6115
+	- updated tx and rx codec driver and bindings to have a dedicated 
+	compatible due to changes in number of clocks.
 
-Takashi
+Srinivas Kandagatla (6):
+  ASoC: codecs: lpass-tx-macro: fix SM6115 support
+  ASoC: dt-bindings: qcom,lpass-rx-macro: Add sm6115 LPASS RX
+  ASoC: dt-bindings: qcom,lpass-va-macro: re-arrange clock-names
+  ASoC: dt-bindings: qcom,lpass-va-macro: Add sm6115 LPASS VA
+  ASoC: codecs: lpass-va-macro: add SM6115 compatible
+  ASoC: codecs: lpass-rx-macro: add SM6115 compatible
+
+ .../bindings/sound/qcom,lpass-rx-macro.yaml   | 18 +++++++
+ .../bindings/sound/qcom,lpass-va-macro.yaml   | 49 +++++++++++++------
+ sound/soc/codecs/lpass-rx-macro.c             |  3 ++
+ sound/soc/codecs/lpass-tx-macro.c             |  1 +
+ sound/soc/codecs/lpass-va-macro.c             |  1 +
+ 5 files changed, 58 insertions(+), 14 deletions(-)
+
+-- 
+2.51.0
+
