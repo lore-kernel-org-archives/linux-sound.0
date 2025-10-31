@@ -1,99 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160AA2D0611;
-	Fri, 31 Oct 2025 14:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BCD2288F7;
+	Fri, 31 Oct 2025 15:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761922658; cv=none; b=Q7Uu8szDw2AwnLsPAgB0mLpAq452h/LrckUS9xHWewWCLw+nfOQR2GAV5UTatfzfd7Z89hl6mu61cRE/ArMohJvxdjPQbNB6U43f3f1u9p7OyBuYmwSoLG0Wlz2AKPsWWuSIKKGnIoR9LJ7eE/W2VELzKeuR7lcDp6ZkQDRHd9A=
+	t=1761924030; cv=none; b=oaxMhsXHFKLj+8rJ6J8fMzV2CDK2YLyiF2qF+vyAw0+GGdWU5IZ41YPZuxRfW4VOjsb3bLBX9bUbHeqAE+25P5D21ChHagtbz/0O3XElM8gtoe6r8JwZXhALGv3W2Kd6tY709lUDu0z7HxYj4OVEJjmzTXvyejzzspGqUVM3GQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761922658; c=relaxed/simple;
-	bh=IbWqcGEnm66/Hy3orOmHGjsHyPEiZdxQ7B4LhQ7y5Qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YtEKh0zRMxaBc1DyCQwROM9n3VuJMz0vjUPfnyqP/A0vfl2eAtO+XMEpU+MfKnWPgcPD8kuGd8L/htLp/9H+B+G8VRa8JiBQ1hqMu5g/av0+VqhSdeOPlNv73jkgjhwGmF4iupPNRSYb8A2W1Rb3mkGCiw76iBvPAgIq2tyUdQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBhF6cHi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761924030; c=relaxed/simple;
+	bh=y3b+wUCsWckPBCTPgAZadRRNBEdlpxrfsSHKNnGesNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IIaBcq2DZFuFNWCJ69Rp0+KvIfpGueRbZrey+b0r4YUEldPX23/cFLYyPXuR7y7OVFEDeUfC36Mk+wy6edhs8knsppObLPKWJzX7olzwvTmKIcm7U2PRpgMev9arNBx8aTv5dw3R4a0H4WpDPy2dAuPOut7Zp8NffcGGgLtXzO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZXX1Bma9; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBhF6cHi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA53C4CEFB;
-	Fri, 31 Oct 2025 14:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761922657;
-	bh=IbWqcGEnm66/Hy3orOmHGjsHyPEiZdxQ7B4LhQ7y5Qw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UBhF6cHi7nTnJRm4SGKdwymCOoyZ4yRZSlb8lp+PNfE3oZk7lkFED38EyqZcCqi57
-	 iU4FGEQbLPRQx3tFWfC1wFlhP+aGBvXKjx4D+GJr9kXWqNajf5qX5DNW3R+7aJ7e3t
-	 Sibc+LZU9uLHA8w+q0K7/pXXMeLxnHEqevkinA6+heQCdGD1GNDmaMuRTEeZZ3qHV3
-	 xr5BRuXHnJTd7LW8GAiRN0MY+9SnjE5McsQ+2o5I2QhZ8I/r0zrqCb4Rq4mr3zCOqn
-	 xRPTRUWaq5oDxKIG3vfVceetHlCLSmSmEn5qN3tfORgMlsxkAs11RcDH/dKnVnBfdQ
-	 nYIwFZOX1eq/w==
-Date: Fri, 31 Oct 2025 14:57:32 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: joakim.zhang@cixtech.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH V1 1/3] dt-bindings: sound: add binding for CIX IPBLOQ
- HDA controller
-Message-ID: <20251031-grouped-retold-9714ab609675@spud>
-References: <20251030110928.1572703-1-joakim.zhang@cixtech.com>
- <20251030110928.1572703-2-joakim.zhang@cixtech.com>
- <20251031-pearl-pheasant-from-atlantis-bf4e7a@kuoka>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZXX1Bma9"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BCFA01A17A0;
+	Fri, 31 Oct 2025 15:20:25 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8C26D60704;
+	Fri, 31 Oct 2025 15:20:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 067DE11818041;
+	Fri, 31 Oct 2025 16:20:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761924023; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=goHQM/1NASiwEpJFuU+gt1w80LtYcWXr5Gc0K9tmMcc=;
+	b=ZXX1Bma9X3KMNXlEJ6m3KmzgeWaoHvqKZUDGbtyXcyczSWNcqa1WxZl7PaaP3QnmzL9gq4
+	h0YuPlq7t/ag22Qc0RV6DUkEOizZ8aU4YvVAi5tQ0oCrNCN9uTlgnrGvmTf6uzjWAFrc/P
+	iOZon5nGEinDurKqvP8UIygDFPUWAiUqm59zHUbmHyOs3e60XOGs63ifmZhf114mLUKRqK
+	bIKj+JoZJxnMO/w5PK2AbEIM7ADXeVegLKetdhc6qx0E6UYxyvcnSln30z+BZXKje9+TfM
+	AmSNEEcgTn5HJwFcJWmSNYyzhr1jXdHX0RhRB0lSnwspgtNFDoD+bFqnfo/hgQ==
+Date: Fri, 31 Oct 2025 16:20:04 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
+ Shyti <andi.shyti@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
+ Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
+ Helgaas <bhelgaas@google.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
+ Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
+Message-ID: <20251031162004.180d5e3f@bootlin.com>
+In-Reply-To: <20251030141448.GA3853761-robh@kernel.org>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	<20251015071420.1173068-6-herve.codina@bootlin.com>
+	<20251030141448.GA3853761-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hhOgIqtXpsewuC8e"
-Content-Disposition: inline
-In-Reply-To: <20251031-pearl-pheasant-from-atlantis-bf4e7a@kuoka>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi Rob,
 
---hhOgIqtXpsewuC8e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 30 Oct 2025 09:14:48 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-On Fri, Oct 31, 2025 at 09:58:48AM +0100, Krzysztof Kozlowski wrote:
-> On Thu, Oct 30, 2025 at 07:09:26PM +0800, joakim.zhang@cixtech.com wrote:
->=20
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 2
->=20
-> You should list the items instead with description.
->=20
-> > +
-> > +  clock-names:
-> > +    maxItems: 2
->=20
-> No, you need to list the items. There is no syntax like that.
->=20
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  reset-names:
-> > +    maxItems: 1
->=20
-> No, you need to list the items.
+> On Wed, Oct 15, 2025 at 09:13:52AM +0200, Herve Codina wrote:
+> > A Simple Platform Bus is a transparent bus that doesn't need a specific
+> > driver to perform operations at bus level.
+> > 
+> > Similar to simple-bus, a Simple Platform Bus allows to automatically
+> > instantiate devices connected to this bus.
+> > 
+> > Those devices are instantiated only by the Simple Platform Bus probe
+> > function itself.  
+> 
+> Don't let Greg see this... :)
+> 
+> I can't say I'm a fan either. "Platform bus" is a kernel thing, and the 
+> distinction here between the 2 compatibles is certainly a kernel thing.
+> 
+> I think this needs to be solved within the kernel.
 
-Since it wasn't mentioned why the items need to be listed, if you don't
-list the items for a -names property, then they can be anything and you
-cannot actually use them in drivers.
+I fully agree with that.
 
---hhOgIqtXpsewuC8e
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> What I previously said is define a list of compatibles to not 
+> instantiate the child devices. This would essentially be any case having 
+> a specific compatible and having its own driver. So if someone has 
+> 'compatible = "vendor,not-so-simple-bus", "simple-bus"', when and if 
+> they add a driver for "vendor,not-so-simple-bus", then they have to add 
+> the compatible to the list in the simple-pm-bus driver. I wouldn't 
+> expect this to be a large list. There's only a handful of cases where 
+> "simple-bus" has a more specific compatible. And only a few of those 
+> have a driver. A more general and complicated solution would be making 
+> linux handle 2 (or more) drivers matching a node and picking the driver 
+> with most specific match. That gets complicated with built-in vs. 
+> modules. I'm not sure we really need to solve that problem.
 
------BEGIN PGP SIGNATURE-----
+Right. Let discard the "more general and complicated solution" and focus
+on the list of compatible to avoid child devices instantiation.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQTOXAAKCRB4tDGHoIJi
-0vNHAP0ePHZpBi0G+mmqVIui0v/+JrhkPBQG4fnkuKmIqLP5mAEA38tbJx7mVHGA
-bgeElma2gxsgLpaBV41/fE2xaI58Eww=
-=PWs9
------END PGP SIGNATURE-----
+Do you mean that, for "simple-bus" compatible we should:
+ - Remove the recursive device instantiation from of_platform_populate().
+ - In simple-bus probe(), check the device we probe against the
+   'no_instantiate_children' list
+      - If it matches, do not instantiate chidren
+      - If it doesn't match instantiate children
 
---hhOgIqtXpsewuC8e--
+Is that correct?
+
+Best regards,
+Hervé
