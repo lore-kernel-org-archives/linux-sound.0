@@ -1,157 +1,170 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7926234BA5C;
-	Fri, 31 Oct 2025 14:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315872F617A
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 14:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761920997; cv=none; b=n14dpXEq2e/hECGKfujc9AB0EbuOgQHfWcXnP/NJqZKGDnapYfPWuVOCx1N381TUxSNkiB4QlCpJ59KMypefT1fJDU0IoDFFuec2r95YV3zZ6KG1c7WJvNaa9vp+2ExKlqmKfQW6fTXQQjRkKPnmbifeoV9+AmnO1ghFwgfswOM=
+	t=1761922004; cv=none; b=hYk13fj0+tW5I+GOHssgRK8LDZaljQmf59pVyhf3D5S3Cc7M9bFpZehYNrTswGRc9++xoj2BmSY3dVNcPm7qHu8cIx/GcR391DT8i0pIlvJJVtSLnu+hIEGDFG7joZ+d57WMVbQfGQO5fqZwYxlsZQxIN8RNkpiEY9iCR8XcvYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761920997; c=relaxed/simple;
-	bh=DpRmmnQNFBCQ/QafgwFnqLT9Yw/H1JWWO9tLoLVtAy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LRiJNLWcnqkDFoYr5w1+yKPbVMU8T/15UZKg7VB9CPNoid0taKLhOew+ODO8O+T7+EqbXU7eNz8kY/rL+iBw/WOi8fgz5FbtncGBZtKnRRozKBHcVRcidP6SJnTLQnW0MvI9esOamXnUbuX8wR2UkPasvHHP/u/iFENq04OZRd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m/llmHWP; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1761922004; c=relaxed/simple;
+	bh=jzMI372OwDFBH5n8TtNj5NR2LY0KRBtXcDe0DjYy8tU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pa68t+LwDW65QeYmukGR1BuUzXsjyOeIxjHfHpHVv4ho/U/6fP/xOz7qY0v0rEEaMv/7SHxKeWMynHc9TD3uObDbKvCtVEYNzTkkOPegi66whWLKy2N1Lxn0uGFwfPFL+Qkl4IydJdH4bENTF4/W21ckgNW1IiMlmUM7i44TIBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ANprUrJZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ejvEsMQv; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m/llmHWP"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id EF21C1A17AF;
-	Fri, 31 Oct 2025 14:29:51 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BF96E60710;
-	Fri, 31 Oct 2025 14:29:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C4B4A11818003;
-	Fri, 31 Oct 2025 15:29:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761920989; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=H1xEmCgdr5BM399Kc4ZsWwaTbhEQ52MJYYiQpqbSK6Q=;
-	b=m/llmHWPK2GTOxgP86qebD1Z2Edet7KZozbxg7xHP71zP8WGHqlNCsjTjzbgRJW6AoYEg9
-	PGGuEBK7TNuc+3zADlLbC1jrjiYc/TXhPfAwEtjv3025kcM3TvB0cUwMNtHDn+fuYXbapk
-	18lKsj6lpv1/ObuOPQiBVRZx/Tm+zaLVFOXH7eT76X6+OiJSchpc3v+iGXicmC9AbAQ7Fi
-	n3R42rQTkma0JCEYRFgzMb9znRzRns4yCbMUv4DSU7pRjgiVIxLEd6NnupsCZT4TGW2iAp
-	n6HmKRiLt0yJEP375+9QgT+CNjKgF6b7Kiq48SW1im8mtyVm7PYpr3cu982RMw==
-Date: Fri, 31 Oct 2025 15:29:30 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Brown <broonie@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
- Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
-Message-ID: <20251031152930.3c51a313@bootlin.com>
-In-Reply-To: <CAMuHMdVnsWMB24BTFKwggEXKOtqJ96GWZh2Xz+ogocQHM+=+6Q@mail.gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<20251015071420.1173068-6-herve.codina@bootlin.com>
-	<CAMuHMdVnsWMB24BTFKwggEXKOtqJ96GWZh2Xz+ogocQHM+=+6Q@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ANprUrJZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ejvEsMQv"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59VEVb9u3115480
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 14:46:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=UdX0k9Bu7csqPDyXGQIuEEoR
+	5weAkUXnaL92NORs7r8=; b=ANprUrJZ8c+P74dfVD0Eocp3aWx8/3R/Mx7s/MT3
+	18KdjD1DeCR5eITTnIzLd333qhJQhcQ+nOCOucQYDbTRjuzgDhaRs0RFKqc6YXHb
+	V41x4xkE2mrMeQxGrCShyQf6lufLM9ae4dOiU6FcjbAuloW4Z0gz+npQ2xycjNY0
+	lVkN9oUa3b4yoBOJMU2dJ3CQ2pK3UvT85Oo29qA4hffvH6pd8n9Bn92/YfMKQhl2
+	nVZ+DekGNFEZ/VRzd6RT1Y+GraUwxiHVqO1fXGFvnXxvPRFmd73fQvZihW41Xi8Q
+	nyOWkDSEJRIyOWJ5+Gr9pVqaXzDZcnN6vobaOtP/jiJBOw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a45b44ga6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 14:46:40 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ecf4540bb6so60146861cf.3
+        for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 07:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1761921999; x=1762526799; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UdX0k9Bu7csqPDyXGQIuEEoR5weAkUXnaL92NORs7r8=;
+        b=ejvEsMQvgCcXBenwAfw/fzaZoGcbVjWLPMyvzV1+rQj9c7SrP8XlHTGHPozxl9cvdp
+         8t/5o77vmrslNrRKOTsYQ/C0zzh1V1C0E1zEZKEPCmZ+i2Vi+mWksMyOayA7XP+Yowv4
+         2Ccp7FUEWjBKN4zMXJQDP2+j/GOpf+Qy8r1db37AknFMTkEFb/coVQR3mIEaoAnGb2AS
+         aTR4EWbCm+p96i22zRuc0uLVTe5i7ecF10OWfYRsm1bLLRjN4swDLDgSAjcQ6NYRtkn4
+         sMQv3lX4CZWuu67KQmkjYGNJ6GVq/nxg0uA3utuz1fHG3GTGNjp9YxpoLuJ5oevgodxm
+         llyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761921999; x=1762526799;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UdX0k9Bu7csqPDyXGQIuEEoR5weAkUXnaL92NORs7r8=;
+        b=fzKwY7ONG1pKTpUFJoQkCOkQgpxSgLaKsgdUgHYgXI6zIjvr2EsEuAovtes1xp6sG1
+         z5G6yLgHUI143yqfJgZytj8E8ukdDGLAjx/yHrE9QQW0hYKGB6PXUmqOjXzGzS4hCwr0
+         mhYzWnfH7IOWwD24Ae/hlW0KO6OHrzEa8/tipeEz9B7akbgCUkGFEy9JvtQGl9nN6KZf
+         hWp7Y6dwMeqmUciXp+hAUnCtQY/snlMaroNgQBU6CFGt8wvCoLlVhjpni82RGKCFf2r1
+         XXDlNiWii1AVcBBD6QeKmQVvabmmq8m0rnEtGJB30ZdXE+YygOAWTFpSIzT1mzkOa3iJ
+         /sng==
+X-Forwarded-Encrypted: i=1; AJvYcCVuzaz1JaW2Z54qLHTWkjOkErbA3G33/NXHbhpCWsRKeOjM8a3VVp98+f/HNPkKswqoPhUvbdFxhiOxsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/8ek7YfuBRQTBPvRovxx4OMmZxKCcQbTzgBKgJbjSWnjEQ0wa
+	6qhVY/5qFdjYq8sZ4Yd+Fbi9nZLjemjDI/r0IP7WoZ5cnDQaO0OXYuPwhkzxZ9XnVLdlBPhmOop
+	B/V2V4u9ga3Bu08c8w0hzYWEZY+w1aomSE/ElD7WTEdtlQ8JZtmZh1Z72fX8QT7VN20MD2CcvCQ
+	==
+X-Gm-Gg: ASbGnctx1tDAkXHFbYlIn6MQJq04+7MMRULafVWKw4C2nBKV9tIG9JgeurMNR5fY1k8
+	IbBzv+89l8ocHRWr2JCD3eXFm/M1eyxnCC6ixEExHtSKWZA/+y9A54X224sJtVX8J4+JOYNIok8
+	6aBLgVNtK2J5eHyQ4hJRttZLrxWjrGdDhudUyyiVCUjWeFMQwiljLy3v/zcgMUo5m6BvTPISyFP
+	twyoHe9btHV1mK9mSFmh3YGhVuy1Rq8WPBxwjq8Y/0f/EczJl1EW/D1/rQAzoIerVlSFCm+2aSD
+	2K/9K88kNqOcFscEfg+t6YZlcVfsqfYPGyYZ73g9tokK3YVcaXban5AXBri+qTHs8NkBRw0KuHy
+	mJbx94PMZ1fvI7NM0BiQkSrMfBm/F/oAuyBFXjnN4sRcXz7EWBTI4DoddysW4Tqu/yZfeZGMMO9
+	GCKCsgWB9yejCV
+X-Received: by 2002:ac8:5990:0:b0:4ed:142:ed5d with SMTP id d75a77b69052e-4ed310a7801mr43843001cf.50.1761921998671;
+        Fri, 31 Oct 2025 07:46:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGi6GBRFMR5w7J7UxJRxg2+honWi0anDWZEWvntIfeGPZkEcmVDVsf45tO5pji3r2PVZfKHqA==
+X-Received: by 2002:a05:622a:a6c5:b0:4ed:32d8:30d7 with SMTP id d75a77b69052e-4ed32d831cemr37045831cf.81.1761921987203;
+        Fri, 31 Oct 2025 07:46:27 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37a1bfb45ddsm4029761fa.15.2025.10.31.07.46.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 07:46:26 -0700 (PDT)
+Date: Fri, 31 Oct 2025 16:46:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, broonie@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, devicetree@vger.kernel.org, perex@perex.cz,
+        tiwai@suse.com, srini@kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        alexey.klimov@linaro.org, konradybcio@kernel.org
+Subject: Re: [PATCH v3 0/6] ASoC: codecs: lpass-macro: complete sm6115 support
+Message-ID: <dsgivtqhje3wnx2iuma3ngnq5kanmt6eautay57raf23vcxi2i@y5b3sg3mn5mh>
+References: <20251031120703.590201-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251031120703.590201-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDEzMyBTYWx0ZWRfXy3DK+AqpGsc2
+ yW4dpcsZ9sYQCMCgBfO6iJgeqQdxVJkOAck2CwSr2PAJhOiic8BYFk6ZpZRH7o0hjzX45MX1vC9
+ 6lOlXW2KPXC+5VcxWYUafcMaCmmPrYShCpYfvFIwHw7eWHObvTLuFzC0DKQmZckjjL2uNIYaqq2
+ Qah4ForWQxgsDM9ouUMtCCyGM7sKjK3nyWVy6vcF60be5yAtjRb3VglJsvEFZGKpoLYQipsf206
+ of8Wn0mQBHITcXWBUzYw80oiEHaJEd0+cl555Y2YDMkitXnxRRv7/7bVC/LaqsJfT2aFYO2lLq/
+ f2iu34gsCJoFfjOGtS5m9nY06SZMkKCbZdC6GNPLv0vE7WCU+S/O4at8Km0YMWj/yUDnYF/bIYy
+ Kh80SvDt9zYUpXaqoo1we2osBB5jaA==
+X-Authority-Analysis: v=2.4 cv=KePfcAYD c=1 sm=1 tr=0 ts=6904cbd1 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=zc_iMHaRStx1I2ifTa0A:9 a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: kUYaRB0YOtkW-QElqJiI28DgGPEMMlcF
+X-Proofpoint-GUID: kUYaRB0YOtkW-QElqJiI28DgGPEMMlcF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-31_04,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310133
 
-On Fri, 31 Oct 2025 09:52:16 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Oct 31, 2025 at 12:06:57PM +0000, Srinivas Kandagatla wrote:
+> This patch series fixes SM6115 lpass codec macro support and adding
 
-> Hi Hervé,
+Nit: adds
+
+> missing dt-bindings to complete support for SM6115.
 > 
-> On Wed, 15 Oct 2025 at 09:17, Herve Codina <herve.codina@bootlin.com> wrote:
-> > A Simple Platform Bus is a transparent bus that doesn't need a specific
-> > driver to perform operations at bus level.
-> >
-> > Similar to simple-bus, a Simple Platform Bus allows to automatically
-> > instantiate devices connected to this bus.
-> >
-> > Those devices are instantiated only by the Simple Platform Bus probe
-> > function itself.
-> >
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
-> 
-> Thanks for your patch!
-> 
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/bus/simple-platform-bus.yaml
-> > @@ -0,0 +1,50 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/bus/simple-platform-bus.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Simple Platform Bus
-> > +
-> > +maintainers:
-> > +  - Herve Codina <herve.codina@bootlin.com>
-> > +
-> > +description: |
-> > +  A Simple Platform Bus is a transparent bus that doesn't need a specific
-> > +  driver to perform operations at bus level.
-> > +
-> > +  Similar to simple-bus, a Simple Platform Bus allows to automatically
-> > +  instantiate devices connected to this bus. Those devices are instantiated
-> > +  only by the Simple Platform Bus probe function itself.  
-> 
-> So what are the differences with simple-bus? That its children are
-> instantiated "only by the Simple Platform Bus probe function itself"?
-> If that is the case, in which other places are simple-bus children
-> instantiated?
+> SM6115 lpass codec macro support is added partially and broken to some
+> extent, Fix this broken support and add complete lpass macro support for
+> this SoC.
 
-In of_platform_populate(). It call of_platform_bus_create() which is
-recursive:
-  https://elixir.bootlin.com/linux/v6.14/source/drivers/of/platform.c#L374
-
-So children are instantiated out of the bus probe().
-
+What exactly is broken?
 
 > 
-> Do we need properties related to power-management (clocks, power-domains),
-> or will we need a "simple-pm-platform-bus" later? ;-)
 > 
-> FTR, I still think we wouldn't have needed the distinction between
-> "simple-bus" and "simple-pm-bus"...
+> Changes since v2:
+> 	- fixed a wrong patch that was sent in v1.
+> 
+> Changes since v1:
+> 	- cleaned up va-macro bindings for clock-names.
+> 	- cleaned up va-macro codec driver to include soundwire reset
+> 	  for sm6115
+> 	- updated tx and rx codec driver and bindings to have a dedicated 
+> 	compatible due to changes in number of clocks.
+> 
+> Srinivas Kandagatla (6):
+>   ASoC: codecs: lpass-tx-macro: fix SM6115 support
+>   ASoC: dt-bindings: qcom,lpass-rx-macro: Add sm6115 LPASS RX
+>   ASoC: dt-bindings: qcom,lpass-va-macro: re-arrange clock-names
+>   ASoC: dt-bindings: qcom,lpass-va-macro: Add sm6115 LPASS VA
+>   ASoC: codecs: lpass-va-macro: add SM6115 compatible
+>   ASoC: codecs: lpass-rx-macro: add SM6115 compatible
+> 
+>  .../bindings/sound/qcom,lpass-rx-macro.yaml   | 18 +++++++
+>  .../bindings/sound/qcom,lpass-va-macro.yaml   | 49 +++++++++++++------
+>  sound/soc/codecs/lpass-rx-macro.c             |  3 ++
+>  sound/soc/codecs/lpass-tx-macro.c             |  3 +-
+>  sound/soc/codecs/lpass-va-macro.c             |  1 +
+>  5 files changed, 59 insertions(+), 15 deletions(-)
+> 
+> -- 
+> 2.51.0
+> 
 
-I would like that. Using simple-pm-bus solves my issue but I don't have any
-clocks or power-domains to set. The simple-pm-bus bus requires at least
-one of them. Even if the driver itself solved my issue, I cannot be
-compliant with its binding.
-
-Best regards,
-Hervé
+-- 
+With best wishes
+Dmitry
