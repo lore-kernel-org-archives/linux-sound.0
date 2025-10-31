@@ -1,169 +1,157 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44501DE8A4
-	for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 14:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7926234BA5C;
+	Fri, 31 Oct 2025 14:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761920120; cv=none; b=dCBvPGGPzzn7rTJCRODLV9eKf+4pMEPIA6HVLrULhc8TEqO92JRygeRfw3XZr/QOgWj3btWr4n9vU4dNeV6NE7zHeiiIcJOkCfWArbbg1kVOjNJdplvlLATWL+4tx3485dgHPvon3kbiT+C6VY93YXaqAlbkFAjBH6/yImxcPg0=
+	t=1761920997; cv=none; b=n14dpXEq2e/hECGKfujc9AB0EbuOgQHfWcXnP/NJqZKGDnapYfPWuVOCx1N381TUxSNkiB4QlCpJ59KMypefT1fJDU0IoDFFuec2r95YV3zZ6KG1c7WJvNaa9vp+2ExKlqmKfQW6fTXQQjRkKPnmbifeoV9+AmnO1ghFwgfswOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761920120; c=relaxed/simple;
-	bh=RfbSfjINgNk+KIwhm8ycWoAdKTiJ0fFRB2w72BkSG9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iSFilGUmZwaHgd7pdw6XJ8GkVA4nsjCzQLB+2y2zZPzltqvHFnTGxliWnttKSi5sIgwsvP/XGq+sDIthcaU9VjWI/rvg5yW2Anne7se2ucRSf62aA9/fO57/sMEZYgmOcrILCmG67t8Eh1RFyKzpsqS/KYIByalokIYuerPoTIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXIrCE/2; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761920997; c=relaxed/simple;
+	bh=DpRmmnQNFBCQ/QafgwFnqLT9Yw/H1JWWO9tLoLVtAy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LRiJNLWcnqkDFoYr5w1+yKPbVMU8T/15UZKg7VB9CPNoid0taKLhOew+ODO8O+T7+EqbXU7eNz8kY/rL+iBw/WOi8fgz5FbtncGBZtKnRRozKBHcVRcidP6SJnTLQnW0MvI9esOamXnUbuX8wR2UkPasvHHP/u/iFENq04OZRd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m/llmHWP; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXIrCE/2"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-63c2d72582cso3847915a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 31 Oct 2025 07:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761920117; x=1762524917; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OYsX3dXvtTLPwG3M/sH5RR0fEhEx/a2A0niUgfDtB7c=;
-        b=aXIrCE/2jm8S4JGyTj245k+VqvoKp7lF4GCKd/oX85kgPoFb3Ku/LcARWm5vo/iLp+
-         mZxv6n7K+k0/rDNyND+nD3+QmLh9hAgfL38TTedz1ddtdew2JToO134yVShlKCZk6sLB
-         SZjrTaE9gOA3ZW7LVzHKJMm0H5GHNXnkadwaZ3Bi2js3THwrMwvJ6dDz/UquXCSehYCs
-         0I4sjSzsf6a4Nh09SwMkw42g1TZF/Y5e18NkgHAlwPPz67J+/KpqnZqI+zYrFL6Ks0f2
-         ETkkzrJe+hvAHgksSFGd//NEgsdUR6PPHfcNkZOBX6D40sU4Qf0H0oIlh+ynrDmA1mXu
-         A6Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761920117; x=1762524917;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OYsX3dXvtTLPwG3M/sH5RR0fEhEx/a2A0niUgfDtB7c=;
-        b=fSWcE5CSfZytfiI7+6KymLYNeSA7kmC9pwIl29oCvk6xU0vF0g4HJV6T9PdLuLEkMS
-         XiQBqeXWjtTFufw3J1QTdBTxvrr272NzHJtb/Me6IBRvjm1xXHa0u9LuKMFe6L3lATja
-         5bLBurSeeMRGlek/TlQ24KjeSWLpRx87f5CNBz6WPrsJiSuCYnvIMlswR3hzgA3TRdwe
-         aKk0+VBO//Hju8t+Zq0suduSiRzf+ww3voei6VVZNPlWep3H5Q8JrjhDZNUFcwOKcDge
-         D8jqR2Yn6uRZ1ilWawhq7hYShRYm7qNwKl4wkBwClW+iMep0A/ozTCwo6M4fPTP9PHId
-         hbew==
-X-Forwarded-Encrypted: i=1; AJvYcCVVhVfJ49VoQeO8LM2l2HbCCsa9fUovpytO6A36qAl8VpwLhAfn6rxMWgKyLucYYflvsEfQfrNj6Z7b7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzED4DjCbzo+UO6XyZ7p6Sod7uiRFq6eG8pLMFLjPyYUUDWK+Gz
-	JFjA38jOnSU45rcTgDo8P/2XzF6AuOq5Rbc/o3Lxr+LcONvLoNQObd1m9tjw4janCUpOXjJU1YR
-	+tPSdUaAZ60K/E/QHt2x0fQPze8cfWF4=
-X-Gm-Gg: ASbGncvNhUg6cqqeig/L3gBaiNSo8plLFenM7n1g+VAfIB6k0VAgDbu7RbFVcCRRmZ/
-	WYRQ6pVAWa0MmTHQWx0aebw7tkDJ2wz6JnaWXOsiqM5tMIgFnxISLTRG5b1PCFlU0ftOCvHnwH+
-	x11Ert9PpTC/b10jEG4Be9zGA+pc5nmsIEERwEnG+yxNdCz1hzDO/697WfIdWdoLswDqJS1TePY
-	nwYrA5ctIc8qI9z+oIEVHda2nPAC+dA36iKR9Sb8Bts2tVdFs+w4KxMoO4D
-X-Google-Smtp-Source: AGHT+IHCoMYa3G6T0j0Lwg3aXNYQKN1oVik+PtSFNAWANM/X1vB53TmrMd1fdfWNGyBVzHkp5GN4Wj+zYmrBBjKjOxY=
-X-Received: by 2002:a05:6402:4314:b0:63b:dc7d:7308 with SMTP id
- 4fb4d7f45d1cf-64076f66b7emr3214619a12.5.1761920116612; Fri, 31 Oct 2025
- 07:15:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m/llmHWP"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EF21C1A17AF;
+	Fri, 31 Oct 2025 14:29:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BF96E60710;
+	Fri, 31 Oct 2025 14:29:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C4B4A11818003;
+	Fri, 31 Oct 2025 15:29:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761920989; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=H1xEmCgdr5BM399Kc4ZsWwaTbhEQ52MJYYiQpqbSK6Q=;
+	b=m/llmHWPK2GTOxgP86qebD1Z2Edet7KZozbxg7xHP71zP8WGHqlNCsjTjzbgRJW6AoYEg9
+	PGGuEBK7TNuc+3zADlLbC1jrjiYc/TXhPfAwEtjv3025kcM3TvB0cUwMNtHDn+fuYXbapk
+	18lKsj6lpv1/ObuOPQiBVRZx/Tm+zaLVFOXH7eT76X6+OiJSchpc3v+iGXicmC9AbAQ7Fi
+	n3R42rQTkma0JCEYRFgzMb9znRzRns4yCbMUv4DSU7pRjgiVIxLEd6NnupsCZT4TGW2iAp
+	n6HmKRiLt0yJEP375+9QgT+CNjKgF6b7Kiq48SW1im8mtyVm7PYpr3cu982RMw==
+Date: Fri, 31 Oct 2025 15:29:30 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
+ Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
+ Helgaas <bhelgaas@google.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
+ Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
+Message-ID: <20251031152930.3c51a313@bootlin.com>
+In-Reply-To: <CAMuHMdVnsWMB24BTFKwggEXKOtqJ96GWZh2Xz+ogocQHM+=+6Q@mail.gmail.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	<20251015071420.1173068-6-herve.codina@bootlin.com>
+	<CAMuHMdVnsWMB24BTFKwggEXKOtqJ96GWZh2Xz+ogocQHM+=+6Q@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2daa603f-13fe-c803-17fc-4fdd8e5723ba@gmail.com> <87ldkr36cv.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ldkr36cv.wl-kuninori.morimoto.gx@renesas.com>
-From: harikrishna <hariconscious@gmail.com>
-Date: Fri, 31 Oct 2025 19:45:04 +0530
-X-Gm-Features: AWmQ_bnT3bfpqUrnEdxX-SgDqm70z_JJkkRze91XfXQ4PqGozK-YlIywu8eTu9I
-Message-ID: <CABBwEEh7gjMPi8dybAcd_4rTT0ZJU=zi99ahSgdzCAjMtL6zdg@mail.gmail.com>
-Subject: Re: [RFC] ASoC: soc-core: proposal to remove num_auto_selectable_formats
- from snd_soc_dai_ops
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	shuah@kernel.org, david.hunter.linux@gmail.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Oct 31, 2025 at 12:28=E2=80=AFPM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
->
-> Hi HariKrishna
->
-> Thank you for suggestion
->
-> > I=CA=BCd like to propose a small cleanup and simplification in the
-> > snd_soc_dai_ops structure by removing the
-> > "num_auto_selectable_formats" parameter.
->
-> Do you mean like this ?
->
->         struct snd_soc_dai_ops {
->                 ...
->                 const u64 *auto_selectable_formats;
->         -       int num_auto_selectable_formats;
->                 ...
->         };
->
-> > Currently,snd_soc_dai_ops includes the "num_auto_selectable_formats"
-> > field to indicate the number of entries in the "auto_selectable_formats=
-"
-> > array.However, this count can be derived programmatically using the
-> > ARRAY_SIZE() macro wherever needed.
->
-> If my understanding was correct, unfortunately we can't do it.
->
-> We can use ARRAY_SIZE() in each driver, because we can access to raw arra=
-y.
-> But can't use it on ASoC framework, becase auto_selectable_formats is jus=
-t
-> a pointer. see how ARRAY_SIZE() is defined.
->
->         --- driver ---
->         my_formats[] =3D {
->                 [0] =3D SND_SOC_POSSIBLE_DAIFMT_xxx | SND_SOC_POSSIBLE_DA=
-IFMT_xxx ...,
->                 [1] =3D SND_SOC_POSSIBLE_DAIFMT_xxx | SND_SOC_POSSIBLE_DA=
-IFMT_xxx ...,
->         };
->
->         // We can use ARRAY_SIZE() in driver, because we know raw array.
->         my_dai_ops =3D {
->                 ...
->                 .auto_selectable_formats        =3D my_formats,
-> =3D>              .num_auto_selectable_formats    =3D ARRAY_SIZE(my_forma=
-ts),
->         };
->
->         --- soc-xxx.c ---
->         // it will be error, because we don't know its size
-> =3D>      int num =3D ARRAY_SIZE(ops->auto_selectable_formats);
->
-> Or do you mean create new macro, like this ?
->
->         #define ASOC_SELECT_FORMATS(array)\
->                 .auto_selectable_formats        =3D array,
->                 .num_auto_selectable_formats    =3D ARRAY_SIZE(array)
->
->         my_ops =3D {
->                 ...
->         -       .auto_selectable_formats        =3D my_formats,
->         -       .num_auto_selectable_formats    =3D ARRAY_SIZE(my_formats=
-),
->         +       ASOC_SELECT_FORMATS(my_formats),
->         };
->
-> Or am I misunderstanding your suggestion ?
->
->
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Kuninori Morimoto
+On Fri, 31 Oct 2025 09:52:16 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Hi Kuninori Morimoto,
+> Hi Hervé,
+> 
+> On Wed, 15 Oct 2025 at 09:17, Herve Codina <herve.codina@bootlin.com> wrote:
+> > A Simple Platform Bus is a transparent bus that doesn't need a specific
+> > driver to perform operations at bus level.
+> >
+> > Similar to simple-bus, a Simple Platform Bus allows to automatically
+> > instantiate devices connected to this bus.
+> >
+> > Those devices are instantiated only by the Simple Platform Bus probe
+> > function itself.
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
+> 
+> Thanks for your patch!
+> 
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/bus/simple-platform-bus.yaml
+> > @@ -0,0 +1,50 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/bus/simple-platform-bus.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Simple Platform Bus
+> > +
+> > +maintainers:
+> > +  - Herve Codina <herve.codina@bootlin.com>
+> > +
+> > +description: |
+> > +  A Simple Platform Bus is a transparent bus that doesn't need a specific
+> > +  driver to perform operations at bus level.
+> > +
+> > +  Similar to simple-bus, a Simple Platform Bus allows to automatically
+> > +  instantiate devices connected to this bus. Those devices are instantiated
+> > +  only by the Simple Platform Bus probe function itself.  
+> 
+> So what are the differences with simple-bus? That its children are
+> instantiated "only by the Simple Platform Bus probe function itself"?
+> If that is the case, in which other places are simple-bus children
+> instantiated?
 
-Yes, you are right.
-I have got it now.
-We can use it in codec driver not in framework.
-Thought of changing the type of "U64 *auto_selectable_formats" to
-"U64 (*auto_selectable_formats)[]" and removing the
-"num_auto_selectable_formats".
-But cannot be used to get count. Apologies for this.
+In of_platform_populate(). It call of_platform_bus_create() which is
+recursive:
+  https://elixir.bootlin.com/linux/v6.14/source/drivers/of/platform.c#L374
 
-Thanks for the guidance.
+So children are instantiated out of the bus probe().
 
-Regards,
-HariKrishna.
+
+> 
+> Do we need properties related to power-management (clocks, power-domains),
+> or will we need a "simple-pm-platform-bus" later? ;-)
+> 
+> FTR, I still think we wouldn't have needed the distinction between
+> "simple-bus" and "simple-pm-bus"...
+
+I would like that. Using simple-pm-bus solves my issue but I don't have any
+clocks or power-domains to set. The simple-pm-bus bus requires at least
+one of them. Even if the driver itself solved my issue, I cannot be
+compliant with its binding.
+
+Best regards,
+Hervé
