@@ -1,93 +1,128 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B38D1E98E3;
-	Sun,  2 Nov 2025 19:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762110645; cv=pass; b=RaEgZbki8mar6uZtUa11DRciMrfyGq3dXdvCaA1ghEzXsnChpcxj3qtt4iiDAJpO8OLn4zpnku6XwkzavSu8un1OKE7529ZPiHIqCgGQDi2VDy22WelWcXlmUsfiLhHNqjCkw/G85LG1HpBRn4G8fTqKqCWwOkxjR6GUxq+qUYo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762110645; c=relaxed/simple;
-	bh=85YAsu0JXmPoJve1uWT8OdsdgthE9YF5aeTRmOu1n84=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hKw/Jk3GP81rWm1bJ1md59LNxxmm0OhVQaNKA0shWe+Isgx+C9MSNr46qi50t8S2xVosd01gOApQGVrU8p7nor3dfoxWEpFcJwIO3BaSePX3pGrq4q29KfWRFHRWpdLkYEKL8YM69hOjVXsf7hw/nX4CZEojhdWnCl/S2xKwEJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=GOJ4qg5B; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A2A2566D2
+	for <linux-sound@vger.kernel.org>; Sun,  2 Nov 2025 23:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762125307; cv=none; b=Is9FYE7D7zaQM7JbAY+w7mq9Dqy02jAMKSNZB8on4QkjUmE3uOoERN4xAaLtutkpKyKwNcsRtCT+NYzG5dK5r8yLZS2hyNm2uYREdg9fX4ZvdiGkbQRFCmg+9TVxo4aULBkBwNnWc940bhnSkUNyOJW2Ilo86dA/Rb+55oOvl7k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762125307; c=relaxed/simple;
+	bh=gJ+z+fSwzGRoLTASac48Xt/red+jojCgmvvYT9GdSRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AMJigBWv4oqASTfDDZKovm/N9vgVrR5j3m4+DpVHppiwfkazzK9wI8vR/E8aaeUvxk8U6eXiSmuVBAW3WtulWy02TZgM3QaLaO8rH+WDrRwFRcrknJ0iGpBS5GXQMHKPNK7xsDGDSVUhvWeX34bisFo8B2NzX1CZlfGMHdKpEEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=veGqDOkc; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="GOJ4qg5B"
-Received: from monolith.lan (unknown [IPv6:2a02:ed04:3581:1::d001])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pav)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4d04735mh8zyTf;
-	Sun,  2 Nov 2025 21:10:39 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1762110640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TyDz8UTU1XS+dg3StBHEDETctWzgVmHJp0QgzB1R4XU=;
-	b=GOJ4qg5BPXFl9NvfONQWRPdfYq9NPlVya0MXnyd60bqgLmzzm/WRS++9zp0onYtmdR7nXl
-	wkdHp3djBLysesrvof7NfOSW3rCn6rOUjIVWszfgFMReWxmL7+V+2z3G5LWyXAx0nRYbzg
-	V7mZ3kvlsjRPgI/FV/dzYpB9yEa3TpA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1762110640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TyDz8UTU1XS+dg3StBHEDETctWzgVmHJp0QgzB1R4XU=;
-	b=mfgsIAjb8Y713rwLtDERPSQG7MjSC5bSS6D/henf9LT2xvTrqSnJnToA0xoyMpLdavOUfC
-	f/xYNi2YlzCkRY4Zbuqyn2UEZbHYJSYiOWhTVs8ot+eFAe60USJMhfBfO988dFE0jH+lsb
-	TMwPiTXNqJRX/Nu7LPnHfphJdXBFrpc=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pav smtp.mailfrom=pav@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1762110640; a=rsa-sha256; cv=none;
-	b=U6PXPD9ly/NC3XaXhOxIr+BO5yQAKEJImjaKaQ+rEyvZ22s9nnbIdhJyK/DaqP8eTOKnt9
-	gHtcd1wsuPo88ff/K+sJt3eyf7YRExwMJk+oNnnO5Qd6cc8gH6acmVPO/78726b6xwXs+g
-	fnh8lFlBOs5yh78uXhZt4i4TSiMH1y0=
-From: Pauli Virtanen <pav@iki.fi>
-To: linux-bluetooth@vger.kernel.org
-Cc: Pauli Virtanen <pav@iki.fi>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: add min_mute quirk for SteelSeries Arctis
-Date: Sun,  2 Nov 2025 21:10:15 +0200
-Message-ID: <a83f2694b1f8c37e4667a3cf057ffdc408b0f70d.1762108507.git.pav@iki.fi>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="veGqDOkc"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59429fb8bf1so431341e87.0
+        for <linux-sound@vger.kernel.org>; Sun, 02 Nov 2025 15:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762125301; x=1762730101; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yhefXJf25nlZX433BsR2ypBCZ8ChrLrkfTMoigu+ucU=;
+        b=veGqDOkc2KbhhYjsZ6lnbXmmedGeZoZMglsu3m9z2Ag0Z0bdrOYId3GZuEWhYWx0wI
+         QEl0Q9LXRGXaHhR55y8x6ETnqRedFkOF1K1RR49+BaYHgSdEqcTfNCnEhQt7o6Je59Cf
+         KVvfDY/Kk/QDbmSmB9l2fTmu3WGrWtGh5AOzwj9esPRfhpfNIkiz3MlTjJg+M+N/ndpa
+         geV2axmVI2rxVLB6HmhRYF8WTJ7KIFl1p7BcApKDg8NPbtSvw53jfFdBap4gPtbQ0+Hb
+         QYdytI+Gj6ya4I1KUy/71GBHTtwcAGNq9roNc6o/vDW32qf0M8U5G9RKh2EfePP2Cxni
+         qfqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762125301; x=1762730101;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yhefXJf25nlZX433BsR2ypBCZ8ChrLrkfTMoigu+ucU=;
+        b=YyZSmX1Wa/ZqyOMldfg/0eSY0KbckyPT6WOuZVzVMTxdy1LnDafdjUAeFTIg5bquVm
+         ZhX+OWjWvPmAgcNmE3ilrHS2nfJplB/aeWcD034g7k/zPnTT06VnTSsqDNtefr770za6
+         ReQYC552lh2dBm3zmntyJFSr2HT4llo97uYv5CSPlaqXWhR+qcqZdHA2f2aOag5F8Mds
+         iinG1/wcX3A70bN8FubEOxZA+t2NqBKWidkuYX5zppbtn7LNCMSzb+nrHzqPDr132AGg
+         fcYtW2x5NsZHyZfarFvLqJXYIJrZFi8/0btJPeeF2nWjf2Sy0FOjHJ0HVMegdWCypMzr
+         4nWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWuhPk3yS9zDleRVmwWchNXqugbZ7E2wFQuU/nF8KF1VWJfUiru0E7r8heU9Kmn3gPD//Qw4LlrngLNgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn06p1JDoW5VWiTAKQg4y7caHi1LMtagRLPFBem8s3B3sUNyW9
+	yta6Xbbp7aKXNRk1EExci7XTONWXCdqmvyHshwd9n8daHOfOr0UxQSboUssJ7oWjyETPCeCoTZR
+	XMea/1fqMS05YVWLnRll+kF97nVg0VSuHT1Po6fzMJg==
+X-Gm-Gg: ASbGncsa5YjpLlQAVI6uPJY2/uXMMAp69xeCYvpIxujAua5D7/ua+2QQ0Z4ZpRp4IZd
+	bILkBK6MYujbThhrothuK6lJD9/02igXfRRA2zwl7+M6aCCf8sCHL9dxECcVJQtRJlnwoBRPcVU
+	YXeDfwa4v+ovmvXNeUkxSpzreMsjzD4xRh6y+md5woymi8iqnqGjMYKK8Pf/xlF7JhWe4ndN7MD
+	CcED1QbYjnskv7UAqbl6h7D8J4gOtcYc25VlGpyGFptsBRe6z2t0t5wCwFh28hTiUjCqLwuYJUs
+	P9ODPA==
+X-Google-Smtp-Source: AGHT+IHNOSftU4LA4kaZ2zit5fbsUjeer+Cqtnxd6HV9vMAwCSf0ZxvdazFj8kc8iFBA+Oyhy9hRt9pMH+krWfgjY8s=
+X-Received: by 2002:a05:6512:1453:20b0:594:2646:2350 with SMTP id
+ 2adb3069b0e04-594264628f8mr1107502e87.21.1762125301355; Sun, 02 Nov 2025
+ 15:15:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1761588465.git.geert+renesas@glider.be> <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+ <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com> <CAMuHMdWriu9eUHMSKcv7ojSqbquP3=z2oaquQZLx5nmN0EcGaA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWriu9eUHMSKcv7ojSqbquP3=z2oaquQZLx5nmN0EcGaA@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 3 Nov 2025 00:14:50 +0100
+X-Gm-Features: AWmQ_bkG07aYa3yfLgn8mo--U0KGtThYfcOHYFtKUjSupbZy0y5m0bQWTypUrbs
+Message-ID: <CACRpkdbR+5jh+OqYAU4vyUP-aQSjgMG3RRBkUTWnWz=VEy2Oew@mail.gmail.com>
+Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
+ local definition
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ID 1038:1294 SteelSeries ApS Arctis Pro Wireless
-is reported to have muted min playback volume. Apply quirk for that.
+On Wed, Oct 29, 2025 at 3:59=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Wed, 29 Oct 2025 at 15:20, Linus Walleij <linus.walleij@linaro.org> wr=
+ote:
+> > On Mon, Oct 27, 2025 at 7:43=E2=80=AFPM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> >
+> > > Prepare for the advent of globally available common field_get() and
+> > > field_prep() macros by undefining the symbols before defining local
+> > > variants.  This prevents redefinition warnings from the C preprocesso=
+r
+> > > when introducing the common macros later.
+> > >
+> > > Suggested-by: Yury Norov <yury.norov@gmail.com>
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Do you want me to just merge this patch to the pinctrl tree or do
+> > you have other plans?
+>
+> My plan (cfr. cover letter) was to take it myself, as this is a hard
+> dependency for 11/23.
 
-Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4229#note_3174448
-Signed-off-by: Pauli Virtanen <pav@iki.fi>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+OK go ahead:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 71638e6dfb20..e5b857129caf 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2267,6 +2267,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_FIXED_RATE),
- 	DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-+	DEVICE_FLG(0x1038, 0x1294, /* SteelSeries Arctis Pro Wireless */
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x1101, 0x0003, /* Audioengine D1 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x12d1, 0x3a07, /* Huawei Technologies Co., Ltd. */
--- 
-2.51.1
+I see there are other review comments, I trust you will fix them up
+and merge the result nicely.
 
+Yours,
+Linus Walleij
