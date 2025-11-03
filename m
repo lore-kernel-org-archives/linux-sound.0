@@ -1,124 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE7024C669;
-	Mon,  3 Nov 2025 16:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2699326AA88;
+	Mon,  3 Nov 2025 17:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762187231; cv=none; b=qwWB3X3tFSVLGKCK6IJ54QDO/48RKCXPiv4oL5N97j7Azwr+pIxWHu5XBkhqtc8yfdIjW5NIj8KFAjfg1ODsr4IftEYyUyvBm+VBAnAeyQFu21DusuY5n2/CJ3F1mYzTDj9O3JZ06roNMXDpmxuiAYqIGXwsn6nuHpJRGubBAcg=
+	t=1762191194; cv=none; b=PxLCMJejy2cJ1DLEH35EwWQETs9idfs9bpiCVmthX2QPx5nf4SqH4aC/C4DZiKwIkOiR2oAu1wIuFYcIVbmr9Ca5ynK6HY9z+QXr0dJJTPFyEqe8fx/efej131D2kvA4Cs9y1boPxi3U37AaVwj41lNexizl5T0lKLNHGeTK+TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762187231; c=relaxed/simple;
-	bh=r5udqGJnIs75QfJoagt7ivSsh/QepXtOFVzwQXD+68o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D09BTPYyaBEK5a69Rkud1TpWru9nSopnbaxJ2dv/Wu26AuTysUdQhH5Um+QSlioydcfaEipr2FdkilEVkOA79fYVm0Mjb7rorZdcRnucw49BGtfqLlTbk7Ex7u4sdWklglwBh7euCEi1tAyI4g2CUVOzEhkHcmMysxiPjJD1rJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiVIBWpk; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762191194; c=relaxed/simple;
+	bh=ImfEpuEvGJzHfdHEbBZTkOKQ3ljJuF84xb7AnSHfJw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=hdtBeFGwNGT7YDBvyPQXsFKgDlHQTj7gibgCTlXtkGIewO7ZG5C5Yz+unPBUUJnl7NcMqE+dpPBvrnNK+K/Ib8Atmue1Za9M+EHArdibOts4WfoBoBQ09jEtEczz2pj5ZrjUreEwJlvPi0DcYIFEjSXoWhhaE6YbrC4gyskhRbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2QMDBEn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiVIBWpk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762187228; x=1793723228;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=r5udqGJnIs75QfJoagt7ivSsh/QepXtOFVzwQXD+68o=;
-  b=iiVIBWpk08SjQlKNDOfPCzNTa3dlffusEloEJSJXKi6gY0XVU/4mt79u
-   C9ZuZQJlt2P+jaq/o2rtL4TX3+Y/embYcLamD6Hs//OX7AJTeQqBwbMkB
-   LEZ8Jmygrpl3XHd0QhEX4fV5+aXf1ut/n5qdVboaA3Uduu4h+ECAc6LJQ
-   Pp4sxB65bYMHEk32J9C3grjUT9vnebeuBRZnMTORzyMAHuQYyeesiS1jB
-   UrPDMWVBZJsVue8uNGXkOERRLvFvvXgz2Eh5me26lR38sPHzO4pmMWBEu
-   BoHY9iKB3Q5k89l5RjEwq4NolIdRyS2/nPSesplUYrCGDzff/YQNVvWmU
-   w==;
-X-CSE-ConnectionGUID: TUQib+sbTViBp/4ctAkxfA==
-X-CSE-MsgGUID: BWLiTLgERCKJxGL7OcUwSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="86891356"
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="86891356"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:27:07 -0800
-X-CSE-ConnectionGUID: tSELYBa6R+utBfspbjxVbw==
-X-CSE-MsgGUID: XL6evxD/RE6mSx39dOyh/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="186591798"
-Received: from krybak-mobl1.ger.corp.intel.com (HELO [10.245.246.110]) ([10.245.246.110])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:27:03 -0800
-Message-ID: <ef97aef3-e837-4c88-84e7-33afbc8ac150@linux.intel.com>
-Date: Mon, 3 Nov 2025 18:27:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2QMDBEn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70DA6C4CEE7;
+	Mon,  3 Nov 2025 17:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762191193;
+	bh=ImfEpuEvGJzHfdHEbBZTkOKQ3ljJuF84xb7AnSHfJw8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=J2QMDBEnApSK6PZOoQQd55IADOsIBlUF1lqh49U7/S8kw+ZxJ7glSoiE2wuHus2gv
+	 Tr8bzP5T1jy9RX7+t9zn/oeq3n3DO8VymhKPgFgSfOXWTdnIavStEaNG21bXp45rzA
+	 ADoT26ePv/KV4u14iu1cwQ6G1oeebjWqplvXYx2CAcIkSJzN5FI5JbIOXND0h6Hym7
+	 87J7bBZ7jAModgZD6m+QWcd+Xug2LeIvuopUqkJuwRjLzPf2fMTQccsBo1LQEn9YuW
+	 4rqoaaOEmHF2BJySQjZ80+QjeV6pcaM+iEoISlAhgMfYR2CsKzvIvvib6SzfnK4gVD
+	 HLI3HbOa/P4xQ==
+Date: Mon, 3 Nov 2025 11:33:12 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: =?utf-8?B?UMOpdGVy?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	bhelgaas@google.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kw@linux.com
+Subject: Re: [PATCH 1/7] PCI: Add Intel Nova Lake S audio Device ID
+Message-ID: <20251103173312.GA1811842@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] PCI: Add Intel Nova Lake S audio Device ID
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- bhelgaas@google.com, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, kw@linux.com
-References: <20251103160219.GA1806872@bhelgaas>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20251103160219.GA1806872@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef97aef3-e837-4c88-84e7-33afbc8ac150@linux.intel.com>
 
-
-
-On 03/11/2025 18:02, Bjorn Helgaas wrote:
-> On Mon, Nov 03, 2025 at 02:43:57PM +0200, Péter Ujfalusi wrote:
->> On 02/10/2025 11:42, Peter Ujfalusi wrote:
->>> Add Nova Lake S (NVL-S) audio Device ID
->>
->> Can you check this patch so Takashi-san can pick the series up?
+On Mon, Nov 03, 2025 at 06:27:16PM +0200, Péter Ujfalusi wrote:
+> On 03/11/2025 18:02, Bjorn Helgaas wrote:
+> > On Mon, Nov 03, 2025 at 02:43:57PM +0200, Péter Ujfalusi wrote:
+> >> On 02/10/2025 11:42, Peter Ujfalusi wrote:
+> >>> Add Nova Lake S (NVL-S) audio Device ID
+> >>
+> >> Can you check this patch so Takashi-san can pick the series up?
+> > 
+> > We have a long history of adding these Intel audio device IDs that are
+> > only used once, which is not our usual practice per the comment at the
+> > top of the file:
+> > 
+> >  *      Do not add new entries to this file unless the definitions
+> >  *      are shared between multiple drivers.
+> > 
+> > Generally speaking, if an ID is used by only a single driver, we
+> > either use the plain hex ID or add the #define to the driver that uses
+> > it.
 > 
-> We have a long history of adding these Intel audio device IDs that are
-> only used once, which is not our usual practice per the comment at the
-> top of the file:
+> In this case the ID is used by two different driver stack, the
+> legacy HDA and SOF.
+
+Sigh.  I looked through the patch series, searching for
+PCI_DEVICE_ID_INTEL_HDA_NVL_S, but of course there's only one instance
+of *that*, but two others constructed via PCI_DEVICE_DATA() where only
+"HDA_NVL_S" is mentioned.
+
+Can you include some hint about that in the commit log so I don't have
+to go through this whole exercise every time?  I want pci_ids.h
+changes to mention the multiple places a new ID is used so I know that
+the "multiple uses" rule has been observed.
+
+With that:
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> > Have we been operating under some special exception for the Intel
+> > audio IDs?  I see that I acked some of these additions in the past,
+> > but I don't remember why.
 > 
->  *      Do not add new entries to this file unless the definitions
->  *      are shared between multiple drivers.
+> The HDA audio entries were moved here by v4 of this series:
+> https://www.spinics.net/lists/alsa-devel/msg161995.html
 > 
-> Generally speaking, if an ID is used by only a single driver, we
-> either use the plain hex ID or add the #define to the driver that uses
-> it.
-
-In this case the ID is used by two different driver stack, the legacy
-HDA and SOF.
-> Have we been operating under some special exception for the Intel
-> audio IDs?  I see that I acked some of these additions in the past,
-> but I don't remember why.
-
-The HDA audio entries were moved here by v4 of this series:
-https://www.spinics.net/lists/alsa-devel/msg161995.html
-
-(I cannot find link to v4, only this:
-https://patchwork.ozlabs.org/project/linux-pci/list/?series=364212)
->>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
->>> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
->>> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
->>> ---
->>>  include/linux/pci_ids.h | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
->>> index 92ffc4373f6d..a9a089566b7c 100644
->>> --- a/include/linux/pci_ids.h
->>> +++ b/include/linux/pci_ids.h
->>> @@ -3075,6 +3075,7 @@
->>>  #define PCI_DEVICE_ID_INTEL_5100_22	0x65f6
->>>  #define PCI_DEVICE_ID_INTEL_IOAT_SCNB	0x65ff
->>>  #define PCI_DEVICE_ID_INTEL_HDA_FCL	0x67a8
->>> +#define PCI_DEVICE_ID_INTEL_HDA_NVL_S	0x6e50
->>>  #define PCI_DEVICE_ID_INTEL_82371SB_0	0x7000
->>>  #define PCI_DEVICE_ID_INTEL_82371SB_1	0x7010
->>>  #define PCI_DEVICE_ID_INTEL_82371SB_2	0x7020
->>
->>
-
--- 
-Péter
-
+> (I cannot find link to v4, only this:
+> https://patchwork.ozlabs.org/project/linux-pci/list/?series=364212)
+> >>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> >>> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> >>> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> >>> ---
+> >>>  include/linux/pci_ids.h | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> >>> index 92ffc4373f6d..a9a089566b7c 100644
+> >>> --- a/include/linux/pci_ids.h
+> >>> +++ b/include/linux/pci_ids.h
+> >>> @@ -3075,6 +3075,7 @@
+> >>>  #define PCI_DEVICE_ID_INTEL_5100_22	0x65f6
+> >>>  #define PCI_DEVICE_ID_INTEL_IOAT_SCNB	0x65ff
+> >>>  #define PCI_DEVICE_ID_INTEL_HDA_FCL	0x67a8
+> >>> +#define PCI_DEVICE_ID_INTEL_HDA_NVL_S	0x6e50
+> >>>  #define PCI_DEVICE_ID_INTEL_82371SB_0	0x7000
+> >>>  #define PCI_DEVICE_ID_INTEL_82371SB_1	0x7010
+> >>>  #define PCI_DEVICE_ID_INTEL_82371SB_2	0x7020
+> >>
+> >>
+> 
+> -- 
+> Péter
+> 
