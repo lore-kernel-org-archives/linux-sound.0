@@ -1,86 +1,80 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazhn15012019.outbound.protection.outlook.com [52.102.137.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13FB27E1A1;
-	Tue,  4 Nov 2025 04:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.102.137.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762229650; cv=fail; b=oySpPRbdyEO4HjvJ0DoSnUkB/wnhuorGV9PpJ/NzbaRDexxGpIQxjyXdXTOwe1S189Xn+GcN4YDWXC8Gw/WV1ftDu7IhLyzaHxL6xkO/WydTnl9CDBcSjmTM/RVtx6QdDF7dSpX9zKV5wSXvkbTmoFCarZT1h5Mq9zI3j5FyZtg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762229650; c=relaxed/simple;
-	bh=sBLguI3nxFOho3JEnG876EzVwBwGMkufSW4I42zn2yw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b/xOuLwhagZbVlezh95FTYlHgd5PEXl0LcXlYdpsiIrc2wMcvLfoJWVn9nTGV+4UO/iOrw45gkm5q9rbQZbs/iKVURvTRvyGM5DAU7PrFwdikrYNQaI5BlB6vZq3W5SGdz603bpZu5wxK8h29YMPOcNsMeYWBZZ3Y6TgvL7MoLQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=bJv0ERNO; arc=fail smtp.client-ip=52.102.137.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CD62C0F8E
+	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 05:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762235320; cv=none; b=Kt1g0D7alhpDtJgCRnpN0yZ7eNBdoOMc/y4uxmW22mQYPxuuBoeYec6AZuZz6umCEqy+nupucbw9E6O84QU50j1hCgBniM1/YM3EyzN5xnEb2d7ufJonakSG2WO/qdtmhd5Gzk86sZ2pu8v14UMiSlTwBDIwGIXLuwW7gxQ67+Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762235320; c=relaxed/simple;
+	bh=SoQk+AByx0B9wRad9q+1vgZW/a+k5+ol7C2iIungM2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AkH6MiGS093mUHdlcswu6O+tVnSOOrjSh2d3YaBYgAn1uusFHcmep0npbww9e7T+h/f/kigEhChtVEH3CI8slZaxG+z4DS2qPZ/Bdb0OXEV25tLJaTHOkIgWCK4Jz1mD6LTgiaHjlWgDGDiaAhyxLxzcZsKzmGFNqKAc7XfaKPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XbQZ0ih6; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bJv0ERNO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qe31BSodsK1cMfmk3wdOrEE6sOD6QYlwfcdpTsE2iE/1Int0kvCXQusxrjvLLA3Apaa7KdM5ibbBEInuPDiaZprMqywQGcUheLNqeJsW0Xywm//HkuPoezj+iFWeOUSj9xR/D2vtekV5t2WovC26Fv52K4NwhnGbMqOhukZnceza7Yig9EiTvUrGr3csxLHnW/5Avk6+gNlQ89eJwzz/cm64fSBM9lgOh3k979tYGgPv47QRNDK3mv5cNDpDfRAFiGYx/AK2tI64BYpcOQ4zugsUDolWd8E50kbRU05bVRRQWyDb/6mXHd9LHgkKvx4BaO7S2HqJDzaLMrDoZSPMeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zc0SfSHveOOe8rfGYUvmwfbZStxc9/SSLzfI2xd/N2w=;
- b=DV97xuUyeUwFMyYufnNJQbbVIR2c4ejhTbu5Bv73HXNcon1eGLIbxmDc3fVS3UpfZEqelB3O8naVOBXu+KUnvBuA56nLFc+1WLcA7vaCII+gEuQpIthFi+WZ827coU9heSfcxD1TrpdWu9YfScv3ClOkYk8vQKBj6UDw7+nREN6elcKnkknVeB3Mid5fhm5ZJyskau642LnR5Gm2naMASx59r1yxXP96qFWXxWtd7BjD+ZD1NwPYcs0dqpH36Eq6okEbsoXqVgzMaakH/7wDNoCBrSIkImmL2TzKHughPRznKLHht+Q/Pz9E9bFSugJ6wfilXJMrdF+RXO5Vo0lIDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=google.com smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zc0SfSHveOOe8rfGYUvmwfbZStxc9/SSLzfI2xd/N2w=;
- b=bJv0ERNO8syUucjYOb0a+hXzZU4hoVeIu4akShiJyhea9Ysdp4/glU4L1P8VNT16A8htz8N/2nat9LTcNJUBQ/r/2uJ1/+y86ZIXr0R+k8uXWOSBnAGXwIjJJh2WgxAnQKEeFXgo03LsWZQxB+QQseYhal72Qj0xDmTEwU8jMV0=
-Received: from MN2PR20CA0012.namprd20.prod.outlook.com (2603:10b6:208:e8::25)
- by PH7PR10MB6252.namprd10.prod.outlook.com (2603:10b6:510:210::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Tue, 4 Nov
- 2025 04:14:04 +0000
-Received: from BL02EPF0001A100.namprd03.prod.outlook.com
- (2603:10b6:208:e8:cafe::fc) by MN2PR20CA0012.outlook.office365.com
- (2603:10b6:208:e8::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.16 via Frontend Transport; Tue,
- 4 Nov 2025 04:14:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BL02EPF0001A100.mail.protection.outlook.com (10.167.242.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Tue, 4 Nov 2025 04:14:02 +0000
-Received: from DFLE210.ent.ti.com (10.64.6.68) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
- 2025 22:13:59 -0600
-Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE210.ent.ti.com
- (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
- 2025 22:13:59 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE213.ent.ti.com
- (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 3 Nov 2025 22:13:59 -0600
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A44DgBU1277888;
-	Mon, 3 Nov 2025 22:13:51 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>, <tiwai@suse.de>
-CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
-	<shenghao-ding@ti.com>, <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
-	<will-wang@ti.com>, <jim.shil@goertek.com>, <toastcheng@google.com>,
-	<chinkaiting@google.com>
-Subject: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add TAS5822 support
-Date: Tue, 4 Nov 2025 12:13:13 +0800
-Message-ID: <20251104041314.792-2-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20251104041314.792-1-baojun.xu@ti.com>
-References: <20251104041314.792-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XbQZ0ih6"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-340bcc92c7dso2604761a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 03 Nov 2025 21:48:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762235317; x=1762840117; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwmlHepJDXaxQ4eDoxYf0LfaCV1WGfYtTqn36dvPOd8=;
+        b=XbQZ0ih6hPQwK9etNAfBpEFT7PtpeuXzqAbLcI/KzveUwBK5ftNmpX8w2oAEVeYPql
+         HfHTRaWmAB8fN+mgtll/YZui7Sgosv3l0Hf37x6RjOhVJm4CfFB0tAEdVKqiihKrUaxh
+         36dbsWmJefTh/fXizivLKuX9vTKhhOGrKiimy27cGD33pypPaR2CkbDd1x63l8VyhAq/
+         SmE6r6SmhL6KRDgbiW1URL5hVm3Pz6xaDVlSVraUqPBe3nA1SlkYvb35ZErD+THAZHyW
+         PYr3f49KKJPp1PNLeF7FgFj++Ipln0KglLc5jjA1P5jw4ThFbWpnp9CBdOO+pzp4G28G
+         U3Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762235317; x=1762840117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nwmlHepJDXaxQ4eDoxYf0LfaCV1WGfYtTqn36dvPOd8=;
+        b=KUxbdbRMheO4utKXPWtqOjXuBNWNBinrDr2ulCYHLvfcUja0o+33qwjjJ5B5KllRxO
+         Dx+ST+icTQrWmyt6tgU1HbbQ4e1bLfpEi/JfpW2NCvQF9JhQffnhhZ/fNm7ACnZRde+D
+         3Bx+WMlQN6H2vMW089KKdKh171/swWfuDWyKEmucNsAsQoGdbXIEvUMFRFmjS+D59qGl
+         wOKH3b4hP4ObhJohQF4rXbaNIhhmWvDkJVw4eFnUmFv+eEIRaHndc2Wo8The7Bv+pFYC
+         G8zttfhJo8FKPZeSbjGzBOvMWkchD/u3MGjS1WB07lxn6raGZiovxagkQQlBA1ZcLG83
+         FUKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWs3VvF88XLoAFkdCqP81b4ZfKdMtFLeIC9AU5p6Bcx//ES7du94CF7ZRPyHLwYsUEzjisahd3DzE6YMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjevdmHLTqXL63RxOM/1RfUfx1sWHDXpn/6+kfMthGU+DCc4Av
+	YwaAq88jLO2E1miTvZ1KOmpjCagmiroT4V3VCOR8QwT/2Y6VwysyHPBA
+X-Gm-Gg: ASbGncvcyifyak7m0DMh1MXl4A/Xn1QTBB/adUlKQGM5DtzdKZCTyl87USdEiLTvkX/
+	t5rrZ2mZLFkqja7gtp7auMZ19Yoi2yrfsZm4yHizwkTiJYt8bUG3CI3IE2cmmysa7QCA8PhdN4N
+	hYUkqAw1yt5G6fDkLdalSiLkCehnrIH9/r+uok0GfMxo6X1j4vPHZydLBNTUuGXx3WaspNMTZUq
+	oZyPxcJ3+6c4TE5q6TcjKzrsyd9RgBspeAvvtyNTFKd1konC4DA2xOXV0UVerRxMs0WGOGbFESg
+	7jePM311+MmwL7bhH0Q0jlpJLDvFF5PqJ+79pjlk4s/u615RaDI3salVNJaR1cTc5kHZY2izpIZ
+	pBRTCzjyXoQmWI6bo78trZFIogDR+jRdht9hgAGlCQ3LhBO70UM7nHBtySLlOLHMudKilKSC3Vx
+	tw
+X-Google-Smtp-Source: AGHT+IEO/1QaqQevZmDtRbW5FSbU38Ge7FvQkdRw0BAEdkYOrDNaBqA5V2pQW8KxDTNIzn/JWdb5cw==
+X-Received: by 2002:a17:902:ce8b:b0:295:5da6:5ff7 with SMTP id d9443c01a7336-295f946fc18mr26276325ad.15.1762235317385;
+        Mon, 03 Nov 2025 21:48:37 -0800 (PST)
+Received: from gmail.com ([49.37.169.250])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29601a3a80esm11858525ad.73.2025.11.03.21.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 21:48:36 -0800 (PST)
+From: hariconscious@gmail.com
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ASoC: tas2781: Replace deprecated strcpy() with strscpy()
+Date: Tue,  4 Nov 2025 11:12:58 +0530
+Message-ID: <20251104054257.9953-2-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,131 +82,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A100:EE_|PH7PR10MB6252:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74ec1b43-9667-4539-bbd6-08de1b589678
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|34020700016|1800799024|12100799066;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?18cUIbMg0piKhcImkzZknABlHl+YVLUj/C/HO5HXtuRxQfUwLAoljqfbJTxF?=
- =?us-ascii?Q?XBP8a3pKpW97N9Q21kKPK0tLuHRBzAsek8J8k541r8oNvfZ4CzBE61JhCzgz?=
- =?us-ascii?Q?dDUoM92gdcXWCTgTMfqcKbH4XlufvbiV2/EkWwIYPgSlaKwwJNapZMC2gL2w?=
- =?us-ascii?Q?8zEy6iBva7GQCG9PIlGu+K848FI4EZd8NHxlhoci6giVzpeytaeK2HwRflbp?=
- =?us-ascii?Q?yeoQnw25P9gvdjZ1yowrcXPcAXiD8P+DiV3S6WB3KasrKmcYDCt3MVHbAHy0?=
- =?us-ascii?Q?bwccUIdVbHwlJMK+p8tfAfKY9IqcIBWzkmlhtExZEyvUqTxut6lkgAfJUHFw?=
- =?us-ascii?Q?kfhKdUwRVa4Ud74LQNcd3LkiByek0gwi1r3BsvYDn3+iR0TkichGbUTI6ZLn?=
- =?us-ascii?Q?fnVv8Ena4nH5TCNaqvvkcQwQFtf2bxnCt2NR9WZLLl2t0Yb4QAEcT8qYstfN?=
- =?us-ascii?Q?9DqkfrxWe+xn2rcCKOnDVpf2Z0/eBO0aDTxzwoI9p02Uc3ediiL6d1rxj22r?=
- =?us-ascii?Q?sb0RfZuGR+t4Ul3dCQWSG80/pauLggxbdAdL7PdkO1KezOcScEVKqmNHa7wC?=
- =?us-ascii?Q?MFXNm+hJZroOowSfuDdgYifC0KTaD/sfkbkTdUJl8/bVr4q32TDu2P/fANNJ?=
- =?us-ascii?Q?9/pqC8/swpTVOXGW8r7x1yjMB33LezA2eQ3cTO4JFEhGho5LkT3SLz/XZ7Hk?=
- =?us-ascii?Q?3wpx6sCDSRbokpPdGA8pT/lbTq12hf69Gq2u1y78pkm5EZvSAPBCuvgXPwu8?=
- =?us-ascii?Q?OyArBPM1yvt7SUFd5KcMwieIooMOwbuCI0iXoyAKT9yU22I5YYlkaMedB8JT?=
- =?us-ascii?Q?ewXmmSBXiBsymrO5W/0HgAzhco2tp8SZTAc2f7GPmKL5ZChJtSQsn9kPJMcd?=
- =?us-ascii?Q?Cww5ob76PQLrCdvIzCbxxH+jAI86HC2rZtUiKtDbde/ic3n9sUohdp+1WfFT?=
- =?us-ascii?Q?SdmC1yWzDunuEMLuz275mrlT7ybHIWeeNVHtukAOwaUYfIWGHgQYwtNEp0nA?=
- =?us-ascii?Q?zn0/uNWXsPyOre+V8sJoI7NW0OE6t3jmwiqA0EUMuywy6isdh5che3DFJuW3?=
- =?us-ascii?Q?p6D1ts9j6XqNISqbblkv6XNAM4WvPWnEAVINfxvnd9WYl7fFNBTu3WVd867f?=
- =?us-ascii?Q?8UzxaSCpmUUUiuWUR32/+MQMC5xqP0hFcoYgld2msBb163beHrENt+v14Ggy?=
- =?us-ascii?Q?6fh2s8CWpOqvooQjTZsLhLDO+18VpSohA3aPbG7onDRumrK4MhugsZD2tjrb?=
- =?us-ascii?Q?timi+aXqHRk2pkEbByPE5O/bQ0bUEw0i1the28Dh3hPjBZlG31eQzKQGpKHc?=
- =?us-ascii?Q?3zfrs0oAra5iXtpAMSYdMmltzIUqmNya8TmZwi1PedcORQmZmIBP+EFST27D?=
- =?us-ascii?Q?v5bciNCUfNHEyZ43313ITIZcHKjYmMEobfmd3iXIK3UjBVLWOBS+T9g4lHBc?=
- =?us-ascii?Q?KmWh2DpFrLH2oUIvk+1qptikGJA0O8PYZkIKQOb2pufBluan05yvbTaxVeXW?=
- =?us-ascii?Q?85Rqn1vvV0o5e14jU1DWexroh3xry6SfTrpEVovN2sL8ZpSepbVL69BkxSKE?=
- =?us-ascii?Q?o9T1cJXCCRbODTtNT+Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(34020700016)(1800799024)(12100799066);DIR:OUT;SFP:1501;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 04:14:02.7582
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74ec1b43-9667-4539-bbd6-08de1b589678
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A100.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6252
 
-TAS5822 is in same family with TAS58XX.
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+strcpy() is deprecated,use strscpy() instead.
+No functional changes intended.
+Link: https://github.com/KSPP/linux/issues/88
+
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
 ---
- .../devicetree/bindings/sound/ti,tas2781.yaml | 27 ++++++++++++++++---
- 1 file changed, 23 insertions(+), 4 deletions(-)
+This patch replaces strcpy() call with the strscpy() API.
+strscpy() is preferred over strcpy()/strncpy() as per the
+kernel documentation.
+If padding is fine, will use strscpy_pad() API.
+Please let me know, will modify patch accordingly.
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-index 7f84f506013c..f0bb5faf55c8 100644
---- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-@@ -24,10 +24,10 @@ description: |
-   Instruments Smart Amp speaker protection algorithm. The
-   integrated speaker voltage and current sense provides for real time
-   monitoring of loudspeaker behavior.
--  The TAS5802/TAS5815/TAS5825/TAS5827/TAS5828 is a stereo, digital input
--  Class-D audio amplifier optimized for efficiently driving high peak
--  power into small loudspeakers. An integrated on-chip DSP supports
--  Texas Instruments Smart Amp speaker protection algorithm.
-+  The TAS5802/TAS5815/TAS5822/TAS5825/TAS5827/TAS5828 is a stereo,
-+  digital input Class-D audio amplifier optimized for efficiently driving
-+  high peak power into small loudspeakers. An integrated on-chip DSP
-+  supports Texas Instruments Smart Amp speaker protection algorithm.
+Thank you.
+
+ sound/soc/codecs/tas2781-i2c.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index ba880b5de7e8..0f314523703f 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -1999,7 +1999,8 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
+ 		dev_err(tas_priv->dev, "%s Can't get reset GPIO\n",
+ 			__func__);
  
-   Specifications about the audio amplifier can be found at:
-     https://www.ti.com/lit/gpn/tas2120
-@@ -36,6 +36,7 @@ description: |
-     https://www.ti.com/lit/gpn/tas2572
-     https://www.ti.com/lit/gpn/tas2781
-     https://www.ti.com/lit/gpn/tas5815
-+    https://www.ti.com/lit/gpn/tas5822m
-     https://www.ti.com/lit/gpn/tas5825m
-     https://www.ti.com/lit/gpn/tas5827
-     https://www.ti.com/lit/gpn/tas5828m
-@@ -74,6 +75,9 @@ properties:
-       ti,tas5815: 30-W, Digital Input, Stereo, Closed-loop Class-D Audio
-       Amplifier with 96 kHz Enhanced Processing
+-	strcpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
++	strscpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name,
++		sizeof(tas_priv->dev_name));
+ }
  
-+      ti,tas5822: 35-W, Digital Input, Stereo, Closed-Loop Class-D Audio
-+      Amplifier with 96 kHz Enhanced Processing
-+
-       ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
-       to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
- 
-@@ -94,6 +98,7 @@ properties:
-               - ti,tas2572
-               - ti,tas5802
-               - ti,tas5815
-+              - ti,tas5822
-               - ti,tas5825
-               - ti,tas5827
-               - ti,tas5828
-@@ -207,6 +212,20 @@ allOf:
-             minimum: 0x54
-             maximum: 0x57
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,tas5822
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 4
-+          items:
-+            minimum: 0x2c
-+            maximum: 0x2f
-+
-   - if:
-       properties:
-         compatible:
+ static int tasdevice_i2c_probe(struct i2c_client *i2c)
+
+base-commit: d127176862a93c4b3216bda533d2bee170af5e71
 -- 
-2.25.1
+2.43.0
 
