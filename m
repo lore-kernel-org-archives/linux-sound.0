@@ -1,85 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998BF2F5A1D
-	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 13:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D968F32C938;
+	Tue,  4 Nov 2025 14:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762262706; cv=none; b=btnuVDFyBUl/nDSAqXp0CxOwNgkswAV9PBCgsleiSTng0jK0QqnzSUbDgGsp+OELv+KYam0H/P9sPCwZYzqaXomlPo1Or2GDZZAQkNCh543wI9/H37SpvWtJ234XxpaFKU6k1t959HnNfG5LlS9glUfXPHpbxSPRXEXfBSdsyhM=
+	t=1762265297; cv=none; b=O9El+pWltpHI0AplEX/n1hYaorWPfaho7wDNooZXiZxsCfMAekQGzHpAdGG0T8hFPaoBXiHnDmM+lRLW7/y0MVj1E3DulxSgPxFmi7JMrw7mMfdADbXDOvruRZYO1/IWbLDEGUBqt9akjDK+6nPNy7EVXEy+5O+XRlSRVA8AhRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762262706; c=relaxed/simple;
-	bh=9wWxv0C96hH1vyaD2tTCyIBWU8eHkYvcI8Cs5aIwaeo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Fg6bbeRKOZEZZlIdBzs/pzOI46rwroEw1gOmy6VYzJl5cBDaYmx4cONLuDH47Ii+lpRzApspwBHOtjfpOW0JZOeaTaiaexG/KxMZOs2fRdWscWmtpJIVJ9cYNwUgi1eDP3pZAgJTncXzY8UZyV6ESd1oY6vxYGMFrPa9cqMV59Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7VLfBwA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762265297; c=relaxed/simple;
+	bh=km5HhGYSo6FRkzKszxfXFnfrq6gipQ7IS2uIeGouPDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R25P+EZo7nuFNLdHiW9kPG3o9e+grRx1JovbTU8RyFtNs5C+07qon3VpJgDa6J1jQr6w2TD9wu5voUacOo4dPgJQD1XCn0ZR0XlRSaCghw4feLGhMvhsA7EIBnM2B5750Us77nJJCX7UJtHPRS4XjRx0i0gVpIZ3x32JviFDKxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssAiLQj4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7VLfBwA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 266EBC4CEF7;
-	Tue,  4 Nov 2025 13:25:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssAiLQj4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E2FC16AAE;
+	Tue,  4 Nov 2025 14:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762262702;
-	bh=9wWxv0C96hH1vyaD2tTCyIBWU8eHkYvcI8Cs5aIwaeo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=D7VLfBwATTHmjOpGlblnroB42lUFFLmIqy56eQZ28MHcpVhIo4XNQZciWn6J8m9X3
-	 OpSvqL7lfsatjBZKrLCZekBy4BmnW9wtNXj07OBC/5VI2Jtm8p41UraWGqPJNoWt36
-	 Glq2As99RCHBTk/Ayl1bGYnV8DegDAl+yjhEqpxZfnI96A9TsrCG0i4K0C5xFyOuGX
-	 yds2+snO/9IvIyz5xh+4vW0+Ju0OEfVg/d876zlMiWTZSHfJlpPnC7Lyv1OyWEg17M
-	 fz4MsFct9FWSHWyfv7K2Y1rmEMmE5EYmJ7HM6msTXoMlLmFgWaeEil6EddLp3nHYlA
-	 TWb/6uSjC4GAQ==
-From: Mark Brown <broonie@kernel.org>
-To: Sharique Mohammad <sharq0406@gmail.com>
-Cc: perex@perex.cz, linux-sound@vger.kernel.org, lgirdwood@gmail.com
-In-Reply-To: <20251103091447.771793-1-sharq0406@gmail.com>
-References: <20251103091447.771793-1-sharq0406@gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: max98090/91: adding two virtual Mux widgets
- for digital mics
-Message-Id: <176226270028.2215600.3605922263471608714.b4-ty@kernel.org>
-Date: Tue, 04 Nov 2025 13:25:00 +0000
+	s=k20201202; t=1762265296;
+	bh=km5HhGYSo6FRkzKszxfXFnfrq6gipQ7IS2uIeGouPDA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ssAiLQj4E8QKaQZ+fRzYuAxvL0qUwOfvgGTr4jZv4eRdP+ck7R3GhmSYOWKdkp/Td
+	 FrFUUVtcoViSgkIt7iRQ6TxHPzQvI0i7Es/LZB9SnXNn0kDY04s30N3J2YZlXEy08Y
+	 uj89UTsw3yUyylTZtsyGYst7PctiVk85m4Fgbmj/DR/3/gWGRSLHoG8dlJqQfXVIyA
+	 eifWuIEeyoEqv2D6JWW2Vg6Lzg5x66Y6KmJFlxd62+i20MPPGlqwyDHRFEJWQtChnJ
+	 WyXqWnBwdh7TBmhu9WMRyagDwIHXkWFVe2XRtS0QAPTR4SAsD4B+oDtSPcFL3aWL+X
+	 L9jZ02B4OLEJQ==
+Date: Tue, 4 Nov 2025 15:08:13 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com, 
+	13916275206@139.com, shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com, henry.lo@ti.com, 
+	robinchen@ti.com, jesse-ji@ti.com, will-wang@ti.com, jim.shil@goertek.com, 
+	toastcheng@google.com, chinkaiting@google.com
+Subject: Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add TAS5822 support
+Message-ID: <20251104-gay-skilled-giraffe-dacafa@kuoka>
+References: <20251104041314.792-1-baojun.xu@ti.com>
+ <20251104041314.792-2-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251104041314.792-2-baojun.xu@ti.com>
 
-On Mon, 03 Nov 2025 10:14:47 +0100, Sharique Mohammad wrote:
-> The two digital mics M1(primary digital mic) and M2(secondary digital
-> mic) work independently of one another. It means they could be switched
-> On or Off independently of one another. To control their On or Off
-> state, with this patch creating two virtual multiplexer widgets
-> "DMIC M1 Mux" and "DMIC M2 Mux", with two options "Enable" and "Disable".
+On Tue, Nov 04, 2025 at 12:13:13PM +0800, Baojun Xu wrote:
+> TAS5822 is in same family with TAS58XX.
 > 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> ---
+>  .../devicetree/bindings/sound/ti,tas2781.yaml | 27 ++++++++++++++++---
+>  1 file changed, 23 insertions(+), 4 deletions(-)
 > 
-> [...]
 
-Applied to
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: max98090/91: adding two virtual Mux widgets for digital mics
-      commit: 947eaef21577f52db046992c887ed9698f9d883c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Krzysztof
 
