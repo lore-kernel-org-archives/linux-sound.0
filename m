@@ -1,92 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F86C3115A6
-	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 09:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808552D24BF
+	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 10:01:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762249828; cv=none; b=CSo/MS6ke0IN5ywjc+cW/lL/uKOWvRLW7GQUs+8hIJsP252U5SCmaXbJVTSAMrP7u/ykqHMyX4Av8VZ13QtS7tB12nb36FN7g4VRbj9HsX4XPpQu77pXemVVYoN08T9Lk8VOJlVy/dqialMpZgABkfwD3xLOISjgwCGXQrbVqRs=
+	t=1762250507; cv=none; b=YYZS/PZYXosHWPRMqCOAea+eKk6VHSLpzgzu1yhR3AWJAQXH3rWOSowA3iNWIDUQvvRjxVy1aseT7DjM1uhd/73LBod9QLtOER6325Q5mqdJfCgn8H8iJycCF3dwVl2Sx9fE30KFRwCc4ZatRMbeVGUT/Q0yqh7oIesiEE5qTAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762249828; c=relaxed/simple;
-	bh=1UOHNO/Mi/HiNuPQq+hgxnBrFG85PWnm3d6+oN/2Hy0=;
+	s=arc-20240116; t=1762250507; c=relaxed/simple;
+	bh=Vp8s1sFUhZEtTmOe3NnIXBtWE7EhfmGKuCuGH0ddg5U=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rSiBPtRiuObYpLs/WncSq2Ua5iYdYeIMCgmqrO3DsFurTlfAknTnl2pWxTB6z72MLt8LUInUvFOLiuPtoGccyg9pnt3WsjP70WFu8LPeLXFqmMpXzTtjB3KICg1kquNbHQRbveKeZ4fH7I+kKzDnax5bChle5Av64wYCa4gBZzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GbO+OX7l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5kp4RDr+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GbO+OX7l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5kp4RDr+; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=TRyG+DTSqJGsJWAixlob4X7NpIau7VCciRJOa3Dkr5z9r+hzR/9qt+DXrst1xW2vJUOHg6CXYQGLQq8f2NOmYXpWq8mDTDIszAjNmnyMi8sLFICzk2J7h0943lw8FRIS3xQSYjcxY5jVyeTRsfXxDQFJm8D6eZ2v9NRcJMjuU1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g8RrpGjx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KK/oC2S3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g8RrpGjx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KK/oC2S3; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GbO+OX7l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5kp4RDr+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GbO+OX7l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5kp4RDr+"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g8RrpGjx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KK/oC2S3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g8RrpGjx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KK/oC2S3"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E6271F385;
-	Tue,  4 Nov 2025 09:50:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BED391F385;
+	Tue,  4 Nov 2025 10:01:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762249824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762250503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yeCCumOciFLPQuXSWJwXSouB5HzPJhlo9Atjut+zRAM=;
-	b=GbO+OX7ll48RTtKB34QgDdWWw6A02tRJbx9SsC2ML3avWutuSLFrMzaXKn7ZYgSbK3nqGX
-	2ndzcy/eidICyYddQNz2sO5z7Rjfn82BuuyxVcWI8xGv09MlQ3rqs1C2G6CdERhp2lkw9k
-	/jD5lBpTkHa5QoWJSE7peEL6e7ZdIJk=
+	bh=WvML9ahiMNR24WsBOuMm7W2eYvpxZcIULBQYbrFHl1I=;
+	b=g8RrpGjxsyYPqGI5s8P0WTepWACzYbr7YdwbUHI1rwwNXJQAAFvzLpfUpzju5lHIDBYRbg
+	CvzLnJ12Mn1LzQCEoKQlzrHvicwZ/+6iEV6wLYWRScOPu751zLiAscFFgMXG4QmYG2PLn/
+	dW7p+mdjKAb5DjnKhdFsEEwsaksZBx0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762249824;
+	s=susede2_ed25519; t=1762250503;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yeCCumOciFLPQuXSWJwXSouB5HzPJhlo9Atjut+zRAM=;
-	b=5kp4RDr+9Q5EKogaOIoKwzTqAZi2Z1I78fPOxH5uKxf5f3IFasOqFbEbYBvxTRDhaVcMEx
-	a2c4h5+Xh0rgjqDQ==
+	bh=WvML9ahiMNR24WsBOuMm7W2eYvpxZcIULBQYbrFHl1I=;
+	b=KK/oC2S3am5LZLEqgIsNa02QrA7XYCsH3DEo2CMl9ueIAKo6+FeHPc2nrPBDUPSPmnp/uN
+	PH24WTdTW6yybXDQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762249824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762250503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yeCCumOciFLPQuXSWJwXSouB5HzPJhlo9Atjut+zRAM=;
-	b=GbO+OX7ll48RTtKB34QgDdWWw6A02tRJbx9SsC2ML3avWutuSLFrMzaXKn7ZYgSbK3nqGX
-	2ndzcy/eidICyYddQNz2sO5z7Rjfn82BuuyxVcWI8xGv09MlQ3rqs1C2G6CdERhp2lkw9k
-	/jD5lBpTkHa5QoWJSE7peEL6e7ZdIJk=
+	bh=WvML9ahiMNR24WsBOuMm7W2eYvpxZcIULBQYbrFHl1I=;
+	b=g8RrpGjxsyYPqGI5s8P0WTepWACzYbr7YdwbUHI1rwwNXJQAAFvzLpfUpzju5lHIDBYRbg
+	CvzLnJ12Mn1LzQCEoKQlzrHvicwZ/+6iEV6wLYWRScOPu751zLiAscFFgMXG4QmYG2PLn/
+	dW7p+mdjKAb5DjnKhdFsEEwsaksZBx0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762249824;
+	s=susede2_ed25519; t=1762250503;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yeCCumOciFLPQuXSWJwXSouB5HzPJhlo9Atjut+zRAM=;
-	b=5kp4RDr+9Q5EKogaOIoKwzTqAZi2Z1I78fPOxH5uKxf5f3IFasOqFbEbYBvxTRDhaVcMEx
-	a2c4h5+Xh0rgjqDQ==
+	bh=WvML9ahiMNR24WsBOuMm7W2eYvpxZcIULBQYbrFHl1I=;
+	b=KK/oC2S3am5LZLEqgIsNa02QrA7XYCsH3DEo2CMl9ueIAKo6+FeHPc2nrPBDUPSPmnp/uN
+	PH24WTdTW6yybXDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20001136D1;
-	Tue,  4 Nov 2025 09:50:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E55B136D1;
+	Tue,  4 Nov 2025 10:01:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LSNpBmDMCWnfLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 04 Nov 2025 09:50:24 +0000
-Date: Tue, 04 Nov 2025 10:50:23 +0100
-Message-ID: <875xbqi0tc.wl-tiwai@suse.de>
+	id xD2mHQfPCWmtOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 04 Nov 2025 10:01:43 +0000
+Date: Tue, 04 Nov 2025 11:01:43 +0100
+Message-ID: <874irai0ag.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: hariconscious@gmail.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
-	mingo@kernel.org,
-	tglx@linutronix.de,
-	thorsten.blum@linux.dev,
-	mengdewei@cqsoftware.com.cn,
+To: moonafterrain@outlook.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: timer: Fix null dereference of 'timer->card' reported by smatch
-In-Reply-To: <20251103114902.11423-2-hariconscious@gmail.com>
-References: <20251103114902.11423-2-hariconscious@gmail.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Yuhao Jiang <danisjiang@gmail.com>
+Subject: Re: [PATCH v2] ALSA: wavefront: use scnprintf for longname construction
+In-Reply-To: <SYBPR01MB7881987D79C62D8122B655FEAFC6A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+References: <SYBPR01MB7881987D79C62D8122B655FEAFC6A@SYBPR01MB7881.ausprd01.prod.outlook.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,92 +91,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,gmail.com,linutronix.de,linux.dev,cqsoftware.com.cn,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[outlook.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 X-Spam-Flag: NO
-X-Spam-Score: -1.80
+X-Spam-Score: -3.30
 
-On Mon, 03 Nov 2025 12:49:03 +0100,
-hariconscious@gmail.com wrote:
+On Sun, 02 Nov 2025 16:32:39 +0100,
+moonafterrain@outlook.com wrote:
 > 
-> From: HariKrishna Sagala <hariconscious@gmail.com>
+> From: Junrui Luo <moonafterrain@outlook.com>
 > 
-> Fix null dereference in snd_timer_proc_read().
+> Replace sprintf() calls with scnprintf() and a new scnprintf_append()
+> helper function when constructing card->longname. This improves code
+> readability and provides bounds checking for the 80-byte buffer.
 > 
-> Smatch reported that  was previously assumed to be null
-> at line 1226, but later accessed without a check.
-> This could lead to a null pointer dereference under certain conditions.
+> While the current parameter ranges don't cause overflow in practice,
+> using safer string functions follows kernel best practices and makes
+> the code more maintainable.
 > 
-> Add a null check before accessing to ensure safe execution.
-> 
-> Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
 > ---
-> This patch addresses a null pointer dereference in snd_timer_proc_read()
-> by adding a proper check for timer->card.The issue was flagged by Smatch,
-> which noted that timer->card was previously assumed to be null at
-> line 1226 but accessed without validation.To ensure safe access, a
-> conditional check has been introduced before referencing timer->card.
-> The fix was verified by booting the kernel and performing audio playback
-> using ALSA commands. Additionally, the /proc/asound/timers
-> interface was inspected to confirm that timer information is
-> correctly populated and accessible without errors.
-> Note: Couldn't simulate a scenario where 'timer->card' is null and
-> 'timer->card->shutdown' is 1 (shutdown initiated).
+> Changes in v2:
+> - Replace sprintf() calls with scnprintf() and a new scnprintf_append()
+> - Link to v1: https://lore.kernel.org/all/ME2PR01MB3156CEC4F31F253C9B540FB7AFFDA@ME2PR01MB3156.ausprd01.prod.outlook.com/
 
-timer->card is guaranteed to be non-NULL for SNDRV_TIMER_CLASS_CARD
-timer->and SNDRV_TIMER_CLASS_PCM at the creation in snd_timer_new().
-So this check is superfluous.
+Well, my suggestion was that we can apply such conversions once if a
+*generic* helper becomes available; that is, propose
+scnprintf_append() to be put in include/linux/string.h or whatever (I
+guess better in *.c instead of inline), and once if it's accepted, we
+can convert the relevant places (there are many, not only
+wavefront.c).
+
+BTW:
+
+> +__printf(3, 4) static int scnprintf_append(char *buf, size_t size, const char *fmt, ...)
+> +{
+> +	va_list args;
+> +	size_t len = strlen(buf);
+> +
+> +	if (len >= size)
+> +		return len;
+> +	va_start(args, fmt);
+> +	len = vscnprintf(buf + len, size - len, fmt, args);
+> +	va_end(args);
+> +	return len;
+
+The above should be
+	len += vscnprintf(buf + len, size - len, fmt, args);
+so that it returns the full size of the string.
+If it were in user-space, I'd check a negative error code, but the
+Linux kernel implementation doesn't return a negative error code, so
+far.
+I see it's a copy from a code snipped I suggested which already
+contained the error :)
+
+Also, it might be safer to use strnlen() instead of strlen() for
+avoiding a potential out-of-bound access.
 
 
 thanks,
 
 Takashi
-
-> 
->  sound/core/timer.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/core/timer.c b/sound/core/timer.c
-> index d9fff5c87613..d65e8bcb2f46 100644
-> --- a/sound/core/timer.c
-> +++ b/sound/core/timer.c
-> @@ -1231,10 +1231,11 @@ static void snd_timer_proc_read(struct snd_info_entry *entry,
->  			break;
->  		case SNDRV_TIMER_CLASS_CARD:
->  			snd_iprintf(buffer, "C%i-%i: ",
-> -				    timer->card->number, timer->tmr_device);
-> +				    timer->card ? timer->card->number : -1, timer->tmr_device);
->  			break;
->  		case SNDRV_TIMER_CLASS_PCM:
-> -			snd_iprintf(buffer, "P%i-%i-%i: ", timer->card->number,
-> +			snd_iprintf(buffer, "P%i-%i-%i: ",
-> +				    timer->card ? timer->card->number : -1,
->  				    timer->tmr_device, timer->tmr_subdevice);
->  			break;
->  		default:
-> 
-> base-commit: 6093a688a07da07808f0122f9aa2a3eed250d853
-> -- 
-> 2.43.0
-> 
