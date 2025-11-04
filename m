@@ -1,103 +1,116 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5761D2E0B6D
-	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 11:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1A82C0F97;
+	Tue,  4 Nov 2025 12:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762257230; cv=none; b=p8Nf/4hF3cZ0NyKsGgpqbgiOPqAV4IFjGNSoq7msoWM4Mva22j4lQ5/eoSAbjRiPGgfICNtNOqcEykSwhl84Fl6UhCuYNi75vJpWkquvfR/qz05xFJqmerUvviO/e6P2bQbOvZbkai/EJYuGsn0IaDX5hQLFhXJAaWK1k+BjPbI=
+	t=1762258602; cv=none; b=a8tF3fBAEpaJSQuZcegquE1URpiJu8UomIJFutIqXro2A1bCnwW+cL9/4q5+JZzEqzPZeiRzNps8OkmYxxfX+/iDfObrm4b6UjB+cNJ6U5RF40ze/gPgODzYNY09t/1JuGVkP6/Pcy8eLEK32PcU5ZX+4TwaNtZE/qr4wpeYkcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762257230; c=relaxed/simple;
-	bh=I36LzGSl9wytAsBf1yTXZ1w2SrwG6l/dCnsmOh1gGrc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LoA5vQW96xX6tkSv6zdoE4JuzMDY9NUw5Qcq5yW1kZ+rAhgdExj4N0HsMoCweC6YA5QcGYCM8/mfGcqEgkIfpPZ3GyW+8fyolDRFGxp3IhAX5JPqdD/BnVtd2umUXdN4ebJubMT3RzIl5hZNumDENR4iejUT7NbZs5hoWVzCo0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MlmPrg96; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1762258602; c=relaxed/simple;
+	bh=CaIU/ETYPPssWMPvYMqOLbcN/qfzPMEJH8nRXbbwcL8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ntIs95B5QAYNKxcRtYadKK4uo0e/EKsZmI98ii6IMFflcTEzzNEfkRDdO8wvxTD1g/n7Fds5OZEg2KKfJynB02OZmx1M93nB/i7IQ3xlKmuqowzwARpQR373ZzpWP/z2dMj9xzmdcxzuPZLViaTU7wj8DjHKv5oRglZRHCFDWH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cP6E9mUo; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MlmPrg96"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477549b3082so6657835e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 04 Nov 2025 03:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1762257228; x=1762862028; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I36LzGSl9wytAsBf1yTXZ1w2SrwG6l/dCnsmOh1gGrc=;
-        b=MlmPrg96LFRqxvhrbK0I99Y3mY8Rrq0VCaGf5E8xXGxVFFGMtvcCyrKanpVtWafb+f
-         qFl6CvABdtYGYlYZZ0sE+g7Kh28FAW7IP/WCDWSKiHPRc2UCzKFftKPBVoH3/pMw/YIR
-         Eo+9/OWQXIQMIagvNfsUlSWwz+PjtK8pjQbAMy0glqhcb6vPexE1S1Al2tZxWInnrvDp
-         gluSziYScLerys1iQW6Ya0fxIaPwDLIb92G0hdur+SEirXERwgAA06yRJIAYhFUQZsof
-         2pPMHD8UJ65YmgCbL6+Z+HofKBx4J2iuI/VCRYKxPhEMUw17bGHN6IGGraOd9upsvab9
-         xLFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762257228; x=1762862028;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I36LzGSl9wytAsBf1yTXZ1w2SrwG6l/dCnsmOh1gGrc=;
-        b=vP194mfyBgXEJ0j0lvjITWiAIlgz/BdoLD/+k5caohFydYnm6Y/ESsJs8CPwMDQ0hK
-         oCiTfUjWoc2lrsouu/tr5cmIa+cfTT/V54nY79i6S/ToO4+WLu64qjDEwMze1QK6+Sbl
-         KOoy72XRDDnXbfbBQUiTQQaeFoGWMz2g1v+B2luarVz4MIAolGMdlpb2NR3lfJtUdzPV
-         kG6cz2jL2syrJIgBgSC7QrWKhFmy14gKlRci7wq3p4QhLSo50zzcIFSYnr2GyTU9wi6Z
-         mqhpccEjndiBUiZ38XZ+iC8VnffgkjXSAmBRyiND8DuEdYR9EL5VLbYi7TT3SIcQh344
-         bQQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVoCoZp7td+FmcPOy4uIandRC8sJV4h5JnRVg8vWn2j5WEKjOUI65ZeZf+imkiMPdkUkA6YbuxrkD8WMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yww3xt5ufSmZEncmRs2w+/eILgVqExn3HzlWUQiXOYNO458ooR7
-	qbwNYREV/qdyOVwdt6Phz9XLW2dr0U2cWZgZSBI7A2nbyNBsSh9npwgSx0KxhrNLFk4=
-X-Gm-Gg: ASbGncvjmcKQf36/ek+uk2shUY7OgfDVBcoG6zDWNNz2RO4Vx8JNnStAciDjJDSR78m
-	YY4hg1GDc3ncMVk5cmXI8mbybsvLnlK1dmnvjr65ny+tEjPEX4cg40wEAtA6lDN/Abxbjcye9G3
-	q+9m+P/36Wam7ZzSh7W1k0oTiLxL9Khv8hXIka4PS3zxUan66bYIq2u7cLN4Zt9Oor9gqL6KqxS
-	p68UDRrWE321YF5JyEY9Rl3azO0Ga9lMeW/mHqwbllcM/G1y73m+9K1Ddb+hDr8KJZzhZ5U4rQu
-	dIsQFn30miLddhdlqV3Y0wLV7Gw8FGxjSuiFU+Lzbo8Yk4/nU7nHkqmxLwfjbk0cfb809m7Oq+9
-	jUQuN7sadO20BeCfzS9ToqeSGg9b1IpY2vozyJuqJienVtdtuiaG24qvVq9Vm6WbUwVhJ96B8z+
-	FbGk79yLmn
-X-Google-Smtp-Source: AGHT+IEvDHwONng4aJ6PO9esJ0vd+TzU9M+bzqzfCyIK9M1CiPuaL9xKsM8JexApKzS2Btn21bVVEQ==
-X-Received: by 2002:a05:600c:1553:b0:46e:436c:2191 with SMTP id 5b1f17b1804b1-4773089c34dmr151966595e9.25.1762257227721;
-        Tue, 04 Nov 2025 03:53:47 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47755938f45sm16302215e9.4.2025.11.04.03.53.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 03:53:47 -0800 (PST)
-Message-ID: <6296a8fd-bc2b-470a-a367-61c2d80fe8e1@tuxon.dev>
-Date: Tue, 4 Nov 2025 13:53:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cP6E9mUo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762258601; x=1793794601;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CaIU/ETYPPssWMPvYMqOLbcN/qfzPMEJH8nRXbbwcL8=;
+  b=cP6E9mUowETQPpa1Exz9IYeCvpRpwYkB6T8m6uIxlWcnhQ5mibAHSXVa
+   bOvIi0TwGUJc+TVCy0U5GbIjn38tDQjMAmD3t9qbsAuqUOKXWqdwXbPm1
+   u+IZxzAtnvBT13/X9uwx2W4rwF3iFzuZ/Rv4Xf3r6urIcUC2+mgqVXPWK
+   2wPTTuegIdrZEEIetV8USOaxW0KagIiykF8kjC3EbiCkh2OC7OhwJbXWE
+   AsnGyun5pqpNHEsEf1FaJOtKIcN6UTHlsJBNiVkJb+jzjt8AXv3D3+fOf
+   rHyNhFZ2y29phWI4zvarBC0ei2lz/YM/USOVrW3yg/h+BuzHMZ1r6ZZjw
+   w==;
+X-CSE-ConnectionGUID: H83lplhTRTOcxez3wNc4xg==
+X-CSE-MsgGUID: VZ144IvFQYGjVIprfVQIig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68187499"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="68187499"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 04:16:40 -0800
+X-CSE-ConnectionGUID: sO9DsIrNSX20xR+fSh7JDQ==
+X-CSE-MsgGUID: EF9dLBimSe629mlVYo3q7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
+   d="scan'208";a="186832417"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.200])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 04:16:36 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	bhelgaas@google.com,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kw@linux.com
+Subject: [PATCH v2 0/7] ASoC/SOF/PCI/Intel: Support for Nova Lake S
+Date: Tue,  4 Nov 2025 14:16:43 +0200
+Message-ID: <20251104121650.21872-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: codecs: Use component driver suspend/resume
-To: Mark Brown <broonie@kernel.org>
-Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, stable@vger.kernel.org
-References: <20251029141134.2556926-1-claudiu.beznea.uj@bp.renesas.com>
- <20251029141134.2556926-2-claudiu.beznea.uj@bp.renesas.com>
- <bdb14543-e611-42d0-a603-300c0ea17335@sirena.org.uk>
- <70362ac1-244b-43c5-97cb-ebe8f5b90c3f@tuxon.dev>
- <56911e0e-0f25-4134-92fd-f89cb47fd9b6@sirena.org.uk>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <56911e0e-0f25-4134-92fd-f89cb47fd9b6@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Mark,
+Hi,
 
-On 10/29/25 18:14, Mark Brown wrote:
->> Would keeping the regcache_cache_only() + regcache_sync() here along with
->> populating the struct snd_soc_component_driver::{suspend, resume} be an
->> acceptable solution for you? I think that will work as well.
-> I'm not sure what you're intending to populate the component with there.
+Changes since v1:
+- Add information for the users of the PCI ID
+- Add Acked-by tag for the pci_ids.h from Bjorn
+- Add Acked-by tags from Mark for the ASoC patches
 
-Sorry for the late reply, I took the chance and prepared a new version
-showing what I intended to say here. v2 posted here:
+This series adds initial support for NVL-S from the Nova Lake family.
+NVL-S includes ACE4 audio subsystem, it has 2 DSP cores.
 
-https://lore.kernel.org/all/20251104114914.2060603-1-claudiu.beznea.uj@bp.renesas.com/
+Regards,
+Peter
+---
+Bard Liao (1):
+  ASoC: Intel: soc-acpi-intel-nvl-match: add rt722 l3 support
 
-Thank you,
-Claudiu
+Peter Ujfalusi (6):
+  PCI: Add Intel Nova Lake S audio Device ID
+  ALSA: hda/hdmi: intelhdmi: add HDMI codec ID for Intel NVL
+  ASoC: Intel: soc-acpi: add NVL match tables
+  ASoC: SOF: Intel: add initial support for NVL-S
+  ALSA: hda: core: intel-dsp-config: Add support for NVL-S
+  ALSA: hda: controllers: intel: add support for Nova Lake S
+
+ include/linux/pci_ids.h                       |  1 +
+ include/sound/soc-acpi-intel-match.h          |  2 +
+ sound/hda/codecs/hdmi/intelhdmi.c             |  1 +
+ sound/hda/controllers/intel.c                 |  2 +
+ sound/hda/core/intel-dsp-config.c             |  8 ++
+ sound/soc/intel/common/Makefile               |  1 +
+ .../intel/common/soc-acpi-intel-nvl-match.c   | 90 +++++++++++++++++++
+ sound/soc/sof/intel/Kconfig                   | 17 ++++
+ sound/soc/sof/intel/Makefile                  |  2 +
+ sound/soc/sof/intel/hda-dsp.c                 |  1 +
+ sound/soc/sof/intel/hda.h                     |  1 +
+ sound/soc/sof/intel/nvl.c                     | 55 ++++++++++++
+ sound/soc/sof/intel/nvl.h                     | 14 +++
+ sound/soc/sof/intel/pci-nvl.c                 | 82 +++++++++++++++++
+ sound/soc/sof/intel/shim.h                    |  1 +
+ 15 files changed, 278 insertions(+)
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-nvl-match.c
+ create mode 100644 sound/soc/sof/intel/nvl.c
+ create mode 100644 sound/soc/sof/intel/nvl.h
+ create mode 100644 sound/soc/sof/intel/pci-nvl.c
+
+-- 
+2.51.2
+
