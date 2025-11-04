@@ -1,112 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1139B223DCF;
-	Tue,  4 Nov 2025 14:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A76728751B
+	for <linux-sound@vger.kernel.org>; Tue,  4 Nov 2025 16:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762267130; cv=none; b=LlDVUCvu27pHHkFhxpG0thtARV1fQOoJXR96A5N9+P3sTDC9ffzDgJFL2u84daj6ZUsWY0dU+B/JGbbmMBv+jrvvXClwu6e9/W4c/XATGyfs+QXuti7JppNt4g9H4ilGr/ivHQGltJNrAkiosN1tDpYdMmnyKnRsWVYspaIfh80=
+	t=1762272838; cv=none; b=LQOmEGn/xrAoMVSYehXbVjkaD3czTwjK+zuXvmu5K08m9sClFtTuS5GwJX1HX5YVdPhFAjYnLH9WVl0iaK2szWMVRdeUiu+hWlqh80jrceIee3yAzy/AXvqiDnM4aQLrIgPwpI+8mGhw1Xl3fprJabJHxlGz98sHaZzDoQn27pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762267130; c=relaxed/simple;
-	bh=IUBKiutzmvLXwVOUYKg7GKMMhHwoEreFMF1fIDx7Th0=;
+	s=arc-20240116; t=1762272838; c=relaxed/simple;
+	bh=l0gqza/13wL9TKhHQa65xdj61+0Nm33d0BCcL0ca4a0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FYCCFIec80zlzF7dfewRhcpCIT9vOEqJzc4952BKAV4dkQghfjWhM3LOIm2Gy5G8gmHESGM0BNajy9uzLulHtKAc0Bvxkq2suPXzGN2kMnpcMtzC39gk5bDbwbRycL+9VEIU1tpB0NblvybQDg6Cka0dPu4om2VH8YGc0cRpNSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzOWRZNE; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=ZtDRXc7bf+7PHCcYGieVV883MBIPnAtmyJ0n8Y1GlUiRZ5B2f9ZTvjsuROgl8A4CWKqLxMO50JLs77PKNY9Kk1FDuxod4brZEyxMSYYg7HHPD1IJPjrftnx+NEfsryuwa8S6FJdW+qxq8PnQDmHznP1+y9jyzyavJjtqR3S2DgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Kd+VF/Mm; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzOWRZNE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BDBC4CEF7;
-	Tue,  4 Nov 2025 14:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762267129;
-	bh=IUBKiutzmvLXwVOUYKg7GKMMhHwoEreFMF1fIDx7Th0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lzOWRZNEIek+5LdKVsqfQo1jc2owXfttewyvj2rg4AwX3fulUNBLOdBNvV3ShmizL
-	 PcbJ35u+4HdlS4C3HH/urvzIhxDr4lz42fP9fj17iMmtzF7gFcAumZyYCdoSEWRwVH
-	 XpHXqee9vrTJWIRZWKBcvHJNxrFKQuqLUUrGD+R8m/SK56I3coLDQyHbZgDITTE4iW
-	 cVXpsoHd7FQ2C2FmBqoDA5pIXe+Gwt1hd/fJujBZBsIKXvaXPu2eMbP5LPKnvSdl86
-	 RXRsT8+egz9UPVcu/IyE/t2DIfi5YAgJ0TXPnl3HYtClJMh3A1dfjQrFlSbFQwNgn8
-	 jBgZIyyrchDjA==
-Message-ID: <14281b17-e066-445e-84e8-771e387904b5@kernel.org>
-Date: Tue, 4 Nov 2025 15:38:44 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Kd+VF/Mm"
+Message-ID: <382ce438-5251-4d4d-af44-863197c77b94@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762272833;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mThExexEsdmLIBa5RGYB+2IyiKeHuBXNXtGY6S50+f8=;
+	b=Kd+VF/MmLgyx0dTtwjmlIyRPE/aAyGKfwY+I8wN9X1AJ3lSrDRfiMmvBRer/rQ/kIj2zaJ
+	nRzdWNV2x5wZb4uCkeIPtwtn1ExtU2yMH830UGJ/HvOXMwPFFwRJ/y2PvBf7r6D4rbsA3S
+	A5a2umh/dvu9bWDrYxOqTwQfnyMBFgo=
+Date: Tue, 4 Nov 2025 17:13:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] ASoC: dt-bindings: ti,pcm1862: convert to dtschema
-To: Ranganath V N <vnranganath.20@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 3/4] ASoC: SDCA: Add basic SDCA class driver
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250925133306.502514-1-ckeepax@opensource.cirrus.com>
+ <20250925133306.502514-4-ckeepax@opensource.cirrus.com>
+ <13c14d26-29ba-4d39-b96a-b12b97935d33@linux.dev>
+ <aQOEREIJ8TiwZHef@opensource.cirrus.com>
+ <a855b919-d21a-4564-a901-fc09e68a9087@opensource.cirrus.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251104-dtbs-v7-1-224aacb09671@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <a855b919-d21a-4564-a901-fc09e68a9087@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 04/11/2025 11:34, Ranganath V N wrote:
-> convert the Texas Instruments PCM186x Universal audio ADC bindings
-> to DT schema.
+On 10/30/25 16:36, Richard Fitzgerald wrote:
+> On 30/10/2025 3:29 pm, Charles Keepax wrote:
+>> On Mon, Oct 27, 2025 at 04:02:54PM +0100, Pierre-Louis Bossart wrote:
 > 
-> The PCM186x codec provides a single digital audio interface. Therefore
-> this binding adds a reference to dai-common.yaml and defines
-> '#sound-dai-cells = 0".
+> SNIP
 > 
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> ---
+>>>> +    pm_runtime_set_autosuspend_delay(dev, 250);
+>>>> +    pm_runtime_use_autosuspend(dev);
+>>>> +    pm_runtime_set_active(dev);
+>>>> +    pm_runtime_get_noresume(dev);
+>>>
+>>> This seems odd, I don't recall that we do something similar in existing codec drivers.
+>>> It'd be worth explaining the whole pm_runtime flow.
+>>
+>> I suspect that means those codec drivers are broken :-) at least
+>> if they actively use pm_runtime. The first two enable
+>> autosuspend, that is suspending the device after a short period
+>> of inactivity. set_active tells the PM runtime the device is
+>> already powered up, as it is. Finally, get_noresume takes a
+>> reference, this will stop it powering down immediately once the
+>> pm_runtime is enabled, it will waiting until we put the reference
+>> we are holding.
+>>
+> Other drivers definitely do that.
+> For example:
+> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/tree/sound/soc/codecs/rt722-sdca.c#n1544
+> 
+> (the other rt drivers are similar)
 
+This rt722-sdca driver seems wrong, IIRC we aligned all drivers to do most of the inits in the driver probe, and then the only thing left to do when the device attaches is the set_active/get_noresume/put_autosuspend.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+See the rt711 and rt1308 for reference, they have comments to explain why we used this code pattern.
 
-Best regards,
-Krzysztof
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/tree/sound/soc/codecs/rt1308-sdw.c#n709
