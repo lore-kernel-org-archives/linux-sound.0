@@ -1,96 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F2D2F0C6D;
-	Tue,  4 Nov 2025 12:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC1B2F5A1D;
+	Tue,  4 Nov 2025 13:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762258626; cv=none; b=Unbk8+mLEjRh+cHvHoPET/EXMzUhO4P9BLElKIkiAMNs8Qmv6bv8++U1WjEjzI2bNqBytuJaxXYDZxQvIBr/E0eK81c22LeqaOxaglcpVauKmaQxYMtdv0F1ePoKmhXK05kE0nPO4uerb+stwcQz2/vAFB3YwW8hRUW4TJlcMxM=
+	t=1762262692; cv=none; b=LOwd9Qhb4fxNctC5VqBnbkFuu9XT6IQXwXOYd2wc+XNX079Cq/iKUo0BmnLZARWK0zo0GA1+EaTxq/OrjvN/RiDVKnhuZJt5oklMXLYHYNcnrPQ5rFnt0Sl6I+Bw+0+4iaZuMxR5xs22TxMnhwuHA8j1ESCn7ZPXaph/yVDi5/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762258626; c=relaxed/simple;
-	bh=PWmiytRG6/u34JO/B5n6uFR7MGxCAh9E5TvHc6UMBk8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EsqEDgrLEG/xnkdoinM9siDaecuM/3saPbZaJ7UBVXyMwL99GoV1V3ahQxsE5L/gKlo8ZOEF2RkF4WVm1/y3wUs5z2vx22bUgRzD4aqnF26a+ryS++uEEmlQCsvltrtd1XEfifyb4jX2SKJxz+EP+hU6WRBn5u6fht77rT67qU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwSEt2e9; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762262692; c=relaxed/simple;
+	bh=x/y6OaG9xHkSJZaW7FMFYnfJAOlbtuz3tWlpugfVLqs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=R7lT+Nsmpbds7GasltVsZe4aVADzEhobm229DA4LEETIz1bUNQZfMeQ+lnVQdD8jHj0N7Lat6BujxvpBgkS1tMXc+fds23KEJ1CGjB7eIeiWffyrwyNWaanu4ReaJToIfQ0PmGYeIto1t6wUf/M/Ccve6DKyLmu/Gm78ofOFZaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnCXXcRV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwSEt2e9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762258625; x=1793794625;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PWmiytRG6/u34JO/B5n6uFR7MGxCAh9E5TvHc6UMBk8=;
-  b=BwSEt2e9Cvfe+X5iYTtkgb9vmgl4CY5a+s0MAxQuynQxRy+soZsZb3OY
-   034QhJEhBcbJgmNcxTtuEXosdE3BYd2+/Jh775V1+aySEQDdlk0hl4532
-   e1M8kIawbTlzrBJ52nSPLe7vXiRZ/dUkfaGGsWrylwxeZnUJtalsIaDYn
-   qqsnnnIOKtCcSVzgF4c5f5+fsJ28nPHJiZAUixoKVNkLKO0CmCG2/Zq7Y
-   RO7hG/FH8HSWbXDigWdvt1gE07I9HlipolOUjz1IK0/qBSOuTrHJGmCLT
-   iN6sN3EKVAER79hgpB+v68a2P2oEHN3nBddR8+lZ+9eEs3ZWKmr8D8bug
-   A==;
-X-CSE-ConnectionGUID: qOi27om9Q1OYoeDIp2aOEQ==
-X-CSE-MsgGUID: q/C4IXPFSqiWO4OL3luFVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68187520"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68187520"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 04:17:05 -0800
-X-CSE-ConnectionGUID: /l3CDK14QCCdnXQfnzq7Ew==
-X-CSE-MsgGUID: uIOPnCc1Rm+0lTyV1z/ytw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="186832453"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.200])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 04:17:01 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kw@linux.com
-Subject: [PATCH v2 7/7] ALSA: hda: controllers: intel: add support for Nova Lake S
-Date: Tue,  4 Nov 2025 14:16:50 +0200
-Message-ID: <20251104121650.21872-8-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251104121650.21872-1-peter.ujfalusi@linux.intel.com>
-References: <20251104121650.21872-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnCXXcRV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E0CC116C6;
+	Tue,  4 Nov 2025 13:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762262692;
+	bh=x/y6OaG9xHkSJZaW7FMFYnfJAOlbtuz3tWlpugfVLqs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fnCXXcRVQi0lwsprNaQMabJ6PZlgtJdYWwJWP/MyTKX+M3cYv2yQS9wecYGtDrPbh
+	 RMYhW+bMiu9Lxo/npATCv7c/HRkFe5xPc8/Uo0BuuoRWXNCKzQ2CjDCe7xbKNzeXvA
+	 R0F/ez+ZKVAsg93W9Fw9wG9/uSV7gK5EN+xYqP2EDY15wxPkBvlRYVzCqgWFa1mwzh
+	 qfRW3AhMWBHTOe9Kp4M9e30Y2EuVLiRcGB6HC5Vd65DPy17Vk1RM3lYRovXmmNSSso
+	 dODyB1+K+q0ECqG6E6HiIWucfB9N0QuCPhYDuFHoGUzJy2TXvofGAjoQ0bWovoD3DX
+	 OHpI3EbGjl92g==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20251103115809.33953-1-rf@opensource.cirrus.com>
+References: <20251103115809.33953-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: doc: cs35l56: Update firmware filename
+ description for B0 silicon
+Message-Id: <176226269039.2215600.18188322802573336046.b4-ty@kernel.org>
+Date: Tue, 04 Nov 2025 13:24:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a6db3
 
-Add NVL-S to the PCI-ID list.
+On Mon, 03 Nov 2025 11:58:09 +0000, Richard Fitzgerald wrote:
+> Update the text for firmware file naming to show that the l?u? suffix is
+> supported on CS35L56 B0 silicon and ampN was only used on early firmware.
+> 
+> The previous version of this text only said that B0 silicon used the ampN
+> suffix. Since kernel 6.16 the driver supports both the old ampN and
+> new l?u? suffix for B0 silicon. New firmwares will use the l?u? suffix.
+> 
+> [...]
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/hda/controllers/intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index a19258c95886..1e8e3d61291a 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2550,6 +2550,8 @@ static const struct pci_device_id azx_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_PTL_H, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Wildcat Lake */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_WCL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
-+	/* Nova Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_NVL_S, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Gemini-Lake */
--- 
-2.51.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: doc: cs35l56: Update firmware filename description for B0 silicon
+      commit: 8da0efc3da9312b65f5cbf06e57d284f69222b2e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
