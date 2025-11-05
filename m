@@ -1,56 +1,75 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39A61922F5
-	for <linux-sound@vger.kernel.org>; Wed,  5 Nov 2025 09:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB192ECD19
+	for <linux-sound@vger.kernel.org>; Wed,  5 Nov 2025 10:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762333806; cv=none; b=lXqOkfRIUalmUSWhr/XuVsGALmMSD/uSiuibeFWzWg3HRvaQ7cj7wSGiHoKtytsbnumyshLFTW9kzHT82LjSSY3wQw66B9LdBKyvWC+USrDdO+NoSSlTh4Relog0dCVFStzwHb43rmwi1hiRrZYW8GQC/VXt+dniAjd8Bvksl/Q=
+	t=1762340012; cv=none; b=DyFk7ht1TjcZPcV+VmeSEup8z0JOURYl5u92j6+XxJKEW4keYudpy0XmVpGknAOW61lazLambsFBgz1aATVea7JdKq3VXLsM43aBXEX421qIe1nXBq92IytO25BI7FYzFRjhtoBcHg7Na8i7OwqdW1kQAJORVW3P4DTqf1uwHTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762333806; c=relaxed/simple;
-	bh=uRJjPVg73olYviXpVAJ9kMh5UuL8cXbBxj87rt2WTGk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VfbrgwvPLp+V/8fmSnGIyQzjymqaJ4UzTeIMmg3HsylFz7m/v8uag8MkUYKdYhs82dcbFZp61T/1vEmAP/CCJ0PJvYVEtnyCrrrBVtaHoXjfsk+BKQkfXwVA4NtpC1y2j5L50hf6/WNKcPSRXNLSMcbsoOmcDtR9rQfk9Lfdj9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ZIavJOKg; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1762340012; c=relaxed/simple;
+	bh=pCfrLcsz8t3wMBF3ucd8fQ0q25ppFlOvrgMTbR34P9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h1x4OG1AOA7qKkVsVNsdaWwcUxca5CfLIrVh3nEIsL1Vs3ciEsyTL10RF8Dj/fOSnqHXAWwV4u2BmB69Yo3HkWSsGU/rEEA17sWajhkXAITioj+IHDlwJWKwGcfwroFMaLAK3Y/1B/EKueKYbweZa0N/JEpwVP2qsReRFkeKlJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcUxhazb; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ZIavJOKg"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5A599KKo8867431, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1762333760; bh=AzULePKrtlyGPmuZsdbsMT6qU3Nb9s6W4C20gNJWs2A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=ZIavJOKgrG95/Z2V4f2E4B62EZQFoWGR/1TURT9H+S5Lp4CV4/Cs+WmJlq4LYo3QI
-	 sy+yUzvumH3vmwwZ3q6/buXC549PuAF7KVLA/ygER/J1CuIyExucShyOjUD+mwIWx3
-	 J0t4ZlM4Mke2QlgUNxl/qUCjiali/A5Aofgyw32pCikvVtvf+eDJ/iD1K78saElbb0
-	 EmXvDc62Otmu1XRGWgJWVxBoB+n18HxnFZ/63dJyg5D0k6bQlN7QZWHA2Q4piMWmiW
-	 +Q7/dZk/3fnF3eLc7qDp8B881ow++8YDSeQklqt7veh16pS67bIzYPzP/yqWczd8oG
-	 fL4bYEGxVT03A==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5A599KKo8867431
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Nov 2025 17:09:20 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Wed, 5 Nov 2025 17:09:20 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Wed, 5 Nov 2025 17:09:20 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
- 15.2.1544.27 via Frontend Transport; Wed, 5 Nov 2025 17:09:20 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <ckeepax@opensource.cirrus.com>,
-        Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: SDCA: support Q7.8 volume format
-Date: Wed, 5 Nov 2025 17:11:22 +0800
-Message-ID: <20251105091122.495561-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcUxhazb"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47728f914a4so34165545e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 05 Nov 2025 02:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762340009; x=1762944809; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yTDLgP3DABV4u5DAGZmkJHSeQLSJsvns9tvea9ggc54=;
+        b=gcUxhazb4+NKzi7MiwQ+pIUUBC6vGngVGbFCoAKfdA3B2V5C4W0Q9RZzKBkOqGAe0t
+         4RiQJJGZ43HrQ4iXRoCJtJ+oqkY9hqQL0br2pYJ++GnIcv/k655ifPyP1sUghVR6vMCt
+         E6HaS52sc/dlfdW3wE8j2AWphUtRJa9KuTSPsJf9wokLoYFW0btwqwJdPXxb3Lxj35hv
+         Xy6l8WiPbS+RzXNG9ir04GfYiIJ9F38mac1wWNp+MT2CCTMlT5SevBwtfhq2+jvS0/VV
+         xF/g8g0sG8Sv4J5lANd5JFf1Zig+LzOHm/mXTrc+/0gQThBsSmnuhw8ywbYoNI3vJuGs
+         /UHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762340009; x=1762944809;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yTDLgP3DABV4u5DAGZmkJHSeQLSJsvns9tvea9ggc54=;
+        b=YyDCViioEwhUXgljozNecEcoM/TqT3UrnDzcdUV+4Nj6B5UTQgdOy9Zo3wm+PbDQcb
+         8m4c7gkR1qKFMqWqkwkmx1iEM6eJS8Vk13hZ6uH56rSydc+LbHblWCDf3c2nNGya8hjn
+         XWUwgY6+JKJDcqchOqH5+ab1F6BxCHlkYn40FprWdZ1cA4cCNI1WR2yQ6k3R3yflz8Cb
+         zoD1nckHqWtmtIqn70oMHgfG/CAfzwj5GpOvIfq7Mc+gCpLm1ZIk6s+qLo0Cw92jrgzr
+         ENyKvYAM0IJ8eXxCxePKin1w25FMaBgnf6uqif+iPxOZojtAxMmcihUOX1p+iA919n63
+         VZMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXaCJDOaGCaUqt1554zbMWHwE39AdyKwvGWvnwOM2Ds54nx3/I7yPuVN1mwRFPDzdl1i0Auuh2pY/WE5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHulheiKdDsrbfGtGcZJ2tiSksbADBq53EJgpiDSOVh681ySQl
+	mwFOE6/ohaxmhpbjGKd1hggH6PoLmBhjKmqdYPjIIwkXaen+6Eu282pB
+X-Gm-Gg: ASbGnctVf5Cnf0EkIAYWw/ou4pmNnuRK7DFSufsDgAzlUj2dNNHPsl7JBYLgsga4i0G
+	MaPBqY0WtavpxvaplA/rQjCMDK4Et+WTbgJvVia59gDmTz2vpOJZPJyTqhpMmHkeHw6ie95VNQL
+	beGz4E2Wm8whKETBqqiMAIocE0opDgnjQRuxphsBF2MAfClweYke1fBbW2zFlT1bJYdLxabXHXt
+	goFeO4RmL3nQWL0Lb0ilNMdcnrgBzTAe7AmacFRH4vVvmFb2yv8MPmr+OB0lz6GVTVWBmU3/N6O
+	kEUhA7CV5EVKITjPPum0q2gu8oD9P769ui7TQrIjsrPbnrv2mQT8Sue6Rj93J34RPpMy7+zR18H
+	ndDau56e5ATAoVkBQt0Y3qK8pe0hVJSQNyjnnrNJnBckDOMRHWPWKIe+pWB5/EnBKSf8Kg6oANw
+	HZ7VM=
+X-Google-Smtp-Source: AGHT+IH2YiAiQPeSvIZ6vlvughXEURO+RpbCjAPdtyKrRX2M/2lmyFu5+eM3XsBvCr4GOqHtGIAcYQ==
+X-Received: by 2002:a05:600c:4e0f:b0:46d:ba6d:65bb with SMTP id 5b1f17b1804b1-4775cdf26d7mr22907745e9.31.1762340008390;
+        Wed, 05 Nov 2025 02:53:28 -0800 (PST)
+Received: from gmail.com ([147.161.143.107])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc1f5ccasm9562064f8f.25.2025.11.05.02.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Nov 2025 02:53:28 -0800 (PST)
+From: hariconscious@gmail.com
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ALSA: ac97: Fix kernel-doc warning for snd_ac97_reset
+Date: Wed,  5 Nov 2025 16:22:30 +0530
+Message-ID: <20251105105229.112172-2-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,203 +77,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Shuming Fan <shumingf@realtek.com>
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
-The SDCA specification uses Q7.8 volume format.
-This patch adds a field to indicate whether it is SDCA volume control
-and supports the volume settings.
+kernel-doc populated the below warning for the non
+static function "snd_ac97_reset".
+"Warning: ./sound/ac97_bus.c:56 No description found
+for return value of 'snd_ac97_reset'".
+Added the return values as per the kernel-doc format.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
 ---
- include/sound/soc.h        |  1 +
- sound/soc/sdca/sdca_asoc.c | 34 ++++++---------------
- sound/soc/soc-ops.c        | 62 +++++++++++++++++++++++++++++++-------
- 3 files changed, 61 insertions(+), 36 deletions(-)
+ sound/ac97_bus.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 1aebf14fcf80..53b4129ee97a 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1225,6 +1225,7 @@ struct soc_mixer_control {
- 	unsigned int sign_bit;
- 	unsigned int invert:1;
- 	unsigned int autodisable:1;
-+	unsigned int sdca_q78:1;
- #ifdef CONFIG_SND_SOC_TOPOLOGY
- 	struct snd_soc_dobj dobj;
- #endif
-diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-index c493ec530cc5..892b7c028fae 100644
---- a/sound/soc/sdca/sdca_asoc.c
-+++ b/sound/soc/sdca/sdca_asoc.c
-@@ -795,7 +795,6 @@ static int control_limit_kctl(struct device *dev,
- 	struct sdca_control_range *range;
- 	int min, max, step;
- 	unsigned int *tlv;
--	int shift;
- 
- 	if (control->type != SDCA_CTL_DATATYPE_Q7P8DB)
- 		return 0;
-@@ -814,37 +813,22 @@ static int control_limit_kctl(struct device *dev,
- 	min = sign_extend32(min, control->nbits - 1);
- 	max = sign_extend32(max, control->nbits - 1);
- 
--	/*
--	 * FIXME: Only support power of 2 step sizes as this can be supported
--	 * by a simple shift.
--	 */
--	if (hweight32(step) != 1) {
--		dev_err(dev, "%s: %s: currently unsupported step size\n",
--			entity->label, control->label);
--		return -EINVAL;
--	}
--
--	/*
--	 * The SDCA volumes are in steps of 1/256th of a dB, a step down of
--	 * 64 (shift of 6) gives 1/4dB. 1/4dB is the smallest unit that is also
--	 * representable in the ALSA TLVs which are in 1/100ths of a dB.
--	 */
--	shift = max(ffs(step) - 1, 6);
--
- 	tlv = devm_kcalloc(dev, 4, sizeof(*tlv), GFP_KERNEL);
- 	if (!tlv)
- 		return -ENOMEM;
- 
--	tlv[0] = SNDRV_CTL_TLVT_DB_SCALE;
-+	tlv[0] = SNDRV_CTL_TLVT_DB_MINMAX;
- 	tlv[1] = 2 * sizeof(*tlv);
- 	tlv[2] = (min * 100) >> 8;
--	tlv[3] = ((1 << shift) * 100) >> 8;
-+	tlv[3] = (max * 100) >> 8;
-+
-+	step = (step * 100) >> 8;
- 
--	mc->min = min >> shift;
--	mc->max = max >> shift;
--	mc->shift = shift;
--	mc->rshift = shift;
--	mc->sign_bit = 15 - shift;
-+	mc->min = ((int)tlv[2] / step);
-+	mc->max = ((int)tlv[3] / step);
-+	mc->shift = step;
-+	mc->sign_bit = 15;
-+	mc->sdca_q78 = 1;
- 
- 	kctl->tlv.p = tlv;
- 	kctl->access |= SNDRV_CTL_ELEM_ACCESS_TLV_READ;
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index d2b6fb8e0b6c..6dc961253947 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -110,6 +110,36 @@ int snd_soc_put_enum_double(struct snd_kcontrol *kcontrol,
- }
- EXPORT_SYMBOL_GPL(snd_soc_put_enum_double);
- 
-+static int sdca_soc_q78_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_val,
-+				unsigned int mask, unsigned int shift, int max)
-+{
-+	int val = reg_val;
-+
-+	if (WARN_ON(!mc->shift))
-+		return -EINVAL;
-+
-+	val = sign_extend32(val, mc->sign_bit);
-+	val = (((val * 100) >> 8) / (int)mc->shift);
-+	val -= mc->min;
-+
-+	return val & mask;
-+}
-+
-+static unsigned int sdca_soc_q78_ctl_to_reg(struct soc_mixer_control *mc, int val,
-+					 unsigned int mask, unsigned int shift, int max)
-+{
-+	unsigned int ret_val;
-+	int reg_val;
-+
-+	if (WARN_ON(!mc->shift))
-+		return -EINVAL;
-+
-+	reg_val = val + mc->min;
-+	ret_val = (int)((reg_val * mc->shift) << 8) / 100;
-+
-+	return ret_val & mask;
-+}
-+
- static int soc_mixer_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_val,
- 				unsigned int mask, unsigned int shift, int max)
- {
-@@ -202,14 +232,22 @@ static int soc_put_volsw(struct snd_kcontrol *kcontrol,
- 	unsigned int val2 = 0;
- 	bool double_r = false;
- 	int ret;
-+	unsigned int (*ctl_to_reg)(struct soc_mixer_control *, int, unsigned int, unsigned int, int);
-+
-+	if (mc->sdca_q78) {
-+		ctl_to_reg = sdca_soc_q78_ctl_to_reg;
-+		val_mask = mask;
-+	} else {
-+		ctl_to_reg = soc_mixer_ctl_to_reg;
-+		val_mask = mask << mc->shift;
-+	}
- 
- 	ret = soc_mixer_valid_ctl(mc, ucontrol->value.integer.value[0], max);
- 	if (ret)
- 		return ret;
- 
--	val1 = soc_mixer_ctl_to_reg(mc, ucontrol->value.integer.value[0],
-+	val1 = ctl_to_reg(mc, ucontrol->value.integer.value[0],
- 				    mask, mc->shift, max);
--	val_mask = mask << mc->shift;
- 
- 	if (snd_soc_volsw_is_stereo(mc)) {
- 		ret = soc_mixer_valid_ctl(mc, ucontrol->value.integer.value[1], max);
-@@ -217,14 +255,10 @@ static int soc_put_volsw(struct snd_kcontrol *kcontrol,
- 			return ret;
- 
- 		if (mc->reg == mc->rreg) {
--			val1 |= soc_mixer_ctl_to_reg(mc,
--						     ucontrol->value.integer.value[1],
--						     mask, mc->rshift, max);
-+			val1 |= ctl_to_reg(mc, ucontrol->value.integer.value[1], mask, mc->rshift, max);
- 			val_mask |= mask << mc->rshift;
- 		} else {
--			val2 = soc_mixer_ctl_to_reg(mc,
--						    ucontrol->value.integer.value[1],
--						    mask, mc->shift, max);
-+			val2 = ctl_to_reg(mc, ucontrol->value.integer.value[1], mask, mc->shift, max);
- 			double_r = true;
- 		}
- 	}
-@@ -251,18 +285,24 @@ static int soc_get_volsw(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	unsigned int reg_val;
- 	int val;
-+	int (*reg_to_ctl)(struct soc_mixer_control *, unsigned int, unsigned int, unsigned int, int);
-+
-+	if (mc->sdca_q78)
-+		reg_to_ctl = sdca_soc_q78_reg_to_ctl;
-+	else
-+		reg_to_ctl = soc_mixer_reg_to_ctl;
- 
- 	reg_val = snd_soc_component_read(component, mc->reg);
--	val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
-+	val = reg_to_ctl(mc, reg_val, mask, mc->shift, max);
- 
- 	ucontrol->value.integer.value[0] = val;
- 
- 	if (snd_soc_volsw_is_stereo(mc)) {
- 		if (mc->reg == mc->rreg) {
--			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->rshift, max);
-+			val = reg_to_ctl(mc, reg_val, mask, mc->rshift, max);
- 		} else {
- 			reg_val = snd_soc_component_read(component, mc->rreg);
--			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
-+			val = reg_to_ctl(mc, reg_val, mask, mc->shift, max);
- 		}
- 
- 		ucontrol->value.integer.value[1] = val;
+diff --git a/sound/ac97_bus.c b/sound/ac97_bus.c
+index 1484fc178fa4..8a44297964f5 100644
+--- a/sound/ac97_bus.c
++++ b/sound/ac97_bus.c
+@@ -46,11 +46,14 @@ static bool snd_ac97_check_id(struct snd_ac97 *ac97, unsigned int id,
+  * @id_mask: Mask that is applied to the device ID before comparing to @id
+  *
+  * This function resets the AC'97 device. If @try_warm is true the function
+- * first performs a warm reset. If the warm reset is successful the function
+- * returns 1. Otherwise or if @try_warm is false the function issues cold reset
+- * followed by a warm reset. If this is successful the function returns 0,
+- * otherwise a negative error code. If @id is 0 any valid device ID will be
+- * accepted, otherwise only the ID that matches @id and @id_mask is accepted.
++ * first performs a warm reset. If @try_warm is false the function issues
++ * cold reset followed by a warm reset. If @id is 0 any valid device ID
++ * will be accepted, otherwise only the ID that matches @id and @id_mask
++ * is accepted.
++ * Returns:
++ * * %1 - if warm reset is successful
++ * * %0 - if cold reset and warm reset is successful
++ * * %-ENODEV - if @id and @id_mask not matching
+  */
+ int snd_ac97_reset(struct snd_ac97 *ac97, bool try_warm, unsigned int id,
+ 	unsigned int id_mask)
+
+base-commit: 284922f4c563aa3a8558a00f2a05722133237fe8
 -- 
-2.51.1
+2.43.0
 
