@@ -1,122 +1,85 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB192ECD19
-	for <linux-sound@vger.kernel.org>; Wed,  5 Nov 2025 10:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA5F30F80D;
+	Wed,  5 Nov 2025 11:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762340012; cv=none; b=DyFk7ht1TjcZPcV+VmeSEup8z0JOURYl5u92j6+XxJKEW4keYudpy0XmVpGknAOW61lazLambsFBgz1aATVea7JdKq3VXLsM43aBXEX421qIe1nXBq92IytO25BI7FYzFRjhtoBcHg7Na8i7OwqdW1kQAJORVW3P4DTqf1uwHTA=
+	t=1762343035; cv=none; b=Z3acRkXQhDFez6Ru4xbPZA3TQdV78eLBltUiGkpN4wYu01aXbV1R/jGD09DG+vrdohpNGoiJHLlsc3eXMdYlwDgNmtWesGx9XOoL1S2D4YaZMoShdCW8Id9NtF0IKgjt6j/qa+mpxry5eYm81kOs9zP5VT84KQLZtoCOPELI6sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762340012; c=relaxed/simple;
-	bh=pCfrLcsz8t3wMBF3ucd8fQ0q25ppFlOvrgMTbR34P9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h1x4OG1AOA7qKkVsVNsdaWwcUxca5CfLIrVh3nEIsL1Vs3ciEsyTL10RF8Dj/fOSnqHXAWwV4u2BmB69Yo3HkWSsGU/rEEA17sWajhkXAITioj+IHDlwJWKwGcfwroFMaLAK3Y/1B/EKueKYbweZa0N/JEpwVP2qsReRFkeKlJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcUxhazb; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762343035; c=relaxed/simple;
+	bh=GQ+ObrRyg9ornm+HOtGZCigymeSFO3TCh9lPuvFGW0w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tmAwUpVRprCteTXu8EiNvkGnKqYHId5jkdo6IonBnr/K5qHRgESQfAwSe9E0SHa6vzHEn3Rzo0sjiT5cv6B51ayrq7J9yQ4rAKoXOl9VMxa7Ys80zRkOI/DqYyaVJUehjOrN8Kcgx6PfjYhWyVYHIG5Bvp7qAtfQKOcpf7lrPJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fi6jhYeI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcUxhazb"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47728f914a4so34165545e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 05 Nov 2025 02:53:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762340009; x=1762944809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yTDLgP3DABV4u5DAGZmkJHSeQLSJsvns9tvea9ggc54=;
-        b=gcUxhazb4+NKzi7MiwQ+pIUUBC6vGngVGbFCoAKfdA3B2V5C4W0Q9RZzKBkOqGAe0t
-         4RiQJJGZ43HrQ4iXRoCJtJ+oqkY9hqQL0br2pYJ++GnIcv/k655ifPyP1sUghVR6vMCt
-         E6HaS52sc/dlfdW3wE8j2AWphUtRJa9KuTSPsJf9wokLoYFW0btwqwJdPXxb3Lxj35hv
-         Xy6l8WiPbS+RzXNG9ir04GfYiIJ9F38mac1wWNp+MT2CCTMlT5SevBwtfhq2+jvS0/VV
-         xF/g8g0sG8Sv4J5lANd5JFf1Zig+LzOHm/mXTrc+/0gQThBsSmnuhw8ywbYoNI3vJuGs
-         /UHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762340009; x=1762944809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yTDLgP3DABV4u5DAGZmkJHSeQLSJsvns9tvea9ggc54=;
-        b=YyDCViioEwhUXgljozNecEcoM/TqT3UrnDzcdUV+4Nj6B5UTQgdOy9Zo3wm+PbDQcb
-         8m4c7gkR1qKFMqWqkwkmx1iEM6eJS8Vk13hZ6uH56rSydc+LbHblWCDf3c2nNGya8hjn
-         XWUwgY6+JKJDcqchOqH5+ab1F6BxCHlkYn40FprWdZ1cA4cCNI1WR2yQ6k3R3yflz8Cb
-         zoD1nckHqWtmtIqn70oMHgfG/CAfzwj5GpOvIfq7Mc+gCpLm1ZIk6s+qLo0Cw92jrgzr
-         ENyKvYAM0IJ8eXxCxePKin1w25FMaBgnf6uqif+iPxOZojtAxMmcihUOX1p+iA919n63
-         VZMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaCJDOaGCaUqt1554zbMWHwE39AdyKwvGWvnwOM2Ds54nx3/I7yPuVN1mwRFPDzdl1i0Auuh2pY/WE5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHulheiKdDsrbfGtGcZJ2tiSksbADBq53EJgpiDSOVh681ySQl
-	mwFOE6/ohaxmhpbjGKd1hggH6PoLmBhjKmqdYPjIIwkXaen+6Eu282pB
-X-Gm-Gg: ASbGnctVf5Cnf0EkIAYWw/ou4pmNnuRK7DFSufsDgAzlUj2dNNHPsl7JBYLgsga4i0G
-	MaPBqY0WtavpxvaplA/rQjCMDK4Et+WTbgJvVia59gDmTz2vpOJZPJyTqhpMmHkeHw6ie95VNQL
-	beGz4E2Wm8whKETBqqiMAIocE0opDgnjQRuxphsBF2MAfClweYke1fBbW2zFlT1bJYdLxabXHXt
-	goFeO4RmL3nQWL0Lb0ilNMdcnrgBzTAe7AmacFRH4vVvmFb2yv8MPmr+OB0lz6GVTVWBmU3/N6O
-	kEUhA7CV5EVKITjPPum0q2gu8oD9P769ui7TQrIjsrPbnrv2mQT8Sue6Rj93J34RPpMy7+zR18H
-	ndDau56e5ATAoVkBQt0Y3qK8pe0hVJSQNyjnnrNJnBckDOMRHWPWKIe+pWB5/EnBKSf8Kg6oANw
-	HZ7VM=
-X-Google-Smtp-Source: AGHT+IH2YiAiQPeSvIZ6vlvughXEURO+RpbCjAPdtyKrRX2M/2lmyFu5+eM3XsBvCr4GOqHtGIAcYQ==
-X-Received: by 2002:a05:600c:4e0f:b0:46d:ba6d:65bb with SMTP id 5b1f17b1804b1-4775cdf26d7mr22907745e9.31.1762340008390;
-        Wed, 05 Nov 2025 02:53:28 -0800 (PST)
-Received: from gmail.com ([147.161.143.107])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc1f5ccasm9562064f8f.25.2025.11.05.02.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 02:53:28 -0800 (PST)
-From: hariconscious@gmail.com
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HariKrishna Sagala <hariconscious@gmail.com>
-Subject: [PATCH] ALSA: ac97: Fix kernel-doc warning for snd_ac97_reset
-Date: Wed,  5 Nov 2025 16:22:30 +0530
-Message-ID: <20251105105229.112172-2-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fi6jhYeI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D00C4CEF8;
+	Wed,  5 Nov 2025 11:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762343034;
+	bh=GQ+ObrRyg9ornm+HOtGZCigymeSFO3TCh9lPuvFGW0w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Fi6jhYeIpqknc6/1Bn2EZlXzdSGcf1Ly+OILqPqNlk1xgNQVO6hEErMM2kJFDw4qy
+	 xpnl+7HtjfFkpZWOZWAjyRctTGb7xawxlN8ZyB7EBGkOkmExZxKZ+dpMehQJpKA2N9
+	 i5S7e4z/DzYCexMash2f4EROw8zcaPX2WkHaFIb3sQVdoAzOStn2jt8WUFxUSxCR9Q
+	 0eHOVX34IPWiSe8SNocBmebW+D9rwkAS/6lUfeAaDygACazF6sSK/u1LxyAoZTxPTE
+	 wdp+MuenqNW8sPkktMywpXvXrAWwMP/xX0STgNYuH1cAVRcDKrEZjUSTVwlhSXOOAE
+	 3vPdsfW7WraFA==
+From: Mark Brown <broonie@kernel.org>
+To: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ hariconscious@gmail.com
+Cc: khalid@kernel.org, shuah@kernel.org, david.hunter.linux@gmail.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251104054257.9953-2-hariconscious@gmail.com>
+References: <20251104054257.9953-2-hariconscious@gmail.com>
+Subject: Re: [PATCH] ASoC: tas2781: Replace deprecated strcpy() with
+ strscpy()
+Message-Id: <176234303118.2251668.5368163491744892647.b4-ty@kernel.org>
+Date: Wed, 05 Nov 2025 11:43:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a6db3
 
-From: HariKrishna Sagala <hariconscious@gmail.com>
+On Tue, 04 Nov 2025 11:12:58 +0530, hariconscious@gmail.com wrote:
+> strcpy() is deprecated,use strscpy() instead.
+> No functional changes intended.
+> Link: https://github.com/KSPP/linux/issues/88
+> 
+> 
 
-kernel-doc populated the below warning for the non
-static function "snd_ac97_reset".
-"Warning: ./sound/ac97_bus.c:56 No description found
-for return value of 'snd_ac97_reset'".
-Added the return values as per the kernel-doc format.
+Applied to
 
-Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
----
- sound/ac97_bus.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/ac97_bus.c b/sound/ac97_bus.c
-index 1484fc178fa4..8a44297964f5 100644
---- a/sound/ac97_bus.c
-+++ b/sound/ac97_bus.c
-@@ -46,11 +46,14 @@ static bool snd_ac97_check_id(struct snd_ac97 *ac97, unsigned int id,
-  * @id_mask: Mask that is applied to the device ID before comparing to @id
-  *
-  * This function resets the AC'97 device. If @try_warm is true the function
-- * first performs a warm reset. If the warm reset is successful the function
-- * returns 1. Otherwise or if @try_warm is false the function issues cold reset
-- * followed by a warm reset. If this is successful the function returns 0,
-- * otherwise a negative error code. If @id is 0 any valid device ID will be
-- * accepted, otherwise only the ID that matches @id and @id_mask is accepted.
-+ * first performs a warm reset. If @try_warm is false the function issues
-+ * cold reset followed by a warm reset. If @id is 0 any valid device ID
-+ * will be accepted, otherwise only the ID that matches @id and @id_mask
-+ * is accepted.
-+ * Returns:
-+ * * %1 - if warm reset is successful
-+ * * %0 - if cold reset and warm reset is successful
-+ * * %-ENODEV - if @id and @id_mask not matching
-  */
- int snd_ac97_reset(struct snd_ac97 *ac97, bool try_warm, unsigned int id,
- 	unsigned int id_mask)
+Thanks!
 
-base-commit: 284922f4c563aa3a8558a00f2a05722133237fe8
--- 
-2.43.0
+[1/1] ASoC: tas2781: Replace deprecated strcpy() with strscpy()
+      commit: 3b071bdd26849172101081573a18022af108fb21
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
