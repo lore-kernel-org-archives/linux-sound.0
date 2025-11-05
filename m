@@ -1,87 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6412C08B0;
-	Wed,  5 Nov 2025 11:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B684B311977;
+	Wed,  5 Nov 2025 11:54:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762343042; cv=none; b=CRURYxoZnncMkGP+G8mZ0fXKN3RJxdYCvid6sHgSCxaPArtXbvPr5ceLdzHvYFrbbdP10pb6ZUXrg8GcAeCuhsJfEUdQTwPjY9e5oSqr4XEBUYjdRAZGg0mnhsozG/+irQQGyzRCWpAERLYCq7DgIl5cf9fxkqp+DxMZer4GC9w=
+	t=1762343685; cv=none; b=KlS9hYaXvAURUokyKH84vYf1/LBGAs9/qrPRIdpCyxm6p0puUyJgAiZ7Iu0Dts1pbopU9/7DLaQlpOsGLb55/QSbYfMuNEo8vV0mzv3gA7JVwCHVmn8XoFBjoTgE5dqWjj7xde/FjZKgZpDerQIOkyq/5zmSb7ohGxecrxbM/C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762343042; c=relaxed/simple;
-	bh=lsKdS2/RgYDLurMVzKpoUTZ9hMpJVA/+yKedZERoEbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PFPNrwJaGyHxWBKwxsDbUVIwE2lhNBIDAxMJF6kF7LFSxf5u8nJEHKqejNpzRUURWXNv4bezbiOwjhvlPbftAvaXlOhSsnAD1FPRIAfeJ4is2HCskZjEu5Tpe5vRsIoJ8ABlzdyCjm10OgiGhzJvp+9XQ6CTCK4nMw740/RWXKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IenRHymy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762343685; c=relaxed/simple;
+	bh=fWXEEpra3JSRXtn+vmC3wMzG+TNvV4eqDMvW3p5wny4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j21MnrxpjSzuXzAgvPeysA7Bi1J2TB1FnhQQ1ooL6X69WoUXi3dFfE1cfoXXthZ6phz5dDZBOzyP5Vwelq5A0d6VJdNYccMw8xf5QP4cZGQR+tPLTtesO4X65+FFPWm7GvQFVv3cA0spVmIQ7EmmiOQazQHBkqrasA9ybKX0ILQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hM/cY5Ki; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IenRHymy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F1CC116D0;
-	Wed,  5 Nov 2025 11:43:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hM/cY5Ki"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7ABC4CEFB;
+	Wed,  5 Nov 2025 11:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762343042;
-	bh=lsKdS2/RgYDLurMVzKpoUTZ9hMpJVA/+yKedZERoEbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IenRHymyvP37MS9PUGM89sMnSa0qyGoNDa9zPAZIIGmn1lqiSyvPgT7iIfkAr6fVc
-	 JWGlgCA8v4pR1bvpXfdhpJBfoKvzOAxciBDVPdT1HzH2Jwb4xHAgsU0mXVluXSda0N
-	 9m9BR2KQ2dXr00cb1umLf24Qy6izc5u4jz0vUvyrW05et1ZKdebh8UhaZUtljEYLvU
-	 dAUa8b7YKwrV642IBPx0ZstVFwa+6T7w+oRzFWd2+KbFMnx5sQqexJp+6iznqe1zgr
-	 TMgL0C51WadetlSnQ2XSwo/Y4S/3jzN1YppSzqRw43IKff1et0lX+ZRSI6HL+ZQTY5
-	 2wJvHCpzVD0hQ==
+	s=k20201202; t=1762343685;
+	bh=fWXEEpra3JSRXtn+vmC3wMzG+TNvV4eqDMvW3p5wny4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hM/cY5KiggonlBpQS6r6aUbQCzmxqedMYrNiw5nWJDwLW7yBuvTNF6tQNZiH7Ckn+
+	 AEYM+Y5ZDtiyvsPWGsEqGdLsWThkVadOzZOHGYNr4Nb8t4zgnG37geJk90dvTyOVKU
+	 z348htJf6XzkaDyjJGeQdOMhsjsmZ2pBQzCUAziWSobwrrtx+WnsiwyQ3/b0diYn0G
+	 /t0xqWMxPL8V6LoPxnz5eTKOnLflY0clYziscaVqc0TK4y/Hg7orWHNaWcLW8CvIQw
+	 9yZybJdJc3+kFYnMZUtjBLfCmIh0O2topDLZMrF3hFx9bYXd8yRRadBTMwDAF4rAQf
+	 6OfWiXyemUoXQ==
+Date: Wed, 5 Nov 2025 11:54:41 +0000
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Baojun Xu <baojun.xu@ti.com>
-Cc: andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
- shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com, 
- will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com, 
- chinkaiting@google.com
-In-Reply-To: <20251104041314.792-1-baojun.xu@ti.com>
-References: <20251104041314.792-1-baojun.xu@ti.com>
-Subject: Re: [PATCH v1 1/2] ASoC: tas2781: Add tas5822 support
-Message-Id: <176234303679.2251668.8971844792881190697.b4-ty@kernel.org>
-Date: Wed, 05 Nov 2025 11:43:56 +0000
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: vulab@iscas.ac.cn, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, LKML <linux-kernel@vger.kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ASoC: cs4271: Fix regulator leak on probe failure
+Message-ID: <aQs7Ae99uxewgQyk@finisterre.sirena.org.uk>
+References: <20251105062246.1955-1-vulab@iscas.ac.cn>
+ <2f31c494-b655-43e3-aa6b-90c4594d1d44@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sW4N0oa2V8v1biPX"
+Content-Disposition: inline
+In-Reply-To: <2f31c494-b655-43e3-aa6b-90c4594d1d44@web.de>
+X-Cookie: If in doubt, mumble.
 
-On Tue, 04 Nov 2025 12:13:12 +0800, Baojun Xu wrote:
-> TAS5822 has on-chip DSP without current/voltage feedback.
-> 
-> 
 
-Applied to
+--sW4N0oa2V8v1biPX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Nov 05, 2025 at 09:43:13AM +0100, Markus Elfring wrote:
+> > The probe function enables regulators at the beginning
+> > but fails to disable them in its error handling path.
+> =E2=80=A6
+>=20
+> Would an other word wrapping be a bit nicer for such a change description?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/process/submitting-patches.rst?h=3Dv6.18-rc4#n658
 
-Thanks!
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
-[1/2] ASoC: tas2781: Add tas5822 support
-      commit: ecaba8b7990d8c6d8ba097cd4499b3b92d9df6ea
-[2/2] ASoC: dt-bindings: ti,tas2781: Add TAS5822 support
-      commit: c4e68959af66df525d71db619ffe44af9178bb22
+--sW4N0oa2V8v1biPX
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkLOwAACgkQJNaLcl1U
+h9Axrwf/ZbaZPe7ifA+WMRLQD/vYPTfcBcrWPWr4z4T3PNb2HSND6RAyVvLHA7M0
+EQ525OQfSzF9bk9d8D70+9cEQzrOwIiBbMuCpJcv69YrLZAmisH97pCWeAJpZB6D
+DgOGBva1ttqvFMfyvRdVKpcG/PgxOYUBE3t+qVmrkzmgPJPRS3roBbwh2KFWlWPe
+epwfDTT/jqINVXzfzaZaoK1w/50WlGFxtS98uthISX2iwU3K2Z+5OU1UfZVS+zRo
+pasY/KP02BgR5W+nFpa7x3o9IJaO0shOiv4xrVhfW+yEALY42dDklazj4ss80194
+d8znrqtF9DS7OirN+6HvL7o5WnoOIg==
+=tMB3
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--sW4N0oa2V8v1biPX--
