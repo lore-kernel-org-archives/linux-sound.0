@@ -1,219 +1,160 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB9E303C88
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6989335BA5
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762447272; cv=none; b=kS/NFuS7BnCtcTTTdwxyE5T1w7sdfx6QeXhIqgVkD3vsnnZxwG7f0TttWQuB9CO7EKmMyHffVyo3SyLjK8Q+X5f217Pfn3ymSN69RAtnfd3GFOY4DyWZHaib7WNNU9eLNovrq7AMvie8laPcnhBZaiSzN6Dk4q/GliHLkaC0nlA=
+	t=1762447506; cv=none; b=COgIpg6URuDHQtFq0SWTV7ZPh39CU40K2EcDFhIs4egXoMx7uvLq9nCUXEN5KaMmYeKx7zBDOkIbxPwnBGM/EKfUzoMbfSJF2q33yvO7pZgK3JtNoNwKlKsd8E9Mf8n2WpuRAtYQDMgvr3lE/yS98/EoIMuYH+na2wugMSkWm7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762447272; c=relaxed/simple;
-	bh=bShgRUXmwIigTJi4rYrvdghECfsg69LUPFjEV76bnpg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QS412mqE6mjn/sbPb3vf6cr4lsouB9v8HhoyuQsVFv+wpoYXkz4dvn84t584YqxuHGsBtYF7g0INWQ0UHX4d0bzTR5a/3JXPIslJK3WEpiRwKk3mzmmIiqJ5xoiQwjSySguxc73yEwiKx9j/4fd0VEAXRiD2P3JoE/wl4S+SgFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NWFQNtTB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hk+XRX9v; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NWFQNtTB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hk+XRX9v; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1762447506; c=relaxed/simple;
+	bh=X9BEWwB0FNpTpkWJhm+qaXY0I7iml0fSupTwank2kMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rMcZ4mWRG5Kg2yCBPCudHaYc/X87HPhvZP1BHd7onWgSaPZ/ZQws6KhE0Y/9mkSc48B8k4ebTBD50n5us8aUL3hrNDc+yjcHYnXie/yw8nfwxQnTps3lpEPneJE80c0qgKVyCl2sQRemJVTIJO6W5WYQWJWIkpVr+6pVCyJZ3+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Es1QkEdA; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NWFQNtTB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hk+XRX9v";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NWFQNtTB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hk+XRX9v"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F53C2118C;
-	Thu,  6 Nov 2025 16:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762447268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
-	b=NWFQNtTB5ZTr+rlMV3LGfORGmHDL9FpXPsi+AjE7NER/O/B/J4WYeKQ5cK4N6Kw1+N6elB
-	v7pYiP8HqYZFt6/P7wy01f2dIudL1gO2zqTiM+1i2nOUVO4hX+THnZAChNFPPtERAIS/3f
-	LBLmq8MEdB4DJ95qUCuiM9jEXgyIosM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762447268;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
-	b=Hk+XRX9vm2Xrmv9ErrVak0XjuWcgYd62AkaRAFuKBYL7O6HyuJwc7JM+JPxpGsDa2A2j/f
-	54jk5HXMk6U9n9Bw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762447268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
-	b=NWFQNtTB5ZTr+rlMV3LGfORGmHDL9FpXPsi+AjE7NER/O/B/J4WYeKQ5cK4N6Kw1+N6elB
-	v7pYiP8HqYZFt6/P7wy01f2dIudL1gO2zqTiM+1i2nOUVO4hX+THnZAChNFPPtERAIS/3f
-	LBLmq8MEdB4DJ95qUCuiM9jEXgyIosM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762447268;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
-	b=Hk+XRX9vm2Xrmv9ErrVak0XjuWcgYd62AkaRAFuKBYL7O6HyuJwc7JM+JPxpGsDa2A2j/f
-	54jk5HXMk6U9n9Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 458F813A31;
-	Thu,  6 Nov 2025 16:41:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hN+0D6TPDGnPSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Nov 2025 16:41:08 +0000
-Date: Thu, 06 Nov 2025 17:41:07 +0100
-Message-ID: <87h5v7ru58.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Lizhi Xu <lizhi.xu@windriver.com>
-Cc: <tiwai@suse.de>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<perex@perex.cz>,
-	<syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>,
-	<syzkaller-bugs@googlegroups.com>,
-	<tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
-In-Reply-To: <20251106143506.720545-1-lizhi.xu@windriver.com>
-References: <87v7jnfkio.wl-tiwai@suse.de>
-	<20251106143506.720545-1-lizhi.xu@windriver.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Es1QkEdA"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-781014f4e12so12337217b3.1
+        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:45:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762447503; x=1763052303; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YCzuZ/teXYU7yevuP9B3flHK19xr/xlr710i4rE8skU=;
+        b=Es1QkEdA/zBpIPzi+HGQl/7UQTc0u7rQ8nQ0oNHOJvYpsDrh52P+nfcZ1rRMFmekG8
+         oWKW1fPLFi0yEr9g8nCV4eIarl2Kv6/bIY91CoJxqjC4yot5jHJvoora0gdiknA3GU5/
+         RdStclCYNas64mysPuwfygU09X9y4gu0ZUbgVKQIBgM9pLWf4tzdiQpuBD/RsrJTUmiL
+         o/sCo5ZnjxyWXd/cYR+X3YeriM6gB0Nn6LZO5rVnBQNmPEwaWl+/x71i20PG8OY4Fi+S
+         cbK27KlFofPjN4icMa0L/Tu7aA857zVeADmHxcoOlL6BaEvh0ikqYMl4fChbZSHxKrt/
+         O3pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762447503; x=1763052303;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YCzuZ/teXYU7yevuP9B3flHK19xr/xlr710i4rE8skU=;
+        b=TWq1VNmW8F/VB0lETGk3en6PEeOppsocCHQNtmrCSt4AJbVF8a2LqxFRskvIg6tskd
+         VUGOeN8VMvN9GhrXlXPLvFggDS83W+hBcDoTAWzr6ounWuCEYoatA858Emyxiac/UT3t
+         2MDn2KngN0+Ty60C/5E3JvF7kSlnw6CKd90ONJgsQakfx+9FAJ4TmN03D7o9Tw+IIZsE
+         rk+HvZdRLgpHznSJMmN0tkafAbx/HY4rxhp/f/8+sppIQTXxy5l83Np22M5lxkq67dFt
+         h2wXb6LYPZuIJUfeJqVZw368NSjEUrl7TaGITE/RFk4hp5b0+4x4OI34/Tg/q5jhHwtG
+         TY6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUPq6phk6rrBxiLGqXHT0mgiCM7oMXD43VeEY//9oqMHiIijbklX+hdY/fASjRn25epgTS7p61N1+Cp0Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHBgvgGT/GBNEJE2a3WeN0o+/qzi3BENHr2eOoYQLy/w/5ThHz
+	WJeXTbycFk2C7sJ1+bv1gqeCPT/DyKKcGX66DAnQN4ewW/9BMMQr8A2P
+X-Gm-Gg: ASbGncv0Ew6e26egrJ7ovF7QYq0fpQAK1GKADuY/xlBEgQk9I4nLPb1Glb27aZIrxH8
+	b8B3G9OPkue8YlB9EnXpNGePlgl2f0bYfpxbcxnJlcZKtpQFW3FmF8h0kxzKtgHBnRnedLuyedl
+	Nlhvpgq8Ve0soJbkuQlYiBgTzDqQ2zMGcV3NgMQSvbkuLuw+BgKs6OfsxP+ubtQSpkuojoRQWld
+	9ZZcr1wXOsXDxEG42yLjwhtbtEL0hHXeuWIqyB7r6SgKdXR+c5tr/pG4v4JwixyhmqReKtdlPn5
+	8p0Gq5sLHblcCHEBl1WDU6txll95K91NikrJAbIqJuSZfTpQmB/ZJ7Ay69KuCwIcYttE5J8T3j+
+	8SjMeDcjwqS/u/eqbkAoL4rtf2TpoVR6mFX9IQ32BQhVwxyotTT93UrZsVTxbDuossdhhB60cWX
+	a+fthqufEvTXZfUEo4tnViJJ2EtwLDTmlN3r9ZJM32xEs=
+X-Google-Smtp-Source: AGHT+IFgqblsjDg64jVhZU34czKFHTApBwHTvzKvobAZn60rv4BaSs97biLpVcByf7R85pQynTZCWw==
+X-Received: by 2002:a05:690c:46c3:b0:786:45ce:9bd3 with SMTP id 00721157ae682-786a41b2455mr71656237b3.34.1762447502815;
+        Thu, 06 Nov 2025 08:45:02 -0800 (PST)
+Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-787b13b6954sm9471997b3.5.2025.11.06.08.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 08:45:02 -0800 (PST)
+Date: Thu, 6 Nov 2025 11:45:01 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/26] Non-const bitfield helpers
+Message-ID: <aQzQjSMOSrUIgMCL@yury>
+References: <cover.1762435376.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[bfd77469c8966de076f7];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1762435376.git.geert+renesas@glider.be>
 
-On Thu, 06 Nov 2025 15:35:06 +0100,
-Lizhi Xu wrote:
+On Thu, Nov 06, 2025 at 02:33:48PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
 > 
-> On Thu, 06 Nov 2025 12:49:51 +0100, Takashi Iwai wrote:
-> > > > > The calculation rule for the actual data length written to the URB's
-> > > > > transfer buffer differs from that used to allocate the URB's transfer
-> > > > > buffer, and in this problem, the value used during allocation is smaller.
-> > > > >
-> > > > > This ultimately leads to write out-of-bounds errors when writing data to
-> > > > > the transfer buffer.
-> > > > >
-> > > > > To prevent out-of-bounds writes to the transfer buffer, a check between
-> > > > > the size of the bytes to be written and the size of the allocated bytes
-> > > > > should be added before performing the write operation.
-> > > > >
-> > > > > When the written bytes are too large, -EPIPE is returned instead of
-> > > > > -EAGAIN, because returning -EAGAIN might result in push back to ready
-> > > > > list again.
-> > > > >
-> > > > > Based on the context of calculating the bytes to be written here, both
-> > > > > copy_to_urb() and copy_to_urb_quirk() require a check for the size of
-> > > > > the bytes to be written before execution.
-> > > > >
-> > > > > syzbot reported:
-> > > > > BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
-> > > > > Write of size 264 at addr ffff88801107b400 by task syz.0.17/5461
-> > > > >
-> > > > > Call Trace:
-> > > > >  copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
-> > > > >  prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
-> > > > >
-> > > > > Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
-> > > > > Closes: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
-> > > > > Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
-> > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> > > >
-> > > > I'm afraid that this doesn't address the root cause at all.
-> > > > The description above sounds plausible, but not pointing to "why".
-> > > >
-> > > > The bytes is frames * stride, so the question is why a too large
-> > > > frames is calculated.  I couldn't have time to check the details, but
-> > > > there should be rather some weird condition / parameters to trigger
-> > > > this, and we should check that at first.
-> > > During debugging, I discovered that the value of ep->packsize[0] is 22,
-> > > which causes the counts calculated by
-> > > counts = snd_usb_endpoint_next_packet_size(ep, ctx, i, avail);
-> > > to be 22, resulting in a frames value of 22 * 6 = 132;
-> > > Meanwhile, the stride value is 2, which ultimately results in
-> > > bytes = frames * stride = 132 * 2 = 264;
-> > > @@ -1241,6 +1252,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
-> > > 	u->buffer_size = maxsize * u->packets;
-> > > 	...
-> > > 	u->urb->transfer_buffer =
-> > >                 usb_alloc_coherent(chip->dev, u->buffer_size,
-> > >                                    GFP_KERNEL, &u->urb->transfer_dma);
-> > >
-> > > Here, when calculating u->buffer_size = maxsize * u->packets;
-> > > maxsize = 9, packets = 6, which results in only 54 bytes allocated to
-> > > transfer_buffer;
-> > 
-> > Hm, so the problem is rather the calculation of the buffer size.
-> > The size sounds extremely small.  Which parameters (rates, formats,
-> > etc) are used for achieving this?
-> rates: 22050
-> format: 2
-> channels: 1
-> /////////////////////////////
-> stride: 2
-> packets: 6
-> data interval: 0
-> frame_bits: 16
-> > 
-> > The calculation of u->buffer_size is a bit complex, as maxsize is
-> > adjusted in many different ways.  Is it limited due to wMaxPacketSize
-> > setup?
-> Yes, it's because the value of ep->maxpacksize is 9 that the maxsize
-> value is 9.
+> <linux/bitfield.h> contains various helpers for accessing bitfields, as
+> typically used in hardware registers for memory-mapped I/O blocks.
+> These helpers ensure type safety, and deduce automatically shift values
+> from mask values, avoiding mistakes due to inconsistent shifts and
+> masks, and leading to a reduction in source code size.
+> 
+> The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> constants.  However, it is very common to prepare or extract bitfield
+> elements where the bitfield mask is not a compile-time constant (e.g. it
+> comes from a table, or is created by shifting a compile-time constant).
+> To avoid this limitation, the AT91 clock driver introduced its own
+> field_{prep,get}() macros.  During the past four years, these have been
+> copied to multiple drivers, and more copies are on their way[1], leading
+> to the obvious review comment "please move this to <linux/bitfield.h>".
+> 
+> Hence this series
+>   1. Takes preparatory steps in drivers definining local
+>      field_{get,prep}() macros (patches 1-11),
+>   2. Introduces __FIELD_{PREP,GET}() helpers to avoid clang W=1 warnings
+>      (patch 12),
+>   3. Makes field_{prep,get}() available for general use (patch 13),
+>   4. Converts drivers with local variants to the common helpers (patches
+>      14-24),
+>   5. Converts a few Renesas drivers to the existing FIELD_{GET,PREP}()
+>      and the new field_{get,prep}() helpers (patches 25-26).
+> 
+> Alternatives would be to use the typed {u*,be*,le*,...}_{get,encode}_bits()
+> macros instead (which currently do not work with non-constant masks
+> either, and the first attempt to change that generates much worse code),
+> or to store the low bit and width of the mask instead (which would
+> require changing all code that passes masks directly, and also generates
+> worse code).
 
-OK, then a fix like below would work?
+Everyone please send your tags. I'm going to merge it in
+bitmap-for-next before Monday.
 
-
-thanks,
-
-Takashi
-
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1362,6 +1362,11 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
- 	ep->sample_rem = ep->cur_rate % ep->pps;
- 	ep->packsize[0] = ep->cur_rate / ep->pps;
- 	ep->packsize[1] = (ep->cur_rate + (ep->pps - 1)) / ep->pps;
-+	if (ep->packsize[1] > ep->maxpacksize) {
-+		usb_audio_dbg(chip, "Too small maxpacksize %u for rate %u / pps %u\n",
-+			      ep->maxpacksize, ep->cur_rate, ep->pps);
-+		return -EINVAL;
-+	}
- 
- 	/* calculate the frequency in 16.16 format */
- 	ep->freqm = ep->freqn;
+Thanks,
+Yury
