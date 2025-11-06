@@ -1,296 +1,219 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2B734EEE0
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB9E303C88
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762446714; cv=none; b=UWA8Fu+24Dm687FiO+/WRfPiJTx+TLIIaFvduVcEdNoxjc9FE9WppHoQF8vvmxxb4794GVN7F4wEvEADeduurRCOn2OUyAsxrcrdVs4Le8cADOFXhcPyJOM7fQueaCBck9OmFaM02DomX5FzZ/eWCBcZSuu0whTAytzYCYzF7tY=
+	t=1762447272; cv=none; b=kS/NFuS7BnCtcTTTdwxyE5T1w7sdfx6QeXhIqgVkD3vsnnZxwG7f0TttWQuB9CO7EKmMyHffVyo3SyLjK8Q+X5f217Pfn3ymSN69RAtnfd3GFOY4DyWZHaib7WNNU9eLNovrq7AMvie8laPcnhBZaiSzN6Dk4q/GliHLkaC0nlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762446714; c=relaxed/simple;
-	bh=gZpeaDdMgA4EZA+xmuc5CunjJCGos8JY91Zsp13Ia/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1Ex4V8cjWxmKVmSTK6tPRE+8ihHrSr4sYI+wrW+CY0Lz45PNVIHCYbBzR6Pq7tse/gqhXkaAIwlVKuuyYc+xqUP2xndGEsvEaYYymEMQI2PcxCqmtaQIyFn8l8U7i2qh/6NjcSDJC7b5Y5cbTsRiikGnPqqb4XK88nGOFSb+10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBzFCUZ9; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762447272; c=relaxed/simple;
+	bh=bShgRUXmwIigTJi4rYrvdghECfsg69LUPFjEV76bnpg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QS412mqE6mjn/sbPb3vf6cr4lsouB9v8HhoyuQsVFv+wpoYXkz4dvn84t584YqxuHGsBtYF7g0INWQ0UHX4d0bzTR5a/3JXPIslJK3WEpiRwKk3mzmmIiqJ5xoiQwjSySguxc73yEwiKx9j/4fd0VEAXRiD2P3JoE/wl4S+SgFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NWFQNtTB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hk+XRX9v; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NWFQNtTB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hk+XRX9v; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBzFCUZ9"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7866aca9ff4so13799687b3.3
-        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:31:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762446711; x=1763051511; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mLV2PDnl4Ik3dMiBcJ6vRzCiNGFzAVWq7I4DrxmSPKg=;
-        b=BBzFCUZ9klIovMxrLDKf0AEhQdmPaaLkdGiTL288rj0fGIr9iv6ugiMZ5LaX9IXg3e
-         NEsYmUCYxI9YQH0TJ+SlPJF43CLL8orJ5aoq2UwEEaRudocQIGfxLI7ZDRLsDQr55H5l
-         of1OvbAOdbkTyabjovfm78lhobzbEHmRAUwf++rBpVU3VlKfnGNPQ114ylm1JumfCOIk
-         P3YHAyVfROWFHawR+a7+f3vErlsnAL01GIvGkZQgnB/m1mYCgbRmY3TQRYb8dU3k3PVB
-         83srIck9JQaRNAVE14W0n8NRAUyWXpo8RrhmNGkUnpYu7qsvJiv6u9UKl5VZSxWL7TVI
-         uTKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762446711; x=1763051511;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mLV2PDnl4Ik3dMiBcJ6vRzCiNGFzAVWq7I4DrxmSPKg=;
-        b=BXZCuqIe+NBF1cRwCpG6mjuaG3eJaNoHNwFuAYRxm4K30qYAoCp9r7H8xsSLtV447H
-         E0YcCahJFJTr0CbDXCK3rsvyMihdxtAxLO4ooPorTQTZcEKdqjaURAmPgy1zAQ1b24Hn
-         Lxj9z9ZqyxMhp+0kpr44OOuRG8y05Qjte8+GCxE9F7YM/nKoio7HtCz2PAgzo0ebbGRY
-         CydW15SwUVP18YqhH3nW9bcNvZlbzQ5WZeWBsJi6P5My3FCgK0w2BRAjjC0sxTsoR+Hc
-         Rkbfvvj7QfgRTc7oJEOEvr1rwQnYVvWNbe0zO3Bgi2YO+1Psk0o7bYxmPOAiOKnIr9wi
-         3G6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU4pSuEvbB9vztHT89iAK1Dr2b5iufHRqTcd8ZZV148qvwFFMJtyMDkbdeeG0smyMrhATswnbqOBgCJMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpB2oSzNXcnrNK2/DQo6ntVMSsJUdNW0sdiOhSA4MQJKcDYP9E
-	H9VPbRYRGbkBo2GXb3Shl+b+Kz2J019n47JIeK7UAGyDhH666fmf0TmP
-X-Gm-Gg: ASbGnctHcxBgawI2jQJUgyu5+c4ov83yZCd40GLT+4zaVFNLVNQdMci98T6vUWDhSIn
-	GUwIHQN3lMpTJShJ9vV3wsimUSUSDLmQ4vpB/+c64P/2aCPLRHfqOZCdcqaRd4sTa9qS3MLGF2H
-	QSMji8cXm5uVYwrTWuD6lKzp24x+WrTlgoCVSDM7AAv9SnqCqIXVFdSzLdw+Wqg0V+nNG9hRZJl
-	Ty0+NnngzqtZd9A4ysEPrZUryo7mJM86HKMVYlzUlgl6mI0x0xFNNb3Ct4BzF96XCLiuxM/Wc6C
-	Nl4/x4e8eNP0UlvWtFT9tB5IqHPUZ2VpI0a8MkyhB9F0a6Dw+HKLE/i7EoEuzRnKi8j+Jf17W6i
-	VsTYS72M7cFHV0jknqjm/9YYM6KJtR8UO64c5qQjzXerUYcicHADIgxS1DsibHbhCavdwuDq+oI
-	ZVDdejquaYaQmYcJ7/eI0r59xMVAjkKc/W
-X-Google-Smtp-Source: AGHT+IEpqWmkZjuH3DQIeoTdW2YBETsoULiRC/YJVd9G+NTFiGKOkPxXPnseVKzqKGSB50LDoYAi6w==
-X-Received: by 2002:a05:690e:4109:b0:63f:b9d1:b165 with SMTP id 956f58d0204a3-63fd359be98mr4428593d50.50.1762446710597;
-        Thu, 06 Nov 2025 08:31:50 -0800 (PST)
-Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-640b5d94487sm902855d50.21.2025.11.06.08.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 08:31:49 -0800 (PST)
-Date: Thu, 6 Nov 2025 11:31:48 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v6 13/26] bitfield: Add non-constant field_{prep,get}()
- helpers
-Message-ID: <aQzNdJFcStVak5jS@yury>
-References: <cover.1762435376.git.geert+renesas@glider.be>
- <62a5058e460129155e4e7539e37140bd0f0d4abc.1762435376.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NWFQNtTB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hk+XRX9v";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NWFQNtTB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hk+XRX9v"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F53C2118C;
+	Thu,  6 Nov 2025 16:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762447268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
+	b=NWFQNtTB5ZTr+rlMV3LGfORGmHDL9FpXPsi+AjE7NER/O/B/J4WYeKQ5cK4N6Kw1+N6elB
+	v7pYiP8HqYZFt6/P7wy01f2dIudL1gO2zqTiM+1i2nOUVO4hX+THnZAChNFPPtERAIS/3f
+	LBLmq8MEdB4DJ95qUCuiM9jEXgyIosM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762447268;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
+	b=Hk+XRX9vm2Xrmv9ErrVak0XjuWcgYd62AkaRAFuKBYL7O6HyuJwc7JM+JPxpGsDa2A2j/f
+	54jk5HXMk6U9n9Bw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762447268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
+	b=NWFQNtTB5ZTr+rlMV3LGfORGmHDL9FpXPsi+AjE7NER/O/B/J4WYeKQ5cK4N6Kw1+N6elB
+	v7pYiP8HqYZFt6/P7wy01f2dIudL1gO2zqTiM+1i2nOUVO4hX+THnZAChNFPPtERAIS/3f
+	LBLmq8MEdB4DJ95qUCuiM9jEXgyIosM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762447268;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ezyDHeZJvXEFUvSAJRuRbcS5CcZfuhP+O5ZMX2epjE0=;
+	b=Hk+XRX9vm2Xrmv9ErrVak0XjuWcgYd62AkaRAFuKBYL7O6HyuJwc7JM+JPxpGsDa2A2j/f
+	54jk5HXMk6U9n9Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 458F813A31;
+	Thu,  6 Nov 2025 16:41:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hN+0D6TPDGnPSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Nov 2025 16:41:08 +0000
+Date: Thu, 06 Nov 2025 17:41:07 +0100
+Message-ID: <87h5v7ru58.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: <tiwai@suse.de>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<perex@perex.cz>,
+	<syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>,
+	<syzkaller-bugs@googlegroups.com>,
+	<tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
+In-Reply-To: <20251106143506.720545-1-lizhi.xu@windriver.com>
+References: <87v7jnfkio.wl-tiwai@suse.de>
+	<20251106143506.720545-1-lizhi.xu@windriver.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62a5058e460129155e4e7539e37140bd0f0d4abc.1762435376.git.geert+renesas@glider.be>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[bfd77469c8966de076f7];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
 
-On Thu, Nov 06, 2025 at 02:34:01PM +0100, Geert Uytterhoeven wrote:
-> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> constants.  However, it is very common to prepare or extract bitfield
-> elements where the bitfield mask is not a compile-time constant.
+On Thu, 06 Nov 2025 15:35:06 +0100,
+Lizhi Xu wrote:
 > 
-> To avoid this limitation, the AT91 clock driver and several other
-> drivers already have their own non-const field_{prep,get}() macros.
-> Make them available for general use by adding them to
-> <linux/bitfield.h>, and improve them slightly:
->   1. Avoid evaluating macro parameters more than once,
->   2. Replace "ffs() - 1" by "__ffs()",
->   3. Support 64-bit use on 32-bit architectures,
->   4. Wire field_{get,prep}() to FIELD_{GET,PREP}() when mask is
->      actually constant.
-> 
-> This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> macros, as people expressed the desire to keep stricter variants for
-> increased safety, or for performance critical paths.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Acked-by: Crt Mori <cmo@melexis.com>
-> Acked-by: Nuno Sá <nuno.sa@analog.com>
-> Acked-by: Richard Genoud <richard.genoud@bootlin.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> ---
-> v6:
->   - Align \,
->   - Add Return sections to kerneldoc,
->   - Add Reviewed-by,
->   - Document field_{get,prep} in top comment block,
->   - Use less-checking __FIELD_{GET,PREP}() to avoid build issues with
->     clang and W=1:
->     https://lore.kernel.org/all/202510281335.UpSLYJG9-lkp@intel.com
->     https://lore.kernel.org/all/202510281414.DnejZh4n-lkp@intel.com
->     https://lore.kernel.org/all/202510281304.RK3J3c3t-lkp@intel.com
-> 
-> v5:
->   - Add Acked-by,
->   - Split off changes outside <linux/bitfield.h>,
->   - Document that mask must be non-zero,
->   - Document typical usage pattern,
->   - Recommend using FIELD_{PREP,GET}() directly to ensure compile-time
->     constant masks,
->   - Check BITS_PER_TYPE(mask) instead of sizeof(mask),
->   - Wire field_{get,prep}() to FIELD_{GET,PREP}() when mask is
->     constant, to improve type checking.
-> 
-> v4:
->   - Add Acked-by,
->   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
->     power management debugfs helper APIs") in v6.17-rc1,
->   - Convert more recently introduced upstream copies:
->       - drivers/edac/ie31200_edac.c
->       - drivers/iio/dac/ad3530r.c
-> 
-> v3:
->   - Add Acked-by,
->   - Drop underscores from macro parameters,
->   - Use __auto_type where possible,
->   - Correctly cast reg to the mask type,
->   - Introduces __val and __reg intermediates to simplify the actual
->     operation,
->   - Drop unneeded parentheses,
->   - Clarify having both FIELD_{GET,PREP}() and field_{get,prep}(),
-> 
-> v2:
->   - Cast val resp. reg to the mask type,
->   - Fix 64-bit use on 32-bit architectures,
->   - Convert new upstream users:
->       - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
->       - drivers/gpio/gpio-aspeed.c
->       - drivers/iio/temperature/mlx90614.c
->       - drivers/pinctrl/nuvoton/pinctrl-ma35.c
->       - sound/usb/mixer_quirks.c
->   - Convert new user queued in renesas-devel for v6.15:
->       - drivers/soc/renesas/rz-sysc.c
-> ---
->  include/linux/bitfield.h | 59 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 59 insertions(+)
-> 
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index bf8e0ae4b5b41038..f92e18c9629a59c6 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -17,6 +17,7 @@
->   * FIELD_{GET,PREP} macros take as first parameter shifted mask
->   * from which they extract the base mask and shift amount.
->   * Mask must be a compilation time constant.
-> + * field_{get,prep} are variants that take a non-const mask.
->   *
->   * Example:
->   *
-> @@ -240,4 +241,62 @@ __MAKE_OP(64)
->  #undef __MAKE_OP
->  #undef ____MAKE_OP
->  
-> +#define __field_prep(mask, val)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __val = (val);				\
+> On Thu, 06 Nov 2025 12:49:51 +0100, Takashi Iwai wrote:
+> > > > > The calculation rule for the actual data length written to the URB's
+> > > > > transfer buffer differs from that used to allocate the URB's transfer
+> > > > > buffer, and in this problem, the value used during allocation is smaller.
+> > > > >
+> > > > > This ultimately leads to write out-of-bounds errors when writing data to
+> > > > > the transfer buffer.
+> > > > >
+> > > > > To prevent out-of-bounds writes to the transfer buffer, a check between
+> > > > > the size of the bytes to be written and the size of the allocated bytes
+> > > > > should be added before performing the write operation.
+> > > > >
+> > > > > When the written bytes are too large, -EPIPE is returned instead of
+> > > > > -EAGAIN, because returning -EAGAIN might result in push back to ready
+> > > > > list again.
+> > > > >
+> > > > > Based on the context of calculating the bytes to be written here, both
+> > > > > copy_to_urb() and copy_to_urb_quirk() require a check for the size of
+> > > > > the bytes to be written before execution.
+> > > > >
+> > > > > syzbot reported:
+> > > > > BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+> > > > > Write of size 264 at addr ffff88801107b400 by task syz.0.17/5461
+> > > > >
+> > > > > Call Trace:
+> > > > >  copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+> > > > >  prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
+> > > > >
+> > > > > Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> > > > > Closes: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
+> > > > > Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> > > >
+> > > > I'm afraid that this doesn't address the root cause at all.
+> > > > The description above sounds plausible, but not pointing to "why".
+> > > >
+> > > > The bytes is frames * stride, so the question is why a too large
+> > > > frames is calculated.  I couldn't have time to check the details, but
+> > > > there should be rather some weird condition / parameters to trigger
+> > > > this, and we should check that at first.
+> > > During debugging, I discovered that the value of ep->packsize[0] is 22,
+> > > which causes the counts calculated by
+> > > counts = snd_usb_endpoint_next_packet_size(ep, ctx, i, avail);
+> > > to be 22, resulting in a frames value of 22 * 6 = 132;
+> > > Meanwhile, the stride value is 2, which ultimately results in
+> > > bytes = frames * stride = 132 * 2 = 264;
+> > > @@ -1241,6 +1252,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
+> > > 	u->buffer_size = maxsize * u->packets;
+> > > 	...
+> > > 	u->urb->transfer_buffer =
+> > >                 usb_alloc_coherent(chip->dev, u->buffer_size,
+> > >                                    GFP_KERNEL, &u->urb->transfer_dma);
+> > >
+> > > Here, when calculating u->buffer_size = maxsize * u->packets;
+> > > maxsize = 9, packets = 6, which results in only 54 bytes allocated to
+> > > transfer_buffer;
+> > 
+> > Hm, so the problem is rather the calculation of the buffer size.
+> > The size sounds extremely small.  Which parameters (rates, formats,
+> > etc) are used for achieving this?
+> rates: 22050
+> format: 2
+> channels: 1
+> /////////////////////////////
+> stride: 2
+> packets: 6
+> data interval: 0
+> frame_bits: 16
+> > 
+> > The calculation of u->buffer_size is a bit complex, as maxsize is
+> > adjusted in many different ways.  Is it limited due to wMaxPacketSize
+> > setup?
+> Yes, it's because the value of ep->maxpacksize is 9 that the maxsize
+> value is 9.
 
-typeof(__mask), I guess.
+OK, then a fix like below would work?
 
-> +		unsigned int __shift = BITS_PER_TYPE(mask) <= 32 ?	\
 
-Same here: BITS_PER_TYPE(__mask). BITS_PER_TYPE() doesn't evaluate the
-expression because it is based on sizeof(). But we definitely don't
-want people check it every time they read the code.
+thanks,
 
-No need to send another version for this. I can fix it inplace.
+Takashi
 
-Reviewed-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
-
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-> +		(__val << __shift) & __mask;				\
-> +	})
-> +
-> +#define __field_get(mask, reg)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __reg =  (reg);				\
-> +		unsigned int __shift = BITS_PER_TYPE(mask) <= 32 ?	\
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-> +		(__reg & __mask) >> __shift;				\
-> +	})
-> +
-> +/**
-> + * field_prep() - prepare a bitfield element
-> + * @mask: shifted mask defining the field's length and position, must be
-> + *        non-zero
-> + * @val:  value to put in the field
-> + *
-> + * Return: field value masked and shifted to its final destination
-> + *
-> + * field_prep() masks and shifts up the value.  The result should be
-> + * combined with other fields of the bitfield using logical OR.
-> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> + * Typical usage patterns are a value stored in a table, or calculated by
-> + * shifting a constant by a variable number of bits.
-> + * If you want to ensure that @mask is a compile-time constant, please use
-> + * FIELD_PREP() directly instead.
-> + */
-> +#define field_prep(mask, val)						\
-> +	(__builtin_constant_p(mask) ? __FIELD_PREP(mask, val, "field_prep: ") \
-> +				    : __field_prep(mask, val))
-> +
-> +/**
-> + * field_get() - extract a bitfield element
-> + * @mask: shifted mask defining the field's length and position, must be
-> + *        non-zero
-> + * @reg:  value of entire bitfield
-> + *
-> + * Return: extracted field value
-> + *
-> + * field_get() extracts the field specified by @mask from the
-> + * bitfield passed in as @reg by masking and shifting it down.
-> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
-> + * Typical usage patterns are a value stored in a table, or calculated by
-> + * shifting a constant by a variable number of bits.
-> + * If you want to ensure that @mask is a compile-time constant, please use
-> + * FIELD_GET() directly instead.
-> + */
-> +#define field_get(mask, reg)						\
-> +	(__builtin_constant_p(mask) ? __FIELD_GET(mask, reg, "field_get: ") \
-> +				    : __field_get(mask, reg))
-> +
->  #endif
-> -- 
-> 2.43.0
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -1362,6 +1362,11 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
+ 	ep->sample_rem = ep->cur_rate % ep->pps;
+ 	ep->packsize[0] = ep->cur_rate / ep->pps;
+ 	ep->packsize[1] = (ep->cur_rate + (ep->pps - 1)) / ep->pps;
++	if (ep->packsize[1] > ep->maxpacksize) {
++		usb_audio_dbg(chip, "Too small maxpacksize %u for rate %u / pps %u\n",
++			      ep->maxpacksize, ep->cur_rate, ep->pps);
++		return -EINVAL;
++	}
+ 
+ 	/* calculate the frequency in 16.16 format */
+ 	ep->freqm = ep->freqn;
