@@ -1,91 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp153-170.sina.com.cn (smtp153-170.sina.com.cn [61.135.153.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9151A354AF5;
-	Thu,  6 Nov 2025 23:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0403557E5
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473257; cv=none; b=rh4B2RZq4jHfpRlmpIUVFIT19RK0xd0FxGAPgNDmtmLY6sC/Zin3jL1EplvvsWof3TzkP1bgo/vziGVFl3Txl9RMfwnYidMqOhYi7g6aY2anoupfesV9Ecni8s6ghgc2FFicWb70wGJVxcBl80U0+wxYePnHerRultD9DyzQnds=
+	t=1762473437; cv=none; b=DC5hfTD8EHsiaQg1UZHAzcYOGaGj6epMvGJEh7ktwSfiDeCQR0KcWQ3KT3IBCVcAm6nCgKN1nNMOnFeM3+SFfblE/8o3M3hKyMYMkbWhnamb5M4GNAXMywUyyb5uQePYvSPvApjZw7K7ScXzsFP5TnTFygaM2CBsPtNG0u+raLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473257; c=relaxed/simple;
-	bh=X1z6SdYKCZF/y28awfiNC4icclaq9yX9B6cDQhBzabU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rT1zSiuDO5VoGNpSZZmNW/IXA7oY0hjPaDYX0fY2tq62djcHMZpUkOrwyRBq4QSCmvMu34uOuA/uLm9D1KxaOSQjtGVWAsesZ2T3HPCFi92WfZrPMG71B7RcEBWkFYwl/MGptXvhGz+ruOYa0BYLuUfFsZK1D735NR027kRDuSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pI8O7C2A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762473437; c=relaxed/simple;
+	bh=REeBbwuqMyRpGW1LVwOJH95osbdw/G+SMx+T9V2nnLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J9Ag9jcTNw5Rj7iFczc/x75rcBrDO+3PW8KwcMIMg8S8PWV5N28RZSy7qeR4dsUv4wZhVjxcZP2vbHXsX7A6yLJFCLjaLVlEFRpnRbFGIus6BY288olqsbb3Ow06MkZoXXwd8lo0bf2jS1Qjtg+MAlaq/uIDG9+e+k3eqAVWP/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=RNC9Faiy; arc=none smtp.client-ip=61.135.153.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pI8O7C2A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D34C4CEF7;
-	Thu,  6 Nov 2025 23:54:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762473257;
-	bh=X1z6SdYKCZF/y28awfiNC4icclaq9yX9B6cDQhBzabU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pI8O7C2Am9QGJ/xpQj64k3n0W9sceBjRio+gEY0SwRbztPTM2rTn7LZ/2UyzJohEy
-	 m4NxvIeGuE/bw32y2tnzVtP4BTEt8OziNlBByUzPNcnh6mf9uJn6JAsdrCVF8PMshM
-	 96SJ4LDrICxf/BhypKvPfniSeGUFDS9Sc6SS5ZM96L4GVJU5qEcEfBYxmI8h8eIaR6
-	 CkouP9p2cYTv4TwHy9B+7D/2ioA0wrgPURa1tKaznoZODK6n7tMw5fJZ8S9m8jhfIg
-	 b5leVM8xN0qPre0p4/TvMGipee/JwcC3ptFiaPE6mlRan93sGJHuH6+2AkUGgKOX3t
-	 zNupOz0+eRxow==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Haotian Zhang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251106143114.729-1-vulab@iscas.ac.cn>
-References: <20251106143114.729-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH v2] ASoC: codecs: va-macro: fix resource leak in probe
- error path
-Message-Id: <176247325324.2482911.11003795834364507659.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 23:54:13 +0000
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="RNC9Faiy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1762473428;
+	bh=Uj/LmHFOhg7xXjmPkxbK+BugCECzjfx/qf44oxYtmlg=;
+	h=From:Subject:Date:Message-ID;
+	b=RNC9FaiyoGZyoQk49/zvL3XZzgVGbWOYTnzguf40LSMCcs1fE01aKlgAsSSJnClnD
+	 JtjuUa0S7NYCJQ99oEn0hTAWz255guI12pctVOyFMVWYKzua4LnvxwEJd/kkkyYJm2
+	 Q12rlejc38+tWusY/czRdvgTTFDHYKuXtth7KHJQ=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.59.250])
+	by sina.com (10.54.253.34) with ESMTP
+	id 690D348A00003EB3; Thu, 7 Nov 2025 07:51:41 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 5022686291998
+X-SMAIL-UIID: 14C3562B3435487784262071662882EF-20251107-075141-1
+From: Hillf Danton <hdanton@sina.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Lizhi Xu <lizhi.xu@windriver.com>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
+Date: Fri,  7 Nov 2025 07:51:26 +0800
+Message-ID: <20251106235128.8908-1-hdanton@sina.com>
+In-Reply-To: <87h5v7ru58.wl-tiwai@suse.de>
+References: <87v7jnfkio.wl-tiwai@suse.de> <20251106143506.720545-1-lizhi.xu@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: 8bit
 
-On Thu, 06 Nov 2025 22:31:14 +0800, Haotian Zhang wrote:
-> In the commit referenced by the Fixes tag, clk_hw_get_clk()
-> was added in va_macro_probe() to get the fsgen clock,
-> but forgot to add the corresponding clk_put() in va_macro_remove().
-> This leads to a clock reference leak when the driver is unloaded.
-> 
-> Switch to devm_clk_hw_get_clk() to automatically manage the
-> clock resource.
-> 
-> [...]
+On Thu, 06 Nov 2025 17:41:07 +0100 Takashi Iwai wrote:
+> OK, then a fix like below would work?
 
-Applied to
+Test Takashi's fix.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+#syz test
 
-Thanks!
-
-[1/1] ASoC: codecs: va-macro: fix resource leak in probe error path
-      commit: 3dc8c73365d3ca25c99e7e1a0f493039d7291df5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -1362,6 +1362,11 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
+ 	ep->sample_rem = ep->cur_rate % ep->pps;
+ 	ep->packsize[0] = ep->cur_rate / ep->pps;
+ 	ep->packsize[1] = (ep->cur_rate + (ep->pps - 1)) / ep->pps;
++	if (ep->packsize[1] > ep->maxpacksize) {
++		usb_audio_dbg(chip, "Too small maxpacksize %u for rate %u / pps %u\n",
++			      ep->maxpacksize, ep->cur_rate, ep->pps);
++		return -EINVAL;
++	}
+ 
+ 	/* calculate the frequency in 16.16 format */
+ 	ep->freqm = ep->freqn;
+--
