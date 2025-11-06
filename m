@@ -1,181 +1,167 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB2F278779;
-	Thu,  6 Nov 2025 11:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762427035; cv=fail; b=oEemMe9K7uB6NfiSlmi46hUgpYm4OCF7itVXqz5ZOCfKb2iMUX5bfeD72jzwkADRoHvRbD5PvZ/q9XnqOs45V10nsZtUzW/hjOQsTDeCTy3yHcwPxiZh0ZBtG3HayF5dH7694DTn6C2PFDlFK0NlQL8bPZqvOViszC2KI2r3/Tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762427035; c=relaxed/simple;
-	bh=mj/H+r3UQzevmQ4x/IK19VZRhqiI/PUuUJEuZaFscds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKsMyyy0TW4//tS//tnM09pNow1FUIG82b8OHuXU8EJgb+MPr2Usu5tTpa3bqF/hE2EZG4EJLH9CBlrdpi4U5F1phogRRMbVKjQc8pu30txrX9+JNCPzL7diPbq8PSDP23OupNnJzMMc9lV0j2PmDEWTNmdfbhU1nUvXJfnWHUU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BjstqxWF; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jXJkZyvN; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F5D2F1FDF;
+	Thu,  6 Nov 2025 11:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762428706; cv=none; b=oCmovochkoJHIgb2JpqNpsXA9W4i+ZjYTvYhaUQ47ZijOa288ixhokmdB+STOw5w7II/nOHu/Sxsbatp0oifoH01+2KeMOg7lndqS9MTr5brhp8JvrS4BgdZ6CQ7p9S5xNetBLGUdTIzvcP5EZowmjSNHnddGPEvC3pR/G+UHtQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762428706; c=relaxed/simple;
+	bh=CZ/GjPUL85jve3oW6xzsZVvy/wUmf3rKiIhHb6qVyJc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XE1FZnqEjfxjr+VhuGt9z9PU35S9SuoJAc7JQ41p2QNHzdGcrCMFEA8eMaszI77E63nnZcz6rrGJTTznWdPh8KoA8Ei2bj2nT4Db8Cr/E+2FtbR+6qK7nLiU7WH2QuybgOlsjAy+O/wxoX3OVhciVpGUpXV1zSUcwouvWOmINYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=XIqgUr3K; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BjstqxWF";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jXJkZyvN"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A65vGfA219643;
-	Thu, 6 Nov 2025 05:03:37 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=7/PhMm0OhBbd21SMP8
-	NtMTs2pUbfpt8oUgaHE2Q9lvA=; b=BjstqxWF9LmP5P421MAgdlrMQhoUqRX76P
-	k+HJWhlzOB9cfJrvT3g39VUj2sbWgNBcxRNG1pAr2r4XtsQajlxOm4sG/fWFl/p3
-	iWT/FUWrFYZ13tFghMCIzR2gsjto72a9CeddgRrDDq6iGHJxJkKyMcydoAaCkKCR
-	TN5RjVdVMO7l43BlabTHYm2u9UaSMIlRslZwwU2qlXS0tUdZPfONoRbSI8pNs5yS
-	PbK5m02GNiX8BIZAAY/9/gGjy6xOVhf00mJwuZ4x0DbKqhF38cEtZYsm+4aUpj+n
-	YyQagEjbJf/viNi9CqVmCEz06kUoqSjWFTRKyPPlyU3txSmJqCng==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022074.outbound.protection.outlook.com [52.101.48.74])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4a7bwx3a37-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 06 Nov 2025 05:03:37 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=okH/t7Gus2G3cnjzLP4zMMQRxNMwLshKXnep0Afnf+i09RpfA/VKtLKS2olRHXvQuyQEwkkGnsExdTzqMTfPqaW/Tf0caMMUNoZaFKWhmi4Vetae9ur1Zwkowta4DKurd1KUE7lIWmpSUhE4rcgh+ei8Px7GNq7iB8B2eKEOzNNCh6dzyRcwjV4VLjv5YEi+j8M1XA+igHj+GpUr4i1dpBXLgLvwaRc09BEXDyI9JZtOq9n7RF8UrPOUIv8DRMl3nPagH7tt7L8gdOnOkR2rQs8dmM9xdutnbh/TzeFm4WJQNcVV+AnHdGuF19R396W7DO8btkaBNoLmqxrK+Sz52Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7/PhMm0OhBbd21SMP8NtMTs2pUbfpt8oUgaHE2Q9lvA=;
- b=gErSA3nK1KlykHOS7gkjyftMqEgyz5/tII64FH0Zd8HkzU+w6XnMGq6/ubhUZQjISYd5ly+5P7S9NFNuuQ5jSrDHlxfRXj3l6fyByY78TWGjmjtvTJEmCAFPqUIojWxmel+nRaty2oOl9p6BdF2qcjTpiEkyQSFYbYd5DQI5ck9WCg/SxRWdj9nCOyVIXmjclpcxA+G38mhEyM1ED64RukHFzAOxPmjGulEmKyf58sic0GkcBX1lEPPYg7povVtS1yCRw9MkCHGm8mZUP3eiiu2BqVV+/63ra1rlO5cexlxX7VWYdpBHvOQ3y1+PgWLDY4NjWuuPZAou1i2Xoxv7xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7/PhMm0OhBbd21SMP8NtMTs2pUbfpt8oUgaHE2Q9lvA=;
- b=jXJkZyvNBuJzR5W4/tItw3pBb2D6HNdNfjjeglgVqBtodZAMsl0XpH+H8RkjOi4MwzLf8kXWVb2x4vvy7zSEo/NcVMsVnemGwrJDQzIdFWlWfgDfTYHUO/r9gOCBJbW8aSOceUM174Dm39TxSRCs4t2kkBbh58hgRUTClkOTAKU=
-Received: from BL1PR13CA0213.namprd13.prod.outlook.com (2603:10b6:208:2bf::8)
- by LV3PR19MB8704.namprd19.prod.outlook.com (2603:10b6:408:26f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Thu, 6 Nov
- 2025 11:03:33 +0000
-Received: from BL02EPF0002992E.namprd02.prod.outlook.com
- (2603:10b6:208:2bf:cafe::83) by BL1PR13CA0213.outlook.office365.com
- (2603:10b6:208:2bf::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.6 via Frontend Transport; Thu, 6
- Nov 2025 11:03:29 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL02EPF0002992E.mail.protection.outlook.com (10.167.249.59) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.6
- via Frontend Transport; Thu, 6 Nov 2025 11:03:33 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id F1AD4406543;
-	Thu,  6 Nov 2025 11:03:31 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id CED82820257;
-	Thu,  6 Nov 2025 11:03:31 +0000 (UTC)
-Date: Thu, 6 Nov 2025 11:03:30 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-Cc: david.rhodes@cirrus.com, rf@opensource.cirrus.com, lgirdwood@gmail.com,
-        broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cs4271: Fix regulator leak on probe failure
-Message-ID: <aQyAgjn2+WOwOwLf@opensource.cirrus.com>
-References: <20251105062246.1955-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="XIqgUr3K"
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A64ZZu71301352;
+	Thu, 6 Nov 2025 11:31:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=xRwlyiz1dgU2jKWlSXdairnh/5htGEn+FbQbAHGcALk=; b=
+	XIqgUr3K6Tc/biuKFJajseSPx7PHHzgHBKbhdkl4m696wsrg+Xx0iNKSQn0NOGZb
+	P67n9JpG2tw3RBNgHwyubeVjCKIvaH6X/B0FFjSqRLyM8IKZBEfZK/YqIxrImwB4
+	G3b9wcGxEHtKEXcKIYDdhaFh2hK+cNMjRXcLPcJ0+XLvZmOvvcsX0tt58tJXruzX
+	J2ytoNwksCRceKr73+cYY+E3zZ8+jsAXYb2MCZeZcezKaNF0devTGoOvtXAgFmJe
+	6LyzJ335oqcuE/sg8EE9kutKbRDXH6srbO0jC/Pvmf7oluJ2bwHS3o1xzh5WkKoo
+	GETuSj7MEeuA61Kp5Ls7MQ==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a89w79m9w-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 06 Nov 2025 11:31:26 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 6 Nov 2025 03:31:24 -0800
+Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 6 Nov 2025 03:31:22 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <tiwai@suse.de>
+CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <lizhi.xu@windriver.com>,
+        <perex@perex.cz>,
+        <syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>, <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
+Date: Thu, 6 Nov 2025 19:31:21 +0800
+Message-ID: <20251106113121.4064298-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <87a50zh42n.wl-tiwai@suse.de>
+References: <87a50zh42n.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105062246.1955-1-vulab@iscas.ac.cn>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992E:EE_|LV3PR19MB8704:EE_
-X-MS-Office365-Filtering-Correlation-Id: 868c26d8-7b36-48ee-89e2-08de1d242072
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iNWLeDvD6qwpzIns4ptpXfryJvbSV8TqylEpDCFV7xsESZtLF4B9jO+MJJD4?=
- =?us-ascii?Q?kym+5DMGieOZRhRQhnlO1G2NqCEvphJS/mCbne87XVop92yvCiMS0k4QsTze?=
- =?us-ascii?Q?ETO2Dsia6bas4c5m8Et6YJgPmXYXR98+ZY3rHL0F6I42zcaf6+iHk/GTO0/X?=
- =?us-ascii?Q?NTVfw7etsjidhEOwyImbV7WK9MAzShcPLzwf/HOytI0/DxC/Ot3B+K0K8c/D?=
- =?us-ascii?Q?3hsKYVvP16be582lpn3KzN8Aj9+8apvnJf9AUdlvZoWmwXuWLSIto1uQncyS?=
- =?us-ascii?Q?/qZIH5qV4H2XSdo+jH7IEExqacGhoKuYiIArDwB4DzLbLsfWbvx/tyvuqAJ+?=
- =?us-ascii?Q?KNO8ULgri8jTfzRhu8tGKjCRIAOgDAUXdP5k2kW47KkhGsce53BIlJZ1hDV9?=
- =?us-ascii?Q?WY493f4IOwuw5lH+i80IygYKh/p+MjHJBJmUtIDoVs60oMls2/1Fxvj++gS6?=
- =?us-ascii?Q?2+udjTXI3tJwekoReZuJyhzLNYYvSZv2vrm+wKJttgKZnrNjZ3f8dnPG1KAF?=
- =?us-ascii?Q?JppRC73DhJ36uY1tv4e8+m72SqlZ6matWGrEdsOkqj2LeAiP+It6RnXoG3qY?=
- =?us-ascii?Q?lR29wzynrB/RggQKa6wZgsvDvMh6WCZp76Pr30BMqfoBlrkjLVR1Jyl6jWeC?=
- =?us-ascii?Q?jMAQavKMvAe3CsX2SezKsMZayN21EtEgW+6U6+BV8jZicbyWZn6uA6TfhuSg?=
- =?us-ascii?Q?xO4DM2jB7OgcqFhiLSRrdXLkWhaRpMk3iKEH0eCo1zsEBCmKMPsLhW9xr75Q?=
- =?us-ascii?Q?YAwEDER+cB6E7j758eV/VZo+ey/Hp2w6h/9fVvtTwtRS7nSFBpBRsu2TSlQA?=
- =?us-ascii?Q?F4gstBsLIrJFHxaGKakpY3XFBBieCgAI15+oYrL8tc5ygpq0x1nZua7qp27t?=
- =?us-ascii?Q?ZkBDuWkg87UX7VlQcQacI7DGlKvRONgWFEpEX81bBnkgGlCf/P2flSu3+tJc?=
- =?us-ascii?Q?VMt+l2FjQdFUdmPLK4CAmwY8uVwzzmsffy5OQj59xLGqFjmdcc0VPsbxvH8l?=
- =?us-ascii?Q?lHi59zR4qn3EvebIS5K2pQRYTLYRLiHtZiSLv0GJDcyjjBiJF01i21M8MK1F?=
- =?us-ascii?Q?+YeomvkL3kralkL+hxU/sfHNEIrLvHe08PLdbgqXCcouoJUS5MGtPHlKIrKd?=
- =?us-ascii?Q?aZddMLqrDEaY5tRNEn81qQ5Jjej3jdohZFWoOZkZlnX3Ty/1OQrMRqwmk3yS?=
- =?us-ascii?Q?Ao33u8AxaWuV9DF1qwCYPhBQERoIIN3MdN/w77PZxSXfIWenxm9asidfwyA0?=
- =?us-ascii?Q?tRbin+tzwN7QnBrjC0SXD4y/QxQIJa6ZSD/lwKGXoYOidnKwQheE0JdmCrHj?=
- =?us-ascii?Q?pTpmo0BRSDpPOo7asolqUp0DnlWz9khUYFp/iQy28tMVrHqnXEytP2h3MYe1?=
- =?us-ascii?Q?Rs4lvHJQt0wmMCE3+d1oPSrp5QNo3ZQvijry5CMACSoXilegVVJXwrTL4eAj?=
- =?us-ascii?Q?kH6ebKahchlU8QCTohjMR/+GEKIV0CQ3P+d4DqXB7pCE8CsdK+OR+dDzN1S7?=
- =?us-ascii?Q?5JuhVLERAw91exxlCoW+DEZe2ombafZS2vg4to6jxTYvgRuxRSwLmPFz3i0K?=
- =?us-ascii?Q?R7tCOLOq/zE337b2mQc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 11:03:33.1489
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 868c26d8-7b36-48ee-89e2-08de1d242072
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF0002992E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR19MB8704
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA4NyBTYWx0ZWRfX4ouFIwgWqj4S
- i/aETPt9tCjX05NEuoMNOeR0u31IulfxC+VL7fQt5NzkUSPwndcZO0r6bY+tF7VKUyRxyshWP6M
- mrewIxbl1fsYQDcOEXF2UoaiDMAKiJOxSwmLDvx2u9clehKpdhkC6smR3svwY5/uhpSnFuWtgX8
- /Io1GcFuDLemd7G6ln5dlflNRdIKMlzFWbtsyclcUcg/i42a+dl6nT4ajqVOrhVn2IOj7d1t4Hu
- +ReA89NdYo8YAU4HiuL7+O09WM+lNnwOq3hEZS3yaOV/ADNaoCqnlxsv2MKMOE7XlxfEHBoEt7N
- fK1zqMC5mzSQQo9z6/za+6USvXOinAe+YXPGXVpi6MWCR1q2TiDhcwKRAlK64fnvBhSkXDn3SEx
- 7Tnx74PwdxjmuX1jrgp4CgWlJABWMA==
-X-Proofpoint-ORIG-GUID: hg6yslFQgc1Gr1h9ota14Kz5S474dN17
-X-Proofpoint-GUID: hg6yslFQgc1Gr1h9ota14Kz5S474dN17
-X-Authority-Analysis: v=2.4 cv=FpcIPmrq c=1 sm=1 tr=0 ts=690c8089 cx=c_pps
- a=HCvUzjoPJca0/5O0yIdMFA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=j9h2Lbvu1IvFkVh_mDkA:9
- a=CjuIK1q_8ugA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: qjDEfIu5ViX03pEjsGq3DrwRXz5kDXwg
+X-Authority-Analysis: v=2.4 cv=FYo6BZ+6 c=1 sm=1 tr=0 ts=690c870e cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8
+ a=t7CeM3EgAAAA:8 a=fWkikeFuuv3-QYznUzkA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+ a=poXaRoVlC6wW9_mwW8W4:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=SsAZrZ5W_gNWK9tOzrEV:22
+X-Proofpoint-GUID: qjDEfIu5ViX03pEjsGq3DrwRXz5kDXwg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA5MCBTYWx0ZWRfXz1jjIroafAfd
+ qRWbk67ii1PZMSfBDhMpmVJIwsXxBybK3HdJKqX0cu3ALzjFSzVgxHoQr9xTSpzV5asOipNHpKt
+ h/FiVplHyFBku88Wf68mbgPV70ikC/s9cP2plovfft4If679CJBYTsRFYPeTB4S8Rxx5BixkYfz
+ noApWyvm2Pw3XtA5CfXeUqMlCgePOT0+pZJ96AW/jc6p4pIKX77jT5eEzxGGFnxv5E/jka9GANX
+ Kfvkcmntv3n51u2B+iso8qQ/tM7ovIL5zgn/s9qh9cVlXk0OiTj6bR6JSRLrUXy0xwTy6nfnQYC
+ +8x+HpGEZ8fRb+We8gT7Mm8nO+D/GAEMKs0oo33YnvoGsEuvGx7iZd3CJSk4bJys1ww93thC8LV
+ L/rsgW2k2DPmk9y1WfYidhqhfbw4jw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-06_03,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511060090
 
-On Wed, Nov 05, 2025 at 02:22:46PM +0800, Haotian Zhang wrote:
-> The probe function enables regulators at the beginning
-> but fails to disable them in its error handling path.
-> If any operation after enabling the regulators fails,
-> the probe will exit with an error, leaving the regulators
-> permanently enabled, which could lead to a resource leak.
+On Thu, 06 Nov 2025 11:02:08 +0100, Takashi Iwai wrote:
+> > The calculation rule for the actual data length written to the URB's
+> > transfer buffer differs from that used to allocate the URB's transfer
+> > buffer, and in this problem, the value used during allocation is smaller.
+> > 
+> > This ultimately leads to write out-of-bounds errors when writing data to
+> > the transfer buffer.
+> > 
+> > To prevent out-of-bounds writes to the transfer buffer, a check between
+> > the size of the bytes to be written and the size of the allocated bytes
+> > should be added before performing the write operation.
+> > 
+> > When the written bytes are too large, -EPIPE is returned instead of
+> > -EAGAIN, because returning -EAGAIN might result in push back to ready
+> > list again.
+> > 
+> > Based on the context of calculating the bytes to be written here, both
+> > copy_to_urb() and copy_to_urb_quirk() require a check for the size of
+> > the bytes to be written before execution.
+> > 
+> > syzbot reported:
+> > BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+> > Write of size 264 at addr ffff88801107b400 by task syz.0.17/5461
+> > 
+> > Call Trace:
+> >  copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+> >  prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
+> > 
+> > Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
+> > Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 > 
-> Add a proper error handling path to call regulator_bulk_disable()
-> before returning an error.
+> I'm afraid that this doesn't address the root cause at all.
+> The description above sounds plausible, but not pointing to "why".
 > 
-> Fixes: 9a397f473657 ("ASoC: cs4271: add regulator consumer support")
-> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
-> ---
+> The bytes is frames * stride, so the question is why a too large
+> frames is calculated.  I couldn't have time to check the details, but
+> there should be rather some weird condition / parameters to trigger
+> this, and we should check that at first.
+During debugging, I discovered that the value of ep->packsize[0] is 22,
+which causes the counts calculated by 
+counts = snd_usb_endpoint_next_packet_size(ep, ctx, i, avail);
+to be 22, resulting in a frames value of 22 * 6 = 132; 
+Meanwhile, the stride value is 2, which ultimately results in 
+bytes = frames * stride = 132 * 2 = 264;
+@@ -1241,6 +1252,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
+	u->buffer_size = maxsize * u->packets;
+	...
+	u->urb->transfer_buffer =
+                usb_alloc_coherent(chip->dev, u->buffer_size,
+                                   GFP_KERNEL, &u->urb->transfer_dma);
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Here, when calculating u->buffer_size = maxsize * u->packets;
+maxsize = 9, packets = 6, which results in only 54 bytes allocated to
+transfer_buffer;
 
-Thanks,
-Charles
+BR,
+Lizhi
+> > ---
+> >  sound/usb/pcm.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+> > index 54d01dfd820f..a4c0ea685b8a 100644
+> > --- a/sound/usb/pcm.c
+> > +++ b/sound/usb/pcm.c
+> > @@ -1606,6 +1606,9 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+> >  				    subs->cur_audiofmt->dsd_bitrev)) {
+> >  			fill_playback_urb_dsd_bitrev(subs, urb, bytes);
+> >  		} else {
+> > +			if (bytes > ctx->buffer_size)
+> > +				return -EPIPE;
+> > +
+> >  			/* usual PCM */
+> >  			if (!subs->tx_length_quirk)
+> >  				copy_to_urb(subs, urb, 0, stride, bytes);
+> > --
+> > 2.43.0
+> >
