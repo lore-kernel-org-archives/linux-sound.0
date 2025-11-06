@@ -1,46 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5515C3126A9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065FA30FC3A
 	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 11:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762429494; cv=fail; b=DwYNRmB50bZ7X5cScu2qQXgujzC9OBgHj5grSruP6oNg5HHJmp1hiCJrmZ9ZZKK1uglYOwKNiemPGVJjQDIxOJWJhSF8TVdI5lorKaYFK39DwxH5wlgOGC/DybDQu077gTgs1YAoZSows8toXCQudnji4kTKv8KmLZwV5bm1g5c=
+	t=1762429495; cv=fail; b=KKiJe3ArMG38V0D05cSIh78FVBxFzBMIhaU/iJGdkqDo4Eyp/QQH0+ubcwlLjvW6k2NDu3IiKT4ZUOKrV6aU62qPOWRXeKL2p3d5LkEX9+sBfI0VlU8K2thV/vBU/TPRPZUJqAYYKefENolkfWgkg/zf/z29X2DadmWkuHZlifs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762429494; c=relaxed/simple;
-	bh=O8xqmY3s/fJ31o+QuDxu6Rh75dP/QIjXNXsH5l8Ur9c=;
+	s=arc-20240116; t=1762429495; c=relaxed/simple;
+	bh=qNCqOGng3WuEG07v66zNZk9oVMh/Xmz/IzA9dUkJ+vQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ef4fmv08omOfzNi2wc+7Seg/IC17fWyDQ6XzZaBsXoW29NxCQwgUlT8aCyxSsCyq8xRFJ0qExnlPrJVIHMSZZGLzH0scdaRkx6E6A2C7s+2GvBBOCmV5XeCkJXBB8/dYyFZLIZzOxmAEMDjB1EYFomwJ9CmyJUGGTmaloV5DKWw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=en68eSU+; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=mTu/vDrf; arc=fail smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=XSEt6MUH7+naCJTWpj4attQI4k8lCemLWeEW1Ga9Nlslke50m85/QsWQjq/lqpr0nThfdGNFkaM2BddekD+bg5LYFRYDdFI/dYe9RDnzY7qZj5Zz6OhoIjcnhUPaW0Zate4QTmCTxHQyHgwDE5O674Rm8KyvoJ8YUshHqhkT0J0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OfU7S2Um; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=k3TbY/it; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="en68eSU+";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="mTu/vDrf"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OfU7S2Um";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="k3TbY/it"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A63tDsb019774;
-	Thu, 6 Nov 2025 05:44:36 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A65vGhD219643;
+	Thu, 6 Nov 2025 05:44:37 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=u5mroy7+qEo4b/Bv8QWdR3ZjHYOLQfkNgUdQtRAOhtg=; b=
-	en68eSU+w/hqPrP3u7GwgZyDa6dQJQkmq9//eCKHfb1r0Tv9khH3n4ja5mvc/cAi
-	rS0gRUrqCWkkwpYMxh8n9L7iHmYb8g/kiGI4wHRImatPaaiZB+bdvBdn0FSPaWLX
-	7hVpDR7++bNi7wCOeN86dZQc7s6Sv9h6F54b1gBqSQxsEvIXxx818uzLHfCC+fIa
-	6e/hRsXJseVLtpQPOTsdGeCPaYEJc3yadSn4if7B7Fvgw9/oJaUlPWRLxqMBLHUh
-	DUF6mhYNEiLz5ambUzM+Coclg4bj+0g0V+JG5yihOjQ4Igts+ChCVx6zveqwgs35
-	qi6fPKojo03vjAZDY8n2Vg==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023092.outbound.protection.outlook.com [40.107.201.92])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4a7bwx3b5n-1
+	PODMain02222019; bh=U9OVO6Wun6K7Dh47UPvs7mvXu78289jMv7zLR/Dgou0=; b=
+	OfU7S2UmCH7bYNtnvYn/uv+hnmJSISRUgUpjMslZTsGU0LTeUGyBtJkmX4fKkYvy
+	9udbbjYJCDdoCsKeb/iWTu6Q0qTVTeBaN/KFWF+D8qgCSVmU5bwuTx9Tr8DT4mte
+	Oo0+cipxkiq2E9V+eiWynBCCAti1vu4sUgShsJiHsLbwzg9MRAeP8Cg8X1U50iT4
+	Zx36wvhfMEoE3+W5zc93QVBx4QudFLDU4mjnTt3y1cDdj18tlKtUMlmFouMw+D0w
+	gVVc683GdE332j+X0iFa4rHaclilJ7XNhwyLjEo/wUifytjlaKk4xM1tDh3lDx7W
+	ZMNWbpbTu+PqQDdd/P2Lxw==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020099.outbound.protection.outlook.com [40.93.198.99])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4a7bwx3b5p-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 06 Nov 2025 05:44:36 -0600 (CST)
+	Thu, 06 Nov 2025 05:44:37 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YS2aFAhwATrFZKkd/ikil7wnDtanvIeylMkLbGHxS+Lei9HLGJJYx2OillHQD7UPD2y43+9bhGdFcsXsTFKKAQHb8ZumcTUDfKzaT36fopi5GAGHUqecB6pD6PEk1WwYUmKVLmBLM8v/IkXm0sBLjPSoV0AdkmRkxVB3gyCx5cnuYfgdC1ox4TyhoP6Kvl1CzWPzug7gxesy6EkZrZKWbAddw1t8c88hsVwWUzWWitSIBd/HXQZoa3cBtH9t7IBqBQJNOUIEvTlS7vdwsv8SjpmqToguHNexFaPtNIKgKe27m+ubokJDzQUMovYnEX2ThQbs++fR6okCs2hLUkLwLA==
+ b=c5MBnsATaOI3KlnRTWbqUZoB9bd8Zm7GcstZ0kR3lAyNeqdTa1Xva1m4EBjwvmUgYpGNd1zPUF89nvghMk5TrD+MU1I6h719Ln4AOaIvN37w9y0gB60Bsz1yTncqNoUEJelCi5wtkeqrws5MXVarDUQUPd+1Q7RPo3GhRCDWQgs7q9hk1SQWI8EWAntSoHzJm9YxXS2vnU7LdehjVn0Z+LLDCpsxKcmfnZxsc+eG/HtjDTOrlvuOhLeUfgtEX5NCyCUq6kWdqbZyZJH0LgBfGyvj2s8NezW1JjbXGttMhiqv+TdFm3dYXpJ1E0o3p73SQPh3vyIJVt5vK+fwcBS4aA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u5mroy7+qEo4b/Bv8QWdR3ZjHYOLQfkNgUdQtRAOhtg=;
- b=xt1ymyiyZ0Xf4juAmgr1i+il9rhI9IAxOdUPAcELLlhEf4l6rO8mdZjvN8jfnvxydNzvWaoGgdYgUhzVbNj3Eb6kxR7eER7EpOam7UQqm2CTalcylfeRuSxc+IpvaT1ULiNfd7doVKCBn5bFmGMAdJaYHPZ8/oTo92x9m64gOAknrP9m2u9/tQ5dlkl2vELOu3pyp6Mbt92oluPlucFwocbrQ04Asd8ViTgOrnCzE1Ij03/b/e8zA5xImDJ0QuOA7rDJOQdIZrXI58B0imJ9Tr/XUN2ady3axcljaBz4jxKQipmQmueXj6pOOap+346CPmrQpwHxyRB/3j1KDcaR3A==
+ bh=U9OVO6Wun6K7Dh47UPvs7mvXu78289jMv7zLR/Dgou0=;
+ b=tVLEmGR5OT00lnIvdt2rkiFlxG1afiEUB+WVlLLWx0pvjyynfVUsWkXoVwuHFmt+5Au8lHasgyyQ+mjd/AnZqLa05DaAeFdSizPUOWAuQweoUDw/YDQ/m5FFESAhuRxI5s65mj5XV+nuR5h96+ggRhQqcZZR8NhbpUKT8cRt/V4JmBt2N/iIqWL2VaxArRbYivnFVo26Wk4CV5xSp4ifnkD394Qssc5G2h1WTyV4RgosuHeeXXrDEQAG9rmC/OGc7pIiUrBGx4Dj+j9TiRhPOgX8alHqSNVL/tDFuxPWYIyGE2g/Yy6Kz2wOnMSPhKtdeK5m6ZxHKFqhbuUDNdtinA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u5mroy7+qEo4b/Bv8QWdR3ZjHYOLQfkNgUdQtRAOhtg=;
- b=mTu/vDrfX/zrFZQ+c4xtyGv3FhPuePV514kWq+XDr64Org7Cum45TPgHvuwu+tIQYvfFMKFGjxN2W7TDqKZe2qRY+ExHlDHgfNshFjasQsc+SkBSvd/Jge9Bhdc0StPzhcAC7b9qPJXpsthGoXzJ5SQ4VnP75RaH4dpqNTLqufo=
-Received: from BY3PR03CA0027.namprd03.prod.outlook.com (2603:10b6:a03:39a::32)
- by BN5PR19MB8966.namprd19.prod.outlook.com (2603:10b6:408:2ac::19) with
+ bh=U9OVO6Wun6K7Dh47UPvs7mvXu78289jMv7zLR/Dgou0=;
+ b=k3TbY/itpvHwyuFvV/CiGqbQwbq6LSxoq7Bi5SRlfBLYpYlTJS6Uciu/zZjfyCA3ljnIAkElhklGyLowpRePcZiqzYWuREWS8rMuERUZYPFddjrKLuH37siEJTtHxNodIiqjLTBrOGeFY+BDI8PyydaoOhUK2qBWoViMUWfxEB8=
+Received: from SJ0PR03CA0230.namprd03.prod.outlook.com (2603:10b6:a03:39f::25)
+ by MN6PR19MB7868.namprd19.prod.outlook.com (2603:10b6:208:472::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Thu, 6 Nov
- 2025 11:44:32 +0000
-Received: from SJ1PEPF00002327.namprd03.prod.outlook.com
- (2603:10b6:a03:39a:cafe::a6) by BY3PR03CA0027.outlook.office365.com
- (2603:10b6:a03:39a::32) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 11:44:31 +0000
+Received: from SJ1PEPF00002325.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f:cafe::c5) by SJ0PR03CA0230.outlook.office365.com
+ (2603:10b6:a03:39f::25) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Thu,
- 6 Nov 2025 11:44:31 +0000
+ 6 Nov 2025 11:44:27 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,14 +69,14 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ1PEPF00002327.mail.protection.outlook.com (10.167.242.90) with Microsoft
+ SJ1PEPF00002325.mail.protection.outlook.com (10.167.242.88) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.6
  via Frontend Transport; Thu, 6 Nov 2025 11:44:30 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 18E4B40655E;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 20629406560;
 	Thu,  6 Nov 2025 11:44:26 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E140A82254C;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id F2D7282026B;
 	Thu,  6 Nov 2025 11:44:25 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
@@ -84,9 +84,9 @@ Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
         shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v3 11/13] ASoC: SDCA: add function devices
-Date: Thu,  6 Nov 2025 11:44:20 +0000
-Message-ID: <20251106114422.906370-12-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v3 13/13] ASoC: SDCA: Add basic SDCA function driver
+Date: Thu,  6 Nov 2025 11:44:22 +0000
+Message-ID: <20251106114422.906370-14-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251106114422.906370-1-ckeepax@opensource.cirrus.com>
 References: <20251106114422.906370-1-ckeepax@opensource.cirrus.com>
@@ -99,314 +99,591 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002327:EE_|BN5PR19MB8966:EE_
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002325:EE_|MN6PR19MB7868:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 34058f83-adcd-405f-54f3-08de1d29d8fb
+X-MS-Office365-Filtering-Correlation-Id: 82160578-83c2-4adc-d417-08de1d29d917
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|61400799027|376014;
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|61400799027|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+vQ38/O3Ht4E4WnJ3MH1j1zYRPFxF02bKR6CEwW8mmi66v9Lna69QFWNx0b8?=
- =?us-ascii?Q?5MA8E43W2bWjUAdzaVXQjjh+N5+/DWc0sfNdOZPVbFIMNyyFZ8SFNkW70mV9?=
- =?us-ascii?Q?3OJMvz4PrOdpZT6+kj7ni5wRdZa7QfkCxyUKqpMMfHlPkT5WzdsWMrfHOvSa?=
- =?us-ascii?Q?L50nOOIFHzR2UXNUqLabXKdPt0EjAu5W7QFo1kvAi9h+BbzwzBCf/LFzcYA+?=
- =?us-ascii?Q?KELx1kXFWGUEbNjeotkeq4ywpfwLeY3+LY/2JBzv1ZpO1h+1YfU6JT4AVxeo?=
- =?us-ascii?Q?TN+XBXltylUNGwVTl9lsR485XFUvf8daTJ+KOoYyGmH27MWOY0nSu3V40akq?=
- =?us-ascii?Q?DJ6hfE/QLOeCJLQWKl6cgbOGOGHXd8Sa9tCaCEj8mlHxtiiABoPgcFnQC7wj?=
- =?us-ascii?Q?2tXSLxEm0W0E13UQMECMELY9se/2dAzGdqjRCTNixcW6yR22afvWLn5VJ9rm?=
- =?us-ascii?Q?SeyT/WPUTXEHXh8NzX5gRWXQaybcKsgr6pKKtFwzSxJqxJhNGKBbU/NbvBKD?=
- =?us-ascii?Q?QIA1PJwroh/VHbWdx0KFk0Wf/byxDCEChRu1zhZJUV9+e2znRtfuiF4pRkzK?=
- =?us-ascii?Q?vSYOcCOJjxSnvQDVJWCzhZ0y1WR3gT39UMAt78Ijk2XloFouCQhJ1Na15tbg?=
- =?us-ascii?Q?yzpIcEKIR+iwS+371Qd38IWBVlUijD00JovPw82S6DkxwXsckTs3OP2q4QNk?=
- =?us-ascii?Q?cYZPWi1XFubBDtxqZpwqOwxi1KXHLQoM2LD6N+j20vHTAb+4RCQkisOGIZv5?=
- =?us-ascii?Q?95AQwN+IhMuWKalZTwwG/rC1BOagg6y9FNontVFga7HA1/qGYI0erppLODWU?=
- =?us-ascii?Q?WozbZx/q6hYFJc41NfE7h8alrDAXsZpYF75LwSF4zqn74ehhW2sPeijs21Vl?=
- =?us-ascii?Q?Q3qg1qUY1iaXeWPtJ259YbMBRMzthH8SBpH+k2cOwQZorKOMCNfWUerJvkDD?=
- =?us-ascii?Q?gzE1B/t6RyKvPgWHFQdWheM51YHIQY49XsSyxyK9Uz+34gvchozFbu7bSMH/?=
- =?us-ascii?Q?Dr2WiSyEBJJIl4jVJ81LpQoZeBU9lPnPYT+CD90LK4bHgoGGz43OledltYbR?=
- =?us-ascii?Q?gCFcxGgJcjF0H4EPzox0YC0cjVgHE7H3CP5BVmRoGx76xbZb+GDXFZbaL2cm?=
- =?us-ascii?Q?AteCvK+fWYguPVPcGtFeIWU62JnUiH4qfx6HiNnoRGXP1t1a1JtqEbYitlvB?=
- =?us-ascii?Q?LCoKvnqGz93pxJiTCoZPzP2SnFcTA07yhfgZ2KMEkJBDOLCchj5Ad7hRClzL?=
- =?us-ascii?Q?U5eQaqISx481xOIb7ByBdkbydYfpNIVXIAFhF0jkJ7FgJDC0BzDpYHuB4z2a?=
- =?us-ascii?Q?W6kNDf2nPsyCs3mjvtrBQNLs2Ncb4kTDSHIw5SiJ2/lkIRLRRVbw7H0QcEnZ?=
- =?us-ascii?Q?KmqLBowyeOQwpdZbD0htd6HCAsSMJSXCPf1urWbV/pKmbJmTzrBRt0PD1nSg?=
- =?us-ascii?Q?x3ZOZ6aRojP6QPAaDEJIuTG4ztCpzFStf7V0oUd/wcrwjGMQpYQNke7BOdLJ?=
- =?us-ascii?Q?7jou1B9rmSBHlnR7CRSdvSXELn722adOdUGu/Q+IzYmW9XLxFF+nSrtqDByw?=
- =?us-ascii?Q?Z26LjKwz417koOt9MzM=3D?=
+	=?us-ascii?Q?o/IpR+WZv0xteq7Q6P+xbOkM05485mWuIXS+yY7VOXQIRZMezkhhxZPMk0Wb?=
+ =?us-ascii?Q?I1mm/fIakS1Ljkie5NJ7g/xDdKgK90H5IkGgKzzu8rEllZI8pL1rR9e8P0n0?=
+ =?us-ascii?Q?XTWMZUNdN9wnRaJZVQB4QCxsRcHsTGjO3Sel7HTorNeEj5P8DzlCPqVBggBe?=
+ =?us-ascii?Q?DKWjpjNywisE4k+FKczLGvvtNeuzvNC7/Z1d1B5HaV1upfw8cvP6PkZhuJoC?=
+ =?us-ascii?Q?ubVUrghFM2R/zE1yVgNlM1enWPVOZY5P9T6FSi6bf8BerWHanCJXPtg0n5Md?=
+ =?us-ascii?Q?EfXw76M0YqLfHxfVFPTjiXOkfYEELjM+amRW3qumwRm3MOjmh1tQXMY2+/+M?=
+ =?us-ascii?Q?cmP2OYF382uHV02VCYMMqz4auQO0Zt3Z4kI+sCSrOm9Ait39LvY3HvXl79lY?=
+ =?us-ascii?Q?MZ912pbQJBH6OUJQea+UNMgovSXOCkxSlZ1/ELuw2Dx0H0wGCI8aAvkdfAkK?=
+ =?us-ascii?Q?ef6CZQ9TAHcfUPjHpT4IfBJSg/o/V/LLm5UCs/gOBKvkJW3mihvMoCgJwH8m?=
+ =?us-ascii?Q?EMimzyxOdPzCnBNSqsYOICJEuCvGmKuwXN2hqui8cb4MiapanO0OS0aEJ8Sp?=
+ =?us-ascii?Q?eW+DBFdp9nAeEru9/UXT0GzEAs9Oy064/Q+UPnHT9k6dBPjLq4X783sKX8W1?=
+ =?us-ascii?Q?G1Or9xdJLIn1iGAgv3H+zIjQNKF3kKK8zGqKwxSXguQ4TjMAkf+euU29MOmL?=
+ =?us-ascii?Q?vIxjVq7408eU5z2XL83PTNcse0P3YPIDt1DYCdl3Se4chOEy6DojSe8UkxJJ?=
+ =?us-ascii?Q?MpG//7QqWpD5wrf/knIO104+Zs3HnbKvsaszrI4wcSRky+vvbx/evgkUwF/B?=
+ =?us-ascii?Q?gvrb0+oE5OQayNJ89Ax70FFFcMxeKxHme3ak4KXGr9W3rxLMzYlMdRC2Zhbj?=
+ =?us-ascii?Q?naDbvnOAkFYS9GcsS7ujZEtnQ9cw1tYnsU273dIP8IDGM2icuG6xImEbzbvf?=
+ =?us-ascii?Q?9xmp6nP0rtHPYEfMj2qtoqh61+OpyoSNfasbjiF0UvYpLhDuz2FDHniFLZHS?=
+ =?us-ascii?Q?XkvrRSsgg/ONarSVY2i9dk/UC+Vmw5ROhGH6PtWJ+OV9oZadfArN0Ll33azy?=
+ =?us-ascii?Q?8lB4Fr8mpGjFUQLCcKD3rtHSdwm8f7FuG66F2yd6OSgaYxnAl6QIq89QxNhf?=
+ =?us-ascii?Q?Uhg0BMf+ga3VEhmq9RVPhdObwAFZGpHrIXc9R+9vFu6KTEHqKfl01BVhRhde?=
+ =?us-ascii?Q?Vs8aZqPikUskToFop8eDc4LSLlh9OWxds7Ov7PkmeiKk6gvt6ztuRiJyyHaK?=
+ =?us-ascii?Q?5jHj9HGoUqNHVOMG8PiK9/CAMG/mJjigfqwXjrqUxi40GkQd5j5UsU4XbswC?=
+ =?us-ascii?Q?amnyMHTSVmBCljDc3+vm98OFIKFS2JU8JrWFc9vj7scH8fzXPrDymVDUs8Mp?=
+ =?us-ascii?Q?oyS2vCR3iVb0tI5jYXa4nwgstsdEoTZjdQE9cdl7n2tNnqtxh4ziUDLSndde?=
+ =?us-ascii?Q?VYvMOLFSY5FT1ciKqiQDK/ZzV3/its9zurmyNaNUNyZ8FXgvMhdRUxIDPGrB?=
+ =?us-ascii?Q?RhEC88dL1RR75/TZUMn6c1VYi0NVGtHZhY1MafItpy7v2eSOczIWsOHbV6vL?=
+ =?us-ascii?Q?V+FBCDBJk7QpCR3VT2Q=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(61400799027)(376014);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(61400799027)(13003099007);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 11:44:30.0997
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 11:44:30.2875
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34058f83-adcd-405f-54f3-08de1d29d8fb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82160578-83c2-4adc-d417-08de1d29d917
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF00002327.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF00002325.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR19MB8966
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA5MiBTYWx0ZWRfX2UZt+2VXBeLM
- PuuAZ8J04k8nbCYeCt7QwRl+GbYFn5xOtkGKyJBQj6MHdIakyuy1Ige7yxC6rhqcd1pflA8x70e
- UqKIHWHa4Lf6Kc1fFeP6OjDnt5xgqQ5S/YcCFKuOD9Is5sy6jirFK/PDFJYVYubhtek0AQ/q5U/
- GsXgl063QzHLo1O/9jBJGVOnZY06qazh/QKjc5YJfsU0Lp2Zg/2F7gU7ZtHYQtuTd2Jhzt1MFiu
- k2YqIc8RLqeVi4paycZvSMm5urSKFBWyeNKg7vwbQ/cOpz2EDJz/SSGtuZnLNP752vn8bwUiz4T
- rIBx4AWPHo8L2Dohb1PxSw5KljNTLqy86b5len9T+q7lF5EskdmvmmitBLIOpZGrgWDGkdbUr3w
- 4x7YhwrHEIeBYOeUkuN5poZoacGDzg==
-X-Proofpoint-ORIG-GUID: aXJDa7hbK8EljjmYSa7hPSVzsTOSIc-z
-X-Proofpoint-GUID: aXJDa7hbK8EljjmYSa7hPSVzsTOSIc-z
-X-Authority-Analysis: v=2.4 cv=FpcIPmrq c=1 sm=1 tr=0 ts=690c8a24 cx=c_pps
- a=HDWlEWCLQVEuMJptrEg8xw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR19MB7868
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA5MiBTYWx0ZWRfX4WhBAv/kweFN
+ Ppt1zNnpoIKaymCmdFCTr++d2IYUVvaYs5PvhEfOdBubh9Clox4q0e6ELHVKZUNzTsuhxJng1YH
+ pVRRv6fTlu20CqzT1UQzADYQ4AUgIVkc+VmNqc2jMOU1tYnQXcpj6fDcu48e3il5zyk1jXhlVMm
+ 5R3Gn1juLFWfLY1EMpuNZaSHPScCs30MCgFpPmYPwUUUkDtF2+cLKFzTsAO3z+u+YfEdp6p+ZjC
+ JEcLKR0QpfO7dviAY5ScRLyaKf2oMaXkzZGG6HEz1Fp8JOWvThoODg7YGzLwl+QlrubdGj/fGA2
+ DhfwV6Otnr4E4hMUsEta7Ye3OewMRyQ+v94HoBOXmBy8aUUZmVmlPjTgqNHqDr00c8jugYOXfyx
+ kZpbF9OeYtdSy4FjWwhPbKDNIravbA==
+X-Proofpoint-ORIG-GUID: CnOaX6V5O312UCQjZ_9KlzSXkGtrKKFY
+X-Proofpoint-GUID: CnOaX6V5O312UCQjZ_9KlzSXkGtrKKFY
+X-Authority-Analysis: v=2.4 cv=FpcIPmrq c=1 sm=1 tr=0 ts=690c8a25 cx=c_pps
+ a=GknEWMF7HrfbFJOd498rxg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=6UeiqGixMTsA:10 a=RWc_ulEos4gA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8 a=s4wzVoPRHm42yPvCsZEA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
+ a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KJT-RnjOAAAA:8 a=w1d2syhTAAAA:8
+ a=JfUX2HHz7D_845OBrMAA:9 a=HE_01F9_QflCRFonrIQr:22 a=cPQSjfK2_nFv0Q5t_7PE:22
 X-Proofpoint-Spam-Reason: safe
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Add a driver to support the individual SDCA functions within the class
+driver. Use the SDCA helpers to parse the DisCo information and register
+a function driver based on those properties. Manage the boot of the
+function, reset, FDL, defaults. Manage the function level register map.
 
-Use the auxiliary bus to register/unregister subdevices for each
-function. Each function will be handled with a separate driver,
-matched using a name.
-
-If a vendor wants to override a specific function driver, they could
-use a custom name to match with a custom function driver.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Co-developed-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-No changes since v2.
+Changes since v2:
+ - Renamed suspend/resume functions to be a little less wordy.
 
- include/sound/sdca.h                  |  13 +++
- sound/soc/sdca/Kconfig                |   1 +
- sound/soc/sdca/Makefile               |   4 +-
- sound/soc/sdca/sdca_function_device.c | 117 ++++++++++++++++++++++++++
- sound/soc/sdca/sdca_function_device.h |  15 ++++
- 5 files changed, 148 insertions(+), 2 deletions(-)
- create mode 100644 sound/soc/sdca/sdca_function_device.c
- create mode 100644 sound/soc/sdca/sdca_function_device.h
+ sound/soc/sdca/Kconfig               |   7 +
+ sound/soc/sdca/Makefile              |   2 +
+ sound/soc/sdca/sdca_class_function.c | 460 +++++++++++++++++++++++++++
+ 3 files changed, 469 insertions(+)
+ create mode 100644 sound/soc/sdca/sdca_class_function.c
 
-diff --git a/include/sound/sdca.h b/include/sound/sdca.h
-index d58d602212771..67ff3c88705d5 100644
---- a/include/sound/sdca.h
-+++ b/include/sound/sdca.h
-@@ -15,18 +15,21 @@
- struct acpi_table_swft;
- struct fwnode_handle;
- struct sdw_slave;
-+struct sdca_dev;
- 
- #define SDCA_MAX_FUNCTION_COUNT 8
- 
- /**
-  * struct sdca_function_desc - short descriptor for an SDCA Function
-  * @node: firmware node for the Function.
-+ * @func_dev: pointer to SDCA function device.
-  * @name: Human-readable string.
-  * @type: Function topology type.
-  * @adr: ACPI address (used for SDCA register access).
-  */
- struct sdca_function_desc {
- 	struct fwnode_handle *node;
-+	struct sdca_dev *func_dev;
- 	const char *name;
- 	u32 type;
- 	u8 adr;
-@@ -59,6 +62,8 @@ void sdca_lookup_functions(struct sdw_slave *slave);
- void sdca_lookup_swft(struct sdw_slave *slave);
- void sdca_lookup_interface_revision(struct sdw_slave *slave);
- bool sdca_device_quirk_match(struct sdw_slave *slave, enum sdca_quirk quirk);
-+int sdca_dev_register_functions(struct sdw_slave *slave);
-+void sdca_dev_unregister_functions(struct sdw_slave *slave);
- 
- #else
- 
-@@ -69,6 +74,14 @@ static inline bool sdca_device_quirk_match(struct sdw_slave *slave, enum sdca_qu
- {
- 	return false;
- }
-+
-+static inline int sdca_dev_register_functions(struct sdw_slave *slave)
-+{
-+	return 0;
-+}
-+
-+static inline void sdca_dev_unregister_functions(struct sdw_slave *slave) {}
-+
- #endif
- 
- #endif
 diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
-index a73920d07073e..e7f36d668f159 100644
+index 56e3ff8448762..0a37e94a60302 100644
 --- a/sound/soc/sdca/Kconfig
 +++ b/sound/soc/sdca/Kconfig
-@@ -4,6 +4,7 @@ menu "SoundWire (SDCA)"
- config SND_SOC_SDCA
- 	tristate
- 	depends on ACPI
-+	select AUXILIARY_BUS
- 	help
- 	  This option enables support for the MIPI SoundWire Device
- 	  Class for Audio (SDCA).
+@@ -39,6 +39,7 @@ config SND_SOC_SDCA_OPTIONAL
+ 
+ config SND_SOC_SDCA_CLASS
+ 	tristate "SDCA Class Driver"
++	select SND_SOC_SDCA_CLASS_FUNCTION
+ 	select SND_SOC_SDCA
+ 	select SND_SOC_SDCA_FDL
+ 	select SND_SOC_SDCA_HID
+@@ -47,4 +48,10 @@ config SND_SOC_SDCA_CLASS
+ 	  This option enables support for the SDCA Class driver which should
+ 	  support any class compliant SDCA part.
+ 
++config SND_SOC_SDCA_CLASS_FUNCTION
++	tristate
++	help
++	  This option enables support for the SDCA Class Function drivers,
++	  these implement the individual functions of the SDCA Class driver.
++
+ endmenu
 diff --git a/sound/soc/sdca/Makefile b/sound/soc/sdca/Makefile
-index be911c399bbde..babe3fa2bb3ff 100644
+index 95db4cef34833..f6b73275d9649 100644
 --- a/sound/soc/sdca/Makefile
 +++ b/sound/soc/sdca/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--snd-soc-sdca-y := sdca_functions.o sdca_device.o sdca_regmap.o sdca_asoc.o \
--		  sdca_ump.o
-+snd-soc-sdca-y := sdca_functions.o sdca_device.o sdca_function_device.o \
-+		  sdca_regmap.o sdca_asoc.o sdca_ump.o
- snd-soc-sdca-$(CONFIG_SND_SOC_SDCA_HID) += sdca_hid.o
- snd-soc-sdca-$(CONFIG_SND_SOC_SDCA_IRQ) += sdca_interrupts.o
+@@ -7,7 +7,9 @@ snd-soc-sdca-$(CONFIG_SND_SOC_SDCA_IRQ) += sdca_interrupts.o
  snd-soc-sdca-$(CONFIG_SND_SOC_SDCA_FDL) += sdca_fdl.o
-diff --git a/sound/soc/sdca/sdca_function_device.c b/sound/soc/sdca/sdca_function_device.c
+ 
+ snd-soc-sdca-class-y := sdca_class.o
++snd-soc-sdca-class-function-y := sdca_class_function.o
+ 
+ obj-$(CONFIG_SND_SOC_SDCA) += snd-soc-sdca.o
+ 
+ obj-$(CONFIG_SND_SOC_SDCA_CLASS) += snd-soc-sdca-class.o
++obj-$(CONFIG_SND_SOC_SDCA_CLASS_FUNCTION) += snd-soc-sdca-class-function.o
+diff --git a/sound/soc/sdca/sdca_class_function.c b/sound/soc/sdca/sdca_class_function.c
 new file mode 100644
-index 0000000000000..91c49d7389db0
+index 0000000000000..0028482a1e752
 --- /dev/null
-+++ b/sound/soc/sdca/sdca_function_device.c
-@@ -0,0 +1,117 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-+// Copyright(c) 2024 Intel Corporation.
++++ b/sound/soc/sdca/sdca_class_function.c
+@@ -0,0 +1,460 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (C) 2025 Cirrus Logic, Inc. and
++//                    Cirrus Logic International Semiconductor Ltd.
 +
 +/*
-+ * SDCA Function Device management
++ * The MIPI SDCA specification is available for public downloads at
++ * https://www.mipi.org/mipi-sdca-v1-0-download
 + */
 +
-+#include <linux/acpi.h>
-+#include <linux/module.h>
 +#include <linux/auxiliary_bus.h>
++#include <linux/minmax.h>
++#include <linux/module.h>
++#include <linux/pm.h>
++#include <linux/pm_runtime.h>
 +#include <linux/soundwire/sdw.h>
-+#include <sound/sdca.h>
++#include <linux/soundwire/sdw_registers.h>
++#include <sound/pcm.h>
++#include <sound/sdca_asoc.h>
++#include <sound/sdca_fdl.h>
 +#include <sound/sdca_function.h>
-+#include "sdca_function_device.h"
++#include <sound/sdca_interrupts.h>
++#include <sound/sdca_regmap.h>
++#include <sound/sdw.h>
++#include <sound/soc-component.h>
++#include <sound/soc-dai.h>
++#include <sound/soc.h>
++#include "sdca_class.h"
 +
-+/*
-+ * A SoundWire device can have multiple SDCA functions identified by
-+ * their type and ADR. there can be multiple SoundWire devices per
-+ * link, or multiple devices spread across multiple links. An IDA is
-+ * required to identify each instance.
-+ */
-+static DEFINE_IDA(sdca_function_ida);
++struct class_function_drv {
++	struct device *dev;
++	struct regmap *regmap;
++	struct sdca_class_drv *core;
 +
-+static void sdca_dev_release(struct device *dev)
++	struct sdca_function_data *function;
++};
++
++static void class_function_regmap_lock(void *data)
++{
++	struct mutex *lock = data;
++
++	mutex_lock(lock);
++}
++
++static void class_function_regmap_unlock(void *data)
++{
++	struct mutex *lock = data;
++
++	mutex_unlock(lock);
++}
++
++static bool class_function_regmap_writeable(struct device *dev, unsigned int reg)
 +{
 +	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
-+	struct sdca_dev *sdev = auxiliary_dev_to_sdca_dev(auxdev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
 +
-+	ida_free(&sdca_function_ida, auxdev->id);
-+	kfree(sdev);
++	return sdca_regmap_writeable(drv->function, reg);
 +}
 +
-+/* alloc, init and add link devices */
-+static struct sdca_dev *sdca_dev_register(struct device *parent,
-+					  struct sdca_function_desc *function_desc)
++static bool class_function_regmap_readable(struct device *dev, unsigned int reg)
 +{
-+	struct sdca_dev *sdev;
-+	struct auxiliary_device *auxdev;
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
++
++	return sdca_regmap_readable(drv->function, reg);
++}
++
++static bool class_function_regmap_volatile(struct device *dev, unsigned int reg)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
++
++	return sdca_regmap_volatile(drv->function, reg);
++}
++
++static const struct regmap_config class_function_regmap_config = {
++	.name			= "sdca",
++	.reg_bits		= 32,
++	.val_bits		= 32,
++	.reg_format_endian	= REGMAP_ENDIAN_LITTLE,
++	.val_format_endian	= REGMAP_ENDIAN_LITTLE,
++
++	.max_register		= SDW_SDCA_MAX_REGISTER,
++	.readable_reg		= class_function_regmap_readable,
++	.writeable_reg		= class_function_regmap_writeable,
++	.volatile_reg		= class_function_regmap_volatile,
++
++	.cache_type		= REGCACHE_MAPLE,
++
++	.lock			= class_function_regmap_lock,
++	.unlock			= class_function_regmap_unlock,
++};
++
++static int class_function_regmap_mbq_size(struct device *dev, unsigned int reg)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
++
++	return sdca_regmap_mbq_size(drv->function, reg);
++}
++
++static bool class_function_regmap_deferrable(struct device *dev, unsigned int reg)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
++
++	return sdca_regmap_deferrable(drv->function, reg);
++}
++
++static const struct regmap_sdw_mbq_cfg class_function_mbq_config = {
++	.mbq_size		= class_function_regmap_mbq_size,
++	.deferrable		= class_function_regmap_deferrable,
++	.retry_us		= 1000,
++	.timeout_us		= 10000,
++};
++
++static int class_function_startup(struct snd_pcm_substream *substream,
++				  struct snd_soc_dai *dai)
++{
++	struct class_function_drv *drv = snd_soc_component_get_drvdata(dai->component);
++
++	return sdca_asoc_set_constraints(drv->dev, drv->regmap, drv->function,
++					 substream, dai);
++}
++
++static int class_function_sdw_add_peripheral(struct snd_pcm_substream *substream,
++					     struct snd_pcm_hw_params *params,
++					     struct snd_soc_dai *dai)
++{
++	struct class_function_drv *drv = snd_soc_component_get_drvdata(dai->component);
++	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
++	struct sdw_slave *sdw = dev_to_sdw_dev(drv->dev->parent);
++	struct sdw_stream_config sconfig = {0};
++	struct sdw_port_config pconfig = {0};
 +	int ret;
-+	int rc;
 +
-+	sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
-+	if (!sdev)
-+		return ERR_PTR(-ENOMEM);
++	if (!sdw_stream)
++		return -EINVAL;
 +
-+	auxdev = &sdev->auxdev;
-+	auxdev->name = function_desc->name;
-+	auxdev->dev.parent = parent;
-+	auxdev->dev.fwnode = function_desc->node;
-+	auxdev->dev.release = sdca_dev_release;
++	snd_sdw_params_to_config(substream, params, &sconfig, &pconfig);
 +
-+	sdev->function.desc = function_desc;
++	/*
++	 * FIXME: As also noted in sdca_asoc_get_port(), currently only
++	 * a single unshared port is supported for each DAI.
++	 */
++	ret = sdca_asoc_get_port(drv->dev, drv->regmap, drv->function, dai);
++	if (ret < 0)
++		return ret;
 +
-+	rc = ida_alloc(&sdca_function_ida, GFP_KERNEL);
-+	if (rc < 0) {
-+		kfree(sdev);
-+		return ERR_PTR(rc);
-+	}
-+	auxdev->id = rc;
++	pconfig.num = ret;
 +
-+	/* now follow the two-step init/add sequence */
-+	ret = auxiliary_device_init(auxdev);
-+	if (ret < 0) {
-+		dev_err(parent, "failed to initialize SDCA function dev %s\n",
-+			function_desc->name);
-+		ida_free(&sdca_function_ida, auxdev->id);
-+		kfree(sdev);
-+		return ERR_PTR(ret);
++	ret = sdw_stream_add_slave(sdw, &sconfig, &pconfig, 1, sdw_stream);
++	if (ret) {
++		dev_err(drv->dev, "failed to add sdw stream: %d\n", ret);
++		return ret;
 +	}
 +
-+	ret = auxiliary_device_add(auxdev);
-+	if (ret < 0) {
-+		dev_err(parent, "failed to add SDCA function dev %s\n",
-+			sdev->auxdev.name);
-+		/* sdev will be freed with the put_device() and .release sequence */
-+		auxiliary_device_uninit(&sdev->auxdev);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return sdev;
++	return sdca_asoc_hw_params(drv->dev, drv->regmap, drv->function,
++				   substream, params, dai);
 +}
 +
-+static void sdca_dev_unregister(struct sdca_dev *sdev)
++static int class_function_sdw_remove_peripheral(struct snd_pcm_substream *substream,
++						struct snd_soc_dai *dai)
 +{
-+	auxiliary_device_delete(&sdev->auxdev);
-+	auxiliary_device_uninit(&sdev->auxdev);
++	struct class_function_drv *drv = snd_soc_component_get_drvdata(dai->component);
++	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
++	struct sdw_slave *sdw = dev_to_sdw_dev(drv->dev->parent);
++
++	if (!sdw_stream)
++		return -EINVAL;
++
++	return sdw_stream_remove_slave(sdw, sdw_stream);
 +}
 +
-+int sdca_dev_register_functions(struct sdw_slave *slave)
++static int class_function_sdw_set_stream(struct snd_soc_dai *dai, void *sdw_stream,
++					 int direction)
 +{
-+	struct sdca_device_data *sdca_data = &slave->sdca_data;
-+	int i;
++	snd_soc_dai_dma_data_set(dai, direction, sdw_stream);
 +
-+	for (i = 0; i < sdca_data->num_functions; i++) {
-+		struct sdca_dev *func_dev;
++	return 0;
++}
 +
-+		func_dev = sdca_dev_register(&slave->dev,
-+					     &sdca_data->function[i]);
-+		if (!func_dev)
-+			return -ENODEV;
++static const struct snd_soc_dai_ops class_function_sdw_ops = {
++	.startup	= class_function_startup,
++	.shutdown	= sdca_asoc_free_constraints,
++	.set_stream	= class_function_sdw_set_stream,
++	.hw_params	= class_function_sdw_add_peripheral,
++	.hw_free	= class_function_sdw_remove_peripheral,
++};
 +
-+		sdca_data->function[i].func_dev = func_dev;
++static int class_function_component_probe(struct snd_soc_component *component)
++{
++	struct class_function_drv *drv = snd_soc_component_get_drvdata(component);
++	struct sdca_class_drv *core = drv->core;
++
++	return sdca_irq_populate(drv->function, component, core->irq_info);
++}
++
++static const struct snd_soc_component_driver class_function_component_drv = {
++	.probe			= class_function_component_probe,
++	.endianness		= 1,
++};
++
++static int class_function_boot(struct class_function_drv *drv)
++{
++	unsigned int reg = SDW_SDCA_CTL(drv->function->desc->adr,
++					SDCA_ENTITY_TYPE_ENTITY_0,
++					SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0);
++	unsigned int val;
++	int ret;
++
++	ret = regmap_read(drv->regmap, reg, &val);
++	if (ret < 0) {
++		dev_err(drv->dev, "failed to read function status: %d\n", ret);
++		return ret;
++	}
++
++	if (!(val & SDCA_CTL_ENTITY_0_FUNCTION_HAS_BEEN_RESET)) {
++		dev_dbg(drv->dev, "reset function device\n");
++
++		ret = sdca_reset_function(drv->dev, drv->function, drv->regmap);
++		if (ret)
++			return ret;
++	}
++
++	if (val & SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION) {
++		dev_dbg(drv->dev, "write initialisation\n");
++
++		ret = sdca_regmap_write_init(drv->dev, drv->core->dev_regmap,
++					     drv->function);
++		if (ret)
++			return ret;
++
++		ret = regmap_write(drv->regmap, reg,
++				   SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION);
++		if (ret < 0) {
++			dev_err(drv->dev,
++				"failed to clear function init status: %d\n",
++				ret);
++			return ret;
++		}
++	}
++
++	/* Start FDL process */
++	ret = sdca_irq_populate_early(drv->dev, drv->regmap, drv->function,
++				      drv->core->irq_info);
++	if (ret)
++		return ret;
++
++	ret = sdca_fdl_sync(drv->dev, drv->function, drv->core->irq_info);
++	if (ret)
++		return ret;
++
++	ret = sdca_regmap_write_defaults(drv->dev, drv->regmap, drv->function);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(drv->regmap, reg, 0xFF);
++	if (ret < 0) {
++		dev_err(drv->dev, "failed to clear function status: %d\n", ret);
++		return ret;
 +	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_NS(sdca_dev_register_functions, "SND_SOC_SDCA");
 +
-+void sdca_dev_unregister_functions(struct sdw_slave *slave)
++static int class_function_probe(struct auxiliary_device *auxdev,
++				const struct auxiliary_device_id *aux_dev_id)
 +{
-+	struct sdca_device_data *sdca_data = &slave->sdca_data;
++	struct device *dev = &auxdev->dev;
++	struct sdca_class_drv *core = dev_get_drvdata(dev->parent);
++	struct sdca_device_data *data = &core->sdw->sdca_data;
++	struct sdca_function_desc *desc;
++	struct snd_soc_component_driver *cmp_drv;
++	struct snd_soc_dai_driver *dais;
++	struct class_function_drv *drv;
++	struct regmap_sdw_mbq_cfg *mbq_config;
++	struct regmap_config *config;
++	struct reg_default *defaults;
++	int ndefaults;
++	int num_dais;
++	int ret;
 +	int i;
 +
-+	for (i = 0; i < sdca_data->num_functions; i++)
-+		sdca_dev_unregister(sdca_data->function[i].func_dev);
++	drv = devm_kzalloc(dev, sizeof(*drv), GFP_KERNEL);
++	if (!drv)
++		return -ENOMEM;
++
++	cmp_drv = devm_kmemdup(dev, &class_function_component_drv, sizeof(*cmp_drv),
++			       GFP_KERNEL);
++	if (!cmp_drv)
++		return -ENOMEM;
++
++	config = devm_kmemdup(dev, &class_function_regmap_config, sizeof(*config),
++			      GFP_KERNEL);
++	if (!config)
++		return -ENOMEM;
++
++	mbq_config = devm_kmemdup(dev, &class_function_mbq_config, sizeof(*mbq_config),
++				  GFP_KERNEL);
++	if (!mbq_config)
++		return -ENOMEM;
++
++	drv->dev = dev;
++	drv->core = core;
++
++	for (i = 0; i < data->num_functions; i++) {
++		desc = &data->function[i];
++
++		if (desc->type == aux_dev_id->driver_data)
++			break;
++	}
++	if (i == core->sdw->sdca_data.num_functions) {
++		dev_err(dev, "failed to locate function\n");
++		return -EINVAL;
++	}
++
++	drv->function = &core->functions[i];
++
++	ret = sdca_parse_function(dev, core->sdw, desc, drv->function);
++	if (ret)
++		return ret;
++
++	ndefaults = sdca_regmap_count_constants(dev, drv->function);
++	if (ndefaults < 0)
++		return ndefaults;
++
++	defaults = devm_kcalloc(dev, ndefaults, sizeof(*defaults), GFP_KERNEL);
++	if (!defaults)
++		return -ENOMEM;
++
++	ret = sdca_regmap_populate_constants(dev, drv->function, defaults);
++	if (ret < 0)
++		return ret;
++
++	regcache_sort_defaults(defaults, ndefaults);
++
++	auxiliary_set_drvdata(auxdev, drv);
++
++	config->reg_defaults = defaults;
++	config->num_reg_defaults = ndefaults;
++	config->lock_arg = &core->regmap_lock;
++
++	if (drv->function->busy_max_delay) {
++		mbq_config->timeout_us = drv->function->busy_max_delay;
++		mbq_config->retry_us = umax(drv->function->busy_max_delay / 10,
++					    mbq_config->retry_us);
++	}
++
++	drv->regmap = devm_regmap_init_sdw_mbq_cfg(dev, core->sdw, config, mbq_config);
++	if (IS_ERR(drv->regmap))
++		return dev_err_probe(dev, PTR_ERR(drv->regmap),
++				     "failed to create regmap");
++
++	ret = sdca_asoc_populate_component(dev, drv->function, cmp_drv,
++					   &dais, &num_dais,
++					   &class_function_sdw_ops);
++	if (ret)
++		return ret;
++
++	pm_runtime_set_autosuspend_delay(dev, 200);
++	pm_runtime_use_autosuspend(dev);
++	pm_runtime_set_active(dev);
++	pm_runtime_get_noresume(dev);
++
++	ret = devm_pm_runtime_enable(dev);
++	if (ret)
++		return ret;
++
++	ret = class_function_boot(drv);
++	if (ret)
++		return ret;
++
++	ret = devm_snd_soc_register_component(dev, cmp_drv, dais, num_dais);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to register component\n");
++
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++
++	return 0;
 +}
-+EXPORT_SYMBOL_NS(sdca_dev_unregister_functions, "SND_SOC_SDCA");
-diff --git a/sound/soc/sdca/sdca_function_device.h b/sound/soc/sdca/sdca_function_device.h
-new file mode 100644
-index 0000000000000..5adf7551d3a44
---- /dev/null
-+++ b/sound/soc/sdca/sdca_function_device.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
-+/* Copyright(c) 2024 Intel Corporation. */
 +
-+#ifndef __SDCA_FUNCTION_DEVICE_H
-+#define __SDCA_FUNCTION_DEVICE_H
++static int class_function_runtime_suspend(struct device *dev)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
 +
-+struct sdca_dev {
-+	struct auxiliary_device auxdev;
-+	struct sdca_function_data function;
++	/*
++	 * Whilst the driver doesn't power the chip down here, going into
++	 * runtime suspend means the driver can't be sure the bus won't
++	 * power down which would prevent communication with the device.
++	 */
++	regcache_cache_only(drv->regmap, true);
++
++	return 0;
++}
++
++static int class_function_runtime_resume(struct device *dev)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(dev);
++	struct class_function_drv *drv = auxiliary_get_drvdata(auxdev);
++	int ret;
++
++	regcache_mark_dirty(drv->regmap);
++	regcache_cache_only(drv->regmap, false);
++
++	ret = regcache_sync(drv->regmap);
++	if (ret) {
++		dev_err(drv->dev, "failed to restore register cache: %d\n", ret);
++		goto err;
++	}
++
++	return 0;
++
++err:
++	regcache_cache_only(drv->regmap, true);
++
++	return ret;
++}
++
++static const struct dev_pm_ops class_function_pm_ops = {
++	RUNTIME_PM_OPS(class_function_runtime_suspend,
++		       class_function_runtime_resume, NULL)
 +};
 +
-+#define auxiliary_dev_to_sdca_dev(auxiliary_dev)		\
-+	container_of(auxiliary_dev, struct sdca_dev, auxdev)
++static const struct auxiliary_device_id class_function_id_table[] = {
++	{
++		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_SMART_AMP_NAME,
++		.driver_data = SDCA_FUNCTION_TYPE_SMART_AMP,
++	},
++	{
++		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_SMART_MIC_NAME,
++		.driver_data = SDCA_FUNCTION_TYPE_SMART_MIC,
++	},
++	{
++		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_UAJ_NAME,
++		.driver_data = SDCA_FUNCTION_TYPE_UAJ,
++	},
++	{
++		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_HID_NAME,
++		.driver_data = SDCA_FUNCTION_TYPE_HID,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(auxiliary, class_function_id_table);
 +
-+#endif
++static struct auxiliary_driver class_function_drv = {
++	.driver = {
++		.name		= "sdca_function",
++		.pm		= pm_ptr(&class_function_pm_ops),
++	},
++
++	.probe		= class_function_probe,
++	.id_table	= class_function_id_table
++};
++module_auxiliary_driver(class_function_drv);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("SDCA Class Function Driver");
++MODULE_IMPORT_NS("SND_SOC_SDCA");
 -- 
 2.47.3
 
