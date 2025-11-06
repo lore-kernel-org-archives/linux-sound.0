@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6476355023;
-	Thu,  6 Nov 2025 23:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FC034FF54
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473249; cv=none; b=LwFF/E0J6qkv9Co+rl4CephANFiZvlm/O0x9Kt4+5SyzJ7vBT4kcSxXKasZqQy+0W5v6sp6T86bIe23jEtCzVOcBIQJcRGci+/PEfZJJIzslH+otRQL9kY6RNuv8eisfQi6NdEIHG2zK9ntrr/RvkxzPqDOPYTaLo5KJek/Bym4=
+	t=1762473251; cv=none; b=fuyY+9IwsZwhR8KUUdf8MjPRMt8vxFxPxYmBYL4rVyA9VVgIZYrYEknHxZAdHYuJRBjWJvBLFYYZo9HeeRg4e1xT1DNfMgdBq5gBt3Nclyu8GBEvu4842PfBYpy2rjr0ptL1BlvMLt6cSW7tgyu3KefFYKEi3ThieTR1l5cJrVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473249; c=relaxed/simple;
-	bh=2tO0Eyx9WlJ8GPbppW2T3TCce1uJrZBsLpQZbLlk9SE=;
+	s=arc-20240116; t=1762473251; c=relaxed/simple;
+	bh=LZYWx84y2iIXePR6q8dOXCHkrpRJlqvFuFaOAX7yUCM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uUeNEqIKYHG6JrPDdL9geP4AjMZmrhzYQmxHEM2+OXjXxHA2a3/hbuseMPZbdaZXT0uxQQ3sCG0ww3vTnspE+rYjV06T/t8IF1aEUsxkS1k+Rh5g+CEf32NIlY19dh2G6u+q7C4LjGrRxbg/MO9dv8CZlHG0Rk9SNLX+IZoMkOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JM1mg6if; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lvDXqQDtTu4wD9vKDgqs4YTg7E+QimH9tux18bZh+d7SUpXtFfR6ad+wMbQAldyf1VBLYvmUPMJ80BIM9yOug115unhhMeh250rsIgQ3rP3t3udQ5kSfJRSA9pQqhDaHBLfCGhJHJ1hn6fgr9ryeIrDFepAkvDr03J1hxsWMHmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkPZDxln; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JM1mg6if"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4185C116D0;
-	Thu,  6 Nov 2025 23:54:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkPZDxln"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA98C4CEF7;
+	Thu,  6 Nov 2025 23:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762473248;
-	bh=2tO0Eyx9WlJ8GPbppW2T3TCce1uJrZBsLpQZbLlk9SE=;
+	s=k20201202; t=1762473251;
+	bh=LZYWx84y2iIXePR6q8dOXCHkrpRJlqvFuFaOAX7yUCM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JM1mg6if3vb/1NeNKxu6NrcgvOU6a/Gy8jKpB+KpEQLIoZILoF2/RNzIFon4SlIy3
-	 75P7pCiKW67hqXr5zJeQv0wgiQ5z8WOGV8lIOSyCuNvXhhfqB+GxvTGSZX/tNsnCOh
-	 +fYVzMVC/bSW6EqjaeRt5BCbWjxNICw6YYjC3qqRLxEsltAh8Tp3o6qohJu1EwsLbU
-	 NsIfZF9CXq7aIuBrjVmAJQBz+94vkQwAVETGFgKCAbyKw3lX6zl+eXZLvvx6w7zYZs
-	 Ur191WTbqHx6VBUldKzBSYJvg43WTywHtattgf0aiguNErVKLQGHyivxIrAtyJ7xez
-	 658jacTlKs6IA==
+	b=ZkPZDxlnss7dHwDBGoikkocszaywLqv3XRXkm46MJ996eGLv1wEX7K6aa2T9R83lJ
+	 qmr46Nf5pyHl/oOGpjFiERoJPwlcl9Gh+9oICsG59gPIvcY1KlgWbjX4botQsqdScK
+	 SYkQcBgkr/4I+IzLm0mdwNDDR4QyvlRwRSQ/0rdPHv7zL0krUXW1jmGUOtJHea/6Cy
+	 j862a1Oh+4yABNu9nrtEmfuj2Ieqx6bOfNn0gsq/ILyDTXZzceDtOHpbCDiCjXXG72
+	 MaG5CUIq8mqSnJEzIbD72dPSPt4HiWTLQF0mdTMr7Y9Onmv2FXpE9QEBCWgoKt/x8l
+	 NNS0HpoDdfjDQ==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org
-In-Reply-To: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20251023102444.88158-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v2 00/20] ASoC: qcom: q6dsp: fixes and updates
-Message-Id: <176247324556.2482911.14776461140754207169.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 23:54:05 +0000
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ ckeepax@opensource.cirrus.com
+In-Reply-To: <20251106093335.1363237-1-shumingf@realtek.com>
+References: <20251106093335.1363237-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2] ASoC: SDCA: support Q7.8 volume format
+Message-Id: <176247324783.2482911.7498525569833264434.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 23:54:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,21 +46,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a6db3
 
-On Thu, 23 Oct 2025 11:24:24 +0100, Srinivas Kandagatla wrote:
-> This patchset has 4 fixes and some enhancements to the Elite DSP driver
-> support.
-> Fixes includes
-> 	- setting correct flags for expected behaviour of appl_ptr
-> 	- fix closing of copp instances
-> 	- fix buffer alignment.
-> 	- fix state checks before closing asm stream
-> Enhancements include:
-> 	- adding q6asm_get_hw_pointer and ack callback support
-> 	- simplify code via __free(kfree) mechanism.
-> 	- use spinlock guards
-> 	- few cleanups discovered during doing above 2.
+On Thu, 06 Nov 2025 17:33:35 +0800, shumingf@realtek.com wrote:
+> The SDCA specification uses Q7.8 volume format.
+> This patch adds a field to indicate whether it is SDCA volume control
+> and supports the volume settings.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -68,46 +59,8 @@ Applied to
 
 Thanks!
 
-[01/20] ASoC: qcom: q6apm-dai: set flags to reflect correct operation of appl_ptr
-        commit: 950a4e5788fc7dc6e8e93614a7d4d0449c39fb8d
-[02/20] ASoC: qcom: q6adm: the the copp device only during last instance
-        commit: 74cc4f3ea4e99262ba0d619c6a4ee33e2cd47f65
-[03/20] ASoC: qcom: qdsp6: q6asm-dai: set 10 ms period and buffer alignment.
-        commit: 81c53b52de21b8d5a3de55ebd06b6bf188bf7efd
-[04/20] ASoC: qcom: q6asm-dai: perform correct state check before closing
-        commit: bfbb12dfa144d45575bcfe139a71360b3ce80237
-[05/20] ASoC: qcom: q6asm: handle the responses after closing
-        commit: a354f030dbce17ab3cf299660a38b162d97f7151
-[06/20] ASoC: qcom: q6asm-dai: schedule all available frames to avoid dsp under-runs
-        commit: e386c2cf3df2b62a6cc78d2f7984102b64753bee
-[07/20] ASoC: qcom: q6asm: add q6asm_get_hw_pointer
-        commit: b6a1d7243ec3a3fe1a3c2969fcd32c802fb5d2a9
-[08/20] ASoC: qcom: q6asm-dai: use q6asm_get_hw_pointer
-        commit: 44432315444cbbedadbb9d808c9fc8c8b21cb4bf
-[09/20] ASoC: qcom: q6asm: set runtime correctly for each stream
-        commit: f678ea19e8f60b05b8d3a5bcda9a238d5355bd50
-[10/20] ASoc: qcom: audioreach: remove unused variables
-        commit: bcb3f6f5286b96ff0a7106d2ca7208744b20b37e
-[11/20] ASoc: qcom: audioreach: Use automatic cleanup of kfree()
-        commit: 88a5f8e628ef745bb94bdf2fa019d9f8e069ccea
-[12/20] ASoc: qcom: q6adm: Use automatic cleanup of kfree()
-        commit: 896f1e4e106449ac2b39f0ca62b6afaed540f758
-[13/20] ASoc: qcom: q6afe: Use automatic cleanup of kfree()
-        commit: 55094e55ae36c7566e29ae0473d205dbc9d2f4a8
-[14/20] ASoc: qcom: q6apm: Use automatic cleanup of kfree()
-        commit: 89cf2223ee7bd83d45c6bef3ac52bedd018f77dd
-[15/20] ASoc: qcom: q6prm: Use automatic cleanup of kfree()
-        commit: de8e95773c48bad9d7339ccb376ad22d93932468
-[16/20] ASoc: qcom: q6asm: Use automatic cleanup of kfree()
-        commit: 6e00112d31c86029ad0440f8c29ee0d131984cda
-[17/20] ASoC: qcom: q6afe: Use guard() for spin locks
-        commit: 4b1edbb028fb95b546893068b321a983b1ef50bc
-[18/20] ASoC: qcom: q6apm-dai: Use guard() for spin locks
-        commit: b828059f86f67729aae3934650ae9e44a59ff9d8
-[19/20] ASoC: qcom: q6asm-dai: Use guard() for spin locks
-        commit: 680c683c8f49455bcfa1604eac4e508ba96ccbfa
-[20/20] ASoC: qcom: q6asm: Use guard() for spin locks
-        commit: 655079ac8a7721ac215a0596e3f33b740e01144a
+[1/1] ASoC: SDCA: support Q7.8 volume format
+      commit: 1b0f3f9ee41ee2bdd206667f85ea2aa36dfe6e69
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
