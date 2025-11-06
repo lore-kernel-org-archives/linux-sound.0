@@ -1,165 +1,108 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E1033EAEC;
-	Thu,  6 Nov 2025 14:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7339D30F538;
+	Thu,  6 Nov 2025 14:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762439722; cv=none; b=rj4PB8nswD7UoFuxW7VkVboMgpnSM51PYLW+RPoHBduIIQ9+DZd4zNc6gCQ/3CpGLK4Wnsrs+X7Cpk7oYBB7GoyuQjcdP6zm3KjChkPZKMaw1K1/NMF+9TOejGX3L2xmjOM62urxMgWVr8g4EcXVKvVO4J2L2U20UDd040c6wCI=
+	t=1762440145; cv=none; b=SMqH3g//RkF0LePwkgUkyTbKXtuFpnpUEo88nqp5ZxtVFZZFSZ8/s3ufYgGzPBwInuiyMzn+Odjhfi9dxMKbPyj6h9y/buh4SZtQK/SW8YbZpfl9ZhmXVi3vfFRmrTR/mp9b7N7cubisZ3RYRR6IW1SjXyGNBFbuzo5XrA20Kuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762439722; c=relaxed/simple;
-	bh=57fdUNIOFbvLlfOS1BtY/XcfitZ1Mmlbw0An1LdVwsc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dmeAooON5o6f8/odICDW4TvOdiZIy50jVlqC25dv03p40rl6d7+e5nA3378bnAd6nzpnw7DWy3kdKm2Dvd5YG0WdNWH7H0UGBTsMuYZyOhvEQAJkhnOL74I7Zm31LI2gNtlaLhdN01WtlTVlX1CmmM/y9iF+1HGcsI0QkfJ915E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=COi4CY7i; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1762440145; c=relaxed/simple;
+	bh=u3JHp/qpCUvTjf3bCgMmhxbdgh3vpao1Tq40kL7L4U4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EGgEurhi65Yi9/97lw5XhQ5v9Do7FG66aoiIIhSVSahxt/g2wpmK2YhIvy0R+d94gnCdl9gapWlHC0gUEB1IVR+vlUJpSmSJxwWvxvpqbvmtV9+Sna/DJDYQJgR1smU+0IsRDiaG8EVMnp8RcjFDU+mnjSXvoT7L/9ZUCaJU4C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PAy1N3a7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ii6JmfXp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="COi4CY7i"
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A6ANcRb832900;
-	Thu, 6 Nov 2025 14:35:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=e07CdbUuMcpazLb8YhQmHovdkB5Hk9FWCovi1Xt6lxo=; b=
-	COi4CY7iNZ88TwEGpvl1OYck5Abb9osB0f86G0ENPdaFddufFNOWFDScpfeEdqJs
-	I3hx6jWuORtApbhN8IkgTKUPp2ZP+sCuSOz6OLwOSZRKguAresDS9KhBflroElXY
-	DeYLFsUsUE18bgRLCn82cW2p8qQwF/GwX47xkf4ubUWYEzSWJHHCqYFpTdDz+MOv
-	aSeATxjX3CN28jUOGS1OvhZuNZiULx5GGJUlRFAQQvA2XtGin6pePDMi+IBSY6PU
-	KTJIwf/8HjnstO5rYGZltUAHmbJdktqBFJx8e8DAUPxpMoW/zxz/ALAlXa4bWbMi
-	GLO41785bC57CaY1fX1Low==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a8b4csqb5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 06 Nov 2025 14:35:09 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 6 Nov 2025 06:35:09 -0800
-Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 6 Nov 2025 06:35:06 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <tiwai@suse.de>
-CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <lizhi.xu@windriver.com>,
-        <perex@perex.cz>,
-        <syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>, <tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
-Date: Thu, 6 Nov 2025 22:35:06 +0800
-Message-ID: <20251106143506.720545-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <87v7jnfkio.wl-tiwai@suse.de>
-References: <87v7jnfkio.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PAy1N3a7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ii6JmfXp"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762440140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FOOLV+Wt6cHX8IB56gpRGewt+8/m8I9TnkK1yGUVBrw=;
+	b=PAy1N3a7SmuG/It82kUVWs7XH1XoUuU2LBMSWsQe92MYeMc6fMk99Oh2ED4REz0DfKwJ7e
+	snLOGoEi+h6rxH1AToYSm6dkyPydDkO9dEhJ0bOdYmPxSj+iypgGI75fBIGHPJdOZkuoCe
+	J3ncdAZaHl51xGEEOuBW2HDMRjfxWhiDWeakQoYNgDOIo8S1zvb/OqDN/npoehXCUnH4qV
+	xniuDaI04M6z6lU8oswSbqY6Y1ekuPeEk1+ENq4jwYiWlFalpdYVZ3dEiOgXqfBiPT62Ep
+	/Ty/UZRoQ9t5mouKRmdM0FJr6c4Apvnuk0qFSYyrJLz7Q+xkW6Clx7W9w0lx9A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762440140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FOOLV+Wt6cHX8IB56gpRGewt+8/m8I9TnkK1yGUVBrw=;
+	b=ii6JmfXp0RoYt2PeZHZB0fv0OUb2E/wmb9jj0+DNATMOesrbqgHuWyzipDdk8KyujH9YzS
+	JK0cxBo5oSub6nBw==
+Date: Thu, 06 Nov 2025 15:41:57 +0100
+Subject: [PATCH] ASoC: stm32: dfsdm: don't use %pK through printk
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Qq1t3bSpdbfWqxKO3wd3QNfd3NF2t7iW
-X-Proofpoint-GUID: Qq1t3bSpdbfWqxKO3wd3QNfd3NF2t7iW
-X-Authority-Analysis: v=2.4 cv=M6hA6iws c=1 sm=1 tr=0 ts=690cb21e cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8
- a=t7CeM3EgAAAA:8 a=v4leo8fFWbreTTM7-MYA:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22 a=cPQSjfK2_nFv0Q5t_7PE:22
- a=poXaRoVlC6wW9_mwW8W4:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=SsAZrZ5W_gNWK9tOzrEV:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDExNSBTYWx0ZWRfX+W8jDiDDJPzN
- ObOoa72l+ngVAUrrLIEab8d1WsSfYGTD816wxadtAX3UG0lN35J1G0sVYFDeQYrFPIcvYZzwaZ3
- z1GVH7VLNMxJuWE6u7NqEy4aG3Qxlv+LVQk4j8kY3nI2narM9Qz31RnAzacUU/wIjOSFUjeKqFs
- UMhqLZeKloo17zjzjs+UzEe7B7YvLURXSs3CbR+ihocwzxJmwqwHvsUcFwGJL+qxlCAEKXfw8xp
- YxB87vk5AJBDWsW+3YlqlZ96ZCvxkzOhZ0+yevuXICGCKJjTOxzI1QMFqEW9HVRrEAdSykKObDm
- PpbQYslrRDy1vhghCS20bfTxCBcx1OfHGKGe7a35ARr7g/I8hL45N0soVi6ooBHZ/LfklTZdB9H
- OVRU0p8JDHaxrGwivck6NblGfowpgg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_03,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 spamscore=0 suspectscore=0 bulkscore=0 phishscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511060115
+Message-Id: <20251106-restricted-pointers-stm-v1-1-7d03eb5020ba@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIALSzDGkC/x3MMQqAMAxA0atIZgNWrYhXEYfaRs1glaSIIN7d4
+ viG/x9QEiaFoXhA6GLlI2aYsgC/ubgScsiGuqqtMVWHQpqEfaKA58ExkShq2tHOi2/70LjWW8j
+ 1KbTw/Z/H6X0/bulgGmkAAAA=
+X-Change-ID: 20251106-restricted-pointers-stm-5bfc48d3a4c5
+To: Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762440134; l=1480;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=u3JHp/qpCUvTjf3bCgMmhxbdgh3vpao1Tq40kL7L4U4=;
+ b=JX2/pGtnxIWSvsmEmArg+q9ng4flIkflN4nEGjJUT8CwoyuR9/ggaXsSr1SLyL16fci8pTktn
+ zlfGtfCQCGcB4MC6P//HH2Iz7Zt1s9RNoqJx57MVyEwkMl2KPH6djk0
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Thu, 06 Nov 2025 12:49:51 +0100, Takashi Iwai wrote:
-> > > > The calculation rule for the actual data length written to the URB's
-> > > > transfer buffer differs from that used to allocate the URB's transfer
-> > > > buffer, and in this problem, the value used during allocation is smaller.
-> > > >
-> > > > This ultimately leads to write out-of-bounds errors when writing data to
-> > > > the transfer buffer.
-> > > >
-> > > > To prevent out-of-bounds writes to the transfer buffer, a check between
-> > > > the size of the bytes to be written and the size of the allocated bytes
-> > > > should be added before performing the write operation.
-> > > >
-> > > > When the written bytes are too large, -EPIPE is returned instead of
-> > > > -EAGAIN, because returning -EAGAIN might result in push back to ready
-> > > > list again.
-> > > >
-> > > > Based on the context of calculating the bytes to be written here, both
-> > > > copy_to_urb() and copy_to_urb_quirk() require a check for the size of
-> > > > the bytes to be written before execution.
-> > > >
-> > > > syzbot reported:
-> > > > BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
-> > > > Write of size 264 at addr ffff88801107b400 by task syz.0.17/5461
-> > > >
-> > > > Call Trace:
-> > > >  copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
-> > > >  prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
-> > > >
-> > > > Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
-> > > > Closes: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
-> > > > Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
-> > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> > >
-> > > I'm afraid that this doesn't address the root cause at all.
-> > > The description above sounds plausible, but not pointing to "why".
-> > >
-> > > The bytes is frames * stride, so the question is why a too large
-> > > frames is calculated.  I couldn't have time to check the details, but
-> > > there should be rather some weird condition / parameters to trigger
-> > > this, and we should check that at first.
-> > During debugging, I discovered that the value of ep->packsize[0] is 22,
-> > which causes the counts calculated by
-> > counts = snd_usb_endpoint_next_packet_size(ep, ctx, i, avail);
-> > to be 22, resulting in a frames value of 22 * 6 = 132;
-> > Meanwhile, the stride value is 2, which ultimately results in
-> > bytes = frames * stride = 132 * 2 = 264;
-> > @@ -1241,6 +1252,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
-> > 	u->buffer_size = maxsize * u->packets;
-> > 	...
-> > 	u->urb->transfer_buffer =
-> >                 usb_alloc_coherent(chip->dev, u->buffer_size,
-> >                                    GFP_KERNEL, &u->urb->transfer_dma);
-> >
-> > Here, when calculating u->buffer_size = maxsize * u->packets;
-> > maxsize = 9, packets = 6, which results in only 54 bytes allocated to
-> > transfer_buffer;
-> 
-> Hm, so the problem is rather the calculation of the buffer size.
-> The size sounds extremely small.  Which parameters (rates, formats,
-> etc) are used for achieving this?
-rates: 22050
-format: 2
-channels: 1
-/////////////////////////////
-stride: 2
-packets: 6
-data interval: 0
-frame_bits: 16
-> 
-> The calculation of u->buffer_size is a bit complex, as maxsize is
-> adjusted in many different ways.  Is it limited due to wMaxPacketSize
-> setup?
-Yes, it's because the value of ep->maxpacksize is 9 that the maxsize
-value is 9.
+In the past %pK was preferable to %p as it would not leak raw pointer
+values into the kernel log.
+Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
+the regular %p has been improved to avoid this issue.
+Furthermore, restricted pointers ("%pK") were never meant to be used
+through printk(). They can still unintentionally leak raw pointers or
+acquire sleeping locks in atomic contexts.
 
-BR,
-Lizhi
+Switch to the regular pointer formatting which is safer and
+easier to reason about.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ sound/soc/stm/stm32_adfsdm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
+index c914d1c4685019ef1fd66ab92d73bd06cf8d14a1..1797a91fea7ae85671ba9991c2f8bfa8c9d1ce92 100644
+--- a/sound/soc/stm/stm32_adfsdm.c
++++ b/sound/soc/stm/stm32_adfsdm.c
+@@ -180,7 +180,7 @@ static int stm32_afsdm_pcm_cb(const void *data, size_t size, void *private)
+ 		src_size >>= 1;
+ 	cur_size = src_size;
+ 
+-	dev_dbg(rtd->dev, "%s: buff_add :%pK, pos = %d, size = %zu\n",
++	dev_dbg(rtd->dev, "%s: buff_add :%p, pos = %d, size = %zu\n",
+ 		__func__, &pcm_buff[priv->pos], priv->pos, src_size);
+ 
+ 	if ((priv->pos + src_size) > buff_size) {
+
+---
+base-commit: 7ea30958b3054f5e488fa0b33c352723f7ab3a2a
+change-id: 20251106-restricted-pointers-stm-5bfc48d3a4c5
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
