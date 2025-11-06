@@ -1,86 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C443C217F2E;
-	Thu,  6 Nov 2025 15:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4B433E345
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762444794; cv=none; b=WCYVuKYb495fa1v87/7kgbmhMRXL0NBGRvdGDU1Xv2Ll0logsSUISbrG+k4MoLX1MZSJAe+Q3Y8oPJAQsSQNXnusld4hVZLHQy0FmHbxDh6Li+y3TDdRjUoObvJNSwAO80EpuaHAD848fNEyJIwze3arDHDjGx0pqU+83ugLLmo=
+	t=1762444905; cv=none; b=qfAbIAuaQnT2qLkFnXC0r5NtA3MhlMVqK+s5FoH/MJqqC57+Q9N6tS16WzVNF2vI9txXH1PwLurmdmqaUe5OZoyTYd1Y4ppTuyatmuAbl9RxBgj5gnp11rqz3BdTPNGR6xvwaLTV+Rb8nfcxYZGGN66BZQRNaKZmxJpoIPfWWN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762444794; c=relaxed/simple;
-	bh=4TgorRHksvljH1YyBF/SSZyBPVzPnDsdVKYVlo5RHo4=;
+	s=arc-20240116; t=1762444905; c=relaxed/simple;
+	bh=T9dOCjt5CSMA8b/M7JLaYkgOskmgR2ygjFafGQfTcfE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q6ozILwdDufL7PVVTQ3LtIOF/QXhadr32QgVm+Y3fH0twRQtojpop/TRqQGErbuS7vT72x7Q7+bLiCwxQGsQk7woaMhysSf1ENCKWwaw3vLwTXeu+CRkqcYEhiBvAve1EtcaSo7Y8u9gh7281jTqY/fI3+I0ecJCQRKUAXlYYFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B9xd2BTo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=twlt5HwSJ9G2l8vXgd6GcrhuOhROH2bMTCw9XitKhHnj0s5u6+dlwpISe0HWH8Tc1igJokyLmxKgVmzVBqQMChpM9jLr4niNjdG/xFPrcJfo1iQ2e+DSV7xa3dlLNxHVcu9X7Y2hcJ8R/fDWuECeUw5FvjQiuqNGNA5K4+fxAKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqFUfg9s; arc=none smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B9xd2BTo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B92C4CEFB;
-	Thu,  6 Nov 2025 15:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762444794;
-	bh=4TgorRHksvljH1YyBF/SSZyBPVzPnDsdVKYVlo5RHo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B9xd2BToJapqh+OpvYoBzdbEbx+duiGcEfThO9M6dBFqh9qe9RttyRmIVxAfytTvh
-	 TEwVpNU/vXk8ObF2I4PxvNUa2Xnpm9af/vixDpp0Ej0oycz69w9d6oO9LfJ44bswpn
-	 cVKbVBx89gKikCBY3VgR7tD3TIAJVMYJPIkxPwtqbLOuIk7yWaU1tWUgQ6OkYOjGa4
-	 Y+7dxa1TL+uLQAs/o5TKsmVuJr2tYZMcn/A7Lct/LpZLjWQ94VH5qCW5m8NoLO4o4N
-	 9rpp8BHIUezWH4qdFxWpHcZaVx2jr+VvaPFqlJ/KAXQFc9GdKaem3uZ9HEine1GzaP
-	 lGDw2P7FWY/cg==
-Date: Thu, 6 Nov 2025 15:59:51 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqFUfg9s"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-63e336b1ac4so1521514d50.1
+        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762444902; x=1763049702; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uDqvdpSXd7EVG4K3GSPuN1+lwa+x8rxJ7aM50JiFwXE=;
+        b=TqFUfg9sdXxypsXTeE5BSr5Qkw8tO2/cIJTGInEFiTFfU5cxawi9hpV918beskopTK
+         /6SnOKWCg0fYbXrnhClN6h/ZIDJ4hKq5K80QFj6VxjsZGVVErM0AHnnIBpSHYHq1r1pS
+         8Yxk9b6xcmhTp/sTdYFZaoEoARZJ8pcFux2xGerbAVMQqtK8XqjLNHMhF4PzVwrtHAdm
+         R+CiwBInxL+6ZNI3IyjxHEyzQQMDawko9u6NiKv8LZfJbo+iN8UPF14mSG3wTNjFoQoz
+         v26N7sZ2QU8jlslhMel0AWHK42O5moBUO2mtG/6vNATPQxCZ2Y2TIM2PntMcOdpJXv3F
+         /zpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762444902; x=1763049702;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uDqvdpSXd7EVG4K3GSPuN1+lwa+x8rxJ7aM50JiFwXE=;
+        b=KbbBc9AutvJfg/LlhPekT6RJMM7J+EUCNwdgNTFMf+U4cNgYRceuhOzdmx3l7IFEbf
+         F/aI1meLM0MWdCexF4sEjJ0/gkRb6ErNs04WGVAHUa9Ry8ev+g1TlsyR5a+16HjZHWZ+
+         7fVj3B0nrMr/BL/IwYhZTnztm/8SVrLGoBYO8gNvTvhebUsrOXVCHUXneDNKTHbHm2wt
+         G5slli/oCumhaBzR6LP4xGSgJV/u6UKkT9WO6tEjkMcKr+k4tcgFLnnRhf7Q2E/CDZ44
+         E9GMFjV0dDid4J7geO6wWb0tc9bW6T1TJSKQ1+dep0+c3dk/zBNJQoB3is54Xd6KxU04
+         4JXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXz+nVYf3HeREyo2p4CPJWidynre2N36gdnp84D73qGfW7KIcQwEKAxN63K+6Mb85yvWOTR+OX8CTd3Vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7nclhIpmdDwa/d0XJRoVpHa7XaM3D/eLwfGVZKXfVwnjAfKXq
+	u85f8AnQZ4jDNt2rKKlFSntWAD05soDzlu8+bdharf+KDyNHHTA0gsM6
+X-Gm-Gg: ASbGncu+VyYX/W/J+kmIwoUv3INPNIRBJsme0VKbYK1ovhL2ugyBQPLk+b0jEPME6gd
+	C8qvWmA0Wdl6NVWte8AYiY8pZo/Xf/wOWBrUQhDEZddVaU6H/T0VPqJ+FIJTjQo+ZAwRwTOJoF9
+	yb19tZQdOU2ISSMYnuojLHghMjjzYXyo+LEReEpQgEFN5bwfbPswWjU1nGzUi3hx856YVn4uvLi
+	8DijJ25ID+QhkO3zkxDyx9q3h7VlEPMYJc+w10+hwL+GzxhFaK2wI+9hxgpV6ZyTr0BOTXC+/zb
+	owKy9P/VgnChpxDPSX+9sunpkeN97r2dd3P0OxVZlLLjX/Il9nHDep95XBv5ovwaCppuYZhWnBG
+	Km4lUA7HZnqxkIpjNxak61mwySkbeV5EK7smsKMc6kLCS2/uplzX6Aq1AbInBid3gJyG4bYBM/l
+	8wPRsWfq6ebchyK/9izTd6h+WkOTUWGQla
+X-Google-Smtp-Source: AGHT+IHH1OiCGEbzPId419SmPeowjgjZvd2uwuBPgu14uOeMTfnhF3EzyBaZ3Vf1fe9K5qAqRN9gOQ==
+X-Received: by 2002:a05:690e:2405:b0:63f:b1fd:3850 with SMTP id 956f58d0204a3-640c3b56ae5mr33952d50.33.1762444901924;
+        Thu, 06 Nov 2025 08:01:41 -0800 (PST)
+Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-787b15d6379sm9121887b3.45.2025.11.06.08.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 08:01:40 -0800 (PST)
+Date: Thu, 6 Nov 2025 11:01:39 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: codecs: va-macro: fix resource leak in probe
- error path
-Message-ID: <aQzF9zOQcsupLKhT@finisterre.sirena.org.uk>
-References: <20251106075055.555-1-vulab@iscas.ac.cn>
- <20251106143114.729-1-vulab@iscas.ac.cn>
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
+Message-ID: <aQzGY4AKiMQpuL0R@yury>
+References: <cover.1762435376.git.geert+renesas@glider.be>
+ <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
+ <aQy0T2vUINze_6_q@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ncTIgGJpmcgHvRwK"
-Content-Disposition: inline
-In-Reply-To: <20251106143114.729-1-vulab@iscas.ac.cn>
-X-Cookie: If in doubt, mumble.
-
-
---ncTIgGJpmcgHvRwK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aQy0T2vUINze_6_q@smile.fi.intel.com>
 
-On Thu, Nov 06, 2025 at 10:31:14PM +0800, Haotian Zhang wrote:
-> In the commit referenced by the Fixes tag, clk_hw_get_clk()
-> was added in va_macro_probe() to get the fsgen clock,
-> but forgot to add the corresponding clk_put() in va_macro_remove().
-> This leads to a clock reference leak when the driver is unloaded.
+On Thu, Nov 06, 2025 at 04:44:31PM +0200, Andy Shevchenko wrote:
+> On Thu, Nov 06, 2025 at 02:34:00PM +0100, Geert Uytterhoeven wrote:
+> > The BUILD_BUG_ON_MSG() check against "~0ull" works only with "unsigned
+> > (long) long" _mask types.  For constant masks, that condition is usually
+> > met, as GENMASK() yields an UL value.  The few places where the
+> > constant mask is stored in an intermediate variable were fixed by
+> > changing the variable type to u64 (see e.g. [1] and [2]).
+> > 
+> > However, for non-constant masks, smaller unsigned types should be valid,
+> > too, but currently lead to "result of comparison of constant
+> > 18446744073709551615 with expression of type ... is always
+> > false"-warnings with clang and W=1.
+> > 
+> > Hence refactor the __BF_FIELD_CHECK() helper, and factor out
+> > __FIELD_{GET,PREP}().  The later lack the single problematic check, but
+> > are otherwise identical to FIELD_{GET,PREP}(), and are intended to be
+> > used in the fully non-const variants later.
+> > 
+> > [1] commit 5c667d5a5a3ec166 ("clk: sp7021: Adjust width of _m in
+> >     HWM_FIELD_PREP()")
+> > [2] commit cfd6fb45cfaf46fa ("crypto: ccree - avoid out-of-range
+> >     warnings from clang")
+> 
+> 
+> Also can be made as
+> 
+> Link: https://git.kernel.org/torvalds/c/5c667d5a5a3ec166 [1]
+> 
+> The positive effect that one may click that on Git Web.
+> Ideally, of course, would be an additional parses on Git Web kernel.org uses to
+> parse that standard "commit ...()" notation to add the respective HREF link.
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
-
---ncTIgGJpmcgHvRwK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkMxfYACgkQJNaLcl1U
-h9ABIgf/QhXusdY6vysmdYD/HzBhHJsXVfkgw/cwMG4rRx7S0WBkTgyXjWt4c/To
-bG2vWTt/VdPhpShF3OL0FqWzzOJ5QZrjdmHsiEXLMhupdTwNDDWND3U0G+6gmr0j
-stSGjf6OzXB3mphvxz1YrWwRGjYiBntQxHIAFZXVGjAbyR/21vGYSLe/KWHf4lcy
-ILvnstYfVlidzgXFbNyUOZuGEsrYYPV8bnZkEGb2kjhSctTzimIHjU7zujSb284K
-mwk6gUd6yoFBhNwyjRLVfgweorhrgNIG6dThaH7gUTowpcqSVRaqvhBzBgrbYqvT
-MHsAX6RoLUx4QXBA/RO468l4r7bYVw==
-=AByG
------END PGP SIGNATURE-----
-
---ncTIgGJpmcgHvRwK--
+Those flying over Atlantic or cruising cross Caribbean would disagree. :)
+ 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> ...
+> 
+> > +	BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >		\
+> > +			 __bf_cast_unsigned(reg, ~0ull),		\
+> > +			 pfx "type of reg too small for mask")
+> 
+> Perhaps we may convert this (and others?) to static_assert():s at some point?
+> 
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
