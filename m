@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0413305977
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0DD305977
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473239; cv=none; b=eLqr5glrRk1NOMH3kg26RlNP/vijdUwwhlGonaaRhulbXWI1SlMb5cBe7fyN8lHFtaaqJs1KvaZk+Lm1266abMPos90dixkhcEO2i8gkDwRxWeIilfgWWhwukoVIzYiIhI4qhH68iZjMM7kwBMrx5kS0NFPYSH0o5GOgrpTcBpQ=
+	t=1762473242; cv=none; b=QYtEOI8DgjyaZ2e3bR6Ek9UqGhh3h0n0gJK0kialtbTUDIxMUEaBQvTJWwreCdyekUPYMaG/2ZA8xKOK8b2dlx0sX274igixRU1wYh0+9FUrUbFGrJldSWuWkZABuONJKF0Ba2qiIUQpNorYvv02idxBvkuo3g7PyAbXaN4TlHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473239; c=relaxed/simple;
-	bh=ZqauHgPc3MWbXQyDCi02XYZMxOt93KMGYqST1LgJt4k=;
+	s=arc-20240116; t=1762473242; c=relaxed/simple;
+	bh=Oz7uhJlzw2OseSngR/GbYWZq08YRwNiy52sYFOvbix4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=beVyF+bqhp3+a1Z+DGUCQH1V7nxTa6GeVNXhYlEM9O5vg1nv7bgnhEwmf8AOrteuKG3qwFApvABmBrBCLs0Hymik1TxEVF6+Wvl1UfKWucFQ7mbwMyMZpYmrWjHo8ooMRb/ZT96pIVj7rcArN1Gve6Wk4hgSt8LD0RIr31LfKWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dmSOM217; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ufg7UWC7ZFCYEzZG7Ls6FBywJP0GQhYU/f5aGd17gDgF5KwM3Vdw/sw8UKAB/e4SnICsHBiSM1ULctr0BrZWEhWabesbG3webDHafSb812Of10sQYBosYKd933uoVEhbypWMB3sV08m7HGGSGS/6FcTp2nQpgAyTAd9XKja3P0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AgxERxZP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dmSOM217"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F799C116C6;
-	Thu,  6 Nov 2025 23:53:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AgxERxZP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD4A0C4CEFB;
+	Thu,  6 Nov 2025 23:53:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762473239;
-	bh=ZqauHgPc3MWbXQyDCi02XYZMxOt93KMGYqST1LgJt4k=;
+	s=k20201202; t=1762473241;
+	bh=Oz7uhJlzw2OseSngR/GbYWZq08YRwNiy52sYFOvbix4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dmSOM217QdNUrknPsm+Zra13EH+PblhkY8RgyxqGaWQNa5JdIgRmkMGoCUjLMhvXO
-	 bPBd3/YuwXOeMm5xy0+c+6YcYojJWhhZWtJmhpvTwyVc+t1HOERjZdg5sGs5rhTnu/
-	 8mLFFe4nYNs7+BtfE16E/0Tdx1xKO6JKJZR1j9clOcBIutQbMIev4cCVR1ATzpF/Hx
-	 LdGchLh8CdMkRUOQyWLDRUb4317/QiaMHZrAwlf+g+h2evr8nLSosdj/J11TKPUa17
-	 WTf8UVTj2b7Sd65CHiGLcmYwX18yB7M8OU3GA1NRGdLbI0q/Wql5Tqdjvoeiy+HYQl
-	 taBHOTz6bEVaQ==
+	b=AgxERxZPAdfPhQJ52+BF7IBGBOsOAhIhNx++8uRJdYZZRPiD088KQbCle5oKDddfn
+	 sP/5yO6eRYOa/eT8/QvBpcPobXODwzHuAPZwv/6g8zkT/kxrjbRCcdM+2fkVrGWLpn
+	 ekwmbd582JEWnbfZNQ7uEc805B76DXlvqb/h8CFXDBFIeXLfpHnDlOjcUANaZLZEZB
+	 g/ycprFGdjgf6WuD9+PtA89cs4ag534pdkTnMITzKYP7xsdTFeEcMwB7FswuHCBpUV
+	 mzBKvL2hsMDStAnmO8qociZkX+gU88Nc321wJPlOOT6c/jzqDF59sXSXeRlmhdMxEa
+	 Y0P6srrDjvZlA==
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, yung-chuan.liao@linux.intel.com, cezary.rojewski@intel.com, 
- peter.ujfalusi@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, navada@ti.com, 
- shenghao-ding@ti.com, v-hampiholi@ti.com, baojun.xu@ti.com, 
- dan.carpenter@linaro.org, kernel test robot <lkp@intel.com>, 
- Dan Carpenter <error27@gmail.com>
-In-Reply-To: <20251030151637.566-1-niranjan.hy@ti.com>
-References: <20251030151637.566-1-niranjan.hy@ti.com>
-Subject: Re: [PATCH v1] ASoc: tas2783A: Fix issues in firmware parsing
-Message-Id: <176247323396.2482911.634928680966070810.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 23:53:53 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, shengjiu.wang@nxp.com, 
+ kuninori.morimoto.gx@renesas.com
+In-Reply-To: <20251029073600.13624-1-peter.ujfalusi@linux.intel.com>
+References: <20251029073600.13624-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2] ASoC: soc-pcm: Preserve hw parameters from
+ components in dpcm_runtime_setup_fe
+Message-Id: <176247323860.2482911.1299603297551933562.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 23:53:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,13 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a6db3
 
-On Thu, 30 Oct 2025 20:46:37 +0530, Niranjan H Y wrote:
-> During firmware download, if the size of the firmware is too small,
-> it wrongly assumes the firmware download is successful. If there is
-> size mismatch with chunk's header, invalid memory is accessed.
-> Fix these issues by throwing error during these cases.
+On Wed, 29 Oct 2025 09:36:00 +0200, Peter Ujfalusi wrote:
+> Component drivers can prepare snd_pcm_hardware struct based on the hardware
+> capabilities which information should not be discarded.
 > 
+> Only touch the rates, channels_max and formats if they were left to 0,
+> otherwise keep the provided configuration intact for the parameter cross
+> checking decision.
 > 
+> [...]
 
 Applied to
 
@@ -64,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoc: tas2783A: Fix issues in firmware parsing
-      commit: 84f5526e4dce0a44d050ceb1b1bf21d43016d91b
+[1/1] ASoC: soc-pcm: Preserve hw parameters from components in dpcm_runtime_setup_fe
+      commit: 6d34b66fb726a613b98c936adee70d42aa5e4aa7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
