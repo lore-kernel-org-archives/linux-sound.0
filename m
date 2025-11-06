@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FC034FF54
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:54:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57762350D41;
+	Thu,  6 Nov 2025 23:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473251; cv=none; b=fuyY+9IwsZwhR8KUUdf8MjPRMt8vxFxPxYmBYL4rVyA9VVgIZYrYEknHxZAdHYuJRBjWJvBLFYYZo9HeeRg4e1xT1DNfMgdBq5gBt3Nclyu8GBEvu4842PfBYpy2rjr0ptL1BlvMLt6cSW7tgyu3KefFYKEi3ThieTR1l5cJrVE=
+	t=1762473254; cv=none; b=NVuzPTqys6Nj6ToDaIBViqVdpN4XFsTjQ2yz2cYQ++ROzS73HehQ0fXu1EP6kA8cn6zrMOWrG0cGmhDHQnIjRTvi5gHM2Xv5X8X0DVRJOcm1n/h98lGs3Vu4rd2ZpynDCadYee3E9q00egXGW0CsPlnSZgvfoslJj4DXC8yOYpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473251; c=relaxed/simple;
-	bh=LZYWx84y2iIXePR6q8dOXCHkrpRJlqvFuFaOAX7yUCM=;
+	s=arc-20240116; t=1762473254; c=relaxed/simple;
+	bh=HexTXqxPy9J7UFc3P0dMfP2fPpyqwGnH3MErC+t6RHU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lvDXqQDtTu4wD9vKDgqs4YTg7E+QimH9tux18bZh+d7SUpXtFfR6ad+wMbQAldyf1VBLYvmUPMJ80BIM9yOug115unhhMeh250rsIgQ3rP3t3udQ5kSfJRSA9pQqhDaHBLfCGhJHJ1hn6fgr9ryeIrDFepAkvDr03J1hxsWMHmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkPZDxln; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GgAfm88I1wCd9Pnr5NyFTXF93XOSZoOGol1TlXyHDyXuSYpBQ89myCGgDUr/6xAo3v3CLKDWqMmV8iCwaEFFN0UYJPZma4jSaWUazH+9MJcbObZxmfiIhX68BYGJEf7FgR+5U3upl0lOQrK86rFeep4Ngfl6QavvzxrEIhSGFfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpsBLZeN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkPZDxln"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA98C4CEF7;
-	Thu,  6 Nov 2025 23:54:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpsBLZeN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF44FC116D0;
+	Thu,  6 Nov 2025 23:54:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762473251;
-	bh=LZYWx84y2iIXePR6q8dOXCHkrpRJlqvFuFaOAX7yUCM=;
+	s=k20201202; t=1762473253;
+	bh=HexTXqxPy9J7UFc3P0dMfP2fPpyqwGnH3MErC+t6RHU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZkPZDxlnss7dHwDBGoikkocszaywLqv3XRXkm46MJ996eGLv1wEX7K6aa2T9R83lJ
-	 qmr46Nf5pyHl/oOGpjFiERoJPwlcl9Gh+9oICsG59gPIvcY1KlgWbjX4botQsqdScK
-	 SYkQcBgkr/4I+IzLm0mdwNDDR4QyvlRwRSQ/0rdPHv7zL0krUXW1jmGUOtJHea/6Cy
-	 j862a1Oh+4yABNu9nrtEmfuj2Ieqx6bOfNn0gsq/ILyDTXZzceDtOHpbCDiCjXXG72
-	 MaG5CUIq8mqSnJEzIbD72dPSPt4HiWTLQF0mdTMr7Y9Onmv2FXpE9QEBCWgoKt/x8l
-	 NNS0HpoDdfjDQ==
+	b=CpsBLZeN/fslUcyyCjcFmo2RpE4mQeWZ6aa3JC0Zt9t4i8uIDlHl5pJkQ8bJ+pNq1
+	 dCBBDQMyw/ao7l+ThmzbTQCVnYpNK2C9w+Y5Y9yI8+o6/dvq3WjKVWxE4OCZYbWQJ8
+	 LuV+wdhn7zpoGxS/3d0OWrTQFtjQ8q0Rgt+3J2/VHDCfM9/HFNp6SkDwPHnaa9XdNE
+	 OautGgO+Wtfpb6wqgAGF0nZaK+FWrzgsr4aFOw8axBvitzxFZTD3HeFBeWwDoCxfpt
+	 XQUuSi4pPcVNIfSbkYmeBRofNuBhcUaeIhxOx4BWqrM1GuDnlWYX62+oQXlK0f+DeX
+	 TMniRZIVcWLqg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
- ckeepax@opensource.cirrus.com
-In-Reply-To: <20251106093335.1363237-1-shumingf@realtek.com>
-References: <20251106093335.1363237-1-shumingf@realtek.com>
-Subject: Re: [PATCH v2] ASoC: SDCA: support Q7.8 volume format
-Message-Id: <176247324783.2482911.7498525569833264434.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 23:54:07 +0000
+To: david.rhodes@cirrus.com, rf@opensource.cirrus.com, lgirdwood@gmail.com, 
+ perex@perex.cz, tiwai@suse.com, Haotian Zhang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251105062246.1955-1-vulab@iscas.ac.cn>
+References: <20251105062246.1955-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: cs4271: Fix regulator leak on probe failure
+Message-Id: <176247325048.2482911.2102661420037899891.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 23:54:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,12 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a6db3
 
-On Thu, 06 Nov 2025 17:33:35 +0800, shumingf@realtek.com wrote:
-> The SDCA specification uses Q7.8 volume format.
-> This patch adds a field to indicate whether it is SDCA volume control
-> and supports the volume settings.
+On Wed, 05 Nov 2025 14:22:46 +0800, Haotian Zhang wrote:
+> The probe function enables regulators at the beginning
+> but fails to disable them in its error handling path.
+> If any operation after enabling the regulators fails,
+> the probe will exit with an error, leaving the regulators
+> permanently enabled, which could lead to a resource leak.
 > 
+> Add a proper error handling path to call regulator_bulk_disable()
+> before returning an error.
 > 
+> [...]
 
 Applied to
 
@@ -59,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SDCA: support Q7.8 volume format
-      commit: 1b0f3f9ee41ee2bdd206667f85ea2aa36dfe6e69
+[1/1] ASoC: cs4271: Fix regulator leak on probe failure
+      commit: 6b6eddc63ce871897d3a5bc4f8f593e698aef104
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
