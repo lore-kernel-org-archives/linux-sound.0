@@ -1,65 +1,87 @@
-Received: from cmccmta3.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580DB28E9;
-	Thu,  6 Nov 2025 05:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA0023B616;
+	Thu,  6 Nov 2025 06:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762408710; cv=none; b=PwEjFiJgiQRUw8DPjoy7eG7/Ji20RxmLujuzCFoGcKqsUHgHk0sXgl5loBCy6utfLzDvxrEXTcUwslSs/shRbKhHMjWHu1f9geaPtH/w2PF/vpzdeCelcwXipmI+fCUm9UFTwYL0HN/1bw0XkKUXhuoT2JsuvIe6NX9nUDPYZ/E=
+	t=1762410871; cv=none; b=CzwzIuQJg4w5ChR23ueKyOqtmO8yzNklc23a7Qh5rupuEhfRUZOUikTEYChCBoZ/+vi9km1I+YIzZStfsa8loJb8m1RhFcpi1CGOt1O6vt2gwddwzlb/hvtxUHQ/nYeO0d9tblK8U6CbffgCqLRhJjX2AnXqx/tOcEGUKvMASho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762408710; c=relaxed/simple;
-	bh=DswA1willBQzbF6hAF3QyQvRhGbnRQbotxR22cAl3wo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UfVTusl1WaazsUhzR4vvgACGNFZjqGuVpYVidsRwePOQbnF2aCvm+BUQF5tol4uZMqjDe1qiccGJLgJ0R3UXh/4npCYLZUzGJ+XyGzVH50B7Pz47y/D0mn00gPn18rEy76UuiQIFb0Mrgvop2hwZ9CT6iiGZmsETuK4Hvi3vp0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee9690c38fc83e-aa902;
-	Thu, 06 Nov 2025 13:58:23 +0800 (CST)
-X-RM-TRANSID:2ee9690c38fc83e-aa902
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from FHB-W5100149 (unknown[10.55.1.70])
-	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee8690c38fd764-45acd;
-	Thu, 06 Nov 2025 13:58:23 +0800 (CST)
-X-RM-TRANSID:2ee8690c38fd764-45acd
-From: Zhang Chujun <zhangchujun@cmss.chinamobile.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Zhang Chujun <zhangchujun@cmss.chinamobile.com>
-Subject: [PATCH] selftest/alsa: correct grammar in conf_get_bool error string
-Date: Thu,  6 Nov 2025 13:58:19 +0800
-Message-ID: <20251106055819.1996-1-zhangchujun@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	s=arc-20240116; t=1762410871; c=relaxed/simple;
+	bh=tOMroa1xSvKfWn7TAO2OTvWdTUvzXj9eyPyMmDlgprE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kSSAQ9KifAj6eRzIzdJMFmNV+E5nlLUwupxMOq847odsOlxlJFdCWfJ4ToETeH23jUz+q//BsvPInPD1EwGm9CCkjNyaKQk8VlIylh8Bc2/oy5ZnzWoCJax3QAm8ABxFfj7YbMBypN83Hy/93TXg039qObjd9zx8zq8EcXEIc84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=LczhEutb; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="LczhEutb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=1QSw+y5HT3TcUyd3F/MxUjly0CwHD5TKPc20p//UxFU=;
+	b=LczhEutbWhnRAhZdt07+G3NJC4N8E2OK6xesEjD+hiUQ/+J+gMoSaxw9XSZxXB
+	2q5eSubM7NTO40N35Od9PJms8Ok/YxVgiBuHbDIjZPJcF7lm+yC0pGKzUb5vN6aA
+	RnR5ipNKuPw5eUKVWdc1qRNYRU+MkHRSIskuYoJQ9rmw0=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wCHRAJFQQxpjDa9Bg--.91S2;
+	Thu, 06 Nov 2025 14:33:42 +0800 (CST)
+From: wangdich9700@163.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	wangdicheng <wangdich9700@163.com>,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH] ALSA: au88x0: Fix array bounds warning in EQ drivers
+Date: Thu,  6 Nov 2025 14:33:39 +0800
+Message-Id: <20251106063339.114596-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCHRAJFQQxpjDa9Bg--.91S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF47JryDCrW7Cry8tr1kKrg_yoW8XFWfpr
+	Z3C3s7ArWUJrsrCwnYva1UZ34UJFs8XayxAa12kws7Cws8JFWUGr90k3yDJw4IvrZxCF1F
+	9FW7Xw13J3Z8JaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piUPE3UUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/1tbibhj9T2kMMt8qKgABsN
 
-The phrase "an bool" is grammatically incorrect; it should be
-"a bool".
+From: wangdicheng <wangdich9700@163.com>
 
-Signed-off-by: Zhang Chujun <zhangchujun@cmss.chinamobile.com>
+In file included from ../sound/pci/au88x0/au8830.c:15:
+In function ‘vortex_Eqlzr_SetAllBandsFromActiveCoeffSet’,
+../sound/pci/au88x0/au88x0_eq.c:571:9: error: ‘vortex_EqHw_SetRightGainsTarget’ reading 2 bytes from a region of size 0 [-Werror=stringop-overread]
+	vortex_EqHw_SetRightGainsTarget(vortex, &(eq->this130[eq->this10]));
 
-diff --git a/tools/testing/selftests/alsa/conf.c b/tools/testing/selftests/alsa/conf.c
-index 5b7c83fe87b3..317212078e36 100644
---- a/tools/testing/selftests/alsa/conf.c
-+++ b/tools/testing/selftests/alsa/conf.c
-@@ -448,7 +448,7 @@ int conf_get_bool(snd_config_t *root, const char *key1, const char *key2, int de
- 		ksft_exit_fail_msg("key '%s'.'%s' search error: %s\n", key1, key2, snd_strerror(ret));
- 	ret = snd_config_get_bool(cfg);
- 	if (ret < 0)
--		ksft_exit_fail_msg("key '%s'.'%s' is not an bool\n", key1, key2);
-+		ksft_exit_fail_msg("key '%s'.'%s' is not a bool\n", key1, key2);
- 	return !!ret;
- }
+Modified the array access in vortex_Eqlzr_SetAllBandsFromActiveCoeffSet() to use pointer arithmetic instead of array indexing.
+This resolves a compiler warning that incorrectly flagged a buffer overread when accessing the EQ gain array.
+The this130 array has fixed size 20 and the index is safely within bounds, making the original code correct but confusing to static analysis.
+
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/pci/au88x0/au88x0_eq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/pci/au88x0/au88x0_eq.c b/sound/pci/au88x0/au88x0_eq.c
+index 71c13100d7ef..81a63b5bb31c 100644
+--- a/sound/pci/au88x0/au88x0_eq.c
++++ b/sound/pci/au88x0/au88x0_eq.c
+@@ -568,7 +568,7 @@ static int vortex_Eqlzr_SetAllBandsFromActiveCoeffSet(vortex_t * vortex)
+ 	eqlzr_t *eq = &(vortex->eq);
  
+ 	vortex_EqHw_SetLeftGainsTarget(vortex, eq->this130);
+-	vortex_EqHw_SetRightGainsTarget(vortex, &(eq->this130[eq->this10]));
++	vortex_EqHw_SetRightGainsTarget(vortex, eq->this130 + eq->this10);
+ 
+ 	return 0;
+ }
 -- 
-2.50.1.windows.1
-
-
+2.25.1
 
