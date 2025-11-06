@@ -1,143 +1,197 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E79E30C61F
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 10:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F17030DD16
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 10:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762423234; cv=none; b=ljhg+5CY7KLhAZOamvzdS13N/fntyYigZkhnoO6EYMY5qbSEmeeK4g5T64mA9Lpx7jQp4Mmp1fULc0QGYMYfUbM4jYZHh6F8+ryj71Az+ryXbqPXB8Le2p2famsMjf3XDfDmtGdQOEwIR0VP8ZoYyrloY4shwRDAHKV3bsQeON8=
+	t=1762423347; cv=none; b=arSLtUfCONZlxYCzyj/0UFJxmpqQNHHZY6C1kDwjQ+jOPN6HXPHmJxAUlwPbskewHPgHWIuVEds51ZeN2yhCpMtssbMPJUo21wHA0nK+GMVhol81tQhCi2Z/RxaqW0gKV2RxyQvlpxnMVXPQtsVWyYXsh0xMyCOnOsNxNU96oHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762423234; c=relaxed/simple;
-	bh=wF5SPjX6L9XXVGJFNxEpnsrq3oXW6/HgW/D2cEkYYMY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PYsXf63v1cRFtbn9G/R48IH9fP5BnXvZZ49lu/EROsUaHbWeouQrjEs3KeUJ0vVgBO5MObONGRemnh08KcMp2Nc5iCoyRZw5p1cdlO5tBODpC9Z/8X2xAu9jYe86UBDMKZcw4E/tywFJixoqelNM+FAL/+k4hg53gDEe1DnFCuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ifP91DDZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aNf4coyy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762423347; c=relaxed/simple;
+	bh=9ZQn3Mz4Bsl3vtRlfOjP7aq3hwjqIkhB3KLkp3lT3Mw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KiI/hNDT6E01MRMhAjRtB3L4QjpScAh/ifPhb+mrRXyzEp43SFBth8SOoP1Xyzzz3yiBFZqpbbWoc2M9AJWwhXKZazuF/BVfk1/quBfrjA0MLhRXcmbGTwwxOf4FYT6DufNfs8YNovh4nvTwUEOsgSzmnD67HrZ8R4gDsiM0Jck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2WoqG/Ps; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r1ZJn/Ke; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G5PSDi1/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VDj28k4H; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ifP91DDZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aNf4coyy"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A66ANqj1738544
-	for <linux-sound@vger.kernel.org>; Thu, 6 Nov 2025 10:00:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KJ8tFZD23D6pv8VDozl2uS2hfghTxj2rEDZoN/LKKwM=; b=ifP91DDZy6iM3Abk
-	cP0JBiKwjDD2eeI4W27adRrP4wcrrtSWDVjITYS5lezn4GN4DkgPbkZVpXlr269Y
-	8Pj1a5P66FtMEo9NTHHIGTCUcsA/ZRh5K8FIjSxUn73dnQGQob8PBeRYuDgYQCyt
-	5BqyNMWbkL2T/rMT3f1hyrkNY9andSN2wyf0E9gyHwZ3eTmQzMLOfcRAsdM7k39P
-	aAGzvKmhxTKcaxjUWJr7IymAdvF/v9viCNyVTvQ9Nl0nmBishHhotMF61nLZYa7R
-	bczqwXrHwYisCfFVKAHWW3aHCjnfDl5DAbQxNpli6tCuwagTU6NQnxXsM9xJN360
-	dpsjGw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8an3tn8e-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 10:00:32 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b21f4ce5a6so2122585a.3
-        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 02:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762423231; x=1763028031; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KJ8tFZD23D6pv8VDozl2uS2hfghTxj2rEDZoN/LKKwM=;
-        b=aNf4coyyOHtwbdUmh7WvdkeOW+CwphHarwJLmZbgom/+xKC6g5kV1Tg9uSfT4Kn1y9
-         Ex4qP2TMeTPrJfPWiHIewoGo3PfTf7kRBtryn+bS7+PaevKxjffVVD2JiTHMSYRaoWaG
-         flnGovewhAY3lul5nQs43TWZiQaYtI+rNVGJA+QZ6aRAHjhFSIjXF4sLgL5H07eJuMUb
-         dHi/6Ont9RhWEVJ5r68qXMxJoB32TQMkB4CMDNv+FT1FJQhfLkCLF63fgxamKHKolfhT
-         w1KuKu3RPp5CqPU12XFYj7kY5pqXCVtGdsVHExHTuK5kSHcL498Asqs9eQ6/y/uk5Gmx
-         wxLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762423231; x=1763028031;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KJ8tFZD23D6pv8VDozl2uS2hfghTxj2rEDZoN/LKKwM=;
-        b=iFXSLqxM2tuPPqAwWgUWspXXCGda89BU8jaG++AvRIts/Ppm/RHU497R31cCdKTYsA
-         VIDs220US4y5LdsFsAFIgxDAtId+VaEj5Y54u9yrm4N9tw5pw5gaHR2IoPFHoUEH6FD4
-         B3juEt88MUnEIh/jVNTqi8dlTwaeS5e0GiOIQqoOtPb6TQlUFkxUX5BByiDclbaHpozJ
-         gg9SyqhsLpNbJ26jQgGU4Gra1SOc8++fLsRn1JsLVOUQhepc2oioeOK8DcHbv6ZswoDU
-         8s5Vdm7HTWwTk9qkz8erpU7hgWXiwjk7gu8o9agsc/tlEkRVealoPCshCu0B2Dyd2GNy
-         Lcdw==
-X-Gm-Message-State: AOJu0Yw+DfwvwzeYVTuBJm54n5Td3f97k9c3oM2D7WRfpkSCI5bGJhOw
-	RUYNP8zfDDc/A4Mv3xUNPFIikgrlicLWicbL9N2UUHrygHAqFUp5b1x1geMaHI7JcTbK93Qdu6F
-	H+xbK3eScJBposWoCmr0I3J96NX3Ud7QD6oxz1hAsqFrlLyis2ytImmjkfWEOT3XuiQ==
-X-Gm-Gg: ASbGncvEFEQ99BbP0hBUzTs71Crtkt+jdj7srpUTGP4fzDEez+9zgpkhsPL35QfWLmS
-	A24SGeVx4cLy4rCue34PaHa+dfdvW1hvU0K775pmmSn8T9AhHPJL4PGpm+FXlCQU0SCXW8EpfTr
-	njVaCe5C5f2gyvdbKaY4M0nQjVTWa+T/qfpqU1JEPKYPcRjuZfUdOVvpMH7hUWHNdjzaK4PPKeo
-	R2cFNSrtyN1jNA4zQXOn7sgpPu8hE+YEpiXrq0Xw7bW4Qx0gMJUwM9mUufpjDVspu1uyJyEpfyW
-	r5UGg6GcGlvtOGhaZmDN4lYJWnnfkObq1xH8AoRsMhOpG9GkAWhBJXblVrsJ4t816AIZpnbddez
-	2L80CCqrTLL9kcxHh9NyvgS7Nv2fH+XqBDylhLmGJ3x8FkCmAi+XyKbmu
-X-Received: by 2002:a05:620a:4693:b0:8a6:1a5d:7aeb with SMTP id af79cd13be357-8b23748b481mr153974085a.9.1762423231560;
-        Thu, 06 Nov 2025 02:00:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF4uHm6Ex0yCpTYXqQ/1sUu8JUANR193GdIulgFOc0pBc4KTLDo406B3DhFtvNvYfqaZzJcLw==
-X-Received: by 2002:a05:620a:4693:b0:8a6:1a5d:7aeb with SMTP id af79cd13be357-8b23748b481mr153969985a.9.1762423230911;
-        Thu, 06 Nov 2025 02:00:30 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f713a68sm1456023a12.2.2025.11.06.02.00.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 02:00:30 -0800 (PST)
-Message-ID: <04ef8cb6-8d0e-434b-adee-b7e32a6e0b8c@oss.qualcomm.com>
-Date: Thu, 6 Nov 2025 11:00:28 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2WoqG/Ps";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r1ZJn/Ke";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G5PSDi1/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VDj28k4H"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6E0721F393;
+	Thu,  6 Nov 2025 10:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762423334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VM/DHgU+8v7UtiujNpPprWigWOD/5K0rxkxM+oWHKL4=;
+	b=2WoqG/PsYCk865209nFd+hKy51PC+wQsT6gImARcj0qVYxX6Lx1YRHNZM8jcer6bdh/uoq
+	smcm8F6FSCxhjXwbgpi6NIO+/sBldw2ugFjDZJR2diecCEHkXlX59rqYQLZtuP48hkmvO5
+	mGU3c8cZNyMgrrnoi9LFhPzPZ5FAt+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762423334;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VM/DHgU+8v7UtiujNpPprWigWOD/5K0rxkxM+oWHKL4=;
+	b=r1ZJn/KeWdvrIyfwd4piQcVKCREkU2XwKUhErWlPzWfNYX2Z74FeaMMl+Kebr9UXB4WLPr
+	LsIMTRSAq5/qHhCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="G5PSDi1/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VDj28k4H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762423329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VM/DHgU+8v7UtiujNpPprWigWOD/5K0rxkxM+oWHKL4=;
+	b=G5PSDi1/Z6f9Czj5XhFbXN0IZuwA+t1BSNULzV7p1bOT/L/DNRqu4i5xjWZ5yVBqLNlyxs
+	i6vrczMUp0/2p0oSct53zyckF86xHcWjGtNEeS0YuVrXn5v7oFJC8M3ngzYNQtGmDyHjxV
+	8HV2z6KGCahtl6y1LArENGsNPLI/cC8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762423329;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VM/DHgU+8v7UtiujNpPprWigWOD/5K0rxkxM+oWHKL4=;
+	b=VDj28k4HeexNGzUQfWZzecA3YYgqikHX2pGR56wHlbvddd28DWQNXXKNnMkrVgAaOVnDwH
+	BA0IMeN8dYO86hAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 329D913A31;
+	Thu,  6 Nov 2025 10:02:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +V3hCiFyDGl2NwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Nov 2025 10:02:09 +0000
+Date: Thu, 06 Nov 2025 11:02:08 +0100
+Message-ID: <87a50zh42n.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: <syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<perex@perex.cz>,
+	<syzkaller-bugs@googlegroups.com>,
+	<tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
+In-Reply-To: <20251106083300.2947700-1-lizhi.xu@windriver.com>
+References: <690b6b46.050a0220.3d0d33.0054.GAE@google.com>
+	<20251106083300.2947700-1-lizhi.xu@windriver.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: codecs: va-macro: fix resource leak in probe error
- path
-To: Haotian Zhang <vulab@iscas.ac.cn>, srinivas.kandagatla@linaro.org,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251106075055.555-1-vulab@iscas.ac.cn>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251106075055.555-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=W981lBWk c=1 sm=1 tr=0 ts=690c71c0 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=_CcdfDJzPmikts8YXegA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: MqRhBohq0idwWd3hBM0q1eLbajHxWPx-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA3OCBTYWx0ZWRfX5xPPZNLscLT8
- 5ZjP+XYWlbEnqmWEJHn1r9CxbnnyywKiBy4jJQE+0velkCTXnHcOfTLMUFVaKU8LaHu7pADcto2
- QdC+Hcy+ZCQ12gyn/msCP75HkQ6ZDsY6moAWJe5rfohhXLBboTWqCL0sTAbr542A7C5kWdCq52X
- LRZr2knxqSd41kT/86sMf6shMce1Jst13VVJ9fWYPjEisTpQm997tYTdviXOqaizS6XETYY+qSS
- XkpaOTN3WOJJQsBxooSzKjyF+Od4oJYfwA7aPjOmxzz0j4rN6IOrcCMKRV9PjP5l74P4XEldsZy
- kmeMWTLxPlz4lnHjt3iZG8KvO9vu9wqhRisgsUKujgWRzMtHGr6a33+jyfmWqKtH/+T82/w4dE3
- GQ8m48neW2BLvft+qQxjmdSkZyewog==
-X-Proofpoint-ORIG-GUID: MqRhBohq0idwWd3hBM0q1eLbajHxWPx-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_02,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 impostorscore=0
- bulkscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511060078
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 6E0721F393
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[bfd77469c8966de076f7];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,syzkaller.appspot.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -2.01
 
-On 11/6/25 8:50 AM, Haotian Zhang wrote:
-> In the commit referenced by the Fixes tag, clk_hw_get_clk()
-> was added in va_macro_probe() to get the fsgen clock,
-> but forgot to add the corresponding clk_put() in va_macro_remove().
-> This leads to a clock reference leak when the driver is unloaded.
+On Thu, 06 Nov 2025 09:33:00 +0100,
+Lizhi Xu wrote:
 > 
-> Add clk_put() call in va_macro_remove() to properly release the clock
-> reference obtained in probe.
+> The calculation rule for the actual data length written to the URB's
+> transfer buffer differs from that used to allocate the URB's transfer
+> buffer, and in this problem, the value used during allocation is smaller.
 > 
-> Fixes: 30097967e056 ("ASoC: codecs: va-macro: use fsgen as clock")
-> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+> This ultimately leads to write out-of-bounds errors when writing data to
+> the transfer buffer.
+> 
+> To prevent out-of-bounds writes to the transfer buffer, a check between
+> the size of the bytes to be written and the size of the allocated bytes
+> should be added before performing the write operation.
+> 
+> When the written bytes are too large, -EPIPE is returned instead of
+> -EAGAIN, because returning -EAGAIN might result in push back to ready
+> list again.
+> 
+> Based on the context of calculating the bytes to be written here, both
+> copy_to_urb() and copy_to_urb_quirk() require a check for the size of
+> the bytes to be written before execution.
+> 
+> syzbot reported:
+> BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+> Write of size 264 at addr ffff88801107b400 by task syz.0.17/5461
+> 
+> Call Trace:
+>  copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+>  prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
+> 
+> Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
+> Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+
+I'm afraid that this doesn't address the root cause at all.
+The description above sounds plausible, but not pointing to "why".
+
+The bytes is frames * stride, so the question is why a too large
+frames is calculated.  I couldn't have time to check the details, but
+there should be rather some weird condition / parameters to trigger
+this, and we should check that at first.
+
+
+thanks,
+
+Takashi
+
+
 > ---
-
-You can switch the clk_hw_get_clk to devm_clk_hw_get_clk() instead
-
-Konrad
-
+>  sound/usb/pcm.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+> index 54d01dfd820f..a4c0ea685b8a 100644
+> --- a/sound/usb/pcm.c
+> +++ b/sound/usb/pcm.c
+> @@ -1606,6 +1606,9 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+>  				    subs->cur_audiofmt->dsd_bitrev)) {
+>  			fill_playback_urb_dsd_bitrev(subs, urb, bytes);
+>  		} else {
+> +			if (bytes > ctx->buffer_size)
+> +				return -EPIPE;
+> +
+>  			/* usual PCM */
+>  			if (!subs->tx_length_quirk)
+>  				copy_to_urb(subs, urb, 0, stride, bytes);
+> -- 
+> 2.43.0
+> 
