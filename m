@@ -1,160 +1,109 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6989335BA5
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B9926E6E1
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762447506; cv=none; b=COgIpg6URuDHQtFq0SWTV7ZPh39CU40K2EcDFhIs4egXoMx7uvLq9nCUXEN5KaMmYeKx7zBDOkIbxPwnBGM/EKfUzoMbfSJF2q33yvO7pZgK3JtNoNwKlKsd8E9Mf8n2WpuRAtYQDMgvr3lE/yS98/EoIMuYH+na2wugMSkWm7I=
+	t=1762448292; cv=none; b=s6VQ/0pIr3BYSAYvxYJAhWmSHsddugZ+H8VyMwRW++6h+F5rnZ5Uxf4u9XxX8LN8LACbPUVRtBURaDnIn0/mSsgSTZ50l/KB/Uhr+b23x0ss9a2j3qnBqot4UQgbsdcaW3KLsf1S7fT1hU4nfSiP6E7ZHBaW3JExSMFCrDJ2UsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762447506; c=relaxed/simple;
-	bh=X9BEWwB0FNpTpkWJhm+qaXY0I7iml0fSupTwank2kMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rMcZ4mWRG5Kg2yCBPCudHaYc/X87HPhvZP1BHd7onWgSaPZ/ZQws6KhE0Y/9mkSc48B8k4ebTBD50n5us8aUL3hrNDc+yjcHYnXie/yw8nfwxQnTps3lpEPneJE80c0qgKVyCl2sQRemJVTIJO6W5WYQWJWIkpVr+6pVCyJZ3+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Es1QkEdA; arc=none smtp.client-ip=209.85.128.176
+	s=arc-20240116; t=1762448292; c=relaxed/simple;
+	bh=zGbsuJR0MpNMo5oze1A82MxCMMbXYm6UPi7eGvB+LMQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=npPTk9URTPb9q6To1VSdcvs1Y06kZXQj/TmWSQy1H0D0WJtEJFAVCHzcuZVYUr9P5wroZ5GuxcphdOtMyps+r38WkcwsPT3bF1cHYNzWX8MAhKKr4cECoIn3bFsd0yqXZaAs3irq0C1O4cZQXo/R914gPH+1SPpODTWq/MyweS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=it5aBo1m; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Es1QkEdA"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-781014f4e12so12337217b3.1
-        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:45:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="it5aBo1m"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7a4c202a30aso1053068b3a.2
+        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762447503; x=1763052303; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YCzuZ/teXYU7yevuP9B3flHK19xr/xlr710i4rE8skU=;
-        b=Es1QkEdA/zBpIPzi+HGQl/7UQTc0u7rQ8nQ0oNHOJvYpsDrh52P+nfcZ1rRMFmekG8
-         oWKW1fPLFi0yEr9g8nCV4eIarl2Kv6/bIY91CoJxqjC4yot5jHJvoora0gdiknA3GU5/
-         RdStclCYNas64mysPuwfygU09X9y4gu0ZUbgVKQIBgM9pLWf4tzdiQpuBD/RsrJTUmiL
-         o/sCo5ZnjxyWXd/cYR+X3YeriM6gB0Nn6LZO5rVnBQNmPEwaWl+/x71i20PG8OY4Fi+S
-         cbK27KlFofPjN4icMa0L/Tu7aA857zVeADmHxcoOlL6BaEvh0ikqYMl4fChbZSHxKrt/
-         O3pA==
+        d=gmail.com; s=20230601; t=1762448291; x=1763053091; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DS8sqqvkxvbCl5lep6vaK9Nc47322GAYDGuz/eRk6tQ=;
+        b=it5aBo1m4hZZBmCnv/awhNNRrYn20kcwbPzD3S7a5mgZ7NMAflhBzT+AlUduioGA2x
+         H/y5B02fzSp24NWcHI287Ca1xZJAqepJdJkgtKFEOOK1uxSB2rdQETITyqtZgze53IfL
+         rh2L0dfGWUiX7bwCGZlCwnL2c/HDlM7rD41u9wejrjsoHUSENEMH35sdL+PkxFZwXKcY
+         KetMFjYhbuPZlYu43nYGxscbtgLYfwtjvpvD3x8v7NyqqLVFDeCFIsF0djtmzkfWCqZA
+         qcd8TwUZbU0u6uxkS0C/PAApzztbymzbmLJ5nCrOpzE1TAVXwri4N/GRwn04gvo3xPm2
+         N5ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762447503; x=1763052303;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1762448291; x=1763053091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YCzuZ/teXYU7yevuP9B3flHK19xr/xlr710i4rE8skU=;
-        b=TWq1VNmW8F/VB0lETGk3en6PEeOppsocCHQNtmrCSt4AJbVF8a2LqxFRskvIg6tskd
-         VUGOeN8VMvN9GhrXlXPLvFggDS83W+hBcDoTAWzr6ounWuCEYoatA858Emyxiac/UT3t
-         2MDn2KngN0+Ty60C/5E3JvF7kSlnw6CKd90ONJgsQakfx+9FAJ4TmN03D7o9Tw+IIZsE
-         rk+HvZdRLgpHznSJMmN0tkafAbx/HY4rxhp/f/8+sppIQTXxy5l83Np22M5lxkq67dFt
-         h2wXb6LYPZuIJUfeJqVZw368NSjEUrl7TaGITE/RFk4hp5b0+4x4OI34/Tg/q5jhHwtG
-         TY6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUPq6phk6rrBxiLGqXHT0mgiCM7oMXD43VeEY//9oqMHiIijbklX+hdY/fASjRn25epgTS7p61N1+Cp0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHBgvgGT/GBNEJE2a3WeN0o+/qzi3BENHr2eOoYQLy/w/5ThHz
-	WJeXTbycFk2C7sJ1+bv1gqeCPT/DyKKcGX66DAnQN4ewW/9BMMQr8A2P
-X-Gm-Gg: ASbGncv0Ew6e26egrJ7ovF7QYq0fpQAK1GKADuY/xlBEgQk9I4nLPb1Glb27aZIrxH8
-	b8B3G9OPkue8YlB9EnXpNGePlgl2f0bYfpxbcxnJlcZKtpQFW3FmF8h0kxzKtgHBnRnedLuyedl
-	Nlhvpgq8Ve0soJbkuQlYiBgTzDqQ2zMGcV3NgMQSvbkuLuw+BgKs6OfsxP+ubtQSpkuojoRQWld
-	9ZZcr1wXOsXDxEG42yLjwhtbtEL0hHXeuWIqyB7r6SgKdXR+c5tr/pG4v4JwixyhmqReKtdlPn5
-	8p0Gq5sLHblcCHEBl1WDU6txll95K91NikrJAbIqJuSZfTpQmB/ZJ7Ay69KuCwIcYttE5J8T3j+
-	8SjMeDcjwqS/u/eqbkAoL4rtf2TpoVR6mFX9IQ32BQhVwxyotTT93UrZsVTxbDuossdhhB60cWX
-	a+fthqufEvTXZfUEo4tnViJJ2EtwLDTmlN3r9ZJM32xEs=
-X-Google-Smtp-Source: AGHT+IFgqblsjDg64jVhZU34czKFHTApBwHTvzKvobAZn60rv4BaSs97biLpVcByf7R85pQynTZCWw==
-X-Received: by 2002:a05:690c:46c3:b0:786:45ce:9bd3 with SMTP id 00721157ae682-786a41b2455mr71656237b3.34.1762447502815;
-        Thu, 06 Nov 2025 08:45:02 -0800 (PST)
-Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-787b13b6954sm9471997b3.5.2025.11.06.08.45.01
+        bh=DS8sqqvkxvbCl5lep6vaK9Nc47322GAYDGuz/eRk6tQ=;
+        b=je6d44bGNLed5fL2IKIMakMd+c/WetS32YNUBmbHatdSTTHDEgnquSxVYcBvmB12I4
+         DkaSdEfFAgYzEeYw2YKdWpLx+HfsRYXTZc+rDwFKZ8uTYp1Ti8nr1gtwoxzMNwOqMECl
+         ywB/MhxeS3h3700ieeZ/LRtgmZQ2InMtnMAAdyyhIpdiZzZbBU9laJqkFVgwa/H2f7lY
+         NQt0o0bN3ZDyofGN5FkRwlINP39dDV+NPAfB13Nd6aUV4xAFRa2Tq7ppRawnxeRY1Hnx
+         svdbOsVU973H1lLqAtrBC/KEvMUXrCwC1C/wygEqqaKj6BmgF8WbMBmO7vF1wsOaE83E
+         CHrw==
+X-Gm-Message-State: AOJu0YyMMbfJRzzgJTVVPlanzEiInKu15e5/H2/6fRgOpH8i7PaZ6hY2
+	VafiLj1U47VZKha6eag5tTOKdOIZeZSnmJMGtOkeg/OYQVCM+TV3QrIWDo1QVVCViCM=
+X-Gm-Gg: ASbGncvhMBE/4Z/jNQ/p2FzDc0XJdjQ6ZePGGu2MX/8Akolgaj9OBXBzFXCO4vptoEm
+	QJ13zcS3ZhxOFmvlzyDKR6n3FFPn1TJbBqCNFernAblvZg1/0NwENh2OZFx2nJnLjqdhq+La9jk
+	KAPoDolil9GwBYEgJiwFxUZUYaHPYc4evozuLrH5rnZNYDsOip2Tx6KXYnQzrfuhhiM8deniIXE
+	VgxvOrG3VV2HoecHad38aPcFYLFfRoBqcuUuSyTGlkuNKVFc62qR1PgxIGRyBzxg1mtXT17DTrU
+	DrOGwWXyOX811i6RSIve9Mfqm8R1sandH+cBTB9jR1sF70Ega64PpSxm+kubjVi+S/wni+PIeQv
+	/AaRHpFSFy0nsTh84HezIcNyBsK/3AidFgzm9C/3UQkcjVG9gt3RwCO7jg3tVY30gERgF4Ip7oO
+	TjdufIb8/dfx4=
+X-Google-Smtp-Source: AGHT+IHLEU7rRdg8EIc2XQEbCn/OuyoTmwX710BA5CZo2m9jEPRaW7mEDTTZiyzxlQ6euhLj7/p9Jw==
+X-Received: by 2002:aa7:88c2:0:b0:7a7:2a:2ec9 with SMTP id d2e1a72fcca58-7b0bdb84cacmr275781b3a.23.1762448290853;
+        Thu, 06 Nov 2025 08:58:10 -0800 (PST)
+Received: from localhost.localdomain ([128.77.79.178])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c9ff848bsm46779b3a.29.2025.11.06.08.58.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 08:45:02 -0800 (PST)
-Date: Thu, 6 Nov 2025 11:45:01 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/26] Non-const bitfield helpers
-Message-ID: <aQzQjSMOSrUIgMCL@yury>
-References: <cover.1762435376.git.geert+renesas@glider.be>
+        Thu, 06 Nov 2025 08:58:10 -0800 (PST)
+From: Yiwei Lin <s921975628@gmail.com>
+To: luca.ceresoli@bootlin.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yiwei Lin <s921975628@gmail.com>
+Subject: [PATCH] ASoC: dapm-graph: Handle sourd card with space in name
+Date: Fri,  7 Nov 2025 00:58:02 +0800
+Message-Id: <20251106165802.3780-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1762435376.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 06, 2025 at 02:33:48PM +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> <linux/bitfield.h> contains various helpers for accessing bitfields, as
-> typically used in hardware registers for memory-mapped I/O blocks.
-> These helpers ensure type safety, and deduce automatically shift values
-> from mask values, avoiding mistakes due to inconsistent shifts and
-> masks, and leading to a reduction in source code size.
-> 
-> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> constants.  However, it is very common to prepare or extract bitfield
-> elements where the bitfield mask is not a compile-time constant (e.g. it
-> comes from a table, or is created by shifting a compile-time constant).
-> To avoid this limitation, the AT91 clock driver introduced its own
-> field_{prep,get}() macros.  During the past four years, these have been
-> copied to multiple drivers, and more copies are on their way[1], leading
-> to the obvious review comment "please move this to <linux/bitfield.h>".
-> 
-> Hence this series
->   1. Takes preparatory steps in drivers definining local
->      field_{get,prep}() macros (patches 1-11),
->   2. Introduces __FIELD_{PREP,GET}() helpers to avoid clang W=1 warnings
->      (patch 12),
->   3. Makes field_{prep,get}() available for general use (patch 13),
->   4. Converts drivers with local variants to the common helpers (patches
->      14-24),
->   5. Converts a few Renesas drivers to the existing FIELD_{GET,PREP}()
->      and the new field_{get,prep}() helpers (patches 25-26).
-> 
-> Alternatives would be to use the typed {u*,be*,le*,...}_{get,encode}_bits()
-> macros instead (which currently do not work with non-constant masks
-> either, and the first attempt to change that generates much worse code),
-> or to store the low bit and width of the mask instead (which would
-> require changing all code that passes masks directly, and also generates
-> worse code).
+When the name of the sound card has a space between, the
+script will fail to output the dot file. Consider the
+case to generate it correctly.
 
-Everyone please send your tags. I'm going to merge it in
-bitmap-for-next before Monday.
+Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+---
+ tools/sound/dapm-graph | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Yury
+diff --git a/tools/sound/dapm-graph b/tools/sound/dapm-graph
+index b6196ee50..22993317d 100755
+--- a/tools/sound/dapm-graph
++++ b/tools/sound/dapm-graph
+@@ -174,7 +174,7 @@ process_dapm_component()
+ 
+ 	# Extract directory name into component name:
+ 	#   "./cs42l51.0-004a/dapm" -> "cs42l51.0-004a"
+-	c_name="$(basename $(dirname "${c_dir}"))"
++	c_name="$(basename "$(dirname "${c_dir}")")"
+     fi
+ 
+     dbg_echo " * Component: ${c_name}"
+@@ -201,7 +201,7 @@ process_dapm_component()
+     >"${links_file}"
+ 
+     # Iterate over widgets in the component dir
+-    for w_file in ${c_dir}/*; do
++    for w_file in "${c_dir}"/*; do
+ 	process_dapm_widget "${tmp_dir}" "${c_name}" "${w_file}"
+     done
+ 
+-- 
+2.34.1
+
