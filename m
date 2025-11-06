@@ -1,109 +1,122 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B9926E6E1
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 16:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B02332ECF
+	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 22:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762448292; cv=none; b=s6VQ/0pIr3BYSAYvxYJAhWmSHsddugZ+H8VyMwRW++6h+F5rnZ5Uxf4u9XxX8LN8LACbPUVRtBURaDnIn0/mSsgSTZ50l/KB/Uhr+b23x0ss9a2j3qnBqot4UQgbsdcaW3KLsf1S7fT1hU4nfSiP6E7ZHBaW3JExSMFCrDJ2UsQ=
+	t=1762468129; cv=none; b=XKS4Rh9R7zXidx19hm8z/PTEpBG/zAOfzq0KL78VUTMbAlo8ou8dAlFwqIVkf4V+3UteWidfq8C+I6I/Q3knfbL1zef0P+ByCvFnvGz2mGwTN5IjwwUELd4Ea7gKpHzvZCZBWiujO+ZDTu3bZ09KNU+GunkYPhnXR7Mwf66js3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762448292; c=relaxed/simple;
-	bh=zGbsuJR0MpNMo5oze1A82MxCMMbXYm6UPi7eGvB+LMQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=npPTk9URTPb9q6To1VSdcvs1Y06kZXQj/TmWSQy1H0D0WJtEJFAVCHzcuZVYUr9P5wroZ5GuxcphdOtMyps+r38WkcwsPT3bF1cHYNzWX8MAhKKr4cECoIn3bFsd0yqXZaAs3irq0C1O4cZQXo/R914gPH+1SPpODTWq/MyweS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=it5aBo1m; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762468129; c=relaxed/simple;
+	bh=4JTu03iX6vFDrPqW0GxtDjNlpHZuyhsfQKG/6UtvK4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Qluhs/tTeDpAAOgRtZLTIOqsSgPpqH0YHpAhXqoeMeS8qbyLIiKhnOdeOLRs6PTUazhM0r5Me6yRk18Khf7e3CPsQs4uWIS4mVljYccpACMk/Bmx/fWy1bjZ3klUBsw9d6UE7wQb7I2OWUi2X14vVcuf27gwuwdL/Nlenrw8Q6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WB+F/SQY; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="it5aBo1m"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7a4c202a30aso1053068b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 08:58:11 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WB+F/SQY"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-433100c59dcso609255ab.0
+        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 14:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762448291; x=1763053091; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DS8sqqvkxvbCl5lep6vaK9Nc47322GAYDGuz/eRk6tQ=;
-        b=it5aBo1m4hZZBmCnv/awhNNRrYn20kcwbPzD3S7a5mgZ7NMAflhBzT+AlUduioGA2x
-         H/y5B02fzSp24NWcHI287Ca1xZJAqepJdJkgtKFEOOK1uxSB2rdQETITyqtZgze53IfL
-         rh2L0dfGWUiX7bwCGZlCwnL2c/HDlM7rD41u9wejrjsoHUSENEMH35sdL+PkxFZwXKcY
-         KetMFjYhbuPZlYu43nYGxscbtgLYfwtjvpvD3x8v7NyqqLVFDeCFIsF0djtmzkfWCqZA
-         qcd8TwUZbU0u6uxkS0C/PAApzztbymzbmLJ5nCrOpzE1TAVXwri4N/GRwn04gvo3xPm2
-         N5ug==
+        d=linuxfoundation.org; s=google; t=1762468127; x=1763072927; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6Ilnf9YNYEmJ0X/Bm5CjqVXNP0HKW5OPjipOTd8WS6M=;
+        b=WB+F/SQYXW4hmM6oPiGFcayhyQzlaJmxbldJM/t59/yjh7wBd4EhM+p9TNgp/N3yh8
+         kIMwbTA6Sj26fV73eF14Yebm83dT2X2RNPOdEAQNFhtyjMVY/zBvpL70UGMyGMxMgcPH
+         ytchO+Q1W/pM5zVk7mxHPx19xA/zxwKNJTFcE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762448291; x=1763053091;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DS8sqqvkxvbCl5lep6vaK9Nc47322GAYDGuz/eRk6tQ=;
-        b=je6d44bGNLed5fL2IKIMakMd+c/WetS32YNUBmbHatdSTTHDEgnquSxVYcBvmB12I4
-         DkaSdEfFAgYzEeYw2YKdWpLx+HfsRYXTZc+rDwFKZ8uTYp1Ti8nr1gtwoxzMNwOqMECl
-         ywB/MhxeS3h3700ieeZ/LRtgmZQ2InMtnMAAdyyhIpdiZzZbBU9laJqkFVgwa/H2f7lY
-         NQt0o0bN3ZDyofGN5FkRwlINP39dDV+NPAfB13Nd6aUV4xAFRa2Tq7ppRawnxeRY1Hnx
-         svdbOsVU973H1lLqAtrBC/KEvMUXrCwC1C/wygEqqaKj6BmgF8WbMBmO7vF1wsOaE83E
-         CHrw==
-X-Gm-Message-State: AOJu0YyMMbfJRzzgJTVVPlanzEiInKu15e5/H2/6fRgOpH8i7PaZ6hY2
-	VafiLj1U47VZKha6eag5tTOKdOIZeZSnmJMGtOkeg/OYQVCM+TV3QrIWDo1QVVCViCM=
-X-Gm-Gg: ASbGncvhMBE/4Z/jNQ/p2FzDc0XJdjQ6ZePGGu2MX/8Akolgaj9OBXBzFXCO4vptoEm
-	QJ13zcS3ZhxOFmvlzyDKR6n3FFPn1TJbBqCNFernAblvZg1/0NwENh2OZFx2nJnLjqdhq+La9jk
-	KAPoDolil9GwBYEgJiwFxUZUYaHPYc4evozuLrH5rnZNYDsOip2Tx6KXYnQzrfuhhiM8deniIXE
-	VgxvOrG3VV2HoecHad38aPcFYLFfRoBqcuUuSyTGlkuNKVFc62qR1PgxIGRyBzxg1mtXT17DTrU
-	DrOGwWXyOX811i6RSIve9Mfqm8R1sandH+cBTB9jR1sF70Ega64PpSxm+kubjVi+S/wni+PIeQv
-	/AaRHpFSFy0nsTh84HezIcNyBsK/3AidFgzm9C/3UQkcjVG9gt3RwCO7jg3tVY30gERgF4Ip7oO
-	TjdufIb8/dfx4=
-X-Google-Smtp-Source: AGHT+IHLEU7rRdg8EIc2XQEbCn/OuyoTmwX710BA5CZo2m9jEPRaW7mEDTTZiyzxlQ6euhLj7/p9Jw==
-X-Received: by 2002:aa7:88c2:0:b0:7a7:2a:2ec9 with SMTP id d2e1a72fcca58-7b0bdb84cacmr275781b3a.23.1762448290853;
-        Thu, 06 Nov 2025 08:58:10 -0800 (PST)
-Received: from localhost.localdomain ([128.77.79.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c9ff848bsm46779b3a.29.2025.11.06.08.58.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 08:58:10 -0800 (PST)
-From: Yiwei Lin <s921975628@gmail.com>
-To: luca.ceresoli@bootlin.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yiwei Lin <s921975628@gmail.com>
-Subject: [PATCH] ASoC: dapm-graph: Handle sourd card with space in name
-Date: Fri,  7 Nov 2025 00:58:02 +0800
-Message-Id: <20251106165802.3780-1-s921975628@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1762468127; x=1763072927;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6Ilnf9YNYEmJ0X/Bm5CjqVXNP0HKW5OPjipOTd8WS6M=;
+        b=Ods96cpDzSvelTVDO8OBgScChakWFsjzCOvv2i8RcUO7ZUQbLERTkgx1tY9UXyPkHs
+         2iVhy4pyfRLh2FohUqvPVYLKegNXIUt8AjAOK4xk1csUR8+zm3BQxP/IoeY9TyBAI6tf
+         TFnW1EJqMuRxW9P5gXQgHZIje3pfHpmcPDVJ+6cZQ9K5Bu5Jbb8j7mnmXclxtvOH2zcp
+         +zvhOl1PEI3JdrJFcUQI6Snt5b4b1rMBwW8+r0X+rMPkRuEP/HqC9S7vIwz7BYzjkkAI
+         hB9YHAnbcYzRyJ2clMrfH/sXteKYDe9LcTcp2PsdWPi+J83xAfe3A/qfERFxSaO1oEAh
+         7wjg==
+X-Forwarded-Encrypted: i=1; AJvYcCWI+KavLQptp7CajV5f02UD0xxnUHEYlxqZB7wCaIPgPDBhzXH4OkNv3R+dymeimcRCFH6qgr+aVWcXxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcI1hJuyPaTy/nX/ISPFRkEJCHMldrs7AXq1erXOGBLQTdTNnG
+	oZEj6o44U7ixfbIGrzoXV2qLjyggvhuQg3b9Aq4jMbviFC6gO+tvCUqLitEbLjriQZU=
+X-Gm-Gg: ASbGnct2fTXoXpe3NQfu6Bk/62Tt5Vk7QXLXMTFx+M+1LQeCsmMWqujZK+JMFiwwndJ
+	5REDK7xakWpOWzsIJY8uHW/b1ava5BO3pLJAiGbfUq6EpJ132C5nJHi4Sb4xEm8NlJaWd40xkQP
+	oJ/dSaQzyDi/udqoyN3pdjhY5Iaz47sbHvQ/s0ILQixCnCjuZxg+rrUqmTL8BjE7ZtWlOEm/865
+	Jvo3E/LuNZk34lcY1JEsq8ApQzvXZjWK1hDdgnJACIBtdYa1xPwVSMK7Ub7CINV7+xDcoizx0Mi
+	zEtsMy/DOUUk07oV7DKmz7jGaXcKi/KrP8LjPGpC2Lv5fTX90n5fKINfehl1JeCtF68GJXOZzr1
+	EO2w6V/K920VXPmjfUKNeVu5wwmxND+W7IWY+FJPfQc9XxVqkgJqmXHVxNRyvYBHiaGtJz0DmAG
+	fwhcq6T8Z+l2Qe0H2xClqhunk=
+X-Google-Smtp-Source: AGHT+IGJhK5ac0+9nCUlURCUKRMOk9Pshm81p9z0cIwy8e2oj0giXJGWDnsGxvYGWJlHAfrDjfabsA==
+X-Received: by 2002:a05:6e02:370c:b0:431:d726:9efd with SMTP id e9e14a558f8ab-4335f3cfb5dmr16442495ab.12.1762468126775;
+        Thu, 06 Nov 2025 14:28:46 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-4334f42cad7sm15817345ab.4.2025.11.06.14.28.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Nov 2025 14:28:46 -0800 (PST)
+Message-ID: <0c7f307c-9de5-4d67-b9da-e728d43e00b6@linuxfoundation.org>
+Date: Thu, 6 Nov 2025 15:28:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: fsl: fsl_ssi: Replace deprecated strcpy() with
+ strscpy()
+To: hariconscious@gmail.com, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: khalid@kernel.org, shuah@kernel.org, david.hunter.linux@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20251105052113.39999-3-hariconscious@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20251105052113.39999-3-hariconscious@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When the name of the sound card has a space between, the
-script will fail to output the dot file. Consider the
-case to generate it correctly.
+On 11/4/25 22:21, hariconscious@gmail.com wrote:
+> From: HariKrishna Sagala <hariconscious@gmail.com>
+> 
+> strcpy() is deprecated,use strscpy() instead.
+> No functional changes intended.
+> Link: https://github.com/KSPP/linux/issues/88
+> 
+> Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+> ---
+> This patch replaces strcpy() call with the strscpy() API.
+> strscpy() is preferred over strcpy()/strncpy() as per the
+> kernel documentation.
 
-Signed-off-by: Yiwei Lin <s921975628@gmail.com>
----
- tools/sound/dapm-graph | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Which kernel documentation and can you add why strscpy() ie
+better than strcpy() instead saying "as per the kernel documentation."
+> 
+> Thank you.
+> 
+>   sound/soc/fsl/fsl_ssi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/fsl/fsl_ssi.c b/sound/soc/fsl/fsl_ssi.c
+> index 320108bebf30..b2e1da1781ae 100644
+> --- a/sound/soc/fsl/fsl_ssi.c
+> +++ b/sound/soc/fsl/fsl_ssi.c
+> @@ -1447,7 +1447,7 @@ static int fsl_ssi_probe_from_dt(struct fsl_ssi *ssi)
+>   			dev_err(dev, "failed to get SSI index property\n");
+>   			return -EINVAL;
+>   		}
+> -		strcpy(ssi->card_name, "ac97-codec");
+> +		strscpy(ssi->card_name, "ac97-codec");
+>   	} else if (!of_property_read_bool(np, "fsl,ssi-asynchronous")) {
+>   		/*
+>   		 * In synchronous mode, STCK and STFS ports are used by RX
+> 
+> base-commit: 284922f4c563aa3a8558a00f2a05722133237fe8
 
-diff --git a/tools/sound/dapm-graph b/tools/sound/dapm-graph
-index b6196ee50..22993317d 100755
---- a/tools/sound/dapm-graph
-+++ b/tools/sound/dapm-graph
-@@ -174,7 +174,7 @@ process_dapm_component()
- 
- 	# Extract directory name into component name:
- 	#   "./cs42l51.0-004a/dapm" -> "cs42l51.0-004a"
--	c_name="$(basename $(dirname "${c_dir}"))"
-+	c_name="$(basename "$(dirname "${c_dir}")")"
-     fi
- 
-     dbg_echo " * Component: ${c_name}"
-@@ -201,7 +201,7 @@ process_dapm_component()
-     >"${links_file}"
- 
-     # Iterate over widgets in the component dir
--    for w_file in ${c_dir}/*; do
-+    for w_file in "${c_dir}"/*; do
- 	process_dapm_widget "${tmp_dir}" "${c_name}" "${w_file}"
-     done
- 
--- 
-2.34.1
-
+thanks,
+-- Shuah
