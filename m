@@ -1,109 +1,96 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A52B2E0B6D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 13:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F04530C628;
+	Thu,  6 Nov 2025 14:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762437131; cv=none; b=bUGGHnCB2J3kJQUjIOvaDmHg6Q0dImj2ka3icaiZbM3tKp2ZimwcCYP6o5khOecO3fIyR7vf9k4k0Ty3QhDVubbI/dZSekaIfhgdP4eguGN0Zgbv0gTVW1BInNwVe1YmX0Wx7fZBQGxx+Pe8C+tcRYUT1r7k+HaPB+VuJn/GgeI=
+	t=1762439600; cv=none; b=DemHbdganjp2Zs8mNaokQw6vlobtnsTKofk77ZXNtVQMbKSHHakQDcByUdcrYP8D0mxSR1t50wXHJFsoTV3krYnyVYC6EhIFyiMTF3gohmubqlv17bAYLEePtTQfE+ecnhHgnTyLu4a6zTIphk7FH62JffF4vxiPrjTRsFVg28c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762437131; c=relaxed/simple;
-	bh=53bXnWtrnTsPldREUa+Lsxot9SVqLVmn/rFIO8nhXr4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r97CQyjYSxeXn6BggivXaV3ftUngUuwnFe7Jr0CTPc2HzlNtaG7Pzwu9Xn0hdB3oOxRPq+Tc9Y5Mo/V1w1stHylH/6Bm48wb4ZvR/wNJVZbtZtFyTX2+Hh1vvWTWbP4h58zZHLQbRrB2C04mE/E9gfqG7uRwlyEktYLfgALRXrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N7QrAgMk; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N7QrAgMk"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BDDC74E4156F
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 13:52:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 870E660717;
-	Thu,  6 Nov 2025 13:52:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3E6E1118507C9;
-	Thu,  6 Nov 2025 14:51:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762437123; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=jlA1rDTx6Lva7xxbNDSbnwmuIRj6XrFx8dhfkF20V3Y=;
-	b=N7QrAgMkWFI6HQA3UOPNdJgTNfngqMabJGVtz4L+Z73P+g7Zy9UbJTU+6nw0C9k9RuS7d4
-	0t10bFhDoUFVEGJ+Dg0SVEPlweQKe2PAXJr8Jz4p0vCtadpzf6O74ZnS7GqYOlZvfDaY6I
-	k8zAULnGAfPT+lFjrdeN7WGH5nH4+yQEOKBvD68jGpg820Mlfz+H4dZozShrI33OjfvP+U
-	M+bXMIHVwX6aB2riVG3gPYDkVh8w03xBzHKb5BrG3VlwReQesR+l62n1eXPZUVCqRHWdIc
-	lXqhB86i08GEcs4OdPzXCoemI/MVE/PUPlPSH2kxSDqNCyBJvDcIaP6LQyRDCw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Yury Norov <yury.norov@gmail.com>,  Michael Turquette
- <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,  Nicolas
- Ferre <nicolas.ferre@microchip.com>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,  Giovanni Cabiddu
- <giovanni.cabiddu@intel.com>,  Herbert Xu <herbert@gondor.apana.org.au>,
-  David Miller <davem@davemloft.net>,  Linus Walleij
- <linus.walleij@linaro.org>,  Bartosz Golaszewski <brgl@bgdev.pl>,  Joel
- Stanley <joel@jms.id.au>,  Andrew Jeffery <andrew@codeconstruct.com.au>,
-  Crt Mori <cmo@melexis.com>,  Jonathan Cameron <jic23@kernel.org>,
-  Lars-Peter Clausen <lars@metafoo.de>,  Jacky Huang
- <ychuang3@nuvoton.com>,  Shan-Chun Hung <schung@nuvoton.com>,  Rasmus
- Villemoes <linux@rasmusvillemoes.dk>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Johannes Berg
- <johannes@sipsolutions.net>,  Jakub Kicinski <kuba@kernel.org>,  Alex
- Elder <elder@ieee.org>,  David Laight <david.laight.linux@gmail.com>,
-  Vincent Mailhol <mailhol.vincent@wanadoo.fr>,  Jason Baron
- <jbaron@akamai.com>,  Borislav Petkov <bp@alien8.de>,  Tony Luck
- <tony.luck@intel.com>,  Michael Hennerich <Michael.Hennerich@analog.com>,
-  Kim Seer Paller <kimseer.paller@analog.com>,  David Lechner
- <dlechner@baylibre.com>,  Nuno =?utf-8?Q?S=C3=A1?= <nuno.sa@analog.com>,
-  Andy Shevchenko
- <andy@kernel.org>,  Richard Genoud <richard.genoud@bootlin.com>,  Cosmin
- Tanislav <demonsingur@gmail.com>,  Biju Das <biju.das.jz@bp.renesas.com>,
-  Jianping Shen <Jianping.Shen@de.bosch.com>,  Nathan Chancellor
- <nathan@kernel.org>,  Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  linux-clk@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-renesas-soc@vger.kernel.org,
-  linux-crypto@vger.kernel.org,  linux-edac@vger.kernel.org,
-  qat-linux@intel.com,  linux-gpio@vger.kernel.org,
-  linux-aspeed@lists.ozlabs.org,  linux-iio@vger.kernel.org,
-  linux-sound@vger.kernel.org,  linux-mtd@lists.infradead.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next v6 24/26] mtd: rawnand: sunxi: Convert to common
- field_{get,prep}() helpers
-In-Reply-To: <e1c879967328d8c1098aaa014845c2f11874d7c7.1762435376.git.geert+renesas@glider.be>
-	(Geert Uytterhoeven's message of "Thu, 6 Nov 2025 14:34:12 +0100")
-References: <cover.1762435376.git.geert+renesas@glider.be>
-	<e1c879967328d8c1098aaa014845c2f11874d7c7.1762435376.git.geert+renesas@glider.be>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Thu, 06 Nov 2025 14:51:43 +0100
-Message-ID: <87frar8e1c.fsf@bootlin.com>
+	s=arc-20240116; t=1762439600; c=relaxed/simple;
+	bh=G4uKJA2lrvILuVDhPt47luiROTWWi5K5T8srrNqElD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZxRmcz7+cqA1RkHZYhMFapiWJYbow1V0wqI7f7PFg+ACahmLX28LbkwqYr2hFdDQIKOtKn+ACpvUC2Tqu84PHoQMISTbSPeJ7vtO5X3Ubfwv2QXxyyGsJ3aRAC/1YQGBbqQwbHVMONfhOKGcITAM7Xlz+YPwMJkq3+EfB15wZds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [114.245.38.183])
+	by APP-01 (Coremail) with SMTP id qwCowAB33GaUsQxpU0awAQ--.2042S2;
+	Thu, 06 Nov 2025 22:32:57 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH v2] ASoC: codecs: va-macro: fix resource leak in probe error path
+Date: Thu,  6 Nov 2025 22:31:14 +0800
+Message-ID: <20251106143114.729-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <20251106075055.555-1-vulab@iscas.ac.cn>
+References: <20251106075055.555-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAB33GaUsQxpU0awAQ--.2042S2
+X-Coremail-Antispam: 1UD129KBjvJXoWruFW5Xr4ruF4fGFyDKrW7Arb_yoW8Jry7pF
+	Z8KrWkJa43u3y3Cws8Kw1xGFn2ka4FyF48Xr4xAwnYkr43XF1UAFyIyw4rXa1jgrWv9asx
+	u3yUtFW0qFy5Z3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgwSA2kMrUIxVQABs0
 
-Hello Geert,
+In the commit referenced by the Fixes tag, clk_hw_get_clk()
+was added in va_macro_probe() to get the fsgen clock,
+but forgot to add the corresponding clk_put() in va_macro_remove().
+This leads to a clock reference leak when the driver is unloaded.
 
-On 06/11/2025 at 14:34:12 +01, Geert Uytterhoeven <geert+renesas@glider.be>=
- wrote:
+Switch to devm_clk_hw_get_clk() to automatically manage the
+clock resource.
 
-> Drop the driver-specific field_get() and field_prep() macros, in favor
-> of the globally available variants from <linux/bitfield.h>.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v6:
->   - New.
+Fixes: 30097967e056 ("ASoC: codecs: va-macro: use fsgen as clock")
+Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+Changes in v2:
+  -Switch to devm_clk_hw_get_clk() instead.
+---
+ sound/soc/codecs/lpass-va-macro.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for preemptively handling this case!
+diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
+index a49551f3fb29..fead5c941f21 100644
+--- a/sound/soc/codecs/lpass-va-macro.c
++++ b/sound/soc/codecs/lpass-va-macro.c
+@@ -1636,7 +1636,7 @@ static int va_macro_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_clkout;
+ 
+-	va->fsgen = clk_hw_get_clk(&va->hw, "fsgen");
++	va->fsgen = devm_clk_hw_get_clk(dev, &va->hw, "fsgen");
+ 	if (IS_ERR(va->fsgen)) {
+ 		ret = PTR_ERR(va->fsgen);
+ 		goto err_clkout;
+-- 
+2.50.1.windows.1
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Thansk,
-Miqu=C3=A8l
