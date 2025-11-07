@@ -1,84 +1,40 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433A03D6F
-	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 10:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69285280A20;
+	Fri,  7 Nov 2025 11:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762510555; cv=none; b=uYHNfMEA+c29KSw1rTPykvR0ILebPW4us76nYlmMMzBJk0qApWkOSXfak2SYxfA8bH73AI6xj6ltTaytYSlB8AXosipO4w3iwwlH5vkkV/NQ141R/62r3b9jQnMnWxxAygW41D8tPF1sZ9bVk3trR6v3tFQ1ruV/OcNS81/ibBA=
+	t=1762513285; cv=none; b=Ke5MvU38vzgsN/5+idzAavd/LzFU3P8pSf32u05IHYrnCLXOX9GXmKpf9TrV3OUmBM/3G/H4cMp3eJpnPlWevpkrr7ZnK6p9nZq55uTZDHng21g1eYziFSKl/O77EuxksbEYMOIDASzKQisIhPpcxFJGT4sUpC9NVN9siTXNwAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762510555; c=relaxed/simple;
-	bh=Anyq/raF18/Z5tmIRwUrDoEZcj/HsfO/X7b39NnL4Ho=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=FTPwuI6LUkWoRkVGohWa6rn5+tHBgIwfkreMN3hYV3eizkq1W8sgndUBlSnHmOgombQeb0Y/2czOasPH2t1VwfwwwFaYnJ/blOlaYuPEYjFEXW0uKa2+IYK2BYF+IdgmPT8KFhNRXtvhMLscfsPEQ53Kpv0az6o9lodGLJFluOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R6S78mIw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=evqrelLx; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762513285; c=relaxed/simple;
+	bh=XCnoEerULHYqXY5CSxLuwSo74JbUbq13YykTZcg4PVc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=GIXTTAlQq2ZSNF6Wnf94vsA1d2JVT8s3dVxZZ39ECJa0/RBEdKj8yb9Vd1vgOqyqc9+boRAYjahnYgzFT9rx/DqDf8caX13KB7/UxpZx3SMY1T7R4h8U1Rh3MweH6QgR/1x5b00lRTMFrL3tdaOxieYSrp09KUTXjQ6nWmBdpGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tRrumvxI; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R6S78mIw";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="evqrelLx"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A73qTtg557548
-	for <linux-sound@vger.kernel.org>; Fri, 7 Nov 2025 10:15:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=Anyq/raF18/Z5tmIRwUrDo
-	EZcj/HsfO/X7b39NnL4Ho=; b=R6S78mIwVAWa0C4ff0eH3OTF1cA9onD0rtKfyi
-	2IqUCx3sjZRYtABFJnYbQPsF1j6I2VbiTmzEYI5Hc/3Fwm19ozo/yiHYINjxEpDH
-	WAlvA4XdCdCpBRMCdxY1b3NjIQXQirA3haaiy9vRyCTL6OY91FNWhbYjhjO+AzSm
-	3XNblZJiGgLi/PAHwRClFztqw704E0URqqvU/Zvkv9RqcElvygflmiguNI6DN/p1
-	rZY8xBV5XvZxW/B0YN2uNArBQjfm87IJpIrk1MKmU7pnYhPhxlNz4sodcRmWQdax
-	E1v/p2sCZLZWlcL2yp0ETn1olqJZ8Q8Au1ngoLKtNpahF5PQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8yr9tnyc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 10:15:53 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4e88a5e70a7so15105741cf.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 02:15:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762510552; x=1763115352; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Anyq/raF18/Z5tmIRwUrDoEZcj/HsfO/X7b39NnL4Ho=;
-        b=evqrelLxMOXsxcLGMNUVJHH6yZMZyhsi893P9DLCgNo2/eksjZ4LcJBK8g7bWYHX+h
-         LVfXXt39VTrOJKuFnoHjHgJ/ZAo9sixP/3p5V65z1TllYwnLGgXTikw3Gsh1D3hSOrc6
-         ytIcYvkxXLKzWpNxbdn26nZ9Ty0JM+r0pApCvkCjD54RYTy3hwloqwSHjwdYxkjJiJu2
-         Ecc4RQjl0FfzsHrKI+ixvfmbmooEBxw9OSfxkPLex5/kSmuVVBwHmCt14qIAjZXiRB8q
-         krOuGvLj5OW0MXNcJqyJwi2Jn/W42llHWqBo1SRJeriD7GZmC55wX7jPPfUGUeu/yTkF
-         duuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762510552; x=1763115352;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Anyq/raF18/Z5tmIRwUrDoEZcj/HsfO/X7b39NnL4Ho=;
-        b=Wed5iPGO0+RgTAUFEkgd0Hv0o21iQvbD2UaPto99Djrub8MNwiS4fc60GKfI0tzd8S
-         WX5cOCHCugbhrL68sz3LqJXXV1cFORY7esg1FWjaLa9PZ/TobljhNQ33wWhAFEEdmQkQ
-         LW4A7zgJLshT3nRzO6KBees+xEqVGpYuHOhpDbiblMmeH3hjJanUodWTVojFCA86ctgh
-         BZUAKWQ62QKDZc7Lpazq1SbgiS3FBrppue8ZgOm2vHbG654LMTAA9/SW8uQXNCYBBdv8
-         eY4wW28FFMCwo/YL4sQdQDR5vSHDFFvrEmVQwjvIMELjfaN+HYqN1HeaR9qxv1RU2Alf
-         w7ew==
-X-Gm-Message-State: AOJu0YzI95Yg4gIjxqtfMdGKy3f6Gf2hCigc2uHf/IN4iBcUcxQP4LKN
-	JGEVvwKB7SU8hCBjm61zjkKC2+kHlY0X3j5wfWN7KnfKiqQ8eb1OxRgZyWR6DOtN3lMAsNSNdJK
-	SAPlrvf//zTcA2dqmwWJwweM+e2F79Tu35loYnf5EeOoUSZ94wTdpiGlfrfBkY44LxSXsXbOvxA
-	==
-X-Gm-Gg: ASbGncvFADApc95ZxF+TYRBwixKFkGmEOB2MEdP49ObyK8jOxQWDNv2IO9MwkedlNfh
-	9ayZfK8foIS3oXWrNBTwXjmb5VvO92rB+lm//EYDN7unik/sfO+TyMhRqInM6S8/S2r8awgR2Bl
-	QHYIfKkdQtQrYMmnRUk/+v5Fegt8dVKbeMVn+CuNkcEBYEoIUEiyAFEuTyHdJgjdvlbDjcgmHVA
-	hCj2/6nM8dm9+shYpVbh+BI7zFPX1BSZnBqeZbz169gDFaZO0BMbuLbdcpmUHXT4x5xqj2Mfbu0
-	Gdgk0+ruUKuOxrroziAQsLSmeoNen/VI9J455cbjBubIsFt3Rgd48UrVtCVSouqyVBvKs4KMCeJ
-	sgiNN1ppkTGasaN3sy5msIwEOKw==
-X-Received: by 2002:a05:622a:254:b0:4e8:916f:9716 with SMTP id d75a77b69052e-4ed99820988mr11215011cf.36.1762510552358;
-        Fri, 07 Nov 2025 02:15:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHafiudsuRZWxYGaeINBS0P8B9LbBBeVGf3jzVF6gn63s52bJBsprEWshk659I2xJipbevSkQ==
-X-Received: by 2002:a05:622a:254:b0:4e8:916f:9716 with SMTP id d75a77b69052e-4ed99820988mr11214841cf.36.1762510551931;
-        Fri, 07 Nov 2025 02:15:51 -0800 (PST)
-Received: from [192.168.68.121] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4776bd08834sm39413235e9.15.2025.11.07.02.15.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Nov 2025 02:15:51 -0800 (PST)
-Message-ID: <76b8ca1d-040b-472e-9804-5c0c0100b5b5@oss.qualcomm.com>
-Date: Fri, 7 Nov 2025 10:15:50 +0000
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tRrumvxI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1762513271; x=1763118071; i=markus.elfring@web.de;
+	bh=FS35n2bKtaFfvJwNygO/xOItmue7WadXzNpJhF3T7ns=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tRrumvxICir+RnO16eUnSoQPf9aFNmTl5nW0vjJatHqFA2AvzMIZf7gm305JUnKK
+	 Dqe+e0H0BSP9GKr2AHoAXJk900/LlegMFG0Oejcqj7kBYjLmrg2C08eAi1A2ZeFID
+	 //qo+GkoDNOAC/sHwJ0o1ujYJhvVBmqLPHLAcanUlIlm9b3NrkgndWM8Ff0sf9fpM
+	 91Gpg8QuZscerpzfGyIS3u4nschUE8Tbh1t1lQJNIgoenCBG2kcRrL8zmfV+4N/BP
+	 ml4HAVP/Adic6LPkMXx2FGq0FDorgvpC4s+B5PL7taHor7loN+peRKX20FOGZ2/om
+	 WgFHHNxx6/cF8orCAg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.187]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M5Qm1-1vFxAY1aUv-008l8l; Fri, 07
+ Nov 2025 12:01:11 +0100
+Message-ID: <fe032b8a-b7f8-4e80-be96-72667bb04c55@web.de>
+Date: Fri, 7 Nov 2025 12:01:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -86,85 +42,104 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: DP/HDMI Jack and Pipewire
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound <linux-sound@vger.kernel.org>, wtaymans@redhat.com,
-        arun@asymptotic.io, Jaroslav Kysela <perex@perex.cz>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yiwei Lin <s921975628@gmail.com>, linux-sound@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20251106165802.3780-1-s921975628@gmail.com>
+Subject: Re: [PATCH] ASoC: dapm-graph: Handle sourd card with space in name
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20251106165802.3780-1-s921975628@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=DrpbOW/+ c=1 sm=1 tr=0 ts=690dc6d9 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=wNNw3XZq_sXo5zqJiy0A:9
- a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: XGTxu_MYgSLFSzVXHStksJqbVloAjydl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDA4MiBTYWx0ZWRfXx0Dru1uss+wS
- lSmhVg1kZczmFLp3DgrVX6vFiky+cJVWWDMnUAjT4EDf2nb6DYM4NXqDm5Fd403t8sG6z/uByKP
- z6lDKBv3RmhXBk+BN2p4LAH1oTL+9YagpuNvlX9pA+yKSLrZEB9TYjfB7g50/k/89Adeemy2mSv
- heAEOgVu0YEeHgBozkENC/oNziPsKfkTIxNCMym5oNx9ajsQ8WfQ1cWebdU1B/uvpo8VcGUPmbg
- iHslddrgQUFPrgvB88M87TpTrKfvPvR8CIWMqQdSfdfhmoadL9YJfUUo41oaPaN0QathkjQx5Ud
- 5cqMzfDeXcBSqf1GbnPKQxnXg0FQVOSHZCT2Rhes7Cq4VQzzyrGo5hBN8MQg6N4bVcmZBzuHcOF
- fcCKyhf1QnN2VaxZFbM1w8tiN+Laag==
-X-Proofpoint-GUID: XGTxu_MYgSLFSzVXHStksJqbVloAjydl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-07_02,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511070082
+X-Provags-ID: V03:K1:VFy5mRgo902RDa9UfX7qY6oN1hBXWfinrK0lJpDrzZENToRNbvW
+ qXa5j0cp3JKOikriZTj/mwW3NG/9aZ0OzkKQb/DBute1qldH0hkfxIs1JWHJcxEtJ7t3nEd
+ W4NIDk7U/dhdPrpCc+Ejmag3O/Wq1X235DlJJRNQZb+FJoBUGAi7lpoVBgs+D4oJRq125+k
+ H43p7XxUxlf0pDEyuMpQA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HwnVMRMyL48=;iipuwHboq4YDnK0YteemIWM27v9
+ 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
+ 7IC6g==
 
-Hi Everyone,
+> When the name of the sound card has a space between, the
+> script will fail to output the dot file. Consider the
+> case to generate it correctly.
 
-On Qualcomm platforms we have an issue enabling Display port on a full
-Distro setup with pipewire and wireplumber in place.
+* You may occasionally put more than 56 characters into text lines
+  of such a change description.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.18-rc4#n658
 
-The issue is that Display port Audio IP on Qualcomm SoC is powered off
-if there is no Display connected. It make sense to keep it in this low
-power mode when there is no use. And the DP IP is not expecting any data
-in this state and any attempt to configure or send data would result in
-error from DSP.
-
-However, we create PCM devices and jacks for all audio sinks and
-sources, including DisplayPort DAI links. When PipeWire starts up
-without any awareness of jack state it probes all available PCM devices,
-including the DisplayPort ones. Since no display is connected, the
-prepare callback for DP fails, leading PipeWire to mark the sound card
-as unusable. Consequently, it abandons entire sound card, including
-other valid audio sinks. I have also started discussing this issue with
-pipewire [1]
+* I hope that a typo will be avoided for the summary phrase finally.
 
 
-What is the expected pcm device behavior when DP jack is not connected?
-
-Two possibilities:
-
-1. Consume the data even when the Display is not connected. I see that
-in Intel case it sinks the data somewhere and gives the user an
-experience that the data is getting consumed.
-
-2. Throw an error to user if they attempt to configure or send the data
-to this disconnected pcm.
-
-
-Also what userspace ABI to for such usecase?
-
-This is blocking end-to-end DP audio enablement on Qualcomm SoCs.
-
-Not sure if this is right approach or will work but somehow we back the
-pcm devices with disconnected jack state to use dummy pcm ops instead of
-actual pcm ops?
-This should at least keep the pipewire happy. Is this the right approach?
-
-
-[1]: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4938
-
-Thanks,
-Srini
+Regards,
+Markus
