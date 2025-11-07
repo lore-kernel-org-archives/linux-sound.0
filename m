@@ -1,145 +1,123 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69285280A20;
-	Fri,  7 Nov 2025 11:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF9B27D77D
+	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 12:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762513285; cv=none; b=Ke5MvU38vzgsN/5+idzAavd/LzFU3P8pSf32u05IHYrnCLXOX9GXmKpf9TrV3OUmBM/3G/H4cMp3eJpnPlWevpkrr7ZnK6p9nZq55uTZDHng21g1eYziFSKl/O77EuxksbEYMOIDASzKQisIhPpcxFJGT4sUpC9NVN9siTXNwAo=
+	t=1762519953; cv=none; b=tepAEEMfQ26BUKn7nr72jDpYF9CmAyVMOMLUruEicF2uRveqqvL2MqQrzpC+6Ng2A+DqwWS/GKI5qpDpFutoqmRuqhq2BltdNX2Bzhxmd+7PkmNJwz0zGsq5hfJJpFniB6BbMK4td3ZX+PfLVGPY7FWZ0oFYJaVHYJQeL6cMFj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762513285; c=relaxed/simple;
-	bh=XCnoEerULHYqXY5CSxLuwSo74JbUbq13YykTZcg4PVc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=GIXTTAlQq2ZSNF6Wnf94vsA1d2JVT8s3dVxZZ39ECJa0/RBEdKj8yb9Vd1vgOqyqc9+boRAYjahnYgzFT9rx/DqDf8caX13KB7/UxpZx3SMY1T7R4h8U1Rh3MweH6QgR/1x5b00lRTMFrL3tdaOxieYSrp09KUTXjQ6nWmBdpGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tRrumvxI; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1762519953; c=relaxed/simple;
+	bh=snI4yqGepDdWNnY0kbg2UNmoXx+IQh7u1C5ywqjd/MY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4sG7cknx0x9P8mDMh6BLhhW7Vkfyd8qPlQwhaYZaBZnmIQLkEgZNhTnEpLJMLqVHI9ofgJprJsfhk7BnKpXuKqh3rSN/lWkrPo/9/huH+F6z6Tn0LsP6RnLUbypJ/UsmZiDQ/qeL1jVL/nVmndm+A1IUQEvXy3F2qsC9Xna6tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QNjRTMBx; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tRrumvxI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1762513271; x=1763118071; i=markus.elfring@web.de;
-	bh=FS35n2bKtaFfvJwNygO/xOItmue7WadXzNpJhF3T7ns=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=tRrumvxICir+RnO16eUnSoQPf9aFNmTl5nW0vjJatHqFA2AvzMIZf7gm305JUnKK
-	 Dqe+e0H0BSP9GKr2AHoAXJk900/LlegMFG0Oejcqj7kBYjLmrg2C08eAi1A2ZeFID
-	 //qo+GkoDNOAC/sHwJ0o1ujYJhvVBmqLPHLAcanUlIlm9b3NrkgndWM8Ff0sf9fpM
-	 91Gpg8QuZscerpzfGyIS3u4nschUE8Tbh1t1lQJNIgoenCBG2kcRrL8zmfV+4N/BP
-	 ml4HAVP/Adic6LPkMXx2FGq0FDorgvpC4s+B5PL7taHor7loN+peRKX20FOGZ2/om
-	 WgFHHNxx6/cF8orCAg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.187]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M5Qm1-1vFxAY1aUv-008l8l; Fri, 07
- Nov 2025 12:01:11 +0100
-Message-ID: <fe032b8a-b7f8-4e80-be96-72667bb04c55@web.de>
-Date: Fri, 7 Nov 2025 12:01:10 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QNjRTMBx"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so1478622a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 04:52:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1762519950; x=1763124750; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1K/WGyrSvPxGdmHGTAm83AxLQquBqybYtMrmz64lWv4=;
+        b=QNjRTMBx9T1Yw861AigEB7mgXG7Psqi/QMo+dMfXkN91Q5iYliuex0rGKMWT6rj7qL
+         8bn8ptrpyQWiuGeDyJxQZCFw/EVUlIYCjWK/oi5QxpNtps6YAIKoZDKNgKrHYYjx5KXM
+         +oPsZu9VRu6bgzD8v2oHwG/tH6QqH0xs3F/Km7gqEfAMuWX1zCftLp83nmw+3tAhdS9b
+         Uu+uI049IB8dMHWkv+JYeJrpV7aiT73Z62y5RnftF9OOh5tFpeaKHfvVo6nD75cU/VWI
+         iDE0psv82sm7u9EJk6UjVmVsMW4mZF+8HTa6b1s6uAEJKrydG3LA3bkvZbfCJKohlyiV
+         YwmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762519950; x=1763124750;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1K/WGyrSvPxGdmHGTAm83AxLQquBqybYtMrmz64lWv4=;
+        b=CeH62Xg/qeUL4s+eym/+ul3N6pkRxAmZFbhUGX1oppFCtCkVZd7cav+SN6Zy4MLebg
+         gXjyqQgKbfqY9MLwLc+Hq/LZ+GRtPZZxndmFIcHPa/Vl2vb2uMoGYDOxQnC8cBNwthdm
+         PMU6qqL1kOIenj0YabM9b0vWR5HPhXUEIPbvfJpr5EhJ2WyxetS/+jXv9KMCFMhEoGYW
+         GgYXKqT48bEpKR2BhWdahzP7DkjQQED5BlXCJHGwKq6W5T7KSXkJWbr1SuR5FsEZRv9r
+         tMiT7W6W6oPSeMhp59sO5XAwX+VB2iXDaxK3aXRlAA/F3sAS4iLL2nPqRnQHU65ReH/N
+         e+7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVNbgTqb5w4ZdcBOZiA2kgsDaueadSQeRDe9QaTwSzm+om5Ss+9Z4D+40t/cvVIhPROnTjWa1LumR+jSA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3Bl1EUMqhqcy0b8vJWYmio6ezRiUeiV9feskvtfRSCRBQ4mFr
+	yyf/GLHOXjQuaR9YIEndeuEgKbxUwA/iBmhuRPRBaeyve5MD1CUIZifKVn+M1I4SJaQ=
+X-Gm-Gg: ASbGnctHgyWkC1odChv4HJKGXERaX3fZ0VIj6QNoM/9mpVLB6qFqeQSfZ24AW008C/q
+	va3Gzeh8jyMi6LFPbr4pQn+rKPQSqE/aIqEJNexsLSTlW/Yl5OUvgP/4hC2ccWlfuwQQoWHk7DO
+	AjCfdLdp5le81g3Q08X9jv1XaZUzvhAr6yy6P83n14ctMaPat2YsLsuwX23EIyGlWeXF6pPZWw1
+	DZj0npKZULJzRJZ9TZMmOwsJYuCegNoHQggEZfxhg9n6FPrGmXQ/mKyAr4mv4e5EjT9kHoP3Kt3
+	at/sGrk1gqrvgRK21Xdx5nwBn7vUdm0ZgLTSB363uS9FDSTYx20n/28SoCi+df4Dq8lKtSrNPIS
+	664YPd9YiLjerPw1/lb9giLWms4NJH84FTMwtw0xjLQmsKg7tA0IwOYG7vwYs2f/XqRYMw+/RjW
+	EoAvtKfmm0AhV8lQ==
+X-Google-Smtp-Source: AGHT+IFRXKZs5/2DM3+3kiNXkbk52MOjdWuG5THbqAxP2FWnWGBNPVkzgPQQurODQzOo7kyJEIWPlg==
+X-Received: by 2002:a05:6402:3551:b0:640:c779:909 with SMTP id 4fb4d7f45d1cf-6413f05a3demr3023096a12.27.1762519949785;
+        Fri, 07 Nov 2025 04:52:29 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f8142b9sm3988302a12.12.2025.11.07.04.52.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 04:52:29 -0800 (PST)
+Date: Fri, 7 Nov 2025 13:52:27 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Junrui Luo <moonafterrain@outlook.com>,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org, tiwai@suse.com,
+	perex@perex.cz, linux-sound@vger.kernel.org, mchehab@kernel.org,
+	awalls@md.metrocast.net, linux-media@vger.kernel.org,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib/sprintf: add scnprintf_append() helper function
+Message-ID: <aQ3riwUO_3v3UOvj@pathway.suse.cz>
+References: <20251107051616.21606-1-moonafterrain@outlook.com>
+ <SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+ <20251106213833.546c8eaba8aec6aa6a5e30b6@linux-foundation.org>
+ <20251107091246.4e5900f4@pumpkin>
+ <aQ29Zzajef81E2DZ@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Yiwei Lin <s921975628@gmail.com>, linux-sound@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20251106165802.3780-1-s921975628@gmail.com>
-Subject: Re: [PATCH] ASoC: dapm-graph: Handle sourd card with space in name
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20251106165802.3780-1-s921975628@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:VFy5mRgo902RDa9UfX7qY6oN1hBXWfinrK0lJpDrzZENToRNbvW
- qXa5j0cp3JKOikriZTj/mwW3NG/9aZ0OzkKQb/DBute1qldH0hkfxIs1JWHJcxEtJ7t3nEd
- W4NIDk7U/dhdPrpCc+Ejmag3O/Wq1X235DlJJRNQZb+FJoBUGAi7lpoVBgs+D4oJRq125+k
- H43p7XxUxlf0pDEyuMpQA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HwnVMRMyL48=;iipuwHboq4YDnK0YteemIWM27v9
- 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
- 7IC6g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQ29Zzajef81E2DZ@smile.fi.intel.com>
 
-> When the name of the sound card has a space between, the
-> script will fail to output the dot file. Consider the
-> case to generate it correctly.
+On Fri 2025-11-07 11:35:35, Andy Shevchenko wrote:
+> On Fri, Nov 07, 2025 at 09:12:46AM +0000, David Laight wrote:
+> > On Thu, 6 Nov 2025 21:38:33 -0800
+> > Andrew Morton <akpm@linux-foundation.org> wrote:
+> > > On Fri,  7 Nov 2025 13:16:13 +0800 Junrui Luo <moonafterrain@outlook.com> wrote:
+> 
+> ...
+> 
+> > That is true for all the snprintf() functions.
+> > 
+> > > I wonder if we should instead implement a kasprintf() version of this
+> > > which reallocs each time and then switch all the callers over to that.
+> > 
+> > That adds the cost of a malloc, and I, like kasprintf() probably ends up
+> > doing all the work of snprintf twice.
+> > 
+> > I'd be tempted to avoid the strlen() by passing in the offset.
+> > So (say):
+> > #define scnprintf_at(buf, len, off, ...) \
+> > 	scnprintf((buf) + off, (len) - off, __VA_ARGS__)
 
-* You may occasionally put more than 56 characters into text lines
-  of such a change description.
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.18-rc4#n658
+It does not handle correctly the situation when len < off.
+Othersise, it looks good.
 
-* I hope that a typo will be avoided for the summary phrase finally.
+> > Then you can chain calls, eg:
+> > 	off = scnprintf(buf, sizeof buf, ....);
+> > 	off += scnprintf_at(buf, sizeof buf, off, ....);
+> 
+> I like this suggestion. Also note, that the original implementation works directly
+> on static buffers.
 
+I would prefer this as well. IMHO, it encourages people to write a better code.
 
-Regards,
-Markus
+Best Regards,
+Petr
