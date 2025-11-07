@@ -1,194 +1,105 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156FB30F922
-	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 08:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0917C211;
+	Fri,  7 Nov 2025 08:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762502437; cv=none; b=dvGCbf4zwbJ/a3hBPECjFr5Ga8Wc4At5aUtuK81OXK48piigMIWprxk5cm0AKc8yViBbWrqcU5U5bsS2BbmnOPX3WWNmdKbUJuGp1Rn/IF54eh1SNQcRP1i9Idtjd0qA9KEdBnTZ9vgRh/WatMJMzhjoDFY4P2DjBPa2PIhcqhQ=
+	t=1762503363; cv=none; b=XX5aBTvKDHqM/vNQ0Q4uEQLVxkqcz5RDad52TOveqm1IIDSWDLZu3i4l7OnX+bLeIitYlsw1Dp0n5b58iI6otC9B/d1ZtaXNrm5AfjxPdJ8soZDIPrLz351nn0861mVG/09uYsxB6HSSmGCifODLUqL+skO+j009McA/Eg+PPKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762502437; c=relaxed/simple;
-	bh=gTrtMTVdIq8o2Lv2gAG8UVNbAa67NI0LZcaPzCP9uxA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g8OmJGqF922PXGdRrxWpdQmzURDWfYS3364TQpiYN5VK5SOWkWKHuSiIkJQtRMA+AjTLKs6rnhm6YWTEnkean98O2vQksOdeHTfulKyzwcLmY9TdGu5YnmFb0B7jFD7/GaJ+Q8Hd3u3Is/rL4TCrTp+C7GuySGa1rUakVF4khGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmyoA+YH; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762503363; c=relaxed/simple;
+	bh=agrVq+79nHupWS6O7Sz47YpcLvrFagX4JpR/2JLeqco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ohAqOmfADTebUi1WvQf7uXSc1DMS8X2Nxbd9sGjmaO8heK8SCBAHDVgM9BbV6zG3vOdvAN6vIbWmrCKKHWwHwmKLur2/faL5n/YDb1ZuYtf7SDJnTnyZylj3b9UBD76Zpoui8k35+UT/X3yspaGfIw9PGBmaHR5lrauBKN24rlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SP/QZAWe; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmyoA+YH"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64034284521so727365a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 00:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762502433; x=1763107233; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L4L8nwY5tA46qS9RhjMiBvwIJ3m3PvlUWeeZDUBNYNE=;
-        b=AmyoA+YHQZgstGRmD8U6Uc5Qp3lHeC8gVhIBg5c7IDTiz9uxO1MKh5pvTLMYZ1uWXu
-         ZOiCh/0sWFaopk+f5KfR3BcFOL9zYZNgwM+yWnrs/cvXnteu3aoXVLpBmW9Pfhsbf51W
-         laGx54OYB+zhf/9On7oJS1XjUSQyqr2R4q7FPf5IKZPIZLj6jE2u+xaaRonDpdo8cYNo
-         sT26cX0LyiU9BpU1+93/AVTPh27969l83AWVEOF9a/s1OW3QFogNfFxrcAkv9htYErpE
-         eVO+m5sjBQ7LePaEsHPnv1juoEuTT3WWZG2NexOODGf77B/buQoApHYTaAQa3EaoqGXO
-         dy/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762502433; x=1763107233;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L4L8nwY5tA46qS9RhjMiBvwIJ3m3PvlUWeeZDUBNYNE=;
-        b=uWWQb2tOsyty7vECnWMZogk50dnBP3lHJA+wDZCSitBNb4jw5R9Ct6rP3W7uBUBZ9D
-         d0wPrN5diQxs7fDMH8O/A9oL7fOKb8X2DnH52eR9aDYuAbO6MT25JcRiinyzbQJ2oV1v
-         EuZFGDAN0N1S/e9kEimDehAlS5yD1EsMOBwsqUxOo/oB0UM2zQ1p8dmroPl6WjifEMa0
-         A9R0sS7CoPgRG6PL5S1MGDK711ubhQ+GycF4Uge7nlTHHrYMXXUFypMHBmvsCmRIcuNP
-         FPhVQXieAzMbyr3LJG/N67xKINa4frL9vYcxigzRDOZpVirTbykQqW0ZV5Di47I9o03u
-         t/IA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6hW7/SBLC83xnwiB43ha9mfMs/972crFJJKav+2X9LLQXHPvJNDN8fl2AWnKGEKevNWKjjsU2N5dwag==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3TUdDzPHMlgyfFBo4MlFZg6G5mRhJ63MP4BlUrrvpfRNCkN0Y
-	FwFLqvaDUrV9kpQd6bUmCFRg1PhGWe8TsiFwlSPMhX3sgCG5kSJFBe6R4hrE4Z/IpVbHSOKnrDv
-	acG2bg1Y637bClJpuzvEqMBbpDQrVtlE=
-X-Gm-Gg: ASbGncsYyMclWEiqGTTIOdEStfxGHutUxxbkHU8PDBT0yz/Ahm5D3zoYbvEssFmAyCf
-	b70FXZAPnN7t8thdw/N83Wb4lsuraIq/Bp7vmfoyvAUcC+1+n6717p+JQ40K7l9prYxZBjJ1lYC
-	a1FOafPqxhGkK5Ghg8jie/rYJrjxbQjKhgq4U/bxpfmumbL6sts3jSN7gTTM2NOWf3eL3Sfp6vj
-	2YxcEAUmZI8dacTpkdgKvrEe0AltjJWTjvIm15UZ2E5L8QE9jxoaI6lMwYbtz8RENXydNMh
-X-Google-Smtp-Source: AGHT+IF1uok4S2/ZJxGVMG6j0RZBxmZiPcUtNqCXKtotlWPr6F8OAXOZaMRmuRE8uDgHau7bT5W5RrHY3dcLjEjQckY=
-X-Received: by 2002:a17:907:3cd6:b0:b70:6f46:d401 with SMTP id
- a640c23a62f3a-b72c093317amr195124066b.11.1762502433125; Fri, 07 Nov 2025
- 00:00:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SP/QZAWe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762503351; x=1794039351;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=agrVq+79nHupWS6O7Sz47YpcLvrFagX4JpR/2JLeqco=;
+  b=SP/QZAWelKxkembeao3C5q6cWQTlubIlkjYSELGqA88h/rQRy/Typ5cf
+   zjXGah3ClGQK+NqcMnrjhlEuQdoURxuk5RsCWYLhcpJG4IXs02ypBL4D/
+   mBU4BdTgVBpTFCOPSaTr+WsaK1Kmcp/s/P8LCZQQU1P2oayu9lpsqaJct
+   r3XrH5h0TcgI1Yb7zU0m6/mgq+JqVjZ3kHToCDu0BAHoSrxX5uEjaqlbj
+   Qd2Uz3n77/tqbzMKe+f83JxAkK0O9T+Ka3xMWHVerVVpOVM9znj8QmWfc
+   dF0sR7eSCUivKZGMYmIAPbSKukkIdlpmL2xjEvjCptOsGNCZM5/ns3WZG
+   Q==;
+X-CSE-ConnectionGUID: Tx/+1+MRR92/x9vvOiasCw==
+X-CSE-MsgGUID: vx90SC2CQjSDYyn6f9kGjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64567568"
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="64567568"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 00:15:47 -0800
+X-CSE-ConnectionGUID: MpmFUCnqTkWrBOyxcDfePA==
+X-CSE-MsgGUID: oDQ5M/a6R3KiePcyKPBQ/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="187706920"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.27])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 00:15:44 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vHHdD-00000006P1A-3c39;
+	Fri, 07 Nov 2025 10:15:39 +0200
+Date: Fri, 7 Nov 2025 10:15:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Junrui Luo <moonafterrain@outlook.com>
+Cc: linux-kernel@vger.kernel.org, pmladek@suse.com, rostedt@goodmis.org,
+	akpm@linux-foundation.org, tiwai@suse.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, mchehab@kernel.org,
+	awalls@md.metrocast.net, linux-media@vger.kernel.org,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/4] Add scnprintf_append() helper
+Message-ID: <aQ2qq_Se3_RIBfH0@smile.fi.intel.com>
+References: <SYBPR01MB7881F31A023E33A746B0FBFFAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1762435376.git.geert+renesas@glider.be> <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
- <aQy0T2vUINze_6_q@smile.fi.intel.com> <CAMuHMdXVUJq36GvNUQE8FnHsX+=1jG4GOJ_034r=fgr_Rw4Djg@mail.gmail.com>
- <aQzIIqNnTY41giH_@smile.fi.intel.com> <CAMuHMdW8ndAdGnSHopYFMWvw7wk7wKz_7+N91M1jRHoqK1KBrg@mail.gmail.com>
- <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
-In-Reply-To: <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 7 Nov 2025 09:59:56 +0200
-X-Gm-Features: AWmQ_bndsm6ikZxAsR6MbqZ_7CJczSuokLGcsZHpDoyZxbjksOeSkgDr0jWR8fA
-Message-ID: <CAHp75VeMqvywS20603yDSo-C3KCu+i+8vvDNuz3h9e8Ma9BOCw@mail.gmail.com>
-Subject: Re: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
-To: Ping-Ke Shih <pkshih@realtek.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Yury Norov <yury.norov@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Shan-Chun Hung <schung@nuvoton.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
-	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Jianping Shen <Jianping.Shen@de.bosch.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, 
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "qat-linux@intel.com" <qat-linux@intel.com>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	linux-wireless <linux-wireless@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SYBPR01MB7881F31A023E33A746B0FBFFAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Nov 7, 2025 at 3:16=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> wr=
-ote:
->
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, 6 Nov 2025 at 17:09, Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote:
-> > > On Thu, Nov 06, 2025 at 03:49:03PM +0100, Geert Uytterhoeven wrote:
-> > > > On Thu, 6 Nov 2025 at 15:44, Andy Shevchenko
-> > > > <andriy.shevchenko@intel.com> wrote:
-> > > > > On Thu, Nov 06, 2025 at 02:34:00PM +0100, Geert Uytterhoeven wrot=
-e:
-> > > > > > The BUILD_BUG_ON_MSG() check against "~0ull" works only with "u=
-nsigned
-> > > > > > (long) long" _mask types.  For constant masks, that condition i=
-s usually
-> > > > > > met, as GENMASK() yields an UL value.  The few places where the
-> > > > > > constant mask is stored in an intermediate variable were fixed =
-by
-> > > > > > changing the variable type to u64 (see e.g. [1] and [2]).
-> > > > > >
-> > > > > > However, for non-constant masks, smaller unsigned types should =
-be valid,
-> > > > > > too, but currently lead to "result of comparison of constant
-> > > > > > 18446744073709551615 with expression of type ... is always
-> > > > > > false"-warnings with clang and W=3D1.
-> > > > > >
-> > > > > > Hence refactor the __BF_FIELD_CHECK() helper, and factor out
-> > > > > > __FIELD_{GET,PREP}().  The later lack the single problematic ch=
-eck, but
-> > > > > > are otherwise identical to FIELD_{GET,PREP}(), and are intended=
- to be
-> > > > > > used in the fully non-const variants later.
-> >
-> > > > > > +     BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >        =
-       \
-> > > > > > +                      __bf_cast_unsigned(reg, ~0ull),         =
-       \
-> > > > > > +                      pfx "type of reg too small for mask")
-> > > > >
-> > > > > Perhaps we may convert this (and others?) to static_assert():s at=
- some point?
-> > > >
-> > > > Nick tried that before, without success:
-> > > > https://lore.kernel.org/all/CAKwvOdm_prtk1UQNJQGidZm44Lk582S3p=3Dof=
-0y46+rVjnSgXJg@mail.gmail.com
-> > >
-> > > Ah, this is unfortunate.
-> >
-> > Of course, it might be an actual bug in the i915 driver...
-> >
-> > The extra checking in field_prep() in case the compiler can
-> > determine that the mask is a constant already found a possible bug
-> > in drivers/net/wireless/realtek/rtw89/core.c:rtw89_roc_end():
-> >
-> >     rtw89_write32_mask(rtwdev, reg, B_AX_RX_FLTR_CFG_MASK, rtwdev->hal.=
-rx_fltr);
-> >
-> > drivers/net/wireless/realtek/rtw89/reg.h:
-> >
-> >     #define B_AX_RX_MPDU_MAX_LEN_MASK GENMASK(21, 16)
-> >     #define B_AX_RX_FLTR_CFG_MASK ((u32)~B_AX_RX_MPDU_MAX_LEN_MASK)
-> >
-> > so it looks like B_AX_RX_FLTR_CFG_MASK is not the proper mask for
-> > this operation...
->
-> The purpose of the statements is to update values excluding bits of
-> B_AX_RX_MPDU_MAX_LEN_MASK. The use of B_AX_RX_FLTR_CFG_MASK is tricky, bu=
-t
-> the operation is correct because bit 0 is set, so __ffs(mask) returns 0 i=
-n
-> rtw89_write32_mask(). Then, operation looks like
->
->    orig =3D read(reg);
->    new =3D (orig & ~mask) | (data & mask);
->    write(new);
->
-> Since we don't use FIELD_{GET,PREP} macros with B_AX_RX_FLTR_CFG_MASK, ho=
-w
-> can you find the problem? Please guide us. Thanks.
+On Fri, Nov 07, 2025 at 01:16:12PM +0800, Junrui Luo wrote:
+> This patch series was suggested by Takashi Iwai:
+> https://lore.kernel.org/all/874irai0ag.wl-tiwai@suse.de/
+> 
+> It introduces a generic scnprintf_append() helper function
+> to lib/vsprintf.c and converts several users across different subsystems.
+> 
+> The pattern of building strings incrementally using strlen() + sprintf/snprintf()
+> appears frequently throughout the kernel. This helper simplifies such code,
+> and provides proper bounds checking.
+> 
+> Patch 1 adds the scnprintf_append() helper to the kernel's string library.
+> This is a common pattern where strings are built incrementally by appending
+> formatted text.
+> 
+> Patches 2-4 convert users in different subsystems:
+> - Patch 2: sound/isa/wavefront
+> - Patch 3: drivers/media/pci/ivtv
+> - Patch 4: drivers/net/ethernet/qlogic/qede
+> 
+> These conversions demonstrate the helper's applicability.
 
-Isn't FIELD_MODIFY() what you want to use?
+Something seems went wrong. This email is detached from the series (in terms of
+the email thread). When formatting patches, use -v<X> --cover-letter to set
+up the version number <X> and generate the cover letter that is chained to
+the rest of the series.
 
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
