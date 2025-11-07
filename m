@@ -1,133 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35146184;
-	Fri,  7 Nov 2025 09:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC062F6574;
+	Fri,  7 Nov 2025 09:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762508056; cv=none; b=CKh5zRwyk+NQv7vPJKNrjBqCNGTzrvjkeCbsp6pmryJtd/XlmpjvLeH2iW4CPfX1X+QwiZ26kmRJ27+bbz0WMyAoVEdx3KYJ7eq3KkNmOtwqAMGKERp8fQqNH0qRIXDIXmaIqBCJRnX82qH0hlhsxBSNuCf7MWYWgx2n2/egNcY=
+	t=1762508063; cv=none; b=s8lprEALasMyQYmyeaLK9xFCVGT+ph1FJX9v5c/VBLbYhNebRLLi2EEXLRsxsZ8a5bRwHlkuqTQ65hb+LtuKDkqgF9MzNkRDOMUsl+oNWV46l3/Jc/Ryy+OURlSvt/mjn1iPTIK5hTRaEZUTZoWGKMggGMpxT7vpf+kU7rBdBBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762508056; c=relaxed/simple;
-	bh=YStAr7/ZYwrF8NFyJegHFnFV6ylWkV6W3ZFf/ldtEAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EU3KQl2CdgYiHZzTsicXu4FE/1v+Eg+EBQedmsWJw2ve+7E/npooYDBmKuQHptb9nIbf+DX5WQ2Ppqn/aA7O9j4EC39x3BcBs9dDTMlV0lJEcXEcmMxYCA/xfq9+FZcR4vfDGIlDEPhLIOhKWNa/+nnBSP6Dl4dJFX2JE3LWvQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcQvDYwN; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762508063; c=relaxed/simple;
+	bh=b8R1CDSDpojhuYBWHDM+d1NPiz/Bo7/dWl4kOM7jZfc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CdnbymLvlKSBg1AwUQdLnbGwOaT9TQ7VhxgXBOxaOzOaCsgLYcHjJ5r7EJp8VgDSOGA0irkIgY8YSQLBBBFOARLFf35B9c0/e+KvJPmdAPrBOtUaGgJErGpBj2vPOhKy/GHTDB0X7ezMhjMi8iCqawsk6DEs8eXMReg8xH+RKqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxDD8XJ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcQvDYwN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762508052; x=1794044052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YStAr7/ZYwrF8NFyJegHFnFV6ylWkV6W3ZFf/ldtEAk=;
-  b=lcQvDYwNMiw9awcIc2lTkDl9UgFWWvMPhxOEuOAFNWA8q87JNwdod4qN
-   sFz6BnornlXoq4B5d9Pa2PZELaDE5KQL6aznbFQcr4LOuTIPVtWCycQ4n
-   XzwSB95+PdXl2YivbYWJ22y1bX9Nzh30xF6oaUJR8gOMWwbs/UNopy3kX
-   0hWPmELnoxzws7d9PQ/jlo7Uc5yK6ZiyfsFVsXsnJ+JSJGhTIvXYmwZQZ
-   TXGFeIfWPKFxTDJWiNzwIGmWyOdHpCCiF+BWVI7MyQ/J2Qw+PguTm8c92
-   tW6LCbNW/EiIcun0U/94XntlcR9jL0KkqC2o5zOkbKkMTnRGCq/seK5ze
-   g==;
-X-CSE-ConnectionGUID: iNc9UWumRQmchglciS1Svg==
-X-CSE-MsgGUID: 8S25eWvbR4GUajSd3juryg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="52222100"
-X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="52222100"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 01:34:09 -0800
-X-CSE-ConnectionGUID: lUHxLPWNS2Wmxq7ukqwnYQ==
-X-CSE-MsgGUID: EpVxpFdeR0S3/K7iseNCXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="187655002"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.27])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 01:34:05 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vHIr4-00000006Q5x-0A0g;
-	Fri, 07 Nov 2025 11:34:02 +0200
-Date: Fri, 7 Nov 2025 11:34:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Junrui Luo <moonafterrain@outlook.com>
-Cc: linux-kernel@vger.kernel.org, pmladek@suse.com, rostedt@goodmis.org,
-	akpm@linux-foundation.org, tiwai@suse.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, mchehab@kernel.org,
-	awalls@md.metrocast.net, linux-media@vger.kernel.org,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org
-Subject: Re: [PATCH 1/4] lib/sprintf: add scnprintf_append() helper function
-Message-ID: <aQ29CSOtOG_tmeIp@smile.fi.intel.com>
-References: <20251107051616.21606-1-moonafterrain@outlook.com>
- <SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxDD8XJ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B2EC4CEF8;
+	Fri,  7 Nov 2025 09:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762508060;
+	bh=b8R1CDSDpojhuYBWHDM+d1NPiz/Bo7/dWl4kOM7jZfc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mxDD8XJ5tfK0QAmAnM+hfakfmYb7I5LqEWpL22jUZZXhSravEg9Apis4S7hrrX1MM
+	 Ry9nH+dI2jK+iU56vZU6U0P4+UuKh2CfxrKxLJEIGeW9Rr06yScfN+ro/w9ikNUWEo
+	 KQJy3mEjBaJnGBJolu3ufIW1926nnrp2cU886rGBwx00Py44L6jua20TL0VsOX8XfO
+	 ZH2/qTTFgqopxmADiYFVxtRPNkaJ4TYFXzDDhNlT6viDr0nSEzcYQ61QZvKcv/3UN7
+	 mZmcRVa+CJezDNOjrLjKU3GfeVDsg/QJWCh1iNKPz3QXdRCL6VI5ekYsICe07OyjB+
+	 yRdQPUpTHSlHA==
+From: Mark Brown <broonie@kernel.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251106-restricted-pointers-stm-v1-1-7d03eb5020ba@linutronix.de>
+References: <20251106-restricted-pointers-stm-v1-1-7d03eb5020ba@linutronix.de>
+Subject: Re: [PATCH] ASoC: stm32: dfsdm: don't use %pK through printk
+Message-Id: <176250805658.2488867.15310894982146426101.b4-ty@kernel.org>
+Date: Fri, 07 Nov 2025 09:34:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-a6db3
 
-On Fri, Nov 07, 2025 at 01:16:13PM +0800, Junrui Luo wrote:
-> Add a new scnprintf_append() helper function that appends formatted
-> strings to an existing buffer.
+On Thu, 06 Nov 2025 15:41:57 +0100, Thomas Weißschuh wrote:
+> In the past %pK was preferable to %p as it would not leak raw pointer
+> values into the kernel log.
+> Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
+> the regular %p has been improved to avoid this issue.
+> Furthermore, restricted pointers ("%pK") were never meant to be used
+> through printk(). They can still unintentionally leak raw pointers or
+> acquire sleeping locks in atomic contexts.
 > 
-> The function safely handles buffer bounds and returns the total length
-> of the string, making it suitable for chaining multiple append operations.
+> [...]
 
-This won't work as expected in the *printf() functions.
+Applied to
 
-...
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> +/**
-> + * scnprintf_append - Append a formatted string to a buffer
+Thanks!
 
-The name with _cat would be probably closer to the strcpy()/strcat().
-OTOH we have pr_cont(), so perhaps I would name this scnprintf_cont().
+[1/1] ASoC: stm32: dfsdm: don't use %pK through printk
+      commit: 4db4ce15706d6423cc4cac4b05114b0469507bad
 
-> + * @buf: The buffer to append to (must be null-terminated)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Yeah, and must be not NULL which is no go. The *printf() should tolerate
-the (buf = NULL, size = 0) input.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> + * @size: The size of the buffer
-> + * @fmt: Format string
-> + * @...: Arguments for the format string
-> + *
-> + * This function appends a formatted string to an existing null-terminated
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Use the form of "null-terminated" used in the file. Perhaps you want to update
-the existing one(s), just make sure there is some consistency.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> + * buffer. It is safe to use in a chain of calls, as it returns the total
-> + * length of the string.
-> + *
-> + * Returns: The total length of the string in @buf
-> + */
-> +int scnprintf_append(char *buf, size_t size, const char *fmt, ...)
-> +{
-> +	va_list args;
-> +	size_t len;
-
-> +	len = strnlen(buf, size);
-> +	if (len >= size)
-
-How can it be '>' ?
-
-> +		return len;
-
-> +	va_start(args, fmt);
-> +	len += vscnprintf(buf + len, size - len, fmt, args);
-> +	va_end(args);
-> +	return len;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Thanks,
+Mark
 
