@@ -1,163 +1,130 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC46270ED2
-	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 08:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE52B3161BD
+	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 09:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762504825; cv=none; b=Uoym//WHlN5ABnFaHyv4jNAkgVSBv2ve1VejQJtkZKYQhWi93klpx1kru8oORvvUIUD4SA2XdsfbFSPwjhlzd8/iFmns5l/wsLQXI/DtZIaj3B8qOPqgQZcFk7yhuetqa11GiVMJ/7H+XYNIIYAQqjZ0KrTf+ua4pDNLEezJ3r8=
+	t=1762506774; cv=none; b=L1a+fXq+4x+PdKZhuQhoqWC2PuOLSB/gUUHNk1T/DZE8FRCPfctkEWoo8kgi2woNUPAk+GyB1N+GNX0GKC+FR9PqwCEEk2kxn5rtWVI2cpyrbLmh3AzGt/WKB3gVy7Jt2EsfXPJ/tpXj/APDFqMRyXZA5zKqXoGCexmycvryrz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762504825; c=relaxed/simple;
-	bh=9JcvPVILVy97hsdXJNb7VMxu6BBjGO1PhoJ8NRS9yLs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rwE7ZZpbg5uNfOAyfbqaaPrYsfC5X+oS8ywtCvxl46xedgRrTcqY9p4GMI0wmT6t7+/1znoD3DmqfLT9BbxfHXse5WPkbIqOkY+LCs+PzMRKui+T+NjK9h7Wp4ffZ1GDaMEHQlfkdJI1qBbt+cMJm7oBlekQryFJhBfi+lbyZJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1762506774; c=relaxed/simple;
+	bh=ySb+pop94SqpdbyZsYpGfmunwgkKv5LASXUw8Mbt2b0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QaX50VLeZg22HRbvg6cTUs4xtXqqT4753b6A8h/tiFw+yJ9U+afH7JFh6FgJATpl09iF+e82osY/J+OK9zQiKSw9z2AHR8059bW/z8arv6LlxnbAZ98AhDomxeaD61MVjKliB8qu3pbilr3eFbN5js4Zdwaef8/woFL+2FPrQN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZJ+Tzia; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5563c36f6d4so345597e0c.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 00:40:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762504823; x=1763109623;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZJ+Tzia"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-421851bcb25so242420f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 01:12:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762506771; x=1763111571; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RsHZezS59+NExnNGIIdIy6ER8EF0CQG8kO0yNppcdcI=;
-        b=fuR7gzIUEcHdyMn4yhvwuftpOIvmjkVMJm8JcdliYbtzhreYrbpEsoMQnJGY8UQEjS
-         g70Q/E0kSxB78jzmqB6N8rCB4BJiJU7m3QeVvRcDNf7IRsXHZWozMdyVEZUgUhqSA5eM
-         AIc3E1cP1kUIxMwEhgljz4IbbmKAZTnFN+8vUuExeFHt5HkNHbPdKj2w/mE+Dk3edJLB
-         5lgbgzSd4cJRxG+bZoTIlxujJPi7YAIz5rvGjgPBidUmG4ip2IeGNAIWhnjJ8GPO0cTS
-         2CpQ6v4aUXSuzyqG+rxNEyjplthQHLvM04Hn6zD6YF+UGjmqrHhC29teMiUDj1an0lWv
-         15jw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5KKn1wgscc/clCtdPGZwP2n4KIoUsb2bb8ptir4UBkQgL0lhbWLzK6r//XcJSlAHGADIyNkmTC3xRWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVIla7HVY9b9bhNdZGLxzHMHehicpUuklSs/cC7DGYWqlDhzuN
-	ScfhASQxJ5FhhP0PpM7gb24Dai24MVBhHmwHMuYnvG4a3NFC8oPucY46u+Rxb+goWvo=
-X-Gm-Gg: ASbGncvJoWPncN6oArR7TBZ4AGsCYXQI8+KXzXw53LhhRuGf6UBg1gn6yPEnrozFzo3
-	rDGjluUSVx4Vx3RAlsxHPzOonfLhOIWSxUkmgwbrntVBe1aEPXn4pC7t0JJUC2PWhBkVsXSBBLK
-	pMd1qDvZvxOCGXI+z5l/yspjZ+2MZVU6o/7gNtFPdclqsKBMlXqKUUK88SaXA5XNFgltvEsTinT
-	OzRJQYSyZub/3GT1rXgTMv4W+j3FStOvj8LCXJvzWCiPF2rT2AjwC4MqhBzdKGc9+MdecLIN514
-	PeCUr9pVAKzB7aPCByvEYTsvNt3XoIZQWiX7mXaxUvNyns0F8axcGBFOdGpaxfbfLdldM9Sr3st
-	7UOkAi4PYEr2VCPC/D/K3eLEtcR5wS4dPNs2XMDPU3NX+ATsDIeWToDbuS24gNDAGq/KsIxdpeD
-	rYt2Ey370CmubcwH0eR9A6qAHHOlq1AIqLtar366NwCmktN3x6WXKs
-X-Google-Smtp-Source: AGHT+IHTCfHHWFnbAGQ7mZRx8NUNp1dhzXPDKUPq+lTBLhDLoaldhbUv2NnnjkDyI0lLQ2GxBVHFEA==
-X-Received: by 2002:a05:6122:a03:b0:559:6788:7b55 with SMTP id 71dfb90a1353d-559aae79b7bmr250893e0c.3.1762504822620;
-        Fri, 07 Nov 2025 00:40:22 -0800 (PST)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-559958286c8sm2644372e0c.17.2025.11.07.00.40.22
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Nov 2025 00:40:22 -0800 (PST)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5598942c187so273039e0c.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Nov 2025 00:40:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUAdZHOVXpCCy3VsdQ5f5w266Kg7Jofoh8cUw4Pq1vewbVJPxgLvgfjUlJsFCDzJC1WNEngdJ3RgEwoRg==@vger.kernel.org
-X-Received: by 2002:a05:6102:4425:b0:5db:e32d:a3ff with SMTP id
- ada2fe7eead31-5ddb9e056aemr278996137.19.1762504514580; Fri, 07 Nov 2025
- 00:35:14 -0800 (PST)
+        bh=cwbNx98NAV67oyTmVbgDZ/t5BsyU5lLwVlOoJ6t3e0g=;
+        b=mZJ+TziathtEj0lCeVghoJ8qe5Og/eCculTzvtfLW7O4TCQmbpYaopK8zm+OfFQAVe
+         50Cl9A9mjJX1v6BDyftxzxMIOK4K4XmF3xdtLz3dYY2n2dHduLbqcBrc7lpEZc8/pSQ+
+         AmtSmiTIa/pswSLxfcxQ6a8wS+HWHlofa2FnCPKICvxo9m1PL0BDQHMVQWwd0nKgDuf4
+         /aIq3e3Uy0tGEmL6tBbwmdlRlqdG0e8xcVU+ovpw2qE+R9zEOuNXpFezzj4R2XDNVFZ3
+         wZS1kAIAlLEzs63cLGCBj+4cmz9hmrM97e5HMceViOtkiGL/8jACByqHknakrcpI76XU
+         cY+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762506771; x=1763111571;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cwbNx98NAV67oyTmVbgDZ/t5BsyU5lLwVlOoJ6t3e0g=;
+        b=PwI0Q1fsAeDpZaBa994djt5vmgwgEgJdj2uKcEy91Wq/Y8DiyFl0WvMUKr2VTzWqiO
+         EotPgWQzWR0etmBdqwkfwKmtlICncUNEuGonUq0urJpowBNLugQt39MWTcjIjw59QkVn
+         /hRFxI4kjYMJpXsFwjuBW0zikKCuzNvS/FLp1BMMS2AQNspdjwvXYavteef331v44YCH
+         yX/5NioaRIlY70kSRaEV/Ebcsi1hhpj9nqdpfW3Rr2g4TLXHpHyi+Fm6bP5BSrqaT4fW
+         E1PV84FudaD54fWIu+FhgtUtVCDwmwr2tDzD6uaaQKXAnIjHoLn2M+8JA0w4l3L9eMwV
+         OoeA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6rVqrr5IAJLZdg3YqPBOP6YbtF9aGM/8kRf21qMJbG16byVO7gK1XFnUIFJJpU+XwdZuDm7XIuUlb5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDkMA5cTSVvh1BsLS/jb9leuLMeGo8yV+NV3t4Gou8tygNetD6
+	+ph8g6ufphajLHpkSXoAZkhVDtv/HR9KV/HZ5HmnG0vYR0D0L3Fw5sv+
+X-Gm-Gg: ASbGncs7TVG1wCxrdA6zdO+SeidMDe32D0ooL4EPrmaD3j8cBCQt0/QCAvoilwWDLuU
+	MPeJe77bwDlFb6T1a1OsjTfgZzzy9QoluRw6WYPoNIJ1i4uYhyK3sRybphaPb+b++KTBsRbKzxs
+	oDYMtBAyfoUBFd0Choc50HPzJS5fjZKYJ2j6D3bjWueC2pIBVa4ctQEFxMYLXfxiAG7VUefnl2f
+	W1didniHxTA+u2c5blxv+ieaJZg3bJmBg5NOfSjeFHFNU1VN3xfTPnTz1RvBflfBE0smFMpq6mQ
+	Uwt/BomXKSrCbtcXSsA53cCUNrZYDkEb0s7P8dX5Q+QZpLfheIizGk9iclT5j+QSlzhUjrIZ73L
+	8DjhS7EASGUyFKOjHPBwiuj43ReojVc/shcvojUM2v1DESsaxsME10pMjElFz9GhDXv63VSilPx
+	iovbpPXnXGUKnXmyFt5pY+r90XtW7I6q21Mr/RYD/nPirte6596If9
+X-Google-Smtp-Source: AGHT+IG9saNXs40oR1IEnqn2ZJqpHZqHgNAPFU5PXOa3lUzB4P6UMLrs3Ay2s/I5KpU2wmqmBc0PbQ==
+X-Received: by 2002:a05:6000:40db:b0:3e7:5f26:f1e5 with SMTP id ffacd0b85a97d-42ae58812c9mr1862887f8f.23.1762506770833;
+        Fri, 07 Nov 2025 01:12:50 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42abe62bf35sm4130393f8f.7.2025.11.07.01.12.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 01:12:50 -0800 (PST)
+Date: Fri, 7 Nov 2025 09:12:46 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Junrui Luo <moonafterrain@outlook.com>, linux-kernel@vger.kernel.org,
+ pmladek@suse.com, rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
+ tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ mchehab@kernel.org, awalls@md.metrocast.net, linux-media@vger.kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib/sprintf: add scnprintf_append() helper function
+Message-ID: <20251107091246.4e5900f4@pumpkin>
+In-Reply-To: <20251106213833.546c8eaba8aec6aa6a5e30b6@linux-foundation.org>
+References: <20251107051616.21606-1-moonafterrain@outlook.com>
+	<SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+	<20251106213833.546c8eaba8aec6aa6a5e30b6@linux-foundation.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1762435376.git.geert+renesas@glider.be> <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
- <aQy0T2vUINze_6_q@smile.fi.intel.com> <CAMuHMdXVUJq36GvNUQE8FnHsX+=1jG4GOJ_034r=fgr_Rw4Djg@mail.gmail.com>
- <aQzIIqNnTY41giH_@smile.fi.intel.com> <CAMuHMdW8ndAdGnSHopYFMWvw7wk7wKz_7+N91M1jRHoqK1KBrg@mail.gmail.com>
- <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
-In-Reply-To: <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 7 Nov 2025 09:35:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
-X-Gm-Features: AWmQ_bkZe8xF0tkRpW5gVlylkcfm2r3jZb2Xa1XdOQVS8F7wx8KXagIs6XSHJvI
-Message-ID: <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
-Subject: Re: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
-To: Ping-Ke Shih <pkshih@realtek.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Yury Norov <yury.norov@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Shan-Chun Hung <schung@nuvoton.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
-	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Jianping Shen <Jianping.Shen@de.bosch.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, 
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "qat-linux@intel.com" <qat-linux@intel.com>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	linux-wireless <linux-wireless@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ping-Ke,
+On Thu, 6 Nov 2025 21:38:33 -0800
+Andrew Morton <akpm@linux-foundation.org> wrote:
 
-On Fri, 7 Nov 2025 at 02:16, Ping-Ke Shih <pkshih@realtek.com> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > The extra checking in field_prep() in case the compiler can
-> > determine that the mask is a constant already found a possible bug
-> > in drivers/net/wireless/realtek/rtw89/core.c:rtw89_roc_end():
-> >
-> >     rtw89_write32_mask(rtwdev, reg, B_AX_RX_FLTR_CFG_MASK, rtwdev->hal.rx_fltr);
-> >
-> > drivers/net/wireless/realtek/rtw89/reg.h:
-> >
-> >     #define B_AX_RX_MPDU_MAX_LEN_MASK GENMASK(21, 16)
-> >     #define B_AX_RX_FLTR_CFG_MASK ((u32)~B_AX_RX_MPDU_MAX_LEN_MASK)
-> >
-> > so it looks like B_AX_RX_FLTR_CFG_MASK is not the proper mask for
-> > this operation...
->
-> The purpose of the statements is to update values excluding bits of
-> B_AX_RX_MPDU_MAX_LEN_MASK. The use of B_AX_RX_FLTR_CFG_MASK is tricky, but
-> the operation is correct because bit 0 is set, so __ffs(mask) returns 0 in
-> rtw89_write32_mask(). Then, operation looks like
->
->    orig = read(reg);
->    new = (orig & ~mask) | (data & mask);
->    write(new);
+> On Fri,  7 Nov 2025 13:16:13 +0800 Junrui Luo <moonafterrain@outlook.com> wrote:
+> 
+> > +/**
+> > + * scnprintf_append - Append a formatted string to a buffer
+> > + * @buf: The buffer to append to (must be null-terminated)
+> > + * @size: The size of the buffer
+> > + * @fmt: Format string
+> > + * @...: Arguments for the format string
+> > + *
+> > + * This function appends a formatted string to an existing null-terminated
+> > + * buffer. It is safe to use in a chain of calls, as it returns the total
+> > + * length of the string.
+> > + *
+> > + * Returns: The total length of the string in @buf  
+> 
+> It wouldn't hurt to describe the behavior when this runs out of space
+> in *buf.
+> 
+> 
+> 
+> The whole thing is a bit unweildy - how much space must the caller
+> allocate for `buf'?  I bet that's a wild old guess.
 
-Thanks for your quick confirmation!
-So the intention really is to clear bits 22-31, and write the rx_fltr
-value to bits 0-15?
+That is true for all the snprintf() functions.
 
-if the clearing is not needed, it would be better to use
-#define B_AX_RX_FLTR_CFG_MASK GENMASK(15, 0)
+> I wonder if we should instead implement a kasprintf() version of this
+> which reallocs each time and then switch all the callers over to that.
 
-If the clearing is needed, I still think it would be better to
-change B_AX_RX_FLTR_CFG_MASK, and split the clearing off in a separate
-operation, to make it more explicit and obvious for the casual reader.
+That adds the cost of a malloc, and I, like kasprintf() probably ends up
+doing all the work of snprintf twice.
 
-> Since we don't use FIELD_{GET,PREP} macros with B_AX_RX_FLTR_CFG_MASK, how
-> can you find the problem? Please guide us. Thanks.
+I'd be tempted to avoid the strlen() by passing in the offset.
+So (say):
+#define scnprintf_at(buf, len, off, ...) \
+	scnprintf((buf) + off, (len) - off, __VA_ARGS__)
 
-I still have "[PATCH/RFC 17/17] rtw89: Use bitfield helpers"
-https://lore.kernel.org/all/f7b81122f7596fa004188bfae68f25a68c2d2392.1637592133.git.geert+renesas@glider.be/
-in my local tree, which started flagging the use of a discontiguous
-mask with the improved checking in field_prep().
+Then you can chain calls, eg:
+	off = scnprintf(buf, sizeof buf, ....);
+	off += scnprintf_at(buf, sizeof buf, off, ....);
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+    David
