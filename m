@@ -1,81 +1,74 @@
-Received: from smtp153-170.sina.com.cn (smtp153-170.sina.com.cn [61.135.153.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0403557E5
-	for <linux-sound@vger.kernel.org>; Thu,  6 Nov 2025 23:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B4F20E334
+	for <linux-sound@vger.kernel.org>; Fri,  7 Nov 2025 00:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762473437; cv=none; b=DC5hfTD8EHsiaQg1UZHAzcYOGaGj6epMvGJEh7ktwSfiDeCQR0KcWQ3KT3IBCVcAm6nCgKN1nNMOnFeM3+SFfblE/8o3M3hKyMYMkbWhnamb5M4GNAXMywUyyb5uQePYvSPvApjZw7K7ScXzsFP5TnTFygaM2CBsPtNG0u+raLY=
+	t=1762474325; cv=none; b=TE66LIluHSzjiJN6LfS0J3AIRD4EWJ3Ivfv2fVjU1wXoXmaxdHHyJOWrE72PgGkKOBSbWhBXf31S8YrpgwxDfRL18QHi9MWND+cDQbL0VtF6qraTtD4I7YVIOti5/Rz+nCtLnSjMJbcI/8zXmK59G4/ereEC/KBy7V9izresQVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762473437; c=relaxed/simple;
-	bh=REeBbwuqMyRpGW1LVwOJH95osbdw/G+SMx+T9V2nnLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J9Ag9jcTNw5Rj7iFczc/x75rcBrDO+3PW8KwcMIMg8S8PWV5N28RZSy7qeR4dsUv4wZhVjxcZP2vbHXsX7A6yLJFCLjaLVlEFRpnRbFGIus6BY288olqsbb3Ow06MkZoXXwd8lo0bf2jS1Qjtg+MAlaq/uIDG9+e+k3eqAVWP/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=RNC9Faiy; arc=none smtp.client-ip=61.135.153.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="RNC9Faiy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1762473428;
-	bh=Uj/LmHFOhg7xXjmPkxbK+BugCECzjfx/qf44oxYtmlg=;
-	h=From:Subject:Date:Message-ID;
-	b=RNC9FaiyoGZyoQk49/zvL3XZzgVGbWOYTnzguf40LSMCcs1fE01aKlgAsSSJnClnD
-	 JtjuUa0S7NYCJQ99oEn0hTAWz255guI12pctVOyFMVWYKzua4LnvxwEJd/kkkyYJm2
-	 Q12rlejc38+tWusY/czRdvgTTFDHYKuXtth7KHJQ=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.59.250])
-	by sina.com (10.54.253.34) with ESMTP
-	id 690D348A00003EB3; Thu, 7 Nov 2025 07:51:41 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 5022686291998
-X-SMAIL-UIID: 14C3562B3435487784262071662882EF-20251107-075141-1
-From: Hillf Danton <hdanton@sina.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Lizhi Xu <lizhi.xu@windriver.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	perex@perex.cz,
-	syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: usb-audio: Prevent urb from writing out of bounds
-Date: Fri,  7 Nov 2025 07:51:26 +0800
-Message-ID: <20251106235128.8908-1-hdanton@sina.com>
-In-Reply-To: <87h5v7ru58.wl-tiwai@suse.de>
-References: <87v7jnfkio.wl-tiwai@suse.de> <20251106143506.720545-1-lizhi.xu@windriver.com>
+	s=arc-20240116; t=1762474325; c=relaxed/simple;
+	bh=aVdPYmzSKWOH/QKiXcBzKUG/kuPP4RUbIPFsSXqcIP8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=GmzP1UsTdSltud5m6KUz2QxJe9aZOE0GB4+jKhrjCVYDJ1hKq9XAdCBsFobHT2Yby/9EiblBTL1gb51SPiyWYBevW6JmI1g1i0kKzHLsNGDxr4/Mys/AqvAsQ/gEz62Q/EpN6R4FzLQa2zDjgin8nLgTTj1A4mPXNlFva19/CU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-43329b607e0so4147545ab.2
+        for <linux-sound@vger.kernel.org>; Thu, 06 Nov 2025 16:12:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762474323; x=1763079123;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/spXl3uuTsx8sDbawOIWZLwy7Gm9R+Wn63YjTrF8mdY=;
+        b=GMKlDDDOpkcC/LLLFM01nXLY+gdpy+PC2SnYjqH84Wf7x/xyTBFsXwZEE7shZHsTWi
+         A/CDkikFc2WEzycnnmNJISlFeW189gvQPozz8Vk6J1BLb6n9ZsJ9aLIQUoMorW27QlWD
+         scQsR3zgwJyM7uLrvkkNfdNtdpgR7Ij5u652EGkzTuDwEgH31V8x5MM9803TIcbD1dsh
+         GUZSws65y1CqEjUIfRhjIdTA5Rm19/M0MhYpl20NlD2zk4yolPyIZuNW9NujxyxDxu75
+         xD8D/HuD30IUY2pTHPCYgQkmcO3tXopfug+s87DjYomGr84PN0u0ynP1FPR8gtV3/j8v
+         hK7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX6V/mgKQL9XZKMLGuJNeGin4ScQZcZ5PyGSE93GdUE/OlllDdO8VnFS5AwxzokGXC09dhBEzgU5kWMYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKY2kpCsnL/j211ZP+HAIO3FMpc2k+rcQS/bXq4R40HdVZ+qWu
+	aAebBdJuRyGQI2MWC+7JqoAOEgBc7zfRFsRDY+2S6S8Tr2w+FBzVjvTlJvD6WLJH6YZzXWHVT9T
+	J0WXW51qRs1QISnNWoVaDYdXFP7mjjanp+AOz9u6qHcxlBUGNCPKae33M3+A=
+X-Google-Smtp-Source: AGHT+IHpSZmQHjj2xw1LrKSeIaGiCVAzshnJrIOP1c7YWbQBC1A1pEDfCWPYVr4zh9uN5K/DzxzgdlImZ3ehmMsUuPeiL8wG0i9C
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:144d:b0:433:4f9c:96a7 with SMTP id
+ e9e14a558f8ab-4335f3d09f6mr22415875ab.10.1762474323196; Thu, 06 Nov 2025
+ 16:12:03 -0800 (PST)
+Date: Thu, 06 Nov 2025 16:12:03 -0800
+In-Reply-To: <20251106235128.8908-1-hdanton@sina.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <690d3953.a70a0220.22f260.0011.GAE@google.com>
+Subject: Re: [syzbot] [sound?] [usb?] KASAN: slab-out-of-bounds Write in copy_to_urb
+From: syzbot <syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com>
+To: hdanton@sina.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	lizhi.xu@windriver.com, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
+	tiwai@suse.com, tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 06 Nov 2025 17:41:07 +0100 Takashi Iwai wrote:
-> OK, then a fix like below would work?
+Hello,
 
-Test Takashi's fix.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-#syz test
+Reported-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
+Tested-by: syzbot+bfd77469c8966de076f7@syzkaller.appspotmail.com
 
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1362,6 +1362,11 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
- 	ep->sample_rem = ep->cur_rate % ep->pps;
- 	ep->packsize[0] = ep->cur_rate / ep->pps;
- 	ep->packsize[1] = (ep->cur_rate + (ep->pps - 1)) / ep->pps;
-+	if (ep->packsize[1] > ep->maxpacksize) {
-+		usb_audio_dbg(chip, "Too small maxpacksize %u for rate %u / pps %u\n",
-+			      ep->maxpacksize, ep->cur_rate, ep->pps);
-+		return -EINVAL;
-+	}
- 
- 	/* calculate the frequency in 16.16 format */
- 	ep->freqm = ep->freqn;
---
+Tested on:
+
+commit:         a1388fcb Merge tag 'libcrypto-for-linus' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1581d812580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=929790bc044e87d7
+dashboard link: https://syzkaller.appspot.com/bug?extid=bfd77469c8966de076f7
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=10ae2a58580000
+
+Note: testing is done by a robot and is best-effort only.
