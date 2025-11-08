@@ -1,94 +1,102 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5460623AB9D
-	for <linux-sound@vger.kernel.org>; Sat,  8 Nov 2025 07:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C772E8B7D
+	for <linux-sound@vger.kernel.org>; Sat,  8 Nov 2025 09:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762588527; cv=none; b=h5YFg3a+3tzoLFgLrrWrbz2gA9WLJdPiz5Cgc8CV8ASilcT5MbMcKYwdHZS/hnt7HSjfALx/q/krhD4gIiFdnzsUBfb3VoeM8266XTmKbNkU+GIOvID9RGdnyR0n49un9Uy/poZ1fO5EOD9gK7KL7h4M5Uaa51pboiefHERzUvo=
+	t=1762593084; cv=none; b=KT/JUxp1LJC/vycNfwkdeonb8wvxWJ2okYNoQray1HakZinczD6xisuJHTxyofunZIJWssQWFlAUUIfZgxnSC84lA4LPGxmOuJrSDOmYBj8p0sJbWRutEFDqj7dqu1PwMrK2Epe4wQZa31WvxTYHVjOwDd0wgYSAHuGdDJY2Xok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762588527; c=relaxed/simple;
-	bh=JbBNdtDaUtqqNYh1NWJa1XrNS9PG/arKaCm3O/R6s5g=;
+	s=arc-20240116; t=1762593084; c=relaxed/simple;
+	bh=zulggbQ9C+sfhABO3XdhEKdaWpkBF7JTTQpkPFyR3sQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pe8USbofnfmgGrOeWkB96p/iqwfhfNKQEiRtT8ap2ekMJrXb0gcMSTb3cRyDkDwxBQ4BBWGflgOX2qhhfI3/3MUlknIGZegGSAPy6yaTm+RKNKPBFs4s9amej474m2+IaGZ7t3Ygm4vxTJ0kkYGvCWXJ9qMIWyLvMVxVTBhXkdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qiEpD0x7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GWsG4oQT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qiEpD0x7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GWsG4oQT; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=MDiIC7+m7qfB2ItJWxRZ9pM2YaFxoohdIjGc1GyGnVA+L6zYvXb44edSVAZ5O89wUtU0AuUlmp0BLMl6v2qv9vFkXaQ04UCaI1JFYkMckH+ooJM2MTcVEuruam+x8eef2FC4AJuPpyijW7bNEkQDB3rys09SnNeyLcuIQtc0ZBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VEXqEaiH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dsnGCQtj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VEXqEaiH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dsnGCQtj; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qiEpD0x7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GWsG4oQT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qiEpD0x7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GWsG4oQT"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VEXqEaiH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dsnGCQtj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VEXqEaiH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dsnGCQtj"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A366733AB5;
-	Sat,  8 Nov 2025 07:55:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CA96C1FF8F;
+	Sat,  8 Nov 2025 09:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762588523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762593080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H8ITrRH+YcsupiGQECJHppJ59lDIxrFeb+scWJOGz24=;
-	b=qiEpD0x7r+GhCxqLrUH2AP0FRiYFpDO6JcZAmDOrkrhHA9Ux2zJx6/jdW/hNpRuh4LNAVr
-	kb299GmgDCQnD8pmsj/IBLCjDDtuOyKq1oRIYGd9Npd+lJ28KQAEza3GCIi7cWjjQno1kt
-	ApNcbrAKsI5J2BUur4NBHBQ0PcTlGOE=
+	bh=iyPEC34QD5BJvwLcoZhQkmhqMSp26TfjdL7fKVEwOg4=;
+	b=VEXqEaiH+M8wBuf6L8At9YVraFTRw7fkZTAZCTDKqOrVxSYjiWsCUVnnPPbUgDhjdT66VS
+	b1o+9A+f96E8an02iQYmzIQbQ2cNyRJugwtind6jadPdteboq3dyRLEHqoA/PylFPXZbDv
+	RTdCXWFgymBB1bt5X1s2GpWC3S0Ul/o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762588523;
+	s=susede2_ed25519; t=1762593080;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H8ITrRH+YcsupiGQECJHppJ59lDIxrFeb+scWJOGz24=;
-	b=GWsG4oQTQ9O1mxJjBVx+z/7GC73jTqeXrLYJ8/7v7g8c+6OLdkupQImgIc2UIqWb/f9mJJ
-	j9/omqwqpyI5L0Ag==
-Authentication-Results: smtp-out1.suse.de;
+	bh=iyPEC34QD5BJvwLcoZhQkmhqMSp26TfjdL7fKVEwOg4=;
+	b=dsnGCQtj31jQosQNPui7DGi2tdwv+nsOOxgFDEi/PJ4BALRn4SYQsjDxBELw1l6DaxYYyD
+	zZ5RjmcLexyrePCg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762588523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762593080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H8ITrRH+YcsupiGQECJHppJ59lDIxrFeb+scWJOGz24=;
-	b=qiEpD0x7r+GhCxqLrUH2AP0FRiYFpDO6JcZAmDOrkrhHA9Ux2zJx6/jdW/hNpRuh4LNAVr
-	kb299GmgDCQnD8pmsj/IBLCjDDtuOyKq1oRIYGd9Npd+lJ28KQAEza3GCIi7cWjjQno1kt
-	ApNcbrAKsI5J2BUur4NBHBQ0PcTlGOE=
+	bh=iyPEC34QD5BJvwLcoZhQkmhqMSp26TfjdL7fKVEwOg4=;
+	b=VEXqEaiH+M8wBuf6L8At9YVraFTRw7fkZTAZCTDKqOrVxSYjiWsCUVnnPPbUgDhjdT66VS
+	b1o+9A+f96E8an02iQYmzIQbQ2cNyRJugwtind6jadPdteboq3dyRLEHqoA/PylFPXZbDv
+	RTdCXWFgymBB1bt5X1s2GpWC3S0Ul/o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762588523;
+	s=susede2_ed25519; t=1762593080;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H8ITrRH+YcsupiGQECJHppJ59lDIxrFeb+scWJOGz24=;
-	b=GWsG4oQTQ9O1mxJjBVx+z/7GC73jTqeXrLYJ8/7v7g8c+6OLdkupQImgIc2UIqWb/f9mJJ
-	j9/omqwqpyI5L0Ag==
+	bh=iyPEC34QD5BJvwLcoZhQkmhqMSp26TfjdL7fKVEwOg4=;
+	b=dsnGCQtj31jQosQNPui7DGi2tdwv+nsOOxgFDEi/PJ4BALRn4SYQsjDxBELw1l6DaxYYyD
+	zZ5RjmcLexyrePCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6369D13675;
-	Sat,  8 Nov 2025 07:55:23 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B856132DD;
+	Sat,  8 Nov 2025 09:11:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2z8EF2v3DmmRcgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 08 Nov 2025 07:55:23 +0000
-Date: Sat, 08 Nov 2025 08:55:23 +0100
-Message-ID: <878qghq7pw.wl-tiwai@suse.de>
+	id jVyiFDgJD2liNwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 08 Nov 2025 09:11:20 +0000
+Date: Sat, 08 Nov 2025 10:11:19 +0100
+Message-ID: <877bw0rirs.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	cezary.rojewski@intel.com,
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Junrui Luo <moonafterrain@outlook.com>,
 	linux-kernel@vger.kernel.org,
+	pmladek@suse.com,
+	rostedt@goodmis.org,
+	andriy.shevchenko@linux.intel.com,
+	tiwai@suse.com,
+	perex@perex.cz,
 	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH v2] ALSA: au88x0: Fix array bounds warning in EQ drivers
-In-Reply-To: <20251107024525.38454-1-wangdich9700@163.com>
-References: <20251107024525.38454-1-wangdich9700@163.com>
+	mchehab@kernel.org,
+	awalls@md.metrocast.net,
+	linux-media@vger.kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib/sprintf: add scnprintf_append() helper function
+In-Reply-To: <20251107161130.4418562992d2477c4accc6ef@linux-foundation.org>
+References: <20251107051616.21606-1-moonafterrain@outlook.com>
+	<SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+	<20251106213833.546c8eaba8aec6aa6a5e30b6@linux-foundation.org>
+	<20251107091246.4e5900f4@pumpkin>
+	<20251107161130.4418562992d2477c4accc6ef@linux-foundation.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,55 +104,69 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[163.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,intel.com,vger.kernel.org,lists.infradead.org,kylinos.cn];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_CC(0.00)[gmail.com,outlook.com,vger.kernel.org,suse.com,goodmis.org,linux.intel.com,perex.cz,kernel.org,md.metrocast.net,davemloft.net,google.com,redhat.com];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-Spam-Score: -1.80
 
-On Fri, 07 Nov 2025 03:45:25 +0100,
-wangdich9700@163.com wrote:
+On Sat, 08 Nov 2025 01:11:30 +0100,
+Andrew Morton wrote:
 > 
-> From: wangdicheng <wangdicheng@kylinos.cn>
+> On Fri, 7 Nov 2025 09:12:46 +0000 David Laight <david.laight.linux@gmail.com> wrote:
 > 
-> In file included from ../sound/pci/au88x0/au8830.c:15:
-> In function ¡vortex_Eqlzr_SetAllBandsFromActiveCoeffSet¢,
-> ../sound/pci/au88x0/au88x0_eq.c:571:9: error: ¡vortex_EqHw_SetRightGainsTarget¢ reading 2 bytes from a region of size 0 [-Werror=stringop-overread]
-> 	vortex_EqHw_SetRightGainsTarget(vortex, &(eq->this130[eq->this10]));
+> > > I wonder if we should instead implement a kasprintf() version of this
+> > > which reallocs each time and then switch all the callers over to that.
+> > 
+> > That adds the cost of a malloc, and I, like kasprintf() probably ends up
+> > doing all the work of snprintf twice.
 > 
-> Modified the array access in vortex_Eqlzr_SetAllBandsFromActiveCoeffSet() to use pointer arithmetic instead of array indexing.
-> This resolves a compiler warning that incorrectly flagged a buffer overread when accessing the EQ gain array.
-> The this130 array has fixed size 20 and the index is safely within bounds, making the original code correct but confusing to static analysis.
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
-> ---
-> 
-> v1->v2:
-> -Align both From and Signed-off-by addresses
+> There is no need at all to optimize the performance of scruffy once-off
+> string pasting functions.  For these it's better to optimize for
+> readability, reliability.  maintainability.
 
-Applied to for-next branch now.  Thanks.
+Actually this scnprintf_append() helper was my suggestion in another
+threads:
+  https://lore.kernel.org/ME2PR01MB3156CEC4F31F253C9B540FB7AFFDA@ME2PR01MB3156.ausprd01.prod.outlook.com
+  https://lore.kernel.org/SYBPR01MB7881987D79C62D8122B655FEAFC6A@SYBPR01MB7881.ausprd01.prod.outlook.com
 
+Basically its use is for filling a substring with s*printf() inside a
+fixed string such as a field in a struct.  Through a quick grep, there
+are many kernel code doing it without bounce checks, and it's for
+helping those.  So it's a bit different from what you assumed with the
+re-allocatable buffers.
+
+The most merit of this API is that it can just be a kind of drop-in
+replacement without extra variable to keep the offset, as found in
+this patch series.
+
+Though, it won't change too much to introduce an offset variable as
+the API David suggested, which looks nice, so I myself don't mind
+either way (it's a bike-shed topic, after all :)
+
+
+thanks,
 
 Takashi
