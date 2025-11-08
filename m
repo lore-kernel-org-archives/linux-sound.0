@@ -1,84 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A54913C3F2;
-	Fri,  7 Nov 2025 22:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCAA3D544;
+	Sat,  8 Nov 2025 00:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762555538; cv=none; b=V9PGZ3Wthxq1S0k9TsljeCBllkZMEkdTTgbsSduqp5xPvghkBm9vq4U3nayO1+lqtOIawgpdjQJwfO6OiZwV1tbofzUMH12fk6d79yAFItcfA+LxKmjWXUguKLBq8lw1Y2vf/HtetjFdxkFmbrgGjcKJ0U24tEi1YkXl4szj7+Y=
+	t=1762560693; cv=none; b=A5iKvUI5Eum07GfYUNBXzAijxxsLVdUDpJljBHAMEbi7JAR/LpoekCZkdCJ0wnPFOQCQTX9dwVmLrsvVzMOkV0Rd729HbGMSPue0Kj8ahX0u0avCZX/kR2FkXAgh6gyigg51zt/mBP/eOOuakbeOqh6VtxFRTwDFDQFZaPqc8zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762555538; c=relaxed/simple;
-	bh=4NhVZb6Y4xV1OI1gCriwzDPSSVGfwl3eziXRpOpYORI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EboFVRBSvqibKyyYclYpWrOAFbQ47qrY9qicZsYqv7XiQUb8UcqKlzVZS7V7Ym+H89JSBP92gPMUKFjetHVce7jGR5IqUrc13FOdEsSML07IevFPEi7tjlhlHZ4wh5Lw1f0mJWO0g26Ljcl/nmxPBngMCE6+lU2JEmIgTJZlk+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsG3/6Xc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762560693; c=relaxed/simple;
+	bh=DZ0yHSNUErxx3vmVzbzHcrWIeQE8em6IZAFmJjGfFyY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=YruaxGdLupgh8YMGMs6UUWwz0HThMQbY39z1fVwPFMbFVk1ImZgrn9P4UqN8TRNEYuyJpU+nmxELM1EmCRUUjzVOB7GQ75U0AjhZxKbEjJ4HX5K2Ip5URfNOdIuQkVanV5PCdJcvcvI1rzEX6k5MpLIS8rLkGid3aGvxfWNUpqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PP6hncX0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsG3/6Xc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E40C4CEF7;
-	Fri,  7 Nov 2025 22:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762555537;
-	bh=4NhVZb6Y4xV1OI1gCriwzDPSSVGfwl3eziXRpOpYORI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RsG3/6Xcu/5NyljkojM4Jo3lZjmedJemXUOrIsmnt75yqLmg3Y3RpBmaN4tjH393B
-	 PSYkR3VUZbfDJrB6AKnc9/ZUVIO3PYrM9l8FNa1xid1azScfY9hkdP4GlG6vidV+vA
-	 HzSmiTJ+jT8zTJobnLwJmbAwhha1L01GMMsOX2CVqeQq+hXgF9LVRakDHCmwSKC/hh
-	 qxX/+2eE/sPlUQsL/GOVqdG3AtyukzLyiTE/FI2Sj0qOFJHPsxwixPbuc6JHZ8amcn
-	 z8Gu04JNUMowQeX513y/AE1FCL4bgJL5bQDJ3wBmZpaZMLkltPOpJid/jtERIuA69V
-	 AehlLdI9tfGCg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@gentoo.org>, 
- Goko Mell <goku.sonxin626@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20251106-spacemit-i2s-fix-v1-1-ee2cedcdda23@gmail.com>
-References: <20251106-spacemit-i2s-fix-v1-1-ee2cedcdda23@gmail.com>
-Subject: Re: [PATCH] ASoC: spacemit: fix incorrect error check for sspa
- clock
-Message-Id: <176255553448.22450.112199071517900868.b4-ty@kernel.org>
-Date: Fri, 07 Nov 2025 22:45:34 +0000
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PP6hncX0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DF9C4CEF8;
+	Sat,  8 Nov 2025 00:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1762560691;
+	bh=DZ0yHSNUErxx3vmVzbzHcrWIeQE8em6IZAFmJjGfFyY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PP6hncX0+liAPqEhxN48ILDiyShnkg/4hTfW4NN1ykje4z+9XgP6HRyTM3My69Tcz
+	 paV4LSLAH7L+tbWKgSVucRhViykaArx/Tj4Wydw9Iht+2LWOZ2WQtPAJGAqt/t9nLv
+	 +9085Nnm9haEU8oMeYnjL3HcZLr8HgxRdjM6v7N4=
+Date: Fri, 7 Nov 2025 16:11:30 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Junrui Luo <moonafterrain@outlook.com>, linux-kernel@vger.kernel.org,
+ pmladek@suse.com, rostedt@goodmis.org, andriy.shevchenko@linux.intel.com,
+ tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ mchehab@kernel.org, awalls@md.metrocast.net, linux-media@vger.kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib/sprintf: add scnprintf_append() helper function
+Message-Id: <20251107161130.4418562992d2477c4accc6ef@linux-foundation.org>
+In-Reply-To: <20251107091246.4e5900f4@pumpkin>
+References: <20251107051616.21606-1-moonafterrain@outlook.com>
+	<SYBPR01MB788110A77D7F0F7A27F0974FAFC3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+	<20251106213833.546c8eaba8aec6aa6a5e30b6@linux-foundation.org>
+	<20251107091246.4e5900f4@pumpkin>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
 
-On Thu, 06 Nov 2025 00:03:16 +0800, Goko Mell wrote:
-> Fix a wrong IS_ERR() check in spacemit_i2s_probe() where `clk` was used
-> instead of `i2s->sspa_clk`.
+On Fri, 7 Nov 2025 09:12:46 +0000 David Laight <david.laight.linux@gmail.com> wrote:
+
+> > I wonder if we should instead implement a kasprintf() version of this
+> > which reallocs each time and then switch all the callers over to that.
 > 
-> 
+> That adds the cost of a malloc, and I, like kasprintf() probably ends up
+> doing all the work of snprintf twice.
 
-Applied to
+There is no need at all to optimize the performance of scruffy once-off
+string pasting functions.  For these it's better to optimize for
+readability, reliability.  maintainability.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: spacemit: fix incorrect error check for sspa clock
-      commit: e32c402533cc68abe20fcf3246b9ff53e1f96021
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
