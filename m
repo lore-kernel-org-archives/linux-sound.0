@@ -1,74 +1,66 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A8C34D382
-	for <linux-sound@vger.kernel.org>; Sun,  9 Nov 2025 15:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8891C23E34C
+	for <linux-sound@vger.kernel.org>; Sun,  9 Nov 2025 16:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762702356; cv=none; b=aXoxJdYSXVYVkOAdTokXisbawGz5Ofha8v1EdLehxsjF3ANsw2wjI5hvRy4c7fraxk+O8eB2w62mipaKVSNYV1jLFiyTyiTlz37SZhHqVubNR78rLCQjaejcqVZhl+5XxrmD+CEnd7PwsgMSTILvj8iZkLrfiUhmri6vQbQz7Ps=
+	t=1762706686; cv=none; b=dUiuGQiAAztUCHs84snuFS5O0LUhAynZ2Zw+2xkXApTEJNRTC/8qc0Z2+bfNO7W+J1ZupIsm2YM5AFdZG1rIQYeMbs23dYCcTfjnBjLUIXp8lxLAKk7JFsypNIK+er1r5N6CNpzAUqggwCK286Og3T3Q5HoXHPVLplcwbgFIKuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762702356; c=relaxed/simple;
-	bh=kmDxENfaEcbz/TbEvYUFSetPqBnNlLyKxADFquWNyn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gP13u0fYXd28NE1oEkg7GYGFWilV7iZ9dDqzcFSINBkNGEQLezlZpUwssjvepVJy+6FwhpeFPcNVIYTD2bDtZULm9V1WLUhFdxNLC/M/4zRT+AqJkoqrf8XE0+4BFf730pSpSZVPvXv1K84Jl2Q4bNXfoZ1lXF2ShgM5kTG3g2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=eJtTcAiG; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1762706686; c=relaxed/simple;
+	bh=T9Ke37q1blzhIFNU4yWBdJQY+o2HquIvgIQNKptQCb0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uzX5l1ryhAQgcxfJhzSrk0kXrQF4y0r2uPFi9g40K8dipL1uE9XMps77EyV8zfuFhKiraW88KG00UE3sew4pymqCAUBJAAhq8xadnJiEc4BiBCNj3fqbW5Pxq4AMqewsZ3XV0yZFtnxndzbWLJTcQmqWK6kgOv97we13BQemM74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bgf26+4P; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="eJtTcAiG"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-88249766055so5501146d6.1
-        for <linux-sound@vger.kernel.org>; Sun, 09 Nov 2025 07:32:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bgf26+4P"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b38693c4dso165458f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 09 Nov 2025 08:44:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1762702354; x=1763307154; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HylUmDGq0x2o3654HIZ/OI476mBrwAyXvRuXG44SoZg=;
-        b=eJtTcAiGVzE57SQe2by41cV1NRDY5xu9339HsC+dXXOjUKr2QttV/pwLT7nUk+36y0
-         3qRNAfdc2HuBHUtiObkGR8d9tHg+6AQhqxJvEUHPtRNu9G/AoqEWpDoV1Iy1cl6xN5Iu
-         VodvvHNDrOZxmut8mOg2boj3o17V8Qr2vSEZMtWmnAAwFbeqSSsd1gG6f3CRp1MaphDd
-         HU21mM5PYW7BaOxVCz7hpPgz+WIlurpH9DhKJFNY2JU2fXMBDO92SNon1SfQsCMH5sKn
-         MIqnpn2Ysd5Kj4UfCI5SVIbcRtLP/pMlZy+tSFuP/poi80f389KWihDLzm0lcbwfDlzx
-         o9IQ==
+        d=gmail.com; s=20230601; t=1762706683; x=1763311483; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCyYXc9LVmJr78gnoy6ZWRtzDAPRetEymWAMcrJuyUo=;
+        b=Bgf26+4Ppv/K4M92HTxFX/5p2EMjjYYciUGb9Ze+WvaWFjuTpLBF+1SnWeO7bwUM/P
+         rnzLNJnIQCFP2IfYNhS27lG49kB2LwuIwc2sHy/NOO72e/qNAhdpEkCcLyOKuPrtx3pU
+         h2UUZQSDUB6qzqtuAWSSUoSObKfFuFo4qGIPjetCyk6zm1pC2WPYLuf7q09zQBuVELl1
+         PY9UDOgUzR5Q29NT1quUf9HpJ3wae3ejCgyiRxtku83J6F/8mOJoNMHBxSbzq/PK5c1t
+         HWXpTmKm6BXZdNDZLWdZ4UfYo8jRxjPvpENiknYSqSkfxWBi8Q5ENvHILSJSSfd9/orp
+         vlGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762702354; x=1763307154;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HylUmDGq0x2o3654HIZ/OI476mBrwAyXvRuXG44SoZg=;
-        b=XeOdYalDCFAF3IlOnY5GoQMT6cg8lKDK20YipKFpc+QXJLgKbzWZmfNHiTlVA5xqH+
-         rsm5w+2t4chcF10APccFucNSw7OlPMJnIODfQvqykIopT5CWGUbkroO9LBkjWkXFUOCb
-         yCiRhl+jJG0ssROZwrh9P2RRyzOzsqPlT1CTD3+yxG6MrNDF+YqAviCbM8MJOOYNJSvz
-         myf9q7XaUSAI/aqhSMZvqVaJQvkOdGzN/zkuFLv7mClef5EjVfpxHqTppGZVKf3n09X/
-         wLQdcFIE40Ue6jY7wS7uAqxvB/dUlLNbSdojJOTfL9bItJLsd5RYzAOAcMgAqGGarF8W
-         qT0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUz5YyyQxRRPjd1KVDQs23782jEFSAeeJp8u3JSo7cI1+JQU8dX9htZy70FLH/CWsEbCl8Qr7akzESbLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0bauuPEz+8mETFsX+iY0/6TsTSIEf0Gm2FlXcm8g3JTBGW5Hr
-	o8uV6WoZsqMAYZH5ZkwlvBHEvwdvcjkHPDuz0/P/8if6q/t1+JSNt8J1J3ROmCnTMPnyS4YVqdq
-	P+W4=
-X-Gm-Gg: ASbGncsAOtkyeSqW/kJJsKKckRl5AKheYpm/N4Nm+0Q/9fvvxe22XDJYuXF8txzYErZ
-	wv3jwKypJdb8ZoiFL169Mr5CabsScRDvVnI9/Dtk/ch1Ndsto4N/jgVUQzFNalAl6FhV3hOIfFt
-	vJ8Pdkg/qqQtAN3qz/je0PgOOYBkQk9YD+e89ZM/A6k4qOvNVTCQvMzRu76DS040VX292btTgWU
-	tYWnrhqmgiV98xGNhS9drBzP8cemOK+iGzmbrplqTDtIK6zauB6GGsBcFRiR6wFqwL3ziRcIJMt
-	wyBXMHwjp8cziY/pPm79SYhT/ZQwj6EOb75jCeAqOJUtjDfYQbQNkrH6YRfLuwXL4p0+82I9ugm
-	KrBSbosJYZQgvhYebT4lGBKPy9nYSrjm8SvLfII0vGiJuBB+UH60ysxVKxJCAbqysLtfhzkiB9O
-	H7yR2rGF2/LIo8
-X-Google-Smtp-Source: AGHT+IF7TpSTMNrjz8fE8VnGjKwFFs+rUsL9iSNKySkjqNGkirn5aakcE6ZeaeWmXGVXyO2iAmV+XA==
-X-Received: by 2002:a05:6214:402:b0:882:33ac:824f with SMTP id 6a1803df08f44-8823872a410mr73514576d6.53.1762702353647;
-        Sun, 09 Nov 2025 07:32:33 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d03:1700::db9a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88238b7527fsm32625416d6.42.2025.11.09.07.32.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 07:32:32 -0800 (PST)
-Date: Sun, 9 Nov 2025 10:32:29 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: The-Luga <lugathe2@gmail.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-Message-ID: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+        d=1e100.net; s=20230601; t=1762706683; x=1763311483;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HCyYXc9LVmJr78gnoy6ZWRtzDAPRetEymWAMcrJuyUo=;
+        b=pHaSjRSCrELW+H/RtjAvu2sU/e3CxOCoeqKxfDRkcFiYWhoNfayoxT3ydvETSLiTEL
+         UqMhsJi3XCLCzOeltYPcsZJA5UCyGeFtiIzC9eFXglw1bxm9eJ+fD9U3wPnfEHBI7T85
+         m5Cr39RgkW8w/nuWLROF+WZbNk4EJkAJjNX3PNgV3tb0F5lqzJdl1WBrkPUTfwgO4hve
+         yzJqYgxYjWIx8YBDs7UgihCOF7WzRsKKIu+jiBoOElwHzxX1ARu9V61+WPK8R3mPCt9a
+         tohRE+8RSBBd5+oJPghmttyDuUJJT9pn0hGLBJUn4sWU2DPi/kKbmKx2v/5+9BSawz4/
+         v22w==
+X-Forwarded-Encrypted: i=1; AJvYcCV5mwJT8J/KeOgAaX6ToXJCBSw0rAYMYkvOCfbGYTApRzgFlH1Kj/ldeQ/72O8bwOv9Lg/c4if2B0tloQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj+F0dk1h8Wk3q/F5t/5G/IQ8STIEcsI9btwHUrMUaquffU4k6
+	EI/XtzAxBgYfshbPB32UxUSuiW2ymPaVukK7TipV+aFxSg/ajkvjna3wkX9mSUdXrYTQ5C1RAR3
+	iWy5awrMLay4k8CkarCBpzTwhTM8fvyM=
+X-Gm-Gg: ASbGncsgD7qcfoAwL3JI1SJVXYVyiGpa5xejRtA2MooGU0EtOoSzfxjB7Ih2KipLriB
+	5udF++dcluy2nlcVNRlansJOYs1hwtXA+6tRSqyAMI/1Nye+1ugJ8/AwKMxxzuOUpQmDXfbjXE9
+	ZoZpkzyZYzJRvTOZWfs3LDp3Z+RC2q3d3PwQ/JyhSl40qRXxMYnvorAHYQ5g+OHpQDSbP7sjn5V
+	IgbOTmsH7lPQQNLv8fwzF0RIcjK2lHe37pesSC1hvWGGni6Z4oSuYKKhsoIxW8S2wdp0VDoOI4R
+	SBBtJ1Js1SAfEJIact46tun2Apu9ZVxeLVaB2F+UVS+Qrdv86guKe3uDEk9aWxJ67bJWvw/QXPQ
+	=
+X-Google-Smtp-Source: AGHT+IEaDTluy7FCQxQQH7gcdm+3mlSy6buPkUQmXt+EW33IasKXeyFzctIj7YMree3xLgO7okGmHcZAMlz28HhJ4yw=
+X-Received: by 2002:a05:6000:2001:b0:429:cdd9:807f with SMTP id
+ ffacd0b85a97d-42b2dc6c80dmr4723294f8f.61.1762706682664; Sun, 09 Nov 2025
+ 08:44:42 -0800 (PST)
+Precedence: bulk
+X-Mailing-List: linux-sound@vger.kernel.org
+List-Id: <linux-sound.vger.kernel.org>
+List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 References: <CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com>
  <3eb2564d-5008-434e-9698-99b0cbe4d1cc@cosmicgizmosystems.com>
  <CALvgqECkMdntW2He8C7EcvOtCL-PpiXM9xNXWHzGtgimDxezHA@mail.gmail.com>
@@ -76,93 +68,552 @@ References: <CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com>
  <CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
  <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
  <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
- <20251109092450.693bcbe5.michal.pecio@gmail.com>
- <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
-Precedence: bulk
-X-Mailing-List: linux-sound@vger.kernel.org
-List-Id: <linux-sound.vger.kernel.org>
-List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
+ <20251109092450.693bcbe5.michal.pecio@gmail.com> <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
+ <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+In-Reply-To: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+From: The-Luga <lugathe2@gmail.com>
+Date: Sun, 9 Nov 2025 13:44:31 -0300
+X-Gm-Features: AWmQ_bmu_yqprT0jZjcahpr1TOqweXhviummB8HhTqJo8qLK5lOjbjigHy1yD1s
+Message-ID: <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Michal Pecio <michal.pecio@gmail.com>, Terry Junge <linuxsound@cosmicgizmosystems.com>, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Nov 09, 2025 at 11:25:27AM -0300, The-Luga wrote:
-> Searching and learning more about USB capture. I decided to try and
-> see on my terminal what is happening.
-> 
-> Running: `sudo cat /sys/kernel/debug/usb/usbmon/3u` and changing the
-> knob of brightness the terminal stays silent until the reboots
-> happens. Then the terminal has the handshake until it stays silent
-> again.
-> 
-> Rotating the volume knob, the terminal is also silent. Pressing the
-> button to change RGB effect it's also silent.
-> 
-> Pressing the play/pause button is the only signal it shows when
-> connected to Linux:
-> 
-> ffff8c983daac6c0 3999343353 C Ii:3:023:2 0:1 1 = 08
-> ffff8c983daac6c0 3999343375 S Ii:3:023:2 -115:1 1 <
-> ffff8c983daac6c0 3999359352 C Ii:3:023:2 0:1 1 = 00
-> ffff8c983daac6c0 3999359365 S Ii:3:023:2 -115:1 1 <
+Sure!
 
-Note that this play/pause information is carried on endpoint 2.
+```
+>cat /sys/bus/usb/devices/3-2/bConfigurationValue
 
-> Now, I passing it to the Guest:
+1
 
-...
+>sudo lsusb -v -d 2d99:a101
 
-> And it stays silent after the initial hand-shake.
-> 
-> Now every action is performed with speaker connected on Guest.
-> 
-> This is pressing the play/pause button:
-> 
-> ffff8c9585e55e00 100205721 C Ii:3:023:2 0:1 1 = 08
-> ffff8c9482ddd5c0 100205786 S Ii:3:023:2 -115:1 16 <
-> ffff8c9585e54fc0 100221735 C Ii:3:023:2 0:1 1 = 00
-> ffff8c9482ddd500 100221772 S Ii:3:023:2 -115:1 16 <
-> 
-> This is increase of volume by 1 step from 0 (muted) to 16 (max):
-> 
-> ffff8c9585e54780 196978419 C Ii:3:023:4 0:1 64 = 2fbbec66 00021001
-> 20000000 00000000 00000000 00000000 00000000 00000000
-> ffff8c9482ddd740 196978486 S Ii:3:023:4 -115:1 64 <
-> ffff8c9585e55ec0 197611423 C Ii:3:023:4 0:1 64 = 2fbbec66 00021002
-> 21000000 00000000 00000000 00000000 00000000 00000000
+Bus 003 Device 027: ID 2d99:a101 Jieli Technology EDIFIER Hal0 2.0 SE
+Negotiated speed: Full Speed (12Mbps)
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 [unknown]
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x2d99 Jieli Technology
+  idProduct          0xa101 EDIFIER Hal0 2.0 SE
+  bcdDevice            1.00
+  iManufacturer           1 Jieli Technology
+  iProduct                2 EDIFIER Hal0 2.0 SE
+  iSerial                 3 4250315A34383502
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00b6
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              100mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass          1 Audio
+      bFunctionSubClass       2 Streaming
+      bFunctionProtocol       0
+      iFunction               5 EDIFIER QR30
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      1 Control Device
+      bInterfaceProtocol      0
+      iInterface              5 EDIFIER QR30
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdADC               1.00
+        wTotalLength       0x002f
+        bInCollection           1
+        baInterfaceNr(0)        1
+      AudioControl Interface Descriptor:
+        bLength                12
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bNrChannels             2
+        wChannelConfig     0x0003
+          Left Front (L)
+          Right Front (R)
+        iChannelNames           0
+        iTerminal               0
+      AudioControl Interface Descriptor:
+        bLength                10
+        bDescriptorType        36
+        bDescriptorSubtype      6 (FEATURE_UNIT)
+        bUnitID                 2
+        bSourceID               1
+        bControlSize            1
+        bmaControls(0)       0x03
+          Mute Control
+          Volume Control
+        bmaControls(1)       0x00
+        bmaControls(2)       0x00
+        iFeature                0
+      AudioControl Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      5 (SELECTOR_UNIT)
+        bUnitID                 8
+        bNrInPins               1
+        baSourceID(0)           2
+        iSelector               0
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             3
+        wTerminalType      0x0301 Speaker
+        bAssocTerminal          0
+        bSourceID               2
+        iTerminal               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      AudioStreaming Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      1 (AS_GENERAL)
+        bTerminalLink           1
+        bDelay                  1 frames
+        wFormatTag         0x0001 PCM
+      AudioStreaming Interface Descriptor:
+        bLength                11
+        bDescriptorType        36
+        bDescriptorSubtype      2 (FORMAT_TYPE)
+        bFormatType             1 (FORMAT_TYPE_I)
+        bNrChannels             2
+        bSubframeSize           3
+        bBitResolution         24
+        bSamFreqType            1 Discrete
+        tSamFreq[ 0]        48000
+      Endpoint Descriptor:
+        bLength                 9
+        bDescriptorType         5
+        bEndpointAddress     0x03  EP 3 OUT
+        bmAttributes            9
+          Transfer Type            Isochronous
+          Synch Type               Adaptive
+          Usage Type               Data
+        wMaxPacketSize     0x0120  1x 288 bytes
+        bInterval               1
+        bRefresh                0
+        bSynchAddress           0
+        AudioStreaming Endpoint Descriptor:
+          bLength                 7
+          bDescriptorType        37
+          bDescriptorSubtype      1 (EP_GENERAL)
+          bmAttributes         0x00
+          bLockDelayUnits         0 Undefined
+          wLockDelay         0x0000
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.00
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      33
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               2.01
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      66
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+Device Status:     0x0000
+  (Bus Powered)
 
-Whereas the volume and brightness information is carried on endpoint 4, 
-which belongs to a different HID interface from ep 2.  It seems quite 
-likely that the speaker's firmware doesn't work right when the host 
-ignores the second HID interface.
+>echo 0 | sudo tee /sys/bus/usb/devices/3-2/bConfigurationValue
+0
+```
+Here the device is disconnected (unconfigured but still physically on
+the usb port).
 
-The log posted earlier showed this for when the device was plugged in:
+>cat /sys/bus/usb/devices/3-2/bConfigurationValue
 
-[  997.106087] usb 3-2: New USB device found, idVendor=2d99, idProduct=a101, bcdDevice= 1.00
-[  997.106094] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[  997.106097] usb 3-2: Product: EDIFIER Hal0 2.0 SE
-[  997.106099] usb 3-2: Manufacturer: Jieli Technology
-[  997.106102] usb 3-2: SerialNumber: 4250315A34383502
-[  997.180035] input: Jieli Technology EDIFIER Hal0 2.0 SE as /devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.2/0003:2D99:A101.0014/input/input51
-[  997.230824] hid-generic 0003:2D99:A101.0014: input,hidraw0: USB HID v1.00 Device [Jieli Technology EDIFIER Hal0 2.0 SE] on usb-0000:06:00.4-2/input2
-[  997.237434] hid-generic 0003:2D99:A101.0015: hiddev96,hidraw1: USB HID v2.01 Device [Jieli Technology EDIFIER Hal0 2.0 SE] on usb-0000:06:00.4-2/input3
+has no output.
 
-It mentions the input device on usb3/3-2/3-2:1.2 but says nothing about an
-input device on usb3/3-2/3-2:1.3 (the interface that uses endpoint 4).  
-Instead it mentions hiddev96.
+```
+>sudo lsusb -v -d 2d99:a101
 
-So now the question becomes why the input subsystem doesn't register the 
-second HID interface.  The HID subsystem is aware of it (the line that 
-says "HID v2.01", whatever that number is supposed to mean).
+Bus 003 Device 027: ID 2d99:a101 Jieli Technology EDIFIER Hal0 2.0 SE
+Negotiated speed: Full Speed (12Mbps)
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 [unknown]
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x2d99 Jieli Technology
+  idProduct          0xa101 EDIFIER Hal0 2.0 SE
+  bcdDevice            1.00
+  iManufacturer           1 Jieli Technology
+  iProduct                2 EDIFIER Hal0 2.0 SE
+  iSerial                 3 4250315A34383502
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00b6
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              100mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass          1 Audio
+      bFunctionSubClass       2 Streaming
+      bFunctionProtocol       0
+      iFunction               5 EDIFIER QR30
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      1 Control Device
+      bInterfaceProtocol      0
+      iInterface              5 EDIFIER QR30
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdADC               1.00
+        wTotalLength       0x002f
+        bInCollection           1
+        baInterfaceNr(0)        1
+      AudioControl Interface Descriptor:
+        bLength                12
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bNrChannels             2
+        wChannelConfig     0x0003
+          Left Front (L)
+          Right Front (R)
+        iChannelNames           0
+        iTerminal               0
+      AudioControl Interface Descriptor:
+        bLength                10
+        bDescriptorType        36
+        bDescriptorSubtype      6 (FEATURE_UNIT)
+        bUnitID                 2
+        bSourceID               1
+        bControlSize            1
+        bmaControls(0)       0x03
+          Mute Control
+          Volume Control
+        bmaControls(1)       0x00
+        bmaControls(2)       0x00
+        iFeature                0
+      AudioControl Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      5 (SELECTOR_UNIT)
+        bUnitID                 8
+        bNrInPins               1
+        baSourceID(0)           2
+        iSelector               0
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             3
+        wTerminalType      0x0301 Speaker
+        bAssocTerminal          0
+        bSourceID               2
+        iTerminal               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass         1 Audio
+      bInterfaceSubClass      2 Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      AudioStreaming Interface Descriptor:
+        bLength                 7
+        bDescriptorType        36
+        bDescriptorSubtype      1 (AS_GENERAL)
+        bTerminalLink           1
+        bDelay                  1 frames
+        wFormatTag         0x0001 PCM
+      AudioStreaming Interface Descriptor:
+        bLength                11
+        bDescriptorType        36
+        bDescriptorSubtype      2 (FORMAT_TYPE)
+        bFormatType             1 (FORMAT_TYPE_I)
+        bNrChannels             2
+        bSubframeSize           3
+        bBitResolution         24
+        bSamFreqType            1 Discrete
+        tSamFreq[ 0]        48000
+      Endpoint Descriptor:
+        bLength                 9
+        bDescriptorType         5
+        bEndpointAddress     0x03  EP 3 OUT
+        bmAttributes            9
+          Transfer Type            Isochronous
+          Synch Type               Adaptive
+          Usage Type               Data
+        wMaxPacketSize     0x0120  1x 288 bytes
+        bInterval               1
+        bRefresh                0
+        bSynchAddress           0
+        AudioStreaming Endpoint Descriptor:
+          bLength                 7
+          bDescriptorType        37
+          bDescriptorSubtype      1 (EP_GENERAL)
+          bmAttributes         0x00
+          bLockDelayUnits         0 Undefined
+          wLockDelay         0x0000
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               1.00
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      33
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         3 Human Interface Device
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol      0
+      iInterface              0
+        HID Device Descriptor:
+          bLength                 9
+          bDescriptorType        33
+          bcdHID               2.01
+          bCountryCode            0 Not supported
+          bNumDescriptors         1
+          bDescriptorType        34 Report
+          wDescriptorLength      66
+          Report Descriptors:
+            ** UNAVAILABLE **
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               1
+Device Status:     0x0000
+  (Bus Powered)
+```
+It seems that the output of lsusb has not changed.
 
-Seeing its report descriptor might help, but to get it to show up in the 
-"lsusb -v" output you have to first unbind the device from its drivers.  
-Doing something like:
+I also captured the usbmon when doing the `echo 0 | sudo tee
+/sys/bus/usb/devices/3-2/bConfigurationValue` when the device
+disconnects:
 
-	sudo echo 0 >/sys/bus/usb/devices/3-2/bConfigurationValue
+ffff8c95d9d6dc80 1216027202 C Ii:3:026:2 -108:1 0
+ffff8c974d3b4240 1216048989 S Co:3:026:0 s 00 09 0000 0000 0000 0
+ffff8c974d3b4240 1216049985 C Co:3:026:0 0 0
 
-should work.
+And I don't find the descriptor anymore:
 
-Alan Stern
+```
+>find /sys/devices -name "report_descriptor"
+
+/sys/devices/platform/AMDI0010:00/i2c-0/i2c-ELAN0001:00/0018:04F3:31AD.000B/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-3/3-3:1.0/0003:048D:C966.0004/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.3/1-1.2.3:1.1/0003:046D:C33F.000A/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.3/1-1.2.3:1.0/0003:046D:C33F.0009/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.2/1-1.2.2:1.3/0003:046D:0A8F.0008/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.2/0003:046D:C548.0006/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.0/0003:046D:C548.0003/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.3/0003:046D:C548.0007/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.1/0003:046D:C548.0005/report_descriptor
+```
+
+I should mention that rotating the brightness knob in this
+disconnected (unconfigured) state still triggers the reboot and
+reconnects (configures) it. And Now I can see the report_descriptors
+binaries again:
+
+```
+>find /sys/devices -name "report_descriptor"
+
+/sys/devices/platform/AMDI0010:00/i2c-0/i2c-ELAN0001:00/0018:04F3:31AD.000B/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.3/0003:2D99:A101.005B/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.2/0003:2D99:A101.005A/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-3/3-3:1.0/0003:048D:C966.0004/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.3/1-1.2.3:1.1/0003:046D:C33F.000A/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.3/1-1.2.3:1.0/0003:046D:C33F.0009/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-1/1-1.2/1-1.2.2/1-1.2.2:1.3/0003:046D:0A8F.0008/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.2/0003:046D:C548.0006/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.0/0003:046D:C548.0003/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.3/0003:046D:C548.0007/report_descriptor
+/sys/devices/pci0000:00/0000:00:08.1/0000:06:00.3/usb1/1-2/1-2:1.1/0003:046D:C548.0005/report_descriptor
+
+>sudo xxd /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.3/0003:2D99:A101.005B/report_descriptor
+
+00000000: 0613 ff09 01a1 0115 0026 ff00 8506 0900  .........&......
+00000010: 7508 953d 9102 8507 0900 7508 953d 8102  u..=......u..=..
+00000020: c006 14ff 0901 a101 1500 26ff 0085 2e09  ..........&.....
+00000030: 0075 0895 3f91 0285 2f09 0075 0895 3f81  .u..?.../..u..?.
+00000040: 02c0                                     ..
+
+>sudo xxd /sys/devices/pci0000:00/0000:00:08.1/0000:06:00.4/usb3/3-2/3-2:1.2/0003:2D99:A101.005A/report_descriptor
+
+00000000: 050c 0901 a101 1500 2501 09e9 09ea 09e2  ........%.......
+00000010: 09cd 09b5 09b6 09b3 09b7 7501 9508 8142  ..........u....B
+00000020: c0                                       .
+```
