@@ -1,179 +1,143 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E0E13D891;
-	Sun,  9 Nov 2025 11:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D941E2EBBA1;
+	Sun,  9 Nov 2025 13:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762689081; cv=none; b=UBgHfaTomPZAf5KctfHOwqoQV/VYOfdg2924i4pbLQ8pIQbIqb2FiQItUmU3ZaVcn80ejEwOmk2GtRaVQxZGe2mL3bcGBAYqgJBWHIEm33C4lIFAf+WpRBjCbm0HhsbZun/IY3lp+8xRwp56lTJqCQqK9/wbq4pBM+dJFGqyAFQ=
+	t=1762693286; cv=none; b=nvNqdFmtuUM4mQmr3oV8rHyH1/AV+UxWRXghRGrGZLa2Spv8lyPbw8gKabjsc5IKHCOSTpnOTIKYSiswlCWZYikn//BeU9ZALLT6i/IzyYk3vXa1yvtPxFt0EiBujcXGTt4+Ntg/0prlWbBWmZZgx1NBGwL6BOVlEjvc/CA9etc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762689081; c=relaxed/simple;
-	bh=WG0dH/owgOQ4c26KQScqRuUd23YnK1gkJO/TEHSp4Lg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EFtNFAayA3jbUaVT8XdtpzhtLHFwGeP0CUcTiP10cVBnrE0nfK0LU3+hNxsa/a8el2m/0Ki/V/P7y4gb5VmvE+lOiTw9MO1p1GP8gfz92UQXy3vMD0INckUp81G811EYJlz74CaZ4K5wbKxQxjSo/T4weGSlVZ3Q72dwpCQRyGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=sKpESS/T; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1762693286; c=relaxed/simple;
+	bh=zNi9nu3L6TvcyXChQiHADlE5BR7XOd1UsthZfvb4G1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wj8zfwqS3bH9wFQQVkAwJ+fiul/J2EAI+3DWzK893jB/y+yllBK4B9G0G/BBpIY38/OaX5vrvKI/PuWlpcrRzJb4B2HCuJv1zqDCS3O8036GHVZ+Gf/jKulM4bRhp2oJ78X0fAyZp92u0LtrD3CmC0qfnb3z8FfRhT2bQ5jrcfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EiUmTl27; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="sKpESS/T"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id D78386B94;
-	Sun,  9 Nov 2025 12:43:18 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz D78386B94
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1762688598; bh=5cc1L2c43uj+L5WXXlPh7HDtuw9FuYeh8taNlYWqHoM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sKpESS/TF1E6wBA+NsFe+nVoqLTI48qyzZ4IYFIUzUha/Vdh1Y+XIA+BDMmz3Wq8p
-	 TklSmUSwEjFeT+oiUZ/p7iZ07GunrONjRXUXWEcc1+0O1WyuCV/Ljsb1Gf31sEzP1Z
-	 Oo+u6FPmSdNYE05gmJP7c8jDW6HtoFu8QTt5mLS0=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Sun,  9 Nov 2025 12:43:08 +0100 (CET)
-Message-ID: <a86b51fa-20c0-4ba0-a3b8-c8ac9cd3b433@perex.cz>
-Date: Sun, 9 Nov 2025 12:43:07 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EiUmTl27"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BF3C4CEF8;
+	Sun,  9 Nov 2025 13:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762693285;
+	bh=zNi9nu3L6TvcyXChQiHADlE5BR7XOd1UsthZfvb4G1U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EiUmTl27nujv51T7if+PVcEwebMCbQCSCq+8xYpaEYI85RENWVNiRhQBbcZizkEcl
+	 BoNN96p+WxmZf8XdtZd2JsH89A3j92nUV/nviNZBdoUa+JlTXZfeI1MheP7j0cuQVS
+	 h92D51+L7hZ918wSo/TloZRFQb8IuVvMFsY/0olkMlPlIk7n0h9fCRAkSB/zrNZYUy
+	 o4R3RMn97X9Qp2F9/enYc19Uabz3of7vben/btpQkQj13pd57/4mn4NtxOfAoZl9rB
+	 nGuOIb3srFqktlT4NZZ/24ryLC2SYkCUPIwvyjQnO0esl0QpJC6RsjhO0psREWxDAE
+	 TbMdryqtL/QNQ==
+Date: Sun, 9 Nov 2025 12:59:56 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Miller
+ <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Lars-Peter
+ Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun
+ Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Johannes Berg <johannes@sipsolutions.net>,
+ Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, David Laight
+ <david.laight.linux@gmail.com>, Vincent Mailhol
+ <mailhol.vincent@wanadoo.fr>, Jason Baron <jbaron@akamai.com>, Borislav
+ Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Kim Seer Paller
+ <kimseer.paller@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Richard Genoud <richard.genoud@bootlin.com>, Cosmin Tanislav
+ <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, Jianping
+ Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
+ qat-linux@intel.com, linux-gpio@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next v5 10/23] iio: imu: smi330: #undef
+ field_{get,prep}() before definition
+Message-ID: <20251109125956.106c9a1a@jic23-huawei>
+In-Reply-To: <CAMuHMdUkm2hxSW1yeKn8kZkSrosr8V-QTrHKSMkY2CPJ8UH_BQ@mail.gmail.com>
+References: <cover.1761588465.git.geert+renesas@glider.be>
+	<97549838f28a1bb7861cfb42ee687f832942b13a.1761588465.git.geert+renesas@glider.be>
+	<20251102104326.0f1db96a@jic23-huawei>
+	<CAMuHMdUkm2hxSW1yeKn8kZkSrosr8V-QTrHKSMkY2CPJ8UH_BQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: DP/HDMI Jack and Pipewire
-To: Takashi Iwai <tiwai@suse.de>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linux-sound <linux-sound@vger.kernel.org>, wtaymans@redhat.com,
- arun@asymptotic.io, lkml <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <76b8ca1d-040b-472e-9804-5c0c0100b5b5@oss.qualcomm.com>
- <874ir4ribm.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <874ir4ribm.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/8/25 10:21, Takashi Iwai wrote:
-> On Fri, 07 Nov 2025 11:15:50 +0100,
-> Srinivas Kandagatla wrote:
->>
->> Hi Everyone,
->>
->> On Qualcomm platforms we have an issue enabling Display port on a full
->> Distro setup with pipewire and wireplumber in place.
->>
->> The issue is that Display port Audio IP on Qualcomm SoC is powered off
->> if there is no Display connected. It make sense to keep it in this low
->> power mode when there is no use. And the DP IP is not expecting any data
->> in this state and any attempt to configure or send data would result in
->> error from DSP.
->>
->> However, we create PCM devices and jacks for all audio sinks and
->> sources, including DisplayPort DAI links. When PipeWire starts up
->> without any awareness of jack state it probes all available PCM devices,
->> including the DisplayPort ones. Since no display is connected, the
->> prepare callback for DP fails, leading PipeWire to mark the sound card
->> as unusable. Consequently, it abandons entire sound card, including
->> other valid audio sinks. I have also started discussing this issue with
->> pipewire [1]
->>
->>
->> What is the expected pcm device behavior when DP jack is not connected?
->>
->> Two possibilities:
->>
->> 1. Consume the data even when the Display is not connected. I see that
->> in Intel case it sinks the data somewhere and gives the user an
->> experience that the data is getting consumed.
->>
->> 2. Throw an error to user if they attempt to configure or send the data
->> to this disconnected pcm.
->>
->>
->> Also what userspace ABI to for such usecase?
->>
->> This is blocking end-to-end DP audio enablement on Qualcomm SoCs.
->>
->> Not sure if this is right approach or will work but somehow we back the
->> pcm devices with disconnected jack state to use dummy pcm ops instead of
->> actual pcm ops?
->> This should at least keep the pipewire happy. Is this the right approach?
->>
->>
->> [1]: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4938
->>
->> Thanks,
->> Srini
+On Mon, 3 Nov 2025 11:09:36 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+> Hi Jonathan,
 > 
-> I believe this has been a long-standing problem even for HD-audio.
-> The HD-audio HDMI driver does open and process without actual pin
-> setup for allowing the probe by PA/PW with the assumption of some
-> basic PCM parameters.  It was introduced in the commit
-> 42b2987079eca0238b576c08af1144ed5bd52188
->      ALSA: hda - hdmi playback without monitor in dynamic pcm bind mode
+> On Sun, 2 Nov 2025 at 11:43, Jonathan Cameron <jic23@kernel.org> wrote:
+> > On Mon, 27 Oct 2025 19:41:44 +0100
+> > Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> >  
+> > > Prepare for the advent of globally available common field_get() and
+> > > field_prep() macros by undefining the symbols before defining local
+> > > variants.  This prevents redefinition warnings from the C preprocessor
+> > > when introducing the common macros later.
+> > >
+> > > Suggested-by: Yury Norov <yury.norov@gmail.com>
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>  
+> >
+> > So this is going to make a mess of merging your series given this is
+> > queued up for next merge window.
+> >
+> > I can pick this one up perhaps and we loop back to the replacement of
+> > these in a future patch?  Or perhaps go instead with a rename
+> > of these two which is probably nicer in the intermediate state than
+> > undefs.  
 > 
-> So I find using a dummy ops would make sense (assuming it's actually
-> enough to convince PA/PW).
+> Renaming would mean a lot of churn.
+> Just picking up the #undef patch should be simple and safe? The
+> removal of the underf and redef can be done in the next cycle.
+> Thanks!
 
-Or the pipewire/pulseaudio should not go beyond SNDRV_PCM_STATE_SETUP for 
-probing and just do enumeration using hw parameters given from the driver. At 
-least for UCM, the devices should be defined properly. PW/PA should allow open 
-only when the associated Jack control signalized the availability of the PCM 
-device.
+Only 1 call of each of these in the driver, so churn is small either way.
 
-IMHO it's not reponsibility for the kernel driver to accept such incorrect 
-scenarios. The PCM API is straight for this.
+To avoid a bisection problem if your tree merges first I need to modify
+this stuff in the original patch or leave it for Linus to deal with as
+a merge conflict resolution which is mess I'd rather do without.
 
-					Jaroslav
+So I'll rebase now and rename these functions to have an smi330_ prefix.
+Better to potentially cause people problems when I have 23 patches
+on top of this (and hopefully no one is based on those yet) than when
+I have many more.
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+So tweaked and pushed out a new version where this patch isn't needed.
+We can move to your new code next cycle.
+
+Jonathan
+
+
+
+> 
+> > > --- a/drivers/iio/imu/smi330/smi330_core.c
+> > > +++ b/drivers/iio/imu/smi330/smi330_core.c
+> > > @@ -68,7 +68,9 @@
+> > >  #define SMI330_SOFT_RESET_DELAY 2000
+> > >
+> > >  /* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
+> > > +#undef field_get
+> > >  #define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
+> > > +#undef field_prep
+> > >  #define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
+> > >
+> > >  #define SMI330_ACCEL_CHANNEL(_axis) {                                        \  
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
