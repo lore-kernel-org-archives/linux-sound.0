@@ -1,121 +1,152 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CAF2BE059
-	for <linux-sound@vger.kernel.org>; Sun,  9 Nov 2025 08:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE8B7483
+	for <linux-sound@vger.kernel.org>; Sun,  9 Nov 2025 08:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762676698; cv=none; b=PgQDLI66XTfRtXn/0HUBAKvDiyCvqY8aMcPGI0i62dt3p2esqkyd2Bj3PpKXYnuMTxmjluJhJVrS0NYRRjJOTia/ycoR3XDewQDVf36errLT1K9YpnH/z8onRGabuvZ8RXqmxcciBH3+OcZbE/8FKGOBoUgPLMlz746+yYmQsSY=
+	t=1762678425; cv=none; b=PqbJ338O3Y8ccSSuLJfcWVdE59Z9DNz2LKriv/1dlr3WEBylMb0/ScxRKEfEWjz2jpWASOS2GA8576Ljbe4sK1jLfXzuATFVpBJvMZ073FneaJRpqfzZtnR0jUCl8zVK/Cf0vWIrfE/H3ZgEQEM1lOO11JRbnyZmoA0wx74TGkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762676698; c=relaxed/simple;
-	bh=8QutaIOTS2UKgLlFlZpPLDmzPaijAHjAoxtwNrbsxkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bdNox7DeD55U6GEEWoLLKVrR6liecKjHFlU2NSDhXno5vEMQqgWR+aVnGtrp88yhqohuTGMJrxAAVScUX9Jow6ZDn+WCqA0B0M4TZVZD/T8CbB/ld4j/HZwJwFtIpSdlxVVLCAve8asGI4ORjHFNY5cnad1eX/rz064bjcQtEgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAwzjIZk; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762678425; c=relaxed/simple;
+	bh=cc2m5zEns14fW1bXoEQEFY4A2843Vewb3K617tyG42o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UzJQ/okxnp7Sp8m5NT9rIf3g77+NLGz3b8CXKbvSfOcFiC760BILF6ZVdmGqGWJebiYk4qpdRYXnhyjLGOPEvdtapNulOSVlRJEOvySIkg551lTJXB6PDf9N2uD938tF4L7LousYhCa7crxqkbEN9KJrkYRV+48pQMGuGda/EAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U5ltba2B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Te6q1neV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U5ltba2B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Te6q1neV; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAwzjIZk"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so185956a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 09 Nov 2025 00:24:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762676695; x=1763281495; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jsY9vujuUkA8+9u3dm1loJg3PkrFnGp+k0msPuKoiXI=;
-        b=hAwzjIZkXo2S12Yzlenw0TuyK96zMI9CQ5FVw7W9i42ybBTGbsqdo4+KJjwlpoXzPp
-         PZC22KohFVTO/LUAjhl6w8VMqmals8yTwyP6sFrhaFHKuNmi8bvOthfx0e++QKMsE1mz
-         p0z2jVY6V6oInrJufK+18LThmPUFe0wQHl+6fYF9aYPNSrlP2HEd3MWieShz+r+gga8I
-         /Z7UMFbxvdqMkYHsgpa+rP14R38EXhDW/H8oUrkz8OYBNoHMTMXfCS+9dBI6JzM7b50L
-         oy7WnySFbn2LOVWaqyZPKHCXvqwnDlcQ0Q3crNsZqACvvEfDARXPDKhsZq6eKSPwxmJO
-         dOwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762676695; x=1763281495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jsY9vujuUkA8+9u3dm1loJg3PkrFnGp+k0msPuKoiXI=;
-        b=qGXGIOPT97OgEeIYl2itNu/QhQTu2yznJHsjnb5ph8bOLg6cstd50/GvJPCgR/wwjU
-         l8V/WuMwYlauv2R0DWPwyR7pj+Xw9yyoZck2hieb5bHWci5U6wCyU3E+g4Xoa5uT7NVS
-         1HNOAHqftQpDDad3hPN/OJ9tbFVwoE36c0vVgmY3Mw/Vk6rXCqsclei1LTZFhIvlflUU
-         KJndMMP/EQFjR6ZwFl1YsfxOlmRGEJQMwnRoP45IaeNWABkj5C53RidoHMbOI6d+XVtr
-         VISxHqNsUu6Gvf2okVD0IA5/wGosj2gmBa12W4r8KBqpGHw+pavgxGuqRwmm7MJadtMu
-         X44w==
-X-Forwarded-Encrypted: i=1; AJvYcCULONF2/s1SSY1o3GjKDRBqLsqyNgKx6ECR9dnpK5pSdAm3VrHw38rkO8b+50RMjBAgCD/aEcMYMuNGWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq5up2BKMSu1LA0cO6GMfLOyXUsQ5XEftvHC5HzdV3g7ZEodHl
-	dyIKhC/V9cAJOOftf98KcQXeG9zNAfTGVWSA/6jkrrwGrFTj/enZgw70
-X-Gm-Gg: ASbGnctxyI0dq6HPhn0NbpiDcd7lJjoELmb4DXOCBbdNzbzKcRiMWmBB7IFbPK9+BQL
-	Uq0KFcGphsPSi8DkSvGyNZOq73bEkI815xQUUADxnEDTZOhb7HaH0GT2IunP+8zy5Q0LAOZtWQG
-	cAhlesI4761uk9mywN32Z0pprwXX36qDBrSxPyeya7wBS2n+z2+Nyby4ighkOmGWPe1eGOJhpqu
-	G0JRUyA2FgEHhV7Joiu23H5YB69/2c6bADhpkMmZhQ0LPlkHcrXu+EcH+oTW1tQGEP/QMimj8OE
-	gZqW9D2nW7Nb303Pnfy8Kmh6fgrW7LW7gvLDdY4aVi2wcXFH+8A94+1JeMY6gATsn2+98XFmKcN
-	3DxNHKFyxElsQ/vprLVugjFq+KqTqgz94uRi8efSXCme2a6waVW5rcqjCEcR5qfU6t9AvPpi8wJ
-	nGRzH+COjGPQSwkNypMET6Ky0HZVKx/i8=
-X-Google-Smtp-Source: AGHT+IHaWgjaeW7jvwLPGVE4BhBjXl+cVU/lxIG2fay1zIq+LJVECaQIY3bgCDLJU8dqHSKKTTKOiQ==
-X-Received: by 2002:a17:907:3ccb:b0:b72:d43a:4fab with SMTP id a640c23a62f3a-b72e05e5a05mr361558066b.43.1762676695173;
-        Sun, 09 Nov 2025 00:24:55 -0800 (PST)
-Received: from foxbook (bfd52.neoplus.adsl.tpnet.pl. [83.28.41.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf97d461sm794755966b.47.2025.11.09.00.24.54
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 09 Nov 2025 00:24:54 -0800 (PST)
-Date: Sun, 9 Nov 2025 09:24:50 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: The-Luga <lugathe2@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Terry Junge
- <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-Message-ID: <20251109092450.693bcbe5.michal.pecio@gmail.com>
-In-Reply-To: <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
-References: <CALvgqEAq8ZWgG4Dyg_oL7_+nUDy+LUoTXi+-6aceO-AKtBS3Mg@mail.gmail.com>
-	<3eb2564d-5008-434e-9698-99b0cbe4d1cc@cosmicgizmosystems.com>
-	<CALvgqECkMdntW2He8C7EcvOtCL-PpiXM9xNXWHzGtgimDxezHA@mail.gmail.com>
-	<d7e888a6-6a65-40c1-84af-058b97ca0178@rowland.harvard.edu>
-	<CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
-	<c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
-	<CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5ltba2B";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Te6q1neV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5ltba2B";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Te6q1neV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63EAE336FC;
+	Sun,  9 Nov 2025 08:53:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762678421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT0pipkfam0oEP71ixaTUjOYmnwa3zw5pb/NTg1ne2g=;
+	b=U5ltba2BKJD01qOoXzl0llh7VEw2W2EkPegRQqMntQFITAs6Ne/783cqH6NaXw7a7QENPv
+	XkJtC8YiLoBQeEaLeYCFMLe8i42aiaKz/9RnHin1CBSXJ2YwZVz6Xa0H4KZdqptP+5855r
+	PaYyIK5vmaH/OGU0ah6oJtZK6Zqtu9Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762678421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT0pipkfam0oEP71ixaTUjOYmnwa3zw5pb/NTg1ne2g=;
+	b=Te6q1neVqWbrJ2mGx5qIbK38sqFfjmECG5P4dDAzUWoAmolvmlrtVgFGo6u7XX+uBlsuw1
+	e47x39WmrHpmTiCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=U5ltba2B;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Te6q1neV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762678421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT0pipkfam0oEP71ixaTUjOYmnwa3zw5pb/NTg1ne2g=;
+	b=U5ltba2BKJD01qOoXzl0llh7VEw2W2EkPegRQqMntQFITAs6Ne/783cqH6NaXw7a7QENPv
+	XkJtC8YiLoBQeEaLeYCFMLe8i42aiaKz/9RnHin1CBSXJ2YwZVz6Xa0H4KZdqptP+5855r
+	PaYyIK5vmaH/OGU0ah6oJtZK6Zqtu9Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762678421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT0pipkfam0oEP71ixaTUjOYmnwa3zw5pb/NTg1ne2g=;
+	b=Te6q1neVqWbrJ2mGx5qIbK38sqFfjmECG5P4dDAzUWoAmolvmlrtVgFGo6u7XX+uBlsuw1
+	e47x39WmrHpmTiCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DEB2A13E42;
+	Sun,  9 Nov 2025 08:53:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qXfVNJRWEGkqMQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 09 Nov 2025 08:53:40 +0000
+Date: Sun, 09 Nov 2025 09:53:40 +0100
+Message-ID: <87tsz3pox7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: <tiwai@suse.de>,
+	<robh+dt@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>,
+	<lgirdwood@gmail.com>,
+	<perex@perex.cz>,
+	<shenghao-ding@ti.com>,
+	<navada@ti.com>,
+	<13916275206@139.com>,
+	<v-hampiholi@ti.com>,
+	<v-po@ti.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<liam.r.girdwood@intel.com>,
+	<yung-chuan.liao@linux.intel.com>,
+	<broonie@kernel.org>,
+	<antheas.dk@gmail.com>,
+	<stuart.a.hayhurst@gmail.com>,
+	<dan.carpenter@linaro.org>
+Subject: Re: [PATCH v1] ALSA: hda/tas2781: Add new quirk for HP new projects
+In-Reply-To: <20251108142325.2563-1-baojun.xu@ti.com>
+References: <20251108142325.2563-1-baojun.xu@ti.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 63EAE336FC
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,linaro.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
 
-On Sun, 9 Nov 2025 02:18:44 -0300, The-Luga wrote:
-> The speaker has a physical knob that changes brightness. When the
-> speaker is disconnected from any USB port, the knob works fine
-> increasing/decreasing brightness. When connected to Windows, rotating
-> the knob (either increase or decrease) changes brightness normally and
-> the speaker does not reboot (without needing any vendor software).
-> When connected to Linux, rotating the knob causes the speaker to
-> reboot.
+On Sat, 08 Nov 2025 15:23:25 +0100,
+Baojun Xu wrote:
 > 
-> All brightness changes/reboots in the previous logs were done by
-> rotating the speaker's physical knob.
+> Add new vendor_id and subsystem_id in quirk for HP new projects.
 > 
-> I believe this is a firmware bug on the speaker. My hypothesis: after
-> each brightness change the speaker expects a particular USB response
-> (the default response Windows sends). If it does not receive that
-> response, the speaker thinks it is disconnected and resets.
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-I haven't attempted decoding your usbmon traces, but based on Terry's
-comments, the device disconnects immediately when the knob is rotated
-without even sending any HID packet. The original trace begins with
-root hub traffic - likely disconnect notification, followed by failure
-of a URB waiting for HID data from the speaker, and new enumeration.
+Applied now.  Thanks.
 
-If anything, it looks like Linux is doing something to the speaker
-which makes it enter an invalid internal state and then the firmware
-panics next time the knob is rotated, before anything is sent.
 
-I wonder if there is some way to block 'usbhid' from ever binding to
-this device (not just unbinding it later) and see if that hepls?
-
-What happens if you pass to Windows and back, then rotate the knob?
-
-Regards,
-Michal
+Takashi
