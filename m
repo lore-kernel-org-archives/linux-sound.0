@@ -1,200 +1,145 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5736D21FF30
-	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 08:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA1E2EB859
+	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 09:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762762459; cv=none; b=YlermB2h9C8MOB+8yhboHMQEjox3GAGsPv9VA1qeHyQfTMvATb3n3dWrqEaFt9zek1cKyf7g58+eTOlB1L2M6g7HMsiNTbVjfYj2q0qrlG9srvpCZ4Hp/G+TuBDtdie0F5LCCp6UNteXX2zfcHBWedfYOO4biX5K6gJgX3v0aFU=
+	t=1762765601; cv=none; b=CorrUYPJdZn9/HZEJ22KPOh+orjMTArgFeqR+r1ZoU0QCmfzdp/XpF4rAPNGpmDM0XHZgXDqZ9NMi8p2StaT8bP/uPoSOyzgTXu82OHcJi90iZOoBH0YTFDivIyJTafkCz585ETKoQr7QtkRUqfUbsDWfjRBozdF/N8K21BYjGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762762459; c=relaxed/simple;
-	bh=nmtfVvbzGml762p/PglmSztpK5U0oN717knAKcptlGo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u1VgtqaNwAiuFr5XfVcnhwZdz8l0vluJ5V9uCL+6XwdrwdfTL88o5OLCRukerda1xNdYiyfNG+NGGaKUk/c4XQ2dvvmel/uJRJ96u0RSyDGQwLi5nFVeaxw931ZN/sCFHds840pApM8Xu2R8OmZqbjJdzPLu47TpT+dQGMWDkXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X+CraUtY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w4ytOpwL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yVVsWHy4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QUue0kzI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X+CraUtY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w4ytOpwL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yVVsWHy4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QUue0kzI"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 621771F399;
-	Mon, 10 Nov 2025 08:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762762454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z1sh5TmGoz6Jgc/8yxa7Z0cN9cWHOtB+XEJ7MN02YQ0=;
-	b=X+CraUtYEnj5d2o57jTQqWsqtuF5/mSgSlPRZhtlw/M2NkgxLG7qIgQbGkntn9Df2yrWXV
-	PtoO8tRzyjvIaC+G5bp26jlfKC+MK5mXG4o9doRUeC12HA8gvkC0G1SrbB+dK3Ja7eFWNf
-	osy0j/zS7S1DGUx+qmd9pBLMgMOH/ZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762762454;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z1sh5TmGoz6Jgc/8yxa7Z0cN9cWHOtB+XEJ7MN02YQ0=;
-	b=w4ytOpwLHgPAeMgalPau+4o4NKbcJYxSmA7kqR3ji8t9s0VUYMniEi4x313XRWBoW7JmZL
-	qobSq8dDqo/ozDAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yVVsWHy4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QUue0kzI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762762453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z1sh5TmGoz6Jgc/8yxa7Z0cN9cWHOtB+XEJ7MN02YQ0=;
-	b=yVVsWHy4USkZSr8H6dbCqxMmzZ2ORvSyqHdmZPMVGQEiedy7H+5ckHlVNOZFp+xovassFJ
-	BNY6u1dJj/fcE0q1xKnRyPy52/ltj0NmNP3JkJBvnuXihlBNZ0GRAUBtVdWCktiNnGmZuY
-	//T+sYF0+V1SUzXZnXX1t99YwLHzfGk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762762453;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z1sh5TmGoz6Jgc/8yxa7Z0cN9cWHOtB+XEJ7MN02YQ0=;
-	b=QUue0kzIYLwecTRF8IFmE5sw9X6lHIcl2wzAdiyxNPbVD2+4xycZd+xiEZ7nloIn7Bt9Fe
-	xSsCeAbBQKA5cPCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1109413BA4;
-	Mon, 10 Nov 2025 08:14:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uVGTAtWeEWk7HwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 10 Nov 2025 08:14:13 +0000
-Date: Mon, 10 Nov 2025 09:14:12 +0100
-Message-ID: <87pl9qxq23.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	cezary.rojewski@intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix resource cleanup in alc_alloc_spec error path
-In-Reply-To: <20251110072349.102169-1-wangdich9700@163.com>
-References: <20251110072349.102169-1-wangdich9700@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1762765601; c=relaxed/simple;
+	bh=JRmjklDdMnXYPa/YzcCMj4xR0iBgS1Ed7pmHd076aaU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NqFXc5JTS10XQgs3D+nsMvZjYO0dsMm2u5nF5pakt6W00arNy5bxDhqbmiG9r4Oii4VAJHJa4ERnn7mboMsX2py0VdojGsKQ1/17Nkz6lxems+bwVbOL9vNmWtUPq2/zOpfqI+h81BiXUa9ZOuvFbX3a8ocriwlMeKfZHn4tosU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b556284db11so2174837a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 01:06:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762765600; x=1763370400;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zuaR1c68u39/qbD5w07qCJ9IxeheIz5/8CL8hB/l6OE=;
+        b=Qt4rQmEs//SmKPTIjs7AGH+DlMex3R7i7ZxcvpTLLZR376d1vBdgh3NsgzF0KHAohx
+         3gOg7F0TYAPcTeay+FPfVc8EznRJydj68nlZiGXPqjOrJqmTLMhMMIVFAxm12yZqjM1d
+         V78Gl4PL8SUWobPJfkNg0QU7toAhAlWZnd0uE8EpL07GtrY5AtYs0UTc4Ac++oMljRI0
+         oP55h/vTXDcyYS3L1N3IFp0sE1iogZcxTmSGnWmpRJtkffi5ruzIpJzMOaNbC/tTrGzX
+         tSfebFGSVjZ3LjwUJG6crFf7imlLvOxJv+PCUGZg+7iMXA6O3Q4KYcmpLuwC4FTE/Pps
+         iXTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhhp3ZlbzbqXLtgpF9RrfOSuA1OcXHoDJSgNuHYSWJl2lZu34CTqJ6eXO4fh9anX2AkM4p1TZ81EP90Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyulS+WWPQYrrlAxprMPvqjBTkMmcX/eL30Rj6wvAAPJicN/ed9
+	vuLCvc4FOQoGvuPlSpHA0eNGLe2phjeThyng0FVzHCbgWJj742059eBNsqcwbNJo
+X-Gm-Gg: ASbGncvNLWhVt6AEXr/Z5Z4T8wAPl2EYP0bJOs/iOvctF/ca2LwBBWPnDQuXpviQAbF
+	nYLgSa+Z38lBbGAK2UORFSq3KSjEzXF8PIVeg4GXFw1gUzEUmlpNpLwUhU3KHXxPDqCgkwJXK18
+	1c722WkXSlVVcWJjebZ9js/T0uFFEnTlmIaH2jjdafmnfaj1DGhNgQKXzzP/odOOH0Xi809NjTR
+	X5lqbgEGOpp+KSrg86yTWGe320XywLXvOKSbEfYI42uXsIKXt7Y++FVq+BiqUAQEbzYSUiyd7oP
+	GeH80iRV2/NxFoNZN5lW8nC5IiLtcgVf+mzaKmGKgSJna+rajhgU9YVUKgRGYULQ2hoSHTbH9iw
+	dmKNdrRvst3r8C+xR7vRAezWSv0jKWO4ogsuA3Io3z+BCkQbbk5xmVPoVpo9oQeiEb6rLB16S07
+	9xM5y3oC1vexOZA167V/QWjytyOC9rtB4gKCrmcpcdccfzTSUpVOoIjdWU
+X-Google-Smtp-Source: AGHT+IF4i2xOr8bDIZwM1EA3O4zt3kgYgArHL8BTlLQRDeYcEXtDtIOY0/R12o2F1DbsxrzZfLdngw==
+X-Received: by 2002:a17:903:1b6e:b0:295:9db1:ff2b with SMTP id d9443c01a7336-297e57095b1mr103528825ad.57.1762765599518;
+        Mon, 10 Nov 2025 01:06:39 -0800 (PST)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com. [209.85.210.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650c5c72esm137196135ad.33.2025.11.10.01.06.39
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Nov 2025 01:06:39 -0800 (PST)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7aace33b75bso2896461b3a.1
+        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 01:06:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVd71wuG+HJ2UEyC69dD3/EMkUaSPZ11owB93ysnvzmdiL5/lz+j7Wa06hpGPqeiLyr2U3kvhRkuasgSA==@vger.kernel.org
+X-Received: by 2002:a05:6102:950:b0:5db:fb4c:3a89 with SMTP id
+ ada2fe7eead31-5ddc471358fmr2304047137.19.1762765185596; Mon, 10 Nov 2025
+ 00:59:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 621771F399
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,intel.com,vger.kernel.org,lists.infradead.org,kylinos.cn];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+References: <cover.1761588465.git.geert+renesas@glider.be> <97549838f28a1bb7861cfb42ee687f832942b13a.1761588465.git.geert+renesas@glider.be>
+ <20251102104326.0f1db96a@jic23-huawei> <CAMuHMdUkm2hxSW1yeKn8kZkSrosr8V-QTrHKSMkY2CPJ8UH_BQ@mail.gmail.com>
+ <20251109125956.106c9a1a@jic23-huawei>
+In-Reply-To: <20251109125956.106c9a1a@jic23-huawei>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Nov 2025 09:59:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX8c1VkBuPDpJ5mpCcRH+zEX4F1bQKFf_V8N9ZZtCYqxA@mail.gmail.com>
+X-Gm-Features: AWmQ_bmD7LCstBufqr7pTwqKUhf3WnheTdaFZy-l1C13xKAmQ3xomq2Nqy5MxZo
+Message-ID: <CAMuHMdX8c1VkBuPDpJ5mpCcRH+zEX4F1bQKFf_V8N9ZZtCYqxA@mail.gmail.com>
+Subject: Re: [PATCH -next v5 10/23] iio: imu: smi330: #undef
+ field_{get,prep}() before definition
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 10 Nov 2025 08:23:49 +0100,
-wangdich9700@163.com wrote:
-> 
-> From: wangdicheng <wangdicheng@kylinos.cn>
-> 
-> Ensure proper resource cleanup when alc_codec_rename_from_preset() fails
-> in alc_alloc_spec(). Currently, the error path only calls kfree(spec) but
-> does not:
-> 
-> 1. Destroy the initialized coef_mutex mutex
+Hi Jonathan,
 
-It's rather an optional operation.  As of the probing phase, there is
-really no much race, after all.
-(And, it's not handled properly in your patch, either...)
+On Sun, 9 Nov 2025 at 14:01, Jonathan Cameron <jic23@kernel.org> wrote:
+> On Mon, 3 Nov 2025 11:09:36 +0100
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Sun, 2 Nov 2025 at 11:43, Jonathan Cameron <jic23@kernel.org> wrote:
+> > > On Mon, 27 Oct 2025 19:41:44 +0100
+> > > Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> > >
+> > > > Prepare for the advent of globally available common field_get() and
+> > > > field_prep() macros by undefining the symbols before defining local
+> > > > variants.  This prevents redefinition warnings from the C preprocessor
+> > > > when introducing the common macros later.
+> > > >
+> > > > Suggested-by: Yury Norov <yury.norov@gmail.com>
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > So this is going to make a mess of merging your series given this is
+> > > queued up for next merge window.
+> > >
+> > > I can pick this one up perhaps and we loop back to the replacement of
+> > > these in a future patch?  Or perhaps go instead with a rename
+> > > of these two which is probably nicer in the intermediate state than
+> > > undefs.
+> >
+> > Renaming would mean a lot of churn.
+> > Just picking up the #undef patch should be simple and safe? The
+> > removal of the underf and redef can be done in the next cycle.
+> > Thanks!
+>
+> Only 1 call of each of these in the driver, so churn is small either way.
+>
+> To avoid a bisection problem if your tree merges first I need to modify
+> this stuff in the original patch or leave it for Linus to deal with as
+> a merge conflict resolution which is mess I'd rather do without.
 
-> 2. Reset codec->spec to NULL, potentially leaving a dangling pointer
+If you add the #undef, there won't be any bisection problem?
 
-This is done in snd_hda_codec_cleanup_for_unbind() called in the error
-handling of hda_codec_driver_probe().
+Gr{oetje,eeting}s,
 
+                        Geert
 
-thanks,
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Takashi
-
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
-> ---
->  sound/hda/codecs/realtek/realtek.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/hda/codecs/realtek/realtek.c b/sound/hda/codecs/realtek/realtek.c
-> index ca377a5adadb..9a358c072e50 100644
-> --- a/sound/hda/codecs/realtek/realtek.c
-> +++ b/sound/hda/codecs/realtek/realtek.c
-> @@ -1029,6 +1029,7 @@ int alc_alloc_spec(struct hda_codec *codec, hda_nid_t mixer_nid)
->  {
->  	struct alc_spec *spec = kzalloc(sizeof(*spec), GFP_KERNEL);
->  	int err;
-> +	bool mutex_initialized = false;
->  
->  	if (!spec)
->  		return -ENOMEM;
-> @@ -1040,14 +1041,22 @@ int alc_alloc_spec(struct hda_codec *codec, hda_nid_t mixer_nid)
->  	/* FIXME: do we need this for all Realtek codec models? */
->  	codec->spdif_status_reset = 1;
->  	codec->forced_resume = 1;
-> +
->  	mutex_init(&spec->coef_mutex);
->  
->  	err = alc_codec_rename_from_preset(codec);
->  	if (err < 0) {
-> -		kfree(spec);
-> -		return err;
-> +		codec_err(codec, "Failed to rename codec: %d\n", err);
-> +		goto error;
->  	}
->  	return 0;
-> +
-> +error:
-> +	if (mutex_initialized)
-> +		mutex_destroy(&spec->coef_mutex);
-> +	codec->spec = NULL;
-> +	kfree(spec);
-> +	return err;
->  }
->  EXPORT_SYMBOL_NS_GPL(alc_alloc_spec, "SND_HDA_CODEC_REALTEK");
->  
-> -- 
-> 2.25.1
-> 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
