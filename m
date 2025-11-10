@@ -1,203 +1,131 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397E220330;
-	Mon, 10 Nov 2025 02:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F310C1E50E;
+	Mon, 10 Nov 2025 04:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762743004; cv=none; b=fDJj3yv66ygPC+MRFUzaMyUuvi5F/W185SNHrKkDTgACucZrEfIpzyK241ao8KsTRTkF1STL4Rsz92QL8BkaJi1NjpHNlydha+EsN+elI4MDWnGWWFh7W8arHtxqKQrVoePs9tKaYjXhE6LylqFWUdi7SuEILLJZsyhyvL819CA=
+	t=1762747251; cv=none; b=JJQ8svltEuoHMkIQ1AG5MPMz2QhAElguIxUvrplU8uyRc0qP5rwsTrrntthZbfFztYzcVZSiKyPtqNkoBZH1Dz5kJYhWesEi/o6q+LHVmPP59+EodOlvucgIlaD4sdM0hkMtj2yqbIiTh93j4ji4dqJ7hqhqsFuJiPi6xpHqJ1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762743004; c=relaxed/simple;
-	bh=1cIL7/KPl3K5v0wQHaJ0tGfwMgE5xx/pMZWjRm2tfIk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
-	 MIME-Version; b=hrkByD+UQ92iphiCNpB9AkVhN+x/5m7aLpvZdHKV0xGC6Ip8DYEAz/Yq2BkU82I00yCyUKCOyTaKqnfrp4JvrJH4/5FPPjkbTnrrBwUSvLHhuOockGBuCZ9bGdY1g1EwmRFHwqLKV2WEX44Tz7FSXXDzNYpmiJnWBIVTxM8cO+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=NXeu6m4w; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="NXeu6m4w"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5AA2hbGwB716235, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1762742617; bh=1cIL7/KPl3K5v0wQHaJ0tGfwMgE5xx/pMZWjRm2tfIk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	b=NXeu6m4w8KSIT/e89NQIAhnT0TTUgnu/lICYnlmDLN6lG+JAS5BBSg4pfyHxOZ+3G
-	 MzKwilsYGhtBNzZkD7rUNJCT3VNQl98gZXpKjgSPPQiuTxDdeIuzegB6cC4M5XsTJS
-	 AV7e9bElud20xerYcARWvseFofGg25WQqasBBRr5eZAnHJU18VeEzJYtSPiNV8xEjE
-	 78GOeYXYKc+5Kjgu9vL26BGNE5uua7vNEW7kgceGHaDh/qy5GivYAfodqfyMvlq2ap
-	 9zwrtSw2nup/b6fBieuy1tiYv1l7lLfGHKxd1nnqQcgtG3k9Hw7RTQVM7B8bAUUUrb
-	 a5rLbIXf8JWcA==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5AA2hbGwB716235
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Nov 2025 10:43:37 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Mon, 10 Nov 2025 10:43:37 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Mon, 10 Nov 2025 10:43:37 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::744:4bc9:832c:9b7e%10]) with mapi id
- 15.02.1544.027; Mon, 10 Nov 2025 10:43:37 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Yury Norov
-	<yury.norov@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Stephen
- Boyd" <sboyd@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea
-	<claudiu.beznea@tuxon.dev>,
-        Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        David Miller <davem@davemloft.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski
-	<brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery
-	<andrew@codeconstruct.com.au>,
-        Crt Mori <cmo@melexis.com>, Jonathan Cameron
-	<jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Jacky Huang
-	<ychuang3@nuvoton.com>,
-        Shan-Chun Hung <schung@nuvoton.com>,
-        Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jakub Kicinski
-	<kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-        David Laight
-	<david.laight.linux@gmail.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-        Tony Luck
-	<tony.luck@intel.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        "Kim
- Seer Paller" <kimseer.paller@analog.com>,
-        David Lechner
-	<dlechner@baylibre.com>,
-        =?utf-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        "Andy
- Shevchenko" <andy@kernel.org>,
-        Richard Genoud <richard.genoud@bootlin.com>,
-        Cosmin Tanislav <demonsingur@gmail.com>,
-        Biju Das
-	<biju.das.jz@bp.renesas.com>,
-        Jianping Shen <Jianping.Shen@de.bosch.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>,
-        "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>,
-        "qat-linux@intel.com" <qat-linux@intel.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-wireless
-	<linux-wireless@vger.kernel.org>
-Subject: RE: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
-Thread-Topic: [PATCH v6 12/26] bitfield: Add less-checking
- __FIELD_{GET,PREP}()
-Thread-Index: AQHcTzpEEEZZM/7p4kSHE1AyVJF587TmYVZQ///87ICAAIzmQIAETHKg
-Date: Mon, 10 Nov 2025 02:43:37 +0000
-Message-ID: <5cc8a69c155948078bd14e5f031e4468@realtek.com>
-References: <cover.1762435376.git.geert+renesas@glider.be>
- <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
- <aQy0T2vUINze_6_q@smile.fi.intel.com>
- <CAMuHMdXVUJq36GvNUQE8FnHsX+=1jG4GOJ_034r=fgr_Rw4Djg@mail.gmail.com>
- <aQzIIqNnTY41giH_@smile.fi.intel.com>
- <CAMuHMdW8ndAdGnSHopYFMWvw7wk7wKz_7+N91M1jRHoqK1KBrg@mail.gmail.com>
- <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
- <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com> 
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1762747251; c=relaxed/simple;
+	bh=atMFvgtY65VQuY/EkXVgEnl/vnO2b9+d5D/lbVsgpfM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s5oiJaFOL4RFU+N7SE9ZhNt7sAJg95iVNQQjK/mto+YTv//mkkUKRoafD4oQkKCAjKYz0gZv7koq1bxGf/D2M0ob3+qlINmYSH5trcOA1d+/jrHJoK6Hue6I28hw6Y0T6e26km5FzNLblrrn/AJ2flpUxkLXPPNCDidX2P5iDoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
+	by host11.cruzio.com (Postfix) with ESMTPSA id A556421C8272;
+	Sun,  9 Nov 2025 20:00:48 -0800 (PST)
+Message-ID: <70076b5d-aa2a-4057-834d-881fa25d797e@cosmicgizmosystems.com>
+Date: Sun, 9 Nov 2025 20:00:47 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+To: The-Luga <lugathe2@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Michal Pecio <michal.pecio@gmail.com>,
+ Terry Junge <linuxsound@cosmicgizmosystems.com>,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org
+References: <3eb2564d-5008-434e-9698-99b0cbe4d1cc@cosmicgizmosystems.com>
+ <CALvgqECkMdntW2He8C7EcvOtCL-PpiXM9xNXWHzGtgimDxezHA@mail.gmail.com>
+ <d7e888a6-6a65-40c1-84af-058b97ca0178@rowland.harvard.edu>
+ <CALvgqED=rBkNYGkFdOXjUi1g_vbLac5Z38Z9xCRfpF-Vmy4Mww@mail.gmail.com>
+ <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
+ <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
+ <20251109092450.693bcbe5.michal.pecio@gmail.com>
+ <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
+ <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+ <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+ <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
+ <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
+ <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
+ <CALvgqECd=EavhXAhhAGang+6+-_yWgBVSaiafMAozVgmZ5VsvA@mail.gmail.com>
+Content-Language: en-US
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <CALvgqECd=EavhXAhhAGang+6+-_yWgBVSaiafMAozVgmZ5VsvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-SGkgR2VlcnQsDQoNClBpbmctS2UgU2hpaCA8cGtzaGloQHJlYWx0ZWsuY29tPiB3cm90ZToNCj4g
-R2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6DQo+ID4gSGkg
-UGluZy1LZSwNCj4gPg0KPiA+IE9uIEZyaSwgNyBOb3YgMjAyNSBhdCAwMjoxNiwgUGluZy1LZSBT
-aGloIDxwa3NoaWhAcmVhbHRlay5jb20+IHdyb3RlOg0KPiA+ID4gR2VlcnQgVXl0dGVyaG9ldmVu
-IDxnZWVydEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6DQo+ID4gPiA+IFRoZSBleHRyYSBjaGVja2lu
-ZyBpbiBmaWVsZF9wcmVwKCkgaW4gY2FzZSB0aGUgY29tcGlsZXIgY2FuDQo+ID4gPiA+IGRldGVy
-bWluZSB0aGF0IHRoZSBtYXNrIGlzIGEgY29uc3RhbnQgYWxyZWFkeSBmb3VuZCBhIHBvc3NpYmxl
-IGJ1Zw0KPiA+ID4gPiBpbiBkcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0dzg5L2NvcmUu
-YzpydHc4OV9yb2NfZW5kKCk6DQo+ID4gPiA+DQo+ID4gPiA+ICAgICBydHc4OV93cml0ZTMyX21h
-c2socnR3ZGV2LCByZWcsIEJfQVhfUlhfRkxUUl9DRkdfTUFTSywgcnR3ZGV2LT5oYWwucnhfZmx0
-cik7DQo+ID4gPiA+DQo+ID4gPiA+IGRyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3ODkv
-cmVnLmg6DQo+ID4gPiA+DQo+ID4gPiA+ICAgICAjZGVmaW5lIEJfQVhfUlhfTVBEVV9NQVhfTEVO
-X01BU0sgR0VOTUFTSygyMSwgMTYpDQo+ID4gPiA+ICAgICAjZGVmaW5lIEJfQVhfUlhfRkxUUl9D
-RkdfTUFTSyAoKHUzMil+Ql9BWF9SWF9NUERVX01BWF9MRU5fTUFTSykNCj4gPiA+ID4NCj4gPiA+
-ID4gc28gaXQgbG9va3MgbGlrZSBCX0FYX1JYX0ZMVFJfQ0ZHX01BU0sgaXMgbm90IHRoZSBwcm9w
-ZXIgbWFzayBmb3INCj4gPiA+ID4gdGhpcyBvcGVyYXRpb24uLi4NCj4gPiA+DQo+ID4gPiBUaGUg
-cHVycG9zZSBvZiB0aGUgc3RhdGVtZW50cyBpcyB0byB1cGRhdGUgdmFsdWVzIGV4Y2x1ZGluZyBi
-aXRzIG9mDQo+ID4gPiBCX0FYX1JYX01QRFVfTUFYX0xFTl9NQVNLLiBUaGUgdXNlIG9mIEJfQVhf
-UlhfRkxUUl9DRkdfTUFTSyBpcyB0cmlja3ksIGJ1dA0KPiA+ID4gdGhlIG9wZXJhdGlvbiBpcyBj
-b3JyZWN0IGJlY2F1c2UgYml0IDAgaXMgc2V0LCBzbyBfX2ZmcyhtYXNrKSByZXR1cm5zIDAgaW4N
-Cj4gPiA+IHJ0dzg5X3dyaXRlMzJfbWFzaygpLiBUaGVuLCBvcGVyYXRpb24gbG9va3MgbGlrZQ0K
-PiA+ID4NCj4gPiA+ICAgIG9yaWcgPSByZWFkKHJlZyk7DQo+ID4gPiAgICBuZXcgPSAob3JpZyAm
-IH5tYXNrKSB8IChkYXRhICYgbWFzayk7DQo+ID4gPiAgICB3cml0ZShuZXcpOw0KPiA+DQo+ID4g
-VGhhbmtzIGZvciB5b3VyIHF1aWNrIGNvbmZpcm1hdGlvbiENCj4gPiBTbyB0aGUgaW50ZW50aW9u
-IHJlYWxseSBpcyB0byBjbGVhciBiaXRzIDIyLTMxLCBhbmQgd3JpdGUgdGhlIHJ4X2ZsdHINCj4g
-PiB2YWx1ZSB0byBiaXRzIDAtMTU/DQo+ID4NCj4gPiBpZiB0aGUgY2xlYXJpbmcgaXMgbm90IG5l
-ZWRlZCwgaXQgd291bGQgYmUgYmV0dGVyIHRvIHVzZQ0KPiA+ICNkZWZpbmUgQl9BWF9SWF9GTFRS
-X0NGR19NQVNLIEdFTk1BU0soMTUsIDApDQo+IA0KPiBCdXQgaXQgc2hvdWxkIGJlDQo+ICNkZWZp
-bmUgQl9BWF9SWF9GTFRSX0NGR19NQVNLIChHRU5NQVNLKDMxLCAyMikgfCBHRU5NQVNLKDE1LCAw
-KSkNCj4gDQo+IE9yaWdpbmFsbHkgKHdpdGggYnVnKSB3ZSBqdXN0IGJhY2t1cCByeF9mbHRyIGFu
-ZCB3cml0ZSB3aG9sZSAzMi1iaXRzIGJhY2ssDQo+IGJ1dCBpdCdzIGluY29ycmVjdCB0byBtb2Rp
-ZnkgR0VOTUFTSygyMSwgMTYpIHdoaWNoIGlzIHdyaXR0ZW4gYnkgYW5vdGhlcg0KPiBjb2RlLg0K
-PiANCj4gT25lIHdheSBpcyB0byBpbXBsZW1lbnQgYSBzcGVjaWFsIGZ1bmN0aW9uIHRvIHJlcGxh
-Y2UNCj4gICBydHc4OV93cml0ZTMyX21hc2socnR3ZGV2LCByZWcsIEJfQVhfUlhfRkxUUl9DRkdf
-TUFTSywgcnR3ZGV2LT5oYWwucnhfZmx0cik7DQo+IFN1Y2ggYXMNCj4gICBydHc4OV93cml0ZV9y
-eF9mbHRlcihydHdkZXYsIHJ0d2Rldi0+aGFsLnJ4X2ZsdHIpDQo+ICAgew0KPiAgICAgb3JpZyA9
-IHJlYWQocmVnKTsNCj4gICAgIG5ldyA9IChvcmlnICYgfm1hc2spIHwgKGRhdGEgJiBtYXNrKTsN
-Cj4gICAgIHdyaXRlKG5ldyk7DQo+ICAgfQ0KPiANCj4gQW5vdGhlciB3YXkgaXMgdGhhdCBJIGFk
-ZCB2YWx1ZSBvZiBCX0FYX1JYX01QRFVfTUFYX0xFTl9NQVNLIGludG8NCj4gcnR3ZGV2LT5oYWwu
-cnhfZmx0ci4gVGhlbiwganVzdCB3cml0ZSB3aG9sZSAzMi1iaXQsIG5vIG5lZWQgbWFzay4NCj4g
-DQo+ID4NCj4gPiBJZiB0aGUgY2xlYXJpbmcgaXMgbmVlZGVkLCBJIHN0aWxsIHRoaW5rIGl0IHdv
-dWxkIGJlIGJldHRlciB0bw0KPiA+IGNoYW5nZSBCX0FYX1JYX0ZMVFJfQ0ZHX01BU0ssIGFuZCBz
-cGxpdCB0aGUgY2xlYXJpbmcgb2ZmIGluIGEgc2VwYXJhdGUNCj4gPiBvcGVyYXRpb24sIHRvIG1h
-a2UgaXQgbW9yZSBleHBsaWNpdCBhbmQgb2J2aW91cyBmb3IgdGhlIGNhc3VhbCByZWFkZXIuDQoN
-CkkgbWlzc2VkIHRoaXMgcGFyYWdyYXBoIGxhc3Qgd2VlaywgYnV0IHRoYXQgaXMgbGlrZSBteSB0
-aG91Z2h0Lg0KVGhlbiBJIHNwaW4gYSBSRlQgWzFdLiBQbGVhc2UgdHJ5IGlmIGl0IGNhbiB3b3Jr
-IHdpdGggeW91ciBjaGFuZ2VzLg0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgt
-d2lyZWxlc3MvMjAyNTExMTAwMjM3MDcuNjI3Mi0xLXBrc2hpaEByZWFsdGVrLmNvbS9ULyN1DQoN
-Cj4gPg0KPiA+ID4gU2luY2Ugd2UgZG9uJ3QgdXNlIEZJRUxEX3tHRVQsUFJFUH0gbWFjcm9zIHdp
-dGggQl9BWF9SWF9GTFRSX0NGR19NQVNLLCBob3cNCj4gPiA+IGNhbiB5b3UgZmluZCB0aGUgcHJv
-YmxlbT8gUGxlYXNlIGd1aWRlIHVzLiBUaGFua3MuDQo+ID4NCj4gPiBJIHN0aWxsIGhhdmUgIltQ
-QVRDSC9SRkMgMTcvMTddIHJ0dzg5OiBVc2UgYml0ZmllbGQgaGVscGVycyINCj4gPg0KPiBodHRw
-czovL2xvcmUua2VybmVsLm9yZy9hbGwvZjdiODExMjJmNzU5NmZhMDA0MTg4YmZhZTY4ZjI1YTY4
-YzJkMjM5Mi4xNjM3NTkyMTMzLmdpdC5nZWVydCtyZW5lc2FzQGdsaWQNCj4gPiBlci5iZS8NCj4g
-PiBpbiBteSBsb2NhbCB0cmVlLCB3aGljaCBzdGFydGVkIGZsYWdnaW5nIHRoZSB1c2Ugb2YgYSBk
-aXNjb250aWd1b3VzDQo+ID4gbWFzayB3aXRoIHRoZSBpbXByb3ZlZCBjaGVja2luZyBpbiBmaWVs
-ZF9wcmVwKCkuDQo+IA0KPiBHb3QgaXQuIFlvdSBhcmUgZG9pbmcgIk5vbi1jb25zdCBiaXRmaWVs
-ZCBoZWxwZXIgY29udmVyc2lvbnMiLg0KPiANCj4gUGluZy1LZQ0KDQo=
+
+
+On 11/9/25 4:56 PM, The-Luga wrote:
+>> I wonder if suspend/resume would be a problem. Maybe the device crashes
+>> when it attempts to resume?
+>> Windows will not suspend this device because it has a Consumer Control
+>> application collection.
+>>
+>> Is there a USB quirk to stop the kernel from suspending the device?
+> 
+> I tried two parameters independently:
+> 
+> usbcore.quirks=2d99:a101k
+> where k = USB_QUIRK_NO_LPM (device can't handle Link Power Management);
+> 
+> usbcore.autosuspend=-1
+> 
+> In both cases, a reboot occurred.
+> 
+>> Two collections, both vendor unique.
+>> Basically HID 'pipes' to transport vendor unique data.
+>> We have only seen traces with input report ID 2F so far.
+>> If we could get traces of output report ID 2E from Windows running the
+>> vendor's software (TempoHub) it might help.
+> 
+> I don't understand what I should do to capture this data. This is the
+> data I captured:
+> 
+> 1. Wireshark on guest with usbpcap. I selected to capture from newly
+> attached drives (this should filter out the mouse, etc.).
+> 2. I opened TempoHub.
+> 3. I started logging on host with `sudo cat
+> /sys/kernel/debug/usb/usbmon/3u > qr30_passthrough_wireshark.log`
+> 4. I passed the device through.
+> 
+
+OK, The attached trace captured the input and output reports between the
+host software and the device. I'll try and find a pattern to the vendor's protocol.
+The vendor software only supports Windows and Mac, no claim for Linux support.
+
+If all else fails we might by able to block the behavior by having the kernel ignore 
+the second HID interface.
+
+> Every increase/decrease of values are step by step.
+> 
+> [TempoHub Actions]
+> 5. I increased the volume 0 (muted) to 16 (max) with TempoHub.
+>  >I will press the physical play/pause button after each action, as it
+> may be easier to analyze when seeing this marker(?)
+> 6. Decreased the volume from 16 to 0.
+>    >play/pause
+> 7. Decreased the brightness to 0 from TempoHub and increased it to 100%.
+>    >play/pause
+> 8. Decreased the brightness from 100 to 0.
+>    >play/pause
+> 9. Changed my light profile to static color.
+>    >play/pause
+> 10. Changed back to glittering colors.
+>    >play/pause
+> 
+> [Hardware Actions]
+> 11. Increased volume with the knob to 16.
+>    >play/pause
+> 12. Decreased volume with the knob to 0 (muted).
+>    >play/pause
+> 13. Increased brightness with the knob until 100 and decreased
+> brightness with the knob until 0.
+>    >play/pause
+> 14. Pressed the RGB profile switcher 2 times.
+> 
+> I stopped the capture.
+> 
+> The software has no button. It's a slider for volume and brightness, I
+> may have missed some step on the full range because of this.
+
