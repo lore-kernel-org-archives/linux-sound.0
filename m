@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16FE334C36;
-	Mon, 10 Nov 2025 18:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10F0335071;
+	Mon, 10 Nov 2025 18:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762800484; cv=none; b=CyHsTmsU//74qafZqF4+/HJW+7xreV0HoPfUHBL3iUQNcvqB+RFSR63a2tL2ASb49qQ94hMUY604Ol4XHVtq54DmIpfEmV1F+0b+KdNmOJstEUdCCz+lUIDIakfWlebmZD5gJ+EDXVjIGU5p2Hn191fx7IXyAUa4iwZNtDfut8c=
+	t=1762800484; cv=none; b=UkHUcxO03Ma1vmwX4OjUA07Y5Sxwpwl5wBxJK42pShfhpPTrGo+uhYx5zOPYVJIp70cbZY857djE8+PqSeCU2+5T8nQGbJqyWMqYTlE0poKPufJNys50yIyPcpy6NIEgJNXrvyGOy1v4MWPHqtyPQgccOH00ObIIayVFabj+mc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762800484; c=relaxed/simple;
-	bh=oiUH/MiG9bvVHCRWpyZuJmqnh7B0oNIzC+jHMWYJItY=;
+	bh=vfFJiF5Jws09gjgjKdTNrvEfoqRScmV1z1nMj3uwJf8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qyMJffwynwJSEf++AFtXoR4c2i1Ko1RIZvRA+H5HLZHl/NPR5C15cjTR3CrjrCh10h9dEVdIEOlULNvBNgxzjieR0zHmxZtIQdnlW3CwkgVFdrlIw17V4U15tdZm1haNUhaFaeU/v3L5R0nO5W4++FVna9Rr5AAS6Ql623OHMls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeSDHzB/; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=hxpBX41H5dpWaLSKB1CjZg0qO5Wmd7XRclRBpCzCinN4r4sjXi2B2xg7OGlmbVgz5boVaW19rgH1u6Vc5vE4fVqq6Vt79fK9y5FfGP44jKAPgwg1EP3yomYoPnIeA6joDz9kDCnj0pfCuQZxPgB+DCRRNHT3j6HBt3p6N4w1Abg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrlLhdcg; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeSDHzB/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrlLhdcg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762800481; x=1794336481;
+  t=1762800482; x=1794336482;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=oiUH/MiG9bvVHCRWpyZuJmqnh7B0oNIzC+jHMWYJItY=;
-  b=DeSDHzB/RoCMKAyS/fjqsJKQ3sfwZ8C36nDtW7SlAs2JL4Wit6gwwjRN
-   GYGoTlmCWSdLzVqyeDdBi/FIXUk+hDomyLSnHd6t30ypQj0+UuwqQRxg4
-   iAPJAvSxLGwZPYxtS7HokM8ZnyRwVt7WOQmYlJfIZJHyD22434F1d2f3T
-   5iu+VFUXuLs+56Nlvk1Q2u9quACHKDK3f8oJk2NpVzsgIE5vTlyS7VpLn
-   320mhQ7q2xGHmiTZcO/9gbl306862Tdl0ANABQefyhOQXOr58kbAxlGpT
-   Vzjm5QlwBsTcV6M4Si84zwJhePNEWfNFoaYk3551M1WP+UeFA2MDFjeUL
-   A==;
-X-CSE-ConnectionGUID: NEJCxpmBQ5q5y8HZW+sn/g==
-X-CSE-MsgGUID: Tp2ZxQWqRX+5qdvNWK27BA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68705399"
+  bh=vfFJiF5Jws09gjgjKdTNrvEfoqRScmV1z1nMj3uwJf8=;
+  b=BrlLhdcgw2B/oP7t1nB1PHues2I/4/JevoMCMFwKV/dQUgYR4FWQ3qlM
+   qUv+/b48qz3XUU5NZN5CmA5SqGGFvXd9RjENgCZWkwOaDQ2L9YrzXDu+L
+   CJQ69RxKbvJeCnw8HR4n76DBaE13AgKm7tGA/K/rfGbk81i5RmYDMuGPc
+   KQC/vBzV1FeSo/PMHcpvCGv9O0LHnHjyw3f/Am5ZVr5WCfCyNOO5ayoBn
+   HTduP8vk3Nt0KrvRI985AzYb2+Ls3t1hIRnHupMyUsljfViUDv43Ia0dL
+   1eFoJH6/1b4aaFYKesSxLo+Z0xbaq540mOODnkTzz/NFmmAeUW+707hFD
+   w==;
+X-CSE-ConnectionGUID: dnTV/qraSL2PP/B/39kpxw==
+X-CSE-MsgGUID: 2W4Yz9SmTn6LbHKfGHxxig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="63861730"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="68705399"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:47:59 -0800
-X-CSE-ConnectionGUID: MuEJTZ4URW+LdYzVyf898w==
-X-CSE-MsgGUID: Dj/AQkpFTdO4UAI/pAx3Tw==
+   d="scan'208";a="63861730"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:47:59 -0800
+X-CSE-ConnectionGUID: Ht2etEAvTa2/P79MAcMXVw==
+X-CSE-MsgGUID: q70WGSfeRhCBG0Zd32Rwgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188705041"
+   d="scan'208";a="226005244"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
+  by orviesa001.jf.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 57559A4; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
+	id 499D5A2; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -142,9 +142,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 15/23] mmc: mmc_test: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:34 +0100
-Message-ID: <20251110184727.666591-16-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 13/23] media: av7110: Switch to use %ptSp
+Date: Mon, 10 Nov 2025 19:40:32 +0100
+Message-ID: <20251110184727.666591-14-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
 References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
@@ -161,45 +161,22 @@ struct timespec64 in human readable format.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/mmc/core/mmc_test.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
-index a74089df4547..c17b7b200798 100644
---- a/drivers/mmc/core/mmc_test.c
-+++ b/drivers/mmc/core/mmc_test.c
-@@ -586,14 +586,11 @@ static void mmc_test_print_avg_rate(struct mmc_test_card *test, uint64_t bytes,
- 	rate = mmc_test_rate(tot, &ts);
- 	iops = mmc_test_rate(count * 100, &ts); /* I/O ops per sec x 100 */
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index bc9a2a40afcb..602342d1174f 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -321,7 +321,7 @@ static inline void print_time(char *s)
+ 	struct timespec64 ts;
  
--	pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took "
--			 "%llu.%09u seconds (%u kB/s, %u KiB/s, "
--			 "%u.%02u IOPS, sg_len %d)\n",
--			 mmc_hostname(test->card->host), count, sectors, count,
--			 sectors >> 1, (sectors & 1 ? ".5" : ""),
--			 (u64)ts.tv_sec, (u32)ts.tv_nsec,
--			 rate / 1000, rate / 1024, iops / 100, iops % 100,
--			 test->area.sg_len);
-+	pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took %ptSp seconds (%u kB/s, %u KiB/s, %u.%02u IOPS, sg_len %d)\n",
-+		 mmc_hostname(test->card->host), count, sectors, count,
-+		 sectors >> 1, (sectors & 1 ? ".5" : ""), &ts,
-+		 rate / 1000, rate / 1024, iops / 100, iops % 100,
-+		 test->area.sg_len);
- 
- 	mmc_test_save_transfer_result(test, count, sectors, ts, rate, iops);
+ 	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %lld.%09ld\n", s, (s64)ts.tv_sec, ts.tv_nsec);
++	pr_info("%s(): %ptSp\n", s, &ts);
+ #endif
  }
-@@ -3074,9 +3071,8 @@ static int mtf_test_show(struct seq_file *sf, void *data)
- 		seq_printf(sf, "Test %d: %d\n", gr->testcase + 1, gr->result);
  
- 		list_for_each_entry(tr, &gr->tr_lst, link) {
--			seq_printf(sf, "%u %d %llu.%09u %u %u.%02u\n",
--				tr->count, tr->sectors,
--				(u64)tr->ts.tv_sec, (u32)tr->ts.tv_nsec,
-+			seq_printf(sf, "%u %d %ptSp %u %u.%02u\n",
-+				tr->count, tr->sectors, &tr->ts,
- 				tr->rate, tr->iops / 100, tr->iops % 100);
- 		}
- 	}
 -- 
 2.50.1
 
