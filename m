@@ -1,100 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010036.outbound.protection.outlook.com [52.101.46.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555CD2EBB8C;
-	Mon, 10 Nov 2025 12:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762777502; cv=none; b=bWdQSV1ln6t/ZTY48WYaUXMqZVFy9xI8Wp3likOnLlBEHPBxfCoXqk8iWnRisUchbuSj7pdv/mKd0cjoH3V/7SNriyjE70x6zlHXA5km4zPx81CAWgcISCzf+mGQl0fkSIHNGTucUAEXUOn0rUKrB+oj5WFXD0t4dHAplqfBuPY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762777502; c=relaxed/simple;
-	bh=NpY2AUK7VY2YVw/7RA2XeEy8IORez96b9m5ykP2PP/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FyDP+mfqPAQRgt/7iHLtWntGyrKsvtKGkwgPnrmV2O7Lbqcm/lG/xpwWWiPqd4BMVGpHHGRdH/fzDg+VLFBw9E2/xcn9DFHUn2qzGtVL/QX+rjSTFJacK46smjQHiWgfm7Ojt8pglkjVY0kiBB3BksuMeC/uv4hUX90DXJ5HK44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HXBvDD/a; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A7518A6B0
+	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 13:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762779691; cv=fail; b=u8cGv++we9Z3qC5ig7R7HSk2pm6XXdY/0YO3LyZny1A4nJ6LE+8lJhXfNZ0bfh4PhkaX1URDfCeohwsM2/VLkVyEmBZXyohCkRfD6moR6lwTkJnuda4tneqfYVOGkg9NBULCnkaUNpm+LjVdJNrZOkW5AGb4NaE4JXmakFT8Lk0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762779691; c=relaxed/simple;
+	bh=+2U8qdN0Kz3qr/cWPxIXm94rPqvukxGm3SlE9V9h1cE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oVEMPlubN+2A2R5pPqCTapcYCX+b/TzKgQ/mLnlKb1zIUP8GxP6tUjMBaGrvOqRqqg6MD+uCLqNSxgU4iDe4uLHa0sAdmlgqIWN8KG9KOliF2V6v/qFVUf91gRELB6EBrJndQmJqERSjQshin7V3QG/FZdMh+3tqq8pFS/2VJgw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kKZawxcX; arc=fail smtp.client-ip=52.101.46.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HXBvDD/a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62DE2C19421;
-	Mon, 10 Nov 2025 12:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762777502;
-	bh=NpY2AUK7VY2YVw/7RA2XeEy8IORez96b9m5ykP2PP/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HXBvDD/aZVkfwuX9K2/DMLirATxDvc4HlIZV1o0NPBYcxFeAJfG81bWW0Fwa7ce9K
-	 inDbHKJ1tVDlE+Iq/VSTnnxUijQMHHRirHLWUurbWj5o59lZMJAzF7QRTvXf9DhUoV
-	 YCwSZZDwdVUZaZ4vIPwXEOHsZuacJZzX1V3y8xKBcS7luFvC7Un1hgmablEeDaJWM0
-	 PdhhJwElTPtCbSKTX2aiK8NAU/3YbZaKyNY6oWWYoIAzrjBiFYhEFmhrIvfTzQg7Bn
-	 ncIszN6i1X4fztPA99vc5rnRadadGOLPqfZlq6rbws2vt7+Y68oBblyk1jzRcVjalx
-	 z7dph5F8Esh9w==
-Date: Mon, 10 Nov 2025 12:24:56 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Xu, Baojun" <baojun.xu@ti.com>, "tiwai@suse.de" <tiwai@suse.de>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"13916275206@139.com" <13916275206@139.com>,
-	"Ding, Shenghao" <shenghao-ding@ti.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
-	"Chen, Robin" <robinchen@ti.com>, "Wang, Will" <will-wang@ti.com>,
-	"jim.shil@goertek.com" <jim.shil@goertek.com>,
-	"toastcheng@google.com" <toastcheng@google.com>,
-	"chinkaiting@google.com" <chinkaiting@google.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
- TAS2568/5806M/5806MD/5830 support
-Message-ID: <aRHZmMDW3UIydHZ-@finisterre.sirena.org.uk>
-References: <20251108110759.2409-1-baojun.xu@ti.com>
- <20251108110759.2409-2-baojun.xu@ti.com>
- <20251109-heavenly-observant-quetzal-b1bead@kuoka>
- <ecc69a98a23d406ea1eada62144415fc@ti.com>
- <035d6c35-c27a-4f5c-8603-ea5857d78e63@kernel.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kKZawxcX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZLR3VX/QU6l4kd/UhoSviIGznLoxMPV1Uj5Vcz06hWcu8bhWkrrR1UmhKH6s9GfJhNIbgOwrx3V4LSfuY2INIT9vIZrBaCvMmZQzBEk7BRkICr0yidNBi+AT1YSMvk0oEIYKdYp/sNLrk20MCXLwWkugBaT3WQR9qk2XAuqL2NmHX4DxQ7WLSVPzda9Go5PNlDcrIF0+/DoGh4bAIPE9bJhw0Yo0YV5sqr0k396bilhaRw6rhD4uLnM4L4X0Y52pocGiCme0nBSZnxYa9zfk8+MIWMWjnOMMACCb4ksD2nSTnVWOVObip9bPPn1TRVWL5bHjo4QAxCTg58Lt4LM+vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mk9LzkRVx6RNEjvS9ltahn0JvNOQJd5iQxSLi2yCE6Y=;
+ b=RA2XyuCy5/4rIfrjfYGRkKIGlVibLlXFr4+3mgg1DQYsAvCsszrcHuEYl+OWyvCl+7O2qzIjE1yTPEWBiYtyS7HZMa7Kne8tOKB9vJsLQ1cSR7bn34OlOCWXn4NeZiK7datz/A0bR8gvL7NEryoXp2v3Bc0DrMl5gEMbxRtZBzjkAq11h2oydc4yfIwjmbV+yD9Vr4DwXdBoxn0ZCd/9IkfhlG/1A2e8xdc40fNAKg/3uZmY3n2FGsXa+IAwGy9aQcXsVo4cQZzK8npyBxxJTUuRr7wnVbs7//j6epDhH1cclKnsFcG2pFVlI6umzbfCdk34HQOiGTD8/7PoX/D1zQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=linaro.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mk9LzkRVx6RNEjvS9ltahn0JvNOQJd5iQxSLi2yCE6Y=;
+ b=kKZawxcXoYkALnk0ydgEJoeqZ3cNt8lqcmNmtVXD3efGipTJ4ExRfQvhYhFf6wp2Ksx/fXTGEumlouu4We7SHFs1AZuIBGm7PY9KfW6ZlLskXJB4Zv6ktphj/dQvp4zVyn2zF+ruNkM6PRwchsUpksWSQz3wGzgb/K027dm5pxo=
+Received: from SA9PR13CA0087.namprd13.prod.outlook.com (2603:10b6:806:23::32)
+ by CH4PR10MB8099.namprd10.prod.outlook.com (2603:10b6:610:242::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
+ 2025 13:01:26 +0000
+Received: from SN1PEPF000397AF.namprd05.prod.outlook.com
+ (2603:10b6:806:23:cafe::86) by SA9PR13CA0087.outlook.office365.com
+ (2603:10b6:806:23::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.5 via Frontend Transport; Mon,
+ 10 Nov 2025 13:01:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SN1PEPF000397AF.mail.protection.outlook.com (10.167.248.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Mon, 10 Nov 2025 13:01:25 +0000
+Received: from DLEE215.ent.ti.com (157.170.170.118) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 10 Nov
+ 2025 07:01:18 -0600
+Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE215.ent.ti.com
+ (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 10 Nov
+ 2025 07:01:17 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 10 Nov 2025 07:01:17 -0600
+Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AAD1C923439164;
+	Mon, 10 Nov 2025 07:01:13 -0600
+From: Niranjan H Y <niranjan.hy@ti.com>
+To: <alsa-devel@alsa-project.org>
+CC: <broonie@kernel.org>, <ckeepax@opensource.cirrus.com>,
+	<mstrozek@opensource.cirrus.com>, <yung-chuan.liao@linux.intel.com>,
+	<linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <cezary.rojewski@intel.com>,
+	<peter.ujfalusi@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<kai.vehmanen@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<navada@ti.com>, <shenghao-ding@ti.com>, <v-hampiholi@ti.com>,
+	<baojun.xu@ti.com>, <dan.carpenter@linaro.org>, Niranjan H Y
+	<niranjan.hy@ti.com>
+Subject: [PATCH v1] ASoC: SDCA: bug fix while parsing mipi-sdca-control-cn-list
+Date: Mon, 10 Nov 2025 18:30:58 +0530
+Message-ID: <20251110130058.818-1-niranjan.hy@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NyXJEyfyRbw6LOaj"
-Content-Disposition: inline
-In-Reply-To: <035d6c35-c27a-4f5c-8603-ea5857d78e63@kernel.org>
-X-Cookie: You dialed 5483.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397AF:EE_|CH4PR10MB8099:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2e5b959-4366-4e0e-0982-08de205941b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?/yHED1j4UkcxwlfxCAoUiaI99O4xy0KxgQ6ZWWtM9vU2lS+yboYPzbqF6ra/?=
+ =?us-ascii?Q?zAv4UtuYtpiuYT4BshL4Ea/UOMOtun01VgyrKMXUWHMX/2bjouCfYygEnS7k?=
+ =?us-ascii?Q?I61dI61sZVn6XmisN0msJbVSnAnYMcOUmBgE6g2B6QrnFXqmZwcNipAy3Nsv?=
+ =?us-ascii?Q?EYfg4FaDaBj5tyrM5sQSSXP/J7QTlzSPL2gpZburv3PRRom9K0kvmiLF/Eoc?=
+ =?us-ascii?Q?OALrIsrHjRVQi7aSK9+oO3IeOEIgKjlWsluIMIPuwKkzhqFf8sg5fmse5Uri?=
+ =?us-ascii?Q?9nKQufQqw76uyUI7t5tCyGdCpuv7IPq6CF3nofnWqEMZ5geHJbp9SOLfZhfb?=
+ =?us-ascii?Q?Va+vbS7bedeo9zyP6yCwQCJCDZjNvoIdYceG3eqU+7yInSKeXPhRsVmlK7z+?=
+ =?us-ascii?Q?JCZsOONO07IxQaeuRioPxtGfS3olEBZwfpPzh28LaleTW16o02QnLKXl3DO5?=
+ =?us-ascii?Q?449I4WE9+gspXFhurNfznmk+/KOt38xebNI0IpFxDWTWDaouOQmEamAmn52h?=
+ =?us-ascii?Q?zhfriL1Yz6C15/FxyzUy0wqbzoW2utihTiWrLdQHjerFNotoGdshTqOOpf2y?=
+ =?us-ascii?Q?BOgOz7Ps0+07dXAFtTTLKuju+TGvCI+XwKQkqE+lFZ+kLIPmkQ0YZ3OuyRcv?=
+ =?us-ascii?Q?7Sv5+PX2XX+IhbUWwFDBalaiVoPmj80Lld17jbve7HeUVEKfqmJOCqiUkh7G?=
+ =?us-ascii?Q?YUCeYxgP2qkdQpftQ2YqmMoX9dHkjqaoAqXTlu/iVCfmGjwQCPIScZlQ0FGv?=
+ =?us-ascii?Q?y2u41TSqUDfU0m5PAUJPNjvP3UQIKL9Ct2ktGX36MwpULme/DDosfP8DIlO+?=
+ =?us-ascii?Q?ZFFObeC1cAscJuJhLYJYi4UUS2DNRXYXz3xR3Ml0PN0XLKX2PRsvbTV/vpPv?=
+ =?us-ascii?Q?7lx+c+4buzHPJ6l28pZPU6i/wSoUtQvBm0R/9Y9PpK7Q0yLnaUZKEAs6Z3ou?=
+ =?us-ascii?Q?vwilsypnOc8nPIV6INNuaURp5VYcNAlXip4AU/r77aFQG+bUHRSVjBTM308P?=
+ =?us-ascii?Q?r0jq9LaDN4jg8LYVLJqC1sViLEoKS3+rAbuhdQ7ZDouMiY7l9DHdCvNVr+X7?=
+ =?us-ascii?Q?w5q9t+dAekezEICEjlVqGdebVU93jWVRkB31aEKEwwuo88BkoOY1/ti5zZOD?=
+ =?us-ascii?Q?96YxK/YXSJv2x/v7r3tCtMpNluInieUdngXafJaxOVPMPEJqznQYgkqGxTm0?=
+ =?us-ascii?Q?2q7omp2JIewjIl4pC0L+dNxNvlngda1C/EQaXse3+gnaTkB7JXeSv5dkXx5h?=
+ =?us-ascii?Q?aKTw7FDJAwadtmC0bP6XjROohZ88gUseMd4nsJcfAqD30l+0H8ARn0M06d0U?=
+ =?us-ascii?Q?fb3HXlvvluUb9X/6aylKhrjp5pNWFCvxQPDzoYLU7CrVHlyW1c9Xv1A6LGFn?=
+ =?us-ascii?Q?oqp3T37sFUnQTiWXbCcZWHMixd5Go+QGraK7qnfNKXO7ekzLs1Rfg2sOplHt?=
+ =?us-ascii?Q?PXa0xul6MHSwvCyrTaiWl1pJqRNv0+fYdB3UuG2IQanS09RnXheS0Sf/sFdd?=
+ =?us-ascii?Q?5ycI5o5tO8BHMK+fCL8MJ3pHqh5i/BPM4IqE2LpzjVBZTfjlVGgNlbU5reUS?=
+ =?us-ascii?Q?5SqGDKn9EEumsWhMkIo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 13:01:25.8777
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2e5b959-4366-4e0e-0982-08de205941b1
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397AF.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8099
 
+"struct sdca_control" declares "values" field as integer array.
+But the memory allocated to it is of char array. This causes
+crash for sdca_parse_function API. This patch addresses the
+issue by allocating correct data size.
 
---NyXJEyfyRbw6LOaj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+---
+ sound/soc/sdca/sdca_functions.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Mon, Nov 10, 2025 at 08:11:20AM +0100, Krzysztof Kozlowski wrote:
-> On 10/11/2025 06:29, Xu, Baojun wrote:
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index b2e3fab9b..6975c71a9 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -950,7 +950,8 @@ static int find_sdca_entity_control(struct device *dev, struct sdca_entity *enti
+ 		return ret;
+ 	}
+ 
+-	control->values = devm_kzalloc(dev, hweight64(control->cn_list), GFP_KERNEL);
++	control->values = devm_kzalloc(dev, hweight64(control->cn_list) * sizeof(int),
++				       GFP_KERNEL);
+ 	if (!control->values)
+ 		return -ENOMEM;
+ 
+-- 
+2.25.1
 
-> >> See also: https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst*L46__;Iw!!G3vK!SQ5aH9VZhZ2QzKdtYIs5BX7OarVmt1XzwB9XxqFgAGN0ONvsEoAjHsuoZWrrmetzH_xlxeSfWA$
-
-> What's with this link?
-
-Some e-mail systems rewrite incoming links to ensure that if anyone
-clicks on them they get pushed through some checks for them being
-malicious at the time they're being viewed, narrowing the window where
-something nasty could be provided.
-
---NyXJEyfyRbw6LOaj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkR2Y0ACgkQJNaLcl1U
-h9DqpQf/S9mDPJpZUTDC7qPQhSAN8/2l8sGvL4j7tIMAbtdzThq6EQXA8C9rmBOM
-mB4PtBgyh5jJO82gnV+dL3nqhircuP1ItiWkEMkzRZBHSlLPj5hTl29W7aNxH6Go
-EQu/MvYJpvFzT8aNFVJG/eESSv6YHQGcs1JcO0mre0lonI1mVH745uKGpL83DtEU
-nQ+o8n3ASEqW/sZlUGtyXIkm8K8FcptCVn2ZpMYnpWgG2WX5w8jMDM4aGfV+G6sv
-MUABYoUYk6HvdTKo+xANHDmeFWQ+gDioxeCB2OHrQ7iDBP1r3oqYl77X2+/Zk6ba
-ptBLzgHjTbYT8l0qmURI1a/eTLeQjw==
-=y+xq
------END PGP SIGNATURE-----
-
---NyXJEyfyRbw6LOaj--
