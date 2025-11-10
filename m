@@ -1,186 +1,199 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013042.outbound.protection.outlook.com [40.107.201.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294131D799D
-	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 04:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762750580; cv=none; b=msa+ANQKO/wRMhSuWy4B5D5VPqWesOmAiTZWl71AoPJ+DpfsnhieFA1iZKvxTn6syWjrEYvVBXjUunx7b8qhIMvVCk8Z60HM/ga5Sp0HK+nN+J+ATqMZiga/N+v2yWuV03x//shVPI1H+rUZWC3jwkvV9k+pnelJIezrjegb/R4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762750580; c=relaxed/simple;
-	bh=kD8JE0ldfMF72Jsnm53nOD4UZQV8pBMzV4u3KIK2RiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5shCO54/0sy4IQPVmUX4dWw8ZZuzLG5wjGYUsGJSkTE72otJ2Ifnlth3xAvJwCYt1ZbVpf719PddS29RvFStRiFvN0L6RIqEXFvy96gsIDGt3p+R9Ms9Ih5bjXe34zd99JWw+sXmsAipljKi4MWZwHE53AGeprg1xsL1aGAYhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkx3NX6r; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F398C34D382;
+	Mon, 10 Nov 2025 05:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762752550; cv=fail; b=Af9gOWaH3/tdtnNHaZN+/EqTd5maZboARWc3mQFxIuMx1zGat/j7ZVyYMCk82vP1UdgKDwhozoPgEqvtPymoK5HFHAczwEod0DwOAjcmrs/8XkRoyyWECaUdy0EYMV4RXfJuSQYsW8Cgk87m77hWpLKa3kvLPO42f41Woker2iE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762752550; c=relaxed/simple;
+	bh=LUvZwXvaMchMVB9diqZqgrxJ7/PoNbJgFBM6Qc0cam0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Y4qhlF74FqFtwiYhQjgYXe4e3SqNGfd2fceTgiOj1g61PhbVTTUaMEZdAZ1pO7tShihFBpKsquPNNaIBLO93UjMWQZ78ilKKydm7uGUAzWv+tRZ38mC8ooHKsSZY2wt7j1qNUQP8AiDRhtFuWELV/FNiVTNqXQabA6mO7pKE9W0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=TRIIDzLc; arc=fail smtp.client-ip=40.107.201.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkx3NX6r"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b8c0c0cdd61so2167492a12.2
-        for <linux-sound@vger.kernel.org>; Sun, 09 Nov 2025 20:56:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762750578; x=1763355378; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/g9RT5BWmm6cjMoL5sdC/z2mP6coJ1Ksj/ik0l5M++k=;
-        b=nkx3NX6rAcwSmrLpC2Iix64eYq5f0KAjnwPvhZYGYbb27JdQBMr9ZO8ouduKKkf218
-         fd6bgVBskYxW4ARJ9MdsnxPuwINYJvhQS6pZz1nIXbnfeMnaUrtxuj+jCSIHtp48TQGS
-         oORcgG1BdIs/o/9xsCLIy8TqPLWUijGP5CNo8NuAt087Ioo6Acbaa9hdkrKVYgCEsk9X
-         bVvk4K64I2/5wO8R+IvKVbeHS+B94iiYYv0XBHXGSqMyd4q5a6ypGyJ6pfi1AndCBKOG
-         5PTWuqYg6LmAxF1F/1u8VXWHxYusfRurmf9DrjxKMgI9qwGnbF+Jk1jXp4y+xRe45oST
-         XZOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762750578; x=1763355378;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/g9RT5BWmm6cjMoL5sdC/z2mP6coJ1Ksj/ik0l5M++k=;
-        b=CVqU6inFUQRDpJDRyDtmhoC86CyjTtkuS5IPWBWcDSOC50H9XqpJTNYcQUoZOrEr+6
-         L3BBpv4Cp7y6ea4hQPEY5g/e5ptd13rXcoCCXUJAZ94le7NPGaO4E+wtehS2vlB0qOlb
-         9A1EXY08BlQePSOel2GSLcIBpGfawF4jLKT2D3Y8Eep72UF8wRoBtNlytjaRZ5x7Qjsq
-         y2MTm+pxK1TDNxh+eKwdoRPfvhuAzWcMO8s2akFE/E9X2V3volDmKg+7CK4i9LSFu5Qk
-         z/fKFVB1AelvmfD3XleRLs2UATZoxDjfq02PUFFx37LAkq3bIN2G8Ry9SUQc7k0g5K8g
-         0lqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXlJCcnGyX2ak4Q+O1ZlunEoh1NWI3r/ouo3Z06tkxTMnsninrDlWgvAVHK4beAUUQHDKz2Ujz89UmboQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2Gv8+tkapHu9ro5s84Bu3y3iCK8YZK+aSPvbt5Csy0d2+mwdq
-	vnkWv7p9MckeW3QrA0twXMIHep/lc5owAS4D/nzLC8N+0Is9Bj6btPNu
-X-Gm-Gg: ASbGncvv3YgRLJ/oozDFiMfqlOU2M3dS5kqkENQTAXkm/ECDNVte8MbmoRXRdxWMUTa
-	arxKV7/CO0jyXEr3Iw+7nghllzuqB+zb2G0XertLVyh9qlipUeihbVck1SeuCew0BESe17SO9tJ
-	BMne5uySPzYIfT+mT/okKCwxfNX5zretEPt0Rb7/eoyuWMQ4kZKUCstl/XFJPls2JJcbetJmS3b
-	GDlHhsKVI0IT3iVOY6nTlO7S1ZBf6R7Oeu8Rn7cYwHD22Aa0kJU1e69xnmtnej72dPXqnf5wFhL
-	WJYakxtDK6YOPfnPQhcguVifnQzLUh4Mdc65p1fr1QcgED14N+3MaoPiI+Y+X0q4EAVbDNkyntV
-	h8159aBiFlgEGQOAUQpw+sUTpDCY2ukMNIHKnGcZckgigFtuy1K8fFbenLk0TGbdsmy9XF3ofNc
-	8hULsxUfcEss+RKdIAtPWmrwLv7jzks54F+9UtPUE=
-X-Google-Smtp-Source: AGHT+IEBAo6RtH1Jg2e37hZ75erpvksr4D4Z0PI6Qbc91G3q5pFTg+AnAK0+1j+pI7SNBNpFrsxmow==
-X-Received: by 2002:a05:6a20:94ca:b0:350:ee00:3c9f with SMTP id adf61e73a8af0-353a24f7cbcmr9400564637.48.1762750578474;
-        Sun, 09 Nov 2025 20:56:18 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:c16c:df12:2ae:2f5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ba9024e6e17sm11057841a12.34.2025.11.09.20.56.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 20:56:17 -0800 (PST)
-Date: Sun, 9 Nov 2025 20:56:14 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, 
-	The-Luga <lugathe2@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
-	Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-Message-ID: <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
-References: <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
- <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
- <20251109092450.693bcbe5.michal.pecio@gmail.com>
- <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
- <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TRIIDzLc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=muBx/xPDgr/BQlKTLelrQHo5yEw8Yr9HFnJlO3OrMQL3U0u9wjmM2oubgfakfXmDvwGlMJ8MiVYqHsJS6A1h8K3uvkWt0zUgSiI60vlZ6nLjMn+R0dGNwkJyuhtVXriIOAmWjvdEycOdJJv+ZX6pK7x1i40Gq66Z0THLQ2ibCMJYXapO/CY5oWmR0Zv+H8GaUdcI01G0iC7hyj4w34q9G4VM8SDgLW1XdVfNNLHLSlbbLy6DgRDluI/BfNzAs3y6Y5bBmBsINaTak1n8G8BzrJDPq+FTTIQwHiK3IRD2/2W9qQW2c/KIU8BYeLfCUkV4oj8gAnrhHDKNyekyz9YC+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m3IQ//fOYybxZKKPTZcQfYbiMONfX8DnctFVXCEB8UQ=;
+ b=EVJPCj9DbdAynGJJSjQilyPj+X4JjdR8oaMoWhKgqwpaTgzNfejEwublVStClVwGOKE4LLUQp5M9TYoiMsl03v7BnlThrN90QcGuK5R3HRi624+tRmX0IC3OrQuAH+w9yvL33uY8iKTnwwXiBxNmZ9PKZdXYD6fDj7Y0N1aulA2vPm3m/UViYE0xoacHAzZor6yEG0jY+pbOEJ6F/oTgna1mt0I0F7UWVMVBeag4ZQEz8dawLTRlqapAId38shCQ9EgRkWBa6c8OVGwQ7FSSct7jNAF4/ULEC54kYBabhMRIORF2GnnjJT11bbx1MVaNxCPpRTJ1yY/DDQNw7FDmgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3IQ//fOYybxZKKPTZcQfYbiMONfX8DnctFVXCEB8UQ=;
+ b=TRIIDzLcL2KFuYpnNKbQwa8VfJachNCNZh4jgO96B4+919lPRjVAjmTTiFSiElONGrsKpdnzjklbCqiYp7nftN9HRbIWaxza//xQppFSSDtZqN0/wAqzSWQVzoKrerxLUK2do3rxBRaPXMW0me0CLSLIjoq23RR1VqeMZOBSYfQ=
+Received: from PH2PEPF0000385F.namprd17.prod.outlook.com (2603:10b6:518:1::6d)
+ by MW6PR10MB7639.namprd10.prod.outlook.com (2603:10b6:303:244::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
+ 2025 05:29:03 +0000
+Received: from SN1PEPF000252A1.namprd05.prod.outlook.com
+ (2a01:111:f403:c801::1) by PH2PEPF0000385F.outlook.office365.com
+ (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Mon,
+ 10 Nov 2025 05:29:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SN1PEPF000252A1.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Mon, 10 Nov 2025 05:29:02 +0000
+Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 9 Nov
+ 2025 23:29:01 -0600
+Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 9 Nov
+ 2025 23:29:01 -0600
+Received: from DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe]) by
+ DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe%7]) with mapi id
+ 15.02.2562.020; Sun, 9 Nov 2025 23:29:01 -0600
+From: "Xu, Baojun" <baojun.xu@ti.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de"
+	<tiwai@suse.de>, "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>, "13916275206@139.com"
+	<13916275206@139.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, "robh@kernel.org"
+	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "Yi, Ken" <k-yi@ti.com>, "Lo, Henry"
+	<henry.lo@ti.com>, "Chen, Robin" <robinchen@ti.com>, "Wang, Will"
+	<will-wang@ti.com>, "jim.shil@goertek.com" <jim.shil@goertek.com>,
+	"toastcheng@google.com" <toastcheng@google.com>, "chinkaiting@google.com"
+	<chinkaiting@google.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
+ TAS2568/5806M/5806MD/5830 support
+Thread-Topic: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
+ TAS2568/5806M/5806MD/5830 support
+Thread-Index: AQHcUKAKMWLWoEe5pUGqDO3hVAKe47Tq/KmAgABmATA=
+Date: Mon, 10 Nov 2025 05:29:01 +0000
+Message-ID: <ecc69a98a23d406ea1eada62144415fc@ti.com>
+References: <20251108110759.2409-1-baojun.xu@ti.com>
+ <20251108110759.2409-2-baojun.xu@ti.com>,<20251109-heavenly-observant-quetzal-b1bead@kuoka>
+In-Reply-To: <20251109-heavenly-observant-quetzal-b1bead@kuoka>
+Accept-Language: en-GB, zh-CN, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A1:EE_|MW6PR10MB7639:EE_
+X-MS-Office365-Filtering-Correlation-Id: 987d5798-872f-4fc2-daff-08de201a0f02
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700013|1800799024|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?WgS+ZN3LT1SZ/M24bQXxxdlbgpAkq7vEn6dpsZVCTOwIjLpEOkWw6nFmpX?=
+ =?iso-8859-1?Q?ITucNPFkhrK/yYq/QK90CgI7pASG/PJBoi6RpcBPixCCABJ6p89pPWth6e?=
+ =?iso-8859-1?Q?PeW0fGHHkuzF4CEHSm3COe/mzkQOQrYRmBVJli/ttHMJ6/TvAfsTNXfLci?=
+ =?iso-8859-1?Q?FRADEEjNN7YYfP9tFGoDoxJJDZPXr33TuzTLbus9lWuWygnga/5XhWbqHV?=
+ =?iso-8859-1?Q?/BGEWGzs710E8Qk8GuSWmQ91Vsk/PE29y0iO4hsrRIRYi08fVMWlL2gsRx?=
+ =?iso-8859-1?Q?LcgSsnARIxlQNvJv3Jebt6wYHB0Ociz+uR80rOainMNtDQzjGZSQCVG6Fh?=
+ =?iso-8859-1?Q?+JkQ/QYdSOMJqCPfjokLihWUPbUtOJ/gVdurwHUugZoNBi+DcvoniPGnfK?=
+ =?iso-8859-1?Q?b2c9QtvggMxa13lRQujcZNfxH/1Rtj5puaGXq0VOMrTwa0KBWTJkElIgWS?=
+ =?iso-8859-1?Q?IjtchfvIIt0TupQnTjEUz2yBWr9hqFWjXfBnyWFCVkcb76PcZGtxwL/B7N?=
+ =?iso-8859-1?Q?mz4i44xX4KIUpFz5z2Lv+JAG0ajvBe75P4v62LmSOVppww/SV1t0Uen0lQ?=
+ =?iso-8859-1?Q?4iE6SKFdihJU7a6QuX9c+E3GJniPqHi7aXbrxfhPjesiVebzrRTlNuIjAY?=
+ =?iso-8859-1?Q?2C/J8h7pQCFdXb7KXJbDvYlkC+ShFeSV2GfRZsQJpwl3w5KEV1auyYv9ka?=
+ =?iso-8859-1?Q?ZZsE6LssnT7PdaoWWwzlLq+MwZNw06FLYLurBLfdN//XpvLhfQ2o3dgovk?=
+ =?iso-8859-1?Q?5EIwnAtfEHWgsr32TXAFE8VK8E5pesdSR9E0HR9JNLEQmvUq6NNRg9SHUo?=
+ =?iso-8859-1?Q?aaAiROYN0iGCc8rKF3NmIqQf9HSNEPk6Ik8BN2FP3bH6XMDdTnrZLAP0TJ?=
+ =?iso-8859-1?Q?6Irf3r9IPt79g9JnGUyTtQU5Q/ul7DY1wFXtaeB73QCXf8yL3XrCwOx5al?=
+ =?iso-8859-1?Q?I8fYSPmUQWeY7Phal0ajfIgP2UW14ana9Q09lmZsE3YxuXIhGV4HVjqMXK?=
+ =?iso-8859-1?Q?DD6qHyrC4CaOTOexwi3vk0JQOvFzEeUZPUv0OB6M/tanoWXYkno4ddH+k/?=
+ =?iso-8859-1?Q?lunDZfJ0HRVCSangzHTElLM9dz6ri4fiNop3rc2YdvHCLsgjM1+ykoFXO3?=
+ =?iso-8859-1?Q?KnBC5DB610reGHeiOVjlkObmyqLNoSCUhLK4mabAISpk2pJwzXHvx5tCHY?=
+ =?iso-8859-1?Q?GwGYnM+OzjiWOCSIMzTsyp/Aq3kGSSyqHtStfPV00Q49D9XWfR/pHFYtIf?=
+ =?iso-8859-1?Q?cIZgRo+W7Yh9zQgwKhJAfOZsblk3HiqHeEIiuDSoZvAz6OiJE+6kFZGS94?=
+ =?iso-8859-1?Q?fRAtK2pIfbsn+ubNWPmNYxCvDZC5IjXWLqj84JsyPrJ3SgtsElJ2AGczem?=
+ =?iso-8859-1?Q?jL9fZ3jFhDycUDbeUGnbtfgg6Nb0ETmzQJXcAfm60M3J8muZYTiPlYOuBg?=
+ =?iso-8859-1?Q?uZqU1RSaOxeVReY7i1juoiIge/pWQmCwYCRCFGNqhCccjwTXXl/8CV9Xqt?=
+ =?iso-8859-1?Q?vPXSxF1QxzGLfS8F4IUX4TRsTIK2ocYouxCFdBQ20Ph/ETgkax3Ggeffc1?=
+ =?iso-8859-1?Q?o5D5/+sy0ddMNqooUYxhyGijN0tS?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 05:29:02.5752
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 987d5798-872f-4fc2-daff-08de201a0f02
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000252A1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7639
 
-On Sun, Nov 09, 2025 at 09:20:15PM -0500, Alan Stern wrote:
-> On Sun, Nov 09, 2025 at 02:49:23PM -0800, Terry Junge wrote:
-> > 
-> > 
-> > On 11/9/2025 2:17 PM, The-Luga wrote:
-> > >> But never mind that.  Try using the usbhid-dump program instead of
-> > >> lsusb.  usbhid-dump does not require you to unbind anything or change
-> > >> bConfigurationValue, so it's easier to use anyway.
-> > > 
-> > >> sudo usbhid-dump -d 2d99:a101
-> > > 003:002:003:DESCRIPTOR         1762723663.045959
-> > > 06 13 FF 09 01 A1 01 15 00 26 FF 00 85 06 09 00
-> > > 75 08 95 3D 91 02 85 07 09 00 75 08 95 3D 81 02
-> > > C0 06 14 FF 09 01 A1 01 15 00 26 FF 00 85 2E 09
-> > > 00 75 08 95 3F 91 02 85 2F 09 00 75 08 95 3F 81
-> > > 02 C0
-> > 
-> > Second HID Interface (Interface 3)
-> > 
-> > 06 13 ff Vendor Page ff13
-> > 09 01    Usage 1
-> > a1 01    Application Collection
-> > 15 00    Logical Min 0
-> > 26 ff 00 Logical Max 255
-> > 85 06    Report ID 6
-> > 09 00    Usage 0
-> > 75 08    Report Size 8
-> > 95 3d    Report Count 61
-> > 91 02    Output
-> > 85 07    Report ID 7
-> > 09 00    Usage 0
-> > 75 08    Report Size 8
-> > 95 3d    Report Count 61
-> > 81 02    Input
-> > c0       End Collection
-> > 06 14 ff Vendor Page ff14
-> > 09 01    Usage 1
-> > a1 01    Application Collection
-> > 15 00    Logical Min 0
-> > 26 ff 00 Logical Max 255
-> > 85 2e    Report Id 2E
-> > 09 00    Usage 0
-> > 75 08    Report Size 8
-> > 95 3f    Report Count 63
-> > 91 02    Output
-> > 85 2f    Report Id 2F
-> > 09 00    Usage 0
-> > 75 08    Report Size 8
-> > 95 3f    Report Count 63
-> > 81 02    Input
-> > c0       End Collection
-> > 
-> > Two collections, both vendor unique.
-> > Basically HID 'pipes' to transport vendor unique data.
-> > We have only seen traces with input report ID 2F so far.
-> > If we could get traces of output report ID 2E from Windows running the 
-> > vendor's software (TempoHub) it might help.
-> > 
-> > I wonder if suspend/resume would be a problem. Maybe the device crashes 
-> > when it attempts to resume?
-> > Windows will not suspend this device because it has a Consumer Control
-> > application collection.
-> > 
-> > Is there a USB quirk to stop the kernel from suspending the device?
-> 
-> There is.  More simply, The-Luga can do:
-> 
-> 	echo on >/sys/bus/usb/devices/3-2/power/control
-> 
-> to prevent the device from going into runtime suspend.
-> 
-> However, I doubt that suspend/resume is the problem because the 
-> disconnects occur whenever the brightness knob is moved, not at times 
-> when the system might decide to suspend the device.
-> 
-> Also, I suspect that the computer doesn't really have to do anything 
-> with the HID report data from interface 3, just accept it.  At least, 
-> that's what the packet capture from the Windows guest seemed to show.  
-> By contrast, the usbmon trace under Linux showed no traffic on that 
-> endpoint.  Without being able to send the data, the speaker's firmware 
-> could just overflow an internal buffer and crash, who knows?
-> 
-> It would be nice to get some suggestions from someone who is familiar 
-> with the input subsystem.  Dmitry, can you offer anything?  For example, 
-> is there a program the user can run to collect the report data that 
-> currently isn't being requested?
+>=20
+> ________________________________________
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: 10 November 2025 01:17
+> To: Xu, Baojun
+> Cc: broonie@kernel.org; tiwai@suse.de; andriy.shevchenko@linux.intel.com;=
+ 13916275206@139.com; Ding, Shenghao; linux-sound@vger.kernel.org; linux-ke=
+rnel@vger.kernel.org; lgirdwood@gmail.com; robh@kernel.org; krzk+dt@kernel.=
+org; conor+dt@kernel.org; devicetree@vger.kernel.org; Yi, Ken; Lo, Henry; C=
+hen, Robin; Ji, Jesse; Wang, Will; jim.shil@goertek.com; toastcheng@google.=
+com; chinkaiting@google.com
+> Subject: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add=
+ TAS2568/5806M/5806MD/5830 support
+>=20
+> On Sat, Nov 08, 2025 at 07:07:59PM +0800, Baojun Xu wrote:
+> > TAS5806M, TAS5806MD and TAS5830 is in same family with TAS58XX.
+> > TAS2568 is in family with TAS257X.
+> >=20
+> > Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> > ---
+> >  .../devicetree/bindings/sound/ti,tas2781.yaml | 25 +++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >=20
+>=20
+> Please organize the patch documenting compatible (DT bindings) before the=
+ir user.
+> See also: https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6=
+.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst*L46=
+__;Iw!!G3vK!SQ5aH9VZhZ2QzKdtYIs5BX7OarVmt1XzwB9XxqFgAGN0ONvsEoAjHsuoZWrrmet=
+zH_xlxeSfWA$
 
-Jiri or Benjamin would know more, but maybe using hid-recorder from
-https://gitlab.freedesktop.org/libevdev/hid-tools would help both
-consume and decipher the data coming from that interface...
+Hi Krzysztof,
 
-Thanks.
+Thanks for your review.
+Do you mean I need to add a text file,
+for example "ti,tas2781.txt", include the required properties,
+and the example of the devicetree node?
 
--- 
-Dmitry
+>=20
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> Best regards,
+> Krzysztof
+>=20
+Best Regards
+Jim=
