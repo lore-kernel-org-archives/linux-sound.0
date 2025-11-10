@@ -1,87 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A11218AB0;
-	Mon, 10 Nov 2025 07:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9791B2F3C2C
+	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 07:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762760526; cv=none; b=cxRFnIkP6oWaACV4IvKuQM7mnmG0vg5rXeetNvLCy1r7Dp8tCLpD6EmClFIN4LPUrxIfzRyQhtyg+5EDpBC5dY3fbSOBqjVfyNC3ApnHFW5ZV8YBTjwCxpFJYd0wAPpyWxhhUZfmdH5rfGxif/v0TA75huy+WhL/XvQlve1qU9A=
+	t=1762761583; cv=none; b=lTd94CvOgUEMZQl7Kafk6l+P0TN6l+THeTrHRABWnbfa82q8wZ91IZulmSh3Vr7eZKEmAQwPQTkMgQSbANVq9EC5HAPcSMxypWpWY/K9Cnj+vCQoHm63nYl2KUIptWvMPDkIgCVj2eNLqqTxyminWjvx/wZVcFdMTj805LtwgVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762760526; c=relaxed/simple;
-	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Gknpk9+eShB4ukjLeSRkytqvAVF8Uoiug6Ot4IkH/dzhrjW+MPNXSALckh47IwzZBG+eW4kOTNsMUlKsh8fwIUQxhqbKjup0sITDg/69ajuBminYFd9N3Fx/FJ8zZHdnWiAbwAyj1eUHfbKLpT0juqXykohhyNRjd4KjJ/hdM2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkY1ybXw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762761583; c=relaxed/simple;
+	bh=l6rAjgIfDlhOHg/0Bv9x+4BwfAtvCUpo+tG/vXOpkuA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=A15x4Y1G7YaL5+pd/KJPOtsOneL/rOOxR16uuKaSY+y7TtIk1Xqcr62t3q3Ld6bkpxH6btqB4dQPCLdbn2wtJoIGsjjzatXHo26vJccGKIsy3e6/JfYAaJ4cFTW2nwP5py+VI6mjfc4VxnGzhXuMt08VCHVM9Je+LZcmPcBlWo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ahumAj/a; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkY1ybXw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20230C116B1;
-	Mon, 10 Nov 2025 07:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762760525;
-	bh=eoQpss3r6FYo/VoSTS5AtWz2fEfHuakzCuCNoTPYihE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SkY1ybXw4AE6CFT9Tnb2fjXUIAbi+gLXED5B4FtiMQLdokuofcghcxD+xY8/DB3dJ
-	 RsFOoMuXNQq3d5SOBbdv5jiaHYA5OLCtdNUvt1z1m1Cfg0fR6V8suAOhTd7pG+PJlt
-	 mgyglzWBw2jENzcWsjico9PyLr+Y+XkjC7+xTM9+tplbMS+EV9IAIe56PThbWWCukY
-	 2dSGCF9Ip5CDKH+ldtwdtxsvV8pavZqjVHWAST1KoYe7bzXRRpYAvYCUY/8Y7iMYpx
-	 z/6yPHa9cE79YCuAb2g/xvHnjCKsj4bj9ba/mmWaFKT0WkrJS/k1D54JNUOK67LcBG
-	 HHreGSjFECDgA==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: devicetree@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Conor Dooley <conor+dt@kernel.org>, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
- Gatien Chevallier <gatien.chevallier@foss.st.com>, imx@lists.linux.dev, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Mark Brown <broonie@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
-In-Reply-To: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-References: <20251020060951.30776-6-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 0/4] dt-bindings: treewide: don't check node
- names
-Message-Id: <176276050899.18134.7729831344719556570.b4-ty@kernel.org>
-Date: Mon, 10 Nov 2025 07:41:48 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ahumAj/a"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 5B240C108E5;
+	Mon, 10 Nov 2025 07:59:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A5633606F5;
+	Mon, 10 Nov 2025 07:59:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9934A103718A5;
+	Mon, 10 Nov 2025 08:59:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1762761575; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=l6rAjgIfDlhOHg/0Bv9x+4BwfAtvCUpo+tG/vXOpkuA=;
+	b=ahumAj/aDXbJoRdvrKUIbCnZrAHisypL1ca1YI2jBWh+OI62ou9c/hikOW1bqE3UHJxe/C
+	+Ja6VUru+WVsULqRORDzKvj3Eje16Kx+TNEw+b5ZoXhBAWpSPFny/3+DlOWpNxGd67URgl
+	rMW3bOd9gDpbe9eVa6IHj8f9yarfIG02jRvd0Umd6RGi646YBzF9lj518YtjM0HiiiA73q
+	uzG6OQz04mXBl83NZGTm29039oLQ4sKUzNR3FwVHmxu6jGwJdOFNEYH9/FMP3lZV2gQcD5
+	QSSO1kT/2jHx3reTsa1vVOWAhmDB0MLAIs65CimKc88KqfQ7IpMkoO/S5J7tKg==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 10 Nov 2025 08:59:33 +0100
+Message-Id: <DE4UTRD2E5EW.2APL4DF6P6GUU@bootlin.com>
+Cc: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] ASoC: dapm-graph: Handle sound card with space in
+ name
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Yiwei Lin" <s921975628@gmail.com>
+X-Mailer: aerc 0.20.1
+References: <20251107171302.2228-1-s921975628@gmail.com>
+In-Reply-To: <20251107171302.2228-1-s921975628@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
+On Fri Nov 7, 2025 at 6:13 PM CET, Yiwei Lin wrote:
+> When the name of the sound card has a space
+> between, the script will fail to output the
+> dot file. Consider the case to generate it
+> correctly.
+>
+> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
 
-On Mon, 20 Oct 2025 08:09:49 +0200, Wolfram Sang wrote:
-> Node names are already and properly checked by the core schema. No need
-> to do it again.
-> 
-> These are all occurrences I found in linux-next as of 20251015. I did
-> run dt_bindings_check successfully. I haven't done a way to run
-> dtbs_check yet because I would need to identify the proper architecture
-> first, right? Is there some tool which tests all DTs of a certain
-> binding? At least build bot is happy, I don't know if it checks DTs as
-> well, though.
-> 
-> [...]
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Applied, thanks!
-
-[2/4] dt-bindings: nvmem: don't check node names
-      commit: 65c1bc002b27d1ac398e37ce031a45d59999cb13
-
-Best regards,
--- 
-Srinivas Kandagatla <srini@kernel.org>
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
