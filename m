@@ -1,143 +1,148 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696402135AD
-	for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 06:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF4A194A73;
+	Mon, 10 Nov 2025 07:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762757661; cv=none; b=mP78IOfZSiEpgAVZnJM9nLiIEXN37He/trBruALw3pc4eEsJ6zebQUEkKRzDfi/6VQYyRaCukRjSETIB46NmQfvXvLhx0H6ttXZPN7Kfn+ljg/3sxh83yJRk7u6GPkdUV5qohza7p7Hy5UGNO+4IcgEKl9dJ6Xeoq1pA1ZjlOpI=
+	t=1762758686; cv=none; b=ha0CmEJdkkfbS3JJatgfoAmA48Ru/+nriccrIuI59JQ1ddbbIZgN3Mz/mGj7DtgP4a+bDJZ2YYmiAkPIi88rfxTQJ7JJy1shBchHJRW1mYfB4zjBtQaOcdyakOJNlzENE2jElr1YwfgujozRcadFKh2TKfPS+Ip1CDDTMS6GkZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762757661; c=relaxed/simple;
-	bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jy5JPyDD9XTE/bm9bL6IoCxXxQL4MrvQCpE/sfEqU6t9RNCYbYzQH0Uvsk0N6ztO+/h1Mh/c4SECEjgF0tVcC4Lonpc0RCzB936M9gIWsmyN6eCAOPj7ENQyo9S4MzDK0/3iLw5tbmpQ595goZC835IyLvAQ3SoUxx45PVA42qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHVMA1zO; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762758686; c=relaxed/simple;
+	bh=i3ixvy3dtnAud9Pvop/L2zluxy+BTZOe44XToPg2igA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cBwAzRpkKPibrqYrVWIVJ6jwtPH4c9f6Pv2BSB68wo/Mj12pj46FvR8AOjwlA2jp6Q1DV15Gj3KhNKSEwP3XIpz9RJaQiWvKTlQZsE4CYpUwykhxEvPXECG4mFdjzWISBf3htZBwE5PUWgcrSeoscQmBFqBjIWsCjHgAS9XQzLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIdHUP18; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHVMA1zO"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47755de027eso17825345e9.0
-        for <linux-sound@vger.kernel.org>; Sun, 09 Nov 2025 22:54:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762757658; x=1763362458; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
-        b=UHVMA1zOXkCqkAySe9f1V21jFbmbO4FJLuxYihOKQkivRmSP878dgmhnN5c85l5gts
-         F4T5i9Bet5LOZ6RTpe3RghRB1XCoBDTSJIDif+uYT+qK50yMTs0dbp59GDR1sWSCcT0i
-         K9iMOisrQ69LaJH0p+rElh0FPlk8uux67v7vhtZJtTNirHzcJQ+BANW9/nKsq1ZzEanO
-         P4wxpPfc03buYwCMcXMeGC3utb8qSerlSqaKiYQdQhrZj9l3XDZ9cSRXNjRYX2enPZ+r
-         tGZxkjfXKTKxxuhKifPFfU+JbxMh8+IwdTVlrGDoLJQNU+Sj6Jqw3UZ9ljJO+JwmF2Jp
-         AKRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762757658; x=1763362458;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IGzhJR3ET+kJgytVpdYEBFo9n95/yM3ijudhx2ByC5s=;
-        b=g80fMvOj7ZA5So9mMZ+vij76+Jv8fWtm/UFQOgDlP4uQFxqQ5zo/mqPqUp23mIlhXI
-         YXncuRg+mV3c/ZbbmVJJBTTdk7YNgvXyc8+lq+MdlRbGqW1Yy8uXA252rVes4ZE9WJNZ
-         S3lpR8QrinEgWtDRGUNI/78M8Jy0vX38qRifqBcI8a14OBsbVUY1AHbeI4um9dspkTLo
-         L1gF366MuoICqtBWqqE8EimhaQ8FN8dt3/i/dOU3gGULbbBXP4m3FU25WBfHnjgCrs06
-         GGWbTgXwZ1L56nCPOY+SX1EXdGx/4RymIeHjAKMmCePKfABC60FcAVMnsIlewms4LcPF
-         ptfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhKZn6uImdkpF/1DnJhS0EKtLBqMwKNqtos4GMNsBxpFzohGrnKXY/TiEwMbSDZtdojIbIUGDxU67uww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvjY85MCAqrMSKAedDEJF1Gks7iPbh2r14eJGPldfjpVTOHqrG
-	lEs6sng2wvii1Dqsh96eQhsOcpnlovuKH9uSJiJwnIbBqPQWIIT/I0qDV2ZyVo5Yqx0u6UdzN46
-	6mCIwhp0oL+z4B9aZGdfCYGirwg50tqQ=
-X-Gm-Gg: ASbGncuqVwEDL0S4xUea+RDicWWOzXwxNka8h4uWsqqe8e8R1N+iRODd7hnwjg4YvE0
-	I4Vu4JwW3VQHOg4G9i0KtKngqh9BsCXC0/UwvK4/yn7Xw9kMmrdb9N5pme+UoxIAICToF8bE64d
-	bi7vsVl3O2TcGbd6YRHSLZnV7ZbULLg4HtQHaoMVa1uT3paI81VCH3MwVgzaY3/nLTmzbHyUiOz
-	NYP0pPd4S2kQf5gIypz6q9uQ7/dmDt4MIODB/V14QxKUi7E5rvA9MjvZv9YIk8M3L4iwjrkyMOz
-	tp3w1S8PQThSVjIUrfTiR08QNXbnahWHgjA5vEW+/RPYberC9Jl01NF71WPtD1da
-X-Google-Smtp-Source: AGHT+IFjOuzV7J5oUl4SknNn7zmTju1vL3jK2MgUqw01Xjh4yLtqmM5jA3P/0AT8jD67ZSS+rD6Scfsa6cZXnhkJYnA=
-X-Received: by 2002:a05:600c:820d:b0:477:7991:5d1e with SMTP id
- 5b1f17b1804b1-47779915eb0mr28436985e9.25.1762757657595; Sun, 09 Nov 2025
- 22:54:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIdHUP18"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D4DC116B1;
+	Mon, 10 Nov 2025 07:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762758686;
+	bh=i3ixvy3dtnAud9Pvop/L2zluxy+BTZOe44XToPg2igA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SIdHUP18CMAw64bvEC3TvcCEk2Gl/1sWt88+nJhalk344r/dDyx8Z+0i/Ac6cyZ8S
+	 SnKmrRB70ZjUbK0QrPiC6rb7fB4szyL+jg3rZFad27Wh//us/bqFR1v8iWv+ugZNF/
+	 kZ5cktwKfsWrGBdxs8juVnGbfTcjSdl/UZnD3UTL2pRSHuasxkOMH//4CZcakjI3sI
+	 Wo8nc1eA11vTOHcGDhNV/gs7rkmBArwTZRbrVYeSiLEUxGb7ijO9rhYpUCFCyav7F8
+	 ZbpG2gNReoiHSfISLrMgbKBXabWN7dxUnIX106G+9/9YehqL6KImr8xqLqfFg2pwL/
+	 57vFJetKIN1LQ==
+Message-ID: <035d6c35-c27a-4f5c-8603-ea5857d78e63@kernel.org>
+Date: Mon, 10 Nov 2025 08:11:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c5c863f0-1c68-4d49-ba9b-b55c0f71d30c@rowland.harvard.edu>
- <CALvgqEAo8-MhE3ievoDkq4AOxRZ2E52kcko+GxYyf+WZE2H0=g@mail.gmail.com>
- <20251109092450.693bcbe5.michal.pecio@gmail.com> <CALvgqEC1EpJy58LhppgLYkCyaZL+qv34b8PmvTvJV8DYfp=gzA@mail.gmail.com>
- <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
- <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2> <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
-In-Reply-To: <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
-From: The-Luga <lugathe2@gmail.com>
-Date: Mon, 10 Nov 2025 03:54:05 -0300
-X-Gm-Features: AWmQ_bnMi5f4xI3hauwUdiDvSmWZ0cfq3GyeyQNoDyoFUscGZuBD4yHULAKwCRQ
-Message-ID: <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, 
-	Terry Junge <linuxhid@cosmicgizmosystems.com>, Michal Pecio <michal.pecio@gmail.com>, 
-	Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
+ TAS2568/5806M/5806MD/5830 support
+To: "Xu, Baojun" <baojun.xu@ti.com>
+Cc: "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de"
+ <tiwai@suse.de>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
+ "Chen, Robin" <robinchen@ti.com>, "Wang, Will" <will-wang@ti.com>,
+ "jim.shil@goertek.com" <jim.shil@goertek.com>,
+ "toastcheng@google.com" <toastcheng@google.com>,
+ "chinkaiting@google.com" <chinkaiting@google.com>
+References: <20251108110759.2409-1-baojun.xu@ti.com>
+ <20251108110759.2409-2-baojun.xu@ti.com>
+ <20251109-heavenly-observant-quetzal-b1bead@kuoka>
+ <ecc69a98a23d406ea1eada62144415fc@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <ecc69a98a23d406ea1eada62144415fc@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-PROBLEM IDENTIFIED AND SOLVED (almost)
+On 10/11/2025 06:29, Xu, Baojun wrote:
+>>
+>> ________________________________________
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: 10 November 2025 01:17
+>> To: Xu, Baojun
+>> Cc: broonie@kernel.org; tiwai@suse.de; andriy.shevchenko@linux.intel.com; 13916275206@139.com; Ding, Shenghao; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; lgirdwood@gmail.com; robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org; devicetree@vger.kernel.org; Yi, Ken; Lo, Henry; Chen, Robin; Ji, Jesse; Wang, Will; jim.shil@goertek.com; toastcheng@google.com; chinkaiting@google.com
+>> Subject: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add TAS2568/5806M/5806MD/5830 support
+>>
+>> On Sat, Nov 08, 2025 at 07:07:59PM +0800, Baojun Xu wrote:
+>>> TAS5806M, TAS5806MD and TAS5830 is in same family with TAS58XX.
+>>> TAS2568 is in family with TAS257X.
+>>>
+>>> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+>>> ---
+>>>  .../devicetree/bindings/sound/ti,tas2781.yaml | 25 +++++++++++++++++++
+>>>  1 file changed, 25 insertions(+)
+>>>
+>>
+>> Please organize the patch documenting compatible (DT bindings) before their user.
+>> See also: https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst*L46__;Iw!!G3vK!SQ5aH9VZhZ2QzKdtYIs5BX7OarVmt1XzwB9XxqFgAGN0ONvsEoAjHsuoZWrrmetzH_xlxeSfWA$
 
-Reading this: https://docs.kernel.org/hid/hidintro.html
-and https://github.com/torvalds/linux/blob/master/drivers/hid/hid-quirks.c
+What's with this link?
 
-I decided to try the HID_QUIRK_NO_IGNORE:
+> 
+> Hi Krzysztof,
+> 
+> Thanks for your review.
+> Do you mean I need to add a text file,
+> for example "ti,tas2781.txt", include the required properties,
+> and the example of the devicetree node?
+> 
 
-I added to my kernel cmdline:
+Did you read the actual resources I pointed you? I don't know how to
+express it clearer.
 
-usbhid.quirks=0x2d99:0xa101:0x400
 
-And everything works as it should.
-
-The usb bus is finally not silent and the speaker is not rebooting.
-
-I guess, this device just need to be included on the quirk list to
-close this bug?
-
-```
->sudo cat /sys/kernel/debug/usb/usbmon/3u
-ffff8903020c1800 42570546 C Ii:3:002:4 0:1 64 = 2fbbec66 00021002
-21000000 00000000 00000000 00000000 00000000 00000000
-ffff8903020c1800 42570552 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 44428557 C Ii:3:002:4 0:1 64 = 2fbbec66 00021001
-20000000 00000000 00000000 00000000 00000000 00000000
-ffff8903020c1800 44428560 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 47318560 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
-0d020102 00001403 02000000 14ff0302 000014ff 04e200ff
-ffff8903020c1800 47318565 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 47319560 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
-0d020700 000014ff 08ff2f15 14ff09ff ffff14ff 0a32ff82
-ffff8903020c1800 47319563 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 47671570 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
-0d020102 00001e03 02000000 1eff0302 00001eff 04e200ff
-ffff8903020c1800 47671581 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 47672558 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
-0d020700 00001eff 08ff2f15 1eff09ff ffff1eff 0a32ff82
-ffff8903020c1800 47672563 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 52600567 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
-0d0b0102 00001e03 02000000 1eff0302 00001eff 04e200ff
-ffff8903020c1800 52600577 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 52601562 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
-0d0b0700 00001eff 08ff2f15 1eff09ff ffff1eff 0a32ff82
-ffff8903020c1800 52601569 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 54112562 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
-0d0b0102 00002803 02000000 28ff0302 000028ff 04e200ff
-ffff8903020c1800 54112569 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 54113557 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
-0d0b0700 000028ff 08ff2f15 28ff09ff ffff28ff 0a32ff82
-ffff8903020c1800 54113562 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 54316567 C Ii:3:002:4 0:1 64 = 2fbbece3 00280201
-0d0b0102 00003203 02000000 32ff0302 000032ff 04e200ff
-ffff8903020c1800 54316576 S Ii:3:002:4 -115:1 64 <
-ffff8903020c1800 54317559 C Ii:3:002:4 0:1 64 = 2fbbece3 00280202
-0d0b0700 000032ff 08ff2f15 32ff09ff ffff32ff 0a32ff82
-```
+Best regards,
+Krzysztof
