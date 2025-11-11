@@ -1,88 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DFB35CBD1;
-	Tue, 11 Nov 2025 21:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D0863CB
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 22:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762895416; cv=none; b=Qu9Ps+JQxqg9+TjZKfyMwlnJXgPy8K0QxD2UyMgORfi7hlrZwDQlHBbIxafgwkr9NnCFgVDOBxq7MlGrV/KtGNoy6woQut8V4z21vyhKvfXRwsgU0TAVLLnbz2oPMO86pnKkfCWfYUeedj87NR9edTcgbMCD+utKKvwVytorsWA=
+	t=1762901262; cv=none; b=iiwXzJ5+YfOLyWSdsr9DKdgLT0RpxGEY0NbXuWGGjibilsfQZ++zbByZyAKOYdjnkertCva/gGzKPo9WzY/vNeA4MQax2X8iJnt5wN0FoAnByJVbbEHR/BhtQcWAm6XMEbOqq1zRfPGVdRTBPvEn2cDlwWYkO+s3HABd7nDcqgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762895416; c=relaxed/simple;
-	bh=FKb72lpm/18YW0XXtCd3Eg+Kz3XQ78Aqfk0uHseaOLs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SdZ+pCPkPfK0dE2bNgknq+qYVl/ar+Ww1bHCHBzupzljoEiGPdMUzcQBfp0V2ZBB5P0uHe1ZTVkX8O25zmnWzA7WxDwafvaB+gGCv146S3lgNOocccAwvGaRxg6K5DEEE1yukL1rLYx/lKdXyDFHjmd4Vr/NWwjL0MdwL9zJyDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pAsqxUDG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762901262; c=relaxed/simple;
+	bh=T1zlvBTizWWLx1b9NGa0sy+D18UfFqWTOzQfia8zTBA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r2yq8pOd0tfr55OHSCSGajS9Zt60xG+/ls5VnxZUaHICH4FK3aLJhZTrfJ5GLifCndqHfSXLaMLrF7QcHaUaMtTX+mJ82Rz99YGDkVeAbcbs6cIiYqGZOHnRDGjhAxzjyZwruyRTJhzSqyIaqkcDZGfyh/ZwuHh/QVCdhfFkmHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P2kIxoEu; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pAsqxUDG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A61C19422;
-	Tue, 11 Nov 2025 21:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762895415;
-	bh=FKb72lpm/18YW0XXtCd3Eg+Kz3XQ78Aqfk0uHseaOLs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pAsqxUDGatPP22zZBwR7R4cFAYyDd1taPRhRNbO3Ptc20t0Nynn1wGej7TyHVkviA
-	 3gK14VdRFWayHnPrYExEHInTabh/crbhYRsBPNgQ1Cl3lZKj8XM8EAczZKOLIBARR4
-	 KLtg+2lHn+oF64gdg/TaLmaOBqF9jPbm9J/cnlxd4etzdJe3ZIBSOj3CwOW7Xw/1z6
-	 4o3MWWIRt1Ey7fsPQ/WrGRuq6Z/8gDUQDzj8oz9UxW/FkSHwonU5bznVWP4wfUQtXG
-	 8ROqqOroQ49MeohQriNKiCOuUAxnAgWKVe/18J+BKDj5GzzK91mhtZLs7xad1BVP0n
-	 /EEyMGZhb4k2Q==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251111130850.513969-1-rf@opensource.cirrus.com>
-References: <20251111130850.513969-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ASoC: cs35l56: Support for restoring calibration
- on ChromeOS
-Message-Id: <176289541450.189249.18194357046497579090.b4-ty@kernel.org>
-Date: Tue, 11 Nov 2025 21:10:14 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P2kIxoEu"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762901249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yjptLzCE3l7Flv0vKYe34mrtiOciiauwKDvgQUUWCqU=;
+	b=P2kIxoEuLTUjpF5TwR+N8EYrXHN7JFtRLzY1fH0fhQ4mCdKdY9AfQicuY7FFDvyHVfK0yr
+	bGPfi5azs0qhQEkFLZ9YSfh9c/54QmCtMwIaXdVV6q49eTdZ6SQOtlrOJNhVCS6Q0VKW/7
+	oDN2+IpDV/WK1Xv//2C7Ky/eTvBuBIs=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] ASoC: Intel: atom: Replace deprecated strcpy in sst_slot_enum_info
+Date: Tue, 11 Nov 2025 23:47:01 +0100
+Message-ID: <20251111224706.87508-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 11 Nov 2025 13:08:48 +0000, Richard Fitzgerald wrote:
-> These two patches add ALSA controls to support restoring factory calibration
-> during OS boot on ChromeOS.
-> 
-> ChromeOS applies calibration during boot using a process that has restricted
-> access permissions. This process needs ALSA controls for all settings that
-> it must restore.
-> 
-> [...]
+strcpy() is deprecated; use the safer strscpy() instead.
 
-Applied to
+Link: https://github.com/KSPP/linux/issues/88
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/intel/atom/sst-atom-controls.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: cs35l56: Add control to read CAL_SET_STATUS
-      commit: 69f3474a01e9867dd99fc4b703fa834ea1835c7d
-[2/2] ASoC: cs35l56: Allow restoring factory calibration through ALSA control
-      commit: 32172cf3cb543a04c41a1677c97a38e60cad05b6
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/intel/atom/sst-atom-controls.c b/sound/soc/intel/atom/sst-atom-controls.c
+index 38116c758717..799d4f0881e3 100644
+--- a/sound/soc/intel/atom/sst-atom-controls.c
++++ b/sound/soc/intel/atom/sst-atom-controls.c
+@@ -142,7 +142,7 @@ static int sst_slot_enum_info(struct snd_kcontrol *kcontrol,
+ 
+ 	if (uinfo->value.enumerated.item > e->max - 1)
+ 		uinfo->value.enumerated.item = e->max - 1;
+-	strcpy(uinfo->value.enumerated.name,
++	strscpy(uinfo->value.enumerated.name,
+ 		e->texts[uinfo->value.enumerated.item]);
+ 
+ 	return 0;
+-- 
+2.51.1
 
