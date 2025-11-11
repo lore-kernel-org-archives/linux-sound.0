@@ -1,126 +1,143 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823FD31BC80
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 07:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF3015E8B;
+	Tue, 11 Nov 2025 07:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762847027; cv=none; b=Mz+OoZqDuogQJ4jKXqpIyuDcsz/aNw7cJCVPhwg/M5xl36xy4GeEPuHhgsufUj9QWkz6SyqrCzP5trDN5PgVK8xKA4r1FWG/em74L5+7J+11wQsZ66XGXBDdZyjvSXPwARm+/lVY8wC7cO96ugFkkqjujgJrTsoTgCj3MRUoerI=
+	t=1762847882; cv=none; b=eZKZjEKMN9mOhEY2V0ziQLm7n3Pg4kKKA465ZuyjldvniYjnr1iHR4kduPqpesPO9GTSvCQb7Ip+O6ksgBWjjTh/3SBQsjaGBDtnKU6ujtXtKP2DfXfXxSiu8w9qviIldyqIQw/SB+/Yw1L8R3anq0Ek62tlJJXWURrEDpHtQ3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762847027; c=relaxed/simple;
-	bh=hGu+GzN+iPOCwdycByBZkRXiL6hZVXSrjCx1H7RoOJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NpSsWeu8A9oBnQaYppvLfYZNcBbkjk2x+VU3iqhtOtaL/zRi3ncLmL9Lr5wjQviloV5HKtkkwB11KpQjM4kll7U/G2U96b7H1YslqoTLKKADxw7dAe3Lhq6FHWemDRd1fmkpdwh8DwCoKkmJv4VtTjydu0ls4s9ZxqbGdHRSXiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C8o45t4R; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762847882; c=relaxed/simple;
+	bh=5Uaa5nwFjVAGS3f1mHP+LmUtuVFBDubmN+xdr/NpZiU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QMpjdDxN+/6mX0/eB6d9HgpEsG02z037IrRnN32V1imj+Q0EBDxuRmDVJpDUNRwijPJK9vHIbOPC9j2xAbMUA7zppMrDfakOy3i+XqOwgBnvpYeT5O3TOu42+gDJHaMCS0OQXogbRmuVspjnOARReoRg5UkP7GyhUOke1IroFY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ch1k3nWP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C8o45t4R"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-782e93932ffso3304304b3a.3
-        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 23:43:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762847024; x=1763451824; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wCLsaMhIhuFhIpbv/6Ugxb6YPVSoVgU518WhOc0TN0M=;
-        b=C8o45t4R8X/j3JVDvFIsTsCerU3/X997xy1pjZXWPfu+qhbjyoi+uYFGbY5J2BMDMi
-         ydanYgqPchkwRp1O9b6Oc5Q95NlgIImmZ567NsxU7Rgd1EmkFAmmeFCsqSjWwhufL1nn
-         d7XGKhyQKljcU5eOF2fF5Tyai8GdlAntFDX3pGXuoNK5OcRYY7dzHAO8AcERH+GX9Gfq
-         1tD9gt7kZgFwNlEak+sI8dEllto5hVBCrU5r7opAwJl3y2Uh4N5zQxRSWZNbumNFQwRn
-         UyAltlOn5LSrzwJbFh9totjIJSZkWhnogK4dkMeROSt0EMc8cSA3dvSZImz0KgFhfyBA
-         QRiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762847024; x=1763451824;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wCLsaMhIhuFhIpbv/6Ugxb6YPVSoVgU518WhOc0TN0M=;
-        b=CW5Uhr5qLcbnIA8rc9P3cI4uKru1/8OCjI1Cos9xuXHU5MaVD2F29YYjJD1HkmfXLL
-         9NnUo48sQmwd6xgJZ/gE3BXHi2dsSFr/pFqDBm9KK5QRDphrqRYHwShQklSK4uLwY7xr
-         +do+HYaHcqMv7dsqCbev/mwo406hl5LOUkx2G6DVAtpfZUUy1AUWEoXSePgWTlONeQ64
-         Tinz57ruieM2qBuq1XE2s8e7VsCN7J3eWIc2HltO2olnELbNIo4zE6QHsgQKswltPqF3
-         2iU2nZGoE2TdcNacWwv7Xp40FMtxFyLXd9TRu8zkFFWZQ9iWsKtcdjBp1/2U2O2kaUBo
-         qDaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXC0vnxJh89QOjUtfqi3f+3pcVA0pa6YalfolG4tzn0fnv1WGo+g/ryU04r3lKE2bz97Z22rdEX5y013g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxdXWOUldEX4FP1+XgEJINMC+fG5SUWlKAvxtWYuYn8FmnN3li
-	677VzirHvqDWyO8wrPvJvAapJcQrQtWEdog45XD1a+UuJ4wEaT5sE3vg
-X-Gm-Gg: ASbGncsEbU0MBh2sOr0bLz4vdoX+LYj2ISgMnHWQIji2m/s1n9Al/LavGx3M6su/aya
-	QLTJdCUKQ9laRqR6Vnx+SH/1EA/oB8L9WYcdbsXR3GkB8fIlyTW1fPieELuUgumk+6+Bml2zniK
-	g09rhVelum2gZP34aQvku7fY/YXihTinO7ZN4SdmbzzxQe16P/h91/orFTnmf1+gbelGKhk+uif
-	XUgFiXqDBAN/Qf46ebCzUTFPoL2qRETbsI8Pk5+NnSMfGvffjdRUpGWxw41OiA7QP6vMQioEkcA
-	l7yJLamHX3EMPnC7flI2gh7Ko+C2Y4Aak9YvgoMsbfgPWdMtTYI9S5v0ao6GFSCuOa/DK0WyCtZ
-	91JmIiCu7O0mKWfWbjkOLtnYR69rT8VMKBESkIT3kRyVo4DKNoEdoJlOyiOTWmQbEfTNKN3Ktjj
-	Ua0iYbO7fB8RsquIBARnOA2q1DaYDbxiYMWZhT7RMn6KY=
-X-Google-Smtp-Source: AGHT+IHnUqWbN87MfdnfCGZe3Siga0PrKlesE1NEYJJvVLUvhC1pGxgwxVLeIsjtogtg1QbMwZPCCg==
-X-Received: by 2002:a17:90b:2709:b0:340:be4d:8980 with SMTP id 98e67ed59e1d1-3436cb89ab8mr12431413a91.14.1762847023674;
-        Mon, 10 Nov 2025 23:43:43 -0800 (PST)
-Received: from lugathe ([2804:13c:46ac:1000:f491:d00a:e2fb:e67c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3434c31d86esm13779436a91.8.2025.11.10.23.43.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 23:43:43 -0800 (PST)
-From: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
-To: linuxhid@cosmicgizmosystems.com
-Cc: bentiss@kernel.org,
-	dmitry.torokhov@gmail.com,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linuxsound@cosmicgizmosystems.com,
-	lugathe2@gmail.com,
-	michal.pecio@gmail.com,
-	stern@rowland.harvard.edu
-Subject: [PATCH] The Edifier QR30 USB speaker, identified as: Jieli Technology EDIFIER Hal0 2.0 SE 2d99:a101, reports a HID interface that needs HID_QUIRK_ALWAYS_POLL to ensure it does not crash when changing the RGB brightness with the physical knob.
-Date: Tue, 11 Nov 2025 04:42:05 -0300
-Message-ID: <20251111074205.1533558-1-lugathe2@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-References: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ch1k3nWP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85862C4CEF7;
+	Tue, 11 Nov 2025 07:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762847880;
+	bh=5Uaa5nwFjVAGS3f1mHP+LmUtuVFBDubmN+xdr/NpZiU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=Ch1k3nWPMj6UEosM8Ssp+W11+ShFdJNgTHl19OiSOLt8ohzsfcyx1e1F7RmTDjV4h
+	 6nfm81zuqwh2U/1g+oysD3nb8RJ03+yxk6skIyzw3M3W3e/J9HtiabAgh4+xEFmu37
+	 l5MKqXDSdixGL84XrPmyQATSqs91LuFiI1HHYTjBcRMgp9dE7vdCjaftzIMHr0cVLk
+	 +CWgU4tpn3OvWPaoyx3SvYKWIXApBzibkh3iBOdzwx5+bk+s2HOEUiW5d50gYtDEsM
+	 lw10x7RmKw7oaN9Q1I5bh42iwHcHv5ipPInJZkoHKozkZTco3mSCA83d6op32oom8H
+	 eoL8yv1NXmTAw==
+Message-ID: <9f461bf7-3651-4be4-b6f9-20853cdc4c90@kernel.org>
+Date: Tue, 11 Nov 2025 08:57:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v1 13/23] media: av7110: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Matthew Brost <matthew.brost@intel.com>, Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Vitaly Lifshits <vitaly.lifshits@intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Karan Tilak Kumar <kartilak@cisco.com>,
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
+ Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Rodolfo Giometti
+ <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
+ Sesidhar Baddela <sebaddel@cisco.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+ <20251110184727.666591-14-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251110184727.666591-14-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Add a new vendor and product ID entry in hid-ids.h and register
-the corresponding device in hid-quirks.c with the required quirk.
+On 10/11/2025 19:40, Andy Shevchenko wrote:
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
----
- drivers/hid/hid-ids.h    | 3 +++
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 4 insertions(+)
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0723b4b1c9ec..ece1bea0faa5 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -734,6 +734,9 @@
- #define USB_VENDOR_ID_JESS2		0x0f30
- #define USB_DEVICE_ID_JESS2_COLOR_RUMBLE_PAD 0x0111
- 
-+#define USB_VENDOR_ID_JIELI_TECHNOLOGY		0x2d99
-+#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
-+
- #define USB_VENDOR_ID_KBGEAR		0x084e
- #define USB_DEVICE_ID_KBGEAR_JAMSTUDIO	0x1001
- 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index bcd4bccf1a7c..d104f4829d93 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -110,6 +110,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_JIELI_TECHNOLOGY, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M506), HID_QUIRK_MULTI_INPUT },
--- 
-2.51.2
+Regards,
+
+	Hans
+
+> ---
+>  drivers/staging/media/av7110/av7110.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+> index bc9a2a40afcb..602342d1174f 100644
+> --- a/drivers/staging/media/av7110/av7110.c
+> +++ b/drivers/staging/media/av7110/av7110.c
+> @@ -321,7 +321,7 @@ static inline void print_time(char *s)
+>  	struct timespec64 ts;
+>  
+>  	ktime_get_real_ts64(&ts);
+> -	pr_info("%s(): %lld.%09ld\n", s, (s64)ts.tv_sec, ts.tv_nsec);
+> +	pr_info("%s(): %ptSp\n", s, &ts);
+>  #endif
+>  }
+>  
 
