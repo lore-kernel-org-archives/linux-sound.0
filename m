@@ -1,59 +1,59 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010040.outbound.protection.outlook.com [52.101.229.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC121EA7EC
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 00:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999551E9B3D
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 00:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762820999; cv=fail; b=OYUWlH0B/mpcQ0KzxFvtKTVa37xI1Q7PpKQGlkZYJsDeKpXlS/O9GGxPh26F56ix4RyBWZWH0SnvaL8832yZ/qkr+jGbBMkI5maEA1ByiQHYM5qq9OKzktkz6HcQYGvEQDJQgPTrjsZIDKKML/1SRV++xebGVQZ1ZMAlxBfYVbM=
+	t=1762821003; cv=fail; b=gaDG0ewqzV76KH8Mr4DFk91p7BMQv6WfUg9MuV5h0URUTKlHrUaK7MZZhMAJ81/V0TOi5Vnaa65f4ra1Gj/dP8zFzacCDoSpAV1zGuSaV9F1+2YJSXntoLxjWF8rpvWLKp0xjp78A6RHiNEdWBIdgd1lpHxePUmLRwBe4/5WFhA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762820999; c=relaxed/simple;
-	bh=8fcrRpqQ0z0LJpbauclayhShDM/rLymgk9fZ6kRGTds=;
+	s=arc-20240116; t=1762821003; c=relaxed/simple;
+	bh=MYEwjmF1EUOrP/2GUG5O9ZndFN60aKrwQsn7dZHFUyA=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=L6vZBFE0/uFp7yg05w1PIdb9hhvMa9lQ6ZlLbVLTuESKy3eaRXredHi5r5vmLlR0BSuA536O1qS3kxQps5sO9t1ObxTMXegJ20MnLYwC3IL06W/VG6U2xXU/1m43CFrNX5NN0Sig+5RsjQE1pVr9qsYOxCg/EAkrlBjPmJuAfsE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PgeaRVNr; arc=fail smtp.client-ip=52.101.229.13
+	 Date:MIME-Version; b=tkMJZFB5+V3kLi/dGizYF3h5HnvXz9/QBK/DDMhqJr8QssHiHztspqNYn3O5iQwJrs4BpcfgCrNECVpIn78MRpH8+lcWp6No7IPArv9K9J6z8Jf+wEaxF8BsCER2lxjvw3Asy798mXRm3iyjTDFySM1IkbYwGsGD+GWby1AUoPc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=EvfapM+C; arc=fail smtp.client-ip=52.101.229.40
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PgeaRVNr"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="EvfapM+C"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PjP78WQSv76W9goEIpSxrGXrMHW+zpNpgmTDppvRt4kNoGPLbzK6K0/5bdq9ioJuq38nAEejskxcIdx4T7bCH/rhKGBbQMgMTVcf39uIO7UpRuyaSh/ezKCrs/WKdAdBuh/1sdERmHgMWPUG5QRyMmLdB7tN8Ou6+QN1fxbSQg75kCkZstqdrjsq69A7yUdJPO+X7Q1543yP+AE7Y4OWCvPFggPctYue4xPJengLbfxbAUI4Dfp/8eaE6r7T7Gl/htCDM6giTxpOBJdS2CKRaDq9cOv3A2AWkJ+K883sf+46bZ5ieGrGnsJXXFLRmVYde1W4Nc98ZXIeOdrlDJM6+w==
+ b=dJfhznRiRPe+n0p3cF2q0ER83gAm8N6sCQpIhrYzq0cLSrv6qkeZGLdUGc0Uz5DNd1A3u4/3MIxsoWdUbNqbQQkml5yYiGm+7kp/tfIczBY5lB+sTqbZdN4QhfEIX5OEX29lUfX1znwBOAYgYPDJkYjQ4CmwJg8vvcKpY6zJ8bjGsKCVfzREyOJtxT/JcPO2zHHUwdRsP9ibPacROzKSRWkOzK/LWll0jwEJ1JTsPMExKgHyB2bnXUgW083Bg6p2yhqc9lmiUJ1nXj/WhqrNOCGDWqcHrfSaHwd4pMwM0K3gaUp24ewzXK2AJ0qZTpAsknn89k+SqPrg/ZcYK4QPGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bB9hau9vbznwa+HHT/2YEha81QAcZ8ZfIf2sPqqxm9E=;
- b=Ix2XtwVTI0VNrctDZwrL9cALrV/qGZLyiUAh5rUGUZH7pzLYn2JQYqKJQFZiQLPQlqozQsy/ZdstzRmBbtmJMfL7ptBAo/nmgql6whmWJjYidPUJukewhHu3xA3kF/T8WTGvbL3egV5Ah+8tqgC7EuzRVFGxtvjrY8EQ3MAl6eseYiCfy3egkOSJdJPi+FDZMhz/ZrF/MLzWUD/GKRyUCK8qSXQ4vdhAbIgQ3J6YHXRCQcLus+V89ycYv+mgQy817n95oBjGKvB1bM8agfe9gIhZ6bD9ThG0bndF+bkPGfMUn9MojoXJv15wsfzzKFbRR9+GaINGjVznmnzQ4VfldQ==
+ bh=1k0ygG7JSn5MopFdMFOYRQ6Ksf2TM5ngaSlcRrZriLU=;
+ b=r/23YQS7oe8lMEv4VwlFGxx3KA9H6Qna2zWbu+7gE8TqoFowsni2YwbxrWFyjowIb1WelqyIne9N1JKow/rHoOCpdmz40F8D1THGmT1n6T2ypXe+//w7gVGi/g37RY9JZRA+0diobsxL5FHlEgQUgENW+lT/q+WaYP2BNxE5akX8j98hD6Dj06vVpDTVplugxSZn06R67eOgL0BI7idgAXJNwIfWy5r/dBuTPsumNBAKqAIAihG2ElqpIg59W4nL84+TykPfzjWMRxfXEqtXInXQvcJthgfQ0GLyTkyimdHQnt5KuhtTyLoIH0gT0l/qu/IBzGdya+sKsXBIQ3HHEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bB9hau9vbznwa+HHT/2YEha81QAcZ8ZfIf2sPqqxm9E=;
- b=PgeaRVNrn3mqHZRtauRETqRx+CDah3X0ogCcD3CmWMrRQ7EsKOWFH/zjtVneLdNaIeIncIu+7vYUFlPJBJ+uJDbe7/9xhwZ3a8fdb1TjbwnNb8BgKQMeEVZIlDsZ/V/C8/YrPTrMgCol4k6WAELLWPGvrAKDZ/l3l6a0+TkaWYQ=
+ bh=1k0ygG7JSn5MopFdMFOYRQ6Ksf2TM5ngaSlcRrZriLU=;
+ b=EvfapM+CN+mRYGAo5pmq8gmNGmzrZYOG1+ngb0Z6NhYnFXfDWD/TFaViQWVb4YE3yM5W+Y1+3BjSIblmmhLgFs3iMrafGimsh1/O2OAUH96XltfN5ko9h+aHUelx6A2ShXQH6MxFhoeRSqUdWC2DcHK3U4ovfovsdWWIgskZLZo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYYPR01MB16440.jpnprd01.prod.outlook.com
  (2603:1096:405:147::11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.11; Tue, 11 Nov
- 2025 00:29:55 +0000
+ 2025 00:29:59 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
- 00:29:55 +0000
-Message-ID: <87zf8txvgc.wl-kuninori.morimoto.gx@renesas.com>
+ 00:29:59 +0000
+Message-ID: <87y0odxvg8.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 183/292] ASoC: codecs: wm8993: convert to snd_soc_dapm_xxx()
+Subject: [PATCH 184/292] ASoC: codecs: wm8994: convert to snd_soc_dapm_xxx()
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87cy5pa0ea.wl-kuninori.morimoto.gx@renesas.com>
 References: <87cy5pa0ea.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 11 Nov 2025 00:29:55 +0000
-X-ClientProxiedBy: TYCP301CA0030.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::20) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Tue, 11 Nov 2025 00:29:59 +0000
+X-ClientProxiedBy: TYCP286CA0119.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,80 +63,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB16440:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a514985-3096-411b-1440-08de20b97031
+X-MS-Office365-Filtering-Correlation-Id: 7e0f19f2-5a67-4c62-4db5-08de20b97297
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vX3yEhpgwLiz8LwKzQgiP0ZTllx4jCtUxGZifSTNc7RFSfZZwy7pedBeju0H?=
- =?us-ascii?Q?WaAFDNClvezGcqTn4jrXk6gRJyu8UsYTRWJAFYNy3c0NOdC1Vas5pMqqu02K?=
- =?us-ascii?Q?YAUVBiZNi1acVg8aYCy9GW+sEQClGXnQMRIib2JdSkSuNoo7DhaVxDT3+cjH?=
- =?us-ascii?Q?VOok/2bMQOAyLTG1g/yEwUGNsfii8y/LfZlrA+fO/KJCQ4XpqkHqDcMfo2ob?=
- =?us-ascii?Q?206t08N3cUkPEn0nrrwoZJ7V3y/Ni3nu8pYEzSkKrdV2m5AMxoDARKrDgUoQ?=
- =?us-ascii?Q?dvQGxCSjx7NpTnUC+BthkY8/flwu+nnntUxHgFqtGK7p0Fpr5zXq59CJREHq?=
- =?us-ascii?Q?BwugbI7HEdDnzs9EOXcCpmHYtZO9006lyJVIvkwObWOYitT31E01AeGUWiu5?=
- =?us-ascii?Q?aDiENS0MaSBbhvRELupUBRSbrKtwtLFz4gf7f86y2qN+VfRf2w+EykTvgYAf?=
- =?us-ascii?Q?5FKQf/lYLQD5Y+B7hGBm/DpFwMTxHpIhPzgb1aqdm9tMM5GD3naTVxprGVqW?=
- =?us-ascii?Q?siK4Dt4FLMQ6luPXh0ydcT79+v3zIFPSE8vy/j8MeX4nSIGJp5pS/M+NmHt6?=
- =?us-ascii?Q?DyQjAxP/H9ycrSK11vlAxN59FJ+HqwR4bxtTNz2g+IGNpQQ16bQuA/iEzhbn?=
- =?us-ascii?Q?xXYiNgL8f/JwAjSYt8tXAAXHYWB88LOyYLjShZEcapWM/GOJqdyYiJUVqfLD?=
- =?us-ascii?Q?2AMeHE/89kZKQPI/Jw4u0F6yTwi1ZLlIJGv0jbCMGkyo07icQeSAeJhMA8zJ?=
- =?us-ascii?Q?FIm4eYHVdGXvPt7aaqgl/AqyxvN5XsMDP7jTPOG6AwFq7FGqCrIh5C8CNvyp?=
- =?us-ascii?Q?FzIBs3RwFH3RqETEQnOW5o3XR/u4s/DssFKtR2tNT8aR/YT0MLO5ddmABCF7?=
- =?us-ascii?Q?Jj92SgNqrRKCWRTArJNXlhK26tUl2JOiFDs7tu7hoHDNb4Agu+y2Aehz6ze4?=
- =?us-ascii?Q?cv9IMADid48Ojl8z9ZAHoTIlfuMAsNjO5ZFVNo/jzpsAgm1diyfyCsQFBawN?=
- =?us-ascii?Q?z6da5XvY8pGQu6okHJPb0gasCAcMiL0G8bF+GStXce0Wi1swqmgRYDZlasz7?=
- =?us-ascii?Q?ehPCUQmfQ8fHKm0gmlNcaK/sPfOFrQR23zwqmlqSFYbEQ3bPXYm8ZEXGmb3M?=
- =?us-ascii?Q?X0lvdH4zINzFv0XH5Anki2k5/rxPjIx9bE2wxkeRxXvIfHznqC2UGujbPjpW?=
- =?us-ascii?Q?9R4c3UfjSVQ4OhD2j+lVBTPo+A6Hf7Sw0Cpva67NGQj3c0Mbex6HGti8bC/V?=
- =?us-ascii?Q?uO+3YCNF7Hx8k0LW1vEkgopyuOXeOm7kO/w+3vmd5t6wRG6CbyAgVPlprS7s?=
- =?us-ascii?Q?yrgh6w5D7usnzePOP4pJxYhbMqGSZfS3vamgEwDftuuF32BCp0YbC470Q1mt?=
- =?us-ascii?Q?zKUq8P5h1ehS5Mv6x806NMrlY7yRFVCaPE6pDw4PeDtHmH/mZ8YIwzytgCTO?=
- =?us-ascii?Q?iOQtXbeteuNR2y6rsWbyYkHfgvCS4vJuk8pu5Q9PSpDbbDlHqJ2K2hivQ5YM?=
- =?us-ascii?Q?8/SpHW8FDV1I/I+UvDQSY6Zo7dfH490UkxC5?=
+	=?us-ascii?Q?V9Tx6d5wtIN/paR+N72OPs6pVJhOXWZIe+NNB0T0aHKwyOAKipJ+2DRcFvwP?=
+ =?us-ascii?Q?3npVoJYMVEO2Q34gBz/Qp5QO6xyDWmz6XUg09PW14dmYAQgwlmLGv54l9Y4L?=
+ =?us-ascii?Q?BflFdc0bTskopCcjNP593JlOdmMySP0Bi6kq0Xnjec0cPFvhi5Yx0G64uaXV?=
+ =?us-ascii?Q?Bet9EzaxldJxJS15WKb5XY0eIvrNjrgku8yDCj2mZLgHOv+p/Do9sZrRBZKz?=
+ =?us-ascii?Q?jw2gR3F9pEuc3w82aOyfADToq6Ie4vfGBqS+VQhleW6w22kEcyy575AhdCug?=
+ =?us-ascii?Q?dezmrOxu4tVEBBNwI3OOb3xNvJR8EfyaUpXPJPwvPciYwbZVRrk1DDr/g2VI?=
+ =?us-ascii?Q?dYj2+Im6KsVVQ2d3dJbAGm2czH6mbvwxvHGTUa/HYr4TsnUVKRoM2Z1T2RIf?=
+ =?us-ascii?Q?4U8usCfYlb2bc9gzsaEdLw3qR0bwppzkZP/jfuFsTreOiZw/ihO262xb2rFQ?=
+ =?us-ascii?Q?3j9Vcd87YZ7ikm6SdXHoxpZy+08riKJHWErVmz1SvfvEDrtCjK9zt6NfgMxT?=
+ =?us-ascii?Q?xfDR8QFRPv8kEILsjx9lZkWhBOVmOgs8Z3vhA0LKNGJJ+2jxBEvIBoDNdlS5?=
+ =?us-ascii?Q?1/GF4ejv3JvEZU0cITGvwoNESyEbWmDavyvzlJh2F3Xqt14ovMUmlcbYrU8g?=
+ =?us-ascii?Q?WHh8yIXU5zaIE8ZGgu7V/9dc8rFghYnj/r7rMppin34Q2jhieuu/6r1Ly3qi?=
+ =?us-ascii?Q?M0G57e2QgUjIiyOGZsfWkN8/B5EBqA5DJPfUGFs1ihQf8neoBJAlg8xfRzsX?=
+ =?us-ascii?Q?UIzXX08bdml6kpVKPEY0xwtvTRWISB5YddUSnEkoec35F++lAErCtsxk6/wm?=
+ =?us-ascii?Q?sIBZlCeBNsjqaieg/E9nV1VJBMjljhSaJWbHwfTydF9yjD6fhVUhMuwT8MyB?=
+ =?us-ascii?Q?5nnA9s2pRBCS9ueEpBbIb+7cJdxaoqcyNGr7k3BbOjGETamuB3WXK/X83AAZ?=
+ =?us-ascii?Q?ctowEJDdMty6ew9h1AyAmHlfAnhhMXqu56SpyDVsPZr+SY/rFflG9sU8TQeD?=
+ =?us-ascii?Q?EOud+00eB9dl/RTeTTWz9Q4r4pPtNumg4vz+UFn5bXTOKlQj2KFbfc7Dyh6L?=
+ =?us-ascii?Q?Fy/qo92Fp3CTaPEInJIdLVfnhVJuftQVw02XxWb7W3EDvFgctWCvqazqy032?=
+ =?us-ascii?Q?S3qasHkyi+wRC6Ah1LC94WDGqw7Gr7IkMs+0fuP1U+DCCuVG3jPg9RJ0K8gS?=
+ =?us-ascii?Q?loavlL4UvRzr1UVqXPOmb7KpiqovC+Nc+coiAFLf/zFKUFxK84I+w1qYeCQO?=
+ =?us-ascii?Q?JZsZfdr4pkRWDMMKGUAOyRCuwCXQvVlbra7nqLQ5IVvA7DZFcIdNcD1Z/Qlg?=
+ =?us-ascii?Q?HQdE64GWAqLYttnoI4HW3Adi0/Y4oLuWHhlgVZG5CaHIw3XpWqYAbT7qOrm4?=
+ =?us-ascii?Q?llrQHBxMq26i0K5jGnNP0QvZOfqQU4p198APa2xG3+gszFYXRnJLe2y2WAy9?=
+ =?us-ascii?Q?Q1+mq82ZyzYLYIIeKP1vU5q5xT2NrbdlOSTJLuncNtsA7OgJnTFwgvkqkzkJ?=
+ =?us-ascii?Q?6pUxqS8B2CZG3ZZ8KQES8nM/KB3QdTS1JcQd?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?H/V1JElKcepUBdsXJKNJftFRiaFff7Hvz3dce23TpNDczqBfRsN9qNSH6Nlj?=
- =?us-ascii?Q?gB4PG1epLbuqsO9uFhDMEpA0WvwD7wB09LFAqfJ78vHRjPzXtFk27QxsijR3?=
- =?us-ascii?Q?nS0/fAhIjYBBB2CdiZmzuwrHSjTssvEgmiVgmQnsah0UkASeXcDTKueRkbFw?=
- =?us-ascii?Q?OFWXR9U4gyV9Vb688hch4JNXhH9gbIFnCLTxe7KCqkMcJuZUBnEC8LGbsUBk?=
- =?us-ascii?Q?zFr9glBKP/FUbXHlS3zYEfuCWYMSVia5WPDQP+L0oppjU8qvRmvEeu+UdFHe?=
- =?us-ascii?Q?QwD8WGXpEUm5dRSl9zpPrawOS72LLPpTsOSqmfdky8S1EUWeIhR52JWZdUkD?=
- =?us-ascii?Q?86Xh43W7VUqyTMawHBMgWv4Thhz612AdU+L51f4LXBN+DS/y6yvY15T+YMGh?=
- =?us-ascii?Q?266uSkycCrctHwD6jPX9u8FUq6OKlPZlj5brzHSCXCVUt5zWhg7XlvspU56+?=
- =?us-ascii?Q?uRPdRKgnNf8qDmVn/qlm/jhqOcrZVDGe7rjbPb7LEGw/Bc2IOnTBU2Pdd4Ud?=
- =?us-ascii?Q?khZyXG01ZEwzsun+KxtsKy0+gbpxZ0tU7E8grDX4vcvMAlfVvVW7oEub/LQ4?=
- =?us-ascii?Q?lngBrNTRB7XZ43AYkwSnY7umMNM1o6VJR1Qog1gqeodha+Ad2oMgvHlmMxB5?=
- =?us-ascii?Q?zAJw+nd1ReqiIhikGO1v9fjYPUjpRbPqJ2O84wTg/BquzYpinRxgtPlyGVSs?=
- =?us-ascii?Q?2HTyUYqX9JPgPUf7Hn/06lu9ojkYumSBm0x1nZmS1iOkuhh1Fk5dgBqmLO7k?=
- =?us-ascii?Q?LXepeByqaFsTk3rtge8tt7iqUTtGGclbSaDz2z238XO5Ur6RqJilfzCg2JUV?=
- =?us-ascii?Q?2Z4AHjFqB2v+nf/89WEo03nLjO8gdvqEU385CpR7v2tCckCp9VARqvMr9fmm?=
- =?us-ascii?Q?QhUtMIea95G1gsXFnhCe7nCui1lkN+JNL4FEMZ/GzSYfk42M+6bwsPdA7q1j?=
- =?us-ascii?Q?TmTl0F9tsuQMMNG44/hcF/mHxMlVTSxfNkV4Zkb15CrfULACXwQhrTobJA3n?=
- =?us-ascii?Q?ledvmMYaoVuAhsVaeya2Nhn3QoFlKjisz9Toe8cjd6gpQ2r0iTOa/i8dyws4?=
- =?us-ascii?Q?8buiCO8vvS8DV1G3XmPTzF2mKPNZ4uZjfDLcP75dnFHyBDHYAkax3i1hV9Ch?=
- =?us-ascii?Q?G28+jVCOJL5jSMEV6VlHjQNQQr99h092Buw/DX2PWCNuInwan3i0oH1Rx5gB?=
- =?us-ascii?Q?UEMF5uV7jLe+60rBoZUAymTtnwlKzZ0CAo1sRGTwJTkteTbQkJaWevuKANjE?=
- =?us-ascii?Q?vJ/UHiVnGG63/eSX591Gj5U4gD6Ia7KvouX7VG2s1PzrKT+AUt/BDIcI+9cZ?=
- =?us-ascii?Q?IZ2Jj7uytuXF50x7wi9a5yx/DrFZXFOL6YCdyRVJVfMGHCJA0AE+OvjH1yys?=
- =?us-ascii?Q?5qZyrnP9w37OFYBEIrWKXgbRvozgrFIvV2lVKIU8ItoOLPafu48SzrIenyPN?=
- =?us-ascii?Q?tE62vLPKXvD+a3NgxbyEIzg3E0La3RXkguMgjUQFWNG3gSuSv/eLLSjoRlnR?=
- =?us-ascii?Q?DkWLqs/VL4c9lmNFvdwlxs/3sqxouvGoNDV3jm/HB1+gkAq0F/Z+e73WFxZk?=
- =?us-ascii?Q?Vdkai/KcXXbAiAvwm6rdICwuuVOAi86NWJ2AM1gXJtBGC1dDCLfrpFTcTw1f?=
- =?us-ascii?Q?vtweTB6BZeYXy/qH+Ilolag=3D?=
+	=?us-ascii?Q?JVV9XPFLj5YMradvjIQHiWuUNZj9rHvOVcjHdzwKDnsBciwsLcOEv+h1j3ia?=
+ =?us-ascii?Q?VwG4fHw1oyEEnvXrFW3oug24efQPJbXb3S8zY2TLYIvYxyLhQ1dlfpgXFSaz?=
+ =?us-ascii?Q?4uVKQdU9lJzLzLThFb7oDV9VbF63mo9/klw5dSQd9a3f5l8HQ1s5WTQNgnVh?=
+ =?us-ascii?Q?qqj2oTGlQ5YY+NGP7a5olYi/staHPic1doGflNzRg6IzbQz2bGtlK5yUtSZW?=
+ =?us-ascii?Q?4Vd5laS8ysiaGxdVNQex8uAcmShVu3VhdetVXceqOZ6zhGv1AP3sW4y7xEfM?=
+ =?us-ascii?Q?boFnlNGXeZrquaLTXqxkRMqJJv+iEaiEmmT28fTDcY/3OxcjoD/04FnOPeXq?=
+ =?us-ascii?Q?tWzM2TGoMKc+mGrspK1C2r3vDvy3hzS7z/Ou63eiWwTr6/F4JZmWYxcK6Rom?=
+ =?us-ascii?Q?wNWCXsy0KJCjoIawhR2/qOuguuRU8+DS15/KPtEFTi68KHghajCifEAtSOzj?=
+ =?us-ascii?Q?WVoarGRpVUljj4S2qsyVjJRXY+xuErNf4DcvW7UWt/KmW+ETs+uLlO3BHp4q?=
+ =?us-ascii?Q?e12WnJV810XFeSlQsRl1WX5dIGXvPYxKJ0+FqE3yxC7wjarKe5agmbEydXzx?=
+ =?us-ascii?Q?rOn4nQgnXC55J9JUrqBcUS8GATVr2C0hy9kqpspoMzRko/FKttumXZ7KZJjF?=
+ =?us-ascii?Q?XB09ZAGz6SJdKaOMjnFQDlYTCzi71eMIt2ml3RTE01/eKllq/VO1wHk15zc7?=
+ =?us-ascii?Q?rck6CGQSHiTXwkX82+b6o2xyBCfFXhNDcJu8CYQvyBp1cCQRh3/ORV3laFVq?=
+ =?us-ascii?Q?TmPj7lECQaRVaHfrRNgLdMnpvLUgH08yDG9P+y8QUYfunxSbFuv+2ppM6vTb?=
+ =?us-ascii?Q?WIiHNrd5DqqjpzF078kdTgcVB1s0Us865ii6aCUVa7KX3j9baIRgFRH3wbwI?=
+ =?us-ascii?Q?8odJ8Ke78cwA7O90bThKiH+bf9n2SXvFufP9Oiy925AHg9k5MWzUkBhx5z+o?=
+ =?us-ascii?Q?EyVduIYnqPdoAT8OKX2Zyfp3fG66W0ZRCo+AOxVfTejpKNWhnbHX4xjxmnc4?=
+ =?us-ascii?Q?rxNAWW3aIM1YwqozG8tLte+k7HXIslgKGClqFkZ6f7ZBC6AL5Kg6bJug/yF3?=
+ =?us-ascii?Q?klbpzlfOyq/79CTA7UGIlz5yA9AncscRunxWUATtvEIBTqLmWMOMHkNKM38p?=
+ =?us-ascii?Q?gbzEHXhEj6AHLvD+F9FrJmh05lNac247Pv4pRDR0nXehEUAWGNJWwYeD2YWa?=
+ =?us-ascii?Q?uT6s6QObr6aWguA6ryD+r3APWVf55RFGTpvpcMjlbXGNE6EhlLsKzxq8bpQi?=
+ =?us-ascii?Q?g6wpfi/Wv5WxRZ8ZRjzgHbhXpkiXPQ42qIuluJTZ/xnOUm5eC86oXlV2nEb1?=
+ =?us-ascii?Q?lFc2AsB5+BoPbI+gkafTDKr6hpvK/uPgfjxRqEKicv9103tOeil1C3de22RT?=
+ =?us-ascii?Q?vDIXeQzvMYh3yO6xE6OGzBMz7cKEyNkt9Iq66DDmUXtqxtoL4+t8zZw7m9B5?=
+ =?us-ascii?Q?mc8k8DskmbzXXR0Rxo5DMOMsipFEF98/y+VnreluC7ExCkv0Pp8/nyUxhA9y?=
+ =?us-ascii?Q?z31FeZVyJSTa7HgPrOnCt5uXnTcIfP51B1KQtow+MM2LHtpPsX2i5jlp5TEx?=
+ =?us-ascii?Q?OzYriSpn905gz5EmCrQUD7tUNoL7IeBP8Scd0Jjbjixj1+pYqualCxMNJlaE?=
+ =?us-ascii?Q?cPBgXFnTMLGTMq99WGMP9PE=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a514985-3096-411b-1440-08de20b97031
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e0f19f2-5a67-4c62-4db5-08de20b97297
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 00:29:55.7437
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 00:29:59.7701
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +/89oOeOTALeZndkyurII0QiYanM0Qn3r/D6Xn5pIvlQ0UYT7m7MFe7zsXk2eKsKKnbKRTMiAujFAUt47ce9XbEr33+qN8B8priA40pi1Kd/KkwqALiu2rhyQt8tRIrk
+X-MS-Exchange-CrossTenant-UserPrincipalName: wpIAFVjjyZe+GQODboAJKLdFkXbrprnYkYRl8EH746x15apiCe4YEd4txX/XVSyCgcPSEX1P4Fv/bVaApBaIOKdpQWZiXY6o0VRUStz7yXOvjlUafQ923ppFVQCQtPKM
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB16440
 
 This patch converts below functions.
@@ -168,77 +168,179 @@ snd_soc_dapm_np_pin()				-> snd_soc_dapm_disable_pin()
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/codecs/wm8993.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ sound/soc/codecs/wm8994.c | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-diff --git a/sound/soc/codecs/wm8993.c b/sound/soc/codecs/wm8993.c
-index 75d923c2c9cac..1c9299979898b 100644
---- a/sound/soc/codecs/wm8993.c
-+++ b/sound/soc/codecs/wm8993.c
-@@ -973,6 +973,7 @@ static int wm8993_set_bias_level(struct snd_soc_component *component,
- 				 enum snd_soc_bias_level level)
+diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
+index 616d7d7e50aa7..1d64c7c42ed12 100644
+--- a/sound/soc/codecs/wm8994.c
++++ b/sound/soc/codecs/wm8994.c
+@@ -214,7 +214,7 @@ static int configure_aif_clock(struct snd_soc_component *component, int aif)
+ 
+ static int configure_clock(struct snd_soc_component *component)
  {
- 	struct wm8993_priv *wm8993 = snd_soc_component_get_drvdata(component);
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
 +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
+ 	int change, new;
+ 
+@@ -1515,7 +1515,7 @@ SOC_DAPM_SINGLE("AIF1.1 Switch", WM8994_DAC2_RIGHT_MIXER_ROUTING,
+ static int wm8994_put_class_w(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+-	struct snd_soc_component *component = snd_soc_dapm_kcontrol_component(kcontrol);
++	struct snd_soc_component *component = snd_soc_dapm_kcontrol_to_component(kcontrol);
  	int ret;
  
+ 	ret = snd_soc_dapm_put_volsw(kcontrol, ucontrol);
+@@ -2615,6 +2615,7 @@ static int wm8994_set_bias_level(struct snd_soc_component *component,
+ 				 enum snd_soc_bias_level level)
+ {
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct wm8994 *control = wm8994->wm8994;
+ 
  	wm_hubs_set_bias_level(component, level);
-@@ -988,7 +989,7 @@ static int wm8993_set_bias_level(struct snd_soc_component *component,
+@@ -2637,12 +2638,12 @@ static int wm8994_set_bias_level(struct snd_soc_component *component,
+ 			break;
+ 		}
+ 
+-		if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_STANDBY)
++		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_STANDBY)
+ 			active_reference(component);
  		break;
  
  	case SND_SOC_BIAS_STANDBY:
 -		if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF) {
 +		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_OFF) {
- 			ret = regulator_bulk_enable(ARRAY_SIZE(wm8993->supplies),
- 						    wm8993->supplies);
- 			if (ret != 0)
-@@ -1482,7 +1483,7 @@ static struct snd_soc_dai_driver wm8993_dai = {
- static int wm8993_probe(struct snd_soc_component *component)
+ 			switch (control->type) {
+ 			case WM8958:
+ 				if (control->revision == 0) {
+@@ -2666,7 +2667,7 @@ static int wm8994_set_bias_level(struct snd_soc_component *component,
+ 					    WM8994_LINEOUT2_DISCH);
+ 		}
+ 
+-		if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_PREPARE)
++		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_PREPARE)
+ 			active_dereference(component);
+ 
+ 		/* MICBIAS into bypass mode on newer devices */
+@@ -2686,7 +2687,7 @@ static int wm8994_set_bias_level(struct snd_soc_component *component,
+ 		break;
+ 
+ 	case SND_SOC_BIAS_OFF:
+-		if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_STANDBY)
++		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_STANDBY)
+ 			wm8994->cur_fw = NULL;
+ 		break;
+ 	}
+@@ -2697,7 +2698,7 @@ static int wm8994_set_bias_level(struct snd_soc_component *component,
+ int wm8994_vmid_mode(struct snd_soc_component *component, enum wm8994_vmid_mode mode)
  {
- 	struct wm8993_priv *wm8993 = snd_soc_component_get_drvdata(component);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
 -	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
 +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
  
- 	wm8993->hubs_data.hp_startup_mode = 1;
- 	wm8993->hubs_data.dcs_codes_l = -2;
-@@ -1536,7 +1537,7 @@ static int wm8993_probe(struct snd_soc_component *component)
- 	 * VMID as an output and can disable it.
- 	 */
- 	if (wm8993->pdata.lineout1_diff && wm8993->pdata.lineout2_diff)
--		dapm->idle_bias = false;
-+		snd_soc_dapm_set_idle_bias(dapm, false);
- 
- 	return 0;
- 
-@@ -1546,6 +1547,7 @@ static int wm8993_probe(struct snd_soc_component *component)
- static int wm8993_suspend(struct snd_soc_component *component)
+ 	switch (mode) {
+ 	case WM8994_VMID_NORMAL:
+@@ -3299,6 +3300,7 @@ static struct snd_soc_dai_driver wm8994_dai[] = {
+ static int wm8994_component_suspend(struct snd_soc_component *component)
  {
- 	struct wm8993_priv *wm8993 = snd_soc_component_get_drvdata(component);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
 +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	int fll_fout = wm8993->fll_fout;
- 	int fll_fref  = wm8993->fll_fref;
- 	int ret;
-@@ -1560,7 +1562,7 @@ static int wm8993_suspend(struct snd_soc_component *component)
- 	wm8993->fll_fout = fll_fout;
- 	wm8993->fll_fref = fll_fref;
+ 	int i, ret;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(wm8994->fll); i++) {
+@@ -3310,7 +3312,7 @@ static int wm8994_component_suspend(struct snd_soc_component *component)
+ 				 i + 1, ret);
+ 	}
  
 -	snd_soc_component_force_bias_level(component, SND_SOC_BIAS_OFF);
 +	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_OFF);
  
  	return 0;
  }
-@@ -1568,9 +1570,10 @@ static int wm8993_suspend(struct snd_soc_component *component)
- static int wm8993_resume(struct snd_soc_component *component)
+@@ -3503,7 +3505,7 @@ static void wm8994_handle_pdata(struct wm8994_priv *wm8994)
+ int wm8994_mic_detect(struct snd_soc_component *component, struct snd_soc_jack *jack,
+ 		      int micbias)
  {
- 	struct wm8993_priv *wm8993 = snd_soc_component_get_drvdata(component);
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
 +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	int ret;
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
+ 	struct wm8994_micdet *micdet;
+ 	struct wm8994 *control = wm8994->wm8994;
+@@ -3653,7 +3655,7 @@ static irqreturn_t wm8994_mic_irq(int irq, void *data)
+ /* Should be called with accdet_lock held */
+ static void wm1811_micd_stop(struct snd_soc_component *component)
+ {
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
  
--	snd_soc_component_force_bias_level(component, SND_SOC_BIAS_STANDBY);
-+	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_STANDBY);
+ 	if (!wm8994->jackdet)
+@@ -3773,7 +3775,7 @@ static void wm1811_mic_work(struct work_struct *work)
+ 						  mic_work.work);
+ 	struct wm8994 *control = wm8994->wm8994;
+ 	struct snd_soc_component *component = wm8994->hubs.component;
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
  
- 	/* Restart the FLL? */
- 	if (wm8993->fll_fout) {
+ 	pm_runtime_get_sync(component->dev);
+ 
+@@ -3812,7 +3814,7 @@ static irqreturn_t wm1811_jackdet_irq(int irq, void *data)
+ 	struct wm8994_priv *wm8994 = data;
+ 	struct wm8994 *control = wm8994->wm8994;
+ 	struct snd_soc_component *component = wm8994->hubs.component;
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	int reg, delay;
+ 	bool present;
+ 
+@@ -3928,7 +3930,7 @@ int wm8958_mic_detect(struct snd_soc_component *component, struct snd_soc_jack *
+ 		      wm1811_micdet_cb det_cb, void *det_cb_data,
+ 		      wm1811_mic_id_cb id_cb, void *id_cb_data)
+ {
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
+ 	struct wm8994 *control = wm8994->wm8994;
+ 	u16 micd_lvl_sel;
+@@ -3980,7 +3982,7 @@ int wm8958_mic_detect(struct snd_soc_component *component, struct snd_soc_jack *
+ 		snd_soc_component_update_bits(component, WM8958_MIC_DETECT_2,
+ 				    WM8958_MICD_LVL_SEL_MASK, micd_lvl_sel);
+ 
+-		WARN_ON(snd_soc_component_get_bias_level(component) > SND_SOC_BIAS_STANDBY);
++		WARN_ON(snd_soc_dapm_get_bias_level(dapm) > SND_SOC_BIAS_STANDBY);
+ 
+ 		/*
+ 		 * If we can use jack detection start off with that,
+@@ -4148,7 +4150,7 @@ static irqreturn_t wm8994_temp_shut(int irq, void *data)
+ 
+ static int wm8994_component_probe(struct snd_soc_component *component)
+ {
+-	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct wm8994 *control = dev_get_drvdata(component->dev->parent);
+ 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
+ 	unsigned int reg;
+@@ -4183,7 +4185,7 @@ static int wm8994_component_probe(struct snd_soc_component *component)
+ 	wm8994->micdet_irq = control->pdata.micdet_irq;
+ 
+ 	/* By default use idle_bias false, will override for WM8994 */
+-	dapm->idle_bias = false;
++	snd_soc_dapm_set_idle_bias(dapm, false);
+ 
+ 	/* Set revision-specific configuration */
+ 	switch (control->type) {
+@@ -4191,7 +4193,7 @@ static int wm8994_component_probe(struct snd_soc_component *component)
+ 		/* Single ended line outputs should have VMID on. */
+ 		if (!control->pdata.lineout1_diff ||
+ 		    !control->pdata.lineout2_diff)
+-			dapm->idle_bias = true;
++			snd_soc_dapm_set_idle_bias(dapm, true);
+ 
+ 		switch (control->revision) {
+ 		case 2:
 -- 
 2.43.0
 
