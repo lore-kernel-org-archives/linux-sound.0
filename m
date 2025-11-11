@@ -1,132 +1,205 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7328C2765D3
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 05:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971A029E114
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 06:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762839514; cv=none; b=kHjhEihnFGhzOWRzLa3iK2Qr3UmTKPS8L4FBgii+0pqQVYsmzIutTlNOSAUdDZbtSGLA18z1U+LypNIcYb85XehWFVFukA1ijM/zW6bLUIZ8guLnZ/rEtFU2PTkkK7QmPfEkWtDHx+M36OZQN2MuATHbE+ljRb8BUv30a3xciw4=
+	t=1762843352; cv=none; b=RmGYfSY3QT4ILlcZ+IIJVUsmL62t1RP25BBNs/Kkdm1BYujzidqBhwyvge3Y5GOVDuAmrlKWf1wenYPuSdgtq3NWkHf0gZEssvD2kkysBcU7By4dafYz5YUrtYQKCrrTk/xk78xZyGQMt7oXgAWc3s5DaK6MvRfYzIbsYWsfc54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762839514; c=relaxed/simple;
-	bh=bl8ormw/0G47BcA133p1sT+0poex0ZwxwrNZQ1PZfYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M60PyqJaLl6fuvk/B8yllB2yWYA7fh9ej1km44aQA9La08LxKokpMKI1ERoF7MU7uCC6eSI1HTct7LRUwmjFmGdiuLLvTwgeXjC+WUEekHv/spPznu1z/a11HH1ZRFo+9alG/RXmM/dR7Oj6viYsI+k70/DFmkANd2WjIgNPexw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ui9fB2gX; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762843352; c=relaxed/simple;
+	bh=ATNN5RmueLox2IC+5BDEXAgaIglCENc+yF4ZTPMaIZg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D37tmT06YejQIKSPkw67uuVUUuV5ejXcozBuxvYBaXwvw2tnnLbLhffpHJI4GVJcAiDUaaRM76Ioy7d/HfyvucFVGpqHGFkado3AJLsVoSjQYSfaK33GpBB0qpcox4p50BMpwyOkwlPNJn3ezpcA5TFc0eSULa+O1VOeHAF8dF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ui9fB2gX"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4775638d819so21360895e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 21:38:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762839511; x=1763444311; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yb+qXNML2Zug0mRs+ShkI2kLcvT3TeWhztfdHoVJFl4=;
-        b=Ui9fB2gXZH+wqM8H2Xp9y3xbAo4OCtWNMETe353PNsf57twuu/HOFFSBF2ugabV3k6
-         z911M/C3wCCUAdthH998yGDdEI/yHpfKMG+2RcE/7nbURZ6Kjojpl8VIhiNertLObn4m
-         7H6x3D/1JpQCF11GtvXIYeoCFboCLUudRVGFLf9ikTnjUH+nybEwIHCyTkgMGbEIIuIM
-         +NKUcJqLdXx2ZBHEXwTAGUqhbA5Zps21MQOJVX2NpdJYXWX6I9sdM4MqlYWIpcgb/kU3
-         3D95dkrq1Te6+M6qAm1tFrQmZaBAYGgRm9WU6O8fA/nQBZJlPof4AYmIp0Rjlb+TRpTo
-         CHGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762839511; x=1763444311;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yb+qXNML2Zug0mRs+ShkI2kLcvT3TeWhztfdHoVJFl4=;
-        b=NfLM1j7pQ9oDdwXByg9z/7MJEAZS15ZZ/BWc1AHmxFYahyGrdWaNUKauXyfsdXi7gd
-         1ag7XQCzwAa1GqEbrNlnk7bfLL/rk+O4J18ONdIMZbtPfsb0mCHTQtp+M409rVnqL8Ra
-         cOlN1D/NKanOjyooz4SlQZd13leAVvsDDqsc6lqCdLed4gH6R237W4unTSJWhOCaoqhM
-         QL0eWReMxx96wWTXTLsKdJOyquyIGO/Xx2jgHbtBC44S8m3C56FcpXy/cl3U9QMB28qP
-         nNhudcVoRkR4L4A+GETE+1uDYl4ida0ad8VWsODRl0ewtX24ALn7sX4wOKDkjyw4eSPo
-         NKHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVyC7SPPkRHrO0uT3bXiSDf2+AgKbxskJXzoRWGag1SzijuBnMlHvuMFMqckED4aM0OpRW5SFY03W0dNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZhfABmNFoWqplrYN1TzYQ9NwWqtISDCjAW9FZlcTCBPbQQ8gX
-	sSwgfQ2ZRFZSW29ymG/seCVsNhyPBV235wh0cWyTB/aiyMYuGfy93X2D
-X-Gm-Gg: ASbGncvi2zwRPq02aaLWC6oYvFFEmpuVT9qLBvEjPcnKN00/kKVx+JAyl7JCoH3CyNR
-	HLcHSmHR9LdqTeQubZfT+PYRH8Mwq14MNOfzKTEoM/u8QQNrAlioUcgozDmkSmUdgj6h/SUA/W8
-	XU0LsH+PIAZKoETFROYSMguIPIhTGqesAIG+uEIJ6wTRrQF2QgT8f+aQCH+rR4h39JXn+fyZ4uo
-	qKlei9xyv+4qt6zvd3kRpTVPPNKPW/gLUjKgGBYCBlB8yfvnFeRJ8ZkV5VfCke56jGgNxnpBmJ1
-	NutfsjIV5EV2HhQ5ELtLiDRfzNdxE9y3ywNkQGSuw7mwXZF6gRPFL1wuhqeYnDb7VuV23Spxw5i
-	/QsnOPtv4JlaShkMyVgcBlH9WRXgnGh7qA9RjcB82rczoLueR+Rvh2A8Z62ys5lrwNuT8NDN6np
-	knd1s=
-X-Google-Smtp-Source: AGHT+IEv5JnCqFKP1Mph4p8AIKA/3nXc5QfvNqGpBizR/xRbU8dBBYCYd3u61pCiDSVO4Cy/pD0Gaw==
-X-Received: by 2002:a05:600c:41d4:b0:477:7479:f081 with SMTP id 5b1f17b1804b1-4777479f19fmr59167825e9.12.1762839510290;
-        Mon, 10 Nov 2025 21:38:30 -0800 (PST)
-Received: from gmail.com ([136.226.168.208])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm109459225e9.13.2025.11.10.21.38.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 21:38:29 -0800 (PST)
-From: hariconscious@gmail.com
-To: lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HariKrishna Sagala <hariconscious@gmail.com>
-Subject: [PATCH] ASoC: SOF: sof-client-probes: Replace snprintf() with scnprintf()
-Date: Tue, 11 Nov 2025 10:59:21 +0530
-Message-ID: <20251111052920.56459-2-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 003E121D96;
+	Tue, 11 Nov 2025 06:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
+	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
+	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762843347;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
+	7jvcMdxbfbH3qxAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
+	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
+	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762843347;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
+	7jvcMdxbfbH3qxAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAC3E14805;
+	Tue, 11 Nov 2025 06:42:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OZMhONDaEmkhSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 11 Nov 2025 06:42:24 +0000
+Date: Tue, 11 Nov 2025 07:42:24 +0100
+Message-ID: <87jyzx2hpr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,	Thomas Zimmermann
+ <tzimmermann@suse.de>,	Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>,	Rob Clark
+ <robin.clark@oss.qualcomm.com>,	Matthew Brost <matthew.brost@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,	Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,	Ulf Hansson
+ <ulf.hansson@linaro.org>,	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,	Niklas Cassel <cassel@kernel.org>,
+	Calvin Owens <calvin@wbinvd.org>,	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,	Karan Tilak Kumar
+ <kartilak@cisco.com>,	Casey Schaufler <casey@schaufler-ca.com>,	Steven
+ Rostedt <rostedt@goodmis.org>,	Petr Mladek <pmladek@suse.com>,	Max
+ Kellermann <max.kellermann@ionos.com>,	Takashi Iwai <tiwai@suse.de>,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,	linaro-mm-sig@lists.linaro.org,
+	amd-gfx@lists.freedesktop.org,	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,	intel-xe@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org,	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,	linux-pci@vger.kernel.org,
+	linux-s390@vger.kernel.org,	linux-scsi@vger.kernel.org,
+	linux-staging@lists.linux.dev,	ceph-devel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,	linux-sound@vger.kernel.org,	Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>,	Sergey Senozhatsky
+ <senozhatsky@chromium.org>,	Jonathan Corbet <corbet@lwn.net>,	Sumit Semwal
+ <sumit.semwal@linaro.org>,	Gustavo Padovan <gustavo@padovan.org>,	David
+ Airlie <airlied@gmail.com>,	Simona Vetter <simona@ffwll.ch>,	Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,	Maxime Ripard
+ <mripard@kernel.org>,	Dmitry Baryshkov <lumag@kernel.org>,	Abhinav Kumar
+ <abhinav.kumar@linux.dev>,	Jessica Zhang <jesszhan0024@gmail.com>,	Sean
+ Paul <sean@poorly.run>,	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,	Lucas De Marchi
+ <lucas.demarchi@intel.com>,	Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	Vladimir Oltean
+ <olteanv@gmail.com>,	Andrew Lunn <andrew@lunn.ch>,	"David S. Miller"
+ <davem@davemloft.net>,	Eric Dumazet <edumazet@google.com>,	Jakub Kicinski
+ <kuba@kernel.org>,	Paolo Abeni <pabeni@redhat.com>,	Tony Nguyen
+ <anthony.l.nguyen@intel.com>,	Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>,	Krzysztof =?ISO-8859-2?Q?Wilczy=F1ski?=
+ <kwilczynski@kernel.org>,	Kishon Vijay Abraham I <kishon@kernel.org>,	Bjorn
+ Helgaas <bhelgaas@google.com>,	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,	Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>,	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,	Jan Hoeppner
+ <hoeppner@linux.ibm.com>,	Heiko Carstens <hca@linux.ibm.com>,	Vasily Gorbik
+ <gor@linux.ibm.com>,	Alexander Gordeev <agordeev@linux.ibm.com>,	Christian
+ Borntraeger <borntraeger@linux.ibm.com>,	Sven Schnelle
+ <svens@linux.ibm.com>,	Satish Kharat <satishkh@cisco.com>,	Sesidhar Baddela
+ <sebaddel@cisco.com>,	"James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>,	Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,	Xiubo Li <xiubli@redhat.com>,	Ilya Dryomov
+ <idryomov@gmail.com>,	Masami Hiramatsu <mhiramat@kernel.org>,	Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>,	Andrew Morton
+ <akpm@linux-foundation.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai
+ <tiwai@suse.com>
+Subject: Re: [PATCH v1 02/23] ALSA: seq: Switch to use %ptSp
+In-Reply-To: <20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+	<20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[minyard.net,amd.com,treblig.org,suse.de,oss.qualcomm.com,intel.com,kernel.org,ideasonboard.com,linaro.org,wbinvd.org,gmail.com,oracle.com,cisco.com,schaufler-ca.com,goodmis.org,suse.com,ionos.com,vger.kernel.org,lists.sourceforge.net,lists.freedesktop.org,lists.linaro.org,lists.osuosl.org,lists.linux.dev,rasmusvillemoes.dk,chromium.org,lwn.net,padovan.org,ffwll.ch,linux.intel.com,linux.dev,poorly.run,somainline.org,lunn.ch,davemloft.net,google.com,redhat.com,enneenne.com,linux.ibm.com,HansenPartnership.com,linuxfoundation.org,efficios.com,linux-foundation.org,perex.cz];
+	R_RATELIMIT(0.00)[to_ip_from(RLmdkd3ei8pyzuqshpsr74qwzu)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[96];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-From: HariKrishna Sagala <hariconscious@gmail.com>
+On Mon, 10 Nov 2025 19:40:21 +0100,
+Andy Shevchenko wrote:
+> 
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  sound/core/seq/seq_queue.c | 2 +-
+>  sound/core/seq/seq_timer.c | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
+> index f5c0e401c8ae..f6e86cbf38bc 100644
+> --- a/sound/core/seq/seq_queue.c
+> +++ b/sound/core/seq/seq_queue.c
+> @@ -699,7 +699,7 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
+>  		snd_iprintf(buffer, "current tempo      : %d\n", tmr->tempo);
+>  		snd_iprintf(buffer, "tempo base         : %d ns\n", tmr->tempo_base);
+>  		snd_iprintf(buffer, "current BPM        : %d\n", bpm);
+> -		snd_iprintf(buffer, "current time       : %d.%09d s\n", tmr->cur_time.tv_sec, tmr->cur_time.tv_nsec);
+> +		snd_iprintf(buffer, "current time       : %ptSp s\n", &tmr->cur_time);
+>  		snd_iprintf(buffer, "current tick       : %d\n", tmr->tick.cur_tick);
+>  		snd_iprintf(buffer, "\n");
+>  	}
 
-As per the C99 standard snprintf() returns the length of the data
-that *would have been* written if there were enough space for it.
-It's generally considered safer to use the scnprintf() variant.
+tmr->cur_time isn't struct timespec64, but it's struct
+tmr->snd_seq_real_time.
 
-Link: https://github.com/KSPP/linux/issues/105
-Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
----
-This patch replaces snprintf() varaint with scnprintf() in
-scenario to know the actual length of the data rather than *would
-have been* written data of snprintf().
-No functional changes intended.
-Reference Links:
-https://lwn.net/Articles/69419/
-https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.snprintf
 
-Note:
-*Compile & boot* tested.(CONFIG_SND_SOC_SOF_IPC4=y)
+thanks,
 
-Thank you.
-
- sound/soc/sof/sof-client-probes-ipc4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sof/sof-client-probes-ipc4.c b/sound/soc/sof/sof-client-probes-ipc4.c
-index 758a56d271d7..d3fa37106b64 100644
---- a/sound/soc/sof/sof-client-probes-ipc4.c
-+++ b/sound/soc/sof/sof-client-probes-ipc4.c
-@@ -289,7 +289,7 @@ static int ipc4_probes_point_print(struct sof_client_dev *cdev, char *buf, size_
- 			__func__, SOF_IPC4_MOD_ID_GET(desc->buffer_id),
- 			SOF_IPC4_MOD_INSTANCE_GET(desc->buffer_id));
- 
--	ret = snprintf(buf, size, "%#x,%#x,%#x\t%s %s buf idx %lu %s\n",
-+	ret = scnprintf(buf, size, "%#x,%#x,%#x\t%s %s buf idx %lu %s\n",
- 		       desc->buffer_id, desc->purpose, desc->stream_tag,
- 		       swidget ? swidget->widget->name : "<unknown>",
- 		       sof_probe_ipc4_type_string(SOF_IPC4_PROBE_TYPE_GET(desc->buffer_id)),
-
-base-commit: 4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
--- 
-2.43.0
-
+Takashi
