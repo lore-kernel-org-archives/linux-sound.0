@@ -1,205 +1,132 @@
-Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE762609CC;
-	Tue, 11 Nov 2025 05:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7328C2765D3
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 05:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762837896; cv=none; b=FBhe1uQT26OXOaJ3x8Fw8PuYDExDvJROEyL3mIS9IxGoahat2Sly/0Oj3NUJHR12rG2Ujgcexq/43zOwhLuQewF28ySkfkJQ81jz96NU+d87GIv2In4+odyMIWbP4bNLtc+nx4Bn90zOAkK4y+UCS+YEGtLR7eZ4WLrAubpBYu4=
+	t=1762839514; cv=none; b=kHjhEihnFGhzOWRzLa3iK2Qr3UmTKPS8L4FBgii+0pqQVYsmzIutTlNOSAUdDZbtSGLA18z1U+LypNIcYb85XehWFVFukA1ijM/zW6bLUIZ8guLnZ/rEtFU2PTkkK7QmPfEkWtDHx+M36OZQN2MuATHbE+ljRb8BUv30a3xciw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762837896; c=relaxed/simple;
-	bh=1XVk5MgQup43FaAJqBGIxhaX8aWKDK8Qp8UR3yvfBJA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Q+TLM1WMaLoTJvhw3Whji2EB6tG+zXcDi4qaSMMETDdGec5ge3foFrYhWd3fmy6w6RkdZlywo9O2haEp1KR3PvKRFEAYImgYTJZn8BYV6JEhIeJJ5sVg+5gV4Q+t9WHyuCrblDBTbbTkJUnY948bg2RdOT4gCIGD1t8BFoPrEZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 2BFEB205B370;
-	Mon, 10 Nov 2025 21:11:26 -0800 (PST)
-Message-ID: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
-Date: Mon, 10 Nov 2025 21:11:25 -0800
+	s=arc-20240116; t=1762839514; c=relaxed/simple;
+	bh=bl8ormw/0G47BcA133p1sT+0poex0ZwxwrNZQ1PZfYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M60PyqJaLl6fuvk/B8yllB2yWYA7fh9ej1km44aQA9La08LxKokpMKI1ERoF7MU7uCC6eSI1HTct7LRUwmjFmGdiuLLvTwgeXjC+WUEekHv/spPznu1z/a11HH1ZRFo+9alG/RXmM/dR7Oj6viYsI+k70/DFmkANd2WjIgNPexw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ui9fB2gX; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ui9fB2gX"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4775638d819so21360895e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 21:38:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762839511; x=1763444311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yb+qXNML2Zug0mRs+ShkI2kLcvT3TeWhztfdHoVJFl4=;
+        b=Ui9fB2gXZH+wqM8H2Xp9y3xbAo4OCtWNMETe353PNsf57twuu/HOFFSBF2ugabV3k6
+         z911M/C3wCCUAdthH998yGDdEI/yHpfKMG+2RcE/7nbURZ6Kjojpl8VIhiNertLObn4m
+         7H6x3D/1JpQCF11GtvXIYeoCFboCLUudRVGFLf9ikTnjUH+nybEwIHCyTkgMGbEIIuIM
+         +NKUcJqLdXx2ZBHEXwTAGUqhbA5Zps21MQOJVX2NpdJYXWX6I9sdM4MqlYWIpcgb/kU3
+         3D95dkrq1Te6+M6qAm1tFrQmZaBAYGgRm9WU6O8fA/nQBZJlPof4AYmIp0Rjlb+TRpTo
+         CHGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762839511; x=1763444311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yb+qXNML2Zug0mRs+ShkI2kLcvT3TeWhztfdHoVJFl4=;
+        b=NfLM1j7pQ9oDdwXByg9z/7MJEAZS15ZZ/BWc1AHmxFYahyGrdWaNUKauXyfsdXi7gd
+         1ag7XQCzwAa1GqEbrNlnk7bfLL/rk+O4J18ONdIMZbtPfsb0mCHTQtp+M409rVnqL8Ra
+         cOlN1D/NKanOjyooz4SlQZd13leAVvsDDqsc6lqCdLed4gH6R237W4unTSJWhOCaoqhM
+         QL0eWReMxx96wWTXTLsKdJOyquyIGO/Xx2jgHbtBC44S8m3C56FcpXy/cl3U9QMB28qP
+         nNhudcVoRkR4L4A+GETE+1uDYl4ida0ad8VWsODRl0ewtX24ALn7sX4wOKDkjyw4eSPo
+         NKHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyC7SPPkRHrO0uT3bXiSDf2+AgKbxskJXzoRWGag1SzijuBnMlHvuMFMqckED4aM0OpRW5SFY03W0dNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZhfABmNFoWqplrYN1TzYQ9NwWqtISDCjAW9FZlcTCBPbQQ8gX
+	sSwgfQ2ZRFZSW29ymG/seCVsNhyPBV235wh0cWyTB/aiyMYuGfy93X2D
+X-Gm-Gg: ASbGncvi2zwRPq02aaLWC6oYvFFEmpuVT9qLBvEjPcnKN00/kKVx+JAyl7JCoH3CyNR
+	HLcHSmHR9LdqTeQubZfT+PYRH8Mwq14MNOfzKTEoM/u8QQNrAlioUcgozDmkSmUdgj6h/SUA/W8
+	XU0LsH+PIAZKoETFROYSMguIPIhTGqesAIG+uEIJ6wTRrQF2QgT8f+aQCH+rR4h39JXn+fyZ4uo
+	qKlei9xyv+4qt6zvd3kRpTVPPNKPW/gLUjKgGBYCBlB8yfvnFeRJ8ZkV5VfCke56jGgNxnpBmJ1
+	NutfsjIV5EV2HhQ5ELtLiDRfzNdxE9y3ywNkQGSuw7mwXZF6gRPFL1wuhqeYnDb7VuV23Spxw5i
+	/QsnOPtv4JlaShkMyVgcBlH9WRXgnGh7qA9RjcB82rczoLueR+Rvh2A8Z62ys5lrwNuT8NDN6np
+	knd1s=
+X-Google-Smtp-Source: AGHT+IEv5JnCqFKP1Mph4p8AIKA/3nXc5QfvNqGpBizR/xRbU8dBBYCYd3u61pCiDSVO4Cy/pD0Gaw==
+X-Received: by 2002:a05:600c:41d4:b0:477:7479:f081 with SMTP id 5b1f17b1804b1-4777479f19fmr59167825e9.12.1762839510290;
+        Mon, 10 Nov 2025 21:38:30 -0800 (PST)
+Received: from gmail.com ([136.226.168.208])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm109459225e9.13.2025.11.10.21.38.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 21:38:29 -0800 (PST)
+From: hariconscious@gmail.com
+To: lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	broonie@kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ASoC: SOF: sof-client-probes: Replace snprintf() with scnprintf()
+Date: Tue, 11 Nov 2025 10:59:21 +0530
+Message-ID: <20251111052920.56459-2-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
- when RGB brightness button is used under Linux
-To: The-Luga <lugathe2@gmail.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Michal Pecio <michal.pecio@gmail.com>,
- Terry Junge <linuxsound@cosmicgizmosystems.com>,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-References: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
- <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
- <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
- <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
- <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
- <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
- <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
- <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
- <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
- <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com>
- <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
- <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
+As per the C99 standard snprintf() returns the length of the data
+that *would have been* written if there were enough space for it.
+It's generally considered safer to use the scnprintf() variant.
 
-On 11/10/2025 3:48 PM, The-Luga wrote:
->>> Are you sure?
->>>
->>> HID_QUIRK_ALWAYS_POLL = 0x400
->>> would stop suspending the device.
->>
->> Actually, it forces the kernel to poll the device's IN endpoints even
->> when no program is holding the device file open (see where
->> usbhid_start() calls hid_start_in() if the ALWAYS_POLL quirk is set).
->> This is exactly what the speaker seems to need.
->>
->> As a side effect, it prevents the device from being suspended.  But that
->> doesn't seem to be the important thing here.
+Link: https://github.com/KSPP/linux/issues/105
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
+This patch replaces snprintf() varaint with scnprintf() in
+scenario to know the actual length of the data rather than *would
+have been* written data of snprintf().
+No functional changes intended.
+Reference Links:
+https://lwn.net/Articles/69419/
+https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.snprintf
 
-Polling for input reports is handled by the hardware at the interval 
-requested by the device during enumeration. There is no intervention by 
-the kernel to poll for an input report. The only way the kernel can stop 
-polling a device for input reports is to suspend it.
+Note:
+*Compile & boot* tested.(CONFIG_SND_SOC_SOF_IPC4=y)
 
-So ALWAYS_POLL means never suspend.
+Thank you.
 
-> 
-> From: https://github.com/torvalds/linux/blob/master/include/linux/hid.h
-> 
-> #define HID_QUIRK_ALWAYS_POLL          BIT(10)    ->  2^10=1024=#400
-> #define HID_QUIRK_NO_IGNORE            BIT(30)    ->  2^30=1073741824=#40000000
-> 
-> Sorry about that. I'm still learning and the documentation was not
-> very clear on this.
-> 
-> Trying the 0x40000000: `usbhid.quirks=0x2d99:0xa101:0x40000000`  the
-> usbmon stays silent when changing volume/button and reboots when
-> changing brightness.
-> 
-> With HID_QUIRK_ALWAYS_POLL: `usbhid.quirks=0x2d99:0xa101:0x400`
-> (reboot does not happen).
-> 
-> Is there a different quirk to try?
+ sound/soc/sof/sof-client-probes-ipc4.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, HID_QUIRK_ALWAYS_POLL is the one you want.
+diff --git a/sound/soc/sof/sof-client-probes-ipc4.c b/sound/soc/sof/sof-client-probes-ipc4.c
+index 758a56d271d7..d3fa37106b64 100644
+--- a/sound/soc/sof/sof-client-probes-ipc4.c
++++ b/sound/soc/sof/sof-client-probes-ipc4.c
+@@ -289,7 +289,7 @@ static int ipc4_probes_point_print(struct sof_client_dev *cdev, char *buf, size_
+ 			__func__, SOF_IPC4_MOD_ID_GET(desc->buffer_id),
+ 			SOF_IPC4_MOD_INSTANCE_GET(desc->buffer_id));
+ 
+-	ret = snprintf(buf, size, "%#x,%#x,%#x\t%s %s buf idx %lu %s\n",
++	ret = scnprintf(buf, size, "%#x,%#x,%#x\t%s %s buf idx %lu %s\n",
+ 		       desc->buffer_id, desc->purpose, desc->stream_tag,
+ 		       swidget ? swidget->widget->name : "<unknown>",
+ 		       sof_probe_ipc4_type_string(SOF_IPC4_PROBE_TYPE_GET(desc->buffer_id)),
 
-Do you want to write the patch and submit it?
+base-commit: 4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
+-- 
+2.43.0
 
-> 
-> Off-topic:
-> I was trying to decode this protocol... and did it with volume control.
-> 
-> I can control my speaker directly with:
-> 
-> Full volume:
-> `echo \
->   "2eaaec670001100e000000000000000000000000000000000000000000000000" \
-> | xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-> 
-> muted:
-> `echo \
-> "2eaaec67000100fe0000000000000000000000000000000000000000000000000" \
-> | xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
-> 
-> I renamed the steps to be similar to the audio stack where 0 is very
-> low but not muted.
-> 
-> ad it stays consistent on this full range. (tested)
-> 
-> volume muted
-> 2eaaec670001 00fe 00000000000000000000000000000000000000000000000000
-> volume 0
-> 2eaaec670001 01ff 00000000000000000000000000000000000000000000000000
-> volume 1
-> 2eaaec670001 0200 00000000000000000000000000000000000000000000000000
-> volume 2
-> 2eaaec670001 0301 00000000000000000000000000000000000000000000000000
-> volume 3
-> 2eaaec670001 0402 00000000000000000000000000000000000000000000000000
-> volume 4
-> 2eaaec670001 0503 00000000000000000000000000000000000000000000000000
-> volume 5
-> 2eaaec670001 0604 00000000000000000000000000000000000000000000000000
-> volume 6
-> ...
-> volume 14
-> 2eaaec670001 0f0d 00000000000000000000000000000000000000000000000000
-> Volume 15 (max)
-> 2eaaec670001 100e 00000000000000000000000000000000000000000000000000
-> 
-> 
-> 
-> And I also decoded the speaker volume it outputs by rotating the knob:
-> 
-> volume muted
-> 2fbbec660002 1000 1f00 00000000000000000000000000000000000000000000
-> volume 0
-> 2fbbec660002 1001 2000 00000000000000000000000000000000000000000000
-> volume 1
-> 2fbbec660002 1002 2100 00000000000000000000000000000000000000000000
-> volume 2
-> 2fbbec660002 1003 2200 00000000000000000000000000000000000000000000
-> volume 3
-> 2fbbec660002 1004 2300 00000000000000000000000000000000000000000000
-> ...
-> volume 14
-> 2fbbec660002 100f 2e00 00000000000000000000000000000000000000000000
-> Volume 15 (max)
-> 2fbbec660002 1010 2f00 00000000000000000000000000000000000000000000
-> 
-> When sending the volume change command to hidraw. The device outputs
-> the volume it was set to go like the knob on that value:
-> 
-> ffff8d49f36b3680 206654552 S Io:3:002:4 -115:1 64 = 2eaaec67 0001100e
-> 00000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d49f36b3680 206654840 C Io:3:002:4 0:1 64 >
-> ffff8d494c8ee0c0 206655831 C Ii:3:002:4 0:1 64 = 2fbbec66 00021010
-> 2f000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d494c8ee0c0 206655832 S Ii:3:002:4 -115:1 64 <
-> ffff8d494c8ee0c0 206656830 C Ii:3:002:4 0:1 64 = 2fbbec67 00010110
-> 00000000 00000000 00000000 00000000 00000000 00000000
-> ffff8d494c8ee0c0 206656831 S Ii:3:002:4 -115:1 64 <
-> 
-> If, I mean it's a very big IF. I wanted to have this device with
-> hardware volume control working with alsa/pipewire/wireplumber/etc.
-> What would be needed?
-
-ALSA and the rest are triggered to bump the volume up or down with the 
-Consumer Control Volume Up and Volume Down events. Those HID usages are 
-declared in the other HID interface but never fired as your testing shows.
-
-You would need a kernel driver and detect the volume change using the 
-vendor unique reports and then inject KEY_VOLUMEUP or KEY_VOLUMEDOWN 
-events as needed. It may or may not work...
-
-> 
-> Maybe this vendor uses the same method of communication for other devices?
-> 
-> Maybe related: https://mailman.alsa-project.org/hyperkitty/list/alsa-devel@alsa-project.org/thread/CYSG6A62JJID5N2V5YUDW43CELEZDF36/
-> 
-> The decibel range is bogus:
-> 
-> lugathe wireplumber[1231]: spa.alsa: The decibel volume range for
-> element 'PCM' (-2837 dB - -94 dB) has negative maximum. Disabling the
-> decibel range.
-> 
-> The RGB/Equalizer/profiles/etc. I don't think it's really important in
-> the kernel context except with the reboot apparently solved with
-> always poll quirk.
-> 
-> Before this I really *knew nothing* and I am having a really good time
-> and happy with this challenge. Thank you all for the wonderful work
-> and knowledge you are sharing.
