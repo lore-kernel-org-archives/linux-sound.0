@@ -1,206 +1,124 @@
-Received: from mail-oa1-f67.google.com (mail-oa1-f67.google.com [209.85.160.67])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EA130749A
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 01:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9462130649C
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 02:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762823866; cv=none; b=e07vPBuYFPQQHr9faM+Lkf0VYZmLnAYgg9k/DLozBls1zbqx0oPU1mtIkVtm1Xvh7MqfqzSPXr2tageC6PUm6Px5GomlT6222tLCVHg22UuzM1blTzKWH+C60swWAKbT68oYIiA39GpjViTtWGqaGiV1CukLBgzFvHXvUy+WGBA=
+	t=1762826413; cv=none; b=BiaQXeUXEMM2M727ryvrpzcLyUgRD/ko8wFEE16f8KHa9WwMVbnltdTfaQwcTLxwOgyn1SCW68mJ2c/cA1mMvzjBiUpQfCFOXzQTFNlcU6Kqc1QymcGsl0rrqUB4ri/0Fc4OF8YoKGzcD2U7S7yPjETb1CADZ24G30X47IkMC5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762823866; c=relaxed/simple;
-	bh=/awKTS4VkDV7YyuY2XqMrgn1/FWXuaIp1CGhvSR3qsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YI6l9m1sDbedQg3nGWIUOR9bvWk4YRBA/9e/wn8nbsd0IvN3Ctz8tsrfgv5GFi+1Uo0tj3EzGh7iE65JXDOjoSktDn6V/dBstUa6RggUesCNUmhU4nNI15i+psa5kWqubnRYXXYtgYL/64WhQUXXeWoWCFgKbeCVD4/E5bEA/wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=1X0bIYLP; arc=none smtp.client-ip=209.85.160.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
+	s=arc-20240116; t=1762826413; c=relaxed/simple;
+	bh=1JGfOj2u5jUcqRu2eyzSWFIfgFG0OpFssDocNLWH0ns=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aMXLU/SdZ0FNZ/Uvc3SuQS9VMLXa8mlX0bQ97P6xLUUA0EFjBpsyS/u9d1EaF8m+H49pqwQviE/y5keQggaEZomZb6KEZn9x8aNsZE6jEucRkPRpCcB9ICt8ep2A4GGYSdGIwX/X2MDZVdfjYXIq9UvrwpD33go+3t7UMEpM53Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcLXkrN9; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="1X0bIYLP"
-Received: by mail-oa1-f67.google.com with SMTP id 586e51a60fabf-3c9991e6ad1so180148fac.0
-        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 17:17:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcLXkrN9"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b427cda88so350429f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 10 Nov 2025 18:00:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1762823863; x=1763428663; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IjPKo3ybe4fdml1XQE+jQ3G55BcDMlVXlR9cl8yZWH4=;
-        b=1X0bIYLPg5FTcJXhMNg4pxmUb76wfaApB+l+loii0/FgtqX/HWlaE6aNarA3fA9Js9
-         Cwr/pnjVw/q3j5GgfUcYJJmUxw/jTInjI6MeuuAxCyfd67UbKjFyQTJeeL68hCUtpCgv
-         FiR1iNbtgqjlwBPrj2nm0cbbtIsbIvO0nK++V7ByOhJx2aJAFWsu3V+P7WutbzH2gkaJ
-         CBY9dbIIANg6ZmHz/nZ3ngHXtPb7Hj43JsC/t5rIl7DR3aQwyV19mNxAMyhHyzknHFLy
-         qjd9pzDGh7fMH3dh49XFDtb87Ae4NleYzlXTxHYnKhEGBfrmvt+33yPlDBX1ApO1D4i7
-         ip+w==
+        d=gmail.com; s=20230601; t=1762826410; x=1763431210; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1JGfOj2u5jUcqRu2eyzSWFIfgFG0OpFssDocNLWH0ns=;
+        b=lcLXkrN9XAhA0FcMneCG/VerjdhmK6GmOxJIOiM74om3unhsGaJUS3Dl9RwzePUPaE
+         ev994qA3BS/0djCoYSv1RfmFq2P8muiHQkXlbVChY/MnWKWGgpyBxbnyE4yQVrEuFyS2
+         GTGHGxdjIP7zLYj8nPRp6Wofc4AMXF7uz0bkAnVAymUZnMjeheOrNwp9H8EPqXztdF9z
+         g/vQi47tcQR2RzXOxMqr5Huxr60OfbQr0bXtepIx5RdzPNaBPFzTiJJD187iGjLB372U
+         xg6Lh7u+XtsAHkQ3hwue9JDlL5VfzKL1MaR82yE8ryILRwamln/7G/576xNxX44sAhbj
+         gKSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762823863; x=1763428663;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IjPKo3ybe4fdml1XQE+jQ3G55BcDMlVXlR9cl8yZWH4=;
-        b=LZG/U1nISfZUlxA7YM8+GQ+dZzoBOhvZB2qFOUr9+bhB2FDzB2qzhoZxAQUkLH0eP0
-         IEwtFotTIb+T5Ki6hYh8I1hABFxYX9xTeYNCxMrYZ76WdwyzeGOG2WLoVvCyFQBRbQ2G
-         Xa2zzC4cusyrcy4hmbFTtJLCElL1DuSFCCceFPiWIcnlBcRYaIGm4vMFIMxfc4vK8bG0
-         WT4R42ZQCozalSOPLYHUFyY9TaGoFH6uA2RLK5OU2NjD9KCnSxgU+pQOn6cu9yPflDfa
-         TmtG+wNXFsoJOaM2Hwn5FsWEY0+PW7MiAZagoBkuv8S+JR+YPavjg3grldfWY40nSEGy
-         xuOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUA7JCIlT0pKbG1IVW9vEpQcF+qw7JFh4fqLinPg/X2MKsflv3J4fpSPEBVIKjQz68mqoeopkzC5EXrLA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYspKfY3/gXp9Pb4oobOCHTn/tUGiuE/bvoab79JbXHFowypdV
-	IyFM3FL9U/uLYYIR267oshKKNT4Ek5GWq1X/Q4KYDAJLK+FZIbDGYKJ35PxPdIWg9N0=
-X-Gm-Gg: ASbGncs/F8Z+dTqyJ4Aw3D6qGFLDplk7/yis55xBUY7LAKGzZURu1aRJkhLtPvOWZZh
-	y3YYElc/+a9GoiqHXs53joi2rfLbg61mdkjvFJrJfKT1/McX27J9by+ymi3J7ZJSR93/ZS8BjB7
-	j5mbEK6NuvOLRmqDsjM8Mr5Gls8wXc1YATQixtM7o6GTZxDEmvHgFwD5qdaGsIxdlCCXT9ETt+w
-	DxdVYs197NlGVg9UznzZEDczqqHSP5o6fFZksCdtE7ZE2J9V6ZRfsZ+ShT7BU23z6QIuqi5o3n2
-	AFWwpLYueIUh0iS4AjfK3TVSiYi5aY/3RBJkQvqG+eyygxqhD7o+r9TOcCuN028gr03ZfzhSGxu
-	Y7POUI8m9hvOaIck3W4ANmpNkREBtK53mfrOVZLOTGptjWBrXr8XlvJd1uH/ZU5TGYKCrnNnQxr
-	f8bUdRFXvnWLgzKA==
-X-Google-Smtp-Source: AGHT+IHYqlJ/DqUior2uObKb688W9mKskJnwhdBfDC1sLOPoqWKjn2HRpxRv5pN7HFxTPVj3Axvofg==
-X-Received: by 2002:a05:6870:46a8:b0:3e1:d34:4283 with SMTP id 586e51a60fabf-3e815aaa2a3mr850172fac.19.1762823862970;
-        Mon, 10 Nov 2025 17:17:42 -0800 (PST)
-Received: from mail.minyard.net ([2001:470:b8f6:1b:b4e9:19a3:cdaf:7174])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3e7d6f7a27dsm4076840fac.0.2025.11.10.17.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 17:17:41 -0800 (PST)
-Date: Mon, 10 Nov 2025 19:17:35 -0600
-From: Corey Minyard <corey@minyard.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christian K??nig <christian.koenig@amd.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas Hellstr??m <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Krzysztof Wilczy??ski <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 12/23] ipmi: Switch to use %ptSp
-Message-ID: <aRKOr2hyoqTnh85-@mail.minyard.net>
-Reply-To: corey@minyard.net
-References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
- <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
+        d=1e100.net; s=20230601; t=1762826410; x=1763431210;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1JGfOj2u5jUcqRu2eyzSWFIfgFG0OpFssDocNLWH0ns=;
+        b=RKaxSQ6OtZNEWAdABBC6hkU6BXSF8Yc7NJPhCc4Dc0WjJNiyXu4JxMpJRFv8Mc7Y4k
+         mgCI4sUZ6vwF5bRLMWXAzaZoMFD+fd3jKtMxZy+bPhDvdgpAEQL4e2gHzShglt1SHzWk
+         ZDi6NXm+vWHII/5WFRHgp/SY8ZiZqjWA/eTKnXFw6fpsJ369ddvQK6PggSctc67CNytv
+         0wrASfG/Ap4a6So1GkK/3AALw2qyVmHfATapy03+ayB16kiHCBrVz9jUTARrNfZQ9e5v
+         57e8M7StHc1xka+UXPLOoK9G2+S7yx98/WIa4eMq8SrEIswz5BUx2UZkPXjuDKdUziT5
+         Xb5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUeV6YIIBdGuT47tNzyzKhsSR2M0T2Mn/stw6XcOAP0feSO55TFjh/bDEJWAMmjdOjkx3alieXdLQCimw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzay23Dm2U/4zIbg4ymYLzQLTpasYsGRlZYXutYfamphwDiK83s
+	UzcP1Bkt8NzdPw2s4Ipno7ExFDbfcwUxfsEF2Q3Ogc4GcBTPnXUIrGrNAOIk+KFnt1Mz1EUuUcB
+	5/JDVenGlSawhjAleuVHMRfpA7CJ+cIw=
+X-Gm-Gg: ASbGnctu4e3yQVAAcQyKIUuOlERY0iWfi+A1wxoKjDC40gw3lurP5I93bnNPchHollv
+	Z22Sl0H2Dc5aBDko3JdY5DFjjYyZC47Dio7sxosjhkAaPu3H55fbXGeexEIQJz0dqB7FjHxvWXn
+	F/x4XtS80rRapmTGM/v55zgi9HauT/C1hlW7z9oeFVgMQY6V/5ABwH1R5QpdbeyEVOoKWGg2cTQ
+	vTtCkEqFCzbYNmVhnuQMpqAsBkga5RRJ6SNiNfZYmEaYb4r6iyYEabmL0ZfyTet2wy2DgTn4U/N
+	i1YoFwEfXEr6dLx7OhnthxPChxZc10IfRSRKFemAMWCX/bLnCofUU0SuUwWwzjiMMn9C2FI7l7k
+	=
+X-Google-Smtp-Source: AGHT+IHdzeUCRfRm2M3JLVLCfmUpbNDJkdXF6cBlJJVtOjdev9N9wpa7IojmZlK6ySR3xDYbcIQXtAMXqpgvL0kJ748=
+X-Received: by 2002:a05:6000:310c:b0:427:8c85:a4ac with SMTP id
+ ffacd0b85a97d-42b2dc39158mr8864208f8f.47.1762826409780; Mon, 10 Nov 2025
+ 18:00:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
+References: <25f2419a-ee91-41eb-9446-87d238b4c7c4@rowland.harvard.edu>
+ <CALvgqEBu_RzQYRSJnbu58XZt5wHX6PRD8i-J7Tovh7+KuhOyag@mail.gmail.com>
+ <6999b5b2-a242-432e-8100-5d8ee58bcae8@rowland.harvard.edu>
+ <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
+ <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
+ <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+ <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
+ <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
+ <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
+ <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com>
+ <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu> <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
+In-Reply-To: <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
+From: The-Luga <lugathe2@gmail.com>
+Date: Mon, 10 Nov 2025 22:59:57 -0300
+X-Gm-Features: AWmQ_bmkQVFF_-Ouaj7ZbqnDQSjb9J11j_X9uoX0YCihiAVIePZwZDN4iEmTHEc
+Message-ID: <CALvgqECiTae_zUmrJ8-i9Gd-XENBYFpkpxCo_6DxL+Ct7GUEvw@mail.gmail.com>
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Michal Pecio <michal.pecio@gmail.com>, 
+	Terry Junge <linuxsound@cosmicgizmosystems.com>, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-input@vger.kernel.org, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 10, 2025 at 07:40:31PM +0100, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> If, I mean it's a very big IF. I wanted to have this device with
+> hardware volume control working with alsa/pipewire/wireplumber/etc.
+> What would be needed?
 
-Quite a bit neater, yes.
+I realized that I also needed a way to query the volume whenever was
+needed to implement it in a sane way.
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+And I found it: 2eaaec66 0000fc00 00000000 00000000 00000000 00000000
+00000000 00000000
 
-> ---
->  drivers/char/ipmi/ipmi_si_intf.c | 3 +--
->  drivers/char/ipmi/ipmi_ssif.c    | 6 ++----
->  2 files changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
-> index 70e55f5ff85e..5459ffdde8dc 100644
-> --- a/drivers/char/ipmi/ipmi_si_intf.c
-> +++ b/drivers/char/ipmi/ipmi_si_intf.c
-> @@ -275,8 +275,7 @@ void debug_timestamp(struct smi_info *smi_info, char *msg)
->  	struct timespec64 t;
->  
->  	ktime_get_ts64(&t);
-> -	dev_dbg(smi_info->io.dev, "**%s: %lld.%9.9ld\n",
-> -		msg, t.tv_sec, t.tv_nsec);
-> +	dev_dbg(smi_info->io.dev, "**%s: %ptSp\n", msg, &t);
->  }
->  #else
->  #define debug_timestamp(smi_info, x)
-> diff --git a/drivers/char/ipmi/ipmi_ssif.c b/drivers/char/ipmi/ipmi_ssif.c
-> index 1b63f7d2fcda..ef1582a029f4 100644
-> --- a/drivers/char/ipmi/ipmi_ssif.c
-> +++ b/drivers/char/ipmi/ipmi_ssif.c
-> @@ -1083,10 +1083,8 @@ static int sender(void *send_info, struct ipmi_smi_msg *msg)
->  		struct timespec64 t;
->  
->  		ktime_get_real_ts64(&t);
-> -		dev_dbg(&ssif_info->client->dev,
-> -			"**Enqueue %02x %02x: %lld.%6.6ld\n",
-> -			msg->data[0], msg->data[1],
-> -			(long long)t.tv_sec, (long)t.tv_nsec / NSEC_PER_USEC);
-> +		dev_dbg(&ssif_info->client->dev, "**Enqueue %02x %02x: %ptSp\n",
-> +			msg->data[0], msg->data[1], &t);
->  	}
->  	return IPMI_CC_NO_ERROR;
->  }
-> -- 
-> 2.50.1
-> 
+Query volume:
+`echo \
+ "2eaaec660000fc00000000000000000000000000000000000000000000000000" \
+| xxd -r -p | dd bs=64 count=1 conv=sync | sudo tee /dev/hidraw1`
+
+
+And the it works perfectly:
+
+Quering with full volume:
+ffff8d49fef1ccc0 1029983421 S Io:3:005:4 -115:1 64 = 2eaaec66 0000fc00
+00000000 00000000 00000000 00000000 00000000 00000000
+ffff8d49fef1ccc0 1029984020 C Io:3:005:4 0:1 64 >
+ffff8d49512cb680 1029985012 C Ii:3:005:4 0:1 64 = 2fbbec66 00021010
+2f000000 00000000 00000000 00000000 00000000 00000000
+ffff8d49512cb680 1029985015 S Ii:3:005:4 -115:1 64 <
+
+Quering with a volume 2:
+ffff8d4af3d70780 1130255084 S Io:3:005:4 -115:1 64 = 2eaaec66 0000fc00
+00000000 00000000 00000000 00000000 00000000 00000000
+ffff8d4af3d70780 1130255438 C Io:3:005:4 0:1 64 >
+ffff8d49512cb680 1130256427 C Ii:3:005:4 0:1 64 = 2fbbec66 00021003
+22000000 00000000 00000000 00000000 00000000 00000000
+ffff8d49512cb680 1130256429 S Ii:3:005:4 -115:1 64 <
+
+Now I have sufficient data for: query volume, set mute, set volume 0-15.
