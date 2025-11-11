@@ -1,72 +1,73 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2567934EF04
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 10:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C0634F468
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 10:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762857697; cv=none; b=SmsYMehSCsetILzeJDXDgHnSkjJi6xOUwXieYveTZo1Sk6wZDI08HXYDdjRuQVZbrwBZuDH24mzgLfhuJNzzCMC0kNeA8jVFWdpTsumkZABxE4V9CeBX5OnoMrLWEEFpMh7SdaWku5VC1I45qPd2kr+Olphr+L4/eUqi6K8c5/4=
+	t=1762857807; cv=none; b=JDfqzSs3h+nQrgYzN9qfp1bnaRba0jMbAOpx0VdfQ9brbBNIqcRXW4uVEgusWpFU7a1tNrLDqurCwJCnTqIA5MAZtYssmxWXKGkEx/GfzvABwgfCVf5AEnrijvECFlvQoBiCyn+97tHQbn0QK4zjER82bpOlpamtvUcJx8wG6DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762857697; c=relaxed/simple;
-	bh=0cCxQ4zVWtY3CYLsY1wEHVW86S85uWrXzNYWN3lThqE=;
+	s=arc-20240116; t=1762857807; c=relaxed/simple;
+	bh=5ui5TMnYOVOvWRbaK5ZQq5BRT+yh6rrNReDDZ55MO/g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mBkaSPMA423fnhhnO9xSRi2dVUH2sVhWJKflO3hrqH9ZKPA1rOXJ4qQRiprRoLLjHNPgz/FPN2wMY973SimeQqbYhyip56zb6gjiKYXMwxsJhj/C8IKBLCz2W3aK8ZB1+k05M+3RaeKoJo09pwgJhDj9Am6qDJ27r5+T8e7r7UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BsBzDYgd; arc=none smtp.client-ip=209.85.128.181
+	 To:Cc:Content-Type; b=NmXMV2E65jRi3aMNiknDDAblBXrMYqGGQZ7vGpmpdD9OzFJkQdWyUKZq0ZBNHQs2G4M5Myumt4MapujF8BrbSjg3FuKlsj031rHjQJSrwAcO7o+bWRFvoLB915HbDryTVmHaD5ityBYNYyaQn9AEWJ+5q8IwAeIojjQn72EFLh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C53NiIEy; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BsBzDYgd"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-786a822e73aso43785917b3.3
-        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 02:41:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C53NiIEy"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-787f586532bso20735447b3.1
+        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 02:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762857695; x=1763462495; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1762857804; x=1763462604; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0cCxQ4zVWtY3CYLsY1wEHVW86S85uWrXzNYWN3lThqE=;
-        b=BsBzDYgdLq5JYwIPqSNeLozEHIi9qdflkd/j+ui5ZkmusTeSLTraVh0m1pdGS7gOCV
-         64pTgt6ji6t0/RlTTav+AJBDlWDXohuCpjSaYCqbZZMCQXwfYjDLgsAje2blEWsbDPza
-         ZLkyEtyiLklNhaHYyqwFdzZrtH+Zp4Bbqerbkrwr7weYuMQmI1CQUNcfE9lrJSBzCuRy
-         Sk6lKnxRtyVwNdW8vfFhBIVU71FHD+tbM4GY6sacppRZUjIG2NJuiwAkbcSiml8mD1ah
-         eSJXv/ko8om9hSU1bk0k35hMHNajUUhmz8o8BDZozzGF1fXDgHO5xFoiTGcSjcqgd5Q4
-         Lz8g==
+        bh=5ui5TMnYOVOvWRbaK5ZQq5BRT+yh6rrNReDDZ55MO/g=;
+        b=C53NiIEy6+OE3sWwhigESKCaB9aZBDoeFlaqT3RMCLORlSpkHTg50jTkTRl6nYW3gx
+         rYKSJxcfLXfuk8ySghcQ7PG63/fJiRXSmd1ClPhya/uEkS0AgsGl023phv2FQXgaAFgs
+         t3+IXo3rxBYryZBq76ax77QYYLOI507Uy0Ryuoa73+4rSRaPLUYrVqZZIRfChidxc1XR
+         FWOh4ThDObYIEU4GdruMOoI9cS5q5Ht/x5lKKW2yebjNyGEHmI+Zrgn5EMF8m96v+dFl
+         J7aM7/HCNdg+5yYDEsy8eZjpiH7QpLdERyPeBAp94FFeLB+8YeceYl8aydSYC72BJNT9
+         nG+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762857695; x=1763462495;
+        d=1e100.net; s=20230601; t=1762857804; x=1763462604;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0cCxQ4zVWtY3CYLsY1wEHVW86S85uWrXzNYWN3lThqE=;
-        b=dWD/y6yRzkC/ypzstvUKhPVZBRvgomQtjC2DUgVI3YLB4iFQJ4x8g6IKOTZ1Yu5cX4
-         la5dZt7rYMAlW6tAuljGOjyDFHmRbZHBJVnqSVQ09M1pp4JcgEdduEQy3IT7mDxmmVI0
-         pRkH97kwAR0//dWrNvc2zEfvU4nE8ZULfRvlYKtpbZsmMf6mZrc0ggu7NtEgWcFG0pMG
-         gihvfSctRO8fYppZIECYHL/rPbjEVvBi4143iIS8oRbHrtWzkHnbM9Db/ZIAuoxvaWRR
-         6aYrTJ4lPxogUgw0V7q+o57EhNu6/fLv/eq9i0VlKVEG3cK5I38q6+ljnd9kFUkj76o+
-         ywhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBknZ8eOporOXemzI2oIJzeRLWmBLY+Wjsm3mT0HWATVwveTNPJEF4+FEPUODVnCp+qRmcAWf8DVNADw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5sDy97f23f4VvB2odVEPt2Wcxjdw5zqGohdNCOcjG2zOLmn/a
-	ZP3lU/8lHuWzsIDrmdtwI61t7yWQk6jMvJY7mAeZwSLjKgStF0z3S0nEcOeXZ8/hZae+C2fvYzC
-	iaY9C/GF37GcjCoCaYYD6PnEO7twdEVUIVbRE4srOfA==
-X-Gm-Gg: ASbGnctkE/K47ZR8CSgOvtfJMTN4/IMVsywCzuidVnI/li+4wgmpkXcnsztcS1KiABn
-	1QKW4BegQqmsDSBSAsEt/v42UwIR/PV8aNP0AQFcEBHCbYB5ci/asyRq03GnnoiHxv9uisw4Igu
-	tyGNiIFpxGNKKXED9PeABICfsGnEI3Ngf8ce6JVEWbEbV3Y50YBrYktZTkgzRPDcK2MjKnO4FUn
-	9/AX2bsIQvEFybjCorWlZf4+hxdH1ezUWT1TZTx8kSKc05EMEZJZMK7o2t0
-X-Google-Smtp-Source: AGHT+IHoTEqTIMeK7JCIYihCqYCVhAe4gzTa4C+3j+k47suT30AzzIQmG9wEWL0FkhepDKD6CvXqSafZZ1SR1+atEmQ=
-X-Received: by 2002:a05:690c:8687:10b0:787:cab5:79a1 with SMTP id
- 00721157ae682-787d543ce2dmr101353817b3.32.1762857694963; Tue, 11 Nov 2025
- 02:41:34 -0800 (PST)
+        bh=5ui5TMnYOVOvWRbaK5ZQq5BRT+yh6rrNReDDZ55MO/g=;
+        b=GSv1pWOGwKViObE09fAK8JFjwe2oUH7mt08o+hfufkSLFEZqBY3ZyIsfLHIkSpqPgu
+         80bgQKg/87B+WRkHOXij5DtGU2NGt+MfAI685uXi529bsKn8q44nLgkPIDZeI3XaW5QD
+         aqGjnQAu6Sxj8yRrVNjBS+uVF+nVT22Wha5A07tP2Q1hFjDdANORzF+9z6tLC3yUxdso
+         C5mxDw+IZiwqt3I2xjr6zbxUPszOuH54A4IOJjnwtCuLt46rLvVTMQy9I7XyqOhJ7rwr
+         HUZruYfD0tpBW4/cQmQrLFADIgoW4EjrvumOxgd6S7JqSDGSFcYp1uWEi7Ul7ohu88M/
+         EBgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWehfZ/02CyYsPJP7QJrhndlnVzlaMaIdelcz2mCXiPSTTdW90gvg9nxqKp3r40hQW60tixikSCsGq7Yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBq5eCoVUSksSuseJV5aNvkWTM+hFHAffjhxC60XT95UgeRqAz
+	Gx9QKXCxv/BVcIdLB6W1N/wAlQvBdGk4/088K7BCsMiiefNAFJFnl9G9iEUC9S9gcnpXGXcBHjL
+	wVTuOKXnHHQgtPw0DLZg5htC6aupedPymTr0FLMrQQQ==
+X-Gm-Gg: ASbGnct5MYS2kMrgMrULXSnIxSHTLDm650jfPLQ6XmEOUOJ0P55Jus5JFlvUtJ0u2nX
+	POOVDYjGJsVg/bDjR+Cn3sRRb4wZCTBUH9pnswE+kP1oNR+0lHSo1aAoa8nNFV4N0fKUbIKHv5z
+	EnywP5yve0ToC8gL0VUGZvf2nsklzuF6d9wXKTL9OhH6Ky4VZGYE5EkqNSvKrMwre0tpFpge9Io
+	/AtuX1utkvG2U9IQbudBtAl6HZuSJwO3hMQv62aXM88Unc5q40P1bGcORkcEFkLt4wlGmU=
+X-Google-Smtp-Source: AGHT+IEzf7RfCe+CUiwe51rQWA4HYxWkXb8u+xLvSy8sgIDasS0jY0uVlkjQd1JySagC9Zi6HIYv6L+HM/XcKpRnSaA=
+X-Received: by 2002:a05:690c:3341:b0:785:c08c:d39d with SMTP id
+ 00721157ae682-787d54504b5mr104136687b3.57.1762857803858; Tue, 11 Nov 2025
+ 02:43:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org> <20251029-gpio-shared-v3-3-71c568acf47c@linaro.org>
-In-Reply-To: <20251029-gpio-shared-v3-3-71c568acf47c@linaro.org>
+References: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org> <20251029-gpio-shared-v3-4-71c568acf47c@linaro.org>
+In-Reply-To: <20251029-gpio-shared-v3-4-71c568acf47c@linaro.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 11 Nov 2025 11:41:17 +0100
-X-Gm-Features: AWmQ_bn0WFQEeQmuj7iPjvAHMQKL1gkynLIxqjiJlR4NSYtZ2qnuSvoaANZDav4
-Message-ID: <CACRpkdZwO8mXvjwS7xgVvHmcpF+_pgKYsj3c3QRUcYWPdCt5ng@mail.gmail.com>
-Subject: Re: [PATCH v3 03/10] gpiolib: implement low-level, shared GPIO support
+Date: Tue, 11 Nov 2025 11:43:07 +0100
+X-Gm-Features: AWmQ_blT5oSFL37n1q5J1-YrABo5OT0VdTa69W3o0jcai3WIlfGp5Mqx5NECKoo
+Message-ID: <CACRpkdYH01pOnXs-jH5mzfT+THtHcQDoCKB02hkGaxf02nm96g@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] gpio: shared-proxy: implement the shared GPIO
+ proxy driver
 To: Bartosz Golaszewski <brgl@bgdev.pl>
 Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -89,25 +90,25 @@ On Wed, Oct 29, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl=
 
 > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 >
-> This module scans the device tree (for now only OF nodes are supported
-> but care is taken to make other fwnode implementations easy to
-> integrate) and determines which GPIO lines are shared by multiple users.
-> It stores that information in memory. When the GPIO chip exposing shared
-> lines is registered, the shared GPIO descriptors it exposes are marked
-> as shared and virtual "proxy" devices that mediate access to the shared
-> lines are created. When a consumer of a shared GPIO looks it up, its
-> fwnode lookup is redirected to a just-in-time machine lookup that points
-> to this proxy device.
+> Add a virtual GPIO proxy driver which arbitrates access to a single
+> shared GPIO by multiple users. It works together with the core shared
+> GPIO support from GPIOLIB and functions by acquiring a reference to a
+> shared GPIO descriptor exposed by gpiolib-shared and making sure that
+> the state of the GPIO stays consistent.
 >
-> This code can be compiled out on platforms which don't use shared GPIOs.
+> In general: if there's only one user at the moment: allow it to do
+> anything as if this was a normal GPIO (in essence: just propagate calls
+> to the underlying real hardware driver). If there are more users: don't
+> allow to change the direction set by the initial user, allow to change
+> configuration options but warn about possible conflicts and finally:
+> treat the output-high value as a reference counted, logical "GPIO
+> enabled" setting, meaning: the GPIO value is set to high when the first
+> user requests it to be high and back to low once the last user stops
+> "voting" for high.
 >
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The concept is sound and we have to begin somewhere, optimizations
-for code reuse and cleanups can be done in-tree.
-
-So:
-
+With same reasoning as for 3/10:
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
