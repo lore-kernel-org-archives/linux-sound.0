@@ -1,59 +1,59 @@
 Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010045.outbound.protection.outlook.com [52.101.228.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61108239E61
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 00:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7D4238C07
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 00:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762821379; cv=fail; b=of2QPqMmgfbp4KTvo82nvQslqCQSLdM3gh0scb4f3HPj5wGUl15Z3unpJk3rhX6JYg1PeD7mCAi2Q9WXEV+cRn2K+sZTNQhwI+vplaRzkzfuVXPg4Is5hP83Igdf6DKYBGP5nQHY+Eiu8CaI4KghT2noEUJqUwoUErGv9L5jM0E=
+	t=1762821381; cv=fail; b=I+oYR4nsNTcJgBQACwi9HtzpuCa5kWMAGJo1qz/mthDfaZ9q88MEcZ7FMyJZt8ESa5Hk0SvVwtpw94z+zGK/dL+Ms1eZd6zyAaxFoGdWFKVqpkwjkqIWQmWhe70WMsJ8sqB7TihyRWSTKXXrBhqPNglb8+r0i3mXwTIFk40f09E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762821379; c=relaxed/simple;
-	bh=MJUkiho1xO2cNX7fEmpo/u1mhzB0nwtgOE+uclE+vHQ=;
+	s=arc-20240116; t=1762821381; c=relaxed/simple;
+	bh=/K7oYLFEP+EzLcv51Ogr46ljfFd3zWpFqUoS1ZwN0D4=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=oVGfCK/w+rQGyuRzdYy6ktJsMNImQ995X2yuf7mj8dzGQnbpuYJKYOBzzOjPlOJdfSdDbEK/iOyMYMN3WR6ugU6uKtKgE9VOoD8Y6qLEgB4DrqHXt9cls2J99bUKiEM9oK8P1ReIovQPgDotOmQ4o8d3NmP2iqodhieSeIC/rUM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=WVqEPGa9; arc=fail smtp.client-ip=52.101.228.45
+	 Date:MIME-Version; b=EmEdO0s28PtAKUQuFW9OU54WzhzQRK0F2QX3SV7M9hcYooudLxPQOMVjotee3XJRfJYlgcWPNok9qF2DbnmW8ukvKrHfAqqfFCWpOvPXDx5pZQg8Vm6orzYhbGBEyCoqELBGBq5uzuV101PHCweH13SDv3Frai/KIcAVa2MoEq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=WV85cIS9; arc=fail smtp.client-ip=52.101.228.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="WVqEPGa9"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="WV85cIS9"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dwCSCP3c8068EkkXSSii3OpRUlnD0Eii99XCpK5wXTh81ue9yaiGqnB5AfF7B2wbApdK08lZvThA3Xs0ZEGLgwXgd5XBD4Mst6bJriAB2ZfHw23fHBKzHd/0MSfk6yCiyiHnl1Ng864sFvE5tflbQwnSKe6q/bOlcMqSUspHFupOnCn04ZrA6C3GtQp2mluiFFVZzg8yEBjvRab6DIzbpVZuMSRRN2I5H4pXavsXAJlSLjyDzh23Kcm6+X+x+52KmKisUAv0xj7IV0060lh4w71Byi3qMtRnP9LTwoWTwnvqKwsVEWNIP1mCkpzQng/i1tCCCGu6YRstf4pWHzxGRg==
+ b=etzUH3E9iMQ9PkctTAYo1vqeO4LsIs/293KalJVyX1hbfMDO/24dIkDqXVEHlTj/DB4dgLLrYA4J8/K4JdyV/jHexHuKM4IqdXNaQczxtcV6Mf8bSLawrn+AbEaDYMsrNo+LkNsuNvmjKkhtHakvG9T4A/fKZ0moGh3dNkZhJJHnswyx8wP3TSpshaJ3OG2W/qRFhfCd7U6pC6K8b+PR8+pdjBZlchskQ4z7EYVM2vhDTzT+y/3lsgVTOeAwZGsiKxdJB7FQs/he8XOVm2DsKhd05RnFKwzKNyoUVfID7wTdZj+KwpBKuhy11Ij6+f0BxwzebiTqjTupz+ZeKlsZRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v5Yhs+Lv7uNttm29eIQiNQLyMKxEgueY6w9F6KLKl2k=;
- b=gecExvgr4jFqvq1pWlHLM/c4+A8vD0LktEC2sE1zC1yLikgvmUQ3RplebI9am1SwsiaMN3A1pZ63DNJHI1dY9wgv3HamKX/xJlNCE39R10jArnHmOeeqCkYaMy1+Aw2LNvRm6UBFkxC/0JgETzQ7/Ie2vv8iOEAxsjmjCuceG8F/KuQ/MNX93p9TQenuXPYjMSIeMMmFLeoB6FZYhuW/2hz5063ekdHlUXIKOTCafIBu0lxwq7jL22TFNS3I/2Fnr/tICQhR60/Gsr9XPvA7oATCPf8mTm7/i3Js9IKoY0mBBTAtxnDJIUxKQFPwdnjrL28m54Dxxe2zDiGUxwMp0g==
+ bh=RPldi9vgQzkRs/ve8jFRRtbR6iheqwEWWwMsHpdbPG8=;
+ b=wmLPo99joGnj6MPu1fgrLojuii433ExAuaiXRKmkmp31WF+s5Dx0tWJLt6qZVIqX8OExeRSHWhffqSY8jqMcmET27oGDRYX1idLiOColR9iW6B9yxaNSz0k5QDJ83aH39xBuoh1Kbbe5jgaGqmMk+8AdW1ViU41/Yc1Cm6d80klhELr0LrCxTuf37m37RcyosycYprFtePs9TFHZBFXozj6yCbnwb6FINKClSWFMOvUXxznqzVR6HpyL50qQU400WAlHJs7ymVNK1f4m1KKzDRUQ7tIYdl+UpcyTpp/yD5h3HeX+nxeSkrSWSZJgdGI+sWytEZXq+cbzDUr6YXD3Sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v5Yhs+Lv7uNttm29eIQiNQLyMKxEgueY6w9F6KLKl2k=;
- b=WVqEPGa9SFWHUCiMzKr13DYWcm4Guw37RdlFV0nYM2cwaKddbPooC0LfjVY+KGZFM3DwYEdsDDUEf9j+/xBHYuxdYOkkCp0u7hGLdVe6G/BNBZmucyDRxq/JwowBHO2e93f/ao40ri01VBz7NFAaXrvIBSt0ROTkW3f8pZ2oiJ4=
+ bh=RPldi9vgQzkRs/ve8jFRRtbR6iheqwEWWwMsHpdbPG8=;
+ b=WV85cIS9qVjFhn0Hl9y+aOL2D6UgkXkLrzetqJY0+At8RUZjgegdPUHX7GZlo4B+SOMo1vckJQu0OcMFVqqroWIi91vAK7rH+G5RyvfRI48EhcVRGz88RjQ6wcJwf65OdwVjycKW64UF8uGRgG/9RHjfmQzqswH0GZu1wbjTWdc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYRPR01MB15789.jpnprd01.prod.outlook.com
  (2603:1096:405:2c6::10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
- 2025 00:36:13 +0000
+ 2025 00:36:17 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
- 00:36:13 +0000
-Message-ID: <87fraltngi.wl-kuninori.morimoto.gx@renesas.com>
+ 00:36:17 +0000
+Message-ID: <87ecq5tngf.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 272/292] ASoC: soc-dapm: convert to snd_soc_dapm_xxx()
+Subject: [PATCH 273/292] ASoC: soc-jack: convert to snd_soc_dapm_xxx()
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87cy5pa0ea.wl-kuninori.morimoto.gx@renesas.com>
 References: <87cy5pa0ea.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 11 Nov 2025 00:36:13 +0000
-X-ClientProxiedBy: TYWPR01CA0034.jpnprd01.prod.outlook.com
- (2603:1096:400:aa::21) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Tue, 11 Nov 2025 00:36:16 +0000
+X-ClientProxiedBy: TY4PR01CA0004.jpnprd01.prod.outlook.com
+ (2603:1096:405:26e::16) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,80 +63,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYRPR01MB15789:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9315e901-7c2f-446c-5287-08de20ba5154
+X-MS-Office365-Filtering-Correlation-Id: 03df1dc8-c735-4613-df5e-08de20ba536b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?WN3Otiwe909s5S2E0svuMf0JqLC+jHaXCkRiWNEN9wObUeaZEAdF8F5DOf3p?=
- =?us-ascii?Q?1PxLaE42suYjULLJbTkBJ2Mzbh/LjgvmQWaVqlLDcKDSayObbHteXpoZj1CL?=
- =?us-ascii?Q?04Uri5Xtk7ywOU1xotgc27AW8YQubeTufnMIai0AUrMimzrWiHcZhnUjXxMv?=
- =?us-ascii?Q?O+3tYwhmF89UKGebKzCdthsnI/b/k6mAdwr9rA+7tfjgEXh0lOSIrrEcuJJB?=
- =?us-ascii?Q?xheB/6XXT36vnzh1tyrYcwHdRZe5VLoqdWKf16eTZrYREDn5O6xF4i4xzmii?=
- =?us-ascii?Q?81ozAFB7KTxP3GbtIxJNqnD0HkT8jrYqmiWiZowuySlTscS/W5W40UnwOL9r?=
- =?us-ascii?Q?qS+BwcPMbTHsTbfINnJMP21Cqr/9CeIACUwX3rkeauPpVGkawCGho4PnnXaN?=
- =?us-ascii?Q?6nP8sM7t1d6WCGgDjWLzFK5+UoKHsjrqrviFc+ju+yv9BcduwjHDO65uQrni?=
- =?us-ascii?Q?BkBeQKZGt7FaV8QXKc+rHBuD5bUVfi2LtxQ36iDOfhg9zKCtwqE2yyfV2vxY?=
- =?us-ascii?Q?JXl/ikgbqjcYFAvFkJnMgpahUfy/ZeNMNRHpdAyHuGd9eDt1ACtKh4vfB87F?=
- =?us-ascii?Q?T5fRadHY3WLCETrETX0yoeyAn6lxqyq2mTKko+QkbxpXgz8JjkFxRG/KyzFX?=
- =?us-ascii?Q?PpgGBJVwHbuuuiauuhSPo5MrmS43eRSNatPUa1sFonYxHXRNrTlwVFXi0tAc?=
- =?us-ascii?Q?dJHXl8CBfasy4szKZ5/Tr/via1pKq6hZlyxxRlnda3WnTCGH8VEZ/2vKbi3f?=
- =?us-ascii?Q?t5YOPHXtvg3DAi5N1ghpmXl26rIA0Xw2VDzZ5gdOZxOt84qsN2iGKlvidkI0?=
- =?us-ascii?Q?xDpZMa123I1XFsDy1dXZiwGhOlaIE+iBJfFE/K+tiGJIQXmP+abWpx/TeWRF?=
- =?us-ascii?Q?X+/fJy3lKF6sS7XS+92GeUh/lBe7bqTDVqilntNP/35I0OfiXwAyhL6tT9N4?=
- =?us-ascii?Q?PdMClciVqnL0Rx9q7GTdD3BwiwaNwtkDybGO4LC+Y6eeirY9FZVFnsYjnR1u?=
- =?us-ascii?Q?bYsLO+UyuQ+gzijcoBPCMYrtCsgK4Om5biPjlIFadtKQQWSVrbYKqTcIXdo6?=
- =?us-ascii?Q?xIsfrYAf7KUI3Ty4bXFEbLQA/v10S46l339EHktjRhp+dQAu6mv7Xpp/rAiZ?=
- =?us-ascii?Q?G2o8iS/GX1NarALC7j3S0ZiybKiIe1AJkszAMjX3yziCUjDs96eUocIqeDJm?=
- =?us-ascii?Q?uJ3rkdxsKzJqMOWHcgjUBtsNt/ASPpDjVT2+7ul41uplGnJtqgLL3tDNxgPT?=
- =?us-ascii?Q?vc6T27RAnyuh1MwKx7V1VeKNMkKcQUqdtSpTxP73n+csujYwDzp5SWDyE2sz?=
- =?us-ascii?Q?oZu7yZgCEBMpXu0QFjEDTb2loFuTaAK94uGkNsMRWEQs8Q7d743qqBLJR3Nu?=
- =?us-ascii?Q?wcPIvIEpCApj7kNx6y7ETUcPPXXWLrNO7LKVLvdZ/1nDfBh5BUmbzpEgUqve?=
- =?us-ascii?Q?XmWHKT3yTCI6Y0gydrXEp3Q5lxkXhBVmgwnsAevGYs94u92gYWZ4Wm+2Ag6/?=
- =?us-ascii?Q?QYt1JGNZhjqTpStPgtjor65Eh4eFzSA0jhJF?=
+	=?us-ascii?Q?0L2CFTM/iI5DqCE5t/A6+vewLB4i8daxOovacrS7ffdRINmekJUmWsc6kbRk?=
+ =?us-ascii?Q?05hdSlC6RKL2CHzULTG3ZHtV63C7trLS/vBUmKz0bNskYuvs5jHZHZX3KQKb?=
+ =?us-ascii?Q?WnGp6WIy3VIjqZMpfR+qD/iPaiNKeIPAAcpvBfVR5hzXvu6nR3Op8zhyEDWJ?=
+ =?us-ascii?Q?guEjqVjQgyaT7OLabuz3WGHwnz8rML4M//2Dt+ND5NzxavhwJpiDAWY9Z4cg?=
+ =?us-ascii?Q?RF/t55xBqi/6QahRm4eg3xT3Ww3MGOJPmOsz5jATCOxcPtGnFtEOniMoxGX3?=
+ =?us-ascii?Q?TtFDAtIXtJlO2TYzh6ljjIaKwJwv+qGdxwr+8FnSKmF7u/JHqTJ9qr3crWQ1?=
+ =?us-ascii?Q?gliShVFdETPCzEw6BuUeN2Ks6k8coajjWNCL7LfAY741O+RFXhE3I1E4tVPg?=
+ =?us-ascii?Q?cpz6yCVT7FFUyQFbJAO4v5MnI1mEtyfzexfTGO+7PSYV0nFUi96wWBTHdhkt?=
+ =?us-ascii?Q?LpVF8yGYNnmN9OE8mUJ/jGOXbjFttUpI0OPMpM5hugGOI/KfHIoE1f5/mfTg?=
+ =?us-ascii?Q?EswOuXpMF51515KxjoJjHLAEuY6CM+JEPo7B3X5R+zmV/cnOyweSXMbilUmX?=
+ =?us-ascii?Q?zjSMfnIglqv3BIwQ+Bzgv/eXmuUFco8eSLvXrLvwkDUUHUKDCAkRCD+CidNT?=
+ =?us-ascii?Q?Hsi5Uc5m22N7wbsiVsOSUJdxM1tKiYKPPZScDZFMfk544+3nK5Aep1U9H61P?=
+ =?us-ascii?Q?p10lQpV8U526JPOOOpXVXrm4YEUgJAWRLVCoTWR7WkZ6QPgEBR22qauEtGFV?=
+ =?us-ascii?Q?awfY0bEmRG6vrRUFrBmvbVj+xm9ZnRPL9X83JTMKc7f41Ag1iofE/JK4zuEy?=
+ =?us-ascii?Q?qdlKUvQqgLfmj9SFS4sV5TKRZ5PMrn5e7U/w+dp+cXmBx+KVAw36Tu/gmfGx?=
+ =?us-ascii?Q?Sa3+ziFxq6WfxytX017ITnT9zsFZvHRmtPv644yaq+XLcxql7dm0oCVatxEa?=
+ =?us-ascii?Q?8Kih0ZuGwakiySuUOIXDKX+1Qa6bda6o/dLDbVLm07dwwkNWqLgZPJqvQmSD?=
+ =?us-ascii?Q?WNe7ra1iH32w5V6Rt7sqBR2Tx+idrw6/DHrMLbgYbdGE1dQ4zWVRzCzNjxCa?=
+ =?us-ascii?Q?Ij5uR04gDJNXR1cZZM6BMOyUeJiNN8HSNarmTBzMmeJ0pHf5/828D62yeDwB?=
+ =?us-ascii?Q?wCsSKWmtt4EKBBn/oMwSbtIfRLyBsC4RGFG9h+laH59sLIHpfHe+Tbtcibh+?=
+ =?us-ascii?Q?+qPScFnmZ53LBCBt/Fiokg/StY4Aa/rzHevUkS2N30YLvJyOv8phxKRULhW2?=
+ =?us-ascii?Q?8H1rBC0191sWMp42fBP5LuCGA6fbAiSnCnKrmbRsy0cBBXnewYuBvZ+fbu+b?=
+ =?us-ascii?Q?IIrJ9DL8c+GTuzmvAE/aYnGi0x0dzv4Dm/78GGb9nDH/RdSxwvb9l4lNgi6U?=
+ =?us-ascii?Q?zuVXFrCadGP969HDu3Q8+EKKDtyeJaXlLu3UaJCkv2/UXWOckPdZWwdgaLZE?=
+ =?us-ascii?Q?tfhmM3L6Jk/0NL+XE1+gbjmpRULfjs/DBochlGpL4P4kutqbqJ9SbquvYnUS?=
+ =?us-ascii?Q?mIkZQWa3+CcN5jw/qVR7Jm5OkrtRJgKr6vDV?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JLSOMgGzdPZpK5hTOdcbu3Bsah+qNIpAiEXkXLeFUfNFqFvO/IG7cMluxNa5?=
- =?us-ascii?Q?DdLWZn6oqr8V3KltdKaqAKoQEZspsy1rlqVwgTiuO/xJwB6h5aCYb/6M06OY?=
- =?us-ascii?Q?37lvAXXC+nzSIBsev27kl39tf2xMnlTpFyPIgOg4ra0P8JL+JcerbMUSOvGD?=
- =?us-ascii?Q?pQCavsSSi7ni9EUtZyNBvdUsEG77wDGMELCoG55X8Ty3QPMnkRsLZyipNh0n?=
- =?us-ascii?Q?gRzn7lnuDRM1PiYfeEA6hG8lD858yEHtrO6WPkeNoWYBKvR1gqFDwPJP0PfK?=
- =?us-ascii?Q?nd1S/CoBPKNgbTeEADwIgaI2T03aEY2ZL5iwdKFgCUVG7ukRtG5mc03n0qzj?=
- =?us-ascii?Q?aqbkSdbDb5MpWSrJ2w9lHCuxOIvOBxp5uu4qO274rJ83HtcC9Bs/M4VDQ0Ik?=
- =?us-ascii?Q?7Y9HWY3RcrXKPrWd0hxiQDk80xtm/IuNyIPs+YhqEgzmhtF9d1Df07P1xicE?=
- =?us-ascii?Q?4oPIKSEPy86nMQ+WLCmK3d3W+e7/0S0in17VGRFso4QtrIKmp3iukOipPkAy?=
- =?us-ascii?Q?nhALZy81YX1GXXyJ3uOzEvAJTi7q7yfFRVd8vHH61McHSVBTvBBMb4Mmb6f5?=
- =?us-ascii?Q?PrxWkKMz4u65J+iZNM7tAH5mXL8E5lJAxDcMKe1ZebYD/0sMb/127DhAkAAc?=
- =?us-ascii?Q?tqkwYBukQo+XW1LctthIHjFVLtTnwHfMT090IoLjrfoELJMappVCI9WpRHpw?=
- =?us-ascii?Q?E2QBXWCtbfsHf38ilaivZ216h5eexY4J+o+khAC+gW2jfRcNou6eVk9gN+Vg?=
- =?us-ascii?Q?j2rDo83uZDvtDHhVj1TotlSyND8CFwmYY1/cdepHcUarYPALI3fTsqKMEbhu?=
- =?us-ascii?Q?8UIOzTvOWlwdI03OlsyHa/95JpX5C0CjLWTgQGJ2jvTpLzfkPq4VogrmiG/S?=
- =?us-ascii?Q?QvssWPLm7tZm+sV2AyLeXVfuxR7ANLwBjifrsP7dw168NPZ8VgJfpEFe0f+X?=
- =?us-ascii?Q?uCCWifOxLFeo3sjQelDW6KtuKtKzYprNikf4dKtGRfzZPdujDbo8daL7/mW7?=
- =?us-ascii?Q?xB05R7Fr6YZ56ac9I4T1FyRwzyICcvtBblQivtpdQptYun3380t5U5dtYEVz?=
- =?us-ascii?Q?Wl0mHLU9SErxI78OvUVnN9CxsA4MlT6Skz4Ec4xd3Akr0Uszlkf1srzWWFDy?=
- =?us-ascii?Q?e0MUcG6Ykoe5Ra+sZ4vw6a217mMVI7jYggXZvD4IfUm0lE5PminwyHv2W5VR?=
- =?us-ascii?Q?PdpZi5KR5afg8Bk3EwUCSHwxRiH4VX4b5t6lSWq9AaVM237bTkvTQTuKCmJP?=
- =?us-ascii?Q?j/unH2Vjba5qC7JGCiP6URpkpAYFrkX+JXUDEKf9aAfu/42HDpBinRqQxC/R?=
- =?us-ascii?Q?W5CJaZ7RDvw3AQUH5NsfyO7lPoZBVIKrt5U5UzQmn2jxcrPZIY4EuEu9eIwq?=
- =?us-ascii?Q?t6ZEjlu/qO/b44r2Ji0b7OPQT3MhafaRnR225atKfpddS2JaXYjsBqxScwxK?=
- =?us-ascii?Q?MroO/6/YWjjQDbum7xuMU2TDlh0c6wH7fKdTTIQPWseDkRxX6M90iaMATUAG?=
- =?us-ascii?Q?drMZn8UBzfhVCV+sRLD9nyO8tnzCDoz/ONmsWmNmuYFrsCK3oHFgyzZLxwoe?=
- =?us-ascii?Q?QkFboUbQq+uNcbwFp8U+ijv4WVnCQmRcAKvmmGeVMc8Z8exKzJURsS6nyDtV?=
- =?us-ascii?Q?/D/DNsjge6RiPBjwZp6OEsg=3D?=
+	=?us-ascii?Q?7tbPgCaR5QEneV6HzRDkYdK1TMtjEXAeaFeHdWKXp0XyrWBb4bTeeBHW6JMH?=
+ =?us-ascii?Q?BZ+v7KrkO9ZZmWx4nnaw1h60VucnpIP4jFOgKuvLc5KNIUZqxiCwknfAXqkf?=
+ =?us-ascii?Q?qj1JoD/VlxkLct8FmG4XlWk399fDU7TFhomkQUz2+VZG3jqj20uAe9Cbsol/?=
+ =?us-ascii?Q?xsF90cMtRpdUTEkQ30hMPytOqSfrj4NdEGAXgdMWyQVC+kucTlqwtejqaBcg?=
+ =?us-ascii?Q?k+4jym6/GYRsx0D4YH89klfbvWDwW1jr9C8I59D3E8iHm3z/OnSIhhldgviy?=
+ =?us-ascii?Q?UBjbEV8E+r/GhLxQV1tAE8esoWw2/fb45jL81gEi7Vq1YsI+M0g73L9xy19d?=
+ =?us-ascii?Q?7ynGN1dsM6SZ/kZJdsty8QST2y3RbDI9G/RIZTx58GYaZz8xHcdk/y94ncvd?=
+ =?us-ascii?Q?yaFolShVoeob5mOY/XAv2mBs0n6KJIkdazSsnTP3fI3WtL5K8Upbjtqk+q+7?=
+ =?us-ascii?Q?5CAEJzl0F3/jUVCh1wmsgywy2BmgsiKygZf2O2vqgf/gum7WJaqvW3xLErr9?=
+ =?us-ascii?Q?jWArj3kAGIJBX3gOsFvOAgL/1yTRPu/muFtG53oKcLTebft1QZio5Grmaa9H?=
+ =?us-ascii?Q?vAefoYNf9t0aE7a/dt1XcFujL14Q3uLeCWDdcqWrjQOtgojUC32S7c+Sfs1N?=
+ =?us-ascii?Q?BuDNvwNZlBk6vqD9kUms6xI+efs6Z8EneDajRH+T18WB4cnlyn6HMY77aDch?=
+ =?us-ascii?Q?Tw9/bD1dKrHL0egmVtxbY9kryPpLCj5Xb568Zfwg/tWIXlC0tLpM5U8tzkHu?=
+ =?us-ascii?Q?9ry0twXAX9WGDiR783lKHaS8on6SX4TfBunB1OgWub1GgZhLh6TBz+xRv6ya?=
+ =?us-ascii?Q?ON6xOn0dKYQLmVO4vsJnKT8FtGzFTMyOSTeeMqgcGhNAsHNqnG/brjCh3mBm?=
+ =?us-ascii?Q?l7qmitOJHvkg4MPsf1cw86mfIBBwa2tPH7f0av15r3rsqvAIV0eStjoD4a7N?=
+ =?us-ascii?Q?Dqqj73d2U6zrPoMeVhoJ8CNhcfE2uIItd/I4wFrSH2hHS5ZO1URZ+EbTGxBM?=
+ =?us-ascii?Q?4/99DKnOxA7G5varMtBPzhlV4wDjOp4pyXdJDARgAThu+Pu1K5IL4frYZWqc?=
+ =?us-ascii?Q?px3qyHIpfyjaPQ0MRwtSi6fH+XKoT0eaLR0FvWT6oqeKAoGfjLKH26kBxzPJ?=
+ =?us-ascii?Q?BnjCGKb71N00mTe2kkdT50fgl9UWSalUpPIElZAV5aTqonww2sbYaDxifY3q?=
+ =?us-ascii?Q?+NeGjS4PIO5ODBSIjk6Lneoh578os7j/1zmniuqug1S2iXm3At+HK1WsmFkN?=
+ =?us-ascii?Q?65qo7Z9hn3uUGsZXUoXFTRgeFfOmIsfzk8znNcYgfhJWDiCWOyNi8VZZCR01?=
+ =?us-ascii?Q?GxSZrAkJabIKYe/NG/EHD3KL3n3dfNHJqMgm4fLjkaO5XDLkuITmBojcOBCY?=
+ =?us-ascii?Q?vnBBImxrnDWd5Ti6pG/dgwsB2q+5zyCkO0MRxTLQuQ4a/x7zUvUG/ZpNwiRW?=
+ =?us-ascii?Q?ntzRRhmGOlU1cVJe8FVqXIQ8HnFgQaV2/lwS+p04DR2lazi3oEgFrmHxALWy?=
+ =?us-ascii?Q?AdTGcYWvX4v/RlAxTP0IujhiOjdJSa+7LyZCaFWhFnG5Uqt5Z4uIyw3vZEx5?=
+ =?us-ascii?Q?4f22I8SvORCUUF+ltTs1cMRKaozlkUO/kULNTM8z+9qLI/jnzw06dJWdFxXO?=
+ =?us-ascii?Q?2RLD1nezHRlyVyZJJYSXCfo=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9315e901-7c2f-446c-5287-08de20ba5154
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03df1dc8-c735-4613-df5e-08de20ba536b
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 00:36:13.6089
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 00:36:16.9759
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2f0Aag18Ozn3N1klSi7Xk81XQlR2lzBg79IMuRQ3RJ1g8+q3ilKvfJVgKTnBdihwdBX0f45Q9cJhxJcl89wRGH754cGrubzd5Vw5L/H7OvuXmIMoxJRDAorYfeNfS5eV
+X-MS-Exchange-CrossTenant-UserPrincipalName: wwwdt12dst0rJP+6maZkwoNZlzgpDuvzUgHa4HWmvo2t46TX/Q5neBQQ/YHDZg/ktSJm9Cyc33nL5HTHA2cDw1P+NMRE+J0wbivs54mWFs+lehzDcyTDPNCrqSSPlwnA
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15789
 
 This patch converts below functions.
@@ -168,840 +168,22 @@ snd_soc_dapm_np_pin()				-> snd_soc_dapm_disable_pin()
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-dapm.c | 196 +++++++++++++++++++++++++------------------
- 1 file changed, 116 insertions(+), 80 deletions(-)
+ sound/soc/soc-jack.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 51fb09d56c5a1..4d920a59da3c4 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -193,10 +193,12 @@ static bool dapm_dirty_widget(struct snd_soc_dapm_widget *w)
+diff --git a/sound/soc/soc-jack.c b/sound/soc/soc-jack.c
+index 63971396b708b..05985ccec571a 100644
+--- a/sound/soc/soc-jack.c
++++ b/sound/soc/soc-jack.c
+@@ -40,7 +40,7 @@ void snd_soc_jack_report(struct snd_soc_jack *jack, int status, int mask)
+ 		return;
+ 	trace_snd_soc_jack_report(jack, mask, status);
+ 
+-	dapm = &jack->card->dapm;
++	dapm = snd_soc_card_to_dapm(jack->card);
+ 
+ 	mutex_lock(&jack->mutex);
  
- static void dapm_mark_dirty(struct snd_soc_dapm_widget *w, const char *reason)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(w->dapm);
-+
- 	dapm_assert_locked(w->dapm);
- 
- 	if (!dapm_dirty_widget(w)) {
--		dev_vdbg(w->dapm->dev, "Marking %s dirty due to %s\n",
-+		dev_vdbg(dev, "Marking %s dirty due to %s\n",
- 			 w->name, reason);
- 		list_add_tail(&w->dirty, &w->dapm->card->dapm_dirty);
- 	}
-@@ -532,6 +534,7 @@ static int snd_soc_dapm_check_dynamic_path(
- 	struct snd_soc_dapm_widget *source, struct snd_soc_dapm_widget *sink,
- 	const char *control)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	bool dynamic_source = false;
- 	bool dynamic_sink = false;
- 
-@@ -558,12 +561,12 @@ static int snd_soc_dapm_check_dynamic_path(
- 	}
- 
- 	if (dynamic_source && dynamic_sink) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"Direct connection between demux and mixer/mux not supported for path %s -> [%s] -> %s\n",
- 			source->name, control, sink->name);
- 		return -EINVAL;
- 	} else if (!dynamic_source && !dynamic_sink) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"Control not supported for path %s -> [%s] -> %s\n",
- 			source->name, control, sink->name);
- 		return -EINVAL;
-@@ -579,26 +582,27 @@ static int snd_soc_dapm_add_path(
- 	int (*connected)(struct snd_soc_dapm_widget *source,
- 			 struct snd_soc_dapm_widget *sink))
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	enum snd_soc_dapm_direction dir;
- 	struct snd_soc_dapm_path *path;
- 	int ret;
- 
- 	if (wsink->is_supply && !wsource->is_supply) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"Connecting non-supply widget to supply widget is not supported (%s -> %s)\n",
- 			wsource->name, wsink->name);
- 		return -EINVAL;
- 	}
- 
- 	if (connected && !wsource->is_supply) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"connected() callback only supported for supply widgets (%s -> %s)\n",
- 			wsource->name, wsink->name);
- 		return -EINVAL;
- 	}
- 
- 	if (wsource->is_supply && control) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"Conditional paths are not supported for supply widgets (%s -> [%s] -> %s)\n",
- 			wsource->name, control, wsink->name);
- 		return -EINVAL;
-@@ -676,6 +680,7 @@ static int snd_soc_dapm_add_path(
- static int dapm_kcontrol_data_alloc(struct snd_soc_dapm_widget *widget,
- 	struct snd_kcontrol *kcontrol, const char *ctrl_name)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(widget->dapm);
- 	struct dapm_kcontrol_data *data;
- 	struct soc_mixer_control *mc;
- 	struct soc_enum *e;
-@@ -698,7 +703,7 @@ static int dapm_kcontrol_data_alloc(struct snd_soc_dapm_widget *widget,
- 			struct snd_soc_dapm_widget template;
- 
- 			if (snd_soc_volsw_is_stereo(mc))
--				dev_warn(widget->dapm->dev,
-+				dev_warn(dev,
- 					 "ASoC: Unsupported stereo autodisable control '%s'\n",
- 					 ctrl_name);
- 
-@@ -1133,6 +1138,7 @@ static int dapm_create_or_share_kcontrol(struct snd_soc_dapm_widget *w,
- 	int kci)
- {
- 	struct snd_soc_dapm_context *dapm = w->dapm;
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	struct snd_card *card = dapm->card->snd_card;
- 	const char *prefix;
- 	size_t prefix_len;
-@@ -1221,7 +1227,7 @@ static int dapm_create_or_share_kcontrol(struct snd_soc_dapm_widget *w,
- 
- 		ret = snd_ctl_add(card, kcontrol);
- 		if (ret < 0) {
--			dev_err(dapm->dev,
-+			dev_err(dev,
- 				"ASoC: failed to add widget %s dapm kcontrol %s: %d\n",
- 				w->name, name, ret);
- 			goto exit_free;
-@@ -1277,6 +1283,7 @@ static int dapm_new_mixer(struct snd_soc_dapm_widget *w)
- static int dapm_new_mux(struct snd_soc_dapm_widget *w)
- {
- 	struct snd_soc_dapm_context *dapm = w->dapm;
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	enum snd_soc_dapm_direction dir;
- 	struct snd_soc_dapm_path *path;
- 	const char *type;
-@@ -1296,14 +1303,14 @@ static int dapm_new_mux(struct snd_soc_dapm_widget *w)
- 	}
- 
- 	if (w->num_kcontrols != 1) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"ASoC: %s %s has incorrect number of controls\n", type,
- 			w->name);
- 		return -EINVAL;
- 	}
- 
- 	if (list_empty(&w->edges[dir])) {
--		dev_err(dapm->dev, "ASoC: %s %s has no paths\n", type, w->name);
-+		dev_err(dev, "ASoC: %s %s has no paths\n", type, w->name);
- 		return -EINVAL;
- 	}
- 
-@@ -1346,13 +1353,14 @@ static int dapm_new_dai_link(struct snd_soc_dapm_widget *w)
- 	/* add kcontrol */
- 	for (i = 0; i < w->num_kcontrols; i++) {
- 		struct snd_soc_dapm_context *dapm = w->dapm;
-+		struct device *dev = snd_soc_dapm_to_dev(dapm);
- 		struct snd_card *card = dapm->card->snd_card;
- 		struct snd_kcontrol *kcontrol = snd_soc_cnew(&w->kcontrol_news[i],
- 							     w, w->name, NULL);
- 		int ret = snd_ctl_add(card, kcontrol);
- 
- 		if (ret < 0) {
--			dev_err(dapm->dev,
-+			dev_err(dev,
- 				"ASoC: failed to add widget %s dapm kcontrol %s: %d\n",
- 				w->name, w->kcontrol_news[i].name, ret);
- 			return ret;
-@@ -1370,13 +1378,14 @@ static int dapm_new_dai_link(struct snd_soc_dapm_widget *w)
-  */
- static int snd_soc_dapm_suspend_check(struct snd_soc_dapm_widget *widget)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(widget->dapm);
- 	int level = snd_power_get_state(widget->dapm->card->snd_card);
- 
- 	switch (level) {
- 	case SNDRV_CTL_POWER_D3hot:
- 	case SNDRV_CTL_POWER_D3cold:
- 		if (widget->ignore_suspend)
--			dev_dbg(widget->dapm->dev, "ASoC: %s ignoring suspend\n",
-+			dev_dbg(dev, "ASoC: %s ignoring suspend\n",
- 				widget->name);
- 		return widget->ignore_suspend;
- 	default:
-@@ -1607,6 +1616,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_dai_free_widgets);
- int snd_soc_dapm_regulator_event(struct snd_soc_dapm_widget *w,
- 				 struct snd_kcontrol *kcontrol, int event)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(w->dapm);
- 	int ret;
- 
- 	soc_dapm_async_complete(w->dapm);
-@@ -1615,7 +1625,7 @@ int snd_soc_dapm_regulator_event(struct snd_soc_dapm_widget *w,
- 		if (w->on_val & SND_SOC_DAPM_REGULATOR_BYPASS) {
- 			ret = regulator_allow_bypass(w->regulator, false);
- 			if (ret != 0)
--				dev_warn(w->dapm->dev,
-+				dev_warn(dev,
- 					 "ASoC: Failed to unbypass %s: %d\n",
- 					 w->name, ret);
- 		}
-@@ -1625,7 +1635,7 @@ int snd_soc_dapm_regulator_event(struct snd_soc_dapm_widget *w,
- 		if (w->on_val & SND_SOC_DAPM_REGULATOR_BYPASS) {
- 			ret = regulator_allow_bypass(w->regulator, true);
- 			if (ret != 0)
--				dev_warn(w->dapm->dev,
-+				dev_warn(dev,
- 					 "ASoC: Failed to bypass %s: %d\n",
- 					 w->name, ret);
- 		}
-@@ -1788,6 +1798,7 @@ static void dapm_seq_insert(struct snd_soc_dapm_widget *new_widget,
- static void dapm_seq_check_event(struct snd_soc_card *card,
- 				 struct snd_soc_dapm_widget *w, int event)
- {
-+	struct device *dev = card->dev;
- 	const char *ev_name;
- 	int power;
- 
-@@ -1827,14 +1838,14 @@ static void dapm_seq_check_event(struct snd_soc_card *card,
- 	if (w->event && (w->event_flags & event)) {
- 		int ret;
- 
--		pop_dbg(w->dapm->dev, card->pop_time, "pop test : %s %s\n",
-+		pop_dbg(dev, card->pop_time, "pop test : %s %s\n",
- 			w->name, ev_name);
- 		soc_dapm_async_complete(w->dapm);
- 		trace_snd_soc_dapm_widget_event_start(w, event);
- 		ret = w->event(w, NULL, event);
- 		trace_snd_soc_dapm_widget_event_done(w, event);
- 		if (ret < 0)
--			dev_err(w->dapm->dev, "ASoC: %s: %s event failed: %d\n",
-+			dev_err(dev, "ASoC: %s: %s event failed: %d\n",
- 			       ev_name, w->name, ret);
- 	}
- }
-@@ -1843,6 +1854,7 @@ static void dapm_seq_check_event(struct snd_soc_card *card,
- static void dapm_seq_run_coalesced(struct snd_soc_card *card,
- 				   struct list_head *pending)
- {
-+	struct device *dev = card->dev;
- 	struct snd_soc_dapm_context *dapm;
- 	struct snd_soc_dapm_widget *w;
- 	int reg;
-@@ -1863,7 +1875,7 @@ static void dapm_seq_run_coalesced(struct snd_soc_card *card,
- 		else
- 			value |= w->off_val << w->shift;
- 
--		pop_dbg(dapm->dev, card->pop_time,
-+		pop_dbg(dev, card->pop_time,
- 			"pop test : Queue %s: reg=0x%x, 0x%x/0x%x\n",
- 			w->name, reg, value, mask);
- 
-@@ -1877,7 +1889,7 @@ static void dapm_seq_run_coalesced(struct snd_soc_card *card,
- 		 * same register.
- 		 */
- 
--		pop_dbg(dapm->dev, card->pop_time,
-+		pop_dbg(dev, card->pop_time,
- 			"pop test : Applying 0x%x/0x%x to %x in %dms\n",
- 			value, mask, reg, card->pop_time);
- 		pop_wait(card->pop_time);
-@@ -1901,6 +1913,7 @@ static void dapm_seq_run_coalesced(struct snd_soc_card *card,
- static void dapm_seq_run(struct snd_soc_card *card,
- 	struct list_head *list, int event, bool power_up)
- {
-+	struct device *dev = card->dev;
- 	struct snd_soc_dapm_widget *w, *n;
- 	struct snd_soc_dapm_context *d;
- 	LIST_HEAD(pending);
-@@ -1979,7 +1992,7 @@ static void dapm_seq_run(struct snd_soc_card *card,
- 		}
- 
- 		if (ret < 0)
--			dev_err(w->dapm->dev,
-+			dev_err(dev,
- 				"ASoC: Failed to apply widget power: %d\n", ret);
- 	}
- 
-@@ -2000,6 +2013,7 @@ static void dapm_seq_run(struct snd_soc_card *card,
- 
- static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_update *update)
- {
-+	struct device *dev = card->dev;
- 	struct snd_soc_dapm_widget_list *wlist;
- 	struct snd_soc_dapm_widget *w = NULL;
- 	unsigned int wi;
-@@ -2014,7 +2028,7 @@ static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_up
- 		if (w->event && (w->event_flags & SND_SOC_DAPM_PRE_REG)) {
- 			ret = w->event(w, update->kcontrol, SND_SOC_DAPM_PRE_REG);
- 			if (ret != 0)
--				dev_err(w->dapm->dev, "ASoC: %s DAPM pre-event failed: %d\n",
-+				dev_err(dev, "ASoC: %s DAPM pre-event failed: %d\n",
- 					   w->name, ret);
- 		}
- 	}
-@@ -2025,14 +2039,14 @@ static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_up
- 	ret = soc_dapm_update_bits(w->dapm, update->reg, update->mask,
- 		update->val);
- 	if (ret < 0)
--		dev_err(w->dapm->dev, "ASoC: %s DAPM update failed: %d\n",
-+		dev_err(dev, "ASoC: %s DAPM update failed: %d\n",
- 			w->name, ret);
- 
- 	if (update->has_second_set) {
- 		ret = soc_dapm_update_bits(w->dapm, update->reg2,
- 					   update->mask2, update->val2);
- 		if (ret < 0)
--			dev_err(w->dapm->dev,
-+			dev_err(dev,
- 				"ASoC: %s DAPM update failed: %d\n",
- 				w->name, ret);
- 	}
-@@ -2041,7 +2055,7 @@ static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_up
- 		if (w->event && (w->event_flags & SND_SOC_DAPM_POST_REG)) {
- 			ret = w->event(w, update->kcontrol, SND_SOC_DAPM_POST_REG);
- 			if (ret != 0)
--				dev_err(w->dapm->dev, "ASoC: %s DAPM post-event failed: %d\n",
-+				dev_err(dev, "ASoC: %s DAPM post-event failed: %d\n",
- 					   w->name, ret);
- 		}
- 	}
-@@ -2053,17 +2067,18 @@ static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_up
- static void dapm_pre_sequence_async(void *data, async_cookie_t cookie)
- {
- 	struct snd_soc_dapm_context *dapm = data;
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	int ret;
- 
- 	/* If we're off and we're not supposed to go into STANDBY */
- 	if (dapm->bias_level == SND_SOC_BIAS_OFF &&
- 	    dapm->target_bias_level != SND_SOC_BIAS_OFF) {
--		if (dapm->dev && cookie)
--			pm_runtime_get_sync(dapm->dev);
-+		if (dev && cookie)
-+			pm_runtime_get_sync(dev);
- 
- 		ret = snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_STANDBY);
- 		if (ret != 0)
--			dev_err(dapm->dev,
-+			dev_err(dev,
- 				"ASoC: Failed to turn on bias: %d\n", ret);
- 	}
- 
-@@ -2074,7 +2089,7 @@ static void dapm_pre_sequence_async(void *data, async_cookie_t cookie)
- 	     dapm->bias_level == SND_SOC_BIAS_ON)) {
- 		ret = snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_PREPARE);
- 		if (ret != 0)
--			dev_err(dapm->dev,
-+			dev_err(dev,
- 				"ASoC: Failed to prepare bias: %d\n", ret);
- 	}
- }
-@@ -2085,6 +2100,7 @@ static void dapm_pre_sequence_async(void *data, async_cookie_t cookie)
- static void dapm_post_sequence_async(void *data, async_cookie_t cookie)
- {
- 	struct snd_soc_dapm_context *dapm = data;
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	int ret;
- 
- 	/* If we just powered the last thing off drop to standby bias */
-@@ -2093,8 +2109,7 @@ static void dapm_post_sequence_async(void *data, async_cookie_t cookie)
- 	     dapm->target_bias_level == SND_SOC_BIAS_OFF)) {
- 		ret = snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_STANDBY);
- 		if (ret != 0)
--			dev_err(dapm->dev, "ASoC: Failed to apply standby bias: %d\n",
--				ret);
-+			dev_err(dev, "ASoC: Failed to apply standby bias: %d\n", ret);
- 	}
- 
- 	/* If we're in standby and can support bias off then do that */
-@@ -2102,11 +2117,10 @@ static void dapm_post_sequence_async(void *data, async_cookie_t cookie)
- 	    dapm->target_bias_level == SND_SOC_BIAS_OFF) {
- 		ret = snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_OFF);
- 		if (ret != 0)
--			dev_err(dapm->dev, "ASoC: Failed to turn off bias: %d\n",
--				ret);
-+			dev_err(dev, "ASoC: Failed to turn off bias: %d\n", ret);
- 
--		if (dapm->dev && cookie)
--			pm_runtime_put(dapm->dev);
-+		if (dev && cookie)
-+			pm_runtime_put(dev);
- 	}
- 
- 	/* If we just powered up then move to active bias */
-@@ -2114,8 +2128,7 @@ static void dapm_post_sequence_async(void *data, async_cookie_t cookie)
- 	    dapm->target_bias_level == SND_SOC_BIAS_ON) {
- 		ret = snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_ON);
- 		if (ret != 0)
--			dev_err(dapm->dev, "ASoC: Failed to apply active bias: %d\n",
--				ret);
-+			dev_err(dev, "ASoC: Failed to apply active bias: %d\n", ret);
- 	}
- }
- 
-@@ -2213,6 +2226,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_set_idle_bias);
- static int dapm_power_widgets(struct snd_soc_card *card, int event,
- 			      struct snd_soc_dapm_update *update)
- {
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
- 	struct snd_soc_dapm_widget *w;
- 	struct snd_soc_dapm_context *d;
- 	LIST_HEAD(up_list);
-@@ -2299,10 +2313,10 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event,
- 	trace_snd_soc_dapm_walk_done(card);
- 
- 	/* Run card bias changes at first */
--	dapm_pre_sequence_async(&card->dapm, 0);
-+	dapm_pre_sequence_async(dapm, 0);
- 	/* Run other bias changes in parallel */
- 	for_each_card_dapms(card, d) {
--		if (d != &card->dapm && d->bias_level != d->target_bias_level)
-+		if (d != dapm && d->bias_level != d->target_bias_level)
- 			async_schedule_domain(dapm_pre_sequence_async, d,
- 						&async_domain);
- 	}
-@@ -2326,13 +2340,13 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event,
- 
- 	/* Run all the bias changes in parallel */
- 	for_each_card_dapms(card, d) {
--		if (d != &card->dapm && d->bias_level != d->target_bias_level)
-+		if (d != dapm && d->bias_level != d->target_bias_level)
- 			async_schedule_domain(dapm_post_sequence_async, d,
- 						&async_domain);
- 	}
- 	async_synchronize_full_domain(&async_domain);
- 	/* Run card bias changes at last */
--	dapm_post_sequence_async(&card->dapm, 0);
-+	dapm_post_sequence_async(dapm, 0);
- 
- 	/* do we need to notify any clients that DAPM event is complete */
- 	for_each_card_dapms(card, d) {
-@@ -2703,7 +2717,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_mixer_update_power);
- static ssize_t dapm_widget_show_component(struct snd_soc_component *component,
- 					  char *buf, int count)
- {
--	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	struct snd_soc_dapm_widget *w;
- 	char *state = "not set";
- 
-@@ -2893,12 +2907,13 @@ static int __snd_soc_dapm_set_pin(struct snd_soc_dapm_context *dapm,
- 				  const char *pin, int status)
- {
- 	struct snd_soc_dapm_widget *w = dapm_find_widget(dapm, pin, true);
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	int ret = 0;
- 
- 	dapm_assert_locked(dapm);
- 
- 	if (!w) {
--		dev_err(dapm->dev, "ASoC: DAPM unknown pin %s\n", pin);
-+		dev_err(dev, "ASoC: DAPM unknown pin %s\n", pin);
- 		return -EINVAL;
- 	}
- 
-@@ -2976,6 +2991,8 @@ static int dapm_update_dai_chan(struct snd_soc_dapm_path *p,
- 				struct snd_soc_dapm_widget *w,
- 				int channels)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(w->dapm);
-+
- 	switch (w->id) {
- 	case snd_soc_dapm_aif_out:
- 	case snd_soc_dapm_aif_in:
-@@ -2984,7 +3001,7 @@ static int dapm_update_dai_chan(struct snd_soc_dapm_path *p,
- 		return 0;
- 	}
- 
--	dev_dbg(w->dapm->dev, "%s DAI route %s -> %s\n",
-+	dev_dbg(dev, "%s DAI route %s -> %s\n",
- 		w->channel < channels ? "Connecting" : "Disconnecting",
- 		p->source->name, p->sink->name);
- 
-@@ -3059,6 +3076,7 @@ static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- {
- 	struct snd_soc_dapm_widget *wsource = NULL, *wsink = NULL, *w;
- 	struct snd_soc_dapm_widget *wtsource = NULL, *wtsink = NULL;
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	const char *sink;
- 	const char *source;
- 	char prefixed_sink[80];
-@@ -3101,7 +3119,7 @@ static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- 			}
- 			sink_ref++;
- 			if (sink_ref > 1)
--				dev_warn(dapm->dev,
-+				dev_warn(dev,
- 					"ASoC: sink widget %s overwritten\n",
- 					w->name);
- 			continue;
-@@ -3115,7 +3133,7 @@ static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- 			}
- 			source_ref++;
- 			if (source_ref > 1)
--				dev_warn(dapm->dev,
-+				dev_warn(dev,
- 					"ASoC: source widget %s overwritten\n",
- 					w->name);
- 		}
-@@ -3141,7 +3159,7 @@ static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- 		route->connected);
- err:
- 	if (ret)
--		dev_err(dapm->dev, "ASoC: Failed to add route %s%s -%s%s%s> %s%s\n",
-+		dev_err(dev, "ASoC: Failed to add route %s%s -%s%s%s> %s%s\n",
- 			source, !wsource ? "(*)" : "",
- 			!route->control ? "" : "> [",
- 			!route->control ? "" : route->control,
-@@ -3153,6 +3171,7 @@ static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- static int snd_soc_dapm_del_route(struct snd_soc_dapm_context *dapm,
- 				  const struct snd_soc_dapm_route *route)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	struct snd_soc_dapm_path *path, *p;
- 	const char *sink;
- 	const char *source;
-@@ -3161,7 +3180,7 @@ static int snd_soc_dapm_del_route(struct snd_soc_dapm_context *dapm,
- 	const char *prefix;
- 
- 	if (route->control) {
--		dev_err(dapm->dev,
-+		dev_err(dev,
- 			"ASoC: Removal of routes with controls not supported\n");
- 		return -EINVAL;
- 	}
-@@ -3204,7 +3223,7 @@ static int snd_soc_dapm_del_route(struct snd_soc_dapm_context *dapm,
- 		dapm_update_widget_flags(wsource);
- 		dapm_update_widget_flags(wsink);
- 	} else {
--		dev_warn(dapm->dev, "ASoC: Route %s->%s does not exist\n",
-+		dev_warn(dev, "ASoC: Route %s->%s does not exist\n",
- 			 source, sink);
- 	}
- 
-@@ -3351,7 +3370,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_new_widgets);
- int snd_soc_dapm_get_volsw(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
- 	int reg = mc->reg;
-@@ -3373,7 +3392,7 @@ int snd_soc_dapm_get_volsw(struct snd_kcontrol *kcontrol,
- 		if (snd_soc_volsw_is_stereo(mc))
- 			rval = (reg_val >> mc->rshift) & mask;
- 	} else {
--		reg_val = dapm_kcontrol_get_value(kcontrol);
-+		reg_val = snd_soc_dapm_kcontrol_get_value(kcontrol);
- 		val = reg_val & mask;
- 
- 		if (snd_soc_volsw_is_stereo(mc))
-@@ -3409,7 +3428,8 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_get_volsw);
- int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	struct snd_soc_card *card = dapm->card;
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
-@@ -3442,7 +3462,7 @@ int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol,
- 
- 	/* This assumes field width < (bits in unsigned int / 2) */
- 	if (width > sizeof(unsigned int) * 8 / 2)
--		dev_warn(dapm->dev,
-+		dev_warn(dev,
- 			 "ASoC: control %s field width limit exceeded\n",
- 			 kcontrol->id.name);
- 	change = dapm_kcontrol_set_value(kcontrol, val | (rval << width));
-@@ -3497,7 +3517,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_put_volsw);
- int snd_soc_dapm_get_enum_double(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	unsigned int reg_val, val;
- 
-@@ -3505,7 +3525,7 @@ int snd_soc_dapm_get_enum_double(struct snd_kcontrol *kcontrol,
- 	if (e->reg != SND_SOC_NOPM && dapm_kcontrol_is_powered(kcontrol)) {
- 		reg_val = soc_dapm_read(dapm, e->reg);
- 	} else {
--		reg_val = dapm_kcontrol_get_value(kcontrol);
-+		reg_val = snd_soc_dapm_kcontrol_get_value(kcontrol);
- 	}
- 	snd_soc_dapm_mutex_unlock(dapm);
- 
-@@ -3533,7 +3553,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_get_enum_double);
- int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_dapm(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
- 	struct snd_soc_card *card = dapm->card;
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	unsigned int *item = ucontrol->value.enumerated.item;
-@@ -3626,9 +3646,10 @@ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
- 	const char *pin = (const char *)kcontrol->private_value;
- 
--	return __snd_soc_dapm_get_pin_switch(&card->dapm, pin, ucontrol);
-+	return __snd_soc_dapm_get_pin_switch(dapm, pin, ucontrol);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_switch);
- 
-@@ -3645,9 +3666,10 @@ int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
- 					  struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	const char *pin = (const char *)kcontrol->private_value;
- 
--	return __snd_soc_dapm_get_pin_switch(&component->dapm, pin, ucontrol);
-+	return __snd_soc_dapm_get_pin_switch(dapm, pin, ucontrol);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_get_component_pin_switch);
- 
-@@ -3679,9 +3701,10 @@ int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
- 	const char *pin = (const char *)kcontrol->private_value;
- 
--	return __snd_soc_dapm_put_pin_switch(&card->dapm, pin, ucontrol);
-+	return __snd_soc_dapm_put_pin_switch(dapm, pin, ucontrol);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_put_pin_switch);
- 
-@@ -3698,9 +3721,10 @@ int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
- 					  struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	const char *pin = (const char *)kcontrol->private_value;
- 
--	return __snd_soc_dapm_put_pin_switch(&component->dapm, pin, ucontrol);
-+	return __snd_soc_dapm_put_pin_switch(dapm, pin, ucontrol);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_put_component_pin_switch);
- 
-@@ -3708,6 +3732,7 @@ struct snd_soc_dapm_widget *
- snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 			 const struct snd_soc_dapm_widget *widget)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	enum snd_soc_dapm_direction dir;
- 	struct snd_soc_dapm_widget *w;
- 	int ret = -ENOMEM;
-@@ -3718,7 +3743,7 @@ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 
- 	switch (w->id) {
- 	case snd_soc_dapm_regulator_supply:
--		w->regulator = devm_regulator_get(dapm->dev, widget->name);
-+		w->regulator = devm_regulator_get(dev, widget->name);
- 		if (IS_ERR(w->regulator)) {
- 			ret = PTR_ERR(w->regulator);
- 			goto request_failed;
-@@ -3727,13 +3752,13 @@ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 		if (w->on_val & SND_SOC_DAPM_REGULATOR_BYPASS) {
- 			ret = regulator_allow_bypass(w->regulator, true);
- 			if (ret != 0)
--				dev_warn(dapm->dev,
-+				dev_warn(dev,
- 					 "ASoC: Failed to bypass %s: %d\n",
- 					 w->name, ret);
- 		}
- 		break;
- 	case snd_soc_dapm_pinctrl:
--		w->pinctrl = devm_pinctrl_get(dapm->dev);
-+		w->pinctrl = devm_pinctrl_get(dev);
- 		if (IS_ERR(w->pinctrl)) {
- 			ret = PTR_ERR(w->pinctrl);
- 			goto request_failed;
-@@ -3743,7 +3768,7 @@ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 		snd_soc_dapm_pinctrl_event(w, NULL, SND_SOC_DAPM_POST_PMD);
- 		break;
- 	case snd_soc_dapm_clock_supply:
--		w->clk = devm_clk_get(dapm->dev, widget->name);
-+		w->clk = devm_clk_get(dev, widget->name);
- 		if (IS_ERR(w->clk)) {
- 			ret = PTR_ERR(w->clk);
- 			goto request_failed;
-@@ -3837,7 +3862,7 @@ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 	return w;
- 
- request_failed:
--	dev_err_probe(dapm->dev, ret, "ASoC: Failed to request %s\n",
-+	dev_err_probe(dev, ret, "ASoC: Failed to request %s\n",
- 		      w->name);
- 	kfree_const(w->name);
- 	kfree_const(w->sname);
-@@ -3904,6 +3929,7 @@ static int
- snd_soc_dai_link_event_pre_pmu(struct snd_soc_dapm_widget *w,
- 			       struct snd_pcm_substream *substream)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(w->dapm);
- 	struct snd_soc_dapm_path *path;
- 	struct snd_soc_dai *source, *sink;
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-@@ -3963,13 +3989,13 @@ snd_soc_dai_link_event_pre_pmu(struct snd_soc_dapm_widget *w,
- 	 */
- 	config = rtd->dai_link->c2c_params + rtd->c2c_params_select;
- 	if (!config) {
--		dev_err(w->dapm->dev, "ASoC: link config missing\n");
-+		dev_err(dev, "ASoC: link config missing\n");
- 		return -EINVAL;
- 	}
- 
- 	/* Be a little careful as we don't want to overflow the mask array */
- 	if (!config->formats) {
--		dev_warn(w->dapm->dev, "ASoC: Invalid format was specified\n");
-+		dev_warn(dev, "ASoC: Invalid format was specified\n");
- 
- 		return -EINVAL;
- 	}
-@@ -4179,7 +4205,7 @@ snd_soc_dapm_alloc_kcontrol(struct snd_soc_card *card,
- 
- 	for (count = 0 ; count < num_c2c_params; count++) {
- 		if (!config->stream_name) {
--			dev_warn(card->dapm.dev,
-+			dev_warn(card->dev,
- 				"ASoC: anonymous config %d for dai link %s\n",
- 				count, link_name);
- 			w_param_text[count] =
-@@ -4231,6 +4257,7 @@ snd_soc_dapm_new_dai(struct snd_soc_card *card,
- 		     struct snd_pcm_substream *substream,
- 		     char *id)
- {
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_dapm_widget template;
- 	struct snd_soc_dapm_widget *w;
-@@ -4278,7 +4305,7 @@ snd_soc_dapm_new_dai(struct snd_soc_card *card,
- 
- 	dev_dbg(card->dev, "ASoC: adding %s widget\n", link_name);
- 
--	w = snd_soc_dapm_new_control_unlocked(&card->dapm, &template);
-+	w = snd_soc_dapm_new_control_unlocked(dapm, &template);
- 	if (IS_ERR(w)) {
- 		ret = PTR_ERR(w);
- 		goto outfree_kcontrol_news;
-@@ -4310,10 +4337,11 @@ snd_soc_dapm_new_dai(struct snd_soc_card *card,
- int snd_soc_dapm_new_dai_widgets(struct snd_soc_dapm_context *dapm,
- 				 struct snd_soc_dai *dai)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	struct snd_soc_dapm_widget template;
- 	struct snd_soc_dapm_widget *w;
- 
--	WARN_ON(dapm->dev != dai->dev);
-+	WARN_ON(dev != dai->dev);
- 
- 	memset(&template, 0, sizeof(template));
- 	template.reg = SND_SOC_NOPM;
-@@ -4417,7 +4445,9 @@ static void dapm_connect_dai_routes(struct snd_soc_dapm_context *dapm,
- 				    struct snd_soc_dai *sink_dai,
- 				    struct snd_soc_dapm_widget *sink)
- {
--	dev_dbg(dapm->dev, "connected DAI link %s:%s -> %s:%s\n",
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
-+
-+	dev_dbg(dev, "connected DAI link %s:%s -> %s:%s\n",
- 		src_dai->component->name, src->name,
- 		sink_dai->component->name, sink->name);
- 
-@@ -4434,6 +4464,7 @@ static void dapm_connect_dai_pair(struct snd_soc_card *card,
- 				  struct snd_soc_dai *codec_dai,
- 				  struct snd_soc_dai *cpu_dai)
- {
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
- 	struct snd_soc_dai_link *dai_link = rtd->dai_link;
- 	struct snd_soc_dapm_widget *codec, *cpu;
- 	struct snd_soc_dai *src_dai[]		= { cpu_dai,	codec_dai };
-@@ -4468,7 +4499,7 @@ static void dapm_connect_dai_pair(struct snd_soc_card *card,
- 			rtd->c2c_widget[stream] = dai;
- 		}
- 
--		dapm_connect_dai_routes(&card->dapm, src_dai[stream], *src[stream],
-+		dapm_connect_dai_routes(dapm, src_dai[stream], *src[stream],
- 					rtd->c2c_widget[stream],
- 					sink_dai[stream], *sink[stream]);
- 	}
-@@ -4661,14 +4692,19 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_enable_pin);
- int snd_soc_dapm_force_enable_pin_unlocked(struct snd_soc_dapm_context *dapm,
- 					 const char *pin)
- {
-+	struct device *dev;
- 	struct snd_soc_dapm_widget *w = dapm_find_widget(dapm, pin, true);
- 
- 	if (!w) {
--		dev_err(dapm->dev, "ASoC: unknown pin %s\n", pin);
-+		dev = snd_soc_dapm_to_dev(dapm);
-+
-+		dev_err(dev, "ASoC: unknown pin %s\n", pin);
- 		return -EINVAL;
- 	}
- 
--	dev_dbg(w->dapm->dev, "ASoC: force enable pin %s\n", pin);
-+	dev = snd_soc_dapm_to_dev(w->dapm);
-+
-+	dev_dbg(dev, "ASoC: force enable pin %s\n", pin);
- 	if (!w->connected) {
- 		/*
- 		 * w->force does not affect the number of input or output paths,
-@@ -4791,10 +4827,11 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_status);
- int snd_soc_dapm_ignore_suspend(struct snd_soc_dapm_context *dapm,
- 				const char *pin)
- {
-+	struct device *dev = snd_soc_dapm_to_dev(dapm);
- 	struct snd_soc_dapm_widget *w = dapm_find_widget(dapm, pin, false);
- 
- 	if (!w) {
--		dev_err(dapm->dev, "ASoC: unknown pin %s\n", pin);
-+		dev_err(dev, "ASoC: unknown pin %s\n", pin);
- 		return -EINVAL;
- 	}
- 
-@@ -4877,21 +4914,20 @@ static void soc_dapm_shutdown_dapm(struct snd_soc_dapm_context *dapm)
-  */
- void snd_soc_dapm_shutdown(struct snd_soc_card *card)
- {
-+	struct snd_soc_dapm_context *card_dapm = snd_soc_card_to_dapm(card);
- 	struct snd_soc_dapm_context *dapm;
- 
- 	for_each_card_dapms(card, dapm) {
--		if (dapm != &card->dapm) {
-+		if (dapm != card_dapm) {
- 			soc_dapm_shutdown_dapm(dapm);
- 			if (dapm->bias_level == SND_SOC_BIAS_STANDBY)
--				snd_soc_dapm_set_bias_level(dapm,
--							    SND_SOC_BIAS_OFF);
-+				snd_soc_dapm_set_bias_level(dapm, SND_SOC_BIAS_OFF);
- 		}
- 	}
- 
--	soc_dapm_shutdown_dapm(&card->dapm);
--	if (card->dapm.bias_level == SND_SOC_BIAS_STANDBY)
--		snd_soc_dapm_set_bias_level(&card->dapm,
--					    SND_SOC_BIAS_OFF);
-+	soc_dapm_shutdown_dapm(card_dapm);
-+	if (card_dapm->bias_level == SND_SOC_BIAS_STANDBY)
-+		snd_soc_dapm_set_bias_level(card_dapm, SND_SOC_BIAS_OFF);
- }
- 
- /* Module information */
 -- 
 2.43.0
 
