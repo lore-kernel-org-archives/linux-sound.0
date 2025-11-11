@@ -1,74 +1,74 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFC3262FC7
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 09:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC022594BD
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 09:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852383; cv=none; b=SefeIo1eKL+za6ZMQjWXBsPG8vUPeTYUARbg/NJ2+9Q23Wd2TItS/+5I9hGUx0K9vG0y5MgWRamBENLrOhcKJA9egqrAXb9AxTJWpHEFrsy5JR2wFauCkc44uM5pdkEdu/izsyxPeF1CxziSHORpSq09GoALQrKQo/rHuOTFVGI=
+	t=1762852417; cv=none; b=LhnQjFFXYFk2ntEUpAAIGZHKVEsPbobxoNHKaev2exuDXIQZ9BrtlRGMedikpavNEzBj0glPmk00ZlqNBR4ktgptKzSB7qLoDax/HJ68KY2gXdQ7C5CjNHIifJP70sdQFnp8nxBRLBjFTLUKFug9B+jUQL6iQ/4UBvszA0g2f2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852383; c=relaxed/simple;
-	bh=iURxM+Kru3yKVcNXG3qZK+grW+Uwxs8g48QURqWE+Dw=;
+	s=arc-20240116; t=1762852417; c=relaxed/simple;
+	bh=3tQk/wUiP4Y7Q6oKRYFz8hwJTg5Jrn7cvlLZjjxCW4g=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aQMz0ZErN1N3z9kBpF2nGMad8X8z0dwJKRtBFmpb6s63fYFMi0uGHYFoWYPUWMxBW9EGtC34QOFHP6THEIFyQfuLHyf7aKx1neknrfaLZ++KTBSdeL+yRw7aMjADVWQ8VNs2BkeHRTRNH1DZoJle5R8Y1zda/9rQkaeJEUm4L98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1MlTS3X; arc=none smtp.client-ip=209.85.128.43
+	 Content-Type:MIME-Version; b=ZYAmMv8lEvTg2SbSbm87/k4XSoH+tX1JCsitrQw9pbMh8YDhgkj/jJMHaKwxMro/8koAdYYSeHixLH4t1OsJYtvhSclcgcyvsjxrSRbfRmczLymB6DqD7pEBsbsYZ67NxdFICU3ilEe8Kv7kF9MHhQZyGbLvZ4rJrpy2bPxrWG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M9pEOCa+; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1MlTS3X"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47721743fd0so19484435e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 01:13:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M9pEOCa+"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b3ac40ae4so962386f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 01:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762852381; x=1763457181; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762852414; x=1763457214; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=XrZGrLeAnfxS3xhIdFqspv3Tf/8B+JAp1NJ0Xu0qEgA=;
-        b=C1MlTS3XUz5wY8eQQkD1jUb6RJiLD9epBnuQqYYu2pKUlWKl+rPEzKtmPmAQ6tVror
-         2O9mx1HPmrIJxsYAiMsh6wZDm+eGYxzvmY/nH8hYju7jIkiO0bpMQkf23V1PMwS0eCrn
-         IXkntZJjMLaYagi8+dzbsMCzY8xdF3IsV+sIJA4xVw5drgtptmAVoyw9SOw33fig3isQ
-         Uqix75uPffcNzqwhcsjYwX9Gyyyqx/icBBjZmHCnMUGaBbfFtN0ivqTwyoSTvBoXfLbW
-         SgESu/VNEqyR/A/qr1kX5PFPuwfpLgNDEUIMj0qNYaa3emaB+y+2Po9baMJlb+1L7w0A
-         pYnw==
+        bh=oyXKFJuYZB3kIx0/eSdjwog+HEBS50AzoTDoXOomErA=;
+        b=M9pEOCa+F2j8uw27V6vBeemtYOOQqmLgbEsS0IKTCs7Iufxhei2TP9dFaWKgTnM9MK
+         m+bXdSpg0QQgN4bMZCzj35XyDtSjYMEe/xSoM+i/3vwTfwby+ZaMaSCcaRX+P3n7XUCD
+         O9APeeOdJnzPLziTKnkrpA+WEjuNmfZlIpktygNUWPm9EXTltsjf/5iiuJZ8G9tV2YHh
+         dGfw5i5OasDKlDcGGHBau0MRbfIHfQaXKse+kRRWdNSWLkAhfT9106uGkBi2HaJkpKYe
+         hm8N00mZWEzV9oKONLHFM0+nIrxZnqo5AvLGp7AI9KNjf+rSbVMalaJdH1QtKkG2qjGJ
+         UfBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852381; x=1763457181;
+        d=1e100.net; s=20230601; t=1762852414; x=1763457214;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrZGrLeAnfxS3xhIdFqspv3Tf/8B+JAp1NJ0Xu0qEgA=;
-        b=n4oUA+q8V/0/pyMTCrelX9fDlKCgdyyT3SvDAvNoAf078fE/0xtiCfWspbykEX7Ti9
-         y+nH7JEsMn+HuXAKP35M+ElDYvZmEamQ9SXerO5X5Da2fpPfujo2WbKYm5JYUhMpEZHE
-         bsNKxiWCHiWkCV6h2dFq5eaJMK6olF2KFO40OV/fehQNXPoMFxf6ebFkYSNXMnlhn1Ad
-         IE1RF2v5UFVCOB7kL/TXSFMot/okq+LklnDaBOHhZD8hRdCCHj1Z+DICW/zbmXSq4VTs
-         bN03pg9A+E7zuEAM110qNLhKsW9Lgd4CH/sBFSq/GEZuSjv7sHjJPpbZIAXuYDjFjb1+
-         lCiw==
-X-Gm-Message-State: AOJu0Yy9AcImFSfioUwyqXV7nv/OoCN/GagdKgQIimbRxRLpzQr0GYXn
-	rRaZTKdZhudepusOM8hgiGdWdawNsoL3awMyX9vOXnpaoSKRqI63myGR
-X-Gm-Gg: ASbGncs214ApsjnJd446ffU+Wgkl+c6mBKJEY4WwMP0pNJoCqzFS1/4NsDfEyxZ2RKJ
-	pX5aMWPF0RomVYtgWMZiJAaiKNYInYR9pFYEtdPlgPwIQyXsha7cQRslJ/2m2HSsJJhWTO/LpQs
-	ZDCBtCdesrvnyUBJ7D9VNkKaVNztJQPPlLbWQm2OxDviWcJLw39cVLlzMJzqeBvHnUrpNfvXmed
-	7SPa5eIrlkjePDAFQlOcs47pWjnMzha1YX9UeCp8DFsvXy0Y2B0+Amh+vpYa6uPVWvSK99/3Lds
-	102Ok9zXixW6qo16fWpfADiGk5E2lBo/8X2yvMLq57fjqCrzvh69FYXuXIDoYS/cFq1JvxdbAKV
-	25DHBHIpSGqV8yn4CX2BX2Wp41yezFDcc5Dgj6qS0rbLlm+6b0CkzwZeADgGspym8DDvsfVBTi/
-	RrymUiOODJ
-X-Google-Smtp-Source: AGHT+IHSTTzqNUkLp0zPv4NGTvCdW5djz9Qh/4opHg1aueaPa66Kq/Qb3xhgp/iQ4s5IVt5zGoys0g==
-X-Received: by 2002:a05:600c:1381:b0:45f:2922:2aef with SMTP id 5b1f17b1804b1-4777328f2a6mr110366435e9.28.1762852380476;
-        Tue, 11 Nov 2025 01:13:00 -0800 (PST)
+        bh=oyXKFJuYZB3kIx0/eSdjwog+HEBS50AzoTDoXOomErA=;
+        b=b0qL1MZbzmAD5m5eFjgjRBA9902kRInMsDa56l32oeJ0c5VtHbT5gwmYiuGqd9s6xV
+         DUhZjSWRAuZtdflaTQmXvR/yiO7/H/4x+5JnYnHX/PvHEvQD9olGQknAfIF4J0BK5usD
+         ORCZYmdX6jV5XLD/VVEyqDY3UwV4k0NpSPM1OdEWlTuo/t57LwYq31VY2X0h5Jg5EpKJ
+         SnC0qlwvge+yht2kXZlSw4xvfGy6Tnf5/0OCPLSDBZaYu76xVBSEaJa3OeDfv3/cPIQv
+         ugdQd43KiHYBvzPvKgwSb5wAEdYpVXlc8QNGZecZJQ86fUQkYGvbPa+DScribUihabJz
+         VJMA==
+X-Gm-Message-State: AOJu0YzKGPEGQtSEsPA6N3+bLmXtGgSxbfXAYduNFmGGRf/HM1I0XHfF
+	pV+EuMoWxOT6YAHhdU+IUTdTmZHDX3X/KqYy9vnSSyhw1UMGj++Odrx5tGu/9DXf
+X-Gm-Gg: ASbGncuyS/qjMY+kkmDlCOkXX6jc5beQmbTeQA/FkJ19Wv16wkpmpLzrOzeLdR7G3Wz
+	eicQvIky00m3MyM7NpmSW7F3/QAqTdsVwOZ0iAA+umvhlm8EdEqR2/rIe0oG8Y7KPWZRks93HGd
+	yMzHI03QUay8gQuhSlcAHzyhyRpNwdvIc9kSNlfGzN+gLPBkczfl0SWYQ27jTwDpfh96rqIKIlJ
+	MZ4hsPvgiA4UfI/A0HRUVdIySlKpZtQ7B5u6H2/gnHMOb5E+CoLnFixvasapB1D9L8melVk+q24
+	54E9l/eRR+0AqRt0smfb+68TF5bE0opaO2VP18xIlSz2OD/46HqikLxksVyeDuKHfHZA2dLoQd8
+	A1xRtrINCMV/xdjQxtQpmLQVhnVcrgQoQEWQAwG37KLyKaBrz8kDV/fVJmhmftm8MnnsTrnBlSu
+	j0kdFPqRd1hk04aj9DAXE=
+X-Google-Smtp-Source: AGHT+IFONgd61Njl6IAvi+9UjJUNoZ2mc17oZOqaoKVRL3QHO3VG5g54pc4kPgYrEG9vzw4D3Pbt/g==
+X-Received: by 2002:a05:6000:2f82:b0:42b:3131:5439 with SMTP id ffacd0b85a97d-42b31315c6cmr7792428f8f.21.1762852413540;
+        Tue, 11 Nov 2025 01:13:33 -0800 (PST)
 Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47781bdfa8esm27756505e9.4.2025.11.11.01.13.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b3123036bsm18679754f8f.28.2025.11.11.01.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 01:13:00 -0800 (PST)
-Message-ID: <5fea3bcebdc0aea3827bdbfd36e27529a6de9115.camel@gmail.com>
-Subject: Re: [PATCH 018/292] ASoC: codecs: adau1781: convert to
+        Tue, 11 Nov 2025 01:13:33 -0800 (PST)
+Message-ID: <1273b10b3aaf98d05a4c50747adf8e2376d68303.camel@gmail.com>
+Subject: Re: [PATCH 017/292] ASoC: codecs: adau1761: convert to
  snd_soc_dapm_xxx()
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown
 	 <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
-Date: Tue, 11 Nov 2025 09:13:37 +0000
-In-Reply-To: <87ms4t8lrd.wl-kuninori.morimoto.gx@renesas.com>
+Date: Tue, 11 Nov 2025 09:14:10 +0000
+In-Reply-To: <87o6p98lrg.wl-kuninori.morimoto.gx@renesas.com>
 References: <87cy5pa0ea.wl-kuninori.morimoto.gx@renesas.com>
-	 <87ms4t8lrd.wl-kuninori.morimoto.gx@renesas.com>
+	 <87o6p98lrg.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.1 
@@ -116,24 +116,74 @@ e_pin_unlocked()
 
 Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-> =C2=A0sound/soc/codecs/adau1781.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0sound/soc/codecs/adau1761.c | 9 +++++----
+> =C2=A01 file changed, 5 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/sound/soc/codecs/adau1781.c b/sound/soc/codecs/adau1781.c
-> index faad2f9f8dd2b..38cc0b6e41227 100644
-> --- a/sound/soc/codecs/adau1781.c
-> +++ b/sound/soc/codecs/adau1781.c
-> @@ -381,7 +381,7 @@ static int adau1781_set_input_mode(struct adau *adau,=
- unsigned int reg,
+> diff --git a/sound/soc/codecs/adau1761.c b/sound/soc/codecs/adau1761.c
+> index 1f09ea385f8af..a70c46dd5d76f 100644
+> --- a/sound/soc/codecs/adau1761.c
+> +++ b/sound/soc/codecs/adau1761.c
+> @@ -621,6 +621,7 @@ static int adau1761_set_bias_level(struct snd_soc_com=
+ponent *component,
+> =C2=A0				 enum snd_soc_bias_level level)
+> =C2=A0{
+> =C2=A0	struct adau *adau =3D snd_soc_component_get_drvdata(component);
+> +	struct snd_soc_dapm_context *dapm =3D snd_soc_component_to_dapm(compone=
+nt);
 > =C2=A0
-> =C2=A0static int adau1781_component_probe(struct snd_soc_component *compo=
+> =C2=A0	switch (level) {
+> =C2=A0	case SND_SOC_BIAS_ON:
+> @@ -632,7 +633,7 @@ static int adau1761_set_bias_level(struct snd_soc_com=
+ponent *component,
+> =C2=A0		regmap_update_bits(adau->regmap, ADAU17X1_CLOCK_CONTROL,
+> =C2=A0			ADAU17X1_CLOCK_CONTROL_SYSCLK_EN,
+> =C2=A0			ADAU17X1_CLOCK_CONTROL_SYSCLK_EN);
+> -		if (snd_soc_component_get_bias_level(component) =3D=3D SND_SOC_BIAS_OF=
+F)
+> +		if (snd_soc_dapm_get_bias_level(dapm) =3D=3D SND_SOC_BIAS_OFF)
+> =C2=A0			regcache_sync(adau->regmap);
+> =C2=A0		break;
+> =C2=A0	case SND_SOC_BIAS_OFF:
+> @@ -658,7 +659,7 @@ static enum adau1761_output_mode adau1761_get_lineout=
+_mode(
+> =C2=A0
+> =C2=A0static int adau1761_setup_digmic_jackdetect(struct snd_soc_componen=
+t *component)
+> =C2=A0{
+> -	struct snd_soc_dapm_context *dapm =3D snd_soc_component_get_dapm(compon=
+ent);
+> +	struct snd_soc_dapm_context *dapm =3D snd_soc_component_to_dapm(compone=
+nt);
+> =C2=A0	struct adau1761_platform_data *pdata =3D component->dev->platform_=
+data;
+> =C2=A0	struct adau *adau =3D snd_soc_component_get_drvdata(component);
+> =C2=A0	enum adau1761_digmic_jackdet_pin_mode mode;
+> @@ -721,7 +722,7 @@ static int adau1761_setup_digmic_jackdetect(struct sn=
+d_soc_component
+> *component)
+> =C2=A0
+> =C2=A0static int adau1761_setup_headphone_mode(struct snd_soc_component *=
+component)
+> =C2=A0{
+> -	struct snd_soc_dapm_context *dapm =3D snd_soc_component_get_dapm(compon=
+ent);
+> +	struct snd_soc_dapm_context *dapm =3D snd_soc_component_to_dapm(compone=
+nt);
+> =C2=A0	struct adau *adau =3D snd_soc_component_get_drvdata(component);
+> =C2=A0	struct adau1761_platform_data *pdata =3D component->dev->platform_=
+data;
+> =C2=A0	enum adau1761_output_mode mode;
+> @@ -819,7 +820,7 @@ static bool adau1761_readable_register(struct device =
+*dev, unsigned int reg)
+> =C2=A0
+> =C2=A0static int adau1761_component_probe(struct snd_soc_component *compo=
 nent)
 > =C2=A0{
 > -	struct snd_soc_dapm_context *dapm =3D snd_soc_component_get_dapm(compon=
 ent);
 > +	struct snd_soc_dapm_context *dapm =3D snd_soc_component_to_dapm(compone=
 nt);
-> =C2=A0	struct adau1781_platform_data *pdata =3D dev_get_platdata(componen=
-t->dev);
+> =C2=A0	struct adau1761_platform_data *pdata =3D component->dev->platform_=
+data;
 > =C2=A0	struct adau *adau =3D snd_soc_component_get_drvdata(component);
 > =C2=A0	int ret;
