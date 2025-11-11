@@ -1,101 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D638933120A
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 12:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D3A331229
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 12:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864682; cv=none; b=jIpI25FTbpnEaCOBbKdh44faWbB6graAItdz5nKMwP30whPPBDypzfZRGtJ+YFQ4/gB8magg0+482pPOGavbKy9sMuNHPpQwzKG13If6SF4ai8ZAhWu66TY5m523/2wpkyyGgj6TZm0IZdECBZv7OXgzGXWpXAA9pnLgFRv/soM=
+	t=1762865310; cv=none; b=h+fGDZjbnMDI6ItYT053dqPcq5UvzukLDbpIXMQ3kzvnpA5W3p0tOR4wO01ykcgVYJmdJeO2HhjxmIw8cE4fmoWHmuLH5EXluOtKqMwtRg00JiMe6rMyBnyaZDknqOlcLitq/BVQ2KyyxNup8Hglr7mgfeLWCdL8bcEZGBfUiYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864682; c=relaxed/simple;
-	bh=Cw4qXBZO374NG5Tsznt9SfbyO0jANUdJ7ZYecmehC9k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dP6WyGwb/hJhhjVNbNPq+SruH926VfiLe0GAqo8Tz7z3K0V8bmOe0LVNEEri444UShuqQohFV9eZbKbobaU/Lfaek8K5ZslIbT/6s4dGR0KOzgc4MqBxN+NIlxBIfnwgIf032B9p+avzuq8c8q21tGF8mnGvWIxW896JGM6bu0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaAuflOg; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762865310; c=relaxed/simple;
+	bh=90jukQcn3kjh0EjlcbkERMrxjQTf5a9Sfn3xWaGDZ9E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gWe37CFzrh9AR+Om2SpwzM53Hk1Ee02/Axa3L7AzfRmbu7dPTS6FdDW8zKOiXG3W38l8CYwayiI/qVVo1GACeSSjJwcSjgeVHl1iLCBhKq8/eb6p6wwo9A43Ti9wTg4ki+XkxBj0H4x3imMKHFlbXBgewmItdw+2hwMr0SJtfsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oboVljkN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dL2i46Zu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HYYj6Uxm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J2EH876+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaAuflOg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864681; x=1794400681;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Cw4qXBZO374NG5Tsznt9SfbyO0jANUdJ7ZYecmehC9k=;
-  b=ZaAuflOgmTOEBxNiZxTjH+fRVE76b27kLZq79R61PgvBUg7rQNiQW13h
-   3Iuyz9WB+HJW2t9ConZnYW7HiA3fZsoHgMF9DxfIuu4KzW4Bh05niIGUK
-   GrBaYv5YJAuNFKeyJUDPJhSXwMzb0aWQ4ejaLbn7rryKUREfYJBezjU9l
-   uA7uLDj5Xh1To0apJxt3ZRwbmP8fGDa0c8P5fvqVo5FwZxpcqZugAmOuO
-   gCIqtsekdBgBDr8xp27j+3p3bv7EmAzpKy6Mp7rEwoV5mEml9Nbw0D4th
-   DzBNgmwF1dp6adZ5qpjjTxtLJ6BacsbESdmWPAATpIz1WspcjSmJBiVNO
-   g==;
-X-CSE-ConnectionGUID: +dZpkMc9Sh+xGxl2SSv3wA==
-X-CSE-MsgGUID: v+Hg4NXZQpuDbhjv6Tj9JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64129491"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="64129491"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:38:01 -0800
-X-CSE-ConnectionGUID: H+8GOOh/Rryi+vydgvPVPw==
-X-CSE-MsgGUID: xXGo/YqbR2aYn7u56Z5cPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="189217550"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:37:59 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com
-Subject: [PATCH 6/6] ASoC: Intel: sof_sdw: add codec speaker support for the SKU
-Date: Tue, 11 Nov 2025 20:37:37 +0800
-Message-ID: <20251111123737.246626-7-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251111123737.246626-1-yung-chuan.liao@linux.intel.com>
-References: <20251111123737.246626-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oboVljkN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dL2i46Zu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HYYj6Uxm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J2EH876+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BECFD1F79E;
+	Tue, 11 Nov 2025 12:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762865306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=biLw0F6Wlrc4htiIY2rrlADzPtak4nNx083u8sPssfQ=;
+	b=oboVljkN0cS/H9TOtenuac7NFl/WbjfaAEcysBUaSuNfKN6TdFylpCzmOmklUzlwi3hZ4z
+	LUkHv32UMytyN0BnAnDbg+GsOTggAA0HIUbPZgKH9/swyyKQJjfMiA1FFVbDXs8Amu38qK
+	4RK3n1jeuvyy9QI+eqMNNB8NAiH11Tc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762865306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=biLw0F6Wlrc4htiIY2rrlADzPtak4nNx083u8sPssfQ=;
+	b=dL2i46ZuHqzt0xAbd9h0UYh//oe7XPgvR4HtQ+9K3oHMj79zcLYMjfTf3fjsW2Ctdx7rVT
+	T3ZIWfuyUOp2JuBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HYYj6Uxm;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J2EH876+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762865305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=biLw0F6Wlrc4htiIY2rrlADzPtak4nNx083u8sPssfQ=;
+	b=HYYj6UxmoOej7eyJbfQN+iLraiiVclMS0Dk6MAEmhNxWqeop3fg+DmvTQ4PoMQX2Oewr5W
+	ZzLCNBTXLDuijMWOYEVE8rrlqcaLrFrlL/poWd56fCl31EGctSL7GiuJAGf7zKozjJ8F1l
+	LaXUdiSsF4t/qD+OTYKgcmIkjAQJVsQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762865305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=biLw0F6Wlrc4htiIY2rrlADzPtak4nNx083u8sPssfQ=;
+	b=J2EH876+TVWj8LY28TocVXv/sfb3umZl8qoc91xjUlpdKcW63qqvhu+GgiHh2W61kk2j9j
+	7MHxn6K2akfzlQCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAEFF14973;
+	Tue, 11 Nov 2025 12:48:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MxgaKZkwE2noOAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 11 Nov 2025 12:48:25 +0000
+Date: Tue, 11 Nov 2025 13:48:25 +0100
+Message-ID: <874ir03fc6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Haein Lee <lhi0729@kaist.ac.kr>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix NULL pointer dereference in snd_usb_mixer_controls_badd
+In-Reply-To: <vwh35su1p1d2.vwh35stxlm3p.g6@dooray.com>
+References: <vwh35su1p1d2.vwh35stxlm3p.g6@dooray.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: BECFD1F79E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-From: Mac Chiang <mac.chiang@intel.com>
+On Tue, 11 Nov 2025 13:35:13 +0100,
+Haein Lee wrote:
+> 
+> 
+> In snd_usb_create_streams(), for UAC version 3 devices, the Interface
+> Association Descriptor (IAD) is retrieved via usb_ifnum_to_if(). If this
+> call fails, a fallback routine attempts to obtain the IAD from the next
+> interface and sets a BADD profile. However, snd_usb_mixer_controls_badd()
+> assumes the IAD retrieved from usb_ifnum_to_if() is always valid without
+> performing a NULL check. This can lead to a NULL pointer dereference when
+> usb_ifnum_to_if() fails to find the interface descriptor.
+> 
+> This patch adds a NULL pointer check after calling usb_ifnum_to_if() in
+> snd_usb_mixer_controls_badd() to prevent the dereference.
 
-This patch adds Cirrus codec internal speaker configuration
-to support the cs42l43_l3_cs35l56_l2 machine.
+Practically seen, this won't happen because the NULL intf_assoc is
+already checked at snd_usb_create_streams() as a fatal error before
+reaching this point.  But it would be still safer to have a sanity
+check here, too.
 
-Signed-off-by: Mac Chiang <mac.chiang@intel.com>
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/sof_sdw.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+In anyway, the patch seems to have a bad format that can't be
+applied.  Tabs and spaces seem corrupted by your mailer.
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index cb57c5b3a2dc..6c86a79e8c24 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -771,6 +771,17 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(SOC_SDW_PCH_DMIC),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Lapis"),
-+		},
-+		.driver_data = (void *)(SOC_SDW_CODEC_SPKR |
-+					SOC_SDW_PCH_DMIC |
-+					SOF_BT_OFFLOAD_SSP(2) |
-+					SOF_SSP_BT_OFFLOAD_PRESENT),
-+	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
--- 
-2.43.0
+Could you resubmit with a proper format (and add the information I
+mentioned in the above)?
 
+
+thanks,
+
+Takashi
+
+> ---
+>  sound/usb/mixer.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index 6f00e0d52382..72b900505d2c 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+> @@ -3086,6 +3086,8 @@ static int snd_usb_mixer_controls_badd(struct
+> usb_mixer_interface *mixer,
+>      int i;
+>  
+>      assoc = usb_ifnum_to_if(dev, ctrlif)->intf_assoc;
+> +    if (!assoc)
+> +        return -EINVAL;
+>  
+>      /* Detect BADD capture/playback channels from AS EP descriptors */
+>      for (i = 0; i < assoc->bInterfaceCount; i++) {
+> -- 
+> 2.34.1
+> 
+> [mail-r]
+> 
