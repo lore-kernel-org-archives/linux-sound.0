@@ -1,197 +1,204 @@
-Received: from smtpweb147.aruba.it (smtpweb147.aruba.it [62.149.158.147])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011022.outbound.protection.outlook.com [40.93.194.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E7E32B9AB
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 08:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762848791; cv=none; b=Dkg82MS8ob7L7H/zwIc8CNRdHg6RpX8hmM2WW7NQEoAugrBemeRXtVdOx1ZfMG19RbvWRHYerGVjbKhwhJsm/lxnF00D0Vi9Iegpj1WzYtgT1PlO42PJ/YIWOdniCzw8Bq6DJK1do09/8G2OGJK/K7cUzddJYDa4V0rMetdtDpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762848791; c=relaxed/simple;
-	bh=e2VKfhLBtfetGdLzQaFZSLBhdVbkUGkXPf4jjXRKteg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AbSl2emSvikOmJh8i2CQPGCwmPUmsy95K6PsJvMZaKfPjwAOfHh1r5pY7/lktNLGnCLztvZTFaooBxKHBiI2ffDjzVwHY70Xm5aiftDgtGpvfuqo/hgciJiH1cRP1uJ/9YJCZYyD5MvgcjD63GmuWY/JsnZD9qCDdmJwzfXi1Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=AXJ4e5dw; arc=none smtp.client-ip=62.149.158.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C357242D9B;
+	Tue, 11 Nov 2025 08:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762849272; cv=fail; b=NFAdDyagewLQESZ3Uxewt/YVBWG4aZ0/2L5tDxIWj//wZ/I3O8voIQJ7MhHWCuMkCnuvoRoPbASaz2VnI8j3RWvrd6TN47yvRH/e3XigAiUW9TT9ZnYqHgvVraoYIoBRWyk2Xpx/ORwSsWCLrLPxCVd1oHqk7GV/vqC/ImI4cXQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762849272; c=relaxed/simple;
+	bh=//ssiR0RbB2w14tjfpAVLm9OtLjrFvHgcRZ4sFNJJPc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=sucmYm1qxVL+Dvgam7t2CA06whOFfjWkLpgb6GZxdWU2M8FTmCXvx3hzL1RL14TkIeXmXGrxYUCRi8dzn1ojCN/HimWYuhRFD0hsYOvY3h5j6+vD622tvz+AS0fj2Z7YPuNeetgfr9U7/GEnn5c9gL2cVaGk8loYMxiXgVTxC8Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=g4Q1Tp9J; arc=fail smtp.client-ip=40.93.194.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="AXJ4e5dw"
-Received: from [192.168.1.56] ([79.0.204.227])
-	by Aruba SMTP with ESMTPSA
-	id IjRpvB89Z3rWiIjRpvo9yP; Tue, 11 Nov 2025 09:09:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1762848599; bh=e2VKfhLBtfetGdLzQaFZSLBhdVbkUGkXPf4jjXRKteg=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=AXJ4e5dw+jSyszcMYBEFl9RCo64n6ctWLi7ALyEfBW2CsNHdns58uFEPi6BIP0fSo
-	 +tB0UztyXs5sQMBKQyycck0J3O4LR0Dnk3QAhsnI09tGu8FmU8DcYE1wR6HJcad5yZ
-	 TLc+0c06i9zJ5NVTRlQs5GjG5nsPj9le/gGOTqLTjYyWY5Qcu3FWjQq5gmMaKCWsin
-	 /zKDeh7ZKMAATnb3tk1WbFnrvz4a8/3SGmCbbZzLCD1af4amWVvDCH5XIDWdZFYyW6
-	 QyGNAYKhUugKEMfbzLpPCuFgDDAzuQZNrfICnaEmr/m/0fSopNWEOSkZx7p8Qn9Y80
-	 b8l0RNeGvbW6A==
-Message-ID: <6c8b4205-e5d2-4bce-a1ab-addb099097b8@enneenne.com>
-Date: Tue, 11 Nov 2025 09:09:52 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="g4Q1Tp9J"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U65GFYixNut3JLrs/UHFxszoYXMuwf7jDq/MUhBNN7kschRv/a4hKxRZvzqC53WGo3AeIqoquhd63/h/fSvrYc1Lkivi+fMo9SDeqc4HjXwW+B2wrgov1y8YsU/VBDqdIYQGWNmjnxVrhIMLpvf0cIll+6/mjhfiIt1yDzEejjYf7u60j4sFvjlVKvhXDwMbvh6jIPy5U29UirZAUJ6Y8zQ9gleZO90P7rNXRFNFfVr/Q5bzNhK1NDZ86VScS4sBiTTzcrwxJzQrxuVq74vG3kRr23bormeqMO5z6F3nK8xB5oAt1O2WMsc1QGRyRQxmH09Ab2zJJigKPyuXj5WUoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=woIENtHjOIZFg5jeIxNsHzkLD4rZcjgS6VtJOQuuCx8=;
+ b=fTR2nphRjUB0R9K39EGisznIY2P1KEow6J1FGLbniJkGL5B32xA02zYRZdip7IZhu90kxK1KAHTn1sCh+fjG0+1Uqwv9cJUY88KuwH9C3BehWJyhCUCOxoKfilrOx8yM8usa+aaH2gGgdVUVvxTepT+RWA4nsd8OCPn6VWfAkRsHPIeiEkVKzmJ+6xWW9mvnfESrIZpcbxh0EZiXnw60ashINQEj1f/dt3G2dlkgzu2jXkBBCyDUGZLj8FGLE76zwADec1N4iB8JYAZThefkhEUb+rtwsbvocxkdIFoOj9Tu667HXXMRgz5/OYimTMhLhYhjm+sSbXaWqwQikglx9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=woIENtHjOIZFg5jeIxNsHzkLD4rZcjgS6VtJOQuuCx8=;
+ b=g4Q1Tp9JJ/yFHmEValbYjPo/BQvPCtUf2mrGHJJ9h/xCIMkrogf5IG+5ePT8jhunaiRDgPJ19cf211arzoeOEGIFK74h3+M7AsJDS4GlCQUeDH3OeZE6tNfCuExlE/wcZZ2vbrme6kg88fQ1g4yjnmipKd67rBQVu0RmiYxV+oU=
+Received: from MN2PR02CA0033.namprd02.prod.outlook.com (2603:10b6:208:fc::46)
+ by DM3PPF2867093BF.namprd10.prod.outlook.com (2603:10b6:f:fc00::c13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
+ 2025 08:21:02 +0000
+Received: from BL6PEPF0001AB56.namprd02.prod.outlook.com
+ (2603:10b6:208:fc:cafe::53) by MN2PR02CA0033.outlook.office365.com
+ (2603:10b6:208:fc::46) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Tue,
+ 11 Nov 2025 08:20:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ BL6PEPF0001AB56.mail.protection.outlook.com (10.167.241.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Tue, 11 Nov 2025 08:21:02 +0000
+Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 02:21:01 -0600
+Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE201.ent.ti.com
+ (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 02:21:00 -0600
+Received: from DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe]) by
+ DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe%7]) with mapi id
+ 15.02.2562.020; Tue, 11 Nov 2025 02:21:00 -0600
+From: "Xu, Baojun" <baojun.xu@ti.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de"
+	<tiwai@suse.de>, "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>, "13916275206@139.com"
+	<13916275206@139.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, "robh@kernel.org"
+	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "Yi, Ken" <k-yi@ti.com>, "Lo, Henry"
+	<henry.lo@ti.com>, "Chen, Robin" <robinchen@ti.com>, "Wang, Will"
+	<will-wang@ti.com>, "jim.shil@goertek.com" <jim.shil@goertek.com>,
+	"toastcheng@google.com" <toastcheng@google.com>, "chinkaiting@google.com"
+	<chinkaiting@google.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
+ TAS2568/5806M/5806MD/5830 support
+Thread-Topic: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781: Add
+ TAS2568/5806M/5806MD/5830 support
+Thread-Index: AQHcUKAKMWLWoEe5pUGqDO3hVAKe47Tq/KmAgABmATCAAIMYAIABJBdFgABwEQD//6Pa8g==
+Date: Tue, 11 Nov 2025 08:21:00 +0000
+Message-ID: <7981d64728994bb9bb495af5d4631d61@ti.com>
+References: <20251108110759.2409-1-baojun.xu@ti.com>
+ <20251108110759.2409-2-baojun.xu@ti.com>
+ <20251109-heavenly-observant-quetzal-b1bead@kuoka>
+ <ecc69a98a23d406ea1eada62144415fc@ti.com>
+ <035d6c35-c27a-4f5c-8603-ea5857d78e63@kernel.org>
+ <460cd1da65bd42be890e69f26402670b@ti.com>,<d6ba62ec-25b2-4c51-8915-8e69d76b610e@kernel.org>
+In-Reply-To: <d6ba62ec-25b2-4c51-8915-8e69d76b610e@kernel.org>
+Accept-Language: en-GB, zh-CN, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 18/23] pps: Switch to use %ptSp
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Matthew Brost <matthew.brost@intel.com>, Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Vitaly Lifshits <vitaly.lifshits@intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Karan Tilak Kumar <kartilak@cisco.com>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
- Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Richard Cochran <richardcochran@gmail.com>,
- Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
- Sesidhar Baddela <sebaddel@cisco.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li
- <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
- <20251110184727.666591-19-andriy.shevchenko@linux.intel.com>
-From: Rodolfo Giometti <giometti@enneenne.com>
-In-Reply-To: <20251110184727.666591-19-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: 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
-
-On 10/11/25 19:40, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Acked-by: Rodolfo Giometti <giometti@enneenne.com>
-
-Thanks,
-
-Rodolfo Giometti
-
-> ---
->   drivers/pps/generators/pps_gen_parport.c | 3 +--
->   drivers/pps/kapi.c                       | 3 +--
->   2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pps/generators/pps_gen_parport.c b/drivers/pps/generators/pps_gen_parport.c
-> index f5eeb4dd01ad..05bbf8d30ef1 100644
-> --- a/drivers/pps/generators/pps_gen_parport.c
-> +++ b/drivers/pps/generators/pps_gen_parport.c
-> @@ -80,8 +80,7 @@ static enum hrtimer_restart hrtimer_event(struct hrtimer *timer)
->   	/* check if we are late */
->   	if (expire_time.tv_sec != ts1.tv_sec || ts1.tv_nsec > lim) {
->   		local_irq_restore(flags);
-> -		pr_err("we are late this time %lld.%09ld\n",
-> -				(s64)ts1.tv_sec, ts1.tv_nsec);
-> +		pr_err("we are late this time %ptSp\n", &ts1);
->   		goto done;
->   	}
->   
-> diff --git a/drivers/pps/kapi.c b/drivers/pps/kapi.c
-> index e9389876229e..6985c34de2ce 100644
-> --- a/drivers/pps/kapi.c
-> +++ b/drivers/pps/kapi.c
-> @@ -163,8 +163,7 @@ void pps_event(struct pps_device *pps, struct pps_event_time *ts, int event,
->   	/* check event type */
->   	BUG_ON((event & (PPS_CAPTUREASSERT | PPS_CAPTURECLEAR)) == 0);
->   
-> -	dev_dbg(&pps->dev, "PPS event at %lld.%09ld\n",
-> -			(s64)ts->ts_real.tv_sec, ts->ts_real.tv_nsec);
-> +	dev_dbg(&pps->dev, "PPS event at %ptSp\n", &ts->ts_real);
->   
->   	timespec_to_pps_ktime(&ts_real, ts->ts_real);
->   
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB56:EE_|DM3PPF2867093BF:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4e843ae-1528-491a-debb-08de20fb407c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?289Jdi8im/uimzuO6uauRZwrMDuY1QALc+kZcAOUXsaGtE3QDe7OVPRLVu?=
+ =?iso-8859-1?Q?FdENST4dYJXaLX6pPwJ2o2CadmZskk0XgLsOGSZ5rztSlEZQdw+MvR90mo?=
+ =?iso-8859-1?Q?V8uo36SKu7sbJJXM7K6RUlpyaxq0NHS2oa/JcWTaapw2Rweya42mnUBXc+?=
+ =?iso-8859-1?Q?PfpbgTtTtjRFPkr8RCJLy521fp8MQYl+2a5rlxaBl2xo0DjauzuBFsYAv7?=
+ =?iso-8859-1?Q?qedpoHStvXCwFHAVpNyHLlswF/rgeuTjndOJRcWq1aQNmbvklyDPr/2fuK?=
+ =?iso-8859-1?Q?+yB6mSurzc5DjYfh9B+JGNnH2AoP9j8eHs7VNP1JnBpG2ZkRtOvDWR45jM?=
+ =?iso-8859-1?Q?YJ8gG9uz7I4T5ovSsJCzC1xfhrUqGZM5rsbDA6r4iMI1Ka2YhuJrWOO8n1?=
+ =?iso-8859-1?Q?FUtI9FHEvjUTd76efFb4ukx+RzVu1Y7KpEf0IB0af0P2cCzwDcucq96qO1?=
+ =?iso-8859-1?Q?wE42t1eIMpfi6B4pLInNN7DG1NlfmGdrOwnLM8DkdRCNSVuUwStfn8NS6N?=
+ =?iso-8859-1?Q?905zy1Xva38TdlxhE5GFAaF+ExUklMZiemUhtt0ucLCvmK0ChnXeSMsXaz?=
+ =?iso-8859-1?Q?U8t7odnR2i1J61bjQBxj5QAH914Md/LNUmNFU7wRhbXkepPfgayq/wPaEa?=
+ =?iso-8859-1?Q?zgDV8Fna3zApMVJUxH5bnkcL+A0SYRrUBLu7D0+l1I2X/XKIsRRX5FvhS5?=
+ =?iso-8859-1?Q?GvQEmA3MqGWl8ZjfQpCDhzYwfx8de3onmz+xuoUQEfkOGKh48ImCjKY2I2?=
+ =?iso-8859-1?Q?BqmriPsXEiUfjDsaOuFmqDiPKSsWl6VW/xDwWu6QRfGfxIDoWhciD/KEW1?=
+ =?iso-8859-1?Q?iJHgBLkkPGckAelm39r3EsGMAa3ac7xDSxQi7YGy6yfq4+gcvEco4PRKR8?=
+ =?iso-8859-1?Q?D/igs2MXAnaleFBpWeDFrzDY9FmueuekQiQwV9YlxFpvHbr/Jj5FsSBLi9?=
+ =?iso-8859-1?Q?CZ3UT3TO6KwXMI6sJbLCuWrATpsk7AlMwXuNlbvtOzQrUTDZblLREjMaIq?=
+ =?iso-8859-1?Q?Ky7M+q7wwpzFlYi7ytshZvog+avELmF35dTeNZZRzAQfFzCvVNGWWajXo8?=
+ =?iso-8859-1?Q?72EWKYujtVXxeHgDVXgcer01DWjoZiOLjqVllnwovDAlXMCKPVQmu++ivJ?=
+ =?iso-8859-1?Q?mBX7AgfMBGks3zjo+3+7treuOkBiK/6ht4Eu1e3ZUyxor/FPJxnT23OcL2?=
+ =?iso-8859-1?Q?sWUZg5REZo31FKgnGoo3qDzno79i1Xh3sdsFxmmNsuZF8w2Q6GfaRLghwb?=
+ =?iso-8859-1?Q?RvX9OQ2Ubf2gW5CuxVBRRqSyx+1pifOpwJ8+uEHJPvA9rh1Ur9vfvq2c8/?=
+ =?iso-8859-1?Q?KK3i+ld0d5MaAJ/efS4DdvuyL7GuHO7Jn9yYnvHoErITgLwkVdp/D+GsGw?=
+ =?iso-8859-1?Q?bGbbpFRGaCAS4+3YMyR3X465y4Glje5k678Kllpjrc4HEqltfOczBE2bJx?=
+ =?iso-8859-1?Q?2uFUxgWLHEdR87eUP/Fj6LW89cpNIRzwqMlx5o/h7i4QHyC/ndKDcQDgDA?=
+ =?iso-8859-1?Q?BhFvWcDVKdDaBOXvinlGKKAheU1PniYaZVNcoc9IrmR+oVGAa2JwtGpdv8?=
+ =?iso-8859-1?Q?dTCDsX+e/6ORn8SMkFetksqI1gEL0GG8btyu6K9Z1O1UN70wCI9GQz8EvM?=
+ =?iso-8859-1?Q?2B1+/QSSnumL8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 08:21:02.2821
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4e843ae-1528-491a-debb-08de20fb407c
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB56.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF2867093BF
 
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
+________________________________________
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: 11 November 2025 15:17
+> To: Xu, Baojun
+> Cc: broonie@kernel.org; tiwai@suse.de; andriy.shevchenko@linux.intel.com;=
+ 13916275206@139.com; Ding, Shenghao; linux-sound@vger.kernel.org; linux-ke=
+rnel@vger.kernel.org; lgirdwood@gmail.com; robh@kernel.org; krzk+dt@kernel.=
+org; conor+dt@kernel.org; devicetree@vger.kernel.org; Yi, Ken; Lo, Henry; C=
+hen, Robin; Wang, Will; jim.shil@goertek.com; toastcheng@google.com; chinka=
+iting@google.com
+> Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: dt-bindings: ti,tas2781:=
+ Add TAS2568/5806M/5806MD/5830 support
+> >=20
+> > Hi Krzysztof,
+> >
+> > Thanks for your review.
+> > Do you mean I need to add an rst file in Documentation\sound\codecs?
+>=20
+> Where anything like that is explained in the docs I linked? Do you
+> understand what patch I commented on and what documented I linked?
+>=20
+Hi Krzysztof,
+
+Thanks for your review.
+From your link, it write:
+  5) The Documentation/ portion of the patch should come in the series befo=
+re
+     the code implementing the binding.
+
+Do you mean I need move compatible to above, like below:
+
+properties:
+  compatible:
+    - enum:
+      - ti,tas2020
+      - ti,tas2118
+      - ti,tas2120
+... ...
+
+> Best regards,
+> Krzysztof
+>=20
+>=20
+Best Regards
+Jim=
