@@ -1,85 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C9A31077A;
-	Tue, 11 Nov 2025 14:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9635B138
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 15:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762872692; cv=none; b=aVm1yCkWa6nYMeyHWogfZgL/NfzfEKEX1fkO8K+IfpLA98FvC+TAEw/Uys3GpdXNSAyAQXBPTlIMmUcuNNFRFV8JZ2rBzuR4IKE7yQKegnicfLHdiWBQaDJP6OQbxFtn9F6DcWB1b0UZ1tfTgXhhf9CC/T4sJBZs7JcglXxiHrw=
+	t=1762873692; cv=none; b=cGprhRc8tLTqvLxW49iq9ILRxA6XtikGfRoK+u7ZOvCxieWddugU8m5BbXRIDbTQ4dxJFVxVdTbZ1dywNNraxBIz2uhXmKvHb19Aup837k6sSSqKTPAFnYswYQkZpHUANBOvRcsy65XovHjLpExtpsyFJUmCddKxL9DNJr32lyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762872692; c=relaxed/simple;
-	bh=wq3D/UP2DwAZYD7ydHRVTCVqJ0y6XdZO4cbSwhxOh8s=;
+	s=arc-20240116; t=1762873692; c=relaxed/simple;
+	bh=DAt5LtmL6m5oArkUGnBm1bgOgLbg+gEeBc0aZ8x0sF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akZcVn2OXxu88pqSnYvW8fA9gsZVW+zreYhXnOHd7LEmyxOMF6cm7fzg833wGRIjc+s0+Sf5vy4wV5dPbb+IWZiwq3Prdkd78AaEO7FY1gmxJe2eu9rTqcNm1SzqoZZm8Ibp0zaCWAKFC30lBDlNOG1wcAZ9Z+f9CEYZI8BrPRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZ9h97pB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OOqV0GBk0N6y64qCsjLy7lVF0gc78OrBgr4b/9Fgo9qd8W+tqLIaxpTGTLs5GDHYJXtZkx55SGf3eLZVeFezv+BlquUDqYmTdJUFTrJlCdHE9WYrFFVJURntqfDZ3SkC4PyH+P0uOq0VePej5pm8dKD1nt/BVQF37svVgUooiVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=EvsOj+aw; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZ9h97pB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9B5C116D0;
-	Tue, 11 Nov 2025 14:51:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762872692;
-	bh=wq3D/UP2DwAZYD7ydHRVTCVqJ0y6XdZO4cbSwhxOh8s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pZ9h97pBy236J/JadiVE9rqfQgnit4dHVC94ZG/+pjvfKsWzJRO3zr1I1/ThDUq5J
-	 xJwejyXIRJQhhy3BrSpWVmIpLFZY9UblrqeALKo1NhukOij3NM6kGF1iX76UMEvEQq
-	 nHQg5AZdbnuskG48iyd20n53oWQSojriFs1QmBgHGkRuUhVvNwNgc1s3qkX4/9TSjX
-	 h39MMWen6rVaKxjMTk6bqO+18IIq28t59uG4m39I1IKfHWhwCQer88qKgdOF0jHtHj
-	 AOOHU21vbskpjHlMSnPu+iKBoE3qTZY0cgXUX2OUcp+5Q6OWPyE9QKbZiTIPeUup9X
-	 ghuzaOhZKcmWw==
-Date: Tue, 11 Nov 2025 14:51:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 2/2] ASoC: cs35l56: Allow restoring factory calibration
- through ALSA control
-Message-ID: <aRNNcLhOlr01drG4@finisterre.sirena.org.uk>
-References: <20251111130850.513969-1-rf@opensource.cirrus.com>
- <20251111130850.513969-3-rf@opensource.cirrus.com>
- <aRM_a09S-_avzLUR@finisterre.sirena.org.uk>
- <40da8e34-f020-46ad-b3c7-ae48832b5563@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="EvsOj+aw"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-882399d60baso26807726d6.0
+        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 07:08:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1762873690; x=1763478490; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3lJT5ZSJMOrp2Um3w1eEC09oiv0bY1tvU8jyZkoYyro=;
+        b=EvsOj+awzYxqnrvFd6n5fZq7wZzm8A3L839dhxHDRubaLMqTaTVRX12uRGeZWJQfaJ
+         KVfWVKuP1rR6ie8Qd/v21QGdospewIx/rru2tnr9eKwM922FYblciRcWIfOyGsE7W8XL
+         ABk5kYiefYFBFGHATQtxaQgf+pU0mR5ZSsqmVXSZZACjExe3Mwc5/kYLgxmUVIFZEYtX
+         UHwjKcJ+AxP/pOdO5weKSL+QJu7N2KteNoZWYNGz6rs4kwKV5wGPJPOTZDXh8/xEevdv
+         wPVaNQj5mv0HieM96Qh/net6EzHVJaXiZnXHvOAeXUmfU4KkU0x7T0F3wxJLlwynh+3/
+         k3Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762873690; x=1763478490;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3lJT5ZSJMOrp2Um3w1eEC09oiv0bY1tvU8jyZkoYyro=;
+        b=vHR7At0K/PG5vaBEHG0fOFtPwbpvFrAlJUjj6pNITBqVqKa1FaoNwzrzGRMin5tT5l
+         ZnNSCrfNVyFY/qyPYZeHFypj9SLA955EAXGH7SZh1c452NJgP1W5nU2B7Jq/JUwphP6c
+         n/oycZER3HPPpw8g+OxH7Ec3qUd2XGKI1ltRHwfUdyxXczUUt9DHTwgwDZGiI0BnmE+O
+         3NHmhjRDnhtOQpKsQu2GK8rpvPjIJSLN7+V3CPrUfom9PM8JmlrBpnBrQvhXQrQVBAPu
+         71nUTWLZnS/38QEb3i9dHniampHTm1i/g8Y76GYKKau0V24jmD4qXlPPWxvnqOy5ELno
+         FQ2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVAr0NYhh7/5gaKjqwSO1CrtlZL5axoUsfkg1G1ytrHDFF9YSq/lOXOEs+Ok5s73oLqzfeffNsjkkTGWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylKjuEhoTRLAy+JbwyetTTJ22YK/3PabY1Lx0Npb4wSAZVibJi
+	NzmepJZmb1okkyMurGHuM4gJkawQLNhpanwahF0UDkev06VlZLpfjgMsYa6eqEldPQ==
+X-Gm-Gg: ASbGncvft6iB9oYeL3OkmQM9T5XFTEwkHZchaUsytqstpVkrXFZB/CA9cwC3jWm3gmS
+	5u1EdQ/zXb14YjkKBF8WLRhAT1O8shP6fZbdZ2S/RD4/h14WPxh9RzvxoK/UUZuKRV1+upq5K1s
+	abvULFiCPanqr6AGsRskL/UiSMSBu6sgLgUwDo/GiATPJbBrHEY0F3kytXGCeC7tsz1zC9ZhMOA
+	vQeUtLkleJhcvFZ5AjeawGA87+RXtYd20r1+e7QJhwXNDseo4cSenYO5WErDDF1uth4ixq+tvAZ
+	W+6hTMT2sjWwgNYBOdppzPC/XC/k3ZFkwWVe+QAeEACNzYuvSiaQbRNPPUV+5eS/P4GexM8vmN+
+	pQXWt7sQr+Z8m7Ci/dDlTC9ScPwcc65rHhzh0mdPCAj+i75SMjxLr87MGaVUYZX0hnN84Kvw96T
+	gJNA==
+X-Google-Smtp-Source: AGHT+IFgUb+2Gl34Fb0q5W9YamyNK7hzqSSthFYGdVLDl5NkdFz46yfwatDwjuvgJWFBBIQqtTtPZQ==
+X-Received: by 2002:a05:6214:240d:b0:880:4d78:89ea with SMTP id 6a1803df08f44-88238702c86mr173354936d6.60.1762873689882;
+        Tue, 11 Nov 2025 07:08:09 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::ba76])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88238969ca6sm76561276d6.15.2025.11.11.07.08.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 07:08:09 -0800 (PST)
+Date: Tue, 11 Nov 2025 10:08:06 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: The-Luga <lugathe2@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Terry Junge <linuxsound@cosmicgizmosystems.com>,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Subject: Re: [BUG] Edifier QR30 (2d99:a101, Jieli Technology) reboots itself
+ when RGB brightness button is used under Linux
+Message-ID: <732b03e1-ff0f-4428-8b50-725758962ad3@rowland.harvard.edu>
+References: <CALvgqEBD05PwMpm00cAbFkpSWpCFP9jaBU0r-8+op+RGPtkktg@mail.gmail.com>
+ <7adc816d-169d-4213-bb67-9d070af3c4a7@cosmicgizmosystems.com>
+ <30528153-95f1-4ec7-a6bf-5da396441f86@rowland.harvard.edu>
+ <xrfmda5rohporc3bjax35fc7xjziai6cmdt5svjak5rps6y6jz@k6h4zlt3jgg2>
+ <CALvgqEDZ=g+uvdSYqbD22sL_VP+n6Pda2xXuFAJyKkh3bjm6HQ@mail.gmail.com>
+ <CALvgqEC6UW96NEYOCM5v0m4x8Si0A7AwPuMpwXt3PMqkO3eqww@mail.gmail.com>
+ <52fc4350-2930-44d3-b844-03f00806f142@cosmicgizmosystems.com>
+ <1ac9d1dd-822a-487a-bd42-45c163dfbfe7@rowland.harvard.edu>
+ <CALvgqED5NCNjrtv_YSfg9rzerK-xWAE5TaJjZtMBMcY=8MSk3g@mail.gmail.com>
+ <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GNsiqIsL0Z0ic2Sr"
-Content-Disposition: inline
-In-Reply-To: <40da8e34-f020-46ad-b3c7-ae48832b5563@opensource.cirrus.com>
-X-Cookie: You dialed 5483.
-
-
---GNsiqIsL0Z0ic2Sr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c6d506f7-f13b-4d57-a522-a2ccd09e7a1f@cosmicgizmosystems.com>
 
-On Tue, Nov 11, 2025 at 01:59:28PM +0000, Richard Fitzgerald wrote:
-> On 11/11/2025 1:51 pm, Mark Brown wrote:
+On Mon, Nov 10, 2025 at 09:11:25PM -0800, Terry Junge wrote:
+> 
+> 
+> On 11/10/2025 3:48 PM, The-Luga wrote:
+> >>> Are you sure?
+> >>>
+> >>> HID_QUIRK_ALWAYS_POLL = 0x400
+> >>> would stop suspending the device.
+> >>
+> >> Actually, it forces the kernel to poll the device's IN endpoints even
+> >> when no program is holding the device file open (see where
+> >> usbhid_start() calls hid_start_in() if the ALWAYS_POLL quirk is set).
+> >> This is exactly what the speaker seems to need.
+> >>
+> >> As a side effect, it prevents the device from being suspended.  But that
+> >> doesn't seem to be the important thing here.
+> 
+> Polling for input reports is handled by the hardware at the interval 
+> requested by the device during enumeration.
 
-> > Not a big deal (don't bother with a new version) but N is the default
-> > default.
+Only if the kernel tells the hardware to poll.
 
-> Well, at least it self-documents that we _want_ N to be the default.
-> But if that's considered bad grammar I don't mind if it's removed.
+(Also, the interval used by the hardware is what the kernel tells it to 
+use.  Yes, the kernel generally does choose to use the interval 
+specified by the device, but it can use some other interval if it wants 
+to -- and in some cases it does.)
 
-Yes, I can see why you did it.  I don't super care either way, but I
-suspect someone will come along and clean it up.
+>  There is no intervention by 
+> the kernel to poll for an input report. The only way the kernel can stop 
+> polling a device for input reports is to suspend it.
 
---GNsiqIsL0Z0ic2Sr
-Content-Type: application/pgp-signature; name="signature.asc"
+This is simply not true.  Consider: Where would the hardware store the 
+report data sent in response to a poll if the kernel hadn't given it the 
+address of an input buffer?
 
------BEGIN PGP SIGNATURE-----
+> So ALWAYS_POLL means never suspend.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkTTWwACgkQJNaLcl1U
-h9CgGQf+IaLM3vmGQN1D6bne7dT2Y4P0yeZj421fa7dkfbbzolaroShxh1uXWnbv
-Twt+48c8DSGjC3WldmzCT5xHiOEoenZbCCt8+vIHC1E6vUYX2c6hqLaGRlqcYOyv
-gABK1KMHw9/eg1naLsjXTu4NxSvzO75a3b/MTy+gfNIgpSa+TYpceBOkssDpkmOt
-wfdymDbzPoDjLob3uPqFhRfNDiMa2rPMoW6v/jVplDgDB5oyu3RfVQ/JzURDFqMV
-zcsnnZXNlYqQw2ttCt1G44vwCn3NQCFrX+QRlcvBiiYdJQajO9Y8JxBCOCUuDvLn
-MNpyAWLYmEsk5jPmLoYx53f33bWRIg==
-=w58f
------END PGP SIGNATURE-----
+As Oliver explained, that's only partially accurate.
 
---GNsiqIsL0Z0ic2Sr--
+Alan Stern
