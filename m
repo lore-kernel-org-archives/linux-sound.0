@@ -1,103 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A1734EEE8
-	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 10:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81FF34DB54
+	for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 10:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762857326; cv=none; b=gDLv7G+pcjCG1jWprrwOmr2yKGsIhiY7vbjJ3uJ5NIFw8CIkGUD+XqU/mzik3LSp5NW0lhW5bryWo0AbOI8LdZgK7CooZuJYHFgPFZ5WQwi9eEK70VU+zDdRTs+8PwYlhdAGa9t4jVwA6LaDnAIFJlP0IuSgp6bTislEPBQe5kU=
+	t=1762857590; cv=none; b=KimD5kOCWDG80gjzUwBaAOWRZMHH1B1Wq0jTjadls+riBC1DrW6Kea83e2KySuA6ETUeWpuHk8HMEhkObPGmZJYk+Ocu9O8TvjZ9FqVxBIz1oE6WSs412ZIPxAHvVxn78swwtPTVCQ0Nq12BmwWjEZ4dGHvAg/Ej7Oy+mj3hQis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762857326; c=relaxed/simple;
-	bh=sWov6V/qp1XBeFU+oASomjJrrN/03Y3d8A9cI/+pD0I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dXGMeY1WOaFzIwFWJBubr8Y9ZlWKwwAdNiP88OcI+zeUaVvPwuQQselsWVcUJK328caDC7U8pD7e5uljFvvG/5xA9YwMgYxqkTtanMqnDgNLD7Ib8oKECRpLLZbyrCAR2lXR48ga5FYEJhRyjzoJhWf4z8XmtHGvIfmw1pfWO4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8A/VrwI; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762857590; c=relaxed/simple;
+	bh=uQN8C80XsI1DNcTbyZlxKBoQDlYbpinBS57HXqp89to=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RNyu7dgjgnXKg16Y0cRDLWs4TYFvFi7x50wnx6AMbfmS+bisgL+1Qh7ghmwsfGRK/7niKJNGZez9PQtbtV4afoZBfr7OunDL5vgV/hmgTHv34OC3fbXVbNk4e+94Jtd61ThaAhQmWbAkJxBOD0DkrvkyfNxw03ul5CQMzCf/22M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rX39NeN2; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8A/VrwI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762857325; x=1794393325;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sWov6V/qp1XBeFU+oASomjJrrN/03Y3d8A9cI/+pD0I=;
-  b=c8A/VrwIqXuSt9wZtK2kS17X0BDmN8QLHpK9SL2CuUZT3/nBJoFpD0d1
-   36moVy/1y/osQBoFHiWcnSHhNJ2AN8b3ypPBO9mqY9NO6exeuerggpNvp
-   oraVXy9M2jGOBDu9MfBFrkQa/jmTrBSJvXeb9UDapnEUacNBykbY9lJPb
-   /ySM4YaUyCjTg1l/jdkis/lKk7MffXBz3FCH0HdvXi7ALJABibMIscXoO
-   F2Jvwvru4R/Yu10CunIx71j1x0fbkPq4EU+j/wJeZFyjzjeaiN0KVBbOV
-   ikfdAsEOP/4v7eKG2sMBlMOJyYSMUD5EpF3wyNt2wcJTZkqX3A3wjWplE
-   A==;
-X-CSE-ConnectionGUID: BE2JYgoXTri+Ewq2jjGOlQ==
-X-CSE-MsgGUID: 02PNg/FfTHOWUiWqa57B6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68558652"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="68558652"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 02:35:24 -0800
-X-CSE-ConnectionGUID: KeVZG1HLRzSZLbCvHJngKA==
-X-CSE-MsgGUID: m+7wWDyLRhGUyjdcXW9I5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="188573339"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 02:35:23 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com
-Subject: [PATCH] ASoC: Intel: sof_rt5682: Add quirk override support
-Date: Tue, 11 Nov 2025 18:35:12 +0800
-Message-ID: <20251111103512.244147-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rX39NeN2"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-780fe76f457so40040937b3.0
+        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 02:39:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762857588; x=1763462388; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uQN8C80XsI1DNcTbyZlxKBoQDlYbpinBS57HXqp89to=;
+        b=rX39NeN2PL/TgYFEBoIA2sPMSLu4q60y1Sa+C9R/8ZPxW6qJe0Dzx95viWXQz7cGgr
+         PH0grH2HrymuRTq8svDjQdovq93ZJ4mLlaKgcSTll7KfAhiiROr2GfO1+b7/MxlRgnT/
+         5YYNdrwHyqf9vhIur4rcrsQGCfCUZtDfSce/YCJs1a00tA3kOprneBPS8RHUzjtOc9JR
+         cbyc3eGbrRXkS8Pm716k0+wpv7u5F7YYgh0Wt+QbcWACSlaIIGEVZEEkS3sG8fQ8I96V
+         awB/NynSphoHhND6wLUZqoKVhqOJexO9Wq0NCuwitk89qlEDHzJLxIpdBsDcwTaHYejd
+         Y+4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762857588; x=1763462388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uQN8C80XsI1DNcTbyZlxKBoQDlYbpinBS57HXqp89to=;
+        b=nEzZ4mG040ejvYpYG/wnExiLklIOQQXQm46miJY7ekXop8ToDwQoECSKHrPby1cIHP
+         1HmyfBCWpQnFxgoUI3V4Xv12TxKipzyjJhBngo/b8VxSGiam2VokSO0rRTUgc1r1ReYk
+         +F7mBk9ukkFNiARoEVHuGXKKtLjmttt1SiwOovJ5/VPRBKNWpaG5Abj8Nvj91SIICDbF
+         zgYtTauvU9BOYWElQVLuiZvLQoi+hhib/gHgwjL1gtHixC5ajN/hOlSfW0vZHLriUN8L
+         PCU+lQbyP3Bfc5m0DPJbePwtHQVORdiDtH48Pm/SwIHrwQYz0/+mMjHJ2KE4YjIjA2xe
+         YnOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXg4V8m5FgRelsbduqSGI3RO0OHLlK+lnwMnk77/M1sPeV9XbQFtZELPhadK+1EZJIGjTamcaRMrUXtcQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6K+MJFMFbcZOI5g/7v3RDduDuBjLeKmxR3tqAk1Lr7VUhLNDG
+	YiTOoYvzo2PXP8I9HQhop7P8zSfo6pcj5UXjvhq88js3LHUMR8BKcksaiQeAvB0f0Nz3GTybONb
+	VyX19Q6KnJ7EuuAWLwjs5lCWW6VjrxcsYiyrUnTflbw==
+X-Gm-Gg: ASbGnctkEAv3PkvWw0S+NpPQHzVfuoggRjpYqbRASP4ySM51ep1SCtpi5pBT0sLYaE0
+	3eyVjJGhFlCgRUBMx+EgpykroQL1jG/aT3N2gqTRz+NVWXXk4GJRjB3PN0gRavwp/LePeFjp9Bx
+	hcI8tqkO3qP0wwTFKZXpVz0qegX1bZqicS5Bd6GBQlr/jaxAETy7EvMmqlv9ciQbE92G1fgdLOM
+	xyReH8tqFLJtjuQE0ET4SMTiarTgztKMH9w/0O7ABopAaodEXmWW2wkeXp05yslkmNmXZrLoyhl
+	R3zmXg==
+X-Google-Smtp-Source: AGHT+IGdKr3biW2aMZhYy7DvL1RF+7Uz2kpvCtGXfJ2OgvOVwI6zfxqRAu2DSnJi2xHuqa0EQrFVKg9nUpOsh5XjgKI=
+X-Received: by 2002:a05:690c:55c2:10b0:787:deea:1ba8 with SMTP id
+ 00721157ae682-787deea2334mr150764527b3.50.1762857587612; Tue, 11 Nov 2025
+ 02:39:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251029-gpio-shared-v3-0-71c568acf47c@linaro.org> <20251029-gpio-shared-v3-2-71c568acf47c@linaro.org>
+In-Reply-To: <20251029-gpio-shared-v3-2-71c568acf47c@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 11 Nov 2025 11:39:30 +0100
+X-Gm-Features: AWmQ_bk198TBC3PdqVd9Oowwqb_fFWVruyMz7Lubn4P_lvSkb0elFliKm8IlGq8
+Message-ID: <CACRpkdYRzuumaCv=a5UL_G8StQj10kBiRfkfrpWCk05zVfGYsA@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] gpiolib: define GPIOD_FLAG_SHARED
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Balamurugan C <balamurugan.c@intel.com>
+On Wed, Oct 29, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl=
+> wrote:
 
-adding quirk override support to configure different quirk configuration
-at runtime.
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> Define a new GPIO descriptor flag for marking pins that are shared by
+> multiple consumer. This flag will be used in several places so we need
+> to do it in advance and separately from other changes.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/sof_rt5682.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 4994aaccc583..6ca114c30ae1 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -35,6 +35,10 @@
- static unsigned long sof_rt5682_quirk = SOF_RT5682_MCLK_EN |
- 					SOF_SSP_PORT_CODEC(0);
- 
-+static int quirk_override = -1;
-+module_param_named(quirk, quirk_override, int, 0444);
-+MODULE_PARM_DESC(quirk, "Board-specific quirk override");
-+
- static int sof_rt5682_quirk_cb(const struct dmi_system_id *id)
- {
- 	sof_rt5682_quirk = (unsigned long)id->driver_data;
-@@ -643,6 +647,12 @@ static int sof_audio_probe(struct platform_device *pdev)
- 
- 	dmi_check_system(sof_rt5682_quirk_table);
- 
-+	if (quirk_override != -1) {
-+		dev_info(&pdev->dev, "Overriding quirk 0x%lx => 0x%x\n",
-+			 sof_rt5682_quirk, quirk_override);
-+		sof_rt5682_quirk = quirk_override;
-+	}
-+
- 	dev_dbg(&pdev->dev, "sof_rt5682_quirk = %lx\n", sof_rt5682_quirk);
- 
- 	/* initialize ctx with board quirk */
--- 
-2.43.0
-
+Yours,
+Linus Walleij
