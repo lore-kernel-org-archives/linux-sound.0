@@ -1,154 +1,76 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED352F9984
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 10:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1022F3621;
+	Wed, 12 Nov 2025 11:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762942184; cv=none; b=LQFAejZtvVqfBln+OddDwBJ3RmFD32aj0pC0/+rNBl+RMSz6MlEnQYAH7/bAPpGuJetNG39ZXVLvExr6B9Pih+vdx+CQUfBWPOdPtThTI6bbhGgWEIZReqdZT8gaffN2YPIISoALUF2SLUR2LyPYZ0dVh9HanNGV62JSLFDr9t0=
+	t=1762947432; cv=none; b=VzqS6O71Rmx6ZA1RIu0PZ7pzmpk/GKlkjIvNJSvh2yTACHUyX2jhloTeA2sIkP7GpIpy9gcBa8u975LwNXtQ4DjnqC0b0jkVOV0V7g6b485IhjotMSeteUsHnyGn56ycGzzx6xcJjyji/QDJEvNcB0tZPhPFt7LEU+jdc6jZUZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762942184; c=relaxed/simple;
-	bh=olYrXkIqmlydcv65JH0VYt15vLnFtcVP3HgL7kAh2vk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sRDWSqXv5KR5iWMRz/f9RtQvVuXXx75bjMNrpyd2NVi0acSmBReFuN19RaNrKiOIN0+Kh/jwxnj5HfFRxI2dehr6aH0GgZmQlZ137KNm89VpXFpvpBXpnvEcmNLStvzmW5dNRXGnyfOhlBHdi6yaSK5I1laGK6YHTMwoAjs6ekU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N6r0iNuN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IZUhEo22; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762947432; c=relaxed/simple;
+	bh=ymCfGk4AxYo4bd74CdMZkB02vK66A3ulrQ4KUB+F6wg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nLqXeYT514ejVpZ612oF87jTXXCO1Nqv2fZwGN+kx1hvxAqXSCk9kj3tX9rvl5uzbbo4MmQNvPkBeogA87bLR1VPaLH7JdRhHxXgx0tt/xLde2ems6wZvhj2u8n4U1mF7cmy4ST96iA8maYHwD7zY+6u2P8Bbj/GUdwiP1ORPfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTSplVLt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N6r0iNuN";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IZUhEo22"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AC7cx8Z3502524
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 10:09:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	z7+KAp8/WxI0gJBqO/9PgX3s79ROrh9F/K5k8HRSUJM=; b=N6r0iNuNQqVu1TUg
-	vnhRFf0gAH9VbEhWaFoddkodhBR2JaXz+vmoQoBeP6Ee2pq/6FcZp8GVkZP74OPz
-	S/LKT1kstaSLu/mNrmFYAXCbZhx2ufFLt/D1gjRblZePi2A6SKfx9GMNeq33Zb3k
-	vTzeCCfLAjws2hBGqleHa4LJe3oBbiWMORllxcVJO4a0N85SHhxs1DZJSHpMz9ud
-	WMW6K/rT3CMXn9y5oBuxZshtAwousRA5mxrcFHbjmG/jcaL2A8KHT+PF5lfHJOeV
-	Uf56+2GhNjP7iOGea4cqnZuwrDueiyK3++QaUJMYtsx9tsoX5uw9aA2iu6e8mXKu
-	nJQ+NA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acdcc216r-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 10:09:42 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8a5b03118f4so155188185a.1
-        for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 02:09:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762942181; x=1763546981; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z7+KAp8/WxI0gJBqO/9PgX3s79ROrh9F/K5k8HRSUJM=;
-        b=IZUhEo22w6WfHErDruhmMh74E5XbvT8YM0MbCEKp5EYKpERLGq6ccdnclfsrfHqg8e
-         3FQ0M96kGk/2E8NpdKZ7+DMoxA4FvRBb74QDML96svB5u/T2ccm/vvSoMejc4nqpu+QN
-         fN2B9gPn2Tl0AjUhvBr1PrXNuo+uvtKp/4w22LabpDHis61FBSTCZg/XlsTeS+HTjq9R
-         DcIV7zPneYlFAexvdt8salihhcwrLNPwPVFi+8UrMFqofunT82v/W2ErffPQ2dVBnanc
-         97nZ5fClAdIWr5ro/Xkd+M4aj9sW9wR5ZmeFv05KAJbi6Td8I6aTVtk5NcIDS474tQuT
-         kJmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762942181; x=1763546981;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z7+KAp8/WxI0gJBqO/9PgX3s79ROrh9F/K5k8HRSUJM=;
-        b=ZaZa6FpWK2e8No/crHTAezq2JXhUSAiDbUlQcMHUKnlbQwjXf2sB2uAtayQO7zinPx
-         8H6RYOKlsCK7mITGymfG3SSDbA/GYcNFkESjwNNRaO8xGQ5llU02s4MOroaHZpx/7TYc
-         WJnwwF9drwyvuo5ME4PFFD1nFX6CXO6Tz7Qf+KyYkYeT0iEjfhZSEsCMbFOKRk1xAMlA
-         7HTKdUTtpHBrGvL11wKeFAwqWoXTHGyiGlnTGrNK6Ss9rIh8mI8bDzhGXJhiEBgQJUlA
-         VG566Njb9OG8b8d3mjbixMNZyEdZx34UjouYsefOgNqJOkH6ruqCRNRq3QsRECGqn3mS
-         lg5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWlD+fKRrCIFdUDN2uko+otkRN1i5n17anXgrZHKpLTN72FSRCT7haQB72bfMVCFPREMH4MqsIFJF26hQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa5iTUA/eIIMsJ5wxAL8dirLreenuVoDNOKOWXimaOpjLHoBP2
-	OA9cR7/1gOcRDhgN2yQmu5txd9ys1nriMeHQNu4sqIa3q/X5o/dYwJ2WCHZFV3DBRTNYeJ39K/n
-	J1YImQWHdHkRUjq91igHPm5D3D39xRPXhuHQ2na89vlfr0f3aFCH1h7z+e2272cFW9g==
-X-Gm-Gg: ASbGncs0mb1sZBfuEEkiGyzkgYXgJaBQWLjl3ixmYryN3PVqXnNKJC8Kzl0Zfv0Wnss
-	ePbDvQRoVp12Q8EVVpAx/ckNnxCnjAS0Gahvyp6Z0juM0OK9epnNARu0Kfes6xJixaRsnHPKNEX
-	m4JfEHymh9x6dI+VvmbpOjOR9v58kbHxD6uebl62SO2kuL9UsujfgFVMHDaJ35SCywfJNtgJkmV
-	U+U7Wqysp/3PRoFdksGh9U13sBKiB/4/wrLZdBSP45KsWFnw3fV+lm5VfEygODpLxUxFtpP23QP
-	4BSghJdNp0/K6xmm+m2qEurjDgYKQzi48cDHFbSw/e34Ju95ILUlvxb5D9TS3ViCfXZgoMmagV9
-	mwSzZR7tdxC3ETqfNh/T2b5u4Rw==
-X-Received: by 2002:ac8:58d5:0:b0:4ed:ae94:5f5b with SMTP id d75a77b69052e-4edcaaa4f49mr77296491cf.8.1762942181348;
-        Wed, 12 Nov 2025 02:09:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFRjcsBdXzo+DsSel+yAaYa6lRVf3CufXhegqSBiMMMAqPt5BSkhfBsKJYMr28ZM1ZOvJKSag==
-X-Received: by 2002:ac8:58d5:0:b0:4ed:ae94:5f5b with SMTP id d75a77b69052e-4edcaaa4f49mr77296111cf.8.1762942180799;
-        Wed, 12 Nov 2025 02:09:40 -0800 (PST)
-Received: from [192.168.68.121] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-47787e8e6acsm26947215e9.9.2025.11.12.02.09.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Nov 2025 02:09:40 -0800 (PST)
-Message-ID: <7eed86f6-97a9-487a-8161-3617597f7391@oss.qualcomm.com>
-Date: Wed, 12 Nov 2025 10:09:38 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTSplVLt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F73FC4CEF7;
+	Wed, 12 Nov 2025 11:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762947431;
+	bh=ymCfGk4AxYo4bd74CdMZkB02vK66A3ulrQ4KUB+F6wg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rTSplVLtdX0NamxtioaiuZdXlSof29fiiG/qEJXf4CmgfrBTyY3YX83kegMriynp3
+	 ySuGL3f+j0DNkWzNw41Y9kCgUIS40koqYfyVR0RLTPrrdu7KQbmnPRWbKYszw2XoM3
+	 SuHNK5rm2jQtC4uZuR+ZaFt/F+QOHm2QrEArvluLwMkKaqMGtKxVdaH7jJ2EaG1uiO
+	 HkHAfjqY7BM/NrEs+7wOl0+gooulTesZq1Dd3OGeQ3bDNhImQsHVVE3PX149JkAPD9
+	 cdG6chGChJsLGrjmhkMtyyTnaZ6ZQHR8t15pQYTmgSEEnX8YTEU/sjWuGYucusqsU/
+	 wOcDm//eAQOZQ==
+Date: Wed, 12 Nov 2025 17:07:08 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Miaoqian Lin <linmq006@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] slimbus: ngd: Fix reference count leak in
+ qcom_slim_ngd_notify_slaves
+Message-ID: <aRRxZCWCWMFD23b4@vaman>
+References: <20251027060601.33228-1-linmq006@gmail.com>
+ <176292442599.64339.7709313480733902465.b4-ty@kernel.org>
+ <7eed86f6-97a9-487a-8161-3617597f7391@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] slimbus: ngd: Fix reference count leak in
- qcom_slim_ngd_notify_slaves
-To: Vinod Koul <vkoul@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Miaoqian Lin <linmq006@gmail.com>
-Cc: stable@vger.kernel.org
-References: <20251027060601.33228-1-linmq006@gmail.com>
- <176292442599.64339.7709313480733902465.b4-ty@kernel.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <176292442599.64339.7709313480733902465.b4-ty@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 8hxN3SAwZPzc6fD8O9mXCrvXl-wfWH_-
-X-Proofpoint-ORIG-GUID: 8hxN3SAwZPzc6fD8O9mXCrvXl-wfWH_-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDA4MSBTYWx0ZWRfX3S7r6tyfAVTx
- awzWKrn031cmYOpN5EQkZb0WJXP+OBJ+lzubEezNE2+Jg9PuHYYN8G1oAqVaUErEoR+MKbicwxX
- zPcheLrwkX7P4YELY770B4n5vl5/5oQ8VIFqJ/I3hSUxOfZX3PIKyue1nozAu6fT7fzOP3tO5gL
- /AvkN4IfMGVlQyn/hXcQpDbNlh04sTVLZWVJRMMxNqDd3sd4IRcZP1oHWjH8DuHSlutRjMHc1AP
- fb+ZDXXDemTVBkcDElzxa9lH0Uynr/uytUAhT0/yLJJKYyMFLK0LOt5GHsoqDjMfNGjggJTGy7g
- 7HJrAFuIPxEHADiknEPun5NmMgQjQI/5nvYufQultGIs8XbxOOx9R1Z9C9hr8e1R1Tk158Hwp2g
- R2jLGiw2JEeLhXMwKaYNYqIRBn8qPg==
-X-Authority-Analysis: v=2.4 cv=L/0QguT8 c=1 sm=1 tr=0 ts=69145ce6 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Yrr5m3MqBTjBsgb0id4A:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_03,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511120081
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7eed86f6-97a9-487a-8161-3617597f7391@oss.qualcomm.com>
 
-
-
-On 11/12/25 5:13 AM, Vinod Koul wrote:
+On 12-11-25, 10:09, Srinivas Kandagatla wrote:
 > 
-> On Mon, 27 Oct 2025 14:06:01 +0800, Miaoqian Lin wrote:
->> The function qcom_slim_ngd_notify_slaves() calls of_slim_get_device() which
->> internally uses device_find_child() to obtain a device reference.
->> According to the device_find_child() documentation,
->> the caller must drop the reference with put_device() after use.
->>
->> Found via static analysis and this is similar to commit 4e65bda8273c
->> ("ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()")
->>
->> [...]
 > 
-> Applied, thanks!
-
-These are slimbus patches? any reason why they are going via soundwire tree?
-
---srini>
-> [1/1] slimbus: ngd: Fix reference count leak in qcom_slim_ngd_notify_slaves
->       commit: bcd8db9640bcad313f7fbf8433fcb5459cdd760a
+> On 11/12/25 5:13 AM, Vinod Koul wrote:
+> > 
+> > On Mon, 27 Oct 2025 14:06:01 +0800, Miaoqian Lin wrote:
+> >> The function qcom_slim_ngd_notify_slaves() calls of_slim_get_device() which
+> >> internally uses device_find_child() to obtain a device reference.
+> >> According to the device_find_child() documentation,
+> >> the caller must drop the reference with put_device() after use.
+> >>
+> >> Found via static analysis and this is similar to commit 4e65bda8273c
+> >> ("ASoC: wcd934x: fix error handling in wcd934x_codec_parse_data()")
+> >>
+> >> [...]
+> > 
+> > Applied, thanks!
 > 
-> Best regards,
+> These are slimbus patches? any reason why they are going via soundwire tree?
 
+My mistake, sorry :-( dropped now
+
+-- 
+~Vinod
