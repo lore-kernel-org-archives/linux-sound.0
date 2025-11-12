@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696D822FE11;
-	Wed, 12 Nov 2025 05:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56272D7D47;
+	Wed, 12 Nov 2025 05:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762924440; cv=none; b=QwFLhcVANQxaoPHeV8zNILHT1WhscHHRfJz8qC86e0DeiyC6Z6cG0CoEFI01fXfxfvXVXFpj/Mxg+ODblvhg4ndOEBFum6dmRnJM0SESztRFAKZNLtJPfAX1b6FglAvjZXtLKekgi4h2M0dMWFSe9fvYwMWbancXTe0+5jjSTSQ=
+	t=1762924442; cv=none; b=CGOvm08foDJTZHR+Ds4wZThqC3YSxmLEK0s3eK1zLaLATCevIoW/J9d6TQyit+bwsBWuwSdauv0NNVXdic0yjDQ8birXnnp4NsPxOSJnL8pjdy44UcwJVUZfXs7msTJ9JkjwX4JDNZiuPWyRt7oWNtqy6z0ekhXgg1F9Vzz0Xm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762924440; c=relaxed/simple;
-	bh=FpbAf0md5r1dab7p6Cf2Mtc8G58LQqSdPRFwXw8QawE=;
+	s=arc-20240116; t=1762924442; c=relaxed/simple;
+	bh=cgNF4HN70xxc3rYr6FAW93fJj7TyzlIzMRFjVUX+QiE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TqbNsG4chpHPtESe5iXBRcPwZVWztRV5HksYfaFSf2eqzxz06sc0y6jubWc0Dx1AiG4wyXrqQnSbg3k58DyUpfRwY0hgxuB0QjqAgi/gHt5OW/SvFbgDYd314R6Fi3T4evyYnXYbZK9e6ZwrjcMn/c3mzYicFyQ3VxYQcHOLrG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igM6S1Vc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=C1O5Qg8qQ1lZO+4FrAC94E/GhdGmOWudpYIaiVtVvzOW7J2jLLwgVn8T01Nqrurza8Y3FAV3mFykNahrXcxbowMEj13ys1e2LcaSAR64qXM2GOGi2OxSKMwjut9+DGonKxjsWqPhqsQke2XTb0VLNvimP76mhslUVqa8t0BgNBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljMGYc6Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igM6S1Vc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227CDC113D0;
-	Wed, 12 Nov 2025 05:13:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljMGYc6Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D61FC113D0;
+	Wed, 12 Nov 2025 05:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762924440;
-	bh=FpbAf0md5r1dab7p6Cf2Mtc8G58LQqSdPRFwXw8QawE=;
+	s=k20201202; t=1762924442;
+	bh=cgNF4HN70xxc3rYr6FAW93fJj7TyzlIzMRFjVUX+QiE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=igM6S1VchLFvniDhk5TU7+j0/2jj8TXs7kz66V+22pfcjudHLClLSrwpfQcOUmocu
-	 4qxzl+4QxjrIdbjkd33ZlQWvwzOxWon3dAKeXpK+D2TeivmGUsfoMVqulKDtVmLMwf
-	 Xt1aa3+xWjV515xXTn55ePGsGopZ0XFUzRVxTaH0Hsy4DeoDeXxsVTzRrq+DKALSki
-	 QcvkznKxr99km4ByJLv2v3G2JSre2gLvjGOzZEWv0zw7u/z5hl51AsX2Imtijfy9/S
-	 3WKpC/pSjE2JtDemGrEkyCLkOqCGPPuyK8vmiZQahlSWl2fSqqRY2uBY8fRnCQQOYk
-	 5mnW+0f70tXTA==
+	b=ljMGYc6Qv8rhrVNd0RALM1xrtBPxKWK0AzNYfSJFLzZsAaDkVXClfW9D7jhX4x5hR
+	 0+KrXb9eq9Ev3+3Zv8dt2GoS40TqrHvPPspbMERV+9HH/smxoCMzVv6btgb/47URHF
+	 aayNX/iYvR2+J81Zd0D7x4crxyAZVE4VrA/xPUw1G1HVWX3P0W1kMyxPtbZVUbB6TT
+	 9buyIwTvbVxGhksAdh8v98i5Oj9hD+u90jqxlPyWiF8RXB2bUWgATwOStIl4klaydS
+	 p/RKMJMPWjPBlJ2aftnCR4B7aCkBMRqzT+2Rf523E/9hwwnzikRzS/pAfC3YXbdTmb
+	 4gKsbtLlZh/Rw==
 From: Vinod Koul <vkoul@kernel.org>
-To: robh@kernel.org, krzk+dt@kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, alexey.klimov@linaro.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v4 0/7] soundwire: qcom: add support for v3.1.0
-Message-Id: <176292443636.64414.2660018772717821461.b4-ty@kernel.org>
-Date: Wed, 12 Nov 2025 10:43:56 +0530
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, bard.liao@intel.com
+In-Reply-To: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
+References: <20251014031450.3781789-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/7] ASoC/soundwire: add fake BPT frame to align Intel
+ DMA buffer size
+Message-Id: <176292443987.64414.1318404160840319574.b4-ty@kernel.org>
+Date: Wed, 12 Nov 2025 10:43:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,32 +48,41 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
 
-On Fri, 12 Sep 2025 09:32:18 +0100, Srinivas Kandagatla wrote:
-> This patch series adds support for Qualcomm Soundwire Controller
-> version v3.1.0.
-> As part for adding this support, a new macro of_property_read_u8_index()
-> is added so that we can remove the qcom,din-ports and qcom,dout-ports.
-> As v3.1.0 supports more than 17 soundwire ports. Also due to change in
-> the register offsets, new entries are added to the variant data.
+On Tue, 14 Oct 2025 11:14:43 +0800, Bard Liao wrote:
+> There is a constraint on Intel DMA buffer size that needs to be a
+> multiple of data block size. This series adds some fake BRA frames
+> to add some extra buffer size to meet the constraint.
+> The change is mainly on the soundwire tree. It would be better to go
+> through the soundwire tree.
+> 
+> Bard Liao (7):
+>   soundwire: cadence_master: make frame index trace more readable
+>   soundwire: only compute BPT stream in sdw_compute_dp0_port_params
+>   soundwire: cadence_master: set data_per_frame as frame capability
+>   soundwire: cadence: export sdw_cdns_bpt_find_bandwidth
+>   ASoC: SOF: Intel: export hda_sdw_bpt_get_buf_size_aligment
+>   soundwire: cadence_master: add fake_size parameter to
+>     sdw_cdns_prepare_read_dma_buffer
+>   soundwire: intel_ace2x: add fake frame to BRA read command
 > 
 > [...]
 
 Applied, thanks!
 
-[1/7] of: base: Add of_property_read_u8_index
-      commit: 4a4806d2b390f7569f0c1b86a3749409810a506a
-[2/7] soundwire: qcom: remove unused rd_fifo_depth
-      commit: 89eed81ac2ced9ffdcf0b2cd5e16b89a2f1eae14
-[3/7] dt-bindings: soundwire: qcom: deprecate qcom,din/out-ports
-      commit: e6b9a5904aed55e958a8ec6b511801512b7eec5d
-[4/7] soundwire: qcom: deprecate qcom,din/out-ports
-      commit: d7082b941ebb742d63b60fa19278fb8a9e31ff6c
-[5/7] soundwire: qcom: prepare for v3.x
-      commit: 3edd93d75486c08f40e8017d16dd67f8405a94e6
-[6/7] dt-bindings: soundwire: qcom: Document v3.1.0 version of IP block
-      commit: 6ad5db5b5ac689d3e9576d374960b2c4364a00f8
-[7/7] soundwire: qcom: adding support for v3.1.0
-      commit: 21edb9ad7e9383bf2c310ec0ca75694c61811918
+[1/7] soundwire: cadence_master: make frame index trace more readable
+      commit: 464101450bf8c16be6f6bd2cc48d3dfd7ab4a23a
+[2/7] soundwire: only compute BPT stream in sdw_compute_dp0_port_params
+      commit: 101bfbe88ae4944263fd58b2e0c265db263f793a
+[3/7] soundwire: cadence_master: set data_per_frame as frame capability
+      commit: 558abe5fadd03579351ce1c752b5961984b0fb86
+[4/7] soundwire: cadence: export sdw_cdns_bpt_find_bandwidth
+      commit: 207a5831b34834dd97ed2f0100bf936cf67e54c3
+[5/7] ASoC: SOF: Intel: export hda_sdw_bpt_get_buf_size_aligment
+      commit: 10ed028f7851f41d391c6b6516c9f8b3f95fac8f
+[6/7] soundwire: cadence_master: add fake_size parameter to sdw_cdns_prepare_read_dma_buffer
+      commit: d7941dc674aed1e9eed5e17fe46c3dde884fc948
+[7/7] soundwire: intel_ace2x: add fake frame to BRA read command
+      commit: 420399049ebba154bb82d5024d9a7d2de19ce1f8
 
 Best regards,
 -- 
