@@ -1,134 +1,163 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B470A289E13
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 01:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56972433A6
+	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 02:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762912463; cv=none; b=UNTWKHzBVWlidxvod/NpRUdKiG7PznWM7tel7C1pEvdKlJTcMJVHA0GzqgukOl4EPKGiSwoRA6VUSTlHy6Ga0ywMPS2UMu93e1w9Mf+IfM1LoDj0NXDGJn9uD+vDo4ddEHyWjA+EslITKwToK/2jN3uzyNiq7Jsx8a1EqjuE1Lg=
+	t=1762914034; cv=none; b=ObfZIqonyq7iDG/+IX3ZkCB7nmM/DbIbNRBfp9wWqbIrc6r1tIsCl33FEgfEFFNRvOdhBw6l+OKSvtINHIvvqeJoV+D4mujwrgq6bMS+of+MWv2c7Esm+HdWnYH50f5T8h6q3g/32IWFCIAJLdBoOeKiRfcq3UIHWMp9NfjUdkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762912463; c=relaxed/simple;
-	bh=V+NLqMYPtbXGUxK8gaZ/4ZH91OoRNhD7Ixnn+V2Fgf0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q4SN5NZqFbyk+re6xGOZ+ApzRzCAC5NOmIRZiHOiGTNksrhWCv/NQkdr1ZAxPEnGUIcdmM6aMpoRL/oZG+ga2jhVftD9MUSiE/FOHZnNJmang+nga3gr+cXHkLjSuZo41WSP4Nxn1FoNuuSLxa4jXMtmcDnMOw+ReVX3dC26D8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rct3LXnn; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1762914034; c=relaxed/simple;
+	bh=vgXKVXLg5ka/gs4146ICOeO84aHJl7Kla8+sb4iHUbY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CHek1lk1Qbf1NAne+rP7XR4YJdFuMXnuBFLpUGZGQKmjI3N9JD09Qq+w30h3+d3JiNfMvRaCH/KaEtcpKQh49y6mD/Mm4+QQ2T6tkm3fGcyRz53E08a0Yz3BZvn1UftcpGN6sTHrHcvwiWrv4qlUGJtLjujXM+kNZwf40DinKo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d70eHzPX; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rct3LXnn"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-297d4a56f97so2891885ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 17:54:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d70eHzPX"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3437c093ef5so328451a91.0
+        for <linux-sound@vger.kernel.org>; Tue, 11 Nov 2025 18:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762912461; x=1763517261; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762914032; x=1763518832; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rAa0jaAUx7OJIZvkSAwlza4QkLZm6Uf91ra/ugzjRqY=;
-        b=Rct3LXnnY0+be+blUrxiVerK8hJQWRuRzsIY98LmSKSHBPzOSQQDl9cdym54PGoe4H
-         HwvzdUf5O0n0JQjxgZUPb6xIs3A0MSki0ceiZ3eIRa5yzslMSY3wDbDaVgyUBsdKKveQ
-         wcMoAsISvn2ABmTAg32DE4UINqv5qnY4XvEZ2i5DFBzAjWAatlm5Jxi5OHY6w/EwI6G8
-         PT25g+9+l0ameZp2qChUgD76bIzwKB06dZP+ACLta+GEFsjjtMBEGBpbCuIkPdQKMgdA
-         VPOe/bUZJtMVfc5G1ZUn4e/HszyeNW8PFhJsthMeHgvQLbLEQJdutu+gKCVozL+A0YX8
-         IMqg==
+        bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
+        b=d70eHzPXyCN8qyAfCjGLQ+WwqXGswhEERM7yfeyWfPz/j/3UexR2fKVTmLaJRZpeGk
+         pSgzY2A9H2tAHjizQqv2atpT8TMLu60BQO0wXlolEPsMUsycHXvYNIPDUFVmq327HuWD
+         xhFQ9pvQrOecJXeeKrQYBkv0VvTAOHqlOGtogLobztqqpTPS9UCVQA7Auycv+B/FBxgJ
+         k8bu+pXak9gzPW1Hr08aWus8WnNcLQilb50Ikgm2Nn7izeQDEYY8r6wFGW+OgFrZXWdf
+         BcK8A10fk2LMB6I80RaZYurMms0I2ZcJNTyonNbLmUuaN5c6uAZAv87YUjrVHTHe8sHz
+         CnNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762912461; x=1763517261;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1762914032; x=1763518832;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rAa0jaAUx7OJIZvkSAwlza4QkLZm6Uf91ra/ugzjRqY=;
-        b=AI6+FZRIs+wUSZeBy3WwP7ERKPIh7CCI9d/ExK0E5hTMIACRUFqAeBqnQ+/MyUPtY7
-         9ucvx61xE/WX/M+Cpyaf0jdzL+Wbx3Z2Nu3Q/grGoqVPkFaO2pvDKVYNgB5DU+Lj3Mno
-         SiwpgYhWr5XNl2o2DhzkZ8Pz1uIan+sxHajzHeD9jmiuan2ewptYW+w4LGRNxeVyvnpc
-         3zVMo7xAxLKeyn4B1hVPGa257hvIsOvc2m/vfHct1FARnsilgKR1aIMBKa3r+3ai7zwO
-         d6QN55UFdViaFDMpOZsYWQjY312Oc+FcvvTECv7t5VpbyckjAh6lxjmnVVJsi2mHznop
-         Aemg==
-X-Forwarded-Encrypted: i=1; AJvYcCUu+3Amh7ZcxEZveSO+0rY4eCIdwYpIbcDHUXtzeLjTh9BXkkdIROcftLCch5IbIRasOLKD3onnyBbwdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZhr6je3+QHvMFgy/68uOy2II0F1etB3KxcYTW1/N4Ks/Bp1LX
-	fFR5h5VydvECCoJneisOxRDJ5eu/G7ZogTqpVP1UPHWA+pbInN+1EDVb
-X-Gm-Gg: ASbGncvz+xWDhuuiIGvOi5cFNPYixBulMLpSfdCwzdWbFTyfBnsZ0GpHzzUZ5ZCYGbo
-	yoWiwRfi1CBDFGUQrkPeBuepdlmc9txTTqbUWo0BbqxQ4B9HKR2UxWnbwI5cPhtuhuiJBXI2qc7
-	jsHDJzci9WrjO9CeNak7QZkgheHUa8qh4eQnx4e/31luibJ8gbFw8Uma5OQbQa3zX3/Lg/X+MBd
-	REC7Efma4xXEVCyIpVrtwsnfMDf66BV3WL3HR5kyoKQxUNmbg3ey0WJcATXaHEwwZahwmf6LB8o
-	5AMm1WGzZfnpIZy49v/SW5Rf02km4UmLwRupIOoure5FfB709Zf/a3Nn0s/FynGzxjnfglGF4cy
-	khBCnJIT2cSnKEUTT1/bgHuVhgdx7ZxsS/fJs6BTlPepW471IXfSaGfTq+KPUgUTTjiA5dnZ+IB
-	tVoSw5Vh09sJWqC8rjbX6tbqbqweJMUriG+Hzu6LAwVQE=
-X-Google-Smtp-Source: AGHT+IFZt9kcYAzpd3HLic3Y5F+9yHyu+euFnDG9WwszKanIAdJLYfUAuWLotX0l9/nM4ymC5UH6MQ==
-X-Received: by 2002:a17:902:e546:b0:295:1277:7920 with SMTP id d9443c01a7336-2984edac559mr16453895ad.28.1762912460905;
-        Tue, 11 Nov 2025 17:54:20 -0800 (PST)
-Received: from lugathe ([2804:13c:46ac:1000:f491:d00a:e2fb:e67c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dc9f8f1sm10886435ad.54.2025.11.11.17.54.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 17:54:20 -0800 (PST)
-From: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
-To: michal.pecio@gmail.com
-Cc: bentiss@kernel.org,
-	dmitry.torokhov@gmail.com,
-	jikos@kernel.org,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linuxhid@cosmicgizmosystems.com,
-	linuxsound@cosmicgizmosystems.com,
-	lugathe2@gmail.com,
-	stern@rowland.harvard.edu
-Subject: [PATCH v2] Apply the quirk HID_QUIRK_ALWAYS_POLL to the Edifier QR30 (2d99:a101).
-Date: Tue, 11 Nov 2025 22:53:56 -0300
-Message-ID: <20251112015356.1919586-1-lugathe2@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251111203350.3c9a669e.michal.pecio@gmail.com>
-References: <20251111203350.3c9a669e.michal.pecio@gmail.com>
+        bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
+        b=klN9bX2MsCgYhF8YMtzfgOMDYh5IiqsvCAXuvn2Gy8bwydQ4QvO1HTdgLR7MX0DQXy
+         3EhdZRW0IujwQHWsB7xhr/H+weXtjH4dRAO7b/ZetLy37nlBMVHybsGNu5kpctVtnVMq
+         eunlpCFlGaTJfzUB1b/N2qESh9qzQfgKpTg3zqq0KskN8xTvgmko9Y7kQZ/DIiRZN3aK
+         WTpSwcZa99UDxaAMvReuOjtni8bISdx40kzbqQn/7ZTyOCrSDHOqnnX7yD1qcfkrxxD+
+         9LyN6dGZ4DVqoN/AD2qn03ijTdt8d8iEQvgKWVhyQAeuU7p+QeAtRWCNAKFmqdRlBEwt
+         FQJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZczf2gSEoN659xePtC4VVjIgqoec4mNEKYWaUaELyAzjYpw9Hp7vjUGOtfXPSFETbQloHBiNaBMkMzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4oZ1Ft2S8TsoKKkv5wwvtCHZbZ45t3bIm5wFWtDOo0gwqkoSz
+	9NfmK1NsXWG9/rVO2GerZ1yDcP6mj4myEO3Yo82odSCxClKxP3WpsjgVHO8auXlPcnyWxgZY+wt
+	2lWn2uFmN14ZPLDXn3LlAPNdtOryB1Xs=
+X-Gm-Gg: ASbGncsnSVwjClTAtiYDrQ9ZtoPbg7j2PZrnGdipSdPgPrrbasX0wTQU6ir/rgFMTfv
+	ohozvoTDVfUS+qDGOmIXzuXNbrO1U9e0jKJRHoRCPybpqH0l2GmbAp9WszUE5jInLKRNBClRJ2R
+	nySF6mccvq3SuSdRf0z2uVeMzPuUp519T+ueM/7yMVbKis0HhmeY7ZIO3y7y066EjDnTRUHl+7t
+	QDj57MuKKwZYtLMq2oozciDgOyxYBamZRjPlwO1bopKsqOnAsWg+18nzeRd
+X-Google-Smtp-Source: AGHT+IFtc6HQrz/xKZ9emyb5FEGlT0SRf+ATUq6DWBXr3zYhujoZ6/yNyjXJ5nXZWWbTjr5BzqbESW0tw1NXrAGBcT8=
+X-Received: by 2002:a17:90a:d88b:b0:340:be4d:8980 with SMTP id
+ 98e67ed59e1d1-343dde27552mr1630702a91.14.1762914032513; Tue, 11 Nov 2025
+ 18:20:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 12 Nov 2025 10:20:20 +0800
+X-Gm-Features: AWmQ_bk8d1h8tBpBrZUtGjow-hV3gnwT5P-EgH-CH9iaE3RQY3pwj7BwDScJKrc
+Message-ID: <CAA+D8APHUZmP8qfta4=YL200hJkiikru8yQPddvBZyx-+-1ZtQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
+	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	victor.liu@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The USB speaker has a bug that causes it to reboot when changing the
-brightness using the physical knob.
+Hi Shawn
 
-Add a new vendor and product ID entry in hid-ids.h, and register
-the corresponding device in hid-quirks.c with the required quirk.
+On Tue, Sep 23, 2025 at 1:30=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
+>
+> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
+>
+> changes in v7:
+> - add back the mutex which removed in v6
+> - add Tested-by tag from Alexander.
+>
+> changes in v6:
+> - remove mutex in dw_hdmi_set_sample_iec958()
+>
+> changes in v5:
+> - add empty line commit message for patch 7
+> - remove blank line in dts node
+> - add component_unbind_all when dw_hdmi_probe return error
+>
+> changes in v4:
+> - separate dts for soc and board
+> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
+> - add "select DRM_DW_HDMI" to fix build error reported by test robot
+> - remove unnecessary code/definition in pai driver
+>
+> changes in v3:
+> - add space and 'U' in asoundef.h
+> - add more commit message for binding doc commit
+> - add bitfield.h header for fixing build error
+>
+> changes in v2:
+> - address some comments on commit messages
+> - add two more commits:
+>   add definitions for the bits in IEC958 subframe
+>   add API dw_hdmi_set_sample_iec958() for iec958 format
+> - use component helper in hdmi_pai and hdmi_tx driver
+> - use regmap in hdmi_pai driver.
+> - add clocks in binding doc
+>
+> Shengjiu Wang (7):
+>   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+>   ALSA: Add definitions for the bits in IEC958 subframe
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+>     format
+>   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+>   arm64: dts: imx8mp: Add hdmi parallel audio interface node
+>   arm64: dts: imx8mp-evk: enable hdmi_pai device
 
----
-v2:
- - Fixed title
- - Simplified commit message
+Could you please review the above two dts patches?
+Thanks.
 
-Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
----
- drivers/hid/hid-ids.h    | 3 +++
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 4 insertions(+)
+Best regards
+Shengjiu wang
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 0723b4b1c9ec..ece1bea0faa5 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -734,6 +734,9 @@
- #define USB_VENDOR_ID_JESS2		0x0f30
- #define USB_DEVICE_ID_JESS2_COLOR_RUMBLE_PAD 0x0111
- 
-+#define USB_VENDOR_ID_JIELI_TECHNOLOGY		0x2d99
-+#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
-+
- #define USB_VENDOR_ID_KBGEAR		0x084e
- #define USB_DEVICE_ID_KBGEAR_JAMSTUDIO	0x1001
- 
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index bcd4bccf1a7c..d104f4829d93 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -110,6 +110,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_JIELI_TECHNOLOGY, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M506), HID_QUIRK_MULTI_INPUT },
--- 
-2.51.2
-
+>
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
+>  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
+>  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
+>  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+>  include/drm/bridge/dw_hdmi.h                  |  11 +-
+>  include/sound/asoundef.h                      |   9 +
+>  12 files changed, 382 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
+8mp-hdmi-pai.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+>
+> --
+> 2.34.1
+>
