@@ -1,81 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76917165F1A;
-	Wed, 12 Nov 2025 08:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E651C23BD1B;
+	Wed, 12 Nov 2025 08:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762937185; cv=none; b=IIJ14xUkMU/A+msPoo9e2EccdnjHmPGDYsO4NjiPzxWVkAeXEM83d4mayebSr1Yh7VddXMl0sEhVRgtPsG3j5ylSCmKWRRIwjfwkZIHCPb4Q1eYW/gmARx3Tv9e1OTSNMvl02VnCMQzcwMtvUjXxDKQ2OCrE/3+FEs/TmrFL/Yg=
+	t=1762937910; cv=none; b=oCbHqqNPy3OJLH+Mt8pTDGfaI1H2LAMO7jYeMXrZXBQ0NQPkY5YpgAPCOZVyx50kztG7yc72it6piWvQk7D2tikjz5VbXVyb9qzgcvRr+QStajTE6/Dgj0wpLH0xffVRdUAWS6TRB3IN9LlIlMsTBWIrjV84zyd0LJUHAqeyt1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762937185; c=relaxed/simple;
-	bh=KEZXM4zUZZ3RBNrVZmQebqOCHnjRNcJH7W78DGS6xDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svZdirmQHJzXRRoil/fesakCtnvX6/aK0NQE5NORRSQnFmWxyRFf+OuEJWfg4/YA97t/sVr8Rc0wka4LUXrTYuq5b9SX8iFU+EoZgrasB32137Y5W7FRO89Yesh2WpGIPYkP+JmlTPuDejdu+OXXheBz6KLvV9bSNDgTp4oJ0lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1TD7s1u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762937910; c=relaxed/simple;
+	bh=tXQQ4fbAuXxhZPSt4x5JFH51z5E6Ui5SnezzUVyUs0U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E83Hv78QW94Js9rZ+IjsULnzrCRWHm91SWa9D8msypb8LubCp2Vd/RU6znnPrXEoV8XjnGEzUPvFyiNLV+e1pjmC5DFIgAj6RE4Rqz9ZxAa9KFry0h4e+Ah/GWrRxJnEn2gz0UbWy6v/1myUCfG7DW0A3EBRUsC7Z3Sa3pQY9zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cSISo1XM; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1TD7s1u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D046FC4CEF7;
-	Wed, 12 Nov 2025 08:46:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762937185;
-	bh=KEZXM4zUZZ3RBNrVZmQebqOCHnjRNcJH7W78DGS6xDI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a1TD7s1uEEYWU9iBtDDai5z9Bcw8w+/nXf+AUsRtJ79nbmsZmTqtvPipyDzxGyAFe
-	 XBiJUim/bdhVf6mGXmFaYmbZI2gcuWmU7HVVtkKqGnGyeqsLea3eBks+LFK2WWa2ro
-	 h/7EJgy6C8dSKYj9z9Wrc89blaVkEKaXGiUm15PXqlopj2dBNoRfE0trrvMWd6t+rx
-	 HpBRM/I2RdJ4Iyt/2Z9ydj98Ry+zeZlygjEPQijnkqyPBorE6W4s9mhP440bRXEMYy
-	 YFV+QlaxQeRoYv8o0wkA8AB7xcK5Ctugbs3lUz6je6wm5bFeQBC6OfNuM1OHefbDdp
-	 Lf9DQCK8GXTVA==
-Date: Wed, 12 Nov 2025 14:16:21 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH 0/3] soundwire: send multi sections in one BPT stream
-Message-ID: <aRRJXZz5KX4eufmC@vaman>
-References: <20251021094355.132943-1-yung-chuan.liao@linux.intel.com>
- <aRQXWpLqDm8EduYN@vaman>
- <679f8b6d-727e-44b2-abd8-714dffc35228@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cSISo1XM"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Hz2aMp+91k8drL/1UYCq22RzQW2AqN5GlR5SyTfP0gA=;
+	b=cSISo1XMw2EC8v0zcWAfcmYUzMYKUx+W/3+tPEmzuqeB5OzmsImS/AF1ag7fEUWaapJcUkYvi
+	LJ8jzciLEbZFRCDm0lNmNdHUvJSwr6KCXRM1IMDLFQ0LirCf2LuSwTCMXRDsKgDQQBt/i7k5gaK
+	pkT4Wrnx8j1kk3eHs8Lnu98=
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4d5y241JHMzKmTk;
+	Wed, 12 Nov 2025 16:56:44 +0800 (CST)
+Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4698E1A0188;
+	Wed, 12 Nov 2025 16:58:24 +0800 (CST)
+Received: from huawei.com (10.50.85.128) by dggpemf500002.china.huawei.com
+ (7.185.36.57) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 12 Nov
+ 2025 16:58:23 +0800
+From: Yue Haibing <yuehaibing@huawei.com>
+To: <perex@perex.cz>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<yuehaibing@huawei.com>
+Subject: [PATCH -next] ALSA: gus: Remove unused declarations
+Date: Wed, 12 Nov 2025 17:20:07 +0800
+Message-ID: <20251112092007.3546539-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <679f8b6d-727e-44b2-abd8-714dffc35228@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ dggpemf500002.china.huawei.com (7.185.36.57)
 
-On 12-11-25, 14:13, Liao, Bard wrote:
-> 
-> 
-> On 11/12/2025 1:12 PM, Vinod Koul wrote:
-> > On 21-10-25, 17:43, Bard Liao wrote:
-> >> Currently we send a BRA message with a start address with continuous
-> >> registers in a BPT stream. However, a codec may need to write different
-> >> register sections shortly. It makes more sense to send different
-> >> register sections in a BPT stream and no need to close/open the BPT
-> >> stream repeatedly.
-> >>
-> >> This series depends on the "ASoC/soundwire: add fake BPT frame to align
-> >> Intel DMA buffer size" series. Sending it now to get more review time.
-> > 
-> > I have applied it on top of above series, pls check why it is not
-> > applying in :
-> > error: patch failed: drivers/soundwire/intel_ace2x.c:156
-> > error: drivers/soundwire/intel_ace2x.c: patch does not apply
-> > 
-> 
-> Hi Vinod,
-> 
-> I just tried "git am" this series again and it can apply on top of
-> 04878e873d94 ("ASoC/soundwire: add fake BPT frame to align Intel DMA
-> buffer size").
-> Also, I checked drivers/soundwire/intel_ace2x.c line 156 and it has the
-> same content as the "soundwire: introduce BPT section" patch.
-> Sorry, I have no idea why it didn't apply. Could you please try again?
+snd_gf1_synth_init() and snd_gf1_synth_done() were declared but never
+implenmented and used since the beginning of kernel git history.
 
-Yeah I fixed the commit base and it worked, thanks
+Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+---
+ sound/isa/gus/gus_reset.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
+diff --git a/sound/isa/gus/gus_reset.c b/sound/isa/gus/gus_reset.c
+index 5cbace8369f8..a7a3e764bb77 100644
+--- a/sound/isa/gus/gus_reset.c
++++ b/sound/isa/gus/gus_reset.c
+@@ -9,9 +9,6 @@
+ #include <sound/core.h>
+ #include <sound/gus.h>
+ 
+-extern int snd_gf1_synth_init(struct snd_gus_card * gus);
+-extern void snd_gf1_synth_done(struct snd_gus_card * gus);
+-
+ /*
+  *  ok.. default interrupt handlers...
+  */
 -- 
-~Vinod
+2.34.1
+
