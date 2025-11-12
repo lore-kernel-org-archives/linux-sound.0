@@ -1,87 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7802D0C70;
-	Wed, 12 Nov 2025 16:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383FC346E5E
+	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 17:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762964713; cv=none; b=OdeFIsQVeiYKzAkLslHNjrqcV0skl/qbEnC30sFtj+PLN1aH4pzzhs6EGCjqmigXVSlZIKnrsiJsbrRNkw0yE1bJ8kXTDcKcEHNs6cF1IIoD78537Guesa0J0EmBBFlQh6K93z0+E/CebunaC7B1/GjlSTICURFJuFA3sIHhVwQ=
+	t=1762967816; cv=none; b=fv8ccqOgxbFUmpAw1oPBdkaHjFfk0B5PMDq6mHL5t2UPa9CznF+dDAy0nGoko8wpABCND8FMjwC5CfzdeLaxusVMvpIq2+TSl6q406X7hi2etvTBdgE06n3cBUAnnZX+IqrQWcvlsD9PH1YML+SrNEeID3INp2oDVxxUgcvfBQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762964713; c=relaxed/simple;
-	bh=N8xhZxue10YjcYEBoo0KCggAScFHncM3ldLXXs/YMwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pj4PU4AA02DJHMBz3ftFbzzphywnOrAzA4ujFhtdB7zqSS9/oqVjlMZKllCvGYOCgeQR59WhpHsXZUO9qOHFx5KJP6g1GSyP/VlEewoxmXP/XJ0A6/nHFlSfLItwowb/LGQpYCekbZFOy7d6rX0lWCGGbZPkrxQhzNkGKvaYOU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z93yCI0s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762967816; c=relaxed/simple;
+	bh=iiMESZBmokR5+/LPNrjKbowyRucTsoIMCT4ESK7O004=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=ItqSIdC8xPtQPjOBvgyq4hB3XV++pRsv/9MbVT9xYFfkESmLCUkTK3LCduhxQ1WsuDwJh9aXptdjODcJglhPAbGdoSmist0tWjU0D++9fce02Q6wN5vI8hdUCqvlVXl14Rk3Po/2k/RwKMMvQhbj1A1gWf2mub2MPtN2PbrnfWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GpRL7Cxr; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z93yCI0s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91062C4CEF8;
-	Wed, 12 Nov 2025 16:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762964712;
-	bh=N8xhZxue10YjcYEBoo0KCggAScFHncM3ldLXXs/YMwk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z93yCI0sbWVa37SE376sne5XAvBSALnUxsR7KAPmF3WsmH+LED9IrlvYc9LZ8ZoAd
-	 XCCSROyo6mLPrG6fW99Er37KmixiJVOp/lho69Y0XA9pNIyzQ4DsszXnCxFX+JXc4Y
-	 +Q64+nSXFx2g2B3JV3r2CX4HHw8jORPyatdQpm3FCAP6arXPQpPqMdjjf3fcEUlt/E
-	 9FNNHde33Tq8SGPMvWqDg0PMWlihJRuoMjZU7rBuRyhat9RLlQO/J6jMSXxtO//tJf
-	 1kRnZDtlqk0FHC7s5AB8vyIvfCHEB83hDCO3sIDzEPrhlfO1W3Ja8Z7N8AX72lPtQ8
-	 rxDFBUUUO/CPw==
-Date: Wed, 12 Nov 2025 16:25:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Biju <biju.das.au@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 0/7] RZ/G2L SSI Improvements
-Message-ID: <a3981fee-762d-47b4-b37e-13fcd2d597b8@sirena.org.uk>
-References: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GpRL7Cxr"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47728f914a4so7219955e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 09:16:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762967813; x=1763572613; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iiMESZBmokR5+/LPNrjKbowyRucTsoIMCT4ESK7O004=;
+        b=GpRL7CxrRFx5sPYkiKaq/kIXW2ATW/s4UELrw2+KcNS1tux0hR5+SULsz1oK5AKVzb
+         y+6o89hQwQXNnh3XjlmX7zFFtdrymI6+dXRIMENF/FdKv1EaWpXgjav7afrOR0+Cn4wj
+         Kv1y0KEF+JmyUYuIp0a59um1mMV68r5DjwqLQvDFHN7jMIHA1A4cVazTBWD3BAUBswOr
+         0njPJ+8m94dSgcDeCgMzK5s+s6oLaaROCytaVWkolVQb5awzdWdalgBNPnNdHjr1lS0G
+         ad2ygOSlLwTpums6JBsynHkuwH4A99ZqGhUgJ8UwVgsMrnV5uXWDxls+H4fRKLjOz40o
+         +cew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762967813; x=1763572613;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iiMESZBmokR5+/LPNrjKbowyRucTsoIMCT4ESK7O004=;
+        b=oNy2H7QVFic6IgNZQNMMJLke4dQTDtJYw8DHkXPN24AjKQAsIAdYy/SuCtrPa/eKRF
+         q0uz1vAxt16G0zCI5Tx3tm4Zfvhwc29aWJPh45NQAYlutlSTtA6707+2+ZGGxTxgAN2r
+         1irUzLctlQwzq0+FlLZpYLpbek8ZRmsa+YlBChK/kH/vd1gycrC3683f71Hf8IrUQVO0
+         HdX40avtbvUSVJfqWbo3MTCZp22Iziqu3SCBwmQ+W69GVLvbtjqr4Wr/meru1FL1sz0b
+         4cK5cFJLv8ajiG33hqCJMiFySavFTobcIXoXRfXAtg+xnwdNvZMY5vQe7/kXaeurr2QL
+         jbUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwrCGEbm9uPuZ1cX3RJ+0YLbNh2SGj18mMVCiGv6ZN6+O/lFrnX+OXh21j09cPzcNGwx8FIFdE3b1DSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGdRcV+psJzpuu9Lg2BJiHxxYY6RTiaNaK64XjeXo7gbqNg+ta
+	yeZAUY/Ou+mMvn1QrYqGDpAJsCRuJXXiA51sAgCicsFGuSKpkq9FUBin8ymBEmRKQIU=
+X-Gm-Gg: ASbGnctIA9bYdZlzBHfWWWKteGA9pDLuXa1Gz+6JFZYm7SEKlmxVclQkU5TJ1kvcpTq
+	tZC7cvb/WqZhXY4BIeMd4PGKPAF3lArzfruT9edeI9OJmZ0T4A4xC0rMQYAgFIwmrjLT0/vAtIj
+	bnXmY12wRzQc6VA8KoI3JeOuBcawGtpP+iKcvWGUYaM2sZmV3OV5zASekYAcW9+6+5687uc48Bi
+	mtKvD2ac9NkkP+O6erWXvxpiEnqewUeXZ8tuEYem2RfgnuPCKfkQOEILmBkdeOxJYo5lvD/Qe9V
+	G7nfqLhDha04PRLpijxi7vkvjFFRcUU2v2ZsxqCGesePyJ4f+NIvkUFAGMTG4n8Hj+JF7WccA/l
+	P8S8KBA7rMtmplENDs5DNM9xOayzkQoOkb2ZE6lsxqCgiCG2yxLUck/7gTCySC4Hz+m77CWYDEu
+	gVkFsf
+X-Google-Smtp-Source: AGHT+IFK1LEgbdoe82XE3jZoJK10kkTDE6sfjAoioDSlpzb+hbqMgzQ5j6+nhIYvnoRpyBG+UEDLMg==
+X-Received: by 2002:a05:600c:45c4:b0:477:542a:7ed1 with SMTP id 5b1f17b1804b1-477870b9237mr36446515e9.19.1762967812580;
+        Wed, 12 Nov 2025 09:16:52 -0800 (PST)
+Received: from localhost ([2a02:c7c:7259:a00:4fbd:5c9b:d8a2:ee64])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e51f54sm45322705e9.8.2025.11.12.09.16.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Nov 2025 09:16:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1jEHNJeDiaU7hHOe"
-Content-Disposition: inline
-In-Reply-To: <20251112154115.1048298-1-biju.das.jz@bp.renesas.com>
-X-Cookie: "The Computer made me do it."
-
-
---1jEHNJeDiaU7hHOe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Nov 2025 17:16:51 +0000
+Message-Id: <DE6VXJQPNX0Z.1LE0XW9T5T1LR@linaro.org>
+Subject: Re: [PATCH v3 06/12] ASoC: codecs: add wsa881x-i2c amplifier codec
+ driver
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Srinivas Kandagatla" <srini.kernel@gmail.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>
+Cc: "Mark Brown" <broonie@kernel.org>, <linux-sound@vger.kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Bjorn Andersson" <andersson@kernel.org>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>, "Konrad
+ Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
+ <20250522-rb2_audio_v3-v3-6-9eeb08cab9dc@linaro.org>
+ <1c7d62f5-1816-4ecf-9376-2751ec06830b@gmail.com>
+In-Reply-To: <1c7d62f5-1816-4ecf-9376-2751ec06830b@gmail.com>
 
-On Wed, Nov 12, 2025 at 03:41:01PM +0000, Biju wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> The first patch in this series fixes audio channel swap issue because of
-> half duplex to full duplex switching during the streaming that involves
-> FIFO reset which drops the word leading to audio channel swap issue. The
-> second patch fixes sample width value in the hw_params_cache::sample_width
-> Apart from this, support 24 and 32 bit sample format width.
+Hello Srini,
 
-Copying in Morimoto-san given that it's Renesas stuff.
+On Thu May 29, 2025 at 11:05 AM BST, Srinivas Kandagatla wrote:
+>
+> On 5/22/25 6:40 PM, Alexey Klimov wrote:
+>> Add support to analog mode of WSA8810/WSA8815 Class-D Smart Speaker
+>> family of amplifiers. Such amplifiers are primarily interfaced with
+>> SoundWire but they also support analog mode which is configurable by
+>> setting one of the pins to high/low. In such case the WSA881X amplifier
+>> is configurable only using i2c.
+>>=20
+>> To have stereo two WSA881X amplifiers are required but mono
+>> configurations are also possible.
 
---1jEHNJeDiaU7hHOe
-Content-Type: application/pgp-signature; name="signature.asc"
+[...]
 
------BEGIN PGP SIGNATURE-----
+>> --- /dev/null
+>> +++ b/sound/soc/codecs/wsa881x-i2c.c
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkUtOMACgkQJNaLcl1U
-h9CgyAf9E5RHBgS4N10bny355TWCR7E45OP6U9ExM/C0+EsCNa4BVXI5VnMNU1w9
-As5STTbvR5n8+tvifE0fgAaFxz4XvGn+7CzN6L++w6ck0gmkSVfMiBi0HeMWcbnf
-JnlZn20ugi+T/Cy1DXtpvGj7MeEaNkG4p+3W/9EivCaivcqE/Gdcf7sIPdmr3kGm
-2eDftCnLI6EV2srUaMCoU5V2eTUyRZMv0Ve9X2yhEHa+5ECe5zWDiGCsjZc1ItT+
-qrtPOL31enCGGRNc1Jj7M7ytv9UDghC8BU6InvnsRPA0w/tXUvZY165gKM5F4JFw
-5PGvYtmSPXU+1S5IukjigRKT6TiABw==
-=G8VW
------END PGP SIGNATURE-----
+[..]
 
---1jEHNJeDiaU7hHOe--
+>> +struct reg_default wsa881x_ana_reg_defaults[] =3D {
+>
+> This does not make sense.
+>
+> All the regmaps should be same, it should not change with the change in
+> interface from SWD to I2C.
+>
+> Could you calrify this before we start reviewing rest of the driver.
+
+It was sent initially in nov 2024 I guess and that one was v3. v2 was
+sent in December 2024.
+
+I am currently reimplementing this. I obviously agree that registers
+are the same but why we should be 100% sure that regs defaults
+should be the same if the mode is different?
+
+Or do you suggest/expect that, for instance, analog defaults should be
+kinds applied on top of common (swd) default values?
+
+
+[....]
+(The rest of original email was sent and quoted but I did not
+see any comments there, so I removed it but if I missed smth there
+please let me know)
+
+Thanks,
+Alexey
+
