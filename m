@@ -1,24 +1,50 @@
-Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0B710942;
-	Wed, 12 Nov 2025 05:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E112B35958;
+	Wed, 12 Nov 2025 06:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762924844; cv=none; b=HrkTJU76FpiNRag2nrbfuch4bbWipSxc/QjS1P6+Sz0QKQnMymYasTi7BiCmgDiP1g4cvY6JcS75bOSHgf49iHqAiyqhGgA9OAl2UwxADccIaBnORMjcq04sQK/YrcO96rMc3jQ2XLyz85vz2rlUR7I0RQsCFgYwi9vl1bH6k6k=
+	t=1762928047; cv=none; b=J+F09p3kO5s53sNO82CAFXzRqoATppIRecJ62G13myzj5wPgYIoCCD5yBV22yQG13uTSqhK8XzUEHLRV4UqSP6zeLAIhn4KGyKpVIKmc0T0vS3uWbML3Jcf9FggusMPNyb7zxQhLKxNgzqpXig7P4Hhsm2w/8INDvo1o71Y1AM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762924844; c=relaxed/simple;
-	bh=sjMf6J4MTg3PbcktR1gxX8+WJqpyGMAtqNpV/pPagJY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=anNiTiIueKad/l6+P8a3kZn2Xa6hhVzf90HM4MOM5+8vVh77oJrd3T17PGmTG7Ngjkft+1SpVv13+8L0hHOJuQboO7IauRYV7ao6qbd0I0h9swhNSOXHCSOqiASf4M+Ygsz50/qoQ3RSsI1yZVc9N9w7hGGhE7nFm2z1XJkVCkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.100] (c-71-193-224-155.hsd1.wa.comcast.net [71.193.224.155])
-	by host11.cruzio.com (Postfix) with ESMTPSA id BF72E1F2016B;
-	Tue, 11 Nov 2025 21:20:33 -0800 (PST)
-Message-ID: <ab81f525-b4ea-4ac7-94a8-9d8eabca957a@cosmicgizmosystems.com>
-Date: Tue, 11 Nov 2025 21:20:29 -0800
+	s=arc-20240116; t=1762928047; c=relaxed/simple;
+	bh=G5iECnerdsVT4LC6jCWPFJW8NjU+pWzUl9LUg8UPdS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CrohlA2BNAIKPHnsvxeOT1NVVxOmFrVSOMcqicTPCwVclBx+ue1XHOipz2KQ+DB8+xMPeCPkGKiQe7gj/Cy7o4U90Rl0RisXo9Glz4+Jzyz2DJgUd55NhUg6Tk1s7vj13V3oNvt+E7i96beXjNDRHUDPTGII5RMX7zbEe0NPqgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTB+v3NM; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTB+v3NM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762928045; x=1794464045;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=G5iECnerdsVT4LC6jCWPFJW8NjU+pWzUl9LUg8UPdS0=;
+  b=VTB+v3NMuSB+9B4sXPk+1XcquxedfQit3ZXhrxUg1LOUbE0ZBeregZIR
+   2hvIes5bpidoi65KW1EVjGpauCn4z6MxoVB4UfFHsA/kQJPIpRTt7yLFn
+   jnbxQUbaTTwudVcfu+Uu9EpwPtIDAVKZXFbpp1x4wMDp+aDDrWI3eZHQS
+   yGZERiOMOhotcWCWmr0BHu4Cy8PKInGGVP/smLluMR3TOwiK/z9jtx9E1
+   kjCyPSsAfOrUZQhkWnijiXuxj331hYK92kJ9TiIluMlf0EbUnHslmFnx+
+   8A55XV3+K3UOxJBORojqz4wns7y8h2uLrAKLV+scGIOAYIy2g85q0PUgL
+   w==;
+X-CSE-ConnectionGUID: pjYLlPz8Sse/F4vvq7ly9A==
+X-CSE-MsgGUID: 1yWYr1moQ2Swan4XGu1rKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="68847726"
+X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
+   d="scan'208";a="68847726"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 22:14:04 -0800
+X-CSE-ConnectionGUID: IgPIk0HvSlWi8rgYEjGXFA==
+X-CSE-MsgGUID: d+pvoL3VSaihQb/3BgbAkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
+   d="scan'208";a="212528421"
+Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.105.97]) ([10.246.105.97])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 22:14:03 -0800
+Message-ID: <679f8b6d-727e-44b2-abd8-714dffc35228@linux.intel.com>
+Date: Wed, 12 Nov 2025 14:13:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -26,95 +52,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Terry Junge <linuxhid@cosmicgizmosystems.com>
-Subject: Re: [PATCH v2] Apply the quirk HID_QUIRK_ALWAYS_POLL to the Edifier
- QR30 (2d99:a101).
-To: =?UTF-8?Q?Rodrigo_Lugathe_da_Concei=C3=A7=C3=A3o_Alves?=
- <lugathe2@gmail.com>, michal.pecio@gmail.com
-Cc: bentiss@kernel.org, dmitry.torokhov@gmail.com, jikos@kernel.org,
- linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org, linuxsound@cosmicgizmosystems.com,
- stern@rowland.harvard.edu
-References: <20251111203350.3c9a669e.michal.pecio@gmail.com>
- <20251112015356.1919586-1-lugathe2@gmail.com>
+Subject: Re: [PATCH 0/3] soundwire: send multi sections in one BPT stream
+To: Vinod Koul <vkoul@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pierre-louis.bossart@linux.dev, bard.liao@intel.com
+References: <20251021094355.132943-1-yung-chuan.liao@linux.intel.com>
+ <aRQXWpLqDm8EduYN@vaman>
 Content-Language: en-US
-In-Reply-To: <20251112015356.1919586-1-lugathe2@gmail.com>
+From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
+In-Reply-To: <aRQXWpLqDm8EduYN@vaman>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Rodrigo,
 
-You might want to wait a couple of days before sending a v3 so other 
-reviewers can get a chance to make comments.
 
-You should include the HID: tag in the subject--
-...] HID: Apply...
-
-The patch should be sent
-
-To:  the HID subsystem maintainers
-bentiss@kernel.org
-jikos@kernel.org
-
-Cc:  at a minimum
-linux-input@vger.kernel.org
-linux-kernel@vger.kernel.org
-
-plus any of the others already part of this thread.
-
-On 11/11/2025 5:53 PM, Rodrigo Lugathe da Conceição Alves wrote:
-> The USB speaker has a bug that causes it to reboot when changing the
-> brightness using the physical knob.
+On 11/12/2025 1:12 PM, Vinod Koul wrote:
+> On 21-10-25, 17:43, Bard Liao wrote:
+>> Currently we send a BRA message with a start address with continuous
+>> registers in a BPT stream. However, a codec may need to write different
+>> register sections shortly. It makes more sense to send different
+>> register sections in a BPT stream and no need to close/open the BPT
+>> stream repeatedly.
+>>
+>> This series depends on the "ASoC/soundwire: add fake BPT frame to align
+>> Intel DMA buffer size" series. Sending it now to get more review time.
 > 
-> Add a new vendor and product ID entry in hid-ids.h, and register
-> the corresponding device in hid-quirks.c with the required quirk.
+> I have applied it on top of above series, pls check why it is not
+> applying in :
+> error: patch failed: drivers/soundwire/intel_ace2x.c:156
+> error: drivers/soundwire/intel_ace2x.c: patch does not apply
 > 
-> ---
-> v2:
->   - Fixed title
->   - Simplified commit message
-> 
-> Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
-> ---
->   drivers/hid/hid-ids.h    | 3 +++
->   drivers/hid/hid-quirks.c | 1 +
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> index 0723b4b1c9ec..ece1bea0faa5 100644
-> --- a/drivers/hid/hid-ids.h
-> +++ b/drivers/hid/hid-ids.h
-> @@ -734,6 +734,9 @@
->   #define USB_VENDOR_ID_JESS2		0x0f30
->   #define USB_DEVICE_ID_JESS2_COLOR_RUMBLE_PAD 0x0111
->   
-> +#define USB_VENDOR_ID_JIELI_TECHNOLOGY		0x2d99
-> +#define USB_DEVICE_ID_EDIFIER_QR30	0xa101	/* EDIFIER Hal0 2.0 SE */
 
-Vendor ID 0x2d99 belongs to Edifier International Limited not Jieli
-Can you change to USB_VENDOR_ID_EDIFIER instead and move to the 
-alphabetically correct location?
+Hi Vinod,
 
-> +
->   #define USB_VENDOR_ID_KBGEAR		0x084e
->   #define USB_DEVICE_ID_KBGEAR_JAMSTUDIO	0x1001
->   
-> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> index bcd4bccf1a7c..d104f4829d93 100644
-> --- a/drivers/hid/hid-quirks.c
-> +++ b/drivers/hid/hid-quirks.c
-> @@ -110,6 +110,7 @@ static const struct hid_device_id hid_quirks[] = {
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTICAL_MOUSE_1f4a), HID_QUIRK_ALWAYS_POLL },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_IDEACOM, USB_DEVICE_ID_IDEACOM_IDC6680), HID_QUIRK_MULTI_INPUT },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_INNOMEDIA, USB_DEVICE_ID_INNEX_GENESIS_ATARI), HID_QUIRK_MULTI_INPUT },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_JIELI_TECHNOLOGY, USB_DEVICE_ID_EDIFIER_QR30), HID_QUIRK_ALWAYS_POLL },
+I just tried "git am" this series again and it can apply on top of
+04878e873d94 ("ASoC/soundwire: add fake BPT frame to align Intel DMA
+buffer size").
+Also, I checked drivers/soundwire/intel_ace2x.c line 156 and it has the
+same content as the "soundwire: introduce BPT section" patch.
+Sorry, I have no idea why it didn't apply. Could you please try again?
 
-as above mentioned rename and move
-
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406), HID_QUIRK_MULTI_INPUT },
->   	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M506), HID_QUIRK_MULTI_INPUT },
-
-Thanks for the patch!
-Regards,
-Terry Junge
