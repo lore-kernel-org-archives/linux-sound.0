@@ -1,87 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D574823BCEE;
-	Wed, 12 Nov 2025 17:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3F034B42F
+	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 18:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762970128; cv=none; b=SdDFKJWpc5erHFfWjfVgo1yN6LYfRfi5cQV29LNi8fihvydsp9eflfDb9d1bZAhVKbetL0cNVKEUU4Q5q1LuHrMBP8zmkVrBNYgsSGJOYred156rdLYcdFoijcuvuRheaiDrzK0EKxdIjQfwFhzE4xV6FWfUNwm37cBvNwn3H6E=
+	t=1762971557; cv=none; b=awkV6cGtRrkINZ/XH01HaAbVIFi6yu5zwlKCPn6YReR4czaq6sugCauHiXHXduCC4CgLb6X2/rgogWRJPViPLHhS13qZh734hnHjfQIvwdE3cKsDUSvrvnZ1G6btsq/xCc6u4gIXedPOmY56X+MWHXLF6uPmHLj4GVQDAnnF7lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762970128; c=relaxed/simple;
-	bh=21umBLpssM92VlQUxQ09MNek5erWIzlhpVWYHH6nKlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VaOvQoXtghoivL3eXetbsoDOpQad6NP5K9qA2ZgmCtrXDdsEQQm+kxc1M7qIUh8UV4ZfDlrERjW84ka12D3yGLWRGWS+OvKMsUHHwpDeDR4hglcAEjLzpoiOqkSNdX9MNKgRLd/ACrihiye8T5VWwbSSuhNFgra+hRgIMvpc1vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6Erlm8T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762971557; c=relaxed/simple;
+	bh=JSk2wiQKBahdJ8dYGksFv11VvJ1NPd2DXSatLhgaWEI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oe+TQwzcV4KewRu1wt0p3fWNClsKYi2FTzuo+oxHdhuASknCtIwnJcwm+bxqYmiEGE1rfXBwuTsXOVoKaD2kvED9h3duFWFe5xaN30SmrVWtrjkYBIP+ZV33ZWLjcChKd2FANP0aYBPq5REJfp+29kAsF1B8OkIctN3LEXpRhY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ar64TOml; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6Erlm8T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13D01C4CEF7;
-	Wed, 12 Nov 2025 17:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762970128;
-	bh=21umBLpssM92VlQUxQ09MNek5erWIzlhpVWYHH6nKlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M6Erlm8TQ2kUzOp9MAeMJ58fr5DkoHxLaw5T+Sep6UmF7gLf6WsKRTaGoqdUQciK+
-	 wfKi3cBp+6RB2Q2seTWK2ddarHjBbqgn7yIld00M0dCJXoDuF9jpHGOsMaY9scUw4s
-	 x9xFrCaY1t3+xzukonxJdqogATHGdZQP/2F7zBiYtvhaMsWLS+Ttm/HCosgcCsKa8p
-	 oDWJyEp9SZ+ezUbS/bZSnzfw4xrAF7DmbI5lbVMKonts6SwWSVtWf7mO2gaxnQhBzz
-	 8a/ASnOMFqVB3sx1/p33WWOBPe3gT3WLj23a+XCmFV0zGXnAi9xMRt1CeyvTL6egmn
-	 4ULotUMI5m7jA==
-Date: Wed, 12 Nov 2025 17:55:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 1/2] ASoC: Intel: atom: Replace deprecated strcpy in
- sst_slot_enum_info
-Message-ID: <e76e2b58-ae33-423a-98f4-052cf006c7c2@sirena.org.uk>
-References: <20251111224706.87508-2-thorsten.blum@linux.dev>
- <49fc19ea-4401-4f33-ad4d-5419acf6139a@intel.com>
- <90195EA0-41FE-414F-BCA5-1D0E64612A87@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ar64TOml"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7af6a6f20easo1082602b3a.0
+        for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 10:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762971554; x=1763576354; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ajL3qyJYFc6tD7lnGfH4M98Ye8+T06Aj5rRcRA12Okk=;
+        b=Ar64TOmlxe3N161cZTBVfb/dIqX1VLovG5y6PwyGIPc2VMxhhcM+Gj7EAubKCkIpGN
+         Fktk6wYT9DWPnzsYTrOoDCDAXoOgle6N583gZmaELsF/ifk8dI2YrwoccXb5f2yOmmIa
+         Jz6QYNA8wx+hEvHER/Yey2e7TbLKBsAHuRr2G2o7jCzYSCjuQ7b/jq8owxs2nfEMuy9U
+         IeX2v0wQrbU7gcBdDUMF9IzRitozq1Fy2Quu34FNEarVMSFyTuMRYA2RcLApmey0jDmP
+         +OEQ8d2FwLumogpVUO/8IBqS6kLyNrE1eudUPMrSrTLPUP2nNLjN/v1gShWSp7zztx7j
+         jMdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762971554; x=1763576354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ajL3qyJYFc6tD7lnGfH4M98Ye8+T06Aj5rRcRA12Okk=;
+        b=bzAb3dISjclP+wf7VxWSKDV02rsRc/pkLe8LJCwiHErmUoFgqZA4y6732m1RTF5xXR
+         UaCYXacbrH2sglh7J0QRPpjQ6hx8rgL2p/5inmVXR3VC5WXVI2FDztfhsOi7u1CPlmt4
+         hVwCVoWHpvqLDyvBQECtwEciDFqpzpAgHqHtZ2ueplgrErBhL9JL/SwMuOQ2RJXFLNUh
+         6GnKrdy1tzllgEc4wD6HEfeTB+J21H/1u+0xKHAjcY4VsCs1l96MJwfCbE2SvMVcHDrN
+         ikZ+zFgBaDjbY171GvZidSjr/Q+0jmtoSJzC/OCH5hkW+cZwZ1H88XPUkF5IWe8mA1rw
+         6UwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfkPsMsuS2nJ5uZWBRadGxCZORW/P5YSWlvRqp3jXD7CMkSx6sS+1jnQOCGdB3cOAyRJjSLA5Nd0acaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDbCDZbIzvBlbiYc22HGxcKDK04G7TN8Nz8pH2AfnIgORsnOdq
+	xK5GNHFDRl5dxPEYwlqlKpwD/A2rJu6b+5DzDT1+Xa8WpnMKSmLZQ/iB
+X-Gm-Gg: ASbGncsgfH8eEJFyXetup4JZGzvfLTWX/pHkyyC/CJ5AUXedbJto80rbQ0bcs/xQGHJ
+	cQ2HOjfSVAgdfbd7IbrSdgI1f4luqJhWqUfRtl+GNBIoCrm4WahXOxY2GJgbZZzmofV+OFnpOkn
+	4I0o/qgiEi5hFtaFya88vjrFIYQ3LZ5WHqgGgJXOZaSWS+1OJAiiSvP85tBKcMfHDqnflKOwT3O
+	0ySDUjcDP8b0qY3yenp/Xcz+EhD5SHmOv4w8eBHCy42wnkypiZ8tf7Y5aeM5VQyziYKA9D7UuDF
+	ZjnajhMjkTCbaofP2QieKKGGnBWSEPs5YVd2N8cg1nI8OsFysU58teSh78axnydGFxPHbYr8uUC
+	O7a/Y78ORNE3M0fmFe8O2BKAOvVAK8IJUZL+pLUTM8zvekJy5brWx1ozHjfwvq/jCYMfiMIEykx
+	NogsHvH0aFhCcWG6AR
+X-Google-Smtp-Source: AGHT+IHlsgCrOCxbH1xUwfriUBHh5Wzt3eZZ8m1hSbR+IpGy4PwSajaGLSMmb7HAExzbcjFaVH+8vA==
+X-Received: by 2002:a17:903:28c:b0:27e:f018:d2fb with SMTP id d9443c01a7336-2984ed2b896mr48147475ad.6.1762971554462;
+        Wed, 12 Nov 2025 10:19:14 -0800 (PST)
+Received: from gmail.com ([157.50.185.205])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dc9f8f1sm37051095ad.54.2025.11.12.10.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 10:19:13 -0800 (PST)
+From: hariconscious@gmail.com
+To: cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	broonie@kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	amadeuszx.slawinski@linux.intel.com,
+	sakari.ailus@linux.intel.com,
+	khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH v2] ASoC: Intel: avs: Fix potential buffer overflow by snprintf()
+Date: Wed, 12 Nov 2025 23:48:51 +0530
+Message-ID: <20251112181851.13450-1-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A3YqIXUxcJeRIZiV"
-Content-Disposition: inline
-In-Reply-To: <90195EA0-41FE-414F-BCA5-1D0E64612A87@linux.dev>
-X-Cookie: "The Computer made me do it."
+Content-Transfer-Encoding: 8bit
 
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
---A3YqIXUxcJeRIZiV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+snprintf() returns the would-be-filled size when the string overflows
+the given buffer size, hence using this value may result in a buffer
+overflow (although it's unrealistic).
 
-On Wed, Nov 12, 2025 at 06:23:02PM +0100, Thorsten Blum wrote:
+This patch replaces it with a safer version, scnprintf() for papering
+over such a potential issue.
+Link: https://github.com/KSPP/linux/issues/105
+'Fixes: 5a565ba23abe ("ASoC: Intel: avs: Probing and firmware tracing
+over debugfs")'
 
-> Takashi or Mark, do you want to combine the two patches yourself and
-> update the title or should I submit a v2?
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
+Thank you for the feedback and the suggestions.
+Corrected the indentation & commit message.
+V1:
+https://lore.kernel.org/all/20251112120235.54328-2-hariconscious@gmail.com/
+ sound/soc/intel/avs/debugfs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Please resend.
+diff --git a/sound/soc/intel/avs/debugfs.c b/sound/soc/intel/avs/debugfs.c
+index 3534de46f9e4..cdb82392b9ee 100644
+--- a/sound/soc/intel/avs/debugfs.c
++++ b/sound/soc/intel/avs/debugfs.c
+@@ -119,9 +119,9 @@ static ssize_t probe_points_read(struct file *file, char __user *to, size_t coun
+ 	}
+ 
+ 	for (i = 0; i < num_desc; i++) {
+-		ret = snprintf(buf + len, PAGE_SIZE - len,
+-			       "Id: %#010x  Purpose: %d  Node id: %#x\n",
+-			       desc[i].id.value, desc[i].purpose, desc[i].node_id.val);
++		ret = scnprintf(buf + len, PAGE_SIZE - len,
++					"Id: %#010x  Purpose: %d  Node id: %#x\n",
++					desc[i].id.value, desc[i].purpose, desc[i].node_id.val);
+ 		if (ret < 0)
+ 			goto free_desc;
+ 		len += ret;
 
---A3YqIXUxcJeRIZiV
-Content-Type: application/pgp-signature; name="signature.asc"
+base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkUygoACgkQJNaLcl1U
-h9BMlwf8CeZ5VODsFk2XjJa6T5TsHBjc6fonu3tJA7xR8uw0NYYhenOIKh+EZcIv
-R0XNYpoAiU6fFZ7RxYWf9iiZky8tvVWZdG9kTm7NWpEaCAd0wWFpbSC9usc4RBvF
-kPAdcIDnFSLgN+PqFfyK9n/AQ8eDNKO+MQSOU5nL5nZfGptawb4Xhk/vHu2GPq3T
-PxNN5T6mkYy7cNYV2+U3sMCpLm0UQSnTaTviEOixp0MQxO8+kcwN1VFa1xTG65Gy
-5SyBHGOJR2XNzx0zLDoQ91x1hLbjmA/n/j6JFh2ITf/7PXI8V1l7376++H6xnYiQ
-vzRX+FY10RYgXMcJvnEfjcBQn5soDA==
-=h2WM
------END PGP SIGNATURE-----
-
---A3YqIXUxcJeRIZiV--
