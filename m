@@ -1,167 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794E134E765
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 19:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6331A212F98;
+	Wed, 12 Nov 2025 19:33:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762975764; cv=none; b=e3XRdSqbr/TorSlOwQYo/NV0t4Ar+9ningLmcYnwzU6d3syZ5CKyusnTIc5LOeCYDEoRTYHtK9Eg6VUZytrZVZlBQuIO7argsRaVzfmBcme7jWZsFJwg2VbauwZCZHJRuJNUSv8bgzW5kjxftFjLPtv9g7mIF/1QRnTXoOqzZtg=
+	t=1762976038; cv=none; b=JRjvcFcGjVuXM6AQ1SMvQX5bkOjGfKlKecm8AxUb30lBaPFLY6BPe4td2YNsXWZsZcjKM1V1ewVAnnpQO0d5dAhtY4QVLcO0PnUPJsSZegs3V4wt9PV8PPvq8BLy203P6ZepeQ6VoTzGIlpw7tv7+jYEujpP+dT+72/s1oPsbFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762975764; c=relaxed/simple;
-	bh=cBs5VsCM5bkQCwAVcWEWV1HKeCFrZdeAh6gx6vjF0Ps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ru6qZc81xyYbl7+8QU94jnbivuxnuUGkQsf7ZIItin/YziWaA+5eTkNtBtMF/iSbVyVIs21NrPB+iGRHiFdvM6nSo4SwKSfZV9aeozCszmKbBHDqq8lyGQvPcr7Gy1LOQmwmjp3SzHklBTd6Iv6cmIJ13OIHAA7GLvOUj5WdNIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=szv3xAGH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762976038; c=relaxed/simple;
+	bh=C7vuxaqtheFQFxDyOcPPsOTDus84iPIK3Y9zdk9Dslc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjgnsEWtIU6378OOOda3tQ79cuG4WrS3061TxUaRHbKUbFD4/TWhlXNPm8GMm88pLTHvxMka9xqg+dVc8WCfzwFN15V40Fk0cVLIvCryHifYBRVJ9ool65Y5lVbnSaLULA5tVj68xl2zA1wHgT7PTkBPDoN4QKIeK7HhTJ2VGoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnJV2MTF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="szv3xAGH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20741C113D0
-	for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 19:29:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnJV2MTF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E81C4CEF1;
+	Wed, 12 Nov 2025 19:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762975764;
-	bh=cBs5VsCM5bkQCwAVcWEWV1HKeCFrZdeAh6gx6vjF0Ps=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=szv3xAGH5agPEKMl9f7UkYYhRkgqB9AKS9v5496ledDdhmin+wBReWGI/iRlnpyNh
-	 HbYV6ylofcN/goxA5r50ITFCx+VPTD/XMpI2F+HTqWiVmXb4Ba/WsGQCub3AicyInu
-	 Ow8oG5q2NYNmka0aHseXh9DODZAbXJhxzKQn2f73gxSmsRUPvvLd8anRteQ9sj444E
-	 /Mlx1OFvwWRhC3fmxGHHwnyMo6Hor+kqovSGQ/g/qG38H4WqSasIzCVRFPRQ6h+h2M
-	 RQDZlilfFhJd8BVjaxhYZ0q9NyXQ9nvv3D3ovq7RmI7DOt7/d/Xw+wRa1dkg9PJaol
-	 ZbIunWXzgsM/A==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so21401a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 12 Nov 2025 11:29:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVqZAn31JDMLvfoGD/nxezZ1MDrO5eIGOobZ3WXsaL3qhgNOix7Mq1uhZ43CxD5sZ7AjxCVQ3k6v/EcLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyUuNyAUPnOzGtLemfe+qapgKAv+WiD8/8SbpScMQBpp1LfNEy
-	YGlKY304MJcbHq+OmYm0TU73fl2sz01bFUMpPi3x+Q+wSqlOB0ZksrXN9m6sQ/BrqBRJ6m3kDg4
-	p+E+BnbY95lSj5799sj/Kg4oTMxifAg==
-X-Google-Smtp-Source: AGHT+IHHsq6g1iGPfNpj/BGp5eL9w+14A+MEbPOCADp6BJOBMQBWxT0j5cv1w9FevsaSK63J53W6goPTLfg5SnHB+/k=
-X-Received: by 2002:a05:6402:34ce:b0:63b:ef0e:dfa7 with SMTP id
- 4fb4d7f45d1cf-6431a4bfc9cmr3902960a12.6.1762975760981; Wed, 12 Nov 2025
- 11:29:20 -0800 (PST)
+	s=k20201202; t=1762976038;
+	bh=C7vuxaqtheFQFxDyOcPPsOTDus84iPIK3Y9zdk9Dslc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NnJV2MTFjpc19JLHMdi4Xeu8IOkfRgbR+l58cjLhBli7oNf4O2MRG7/KMHZIWpN5Y
+	 3+J0ETmRhPfrYWOi4wMmHgciJbYtkQ41p8YjRQQlAsvu4CQJWoyQsF9jph8IJblmP2
+	 AfbLfZsFXosun9QRFTdgMND2iMExB5fQu+sKTPdmzoCbQeDL+ORnLAQVg9sxUnCqVG
+	 wGCj2gAVW/piItjXT2foBu/ghVIKjMD/od2g724zKOFJELzskXNHLKwSe+MmT5x/pe
+	 9mVRSVL+PHcvAZ34GKC4QRL7Qd6DMO92NJQSy6InonYs9wp3CHEDFjFL/mUZRcLP1Z
+	 Ic8T8kFAMl3og==
+Date: Wed, 12 Nov 2025 19:33:51 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: hariconscious@gmail.com, cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
+	perex@perex.cz, tiwai@suse.com, amadeuszx.slawinski@linux.intel.com,
+	sakari.ailus@linux.intel.com, khalid@kernel.org, shuah@kernel.org,
+	david.hunter.linux@gmail.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: Intel: avs: Fix potential buffer overflow by
+ snprintf()
+Message-ID: <18bac943-6420-439c-91dc-643277850f69@sirena.org.uk>
+References: <20251112181851.13450-1-hariconscious@gmail.com>
+ <2025111239-sturdily-entire-d281@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
- <20251015071420.1173068-6-herve.codina@bootlin.com> <20251030141448.GA3853761-robh@kernel.org>
- <20251031162004.180d5e3f@bootlin.com> <20251112142632.GA1610836-robh@kernel.org>
-In-Reply-To: <20251112142632.GA1610836-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 12 Nov 2025 13:29:09 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
-X-Gm-Features: AWmQ_bnvVqS34104BGAfHcYDtcOO0joqpBN-zpybKauFgaXAFRsInCQMBTqH6M4
-Message-ID: <CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
-Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Mark Brown <broonie@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="szL9mxUDJpsiHgL+"
+Content-Disposition: inline
+In-Reply-To: <2025111239-sturdily-entire-d281@gregkh>
+X-Cookie: "The Computer made me do it."
 
-On Wed, Nov 12, 2025 at 8:26=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Fri, Oct 31, 2025 at 04:20:04PM +0100, Herve Codina wrote:
-> > Hi Rob,
-> >
-> > On Thu, 30 Oct 2025 09:14:48 -0500
-> > Rob Herring <robh@kernel.org> wrote:
-> >
-> > > On Wed, Oct 15, 2025 at 09:13:52AM +0200, Herve Codina wrote:
-> > > > A Simple Platform Bus is a transparent bus that doesn't need a spec=
-ific
-> > > > driver to perform operations at bus level.
-> > > >
-> > > > Similar to simple-bus, a Simple Platform Bus allows to automaticall=
-y
-> > > > instantiate devices connected to this bus.
-> > > >
-> > > > Those devices are instantiated only by the Simple Platform Bus prob=
-e
-> > > > function itself.
-> > >
-> > > Don't let Greg see this... :)
-> > >
-> > > I can't say I'm a fan either. "Platform bus" is a kernel thing, and t=
-he
-> > > distinction here between the 2 compatibles is certainly a kernel thin=
-g.
-> > >
-> > > I think this needs to be solved within the kernel.
-> >
-> > I fully agree with that.
-> >
-> > >
-> > > What I previously said is define a list of compatibles to not
-> > > instantiate the child devices. This would essentially be any case hav=
-ing
-> > > a specific compatible and having its own driver. So if someone has
-> > > 'compatible =3D "vendor,not-so-simple-bus", "simple-bus"', when and i=
-f
-> > > they add a driver for "vendor,not-so-simple-bus", then they have to a=
-dd
-> > > the compatible to the list in the simple-pm-bus driver. I wouldn't
-> > > expect this to be a large list. There's only a handful of cases where
-> > > "simple-bus" has a more specific compatible. And only a few of those
-> > > have a driver. A more general and complicated solution would be makin=
-g
-> > > linux handle 2 (or more) drivers matching a node and picking the driv=
-er
-> > > with most specific match. That gets complicated with built-in vs.
-> > > modules. I'm not sure we really need to solve that problem.
-> >
-> > Right. Let discard the "more general and complicated solution" and focu=
-s
-> > on the list of compatible to avoid child devices instantiation.
-> >
-> > Do you mean that, for "simple-bus" compatible we should:
-> >  - Remove the recursive device instantiation from of_platform_populate(=
-).
->
-> That may be a problem I hadn't considered. While we've solved most probe
-> ordering issues, I think some may remain. Even when of_platform_populate(=
-)
-> is called affects this. For example, I tried removing various arm32
-> of_platform_.*populate() calls which run earlier than the default call,
-> but that broke some platforms. (Looking at the list of remaining ones, I
-> fixed the at91 pinctrl/gpio drivers, but never tried to remove the
-> calls again.)
->
-> Maybe this can be restricted to cases which are not recursively created
-> from the root node. Not sure how we detect that. Perhaps no OF_POPULATED
-> flag on the parent node? Or we could just enable this for OF_DYNAMIC
-> nodes? That should be sufficient for your usecase.
 
-Thinking a bit more about this, I think you don't have to do anything.
-If child nodes already got populated, calling of_platform_populate() a
-second time is essentially a nop. And for cases you care about, that
-wouldn't have happened. Of course, I'd still rather there only be 1
-path that devices could have been instantiated.
+--szL9mxUDJpsiHgL+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Rob
+On Wed, Nov 12, 2025 at 02:20:19PM -0500, Greg KH wrote:
+
+> Also please do not wrap lines of fixes tags.
+
+Someone probably ought to teach checkpatch about that one, it moans
+about long lines without checking for Fixes: IIRC.
+
+--szL9mxUDJpsiHgL+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkU4R4ACgkQJNaLcl1U
+h9BUjAf+I0Pva6nKIkon3XNueyt44je32pc6oTtm/79WhjXL6ZqNi5e+GQU7ZUim
+wRonCWwRj0mkDA3d7pGqgeiXIXXA+uQxIwB81sU5hMU+yrMn38WH4mu45O0tXfrT
+dfKjK3PxEhbUYVZa1LSFomQaMQAH9sSrVFrz6Wbl2VcTmDtoS6DY4Bv6FyMKuX05
+Ms9Yt63ou8m7jnxZ8yR0N7gNSFJFO8Ln5DlR1utCqPgkOr4DHfqNmt/221ucYPIW
+dgkvspFbJGcBMWuqxZvYp/fqt8+PeDPQfrr2y9NfkuRh8YHuLmAtqAvaqc4cS34N
+2PM0Gd+UrM0OO3HsAPclUoN3IE8iRQ==
+=qqSY
+-----END PGP SIGNATURE-----
+
+--szL9mxUDJpsiHgL+--
