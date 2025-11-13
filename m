@@ -1,149 +1,127 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346C9330D3D
-	for <linux-sound@vger.kernel.org>; Thu, 13 Nov 2025 08:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500CC3321B8;
+	Thu, 13 Nov 2025 08:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763023877; cv=none; b=e2JbtOf+6U0lcYtmrTG58VZPYBm5yxvBOwsKb/t2A0u0HwnlZdAdbO8e8vqKFG8LRBnalOHDDmMCamsKh2h0KacBY3K0z4AXH+eha54I++wZJeKhR5VMB0hPt74egsXHnry5RDQLjtV+LShedlPNAR47jHDvbAitbt5smBSooSs=
+	t=1763023938; cv=none; b=J7ObqUYub/GgXl+Kk6iepd1HkYLag+J4JF5urRYrHIssjv8hTVCbSR83qsfSF4tk+JQ9oqEg0K6rT/93x7NglMvaTo5Jq2e9jcXnegaETaz1HhZz5QKxSAIKO2Xp67h1fkrx69K9KCNBzUmT8PSM1II1ioG9bYhcHXAo7lMuNq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763023877; c=relaxed/simple;
-	bh=Y3cJxBYr0FtmmjeUHDLAuwvYPIolcl+a0e64J8Sa72s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ksUVxSmrVeNGK48JEhxXIYV1JkXc77dmycVYaTRRYDSyRCjLExifjs5kqcBJNgxVBYBdB4AqrzJG/axmQbJje/48Ra3nhzDRFZuTbEtroa+KyTSKdW58CfzyoBYyyoga6OOK/VpAKTtqfnACApr4xr+ibwmUXqtBXJ/WN6YHd0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-54aa789f9b5so333882e0c.1
-        for <linux-sound@vger.kernel.org>; Thu, 13 Nov 2025 00:51:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763023874; x=1763628674;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6jppCAljRnFmNoD8IBybx1rRIy6Hth1Yqeh1nYPEFHA=;
-        b=mhYzCo3ufp+vDZHzqt3jwnvxoifp1p+IBARLWgVn2DxWtF9n9pDpEECT/wV7OXqMK6
-         IM93EDyB+r13lI2jxpoKIXKkdKD9xmxuMBSadyrHLRXWvb7QEAt9XwiDUfT0lArZH9ry
-         oEkk78fdpDFNCjWeLNJVyeh0V8pxy3X0R8bDmx2CAWPe6dbImtQ2CnJamno95IigYp8Y
-         JwHfb9PAWVlOde/Yb85ZMGXUiu7KvWkkjJ6+Uj7zgAAMQvUwGBCr3b5X/GWMm7MsRYbV
-         WGKfPo7kL0ywtPMSxbP2yIPsBu703ji0u4deslv0tv9Pt17WYTOCepSWJipgNXZtAxQk
-         p6WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUniHBQ7KYY7nlwVRNr1KXbtC0D0zRybveoBxFj49hE5DJVMj3fbZMfi9oxXfpNYgkJTR1Fh7Kz23NPvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzI1pl7cwIVAib3S/NQnaXuSmLHIlQ8otIPbbq23KX+f9p7vvc3
-	jNmQ7WzUpxOY5Cjd8NnBM+i3XXlwuZt4kEYMWNFWluS13ifPg+Okqf2CR8mHEdUqmaw=
-X-Gm-Gg: ASbGnctVWYB7x88JE9QVusyoLFdS2Pt6ZkjKzzzTF4YaAp8J/dU5AkoWJQwX0xbl0Js
-	TNrSrXTksB+uXUgMsu5JbhIyu06oHrQncbSgQA7FpWOJv/xXqXJD1DIRqLGW2AIgVYsqH2tnKvA
-	iuCksm1IOmKlJsVI9/Dl7IbH8l8Ks4GQJegpS4UYsAHIgoyndDGhc4Od6Bv5BeaHyTV7TJnvXEs
-	1XIqQ9bDeXp1y1inpkd6VBSzIxJPgBRpFizItZ/dw63EuRpUmECF8JNb/Ats/cjIlRssXKffz57
-	JoQyoxMDvOEgozZA2/54AhpE+7yOpLKVi8D/3OdYZFpvAtUwnYG+jrahLUc9pVgMEw7TWMibVMu
-	P08TALr4qTicAuqsSX6iYogBd5eJUlK6Adq7bnlmrpmaLpcldhXGHO2IT9n+xd3oFPXMeX55sLR
-	aUosjyI1Sy1bd1GjawxsZuXzR6fq+f7IrbmQWkCw==
-X-Google-Smtp-Source: AGHT+IHX+Bshs18Vv1CdOIuINEOAM0xrpXcUnn+R/iESG/CjXnE2oOGOV6gWkneerRneE3Z10xuueQ==
-X-Received: by 2002:a05:6122:1b09:b0:559:7394:9c3a with SMTP id 71dfb90a1353d-559e7ca8767mr2142917e0c.8.1763023874415;
-        Thu, 13 Nov 2025 00:51:14 -0800 (PST)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f4426a5sm495326e0c.12.2025.11.13.00.51.13
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 00:51:13 -0800 (PST)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-93515cb8c2bso380847241.1
-        for <linux-sound@vger.kernel.org>; Thu, 13 Nov 2025 00:51:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXXTIk10M/TVZMMBQCYpraFlumzhVGxlfEb44ur2SWz4k/w84zpIjP+IpgI4vqu7wcwibYQE5KO7Na8fw==@vger.kernel.org
-X-Received: by 2002:a05:6102:2b92:b0:5df:b1f4:77d9 with SMTP id
- ada2fe7eead31-5dfb1f4937fmr1427327137.17.1763023873293; Thu, 13 Nov 2025
- 00:51:13 -0800 (PST)
+	s=arc-20240116; t=1763023938; c=relaxed/simple;
+	bh=jYMUekvRtMYJKAY6x3e543kfQ1fKTe+PgZU/W9oNQzk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ls3yNSLJDroOQa1r34iH90fq2ReJnzyVoGJXxo2phY2DHyHOsSVX507VL9/PhbNeKpkB1m7B1vElEpCsmqSt2PgrysCQwM3F3GzXnPkhj4D3ZIar4kNSA4OhiZqlqCO4lCtxivUHYUb2NzzLUZx+/akss/VHkpi/+/6WiEbDYkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UbX4QYFO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hLD5WtIA; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UbX4QYFO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hLD5WtIA"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 259BEEC0197;
+	Thu, 13 Nov 2025 03:52:14 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 13 Nov 2025 03:52:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1763023934;
+	 x=1763110334; bh=jYMUekvRtMYJKAY6x3e543kfQ1fKTe+PgZU/W9oNQzk=; b=
+	UbX4QYFOHS7kBbZS2klHc11vV1MJMf5lbQVdafBWQWU2pgA+NC+fizZmjkIrCSwh
+	wqdJk5AsI2DXuYps4ryvp3Dzhf0fGJSgTU0WgjDG0MgxPryNQabHxRNzkg0HomdK
+	W4SYLV0n7IfnrryUMT2UuV5M65dPRyN52tqbcYG6ofaCaIVF6KkVTMqbiYNXJHjH
+	6c2esTorgdgrLj0A1dVnRbdXAH0TKej8dS3wHcbG3uBNetqocpex9jC4I4fX7nZ5
+	bokmnQ7kU99Haav5uZNLDKCrv1zteDZ1wTz10xbla6R1q0yhpy0z3EHTQ5tB9ILj
+	3SV0mnOud9k5bldu+5/7zA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763023934; x=
+	1763110334; bh=jYMUekvRtMYJKAY6x3e543kfQ1fKTe+PgZU/W9oNQzk=; b=h
+	LD5WtIAtxI6L/j83lw5/ymPmaVx9Tm4CvHRo0fZPueushTVf7/j6zKpOVX9B5o9M
+	oFWQ+MoggvqmotadRqh286mTw8cfI4ckR0IOOTH/xTX9DVVyGZ1rVb+n4Aiku4Fe
+	kT/bJ9R+8EnAfN2aLOYFsbhV7drBsRGWC1BVC50CPHTZOAP1YezEmb0aJlnZ77n+
+	dNSwcOldg5s1I9KIb97xasxHCo1XXybw6RrwowmL3yHL9XlMoU17gafUGTATfWiM
+	guzZunISesGzK7hNqwcft16r7a+5MPbqEOUxcNo4DJdxihKCFYNnVu20e0L1XVQA
+	+j3XhI4GjgkUphxdluhgQ==
+X-ME-Sender: <xms:PZwVabJh48yaDBPI1bi__mlNjPtlpGae6bubQDE-xcYKfV4gEaqqeg>
+    <xme:PZwVaZ9YPc6-Yuww52iuSMIVyQCkSa85HAWyp-WnCnz8TpfeJoi9VNgW04pPhSpRI
+    JSbRRSLCAdBDLVT8po1glFCn6KAEbwnmyC69V4CvkdBLsffmlKXoHc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdeiheduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepfedtpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtg
+    hpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopegumhhithhrhidrthho
+    rhhokhhhohhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehsrghrrghvrghnrghksehgohhoghhlvgdrtgho
+    mhdprhgtphhtthhopegrnhguvghrshhsohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegrnhguhieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrohhonhhivgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:PZwVaWR2j3NHIh-HnpFZRzycEiSbyzOLYaMdGFGYZlqw57s1gjDgSQ>
+    <xmx:PZwVacPWQToEZFGpspzQ3hBahW0MV4HIWcMBiM03k-oNFg8JfSmXvA>
+    <xmx:PZwVaavlkeWD_mmw9tjdXSgH3y081ty-xIBFei22wZd3-XSNZAyFxw>
+    <xmx:PZwVaYTbLS79eXhLy0E95xLJuKpP95NCLqJstCZ1sG9VIldoxwViVA>
+    <xmx:PpwVaaHpABdLi6z7_2kjSTe68Uj_yDTY3ILn6PPpGu0XsNZBCcaTQDvH>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 152DA700054; Thu, 13 Nov 2025 03:52:13 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251113082551.99595-1-biju.das.jz@bp.renesas.com> <20251113082551.99595-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20251113082551.99595-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Nov 2025 09:51:02 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUdiczsrB8H57VjPbcaWWS22HmUvc_iU3rs84qHAsfB6A@mail.gmail.com>
-X-Gm-Features: AWmQ_blLiZfPk5wgCv0WpvOv1cvXZLyFXHVM_u5r95hEUYF3wWO-Xhplpf5nrtE
-Message-ID: <CAMuHMdUdiczsrB8H57VjPbcaWWS22HmUvc_iU3rs84qHAsfB6A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] ASoC: renesas: rz-ssi: Fix channel swap issue in
- full duplex mode
-To: Biju <biju.das.au@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, stable@kernel.org, 
-	Tony Tang <tony.tang.ks@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-ThreadId: AbaJD8fJSN-F
+Date: Thu, 13 Nov 2025 09:51:52 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Bartosz Golaszewski" <brgl@bgdev.pl>, "Kees Cook" <kees@kernel.org>,
+ "Mika Westerberg" <westeri@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Manivannan Sadhasivam" <mani@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Saravana Kannan" <saravanak@google.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Andy Shevchenko" <andy@kernel.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Alexey Klimov" <alexey.klimov@linaro.org>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>
+Cc: linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ "Bartosz Golaszewski" <bartosz.golaszewski@linaro.org>
+Message-Id: <c9be32d5-a2a0-420b-9308-5f0a19a07eea@app.fastmail.com>
+In-Reply-To: <20251112-gpio-shared-v4-7-b51f97b1abd8@linaro.org>
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <20251112-gpio-shared-v4-7-b51f97b1abd8@linaro.org>
+Subject: Re: [PATCH v4 07/10] arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Biju,
-
-On Thu, 13 Nov 2025 at 09:25, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
+On Wed, Nov 12, 2025, at 14:55, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 >
-> The full duplex audio starts with half duplex mode and then switch to
-> full duplex mode (another FIFO reset) when both playback/capture
-> streams available leading to random audio left/right channel swap
-> issue. Fix this channel swap issue by detecting the full duplex
-> condition by populating struct dup variable in startup() callback
-> and synchronize starting both the play and capture at the same time
-> in rz_ssi_start().
+> Some qualcomm platforms use shared GPIOs. Enable support for them by
+> selecting the Kconfig switch provided by GPIOLIB.
 >
-> Cc: stable@kernel.org
-> Fixes: 4f8cd05a4305 ("ASoC: sh: rz-ssi: Add full duplex support")
-> Co-developed-by: Tony Tang <tony.tang.ks@renesas.com>
-> Signed-off-by: Tony Tang <tony.tang.ks@renesas.com>
-> Reviewed-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Thanks for your patch!
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-> --- a/sound/soc/renesas/rz-ssi.c
-> +++ b/sound/soc/renesas/rz-ssi.c
-> @@ -374,12 +379,18 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
->                               SSISR_RUIRQ), 0);
->
->         strm->running = 1;
-> -       if (is_full_duplex)
-> -               ssicr |= SSICR_TEN | SSICR_REN;
-> -       else
-> +       if (is_full_duplex) {
-> +               if (ssi->dup.one_stream_triggered) {
-> +                       ssicr |= SSICR_TEN | SSICR_REN;
-> +                       rz_ssi_reg_writel(ssi, SSICR, ssicr);
-> +                       ssi->dup.one_stream_triggered = false;
-> +               } else {
-> +                       ssi->dup.one_stream_triggered = true;
-> +               }
-> +       } else {
->                 ssicr |= is_play ? SSICR_TEN : SSICR_REN;
-> -
-> -       rz_ssi_reg_writel(ssi, SSICR, ssicr);
-> +               rz_ssi_reg_writel(ssi, SSICR, ssicr);
-> +       }
-
-You can reduce indentation by restructuring the tests:
-
-    if (!is_full_duplex) {
-            ...
-    } else if (ssi->dup.one_stream_triggered) {
-            ...
-    } else {
-            ...
-   }
-
->
->         return 0;
->  }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Please take this through the gpio and asoc trees for simplicity.
