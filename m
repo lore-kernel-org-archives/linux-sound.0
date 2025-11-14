@@ -1,147 +1,160 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AAE2FAC14
-	for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 07:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2341F31352C
+	for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 11:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763107145; cv=none; b=D4UaJR788Nq3Aq9ktjm2scRMYZLB3vadptF4Vi77RhAadNxJmA0/ll683XWu9VxRnV5DSpgLl8x+wdYczNYZ22yS4oD60daCPm9EtF4s7rC4FL9CoQnPPt6RS1mMApRAZik7PLjF6l8PJl3yHmXcbJXRRdtXTADWtuC4EUiuv30=
+	t=1763120221; cv=none; b=OIrQ3aZXgk43gV5aQZEMGklRoUbyK2Xk4xbGiKGnSCZBfcBhGxISMJy0uiEji/V+dDSIYUhfm2TjR69PaNJFUp8Vzg+ZDIwwGjHZ2SEmHHkQJoCeM8wpoNpP/Ji1K+Q8WxcWQjuX6y4TQbQQ566UCpaSR7N7GDxG9jCB/ZzcBVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763107145; c=relaxed/simple;
-	bh=9qhHAfmSmgZdMYGPPdj9m4G0frUb8TVsMzQFMztnhwA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rzplZzswrzeY3G54J3o+1EAMcLxXr2UZ/iJOSjZDuXgBHCmUdWfDCbT+jonU5Te1t9zqn30yT62bUG74ntaWR30STEV9emd4l9Z0DpvsCN2amFahyat5TRF1R2liqeFyHS38CbcSz0QD80Pm3+NxuPBkiy778jdpETKjR9QQDYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SF2G4tEs; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763120221; c=relaxed/simple;
+	bh=YOqQYfs4nuQmvSgoRMMjC8XlPFHhX1Q2biOJY+6ams8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i2DYul+B72SSUwbhoYUUnN5kMc9XRHkReWdHBVxo94eNTfJNoM9zXkL+t80moLOy64tddRzufV/1+hWJhxSFpPNy5DfcICJi/1+/sBPaUjyteKKP9D4DBWoLdhNswjqboLCHYNUbYqKme0oCIs5uLEJhxoy7Xqoq/6Cb7bs49Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cpvMrB9u; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SF2G4tEs"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477775d3728so16758945e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 13 Nov 2025 23:59:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763107142; x=1763711942; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dno4fYyihe/RYznSluqpdOt6mZrIDZ0jrnHu7E3GcE0=;
-        b=SF2G4tEsUoa56R8GeVecXqZEZuKlRHAQl6fCTN1RmAVNk5hsuRsEIJ5EQNHxFB/SDQ
-         CTa/arSW/r54UFvF1sK3HKyUPRO+DjSZT20oRNSAixPCVKsQFdqtbrQPUOY6upk+JKqd
-         HOX1wt2oNiFjEV2f3UgxcTITxubXL/xhqAkucIQTsaoiOPtlW/B4blat4BoYbdqEd8tY
-         oPfmdTJYNpYpDfc525VUFi8Fl1dw78R0aRgAOd7NJoNQrJqMCPlj2UapI+oBfq5go09u
-         cdMFAIzgSHlDb1oXgLbqKKhkZJzMFegLpuzUb4FUvGMiWd+EVBMp3yxE8h0/c4tJpVk9
-         e25w==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cpvMrB9u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763120219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9P5NBgI6mcvaRko/BuipRaZLnCkAOoZG9QxXhEGpNPI=;
+	b=cpvMrB9uOtnvezGl71IIiBuscG6XUv1nI3rpB6dlcqUlSg0WnWYbfVlQNDsai8oq8J4iu3
+	PMqa3IhWzRThEbSuUMTJdX923CqpBMA1GVTgZpSyiOFjg/gn59/DynGHZ6dBb7VnuFK5zT
+	1GXc4sNGZdUdi/Rrcl7R4X/E5oO7BHA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-341-k3Kbymr9OeCrqTKk1Get-A-1; Fri, 14 Nov 2025 06:36:56 -0500
+X-MC-Unique: k3Kbymr9OeCrqTKk1Get-A-1
+X-Mimecast-MFC-AGG-ID: k3Kbymr9OeCrqTKk1Get-A_1763120215
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-b7352e034e4so154016566b.3
+        for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 03:36:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763107142; x=1763711942;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Dno4fYyihe/RYznSluqpdOt6mZrIDZ0jrnHu7E3GcE0=;
-        b=LG2BB/361acFArWlOHvoD5UorqBmUAWu6Ghs0zvaW+d5WH0ZTZXBfyeoswBKtTqyze
-         2VcQkTjQHl3GAaS2skao0HDFAjLegdPyDm0ivG0ewQHdx1XKHpeTIMAQ0rej6ShD24KT
-         7arQoXdWirK5UaukyHxyN8LLXfuoekway7Ph6mObL07VMNPPdrE3e4izxfb189WXgh0z
-         QXdGPW8Pk33OjJMEI9MFTVe8tlGkNLHPY0BuF/S2vPIgXWnjQqZzqPFXwf8X+2enSBLH
-         yi1jyhnKg1Zfw6yorsYp3hSMZN0pg010GMlQgeXSO3rtQPmwFpEDj7tVWyWd3RL2H71r
-         08ZQ==
-X-Gm-Message-State: AOJu0Yy/QNxG0TBusIpegGPzSZy/pa2dxZlCWmoKSciAfVF5PqE+oTF/
-	FHBepzMWsy4815s4wKMb3i7oo0/oXgwi26+7hsYkPqBtRGWCmZX8wNSb
-X-Gm-Gg: ASbGncs8iplqjp87mfRatAKKh5Mr0Cwr7TBCkDCSRNvxsXbtaYgjeI2HZlhO/GN8TCS
-	YKe7sSnt8N6wQV1Z+Fgm1PNqeOnWgSlDqqVFnYRobpbAqkuEuHViZgvixXF3gEHH/IkxEaa9KoT
-	Hpi1xg6tDW+AAxcZatqFfqby6xjGdUNuIQt+qhzBpRKCvBpBag9gioXhjA+bQSUohoDwfzUYELp
-	7omdwwi/C4z+mpp734aFqKyJy2v9GnaEKbhFKLWRV5da+TJFPYa/jWh84DdtmGjXr55bal6bLL0
-	wba3qbce6huU+3QROD2HO5LkXZITRz9ZT/DZU32HwKLz/46kQdub83d6UC/Im2Y2kr8mrsSbnOb
-	470bCQbYctkIsU9yQD7A//p6C2lbWj3LnB1Cv+s0a6W7sl2y/mAHBDTmmsbByTw9fTiMfIFunh0
-	68gGdAGbV5J8EIOqTVg7DtAbr7Xxw+Okckt82wDaM0RfBPsF4dEzZjnUQwE+Kg9/y4kdI9H8qSV
-	wkN/54hFBLrmUsQ
-X-Google-Smtp-Source: AGHT+IHSwU4mhyT8rLvuHxiA7sp7Ubk0n2kRWcbYTp78Fbo4XVCzyG5XlKzDo2VIzKhdrSQgxELv0w==
-X-Received: by 2002:a05:600c:350d:b0:46e:32a5:bd8d with SMTP id 5b1f17b1804b1-4778fe553famr21894475e9.3.1763107141541;
-        Thu, 13 Nov 2025 23:59:01 -0800 (PST)
-Received: from localhost.localdomain (host86-162-200-138.range86-162.btcentralplus.com. [86.162.200.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4778c847bbasm76347895e9.1.2025.11.13.23.59.01
+        d=1e100.net; s=20230601; t=1763120215; x=1763725015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9P5NBgI6mcvaRko/BuipRaZLnCkAOoZG9QxXhEGpNPI=;
+        b=SNnqcWm2uFhIfzR8/EPXbMfXHrLfqZmFnsCzlq/x2AEfCIx+QacBvSkSoXMbAZD8Xv
+         66+7hZw/O/u/7lYwre3zyBXAjRUVNEZbg/+lsVN1NKxVc9D8ryplLUzESr/wvgGxr0kG
+         EbrJAmqmkIhouaOoOpYP7mYhgAYnp5ZxvhJhUAv5AZzagagaM4aqAPiKhyfP6exL1Ays
+         wZtEatrsfmmiPpVAueYoArI+HOqO/WQ6ZUyARZ4oJYkg1bTP11xejM2WRKOOop/ypjNE
+         5yBxZdP+jlWnSwdr3XZFEqA8oxylhAX3AuBbOrMrAeAMJz6KQwcNuHMR186bNX76FJAy
+         iu0w==
+X-Forwarded-Encrypted: i=1; AJvYcCURhJUUO3YnJj4q53D/LPNjuLvoT6c0kqf0BKLmnEPND4AXFj5nNXgcsCCdt0rExII4bU0ABC0c0spCjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo6CByTksdaC3lG3mpG027rTvXbGcu9GV4dUgbIPw9Em5WotrJ
+	cq+R7VaV5D+TmzExsa2Jhjq+O9QV7qL3ekgKetjlIu+6o6ugTvq90gWraju3B1mCDUJNUi+Nswp
+	1V1ZHRzHM8872YH6yq/JvhVy3n1skzzwduEwvNNlpSPO5VQgBKJFjXV9P5BBXdYeT
+X-Gm-Gg: ASbGncv0vWz2E+fTxDSQuh2lcAWne2g/AuDikEeSOCcMtSY32KWxKcP7kiZ7X9cyEMT
+	IhrNHU9+o3P1upDFmwbnXu80rbC8ckl8Qui0l/VCZSAzwPQE4uGx8INbqrwoNahHeFnwSKmwdMg
+	0XcfLIBjkB8fCl4KX0a2V5rtz2fXx5cLG6dowm3OV6JfxFBxsly0WIq2epi+UNxkLhAIr3v4wMK
+	QXfzFuTeBHuXujiY44uy5zsICfFZ+7FboATmqvF2RWRURHnAbQHSCbQXyWj8v8S9+A4wQvdbiAe
+	PEch+svpEgTAlOYp5WzFd99lSmIevocINsO5rZUHhuABfy9g/md+dUlpJqHkFJZpmwL4uUHJ1fL
+	w3RlyQbRAPeiW2MzsYkwbnMTIiVn2HY6P2il3fWhMjTcL30ng
+X-Received: by 2002:a17:907:3f0a:b0:b71:b4a1:b29d with SMTP id a640c23a62f3a-b736796a40amr241980966b.64.1763120214744;
+        Fri, 14 Nov 2025 03:36:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGncWVaDUYmrZnQ3gSDBk8EIFCOicAB84qOiU3rPLLBv82jXFCsdviDxrNodVDC2Ot4XM+Oyw==
+X-Received: by 2002:a17:907:3f0a:b0:b71:b4a1:b29d with SMTP id a640c23a62f3a-b736796a40amr241977566b.64.1763120214298;
+        Fri, 14 Nov 2025 03:36:54 -0800 (PST)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fad41d9sm371942366b.27.2025.11.14.03.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 23:59:01 -0800 (PST)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Fri, 14 Nov 2025 03:36:53 -0800 (PST)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Peter Rosin <peda@axentia.se>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	asahi@lists.linux.dev,
+	patches@opensource.cirrus.com
+Cc: kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 5/5] ASoC: renesas: rz-ssi: Add support for 32 bits sample width
-Date: Fri, 14 Nov 2025 07:58:52 +0000
-Message-ID: <20251114075856.4751-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
-References: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: refer to trivial-codec.yaml in relevant sections
+Date: Fri, 14 Nov 2025 12:36:41 +0100
+Message-ID: <20251114113647.231481-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KtDSzKVhsDRbsSeekOlDjzpc2FnXSTEbgRIYw4opMX8_1763120215
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=yes
 Content-Transfer-Encoding: 8bit
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Add support for 32 bits sample format width for RZ/G2L SoCs.
+Commit 4acbfcf11cbe ("ASoC: dt-bindings: consolidate simple audio codec to
+trivial-codec.yaml") aggregates a few sound device-tree bindings, i.e., txt
+and yaml files, into a common trivial-codec.yaml, but misses to adjust the
+references in ANALOG DEVICES INC ASOC CODEC DRIVERS, ARM/APPLE MACHINE
+SOUND DRIVERS, NXP TFA9879 DRIVER and WOLFSON MICROELECTRONICS DRIVERS,
+which refer to files removed by the commit above.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Make these sections refer to trivial-codec.yaml, in order to inform the
+maintainers on changes to the device-tree binding relevant to the
+hardware drivers.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 ---
-v1->v2:
- * Dropped checking 32-bit sample width in rz_ssi_dma_slave_config() as it
-   is taken care by restructuring the test.
----
- sound/soc/renesas/rz-ssi.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ MAINTAINERS | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 3ec7c9875b43..5909778a6a70 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -75,7 +75,8 @@
- #define PREALLOC_BUFFER_MAX	(SZ_32K)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 836ec73c604d..311c418a76ea 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1770,6 +1770,7 @@ S:	Supported
+ W:	http://wiki.analog.com/
+ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/sound/adi,*
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/codecs/ad1*
+ F:	sound/soc/codecs/ad7*
+ F:	sound/soc/codecs/adau*
+@@ -2419,9 +2420,9 @@ M:	Martin Povišer <povik+lin@cutebit.org>
+ L:	asahi@lists.linux.dev
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+-F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+ F:	Documentation/devicetree/bindings/sound/apple,*
++F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/apple/*
+ F:	sound/soc/codecs/cs42l83-i2c.c
+ F:	sound/soc/codecs/cs42l84.*
+@@ -18843,7 +18844,7 @@ NXP TFA9879 DRIVER
+ M:	Peter Rosin <peda@axentia.se>
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/sound/nxp,tfa9879.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/codecs/tfa9879*
  
- #define SSI_RATES		SNDRV_PCM_RATE_8000_48000 /* 8k-48kHz */
--#define SSI_FMTS		(SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE)
-+#define SSI_FMTS		(SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | \
-+				 SNDRV_PCM_FMTBIT_S32_LE)
- #define SSI_CHAN_MIN		2
- #define SSI_CHAN_MAX		2
- #define SSI_FIFO_DEPTH		32
-@@ -295,7 +296,7 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 	}
- 
- 	/*
--	 * DWL: Data Word Length = {16, 24} bits
-+	 * DWL: Data Word Length = {16, 24, 32} bits
- 	 * SWL: System Word Length = 32 bits
- 	 */
- 	ssicr |= SSICR_CKDV(clk_ckdv);
-@@ -306,6 +307,9 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 	case 24:
- 		ssicr |= SSICR_DWL(5) | SSICR_PDTA;
- 		break;
-+	case 32:
-+		ssicr |= SSICR_DWL(6);
-+		break;
- 	default:
- 		dev_err(ssi->dev, "Not support %u data width",
- 			ssi->hw_params_cache.sample_width);
-@@ -1016,7 +1020,7 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 	unsigned int rate = params_rate(params);
- 	int ret;
- 
--	if (!(sample_bits == 16 || sample_bits == 24)) {
-+	if (!(sample_bits == 16 || sample_bits == 24 || sample_bits == 32)) {
- 		dev_err(ssi->dev, "Unsupported sample width: %d\n",
- 			sample_bits);
- 		return -EINVAL;
+ NXP-NCI NFC DRIVER
+@@ -27915,6 +27916,7 @@ F:	Documentation/devicetree/bindings/extcon/wlf,arizona.yaml
+ F:	Documentation/devicetree/bindings/mfd/wlf,arizona.yaml
+ F:	Documentation/devicetree/bindings/mfd/wm831x.txt
+ F:	Documentation/devicetree/bindings/regulator/wlf,arizona.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	Documentation/devicetree/bindings/sound/wlf,*.yaml
+ F:	Documentation/devicetree/bindings/sound/wm*
+ F:	Documentation/hwmon/wm83??.rst
 -- 
-2.43.0
+2.51.1
 
