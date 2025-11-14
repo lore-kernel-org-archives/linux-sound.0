@@ -1,90 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED5F283CB1
-	for <linux-sound@vger.kernel.org>; Thu, 13 Nov 2025 19:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F2720F079;
+	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763063965; cv=none; b=TU2AAuE1njqNMJl+Y5sHQhJZj82V2sPTGxCz7UF/5C/+fkN/+w8Rj5XtwzjqirofDE8zoAAKQ0Yb5ooUmFup3aaExptciEod9i/Q7kQZLttwF3wMvxL+/5e7lxkPAlx3imdfvtm9CIs2V6jSyywexXl/0cH+ku4ZGjfAvgVZL/k=
+	t=1763079277; cv=none; b=kvYROABqPGrHfOeetYSgH57SoD1uslQzKrcTiYEUiESTHzGm9sBWvXVX4vV14spA5k4xSEADPMZGdXWreVjtBDhNAvh3cqYngjGQAryPO2fxV9SB1/AilQ38oh4DZcTEJoSBwuoHGUrrjEW+A1GCnkNrvIsKXH+gHkRbwC96tRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763063965; c=relaxed/simple;
-	bh=DgxwAHRpzhGKnOM66CN/pWdJ+seG7F0kvnk02SRFFEs=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=dWCeiIJi0jBAKqKTd0A/3vROhNFcKr87xby4kGWkdXz9LsQzo4wa3X2jQPb8GjTv70zuX88ccMgWPhDMV8Wl3pVBQWTuxymclT4s66tB3sbIoY9KwFwp+LY7JtWnwnfBr4G9mTIX70qtJcO5mARbWvPeVtjfNedYHrfLhTPuuio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSIEKYTV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763079277; c=relaxed/simple;
+	bh=MHwNLI/pLkI9zz0fyDQfEii43uTT524o9ApM6CwAYaY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pf8mRAILE+beKM6ICJRTGe2bAGmniRM6RZ5VlQLhQaQRW/tPFahAsTBhKXl2ohBm8KumjRJ/kojTKVRdlXYkYUX1r3GQJr04y0X7f9zhbwwjtK5PLt6J4MeR8XrtX8iGQD/eAg5el/4TlbB/x1VaH7Moo9qk0KvnXIWJe3dh3og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pc/DvTI/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSIEKYTV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E49BC4CEFB;
-	Thu, 13 Nov 2025 19:59:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pc/DvTI/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 13D49C4CEF5;
+	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763063964;
-	bh=DgxwAHRpzhGKnOM66CN/pWdJ+seG7F0kvnk02SRFFEs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fSIEKYTVm2uY8XdWgVNLyUcl3hp6zcN8jm8B/BZokC28RCWq/4/mR90f+Vv8dSIWl
-	 UHoKSbKS1eqQgd/Q90e1DsjlF2U12ddYyhTQA/gn7qbpVEf5kyNRADeQyBxDLFcs16
-	 w4Y60hUqJ9Y2l+CcCaYFBlqu5JOl6m/wL6KbnNofNx/z+DgNCz4GN7eqQpDdiQyrbU
-	 ItnaA+r5cEKRIx1Elfzwy7hKaQ328EHr+u86yMJI0y2e0vtrPpSoPlDr4WXs8Q/OFS
-	 +xzOjo+813NyRVIsrbQ7qk2+gKiEsc63o3Ze7Lp8kOcat6EwP7SoiqmTgNlMdgXgaE
-	 i9UhO1AiBp1JA==
-Message-ID: <979d5936ff7b727be317ba6d8c3a5e36@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.18-rc5
-Date: Thu, 13 Nov 2025 19:59:09 +0000
+	s=k20201202; t=1763079277;
+	bh=MHwNLI/pLkI9zz0fyDQfEii43uTT524o9ApM6CwAYaY=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Pc/DvTI/+vaeSjXs5FnRKb3g+DcfRh5gEpMgjsEgJaFq/Up1aYG+btnMkrMCgUr82
+	 1KExUg/6D1u1G/gWeE5yNZKAa1mrc+Z5pZqOxk+olq8YhUvt3k4cSMJ2Df95wjccZl
+	 cabD77tiSWFZS3yG8y8MRji9bTQZjMz9lUigLPpvyysnbeYiQtuhVzm7DO8iiayjBT
+	 sqw2tD2HcldtMRuLoku9kxQiBKpM0IbzqjGqzm7V+OSQ21NWB0cXymQm9po8P06OLT
+	 vmB98HrtFtkgtTusqYaeetAMkBdWvHWn4GYLRsDX7xwBDVbnKKv+4t9ZVL6foA68bw
+	 drn3+lo9EwKTw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA80CD98C3;
+	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Fri, 14 Nov 2025 01:14:34 +0100
+Subject: [PATCH v2] ASoC: qcom: sdm845: set quaternary MI2S codec DAI to
+ I2S format
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251114-sdm845-quaternary-v2-1-9d803bf5f7c9@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIAGl0FmkC/z3MQQ7CIBBA0as0rJ0GEGxx5T2MCwrTlgRBh2psm
+ t5d4sLlW/y/sYIUsLBzszHCdyghpwp5aJibbZoQgq9mkksthFBQ/L1XGp4vuyAlSyug8SfPBy2
+ OzrDaPQjH8Pk9r7fqkfIdlpnQ/k9c8k5o2WnVKtObDgQ4G3FoXU4px7heYqjv3Gaa2L5/AdCv5
+ G6mAAAA
+X-Change-ID: 20251114-sdm845-quaternary-e9d6d0b513c9
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ "Dr. Git" <drgitx@gmail.com>, Casey Connolly <casey.connolly@linaro.org>, 
+ David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1341; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=ARxpTeY9kNYvN6EYXKNHS5nPtDvu8Qayi+gAEHyLru4=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFnRseuDCJsmzLI7IxIXZzk7++Dy8Mqn2plbaN
+ 3Nb4kuFfNWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRZ0bAAKCRBgAj/E00kg
+ crilEACvkZu3ZgsuyqRA7SUxj5lMfVN9pu0+B8ucn1W91euBRLxMlqDmLhPILRJAeOZEwwpwaxm
+ QLtms3kWoOfpJMBdYLUsvZP43Ke+sVIE7zSPv81i/WRlXSw0TNiHMsFkumBt4whyj011GKkZz18
+ wCg8WVbgr1cQBrukb+STxfK83dxBRxsSdHLtYDMtDaNpSYIeVkiqmedSYXGal0BpaQgxLHhZ+cc
+ tJqsM+Y1A7J5s3incrmDwXLtIbVH7aA9KteN+ExgZtg5ttBcE/T8O+CFJMMHey7EZgKH3fVNImE
+ 4Dz87fOPKWHmCRMw5FMfnUu6dZYa4/EzVh8fi7o6sSTjjSyVEBLSKf4y6CKieDvTpfzD5Fu13f3
+ V0j9iu3hSElsc8QmBF5LhpSFdCnA5xc3FBYS/lNLI0SQjNRH9A2tAzP3K+VOpr0l3h0k6cixxIx
+ 5YNxv1aP9bWE4f95Qr9CgtdvpJpybuyEBsRSCjtZuQiEQ0O7hZERNazyFo0YUN4AWQRl7+SmhpB
+ Z5n1VYX7wjSiMtRYJ0AQG7yetDQsoaDMvPFRwEkdTgdTY69p+p7qkGSWgWw+ezyZD8cBxvEsfrH
+ 8sFFsBU37JfeBLtU/xkRkxZffd05B8h/1K/5M3KvbwCYSsMkkd+u6yVGW+1tvSGPZEAENLegYdw
+ rFaokJukicQI+Qg==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-The following changes since commit 6146a0f1dfae5d37442a9ddcba012add260bceb0:
+From: "Dr. Git" <drgitx@gmail.com>
 
-  Linux 6.18-rc4 (2025-11-02 11:28:02 -0800)
+We configure the codec DAI format for primary and secondary but not the
+quaternery MI2S path. Add the missing configuration to enable speaker
+codecs on the quaternary MI2S like the MAX9827 found on the OnePlus 6.
 
-are available in the Git repository at:
+Signed-off-by: Dr. Git <drgitx@gmail.com>
+Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v2:
+ - Rebased on top of next-20251113
+---
+ sound/soc/qcom/sdm845.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.18-rc5
+diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
+index e18a8e44f2db5..0ce9dff4dc525 100644
+--- a/sound/soc/qcom/sdm845.c
++++ b/sound/soc/qcom/sdm845.c
+@@ -365,10 +365,12 @@ static int sdm845_snd_startup(struct snd_pcm_substream *substream)
+ 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+ 		break;
+ 	case QUATERNARY_MI2S_RX:
++		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+ 		snd_soc_dai_set_sysclk(cpu_dai,
+ 			Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT,
+ 			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+ 		snd_soc_dai_set_fmt(cpu_dai, fmt);
++		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+ 		break;
+ 
+ 	case QUATERNARY_TDM_RX_0:
 
-for you to fetch changes up to 360b3730f8eab6c4467c6cca4cb0e30902174a63:
+---
+base-commit: 6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
+change-id: 20251114-sdm845-quaternary-e9d6d0b513c9
 
-  ASoC: rsnd: fix OF node reference leak in rsnd_ssiu_probe() (2025-11-13 00:36:01 +0000)
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
 
-----------------------------------------------------------------
-ASoC: Fixes for v6.18
 
-A small collection of fixes, all driver specific and none especially
-remarkable unless you have the hardware (many not even then).
-
-----------------------------------------------------------------
-Claudiu Beznea (1):
-      ASoC: da7213: Use component driver suspend/resume
-
-Haotian Zhang (3):
-      ASoC: cs4271: Fix regulator leak on probe failure
-      ASoC: codecs: va-macro: fix resource leak in probe error path
-      ASoC: rsnd: fix OF node reference leak in rsnd_ssiu_probe()
-
-Miaoqian Lin (1):
-      ASoC: sdw_utils: fix device reference leak in is_sdca_endpoint_present()
-
-Niranjan H Y (2):
-      ASoC: tas2783A: Fix issues in firmware parsing
-      ASoC: SDCA: bug fix while parsing mipi-sdca-control-cn-list
-
-Richard Fitzgerald (1):
-      ASoC: doc: cs35l56: Update firmware filename description for B0 silicon
-
-Shenghao Ding (1):
-      ASoC: tas2781: fix getting the wrong device number
-
- Documentation/sound/codecs/cs35l56.rst |  9 ++---
- sound/soc/codecs/cs4271.c              | 10 +++--
- sound/soc/codecs/da7213.c              | 69 ++++++++++++++++++++++------------
- sound/soc/codecs/da7213.h              |  1 +
- sound/soc/codecs/lpass-va-macro.c      |  2 +-
- sound/soc/codecs/tas2781-i2c.c         |  9 ++++-
- sound/soc/codecs/tas2783-sdw.c         | 20 +++++++++-
- sound/soc/renesas/rcar/ssiu.c          |  3 +-
- sound/soc/sdca/sdca_functions.c        |  3 +-
- sound/soc/sdw_utils/soc_sdw_utils.c    | 20 +++++++---
- 10 files changed, 99 insertions(+), 47 deletions(-)
