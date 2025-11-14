@@ -1,100 +1,188 @@
-Received: from mail.kh.edu.tw (mail.kh.edu.tw [163.32.250.21])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90780132117
-	for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 05:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.32.250.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4072900A8;
+	Fri, 14 Nov 2025 07:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763098484; cv=none; b=D91fNRcEGHUoKUrA8IKgLGR12poQLpAj+pu9VZlBBA1Ly66EFDoYk5kbZn3pzXNiW3PHeBgJmS76ZKlgqKthfp5SAjNsHzBrZMEfbhJVh8sgdZ1x3TFtxJvz03WZDU0nY2w6Oli1Vt+jDArqusbKZdK/FWpM81TClcXNCb8nbwg=
+	t=1763105480; cv=none; b=f3KyiA1YXz/njNaPtD8G1FqUuu0QfMGFY5cVBrJvkE5HP6ycEDHI7t8mHS3IXBDS5GSQSKYQp/WLzHywN/J7bfOJOfSgDJg7olG0p6bPfoPKRsihfZGBCz9QmZILlkXEHc+dl23XWFkN6CZJAjXPHTVa+COF9hMs6mrGjQms/qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763098484; c=relaxed/simple;
-	bh=TYcx5/EwBUcYOKiHJZupqbtMavY5tJRq1LkHPxE5W/w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YLzgckL8BiiRVQ4hj4PeufIqQAzSj+GIG2tyjtVbXA62rB4l+w8PBVWjKVnNmzASF3iMBbHoRaJwXuGjGky96Uar+Ogof0c4M7RmBemnt8apkwbeNVRO6GynjvWoQxmUvZKuLm63Wunar+WCO50hQgsalGTxKtsPJbV3zafu6hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.kh.edu.tw; spf=pass smtp.mailfrom=mail.kh.edu.tw; dkim=pass (1024-bit key) header.d=mail.kh.edu.tw header.i=@mail.kh.edu.tw header.b=wVO5IkC0; arc=none smtp.client-ip=163.32.250.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.kh.edu.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.kh.edu.tw
+	s=arc-20240116; t=1763105480; c=relaxed/simple;
+	bh=IxF8X1vfgVSVMfT8B2eub1WyPsdDbytWvtHeqhTmLhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bHcQIEK6/4AM+zIqvhoF1bnKY240npXMQZDDvhWLUTwEi7327xIZL4e09xOsbeVs024VgXKlFQ8CrhjYirP4oaVbGcW2ORim9u7vvYtMyMPTGCXDUSt+IzZhuwuTEWVQPhjKZK2BLzXkzVacnN43/HHMDaFR1NKcRgYg3JKKFgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ihh3mPg2; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.kh.edu.tw header.i=@mail.kh.edu.tw header.b="wVO5IkC0"
-Received: from myDesktop.awareit.home (2001-b011-c008-7216-1c0c-1d8a-cbd3-4c7d.dynamic-ip6.hinet.net [IPv6:2001:b011:c008:7216:1c0c:1d8a:cbd3:4c7d])
-	(authenticated bits=0)
-	by mail.kh.edu.tw (8.16.1/8.16.1) with ESMTPSA id 5AE5KreG1037749
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 14 Nov 2025 13:20:54 +0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.kh.edu.tw 5AE5KreG1037749
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mail.kh.edu.tw;
-	s=default; t=1763097655;
-	bh=TYcx5/EwBUcYOKiHJZupqbtMavY5tJRq1LkHPxE5W/w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=wVO5IkC0XDaR4ivMPaSRP6GYICIq42Uk/vMC2CbdQyqcyPXAHMd6xSbBi8WsrHSqN
-	 oJgfFJLu0dWPvqh/Ep1so3qmMUZIvYSE1S+7U9n7tP6M7703fsXfcnSUilE7eWIlsF
-	 T4LWJqhb2mxOzm+sBStDkcqoCt2JOLe1nPuOoPuw=
-From: Lushih Hsieh <bruce@mail.kh.edu.tw>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add native DSD quirks for PureAudio DAC series
-Date: Fri, 14 Nov 2025 13:20:53 +0800
-Message-ID: <20251114052053.54989-1-bruce@mail.kh.edu.tw>
-X-Mailer: git-send-email 2.51.2
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ihh3mPg2"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id DAECBC10F5E;
+	Fri, 14 Nov 2025 07:30:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 90B36606F6;
+	Fri, 14 Nov 2025 07:31:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 91780102F24BE;
+	Fri, 14 Nov 2025 08:30:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763105473; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=I/md1yzfYHmg4zf6NhSCwlxOr7WiJ5xSExfYcNRcf0c=;
+	b=Ihh3mPg240Inv5tK6a0y2bc6iUFXi846hUKdidOylUDZuvveWMMENdHQaSkRED6RzFOXBq
+	s3tYQSOkev+hYVQeHR4xdj9gsjCBZE4xoVzfSAK/1g2MipCnnjRB9Bkk5GjuXG3Cx7DOFw
+	kYgFKBggTQm+b9pCxa+CSSQ/ZTWCwURcGhX3PYd9ux7EBGyx/9AHjyRmK+4KGnJIGUEThM
+	qzUZSLvpXFlxbq5qUbppYDVR3bLAksRf/LYtY1SMB9VNJh0223ScvrKjeOG9M97dF0T3LW
+	uvqxAXMSPLBRG2VoFl3r/PtCN/OynUaIXjcWuLff+sSzDc+2UloAc/8A3W9eSw==
+Date: Fri, 14 Nov 2025 08:30:56 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
+ Shyti <andi.shyti@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
+ Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
+ Helgaas <bhelgaas@google.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
+ Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
+Message-ID: <20251114083056.31553866@bootlin.com>
+In-Reply-To: <CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	<20251015071420.1173068-6-herve.codina@bootlin.com>
+	<20251030141448.GA3853761-robh@kernel.org>
+	<20251031162004.180d5e3f@bootlin.com>
+	<20251112142632.GA1610836-robh@kernel.org>
+	<CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.6.4 (mail.kh.edu.tw [IPv6:2001:288:8201:2:0:0:0:21]); Fri, 14 Nov 2025 13:20:55 +0800 (CST)
+X-Last-TLS-Session-Version: TLSv1.3
 
-The PureAudio APA DAC and Lotus DAC5 series are USB Audio
-2.0 Class devices that support native Direct Stream Digital (DSD)
-playback via specific vendor protocols.
+Hi Rob,
 
-Without these quirks, the devices may only function in standard
-PCM mode, or fail to correctly report their DSD format capabilities
-to the ALSA framework, preventing native DSD playback under Linux.
+On Wed, 12 Nov 2025 13:29:09 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-This commit adds new quirk entries for the mentioned DAC models
-based on their respective Vendor/Product IDs (VID:PID), for example:
-0x16d0:0x0ab1 (APA DAC), 0x16d0:0xeca1 (DAC5 series), etc.
+> On Wed, Nov 12, 2025 at 8:26 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Fri, Oct 31, 2025 at 04:20:04PM +0100, Herve Codina wrote:  
+> > > Hi Rob,
+> > >
+> > > On Thu, 30 Oct 2025 09:14:48 -0500
+> > > Rob Herring <robh@kernel.org> wrote:
+> > >  
+> > > > On Wed, Oct 15, 2025 at 09:13:52AM +0200, Herve Codina wrote:  
+> > > > > A Simple Platform Bus is a transparent bus that doesn't need a specific
+> > > > > driver to perform operations at bus level.
+> > > > >
+> > > > > Similar to simple-bus, a Simple Platform Bus allows to automatically
+> > > > > instantiate devices connected to this bus.
+> > > > >
+> > > > > Those devices are instantiated only by the Simple Platform Bus probe
+> > > > > function itself.  
+> > > >
+> > > > Don't let Greg see this... :)
+> > > >
+> > > > I can't say I'm a fan either. "Platform bus" is a kernel thing, and the
+> > > > distinction here between the 2 compatibles is certainly a kernel thing.
+> > > >
+> > > > I think this needs to be solved within the kernel.  
+> > >
+> > > I fully agree with that.
+> > >  
+> > > >
+> > > > What I previously said is define a list of compatibles to not
+> > > > instantiate the child devices. This would essentially be any case having
+> > > > a specific compatible and having its own driver. So if someone has
+> > > > 'compatible = "vendor,not-so-simple-bus", "simple-bus"', when and if
+> > > > they add a driver for "vendor,not-so-simple-bus", then they have to add
+> > > > the compatible to the list in the simple-pm-bus driver. I wouldn't
+> > > > expect this to be a large list. There's only a handful of cases where
+> > > > "simple-bus" has a more specific compatible. And only a few of those
+> > > > have a driver. A more general and complicated solution would be making
+> > > > linux handle 2 (or more) drivers matching a node and picking the driver
+> > > > with most specific match. That gets complicated with built-in vs.
+> > > > modules. I'm not sure we really need to solve that problem.  
+> > >
+> > > Right. Let discard the "more general and complicated solution" and focus
+> > > on the list of compatible to avoid child devices instantiation.
+> > >
+> > > Do you mean that, for "simple-bus" compatible we should:
+> > >  - Remove the recursive device instantiation from of_platform_populate().  
+> >
+> > That may be a problem I hadn't considered. While we've solved most probe
+> > ordering issues, I think some may remain. Even when of_platform_populate()
+> > is called affects this. For example, I tried removing various arm32
+> > of_platform_.*populate() calls which run earlier than the default call,
+> > but that broke some platforms. (Looking at the list of remaining ones, I
+> > fixed the at91 pinctrl/gpio drivers, but never tried to remove the
+> > calls again.)
+> >
+> > Maybe this can be restricted to cases which are not recursively created
+> > from the root node. Not sure how we detect that. Perhaps no OF_POPULATED
+> > flag on the parent node? Or we could just enable this for OF_DYNAMIC
+> > nodes? That should be sufficient for your usecase.  
+> 
+> Thinking a bit more about this, I think you don't have to do anything.
+> If child nodes already got populated, calling of_platform_populate() a
+> second time is essentially a nop. And for cases you care about, that
+> wouldn't have happened. Of course, I'd still rather there only be 1
+> path that devices could have been instantiated.
+> 
 
-The quirk ensures correct DSD format handling by setting the required
-SNDRV_PCM_FMTBIT_DSD_U32_BE format bit and defining the DSD-specific
-Audio Class 2.0 (AC2.0) endpoint configurations. This allows the ALSA
-DSD API to correctly address the device for high-bitrate DSD streams,
-bypassing the need for DoP (DSD over PCM).
+Hum, if my understanding is correct, this looks like what I did in the v3
+iteration [1].
 
-Test on APA DAC and Lotus DAC5 SE under Arch Linux.
+The idea was:
+  1) Do not change anything in of_platform_.*populate()
+  2) Update the simple-bus driver to populate children if there is only one
+     compatible string and this string matches the compatible string handled
+     by the driver.
 
-Tested-by: Lushih Hsieh <bruce@mail.kh.edu.tw>
+We can be more restrictive for 2) and only populate children if the only one
+compatible string is "simple-bus". This will keep current behavior for
+"simple-mfd", "isa" and "arm,amba-bus".
 
-Signed-off-by: Lushih Hsieh <bruce@mail.kh.edu.tw>
----
- sound/usb/quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+If you think this could be the right direction, I will bring those modification
+in the next iteration.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 71638e6dfb20..999122b76351 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2022,6 +2022,8 @@ u64 snd_usb_interface_dsd_format_quirks(struct snd_usb_audio *chip,
- 	case USB_ID(0x16d0, 0x09d8): /* NuPrime IDA-8 */
- 	case USB_ID(0x16d0, 0x09db): /* NuPrime Audio DAC-9 */
- 	case USB_ID(0x16d0, 0x09dd): /* Encore mDSD */
-+	case USB_ID(0x16d0, 0x0ab1): /* PureAudio APA DAC */
-+	case USB_ID(0x16d0, 0xeca1): /* PureAudio Lotus DAC5, DAC5 SE, DAC5 Pro */
- 	case USB_ID(0x1db5, 0x0003): /* Bryston BDA3 */
- 	case USB_ID(0x20a0, 0x4143): /* WaveIO USB Audio 2.0 */
- 	case USB_ID(0x22e1, 0xca01): /* HDTA Serenade DSD */
-@@ -2297,6 +2299,10 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CLOCK_SOURCE),
- 	DEVICE_FLG(0x1686, 0x00dd, /* Zoom R16/24 */
- 		   QUIRK_FLAG_TX_LENGTH | QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x16d0, 0x0ab1, /* PureAudio APA DAC */
-+		   QUIRK_FLAG_DSD_RAW),
-+	DEVICE_FLG(0x16d0, 0xeca1, /* PureAudio Lotus DAC5, DAC5 SE and DAC5 Pro */
-+		   QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x17aa, 0x1046, /* Lenovo ThinkStation P620 Rear Line-in, Line-out and Microphone */
- 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
- 	DEVICE_FLG(0x17aa, 0x104d, /* Lenovo ThinkStation P620 Internal Speaker + Front Headset */
--- 
-2.51.2
+Also, do you think we should be more restrictive and populate children in the
+simple-bus driver only for "simple-bus" compatible?
 
+[1] https://lore.kernel.org/lkml/20250613134817.681832-6-herve.codina@bootlin.com/
+
+Best regards,
+Hervé
