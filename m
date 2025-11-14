@@ -1,120 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F2720F079;
-	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DD21FE451;
+	Fri, 14 Nov 2025 03:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763079277; cv=none; b=kvYROABqPGrHfOeetYSgH57SoD1uslQzKrcTiYEUiESTHzGm9sBWvXVX4vV14spA5k4xSEADPMZGdXWreVjtBDhNAvh3cqYngjGQAryPO2fxV9SB1/AilQ38oh4DZcTEJoSBwuoHGUrrjEW+A1GCnkNrvIsKXH+gHkRbwC96tRo=
+	t=1763091373; cv=none; b=XmezAF9S04I9aOLP3gy1mkIqo2AdvQjCBQWx/vjiolRtSoJpns55G7LaO7A2+fSv67fY9LXOgDO9n2dwG7P8dEbNYavJKBdLedKdI7loi7DtI2FHG48aPLVqS5QVokarzJLpx0Ow0YtceeMiEPyUcuoDr/QB3xs92JsQfOVfwq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763079277; c=relaxed/simple;
-	bh=MHwNLI/pLkI9zz0fyDQfEii43uTT524o9ApM6CwAYaY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pf8mRAILE+beKM6ICJRTGe2bAGmniRM6RZ5VlQLhQaQRW/tPFahAsTBhKXl2ohBm8KumjRJ/kojTKVRdlXYkYUX1r3GQJr04y0X7f9zhbwwjtK5PLt6J4MeR8XrtX8iGQD/eAg5el/4TlbB/x1VaH7Moo9qk0KvnXIWJe3dh3og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pc/DvTI/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763091373; c=relaxed/simple;
+	bh=XRBfI7gCdxMfJLaXkHGy03GrbCVok28+ep4vK2GpY1c=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=aYT8HWXq+gWkAUyEDBPV6vZx8DWSrFNuUUsOrRijUUqT2PeT05lzVTqPYeJEJv7wyHYXgstqunBuqWNq77e3UmsqqGW+YcQHGX5eMXokjQLWzmKuxr7vstqwQoyzMWcJDZT0z3M8v9IZsBE1NjDVXebY+eM2jw4huCOoFr0MRsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7nI17pR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pc/DvTI/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 13D49C4CEF5;
-	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7nI17pR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05FF0C19423;
+	Fri, 14 Nov 2025 03:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763079277;
-	bh=MHwNLI/pLkI9zz0fyDQfEii43uTT524o9ApM6CwAYaY=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Pc/DvTI/+vaeSjXs5FnRKb3g+DcfRh5gEpMgjsEgJaFq/Up1aYG+btnMkrMCgUr82
-	 1KExUg/6D1u1G/gWeE5yNZKAa1mrc+Z5pZqOxk+olq8YhUvt3k4cSMJ2Df95wjccZl
-	 cabD77tiSWFZS3yG8y8MRji9bTQZjMz9lUigLPpvyysnbeYiQtuhVzm7DO8iiayjBT
-	 sqw2tD2HcldtMRuLoku9kxQiBKpM0IbzqjGqzm7V+OSQ21NWB0cXymQm9po8P06OLT
-	 vmB98HrtFtkgtTusqYaeetAMkBdWvHWn4GYLRsDX7xwBDVbnKKv+4t9ZVL6foA68bw
-	 drn3+lo9EwKTw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA80CD98C3;
-	Fri, 14 Nov 2025 00:14:37 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Fri, 14 Nov 2025 01:14:34 +0100
-Subject: [PATCH v2] ASoC: qcom: sdm845: set quaternary MI2S codec DAI to
- I2S format
+	s=k20201202; t=1763091373;
+	bh=XRBfI7gCdxMfJLaXkHGy03GrbCVok28+ep4vK2GpY1c=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=n7nI17pRMr1dpfHfU2p0leMeiTeGE8hGKpnT0L8rT84fp93GxrptMg6I85MhEEu6T
+	 jyeqVOKpyqNzeKFNanO6fWFdZwxn6N3Wqf2owP5E/4c0JWPkfJYmjEvIloXNPX849E
+	 gatEJlaoTBG+p9Azfktd/4kpOVjULM4CdfUK4xbcKwxEcG/DBSpTSBRssx6CQJk3Az
+	 QySIcw+Uaeh/dF932gRgnoCwdYt7BV0K+D4VNI4432FRZdIhY2pHnK8ZR30izZsUbk
+	 3Losz5abqvpVbFbdNjSRwRRKTMPBTkgKEh2ILGFEgutOUgGfL3HypQyjhc7D4CWY+9
+	 knhAzy9slS43Q==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-sdm845-quaternary-v2-1-9d803bf5f7c9@ixit.cz>
-X-B4-Tracking: v=1; b=H4sIAGl0FmkC/z3MQQ7CIBBA0as0rJ0GEGxx5T2MCwrTlgRBh2psm
- t5d4sLlW/y/sYIUsLBzszHCdyghpwp5aJibbZoQgq9mkksthFBQ/L1XGp4vuyAlSyug8SfPBy2
- OzrDaPQjH8Pk9r7fqkfIdlpnQ/k9c8k5o2WnVKtObDgQ4G3FoXU4px7heYqjv3Gaa2L5/AdCv5
- G6mAAAA
-X-Change-ID: 20251114-sdm845-quaternary-e9d6d0b513c9
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- "Dr. Git" <drgitx@gmail.com>, Casey Connolly <casey.connolly@linaro.org>, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1341; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=ARxpTeY9kNYvN6EYXKNHS5nPtDvu8Qayi+gAEHyLru4=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFnRseuDCJsmzLI7IxIXZzk7++Dy8Mqn2plbaN
- 3Nb4kuFfNWJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRZ0bAAKCRBgAj/E00kg
- crilEACvkZu3ZgsuyqRA7SUxj5lMfVN9pu0+B8ucn1W91euBRLxMlqDmLhPILRJAeOZEwwpwaxm
- QLtms3kWoOfpJMBdYLUsvZP43Ke+sVIE7zSPv81i/WRlXSw0TNiHMsFkumBt4whyj011GKkZz18
- wCg8WVbgr1cQBrukb+STxfK83dxBRxsSdHLtYDMtDaNpSYIeVkiqmedSYXGal0BpaQgxLHhZ+cc
- tJqsM+Y1A7J5s3incrmDwXLtIbVH7aA9KteN+ExgZtg5ttBcE/T8O+CFJMMHey7EZgKH3fVNImE
- 4Dz87fOPKWHmCRMw5FMfnUu6dZYa4/EzVh8fi7o6sSTjjSyVEBLSKf4y6CKieDvTpfzD5Fu13f3
- V0j9iu3hSElsc8QmBF5LhpSFdCnA5xc3FBYS/lNLI0SQjNRH9A2tAzP3K+VOpr0l3h0k6cixxIx
- 5YNxv1aP9bWE4f95Qr9CgtdvpJpybuyEBsRSCjtZuQiEQ0O7hZERNazyFo0YUN4AWQRl7+SmhpB
- Z5n1VYX7wjSiMtRYJ0AQG7yetDQsoaDMvPFRwEkdTgdTY69p+p7qkGSWgWw+ezyZD8cBxvEsfrH
- 8sFFsBU37JfeBLtU/xkRkxZffd05B8h/1K/5M3KvbwCYSsMkkd+u6yVGW+1tvSGPZEAENLegYdw
- rFaokJukicQI+Qg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <7414c080bbacc3c5be00c0eec4f5cbca386acaf3.1762435376.git.geert+renesas@glider.be>
+References: <cover.1762435376.git.geert+renesas@glider.be> <7414c080bbacc3c5be00c0eec4f5cbca386acaf3.1762435376.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v6 14/26] clk: at91: Convert to common field_{get,prep}() helpers
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+To: Alex Elder <elder@ieee.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Biju Das <biju.das.jz@bp.renesas.com>, Borislav Petkov <bp@alien8.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Cosmin Tanislav <demonsingur@gmail.com>, Crt Mori <cmo@melexis.com>, David Laight <david.laight.linux@gmail.com>, David Lechner <dlechner@baylibre.com>, David Miller <davem@davemloft.net>, Geert Uytterhoeven <geert+renesas@glider.be>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, Jacky Huang <ychuang3@nuvoton.com>, Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Jason Baron <jbaron@akamai.com>, Jianping Shen <Jianping.Shen@de.bosch.com>, Joel Stanley <joel@jms.id.au>, Johannes Berg <johannes@sipsolutions.net>, Jonathan Cameron <jic23@kernel.org>, Kim Seer Paller <kimseer.paller@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Linus Walleij <linus.walleij@linaro.org>, Michael Hennerich <Michael.Hennerich@analog.com>, Michael Turquette <mturquette@baylibre.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Nuno =?utf-8?q?S=C3=A1?= <nuno.sa@analog.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Richard Genoud <richard.genoud@bootlin.com>, Richard Weinberger <richard@nod.at>, Shan-Chun Hung <schung@nuvoton.com>, Takashi Iwai <tiwai@suse.com>, Tony Luck <tony.luck@intel.com>, Vignesh Raghavendra <vigneshr@ti.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Yury Norov <yury.norov@gmail.com>
+Date: Thu, 13 Nov 2025 18:26:57 -0800
+Message-ID: <176308721705.11952.11835271974430936980@localhost.localdomain>
+User-Agent: alot/0.11
 
-From: "Dr. Git" <drgitx@gmail.com>
+Quoting Geert Uytterhoeven (2025-11-06 05:34:02)
+> Drop the driver-specific field_get() and field_prep() macros, in favor
+> of the globally available variants from <linux/bitfield.h>.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> ---
 
-We configure the codec DAI format for primary and secondary but not the
-quaternery MI2S path. Add the missing configuration to enable speaker
-codecs on the quaternary MI2S like the MAX9827 found on the OnePlus 6.
-
-Signed-off-by: Dr. Git <drgitx@gmail.com>
-Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-Changes in v2:
- - Rebased on top of next-20251113
----
- sound/soc/qcom/sdm845.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
-index e18a8e44f2db5..0ce9dff4dc525 100644
---- a/sound/soc/qcom/sdm845.c
-+++ b/sound/soc/qcom/sdm845.c
-@@ -365,10 +365,12 @@ static int sdm845_snd_startup(struct snd_pcm_substream *substream)
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
- 		break;
- 	case QUATERNARY_MI2S_RX:
-+		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
- 		snd_soc_dai_set_sysclk(cpu_dai,
- 			Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT,
- 			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(cpu_dai, fmt);
-+		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
- 		break;
- 
- 	case QUATERNARY_TDM_RX_0:
-
----
-base-commit: 6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
-change-id: 20251114-sdm845-quaternary-e9d6d0b513c9
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
-
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
