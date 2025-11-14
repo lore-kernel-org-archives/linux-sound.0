@@ -1,188 +1,310 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012018.outbound.protection.outlook.com [40.93.195.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4072900A8;
-	Fri, 14 Nov 2025 07:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763105480; cv=none; b=f3KyiA1YXz/njNaPtD8G1FqUuu0QfMGFY5cVBrJvkE5HP6ycEDHI7t8mHS3IXBDS5GSQSKYQp/WLzHywN/J7bfOJOfSgDJg7olG0p6bPfoPKRsihfZGBCz9QmZILlkXEHc+dl23XWFkN6CZJAjXPHTVa+COF9hMs6mrGjQms/qM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763105480; c=relaxed/simple;
-	bh=IxF8X1vfgVSVMfT8B2eub1WyPsdDbytWvtHeqhTmLhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bHcQIEK6/4AM+zIqvhoF1bnKY240npXMQZDDvhWLUTwEi7327xIZL4e09xOsbeVs024VgXKlFQ8CrhjYirP4oaVbGcW2ORim9u7vvYtMyMPTGCXDUSt+IzZhuwuTEWVQPhjKZK2BLzXkzVacnN43/HHMDaFR1NKcRgYg3JKKFgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Ihh3mPg2; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6924627E074;
+	Fri, 14 Nov 2025 07:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763105687; cv=fail; b=DcT95ATKleNkcJmTU0WF+uw/FOU6o40r8VbHgORbsc9hjtfAGqYG9rkYhmNVNoIMM1DJtoGb0oMlN/2cfqJ8/+2QDCN6fCrevCc/Zt4bLzqyFxwPEPc1eZM2q/9aAHZRvjfLJQnOcZ2/UNG6EROhNo97+G9lBD8dlsVlZcU6QuA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763105687; c=relaxed/simple;
+	bh=IBHsx5SOkVUflSQb8r9PKIn2YZkx1ilgE2RCAdZtPwQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dAjJDWVf9tAK9uD3OvZ3APthervlTrJbnyvvhfewbypLiSNN18CiOKpZy1YXX1E2Qjw46kNKgt2WhQJ7/+G1TV1m3lxFIsGKdKiwLmP4wp1ctnXnAsCfiCGG0IPunAKZyTbLFJ4Zf4GcLzI/Ny4i3Ge/lbQK7YGL1o5uTBgLIXY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=n4+3FZBy; arc=fail smtp.client-ip=40.93.195.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Ihh3mPg2"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id DAECBC10F5E;
-	Fri, 14 Nov 2025 07:30:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 90B36606F6;
-	Fri, 14 Nov 2025 07:31:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 91780102F24BE;
-	Fri, 14 Nov 2025 08:30:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763105473; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=I/md1yzfYHmg4zf6NhSCwlxOr7WiJ5xSExfYcNRcf0c=;
-	b=Ihh3mPg240Inv5tK6a0y2bc6iUFXi846hUKdidOylUDZuvveWMMENdHQaSkRED6RzFOXBq
-	s3tYQSOkev+hYVQeHR4xdj9gsjCBZE4xoVzfSAK/1g2MipCnnjRB9Bkk5GjuXG3Cx7DOFw
-	kYgFKBggTQm+b9pCxa+CSSQ/ZTWCwURcGhX3PYd9ux7EBGyx/9AHjyRmK+4KGnJIGUEThM
-	qzUZSLvpXFlxbq5qUbppYDVR3bLAksRf/LYtY1SMB9VNJh0223ScvrKjeOG9M97dF0T3LW
-	uvqxAXMSPLBRG2VoFl3r/PtCN/OynUaIXjcWuLff+sSzDc+2UloAc/8A3W9eSw==
-Date: Fri, 14 Nov 2025 08:30:56 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Brown <broonie@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
- Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 05/29] dt-bindings: bus: Add simple-platform-bus
-Message-ID: <20251114083056.31553866@bootlin.com>
-In-Reply-To: <CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<20251015071420.1173068-6-herve.codina@bootlin.com>
-	<20251030141448.GA3853761-robh@kernel.org>
-	<20251031162004.180d5e3f@bootlin.com>
-	<20251112142632.GA1610836-robh@kernel.org>
-	<CAL_JsqJ89EcUvQnS0xYXOrw6wJ30TT5oFA85eCqHYdu43056cw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="n4+3FZBy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eXoe5e23pJnZfZm/CtkYu+0+8asK6w1qkqCrSTdzHOl//ZeUs+02Grls3ROY9F3t38JlgAKq+E577qBLB5ZDBwC6g2cekfnhYMKtLGqHuB9EAJpT/LDW86KtghwHjutGRzKL9mqN1TGCAgXXtdbOth1NQJ7JpbqJ5Fey4h7oky+nHrbUGMnU7QdrS0jISRWaBRMyq3LlSqyz53yoFmRaA2CeC3mYv7Q/WM9/aj6EjS2NTOJPF3jUHTwC0gACVuKrNiqD9Ai6tmqBR7vuLW9RBA+RyR+IFTvZkwih4fNu5WYPdLBU7SyeYdZGVeu6/OqjKACQjKA9gZLf6/NUhECqPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RdaQh3nSwsWwloGlQHKcr7jg7wJKqBeWing9C1V9RKU=;
+ b=KiMVnX6bMVSmJ7u06coVpJVMfXbm9KDVYrzCXm7e9pRYLD7aOxEhdmbUV8NpBUTPZ2Z83nGuB+8OLMtfDGriY9p7krnxQ4q5UwsL8MMHDlfk2CaRpm7ITgrEcP12ZraaTYLVndqiaIM0oAeFRXXQF1oKMCWWOU+A36Wf6P9PoPO9XJfBZ4gSFobNUI0RJl/hbLN1tguqckNb66cW2LfDSkXLPJnEWPw/Kad0O4Vmc29menXlsff8Azeb0iODYH4OGOUQH/2hWOHNqRBWXDyzenuQyIq12HNKREms3MdO0nm6+OIF7/SgpZ65Hq2DQHJiYy9lECCkw3eXEkBHeZtJ5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=google.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RdaQh3nSwsWwloGlQHKcr7jg7wJKqBeWing9C1V9RKU=;
+ b=n4+3FZBygx+WQGJWm1BnIDeQshXUfK6CAui/bfFd2DuNuN64aEYsVpvrVXyu/8tQsVf3qI9TLzvX557ZMVedw0xsIP/cibX8vpdMUKJU5V28lXVjpYj5WEBWSM8eVTL2KH4dgDM+7Y59KwOT3GXlCIsdU3SvBOsCDAyLRzzSCnM=
+Received: from MN2PR15CA0059.namprd15.prod.outlook.com (2603:10b6:208:237::28)
+ by IA4PR10MB8495.namprd10.prod.outlook.com (2603:10b6:208:55d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
+ 2025 07:34:41 +0000
+Received: from BL02EPF0001A108.namprd05.prod.outlook.com
+ (2603:10b6:208:237:cafe::28) by MN2PR15CA0059.outlook.office365.com
+ (2603:10b6:208:237::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Fri,
+ 14 Nov 2025 07:34:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ BL02EPF0001A108.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 07:34:41 +0000
+Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 01:34:36 -0600
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 01:34:36 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 14 Nov 2025 01:34:36 -0600
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AE7YPVL1606594;
+	Fri, 14 Nov 2025 01:34:26 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>, <tiwai@suse.de>
+CC: <andriy.shevchenko@linux.intel.com>, <13916275206@139.com>,
+	<shenghao-ding@ti.com>, <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
+	<k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>, <will-wang@ti.com>,
+	<jim.shil@goertek.com>, <toastcheng@google.com>, <chinkaiting@google.com>
+Subject: [PATCH v2 1/2] ASoC: tas2781: Add tas2568/2574/5806m/5806md/5830 support
+Date: Fri, 14 Nov 2025 15:33:57 +0800
+Message-ID: <20251114073358.23046-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A108:EE_|IA4PR10MB8495:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42af0c69-12a1-446b-a565-08de23504617
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3CuP5lEtrW6u6dWzpk3tApTlspvZgB0vR7csM4xrYhKoPnZIMTPAKEDJOojt?=
+ =?us-ascii?Q?/wGEW8x1FnaZLRFdzqIGHwozlDicmUclDcDYCDSx2ZNGF3MpDzw47UUkd4hK?=
+ =?us-ascii?Q?/1uZXLlMSX1RNmxbjgoOAp+joT1yfIi3EdQZxGswt0M355W/yyc4pFDR84CT?=
+ =?us-ascii?Q?vGk+CqHN8s7vaP6FoE+y9HiDcVvhBUO6bq/YyXHMXyGGEROifbQ393TiNRtm?=
+ =?us-ascii?Q?L59pdulBkUnrUNlX0QbZhu1oGJUMuYHOG4Zba13WADtvNX7TVUU4i4PaLPP6?=
+ =?us-ascii?Q?UraMWzgbgSHmKC5Grv8qsgbyNYl8W6fjLHPLNgKUInSQZlRHzD0NmPI5VzQg?=
+ =?us-ascii?Q?0ONeGOCo/IUoClAt7z6uZlXvRAEX17YIwLfaPu4bBLrUk0kYboxFTiMowzJO?=
+ =?us-ascii?Q?hq2Mgyl5j+LguaY1ZsTu0p/LftaCN4yCXi3oFyoWWfOyVAgWzXITcuQPUbVO?=
+ =?us-ascii?Q?U/MBjYpg8Px3Crta/n5L7q0rp/thv7LeLtp7Jo0QKGxOcGZt51yuaLBim/oF?=
+ =?us-ascii?Q?aZQx4Wyp5JB6dvSaFP6tx7RYawUFIOAdiER4BSVYTSQrju3DYcLplmqeWcFA?=
+ =?us-ascii?Q?FtTvgGmSUSildzZWxYTfNoy982gn2jocYQh2FUg5QklBWjqsNCfIt4XWvg+S?=
+ =?us-ascii?Q?rjx/oxhTCU3sIwuFPHy5NKUuMK6BqVUWCCDaXcTC290BFnlwWsagfP3JkQzZ?=
+ =?us-ascii?Q?Ibao/50AnRVvW4bSawT1eN5Jyhwz9u0gb+DYL+7WBvzfywJyvCX31l/NEJpD?=
+ =?us-ascii?Q?4XLaU+v3ULk3p9aeYEaUb3SiaTtpyMC4pbDqRm0a/Fl0HRfEvf1HYHbxyuFY?=
+ =?us-ascii?Q?a2KTWFOjqV29EhPm/oBck1Qr3tURoMgzkw5tUgq9H/GXZUI7xMZMFeHO2n5Z?=
+ =?us-ascii?Q?JyW168im4eoOnVPsP5yH64qeBVmnBeSnonvu4KbwemxZYK5J5HRj4JyMJKC6?=
+ =?us-ascii?Q?6nOqA67Bjx9qptfrkk9TUxgyyRRiQCMLBoLk8LiZCLLkyShVYPyQlhqPNZSR?=
+ =?us-ascii?Q?EpkXQ0gs0JLpPG2K3HGeR08ZlOGCa2CjrjyyU+ev6OTzwnZhvslbnEYIKrpa?=
+ =?us-ascii?Q?2yHDkjy/MbM8fTqA/4PVL2ZRfH8kuDlp2MbP64oMz3KBm9Rhp2N8O8FzP4Ir?=
+ =?us-ascii?Q?PGW61EYnozqCXyns5szIsV14X5fRp3EJjTWUWnUMyKXqSEQtqq9SqSHwozsg?=
+ =?us-ascii?Q?b94QRTBpjjyoeLziiRTLFQ74C+57sLDkd5qrncmkJz81ahmRo1ZGETOZO1sy?=
+ =?us-ascii?Q?7VpvOsxB1TzGacTSbTAWdBsAWIC9bmLHaZinpiSW4hy5yYWqbEvGCeRX/UvC?=
+ =?us-ascii?Q?aNT/4X/vqj75EHIHIFIjIHTSVMmjU51MtgMam4RiTAGg4LiN2BcH6UNOHbkJ?=
+ =?us-ascii?Q?gQhLHdg0NoIxbBJTsE0iEZ1x4jXMZPJvWhxl9MXGf23SOVVUAwhxhypVvxo1?=
+ =?us-ascii?Q?ZDQn3vV0jHgn38hbXTzh3h5LROZCYXnloDDSFmYzRA8hmvyzIP71XfoZQneB?=
+ =?us-ascii?Q?wajsjw9tLblOTZjcdfubRC4A01lbxO7qxR9ZF07HYquzBBtkojwhvbqUn8x5?=
+ =?us-ascii?Q?eGAQbaJia5uRZ4OdeBE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 07:34:41.2274
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42af0c69-12a1-446b-a565-08de23504617
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A108.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8495
 
-Hi Rob,
+TAS5806M, TAS5806MD, TAS5830 has on-chip DSP without current/voltage
+feedback, and in same family with TAS58XX.
+TAS2568, TAS2574 is in family with TAS257X.
 
-On Wed, 12 Nov 2025 13:29:09 -0600
-Rob Herring <robh@kernel.org> wrote:
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-> On Wed, Nov 12, 2025 at 8:26 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Fri, Oct 31, 2025 at 04:20:04PM +0100, Herve Codina wrote:  
-> > > Hi Rob,
-> > >
-> > > On Thu, 30 Oct 2025 09:14:48 -0500
-> > > Rob Herring <robh@kernel.org> wrote:
-> > >  
-> > > > On Wed, Oct 15, 2025 at 09:13:52AM +0200, Herve Codina wrote:  
-> > > > > A Simple Platform Bus is a transparent bus that doesn't need a specific
-> > > > > driver to perform operations at bus level.
-> > > > >
-> > > > > Similar to simple-bus, a Simple Platform Bus allows to automatically
-> > > > > instantiate devices connected to this bus.
-> > > > >
-> > > > > Those devices are instantiated only by the Simple Platform Bus probe
-> > > > > function itself.  
-> > > >
-> > > > Don't let Greg see this... :)
-> > > >
-> > > > I can't say I'm a fan either. "Platform bus" is a kernel thing, and the
-> > > > distinction here between the 2 compatibles is certainly a kernel thing.
-> > > >
-> > > > I think this needs to be solved within the kernel.  
-> > >
-> > > I fully agree with that.
-> > >  
-> > > >
-> > > > What I previously said is define a list of compatibles to not
-> > > > instantiate the child devices. This would essentially be any case having
-> > > > a specific compatible and having its own driver. So if someone has
-> > > > 'compatible = "vendor,not-so-simple-bus", "simple-bus"', when and if
-> > > > they add a driver for "vendor,not-so-simple-bus", then they have to add
-> > > > the compatible to the list in the simple-pm-bus driver. I wouldn't
-> > > > expect this to be a large list. There's only a handful of cases where
-> > > > "simple-bus" has a more specific compatible. And only a few of those
-> > > > have a driver. A more general and complicated solution would be making
-> > > > linux handle 2 (or more) drivers matching a node and picking the driver
-> > > > with most specific match. That gets complicated with built-in vs.
-> > > > modules. I'm not sure we really need to solve that problem.  
-> > >
-> > > Right. Let discard the "more general and complicated solution" and focus
-> > > on the list of compatible to avoid child devices instantiation.
-> > >
-> > > Do you mean that, for "simple-bus" compatible we should:
-> > >  - Remove the recursive device instantiation from of_platform_populate().  
-> >
-> > That may be a problem I hadn't considered. While we've solved most probe
-> > ordering issues, I think some may remain. Even when of_platform_populate()
-> > is called affects this. For example, I tried removing various arm32
-> > of_platform_.*populate() calls which run earlier than the default call,
-> > but that broke some platforms. (Looking at the list of remaining ones, I
-> > fixed the at91 pinctrl/gpio drivers, but never tried to remove the
-> > calls again.)
-> >
-> > Maybe this can be restricted to cases which are not recursively created
-> > from the root node. Not sure how we detect that. Perhaps no OF_POPULATED
-> > flag on the parent node? Or we could just enable this for OF_DYNAMIC
-> > nodes? That should be sufficient for your usecase.  
-> 
-> Thinking a bit more about this, I think you don't have to do anything.
-> If child nodes already got populated, calling of_platform_populate() a
-> second time is essentially a nop. And for cases you care about, that
-> wouldn't have happened. Of course, I'd still rather there only be 1
-> path that devices could have been instantiated.
-> 
+---
+v2:
+ - Add TAS2574 support.
+---
+ include/sound/tas2781.h        |  5 +++++
+ sound/soc/codecs/tas2781-i2c.c | 29 ++++++++++++++++++++++++++---
+ 2 files changed, 31 insertions(+), 3 deletions(-)
 
-Hum, if my understanding is correct, this looks like what I did in the v3
-iteration [1].
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index c3b4c43dd2bf..711142cb9918 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -117,15 +117,20 @@ enum audio_device {
+ 	TAS2120,
+ 	TAS2320,
+ 	TAS2563,
++	TAS2568,
+ 	TAS2570,
+ 	TAS2572,
++	TAS2574,
+ 	TAS2781,
+ 	TAS5802,
++	TAS5806M,
++	TAS5806MD,
+ 	TAS5815,
+ 	TAS5822,
+ 	TAS5825,
+ 	TAS5827,
+ 	TAS5828,
++	TAS5830,
+ 	TAS_OTHERS,
+ };
+ 
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 7bd98ff5a250..0a86964dfcfd 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -105,15 +105,20 @@ static const struct i2c_device_id tasdevice_id[] = {
+ 	{ "tas2120", TAS2120 },
+ 	{ "tas2320", TAS2320 },
+ 	{ "tas2563", TAS2563 },
++	{ "tas2568", TAS2568 },
+ 	{ "tas2570", TAS2570 },
+ 	{ "tas2572", TAS2572 },
++	{ "tas2574", TAS2574 },
+ 	{ "tas2781", TAS2781 },
+ 	{ "tas5802", TAS5802 },
++	{ "tas5806m", TAS5806M },
++	{ "tas5806md", TAS5806MD },
+ 	{ "tas5815", TAS5815 },
+ 	{ "tas5822", TAS5822 },
+ 	{ "tas5825", TAS5825 },
+ 	{ "tas5827", TAS5827 },
+ 	{ "tas5828", TAS5828 },
++	{ "tas5830", TAS5830 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, tasdevice_id);
+@@ -125,15 +130,20 @@ static const struct of_device_id tasdevice_of_match[] = {
+ 	{ .compatible = "ti,tas2120" },
+ 	{ .compatible = "ti,tas2320" },
+ 	{ .compatible = "ti,tas2563" },
++	{ .compatible = "ti,tas2568" },
+ 	{ .compatible = "ti,tas2570" },
+ 	{ .compatible = "ti,tas2572" },
++	{ .compatible = "ti,tas2574" },
+ 	{ .compatible = "ti,tas2781" },
+ 	{ .compatible = "ti,tas5802" },
++	{ .compatible = "ti,tas5806m" },
++	{ .compatible = "ti,tas5806md" },
+ 	{ .compatible = "ti,tas5815" },
+ 	{ .compatible = "ti,tas5822" },
+ 	{ .compatible = "ti,tas5825" },
+ 	{ .compatible = "ti,tas5827" },
+ 	{ .compatible = "ti,tas5828" },
++	{ .compatible = "ti,tas5830" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, tasdevice_of_match);
+@@ -1643,8 +1653,10 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	case TAS2118:
+ 	case TAS2120:
+ 	case TAS2320:
++	case TAS2568:
+ 	case TAS2570:
+ 	case TAS2572:
++	case TAS2574:
+ 		goto out;
+ 	}
+ 	if (tas_priv->name_prefix)
+@@ -1670,9 +1682,7 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	}
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+ 
+-	/* There is no calibration required for
+-	 * TAS5802/TAS5815/TAS5822/TAS5825/TAS5827/TAS5828.
+-	 */
++	/* There is no calibration required for TAS58XX. */
+ 	if (tas_priv->chip_id < TAS5802) {
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
+ 		if (ret) {
+@@ -1728,11 +1738,14 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 		case TAS2563:
+ 		case TAS2781:
+ 		case TAS5802:
++		case TAS5806M:
++		case TAS5806MD:
+ 		case TAS5815:
+ 		case TAS5822:
+ 		case TAS5825:
+ 		case TAS5827:
+ 		case TAS5828:
++		case TAS5830:
+ 			/* If DSP FW fail, DSP kcontrol won't be created. */
+ 			tasdevice_dsp_remove(tas_priv);
+ 		}
+@@ -1883,8 +1896,10 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ 	case TAS2118:
+ 	case TAS2120:
+ 	case TAS2320:
++	case TAS2568:
+ 	case TAS2570:
+ 	case TAS2572:
++	case TAS2574:
+ 		p = (struct snd_kcontrol_new *)tas2x20_snd_controls;
+ 		size = ARRAY_SIZE(tas2x20_snd_controls);
+ 		tas_priv->dvc_tlv_table = tas2x20_dvc_table;
+@@ -1894,11 +1909,14 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
+ 		size = ARRAY_SIZE(tas2781_snd_controls);
+ 		break;
+ 	case TAS5802:
++	case TAS5806M:
++	case TAS5806MD:
+ 	case TAS5815:
+ 	case TAS5822:
+ 	case TAS5825:
+ 	case TAS5827:
+ 	case TAS5828:
++	case TAS5830:
+ 		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
+ 		size = ARRAY_SIZE(tas5825_snd_controls);
+ 		break;
+@@ -2072,15 +2090,20 @@ static const struct acpi_device_id tasdevice_acpi_match[] = {
+ 	{ "TXNW2120", TAS2120 },
+ 	{ "TXNW2320", TAS2320 },
+ 	{ "TXNW2563", TAS2563 },
++	{ "TXNW2568", TAS2568 },
+ 	{ "TXNW2570", TAS2570 },
+ 	{ "TXNW2572", TAS2572 },
++	{ "TXNW2574", TAS2574 },
+ 	{ "TXNW2781", TAS2781 },
+ 	{ "TXNW5802", TAS5802 },
++	{ "TXNW806M", TAS5806M },
++	{ "TXNW806D", TAS5806MD },
+ 	{ "TXNW5815", TAS5815 },
+ 	{ "TXNW5822", TAS5822 },
+ 	{ "TXNW5825", TAS5825 },
+ 	{ "TXNW5827", TAS5827 },
+ 	{ "TXNW5828", TAS5828 },
++	{ "TXNW5830", TAS5830 },
+ 	{},
+ };
+ 
+-- 
+2.25.1
 
-The idea was:
-  1) Do not change anything in of_platform_.*populate()
-  2) Update the simple-bus driver to populate children if there is only one
-     compatible string and this string matches the compatible string handled
-     by the driver.
-
-We can be more restrictive for 2) and only populate children if the only one
-compatible string is "simple-bus". This will keep current behavior for
-"simple-mfd", "isa" and "arm,amba-bus".
-
-If you think this could be the right direction, I will bring those modification
-in the next iteration.
-
-Also, do you think we should be more restrictive and populate children in the
-simple-bus driver only for "simple-bus" compatible?
-
-[1] https://lore.kernel.org/lkml/20250613134817.681832-6-herve.codina@bootlin.com/
-
-Best regards,
-Hervé
