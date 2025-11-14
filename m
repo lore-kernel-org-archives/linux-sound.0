@@ -1,185 +1,193 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36F1326D65
-	for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 14:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA2430C360
+	for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 14:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763130684; cv=none; b=Ad9ZsgK0e8/psjTE5a5q+8XWbxRgWV0PEUA3E1/G+sy5xe8Vc1IPF8XLxIOE7Sx01zwcUg12mR863vtUqNK6qBWwxdA8avQSYIRVWTbGLTsE1sUiSUV0bSxbl4Z27q9TIFHBdRvTht4mmTvb+63wmj2nSffHj9g0+aG9TaufaCg=
+	t=1763130958; cv=none; b=aOZuQDAyjgmZrm3z32WBmC9jAyn1JTqdIyGTm1QpZVCRvYlGVQnnIBuPEwtvKk57u6uz5I+1wuZ4r+NGnAGYmJ8XafI3Sk1wOAsONLYcwsM/e0zJAfqpszTuyo9xPc4CW9qgdC88X1KZOTp5L6Gyg0hEiOU5QfROVAZaDMPXnBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763130684; c=relaxed/simple;
-	bh=Le/1it3BX6uNM5tGuNC+JSTvUD9RYJP4GLU55k20ldI=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=EdWkToCO3/V7ndsxwQ+bnBEdqotlAjsbRkNR/JHyAD3MU1D5levqMicOxIn9FelFLCzjAOBFoq+okV/WjiT6HFRIXDcVLS8PAnnI4ionz+e8tYTfFks/x3s56so7CjIemNsDbuosKgYWhPBNLEONF9IuU729kLLbw6Jxtdf/yOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vZMMUYTp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zjdzzi3K; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vZMMUYTp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zjdzzi3K; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1763130958; c=relaxed/simple;
+	bh=CjD4q1ZMbBJWQvc4Bgiana/20OE4djcpHnIJ+VkNDyA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jXmptTd5BGnL5WhP5B8K3vbA0YvWYmVljcAuT9+I9rS0imRgPuHEPph+NG3UGyEqMEMKwaRwgYC6en0pnkoOHInJmGkv0ryGoynGwbQqJk8LL25IfWrAPeCtPhQkjrm2gFyu23U95enZTQA7hE+puULPnowAQz26fgencotKgu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXdiqQV6; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vZMMUYTp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zjdzzi3K";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vZMMUYTp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zjdzzi3K"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3EF29211E0;
-	Fri, 14 Nov 2025 14:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763130680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wZV0lvDZU8QEP0CL+Acv0SShKckfVk2O7tLlAh32kF8=;
-	b=vZMMUYTph3secXeuf9QDrK0Ks48w7Co1Ib2F8MaT8hBcJ0IRt8IQsqpFE4RKVcX389cHF1
-	3qg59ru3hIqrcR0cW9gDOjUkys9vg8V3nCh0q7Io4ZoGs77TRBWgPI5suMggcXt6pSJBCM
-	9jiL++TzBhlZ0jle7I09za7veUueIzo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763130680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wZV0lvDZU8QEP0CL+Acv0SShKckfVk2O7tLlAh32kF8=;
-	b=Zjdzzi3KHItp1j4ZPu+BjmKnOZy97pO//QW8AMD2AdtIT9i3xY8Gr/8qJVDkWWhdly+83n
-	Mcm38RkB+Bd2cUDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763130680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wZV0lvDZU8QEP0CL+Acv0SShKckfVk2O7tLlAh32kF8=;
-	b=vZMMUYTph3secXeuf9QDrK0Ks48w7Co1Ib2F8MaT8hBcJ0IRt8IQsqpFE4RKVcX389cHF1
-	3qg59ru3hIqrcR0cW9gDOjUkys9vg8V3nCh0q7Io4ZoGs77TRBWgPI5suMggcXt6pSJBCM
-	9jiL++TzBhlZ0jle7I09za7veUueIzo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763130680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wZV0lvDZU8QEP0CL+Acv0SShKckfVk2O7tLlAh32kF8=;
-	b=Zjdzzi3KHItp1j4ZPu+BjmKnOZy97pO//QW8AMD2AdtIT9i3xY8Gr/8qJVDkWWhdly+83n
-	Mcm38RkB+Bd2cUDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 172AB3EA61;
-	Fri, 14 Nov 2025 14:31:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gRtjBDg9F2kjfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 14 Nov 2025 14:31:20 +0000
-Date: Fri, 14 Nov 2025 15:31:19 +0100
-Message-ID: <87fragit3c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.18-rc6
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXdiqQV6"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6431b0a1948so3594135a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 14 Nov 2025 06:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763130955; x=1763735755; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=usqzkbXAktOV+QTZEhZmGU1PKdliPqoVmQQvPTmUm64=;
+        b=TXdiqQV6NcYruV7Dt4b7flyKgNuimcwFZaXs8bSHz46HtgWWwsopO/VRrdAmrtHNEX
+         afb4m1KXxYK/LEwb7O0ur0inrWqt6g7uNgwUBfbEc9EH0BW/Lj/LFqGQjYPCilKKiIEz
+         9qndtx3Fr+0coV0FMLkONsaKrXUrXOpk2b2rgHwL45o5HfE39VpY9dqVLlckjoqTjjee
+         FrL+dBB8/k6lM5gtAaecOOIl35/cv5UCfIQuwZDCLViVZYp2v2S8VUm7fkHwl5u88sWh
+         wFMEzrK9lR4HIEaeu/uRSo1lYhkavSITOLx/v9NV4g3/VEKfTMmjEht++nbhzYz6yBh7
+         YhLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763130955; x=1763735755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=usqzkbXAktOV+QTZEhZmGU1PKdliPqoVmQQvPTmUm64=;
+        b=seA/k5/BPQcjMhvRo0UTmq6OjWkRdu+6FXzy7yGnbRzIJIdFE7Efs4JfFmyvNDIPNw
+         ckKj3X6ABpISQJ+9k4uYob/1VZebT+mCb82PNm7V5vfeGnROafBhXhBMjpL9+nuEIreB
+         GZOjI9BnId7OJseOrU/fP1//A/RVSYIuaKX8ESSH22Xm5yW52GEOyMZc6MzKTZd/ULyz
+         FwE7e6z6Hl0Z/OULOFFun/TdNPR0ztTj7NvtbbdjhZecb22BLTUCVsHciofZMRPe+z1y
+         Zm2aSZRPHu6opSszgxgfCSNvofKvd0ex488shqMrK4/JecTx7nRMhqiDQqDsxqpITWP9
+         L3EA==
+X-Gm-Message-State: AOJu0Yx+gChC8azXnQBum2hGMbAwpADvfYcExl56xoohmhBoUeqO+HvE
+	6bv/lufEXYS2qwWiJw/ANggr52v20S2t1wJDY1yXOKYvd+ola0ag/N12
+X-Gm-Gg: ASbGncv25LWMRIoH/Cmii7h6ur7NTHwLqBWAeW+3G+UWFEbxv85T646xuMe+Gs5p+Sk
+	dlQfUGRurApRDwYGFKwrmXkgwa7BEOy3LRJ6yKbdvhbrh06tziyn9eeULSR55RnRJ9fRVamVJ9g
+	EKxQ8ZNGQ9lZvETFuDdk8YI2TC0lspcNeQ8NHjsIgd2tB3NXtPNbAfOJh8lcDySveTrFrhA4bde
+	Vxi8H2gZAS9gxQSMe8tAhAC+9DTQe1ML09OlvaCVx2uuYSmqXyAWIL44c05qja3DaAwgkXZU4VG
+	dLJjzpXkrNjfxa9PxE8wKPvXRzBSQnQOIMaFbhH3FidviT4vFBdpkCkhwm5v7R856t6QpUdgO2f
+	BMgAf0U+Su4g7gEu/LmQn53uPkfoW84R6nOeTRXWpsZmOnpw9RkrXcgYoakWnCVr5zpuNjZ0rhQ
+	g3YCOh9kkMc0X2HzAo3QrTVBKCpLGU+EPq/1iXwg==
+X-Google-Smtp-Source: AGHT+IEkXh8aOaEa9VYbV+mSh0EevYMCtp8lTPm/U4emLvWPOqyGjxIaHiTsSpt8P+ehxwrwdlpbfQ==
+X-Received: by 2002:a17:907:6d1b:b0:b72:ad95:c1c2 with SMTP id a640c23a62f3a-b7367828c43mr340632166b.11.1763130954832;
+        Fri, 14 Nov 2025 06:35:54 -0800 (PST)
+Received: from SMW024614.wbi.nxp.com ([128.77.115.158])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fa80afbsm391264766b.11.2025.11.14.06.35.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 06:35:54 -0800 (PST)
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>
+Cc: linux-sound@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: SOF: imx9: use SCMI API for LM management
+Date: Fri, 14 Nov 2025 06:35:03 -0800
+Message-ID: <20251114143503.2139-1-laurentiumihalcea111@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-please pull sound fixes for v6.18-rc6 from:
+Linux supports NXP's LMM SCMI protocol so switch to using the appropriate
+API. The SIPs were intended to act as placeholders until the support for
+said protocol was upstreamed.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.18-rc6
+The underlying CPU protocol command from IMX_SIP_SRC_M_RESET_ADDR_SET is
+replaced by a LMM protocol command with the same effect (i.e. setting the
+boot address) since using the CPU protocol would require additional
+permissions (which TF-A already had). Apart from this, the SIPs are
+replaced by their equivalent Linux LMM commands.
 
-The topmost commit is 21a9ab5b90b3716a631d559e62818029b4e7f5b7
-
-----------------------------------------------------------------
-
-sound fixes for 6.18-rc6
-
-A collection of small fixes.  All changes are device-specific, and
-nothing stands out.
-
-- A regression fix for HD-audio HDMI probe
-- USB-audio hardening patches for issues spotted by fuzzers
-- ASoC fixes for TAS278x, SoundWire and Cirrus
-- Usual HD-audio and USB-audio quirks
-
-----------------------------------------------------------------
-
-Baojun Xu (2):
-      ALSA: hda/tas2781: Add new quirk for HP new projects
-      ALSA: hda/tas2781: Correct the wrong project ID
-
-Claudiu Beznea (1):
-      ASoC: da7213: Use component driver suspend/resume
-
-Haein Lee (1):
-      ALSA: usb-audio: Fix NULL pointer dereference in snd_usb_mixer_controls_badd
-
-Haotian Zhang (3):
-      ASoC: cs4271: Fix regulator leak on probe failure
-      ASoC: codecs: va-macro: fix resource leak in probe error path
-      ASoC: rsnd: fix OF node reference leak in rsnd_ssiu_probe()
-
-Lushih Hsieh (1):
-      ALSA: usb-audio: Add native DSD quirks for PureAudio DAC series
-
-Miaoqian Lin (1):
-      ASoC: sdw_utils: fix device reference leak in is_sdca_endpoint_present()
-
-Niranjan H Y (2):
-      ASoC: tas2783A: Fix issues in firmware parsing
-      ASoC: SDCA: bug fix while parsing mipi-sdca-control-cn-list
-
-Pauli Virtanen (1):
-      ALSA: usb-audio: add min_mute quirk for SteelSeries Arctis
-
-Richard Fitzgerald (1):
-      ASoC: doc: cs35l56: Update firmware filename description for B0 silicon
-
-Shenghao Ding (1):
-      ASoC: tas2781: fix getting the wrong device number
-
-Takashi Iwai (2):
-      ALSA: hda/hdmi: Fix breakage at probing nvhdmi-mcp driver
-      ALSA: usb-audio: Fix potential overflow of PCM transfer buffer
-
+Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 ---
- Documentation/sound/codecs/cs35l56.rst |  9 ++---
- sound/hda/codecs/hdmi/nvhdmi-mcp.c     |  4 +-
- sound/hda/codecs/realtek/alc269.c      |  9 +++++
- sound/soc/codecs/cs4271.c              | 10 +++--
- sound/soc/codecs/da7213.c              | 69 ++++++++++++++++++++++------------
- sound/soc/codecs/da7213.h              |  1 +
- sound/soc/codecs/lpass-va-macro.c      |  2 +-
- sound/soc/codecs/tas2781-i2c.c         |  9 ++++-
- sound/soc/codecs/tas2783-sdw.c         | 20 +++++++++-
- sound/soc/renesas/rcar/ssiu.c          |  3 +-
- sound/soc/sdca/sdca_functions.c        |  3 +-
- sound/soc/sdw_utils/soc_sdw_utils.c    | 20 +++++++---
- sound/usb/endpoint.c                   |  5 +++
- sound/usb/mixer.c                      |  2 +
- sound/usb/quirks.c                     |  8 ++++
- 15 files changed, 125 insertions(+), 49 deletions(-)
+Changes in v2:
+
+* add dependency on CONFIG_IMX_SCMI_LMM_DRV.
+* link to v1: https://lore.kernel.org/lkml/20251112144124.680-1-laurentiumihalcea111@gmail.com/
+
+ sound/soc/sof/imx/Kconfig |  1 +
+ sound/soc/sof/imx/imx9.c  | 36 ++++++++----------------------------
+ 2 files changed, 9 insertions(+), 28 deletions(-)
+
+diff --git a/sound/soc/sof/imx/Kconfig b/sound/soc/sof/imx/Kconfig
+index 327e2df94a58..09d88ce5b9e6 100644
+--- a/sound/soc/sof/imx/Kconfig
++++ b/sound/soc/sof/imx/Kconfig
+@@ -35,6 +35,7 @@ config SND_SOC_SOF_IMX8
+ config SND_SOC_SOF_IMX9
+ 	tristate "SOF support for i.MX9"
+ 	depends on IMX_DSP
++	depends on IMX_SCMI_LMM_DRV
+ 	select SND_SOC_SOF_IMX_COMMON
+ 	help
+ 	  This adds support for Sound Open Firmware for NXP i.MX9 platforms.
+diff --git a/sound/soc/sof/imx/imx9.c b/sound/soc/sof/imx/imx9.c
+index 853155d5990a..e56e8a1c8022 100644
+--- a/sound/soc/sof/imx/imx9.c
++++ b/sound/soc/sof/imx/imx9.c
+@@ -3,19 +3,11 @@
+  * Copyright 2025 NXP
+  */
+ 
+-#include <linux/arm-smccc.h>
++#include <linux/firmware/imx/sm.h>
+ 
+ #include "imx-common.h"
+ 
+-#define IMX_SIP_SRC 0xC2000005
+-#define IMX_SIP_SRC_M_RESET_ADDR_SET 0x03
+-
+-#define IMX95_CPU_VEC_FLAGS_BOOT BIT(29)
+-
+-#define IMX_SIP_LMM 0xC200000F
+-#define IMX_SIP_LMM_BOOT 0x0
+-#define IMX_SIP_LMM_SHUTDOWN 0x1
+-
++#define IMX95_M7_CPU_ID 0x1
+ #define IMX95_M7_LM_ID 0x1
+ 
+ static struct snd_soc_dai_driver imx95_dai[] = {
+@@ -38,7 +30,6 @@ static int imx95_ops_init(struct snd_sof_dev *sdev)
+ 
+ static int imx95_chip_probe(struct snd_sof_dev *sdev)
+ {
+-	struct arm_smccc_res smc_res;
+ 	struct platform_device *pdev;
+ 	struct resource *res;
+ 
+@@ -49,31 +40,20 @@ static int imx95_chip_probe(struct snd_sof_dev *sdev)
+ 		return dev_err_probe(sdev->dev, -ENODEV,
+ 				     "failed to fetch SRAM region\n");
+ 
+-	/* set core boot reset address */
+-	arm_smccc_smc(IMX_SIP_SRC, IMX_SIP_SRC_M_RESET_ADDR_SET, res->start,
+-		      IMX95_CPU_VEC_FLAGS_BOOT, 0, 0, 0, 0, &smc_res);
+-
+-	return smc_res.a0;
++	return scmi_imx_lmm_reset_vector_set(IMX95_M7_LM_ID, IMX95_M7_CPU_ID,
++					     0, res->start);
+ }
+ 
+ static int imx95_core_kick(struct snd_sof_dev *sdev)
+ {
+-	struct arm_smccc_res smc_res;
+-
+-	arm_smccc_smc(IMX_SIP_LMM, IMX_SIP_LMM_BOOT,
+-		      IMX95_M7_LM_ID, 0, 0, 0, 0, 0, &smc_res);
+-
+-	return smc_res.a0;
++	return scmi_imx_lmm_operation(IMX95_M7_LM_ID, SCMI_IMX_LMM_BOOT, 0);
+ }
+ 
+ static int imx95_core_shutdown(struct snd_sof_dev *sdev)
+ {
+-	struct arm_smccc_res smc_res;
+-
+-	arm_smccc_smc(IMX_SIP_LMM, IMX_SIP_LMM_SHUTDOWN,
+-		      IMX95_M7_LM_ID, 0, 0, 0, 0, 0, &smc_res);
+-
+-	return smc_res.a0;
++	return scmi_imx_lmm_operation(IMX95_M7_LM_ID,
++				      SCMI_IMX_LMM_SHUTDOWN,
++				      SCMI_IMX_LMM_OP_FORCEFUL);
+ }
+ 
+ static const struct imx_chip_ops imx95_chip_ops = {
+-- 
+2.43.0
 
