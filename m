@@ -1,74 +1,193 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECEC2441B8;
-	Sun, 16 Nov 2025 03:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A68154425;
+	Sun, 16 Nov 2025 06:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763265161; cv=none; b=dNinwPH+2trN+M6XWZHcbGMIpUo/osYTSCAstaSCl6112+TbIxIvZxIr12Gt62neq6r6ws04Vkzka0QkiFva1axSBZSXf5+RbWNYgXzVuqdACiBXueMETxgGfiRL6QdADj8YflPfzvzaRKAFX/4DKQPKdTmwNCVigSBqkDWl2cM=
+	t=1763273808; cv=none; b=hMwkJFero1durrMQEgW7sP6I/8SxvyYj1l2ATq1Bkfscsqa1xNKFtqQ+DR6mpM479MTouOc6lUCaAo2VelzVkWHPCoUSdNQjkbDykWh9gFXYWVX1wQkEDC62NsJ6k7a2PjnhELq8G0VqU3wImZeBBa7pj6EokegOL7UYgcwCaic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763265161; c=relaxed/simple;
-	bh=elDQNfVxbieXT1jJ7mnTPTdGSw8jTRG/tSs3yo5cCRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mQgTUrQBt8RpWpAv8pzzMGa0khfjxyWjNGqF1OwteXs8wujJNoRd6uku9bD/h9Y+wxP2G+MTVEd15/un9hTy86a2BFXpD78MwLIGnYJuov5a2QedZ2JkJpZxcjhyuPKHC6lrh6dekuPzA/toNRQfjkqK2s5Ezpno2R9R0e+0rkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=HRXqVbri; arc=none smtp.client-ip=1.95.21.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="HRXqVbri"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=9T2DbJXTL02gDuKqRKAHj63zBLmVwp0FHpFWKELvs6o=;
-	b=HRXqVbriK/FgeE7H6K/G1lLF9PBP9XAYmclO+P7pLfBBklJ5poTiXzOEeBqjNd
-	ilKXnYYDrlkbsjK+RHk4hJB0GyEAB6bJwJgWFc4xYNIim4N+h7WGasO+sWWeAUFK
-	NXEBdqxWqzvb02vkr9eUrlZzaKYUDdauZIVU+Z43mJCbw=
-Received: from dragon (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id M88vCgCnKou+SRlpHYgSAg--.7957S3;
-	Sun, 16 Nov 2025 11:49:21 +0800 (CST)
-Date: Sun, 16 Nov 2025 11:49:18 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
-	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org, l.stach@pengutronix.de,
-	shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 7/7] arm64: dts: imx8mp-evk: enable hdmi_pai device
-Message-ID: <aRlJvijH-F8pz10O@dragon>
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <20250923053001.2678596-8-shengjiu.wang@nxp.com>
+	s=arc-20240116; t=1763273808; c=relaxed/simple;
+	bh=TFVwht++e2GHt41kvufSh6XV336zccnWiMsrsnCJCcY=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=EqNu8qVXlX8QNen+Vs8x6187zLsPr1seYDbgafu+j6MywOjQleMwqmkpM6GD8OZ32l95gzyLaajdE9gPSQ/xvtZH4FJUDmJkO/GymB2tsoesR7cjXCmoQe36GpcUopWMo1kQxe1oKPgkcmRqZD1gEuwxwRnR1XSO+wxb6bak2YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-03 (Coremail) with SMTP id rQCowAAXptg5bBlpkD_wAA--.21573S2;
+	Sun, 16 Nov 2025 14:16:34 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: srini@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	dmitry.baryshkov@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: wcd937x: Fix error handling in wcd937x codec driver
+Date: Sun, 16 Nov 2025 14:16:23 +0800
+Message-Id: <20251116061623.11830-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:rQCowAAXptg5bBlpkD_wAA--.21573S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCr17WF1UKr48XrWkJr13urg_yoWrAFWkpa
+	yUCa90k3yUWryxCF93Gry8Jas8Gr40yFs3Xr47Kw17KwsxJrWjyryYvw1jv3Z3GF95WFnr
+	CFy3Ja4kCF4UXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+	W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
+	0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwV
+	AFwVW8AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU3HUDU
+	UUUU=
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250923053001.2678596-8-shengjiu.wang@nxp.com>
-X-CM-TRANSID:M88vCgCnKou+SRlpHYgSAg--.7957S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUbWlkUUUUU
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiNgEjiGkZScFifQAA37
 
-On Tue, Sep 23, 2025 at 01:30:01PM +0800, Shengjiu Wang wrote:
-> Enable hdmi_pai device.
-> 
-> Aud2htx module, hdmi_pai and hdmi controller compose the hdmi audio
-> pipeline.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+In wcd937x_bind(), the driver calls of_sdw_find_device_by_node() to
+obtain references to RX and TX SoundWire devices, which increment the
+device reference counts. However, the corresponding put_device() are
+missing in both the error paths and the normal unbind path in
+wcd937x_unbind().
 
-Applied, thanks!
+Add proper error handling with put_device() calls in all error paths
+of wcd937x_bind() and ensure devices are released in wcd937x_unbind().
+
+Found by code review.
+
+Cc: stable@vger.kernel.org
+Fixes: 772ed12bd04e ("ASoC: codecs: wcdxxxx: use of_sdw_find_device_by_node helper")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ sound/soc/codecs/wcd937x.c | 43 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 34 insertions(+), 9 deletions(-)
+
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index 421ec7a2d6bd..ed0ff45a8964 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -2748,7 +2748,8 @@ static int wcd937x_bind(struct device *dev)
+ 	wcd937x->rxdev = of_sdw_find_device_by_node(wcd937x->rxnode);
+ 	if (!wcd937x->rxdev) {
+ 		dev_err(dev, "could not find slave with matching of node\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_component_unbind;
+ 	}
+ 
+ 	wcd937x->sdw_priv[AIF1_PB] = dev_get_drvdata(wcd937x->rxdev);
+@@ -2757,7 +2758,8 @@ static int wcd937x_bind(struct device *dev)
+ 	wcd937x->txdev = of_sdw_find_device_by_node(wcd937x->txnode);
+ 	if (!wcd937x->txdev) {
+ 		dev_err(dev, "could not find txslave with matching of node\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_put_rxdev;
+ 	}
+ 
+ 	wcd937x->sdw_priv[AIF1_CAP] = dev_get_drvdata(wcd937x->txdev);
+@@ -2765,7 +2767,8 @@ static int wcd937x_bind(struct device *dev)
+ 	wcd937x->tx_sdw_dev = dev_to_sdw_dev(wcd937x->txdev);
+ 	if (!wcd937x->tx_sdw_dev) {
+ 		dev_err(dev, "could not get txslave with matching of dev\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_put_txdev;
+ 	}
+ 
+ 	/*
+@@ -2775,31 +2778,35 @@ static int wcd937x_bind(struct device *dev)
+ 	if (!device_link_add(wcd937x->rxdev, wcd937x->txdev,
+ 			     DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME)) {
+ 		dev_err(dev, "Could not devlink TX and RX\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_put_txdev;
+ 	}
+ 
+ 	if (!device_link_add(dev, wcd937x->txdev,
+ 			     DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME)) {
+ 		dev_err(dev, "Could not devlink WCD and TX\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_remove_link1;
+ 	}
+ 
+ 	if (!device_link_add(dev, wcd937x->rxdev,
+ 			     DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME)) {
+ 		dev_err(dev, "Could not devlink WCD and RX\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_remove_link2;
+ 	}
+ 
+ 	wcd937x->regmap = wcd937x->sdw_priv[AIF1_CAP]->regmap;
+ 	if (!wcd937x->regmap) {
+ 		dev_err(dev, "could not get TX device regmap\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_remove_link3;
+ 	}
+ 
+ 	ret = wcd937x_irq_init(wcd937x, dev);
+ 	if (ret) {
+ 		dev_err(dev, "IRQ init failed: %d\n", ret);
+-		return ret;
++		goto err_remove_link3;
+ 	}
+ 
+ 	wcd937x->sdw_priv[AIF1_PB]->slave_irq = wcd937x->virq;
+@@ -2809,10 +2816,26 @@ static int wcd937x_bind(struct device *dev)
+ 
+ 	ret = snd_soc_register_component(dev, &soc_codec_dev_wcd937x,
+ 					 wcd937x_dais, ARRAY_SIZE(wcd937x_dais));
+-	if (ret)
++	if (ret) {
+ 		dev_err(dev, "Codec registration failed\n");
++		goto err_remove_link3;
++	}
+ 
+ 	return ret;
++
++err_remove_link3:
++	device_link_remove(dev, wcd937x->rxdev);
++err_remove_link2:
++	device_link_remove(dev, wcd937x->txdev);
++err_remove_link1:
++	device_link_remove(wcd937x->rxdev, wcd937x->txdev);
++err_put_txdev:
++	put_device(wcd937x->txdev);
++err_put_rxdev:
++	put_device(wcd937x->rxdev);
++err_component_unbind:
++	component_unbind_all(dev, wcd937x);
++	return ret;
+ }
+ 
+ static void wcd937x_unbind(struct device *dev)
+@@ -2825,6 +2848,8 @@ static void wcd937x_unbind(struct device *dev)
+ 	device_link_remove(wcd937x->rxdev, wcd937x->txdev);
+ 	component_unbind_all(dev, wcd937x);
+ 	mutex_destroy(&wcd937x->micb_lock);
++	put_device(wcd937x->txdev);
++	put_device(wcd937x->rxdev);
+ }
+ 
+ static const struct component_master_ops wcd937x_comp_ops = {
+-- 
+2.17.1
 
