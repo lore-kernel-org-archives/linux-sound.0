@@ -1,129 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from exactco.de (exactco.de [176.9.10.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6437A248F62;
-	Sun, 16 Nov 2025 11:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB9147A6B
+	for <linux-sound@vger.kernel.org>; Sun, 16 Nov 2025 15:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.10.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763293045; cv=none; b=WeEqsluAYn97fQcVbRDLb94RoVwWbLRjApD/cJvNIPIljq+DRUU5sE9qcRBu05k8SHyD6o9ZB0b8qaSmSJt6tDrHLFSg2beNdiW1izuxJxYNzJw3AEzT3Tr9oGKvGgmdZykqYFP4bAco6rtcqPMbxnkL3bfkHxOMT/UAe063cD0=
+	t=1763306790; cv=none; b=GX5dOUHiBKC0+uc2cZv3fzwpXkevGaj14+xls+AUn7S352DHcGe35Rzvwh01ZcLPBTPCViVRSy0n4FXvE1nT6eViw6gmP1jl+yFHfMf7KjoEAXufL1uajSJJEpWTT8sGdkiBuOL5l4hdMpRQ6SkpFm2BSf5fuhPhYAvylWVoaA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763293045; c=relaxed/simple;
-	bh=im6DmuF4iGlVO4Ak2kfup34KlXMP9GQla5lGTKsOf/U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ojsFc0NGvfynEquROjnqvQvcayLD2KKPYTPLQ5Ba1dCPE5wduxgmUJmGyja2SH1O6hGufsXiVxKdIgfAODUVJb0ZJbr1d2qgltU6N3xpEab+uISR3tSxoXjYHGR5t4pNh+Cb0pe65UCZwv7leORd0l18MFhm/pTB2ibT2013JQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KFwzBUUp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763306790; c=relaxed/simple;
+	bh=0jvNrFJwx5TeTyBmZtXDyIutOJnsW433R1JK2EJF/HM=;
+	h=Date:Message-Id:Cc:To:Subject:From:Mime-Version:Content-Type; b=mM6yRO6IIRWBr6yU9pPB2blAZZk7brpPmVCNpmQK4Sxylk426nwIS9VEUzbwLefAJmMD/qHW6taIYrJKiG4awWjUqdlMkZqCEJNK6fCjRCAEsBTvzEnVKFH09iMLaXutpaLerPy1h4H5g+3aR2jepAkLYIqBIZHwT6sjNb7oFJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de; spf=pass smtp.mailfrom=exactco.de; dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b=TmjHEBNX; arc=none smtp.client-ip=176.9.10.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=exactco.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFwzBUUp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8C7C4CEFB;
-	Sun, 16 Nov 2025 11:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763293044;
-	bh=im6DmuF4iGlVO4Ak2kfup34KlXMP9GQla5lGTKsOf/U=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=KFwzBUUpqwGmxhPYxOmQG9+UYQ+otttsEDSuEEbNyyxcLLHSeA22hxPvyakf+qjPC
-	 dQHSKbgxg5kYHk8NMKuakRUY+1/+gtvMu9ebTP5c6u9ZBCvp7gMvBv4EVJEezdH4g8
-	 wLY6r5l+FBjShVq0uNmASlRf0fBDivePjljaEUywDVgRABpPhNJ300RRTEX/kvUbG9
-	 sd5qIF2pegLLZbODiijzD35tCxpU2tBV33z4E2/82cBfKemrP44E/g++5epvlsFDGh
-	 +cj6GtRqBY2G9AcbBcPHxtvRcR7iofx6qYc0RBsg50qkoi5nwf1S1SodX/q3QvpdZC
-	 kYV1qF2cQWOQQ==
-Message-ID: <ba5db26e-b59d-4074-9436-3e71257fa70f@kernel.org>
-Date: Sun, 16 Nov 2025 12:37:15 +0100
+	dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b="TmjHEBNX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de;
+	s=x; h=Content-Transfer-Encoding:Content-Type:Mime-Version:From:Subject:To:Cc
+	:Message-Id:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=KOamihvpXVrhkBewLTay7Ch3dlQ7u6nVK7RTRC7IAeY=; b=T
+	mjHEBNXirniP/XMIbQQZ8BDbjw+FKnvCmf41zRoyoVTcmZmxRIdX+3QECiCH79sI9soQtz+2HfnmR
+	vTd35Lxi6QcDp9bU614/rVQOTl1rMgx5eR6ypvbo0paKmyjimnHPwN25BWLQ9SrremxbeGmkTLAZw
+	cn7S6K7pFmyGaFIA8OZUvC1yC+3rygcspir/uwDwBsx1dNqayO99pz0EqlGyG033+St47L7VUIptm
+	ufZ9+XK8IGgs3xPr9QEwspkao4ZG8u0xEPAya8VAPZ0t0ulrGwqAvVDUmUb7RquFFLdvLbmaeVKYu
+	70evsq5cCXGYLK4pCWFLU1FSmCx0UfoYA==;
+Date: Sun, 16 Nov 2025 16:26:33 +0100 (CET)
+Message-Id: <20251116.162633.1272923634893984527.rene@exactco.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Kailang Yang <kailang@realtek.com>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] fixup realtek/alc288 headphone for MS Surface 2, 3 and 
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+X-Mailer: Mew version 6.10 on Emacs 30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/7] dt-bindings: display: imx: add HDMI PAI for
- i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
- luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- devicetree@vger.kernel.org, l.stach@pengutronix.de, shengjiu.wang@gmail.com,
- perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <20250923053001.2678596-2-shengjiu.wang@nxp.com>
- <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-On 21/10/2025 10:02, Simona Vetter wrote:
-> On Tue, Sep 23, 2025 at 01:29:55PM +0800, Shengjiu Wang wrote:
->> Add binding for the i.MX8MP HDMI parallel Audio interface block.
->>
->> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
->> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
->>
->> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
->> Controller compose the HDMI audio pipeline.
->>
->> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
->>
->> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> 
-> dt patches need an ack from dt maintainers before you push them, please
-> make sure you follow that for the next changes.
+The Surface Pro 2 and 3 have a strage frequency response and miss most
+of the bass. I discovered connecting the HP out to the main DAC fixes
+this.  Maybe the other is mono or whatever strangely mixed signal for
+the built-in speakers?
 
-Huh? Review is an Ack as well. We NEVER give both Rb and Ack. Either Ack
-or Review, because Review carries much stronger acceptance.
+I later noticed the Lenovo Ideapad 720S (AMD) exhibited the same
+problem, so this may be a more wide-spread general bug w/ Realtek
+codecs and the hda_auto_parser, ...
 
-Best regards,
-Krzysztof
+Signed-off-by: René Rebe <rene@exactco.de>
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 4aec5067c59d..81ac86b65796 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2259,6 +2259,17 @@ static void alc282_fixup_asus_tx300(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc288_fixup_headset(struct hda_codec *codec,
++				 const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_INIT) {
++		/* Surface Pro? */
++		int nid = codec->core.vendor_id == 0x10ec0280 ? 0x15 : 0x21;
++		/* DAC node 0x0c is giving low bass output, reverse default order. */
++		snd_hda_codec_write(codec, nid, 0, AC_VERB_SET_CONNECT_SEL, 1);
++	}
++}
++
+ static void alc290_fixup_mono_speakers(struct hda_codec *codec,
+ 				       const struct hda_fixup *fix, int action)
+ {
+@@ -3483,6 +3495,7 @@ enum {
+ 	ALC283_FIXUP_SENSE_COMBO_JACK,
+ 	ALC282_FIXUP_ASUS_TX300,
+ 	ALC283_FIXUP_INT_MIC,
++	ALC288_FIXUP_HEADSET,
+ 	ALC290_FIXUP_MONO_SPEAKERS,
+ 	ALC290_FIXUP_MONO_SPEAKERS_HSJACK,
+ 	ALC290_FIXUP_SUBWOOFER,
+@@ -4245,6 +4258,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
+ 	},
++	[ALC288_FIXUP_HEADSET] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc288_fixup_headset,
++	},
+ 	[ALC290_FIXUP_SUBWOOFER_HSJACK] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -6872,6 +6889,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x10ec, 0x12cc, "Intel Reference board", ALC295_FIXUP_CHROME_BOOK),
+ 	SND_PCI_QUIRK(0x10ec, 0x12f6, "Intel Reference board", ALC295_FIXUP_CHROME_BOOK),
+ 	SND_PCI_QUIRK(0x10f7, 0x8338, "Panasonic CF-SZ6", ALC269_FIXUP_ASPIRE_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1414, 0x9c20, "Microsoft Surface Pro 2/3", ALC288_FIXUP_HEADSET),
+ 	SND_PCI_QUIRK(0x144d, 0xc109, "Samsung Ativ book 9 (NP900X3G)", ALC269_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x144d, 0xc169, "Samsung Notebook 9 Pen (NP930SBE-K01US)", ALC298_FIXUP_SAMSUNG_AMP),
+ 	SND_PCI_QUIRK(0x144d, 0xc176, "Samsung Notebook 9 Pro (NP930MBE-K04US)", ALC298_FIXUP_SAMSUNG_AMP),
+@@ -7053,6 +7071,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3801, "Lenovo Yoga9 14IAP7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3802, "DuetITL 2021", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga Pro 9 14IRP8", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x3812, "Lenovo Ideapad 720S", ALC288_FIXUP_HEADSET),
+ 	SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3818, "Lenovo C940 / Yoga Duet 7", ALC298_FIXUP_LENOVO_C940_DUET7),
+ 	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
+
+-- 
+  René Rebe, ExactCODE GmbH, Berlin, Germany
+  https://exactco.de | https://t2linux.com | https://rene.rebe.de
