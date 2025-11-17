@@ -1,113 +1,101 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCA832D0C9
-	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 12:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9763E32BF31
+	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 14:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763384310; cv=none; b=kTbAbBter0zS3a3mdh7sjzhRYwTQiv3Fd9U+KFt63R4LQWDchXSQ+GKqk5Mt2avO9LrWuc643MCdREaXyeQ4x6tUHtgnxQ6Mff83dgCXb8VDlPlo5T116IqaLKe1dxZFIb8gtVv55qo40hXCw2DhIW9ya/bYRvMtt/rYSDXzTb4=
+	t=1763390542; cv=none; b=NIl9kFnaJsHtrcIGdFocoq90viPhSkM+nkkCs/jNvA1+Z8HNJowH3pZh3RSqMme/09oBxviOkhb5UPvVyXrNRi8CFSuh9f2mCHhZAPaUnPkM4g6dXKDfAG39BCNQ0VbBGzv7kXcB7xhukbH5DPdFuhpap9qE6t4aTAfBXnrDAGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763384310; c=relaxed/simple;
-	bh=A8LFaJcRw+4cRgoqu5OcKPrSshWxByWSWMuNVQKlBO8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jytsrUXemwY37A6Xjocdap/HhOjHJ3ty9d3Rw+XfwOnP3dVFoUnumn3BhjnHQONVEpIgwBB1EZ2TxMwgU1FI0L2CcMIGKYSmDn2UQpFOtEmDcvXgVJpiF4vh2FAe4Dm2kWJDZsleCT+R0IetDadnygfe/Pj7sjkXXER737ecw9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LaUa2aBK; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763390542; c=relaxed/simple;
+	bh=89W40YWNIGyCIyPTBjrk8DXEYQrkSQCsYCIk0NyhL10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5p5i+yyBe4YlwnPp4L6FPg8xFIBlsmDilCoN4yJUoLq41kqs846g6HwAVGXffSvXp+TSDqato2hVa+Vs9yhMAhA3Q4xuO7Jim5SOt84L1/SlVMpOzPLmqTOrDcoxvPgvHFwcBawc6eaXANKmiuchEqZ42g5TG22YDwS0/hsedw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qGemFVKe; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LaUa2aBK"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59583505988so4532234e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 04:58:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qGemFVKe"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4775895d69cso23967535e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 06:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763384306; x=1763989106; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJUY/Nz8znMOzlmN9RG54SpWE9CBSXqNCqHzQUyQ31E=;
-        b=LaUa2aBKKmwMZEwpSrwzmv832YnPBuRByrwTtItedonBt6cSz5P4s4fjrSb18ojU5t
-         1IeUk+pqjJUab0NDR/gssinZyj27SFUmiCWhSLGNwb2YrXbXuwlM9iSfdv6yB6SMUcLC
-         Z6x5CaqYWpKQoxbPaJyK8snJezmKujyxhM9xNBnU7Ros8DC6RJrnW/nFIZNotEh+EOfJ
-         bDaZKhqrvE+HwIqUuh6Bti/qvm6PjuXb+YoWQTuJxrBQzDwRWjOyWCwlqNZ8qExFG6m5
-         lZVZy8GaRf2LvWDbqHcgkqNsEPPk3GqQJ+xK+wqWELnztG+JLsR11ci8ElVtL8Fm4yh7
-         /f2g==
+        d=linaro.org; s=google; t=1763390539; x=1763995339; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VLmecC2+BXFzmwD/LAatR2XJYHtpzNF0QhUUU5gpbSI=;
+        b=qGemFVKe9UXUtskV2MOz6M9f6gBTqWrh1pYki+1o+Qn2GKwCwVgUI6kuYJZY+/Dlnn
+         NxGjP5AUpTidCsHCVLnUSIGR6qVEzVRN0OYk6r+syhRST45rCSh95MOi/UNVLQG+g5Nm
+         2rHvwwUgbd2LEb2EAelLn/oNFyWpptP1FjgeQEzLJ1tb1B7XQRLQmw5uBK+eqZNQEr9e
+         EfWGYCN7tFcVYS5tjjYbfJ6RqTZZakHeJY3QDNfmvA2JYzAD+APp7ImhgHTyZDc/Ga5V
+         cYpelji48ksFqVp1b1uMvgXJfpTE8rNJt6EY3qaP/d/t020VAPDM98cLSvYvBA69AyS6
+         10rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763384306; x=1763989106;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qJUY/Nz8znMOzlmN9RG54SpWE9CBSXqNCqHzQUyQ31E=;
-        b=gVmD7nEC7BgSbZwvu5N6msBbjbRLqVTq5ajHa9CNQ5IUNOSmTskvtccjA/fD0Bnjr/
-         y4Tct+T3DwuYpG9nfmBXYEgPBA5S6zn+f9Lspx7mN+bYzleYfvB2gm8J49z6egAiM0Gu
-         mQtj+W3yBKjqJoLayrl6Z4FqArJcfW5sTwd7Y8wnJTPQ1gdxNzNvYpCiUrOcMdZ+oNlr
-         H1wBUwsEARiGbEbW9JccDXqWkBqWYOLZxlof9jx5TSGM4Nplcl9avBNqppGZ38kCnVaz
-         4ihavg1m3ghVVbSzcG34Dp07DfrwtSwM0Pqz9rs8Hzw8PblfXtb5AkGQnFhy0RDXB9et
-         aA/w==
-X-Gm-Message-State: AOJu0Yxatb/VHcE4o3D9AFz+amX8DZUG7sOqG1u3LAORtQi5YiBNUs5P
-	HbHEVIx/GzTjtLgsF4W3ZlvTNN8mwGIqzHkLZvNHwnZ+zlaH6GAn2bf82rUZzxRMzOg=
-X-Gm-Gg: ASbGnct4PfJKyUdUrT43z4YBqsupLSFppAn08cIb2NH8DHBonXLZxBbbUUgMw2eOCBs
-	JJNnJ7X2WAHslUxU8n6GzlUh+/pCFAaUtDLwbVrB1VwwTq6tQmWNAwgAX2ZahCvLNKfalLHb1rx
-	Y4GITQ2wzWA4SvMUgWRgpWVrFx2Z5jWTdlh0sXMFiSCzfbpcI2VndUlth+uvedLgzyjKS3of4YV
-	TRlFf11QTfa+ty8qC1d5bVqygB8yWYUkCuN4Rt+Q/G08u4gbIEvnGO/XXTHk6HWiSdrHkLfZeTn
-	DAkNjwHH8hKIvlpwkMiaQ1hlBYrQ8UZvra3El4FEl9xItWt1cE5VSJwxEQHdAQWZHaIS0vU3VPD
-	+ByiX0sv7AJ7e7InR3Wibg5SIpUq7BEnFfggDvlsdHWAiTHPfkr/b6RMGWGzwuVXtIYd7cMS3Lw
-	==
-X-Google-Smtp-Source: AGHT+IGFMV6BaehoMvCti4ij2kNF7zs+ICJf7BQm7SZCcLmOw5geFVHsi0qmFXHoC/ShVjv6908YCw==
-X-Received: by 2002:a05:6512:39d2:b0:594:35d7:731f with SMTP id 2adb3069b0e04-595840c384dmr4500337e87.7.1763384305463;
-        Mon, 17 Nov 2025 04:58:25 -0800 (PST)
-Received: from ARCHMINI ([84.39.247.127])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-595803acab0sm3147257e87.11.2025.11.17.04.58.24
+        d=1e100.net; s=20230601; t=1763390539; x=1763995339;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VLmecC2+BXFzmwD/LAatR2XJYHtpzNF0QhUUU5gpbSI=;
+        b=TQ7l8LOIlE+iFEZ9qqgfH4nQaWtxXmhj4y9KqkAyfayO9qEXbf42nlwqD7jao2NyXc
+         YzoVafvLHLdoys8SBYJ9leV0jwPOr3GYmY/BUM7I2jDgGLXCopUhKOIHL+kYi5auZaSk
+         V1qJdROB0AMi5osHgxHUVtQQ6Jp3xwKmYe2YHssDeq+gCur3jnUEznGtib/d4oAnQLQw
+         zcANIbr9R3fi1cUVk2hx3KN2M7f1ug7yi5rqeQlzdo5QMfQudVSQwxo0OhUK3UNS8z30
+         Xb3GuYGnADcOfy1a/VQgrfCBta9YDZXQRVFAnxAJ0f0sWgn01LTeGwP7AeFEqU/i52+i
+         zOQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXg951NYtfZYtX8wSmJRbCeBYEojvNoO17djb9UoIiTnnxW5YK0foy9KzG4nKZqj0U5KvXhAMFeVSEhZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxowyVTeG21hy1tTecnHAXdzzAcnm3/DdcZwg6XeUB47InpPbzV
+	gYx5cmAqKiGULICgWESkmRdC8qqnJF9vke6XUBnZSPPq4ZKA/+ola5Bn7vG+7KdCygQ=
+X-Gm-Gg: ASbGnctqGRsKlwDttfgE4trYlhvhHVz38+4q/utD/DZWw5nJJyUP9m0jx3+dZiaGPug
+	Qdcn2AOzD8PF9mWWF4uIJjCvhMe2BH6c6Jj5wNZ5B1GPZV5l/i4qz7bU+7aJutTVEgDvShWGI/h
+	U6DpowmMx2cbWiQS7UCRbskjotiihJ2mzfsju2KCqBCZDf+rItp4Q5uzrWqjVbd0fq2JHGZH0pK
+	1/JPhMclF1wUVa6G3ryGN0Mkd/5Bm7V4hRoRo0aEjQ7SE3yivrluZ1IirfOhAI0XWt93mazpD+5
+	8iYY/nTB/SuVpNoA8xH2+LdNnK1Gz+qZVOQpQaJOFGgbFw4uPHwCFl34u2zDPeEm09RUDZFl/6h
+	GHTgt2pR9GnXPLtd2ewn79GeXpydugY0BP3E6dBpTN+MTvNpJLT/tmdS2+enBLIpQtd05lfFFii
+	TS9xVlX0aq39749tBO
+X-Google-Smtp-Source: AGHT+IEopibZwRWUzxXVuBtBJNCpF0FKrGlRVYkQIBPXxPUWNf0AokTtqdf42+oXkDVSZ9y/83Kqjg==
+X-Received: by 2002:a05:600c:354d:b0:477:54cd:202f with SMTP id 5b1f17b1804b1-4778fe5ed04mr111100355e9.3.1763390538722;
+        Mon, 17 Nov 2025 06:42:18 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47787e8e6a1sm301365015e9.11.2025.11.17.06.42.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 04:58:25 -0800 (PST)
-From: i.v.zhaldak@gmail.com
-To: linux-sound@vger.kernel.org
-Cc: Ivan Zhaldak <i.v.zhaldak@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add DSD quirk for LEAK Stereo 230
-Date: Mon, 17 Nov 2025 15:58:35 +0300
-Message-ID: <20251117125848.30769-1-i.v.zhaldak@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        Mon, 17 Nov 2025 06:42:18 -0800 (PST)
+Date: Mon, 17 Nov 2025 17:42:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Niranjan H Y <niranjan.hy@ti.com>
+Cc: alsa-devel@alsa-project.org, broonie@kernel.org,
+	ckeepax@opensource.cirrus.com, mstrozek@opensource.cirrus.com,
+	yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev, navada@ti.com, shenghao-ding@ti.com,
+	v-hampiholi@ti.com, baojun.xu@ti.com
+Subject: Re: [PATCH v2] ASoC: SDCA: bug fix while parsing
+ mipi-sdca-control-cn-list
+Message-ID: <aRs0RlQLRDZwjlTS@stanley.mountain>
+References: <20251110152646.192-1-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110152646.192-1-niranjan.hy@ti.com>
 
-From: Ivan Zhaldak <i.v.zhaldak@gmail.com>
+On Mon, Nov 10, 2025 at 08:56:46PM +0530, Niranjan H Y wrote:
+> "struct sdca_control" declares "values" field as integer array.
+> But the memory allocated to it is of char array. This causes
+> crash for sdca_parse_function API. This patch addresses the
+> issue by allocating correct data size.
+> 
+> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+> ---
 
-Integrated amplifier LEAK Stereo 230 by IAG Limited has built-in
-ESS9038Q2M DAC served by XMOS controller. It supports both DSD Native
-and DSD-over-PCM (DoP) operational modes. But it doesn't work properly
-by default and tries DSD-to-PCM conversion. USB quirks below allow it
-to operate as designed.
- 
-Add DSD_RAW quirk flag for IAG Limited devices (vendor ID 0x2622)
-Add DSD format quirk for LEAK Stereo 230 (USB ID 0x2622:0x0061)
+Looks good.
 
-Signed-off-by: Ivan Zhaldak <i.v.zhaldak@gmail.com>
----
- sound/usb/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+Fixes: 50a479527ef0 ("ASoC: SDCA: Add support for -cn- value properties")
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 5e30bff69f82..61bd61ffb1b2 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2030,6 +2030,7 @@ u64 snd_usb_interface_dsd_format_quirks(struct snd_usb_audio *chip,
- 	case USB_ID(0x249c, 0x9326): /* M2Tech Young MkIII */
- 	case USB_ID(0x2616, 0x0106): /* PS Audio NuWave DAC */
- 	case USB_ID(0x2622, 0x0041): /* Audiolab M-DAC+ */
-+	case USB_ID(0x2622, 0x0061): /* LEAK Stereo 230 */
- 	case USB_ID(0x278b, 0x5100): /* Rotel RC-1590 */
- 	case USB_ID(0x27f7, 0x3002): /* W4S DAC-2v2SE */
- 	case USB_ID(0x29a2, 0x0086): /* Mutec MC3+ USB */
-@@ -2428,6 +2429,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_DSD_RAW),
- 	VENDOR_FLG(0x25ce, /* Mytek devices */
- 		   QUIRK_FLAG_DSD_RAW),
-+	VENDOR_FLG(0x2622, /* IAG Limited devices */
-+		   QUIRK_FLAG_DSD_RAW),
- 	VENDOR_FLG(0x278b, /* Rotel? */
- 		   QUIRK_FLAG_DSD_RAW),
- 	VENDOR_FLG(0x292b, /* Gustard/Ess based devices */
--- 
-2.51.2
+regards,
+dan carpenter
 
