@@ -1,133 +1,67 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from exactco.de (exactco.de [176.9.10.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405022D1931
-	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 16:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69D426A1BB
+	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 17:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.10.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763396896; cv=none; b=O7t3zW7cNfl5Na/1DPskkbB956hBhZRGK2eyY2K8JBaadXttk/FF/kCtt4KHatYThI//ArnFFchRKXNLLOFxK64SUSflh9WXsZNk/kulIhTKlrcpyfyIArFMhAp30E1nQG78wgK/sh7LUi7FNXLY+IuWeEg+L3zYfEity1nY7z4=
+	t=1763400227; cv=none; b=D94PHLuY4MeytyUL+Ybl4sT+745xFJMF2MNOYx2OGwuO2f1N3mQ3vPlV0XY7pZC4eBO+D784j7UZdgS1EMuv4wPOYEogrlc2WeB2wzVvE40Ag3VjxcEwjpqqcOTR80lF+7GvQEXVG1JeKHiBBldXUdr5Q1GMI3GSXZnKivG9j0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763396896; c=relaxed/simple;
-	bh=L4mevEsOtLYhrnmBV+rSDGXWnGrhBQ/+jo7ulX3F5VQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H7/+x40cKYPk14nsQ51WVLo/Etss8R6hAmIdJ3Mpp52yce5stIvfnkDr50FT73lJfX/9kCMr7fgYdINWrWTfQk9FZugxjillq2yqXVB5kOExowt16IVFU5MC9Jg05nYpohcwk2yEyR7mSiFoy9/2Ih1nKTxKgw05DxeRKvrIr8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jmXLtTyP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGfMv7Ga; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jmXLtTyP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGfMv7Ga; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1763400227; c=relaxed/simple;
+	bh=rZMI5ddC03/HntA2UJSpcweveHReKlgu7+nTTTOMvKU=;
+	h=Date:Message-Id:To:Cc:Subject:From:Mime-Version:Content-Type; b=rIpr440XV15XWBjvbYl8PrSzcZJEIbzIci6YWNsxDaDKahdM6ayJwRa00JzbpTgnThDlg+UNFSA/y9GGas00g5PhiMCu0dgcU52Z1ME7liQ2rx63B8meK3qgotcPZPEfuvK6bbJbACvPa7uR6QVTi1ccPoCyKHQ0vU/cFVelbi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de; spf=pass smtp.mailfrom=exactco.de; dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b=OALoNd3W; arc=none smtp.client-ip=176.9.10.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=exactco.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jmXLtTyP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGfMv7Ga";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jmXLtTyP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGfMv7Ga"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 502B21F44F;
-	Mon, 17 Nov 2025 16:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763396893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ipq454AciJtSC9guDkGkaX1dQAIAJU8zZTiH/uofSqY=;
-	b=jmXLtTyPrredRdcccif/cVVfVa65Lp3vZb9TrHzrjPwB65Pz9aO9wgz6qzfxpuwTnVT6lL
-	E4Q9xOSnZhQ1OkcmL1dpfY3Rw3LWnweggMu01x4LHFh2sDYfUw6WWWJfYIC1sFNnJ10z2z
-	50hY9mRpBSGeOWKs/x2UI4GTxwvI9LI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763396893;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ipq454AciJtSC9guDkGkaX1dQAIAJU8zZTiH/uofSqY=;
-	b=mGfMv7Gaqwam/29sGXVi4aKKJ8OvlFwGwbM/FBDLFwPxj71xfxmuTzQZdJMMDPAbkTdO7O
-	ua8eGFWL2XK7CbDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763396893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ipq454AciJtSC9guDkGkaX1dQAIAJU8zZTiH/uofSqY=;
-	b=jmXLtTyPrredRdcccif/cVVfVa65Lp3vZb9TrHzrjPwB65Pz9aO9wgz6qzfxpuwTnVT6lL
-	E4Q9xOSnZhQ1OkcmL1dpfY3Rw3LWnweggMu01x4LHFh2sDYfUw6WWWJfYIC1sFNnJ10z2z
-	50hY9mRpBSGeOWKs/x2UI4GTxwvI9LI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763396893;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ipq454AciJtSC9guDkGkaX1dQAIAJU8zZTiH/uofSqY=;
-	b=mGfMv7Gaqwam/29sGXVi4aKKJ8OvlFwGwbM/FBDLFwPxj71xfxmuTzQZdJMMDPAbkTdO7O
-	ua8eGFWL2XK7CbDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 378E93EA61;
-	Mon, 17 Nov 2025 16:28:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wIJSDB1NG2lJJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Nov 2025 16:28:13 +0000
-Date: Mon, 17 Nov 2025 17:28:12 +0100
-Message-ID: <87cy5gfwtf.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: i.v.zhaldak@gmail.com
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add DSD quirk for LEAK Stereo 230
-In-Reply-To: <20251117125848.30769-1-i.v.zhaldak@gmail.com>
-References: <20251117125848.30769-1-i.v.zhaldak@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b="OALoNd3W"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de;
+	s=x; h=Content-Transfer-Encoding:Content-Type:Mime-Version:From:Subject:Cc:To
+	:Message-Id:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+	List-Owner:List-Archive; bh=WiH/J2EkG7b6KeOZqcsKppkU+1VRiawpGikENiWlKJU=; b=O
+	ALoNd3WwT6GHZ4Yt584PQRIeNsjwem6eSUpG+VCyLzZtMDfKfMiEudBXWvADfQLymAOqTDjRCVEzT
+	IpJ4TjGbrXGYW4n7D+CwPtDSlYD0fKJ+JdTBS6TcNLpnDB3z00aNTgm8kDz3wedhxQPh9OCBeJ6KH
+	YEu96fLc5zdwVXiavFwg+MThj/8C5OKIaQEvx2FTlgsQFxYKEz3e4lo3KFxdhMz5De7JafQXHQLWG
+	Ip+U2c6HA7PtY4TFUWo0IlbpDJtkjHxzOdce1DbBjakYlrPkUz3k8TkLJh16FZK1kXRnziQPj0lDj
+	QkPKe/h8tjzofpwsQVmKtueqXPwc6WGmQ==;
+Date: Mon, 17 Nov 2025 18:23:51 +0100 (CET)
+Message-Id: <20251117.182351.1595411649664739497.rene@exactco.de>
+To: tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, perex@perex.cz, rf@opensource.cirrus.com
+Subject: [PATCH V2] ALSA: hda/cirrus fix cs420x MacPro 6,1 inverted jack
+ detection
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+X-Mailer: Mew version 6.10 on Emacs 30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-On Mon, 17 Nov 2025 13:58:35 +0100,
-i.v.zhaldak@gmail.com wrote:
-> 
-> From: Ivan Zhaldak <i.v.zhaldak@gmail.com>
-> 
-> Integrated amplifier LEAK Stereo 230 by IAG Limited has built-in
-> ESS9038Q2M DAC served by XMOS controller. It supports both DSD Native
-> and DSD-over-PCM (DoP) operational modes. But it doesn't work properly
-> by default and tries DSD-to-PCM conversion. USB quirks below allow it
-> to operate as designed.
->  
-> Add DSD_RAW quirk flag for IAG Limited devices (vendor ID 0x2622)
-> Add DSD format quirk for LEAK Stereo 230 (USB ID 0x2622:0x0061)
-> 
-> Signed-off-by: Ivan Zhaldak <i.v.zhaldak@gmail.com>
+Turns out the Apple MacPro 6,1 trashcan also needs the inverted jack
+detection like Mac mini patched, too.
 
-Applied now.  Thanks.
+Signed-off-by: René Rebe <rene@exactco.de> 
 
+---
+v2: sorted by pciid
 
-Takashi
+--- a/sound/hda/codecs/cirrus/cs420x.c
++++ b/sound/hda/codecs/cirrus/cs420x.c
+@@ -585,6 +585,7 @@ static const struct hda_quirk cs4208_mac_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x106b, 0x6c00, "MacMini 7,1", CS4208_MACMINI),
+ 	SND_PCI_QUIRK(0x106b, 0x7100, "MacBookAir 6,1", CS4208_MBA6),
+ 	SND_PCI_QUIRK(0x106b, 0x7200, "MacBookAir 6,2", CS4208_MBA6),
++	SND_PCI_QUIRK(0x106b, 0x7800, "MacPro 6,1", CS4208_MACMINI),
+ 	SND_PCI_QUIRK(0x106b, 0x7b00, "MacBookPro 12,1", CS4208_MBP11),
+ 	{} /* terminator */
+ };
+
+-- 
+  René Rebe, ExactCODE GmbH, Berlin, Germany
+  https://exactco.de | https://t2linux.com | https://rene.rebe.de
