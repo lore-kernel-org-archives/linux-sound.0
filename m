@@ -1,65 +1,64 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCF63161B5
-	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 05:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F123168FB
+	for <linux-sound@vger.kernel.org>; Mon, 17 Nov 2025 05:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763356643; cv=none; b=ivozxaRlgYmxHu3aBa3l9THIg+dXEer5dgAEJF6KImLcdTV35cAMvb4KRrOOgPh7c0ffOMivR12JfVNauahdi/TBOeAez0uLukYIImGv9cwls1A290kT2OVdO7obLZI/q8s0be94ZNDcs3IWlFOHYBwswvbgoqvlS0GNSrgwH9I=
+	t=1763356645; cv=none; b=WBNpVpSok9AI3lgxbrdKLsBLHJK+YOAQ1kRDhDnuOlcPgjlNepAkPrOyY23B1YglD1m7rr7v09TDEBu8AhDUyiu/OKgYcNU+Y72SCQx4voYAymOpGcYzMYFlb88T/5AvmZnsy9gtmu4XJqzoqNFPgxUcks1n9nVQOx3njzv6Gyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763356643; c=relaxed/simple;
-	bh=gINThNOrGLTjijqQqroDaSh2hFeE+34Wi4lNap0BlmE=;
+	s=arc-20240116; t=1763356645; c=relaxed/simple;
+	bh=fFCnrKfZ6fyKdtooA6OkkWdD4KpdkZStP4RM2O4IPe0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fXc3N5Ab2FxRNFi4u47/dF1x7X6lS312Rt/usbxuSVoFC6t1lK1LnA84t2U8W++2nUieYdkxUTr+YgJUYxBtPNBhSRHX5GbhvpK6EMIJ0BDncpRWSwWPPlgk3ioP2OrjbIPRgNGmTmngUqi9QCpqY+SM+3/8IWoZpf4rnXqZ5AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=XeLZBXZN; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=ZYXW1sQis0SHOoHLkLbKy56l5c1jY1bGzK//Nt1towW30Rs2Ib4AcgF0/cgxhY9/bzRPhJFBe4ciknIg8fJyYalE541IxNa79ein7FwIas3DX2lSeJCaYgYy94UpD9ryg6ENbVR9H9e4n5FuekPyv+42LD0ZAfblalWVSipoHR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=A+SMierF; arc=none smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="XeLZBXZN"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8b1b8264c86so404654685a.1
-        for <linux-sound@vger.kernel.org>; Sun, 16 Nov 2025 21:17:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="A+SMierF"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8b22a30986fso360220285a.2
+        for <linux-sound@vger.kernel.org>; Sun, 16 Nov 2025 21:17:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=marek.ca; s=google; t=1763356641; x=1763961441; darn=vger.kernel.org;
+        d=marek.ca; s=google; t=1763356642; x=1763961442; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UxTOaSRWk1Y8Lv8b37kvOyS3gwv5qYDX15lhyQsDmUs=;
-        b=XeLZBXZNU1UVIGzM7q1IjKiYQzMHrj8XQG4XSUCX7YBkg7IDvsRCJDX3FM58NwJml+
-         9Atd2Kp3JXWQGuRCQV2SCo8rxiFqE0R7QKksE9zc6KatEq/tmsE/PDUjpP1zIKBwUDzf
-         wY3eCe1hW5uM0XRtbCcVXQTV59dETiUlFtGWtAFcCguf4p5FrnYNRddOYdxjEqcd2sZk
-         4qf9rEKKJHCjzRz/l7dMd4W927E4jfL2RhawRV7ynUZ2d+c2NjjIvH0Y9syS20QsuamF
-         6rnTAwfI3ctQYlyfEC7C05z3JGzr/EMmGjplD0evcQek0vnpXv4WZw7j6ZoCxW8eVz1f
-         tTDA==
+        bh=sjB9Qq208HC3pXFl5L+RekWRbUTIKQ1gS1VARhSM6F4=;
+        b=A+SMierF8r5wlvUMyveSTeuhJ/bX99qVdRBAsqPOeQv2L4Lhe903bypLvuzPe2tYHf
+         zYu7ysLG8k46uDPeI9MKl7XrjECxiqjVF+FhsGBjMN33FKquP//KE2IvfTP0iufz2Kul
+         7ei6tJ9Ir7MdRhbhO5blN/hWMUFT3B0CxOnwHqwbBP2685njLjxmg9IHanh+1GHaWlUd
+         ChmyYjLsVhVztUQOPgcn6jkh3N6ISvQ5YrB1GqPWP2HInWMqjQr/Wl8j8NV3tKevPbLr
+         0x3zXmWGTUpiSX0tCDhoRbQZYx6Jtm0tIA+JaxFB274/CJfuQGERU5WMj+0oCs3nC0rP
+         wetw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763356641; x=1763961441;
+        d=1e100.net; s=20230601; t=1763356642; x=1763961442;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UxTOaSRWk1Y8Lv8b37kvOyS3gwv5qYDX15lhyQsDmUs=;
-        b=U9R+8IaGwYM+GJwUjF9ayVG5h9KHMHQNdV+vod4yZXNY6yHb55lEYFo0iZ8gUVj+uB
-         oaF3WX6DuKrSNQAmi+zFuzjhvcSUgXLZ5GNneAEAzUxP9iQ6UcHLWQ3XbfrCCv3BUPcS
-         UyUfUUvL+0RdlB+0PmV2KpXBuQ1VZ8lz8mpu+xxguIu4+pwxLr9rrO8GR/tu92Qyb+SZ
-         3GGCzG7xIk0xkBTOKD8Q6LmrqxHpoBmA7SDOYgcOULx5SEfPtU29QIHs/sazBRV/Enjy
-         Dy4NdaukF4ouy7HBz+kK3xX1fzjaVjE++V6PWK1KKAOJZWE/e+i1s0gPg20mBgdB29fy
-         IRzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3EPvCnS6z71rT9xqaO1Rw98n13FEVH38+yreCeEXOTepLvosiyOuQty0UaaGWL8ISWGY+Lm9s2r7KXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWF6E6ul1BjHIpEneIpuOvjp7IiVBTg1aS8+knDPDJBYkVYjav
-	E50rsrRJ8CpBm8lspTQIsDhGh18hF8YPYmkmnqv6093lyqB5id3GCg6D8oJmJc9KU9t2B2gdumy
-	LRY8R
-X-Gm-Gg: ASbGncuWA6OMvy7olK7swOPB6YeNFBsQiohvc+PWv01pTmp01cZ7CUkh6Uk4jeAmj7D
-	ijSqSkzla0G5RkB3IIiiDXpX57o5XpQlNBIG2eZEaiaK5vknm/2MbvromEPU+GTalfYdFWYzrU7
-	+vHIpHjva6sbI7MyhZw19Rwe5uL+e+oGUCYY50FCe4IQhKDmacd0CRFelekVrxsw3ciAGx6vGoE
-	wPZSmAtwXArPz1EzLB3y/t42lLATMkWc8yhid9N2e9VnHVYHKhLDGYhGQ1K8eq/+1YB3b1/5wGJ
-	Npr9TfqrMOgRNhFpQ9/NZa1iccRfbCDRgjlcgh2oCubkvzPGXy1eY3PtZRi//CXm8NWcaA0F83v
-	34zQLOLL69SRNqv+Yf0HDVroKGSnYw2ZTOBKgxFmLvuj5rOesM5r3i+bCojzb5WfQUdRaCrRSug
-	9L5er0zyVUrhgwmgP9Xt/wNl10uuYLqRCuKqsHbGb/E8PAqW2PMm9S07WorZC37BDDuw==
-X-Google-Smtp-Source: AGHT+IEHbZL8UncU8JrDK72OvvsWmuYibVs1BeBP7ngCOvXwZMa/qwBfe1aUda5Ed6xs2gFJfjtLTw==
-X-Received: by 2002:a05:620a:25ce:b0:8b2:71bb:2b85 with SMTP id af79cd13be357-8b2c3144b35mr1316180785a.4.1763356641023;
-        Sun, 16 Nov 2025 21:17:21 -0800 (PST)
+        bh=sjB9Qq208HC3pXFl5L+RekWRbUTIKQ1gS1VARhSM6F4=;
+        b=slNAHtmOYOEIUon0St1FM3PP3C/9ssq2Ap8/VcXCRHj9+hBcELOzJgfnZ3cppRmwmc
+         nsNkpZZa4ZoSehqKpCgog8wi6+A4XQxxXmyAxk4YuTcDl0mcncTBOLaK7kjdAdMDxU0D
+         UFzWEYX2e3p1orHr6meG3gzGDfF8yzn1eFzvh3xQ/oIqornAToC4dLZTEkM2ZBHhHG/Q
+         BrffgJqI1OkAia7GmuuQantIweinZVKNdA8SCAhuPuI4CuJ8Vf10P9gp1QXki+HcGdoh
+         4FiKDx0nnzyfLuRblXa8WWEgoA/jdYpysdKMz1ksyG6U28EK1eM8qSjRQGKo6hWzu+B9
+         4wRg==
+X-Forwarded-Encrypted: i=1; AJvYcCX3w8g+9yJpfx/O5NgfrQDGuR3gLEsrcksV0Mqv5yUsnAJqqs74aHzbe/RZxWK/8/paw+Me8MFzC6RpkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyppcYs/fRr3W5gBZyExQwwDKIDeLSAeMhwlEoe7yEX/ecIjRmp
+	BE9fO1tH+UjqUsp7+1NDhDC8AjZoANqJ0tF4yHs9mO4kNbjWOGb5nlPk4nPms4hCTOw=
+X-Gm-Gg: ASbGncsBaxHSveBdnmBgzdBKuxllVvsdirkysUCk93wtm6crGZvXWPVMqSngqVFrHMv
+	DZrzt3A+64W/PywbSmekSxMrutZdJncKnuU3XC8yHiYpN4OFLKQ8PaftcUxsxraBipsh9p2hEV1
+	N0x1QDTNWJPz9QhQb5k00R9r83jkcfznzXbDcml9vyxN/2Pcr8gxlFd97Ga5bATCgOGdpvDm3Uu
+	VU2HuGfMlQUhnt+vyjTDW8g9g3DcEYEHIULvFPK09ukUTOeq68iyo+3+eL849qE5gD3HXKuIvoz
+	/B1iRNrV0f0Hkbf5iQc3tCsiQFNFuDj92fIWoxGEuTFHZFhwfX15qCZHiu+WqAD17grXbj+WzZ9
+	Xcqr8y3V7lN+AImubNrwWK8i3O6i6Qwwm4ZsqEhKSimiPLpOze1watOaSV/1bX4uN2FaW5TtevC
+	ywQU08faDMInzYLO+mqB/pgx+Egb1Pv2IsnIuepXEHrHTbx7ZJza6nRUI=
+X-Google-Smtp-Source: AGHT+IGOCSSak+wz7zgqeh6lwC6pX6YCBNM80+YM/AiDDTj6WYPvkidk/KXiUkkIfEgfWxGmdWb1TA==
+X-Received: by 2002:a05:620a:1917:b0:8b2:eefb:c8a6 with SMTP id af79cd13be357-8b2eefbccc1mr306815385a.88.1763356642316;
+        Sun, 16 Nov 2025 21:17:22 -0800 (PST)
 Received: from localhost.localdomain (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2aef2f936sm906417185a.29.2025.11.16.21.17.20
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2aef2f936sm906417185a.29.2025.11.16.21.17.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 21:17:20 -0800 (PST)
+        Sun, 16 Nov 2025 21:17:22 -0800 (PST)
 From: Jonathan Marek <jonathan@marek.ca>
 To: linux-arm-msm@vger.kernel.org
 Cc: Srinivas Kandagatla <srini@kernel.org>,
@@ -69,9 +68,9 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org (open list:QCOM AUDIO (ASoC) DRIVERS),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 8/9] ASoC: codecs: lpass-wsa-macro: remove unused WSA_MACRO_RX_MIX enum
-Date: Mon, 17 Nov 2025 00:15:20 -0500
-Message-ID: <20251117051523.16462-8-jonathan@marek.ca>
+Subject: [PATCH 9/9] ASoC: codecs: lpass-rx-macro: fix mute_stream affecting all paths
+Date: Mon, 17 Nov 2025 00:15:21 -0500
+Message-ID: <20251117051523.16462-9-jonathan@marek.ca>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251117051523.16462-1-jonathan@marek.ca>
 References: <20251117051523.16462-1-jonathan@marek.ca>
@@ -83,27 +82,114 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Minor cleanup.
+The current mute_steam() implementation affects all paths instead of
+only those in use by the DAI.
+
+For example, playing to 2 DAIs simultaneously with mixing, stopping
+one will mute the other.
+
+Rework to use the same logic as hw_params() to mute only the relevant paths.
+(also, use "rx->main_clk_users[j] > 0" instead of dsm_reg, which is
+equivalent. I also don't think the clock enable should be in this function,
+but that's a change for another patch)
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- sound/soc/codecs/lpass-wsa-macro.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/lpass-rx-macro.c | 74 +++++++++++++++----------------
+ 1 file changed, 35 insertions(+), 39 deletions(-)
 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index f02153108c275..694ee3ceda986 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -297,8 +297,7 @@ enum {
- enum {
- 	WSA_MACRO_RX0 = 0,
- 	WSA_MACRO_RX1,
--	WSA_MACRO_RX_MIX,
--	WSA_MACRO_RX_MIX0 = WSA_MACRO_RX_MIX,
-+	WSA_MACRO_RX_MIX0,
- 	WSA_MACRO_RX_MIX1,
- 	WSA_MACRO_RX4,
- 	WSA_MACRO_RX5,
+diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+index a8fc842cc94ef..d7e51f02a9115 100644
+--- a/sound/soc/codecs/lpass-rx-macro.c
++++ b/sound/soc/codecs/lpass-rx-macro.c
+@@ -1905,52 +1905,48 @@ static int rx_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
+ {
+ 	struct snd_soc_component *component = dai->component;
+ 	struct rx_macro *rx = snd_soc_component_get_drvdata(component);
+-	uint16_t j, reg, mix_reg, dsm_reg;
+-	u16 int_mux_cfg0, int_mux_cfg1;
++	u32 port, j, reg, mix_reg, int_mux_cfg0, int_mux_cfg1;
++	u32 mask, val;
+ 	u8 int_mux_cfg0_val, int_mux_cfg1_val;
+ 
+-	switch (dai->id) {
+-	case RX_MACRO_AIF1_PB:
+-	case RX_MACRO_AIF2_PB:
+-	case RX_MACRO_AIF3_PB:
+-	case RX_MACRO_AIF4_PB:
+-		for (j = 0; j < INTERP_MAX; j++) {
+-			reg = CDC_RX_RXn_RX_PATH_CTL(rx, j);
+-			mix_reg = CDC_RX_RXn_RX_PATH_MIX_CTL(rx, j);
+-			dsm_reg = CDC_RX_RXn_RX_PATH_DSM_CTL(rx, j);
+-
+-			if (mute) {
+-				snd_soc_component_update_bits(component, reg,
+-							      CDC_RX_PATH_PGA_MUTE_MASK,
+-							      CDC_RX_PATH_PGA_MUTE_ENABLE);
+-				snd_soc_component_update_bits(component, mix_reg,
+-							      CDC_RX_PATH_PGA_MUTE_MASK,
+-							      CDC_RX_PATH_PGA_MUTE_ENABLE);
+-			} else {
+-				snd_soc_component_update_bits(component, reg,
+-							      CDC_RX_PATH_PGA_MUTE_MASK, 0x0);
+-				snd_soc_component_update_bits(component, mix_reg,
+-							      CDC_RX_PATH_PGA_MUTE_MASK, 0x0);
++	if (stream != SNDRV_PCM_STREAM_PLAYBACK)
++		return 0;
++
++	for (j = 0; j < INTERP_MAX; j++) {
++		reg = CDC_RX_RXn_RX_PATH_CTL(rx, j);
++		mix_reg = CDC_RX_RXn_RX_PATH_MIX_CTL(rx, j);
++
++		mask = CDC_RX_PATH_PGA_MUTE_MASK;
++		val = 0;
++		if (mute)
++			val |= CDC_RX_PATH_PGA_MUTE_ENABLE;
++		if (rx->main_clk_users[j] > 0) {
++			mask |= CDC_RX_PATH_CLK_EN_MASK;
++			val |= CDC_RX_PATH_CLK_ENABLE;
++		}
++
++		int_mux_cfg0 = CDC_RX_INP_MUX_RX_INT0_CFG0 + j * 8;
++		int_mux_cfg1 = int_mux_cfg0 + 4;
++		int_mux_cfg0_val = snd_soc_component_read(component, int_mux_cfg0);
++		int_mux_cfg1_val = snd_soc_component_read(component, int_mux_cfg1);
++
++		for_each_set_bit(port, &rx->active_ch_mask[dai->id], RX_MACRO_PORTS_MAX) {
++			if (((int_mux_cfg0_val & 0x0f) == port + INTn_1_INP_SEL_RX0) ||
++			    ((int_mux_cfg0_val >> 4) == port + INTn_1_INP_SEL_RX0) ||
++			    ((int_mux_cfg1_val >> 4) == port + INTn_1_INP_SEL_RX0)) {
++				snd_soc_component_update_bits(component, reg, mask, val);
+ 			}
+ 
+-			int_mux_cfg0 = CDC_RX_INP_MUX_RX_INT0_CFG0 + j * 8;
+-			int_mux_cfg1 = int_mux_cfg0 + 4;
+-			int_mux_cfg0_val = snd_soc_component_read(component, int_mux_cfg0);
+-			int_mux_cfg1_val = snd_soc_component_read(component, int_mux_cfg1);
+-
+-			if (snd_soc_component_read(component, dsm_reg) & 0x01) {
+-				if (int_mux_cfg0_val || (int_mux_cfg1_val & 0xF0))
+-					snd_soc_component_update_bits(component, reg, 0x20, 0x20);
+-				if (int_mux_cfg1_val & 0x0F) {
+-					snd_soc_component_update_bits(component, reg, 0x20, 0x20);
+-					snd_soc_component_update_bits(component, mix_reg, 0x20,
+-								      0x20);
++			if ((int_mux_cfg1_val & 0x0f) == port + INTn_2_INP_SEL_RX0) {
++				snd_soc_component_update_bits(component, mix_reg, mask, val);
++				/* main clock needs to be enabled for mix to be useful: */
++				if (rx->main_clk_users[j] > 0) {
++					snd_soc_component_update_bits(component, reg,
++								      CDC_RX_PATH_CLK_EN_MASK,
++								      CDC_RX_PATH_CLK_ENABLE);
+ 				}
+ 			}
+ 		}
+-		break;
+-	default:
+-		break;
+ 	}
+ 	return 0;
+ }
 -- 
 2.51.0
 
