@@ -1,130 +1,53 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D822773E4
-	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 06:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C76826A1B9;
+	Tue, 18 Nov 2025 09:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763448991; cv=none; b=fLYMN223MAGo+LHFkBS/2emLZzJCjoI4Y06tnYsn9mgZ/vPZIOQtbxAL55mbO46f+vI3WS39nDuX+V/MDNOunDygxRWTajkH4WQHR8QbPV4qj5z1VmqNCXUBlgfyMWjiaH0lTXQPBBsEWMgyyaNB4m9vT4sG02VZHoa0OZq8TdA=
+	t=1763459061; cv=none; b=F42aZ81M0wbfk4MgxdkdFUrprvU7LfzuSm2YXcnt50Afzxxj/cgDmdyvhnVfwm6Dds3EMxTgmGqP5lHRenmbNnvvBepmT/vncAq+PDpMUe3G915VnyMkD8ePffg6631iXuwCrjCJLZRs0nihO5VR5lgfjHCCFiwtMlKpoU37s+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763448991; c=relaxed/simple;
-	bh=wCZ73G7RwrNqiqCAcni2e4Fp4sSADdhjY2MbWf1Yea4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q2QdiW0ol/iVS0ZQe6q81CqhWCIdsXdTpuoWE4Hax5q9CWUQCC99amgtdzUa1GqwVc4V0eG9HO3WXbbCqjzU2h49GdvqvQAL2j+vyi4o6f1gx6tmHGX3NnjiDPfUc4BIDsQEhww6TilLGP6B237J9xlzCaaLdyLiSt2P4VEzQ7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=spO+t61G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SSFG/gjh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ITJ54wRO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5k0q5UO5; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1763459061; c=relaxed/simple;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=hvs4/o/q2QeIHi+j056B/hEjhG9w0K1DZainW40XfJ1ZsBBA9N3SeApuNBf2xcsqwaPN80kx7nZwZxWD+SjFEiNceBHdZsCt/hHNNLg6Wtl1US1wwIStlrUBXCYKUgAPe7cWLgLmA3K77iWild0CqRfYtO9WOcLCcl0LX96ujGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ebdx+TdM; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="spO+t61G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SSFG/gjh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ITJ54wRO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5k0q5UO5"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CE239211CC;
-	Tue, 18 Nov 2025 06:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763448982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x1A2otjNvgwmFNeiirPA/IN577qPVBNatF/AkNJN9nA=;
-	b=spO+t61G1yPSBHGbzGOqliNShdcO1LDxhP6xB/CVxmUAcK+AJCnlUZMEMmWK1O3zdfstXb
-	EHNahgJ4wlRWGN5ibtxb+GD+j/j0nNEnyOW3d1vdBdiw39xejx1IwWfc4emZJVQi3WpFiJ
-	tQgpV45HnDkQzDfESan8zFDdOUZ+r40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763448982;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x1A2otjNvgwmFNeiirPA/IN577qPVBNatF/AkNJN9nA=;
-	b=SSFG/gjhpmrrzgrz6IrYSp2Dw93iqRiDTOExrCYrKFdA3FJT4YnvdtuexeZIXChJTF5y5T
-	ahIZbaVYsDZKs0Dg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763448981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x1A2otjNvgwmFNeiirPA/IN577qPVBNatF/AkNJN9nA=;
-	b=ITJ54wROM4tJhbtN38FGBuvhhuMZ3qG8K6lzQgguFTUnTw4atUSKD4RsvKDiFd1Gq0Bg4W
-	0o8CYMiogfeP9e8mPe2E50u12fiHG2hxYpls3A4RcMR2UKb9mupEBl/LQTYRiStMiEF67+
-	j+w17w5sAwQL01NUQrmt+rT6lm7S7Fo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763448981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x1A2otjNvgwmFNeiirPA/IN577qPVBNatF/AkNJN9nA=;
-	b=5k0q5UO5YXEvLQNS1Cha84wfapPyh7TUZCtE3XUWYEfvHue72WvQyt6MhkB8+MiWHeVCYp
-	4wUnrTtZr74WiHAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5A073EA61;
-	Tue, 18 Nov 2025 06:56:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9VgyJ5UYHGlsQwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 18 Nov 2025 06:56:21 +0000
-Date: Tue, 18 Nov 2025 07:56:21 +0100
-Message-ID: <87y0o3esmi.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-Cc: tiwai@suse.de,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ebdx+TdM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=47
+	DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=; b=ebdx+TdMuNPZ2OqJvR
+	3G41IYMvV3YCUFAutxia2QbwybLb0Xxdv5jDHK6wk3bsID0mgBqq1UZWNiNeXec3
+	j0C1v+WAHgpx9phqE/5GkZed23SAzEdKBfulAVavZzEhYsIAFVjhpIfjyMI+nTKd
+	m2JvHr7gpDnkf0wxwz1Q8kU10=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3B3nXPxxpUPc8BA--.9895S2;
+	Tue, 18 Nov 2025 17:43:51 +0800 (CST)
+From: "jempty.liang" <imntjempty@163.com>
+To: tiwai@suse.de
+Cc: imntjempty@163.com,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
-	rf@opensource.cirrus.com
-Subject: Re: [PATCH V2] ALSA: hda/cirrus fix cs420x MacPro 6,1 inverted jack detection
-In-Reply-To: <20251117.182351.1595411649664739497.rene@exactco.de>
-References: <20251117.182351.1595411649664739497.rene@exactco.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: core: Fix style issues in sound/core/device.c
+Date: Tue, 18 Nov 2025 09:43:51 +0000
+Message-Id: <20251118094351.55986-1-imntjempty@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87h5usfx3e.wl-tiwai@suse.de>
+References: <87h5usfx3e.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-
-On Mon, 17 Nov 2025 18:23:51 +0100,
-René Rebe wrote:
-> 
-> Turns out the Apple MacPro 6,1 trashcan also needs the inverted jack
-> detection like Mac mini patched, too.
-> 
-> Signed-off-by: René Rebe <rene@exactco.de> 
-
-Applied now.  Thanks.
+X-CM-TRANSID:_____wD3B3nXPxxpUPc8BA--.9895S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4Rk8n5UUUUU
+X-CM-SenderInfo: hlpq3yxhps35i6rwjhhfrp/xtbBcwQJAWkbQA34vwACsF
 
 
-Takashi
