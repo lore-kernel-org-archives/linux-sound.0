@@ -1,165 +1,135 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D52626E16A
-	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 09:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FA832ED40
+	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 10:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763459246; cv=none; b=Y71En/KnMZDtwYhdCIrXkCjjWNOZoqWiH+U7A0/2J0XEBrNdlc0uzsqknNwlJsOVJ1Oo8Xi32qoHsXTSZUKNfmty/2uxozje/gdwUbx+lW0g28/L7o1aXqMd2oWloROO+5PdYRG7cCybNBwNP1KutcyRUcOJ9R8v8ZzLHrYCAio=
+	t=1763460135; cv=none; b=dUWshOWTsh6Y23/161vYjmxFwJrffUWSDUAbe+m+lD/Mu19vFYJyqze9AIRSDnCO+z0FVE8e8jyj61+ZGYMq90emBU0ge4WXhBm7UIW5DR39TNeL+9oVbzSaDBL4MwCJ/aAPvwDHmBUDfYIYV6OsCNSSzSn0SjVwPjNzd/ccFIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763459246; c=relaxed/simple;
-	bh=NSDit/mHJlhkuZyhSitu2JvNgHl8gNj+Tf2PzvgTGRE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uhkow72RlDRwFO2BncQ0DdPRoxv5zdr9547AVdkoBuAR/6Y5A2/01opuLHuPzg5zu8QNUqlkpokZvOKDNtD7V3ExdB+FYMwfoqc+JnxntcioZOUssngLoUxVOb2ktvqFs5UpONb6uhDER5DPqS64G7hIie6TiWq8cqeggFp2oaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=opnsJPdm; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1763460135; c=relaxed/simple;
+	bh=eVwq/4gEkODxQjANnf8GBdaYp533e/tmmhRH3w6klWc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=azjGz0iSvJMpzePhw3T7kQwk9mA5L0ftCsQG9xqacVdvR2ZFiWTvdxAc+YZlZkYKXmu0R3hnAJ0v9/gHlsjgd3tW3GKxj4DqwtR1rDGX/fWkQDs2OT6F3iEKU5di4wXWH4zJIvzg4IygVdZurhMddmcTba9TBVxZ7PHebQOaDLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=fail (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gic1KLzt reason="signature verification failed"; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="opnsJPdm"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59582673e15so4270631e87.3
-        for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 01:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763459242; x=1764064042; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VMVWh4fXZBKxZ6isW9HD5sLU8SwmoT7bOn5vyBPfKmg=;
-        b=opnsJPdmzhM5tdnQJbfSjsg0bFk0p8LPV66XHrp6enVsUH8qX6ziRRQl7HuZ92SzsV
-         V/RUf32TQuAJbpZ5fhfkKphvbG2g3OT0c06HLydsLCwXxcd/8FC4NxesAVTAIYjHGe11
-         57p4nQ3sLfAWX6HBI0Vkq5KTlgAr0UbhEMyCNX1EQby8Hp4xGr0eNHRkiGMv9yaXUx9+
-         Z9Yl7FuxTHEcbFZcSIENmFvabrxplOyodborRcWFDhwD0urfYzmT5/crdFlR4nUSI9ik
-         aKdnDFv6fx59R0jWhxbE+a8a6JFT8efPEANJeSUgRuEYs81jZ4KfWpJVZyfXGj+fHB0X
-         kEAA==
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gic1KLzt"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AI6V9k0384218
+	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 10:02:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=29WbPMmZtHkdt1qZy72QL7b3tVBAUu8SaRr
+	fvguze8o=; b=gic1KLzt88O5Ae71pzXC+/whLtANXH570MlpmLxYPiDYNuBfZQp
+	q59fgELenUPmd5768ECPqT4DT7xo5PiRj0pK03OFtNAMzLcEGjY38Ouz7XTph39N
+	CiwMJASV6hqNKPPW1S2fIux8l0FbljUpAduQOmiKKSN7YZqfNHMfL6JQ7NcpXPGk
+	nAlTFmbTGAkri3WKaXMe/DFPUQeXdKo/CWaq6Kx8v3kNT517jQB1Rl+VJX3wvo38
+	ALYVGR/XJ+eSs1jmRD0XNxEz3RX5TKG+6JbMI2AJVnAWe3E3rC/nLmZLZVMJxmFe
+	ytX0nus0/EcMNAzpu2I+6GZFtcb9qxOt1+g==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agag8j1yf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 10:02:11 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7b895b520a2so5388279b3a.0
+        for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 02:02:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763459242; x=1764064042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VMVWh4fXZBKxZ6isW9HD5sLU8SwmoT7bOn5vyBPfKmg=;
-        b=bbvfGgVzzDf1gTsxcEanJXaFeZteMV4HbnB7/68ung4jafIZ6KegzINfcTnPem2VXP
-         jPI+5MnpU46dApdcEXbsn9bqdnWOmToDXzREALtFkyznAj1wWNnlARj9C5FG6vE39JTw
-         siCqHpug5eQh5SqrxFPcnbMZsIOTRijAGAwNLys0ZBkEezBovio058bKvOGpHPXJuXoc
-         iBwA3x8ugqWLcP1Cc3yOYSD4aVtzSYbRvycCHwItKipNPFGZdRZ4cSI6qnNjmXux9ddk
-         2MmYGbFbI4jpRKvWEhlC6k9zhRGGxMr8lat+rUYsFj/5Tk1Jxpz90XWm9u4TKU6OdkF9
-         vdgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXsqviDl6rIwYeu1/LDi/qkXPtl/5UPX+eMu2dVrbkSkRGCf9wZ8uLiYx+TFxKSD0BWjh7Ww3iMKpHUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcRWvVYn9hztCIZ4SwaUsXtSLf5pL9A/LFT6r3H2BuD5HCLKe3
-	oHU7A/LNTblEYd6+sOmrmJc2N9HvYOodKGIvVdywB6PDoMjhYtByj7fHTNjf48uZcuqB91AlTQe
-	7pKO3jqYthN0FkxOTY8EOc3AHAstKTKqhI6js0ycbWQ==
-X-Gm-Gg: ASbGncsEwsrWksyiEV4B2HB0uaIXrX6DT9U5JvEnJuhwQaNzyEl7ZW4I35j1Yps1T1c
-	E9nWTztm6M7g1U31a6xFFL1c2wIYxq4uIO+Zbbk0P9hk2RLQoI3eJZ6uYBz0JwmHR9In2QjlnUZ
-	piwhZT6cOJs/egDFDoh5kn0NQ5OmqK0yYLZnoSI3wWk9fxzlkeKYzWpmrzbUQiicAbX23VZdzDr
-	iQHB1g1t+ytektG3Laj3fYvK/PhZo6pSLimf+ZzLrgd7OqFw3U1yJ5R2Tqvw3hDhUOza8bAnveW
-	R5NqRD4XK4PVkthr8LzEF4uiGNPGkL5w4NOg
-X-Google-Smtp-Source: AGHT+IEKSj2qpQvKe0IfkTOGZF1jV6/WKVJLO2A/Txv4rPC3yDvwMdMydDTZhNC5mLXfB6q+qgnbPN4NmYCtJAA3Qgk=
-X-Received: by 2002:a05:6512:39cd:b0:594:4b55:d2dc with SMTP id
- 2adb3069b0e04-59584217be0mr5314684e87.47.1763459241858; Tue, 18 Nov 2025
- 01:47:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763460131; x=1764064931;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=29WbPMmZtHkdt1qZy72QL7b3tVBAUu8SaRrfvguze8o=;
+        b=j2wD0mEh4keeXCVJKAMY6EM0Ii18z5f+XrKXw8uNnKNN7s1IY3OyP/gTd+0CfwKB8l
+         Kqkrc+LD7rZkrX+zUw0kmisyI2qtl0GVRakdINBDm66nPxTNd+PzqXhWdGTHVsQlXfco
+         1dh8dKj0aOoFsifX8sFT56M1BOSF6CIfnuwsuVBa8LUG2q852yBWtPoFHJ9qwuHOzviK
+         YRD1NBE38P+OCJxhXy+FsfhHrHCWOiLSZkiibvaPUaU5Rz+5ip5m12ypbRtIpnWozR3O
+         G9+lym89V4cS2kAqsQ3U2/nv3GAIU8CMikKVv1gXJ4OyF8oH5Z+EEOPWKMHPI1CeOnt1
+         N3BA==
+X-Gm-Message-State: AOJu0YzeBG29tN1l4MsGR7eoN/FhdyCoqVtoqWZQWse3ZusDy2HWiIxh
+	zmrsF+37MQkSSWdYOUcsHW0rB1F9XynzPayN7BOLsbQlQKue6olLDtfIpDsIdgQeeWVxfccM38h
+	WK1b6eshHhBQpJNbLdED6iN3z2hXP4qfdG1A1K8cMBSUpJ7AlcomBDXTB81ovDFQ58Q==
+X-Gm-Gg: ASbGncs42J5dc7f7xGyChY1OUyKVk5I5EqcRC8YUXTSdhdWKhdkX9Gekpabi4c0QKYm
+	YAyRFsrAC5l/jKhNTZWlPwLQ3UXpQdHgemaLeLw5Otjhu/+rPJ32K5u+Q/orPNoZZzFP11vLTIz
+	Ifln28bxQkiGPfwOz9vul1H4gzEtNvmwfiUCKPukq+IwVuYcdtA6LDcRL2FpJTHAoPmcE4D/II9
+	0ahCJHD1IygcKxebgcHLdXeEZekGMySgbY+cMLIXDoeU+V9znK4A3iiLzEe8BoZbD6vwgk0B2ZO
+	DBHEoqF0BdJhr11L46so3UVPPJv3mryWfngVnFitOM23wUSPKL9sTb/AU5sFrfkcKSoV1oxHksB
+	F0cQ=
+X-Received: by 2002:a05:6a00:9508:b0:7b7:5dc5:75b8 with SMTP id d2e1a72fcca58-7ba3c66bff6mr18534018b3a.29.1763460131118;
+        Tue, 18 Nov 2025 02:02:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IETb/+Zba0ifp/N+rXlcAF1v3+Xzy/JH2PnjhndExG2SVkRHLUm5qIp3UI+fN5+vOwZYmzw3Q==
+X-Received: by 2002:a05:6a00:9508:b0:7b7:5dc5:75b8 with SMTP id d2e1a72fcca58-7ba3c66bff6mr18533964b3a.29.1763460130535;
+        Tue, 18 Nov 2025 02:02:10 -0800 (PST)
+Received: from hu-raviravi-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9256b9283sm16120030b3a.33.2025.11.18.02.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 02:02:09 -0800 (PST)
+From: Ravi.Hothi.ravi.hothi@oss.qualcomm.com
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+        mohammad.rafi.shaik@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
+Subject: [PATCH v1 0/2] ASoC: qcom: q6dsp-lpass-ports: Add support for extended sampling rates and PCM formats
+Date: Tue, 18 Nov 2025 15:32:01 +0530
+Message-Id: <20251118100203.2751955-1-ravi.hothi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <20251112-gpio-shared-v4-1-b51f97b1abd8@linaro.org> <202511171230.F83EE85D0@keescook>
-In-Reply-To: <202511171230.F83EE85D0@keescook>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 18 Nov 2025 10:47:09 +0100
-X-Gm-Features: AWmQ_bkhi1H3-46xEmuP3pqCgeKjE8VDjqsBb0GhCZL7ntExaLQpYRSDFU-8VEY
-Message-ID: <CAMRc=Mekr=xcGbSBD583nUqR43aLYO9iGakbOSSFEWYdbXW73Q@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] string: provide strends()
-To: Kees Cook <kees@kernel.org>
-Cc: Mika Westerberg <westeri@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: gP4FCwqkCt7723ZV1niRAC19uqkYu6J5
+X-Proofpoint-ORIG-GUID: gP4FCwqkCt7723ZV1niRAC19uqkYu6J5
+X-Authority-Analysis: v=2.4 cv=G6sR0tk5 c=1 sm=1 tr=0 ts=691c4423 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=dGAPf8r0MKmh5P99Hx0A:9 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDA3OSBTYWx0ZWRfX33zL1ohAb14X
+ D2Sw7hfSg8qZzX8jNA09R4ZCCk03re++OxL1ccFj7jgL+nws/nDJW3D5I+bGT9r+cq4KBUtdQu2
+ 3InD003RchRxBnXZ6guveAzD8di1gp/YF+KIxlZQzX/9zlmydFvMFyCbqG4jiNN0n9OKLzpAF5S
+ NAwvE4CP0C+bpo03RgxDM2gb5oSIGWOja+o00A5VJZmSz43gIF+jt/8hDxoFn4knqWWn8tzfq5F
+ um09KU09c3bfFVXRdM9Bx/eQ5LJAE3Ijncrdr9gnr17Rs58AOvhx7Po7h1SBsgB7kMLziy4Wuvm
+ p2ThBXG3nn/7WhtpqZlvmtm1eMowrbCoQtXDDQXaLwTvX8rQZ3GsOexX0epglrlgJ/mF50W5wPl
+ ItTFp58mt8bxi008MSBD03EcXxd+sg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 impostorscore=0 lowpriorityscore=0
+ clxscore=1011 bulkscore=0 malwarescore=0 adultscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511180079
 
-On Mon, Nov 17, 2025 at 9:33=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
->
-> On Wed, Nov 12, 2025 at 02:55:30PM +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > Implement a function for checking if a string ends with a different
-> > string and add its kunit test cases.
-> >
-> > Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > ---
+From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-Hi Kees!
+This patch series enhances the Qualcomm q6dsp-lpass-ports driver to
+improve audio flexibility and support high-resolution audio streams.
 
-Thanks for the review. I already queued this for v6.19, so let me
-address the issues in a follow-up.
+Introduces support for a wider range of PCM sampling rates,
+from 8000 Hz up to 192000 Hz. This change improves compatibility with
+diverse audio hardware and allows better configuration options for
+different audio use cases.
 
-> >  include/linux/string.h   | 18 ++++++++++++++++++
-> >  lib/tests/string_kunit.c | 13 +++++++++++++
-> >  2 files changed, 31 insertions(+)
-> >
-> > diff --git a/include/linux/string.h b/include/linux/string.h
-> > index fdd3442c6bcbd786e177b6e87358e1065a0ffafc..929d05d1247c76eb9011fe3=
-4250b487834b2d3c9 100644
-> > --- a/include/linux/string.h
-> > +++ b/include/linux/string.h
-> > @@ -562,4 +562,22 @@ static inline bool strstarts(const char *str, cons=
-t char *prefix)
-> >       return strncmp(str, prefix, strlen(prefix)) =3D=3D 0;
-> >  }
-> >
-> > +/**
-> > + * strends - Check if a string ends with another string.
-> > + * @str - NULL-terminated string to check against @suffix
-> > + * @suffix - NULL-terminated string defining the suffix to look for in=
- @str
-> > + *
-> > + * Returns:
-> > + * True if @str ends with @suffix. False in all other cases.
->
-> Maybe added "empty strings never match"?
->
+Add the support for 32-bit PCM format (S32_LE) alongside the existing
+16-bit and 24-bit formats. This enables handling of high-resolution
+audio streams and improves audio quality for supported platforms.
 
-But they do, please see the test.
+These changes are incremental improvements aimed at making the driver
+more versatile for modern audio requirements.
 
-> > + */
-> > +static inline bool strends(const char *str, const char *suffix)
->
-> These are required to be non-NULL, so we might want to consider marking
-> them as such with the "nonnull" attribute. We don't use it much in Linux
-> yet, but I do see a few places.
->
-> e.g.:
->
-> static inline bool __attribute__((nonnull(1,2)))
-> strends(const char *str, const char *suffix)
->
+Ravi Hothi (2):
+  ASoC: qcom: q6dsp-lpass-ports: Add support for multiple sampling rates
+  ASoC: qcom: q6dsp-lpass-ports: Add support for 32-bit PCM format
 
-Ok.
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 108 +++++++++++------------
+ 1 file changed, 52 insertions(+), 56 deletions(-)
 
-> > +{
-> > +     unsigned int str_len =3D strlen(str), suffix_len =3D strlen(suffi=
-x);
-> > +
-> > +     if (str_len < suffix_len)
-> > +             return false;
-> > +
-> > +     return !(strcmp(str + str_len - suffix_len, suffix));
-> > +}
->
-> We should probably add it to strlen and strcmp as well. :)
->
 
-Sure but that's outside of the scope of this.
+base-commit: 6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
+-- 
+2.34.1
 
-Bart
