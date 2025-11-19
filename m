@@ -1,243 +1,233 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241BF3358C4
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 09:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763543434; cv=none; b=G1n+Xfl/o/F1o7H0dig+Yxp1c9LKcVXdVKZxsRA00UHuEE3wJ8EEJWWRMaZ6HYjH2tgkEawkNn+9PxAKa4sz7pSFW36monSbhQrmWbxZxDQhCUzbJg8+0m4zCuSAL+9LwOHFsHO+c+FXvU1kMX9djweux1MZ8jj0iuTHp6KaD3g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763543434; c=relaxed/simple;
-	bh=4zqRWKe6A91rsanLN+R7KRDQ2S2tcRWB++5yv/JjcNE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TfOkq1iTY4RryG2xKHlzoXQLjCWMkY7C/9hpTOpJDyZ341JFldfKWs6IXdlVuQx6jqEL/+l82V2ZPXTk+dZ7jCClQ2xb2r7SVDJ9TlTmpmK15UwBZWBd9kdYWlFT2Wc2zIZnw7TB1uSqJ7Kbv+i/1YCKO7h8BPKbjIz9r9SKxjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=qqQm/6ob; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23313702EC;
+	Wed, 19 Nov 2025 09:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763544711; cv=fail; b=ZaNMlus362t5eUli9Pg+9kPuXOoTScOq/HXJekTXMN8kIllyKYP+aumQjB33WbvdVMWHLbVxQcs0QKmm1PzDt/EVpJfNeLEfkKAvBn+rkN9l7t0M+N9Y9LMRXgL6BCuEUa17E6pRrQZQ2IKLZMXDp5b58A/TFwNWOMnijs4qSNs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763544711; c=relaxed/simple;
+	bh=05VqlffzkBrlBloFZ3yll71dN47vsIY4t3IZHqwojUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvOwSinpgxRx4LamptYaB+0O09+eUBFlYra4HjwsXTgXCwno1eYdfUOTv7es4aB2JRwsdRKeE1Dx8rUMQ0Fd71h3MTIIuK6pcIgOfpPpMcdGltR86jjZ85OFT33UO3InwK/CdOUpGtxr+WCHJtZsisA5s3uPVHZXDU17jWxBNhM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HzQ2WOnI; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=QcEzifKN; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="qqQm/6ob"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-429c7869704so4840413f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 01:10:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HzQ2WOnI";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="QcEzifKN"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJ5Fg3c2111531;
+	Wed, 19 Nov 2025 03:31:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=QpeIT0kv6GuVpe2dk1
+	ct+i422ytVGZx97P4nVkOlkYw=; b=HzQ2WOnI7pQmHkwOU5nEYI/UKsvLwRJyQr
+	q9lM/EvKdJwgjnFLHqCHoY1qz8Kshml9d4t/gXsjR6Sxgy9bCWN5gqU/qVfeTXQZ
+	2e7vltFV72tcvPHtHvUmWoW/ccb7wmdkD/0h+MwbvUi7PTQZtkGfflRUSFwonj+s
+	/5oAcV4O5aQoKi1AJlTx20dsvrEI+6H4qf+H8fHc9j7SRNpcZzqh1OzjcsTFoHrU
+	8Q5HvkUkE2x7h6NsibUxF8iZBQtAH3BrXs52QUYW7Eq7PpiFVyY4hbNu/WpQa8nB
+	CcQ++xiZp64iPoWlKH2u4XmdcI105x8S/eMQcJWWWxsvuyJBdsEA==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021089.outbound.protection.outlook.com [40.107.208.89])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ah1bm8n0a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 19 Nov 2025 03:31:11 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bQTZS+c+DYqjzuuA5YsiJf3ZsMT+wOFabFUSlQV4h1JjsSn7eeYoanPZVRlNUS/WGK2K9ML4HPBxBBwRdgfgEOo527wiWLjFIh05Bor2b3nBmihDdUXMVqaeDx15/Py01jRHwIqhYRUyVjsUOc4rKQtFAZYOoSMwH/1w2nwomnufQd8dm8Ozu+Cl9lY1z9FhVDuVdnaLkzShfYq0Kt5WhsAI5Nt1mj/DZQF4jLZ+TTcyctooETcAJBPX4UcF+5gCTWarkF8QGqo2HKbpEOBKlGl5O3xVq7h4hn6DhVJ7Al0ioWrQID6rmT3Pq+uvOvRI8pUw34QKOrwk0Xgb/gW+Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QpeIT0kv6GuVpe2dk1ct+i422ytVGZx97P4nVkOlkYw=;
+ b=uKPfWpYNGZi3adwgQvN+FjXfteEvUzw3wQMkAX4JZP01GHPad7SsQs1LQooWCWs33uV6ZFO2NniedwsRJ7dHew5pK6Y+SgVlwfnbJ5LWlV+gFyEoNENxVCCZlzKMMAlQ5adsAzBi6kN3obyJxhv5cQWrDnumTHtk1TC3DaHpEvV87wZLgqdBbJcVAXFfTjSkZgK4EmrImBlgh2tuoIFCAWZRaeUEDGokU5sjVQU1KmX8sQlmBHZTXmuhgDuFbWUVvMyVau2ScqRm4QORNi8CchaFCuSNDJE7QT1vVnEPYBtjFJreXo58jc94z1nkLwfjjbYUh13+LQBXvDA642f5TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=bgdev.pl smtp.mailfrom=opensource.cirrus.com;
+ dmarc=fail (p=reject sp=reject pct=100) action=oreject
+ header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
+ (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763543430; x=1764148230; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YE4EP2vHwAOfDYFjAAxFpiiWrfOWjJkp8nzfRZHx8Kg=;
-        b=qqQm/6obGSwwExbGZdwXR0H6I7/AMYMSDozrCoPH0HuxOR5KLTU2zi6bXS+paqzhpz
-         3KzLKG2J2UoXn4EYpLwxNAXs3XASSj58JZApFbntqMNkiQoUg/jiT3aaUr831fPDNjpO
-         0FWRcrwjYIZJVBET8HGmm41jN2JatciNLJNr6o+sndWspwlqEzzViHQi5s2LxAr5B4EU
-         RLDHCFPFSnfR3pUtSXF9hD+vkOVdy3MUxzUOqrw+bVBm9KvpY4egyeT77hCMXYMY28qH
-         X4xGtinUQN6Hro+S52ALrEOfeRc0zX14IDXalJrRjw6HfmMjnQCrgFgdSwOPv1ku6NTJ
-         m9DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763543430; x=1764148230;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YE4EP2vHwAOfDYFjAAxFpiiWrfOWjJkp8nzfRZHx8Kg=;
-        b=UIYHbySEzMI2qB7n3SPbTRGPO7ta0eggYMW47vClnyItTLmWPG0R9c7nN7ijnctsFl
-         sZ2h4z2+SWs4VdPemajK0yBMmOU+sXhuoIrlLxK9PjuW7fNFZOZaxt23nk+IjiVjIAt1
-         IISEfusGVQRGkIp/KkmOqznK6BygdGdEHOMEhdItanvT7cn7GTnXpOx15H/xvxBLqx9N
-         hpc8c/Uau3o1UnnGxR1v9kzeftc+9XAk2NEVh6DJ7PC5eD+aiyijpLS11OPXFP38z5DF
-         SsPXtrx6P3ByhEBTK+tMC9iJn9r/GhzQ8uHswMnxRy1RdrzugdMSeEW6ktijxyzVidoR
-         78/g==
-X-Gm-Message-State: AOJu0YxLuurh9yc8n74ybHNTqpAkGODUgnR0d4mxnMWPWMh3lK0YG135
-	RD+XbtPzgTpYHgYFQOjb80nU3JQ/JD34kqTc0c1A9YvWXHWdjt+sfqs7mYnSTAQZb7w=
-X-Gm-Gg: ASbGnctpKrQKt3uCSbztH0wnxSy64Ey6P1ppufwEFCEh74z/kuTn/CLwKAZUbIsn5Rd
-	gMuT8D3Kqbv1HnUmKMZ8w5DlltBg2RVa5Omua4JOtQTzysfr5tTvlXL6gIL1JcuC/dhoZkIG5AB
-	jjF9+g/uzoLfC0MN8POV9pyGxL/wy1yUGMR7UjwnkvrwB2UQHt1WriWEiL5pMyPt/jweaWcEo/z
-	az+V4TSgPdFWwo1nEkjhlC5XC0Q1SS0OJYRYHda2oQ8z64LX3ePTISXd6zNkl9OqAnrNEv+LuYO
-	PigdswFaFQs9i+s3Bek8L0y+oAFs+5dvYoEhUMmIyc+zTMPcNmvYkMl07qjUyKhrRnR4sjI1r02
-	9+rgwcPdx3bOZIvbRvV7SXHf/tGuNyVSe7A7MeyzjOnnA+3SOp8DxbGoe9XPfr0yp6ACKqGwXD+
-	4D7iU9
-X-Google-Smtp-Source: AGHT+IHUqL4AiPh3Lxs/BJo8HrorMM/Yb2oeCQiCieOWqwtZ1l/4ODlTZezCzSvp5hc6qozvX9gQdw==
-X-Received: by 2002:a05:6000:1847:b0:429:d3e9:667 with SMTP id ffacd0b85a97d-42b59349872mr18945075f8f.18.1763543430334;
-        Wed, 19 Nov 2025 01:10:30 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:c10a:203f:120a:d2f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f206e2sm37369280f8f.41.2025.11.19.01.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 01:10:29 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 19 Nov 2025 10:10:24 +0100
-Subject: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QpeIT0kv6GuVpe2dk1ct+i422ytVGZx97P4nVkOlkYw=;
+ b=QcEzifKNeLNT+fcmorwNxzIoSttNJUH6miky70uDKYQOI3X9mNQOHkoY5oR2G4xLIe1GC32fMudFoKPIwotQepopziq6UK27wtyuUgkFNjMlN0yk7xSkX8uHPZcQ2DJAzmUZJDnFZW9dR4UFg/B3BCzM082wowM2JG6I0qxF5eE=
+Received: from CH2PR20CA0005.namprd20.prod.outlook.com (2603:10b6:610:58::15)
+ by DS1PR19MB8553.namprd19.prod.outlook.com (2603:10b6:8:1dd::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.18; Wed, 19 Nov
+ 2025 09:31:06 +0000
+Received: from CH2PEPF0000013E.namprd02.prod.outlook.com
+ (2603:10b6:610:58:cafe::6a) by CH2PR20CA0005.outlook.office365.com
+ (2603:10b6:610:58::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Wed,
+ 19 Nov 2025 09:31:06 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF0000013E.mail.protection.outlook.com (10.167.244.70) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.9
+ via Frontend Transport; Wed, 19 Nov 2025 09:31:05 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id EE422406547;
+	Wed, 19 Nov 2025 09:31:00 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D25BE820247;
+	Wed, 19 Nov 2025 09:31:00 +0000 (UTC)
+Date: Wed, 19 Nov 2025 09:30:59 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software
+ nodes
+Message-ID: <aR2OU4se7lxcMtGW@opensource.cirrus.com>
+References: <20251119-cs42l43-gpio-swnodes-v1-1-25996afebd97@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-cs42l43-gpio-swnodes-v1-1-25996afebd97@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAH+JHWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDQ0NL3eRiE6McE2Pd9ILMfN3i8rz8lNRiXYsUk0TzVHNjoxQDSyWg1oK
- i1LTMCrCx0UpBbiH6QW7OSrG1tQBa1UAjbwAAAA==
-X-Change-ID: 20251119-cs42l43-gpio-swnodes-8d4a7e732d09
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
- Mark Brown <broonie@kernel.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Maciej Strozek <mstrozek@opensource.cirrus.com>, 
- Andy Shevchenko <andy@kernel.org>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4611;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=o7oQ1XaVb5wC1ZDBDcJbldzYHxr5SKuSoMF0kqHvAK0=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpHYmBBfvF6ldeycbTuHmYL7zSkv8OFuOn00HZJ
- 1o+6FgKdUiJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaR2JgQAKCRAFnS7L/zaE
- w6oMD/92PuCX/DA05qVNAHA18lQ1nQ9rq/89KQv/B6gLTkk2NxwREQE72VlfEXzAIFKs8Z7TpwN
- 6aAtV4M0EqZ+/22ujJMIkJNWwrtRrcFg3cjAEfLkCgIu5M4vKRjT3LuOg66pyI2c8qNYHsZWQo8
- AhGGJ7/+GPMChEska3BERvNbCiYTtjtakVeMx1PmOZ54uMaR4OPHLcSK6fpY8CUILdLXdc6XlTC
- DbqGQwcgjDlZ+HARaCU2M7b/GS13tGVZ2ruyzGL2ngce8oxyxlUyF2SBKsM3k4yV9KL7BykuRy1
- 8juUonyNrK+mseoeBoot/hnaaTxflHUq+ibL1GTNBr5UNE5yE5DXlEBf9/bcEQmoOt8/vDZjYnh
- uwT43vAFXk8cY1q7fVV9K3/va4WtIfwyleT5jKgZno0oTrqgnYPiKO465zImteXtutTcqAHDZHG
- wTxUi7n/sSd3R7gt6BxJebBEwls5DMmCZphqoO2xc1KKo0Xp5A5dxoQh/o+YjfoFJKO7m7ViaDz
- zDVwNW5kVSJaaxGb2jlYhYLzvlx92oEepz2vLlA68Tvs165KMsf6RiWsuglRDRbFck+c2wPDMIb
- NumGI5ax9s33LjFRstILQ8+/0IlO6ccd0ApiFqqO+nSnXaWxb7L2FygBaTBj/jLbA6uSQd61QM6
- ke6g8KUYckMdCeg==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119-cs42l43-gpio-swnodes-v1-1-25996afebd97@linaro.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013E:EE_|DS1PR19MB8553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b25c96a-53c6-4fdd-261e-08de274e5d5a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|376014|7416014|36860700013|82310400026|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?H5+aFFtYDeH0ex1JqMk8y3Qmr9eg3WjxufzQl8isfGVGg+mn4czNZxtSoGQT?=
+ =?us-ascii?Q?q6ZQGvNyR4pHA9h8Uuubxsv2ME41q60ibSgpguE332D06CLP420YGxMtHs7J?=
+ =?us-ascii?Q?e2wRU3XwpRO4BWlhaFdRpCrPv8vT3Pag2sMe3mE4VW5ZQmcPdpdPcPC5uwJk?=
+ =?us-ascii?Q?g40thPyKoQsn1UURE8YqwYRPStPKyw241HUVLx8Vmk9VI+F6bhqytfYs9iUA?=
+ =?us-ascii?Q?b24fCIf4V16xP2+J0LvPTQU8eeatSqM1mTIQ+siVrxB855YglVsWMMI+WGfI?=
+ =?us-ascii?Q?seZYTYVBz2j2ztxofX2sKovepbVEqqKjZ8RMMYojBiU6iuhLnAkPh/Dbfghq?=
+ =?us-ascii?Q?ynUXJtQpL7yYwSGPzNUW8S9FfK7YfP1I+TkStBmHN6HVfI5aEZIkI9WGiT/x?=
+ =?us-ascii?Q?Xk0zXbDtE0pJqhnhevvQqYzJNsY7sAW7LTE052PNFSKESxo98dSQ1ORCzAfx?=
+ =?us-ascii?Q?xG9U/LAMmcr7b6iC+BsI090RVKOQLWmrMyHgNUGkLPo8pPUPLZd0usZEUQ3T?=
+ =?us-ascii?Q?htf+5yfKr4Mj9ZTZIKgvKWfWRlxt+HwBHTbfz3e/53y3kmMFIHKctsUeE5mT?=
+ =?us-ascii?Q?+0+Q3SaHDznEg6mW8/26H82vQT9dfYvmo4u6bNbJTJFLl02YLMXEbqIxUx4g?=
+ =?us-ascii?Q?HrEso+i6gsXqiSRgwXfV/jaCtM8mnKx8B4ZWugmSQ8ldB9KPAyCQT3Q0mYTe?=
+ =?us-ascii?Q?2LQIc7NCcdQXx4EOT1Pi61y2hbqJLKIkwZHidMCSxPOTLeXyhqwy0uYEqQt2?=
+ =?us-ascii?Q?BzcLmVXFT92AReqwkG1aiPSMkqK+tvzXZ7VnQIoHnWTn4raenQibyA132+bg?=
+ =?us-ascii?Q?urZyjvhQHtwnPvax4vdmKUN8oFj7pMGQr7grMhYOBZqnr8Qc8vHnfq1apsdo?=
+ =?us-ascii?Q?HiiQ1Yg48qCj1qv+E13EeOg7FTLB7k13S34eoRRwLQ7uhp7zwlgEg8YRnLIF?=
+ =?us-ascii?Q?l7FWhU3kjqokoa5kbMRVvUMxoyHUNIrHO7/iAGSVpK03R5/Mi2nUWLyvB4mg?=
+ =?us-ascii?Q?gbbaTdlZzQUgUGfLnuXQ1VcHkJBhle46GdE+oXv7fzYByvEPYhSwymVErO4N?=
+ =?us-ascii?Q?lqxsf66Yy9093Gko/xhdsDMIjAwRX9NbVlpT18IDes7UTfrSEyPysIcHuOD4?=
+ =?us-ascii?Q?gf5/Ka+Msy2wEvFP+REruy9rzru8LF1gBOaZMKPZCcFaakj2of7+it4EGAhK?=
+ =?us-ascii?Q?cVN6gZ3WS/nm9y+rMss6L3U7hgszr8s6UKozJb+UX0TPMX0+7ALKUfSfpc9V?=
+ =?us-ascii?Q?mOassHv9mpSCsFptWBXJjefP+HkA4GbXK7V7vY9HtC6DfqJB5dOpNxSIkv6x?=
+ =?us-ascii?Q?CiPy1nEn7e+OZ7M3Op6EHr+22wCrUG1doPWldFgQYIxkQTE//L8bmVNRUGYV?=
+ =?us-ascii?Q?hXk0DInEBcUKYEIEfQhAEYlanipjE4men08f3gSQAu2Ung3udskurR+4C9iO?=
+ =?us-ascii?Q?ND43/XDST0DBM2W+IYqwA2sOCjpCNIhLsLlVCxwabuZY2Grz8SqLdermrHDA?=
+ =?us-ascii?Q?DBaPoPp++sM83E5qwGx89qVl7lFB8aJgO+ydblDaeZcnbperUGxGJmvBViFF?=
+ =?us-ascii?Q?dbwXYm53rqvLtdd+l24=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(7416014)(36860700013)(82310400026)(13003099007);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 09:31:05.7929
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b25c96a-53c6-4fdd-261e-08de274e5d5a
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000013E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR19MB8553
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDA3NCBTYWx0ZWRfXyAmb6ALRW+Mj
+ Uzz6B+bZNnV50v+JXDOLKE0fiVx+iRP7QE2udqow8F35qTUNE138FyNeS2vvBo5fY8LFg3G21WB
+ X27Kpb1rPNBu/Dj1LiNC5gcMDqSsuyajJmrqvEnjcyyhhe3P0H1HvasHx4VznIjZKvbl77dj2bx
+ GwZUyXX/sWUeYXN1ahfkfn71vSrti6XKYJ7kq2gz8DnBJJOkk5+3fnYxlhkpSUBcAITj7DuQFHW
+ AEOI1DHTH1fmna+XmngqzWlAyrz7bkvcqQCNylnPwlXL6ntBZhEx1gdMgxY76LPoSgcKJwm/g88
+ TWLQVYzezwubyfUOithFdfvOJ4CDSr7EG5CTqlb1TQBj06cifXHddF7NMDM9lmnpE2rYnMhVyb0
+ NqUHxuJYvoOQ2xh5oiC7OJwA1plnyw==
+X-Authority-Analysis: v=2.4 cv=XcmEDY55 c=1 sm=1 tr=0 ts=691d8e5f cx=c_pps
+ a=rgmdkwC1tPsVJMj+r4rvFA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=KKAkSRfTAAAA:8
+ a=BjVvaOLrJRsRtVGbhIUA:9 a=CjuIK1q_8ugA:10 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: N4ylW-hZWyMsy5KiI8LoTfYxCZZREyHX
+X-Proofpoint-ORIG-GUID: N4ylW-hZWyMsy5KiI8LoTfYxCZZREyHX
+X-Proofpoint-Spam-Reason: safe
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Wed, Nov 19, 2025 at 10:10:24AM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> Currently the SPI driver sets up a software node rerefencing the GPIO
+> controller exposing the chip-select GPIO but this node never gets
+> attached to the actual GPIO provider. The lookup uses the weird way GPIO
+> core performs the software node lookup by the swnode's name. We want to
+> switch to a true firmware node lookup so the actual link must exist.
+> Move the configuration to the MFD core and connect the SPI and pinctrl
+> sub-devices with software node references.
+> 
+> Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers")
+> Reported-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Closes: https://lore.kernel.org/all/aRyf7qDdHKABppP8@opensource.cirrus.com/
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
+> Hi Charles!
+> 
+> Please give this a try. It's only build-tested so far. I hope I
+> understood correctly that it's the SPI driver that needs the "cs" GPIO
+> from the pinctrl.
 
-Currently the SPI driver sets up a software node rerefencing the GPIO
-controller exposing the chip-select GPIO but this node never gets
-attached to the actual GPIO provider. The lookup uses the weird way GPIO
-core performs the software node lookup by the swnode's name. We want to
-switch to a true firmware node lookup so the actual link must exist.
-Move the configuration to the MFD core and connect the SPI and pinctrl
-sub-devices with software node references.
+Unfortunately it fails with an -EBUSY on adding the MFD children.
+I will investigate a little more and report back.
 
-Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers")
-Reported-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Closes: https://lore.kernel.org/all/aRyf7qDdHKABppP8@opensource.cirrus.com/
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
-Hi Charles!
+> +static const struct software_node cs42l43_gpiochip_swnode = {
+> +	.name = "cs42l43-pinctrl",
+> +};
+> +
+> +static const struct property_entry cs42l43_cs_props[] = {
+> +	PROPERTY_ENTRY_GPIO("cs-gpios", &cs42l43_gpiochip_swnode, 0, GPIO_ACTIVE_LOW),
+> +	{ }
+> +};
 
-Please give this a try. It's only build-tested so far. I hope I
-understood correctly that it's the SPI driver that needs the "cs" GPIO
-from the pinctrl.
+This drops the undefined node, that is important as it lets the
+SPI core know that device is using an internal chip select rather
+than a GPIO.
 
-Bartosz
----
- drivers/mfd/cs42l43.c     | 25 +++++++++++++++++++++++--
- drivers/spi/spi-cs42l43.c | 33 ---------------------------------
- 2 files changed, 23 insertions(+), 35 deletions(-)
+> +static const struct software_node cs42l43_spi_swnode = {
+> +	.properties = cs42l43_cs_props,
+> +};
+> +
+>  static const struct mfd_cell cs42l43_devs[] = {
+> -	{ .name = "cs42l43-pinctrl", },
+> -	{ .name = "cs42l43-spi", },
+> +	{
+> +		.name = "cs42l43-pinctrl",
+> +		.swnode = &cs42l43_gpiochip_swnode,
+> +	},
+> +	{
+> +		.name = "cs42l43-spi",
+> +		.swnode = &cs42l43_spi_swnode,
 
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-index 107cfb983fec416bbdd31caa1e6a569026467735..629faf8674af651eb64aa63ec768ba18c1c8b311 100644
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -14,6 +14,8 @@
- #include <linux/err.h>
- #include <linux/firmware.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/gpio/property.h>
- #include <linux/jiffies.h>
- #include <linux/mfd/core.h>
- #include <linux/mfd/cs42l43.h>
-@@ -512,9 +514,28 @@ static const char * const cs42l43_core_supplies[] = {
- 
- static const char * const cs42l43_parent_supplies[] = { "vdd-amp" };
- 
-+static const struct software_node cs42l43_gpiochip_swnode = {
-+	.name = "cs42l43-pinctrl",
-+};
-+
-+static const struct property_entry cs42l43_cs_props[] = {
-+	PROPERTY_ENTRY_GPIO("cs-gpios", &cs42l43_gpiochip_swnode, 0, GPIO_ACTIVE_LOW),
-+	{ }
-+};
-+
-+static const struct software_node cs42l43_spi_swnode = {
-+	.properties = cs42l43_cs_props,
-+};
-+
- static const struct mfd_cell cs42l43_devs[] = {
--	{ .name = "cs42l43-pinctrl", },
--	{ .name = "cs42l43-spi", },
-+	{
-+		.name = "cs42l43-pinctrl",
-+		.swnode = &cs42l43_gpiochip_swnode,
-+	},
-+	{
-+		.name = "cs42l43-spi",
-+		.swnode = &cs42l43_spi_swnode,
-+	},
- 	{
- 		.name = "cs42l43-codec",
- 		.parent_supplies = cs42l43_parent_supplies,
-diff --git a/drivers/spi/spi-cs42l43.c b/drivers/spi/spi-cs42l43.c
-index 14307dd800b744fee17edd864688a68c65666c68..fa844ce6cd7539bf764f792b99e8f8e191fc0c15 100644
---- a/drivers/spi/spi-cs42l43.c
-+++ b/drivers/spi/spi-cs42l43.c
-@@ -52,20 +52,6 @@ static struct spi_board_info amp_info_template = {
- 	.mode			= SPI_MODE_0,
- };
- 
--static const struct software_node cs42l43_gpiochip_swnode = {
--	.name			= "cs42l43-pinctrl",
--};
--
--static const struct software_node_ref_args cs42l43_cs_refs[] = {
--	SOFTWARE_NODE_REFERENCE(&cs42l43_gpiochip_swnode, 0, GPIO_ACTIVE_LOW),
--	SOFTWARE_NODE_REFERENCE(&swnode_gpio_undefined),
--};
--
--static const struct property_entry cs42l43_cs_props[] = {
--	PROPERTY_ENTRY_REF_ARRAY("cs-gpios", cs42l43_cs_refs),
--	{}
--};
--
- static int cs42l43_spi_tx(struct regmap *regmap, const u8 *buf, unsigned int len)
- {
- 	const u8 *end = buf + len;
-@@ -324,11 +310,6 @@ static void cs42l43_release_of_node(void *data)
- 	fwnode_handle_put(data);
- }
- 
--static void cs42l43_release_sw_node(void *data)
--{
--	software_node_unregister(&cs42l43_gpiochip_swnode);
--}
--
- static int cs42l43_spi_probe(struct platform_device *pdev)
- {
- 	struct cs42l43 *cs42l43 = dev_get_drvdata(pdev->dev.parent);
-@@ -402,20 +383,6 @@ static int cs42l43_spi_probe(struct platform_device *pdev)
- 				return dev_err_probe(priv->dev, ret,
- 						     "Failed to get spk-id-gpios\n");
- 		}
--
--		ret = software_node_register(&cs42l43_gpiochip_swnode);
--		if (ret)
--			return dev_err_probe(priv->dev, ret,
--					     "Failed to register gpio swnode\n");
--
--		ret = devm_add_action_or_reset(priv->dev, cs42l43_release_sw_node, NULL);
--		if (ret)
--			return ret;
--
--		ret = device_create_managed_software_node(&priv->ctlr->dev,
--							  cs42l43_cs_props, NULL);
--		if (ret)
--			return dev_err_probe(priv->dev, ret, "Failed to add swnode\n");
- 	} else {
- 		device_set_node(&priv->ctlr->dev, fwnode);
- 	}
+I will need to think about this a little more but I suspect this
+no longer being conditional on the magic ACPI properties could
+cause issues if a system was to use the SPI controller more
+traditionally and actually have CS GPIOs in the firmware.
+Although maybe that real node would take preference over the
+swnode?
 
----
-base-commit: fe4d0dea039f2befb93f27569593ec209843b0f5
-change-id: 20251119-cs42l43-gpio-swnodes-8d4a7e732d09
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
+Thanks,
+Charles
