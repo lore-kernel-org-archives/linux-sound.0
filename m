@@ -1,60 +1,60 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60A4346E6A
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD373624D5
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763562661; cv=none; b=pWyKuRUNZtyIt0f4Idgap7HPAH4aptflEbvYBFAUG7lCLG5knHqCgj5X9R4NdqHCZBfbw8Fq6MSdRx9wpWlFQY3uzgSfEQKg6ahPc/yJeW4+vIgJ5Yymc6ukiuVb2FFJy9t+nITvxqyH4f0vzijOqOVsrNNSzXCPqkH66xI/k8o=
+	t=1763563560; cv=none; b=hwy1kImbLvN4/eciotyXj1jazOa5TTa/+FrstJ4+dCUfsekoP4Ymxvy3K24eIttETwNfFNCETrPX5GEjPQvMKcK149JK5JP8MbwCa2+L2WHh+uK5g8W6UrD+79KMZsLfB8w6Ss3jfjzLJFxc/c/irxpVxFzsTRc9MCUzMoRw9rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763562661; c=relaxed/simple;
-	bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
+	s=arc-20240116; t=1763563560; c=relaxed/simple;
+	bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CCpDJm+l0FNePZTQc9WTgEYUQ5lTNuxYrKEIK0p8ROH+3XXaHvVsFSRDzuRISlKvJuXfDMNxy6ZSQoEJCOz2R6i1rs12MD8SuNR8rLqnCAyNEvXNNZhE29FrOlUsR9/nv39lpMlRdrUgCCg5RcOjfL0nzLKJloiVL2cv4tsre0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=V2pcwFqt; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=P+6VGgZmoDEJd+xA/rrg+Y/nMyyv/ei48BwKHP9Jud5Bijl4YMLCpGjv5rJ8Q0l/aTIMNXDuI8OaZ3O3cdbh8udNLFQUKHsv1N1lzcL7CIaVdLVg2Gefc8GS+gYEN1J4wyMLzV4xKXf5LlH5WMcuPgLB+vZqtNTeu6/63Roe8Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=iMx7M03g; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="V2pcwFqt"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-591c9934e0cso9244949e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:30:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="iMx7M03g"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-591c98ebe90so7722179e87.3
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:45:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763562658; x=1764167458; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763563556; x=1764168356; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
-        b=V2pcwFqtIsfMLGlwMAhBh3C/Lhwg7xsRcPfQ6Y6yxBqLxEkftuocm3j8CylTmclDTe
-         u9CwUwibPrCE9RI8F1rdZ/WE30oRIMmdu2awmIFJpSMN9/wNR8vJ0x6WB3RriMt4qZuN
-         XGsZLRuuVK6Bm+4mYN5Ey8e3/gHPEXc8wK4QWlvRz4QWVAumNdl60I79xwoy3eZFaMSS
-         P+qbiI4T5QQeSLAKrgMdA8E193xZzP+X1B8rz8MQVQV/OGxjtizk7++rsd+B5Wzi5siV
-         +9Lux9Sl9Y58OhqOFipqs+mwGO6A1j3EUhY6qqzKhhXEOVe2RaE6xpjWSksRrRxuqml0
-         l1eg==
+        bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
+        b=iMx7M03gmpDLZLoEVU9Ol22z/K39j3uqzqHp81ut5UYoAWnypTFIclI6SLz0pdCirP
+         OJLaGotZxDd4osuVqeNm+DxtnQ7uI+E8sZ9raXE8UEzsXeYfC7I5VwKJeJurEzbNFVu4
+         qrC6LHxdFJ8roychbd3mfof4k7FB4FSyv7Xe3ylNSxd1JF4EWxIo+2Q4lt0m3ToGvfmJ
+         Mxt6ZJLZDOxLOG8PI44RpS6qSClbeh4vlAdfouF8ANBb9jQEsIIOs5gIK9a3Sm08lIrF
+         eo/03v4X9POGYe7DciOx20ifQG0IcKm8y+Uh6Eix4q7l2XxNxAaMvQy2EQCuMRqjzXfo
+         ZZng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763562658; x=1764167458;
+        d=1e100.net; s=20230601; t=1763563556; x=1764168356;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
-        b=hMk/h/sG9mRKlnK2L2tA2GVgPmBSBSxQy8Y+upBdrjFGm0Y5riO/TnY2da8wwvtuvo
-         o+LV+pfaHLxQX7mTYCDPicX+ePhYyfIROhzAiNlbraicYv0fP1M3ISBA8t1S1P6megsK
-         EIcgj/WAea6s6vc0aEp+utL/BNo/MvFIXGMXTMeMmw6qHw8IoabynaMnhfltB8KV6/ZH
-         Dhutj9DbXAGKfNeW9agDPGaCMw013ezDcETm1W/SRsp+aq/wOi2HojjoGdbc8YDNpJ/b
-         uilQZpg1+jlXuPd838av49qJT3JuY8hGq/JmAUD+JjSvh4qDDL9ei0icSYQXkQhsm7xX
-         Yk2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWu3eNyHGydwO/pGO2Mpfo6JMJ9ba/01EvRcN2/I31eQuPkBFau6Xh9EYHlrUtozGHuTCOIL4wt6w3KDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkHEESNaDZ35SDMm4vWjmgk3zaMD9hp876Jih7qVrtkYCJJ3pn
-	5GnRJTbO2I4Ci2l3qQvp8gmZXIxEoGyPXoDDaDkoGyny94lP52zo2IpDe2CD70Ew6OabUdVod0U
-	nFCFwkOJGYbB6vrXg9LpGWVolgIvk+5c25B8Fsr8mOw==
-X-Gm-Gg: ASbGncs0XbvSdzAvDZ3xBa54SnlO60Pro46rJAOOl7TMIohkHvweHID3sGvgYBYYv3i
-	n8mrU0L7Ov2rEiCfIyv4yvIIU/70SEvuwtWrCN8D38r3q3Otd7APkJw0hEamlzfkY2QUys21yQz
-	ZBLRDCha6ppxfp7c6Imz/mFbvlS0k6UqC6bFdFYukZCDpmUpzmlE4h7DKm3F2BJdAykfpKdyWZ/
-	POssaQhg9qpFi9seKL8OU/vIc6LigVWWcfPdFyw1K2ztuawgrfPJpYir8j1w1HCjN5fzI/CY+qt
-	oheDi2XYG7rqscJXv1RVNYNqf/o=
-X-Google-Smtp-Source: AGHT+IFeBKy0OQVDr+grX60hNSEzHPwf/BYlgPYJ4ITPtLhxniNFdhTROp22k2lpyOYdwX15vFMUXm86PqBcuDRFKL0=
-X-Received: by 2002:a05:6512:1395:b0:595:81e5:755f with SMTP id
- 2adb3069b0e04-595841f0cbbmr7676774e87.32.1763562657952; Wed, 19 Nov 2025
- 06:30:57 -0800 (PST)
+        bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
+        b=EYAbp6HeTGTwXTs5rI1U6jIPFpM3eonh4PlLkg0AUJ3VmdgukigmXOYmt6kEYtuVyd
+         3iq8Ckqd3ioyxMgH1i4gDWdR65zyamW0f5sejV/yu2VN4vZ0MSHoKBnX0iP4hw9soLNP
+         BLLqlRNeUxLnWhwcK5SRMvIkjnEQQq0AussIFIzlnsCDzo2KYrM1Tiw6ElS0FBbk6w73
+         JDf1oSjGqiWnyFGos50I0UKzX0JXKZdUtfkfKwoRqQ0RnfEEbaMr+hYcHn0MzaHpkxom
+         Dv/7GoMasj+7xl/0zVKiEnqgAK+MU5wi6LTDmbUZUbtmnetlJ5/K1vu2rP+i3rtyNtiA
+         lW8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUyyYAFFcr60gxyXyNUCQF5chiar6QTmrG8tgjAkbEm/FERiPjf8g4fRIvmZN8Z15XMtAVrc6N8WKHyGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwxXLH0VdyUq7rXU76YeVTfdCU1rYMwv/YQdTOMoipkIw41kz9
+	lycPdOmxFCP+cyZSuNs5m21cFWAqA9qQ3/jvGIP2sDLydyuAbY3ph36Jjnx/I0/wXDL2wHN4GWj
+	2vy1FAnpmOxBx1p9HqTPnCLFqLaRgHnRV5RBoXUowcg==
+X-Gm-Gg: ASbGncuygJNY1Pfr/rQCE/swJ7iXxiLvkn3qnvn8VRWG0iu98ynGhADkCHszDQsE0cm
+	pg2hqCAOmB73scWDfaedWcdG9pkk7RRSVsJ+Aio1lz6wUg08/UOWLMHgR4ImUFbR4MtDj7cXFfx
+	CssWdoCI2d5YtGG4VU4/VbNHXbRD8Xg/oPJWI3w3PVgy+zX8u4f5kKXRXgoFzV7B/EtNINY9pUG
+	UTm+EDsURK/EmH/Ch0kX5W5i57kdghiGYs6LN5zqxVao4Li9Avqr4dMWCPylKIRjGyL9VbLGbBS
+	xq2cqJnHD/so4tfS7hb0OnFcEGY=
+X-Google-Smtp-Source: AGHT+IFNbY7iWhq4KbUbMnlS79MQcbD6GBMPJY08+mTEGSXDShLEyEtovu6G5tHIiB5Xtpsj0T0pgNCduWGlE2Qn0mQ=
+X-Received: by 2002:ac2:4e08:0:b0:595:9d86:2cc7 with SMTP id
+ 2adb3069b0e04-5959d863118mr1368283e87.39.1763563556244; Wed, 19 Nov 2025
+ 06:45:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,65 +66,49 @@ References: <aR2Uo++k1NKkk2sj@opensource.cirrus.com> <CAMRc=MdFDAmqcJ3PMsTbeZUb9
  <aR2i6lNNWEbQk0fx@smile.fi.intel.com> <CAMRc=MdYcdrQSDWKDHrx4-Y4-y92AQqr73MoRC3ws-X==SL0MA@mail.gmail.com>
  <aR2o2R30TbVOcqZe@opensource.cirrus.com> <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
  <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
- <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
- <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com> <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
-In-Reply-To: <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
+ <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MebbjT7QAn8M0q0MsbRhTA-CUNKmo4nUPgXBXrmU-4D6g@mail.gmail.com>
+In-Reply-To: <CAMRc=MebbjT7QAn8M0q0MsbRhTA-CUNKmo4nUPgXBXrmU-4D6g@mail.gmail.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 19 Nov 2025 15:30:46 +0100
-X-Gm-Features: AWmQ_blfe5QTw6X0qXGpvuRpiXdjVHSvkJNqPQjlIHeiBlpeHFSl15c6OrJD3eg
-Message-ID: <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
+Date: Wed, 19 Nov 2025 15:45:43 +0100
+X-Gm-Features: AWmQ_bnZtTgzygHBpR-X6aXdiOQHeNYcXbyzkWVCiy1Jv8qXBxuj7-eVz3Hr9dE
+Message-ID: <CAMRc=Mfo_0reVCxZrBNr0YA1mvUOH9M3bLD6mfCwBgObvV74qQ@mail.gmail.com>
 Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
-	linux-spi@vger.kernel.org, 
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Maciej Strozek <mstrozek@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 3:24=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Wed, Nov 19, 2025 at 3:09=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
 >
-> > >
-> > > My idea was to mark the fwnode with __private and fix the (ab)users,
-> > > should not be so many. Can somebody mock up a coccinelle script to
-> > > find all dereferences of fwnode from struct device?
+> On Wed, Nov 19, 2025 at 2:27=E2=80=AFPM Charles Keepax
+> <ckeepax@opensource.cirrus.com> wrote:
 > >
-> > I think you're underestimating the level of complexity. What about the
-> > concept of dev_fwnode()? It literally makes no sense if we switch to a
-> > list of fwnodes.
+> > I think as Andy pointed out though the first 4 patches in your
+> > chain do loosely want we want. Previously, we used the name to
+> > point to the actual pinctrl driver, your patches should let us
+> > do that properly through the fwnode. So we can drop the pinctrl
+> > swnode and just have the cs-gpios bit point at the actual fwnode
+> > instead. I am trying to hack together a strawman but its failing
+> > in a lightly odd way. Hopefully I can get that sorted fairly
+> > soon and post, or I guess I could post a version earlier if you
+> > wanted a look in the knowledge it still doesn't work?
+> >
 >
-> Why not? It will return the pointer to the primary node. You can look
-> for example how the list of the DMA descriptors is done in
-> drivers/dma/dw/core.c. Not the best solution, but gives you an idea of
-> how it may look.
-
-What even is a primary node though? You can have auxiliary devices
-without an ACPI or OF node. Only with software nodes. Which one is the
-primary? The first one we add?
-
->
-> > For it to make sense we'd have to have a kind of "dynamic" firmware
-> > node attached to a device which we'd fill with an aggregation of all
-> > properties from firmware nodes in the list.
->
-> "Dynamic" is just a node in the list. The only potential problem here
-> is prioritisation. Should we add to the head, tail or insert? But
-> converting current approach will be straightforward.
+> If your solution won't work after all, we can try using machine lookup
+> instead. We have all the blocks except for support for the "undefined"
+> GPIO in machine lookup. That would need to be added.
 >
 
-What I have in my mind is not another firmware node in the list in
-struct device but rather a new firmware node implementation, that
-would be assigned to the device via a dedicated pointer and would be
-filled with a logical OR of properties from other firmware nodes added
-to the list. Then dev_fwnode() would return this rather than any one
-of the firmware nodes from the list. Think of it as the "master
-fwnode" of a struct device.
+Just noting an idea: we could set the key field in the lookup entry to
+"ERR_PTR(-ENOENT)" and use it to signal that we should return -ENOENT
+from gpiod_find() if it matches the consumer device.
 
 Bart
