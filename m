@@ -1,134 +1,130 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399DD35C1BB
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60A4346E6A
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763562600; cv=none; b=TgdahfxF7orEkJeVbCTdVXf23UcLQfOkou3Ojd1dHl2ctBuX8+zs2GKJGsR45Aq+OsigP4Dwhfu0LyEqFjiJRji+Zc1IfV0D3QLL/kH1atZ4xk6WDCFL9FGLIEhVhbRPuk1o7OrxcwQ1Lt60GtPf9fqsQeNGmoAD3vTikwzXrJM=
+	t=1763562661; cv=none; b=pWyKuRUNZtyIt0f4Idgap7HPAH4aptflEbvYBFAUG7lCLG5knHqCgj5X9R4NdqHCZBfbw8Fq6MSdRx9wpWlFQY3uzgSfEQKg6ahPc/yJeW4+vIgJ5Yymc6ukiuVb2FFJy9t+nITvxqyH4f0vzijOqOVsrNNSzXCPqkH66xI/k8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763562600; c=relaxed/simple;
-	bh=QYkJ+KAJptP8x+/Lo+OPyvZfeeVlUCQUdUVwwHK0tdc=;
+	s=arc-20240116; t=1763562661; c=relaxed/simple;
+	bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NdPxu9F4I9v8ab6Rj/SsOuY/t5DBC5FjuB1DN4qxak5OvX1NizRq0M1kSSTUAsjdUvp9j3YpGfHwh1wuzBPisJyOZpWh6bjKNPRFt/pPlPjgiZjlf9afdagKoFOcfbc6LAarDaYRiU5NsTvebwtVTGe/EvjyJtyf50RQt8Wakk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s18TSfPU; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=CCpDJm+l0FNePZTQc9WTgEYUQ5lTNuxYrKEIK0p8ROH+3XXaHvVsFSRDzuRISlKvJuXfDMNxy6ZSQoEJCOz2R6i1rs12MD8SuNR8rLqnCAyNEvXNNZhE29FrOlUsR9/nv39lpMlRdrUgCCg5RcOjfL0nzLKJloiVL2cv4tsre0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=V2pcwFqt; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s18TSfPU"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-591c9934e0cso9243478e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:29:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="V2pcwFqt"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-591c9934e0cso9244949e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:30:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763562595; x=1764167395; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763562658; x=1764167458; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hRrGjHpQFMPuOkiL8GvRDSi18sR5m2GVcnU67ItY1DU=;
-        b=s18TSfPUarVrfVD9Q289QlNx1XEDTfcU8bi5GXrz3W+DSMQoea3Lv3herjQOmTFxWf
-         RnCJCTg1nmGcgFlw4R2OxLtmInTDyHf5IZhwpwNhJxOsxEN/gjUh5N96v0rM4nXMsgHj
-         3/ZFfkBTBzj/4pRjkvMtZmZIbjctGR8/BGbLbGmewCcwCUrg36LgPbevDP2cNPjovcfk
-         eME/KNWlNnmFtlL4BNoV2wwmA8rwPnCeI0jJUXxeHWqN3rrElCznudkbcVbYx8FLHJ6+
-         gpqHIvcybbH5PGjn7hX4wZRttrc6/Bpj/4/qlsbYFUAQiDGbBGd2KwHR7vsxt5H1MEVi
-         RsEA==
+        bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
+        b=V2pcwFqtIsfMLGlwMAhBh3C/Lhwg7xsRcPfQ6Y6yxBqLxEkftuocm3j8CylTmclDTe
+         u9CwUwibPrCE9RI8F1rdZ/WE30oRIMmdu2awmIFJpSMN9/wNR8vJ0x6WB3RriMt4qZuN
+         XGsZLRuuVK6Bm+4mYN5Ey8e3/gHPEXc8wK4QWlvRz4QWVAumNdl60I79xwoy3eZFaMSS
+         P+qbiI4T5QQeSLAKrgMdA8E193xZzP+X1B8rz8MQVQV/OGxjtizk7++rsd+B5Wzi5siV
+         +9Lux9Sl9Y58OhqOFipqs+mwGO6A1j3EUhY6qqzKhhXEOVe2RaE6xpjWSksRrRxuqml0
+         l1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763562595; x=1764167395;
+        d=1e100.net; s=20230601; t=1763562658; x=1764167458;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hRrGjHpQFMPuOkiL8GvRDSi18sR5m2GVcnU67ItY1DU=;
-        b=t2Tt4472vpTnqHLr2+PR+PNZcV4saXIn8q6ri88IUtJuMxYOIgshyWziv0XWWYNuPR
-         O5ICI7k+tdouYALx8emEGIW7TyksrI5EMOF8Ys+BTPMyd3JnVam50dMyavxqNRH1Lh4J
-         CLbwkqmQz2dDG3ghFlWgQJxsh5OgvaDAFG+Jwz38U+AvgZMQqc2207ZLaDfR/CjXtBNo
-         +SN+xAn6GdzojzIFG+AYOzyHFintedrl0iEvLAvjX5EutEKExA+xgPhsqg2TYFtyg5UD
-         ohXsGHl+En8IyvXj5zBwFNWzjvEJHyLgh4Jj3vtQzPQXmscDAABbZZrb6VkT8XJE8AGS
-         Bvuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpdcm3jlZJi2L771WtqveQfgBhUPytBywIMrA8llAQj2blJcPaaWgvZ6kgcrzd+AhUml5xRRoD6L9IVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpxehF7Gp2EtxMe0L8DHKKV0ROdqKp0Gw/otg9g22Q2vb9mlwu
-	0Z6w+P5+6p+eVYTTp9RpHFVCpO9+ARfsJrgPsuVaG/a7ZEJgWhwLyKjkMji1yJSyU7gpdZDtdB8
-	p+Zadz6zVV1Ub63hi/WHhzVkzHxMUe9asjgyem1IpMQ==
-X-Gm-Gg: ASbGncs+vi6W0yJaIK+1H5d39A8pnAlG+wwcFjXOdWgEKympTXVTfp53/1TSxAMUIUD
-	ElaXf97xrSmkGPBmtfAxJXXyLOD4DQck6jEHa6y3+EUsELnoNuCKFEVmlulMReAlly7dJYkRXEA
-	/c/0H72aGvUsLb94bZVqcfXXOqOaE3BjblEX5Jwvu2HHYRgX96jvjZ45waaTYZE6lsl57cmnMKC
-	4dv9L40Gtqs1JIfOcB1KdMFpdFyvBJ0kBkvjtfvzLn1X3NNkMbC87LqCY7rYetHmDCyXNk=
-X-Google-Smtp-Source: AGHT+IGp7GKe1RKdp3EifTfSeaou18jsyywYSKyMxPvf6+wpNti41ngxOAgDWBsE8YIo1EJMFQbA1mHAun4y/oak87Q=
-X-Received: by 2002:a05:6512:138a:b0:57d:b8a1:832b with SMTP id
- 2adb3069b0e04-595841af20bmr6916107e87.24.1763562594938; Wed, 19 Nov 2025
- 06:29:54 -0800 (PST)
+        bh=RqlmkZVtMnSS4VV7rGoVQjvBgMw5M7aZVmjjfVekxr0=;
+        b=hMk/h/sG9mRKlnK2L2tA2GVgPmBSBSxQy8Y+upBdrjFGm0Y5riO/TnY2da8wwvtuvo
+         o+LV+pfaHLxQX7mTYCDPicX+ePhYyfIROhzAiNlbraicYv0fP1M3ISBA8t1S1P6megsK
+         EIcgj/WAea6s6vc0aEp+utL/BNo/MvFIXGMXTMeMmw6qHw8IoabynaMnhfltB8KV6/ZH
+         Dhutj9DbXAGKfNeW9agDPGaCMw013ezDcETm1W/SRsp+aq/wOi2HojjoGdbc8YDNpJ/b
+         uilQZpg1+jlXuPd838av49qJT3JuY8hGq/JmAUD+JjSvh4qDDL9ei0icSYQXkQhsm7xX
+         Yk2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWu3eNyHGydwO/pGO2Mpfo6JMJ9ba/01EvRcN2/I31eQuPkBFau6Xh9EYHlrUtozGHuTCOIL4wt6w3KDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkHEESNaDZ35SDMm4vWjmgk3zaMD9hp876Jih7qVrtkYCJJ3pn
+	5GnRJTbO2I4Ci2l3qQvp8gmZXIxEoGyPXoDDaDkoGyny94lP52zo2IpDe2CD70Ew6OabUdVod0U
+	nFCFwkOJGYbB6vrXg9LpGWVolgIvk+5c25B8Fsr8mOw==
+X-Gm-Gg: ASbGncs0XbvSdzAvDZ3xBa54SnlO60Pro46rJAOOl7TMIohkHvweHID3sGvgYBYYv3i
+	n8mrU0L7Ov2rEiCfIyv4yvIIU/70SEvuwtWrCN8D38r3q3Otd7APkJw0hEamlzfkY2QUys21yQz
+	ZBLRDCha6ppxfp7c6Imz/mFbvlS0k6UqC6bFdFYukZCDpmUpzmlE4h7DKm3F2BJdAykfpKdyWZ/
+	POssaQhg9qpFi9seKL8OU/vIc6LigVWWcfPdFyw1K2ztuawgrfPJpYir8j1w1HCjN5fzI/CY+qt
+	oheDi2XYG7rqscJXv1RVNYNqf/o=
+X-Google-Smtp-Source: AGHT+IFeBKy0OQVDr+grX60hNSEzHPwf/BYlgPYJ4ITPtLhxniNFdhTROp22k2lpyOYdwX15vFMUXm86PqBcuDRFKL0=
+X-Received: by 2002:a05:6512:1395:b0:595:81e5:755f with SMTP id
+ 2adb3069b0e04-595841f0cbbmr7676774e87.32.1763562657952; Wed, 19 Nov 2025
+ 06:30:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
- <CACRpkdZioOu9AEBdaNWX1njsVvFYR8SP8yJrY8MFMbJtL6YLJA@mail.gmail.com> <CAMuHMdUe64MdRL1qPRX3q_OGj287nK=MQTb7HUta51iJ+vP9Hw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUe64MdRL1qPRX3q_OGj287nK=MQTb7HUta51iJ+vP9Hw@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 19 Nov 2025 15:29:43 +0100
-X-Gm-Features: AWmQ_bmc-n1cuVY24_yDbxt_0pYfljkKCrIONDdezzzLDg_EEB1-VOCfHUUS2FA
-Message-ID: <CACRpkdZp3zKVCeJPXJP4UCAbXz-j=81zYfXntxuBp5BK5ettzw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <aR2Uo++k1NKkk2sj@opensource.cirrus.com> <CAMRc=MdFDAmqcJ3PMsTbeZUb9imM+fzHzQ_9mQ1T=syDoCcQJw@mail.gmail.com>
+ <aR2gVzKhfN38MHAR@opensource.cirrus.com> <CAMRc=Mck8MiAm_nxY_L6Zw4cH-vYf24zSkPp=bhnUw68Q6FV=g@mail.gmail.com>
+ <aR2i6lNNWEbQk0fx@smile.fi.intel.com> <CAMRc=MdYcdrQSDWKDHrx4-Y4-y92AQqr73MoRC3ws-X==SL0MA@mail.gmail.com>
+ <aR2o2R30TbVOcqZe@opensource.cirrus.com> <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
+ <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
+ <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
+ <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
+ <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com> <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
+In-Reply-To: <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 19 Nov 2025 15:30:46 +0100
+X-Gm-Features: AWmQ_blfe5QTw6X0qXGpvuRpiXdjVHSvkJNqPQjlIHeiBlpeHFSl15c6OrJD3eg
+Message-ID: <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
+Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 9:38=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-
-> > For the input usecase the status of the LED is a byproduct and
-> > should not reflect in software I think. It surely should not be
-> > controllable and possible to set into output mode because
-> > that sounds like a recipe for HW damage if you drive it
-> > actively high and press the key at the same time.
+On Wed, Nov 19, 2025 at 3:24=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Suitable resistors are present to prevent hardware damage.
-
-Aha, clever.
-
-> > gpio_keys {
-> >     compatible =3D "gpio-keys";
+> > >
+> > > My idea was to mark the fwnode with __private and fix the (ab)users,
+> > > should not be so many. Can somebody mock up a coccinelle script to
+> > > find all dereferences of fwnode from struct device?
 > >
-> >     button-ok {
-> >         gpios =3D <&gpio 0 GPIO_OPEN_DRAIN | GPIO_PULL_UP>;
-> >     };
-> > };
+> > I think you're underestimating the level of complexity. What about the
+> > concept of dev_fwnode()? It literally makes no sense if we switch to a
+> > list of fwnodes.
 >
-> But only one of the gpio-keys and gpio-leds drivers can bind to the
-> GPIO, or am I missing something?
-> So I do think I need a new combined key-and-led driver, like Bartosz
-> suggested:
->   - When the user turns the LED on, the GPIO is switched to input mode,
->     and the switch works,
->   - When the user turns the LED off, the GPIO is switched to output
->     and driven low, and the switch does not work.
+> Why not? It will return the pointer to the primary node. You can look
+> for example how the list of the DMA descriptors is done in
+> drivers/dma/dw/core.c. Not the best solution, but gives you an idea of
+> how it may look.
 
-You will also have the byproduct that the LED being "on" in software
-does not necessarily reflect the actual LED status, someone
-may be pressing the key and then the LED is off even though
-in sysfs it is clearly "on".
+What even is a primary node though? You can have auxiliary devices
+without an ACPI or OF node. Only with software nodes. Which one is the
+primary? The first one we add?
 
-So the status in the LED classdevice also has to be forced to "off"
-(brightness 0) anytime the input subsystem detects that the switch
-is pressed.
+>
+> > For it to make sense we'd have to have a kind of "dynamic" firmware
+> > node attached to a device which we'd fill with an aggregation of all
+> > properties from firmware nodes in the list.
+>
+> "Dynamic" is just a node in the list. The only potential problem here
+> is prioritisation. Should we add to the head, tail or insert? But
+> converting current approach will be straightforward.
+>
 
-It's going to be a lot of work I think, but I guess it can be done,
-with a lot of special-casing and custom APIs.
+What I have in my mind is not another firmware node in the list in
+struct device but rather a new firmware node implementation, that
+would be assigned to the device via a dedicated pointer and would be
+filled with a logical OR of properties from other firmware nodes added
+to the list. Then dev_fwnode() would return this rather than any one
+of the firmware nodes from the list. Think of it as the "master
+fwnode" of a struct device.
 
-Yours,
-Linus Walleij
+Bart
