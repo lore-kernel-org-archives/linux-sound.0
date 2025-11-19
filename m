@@ -1,129 +1,223 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467A22FDC5D
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 16:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E1931ED78
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 17:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763570987; cv=none; b=h9Jeuttes6pI6T57PMiUMPnr1pVki1qpHYnoE+4MZyW4SCo1GdWP6ihCvOKNLDuyoFcc3qdT4wwK4lmwvErM+8vCHzL5tcT3mdcjxKj7oHP5ULwEKwQWrjXXk6fijnfyueZnC8AqVTc5QabQnl39m1/cGoKXwXAlDxduL1iIGAY=
+	t=1763572501; cv=none; b=P6Vmgx8y1cHfUL9Hg4yqwgLOorXd6XnAOuJJ3O44Pa8gA+l/RnDV6IXxkRk9DaCgsH20FheZqSNfc3cRMVvXtld0xJVbFzGKZqlFAgQ5L6dbtR9zVbVVFswCbg562Jnxr/FWRK5FKeOsLtlm/9RgWI+p8zZygvxKQ0ssTrd/g3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763570987; c=relaxed/simple;
-	bh=vS3GqcZz5/e1YIqg4Y6p2P5bhXNAXrlTE9+KdZfTBYM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z/8QQvOeT6IDgJ98zXBW1LBXkIgGuvmcfi/RJeuByCyi4vW8vBiLXw//vd4s1HAVOIYOQ3E/4qJfBfL9f2VV0dP+x7RAjTMzew7iBO29kpXxoAO4dvke+YWIu+1VqF2ScxxVdPNJS5BUolKGcKjvuUbm42NZ4/8inwsQOj3nlrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=JhyqtWVp; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1763572501; c=relaxed/simple;
+	bh=8qOei+5iVyTpIVJdrELSKorvw3ZZO/Cw5fasUL1fHJQ=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=TGAZgD3YLchCb3kMVPRw2esokYIhAAGvEeXcVxRquRDMuXM4RM80U3uG+SiDoD46KyXQD5F62lEJdGyY3pZRxfAlle2i5jW/hJovHgKF70skza4i9TVvAUiJFrA/Dyjmo2xn9way2wtgEJXg+MfX3nbEJNNR50bSuzvfGf1atzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=Vq5JVhgv; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="JhyqtWVp"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-594285c6509so7345079e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 08:49:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="Vq5JVhgv"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8b2d32b9777so656603385a.2
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 09:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763570983; x=1764175783; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xpyvLKh/Mmn1vrCVutB6f5Cfy4PhM6ahAnv3kAcqCw0=;
-        b=JhyqtWVpX07L0WANl33eI2MP2gt/oATpSqk2/t09c6NF8gPHOxjjVkwBXhrV3HyJeW
-         RDflWvH8YPbaQu9YYHAJcxVtl3iBmldLqogqMueKWNDx0OeC7oG/n1F71WoQ9X/X53F/
-         k9QctUJ+LAnsOz9Ts1Hra7CPeTAortI5/eLswOD3dLJelSjfG5Q/xRwUfcusrvvI4oGN
-         rIJ7O+5uoVka+x+3zksV8SAfGeS+tnJbvBkjhCxbEwh/tG5qwqB6m85o987ceY7IDbkS
-         rUDgzz4XMcqm/6VbzK3vuk6XusbzbRP+I6sD/H/knsahFzTTURyPr3KUmGOiXBOk+dFf
-         7aBQ==
+        d=marek.ca; s=google; t=1763572498; x=1764177298; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hcMytCFbs5Vo7k54utdbFpOXPjxqG+y0as3fR0kFoMQ=;
+        b=Vq5JVhgvRdf2rZlW2Ju2KpnTrjkbXasMYLfRKOtniVzMSfrGzKCKqPpZjvQAXD/Fwm
+         be9lRW7SNO0aRBVXEWYaqWYoBIz2rB5JdOJfulDVxwwsyXs/7s8GbknETS80r1z5e7KX
+         xBB0BDXOnZpkAeTpXrmjhfQxqXE9D6vhrq3Z/mt6Rv+vddtkyLF+3qh0bNSUIQRzW9M9
+         +q85Cqgq6Ea87F79asIiznr8KKmCfD7a3pKja/Sad4jNDFGC+8QM+yKTxjRnbjHw6er0
+         WXkujnvU+otdhU+7FfAeTXecKOICw4kjBTj7OnT5s4mQ9H1yDFl+5aJrzVoCcnB0B4TV
+         +hdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763570983; x=1764175783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xpyvLKh/Mmn1vrCVutB6f5Cfy4PhM6ahAnv3kAcqCw0=;
-        b=vqQjCGGdA60bUwctd1TUY1+IVnS+d6/0Tm7hkvRd7BeoOXaIZyITcIbjFEg2c1ibJN
-         4nlaF71QwlRSFmLnMemiWYTLrF4TShncZEPl3a5l/BJ23FH//Xs/kqCuixA+rEBCZ1f3
-         /JkZvskh2n3fR7Epk5RM7F1Luwfxf++R6XfeTPnJFzbdJP/dwPUJ8DO5Y6dzFd+Kzxqf
-         9zbmcmqzCnc2HOaXA9cL1L+E77R3cMYVwG7hIfEU7AllSG5jenrQx+1cfk1Q9LqyCk4f
-         BiNXpF10vw/wtov4ei8gBX7DEMYlJ0r5BVIcNLLpGCd2Cxx8e2BV+d6lZWnFhGRSIJxY
-         TcRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmB8EMlm8NGAmgn2pFXkF7g04r9b0uzvkYxgbJBx+vqKVtrvrN56KVJEqdpgci01xDHY7zDlifcLTDzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXWZgvG3sPrF3NG04SJsW5kCOrHKKkyEKaVhM4A9JvjDn8oklf
-	RaDEXrzed/q/lYA+yRzrVPjKpG6o4Ft38ZeqqViOaeCHgtmsRBe3TgjKBugvozfnZD5lB9OKw4S
-	cvAZXCYNSKyNsvAi5MPUypVZHsT4rjGeIK2MQSyB7JA==
-X-Gm-Gg: ASbGncsbBtSGCEOO1EbmvOwDUFPYZ8e0bfawD3YWTdva+55IMu1HH6lAtZDa8GYeA/K
-	aDCx0/0dD1Hg4n4IN47+18JQkfceIZNuA1i3v4ZdTNljXt7tXNRY6C1576TOpBxMbj9H+m9Qylz
-	a4SiOQ785GuubSrk+g8AUWJuWMuawipyeB+Er6b7SulkB/w3qDdYJQxoT2zJq4n7dsrB7MtQjFO
-	YVgCwT9pGMHA+y4+ds+qemu31gK4lniEI9c8giJ7YU5k741MRuWwBIMEXThpa4VUdaKq5n142xK
-	mwTA73MAuhW5n/mx0hF267FSYJA6HjvLzdop/g==
-X-Google-Smtp-Source: AGHT+IFsTisXqLbVlfib8qoYQct2imtfeHS1nqYYs5EAkrXWjXIV/4PzaUvblCYoNs8nCi4yHoHai6jS2Y+Xg+cm4JI=
-X-Received: by 2002:a05:6512:3b1e:b0:595:7854:af77 with SMTP id
- 2adb3069b0e04-595841b5442mr7042616e87.22.1763570983255; Wed, 19 Nov 2025
- 08:49:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763572498; x=1764177298;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hcMytCFbs5Vo7k54utdbFpOXPjxqG+y0as3fR0kFoMQ=;
+        b=K5fYuJtTVf4dIocXFvaktygjXIohFw9jP3lrraYq0n6Zpvd+Pp643+oMttMET0QDUi
+         hO+2kjF4y3W1FTgQgetSTORpSxmjGff7nvjMQfXySk3M5ndMjWpRk1esDa+Q0hPMETPE
+         e5z+toXTeipqCQCiSCYzVYYIY5cemNjBw32RWiDLgqqZcCwIvqz2d3UMLkznQbLK0JJ6
+         61jflKsVWuwL84PdIblgp2j9h0T271KcLPy5SvK6dkcZvubQ10kB/HlK7Y34IXn5f7pX
+         LOE0MbSqumTvRkE82lfDiH/MGoWVr19nUfaLqSnDla0lSmmaRf5w+kr+qjfmDK5R2AeD
+         lomg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5X0d3EKRtEOBJ/qUyq8i7smLcO0IkCzIQA2iYKClteUO7Plv3xSsXDjPyWTvTif1jB6eNDJ2Xmll/pA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTn1LMYegEs7ozyU4cLAGk02yB6b42+T1if40JbIRJLx8UCfw8
+	gCFRFQX36BNJcqUhvuG5ciZzW3J+KZgfFaLb8+kHXTrOP4zLIawtLuin8sBdmGGgnmg=
+X-Gm-Gg: ASbGncs6f0158d9jQzc/1/4IizrdRMudletBsBuCD1lIPldRUc82B7NJMhh5jBNFrSJ
+	GROrzy+CLcvK5G5ynvbJL1zf0vsdyjfyeF213lm4CtFTe0yR8YTPIUaDCjW0ej1DgthpDf/tXyZ
+	F4ExJ0xTW1cwLfcUr29MrvRw3Rs1iWlbfMvjklUC4RAtLJpzUEQEoBOCvwuo4gz1jWb2fLkEps9
+	mnQL1mLXnBoan768Ikiqmp3g0Rh2JhjpLh8w370t/um0hK8Vd+ycQEsm6k9ZA49AWRF6DcOX63L
+	4wKtJmniZusWubNRG4qWovQP1G0R4tVZZLLDWQJmpj7H0Uzo3Uti3kWzU/FZApW8w788bpCTB0P
+	faY4WyU67f3qb1qLRmLUHVKoZSkDPVYYAVHJr065TAM0f5moE3ZGdBy0PbwqlzZ0xr07vJBlDoq
+	ouMcxljYn/iaFQPVUX6HlA3o/d0cAXoB1kUi1lOXpiyjX/4d9kNQMgFvsi1Q==
+X-Google-Smtp-Source: AGHT+IEYmWa+4drrl1pIjDhI3RjLOzBiCKzIBkfEAWiD6vKdauyfly8Fw3KOwWdXFZzVHyRzvIEWng==
+X-Received: by 2002:a05:620a:4510:b0:89e:c659:3f99 with SMTP id af79cd13be357-8b3271f3b97mr20293285a.6.1763572498149;
+        Wed, 19 Nov 2025 09:14:58 -0800 (PST)
+Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2e4fcc2f7sm912394885a.9.2025.11.19.09.14.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 09:14:57 -0800 (PST)
+Subject: Re: [PATCH 7/9] ASoC: codecs: lpass-wsa-macro: add RX4 and RX5
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:QCOM AUDIO (ASoC) DRIVERS" <linux-sound@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20251117051523.16462-1-jonathan@marek.ca>
+ <20251117051523.16462-7-jonathan@marek.ca>
+ <8753b824-cb16-4440-b53a-f058eb8f02d6@oss.qualcomm.com>
+From: Jonathan Marek <jonathan@marek.ca>
+Message-ID: <e750b946-4d33-e5e4-4da5-b644ce19a8bf@marek.ca>
+Date: Wed, 19 Nov 2025 12:13:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251119-cs42l43-gpio-lookup-v1-0-029b1d9e1843@linaro.org> <20251119-cs42l43-gpio-lookup-v1-1-029b1d9e1843@linaro.org>
-In-Reply-To: <20251119-cs42l43-gpio-lookup-v1-1-029b1d9e1843@linaro.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 19 Nov 2025 17:49:31 +0100
-X-Gm-Features: AWmQ_bmjhxVSOKFkWMMGQNZ-qd7cGCoUpkpDr5ssCwk_lQAj7mY_DFCa0JUpk80
-Message-ID: <CAMRc=MeD4gsyHe_rkGRgRO4p36+szobgCnc0C-CYGWZhm-dQNQ@mail.gmail.com>
-Subject: Re: [PATCH RFT/RFC 1/2] gpiolib: support "undefined" GPIO machine lookup
-To: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Maciej Strozek <mstrozek@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-spi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <8753b824-cb16-4440-b53a-f058eb8f02d6@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 19, 2025 at 4:21=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> SPI devices can specify a cs-gpios property to enumerate their chip
-> selects. In device tree, a zero entry in this property can be used to
-> specify that a particular chip select is using the SPI controllers
-> native chip select, for example:
->
->     cs-gpios =3D <&gpio1 0 0>, <0>;
->
-> Here, the second chip select is native. Allow users to pass
-> ERR_PTR(-ENOENT) as the key field in struct gpiod_lookup, indicating a
-> native chip select.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  drivers/gpio/gpiolib.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index 91e0c384f34ae5c0ed61ccd3a978685d4f72e867..dbb5f7fe7b661979f559fcd32=
-ad6e1c463431a18 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -4557,6 +4557,9 @@ static struct gpio_desc *gpiod_find(struct device *=
-dev, const char *con_id,
->                 if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
->                         continue;
->
-> +               if (p->key =3D=3D PTR_ERR(-ENOENT))
+On 11/19/25 10:33 AM, Srinivas Kandagatla wrote:
+> 
+> 
+> On 11/17/25 5:15 AM, Jonathan Marek wrote:
+>> This allows playback using the WSA_2CH AIF, which feeds RX4 and RX5 on both
+>> WSA and WSA2.
+> 
+> Which SoC have you verified this on?
+> 
 
-As the build bot pointed out - this should have been ERR_PTR(-ENOENT).
+I am testing with x1e and sm8650 devices.
 
-Bart
+>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+>> ---
+> 
+>>   sound/soc/codecs/lpass-wsa-macro.c | 48 ++++++++++++++++++++++++++++--
+>>   1 file changed, 46 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+>> index e2e78ff6dd54e..f02153108c275 100644
+>> --- a/sound/soc/codecs/lpass-wsa-macro.c
+>> +++ b/sound/soc/codecs/lpass-wsa-macro.c
+>> @@ -300,6 +300,8 @@ enum {
+>>   	WSA_MACRO_RX_MIX,
+>>   	WSA_MACRO_RX_MIX0 = WSA_MACRO_RX_MIX,
+>>   	WSA_MACRO_RX_MIX1,
+> 
+> While you are at it, can you add RX2 and RX3, its same for both
+> rx_primary  and rx_mix
+> 
 
-> +                       return ERR_PTR(-ENOENT);
-> +
->                 if (p->chip_hwnum =3D=3D U16_MAX) {
->                         desc =3D gpio_name_to_desc(p->key);
->                         if (desc) {
->
-> --
-> 2.51.0
->
+RX2 is RX_MIX0 and RX3 is RX_MIX1 (different names for the same thing).
+
+I can add RX6, RX7, RX8 (if I can test and verify that they work), I 
+didn't try to add them because the downstream driver doesn't support them.
+
+>> +	WSA_MACRO_RX4,
+>> +	WSA_MACRO_RX5,
+>>   	WSA_MACRO_RX_MAX,
+>>   };
+>>   
+>> @@ -2228,6 +2230,10 @@ static const struct snd_kcontrol_new rx_mux[WSA_MACRO_RX_MAX] = {
+>>   			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+>>   	SOC_DAPM_ENUM_EXT("WSA RX_MIX1 Mux", rx_mux_enum,
+>>   			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+>> +	SOC_DAPM_ENUM_EXT("WSA RX4 Mux", rx_mux_enum,
+>> +			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+>> +	SOC_DAPM_ENUM_EXT("WSA RX5 Mux", rx_mux_enum,
+>> +			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+>>   };
+>>   
+>>   static int wsa_macro_vi_feed_mixer_get(struct snd_kcontrol *kcontrol,
+>> @@ -2410,6 +2416,10 @@ static const struct snd_soc_dapm_widget wsa_macro_dapm_widgets_v2_5[] = {
+>>   	SND_SOC_DAPM_MUX("WSA_RX1 INP1", SND_SOC_NOPM, 0, 0, &rx1_prim_inp1_mux_v2_5),
+>>   	SND_SOC_DAPM_MUX("WSA_RX1 INP2", SND_SOC_NOPM, 0, 0, &rx1_prim_inp2_mux_v2_5),
+>>   	SND_SOC_DAPM_MUX("WSA_RX1 MIX INP", SND_SOC_NOPM, 0, 0, &rx1_mix_mux_v2_5),
+>> +	SND_SOC_DAPM_MIXER("WSA RX4", SND_SOC_NOPM, 0, 0, NULL, 0),
+>> +	SND_SOC_DAPM_MIXER("WSA RX5", SND_SOC_NOPM, 0, 0, NULL, 0),
+>> +	SND_SOC_DAPM_MUX("WSA RX4 MUX", SND_SOC_NOPM, WSA_MACRO_RX4, 0, &rx_mux[WSA_MACRO_RX4]),
+>> +	SND_SOC_DAPM_MUX("WSA RX5 MUX", SND_SOC_NOPM, WSA_MACRO_RX5, 0, &rx_mux[WSA_MACRO_RX5]),
+>>   };
+>>   
+>>   static const struct snd_soc_dapm_route wsa_audio_map[] = {
+>> @@ -2529,6 +2539,31 @@ static const struct snd_soc_dapm_route wsa_audio_map[] = {
+>>   	{"WSA_SPK2 OUT", NULL, "WSA_MCLK"},
+>>   };
+>>   
+>> +static const struct snd_soc_dapm_route wsa_audio_map_v2_5[] = {
+>> +	{"WSA RX4 MUX", "AIF1_PB", "WSA AIF1 PB"},
+>> +	{"WSA RX5 MUX", "AIF1_PB", "WSA AIF1 PB"},
+>> +	{"WSA RX4 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
+>> +	{"WSA RX5 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
+>> +	{"WSA RX4", NULL, "WSA RX4 MUX"},
+>> +	{"WSA RX5", NULL, "WSA RX5 MUX"},
+>> +	{"WSA_RX0 INP0", "RX4", "WSA RX4"},
+>> +	{"WSA_RX0 INP0", "RX5", "WSA RX5"},
+>> +	{"WSA_RX0 INP1", "RX4", "WSA RX4"},
+>> +	{"WSA_RX0 INP1", "RX5", "WSA RX5"},
+>> +	{"WSA_RX0 INP2", "RX4", "WSA RX4"},
+>> +	{"WSA_RX0 INP2", "RX5", "WSA RX5"},
+>> +	{"WSA_RX0 MIX INP", "RX4", "WSA RX4"},
+>> +	{"WSA_RX0 MIX INP", "RX5", "WSA RX5"},
+>> +	{"WSA_RX1 INP0", "RX4", "WSA RX4"},
+>> +	{"WSA_RX1 INP0", "RX5", "WSA RX5"},
+>> +	{"WSA_RX1 INP1", "RX4", "WSA RX4"},
+>> +	{"WSA_RX1 INP1", "RX5", "WSA RX5"},
+>> +	{"WSA_RX1 INP2", "RX4", "WSA RX4"},
+>> +	{"WSA_RX1 INP2", "RX5", "WSA RX5"},
+>> +	{"WSA_RX1 MIX INP", "RX4", "WSA RX4"},
+>> +	{"WSA_RX1 MIX INP", "RX5", "WSA RX5"},
+>> +};
+>> +
+>>   static int wsa_swrm_clock(struct wsa_macro *wsa, bool enable)
+>>   {
+>>   	struct regmap *regmap = wsa->regmap;
+>> @@ -2562,7 +2597,9 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+>>   	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(comp);
+>>   	struct wsa_macro *wsa = snd_soc_component_get_drvdata(comp);
+>>   	const struct snd_soc_dapm_widget *widgets;
+>> -	unsigned int num_widgets;
+>> +	const struct snd_soc_dapm_route *routes;
+>> +	unsigned int num_widgets, num_routes;
+>> +	int ret;
+>>   
+>>   	snd_soc_component_init_regmap(comp, wsa->regmap);
+>>   
+>> @@ -2587,6 +2624,7 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+>>   	case LPASS_CODEC_VERSION_2_1:
+>>   		widgets = wsa_macro_dapm_widgets_v2_1;
+>>   		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_1);
+>> +		num_routes = 0;
+>>   		break;
+>>   	case LPASS_CODEC_VERSION_2_5:
+>>   	case LPASS_CODEC_VERSION_2_6:
+>> @@ -2595,12 +2633,18 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+>>   	case LPASS_CODEC_VERSION_2_9:
+>>   		widgets = wsa_macro_dapm_widgets_v2_5;
+>>   		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_5);
+>> +		routes = wsa_audio_map_v2_5;
+>> +		num_routes = ARRAY_SIZE(wsa_audio_map_v2_5);
+>>   		break;
+>>   	default:
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	return snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
+>> +	ret = snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return snd_soc_dapm_add_routes(dapm, routes, num_routes);
+>>   }
+>>   
+>>   static int swclk_gate_enable(struct clk_hw *hw)
+> 
