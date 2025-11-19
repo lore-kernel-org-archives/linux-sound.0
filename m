@@ -1,74 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58E81ACEDE;
-	Wed, 19 Nov 2025 07:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94524324B3D;
+	Wed, 19 Nov 2025 07:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763536585; cv=none; b=c7hENz4H74bHBCvcOTR7Y62PMmeclvKIUGSDUaT1Y0bM5rg5yp1MGCvxgVmDzMPyEv0lTUgjZr4nwdMxQS0KdRk+UBunDlBkjp994xP8WO4ah4XClgnm0bkK3gxiuW5wUHQ+sHjxhN9mZcbwgygdeQYE1ZajJAoj5ROvHk1C8N4=
+	t=1763537124; cv=none; b=rnwBJsTne/Og3Q6ax/6O/oRZCpzP8j1i93iGH/DvwdzPSokGogW/wIO5/AcGCdv6KnmZep/OuiZs8erTPJl1VyWtSIdiLYov/c+F5o4/ioB2NF1o7eo4stEU4X0X2tcD3GzfQP2Kr1Aw+0scEzqosllxlOnI4X9pz7xmZSWcdzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763536585; c=relaxed/simple;
-	bh=MgG8jzBkmnBXLAGnFIwv2IK3/i6Zlvow6a3Ld1T+Ox8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icLnuzaTjOqjWis9lvU4KBb6PAkCfkRtLj/agsiaRksBTl1W5nm8VptHz86pGrNQ6IvpsLRCUObRMdkAj2lL3vCLGKqTxzm094vR6UURSj/1GZBiC6zJiBsfk5R7vQ6wgVoxyBY7eKBmEqLLsiTC0tqEViRaoy/EFEyePRILKD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFdg2INr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763537124; c=relaxed/simple;
+	bh=f11XPehRaRs3X7hHgpc8CfcKsu3urXqGbp+duvCCUss=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iH4x4HvinCyQGY91ah0JwTcWEuNQx80ZoEaLkzIp/1J1UF7ZfXnl7e039lWKQjSpSlK74VggcPE7au/a0lHPeP0rxBiQJ4HlOEqQlJ/a6vaKqp+9oPg1/f1LpxF0N5vLY18ZVPYoNg9CzCbUOCT8oauyToG9x3ZbvjnKYOtIA18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=YvAwswcm; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFdg2INr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8051AC19422;
-	Wed, 19 Nov 2025 07:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763536585;
-	bh=MgG8jzBkmnBXLAGnFIwv2IK3/i6Zlvow6a3Ld1T+Ox8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RFdg2INrpX182GSzLWgeUEaNRSuj3I0PpoCt+8pv8KLd8sLOlXLqMAISQsD4JxSJw
-	 H1IgYQa84Dei73OnSqj74c2MB2a6sOxSC7OOgAOFUiLLNsaXgOFVGyvju/Bmov+7u4
-	 iHovUhvqnlf8B2d97595mGVanbiEJA5nV3ISS3PcQAnBvxeT+AIA9OdjMTs6cYdri+
-	 CYUbKY3k9mpBIjHEt+KdfAorwyYQs/UnbWDd0sqPc5lS5JNdMyOQUaVHC2zsW3jwuD
-	 W4UXoQdWMcKLzp7sP5YjerRDH5FkUlDcmDkJMNQdG5EMrQg3DpC0dt+tcQ8mfvN4Cy
-	 vqKdobNebrbVA==
-Date: Wed, 19 Nov 2025 08:16:21 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com, 
-	13916275206@139.com, shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com, henry.lo@ti.com, 
-	robinchen@ti.com, will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com, 
-	chinkaiting@google.com
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: ti,tas2781: Add
- TAS2568/2574/5806M/5806MD/5830 support
-Message-ID: <20251119-augmented-bustard-of-attack-6ef006@kuoka>
-References: <20251117102153.30644-1-baojun.xu@ti.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="YvAwswcm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=M7
+	XLp2eIjfByT8SPnlgh7fwfD6c69I13Q5MqiJNl2mA=; b=YvAwswcmkavbPVtdB/
+	lXcIVth1EClDlBMowqpWFrqnAOdTArSmN5Ze62v9G1AW2aX+DRQcp9sIdHiULhX6
+	tWIm2Wm49dGjiJljt6yFFb0IyVTSNDHQnXk+fgoACSaGd5pljIBn1V/WSjczP8yj
+	TTOzd52sJ7e9aeQhBpEw7Oyw0=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBHl66icB1pGZ3VBA--.257S2;
+	Wed, 19 Nov 2025 15:24:20 +0800 (CST)
+From: wangdich9700@163.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	cezary.rojewski@intel.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH] ALSA: hda/conexant: Implement resume function
+Date: Wed, 19 Nov 2025 15:24:16 +0800
+Message-Id: <20251119072416.120937-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251117102153.30644-1-baojun.xu@ti.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBHl66icB1pGZ3VBA--.257S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gr47Gr4kGF4DWF1rurWruFg_yoWkJFg_Gw
+	n29rW0yFyDGFsrCr4DJw1Fy34I9rW8uFyjgryktFy2k3s5Gw4Fyr4YvF1Y9rWDWr97AFy5
+	ZFnIq347CryUujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbSksJUUUUU==
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbCvwTmNmkdcKQCuQAA3w
 
-On Mon, Nov 17, 2025 at 06:21:52PM +0800, Baojun Xu wrote:
-> TAS5806M, TAS5806MD and TAS5830 is in same family with TAS58XX.
-> TAS2568, TAS2574 is in family with TAS257X.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> 
-> ---
-> v3:
->  - Restore patch format for ti,tas2781.yaml.
->  - Put this patch in front of code patch.
-> v2:
->  - Add TAS2574 support.
->  - Re-organize the patch, put compatible in front.
->  - Combined some chips as the reg setting is same (0x48-0x4b).
-> ---
->  .../devicetree/bindings/sound/ti,tas2781.yaml | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+During S3 sleep state, if headphones are unplugged, we need to re-report
+their status during the wake phase to ensure proper headphone presence
+detection after system resume.
 
-Best regards,
-Krzysztof
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/hda/codecs/conexant.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 5fcbc1312c69..146ff65ccc30 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -264,6 +264,13 @@ static int cx_suspend(struct hda_codec *codec)
+ 	return 0;
+ }
+ 
++static int cx_resume(struct hda_codec *codec)
++{
++	cx_init(codec);
++	snd_hda_jack_report_sync(codec);
++	return 0;
++}
++
+ /*
+  * pin fix-up
+  */
+@@ -1277,6 +1284,7 @@ static const struct hda_codec_ops cx_codec_ops = {
+ 	.init = cx_init,
+ 	.unsol_event = snd_hda_jack_unsol_event,
+ 	.suspend = cx_suspend,
++	.resume = cx_resume,
+ 	.check_power_status = snd_hda_gen_check_power_status,
+ 	.stream_pm = snd_hda_gen_stream_pm,
+ };
+-- 
+2.25.1
 
