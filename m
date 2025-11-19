@@ -1,151 +1,174 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1578432AAA9
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 08:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31E3324707
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 08:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763539306; cv=none; b=IvuDPr3LvvFb8DLDa4ePAP7zSdchblG3/gkn+2ZwwUh6RdBvNlgInQWfTSL1q3RxHaApubuw4u7q9okD+uw1uEj/qQwEE/8lpU5056/OrvSzrIepI/8JV4hn2NC+POcXsCAjjfJsvAlijxKR5MA3FHJasn7sbSeL4sqpyNLt4/A=
+	t=1763540126; cv=none; b=RLCS+4hQe9uvtsI+1b0dVaT2gQa56kSVc9Ie3ZxLt2GNVNMj+pnZDSJKROBXH5FlETx4QUeEmworeqmRfJ1AoXAa8ARvXZdUEeb/9UrvOAxiDIyJg65kntgVLq/mkrjL6PhW/SWLKaHTJtLPhco/sjt8xNqFHThNAahIwcjwta8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763539306; c=relaxed/simple;
-	bh=z5K1y6faf5b2+1zAlrcaMcsQVzqujnONb2bvp8XlHlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SFM1xnXRN+cvaT1m5QNL4cyt7qqmDumPKBF5Db8gbM2v4fL7nv/eaFvbtGg+TOpgbnGLeRa81w9M+9xlxzexbD1db3YwBj1OOEnccqAa0BcTbkn8IBNOOkme7ApaxOHSmkSoUI8iNlif5dMmYTskalSm03Rr+pmt0t1MT+d7aLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ygix6mE0; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763540126; c=relaxed/simple;
+	bh=U38q3bQzYZxlPKqPBjY8WJGK2vAIi8v2GFLUZneYrDE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Rin543Mx2YrxhPNm6TT7Cs7BxWijS+OrfyTBv4p19T3MTHHbAXDyAV14I25mSN0Stn1/DHw/ewylL3qvQBSbx7nJVyxf0mJDOEK7JtClQoSUqLZqj+Zb4enx/N9UCv5yd2E/1cpVkGzPK7HzV1S9bbUyOwcEb98ASLxFTod8hM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kwcjDv1d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LUptNvOz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iV/OwwwJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z7izlDxG; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ygix6mE0"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b7373fba6d1so751724466b.3
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 00:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763539303; x=1764144103; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AheCr9rr/sxkXy+oeczaUi7thIoHaJwOb9+DkTPHTDg=;
-        b=Ygix6mE0t+lL9vVChi+j0aakCDJHrlG0vtP0LfLCxiMDI8cka2ystTXErlWmqFuvex
-         DdjALhxDQYW0o3zjsP08QJB9W5LmaLPBvVcO2LNFGGv08vhND9Q6BnYME/rJPuU4RKUd
-         2lp7IEyS1eo/yac4OYzpo9GTJ/h4k9MlCtWKFYDeCnRrz49R19dSV7+pTmOTXlToGDGm
-         h2TxPOgdWfY8P4/f7QEJQTjVjmnF25azg2feGV3qcseMfOZdOjYwlgnTe5RiVsGnwj3L
-         jL87/gTDwaKuGalT1Abb55cDuGn5pns1OKf3jK6orxZ80g6o0uQvrfEZzLh/+eYCvu0F
-         fZrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763539303; x=1764144103;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AheCr9rr/sxkXy+oeczaUi7thIoHaJwOb9+DkTPHTDg=;
-        b=KemHkJrpGrOwWvY4ShqiKC9H3J9l9U8ANqzgf5d49FOdURmaFPcM26xQlzY6/Qyhmg
-         v4z/YWC0QTT4HeERCT4ud7ckgFFIthzETZwwShUUL2Q7ZehsTv3nbvBzznn+59NUzPWt
-         6K8YjMYX1ySfCP9Y4qS2/6Pgcdhn9AJEcJVQ+REWbTCISxIMZYm0q/CzqcGq+QscpEHK
-         xIy7Uq02ZXYoNcLuoahMGZKBKendbbL2jxxp+3YChAbGQ3cAaK1E5k1ny+hgohgYERul
-         AscpQytfF4MDprgBmtfVM1IE8KBSxi/QOh3WBOeTOebx/QmVROttj2jS+dol7aDPYKRk
-         Lv+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUaejYTWchTDqv/6DusDZvlgzCQlwc5iwxqT4mgClsoQ7gGWxYyq4+sxPQkim14v9tTioxlOaaImVsTIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgxeAbOewsSWkReOgZCy6ltW+HwS0b4TigjuGRQ6kInlXA9/RW
-	eYCs+kqZK6Nq56IX+3JMrfO0+p+Fq0xmZK8pwno/wZSaW1b2mtoqVDMwMDG4Wt+W48iRprz/rf1
-	l6wiO8pbw/dU90av0T/NoH14IRbfvmKQ=
-X-Gm-Gg: ASbGnctpGgLXjNQis/GbanVyDgqFZnhwtc2oVNtM4Q4NH+QBXw2qNWKB9kUqfWQthFz
-	dZqSAHnUwBd2Y8iHj87aGI8zKDhw6jFXhV2vcxGvVjW2XzywEWpVJm3nl9ufsAl4iKFqFhwj7rL
-	UFReoRGMQ3BH+RqShEIDzO3uWCX628AhYFXyGb2k8YcWdAWcNnIsWp08GykZqRsRtfusj+2uCUV
-	TCNLa1v7Jiu1Mtnl+YG5mUU4St4xMxGfCC79Af+2ECSOzZXEJNATN4HprtTB1CmiU6hq7ON6M8h
-	5r8hUC+7KPhrPPORxEen+8dmjCbRKYnBmUjP6U5loYKVrrqLQRfyQ+NysdxsbZ/Z5D/eaTejdaR
-	2C0xN+MwMQMtwBsbchg==
-X-Google-Smtp-Source: AGHT+IH9RLmrudJYiFQxGBpWdalp0RNvdPE1jKRqx1L9zjBC+zs6TZNN0Aq/tWyMeDQCJfcJOrE+KpnLw+AjClRbY58=
-X-Received: by 2002:a17:907:d09:b0:b73:4816:7494 with SMTP id
- a640c23a62f3a-b7367868812mr1750251666b.8.1763539302927; Wed, 19 Nov 2025
- 00:01:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kwcjDv1d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LUptNvOz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iV/OwwwJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z7izlDxG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DA4B6211D3;
+	Wed, 19 Nov 2025 08:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763540118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbB/G6BpUKesLPCrROlvA17FK9thnropM116YGSa9PQ=;
+	b=kwcjDv1dNsgL7ftilW7s7tB3DIXZbi5SanNQmYa+93/MvwSNT94MgdxWRTudnXB5Uu1yvr
+	hB8WiUNGjM+hk7GQIaPzCgrm21mqCVH/7Tg8sUi3reYgB0QMAd1eUkzqwyPgoH4zLswNTG
+	juEdckNu8JLqQOAU1mnHOzL3yVczR08=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763540118;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbB/G6BpUKesLPCrROlvA17FK9thnropM116YGSa9PQ=;
+	b=LUptNvOzJxk3idoHH3JGNZoIVAv/DRoJeKSIYsqsUDoPi6Vc0deOwG+jSwcfrKHXgUdBdN
+	2uMPrNayxBQq3qCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763540116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbB/G6BpUKesLPCrROlvA17FK9thnropM116YGSa9PQ=;
+	b=iV/OwwwJq8PEw8seTCm6GL9w8E2LTp1Xjz8yjBR8qOgdusULj1NX2Bi4Ccxu0cfJ+Hz06A
+	5hM6ydVQj4gcQZlX2EmzuK3iFWF4rIso1IahzHoTioQqgc6+Nl0Bd2T22r7LzAJa1WH8nW
+	VS9jff59RrbEvJ5idHi+ESPdV9xwnFU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763540116;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbB/G6BpUKesLPCrROlvA17FK9thnropM116YGSa9PQ=;
+	b=z7izlDxGXGx4dxZHpD3g/ce6U6uycnscRjCaHs9iqWsvaa0Aqh6+z8/Exz+cdYQJdPr/uo
+	lNbiJye2mJVigIAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8FD8F3EA61;
+	Wed, 19 Nov 2025 08:15:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ap/pIZR8HWnMCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 19 Nov 2025 08:15:16 +0000
+Date: Wed, 19 Nov 2025 09:15:16 +0100
+Message-ID: <87tsyqcuaz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: wangdich9700@163.com
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	cezary.rojewski@intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: Re: [PATCH] ALSA: hda/conexant: Implement resume function
+In-Reply-To: <20251119072416.120937-1-wangdich9700@163.com>
+References: <20251119072416.120937-1-wangdich9700@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com> <CACRpkdZioOu9AEBdaNWX1njsVvFYR8SP8yJrY8MFMbJtL6YLJA@mail.gmail.com>
-In-Reply-To: <CACRpkdZioOu9AEBdaNWX1njsVvFYR8SP8yJrY8MFMbJtL6YLJA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 19 Nov 2025 10:01:06 +0200
-X-Gm-Features: AWmQ_bnZWE45z8dq-W-vFJmONbGs-165GBHB7vG7G8yZKHS0TzpNGV8dz1PBcfU
-Message-ID: <CAHp75Vd56XYo6PgoJWeUcH328uD2svUCBX7SWT_WUZEH2AvoDw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, 
-	Mika Westerberg <westeri@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,intel.com,vger.kernel.org,lists.infradead.org,kylinos.cn];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Wed, Nov 19, 2025 at 1:24=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
-> On Tue, Nov 18, 2025 at 12:15=E2=80=AFPM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
+On Wed, 19 Nov 2025 08:24:16 +0100,
+wangdich9700@163.com wrote:
+> 
+> From: wangdicheng <wangdicheng@kylinos.cn>
+> 
+> During S3 sleep state, if headphones are unplugged, we need to re-report
+> their status during the wake phase to ensure proper headphone presence
+> detection after system resume.
+> 
+> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 
-...
+Are you sure that this change is mandatory?
+The common S3 resume via hda_call_codec_resume() already calls
+snd_hda_jack_report_sync().
 
-> > We have a long-standing use-case on various Renesas R-Car Gen3 boards
-> > (e.g. Salvator-X(S) and ULCB[1]), where GPIOs are shared by LEDs and
-> > key switches.  Basically, the GPIO is connected to:
-> >   1. A key switch connecting to GND when closed, with pull-up.
-> >   2. The gate of an N-channel MOSFET, turning on an LED when driven
-> >      high.
-> >
-> > Hence:
-> >   - In output mode, the LED can be controlled freely,
-> >   - In input mode, the LED is on, unless the key is pressed,
-> >   - Hence the switch state can only be read when the LED is turned on.
->
-> Fantastic solution to a lack of GPIO lines.
 
-I feel a poster "SARCASM" behind this line :-)
-That's what happened when old-school (in a bad term) HW engineers who
-try to enforce their experience on the modern SoC-based platforms that
-run GP OSes in multi-tasking, multi-user manner.
+thanks,
 
-> This reminds me of the Amiga 500 power LED which was connected
-> to a GPIO which was cleverly also reused to control the audio filter,
-> with the effect that when you turned off the audio filter the power LED
-> went out and music toggling the filter off/on for effects would also
-> give you an incidental stroboscope.
->
-> > If you have any idea how to handle this, feel free to reply ;-)
->
-> Isn't it pretty clear from the system-level DTS how the line
-> is used?
->
-> If it is connected to a gpio key it gets assigned for that usecase
-> and handled by that driver and if it is connected to a gpio LED
-> it is handled by that driver.
->
-> For the input usecase the status of the LED is a byproduct and
-> should not reflect in software I think. It surely should not be
-> controllable and possible to set into output mode because
-> that sounds like a recipe for HW damage if you drive it
-> actively high and press the key at the same time.
->
-> gpio_keys {
->     compatible =3D "gpio-keys";
->
->     button-ok {
->         gpios =3D <&gpio 0 GPIO_OPEN_DRAIN | GPIO_PULL_UP>;
->     };
-> };
+Takashi
 
-This is my understanding as well.
-
---=20
-With Best Regards,
-Andy Shevchenko
+> ---
+>  sound/hda/codecs/conexant.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+> index 5fcbc1312c69..146ff65ccc30 100644
+> --- a/sound/hda/codecs/conexant.c
+> +++ b/sound/hda/codecs/conexant.c
+> @@ -264,6 +264,13 @@ static int cx_suspend(struct hda_codec *codec)
+>  	return 0;
+>  }
+>  
+> +static int cx_resume(struct hda_codec *codec)
+> +{
+> +	cx_init(codec);
+> +	snd_hda_jack_report_sync(codec);
+> +	return 0;
+> +}
+> +
+>  /*
+>   * pin fix-up
+>   */
+> @@ -1277,6 +1284,7 @@ static const struct hda_codec_ops cx_codec_ops = {
+>  	.init = cx_init,
+>  	.unsol_event = snd_hda_jack_unsol_event,
+>  	.suspend = cx_suspend,
+> +	.resume = cx_resume,
+>  	.check_power_status = snd_hda_gen_check_power_status,
+>  	.stream_pm = snd_hda_gen_stream_pm,
+>  };
+> -- 
+> 2.25.1
+> 
