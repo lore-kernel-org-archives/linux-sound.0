@@ -1,114 +1,170 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD373624D5
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A9E26D4C3
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 14:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763563560; cv=none; b=hwy1kImbLvN4/eciotyXj1jazOa5TTa/+FrstJ4+dCUfsekoP4Ymxvy3K24eIttETwNfFNCETrPX5GEjPQvMKcK149JK5JP8MbwCa2+L2WHh+uK5g8W6UrD+79KMZsLfB8w6Ss3jfjzLJFxc/c/irxpVxFzsTRc9MCUzMoRw9rA=
+	t=1763563835; cv=none; b=JNdR7ohYFPpgva8rtcFvEuyXVV/1zY19CwUhH84Eth7GIsQ/fLaA8j4VbMGWuYOI91H7qQKvH0YNCIU6js5iC2LSGCp5BhMOCphS+eNIWvskJXe15C7CqLNwcYpA/ja72QXG+9QC8iXzZhOxdrIKA/HR3DDWZzgSLjfDMxSitsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763563560; c=relaxed/simple;
-	bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P+6VGgZmoDEJd+xA/rrg+Y/nMyyv/ei48BwKHP9Jud5Bijl4YMLCpGjv5rJ8Q0l/aTIMNXDuI8OaZ3O3cdbh8udNLFQUKHsv1N1lzcL7CIaVdLVg2Gefc8GS+gYEN1J4wyMLzV4xKXf5LlH5WMcuPgLB+vZqtNTeu6/63Roe8Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=iMx7M03g; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1763563835; c=relaxed/simple;
+	bh=1Wruu9gggvjosYoKum2V+cZ9fCd6dFFd/5SKcpbFf7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3KHJqCLqdgXKVav/Ysuve1i5fAOq0SZyfDGwy6BBUvbdXe26XXPwJ5iWPo33aFQQoCKa5EOiPzDJrSzGB6rbN1Q0T29HuU/g4H2MiNIGDHBAR/PGDvyRp3COvM7eZJeSZfFF1+pFHWMczF/BBh2GREz0kgQFJel2wYkAUGMUEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SsmAN0H0; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="iMx7M03g"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-591c98ebe90so7722179e87.3
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:45:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SsmAN0H0"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-880503ab181so66796666d6.2
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 06:50:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763563556; x=1764168356; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
-        b=iMx7M03gmpDLZLoEVU9Ol22z/K39j3uqzqHp81ut5UYoAWnypTFIclI6SLz0pdCirP
-         OJLaGotZxDd4osuVqeNm+DxtnQ7uI+E8sZ9raXE8UEzsXeYfC7I5VwKJeJurEzbNFVu4
-         qrC6LHxdFJ8roychbd3mfof4k7FB4FSyv7Xe3ylNSxd1JF4EWxIo+2Q4lt0m3ToGvfmJ
-         Mxt6ZJLZDOxLOG8PI44RpS6qSClbeh4vlAdfouF8ANBb9jQEsIIOs5gIK9a3Sm08lIrF
-         eo/03v4X9POGYe7DciOx20ifQG0IcKm8y+Uh6Eix4q7l2XxNxAaMvQy2EQCuMRqjzXfo
-         ZZng==
+        d=gmail.com; s=20230601; t=1763563832; x=1764168632; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UEa5dU5h8VTkStggLA2EFBcu8SFqsu0VyRflw3qSQbY=;
+        b=SsmAN0H0dW4pniwEPfi7ntnomTvrnK0bOh98GRqlM66jfMIRrCCmEP2AvXC3HRRCmV
+         7g/qWz/7yxs1plOWoLSgEZFqXqMOfVAES46UCC3gAbXavKi2qNkqks9VPXfNYmkzGuFd
+         Q5I9V127jwdVG17TFwwx5snj3oIsqDAQ4U3ZDMIjFeJBPC1kDbDek9H08MwcYqowfH2y
+         OG+QJJFzNqeD0YdjzmGTC9LhWa1frGuIlT1/8whm+I2RPHXYOfLqG7/tExznEqIkOaLF
+         MVab0MlufwIXjF/3XH8b7kl/bcvgJoS2Kb6Zaia++StlKQIiiuC3nKR94iY+PKgXA6a8
+         5wbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763563556; x=1764168356;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NJMGAa2+Lu+uUZPIeeGfyW1+Aax12kFvvU8qnzPSJ5o=;
-        b=EYAbp6HeTGTwXTs5rI1U6jIPFpM3eonh4PlLkg0AUJ3VmdgukigmXOYmt6kEYtuVyd
-         3iq8Ckqd3ioyxMgH1i4gDWdR65zyamW0f5sejV/yu2VN4vZ0MSHoKBnX0iP4hw9soLNP
-         BLLqlRNeUxLnWhwcK5SRMvIkjnEQQq0AussIFIzlnsCDzo2KYrM1Tiw6ElS0FBbk6w73
-         JDf1oSjGqiWnyFGos50I0UKzX0JXKZdUtfkfKwoRqQ0RnfEEbaMr+hYcHn0MzaHpkxom
-         Dv/7GoMasj+7xl/0zVKiEnqgAK+MU5wi6LTDmbUZUbtmnetlJ5/K1vu2rP+i3rtyNtiA
-         lW8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUyyYAFFcr60gxyXyNUCQF5chiar6QTmrG8tgjAkbEm/FERiPjf8g4fRIvmZN8Z15XMtAVrc6N8WKHyGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwxXLH0VdyUq7rXU76YeVTfdCU1rYMwv/YQdTOMoipkIw41kz9
-	lycPdOmxFCP+cyZSuNs5m21cFWAqA9qQ3/jvGIP2sDLydyuAbY3ph36Jjnx/I0/wXDL2wHN4GWj
-	2vy1FAnpmOxBx1p9HqTPnCLFqLaRgHnRV5RBoXUowcg==
-X-Gm-Gg: ASbGncuygJNY1Pfr/rQCE/swJ7iXxiLvkn3qnvn8VRWG0iu98ynGhADkCHszDQsE0cm
-	pg2hqCAOmB73scWDfaedWcdG9pkk7RRSVsJ+Aio1lz6wUg08/UOWLMHgR4ImUFbR4MtDj7cXFfx
-	CssWdoCI2d5YtGG4VU4/VbNHXbRD8Xg/oPJWI3w3PVgy+zX8u4f5kKXRXgoFzV7B/EtNINY9pUG
-	UTm+EDsURK/EmH/Ch0kX5W5i57kdghiGYs6LN5zqxVao4Li9Avqr4dMWCPylKIRjGyL9VbLGbBS
-	xq2cqJnHD/so4tfS7hb0OnFcEGY=
-X-Google-Smtp-Source: AGHT+IFNbY7iWhq4KbUbMnlS79MQcbD6GBMPJY08+mTEGSXDShLEyEtovu6G5tHIiB5Xtpsj0T0pgNCduWGlE2Qn0mQ=
-X-Received: by 2002:ac2:4e08:0:b0:595:9d86:2cc7 with SMTP id
- 2adb3069b0e04-5959d863118mr1368283e87.39.1763563556244; Wed, 19 Nov 2025
- 06:45:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763563832; x=1764168632;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UEa5dU5h8VTkStggLA2EFBcu8SFqsu0VyRflw3qSQbY=;
+        b=H3kvlTSfDzlWhm26kZqmhvn4QD05C48lqbhUR6AA7eA/kZXZm8F/U5pNozbkmgiJXc
+         rTF6HQ3qYD1AgxOxEx3U+0rDFTi/ak2QvE/IUA6E91zpqj0JuciUcQeLkYRZVi2XmqUn
+         PNJnnZnHHc8cbnp7G+VBJurN+bqovSYgM+otBI//vqCAFWs7dqhGukaBPQ3UP5oMBCG8
+         NXGTEu6o2LYjpdEbqLpupihJMjYy4UhR4ctnHRXOHb6j9eadEo9CpAYoj7vLmiTDpU8v
+         /ehq3AfpAuEXSxfXOzH6FCJ2TrDZIWq/ja5OD5hpr/lD7zCcMZPctcm1qH2E2sMBLH8N
+         TDbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYVkSjlkmeih0cOHRItFha8qrdTdjIs2/UHp4d/hLuBe741f4r9NP2EIHm4ByCQfery/OlY10YtaWkjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB8Jslvh0lXNyFKB6HVEHewqhLawmxlEuVq5bVdC7u7ErnyI0W
+	lyFMoLOKMWRapHf1+4YAnXmCQMGUPTsQCFeUwnm8NjNrUPBdTEIlRGoH
+X-Gm-Gg: ASbGncshUFVsdQBtfEHtVCo/HBwZ0X6fTlCwyXFq/DYwIYyitItP4uNiH/V6MBqJ8Fs
+	DiY2FR31jkKtOE0ZeirA4RNRfrAIDDpHVl68HtozvJ8aSaER8HUw01aWPt4T+Cphv4SPrHgP8GA
+	wYa1LponYYZETXM4hTWZE9WkS+nj6wI1DNQ7Gw4gj7F9CfMOGxzb8ym2hawzesvUj8RfUO4DBRa
+	V2FtUHJ0BixFgqK+jbkZuLvfnAc+yFFBoLZY9qk8XBqeMErzpAFZPULqAHOiAxrR1RZkblaj1Ta
+	rxrkMFkkVIGvu1KIZC+df823sDANzmvuCgesfmEkC8PuxR4B/3CqHX2tCuQk5io/yDIgx2wzrTi
+	7R4VvgxgBVtP6iZ4y96O3oinf2gL8NKGpWPmZD3D8WkTj7SLONE/Li/ixHWs11xN5hEBYfQhcJ+
+	0uM4/EpBsIaz2HCh+igg==
+X-Google-Smtp-Source: AGHT+IEl27VY0Fzg06WvTYKsPnTaG3CI8XR1O4Jx2OOSNMzexShqbizbMp95FvmlDbVG54xJ6MBR9A==
+X-Received: by 2002:a05:6214:529d:b0:882:49f4:da25 with SMTP id 6a1803df08f44-8829269e07bmr301776726d6.39.1763563831679;
+        Wed, 19 Nov 2025 06:50:31 -0800 (PST)
+Received: from localhost ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-882862d04e1sm135929226d6.7.2025.11.19.06.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 06:50:31 -0800 (PST)
+Date: Wed, 19 Nov 2025 09:50:30 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/26] Non-const bitfield helpers
+Message-ID: <aR3ZNmSMmtSsUR23@yury>
+References: <cover.1762435376.git.geert+renesas@glider.be>
+ <aQzQjSMOSrUIgMCL@yury>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aR2Uo++k1NKkk2sj@opensource.cirrus.com> <CAMRc=MdFDAmqcJ3PMsTbeZUb9imM+fzHzQ_9mQ1T=syDoCcQJw@mail.gmail.com>
- <aR2gVzKhfN38MHAR@opensource.cirrus.com> <CAMRc=Mck8MiAm_nxY_L6Zw4cH-vYf24zSkPp=bhnUw68Q6FV=g@mail.gmail.com>
- <aR2i6lNNWEbQk0fx@smile.fi.intel.com> <CAMRc=MdYcdrQSDWKDHrx4-Y4-y92AQqr73MoRC3ws-X==SL0MA@mail.gmail.com>
- <aR2o2R30TbVOcqZe@opensource.cirrus.com> <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
- <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MebbjT7QAn8M0q0MsbRhTA-CUNKmo4nUPgXBXrmU-4D6g@mail.gmail.com>
-In-Reply-To: <CAMRc=MebbjT7QAn8M0q0MsbRhTA-CUNKmo4nUPgXBXrmU-4D6g@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 19 Nov 2025 15:45:43 +0100
-X-Gm-Features: AWmQ_bnZtTgzygHBpR-X6aXdiOQHeNYcXbyzkWVCiy1Jv8qXBxuj7-eVz3Hr9dE
-Message-ID: <CAMRc=Mfo_0reVCxZrBNr0YA1mvUOH9M3bLD6mfCwBgObvV74qQ@mail.gmail.com>
-Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Maciej Strozek <mstrozek@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQzQjSMOSrUIgMCL@yury>
 
-On Wed, Nov 19, 2025 at 3:09=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> On Wed, Nov 19, 2025 at 2:27=E2=80=AFPM Charles Keepax
-> <ckeepax@opensource.cirrus.com> wrote:
-> >
-> > I think as Andy pointed out though the first 4 patches in your
-> > chain do loosely want we want. Previously, we used the name to
-> > point to the actual pinctrl driver, your patches should let us
-> > do that properly through the fwnode. So we can drop the pinctrl
-> > swnode and just have the cs-gpios bit point at the actual fwnode
-> > instead. I am trying to hack together a strawman but its failing
-> > in a lightly odd way. Hopefully I can get that sorted fairly
-> > soon and post, or I guess I could post a version earlier if you
-> > wanted a look in the knowledge it still doesn't work?
-> >
->
-> If your solution won't work after all, we can try using machine lookup
-> instead. We have all the blocks except for support for the "undefined"
-> GPIO in machine lookup. That would need to be added.
->
+On Thu, Nov 06, 2025 at 11:45:02AM -0500, Yury Norov wrote:
+> On Thu, Nov 06, 2025 at 02:33:48PM +0100, Geert Uytterhoeven wrote:
+> > 	Hi all,
+> > 
+> > <linux/bitfield.h> contains various helpers for accessing bitfields, as
+> > typically used in hardware registers for memory-mapped I/O blocks.
+> > These helpers ensure type safety, and deduce automatically shift values
+> > from mask values, avoiding mistakes due to inconsistent shifts and
+> > masks, and leading to a reduction in source code size.
+> > 
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant (e.g. it
+> > comes from a table, or is created by shifting a compile-time constant).
+> > To avoid this limitation, the AT91 clock driver introduced its own
+> > field_{prep,get}() macros.  During the past four years, these have been
+> > copied to multiple drivers, and more copies are on their way[1], leading
+> > to the obvious review comment "please move this to <linux/bitfield.h>".
+> > 
+> > Hence this series
+> >   1. Takes preparatory steps in drivers definining local
+> >      field_{get,prep}() macros (patches 1-11),
+> >   2. Introduces __FIELD_{PREP,GET}() helpers to avoid clang W=1 warnings
+> >      (patch 12),
+> >   3. Makes field_{prep,get}() available for general use (patch 13),
+> >   4. Converts drivers with local variants to the common helpers (patches
+> >      14-24),
+> >   5. Converts a few Renesas drivers to the existing FIELD_{GET,PREP}()
+> >      and the new field_{get,prep}() helpers (patches 25-26).
+> > 
+> > Alternatives would be to use the typed {u*,be*,le*,...}_{get,encode}_bits()
+> > macros instead (which currently do not work with non-constant masks
+> > either, and the first attempt to change that generates much worse code),
+> > or to store the low bit and width of the mask instead (which would
+> > require changing all code that passes masks directly, and also generates
+> > worse code).
+> 
+> Everyone please send your tags. I'm going to merge it in
+> bitmap-for-next before Monday.
 
-Just noting an idea: we could set the key field in the lookup entry to
-"ERR_PTR(-ENOENT)" and use it to signal that we should return -ENOENT
-from gpiod_find() if it matches the consumer device.
+Fortunately I didn't specify the exact Monday. :)
 
-Bart
+Now it's in my tree for local testing:
+
+https://github.com/norov/linux/tree/field-prep-for-6.19
+
+Will move in bitmap-for-next shortly.
+
+Thanks,
+Yury
