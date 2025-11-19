@@ -1,80 +1,169 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC49370319;
-	Wed, 19 Nov 2025 10:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA2F34AB1D
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 10:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763547141; cv=none; b=S3Md3EsICglnlzDZWH0QDs2b5yE+8zDs1keT6AqLGdEyZWWKxpfjCDfgfxLN17W518P/kSewtMhjG9YRwrq2MB9d1u3TdITxR2IQQmlzktKXEV1klC+TruVYMAavHZRnhl2wdH4z1CQUwVT2A86PNU8tQvz7Ris4EDyEdQ9Vo94=
+	t=1763547624; cv=none; b=ZMeLavEtbes3IsW+xpjJL9kOgNtkhmAZmHFj0EIqJ/VUe1anqDKomQuoy/44t2TYr6beaHK1QXpujZ0Qe0kXJLZcqSAFEVmW2Zxa5pBhSE5umH0f+bkB+XJSY6t/hyVjRAIeKXKuZvo+rRCbS8Myj2Fu/0/2gpsqIQLXkaCz8d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763547141; c=relaxed/simple;
-	bh=FU2RxZzkHcckppbwMMS4L0jezZXRB21OXx9HVJL2Uc4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G1ElQJQVJ49LMM3I03JIhJ+l6WnU2Bjx2f8WXn/v/DXqLyRs6V9OM551rS7+BoYwC3J/lHjYJOZeBQBox10FGR881W/K9A8yYkpprSCS1gLgMVh6RBG7IOysR21xuQX2fxjMsvZIWNPDYqW9hdvLeT0hm7yAiU2XVfxjW6cmDiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RjCi/i3F; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1763547624; c=relaxed/simple;
+	bh=Mbr1GEkM9xYFDu4S/6bju2g/+16MPey22wuL9HdBgqE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BBnAX7kCLVUlDsvPHePccs3LBrny1gd9zpH6MuGw+hkT4QynFY14T6+ZgK1YnQoGf+2Ooc8hU7RQp/qGIoHsVOBPWSdTyf2lNhhLrtt8VkxHIm2DXQQzs4LfoofDQErNQvDO6WxRT06yr8TzzwH89ru2SzMF+YJSQZQK8SxJwXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=BXMvpk9D; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RjCi/i3F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=dI
-	jDq+Ac7IYU7cSMPIXIHWwDeSEPQltiwxjUsoO2KQ8=; b=RjCi/i3FfqVg+7nnaY
-	rPGZQyns01hQS1THPxoz8q9RpnuqCFnq0nS9GwWGaflKfRFwiwXpFvwoKMyHxbQT
-	Gfyc4hyoZP6IKO9W0VdXUdjb6uDJUirFjn78cSLHMka4ATBy5ar6UDMs/XAYhGnM
-	11/ToKGb9Uzc4FbJKZ6zVprWo=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgBX9szalx1pGmuvEg--.59581S2;
-	Wed, 19 Nov 2025 18:11:38 +0800 (CST)
-From: "jempty.liang" <imntjempty@163.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"jempty.liang" <imntjempty@163.com>
-Subject: [PATCH] ASoC: soc-core: Pre-check zero CPU/codec DAIs, handle early rtd->dais alloc failure
-Date: Wed, 19 Nov 2025 10:11:16 +0000
-Message-Id: <20251119101116.78676-1-imntjempty@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="BXMvpk9D"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5942b58ac81so5038920e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 02:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763547620; x=1764152420; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1MFJCn3c4UR4GwSlThpgcg2jrHtg1WRuJqiIQ/LTMcA=;
+        b=BXMvpk9DZx2Vd+q1YrnkOgQ2Qae0pfW0d+lTHIC4ZkX9C+WcCZ8KinmU7EBrEGKEEN
+         JyNowtb36EshKF75/40Mfna1/DlQN3TAYZ13szMbum4iR7he5qXQI41sFfZks6Anc48r
+         n8R4pYPTbWDNGXcU44Yl71OqJuXGBI70Ed8aNOqBrEk5j1EQzu0RIgwTxNu2Aorh04g1
+         CeIC+7vSLgiT+qBSD0/k4ZyJawW2JQbaWKZHNlxcy9tbFL4bEmslLArX9IUQ8wPQ4NNv
+         P9g2U0dmaqZeOBNwBwFsEhCCa0kn7tx8rbxUJu3F1ox85wH90mCmtIxMxNMBo8l5UoFU
+         iD7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763547620; x=1764152420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1MFJCn3c4UR4GwSlThpgcg2jrHtg1WRuJqiIQ/LTMcA=;
+        b=h7nvkwk03QpjvQCpDNSxO0znWGg0CTnzur+M55hGSabvxqsT/JTc6OWUmAzuL7URXF
+         mqsLWcYZmqABrfUVBXlUhZHRxaRMFHNoTougkUy4aiboW4+0KmStZ6sGEBDblM0DbofI
+         yX9i0ZZ4ndpT/eza4a4UXl9waWWacWnrncgEmud87NU9PU48PrFVhmbSBECN0TIZpDsj
+         bt9tmtCvTb+LojCb91/ZBdIxorxPUc1OdXiHyYdDMjFe+POV+jn5QeKe+O3mQyLQh8qA
+         P7oXQRroq7s8zZ3X71//K06RTUHzCDtGeNz0XIBHaGyaFcfScV+fPV7i0AYfV/wv52N0
+         UWDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQufE2Hi2cD4bLqgAni/AUyyZgIb9xWYSMMvv0OhIFJ60kRCA0x/mo6ZGTOfRdJNmXI+PbyBvYARVX1Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhjQd9ZfIA9fxoFVIWHl+0Xo9P20Ni5sMwdfjuFbcaUuNX+qjo
+	wW8yQnPwVujsppS9DjooVKBksxxIJaUg2u6Ryw18Tsn7f6KThFiVadoFcN+OZ/Ytbvj0PiKhgxh
+	sLf4iBYG+q0dR1RB8Yi9U0JrdsAJ4RUPzaF7z+ZgieA==
+X-Gm-Gg: ASbGncv8uQscDIm87VIMAxbPhsN1Qxcl7aFh5RvhQLgU1T6UF/WHTbK3IkcZJtntQOk
+	H2nVk4ZKgzTuzWSaxyu74fLhyWpS9U0f4WvsKH+0Ivdu+qocIfGPzlCBu29JWjxkQqombcAet9Y
+	LZm3FX67nZ9QUq6TZNMjQDcFj39QkxXOlCF61NvvobLsb2KmBOZLtVK0FSCH/QEqAO9VgMdjm3J
+	a961Gnf+5UIEEVE4XL1j9150VNTWVczh/MJndUg7RnDJC6f/F/8PaQelgyB1T6dx1nX8LWt6eaS
+	wj5+rJi2LckxdDqBamjSwHxPVsRXPlpiUFBmWw==
+X-Google-Smtp-Source: AGHT+IE9JNtroGt9E2E3gNsepDcRAdRdpTP4zu7ST2CCOq3eXo9u4Q/AbYdzyst79Jmme7gLdAeTImqEaeDklMC3tHg=
+X-Received: by 2002:a05:6512:1251:b0:595:8258:ccc4 with SMTP id
+ 2adb3069b0e04-59584262dcdmr6735337e87.47.1763547620283; Wed, 19 Nov 2025
+ 02:20:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgBX9szalx1pGmuvEg--.59581S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtrWxAr4xXr48Xr4fAw1kKrg_yoWfCFc_Ca
-	yrC395ZryFy3W3t3yqqF1SkFy0qa1xCrW8GFn2yF98JrWUArsYka1DJF95ury8Ww4xAa43
-	GrZxuF47Z34xXjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xREFAp5UUUUU==
-X-CM-SenderInfo: hlpq3yxhps35i6rwjhhfrp/xtbBgBkKAWkcOQnD7wAHs8
+References: <20251119-cs42l43-gpio-swnodes-v1-1-25996afebd97@linaro.org>
+ <aR2OU4se7lxcMtGW@opensource.cirrus.com> <CAMRc=Mc==X3wERStdXmr5A9p0sPe7wdrPE4GZuqPLaKoBb9O9w@mail.gmail.com>
+ <aR2Uo++k1NKkk2sj@opensource.cirrus.com>
+In-Reply-To: <aR2Uo++k1NKkk2sj@opensource.cirrus.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 19 Nov 2025 11:20:08 +0100
+X-Gm-Features: AWmQ_bm0yTqfRlnBzZMPw34K9JVDcn7WLMejW8cq3FVbPsn4cNJ_e6iNwTVFcL8
+Message-ID: <CAMRc=MeVt6PJbDRaFijMfmiPA-wXCSA5Kw2ZEUBDGg-g+55N_A@mail.gmail.com>
+Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This commit adds a pre-check in ASoC to ensure there are non-zero CPU or
-codec DAIs. It also handles early failure of memory allocation for
-rtd->dais by going to the cleanup path, preventing potential issues
-from invalid configurations or out-of-memory situations.
+On Wed, Nov 19, 2025 at 10:58=E2=80=AFAM Charles Keepax
+<ckeepax@opensource.cirrus.com> wrote:
+>
+> On Wed, Nov 19, 2025 at 10:40:30AM +0100, Bartosz Golaszewski wrote:
+> > On Wed, Nov 19, 2025 at 10:31=E2=80=AFAM Charles Keepax
+> > <ckeepax@opensource.cirrus.com> wrote:
+> > >
+> > > On Wed, Nov 19, 2025 at 10:10:24AM +0100, Bartosz Golaszewski wrote:
+> > > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > >
+> > > > Currently the SPI driver sets up a software node rerefencing the GP=
+IO
+> > > > controller exposing the chip-select GPIO but this node never gets
+> > > > attached to the actual GPIO provider. The lookup uses the weird way=
+ GPIO
+> > > > core performs the software node lookup by the swnode's name. We wan=
+t to
+> > > > switch to a true firmware node lookup so the actual link must exist=
+.
+> > > > Move the configuration to the MFD core and connect the SPI and pinc=
+trl
+> > > > sub-devices with software node references.
+> > > >
+> > > > Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers"=
+)
+> > > > Reported-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> > > > Closes: https://lore.kernel.org/all/aRyf7qDdHKABppP8@opensource.cir=
+rus.com/
+> > > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > > ---
+> > > > Hi Charles!
+> > > >
+> > > > Please give this a try. It's only build-tested so far. I hope I
+> > > > understood correctly that it's the SPI driver that needs the "cs" G=
+PIO
+> > > > from the pinctrl.
+> > >
+> > > Unfortunately it fails with an -EBUSY on adding the MFD children.
+> > > I will investigate a little more and report back.
+> >
+> > Does it fail in device_add_software_node() in MFD core? Is it possible
+> > that the device already has a software node for some reason?
+>
+> Yeah it seems there is already a software node, although somewhat
+> at a loss as to why, the only ones we add are inside the SPI
+> driver. I will poke further and see if I can find out how it
+> acquires that node.
+>
+> > > > +static const struct software_node cs42l43_gpiochip_swnode =3D {
+> > > > +     .name =3D "cs42l43-pinctrl",
+> > > > +};
+> > > > +
+> > > > +static const struct property_entry cs42l43_cs_props[] =3D {
+> > > > +     PROPERTY_ENTRY_GPIO("cs-gpios", &cs42l43_gpiochip_swnode, 0, =
+GPIO_ACTIVE_LOW),
+> > > > +     { }
+> > > > +};
+> > >
+> > > This drops the undefined node, that is important as it lets the
+> > > SPI core know that device is using an internal chip select rather
+> > > than a GPIO.
+> >
+> > I really dislike the whole concept of this undefined software node.
+> > This driver is literally the only user and I'd love to just get rid of
+> > it. HOW exactly does it let the driver know to use internal chip
+> > select? Can we do it differently?
+>
+> The SPI code lives in spi_get_gpio_descs(). The basic gist is
+> it will use a native chip select if the gpiod_get_index return
+> NULL. The system came from device tree (see Documentation
+> spi-controller.yaml) initially, then I added an analogue to
+> swnodes a while back in 9d50f95bc0d5 ("gpio: swnode: Add
+> ability to specify native chip selects for SPI").  I have no
+> great attachment to this way of doing it, however, it does
+> seem logical to me that the system is at least fairly similar
+> between the different firmware types.
+>
 
-Signed-off-by: jempty.liang <imntjempty@163.com>
----
- sound/soc/soc-core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I see. Then maybe we should at least generalize it to a high-level
+"swnode-undefined", move it out of GPIOLIB and provide a proper swnode
+interface "swnode_is_undefined()" so that we don't have to open-code
+the string comparison like that. That's not related to this patch of
+course, just throwing out an idea.
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 4297cc27005c..e4b21bf39e59 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -545,6 +545,11 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
- 	dev_set_drvdata(dev, rtd);
- 	INIT_DELAYED_WORK(&rtd->delayed_work, close_delayed_work);
- 
-+	if ((dai_link->num_cpus + dai_link->num_codecs) == 0) {
-+		dev_err(dev, "ASoC: it has no CPU or codec DAIs\n");
-+		goto free_rtd;
-+	}
-+
- 	/*
- 	 * for rtd->dais
- 	 */
--- 
-2.25.1
-
+Bart
