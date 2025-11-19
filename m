@@ -1,137 +1,84 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB532C08B0
-	for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 23:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B892248BD
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 02:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763508251; cv=none; b=bzm0wWWs7qmbFs/AMyPMeEJZoosp6hTZtO8U5Or8/f5To6heTzHQuoxfuDa5Qizd+xaKeBYi4tUZIloEftjKJ25geP2uyjnD7nbCGTSapX6fE0BkY1P3C+1CVYulGgdN4mR25Ts6RHgH0s3/EXKYnd6G0Rza9oUhq31zRK+nWVU=
+	t=1763518195; cv=none; b=gSh327y63y1zJQyrnErKwxfRBBWcbBbBmQ0kIckwhufh8E7IyNb0sjRe+pebX0tDNm6anjp3098UPtdzZDNYAGPI9mOoDVI3eCfrngiGm3e0ceqxhY8TXLEM5bIXSOV5dJNpp4oqtqQN/GCmczpUafkZnlGyQMbVUQ0TUJ1aSs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763508251; c=relaxed/simple;
-	bh=W7pcPwr+HQ1DtHd5FgFi1WUcp3JgCAPSk1CS0dBa6sg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JIrN2n2u06E21La1uysxIFtMTzXZ1+mj+4uCZdyFztZt9UHSIjRAWBy/1waeAQtGdADYiXpt8TU4Flw1GF4k4mJWqOOnJw0iVhF9zAZZ7l6hlbXeUBkzrrCnXI/X8PqP0CyagM3BixtGBx5TaAQ1OODxVn4h+ZIMsGOrvP0MXwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BV/TgF/u; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763518195; c=relaxed/simple;
+	bh=+0AdS315U3QshXu4IWVyxq1ixz1Wx7VrEs2dQOvYWoI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gko/DKJIKtI52LUyMoLuJGRW6FJwL5MJSvZr7TLwKO+EDXPNztY+9GqcR0nNtQu+CG8TSRUovaJ9BEX7ByRX7FX7l2Yv8E46h3GMOuiQ/G/rB+eF3ZjzZ0Z4kXtcDD7e9g1qid8qR3cQ2XguawzFq5g3c2psLpOepnuBn5U+wWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejowxovX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BV/TgF/u"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7895017c722so28751477b3.2
-        for <linux-sound@vger.kernel.org>; Tue, 18 Nov 2025 15:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763508248; x=1764113048; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gkQ/NuFQlM3VlJsncZMDZvs25ArXxORoyFile8VIKq8=;
-        b=BV/TgF/uOgrXpqAY/wX0NC3SXEKfyzVDENCie11YOlfGTFq94ENVFtFH6ktjbDcAD8
-         /2QUwTQwgxSDz9JButnQJTHb3qDC8tZEWckmkyTxAkhd0EELB86aPabtMfqbDsiEXZJg
-         xoXG3UXcAna2m+XHfIiQuCetEfC4gd2Zah1n0GKOTEAoI+fwDBWegkDNvzujS51fCwv8
-         cDd5lTJci1tNUE8wu/El5qnP1TQZ57eIgzTgAhqNO7Qg0nJS3s1aXTXvR2JFoFY8+RAE
-         7j32/EXyJpNDLicpjmE6TBM+R0PkZavjK7VHnZ1zML+UvPPNWR93W4oTdmJEcismlG3S
-         yf6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763508248; x=1764113048;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gkQ/NuFQlM3VlJsncZMDZvs25ArXxORoyFile8VIKq8=;
-        b=ZuDNAkQU8XHl6hoRloY1NAOsZdHDqsyAEFg542dpMPgsvOLgNkWH8nCySS4o0VcqR0
-         EFU5tqH89NLzYBai8q4ooX46KTY9t0zAgp8gsd7BW5OQ/YtpS1kGvTSK5c5C9w34iLvE
-         Yk1Pvg0bcCQM4YQGuHgPGqN4YfRjTbOsd69TwKtHmywIuY/7wn+Oh23BEBX2ZhbzgMdf
-         ENi2YV1IZqzwz/YD4XMzfL7hPvTkdtiX9T4TNHVlmIpngGrmn+5qnIAaPX/Ftr3E8ebt
-         +BOYUEleVFVAkW8k9JYwcZIVqufIemtWKbqOz63x4lxaEK6P2XkiXL1/SmErTmcnRKF0
-         dt5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUS7kMddqSAbuWi71hg+UxfNzhDj4tTdiOeTEVwcFTOidJYYEtzxZ0Cz/vSdkDF/71e701RziVnC39tAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWVhMQLZrMRRSe/n/oKE6Kmz4uDgC5WxqHOLeg/DjwozsaMI7K
-	iuwUv0SC2KmFk7vP+aJdrsv54VOvMe8GZSeF0MN0JCz7lcPXUUUh0QYUUwkJW7oH4oM1rVDKh97
-	gvWlE9VLAdddWg20985/cYR3rtth7yIpZzWR9USRSKQ==
-X-Gm-Gg: ASbGnctx3I4etL3crepTLt3WaZrRCt1cyfF8lidQrmi/p/4QTJF3iWdHq67F3wvssqU
-	ePKxgNM3DtpUlrimXZFkfLqaKPzMU4iO0XZohbSTr/bM2fLxjd/1Y/Nd0EzjVpcQxzJSDxMMvWP
-	QWT70ug4p+7cDiNkF4EeFi/cnH1F5iO3cr0tKE6EMnUhkpn3/C4wK0h4LSSjdRqSBTtEujbQd3b
-	sirLjY0PH7UjXWcH/k9VTurysgqsozf1hiearIFeMJsUeb8ker1aq34flZHecUU26GxHCLX0Pew
-	g3IBHw==
-X-Google-Smtp-Source: AGHT+IFyBO03TJnQUlzqci/5MJ4HTgz/fgmqOzYPPzLJFMjECkvojkE8ZLq0wzXV0U24gpbvqdWxMWsnSwsdREunK9g=
-X-Received: by 2002:a05:690c:6706:b0:787:e9bc:fad4 with SMTP id
- 00721157ae682-78929eed6camr148903037b3.46.1763508248199; Tue, 18 Nov 2025
- 15:24:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejowxovX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74AA5C16AAE;
+	Wed, 19 Nov 2025 02:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763518195;
+	bh=+0AdS315U3QshXu4IWVyxq1ixz1Wx7VrEs2dQOvYWoI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ejowxovX50gNtKfyVtg+DccD6COzXt2ubG17EPjcwWq/L24jW6SRTInpNUVvS/vKQ
+	 5SrEifzE6+lAjX5KdBQy+Q4kwKKV+oQPb8YpwdlsRjEXITcu45E8OX32THFcaDtuZb
+	 B78IabKOwENA1meD9OKT2tV+r9FdfEecOEgYv/Goppf+FBWdL/+BWvT4tMYGykLMH5
+	 RArY8xw0Uw1xU5aa6tZwwg7A4RU3GpAS3FJrozsp57fUb3R3PcdNhXRO01kKt3BbeI
+	 FDl8H12cwTTIJ3IqYs0aKbjLiu2idG/5pvRqafSONKJVREbjGOdS1DpIVo8xGtjnds
+	 FbcIMC96VK2GA==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ peter.ujfalusi@linux.intel.com, lgirdwood@gmail.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20251111140617.2997454-1-ckeepax@opensource.cirrus.com>
+References: <20251111140617.2997454-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Add companion amp Function
+Message-Id: <176351819317.1795122.6084783429966597993.b4-ty@kernel.org>
+Date: Wed, 19 Nov 2025 02:09:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org> <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVR9Z70+M-SqHYrHiC6H_yw=VRuDOOg=YnXSNKjPnx3WQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 19 Nov 2025 00:23:53 +0100
-X-Gm-Features: AWmQ_bk2_VJnze8bWKsmcQjt5Ax-Z34cI2HnH2M84uK1kPWn1ddtleYK9nAAhL4
-Message-ID: <CACRpkdZioOu9AEBdaNWX1njsVvFYR8SP8yJrY8MFMbJtL6YLJA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-88d78
 
-On Tue, Nov 18, 2025 at 12:15=E2=80=AFPM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
+On Tue, 11 Nov 2025 14:06:17 +0000, Charles Keepax wrote:
+> Add companion amp into the list of allowed SDCA Functions. More work
+> will be required to fully support companion amp, but this will let parts
+> including companion amp functions boot and it is a good first step to
+> proper support.
+> 
+> 
 
-> We have a long-standing use-case on various Renesas R-Car Gen3 boards
-> (e.g. Salvator-X(S) and ULCB[1]), where GPIOs are shared by LEDs and
-> key switches.  Basically, the GPIO is connected to:
->   1. A key switch connecting to GND when closed, with pull-up.
->   2. The gate of an N-channel MOSFET, turning on an LED when driven
->      high.
->
-> Hence:
->   - In output mode, the LED can be controlled freely,
->   - In input mode, the LED is on, unless the key is pressed,
->   - Hence the switch state can only be read when the LED is turned on.
+Applied to
 
-Fantastic solution to a lack of GPIO lines.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This reminds me of the Amiga 500 power LED which was connected
-to a GPIO which was cleverly also reused to control the audio filter,
-with the effect that when you turned off the audio filter the power LED
-went out and music toggling the filter off/on for effects would also
-give you an incidental stroboscope.
+Thanks!
 
-> If you have any idea how to handle this, feel free to reply ;-)
+[1/1] ASoC: SDCA: Add companion amp Function
+      commit: f5cb3ee251b4f9db2761aced191f10579bd7e64e
 
-Isn't it pretty clear from the system-level DTS how the line
-is used?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-If it is connected to a gpio key it gets assigned for that usecase
-and handled by that driver and if it is connected to a gpio LED
-it is handled by that driver.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-For the input usecase the status of the LED is a byproduct and
-should not reflect in software I think. It surely should not be
-controllable and possible to set into output mode because
-that sounds like a recipe for HW damage if you drive it
-actively high and press the key at the same time.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-gpio_keys {
-    compatible =3D "gpio-keys";
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-    button-ok {
-        gpios =3D <&gpio 0 GPIO_OPEN_DRAIN | GPIO_PULL_UP>;
-    };
-};
+Thanks,
+Mark
 
-Yours,
-Linus Walleij
