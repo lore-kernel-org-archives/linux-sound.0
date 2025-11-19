@@ -1,60 +1,60 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA2F34AB1D
-	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 10:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A594346A0F
+	for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 10:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763547624; cv=none; b=ZMeLavEtbes3IsW+xpjJL9kOgNtkhmAZmHFj0EIqJ/VUe1anqDKomQuoy/44t2TYr6beaHK1QXpujZ0Qe0kXJLZcqSAFEVmW2Zxa5pBhSE5umH0f+bkB+XJSY6t/hyVjRAIeKXKuZvo+rRCbS8Myj2Fu/0/2gpsqIQLXkaCz8d8=
+	t=1763548731; cv=none; b=gFl4jIBXEU0M20E1hh5a8LZwRJ6nzth4GPYzV5E+fL6BNAQNeAkhHwRWHe6kbYswsdQ3QuVJLbuFPAYs5dl1bOcZGiWw6iWrpE/GtZ/j11Kgdla2B05hxlFQpK4X2Uo/avVzP1oR4yXvh6J+uD+QQwMWXelwlhbjMNXNYVJTB3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763547624; c=relaxed/simple;
-	bh=Mbr1GEkM9xYFDu4S/6bju2g/+16MPey22wuL9HdBgqE=;
+	s=arc-20240116; t=1763548731; c=relaxed/simple;
+	bh=L7VgHgGI9r2tjhuEbwy2r1ej8K2QE/4okZ+9y9/KnFM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BBnAX7kCLVUlDsvPHePccs3LBrny1gd9zpH6MuGw+hkT4QynFY14T6+ZgK1YnQoGf+2Ooc8hU7RQp/qGIoHsVOBPWSdTyf2lNhhLrtt8VkxHIm2DXQQzs4LfoofDQErNQvDO6WxRT06yr8TzzwH89ru2SzMF+YJSQZQK8SxJwXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=BXMvpk9D; arc=none smtp.client-ip=209.85.167.43
+	 To:Cc:Content-Type; b=HAaKWl/PACWvj7kTecX1/QLmDBdcA7L87RFxrEnC6qzIRmB2Ojr/6y66Iw6vu6/+Kg21f2DjGSW2PpK46bPG1rI6x+j3t3n+qbQfQlVw+sIsHNRPO3/SzFVatuAbWbWM9eAT6SGW2PBtkMYj6RJNMLz3G1JCYqRo3QDaLP+L/kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=fvIFzPn8; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="BXMvpk9D"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5942b58ac81so5038920e87.2
-        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 02:20:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="fvIFzPn8"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-595825c8eb3so6550983e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 19 Nov 2025 02:38:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763547620; x=1764152420; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763548727; x=1764153527; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1MFJCn3c4UR4GwSlThpgcg2jrHtg1WRuJqiIQ/LTMcA=;
-        b=BXMvpk9DZx2Vd+q1YrnkOgQ2Qae0pfW0d+lTHIC4ZkX9C+WcCZ8KinmU7EBrEGKEEN
-         JyNowtb36EshKF75/40Mfna1/DlQN3TAYZ13szMbum4iR7he5qXQI41sFfZks6Anc48r
-         n8R4pYPTbWDNGXcU44Yl71OqJuXGBI70Ed8aNOqBrEk5j1EQzu0RIgwTxNu2Aorh04g1
-         CeIC+7vSLgiT+qBSD0/k4ZyJawW2JQbaWKZHNlxcy9tbFL4bEmslLArX9IUQ8wPQ4NNv
-         P9g2U0dmaqZeOBNwBwFsEhCCa0kn7tx8rbxUJu3F1ox85wH90mCmtIxMxNMBo8l5UoFU
-         iD7g==
+        bh=L7VgHgGI9r2tjhuEbwy2r1ej8K2QE/4okZ+9y9/KnFM=;
+        b=fvIFzPn8W4Ba1/PHiV7ZwGj8KE1DCXlzeG0bGNPfGR5PfnzTO6aMWLX7BG2yaTjhA6
+         /GHWLUdzRhxJUoFn+Uu91elx0w7v60oybNdpMumr8xGlUnra8HksFUWBjy0UaotvZTI7
+         y2aJuiE5nLICSA5tVSkgMEcj1rIX98iIJj05RdDVl0nuVRRdN6qEPZ5d8a6alwW1PQOD
+         OXVgbq9joRHxpqblnQk/BTNGGe5QZTuk6Bal04OV1CxXgG75fY+JVoehDNo5Vh/fUWdq
+         HMiml41bZsef+XDrCwj9WhkPPcuHdYgJSuusPRh//SegD9FgVzzJR0J8f2rbc7wdjNuC
+         XfEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763547620; x=1764152420;
+        d=1e100.net; s=20230601; t=1763548727; x=1764153527;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1MFJCn3c4UR4GwSlThpgcg2jrHtg1WRuJqiIQ/LTMcA=;
-        b=h7nvkwk03QpjvQCpDNSxO0znWGg0CTnzur+M55hGSabvxqsT/JTc6OWUmAzuL7URXF
-         mqsLWcYZmqABrfUVBXlUhZHRxaRMFHNoTougkUy4aiboW4+0KmStZ6sGEBDblM0DbofI
-         yX9i0ZZ4ndpT/eza4a4UXl9waWWacWnrncgEmud87NU9PU48PrFVhmbSBECN0TIZpDsj
-         bt9tmtCvTb+LojCb91/ZBdIxorxPUc1OdXiHyYdDMjFe+POV+jn5QeKe+O3mQyLQh8qA
-         P7oXQRroq7s8zZ3X71//K06RTUHzCDtGeNz0XIBHaGyaFcfScV+fPV7i0AYfV/wv52N0
-         UWDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQufE2Hi2cD4bLqgAni/AUyyZgIb9xWYSMMvv0OhIFJ60kRCA0x/mo6ZGTOfRdJNmXI+PbyBvYARVX1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhjQd9ZfIA9fxoFVIWHl+0Xo9P20Ni5sMwdfjuFbcaUuNX+qjo
-	wW8yQnPwVujsppS9DjooVKBksxxIJaUg2u6Ryw18Tsn7f6KThFiVadoFcN+OZ/Ytbvj0PiKhgxh
-	sLf4iBYG+q0dR1RB8Yi9U0JrdsAJ4RUPzaF7z+ZgieA==
-X-Gm-Gg: ASbGncv8uQscDIm87VIMAxbPhsN1Qxcl7aFh5RvhQLgU1T6UF/WHTbK3IkcZJtntQOk
-	H2nVk4ZKgzTuzWSaxyu74fLhyWpS9U0f4WvsKH+0Ivdu+qocIfGPzlCBu29JWjxkQqombcAet9Y
-	LZm3FX67nZ9QUq6TZNMjQDcFj39QkxXOlCF61NvvobLsb2KmBOZLtVK0FSCH/QEqAO9VgMdjm3J
-	a961Gnf+5UIEEVE4XL1j9150VNTWVczh/MJndUg7RnDJC6f/F/8PaQelgyB1T6dx1nX8LWt6eaS
-	wj5+rJi2LckxdDqBamjSwHxPVsRXPlpiUFBmWw==
-X-Google-Smtp-Source: AGHT+IE9JNtroGt9E2E3gNsepDcRAdRdpTP4zu7ST2CCOq3eXo9u4Q/AbYdzyst79Jmme7gLdAeTImqEaeDklMC3tHg=
-X-Received: by 2002:a05:6512:1251:b0:595:8258:ccc4 with SMTP id
- 2adb3069b0e04-59584262dcdmr6735337e87.47.1763547620283; Wed, 19 Nov 2025
- 02:20:20 -0800 (PST)
+        bh=L7VgHgGI9r2tjhuEbwy2r1ej8K2QE/4okZ+9y9/KnFM=;
+        b=LUIezyz/4wN7/Dm2BnzBu9uTwTWHFiVrcZM5OJexXtJJlFztac/ZF34J5aXPF/rKHH
+         ztRqh+ntBaecxW6RHGM5LaYo/b6NZ/HRyPr1XUGLJa8u0ng0DYaWtKeSi4hvXfHe9z60
+         iQSlPi3eOPIOBMmtsUYsP05pHQKl4pI8FWoBirZMteqdn2vWCa8JK6yGr8qXbwn/5iv7
+         mQrLdlDlMvfhqcWFoS11RMtiNdx4Pjhu5t2WAZTKFFYkSi5xFKRugQdcFXFGrxAjWkj9
+         QjHvWnG6tor5NAdliN4OhcUSoW9LLja7P9vwmKMQt56B/qu2SVEvmRIEkI1VcjGvmzsG
+         F0XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUcj2ilXFlDWNmPoFBKLeAv3jOHlVW+pAILWKvikbUh+bmDM7Q2sGc6hjztIKWQj28opijTU9tNXOvXLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZVtdv58+rIMvL0mhS3qFbyr9j2VNLc0I4gk2ByidEe9X0CaYj
+	ZGew2MBrWY71v+1anwUFATbVpaq9KDNlkOWZ/IIGX27QG2BlDdpM06DmMgtYjOp4om54WJoVVAK
+	6DeLGy6K9+WqiqJ+2PyZ35zJSZQSHmyWhSyS3EOshDQ==
+X-Gm-Gg: ASbGncvNA1rafdG+9TfX4RkucFHLNuufKtRL1uVuLxjpW38KigB75bMlQUfeF7ZkUu7
+	jV91ZJqySyVoEipmIIMvrPkEJHA+1teKq7J7B0uTc9CQiBzutOsuSzyfapFg+29JSM+fCF0i/Wb
+	k5qNU72mCiiIffmVMM9+gKneoMyUXVBGbiqgSLfh4JXG5X0eCFjg7+468RgmyJQy74pBoBYglJe
+	u2vpSgFhpuQCyZ+TMh4PT0JzngbcHgBr2nLVCsBiODLHoCmOzLMmi99+bL+77h1uQRr5mNmke5I
+	DoEVXIzIvZcKA0VS2Zt1Vzh2EU64Hrzicsmsqg==
+X-Google-Smtp-Source: AGHT+IE74jzemY2YhU+PbF7yBA85kAHsHX4mJ4KqZ+2S4FXjqC72Dq3JqM65bbpoVibuwYHQgBzH97q1Jp9PeLxzN0k=
+X-Received: by 2002:a05:6512:4017:b0:595:8350:5812 with SMTP id
+ 2adb3069b0e04-595842523e0mr5924629e87.36.1763548727365; Wed, 19 Nov 2025
+ 02:38:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,9 +66,9 @@ References: <20251119-cs42l43-gpio-swnodes-v1-1-25996afebd97@linaro.org>
  <aR2Uo++k1NKkk2sj@opensource.cirrus.com>
 In-Reply-To: <aR2Uo++k1NKkk2sj@opensource.cirrus.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 19 Nov 2025 11:20:08 +0100
-X-Gm-Features: AWmQ_bm0yTqfRlnBzZMPw34K9JVDcn7WLMejW8cq3FVbPsn4cNJ_e6iNwTVFcL8
-Message-ID: <CAMRc=MeVt6PJbDRaFijMfmiPA-wXCSA5Kw2ZEUBDGg-g+55N_A@mail.gmail.com>
+Date: Wed, 19 Nov 2025 11:38:35 +0100
+X-Gm-Features: AWmQ_bl4kMdbPY0ybo97ugZVPgitgvbcQ_ZwJ9p6cLlBP2waz2ombgcLzQOoeDo
+Message-ID: <CAMRc=MdFDAmqcJ3PMsTbeZUb9imM+fzHzQ_9mQ1T=syDoCcQJw@mail.gmail.com>
 Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
@@ -85,33 +85,6 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Nov 19, 2025 at 10:58=E2=80=AFAM Charles Keepax
 <ckeepax@opensource.cirrus.com> wrote:
 >
-> On Wed, Nov 19, 2025 at 10:40:30AM +0100, Bartosz Golaszewski wrote:
-> > On Wed, Nov 19, 2025 at 10:31=E2=80=AFAM Charles Keepax
-> > <ckeepax@opensource.cirrus.com> wrote:
-> > >
-> > > On Wed, Nov 19, 2025 at 10:10:24AM +0100, Bartosz Golaszewski wrote:
-> > > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > >
-> > > > Currently the SPI driver sets up a software node rerefencing the GP=
-IO
-> > > > controller exposing the chip-select GPIO but this node never gets
-> > > > attached to the actual GPIO provider. The lookup uses the weird way=
- GPIO
-> > > > core performs the software node lookup by the swnode's name. We wan=
-t to
-> > > > switch to a true firmware node lookup so the actual link must exist=
-.
-> > > > Move the configuration to the MFD core and connect the SPI and pinc=
-trl
-> > > > sub-devices with software node references.
-> > > >
-> > > > Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers"=
-)
-> > > > Reported-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> > > > Closes: https://lore.kernel.org/all/aRyf7qDdHKABppP8@opensource.cir=
-rus.com/
-> > > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > > ---
 > > > > Hi Charles!
 > > > >
 > > > > Please give this a try. It's only build-tested so far. I hope I
@@ -130,40 +103,8 @@ PIO
 > driver. I will poke further and see if I can find out how it
 > acquires that node.
 >
-> > > > +static const struct software_node cs42l43_gpiochip_swnode =3D {
-> > > > +     .name =3D "cs42l43-pinctrl",
-> > > > +};
-> > > > +
-> > > > +static const struct property_entry cs42l43_cs_props[] =3D {
-> > > > +     PROPERTY_ENTRY_GPIO("cs-gpios", &cs42l43_gpiochip_swnode, 0, =
-GPIO_ACTIVE_LOW),
-> > > > +     { }
-> > > > +};
-> > >
-> > > This drops the undefined node, that is important as it lets the
-> > > SPI core know that device is using an internal chip select rather
-> > > than a GPIO.
-> >
-> > I really dislike the whole concept of this undefined software node.
-> > This driver is literally the only user and I'd love to just get rid of
-> > it. HOW exactly does it let the driver know to use internal chip
-> > select? Can we do it differently?
->
-> The SPI code lives in spi_get_gpio_descs(). The basic gist is
-> it will use a native chip select if the gpiod_get_index return
-> NULL. The system came from device tree (see Documentation
-> spi-controller.yaml) initially, then I added an analogue to
-> swnodes a while back in 9d50f95bc0d5 ("gpio: swnode: Add
-> ability to specify native chip selects for SPI").  I have no
-> great attachment to this way of doing it, however, it does
-> seem logical to me that the system is at least fairly similar
-> between the different firmware types.
->
 
-I see. Then maybe we should at least generalize it to a high-level
-"swnode-undefined", move it out of GPIOLIB and provide a proper swnode
-interface "swnode_is_undefined()" so that we don't have to open-code
-the string comparison like that. That's not related to this patch of
-course, just throwing out an idea.
+Let me know if you figure it out, I'll submit a v2 that doesn't drop
+the undefined swnode.
 
 Bart
