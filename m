@@ -1,362 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50BC32E756;
-	Thu, 20 Nov 2025 12:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CDD3126B2
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 12:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763640523; cv=none; b=BS/NOAmWKsKRaA4RgmFSzCFAX2S0e+k/Tpmh6xgqSCUm2SVNw44o1hYz5L0dZ5+ydTwYZwzXFfcO+6whp8fRl5E3myDQD/0EcrZfiLoOnpDEq6ZQyfBBgVWKTLeX+wj+UsfDTPL8oR24atwVEIOrR1vErgdi2KPOS/Nu9MXH8Sw=
+	t=1763642010; cv=none; b=LfxNtpiWoBrVDmFiOTZrAfMqQq1yxzPzfoDYLuz0RE335yPJwSB/gzwEkEw2/pkru8fSTi+pkXM3OovN+G/qOJrntrt9wgNuTbUbJuIHX3NYUWuMhseNOwToFwTUH6zHlr4EsRpZqniF0t/Lu4G+vSNd2SPQQtegBim3/hGOlwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763640523; c=relaxed/simple;
-	bh=vLa+qy4ZLWkLdMe1PHH9YtPVGT3bCcAStpSHwrqt5O8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZJPoRQo10T3WmY8m9bjSDPGzM2DaNBW7aSGX3WhJKW7LLPOrsI8XkIA8yU+PE4rNs8rpRZOGsQC0hI2V8vxMs3LjE9VbULkzGZEtz7k3MxAjBO+fqY4JcEFkBwT5eugrAU2t83M5ckNIw2DJsQXyGKtYEjHxkH1XifKrp7FXnRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRHbNrOR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763642010; c=relaxed/simple;
+	bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rMUKZ1DQBIRR6Pm5hNjEcyfxmcnLQv4ernfkwT9wGJrlby/evWwPFIB64OiK+dw30M+ZpxG8KFz1RADxsmTdTs/aqsE1CEkfsZDu5yB9wxPt8ZOktTeuhm7Gm/7SgL7FNKEIGus2aHnQZiB0iW/4lpTzRXt7NooCVuK4p4iNTJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=AgT6lVtj; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRHbNrOR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C57C19421;
-	Thu, 20 Nov 2025 12:08:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763640523;
-	bh=vLa+qy4ZLWkLdMe1PHH9YtPVGT3bCcAStpSHwrqt5O8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uRHbNrORNiipQBtlZrlehZQ6I1fU6aj8ccsr+dYE4vvbULXDsLL+hiEaWSD6yaGTQ
-	 vinyDX1Zb3xCtmV4oJD3oKchJ9mtb5/PIvE1+G16yBAGcMEvuYLTBsBVjTp/cvSJaj
-	 Xe5US+Pa/RURdRsyZjxDkJ6D+XEi5tfUgBs9S15PBV61aMorQ/aj/oIBzK7JvQtTaJ
-	 2sag/TrtnrSqayO+rLD63J2bJ6qbPk57nhF2pxOrbLoeRWrpi2Xv0XVt/NvOSQGhbk
-	 0fiuIramw1R9v/P+GoMgdH7CInMPIZFbsyV8/rAABVo0IOX7zgHeRvrz5/cgSPMuJ2
-	 4GJDSbLMzBhMA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Niranjan H Y <niranjan.hy@ti.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	mstrozek@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH AUTOSEL 6.17] ASoC: SDCA: bug fix while parsing mipi-sdca-control-cn-list
-Date: Thu, 20 Nov 2025 07:08:12 -0500
-Message-ID: <20251120120838.1754634-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251120120838.1754634-1-sashal@kernel.org>
-References: <20251120120838.1754634-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="AgT6lVtj"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37b97e59520so5026881fa.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 04:33:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763642007; x=1764246807; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
+        b=AgT6lVtjZ//BVrYw6rMS1dDhGh07h00pC8tlxtWBiU2FzhptiaXPB5lAQqF5st6JrP
+         oCFFE9Upsk5Ofw1I+rQxPtR0g2kEJzK15jkC7TDflllZ0FMzsAprHuvxQuWP4GcVMk7C
+         p1R2OLKIxYJnld7EVTILlXXu58MAeeH2/QkfpLrCXF27N8QDL/0cKmU0Y3YxWY6yYqxT
+         PoJQ/pT3gDPcpiPev46E0p5uUXghHO8GFskaUFoPZeUXPA7xuhDIRV/49lYVjnlEKrMe
+         BAkSBDwElfU2nvtUt1wRVgQ1k76ms90rjrzfffq7V/TjIiWgJ5X0uSY7VHY41+/I9OO5
+         EiDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763642007; x=1764246807;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
+        b=mXkJqxLyxjjzak3JjmMFau3sDBGOaa1cXX7pQxlxpgSL4QyzfgDQzgezkNWB9yUdId
+         zALxHuV7cZbumBNm7gmTJCa2xEXxtwiAD/sJ0kmtXg6JHbYD3G4yM/IfNvNFSrBr2lZ/
+         cVShM2lWOSyI9j+HIEVA8UY+V0elaPxElAslNGo7mAnTGovO/BDNrqXcc3NzHtMSdDZB
+         nXF7ybnsQ4+SjMVb2VahrI4mJLu3fvaJAuMEtqFH+D7igb0TUJQpOEAdViOsaoPYP2m4
+         09wEaw8a86CLpFspDJApI/asU5KZQGw2rWI7UWCwcrJSAUGjXZoQ+LebAQ8UUEDgHiwT
+         u/Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUd0MHEX2ZX1T93V2CcqzcobjY4gcvWPSzxXFMvkrrTjCqk3gf2ss2A7rRtTWPJpYan89B4+dqupnFaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8xkgdS6jhyhAqmIxeDNMjySOLopraIPpMcnaLGjwRk6JmrLSG
+	9KK4LqxfMZcdzRF2taochFt6sjSDpyPBV5HTdDtXDyI86YdkqB/D50mxJnKRy/urmIvPmoWzNhX
+	zeih4tbRo11PvNHK5SBAX8tWtpGbeas/bunw8dF642Q==
+X-Gm-Gg: ASbGncvhv1gay8pBvPErgW/f3P7qifS68njTNO/t6ludkOka6XRL/u59StLYmZMrf6r
+	7nT+/cxQXqsmhKgoGbsK+CNYOBSADZ9moiQnm0oSkv6ia9bJTkKHC2IpZnKNCAkTQhHhm6iGLX5
+	cMJxUIk2NnL+LRT8R6NIVMAuLdx+G5kwdwbjpzouPOvdAp1Bvu29xu2f/pSCJfywKoo6/twASNp
+	65IkfZvHjrSd3oEGPCGZaU/VCaC9oflec1wNS+YZrXlg8liqwm838Mk41I3q78+Kd+t6cbqg7PN
+	VTvhSSHoLLqDvgDtqtyeGYGK0w==
+X-Google-Smtp-Source: AGHT+IFs28MMNUgFYI3iSwLRyTE8I2EDvLITWgQ618U/qcnkqtpjTvDZRHT2IGmIN2LmnvUGv1JDHAZs/hwBATssw7g=
+X-Received: by 2002:a2e:9790:0:b0:37b:aa93:613d with SMTP id
+ 38308e7fff4ca-37cc6752540mr7357131fa.12.1763642006713; Thu, 20 Nov 2025
+ 04:33:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Niranjan H Y <niranjan.hy@ti.com>
-
-[ Upstream commit eb2d6774cc0d9d6ab8f924825695a85c14b2e0c2 ]
-
-"struct sdca_control" declares "values" field as integer array.
-But the memory allocated to it is of char array. This causes
-crash for sdca_parse_function API. This patch addresses the
-issue by allocating correct data size.
-
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://patch.msgid.link/20251110152646.192-1-niranjan.hy@ti.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Now let me do a comprehensive analysis of this commit.
-
-## COMPREHENSIVE ANALYSIS
-
-### 1. COMMIT MESSAGE ANALYSIS
-
-**Subject:** ASoC: SDCA: bug fix while parsing mipi-sdca-control-cn-list
-
-**Key Information:**
-- **Problem:** The `values` field in `struct sdca_control` is declared
-  as an integer array (`int *`), but memory allocated is for a char
-  array
-- **Impact:** "This causes crash for sdca_parse_function API"
-- **Solution:** Allocate correct data size using `sizeof(int)`
-- **Signals:** "bug fix", "crash" - STRONG YES signals
-- **No tags:** No "Fixes:" tag, no "Cc: stable@vger.kernel.org" tag
-
-### 2. DEEP CODE RESEARCH
-
-#### A. Understanding How the Bug Was Introduced
-
-The bug was introduced in commit **50a479527ef01f** by Charles Keepax on
-**July 18, 2025**:
-- Commit: "ASoC: SDCA: Add support for -cn- value properties"
-- This commit added support for Control Number value properties in SDCA
-  DisCo parsing
-- First appeared in **v6.17-rc1**
-
-The SDCA subsystem itself was added in **v6.13** (commit 3a513da1ae339,
-Oct 16, 2024), so this bug does NOT affect older kernels.
-
-#### B. Technical Analysis of the Bug
-
-**The Structure:**
-
-```759:776:include/sound/sdca_function.h
-struct sdca_control {
-        const char *label;
-        int sel;
-
-        int nbits;
-        int *values;
-        u64 cn_list;
-        int interrupt_position;
-
-        enum sdca_control_datatype type;
-        struct sdca_control_range range;
-        enum sdca_access_mode mode;
-        u8 layers;
-
-        bool deferrable;
-        bool has_default;
-        bool has_fixed;
-};
-```
-
-Note line 764: `int *values;` - This is a pointer to an integer array.
-
-**The Buggy Code:**
-
-```897:897:sound/soc/sdca/sdca_functions.c
-        control->values = devm_kzalloc(dev, hweight64(control->cn_list),
-GFP_KERNEL);
-```
-
-**The Problem:**
-- `hweight64(control->cn_list)` returns the number of bits set in
-  `cn_list` (e.g., if 4 bits are set, it returns 4)
-- The buggy code allocates only 4 bytes (treating values as char array)
-- But `control->values` is an `int*` array, so we need 4 × sizeof(int) =
-  **16 bytes** on most architectures
-
-**How the Bug Manifests:**
-
-```850:850:sound/soc/sdca/sdca_functions.c
-                control->values[i] = tmp;
-```
-
-When the code writes `u32` values into the undersized buffer:
-- **Heap buffer overflow** occurs
-- Adjacent memory gets corrupted
-- Kernel crashes (as stated in commit message)
-- Potential security vulnerability (heap overflow)
-
-**Pattern Comparison:**
-Looking at similar allocations in the same file:
-
-```985:986:sound/soc/sdca/sdca_functions.c
-        num_controls = hweight64(control_list);
-        controls = devm_kcalloc(dev, num_controls, sizeof(*controls),
-GFP_KERNEL);
-```
-
-```1682:1683:sound/soc/sdca/sdca_functions.c
-        num_pins = hweight64(pin_list);
-        pins = devm_kcalloc(dev, num_pins, sizeof(*pins), GFP_KERNEL);
-```
-
-These allocations correctly use `devm_kcalloc()` with proper sizing. The
-buggy line 897 is the **ONLY instance** of this incorrect pattern.
-
-#### C. Explanation of the Fix
-
-The fix changes:
-```c
-- control->values = devm_kzalloc(dev, hweight64(control->cn_list),
-  GFP_KERNEL);
-+ control->values = devm_kcalloc(dev, hweight64(control->cn_list),
-+                                sizeof(int), GFP_KERNEL);
-```
-
-This correctly allocates `hweight64(control->cn_list) × sizeof(int)`
-bytes, preventing the buffer overflow.
-
-### 3. SECURITY ASSESSMENT
-
-**Severity:** HIGH
-- **Bug Type:** Heap buffer overflow
-- **Trigger:** Parsing MIPI SDCA DisCo properties from ACPI firmware
-- **Impact:** Kernel crash (confirmed in commit message), memory
-  corruption
-- **Exploitability:** Low to Medium (requires specially crafted ACPI
-  firmware tables, typically controlled by OEM/BIOS)
-- **No CVE assigned** (yet)
-
-### 4. FEATURE VS BUG FIX CLASSIFICATION
-
-**Classification:** PURE BUG FIX
-- Fixes a crash-causing heap buffer overflow
-- No new functionality added
-- Changes allocation size calculation only
-- Aligns with existing patterns in the same file
-
-### 5. CODE CHANGE SCOPE ASSESSMENT
-
-**Scope:** MINIMAL
-- **1 file changed:** sound/soc/sdca/sdca_functions.c
-- **2 lines changed:** +2 insertions, -1 deletion
-- **Surgical fix:** Only changes the allocation call
-- **No API changes**
-- **No behavior changes** (except preventing the crash)
-
-### 6. BUG TYPE AND SEVERITY
-
-**Type:** Heap buffer overflow / Memory allocation bug
-
-**Severity:** **CRITICAL**
-- Causes kernel crashes in production
-- Affects all systems with SDCA-capable SoundWire audio devices
-- Memory corruption can lead to unpredictable behavior
-- Data integrity risk
-
-### 7. USER IMPACT EVALUATION
-
-**Affected Users:**
-- Systems with SDCA (SoundWire Device Class for Audio) hardware
-- Modern Intel platforms with SoundWire audio codecs
-- Primarily laptops and mobile devices with recent audio hardware
-
-**Impact Scope:**
-- SDCA is relatively new (added in 6.13)
-- Growing adoption in modern audio hardware
-- Bug affects ALL SDCA users who parse control properties
-- Function `sdca_parse_function()` is core to SDCA initialization
-
-### 8. REGRESSION RISK ANALYSIS
-
-**Risk Level:** VERY LOW
-- Extremely small, focused change
-- Only fixes allocation size - no logic changes
-- Makes buggy code match other correct patterns in same file
-- Already reviewed by Charles Keepax (SDCA maintainer/author)
-- Uses standard `devm_kcalloc()` API
-- No dependencies on other code
-
-### 9. MAINLINE STABILITY
-
-**Status:**
-- Committed to mainline: **November 10, 2025** (eb2d6774cc0d9)
-- Committed by: Mark Brown (sound subsystem maintainer)
-- Reviewed by: Charles Keepax (original SDCA author)
-- **Already backported** to stable branches by Sasha Levin (stable
-  maintainer)
-
-### 10. AFFECTED KERNEL VERSIONS
-
-**Versions with the bug:**
-- **v6.17** and later (bug introduced in v6.17-rc1)
-- **6.17.y stable** (confirmed to have the bug)
-
-**Versions WITHOUT the bug:**
-- **v6.16 and earlier** (bug not present - verified)
-- v6.13-6.16 have SDCA but not the buggy code path
-
-**Backport Status:**
-- Already being staged for 6.17.y stable (commits eb36bb6148dac and
-  d461d1dba9b84)
-
-### 11. DEPENDENCY CHECK
-
-**Dependencies:** NONE
-- Self-contained fix
-- No prerequisite commits needed
-- No API changes that would block backporting
-- Uses existing `devm_kcalloc()` API present in all stable kernels
-
-### 12. STABLE KERNEL RULES COMPLIANCE
-
-✅ **Obviously correct:** Yes - simple allocation size fix matching
-existing patterns
-✅ **Fixes real bug:** Yes - causes kernel crashes
-✅ **Important issue:** Yes - crash bug in core audio subsystem code
-✅ **Small and contained:** Yes - 2 lines changed, 1 file
-✅ **No new features:** Yes - pure bug fix
-✅ **No new APIs:** Yes - uses existing APIs
-
-## BACKPORTING DECISION
-
-### Should this be backported to stable?
-
-**YES** - This is an excellent candidate for stable backporting.
-
-### Reasoning:
-
-**STRONG YES Signals:**
-1. **Fixes kernel crashes** - Users experience crashes when SDCA audio
-   devices parse control properties
-2. **Memory safety bug** - Heap buffer overflow is a critical security
-   concern
-3. **Surgical fix** - Only 2 lines changed, extremely low regression
-   risk
-4. **Obviously correct** - Matches the pattern used elsewhere in the
-   same file
-5. **Reviewed and tested** - Already in mainline, reviewed by subsystem
-   experts
-6. **Already being backported** - Stable maintainer has already picked
-   it up
-7. **Small scope** - Only affects SDCA subsystem, won't impact other
-   code
-8. **No dependencies** - Can be cleanly applied to any kernel with SDCA
-   support
-
-**Risk vs Benefit:**
-- **Benefit:** Prevents kernel crashes on systems with SDCA audio
-  hardware
-- **Risk:** Near zero - the fix is trivial and matches existing correct
-  code
-- **Trade-off:** Strongly favors backporting
-
-**Affected Stable Trees:**
-- **6.17.y** - MUST have this fix (currently has the bug)
-- Future 6.18+ stable trees will also need it
-
-**Note:** This fix is only relevant for stable trees that have the buggy
-commit 50a479527ef01f ("ASoC: SDCA: Add support for -cn- value
-properties"). Based on research:
-- 6.16.y and earlier: NOT AFFECTED (don't have the buggy code)
-- 6.17.y: AFFECTED - needs this fix
-
-### Conclusion:
-
-This commit meets all criteria for stable kernel backporting. It fixes a
-critical crash bug with minimal risk, in a well-understood subsystem,
-with a tiny, surgical change that's obviously correct. The stable
-maintainer has already recognized this and is staging the backport.
-
-**YES**
-
- sound/soc/sdca/sdca_functions.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 13f68f7b6dd6a..0ccb6775f4de3 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -894,7 +894,8 @@ static int find_sdca_entity_control(struct device *dev, struct sdca_entity *enti
- 		return ret;
- 	}
- 
--	control->values = devm_kzalloc(dev, hweight64(control->cn_list), GFP_KERNEL);
-+	control->values = devm_kcalloc(dev, hweight64(control->cn_list),
-+				       sizeof(int), GFP_KERNEL);
- 	if (!control->values)
- 		return -ENOMEM;
- 
--- 
-2.51.0
-
+References: <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
+ <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
+ <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
+ <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
+ <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
+ <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
+ <aR4qxiR7pzrPdaUz@smile.fi.intel.com> <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
+ <aR7luqqew3LRwFgn@smile.fi.intel.com>
+In-Reply-To: <aR7luqqew3LRwFgn@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 20 Nov 2025 13:33:14 +0100
+X-Gm-Features: AWmQ_blDoZPlIeJRmMuhollO_8xLtYrhOZeIHhTLu8BJ_wc62Lveu80O0CFrd44
+Message-ID: <CAMRc=Mft8R9RjZhy39G60b2VRi7F2so-iUaARTj+MCgNx+qAqQ@mail.gmail.com>
+Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Nov 20, 2025 at 10:56=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> > Look at all the find_device_by_fwnode() functions we have everywhere.
+>
+> What do you mean, please?
+>
+> $ git grep -n -w find_device_by_fwnode | wc -l
+> 0
+>
+
+I made up a placeholder name for all different variants of functions
+finding devices of different types by fwnode.
+
+> Even if you refer to *_find_device_by_fwnode(), still it's not everywhere=
+,
+> just in a dozen of modules.
+>
+> > The crux of the problem Charles identified is the fact that the
+> > secondary fwnode is a field of struct fwnode_handle and not of a
+> > struct device. This really doesn't make sense as we see where multiple
+> > devices use a single "real" fwnode but want to have different
+> > secondary software nodes.
+> >
+> > Moving the secondary fwnode to struct device would already help a lot
+> > but if we're doing that then we may as well switch to a list of
+> > fwnodes.
+>
+> They all should be an independent entity that can be part of the struct d=
+evice
+> but it's not obligatory relation ship.
+>
+> Again, device may have a backing fwnode, while fwnode might not have a st=
+ruct
+> device consumer.
+>
+
+I never said it must have one. Just that it's common and we do use this fac=
+t.
+
+Bart
