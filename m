@@ -1,181 +1,184 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011019.outbound.protection.outlook.com [40.107.208.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB502D8779
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 10:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1131E2614;
+	Thu, 20 Nov 2025 10:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763633842; cv=fail; b=O4oUnBx4lVq/2LvFNK/HybECgvXujIv7rems7Je5VeBd0O1aeLBvMYIMijUzMA4RPSki0hLf0JmG4OeB3GJ+8CkKxI7/gDsLMwXUESJZJ5z1efXGyFvAH6YZ8Bfop/iter9gm3GFLNfinCS/8ctbuOr5Sp/8/bLjt8Nn0skANRw=
+	t=1763633966; cv=fail; b=AhXdEkoUjJnvYEi9kWWcnyB7snDACWngOLCaK/bXCBrwklVErGoN93C1pDk9MigqOTABRGJ3PgYZtIWD/148U8XNoctxH7cv7MEVQcEFomnyOD86Cne7gRSJr6JkuWRGVmN1hfZJBYzGBxtZa7G6v7CZPG4PJMqkggKqsb1drTk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763633842; c=relaxed/simple;
-	bh=KcT52ph22snpCcrBti4RGuEZErgKNVDqfu9C9K/y/KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MT723t+mZCLGYyG1lR4XllMLB8CYQZ/MnjwZQDPX06DavDO210Du49XbOPnLwnTb81le77NWbeh7hFSoERMkszi2pQMxYKeXPY6+iTEWEd19wmzZn1/s91xyKWRXm0voYUiOHNIGVWLCzWirbhBzHz4nK/6RzP7J0aw6bDcysEs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BKzuO7na; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=e8imCR/X; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1763633966; c=relaxed/simple;
+	bh=s61OrCpgTDIHhzVqONBpD6CUriJ2EGIlAdWRIw+HrCo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ej+LUVj5pwzNoQGFd82RlSbi+qqHfLtbMIXhMIZZgGoZ9eHPott6ondMMK2hukga8+28Qx53/W5ICMCdgff/n2j3aY7tSw3iVXo2HrAxmhuMBUdglIq5f7OsM+gK6x+be1885jWsowZcrM5rBrwkUKiv4Zpjq7/+Ab/k3YtbElQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=P4aFKJCT; arc=fail smtp.client-ip=40.107.208.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BKzuO7na";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="e8imCR/X"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK3so2o262792;
-	Thu, 20 Nov 2025 04:16:54 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=kLBWgglbrBZJd23EQt
-	B+VO3SVujZZFdgVdONhboMv6M=; b=BKzuO7nagjEwT0ZPvWwl6dayGS05bfWzPl
-	/h/BXLDFGi5Grk+hw9CVE+VbGpvvnxR5p+hOAjPJQfhZhP9wFLxJyypd/79vIwyy
-	woc/QrNKGysstuURpBc8rrks0k/xvrkBWWHWIgHesQtlGV7B5SWFV3oKavnvyTtM
-	HWcj4Kvr8IJpVxwLOew7JIgf8dQp8QorcBwn/XK4m98rs8h+dsUjpWc1hzo7Ghos
-	oF6vh9iG+UHA/2UEkxCdzcHNx/u2yZ44M5++j+wrOjbwo+xGL8lWyC7HZfdRavJ/
-	WIu4OMhUAOhOaxg0egdxquJQZkcdVnbMwTQhMxlfzSA0uuMiGRLA==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020109.outbound.protection.outlook.com [40.93.198.109])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4aeqt1e7xf-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 20 Nov 2025 04:16:54 -0600 (CST)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="P4aFKJCT"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O7OuEybI0DU0nTSjxM9F/H75owqFLAoJSx1OTSN8hUbiqCp89wxaNw/FVoL+QByiw+Va+DnsPnDnwfXVtDKw/zJWtk7NZ7MMwcbJxh1EQDfx0k84C97VvGmPuqDLBmoWjULEPDRLpPdB3mmuUr/sS8CEXRiCc1X5wb1GNki6C38nCoC2FmgRXFbJqnWy03r1+szJY3IPpeJy3NwvtMQivUUpqFtsfOTaGaGjENDuucEDbxu7u/bZl+2mgk5JMsygAoHZd6sRbAXfhHmLPM1OLLxTql/dNxGeQ5MDaD7dnT9qk4GAJCCQhWYD2EoM40keWW7GMiuxQUkAWi3weboBow==
+ b=wF8IMC1OP3YAvkwaeDGUtj/Ol+To6PcoCicRqWD2SNoePLUkOkTpnHeYvqIP17fSl3Utfj+kyYlGuPhyikMZuXgjt9qpaYg+UaAroLNHz19J5CnGYM1zbO+MgyUZb86AYiXgvxPxUTaM+40/lMpWtnQL7/yMle+aB5guV8d/et429QHxWZvNQZXDY7bioU/qwS+mArtpjY43mcyG2i9+2ivNAnxj7OPveQPeQZbcW38UhFiB22OcL6LuR1h2wJQScMUhSCJsa3Mi3QWlBD6Y2rfiUATqqQFEMiTBgj7P/VOfIkI8PvzjbuO/NL6D5zJ5lELEbAJcRFJEUaoAAA/e2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kLBWgglbrBZJd23EQtB+VO3SVujZZFdgVdONhboMv6M=;
- b=MZjPQPww9QYgxqMY9O2Vgji9WgrE3anY2A533UjvUN+9s6stQB1eOcqG5gT8hgVZJVJF2Ixmi76Y/pNmUUZJW2qWNFXt4vzG9iupShAQbARmR159TiwdLRJOEGcJ5nMzNs+obGG7d8kdCAJ8q9K0TaVGJ7UejfaWZSJH3u0teb6Km41ww7wFaxEiO511+L6fJk+IX90LNVHraC0Qaj4IH1YgCTWCwPcgWntl6b8QPNeTdF7PD8FLEb/JSQOzugDJMxYcE+FXM4gK96imrXK6lLe1f0tN6UnVnfMHAZn3kyEek0Wz98D6RRfYd6a4gPvcgRQlTGCXnoENv/zM8FyT2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=alsa-project.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=c4iTQsteOWJ4Y1Oxi7p48kS3ehR2Aq+SPAnIBGvBFyI=;
+ b=yQ88pjeAhUMWvyo66/TMItx30MfzaubFA6GCjp/dzzDecZS89gECS3gfvN3jdSuAIJJVIwbYO0ECGyZLGAlta39LGX7fbqByf1XcEXOKNrhXY9aKjZ1WhxE43YZSOVbgqQsXyBd+v/6vUjiiJK7gIY1ClEuj3VWSwlYcBL0EmuGK49YecE/T2/5x4fzflPbFcLKcbg/CF3a5ExBPpyeyTBVm320+AsksFMmbTCrzpR3WOJa+LZlwVqxfE4D8Ivp5Aud8eLoHLaR1Ywcd6s7K/Htq3qKBS9Mz+sxF9Q12op3z/VkakTYJyf1XfwRkLKPm6eUanGoYSGFhg+NbWqIjfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kLBWgglbrBZJd23EQtB+VO3SVujZZFdgVdONhboMv6M=;
- b=e8imCR/XPF0OrtWo8csIwI8Be8EyBXVwFUeq4zv75YdV8TmKiasZcYUZXHjdUgkvVFTgfsnsWd0B8bbm9W1jOFmSJp+xlpD1tH+MbO/7eJPKTLThjxskaBQTnp5Q2w9AX6q6HAWVsTC8iy8sjLKn8rxWxpT+/DorJWChsFBAV+A=
-Received: from BLAPR03CA0108.namprd03.prod.outlook.com (2603:10b6:208:32a::23)
- by MN2PR19MB4125.namprd19.prod.outlook.com (2603:10b6:208:1e6::12) with
+ bh=c4iTQsteOWJ4Y1Oxi7p48kS3ehR2Aq+SPAnIBGvBFyI=;
+ b=P4aFKJCTPpsF0DWlHSBR2jEYlDux2AOVaJHxCR+j5LNYiy2b4tHUh7WhxLIp12oEPs1G3rOb67QDbEog/iO2zUiJHTnh93siykHqAUPwQXlqOPviboPmwCHGiS/Ez2eU9hYHfPPtqiWJs95wT9VzypHb4oWGuZR6I/Xt8niPSJ8=
+Received: from MN2PR12CA0035.namprd12.prod.outlook.com (2603:10b6:208:a8::48)
+ by SN7PR10MB6331.namprd10.prod.outlook.com (2603:10b6:806:271::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 10:16:51 +0000
-Received: from MN1PEPF0000F0DE.namprd04.prod.outlook.com
- (2603:10b6:208:32a:cafe::1a) by BLAPR03CA0108.outlook.office365.com
- (2603:10b6:208:32a::23) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 10:19:20 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:208:a8:cafe::af) by MN2PR12CA0035.outlook.office365.com
+ (2603:10b6:208:a8::48) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 10:16:51 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MN1PEPF0000F0DE.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.9
- via Frontend Transport; Thu, 20 Nov 2025 10:16:49 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 60421406547;
-	Thu, 20 Nov 2025 10:16:48 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 50EA1820247;
-	Thu, 20 Nov 2025 10:16:48 +0000 (UTC)
-Date: Thu, 20 Nov 2025 10:16:47 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org,
-        yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
-        perex@perex.cz, tiwai@suse.com, cezary.rojewski@intel.com,
-        peter.ujfalusi@linux.intel.com, kai.vehmanen@linux.intel.com,
-        pierre-louis.bossart@linux.dev, navada@ti.com, shenghao-ding@ti.com,
-        v-hampiholi@ti.com, baojun.xu@ti.com, dan.carpenter@linaro.org
-Subject: Re: [PATCH v1 8/8] ASoC: tas2783A: read slave properties from acpi
- table
-Message-ID: <aR7qj9sfvR/3v3P1@opensource.cirrus.com>
-References: <20251120092050.1218-1-niranjan.hy@ti.com>
- <20251120092050.1218-8-niranjan.hy@ti.com>
+ 20 Nov 2025 10:19:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 10:19:18 +0000
+Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 04:19:14 -0600
+Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 04:19:14 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 20 Nov 2025 04:19:14 -0600
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AKAJALE3501729;
+	Thu, 20 Nov 2025 04:19:11 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <jwboyer@kernel.org>
+CC: <shenghao-ding@ti.com>, <linux-firmware@kernel.org>,
+	<13916275206@139.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Baojun Xu <baojun.xu@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: Add more symbol links on SPI devices
+Date: Thu, 20 Nov 2025 18:18:46 +0800
+Message-ID: <20251120101847.41294-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251120092050.1218-8-niranjan.hy@ti.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DE:EE_|MN2PR19MB4125:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca13213b-7529-41e6-9acb-08de281deb58
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|SN7PR10MB6331:EE_
+X-MS-Office365-Filtering-Correlation-Id: 566435f2-b18c-45ef-47e0-08de281e43ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700013|376014|82310400026|7416014;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?sSKcfaTiPogWnil/OWZ+lPwwh9xk2+CvkBUeW+DkWRh9czP2mboV70hbrqYs?=
- =?us-ascii?Q?kfCuz13vEOgr8sjz7MR1jOP+dBhzMK8eZ26CJYQVIGJVB50jZym1l0l8EthX?=
- =?us-ascii?Q?H9uWbnypB/Iev5aaZhGwZbBU/0C/mxLNPu6lX1NtmuWAj4SIYGone+anSRhV?=
- =?us-ascii?Q?cZg2fGhgbRRXsRjiWkULbZXDw7n7byA8f+vHGuUx1KoD57kS6l31+4YmRtP6?=
- =?us-ascii?Q?A9NV5D8b7g2qWjWTyiVuMFuQhIIO1KwRVGWHNy7Q7Cf5SVMKoLvhwXgquunN?=
- =?us-ascii?Q?CfCdVMGtakWoy5BT2zwf0ceY6G0bjEVa44EU7rshNpxgDRWKckq9vmJlDBx7?=
- =?us-ascii?Q?RIzYdVtwf/17DINRTYFtiPdT/CW6KHMuWrhyM7Q1BpgGrMW/St/oDB/WK5LG?=
- =?us-ascii?Q?yCZJ4hdCNe1atscBiNDYq0pAUQLtpEoBZ0VVWPqAE9uw+H+VB5RYuzXz2p1b?=
- =?us-ascii?Q?ZAjCNT4dlLB9AfLGwHuSP+/C0QEK9aywyVV+Cy1YxxCpk68rXgAvIL1Pf4iI?=
- =?us-ascii?Q?afc3sGfIa/lZuuASI1af2U6re3YtOqMMgnXgnZdqmLw64GOpBd8LRFKUwXSJ?=
- =?us-ascii?Q?LoH7vtYncKMhvhQ2dBJ1Uwy+8EeRIQItCu6oJZk+UkvdbxlEuOWEwoNmE4mg?=
- =?us-ascii?Q?rOTEl8/w+vcLI37cjNEJg54y2B6srm09oTwLOnYKtYBtbNhLUfn7C7LunCcL?=
- =?us-ascii?Q?yfmVMqQpENv+Tq+FLhCz8dC1VMeMn4NjPi/4RpPz4GDjjrkm0QD/s5SecR0h?=
- =?us-ascii?Q?smuHOs8c/rZIOBlz9I8B7JS7hlE4EKd1gSuPyHQEAJIvBizY6WdxC8Hwns9G?=
- =?us-ascii?Q?DIasRjncrgZUSd+eUrTQ5/o0/4NWkfOtjiRom7se55tOeON5NPdAYBFbBbDc?=
- =?us-ascii?Q?lFWaG8W2tHvFjQJrjQtgXmF4oTUxpG/Fyzp3P6dhKzxGav9aQ+KHW+tE+sQz?=
- =?us-ascii?Q?eJWUpw6BOmkmwN3c7r6sqCWtuwJM0iKHEJwrnvWxZ93KoK7KAJHxlPVvGeFU?=
- =?us-ascii?Q?dj/oL1oOouJ8VWxl5LFyyjf8VLu1AOKo0cAbzAR9jSFQbUofIZelvaCuLkxu?=
- =?us-ascii?Q?y3JUDRYQKd3BGHSwsvGL+05Xz+F/KmXfXADfrmMK/UEK+vd65+PMB96w380K?=
- =?us-ascii?Q?U6jlwvyNZe/sAb6T6CgWLiPxj0oCi43OO8r+AsTxMRNIlmPU3xyZf+sMHoDR?=
- =?us-ascii?Q?Yg5FrGglSN4xOHmPowObcSMF2AMlY0C7l6dHcqteyi//LgMDwqvnLXpN20JU?=
- =?us-ascii?Q?l41u1Qmc84ouRtQgfD8wBeDdqaX/irwe52YH3uYjsNmFcB977Q0Yoh78Hmt6?=
- =?us-ascii?Q?Hgttq5qiYjv8Usy7TROqDsgTo+MrNGQ5RAxb4aarrcpkQ4Y3EXKcssiSNCdv?=
- =?us-ascii?Q?a3ncNVpsJYeDfVMfJQ8cBoP192yHDP6c6tgQMNd4ii1SIuiUi/9xJiSqQoM2?=
- =?us-ascii?Q?hYkzIWJhvOkUT62A4mFO+Zgwqv8CTrp+Ra0GlueRb8AfY411sgTbEhvmjaKl?=
- =?us-ascii?Q?0ims0JMcUxPM9kc9jwzzH1iMGH12qsWBZcroJsV2uddjR1nuGRDVwvKb28hO?=
- =?us-ascii?Q?mJId/4hnNwEGwTs526A=3D?=
+	=?us-ascii?Q?6kPMAtRy7jBwuQwyUGBEDiP8CyY14q8EXsAgrPHs6X0IzfrSmMMaAdPYJ6vw?=
+ =?us-ascii?Q?gpC7r+EDo2ZQQKmhbVO7kb0AkO+6uNvgyeavue7EH7P2OXNrb04X1BVWVtIt?=
+ =?us-ascii?Q?PbO8HNsQmxO7Bb8tUPoKhWyVO9gvj+GMQbFMm6SoekOa4cGufh40z1Kg4jq0?=
+ =?us-ascii?Q?5OLcLqJjBbit808ygGyivGi4TFJEoOvcwgpcJQn5uG+YjPz38dIy7q96K+pH?=
+ =?us-ascii?Q?eViQmjRa1+X9QrWyy8TRlEUlN5RP90lo8jHMEj4tmaiFGJ3VUoPZdhpLNn13?=
+ =?us-ascii?Q?/h8UiJIpZKfHebMWkH6E1Uiz214j7soo6HsZsONQCY4+6pk+9jodMOV87Y1D?=
+ =?us-ascii?Q?EeZFE7PP+f+/qKIW05fzpAUK6j2WvU/Ld9HHwYLpmHCgPh/5p1JLRFyxOLej?=
+ =?us-ascii?Q?jgLmMpJ+gQc4j+4neTs3RoJ3p2Z+fPTxNXNKyiQoviNTD+cnz7+uHCIwWM6/?=
+ =?us-ascii?Q?2YQ416LXavhCs4V9Km7onhVIa5uTIdSFNpbhDlmxcTKE9M+As7QxxVWBlDfS?=
+ =?us-ascii?Q?imgMvZzOKNCxpXHdUsTOjtrSo0VZj1bQOzbDjPMTDMfUmx9gkmHBoytrq6hy?=
+ =?us-ascii?Q?+YS73ZHVXoWUHZCMaGCEJMIJzv5VHweTSLwVMpsUBNH56ILL+UzxF/ReqZy2?=
+ =?us-ascii?Q?27W7hmlj2srwDOY7V5lpBBvysv3rThUwWMEvR+IiWyDZrdficpscVXUxU6zx?=
+ =?us-ascii?Q?hSxChTIq3k/GEp35Ql+vwzjKDi8lDS42JxoT5S/4wRSy3cW584D2TC7edeY6?=
+ =?us-ascii?Q?Mhq/PzMCcprnW1SVtqRcKGd7Vx3CkjdmxDqxECbOHr2vYzt0S8JnQ3h96pqO?=
+ =?us-ascii?Q?S9XzfBEX9fDhMHKBHMgXgV79nuyKBvP1TXFQDR9HqZdkqJFWExRyxmjVQC/4?=
+ =?us-ascii?Q?4iPJnu5kXbGTnheYBcej5+Buejih3BD2FOuIBfpluszvRcQTzA1skfJtSl7x?=
+ =?us-ascii?Q?IZfit/v4jCRh3xyy3E9zIpTmAJk4eLz3kZv912RA/OVsV8J5yafK19rtLUga?=
+ =?us-ascii?Q?FL9CaDN8dgi6B557twYSop1QspPJg3U769F237l0W1gXHk561saqXpbFlq7h?=
+ =?us-ascii?Q?wcF9c/Z1KpoBNOQwasXxEqLrCwNHu5eptOOo9hYunFBZ3dgqBShzE2eGOOgb?=
+ =?us-ascii?Q?ZAn//iuJuRYxHawO7PQkSgusJ9j7pwZtAUqpOqrlmdWLMdp19UueUiuGBRHR?=
+ =?us-ascii?Q?CHutBxe0zYifKzU9glxfIxnyetslvTYlFLE53qASsBWIThMuKS5dBWgb4G1d?=
+ =?us-ascii?Q?sDyGERKGATW0IRAl1rApzA0PqoUcheDf52huv/ifJmcC/QRu3Dpu+EgmRlO2?=
+ =?us-ascii?Q?E6zLsGkCo9/pEABPKupYkbgzFl+LI1sRW3qc8H3ypcfvKuSYdwxQ8YmLhym+?=
+ =?us-ascii?Q?Z2SKPDx+XTsxh1KGVW/3w54YRythVPzxySfqk2fz9wk2PDvpThkvjuINdZDz?=
+ =?us-ascii?Q?4Cu0eQxLqo5URzDhXhqHwSnn4+nP/VKvwmBcZKFydqFFHnmf8AKdBFz/eErX?=
+ =?us-ascii?Q?nlqFcPx6J0vATOAvOFRFRE54MJP8gUgBQP/Fwo3mMKLTLQl44vJGPET5/UZI?=
+ =?us-ascii?Q?U0e1aiGz1dclYlqzIQI=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(376014)(82310400026)(7416014);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 10:16:49.8676
+	CIP:198.47.21.194;CTRY:US;LANG:ro;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 10:19:18.1650
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca13213b-7529-41e6-9acb-08de281deb58
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DE.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 566435f2-b18c-45ef-47e0-08de281e43ad
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B077.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB4125
-X-Authority-Analysis: v=2.4 cv=OOEqHCaB c=1 sm=1 tr=0 ts=691eea96 cx=c_pps
- a=mw7aCRCFlb22yk7hlIuqAQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=sozttTNsAAAA:8 a=w1d2syhTAAAA:8
- a=MUSQY567VsASbB6zHkMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: cZc_af36FINjrKBdDwnNyuADghBd6JvP
-X-Proofpoint-ORIG-GUID: cZc_af36FINjrKBdDwnNyuADghBd6JvP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA2MSBTYWx0ZWRfX00h+RgKWX4cN
- /02qvbyPhRNVp5LUHJZpWBobDnrIVE+mBSlQm+4mrJttCJ71FMa3VBU1IpKp6WABo9/puVgIqKu
- 4t78GwvRJGyaXJftOCBE3ijw82M50h69CIcMJGYzSiz1P8qCx32rxJsVAOFVuPR40M0w2ABwvEp
- XFcAMLz1YKpg9vqLczYf33tuiSwc1/P6VhfpBMMau8CLs6UGibX/W71FwW/2N/rMLDb7pi7qJZx
- dRulcNGeADeH18cRNqzw26V4XtOrw28KsQvbgqeB0qzzoCaLz4FCFYOVb3NkYsinnv9+n4bc83A
- 7L7rSTQA5y5XgBeX/5MudYpbHd1dfHjX03jxeabp5+oralUMoC4VRaxnFBDEViqjbVNJKkuBzJU
- aJLI5N9ubyjjO6QiS9uRyYUpqWV3yQ==
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6331
 
-On Thu, Nov 20, 2025 at 02:50:50PM +0530, Niranjan H Y wrote:
-> Currently device is using hardcoded slave properties
-> using the .read_prop callback from "struct sdw_slave_ops".
-> This patch removes this and uses the sdw_slave_read_prop API
-> to read the data directly from the ACPI table.
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-> ---
+Add more symbol links for compatible with the source code.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ WHENCE | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Thanks,
-Charles
+diff --git a/WHENCE b/WHENCE
+index 64f55dec..02e6d357 100644
+--- a/WHENCE
++++ b/WHENCE
+@@ -8825,18 +8825,34 @@ Link: TAS2XXX8DE8.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+ Link: TAS2XXX8DE9.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+ Link: TAS2XXX8DE80.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+ Link: TAS2XXX8DE81.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX8DE8-0.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
++Link: TAS2XXX8DE8-1.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+ Link: TAS2XXX8DE90.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+ Link: TAS2XXX8DE91.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
++Link: TAS2XXX8DE9-0.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
++Link: TAS2XXX8DE9-1.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+ Link: TAS2XXX8E17.bin -> ti/audio/tas2781/TAS2XXX8E17.bin
+ Link: TAS2XXX8E19.bin -> ti/audio/tas2781/TAS2XXX8E19.bin
+ Link: TAS2XXX8E1C.bin -> ti/audio/tas2781/TAS2XXX8E1C.bin
+ Link: TAS2XXX8E8A.bin -> ti/audio/tas2781/TAS2XXX8E8A.bin
+ Link: TAS2XXX8ED5.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
++Link: TAS2XXX8ED5-0.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
++Link: TAS2XXX8ED5-1.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
+ Link: TAS2XXX8ED6.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
++Link: TAS2XXX8ED6-0.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
++Link: TAS2XXX8ED6-1.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
+ Link: TAS2XXX8ED7.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
++Link: TAS2XXX8ED7-0.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
++Link: TAS2XXX8ED7-1.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
+ Link: TAS2XXX8ED8.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
++Link: TAS2XXX8ED8-0.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
++Link: TAS2XXX8ED8-1.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
+ Link: TAS2XXX8ED9.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
++Link: TAS2XXX8ED9-0.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
++Link: TAS2XXX8ED9-1.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
+ Link: TAS2XXX8EDA.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
++Link: TAS2XXX8EDA-0.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
++Link: TAS2XXX8EDA-1.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
+ Link: TAS2XXX8F40.bin -> ti/audio/tas2781/TAS2XXX8F40.bin
+ Link: TAS2XXX8F41.bin -> ti/audio/tas2781/TAS2XXX8F41.bin
+ Link: TAS2XXX8F42.bin -> ti/audio/tas2781/TAS2XXX8F42.bin
+-- 
+2.43.0
+
