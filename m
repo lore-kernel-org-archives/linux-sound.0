@@ -1,190 +1,213 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013069.outbound.protection.outlook.com [40.93.201.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE50311963
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 09:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763629977; cv=none; b=NqGsXBXIurs5zkiGXvPno2YjAo3V8WJsBh9kxOkNLwhSvd8hUZ35uuPywlmlTDVG6Lzr7DXp70Ak8iELY5oH3AhifJf8sI3ha9sH2QS0CrYGFGoQ8UrL+M7gcsn/IlOn9X33o4m/XpeFelfFcMnkUjbmBTC4+i1Er382ok6hzG8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763629977; c=relaxed/simple;
-	bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pb11o9K45AiAQyvIEktOpkWF13oP/1q6dfhz6WYp9lXqxrlwnIDQB7vqLfdBy6dP2yUs5nmFRM7bjCkHDBRkGwK5o4qY/18Mu2NtU0r8aOelPNm98vpFW6UVJrHbZrtoJQE2BC02++gqByCgoJmjEQsRrIBPLDFS4jnWC6Ael7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=r8Xwz5FB; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96DA3064A0
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 09:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763630477; cv=fail; b=i9pCTMe7owJPWLr9hsl51MdMh6CGqNJeUq/ugDxfMEmO79g75VvXsxmRQ1SFlMnydwC5+/H3vyEVKHeW8Uhgb8Q65RheKplmp3lsmUjrMsgowsmcvK6EXTC4ts9d/hpKeEi0dbRncTbMnJcK/LKkQwREWLUoiR2gDr8a5LWK4bw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763630477; c=relaxed/simple;
+	bh=dqu3wIineSSGCLEXmX72mItLGq52ufi+3wssHtCe2cA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n002M4SpBQicDrBmuaHAYfM1F48Vifx79TJ9PDAL+pQaPlakVcWmlb/ctW7VLovd3O6hmAk2B6j/PHZgwm5Cr1TiufaZSQ9mD2lb6819ILJm+L9J10UKhwAd/dJOhfZrlEQO6i3zR/YufN9UqgCrFpk4EQrP2yuPOaWLhBjjNjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=c6wz+DM4; arc=fail smtp.client-ip=40.93.201.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="r8Xwz5FB"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59447ca49afso826256e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 01:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763629974; x=1764234774; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
-        b=r8Xwz5FBLP73YCTzzF7q4ICl8/9g0XnxhEnsPPjS97KHGZrVtY5Kb14TavHDmMpSLT
-         PC87lHUBGWfwKh+6R6jVoL5roScE4++OoIuh1OBS6f2YVw6GBKU+T81eZ58mgPuotGSG
-         CUd6YjTtalDoDTvnOOtDyIjp479A9RysKAwS8lrdgqkthSk06KAFzG8ItDs/3bQvEadn
-         tgPmO3R+TLJaQB+qFYC3EikjTMQ2Tv3T8rF92TYtUGfSQvnVKiA1VuacTao3Kc7lPp9G
-         8lnxFHsDcGjfUhvZltGOFyk+hOinhJeRa4ibizNjvyBOWAeh1aRm8gAZE6fXZ9uP4S7M
-         WIvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763629974; x=1764234774;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
-        b=ZSK0kNBDNHHhZfJ/mYulxwonjWXrpn43HwC2z+EOjFmvh7wFZYsnSqO7chS21X73B4
-         nopTrcDJJklbZ3XHIEjSJOGwbmm+QP2EC2XUhowm1VzwV7ZttOxYUpepO6qbuBF/Bnrv
-         drbaMB5UlnhjxcnALD2hScFscI6Ki+SnHkZgZCIS7lUMmNSCd4mrynb2Xv8uvACZvFj5
-         Ue+MV46ku46I5FX/YuV+1rzkPyFmhfP0Q5Hrhfbx3vCzygOUXGMWqdVdIGezufZXfoV4
-         04Ci1h8JeZg9O9jcynBLWKQJPZoTFa34EjmQ4A3Oq97TfUoKCiZmA8H/QFQVEYSlpn6a
-         y0gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXHg6T2EcGUGhPOI0GGo0MbWA83Y/xCU3h6l1sgxwDGczcYxRghLKxqN0JZSTX7WpCheoWh9/TIXDWekQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl9IET1Z8zG/C2MN4fG3yAwpLZ+VKdkoPGdxcf1J+Hp2bvSSWX
-	bM28dRB8SD5ldu0B8ZWK4plwqBLu7RfZjRA9dt1tnmIUMkMD+QqDv0M7eKAwe7v1oq5+BP4OcEJ
-	lmzz63PdmTCgaKaOEYn+GBpvx83v1KIVpb9uh8vda3w==
-X-Gm-Gg: ASbGncsBCLQ8K/A3m9LabgRQA38oZayewtWuUbv5xDbz1QajFPxz9MdBReXQFdbP2zd
-	IvlTHDWcsmVdMpta6iUgODOcVoXqpwTdUcgVLT62iM38UwSAk3Qgevphxz1Uz3jtpmzNEIN5DKp
-	G2Ba6wlgVWvLyqutRpWGvTPF8Z9Wo5ojri3FFIYzOdcGOTwqTgkvTKOOclq/z+9xZja2DSs0QEU
-	jKjXb9uNHrnhXevo4tUt5+bOK7fKoQv/362GrpoVfgcQwKYWenREKR75RUaZeQnJ5Am/fsmu2OF
-	W7/yTrtRioRPnUbMHvYNLqc6yg==
-X-Google-Smtp-Source: AGHT+IFrewKFpB97Jzc2s0X378rdQOV2UUV8z2iMGg1v1GytRO5AynAxifiX0eMqYfLL7nDCf4V6gEHjRJpWwGUb4ow=
-X-Received: by 2002:a05:6512:114f:b0:595:90ee:f480 with SMTP id
- 2adb3069b0e04-5969e2da8d2mr778584e87.16.1763629973838; Thu, 20 Nov 2025
- 01:12:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="c6wz+DM4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bdXnTyLcf4L9FCaDSUbS8Bewnlpd8rIKEhoC6/JTYdn+gvZPcZvav9t3H1rClfwfhxtNzPhIlZ+Z9sFdMMyfNMiVmp/KMUv6JQcieKOov2pJI8Ojzd3CR8DlAtmdV4935ztINV0ysbqYvOtv8CDAGwMusLlTxk9HQ78i4YP5jOfVUGljuSq/gDb6oqyqnBCDWSFr2bwIeK96JgULkCH6h1wry5PGXG+jxzEjIwnC0joU0ZyiVADcRMV5wO/TdNkqvwhs9dysDBh2SGi/1uN8NYYPBaDQigTydf1BCSXew+c9y/ox+MsOrI8s0jRvukKBYGTEKDug8dDqZiDJqefnSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7a6E+V97azwQiTgjqXVzpzpqM+ij+SIyLqCzfZYfpJg=;
+ b=JmJnlMc0BNHXVLNjgblgGhLLi7Z9XwN7/+plMI1ebb1tLwYNOiGlpsWOLXSXnwkohMDoVotLQFLPXy1wVca3QvuwbH/U1tyRqIno8IIybQWZooQcxSoyrRreCGTy9ypj8o1qFP+NSwml6OrCmN+R9tOUdMtAwBmhpV6M1cdziuxQd8FJCJpezLPhGcyKyx6gxXlXAaDRnAK0wofnqVy+vnmXgtpVzhi6urubSD0WhcLIAWfe42wporffMYxI04ItJvYdULrVKAPX0yiKcnIo8V0zt3MSIIhoLmY459XeTrR/HXHIQ9Yum1dOrErqnkBqreQaM/Pd3GBFO7VglUkA6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=linaro.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7a6E+V97azwQiTgjqXVzpzpqM+ij+SIyLqCzfZYfpJg=;
+ b=c6wz+DM4sjA3G+wdvjiaGjjObKL/Ub0QA0SgjkwnwlzhX+4nf059Ueb6UeQrYK9Mi/ixTnlCHY5BNThGgBWq1CAGsqw9p8PmzSW4ZAfgaw6IU6iL5/CcVI1eVEOQh/V7t+Khf6waEfr216GdgRmJ3TQ9hZfbpuX3VDApZ0RmB4g=
+Received: from BN0PR04CA0078.namprd04.prod.outlook.com (2603:10b6:408:ea::23)
+ by MN2PR10MB4270.namprd10.prod.outlook.com (2603:10b6:208:1d6::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
+ 2025 09:21:11 +0000
+Received: from BN1PEPF00005FFE.namprd05.prod.outlook.com
+ (2603:10b6:408:ea:cafe::74) by BN0PR04CA0078.outlook.office365.com
+ (2603:10b6:408:ea::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Thu,
+ 20 Nov 2025 09:21:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BN1PEPF00005FFE.mail.protection.outlook.com (10.167.243.230) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 09:21:10 +0000
+Received: from DLEE215.ent.ti.com (157.170.170.118) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 03:21:08 -0600
+Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE215.ent.ti.com
+ (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 03:21:07 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE200.ent.ti.com
+ (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 20 Nov 2025 03:21:07 -0600
+Received: from LTPW0EX92E.dhcp.ti.com ([10.249.133.122])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AK9L1c13383883;
+	Thu, 20 Nov 2025 03:21:02 -0600
+From: Niranjan H Y <niranjan.hy@ti.com>
+To: <alsa-devel@alsa-project.org>
+CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>,
+	<broonie@kernel.org>, <ckeepax@opensource.cirrus.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <cezary.rojewski@intel.com>,
+	<peter.ujfalusi@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <navada@ti.com>, <shenghao-ding@ti.com>,
+	<v-hampiholi@ti.com>, <baojun.xu@ti.com>, <dan.carpenter@linaro.org>,
+	Niranjan H Y <niranjan.hy@ti.com>
+Subject: [PATCH v1 1/8] ASoC: tas2783A: sdw_utils: support ch 3 & 4
+Date: Thu, 20 Nov 2025 14:50:43 +0530
+Message-ID: <20251120092050.1218-1-niranjan.hy@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aR2o2R30TbVOcqZe@opensource.cirrus.com> <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
- <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
- <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
- <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
- <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
- <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com> <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
-In-Reply-To: <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 20 Nov 2025 10:12:39 +0100
-X-Gm-Features: AWmQ_blF7SCFHaFnDxpXYsYnTfe94q6BczdWGttvnUDgwBN9XkCciWPbXJH8NKw
-Message-ID: <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
-Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
-	linux-spi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFE:EE_|MN2PR10MB4270:EE_
+X-MS-Office365-Filtering-Correlation-Id: a01b7852-8f73-40af-96ba-08de2816251d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?4voA6BoIkapejpYbhTqzSo4pMgEKtMxVysKmGuewvju89SiXmp01gqvIxmxv?=
+ =?us-ascii?Q?toPyUyVcjjtYX1bhGk+PVxb+jutz12KELSoImo1ed+Evqy2ONRFhofrwtKeZ?=
+ =?us-ascii?Q?cCGU1OL16BCsa/NEAAaqxYyxc8YJHuZV2t9/Zv39rrChv64VxL5uuVbrdJBV?=
+ =?us-ascii?Q?AMeLry8qYSbYb/Tk2V+9MeJunPesysCKRpePsGi7UmSbmzXGH+e5KoNgASK2?=
+ =?us-ascii?Q?T2zj73P3k3HphSGVg5aYC9NKzhJYfEQ0lWqh5VH7cZr0MTiHomX3iQ7ArXgw?=
+ =?us-ascii?Q?LHnyALh67TtUyCPYXhwUsRqN+s02zYw0eiKHSrPoxIskOIc2f+8HTmITwYey?=
+ =?us-ascii?Q?VHJ+RVV3xM1BX61WzUERoQpoumUfub69XtJzdYjgUoHKT4IOEYRlD8E7TcTd?=
+ =?us-ascii?Q?lFrFFGuMF5n2IM8eTiD9+5KzA374/DjbkTu13myJv0fUKQUt8BsuLeyr6Rkh?=
+ =?us-ascii?Q?2ifPhCjqJ1dzR7uF8iJnrwII7+GJyjL4UzQc9mT/y9OiceRE1bqd0lNTBjc4?=
+ =?us-ascii?Q?4oQm4nxtSeqyeHFkLAnbTWKNJ/TvPxG7YbjX5QsMkMX97y+WJNa25h7ONyVl?=
+ =?us-ascii?Q?6mkJ1FWXDo8RJTTIuPwaIpolRcv+7e10QLBpxGvoDqbgHzjLr997Z+lGVilY?=
+ =?us-ascii?Q?BFHnm0eT0HhKCms0hIp7clxH4hpPpEd2d6rm2rrPtYWLuEKUDnR8iKoeqM7c?=
+ =?us-ascii?Q?O4TpD7x7KS1+UWyS9vT3iPnWan+fjM2gFYlSNFQXXUNE079r3RYKvl+L6Izu?=
+ =?us-ascii?Q?ACURhIQsWWnMgia3+5PTYuEZyNykMvazHaZ56MTg3XhHK3G3RNleojZ3ZaQQ?=
+ =?us-ascii?Q?bkSfmNYPWrqFYi3hcsorPmG0EVwoo6qvdXb0FpEqx2g8QFKwApn4iu5F/5gc?=
+ =?us-ascii?Q?OXymOgnUMdBYpU9KZ7uPth1tfsI4PcXvVzHNw+pFbJIzdtIQVxQSSQFgpYs8?=
+ =?us-ascii?Q?klhcLGuDI85UwR2xMaUOK8Wm2pREoffLN8DI6KajgYn/eVlnv+9JQI4pNXNb?=
+ =?us-ascii?Q?1EjKPciOtc5j1+0DHLLY08P4clVmOCvtZgT0ciXG97zgrmDkq6DVGxDFXi9C?=
+ =?us-ascii?Q?8eCo5rWIrbE9ZeO0+kYwlyB+nBO7Eo0qwGL25syJjJbK/OffB5tTeoqJNDQ1?=
+ =?us-ascii?Q?XrAvMqSwls1RxGRJW9Pqhh2WOLxU4hxKTqowN16XZTR9OyVZt/N7ny4usBbz?=
+ =?us-ascii?Q?akzWR9ulwZVyv8HEZxkG4CUOvkq7lQjg3PO3/c9yOvgOzorfvDHURZktwexC?=
+ =?us-ascii?Q?kQep/cL2nK4unjAQgS6E2d/1679XNmsENi6LwGIgPYYfY3jciOlBwIlbwMGi?=
+ =?us-ascii?Q?pgGhDs9janCIrRy60HhRrSuS2AxoZDhXoewQ76ldBaC73rR+71WvV62t7bPk?=
+ =?us-ascii?Q?YjNYw3oWFCJIJrL6yM/xiTVbfn6+WNAmrjw3ELAdxUUVlOI2ANUWirqGepJE?=
+ =?us-ascii?Q?+zW+gRg/UFjM5mLuv1ZhFl8//lTai/dl1GbKzimEOKg8o9CVzPmD55dml5ki?=
+ =?us-ascii?Q?M3AIq7MejeebN7itGEAVr/DAcFVZdoonNg7r/WU6iO7OoiU/l9oCEVvaK0do?=
+ =?us-ascii?Q?R7sT2geYU6SMB/G7oH4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:21:10.9020
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a01b7852-8f73-40af-96ba-08de2816251d
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00005FFE.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4270
 
-On Wed, Nov 19, 2025 at 9:38=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Nov 19, 2025 at 03:30:46PM +0100, Bartosz Golaszewski wrote:
-> > On Wed, Nov 19, 2025 at 3:24=E2=80=AFPM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > > > My idea was to mark the fwnode with __private and fix the (ab)use=
-rs,
-> > > > > should not be so many. Can somebody mock up a coccinelle script t=
-o
-> > > > > find all dereferences of fwnode from struct device?
-> > > >
-> > > > I think you're underestimating the level of complexity. What about =
-the
-> > > > concept of dev_fwnode()? It literally makes no sense if we switch t=
-o a
-> > > > list of fwnodes.
-> > >
-> > > Why not? It will return the pointer to the primary node. You can look
-> > > for example how the list of the DMA descriptors is done in
-> > > drivers/dma/dw/core.c. Not the best solution, but gives you an idea o=
-f
-> > > how it may look.
-> >
-> > What even is a primary node though? You can have auxiliary devices
-> > without an ACPI or OF node.
->
-> The one which gives the main set of the properties for the device.
-> The devices that don't have it, simply have a list of fwnodes empty.
->
+ Currently the machine driver for tas2783A can only
+support 2 channels. This patch adds support for
+2 channel playback with 4 device setup.
 
-Well, what *is* the *main* set of properties? Who declares that? I
-agree, it's easy for device-tree - the OF node is the main one, but
-then what if a sub-device inherits the OF node of the parent while we
-also add a software node? It's not that straightforward and we'll run
-into issues for sure just like what we're seeing now with secondary
-fwnodes.
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+---
+ sound/soc/sdw_utils/soc_sdw_ti_amp.c |  4 ++++
+ sound/soc/sdw_utils/soc_sdw_utils.c  | 22 ++++++++++++++++++----
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-> > Only with software nodes. Which one is the
-> > primary? The first one we add?
->
-> Yes. The problem here might be if we add the SW node before the actual FW=
- node
-> appear (it can be if we created some devices before the actual FW based
-> enumeration happens. It would probably need to have some kind of weight
-> (or priority value) and list should be sorted based on that number.
->
+diff --git a/sound/soc/sdw_utils/soc_sdw_ti_amp.c b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+index cbd60faec..488ef2ef4 100644
+--- a/sound/soc/sdw_utils/soc_sdw_ti_amp.c
++++ b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+@@ -58,6 +58,10 @@ int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
+ 			strscpy(speaker, "Left Spk", sizeof(speaker));
+ 		} else if (!strncmp(prefix, "tas2783-2", strlen("tas2783-2"))) {
+ 			strscpy(speaker, "Right Spk", sizeof(speaker));
++		} else if (!strncmp(prefix, "tas2783-3", strlen("tas2783-3"))) {
++			strscpy(speaker, "Left Spk2", sizeof(speaker));
++		} else if (!strncmp(prefix, "tas2783-4", strlen("tas2783-4"))) {
++			strscpy(speaker, "Right Spk2", sizeof(speaker));
+ 		} else {
+ 			ret = -EINVAL;
+ 			dev_err(card->dev, "unhandled prefix %s", prefix);
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 824fb613c..ec00f13a6 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -40,11 +40,25 @@ static const struct snd_soc_dapm_widget lr_spk_widgets[] = {
+ 	SND_SOC_DAPM_SPK("Right Spk", NULL),
+ };
+ 
++static const struct snd_soc_dapm_widget lr_4spk_widgets[] = {
++	SND_SOC_DAPM_SPK("Left Spk", NULL),
++	SND_SOC_DAPM_SPK("Right Spk", NULL),
++	SND_SOC_DAPM_SPK("Left Spk2", NULL),
++	SND_SOC_DAPM_SPK("Right Spk2", NULL),
++};
++
+ static const struct snd_kcontrol_new lr_spk_controls[] = {
+ 	SOC_DAPM_PIN_SWITCH("Left Spk"),
+ 	SOC_DAPM_PIN_SWITCH("Right Spk"),
+ };
+ 
++static const struct snd_kcontrol_new lr_4spk_controls[] = {
++	SOC_DAPM_PIN_SWITCH("Left Spk"),
++	SOC_DAPM_PIN_SWITCH("Right Spk"),
++	SOC_DAPM_PIN_SWITCH("Left Spk2"),
++	SOC_DAPM_PIN_SWITCH("Right Spk2"),
++};
++
+ static const struct snd_soc_dapm_widget rt700_widgets[] = {
+ 	SND_SOC_DAPM_HP("Headphones", NULL),
+ 	SND_SOC_DAPM_MIC("AMIC", NULL),
+@@ -69,10 +83,10 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+ 				.init = asoc_sdw_ti_amp_init,
+ 				.rtd_init = asoc_sdw_ti_spk_rtd_init,
+-				.controls = lr_spk_controls,
+-				.num_controls = ARRAY_SIZE(lr_spk_controls),
+-				.widgets = lr_spk_widgets,
+-				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
++				.controls = lr_4spk_controls,
++				.num_controls = ARRAY_SIZE(lr_4spk_controls),
++				.widgets = lr_4spk_widgets,
++				.num_widgets = ARRAY_SIZE(lr_4spk_widgets),
+ 			},
+ 		},
+ 		.dai_num = 1,
+-- 
+2.25.1
 
-Ugh, please no. Firmware node priority?? With magic numbers?
-
-> > > > For it to make sense we'd have to have a kind of "dynamic" firmware
-> > > > node attached to a device which we'd fill with an aggregation of al=
-l
-> > > > properties from firmware nodes in the list.
-> > >
-> > > "Dynamic" is just a node in the list. The only potential problem here
-> > > is prioritisation. Should we add to the head, tail or insert? But
-> > > converting current approach will be straightforward.
-> >
-> > What I have in my mind is not another firmware node in the list in
-> > struct device but rather a new firmware node implementation, that
-> > would be assigned to the device via a dedicated pointer and would be
-> > filled with a logical OR of properties from other firmware nodes added
-> > to the list.
->
-> Oh no, this won't work in corner cases. What if we actually need to "fix"
-> an existing primary node (there were discussions long time ago about inve=
-rting
-> primary/secondary in some corner cases, but it didn't appear so far as
-> it most likely will give tons of issues in the _current_ design)?
->
-
-What do you mean by "fix"? Like repair? Or fix in place? I'm not following.
-
-> > Then dev_fwnode() would return this rather than any one
-> > of the firmware nodes from the list. Think of it as the "master
-> > fwnode" of a struct device.
->
-> fwnode should not be in any relations to the device, I mean when we do fw=
-nodes,
-> we should not assume that it's backing the device. In the idea you shared=
- it
-> won't be possible ("dedicated pointer") in mine it is (just a list of som=
-ething
-> that may belong to the device, or to another object, doesn't matter).
->
-
-That's not true, we expect fwnodes to back real devices all the time.
-Look at all the find_device_by_fwnode() functions we have everywhere.
-
-The crux of the problem Charles identified is the fact that the
-secondary fwnode is a field of struct fwnode_handle and not of a
-struct device. This really doesn't make sense as we see where multiple
-devices use a single "real" fwnode but want to have different
-secondary software nodes.
-
-Moving the secondary fwnode to struct device would already help a lot
-but if we're doing that then we may as well switch to a list of
-fwnodes.
-
-Bart
