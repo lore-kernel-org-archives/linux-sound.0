@@ -1,131 +1,116 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CDD3126B2
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 12:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750E72D24A0
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 12:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763642010; cv=none; b=LfxNtpiWoBrVDmFiOTZrAfMqQq1yxzPzfoDYLuz0RE335yPJwSB/gzwEkEw2/pkru8fSTi+pkXM3OovN+G/qOJrntrt9wgNuTbUbJuIHX3NYUWuMhseNOwToFwTUH6zHlr4EsRpZqniF0t/Lu4G+vSNd2SPQQtegBim3/hGOlwY=
+	t=1763643105; cv=none; b=pVWWJ7Qu2H0sGsyZY4OBs4qixXRxwnKpd9IxwgIMGUHXjoj8cq7E+lG/mPZhUS1+/jVjakaha7Fl4i8zr+hahKQj3iUDKNaP2/2dBNEuZR+TdhiNg9UgRTwjs1VWHccVv68l5TR87OdpOOjTWSP+3ZDHvC5MG5NPPzv09kUsqhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763642010; c=relaxed/simple;
-	bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
+	s=arc-20240116; t=1763643105; c=relaxed/simple;
+	bh=RnJ/p8YjD0Ag/CEqcWigNmqjOaQ0kairDAhcBwcimA0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rMUKZ1DQBIRR6Pm5hNjEcyfxmcnLQv4ernfkwT9wGJrlby/evWwPFIB64OiK+dw30M+ZpxG8KFz1RADxsmTdTs/aqsE1CEkfsZDu5yB9wxPt8ZOktTeuhm7Gm/7SgL7FNKEIGus2aHnQZiB0iW/4lpTzRXt7NooCVuK4p4iNTJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=AgT6lVtj; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	 To:Cc:Content-Type; b=OHfUQoKnR3PR5Fn6INiUI+I/3TvCkxgvpq300pzrV/NUDDGyh8+Crbz9vOwfITyDhJbP6PDHKjyCxRetn+5zBcsw+r7Nx4zhRz0IwYO5i2nDo4Hh1VySCojdwjM3OmNjtJjaAP8OyJeYWpTvYZdQ57DylKU0Fr7Eb/JgeDWPdeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOa7FMF+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="AgT6lVtj"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37b97e59520so5026881fa.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 04:33:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763642007; x=1764246807; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
-        b=AgT6lVtjZ//BVrYw6rMS1dDhGh07h00pC8tlxtWBiU2FzhptiaXPB5lAQqF5st6JrP
-         oCFFE9Upsk5Ofw1I+rQxPtR0g2kEJzK15jkC7TDflllZ0FMzsAprHuvxQuWP4GcVMk7C
-         p1R2OLKIxYJnld7EVTILlXXu58MAeeH2/QkfpLrCXF27N8QDL/0cKmU0Y3YxWY6yYqxT
-         PoJQ/pT3gDPcpiPev46E0p5uUXghHO8GFskaUFoPZeUXPA7xuhDIRV/49lYVjnlEKrMe
-         BAkSBDwElfU2nvtUt1wRVgQ1k76ms90rjrzfffq7V/TjIiWgJ5X0uSY7VHY41+/I9OO5
-         EiDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763642007; x=1764246807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9g2zA8FzAMTNkIHXZSnYTPmf3AmIIIUujAJL+eqWIEo=;
-        b=mXkJqxLyxjjzak3JjmMFau3sDBGOaa1cXX7pQxlxpgSL4QyzfgDQzgezkNWB9yUdId
-         zALxHuV7cZbumBNm7gmTJCa2xEXxtwiAD/sJ0kmtXg6JHbYD3G4yM/IfNvNFSrBr2lZ/
-         cVShM2lWOSyI9j+HIEVA8UY+V0elaPxElAslNGo7mAnTGovO/BDNrqXcc3NzHtMSdDZB
-         nXF7ybnsQ4+SjMVb2VahrI4mJLu3fvaJAuMEtqFH+D7igb0TUJQpOEAdViOsaoPYP2m4
-         09wEaw8a86CLpFspDJApI/asU5KZQGw2rWI7UWCwcrJSAUGjXZoQ+LebAQ8UUEDgHiwT
-         u/Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUd0MHEX2ZX1T93V2CcqzcobjY4gcvWPSzxXFMvkrrTjCqk3gf2ss2A7rRtTWPJpYan89B4+dqupnFaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8xkgdS6jhyhAqmIxeDNMjySOLopraIPpMcnaLGjwRk6JmrLSG
-	9KK4LqxfMZcdzRF2taochFt6sjSDpyPBV5HTdDtXDyI86YdkqB/D50mxJnKRy/urmIvPmoWzNhX
-	zeih4tbRo11PvNHK5SBAX8tWtpGbeas/bunw8dF642Q==
-X-Gm-Gg: ASbGncvhv1gay8pBvPErgW/f3P7qifS68njTNO/t6ludkOka6XRL/u59StLYmZMrf6r
-	7nT+/cxQXqsmhKgoGbsK+CNYOBSADZ9moiQnm0oSkv6ia9bJTkKHC2IpZnKNCAkTQhHhm6iGLX5
-	cMJxUIk2NnL+LRT8R6NIVMAuLdx+G5kwdwbjpzouPOvdAp1Bvu29xu2f/pSCJfywKoo6/twASNp
-	65IkfZvHjrSd3oEGPCGZaU/VCaC9oflec1wNS+YZrXlg8liqwm838Mk41I3q78+Kd+t6cbqg7PN
-	VTvhSSHoLLqDvgDtqtyeGYGK0w==
-X-Google-Smtp-Source: AGHT+IFs28MMNUgFYI3iSwLRyTE8I2EDvLITWgQ618U/qcnkqtpjTvDZRHT2IGmIN2LmnvUGv1JDHAZs/hwBATssw7g=
-X-Received: by 2002:a2e:9790:0:b0:37b:aa93:613d with SMTP id
- 38308e7fff4ca-37cc6752540mr7357131fa.12.1763642006713; Thu, 20 Nov 2025
- 04:33:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOa7FMF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 437A2C4CEF1
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 12:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763643105;
+	bh=RnJ/p8YjD0Ag/CEqcWigNmqjOaQ0kairDAhcBwcimA0=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=KOa7FMF+bhHsiu8PNGOoRg/2dYvRt9PNaJYXGTFfIWSr/IjqvNIb0m3KKmIV+1O7s
+	 udMnVcM3ejGP5UQa+yJDh6zNdx7Z6HeyS8miQJv2nVtDsG53z6CDyoYzUODkR5bMad
+	 b9BuTeEALZTWpS9pplkHPfhTHpXNl0PB+LdLp+CqxBqzrY5WFH34l7AFxS/j93aAgy
+	 M3az97ZNXY9Sz/Rk/MVBkXIcCZSPAOqRPID+wDdt5ZsKDrroR3fWPCPk0zO2sV2naE
+	 McKtLkdU09WhW/UatUP/sqjChNqmxLW7Tz1kg5RKk+NkrGqY66VqGCqTXRdMAyg9A/
+	 0KenW2IDNCmBw==
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-63f96d5038dso695707d50.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 04:51:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWWftYOPAWsp7uVppxhmbnP+60BRYIp6pgSOsgCD7NgxBd81YXMTPy/yYpd/Uk7OlqWXIiyj6I2x1icYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/fxdDT/c8kIR1KkcUYR+bMnNrMvq87166C3SGO7E8MlKSJWMO
+	aqIMKq6lz2XznJyby3x7scG6BwUV3oxRoNUtmXUu5bS3lf8PiviX4JfQFc2Xi7sl+NLy6rO7Yjm
+	qZEGNPE6T+sUGvI57inXVeX/rKy8LHuo=
+X-Google-Smtp-Source: AGHT+IH80vXYAzLWR0rO/iTn7sfXH5sd5CT+kxPmbGIP2pnGd+/kUX97Sgu34zly7rBQ1kLVD9VWZYxMkA/tnqIPS9E=
+X-Received: by 2002:a05:690e:11c8:b0:63f:5785:a201 with SMTP id
+ 956f58d0204a3-642f9dd8b25mr1231279d50.15.1763643104511; Thu, 20 Nov 2025
+ 04:51:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
- <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
- <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
- <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
- <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
- <aR4qxiR7pzrPdaUz@smile.fi.intel.com> <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
- <aR7luqqew3LRwFgn@smile.fi.intel.com>
-In-Reply-To: <aR7luqqew3LRwFgn@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 20 Nov 2025 13:33:14 +0100
-X-Gm-Features: AWmQ_blDoZPlIeJRmMuhollO_8xLtYrhOZeIHhTLu8BJ_wc62Lveu80O0CFrd44
-Message-ID: <CAMRc=Mft8R9RjZhy39G60b2VRi7F2so-iUaARTj+MCgNx+qAqQ@mail.gmail.com>
-Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
-	linux-spi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20251120101847.41294-1-baojun.xu@ti.com>
+In-Reply-To: <20251120101847.41294-1-baojun.xu@ti.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Thu, 20 Nov 2025 07:51:32 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA61P1raCFq_2nGhF9Z2ajvTdv-tDRN+ZY=7ZfCg=w63FQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bmljICfFjbhD4Cd8sdUKDoxiT2mVsSjEjWtah8cr5G-ujt4VCDDa1Sfmjw
+Message-ID: <CA+5PVA61P1raCFq_2nGhF9Z2ajvTdv-tDRN+ZY=7ZfCg=w63FQ@mail.gmail.com>
+Subject: Re: [PATCH v1] ASoC: tas2781: Add more symbol links on SPI devices
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: shenghao-ding@ti.com, linux-firmware@kernel.org, 13916275206@139.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 20, 2025 at 10:56=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> > Look at all the find_device_by_fwnode() functions we have everywhere.
->
-> What do you mean, please?
->
-> $ git grep -n -w find_device_by_fwnode | wc -l
-> 0
->
+Merged and pushed out.
 
-I made up a placeholder name for all different variants of functions
-finding devices of different types by fwnode.
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/792
 
-> Even if you refer to *_find_device_by_fwnode(), still it's not everywhere=
-,
-> just in a dozen of modules.
->
-> > The crux of the problem Charles identified is the fact that the
-> > secondary fwnode is a field of struct fwnode_handle and not of a
-> > struct device. This really doesn't make sense as we see where multiple
-> > devices use a single "real" fwnode but want to have different
-> > secondary software nodes.
-> >
-> > Moving the secondary fwnode to struct device would already help a lot
-> > but if we're doing that then we may as well switch to a list of
-> > fwnodes.
->
-> They all should be an independent entity that can be part of the struct d=
-evice
-> but it's not obligatory relation ship.
->
-> Again, device may have a backing fwnode, while fwnode might not have a st=
-ruct
-> device consumer.
->
+josh
 
-I never said it must have one. Just that it's common and we do use this fac=
-t.
-
-Bart
+On Thu, Nov 20, 2025 at 5:19=E2=80=AFAM Baojun Xu <baojun.xu@ti.com> wrote:
+>
+> Add more symbol links for compatible with the source code.
+>
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> ---
+>  WHENCE | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/WHENCE b/WHENCE
+> index 64f55dec..02e6d357 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -8825,18 +8825,34 @@ Link: TAS2XXX8DE8.bin -> ti/audio/tas2781/TAS2XXX=
+8DE8.bin
+>  Link: TAS2XXX8DE9.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+>  Link: TAS2XXX8DE80.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+>  Link: TAS2XXX8DE81.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX8DE8-0.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX8DE8-1.bin -> ti/audio/tas2781/TAS2XXX8DE8.bin
+>  Link: TAS2XXX8DE90.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+>  Link: TAS2XXX8DE91.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+> +Link: TAS2XXX8DE9-0.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+> +Link: TAS2XXX8DE9-1.bin -> ti/audio/tas2781/TAS2XXX8DE9.bin
+>  Link: TAS2XXX8E17.bin -> ti/audio/tas2781/TAS2XXX8E17.bin
+>  Link: TAS2XXX8E19.bin -> ti/audio/tas2781/TAS2XXX8E19.bin
+>  Link: TAS2XXX8E1C.bin -> ti/audio/tas2781/TAS2XXX8E1C.bin
+>  Link: TAS2XXX8E8A.bin -> ti/audio/tas2781/TAS2XXX8E8A.bin
+>  Link: TAS2XXX8ED5.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
+> +Link: TAS2XXX8ED5-0.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
+> +Link: TAS2XXX8ED5-1.bin -> ti/audio/tas2781/TAS2XXX8ED5.bin
+>  Link: TAS2XXX8ED6.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
+> +Link: TAS2XXX8ED6-0.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
+> +Link: TAS2XXX8ED6-1.bin -> ti/audio/tas2781/TAS2XXX8ED6.bin
+>  Link: TAS2XXX8ED7.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
+> +Link: TAS2XXX8ED7-0.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
+> +Link: TAS2XXX8ED7-1.bin -> ti/audio/tas2781/TAS2XXX8ED7.bin
+>  Link: TAS2XXX8ED8.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
+> +Link: TAS2XXX8ED8-0.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
+> +Link: TAS2XXX8ED8-1.bin -> ti/audio/tas2781/TAS2XXX8ED8.bin
+>  Link: TAS2XXX8ED9.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
+> +Link: TAS2XXX8ED9-0.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
+> +Link: TAS2XXX8ED9-1.bin -> ti/audio/tas2781/TAS2XXX8ED9.bin
+>  Link: TAS2XXX8EDA.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
+> +Link: TAS2XXX8EDA-0.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
+> +Link: TAS2XXX8EDA-1.bin -> ti/audio/tas2781/TAS2XXX8EDA.bin
+>  Link: TAS2XXX8F40.bin -> ti/audio/tas2781/TAS2XXX8F40.bin
+>  Link: TAS2XXX8F41.bin -> ti/audio/tas2781/TAS2XXX8F41.bin
+>  Link: TAS2XXX8F42.bin -> ti/audio/tas2781/TAS2XXX8F42.bin
+> --
+> 2.43.0
+>
