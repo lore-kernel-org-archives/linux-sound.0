@@ -1,150 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04019346E7B;
-	Wed, 19 Nov 2025 20:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C702F6160
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 06:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763584718; cv=none; b=fZQA/S44fv9ZhXalmT2r0SKtHChgKlJlLrkzVlRFyg6/MPIO2qQkRNJ4gHio0fs4xExe1wpuNgNoZI86semZMQ0+QSJpoSWPL9d/YrfXWup7Y5E4zOWq1kZ5+kK4qqo6uW6xmvzs0/6RrJjgKjj2NtPB8z/RKdColYJhMpNlUoY=
+	t=1763621561; cv=none; b=nUqxdnbBD0FaRiPcAZr8/40mMaKchJiA6xEqcwOav75BYJp9HCCDjtwAkTS0/zDUoi2mO26b+LWeWd8i2rGDBVjI8o/NeADXyGEZp96x/y6BsKv2jLT8BHFsS6KfXTT9htdejhT12y16IY3J+5NJfO1hxng4HT9qcQX9B+P3i8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763584718; c=relaxed/simple;
-	bh=tHJhQALu/zXr27/IbyzSbgqoGvyrzkqeV8m04hdGCww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G1i7+w18JK7nu+ef1bEfgIP3ybYQKE65kvkx2xSXkCG2Yhc+I0CUCmU07kWVCe72Nn8RTTtARGPoYiIiJpilzXbRZl10b5v1fVTt9ekkPmK5A5JQ0yvizxZSzDbghCw1xGjXFINx7yeLaAlIEJ7LYZncgn7xnfcQ34d1BETGXxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FU/OW+5k; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763621561; c=relaxed/simple;
+	bh=t5HXQubMSSGhQcOXJaft73zFBg0lUHRnr3k+co0WlbQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lfCZKEiLfnO2rt6dt0RXog5X12DlxdeeMmmO4Fe9Jn/oG7/ImG/7OMzp3DO6HfAkYFSOZPLolpc1wEUlu4KiMxp7AEEemSitqxv2HbYGkunQ4HLe8b3v7ldg1DV3dxhLg4pmhsaOo/yfM06Z8ykbI6Z7w0iM3aoyZXxNlX5oz0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=winB5yV5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OklWxgQq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YDDLCw2a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bd5tU2ZE; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FU/OW+5k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763584718; x=1795120718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=tHJhQALu/zXr27/IbyzSbgqoGvyrzkqeV8m04hdGCww=;
-  b=FU/OW+5kh4DYYkdQD9bzpyJCupaRpI1yWeYHktPS5zsSUiBclqn4p+q0
-   iTYYRsNTPjlBdexPp/7EfaRBXFxochiIFDQu+SnezzVP2TFjkoOPuOrQi
-   u0otoR/g/S55Y7Qi8Zmqq64fakPjAy6ZemtE9YtzryS4IiQdoEMwCs3LY
-   wj5jVt5hF3zmOt1UiwB8SrzbpHy5M+wQpItfAFeOJBHVIr8toknwi/kOj
-   +viLg/jGrt8mzxEwkdVIDuz8++dHiw4YH29XG91COjAF/pWCtd0DE0Xgr
-   eu378SUyF72EV3rCCdYEHBNxddWLApOYhMhOBh4zbj1HDYMGf/FjKrrpG
-   A==;
-X-CSE-ConnectionGUID: WwpGAoLGQdqezUAd7NKuYQ==
-X-CSE-MsgGUID: nfMg7+MKQmuDp1Nu+A9fpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65572730"
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="65572730"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:38:37 -0800
-X-CSE-ConnectionGUID: CQa8OhioTmGC7vdZLXF66g==
-X-CSE-MsgGUID: +iGDebK1QhagyK05xIjUrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="196114431"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.245])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:38:33 -0800
-Date: Wed, 19 Nov 2025 22:38:30 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software
- nodes
-Message-ID: <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
-References: <aR2o2R30TbVOcqZe@opensource.cirrus.com>
- <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
- <aR29uKW7yLxws9jA@opensource.cirrus.com>
- <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com>
- <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
- <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
- <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
- <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
- <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="winB5yV5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OklWxgQq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YDDLCw2a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bd5tU2ZE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DA5DE208B6;
+	Thu, 20 Nov 2025 06:52:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763621557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fKbpuRu0xRhfRd97ZqcXnOJ1LmmkcbisvBBQ0FScKTc=;
+	b=winB5yV5W65dym3/wXhAUKul58QhNJDTFsy3ma/EvUeRgq/e+gDn/7qJak+HVVEW2ALNiQ
+	GQHwUOHFk0EZ6d1SH48l3o+t5egJUVfHOVHou53+7s1MyJvTk0v6fmQ0F4njLpZDU/XjgU
+	qUKdgq9seHNrFZQlphiB2me0AlTlTsY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763621557;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fKbpuRu0xRhfRd97ZqcXnOJ1LmmkcbisvBBQ0FScKTc=;
+	b=OklWxgQql7k9jzlmJTx57wR0V+terWiPbZ1tvh1WQfU48K8CN/KwtYg7aiJurxBHVcZeY1
+	jERJdigMzBrxNBCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763621556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fKbpuRu0xRhfRd97ZqcXnOJ1LmmkcbisvBBQ0FScKTc=;
+	b=YDDLCw2a+vIDSb+zga/gK87YIMNynsxgA7SWz/4vI0uv8X0VHvgpKgAZnwvZoUki+RUVlh
+	2ocljlO+vdSO28gCfOKMT24CVnveZ2M2mJd2W4Du5TTBKBTHqlhrOhhvehG5Ut2FmOlUQj
+	0GVFztdOPtJedqSePxng92QIBdr3Y2M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763621556;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fKbpuRu0xRhfRd97ZqcXnOJ1LmmkcbisvBBQ0FScKTc=;
+	b=bd5tU2ZEnwzChaHHcL+E1Q4VQ3evJaSJ6LQuChXVWycP4hzoyWLl9Gzg3RbgybScBAKkJT
+	6JoPmm26Gdt3K/CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9DC03EA61;
+	Thu, 20 Nov 2025 06:52:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zUXkK7S6HmlhCwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 20 Nov 2025 06:52:36 +0000
+Date: Thu, 20 Nov 2025 07:52:36 +0100
+Message-ID: <87wm3lb3gr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+Cc: linux-sound@vger.kernel.org,
+	kailang@realtek.com
+Subject: Re: [PATCH] fixup realtek/alc288 headphone for MS Surface 2, 3 and
+In-Reply-To: <3D155CBD-5517-480B-AB15-22DDAA5EF282@exactco.de>
+References: <20251116.162633.1272923634893984527.rene@exactco.de>
+	<87ikf8fx70.wl-tiwai@suse.de>
+	<20251117.210734.507304067570791021.rene@exactco.de>
+	<87a50icaxv.wl-tiwai@suse.de>
+	<877bvmc9hx.wl-tiwai@suse.de>
+	<3D155CBD-5517-480B-AB15-22DDAA5EF282@exactco.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Wed, Nov 19, 2025 at 03:30:46PM +0100, Bartosz Golaszewski wrote:
-> On Wed, Nov 19, 2025 at 3:24â€¯PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > > > My idea was to mark the fwnode with __private and fix the (ab)users,
-> > > > should not be so many. Can somebody mock up a coccinelle script to
-> > > > find all dereferences of fwnode from struct device?
-> > >
-> > > I think you're underestimating the level of complexity. What about the
-> > > concept of dev_fwnode()? It literally makes no sense if we switch to a
-> > > list of fwnodes.
-> >
-> > Why not? It will return the pointer to the primary node. You can look
-> > for example how the list of the DMA descriptors is done in
-> > drivers/dma/dw/core.c. Not the best solution, but gives you an idea of
-> > how it may look.
+On Wed, 19 Nov 2025 18:17:14 +0100,
+René Rebe wrote:
 > 
-> What even is a primary node though? You can have auxiliary devices
-> without an ACPI or OF node.
-
-The one which gives the main set of the properties for the device.
-The devices that don't have it, simply have a list of fwnodes empty.
-
-> Only with software nodes. Which one is the
-> primary? The first one we add?
-
-Yes. The problem here might be if we add the SW node before the actual FW node
-appear (it can be if we created some devices before the actual FW based
-enumeration happens. It would probably need to have some kind of weight
-(or priority value) and list should be sorted based on that number.
-
-> > > For it to make sense we'd have to have a kind of "dynamic" firmware
-> > > node attached to a device which we'd fill with an aggregation of all
-> > > properties from firmware nodes in the list.
-> >
-> > "Dynamic" is just a node in the list. The only potential problem here
-> > is prioritisation. Should we add to the head, tail or insert? But
-> > converting current approach will be straightforward.
+> Hi,
 > 
-> What I have in my mind is not another firmware node in the list in
-> struct device but rather a new firmware node implementation, that
-> would be assigned to the device via a dedicated pointer and would be
-> filled with a logical OR of properties from other firmware nodes added
-> to the list.
+> > On 19. Nov 2025, at 16:44, Takashi Iwai <tiwai@suse.de> wrote:
+> > 
+> > On Wed, 19 Nov 2025 16:13:32 +0100,
+> > Takashi Iwai wrote:
+> >> 
+> >> On Mon, 17 Nov 2025 21:07:34 +0100,
+> >> René Rebe wrote:
+> >>> 
+> >>> On Mon, 17 Nov 2025 17:20:03 +0100, Takashi Iwai <tiwai@suse.de> wrote:
+> >>> 
+> >>>> On Sun, 16 Nov 2025 16:26:33 +0100,
+> >>>> René Rebe wrote:
+> >>>>> 
+> >>>>> The Surface Pro 2 and 3 have a strage frequency response and miss most
+> >>>>> of the bass. I discovered connecting the HP out to the main DAC fixes
+> >>>>> this.  Maybe the other is mono or whatever strangely mixed signal for
+> >>>>> the built-in speakers?
+> >>>>> 
+> >>>>> I later noticed the Lenovo Ideapad 720S (AMD) exhibited the same
+> >>>>> problem, so this may be a more wide-spread general bug w/ Realtek
+> >>>>> codecs and the hda_auto_parser, ...
+> >>>> 
+> >>>> Usually in a case like this, we provide a fixed wiring by a static DAC
+> >>>> table, or do some other tricks instead of directly writing a verb.
+> >>>> 
+> >>>> Could you give the alsa-info.sh outputs from those?
+> >>> 
+> >>> Sure, here is an slightly older 6.16 kernel I had at hand that did had
+> >>> my fixes applied:
+> >> 
+> >> Thanks.  Could you give the output from the unpatched kernel, too?
+> >> Just to make sure.
+> 
+> 
+> Sorry, typo, I already had booted an old kernel without the patch.
+> 
+> > ... and if the purpose is to just swap DAC assignments between the
+> > headphone and the speaker pins, a patch like below could work better.
+> > (The entry is 
+> 
+> Something missing? But no worries I will try it out and swap entries if
+> needed and send a final patch.
 
-Oh no, this won't work in corner cases. What if we actually need to "fix"
-an existing primary node (there were discussions long time ago about inverting
-primary/secondary in some corner cases, but it didn't appear so far as
-it most likely will give tons of issues in the _current_ design)?
-
-> Then dev_fwnode() would return this rather than any one
-> of the firmware nodes from the list. Think of it as the "master
-> fwnode" of a struct device.
-
-fwnode should not be in any relations to the device, I mean when we do fwnodes,
-we should not assume that it's backing the device. In the idea you shared it
-won't be possible ("dedicated pointer") in mine it is (just a list of something
-that may belong to the device, or to another object, doesn't matter).
+Yes please.  I just wanted to say that the entry PCI SSID was copied
+from your patch.
 
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Takashi
