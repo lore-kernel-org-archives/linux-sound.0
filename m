@@ -1,175 +1,242 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A688733A6E0;
-	Thu, 20 Nov 2025 13:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763644014; cv=fail; b=VQY18vjGGisMg4hmwgjsPqsaXDezJbssLtHALz10N7ZYy1Uxq+a0PJNib2/gYshmg3sv8hRAzKwJJTz1ktohu0W7l5RXlKGKuhq3/qJrFrkHC4DAVJMYOMELO7cG6N4j2mMrsfLTwLoWyL1+uRuXMPKlbkXOuCkhm+1FQ8P1oH0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763644014; c=relaxed/simple;
-	bh=//OltloGT01+2LK5F1grD2rQUr+jbpRxppVxZtLzsyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OYIMPoKwN1LEfU6ij8zle6KF7GTh0rH/elwBZYBWOwHvO0T3/9Fp+4T8fkEIHtGC8EL5NdFJi+YZaIQjTUEFputj+4FG22dnJJP5H6H6BRs6zyj0P5Vdv6qnY2X5CeHppXFTdFtAudbNJNbUUF/onj2fwXhYOcjvFF5ZXHItq0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=J84uoTSY; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=SBZrXp+l; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B7532D0E8
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 13:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763645052; cv=none; b=RbB+PjpyBoP2wsGQaCIyYi/A6WbZnPciGc8GTr3upwfMyzyGqj2nPTUOk5wrGEk93p2zusEHjN1YGFcBp9PvPcVztnp6DMuiB6Cb5w4HydyLxO7ibMfxAjh7co7kqb9mZHU5g1/F5y/6W/x1tPtjt5G0jpozoyDXrhMHExPuYSc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763645052; c=relaxed/simple;
+	bh=51XNPM/yaY4YnFAne9KwnVRimXv4WSkxM5Xh5pA88fw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uoEZoVuW+swY9ODTpsKkquFhxQtgz2SfYeZLPCRGBGwI1WmqeCEI4PEakgjYtR7CBFRiCavqKVvpBvMHXocnIPNtBKKYfdthGusxeEChrBG+xPV6vPRqhBOvhJt5b60QS7qJ6mWOuKmakFJ4Oen5qDdREXRijRgtJI/72Aj8eYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=VcHJJ1/K; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="J84uoTSY";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="SBZrXp+l"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK5KmYZ311678;
-	Thu, 20 Nov 2025 07:06:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=gjTn15HIV57He2Vo
-	qJg9KRowsxolZDcis+15tMZVqj0=; b=J84uoTSYBwjlRXxlITNm69dWwg9KRkG4
-	WiE+e0T/IHTARD05d8pVNaZ5V1ucbsIrXhAKm64pbd8H/8eCJwdFqh14CYfPeb5n
-	I1WeHN9/Gzy0OV7Y4jcK61bG6WItHoHhHGtDBHIx6TGiJ2Vm07ky5iF0fsjAUC1F
-	YUrXcpl+f93965468p/3LzQPneoG3b9qWgh0ahWSnlV9XBT1qQ/mUW2dPfgmMsGQ
-	dmQK0G7GIaPIT0jAZH+OrF8B0EhL3bG1B2n8g5GK4sA9RQ4aq7HFh/PER0csdodJ
-	KZ+2Xo4x2gfiJIVsU7KhBMezOOqOJEjQ5tvVwdyOkaVG24hu0HdKOA==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022094.outbound.protection.outlook.com [40.107.200.94])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ah1bmad97-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 20 Nov 2025 07:06:46 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ovdS09wWKFNQy9ZEXXmWHeD7/Uc2zcaF5VyECZUxeMI8X06BMDUJOVjmtxu7PDfjrcq3G+eZHJWK/hTwbFp6kCG81gWYVEK4Awdzn3lJk3wlA+UCbv7JPRG0bsJVhMGEor2Nck7Ua5pHU1RcJQR1Nmy97fVWbKmi9CV0gNLxk2L9yniJNH+iaxGYpHE4mUIy90SJmyDwWK3e0wIrG9S71Qg5rEUVmTfGh67D/qtCk6veOSexvdrO8L3q6usachwd3qNPZAR5vyFqMLDDlSiHWKK/vxUjLfQZobnOLKgnkYone1Bd8cib+eqtCTxFU2TLpu8T7IQiQoZcKT/zMHygvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gjTn15HIV57He2VoqJg9KRowsxolZDcis+15tMZVqj0=;
- b=VyROh63J2QhB+uaXxoOyoDwU4NUZcp8g7KB3acmik0cw7u1FhqKR0ktdEWX40BooNH84VQAhakKvLah0aCmPJ2Uu8jtrWoMD61MUQMwbAbJep/zCzyZqzgHaBN8UeP+dFjwohqircJ4S+7QX7IFgV7xwJpLEd33IYy0ntrySDg+/klyZlUf1pbCPth2Iw4TzR3XCSgO1hzDFTbxXDqufkGEex8MyiIQQmG2/oN8RI0dLQXBfPuNX+uxCG7i7nM1NFV9HC+UTKH7SOTuTla5Vmh6yUtXLcbc04kh6k6XBUBKfgovuzEW8vATQsnKbKr88cdLPkiH+H9wMu1hTq1LcQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="VcHJJ1/K"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso4169625e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 05:24:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gjTn15HIV57He2VoqJg9KRowsxolZDcis+15tMZVqj0=;
- b=SBZrXp+ld75XjowvDPg0YnPGtkbjiHYWEn7sM+A//n5D6aA81YZrZ/DAfDIzQ4wCQrMkM3W45JaWUA0BKkbGDVUqP85PEbL1alv/58xPmyljSHxqtWGcL3Y3PT6rBLbwbkl1UkyjBEDl2zjo1cyjiaBCasuSUjaVw686A181VLA=
-Received: from CH2PR08CA0014.namprd08.prod.outlook.com (2603:10b6:610:5a::24)
- by SA3PR19MB9695.namprd19.prod.outlook.com (2603:10b6:806:495::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 13:06:43 +0000
-Received: from CH1PEPF0000A34B.namprd04.prod.outlook.com
- (2603:10b6:610:5a:cafe::79) by CH2PR08CA0014.outlook.office365.com
- (2603:10b6:610:5a::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 13:06:41 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH1PEPF0000A34B.mail.protection.outlook.com (10.167.244.10) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.9
- via Frontend Transport; Thu, 20 Nov 2025 13:06:42 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5EE17406547;
-	Thu, 20 Nov 2025 13:06:41 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 449E3820247;
-	Thu, 20 Nov 2025 13:06:41 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH 0/2] firmware: cs_dsp: Cleanup debugfs for wmfw and bin file name
-Date: Thu, 20 Nov 2025 13:06:38 +0000
-Message-ID: <20251120130640.1169780-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763645047; x=1764249847; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ox0Av9333Bk5KhUuA/HknOZMJhB8eUpeZCV5zbk4D4=;
+        b=VcHJJ1/KdeAvIigiwOWkF+95dHK0IcorWb0r1K61hooIaRG7tJ8uACEyuZz4AvRH2b
+         v3x9evS0BV4nfr9/xtrNCfVy/BLnayDdlsHyqTKKDO0uD1KLLgPTI0eAI8ylEz6mnljo
+         z1LtOlNvUASzxut/o3xp0Jgz84lJQsaAHVVypa5Y3BqE1IbrQVAUna6kmccwArfGoL+3
+         aGlF7O3zEgltnpvEfBXWoZyxR+uYK1JpjHwU4/u0MZi1s2oB2Pmcq+JNPiUZ6ViEm5hD
+         25qmhg2IUlT+ICp1C4BhPWtjwMW1k4e0ApPszG9/AM/cmcF5GgnnyKibE28JPpFHZKfh
+         df7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763645047; x=1764249847;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4ox0Av9333Bk5KhUuA/HknOZMJhB8eUpeZCV5zbk4D4=;
+        b=HaZ//Pc4EMhuLdH3ddc8Efk0VWqbK5q+m+x4XQum9mp6M7Wwy+H9ZiV4iY66rfjjmy
+         mQWUq7zcskJH681mHTF6KnHNwZ93P3eiGUGYVttLckSy9NBe/8Kyvrd3SNJUYFdRZUn1
+         uoAf8e5o+8prKXgvmM8zW484ogemgWtEnQTGB9zDssXzrV3lMVV+zpC1ZIoISV71jMZZ
+         kJPnxc3qAZyzQ1HpaJU+cAEdiq8rypfuSXEtSNb1oEWSNMlREIBipiiITnwwWMVeCilF
+         wqq07roZtU9OeriFcoH5RSYZPlBAuMY0UwguKUCpKkK07m0/sTY4VzzaBE1bCAC2aQxx
+         NTdg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjMwOFv5mLRUB1dFzuuZQA6/M+SzUIzZuFA1Adf4hNx/IcMl43cZk//MPifEkS0ewoQjVbQoSq01cJpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz54fF29Dstuvi5STfUi/gsEt9RI+BJvBPiL5d9vkcxF/2kikX9
+	thH/Cxdra2oSaeBMGeA+nUJNStVd7KOcZfUmQJUPXVYm7yj4B5k/4x4MT4SHFLwPABc=
+X-Gm-Gg: ASbGncuwJ1+Znmu8gylWdRjwUUfNo08YwxoOoWyz3EraBoIeVUSuZwoK4ZGfxjSaAfm
+	znAqV582Ku8QQIiyW641ote6rso5sLhtgPJrANV6Zejzls4ibVfkUPkadCvsN9I9W9IWtvLPlcc
+	m1u4FHGmROyBtLs9mlTRa8cvqgCRPn1rP2BZtWEKPgmZ3aeCVrYKoyY71PuYfwzyBh2ZacQTJnY
+	HUM0msPO6vBlji0mZPNoZusy/T4+QsjeGuOjsUQs/kEYlzEvhdDZmzezMmRG57dk7kHQVmH8KO0
+	yZI1K1IGMX8rnBktDWbvPfhaZse1pyBx8wAylYL75uIp/0D/IMiY0vwmHFkgEdYC7f7y+pQ5ubB
+	/qQFi2yVTgAN9/zPkexORLVdKIWdFVmL6sqcO/Lm9W00s2eEcIIEE65DFLYxQkd9/tOjscxWY5a
+	UlD7s=
+X-Google-Smtp-Source: AGHT+IEzrmOuk1754BTh0RKyhuWggn7zYc7485t/Pt53ATrGsSvLq3wQE/Y1Mi5Rnkse+8xOSKWkJw==
+X-Received: by 2002:a05:600c:358f:b0:477:9650:3175 with SMTP id 5b1f17b1804b1-477b835c667mr43592605e9.0.1763645047188;
+        Thu, 20 Nov 2025 05:24:07 -0800 (PST)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:37af:6c1f:28a:47d2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b82cc72dsm46762935e9.1.2025.11.20.05.24.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 05:24:06 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH v7 0/9] reset: rework reset-gpios handling
+Date: Thu, 20 Nov 2025 14:23:55 +0100
+Message-Id: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34B:EE_|SA3PR19MB9695:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 571425f9-57b2-4eb3-1905-08de2835a6d5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|61400799027|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QQcibZtKMqwNDzEhS6t3ofcpQEs+cJ/lYmvZ3vfhq9BhzhK/jONsuAii5Kkr?=
- =?us-ascii?Q?4K6mx3yJN1USB/dUJ0gLt2ffttuTvluKW1zfe/ykL9xlQCkUCe385MDZ9rct?=
- =?us-ascii?Q?L8iQIrDxYBMJMRFrBEF8VctHm1CpGQRULL/v8avhH5ql4lxz8zU8GHnOSdUu?=
- =?us-ascii?Q?XpCzcovDUnJlU97lgPk5KWyVh6dihK4LmF6WtYpAlNDXzKUFi1sS4RYMOJQJ?=
- =?us-ascii?Q?GgqIDLLlrPl2kYAr70jkhp3AtgPMwgtwj0S/us1au6ejlXtjjwKb4EksjKYO?=
- =?us-ascii?Q?kTkflaHmODVk9iiX0h2a9MSsyxQ5QqQguNrtOaPhuruKVSriuDUIvPUzptpZ?=
- =?us-ascii?Q?G5jZ6sU+oPvseaIVGakkR4lVQ6cZStcsiPAPPGUdGX95SH0cdHtPd+8r5SKC?=
- =?us-ascii?Q?sWN1ruj6ts4YySh+YqXL2N1udHlVMzPhXArKE/C+XWYEy6/MZT/Lom6fLidN?=
- =?us-ascii?Q?r964A9dYi4dxsbTH9d9DQbDXd+M1Tu9QsImnN9V0/HYRL/vGsdYyyJC78JYI?=
- =?us-ascii?Q?PGNQ5xilArrSQo+J9vN6/i1i7Y/j25kG4S8CB1t29jMrtlZPwJmQ76xXKMRt?=
- =?us-ascii?Q?pu4aGPcAIFs0ukHt3CR6SmJtAceCBU/XV4cIuP+ES1J5c7a0PsswAnvgj6s5?=
- =?us-ascii?Q?ngv8vzC6AZ3d4n6pmgpdVwFA1x+IJQc4MKwjR7ZaAbgcFAdUgLtdyE0G89sR?=
- =?us-ascii?Q?u2S3pPWMvPp/FKprlQSBKE3SGN3IPyDBAo9FdFcilWozW6Yhe4S7dFzlCOQW?=
- =?us-ascii?Q?9w/tn+43Ns7QRYATc4bEQ7Bk9feZz8Ka0DHJbMhRfvC1RstMnslWf+YdFRhN?=
- =?us-ascii?Q?JsQ9SnIxUEDALhQn7JxfXpBuLf96c6qjDt9N699kb3SIxw2fDB2DjK/qr+hw?=
- =?us-ascii?Q?34g36Jan46fSMmlnxn0Ug9EOuIgxyHqBkyhrGinPDifUXQ2qrytLc1JW2fdI?=
- =?us-ascii?Q?wW25Op1tXtVb2womNAfSifQfGFJ/bzfMFM4hDNJxJTZFIirVCGcFtwi0Rq0m?=
- =?us-ascii?Q?TXMMYIC7gFMQ6assb1fHHJRXYDMjct+H1SmZSSugHvQCNIYAYwqIwERYNZ4h?=
- =?us-ascii?Q?4GW04jQUZJPy4Xf9lRoTeknmkLthxPu5xxya0l+ed5nonSMEJDqzU8IKXQxs?=
- =?us-ascii?Q?y4cMqb/Zjodw67awW6a5a7gSv4mK9+AKQ4tPivDIHFD8b3Odpg/6TnrQLoiE?=
- =?us-ascii?Q?7PGc1zUKeNXaN3v3IHcBPfaY6oVe0rdK8scKLXs33vOBNzDL1RBU31clUe81?=
- =?us-ascii?Q?A2icSq9vC/kMJ9Okz7lro8fJ2Sh/iQfhX4k5SOsmCNCQWG0YbhOGgUYZa6rr?=
- =?us-ascii?Q?ceg6FEHuW7C0jOHsS7FKS8dOQwXkW1hw0wbAlbBbhHrfsgFM7owxEI2HCJ4u?=
- =?us-ascii?Q?5/wio9Cri756MKVheN+8CCb2k/lEDJ47HCxttxUiYNcodFhKKPwKnS8h/jda?=
- =?us-ascii?Q?BBgGUWRV6sedXsqwTYAseywJi5BYXcZjYEcALplRPhyAcdaA6U5PvZspwSt1?=
- =?us-ascii?Q?yYJrK7p2WmN3BYRr09OZwi8yDbfNSN5cGuDnF3Ok45sxDrvNTNqMYbtotAc/?=
- =?us-ascii?Q?TYML6TnjpcXF1h+95r8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(61400799027)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 13:06:42.6769
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 571425f9-57b2-4eb3-1905-08de2835a6d5
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000A34B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB9695
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA4NCBTYWx0ZWRfX0qOPnZOQLgRF
- LqnZoTL5o1Ave/B1cKjZYwz6cK4ZaFtqNujKMnycuMw80qHiP1Kv1bt6szRZKyAyBwAhh0m1pLK
- bXC6LOj9MUsrlcfZ0k7JM02adnxnjwEPScf+NN0UYyvER/AiCGUO+tYu2m+Bu0dye01v0HMUHw7
- J6ZX4c5xwwOpGittQ7AhDiN5sSzPPdvg9yT4s0HjT3MJmZw8Iv8b0GaoFY+lgTCWhwPcD9epp0b
- nAnixi50g7CQADKfQ4Ejg6h46Xnd198npUfC+rp4GfNavho5o4dp0uPeoPyUq43sCc3CJ19Gcb5
- 1Gg0OMQ8oCd6aY9tAyi2pXOTW8Iy5CcY5u1uM51isgFvnhyzMIuUm9jw9itQYJ1pTQqRAyJ1aAD
- TMD09pE4gHxa5p86f+jBr/T3Ab8fzA==
-X-Authority-Analysis: v=2.4 cv=XcmEDY55 c=1 sm=1 tr=0 ts=691f1266 cx=c_pps
- a=t88XDKUlDquqCT1Kmp1J9g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=51w_oVqo9F9s99f-ZKsA:9
-X-Proofpoint-GUID: J4kaRuMQldouTapxkUOi2mXbCbBQAkiv
-X-Proofpoint-ORIG-GUID: J4kaRuMQldouTapxkUOi2mXbCbBQAkiv
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGsWH2kC/3XQTWrDMBAF4KsErasyGmn001XvUbqQYtkRFCtIw
+ U0Ivntlb+pid/kG5pvhPVmNJcXK3k5PVuKUaspjC+blxM4XPw6Rp65lhoAEDomXWOOND9eUK6/
+ fY+5i5V0gklEbcBRY27yW2Kf7qn58tnxJ9ZbLYz0yiWW6egJAH3qT4MB1JyVScL5X+P6VRl/ya
+ y4DW8AJNwjiMYIL4sBakoBOhB0it4g7RuSCSOvVObR3QOwQ9YsIkMeIWhClhQUI2hjaIbRFjju
+ eqCGi10Y55y1as0P0FvmnWL124r0l7KKL6g8yz/MPh/2wmxACAAA=
+X-Change-ID: 20250925-reset-gpios-swnodes-db553e67095b
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-spi@vger.kernel.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+ stable+noautosel@kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6012;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=51XNPM/yaY4YnFAne9KwnVRimXv4WSkxM5Xh5pA88fw=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpHxZudwW8q0/QBGuB2XUg7KRvkVPVW4milgtqL
+ vsek1SD3aGJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaR8WbgAKCRAFnS7L/zaE
+ w1pWEACNUAEHcAMYwRGuqDLKPqmWR8hJIxAvRudZgyrxWq8xV1MZWjtTj3zifbCMPi9EwaGlK12
+ 7q7bU/NoLy9BR8JpRbI8seFj7Fu7cLbrFpBQD8CjV7vhluIIjqC+9fOO1Oa+xgPQulJ420kQ+Bn
+ w6SXxRELuF/mGXkO6g1n/4NHvk5fTs7CIsfh5wQwa0Dv/MRDn1i9spom87IxurQCYGwf6V04fdf
+ swWxUCGbKRFpCk1pDy5+YOsk7S52vX6tlfC/ARAMkZ2aB2DPe5AE2PN8kRABzgkIy+ff9PtXNhC
+ AYAI5uIIiK0f4sCIQ25G7dIK2KIzyOXhkAp6S6aTj4EAlovJwl+MhbTYohyMgiFatp+5iBX7vfr
+ S/bBzevBzzKTYInpMzNj64YbxXBusp2bEPArtkifln6bYFIMgPaIEQvoe0Gj/vHrFH62B/KYD3N
+ pVxrjACXhT8469gg09QDQQ/7gsk9VL7OY3yf+d2ZxlPb9bNUSBANNSbZc2qehHsAk1K0FcHHY2N
+ cSp1iygPGNdEzRLMTU6srwvr783uaIKNoyC0kfr5pwsLEz6mLGFQxdae3kbkz3dHfgfeNaMEZDD
+ rllCNk3GDUwACQBK+i34CLEUu8OZnetWBODbT3WGGxPYgPTAenRUGH5q/dq5G/1zCDifg4392m9
+ UqoyNoNrd33Dg/g==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
-These two patches improve the implementation of the debugfs files for
-the wmfw and bin file names. First patch removes duplicated code. Second
-patch replaces the old clunkiness of storing the filename with an appended
-\n. The \n can be appended when the file is read, to keep the stored string
-sane.
+Machine GPIO lookup is a nice, if a bit clunky, mechanism when we have
+absolutely no idea what the GPIO provider is or when it will be created.
+However in the case of reset-gpios, we not only know if the chip is
+there - we also already hold a reference to its firmware node.
 
-Richard Fitzgerald (2):
-  firmware: cs_dsp: Factor out common debugfs string read
-  firmware: cs_dsp: Append \n to debugfs string during read
+In this case using fwnode lookup makes more sense. However, since the
+reset provider is created dynamically, it doesn't have a corresponding
+firmware node (in this case: an OF-node). That leaves us with software
+nodes which currently cannot reference other implementations of the
+fwnode API, only other struct software_node objects. This is a needless
+limitation as it's imaginable that a dynamic auxiliary device (with a
+software node attached) would want to reference a real device with an OF
+node.
 
- drivers/firmware/cirrus/cs_dsp.c       | 56 ++++++++++++--------------
- include/linux/firmware/cirrus/cs_dsp.h |  4 +-
- 2 files changed, 28 insertions(+), 32 deletions(-)
+This series does three things: extends the software node implementation,
+allowing its properties to reference not only static software nodes but
+also existing firmware nodes, updates the GPIO property interface to use
+the reworked swnode macros and finally makes the reset-gpio code the
+first user by converting the GPIO lookup from machine to swnode.
 
+Another user of the software node changes in the future could become the
+shared GPIO modules that's in the works in parallel[1].
+
+Merging strategy: the series is logically split into four parts: driver
+core, SPI, GPIO and reset respectively. However there are build-time
+dependencies between all three parts so I suggest the reset tree as the
+right one to take it upstream with an immutable branch provided to
+driver core, SPI and GPIO.
+
+[1] https://lore.kernel.org/all/20250924-gpio-shared-v1-0-775e7efeb1a3@linaro.org/
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Changes in v7:
+- Add a SPI patch from Charles Keepax that uses the swnode changes to
+  improve the GPIO lookup in cs42l43, this is required before we switch
+  to the fwnode-based lookup in gpiolib-swnode
+- Revert to the previous way of checking the return value of
+  fwnode_create_software_node()
+- Link to v6: https://lore.kernel.org/r/20251106-reset-gpios-swnodes-v6-0-69aa852de9e4@linaro.org
+
+Changes in v6:
+- Do ref[0].swnode -> ref->swnode in software_node_graph_get_remote_endpoint()
+- Fix some nit picks from Andy
+- Link to v5: https://lore.kernel.org/r/20251105-reset-gpios-swnodes-v5-0-1f67499a8287@linaro.org
+
+Changes in v5:
+- Use _Generic() even more and simplify the patch allowing to reference
+  firmware nodes significantly
+- Use _Generic() to avoid adding more macros to linux/property.h
+- Don't rename macro arguments in linux/property.h
+- Drop patch renaming the GPIO reference property
+- Pick up the patch modifying the swnode GPIO lookup to using fwnodes
+  into my fixes branch
+- Simplify the patch allowing GPIO swnode references to reference
+  firmware nodes
+- Link to v4: https://lore.kernel.org/r/20251103-reset-gpios-swnodes-v4-0-6461800b6775@linaro.org
+
+Changes in v4:
+- Fix an issue with uninitialized ret variable in reset core
+- Use _Generic() to simplify the __SOFTWARE_NODE_REF() macro and remove
+  one of the arguments
+- Add a comment explaining the relationship between swnodes and fwnodes
+  and why we're using the fwnode API in swnode code
+- Allow longer lines
+- Link to v3: https://lore.kernel.org/r/20251029-reset-gpios-swnodes-v3-0-638a4cb33201@linaro.org
+
+Changes in v3:
+- Really fix the typo in commit message in patch 7/9
+- Update the commit message in patch 3/9 after implementation changes
+- Don't remove checking the refnode for NULL and returning -ENOENT
+- Move lockdep assertion higher up in the reset code
+- Simplify patch 4/9: don't change the logic of inspecting the gpio
+  device's software node
+- Add new patch that still allows GPIO lookup from software nodes to
+  find chips associated with any firmware nodes
+- Drop the comma in reset-gpio auxiliary ID
+- Drop the no longer used type argument from software node reference
+  macros
+- Link to v2: https://lore.kernel.org/r/20251022-reset-gpios-swnodes-v2-0-69088530291b@linaro.org
+
+Changes in v2:
+- Don't use a union for different pointer types in the software node
+  reference struct
+- Use fwnode_property_read_u32() instead of
+  fwnode_property_read_u32_array() as we're only reading a single
+  integer
+- Rename reset_aux_device_release() to reset_gpio_aux_device_release()
+- Initialize the device properties instead of memsetting them
+- Fix typo in commit message
+- As discussed on the list: I didn't change patch 7/9 because most of
+  it goes away anyway in patch 9/9 and the cleanup issues will be fixed
+  in the upcoming fwnode conversion
+- Link to v1: https://lore.kernel.org/r/20251006-reset-gpios-swnodes-v1-0-6d3325b9af42@linaro.org
+
+---
+Bartosz Golaszewski (8):
+      software node: read the reference args via the fwnode API
+      software node: increase the reference of the swnode by its fwnode
+      software node: allow referencing firmware nodes
+      gpio: swnode: allow referencing GPIO chips by firmware nodes
+      reset: order includes alphabetically in reset/core.c
+      reset: make the provider of reset-gpios the parent of the reset device
+      reset: gpio: convert the driver to using the auxiliary bus
+      reset: gpio: use software nodes to setup the GPIO lookup
+
+Charles Keepax (1):
+      spi: cs42l43: Use actual ACPI firmware node for chip selects
+
+ drivers/base/swnode.c         |  30 +++++++--
+ drivers/gpio/gpiolib-swnode.c |   3 +-
+ drivers/reset/Kconfig         |   1 +
+ drivers/reset/core.c          | 146 ++++++++++++++++++++++++------------------
+ drivers/reset/reset-gpio.c    |  19 +++---
+ drivers/spi/spi-cs42l43.c     |  40 +++---------
+ include/linux/property.h      |  13 +++-
+ 7 files changed, 141 insertions(+), 111 deletions(-)
+---
+base-commit: 8892aac2160438329ea14463cb272c3f9be98214
+change-id: 20250925-reset-gpios-swnodes-db553e67095b
+
+Best regards,
 -- 
-2.47.3
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
