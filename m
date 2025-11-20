@@ -1,136 +1,98 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41BE23507B
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 14:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8C62F1FCB;
+	Thu, 20 Nov 2025 14:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763648779; cv=none; b=NLVzFWzHtre2YqGRqWG/O1TJDg4FkL+wJbwZfSaJYDLqYChsFVyatK0aHmdqkJ99wEAlg22zzjJ3orhQVbYTiRYrpU+ysaMbRFwXax4qcRft6kPsjQDfEwbcURbWtwizS+3MoRj0Jzjyk8b8/LcPyVrSj3xzLsL77OFCmzFaMkI=
+	t=1763650081; cv=none; b=nTPXlyoutNLLthMXf27gLlig+PNT24Qgludk3Mo971PSD5Gxwc6KZy5phz+ZaxA0sUya3H3KNyrSZW2sQ3NkkZig7dssNnwasu9b4sesrayy22tqyF6HR9dP9Kpk3mfbOAgsn2rRZOa84Raqf8cyhaZyg5SuxjCt1gp+5ln1vBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763648779; c=relaxed/simple;
-	bh=ydL5QwBhJ7tgFc6gj5GTA68T8MV43cxWGByOJ07wfjo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=llQmZLio8YI9dDOZ7rZ+dhX8kAx1mXEEVqNWfO+nr6ph2gAaCbw2yjEoqNqaoClBYqvRg/NNvTsKWHIUDxpgAYUCAqQk1ouRRqHq7vOpccEkMOS3y2XAwSMlO3cTDI+q7c2Jxxv+RV1w/DayfXNRHt9JwK7V8eXoKyrYp07Bz0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E0Kb/W1U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Rng+NZCJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AIJbt65V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2iTKcoPZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1763650081; c=relaxed/simple;
+	bh=0xnaEtuEXez2x7reJKOJu+bm8QH1nnLf7VB8abmxOeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SW5x4J3xVES1JjAjkbgUPvwtWYdmDENEzODoZI0DFLeKGU8W+nHyXg8S4HACGQcDnSEUwGApCCw1mqBn1GpfvEf0lsPfgHAPWhmJMPT5p2o4s8yPhmgtmp7UiomWqQ/KIbDyE4Uib9XtARAWtoK+sCaIiOxJabcgUgFmg59pews=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCfzvjLv; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E0Kb/W1U";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rng+NZCJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AIJbt65V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2iTKcoPZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D6BA721265;
-	Thu, 20 Nov 2025 14:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763648776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpFWa06gzSsbXi3ddaza1ARLPGFkdwaQy5Q/JoauHNk=;
-	b=E0Kb/W1UGjmL1381/oryIyQbSn3A0FT6kq/3YiFbrsQh2T7Y7smXLSp+cBKc9rGaSfWwPY
-	zDpfG8OVNWdzqw5eYLsWouqXPNx4sFTDN4nTI3ZTpm3eAT2pusx00R+RW4KVte0I3Za9aI
-	PeMa3/ArCz3YSDNEKXsWOUeIHJeQIG0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763648776;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpFWa06gzSsbXi3ddaza1ARLPGFkdwaQy5Q/JoauHNk=;
-	b=Rng+NZCJAgS15Fr8/ufwomZ3koVSEpx7HsAmn/0W7IZm5sMqIOa+g08a4By5kmkA9CB8UK
-	z3qQnRtmFFo+/VAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763648775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpFWa06gzSsbXi3ddaza1ARLPGFkdwaQy5Q/JoauHNk=;
-	b=AIJbt65VM8bBhOxO9qLCA1+3/eIvV2dyeVc1ckrdyNk9Vqn9jtQ6ZMwrpMoKRxHUPtGOuG
-	cHFgJvF7qMGHebmypLoxbIs5EVOjp0mx7UZUmfInyWtoAsq8fcRi1c/TLLzDgjjyq1GZye
-	+Jyv6rcafHgKG95rmG8hvMxB2kXcKsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763648775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VpFWa06gzSsbXi3ddaza1ARLPGFkdwaQy5Q/JoauHNk=;
-	b=2iTKcoPZOSV2/Ct4MTWW8Fkj1vKJ49tMUHEUKbMts/BIAslhcM/ZF/i2+7lpX4GOxYe4LP
-	tLNtn0j1UWKkDCAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8EA13EA61;
-	Thu, 20 Nov 2025 14:26:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id y18XKAclH2kTRgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 20 Nov 2025 14:26:15 +0000
-Date: Thu, 20 Nov 2025 15:26:15 +0100
-Message-ID: <87zf8g4w6w.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>
-Subject: Re: [PATCH V2] ALSA: realtek/alc288 fix headphone for MS Surface 2/3
-In-Reply-To: <20251120.124240.139462482701146043.rene@exactco.de>
-References: <20251120.124240.139462482701146043.rene@exactco.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCfzvjLv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763650077; x=1795186077;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0xnaEtuEXez2x7reJKOJu+bm8QH1nnLf7VB8abmxOeA=;
+  b=FCfzvjLvpGrtfBN6Az8VWHtApSkHCjKxAm5aFm4m1SewPCewtjv9uiuj
+   Sxq62y33TsPQVWmXjX5ogaWsjMTr4Ajegf0L5Iz3k67kJ5vPEWBGNhqLi
+   BMxCWACslARI8rWsep4DuPASGGzyLji7Rrrc2ivYC9vSmNOhoTS7++nok
+   kS7yGGVyXJMZq7GEMTJb5e2LaR2qVtifoVnvdvpTChdQfoO5wgtxz/GF1
+   iAwH1SXhrY9u8SJvG5QX4tZ6JNeI1oKHHFFH3zFEOdsyYD6AdV7VhY9Dd
+   gufRyFYku0SAZTiF2Sp9tx0itQlB0NW8hfXs+TbJ+ZZHQfJCqqcrlQZz+
+   Q==;
+X-CSE-ConnectionGUID: 29WLHnwrTC6dzWBrgG2YRQ==
+X-CSE-MsgGUID: x320KevuSQCeUaQNKIyQfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="69577858"
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
+   d="scan'208";a="69577858"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 06:47:53 -0800
+X-CSE-ConnectionGUID: /zvKHaciSsmg7MVQOdHFlA==
+X-CSE-MsgGUID: QSBGddDVTa+Q26+F4OWcdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
+   d="scan'208";a="195525640"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.97])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 06:47:48 -0800
+Date: Thu, 20 Nov 2025 16:47:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-spi@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v7 1/9] software node: read the reference args via the
+ fwnode API
+Message-ID: <aR8qEVgkYr3veDqu@smile.fi.intel.com>
+References: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
+ <20251120-reset-gpios-swnodes-v7-1-a100493a0f4b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120-reset-gpios-swnodes-v7-1-a100493a0f4b@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, 20 Nov 2025 12:42:40 +0100,
-René Rebe wrote:
-> 
-> The Surface Pro 2 and 3 have a strange headphone frequency response
-> and miss most of the bass. I discovered connecting the HP out to the
-> main DAC fixes this. Maybe the other is mono or intentionally filtered
-> signal for the built-in speakers? (At least the Lenovo Ideapad 720S
-> (AMD) (0x17aa, 0x3812) exhibited the same problem, but I don't have it
-> anymore for testing V2 changes.)
-> 
-> Signed-off-by: René Rebe <rene@exactco.de>
-> Co-developed-by: Takashi Iwai <tiwai@suse.com>
-> ---
-> V2: use preferred_pairs instead of directly writing verbs
+On Thu, Nov 20, 2025 at 02:23:56PM +0100, Bartosz Golaszewski wrote:
 
-Applied now.  Thanks.
+> Once we allow software nodes to reference all kinds of firmware nodes,
+> the refnode here will no longer necessarily be a software node so read
+> its proprties going through its fwnode implementation.
+
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Takashi
