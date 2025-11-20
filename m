@@ -1,85 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32FE36C5A6
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 16:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75289358D22
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 16:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763656340; cv=none; b=pfltUVhVO9jk8t2oVBr4zFCUP3irY9SciCF1SOvsfYKjFBcRj6A2Azhwc9/1JN47PhkCAscYZZo2296WfRVZde85xUjqTtaA4zgNhuin9B9xVMXo4JDWgaZM8Zx5UAwRiDeqzYEwnkN4RgAOV+71V7F4lUjEFa+lf8NlX4Shhvk=
+	t=1763656395; cv=none; b=my8DY7XXQi4Kk+YeeMEpwT00BWdRIrDI7IN4FJSZHFOg0SkB0J6kz9wT1OPZcxXgIUUR04DP/0fqctBSphI5hy4VmB02RWdZSX7i1LxEUyfcqe3AQy8yUKiXOvoesOJy0yz3UpvZwOqqqmRiOy56tEFDYglDgoU97fk5JZOVsl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763656340; c=relaxed/simple;
-	bh=Hhj32LDYxJYAw3i9YQZfXT47T7P08amGqpUz9zCHHGc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SKn6hYeE4zTpRZWb6pVYtP2R/a4T33OBv03urqlcunGNsomlqRtj5HATAiU6iz2Z+G0guIEmVM7eXJxJXB6dw21ObEqBYpoO6BYdE5lK0dJzaayLowAv5X0j63gRnzX8ygstgWaOz4ylrKrmYocdDEPG3XQ8HqceOPprt5rFgps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ewktd0Ix; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ewktd0Ix"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE4EC4CEF1;
-	Thu, 20 Nov 2025 16:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763656340;
-	bh=Hhj32LDYxJYAw3i9YQZfXT47T7P08amGqpUz9zCHHGc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ewktd0IxpJf0KsNtN61AWms8B2yfAoh/ydjqYbGgnQ+QBijb9ajqF6+5d2l6Xu2cj
-	 r0GQr4JKOFcTpGjBXvDrK9zJnntzXQUir5MUlIK/izhSq9qtpAx3i+bmvMHJZNZuwq
-	 XoITYaGoGp1YAXo9Oworz3euJKtOMlAaKFzU6lstjeros6vQmdsaS7ZnUi0ZOIHnyC
-	 vjLd5qWgfGHppjITVL9E0DDKg0K1UcLs/3Yk8IisqZWdH9CdE4x/mp/7Hf2qs8tDCj
-	 45CVsU6vmlBcHUbhNLok/deAzruANRgL+oCGR3rOb+f7RhA1gaAKsSDi+PGZ0TVUaW
-	 t5CKoEbhqWQmw==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87fraasihe.wl-kuninori.morimoto.gx@renesas.com>
-References: <87fraasihe.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: codecs: arizona: convert to snd_soc_dapm_xxx()
-Message-Id: <176365633985.66643.16369264462567759742.b4-ty@kernel.org>
-Date: Thu, 20 Nov 2025 16:32:19 +0000
+	s=arc-20240116; t=1763656395; c=relaxed/simple;
+	bh=73XsPhx2c3nGgibr//sd4fPhn8bIZngrIJyJokW5wT4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AmDmykYVbN3hF1z75vJv7Bqw7qmxS90aBriMcX2J/KUYMEwUJIhNhM2pdBEprg9jnO4W0jfTfKn+Zl4ZhZ2kZQ4bal8YfVFajOIRpYbFNZM0JSP/60vuBxO024jdQGeInackuyFAJbX2VhqJ13CmYePRZGounDmUuaKYtH9+9VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vM7aS-0004YP-9t; Thu, 20 Nov 2025 17:32:48 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vM7aQ-001RqE-2W;
+	Thu, 20 Nov 2025 17:32:46 +0100
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1vM7aQ-00000000Bax-2qXE;
+	Thu, 20 Nov 2025 17:32:46 +0100
+Message-ID: <4e26c38c17fdcecc0e3fc119222568bc543f870b.camel@pengutronix.de>
+Subject: Re: [PATCH v7 0/9] reset: rework reset-gpios handling
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij	
+ <linus.walleij@linaro.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>,  Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"	 <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Krzysztof Kozlowski	 <krzk@kernel.org>,
+ David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald	
+ <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, Maciej Strozek
+	 <mstrozek@opensource.cirrus.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>,  Andy Shevchenko	 <andy@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-spi@vger.kernel.org, Bartosz
+ Golaszewski	 <bartosz.golaszewski@linaro.org>, stable+noautosel@kernel.org
+Date: Thu, 20 Nov 2025 17:32:46 +0100
+In-Reply-To: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
+References: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Wed, 19 Nov 2025 05:23:58 +0000, Kuninori Morimoto wrote:
-> This patch converts below functions.
-> 
-> dapm->dev					-> snd_soc_dapm_to_dev()
-> dapm->card					-> snd_soc_dapm_to_card()
-> dapm->component					-> snd_soc_dapm_to_component()
-> 
-> dapm_kcontrol_get_value()			-> snd_soc_dapm_kcontrol_get_value()
-> 
-> [...]
+On Do, 2025-11-20 at 14:23 +0100, Bartosz Golaszewski wrote:
+> Machine GPIO lookup is a nice, if a bit clunky, mechanism when we have
+> absolutely no idea what the GPIO provider is or when it will be created.
+> However in the case of reset-gpios, we not only know if the chip is
+> there - we also already hold a reference to its firmware node.
+>=20
+> In this case using fwnode lookup makes more sense. However, since the
+> reset provider is created dynamically, it doesn't have a corresponding
+> firmware node (in this case: an OF-node). That leaves us with software
+> nodes which currently cannot reference other implementations of the
+> fwnode API, only other struct software_node objects. This is a needless
+> limitation as it's imaginable that a dynamic auxiliary device (with a
+> software node attached) would want to reference a real device with an OF
+> node.
+>=20
+> This series does three things: extends the software node implementation,
+> allowing its properties to reference not only static software nodes but
+> also existing firmware nodes, updates the GPIO property interface to use
+> the reworked swnode macros and finally makes the reset-gpio code the
+> first user by converting the GPIO lookup from machine to swnode.
+>=20
+> Another user of the software node changes in the future could become the
+> shared GPIO modules that's in the works in parallel[1].
+>=20
+> Merging strategy: the series is logically split into four parts: driver
+> core, SPI, GPIO and reset respectively. However there are build-time
+> dependencies between all three parts so I suggest the reset tree as the
+> right one to take it upstream with an immutable branch provided to
+> driver core, SPI and GPIO.
 
-Applied to
+Applied to reset/next, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1/9] software node: read the reference args via the fwnode API
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Df11a8e996d5e
+[2/9] software node: increase the reference of the swnode by its fwnode
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D0651933c117e
+[3/9] software node: allow referencing firmware nodes
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Dd7cdbbc93c56
+[4/9] spi: cs42l43: Use actual ACPI firmware node for chip selects
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3Dd2a6cea44acc
+[5/9] gpio: swnode: allow referencing GPIO chips by firmware nodes
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D216c12047571
+[6/9] reset: order includes alphabetically in reset/core.c
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D97d85328e3dc
+[7/9] reset: make the provider of reset-gpios the parent of the reset devic=
+e
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D46dae84a90f9
+[8/9] reset: gpio: convert the driver to using the auxiliary bus
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D109ce747ac22
+[9/9] reset: gpio: use software nodes to setup the GPIO lookup
+      https://git.pengutronix.de/cgit/pza/linux/commit/?id=3D5fc4e4cf7a22
 
-Thanks!
+5fc4e4cf7a22 is tagged as reset-gpio-for-v6.19. I'll send a separate
+pull request for it.
 
-[1/1] ASoC: codecs: arizona: convert to snd_soc_dapm_xxx()
-      commit: 041e502d4ca66341696fcf54a76f3724b80f0b1f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+regards
+Philipp
