@@ -1,97 +1,190 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57D9372AC5
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 09:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE50311963
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 09:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763629338; cv=none; b=tBSQdwKOLb6LJXBRGQSYQhxG2P0z7Z8ja9n1FEt4nxZ4dChSq1gRlmDkKN6NhXFDJswwj/Dcqs2akoXzVHyJJ0bxOxBHTbJYj7oIOaDFf4MUxj1Csk88mJ7Xc44Uhzbh2+2r4AiRW5+qJKPVTUvh6tod0hhT+TpKjBETypXIYw8=
+	t=1763629977; cv=none; b=NqGsXBXIurs5zkiGXvPno2YjAo3V8WJsBh9kxOkNLwhSvd8hUZ35uuPywlmlTDVG6Lzr7DXp70Ak8iELY5oH3AhifJf8sI3ha9sH2QS0CrYGFGoQ8UrL+M7gcsn/IlOn9X33o4m/XpeFelfFcMnkUjbmBTC4+i1Er382ok6hzG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763629338; c=relaxed/simple;
-	bh=FvsqzrFLDZGiZGqyhTXpJPn4/vLD/xOXQippaexB3pc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CK6G2Xcyogw6vmof1SJhmW8iJQ5XXPIALLx+CjNhSCfHJ+F4L7aDjE4/qz2GZyf18AZ1QTt+6h59hxviIKW4XzLqPEX9TmzpqP7Oz7Wt9qGFYwjpmNnhXR1jN901zylSarQ6Hj7SG22SYfLfE+MnOOJClglk0M3pNc5DRbtkN1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Xd1XGU3U; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1763629977; c=relaxed/simple;
+	bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pb11o9K45AiAQyvIEktOpkWF13oP/1q6dfhz6WYp9lXqxrlwnIDQB7vqLfdBy6dP2yUs5nmFRM7bjCkHDBRkGwK5o4qY/18Mu2NtU0r8aOelPNm98vpFW6UVJrHbZrtoJQE2BC02++gqByCgoJmjEQsRrIBPLDFS4jnWC6Ael7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=r8Xwz5FB; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Xd1XGU3U"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5AK91sxoE1198788, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1763629314; bh=FvsqzrFLDZGiZGqyhTXpJPn4/vLD/xOXQippaexB3pc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=Xd1XGU3U3J+fW+ZhyiHtKgTN6/PLbbycN1BSew0WRsJpyiTW4DACauV2V2VIDrbT6
-	 weV2GOi1bzaYRJPGPSe+nnH7qOlpXPLj2hwK4IpQ8JxZjwjpJNYWHhp18Mn1Dbhlxy
-	 JSAp2O2Hfd0N9tQWXDJBGuhC74mXh4kE2I074igIKFLHkUOHEvgOFdSBdJNAuUM3k2
-	 kwgupB3FRhext1bMyVpsrtj6awD/toDD+MBymNZmRUND0pSI+2ltAeUwhgdnRFReBE
-	 YFse8Cw6LEOng1Pjt+pchCL0ayUI4PjV5LcnaDrzz4O/RCn4/0E4V2zA7CThyFcIjG
-	 zQVXtrFjUzbhg==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5AK91sxoE1198788
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Nov 2025 17:01:54 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Thu, 20 Nov 2025 17:01:54 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::744:4bc9:832c:9b7e%10]) with mapi id
- 15.02.1544.027; Thu, 20 Nov 2025 17:01:55 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: Support Tas2781 and mute led for HP platform
-Thread-Topic: Support Tas2781 and mute led for HP platform
-Thread-Index: AdxZ9TkHdwxlpI8gQJCC76hamazeYP//hcOA//93wYA=
-Date: Thu, 20 Nov 2025 09:01:55 +0000
-Message-ID: <f2462c6e04a04360a0f9f4cdd5f87af1@realtek.com>
-References: <c9c11acbefa24f7e8d0c62daecc00ac8@realtek.com>
- <87see9axv2.wl-tiwai@suse.de>
-In-Reply-To: <87see9axv2.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="r8Xwz5FB"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59447ca49afso826256e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 01:12:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763629974; x=1764234774; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
+        b=r8Xwz5FBLP73YCTzzF7q4ICl8/9g0XnxhEnsPPjS97KHGZrVtY5Kb14TavHDmMpSLT
+         PC87lHUBGWfwKh+6R6jVoL5roScE4++OoIuh1OBS6f2YVw6GBKU+T81eZ58mgPuotGSG
+         CUd6YjTtalDoDTvnOOtDyIjp479A9RysKAwS8lrdgqkthSk06KAFzG8ItDs/3bQvEadn
+         tgPmO3R+TLJaQB+qFYC3EikjTMQ2Tv3T8rF92TYtUGfSQvnVKiA1VuacTao3Kc7lPp9G
+         8lnxFHsDcGjfUhvZltGOFyk+hOinhJeRa4ibizNjvyBOWAeh1aRm8gAZE6fXZ9uP4S7M
+         WIvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763629974; x=1764234774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TUX+GFFIqD3F1wNgRxudb9AfkaouE2DTUx7l6rSlY2U=;
+        b=ZSK0kNBDNHHhZfJ/mYulxwonjWXrpn43HwC2z+EOjFmvh7wFZYsnSqO7chS21X73B4
+         nopTrcDJJklbZ3XHIEjSJOGwbmm+QP2EC2XUhowm1VzwV7ZttOxYUpepO6qbuBF/Bnrv
+         drbaMB5UlnhjxcnALD2hScFscI6Ki+SnHkZgZCIS7lUMmNSCd4mrynb2Xv8uvACZvFj5
+         Ue+MV46ku46I5FX/YuV+1rzkPyFmhfP0Q5Hrhfbx3vCzygOUXGMWqdVdIGezufZXfoV4
+         04Ci1h8JeZg9O9jcynBLWKQJPZoTFa34EjmQ4A3Oq97TfUoKCiZmA8H/QFQVEYSlpn6a
+         y0gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHg6T2EcGUGhPOI0GGo0MbWA83Y/xCU3h6l1sgxwDGczcYxRghLKxqN0JZSTX7WpCheoWh9/TIXDWekQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl9IET1Z8zG/C2MN4fG3yAwpLZ+VKdkoPGdxcf1J+Hp2bvSSWX
+	bM28dRB8SD5ldu0B8ZWK4plwqBLu7RfZjRA9dt1tnmIUMkMD+QqDv0M7eKAwe7v1oq5+BP4OcEJ
+	lmzz63PdmTCgaKaOEYn+GBpvx83v1KIVpb9uh8vda3w==
+X-Gm-Gg: ASbGncsBCLQ8K/A3m9LabgRQA38oZayewtWuUbv5xDbz1QajFPxz9MdBReXQFdbP2zd
+	IvlTHDWcsmVdMpta6iUgODOcVoXqpwTdUcgVLT62iM38UwSAk3Qgevphxz1Uz3jtpmzNEIN5DKp
+	G2Ba6wlgVWvLyqutRpWGvTPF8Z9Wo5ojri3FFIYzOdcGOTwqTgkvTKOOclq/z+9xZja2DSs0QEU
+	jKjXb9uNHrnhXevo4tUt5+bOK7fKoQv/362GrpoVfgcQwKYWenREKR75RUaZeQnJ5Am/fsmu2OF
+	W7/yTrtRioRPnUbMHvYNLqc6yg==
+X-Google-Smtp-Source: AGHT+IFrewKFpB97Jzc2s0X378rdQOV2UUV8z2iMGg1v1GytRO5AynAxifiX0eMqYfLL7nDCf4V6gEHjRJpWwGUb4ow=
+X-Received: by 2002:a05:6512:114f:b0:595:90ee:f480 with SMTP id
+ 2adb3069b0e04-5969e2da8d2mr778584e87.16.1763629973838; Thu, 20 Nov 2025
+ 01:12:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <aR2o2R30TbVOcqZe@opensource.cirrus.com> <CAMRc=MciO0WYejOYZduqE73U4OVTxcaMfe6Sv1VXWJWL2FFNmw@mail.gmail.com>
+ <aR29uKW7yLxws9jA@opensource.cirrus.com> <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
+ <aR3FnUNO4DyCdiLD@opensource.cirrus.com> <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
+ <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
+ <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
+ <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
+ <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com> <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
+In-Reply-To: <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 20 Nov 2025 10:12:39 +0100
+X-Gm-Features: AWmQ_blF7SCFHaFnDxpXYsYnTfe94q6BczdWGttvnUDgwBN9XkCciWPbXJH8NKw
+Message-ID: <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
+Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software nodes
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Linus Walleij <linus.walleij@linaro.org>, Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Thursday, November 20, 2025 4:54 PM
-> To: Kailang <kailang@realtek.com>
-> Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> linux-sound@vger.kernel.org
-> Subject: Re: Support Tas2781 and mute led for HP platform
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> On Thu, 20 Nov 2025 09:12:38 +0100,
-> Kailang wrote:
+On Wed, Nov 19, 2025 at 9:38=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Nov 19, 2025 at 03:30:46PM +0100, Bartosz Golaszewski wrote:
+> > On Wed, Nov 19, 2025 at 3:24=E2=80=AFPM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > > > > My idea was to mark the fwnode with __private and fix the (ab)use=
+rs,
+> > > > > should not be so many. Can somebody mock up a coccinelle script t=
+o
+> > > > > find all dereferences of fwnode from struct device?
+> > > >
+> > > > I think you're underestimating the level of complexity. What about =
+the
+> > > > concept of dev_fwnode()? It literally makes no sense if we switch t=
+o a
+> > > > list of fwnodes.
+> > >
+> > > Why not? It will return the pointer to the primary node. You can look
+> > > for example how the list of the DMA descriptors is done in
+> > > drivers/dma/dw/core.c. Not the best solution, but gives you an idea o=
+f
+> > > how it may look.
 > >
-> > Hi Takashi,
+> > What even is a primary node though? You can have auxiliary devices
+> > without an ACPI or OF node.
+>
+> The one which gives the main set of the properties for the device.
+> The devices that don't have it, simply have a list of fwnodes empty.
+>
+
+Well, what *is* the *main* set of properties? Who declares that? I
+agree, it's easy for device-tree - the OF node is the main one, but
+then what if a sub-device inherits the OF node of the parent while we
+also add a software node? It's not that straightforward and we'll run
+into issues for sure just like what we're seeing now with secondary
+fwnodes.
+
+> > Only with software nodes. Which one is the
+> > primary? The first one we add?
+>
+> Yes. The problem here might be if we add the SW node before the actual FW=
+ node
+> appear (it can be if we created some devices before the actual FW based
+> enumeration happens. It would probably need to have some kind of weight
+> (or priority value) and list should be sorted based on that number.
+>
+
+Ugh, please no. Firmware node priority?? With magic numbers?
+
+> > > > For it to make sense we'd have to have a kind of "dynamic" firmware
+> > > > node attached to a device which we'd fill with an aggregation of al=
+l
+> > > > properties from firmware nodes in the list.
+> > >
+> > > "Dynamic" is just a node in the list. The only potential problem here
+> > > is prioritisation. Should we add to the head, tail or insert? But
+> > > converting current approach will be straightforward.
 > >
-> > Attach patch was supported Tas2781 and mute led for HP platform.
->=20
-> Applied to for-next branch now.
-> A comma was missing in the table entry, so I corrected it locally.
-Thanks.
->=20
->=20
-> thanks,
->=20
-> Takashi
+> > What I have in my mind is not another firmware node in the list in
+> > struct device but rather a new firmware node implementation, that
+> > would be assigned to the device via a dedicated pointer and would be
+> > filled with a logical OR of properties from other firmware nodes added
+> > to the list.
+>
+> Oh no, this won't work in corner cases. What if we actually need to "fix"
+> an existing primary node (there were discussions long time ago about inve=
+rting
+> primary/secondary in some corner cases, but it didn't appear so far as
+> it most likely will give tons of issues in the _current_ design)?
+>
+
+What do you mean by "fix"? Like repair? Or fix in place? I'm not following.
+
+> > Then dev_fwnode() would return this rather than any one
+> > of the firmware nodes from the list. Think of it as the "master
+> > fwnode" of a struct device.
+>
+> fwnode should not be in any relations to the device, I mean when we do fw=
+nodes,
+> we should not assume that it's backing the device. In the idea you shared=
+ it
+> won't be possible ("dedicated pointer") in mine it is (just a list of som=
+ething
+> that may belong to the device, or to another object, doesn't matter).
+>
+
+That's not true, we expect fwnodes to back real devices all the time.
+Look at all the find_device_by_fwnode() functions we have everywhere.
+
+The crux of the problem Charles identified is the fact that the
+secondary fwnode is a field of struct fwnode_handle and not of a
+struct device. This really doesn't make sense as we see where multiple
+devices use a single "real" fwnode but want to have different
+secondary software nodes.
+
+Moving the secondary fwnode to struct device would already help a lot
+but if we're doing that then we may as well switch to a list of
+fwnodes.
+
+Bart
