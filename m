@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D192D2FC029
-	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 09:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737523126B0;
+	Thu, 20 Nov 2025 09:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763631617; cv=none; b=lGaUYkTnv5/Cu6lVuL1da8dNemmXHGqj91zHI9LTw+jMndOVefMipHlvjdjbv6uOtX4AB/S5rcqXZziEj8dQTQqB2CfTxeuhPNr49YagidyRHh7KfDeEXMYyOxDU+eO03i5DHnLbPdAm9WCty/G8KaqzkK+edCLMdt3DN3IvBms=
+	t=1763631620; cv=none; b=jJKt9a2oJVkzIV+yTrCJKKFZ9mvo1mhcysGgeGnhxisiy9H7gZ1h1UGBw9hdkfmbiyPSuF4mE2FfHY7KN/DapUeNb9MLQ52vIlC/sNbffvb8X/YQGfmiNIvID0JzjvDShO1tjvhLUvckiQ720y9WgPf9uNoAdqibY1y5LoIQOZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763631617; c=relaxed/simple;
-	bh=tWOttlUOGe4yfS7hm7pApsAXRjS03QGL1C1zAgAn5rs=;
+	s=arc-20240116; t=1763631620; c=relaxed/simple;
+	bh=XfQswiTVWSyi5w2NUxFcWVIZ/qG15qo2KsoHEKzFk1w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HeMskEw+2w7O2517anjT4zxTGsOpeGJVqJHgg+B6qGXHp/N6PBp7zMx8daMSZ2Qugt886WpbCaWl0ZoUxzUFAn9iBeZMEVoZJ51Eq7TtE7qG7tiEe/m6F5nBrm/Qp69s9j3hTCUKLe64LzAEhtOs5roOmXa7v82WFCPVPVbdHUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owV5/rYC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FUAt12fO1XCL1FKETPqAM0lnzRoaY9FRkJvhrGiuRSewFC7OgkJWdBNhXbaB1ou3r3Gh2i7BJvrEG4OLK5txEisX0MVgCQt6lt4spUqhAsLk/k2GgpdFbNAw20/9nWSstJEnOuN5VqXl29Ff1fMjP1njyaqyQ8oAbO8gGmC4KRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2M7sCq0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owV5/rYC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B367C116B1;
-	Thu, 20 Nov 2025 09:40:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2M7sCq0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F05EAC4CEF1;
+	Thu, 20 Nov 2025 09:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763631617;
-	bh=tWOttlUOGe4yfS7hm7pApsAXRjS03QGL1C1zAgAn5rs=;
+	s=k20201202; t=1763631620;
+	bh=XfQswiTVWSyi5w2NUxFcWVIZ/qG15qo2KsoHEKzFk1w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=owV5/rYCz164ysBsRXBfCrktvHHDfBHyWyLy+DxzcLkPGGCK2P16wSrKO8hDLAsCD
-	 LuOxfNC57jjXfxjCp0fSB26teQRt5T+X0z3Lb/EugLvWeP+oqR5GhwDt98saevwkOH
-	 dMftJ/fwohGN4MG+VGGXs1zEjKXhNCXdQmFfUkY7w0ZLKN/J25GpJCM5CMzTE99hCE
-	 jprmSug4akYdEGWzwpP56QQtdaKwrpYvmz+UEyuw7oDZAIEPY0HLzPmsEaPo2fONof
-	 WAKhWKdA4wPlq4Nmd2GuHMIOybnZgAoqnx1K1JwAHnhiEO6IaQnfzbPTFfSvSf/2vL
-	 D+me3rEEVEfww==
+	b=r2M7sCq0lqBNGZb8iBGuRTW6I66mR7pviiLGKiL2YmMndmxGx0Inx0bjR+ciYIJ8g
+	 dszLNFcSEWZOteHCc83Ou5W4o60ZKAlh5Nybl42ycB6o7JLxV9E0nzETNULbIAzLh4
+	 rC/ZhYSuKMJGj9G9eVRfHKfwpprbTd+i7ojGpQ4uRZ97fTuOoiVAGdlI/ooLHlee0G
+	 EDKvmEKC/9CwvVwc+RDQQ5TN2erPHXs6U9Hkb83MtV5TDW+cVLk/8rsd+3f4eHGQks
+	 xfIRBQZdlX152dz0pP0sj+CK0BAkcMmfaZ1i5TXEdgjkiPkT+58U/L7MjRCFcHBPdz
+	 Mvnuqp3ZPMUyA==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20251115180627.3589520-1-cezary.rojewski@intel.com>
-References: <20251115180627.3589520-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: avs: Allow for NHLT configuration
- override
-Message-Id: <176363161510.559933.7715997272017707747.b4-ty@kernel.org>
-Date: Thu, 20 Nov 2025 09:40:15 +0000
+To: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ alexey.klimov@linaro.org, Ma Ke <make24@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20251116033716.29369-1-make24@iscas.ac.cn>
+References: <20251116033716.29369-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: codecs: Fix error handling in pm4125 audio codec
+ driver
+Message-Id: <176363161689.559933.14528225856640173736.b4-ty@kernel.org>
+Date: Thu, 20 Nov 2025 09:40:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a6db3
 
-On Sat, 15 Nov 2025 19:06:25 +0100, Cezary Rojewski wrote:
-> Small set of changes providing new feature which the driver is already
-> utilizing on the market - for its Long-Term-Support (LTS) devices.
+On Sun, 16 Nov 2025 11:37:16 +0800, Ma Ke wrote:
+> pm4125_bind() acquires references through pm4125_sdw_device_get() but
+> fails to release them in error paths and during normal unbind
+> operations. This could result in reference count leaks, preventing
+> proper cleanup and potentially causing resource exhaustion over
+> multiple bind/unbind cycles.
 > 
-> The goal is to cover systems which shipped with invalid Non HDAudio Link
-> Table (NHLT) - not just the descriptors (headers), but cases where the
-> hardware configuration is invalid too. The table is part of the ACPI
-> tree and forcing BIOS updates is not a feasible solution. With the
-> override, the topology file can carry the hardware configuration
-> instead.
+> Calling path: pm4125_sdw_device_get() -> bus_find_device_by_of_node()
+> -> bus_find_device() -> get_device.
 > 
 > [...]
 
@@ -65,10 +66,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: avs: Allow the topology to carry NHLT data
-      commit: dd9896d41fdf1050934d6a46a1c5ca2164284e72
-[2/2] ASoC: Intel: avs: Honor NHLT override when setting up a path
-      commit: d5c8b7902a41625ea328b52c78ebe750fbf6fef7
+[1/1] ASoC: codecs: Fix error handling in pm4125 audio codec driver
+      commit: 2196e8172bee2002e9baaa0d02b2f9f2dd213949
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
