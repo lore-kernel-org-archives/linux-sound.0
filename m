@@ -1,210 +1,248 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6811D2DE711;
-	Thu, 20 Nov 2025 09:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763632578; cv=none; b=QsgTZpmTszHlji0zpFDaMFZSGx6CXgQzZ8a3G85XpAhPuxigoqur8K5JU+BtqFmIpeX83b9dyiiJ7S9cuCqKBg0nRFUr+35XC9x6jY/ApsNZcxVNhG9cK6E0UIc4zmUoc24f5cyGg5Sx+QLlpaQGbgzfhqM8wKYgQrfZKFqGbDE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763632578; c=relaxed/simple;
-	bh=VazEnpPnFoBoJ8p0AoOtS3RJnfpeCdqi/y7vL1cQD1U=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299AE23B609
+	for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 10:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763633799; cv=fail; b=u4pPvkdF20pZUApUBuJYXQ8l3jrtcWzhpCCf+hmuHR46QkAybQx84VE4onHxSYHh5qRgzSBgA6rVtnc95SVBdNCCRHDy2jAVVTbh78c0NFOQ8bIV5LUXf1VL6J30ldjvlZDykc59wDuiyS8XNLUvyivacEizvONoK+IeeCYRP2s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763633799; c=relaxed/simple;
+	bh=wpq+KVXFOiQJ14m6COXC8LA79dG3iBwM9+ffzd/+UIA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BBg3XGyEKxIlgJTaULqLf9kpkeGPAahVD3XzXo4538LDAFV+M927n+g2Z/Mbfd7o1xnyEpYXtQhlYUelpE74CBpNk8gQvIMuKPuRQKb/ZLZWYDcnFagKj7mp0UvtULA5pSWoT5BwBBFcdWPWS36fKWTlm7nzBiFV9+pXUG3eX8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gi6S6BYi; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3jmhuWporPzWNLC3IaniacQQ1QO/w5B6IxuK+Qub+YQz4pJXGzZSyPl7nMlWVvnRXQLxIC3o4m0hoBnPuGFNx8GHC8T2R3cIAGLgfnseV4HlHi5IoaQ4y4lYCyiZrsRbXVJAAwszLQRlZBMm/LhYvKVJQOpLcLFXW5IW2Ufxxs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=n9M9b2Q6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=DYbSRUmk; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gi6S6BYi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763632576; x=1795168576;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VazEnpPnFoBoJ8p0AoOtS3RJnfpeCdqi/y7vL1cQD1U=;
-  b=Gi6S6BYizVKEteiTcmwYdOr1TWBxQLk4ozeAtZd7HKDbiSR4yzsccngA
-   cn3LJTwWqJwPXrHfefdXUM4WUCnLXstfMU18mzhENNOJVqa18Tx6DzMvd
-   rV4IuCK9OzxJ3tLTFJKiRLHwHFnJ3Auxzu+WNU0AQk9QYcx0T/bY8jCRw
-   +6tYmef11TgcKep+9EZnXt3F3aL2M/eMWBHc9y4oOxtxCclFlQ0HvR8U+
-   GkTd2HzyTWWKXsHV79+rDEBZTEiozH5cZdCDbj+QydRsg9A23+xNqBpks
-   XYiJUVD3tDXnJRilitEsrKQqHkcMkOpTaD/6xmmZSM41kyO5kSr1YIW8j
-   Q==;
-X-CSE-ConnectionGUID: ueZfWjwcQHSS2nyXwH40dw==
-X-CSE-MsgGUID: DLtRhP0hRC68cH1HkeU4Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="69312779"
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="69312779"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 01:56:15 -0800
-X-CSE-ConnectionGUID: xPUjTznQTeOva00wp59Y2g==
-X-CSE-MsgGUID: XTvmEvyDTMWr//+SQ6oljA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="191753407"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.97])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 01:56:12 -0800
-Date: Thu, 20 Nov 2025 11:56:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH RFT/RFC] mfd: cs42l43: setup true links with software
- nodes
-Message-ID: <aR7luqqew3LRwFgn@smile.fi.intel.com>
-References: <aR29uKW7yLxws9jA@opensource.cirrus.com>
- <CAMRc=MdXNXQhE9zi=i0x0yGCi0fKQNU8_tn2_Uy24TAhxG7BRA@mail.gmail.com>
- <aR3FnUNO4DyCdiLD@opensource.cirrus.com>
- <CAMRc=MfuQSGPbt3x366j5c9Sg-mgu=TfmD6X25Dk5Rmu0JiiEw@mail.gmail.com>
- <CAHp75VdLfkcrmaGBPu_YLDReyX5Gvu9pE6BXweArA5PmM3MQnQ@mail.gmail.com>
- <CAMRc=Mf9djJ77ob8L1OKa6HHBx_JxR_sajWH1mFGz=V+hMDbmw@mail.gmail.com>
- <CAHp75Vf_+WzMn+pmwK4zhLEZtG3Uat4FrdFMCMtPmmX82E3Wzg@mail.gmail.com>
- <CAMRc=MdbgeJOMoHDm_z04ko1pdKed06GP4=M+VsPaD3YOEvs6Q@mail.gmail.com>
- <aR4qxiR7pzrPdaUz@smile.fi.intel.com>
- <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="n9M9b2Q6";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="DYbSRUmk"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK4fZQq247388;
+	Thu, 20 Nov 2025 04:16:10 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=Tap1tdx4gb4cJepKVj
+	18MaPgxZUL2J9o0knnlrFSnos=; b=n9M9b2Q6m0Wdc4jfytdZGahJrPvnACjMpI
+	RcsxlAWRGZ0PAu6Y2KKCWXuUZ8BMwNytszWk98LulcLMQpeEGneuxIuCDb9mBlhj
+	9oUmJvChWJHcI8Qt9ikP+1CFx+/Jl+RNMbadpUM+o4fbVmAfakpMbMhmpj01r0Th
+	6QvFPxOqEO0+td01OACm9rAKYTlfKJdLl27oXhG7PE/EdJMNvuGA6938nmjuAVVg
+	PJziZzb9jLgr1JsZpnhMb3oUIy+oVjQlC/3DVGmEFfV3HqUDbT+GxLNFRiEqtLXO
+	q/M1W0q06MGr8Sn5JDV9YnK6H5hr3YBR/R0wWZrnbRKtLxVbp7yA==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020102.outbound.protection.outlook.com [52.101.201.102])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ah1bma5u9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 20 Nov 2025 04:16:10 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jp8xweas2P2sco+KCApcFceiQoxbbLPnMPh93vLnizXU/qXttq0WBuxaUItca5oMy56amz3ZvzC0vb9CRPQDXv8DFOiZBjTwmWTnvFnJsmybF+Ib7O58DZ+f4vvF43ksjmGS724h/76VaoFXiBT0CRQ+R2UFdqSEVeZTk4SPKKltHvfED72l4nV7nTbYy8OVkNSDypKtw5LOPWvHpEG6j7J6HD5/UbYmuHRnQoCg51iY/KflZd5LgRuHCBTnWH3VZUjJVBfFQZjEboQLFJb3/V/HM33N9Tq/oEJFdq+3RhaSRYlooM1lM9ELhRM3xaVAPM+Aoa9Dp0HQOl4U2GLj1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tap1tdx4gb4cJepKVj18MaPgxZUL2J9o0knnlrFSnos=;
+ b=whs7+CLilhYKPq/SKMs+VtfJmxXswFVu0cp2puGeE6QX1s6lWo/vHGFH3eV8H3xYDOzx0lvjT8Dpa1A2du3nTEtxu82GfMezDOvflHhVYVVgQov84TfCGmBAVdPGwYHysohPoqf5XnXPDyzaCXieNv64esoe54iiY88U+HrCQ8TiN68hufO+U9slp854Atw98L0Vq6RNWNiddDNJjRDJipXpbr5npMilbLjMWvQ8YEfn6ZJ0wW3Cr4Fpz5G5zZ6aQV0MHTNkj0QICSQJyzMpRXoASaTkzRqW4XkQU3926UzyTCXCcrIHIk40uTh4S445AFHNEW3+UFcVQkZfjhHEtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=alsa-project.org
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tap1tdx4gb4cJepKVj18MaPgxZUL2J9o0knnlrFSnos=;
+ b=DYbSRUmkuZG86CsrKMI0rEoiaStzKRDT+9qhIBKqoRWJRDwdb2YJmUSQcgnaH2xmNrr+21ea/uXtZW8NLtCz8mk+jpqSaNVKLnSy5MHK1Ny6vDTtp3NuCjLAwIH64N7+lZqZ5ot4HaLoL9divN+y9w0Xfv2BrZZYl8efbdpeVt4=
+Received: from CY5PR13CA0063.namprd13.prod.outlook.com (2603:10b6:930:a::19)
+ by DS2PR19MB9554.namprd19.prod.outlook.com (2603:10b6:8:2d4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 10:16:07 +0000
+Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
+ (2603:10b6:930:a:cafe::a4) by CY5PR13CA0063.outlook.office365.com
+ (2603:10b6:930:a::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.4 via Frontend Transport; Thu,
+ 20 Nov 2025 10:16:07 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.9
+ via Frontend Transport; Thu, 20 Nov 2025 10:16:05 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3BA71406547;
+	Thu, 20 Nov 2025 10:16:04 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 26E15820247;
+	Thu, 20 Nov 2025 10:16:04 +0000 (UTC)
+Date: Thu, 20 Nov 2025 10:16:03 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Niranjan H Y <niranjan.hy@ti.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        lgirdwood@gmail.com, broonie@kernel.org,
+        yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+        perex@perex.cz, tiwai@suse.com, cezary.rojewski@intel.com,
+        peter.ujfalusi@linux.intel.com, kai.vehmanen@linux.intel.com,
+        pierre-louis.bossart@linux.dev, navada@ti.com, shenghao-ding@ti.com,
+        v-hampiholi@ti.com, baojun.xu@ti.com, dan.carpenter@linaro.org
+Subject: Re: [PATCH v1 7/8] ASoC: tas2783A: use acpi initialisation table
+Message-ID: <aR7qY+ToHyuYQW2p@opensource.cirrus.com>
+References: <20251120092050.1218-1-niranjan.hy@ti.com>
+ <20251120092050.1218-7-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Me-DXN9kx+5bqDb9doMG9MX2EiRJiC=_QqDc0q3gOz8wA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251120092050.1218-7-niranjan.hy@ti.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|DS2PR19MB9554:EE_
+X-MS-Office365-Filtering-Correlation-Id: a41435d4-95ac-488d-fc69-08de281dd124
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|61400799027|82310400026|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MvGVrht5AFv9Pj2gC0mpJsElBCEH50nGab6Px5VVK/oWsmnRrlj0AT0iVa3b?=
+ =?us-ascii?Q?d+HSBpL0gVFyZAalaKhg06SIXOhOv3Up8qv1wffRhFovemWm372REF+A/PHv?=
+ =?us-ascii?Q?5bUwbi6JjwM0QcgUspVsNzzEIEhV5v9IaayssX4qeKm1VBFl7bjNYWBNOZSx?=
+ =?us-ascii?Q?eu1N6kX2A2X12lQzuj8MHCmVHZ42fneDKZANaf4n65MVRp0iWwcVm3f9vg/s?=
+ =?us-ascii?Q?bGjOcQbM6x8hmgfSdr2e3GQoKxf9hBKJ9YibzRy0ibL/RXd7wMlScI/9BWox?=
+ =?us-ascii?Q?kOuXzsPo834ml8j+QYs+QWPcKelNOcU/R6b1Gi7NWYCIfgvratKD1un9gJt/?=
+ =?us-ascii?Q?AkPRa2m5yqMcqzlIgY5uo/fahH1eT36DdOy4FKLZy5s/N6FDftqhOId5pVqo?=
+ =?us-ascii?Q?TjJjAicnTgOp504X4QgKpSqtOJ4XM9tQ/OqGRYoZcR+1j+FL9VQyanliz7ot?=
+ =?us-ascii?Q?wi4m8lfOTTAVTlK/zqmbRPnOw5KmG4DgdU10Oad87c5EnDOUnRw1npbttXO8?=
+ =?us-ascii?Q?xqoItygTQQr7gbCCh8KHQtZo/87RA1qNCxg+smCJ5IpCvJoqTlficVFeRcVL?=
+ =?us-ascii?Q?Sl98HYCsobbVkZdNXvOWNQb816xNxO6hJ1cAfSifSWuMpW95sOXV6ZPvizyE?=
+ =?us-ascii?Q?ZYbNDrHdNDBt++ONwxABaLkh2/3QvSFOL3NiBrMGlbLk4xWS6l1ULApAj/ts?=
+ =?us-ascii?Q?FA9yEkFbj9CTIMDC4aU2rAaSmiGC5EcOSLlGJ00x5IHBjV+aqNEXgpWEAaiY?=
+ =?us-ascii?Q?tk+HBklsIY0mah2a1aQINJcy1ch9QqZAez+oYG/Wr1DbnhaVk20XVy7crYXe?=
+ =?us-ascii?Q?iZ0/9Qc7ky7ivK9E8oQ6M9NR5ai60NIMk64yZg4tISaUtWlmYx+pzdktKl1w?=
+ =?us-ascii?Q?r/nVKfyQ3PX9U/PyC7VQovNJxQoqieqp5Yo/VO6YRa6h1CwY2FOEN5npQaur?=
+ =?us-ascii?Q?Y5HggcHK93jpWk6l1qmLuuNNzboVf1UWbuEN70A2dI5XTVKfQNdFlSmpvDFr?=
+ =?us-ascii?Q?d8MhKeOjptWm3TyO0aimgP50v3nM7SE0g91fyrzeIISJAcbQb9oE3NqIbzB/?=
+ =?us-ascii?Q?EoSZ36/W3viPwL01qrivxYj7Z3Cv2tcfPwn7qi7r5FvwGweReHeTVWXNVBd8?=
+ =?us-ascii?Q?EtIywTySgi68ubpXVE+69xVAYnPoq8Hqf/Zs8BPriwuBj9oAjZ3LFapQF2wJ?=
+ =?us-ascii?Q?AXiA77bhqAxAagcldHGgdxLQsXM7kb2ocoLqzTGQvEQ1yRh7mHjDWBYd7veS?=
+ =?us-ascii?Q?zpAnSx9q71y/J1BaUnvdO3ebBChU70qA3/GZqzYJGtTfVe9gQ229PLNN7Cu9?=
+ =?us-ascii?Q?oW8ODOVYGTi/DkU9OSAS+Jp9g9bDHo5eB10W/CJlPbITbskZQvpBpXABeUId?=
+ =?us-ascii?Q?6kxliY2qhT3auUg98gO+V7qIu6JPgJBYl0f0zPbUEMhwBmFZzPTdGnuQWTSh?=
+ =?us-ascii?Q?HCVtucgis5NKtO/vB6eAD4HLfKy+ciNjiV5Nojg/hHDEFlfvj3BvYcy9wlxj?=
+ =?us-ascii?Q?ZB4i2dZQR6Cr/fo0qDdeODpXbSe9hA2tKxRSfxao1haP5VD3A6GvGidaKdk5?=
+ =?us-ascii?Q?KT3q/3AgVUF2Lz21dRM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(61400799027)(82310400026)(13003099007);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 10:16:05.8257
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a41435d4-95ac-488d-fc69-08de281dd124
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000E9D1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9554
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA2MSBTYWx0ZWRfX/kp0H+UXrVpp
+ jCJscqF0DDllWBy+jD9bf6dliCY5WMcDUuIOp5ZXSLt5pHyFY1PhonO259ow9k48MmJSzK4sOav
+ rhesQ/9e/3bb5ptl/m1bs99XRp9Ox8fA63YnhmnprBg0cD/flVOzPIrT36Oivd7qxY3eJb9dPGa
+ knynIKxbW2UmIM6+P28Zy18d2ZZVuLdMW6012ENKcw04oysAfgVFvO0Hp1Y0ul2a/q73R17nl7E
+ H3Eveg/Ht/x4eT+kRZAB5+0WZDGkNRREVQJiTC1PRgUJL7WIynP7P2UhRFRISDNM/CMkbDXs0ug
+ gGY/XZyhyuOjTHKnFC7xlZYuTF/leTrr2G7pEA+VwJcsy07qBwC7UrgPw+BmKbirU7yLx0qwWWE
+ YiEAJwZ8o3Sed4FH3hUpLm3JQu0fvw==
+X-Authority-Analysis: v=2.4 cv=XcmEDY55 c=1 sm=1 tr=0 ts=691eea6a cx=c_pps
+ a=5886/XAhn54D+t2DuUGJPw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=sozttTNsAAAA:8
+ a=TkMpvBzQP867S4iYnZQA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: LrMDrgKdxz1WAXv6teRg9hLDFC1nMp6F
+X-Proofpoint-ORIG-GUID: LrMDrgKdxz1WAXv6teRg9hLDFC1nMp6F
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, Nov 20, 2025 at 10:12:39AM +0100, Bartosz Golaszewski wrote:
-> On Wed, Nov 19, 2025 at 9:38 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Nov 19, 2025 at 03:30:46PM +0100, Bartosz Golaszewski wrote:
-> > > On Wed, Nov 19, 2025 at 3:24 PM Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> wrote:
-
-...
-
-> > > > > > My idea was to mark the fwnode with __private and fix the (ab)users,
-> > > > > > should not be so many. Can somebody mock up a coccinelle script to
-> > > > > > find all dereferences of fwnode from struct device?
-> > > > >
-> > > > > I think you're underestimating the level of complexity. What about the
-> > > > > concept of dev_fwnode()? It literally makes no sense if we switch to a
-> > > > > list of fwnodes.
-> > > >
-> > > > Why not? It will return the pointer to the primary node. You can look
-> > > > for example how the list of the DMA descriptors is done in
-> > > > drivers/dma/dw/core.c. Not the best solution, but gives you an idea of
-> > > > how it may look.
-> > >
-> > > What even is a primary node though? You can have auxiliary devices
-> > > without an ACPI or OF node.
-> >
-> > The one which gives the main set of the properties for the device.
-> > The devices that don't have it, simply have a list of fwnodes empty.
+On Thu, Nov 20, 2025 at 02:50:49PM +0530, Niranjan H Y wrote:
+> This patch adds support for parsing the initilisation
+> data from ACPI table. This table is required to configure
+> each device correctly so that correct channel's data is
+> selected during playback.
 > 
-> Well, what *is* the *main* set of properties? Who declares that? I
-> agree, it's easy for device-tree - the OF node is the main one, but
-> then what if a sub-device inherits the OF node of the parent while we
-> also add a software node? It's not that straightforward and we'll run
-> into issues for sure just like what we're seeing now with secondary
-> fwnodes.
-
-First rule is that swnode NEVER is the "main" property provider.
-But it could be a single property provider.
-The rest becomes easier after this.
-
-> > > Only with software nodes. Which one is the
-> > > primary? The first one we add?
-> >
-> > Yes. The problem here might be if we add the SW node before the actual FW node
-> > appear (it can be if we created some devices before the actual FW based
-> > enumeration happens. It would probably need to have some kind of weight
-> > (or priority value) and list should be sorted based on that number.
+> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+> ---
+>  sound/soc/codecs/Kconfig       |  1 +
+>  sound/soc/codecs/tas2783-sdw.c | 61 +++++++++++++++++++++++++++++++---
+>  2 files changed, 58 insertions(+), 4 deletions(-)
 > 
-> Ugh, please no. Firmware node priority?? With magic numbers?
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index 433af9bc7..94d66e4d5 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -2146,6 +2146,7 @@ config SND_SOC_TAS2781_I2C
+>  config SND_SOC_TAS2783_SDW
+>  	tristate "Texas Instruments TAS2783 speaker amplifier (sdw)"
+>  	depends on SOUNDWIRE
+> +	depends on SND_SOC_SDCA
 
-Why not? Many tools and things rely on weights.
-But again, first problem first, the design. The additional property bundles
-(as swnodes or OF overlays on ACPI-based systems) can come later on.
+Great to see some of the SDCA library stuff starting to be useful
+for people :-)
 
-> > > > > For it to make sense we'd have to have a kind of "dynamic" firmware
-> > > > > node attached to a device which we'd fill with an aggregation of all
-> > > > > properties from firmware nodes in the list.
-> > > >
-> > > > "Dynamic" is just a node in the list. The only potential problem here
-> > > > is prioritisation. Should we add to the head, tail or insert? But
-> > > > converting current approach will be straightforward.
-> > >
-> > > What I have in my mind is not another firmware node in the list in
-> > > struct device but rather a new firmware node implementation, that
-> > > would be assigned to the device via a dedicated pointer and would be
-> > > filled with a logical OR of properties from other firmware nodes added
-> > > to the list.
-> >
-> > Oh no, this won't work in corner cases. What if we actually need to "fix"
-> > an existing primary node (there were discussions long time ago about inverting
-> > primary/secondary in some corner cases, but it didn't appear so far as
-> > it most likely will give tons of issues in the _current_ design)?
-> 
-> What do you mean by "fix"? Like repair? Or fix in place? I'm not following.
+> -		ret = regmap_multi_reg_write(tas_dev->regmap, tas2783_init_seq,
+> -					     ARRAY_SIZE(tas2783_init_seq));
+> -		tas_dev->hw_init = true;
+> +		if (tas_dev->sa_func_data) {
+> +			for (i = 0; i < tas_dev->sa_func_data->num_init_table; i++) {
+> +				ret = regmap_write(tas_dev->regmap,
+> +						   tas_dev->sa_func_data->init_table[i].addr,
+> +						   tas_dev->sa_func_data->init_table[i].val);
+> +				if (ret)
+> +					break;
+> +			}
 
-When the primary already has a property that needs to be rewritten
-(same name, different value). Note, that there are use cases already
-for this AFAIR, but probably they were worked around in not too hackish
-way or abandoned for now.
+Should be able to use sdca_regmap_write_init() here once the
+patch is merged:
 
-> > > Then dev_fwnode() would return this rather than any one
-> > > of the firmware nodes from the list. Think of it as the "master
-> > > fwnode" of a struct device.
-> >
-> > fwnode should not be in any relations to the device, I mean when we do fwnodes,
-> > we should not assume that it's backing the device. In the idea you shared it
-> > won't be possible ("dedicated pointer") in mine it is (just a list of something
-> > that may belong to the device, or to another object, doesn't matter).
-> 
-> That's not true, we expect fwnodes to back real devices all the time.
+https://lore.kernel.org/linux-sound/20251106114422.906370-11-ckeepax@opensource.cirrus.com/
 
-No. Even OF doesn't do that. OF node can be a separate thing without struct
-device being associated with it.
+No point holding up this patch for it, but would be good to move
+it across once the core function is merged. And if you wanted to
+test the core patch out check it works for you that would be
+amazing.
 
-> Look at all the find_device_by_fwnode() functions we have everywhere.
+> +		} else {
+> +			ret = regmap_multi_reg_write(tas_dev->regmap, tas2783_init_seq,
+> +						     ARRAY_SIZE(tas2783_init_seq));
+> +		}
+> +
+> +		if (ret)
+> +			dev_err(tas_dev->dev,
+> +				"init writes failed, err=%d", ret);
+> +		else
+> +			tas_dev->hw_init = true;
+>  	}
+>  
+> +	/* check if we have any SDCA function data available */
+> +	if (peripheral->sdca_data.num_functions > 0) {
+> +		dev_dbg(dev, "SDCA functions found: %d", peripheral->sdca_data.num_functions);
+> +
+> +		/* Look for Smart Amp function type */
+> +		for (i = 0; i < peripheral->sdca_data.num_functions; i++) {
+> +			if (peripheral->sdca_data.function[i].type ==
+> +			    SDCA_FUNCTION_TYPE_SMART_AMP) {
+> +				dev_info(dev, "Found Smart Amp function at index %d", i);
+> +				break;
+> +			}
+> +		}
+> +	}
 
-What do you mean, please?
+I do wonder if we should add a core function for this search, I
+am guessing this will become a fairly common pattern. But again
+no need to hold up your patches for that.
 
-$ git grep -n -w find_device_by_fwnode | wc -l
-0
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Even if you refer to *_find_device_by_fwnode(), still it's not everywhere,
-just in a dozen of modules.
-
-> The crux of the problem Charles identified is the fact that the
-> secondary fwnode is a field of struct fwnode_handle and not of a
-> struct device. This really doesn't make sense as we see where multiple
-> devices use a single "real" fwnode but want to have different
-> secondary software nodes.
-> 
-> Moving the secondary fwnode to struct device would already help a lot
-> but if we're doing that then we may as well switch to a list of
-> fwnodes.
-
-They all should be an independent entity that can be part of the struct device
-but it's not obligatory relation ship.
-
-Again, device may have a backing fwnode, while fwnode might not have a struct
-device consumer.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Charles
