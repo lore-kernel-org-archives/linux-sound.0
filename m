@@ -1,53 +1,53 @@
-Received: from sender3-op-o15.zoho.com (sender3-op-o15.zoho.com [136.143.184.15])
+Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A852DC782;
-	Fri, 21 Nov 2025 15:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3A22F8BD0;
+	Fri, 21 Nov 2025 15:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763738566; cv=pass; b=otGL4h2wtiMQbVvAFGEfnOUI4v9ERKgFtxUaUFHW/2mrCCmGb7w4zrVpC1FuIjOqig1t+s544y/QRNFTi7biok0HeDimS5PSLHtvBk1iriXez5puge7zNrM5xtAjkiCqDPXlTWyQAu1vtSEx/dZuSBAtXkkqE9yELKzMG+tIfig=
+	t=1763738567; cv=pass; b=YpdsBn9XpyXPKw+xP+9iO1D8eOv8n1JhgyqS4eM2Gh/FuoW9H2Mq43slUnLxD3ZSXHKDFAC9BXJtt7jyiFOE0iKnHDRT7b69O07xx6469C8qLz7QxfFU++CvE+ieq5eMRvb2VrZgEzi2eOZGddvITBB5OsACoN8QYTYSPiweouE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763738566; c=relaxed/simple;
-	bh=U5/e7P29lKlkUX4b8STHb32Dh50bg29aLAgjK7aYkI4=;
+	s=arc-20240116; t=1763738567; c=relaxed/simple;
+	bh=cvE0gK8GFyqHqeLS9tlgg3O+qTSh0GGhikJbWq2UmsU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BQq3lQetMFLTwmlhd4Q0F+f56JaHgtSMRfZv5CGxY4XADN/xLj2tvF3SY4vjKJG99VgHbpV/vX2TW75yCE9W3qpv8Y+EZ8e7zfwQs3b9Ed5TmJ0lt1IFztclYFRPVCrdkirO6YDYSsBebebI5mxCaW2bkQdzGxvDKI8mJ6ee5kI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=SNrJ92uN; arc=pass smtp.client-ip=136.143.184.15
+	 MIME-Version; b=N2OqYZmgm+5HZ0eg0BgLEU1wqKn9wZ233eGriGAvamK/DFJTb/Gvi9dCp1y7aUOmBDWXqsPi2BWUuG67lGS18mj635XBUA2VD9rfS3PQBz5Dd9XWIRH7Rp/8zN7TC3YoXTdpAppTTbV+W+FIjCD7EGA6GzZVska4N6j5EQvQUHE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=PhFTGklI; arc=pass smtp.client-ip=136.143.184.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="SNrJ92uN"
-ARC-Seal: i=1; a=rsa-sha256; t=1763738554; cv=none; 
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="PhFTGklI"
+ARC-Seal: i=1; a=rsa-sha256; t=1763738557; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=CzbHnnrU/zqMWEWrOjxYScYn3srJB126xs4N21jj5y3GPZs50QUhJ35/zOPAzAkQ++TAcLb63IkUYOQZWuY39TamTdOu0kIuIeTDILu3Y4dIGfOm5xc66iF8wDp3fAWjbSUt2e577MVi9YeIEUlmDXIzBXuLT5Bep77rPWEdJD8=
+	b=kOg5m+Raii5TRTiyHihI2FDYzT4nrD84BRZLXpBSfZ2gPMLOYb7d0j6XjDWWv5unuT9V5I8CsXaLwVtTRmWoXPoOdyIDYllgY7Bu7yN1eympH0+D9uEX+auV2J2oJQF6C+nDVH4AYFCTwhjOayoVstPY1M8VRJXi1ct4mYASu08=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1763738554; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Pc8fYETImu86tY789NAksTljrtHo8+Ce0lBVCcBIvrI=; 
-	b=WH7TajFgo+HfxEzH8IBSUeILtE77crLIVbIecR8lCVnL0/TuJVG4Bv6iHxPy6nwoWGOZE8yXE6ABrgNu2AogPT8dOYpCi1PZwdRrkX35D4z/EsWen+6i9g3z0dEsfsZx3lONUhAVNt/4q4D65muXCtP3mxbyBpQbynf8siMyvCQ=
+	t=1763738557; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=R2sMbLrTwMVsiTBJtqP3HgefDwrj/DVNSppBJ+oYTjA=; 
+	b=VluQrb9r4h+TLQm9rvjlOLwlJr/F+MlsINccupKO+qRLjKb5/Aa7hUMw53VJKKR6+gacv2veyB639mz9cGr3ORHKXDvCHvUGdQoBmXuIfhLakQ555CuEfMo6y32gl9x5KKxVxP+4/keho7SqO3FhG0NKr8PzJXTQMqzhBLLsDP4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=harin.net;
 	spf=pass  smtp.mailfrom=me@harin.net;
 	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763738553;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763738557;
 	s=zmail; d=harin.net; i=me@harin.net;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Pc8fYETImu86tY789NAksTljrtHo8+Ce0lBVCcBIvrI=;
-	b=SNrJ92uNRPqGwHXVKGNN2SyOgUDisLgPcWxODZkIIqPDGcZPIpYaQZtn+lMNy1Sa
-	S3PeL7PEwOIjHyurj9KGcUdZR350wMBju2Ycalgc8BLETLVMd0tx8Vdoj2hulxTg5BQ
-	phGIh99vyqMSOuL1YIFi9NtpP42ZKMBa9HhCZtdgaI6hbxAc1oUcqJgfSJzY/fVV0qS
-	0OMmTYK8+5oJ4fCNmf79kxBx6EoIg/QFa5WXjus5Qsam6+3/U9PFtlKVCcdsVcrb4MW
-	K08AI+txWXlcHfq9GPwb5Uiseg+tvroYz/11jPLNehLrBD3a5tsXNwLY8EgEltQOzAl
-	efLQ1C4TMg==
-Received: by mx.zohomail.com with SMTPS id 1763738551668464.23801436422093;
-	Fri, 21 Nov 2025 07:22:31 -0800 (PST)
+	bh=R2sMbLrTwMVsiTBJtqP3HgefDwrj/DVNSppBJ+oYTjA=;
+	b=PhFTGklIGNjXgxWWbNPN3vISuZpTH58AGF88bYcWdnumBArff+GX7767BMvXb4vZ
+	NjI3z3Uyc1mMjgRpX7USTV3MxmzezEJveCahEFvNeXLkQ7Q9VKoRa2/PUwNSM0lt7rn
+	vdAOG6eygfvuf1UMY4MAufRH8cAwtp8Lid1Exlcrltvr8rHxuS8QKSyW6a+WfHgMMVb
+	+sl8oJXDSeP360EwxEYnLSQ4txQV5xAJinuVAcm77Dt4AO5HS5nNfgSC732fwOKhNSd
+	9NWtee/CGp2/i1PgfJ8PpIccZGj0JEURNwpfR9cuYbTVCDP6G9aP59sC+KuXjnDvCKB
+	Ovy7JaUglQ==
+Received: by mx.zohomail.com with SMTPS id 1763738555313597.7338823904468;
+	Fri, 21 Nov 2025 07:22:35 -0800 (PST)
 From: Harin Lee <me@harin.net>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Harin Lee <me@harin.net>
-Subject: [PATCH v2 1/6] ALSA: ctxfi: Add hw parameter to daio_mgr_dao_init()
-Date: Sat, 22 Nov 2025 00:22:15 +0900
-Message-ID: <20251121152221.1152523-2-me@harin.net>
+Subject: [PATCH v2 3/6] ALSA: ctxfi: Use explicit output flag for DAIO resources
+Date: Sat, 22 Nov 2025 00:22:17 +0900
+Message-ID: <20251121152221.1152523-4-me@harin.net>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251121152221.1152523-1-me@harin.net>
 References: <20251121152221.1152523-1-me@harin.net>
@@ -60,71 +60,135 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Add a hw parameter to the daio_mgr_dao_init() function to provide
-access to model-specific information. This is necessary for proper
-configuration of S/PDIF and I2S output ports on different hardware
-variants.
+Replace the index-based type check with an explicit output flag in
+struct daio and struct daio_desc.
+
+This allows handling DAIO resource types correctly regardless of their
+index. This is necessary for hardware variants where resource types do
+not follow a sequential order.
 
 Signed-off-by: Harin Lee <me@harin.net>
 ---
- sound/pci/ctxfi/ctdaio.c     | 2 +-
- sound/pci/ctxfi/cthardware.h | 2 +-
- sound/pci/ctxfi/cthw20k1.c   | 2 +-
- sound/pci/ctxfi/cthw20k2.c   | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/ctxfi/ctatc.c  |  3 ++-
+ sound/pci/ctxfi/ctdaio.c | 14 +++++++-------
+ sound/pci/ctxfi/ctdaio.h |  2 ++
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
+diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
+index 14779b383d9e..4719310d0daf 100644
+--- a/sound/pci/ctxfi/ctatc.c
++++ b/sound/pci/ctxfi/ctatc.c
+@@ -1163,7 +1163,7 @@ static int atc_release_resources(struct ct_atc *atc)
+ 		daio_mgr = (struct daio_mgr *)atc->rsc_mgrs[DAIO];
+ 		for (i = 0; i < atc->n_daio; i++) {
+ 			daio = atc->daios[i];
+-			if (daio->type < LINEIM) {
++			if (daio->output) {
+ 				dao = container_of(daio, struct dao, daio);
+ 				dao->ops->clear_left_input(dao);
+ 				dao->ops->clear_right_input(dao);
+@@ -1393,6 +1393,7 @@ static int atc_get_resources(struct ct_atc *atc)
+ 	for (i = 0, atc->n_daio = 0; i < num_daios; i++) {
+ 		da_desc.type = (atc->model != CTSB073X) ? i :
+ 			     ((i == SPDIFIO) ? SPDIFI1 : i);
++		da_desc.output = (i < LINEIM);
+ 		err = daio_mgr->get_daio(daio_mgr, &da_desc,
+ 					(struct daio **)&atc->daios[i]);
+ 		if (err) {
 diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
-index c0c3f8ab8467..10d0a7088718 100644
+index 10d0a7088718..f012d47689d1 100644
 --- a/sound/pci/ctxfi/ctdaio.c
 +++ b/sound/pci/ctxfi/ctdaio.c
-@@ -390,7 +390,7 @@ static int dao_rsc_init(struct dao *dao,
- 	hw->daio_mgr_commit_write(hw, mgr->mgr.ctrl_blk);
+@@ -18,8 +18,6 @@
+ #include <linux/slab.h>
+ #include <linux/kernel.h>
  
- 	conf = (desc->msr & 0x7) | (desc->passthru << 3);
--	hw->daio_mgr_dao_init(mgr->mgr.ctrl_blk,
-+	hw->daio_mgr_dao_init(hw, mgr->mgr.ctrl_blk,
- 			daio_device_index(dao->daio.type, hw), conf);
- 	hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk,
- 			daio_device_index(dao->daio.type, hw));
-diff --git a/sound/pci/ctxfi/cthardware.h b/sound/pci/ctxfi/cthardware.h
-index 2875cec83b8f..d29b4e5b3fcc 100644
---- a/sound/pci/ctxfi/cthardware.h
-+++ b/sound/pci/ctxfi/cthardware.h
-@@ -167,7 +167,7 @@ struct hw {
- 	int (*daio_mgr_dsb_dai)(void *blk, unsigned int idx);
- 	int (*daio_mgr_enb_dao)(void *blk, unsigned int idx);
- 	int (*daio_mgr_dsb_dao)(void *blk, unsigned int idx);
--	int (*daio_mgr_dao_init)(void *blk, unsigned int idx,
-+	int (*daio_mgr_dao_init)(struct hw *hw, void *blk, unsigned int idx,
- 						unsigned int conf);
- 	int (*daio_mgr_set_imaparc)(void *blk, unsigned int slot);
- 	int (*daio_mgr_set_imapnxt)(void *blk, unsigned int next);
-diff --git a/sound/pci/ctxfi/cthw20k1.c b/sound/pci/ctxfi/cthw20k1.c
-index 42b90c9b2ee9..60cc1d14453a 100644
---- a/sound/pci/ctxfi/cthw20k1.c
-+++ b/sound/pci/ctxfi/cthw20k1.c
-@@ -1031,7 +1031,7 @@ static int daio_mgr_dsb_dao(void *blk, unsigned int idx)
+-#define DAIO_OUT_MAX		SPDIFOO
+-
+ struct daio_usage {
+ 	unsigned short data;
+ };
+@@ -329,7 +327,7 @@ static int daio_rsc_init(struct daio *daio,
+ 		goto error1;
+ 
+ 	/* Set daio->rscl/r->ops to daio specific ones */
+-	if (desc->type <= DAIO_OUT_MAX) {
++	if (desc->output) {
+ 		daio->rscl.ops = daio->rscr.ops = &daio_out_rsc_ops;
+ 	} else {
+ 		switch (hw->chip_type) {
+@@ -344,6 +342,7 @@ static int daio_rsc_init(struct daio *daio,
+ 		}
+ 	}
+ 	daio->type = desc->type;
++	daio->output = desc->output;
+ 
  	return 0;
+ 
+@@ -433,6 +432,7 @@ static int dao_rsc_reinit(struct dao *dao, const struct dao_desc *desc)
+ 	dsc.type = dao->daio.type;
+ 	dsc.msr = desc->msr;
+ 	dsc.passthru = desc->passthru;
++	dsc.output = dao->daio.output;
+ 	dao_rsc_uninit(dao);
+ 	return dao_rsc_init(dao, &dsc, mgr);
  }
+@@ -518,7 +518,7 @@ static int get_daio_rsc(struct daio_mgr *mgr,
  
--static int daio_mgr_dao_init(void *blk, unsigned int idx, unsigned int conf)
-+static int daio_mgr_dao_init(struct hw *hw __maybe_unused, void *blk, unsigned int idx, unsigned int conf)
+ 	err = -ENOMEM;
+ 	/* Allocate mem for daio resource */
+-	if (desc->type <= DAIO_OUT_MAX) {
++	if (desc->output) {
+ 		struct dao *dao = kzalloc(sizeof(*dao), GFP_KERNEL);
+ 		if (!dao)
+ 			goto error;
+@@ -565,7 +565,7 @@ static int put_daio_rsc(struct daio_mgr *mgr, struct daio *daio)
+ 		daio_mgr_put_rsc(&mgr->mgr, daio->type);
+ 	}
+ 
+-	if (daio->type <= DAIO_OUT_MAX) {
++	if (daio->output) {
+ 		dao_rsc_uninit(container_of(daio, struct dao, daio));
+ 		kfree(container_of(daio, struct dao, daio));
+ 	} else {
+@@ -580,7 +580,7 @@ static int daio_mgr_enb_daio(struct daio_mgr *mgr, struct daio *daio)
  {
- 	struct daio_mgr_ctrl_blk *ctl = blk;
+ 	struct hw *hw = mgr->mgr.hw;
  
-diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
-index 55af8ef29838..1a085e7e5786 100644
---- a/sound/pci/ctxfi/cthw20k2.c
-+++ b/sound/pci/ctxfi/cthw20k2.c
-@@ -985,7 +985,7 @@ static int daio_mgr_dsb_dao(void *blk, unsigned int idx)
- 	return 0;
- }
- 
--static int daio_mgr_dao_init(void *blk, unsigned int idx, unsigned int conf)
-+static int daio_mgr_dao_init(struct hw *hw __maybe_unused, void *blk, unsigned int idx, unsigned int conf)
+-	if (DAIO_OUT_MAX >= daio->type) {
++	if (daio->output) {
+ 		hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk,
+ 				daio_device_index(daio->type, hw));
+ 	} else {
+@@ -594,7 +594,7 @@ static int daio_mgr_dsb_daio(struct daio_mgr *mgr, struct daio *daio)
  {
- 	struct daio_mgr_ctrl_blk *ctl = blk;
+ 	struct hw *hw = mgr->mgr.hw;
  
+-	if (DAIO_OUT_MAX >= daio->type) {
++	if (daio->output) {
+ 		hw->daio_mgr_dsb_dao(mgr->mgr.ctrl_blk,
+ 				daio_device_index(daio->type, hw));
+ 	} else {
+diff --git a/sound/pci/ctxfi/ctdaio.h b/sound/pci/ctxfi/ctdaio.h
+index 15147fe5f74a..b337da2de8b5 100644
+--- a/sound/pci/ctxfi/ctdaio.h
++++ b/sound/pci/ctxfi/ctdaio.h
+@@ -43,6 +43,7 @@ struct daio {
+ 	struct rsc rscl;	/* Basic resource info for left TX/RX */
+ 	struct rsc rscr;	/* Basic resource info for right TX/RX */
+ 	enum DAIOTYP type;
++	unsigned char output;
+ };
+ 
+ struct dao {
+@@ -91,6 +92,7 @@ struct daio_desc {
+ 	unsigned int type:4;
+ 	unsigned int msr:4;
+ 	unsigned int passthru:1;
++	unsigned int output:1;
+ };
+ 
+ struct daio_mgr {
 -- 
 2.52.0
 
