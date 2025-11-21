@@ -1,41 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC34C1DDC1B
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 16:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009B02F1FD0;
+	Fri, 21 Nov 2025 21:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763742283; cv=none; b=BbvyW8vgMwa/QakTZLFE+0RoxAxycotA1AnwQnwkq9TzXzFC/qdBlUBKJvsauLo1M5Pk7y/u5n06nn1qvdwVJ1Na2hKEfmoQlWpuN7MhIb2WKLLuHrP8TIyKXlPX6wV5DmryGNUBsb/ly2ZOZzjRl937S8bF2q/N5/m8ovTj7bE=
+	t=1763760478; cv=none; b=S5EJ73UhiWBCjyyCVAJfp6QwDlSUGEbu4Vqfh7uBZsteSUbQiH/z6GVR6HrguiWOCiDV6Huss9G7xt0z1AGeUqDxSkz/Rx/UhUrfirh/3QZx9pUVJDY0U13RSm6QbJlwlyr1Rb0JV1GO9+WkTYbT4nwxkER3Z2ZcTgEppG/HdX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763742283; c=relaxed/simple;
-	bh=9g1grAwGkXeOjoUdZHrqAaHG1NkdyoHHz60sqq9G4oQ=;
+	s=arc-20240116; t=1763760478; c=relaxed/simple;
+	bh=nfIx3d7WlEV7LUso+sHT0skcS9Wd8wtO+6i8XRioCdc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bJZCkWw0zd5XgH8Fvgj/Pwma8TLKQ20DULkLgqAWy/Mi/OtNSnNzDC4M67xgDdCwfQYRlO2SXU0poFqubPkekjEFff0BOOHO7dHNTsvQEaB2BoVoLfKyVAimuRfJmcQsBCeQsNBMoNfr+XvMDLnwHYtRV8oAVkmtE0kXUyM+/sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rbv4K6z0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XyxCOZejXjgLC/8P1xUvrXW/2uO2LS0lUoA/jQSKJ4zSTdGcfwPXHSSTpSFCTA9TUxSMfHhU2dgah2H7pdrxxbgW+Ce9p842mG94lBBJf1Te+9XsvFEejUNggJD/F3SiaUcvaJrc9/1HtIIOlpGxoF4txn0C/dRsmmh6PE/XvO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMcsgmRV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rbv4K6z0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13197C4CEF1;
-	Fri, 21 Nov 2025 16:24:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMcsgmRV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91396C4CEF1;
+	Fri, 21 Nov 2025 21:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763742283;
-	bh=9g1grAwGkXeOjoUdZHrqAaHG1NkdyoHHz60sqq9G4oQ=;
+	s=k20201202; t=1763760477;
+	bh=nfIx3d7WlEV7LUso+sHT0skcS9Wd8wtO+6i8XRioCdc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rbv4K6z0bFDOLJDqHIoyajWw14MmE33J2wtZzdHDh9naGHldhkVhTnzdibfCzPasY
-	 XEKaig3P+muG88sU20vidNDSEjj5h7XUcvTiK4QqIhhkKAFbYWN2FnLCbscJzMtUcw
-	 6Uu2OFt/gc12SOUB2ObNgNXrhv1CVbbWBl42lRScG2W9sPmxWbGNj0lGMtlpEnDk4J
-	 qTjXDuam8YMERIDpPmj4OyWOuzCl1TKfBGiAt1BcL6xRoGQ1jBh+IQ7IBeKNibzPue
-	 CRTFuyz1p2guBONLQfea/u1LKSv1tcUYi+yZITkbgz74Vz5dZhFD/qNS/PbaPgyRVT
-	 cld9nEI8ckMIQ==
+	b=LMcsgmRVcMjKtFQHCKRkYktiUh6csUa7s54mUrY7SmYeQziJmu7eQ8XU00PdKp3po
+	 ABn98zKcbP9X168fq8w1RMfFJBjEpWQTxK7EuG8uVX+ZzGj5lHbstWzSfE1VJFaeXV
+	 WFSCBCZ1ZXWYo5a31FWFgm0fknWwV7taSkTUckJjs3JBrwwG0ybCc2WvzvIgHWhSPc
+	 p0LcrUynkf+OAc3Dj9cH6J0Bw5vZHitijSOrxbotv8sKMrz49xROYhPWOEIRz5UPsn
+	 eP5LSzEbNBjgt6VHtZFVE6CX50eSqENatw2xH5XanQVoRRdyV7MpFj8DYuGGreeUPw
+	 Ia0b/164ajrbw==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251120155657.2181751-1-ckeepax@opensource.cirrus.com>
-References: <20251120155657.2181751-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SDCA: Add stubs for FDL helper functions
-Message-Id: <176374228179.51695.1387715226108486391.b4-ty@kernel.org>
-Date: Fri, 21 Nov 2025 16:24:41 +0000
+To: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, hariconscious@gmail.com
+Cc: perex@perex.cz, tiwai@suse.com, amadeuszx.slawinski@linux.intel.com, 
+ sakari.ailus@linux.intel.com, khalid@kernel.org, shuah@kernel.org, 
+ david.hunter.linux@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251113142637.259737-2-hariconscious@gmail.com>
+References: <20251113142637.259737-2-hariconscious@gmail.com>
+Subject: Re: [PATCH v3] ASoC: Intel: avs: Replace snprintf() with
+ scnprintf()
+Message-Id: <176376047433.92510.14995128280410162390.b4-ty@kernel.org>
+Date: Fri, 21 Nov 2025 21:27:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +51,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 20 Nov 2025 15:56:57 +0000, Charles Keepax wrote:
-> In the case the SDCA IRQ is built in but FDL support is not stub
-> functions are required for the FDL helpers to avoid build failures. The
-> FDL IRQs likely shouldn't get triggered in this case, however they would
-> still be a part of the build.
+On Thu, 13 Nov 2025 19:56:38 +0530, hariconscious@gmail.com wrote:
+> snprintf() as defined by the C99 standard,returns the
+> number of characters that *would have been* written if
+> enough space were available.Use scnprintf() that returns
+> the actual number of characters written.
 > 
 > 
 
@@ -60,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SDCA: Add stubs for FDL helper functions
-      commit: 3efee7362dbf896072af1c1aaeaf9fd6e235c591
+[1/1] ASoC: Intel: avs: Replace snprintf() with scnprintf()
+      commit: df919994d323c7c86e32fa2745730136d58ada12
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
