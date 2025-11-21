@@ -1,288 +1,252 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE278223705
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 05:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E57327E045
+	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 06:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763704520; cv=none; b=UNb4HLd1xxEejfZ6H+FNH1Yos6fE1uZ0u6y1MymUEL4WgE9hyNahOgJKdmkN6WMw2ijoIhNFR85jpb4T00GbE7StVt5SyN6svgeMDNVtVY7fcWGBDbFJegk+ux24uyVm3NW3zj+uM9akiS/DIxQbwK0XzuGjIXOv6Le9i9RWOVo=
+	t=1763705174; cv=none; b=ASRA63GRggp26sBHEp/SRlSnYQ/2f9qyM8cv1cKY3EBq/l73fB+4Vm2Fr0spCVDRLpzsStKMuOW0Vp1M2cLuLHu2jZ/Jca0bzEESZhLyuB/3EIdvD7zUTeu22fEPEVF9LXcEt0UtoXVPSllCivS6sgpibeB/GEYtpKBo4ZPHgWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763704520; c=relaxed/simple;
-	bh=IOFTpva6B/7noDWvBeJvRf8I5PuYlg0+UHLsi+1dyR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MuYIX08CScyH5ee9Crl5z+cOWYnEX18UbKGLmtKbvsXKSZT8Xx2s2sJqCpugJeqv1s5IaVQpRL2ix5n1GRK1CJTEdnfwcyGVMOqpmWXsWcHGgbvldOFKqyWxoWHXpLEvSYUdZbrszWxARQTJtQwtazH8wSumhsVY+eMo2UbSUYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aXS9Hupm; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1763705174; c=relaxed/simple;
+	bh=GcROR96JF5hCwBimwpg3lqL3nafgW194peOGSoR1pUA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YCbftyxAbNFMKLYZ94/7UtiRVQ78KJU7fuMJPfZ8q6zqYiW3Wr2W8SzaJGpkQQXBO4tCgOxnXXZQHmKBk8GyDoZRvnNM+bJVDcJvlLF8C5SCkuX7iEUNJZrux4wQEU7x6qSLCMxJBwr7LG0FF28rnOWgIGCBgJNger46QzbxgHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=HASdJYUk; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aXS9Hupm"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59578e38613so1831675e87.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 21:55:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="HASdJYUk"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ee2014c228so13327191cf.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 22:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763704517; x=1764309317; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zwvomCI1BwoaMdIOXY7Bw6epo0QG3ROLLVd2yNeflzU=;
-        b=aXS9Hupmf8C5YiUy/dhoTQaeD5o6CvP6Mil4xXeaUYGuz1rZQvOJQSvp+4siHY3VYr
-         drf/OpfpGsA9IFgEiuGL8MfkzERGSs2Sy7TEZuJLzkWlYyDDMjwvjeSd/TnLZesNfGY5
-         bth2MEX0A2ca9EByqNMshpzrBspfAj0IGBYH0=
+        d=marek.ca; s=google; t=1763705170; x=1764309970; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=La5vJNM1jWM5YiAHSf9v+V5WGA4ndFbbe8gW9RIdiFU=;
+        b=HASdJYUkgCBJXUhfrnr5RVJ+DI+K7lQxO4c6FhtW0J+dJUD7pr4vvtslEvKOu8+VLU
+         XHX9LLS7XAthXRnYTw+unVASUbHamogMwiQG5axrizfj+u/DOZBtSU+qloUCVzuXGtbD
+         xOUcV2YEAls0Jh0GX+ArnUCUN0hf9/5xeip2s3J+YIDrdtt4eRPuKaD6O6IINLMFelEt
+         Q43vQHMpbxeDnbcxvvVD/hO3nHFYC7NbmQpxnnaR5fBQcJTLnaiXGgC105dsiAhi+Lpv
+         JUq/K4p5Yrz2XMQfQF12yXvinXM/Cc62xZICiQV0/BRdRTK82GikzZkbuQC6qejJ4UkF
+         RspQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763704517; x=1764309317;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zwvomCI1BwoaMdIOXY7Bw6epo0QG3ROLLVd2yNeflzU=;
-        b=vXQdWcB/z7ZN3GT1Mb/qSweld15ZnHLXp0XcUoifrlDOxBitDscU8N8RAqsn5iT7li
-         TAZyMsFYyGKucLgQordhGFiHj3JbOmhJDd2Jvj7UdE0rFqNXBgXSSUF6/S4jJNywpp8O
-         LfRe+Uk9S2Bcw8msXou+cTbmrVol6mbPnll17x09RggaOrz+M/5X/yTw7gGN5S0scGvd
-         1/sMYaGOutaVFH5KvllmXcsEWjXYic4beyFC38VdGUlwnSqlcFefqeeqQnGIXzpVzDQ8
-         df5VB3t0mYkAtAGLT5aU2WO5+ff6403rUX51Xv0gg8NKk+0BBOLTaft6ayrzwZ9aQFkf
-         UQxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsSQ8h92+gMJvhmGDQX7bEw8Guv3DoSpNbpEQ2ITHnSn7i+FnipBwvOot7HNUfvJIGK8urPQVTujHG3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyLySK83VMQOn2sJBWJXZZ+4uzbiyil3bmdW1djn41Ww4i6CTn
-	Mp30gTEo2pZxjhguuj/wcBpUatoqMaHI/P7s+d3DxG2cGcteUKDuWSsIoxObUCRGxo8j8M0PgE1
-	Xfh7Lx9LAwqmBS+sv6D3/ZK3avjeRfQcN/7mxPArG
-X-Gm-Gg: ASbGncsp5Tl371Jqf9d9JE6vwVzuKz5w43bIVvP4gcOA0tCDsvnLLgEYpkScxmkKJ4r
-	z9ARR42klLSYp3zdjeb73zF6yEbrrioJEEnekKnOlAZLA769uEAZ5imEkxNBnaSXV4MooPLygr2
-	A7GUFiS7+SnMJDtZGGVY09Fn2ZpuJDIHFRuTOImoE0/wgvtSuSFLF4PQ6+IwhE/OXTixXZU9p6R
-	yU2GPPhQ9vJ9rYy1q8NdQ88tS6vP0WwTEt13OSPPz7KiMhBftZIyPExDGpJ1z72E6oRpPqZKkzS
-	Eb4OJiMvktvGRS2vZXuJPr+JGA==
-X-Google-Smtp-Source: AGHT+IEDYrCP2AUvrHoGRLMquIrh7OcHVFanViendh+zN/U9VV/Im6NFRvLgmuSn64N/ilxblNrZFfLqTBBGNdSvpjg=
-X-Received: by 2002:a05:6512:220f:b0:592:f521:188a with SMTP id
- 2adb3069b0e04-596a3ee2889mr332332e87.49.1763704516899; Thu, 20 Nov 2025
- 21:55:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763705170; x=1764309970;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=La5vJNM1jWM5YiAHSf9v+V5WGA4ndFbbe8gW9RIdiFU=;
+        b=jX03cu0oI0xl5wV37R88BJqIH8P9CjkmGpr03t4PoNIgOXfrs1VoWHwScHIkma01bO
+         ZVNn4AY1JqW3g3u2SveNhYTQjUNRwaKABq6paPzvuJcFH5YKiol2nKlPAILllLjIjIra
+         9SCx3Cz/1asWQa1Uf9d61mR1VwF7qWnd/KBisN8APMf7slLZQMu0GxNwRGLVsLlqlrWn
+         60sOLsyI6SGFsjRWJPTFKc7VD/nPfy98Z8V65AuMnxXkNMyvLgOgmROiSeWE+iB9ZJSP
+         u5mRzEqrgxkq2fAbvEYfYlrZuqQ9aLOnwRmorIBClSAGd0cyYYLDey9511+9k9ljV9um
+         9yoA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+pUP2xqpKvBHRt3KMz3UJlACZ2+0ANooxnoqSpAVz21Cd7NFaH1xSYguXHEoi72ypl5IQdaFoPZbQtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpjqGavxQPcmRavAapVQ0rAPIEkpQll0G+H9GOoMqVQ+c/1dgq
+	LBq7g5ncPbQ3XALi+kiv3ghcv1dnFGrFrrTlK2X75UmcPICRSJuecnXjZBpq+OblnfM=
+X-Gm-Gg: ASbGnct6GRd3AbGL+lPiCLionm7/E7n6bPdCKLFnu1WekQ/DFhYtiOKnA3jZPynL8rc
+	rY+d+B4p8EWf49iOcynPi4cDoXKMWV+/PoB1RnMvVrVuD+BuOrgHIJlVPqdPlgRLEUcdMQVywbc
+	xuYjrJHhExFFcrk/jP7g2sujDHal91nDNyqYFkaG63QF/U6+gyiGX6WYUlqfXwpXje3ndvEdc9h
+	KqzkySQr3E4vR7MLPkjOe4zOo9e51R9eYQIFsegrhmAk76mFXuSwv63BQ5cgb6UeY/2TB7Pbdcc
+	oYWebCBCnYFsgWnTeKvs9yqOXTn9CYIgMpWwETwqgtNQ0JP9ZzimvykaJ3tIYIdl70C+PxjVf+3
+	DfJCP3h59cVYL4ldVKTJId+luYvHz1HzvpPIGC5VMk/DJizzRInMdOkAIcUD5nNBHWRE8TyL2O4
+	y88DNWpdJEwFZ5e9EtdASZHeSYbxQC55xUABQ37gMj6FJE7QKKcGH7QxKIterr/BEuRIu1AM6QI
+	7LC
+X-Google-Smtp-Source: AGHT+IFQdwMnwbIyaAZ09s2AcuDIc3ln2beikKLvPXoaLdoe4d+jYtLW2a8X7J1WM977sGr1YJ8SNA==
+X-Received: by 2002:ac8:5846:0:b0:4ed:213c:1582 with SMTP id d75a77b69052e-4ee588194e0mr19087991cf.7.1763705169906;
+        Thu, 20 Nov 2025 22:06:09 -0800 (PST)
+Received: from localhost.localdomain (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee48d6aab4sm30245831cf.15.2025.11.20.22.06.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 22:06:08 -0800 (PST)
+From: Jonathan Marek <jonathan@marek.ca>
+To: linux-arm-msm@vger.kernel.org
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org (open list:QCOM AUDIO (ASoC) DRIVERS),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] ASoC: codecs: lpass-wsa-macro: add RX4/RX5/RX6/RX7/RX8
+Date: Fri, 21 Nov 2025 01:03:30 -0500
+Message-ID: <20251121060437.26704-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251121054537.25796-1-ansuelsmth@gmail.com> <20251121054537.25796-4-ansuelsmth@gmail.com>
-In-Reply-To: <20251121054537.25796-4-ansuelsmth@gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 21 Nov 2025 13:55:05 +0800
-X-Gm-Features: AWmQ_bmSFIa1l2iBEM2F1Ns2W5B-YvvlaQwgWNVUEBTmTCIap5cAu57a2ztT9KE
-Message-ID: <CAGXv+5HZbB+CeeM7ggCRmxdiyeY-5tXYpLLTyoazEinrLe_jCw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] ASoC: airoha: Add AFE and machine driver for
- Airoha AN7581
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Cyril Chao <Cyril.Chao@mediatek.com>, Arnd Bergmann <arnd@arndb.de>, 
-	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	upstream@airoha.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 21, 2025 at 1:46=E2=80=AFPM Christian Marangi <ansuelsmth@gmail=
-.com> wrote:
->
-> Add support for the Sound system present on Airoha AN7581 SoC. This is
-> based on the mediatek AFE drivers.
->
-> Also add the machine driver to create an actual sound card for the AFE.
->
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
+This allows playback using the WSA_2CH AIF, which feeds RX4 and RX5 on both
+WSA and WSA2.
 
-[...]
+RX6/RX7/RX8 can be tested with the regular WSA AIF (the 3rd intf is RX8,
+the 5th intf is RX6/7).
 
-> diff --git a/sound/soc/mediatek/an7581/an7581-wm8960.c b/sound/soc/mediat=
-ek/an7581/an7581-wm8960.c
-> new file mode 100644
-> index 000000000000..5d6c736aa6f2
-> --- /dev/null
-> +++ b/sound/soc/mediatek/an7581/an7581-wm8960.c
-> @@ -0,0 +1,170 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Airoha ALSA SoC I2S platform driver for AN7581
-> + *
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <sound/soc.h>
-> +
-> +#include "an7581-afe-common.h"
-> +
-> +static const struct snd_soc_dapm_widget an7581_wm8960_widgets[] =3D {
-> +       SND_SOC_DAPM_HP("Headphone", NULL),
-> +       SND_SOC_DAPM_MIC("AMIC", NULL),
-> +};
-> +
-> +static const struct snd_kcontrol_new an7581_wm8960_controls[] =3D {
-> +       SOC_DAPM_PIN_SWITCH("Headphone"),
-> +       SOC_DAPM_PIN_SWITCH("AMIC"),
-> +};
-> +
-> +SND_SOC_DAILINK_DEFS(playback,
-> +                    DAILINK_COMP_ARRAY(COMP_CPU("DL1")),
-> +                    DAILINK_COMP_ARRAY(COMP_DUMMY()),
-> +                    DAILINK_COMP_ARRAY(COMP_EMPTY()));
-> +
-> +SND_SOC_DAILINK_DEFS(capture,
-> +                    DAILINK_COMP_ARRAY(COMP_CPU("UL1")),
-> +                    DAILINK_COMP_ARRAY(COMP_DUMMY()),
-> +                    DAILINK_COMP_ARRAY(COMP_EMPTY()));
-> +
-> +SND_SOC_DAILINK_DEFS(codec,
-> +                    DAILINK_COMP_ARRAY(COMP_CPU("ETDM")),
-> +                    DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "wm8960-hifi")),
-> +                    DAILINK_COMP_ARRAY(COMP_EMPTY()));
-> +
-> +static struct snd_soc_dai_link an7581_wm8960_dai_links[] =3D {
-> +       /* FE */
-> +       {
-> +               .name =3D "wm8960-playback",
-> +               .stream_name =3D "wm8960-playback",
-> +               .trigger =3D {SND_SOC_DPCM_TRIGGER_POST,
-> +                           SND_SOC_DPCM_TRIGGER_POST},
-> +               .dynamic =3D 0,
-> +               .playback_only =3D 1,
-> +               SND_SOC_DAILINK_REG(playback),
-> +       },
-> +       {
-> +               .name =3D "wm8960-capture",
-> +               .stream_name =3D "wm8960-capture",
-> +               .trigger =3D {SND_SOC_DPCM_TRIGGER_POST,
-> +                           SND_SOC_DPCM_TRIGGER_POST},
-> +               .dynamic =3D 0,
-> +               .capture_only =3D 1,
-> +               SND_SOC_DAILINK_REG(capture),
-> +       },
-> +       /* BE */
-> +       {
-> +               .name =3D "wm8960-codec",
-> +               .no_pcm =3D 1,
-> +               .dai_fmt =3D SND_SOC_DAIFMT_I2S |
-> +                       SND_SOC_DAIFMT_NB_NF |
-> +                       SND_SOC_DAIFMT_CBC_CFC |
-> +                       SND_SOC_DAIFMT_GATED,
-> +               SND_SOC_DAILINK_REG(codec),
-> +       },
-> +};
-> +
-> +static struct snd_soc_card an7581_wm8960_card =3D {
-> +       .name =3D "an7581-wm8960",
-> +       .owner =3D THIS_MODULE,
-> +       .dai_link =3D an7581_wm8960_dai_links,
-> +       .num_links =3D ARRAY_SIZE(an7581_wm8960_dai_links),
-> +       .controls =3D an7581_wm8960_controls,
-> +       .num_controls =3D ARRAY_SIZE(an7581_wm8960_controls),
-> +       .dapm_widgets =3D an7581_wm8960_widgets,
-> +       .num_dapm_widgets =3D ARRAY_SIZE(an7581_wm8960_widgets),
-> +};
-> +
-> +static int an7581_wm8960_machine_probe(struct platform_device *pdev)
-> +{
-> +       struct device_node *platform_dai_node, *codec_dai_node;
-> +       struct snd_soc_card *card =3D &an7581_wm8960_card;
-> +       struct device_node *platform, *codec;
-> +       struct snd_soc_dai_link *dai_link;
-> +       int ret, i;
-> +
-> +       card->dev =3D &pdev->dev;
-> +
-> +       platform =3D of_get_child_by_name(pdev->dev.of_node, "platform");
-> +
-> +       if (platform) {
-> +               platform_dai_node =3D of_parse_phandle(platform, "sound-d=
-ai", 0);
-> +               of_node_put(platform);
-> +
-> +               if (!platform_dai_node) {
-> +                       dev_err(&pdev->dev, "Failed to parse platform/sou=
-nd-dai property\n");
-> +                       return -EINVAL;
-> +               }
-> +       } else {
-> +               dev_err(&pdev->dev, "Property 'platform' missing or inval=
-id\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       for_each_card_prelinks(card, i, dai_link) {
-> +               if (dai_link->platforms->name)
-> +                       continue;
-> +               dai_link->platforms->of_node =3D platform_dai_node;
-> +       }
-> +
-> +       codec =3D of_get_child_by_name(pdev->dev.of_node, "codec");
-> +
-> +       if (codec) {
-> +               codec_dai_node =3D of_parse_phandle(codec, "sound-dai", 0=
-);
-> +               of_node_put(codec);
-> +
-> +               if (!codec_dai_node) {
-> +                       of_node_put(platform_dai_node);
-> +                       dev_err(&pdev->dev, "Failed to parse codec/sound-=
-dai property\n");
-> +                       return -EINVAL;
-> +               }
-> +       } else {
-> +               of_node_put(platform_dai_node);
-> +               dev_err(&pdev->dev, "Property 'codec' missing or invalid\=
-n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       for_each_card_prelinks(card, i, dai_link) {
-> +               if (dai_link->codecs->name)
-> +                       continue;
-> +               dai_link->codecs->of_node =3D codec_dai_node;
-> +       }
-> +
-> +       ret =3D snd_soc_of_parse_audio_routing(card, "audio-routing");
-> +       if (ret) {
-> +               dev_err(&pdev->dev, "Failed to parse audio-routing: %d\n"=
-, ret);
-> +               goto err_of_node_put;
-> +       }
-> +
-> +       ret =3D devm_snd_soc_register_card(&pdev->dev, card);
-> +       if (ret) {
-> +               dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card =
-fail\n", __func__);
-> +               goto err_of_node_put;
-> +       }
-> +
-> +       return 0;
-> +
-> +err_of_node_put:
-> +       of_node_put(platform_dai_node);
-> +       of_node_put(codec_dai_node);
-> +       return ret;
-> +}
-> +
-> +static const struct of_device_id an7581_wm8960_machine_dt_match[] =3D {
-> +       { .compatible =3D "airoha,an7581-wm8960-sound" },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, an7581_wm8960_machine_dt_match);
-> +
-> +static struct platform_driver an7581_wm8960_driver =3D {
-> +       .driver =3D {
-> +                  .name =3D "an7581-wm8960",
-> +                  .of_match_table =3D an7581_wm8960_machine_dt_match,
-> +       },
-> +       .probe =3D an7581_wm8960_machine_probe,
-> +};
-> +module_platform_driver(an7581_wm8960_driver);
-> +
-> +MODULE_DESCRIPTION("Airoha SoC I2S platform driver for ALSA AN7581");
-> +MODULE_LICENSE("GPL");
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+v2: added RX6/RX7/RX8
+this depends on the other patches from the original series
 
-This machine driver seems very generic. Maybe you could get away with
-using the audio graph drivers instead? It avoids tying the platform with
-a specific codec just for boilerplate code.
+ sound/soc/codecs/lpass-wsa-macro.c | 96 +++++++++++++++++++++++++++++-
+ 1 file changed, 94 insertions(+), 2 deletions(-)
 
+diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+index e2e78ff6dd54e..5d440a839e733 100644
+--- a/sound/soc/codecs/lpass-wsa-macro.c
++++ b/sound/soc/codecs/lpass-wsa-macro.c
+@@ -300,6 +300,11 @@ enum {
+ 	WSA_MACRO_RX_MIX,
+ 	WSA_MACRO_RX_MIX0 = WSA_MACRO_RX_MIX,
+ 	WSA_MACRO_RX_MIX1,
++	WSA_MACRO_RX4,
++	WSA_MACRO_RX5,
++	WSA_MACRO_RX6,
++	WSA_MACRO_RX7,
++	WSA_MACRO_RX8,
+ 	WSA_MACRO_RX_MAX,
+ };
+ 
+@@ -2228,6 +2233,16 @@ static const struct snd_kcontrol_new rx_mux[WSA_MACRO_RX_MAX] = {
+ 			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+ 	SOC_DAPM_ENUM_EXT("WSA RX_MIX1 Mux", rx_mux_enum,
+ 			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
++	SOC_DAPM_ENUM_EXT("WSA RX4 Mux", rx_mux_enum,
++			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
++	SOC_DAPM_ENUM_EXT("WSA RX5 Mux", rx_mux_enum,
++			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
++	SOC_DAPM_ENUM_EXT("WSA RX6 Mux", rx_mux_enum,
++			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
++	SOC_DAPM_ENUM_EXT("WSA RX7 Mux", rx_mux_enum,
++			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
++	SOC_DAPM_ENUM_EXT("WSA RX8 Mux", rx_mux_enum,
++			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
+ };
+ 
+ static int wsa_macro_vi_feed_mixer_get(struct snd_kcontrol *kcontrol,
+@@ -2410,6 +2425,16 @@ static const struct snd_soc_dapm_widget wsa_macro_dapm_widgets_v2_5[] = {
+ 	SND_SOC_DAPM_MUX("WSA_RX1 INP1", SND_SOC_NOPM, 0, 0, &rx1_prim_inp1_mux_v2_5),
+ 	SND_SOC_DAPM_MUX("WSA_RX1 INP2", SND_SOC_NOPM, 0, 0, &rx1_prim_inp2_mux_v2_5),
+ 	SND_SOC_DAPM_MUX("WSA_RX1 MIX INP", SND_SOC_NOPM, 0, 0, &rx1_mix_mux_v2_5),
++	SND_SOC_DAPM_MIXER("WSA RX4", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("WSA RX5", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("WSA RX6", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("WSA RX7", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("WSA RX8", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MUX("WSA RX4 MUX", SND_SOC_NOPM, WSA_MACRO_RX4, 0, &rx_mux[WSA_MACRO_RX4]),
++	SND_SOC_DAPM_MUX("WSA RX5 MUX", SND_SOC_NOPM, WSA_MACRO_RX5, 0, &rx_mux[WSA_MACRO_RX5]),
++	SND_SOC_DAPM_MUX("WSA RX6 MUX", SND_SOC_NOPM, WSA_MACRO_RX6, 0, &rx_mux[WSA_MACRO_RX6]),
++	SND_SOC_DAPM_MUX("WSA RX7 MUX", SND_SOC_NOPM, WSA_MACRO_RX7, 0, &rx_mux[WSA_MACRO_RX7]),
++	SND_SOC_DAPM_MUX("WSA RX8 MUX", SND_SOC_NOPM, WSA_MACRO_RX8, 0, &rx_mux[WSA_MACRO_RX8]),
+ };
+ 
+ static const struct snd_soc_dapm_route wsa_audio_map[] = {
+@@ -2529,6 +2554,64 @@ static const struct snd_soc_dapm_route wsa_audio_map[] = {
+ 	{"WSA_SPK2 OUT", NULL, "WSA_MCLK"},
+ };
+ 
++static const struct snd_soc_dapm_route wsa_audio_map_v2_5[] = {
++	{"WSA RX4 MUX", "AIF1_PB", "WSA AIF1 PB"},
++	{"WSA RX5 MUX", "AIF1_PB", "WSA AIF1 PB"},
++	{"WSA RX6 MUX", "AIF1_PB", "WSA AIF1 PB"},
++	{"WSA RX7 MUX", "AIF1_PB", "WSA AIF1 PB"},
++	{"WSA RX8 MUX", "AIF1_PB", "WSA AIF1 PB"},
++	{"WSA RX4 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
++	{"WSA RX5 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
++	{"WSA RX6 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
++	{"WSA RX7 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
++	{"WSA RX8 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
++	{"WSA RX4", NULL, "WSA RX4 MUX"},
++	{"WSA RX5", NULL, "WSA RX5 MUX"},
++	{"WSA RX6", NULL, "WSA RX6 MUX"},
++	{"WSA RX7", NULL, "WSA RX7 MUX"},
++	{"WSA RX8", NULL, "WSA RX8 MUX"},
++	{"WSA_RX0 INP0", "RX4", "WSA RX4"},
++	{"WSA_RX0 INP0", "RX5", "WSA RX5"},
++	{"WSA_RX0 INP0", "RX6", "WSA RX6"},
++	{"WSA_RX0 INP0", "RX7", "WSA RX7"},
++	{"WSA_RX0 INP0", "RX8", "WSA RX8"},
++	{"WSA_RX0 INP1", "RX4", "WSA RX4"},
++	{"WSA_RX0 INP1", "RX5", "WSA RX5"},
++	{"WSA_RX0 INP1", "RX6", "WSA RX6"},
++	{"WSA_RX0 INP1", "RX7", "WSA RX7"},
++	{"WSA_RX0 INP1", "RX8", "WSA RX8"},
++	{"WSA_RX0 INP2", "RX4", "WSA RX4"},
++	{"WSA_RX0 INP2", "RX5", "WSA RX5"},
++	{"WSA_RX0 INP2", "RX6", "WSA RX6"},
++	{"WSA_RX0 INP2", "RX7", "WSA RX7"},
++	{"WSA_RX0 INP2", "RX8", "WSA RX8"},
++	{"WSA_RX0 MIX INP", "RX4", "WSA RX4"},
++	{"WSA_RX0 MIX INP", "RX5", "WSA RX5"},
++	{"WSA_RX0 MIX INP", "RX6", "WSA RX6"},
++	{"WSA_RX0 MIX INP", "RX7", "WSA RX7"},
++	{"WSA_RX0 MIX INP", "RX8", "WSA RX8"},
++	{"WSA_RX1 INP0", "RX4", "WSA RX4"},
++	{"WSA_RX1 INP0", "RX5", "WSA RX5"},
++	{"WSA_RX1 INP0", "RX6", "WSA RX6"},
++	{"WSA_RX1 INP0", "RX7", "WSA RX7"},
++	{"WSA_RX1 INP0", "RX8", "WSA RX8"},
++	{"WSA_RX1 INP1", "RX4", "WSA RX4"},
++	{"WSA_RX1 INP1", "RX5", "WSA RX5"},
++	{"WSA_RX1 INP1", "RX6", "WSA RX6"},
++	{"WSA_RX1 INP1", "RX7", "WSA RX7"},
++	{"WSA_RX1 INP1", "RX8", "WSA RX8"},
++	{"WSA_RX1 INP2", "RX4", "WSA RX4"},
++	{"WSA_RX1 INP2", "RX5", "WSA RX5"},
++	{"WSA_RX1 INP2", "RX6", "WSA RX6"},
++	{"WSA_RX1 INP2", "RX7", "WSA RX7"},
++	{"WSA_RX1 INP2", "RX8", "WSA RX8"},
++	{"WSA_RX1 MIX INP", "RX4", "WSA RX4"},
++	{"WSA_RX1 MIX INP", "RX5", "WSA RX5"},
++	{"WSA_RX1 MIX INP", "RX6", "WSA RX6"},
++	{"WSA_RX1 MIX INP", "RX7", "WSA RX7"},
++	{"WSA_RX1 MIX INP", "RX8", "WSA RX8"},
++};
++
+ static int wsa_swrm_clock(struct wsa_macro *wsa, bool enable)
+ {
+ 	struct regmap *regmap = wsa->regmap;
+@@ -2562,7 +2645,9 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(comp);
+ 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(comp);
+ 	const struct snd_soc_dapm_widget *widgets;
+-	unsigned int num_widgets;
++	const struct snd_soc_dapm_route *routes;
++	unsigned int num_widgets, num_routes;
++	int ret;
+ 
+ 	snd_soc_component_init_regmap(comp, wsa->regmap);
+ 
+@@ -2587,6 +2672,7 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+ 	case LPASS_CODEC_VERSION_2_1:
+ 		widgets = wsa_macro_dapm_widgets_v2_1;
+ 		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_1);
++		num_routes = 0;
+ 		break;
+ 	case LPASS_CODEC_VERSION_2_5:
+ 	case LPASS_CODEC_VERSION_2_6:
+@@ -2595,12 +2681,18 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
+ 	case LPASS_CODEC_VERSION_2_9:
+ 		widgets = wsa_macro_dapm_widgets_v2_5;
+ 		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_5);
++		routes = wsa_audio_map_v2_5;
++		num_routes = ARRAY_SIZE(wsa_audio_map_v2_5);
+ 		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+ 
+-	return snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
++	ret = snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
++	if (ret)
++		return ret;
++
++	return snd_soc_dapm_add_routes(dapm, routes, num_routes);
+ }
+ 
+ static int swclk_gate_enable(struct clk_hw *hw)
+-- 
+2.51.0
 
-ChenYu
