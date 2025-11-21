@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5EC305E2B
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 22:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D739F287508
+	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 22:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763763103; cv=none; b=Jx2ClpPudxJOis9gXU/q3U5UEnjFosYd4sTsk0b/sUmjghxMKmDYwgxakS/w5DazIvPtsysToPK+lNZ68kGXdbMPv5gs+ZsHluyayRVnB0MlCNwlIb1wBSicVllfPfKBMIhUP3rOMFRtKpIKyHBrxy/clSo8KqJhxy1r5v5ihG8=
+	t=1763763104; cv=none; b=m62dPwNi3HBg2njuSK10HO5KSCT7cBHiLO61DT1n3+Tb+aeUSDdD1eVh896xo0GwjWQNUIHEs7RKkDYDzvhqHgwnABg1xQRMasm4KHOvEmtHT0QIYqHVVUPNBqiqmMNzgvbP80SzPtX3wc+c6xwK4pLVr/ZdbKy4/U1vGe6XTjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763763103; c=relaxed/simple;
-	bh=sSKkC2UgO93ZFbdwUuSRUWVduBJa/Rbrs9AqSBNcNLY=;
+	s=arc-20240116; t=1763763104; c=relaxed/simple;
+	bh=1+QcWKtLjJrr4BnTXig2sCmnsMsdJ79kuYQ6fdt3ILU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OWmOcTme3uLug9HCAknTVwWh5OBPUBgOMLa5z+oCf/th5i3+qLfQKY3CJUlMvHPQ4gsi47Pwnr34xzfCMy8E8zbrN8ATGMawtGohlfo+DYccSaf+801Fogx+8Na/Wf7/y/xFGYduhniuMP8pElMiy2uzKBWwA/bCpQPfjbglXRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bt3O1xee; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=M/Or1zsMP6JG8nRYWcXUzcX2uvH9dfKbKdNsRHhotz3e1r3yiLE0rDEntxcZ1xJ7Rp34HfwAh0eRLH/52fN1rK2gWphA0CCbUNYjO2HJ1fbB9kmyEfm/Er69P3bsG0Cc6+6fFrayQvH7PrEug9JKMe8dOnUdch6ugBTxb0l25tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCGs6EC9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bt3O1xee"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BEFC4CEF1;
-	Fri, 21 Nov 2025 22:11:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCGs6EC9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FC0C116C6;
+	Fri, 21 Nov 2025 22:11:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763763102;
-	bh=sSKkC2UgO93ZFbdwUuSRUWVduBJa/Rbrs9AqSBNcNLY=;
+	s=k20201202; t=1763763104;
+	bh=1+QcWKtLjJrr4BnTXig2sCmnsMsdJ79kuYQ6fdt3ILU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Bt3O1xeekNQ/W6tgJYBxfCJ+HMJJDaEMms+74fOjzSsd+PcHBe9a57i3EsZm1RTxg
-	 xtorE47njeG15crJvmO4exYVZbeKSP9qU2/RzOJKR9gQ9IbdhS6Iq7aOTmel2acCbq
-	 lv7lN9sqLIJSZhxnphZjwwLeeja7vlIkUsnJbWfFni7ayQ6gvpE6aFKevVAp6c7lFB
-	 APb/OpROmRkt5A208O0AFDWJL2ZPni+kJ3s2jR06a4JeVl1oKNhlZSXPeaSn9Cz0OP
-	 g7NhwKTjN/tf6bN4dzWedC5XT3eTtzYSAbEImuDNvcjgTk1PXqWW4zi54dUo+93cGO
-	 k/8cNI5bImlcg==
+	b=SCGs6EC9Ho7IadBne4bI/kTmTBtFa7iZcSGLtJ6oythzEq6y7RxYHUblsBUAtJwO6
+	 UTV4VzUkf+6MUIngwuwV+OgpTfIKNlybcxEdReNLQF6o4hIX8HUGl8jSO+PnES0Qnw
+	 dKn/uOimSJpZZ5Sm9KOI1ueU+TAikGBq/6XqIDEnue4X/Dc2nnDkavCSZwd2ZxEZOn
+	 qQ21ldG7G3zd6uMDfVD6RQN97baVzusv1aqfo1ok/4jhKic60v3WCB3m2ZlSyovAO/
+	 RHT9hDQg+wvbmzGhTnIl452RPdgDDxEibjcetd1GRc66tvANvJPLHsUGaik/1ypO8r
+	 8AroQv2zQHT0Q==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
  pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
  shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20251106114422.906370-1-ckeepax@opensource.cirrus.com>
-References: <20251106114422.906370-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v3 00/13] Add SDCA class driver
-Message-Id: <176376310059.101329.5562513496570814130.b4-ty@kernel.org>
-Date: Fri, 21 Nov 2025 22:11:40 +0000
+In-Reply-To: <20251120153023.2105663-1-ckeepax@opensource.cirrus.com>
+References: <20251120153023.2105663-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v4 00/13] Add SDCA class driver
+Message-Id: <176376310277.101329.17795063595578979022.b4-ty@kernel.org>
+Date: Fri, 21 Nov 2025 22:11:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Thu, 06 Nov 2025 11:44:09 +0000, Charles Keepax wrote:
+On Thu, 20 Nov 2025 15:30:09 +0000, Charles Keepax wrote:
 > This series adds an initial SDCA class driver, this consists of a
 > primary driver attached to the SoundWire device, and auxiliary drivers
 > representing each of the functions of the SDCA device. These drivers all
