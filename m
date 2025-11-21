@@ -1,144 +1,162 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019BB126C17
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 10:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B879C343201;
+	Fri, 21 Nov 2025 10:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763719407; cv=none; b=s55J+Anu7D8wTHTz5w+R1PyeVowZAqvyqri5XQKO6iLPJToHSx7lkRVhqGohJP26oPwjVegOzi+VNitInrD/m0aktwZuHpyXThZJocsFoom+027bSe9SdraeWbOnPuWuwFeLTX85sghYf9FG24kBHxX4sMPNqI8GXA4QmDvNnQc=
+	t=1763720428; cv=none; b=XaR0J+pfImZq51CjTUTuCDgY+auBIfklWcBBLaGQBZEoq/xKz/XYsEq/GKfa8KfKv+hsjCDKyq84KzCBh9hwnqxLchE9kDwu+w5nagtw75gBm4oThf0AoBGt414avcHP36R2psf2RaaUiHcEHFeDr/oT1pvA/VwVjOf3n0LsvU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763719407; c=relaxed/simple;
-	bh=i5HAL7zxYO0FR1UhUzrd2VJ+jDNhCdMevP1IK3NEp4w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I39DJRvmvr5g5kA92iAueuil5g5DpeiP2Jf/4ZOQ9cUifIfrw8SbZpzTNFeXBssRa0NO/rh1X8re8GlkRLodvLhSRR4bDXlJJgWGCA0P4xp7FWPmOmgjfY2wS/5itbp0PfL+QtdViuScrWmd1clVhFy5lcPGfr/5BJ6JSr1fLT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+UJBp2Q; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763720428; c=relaxed/simple;
+	bh=iWqnAe3/O6/plnWbSTIG2BUYeub0UScAt2PUN//TgMw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bs23lyW7hzLzmPNgey6CErKEL0lAs3OwGuN1s08Lw0GLkcvYcoX5wIoo13qN5XbEr5auYPQgFvhCziNHtUuLfWgGY7QCC5pAiv9DE/OrD7cb0AQHbmVxX9wOSFUIyr1OG/YROEX9abyylnhrbyh2YVq+jg30JmZRz76zKmU5Z5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuHCcysW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+UJBp2Q"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5957753e0efso1862714e87.1
-        for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 02:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763719403; x=1764324203; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q06qwS7bqzHrgv8P9i29J5CGzzldkNz7+z8LjgxLs+k=;
-        b=G+UJBp2Qpn2r9GlChQO/jGevjGwyq/lwcKzHcchu6azc+wjpoANxE2ygGo/8fxJzs5
-         0/gTaRdHJ1Eid41kQ9Lbzxg3OS1EPQSio9Y1PVdxEGedLfvVUeC78G8C8Y9GpuPApY/p
-         9MaXInbKhItSY+X5PLjsm8znzNuVnejnEkO61KG/A1uCQWfW4kHXF8rSaSkwOlJT1ruR
-         Bj0Afn9+sa+U96gf+gtGMn0HgoGZqERjEWKyViCKSHPuKDwNwnhDVSgXUfgkOYJlEETg
-         MiH69SOVOV3y8ZJ5LyUHeFyWZZjdyAYabP8jAsbYINt61O0b4yGa3CFMXbGHucwDegOX
-         XipA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763719403; x=1764324203;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=q06qwS7bqzHrgv8P9i29J5CGzzldkNz7+z8LjgxLs+k=;
-        b=obdF8MZ0+P34Wd7koLLDgyHYkFAmVj7S7SQh9aA5yt5afL6aaM++ouT0OO51KdIzH1
-         DPKMpgNS9s4h63X8v0rKOhHjVE6SOXq/2hI/EzwH1E6mpKzL26rl9SfmzUBv460MVvVS
-         U5Yk/4rJYHueQikHMh/2ulF0NsnddoA5sEHU7ZWtDFUmRHFniB3/a62mOIwFtorUkNDS
-         vqEoNdmww4aPcgqcW6WxyXbXtG/CRCibubfUgEgGnqkVdQwckSSO+Tn1cQVBXDIDWCik
-         nEiZ9vxuC5EIUlkGyWec/72wcAgNWN0NhD+LKf5RFfodRCSL2icsBgH4/Mld16vf45he
-         GMQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqlr+98q4lxty2I9qRekYKEVUP/05Pnc9YQE6q7R4Y6TxEvJcriLChkBpxKthsZTdC1uyZWFvMn1a4Mg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYQQ3Ecm8iZr74pn0isakdcO61izP2X2ecBzWS6ALtNbyzhb1v
-	lMG14iOIRzDzlhrE9v9MP/1TFW8y4eRcfJXJC700MYt5jW489s6F9TqCwUYormyMRGMHsUpRECB
-	wCymJ66GtnB/ZTHoo69pcdEMKX4SwlqKB8Y67P5c=
-X-Gm-Gg: ASbGncuRfNRwNtxIAoUxcqq14emxH5Aj5ufOgCWs9dm7fQ1FvdZIvY+UGmn0FcUL6+A
-	MIlurkr9swC0+KcYlYTw3VpxKQTSYqYiZRpZzmTNOViaoJxatJ1e6Q49XVktoGagZTb1B9y021y
-	Y8xH/ehri0Vq216CVPGz6sfdbnkTePLkgExqHFa7ToTbDrnaqktDPogreLzOUTnrXMx6N6SN3Sw
-	2J8JtGRoFt3izK2L+QPsqkha8TwoJAJvS1HgbEreNEo+IIZ/eFTeKtSM0MzTzeLR4wePD0=
-X-Google-Smtp-Source: AGHT+IHrP6aVjQApeDnivY2kYJNlL05WT+Hh0OV8LFZHoS6qVTl0TXomg/xX42Oq4HhhbYGYBiYqeR9GtMivTZCJ8WI=
-X-Received: by 2002:a05:6512:158f:b0:595:840c:cdd0 with SMTP id
- 2adb3069b0e04-596a3ea6320mr538963e87.2.1763719402522; Fri, 21 Nov 2025
- 02:03:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuHCcysW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126C3C4CEF1;
+	Fri, 21 Nov 2025 10:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763720428;
+	bh=iWqnAe3/O6/plnWbSTIG2BUYeub0UScAt2PUN//TgMw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cuHCcysWsoxtxgwICw6OTThJvO4dPnZ4jA4TSmgF+iit+i2g3Du3jEAGU3krgF4d3
+	 S6/97IraiN60AsumeiTAvOH2MVkzAKXzxgUYUD5qFbXfheP+aEmg4iEFISRNnQGhCW
+	 H0wjQJutHn5Iat/aAISJ0wv5YAguL/8fcaDzEpCSbnQ2eo173RcAkyJjzJWc6XUmxI
+	 LZgz2Rj15UCG7QOSjO7yYy1uwQjUuxf2zb8E08sh5+6pxrYRKg2783Vv3ZR4V2ppRN
+	 Y44wThgFJLNYdLCLCrFsvQumqncopPw96v1qr0yicOy5Xdn3ZXZ7pmSJfn6FkOkNfk
+	 dwkSAfls6B1WA==
+Message-ID: <e27e1a6b-53ae-4416-8322-dbfb1c212755@kernel.org>
+Date: Fri, 21 Nov 2025 11:20:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEo2pzvpEXYZzpLXesDp=wvQJ7VN8yaVZZDkCMvFzKySaezf_A@mail.gmail.com>
- <87a50f4ti6.wl-tiwai@suse.de>
-In-Reply-To: <87a50f4ti6.wl-tiwai@suse.de>
-From: Ilyas Gasanov <torso.nafi@gmail.com>
-Date: Fri, 21 Nov 2025 14:03:09 +0400
-X-Gm-Features: AWmQ_bmDkRDNN-iZJ-xAQkuHdWudy_XJ6F9r2X4BFxv524xGohj5A9ROXeyLiiE
-Message-ID: <CAEo2pzuMBmcR8Oq8nPXRwp5s3sWQ=jm9Etp8x1MiX_udG5MEww@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP ProBook 450 G8
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Val Packett <val@packett.cool>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andy@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Alexey Klimov <alexey.klimov@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <3b5d9df5-934d-4591-8827-6c9573a6f7ba@packett.cool>
+ <CAMRc=McHCG8N0zeVUUvYF+rHqBrBKe52o+pf+Hjp5dnG3+NmjA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAMRc=McHCG8N0zeVUUvYF+rHqBrBKe52o+pf+Hjp5dnG3+NmjA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Nov 2025=E2=80=AF13:36 +0400,
-Takashi Iwai wrote:
->
-> On Thu, 20 Nov 2025 20:15:47 +0100,
-> Ilyas Gasanov wrote:
-> >
-> > My laptop, HP ProBook 450 G8 (32M40EA), has Realtek ALC236 codec on its
-> > integrated sound card, and uses GPIO pins 0x2 and 0x1 for speaker mute
-> > and mic mute LEDs correspondingly, as found out by me through hda-verb
-> > invocations. This matches the GPIO masks used by the
-> > alc236_fixup_hp_gpio_led() function.
-> >
-> > PCI subsystem vendor and device IDs happen to be 0x103c and 0x8a75,
-> > which has not been covered in the ALC2xx driver code yet.
-> >
-> > Signed-off-by: Ilyas Gasanov <torso.nafi@gmail.com>
->
-> The code change looks good, but the patch isn't cleanly applicable due
-> to the line breaks by your mailer.
-> Could you try to resubmit with the proper setup?
->
+On 21/11/2025 10:03, Bartosz Golaszewski wrote:
+> On Fri, Nov 21, 2025 at 1:28 AM Val Packett <val@packett.cool> wrote:
+>>
+>> Hi,
+>>
+>> On 11/12/25 10:55 AM, Bartosz Golaszewski wrote:
+>>> ---
+>>> Bartosz Golaszewski (10):
+>>>        string: provide strends()
+>>>        gpiolib: define GPIOD_FLAG_SHARED
+>>>        gpiolib: implement low-level, shared GPIO support
+>>>        gpio: shared-proxy: implement the shared GPIO proxy driver
+>>>        gpiolib: support shared GPIOs in core subsystem code
+>>>        gpio: provide gpiod_is_shared()
+>>>        arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
+>>>        ASoC: wsa881x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
+>>>        ASoC: wsa883x: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE flag from GPIO lookup
+>>>        regulator: make the subsystem aware of shared GPIOs
+>>
+>> this seems to actually have caused a regression for me, audio does not
+>> initialize anymore on hamoa due to EBUSY since upgrading
+>> from next-20251114 to next-20251118 or next-20251120:
+>>
+> 
+> Thanks for the heads-up.
+> 
+>> [   11.748781] platform
+>> 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu group 30
+>> [   11.785864] wsa_macro 6aa0000.codec: using zero-initialized flat
+>> cache, this may cause unexpected behavior
+>> [   11.796964] reset-gpio reset-gpio.0: error -EBUSY: Could not get
+>> reset gpios
+>> [   11.796984] reset-gpio reset-gpio.0: probe with driver reset-gpio
+>> failed with error -16
+>> [   11.894662] reset-gpio reset-gpio.1: error -EBUSY: Could not get
+>> reset gpios
+>> [   11.894676] reset-gpio reset-gpio.1: probe with driver reset-gpio
+>> failed with error -16
+> 
+> It seems like it's the reset-gpio driver, not shared GPIOLIB path?
+> This driver has never used the GPIOD_FLAGS_BIT_NONEXCLUSIVE flag.
 
-It looks like the issue is either on the lieer (gmi) side, or on the
-Gmail server's side (in which case I'll probably have to set up a
-separate mailbox with another service specifically for patch
-emailing). I'm inclined to think it's likely the latter, since in the
-copy I'm having in my Sent folder, there are no extraneous line breaks
-in the code. Could be wrong though, might as well be an IMAP sync
-thing with lieer, for all I know.
+NONEXCLUSIVE does not matter here. I think this is just broken code -
+your patch 3 goes through allnodes for_each_property_of_node() and then
+assumes it is shared GPIO, so probably this nicely breaks existing DTS
+and reset-gpio. Well, it is not a shared GPIO, so all your assumptions
+here are just wrong.
 
-Configuring Gmail to work with git-send-email at all is a pain these
-days anyway, in no small part because of Google's rather convoluted
-OAuth2 token issuing policy. And plain old passwords just don't seem
-to work anymore, at least for me.
+reset-gpio is already used on multiple Qualcomm and other SoC  platforms.
 
-I'll see what I can do later.
-
->
-> thanks,
->
-> Takashi
->
-> > ---
-> >  sound/hda/codecs/realtek/alc269.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/sound/hda/codecs/realtek/alc269.c
-> > b/sound/hda/codecs/realtek/alc269.c
-> > index 6748057e6a14..10c83cd3460e 100644
-> > --- a/sound/hda/codecs/realtek/alc269.c
-> > +++ b/sound/hda/codecs/realtek/alc269.c
-> > @@ -6590,6 +6590,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
-=3D {
-> >       SND_PCI_QUIRK(0x103c, 0x8a4f, "HP Victus 15-fa0xxx (MB 8A4F)",
-> > ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
-> >       SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41=
-_I2C_4),
-> >       SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC",
-> > ALC236_FIXUP_HP_GPIO_LED),
-> > +     SND_PCI_QUIRK(0x103c, 0x8a75, "HP ProBook 450 G8 Notebook PC",
-> > ALC236_FIXUP_HP_GPIO_LED),
-> >       SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One",
-> > ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
-> >       SND_PCI_QUIRK(0x103c, 0x8aa0, "HP ProBook 440 G9 (MB 8A9E)",
-> > ALC236_FIXUP_HP_GPIO_LED),
-> >       SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)",
-> > ALC236_FIXUP_HP_GPIO_LED),
-> > --
-> > 2.51.0
+Best regards,
+Krzysztof
