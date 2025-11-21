@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DB9341AC5
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 11:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540F7346E71
+	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 11:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763724201; cv=none; b=ZlwZ+soif9GUTmOXWC7rTpK31mMRb+8gnH++0Wiqd91cl9I5F1l63QwnsDKkRw/7Lu/6JmsX36InjL/YCdRWtIzeYq224JkoVq6lBSl9l/hQaCtyFqcLwo5JW5/VAL/cTq3h8Yb5usS6Nu3mbgUOdxvtU9g6qe8e3fAWFIhlRKY=
+	t=1763724202; cv=none; b=Z3HwYp6R/4To8oiedpUz7LZMDwPkE0wOaX0RMKfByLv1y8MNfAsqswYJChed5f9eEbSnfiKz3EkOWqc3D5WwoJeFOm3UW9Jet9xAlYfsfxaDRcHU1hc/CY5bkNxSpqG2jhYWv/iJNllv77DNEDGyfeSW8K3b+3iUulAYRQ2B5xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763724201; c=relaxed/simple;
-	bh=Lvv5j9ShxdrvyGJFnX8YQ7QrCe6sYUPEZFDR28PgTJQ=;
+	s=arc-20240116; t=1763724202; c=relaxed/simple;
+	bh=3Zgvp8bwAN5x17cTGinhTZ0r2mm8Ay8IrEGoUh7kK/8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lfS1R7DiRUBRQTWlpgdUh4YEqStpavHgl4cLj92wfUFlMLPQKGZNmK8DWV1oSeuRZeaorNNhAmihkp6ZQTT5PqHDMLN9nIsTbZpg05eNot8ftLNpzzlyhVWsn9cU7L2If7mTBmQsemg94XaRtjLsypJB7KLbi7LrxJ2IyEMU6/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9TBdf22; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=eveZujAhULk7nI2dZHTeJFRW9xT2LmMx0+RrqQBrNZQy1+vezASEyiExWED8+urm1Oc/xRnj4N4bFBsbjbbNTVdlhHkz/y+bUf/4kZ0Aot2coc7bz9jmgJvtvIEt3Otl/wD1AUdUwajW4G6tHviW68PiNkxVdceFC70utB/vfsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc+uxEDq; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9TBdf22"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc+uxEDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763724199; x=1795260199;
+  t=1763724200; x=1795260200;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Lvv5j9ShxdrvyGJFnX8YQ7QrCe6sYUPEZFDR28PgTJQ=;
-  b=A9TBdf22q1ZbatX3Gt9Win7IZ0zP+p+LW64ZonRDcrejOm1+zjyVsAsJ
-   pCoICsJESsl2beVoDqKocIcYK9Al8CJR4jq8HrOkVHIirVIODKUDXbB+r
-   V+GX1RZDeIDInBSkkkER6EOg/LeqX+YaeAPPSUKBZXXFiEZNHPAtbpa3w
-   0VUzaKisj3jnd+iOu/7+DZgyo361qTHaY6cNasAnG5uPLFmgfzS/dF8Nt
-   Mam4REv492oleYC3Z0SVQ3MADjUkWJzm5/Mgx5rcOeT1wdXe14p3ITbsp
-   7bSX7sciA85ycbh7nhYQi/m6e6BXPj826yJwaP64tv9eaIO6yO8OVZ3nK
-   w==;
-X-CSE-ConnectionGUID: S7K+BgefQEONgbd2puI6TA==
-X-CSE-MsgGUID: aU+F8w0bQgO90IZN57donQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65845929"
+  bh=3Zgvp8bwAN5x17cTGinhTZ0r2mm8Ay8IrEGoUh7kK/8=;
+  b=Zc+uxEDqhB+QovNa8ERtAlF5UfIfL0ir63UVlwjRgF1iI2Xuz1Te7z3L
+   LvgbpxGOx31+cUTdCymdEEVd1cyaAmUgCFs9Jc26oPqWIyZkpkorsowg6
+   wbJR5GBBjKsPuJ5nXEgm2q+bkn6VF3SfpFVkdBeQ9dbEFUX9Sl8tRTd4v
+   IcDO9uo7fz6oToTbKk8WrSdKWHh+zqhy1vf1+AcX5ayJc5+kEKJeiTLXX
+   sPmUltF/h06rkHAVm5VIOPEmK3WUE+ROJXcpgwcddqO3P8r8WB31cbX2K
+   ZzvqFiVqXOKY+OoPTT8lrsUtzpo1zpoxNtQZFLbN/B3H6vs4tbKlSry6f
+   g==;
+X-CSE-ConnectionGUID: E1H0JGWvQyysIkct0vzg6g==
+X-CSE-MsgGUID: 9gvSHkaISUWLU24QLs26eQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65845937"
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="65845929"
+   d="scan'208";a="65845937"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 03:23:18 -0800
-X-CSE-ConnectionGUID: 2fJ8onDGRSKStlH8Dy1Mgw==
-X-CSE-MsgGUID: INpYAZPGTZaLZGbPPAmmXw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 03:23:20 -0800
+X-CSE-ConnectionGUID: rRINSNKqQomn3FNL/4FEQw==
+X-CSE-MsgGUID: rn0Y57shT4eavrsc/f9lHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="191462844"
+   d="scan'208";a="191462848"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 03:23:16 -0800
+  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 03:23:18 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 4/6] ASoC: Intel: catpt: Do not ignore errors on runtime resume
-Date: Fri, 21 Nov 2025 12:43:29 +0100
-Message-Id: <20251121114331.3841335-5-cezary.rojewski@intel.com>
+Subject: [PATCH 5/6] ASoC: Intel: catpt: Do not block the system from suspending
+Date: Fri, 21 Nov 2025 12:43:30 +0100
+Message-Id: <20251121114331.3841335-6-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251121114331.3841335-1-cezary.rojewski@intel.com>
 References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
@@ -65,86 +65,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If pm_runtime_resume_and_get() fails, follow up pm_runtime_xxx()
-operate on device in erroneous state.
+Even if something goes wrong when performing suspend on DSP, from the
+system perspective the component is not critical enough to block the
+suspend operation entirely. Leaving recovery to next resume() suffices.
 
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/pcm.c   | 12 ++++++------
- sound/soc/intel/catpt/sysfs.c |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ sound/soc/intel/catpt/device.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/intel/catpt/pcm.c b/sound/soc/intel/catpt/pcm.c
-index 9baaad13a273..abd1cb07c60c 100644
---- a/sound/soc/intel/catpt/pcm.c
-+++ b/sound/soc/intel/catpt/pcm.c
-@@ -671,7 +671,7 @@ static int catpt_dai_pcm_new(struct snd_soc_pcm_runtime *rtm,
- 		return 0;
+diff --git a/sound/soc/intel/catpt/device.c b/sound/soc/intel/catpt/device.c
+index eed330bc82b6..08788b390874 100644
+--- a/sound/soc/intel/catpt/device.c
++++ b/sound/soc/intel/catpt/device.c
+@@ -28,7 +28,7 @@
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
  
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
+-static int catpt_suspend(struct device *dev)
++static int __catpt_suspend(struct device *dev)
+ {
+ 	struct catpt_dev *cdev = dev_get_drvdata(dev);
+ 	struct dma_chan *chan;
+@@ -106,6 +106,13 @@ static int catpt_resume(struct device *dev)
+ 	return 0;
+ }
  
- 	ret = catpt_ipc_set_device_format(cdev, &devfmt);
-@@ -874,7 +874,7 @@ static int catpt_mixer_volume_get(struct snd_kcontrol *kcontrol,
- 	int i;
- 
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
- 
- 	for (i = 0; i < CATPT_CHANNELS_MAX; i++) {
-@@ -895,7 +895,7 @@ static int catpt_mixer_volume_put(struct snd_kcontrol *kcontrol,
- 	int ret;
- 
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
- 
- 	ret = catpt_set_dspvol(cdev, cdev->mixer.mixer_hw_id,
-@@ -926,7 +926,7 @@ static int catpt_stream_volume_get(struct snd_kcontrol *kcontrol,
++/* Do not block the system from suspending, recover on resume() if needed. */
++static int catpt_suspend(struct device *dev)
++{
++	__catpt_suspend(dev);
++	return 0;
++}
++
+ static int catpt_runtime_suspend(struct device *dev)
+ {
+ 	if (!try_module_get(dev->driver->owner)) {
+@@ -114,7 +121,7 @@ static int catpt_runtime_suspend(struct device *dev)
  	}
+ 	module_put(dev->driver->owner);
  
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
+-	return catpt_suspend(dev);
++	return __catpt_suspend(dev);
+ }
  
- 	for (i = 0; i < CATPT_CHANNELS_MAX; i++) {
-@@ -957,7 +957,7 @@ static int catpt_stream_volume_put(struct snd_kcontrol *kcontrol,
- 	}
- 
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
- 
- 	ret = catpt_set_dspvol(cdev, stream->info.stream_hw_id,
-@@ -1033,7 +1033,7 @@ static int catpt_loopback_switch_put(struct snd_kcontrol *kcontrol,
- 	}
- 
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
- 
- 	ret = catpt_ipc_mute_loopback(cdev, stream->info.stream_hw_id, mute);
-diff --git a/sound/soc/intel/catpt/sysfs.c b/sound/soc/intel/catpt/sysfs.c
-index 048253002ec8..e961e172f9b7 100644
---- a/sound/soc/intel/catpt/sysfs.c
-+++ b/sound/soc/intel/catpt/sysfs.c
-@@ -16,7 +16,7 @@ static ssize_t fw_version_show(struct device *dev,
- 	int ret;
- 
- 	ret = pm_runtime_resume_and_get(cdev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret)
- 		return ret;
- 
- 	ret = catpt_ipc_get_fw_version(cdev, &version);
+ static int catpt_runtime_resume(struct device *dev)
 -- 
 2.25.1
 
