@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF29828E5
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 11:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E1033ADAA
+	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 11:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763724196; cv=none; b=eOYhOaFyldnpWOXgFqxE+25XlzrVakyRffCshkHepS1XXafFRuojLXEOJ+1ir/ATK7atOQ6CVU/2qr8thv2wuvydMpcrBgfd7gVQFduT1n9Nhf9/gs4C8YXRoYD8xaY3MWzFErCiPyvWg/Q6WzYi9KLjMSQ7YKxZ0jmhdOkU58M=
+	t=1763724196; cv=none; b=bB6tYIsgdT4C7EjxHCV4m0gdEIoM5Q5X12BJwmfeUkO3KtVlLTzECqdKK4hmct2rISdFhOBY0k5hDT6+4pb/dA7z2dHpz0ZQPK+Uv4SnjxFbIM30MVtiPxbemL3+xQz149OQF/CDRec3Cn2y4dnWNMvoAR5RKRcgTDMOPgUflss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763724196; c=relaxed/simple;
-	bh=yFt474ayWIpyQ2EFXwoYISZURpey4fUODaj2EkDv7W4=;
+	bh=khpzvROO7nxd+yiGWO3LymUxPInRZRNpY24InMPVmUQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=l1GkDRRt8z1dhl6sjsAYchJT+rfx7BX7rl4cCy2Xfs4mlwTeHIaEgSeUOB7WeJt8v1bcTz1+J3OSO06kDeyh0pqr626nqa9h7RDeIX4WxJUxHOYidXfyT/Z5+nk2m0Hq+WWXvB/rrNADYNnWZgy6SVd9vL31RydwqFwRK6WrSK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HAWkcuz2; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=H+Tbc7X+CDm1/hmbq7P1BBTyqlZnfZQqOIL5Z+q3DObWbKlCWX9Yc7c3P/qE0VRcksEjYhrV3VP58TAKhFxE4+j50lMBhGXMtCcYDWHn+9tMhjRuWGK2FVTYLLO8/ZR75HuGQFFsziifJIqTADzlDSpadzvmTFPzYYadM4rNsKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nf8xCtZt; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAWkcuz2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf8xCtZt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1763724194; x=1795260194;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=yFt474ayWIpyQ2EFXwoYISZURpey4fUODaj2EkDv7W4=;
-  b=HAWkcuz2WKL4o+Gdm9XbQL7keL38ZIJuSV3MKNtu92HTtsUlsUbjXEq3
-   ehYbpjEcSTowTyVqDUn/cUVHHdFaw6hry9MuRaAN7pcr3LIDJQmWMtd8A
-   gY6/u5kKCudOAQdbjbxtnbg+xKFuzWd9Yro351e5qKO9oeoAeCAnFVqcz
-   c0vvGl3uSugmHg3Hn7uV77g7UtYYn8D5R2bDJ6CEfoWvmzNB2KQRd+Wq6
-   UKS5aiqwcM5EbVMsKDxbYoU7H0u30Ou2wwCQVrwkrclbB5peTLPwKdYag
-   S/MCsqm2GAFYgdLE67xvEeCG0x8gDnjZiHsRFq5xLqHGZtqwiaJJg2DII
-   w==;
-X-CSE-ConnectionGUID: Y8DqnLMKTOSDV+PnNgIrRw==
-X-CSE-MsgGUID: LIvPDnEtTzm5p3bqL8+66Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65845910"
+  bh=khpzvROO7nxd+yiGWO3LymUxPInRZRNpY24InMPVmUQ=;
+  b=Nf8xCtZtdYBYGZCMpaAPKMMNDvNHo/2b4RMumMHcy3Mkq+2dQ500piw0
+   5M3xI1m/jOGA1Fj0XF0asca54omzrIzhf9GzLoR3wk4dC2Ah9q9aQZ+pT
+   +qJ/VySOGII9V5fGHB3MvL7nASh705jsrZoCffZbWiycYJGOsQo3Ld6/p
+   IYJWZv7Z8pg6QagSheMCWLoCut9P4PhsskB1PVeVsEUMTZra1idzJRgJI
+   XDxyZL12E1V2r7OnqOBxXfnTA/Z3t4QVClYQnbkn+0hkuJE7xGA0CCLrB
+   75D8ktlwYl7WBr30AcnXhQ3sxBFyXnGKp+kQOfmH+x/3VQ9pKyEEN0iHg
+   Q==;
+X-CSE-ConnectionGUID: bbH6CYcHRlaK5Q26GfRJiw==
+X-CSE-MsgGUID: zSJx340ORfmaBURmq5wCJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65845916"
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="65845910"
+   d="scan'208";a="65845916"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 03:23:12 -0800
-X-CSE-ConnectionGUID: udkyypUGTFGTfN1jF/2n9A==
-X-CSE-MsgGUID: pBI4pZ3+RQ6BkMDLuCcrZA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 03:23:14 -0800
+X-CSE-ConnectionGUID: 3pMDjp4ORJep98nvdbDkpg==
+X-CSE-MsgGUID: rVpjJFY9SCOa5D3sfZM3iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="191462832"
+   d="scan'208";a="191462836"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 03:23:11 -0800
+  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 03:23:12 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 1/6] ASoC: Intel: catpt: Fix offset checks
-Date: Fri, 21 Nov 2025 12:43:26 +0100
-Message-Id: <20251121114331.3841335-2-cezary.rojewski@intel.com>
+Subject: [PATCH 2/6] ASoC: Intel: catpt: Fix error path in hw_params()
+Date: Fri, 21 Nov 2025 12:43:27 +0100
+Message-Id: <20251121114331.3841335-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251121114331.3841335-1-cezary.rojewski@intel.com>
 References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
@@ -65,43 +65,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Verify if the entire block is found within DRAM, not just the start of
-it.
+Do not leave any resources hanging on the DSP side if applying user
+settings fails.
 
+Fixes: 768a3a3b327d ("ASoC: Intel: catpt: Optimize applying user settings")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/loader.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/intel/catpt/pcm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
-index 696d84314eeb..5804de1d89e3 100644
---- a/sound/soc/intel/catpt/loader.c
-+++ b/sound/soc/intel/catpt/loader.c
-@@ -216,7 +216,7 @@ static int catpt_restore_memdumps(struct catpt_dev *cdev, struct dma_chan *chan)
- 			continue;
+diff --git a/sound/soc/intel/catpt/pcm.c b/sound/soc/intel/catpt/pcm.c
+index f15385683d9c..9baaad13a273 100644
+--- a/sound/soc/intel/catpt/pcm.c
++++ b/sound/soc/intel/catpt/pcm.c
+@@ -417,8 +417,10 @@ static int catpt_dai_hw_params(struct snd_pcm_substream *substream,
+ 		return CATPT_IPC_ERROR(ret);
  
- 		off = catpt_to_host_offset(info->offset);
--		if (off < cdev->dram.start || off > cdev->dram.end)
-+		if (off < cdev->dram.start || off + info->size >= cdev->dram.end)
- 			continue;
+ 	ret = catpt_dai_apply_usettings(dai, stream);
+-	if (ret)
++	if (ret) {
++		catpt_ipc_free_stream(cdev, stream->info.stream_hw_id);
+ 		return ret;
++	}
  
- 		dev_dbg(cdev->dev, "restoring memdump: off 0x%08x size %d\n",
-@@ -261,12 +261,12 @@ static int catpt_restore_fwimage(struct catpt_dev *cdev,
- 			continue;
- 
- 		off = catpt_to_host_offset(info->offset);
--		if (off < cdev->dram.start || off > cdev->dram.end)
--			continue;
--
- 		r2.start = off;
- 		r2.end = r2.start + info->size - 1;
- 
-+		if (r2.start < cdev->dram.start || r2.end > cdev->dram.end)
-+			continue;
-+
- 		if (!resource_intersection(&r2, &r1, &common))
- 			continue;
- 		/* calculate start offset of common data area */
+ 	stream->allocated = true;
+ 	return 0;
 -- 
 2.25.1
 
