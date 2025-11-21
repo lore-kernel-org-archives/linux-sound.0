@@ -1,53 +1,53 @@
 Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCF633F38A;
-	Fri, 21 Nov 2025 15:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07E52E7185;
+	Fri, 21 Nov 2025 15:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763738572; cv=pass; b=QiF3NEjOUt2NBcq+anAWpMx6pKIR0sUXpogy9RhCaQvr6hr3BrtWQItNY0KE55KTd3Hv61fjgRgzvDtIoLVT8yjDnTrz/GKFZ+LiAe44W30T7+5sUTicDWZWx+5NlOAdGjaBp4cKYFlSJm2+M4TJENQctNQPj00zN0UJt1JtxG0=
+	t=1763738574; cv=pass; b=cEJ1FaldQ6d8ko00TrPnnpqpS3GnpP2U1nVobHNJ+H1M9zm1veABMoNWh7xXE4IZL3e+OdEPW4AUGm/9VIBC9MkE8TDUzy5V6IbOUJRZczqAyy8ld/EWFOjgf0PnxPECFWj6NWI+rfEFkXhDyu3iuzNkjkkJNYt+HOe4craQ0eI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763738572; c=relaxed/simple;
-	bh=nVH+FO2vNQx5mByaCWWGD60Vk1aE7g/A0k5U4DXBLpc=;
+	s=arc-20240116; t=1763738574; c=relaxed/simple;
+	bh=92z/KNlP1NEFCpm2Yser7QCAn0uhy1m8CuqWxt4iyqQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y6B25fg7UlG9WMDkiWF7QyPmzcJWLqao/cKUfA5sepYM1muhVPKUKF3Cg023UIjWARQ+gwS7gM7ultgNaV3LvUQfARTc3JBC62F4H4GvUJ3nEV6Kxqwf2EwqR7yvs/j/z2g36bRJBTvMN4lyLnCUhZrM0ZZV+rYXZQ6rx5GKyA8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=MWutsMG5; arc=pass smtp.client-ip=136.143.184.12
+	 MIME-Version; b=sMnelVwEdyHecpFBBow7SwDejHYS/POa8xrvD5blGw8eM99Se6YKq5M5WYzKNi2z2EBqeUAzolrOknn3CoZj4AhmIIA7wbp3Emg9tT1ZewIr9ucRp4DVXZ3ns+05S5C0SkOvyJXaCvQtuDAEeArSpLfVJST1hC699hMGeX3QblY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=aNAn/wpe; arc=pass smtp.client-ip=136.143.184.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="MWutsMG5"
-ARC-Seal: i=1; a=rsa-sha256; t=1763738561; cv=none; 
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="aNAn/wpe"
+ARC-Seal: i=1; a=rsa-sha256; t=1763738563; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=dCifN4ygUsr9JjLJgySBS+4GfghqGjV37opi5P07laQ8stC3yyur5syvF/ZTodN8H91orYrd6sfywxZhv381ZTAJ5QsT4ysuBAVdGEpza7jZRKk5EMdlu7eBQEzzEE0/W6cnWa9AU6wLYAW0zef5mumMv1Boh0ANkuVXvJFU2lg=
+	b=C7hmLbee6UpgdByCICpu3yYSXKt9rqQnCueMeHPVTIl6pD1NLJxhGKeZ/oTWpl3BqL7CbDrLuCpKa89ejbpKKUKowpOig3uiASjMczGmFkzySNa3EsfrO0vEY9L3WvH9njJq1GhNgBhelkx4ZVjhrf2tMmwp+JXiOv47XJMfII8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1763738561; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Bd6i168ycPJtxyRG2NJnyByZu+xUp9p9I+TPXIOqogk=; 
-	b=XRI8Vbq7rEMP8yOKRWNp0qL3D/Wj7kxuGpyIumLEiGfMU8CJe77u04Q0QPP8T9yLpPX9/Sx39mndO04TplzD01ZHLR46bURjVKm7+MWo4hJdzYo6ZYREns9GtFKgka4+tTKLzHRckt5GK8M40S/rAfTqJsK4usZWH2lXHzEqMC8=
+	t=1763738563; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xUCZJUR1KrfKjFjmOxBQPeEte4Hoy97k3kE5KkFfS+o=; 
+	b=SIfMY3QwwrYVrPIloK3yGRfVuq9HTxhVMiMfnrUVX9VEZtKnSiE0A9YTG3nriC7PIlSvL5UM8vEgV4UujqD1zbhCEReoz5C/1ATHTruKjcYG7QAOrrd5A8pdUqk5flspHOa0+A1eHX8Sf6dA3uHq9rJZAh3Bp4J+Z0dHQ1x2E/A=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=harin.net;
 	spf=pass  smtp.mailfrom=me@harin.net;
 	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763738561;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763738563;
 	s=zmail; d=harin.net; i=me@harin.net;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Bd6i168ycPJtxyRG2NJnyByZu+xUp9p9I+TPXIOqogk=;
-	b=MWutsMG5zXbJdiTCkKl1oPdMU03bPxQUz7N/4ze4xH+iS1ctt3HsbUZ53a0WDuS9
-	3XyUNDG2b11rL+K4ol7Ug11W7Pj52ZU6Ie6wTxnv9O7e6NCX7gEDuKLAZhII0aooqCI
-	jyXKH7WzwpKIWUe8pFw+BQdXzV6Y/TRSDpCsalSSXitzD5n7u/H4F8thFk1wGLkVfYV
-	5vWpTiiDgBnQJiMhEO4mI7NCRUOcR7iDgshpKsV51GY8S0/IOtOSCAJiM3IHsQUcM3L
-	u4UHikZ0U4J0pcTom+/788KH/MXzTO/DXO0dk9v0uLEV5y+a89mx88l7B33eJ36J0zD
-	w+BUhO5dRw==
-Received: by mx.zohomail.com with SMTPS id 1763738558963949.1461819276633;
-	Fri, 21 Nov 2025 07:22:38 -0800 (PST)
+	bh=xUCZJUR1KrfKjFjmOxBQPeEte4Hoy97k3kE5KkFfS+o=;
+	b=aNAn/wpeBrNzrNEd+fcBYclCFle08Acs2MziWyXGQ4RS9GQ01WpgQOgsnFqwitvX
+	4U8RkgS8yj3E6vtgEWRrP1BMauWy02pnclVmL+dKzJtd0pxLYKFxPZ8GDNC63bgPOMO
+	s/+vLtmWUgE8l74ezjcwA/PknNvh/8iA+BW63Xi+lIPswpUF6r5aRdEDlAU0KkL3s5V
+	S+vXaJ1lygM6zbxq5JW2LEf6vyhThF8Kz+jwuQaMOG/zM0ZWZe8dt1pwj2SSwuORwqA
+	zuV4I69wTkRgZ5YRawy2Ufx1P0Vu2xex5MN4jgghyRV/BMJvGid8KOkioG2Aj8Jf+2G
+	KWTSQ0icJQ==
+Received: by mx.zohomail.com with SMTPS id 1763738560824638.7647366437496;
+	Fri, 21 Nov 2025 07:22:40 -0800 (PST)
 From: Harin Lee <me@harin.net>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Harin Lee <me@harin.net>
-Subject: [PATCH v2 5/6] ALSA: ctxfi: Add support for dedicated RCA switching
-Date: Sat, 22 Nov 2025 00:22:19 +0900
-Message-ID: <20251121152221.1152523-6-me@harin.net>
+Subject: [PATCH v2 6/6] ALSA: ctxfi: Add support for Onkyo SE-300PCIE (OK0010)
+Date: Sat, 22 Nov 2025 00:22:20 +0900
+Message-ID: <20251121152221.1152523-7-me@harin.net>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251121152221.1152523-1-me@harin.net>
 References: <20251121152221.1152523-1-me@harin.net>
@@ -60,309 +60,220 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Add feature to support switching between the dedicated RCA output and
-the 7.1ch Front output. This is required for hardware that utilizes
-separate DAC circuits for RCA and 7.1ch channels.
+Add support for the Onkyo SE-300PCIE, a Creative X-Fi CA20K2-based
+sound card with a custom hardware implementation that differs
+significantly from other CA20K2-based variants.
 
 Changes:
-- Add dedicated_rca capability flag
-- Add 'Dedicated Selection Playback Enum' mixer control
-- Implement logic to swap DAO inputs between RCA and Front ports
+- PCI quirk entry for OK0010
+- Port 0x3 is utilized for dedicated RCA output (configured as I2S)
+- Modified GPIO pin mappings and states
+- 4-channel simultaneous ADC input support for line and microphone
+  capture without input switching (similar to SB1270)
+- Simplified ADC initialization (no manual setup required)
 
 Signed-off-by: Harin Lee <me@harin.net>
 ---
- sound/pci/ctxfi/ctatc.c      | 33 +++++++++++++++-
- sound/pci/ctxfi/ctatc.h      |  4 ++
- sound/pci/ctxfi/ctdaio.c     |  2 +
- sound/pci/ctxfi/ctdaio.h     |  1 +
+ sound/pci/ctxfi/ctatc.c      |  7 +++++-
+ sound/pci/ctxfi/ctdaio.h     |  2 +-
  sound/pci/ctxfi/cthardware.h |  1 +
- sound/pci/ctxfi/cthw20k1.c   |  1 +
- sound/pci/ctxfi/cthw20k2.c   |  1 +
- sound/pci/ctxfi/ctmixer.c    | 73 ++++++++++++++++++++++++++++++++++--
- 8 files changed, 111 insertions(+), 5 deletions(-)
+ sound/pci/ctxfi/cthw20k2.c   | 45 ++++++++++++++++++++++++++----------
+ 4 files changed, 41 insertions(+), 14 deletions(-)
 
 diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
-index 80888fffebd1..69dad9ebbd8f 100644
+index 69dad9ebbd8f..62432510eb2f 100644
 --- a/sound/pci/ctxfi/ctatc.c
 +++ b/sound/pci/ctxfi/ctatc.c
-@@ -987,6 +987,24 @@ static struct capabilities atc_capabilities(struct ct_atc *atc)
- 	return hw->capabilities(hw);
- }
+@@ -63,6 +63,7 @@ static const struct snd_pci_quirk subsys_20k2_list[] = {
+ 	SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_CREATIVE, 0xf000,
+ 			   PCI_SUBDEVICE_ID_CREATIVE_HENDRIX, "HENDRIX",
+ 			   CTHENDRIX),
++	SND_PCI_QUIRK(0x160b, 0x0101, "OK0010", CTOK0010),
+ 	{ } /* terminator */
+ };
  
-+static void atc_dedicated_rca_select(struct ct_atc *atc)
-+{
-+	struct dao *dao;
-+	struct ct_mixer *mixer = atc->mixer;
-+	struct rsc *rscs[2] = {NULL};
-+
-+	dao = container_of(atc->daios[atc->rca_state ? RCA : LINEO1],
-+		struct dao, daio);
-+	dao->ops->clear_left_input(dao);
-+	dao->ops->clear_right_input(dao);
-+
-+	mixer->get_output_ports(mixer, MIX_WAVE_FRONT, &rscs[0], &rscs[1]);
-+	dao = container_of(atc->daios[atc->rca_state ? LINEO1 : RCA],
-+		struct dao, daio);
-+	dao->ops->set_left_input(dao, rscs[0]);
-+	dao->ops->set_right_input(dao, rscs[1]);
-+}
-+
- static int atc_output_switch_get(struct ct_atc *atc)
- {
- 	struct hw *hw = atc->hw;
-@@ -1088,6 +1106,11 @@ static int atc_mic_unmute(struct ct_atc *atc, unsigned char state)
- 	return atc_daio_unmute(atc, state, MIC);
- }
+@@ -78,6 +79,7 @@ static const char *ct_subsys_name[NUM_CTCARDS] = {
+ 	[CTHENDRIX]	= "Hendrix",
+ 	[CTSB0880]	= "SB0880",
+ 	[CTSB1270]      = "SB1270",
++	[CTOK0010]    = "OK0010",
+ 	[CT20K2_UNKNOWN] = "Unknown",
+ };
  
-+static int atc_rca_unmute(struct ct_atc *atc, unsigned char state)
-+{
-+	return atc_daio_unmute(atc, state, RCA);
-+}
-+
- static int atc_spdif_out_unmute(struct ct_atc *atc, unsigned char state)
- {
- 	return atc_daio_unmute(atc, state, SPDIFOO);
-@@ -1303,6 +1326,7 @@ static int atc_identify_card(struct ct_atc *atc, unsigned int ssid)
- 	dev_info(atc->card->dev, "chip %s model %s (%04x:%04x) is found\n",
- 		   atc->chip_name, atc->model_name,
- 		   vendor_id, device_id);
-+	atc->rca_state = 0;
- 	return 0;
- }
- 
-@@ -1400,11 +1424,11 @@ static int atc_get_resources(struct ct_atc *atc)
- 	daio_mgr = (struct daio_mgr *)atc->rsc_mgrs[DAIO];
- 	da_desc.msr = atc->msr;
- 	for (i = 0; i < NUM_DAIOTYP; i++) {
--		if ((i == MIC) && !cap.dedicated_mic)
-+		if (((i == MIC) && !cap.dedicated_mic) || ((i == RCA) && !cap.dedicated_rca))
- 			continue;
- 		da_desc.type = (atc->model != CTSB073X) ? i :
- 			     ((i == SPDIFIO) ? SPDIFI1 : i);
--		da_desc.output = (i < LINEIM);
-+		da_desc.output = ((i < LINEIM) || (i == RCA));
- 		err = daio_mgr->get_daio(daio_mgr, &da_desc,
- 					(struct daio **)&atc->daios[i]);
- 		if (err) {
-@@ -1511,6 +1535,9 @@ static void atc_connect_resources(struct ct_atc *atc)
+@@ -1535,8 +1537,10 @@ static void atc_connect_resources(struct ct_atc *atc)
  		dao->ops->set_right_input(dao, rscs[1]);
  	}
  
-+	if (cap.dedicated_rca)
-+		atc_dedicated_rca_select(atc);
-+
+-	if (cap.dedicated_rca)
++	if (cap.dedicated_rca) {
++		/* SE-300PCIE has a dedicated DAC for the RCA. */
+ 		atc_dedicated_rca_select(atc);
++	}
+ 
  	dai = container_of(atc->daios[LINEIM], struct dai, daio);
  	atc_connect_dai(atc->rsc_mgrs[SRC], dai,
- 			(struct src **)&atc->srcs[2],
-@@ -1643,12 +1670,14 @@ static const struct ct_atc atc_preset = {
- 	.line_rear_unmute = atc_line_rear_unmute,
- 	.line_in_unmute = atc_line_in_unmute,
- 	.mic_unmute = atc_mic_unmute,
-+	.rca_unmute = atc_rca_unmute,
- 	.spdif_out_unmute = atc_spdif_out_unmute,
- 	.spdif_in_unmute = atc_spdif_in_unmute,
- 	.spdif_out_get_status = atc_spdif_out_get_status,
- 	.spdif_out_set_status = atc_spdif_out_set_status,
- 	.spdif_out_passthru = atc_spdif_out_passthru,
- 	.capabilities = atc_capabilities,
-+	.dedicated_rca_select = atc_dedicated_rca_select,
- 	.output_switch_get = atc_output_switch_get,
- 	.output_switch_put = atc_output_switch_put,
- 	.mic_source_switch_get = atc_mic_source_switch_get,
-diff --git a/sound/pci/ctxfi/ctatc.h b/sound/pci/ctxfi/ctatc.h
-index 671edc46bd50..ca0a9d5b86d8 100644
---- a/sound/pci/ctxfi/ctatc.h
-+++ b/sound/pci/ctxfi/ctatc.h
-@@ -82,6 +82,8 @@ struct ct_atc {
- 	const char *chip_name;
- 	const char *model_name;
+@@ -1549,6 +1553,7 @@ static void atc_connect_resources(struct ct_atc *atc)
  
-+	unsigned char rca_state; /* 0 = dedicated RCA, 1 = 7.1ch Front */
-+
- 	struct ct_vm *vm; /* device virtual memory manager for this card */
- 	int (*map_audio_buffer)(struct ct_atc *atc, struct ct_atc_pcm *apcm);
- 	void (*unmap_audio_buffer)(struct ct_atc *atc, struct ct_atc_pcm *apcm);
-@@ -113,12 +115,14 @@ struct ct_atc {
- 	int (*line_rear_unmute)(struct ct_atc *atc, unsigned char state);
- 	int (*line_in_unmute)(struct ct_atc *atc, unsigned char state);
- 	int (*mic_unmute)(struct ct_atc *atc, unsigned char state);
-+	int (*rca_unmute)(struct ct_atc *atc, unsigned char state);
- 	int (*spdif_out_unmute)(struct ct_atc *atc, unsigned char state);
- 	int (*spdif_in_unmute)(struct ct_atc *atc, unsigned char state);
- 	int (*spdif_out_get_status)(struct ct_atc *atc, unsigned int *status);
- 	int (*spdif_out_set_status)(struct ct_atc *atc, unsigned int status);
- 	int (*spdif_out_passthru)(struct ct_atc *atc, unsigned char state);
- 	struct capabilities (*capabilities)(struct ct_atc *atc);
-+	void (*dedicated_rca_select)(struct ct_atc *atc);
- 	int (*output_switch_get)(struct ct_atc *atc);
- 	int (*output_switch_put)(struct ct_atc *atc, int position);
- 	int (*mic_source_switch_get)(struct ct_atc *atc);
-diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
-index f012d47689d1..1c8f8efd836c 100644
---- a/sound/pci/ctxfi/ctdaio.c
-+++ b/sound/pci/ctxfi/ctdaio.c
-@@ -45,6 +45,7 @@ static const struct daio_rsc_idx idx_20k2[NUM_DAIOTYP] = {
- 	[LINEO4] = {.left = 0x70, .right = 0x71},
- 	[LINEIM] = {.left = 0x45, .right = 0xc5},
- 	[MIC]	 = {.left = 0x55, .right = 0xd5},
-+	[RCA]	 = {.left = 0x30, .right = 0x31},
- 	[SPDIFOO] = {.left = 0x00, .right = 0x01},
- 	[SPDIFIO] = {.left = 0x05, .right = 0x85},
- };
-@@ -123,6 +124,7 @@ static unsigned int daio_device_index(enum DAIOTYP type, struct hw *hw)
- 		case LINEO4:	return 6;
- 		case LINEIM:	return 4;
- 		case MIC:	return 5;
-+		case RCA:	return 3;
- 		default:	return -EINVAL;
- 		}
- 	default:
+ 	if (cap.dedicated_mic) {
+ 		/* Titanium HD has a dedicated ADC for the Mic. */
++		/* SE-300PCIE has a 4-channel ADC. */
+ 		dai = container_of(atc->daios[MIC], struct dai, daio);
+ 		atc_connect_dai(atc->rsc_mgrs[SRC], dai,
+ 			(struct src **)&atc->srcs[4],
 diff --git a/sound/pci/ctxfi/ctdaio.h b/sound/pci/ctxfi/ctdaio.h
-index b337da2de8b5..99d55f19e3ca 100644
+index 99d55f19e3ca..ff77d55539a5 100644
 --- a/sound/pci/ctxfi/ctdaio.h
 +++ b/sound/pci/ctxfi/ctdaio.h
-@@ -31,6 +31,7 @@ enum DAIOTYP {
+@@ -31,7 +31,7 @@ enum DAIOTYP {
  	LINEIM,
  	SPDIFIO,	/* S/PDIF In (Flexijack/Optical) on the card */
  	MIC,		/* Dedicated mic on Titanium HD */
-+	RCA,
+-	RCA,
++	RCA,		/* Dedicated RCA on SE-300PCIE */
  	SPDIFI1,	/* S/PDIF In on internal Drive Bay */
  	NUM_DAIOTYP
  };
 diff --git a/sound/pci/ctxfi/cthardware.h b/sound/pci/ctxfi/cthardware.h
-index d29b4e5b3fcc..84ea690763e7 100644
+index 84ea690763e7..a3051fdd31f6 100644
 --- a/sound/pci/ctxfi/cthardware.h
 +++ b/sound/pci/ctxfi/cthardware.h
-@@ -62,6 +62,7 @@ struct card_conf {
- struct capabilities {
- 	unsigned int digit_io_switch:1;
- 	unsigned int dedicated_mic:1;
-+	unsigned int dedicated_rca:1;
- 	unsigned int output_switch:1;
- 	unsigned int mic_source_switch:1;
+@@ -38,6 +38,7 @@ enum CTCARDS {
+ 	CTHENDRIX,
+ 	CTSB0880,
+ 	CTSB1270,
++	CTOK0010,
+ 	CT20K2_UNKNOWN,
+ 	NUM_CTCARDS		/* This should always be the last */
  };
-diff --git a/sound/pci/ctxfi/cthw20k1.c b/sound/pci/ctxfi/cthw20k1.c
-index 60cc1d14453a..ea0a928937b6 100644
---- a/sound/pci/ctxfi/cthw20k1.c
-+++ b/sound/pci/ctxfi/cthw20k1.c
-@@ -1775,6 +1775,7 @@ static struct capabilities hw_capabilities(struct hw *hw)
- 	/* SB073x and Vista compatible cards have no digit IO switch */
- 	cap.digit_io_switch = !(hw->model == CTSB073X || hw->model == CTUAA);
- 	cap.dedicated_mic = 0;
-+	cap.dedicated_rca = 0;
- 	cap.output_switch = 0;
- 	cap.mic_source_switch = 0;
- 
 diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
-index 5d39bc943648..214a83977a70 100644
+index 214a83977a70..e007d1122441 100644
 --- a/sound/pci/ctxfi/cthw20k2.c
 +++ b/sound/pci/ctxfi/cthw20k2.c
-@@ -1930,6 +1930,7 @@ static struct capabilities hw_capabilities(struct hw *hw)
+@@ -910,7 +910,7 @@ static int dao_commit_write(struct hw *hw, unsigned int idx, void *blk)
+ 	struct dao_ctrl_blk *ctl = blk;
+ 
+ 	if (ctl->dirty.bf.atxcsl) {
+-		if (idx < 4) {
++		if ((idx < 4) && ((hw->model != CTOK0010) || (idx < 3))) {
+ 			/* S/PDIF SPOSx */
+ 			hw_write_20kx(hw, AUDIO_IO_TX_CSTAT_L+0x40*idx,
+ 							ctl->atxcsl);
+@@ -985,11 +985,11 @@ static int daio_mgr_dsb_dao(void *blk, unsigned int idx)
+ 	return 0;
+ }
+ 
+-static int daio_mgr_dao_init(struct hw *hw __maybe_unused, void *blk, unsigned int idx, unsigned int conf)
++static int daio_mgr_dao_init(struct hw *hw, void *blk, unsigned int idx, unsigned int conf)
+ {
+ 	struct daio_mgr_ctrl_blk *ctl = blk;
+ 
+-	if (idx < 4) {
++	if ((idx < 4) && ((hw->model != CTOK0010) || (idx < 3))) {
+ 		/* S/PDIF output */
+ 		switch ((conf & 0xf)) {
+ 		case 1:
+@@ -1176,6 +1176,10 @@ static int hw_daio_init(struct hw *hw, const struct daio_conf *info)
+ 		hw_write_20kx(hw, AUDIO_IO_MCLK, 0x21011111);
+ 		hw_write_20kx(hw, AUDIO_IO_TX_BLRCLK, 0x21212121);
+ 		hw_write_20kx(hw, AUDIO_IO_RX_BLRCLK, 0);
++	} else if ((4 == info->msr) && (hw->model == CTOK0010)) {
++		hw_write_20kx(hw, AUDIO_IO_MCLK, 0x21212121);
++		hw_write_20kx(hw, AUDIO_IO_TX_BLRCLK, 0x21212121);
++		hw_write_20kx(hw, AUDIO_IO_RX_BLRCLK, 0);
+ 	} else {
+ 		dev_alert(hw->card->dev,
+ 			  "ERROR!!! Invalid sampling rate!!!\n");
+@@ -1183,7 +1187,7 @@ static int hw_daio_init(struct hw *hw, const struct daio_conf *info)
+ 	}
+ 
+ 	for (i = 0; i < 8; i++) {
+-		if (i <= 3) {
++		if ((i < 4) && ((hw->model != CTOK0010) || (i < 3))) {
+ 			/* This comment looks wrong since loop is over 4  */
+ 			/* channels and emu20k2 supports 4 spdif IOs.     */
+ 			/* 1st 3 channels are SPDIFs (SB0960) */
+@@ -1637,6 +1641,13 @@ static int hw_dac_init(struct hw *hw, const struct dac_conf *info)
+ 		hw_write_20kx(hw, GPIO_DATA, data);
+ 		hw_dac_start(hw);
+ 		return 0;
++	} else if (hw->model == CTOK0010) {
++		hw_dac_stop(hw);
++		data = hw_read_20kx(hw, GPIO_DATA);
++		data |= 0x1000;
++		hw_write_20kx(hw, GPIO_DATA, data);
++		hw_dac_start(hw);
++		return 0;
+ 	}
+ 
+ 	/* Set DAC reset bit as output */
+@@ -1756,9 +1767,11 @@ static int hw_dac_init(struct hw *hw, const struct dac_conf *info)
+ static int hw_is_adc_input_selected(struct hw *hw, enum ADCSRC type)
+ {
+ 	u32 data;
+-	if (hw->model == CTSB1270) {
++	if ((hw->model == CTSB1270) || (hw->model == CTOK0010)) {
+ 		/* Titanium HD has two ADC chips, one for line in and one */
+-		/* for MIC. We don't need to switch the ADC input. */
++		/* for MIC. Also, SE-300PCIE has a single ADC chip that */
++		/* simultaneously supports 4-channel input. We don't need */
++		/* to switch the ADC input. */
+ 		return 1;
+ 	}
+ 	data = hw_read_20kx(hw, GPIO_DATA);
+@@ -1846,7 +1859,7 @@ static void hw_adc_start(struct hw *hw)
+ 	msleep(50);
+ }
+ 
+-static void __maybe_unused hw_adc_reset(struct hw *hw)
++static void hw_adc_reset(struct hw *hw)
+ {
+ 	hw_adc_stop(hw);
+ 	hw_adc_start(hw);
+@@ -1862,6 +1875,12 @@ static int hw_adc_init(struct hw *hw, const struct adc_conf *info)
+ 	data |= (0x1 << 15);
+ 	hw_write_20kx(hw, GPIO_CTRL, data);
+ 
++	if (hw->model == CTOK0010) {
++		/* Manual ADC setup for SE-300PCIE is not needed. */
++		hw_adc_reset(hw);
++		return 0;
++	}
++
+ 	/* Initialize I2C */
+ 	err = hw20k2_i2c_init(hw, 0x1A, 1, 1);
+ 	if (err < 0) {
+@@ -1929,8 +1948,8 @@ static struct capabilities hw_capabilities(struct hw *hw)
+ 	struct capabilities cap;
  
  	cap.digit_io_switch = 0;
- 	cap.dedicated_mic = hw->model == CTSB1270;
-+	cap.dedicated_rca = 0;
+-	cap.dedicated_mic = hw->model == CTSB1270;
+-	cap.dedicated_rca = 0;
++	cap.dedicated_mic = (hw->model == CTSB1270) || (hw->model == CTOK0010);
++	cap.dedicated_rca = hw->model == CTOK0010;
  	cap.output_switch = hw->model == CTSB1270;
  	cap.mic_source_switch = hw->model == CTSB1270;
  
-diff --git a/sound/pci/ctxfi/ctmixer.c b/sound/pci/ctxfi/ctmixer.c
-index 496682613db5..55224a73cf8e 100644
---- a/sound/pci/ctxfi/ctmixer.c
-+++ b/sound/pci/ctxfi/ctmixer.c
-@@ -547,8 +547,14 @@ static void do_switch(struct ct_atc *atc, enum CTALSA_MIXER_CTL type, int state)
- 		atc->mic_unmute(atc, state);
- 	else if (MIXER_SPDIFI_C_S == type)
- 		atc->spdif_in_unmute(atc, state);
--	else if (MIXER_WAVEF_P_S == type)
--		atc->line_front_unmute(atc, state);
-+	else if (MIXER_WAVEF_P_S == type) {
-+		if (cap.dedicated_rca) {
-+			atc->rca_unmute(atc, atc->rca_state ? 0 : state);
-+			atc->line_front_unmute(atc, atc->rca_state ? state : 0);
-+		} else {
-+			atc->line_front_unmute(atc, state);
-+		}
-+	}
- 	else if (MIXER_WAVES_P_S == type)
- 		atc->line_surround_unmute(atc, state);
- 	else if (MIXER_WAVEC_P_S == type)
-@@ -612,6 +618,57 @@ static struct snd_kcontrol_new swh_ctl = {
- 	.put		= ct_alsa_mix_switch_put
- };
+@@ -2167,15 +2186,17 @@ static int hw_card_init(struct hw *hw, struct card_conf *info)
+ 	/* Reset all SRC pending interrupts */
+ 	hw_write_20kx(hw, SRC_IP, 0);
  
-+static int dedicated_rca_info(struct snd_kcontrol *kcontrol,
-+			      struct snd_ctl_elem_info *info)
-+{
-+	static const char *const names[2] = {
-+	  "RCA", "Front"
-+	};
-+
-+	return snd_ctl_enum_info(info, 1, 2, names);
-+}
-+
-+static int dedicated_rca_get(struct snd_kcontrol *kcontrol,
-+			     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct ct_atc *atc = snd_kcontrol_chip(kcontrol);
-+
-+	ucontrol->value.enumerated.item[0] = atc->rca_state;
-+	return 0;
-+}
-+
-+static int dedicated_rca_put(struct snd_kcontrol *kcontrol,
-+			     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct ct_atc *atc = snd_kcontrol_chip(kcontrol);
-+	unsigned char rca_state = ucontrol->value.enumerated.item[0];
-+	unsigned char state;
-+
-+	if (rca_state > 1)
-+		return -EINVAL;
-+
-+	if (rca_state == atc->rca_state)
-+		return 0;
-+
-+	state = get_switch_state(atc->mixer, MIXER_WAVEF_P_S);
-+	do_switch(atc, MIXER_WAVEF_P_S, 0);
-+
-+	atc->rca_state = rca_state;
-+	atc->dedicated_rca_select(atc);
-+
-+	do_switch(atc, MIXER_WAVEF_P_S, state);
-+
-+	return 1;
-+}
-+
-+static struct snd_kcontrol_new rca_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.name = "Dedicated Output Playback Enum",
-+	.info = dedicated_rca_info,
-+	.get = dedicated_rca_get,
-+	.put = dedicated_rca_put,
-+};
-+
- static int ct_spdif_info(struct snd_kcontrol *kcontrol,
- 			 struct snd_ctl_elem_info *uinfo)
- {
-@@ -784,7 +841,17 @@ static int ct_mixer_kcontrols_create(struct ct_mixer *mixer)
- 		if (err)
- 			return err;
- 	}
--	atc->line_front_unmute(atc, 1);
-+
-+	if (cap.dedicated_rca) {
-+		err = ct_mixer_kcontrol_new(mixer, &rca_ctl);
-+		if (err)
-+			return err;
-+
-+		atc->line_front_unmute(atc, 0);
-+		atc->rca_unmute(atc, 1);
+-	if (hw->model != CTSB1270) {
++	if (hw->model == CTSB1270) {
++		hw_write_20kx(hw, GPIO_CTRL, 0x9E5F);
++	} else if (hw->model == CTOK0010) {
++		hw_write_20kx(hw, GPIO_CTRL, 0x9902);
 +	} else {
-+		atc->line_front_unmute(atc, 1);
-+	}
- 	set_switch_state(mixer, MIXER_WAVEF_P_S, 1);
- 	atc->line_surround_unmute(atc, 0);
- 	set_switch_state(mixer, MIXER_WAVES_P_S, 0);
+ 		/* TODO: detect the card ID and configure GPIO accordingly. */
+ 		/* Configures GPIO (0xD802 0x98028) */
+ 		/*hw_write_20kx(hw, GPIO_CTRL, 0x7F07);*/
+ 		/* Configures GPIO (SB0880) */
+ 		/*hw_write_20kx(hw, GPIO_CTRL, 0xFF07);*/
+ 		hw_write_20kx(hw, GPIO_CTRL, 0xD802);
+-	} else {
+-		hw_write_20kx(hw, GPIO_CTRL, 0x9E5F);
+ 	}
+ 	/* Enable audio ring */
+ 	hw_write_20kx(hw, MIXER_AR_ENABLE, 0x01);
 -- 
 2.52.0
 
