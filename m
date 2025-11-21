@@ -1,252 +1,69 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E57327E045
-	for <linux-sound@vger.kernel.org>; Fri, 21 Nov 2025 06:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE0A1F5617;
+	Fri, 21 Nov 2025 08:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763705174; cv=none; b=ASRA63GRggp26sBHEp/SRlSnYQ/2f9qyM8cv1cKY3EBq/l73fB+4Vm2Fr0spCVDRLpzsStKMuOW0Vp1M2cLuLHu2jZ/Jca0bzEESZhLyuB/3EIdvD7zUTeu22fEPEVF9LXcEt0UtoXVPSllCivS6sgpibeB/GEYtpKBo4ZPHgWo=
+	t=1763714028; cv=none; b=b2h+glVvmn0q7mJ9vosYhNb8WTH6y5jg7/puTOrPJwu7Md5JwDLJ6nvp95vNjZ6IqFi249EKYxLKGshA5Ae+mnmwFZibaYxufIjbw0S+Sq/iVFVC3O1I43X2VisElRtFAMf+RccPL3cF6WlRTaaGq2praWs8+puhRKm7EwTNkyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763705174; c=relaxed/simple;
-	bh=GcROR96JF5hCwBimwpg3lqL3nafgW194peOGSoR1pUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YCbftyxAbNFMKLYZ94/7UtiRVQ78KJU7fuMJPfZ8q6zqYiW3Wr2W8SzaJGpkQQXBO4tCgOxnXXZQHmKBk8GyDoZRvnNM+bJVDcJvlLF8C5SCkuX7iEUNJZrux4wQEU7x6qSLCMxJBwr7LG0FF28rnOWgIGCBgJNger46QzbxgHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=HASdJYUk; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
+	s=arc-20240116; t=1763714028; c=relaxed/simple;
+	bh=ZPsqcevIgTno6vu61sURJjbVQM3tSWJ1lNvB7e9wHBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzeVSBAmQQC/ySmKsLKu4623Gw/8Fcfr+rH7EdF6BbY/JpPGAi85TeAaEfHtswmHUl6Gt52YtDQtHM/v4RQ3wlHApZeEgdMg420Yy7PYRSKaQ3O5AHSxr/w/uuBx41DZWHsnr74pr+CN7QMpR7NvAEp0g5jCTuKmJb5rvBjT7J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKYrCbdm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="HASdJYUk"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ee2014c228so13327191cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Nov 2025 22:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=marek.ca; s=google; t=1763705170; x=1764309970; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=La5vJNM1jWM5YiAHSf9v+V5WGA4ndFbbe8gW9RIdiFU=;
-        b=HASdJYUkgCBJXUhfrnr5RVJ+DI+K7lQxO4c6FhtW0J+dJUD7pr4vvtslEvKOu8+VLU
-         XHX9LLS7XAthXRnYTw+unVASUbHamogMwiQG5axrizfj+u/DOZBtSU+qloUCVzuXGtbD
-         xOUcV2YEAls0Jh0GX+ArnUCUN0hf9/5xeip2s3J+YIDrdtt4eRPuKaD6O6IINLMFelEt
-         Q43vQHMpbxeDnbcxvvVD/hO3nHFYC7NbmQpxnnaR5fBQcJTLnaiXGgC105dsiAhi+Lpv
-         JUq/K4p5Yrz2XMQfQF12yXvinXM/Cc62xZICiQV0/BRdRTK82GikzZkbuQC6qejJ4UkF
-         RspQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763705170; x=1764309970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=La5vJNM1jWM5YiAHSf9v+V5WGA4ndFbbe8gW9RIdiFU=;
-        b=jX03cu0oI0xl5wV37R88BJqIH8P9CjkmGpr03t4PoNIgOXfrs1VoWHwScHIkma01bO
-         ZVNn4AY1JqW3g3u2SveNhYTQjUNRwaKABq6paPzvuJcFH5YKiol2nKlPAILllLjIjIra
-         9SCx3Cz/1asWQa1Uf9d61mR1VwF7qWnd/KBisN8APMf7slLZQMu0GxNwRGLVsLlqlrWn
-         60sOLsyI6SGFsjRWJPTFKc7VD/nPfy98Z8V65AuMnxXkNMyvLgOgmROiSeWE+iB9ZJSP
-         u5mRzEqrgxkq2fAbvEYfYlrZuqQ9aLOnwRmorIBClSAGd0cyYYLDey9511+9k9ljV9um
-         9yoA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+pUP2xqpKvBHRt3KMz3UJlACZ2+0ANooxnoqSpAVz21Cd7NFaH1xSYguXHEoi72ypl5IQdaFoPZbQtA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpjqGavxQPcmRavAapVQ0rAPIEkpQll0G+H9GOoMqVQ+c/1dgq
-	LBq7g5ncPbQ3XALi+kiv3ghcv1dnFGrFrrTlK2X75UmcPICRSJuecnXjZBpq+OblnfM=
-X-Gm-Gg: ASbGnct6GRd3AbGL+lPiCLionm7/E7n6bPdCKLFnu1WekQ/DFhYtiOKnA3jZPynL8rc
-	rY+d+B4p8EWf49iOcynPi4cDoXKMWV+/PoB1RnMvVrVuD+BuOrgHIJlVPqdPlgRLEUcdMQVywbc
-	xuYjrJHhExFFcrk/jP7g2sujDHal91nDNyqYFkaG63QF/U6+gyiGX6WYUlqfXwpXje3ndvEdc9h
-	KqzkySQr3E4vR7MLPkjOe4zOo9e51R9eYQIFsegrhmAk76mFXuSwv63BQ5cgb6UeY/2TB7Pbdcc
-	oYWebCBCnYFsgWnTeKvs9yqOXTn9CYIgMpWwETwqgtNQ0JP9ZzimvykaJ3tIYIdl70C+PxjVf+3
-	DfJCP3h59cVYL4ldVKTJId+luYvHz1HzvpPIGC5VMk/DJizzRInMdOkAIcUD5nNBHWRE8TyL2O4
-	y88DNWpdJEwFZ5e9EtdASZHeSYbxQC55xUABQ37gMj6FJE7QKKcGH7QxKIterr/BEuRIu1AM6QI
-	7LC
-X-Google-Smtp-Source: AGHT+IFQdwMnwbIyaAZ09s2AcuDIc3ln2beikKLvPXoaLdoe4d+jYtLW2a8X7J1WM977sGr1YJ8SNA==
-X-Received: by 2002:ac8:5846:0:b0:4ed:213c:1582 with SMTP id d75a77b69052e-4ee588194e0mr19087991cf.7.1763705169906;
-        Thu, 20 Nov 2025 22:06:09 -0800 (PST)
-Received: from localhost.localdomain (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee48d6aab4sm30245831cf.15.2025.11.20.22.06.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 22:06:08 -0800 (PST)
-From: Jonathan Marek <jonathan@marek.ca>
-To: linux-arm-msm@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org (open list:QCOM AUDIO (ASoC) DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] ASoC: codecs: lpass-wsa-macro: add RX4/RX5/RX6/RX7/RX8
-Date: Fri, 21 Nov 2025 01:03:30 -0500
-Message-ID: <20251121060437.26704-1-jonathan@marek.ca>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKYrCbdm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148F9C4CEF1;
+	Fri, 21 Nov 2025 08:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763714027;
+	bh=ZPsqcevIgTno6vu61sURJjbVQM3tSWJ1lNvB7e9wHBc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YKYrCbdmILd20DSPNECohEACj0WcBraX+chq8+yzib/0dKy0Gq1NkEubAh6fHXnff
+	 ijW+rFE1aQ8KsBgPKJ+tOe0NWzwD8aeoVFXyNuLc50nWCHz0VpCr1iCU7X426n2LdT
+	 icXUWBeBjedtN79zTrZzdMUK8XyErobP7SPGXQDMm5WYFsYdfjJRG2S5EZ4zxXV7nr
+	 SUsSqB5qr2ZDqYZMPbicz8SFyMDpaxV3N59m5AfKld9IAr9JtmX/Ehdx5n7jkq8T6q
+	 hEzJa5i4O7Zamk7LtAXKgE49J2H5x0hPhG7LM7FRvDLGg6WgZ4mvFSTDEI1VY6wHqD
+	 jOeapskdpqWjA==
+Date: Fri, 21 Nov 2025 09:33:45 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+	Arnd Bergmann <arnd@arndb.de>, 
+	=?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, upstream@airoha.com
+Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: Add Airoha AN7581 with WM8960
+ YAML
+Message-ID: <20251121-hospitable-tacky-cuckoo-b53af2@kuoka>
+References: <20251121054537.25796-1-ansuelsmth@gmail.com>
+ <20251121054537.25796-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251121054537.25796-2-ansuelsmth@gmail.com>
 
-This allows playback using the WSA_2CH AIF, which feeds RX4 and RX5 on both
-WSA and WSA2.
+On Fri, Nov 21, 2025 at 06:44:59AM +0100, Christian Marangi wrote:
+> Add documentation for Airoha AN7581 with WM8960 i2c codec YAML schema.
 
-RX6/RX7/RX8 can be tested with the regular WSA AIF (the 3rd intf is RX8,
-the 5th intf is RX6/7).
+I don't see WM8690 nowhere in the binding, so that's a bit confusing. It
+feels like you mention here entire sound card description but binding is
+for specific component (AFE).
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
-v2: added RX6/RX7/RX8
-this depends on the other patches from the original series
+Well, anyway, probably not worth to resend, so:
 
- sound/soc/codecs/lpass-wsa-macro.c | 96 +++++++++++++++++++++++++++++-
- 1 file changed, 94 insertions(+), 2 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index e2e78ff6dd54e..5d440a839e733 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -300,6 +300,11 @@ enum {
- 	WSA_MACRO_RX_MIX,
- 	WSA_MACRO_RX_MIX0 = WSA_MACRO_RX_MIX,
- 	WSA_MACRO_RX_MIX1,
-+	WSA_MACRO_RX4,
-+	WSA_MACRO_RX5,
-+	WSA_MACRO_RX6,
-+	WSA_MACRO_RX7,
-+	WSA_MACRO_RX8,
- 	WSA_MACRO_RX_MAX,
- };
- 
-@@ -2228,6 +2233,16 @@ static const struct snd_kcontrol_new rx_mux[WSA_MACRO_RX_MAX] = {
- 			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
- 	SOC_DAPM_ENUM_EXT("WSA RX_MIX1 Mux", rx_mux_enum,
- 			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
-+	SOC_DAPM_ENUM_EXT("WSA RX4 Mux", rx_mux_enum,
-+			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
-+	SOC_DAPM_ENUM_EXT("WSA RX5 Mux", rx_mux_enum,
-+			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
-+	SOC_DAPM_ENUM_EXT("WSA RX6 Mux", rx_mux_enum,
-+			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
-+	SOC_DAPM_ENUM_EXT("WSA RX7 Mux", rx_mux_enum,
-+			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
-+	SOC_DAPM_ENUM_EXT("WSA RX8 Mux", rx_mux_enum,
-+			  wsa_macro_rx_mux_get, wsa_macro_rx_mux_put),
- };
- 
- static int wsa_macro_vi_feed_mixer_get(struct snd_kcontrol *kcontrol,
-@@ -2410,6 +2425,16 @@ static const struct snd_soc_dapm_widget wsa_macro_dapm_widgets_v2_5[] = {
- 	SND_SOC_DAPM_MUX("WSA_RX1 INP1", SND_SOC_NOPM, 0, 0, &rx1_prim_inp1_mux_v2_5),
- 	SND_SOC_DAPM_MUX("WSA_RX1 INP2", SND_SOC_NOPM, 0, 0, &rx1_prim_inp2_mux_v2_5),
- 	SND_SOC_DAPM_MUX("WSA_RX1 MIX INP", SND_SOC_NOPM, 0, 0, &rx1_mix_mux_v2_5),
-+	SND_SOC_DAPM_MIXER("WSA RX4", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_MIXER("WSA RX5", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_MIXER("WSA RX6", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_MIXER("WSA RX7", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_MIXER("WSA RX8", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_MUX("WSA RX4 MUX", SND_SOC_NOPM, WSA_MACRO_RX4, 0, &rx_mux[WSA_MACRO_RX4]),
-+	SND_SOC_DAPM_MUX("WSA RX5 MUX", SND_SOC_NOPM, WSA_MACRO_RX5, 0, &rx_mux[WSA_MACRO_RX5]),
-+	SND_SOC_DAPM_MUX("WSA RX6 MUX", SND_SOC_NOPM, WSA_MACRO_RX6, 0, &rx_mux[WSA_MACRO_RX6]),
-+	SND_SOC_DAPM_MUX("WSA RX7 MUX", SND_SOC_NOPM, WSA_MACRO_RX7, 0, &rx_mux[WSA_MACRO_RX7]),
-+	SND_SOC_DAPM_MUX("WSA RX8 MUX", SND_SOC_NOPM, WSA_MACRO_RX8, 0, &rx_mux[WSA_MACRO_RX8]),
- };
- 
- static const struct snd_soc_dapm_route wsa_audio_map[] = {
-@@ -2529,6 +2554,64 @@ static const struct snd_soc_dapm_route wsa_audio_map[] = {
- 	{"WSA_SPK2 OUT", NULL, "WSA_MCLK"},
- };
- 
-+static const struct snd_soc_dapm_route wsa_audio_map_v2_5[] = {
-+	{"WSA RX4 MUX", "AIF1_PB", "WSA AIF1 PB"},
-+	{"WSA RX5 MUX", "AIF1_PB", "WSA AIF1 PB"},
-+	{"WSA RX6 MUX", "AIF1_PB", "WSA AIF1 PB"},
-+	{"WSA RX7 MUX", "AIF1_PB", "WSA AIF1 PB"},
-+	{"WSA RX8 MUX", "AIF1_PB", "WSA AIF1 PB"},
-+	{"WSA RX4 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
-+	{"WSA RX5 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
-+	{"WSA RX6 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
-+	{"WSA RX7 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
-+	{"WSA RX8 MUX", "AIF_MIX1_PB", "WSA AIF_MIX1 PB"},
-+	{"WSA RX4", NULL, "WSA RX4 MUX"},
-+	{"WSA RX5", NULL, "WSA RX5 MUX"},
-+	{"WSA RX6", NULL, "WSA RX6 MUX"},
-+	{"WSA RX7", NULL, "WSA RX7 MUX"},
-+	{"WSA RX8", NULL, "WSA RX8 MUX"},
-+	{"WSA_RX0 INP0", "RX4", "WSA RX4"},
-+	{"WSA_RX0 INP0", "RX5", "WSA RX5"},
-+	{"WSA_RX0 INP0", "RX6", "WSA RX6"},
-+	{"WSA_RX0 INP0", "RX7", "WSA RX7"},
-+	{"WSA_RX0 INP0", "RX8", "WSA RX8"},
-+	{"WSA_RX0 INP1", "RX4", "WSA RX4"},
-+	{"WSA_RX0 INP1", "RX5", "WSA RX5"},
-+	{"WSA_RX0 INP1", "RX6", "WSA RX6"},
-+	{"WSA_RX0 INP1", "RX7", "WSA RX7"},
-+	{"WSA_RX0 INP1", "RX8", "WSA RX8"},
-+	{"WSA_RX0 INP2", "RX4", "WSA RX4"},
-+	{"WSA_RX0 INP2", "RX5", "WSA RX5"},
-+	{"WSA_RX0 INP2", "RX6", "WSA RX6"},
-+	{"WSA_RX0 INP2", "RX7", "WSA RX7"},
-+	{"WSA_RX0 INP2", "RX8", "WSA RX8"},
-+	{"WSA_RX0 MIX INP", "RX4", "WSA RX4"},
-+	{"WSA_RX0 MIX INP", "RX5", "WSA RX5"},
-+	{"WSA_RX0 MIX INP", "RX6", "WSA RX6"},
-+	{"WSA_RX0 MIX INP", "RX7", "WSA RX7"},
-+	{"WSA_RX0 MIX INP", "RX8", "WSA RX8"},
-+	{"WSA_RX1 INP0", "RX4", "WSA RX4"},
-+	{"WSA_RX1 INP0", "RX5", "WSA RX5"},
-+	{"WSA_RX1 INP0", "RX6", "WSA RX6"},
-+	{"WSA_RX1 INP0", "RX7", "WSA RX7"},
-+	{"WSA_RX1 INP0", "RX8", "WSA RX8"},
-+	{"WSA_RX1 INP1", "RX4", "WSA RX4"},
-+	{"WSA_RX1 INP1", "RX5", "WSA RX5"},
-+	{"WSA_RX1 INP1", "RX6", "WSA RX6"},
-+	{"WSA_RX1 INP1", "RX7", "WSA RX7"},
-+	{"WSA_RX1 INP1", "RX8", "WSA RX8"},
-+	{"WSA_RX1 INP2", "RX4", "WSA RX4"},
-+	{"WSA_RX1 INP2", "RX5", "WSA RX5"},
-+	{"WSA_RX1 INP2", "RX6", "WSA RX6"},
-+	{"WSA_RX1 INP2", "RX7", "WSA RX7"},
-+	{"WSA_RX1 INP2", "RX8", "WSA RX8"},
-+	{"WSA_RX1 MIX INP", "RX4", "WSA RX4"},
-+	{"WSA_RX1 MIX INP", "RX5", "WSA RX5"},
-+	{"WSA_RX1 MIX INP", "RX6", "WSA RX6"},
-+	{"WSA_RX1 MIX INP", "RX7", "WSA RX7"},
-+	{"WSA_RX1 MIX INP", "RX8", "WSA RX8"},
-+};
-+
- static int wsa_swrm_clock(struct wsa_macro *wsa, bool enable)
- {
- 	struct regmap *regmap = wsa->regmap;
-@@ -2562,7 +2645,9 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(comp);
- 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(comp);
- 	const struct snd_soc_dapm_widget *widgets;
--	unsigned int num_widgets;
-+	const struct snd_soc_dapm_route *routes;
-+	unsigned int num_widgets, num_routes;
-+	int ret;
- 
- 	snd_soc_component_init_regmap(comp, wsa->regmap);
- 
-@@ -2587,6 +2672,7 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
- 	case LPASS_CODEC_VERSION_2_1:
- 		widgets = wsa_macro_dapm_widgets_v2_1;
- 		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_1);
-+		num_routes = 0;
- 		break;
- 	case LPASS_CODEC_VERSION_2_5:
- 	case LPASS_CODEC_VERSION_2_6:
-@@ -2595,12 +2681,18 @@ static int wsa_macro_component_probe(struct snd_soc_component *comp)
- 	case LPASS_CODEC_VERSION_2_9:
- 		widgets = wsa_macro_dapm_widgets_v2_5;
- 		num_widgets = ARRAY_SIZE(wsa_macro_dapm_widgets_v2_5);
-+		routes = wsa_audio_map_v2_5;
-+		num_routes = ARRAY_SIZE(wsa_audio_map_v2_5);
- 		break;
- 	default:
- 		return -EINVAL;
- 	}
- 
--	return snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
-+	ret = snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
-+	if (ret)
-+		return ret;
-+
-+	return snd_soc_dapm_add_routes(dapm, routes, num_routes);
- }
- 
- static int swclk_gate_enable(struct clk_hw *hw)
--- 
-2.51.0
+Best regards,
+Krzysztof
 
