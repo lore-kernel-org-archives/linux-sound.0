@@ -1,143 +1,130 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender3-op-o15.zoho.com (sender3-op-o15.zoho.com [136.143.184.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFC52C1584
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 17:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764006503; cv=none; b=L+mnxnxO5z5Rn8Jhm8yeYdHn7ZpmbVRkjl4IhT1V7ovFLks9FkocqTSB4kywbccXFLI7Zjr6a1bQlXm9ZiHao6qkjEcj6D6zMbg0Q2YXT+nZvq00eWsEX19ghTgQv54qAP8MShcNWK5iLZ8Zm3eoqNAzpqL7YePn80fLMm6Y1Ac=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764006503; c=relaxed/simple;
-	bh=4r6uq+XJ6hrSbkNoNXPhbiKHyGHCKt75UkrHPmh0NFQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZRil83meUSZrO8CGy1AfX0sC+csn11BCyHmwCOnoBUGQjtkeVmB+drrL1yTx8lpCYesSmdeggQZi0laUf8zHrpbj5nI4hFU2GMVq8AhiwUAxG5k0Wz2oA1qZTQP/4wHiXft5H44rP+sW/fQQXatCUkGmu/g8yeb7wc1iQoNshBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=fEYlIdOQ; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CB38F49;
+	Mon, 24 Nov 2025 18:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764007522; cv=pass; b=uVqzyWruvMVSkwiw8o4g/Ro1jIPmcmVKJSsH7HSDoaN63AnMqRJ7EUexIzhIliHm6rNi6jas+mdA1pi9Sc6x8ptr0S1tIejHsLqDgnKcmnrzpKy/e29n56ypKRLYKgv0kkR9K3G6/1sidKSZDAGVt2tyTU7o9UAOzDxrtfYYnUo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764007522; c=relaxed/simple;
+	bh=U5/e7P29lKlkUX4b8STHb32Dh50bg29aLAgjK7aYkI4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LxE90Mg9YaAV1ZjiaMx+GuatlGpi7SR+DURmIqSzRuaYZtRc4o5168dZfrHreynpXTWYBUz4yiAj3DbQemNNx4PhvZXtdghhtygfjwux7OKbQzjb5mdCDWn7NKoxC6KiyRl+QpJycjD5Y9WF+TBfbnTygo0jecBMijhhX0SrcaM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=KfagkMXK; arc=pass smtp.client-ip=136.143.184.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="fEYlIdOQ"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-378e8d10494so57318641fa.2
-        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 09:48:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764006500; x=1764611300; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4r6uq+XJ6hrSbkNoNXPhbiKHyGHCKt75UkrHPmh0NFQ=;
-        b=fEYlIdOQ3Nx0FvthAY/5aEUw5UUb3MtRrsBm/5nbXJ6RShy2OIOJrnBvaYqux8QtsN
-         6E+DodmUX2Io+IMCmxdf25iypV0EtHUMbOG+3howrJVjk9XVF3HnNl2cUDZyzMGektvw
-         xj4VjUPWw3dfOIX36p+OcSsbbbdnHI9slG0YOIcDYiscmrsSPdxk1hPJrDNE4ogmL5XY
-         pMLDmFqIMQfiRMK3mIEzExfbo7UhLuvjEeNTwOCU4gjpw6x6FPW9hYyOwSQ/chzZiG2T
-         g2PxPWTCJJJLxTUDzQk/GCU/WZhi9XvvvJYnQJvt/fQj2k6vVVQH7lwQWx8mNuTS7i/g
-         ilqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764006500; x=1764611300;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4r6uq+XJ6hrSbkNoNXPhbiKHyGHCKt75UkrHPmh0NFQ=;
-        b=jK9EZAi2rXeNf7+TXTzMsVwV/6j9B8axmo2MJ3ETz4Fy3I5/EWdLFSOlhD2u3IpdAz
-         DzzYjBleImlRd+KVLKIKlzBhkTADGUcNOqAv5aGWApXtv/7to/aaKr4t5fb5/2/VaumR
-         mG/poFgtKivuojLGiy4gowK+D315xSuhgWL+6ZslH1MJVAMxm6KfJE7H2cUvrSuGo5pQ
-         cfdwQLaZ5cBa1eU2+Lv7oN+gFcZAt1uTjoa44cxkPe5n2wzlyXxR5DoWofRz7yepuGHQ
-         +zLgXpZqYXFrRjTuwlc25BYIkDBhjdcy/KpP63cWG4Ue+Lc6qkOY0ZIWoVp7kYX12M2H
-         BImQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLr/t0bVXgW9OOz2IJtuCMRCK2QF0HmbVdoIJIKHKR3/r46CI+dN+qfFteWT/hlyAc3WaYRtRdGbQ/MQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz97+TcjqHmj73YObqd7LoXLjPiMG4yLDWD4cIcNH6fzHWes5Mm
-	83zdIt1AU9hTdss8cN1OF9ew7IIskpfvsi7OEDjLH9kxcq9kTxYQi9s2b8dB41DmQjbP501BgyP
-	DmrSTuFH1/IEJqdN0PF1mJHRC2v8Ra1za5rQLv7I2lg==
-X-Gm-Gg: ASbGnctzYNkzs5p6Sp8GapajW9zXDtdZG7fSLkuU5xsLwHq3EW/otVQKrz9iuyStJo1
-	d4XOuv4rzCwM4pKo3D+q4Xu7zOitzAYPOvoMJ84niS4w1Z/d2qtcHr09/S/pmAiThSntzPg9U+z
-	S+ug/2ataRzWcIei1wbXmg5/hPqlG8F/qpnfK34ALGholKAxEfep44z1Br1zNHWsm5U5V+IPfp6
-	2gXnrPmF15E5VaKrfzTvIiXPuO458mAkAlF4RrfEZQdbL8Tj17bsB4NPlCRjSPf8P3/XznbMCpa
-	Zx+kNWpu1NoOv9vuOghRZU3gHv8O9YGCeQ/DWw==
-X-Google-Smtp-Source: AGHT+IF993DoHSMlB60mWDtCOrB1XMOt2yUP8xFOoEjON0prsCxIqX3jeiL/LWt48eiHKiIUUX/0Hv99+yLDo3p5YEc=
-X-Received: by 2002:a05:6512:3b27:b0:592:fa8a:810d with SMTP id
- 2adb3069b0e04-596a3ea7847mr4433290e87.16.1764006499554; Mon, 24 Nov 2025
- 09:48:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="KfagkMXK"
+ARC-Seal: i=1; a=rsa-sha256; t=1764007510; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=KjMFyKvmkK69HLzryKcw1y694Ug6jRyZFHCirVhCwfeLcsmQIGFu7Vj7nKlxzOTRfrYuK5ykog7RYth/vfTApb+vRj++HEeXbjYHIz70NJgJ/Mo9exbeP3uz4tSeKwdbaRx373Akz0caBT3+Sd5PnU/vHJY3NY+53VpcEZrJ8y4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1764007510; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Pc8fYETImu86tY789NAksTljrtHo8+Ce0lBVCcBIvrI=; 
+	b=SIg51MxwoVW0JxgVem/2DmgqiXe0gRaLD7UdHCtHRbzxzd68kPDGN9vC+1+eoUKhJjoOjvlGxEp3zVFVZWl/mFXOxpAjEuKLa2MT8CEuiyrpDZnP/EgBJw/p7WUdFDHpmhdBuGYGwL7GJRx9CAeKBiVyvm19YbmAKD8lD1JizvA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=harin.net;
+	spf=pass  smtp.mailfrom=me@harin.net;
+	dmarc=pass header.from=<me@harin.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764007510;
+	s=zmail; d=harin.net; i=me@harin.net;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Pc8fYETImu86tY789NAksTljrtHo8+Ce0lBVCcBIvrI=;
+	b=KfagkMXKbS3cbB3Kruv++7p9ZQLOMJUJmHaHHuFP64i5yRO8u6ySnShtM150pioA
+	ZHsyppwLE7ye1v5i7uwzfi0bvod6/EFR+kbQduhxL4bccBS/wdlTkVIsvB0JeKYOXJ8
+	RROCANhJMuH3Oq54zyA40jJ0PicSk4lHl6Ur0Iw/29o4S/lnzkwkejKI+qiClu9zrp3
+	2vNL9c+f81l3UKtfjyWQo/FVTSQefwzf9UB5jXBnHoY2nvLn/eF7ij55zvVmnTORknj
+	rBYx1lfbDLstbG86yOvZXpcjBFKYx58M0DMF1eiMv1NSfHWZ/E3Rtply2sj4VZ+VegB
+	Y0g2NPUkOg==
+Received: by mx.zohomail.com with SMTPS id 1764007508413227.3001793402335;
+	Mon, 24 Nov 2025 10:05:08 -0800 (PST)
+From: Harin Lee <me@harin.net>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Harin Lee <me@harin.net>
+Subject: [PATCH v3 1/6] ALSA: ctxfi: Add hw parameter to daio_mgr_dao_init()
+Date: Tue, 25 Nov 2025 03:04:56 +0900
+Message-ID: <20251124180501.2760421-2-me@harin.net>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251124180501.2760421-1-me@harin.net>
+References: <20251124180501.2760421-1-me@harin.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
- <20251120-reset-gpios-swnodes-v7-4-a100493a0f4b@linaro.org> <aSSOo4q0sLDHqe1h@opensource.cirrus.com>
-In-Reply-To: <aSSOo4q0sLDHqe1h@opensource.cirrus.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 24 Nov 2025 18:48:05 +0100
-X-Gm-Features: AWmQ_bnvq_Ux1-kkcgnqJRAH0qfvPMdf4XOXl8mrvC21GsBAI5YmjWFZH8pho_M
-Message-ID: <CAMRc=MfiR4AMYXc5YA0GOt=+-kx0yO0qFdYd2mZqwguW5v+U5g@mail.gmail.com>
-Subject: Re: [PATCH v7 4/9] spi: cs42l43: Use actual ACPI firmware node for
- chip selects
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, 
-	Maciej Strozek <mstrozek@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-spi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, stable+noautosel@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Mon, Nov 24, 2025 at 5:58=E2=80=AFPM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
->
-> On Thu, Nov 20, 2025 at 02:23:59PM +0100, Bartosz Golaszewski wrote:
-> > From: Charles Keepax <ckeepax@opensource.cirrus.com>
-> >
-> > On some systems the cs42l43 has amplifiers attached to its SPI
-> > controller that are not properly defined in ACPI. Currently
-> > software nodes are added to support this case, however, the chip
-> > selects for these devices are specified using a hack. A software
-> > node is added with the same name as the pinctrl driver, as the
-> > look up was name based, this allowed the GPIO look up to return
-> > the pinctrl driver even though the swnode was not owned by it.
-> > This was necessary as the swnodes did not support directly
-> > linking to real firmware nodes.
-> >
-> > Since commit e5d527be7e69 ("gpio: swnode: don't use the swnode's
-> > name as the key for GPIO lookup") changed the lookup to be
-> > fwnode based this hack will no longer find the pinctrl driver,
-> > resulting in the driver not probing. There is no pinctrl driver
-> > attached to the swnode itself. But other patches did add support
-> > for linking a swnode to a real fwnode node [1]. As such the hack
-> > is no longer needed, so switch over to just passing the real
-> > fwnode for the pinctrl property to avoid any issues.
-> >
-> > Link: https://lore.kernel.org/linux-gpio/20251106-reset-gpios-swnodes-v=
-6-0-69aa852de9e4@linaro.org/ [1]
-> > Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers")
-> > Cc: stable+noautosel@kernel.org # Don't backport, previous approach wor=
-ks, fix relies on swnode changes
->
-> Just wanted to check what the thinking is on backports here. I
-> see we have marked this as do not backport. Which I think is
-> sensible the changes in the preceeding patches are a bit much for
-> a backport. However, the patch has caused the regression has gone
-> to a few stable branches (v6.17, v6.12):
->
+Add a hw parameter to the daio_mgr_dao_init() function to provide
+access to model-specific information. This is necessary for proper
+configuration of S/PDIF and I2S output ports on different hardware
+variants.
 
-I totally forgot about this having gone into stable.
+Signed-off-by: Harin Lee <me@harin.net>
+---
+ sound/pci/ctxfi/ctdaio.c     | 2 +-
+ sound/pci/ctxfi/cthardware.h | 2 +-
+ sound/pci/ctxfi/cthw20k1.c   | 2 +-
+ sound/pci/ctxfi/cthw20k2.c   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-> commit e5d527be7e69 ("gpio: swnode: don't use the swnode's name as the ke=
-y for GPIO lookup")
->
-> Are you guys ok if I send a revert for that patch to the stable
-> branches it has gone to? It doesn't actually fix any bugs on
-> those kernels, and we are starting to see issues coming in that I
-> think are related to this:
->
+diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
+index c0c3f8ab8467..10d0a7088718 100644
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -390,7 +390,7 @@ static int dao_rsc_init(struct dao *dao,
+ 	hw->daio_mgr_commit_write(hw, mgr->mgr.ctrl_blk);
+ 
+ 	conf = (desc->msr & 0x7) | (desc->passthru << 3);
+-	hw->daio_mgr_dao_init(mgr->mgr.ctrl_blk,
++	hw->daio_mgr_dao_init(hw, mgr->mgr.ctrl_blk,
+ 			daio_device_index(dao->daio.type, hw), conf);
+ 	hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk,
+ 			daio_device_index(dao->daio.type, hw));
+diff --git a/sound/pci/ctxfi/cthardware.h b/sound/pci/ctxfi/cthardware.h
+index 2875cec83b8f..d29b4e5b3fcc 100644
+--- a/sound/pci/ctxfi/cthardware.h
++++ b/sound/pci/ctxfi/cthardware.h
+@@ -167,7 +167,7 @@ struct hw {
+ 	int (*daio_mgr_dsb_dai)(void *blk, unsigned int idx);
+ 	int (*daio_mgr_enb_dao)(void *blk, unsigned int idx);
+ 	int (*daio_mgr_dsb_dao)(void *blk, unsigned int idx);
+-	int (*daio_mgr_dao_init)(void *blk, unsigned int idx,
++	int (*daio_mgr_dao_init)(struct hw *hw, void *blk, unsigned int idx,
+ 						unsigned int conf);
+ 	int (*daio_mgr_set_imaparc)(void *blk, unsigned int slot);
+ 	int (*daio_mgr_set_imapnxt)(void *blk, unsigned int next);
+diff --git a/sound/pci/ctxfi/cthw20k1.c b/sound/pci/ctxfi/cthw20k1.c
+index 42b90c9b2ee9..60cc1d14453a 100644
+--- a/sound/pci/ctxfi/cthw20k1.c
++++ b/sound/pci/ctxfi/cthw20k1.c
+@@ -1031,7 +1031,7 @@ static int daio_mgr_dsb_dao(void *blk, unsigned int idx)
+ 	return 0;
+ }
+ 
+-static int daio_mgr_dao_init(void *blk, unsigned int idx, unsigned int conf)
++static int daio_mgr_dao_init(struct hw *hw __maybe_unused, void *blk, unsigned int idx, unsigned int conf)
+ {
+ 	struct daio_mgr_ctrl_blk *ctl = blk;
+ 
+diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
+index 55af8ef29838..1a085e7e5786 100644
+--- a/sound/pci/ctxfi/cthw20k2.c
++++ b/sound/pci/ctxfi/cthw20k2.c
+@@ -985,7 +985,7 @@ static int daio_mgr_dsb_dao(void *blk, unsigned int idx)
+ 	return 0;
+ }
+ 
+-static int daio_mgr_dao_init(void *blk, unsigned int idx, unsigned int conf)
++static int daio_mgr_dao_init(struct hw *hw __maybe_unused, void *blk, unsigned int idx, unsigned int conf)
+ {
+ 	struct daio_mgr_ctrl_blk *ctl = blk;
+ 
+-- 
+2.52.0
 
-Yes, definitely, please do. You can add:
-
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-Bart
