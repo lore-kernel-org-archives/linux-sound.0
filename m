@@ -1,118 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649D13191A1
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 18:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3594323D7D0
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 19:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764010458; cv=none; b=PdXxAGV1xzeV7KU6Zwucy5O+QXrEO/c+/INhvzEOv9qBJAg+wB/LV35qnQiQmUoyMgo4+GTic/aodyd14yYoUYIPuUSAf8f0cUcCUH8c0cLs/g8k+NG5yBnLs1+m33HuxL46mol8elYzcfvPV9QFqkPXWAFnQkntReCOij0e2B4=
+	t=1764011110; cv=none; b=aUU2K7vuQNAoaHZtRo9HDjPj9fpzZW+OAXTol36T0GFnTD1dB6EFsLTb+zVZNS4hRM6flw7t/Ktrc9+Hk4lQ+Y7TJtoxecC3VTWeafjngAgbgJmbLA4cnDf4MeXTih0DdTGA45+fGolO45S7lZ80Sq3Oob/SYsM7y56VNYlYc8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764010458; c=relaxed/simple;
-	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VzP7O8AODyRf6feRRhZ4aUSa02Mo0uZ13mO1Y1lFkYKCYlJBfHMoCVUF2TgnK4btY1cNRLdsTgLbEXrnXinzQWB7PNXNuOKjDPJaT6hFtmN4nHVssmDbWp7ugdYJ73OTHuEmcvKveDngvhiqUNbLAzVYbWPXwymxSo2ny/+YR6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaJZZFHd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764011110; c=relaxed/simple;
+	bh=4z076sDyNA49xAzucCxjt0OdHrsojqyjwGNLsQxgPRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L4rEPxZ3SqrxIGA1iT0vycu/7h2xK5fqJSM8kGBqHvwFLxYSsW9dhLsoioebpUtuvQHvjST6fipZwlzW91iu68lfPgm2v4A3GWOmKqj2rIZAX9e2cZKb/rIQQ2JBa9QIsvB2PPE+AwDdkv1q4lj6Mo7oZcngMlhQCV0a5XlpPuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WyqKftvX; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaJZZFHd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B34C2BCAF
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 18:54:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764010458;
-	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jaJZZFHd9EbEwx/HXqWrnJzLLWTmDsjeCYIq0msXegrh1uOLQsYkLcGsOqDhYGYa1
-	 ulVE7WOFxgFtpE2/6TkwNTfV+9Rh0FSoTOohVIha1MYp1K5u2GOOF4aS+plyAfBAle
-	 vAZP1pWHSc2BhkypnD2nz0a3oVcYZoWGxiPrhyCwtfso6TjC0ca6YjyLVtMdloPCZj
-	 YjsoUkmPkN4DfXzzlBmRG07pBRUjbMkoJH5hAhMxXKO6mhdkj9L8ykHTsvk6JpcSId
-	 e4dHeGWi1OOrSvjb2TfH3swea0z/yg8jzYuM1iQ+XmmH3i9ds4f6wja6p20TfYTyKh
-	 Wz2iE90nWxrRA==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so8201847a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 10:54:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV2ONdf97CNriSzMipXLCNYr+IL52g9pCxr3PN0iXCF/YUQs9RkQh3k3cxJ7YdtPhJxzdHagtbn6kZwpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlAU2fKjo7+9XQXSo00l7BNuuL10LUACMwmmg/t4fHWy+CCVJn
-	YUD3b1/XKz70bYeRjRQq/1tIpL05XI2Gikk4B/awm2lNhaP/+MvcF6CoLWIq+RCM9g3Xs9xn3vH
-	aCwiy3ysJkbwMT1Le4ax0oG6lh/tmpA==
-X-Google-Smtp-Source: AGHT+IFReAtDFuSFDhp918Ohx2vHaiN5KlMAX/uodATZY6O/YB75rQVqkELqtwQbH271c/8FxbJ2Dkum3f0Uu3OWMzM=
-X-Received: by 2002:a05:6402:5252:b0:643:4e9c:d166 with SMTP id
- 4fb4d7f45d1cf-6455443ed4cmr10891528a12.8.1764010456224; Mon, 24 Nov 2025
- 10:54:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WyqKftvX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764011108; x=1795547108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4z076sDyNA49xAzucCxjt0OdHrsojqyjwGNLsQxgPRM=;
+  b=WyqKftvXPjTadsZ5w04PHCdCVHS1xXpv9zegBOFP953PVzPesTFxmas7
+   EO2AbtTTIKQDN7Oy6uIMBNFem+QayDck1VyC9cku6yNPOBunvOWqeu7Zw
+   E3xPuIPB5y1WNJIUtoBdmo/29mhdIa4MXglKG+taGXLP5BsWeg1ePMr5s
+   mZN3Quu0o9kwPuHnsAydz2zGjEIzKGnJ1nCqqdWidZeig4/5AWPDgd/Ts
+   +z+jFcy9HHTPGKiJhQwfvJKBqebRz1H2Z0rcNGEcET9S4BNKqxSxM1hAL
+   O3DjMUr8Zty5QgJBQgv4PUF+uZvou52c8aJLD8kFaMHITEcabfOdUpQzD
+   Q==;
+X-CSE-ConnectionGUID: kzv5uf5oQCuuGEODfbyzTw==
+X-CSE-MsgGUID: 7Gr+esheRJmjk78yUBuXnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="77385228"
+X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
+   d="scan'208";a="77385228"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:05:07 -0800
+X-CSE-ConnectionGUID: AMlysqEOQ1WuwN4CxZqpKg==
+X-CSE-MsgGUID: OZZFkDCnSiOh4F4x8SkwKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
+   d="scan'208";a="192663017"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:05:04 -0800
+Date: Mon, 24 Nov 2025 21:05:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] ASoC: Intel: catpt: Fix offset checks
+Message-ID: <aSSsXgRjCiXFR04R@smile.fi.intel.com>
+References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
+ <20251121114331.3841335-2-cezary.rojewski@intel.com>
+ <aSRsX9qlUVC7HHvA@smile.fi.intel.com>
+ <e99d1131-0c7b-4cf8-8830-34f766bdfe6f@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-4-ariel.dalessandro@collabora.com> <20250912140619.GA1293647-robh@kernel.org>
- <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
-In-Reply-To: <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Nov 2025 12:54:04 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-X-Gm-Features: AWmQ_blUF-g1qhHGkKsa6U6HY_V7mtf4Q-WkpVuhZVm09t2HSWt6-IOrweXVTPs
-Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
- bindings to DT schema
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
-	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
-	broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org, 
-	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com, 
-	flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com, 
-	jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org, 
-	lgirdwood@gmail.com, linus.walleij@linaro.org, 
-	louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com, 
-	maarten.lankhorst@linux.intel.com, marcel@holtmann.org, 
-	matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com, 
-	mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
-	sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com, 
-	tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e99d1131-0c7b-4cf8-8830-34f766bdfe6f@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Oct 1, 2025 at 12:28=E2=80=AFPM Ariel D'Alessandro
-<ariel.dalessandro@collabora.com> wrote:
->
-> Rob,
->
-> On 9/12/25 11:06 AM, Rob Herring wrote:
-> > On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
-> >> Convert the existing text-based DT bindings for Marvell 8897/8997
-> >> (sd8897/sd8997) bluetooth devices controller to a DT schema.
-> >>
-> >> While here:
-> >>
-> >> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
-> >>    schema definition as these are currently documented in file [0].
-> >> * DT binding users are updated to use bluetooth generic name
-> >>    recommendation.
-> >>
-> >> [0] Documentation/devicetree/bindings/net/btusb.txt
-> >>
-> >> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> >> ---
-> >>   .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 +++++++++++++++++=
-+
-> >>   .../devicetree/bindings/net/btusb.txt         |  2 +-
-> >>   .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------=
---
-> >
-> >>   .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
-> >>   .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
-> >>   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
-> >
-> > .dts files should be separate patches. Please send the bindings patches
-> > separately per subsystem so subsystem maintainers can apply them. All
-> > the Mediatek dts changes can be 1 series.
->
-> Ack, will fix in v3.
+On Mon, Nov 24, 2025 at 07:20:48PM +0100, Cezary Rojewski wrote:
+> On 2025-11-24 3:31 PM, Andy Shevchenko wrote:
+> > On Fri, Nov 21, 2025 at 12:43:26PM +0100, Cezary Rojewski wrote:
+> > > Verify if the entire block is found within DRAM, not just the start of
+> > > it.
+> > 
+> > I would rewrap this to have less distant lengths.
+> > 
+> > E.g.,
+> > 
+> > Verify if the entire block is found within DRAM, not just
+> > the start of it.
+> 
+> Sure, will do. Typically I just do 72-chars per line and whatever happens,
+> happens.
 
-Are you going to send v3 still?
+Understand, but here is a corner case, I usually rewrap a bit when it's line
+out of only a couple of characters.
 
-Rob
+...
+
+> > > static int catpt_restore_memdumps(struct catpt_dev *cdev, struct dma_chan *chan)
+> > 
+> > >   		off = catpt_to_host_offset(info->offset);
+> > > -		if (off < cdev->dram.start || off > cdev->dram.end)
+> > > +		if (off < cdev->dram.start || off + info->size >= cdev->dram.end)
+> > >   			continue;
+> > 
+> > Hmm... I would rather do something like
+> > 
+> > 		struct resource r;
+> > 		...
+> > 		resource_set_range(catpt_to_host_offset(info->offset), info->size);
+> > 		if (!resource_contains())
+> > 			continue;
+> > 
+> > >   		dev_dbg(cdev->dev, "restoring memdump: off 0x%08x size %d\n",
+> > 
+> > OTOH it seems more invasive change for kinda a fix.
+> 
+> Looks elegant though. My idea was to avoid additional operations (which
+> resource_contains() does), perhaps unnecessarily as readability suffered
+> because of that. Ack.
+
+Note, it's defined as static inline, if compiler can prove constiness of
+something, it will eliminate the code. TL;DR: let compiler to do its job.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
