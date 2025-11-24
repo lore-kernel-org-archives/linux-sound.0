@@ -1,344 +1,243 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0919F313E0D;
-	Mon, 24 Nov 2025 15:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763998218; cv=fail; b=A0GGvSqHhF1Nx9R6XwhsJXBi4dDJhMAh+hGgRu/LrhVVb6cl80lj6iBvfucLFejtq12EGEZGZw8zxEIENHumj7z/XutVLCp1HA6Ea7kLBxAs52KvUWAieotCQlznXuKj63JHo6RuhycwZRcCGfdwC5swffEt/HXHJTXbZHp4zjw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763998218; c=relaxed/simple;
-	bh=N3fbkq4n6ZHBt2oKIkS84VWUt9lASjkafnps/+brgMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NdbQD1WwCUA0Ic0Vz9/qgOqReE+Cv5jkGWcqHmlQ1BFv4sYW4+GIXe2IsAheak+4XqtDPgwstR+NGLVZX2oOYWsUkHIn6o3k2lNWgImnfXBMqJZYeRF2JaciYNiZiMzbpGJPl4/t9x1yxrpL0q0i9daJV6ooE1m9zQPxrgn3vNc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YjVhVOE6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Wa0xmOXI; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55768313E05
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 15:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763998845; cv=none; b=jjrEkC4PonkvpTO7yrGQ38mprwAgI7QlPQLFwhwNUGInl2r3zCPzXL5v0ZVWJfn7ch/ZD4uxFU94hs8aWbmYXng2LgwiParSg2jkMZfAsLBRTatH4qyMaTp7xOZOat2a3tudBXHRWy5UQljjZNxzwgyZBaNWGoUHUgPO3bZu5Eo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763998845; c=relaxed/simple;
+	bh=Ur80bf67IWJP9P3NyHLEyhZMGM2yEXjoM26RAeQoVDY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q+Q3aLvKHmccVAD7zH6ddVn6sAIlMON1eyHkFvksbYpNGkLogPhOjRhjJGodNI7WDdXLfib3DUg8nuFYgBeUx3jN1PPnR4XwsQQLJxAcb28AXcDn8RIFzmC+3WyQGlqRrCiFO7OQ85W9b3hxY81gVCf/ameLi1/A6LoVa2towHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B71CXKXG; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YjVhVOE6";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Wa0xmOXI"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AOCTS001795437;
-	Mon, 24 Nov 2025 09:30:01 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=iS1NRMskm3hpGTE1
-	zK7oONqxw0mLaIaVKoVRl+5pnso=; b=YjVhVOE6qq0Szkq8/hG6x39xnNHNEfic
-	WZz+I2xMAQpEqLLB4MyfwddOBzx39KGDOJIeyH8EbuQV0suZo+0Gu1WWHMn3tCTw
-	zSQpaf0iAnuhil2TwDqfdYgh1LRqC/lkhpByZAXZQmg2ZAKYaAG+8GQ9I8R92BmH
-	PLhG1qAljJML0y9/b6XmyDgnrSP+IcRi9lD6wKjGZupEAv6onmjMedEZQ2j6PdXh
-	Mv1l4nMh9iFHsflLsYMwodWioC/zI4R5TNz4GaDibKSIl48yWd7A1MR08BeRxBKQ
-	E2IfRKno/5nlYd5O7eWQ9Ir/EN1yu87b/7OUfkDxiZha/+wa90baKg==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020107.outbound.protection.outlook.com [40.93.198.107])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4akbf19uyb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 24 Nov 2025 09:30:01 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uzOudRlNqnHUVjLUvrJXs3yUK41IkSFO46K7t4g6UcVo8E0eWJHGMaPV2Vk/klApnBz5NUM/mBS5mLj3tItG0X2m7cSGg6Wna3hK2djedkLSisJm6zSuBQthPS6zvtrpjNXjr6f6Wn1C0Y9TFTWgYD4aREaj+IKHvLn9qRt6vOOVCiMaE8hYlIwZF4s2SaZC9hvKhrcLI8/CK3JEmOKcI+wrR8NX2nMluWqQc62IqKdHu+gQpopHKeg9vCEL1Hb2B7QxQ/b+NQdAXcmFgNr4G9VFuQ1mBgD++t1HN20sc7eZYBIYQxdg+P3iajvZyhvML4TlJyVYFdaV4lsmv+iX9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iS1NRMskm3hpGTE1zK7oONqxw0mLaIaVKoVRl+5pnso=;
- b=iMX+4kNLub++anNG52au1TS9kU7taaW9OVPgH6l3tXlvZZswtOX04LEB3YhAFKwPWo+jw+JEvf8urALBGhenLEAjOiR6HZ0fKevpUJpsIwqmM7J+wswNjENMBvB6PfUA6mW4rl4Azg9RhKgso79ek4MpzAV4M957qF6pJ14D8x9KBtqapgXvGEOSW1RMWQzM4LFWr0uS8Dqtdwc3d7QDW/t3kWzC3b8+f4rGsHPXL9l7x5yPIAUPGYQX/nlTap4b6LIM6WlYU1xgv876TOg2Rks5iitGKFz6sNwY45t59RV2zF6tDouygQX9dX+GVWIv8KG4bVxAZ1peGVEiIKk6rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B71CXKXG"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2981f9ce15cso53480065ad.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 07:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iS1NRMskm3hpGTE1zK7oONqxw0mLaIaVKoVRl+5pnso=;
- b=Wa0xmOXIA0X7qJlK3ERAlWbR3BZsnHwEPt5mpDL/j0ceQ6iJxxymYGUAy/ShraN6EfzbcQBOvnn0TDpbI723KGWR1CGkiYRSlWK5JyLhKllghqwFNsbVNitmzzi2gXvodDFkhzD2MU7A3FtMPYzbEZs9gMJA1nWHOKSmpJXddmU=
-Received: from DS7PR06CA0024.namprd06.prod.outlook.com (2603:10b6:8:2a::8) by
- LV0PR19MB9717.namprd19.prod.outlook.com (2603:10b6:408:328::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 15:29:58 +0000
-Received: from DS3PEPF000099D3.namprd04.prod.outlook.com
- (2603:10b6:8:2a:cafe::ae) by DS7PR06CA0024.outlook.office365.com
- (2603:10b6:8:2a::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
- 24 Nov 2025 15:29:53 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS3PEPF000099D3.mail.protection.outlook.com (10.167.17.4) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7 via
- Frontend Transport; Mon, 24 Nov 2025 15:29:58 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D8447406540;
-	Mon, 24 Nov 2025 15:29:56 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id BF639820247;
-	Mon, 24 Nov 2025 15:29:56 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-        pierre-louis.bossart@linux.dev
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] soundwire: stream: Prepare ports in parallel to reduce stream start latency
-Date: Mon, 24 Nov 2025 15:29:56 +0000
-Message-ID: <20251124152956.2293218-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+        d=gmail.com; s=20230601; t=1763998842; x=1764603642; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Llp8FG6WVJOxC42YZnLNsTS0zXwdgkxLlwBk+kzHwR8=;
+        b=B71CXKXGRfl4sO0Qd4Bp3nwb2CR0DYeEU05+DJf3VB2iALLwOVrDANowFVPuyt8jG4
+         P4f3SEx9KrnIV6opSeFm2y6TfC2DlzsPscmZ0T8EPXWIhBVazs8GtRmLgVFVOtQy9bgM
+         bBJmEF3TYWU8z8ykZIhO8383OYuNk/paUf+6e5g18cg8M+jBwy7Ip15szx1CoTS2UPDP
+         F0XtWn9XSpSeUt59CEndLHW9k97WQQ+snM/q7pu7aH/asJGE46znCRvh8b8STAUgvm+A
+         hcKZbIMlwdPPMBHXy3Yc9kFdiqfGq1TiWRHf8nq/9tN8VW7Ag7aRkDmPdYRAsjXfc1He
+         8urA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763998842; x=1764603642;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Llp8FG6WVJOxC42YZnLNsTS0zXwdgkxLlwBk+kzHwR8=;
+        b=eDModunZowKZkiPdiygyiufMcrCP6ddfIzLNJm/KK/DiYCKmDng6PhObF5Hh8WOl9o
+         J/ALk+zlNcvKAAx/y4ogjOIkOzDtjwAFFGV8hBIQ3bSeJx8S5RY6cBwXbZnyhn8KZzWU
+         fNC+xNb77CSICdvg4IlBWxmbfsfl131udhswq4GMTHhrXNtNX1thLqsEvForrr0TKYzT
+         pWiaSOtUTmaioq1v6cJXmsvz5uoa7MgYB/UB8RjjiPU6bSkva8EEOyyfurV9hVOMVRPj
+         F9TJYkLkubWUW8YNS06JnwQ5uBWniFQDhLKXF88ZaD3ADPD8NVpm+gaKuzbTBW3cUuU7
+         7oWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX1fik7j2dx4Oh4aR98xoYbYLRPv8NCBgwzqdWbRIRDbwW7g3dG0fkM+2VoWSP8A+HvY+BMiV363msIXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUPV5te6NUInNRYJMmGfoRDnx77cqN2sUQRAgmj7iZqLiH9igM
+	vNlXEGtbJsJFUwv/aTY09YQ2jH83dLN/uxjI+WDkHfiYH+8cjIGh1Spy
+X-Gm-Gg: ASbGncvIgTokvVdqNK0/wvhRu6L2ihm59XKSa3d6iWnmBmPMnZBhNTn0OxF2WnUPzqV
+	IH6aIO4nHlBPvhB09+Bi0GqTjIAO0CyS4yCbENwtFOFoV00982tHoar7lzf5ari1QmrNWY2Wtcg
+	nJkfJkpy7/sSlz+q3v/qNprVDkKO6p1wgch0qm19YCmdcEnNDQfqGnC+++FfMl8THQUc6hUgMMT
+	LVNRUmu30v67xubsOTaVOIG9qAfOk8mkl3rh5uuOpvP2RdqnKwgi49PucJHkrZQej3F9zRId/Uf
+	X/iUktISW3tkyAxZeEkA77XGnVX7LqCliBJgSholvjPikl7L+4miQQtend7t81cOQc8IPF9ISBD
+	KGuFS1vNIQ/wfiF5LaGJe2UhU9KTXBVBdKcM5p6ayy0xurrjhP70VrXozuDHdLKTL8i4pS1jRak
+	7JUxPMMQCB4378wMmNe3Qmh12Ly+edQu37PuvEmEkfUommASCNQv1r31W1vjg=
+X-Google-Smtp-Source: AGHT+IEFPQhBfCYRI3nTm1u+iQCIbAQZlcFtON++Fnq7DdJGduD9vDQYDBrSvMWcgiV0KUw17gd6Yw==
+X-Received: by 2002:a17:90b:5112:b0:340:bde5:c9e3 with SMTP id 98e67ed59e1d1-34733f2d207mr11198788a91.23.1763998842365;
+        Mon, 24 Nov 2025 07:40:42 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3472692e5c8sm14034703a91.11.2025.11.24.07.40.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Nov 2025 07:40:41 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <da5457ea-c1ed-4c90-8743-fc982a02ed88@roeck-us.net>
+Date: Mon, 24 Nov 2025 07:40:37 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D3:EE_|LV0PR19MB9717:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: b1921169-a9ea-4f44-3eae-08de2b6e53ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|61400799027|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?t/1c3rlZ4VtkGQ3cT+CmoTYUghxZN7PpTzn/q6kgaOARIa7keYY/8F/yvrn6?=
- =?us-ascii?Q?TAnAQBlpExcL2v+vcgk8AQdyCKtH/Um5Eq0ZaQXpNwE7k2YBhaoHzfAwvZrh?=
- =?us-ascii?Q?axoV/eCWH8WeRQwbPCDJmMWumLo4y6l8vCDGUwaGcOPnlCjePCeQxc/JV52q?=
- =?us-ascii?Q?fCqh0yZt4Va0MmVrazxk2MFNRN4A8UthUFeqOY6gV9nSQlBmux61+8E9rfoW?=
- =?us-ascii?Q?3TmWaU6CQWtaZNGLZoEzEI2Zebga/ZOIldlPWG3mNtqc7ygABHHM9grRSBK5?=
- =?us-ascii?Q?1PtE2YIaoq+Wx4ont6vi5he8FHB6G6wd2yJJsFzrwL3X7ok+FlTdJE+e/ABM?=
- =?us-ascii?Q?VHPF7cYQql6gUMkdldUtPlcRgfTinQkDlEFBCiOO7MCcBQgJAgGNE6IAs1Rp?=
- =?us-ascii?Q?ufuw/AW6mNdv/M0KU+BF7PRre+Dx7l9N0J+nGtiiBYmOCC9j5+FwZXlPg61B?=
- =?us-ascii?Q?vPuT3t50Vs9Cxr71/vkaoXSTArFhZ4/Kr9GShRPA/Ql0iFnOOjByYnvRbMEc?=
- =?us-ascii?Q?LhBIz1aNlt+cLIJlUJxz+2IUKF7gCPJu24SS0/h3/dwq2+13LFunGBKNbwNs?=
- =?us-ascii?Q?y16BZ3TEewQsisgM3wNgnyOeaHFne6dYBG1qujYwQhQ7N6QeIVX9QPcNMEnA?=
- =?us-ascii?Q?Zl8PeeMQKW5b7Jex+1Ew016ff+DLihM0xct3FVbQAftOb6MCeqNNY1uf38z5?=
- =?us-ascii?Q?R5cjJjkKyDP7ivsGAkpyrxa6rSHGuKlLrYDccaTU2iis6E3fwsibMhlU2LqE?=
- =?us-ascii?Q?brWFfBFC35rfqdvJfJ3r/M+1x3xe0aqp1ZbV0vInaQ8zKoEV0Obbw400N4BO?=
- =?us-ascii?Q?dEXdAU79DKIpqr6Sw0Hrv9652Hzz9MhWzvcO+CseU2F2cf6o2YmI5Ft6onYX?=
- =?us-ascii?Q?aJPdFmTOBICqe/JTn5yTm6u8NiFxs6edxEYwKoUUPM76vstzzhp2eqmULIja?=
- =?us-ascii?Q?RZzoK0+HIXbqYC9F/1t2BxsmE4FePM4yhQGu7xjEmWSlnUg4h+i726LLxB1V?=
- =?us-ascii?Q?OxAyiATZNGLW7MdIaG4qbIaKW7/1t5/6+Zq8gJPGeF+cBrubB/X3TvrIP+Mk?=
- =?us-ascii?Q?qQLZy4Ll/f0LL3CHV3TkpWPv5SGEX+WsEAi37URl6QuHr4CFZq7v+Apl+NMf?=
- =?us-ascii?Q?nisVnVE0YmA1mJH8AebMOdzmDCFt7xrT/YM7xic46E3ZLzuvHkWhA4Uctub2?=
- =?us-ascii?Q?Ni/uQtvziIXBj2HI9BVLCutf3bcjyh5MlGpG559KAEGNuRko5UxdiBhbt7g7?=
- =?us-ascii?Q?Xx2/qnvPA/QGIKbi7+jynzfGVIoinOPM2Fl99bDs3hzmS8MGAOLyq5WGkyIA?=
- =?us-ascii?Q?Cq+jNH6quSm6HhcpAW8z+1rRThyAiHQcgqEAFmRDOYFYK8+CfA3PTAOSwMTg?=
- =?us-ascii?Q?pey5P+4UV3x/o6gfklcBfCfAe4eEDTmzG/u+sJAldZBiZ08GQiAPMa4Sx65L?=
- =?us-ascii?Q?eodox28FJE04B+7FQUs3Ji4uMdWBdCtvXGwS/RgmuQdrsQOZPLTFqXq9cL5i?=
- =?us-ascii?Q?ZZSZXfa5K96saCFkp2/3+6PjLNuHomd/xMdODgzWXThjgW7ifcjTZymENUEh?=
- =?us-ascii?Q?Pz6vFxxplPyCcOJnaYA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(82310400026)(376014);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 15:29:58.0658
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1921169-a9ea-4f44-3eae-08de2b6e53ac
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF000099D3.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR19MB9717
-X-Authority-Analysis: v=2.4 cv=caHfb3DM c=1 sm=1 tr=0 ts=692479f9 cx=c_pps
- a=lpCYFv1dv4XKb4XztGS+VA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=U2mTfj3WJaeVhp2YELYA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDEzNiBTYWx0ZWRfXwZNjXFxrAoL+
- 1PzDp8UwLpTm51vCAkRUxNttsP5srtnxeSSFthJUmPewMY7k7Zi8OLQ64O83Oq1U03bLi/J5FVx
- rASf98diXrrJrinFgdolSNIM8yl+mPpVdKMW4sjUUIQ7iAozfdcS3CEyGbLbGmhemtO8cM2ago2
- uq+8+7Qu/pPbYZZ1RMZwMDRE3OdmSfTp4Ap9ZcKc+6Nm4BDOhcxdmZqMcWvMtJddXiITS1/DLwG
- dI9AXmjo+iuryz8RzTUst8fGHfQwuwYdbUvctRYrufvSJ3BdZU0NWCTStmyJXnh1nl+RpsmIs3Z
- JjvJj0CXCjTguEUmVOKN3qtrL2cOeovGxO+dmsazL6GkuPZStkXOuwUDs7uXA3HIQ181SPNmUbQ
- zhUXnor9TnwRKRPj/i6G8BGGTI9V9g==
-X-Proofpoint-GUID: 3s0MQXWSSQwmxG67ZDy8RTcfeKKZLXFV
-X-Proofpoint-ORIG-GUID: 3s0MQXWSSQwmxG67ZDy8RTcfeKKZLXFV
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] Add support for the LTM8054 voltage regulator
+To: Romain Gantois <romain.gantois@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi
+ <cw00.choi@samsung.com>, Peter Rosin <peda@axentia.se>,
+ Mariel Tinaco <Mariel.Tinaco@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matheus Castello <matheus@castello.eng.br>,
+ Saravanan Sekar <sravanhome@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Casey Connolly <casey.connolly@linaro.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dixit Parmar <dixitparmar19@gmail.com>, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+References: <20251124-ltm8054-driver-v4-0-107a8a814abe@bootlin.com>
+ <24527d76-4f6a-4008-a369-23510d492a94@roeck-us.net>
+ <23111366.EfDdHjke4D@fw-rgant>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <23111366.EfDdHjke4D@fw-rgant>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Issue DP prepare to all ports that use full CP_SM. Then wait for the
-prepare to complete. This allow all the DP to prepare in parallel to
-reduce the latency of starting an audio stream.
+On 11/24/25 07:13, Romain Gantois wrote:
+> Hello Guenter,
+> 
+> 
+> On Monday, 24 November 2025 15:57:41 CET Guenter Roeck wrote:
+> 
+>  > On 11/24/25 06:48, Romain Gantois wrote:
+> 
+>  > > Hello everyone,
+> 
+>  > >
+> 
+>  > > This is version four of my series which adds initial support of the Linear
+> 
+>  > > Technology LTM8054 voltage regulator. The driver supports a fixed voltage
+> 
+>  > > and a tunable output current limit using a DAC-controlled pin.
+> 
+>  > >
+> 
+>  > > I'd say that the most unusual part of this series is the usage of the IIO
+> 
+>  > > consumer API in a regulator driver. I think this makes sense here, since
+> 
+>  > > the regulator driver has to access a DAC to read/set the output current
+> 
+>  > > limit.
+> 
+>  >
+> 
+>  > I don't think that is a valid reason. Literally every driver measuring
+> 
+>  > voltages or current uses a DAC to do it. How else would one convert an
+> 
+>  > analog value into a digital value ?
+> 
+> 
+> Sorry, I don't quite understand your remark. To integrate this voltage
+> 
+> regulator component into the Linux regulator abstraction, I'm providing a
+> 
+> current limit control function. To provide such a function, the voltage level
+> 
+> on a pin has to be controlled. AFAIK, the kernel abstraction used to set
+> 
+> precise voltages on lines is an IO channel.
+> 
+> 
+> Do you think that using the IIO consumer API is not correct here? What other
+> 
+> method do you think I should use?
+> 
 
-On a system with six CS35L56 amps, this reduces the startup latency,
-from runtime_resume to all amps ready to play, from ~160 ms to ~60 ms.
+Ok, I had a look into the datasheet. Unless I am missing something, the chip doesn't
+have a digital control or monitoring interface such as I2C or SPI.
 
-(Test hardware: UpXtreme i14, BIOS v1.2, Core Ultra 7 155H, 3x CS35L56
-on link 0, 3x CS35L56 on link 1).
+At the same time, you copied the hardware monitoring mailing list on this summary and
+on (at least) one of the patches, but apparently not on all of them. This lead to my
+apparently wrong assumption that iio is used to monitor (not [just] control) something
+on the chip. I wrongly assumed that IIO is used to report chip status (voltage, current,
+temperature) using an internal DAC. Obviously that was a wrong assumption.
+Sorry for that.
 
-An initial read of DPn_PREPARESTATUS is done before dropping into the wait,
-so that a quick exit can be made if the port is already prepared. Currently
-this is essential because the wait deadlocks - the stream setup takes
-bus_lock, which blocks the interrupt handler - so the wait for completion
-will always timeout.
+Apparently you copied the hwmon mailing list for the introduction of an IIO namespace
+and its use in a couple of hwmon drivers in one of the patches. My personal opinion
+is that this should not be part of this series but a series of its own. That is just
+my personal opinion, though.
 
-However, an experiment of removing the bus_lock from stream setup, so that
-the interrupt will work, shows that wait for completion takes ~700..800 us
-but the quick-exit read takes 50..200 us. So the quick exit is still
-valuable even if the stream.c code was rewritten to allow the completion
-interrupt to work. Rewriting the code so it doesn't take bus_lock is risky.
-The deadlock only lasts until the wait times out so it's not a serious
-problem now that the DP prepare happens in parallel.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- drivers/soundwire/stream.c | 100 +++++++++++++++++++++++++++++--------
- 1 file changed, 80 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 38c9dbd35606..cc469a4a0bb6 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -443,14 +443,12 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
- 				       struct sdw_port_runtime *p_rt,
- 				       bool prep)
- {
--	struct completion *port_ready;
- 	struct sdw_dpn_prop *dpn_prop;
- 	struct sdw_prepare_ch prep_ch;
- 	u32 imp_def_interrupts;
- 	bool simple_ch_prep_sm;
--	u32 ch_prep_timeout;
- 	bool intr = false;
--	int ret = 0, val;
-+	int ret = 0;
- 	u32 addr;
- 
- 	prep_ch.num = p_rt->num;
-@@ -466,7 +464,6 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
- 
- 		imp_def_interrupts = dpn_prop->imp_def_interrupts;
- 		simple_ch_prep_sm = dpn_prop->simple_ch_prep_sm;
--		ch_prep_timeout = dpn_prop->ch_prep_timeout;
- 	} else {
- 		struct sdw_dp0_prop *dp0_prop = s_rt->slave->prop.dp0_prop;
- 
-@@ -477,7 +474,6 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
- 		}
- 		imp_def_interrupts = dp0_prop->imp_def_interrupts;
- 		simple_ch_prep_sm =  dp0_prop->simple_ch_prep_sm;
--		ch_prep_timeout = dp0_prop->ch_prep_timeout;
- 	}
- 
- 	prep_ch.prepare = prep;
-@@ -518,23 +514,16 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
- 			return ret;
- 		}
- 
--		/* Wait for completion on port ready */
--		port_ready = &s_rt->slave->port_ready[prep_ch.num];
--		wait_for_completion_timeout(port_ready,
--			msecs_to_jiffies(ch_prep_timeout));
--
--		val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
--		if ((val < 0) || (val & p_rt->ch_mask)) {
--			ret = (val < 0) ? val : -ETIMEDOUT;
--			dev_err(&s_rt->slave->dev,
--				"Chn prep failed for port %d: %d\n", prep_ch.num, ret);
--			return ret;
--		}
-+		/*
-+		 * Defer wait for completion to allow all peripherals to
-+		 * prepare in parallel.
-+		 */
-+	} else {
-+		/* Inform slaves about ports prepared */
-+		sdw_do_port_prep(s_rt, prep_ch,
-+				 prep ? SDW_OPS_PORT_POST_PREP : SDW_OPS_PORT_POST_DEPREP);
- 	}
- 
--	/* Inform slaves about ports prepared */
--	sdw_do_port_prep(s_rt, prep_ch, prep ? SDW_OPS_PORT_POST_PREP : SDW_OPS_PORT_POST_DEPREP);
--
- 	/* Disable interrupt after Port de-prepare */
- 	if (!prep && intr)
- 		ret = sdw_configure_dpn_intr(s_rt->slave, p_rt->num, prep,
-@@ -543,6 +532,66 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
- 	return ret;
- }
- 
-+static int sdw_wait_prep_slave_ports(struct sdw_bus *bus,
-+				     struct sdw_slave_runtime *s_rt,
-+				     struct sdw_port_runtime *p_rt)
-+{
-+	struct completion *port_ready;
-+	struct sdw_dpn_prop *dpn_prop;
-+	struct sdw_dp0_prop *dp0_prop;
-+	struct sdw_prepare_ch prep_ch;
-+	bool simple_ch_prep_sm;
-+	u32 ch_prep_timeout;
-+	int ret, val;
-+
-+	if (p_rt->num) {
-+		dpn_prop = sdw_get_slave_dpn_prop(s_rt->slave, s_rt->direction, p_rt->num);
-+		simple_ch_prep_sm = dpn_prop->simple_ch_prep_sm;
-+		ch_prep_timeout = dpn_prop->ch_prep_timeout;
-+	} else {
-+		simple_ch_prep_sm = s_rt->slave->prop.dp0_prop->simple_ch_prep_sm;
-+		ch_prep_timeout = dp0_prop->ch_prep_timeout;
-+	}
-+
-+	if (simple_ch_prep_sm)
-+		return 0;
-+
-+	/*
-+	 * Check if already prepared. Avoid overhead of waiting for interrupt
-+	 * and port_ready completion if we don't need to.
-+	 */
-+	val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
-+	if (val < 0) {
-+		ret = val;
-+		goto err;
-+	}
-+
-+	if (val & p_rt->ch_mask) {
-+		/* Wait for completion on port ready */
-+		port_ready = &s_rt->slave->port_ready[p_rt->num];
-+		wait_for_completion_timeout(port_ready, msecs_to_jiffies(ch_prep_timeout));
-+		val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
-+		if ((val < 0) || (val & p_rt->ch_mask)) {
-+			ret = (val < 0) ? val : -ETIMEDOUT;
-+			goto err;
-+		}
-+	}
-+
-+	/* Inform slaves about ports prepared */
-+	prep_ch.num = p_rt->num;
-+	prep_ch.ch_mask = p_rt->ch_mask;
-+	prep_ch.prepare = true;
-+	prep_ch.bank = bus->params.next_bank;
-+	sdw_do_port_prep(s_rt, prep_ch, SDW_OPS_PORT_POST_PREP);
-+
-+	return 0;
-+
-+err:
-+	dev_err(&s_rt->slave->dev, "Chn prep failed for port %d: %d\n", p_rt->num, ret);
-+
-+	return ret;
-+}
-+
- static int sdw_prep_deprep_master_ports(struct sdw_master_runtime *m_rt,
- 					struct sdw_port_runtime *p_rt,
- 					bool prep)
-@@ -594,6 +643,17 @@ static int sdw_prep_deprep_ports(struct sdw_master_runtime *m_rt, bool prep)
- 		}
- 	}
- 
-+	/* Wait for parallel CP_SM prepare completion */
-+	if (prep) {
-+		list_for_each_entry(s_rt, &m_rt->slave_rt_list, m_rt_node) {
-+			list_for_each_entry(p_rt, &s_rt->port_list, port_node) {
-+				ret = sdw_wait_prep_slave_ports(m_rt->bus, s_rt, p_rt);
-+				if (ret < 0)
-+					return ret;
-+			}
-+		}
-+	}
-+
- 	/* Prepare/De-prepare Master port(s) */
- 	list_for_each_entry(p_rt, &m_rt->port_list, port_node) {
- 		ret = sdw_prep_deprep_master_ports(m_rt, p_rt, prep);
--- 
-2.47.3
+Guenter
 
