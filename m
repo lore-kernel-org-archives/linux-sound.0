@@ -1,105 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E6827FD76
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 19:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA482EF673
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 21:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764011259; cv=none; b=j5sW5D6b5b7A/8uVkmYWlBMu5RqE7+sCFuIvv7vs9QIihsl/WAEbcRez2ZeWTUK8BMyRvyOe7lHEhX0okGJPxFmDLuJB73Rp5v0KFyYF9VwuDvbCnFy2gNVM3orSmsLaZixSo4mloxBzKExhizN5utAKwsUmYjNg2tjqSqaJgYw=
+	t=1764018379; cv=none; b=QrIrBtwa2Ok2A9qWmLCrutBsCTc4CoFAXP19fhwQgH5jsBtkeBr5UlGIIktwIDAxHFZI2X1mtonPqGf0XCT6fuus674CVyhLSbs0UJG7vxGPDRIBWZI1bE2zRL6fIYQ4ZhgyNbniHpQkv5pBFunVj5xxQUdxZUtOu5JAw5AdNis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764011259; c=relaxed/simple;
-	bh=iqhcpWQRDMcpirSGVb87yzbkxLPkvkyTFxt7Rt1UUaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+3Hedz8zKz9ivsXkWNqR+JnFmOWV5nytUvhfLCSfjL8u7si4my4Wr0zPMNADhpaAIVCh49eo7rjo5gm7lFhn7T89yqmQIJXrcy/WNwV4Qv3ZXKvoJIWrP/W/Kc66hOkYnDJwZoCRC7f+M19/cCIl3dVnT4JdYLjtRI/+BFFapg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qf9e4j0t; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764018379; c=relaxed/simple;
+	bh=mS0D7PdgsnX8XZ50IEQVjpwmazvZ1y6uWClDiVRb+1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eMMSef+kq1o82cb8uzOZwNcMCqFYdUJwDPARmJEYqmOGeGJZ87iLcNCjQsOXTfiHy+qHQ0UDdhakvhY9PMZYlgkQqakCNhuhZiMZ13T8oU17AUj6D9UQbN+lq+YF4Xch0HhUytNS46vkhlNlQH9ZNGtqv4pTk1wBF8tG+tRp0xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com; spf=pass smtp.mailfrom=motu.com; dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b=Toy6UREl; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qf9e4j0t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764011257; x=1795547257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iqhcpWQRDMcpirSGVb87yzbkxLPkvkyTFxt7Rt1UUaQ=;
-  b=Qf9e4j0tSDszfdXCwZ8iSW+MQ6GzOKOsx4X9YXnNk7L+W08a2m3Me8Jq
-   xfEHYKkvbUr7zoY1g2ChiwTB24XW5trYiGq0dc5uSkF626+oh6e8otJXw
-   Ob5z5N/NF1OtuBxafWpKcX+EScDYfsTX2dMNA+8Pir9InEdBD2RvBj3/u
-   m2ec4lVYF6V07Xti5A8lKnSesN1lDd0IjR3KDJNS4NVYGVBY6Mjbmn++k
-   t60cBY2/J6gn0qlGCHZ/pTfRbItGnHFK2+er/I4ePhlE5bZRGA3E8gcY6
-   54WHrz6iCwyAEU8M09B6yubXTYOs5k4eDBrSF4gO1LyfWONyeDoqQbXgi
-   Q==;
-X-CSE-ConnectionGUID: K1/67JeXS52gJXC+TsTdCw==
-X-CSE-MsgGUID: H9EbMRfuQLGmsIdbJjQ6ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66095400"
-X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="66095400"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:07:37 -0800
-X-CSE-ConnectionGUID: C2HuJbvYRIO/PnwLdsq+yw==
-X-CSE-MsgGUID: sYYT60l8TOeId1QjLoro5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="197535606"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:07:35 -0800
-Date: Mon, 24 Nov 2025 21:07:32 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 5/6] ASoC: Intel: catpt: Do not block the system from
- suspending
-Message-ID: <aSSs9FEH4ROt_KMx@smile.fi.intel.com>
-References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
- <20251121114331.3841335-6-cezary.rojewski@intel.com>
- <aSRuvUeGS-v2s8nT@smile.fi.intel.com>
- <b4680b57-742d-4e2d-847e-fc8722cf7011@intel.com>
+	dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b="Toy6UREl"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-298039e00c2so66324395ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 13:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=motu.com; s=google; t=1764018377; x=1764623177; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6fxkpJJkBen5bfgB7rJExiVGeQH2pO2BZ9RxZ808jyY=;
+        b=Toy6URElUlOmCVBxleaUNZJjZbog4j9fJraJm1to49DnjJkmaP6UFGXFxHRN+LvaoB
+         18oNpxSxb+XiPFQbLnEyB6Cs3NMvjCYLkCxh25IL1N5wKBBdJyf6h//Zo0/SW41sQUXR
+         WuIO6bkO6uoQi+ETKZRfpRmdcHUEPvqXHO6nc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764018377; x=1764623177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6fxkpJJkBen5bfgB7rJExiVGeQH2pO2BZ9RxZ808jyY=;
+        b=GIF+oGvwSA2wIz207cKYe8CCoQ10OQVcJSdHnxkQq60Cw36Jwh9XdgDaUzM1jU7b7m
+         94ihBcRBxE1w+bnHGfafxv2Z3QHi84lauXzCmpVg3wgH1AF3tvc7oVE8ontBNcspz82L
+         w9duKm0/wPb+bALzvJAWQcIEtqfW//V1r2HhcLKdSsPLDihsDmhb7VbEXM6/ysEs2M4v
+         1AO6oZy333UpHRT57GhgapUPWR+ki8+UQP9Cs+7Xwsxo+dAaGlAVCpmIr0dml1s2xsaG
+         DGUQgnZlKf9Slp/qSNFfh1UiaZghGgAZJSpVvWU+dZnFVXat6OkUXdidev4by7/s5FCo
+         3LjA==
+X-Gm-Message-State: AOJu0YzMhA2DtNVsoX/RpvKYnByCPe5XF+AKe+T7XsA7PBlch42/PLAV
+	ScbMzlHiVyP/eqm7vCOOJ5Vr6sY+aT76tZZyeTZDNL3d3Yo1fsmpATbTBTPvgLEfMpA/Yn02/nR
+	Jcpi0WXARx1EOCqY20Rpu5yqrY1rWxTfiWyF6sIZopCS7gGuDNdBva03XzqUseDXuJJuaE3f3GU
+	qm8tpGuk8shoAUZqw3/QTBwocf0nPq60m5YW+ENrmz4GCF0snRYyYI61k=
+X-Gm-Gg: ASbGnctDUB2J4Q1SwDI1rK1rUC2VNOel5a8s3/5zX1utgr7X3K0Mp1Um8qsxYA5EuUX
+	9/5qqJF8iQ/soAG9A19p5BOxQ6T207ROW9UMQL1WFJPRT+ssBrEr+axR7iIRTBY1NPFUwozsvu7
+	+mF7S169lMHooHGsWcNDnfX7ZPCkefCANuOgjD3wJv3R4652lnZfGoEWeV/5TWSPOj5RspcaSPh
+	LjQb9/btIreCCql6nSJ0102jdCtDvctBkhkSBDnG5yBgB21oKqmB6XeZPRH+l5Kg4CCj6OLnGj5
+	PVeYnhw8fSP7GYHOUdLaLOXblv8JXb37+qioCyi0qtgqdbiZAnqm2EIZVSFvSBabHzAOwBJPHXL
+	jZgX7/bsL/iKSGda3Ef6P/GSQpY3fGJ/LRWgTqNJ5i41/EVGbZscttVaK4vYkDtUVAHD8r9AM8/
+	FzmDsJtsMWFl37+GKfzjPqLw==
+X-Google-Smtp-Source: AGHT+IElxgXe5oft5V5kxqq0CUIAOqX2aKeCRqVqpwmcpHuBWj1cV27Ib130aQOC57hFWbbpQANMYA==
+X-Received: by 2002:a17:903:1967:b0:288:e46d:b32b with SMTP id d9443c01a7336-29b6beba2dfmr155665805ad.17.1764018376626;
+        Mon, 24 Nov 2025 13:06:16 -0800 (PST)
+Received: from fedora.motu.com ([50.217.247.134])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b274752sm144616635ad.75.2025.11.24.13.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Nov 2025 13:06:16 -0800 (PST)
+From: Dylan Robinson <dylan_robinson@motu.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	dylan_robinson@motu.com
+Subject: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
+Date: Mon, 24 Nov 2025 16:05:18 -0500
+Message-ID: <20251124210518.90054-1-dylan_robinson@motu.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b4680b57-742d-4e2d-847e-fc8722cf7011@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 24, 2025 at 07:05:55PM +0100, Cezary Rojewski wrote:
-> On 2025-11-24 3:42 PM, Andy Shevchenko wrote:
-> > On Fri, Nov 21, 2025 at 12:43:30PM +0100, Cezary Rojewski wrote:
+The maxpacksize field in struct audioformat represents the maximum number
+of bytes per isochronous interval. The current implementation only
+special-cases high-speed endpoints and does not account for the different
+computations required for SuperSpeed, SuperSpeedPlus, or eUSB2. As a
+result, USB audio class devices operating at these speeds may fail to
+stream correctly. The issue was observed on a MOTU 16A (2025) interface,
+which requires more than 1024 bytes per interval at SuperSpeed.
 
-...
+This patch replaces the existing logic with a helper that computes the
+correct maximum bytes-per-interval for all USB speeds, borrowing the logic
+used in drivers/usb/core/urb.c.
 
-> > > +/* Do not block the system from suspending, recover on resume() if needed. */
-> > > +static int catpt_suspend(struct device *dev)
-> > > +{
-> > > +	__catpt_suspend(dev);
-> > 
-> > Can we use catpt_do_suspend() name? Or something with a better suffix?
-> > 
-> > Wouldn't be useful to have some debug message to be printed in case of failure?
-> > 
-> > 	ret = catpt_do_suspend(dev);
-> > 	if (ret)
-> > 		dev_dbg(dev, ..., ret);
-> > 
-> > ?
-> 
-> No problem renaming the function in v2. As for the debug print,
-> __catpt_suspend/catpt_do_suspend() would dump enough information already. If
-> I get failure from powering up DRAM/IRAM banks or an IPC failure, additional
-> "failed" message on top won't add anything useful.
+Signed-off-by: Dylan Robinson <dylan_robinson@motu.com>
+---
+ sound/usb/stream.c | 36 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 4 deletions(-)
 
-Okay, then no need to add a noise, indeed.
-
-> > > +	return 0;
-> > > +}
-
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index 5c235a5ba7e1..074a61215de6 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -684,6 +684,37 @@ snd_usb_find_output_terminal_descriptor(struct usb_host_interface *ctrl_iface,
+ 	return NULL;
+ }
+ 
++static unsigned int
++snd_usb_max_bytes_per_interval(struct snd_usb_audio *chip,
++					struct usb_host_interface *alts)
++{
++	struct usb_host_endpoint *ep = &alts->endpoint[0];
++	unsigned int max_bytes = usb_endpoint_maxp(&ep->desc);
++
++	/* SuperSpeed isoc endpoints have up to 16 bursts of up to 3 packets each */
++	if (snd_usb_get_speed(chip->dev) >= USB_SPEED_SUPER) {
++		int burst = 1 + ep->ss_ep_comp.bMaxBurst;
++		int mult = USB_SS_MULT(ep->ss_ep_comp.bmAttributes);
++		max_bytes *= burst;
++		max_bytes *= mult;
++	}
++
++	if (snd_usb_get_speed(chip->dev) == USB_SPEED_SUPER_PLUS &&
++		USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes)) {
++		max_bytes = le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
++	}
++
++	/* High speed, 1-3 packets/uframe, max 6 for eUSB2 double bw */
++	if (snd_usb_get_speed(chip->dev) == USB_SPEED_HIGH) {
++		if (usb_endpoint_is_hs_isoc_double(chip->dev, ep))
++			max_bytes = le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
++		else
++			max_bytes *= usb_endpoint_maxp_mult(&ep->desc);
++	}
++
++	return max_bytes;
++}
++
+ static struct audioformat *
+ audio_format_alloc_init(struct snd_usb_audio *chip,
+ 		       struct usb_host_interface *alts,
+@@ -703,11 +734,8 @@ audio_format_alloc_init(struct snd_usb_audio *chip,
+ 	fp->ep_attr = get_endpoint(alts, 0)->bmAttributes;
+ 	fp->datainterval = snd_usb_parse_datainterval(chip, alts);
+ 	fp->protocol = protocol;
+-	fp->maxpacksize = le16_to_cpu(get_endpoint(alts, 0)->wMaxPacketSize);
++	fp->maxpacksize = snd_usb_max_bytes_per_interval(chip, alts);
+ 	fp->channels = num_channels;
+-	if (snd_usb_get_speed(chip->dev) == USB_SPEED_HIGH)
+-		fp->maxpacksize = (((fp->maxpacksize >> 11) & 3) + 1)
+-				* (fp->maxpacksize & 0x7ff);
+ 	fp->clock = clock;
+ 	INIT_LIST_HEAD(&fp->list);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.51.1
 
