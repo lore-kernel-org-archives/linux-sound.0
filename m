@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139D7137C52
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 19:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E6827FD76
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 19:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764011213; cv=none; b=pN0whmNHawhVuiBMhirlKx0+VVPhkhjVkyKf1RoYK5HkarkTWMw0wUo/NreQTOVP7bm8NL8t0BKiJs1LUNITXcaa2+bnwZHTBnGW44WhwSZ7fuzRfXxZBwUoeUTh5kxD5XHjNihyeFiqIa0D1LSLkcsP2VT/NP3sosAvvz+QxsA=
+	t=1764011259; cv=none; b=j5sW5D6b5b7A/8uVkmYWlBMu5RqE7+sCFuIvv7vs9QIihsl/WAEbcRez2ZeWTUK8BMyRvyOe7lHEhX0okGJPxFmDLuJB73Rp5v0KFyYF9VwuDvbCnFy2gNVM3orSmsLaZixSo4mloxBzKExhizN5utAKwsUmYjNg2tjqSqaJgYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764011213; c=relaxed/simple;
-	bh=u1lwGR9eXc/hTjMW/gycywWPDTNJdNpWNI4gdyVI/5E=;
+	s=arc-20240116; t=1764011259; c=relaxed/simple;
+	bh=iqhcpWQRDMcpirSGVb87yzbkxLPkvkyTFxt7Rt1UUaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwR9cjxHx6xJVR4J/RsNe545+oKp3e7FMH7pnyKm+9WAz5ntdzEu7fgcl3MgPwp9o+D1tweSwtis+AKVc9yMLGMNsOT5zOOAqrBxE8nZwHUNfp8TDSDIlqnMIB8qbxbHvEBBe8w/zugRtLp4WjboNn0xIm/h9Guu4tetGW0EIf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZOF8Q74g; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+3Hedz8zKz9ivsXkWNqR+JnFmOWV5nytUvhfLCSfjL8u7si4my4Wr0zPMNADhpaAIVCh49eo7rjo5gm7lFhn7T89yqmQIJXrcy/WNwV4Qv3ZXKvoJIWrP/W/Kc66hOkYnDJwZoCRC7f+M19/cCIl3dVnT4JdYLjtRI/+BFFapg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qf9e4j0t; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZOF8Q74g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qf9e4j0t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764011213; x=1795547213;
+  t=1764011257; x=1795547257;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=u1lwGR9eXc/hTjMW/gycywWPDTNJdNpWNI4gdyVI/5E=;
-  b=ZOF8Q74gVsv6RSs0v7YvedMYe8Jfddkdn4VcdRkOq++jTbIn8MVRdw8Z
-   oAhSRUnL0TD+sJprajbCNiZVy+vC7J/TVGVz2qLNl5yKLn/NHBfkMTWVD
-   6Ob9bIfqBp/EanLlnpQw4qiAOPbc5dtHsueN8cFsJ0PGFM4P2c9H23X2S
-   +YFnexZST4TbJ+11Xq/cn8ak9upde72zwbPvPrBfxUw7AyESrGlrpRPmd
-   NMu171zxgSUxP8NV0LejNLOjBQgOeJpk/3WrybY0VGaDNYnp9BaZ28Z//
-   rt6TkU0D5vj0LX2/2v7YRFWYF5k1VUsrn8j9SErThPpN5qk0qHK9zHToQ
-   A==;
-X-CSE-ConnectionGUID: EgqenwFLTwm7DBUmEgL/0A==
-X-CSE-MsgGUID: mh/Jz1hFSfe3n+Q0X2/+eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="65721696"
+  bh=iqhcpWQRDMcpirSGVb87yzbkxLPkvkyTFxt7Rt1UUaQ=;
+  b=Qf9e4j0tSDszfdXCwZ8iSW+MQ6GzOKOsx4X9YXnNk7L+W08a2m3Me8Jq
+   xfEHYKkvbUr7zoY1g2ChiwTB24XW5trYiGq0dc5uSkF626+oh6e8otJXw
+   Ob5z5N/NF1OtuBxafWpKcX+EScDYfsTX2dMNA+8Pir9InEdBD2RvBj3/u
+   m2ec4lVYF6V07Xti5A8lKnSesN1lDd0IjR3KDJNS4NVYGVBY6Mjbmn++k
+   t60cBY2/J6gn0qlGCHZ/pTfRbItGnHFK2+er/I4ePhlE5bZRGA3E8gcY6
+   54WHrz6iCwyAEU8M09B6yubXTYOs5k4eDBrSF4gO1LyfWONyeDoqQbXgi
+   Q==;
+X-CSE-ConnectionGUID: K1/67JeXS52gJXC+TsTdCw==
+X-CSE-MsgGUID: H9EbMRfuQLGmsIdbJjQ6ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66095400"
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="65721696"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:06:52 -0800
-X-CSE-ConnectionGUID: JzNvJ5SrRR2sBDSNc/5ffw==
-X-CSE-MsgGUID: 3PuOnw9bTEGe0S/ZkkCThA==
+   d="scan'208";a="66095400"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:07:37 -0800
+X-CSE-ConnectionGUID: C2HuJbvYRIO/PnwLdsq+yw==
+X-CSE-MsgGUID: sYYT60l8TOeId1QjLoro5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="192499616"
+   d="scan'208";a="197535606"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:06:49 -0800
-Date: Mon, 24 Nov 2025 21:06:47 +0200
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 11:07:35 -0800
+Date: Mon, 24 Nov 2025 21:07:32 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Cezary Rojewski <cezary.rojewski@intel.com>
 Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/6] ASoC: Intel: catpt: Fix offset checks
-Message-ID: <aSSsxz9hIavDhpgg@smile.fi.intel.com>
+Subject: Re: [PATCH 5/6] ASoC: Intel: catpt: Do not block the system from
+ suspending
+Message-ID: <aSSs9FEH4ROt_KMx@smile.fi.intel.com>
 References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
- <20251121114331.3841335-2-cezary.rojewski@intel.com>
- <aSRsX9qlUVC7HHvA@smile.fi.intel.com>
- <e99d1131-0c7b-4cf8-8830-34f766bdfe6f@intel.com>
- <aSSsXgRjCiXFR04R@smile.fi.intel.com>
+ <20251121114331.3841335-6-cezary.rojewski@intel.com>
+ <aSRuvUeGS-v2s8nT@smile.fi.intel.com>
+ <b4680b57-742d-4e2d-847e-fc8722cf7011@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,47 +63,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aSSsXgRjCiXFR04R@smile.fi.intel.com>
+In-Reply-To: <b4680b57-742d-4e2d-847e-fc8722cf7011@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Nov 24, 2025 at 09:05:06PM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 24, 2025 at 07:20:48PM +0100, Cezary Rojewski wrote:
-> > On 2025-11-24 3:31 PM, Andy Shevchenko wrote:
-> > > On Fri, Nov 21, 2025 at 12:43:26PM +0100, Cezary Rojewski wrote:
+On Mon, Nov 24, 2025 at 07:05:55PM +0100, Cezary Rojewski wrote:
+> On 2025-11-24 3:42 PM, Andy Shevchenko wrote:
+> > On Fri, Nov 21, 2025 at 12:43:30PM +0100, Cezary Rojewski wrote:
 
 ...
 
-> > > > static int catpt_restore_memdumps(struct catpt_dev *cdev, struct dma_chan *chan)
-> > > 
-> > > >   		off = catpt_to_host_offset(info->offset);
-> > > > -		if (off < cdev->dram.start || off > cdev->dram.end)
-> > > > +		if (off < cdev->dram.start || off + info->size >= cdev->dram.end)
-> > > >   			continue;
-> > > 
-> > > Hmm... I would rather do something like
-
-> > > 		struct resource r;
-
-You might need to nullify this as well:
-
-		struct resource r = {}; // or any equivalent
-
-> > > 		...
-> > > 		resource_set_range(catpt_to_host_offset(info->offset), info->size);
-> > > 		if (!resource_contains())
-> > > 			continue;
-> > > 
-> > > >   		dev_dbg(cdev->dev, "restoring memdump: off 0x%08x size %d\n",
-> > > 
-> > > OTOH it seems more invasive change for kinda a fix.
+> > > +/* Do not block the system from suspending, recover on resume() if needed. */
+> > > +static int catpt_suspend(struct device *dev)
+> > > +{
+> > > +	__catpt_suspend(dev);
 > > 
-> > Looks elegant though. My idea was to avoid additional operations (which
-> > resource_contains() does), perhaps unnecessarily as readability suffered
-> > because of that. Ack.
+> > Can we use catpt_do_suspend() name? Or something with a better suffix?
+> > 
+> > Wouldn't be useful to have some debug message to be printed in case of failure?
+> > 
+> > 	ret = catpt_do_suspend(dev);
+> > 	if (ret)
+> > 		dev_dbg(dev, ..., ret);
+> > 
+> > ?
 > 
-> Note, it's defined as static inline, if compiler can prove constiness of
-> something, it will eliminate the code. TL;DR: let compiler to do its job.
+> No problem renaming the function in v2. As for the debug print,
+> __catpt_suspend/catpt_do_suspend() would dump enough information already. If
+> I get failure from powering up DRAM/IRAM banks or an IPC failure, additional
+> "failed" message on top won't add anything useful.
+
+Okay, then no need to add a noise, indeed.
+
+> > > +	return 0;
+> > > +}
 
 -- 
 With Best Regards,
