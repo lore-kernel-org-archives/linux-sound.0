@@ -1,262 +1,273 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183AA2D59F7
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 15:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1D9314A8E;
+	Mon, 24 Nov 2025 15:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763999700; cv=none; b=bUJb7Yb8lgnJTl1c1kLRciG7Fsfsr+SZBz2M6jCdiCxks3Gzrh2KSy2nU7bbniQSLl/exfEueY7SidG8mN0TVjsGH11Q6ojrn6G/ycGEASpmTvFAcPx8FCfRJOSArs9C3h1Wpbtk8sTU2r5m3kgG0bR3dH59CfvrHq8zgMUNiU8=
+	t=1763999865; cv=none; b=vFxuXZKy5L2cbD3I7cfXYtXBcwR7r08uV9rY0QdSaAPkVSbmpbpTH88ent484qmFdO0SMqN/upv2AuVosIJBhQDimq1ybVZD+xRWEPVPNsszyW7vZdIYPWFITJG8Kd6LHSpUIgt5Tl9wxZLTnUHR7Ig+nguAa/hPKBHS0+DBLNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763999700; c=relaxed/simple;
-	bh=hiAY7oTzVh0IVeTHMAeeL3s5WxTO664UgKJH868jqD4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BsCvYMWI4UzRNsf2g0lQnR4gxBCiBBHG/WOuWqmScd3UCAONcslACjE5OcbL2biFm9OboIZb2BxiNiO0pIfu0UlO0inItaqRZo0jbhVXkVPbqaZbC+gSznolFozCkgtWqow49CVQZ68jQReWDf4GnjdC4VOpNDxshlZ/r+jXS4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VekABiBi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BPOoOiZi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VekABiBi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BPOoOiZi; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1763999865; c=relaxed/simple;
+	bh=yGI97hDLro8+McOQ+lHZp2VCQuWtN25N7eUBLNYm8jU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rTCsm3F2lnq7TAt/+LcdW13xRmQbXCch6c9ZUKmnAMj/ev38+TWORiKXVad0Mr8ZrqOCBtHIACfQ+775h1cgIMw/cPEzmJocUsX1XkHzOxSlMMcSz6mLyJKWzklWBv36HJvmKyNvQy/6NSHG8E8uAiEIDeC+jzWk+uzxyIGyXw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VarxPDuE; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VekABiBi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPOoOiZi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VekABiBi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPOoOiZi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5259421B15;
-	Mon, 24 Nov 2025 15:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763999696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HsZkBEW2TM6AeN+OAZLLuatnFixOQCp4bvoph11L2gA=;
-	b=VekABiBiU+MzD+mAMlclqFEWkYGW3CJ6+oZdKwNFC79+MZE903lMuC7mZPFcb0qrFA2kn4
-	KiCXYdBB8ICW2TNygzRmekaL3cQU9fcJVFhJVUS0pIAH/3b1/a1KfO7YXWox10zBO1rgYf
-	XDoE9CvMAyeHtucQk1mmsViiLsTbz/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763999696;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HsZkBEW2TM6AeN+OAZLLuatnFixOQCp4bvoph11L2gA=;
-	b=BPOoOiZiUTY2jKHTHe/eek3lkXBhReX6OBvxKHMa2Uxsjqw41xN3EPoVOJXvkathn4ufCk
-	PP1dNYfV5MWXPTAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VekABiBi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BPOoOiZi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763999696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HsZkBEW2TM6AeN+OAZLLuatnFixOQCp4bvoph11L2gA=;
-	b=VekABiBiU+MzD+mAMlclqFEWkYGW3CJ6+oZdKwNFC79+MZE903lMuC7mZPFcb0qrFA2kn4
-	KiCXYdBB8ICW2TNygzRmekaL3cQU9fcJVFhJVUS0pIAH/3b1/a1KfO7YXWox10zBO1rgYf
-	XDoE9CvMAyeHtucQk1mmsViiLsTbz/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763999696;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HsZkBEW2TM6AeN+OAZLLuatnFixOQCp4bvoph11L2gA=;
-	b=BPOoOiZiUTY2jKHTHe/eek3lkXBhReX6OBvxKHMa2Uxsjqw41xN3EPoVOJXvkathn4ufCk
-	PP1dNYfV5MWXPTAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1ED903EA63;
-	Mon, 24 Nov 2025 15:54:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DLhZBtB/JGlpZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 24 Nov 2025 15:54:56 +0000
-Date: Mon, 24 Nov 2025 16:54:55 +0100
-Message-ID: <87zf8bpgs0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Harin Lee <me@harin.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] ALSA: ctxfi: Add support for Onkyo SE-300PCIE
-In-Reply-To: <74ffacd4-437d-4df9-b068-a5ec2d051a5b@harin.net>
-References: <20251121152221.1152523-1-me@harin.net>
-	<4df3c2ac-88cd-42d1-9f1e-c5c2c5a2b00f@harin.net>
-	<87o6oul8kf.wl-tiwai@suse.de>
-	<cecd1398-b072-4830-9495-c4bf8d7a3570@harin.net>
-	<87cy57hlk1.wl-tiwai@suse.de>
-	<74ffacd4-437d-4df9-b068-a5ec2d051a5b@harin.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VarxPDuE"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A03C64E41884;
+	Mon, 24 Nov 2025 15:57:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 71C74606FC;
+	Mon, 24 Nov 2025 15:57:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0297B10371A40;
+	Mon, 24 Nov 2025 16:57:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763999858; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=UX028RVBrtav4WisvLm2dO1F8K5+rUIM4Xp+GTn4l88=;
+	b=VarxPDuEXoNSmVvJFI8GatO2RP9trnXzaYCfsYMM6RiiQJ2m93PBXrieFqWdi7u6Z2RoZg
+	GAGA01Dg63AWsSjF79FfLxVFlCWOLC7nb+Zva16AiZR4LFaDIOkwTjS+1qvXT6UkmCc4TH
+	yzjFgzaGeZFlS18DchOYD0zIe6ixo0ZO9D4JFiPQlx//8nY7IyIYwgA24Z48+/kegy6SN7
+	r9KW3P+aPv0ig9jzpcYgX+xbOwsPSqiPsLbiFMkGf/rdRqa9+vF2g0o12LRVP64iuC5S5t
+	QWlRuX+uUfAmODHQDKv6cyMvrBcyY/vc3NIbj+57IejdauvBbh+DRTxNEjxg7Q==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Peter Rosin <peda@axentia.se>,
+ Mariel Tinaco <Mariel.Tinaco@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Kevin Tsai <ktsai@capellamicro.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matheus Castello <matheus@castello.eng.br>,
+ Saravanan Sekar <sravanhome@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dixit Parmar <dixitparmar19@gmail.com>, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v4 0/6] Add support for the LTM8054 voltage regulator
+Date: Mon, 24 Nov 2025 16:57:16 +0100
+Message-ID: <4053840.MHq7AAxBmi@fw-rgant>
+In-Reply-To: <563331EB-2460-4CF5-87B3-5FE60B18BB70@goldelico.com>
+References:
+ <20251124-ltm8054-driver-v4-0-107a8a814abe@bootlin.com>
+ <23111366.EfDdHjke4D@fw-rgant>
+ <563331EB-2460-4CF5-87B3-5FE60B18BB70@goldelico.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 5259421B15
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart2111402.atdPhlSkOF";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 24 Nov 2025 11:22:32 +0100,
-Harin Lee wrote:
-> 
-> Thank you for the review.
-> 
-> The SE-300PCIE features separate hardware routing and DACs for the
-> Hi-Fi RCA output and the 7.1ch Front output, unlike other X-Fi cards
-> where the Front port serves both purposes.
-> 
-> While ALSA resources typically map 1:1 to hardware, exposing a separate
-> mixer for the RCA port would likely confuse users and applications
-> regarding which device to use as the primary output. Therefore, the
-> "Dedicated Output Playback Enum" control is designed to let the user
-> select which physical output port (RCA or Front) is used for the
-> primary output.
-> 
-> If you could suggest a standardized ALSA Enum name for this control, or
-> any better method to handle this, please let me know.
+--nextPart2111402.atdPhlSkOF
+Content-Type: multipart/alternative; boundary="nextPart2186563.taCxCBeP46";
+ protected-headers="v1"
+Content-Transfer-Encoding: 7Bit
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Date: Mon, 24 Nov 2025 16:57:16 +0100
+Message-ID: <4053840.MHq7AAxBmi@fw-rgant>
+In-Reply-To: <563331EB-2460-4CF5-87B3-5FE60B18BB70@goldelico.com>
+MIME-Version: 1.0
 
-So it chooses the exclusive output for the main playback streams?
-Then it could be something like "Master Playback Route".
-If it doesn't include the digital outputs like SPDIF, it could be
-"Analog Playback Route" or whatever, too.
+This is a multi-part message in MIME format.
 
+--nextPart2186563.taCxCBeP46
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-HTH,
+Hi Nikolaus,
 
-Takashi
-
+On Monday, 24 November 2025 16:35:28 CET H. Nikolaus Schaller wrote:
+...
+> > Sorry, I don't quite understand your remark. To integrate this voltage
+> > regulator component into the Linux regulator abstraction, I'm providing a
+> > current limit control function. To provide such a function, the voltage
+> > level on a pin has to be controlled. AFAIK, the kernel abstraction used
+> > to set precise voltages on lines is an IO channel.
 > 
-> Thanks,
-> Harin Lee
+> I was curious to learn about this topic and looked into the data sheet:
 > 
-> On 11/24/25 5:38 PM, Takashi Iwai wrote:
-> > On Sat, 22 Nov 2025 12:33:51 +0100,
-> > Harin Lee wrote:
-> >> 
-> >> Hi Takashi,
-> >> 
-> >> The official Windows driver does not expose a specific mixer control
-> >> for this. It implicitly reserves RCA for stereo output and Front for
-> >> 7.1ch surround, and simply appears as 'Speaker' device in the Control
-> >> Panel.
-> >> 
-> >> Please let me know if there are any additional points I should address
-> >> before I send v3.
-> > 
-> > Then maybe we should reconsider what exactly this control serves for.
-> > It's for a dedicated control for what and how?
-> > 
-> > The dedicated mic stuff seems rather internal-only, so it wasn't
-> > explicitly exposed.  But when we expose this, it should look more
-> > intuitive.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> >> 
-> >> Thanks,
-> >> Harin Lee
-> >> 
-> >> On 11/22/25 6:29 PM, Takashi Iwai wrote:
-> >>> On Sat, 22 Nov 2025 10:00:29 +0100,
-> >>> Harin Lee wrote:
-> >>>> 
-> >>>> I noticed that 'rca_state' in patch 5 uses 'unsigned char'. While it is
-> >>>> safe due to the bounds check, I plan to switch it to 'unsigned int' for
-> >>>> strict correctness.
-> >>>> 
-> >>>> I also have two questions regarding conventions:
-> >>>> 
-> >>>> 1. ALSA control name (on patch 5): Is "Dedicated Output Playback Enum"
-> >>>> acceptable, or would you prefer a simpler name?
-> >>> 
-> >>> I personally prefer a simpler one, but maybe it'd be a question how
-> >>> this (or equivalent) control is called on Windows or other OS.
-> >>> If it's also "Dedicated Output", then we can use it as is, too.
-> >>> 
-> >>>> 2. CA20K2 port logic (on patch 6): The condition
-> >>>> 'if ((idx < 4) && ((hw->model != CTOK0010) || (idx < 3)))' handles
-> >>>> the non-standard RCA port mapping. Does this line require additional
-> >>>> comments or a helper function for better readability?
-> >>> 
-> >>> Sure, a more comment wouldn't hurt.
-> >>> 
-> >>> 
-> >>> thanks,
-> >>> 
-> >>> Takashi
-> >>> 
-> >>>> Please let me know if you would prefer me to send a v3.
-> >>>> 
-> >>>> On 11/22/25 12:22 AM, Harin Lee wrote:
-> >>>>> I added support for the Onkyo SE-300PCIE (OK0010), a Creative X-Fi
-> >>>>> CA20K2-based sound card with dual TI PCM1798 DACs, a single TI PCM1681
-> >>>>> DAC for 7.1ch output, and a CS5364 ADC. This model differs
-> >>>>> significantly from other CA20K2-based variants.
-> >>>>> 
-> >>>>> Since official driver support for this hardware was discontinued a long
-> >>>>> time ago, this patch series enables the card to be used on modern
-> >>>>> platforms.
-> >>>>> 
-> >>>>> This patch series was developed using QEMU vfio tracing, and PCIe BAR
-> >>>>> dumps. Tested with analog output (up to 192kHz) and line/microphone
-> >>>>> input (up to 96kHz) at various sample rates.
-> >>>>> 
-> >>>>> Changes in v2:
-> >>>>>     - Fix coding style issue (mixed declaration and code) in
-> >>>>>       dedicated_rca_put().
-> >>>>> 
-> >>>>> Harin Lee (6):
-> >>>>>      ALSA: ctxfi: Add hw parameter to daio_mgr_dao_init()
-> >>>>>      ALSA: ctxfi: Add ADC helper functions for GPIO
-> >>>>>      ALSA: ctxfi: Use explicit output flag for DAIO resources
-> >>>>>      ALSA: ctxfi: Refactor resource alloc for sparse mappings
-> >>>>>      ALSA: ctxfi: Add support for dedicated RCA switching
-> >>>>>      ALSA: ctxfi: Add support for Onkyo SE-300PCIE (OK0010)
-> >>>>> 
-> >>>>>     sound/pci/ctxfi/ctatc.c      | 97 ++++++++++++++++++++++++++----------
-> >>>>>     sound/pci/ctxfi/ctatc.h      |  8 +--
-> >>>>>     sound/pci/ctxfi/ctdaio.c     | 18 ++++---
-> >>>>>     sound/pci/ctxfi/ctdaio.h     |  3 ++
-> >>>>>     sound/pci/ctxfi/cthardware.h |  4 +-
-> >>>>>     sound/pci/ctxfi/cthw20k1.c   |  3 +-
-> >>>>>     sound/pci/ctxfi/cthw20k2.c   | 79 ++++++++++++++++++++++-------
-> >>>>>     sound/pci/ctxfi/ctmixer.c    | 73 +++++++++++++++++++++++++--
-> >>>>>     8 files changed, 223 insertions(+), 62 deletions(-)
-> >>>>> 
-> >>>> 
-> >> 
+> https://www.analog.com/media/en/technical-documentation/data-sheets/8054fa.p
+> df
 > 
+> As far as I see the LTM8054 does not even have a programming interface.
+> So is it reasonable to provide a dedicated driver at all?
+> 
+> The figure on page 20 seems to suggest that there is an external DAC
+> which drives the regulator. And the regulator drives for example a fan.
+> 
+> So I would think of a driver for the specific DAC and ignore the specific
+> LTM chip at all.
+> 
+
+In my use case, the LTM8054 feeds a DC output port on which various devices 
+may be plugged. Dynamic output current limitation and output voltage level 
+control for these devices is a requirement, as well as stepped voltage 
+transitions, thus the need for a proper regulator device.
+
+The LTM8054's feedback pin can be driven by a different DAC, which allows for 
+dynamic output voltage control. This is a more complex upstreaming topic 
+however, so I've left it out of this initial series. There are other component 
+functions which fit in squarely into the regulator framework, such as 
+input current limit control and soft-start. But I understand that the current 
+driver might look a bit "bare".
+
+> What could be necessary is if you really want to be able to "regulate"
+> the current going to Vout, some bridge between regulator API and some
+> IIO DAC.
+> 
+> And enabling/disabling the regulator by some GPIO can be described in
+> the DT already through a "regulator-fixed".
+> 
+
+This is a possibility, but when you bring in all of these other hardware 
+functions that I mentionned e.g. output voltage control and stepping, you'll 
+end up with several different devices which look unrelated from userspace, but 
+actually control the same chip.
+
+Userspace will also have to know about some hardware details to properly 
+control the DACs, such as the values of the sense and feedback resistors. In 
+my opinion, this bypasses the kernel's abstraction of hardware.
+
+Thanks,
+
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+--nextPart2186563.taCxCBeP46
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/html; charset="utf-8"
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Hi Nikolaus,</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">On Monday, 24 November 2025 16:35:28 CET H. Nikolaus Schaller wrote:</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">...</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; &gt; Sorry, I don't quite understand your remark. To integrate this voltage</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; &gt; regulator component into the Linux regulator abstraction, I'm providing a</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; &gt; current limit control function. To provide such a function, the voltage</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; &gt; level on a pin has to be controlled. AFAIK, the kernel abstraction used</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; &gt; to set precise voltages on lines is an IO channel.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; I was curious to learn about this topic and looked into the data sheet:</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; https://www.analog.com/media/en/technical-documentation/data-sheets/8054fa.p</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; df</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; As far as I see the LTM8054 does not even have a programming interface.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; So is it reasonable to provide a dedicated driver at all?</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; The figure on page 20 seems to suggest that there is an external DAC</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; which drives the regulator. And the regulator drives for example a fan.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; So I would think of a driver for the specific DAC and ignore the specific</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; LTM chip at all.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">In my use case, the LTM8054 feeds a DC output port on which various devices </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">may be plugged. Dynamic output current limitation and output voltage level </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">control for these devices is a requirement, as well as stepped voltage </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">transitions, thus the need for a proper regulator device.</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">The LTM8054's feedback pin can be driven by a different DAC, which allows for </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">dynamic output voltage control. This is a more complex upstreaming topic </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">however, so I've left it out of this initial series. There are other component </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">functions which fit in squarely into the regulator framework, such as </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">input current limit control and soft-start. But I understand that the current </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">driver might look a bit &quot;bare&quot;.</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; What could be necessary is if you really want to be able to &quot;regulate&quot;</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; the current going to Vout, some bridge between regulator API and some</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; IIO DAC.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; And enabling/disabling the regulator by some GPIO can be described in</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; the DT already through a &quot;regulator-fixed&quot;.</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">&gt; </p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">This is a possibility, but when you bring in all of these other hardware </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">functions that I mentionned e.g. output voltage control and stepping, you'll </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">end up with several different devices which look unrelated from userspace, but </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">actually control the same chip.</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Userspace will also have to know about some hardware details to properly </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">control the DACs, such as the values of the sense and feedback resistors. In </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">my opinion, this bypasses the kernel's abstraction of hardware.</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Thanks,</p>
+<br /><p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">-- </p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Romain Gantois, Bootlin</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">Embedded Linux and Kernel engineering</p>
+<p style="margin-top:0;margin-bottom:0;margin-left:0;margin-right:0;">https://bootlin.com</p>
+<br /></body>
+</html>
+--nextPart2186563.taCxCBeP46--
+
+--nextPart2111402.atdPhlSkOF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEIcCsAScRrtr7W0x0KCYAIARzeA4FAmkkgFwACgkQKCYAIARz
+eA6Alg/8COym+7pL1LpZ1EUBzLeuPJJMpNXAoKBsdBPOyD3NnxUoT3dqx1KV6Qxl
+qgm6tINDewDnwWGblDKog18X7I3G9JZVLM4/LwN//KMnkzo+GcECfLyFvnNrzKhg
+X1ZpkaamjbifIadbFXhOy1HQ/A6tO90ICk4ae2Dgye9PCZAqsL/GUGtcwiJzbWTk
+mNNqqvmwxf7KGS/63peSY0oGREjOfo95tZPllfLxP5lgvdVP/kiTot7ErGsaFh5y
+zzUIaEYjpiE86eQ+0/gKRs+Xkn4sAOyPzzRwoycI9JsYuJOPLEkIdChhAKNkKUD9
+MmGR4aMVjgLxKxu2dfNwsJmVQJ8mkVor+3jqyP77XSyM7E71ZesHrujCRodKaicr
+hiTtUMGt5qkalsMDHQLJ8MR3R/hMJWK2u1uKitIC0NhXCNQfR2yGlEothJDFcdQL
+K0cOhaJGpDnxfaopsfnN9ianNPZ5MhUYJj6qvQPAjTtARK8E+uL2ysXgZ9bQ1xKx
+g+URjMLJ49zdR8rHCJw0PLPE7Cb8GcsPFlad9yWPzjhJxk5y8JTMNWAnzZTRH96b
+I/PLDFBC9fy13WU6sj9591J0oxcpRC/k6ctEDZzN5sQZ8J+2rwc9moNFpGRpuLGc
+sefn100uth/gnbi+8IJjmTB564t5KIY0Xpnk7+3vfqFC2a88B+o=
+=Wv+m
+-----END PGP SIGNATURE-----
+
+--nextPart2111402.atdPhlSkOF--
+
+
+
