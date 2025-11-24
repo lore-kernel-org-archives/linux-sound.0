@@ -1,185 +1,482 @@
-Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43886221DB3;
-	Mon, 24 Nov 2025 10:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BED1A2C25;
+	Mon, 24 Nov 2025 10:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763979777; cv=pass; b=e0YdGsD2mV7VVSn4Mn5YPpX8gzX6g88s2qs1O3d7KXjWph6rGQI7VVxCCVxTTXviaWR956a2BdE3aT4lN1uEzIlbnHB/IcVYePiB5q973pPG8RJ9B/Aj9POM1qLssJ/ooA37AnPlVCwCUD/DXQVDbWQSvZmd1XsmncHQeWHYm08=
+	t=1763981136; cv=fail; b=UgyqEGgKXf59b0ZZh8R1303hgvR3PBjsT8Qw7beaFKxX8NYJlB3dOmhqtJYq0/NusFEnr7DqbIoevRv2/Z843VLXWmlcL7v29jFakFrHf1bQLuHZn8aV1ivmaGhmNLiAW2GaBWKr9MnbukAEB3w83qZZxPKBcuCuulQb9u70YT0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763979777; c=relaxed/simple;
-	bh=760Vj88hBnbM4i4nKFL7RZjo8YDonogYi33dPdZkCH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=m7Wlswp/T7q2qhSA2QcFWA2CSlFhi0LjT1nYNw3V278Fm2NWbSqsZU5n9eNl6tbE1XbjrBvWMdIeC76Q5dfk3Q+8OLTolU1xMyvjedHX0lJt+eUD8iI0mor2tUb6M6yVSqgxfsC6TYTHazdsCdExzRG/+zS0eG2X2ZqeFvx2lL0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=eJW/hQlv; arc=pass smtp.client-ip=136.143.184.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	s=arc-20240116; t=1763981136; c=relaxed/simple;
+	bh=ULd2pDMKwNo2zcIfgnuhMJ8jOFAgK7ZMIruju/D6S9c=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MO1PiT/UGjMwETWgrnSuq4SdIowCfHLlEQGX+pnAt4smmVdiqxyJGl0cjIQm9AAndHpi0r39t4Oj235WekhIFwi+ODSI9gEapqZ2jsx7mFK8HHWCd3AIsVznV3Fq3QfJnWC8R3CndsvWB1wSVNmvc51p/wcuierdbP3AVI6l1Jk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzFPCaeH; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="eJW/hQlv"
-ARC-Seal: i=1; a=rsa-sha256; t=1763979759; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=apSurWVOnRWH2HRCSeskMB/qK5px/KdfiUff6eavuBKrLQdSt/9YdVoYMxL0ynKeK4KXS2nit1QmJaRFIevBcl7lm0PCCL0qPybjp6BpRLQanaTG+6cI7XonmLk6221ybhXF18sYy9iXo+Jrqqz5bVHCAdV9CLsuLExAZZWQ+wE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1763979759; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xwbT75EhxZ15RziblH5Fj9hqkKDKr8+ZTzs0nBG87W8=; 
-	b=Zo8HeM8A2XzRfsPxoaUcnY8ZK/nc/8BF2yQUJ+I6FomLQXGXZlDxJlHCzYSTD90fOoRZNixYk1aIEXD/KsylSLyzV05y5YLhkg8RrXEFiftjYpTHdYY9twOXrSNhcNMXwsk0+NyNz6nnlzpiH1cnP4wov8hzO2w1QT9pD6LaGf4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763979759;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=xwbT75EhxZ15RziblH5Fj9hqkKDKr8+ZTzs0nBG87W8=;
-	b=eJW/hQlvdyVzSKP7/KjA9T0ZGm83fi333ERJhFLLSE2QvuVOis6fvTSKjLsVMvBu
-	CvGIR0ESjNWeBG7wYl8Xv3240mz7dU4Bfl+l4NlNCJ4hInC3PIPrVu9eG9S5OADtqsg
-	MZzp6ld9Uz1sCDeM4nwsswBCCz8loA9OOtn3dLub0rujx/6UwrAxc4ZjW44HVplE6mN
-	eTg+H5aaNfr/j3EhPKYn0oWAOuU0BQFGPg6PamW7MDM3uzAOEvKwqA6hAaGhkwtOSjT
-	NcAIS7Oj3x9LBwVWBTpkNn3ayxA1W6e9oSl4wdqjm1X4NvmMzWMPOLgmpN+tnpfNNkV
-	iEpH7mhqbQ==
-Received: by mx.zohomail.com with SMTPS id 1763979756445859.3189943918745;
-	Mon, 24 Nov 2025 02:22:36 -0800 (PST)
-Message-ID: <74ffacd4-437d-4df9-b068-a5ec2d051a5b@harin.net>
-Date: Mon, 24 Nov 2025 19:22:32 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzFPCaeH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763981135; x=1795517135;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ULd2pDMKwNo2zcIfgnuhMJ8jOFAgK7ZMIruju/D6S9c=;
+  b=dzFPCaeHVi8D2tqfZcWXDeWH1rCftk7sn+V/S0Xflx0MQRcwdOUnP+2O
+   FXPYh1BC2HMGFBvvwMuyKcPiGmtG6dM4q5D4/ot4yGwZ75+7yu7lANDET
+   wjx+sp05qo6un22DHbp0mz13PFL+jUsiudmymx8Pizuei6QRLzaSm774d
+   ENnGA1TQeEvYGYdqfjh5T1r3kN6/y8Zo8B5DuwVDI5c65pTWpYkl2+3dT
+   WghyEq6s9L0M+10Ec3Wwdlr6gETfi+VQ0so0vjU2ulH7I2kLzB/nlJdh0
+   p1UPzk3BL/vBkcCXy1dcYPwXwYpSdKoA2Wl050K1J7HMrdYo+2c/Ro+lF
+   g==;
+X-CSE-ConnectionGUID: z1/lPGP7QUuZbEAU8nQwMA==
+X-CSE-MsgGUID: rpvKQqoyTOmZ6kX64wHmNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="77450217"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="77450217"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:45:34 -0800
+X-CSE-ConnectionGUID: bhvbSgaYTnGOM+MqiWOekQ==
+X-CSE-MsgGUID: 1otJGAatQcWkKz5jzI9icw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="192769243"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:45:33 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 24 Nov 2025 02:45:32 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 24 Nov 2025 02:45:32 -0800
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.5) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 24 Nov 2025 02:45:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pKT5+s/Ghbxudi4P/nHAhcE7iDbSbNwCL69Oe1U2ReyNwV/Uszw0XJ+iEdgm7boa36qtHfAKUy+AezEsh6LI1Z4rxOwR7GvtLEEGz66s5cAPZ0wUqCNQdia8ww1Uj0qKFn0ieoPu+F0jtkoCrfu7ZRO7sBHORl81Ye+39yov+LhJp0IayNVG3Q52wbnKZx0D6U/YZIX5v2S/dijBSAQSbXdljYLR0Kw+dSoOAeWzvlFbFwlXsEns/vQH5VrLyISFFry8Lrpvc/vjlxZekPeWjgZRQ5wlc8evPKYMJZmpnkglyt4Riz/zD93947HmJpuik+pQPZxMfYPJ12dJig1sdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8ZvHJtNrSq2TBrjsNwVhn4NmIQBgiTX6rfjBHrl6PtQ=;
+ b=EabXK0koLSE9+KtmshOGSLcn9qcTL2KrZMTre71ET5xF4nRpNi4tBsz14Dh0Git7cOwPexZzeE8iMYTkT56JfIHf8zmI5mrQDmqQlB7QTc2I+kGrxKif8WSNcZs8+/yDKx3jzoErPivVVp4DrtTy9mgODE9oJ5uXq69I8B0G8i4yR4TMN7xHklwlLGyhdzBJVyKFDAi5Sc9/RXA5bkGe0RYVcrnVSU348Y+DLMI/W5zuyIuMob7RAJB54V5+bM1aoPo+fZ2ch8oRjUlgAdogHtYgIhqtGgfJcQvt91ZYU18hbYMZQ1CDcWf3B4KkIbcfZdojkYKEKtSTNZ3z0vn0/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by CH3PR11MB8383.namprd11.prod.outlook.com (2603:10b6:610:171::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Mon, 24 Nov
+ 2025 10:45:31 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.9343.011; Mon, 24 Nov 2025
+ 10:45:31 +0000
+Message-ID: <69df5119-e293-4277-a6a1-7426b97b6c8f@intel.com>
+Date: Mon, 24 Nov 2025 11:45:25 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/2] ASoC: rt5575: Add the codec driver for the ALC5575
+To: Oder Chiou <oder_chiou@realtek.com>
+CC: <perex@perex.cz>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<flove@realtek.com>, <shumingf@realtek.com>, <jack.yu@realtek.com>,
+	<derek.fang@realtek.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+References: <20251121084112.743518-1-oder_chiou@realtek.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20251121084112.743518-1-oder_chiou@realtek.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA2P291CA0033.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::13) To SN7PR11MB8283.namprd11.prod.outlook.com
+ (2603:10b6:806:26c::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] ALSA: ctxfi: Add support for Onkyo SE-300PCIE
-To: Takashi Iwai <tiwai@suse.de>
-References: <20251121152221.1152523-1-me@harin.net>
- <4df3c2ac-88cd-42d1-9f1e-c5c2c5a2b00f@harin.net>
- <87o6oul8kf.wl-tiwai@suse.de>
- <cecd1398-b072-4830-9495-c4bf8d7a3570@harin.net>
- <87cy57hlk1.wl-tiwai@suse.de>
-Content-Language: en-US
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Harin Lee <me@harin.net>
-In-Reply-To: <87cy57hlk1.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|CH3PR11MB8383:EE_
+X-MS-Office365-Filtering-Correlation-Id: aaa19d03-368e-41f1-2f2f-08de2b46969b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Ym1xZzJIbTM3TWNZb1dqRnJYdzN3c1NPNDFqVUFvSVhJUThMVkRERjl6Q1gr?=
+ =?utf-8?B?VzNKT2NTVnJxTTJBNytrWUFGbndYWGhTVCtkWE84UlBzMHJrWVZ5eUx0K1Q4?=
+ =?utf-8?B?OWQwOHhzQ0JpNjEvbTJyTTZoVG1RbHpRbk11VWJKeWdmZzlaeGpZemFuZ1Y2?=
+ =?utf-8?B?NWNub0k0a3RPZ2V2V1UxZFNKd0FxU25HRmZyQjh2NTZzTWthVVNCSlVuWFNx?=
+ =?utf-8?B?b1BZOXMzNlhqekRNTVd2bFBqMjlVVDFpSVVFVGxNOWR4YXptdmROc1ZZT01h?=
+ =?utf-8?B?ZmNpMmYzb0VWajhSZ2ZpWnIzWm9NdVFtdGdseGozRGlOa3dtNFVsU2k0aWRR?=
+ =?utf-8?B?UHNzYW1FVVVQYVIzOWNlcUx1cXlvTU9DMVZXT3o5U2J5dDJOckVOTlcrZTQx?=
+ =?utf-8?B?bk5RWXZLL29BamlxaTlmaWkwNlFhRU9qZDNzSTBvQlFGc09WOXNPNisxeCtU?=
+ =?utf-8?B?RUQwdlBKOGEwejFqdkpYU3B2YXJaMlJKbWUyQjEvcmh0VFN4R2hYUXlLalY0?=
+ =?utf-8?B?UTFGWGx3RktGbkh6SVgrNk1MQ09QSUVGbVhkRHoyOHBjSVBpMmZPUEkzcjMw?=
+ =?utf-8?B?NXpPdGRKMWZuVXc2enBCTU9sZ2t0WnRmZUVnb3NRZTV1ekdNNDFRZWRzTGFV?=
+ =?utf-8?B?NExXb1dUMjgyK2dzNEpIeHdVRUk5dUZMMHU3bTdxaW4vWVcxZVdXUDBXZHl1?=
+ =?utf-8?B?U0ZocFRlV0lINy9iWVNWbVlqNnhKekRDVXYyVnFrOXVNa1ZJRFpNZU1wWDJJ?=
+ =?utf-8?B?L3ErcmE3d2VWdDExSnpEZ1A0WTVMbnRIYUNzaFM2NzA5ZCtEbGZNWHBVTC9w?=
+ =?utf-8?B?UUhraEVGc0FGclFLUE15NEpUM0RPN2p5c2FLSlpGTXJjb0dyd2tnR0ljZjVY?=
+ =?utf-8?B?R295SlZ4TGFNS0tvMWpsQlU0VU05Y0toQVlyVWU0cVVUcFE5TkczRTNTcFVm?=
+ =?utf-8?B?TFpHZm9uTnppOTBPK3EvbC9VaUZlUmN5QXg0K3MybEhuYnh5VmVqdURURkNq?=
+ =?utf-8?B?L3lCNVp1UGpXM2FOaVdiTGxaamUzUUU3dno4VEE3Z3lPeFc0YU9PT3I2Q0dB?=
+ =?utf-8?B?WjRGa0NtQXBzM3F1ZGV2QzBRUzQzZ0dMK3ByNmxuU0tsNG1XUTUwbUZJVHJL?=
+ =?utf-8?B?SzkzdElPQW9sZHFxMDlEYTJDWUNFRGsvb2pROXpOUkc1RVZ6RFRRUW1YY0lq?=
+ =?utf-8?B?cUlnTHF0SW5sUEF1cHhoTFowaGV0UjI0ZCtENzBnd1M4YkVjQTJRT1Q0Lytp?=
+ =?utf-8?B?RXQ2cjdjM2U1VDg1MXdtOEdzTW0vL2NpYjdsOTloLzBiUVpsMnQzTEdqUVpi?=
+ =?utf-8?B?Lzh6dkM1djcvRjV3eitKd3FOb3lKSmZ2aFhYUis0aU92RUY1Z3UyS04rdW9I?=
+ =?utf-8?B?ZzRrQjhNZXlYR3JiWFNuUG1XdUhzMXJUNVN0S1JQNFA0YUhPTFZuVGNya1pI?=
+ =?utf-8?B?V3NweGZDeFZTK0VDcnBXZEMxeTdGbFYrcVppNnF2OEpvZTVPSUwyaXZhWFZF?=
+ =?utf-8?B?eFMrT0tXaDlabkNYRzByRGNCVTJNT25xMFNhelRLN0t6OVBuYmNENzdtNENx?=
+ =?utf-8?B?UmhodzU3NGN2a3hIUkVnK3NoRllHYlNaZDJBMUtneUlkdW05aUlMOGdVbWht?=
+ =?utf-8?B?TEkzZTFYeWN6NENnL0d4dWNwTU1oUUN4bGRVQ0p3MUZKM0I4bERtSzNOeEM4?=
+ =?utf-8?B?a1duNC9TV1phTGpHRWMzdzlOVUw3YU8yUU91Zk9sZmJoanJaNmFsOTdOZ0Fk?=
+ =?utf-8?B?dkxiNklTM05lTllWN0Z0bGl4NXNhWTI2cFJsUnJQRzI1MllmVXB2YmY1YWda?=
+ =?utf-8?B?OStvdlI1c3NXb3I4dzJDTTJoYW5iNllFMHdaZVRtdmxJMVlNOGhBbm16SXZt?=
+ =?utf-8?B?TFpIV09Lb1RyMmpDOCs3Y0YwcklxZGxCcWp6enIzZkgvNFBGMWhOSFBrbGxl?=
+ =?utf-8?Q?dO7DVcXu7R+4WWPFk1vPrBQx69ur0Hl0?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Smh0OFh0RmNDVCtRYy9HSDhJSEk5U1lmSTJGYTJhOXZ0emt4SkgvVWFTR01Q?=
+ =?utf-8?B?UENPL0FuK1hyZXY0YjVlMkY5QXE0NTUvWTZWT1htdldsM1d2TGVZcER2WnFX?=
+ =?utf-8?B?U29jdldaUnNxQW1ZQnJFZnlpZk5PSkhFczllb0Y1dkE1YiszR3pSUnhmc0xx?=
+ =?utf-8?B?MXdNbWxmNzZwSW90K3dBMUYrNGxLTTA4VWFHdkJuNEJpeFNvWG95VExjSVB1?=
+ =?utf-8?B?WDJaUDBuVU80TEJsNUdQM2tXWjlNaElFdXJKTGtGbHZ6RmxwVDFlT1p2OThn?=
+ =?utf-8?B?cHI2d2JRY2FQT2VVUDMwemxLaDRrVnZkaTJuTXdMV1pyZUUrTGlPTDc5bzQ5?=
+ =?utf-8?B?RGhML2JoUkU3UktoVnR2c2JNRkpFRzFMTGE2UzdMZ0lSdEtnZ2FkS2RaV1dw?=
+ =?utf-8?B?bWk2ZnBsY3AzdWt6SndDWFZWUStDUFZGY0xZR1BXVDdvNkVFSmxldUpTUm0y?=
+ =?utf-8?B?MytnQ2lGbUJ2bTBhTjk2ZjBOUFk4SDNsaEx4K2RsSWYzenJPaWwvN2luRnNF?=
+ =?utf-8?B?RXVoaDlEVUh4OUlqcDdWblE5TlBkSHFIblVOdkozY05ZV1lIKys2a0pBcG1T?=
+ =?utf-8?B?d00zdWVjOFRXaXJMVEd2NTEvNVhwV241UHE3UVlRQVIwb2hKaTZTdEdyeEtm?=
+ =?utf-8?B?WlJJS0dYai9CajNsN1Qzanp0QTF4cVlFa1Rya1haRml0c00rTDRBNnNyaFZv?=
+ =?utf-8?B?TmErbDF2ZkFZVkJEY2FSVTgwRjhQVzhDK3o2dTdUclpuMldXeDllMnRMbVdF?=
+ =?utf-8?B?WFNoZitoR01aZ0RRQ0YzbnpVZWIrVlRUSCtUVUZNNjVxQ3hxNE40OHdGRi9O?=
+ =?utf-8?B?NWFtVVpBRWU5TXNjNkdXV1BTeWtTNFVzUGNCZDljSXZxanJwc2kxMFg3MjJX?=
+ =?utf-8?B?b2E1N0ZLNWRMVXJrakk5WDhyb1NENW85bUlyRlY0c3dreHo4eXNibXllMkdT?=
+ =?utf-8?B?S3RRUXhpcndoYlFzU1JiRjV5dm8wOHVQeVg3TXZ2KzJ4VGhDakt1cVAybk9E?=
+ =?utf-8?B?NmYraldpem5NZU1pODRza0VaclRiTnVZaURZZC8vQStZTVFzbUpzOWNFSnZP?=
+ =?utf-8?B?RTdvaEF1MEhGU21wOWJ1bytLUmMrRDZCbThROG9nOW1IMnVjYWlCL1B4K1F0?=
+ =?utf-8?B?TktWTTF1UDFSMVlmRE5UL3ZhVE1tVHJsTzdSVGVVQnN5a1RzRTVWbHlhTHBZ?=
+ =?utf-8?B?ZGlkNjdHeUpjSVdMaFhUTlhnbzdyNDRaYjB2NHkwZjQyNy9GdzBWYXJBTjY0?=
+ =?utf-8?B?ZjBodHh1WXl0Q3pMVVZDUy9jdnhHRDFTQlYrZkp0bmx1TWZRSUFKSVc0eEhj?=
+ =?utf-8?B?dXYwbWR5Z0YyUHBjSHIzdGszTWwwUk1sakphZGgxN0FsK1Rld01JZmRoSnhp?=
+ =?utf-8?B?QXJsa2EwRmtlWUo4YUFsclNJaVUxZWxBaEtpeHlRMzIwektmVU1Va1kxSnBk?=
+ =?utf-8?B?K1lyb0h4dmd3K285bUxINVNlNkRVRGx1MG00anRlanE5VzVVYUFwMml0dzRk?=
+ =?utf-8?B?QTRmNUduUTZUYStYaDJibTJXY3laNXNIczdlYUxpRExEQU96cFRxamEzRTZt?=
+ =?utf-8?B?N0VudFJoWnk1R21zTUNCYXZQS0EwNTBQaTZEVmVXNGU0dXhLVW5IV1hKWXRZ?=
+ =?utf-8?B?dHQ1REVmUUx0cnQwbFVWVC9SZUp4VmpQMjRTTHd4TTUyZEdnZ1J6WFQrRDI0?=
+ =?utf-8?B?NTRCMmJHOHlXUUlCMnI3ZmVkV3BCZUdvWG9WWWtXYkw4clJqZ3RPQ2RFa2pU?=
+ =?utf-8?B?cU9OVGdVbTNFdEwrZU1DaitZcmNnRFBIMEVHL1Rpakt1dEMyY1AxM2tLc0dz?=
+ =?utf-8?B?Uk03YU1xMlFzVnYvMVNrT0RadVNjS2lEYnhkdEpCUDF1SEszOHVmanlMdzBW?=
+ =?utf-8?B?YUxhZ3MzdkhNS0Y3MlM2K2s2KzJ1M0pnVzdIYnJpUGgvczJxVnNHVnpxT1JR?=
+ =?utf-8?B?Y3hiRGsrYUY5b2NCTGJkTHFrdDJ5b1hIYWZvUWNkQ0tra1dXNjg5bmVlejA1?=
+ =?utf-8?B?USt3N2t5Q3pLQVVEOUl1emdrWnNCeitZZkNlbXN3STRGeXZRbVZXMHJZV1lj?=
+ =?utf-8?B?WEV1Q2JUWloyL1RjbGRHRzhOR0NwM1p5TGd0SjkyQzhWRmJrUm9OSGQyR2Nr?=
+ =?utf-8?B?RjRDMlB6TVczVnF4Y052amVxV25GclMxMzk3UWVWVEFKRUkzTjB6VDlQUHc5?=
+ =?utf-8?B?QkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: aaa19d03-368e-41f1-2f2f-08de2b46969b
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 10:45:31.0361
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Subkzef4Zagf0ihny+REdaktaBNQVXO3BJGlmxIoZDjj2vLFcndvPvwHOL2bVPHrPxcDyUlq+tiBYS3RUEjAz9Nw03w9mQ4ITP7pVjbR7Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8383
+X-OriginatorOrg: intel.com
 
-Thank you for the review.
-
-The SE-300PCIE features separate hardware routing and DACs for the
-Hi-Fi RCA output and the 7.1ch Front output, unlike other X-Fi cards
-where the Front port serves both purposes.
-
-While ALSA resources typically map 1:1 to hardware, exposing a separate
-mixer for the RCA port would likely confuse users and applications
-regarding which device to use as the primary output. Therefore, the
-"Dedicated Output Playback Enum" control is designed to let the user
-select which physical output port (RCA or Front) is used for the
-primary output.
-
-If you could suggest a standardized ALSA Enum name for this control, or
-any better method to handle this, please let me know.
-
-Thanks,
-Harin Lee
-
-On 11/24/25 5:38 PM, Takashi Iwai wrote:
-> On Sat, 22 Nov 2025 12:33:51 +0100,
-> Harin Lee wrote:
->>
->> Hi Takashi,
->>
->> The official Windows driver does not expose a specific mixer control
->> for this. It implicitly reserves RCA for stereo output and Front for
->> 7.1ch surround, and simply appears as 'Speaker' device in the Control
->> Panel.
->>
->> Please let me know if there are any additional points I should address
->> before I send v3.
+On 2025-11-21 9:41 AM, Oder Chiou wrote:
+> The ALC5575 integrates an audio DSP that typically loads its firmware
+> from an external flash via its own SPI host interface. In certain
+> hardware configurations, the firmware can alternatively be loaded
+> through the SPI client interface. The driver provides basic mute and
+> volume control functions. When the SPI client interface is enabled,
+> firmware loading is handled by the SPI driver.
 > 
-> Then maybe we should reconsider what exactly this control serves for.
-> It's for a dedicated control for what and how?
-> 
-> The dedicated mic stuff seems rather internal-only, so it wasn't
-> explicitly exposed.  But when we expose this, it should look more
-> intuitive.
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
->>
->> Thanks,
->> Harin Lee
->>
->> On 11/22/25 6:29 PM, Takashi Iwai wrote:
->>> On Sat, 22 Nov 2025 10:00:29 +0100,
->>> Harin Lee wrote:
->>>>
->>>> I noticed that 'rca_state' in patch 5 uses 'unsigned char'. While it is
->>>> safe due to the bounds check, I plan to switch it to 'unsigned int' for
->>>> strict correctness.
->>>>
->>>> I also have two questions regarding conventions:
->>>>
->>>> 1. ALSA control name (on patch 5): Is "Dedicated Output Playback Enum"
->>>> acceptable, or would you prefer a simpler name?
->>>
->>> I personally prefer a simpler one, but maybe it'd be a question how
->>> this (or equivalent) control is called on Windows or other OS.
->>> If it's also "Dedicated Output", then we can use it as is, too.
->>>
->>>> 2. CA20K2 port logic (on patch 6): The condition
->>>> 'if ((idx < 4) && ((hw->model != CTOK0010) || (idx < 3)))' handles
->>>> the non-standard RCA port mapping. Does this line require additional
->>>> comments or a helper function for better readability?
->>>
->>> Sure, a more comment wouldn't hurt.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
->>>
->>>> Please let me know if you would prefer me to send a v3.
->>>>
->>>> On 11/22/25 12:22 AM, Harin Lee wrote:
->>>>> I added support for the Onkyo SE-300PCIE (OK0010), a Creative X-Fi
->>>>> CA20K2-based sound card with dual TI PCM1798 DACs, a single TI PCM1681
->>>>> DAC for 7.1ch output, and a CS5364 ADC. This model differs
->>>>> significantly from other CA20K2-based variants.
->>>>>
->>>>> Since official driver support for this hardware was discontinued a long
->>>>> time ago, this patch series enables the card to be used on modern
->>>>> platforms.
->>>>>
->>>>> This patch series was developed using QEMU vfio tracing, and PCIe BAR
->>>>> dumps. Tested with analog output (up to 192kHz) and line/microphone
->>>>> input (up to 96kHz) at various sample rates.
->>>>>
->>>>> Changes in v2:
->>>>>     - Fix coding style issue (mixed declaration and code) in
->>>>>       dedicated_rca_put().
->>>>>
->>>>> Harin Lee (6):
->>>>>      ALSA: ctxfi: Add hw parameter to daio_mgr_dao_init()
->>>>>      ALSA: ctxfi: Add ADC helper functions for GPIO
->>>>>      ALSA: ctxfi: Use explicit output flag for DAIO resources
->>>>>      ALSA: ctxfi: Refactor resource alloc for sparse mappings
->>>>>      ALSA: ctxfi: Add support for dedicated RCA switching
->>>>>      ALSA: ctxfi: Add support for Onkyo SE-300PCIE (OK0010)
->>>>>
->>>>>     sound/pci/ctxfi/ctatc.c      | 97 ++++++++++++++++++++++++++----------
->>>>>     sound/pci/ctxfi/ctatc.h      |  8 +--
->>>>>     sound/pci/ctxfi/ctdaio.c     | 18 ++++---
->>>>>     sound/pci/ctxfi/ctdaio.h     |  3 ++
->>>>>     sound/pci/ctxfi/cthardware.h |  4 +-
->>>>>     sound/pci/ctxfi/cthw20k1.c   |  3 +-
->>>>>     sound/pci/ctxfi/cthw20k2.c   | 79 ++++++++++++++++++++++-------
->>>>>     sound/pci/ctxfi/ctmixer.c    | 73 +++++++++++++++++++++++++--
->>>>>     8 files changed, 223 insertions(+), 62 deletions(-)
->>>>>
->>>>
->>
+> Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
 
+Please CC the reviewers who actively review your patches, makes it 
+easier not miss the follow ups.
+
+Not talking about the tag-area, just the email Cc :)
+
+> ---
+>   sound/soc/codecs/Kconfig      |  10 +
+>   sound/soc/codecs/Makefile     |   4 +
+>   sound/soc/codecs/rt5575-spi.c |  86 ++++++++
+>   sound/soc/codecs/rt5575-spi.h |  16 ++
+>   sound/soc/codecs/rt5575.c     | 370 ++++++++++++++++++++++++++++++++++
+>   sound/soc/codecs/rt5575.h     |  54 +++++
+>   6 files changed, 540 insertions(+)
+>   create mode 100644 sound/soc/codecs/rt5575-spi.c
+>   create mode 100644 sound/soc/codecs/rt5575-spi.h
+>   create mode 100644 sound/soc/codecs/rt5575.c
+>   create mode 100644 sound/soc/codecs/rt5575.h
+> 
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index a0dfef57200c..a3ea5febd1e0 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -211,6 +211,7 @@ config SND_SOC_ALL_CODECS
+>   	imply SND_SOC_RT1305
+>   	imply SND_SOC_RT1308
+>   	imply SND_SOC_RT5514
+> +	imply SND_SOC_RT5575
+>   	imply SND_SOC_RT5616
+>   	imply SND_SOC_RT5631
+>   	imply SND_SOC_RT5640
+> @@ -1767,6 +1768,15 @@ config SND_SOC_RT5514_SPI_BUILTIN
+>   	bool # force RT5514_SPI to be built-in to avoid link errors
+>   	default SND_SOC_RT5514=y && SND_SOC_RT5514_SPI=m
+>   
+> +config SND_SOC_RT5575
+> +	tristate "Realtek ALC5575 Codec - I2C"
+> +	depends on I2C
+> +
+> +config SND_SOC_RT5575_SPI
+> +	tristate "Realtek ALC5575 Codec - SPI"
+> +	depends on SPI_MASTER
+> +	select SND_SOC_RT5575
+> +
+>   config SND_SOC_RT5616
+>   	tristate "Realtek RT5616 CODEC"
+>   	depends on I2C
+> diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+> index 39138d96a720..82f660cbe8ec 100644
+> --- a/sound/soc/codecs/Makefile
+> +++ b/sound/soc/codecs/Makefile
+> @@ -252,6 +252,8 @@ snd-soc-rt286-y := rt286.o
+>   snd-soc-rt298-y := rt298.o
+>   snd-soc-rt5514-y := rt5514.o
+>   snd-soc-rt5514-spi-y := rt5514-spi.o
+> +snd-soc-rt5575-y := rt5575.o
+> +snd-soc-rt5575-spi-y := rt5575-spi.o
+>   snd-soc-rt5616-y := rt5616.o
+>   snd-soc-rt5631-y := rt5631.o
+>   snd-soc-rt5640-y := rt5640.o
+> @@ -684,6 +686,8 @@ obj-$(CONFIG_SND_SOC_RT298)	+= snd-soc-rt298.o
+>   obj-$(CONFIG_SND_SOC_RT5514)	+= snd-soc-rt5514.o
+>   obj-$(CONFIG_SND_SOC_RT5514_SPI)	+= snd-soc-rt5514-spi.o
+>   obj-$(CONFIG_SND_SOC_RT5514_SPI_BUILTIN)	+= snd-soc-rt5514-spi.o
+> +obj-$(CONFIG_SND_SOC_RT5575)	+= snd-soc-rt5575.o
+> +obj-$(CONFIG_SND_SOC_RT5575_SPI)	+= snd-soc-rt5575-spi.o
+>   obj-$(CONFIG_SND_SOC_RT5616)	+= snd-soc-rt5616.o
+>   obj-$(CONFIG_SND_SOC_RT5631)	+= snd-soc-rt5631.o
+>   obj-$(CONFIG_SND_SOC_RT5640)	+= snd-soc-rt5640.o
+> diff --git a/sound/soc/codecs/rt5575-spi.c b/sound/soc/codecs/rt5575-spi.c
+> new file mode 100644
+> index 000000000000..9dbc8170fb76
+> --- /dev/null
+> +++ b/sound/soc/codecs/rt5575-spi.c
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * rt5575-spi.c  --  ALC5575 SPI driver
+> + *
+> + * Copyright(c) 2025 Realtek Semiconductor Corp.
+> + *
+> + */
+> +
+> +#include <linux/of.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include "rt5575-spi.h"
+> +
+> +#define RT5575_SPI_CMD_BURST_WRITE	5
+> +#define RT5575_SPI_BUF_LEN		240
+> +
+> +struct rt5575_spi_burst_write {
+> +	u8 cmd;
+> +	u32 addr;
+> +	u8 data[RT5575_SPI_BUF_LEN];
+> +	u8 dummy;
+> +} __packed;
+> +
+> +bool rt5575_spi_ready;
+
+I believe the patch is dead on arrival, unfortunately as it won't 
+compile as =m (module) when CONFIG_SND_SOC_RT5575_SPI is enabled as =m 
+simultaneously. EXPORT_SYMBOL_GPL() or a friend of his is missing.
+
+> +static struct spi_device *rt5575_spi;
+> +
+> +/**
+> + * rt5575_spi_burst_write - Write data to SPI by rt5575 address.
+> + * @addr: Start address.
+> + * @txbuf: Data buffer for writing.
+> + * @len: Data length.
+> + *
+> + */
+> +int rt5575_spi_burst_write(u32 addr, const u8 *txbuf, size_t len)
+> +{
+> +	struct rt5575_spi_burst_write buf = {
+> +		.cmd = RT5575_SPI_CMD_BURST_WRITE
+> +	};
+> +	unsigned int end, offset = 0;
+> +
+> +	while (offset < len) {
+> +		if (offset + RT5575_SPI_BUF_LEN <= len)
+> +			end = RT5575_SPI_BUF_LEN;
+> +		else
+> +			end = len % RT5575_SPI_BUF_LEN;
+> +
+> +		buf.addr = cpu_to_le32(addr + offset);
+> +
+> +		memcpy(&buf.data, &txbuf[offset], end);
+> +
+> +		spi_write(rt5575_spi, &buf, sizeof(buf));
+> +
+> +		offset += RT5575_SPI_BUF_LEN;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rt5575_spi_burst_write);
+> +
+> +static int rt5575_spi_probe(struct spi_device *spi)
+> +{
+> +	rt5575_spi = spi;
+> +
+> +	rt5575_spi_ready = true;
+
+
+I still do not understand the logic behind having rt5575_spi _and_ 
+rt5575_spi_ready. The latter is used just one, in the I2C-device probe. 
+rt5575_spi is static and will be by default initialized to NULL. 
+Statement 'if (!rt5575_spi)' is enough to cover that single occurrence 
+in your code.
+
+> +
+> +	return 0;
+> +}
+
+...
+
+> diff --git a/sound/soc/codecs/rt5575.c b/sound/soc/codecs/rt5575.c
+> new file mode 100644
+> index 000000000000..58508d643273
+> --- /dev/null
+> +++ b/sound/soc/codecs/rt5575.c
+
+...
+
+> +static int rt5575_probe(struct snd_soc_component *component)
+> +{
+> +	struct rt5575_priv *rt5575 = snd_soc_component_get_drvdata(component);
+> +
+> +	rt5575->component = component;
+> +
+> +	dev_info(component->dev, "Private ID: %llx\n", rt5575_get_priv_id(rt5575));
+> +
+> +#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
+> +	request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT, "realtek/rt5575/rt5575_fw1.bin",
+> +		component->dev, GFP_KERNEL, rt5575, rt5575_fw_load_by_spi);
+
+I do not believe this is OK. If the SPI component exists, from the 
+code-perspective it looks like the firmware-loading procedure is 
+essential and failing to load the firmware should halt driver's operations.
+
+See below as this touches on the driver design which looks off and I 
+haven't found any valid argumentation in your previous message that 
+would clarify the situation.
+
+> +#endif
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static const struct i2c_device_id rt5575_i2c_id[] = {
+> +	{ "rt5575" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, rt5575_i2c_id);
+> +
+> +static int rt5575_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct rt5575_priv *rt5575;
+> +	int ret, val;
+> +
+> +#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
+> +	if (!rt5575_spi_ready)
+> +		return -EPROBE_DEFER;
+> +#endif
+
+I finally understood what's off in the design, and this part is crucial 
+to the subject.
+
+If CONFIG_SND_SOC_RT5575_SPI is enabled, and the SPI kept failing for 
+whatever reason, the I2C device probe would get deferred continuously. 
+As the kconfig looks optional, the question is: Does rt5575 codec exist 
+in a "without SPI flash" version or, is it always shipped with SPI flash?
+
+If it does exist as a standalone component - without SPI - then enabling 
+CONFIG_SND_SOC_RT5575_SPI effectively renders the driver dysfunctional.
+
+> +
+> +	rt5575 = devm_kzalloc(&i2c->dev, sizeof(struct rt5575_priv),
+> +				GFP_KERNEL);
+> +	if (rt5575 == NULL)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(i2c, rt5575);
+> +
+> +	rt5575->i2c = i2c;
+> +
+> +	rt5575->dsp_regmap = devm_regmap_init_i2c(i2c, &rt5575_dsp_regmap);
+> +	if (IS_ERR(rt5575->dsp_regmap)) {
+> +		ret = PTR_ERR(rt5575->dsp_regmap);
+> +		dev_err(&i2c->dev, "Failed to allocate register map: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	rt5575->regmap = devm_regmap_init(&i2c->dev, NULL, i2c, &rt5575_regmap);
+> +	if (IS_ERR(rt5575->regmap)) {
+> +		ret = PTR_ERR(rt5575->regmap);
+> +		dev_err(&i2c->dev, "Failed to allocate register map: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	regmap_read(rt5575->regmap, RT5575_ID, &val);
+> +	if (val != RT5575_DEVICE_ID) {
+> +		dev_err(&i2c->dev, "Device with ID register %08x is not rt5575\n", val);
+> +		return -ENODEV;
+> +	}
+> +
+> +	regmap_read(rt5575->regmap, RT5575_ID_1, &val);
+> +	if (!val) {
+> +		dev_err(&i2c->dev, "This is not formal version\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	return devm_snd_soc_register_component(&i2c->dev, &rt5575_soc_component_dev, rt5575_dai,
+> +		ARRAY_SIZE(rt5575_dai));
+> +}
+> +
+> +static const struct of_device_id rt5575_of_match[] = {
+> +	{ .compatible = "realtek,rt5575" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, rt5575_of_match);
+> +
+> +static struct i2c_driver rt5575_i2c_driver = {
+> +	.driver = {
+> +		.name = "rt5575",
+> +		.owner = THIS_MODULE,
+> +		.of_match_table = of_match_ptr(rt5575_of_match),
+> +	},
+> +	.probe = rt5575_i2c_probe,
+> +	.id_table = rt5575_i2c_id,
+> +};
+> +module_i2c_driver(rt5575_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("ASoC ALC5575 driver");
+> +MODULE_AUTHOR("Oder Chiou <oder_chiou@realtek.com>");
+> +MODULE_LICENSE("GPL");
