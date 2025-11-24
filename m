@@ -1,35 +1,81 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010070.outbound.protection.outlook.com [52.101.193.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2206476026;
-	Mon, 24 Nov 2025 01:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763949104; cv=none; b=ZMre4emuAG8BKZ66NudoTyRA2Z4NySySG7ABaEg8c7I3mFLaJD0HafSwFj+cfmMm8ahRhrIzJ7SgaHVFxjSBZWrF7fSsBsBNx5JqJWkY6Y1zVuXbbwrB+C+ppvSNpQcFAEds2aRUeXjoO0nYyI6LFbxd9GwoyI3PhDHTffmWC54=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763949104; c=relaxed/simple;
-	bh=ozX+o5Y/xXEXDQewU0louCfRuETGOQ7exgclSKsqL5c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IyamXs6ENH7tvgvxjnn3GzGLoN1oEIJurVXfHoF8pw9pZlpSayUKlaJqS49++jDGxTPTLIQrC4bK8wK9iS4qm5i5rI016/fumZLheM48MHrCegQE1LIso5zj2X6faxmcP2GNCY26+RfUr4rvZ/WsEMB5tYgax3qPoHF/NEnOlN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowACnb3AbuiNpnqXRAQ--.18350S2;
-	Mon, 24 Nov 2025 09:51:24 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: ckeepax@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	david.rhodes@cirrus.com,
-	linus.walleij@linaro.org
-Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: [PATCH] pinctrl: cirrus: cs42l43: Handle devm_pm_runtime_enable() errors
-Date: Mon, 24 Nov 2025 09:49:33 +0800
-Message-ID: <20251124014933.898-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1.windows.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55D5DDA9;
+	Mon, 24 Nov 2025 03:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763954182; cv=fail; b=oWGbGpYrM7w70iLrmelRJdXX8mGQl5BvQ9YvgwBB1GyvnoU5v2LShB2frx9j0zSHaAOIz1nerGk3F6ySCuqqDRIAukov7ceLZ47lQYF60ckkZR9olIBJKDAVWDrDsMg7cGTAsUTpEiC36m2lgPOyt9R9mfVmpF5K+/xiOelI77Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763954182; c=relaxed/simple;
+	bh=oUoY8kJoctcG5kL+W0Prbzsp2QBc9tcNO8/24VC+A7g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pt0rGY73Dh8p/ERQ0+TgA4riqVLlFRNr+1bsAIhGv/+LLPNKKsDE+Xtak8yoiQ7sPgsjdyHE0zgkX1ne/F+IeGM3lsfprBUbn8JQ08srettX4YpMKoB2ReMnz/4Xh6orSKcNdrZX2eb1rwn0eNKhV1PLqT+kYAfQTXddIoVPahw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=u1EqCm1s; arc=fail smtp.client-ip=52.101.193.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="u1EqCm1s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kOSz/GQvFWt0Nis9lwqixXfPc1Zit7eVE/3QjPBQIgusH8aTkhoBkHHfLPiHr4uIVbmBDXfOMLvTNY7v/oR6PZTa3nfh00QaOnrcqqlYTvUvNXVZUY+8Sn3JXn1jdnKAVqO/M1dg1//BbQy34sy1sL7C+VRYTyrENdiDpAAZVxPfvpFfDBfoXbqSg7kzkzvBtCgqQOn6nDXz0r0FU9Ndt6R9IMl0ciVwRTIk2dkYnh50obTJg8VGROXbIp9vAnrsv1Gxg7W22RG/sYy+7B/Mz+K33eZgN5RRnBeCFrHcMZQzIxorIifc6YaZMK4/uUn1J6WWSmmDkZWnl7SI0eF/Ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iUFcpG3+TdKUE7bR2QiYpXdDCZ2Qkz+igTsb7D/YlMw=;
+ b=XtLsRBMEFlVSkY26aGnIzHcNYUZS7zgGbSySUPNMq8UJ9hTkZju/xp5Ftvm155M84GLst72477NmI5KDl7fw1Qc+hW/M7U6XAkqI/ijMmUQau4jXHoTVMNuQ147g/nZJegB9409RQ6En31wfi0pRKpbrCyFTlaTG4TIzQLfpnRRH1SVv0mq/C6HAbxwTkPr+R6yep47dHmyrJrqmOxBGw9kHmIAbrGBJaaoBNa4tkYbjt9kuoozh8ZLl+vqBl7MfV2Ssf5De6uxXOj2Pmy+3Y4lXCFjCjeSd2KVlno8Rk9tMeEsxg3Yb1MkqqCbV4k5uUb6EPRBC7W9JfWzuuAr1aQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iUFcpG3+TdKUE7bR2QiYpXdDCZ2Qkz+igTsb7D/YlMw=;
+ b=u1EqCm1s6WETowSpsjRb6hLRfmA8N76KOhlCcDsF3fYzGjGWLh6lUutPsMGQhmScVkBQbZaj7rLCmWOuC72rtbcZziiO9BhbivqT0IRN5VJWrCk5CX23X6JXCmNE6kGv/fOB4TJJk0I4huiW85i0vdERZVxCEIRgLne+XrbndXM=
+Received: from BLAPR05CA0025.namprd05.prod.outlook.com (2603:10b6:208:335::6)
+ by CH3PR10MB7908.namprd10.prod.outlook.com (2603:10b6:610:1d1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.16; Mon, 24 Nov
+ 2025 03:16:14 +0000
+Received: from BL02EPF0001A0FA.namprd03.prod.outlook.com
+ (2603:10b6:208:335:cafe::2c) by BLAPR05CA0025.outlook.office365.com
+ (2603:10b6:208:335::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.9 via Frontend Transport; Mon,
+ 24 Nov 2025 03:16:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BL02EPF0001A0FA.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 03:16:13 +0000
+Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 23 Nov
+ 2025 21:16:12 -0600
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 23 Nov
+ 2025 21:16:12 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sun, 23 Nov 2025 21:16:12 -0600
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AO3G6RB1250695;
+	Sun, 23 Nov 2025 21:16:07 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+	<13916275206@139.com>, <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
+	<baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <k-yi@ti.com>, <henry.lo@ti.com>,
+	<robinchen@ti.com>, <will-wang@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: Correct the wrong chip ID for reset variable check
+Date: Mon, 24 Nov 2025 11:15:42 +0800
+Message-ID: <20251124031542.2793-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,52 +83,81 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACnb3AbuiNpnqXRAQ--.18350S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF45Cr4fKw4kCFWkAF1UZFb_yoWkAwb_CF
-	WrurW7XryYgr18Cw1qqry3ZryIkFs5Xr4Fqrnag3W3CFW7uw1qvrWqva98uws7W3s7Aryv
-	yr13Z3WFyryUAjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUonmRUU
-	UUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgwQA2kjIhL8xAAAsb
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FA:EE_|CH3PR10MB7908:EE_
+X-MS-Office365-Filtering-Correlation-Id: 658f0857-257b-406c-54d3-08de2b07d322
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3wqex7GTtom9fwE6tH7eCpaNbkSrDR4upEpbcUs5jBiGmJwTKEY3yEdFB4BB?=
+ =?us-ascii?Q?aYyfwyEsEcdSdKdMbkw8NVmAdY2ZGiiQ+1PL18oy3+KfkkLk5BYJ0gPv3ALW?=
+ =?us-ascii?Q?TEJ3qUcZ1Z7G37mLLWRXbe0e1tkd6mC+feZDcgm12JVJO86keuzlUd6Gq9A7?=
+ =?us-ascii?Q?nDYoHHYhQ/YQeaff5bxbv3R+YyfK+eI+UUr+mDqOCiwe3JngdwONufZV3IPT?=
+ =?us-ascii?Q?nV4i7NZivLECn5goJcjKLidE6F4F0yFnOexuSF7TjdRXnuOzxwwrZ3HNvFNC?=
+ =?us-ascii?Q?+k7fHWj2W+wi4rCR4rCkdGl4mc2/voRyVHk2MG0gGLATHKFH+VCjsN+P9sg4?=
+ =?us-ascii?Q?So+dOoIbB0RvTlJxb1Ngz/RTF2jVmRyX5bAiCXbDQQo77ObUPS+FmJ8rg/9G?=
+ =?us-ascii?Q?h4peiPGk2J9h8p9QnKWdabYG5IG12ADnc9FzHMuuPEKYwetY27xnRCCobx5k?=
+ =?us-ascii?Q?vc7dV+11GsZfVmaBynqfKIE6sUw8VyRrrwgxDSRpiF5Gu7nHq0ucae9iP7ZV?=
+ =?us-ascii?Q?wqenIyTohWw5d75KwpBhqjlDEgSjvMibRN/eYx/CkpBFE26m+Tj1LIimMygE?=
+ =?us-ascii?Q?NwBfx0PC84Vnc3CZdYwWrJc7/x9N4W8wr/09KJ8jQmgBzlQEp68SHmNcGdV8?=
+ =?us-ascii?Q?Lqvb7R/2E6DM4rW+jaCFmY2QropZpX45eS5Pq2GIojFKfab4c6shl8SQ9w2+?=
+ =?us-ascii?Q?pAWL+AKZ4+j9WmKbdy8F5IVK9U8uLCQ3MBYMyKpv0xKNIulocUvkiaE+XaZs?=
+ =?us-ascii?Q?qr87QOjMZg2KIEY6lmrnagNa3tQzWsJMeAdEu2fqwOw+yY6MX08It/woEOjy?=
+ =?us-ascii?Q?GAALC6LKPccvuxuwBKCqLYVa9/6jPWFsQJaVIul2Flv9d5NfGx5DXkzyfFYh?=
+ =?us-ascii?Q?yooEF8yT9fs34wXOZqahB3Q9lDzP8WtguKk9FPUVXwIK5N1Qaj7IFsHNPZSq?=
+ =?us-ascii?Q?YVvTGqAuFlCvl9tgtGd/jhz310QBSX63djuZ4xzHKHXI0Z2Woiqz8/cVhPBb?=
+ =?us-ascii?Q?ZU7qq3+31K6ubCYA39fKffw798m4QT1meUlbJq3BfLovjB+uM6pb5rTBvL2J?=
+ =?us-ascii?Q?Pcsc4a9HdNp91EqYxjW+2cDewsmW1UXMvY0Akhlcoe/XRFlav90wDtDnPRxS?=
+ =?us-ascii?Q?zVEhOnTlTu26VPxMMTMXjZDcOcL01hZUMTmWqCGiPH5J+zIo5kmu4FLJwjlX?=
+ =?us-ascii?Q?QGaGjmXy67RnfyJwP262NoQXD0F9c5Rr1zUWlQ+mVmaZwkF/XxtRW+fWXVj/?=
+ =?us-ascii?Q?/TgoTUX7lFW9VlabqWnkjiNCP9BYBJ///pz/Qg32qSBueJErpo8wrCkMczuK?=
+ =?us-ascii?Q?bdTIivVw2cgLEoudHers7gYpiHNZpU5PecXW4Mahkcb43p7YPLtmUcyIQwQu?=
+ =?us-ascii?Q?riIK/bU32AeSkk5kP755wBp+dla80hXKt3PeWIEfOvKzqM4LZgHmKyGbJW+d?=
+ =?us-ascii?Q?IV2zysJCkzxemxUIh9vkeKl3XSp18L6HnzTzwv5cfjv1vU5xHuaAW3AL2t4+?=
+ =?us-ascii?Q?/KotTrEqfqv6BxNTZGXkMCKnR8Olv88huna5XYK1G9EZvbG6eEZ+x34bDrjk?=
+ =?us-ascii?Q?HK+OcN6lMcllahddeFw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 03:16:13.9026
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 658f0857-257b-406c-54d3-08de2b07d322
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A0FA.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7908
 
-devm_pm_runtime_enable() can fail due to memory allocation. The current
-code ignores its return value, potentially causing pm_runtime_idle() to
-operate on uninitialized runtime PM state.
+The new variable of reset was added for TAS58XX on TAS5825 first.
+And TAS5802/5815... was added later, so this reset variable check
+should be changed to lowest chip of TAS58XX.
 
-Check the return value of devm_pm_runtime_enable() and return on failure.
-
-Fixes: d5282a539297 ("pinctrl: cs42l43: Add support for the cs42l43")
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+Fixes: 53a3c6e22283 ("ASoC: tas2781: Support more newly-released amplifiers tas58xx in the driver")
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
- drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2781-comlib-i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-index 68abb6d6cecd..fdf7e95b17ea 100644
---- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-+++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-@@ -573,7 +573,9 @@ static int cs42l43_pin_probe(struct platform_device *pdev)
- 
- 	device_set_node(priv->dev, fwnode);
- 
--	devm_pm_runtime_enable(priv->dev);
-+	ret = devm_pm_runtime_enable(priv->dev);
-+	if (ret)
-+		return ret;
- 	pm_runtime_idle(priv->dev);
- 
- 	pctldev = devm_pinctrl_register(priv->dev, &cs42l43_pin_desc, priv);
+diff --git a/sound/soc/codecs/tas2781-comlib-i2c.c b/sound/soc/codecs/tas2781-comlib-i2c.c
+index b3fd7350143b..e24d56a14cfd 100644
+--- a/sound/soc/codecs/tas2781-comlib-i2c.c
++++ b/sound/soc/codecs/tas2781-comlib-i2c.c
+@@ -320,7 +320,7 @@ void tasdevice_reset(struct tasdevice_priv *tas_dev)
+ 		for (i = 0; i < tas_dev->ndev; i++) {
+ 			ret = tasdevice_dev_write(tas_dev, i,
+ 				TASDEVICE_REG_SWRESET,
+-				tas_dev->chip_id >= TAS5825 ?
++				tas_dev->chip_id >= TAS5802 ?
+ 				TAS5825_REG_SWRESET_RESET :
+ 				TASDEVICE_REG_SWRESET_RESET);
+ 			if (ret < 0)
 -- 
-2.50.1.windows.1
+2.25.1
 
