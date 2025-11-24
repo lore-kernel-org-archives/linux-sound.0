@@ -1,215 +1,226 @@
-Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CE62989B0;
-	Mon, 24 Nov 2025 16:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EE03168EC;
+	Mon, 24 Nov 2025 16:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764003311; cv=pass; b=oq3vzhT2oNs0i6mdvq8zD1O2x2dQT+urcui84swmZQ+A3K7QaR7wMuaots88U9qRFIvZtty+mB7XQCr/4WhEDaRn5HTus6fRmaiBkTBl+3uP0VxaR8fOhpgnvkKiwXWCtvTJGHBvOyGWKRNiL8t5K9Qb8z8/uBeqtkE7w4llVcs=
+	t=1764003518; cv=fail; b=mhyI+qsYOj6xA6JXBo38nsllx3edUj6YU3M82MmfqTwtUREYMbfuiLbqvlFAPnsKK9fHXp5Knr4Zi8GSY+PNyAvipI7oeus5J5NX/GuKrODbhve58RYqMJFDRDzGEWgdj35dME04mIiAcQNr1HcOx01b0+o4c1J30ePGqdPAHT4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764003311; c=relaxed/simple;
-	bh=qJmpGjVwimPXmqlkxrvy7otwbxzI3W89ViqO+2Uzb98=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=KVuxOk4MR0lxPkygFxNAPiHrO85IZ1DdNvedSaP4tnu4Drr6JwqA/ZfNhALwBHuVjv5lzhacDeToj6o55LdvqKI/nUocqpBDbPAyy2D83cDWdwI4I/e6MUb52CY5ZEtoAxO3Mq5vII1WJr3cyfAgzmIV9+RWvu0qKc8i2I3Bews=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=HnZygdtX; arc=pass smtp.client-ip=136.143.184.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	s=arc-20240116; t=1764003518; c=relaxed/simple;
+	bh=1rNgRPtdOl1WXdIEwVayHI3Q4I+WgM79uMFLMO4JFjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LdQTmsqbeSrzAl85vyaFOnGMWye2KOyTmQH7l4chRppDyLuno77WbJv1W2y7KVD+HiLMtRAw7GKaTMKizRKD56UBAQoFwu9nnvIYVHwKRIgj1AIrIp+XhfEjIBEnNjkuzl1RnYM/rjgsOICnK6HHqIKIqt9qSp7ysGMMxM4RliQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mG6K1Yzb; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=a6UVNJNC; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="HnZygdtX"
-ARC-Seal: i=1; a=rsa-sha256; t=1764003295; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Z//xtmpj8ufXYIShMVG10hFOhnANjPk9qLEL/A4beFyeCj5c58U7h9wuPaqMa2aMcI9VU0HT2uMql5WmczcYVPkNkLO0J78bnKP+c3KPWfNEklopxdwjmBi90Bn/MXGhwlgN18XDm8M3KuXik7LB82a8Fo/H/70y+Pv856lQuNI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1764003295; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SUzqdYk5DeMSz/q279LFrpIqBz8muri9CYYQRi8jj3Y=; 
-	b=BlO0/ujcI+S4qMZgPnG7ErBlL6y6xzrA1AvHw69ynOnG2Tm/cOM2nRjOGizUmEpLmB0AvgM+yDORb0YK3HSvCtemOH0gyY5S9cRtY3lb1Nq8GzlgmCxJC5IQ8bJFyk76K1+fpG9EiKaFGd5W6KxCo43Ya2ilJBbJFYl8pr2Id2o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764003295;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=SUzqdYk5DeMSz/q279LFrpIqBz8muri9CYYQRi8jj3Y=;
-	b=HnZygdtX45l5gjOmzeZl0uW9JCN0EL0II5wgqy3jBimz7P14MUJo144KjK20Ld+x
-	3jCDvw3YwfuYm0OZJ36l4OWeKkPyKSPsf21xGK/LupdYRGxM116jw2ZSZGkGRas4puz
-	qBSAIYH9GIDEMG4fptea1KEZXWOOq/MSQveHU67KBushPGA42qy0bRMHW5MCJ6U/+bv
-	xGRDQ22w9GBNtgPKLl6nNSWuT1j7Z3qALFgsOHh1TC5GlZd1wnAAgy4/1wVrTP3PJZ5
-	JKRhMa8sr6v7FKxy7cT6dkRlsXVKFgKanKK0BD7SZyYqaoigUEb9tLq2DMnPkC5p4jh
-	hqowpLncRg==
-Received: by mx.zohomail.com with SMTPS id 1764003291599118.16304253428655;
-	Mon, 24 Nov 2025 08:54:51 -0800 (PST)
-Message-ID: <5fbaa51e-8220-4350-b805-abd451cc7b16@harin.net>
-Date: Tue, 25 Nov 2025 01:54:47 +0900
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mG6K1Yzb";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="a6UVNJNC"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AO5uS1D1165755;
+	Mon, 24 Nov 2025 10:58:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=A1z/DUE34g1RNTEZqm
+	JtiNZZIDM3C2iCBzbnr+9ZeFQ=; b=mG6K1YzbrT4JDsZlXrsbX5NLVfOOVB1ax3
+	56W8Udv25nPtXZh4as09E6gpTNh2NXY08klvFLxMd1nL32i7sHBWd5gZCDezQhPu
+	JEbt1F6GJJLtRpxVBKhjmQuo0kAKDNLFN5jMGrq6l1Vn9IR92zuo4RIJvN/GCgrC
+	sF0Gt51jTE+T8ZXvLC0BAj7gcXZM8MBYNXXxri958wirDCipXmPM10CZvXkIllhN
+	ybzDe7iXPVxj4QXeHvPSpT9h2247rGdaCC3a5GzmthCk5q+Pgi0Qo6Dv21XP0M4F
+	nEaL0nKWBAXfuoKZZA57jMFZfEfjij5lfMpeG41GZARp2OqI6lOg==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11020130.outbound.protection.outlook.com [52.101.46.130])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4akbf19ym3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 24 Nov 2025 10:58:22 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KxjTt44nMb7HG4Q77kTU6yYkti25SunSK8r7ZSD5rIS9fBLtuwuAgKHwcdEVCngiysV7nvi4mbjJzTWruxju5TXlpSlZ1NYOaKzIGP5OJyidAIZFlq0l/9O42BSrlmVFC/ROzzWIa1ejr+pU5TMVM5Oex7Xdi2eFRHcAmmTyLOxR6u9j+vbwCWAqdI67hxEV+xA7IN2weCUm6d5AtYoLfp4kjoZmRPN5Hb8SuGnPpLxRHIwMshdvAHMyNWDEVyuJWI0YqVrcBowSdVqoD9TqA5ZDmBYMHKozCdYua81qRvo1Zx+hBwObjCaAV15CP/I21WUeqtvKrK2ivpJ9A4J5vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A1z/DUE34g1RNTEZqmJtiNZZIDM3C2iCBzbnr+9ZeFQ=;
+ b=eiEj1oUkdZqJGZz6Pi3l42+QzlzMfFR4kCc3eoitUUo50Fg0SHSWNaxiY/fQvXe99CGY4Tn43Kzkc98LIUZKrIbFPOXqxSRmOKiKPvo8wt1b/ZylVmlq7riNA/nA8XFwqyG+wp/rUHUM31rJswFC2YA8v1OHq8ARyHaE2QDq6CLVFB0pkkALhbW35zpGkGqCCwoEysBrGnNLSG6k9jEZubKBl3u2OYl7XYJNoUYFC8RpDvzd39VJEMOsREstQy+N8Nw70yanGwfVqllT/3b3uHc8B+OJMH7eEieixw7ylYpcO//8Ms0onsl3wHze4Ybo3atdPsFxlTMOZobz04mDUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=bgdev.pl smtp.mailfrom=opensource.cirrus.com;
+ dmarc=fail (p=reject sp=reject pct=100) action=oreject
+ header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
+ (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A1z/DUE34g1RNTEZqmJtiNZZIDM3C2iCBzbnr+9ZeFQ=;
+ b=a6UVNJNCxJBkZebhCQ37aNl2c3E+T6nZcnl/rWkQ6pPlLn8IWZRdnxjVhsn8HCs23andISfxr2jrHMLESR6jOjbpvvaprniqKXXuV8zXd1+gS4S8ib0xUaBxWxILHzcwh9aTQH08vyQkcmVqRZ7CfDfDoSz7v1uGGvVAHg1PIak=
+Received: from MN2PR15CA0011.namprd15.prod.outlook.com (2603:10b6:208:1b4::24)
+ by DM3PPF0280EF5B8.namprd19.prod.outlook.com (2603:10b6:f:fc00::704) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
+ 2025 16:58:17 +0000
+Received: from BL6PEPF0001AB56.namprd02.prod.outlook.com
+ (2603:10b6:208:1b4:cafe::2a) by MN2PR15CA0011.outlook.office365.com
+ (2603:10b6:208:1b4::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
+ 24 Nov 2025 16:58:19 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF0001AB56.mail.protection.outlook.com (10.167.241.8) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7
+ via Frontend Transport; Mon, 24 Nov 2025 16:58:13 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id C4A0B406540;
+	Mon, 24 Nov 2025 16:58:12 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B6218820247;
+	Mon, 24 Nov 2025 16:58:12 +0000 (UTC)
+Date: Mon, 24 Nov 2025 16:58:11 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-spi@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        stable+noautosel@kernel.org
+Subject: Re: [PATCH v7 4/9] spi: cs42l43: Use actual ACPI firmware node for
+ chip selects
+Message-ID: <aSSOo4q0sLDHqe1h@opensource.cirrus.com>
+References: <20251120-reset-gpios-swnodes-v7-0-a100493a0f4b@linaro.org>
+ <20251120-reset-gpios-swnodes-v7-4-a100493a0f4b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] ALSA: ctxfi: Add support for Onkyo SE-300PCIE
-To: Takashi Iwai <tiwai@suse.de>
-References: <20251121152221.1152523-1-me@harin.net>
- <4df3c2ac-88cd-42d1-9f1e-c5c2c5a2b00f@harin.net>
- <87o6oul8kf.wl-tiwai@suse.de>
- <cecd1398-b072-4830-9495-c4bf8d7a3570@harin.net>
- <87cy57hlk1.wl-tiwai@suse.de>
- <74ffacd4-437d-4df9-b068-a5ec2d051a5b@harin.net>
- <87zf8bpgs0.wl-tiwai@suse.de>
-Content-Language: en-US
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Harin Lee <me@harin.net>
-In-Reply-To: <87zf8bpgs0.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120-reset-gpios-swnodes-v7-4-a100493a0f4b@linaro.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB56:EE_|DM3PPF0280EF5B8:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13180fb7-1a5d-4517-5d4f-08de2b7aa82c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|36860700013|82310400026|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qOQM77I+11wXCLKZVBIh5gTmbeyfT6YSpoZSOWCYv2WnqhmM2tTZXFcf9A49?=
+ =?us-ascii?Q?5BsLrqDyZ4T+h7eAB0CN/n9/Viv819ezaouFPMpeoo8YJ6OF0h1Khx5p8EXN?=
+ =?us-ascii?Q?aeVg2+CIo+w2hzZa9KYvV3VPZiLbCUIG4QwcoEdCHpR5d7P/e6ClqMax0NqH?=
+ =?us-ascii?Q?jDzIgVTKuzYfv97zdel+vlOKqvjhTxH3moIf5ZEDrNPoPFLZoX+/2BIPckkW?=
+ =?us-ascii?Q?wI/LJoKrtg45ZTd3nq4xfPzU8zHyXzolhUH0mtdaZIUOvkBF15FbgGjFlIEp?=
+ =?us-ascii?Q?joa1auge57crGk+jaL8xb79ns6XtJXvvdhjLFKj2Ltb16uePxCUk0c1JXHUy?=
+ =?us-ascii?Q?Zo8I3eoL0f1+iuVb/o2io0dO5tSilus3Lf+1UD19uuT6HysSdqBce9cpuyJV?=
+ =?us-ascii?Q?JVAw8DjJJAvH1nKrUJtWq/50wqqhKQNyzCYO50WymgdDhfHh45Mz+0Qa4Rpn?=
+ =?us-ascii?Q?30LRMauMTXVzcqriUmukGCdD7X2gListz8gctEkW5oqY8clwyccwkTe6107/?=
+ =?us-ascii?Q?cgpRxdXfVsO4bUFQqbfIcyGsxUoXjzwNO14ISGKkxbpgKt6F65zbAduDq5/j?=
+ =?us-ascii?Q?Mnyt6YhJACrfLKD1KjZRC5Pum6xDC/fA0kyK2+jjxJ7i/PfsZjCvvZucE7we?=
+ =?us-ascii?Q?fae67cEtf/nvvbyNGVCjlyZLU1c14K79KphmqIjpPwYk3/7874zfx3ihd0D2?=
+ =?us-ascii?Q?7w5BXWfSaXlj69O+xsWiGT4sf8AK95f4kNo6azFFs+hDmXaeTuIQ30PVgl/d?=
+ =?us-ascii?Q?NIj4ieDsOrCIHrNSwvj2I2SbYMgPrGMm8AuyzJ2UsjDzoRvMCuQ1fvp3mMU9?=
+ =?us-ascii?Q?qwujSUFb5rbpYVsmrvs1toeTx18mldJBsBxHycJKCNfqZpgWvnBWrT9cJVb7?=
+ =?us-ascii?Q?eitILQ7Kxa8JOK8f3uwSQ9yzjW4q6DV/APOrQcT7XXmlJ5dxjyka5Np/gvXn?=
+ =?us-ascii?Q?Jv4ijfj6WPAuIhsgySzm6CCaFMjYbRsjnfTJ7483/+jAlwk2V2A4Bc2MdYIo?=
+ =?us-ascii?Q?ys2QDZKrL2tzEaRf9mlo0n0nX6G4A9GkK9skiVoa3dL/PVQlso9dLC7PR/oi?=
+ =?us-ascii?Q?+pRBlQAkT/sk3UrVeG86T4EFmWbZMJWh53okTqEfJ75LgjR6rzN67qM6ooNX?=
+ =?us-ascii?Q?g5ZchxCLfI7BkXcD0E9j/cTUxV8hpCrOkUD/QkkI+pbi20ZkSMIGZtSyL68A?=
+ =?us-ascii?Q?hEbeiWkI5/iD5Uw8HkuBN9l7fCbPOi2nBLB5BSNElymoaFdvOLCohLUYsCdK?=
+ =?us-ascii?Q?YttyhbiMKOM3Zec7RzMg94+/wDmKd9Rjs4RB8+7zHZ09Uaq4Vst53xY/zhaM?=
+ =?us-ascii?Q?c0PkBqJ1TQ68nf2rSfly76azAG9O3TDwqiAtWeUlVuhAi/C1BWEsxv41BKiJ?=
+ =?us-ascii?Q?kXpF30yaZtsxxAzUYBCzD52oZ53NLu5gHrvyP/34Hqq0TgREakFPhZl+Q0xS?=
+ =?us-ascii?Q?eF4eGqn3TS9+1Up+ErPGUUJ9z3SvGcZwKG67pQssFq/TtIxjyCwkNzjYydKz?=
+ =?us-ascii?Q?IxS7hCErqdNciLmAE6AcJTz+gIIC1M8AgEvqPGS1jdSzUsgAzJT7xPQINVGC?=
+ =?us-ascii?Q?zT3lQ+gcyh7Ab8VpJH4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(82310400026)(7416014)(376014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 16:58:13.8555
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13180fb7-1a5d-4517-5d4f-08de2b7aa82c
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB56.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF0280EF5B8
+X-Authority-Analysis: v=2.4 cv=caHfb3DM c=1 sm=1 tr=0 ts=69248eae cx=c_pps
+ a=9hhwatWKa7/vLw/BZzsOGQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=NEAV23lmAAAA:8
+ a=w1d2syhTAAAA:8 a=StvSk5rmRmK8WZg8cjIA:9 a=CjuIK1q_8ugA:10
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDE0NyBTYWx0ZWRfX/E8ZlDKroH9R
+ /sIGoV+dVGr3ECvBHd2GYqbngJS1APEo8wQu5T2aSGgvqRTjG+/XpwM9m9tUoFOpUtZS0862Q04
+ 2l+xTBWeVJLIJBSCVNgEX62ozMmo6jAVlp2aKOxD98nyT5jSlh80Jfs3FQJhFaZr3XwgRPaFlFx
+ 2DScL8XvZTFEg1Wp0RUpmrGq7wpiUk2AIQWV5I4XG4kSKAuUZM47qFTQUSTOTUDiAT3k4Z/KxGR
+ 6YZq64DNuEGr2Qk05HmqzP9gcfsKi12eFOm1B4rI3thmu5lKOCvI4obzXd+R7P+3rHP3RsjRDcm
+ E9YUGc5ECLFIIx57ophI3rrl9p49BufmnRUwP2+lL2grSrB9zBDNNUD4SqgUnfL/0SpgswJU+km
+ TJAuTI4csoeJCYHnTe6FICpZl8CPIw==
+X-Proofpoint-GUID: U_x21kfSVC_E6eTJpoC0tyA2W-zYvOFa
+X-Proofpoint-ORIG-GUID: U_x21kfSVC_E6eTJpoC0tyA2W-zYvOFa
+X-Proofpoint-Spam-Reason: safe
 
-Thanks for the suggestion.
+On Thu, Nov 20, 2025 at 02:23:59PM +0100, Bartosz Golaszewski wrote:
+> From: Charles Keepax <ckeepax@opensource.cirrus.com>
+> 
+> On some systems the cs42l43 has amplifiers attached to its SPI
+> controller that are not properly defined in ACPI. Currently
+> software nodes are added to support this case, however, the chip
+> selects for these devices are specified using a hack. A software
+> node is added with the same name as the pinctrl driver, as the
+> look up was name based, this allowed the GPIO look up to return
+> the pinctrl driver even though the swnode was not owned by it.
+> This was necessary as the swnodes did not support directly
+> linking to real firmware nodes.
+> 
+> Since commit e5d527be7e69 ("gpio: swnode: don't use the swnode's
+> name as the key for GPIO lookup") changed the lookup to be
+> fwnode based this hack will no longer find the pinctrl driver,
+> resulting in the driver not probing. There is no pinctrl driver
+> attached to the swnode itself. But other patches did add support
+> for linking a swnode to a real fwnode node [1]. As such the hack
+> is no longer needed, so switch over to just passing the real
+> fwnode for the pinctrl property to avoid any issues.
+> 
+> Link: https://lore.kernel.org/linux-gpio/20251106-reset-gpios-swnodes-v6-0-69aa852de9e4@linaro.org/ [1]
+> Fixes: 439fbc97502a ("spi: cs42l43: Add bridged cs35l56 amplifiers")
+> Cc: stable+noautosel@kernel.org # Don't backport, previous approach works, fix relies on swnode changes
 
-Since this control only affects the routing between the RCA and Front
-outputs (excluding S/PDIF), "Analog Playback Route" is the technically
-correct name.
+Just wanted to check what the thinking is on backports here. I
+see we have marked this as do not backport. Which I think is
+sensible the changes in the preceeding patches are a bit much for
+a backport. However, the patch has caused the regression has gone
+to a few stable branches (v6.17, v6.12):
 
-I will use "Analog Playback Route" as the ALSA control name and address
-the points we discussed in v3.
+commit e5d527be7e69 ("gpio: swnode: don't use the swnode's name as the key for GPIO lookup")
+
+Are you guys ok if I send a revert for that patch to the stable
+branches it has gone to? It doesn't actually fix any bugs on
+those kernels, and we are starting to see issues coming in that I
+think are related to this:
+
+https://github.com/thesofproject/linux/issues/5599
 
 Thanks,
-Harin Lee
-
-On 11/25/25 12:54 AM, Takashi Iwai wrote:
-> On Mon, 24 Nov 2025 11:22:32 +0100,
-> Harin Lee wrote:
->>
->> Thank you for the review.
->>
->> The SE-300PCIE features separate hardware routing and DACs for the
->> Hi-Fi RCA output and the 7.1ch Front output, unlike other X-Fi cards
->> where the Front port serves both purposes.
->>
->> While ALSA resources typically map 1:1 to hardware, exposing a separate
->> mixer for the RCA port would likely confuse users and applications
->> regarding which device to use as the primary output. Therefore, the
->> "Dedicated Output Playback Enum" control is designed to let the user
->> select which physical output port (RCA or Front) is used for the
->> primary output.
->>
->> If you could suggest a standardized ALSA Enum name for this control, or
->> any better method to handle this, please let me know.
-> 
-> So it chooses the exclusive output for the main playback streams?
-> Then it could be something like "Master Playback Route".
-> If it doesn't include the digital outputs like SPDIF, it could be
-> "Analog Playback Route" or whatever, too.
-> 
-> 
-> HTH,
-> 
-> Takashi
-> 
->>
->> Thanks,
->> Harin Lee
->>
->> On 11/24/25 5:38 PM, Takashi Iwai wrote:
->>> On Sat, 22 Nov 2025 12:33:51 +0100,
->>> Harin Lee wrote:
->>>>
->>>> Hi Takashi,
->>>>
->>>> The official Windows driver does not expose a specific mixer control
->>>> for this. It implicitly reserves RCA for stereo output and Front for
->>>> 7.1ch surround, and simply appears as 'Speaker' device in the Control
->>>> Panel.
->>>>
->>>> Please let me know if there are any additional points I should address
->>>> before I send v3.
->>>
->>> Then maybe we should reconsider what exactly this control serves for.
->>> It's for a dedicated control for what and how?
->>>
->>> The dedicated mic stuff seems rather internal-only, so it wasn't
->>> explicitly exposed.  But when we expose this, it should look more
->>> intuitive.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
->>>
->>>>
->>>> Thanks,
->>>> Harin Lee
->>>>
->>>> On 11/22/25 6:29 PM, Takashi Iwai wrote:
->>>>> On Sat, 22 Nov 2025 10:00:29 +0100,
->>>>> Harin Lee wrote:
->>>>>>
->>>>>> I noticed that 'rca_state' in patch 5 uses 'unsigned char'. While it is
->>>>>> safe due to the bounds check, I plan to switch it to 'unsigned int' for
->>>>>> strict correctness.
->>>>>>
->>>>>> I also have two questions regarding conventions:
->>>>>>
->>>>>> 1. ALSA control name (on patch 5): Is "Dedicated Output Playback Enum"
->>>>>> acceptable, or would you prefer a simpler name?
->>>>>
->>>>> I personally prefer a simpler one, but maybe it'd be a question how
->>>>> this (or equivalent) control is called on Windows or other OS.
->>>>> If it's also "Dedicated Output", then we can use it as is, too.
->>>>>
->>>>>> 2. CA20K2 port logic (on patch 6): The condition
->>>>>> 'if ((idx < 4) && ((hw->model != CTOK0010) || (idx < 3)))' handles
->>>>>> the non-standard RCA port mapping. Does this line require additional
->>>>>> comments or a helper function for better readability?
->>>>>
->>>>> Sure, a more comment wouldn't hurt.
->>>>>
->>>>>
->>>>> thanks,
->>>>>
->>>>> Takashi
->>>>>
->>>>>> Please let me know if you would prefer me to send a v3.
->>>>>>
->>>>>> On 11/22/25 12:22 AM, Harin Lee wrote:
->>>>>>> I added support for the Onkyo SE-300PCIE (OK0010), a Creative X-Fi
->>>>>>> CA20K2-based sound card with dual TI PCM1798 DACs, a single TI PCM1681
->>>>>>> DAC for 7.1ch output, and a CS5364 ADC. This model differs
->>>>>>> significantly from other CA20K2-based variants.
->>>>>>>
->>>>>>> Since official driver support for this hardware was discontinued a long
->>>>>>> time ago, this patch series enables the card to be used on modern
->>>>>>> platforms.
->>>>>>>
->>>>>>> This patch series was developed using QEMU vfio tracing, and PCIe BAR
->>>>>>> dumps. Tested with analog output (up to 192kHz) and line/microphone
->>>>>>> input (up to 96kHz) at various sample rates.
->>>>>>>
->>>>>>> Changes in v2:
->>>>>>>      - Fix coding style issue (mixed declaration and code) in
->>>>>>>        dedicated_rca_put().
->>>>>>>
->>>>>>> Harin Lee (6):
->>>>>>>       ALSA: ctxfi: Add hw parameter to daio_mgr_dao_init()
->>>>>>>       ALSA: ctxfi: Add ADC helper functions for GPIO
->>>>>>>       ALSA: ctxfi: Use explicit output flag for DAIO resources
->>>>>>>       ALSA: ctxfi: Refactor resource alloc for sparse mappings
->>>>>>>       ALSA: ctxfi: Add support for dedicated RCA switching
->>>>>>>       ALSA: ctxfi: Add support for Onkyo SE-300PCIE (OK0010)
->>>>>>>
->>>>>>>      sound/pci/ctxfi/ctatc.c      | 97 ++++++++++++++++++++++++++----------
->>>>>>>      sound/pci/ctxfi/ctatc.h      |  8 +--
->>>>>>>      sound/pci/ctxfi/ctdaio.c     | 18 ++++---
->>>>>>>      sound/pci/ctxfi/ctdaio.h     |  3 ++
->>>>>>>      sound/pci/ctxfi/cthardware.h |  4 +-
->>>>>>>      sound/pci/ctxfi/cthw20k1.c   |  3 +-
->>>>>>>      sound/pci/ctxfi/cthw20k2.c   | 79 ++++++++++++++++++++++-------
->>>>>>>      sound/pci/ctxfi/ctmixer.c    | 73 +++++++++++++++++++++++++--
->>>>>>>      8 files changed, 223 insertions(+), 62 deletions(-)
->>>>>>>
->>>>>>
->>>>
->>
-
+Charles
