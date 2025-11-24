@@ -1,154 +1,291 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F9A2737FC
-	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 14:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B19222585
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 14:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763996224; cv=none; b=bewNA6t5CNYllkdL3xAYQDS6Jnb1xYdJMFmwTmPDzPPQWpAmFsLLckx2Oo8xzr6SmPyfoVMRh5C2HlZam6da9JdwHohJIRMHp/I+TACqJKeMWzfmtKHzNKW1FKAujNp6MY9a25RdgQ1nqCfOPprhqfoCUx+DVq2SQGVmdE40fqg=
+	t=1763996241; cv=none; b=NVLONekJHkRQelSszW0QBjvc+mZT/wbsFceUq3HyoWDONB5uuYfBqWRwOsMVBxfGiEGtwYagRbcqOeOrhL9qIZOMuQhFRUtekRGhlFumw/3vvuka0Sibhmz0edIiO5HtqIH/dr2NASyPd4g+KHT+Y2/H8qnm6yqHzWLNKpTbHgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763996224; c=relaxed/simple;
-	bh=UvCzGx4/Oew8LZ0VLm3hjBFw/6m9gBQxwRkV+A03cRE=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ppI8lyvHVfmTX+JLxH3rF8UHMGiYBr3s0x4f+O6mTi3C+hbW13RlAYGogG8RtEypcSF1jcxaoC3io/UB/vEVnUiyWXYHFDNN1Z/4KScFmaeTff684Q5B0IswA5SYHqDvm8w7q8PzYYpYV/5UibkIxV9w1mJJ7kz3J1mRa9AF3mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=E3ssUIU9; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
+	s=arc-20240116; t=1763996241; c=relaxed/simple;
+	bh=wSQ341CU5vsOctNXexpEakv7qkoHtZ0v3orCbR3i2WA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LuvqXqRbRqNcuyh/iYIxI9YpouwAp5rHBoYjDg5l4Oo+ENlm6VfvUgTpvyguye/XXKkQA2cemDJ01/c/2tFhyePl5CckTu6le4mGi8Qh2KWKPEeTs4kOx7kX1t29g5v6t95COVW0/qRb5KsisqhZaoDkBT4qCcvlmHVaN4YCvaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ErLCcdNn; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="E3ssUIU9"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8823cde292eso48397286d6.2
-        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 06:57:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ErLCcdNn"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so6825105a12.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 06:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=marek.ca; s=google; t=1763996221; x=1764601021; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5kyowUvYjYSzPjKoqi++oj3diDbTf12jpEUOewqm0cc=;
-        b=E3ssUIU9C3FpEIxvruCP98x4ffP26wHT+/7K5q/p3gmey+Pl0BqmKJRMJ8XDp1cEa/
-         GRSsGgnWW9AfUXYONnawPKfYfycX2JqJ8t5PiqJsBDo+EgxNq0lPNQf0Aay6itnZg78a
-         d3lvnh7IIzmjVWcSkkxF8+fb9M/NvVGqXfDJeIhJG2vWVRiA852y9zimvucrU0O2mfqn
-         DPnXZ6sMU/b9vhgiJtdZqtmHcVydbzIS97mHWF5cMNRjOc+sHyzKXwa035iJZrFixs0o
-         P+v79UzNluvZvnwon+8JvFqANk6qxUo4Nxi0PVIr0iF7jMKJIPm7svbcPLh1htekDXUV
-         1mgA==
+        d=gmail.com; s=20230601; t=1763996238; x=1764601038; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DMHuhLQ2+QePhLbxyyov6Mwfn5dk2KsNTjCwuBZ/B2U=;
+        b=ErLCcdNnZ1g+mQW5U9Cuh8PwCicVzdyndtbzL90L8NPqKNCP7m/Hx+GZf9kSyrmUWH
+         aDGHfLaIIdoAEj5e5pIizziKv3kDYSG6FruAPJ7REIqkeJ5ZcGALE1ZHwUNoh3nAr+xu
+         QIlLOC6y0dNuq6RyCE8zhC00fth2Sfz37oJVnda2JRt9LSHmcMViDkQdio6zPeXneVw/
+         hNFYfYsYlEgTzSAelkLuCIYc4vEXucsvkyPaLLbxe7L32IcQ2PU6GA6g/Yfhb/zX5UuU
+         NRS/GXrtnB7UxbSD5bt9vg/e1rKI3hcmqYwt6XHRbue8P2d/3T/7TkDGwyvkhJQC3ujr
+         xqyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763996221; x=1764601021;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5kyowUvYjYSzPjKoqi++oj3diDbTf12jpEUOewqm0cc=;
-        b=dDA7gnxIVRSmKOe6pqld23QSEQCiukauFuXmk02d2otKl6FNQLc/UDxT94SpKm/gBI
-         lwx/Y2EMWAOxqtG8RdYbgP/TWP0Kn42UyFIosNa0jFNjLIUo+i/VsUEvkDHnDeUwuMHD
-         BrJ1bw3+Yi6fDWPVFpPrMYNG2Akmjh7pKvZ4234bTE4xMqKlYcoo1wMOtodiln3o1E0x
-         CPHpAWgtJYvL8scvqjOTTYhVwOdIH0T1ePRdz5BbLHZ8i6tjFNOBTboN7XaQA+GQMVI7
-         qxfQUiwErjsHm+8fStP4C8T8rgYCbHfKRb/C3iMA65wn+ycIORRjfi2Zwi7QbC8sur5i
-         xCZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLAl7EeysCIPI/RiGpfTrR/tTcsXqyTJC+ZgqCoJG8pzysYUqYavOnzh+go54BqKh2ScG0igpZgnId7g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywje6r5NPRjJlCoHzpa3EsOMCcJp0Ht4figgTLZ31E7ITG8/iHw
-	iU/E1au2+21pNiGyBMyqX2x1wCWZu06dYTnn2pClfLoR7wGJWzV6aIZ8ogOTdijfoFw=
-X-Gm-Gg: ASbGncvjhk2+PkXsqxKFBEneC0AJM4YIk3r97elrht+vtCfvBZc+yV6GKVEI7enZoaP
-	Y2fJTW4wZ0qN1uQTLVwtKbNwYATWjNvmRsBL5G86cSGrQCzsM+KIaQNKcyk0m5jruun9ON6Jybm
-	L+UGBSsVrTuOwwdSQoo2ZCBYdzvyCLnHo+Z8NnUVtE533n7WrkZX1YrfJ+S+MBu71npvQCwjRbx
-	qsA+PIggbqcuKmEYiKa3FMXhcWEBiU6l3Vd3Da7RenajiS7n+0qj2iPD430lDl/piWNYCDFiPE/
-	r+IDyLP2haLSY1C95+IeDL6hnjMeFFeRiR6BMrJpxG3/OCrASApwHkOCSpxH3EcdMVSZrjFRIG2
-	NOGnzVu3k+s26bBPKpEzeAzUS2H/sLsfi/xB1J7x/DKjf2rXZeKOgiO+HCWgd8BpbILgyJf4CdJ
-	JAGKJYLpl/DeNPGIoGyINM2xtecq0oWTfJ+WGSfktbcJF0IMhGiQbF/Ih231Sz3tm/BQqN
-X-Google-Smtp-Source: AGHT+IFXEvOLebVmElD9s+d7R5b6CttZ1cQA17/cysPWQ1b0GejyzOftge88iR/a0LNSzoxVSgW5Jw==
-X-Received: by 2002:a05:6214:20ee:b0:880:40cf:ab8a with SMTP id 6a1803df08f44-8847c527271mr175801856d6.39.1763996220925;
-        Mon, 24 Nov 2025 06:57:00 -0800 (PST)
-Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e54cc04sm100966766d6.27.2025.11.24.06.56.59
+        d=1e100.net; s=20230601; t=1763996238; x=1764601038;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DMHuhLQ2+QePhLbxyyov6Mwfn5dk2KsNTjCwuBZ/B2U=;
+        b=aQbGFbAHpQUjocigrc1SFu53OZQMBJd/nKVs7ow90CIp+ZTjEjLr30tomfT+hGXd/g
+         A2Gf7to7Zxl9JinXCVWyQaxFbgU0sgjNWxMxNus5Szu8R8voQ5BbfRYj7t0tpDKyLLIS
+         trYrGWbZPr4a60mDKDkFtHxtXKsg1Wh+lF5AmvgOMjXUWKGEfecsMJc3sSOpnnmAFP9N
+         4VzHXMrnbv+4GtJQ4f5j0xInu8ZArIylCWehLH9gryp5ETco2SH6hv6F9LF8tEMN+yr4
+         Bc3klTsePGuVkkUcrsxVl2iiK1QNzsqnE8lycBLIPHE1LNm22wfVsbWDwV4VRYndrlHk
+         7Uew==
+X-Forwarded-Encrypted: i=1; AJvYcCUYCUkeWURIEi6VWjmjKFwYZbENjtNTrlMlhRZdYXgBO7SF8LfZOZlwWET2T4w2DRy9bdQfMktWy/GOjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkxJOf99lJkvFoxxH3urv5K+RbXnPVNDAA/0MBBIN/UKnZ1W9b
+	BXjv9/FgrnzY/OEPv4X22yEWzGq91fxSQQpisGEA1MegAcguniyxGfOeoh+yq+JH
+X-Gm-Gg: ASbGncuyG3lJCtf6DJQZ9nlzFFGV6xgQsDIxL+kCk/rlL5f1gch+jS4VemjonEtIeOO
+	3UADTFWRDB79aoOfYHn2GFu4i4ehcuU2YKuPoLaYh/z7qEiG07CkFI4Uaqr3OQpq35tnecRP3NS
+	44/L3WY8jtFeh7r/ur0I1/eXfeQf21RCIR/GWFrGilfQxRUbWFh+K5ey1JaeXdrvMcKuSJ7J3UU
+	CCTJ0DCS6Q4CKk9a1bWvfTUqOMuPM0E69VorW6utDIICkF2WHUKtRsWnuQRjrbsPusNAK1WsHXZ
+	DKqewpHcL7NRqF0caSBTfyvYu5lf4IxZsg1OU+9UyYzSNkVBaCFAqo4DfPh0KWdPuT0cEJ69iXq
+	yHV02swmx4oTaJNHNU+zQxvVgcoaMGgt1S+DdwJTFK08ZUXcvq+mh8Vxec/tqTG7MWcfGOo0gEJ
+	gEbUU4EpKN5NcvBA==
+X-Google-Smtp-Source: AGHT+IGs/95/cJ+tL3SsaiiXXgcuCaeuAg21ZTVttRpATbc8iAWB4Al2D0iS745iUZOaE4uems77rg==
+X-Received: by 2002:a2e:95d9:0:b0:37a:5bc6:ab9f with SMTP id 38308e7fff4ca-37cd92392c8mr23746331fa.26.1763989401463;
+        Mon, 24 Nov 2025 05:03:21 -0800 (PST)
+Received: from [10.38.18.76] ([213.255.186.37])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37cc6b48e26sm27317291fa.1.2025.11.24.05.03.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 06:57:00 -0800 (PST)
-Subject: Re: [PATCH 1/6] ASoC: codecs: wsa884x: remove mute_unmute_on_trigger
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "open list:QCOM AUDIO (ASoC) DRIVERS" <linux-sound@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20251124064850.15419-1-jonathan@marek.ca>
- <20251124064850.15419-2-jonathan@marek.ca>
- <2758401b-e9b5-4f10-bb01-0a1fe4e09430@oss.qualcomm.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <5f15fc5b-375a-1e75-b32d-0d543fa1014d@marek.ca>
-Date: Mon, 24 Nov 2025 09:55:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Mon, 24 Nov 2025 05:03:21 -0800 (PST)
+Message-ID: <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
+Date: Mon, 24 Nov 2025 15:03:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <2758401b-e9b5-4f10-bb01-0a1fe4e09430@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
+ overlays"
+To: Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ Steen Hegelund <steen.hegelund@microchip.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <20251015071420.1173068-2-herve.codina@bootlin.com>
 Content-Language: en-US
+From: Kalle Niemi <kaleposti@gmail.com>
+In-Reply-To: <20251015071420.1173068-2-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/24/25 9:08 AM, Srinivas Kandagatla wrote:
+On 10/15/25 10:13, Herve Codina wrote:
+> From: Saravana Kannan <saravanak@google.com>
 > 
+> This reverts commit 1a50d9403fb90cbe4dea0ec9fd0351d2ecbd8924.
 > 
-> On 11/24/25 6:45 AM, Jonathan Marek wrote:
->> trigger is atomic (non-schedulable), and soundwire register writes are not
->> safe to run in an atomic context. (bus is locked with a mutex, and qcom
->> driver's callback can also sleep if the FIFO is full).
->>
-> Thanks Jonathan for the patch,
+> While the commit fixed fw_devlink overlay handling for one case, it
+> broke it for another case. So revert it and redo the fix in a separate
+> patch.
 > 
-> We have nonatomic=1 flag set for all the Qualcomm sound cards, Did you
-> hit any schedule while atomic bug?
+> Fixes: 1a50d9403fb9 ("treewide: Fix probing of devices in DT overlays")
+> Reported-by: Herve Codina <herve.codina@bootlin.com>
+> Closes: https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com/
+> Closes: https://lore.kernel.org/all/20240221095137.616d2aaa@bootlin.com/
+> Closes: https://lore.kernel.org/lkml/20240312151835.29ef62a0@bootlin.com/
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Link: https://lore.kernel.org/lkml/20240411235623.1260061-2-saravanak@google.com/
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> ---
+>   drivers/bus/imx-weim.c    | 6 ------
+>   drivers/i2c/i2c-core-of.c | 5 -----
+>   drivers/of/dynamic.c      | 1 -
+>   drivers/of/platform.c     | 5 -----
+>   drivers/spi/spi.c         | 5 -----
+>   5 files changed, 22 deletions(-)
 > 
+> diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+> index 83d623d97f5f..87070155b057 100644
+> --- a/drivers/bus/imx-weim.c
+> +++ b/drivers/bus/imx-weim.c
+> @@ -327,12 +327,6 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
+>   				 "Failed to setup timing for '%pOF'\n", rd->dn);
+>   
+>   		if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
+> -			/*
+> -			 * Clear the flag before adding the device so that
+> -			 * fw_devlink doesn't skip adding consumers to this
+> -			 * device.
+> -			 */
+> -			rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>   			if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
+>   				dev_err(&pdev->dev,
+>   					"Failed to create child device '%pOF'\n",
+> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+> index eb7fb202355f..30b48a428c0b 100644
+> --- a/drivers/i2c/i2c-core-of.c
+> +++ b/drivers/i2c/i2c-core-of.c
+> @@ -176,11 +176,6 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
+>   			return NOTIFY_OK;
+>   		}
+>   
+> -		/*
+> -		 * Clear the flag before adding the device so that fw_devlink
+> -		 * doesn't skip adding consumers to this device.
+> -		 */
+> -		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>   		client = of_i2c_register_device(adap, rd->dn);
+>   		if (IS_ERR(client)) {
+>   			dev_err(&adap->dev, "failed to create client for '%pOF'\n",
+> diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+> index 2eaaddcb0ec4..b5be7484fb36 100644
+> --- a/drivers/of/dynamic.c
+> +++ b/drivers/of/dynamic.c
+> @@ -225,7 +225,6 @@ static void __of_attach_node(struct device_node *np)
+>   	np->sibling = np->parent->child;
+>   	np->parent->child = np;
+>   	of_node_clear_flag(np, OF_DETACHED);
+> -	np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
+>   
+>   	raw_spin_unlock_irqrestore(&devtree_lock, flags);
+>   
+> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> index f77cb19973a5..ef9445ba168b 100644
+> --- a/drivers/of/platform.c
+> +++ b/drivers/of/platform.c
+> @@ -739,11 +739,6 @@ static int of_platform_notify(struct notifier_block *nb,
+>   		if (of_node_check_flag(rd->dn, OF_POPULATED))
+>   			return NOTIFY_OK;
+>   
+> -		/*
+> -		 * Clear the flag before adding the device so that fw_devlink
+> -		 * doesn't skip adding consumers to this device.
+> -		 */
+> -		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>   		/* pdev_parent may be NULL when no bus platform device */
+>   		pdev_parent = of_find_device_by_node(parent);
+>   		pdev = of_platform_device_create(rd->dn, NULL,
+> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+> index 2e0647a06890..b22944a207c9 100644
+> --- a/drivers/spi/spi.c
+> +++ b/drivers/spi/spi.c
+> @@ -4791,11 +4791,6 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
+>   			return NOTIFY_OK;
+>   		}
+>   
+> -		/*
+> -		 * Clear the flag before adding the device so that fw_devlink
+> -		 * doesn't skip adding consumers to this device.
+> -		 */
+> -		rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>   		spi = of_register_spi_device(ctlr, rd->dn);
+>   		put_device(&ctlr->dev);
+>   
+Sorry, some of you will receive this message now for second time. First 
+message was sent to older series of patches.
+-
 
-Right, I missed that. I'm using a different driver which does not set 
-nonatomic. But this driver to not need nonatomic - 
-mute_unmute_on_trigger is a hack, if there is a timing requirement - 
-then it needs to be explicit, the different timing with this flag is not 
-reliable).
+Hello,
 
-> 
-> 
-> In-fact this change has helped suppress most of the click and pop noises
-> on laptops, specially with wsa codecs as they accumulate static if the
-> ports are kept open without sending any data.
-> 
+Test system testing drivers for ROHM ICs bisected this commit to cause 
+BD71847 drivers probe to not be called.
 
-28b0b18d5346 is important to fix the click and pop noises. But the 
-useful part is the rest of the commit, not the mute_unmute_on_trigger 
-flag. As long as the mute_stream() happens while the soundwire stream is 
-enabled (between sdw_enable_stream and sdw_disable_stream), there should 
-be no pop click.
+The devicetree blob overlay describing bd71847 enables I2C1 bus on 
+BeagleBone Black aswell.
 
-AFAIK the pop/click is because of PDM: zeros (soundwire stream off) 
-represent the minimum (negative maximum) amplitude, and the soundwire 
-stream needs to be enabled to output a zero amplitude (alternating 
-ones/zeros). Turning on the amp while the soundwire stream is not 
-enabled will cause jumps between the minimum and zero amplitude.
+Probe is called when the driver is used with HW connected to I2C2 bus. 
+I2C2 bus is enabled before overlaying devicetree blobs.
 
-> --srini
-> 
-> 
->> The important part of fixing the click/pop issue was removing the PA_EN
->> writes from the dapm events, AFAICT this flag doesn't help anyway.
->>
->> Fixes: 28b0b18d5346 ("ASoC: codec: wsa884x: make use of new mute_unmute_on_trigger flag")
->> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
->> ---
->>   sound/soc/codecs/wsa884x.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
->> index 2484d4b8e2d94..0218dfc13bc77 100644
->> --- a/sound/soc/codecs/wsa884x.c
->> +++ b/sound/soc/codecs/wsa884x.c
->> @@ -1840,7 +1840,6 @@ static const struct snd_soc_dai_ops wsa884x_dai_ops = {
->>   	.hw_free = wsa884x_hw_free,
->>   	.mute_stream = wsa884x_mute_stream,
->>   	.set_stream = wsa884x_set_stream,
->> -	.mute_unmute_on_trigger = true,
->>   };
->>   
->>   static struct snd_soc_dai_driver wsa884x_dais[] = {
-> 
+
+---- BD71847 Devicetree overlay source ----
+
+/dts-v1/;
+/plugin/;
+
+/{ /* this is our device tree overlay root node */
+
+     compatible = "ti,beaglebone", "ti,beaglebone-black";
+     part-number = "BBB-I2C1";
+      version = "00A0";
+
+     fragment@0 {
+         target = <&am33xx_pinmux>; // this is a link to an already 
+defined node in the device tree, so that node is overlayed with our 
+modification
+
+         __overlay__ {
+             i2c1_pins: pinmux_i2c1_pins {
+                 pinctrl-single,pins = <
+                       0x158 0x72 /* spi0_d1.i2c1_sda */
+                       0x15C 0x72 /* spi0_cs0.i2c1_sdl */
+                     >;
+             };
+         };
+     };
+....
+....
+
+     fragment@2 {
+         target = <&i2c1>;
+
+         __overlay__ {
+             pinctrl-0 = <&i2c1_pins>;
+             clock-frequency = <100000>;
+             status = "okay";
+
+             pmic: pmic@4b { /* the "test" defined as child of the i2c1 
+bus */
+                 compatible = "rohm,bd71847";
+                 reg = <0x4b>;
+                 ....
+                 ....
+}; /* root node end */
+
+---- END OF BD71847 Devicetree overlay source ----
+
+Reverting this patch from linux-next from last friday fixes the issue.
+
+BR
+Kalle Niemi
