@@ -1,81 +1,77 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010070.outbound.protection.outlook.com [52.101.193.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55D5DDA9;
-	Mon, 24 Nov 2025 03:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763954182; cv=fail; b=oWGbGpYrM7w70iLrmelRJdXX8mGQl5BvQ9YvgwBB1GyvnoU5v2LShB2frx9j0zSHaAOIz1nerGk3F6ySCuqqDRIAukov7ceLZ47lQYF60ckkZR9olIBJKDAVWDrDsMg7cGTAsUTpEiC36m2lgPOyt9R9mfVmpF5K+/xiOelI77Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763954182; c=relaxed/simple;
-	bh=oUoY8kJoctcG5kL+W0Prbzsp2QBc9tcNO8/24VC+A7g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pt0rGY73Dh8p/ERQ0+TgA4riqVLlFRNr+1bsAIhGv/+LLPNKKsDE+Xtak8yoiQ7sPgsjdyHE0zgkX1ne/F+IeGM3lsfprBUbn8JQ08srettX4YpMKoB2ReMnz/4Xh6orSKcNdrZX2eb1rwn0eNKhV1PLqT+kYAfQTXddIoVPahw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=u1EqCm1s; arc=fail smtp.client-ip=52.101.193.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4057836D516
+	for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 06:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763967032; cv=none; b=WO5oXq8tLJXSDjykGOBA53ORJJAfSEgbCS7bITPRx38aj3rnbs3tYyEtpkZQX7/Q2KSiusPoAqPxgDyaJ2kPLVjuXHtU7LaJqVsRxENAfIX1t/nyUEr4NmX+3f9MzAck1SeFB0N7GKyhUqS5PqAxUb5tVdLldMA2NqHIu4PPs3w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763967032; c=relaxed/simple;
+	bh=y+w5e6c2MgXTXncp0nIxoBYjb2mIvHERbbgy2ayAB34=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aEc5ZfesxF7gkaBy+ty8M33bZfc0qJjlheoJnbqX1gki79q8mtZKe6pTPNS3CQ1Hq8k27yPa7M+x56167K4YJfqa60QvAXCyJwEynVsMe8FGYisJu8XLhxCFj2SIRagjeXq4VML2Np5VwDF5Vcx+L3HqDkfORPw9rsepfQLpC1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=Ns6/PiE5; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="u1EqCm1s"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kOSz/GQvFWt0Nis9lwqixXfPc1Zit7eVE/3QjPBQIgusH8aTkhoBkHHfLPiHr4uIVbmBDXfOMLvTNY7v/oR6PZTa3nfh00QaOnrcqqlYTvUvNXVZUY+8Sn3JXn1jdnKAVqO/M1dg1//BbQy34sy1sL7C+VRYTyrENdiDpAAZVxPfvpFfDBfoXbqSg7kzkzvBtCgqQOn6nDXz0r0FU9Ndt6R9IMl0ciVwRTIk2dkYnh50obTJg8VGROXbIp9vAnrsv1Gxg7W22RG/sYy+7B/Mz+K33eZgN5RRnBeCFrHcMZQzIxorIifc6YaZMK4/uUn1J6WWSmmDkZWnl7SI0eF/Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iUFcpG3+TdKUE7bR2QiYpXdDCZ2Qkz+igTsb7D/YlMw=;
- b=XtLsRBMEFlVSkY26aGnIzHcNYUZS7zgGbSySUPNMq8UJ9hTkZju/xp5Ftvm155M84GLst72477NmI5KDl7fw1Qc+hW/M7U6XAkqI/ijMmUQau4jXHoTVMNuQ147g/nZJegB9409RQ6En31wfi0pRKpbrCyFTlaTG4TIzQLfpnRRH1SVv0mq/C6HAbxwTkPr+R6yep47dHmyrJrqmOxBGw9kHmIAbrGBJaaoBNa4tkYbjt9kuoozh8ZLl+vqBl7MfV2Ssf5De6uxXOj2Pmy+3Y4lXCFjCjeSd2KVlno8Rk9tMeEsxg3Yb1MkqqCbV4k5uUb6EPRBC7W9JfWzuuAr1aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iUFcpG3+TdKUE7bR2QiYpXdDCZ2Qkz+igTsb7D/YlMw=;
- b=u1EqCm1s6WETowSpsjRb6hLRfmA8N76KOhlCcDsF3fYzGjGWLh6lUutPsMGQhmScVkBQbZaj7rLCmWOuC72rtbcZziiO9BhbivqT0IRN5VJWrCk5CX23X6JXCmNE6kGv/fOB4TJJk0I4huiW85i0vdERZVxCEIRgLne+XrbndXM=
-Received: from BLAPR05CA0025.namprd05.prod.outlook.com (2603:10b6:208:335::6)
- by CH3PR10MB7908.namprd10.prod.outlook.com (2603:10b6:610:1d1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.16; Mon, 24 Nov
- 2025 03:16:14 +0000
-Received: from BL02EPF0001A0FA.namprd03.prod.outlook.com
- (2603:10b6:208:335:cafe::2c) by BLAPR05CA0025.outlook.office365.com
- (2603:10b6:208:335::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.9 via Frontend Transport; Mon,
- 24 Nov 2025 03:16:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BL02EPF0001A0FA.mail.protection.outlook.com (10.167.242.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 03:16:13 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 23 Nov
- 2025 21:16:12 -0600
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 23 Nov
- 2025 21:16:12 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sun, 23 Nov 2025 21:16:12 -0600
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AO3G6RB1250695;
-	Sun, 23 Nov 2025 21:16:07 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>
-CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
-	<13916275206@139.com>, <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
-	<baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <k-yi@ti.com>, <henry.lo@ti.com>,
-	<robinchen@ti.com>, <will-wang@ti.com>
-Subject: [PATCH v1] ASoC: tas2781: Correct the wrong chip ID for reset variable check
-Date: Mon, 24 Nov 2025 11:15:42 +0800
-Message-ID: <20251124031542.2793-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="Ns6/PiE5"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b1bfd4b3deso324586985a.2
+        for <linux-sound@vger.kernel.org>; Sun, 23 Nov 2025 22:50:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=marek.ca; s=google; t=1763967030; x=1764571830; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cNc5rm4ZQfDfDh2+JFNbnMFh6W80bhd4YB2ckWPITEU=;
+        b=Ns6/PiE5fSmX10BmZgz26GEQURqpEjbaikkZbHi5uoxKCMvUHcFbCWDXRFN3xcKteZ
+         SZNAybJImA0sk5CJhWRpqtVSZVHh+HmSwLLamULxkk9gRpqUPuO6WdB317whWVrm1+rO
+         +yZm7R5RRh7ee8dmjAG0rrXsm1xIh1owbseHPPuniLfVyhsnRX/DvTkfOky0vZD30Skl
+         SxFyMtNFrEen0PT78Ac8kh0+YUrLKJvDcu5lUeJ5VjYgG/xvh9G1UCBDkN9xXq7YUmqu
+         T2eXvdf0ChAzRyLRakIHkkLdDnug9DhiV0H/nJe/5j850syOS8y6iJZxeC3NfACi8ZYl
+         6ttw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763967030; x=1764571830;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNc5rm4ZQfDfDh2+JFNbnMFh6W80bhd4YB2ckWPITEU=;
+        b=fGs8zAIV5HDP3f9FZR7z6DnWX9LnQUPh84CWtdGaJhdQCZ1zeGOhbMeU7/XGGDR6md
+         rHuvu0v0Q1CKHKpI0O+a8Ybpwwc7leuxhdIG6gZCBfodyXqRB4OByA4lgW+ghnM3mR4K
+         e49CjyfxCcJUMG1l5hZ3jGh7wFMpq0nyMIMe0MbIRKBzn413ksYpNgP6fWaEqDrDfEIB
+         jFvBV07vqpnHQz1NZR9HRceVnQ+rvSc5qhUdDN7dVkQF4ZHc/1qCdDOPxIFbavWv3pTB
+         BHlUk+OR0OP2iI93/vLHy/oUX0K+Lkw30Ih25hFVKANQXG4Xpu04DCy2YqOxtz4HBCWW
+         3mwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9po58TG7MQPdtqd7VDkRzcP0Z2ECmFCz5kjfBOHyrLk7ZvZ0y+o8OQ3yCMMKy8V26cybsBfk0M0gvgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5a5muBNmOlBtfnO6g106vqAcsBFde2YplfgBdomXwye6veq+S
+	9BNpsU2App/NrdCl2xc88YZHQ5ALRbD7ht4+gmlQSHW5GvdlDumrFZNDVul2f60EIYI=
+X-Gm-Gg: ASbGncsGmXqHkUBpu0AJoIaV7BK5QX66FjVGfxZPklVUz5oQmHTkXZZCPkMcn31uvS4
+	YJzLsxJp8qJmI8jpngxG3/XWRp2vThV+uycV/gwqMhOc8ovOW8lJVrKQvk3RhVCSVs2AQCSkAUD
+	lnFAVBFwOqsOwTdI+UYRY4ln0c4Mm2JJW6tehs3bROVB5jY8LjifnOAPLX0fc8D1ckx9a0n/2P9
+	zxTaibzW9Hk2Nk2bI04yO6mxjwH7cNfCFfddAKv86bKXEXPKv+W4O0jDbZAKWwbnU6/dtkEBy0x
+	N7AX4/h1x+LDirybJzcProPqSkmRjD9F55hHe14OWlpqgVl4ftusGd3BmVBj4lkQ5Jd7Bs9hFTs
+	8kI10eOO6xlh5dL0CdMpdVtkKUahL6Z7fIHNRKBCUNeCYWgu94wwj706BtrraBp1oTGme3n0K6N
+	smkG+9zCpWD/Y17+9GxF+aTD1tvyEfIYcmxkuJx2J8RTCT/6eqIfSI8eqMlAd04VWr2g==
+X-Google-Smtp-Source: AGHT+IGU/FNHTOpS2yw+2Y59vhT9ZGPR417V7So6rHGQ64fdNxkG1gK7Ti5iS3OB77llaVwIvljXOg==
+X-Received: by 2002:a05:620a:4549:b0:8a2:6690:2417 with SMTP id af79cd13be357-8b33d46b1e6mr1429722785a.67.1763967029957;
+        Sun, 23 Nov 2025 22:50:29 -0800 (PST)
+Received: from localhost.localdomain (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b3295db8b1sm889075185a.40.2025.11.23.22.50.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 22:50:28 -0800 (PST)
+From: Jonathan Marek <jonathan@marek.ca>
+To: linux-arm-msm@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-sound@vger.kernel.org (open list:QCOM AUDIO (ASoC) DRIVERS),
+	Mark Brown <broonie@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH 0/6] wcd938x/wcd939x fixes
+Date: Mon, 24 Nov 2025 01:45:53 -0500
+Message-ID: <20251124064850.15419-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,81 +79,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FA:EE_|CH3PR10MB7908:EE_
-X-MS-Office365-Filtering-Correlation-Id: 658f0857-257b-406c-54d3-08de2b07d322
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3wqex7GTtom9fwE6tH7eCpaNbkSrDR4upEpbcUs5jBiGmJwTKEY3yEdFB4BB?=
- =?us-ascii?Q?aYyfwyEsEcdSdKdMbkw8NVmAdY2ZGiiQ+1PL18oy3+KfkkLk5BYJ0gPv3ALW?=
- =?us-ascii?Q?TEJ3qUcZ1Z7G37mLLWRXbe0e1tkd6mC+feZDcgm12JVJO86keuzlUd6Gq9A7?=
- =?us-ascii?Q?nDYoHHYhQ/YQeaff5bxbv3R+YyfK+eI+UUr+mDqOCiwe3JngdwONufZV3IPT?=
- =?us-ascii?Q?nV4i7NZivLECn5goJcjKLidE6F4F0yFnOexuSF7TjdRXnuOzxwwrZ3HNvFNC?=
- =?us-ascii?Q?+k7fHWj2W+wi4rCR4rCkdGl4mc2/voRyVHk2MG0gGLATHKFH+VCjsN+P9sg4?=
- =?us-ascii?Q?So+dOoIbB0RvTlJxb1Ngz/RTF2jVmRyX5bAiCXbDQQo77ObUPS+FmJ8rg/9G?=
- =?us-ascii?Q?h4peiPGk2J9h8p9QnKWdabYG5IG12ADnc9FzHMuuPEKYwetY27xnRCCobx5k?=
- =?us-ascii?Q?vc7dV+11GsZfVmaBynqfKIE6sUw8VyRrrwgxDSRpiF5Gu7nHq0ucae9iP7ZV?=
- =?us-ascii?Q?wqenIyTohWw5d75KwpBhqjlDEgSjvMibRN/eYx/CkpBFE26m+Tj1LIimMygE?=
- =?us-ascii?Q?NwBfx0PC84Vnc3CZdYwWrJc7/x9N4W8wr/09KJ8jQmgBzlQEp68SHmNcGdV8?=
- =?us-ascii?Q?Lqvb7R/2E6DM4rW+jaCFmY2QropZpX45eS5Pq2GIojFKfab4c6shl8SQ9w2+?=
- =?us-ascii?Q?pAWL+AKZ4+j9WmKbdy8F5IVK9U8uLCQ3MBYMyKpv0xKNIulocUvkiaE+XaZs?=
- =?us-ascii?Q?qr87QOjMZg2KIEY6lmrnagNa3tQzWsJMeAdEu2fqwOw+yY6MX08It/woEOjy?=
- =?us-ascii?Q?GAALC6LKPccvuxuwBKCqLYVa9/6jPWFsQJaVIul2Flv9d5NfGx5DXkzyfFYh?=
- =?us-ascii?Q?yooEF8yT9fs34wXOZqahB3Q9lDzP8WtguKk9FPUVXwIK5N1Qaj7IFsHNPZSq?=
- =?us-ascii?Q?YVvTGqAuFlCvl9tgtGd/jhz310QBSX63djuZ4xzHKHXI0Z2Woiqz8/cVhPBb?=
- =?us-ascii?Q?ZU7qq3+31K6ubCYA39fKffw798m4QT1meUlbJq3BfLovjB+uM6pb5rTBvL2J?=
- =?us-ascii?Q?Pcsc4a9HdNp91EqYxjW+2cDewsmW1UXMvY0Akhlcoe/XRFlav90wDtDnPRxS?=
- =?us-ascii?Q?zVEhOnTlTu26VPxMMTMXjZDcOcL01hZUMTmWqCGiPH5J+zIo5kmu4FLJwjlX?=
- =?us-ascii?Q?QGaGjmXy67RnfyJwP262NoQXD0F9c5Rr1zUWlQ+mVmaZwkF/XxtRW+fWXVj/?=
- =?us-ascii?Q?/TgoTUX7lFW9VlabqWnkjiNCP9BYBJ///pz/Qg32qSBueJErpo8wrCkMczuK?=
- =?us-ascii?Q?bdTIivVw2cgLEoudHers7gYpiHNZpU5PecXW4Mahkcb43p7YPLtmUcyIQwQu?=
- =?us-ascii?Q?riIK/bU32AeSkk5kP755wBp+dla80hXKt3PeWIEfOvKzqM4LZgHmKyGbJW+d?=
- =?us-ascii?Q?IV2zysJCkzxemxUIh9vkeKl3XSp18L6HnzTzwv5cfjv1vU5xHuaAW3AL2t4+?=
- =?us-ascii?Q?/KotTrEqfqv6BxNTZGXkMCKnR8Olv88huna5XYK1G9EZvbG6eEZ+x34bDrjk?=
- =?us-ascii?Q?HK+OcN6lMcllahddeFw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 03:16:13.9026
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 658f0857-257b-406c-54d3-08de2b07d322
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A0FA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7908
 
-The new variable of reset was added for TAS58XX on TAS5825 first.
-And TAS5802/5815... was added later, so this reset variable check
-should be changed to lowest chip of TAS58XX.
+Fixes for two major issues I encountered
+- pop/click
+- not being able to enable both left/right channels
 
-Fixes: 53a3c6e22283 ("ASoC: tas2781: Support more newly-released amplifiers tas58xx in the driver")
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- sound/soc/codecs/tas2781-comlib-i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And a fix for an issue I noticed in the wsa codecs.
 
-diff --git a/sound/soc/codecs/tas2781-comlib-i2c.c b/sound/soc/codecs/tas2781-comlib-i2c.c
-index b3fd7350143b..e24d56a14cfd 100644
---- a/sound/soc/codecs/tas2781-comlib-i2c.c
-+++ b/sound/soc/codecs/tas2781-comlib-i2c.c
-@@ -320,7 +320,7 @@ void tasdevice_reset(struct tasdevice_priv *tas_dev)
- 		for (i = 0; i < tas_dev->ndev; i++) {
- 			ret = tasdevice_dev_write(tas_dev, i,
- 				TASDEVICE_REG_SWRESET,
--				tas_dev->chip_id >= TAS5825 ?
-+				tas_dev->chip_id >= TAS5802 ?
- 				TAS5825_REG_SWRESET_RESET :
- 				TASDEVICE_REG_SWRESET_RESET);
- 			if (ret < 0)
+Jonathan Marek (6):
+  ASoC: codecs: wsa884x: remove mute_unmute_on_trigger
+  ASoC: codecs: wsa883x: remove mute_unmute_on_trigger
+  ASoC: codecs: wcd939x: fix headphone pop/click sound
+  ASoC: codecs: wcd938x: fix headphone pop/click sound
+  ASoC: codecs: wcd939x: fix get_swr_port behavior
+  ASoC: codecs: wcd938x: fix get_swr_port behavior
+
+ sound/soc/codecs/wcd938x.c | 85 +++++++++++++++++------------------
+ sound/soc/codecs/wcd938x.h |  1 -
+ sound/soc/codecs/wcd939x.c | 92 ++++++++++++++++++--------------------
+ sound/soc/codecs/wcd939x.h |  1 -
+ sound/soc/codecs/wsa883x.c |  1 -
+ sound/soc/codecs/wsa884x.c |  1 -
+ 6 files changed, 84 insertions(+), 97 deletions(-)
+
 -- 
-2.25.1
+2.51.0
 
