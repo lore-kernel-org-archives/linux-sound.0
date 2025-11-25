@@ -1,90 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA992DF6F8;
-	Tue, 25 Nov 2025 20:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACC533A6E9;
+	Tue, 25 Nov 2025 22:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764101075; cv=none; b=rbSD4lhbcHmdQjKSqPLNb/rrWgUkDL8MMBXiWVfh+BOsSWPpy68hAPI3aDeD5YbMNPJAKYYyWM5ZvYWw20BEpzVtTTRVYuNni321PhvTI9XhWOWWRV5gw3sgPsrVj1xyypo25t2+Qim31Ri0bPfGCTyHbERIQfTsNE03iJ09xe0=
+	t=1764108522; cv=none; b=Y0HNaGQaVPvmcpkX4136wW6kfVrKlSwBvYbkN/mz4jcHaF8FgbNgnndgIfXNLwrTMmmynT1LNnUSxeoKWNy+5UWCg+m6Nq8RFw5UFQfwdbtQiVy+qG6lLv+XZ/RsjET1nfk8x4b3L2DM6H5l7zLAOcfgc5udSV861OF7rJa4eTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764101075; c=relaxed/simple;
-	bh=s3OwkiUygWqkp2XV+p98wy7/crwoMebdN4qr+pxto0Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bEQ3ReRyfucIw83/9l10YQOWee0ArgyEtr5fAXHdwC4Z5yvm6n2eYreseSMl2oyyGqCECkVK0EmAFIXpkP++MI91c0t9l9Pt8BWqT3RSV8nboPV0eSgIlQew7CRfHmVbRnoYNTQMOe7B2PYHwJsTIyfa2V6xELoBt5KgmiarjHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cegwzniZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764108522; c=relaxed/simple;
+	bh=2O6sG15Fq7cdAVw0A+6zcgiyimo2hD0OIHor8kxHQ84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WeIF4TRW7cWexG8UrTKGhQKc7v1H0CKF5otX4+n2BVwWL5y9FRLvAwrFLyJZXQRyG/rnUMMqwy1RD4faevEwoF6nUIgOEqTMEwlz1mcEJNlthGTVky1Um4TdJrnfflDwCPHnV6Shr4y6qNlzbV6xUBxYz7Y+gEX2Z8VkQ6gVOyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lweXo9Gj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cegwzniZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13D4CC116D0;
-	Tue, 25 Nov 2025 20:04:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lweXo9Gj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E835C4CEF1;
+	Tue, 25 Nov 2025 22:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764101075;
-	bh=s3OwkiUygWqkp2XV+p98wy7/crwoMebdN4qr+pxto0Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cegwzniZgVpRPk6OmHNiV8BbnzVI930hoBC2ScGOULPsaGXp4l+0YY4jwc0PtHjRw
-	 tQtPkHJS+gmr2eaJnerfmXSMPRgYk9J5RcA9r7SFk5y9pmZjs/B4gGUNtsCMepXRWa
-	 OcvV44gGka+gA9QPq5wzgGdEvCW/OcZsshAPCZQ7evRZt0iKP+SMdk1hVFyUZFlqN/
-	 5XVXr5Jx86QX0YvVgL18gnmT7d5rFtRXr8JD/ZYpi/ceUlBcczrZprnm+SCLpWZVgg
-	 2Sr0hSv4VElQj1dM7y4OQZd7kxKRG7ArTkWg/L1j62FrlSXgVjcgE7F6WB26aTeqdP
-	 0Kc/7plAtqbCw==
+	s=k20201202; t=1764108521;
+	bh=2O6sG15Fq7cdAVw0A+6zcgiyimo2hD0OIHor8kxHQ84=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lweXo9GjJp3xqdBZhDUpx6sWXh329RLbThA02/DAk3ocyq4RZZl+Xf4w1NQt/B77T
+	 KE2xbXWd9iwuooiU/aUwca3ZoQDiRApGJaVCHsV6s1YQmj7uuZjL/oji3lPtzk7PN5
+	 gyGmPq+kj2NxY84+nanrqqb5BgoQ/iz9uPnhodFJtmvVYf/l1b1q3Wk8tpjt8VWT4K
+	 9Jhj0Mphtoy4cOqdhJits9ihNNSjh3yfU7+00I6EJx7d1PtNjuxuY7sZYY+ymqZ36U
+	 vmKTN1K8PpOwaLnore9qOP3qdfk2qk2GXpWIcg6Fx+P03/RtsgnjezkNR96e38+nnz
+	 JK/9OWqe6AnpQ==
+Date: Tue, 25 Nov 2025 22:08:36 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Maciej Strozek <mstrozek@opensource.cirrus.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-In-Reply-To: <aSW1UOgMCiQIaZG8@stanley.mountain>
-References: <aSW1UOgMCiQIaZG8@stanley.mountain>
-Subject: Re: [PATCH next] ASoC: SDCA: Fix NULL vs IS_ERR() bug in
- sdca_dev_register_functions()
-Message-Id: <176410107279.92145.4201490086454262320.b4-ty@kernel.org>
-Date: Tue, 25 Nov 2025 20:04:32 +0000
+To: Jonathan Marek <jonathan@marek.ca>
+Cc: linux-arm-msm@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:QCOM AUDIO (ASoC) DRIVERS" <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-wsa-macro: add RX4/RX5/RX6/RX7/RX8
+Message-ID: <9a6ca5eb-bcfa-41f6-b35a-e2831d5a9f02@sirena.org.uk>
+References: <20251121060437.26704-1-jonathan@marek.ca>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jderwvJI3m3zPnVj"
+Content-Disposition: inline
+In-Reply-To: <20251121060437.26704-1-jonathan@marek.ca>
+X-Cookie: Goodbye, cool world.
 
-On Tue, 25 Nov 2025 16:55:28 +0300, Dan Carpenter wrote:
-> The sdca_dev_register() function never returns NULL, it returns error
-> pointers on error.  Fix the error checking to match.
-> 
-> 
 
-Applied to
+--jderwvJI3m3zPnVj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Nov 21, 2025 at 01:03:30AM -0500, Jonathan Marek wrote:
+> This allows playback using the WSA_2CH AIF, which feeds RX4 and RX5 on bo=
+th
+> WSA and WSA2.
+>=20
+> RX6/RX7/RX8 can be tested with the regular WSA AIF (the 3rd intf is RX8,
+> the 5th intf is RX6/7).
 
-Thanks!
+This doesn't apply against current code, please check and resend.
 
-[1/1] ASoC: SDCA: Fix NULL vs IS_ERR() bug in sdca_dev_register_functions()
-      commit: 80339b3823bb76d383c82186b55ac836fed3f586
+--jderwvJI3m3zPnVj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkmKOQACgkQJNaLcl1U
+h9CyZAf+KvFLhOzBQiU9u8XA8Q5Ss5r6Wq/Z7zxHPZuHY+BRD1g5RjGw/jOUb/14
+Pfp9Aodl1LR9r5itXDakQvIQICnDYlqzsjKMMFRL8rLhEZL7jxvCWQ+1nA5X8R5z
+Zgvchkri8qmNVrn85KUBL4Zl6ZpENKyf9rLr+gEPL6SU/3zd9XJDUslvnePICl/w
+QP7rTZaxz39G1fdbjobXIDdtj4JO3so4yGYACMGW7n2kaT1Dx0qwHSD8966jM2Gq
+XrHyXRKUEdxYqxbz0JXdG7DPZ6pYAf2uscz44Egm+VKYwnEqtgW/MCfgiz4h9ZpF
+A5Hr1j3hA8E1+UcMc8NTEVqdhZoGUQ==
+=ul4i
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--jderwvJI3m3zPnVj--
