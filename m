@@ -1,136 +1,96 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE8D332EC7;
-	Tue, 25 Nov 2025 18:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C5828152A;
+	Tue, 25 Nov 2025 19:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764096942; cv=none; b=D2MYi4itOXwGNfLnJEsEe8nh3n7REz835pV18nnUuhFer0bNd7R4lZ/OTdw0NL1JthqmKwit5X1tmVXDqLGOw9SSPAbMuzqglEKP0TTO+CfOxUK+xDumumslcSQeCl/6l9xA9bqL3wEZTNRSUAx/3PK74iBMHzYk3nHRx5Kx/XM=
+	t=1764098553; cv=none; b=nzO8XTtfmc1q43pBye4hzC5NcAwccjtIDTfXdQLCOpWmb62kPcmpJ7fo78YJ8ACY+mpw8wn/2PIXRm+D2XNL6dBDMvViVWRXeQgYtLp+xsYZ1o/2+UvuvtJESNHjnJTZhqk4e3HbxWFBQwDWwGIFvIQkmYYLG4c1B+qRBGjao20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764096942; c=relaxed/simple;
-	bh=xZaRqFknkCqa3VUjLF4F9jqPvXTG2/r1IX2VIiTjMCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N20v5Rm+xFH7Y//SZj2u49u9jd+ldOOE8a6VzLkruBqKlfPJbxPHdfN+tD0knaCbDMeluBDRRSavgwW7qstXilMM1+xiraMWpEW1MefiDPQ3hMRv1aY39z/epqp8rgzWR6Rx96PdGdWmemKgIICfJs8sMyCcQcw8cFvRN9y7r8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=ujO/q9BP; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	s=arc-20240116; t=1764098553; c=relaxed/simple;
+	bh=TMqtm/SVFamTAGTSFTQcQU92j6uXD24dyI1fNi6kgag=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HEbosOoFHa1fodEjJzOyl5ObMbsqaove9JEp7kLOoNzvi5D0X20+E+/5JPggFpexWIHd1xHdrh5fM7+iOF539p3R8o2pEaQlOem70kLp3D1HI8NfMxyL8PJYFiG4Z5L6+PDwmPfE2+tHP4lV/9Gpbn+MPl2W5KYlwjIat4tREAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YyBV8ZME; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="ujO/q9BP"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vNyCN-0077do-Oe; Tue, 25 Nov 2025 19:55:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
-	bh=S8iRI9MitoToC8ncyeQvevjNXJ47IZ3d1YdhhU06S0c=; b=ujO/q9BPJNvNzOUrO6kh/AXZyd
-	ak6lePhVFVgesMfsI7lUrsD2INBvkQoN/ppG7+GMKLmojnacT36TbvpNLn8GARtsJZAQQA+uESVJ9
-	TcudyzxpYPWVwoyu1LVyVMJgyD7WliZ+to5GaAC6yNCy5bL3PKYdljDbmuxn4xcPPY/2+iZZKGZRV
-	On17qE41JleBsqKbe/s/qp8X5NYGH/xIfOL8zLinzqohaHdm5jYPO+MIRIe4G0ujXLBuKmShdOP5z
-	8G/YZBCCWXmaeii/2hYT5kyaj6hzBfVTbJSTdlUaTigih1sT0cPbb1wG+pHu82/P62QJ2XeJdkrPq
-	cZGTRfpw==;
-Received: from [10.9.9.72] (helo=submission01.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vNyCN-0007S3-BS; Tue, 25 Nov 2025 19:55:35 +0100
-Received: by submission01.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vNyCK-00BYsD-Tc; Tue, 25 Nov 2025 19:55:33 +0100
-Date: Tue, 25 Nov 2025 18:55:30 +0000
-From: david laight <david.laight@runbox.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: broonie@kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] firmware: cs_dsp: Store control length as 32-bit
-Message-ID: <20251125185530.22d9dbb9@pumpkin>
-In-Reply-To: <20251124171536.78962-1-rf@opensource.cirrus.com>
-References: <20251124171536.78962-1-rf@opensource.cirrus.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YyBV8ZME"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC751C4CEF1;
+	Tue, 25 Nov 2025 19:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764098551;
+	bh=TMqtm/SVFamTAGTSFTQcQU92j6uXD24dyI1fNi6kgag=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YyBV8ZMEOAL2WYG3Ev/qdeBc97HXeLATYFF1GhrEoX0kAan2YYRFpdmcpsa+WBIhU
+	 Z+/vBhcuik16MqVdUU79/gBw9VmF44JNW8c5yR1Rq4ORs/nSjc3//A2pUFpBckyqEj
+	 rawr4PAF1pJKQCv+ft0BMzkF+eY3d5qRTyyK2n+sMRNfV916zpRgjd8V2TBs9SzO/a
+	 1TDuNrets8HPE99DmY03P9M7Hv2LkP02HAhTDz4cex3W2dQp4/Lui37D+zo6m99xWr
+	 zurXaCBHuU/MZSEM6wIV9tkjCO4JPZBNqTHExI/vbYiUwc/trFBbWpRabMGlxQVO7D
+	 kHWXDUozhci0Q==
+From: Mark Brown <broonie@kernel.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Johan Hovold <johan@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251124104908.15754-1-johan@kernel.org>
+References: <20251124104908.15754-1-johan@kernel.org>
+Subject: Re: [PATCH 0/4] ASoC: stm32: sai: fix device and OF node leaks on
+ probe
+Message-Id: <176409854967.84790.16552995327264561748.b4-ty@kernel.org>
+Date: Tue, 25 Nov 2025 19:22:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-88d78
 
-On Mon, 24 Nov 2025 17:15:35 +0000
-Richard Fitzgerald <rf@opensource.cirrus.com> wrote:
-
-> The architectures supported by this driver have a maximum of 32-bits
-> of address, so we don't need more than 32-bits to store the length of
-> control data. Change the length in struct cs_dsp_coeff_ctl to an
-> unsigned int instead of a size_t. Also make a corresponding trivial
-> change to wm_adsp.c to prevent a compiler warning.
+On Mon, 24 Nov 2025 11:49:04 +0100, Johan Hovold wrote:
+> This series fixes device and OF node reference leaks during probe and
+> a clock prepare imbalance on probe failures.
 > 
-> Tested on x86_64 builds this saves at least 4 bytes per control
-> (another 4 bytes might be saved if the compiler was inserting padding
-> to align the size_t).
+> Included is a related cleanup of an error path.
 > 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> ---
->  drivers/firmware/cirrus/cs_dsp.c       | 2 +-
->  include/linux/firmware/cirrus/cs_dsp.h | 2 +-
->  sound/soc/codecs/wm_adsp.c             | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> Johan
 > 
-> diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-> index 9acdcd75928a..36a5aefa16e7 100644
-> --- a/drivers/firmware/cirrus/cs_dsp.c
-> +++ b/drivers/firmware/cirrus/cs_dsp.c
-> @@ -477,7 +477,7 @@ static int cs_dsp_debugfs_read_controls_show(struct seq_file *s, void *ignored)
->  
->  	list_for_each_entry(ctl, &dsp->ctl_list, list) {
->  		cs_dsp_coeff_base_reg(ctl, &reg, 0);
-> -		seq_printf(s, "%22.*s: %#8zx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
-> +		seq_printf(s, "%22.*s: %#8x %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
->  			   ctl->subname_len, ctl->subname, ctl->len,
->  			   cs_dsp_mem_region_name(ctl->alg_region.type),
->  			   ctl->offset, reg, ctl->fw_name, ctl->alg_region.alg, ctl->type,
-> diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-> index 69959032f8f5..0ec1cdc5585d 100644
-> --- a/include/linux/firmware/cirrus/cs_dsp.h
-> +++ b/include/linux/firmware/cirrus/cs_dsp.h
-> @@ -102,7 +102,7 @@ struct cs_dsp_coeff_ctl {
->  	const char *subname;
->  	unsigned int subname_len;
->  	unsigned int offset;
-> -	size_t len;
-> +	unsigned int len;
->  	unsigned int type;
->  	unsigned int flags;
->  	unsigned int set:1;
-> diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
-> index 172dcdd7dbca..17cec79245d4 100644
-> --- a/sound/soc/codecs/wm_adsp.c
-> +++ b/sound/soc/codecs/wm_adsp.c
-> @@ -1561,7 +1561,7 @@ static int wm_adsp_buffer_parse_coeff(struct cs_dsp_coeff_ctl *cs_ctl)
->  
->  	for (i = 0; i < 5; ++i) {
->  		ret = cs_dsp_coeff_read_ctrl(cs_ctl, 0, &coeff_v1,
-> -					     min(cs_ctl->len, sizeof(coeff_v1)));
-> +					     min((size_t)cs_ctl->len, sizeof(coeff_v1)));
+> [...]
 
-You don't (shouldn't) need that cast.
-min() won't object because both arguments are unsigned types.
-The compiler will then 'promote' cs_ctl->len for the compares, but might use
-the 'as if' rule and do 32bit maths anyway.
+Applied to
 
-Given that the called function starts:
-int cs_dsp_coeff_read_ctrl(struct cs_dsp_coeff_ctl *ctl,
-			   unsigned int off, void *buf, size_t len)
-{
-...
-	if (len + off * sizeof(u32) > ctl->len)
-		return -EINVAL;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Maybe you should be changing that 'len' to u32 as well?
+Thanks!
 
-	David
+[1/4] ASoC: stm32: sai: fix device leak on probe
+      commit: e26ff429eaf10c4ef1bc3dabd9bf27eb54b7e1f4
+[2/4] ASoC: stm32: sai: fix clk prepare imbalance on probe failure
+      commit: 312ec2f0d9d1a5656f76d770bbf1d967e9289aa7
+[3/4] ASoC: stm32: sai: fix OF node leak on probe
+      commit: 23261f0de09427367e99f39f588e31e2856a690e
+[4/4] ASoC: stm32: sai: clean up probe error path
+      commit: 3a03de362975398b39d4c6df7325ccb982026a8f
 
->  		if (ret < 0)
->  			return ret;
->  
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
