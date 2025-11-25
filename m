@@ -1,171 +1,282 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE2021D3CA;
-	Tue, 25 Nov 2025 06:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E5D29B777
+	for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 06:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764050830; cv=none; b=fIei+ufVcd61FkWjMaXbYwq8HdeDjtJwQ0wLxFy8MiwTCPNP1tUBwFbg8XDDbwCyKW44LgFO+KHZk+BP47kiMmXy0QN7eoaVLldBvaJLmOSjNBT/w6aaAkUzo56aHbsxHCXZJ73rtHVWJ4w3iD6lGuy5XGiCKpgrIfQ2bGg4Odg=
+	t=1764052980; cv=none; b=roBSCdxNf0NwMmIviI7EvR99kC3OxveCV3qYRF7XJiinFwvqAEAK4z+rmoXFtE4STDMeQx5ZCnPiP074V5LEHCkMWQNoDwGVy/ZYl2G9HR9lVyHmddzABAt0k2H5wPrjbPCE3Q2q+uNogtccseKtq8B9xTZyEYv9OFmIuo68QIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764050830; c=relaxed/simple;
-	bh=qcv5N1awSwui9F9TYSGEUitF9AMrcphLglUWATqNIcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mujQU4FDD+3bSlUXl4Rt9q1OP3UTCGIHVtH1biBNxGhptA1yAkR7V9fsOR+okSZ5oXOLXqNHarZx0Zy0VCWPZGXIXii4BxuAnTCYVsKQzmyKvDKigNhNGtR6ApAoLU4w/l0h/PIDgdfGHZdbfyN148X2kCZ4js1bpmHf/1MKcjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/xm1GSs; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764052980; c=relaxed/simple;
+	bh=bMVM6nwiRnBB3ygequtCXeKaSYZ8JKMr74Alu8bdTfM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PE6fv+EmPLjdeAcb8yp0oCiV+VZNtkBoSkz1bgHFACNOzeOgsnxrfnr+JaRPWks2X0ys/soKOrPz/5Cs58ZLkwo8Pj1ggFRgcw8j1sRFrhi6EX92zPqFxMIYdE+8R5R9Mom2Yr1p25XSsjpsW7VCCmaynBFN6f6d7lwpkiGdMn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PXM4Oi51; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/xm1GSs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764050830; x=1795586830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qcv5N1awSwui9F9TYSGEUitF9AMrcphLglUWATqNIcI=;
-  b=X/xm1GSs4kfozRjTVS+iLqWsOFOebKa/DoRo7QNzCypRN1dYsGHHwnF3
-   Ag5eIRDCSkA7EBiBG3ReCiYbJhR+prZ5hsXU54OtFe3AfjLOmVpyTonfY
-   1ShyjEF4Xkup+ZB9CymOSh8GV7pU2NtZ4gNh8xJwxbPvx6v7aXAqpUl5Z
-   ftXHwCUattYw8jTyzgruqNNejV4W4UQe4a8nGuT5HUoUFvL4B8mwH5s74
-   TsjXYZ0QUmeAmTJcnwwDwWxMiqL/VvLnk5i7JX6T52WEqfBg7qqr5jQZW
-   nVTELJkGJ7QUvDcpZIG45GqhdkvMp0zXiVb5qBpNP3RhRtBzCT1Jd0M20
-   g==;
-X-CSE-ConnectionGUID: fqVSWJfQQ8K4hlltoCr/Eg==
-X-CSE-MsgGUID: I/4DUan7SuOYLBRxhRjGcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66094085"
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="66094085"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 22:07:09 -0800
-X-CSE-ConnectionGUID: TpvA0i3cTFy8PZoyBvqO1Q==
-X-CSE-MsgGUID: H/78aEs3SlerwTwOiwkbVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="192355687"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 24 Nov 2025 22:07:07 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNmCe-000000001Pl-08IE;
-	Tue, 25 Nov 2025 06:07:04 +0000
-Date: Tue, 25 Nov 2025 14:06:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] soundwire: stream: Prepare ports in parallel to reduce
- stream start latency
-Message-ID: <202511251336.5gGRd3hJ-lkp@intel.com>
-References: <20251124152956.2293218-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXM4Oi51"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a2dced861so55237251fa.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 22:42:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764052975; x=1764657775; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oDwgPrbqR3WPQpKO2RN5Ep6D/2LO+UnqChlfZRK6eKg=;
+        b=PXM4Oi51/FPSyFM+6n3W1MkZ8lRcQmQDf5xTo4W0x/8klPd2i17BG+PpU/k99qVrEd
+         8FhrIhgvL/oMBEixwIderB1Ww0ZYJApyL96SU76Usb+75ViTYcgBbNIJmkdB2sqglt39
+         EHyCtOP7rzTY2LMk/dKOF1maizgzB3exwy6gBuLAE/kfnFoF1jwJzDmiGDfDXLV4J1hr
+         fHJIyFU4x2tpUq0fiJRIhox+RXrqjVWTwCFxxGlJtK13wa3x8sCRrXjhS17HwHoQn1a3
+         abGsydVqkqA5KRHnBiiW/E6itTeHdADHv/d7USbpF/FQoDWy/pxy9oSZYL14nXXU1RoR
+         xnBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764052975; x=1764657775;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oDwgPrbqR3WPQpKO2RN5Ep6D/2LO+UnqChlfZRK6eKg=;
+        b=uG0sbrsmOG4svVdF9Pi4RfoxhvYSAW6ww7XHvXrK6CY8RG7jO36awgEI6E7NN0U30o
+         npB/m53fOrj0ty9rlvajEuULDsbBrmxgZk41PupKNVtxDYcW/oDKSrEMp6M2s23m8clD
+         W5I9qLsz+nnFlybRxc9FUD+kGc5QkhisQuGRP3EOTM3T/sBkbhfbAAe0ep7v8CM0Igwu
+         VjxyiJ4dhiotg9F2+7rULzupxhw6MQ5xRRukx2Zl/69vCb5WFk82an4jryF70pPntdRI
+         1mRoH2wxesz6nD5xGqOWS6TrLyToXwdy3lCYvM848k3IS/P7R4hdjr3QETy5Hok3pcNZ
+         XQyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXFAFS23mGNEw2RGAJV2dEwzfKUVzkALVibF92eCORu0RoVWePuf6RZw/dP11affjgVq1Q7f0Fof0Wu+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJyjGTLFq+vEOdd3sm+Ddj4gz8gcpCKJSb9TrCqzdKAIHSrls7
+	c1iBxEJcMe6gsULWN+SZEmpyhLX+PJjBsBQhhPAAHh5qF78dWTvvINEx
+X-Gm-Gg: ASbGncsS3JCJfWvD6OU43V4gJabnhYKQbDlLYg4SYrByIy9KCxwu/VLY+OYpxc9aKqF
+	FBMi4K4bUbzPmZecfgr+/LVytooXWz88edJAN83NAhpmJjjugtZhmElT80flZdbxm1dBoGoIbKQ
+	OrPsi8wHggxECk2lKS6I/hCWHg5kWt/x731CjGXMSnQoULpFJ62PPNfDmEXZg/3rQLjm6eqYEGC
+	gSiOUpePgPCIOy39TrIGJDr55GcmqxSuIeeOkkTEbCIj8T3HITQD6FRdmqJYWC0n+Gs0/vrrH4A
+	X8vgnzg38pnyYW/L7EbE0PFeJ/62uBKLJlfznGv+0m8oFdfPLkfAeQLsrN/wnctmXQuz1V9YlKV
+	AxgSWlRj4OL5IohLOLP3ZUhkU9vFltFZWhnL5dowHyOTiYbQh0maZhm5jEN3o9JM5JnnMhXtWxI
+	730wmAU6PiqJTSXtHM+Umy5r7MOtyw/mQw5zzG9LpWXf+ftgi6Ps0Minu8mUTnwXh4JMHR
+X-Google-Smtp-Source: AGHT+IGn4O/LdPwrRfIUFu/wkzsPRHVD6YOLdNx92wJy+rnsWi85zUpEuMS1eU2wO8cl4kItz2sVag==
+X-Received: by 2002:a2e:a805:0:b0:37a:3910:6c77 with SMTP id 38308e7fff4ca-37cc82af4a6mr55071391fa.5.1764052974535;
+        Mon, 24 Nov 2025 22:42:54 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37cc6b59ff5sm31356131fa.15.2025.11.24.22.42.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Nov 2025 22:42:53 -0800 (PST)
+Message-ID: <072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
+Date: Tue, 25 Nov 2025 08:42:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251124152956.2293218-1-rf@opensource.cirrus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
+ overlays"
+To: Rob Herring <robh@kernel.org>, Kalle Niemi <kaleposti@gmail.com>
+Cc: Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
+ Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ Steen Hegelund <steen.hegelund@microchip.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <20251015071420.1173068-2-herve.codina@bootlin.com>
+ <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
+ <CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
+ <5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
+ <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Richard,
+On 24/11/2025 19:01, Rob Herring wrote:
+> On Mon, Nov 24, 2025 at 10:44 AM Kalle Niemi <kaleposti@gmail.com> wrote:
+>>
+>>
+>> On 11/24/25 16:53, Rob Herring wrote:
+>>> On Mon, Nov 24, 2025 at 8:48 AM Kalle Niemi <kaleposti@gmail.com> wrote:
+>>>> On 10/15/25 10:13, Herve Codina wrote:
+>>>>> From: Saravana Kannan <saravanak@google.com>
+>>>>>
+>>>>> This reverts commit 1a50d9403fb90cbe4dea0ec9fd0351d2ecbd8924.
+>>>>>
+>>>>> While the commit fixed fw_devlink overlay handling for one case, it
+>>>>> broke it for another case. So revert it and redo the fix in a separate
+>>>>> patch.
+>>>>>
+>>>>> Fixes: 1a50d9403fb9 ("treewide: Fix probing of devices in DT overlays")
+>>>>> Reported-by: Herve Codina <herve.codina@bootlin.com>
+>>>>> Closes: https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com/
+>>>>> Closes: https://lore.kernel.org/all/20240221095137.616d2aaa@bootlin.com/
+>>>>> Closes: https://lore.kernel.org/lkml/20240312151835.29ef62a0@bootlin.com/
+>>>>> Signed-off-by: Saravana Kannan <saravanak@google.com>
+>>>>> Link: https://lore.kernel.org/lkml/20240411235623.1260061-2-saravanak@google.com/
+>>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+>>>>> Acked-by: Mark Brown <broonie@kernel.org>
+>>>>> ---
+>>>>>     drivers/bus/imx-weim.c    | 6 ------
+>>>>>     drivers/i2c/i2c-core-of.c | 5 -----
+>>>>>     drivers/of/dynamic.c      | 1 -
+>>>>>     drivers/of/platform.c     | 5 -----
+>>>>>     drivers/spi/spi.c         | 5 -----
+>>>>>     5 files changed, 22 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+>>>>> index 83d623d97f5f..87070155b057 100644
+>>>>> --- a/drivers/bus/imx-weim.c
+>>>>> +++ b/drivers/bus/imx-weim.c
+>>>>> @@ -327,12 +327,6 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
+>>>>>                                  "Failed to setup timing for '%pOF'\n", rd->dn);
+>>>>>
+>>>>>                 if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
+>>>>> -                     /*
+>>>>> -                      * Clear the flag before adding the device so that
+>>>>> -                      * fw_devlink doesn't skip adding consumers to this
+>>>>> -                      * device.
+>>>>> -                      */
+>>>>> -                     rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>>>>>                         if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
+>>>>>                                 dev_err(&pdev->dev,
+>>>>>                                         "Failed to create child device '%pOF'\n",
+>>>>> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+>>>>> index eb7fb202355f..30b48a428c0b 100644
+>>>>> --- a/drivers/i2c/i2c-core-of.c
+>>>>> +++ b/drivers/i2c/i2c-core-of.c
+>>>>> @@ -176,11 +176,6 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
+>>>>>                         return NOTIFY_OK;
+>>>>>                 }
+>>>>>
+>>>>> -             /*
+>>>>> -              * Clear the flag before adding the device so that fw_devlink
+>>>>> -              * doesn't skip adding consumers to this device.
+>>>>> -              */
+>>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>>>>>                 client = of_i2c_register_device(adap, rd->dn);
+>>>>>                 if (IS_ERR(client)) {
+>>>>>                         dev_err(&adap->dev, "failed to create client for '%pOF'\n",
+>>>>> diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+>>>>> index 2eaaddcb0ec4..b5be7484fb36 100644
+>>>>> --- a/drivers/of/dynamic.c
+>>>>> +++ b/drivers/of/dynamic.c
+>>>>> @@ -225,7 +225,6 @@ static void __of_attach_node(struct device_node *np)
+>>>>>         np->sibling = np->parent->child;
+>>>>>         np->parent->child = np;
+>>>>>         of_node_clear_flag(np, OF_DETACHED);
+>>>>> -     np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
+>>>>>
+>>>>>         raw_spin_unlock_irqrestore(&devtree_lock, flags);
+>>>>>
+>>>>> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+>>>>> index f77cb19973a5..ef9445ba168b 100644
+>>>>> --- a/drivers/of/platform.c
+>>>>> +++ b/drivers/of/platform.c
+>>>>> @@ -739,11 +739,6 @@ static int of_platform_notify(struct notifier_block *nb,
+>>>>>                 if (of_node_check_flag(rd->dn, OF_POPULATED))
+>>>>>                         return NOTIFY_OK;
+>>>>>
+>>>>> -             /*
+>>>>> -              * Clear the flag before adding the device so that fw_devlink
+>>>>> -              * doesn't skip adding consumers to this device.
+>>>>> -              */
+>>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>>>>>                 /* pdev_parent may be NULL when no bus platform device */
+>>>>>                 pdev_parent = of_find_device_by_node(parent);
+>>>>>                 pdev = of_platform_device_create(rd->dn, NULL,
+>>>>> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+>>>>> index 2e0647a06890..b22944a207c9 100644
+>>>>> --- a/drivers/spi/spi.c
+>>>>> +++ b/drivers/spi/spi.c
+>>>>> @@ -4791,11 +4791,6 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
+>>>>>                         return NOTIFY_OK;
+>>>>>                 }
+>>>>>
+>>>>> -             /*
+>>>>> -              * Clear the flag before adding the device so that fw_devlink
+>>>>> -              * doesn't skip adding consumers to this device.
+>>>>> -              */
+>>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
+>>>>>                 spi = of_register_spi_device(ctlr, rd->dn);
+>>>>>                 put_device(&ctlr->dev);
+>>>>>
+>>>> Sorry, some of you will receive this message now for second time. First
+>>>> message was sent to older series of patches.
+>>>> -
+>>>>
+>>>> Hello,
+>>>>
+>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
+>>>> BD71847 drivers probe to not be called.
+>>> This driver (and overlay support) is in linux-next or something out of
+>>> tree on top of linux-next?
+>>>
+>>> Rob
+>>
+>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c
+> 
+> I don't see any support to apply overlays in that driver.
 
-kernel test robot noticed the following build warnings:
+Ah. Sorry for the confusion peeps. I asked Kalle to report this without 
+proper consideration. 100% my bad.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18-rc7 next-20251124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+While the bd718x7 drive indeed is mainline (and tested), the actual 
+'glue-code' doing the overlay is part of the downstream test 
+infrastructure. So yes, this is not a bug in upstream kernel - this 
+falls in the category of an upstream change causing downstream things to 
+break. So, feel free to say: "Go fix your code" :)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/soundwire-stream-Prepare-ports-in-parallel-to-reduce-stream-start-latency/20251124-233421
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251124152956.2293218-1-rf%40opensource.cirrus.com
-patch subject: [PATCH] soundwire: stream: Prepare ports in parallel to reduce stream start latency
-config: arm-randconfig-r052-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251336.5gGRd3hJ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251336.5gGRd3hJ-lkp@intel.com/reproduce)
+Now that this is sorted, if someone is still interested in helping us to 
+get our upstream drivers tested - the downstream piece is just taking 
+the compiled device-tree overlay at runtime (via bin-attribute file), 
+and applying it using the of_overlay_fdt_apply(). The approach is 
+working for our testing purposes when the device is added to I2C/SPI 
+node which is already enabled. However, in case where we have the I2C 
+disabled, and enable it in the same overlay where we add the new device 
+- then the new device does not get probed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251336.5gGRd3hJ-lkp@intel.com/
+I would be really grateful if someone had a pointer for us.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/soundwire/stream.c:553:21: warning: variable 'dp0_prop' is uninitialized when used here [-Wuninitialized]
-     553 |                 ch_prep_timeout = dp0_prop->ch_prep_timeout;
-         |                                   ^~~~~~~~
-   drivers/soundwire/stream.c:541:31: note: initialize the variable 'dp0_prop' to silence this warning
-     541 |         struct sdw_dp0_prop *dp0_prop;
-         |                                      ^
-         |                                       = NULL
-   1 warning generated.
-
-
-vim +/dp0_prop +553 drivers/soundwire/stream.c
-
-   534	
-   535	static int sdw_wait_prep_slave_ports(struct sdw_bus *bus,
-   536					     struct sdw_slave_runtime *s_rt,
-   537					     struct sdw_port_runtime *p_rt)
-   538	{
-   539		struct completion *port_ready;
-   540		struct sdw_dpn_prop *dpn_prop;
-   541		struct sdw_dp0_prop *dp0_prop;
-   542		struct sdw_prepare_ch prep_ch;
-   543		bool simple_ch_prep_sm;
-   544		u32 ch_prep_timeout;
-   545		int ret, val;
-   546	
-   547		if (p_rt->num) {
-   548			dpn_prop = sdw_get_slave_dpn_prop(s_rt->slave, s_rt->direction, p_rt->num);
-   549			simple_ch_prep_sm = dpn_prop->simple_ch_prep_sm;
-   550			ch_prep_timeout = dpn_prop->ch_prep_timeout;
-   551		} else {
-   552			simple_ch_prep_sm = s_rt->slave->prop.dp0_prop->simple_ch_prep_sm;
- > 553			ch_prep_timeout = dp0_prop->ch_prep_timeout;
-   554		}
-   555	
-   556		if (simple_ch_prep_sm)
-   557			return 0;
-   558	
-   559		/*
-   560		 * Check if already prepared. Avoid overhead of waiting for interrupt
-   561		 * and port_ready completion if we don't need to.
-   562		 */
-   563		val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
-   564		if (val < 0) {
-   565			ret = val;
-   566			goto err;
-   567		}
-   568	
-   569		if (val & p_rt->ch_mask) {
-   570			/* Wait for completion on port ready */
-   571			port_ready = &s_rt->slave->port_ready[p_rt->num];
-   572			wait_for_completion_timeout(port_ready, msecs_to_jiffies(ch_prep_timeout));
-   573			val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
-   574			if ((val < 0) || (val & p_rt->ch_mask)) {
-   575				ret = (val < 0) ? val : -ETIMEDOUT;
-   576				goto err;
-   577			}
-   578		}
-   579	
-   580		/* Inform slaves about ports prepared */
-   581		prep_ch.num = p_rt->num;
-   582		prep_ch.ch_mask = p_rt->ch_mask;
-   583		prep_ch.prepare = true;
-   584		prep_ch.bank = bus->params.next_bank;
-   585		sdw_do_port_prep(s_rt, prep_ch, SDW_OPS_PORT_POST_PREP);
-   586	
-   587		return 0;
-   588	
-   589	err:
-   590		dev_err(&s_rt->slave->dev, "Chn prep failed for port %d: %d\n", p_rt->num, ret);
-   591	
-   592		return ret;
-   593	}
-   594	
+Yours,
+	-- Matti
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
