@@ -1,282 +1,133 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E5D29B777
-	for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 06:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F5E2D12EA
+	for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 06:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764052980; cv=none; b=roBSCdxNf0NwMmIviI7EvR99kC3OxveCV3qYRF7XJiinFwvqAEAK4z+rmoXFtE4STDMeQx5ZCnPiP074V5LEHCkMWQNoDwGVy/ZYl2G9HR9lVyHmddzABAt0k2H5wPrjbPCE3Q2q+uNogtccseKtq8B9xTZyEYv9OFmIuo68QIw=
+	t=1764053968; cv=none; b=qadUR6H/sIG5WPio5Cy8938bvaJIZc1NvkXbnvrEUy/RtvvxCOYgrAHQeP6zmVSMt3n/jWrlbQ3xhGb2IAv29+BXwKwcz4Wn1uXDuQxpYo8/CaqOgGSXIBTw5upWmGprL/FgPOQ9kqGRsgTlrO9NfkCkHfRf092U7UvMwNF3ieI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764052980; c=relaxed/simple;
-	bh=bMVM6nwiRnBB3ygequtCXeKaSYZ8JKMr74Alu8bdTfM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PE6fv+EmPLjdeAcb8yp0oCiV+VZNtkBoSkz1bgHFACNOzeOgsnxrfnr+JaRPWks2X0ys/soKOrPz/5Cs58ZLkwo8Pj1ggFRgcw8j1sRFrhi6EX92zPqFxMIYdE+8R5R9Mom2Yr1p25XSsjpsW7VCCmaynBFN6f6d7lwpkiGdMn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PXM4Oi51; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764053968; c=relaxed/simple;
+	bh=bZFVvC0dtytnaMJyjIJ2och826FDx2sAFysdy1cR4dU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P2YWdd3jViWuo6NIc0eaG5Ze5qIceW9lRq8LHJ2UCeM9lfb0UM3GDBiUbfc/7ndtKzs6KS7wkjT3Y5IXfamYfrcyOoyg13oqZz/jmj5/q9y2Xl/pxVPn+cKBoM4vQpYFs7eez7vJQ7XbUAzTFOQrpfQxgduzFJoTXR6KojoRGrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ah3q49U4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1Z6LOJtq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ah3q49U4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1Z6LOJtq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXM4Oi51"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a2dced861so55237251fa.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Nov 2025 22:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764052975; x=1764657775; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oDwgPrbqR3WPQpKO2RN5Ep6D/2LO+UnqChlfZRK6eKg=;
-        b=PXM4Oi51/FPSyFM+6n3W1MkZ8lRcQmQDf5xTo4W0x/8klPd2i17BG+PpU/k99qVrEd
-         8FhrIhgvL/oMBEixwIderB1Ww0ZYJApyL96SU76Usb+75ViTYcgBbNIJmkdB2sqglt39
-         EHyCtOP7rzTY2LMk/dKOF1maizgzB3exwy6gBuLAE/kfnFoF1jwJzDmiGDfDXLV4J1hr
-         fHJIyFU4x2tpUq0fiJRIhox+RXrqjVWTwCFxxGlJtK13wa3x8sCRrXjhS17HwHoQn1a3
-         abGsydVqkqA5KRHnBiiW/E6itTeHdADHv/d7USbpF/FQoDWy/pxy9oSZYL14nXXU1RoR
-         xnBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764052975; x=1764657775;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oDwgPrbqR3WPQpKO2RN5Ep6D/2LO+UnqChlfZRK6eKg=;
-        b=uG0sbrsmOG4svVdF9Pi4RfoxhvYSAW6ww7XHvXrK6CY8RG7jO36awgEI6E7NN0U30o
-         npB/m53fOrj0ty9rlvajEuULDsbBrmxgZk41PupKNVtxDYcW/oDKSrEMp6M2s23m8clD
-         W5I9qLsz+nnFlybRxc9FUD+kGc5QkhisQuGRP3EOTM3T/sBkbhfbAAe0ep7v8CM0Igwu
-         VjxyiJ4dhiotg9F2+7rULzupxhw6MQ5xRRukx2Zl/69vCb5WFk82an4jryF70pPntdRI
-         1mRoH2wxesz6nD5xGqOWS6TrLyToXwdy3lCYvM848k3IS/P7R4hdjr3QETy5Hok3pcNZ
-         XQyA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFAFS23mGNEw2RGAJV2dEwzfKUVzkALVibF92eCORu0RoVWePuf6RZw/dP11affjgVq1Q7f0Fof0Wu+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJyjGTLFq+vEOdd3sm+Ddj4gz8gcpCKJSb9TrCqzdKAIHSrls7
-	c1iBxEJcMe6gsULWN+SZEmpyhLX+PJjBsBQhhPAAHh5qF78dWTvvINEx
-X-Gm-Gg: ASbGncsS3JCJfWvD6OU43V4gJabnhYKQbDlLYg4SYrByIy9KCxwu/VLY+OYpxc9aKqF
-	FBMi4K4bUbzPmZecfgr+/LVytooXWz88edJAN83NAhpmJjjugtZhmElT80flZdbxm1dBoGoIbKQ
-	OrPsi8wHggxECk2lKS6I/hCWHg5kWt/x731CjGXMSnQoULpFJ62PPNfDmEXZg/3rQLjm6eqYEGC
-	gSiOUpePgPCIOy39TrIGJDr55GcmqxSuIeeOkkTEbCIj8T3HITQD6FRdmqJYWC0n+Gs0/vrrH4A
-	X8vgnzg38pnyYW/L7EbE0PFeJ/62uBKLJlfznGv+0m8oFdfPLkfAeQLsrN/wnctmXQuz1V9YlKV
-	AxgSWlRj4OL5IohLOLP3ZUhkU9vFltFZWhnL5dowHyOTiYbQh0maZhm5jEN3o9JM5JnnMhXtWxI
-	730wmAU6PiqJTSXtHM+Umy5r7MOtyw/mQw5zzG9LpWXf+ftgi6Ps0Minu8mUTnwXh4JMHR
-X-Google-Smtp-Source: AGHT+IGn4O/LdPwrRfIUFu/wkzsPRHVD6YOLdNx92wJy+rnsWi85zUpEuMS1eU2wO8cl4kItz2sVag==
-X-Received: by 2002:a2e:a805:0:b0:37a:3910:6c77 with SMTP id 38308e7fff4ca-37cc82af4a6mr55071391fa.5.1764052974535;
-        Mon, 24 Nov 2025 22:42:54 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37cc6b59ff5sm31356131fa.15.2025.11.24.22.42.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 22:42:53 -0800 (PST)
-Message-ID: <072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-Date: Tue, 25 Nov 2025 08:42:50 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ah3q49U4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Z6LOJtq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ah3q49U4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Z6LOJtq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B0DE5BCFB;
+	Tue, 25 Nov 2025 06:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764053964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4qjlEoMbrJPvDMGHfXbNsOouhL2d9kXnGsjK2Rb3Vxk=;
+	b=Ah3q49U4KCIKxKvQNEYp4tRx1KdsdVSmcjBX3KyAZebfEFuHIkstFzBDXSFkj1HbdvBTnJ
+	agtpVmNVg6n7DEs36kCVeHkyvy2N5BT20WbzW2JwwlnwlZEbmBnkdSYEreH+81w47kLhyu
+	VA4cDJbAEfoStrSaiqX+ySJEA4xP5rM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764053964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4qjlEoMbrJPvDMGHfXbNsOouhL2d9kXnGsjK2Rb3Vxk=;
+	b=1Z6LOJtqRHihnELVyj2+UldOge80MqhF1rFw34jD5MBGsGc0MKmL3XTX36WLfDWaH6Q+Jq
+	HYn2VHp90dqUoTCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764053964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4qjlEoMbrJPvDMGHfXbNsOouhL2d9kXnGsjK2Rb3Vxk=;
+	b=Ah3q49U4KCIKxKvQNEYp4tRx1KdsdVSmcjBX3KyAZebfEFuHIkstFzBDXSFkj1HbdvBTnJ
+	agtpVmNVg6n7DEs36kCVeHkyvy2N5BT20WbzW2JwwlnwlZEbmBnkdSYEreH+81w47kLhyu
+	VA4cDJbAEfoStrSaiqX+ySJEA4xP5rM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764053964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4qjlEoMbrJPvDMGHfXbNsOouhL2d9kXnGsjK2Rb3Vxk=;
+	b=1Z6LOJtqRHihnELVyj2+UldOge80MqhF1rFw34jD5MBGsGc0MKmL3XTX36WLfDWaH6Q+Jq
+	HYn2VHp90dqUoTCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED0FC3EA63;
+	Tue, 25 Nov 2025 06:59:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ub6vOMtTJWmMLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Nov 2025 06:59:23 +0000
+Date: Tue, 25 Nov 2025 07:59:23 +0100
+Message-ID: <87bjkqpph0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dylan Robinson <dylan_robinson@motu.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: Re: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
+In-Reply-To: <20251124210518.90054-1-dylan_robinson@motu.com>
+References: <20251124210518.90054-1-dylan_robinson@motu.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-To: Rob Herring <robh@kernel.org>, Kalle Niemi <kaleposti@gmail.com>
-Cc: Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
- Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
- Allan Nielsen <allan.nielsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- Steen Hegelund <steen.hegelund@microchip.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
- <20251015071420.1173068-2-herve.codina@bootlin.com>
- <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
- <CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
- <5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
- <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On 24/11/2025 19:01, Rob Herring wrote:
-> On Mon, Nov 24, 2025 at 10:44 AM Kalle Niemi <kaleposti@gmail.com> wrote:
->>
->>
->> On 11/24/25 16:53, Rob Herring wrote:
->>> On Mon, Nov 24, 2025 at 8:48 AM Kalle Niemi <kaleposti@gmail.com> wrote:
->>>> On 10/15/25 10:13, Herve Codina wrote:
->>>>> From: Saravana Kannan <saravanak@google.com>
->>>>>
->>>>> This reverts commit 1a50d9403fb90cbe4dea0ec9fd0351d2ecbd8924.
->>>>>
->>>>> While the commit fixed fw_devlink overlay handling for one case, it
->>>>> broke it for another case. So revert it and redo the fix in a separate
->>>>> patch.
->>>>>
->>>>> Fixes: 1a50d9403fb9 ("treewide: Fix probing of devices in DT overlays")
->>>>> Reported-by: Herve Codina <herve.codina@bootlin.com>
->>>>> Closes: https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com/
->>>>> Closes: https://lore.kernel.org/all/20240221095137.616d2aaa@bootlin.com/
->>>>> Closes: https://lore.kernel.org/lkml/20240312151835.29ef62a0@bootlin.com/
->>>>> Signed-off-by: Saravana Kannan <saravanak@google.com>
->>>>> Link: https://lore.kernel.org/lkml/20240411235623.1260061-2-saravanak@google.com/
->>>>> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
->>>>> Acked-by: Mark Brown <broonie@kernel.org>
->>>>> ---
->>>>>     drivers/bus/imx-weim.c    | 6 ------
->>>>>     drivers/i2c/i2c-core-of.c | 5 -----
->>>>>     drivers/of/dynamic.c      | 1 -
->>>>>     drivers/of/platform.c     | 5 -----
->>>>>     drivers/spi/spi.c         | 5 -----
->>>>>     5 files changed, 22 deletions(-)
->>>>>
->>>>> diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
->>>>> index 83d623d97f5f..87070155b057 100644
->>>>> --- a/drivers/bus/imx-weim.c
->>>>> +++ b/drivers/bus/imx-weim.c
->>>>> @@ -327,12 +327,6 @@ static int of_weim_notify(struct notifier_block *nb, unsigned long action,
->>>>>                                  "Failed to setup timing for '%pOF'\n", rd->dn);
->>>>>
->>>>>                 if (!of_node_check_flag(rd->dn, OF_POPULATED)) {
->>>>> -                     /*
->>>>> -                      * Clear the flag before adding the device so that
->>>>> -                      * fw_devlink doesn't skip adding consumers to this
->>>>> -                      * device.
->>>>> -                      */
->>>>> -                     rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
->>>>>                         if (!of_platform_device_create(rd->dn, NULL, &pdev->dev)) {
->>>>>                                 dev_err(&pdev->dev,
->>>>>                                         "Failed to create child device '%pOF'\n",
->>>>> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
->>>>> index eb7fb202355f..30b48a428c0b 100644
->>>>> --- a/drivers/i2c/i2c-core-of.c
->>>>> +++ b/drivers/i2c/i2c-core-of.c
->>>>> @@ -176,11 +176,6 @@ static int of_i2c_notify(struct notifier_block *nb, unsigned long action,
->>>>>                         return NOTIFY_OK;
->>>>>                 }
->>>>>
->>>>> -             /*
->>>>> -              * Clear the flag before adding the device so that fw_devlink
->>>>> -              * doesn't skip adding consumers to this device.
->>>>> -              */
->>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
->>>>>                 client = of_i2c_register_device(adap, rd->dn);
->>>>>                 if (IS_ERR(client)) {
->>>>>                         dev_err(&adap->dev, "failed to create client for '%pOF'\n",
->>>>> diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
->>>>> index 2eaaddcb0ec4..b5be7484fb36 100644
->>>>> --- a/drivers/of/dynamic.c
->>>>> +++ b/drivers/of/dynamic.c
->>>>> @@ -225,7 +225,6 @@ static void __of_attach_node(struct device_node *np)
->>>>>         np->sibling = np->parent->child;
->>>>>         np->parent->child = np;
->>>>>         of_node_clear_flag(np, OF_DETACHED);
->>>>> -     np->fwnode.flags |= FWNODE_FLAG_NOT_DEVICE;
->>>>>
->>>>>         raw_spin_unlock_irqrestore(&devtree_lock, flags);
->>>>>
->>>>> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
->>>>> index f77cb19973a5..ef9445ba168b 100644
->>>>> --- a/drivers/of/platform.c
->>>>> +++ b/drivers/of/platform.c
->>>>> @@ -739,11 +739,6 @@ static int of_platform_notify(struct notifier_block *nb,
->>>>>                 if (of_node_check_flag(rd->dn, OF_POPULATED))
->>>>>                         return NOTIFY_OK;
->>>>>
->>>>> -             /*
->>>>> -              * Clear the flag before adding the device so that fw_devlink
->>>>> -              * doesn't skip adding consumers to this device.
->>>>> -              */
->>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
->>>>>                 /* pdev_parent may be NULL when no bus platform device */
->>>>>                 pdev_parent = of_find_device_by_node(parent);
->>>>>                 pdev = of_platform_device_create(rd->dn, NULL,
->>>>> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
->>>>> index 2e0647a06890..b22944a207c9 100644
->>>>> --- a/drivers/spi/spi.c
->>>>> +++ b/drivers/spi/spi.c
->>>>> @@ -4791,11 +4791,6 @@ static int of_spi_notify(struct notifier_block *nb, unsigned long action,
->>>>>                         return NOTIFY_OK;
->>>>>                 }
->>>>>
->>>>> -             /*
->>>>> -              * Clear the flag before adding the device so that fw_devlink
->>>>> -              * doesn't skip adding consumers to this device.
->>>>> -              */
->>>>> -             rd->dn->fwnode.flags &= ~FWNODE_FLAG_NOT_DEVICE;
->>>>>                 spi = of_register_spi_device(ctlr, rd->dn);
->>>>>                 put_device(&ctlr->dev);
->>>>>
->>>> Sorry, some of you will receive this message now for second time. First
->>>> message was sent to older series of patches.
->>>> -
->>>>
->>>> Hello,
->>>>
->>>> Test system testing drivers for ROHM ICs bisected this commit to cause
->>>> BD71847 drivers probe to not be called.
->>> This driver (and overlay support) is in linux-next or something out of
->>> tree on top of linux-next?
->>>
->>> Rob
->>
->> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c
+On Mon, 24 Nov 2025 22:05:18 +0100,
+Dylan Robinson wrote:
 > 
-> I don't see any support to apply overlays in that driver.
+> The maxpacksize field in struct audioformat represents the maximum number
+> of bytes per isochronous interval. The current implementation only
+> special-cases high-speed endpoints and does not account for the different
+> computations required for SuperSpeed, SuperSpeedPlus, or eUSB2. As a
+> result, USB audio class devices operating at these speeds may fail to
+> stream correctly. The issue was observed on a MOTU 16A (2025) interface,
+> which requires more than 1024 bytes per interval at SuperSpeed.
+> 
+> This patch replaces the existing logic with a helper that computes the
+> correct maximum bytes-per-interval for all USB speeds, borrowing the logic
+> used in drivers/usb/core/urb.c.
+> 
+> Signed-off-by: Dylan Robinson <dylan_robinson@motu.com>
 
-Ah. Sorry for the confusion peeps. I asked Kalle to report this without 
-proper consideration. 100% my bad.
+Applied to for-next branch now.  Thanks!
 
-While the bd718x7 drive indeed is mainline (and tested), the actual 
-'glue-code' doing the overlay is part of the downstream test 
-infrastructure. So yes, this is not a bug in upstream kernel - this 
-falls in the category of an upstream change causing downstream things to 
-break. So, feel free to say: "Go fix your code" :)
 
-Now that this is sorted, if someone is still interested in helping us to 
-get our upstream drivers tested - the downstream piece is just taking 
-the compiled device-tree overlay at runtime (via bin-attribute file), 
-and applying it using the of_overlay_fdt_apply(). The approach is 
-working for our testing purposes when the device is added to I2C/SPI 
-node which is already enabled. However, in case where we have the I2C 
-disabled, and enable it in the same overlay where we add the new device 
-- then the new device does not get probed.
-
-I would be really grateful if someone had a pointer for us.
-
-Yours,
-	-- Matti
-
--- 
----
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+Takashi
