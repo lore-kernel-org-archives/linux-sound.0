@@ -1,136 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E21B32B9A6
-	for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 18:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE8D332EC7;
+	Tue, 25 Nov 2025 18:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764095174; cv=none; b=UeIYQa4TJtmqNTBESQ5ZNPpc/dcZuXTuR4sWb25433lwV448ELhway+5OvlW31JyhvmobiFmWXuF4aPBP7h7X5PPnyOwFDTfKenv/9RbEiv/8esbGnM3PMtRNwJga3h7ndgrpzupg0Dfw11I6pBT4FRMJVgi0dug1aBb+Cyft/o=
+	t=1764096942; cv=none; b=D2MYi4itOXwGNfLnJEsEe8nh3n7REz835pV18nnUuhFer0bNd7R4lZ/OTdw0NL1JthqmKwit5X1tmVXDqLGOw9SSPAbMuzqglEKP0TTO+CfOxUK+xDumumslcSQeCl/6l9xA9bqL3wEZTNRSUAx/3PK74iBMHzYk3nHRx5Kx/XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764095174; c=relaxed/simple;
-	bh=AvYFGjon4v844iXLJ4YmKnkxVZkn+dW9MatwrPCcVA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7IScjH/2UDreLw2jdXNsV4J16gxyQk16WaPXAwkAsotPuBRePz7gnX/wRF96aqR5vyCblroUwj/HGs4jZtMSdHZ9J3JC3MayIMFliItyNXbuB43D182W9UENuAwRqzlU7aEatRihE6l3W5M/x/P1l2zGc9qIPEMK0Op7aby6MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOy8YWua; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764096942; c=relaxed/simple;
+	bh=xZaRqFknkCqa3VUjLF4F9jqPvXTG2/r1IX2VIiTjMCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N20v5Rm+xFH7Y//SZj2u49u9jd+ldOOE8a6VzLkruBqKlfPJbxPHdfN+tD0knaCbDMeluBDRRSavgwW7qstXilMM1+xiraMWpEW1MefiDPQ3hMRv1aY39z/epqp8rgzWR6Rx96PdGdWmemKgIICfJs8sMyCcQcw8cFvRN9y7r8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=ujO/q9BP; arc=none smtp.client-ip=185.226.149.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOy8YWua"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764095173; x=1795631173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AvYFGjon4v844iXLJ4YmKnkxVZkn+dW9MatwrPCcVA4=;
-  b=YOy8YWuaapuiAiMw8CvG3bBMyftlN3FlmWREefY7pXoec/8DW4MPEhRo
-   +bs0sq5V/KxeTPeC3nGs7xdU7Wg+Qs7Rmhk8U0KZHoeKoPNlZr4eqH2Ql
-   C1zZfySKQLguN1Gzz+8zzblx4TD0jof6DHwdtJErbPEnd4B7h62zHOzEK
-   YLj77M46uRojLl6iRU0mn2W11Rfb4guCgS72Cdyst3+IqYavMW4RZL/qR
-   qsqyl4YLmUtDHf3nmqj+JmVvkhesCn5VL6EHC6KoTq/bdGfhH22TErViX
-   xsBkRL/I3ay9nEESFZB8BreQ1aun8s+8Xshhq9h3cWDVXboyBTDil5m8M
-   A==;
-X-CSE-ConnectionGUID: t1NAgUTFTaa7//Aw4Vo4bQ==
-X-CSE-MsgGUID: LwFLPdg2Qre9SpkXdL/tGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66281333"
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="66281333"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 10:26:12 -0800
-X-CSE-ConnectionGUID: ayDyJIJdQDShJL5Qd2yJFw==
-X-CSE-MsgGUID: qBYBnAx9R9KkbQxi88ckVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="192600689"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.22])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 10:26:09 -0800
-Date: Tue, 25 Nov 2025 20:26:07 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/6] ASoC: Intel: catpt: Fix offset checks
-Message-ID: <aSX0vw0neU-l2t3i@smile.fi.intel.com>
-References: <20251121114331.3841335-1-cezary.rojewski@intel.com>
- <20251121114331.3841335-2-cezary.rojewski@intel.com>
- <aSRsX9qlUVC7HHvA@smile.fi.intel.com>
- <e99d1131-0c7b-4cf8-8830-34f766bdfe6f@intel.com>
- <aSSsXgRjCiXFR04R@smile.fi.intel.com>
- <aSSsxz9hIavDhpgg@smile.fi.intel.com>
- <0be0219c-51f3-41f1-892a-45a6e5db6bc3@intel.com>
- <aSX0X3NbT6mMzMAL@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="ujO/q9BP"
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <david.laight@runbox.com>)
+	id 1vNyCN-0077do-Oe; Tue, 25 Nov 2025 19:55:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
+	bh=S8iRI9MitoToC8ncyeQvevjNXJ47IZ3d1YdhhU06S0c=; b=ujO/q9BPJNvNzOUrO6kh/AXZyd
+	ak6lePhVFVgesMfsI7lUrsD2INBvkQoN/ppG7+GMKLmojnacT36TbvpNLn8GARtsJZAQQA+uESVJ9
+	TcudyzxpYPWVwoyu1LVyVMJgyD7WliZ+to5GaAC6yNCy5bL3PKYdljDbmuxn4xcPPY/2+iZZKGZRV
+	On17qE41JleBsqKbe/s/qp8X5NYGH/xIfOL8zLinzqohaHdm5jYPO+MIRIe4G0ujXLBuKmShdOP5z
+	8G/YZBCCWXmaeii/2hYT5kyaj6hzBfVTbJSTdlUaTigih1sT0cPbb1wG+pHu82/P62QJ2XeJdkrPq
+	cZGTRfpw==;
+Received: from [10.9.9.72] (helo=submission01.runbox)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <david.laight@runbox.com>)
+	id 1vNyCN-0007S3-BS; Tue, 25 Nov 2025 19:55:35 +0100
+Received: by submission01.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1vNyCK-00BYsD-Tc; Tue, 25 Nov 2025 19:55:33 +0100
+Date: Tue, 25 Nov 2025 18:55:30 +0000
+From: david laight <david.laight@runbox.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] firmware: cs_dsp: Store control length as 32-bit
+Message-ID: <20251125185530.22d9dbb9@pumpkin>
+In-Reply-To: <20251124171536.78962-1-rf@opensource.cirrus.com>
+References: <20251124171536.78962-1-rf@opensource.cirrus.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSX0X3NbT6mMzMAL@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 25, 2025 at 08:24:35PM +0200, Andy Shevchenko wrote:
-> On Tue, Nov 25, 2025 at 12:31:04PM +0100, Cezary Rojewski wrote:
-> > On 2025-11-24 8:06 PM, Andy Shevchenko wrote:
-> > > On Mon, Nov 24, 2025 at 09:05:06PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Nov 24, 2025 at 07:20:48PM +0100, Cezary Rojewski wrote:
-> > > > > On 2025-11-24 3:31 PM, Andy Shevchenko wrote:
-> > > > > > On Fri, Nov 21, 2025 at 12:43:26PM +0100, Cezary Rojewski wrote:
+On Mon, 24 Nov 2025 17:15:35 +0000
+Richard Fitzgerald <rf@opensource.cirrus.com> wrote:
 
-...
-
-> > > > > > > static int catpt_restore_memdumps(struct catpt_dev *cdev, struct dma_chan *chan)
-> > > > > > 
-> > > > > > >    		off = catpt_to_host_offset(info->offset);
-> > > > > > > -		if (off < cdev->dram.start || off > cdev->dram.end)
-> > > > > > > +		if (off < cdev->dram.start || off + info->size >= cdev->dram.end)
-> > > > > > >    			continue;
-> > > > > > 
-> > > > > > Hmm... I would rather do something like
-> > > 
-> > > > > > 		struct resource r;
-> > > 
-> > > You might need to nullify this as well:
-> > > 
-> > > 		struct resource r = {}; // or any equivalent
-> > 
-> > This made me realize variables 'r1', 'r2' and 'common' that are part of
-> > catpt_restore_fwimage() are not zeroed and utilizing resource_xxx() API
-> > without doing so is bogus. My plan is to the following: leave this very fix
-> > as-is (without refactoring) and follow it up immediately with patch that
-> > swaps manual manipulation with resource_xxx(), as you suggested.
-> > 
-> > Sounds good?
+> The architectures supported by this driver have a maximum of 32-bits
+> of address, so we don't need more than 32-bits to store the length of
+> control data. Change the length in struct cs_dsp_coeff_ctl to an
+> unsigned int instead of a size_t. Also make a corresponding trivial
+> change to wm_adsp.c to prevent a compiler warning.
 > 
-> Yep! Thanks.
+> Tested on x86_64 builds this saves at least 4 bytes per control
+> (another 4 bytes might be saved if the compiler was inserting padding
+> to align the size_t).
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
+>  drivers/firmware/cirrus/cs_dsp.c       | 2 +-
+>  include/linux/firmware/cirrus/cs_dsp.h | 2 +-
+>  sound/soc/codecs/wm_adsp.c             | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
+> index 9acdcd75928a..36a5aefa16e7 100644
+> --- a/drivers/firmware/cirrus/cs_dsp.c
+> +++ b/drivers/firmware/cirrus/cs_dsp.c
+> @@ -477,7 +477,7 @@ static int cs_dsp_debugfs_read_controls_show(struct seq_file *s, void *ignored)
+>  
+>  	list_for_each_entry(ctl, &dsp->ctl_list, list) {
+>  		cs_dsp_coeff_base_reg(ctl, &reg, 0);
+> -		seq_printf(s, "%22.*s: %#8zx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
+> +		seq_printf(s, "%22.*s: %#8x %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
+>  			   ctl->subname_len, ctl->subname, ctl->len,
+>  			   cs_dsp_mem_region_name(ctl->alg_region.type),
+>  			   ctl->offset, reg, ctl->fw_name, ctl->alg_region.alg, ctl->type,
+> diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
+> index 69959032f8f5..0ec1cdc5585d 100644
+> --- a/include/linux/firmware/cirrus/cs_dsp.h
+> +++ b/include/linux/firmware/cirrus/cs_dsp.h
+> @@ -102,7 +102,7 @@ struct cs_dsp_coeff_ctl {
+>  	const char *subname;
+>  	unsigned int subname_len;
+>  	unsigned int offset;
+> -	size_t len;
+> +	unsigned int len;
+>  	unsigned int type;
+>  	unsigned int flags;
+>  	unsigned int set:1;
+> diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
+> index 172dcdd7dbca..17cec79245d4 100644
+> --- a/sound/soc/codecs/wm_adsp.c
+> +++ b/sound/soc/codecs/wm_adsp.c
+> @@ -1561,7 +1561,7 @@ static int wm_adsp_buffer_parse_coeff(struct cs_dsp_coeff_ctl *cs_ctl)
+>  
+>  	for (i = 0; i < 5; ++i) {
+>  		ret = cs_dsp_coeff_read_ctrl(cs_ctl, 0, &coeff_v1,
+> -					     min(cs_ctl->len, sizeof(coeff_v1)));
+> +					     min((size_t)cs_ctl->len, sizeof(coeff_v1)));
 
-Just to add, you may also consider using the form
+You don't (shouldn't) need that cast.
+min() won't object because both arguments are unsigned types.
+The compiler will then 'promote' cs_ctl->len for the compares, but might use
+the 'as if' rule and do 32bit maths anyway.
 
-	r = DEFINE_RES_*(...);
+Given that the called function starts:
+int cs_dsp_coeff_read_ctrl(struct cs_dsp_coeff_ctl *ctl,
+			   unsigned int off, void *buf, size_t len)
+{
+...
+	if (len + off * sizeof(u32) > ctl->len)
+		return -EINVAL;
 
-which effectively will nullify untouched fields.
-So, either it or {} or memset() whichever fits
-better.
+Maybe you should be changing that 'len' to u32 as well?
 
-> > > > > > 		...
-> > > > > > 		resource_set_range(catpt_to_host_offset(info->offset), info->size);
-> > > > > > 		if (!resource_contains())
-> > > > > > 			continue;
-> > > > > > 
-> > > > > > >    		dev_dbg(cdev->dev, "restoring memdump: off 0x%08x size %d\n",
-> > > > > > 
-> > > > > > OTOH it seems more invasive change for kinda a fix.
-> > > > > 
-> > > > > Looks elegant though. My idea was to avoid additional operations (which
-> > > > > resource_contains() does), perhaps unnecessarily as readability suffered
-> > > > > because of that. Ack.
-> > > > 
-> > > > Note, it's defined as static inline, if compiler can prove constiness of
-> > > > something, it will eliminate the code. TL;DR: let compiler to do its job.
+	David
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+>  		if (ret < 0)
+>  			return ret;
+>  
 
