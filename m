@@ -1,255 +1,101 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E0318C332;
-	Tue, 25 Nov 2025 08:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D96E269B1C;
+	Tue, 25 Nov 2025 09:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764060567; cv=none; b=PVJXP6rfN1KEW5rI9Ex7XZrHsgLw/TXH7PbifW6TtpS2dsLawTOtISaQIjShTWWu8RYF4DAh+gRxxmhROHIosAselL0YG9i5NMLOArXeigO0Zum91T6L4XZz6aa0Mf51G93DxZYQzzNTctyO21EpEYgN5F15SYaA4N6gL49d04M=
+	t=1764062728; cv=none; b=F8XZB1w4nyrKa2YIUR/6ga5ccub/VvoKInhcC/AwgaSM0gInts/aMM+98QO5EzFAGv4lAQgsyi520RTx+FB6GVAH4p+6lnKffQLXFYNZJFH9MFIk41dgTcK4fvPftaap4CNgJtl5RNXflOD1ShE1duh5oXR8F/Gl3/hod3PmAfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764060567; c=relaxed/simple;
-	bh=HuMSYGIDhMghJy5e91DhSwAve9AYXs6y5j/c+i75skY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kGQA9HnUKj2eSKTgLEOhJEFDMQURaSlDLU4+cTxPIA700wk8Cm+zowUh7/E3P/3AI5VAKfpYv8KqgnYCE5dByeuGL02Wws6sX5+JR+ntSmi3tJEQRTLnKayrLs2/HLKjFbGQX0RLxX9XEHKsmAnRbKUfR6n4O47Ai6oExSWKWok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=W8ePq99o; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1764062728; c=relaxed/simple;
+	bh=BRYCfMuko/R34zT/a9L2atMQs+A1s5joIFdIQ6YLQwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeVCmgFhCSqU9525Dhq7Rn1nYdjoAzX61Q7XYKB+qek5+8jesDKZ3nglQakFk7YJkVRxZ1yPR1tLNwYX4nBlB7smscj31F2CtIHHI6jms7GYPG1gtO9TkAjz8xopklzZolynWcU3oizRUwsLrSI1LGhzbr5TDj/FcSO6O+cbiEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZkBvJJS; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="W8ePq99o"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 5CE4C1A1D40;
-	Tue, 25 Nov 2025 08:49:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1AC6160706;
-	Tue, 25 Nov 2025 08:49:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AC3511037149D;
-	Tue, 25 Nov 2025 09:49:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764060560; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=HuMSYGIDhMghJy5e91DhSwAve9AYXs6y5j/c+i75skY=;
-	b=W8ePq99oVgQ2uOhAUVduhMvpCSXIAoY+0yVa1mbwp1VdL8dko43eVADbIkwLEo/9T4klxf
-	cOHZHbCYxkbFZKzwYcsAV0MplbMQBGfxqbi8NHWPE1hI/2RdGU1320tO0+n2I2vAPU7TRr
-	zeqkiOKvhUSBhsjnyr8bW+E1eANm32KvV6h32TNOCwJHL37JfmE0NSohpsx8aXUMgwfLqf
-	lx4OkrhMWjOOJFQ1gVMv//rYccFZ96Ub5IKcXq252JnvGotvhT4jzy3ydQOAA4+ytNAXQR
-	HX0lQg+C3HV6XUvm89BY4fLtzKcSbLhkr3v6E7n0Cs3tAhGaoobXAOaL+QCrJQ==
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Peter Rosin <peda@axentia.se>,
- Mariel Tinaco <Mariel.Tinaco@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Kevin Tsai <ktsai@capellamicro.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Matheus Castello <matheus@castello.eng.br>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Casey Connolly <casey.connolly@linaro.org>,
- Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Dixit Parmar <dixitparmar19@gmail.com>, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v4 0/6] Add support for the LTM8054 voltage regulator
-Date: Tue, 25 Nov 2025 09:49:03 +0100
-Message-ID: <22915450.EfDdHjke4D@fw-rgant>
-In-Reply-To: <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
-References:
- <20251124-ltm8054-driver-v4-0-107a8a814abe@bootlin.com>
- <4053840.MHq7AAxBmi@fw-rgant>
- <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZkBvJJS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764062727; x=1795598727;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BRYCfMuko/R34zT/a9L2atMQs+A1s5joIFdIQ6YLQwc=;
+  b=AZkBvJJS/b0thc1GFvulTdFQ8gByEu59/PB1EIO3J39uYo0xNWR/Puii
+   r9c9AL5U9uWGi/GZj0aCiZ+twDvLLRqiiQu4dZ03euD4uR8h6/krddJCK
+   /0kCYHurtWaaKFZOxZmpUXcSvma6GW9UjXcpVpvmPeOj3X4M/w33AiIPF
+   eBPU54wliRQsVD9M2OEI5xz8DC2/nawdOAG8F9vzngfjaOaBECK0+B/AH
+   QbHLVIVHZNl4m3KcpLIGteWJsr9mWHfnlvJtGgmehqUNt1zcJZonY8Kbu
+   +iIzA1sdwiA5o8WXSwFPGw8XGX1SAsqRsurM6duMgOiia5lajCC62+IJ+
+   A==;
+X-CSE-ConnectionGUID: GDrmRRW5SDe6t98U40SEyA==
+X-CSE-MsgGUID: q7wF7TKpR+aSAY1PVUrmlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76399914"
+X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
+   d="scan'208";a="76399914"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 01:25:17 -0800
+X-CSE-ConnectionGUID: 0M4z7QX/S/eKdeyMedQYNw==
+X-CSE-MsgGUID: SEBCABU9RLmMdowxH6fdGg==
+X-ExtLoop1: 1
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.152])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 01:25:14 -0800
+Date: Tue, 25 Nov 2025 11:25:11 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
+	broonie@kernel.org, alsa-devel@alsa-project.org,
+	shenghao-ding@ti.com, 13916275206@139.com,
+	platform-driver-x86@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, letitia.tsai@hp.com
+Subject: Re: [PATCH v2] platform/x86: serial-multi-instantiate:
+ IRQ_RESOURCE_AUTO should be compatible with IRQ_RESOURCE_NONE
+Message-ID: <aSV190mwCKZ6WOoA@smile.fi.intel.com>
+References: <20251125084436.8381-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart7880843.EvYhyI6sBW";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251125084436.8381-1-baojun.xu@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
---nextPart7880843.EvYhyI6sBW
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Date: Tue, 25 Nov 2025 09:49:03 +0100
-Message-ID: <22915450.EfDdHjke4D@fw-rgant>
-In-Reply-To: <732D3F12-0361-4800-8981-EF629B4C491F@goldelico.com>
-MIME-Version: 1.0
+On Tue, Nov 25, 2025 at 04:44:36PM +0800, Baojun Xu wrote:
+> The tas2781-hda supports multi-projects, in some projects,
+> no irq is required, so the IRQ_RESOURCE_AUTO should be compatible
+> with IRQ_RESOURCE_NONE.
 
-Re-sending this because my mailer messed up the formatting on the first try...
-Sorry if you're receiving this twice.
+TL;DR: NAK.
 
-On Monday, 24 November 2025 17:19:45 CET H. Nikolaus Schaller wrote:
+It will relax the conditions for the devices where IRQ is required.
+Probably you need to consider DMI quirks or so.
+
+Also you failed to provide the ACPI DSDT excerpts to show the real use case.
+And what the board is that that uses polling mode?
+
+You can also consider this approach (as a compromise between two:
+
+#define IRQ_RESOURCE_OPTIONAL	BIT(2)
 ...
-> > The LTM8054's feedback pin can be driven by a different DAC, which allows
-> > for dynamic output voltage control. This is a more complex upstreaming
-> > topic however, so I've left it out of this initial series. There are
-> > other component functions which fit in squarely into the regulator
-> > framework, such as input current limit control and soft-start. But I
-> > understand that the current driver might look a bit "bare".
->
-> So you just want to have some user-space mechanism to control voltage
-> and current limits? Can't this be done by directly controlling them through
-> the iio API?
->
-> Is this for a device that is already in kernel or planned to be supported?
-> Or is it "application support" for some SBC?
->
-
-This is planned support for a voltage regulator chip.
-
-> Are you looking for a virtual "glue" driver to logically combine several low
-> level functions?
->
-
-I'm looking for a clean userspace abstraction for this component, the low-
-level functions in this case are those of a voltage regulator.
-
-> > > What could be necessary is if you really want to be able to "regulate"
-> > > the current going to Vout, some bridge between regulator API and some
-> > > IIO DAC.
-> > >
-> > > And enabling/disabling the regulator by some GPIO can be described in
-> > > the DT already through a "regulator-fixed".
-> >
-> > This is a possibility, but when you bring in all of these other hardware
-> > functions that I mentionned e.g. output voltage control and stepping,
-> > you'll end up with several different devices which look unrelated from
-> > userspace, but actually control the same chip.
->
-> That is quite usual... I have often heard: user space must fix this as
-> kernel just provides basic functions in a harmonized way and integration
-> has to be tailored to the device anyways :)
->
+	switch (inst->flags & IRQ_RESOURCE_TYPE) {
+	case IRQ_RESOURCE_AUTO:
+		...
+		if (inst->flags & IRQ_RESOURCE_OPTIONAL)
+			ret = 0;
+	break;
+	...
+	}
+...
+		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPTIONAL, 0 },
 
 
-IMHO this is not integration, it's BSP work. As far as regulator functions are
-concerned, the current status quo is that the kernel handles getting/setting
-voltage levels, applying current and voltage constraints and other basic
-regulator features.
-
-
-> > Userspace will also have to know about some hardware details to properly
-> > control the DACs, such as the values of the sense and feedback resistors.
-> > In my opinion, this bypasses the kernel's abstraction of hardware.
->
-> I came up with this argument several times in the part and got a lot of
-> contrary :)
->
-
-> What I still wonder: does your hardware warrant an upstream driver for a
-> non-programable chip if a different solution (with help of user-space)
-> already exist?
->
-
-
-A different solution does not currently exist (although a userspace-based
-solution could be designed). I just think that a kernel-based solution is more
-desirable here.
-
-
-> Another question: is your scheme generic enough so that it can be expected
-> that other devices are using it in the same way?
->
-
-
-Yes, the LTM8054 has a fairly common design as far as buck-boost chips go.
-Things like feedback dividers on the output voltage pin are standard practice.
-And since the driver doesn't rely on a particular way of integrating the
-LTM8054 with other components, it can be reused wherever the same regulator
-chip is used.
-
-
-> Or could the power controller framework (/sys/class/power_supply) fit
-> better?
->
-
-
-I don't think the power supply abstraction is relevant here. The LTM8054 is a
-voltage regulator, it doesn't have charge, capacity, temperature monitoring,
-power limitation, or other power supply class features.
-
-
-> There is an API to ask chargers etc. for battery voltage and current limits
-> or even write them.
->
-> There is also "generic-adc-battery" which allows to hook up with arbitrary
-> iio-adcs for measurements - although you need a DAC in your setup. Maybe an
-> extension here is a better strategy than a dedicated ltm8054 driver?
-
-
-
-What if the LTM8054 is not used to supply a battery?
-
-Thanks,
-
-
---
-
-Romain Gantois, Bootlin
-
-Embedded Linux and Kernel engineering
-
-https://bootlin.com
---nextPart7880843.EvYhyI6sBW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEIcCsAScRrtr7W0x0KCYAIARzeA4FAmklbX8ACgkQKCYAIARz
-eA6Qag/+O307fHl9Wqb40t4WIdZsKqQP0PcYGNlhz4T+SyyyFetdu7Un665acsjg
-MdEMkudNxDehZTnsfTlNKsGzpu2OIAsiIlD9XKJFaAA1kAzdWA9xb8mT7lwnadD3
-sa0EX7LtIT8x4BLkaCyTkCioE3FgLPhQCXC3fALmNojilfwl2Y5QXUuKUB230sPo
-8ihY8Yj2rc5QmYZV9fSsC/HSQwVkXSU3T5Q7SjwfFSIRL2ZajuPycLU9QmHnOWGi
-R02esa/1vRdYlVGcCwKSDG5JHzsRCRfsbXZAkIyMc3hQ6LgizTUyKQ+FM2w/68/w
-1pn2H5N0D8uR/+WxXWPMMZ9hpklLkDec5lOlf3ZA4DOa8m6nDKROBx/eV/aLlgHp
-imI2qqqmBqJjzO+x5ubkm/v5QP75ikGusNxuXcUACwQTNaif8z6YEekKvGd89taO
-jvhQnSOWtFfYZRgVzpjbjgm+OZy+f6bACCzGI/KZ/KhAb1vwCz6hBkmg0Zh2c/hP
-Wa3dcDp/pn5j3yP1E10jdA9G9AkxmSWN9VxNtRrGKynSiz3Z2ilWvze2SxlSN0vZ
-tdlEhNz1/r/fZWcDyFgDwaCs/R6+RHtQoYnG/A+5aatiGdnE9/tngpQXOkjpr/ft
-VMDXkLH4+MDGHExDw3PIBbSfWqmFssAmfriPh3xsAUUXcR/LvIU=
-=eMhj
------END PGP SIGNATURE-----
-
---nextPart7880843.EvYhyI6sBW--
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
