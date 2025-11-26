@@ -1,162 +1,81 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0342C30E82C
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 16:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA39033A03D
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 16:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764172822; cv=none; b=LiwHo0j6Onm5ARfpDbUFgMtajDx4QFud+zp9AULFwRHsUL2YidJ2XOE0SP8uLBhA6cpbk6IUgWluoPFoa0Yvcp/fCXC15VmRosPdDDVuQVVTn/ddSoXONPIjXJ+WYj6ZX1brRULV8ZCgpfY6L0D9M1nTQ3QptQLUfhn824uSvbw=
+	t=1764174142; cv=none; b=ouSmZStOnkmp2gz+2+jgWxQt+D4OGO6+NSESUReNAy+7PKt7f+KPENp+H3asX4DiC+r+DslsK7R971CeuQDTwL/o/6uhFyskJrCXW6cat+j47sttHfjrZnPZpgGJzUvzt5g/3CQvMolo82+RYnDwfxopMRVtUmcx5bOqzChQhms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764172822; c=relaxed/simple;
-	bh=9E4LZUqF4+RrmDwPg5Nf1aBB5ZvzocoQZTyPs+XXDOk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N6JlPTsi7LMaIzdiHRhtnXhuC62ToEmmS50BBTjCTtq6TWBn8zJ56Xb7ATCuTjEydBHbIAfqi3RAFNQS6aNVIh+iBmKPx9woUA+51ZU2Dh2bjLCUOjJnr1wmmDm3ulBS6NED7dVqWBkmrL52Gf9lCoJATHNtmlH5iKcuXVkVTOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=sX53AFUk; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1764174142; c=relaxed/simple;
+	bh=WpGSKCpqL+pxzxfe6wNwmtBFDAbj6D5Y1ucsDZuQaUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OR2VnbYov05aKr2JEyd37CaKXdsOk2V13AMR7bAj0c1IspdNbnK6A/b1IvLHjZEr6VLgzdvCJUCDg643i5QTBtNgmCb0li1OmQw7GpuVde626il/U3pFhsPxZcGl6tfVje3WHqZX6bofZ3w995FwhyH90WdkD5craSEN/4J85OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aq2nlB3G; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="sX53AFUk"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5957d7e0bf3so1165292e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 08:00:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764172819; x=1764777619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CKUmPojsBEaS1Fv5ikaphx/1DJX8hiMLHRzmJuvC1HY=;
-        b=sX53AFUkPrebVr+JYqcYgOg9/tVZBJBdETXhbH8Qj7qZk2sNOlZ7GLA8Z2cJapL8yC
-         WYTRzwAMStrt7FrW5Duq5Yd+lMmQ4t5LEp2QIF4Z4pu2P8f8aSIqjo5XJSGdNoWrXPT1
-         +v9lfCK18ej2k53NTVO/YW+xr+KaRt01ifAGAGt5bGc9+S8/s//vsJOT8Jyv8ZIIVqZ4
-         KmSNrHCLqM+DQEV3wtRCXx5uVIFd7EHnjUA8u4CnbgMehxX7g/E9tyzegkFQuBlGrQ97
-         lYjpS/zubBOthFvs0NzPr0nmzJEGDFQVt15vBDgtqkG8cw7Ze7/TpwaO5+OoU3naNERz
-         zT4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764172819; x=1764777619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CKUmPojsBEaS1Fv5ikaphx/1DJX8hiMLHRzmJuvC1HY=;
-        b=r3mEIbzKLthQhUvB2CeoPdMdFz8wNnJiAUnphkqOuq/7vbKga8LpG7Ep/nWDdAjgpA
-         39Rdg01lntvJR9dSFjID5m1rub918l2Q9RjC7/SmvuVsWEAp749VdSfk4J3HGflIMpC0
-         h14M7USxOmtQfEXpn8DVrU9MrpDF0+P6YQcLxR95uFs6FtROVMbD2yHho1i7yUmMeUO1
-         DiC3akRenUuVRWtp07lJRTufh+RFHN8/ZAJXSg2VfhdDGjjmDh5xBqhMMCxsMVN7LlaZ
-         5dNnEhuC0XAyiEWLnhYEHqDBeCXu2u1Qg8KuYWgtNpi6whlA72xSUwMntEhO3zZLl+Q2
-         B/7w==
-X-Forwarded-Encrypted: i=1; AJvYcCX9slvQHsOx5MJc/1VEn7eHoeuF8bYwvRzu3ckh9lnb5CPMS4T9hXfvvIgi89IhaaDVzuk4tTg46IYT6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygQsm1Isutc/RmQ292t3IPVuVe2uOHyjzhcyJl32wuVNYQwyWP
-	ppFPz58P8i5kUjTV2HSj5BIFb/fmajcjkEMe12BAipyDWUSBdtRYWgwJpgeVxDElV2/BvmcqD5m
-	MHX0hwVLMrR+vw5g6lVctvHL7wokf0A9A+lsav2vcPA==
-X-Gm-Gg: ASbGnctPVQxOwV98UYq6VGkj/pmtVweFI7KaG91AYDJxLLZMNPkzT4ZCQL9EA7hbzDM
-	c8RibjkphXklaNbiuTa+SP5yzxB51xxNKydZxeMuSEF6cDUqPmRS2GND2oXN3sSzefgmItYu9zt
-	VNuZQIvZV5OqMmfu0nZUCuqWqLQJRDV4f4OWgScZXOFmeZRSYa9te/IT5uSvmKmm4wHKjqre+X/
-	i4A+/fYYfWuf1nx6L7YHfMj65v1Ccw6kGuR94XHKHDGtLuvL5PF2jemzGxzqwt5fQGSdzUS6Ws+
-	zVfd+R+hmWIOWW/crffoDOYS41c=
-X-Google-Smtp-Source: AGHT+IG/dq5r5WmQcoWn78HBF8tifFKLQkNqXoHsJ8uu05KTdYoqo/JzkNcCqS3q8x6xdOxAcwscTDG+CXZmPir3agk=
-X-Received: by 2002:a05:6512:33cc:b0:595:9929:c8a4 with SMTP id
- 2adb3069b0e04-5969ea35615mr7886071e87.22.1764172818843; Wed, 26 Nov 2025
- 08:00:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aq2nlB3G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764174141; x=1795710141;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WpGSKCpqL+pxzxfe6wNwmtBFDAbj6D5Y1ucsDZuQaUg=;
+  b=Aq2nlB3GuqGrfn5I8PnSSevGJETmykdQV3wXkzFG8LOL9tJU5Ua7Pgzl
+   dWKgfWLqTwa7C5ekyzpqwOBhFSH2UnA8GAp5Te7gvPTYdQ3Iq6YN4FkPS
+   hPVcakxeBdHFLCRkqx7n3zIdcoeBGNuiCGwEbXQ6eT6kooL+6Gsyldu9A
+   9tSUEfwDTtlLJ/+psMNSulAmCy52tp0pC/0NNNs5riQRRke/AmP3+74ws
+   oeC6feBSmwmzS9LLJqHp2Gn7wdYCsUdCvoeo88obOPVag2rvMbe2/ytte
+   8Z5GZhGaVdwEZ6XPllaypZIz8oinQTwvslz7RiJgYVdppBBN2wu0x+TKp
+   Q==;
+X-CSE-ConnectionGUID: 55MlJ3TjT2WdrE6y+ea32g==
+X-CSE-MsgGUID: TOkR6cdPQ9Clhpaqcp54lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66257333"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="66257333"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:22:18 -0800
+X-CSE-ConnectionGUID: IH2mwMEdQr6jN9EV9yWlIA==
+X-CSE-MsgGUID: Z07K/vryQYeYZOQ3eC9USw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="193212343"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.89])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:22:16 -0800
+Date: Wed, 26 Nov 2025 18:22:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] ASoC: Intel: catpt: Fix probing order of driver
+ components
+Message-ID: <aScpNnDj6eUA4-QV@smile.fi.intel.com>
+References: <20251126095523.3925364-1-cezary.rojewski@intel.com>
+ <20251126095523.3925364-5-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <20251112-gpio-shared-v4-7-b51f97b1abd8@linaro.org> <0829a21c-f97d-41b6-90bc-2acaec42caab@nvidia.com>
- <CAMRc=MdPvF+okfnRuwvAFG9UfyZ-araDsaaKMxKASEbc3rhyjQ@mail.gmail.com>
- <705186a9-a9db-46f0-bf2b-b499def050dd@nvidia.com> <CAMRc=MdQ8QgbdAd2sudZLgcDZu9DxBRJh5sfLeXwcTDEE0F7Uw@mail.gmail.com>
- <c4081961-0875-4a2d-ac84-40df128534e7@nvidia.com> <CAMRc=McSrKgL=q8xfH_Vndg7rCfy1TVgRh+dFRqFCiBwT_J2yw@mail.gmail.com>
- <b166f160-e4e2-43a2-866a-3341cc91a13e@nvidia.com>
-In-Reply-To: <b166f160-e4e2-43a2-866a-3341cc91a13e@nvidia.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 26 Nov 2025 17:00:05 +0100
-X-Gm-Features: AWmQ_blfhwNoOC_5q4Y6Ua8mUZE4gIa1ItGMpnk3IeLNBCFsJ0ovvbGWZGIVjOo
-Message-ID: <CAMRc=MfWi=cU1tK_AXW18A0X7K2TGp_u9Dwg4uSfW7Te83HvqQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126095523.3925364-5-cezary.rojewski@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Nov 26, 2025 at 4:47=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> w=
-rote:
->
->
->
-> On 26/11/2025 15:33, Bartosz Golaszewski wrote:
-> > On Wed, Nov 26, 2025 at 4:29=E2=80=AFPM Jon Hunter <jonathanh@nvidia.co=
-m> wrote:
-> >>
-> >>>>
-> >>>
-> >>> Is the device-tree used here upstream? Can you enable DEBUG_GPIO in
-> >>> Kconfig and post the entire kernel log on pastebin?
-> >>
-> >> The kernel log is here: https://pastebin.com/7rBh3T3T
-> >
-> > This is not telling me much, can you try again with the printk() I
-> > posted earlier, please?
->
-> Yes, sorry I missed that before kicking off the last test. With
-> this print I see ...
->
-> [    0.120432] gpio_shared_of_traverse: /bus@0/ethernet@2490000 phy-reset=
--gpios
-> [    0.121407] gpio_shared_of_traverse: /bus@0/mmc@3400000 cd-gpios
-> [    0.121891] gpio_shared_of_traverse: /bus@0/host1x@13e00000/sor@15b800=
-00 nvidia,hpd-gpio
-> [    0.122035] gpio_shared_of_traverse: /bus@0/pcie-ep@141a0000 reset-gpi=
-os
-> [    0.122075] gpio_shared_of_traverse: /bus@0/pcie-ep@141a0000 nvidia,re=
-fclk-select-gpios
-> [    0.122342] gpio_shared_of_traverse: /regulator-vdd-hdmi gpio
-> [    0.122381] gpio_shared_of_traverse: /regulator-vdd-3v3-pcie gpio
-> [    0.122420] gpio_shared_of_traverse: /regulator-vdd-12v-pcie gpio
-> [    0.122453] gpio_shared_of_traverse: /regulator-vdd-5v0-sata gpio
-> [    0.122486] gpio_shared_of_traverse: /gpio-keys/key-force-recovery gpi=
-os
-> [    0.122551] gpio_shared_of_traverse: /gpio-keys/key-power gpios
-> [    0.122615] gpio_shared_of_traverse: /__symbols__ gpio
+On Wed, Nov 26, 2025 at 10:55:21AM +0100, Cezary Rojewski wrote:
+> catpt_dai_pcm_new() is called during the bring up sequence of the
+> machine board device which is a different device to the parent (DSP)
+> device yet utilizes pm_runtime_xxx() against it in order to send IPCs.
+> If the parent's pm_runtime is not configured before that happens,
+> errors will occur.
 
-So I have no idea why the special __symbols__ node has a "gpio"
-property but as this is a special case, I think we should just
-explicitly ignore it.
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Let me send a patch.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Bart
 
-> [    0.122672] OF: /__symbols__: could not find phandle 794981747
-> [    0.122701] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.18.0-rc=
-7-next-20251126-00002-g1cd98992c487-dirty #21 PREEMPT
-> [    0.122739] Hardware name: NVIDIA Jetson AGX Xavier Developer Kit (DT)
-> [    0.122747] Call trace:
-> [    0.122753]  show_stack+0x18/0x24 (C)
-> [    0.122772]  dump_stack_lvl+0x74/0x8c
-> [    0.122788]  dump_stack+0x18/0x24
-> [    0.122801]  of_phandle_iterator_next+0x18c/0x1c4
-> [    0.122819]  of_count_phandle_with_args+0xa0/0xc8
-> [    0.122832]  gpio_shared_of_traverse+0xd4/0x4c8
-> [    0.122848]  gpio_shared_of_traverse+0x178/0x4c8
-> [    0.122860]  gpio_shared_init+0x11c/0x1f8
-> [    0.122878]  do_one_initcall+0x7c/0x1c0
-> [    0.122892]  kernel_init_freeable+0x204/0x2e0
-> [    0.122908]  kernel_init+0x20/0x1d8
-> [    0.122923]  ret_from_fork+0x10/0x20
-> [    0.123055] gpiolib_shared: Finished scanning firmware nodes for share=
-d GPIOs
->
