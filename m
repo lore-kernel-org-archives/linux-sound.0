@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1FD2DFA48;
-	Wed, 26 Nov 2025 17:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC2027145F
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 18:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764179255; cv=none; b=jh/o3AnjM/jmThpL9hmP20A2vMKnoZl3275W7oMYFjaM8GOxzFH/wJKGIyAA5UVYf+Fp2+1mkmPTZ2NEa8lQ2RDiYSFkDFPOToYAIq1sF8n+6XJ/brm3fDnbkaCJPYdQXh5v480a5u1klQoVV+xhHRAtFZMWOBJ7VnkGgqICDgU=
+	t=1764180488; cv=none; b=kU2mBYKMrAjHqRMFCi7lUgwZ6xZ6iW90XBvO+oq9jz6tf+8ao904YL+LXM028MO5In5Fyi81aQLnqhY2pypihphAXyYhSnsBe+1m2IImtW1neeYoggx33b5R90mIsmJMjvQuu6iEDeR2HZ+8SnfscNEDF72GfORxpN/is/qSeVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764179255; c=relaxed/simple;
-	bh=CREXnS7WogomLb2RYobjD6Y/Z7X01LZZcskfhg30vMY=;
+	s=arc-20240116; t=1764180488; c=relaxed/simple;
+	bh=EES1hMZA6Occ5ocgXjczAbLiDSj9n2ZWhGWnT6INKlA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ohF3TlSMg7VAwJPySPF7BuS4m2f1/GTvvKFf/tp/aR49JANKVakm9+KjM0dt7S8Y/m5BWYSCRF8dXIngJUWYXU4FfgcoVrIzGdJS//JeiWbgQXY0e0a4gDwGMaSdWrcb65Vb0Gi7bRnBP+GxpkJGtN/7YT838xvFcJSKaOrQd/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LceMRuD7; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJb+xsgQYrJUuLW/DC5FTJx0l7QusK/AsVcbJa5cu+aCaZZRSuMsuIItQYmQt4PHoWErz92o7hHlBSrBqAkGwcgFXeUDa0EOqtJY5OWl3JEjYWjUmH1UsABGjsUOWs2lGD0AFRTxoKYfovv6e/9mSfChIBWpF2HYilWqB3Kc9FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebyfpY6l; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LceMRuD7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebyfpY6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764179253; x=1795715253;
+  t=1764180487; x=1795716487;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CREXnS7WogomLb2RYobjD6Y/Z7X01LZZcskfhg30vMY=;
-  b=LceMRuD7o8zhwcIgzNzkxGkBz+mh6+dCa+iwPVqv01n2VmHGjx2rdL2+
-   +X4jKcYwFrxHDLBYubTs5Jwjz3/LI5MJpWejltNM/ZfiM4HXkG3ZUivSC
-   u5mld1nHPjqlQEeYw3RvdcvVimf3/lgkAUuVat0zP8EzXIVgJPaAEjkby
-   XFqZHeYBOdWdNSxZaaEdtQM9Q10ghkL2gNsehqvtENkYZL9BW5dfrdNBs
-   AUlDYC4dyDz8c0/FzBNZAJRnrKo/ivUPI5LYOTVDbofyoJa6gRp21Hh+R
-   jMAd+NsTkzve1BhCdc8xeuOI54b3i2wGNkNSRAk5OatihVHV4n8RRjnp7
-   Q==;
-X-CSE-ConnectionGUID: NjZYZ5vST1qoikG1pUhnSg==
-X-CSE-MsgGUID: lVxvo3SIQ26dtRCD0mgF9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66114361"
+  bh=EES1hMZA6Occ5ocgXjczAbLiDSj9n2ZWhGWnT6INKlA=;
+  b=ebyfpY6ljZPVB+Ku4UK5WBtJNolVKT0xdGIkDDuC3c159a0i7THe4kbS
+   kJZKHlEYe0YdOruq+VrG7hBLzK3cDThKAeImQWC5ShcxafoOcEqh3kxER
+   I/3jrjYUbDpjY0SQ6QdwM12zgoirG4y1bXNTmBg5nHjp8sVh7RTUQCzo3
+   TSwuEav8WEMjPcxzWYD/SnKWxclcYIA040KTU9vzog/3CVcZXiePc5z6Q
+   +XuIUaAxiT2YX/xtZlkLbWdGbS/5xvtSxdcx493fkz1qrxcsD6lH6Vgmw
+   0UbTSgHTGd9TcQNBwk58zxq7oZmmMdMWL1mpobTdUUoVVxXA3/eVVW+CM
+   g==;
+X-CSE-ConnectionGUID: fwRm2raUS++s2+4GVfV61A==
+X-CSE-MsgGUID: jZRLBiXmQr2wvBbUTlAuDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="69848085"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="66114361"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:47:32 -0800
-X-CSE-ConnectionGUID: 3namkLD0QZCVEqJ9Nxrqfw==
-X-CSE-MsgGUID: Qitg+UGHRs6gUU8YfEERcw==
+   d="scan'208";a="69848085"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 10:08:06 -0800
+X-CSE-ConnectionGUID: OWuC3hKfRLu/DtFju8XjkA==
+X-CSE-MsgGUID: v4rw3vm1Q+GnDRalsxAb0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="192885691"
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="192136939"
 Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.89])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:47:29 -0800
-Date: Wed, 26 Nov 2025 19:47:27 +0200
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 10:08:04 -0800
+Date: Wed, 26 Nov 2025 20:08:02 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
-	broonie@kernel.org, alsa-devel@alsa-project.org,
-	shenghao-ding@ti.com, 13916275206@139.com,
-	platform-driver-x86@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, letitia.tsai@hp.com
-Subject: Re: [PATCH v5] platform/x86: serial-multi-instantiate: Add
- IRQ_RESOURCE_OPT for IRQ missing projects
-Message-ID: <aSc9L6KXG6oQubwF@smile.fi.intel.com>
-References: <20251126141434.11110-1-baojun.xu@ti.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] ASoC: Intel: catpt: Switch to resource_xxx() API
+Message-ID: <aSdCAp-clmwmkumW@smile.fi.intel.com>
+References: <20251126095523.3925364-1-cezary.rojewski@intel.com>
+ <20251126095523.3925364-3-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,44 +60,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126141434.11110-1-baojun.xu@ti.com>
+In-Reply-To: <20251126095523.3925364-3-cezary.rojewski@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Nov 26, 2025 at 10:14:33PM +0800, Baojun Xu wrote:
-> The tas2781-hda supports multi-projects. In some projects, GpioInt() was
-> dropped due to no IRQ connection. See the example code below:
+On Wed, Nov 26, 2025 at 10:55:19AM +0100, Cezary Rojewski wrote:
+> There is a number of interfaces available for manipulating instances of
+> struct resource. To improve readability, move away from manual editing
+> in favor of the common interface.
 > 
-> Device (SPKR)
-> {
->     Name (_ADR, One)
->     Name (_HID, "TXNW2781")
->     Method (_CRS, 0, NotSerialized)
->     {
->         Name (RBUF, ResourceTemplate ()
->         {
->             I2cSerialBusV2 (0x0038, ...)
->             I2cSerialBusV2 (0x0039, ...)
->             // GpioInt (Edge, ...) { 0x0000 }
->             //"GpioInt (...) {}" was commented out due to no IRQ connection.
->         })
->         Return (RBUF)
->     }
-> }
-> 
-> But in smi_i2c_probe(), smi_spi_probe() (serial-multi-instantiate.c), if
-> looking for IRQ by smi_get_irq() fails, it will return an error, will not add
-> new device, and cause smi_probe() to fail:
-> 
-> [    2.356546] Serial bus multi instantiate pseudo device driver TXNW2781:00:
-> error -ENXIO: IRQ index 0 not found
-> [    2.356561] Serial bus multi instantiate pseudo device driver TXNW2781:00:
-> error -ENXIO: Error requesting irq at index 0
-> 
-> So, we need to add an exception case for these situations. BTW, this patch
-> will take effect on both I2C and SPI devices.
+> While at it, adjust spacing so that both code blocks, while found in
+> separate functions, looks cohesive.
 
-Thanks, excellent!
+A nit-pick in the other mail, but in general
+
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
