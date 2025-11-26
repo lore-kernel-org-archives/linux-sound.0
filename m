@@ -1,45 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9519F33F8B7;
-	Wed, 26 Nov 2025 19:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D199433F398
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 20:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764184365; cv=none; b=cqRRR+dZHHwWHMrs7JjOT//3+bLckbkhu5dnIgcvVBwQ3yasBFXgMutzzpBF4o6ETPyt8/PEeeE+/BwJlUkXFpv5OpVAN7gJW/CIlNkijjWgaEtqS/xsJswiHqG5VpQ8h6u5jOpXrfIUgGtCqLWzEuQPZqf1w0HHxevMvtBe8x4=
+	t=1764188388; cv=none; b=pD6jxSD4+GtkmKoSY5uI5o8Pw/qV4+XQGKx/GOrezqL6Y+O0gzgplBjfTmfn/QIrktqi6b+NWcH8v7aUQ8lCnnjlbxx6LKGdoF7QP+YoqGLxvUUEwPcuKRnIXoq5bSkqNfNgTaRNLniSUcWqsu3xn3DKkd9+YEkYCZ2+IRANHXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764184365; c=relaxed/simple;
-	bh=sWWXp3sv6vfsWvCEZUjz8CmJ0VK8ViosU6u8p8WK57w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=l8yCwXf89V9FJZgpmc3G6y8pokdtft8LhX7yOLtqA/+cKIrpt8HeR7WEsG8yK3/JppA0QwbibUq2ZIGyr9WcECrn2YHDi8am2JJ6viggYkRGMGkO0YuRUVM6LB7kzSDtllcEJ5RndU/F3xXgRrk+FRatqI7TWJ9xl+9s+BklQfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ju2pT6Az; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764188388; c=relaxed/simple;
+	bh=bgIOthVwdf2ZfwtZntFwnUKudEyfkmm9iTBHCcAua5Q=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nxLwa4kocs1OJ8pAF6+3cF+OstQaTxkg506flLfkefCLTv7SGMdAXgPp4cIJAQpGnqmr4imwgvE1X2K/f4AovHBwvzaE/1Hv8t1Gq9fQVdKuoyUuL5pWjHIyodzAp7pFI1N6QpI/bGBX91EMITcBIrMmW/pj0gvWhJBNE9AT3hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oob7VN5K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ju2pT6Az"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9736C4CEF8;
-	Wed, 26 Nov 2025 19:12:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oob7VN5K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E09C4CEF7;
+	Wed, 26 Nov 2025 20:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764184365;
-	bh=sWWXp3sv6vfsWvCEZUjz8CmJ0VK8ViosU6u8p8WK57w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ju2pT6Azp7yo6k1D5f0cG+rlRn5zuLUrevCfMZNmQuf+hzPNgPcMbQwwKwNSgiwc5
-	 UaBtW2k2+qFOkRTCxJImD00d+gDOQDBLj4pS67mxN9hNnQ2/Er1zx+dwhJfVJejMtY
-	 Q0qODMulspHUVxNjpAYZi2Dc0s91nKUxFPHO5lXbJyAyDcdty9L395tp6j6okow+Qc
-	 DBD4ox4lV9U+BMwC4nNIpuwU8Fnnap7QuG7mWXrJj2wdjYb1c8Nunlo2PcmKunIwaH
-	 jtUJVfMWIX2oqJhnYkipmt4PWd+BY5h4dFRWml/jEe/OtjlvWzqXd4BxYKCImlvJZd
-	 Zrq37EJ3X5RTA==
+	s=k20201202; t=1764188388;
+	bh=bgIOthVwdf2ZfwtZntFwnUKudEyfkmm9iTBHCcAua5Q=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=Oob7VN5KL/dkqijRICbphFE8y/ROG+aANdTl+PK0lT+ccA2qgMTS/YxIZ8rVVuMYg
+	 ZdelkKhu9XjEt4pqVnKuplCBfXhAU3MKVjpkLYHmu5myUXM3y7xeutBCxQq7iBrB0j
+	 crXMlTPdLUYZ+Nb2VHfEae29mZ+XEREic2oxZEVHUYLJtPEjGgf0CBAyxe/ds4w48b
+	 Vu4IJkhbiUvBo3p64KSzc1RhyTxxvLPHgfCQZnEpVvg2Myb4w1GnEGPA59dz46pkRx
+	 /LVybEDwFw1ipiYgF078tWV/PG2hyjHb9+t90LcEf5HSRBRlkcvUj68OUqs4e1xtXx
+	 0FHpO5b/TP7NA==
 From: Mark Brown <broonie@kernel.org>
-To: Cyril Chao <Cyril.Chao@mediatek.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- kernel-janitors@vger.kernel.org
-In-Reply-To: <aScUKqCEhSIZoOmg@stanley.mountain>
-References: <aScUKqCEhSIZoOmg@stanley.mountain>
-Subject: Re: [PATCH] ASoC: mediatek: mt8189: remove unnecessary NULL check
-Message-Id: <176418436269.117076.14309249489407966858.b4-ty@kernel.org>
-Date: Wed, 26 Nov 2025 19:12:42 +0000
+To: Linux Sound ML <linux-sound@vger.kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>
+In-Reply-To: <20251126091759.2490019-1-perex@perex.cz>
+References: <20251126091759.2490019-1-perex@perex.cz>
+Subject: Re: [PATCH 0/2] nau8325 build fixes
+Message-Id: <176418838766.130553.16560622831660304438.b4-ty@kernel.org>
+Date: Wed, 26 Nov 2025 20:19:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,13 +44,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 26 Nov 2025 17:52:26 +0300, Dan Carpenter wrote:
-> Smatch complains that the call to snd_soc_component_get_drvdata(component)
-> will dereference "component" so this NULL check is too late.  The probe()
-> function will never be called with a NULL component pointer so just
-> delete the check.
+On Wed, 26 Nov 2025 10:16:33 +0100, Jaroslav Kysela wrote:
+> Add missing build configuration and fix the i2c probe function to follow
+> latest i2c core interface.
 > 
+> Jaroslav Kysela (2):
+>   ASoC: nau8325: use simple i2c probe function
+>   ASoC: nau8325: add missing build config
 > 
+> [...]
 
 Applied to
 
@@ -64,8 +60,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8189: remove unnecessary NULL check
-      commit: 9d3fcd0ebe91c2079b4aeaffc7493a0bb2ad45f2
+[1/2] ASoC: nau8325: use simple i2c probe function
+      commit: b4d072c98e47c562834f2a050ca98a1c709ef4f9
+[2/2] ASoC: nau8325: add missing build config
+      commit: cd41d3420ef658b2ca902d7677536ec8e25b610a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
