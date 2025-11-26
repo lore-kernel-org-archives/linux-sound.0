@@ -1,161 +1,160 @@
-Received: from devloop.tasossah.com (devloop.tasossah.com [145.239.141.69])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010003.outbound.protection.outlook.com [52.101.69.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FF9285073
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 07:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.141.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764142932; cv=none; b=N9HXIHP09l1PmJ0pKlJ/1BjCkBkT97BbuWuXUiD7ydWnBf8nxxBA88KjHDIq5lB/1vb7G+aqtiCIrV2JqZLNdKR7PcaMg/kSClp04t1HnJZGHQ6E59JiGjRaKQbLcyasjArKFbL2Pgg6vRpZQPFF6/OjrKrZtCiMNcv1wTQYjNs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764142932; c=relaxed/simple;
-	bh=ag4PlYEHJVXBMjExiZF/9eA9SDDAxehu8HRArbe8HsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gCbHuJwSZ38PYRQa2aABrjA6/h+zSQNEir5NSfRAAlq4MHlF3P9C3u06JWAAg+tWbPNPzIY7GuntvE+SLTT5MG77A2HxP2GJmLHg94vcqRy7Pogknj7yJrLfid1/X1C4nItJPTG7kj0Fw2EMs7PiRrOY8q0BWeZOHWFMr3HixAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com; spf=pass smtp.mailfrom=tasossah.com; dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b=MK3yVtKK; arc=none smtp.client-ip=145.239.141.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tasossah.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DB7221543;
+	Wed, 26 Nov 2025 07:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764143162; cv=fail; b=N0UyW4gB5PCh74kaiK1gLAVu22PBWglNWtHUXsZU0zKAfTM+XotKkA6jr44xm+ujUL5kmGLKF7flOp33jygfTjjVhrKrVM1UOYopMkUiSD6ndRFNzydnb+m5XUSKHsIlu1Taw+7NaVkHnXRtCMyTqZviZAVzQ8zz1ooctYRSeuc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764143162; c=relaxed/simple;
+	bh=WVZbxOa7Y8/KCAU+vHReMcG8z1ZM6FTz/5pPgeFfdV4=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oaYtLja/b71Q6aXYLLzQs4uhy2fgxMYTHGSuwDBLNONdHRWy9WESoOe33yFFhKpy+fuFik/Cmh0YAsp/19oZCtTvYW2ZREv46QNn1rkrLDJtf4B10CpVr8RTV0iJg72a4xYTvv6BkrzmRxM7tZcwslaABrq2uVVtZkyjKcAvnoQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=W7ew+WFh; arc=fail smtp.client-ip=52.101.69.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b="MK3yVtKK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=tasossah.com; s=devloop; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=KRer33WZ0RAzpDFjvzKWKTuRqEhjPSbisxW0Rfo+AeE=; b=MK3yVtKKXabs6gCcFZ/9S3UNs6
-	8ioitssf5eQRt+lCFNuQ4+8gsvQaVNnVSU+xdrdsqH3rgM8LDFA02rS4Dt5ck/2QwB9XesheBj6Zg
-	JNmmK9p2W/GeJv8MAASxUz5gh+zclaqNZvgNp1VZRYrwgtognvo7X/WuIZX61nW0OyqfVUiLF75Fn
-	EOU7Nhbz5SaaPlXGr2dJS5x8c8zTBn+zjL5mKq6UcIvXVP+FhtjfMU9eBvLkdKMNXR0QtAidYE0yt
-	xVgAgtRQXIKzr9zJ7NY1bAUkS41DOf5rEviAKM0rNSUi/vLXSkqlsAMmCJPurYp5YvUFygovFFgs8
-	30KIX9EXbaa7LYJ/JBH9SuTClQQbZpdq8oZi1f/0WSHfLEXKVUgYEeSA19FFI0Jw21jBlc/ei04jO
-	m+Fzbbu+Ygg5zcx3ilZc3kSOCRWldL1TaRCOxbjJ3VUGYMfsD8wrodMf5JWIKsdhAxCeQ/4y7C90u
-	lIuBc6FPyAzZ+qQo6RVSpx6yEiQ8LiQA6IB+BLuVZveyNAXhxWgisXPm4ZyfFCSNpNTEpBIiuR4Gu
-	BQbNUoOsu8r1PBpwYhiaK0v5vCPgG5fPGZxks7CQCoXYEtLWzd65gZAvXXzhSHFHSLZ5VjgyWsOgz
-	giAVjMRZi7dCly5UeK6yCstKSCdp8yIYe1qu9ru7g=;
-Received: from [2a02:587:6a0c:9900:f7ed:bcf0:918c:fb30]
-	by devloop.tasossah.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.97)
-	(envelope-from <tasos@tasossah.com>)
-	id 1vOAAC-00000002XIP-09TN;
-	Wed, 26 Nov 2025 09:42:08 +0200
-Message-ID: <8f399da6-4318-41df-a38c-13b226f45fef@tasossah.com>
-Date: Wed, 26 Nov 2025 09:42:03 +0200
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="W7ew+WFh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sta7LACMh6EpIxxkWRadHB2eiD1jkUZCcdqx315ilIR1dCjyFbj49dKysep41E9+r3aWHV7lEiqFd4G6rSTTCG+rUprKwRbGhFKQuSaeFsw8zsgzYQ1lTSGPe+amy4fy5mQoAwthmbT77dVywdE0LHlJ0J6yUDoEDsRg47gA0/IgfjGTon1LlsvDzF4X/alauhgxz+v5XrThtfKMDWphLQQTAhO+aVy0a3ajr4sePfwbqWppqR53cwmiXHP0M6bTid0QeKKcPgwntuskfx1R/AKF/qolWY3NDU+zN0bfdC9cs56H2j/jERSH/LmwbZZc5Jsg6UmwgnaYJ6VfJorS+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cufj6n+LmqoPpt2coxk7UAG9JYMBSX4exjaBwOg72Tg=;
+ b=ihk4TJBhT3cKhybMb6fmWLj8BWTsyDXUZ/F86wrq+iQtzdvGTRi+5kuiBTo2Y1SMmLFjVVy3qIG+sJ58Cgpx2XW80JA/uiYyBtINTNe2Jo5jWiC0elmnkAStMjbV93jHvTgvy3PXzRttasuUuPx8nP2CL5FYtVQ4hfP3k00a40T7O9lM9miifVppJpKQMaH2FeK1HzREzf3tCfdlBqjwjkCdX8Nl45dZLukIkeCrYBOs1beLL7K68FNrESFn9VeYJIIwOppsOZg65r694rGrxcUIolyw6BV51ehCh9ITmcivZCwcITLFXuwCgedd9N4z9gZrz/tSt51PNmw3u6jWAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cufj6n+LmqoPpt2coxk7UAG9JYMBSX4exjaBwOg72Tg=;
+ b=W7ew+WFhR/wR+VUn/wVaQOyLxPAmfRWpCNyBrtJ4973gbGRu65Rle1zL5VZiX0TrADH3Sw9lQZjxuR15Lp02P7/pBMSgCfL7lvdAL/Uaz8r2Pfp0SGNximrnx1f1MjmszFJRWsPV6afkKD0pP3XowVvyffWDMJDHPHL6iJjvKYcW1FYYt7d6i6DEw4D0jiYktlr76KcEI9u8KPcH3+c/HEy2wm4orCSvpzMbhKXjHf3BJyZQXzD7zSaWvO/+hpeXB/vqXdcNlUYxe4jMqNyx31z+0LBemKjJMtQksjH83HERfPLkI9EguNKSXFUCy/wk+MV0yE9MTTNKDeKmVs6uqA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by AS8PR04MB8963.eurprd04.prod.outlook.com (2603:10a6:20b:42e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
+ 2025 07:45:56 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%2]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 07:45:56 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/2] ASoC: fsl_micfil: Set default quality and channel range control
+Date: Wed, 26 Nov 2025 16:45:18 +0900
+Message-ID: <20251126074520.2959154-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0187.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:1a::21) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Implement jack detection for HP Thunderbolt Dock G2
-To: Cryolitia PukNgae <cryolitia@uniontech.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- =?UTF-8?Q?Jan_Sch=C3=A4r?= <jan@jschaer.ch>
-References: <20251126003805.2705503-1-tasos@tasossah.com>
- <84FC3BDF7EA9F69A+14dcb273-e661-49b7-8609-020c3cf79eb7@uniontech.com>
- <74e957bb-95f9-428f-92f8-ad6fcb4becba@tasossah.com>
- <8E36970AA2645815+2ca6c6a0-7492-4636-84af-52c5cea87fdd@uniontech.com>
-From: Tasos Sahanidis <tasos@tasossah.com>
-Content-Language: el-GR, en-GB
-Autocrypt: addr=tasos@tasossah.com; keydata=
- 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
-In-Reply-To: <8E36970AA2645815+2ca6c6a0-7492-4636-84af-52c5cea87fdd@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|AS8PR04MB8963:EE_
+X-MS-Office365-Filtering-Correlation-Id: b16ff653-fc11-4731-6118-08de2cbfd536
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|376014|19092799006|366016|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?p3KVr5bj/h7euW6jX/WAySfVJ/OA5uGFRazcF9kyDbnLFskvW2Ouwnxi+nMK?=
+ =?us-ascii?Q?gFAphDamxzgFuXhDQX7uxLKfiryAhlFWmErr4100D7hGd3YmeglPqP8g1H+t?=
+ =?us-ascii?Q?zGP+bTUK/wcI6R/QsbP55gEU1nPXArNkZqxYP9Al7MLIVjw6x/cZlZmJz2yO?=
+ =?us-ascii?Q?/+2J5G42miPHJ6BlUks5h1982u+ZgbGQo9nlurF2YPyVDh4qhzCmd1DvMLli?=
+ =?us-ascii?Q?eC7v0z6XSZpv/YQJtt+e/PrThpppjcb2CyclPBCsL0Q8/ajhbr3D50Tfu5+j?=
+ =?us-ascii?Q?uvAVEk8hJgL3mjFOF7Uo7KagIkiNxiZlT0lEImbWnE+17LoT4Pnd+bz2D8Nc?=
+ =?us-ascii?Q?5fIyilQidLJs06ck3naeh8gY4Q7F1S7JSIEAktLM18PVg5ytDHiy0WYpqogQ?=
+ =?us-ascii?Q?+3jUGbH4x63Ac22tS71cRwKe5+p46iOzSOFqaI20DyYgfu+FYTbxF2X8AGu0?=
+ =?us-ascii?Q?2dR54JB7T4E+qMSrYhA6dMtR7ep04wDEslSmoXWqjGcxu3xu4zC4fP3npkve?=
+ =?us-ascii?Q?EPoQwfbyxuMwTMSptP4254MOFzRaPn3up2YEUXTQzbbOOk05fVj3+pVPQrZk?=
+ =?us-ascii?Q?oK0QxY1b/tmbJ8mYCERz56ClRh1HTeVz/46skI/4j0GCkvTbFMWpjIeG8eEJ?=
+ =?us-ascii?Q?WrrAvJVCvT5cCnMlQXnYeEyNFF9PvY6H6IEbgCKlcPJRVjbdjBD8FOZE7vmN?=
+ =?us-ascii?Q?SX9+28CR0CSEvN7uWRaYfjZR/4jkL0vrHFI7Q3kP95TbL99ilYO4xfJAY/Qp?=
+ =?us-ascii?Q?cLlQe7ucnI2yQm3ZccCwFTs5PuIm/lL9hK0gu35MRjMDj5k5I/Z+hN4YCtqm?=
+ =?us-ascii?Q?nYGDqxQdhIvJ2RgnARaDlZbMAitjhq5MqtCLoKTDUqgJs60An+hhzzwc8fQj?=
+ =?us-ascii?Q?5+GPsPCPz9Dj1t/wW32Yq65t4/PhCbEFKMsw/yrqFQnFan2cqAX35yf1zYcy?=
+ =?us-ascii?Q?0gb4oit9FIHmuQgsko8XLPHFTrs76UA4yV7CQFafSjnfWlzWZ+Af8+EXA3Lq?=
+ =?us-ascii?Q?gDBrIHA2f2X7LlAYqnHIWJXU9zZy7F8zbQ9YWpZySUJImq9/J5UZ0uQEKSEJ?=
+ =?us-ascii?Q?SxYygfG3kWT6WYe+yKAHpYMFk2QqN/p6TuX68zjctAa5I5QmHoiuYa23AZwt?=
+ =?us-ascii?Q?CCNJVwqb2ZpAGCmSu+ymENa+GJw06s1qxUc5I7D4/+CSVfNxztV95YztP09p?=
+ =?us-ascii?Q?jXIQe8gOKMf1XzDPYpI5lXQ5X4EHQ6gpJiMilm/qprqQYXMoFWPL/SzL4Czo?=
+ =?us-ascii?Q?uiJeMdyoIhacSrDMO2g6CPrDXXL5tbTGbZto24ERSA6lsrjTB4rWP4LKZqnh?=
+ =?us-ascii?Q?u2ZfH8XnbG9Zy4GYH/2gxrlWVjPZh8vOUaJDdpKOEWKYci07iJ1pUj/N+OaZ?=
+ =?us-ascii?Q?mQF2hFOCYyJ2NcjTwZBn3FiKpiLPy6isHb9eQ8sIT98U9UoEio/8Jjx6AQVb?=
+ =?us-ascii?Q?1NmC28ECis71NfGm2bfnsAjFUhj9mPJ41pFpzwvs3ONVbEn5pjIcjB0G2FD2?=
+ =?us-ascii?Q?ufmqyg5UgrhAAw32h2rKX9PftESwBEI0QL5YQ22exuRom+zHh0RXoY2WUQ?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(19092799006)(366016)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ezkWGcJ2xoxnXUqg8jJiOBmEACS/jsxGhh1J5LXFDqV+G7HF22X++LHmoZD3?=
+ =?us-ascii?Q?KVzn75IcfQkKrWKH7vvbaLPyjz5GC2Rb5o03XbPYgDZDYlJOal1obINV0UOC?=
+ =?us-ascii?Q?AbTLYRcPwjjHzKqW9tHY+SL7GtptoBD/8dzRkoXrDmOTTaZa6Ix76HX6hJj+?=
+ =?us-ascii?Q?8kCthste+J2M2w/8T2XS4HY3P0EJpOzK7higr36TOLsp4+aA8HHPrbxdBXTg?=
+ =?us-ascii?Q?owInGKAd6Rg+bROzepu5Icm1z9vI7RMah7gqYRCy8SRaVAfS8LWq810wi8Xe?=
+ =?us-ascii?Q?hCqG/264vZrH7q9NGf0sUDo8zyK0Fb+BSpcwflqMyTNFZGijOGWdY0DILVqV?=
+ =?us-ascii?Q?ASQ2usTiAOMiqR80p0/23XMigi+h2B0eU1n9nl3KUOrXNZglYdjMFQEcXNA+?=
+ =?us-ascii?Q?bRlmUAAV1u/wsKPjEfZ6i+Z5HAuhx/OKXD3pKZqUfVvwqt2t1TzNR1yzWyCL?=
+ =?us-ascii?Q?jwz7EWRwB+6u4IHml5u9oaewSOoC/UlGxdT4VD9Gzd2thmipLpbNwhl7XKg3?=
+ =?us-ascii?Q?auMzhsXfA73ga0rq9kg5jpZyEs4NhP414XSPg5EBHznrQko7Nvkf1fDHs0nC?=
+ =?us-ascii?Q?Rc5twgD+GBBT4M3U/Uc0C+vNPQXBzlXd/YAiJis6pxN77w1UJG2lSaVyvjXm?=
+ =?us-ascii?Q?R3VmD35yKb+udJ5FXaX2wMFDevQAvxWR+NViKaB7XpmVpWOvrr/ar+5IPSkf?=
+ =?us-ascii?Q?3AabHtYJNeUsOiylPsfsPu7m7eOqXoCUC4CxAyjPjlF+n0jfP/3MBUwwklfx?=
+ =?us-ascii?Q?6YUowkqAcFf89zfObMByEvH9eqtthuY+D2jgNwUrl9s6spAeDsw9rzBHuQf5?=
+ =?us-ascii?Q?M2o1CMxUWYZwLVq+ZkW7JRcQKo75kMOKTFXVf8S2D72s5BIU6P5mbn+x2NHW?=
+ =?us-ascii?Q?G7yBEdQSCrJhNh7DUIgrSqC1Yon6n03mbwilTWIFbHq2YuTEGAUQYRlcm9Io?=
+ =?us-ascii?Q?iIGRhDJDuHH5avAZIwce+/mNjviN68yS1gJ5Cej35rM1U3HQsLF8obYA2tap?=
+ =?us-ascii?Q?5GYppY/rIOvQMSYsQ809KxcBhADDwzfsHMwg6hjd2F/841ml2OR8btveKaEd?=
+ =?us-ascii?Q?PCLIqBl2+QSI7Bd1r4YCU2NX7XDHA4pgZWUuQJL2Id36BNs3yjuDKv4jpuC/?=
+ =?us-ascii?Q?5FP76NK+2LqEH5gGhn5akcmt4aHeTK3Et6mY0wRcQe0M06ZTCKQxavpN5DrL?=
+ =?us-ascii?Q?U/NwFguHBb5XVQmH1bPNzV5y6rrdSf80M5A2oo8HvvB4z1bV1je8F+MqZTbg?=
+ =?us-ascii?Q?Cst2xt3GrdnaKDaM638YEfNmqKKP/ZT50pxq2xhdnSVEyrPsLTDMBtrOypcG?=
+ =?us-ascii?Q?GgMFP8cpn5uD9UvtCEWcPZ2/nPNNzM6s+lGJvsPKWtdjFo5aaBhxJ9WwclfZ?=
+ =?us-ascii?Q?EAPf+XtfVCQHgoNXGZ5SZ2hYdUHFdGWta2I6Jt6meYsY0+qOLhBZwnaf5ARP?=
+ =?us-ascii?Q?NFmBi4RLnjHjd7F+YL/zAXCBOto0avda9L01OaBM6PaT3cUXXivjILfAzFvY?=
+ =?us-ascii?Q?D6MbnBOxppWry5K0TOhlKEKcyAtWhzoDenmnByM7L84uBiTaeraJDPhBGwfC?=
+ =?us-ascii?Q?Fy0NW/502H3OFdrCsZ34W/WB5FuCKQ9Uv2gJ4Tsc?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b16ff653-fc11-4731-6118-08de2cbfd536
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 07:45:56.4407
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mSs4u/oTZ6yeXWVgjZYd5H9u/CGJBRFLS7Wu0gRCptQF36CHfBE9EkoSMmwreGSQIEG00Ult1vGLKgSEO+C01A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8963
 
-On 2025-11-26 07:40, Cryolitia PukNgae wrote:
-> 
-> 
-> On 26/11/2025 11.36, Tasos Sahanidis wrote:
->> On 2025-11-26 04:58, Cryolitia PukNgae wrote:
->>>
->>>
->>> On 26/11/2025 08.29, Tasos Sahanidis wrote:
->>>> This series adds jack detection support for the HP Thunderbolt Dock G2.
->>>>
->>>> The first patch modifies the existing realtek quirk for the Dell WD15/19
->>>> docks to allow changing the commands/algorithm used for jack detection.
->>>
->>> Does the HP Thunderbolt Dock G2 use a realtek chip?
->>
->> Yes, it does. When plugged in, it loads RtUsbA64.sys.
->>
->> Looking up a teardown online, it appears to be an ALC4102, however I
->> could not locate any public information about it. The only other Realtek
->> IC in the dock is the NIC (RTL8153).
->>
->> lsusb doesn't reveal much, either:
->>   idVendor           0x03f0 HP, Inc
->>   idProduct          0x0269 USB Audio
->>   bcdDevice            0.17
->>   iManufacturer           3 Generic
->>   iProduct                1 USB Audio
->>
->> I am unsure if this is an HP specific jack implementation (in firmware)
->> or if Realtek changed it for some devices.
-> 
-> The ALC4102 is widely used in a wide variety of devices. As far as I know,
-> this chip has programmable firmware that allows downstream manufacturers
-> to customize its behavior. I'm curious to what extent this jack detection
-> implementation can be generalized to other devices that also use the
-> ALC4102. Perhaps we can examine its behavior under operating systems like
-> Windows? Does Windows have a similar jack detection function, and is this
-> function provided by HP or Realtek's driver?
-This was implemented by observing the driver's behaviour on Windows.
+Add default quality for different platforms.
+Set channel range control.
 
-The driver is provided by Realtek, not HP, however the inf contains the
-HP ven/dev pair. The generic Windows USB driver does not support jack
-detection. It only works with the Realtek one, which you can find by
-searching for "VID_03F0&PID_0269" in the Microsoft Update Catalog.
+Chancel Liu (2):
+  ASoC: fsl_micfil: Add default quality for different platforms
+  ASoC: fsl_micfil: Set channel range control
 
-Unfortunately I do not have any other devices with an ALC4102 to check
-if this works against them. I believe the only way to tell if it can be
-generalised is to observe what happens with other devices (by other
-vendors integrating the ALC4102) on Windows. I would certainly not
-enable this blindly.
+ sound/soc/fsl/fsl_micfil.c | 132 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 109 insertions(+), 23 deletions(-)
 
-It is worth noting that the Dell Realtek detection is considerably
-distinct (4 byte vs 1 byte Control buffers, different bRequest and
-wIndex, no waiting for mic sense to return a result).
+-- 
+2.50.1
+
