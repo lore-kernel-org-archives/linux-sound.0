@@ -1,77 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97C63054C4;
-	Wed, 26 Nov 2025 14:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931C930EF9A
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 14:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764168850; cv=none; b=n6I7qaRnOoRPI2MXZlPc5+CaIYN41aGl5y8kBqbAu6ygaMXmVJ7cBpMLrvV9On9ZkuQy3O5cGj8zY9Qfjp7aYliGOXuE77YV9xfoGhAm8WXhyiroh1QID8MlYFEJgK+cD4EfY/JhazaRWggU7e+QO36itxUgU6Yn4R1zifRWZBc=
+	t=1764168869; cv=none; b=BJ8V8K/tSOvukzMzMHCok8gzwNsyHLRZzoCf8oHjfGcSaaufExd9ily7fBmfJ/xzIvsl3ZObNWrEeF788n/gGuOChKrA7QfgVfe8JOGrvxTDg6AjGP+XyKA6MsNYa+/W6QnG6PYmc9VkXn36ideBzOGEEjYos1tuZXUYH+CychU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764168850; c=relaxed/simple;
-	bh=AZWuXSc30esnVPdOkSeXlsCxSpl4Af4MTwmXb70XTOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qBNvCBMgjzqcY5mj5qfrWas5XQcc5IiSCrMCX4yAeVj5rXOvh4tBakp1j8h9l/KZ7zTS1vv3EKDvNIiirm6QKzq07qS8YvARxr6NIR8/vgmac1SeIqMmzUPyRpI5nh2xnliuzwnCL1wqt4GIs9aBO7opZnPJy1wbqZipbm3K5xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ns1+yJCg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764168869; c=relaxed/simple;
+	bh=DdV9Yu8NQHIrfD8RDTh6OfEIRJdbNP8zoppqOX1o3Uc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rxxi3iOYySyxuZ4N79H7WvYhdoayZBLPDzXHNgXawQUEh2VgFwN6dbFwWypk6dbsHlz7H4bc+AqD20BVuUj5iOQRAISjjEHCEo/nZZWBHohMJ/Pnd6h3p+SnimnEXueB8h4y6GB0P3UhG1SuMzmYatDzK+9vHuuV+l6vWYGb0OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=jbR3R6jp; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ns1+yJCg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D195C2BC86;
-	Wed, 26 Nov 2025 14:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764168850;
-	bh=AZWuXSc30esnVPdOkSeXlsCxSpl4Af4MTwmXb70XTOA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ns1+yJCg4In+bqecbAcMXifS1Bc/g0EtMZj7k7f1znB46ZtI554hdH05gm9IC3ldx
-	 Jmv6dt/yF0sQGMOdjssEI1bNiJ2JNMNwXKGtBq4wnJoXx6zk5v+AjXoO0hvwcu0Z53
-	 2QHFeT9LBZ3upnP8JJYDN+tvxxJPRtUWffnaKy3ld4HgPVDM7uiA3wMbypVaXHfHyG
-	 6Rrz+oDu4f51R7ObYLQ48UjCEbXEOdN9y+3s3vH2NJgtc//N+n1HjP/Gt2AePxH/z/
-	 0WUqiELT2CR+auoxCa5TO03UNotmuwsAesFItrBICRYl3lRdugEmXN7zIeOv6daL17
-	 n0LA1Rdl1vRsw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vOGuJ-000000001K6-2iVt;
-	Wed, 26 Nov 2025 15:54:11 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 4/6] slimbus: core: amend slim_get_device() kernel doc
-Date: Wed, 26 Nov 2025 15:53:27 +0100
-Message-ID: <20251126145329.5022-5-johan@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251126145329.5022-1-johan@kernel.org>
-References: <20251126145329.5022-1-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="jbR3R6jp"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5957e017378so7100142e87.3
+        for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 06:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764168864; x=1764773664; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j5e6BAzVHQo/JQ0cSQqz1ZzKrk4PTlqrgNjLAIGVOFo=;
+        b=jbR3R6jp3xKMSEDDuVExpDcRlEKSFpYWEYoxlleN0imMFIWHwN1iNO5Bp7IvGir7uY
+         GCfGJSUibDN6BzDseqbDW2Qh4pop5O8RitmW3BC9w4TKmhPLeJ+sh5CflUuJ1SlZCJNK
+         7mwLE2r3Gaz2FRNYtfqz0WhidyayROO2EagtCY+rfnHLO37Dk2WRvnydsBCO29i+3H0X
+         bT5PSziNgvqQEuX2lEqeVswT0/TffjMJjmAz0WTvqfxKdSpb233ogSNxV4fF9WHtwRGr
+         XuZvS9Bsm594DXtk+dGIXyg+2ft4sELAVO6ML6sMyokBigOKyLVu3s+L9erWl4KYUJmG
+         COVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764168864; x=1764773664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=j5e6BAzVHQo/JQ0cSQqz1ZzKrk4PTlqrgNjLAIGVOFo=;
+        b=QgSpn8C0j05E5QR1JP7PEIcBm7oIkF6dPKdq9eT29AvA6W73uh4C09WIdXVB0854QK
+         8BFpQ8QGK8w4+oLxM0ffY0kBBXGK8P2dV0C5jZ6EskgvqEocepmurFH/IXZZeihe+QzN
+         WgmTaUF9oORQIaRfCo5htIF3V3jhpMTuZN3NAskjQqowCbiH+2C/Fjour+PL2Wf/S8Ya
+         0zF9GrkKhg/vQbET0v8ITPWhgjGnNbl4W1a9thBZ00mCJWnpkcwoMkydvlu1oiC/Q4Eq
+         hNcg0Cxtv2JG6Naz6X+USRGYLxH72PJpElNaKFjaXQLUY4gj5b8jxdvSLCiuaTgMettX
+         Zg7w==
+X-Forwarded-Encrypted: i=1; AJvYcCX2ePKkZDiPtGeSB5UQ6ZQO2nQkNrc7yYRf6ytAUqPOKMDPi29OIw3mRuXTNNSWCWYW3Z3rNtQc50AA8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpZN6kwnnGZFCQvoW2GQeACBF3aZN0VCI5YaqlmVGZchXeQ4/3
+	CZgkWTjvrfoFT4QNpj2L7D6jOIL/CsbpIPdH+lZFD5C9a2Fl8hayQ5XgpASnzLCPbY1zqIhBCxK
+	WLjkTaymFwVD+cmrkDoNglQS3/q1LM4rvM3qHkN6s+A==
+X-Gm-Gg: ASbGnctBDTAjBxsnRnzt701xBBgYr9IKTSO/Th1Pcx16YUbcvXQPdqObU4zIUASx8hz
+	bzws5a8FjVnVJxB0nnLmsbH87cCLtdCEHesBoWuyldHKd6ZIhC7cMxrVEctLZ0e/fMYijZaMZ96
+	hvS8+auCKqCW90Z3TuppuPQKbzvh4dXWq5OgeQwU3Sl2/sXvXlPbM9Hj0qMXG9DgZ7bDldY49W9
+	BRaxO6t+//q6pXs1x+i9csNbfPp37BpQPXfxuumK3S8yHSGlueBsg0zX3uMWGAx6BphcYxH/724
+	mUq5J7E4YyPM4D3d63FwOMy7kGY7ZmM+iesWCQ==
+X-Google-Smtp-Source: AGHT+IEuBoP7FLJ7RKfybPU4wnzQPfOfSBPELfecZJf498k1Kqq4aLbclQ82Xa0VbYulJKemI9mt9GiaCUGy6s0Qdlc=
+X-Received: by 2002:a05:6512:3188:b0:595:9d90:5dc6 with SMTP id
+ 2adb3069b0e04-596a3ecd4d0mr7181931e87.19.1764168863690; Wed, 26 Nov 2025
+ 06:54:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <20251112-gpio-shared-v4-7-b51f97b1abd8@linaro.org> <0829a21c-f97d-41b6-90bc-2acaec42caab@nvidia.com>
+ <CAMRc=MdPvF+okfnRuwvAFG9UfyZ-araDsaaKMxKASEbc3rhyjQ@mail.gmail.com> <705186a9-a9db-46f0-bf2b-b499def050dd@nvidia.com>
+In-Reply-To: <705186a9-a9db-46f0-bf2b-b499def050dd@nvidia.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 26 Nov 2025 15:54:12 +0100
+X-Gm-Features: AWmQ_bntaAt919-HW3rKjIZ6zdRdh3lB3VLls8nYAX3XHQRBb1qUUSQSnMgYz4w
+Message-ID: <CAMRc=MdQ8QgbdAd2sudZLgcDZu9DxBRJh5sfLeXwcTDEE0F7Uw@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] arm64: select HAVE_SHARED_GPIOS for ARCH_QCOM
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a comment to clarify that slim_get_device() takes a reference to
-the embedded struct device of the returned slimbus device.
+On Wed, Nov 26, 2025 at 3:51=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> w=
+rote:
+>
+>
+> On 26/11/2025 14:28, Bartosz Golaszewski wrote:
+> > On Wed, Nov 26, 2025 at 3:24=E2=80=AFPM Jon Hunter <jonathanh@nvidia.co=
+m> wrote:
+> >>
+> >> Hi Bartosz,
+> >>
+> >> On 12/11/2025 13:55, Bartosz Golaszewski wrote:
+> >>> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >>>
+> >>> Some qualcomm platforms use shared GPIOs. Enable support for them by
+> >>> selecting the Kconfig switch provided by GPIOLIB.
+> >>>
+> >>> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> >>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >>> ---
+> >>>    arch/arm64/Kconfig.platforms | 1 +
+> >>>    1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platfo=
+rms
+> >>> index 13173795c43d4f28e2d47acc700f80a165d44671..3dbff0261f0add0516d8c=
+b3fd0f29e277af94f20 100644
+> >>> --- a/arch/arm64/Kconfig.platforms
+> >>> +++ b/arch/arm64/Kconfig.platforms
+> >>> @@ -316,6 +316,7 @@ config ARCH_QCOM
+> >>>        select GPIOLIB
+> >>>        select PINCTRL
+> >>>        select HAVE_PWRCTRL if PCI
+> >>> +     select HAVE_SHARED_GPIOS
+> >>>        help
+> >>>          This enables support for the ARMv8 based Qualcomm chipsets.
+> >>>
+> >>
+> >> I have noticed the following kernel warning on our Tegra platforms ...
+> >>
+> >>    ERR KERN OF: /__symbols__: could not find phandle 794981747
+> >>
+> >> Bisect is pointing to this commit and reverting this does prevent it. =
+I
+> >> am not sure if anyone else has seen this?
+> >>
+> >
+> > I assume it comes from drivers/of/base.c:1295 - could you please post
+> > a stack trace of how you're getting there?
+>
+> Yes looks like it does and I see ...
+>
+> [    0.123356] OF: /__symbols__: could not find phandle 794981747
+> [    0.123401] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.18.0-rc=
+7-next-20251126-00002-g1cd98992c487-dirty #19 PREEMPT
+> [    0.123418] Hardware name: NVIDIA Jetson AGX Xavier Developer Kit (DT)
+> [    0.123447] Call trace:
+> [    0.123453]  show_stack+0x18/0x24 (C)
+> [    0.123472]  dump_stack_lvl+0x74/0x8c
+> [    0.123487]  dump_stack+0x18/0x24
+> [    0.123518]  of_phandle_iterator_next+0x18c/0x1c4
+> [    0.123536]  of_count_phandle_with_args+0xa0/0xc8
+> [    0.123551]  gpio_shared_of_traverse+0xb8/0x47c
+> [    0.123566]  gpio_shared_of_traverse+0x158/0x47c
+> [    0.123578]  gpio_shared_init+0x110/0x1f0
+> [    0.123595]  do_one_initcall+0x7c/0x1c0
+> [    0.123607]  kernel_init_freeable+0x204/0x2e0
+> [    0.123622]  kernel_init+0x20/0x1d8
+> [    0.123637]  ret_from_fork+0x10/0x20
+>
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/slimbus/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+Is the device-tree used here upstream? Can you enable DEBUG_GPIO in
+Kconfig and post the entire kernel log on pastebin?
 
-diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
-index b4ab9a5d44b3..9402950e7ebd 100644
---- a/drivers/slimbus/core.c
-+++ b/drivers/slimbus/core.c
-@@ -366,6 +366,9 @@ static struct slim_device *find_slim_device(struct slim_controller *ctrl,
-  * @ctrl: Controller on which this device will be added/queried
-  * @e_addr: Enumeration address of the device to be queried
-  *
-+ * Takes a reference to the embedded struct device which needs to be dropped
-+ * after use.
-+ *
-  * Return: pointer to a device if it has already reported. Creates a new
-  * device and returns pointer to it if the device has not yet enumerated.
-  */
--- 
-2.51.2
-
+Bartosz
