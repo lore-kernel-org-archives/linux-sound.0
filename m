@@ -1,187 +1,142 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA791347DD
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 05:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFBA315D46
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 05:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764135700; cv=none; b=mWOfZAKaRxM7egliMHFOPFL6m164WHyH4x0+V1h2Ahpwohu75yTDohndgN7HEYjSCKaY6oSM2QUWejHK7vdK+A/c4dMiUmN134DOe3IuqxIkhLJkNJ4dHJs7aShh4s6L+1dIknyt1ybadRpQ8+26h2Ad0vIypRRhVzKobai0Occ=
+	t=1764135700; cv=none; b=XCpyUODYUDBugjRhRtb8IuWvHs4qJ5Yv3xN6xnx15yw4kt84wfQt2M9uSBIxOkp7ke4r/1GVk70U7I5Cgg2NHQ9bdQ4o59KMRoDeOB4blrYEzyp0lNdoBG8Ay2m+vAk4k/amGGL0wdSRh2Vzi0+9p7a7pUHc9BN0QTCTFtsaOnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764135700; c=relaxed/simple;
-	bh=kN8wNtyrFPMNkBMnseS+/dcIHc+YV5MfHN3kVM6Rs2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iAAdAJv6/khCwKQOSTYuz6n5T+R3EH73gOEKnJXLG6AZvBKtqD3E8rr8oOtVteMruR3hJs0PzzhB/GlsF6u8lfzSMhTOHBmN2hFk4NoL5DdzaKtjlpN5b7j/P1gLSlzS4+vekh1biPu8Bqxw1PcxKy5hAhIl2yBNFKSnO96U28I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMl8ZHZw; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=w+GCPoK6vKDYdVM8F+WmoYsVXtZdV+F+ghfv4NXUTi8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bIGUdi+X7DENHszeCR0UprAc/1amEUn/eA/wvI8XCwmI5H4AGsmJSMCVr4TZq21IMWz+BFGyaWS/ivqth3gUi4Xw/efkr7B7fxntzgxoue0KkNqlSOQUy1R6Fdk4SEuIBU2hw2pzhWuYgYL6dudgQpA4DciDdI0KypfEk68/nyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=SnhS56LZ; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMl8ZHZw"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b39d51dcfso3774830f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 21:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764135697; x=1764740497; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QW5cVIdovQWDv+bqBSbnBeQJjt2jpyUHW2uxiLg7ptY=;
-        b=hMl8ZHZwS4caHB0Ci3qjK+NWP7BXgUlsP6OVAOyeGYnZokr6WnE1yppHgz2nlDwgOx
-         Sp70VgzXXs6U0d8weRaO/BoyZ9TNBnwQ1RkBR4cZMbSkk+8BGB2nXCHKBdPL4qfZ3Qm5
-         E4jLBp5amIOR8v82YPXN4iRvOvEtRFL7AJehRVvqQifbPQnHpupzshtXch32JeErp00d
-         6xsShR2yp5CtfEF2uPCs9Lror+SLxjtelr36I7pPAxqKY5jao0vVoSiNGgk0XmLe5K9W
-         wB4tF3lqHX3CDvBF4XZ3XRjG/fx+Ueun3awCFWxafqSHEQ1l57kf7bXsWt2zdOjKAAw5
-         trpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764135697; x=1764740497;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QW5cVIdovQWDv+bqBSbnBeQJjt2jpyUHW2uxiLg7ptY=;
-        b=iGvPsdnRGnOPz3RE37QLeLCLoMJsxA79WGGlv7AewSCtQzvjxsY5kP/tnX4WfWx2yt
-         2U4+ZyNQstBucy403Fr8Xc/IuDbMkwOtsQHcZYe9ZoUdi/8CSNDYlTDsA6tadbz+HQYj
-         eaipfSOEDBogWjLxPMUX/o8W8V6TpOYs64cqSGd5MdbcwHyser+eb9mkIno0WCsDRMM2
-         nwMpNvfmEez1bj5/A+cD7H6QqRpX37hEm3m1mN8vLP6m0ZxvGaFuRFoesJgYPb+19W36
-         zIk0wANd8M5bhjcUfjTzZ44lPzy16h11QvU+ttzdCDfkOSt3Y3vsX+pu+tQWi3Rm7deb
-         +hLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVgODdvmvLu7TA0E2ZAA8OIEd9Bpy5Swb3iPf8e38Bm352bTR/NhCFtmVgMhp53Q5+Li8RWUbcVDSM4ng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YweGqkiM4H66RtCsbJwK9kaP9hkoNCkncwdX0DkT1a1LiJUO+XD
-	NcfyZY8xYl3d8R36nzO8jZV6wgdWQu+4HtlyVu7L51wL4X5oVZEOYns4
-X-Gm-Gg: ASbGncsPZS+eXJhTgDkhWoQaSa4Hsmm9kxJrnvc52pJRzKoZUgFsuBaHNAgKD8MDM0p
-	tm0dMsJJzqFaNaBa3OCTcRnkU3MbzLLrcAm3OWnH2l5KXMjsDl78JQwQ16d5nLH33c4bPVU0oLK
-	dLcHCu/D4jlp5ZR+eygPsVo6SkSxTMiErDDafFVdGtU0XtOijmvW7Ue/8kfYzAC63ESTiD7skTS
-	LeUbDQEGiinj/8G2Vsv6mYZHuMHg5oyuIjFe53rXZzmHVlyQzjtimZILrF/SemAn8T6RDugpi7z
-	YWsCQH+pf2eXNV33+4S7do8fazSyNHe0jecsnBtE43FfyHBU0quaPKj0S/RM7msHQeq/x8qyKi1
-	R0h3M9oUIWUIc69xx9wCrDJNHXLkCoie6uH7s1/hCobAKJjF3pDk370utV+g+WCTziO07rJ4yI6
-	QYgHAJWlGcdG3J
-X-Google-Smtp-Source: AGHT+IF5V48oVy47DDAvZnj5lN2hPNi8IKQoV7v+luO0VgruXL17m6le0MnbAaH8JmcsbJdk8AXskQ==
-X-Received: by 2002:a05:6000:240b:b0:42b:3661:304a with SMTP id ffacd0b85a97d-42cc1d08715mr20198687f8f.38.1764135696988;
-        Tue, 25 Nov 2025 21:41:36 -0800 (PST)
-Received: from gmail.com ([147.161.143.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f363b0sm38658536f8f.13.2025.11.25.21.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 21:41:36 -0800 (PST)
-From: hariconscious@gmail.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	HariKrishna Sagala <hariconscious@gmail.com>
-Subject: [PATCH] ASoC: mediatek: mt8195: optimize property formatting error handling by using scnprintf()
-Date: Wed, 26 Nov 2025 11:05:02 +0530
-Message-ID: <20251126053500.56353-3-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="SnhS56LZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1764135641;
+	bh=/gwjEQMk/Yo5KBkc/LXDJgVHq6lvgHxRTg+8YFy7p74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=SnhS56LZl3NYVBsu6oMJQBgwtOTcIvFQnwtCNnkc1KkRNgpsH8nA6CRz0PnCP6gTi
+	 vpmDRMwLDdoCj79ykTT3wW8ePzaWHQa004LLDSa/qyMuqrfxShoupgJpg0SIGtH3PG
+	 FYN2GJ+cFAoK3OYEEv1JBzf6pkrr3B2Qnfujo6BQ=
+X-QQ-mid: zesmtpgz8t1764135635tf64b3cbb
+X-QQ-Originating-IP: BxXmP65tf00gSjbt4Ib7b8lwZb0mOFymBmlLaCjkzm8=
+Received: from [198.18.0.1] ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 26 Nov 2025 13:40:33 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 2847395909065401198
+Message-ID: <8E36970AA2645815+2ca6c6a0-7492-4636-84af-52c5cea87fdd@uniontech.com>
+Date: Wed, 26 Nov 2025 13:40:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Implement jack detection for HP Thunderbolt Dock G2
+To: Tasos Sahanidis <tasos@tasossah.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ =?UTF-8?Q?Jan_Sch=C3=A4r?= <jan@jschaer.ch>
+References: <20251126003805.2705503-1-tasos@tasossah.com>
+ <84FC3BDF7EA9F69A+14dcb273-e661-49b7-8609-020c3cf79eb7@uniontech.com>
+ <74e957bb-95f9-428f-92f8-ad6fcb4becba@tasossah.com>
+Content-Language: en-US
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
+In-Reply-To: <74e957bb-95f9-428f-92f8-ad6fcb4becba@tasossah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-1
+X-QQ-XMAILINFO: MhJ5K6/MvAhhGHtF4ew99VJgmMd234YxtDJE4uvHyCAgaS6NPlWTgnb/
+	lEoO4g6ujchF13iMquhm+AqdkrpFg1drbdJMvNQRdKsOrQmZ6nYh5SbBmDhtFWVNJakA1xt
+	NnMDMIdmsmpDo3b5V6+yccJBWBYWF02qeiqVtgg9fQba/Aog69wcjPHxrVIbPvnctoB/62u
+	k1EARK8DUJGYM7OErIdZkNFBuqWoJDUJBGMCFXqxCV8fSAx5XCDKF1BUAtdiIMh+WSjvTlo
+	ByJ4DG1Bbe91ik4UTRCDDg/CMY0TkDPUmp1R2oV2KXv0pnZYi0sT+O25+P12R74MiONtoLW
+	1d0APkt3fxlwCe5iv7xeJCPx1BkhuYL2ogoYD4IzMqwgVpE77GMHaqMgRw1nNzXYTXsgIsQ
+	LHg/c177Ks59b0cmCbs2ULhzz3Rs9brKLF9zF/O7g4u/C9c2iEkDNAevOS14QpYNEiJkL2f
+	4wUnOUM8C2Kp8lLkUa9s0rDjf2kLHO5lt+oRlyatzi7I7sK7411fdgR+GkQSUzzT72lpO6P
+	NkYMgnWg0dn3L6h8w8pxLPIBtJ7tHej05HqvCefHozTDELbZHCabh8KTXQUFWDCENXzgPPM
+	pl0rEI54gMuhZCzFMnd/aokrhGAU71eXryGgkKuvDIIfHc6uVbkESWpMrHNvqSbbFblX3rG
+	AeAhXoB0huAzy1f1toTG2/Pzh555mhgz1TKlBmfMiexNlAXRZJVmZAy3+KzDTOMv0rjfQW2
+	u0dq0iE//DiHhHi5amAnG3ZNOKW6Hw/qPt05rsc6Uk3HX7SfGWEGkd8uZMqd0Sc+6l9W7hC
+	u4Goyb6wieoKtfOtnqWRsrppTacf4jyO1GgbgNKmRM29DnQKW0vR2RKtiy7Ztj3BOrwdH0X
+	MfrtD5KsoWzGabhtzt6Ziblhg3DODtr2vA0ypFVxvg6h12y/1C6hla/1O0PEEpetFwqOymH
+	gg0+lZjugWZcAsIj84IR08pVPrKap3Ic57PG1/UVHXRsJJrod6FX/T24IEx3icHFrAuLRMu
+	JyrHBElpLzpOMOv2s3pbYc5V/AK5EnS4vBYnfB0Q==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-From: HariKrishna Sagala <hariconscious@gmail.com>
 
-Replace snprintf() with scnprintf() when constructing the property
-and remove negative return error handling as scnprintf() returns the
-actual number of bytes written to buffer.
 
-snprintf() as defined by the C99 standard,returns the number of 
-characters that *would have been* written if enough space were 
-available.Use scnprintf() that returns the actual number of 
-characters written.
+On 26/11/2025 11.36, Tasos Sahanidis wrote:
+> On 2025-11-26 04:58, Cryolitia PukNgae wrote:
+>>
+>>
+>> On 26/11/2025 08.29, Tasos Sahanidis wrote:
+>>> This series adds jack detection support for the HP Thunderbolt Dock G2.
+>>>
+>>> The first patch modifies the existing realtek quirk for the Dell WD15/19
+>>> docks to allow changing the commands/algorithm used for jack detection.
+>>
+>> Does the HP Thunderbolt Dock G2 use a realtek chip?
+> 
+> Yes, it does. When plugged in, it loads RtUsbA64.sys.
+> 
+> Looking up a teardown online, it appears to be an ALC4102, however I
+> could not locate any public information about it. The only other Realtek
+> IC in the dock is the NIC (RTL8153).
+> 
+> lsusb doesn't reveal much, either:
+>   idVendor           0x03f0 HP, Inc
+>   idProduct          0x0269 USB Audio
+>   bcdDevice            0.17
+>   iManufacturer           3 Generic
+>   iProduct                1 USB Audio
+> 
+> I am unsure if this is an HP specific jack implementation (in firmware)
+> or if Realtek changed it for some devices.
 
-Link: https://github.com/KSPP/linux/issues/105
-Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
----
-This patch optimizes the error handling part of property formatting
-using the scnrpintf().
-Removed the error check ret < 0 as scnprintf() doesn't return the
-negative value as per contract.
-https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.scnprintf
+The ALC4102 is widely used in a wide variety of devices. As far as I know,
+this chip has programmable firmware that allows downstream manufacturers
+to customize its behavior. I'm curious to what extent this jack detection
+implementation can be generalized to other devices that also use the
+ALC4102. Perhaps we can examine its behavior under operating systems like
+Windows? Does Windows have a similar jack detection function, and is this
+function provided by HP or Realtek's driver?
 
-Thank you.
+>>> The second patch implements the detection for the HP dock.
+>>>
+>>> This series was tested against both a WD19TB, with no regressions, and
+>>> an HP TB Dock G2 without the optional USB speaker audio module. The
+>>> module shows up as an additional USB device, so this should not affect
+>>> its functionality.
+>>>
+>>> Tasos Sahanidis (2):
+>>>   ALSA: usb-audio: Modularize realtek_add_jack in mixer_quirks
+>>>   ALSA: usb-audio: Implement jack detection for HP Thunderbolt Dock G2
+>>>
+>>>  sound/usb/mixer_quirks.c | 122 ++++++++++++++++++++++++++++++++++++---
+>>>  1 file changed, 115 insertions(+), 7 deletions(-)
+>>>
+>>
+>> thanks
+>>
+>> Best regards,
+>> Cryolitia PukNgae
+>>
+> 
+> 
 
- sound/soc/mediatek/mt8195/mt8195-dai-etdm.c | 44 ++++++---------------
- 1 file changed, 12 insertions(+), 32 deletions(-)
+thanks
 
-diff --git a/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c b/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
-index fd4f9f8f032d..77c58c9ec3e2 100644
---- a/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
-+++ b/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
-@@ -2652,14 +2652,9 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
- 
- 		etdm_data = afe_priv->dai_priv[dai_id];
- 
--		ret = snprintf(prop, sizeof(prop),
--			       "mediatek,%s-mclk-always-on-rate",
--			       of_afe_etdms[i].name);
--		if (ret < 0) {
--			dev_info(afe->dev, "%s snprintf err=%d\n",
--				 __func__, ret);
--			return;
--		}
-+		scnprintf(prop, sizeof(prop),
-+			    "mediatek,%s-mclk-always-on-rate",
-+			    of_afe_etdms[i].name);
- 		ret = of_property_read_u32(of_node, prop, &sel);
- 		if (ret == 0) {
- 			etdm_data->mclk_dir = SND_SOC_CLOCK_OUT;
-@@ -2668,24 +2663,14 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
- 					 __func__, sel);
- 		}
- 
--		ret = snprintf(prop, sizeof(prop),
--			       "mediatek,%s-multi-pin-mode",
--			       of_afe_etdms[i].name);
--		if (ret < 0) {
--			dev_info(afe->dev, "%s snprintf err=%d\n",
--				 __func__, ret);
--			return;
--		}
-+		scnprintf(prop, sizeof(prop),
-+			    "mediatek,%s-multi-pin-mode",
-+			    of_afe_etdms[i].name);
- 		etdm_data->data_mode = of_property_read_bool(of_node, prop);
- 
--		ret = snprintf(prop, sizeof(prop),
--			       "mediatek,%s-cowork-source",
--			       of_afe_etdms[i].name);
--		if (ret < 0) {
--			dev_info(afe->dev, "%s snprintf err=%d\n",
--				 __func__, ret);
--			return;
--		}
-+		scnprintf(prop, sizeof(prop),
-+			    "mediatek,%s-cowork-source",
-+			    of_afe_etdms[i].name);
- 		ret = of_property_read_u32(of_node, prop, &sel);
- 		if (ret == 0) {
- 			if (sel >= MT8195_AFE_IO_ETDM_NUM) {
-@@ -2707,14 +2692,9 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
- 		dai_id = ETDM_TO_DAI_ID(i);
- 		etdm_data = afe_priv->dai_priv[dai_id];
- 
--		ret = snprintf(prop, sizeof(prop),
--			       "mediatek,%s-chn-disabled",
--			       of_afe_etdms[i].name);
--		if (ret < 0) {
--			dev_info(afe->dev, "%s snprintf err=%d\n",
--				 __func__, ret);
--			return;
--		}
-+		scnprintf(prop, sizeof(prop),
-+			    "mediatek,%s-chn-disabled",
-+			    of_afe_etdms[i].name);
- 		ret = of_property_read_variable_u8_array(of_node, prop,
- 							 disable_chn,
- 							 1, max_chn);
-
-base-commit: 30f09200cc4aefbd8385b01e41bde2e4565a6f0e
--- 
-2.43.0
+Best regards,
+Cryolitia PukNgae
 
