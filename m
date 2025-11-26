@@ -1,153 +1,187 @@
-Received: from devloop.tasossah.com (devloop.tasossah.com [145.239.141.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C7A218821
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 03:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.141.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA791347DD
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 05:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764128171; cv=none; b=C80FdTSWHQYoUNCA07F7a/SgTCBzyxLjlciNoOdET7qxAFKrMx1Pchcwd5r7ppU5uXLPADNaSlzCKXgi9ZHhB3AbdB4rXeHd57kkqzCGjnkavUqA4MzgHrXFOauY96cHZssehirEVYMtqY+KbQZnEcTDYxDfEDchgo9h6plvsmI=
+	t=1764135700; cv=none; b=mWOfZAKaRxM7egliMHFOPFL6m164WHyH4x0+V1h2Ahpwohu75yTDohndgN7HEYjSCKaY6oSM2QUWejHK7vdK+A/c4dMiUmN134DOe3IuqxIkhLJkNJ4dHJs7aShh4s6L+1dIknyt1ybadRpQ8+26h2Ad0vIypRRhVzKobai0Occ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764128171; c=relaxed/simple;
-	bh=De4qN+4ztoUCg9dPwx3UUfI6WueGn95ethAsQTg0L6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RwN0qvRzSByZ4055HA6coBSGqTb1LaVMUCSqOpHlJGpE2JfVsWVk5VzACUyqXks+2W4jsXLmQJZNfsDKg8VzyEw2CjBJvC6hCPOE1h+A/7rW5FIDzbVc6I+1yZaNsl/zk2fF9O765UsZMpwpp1E08l40EinngtZACO8qpUjvpRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com; spf=pass smtp.mailfrom=tasossah.com; dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b=JVO66krj; arc=none smtp.client-ip=145.239.141.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tasossah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tasossah.com
+	s=arc-20240116; t=1764135700; c=relaxed/simple;
+	bh=kN8wNtyrFPMNkBMnseS+/dcIHc+YV5MfHN3kVM6Rs2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iAAdAJv6/khCwKQOSTYuz6n5T+R3EH73gOEKnJXLG6AZvBKtqD3E8rr8oOtVteMruR3hJs0PzzhB/GlsF6u8lfzSMhTOHBmN2hFk4NoL5DdzaKtjlpN5b7j/P1gLSlzS4+vekh1biPu8Bqxw1PcxKy5hAhIl2yBNFKSnO96U28I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMl8ZHZw; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=tasossah.com header.i=@tasossah.com header.b="JVO66krj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=tasossah.com; s=devloop; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=V01tzGN8n1Gl5soFrExBqLKIahJvbIADI/7meQ0tQd0=; b=JVO66krjPJPaDNWjN7plQXpjDP
-	H5OuUd3jsxyG951+M74Ga7uvGxge83nbJppHE64SOY+rZqTDY9ukIqTOn3t+hywv4hczzxQWUB4Jr
-	RboQm9C75FEXU4T4mjIP7dsljw3K+jiBHWvTmdIOPTP5mSV4PfXp+p+NkpTPZLvoiD1+KNDA7Kjjl
-	PsRiPBgOWgryrJBUBhAZZaCkyEsI+aALIPbORX0ZFAOY0oMgRQgNKKrH/+UxK1uMnb/qhj2yfP5T8
-	lMZTimL5g0o/wOUhw8kzOBagppVz40JxGhJ6K3C5zu3AVTO2bffgC9424pOgFjjfCf0tVts278LRP
-	IlGfWYbF/Y5kWjuQh6oIXQRAv4WigE4eIGy0itt7CZ+igGGCmJIER6xy5DCQZtGKDD+sWSAPnRrIJ
-	H9/qExBYvjSquxAGBeH6MDO/RiJKpHh29Yr6KzJuLUvG0z5Rlp9swiel+IMwwwfeAOlLvtfgYo7S1
-	acST4folt3KSBdTnZwlCP+GGRsyrfm3JXkBOXoAjHnLwX9/ycDvDrpB86zV4Bpd7nThAzgY4zWlJA
-	eww1wQd0Z2bCsajALh7q1x32Gz5o+uPn/BHpH/Eknh6+Kh+GeWdnlk5tfgk08IQ2rmYFoF+/Vs1tI
-	pPRFmMGwYju/vY0YuCU9fgBPCrx2zLvV8+OsG1D9A=;
-Received: from [2a02:587:6a0c:9900:f7ed:bcf0:918c:fb30]
-	by devloop.tasossah.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.97)
-	(envelope-from <tasos@tasossah.com>)
-	id 1vO6K7-00000002V4p-2rkA;
-	Wed, 26 Nov 2025 05:36:07 +0200
-Message-ID: <74e957bb-95f9-428f-92f8-ad6fcb4becba@tasossah.com>
-Date: Wed, 26 Nov 2025 05:36:02 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMl8ZHZw"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b39d51dcfso3774830f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 25 Nov 2025 21:41:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764135697; x=1764740497; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QW5cVIdovQWDv+bqBSbnBeQJjt2jpyUHW2uxiLg7ptY=;
+        b=hMl8ZHZwS4caHB0Ci3qjK+NWP7BXgUlsP6OVAOyeGYnZokr6WnE1yppHgz2nlDwgOx
+         Sp70VgzXXs6U0d8weRaO/BoyZ9TNBnwQ1RkBR4cZMbSkk+8BGB2nXCHKBdPL4qfZ3Qm5
+         E4jLBp5amIOR8v82YPXN4iRvOvEtRFL7AJehRVvqQifbPQnHpupzshtXch32JeErp00d
+         6xsShR2yp5CtfEF2uPCs9Lror+SLxjtelr36I7pPAxqKY5jao0vVoSiNGgk0XmLe5K9W
+         wB4tF3lqHX3CDvBF4XZ3XRjG/fx+Ueun3awCFWxafqSHEQ1l57kf7bXsWt2zdOjKAAw5
+         trpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764135697; x=1764740497;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QW5cVIdovQWDv+bqBSbnBeQJjt2jpyUHW2uxiLg7ptY=;
+        b=iGvPsdnRGnOPz3RE37QLeLCLoMJsxA79WGGlv7AewSCtQzvjxsY5kP/tnX4WfWx2yt
+         2U4+ZyNQstBucy403Fr8Xc/IuDbMkwOtsQHcZYe9ZoUdi/8CSNDYlTDsA6tadbz+HQYj
+         eaipfSOEDBogWjLxPMUX/o8W8V6TpOYs64cqSGd5MdbcwHyser+eb9mkIno0WCsDRMM2
+         nwMpNvfmEez1bj5/A+cD7H6QqRpX37hEm3m1mN8vLP6m0ZxvGaFuRFoesJgYPb+19W36
+         zIk0wANd8M5bhjcUfjTzZ44lPzy16h11QvU+ttzdCDfkOSt3Y3vsX+pu+tQWi3Rm7deb
+         +hLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVgODdvmvLu7TA0E2ZAA8OIEd9Bpy5Swb3iPf8e38Bm352bTR/NhCFtmVgMhp53Q5+Li8RWUbcVDSM4ng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweGqkiM4H66RtCsbJwK9kaP9hkoNCkncwdX0DkT1a1LiJUO+XD
+	NcfyZY8xYl3d8R36nzO8jZV6wgdWQu+4HtlyVu7L51wL4X5oVZEOYns4
+X-Gm-Gg: ASbGncsPZS+eXJhTgDkhWoQaSa4Hsmm9kxJrnvc52pJRzKoZUgFsuBaHNAgKD8MDM0p
+	tm0dMsJJzqFaNaBa3OCTcRnkU3MbzLLrcAm3OWnH2l5KXMjsDl78JQwQ16d5nLH33c4bPVU0oLK
+	dLcHCu/D4jlp5ZR+eygPsVo6SkSxTMiErDDafFVdGtU0XtOijmvW7Ue/8kfYzAC63ESTiD7skTS
+	LeUbDQEGiinj/8G2Vsv6mYZHuMHg5oyuIjFe53rXZzmHVlyQzjtimZILrF/SemAn8T6RDugpi7z
+	YWsCQH+pf2eXNV33+4S7do8fazSyNHe0jecsnBtE43FfyHBU0quaPKj0S/RM7msHQeq/x8qyKi1
+	R0h3M9oUIWUIc69xx9wCrDJNHXLkCoie6uH7s1/hCobAKJjF3pDk370utV+g+WCTziO07rJ4yI6
+	QYgHAJWlGcdG3J
+X-Google-Smtp-Source: AGHT+IF5V48oVy47DDAvZnj5lN2hPNi8IKQoV7v+luO0VgruXL17m6le0MnbAaH8JmcsbJdk8AXskQ==
+X-Received: by 2002:a05:6000:240b:b0:42b:3661:304a with SMTP id ffacd0b85a97d-42cc1d08715mr20198687f8f.38.1764135696988;
+        Tue, 25 Nov 2025 21:41:36 -0800 (PST)
+Received: from gmail.com ([147.161.143.89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f363b0sm38658536f8f.13.2025.11.25.21.41.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 21:41:36 -0800 (PST)
+From: hariconscious@gmail.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ASoC: mediatek: mt8195: optimize property formatting error handling by using scnprintf()
+Date: Wed, 26 Nov 2025 11:05:02 +0530
+Message-ID: <20251126053500.56353-3-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Implement jack detection for HP Thunderbolt Dock G2
-To: Cryolitia PukNgae <cryolitia@uniontech.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- =?UTF-8?Q?Jan_Sch=C3=A4r?= <jan@jschaer.ch>
-References: <20251126003805.2705503-1-tasos@tasossah.com>
- <84FC3BDF7EA9F69A+14dcb273-e661-49b7-8609-020c3cf79eb7@uniontech.com>
-From: Tasos Sahanidis <tasos@tasossah.com>
-Content-Language: el-GR, en-GB
-Autocrypt: addr=tasos@tasossah.com; keydata=
- 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
-In-Reply-To: <84FC3BDF7EA9F69A+14dcb273-e661-49b7-8609-020c3cf79eb7@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2025-11-26 04:58, Cryolitia PukNgae wrote:
-> 
-> 
-> On 26/11/2025 08.29, Tasos Sahanidis wrote:
->> This series adds jack detection support for the HP Thunderbolt Dock G2.
->>
->> The first patch modifies the existing realtek quirk for the Dell WD15/19
->> docks to allow changing the commands/algorithm used for jack detection.
-> 
-> Does the HP Thunderbolt Dock G2 use a realtek chip?
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
-Yes, it does. When plugged in, it loads RtUsbA64.sys.
+Replace snprintf() with scnprintf() when constructing the property
+and remove negative return error handling as scnprintf() returns the
+actual number of bytes written to buffer.
 
-Looking up a teardown online, it appears to be an ALC4102, however I
-could not locate any public information about it. The only other Realtek
-IC in the dock is the NIC (RTL8153).
+snprintf() as defined by the C99 standard,returns the number of 
+characters that *would have been* written if enough space were 
+available.Use scnprintf() that returns the actual number of 
+characters written.
 
-lsusb doesn't reveal much, either:
-  idVendor           0x03f0 HP, Inc
-  idProduct          0x0269 USB Audio
-  bcdDevice            0.17
-  iManufacturer           3 Generic
-  iProduct                1 USB Audio
+Link: https://github.com/KSPP/linux/issues/105
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
+This patch optimizes the error handling part of property formatting
+using the scnrpintf().
+Removed the error check ret < 0 as scnprintf() doesn't return the
+negative value as per contract.
+https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.scnprintf
 
-I am unsure if this is an HP specific jack implementation (in firmware)
-or if Realtek changed it for some devices.
+Thank you.
 
->> The second patch implements the detection for the HP dock.
->>
->> This series was tested against both a WD19TB, with no regressions, and
->> an HP TB Dock G2 without the optional USB speaker audio module. The
->> module shows up as an additional USB device, so this should not affect
->> its functionality.
->>
->> Tasos Sahanidis (2):
->>   ALSA: usb-audio: Modularize realtek_add_jack in mixer_quirks
->>   ALSA: usb-audio: Implement jack detection for HP Thunderbolt Dock G2
->>
->>  sound/usb/mixer_quirks.c | 122 ++++++++++++++++++++++++++++++++++++---
->>  1 file changed, 115 insertions(+), 7 deletions(-)
->>
-> 
-> thanks
-> 
-> Best regards,
-> Cryolitia PukNgae
-> 
+ sound/soc/mediatek/mt8195/mt8195-dai-etdm.c | 44 ++++++---------------
+ 1 file changed, 12 insertions(+), 32 deletions(-)
+
+diff --git a/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c b/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
+index fd4f9f8f032d..77c58c9ec3e2 100644
+--- a/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
++++ b/sound/soc/mediatek/mt8195/mt8195-dai-etdm.c
+@@ -2652,14 +2652,9 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
+ 
+ 		etdm_data = afe_priv->dai_priv[dai_id];
+ 
+-		ret = snprintf(prop, sizeof(prop),
+-			       "mediatek,%s-mclk-always-on-rate",
+-			       of_afe_etdms[i].name);
+-		if (ret < 0) {
+-			dev_info(afe->dev, "%s snprintf err=%d\n",
+-				 __func__, ret);
+-			return;
+-		}
++		scnprintf(prop, sizeof(prop),
++			    "mediatek,%s-mclk-always-on-rate",
++			    of_afe_etdms[i].name);
+ 		ret = of_property_read_u32(of_node, prop, &sel);
+ 		if (ret == 0) {
+ 			etdm_data->mclk_dir = SND_SOC_CLOCK_OUT;
+@@ -2668,24 +2663,14 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
+ 					 __func__, sel);
+ 		}
+ 
+-		ret = snprintf(prop, sizeof(prop),
+-			       "mediatek,%s-multi-pin-mode",
+-			       of_afe_etdms[i].name);
+-		if (ret < 0) {
+-			dev_info(afe->dev, "%s snprintf err=%d\n",
+-				 __func__, ret);
+-			return;
+-		}
++		scnprintf(prop, sizeof(prop),
++			    "mediatek,%s-multi-pin-mode",
++			    of_afe_etdms[i].name);
+ 		etdm_data->data_mode = of_property_read_bool(of_node, prop);
+ 
+-		ret = snprintf(prop, sizeof(prop),
+-			       "mediatek,%s-cowork-source",
+-			       of_afe_etdms[i].name);
+-		if (ret < 0) {
+-			dev_info(afe->dev, "%s snprintf err=%d\n",
+-				 __func__, ret);
+-			return;
+-		}
++		scnprintf(prop, sizeof(prop),
++			    "mediatek,%s-cowork-source",
++			    of_afe_etdms[i].name);
+ 		ret = of_property_read_u32(of_node, prop, &sel);
+ 		if (ret == 0) {
+ 			if (sel >= MT8195_AFE_IO_ETDM_NUM) {
+@@ -2707,14 +2692,9 @@ static void mt8195_dai_etdm_parse_of(struct mtk_base_afe *afe)
+ 		dai_id = ETDM_TO_DAI_ID(i);
+ 		etdm_data = afe_priv->dai_priv[dai_id];
+ 
+-		ret = snprintf(prop, sizeof(prop),
+-			       "mediatek,%s-chn-disabled",
+-			       of_afe_etdms[i].name);
+-		if (ret < 0) {
+-			dev_info(afe->dev, "%s snprintf err=%d\n",
+-				 __func__, ret);
+-			return;
+-		}
++		scnprintf(prop, sizeof(prop),
++			    "mediatek,%s-chn-disabled",
++			    of_afe_etdms[i].name);
+ 		ret = of_property_read_variable_u8_array(of_node, prop,
+ 							 disable_chn,
+ 							 1, max_chn);
+
+base-commit: 30f09200cc4aefbd8385b01e41bde2e4565a6f0e
+-- 
+2.43.0
 
