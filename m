@@ -1,202 +1,132 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012060.outbound.protection.outlook.com [40.93.195.60])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA11132693C;
-	Wed, 26 Nov 2025 12:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764159610; cv=fail; b=MsyK1ckGmwaIX8+cY7ctNN+ZzYgUNQtsxklF+IEG4a2PG0eCxajpF0MuKeyxgRvmhWGRPDUNQPmYcsjxNB/If+7pf6oAVhr+Km9TXvmMNGkXsIek1K/R/6Lr+5PU6D7CS/dmRLnqlwb/9ylYCySmg4vh1yuwcrIYYWYUeRMEYo0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764159610; c=relaxed/simple;
-	bh=7wLvRemsST8lKUUHDWYhm4/rPosuv0NioAxRHjhoRCI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oHBqQloLJAKWJaVGW5ATh0yCFh9XbX7AUIvBvEaHDiQLlXEMRKtyywiq2pvnQusAeXeHmYQN2yr5fz6+VcAiNK+6s2C0wLnkJ/Vp8pTJpCI4wbw5gUTSJzOWdM0IPjc2daPrZUdFFwmaSa9/qFqMNJKqTdhw8kO0uA/vm0JCxDQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WomTmhyX; arc=fail smtp.client-ip=40.93.195.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792BB32721F;
+	Wed, 26 Nov 2025 12:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764160140; cv=none; b=trbRfOOPer2KQS7HTY1e8m6rJFlatvXC45SuCCDv7hwms9j4glsIv/hgkyyYsAnW+kekch80R9M2BFe+0TcKY4ejWUke6jGMsTOirWRX2QQ/4ZJ8nMLIpWvSMVLWEHSM6oP4Rb98WetnOxEApUozV22nATCLPrPNNPsNgKMf6R8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764160140; c=relaxed/simple;
+	bh=Ob6QmmWDh4oiB6gP8J9QjMFjK/AEovlZGaBM6iIehtY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tXv+RrILHYCqZpGsMD/F2s1WuxddOzDlDbDWD6/4fRqL+Cpmh/g4QrFQjw655YZ8jqH+7hTpJA/cMjje4/dWHk8DrxVqkfaGe5JebJO6dTRz1dUqFGZEBapExvlQD4F89bWFLeztKZ2Tp4t0Wf+Kck4UMfuIEVQvYaWSS0IPnd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r/HYW43V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WomTmhyX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aewaATRUn3kv3EJtEanr5TwhlMlbwv1jlbiOUHeMSTEQhhCOAi9T4VmGG4F/VC7R8aJhA5sumVB5vKmq41+qfuCpb8ZMqOOA+j/aqCWsbkIc6wyp6JmtYXj0Qe0b73baIHfutjKTI6Ofppc50SuMSG+A5jPwslYkMDR2yfgF3yWCrp3aXWp/LrMc84qwj+yRb35Uvq+frbD5sCM0AqiJoX7E7yqvwjo1Ns9Ea/3BPdSRGpeouR1aTORl/P09wz+j3zfNw/OElJcPitlokxJcKeoj7w0g+hFdQYkviCnjGEjCL3PITJuZ8wYg0Nk7HLD4StMwpaoVH5q1Mx0GIUdmoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QPI+zqCzGsMzddNoQyXR3F4HWPH6Fa65U/JuSSS28WQ=;
- b=H2a0/W5SatK1u7wfDq0a2K297QAYRPU6uBg3ftZj2GVFXqZVxSoD5zxUy7qXqTKP3QyjkKCJvI0Y1bq+1yLmw051GqhnkUV05LmNDUvasAKW7bb5HkYLQwdmEP3TJPmaj7Kvj/ROTHiYvHyjW71LCX4SWYbrF3F6OU8pRxdWr1I+VsjQ3N2rEy0dhfECzw5jZARie4qQlqbK5EzReTqlK6VqlDDLjqhGU5VjwDOP9eDoKffF4193RJ5JFCjZptfUPqJ7kwa35e+LHSOxbkvMv2vc7Fhp3ALtqdTPOljdPoqpNd+AxybR+syn8hTK22KY+7G42WBZ4VFNEWkrNSDO/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=hp.com smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QPI+zqCzGsMzddNoQyXR3F4HWPH6Fa65U/JuSSS28WQ=;
- b=WomTmhyXYTv+Y7FFpzeG1HTXmJAQ1Sz90Kif/Y7ms7uqLGiNQi+SnER2OS6tNtrWgwRDb9bT8ru3KbYdkPNVWupo88yzIkuGdes8WPH9fnd/X5DQzYDr2zTjCt4/Zr70alTJAMDxOvq293ylGzVMXDxvD7RQBy7TWHPeri5b0iY=
-Received: from BN9PR03CA0354.namprd03.prod.outlook.com (2603:10b6:408:f6::29)
- by CO1PR10MB4788.namprd10.prod.outlook.com (2603:10b6:303:94::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 12:20:01 +0000
-Received: from BN1PEPF00006002.namprd05.prod.outlook.com
- (2603:10b6:408:f6:cafe::69) by BN9PR03CA0354.outlook.office365.com
- (2603:10b6:408:f6::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.12 via Frontend Transport; Wed,
- 26 Nov 2025 12:20:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BN1PEPF00006002.mail.protection.outlook.com (10.167.243.234) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Wed, 26 Nov 2025 12:20:00 +0000
-Received: from DFLE211.ent.ti.com (10.64.6.69) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 26 Nov
- 2025 06:19:54 -0600
-Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 26 Nov
- 2025 06:19:54 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 26 Nov 2025 06:19:54 -0600
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AQCJcPm1202942;
-	Wed, 26 Nov 2025 06:19:47 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>, <hansg@kernel.org>
-CC: <ilpo.jarvinen@linux.intel.com>, <broonie@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>, <alsa-devel@alsa-project.org>,
-	<shenghao-ding@ti.com>, <13916275206@139.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>, <letitia.tsai@hp.com>
-Subject: [PATCH v4 1/1] platform/x86: serial-multi-instantiate: Add IRQ_RESOURCE_OPT for IRQ missing projects
-Date: Wed, 26 Nov 2025 20:19:11 +0800
-Message-ID: <20251126121911.10980-2-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20251126121911.10980-1-baojun.xu@ti.com>
-References: <20251126121911.10980-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/HYW43V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B93C113D0;
+	Wed, 26 Nov 2025 12:28:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764160139;
+	bh=Ob6QmmWDh4oiB6gP8J9QjMFjK/AEovlZGaBM6iIehtY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r/HYW43V7mF+I82OwalGBXKAAsnW64//dqGt/1BpzVWUFDfgO+7pBsv8eCPQwA2zQ
+	 o/u7y7tOv8l29xvXkz/+locaLv4m/7I4/AL++JDuSGiHPJyazLJUBqTqQ5CN/xb3gr
+	 J+iSVztuF2t+I5m8i77tLnazWKpqsg/lsxKVqyXQfLaV6827TyPpI8Exz5/riOflo6
+	 D26hKzwJtSy9xhapQ5sHF8/9ICfdO2a8oLvNCbw6lF75v+qZbwnCE5cXBruJWxUD7t
+	 2mZrC7gUK2AYiq569njVzvzEi1DF74jmgkVJRJsYUXuRecj58NVTNVcYhFD7QgbPaP
+	 JYiArrFV/E2cw==
+Message-ID: <9b2dca55-1207-48a3-94b0-3efad1462d0f@kernel.org>
+Date: Wed, 26 Nov 2025 13:28:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006002:EE_|CO1PR10MB4788:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8d4b7c1-7b1d-4526-190d-08de2ce61ec8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Xcaur/+J3EEcN+ggieg1qQ3yz09Lxx3BUFMYDVqMvcxCeD6d9p1E2LIj00ra?=
- =?us-ascii?Q?B1ofb0nZ0T2FdZsVPPfL2Fg7ZSOpTK03+U8z54k8ClmAISGzmTdGw7kx9TJV?=
- =?us-ascii?Q?TaKAiB6PCRxmxigmLG5vb13yOuw5jIsxjulJ/TaMIGojcmSY0O09FgE4Szs5?=
- =?us-ascii?Q?ruhkzFDdXxDZsxFMSNQ3J7shmX52GDUbD5lKFffZY6k1laFtdHxEzYmqsIO5?=
- =?us-ascii?Q?8ejBdd5ybxa1O6DlTEPZqcnif/svCcDEY0ao21e68N9Ybu+Q483avujoCuF7?=
- =?us-ascii?Q?migTPaIXqp5bqG87M5fnB02g/wqTKUjJWGHJGlADcdmtYKNzLRknP27pMPnM?=
- =?us-ascii?Q?VNbw7muRPNVBUBT36bshszIhUu/rnjQ16f2W8e3aiO5pjSIgze0VXr9Pw3tY?=
- =?us-ascii?Q?wfTwGywsyhHKushQFpLcmJnRaMTuoUkxgRb9GY/UkNL84js/f6kmwsn+8rhm?=
- =?us-ascii?Q?252boq2qzekkbISA3JA9cI8GwZnz88asWgHJD0/6qPEBEXSq6ijySbH56BTg?=
- =?us-ascii?Q?fY2Izf40uDyXb85Ib26vsIyPMG4/wNv9xAMuzocdm8J1GkInqKQ/wdSMrT5o?=
- =?us-ascii?Q?EGnj5GjIY3b7PbSQFdbf5ij/It6IcuWpOkvgQ6Iv8Hj8CuzWSO4ZJdZKwe/R?=
- =?us-ascii?Q?ggDSpM1p2sFwx/bZKVhh2F6MTFfS0cAV3xXKaP/u+D4ajfjP5rg3stlBHhYW?=
- =?us-ascii?Q?fG7vhuPDh5vB68TwQ7WYbiDkIc/+hnfwLMIfzDw7GysPQ2okLt/IBZPz8zOJ?=
- =?us-ascii?Q?qlMiu/zLHzOMKWL3fWfVSlzriJMtPNCPsQ7/kgS2h3UR/LMJRVUoeEBWnrUO?=
- =?us-ascii?Q?StxRs5mEeznjRUn7Vb7xc0dPEpOqEi1McqyhduFmvSqiAmThRvRL07Ea0a7G?=
- =?us-ascii?Q?9Ov8kKFMlm13WflVVZYTjjxMg8YERhVZdbeE8QNvX5p6xgP3lq2ARVICjnTP?=
- =?us-ascii?Q?ihQtSD2gDifBHjQFlHNtwHcTqDepmZWckhFIBM+LQ5fbHSJimv+c5YQrEG/O?=
- =?us-ascii?Q?3VQVVvVXn/aSJT6VSlCh17WU1oH3zkKxG2iR7mtCowCStOaK/BH6CdgPjVk6?=
- =?us-ascii?Q?NQF6wwQtuRezDLfMV8kTSmyBPGvCzsOZ9q/soHKyypX4rwd8N80xyzvq+1vx?=
- =?us-ascii?Q?9zlxLLKTNr42a7JCDik9dUjmgTLTw8Jcx5P+LPJbWtqdFzQSo6kwqJ1NUngp?=
- =?us-ascii?Q?KvLWnB1R1v9VAvm2uLM0rSiCgcnD1EOVafRxAlzsQG+pIwRA2E8rYw6WzEz8?=
- =?us-ascii?Q?XtIKrTWBvIzRZvf1h7KIC7UVLGHkT94sufW1qYVeUVhjfvuYKOMAKVsNzeSl?=
- =?us-ascii?Q?DIgXQRB+80FppuwB1ONfGCsiaAbO/mLOeV+lhqyU6xAr5h9skRXOrUQgLfhG?=
- =?us-ascii?Q?BmT15bL/d1j0I6ZyRnzyZ17c4GzcskTj/nVGZO4toaAF/mFu5MbAFJO8SYxe?=
- =?us-ascii?Q?K1fURpU3UJ7z+pP2y6tR192c2+m9ivebQ71AqG3x/AWjQTaAzlo7QEsA/3Hu?=
- =?us-ascii?Q?sIiSApHHEOfJ2CdRymMZJBA3HwFuTGY2i7RlTacO0kDlVs4FXC+cMqD1ooWs?=
- =?us-ascii?Q?puLPULa5Mn2DhmkMMrA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 12:20:00.2498
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8d4b7c1-7b1d-4526-190d-08de2ce61ec8
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00006002.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4788
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/1] platform/x86: serial-multi-instantiate: Add
+ IRQ_RESOURCE_OPT for IRQ missing projects
+To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
+Cc: ilpo.jarvinen@linux.intel.com, broonie@kernel.org,
+ andriy.shevchenko@linux.intel.com, alsa-devel@alsa-project.org,
+ shenghao-ding@ti.com, 13916275206@139.com,
+ platform-driver-x86@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, letitia.tsai@hp.com
+References: <20251126121911.10980-1-baojun.xu@ti.com>
+ <20251126121911.10980-2-baojun.xu@ti.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20251126121911.10980-2-baojun.xu@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The tas2781-hda supports multi-projects. In some projects,
-GpioInt() was dropped due to no IRQ connection.
-See the example code in the cover letter.
-But in smi_i2c_probe(), smi_spi_probe() (serial-multi-instantiate.c),
-if looking for IRQ by smi_get_irq() fails, it will return an error,
-will not add new device, and cause smi_probe() to fail.
-So, we need to add an exception case for these situations.
-BTW, this patch will take effect on both I2C and SPI devices.
+Hi,
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
-v4:
- - Change the description for this patch.
-v3:
- - Add IRQ_RESOURCE_OPT for IRQ missing cases.
-v2:
- - Remove error ignore, change to AUTO compatible with NONE.
----
- drivers/platform/x86/serial-multi-instantiate.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+On 26-Nov-25 1:19 PM, Baojun Xu wrote:
+> The tas2781-hda supports multi-projects. In some projects,
+> GpioInt() was dropped due to no IRQ connection.
 
-diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
-index db030b0f176a..1a369334f9cb 100644
---- a/drivers/platform/x86/serial-multi-instantiate.c
-+++ b/drivers/platform/x86/serial-multi-instantiate.c
-@@ -22,6 +22,7 @@
- #define IRQ_RESOURCE_GPIO	1
- #define IRQ_RESOURCE_APIC	2
- #define IRQ_RESOURCE_AUTO   3
-+#define IRQ_RESOURCE_OPT	BIT(2)
- 
- enum smi_bus_type {
- 	SMI_I2C,
-@@ -64,6 +65,10 @@ static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
- 			dev_dbg(&pdev->dev, "Using platform irq\n");
- 			break;
- 		}
-+		if (inst->flags & IRQ_RESOURCE_OPT) {
-+			dev_dbg(&pdev->dev, "No irq\n");
-+			return 0;
-+		}
- 		break;
- 	case IRQ_RESOURCE_GPIO:
- 		ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-@@ -386,10 +391,10 @@ static const struct smi_node cs35l57_hda = {
- 
- static const struct smi_node tas2781_hda = {
- 	.instances = {
--		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
--		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
--		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
--		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
-+		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-+		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-+		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-+		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
- 		{}
- 	},
- 	.bus_type = SMI_AUTO_DETECT,
--- 
-2.25.1
+> See the example code in the cover letter.
+
+Please don't do this, the example code is not that big, people
+should not need to go and hunt down the example code, please just
+add it to the commit message.
+
+Also please use longer lines (wrap at 75 chars) for the commit msg
+and please use empty lines between paragraphs to clearly separate
+the paragraphs.
+
+Regards,
+
+Hans
+
+
+
+> But in smi_i2c_probe(), smi_spi_probe() (serial-multi-instantiate.c),
+> if looking for IRQ by smi_get_irq() fails, it will return an error,
+> will not add new device, and cause smi_probe() to fail.
+> So, we need to add an exception case for these situations.
+> BTW, this patch will take effect on both I2C and SPI devices.
+> 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> ---
+> v4:
+>  - Change the description for this patch.
+> v3:
+>  - Add IRQ_RESOURCE_OPT for IRQ missing cases.
+> v2:
+>  - Remove error ignore, change to AUTO compatible with NONE.
+> ---
+>  drivers/platform/x86/serial-multi-instantiate.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
+> index db030b0f176a..1a369334f9cb 100644
+> --- a/drivers/platform/x86/serial-multi-instantiate.c
+> +++ b/drivers/platform/x86/serial-multi-instantiate.c
+> @@ -22,6 +22,7 @@
+>  #define IRQ_RESOURCE_GPIO	1
+>  #define IRQ_RESOURCE_APIC	2
+>  #define IRQ_RESOURCE_AUTO   3
+> +#define IRQ_RESOURCE_OPT	BIT(2)
+>  
+>  enum smi_bus_type {
+>  	SMI_I2C,
+> @@ -64,6 +65,10 @@ static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
+>  			dev_dbg(&pdev->dev, "Using platform irq\n");
+>  			break;
+>  		}
+> +		if (inst->flags & IRQ_RESOURCE_OPT) {
+> +			dev_dbg(&pdev->dev, "No irq\n");
+> +			return 0;
+> +		}
+>  		break;
+>  	case IRQ_RESOURCE_GPIO:
+>  		ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
+> @@ -386,10 +391,10 @@ static const struct smi_node cs35l57_hda = {
+>  
+>  static const struct smi_node tas2781_hda = {
+>  	.instances = {
+> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
+> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
+> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
+> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
+>  		{}
+>  	},
+>  	.bus_type = SMI_AUTO_DETECT,
 
