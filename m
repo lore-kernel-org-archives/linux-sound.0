@@ -1,152 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52340207A38;
-	Wed, 26 Nov 2025 17:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9382E311975;
+	Wed, 26 Nov 2025 17:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764177592; cv=none; b=tpp3A1UNgOkSLLmdKGCdbLS5YXovMcbf6SNQZ/asZrWBRx/vwlOIp2b1dc+m5J65kyKaj1+WnTsS1kQb/vwqiDAukkuIJquOfH3yjKhYGi7M5JZF4DHESHoCy32RPepIjaAfTpoG+Zjt3FmJb9Idkh931cBXAM3oJ2umI5aB/DM=
+	t=1764178866; cv=none; b=eEuuEGVGIZsu1qGiThwP6Jc0o5JkBvCH0R+4uV0wspezXGMlmeP52+u4Ewyb2FTRAdFOkhh+NX5FjtYE/Gz9RJZ9ZHQZb0piLeQ91HFrz3mn2jXGbOPxH/Wx1MiSy7JKTMUyBb+bb9DX+9Oqt7bMp4NGQk52BHvR0ucRkzPB7jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764177592; c=relaxed/simple;
-	bh=MlT02GQ7CMP/AT621MdmGurXzngpl0+HfAiTojvD0xU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hq5U2KNIDcssGatByKijlykk85RNlloGG6dgqWw24oCCMhU0W0RFbHt50GQxsLm98Zcx+7ZR9aFlQVFMp95EypFptvb8JzjMtoc7fsF7QqKsrShDzBenpoC24w3PAh1Wmzb0uiunjaoeScoLcyCPYUSsaT5g499p6TGVAhCjzEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAd/IPow; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764178866; c=relaxed/simple;
+	bh=ll+ORNjbZjiC02X0B3VJnVOYAFk1cQ0LXy03CCjnaiA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bWAVY1bLfm+P1gGzsY39FW9h60sFS8QsAhdqpOViLY0MgX5eJmyNnV96slorN1jYpEXJ3s2aFxzRtaq+hYYpZQhbenGrOSTKXJH01J0WvbFkcYPteQ6ycOfrdKpcOKSLNc6CnfJFmOfTa1bPXWAclWlPxAjAMkPLvT1lglAZptM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cAm+E/q0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAd/IPow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E43C4CEF7;
-	Wed, 26 Nov 2025 17:19:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cAm+E/q0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21232C113D0;
+	Wed, 26 Nov 2025 17:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764177591;
-	bh=MlT02GQ7CMP/AT621MdmGurXzngpl0+HfAiTojvD0xU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JAd/IPow1Fd0Vgk7KF9I3UzSzT0YyvuNv9p3wHuS38yi0HfAlIObXhSiZ+Ud8Bn/e
-	 9VZlnnRHaRgVQcUDiGHKr4Twk0ofqV5UDUqqmS4bEnv+ozAFT7cqclsskJypZUH7d4
-	 KkQdkLUJBOZytPr3gbP3YQ6/VUblazCzMnUbU9orciz3fxK2J6pEAYpJU3qBKc/28b
-	 CW1H8Hv1oa70zt/BK6evRR9yfZaul8Q5UOVuAjUVD5TWzuXaFdTFR9LGBDhIgBpnHf
-	 N8fNxwqzKNx4VHEPUbBJo4/pUdz2jkbtEyKTY4S8h3cDsj3IkEpE0hD91/Bl6KvUFQ
-	 LxdgaIMIHLqVA==
-Message-ID: <ce56da25-e8cb-4438-b75b-1dd32df10d89@kernel.org>
-Date: Wed, 26 Nov 2025 18:19:47 +0100
+	s=k20201202; t=1764178866;
+	bh=ll+ORNjbZjiC02X0B3VJnVOYAFk1cQ0LXy03CCjnaiA=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=cAm+E/q0GaA2z8RawcwgMd5B24QdxbmhMuP5r8ysSefhW2KjoDatEIMBH1a/au22Z
+	 4wp/kP1HFjG/BmHXfYj7y5XgmkQkqApPH23aXdrkFMJ1AK4Nmq/rBx78wUjsm5xP9o
+	 Tt/y+lxaD8EdhtcBel66vJMnGJXFTe2swp5frvZxr2/iUrwJXlgflTENMyFhC/iWe7
+	 Xkvl7i7M7FEWTAT0J9sgBvgyiM2j5aGLUHfvSisOC2BWjtkt9PAXLqUXLVvh19Mdqr
+	 xm9qET6bm8EgJPkCcJ8KcZ6087e+att4VXRvg/Wn0BQgFtXKPlot0TopPziyorrwDT
+	 wP6aI+f4WazTw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Sameer Pujar <spujar@nvidia.com>, linux-sound@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Francesco Lavra <flavra@baylibre.com>
+In-Reply-To: <20251126112926.4126757-1-flavra@baylibre.com>
+References: <20251126112926.4126757-1-flavra@baylibre.com>
+Subject: Re: [PATCH] sound: soc: tegra: remove Kconfig dependency on
+ TEGRA20_APB_DMA
+Message-Id: <176417886387.96001.35728681085818486.b4-ty@kernel.org>
+Date: Wed, 26 Nov 2025 17:41:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] platform/x86: serial-multi-instantiate: Add
- IRQ_RESOURCE_OPT for IRQ missing projects
-To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
-Cc: ilpo.jarvinen@linux.intel.com, broonie@kernel.org,
- andriy.shevchenko@linux.intel.com, alsa-devel@alsa-project.org,
- shenghao-ding@ti.com, 13916275206@139.com,
- platform-driver-x86@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, letitia.tsai@hp.com
-References: <20251126141434.11110-1-baojun.xu@ti.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20251126141434.11110-1-baojun.xu@ti.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-88d78
 
-Hi,
-
-On 26-Nov-25 3:14 PM, Baojun Xu wrote:
-> The tas2781-hda supports multi-projects. In some projects, GpioInt() was
-> dropped due to no IRQ connection. See the example code below:
+On Wed, 26 Nov 2025 12:29:26 +0100, Francesco Lavra wrote:
+> The ALSA SoC driver for Tegra runs also on SoCs without the Tegra20 APB DMA
+> controller (e.g. Tegra234).
 > 
-> Device (SPKR)
-> {
->     Name (_ADR, One)
->     Name (_HID, "TXNW2781")
->     Method (_CRS, 0, NotSerialized)
->     {
->         Name (RBUF, ResourceTemplate ()
->         {
->             I2cSerialBusV2 (0x0038, ...)
->             I2cSerialBusV2 (0x0039, ...)
->             // GpioInt (Edge, ...) { 0x0000 }
->             //"GpioInt (...) {}" was commented out due to no IRQ connection.
->         })
->         Return (RBUF)
->     }
-> }
 > 
-> But in smi_i2c_probe(), smi_spi_probe() (serial-multi-instantiate.c), if
-> looking for IRQ by smi_get_irq() fails, it will return an error, will not add
-> new device, and cause smi_probe() to fail:
-> 
-> [    2.356546] Serial bus multi instantiate pseudo device driver TXNW2781:00:
-> error -ENXIO: IRQ index 0 not found
-> [    2.356561] Serial bus multi instantiate pseudo device driver TXNW2781:00:
-> error -ENXIO: Error requesting irq at index 0
-> 
-> So, we need to add an exception case for these situations. BTW, this patch
-> will take effect on both I2C and SPI devices.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Thanks, patch looks good to me:
+Applied to
 
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Regards,
+Thanks!
 
-Hans
+[1/1] sound: soc: tegra: remove Kconfig dependency on TEGRA20_APB_DMA
+      commit: bcf016aa87fb448cea24fa25e02ccebce06b5a56
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> ---
-> v5:
->  - Change the description for this patch, remove cover letter.
-> v4:
->  - Change the description for this patch.
-> v3:
->  - Add IRQ_RESOURCE_OPT for IRQ missing cases.
-> v2:
->  - Remove error ignore, change to AUTO compatible with NONE.
-> ---
->  drivers/platform/x86/serial-multi-instantiate.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
-> index db030b0f176a..1a369334f9cb 100644
-> --- a/drivers/platform/x86/serial-multi-instantiate.c
-> +++ b/drivers/platform/x86/serial-multi-instantiate.c
-> @@ -22,6 +22,7 @@
->  #define IRQ_RESOURCE_GPIO	1
->  #define IRQ_RESOURCE_APIC	2
->  #define IRQ_RESOURCE_AUTO   3
-> +#define IRQ_RESOURCE_OPT	BIT(2)
->  
->  enum smi_bus_type {
->  	SMI_I2C,
-> @@ -64,6 +65,10 @@ static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
->  			dev_dbg(&pdev->dev, "Using platform irq\n");
->  			break;
->  		}
-> +		if (inst->flags & IRQ_RESOURCE_OPT) {
-> +			dev_dbg(&pdev->dev, "No irq\n");
-> +			return 0;
-> +		}
->  		break;
->  	case IRQ_RESOURCE_GPIO:
->  		ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-> @@ -386,10 +391,10 @@ static const struct smi_node cs35l57_hda = {
->  
->  static const struct smi_node tas2781_hda = {
->  	.instances = {
-> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
-> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
-> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
-> -		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
-> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
-> +		{ "tas2781-hda", IRQ_RESOURCE_AUTO | IRQ_RESOURCE_OPT, 0 },
->  		{}
->  	},
->  	.bus_type = SMI_AUTO_DETECT,
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
