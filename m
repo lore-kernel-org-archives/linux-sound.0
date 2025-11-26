@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5776F30504C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F052304BCA;
 	Wed, 26 Nov 2025 14:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764168850; cv=none; b=EbzYKyrFI68Y7affZhYbu454s+Obm0mUrTbcST4+YRhC+xWAn2a4Ejvz78kGWIzGgmLNtqrph4+Y7hdSEtxWUoSLB8xwhyVUB4YI6iOx2fLsVLPt8GpuIWmRz58nIyWjwGU9gjLaYS+UHbbrwwhB1L0QjHN5me+ytsl9MabV5Ww=
+	t=1764168850; cv=none; b=Dr2lQtfYAvSw9nzFgHggSgy4w4oi3F1W/QJKqjg2bjo0eqV2JdD22/4Ky6Dl2op5cgToy1sfMSmRuIGLH6/JOdTVl4YJ5HNc/UMVIyy3CLgDh4MxfnuCgcYlXcDd6GX7ZpSJjN21Y+0Izon7MyX5jVkJ815VzNEVs5a0Y5EwAg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764168850; c=relaxed/simple;
-	bh=GE9/tRQbAigOoX2Jm3C6MzvxaRrMJAsG2DD+F2OfW7w=;
+	bh=XPrBoIMoV/gub0WvLQa0dq6M5sXoUt8lsULGPBHQsC4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nAqD8GNNuTstfmZwhOv2dmTj+DTYcfhwHkJboIbdem1trWZAWZkPiZH7Qj4gTLabLhJeZSzGgdDu05X3atGYdcpVwL/EOuPLEzZVJjXyG+X/q0jHg2jGeb995qljQ2XY/1qZDJg4E/H7M5A+LaDNOn5yqPm7Qjjro7S+Zbh+GZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qKgen2bu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=HYldQKNL/dnMMEZ5tYC7HnZ1oaA+U59d9OBsyS90P+u0jdzPMDFyFNaIAxbUjGdggbGRHQm8XwlNZF1JH6hvKzygHp70JViwtZI9qTEPSOBZG0qbDTZFezBk188/L9BprDxC3CMnlUQLZR9HHxusnP6xtrl2OXow2k+kAVYJxoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+4myihp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qKgen2bu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 188E7C116B1;
-	Wed, 26 Nov 2025 14:54:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+4myihp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F3BC19422;
+	Wed, 26 Nov 2025 14:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1764168850;
-	bh=GE9/tRQbAigOoX2Jm3C6MzvxaRrMJAsG2DD+F2OfW7w=;
+	bh=XPrBoIMoV/gub0WvLQa0dq6M5sXoUt8lsULGPBHQsC4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qKgen2bu1DVV7aGAC4WL4oifcatzx0KL0lFbbCsJgUMssT+cSTWyWPZWx1Jf3hTg+
-	 84badzTrqH8KbwBg9QS2JysHKBWNcrNCJEXRyJ0BG+ihfy0lA6S7NSbk3Bazg47aDM
-	 0T+dAm03CXQbW1+URCOL1GDCuZnscZPNg8SPqEKDMrXyPtTpvMOk7gAwdo/Eodopfw
-	 RmyatbB3Wyqn+XzTpGTHvv+YYIgf/d7keXLuhitD9Xq6Jm1u1yEYRFK3MB9M5Ad32G
-	 xkK0ZByG5yUIvmM+7W3h5BnNrzR97PuP0MEJTXzNcHcm6A7FUaTYVKu7Lam1Jbspqw
-	 iDXW5p3+gviQA==
+	b=f+4myihp6DNzi3sKOzkfZLCj2nLKZeVm+II2QzmB0I+j+sCyx23jhs6kxVN98HEnB
+	 M451SDGFVBBBZOTBxqyMhxLA6adLSDLMSe4D1Znh5qpXJtqlEdg/Evd1qKLxhC3jnP
+	 EGFxVDdWxo6Ba80MotaiaQo73VI5cy/zcb0plRyo2dSQWQrYNuf+KOMf/om3Vdibcw
+	 oO0SQmLpqr1eehMUY137S5bA+wso6fIH39nuMVohq3a3Psg10tVVjNjVRCq5y2GcrP
+	 gFJ85k7B4AurBn6I8LJ67PX3KEmbHVb66Y5nKSyhKc7kpK28mSARnK55nKqpztS4JR
+	 WN2Uh5Soqx6qg==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vOGuJ-000000001K9-35rj;
+	id 1vOGuJ-000000001Jy-1dqG;
 	Wed, 26 Nov 2025 15:54:11 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/6] slimbus: core: fix of_slim_get_device() kernel doc
-Date: Wed, 26 Nov 2025 15:53:28 +0100
-Message-ID: <20251126145329.5022-6-johan@kernel.org>
+	Johan Hovold <johan@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
+Subject: [PATCH 1/6] slimbus: core: fix OF node leak on registration failure
+Date: Wed, 26 Nov 2025 15:53:24 +0100
+Message-ID: <20251126145329.5022-2-johan@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251126145329.5022-1-johan@kernel.org>
 References: <20251126145329.5022-1-johan@kernel.org>
@@ -50,39 +51,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unlike slim_get_device() the of_slim_get_device() helper does not
-allocate and register any slimbus devices in case lookup fails.
+Make sure to drop the OF node reference taken when initialising and
+registering the slimbus device also on registration failure by releasing
+it in the destructor as expected.
 
-Update the of_slim_get_device() kernel doc to reflect this and add a
-comment about the helper taking a reference to the returned device.
-
-Fixes: e0772de8a48b ("slimbus: core: add of_slim_device_get() helper")
+Fixes: 7588a511bdb4 ("slimbus: core: add support to device tree helper")
+Fixes: 01360857486c ("slimbus: core: Fix mismatch in of_node_get/put")
+Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/slimbus/core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/slimbus/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
-index 9402950e7ebd..a2c243e3ad52 100644
+index 005fa2ef100f..c808233692ee 100644
 --- a/drivers/slimbus/core.c
 +++ b/drivers/slimbus/core.c
-@@ -408,11 +408,13 @@ static struct slim_device *of_find_slim_device(struct slim_controller *ctrl,
- /**
-  * of_slim_get_device() - get handle to a device using dt node.
-  *
-- * @ctrl: Controller on which this device will be added/queried
-+ * @ctrl: Controller on which this device will be queried
-  * @np: node pointer to device
-  *
-- * Return: pointer to a device if it has already reported. Creates a new
-- * device and returns pointer to it if the device has not yet enumerated.
-+ * Takes a reference to the embedded struct device which needs to be dropped
-+ * after use.
-+ *
-+ * Return: pointer to a device if it has been registered, otherwise NULL.
-  */
- struct slim_device *of_slim_get_device(struct slim_controller *ctrl,
- 				       struct device_node *np)
+@@ -146,6 +146,7 @@ static void slim_dev_release(struct device *dev)
+ {
+ 	struct slim_device *sbdev = to_slim_device(dev);
+ 
++	of_node_put(sbdev->dev.of_node);
+ 	kfree(sbdev);
+ }
+ 
+@@ -280,7 +281,6 @@ EXPORT_SYMBOL_GPL(slim_register_controller);
+ /* slim_remove_device: Remove the effect of slim_add_device() */
+ static void slim_remove_device(struct slim_device *sbdev)
+ {
+-	of_node_put(sbdev->dev.of_node);
+ 	device_unregister(&sbdev->dev);
+ }
+ 
 -- 
 2.51.2
 
