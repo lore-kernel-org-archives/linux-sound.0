@@ -1,199 +1,175 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011025.outbound.protection.outlook.com [52.101.52.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8FB29C339
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 07:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764143829; cv=none; b=uYtAM5j9hlO3iC0zL+2ow8KRD/q4ncQq53MSFJ8VUCgOszBxHuGK3nhhFpZfFnRQgLnXmt/p5bvKRwXQKvg0afyVcixUPn/lqmZydUKFenIZnuye7aeLS4tZddxkMnYDKkARn8oSlW5k04dBCScjsvZks92szMC8Kt7XuydcNkg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764143829; c=relaxed/simple;
-	bh=XRD4oJnnSCzWWEtmvcSr7qGu7ZMWD6Vg5trz2k7tcj4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CawOaz1x81+EQZSgFFuz+Dy4aJrNHfYfxgTItmRaohpiVbTls2JM58tXLs4uBrvjDSvtU8Hlu3Jy09CunJGH9wGUFmah3YyOPDKZEN/Zz00Ido/reS1G19mn15jLTI6vy9H0IzqLCDXTpYeSDrXjdsDSwFOOi7aX9Je/NeM7zOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yZKg7oSc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W8jCOtxE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sUPxHStU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cNrfUcGn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD5B2E5429;
+	Wed, 26 Nov 2025 08:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764145112; cv=fail; b=c/lxL5RC7apK6QqNLqIAXabCVTqOAPtJGtf/4wWsA8GwoEm5w55tLndN6ERQOGNvyYPtFbKz3DiPgCgkD/m/4v3K5sc6GA+R7mrwrB0dpp0eaa959cayDT2OQtvs7CYsBLZR1G++c9mkhWAW8/d+wAeC90IQnhHy2dMeuscBTEg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764145112; c=relaxed/simple;
+	bh=I93a5RqeDu+UDbz8i8Qf73/2q4yFmTKrujAAnIE5pP8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FpcLKoX3RAhcoRBAHVPMx5Xc3rPlCCSXh79/zd5dEuSYGawm3DXEOWRBdWd5C/ydex56WryjYPJPfjGbGRDBA9uVnrcHDajYOUJDA4cn5o//KL2SJsmQAr4qVJTYbn93QFIUPAO27Ue/J8DJn1sA3yIsQDH6DLrs5UN6j7aqRKQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=eMGVvPOZ; arc=fail smtp.client-ip=52.101.52.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yZKg7oSc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W8jCOtxE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sUPxHStU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cNrfUcGn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E0F815BDB7;
-	Wed, 26 Nov 2025 07:57:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764143826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WVCdcn1xH24x14FNH6eGUjwna+EhGD1m20rJpBZlmok=;
-	b=yZKg7oScMPh+AIn4WXn0F7lbKGmwhi08bAGfqoMUlpq6p05YLXT8WZqFDhEL1ySW3lwWXi
-	4MUOm+t8JQVVHiMoXk+9YAcYxU5xSu/4GwIoYMww8KtyHBfa2DrPu/3eCMuFOPq703hNoe
-	87MOeSaksqyTqVUwmcH3H6NpO6u3N6Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764143826;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WVCdcn1xH24x14FNH6eGUjwna+EhGD1m20rJpBZlmok=;
-	b=W8jCOtxEzI7nqSUJuRpyrInNAFSBPQSQ2EAVWjD32P91ICjWG21uHosdOjwt8SOrWL45rR
-	/QbivRkDcWdS4XCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sUPxHStU;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cNrfUcGn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764143825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WVCdcn1xH24x14FNH6eGUjwna+EhGD1m20rJpBZlmok=;
-	b=sUPxHStUyEV/s7oNzwm4+u9q2jUF8mGplExLDVh0aNWMjiV6BahL2Tw4U7Kjj2BERYmLPI
-	cGG5iGNt0czsSQgYjWn8o04k4FyXpGlR8nXnW7XWlFZTaePTQ6Dw81W31whWsd2JddsjO7
-	l/KNhz4dDfOj3mpPskGFDIU1EY/0Hno=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764143825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WVCdcn1xH24x14FNH6eGUjwna+EhGD1m20rJpBZlmok=;
-	b=cNrfUcGnn64zsFfXil9FS2pA8R3iuEtNqomCjA431/JpTjExRI4QkuByMFoo7gGNAYSBPg
-	8HKSI/4UiS2PaECQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8CC13EA63;
-	Wed, 26 Nov 2025 07:57:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3U3dJ9GyJmmhOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Nov 2025 07:57:05 +0000
-Date: Wed, 26 Nov 2025 08:57:05 +0100
-Message-ID: <87y0ntb50u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dirk Su <dirk.su@canonical.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for HP 200 G2i
-In-Reply-To: <20251126025151.12332-1-dirk.su@canonical.com>
-References: <20251126025151.12332-1-dirk.su@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="eMGVvPOZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jba5G0Zehz/cX4R+jl6b52rbiCdyuAs5sUU/gSSI+34aTiKdPOQhI6OhDvb+j1hOPaBOxJNqe2f8WAghFTfFKpRGjiJU7EM9Ia3R90PzOWLsrQLwj5TPyFhje88k4g1VHwU3YGDa+q7S6AENxIcoPvQmSN7l7ddYhpgfzKf6/9BiMreVEbJrmt2kj6xzi3S3Oc3DHg+H2ifGj4pHDCxVj0fAt5O+b7JTKbORW3DPPH9zAqo98vnMs8bar8lMY9N/YOC0HNICO+tNdg01kJrs6IbmBlqezs4sBicxubgt7XQSWYlAcy23nUxUiw90rdXbCnaUNZt6CI3RcOwuIJY1Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7wAcCuSnHyM9fBS9ozIn9rTBSELq626Ce7DIYn8ZjRk=;
+ b=E8jOFEwz82m4dDPCUueEKMFQcZV5GWj3ES/V82MwgYGkT603McSJgErn/RHeAUI+HZxkX+S8sOZjGfmMsCH/asr5pTeC1tdknwu+cJU98l7NMdEEBxL/N3fLuZOSZ8UgZY+zfA05keOyyTVE7Y4WRicWAr0kQqirIWDZQA9WUpaVK5j5CribR6AypF/rw4rTtDG47UDpne6ygDmeRQk3rhFZMce97FOp3fMz/rauO/lW1CZUMdZPdq37zKm/tQKSsGusXGJr7/abxMg1pUDhhjQmHfkmj6mQKexF+GLjE3cSGUQ5cyW4HLx3gRI/+712GLrrWAxFP9UbCk2WPTnyYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=hp.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7wAcCuSnHyM9fBS9ozIn9rTBSELq626Ce7DIYn8ZjRk=;
+ b=eMGVvPOZgRezBmjEgDARg9f3YkRnakmxZaypOgAJnsobfQXnn1RqCeWIt6OhbCLm3/ISuwEYpyPO6Tj8wX7ATj0ySU9fsfbsgPioDhB25RMNM5CZfoLz9JwOP4XW8bCIIylLnJJ27i4FJ1l8Rxx6hHlQ12F4Dp3gYQiSeJr6ex4=
+Received: from DS7PR05CA0101.namprd05.prod.outlook.com (2603:10b6:8:56::21) by
+ CO1PR10MB4804.namprd10.prod.outlook.com (2603:10b6:303:90::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.13; Wed, 26 Nov 2025 08:18:25 +0000
+Received: from DS2PEPF0000343D.namprd02.prod.outlook.com
+ (2603:10b6:8:56:cafe::3b) by DS7PR05CA0101.outlook.office365.com
+ (2603:10b6:8:56::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.11 via Frontend Transport; Wed,
+ 26 Nov 2025 08:18:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ DS2PEPF0000343D.mail.protection.outlook.com (10.167.18.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Wed, 26 Nov 2025 08:18:23 +0000
+Received: from DFLE212.ent.ti.com (10.64.6.70) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 26 Nov
+ 2025 02:18:20 -0600
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 26 Nov
+ 2025 02:18:20 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 26 Nov 2025 02:18:20 -0600
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AQ8IFG5933432;
+	Wed, 26 Nov 2025 02:18:16 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>, <hansg@kernel.org>
+CC: <ilpo.jarvinen@linux.intel.com>, <broonie@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>, <alsa-devel@alsa-project.org>,
+	<shenghao-ding@ti.com>, <13916275206@139.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>, <letitia.tsai@hp.com>
+Subject: [PATCH v3 0/1] platform/x86: serial-multi-instantiate: ACPI example code
+Date: Wed, 26 Nov 2025 16:17:40 +0800
+Message-ID: <20251126081741.10588-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: E0F815BDB7
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF0000343D:EE_|CO1PR10MB4804:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8895966-4307-4c76-8eb1-08de2cc45e45
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Kk52ab74Z0qiETv35vR411nrGc2DREJQ0u/WRBwCpa90WASwigT+9atsIIuh?=
+ =?us-ascii?Q?CAwQ3xAKTjC21bDWWICtkJpveESaIXJVFLTWAZVZBPaHHBfxApxg0FSMInO3?=
+ =?us-ascii?Q?mhyc0ZHgQ+3ZQnhhi5JXWQIIKbZESqTQbU5nPmTMopresmTJI2OSal5NvMVK?=
+ =?us-ascii?Q?2whI2IeWaBZ16ilgntNBOKU0i4c4Es3EAi7EOPS8QIrvdc94lX+K049bSnRr?=
+ =?us-ascii?Q?dPmuIBTUUD51JMenMNuXcKhdQJgrsshsOINnmLgNzxdzN1nZ3SiEzkQGZGBR?=
+ =?us-ascii?Q?azL9TV6MyDuZZuc49/gV2UQfXUXpiP8UwhVq0rMwNN/1sK6a703DCreqa8XR?=
+ =?us-ascii?Q?lYYmFXc1wiUg1aa8OsRQOErb/4MSufMz1BNf2i4xNydBWgiucNAMeDLN440z?=
+ =?us-ascii?Q?BqwKA6a5AoJlA8eA4XhkNzyBZ35wl/Le+Xr/NtxQXhrwBF99RfQeA88EyNlJ?=
+ =?us-ascii?Q?+SOapVFqxjzLdMyva2h5H1NOkdCwTPjRZl9hUBigSoNFtogkOnhv6BW6UUSA?=
+ =?us-ascii?Q?7w/ujtLRExARgAr9hG1nka2zVOmm7MmLpfWuw1/qLvKlohhAugJnA6hPaeTN?=
+ =?us-ascii?Q?IOEIA+1qw5A1rnZ9wennPO806N6sa/Rzlmab3E0uE0Ztuo3FQ4VFt8YTNL8d?=
+ =?us-ascii?Q?qVYMW4N+XGMSVZDcgYdqietqO+bnWzjPCOT3WesFqI7FuyCrBMRvw5d2QXT5?=
+ =?us-ascii?Q?VUSN1h2UZwNj0/YkG+E4IBWGnXJuzTYPImgJqnVhgVbvxWRu2QIKTjHm2la8?=
+ =?us-ascii?Q?LdrZgmrDpu4Shj4GkyorMUB5rV1p1MidOR7XCCtjnTilxFoBKe5FbTtNg3Pw?=
+ =?us-ascii?Q?EVQRqVOG3ifxO3XcULhH+xHLtPlbAe3l8NnPPjyai2moIeNJGXZEB7VfEKjh?=
+ =?us-ascii?Q?HpI+pqAnnlTUleYEUviXiVCyfbDNnqwPMao1LC2+zOlefVSXbXH0V9cCYMAx?=
+ =?us-ascii?Q?I0AobqgnxYL7LwHm51Rx0BwIQWtdd2Vozlks5TTPIO7KQaoCimJAtqDJ5N44?=
+ =?us-ascii?Q?GBWrFVhe60qB8PXyode64wdIwD4bs7NPTJ5LuZyM7j2qNor2gi4ZFpQL+QO4?=
+ =?us-ascii?Q?e8+CkDGgWXO4/+Wd9TI8Uxetel4L9W/yaTdXV2Sg97qR6PuWIfmsu6DQzrlb?=
+ =?us-ascii?Q?tyEg6kjsT4MUx90lxd3zsoAs75l1sxQz2kuZZ43nQZEBiPRktjg087vdjMoD?=
+ =?us-ascii?Q?+QTzxe+7/IvBG9qUu8MR37EAjQGdXxTCBOdxhIph8zQbACzrN/whm+KeSXzI?=
+ =?us-ascii?Q?It0RWFfMDadoOi0JXDi1MhrJwKEhsHuBnAQ3J81SNL7ag/VNbcT/coEenil6?=
+ =?us-ascii?Q?zA+YYLX2IY94gUviyCXxJu+bJI3/XxRl33iWBRdVSapRctgh4nH51pnBT4CL?=
+ =?us-ascii?Q?J3inyePyXI5S+jNRpI0o4SqOSrUI8HCHbiL/hpB+paExOymzOQDZEzxD4vKO?=
+ =?us-ascii?Q?nDguXa87SHMo48nkXBDC9Su3J5kYbdq0XWwa1XL4O93/omFhRK+zI/9tC+59?=
+ =?us-ascii?Q?AqOXFieXurZeQP0FVflfJd7SpkpIUt61+Cc/KTDhNMeC9yQYAE51lG/l2jrC?=
+ =?us-ascii?Q?zxHkj7e/3fTDBwwh8tk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 08:18:23.9151
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8895966-4307-4c76-8eb1-08de2cc45e45
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS2PEPF0000343D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4804
 
-On Wed, 26 Nov 2025 03:51:30 +0100,
-Dirk Su wrote:
-> 
-> HP 200 G2i needs quirk to make mic-mute/audio-mute working.
-> 
-> Signed-off-by: Dirk Su <dirk.su@canonical.com>
+The tas2781-hda supports multi-projects, In some projects,
+GpioInt was dropped due to no IRQ connection.
+See the example code below:
 
-This could be with a chained fixup instead, e.g.
+But in smi_i2c_probe(), smi_spi_probe() (serial-multi-instantiate.c),
+if looking for IRQ by smi_get_irq() fails, it will return an error,
+will not add new device, and cause smi_probe to fail.
+So need to add an exception case for these situations.
+BTW, this patch will take effect on both I2C and SPI devices.
 
-	[ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc236_fixup_hp_mute_led_coefbit2,
-		.chained = true,
-		.chain_id = ALC236_FIXUP_HP_GPIO_LED,
-	},
+Device (SPKR)
+{
+    Name (_ADR, One)
+    Name (_HID, "TXNW2781")
+    Method (_CRS, 0, NotSerialized)
+    {
+        Name (RBUF, ResourceTemplate ()
+        {
+            I2cSerialBusV2 (0x0038, ...)
+            I2cSerialBusV2 (0x0039, ...)
+            // GpioInt (Edge, ...) { 0x0000 }
+            //"GpioInt (...) {}" was commented out due to no IRQ connection.
+        })
+        Return (RBUF)
+    }
+}
 
-Care to resubmit in this style?
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
+Baojun Xu (1):
+  platform/x86: serial-multi-instantiate: Add IRQ_RESOURCE_OPT for IRQ
+    missing projects
 
-thanks,
+ drivers/platform/x86/serial-multi-instantiate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Takashi
+-- 
+2.25.1
 
-> ---
->  sound/hda/codecs/realtek/alc269.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 70299e359ba0..a8e1ec92349f 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -1656,6 +1656,13 @@ static void alc236_fixup_hp_mute_led_micmute_vref(struct hda_codec *codec,
->  	alc236_fixup_hp_micmute_led_vref(codec, fix, action);
->  }
->  
-> +static void alc236_fixup_hp_mute_led_micmute_gpio(struct hda_codec *codec,
-> +				const struct hda_fixup *fix, int action)
-> +{
-> +	alc236_fixup_hp_mute_led_coefbit2(codec, fix, action);
-> +	alc236_fixup_hp_gpio_led(codec, fix, action);
-> +}
-> +
->  static inline void alc298_samsung_write_coef_pack(struct hda_codec *codec,
->  						  const unsigned short coefs[2])
->  {
-> @@ -3790,6 +3797,7 @@ enum {
->  	ALC245_FIXUP_HP_TAS2781_SPI_MUTE_LED,
->  	ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED,
->  	ALC288_FIXUP_SURFACE_SWAP_DACS,
-> +	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO,
->  };
->  
->  /* A special fixup for Lenovo C940 and Yoga Duet 7;
-> @@ -5323,6 +5331,10 @@ static const struct hda_fixup alc269_fixups[] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc236_fixup_hp_mute_led_micmute_vref,
->  	},
-> +	[ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO] = {
-> +		.type = HDA_FIXUP_FUNC,
-> +		.v.func = alc236_fixup_hp_mute_led_micmute_gpio,
-> +	},
->  	[ALC236_FIXUP_LENOVO_INV_DMIC] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc_fixup_inv_dmic,
-> @@ -6760,6 +6772,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e62, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
-> +	SND_PCI_QUIRK(0x103c, 0x8ec1, "HP 200 G2i", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
->  	SND_PCI_QUIRK(0x103c, 0x8ed5, "HP EliteBook 8 Flip G2i 13", ALC245_FIXUP_HP_TAS2781_SPI_MUTE_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ed6, "HP EliteBook 8 G2i 13", ALC245_FIXUP_HP_TAS2781_SPI_MUTE_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ed7, "HP EliteBook 8 G2i 14", ALC245_FIXUP_HP_TAS2781_SPI_MUTE_LED),
-> -- 
-> 2.43.0
-> 
