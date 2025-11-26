@@ -1,86 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D199433F398
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 20:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8607C16DEB0
+	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 20:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764188388; cv=none; b=pD6jxSD4+GtkmKoSY5uI5o8Pw/qV4+XQGKx/GOrezqL6Y+O0gzgplBjfTmfn/QIrktqi6b+NWcH8v7aUQ8lCnnjlbxx6LKGdoF7QP+YoqGLxvUUEwPcuKRnIXoq5bSkqNfNgTaRNLniSUcWqsu3xn3DKkd9+YEkYCZ2+IRANHXE=
+	t=1764190022; cv=none; b=Q3JwZAlnro78j+NlGlO8cSRslReI8MnFQjW8VvUbQriqqKOZdsJG6ZsGZ/tRvNVaM47oO+isXwZxub2hdwGHsM2X4kNIj++hl8Kxgs0MsG7nMrzmvSaSGKFe0O4/TmOyxXOiw9c6eQ5BxepXcRebXawDPmKGDrM+mgcXKg6pFyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764188388; c=relaxed/simple;
-	bh=bgIOthVwdf2ZfwtZntFwnUKudEyfkmm9iTBHCcAua5Q=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nxLwa4kocs1OJ8pAF6+3cF+OstQaTxkg506flLfkefCLTv7SGMdAXgPp4cIJAQpGnqmr4imwgvE1X2K/f4AovHBwvzaE/1Hv8t1Gq9fQVdKuoyUuL5pWjHIyodzAp7pFI1N6QpI/bGBX91EMITcBIrMmW/pj0gvWhJBNE9AT3hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oob7VN5K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764190022; c=relaxed/simple;
+	bh=1f9WtfLoQREKfGQ1yA8+WZXm/5js8sppxuI3TY+9a7I=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=lrpS1fYVyj0MyPi0PsIk697kqD7gtHo//KRd56ZvSBrOrQoawjgcWqq0AFVLeGCy7RbIYs0DS0+5diGPVW9gAX/IdelkhqGqS3IoyKrgCNvjeXPgEOrrc5NLOubG52js1EFhZEpPBTDG4oph//1YMqpJ1xKSl2qzvA6/eQ9bVI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjLj+DeH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oob7VN5K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E09C4CEF7;
-	Wed, 26 Nov 2025 20:19:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjLj+DeH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CF6C4CEF7;
+	Wed, 26 Nov 2025 20:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764188388;
-	bh=bgIOthVwdf2ZfwtZntFwnUKudEyfkmm9iTBHCcAua5Q=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=Oob7VN5KL/dkqijRICbphFE8y/ROG+aANdTl+PK0lT+ccA2qgMTS/YxIZ8rVVuMYg
-	 ZdelkKhu9XjEt4pqVnKuplCBfXhAU3MKVjpkLYHmu5myUXM3y7xeutBCxQq7iBrB0j
-	 crXMlTPdLUYZ+Nb2VHfEae29mZ+XEREic2oxZEVHUYLJtPEjGgf0CBAyxe/ds4w48b
-	 Vu4IJkhbiUvBo3p64KSzc1RhyTxxvLPHgfCQZnEpVvg2Myb4w1GnEGPA59dz46pkRx
-	 /LVybEDwFw1ipiYgF078tWV/PG2hyjHb9+t90LcEf5HSRBRlkcvUj68OUqs4e1xtXx
-	 0FHpO5b/TP7NA==
+	s=k20201202; t=1764190022;
+	bh=1f9WtfLoQREKfGQ1yA8+WZXm/5js8sppxuI3TY+9a7I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rjLj+DeHBrv+h8pEKt2VnNYIE7nI2LQDQfiwfX99M//K/Sa4RV6JyhO7PrUHSCS0l
+	 8D5obaKX4qJcOUrmxjrxN7VrU3tNhIALPK0exNc+CD6v520OKsD3TOrnIgXni801CB
+	 gUX2/9CDRR353AycSpi8xt7q9yMoEslZgJvPz9q43PNKWFIOMfRm98Xew2Nokx/UYs
+	 w6xSBWlPPScayLUkuOTDhx5eVaEF8wRxswToiabXrRuiVSsBAdDeByJR4Ro+nBPVzN
+	 AOcJDZrNii1jbn3HjJwhQq46riYj9PyvmTYt0q0sVAvJgfjB5zdWzgxGxSyvZY/ouu
+	 t3zoZ5Mj+EGKw==
+Message-ID: <25d5b5826b2e8d821caf7a37dea59186@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Linux Sound ML <linux-sound@vger.kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>
-In-Reply-To: <20251126091759.2490019-1-perex@perex.cz>
-References: <20251126091759.2490019-1-perex@perex.cz>
-Subject: Re: [PATCH 0/2] nau8325 build fixes
-Message-Id: <176418838766.130553.16560622831660304438.b4-ty@kernel.org>
-Date: Wed, 26 Nov 2025 20:19:47 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.18-rc7
+Date: Wed, 26 Nov 2025 20:46:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 26 Nov 2025 10:16:33 +0100, Jaroslav Kysela wrote:
-> Add missing build configuration and fix the i2c probe function to follow
-> latest i2c core interface.
-> 
-> Jaroslav Kysela (2):
->   ASoC: nau8325: use simple i2c probe function
->   ASoC: nau8325: add missing build config
-> 
-> [...]
+The following changes since commit 6a23ae0a96a600d1d12557add110e0bb6e32730c:
 
-Applied to
+  Linux 6.18-rc6 (2025-11-16 14:25:38 -0800)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.18-rc7
 
-[1/2] ASoC: nau8325: use simple i2c probe function
-      commit: b4d072c98e47c562834f2a050ca98a1c709ef4f9
-[2/2] ASoC: nau8325: add missing build config
-      commit: cd41d3420ef658b2ca902d7677536ec8e25b610a
+for you to fetch changes up to 73b97d46dde64fa184d47865d4a532d818c3a007:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: fsl_xcvr: clear the channel status control memory (2025-11-26 13:24:19 +0000)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v6.18
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+A small pile of driver specific fixes that came in during the past few
+weeks, none of them especially major.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Baojun Xu (1):
+      ASoC: tas2781: Correct the wrong chip ID for reset variable check
 
-Thanks,
-Mark
+Biju Das (2):
+      ASoC: renesas: rz-ssi: Fix channel swap issue in full duplex mode
+      ASoC: renesas: rz-ssi: Fix rz_ssi_priv::hw_params_cache::sample_width
 
+Ma Ke (2):
+      ASoC: codecs: wcd937x: Fix error handling in wcd937x codec driver
+      ASoC: codecs: Fix error handling in pm4125 audio codec driver
+
+Shenghao Ding (1):
+      ASoC: tas2781: correct the wrong period
+
+Shengjiu Wang (1):
+      ASoC: fsl_xcvr: clear the channel status control memory
+
+Srinivas Kandagatla (1):
+      ASoC: codecs: wcd934x: add explicit soundwire depenency
+
+ sound/soc/codecs/Kconfig              |  1 +
+ sound/soc/codecs/pm4125.c             | 21 ++++++++++--
+ sound/soc/codecs/tas2781-comlib-i2c.c |  2 +-
+ sound/soc/codecs/tas2781-i2c.c        |  2 +-
+ sound/soc/codecs/wcd937x.c            | 43 ++++++++++++++++++-----
+ sound/soc/fsl/fsl_xcvr.c              |  2 +-
+ sound/soc/renesas/rz-ssi.c            | 64 +++++++++++++++++++++++++----------
+ 7 files changed, 103 insertions(+), 32 deletions(-)
