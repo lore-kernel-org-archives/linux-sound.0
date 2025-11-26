@@ -1,117 +1,102 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA33306D54
-	for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 14:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0CD305044;
+	Wed, 26 Nov 2025 14:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764168754; cv=none; b=LM1RAqMjOq/qofngxtReZ8u0CtdqX6hIMAcL72ExXuWbUzNRTvDP7a5kU2t+hMtqjuYkxBP4afYhkqc9RRdk+AqXYAnQtBKLUZcc0Bjt9tnGNuFUrIltiqJxrRMq8dnydqY9BmySec0mY7Oy69H0kvYg1Uk1rN30Q+7qfa/LZDE=
+	t=1764168850; cv=none; b=NqPIT7Yb4p2rXXgkwVckMaPi+t6zPVY8hbhN499xEQv0RJ5TIo+6ndd/o4mAd6W7QnVKEPtNUVRnnxS/hGhS4zb6d9a0iHoLnlekI0iNKoQPPjxc8kHG1RFg7Hur8A8KTC9NeOemgrRPmakoF9f/9uOsEetlU6Gvo7pPQPb0OJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764168754; c=relaxed/simple;
-	bh=3M73N2AariqTlY8yn8Twg3H8JvBd0HiNvIu4NGbZDbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MXwS4KmBx0xrBXMXF+pwZZR6VDaAnyKnWlzyivoYEGnmRFuiVBkFLT2GtahKphxqXLarVSXlGlG3VvKo2o9w/NpMysdi0cxfOiFMsg3B7Ae7A3cE/K7X2s/48evE10iFMPdoj2vstdi6/6M/LOeHXdzN3oh/Vp+us9AtnaJpx6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rXeB33O7; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764168850; c=relaxed/simple;
+	bh=/HqO8CnY5UMV9Gl7Pn58ZWgYc8wXVab/JhcP9CSjlqs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=D9fWzbJS/KxOMTPUUPGt68G/VEkbkvv1Gq3nfJ63uzv6+fV7I9QWR2svIkQoUvJyJoadJqFrMfnqlb2pFVbaXu8QM8Yoqzb7v9WNXjRWTdLFdgsNaypXd/I+Xr1vBe7O+p/3/oVoKsdcFJ3jVzcpGm+37nqg/kwLR4ejlGVDC3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rpGprtZf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rXeB33O7"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so56023895e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 06:52:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764168751; x=1764773551; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tB73pe6/NtX8eM3PTQbggN9wppvlKOL9jZo7eXvreFA=;
-        b=rXeB33O7p8a1snjBMv/8ycfYNykMWnUIaTrZfcG6uSoz7uELyoIRjaZkRrmfjna65L
-         L5ZoqVCO2ZWhAfprji5Dwr7k1E1igZR1rT8eTIH2yQ+61jwu5XSx0hVSE7LM3WLjX6wd
-         ODTGQDS3rJYRCZchoQSZb4NQFyHJ1T6l0+T3DkJIKOO0D+p/7P2kmaSIDJCNmbM7ejXO
-         iG5QiP+jGmWXBNY9g+Xmqe9tzkmAY3df50HRMdHFiu6mZ7QvSHz99USFL4zZUvcmEt+5
-         +SHcvUwDYY6EzSutb/2WCciXcTf3wk6Xd3FOimopKyw9pTSmoJRCGkXViR8QHIR0UpwI
-         br5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764168751; x=1764773551;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tB73pe6/NtX8eM3PTQbggN9wppvlKOL9jZo7eXvreFA=;
-        b=DBhdL7bo4BM8dRINhvoUIxYzKo5ibH8zydn1nqYu5Hw0alAWNROy8c34OI4XMa30Rs
-         dJ4tXbixNdZ4KEAr37C6yzyDq4lwj32v4YY7GQP8UANEaD9QJ3vCQEVbSOPSKiPu3F+i
-         M5lifpGZuzXhD1qRYR7Iup+5GUJE0EyOE/9tPkLyYZ61nnvblot5VYWArDZJR00T5m76
-         cHr+WERszPJe6E3vXQKH0efDgfQtgHxGqurJKrPLbs4kkUvX86kDWIkSYkrtDbSDshB8
-         fcyGOd8ADSTggfdbnb1wd/NNbmGh7Zj8I0uiRG9PhuLS90tX2kPySBvv/7sk0mlkWWvP
-         HEoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUczVC+VXIcfaPp/MyXQVRAvSkqaqnq6dDr7zHcfKCo4KNxe6+rOVvMBrBj+Bls0sCVWfdDCt/oRZuS9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwql4y6/sZm74TO5lxzI6v5d71ogU88QDnbGa6oAMCKHMwoscc
-	KlbpOsKmxdd9qL3H8uS6AofpiKR2Lwu6DNAYlZLy8Ksdu5k7wwKErrcqSFgVc8getHpqCXFuK+s
-	up1BQ
-X-Gm-Gg: ASbGnctCesIMMnjQtMPymO0I7zQnkxDyZRP7DUmsZ6hTCRlESL6JJ3ofWGeasOZ0Frh
-	VIMdHOq1JWPLU8Mp2SaYd1o9BzWK0i/e4dZCiZFz+146s7izXR7RpDwALPVlt4NcXysKWiB51Gn
-	uX3hZf+7x7u7cWF0Dqa8xlx/WeczsI4XTetcN1cDlbdFTeKxD0Ky0AzSzOSfHTowXlFGAgyvOWH
-	pGkOgThGbyYwpOZqexBjKUJ8gxlyXq3X+tWynGecJct34AHe9v1d0fzgEFEonzK0hszQ2y5UBo+
-	ipqlr37Y4e3GIO4MfIJGRzo0Zu7ISyFnKrzKAOZ//RFpy40z72j8ENbgRTBZCopEUgisoZuOnvP
-	7Xzn2Xzv7TyBKWA++8N2zAWlWsC92cK1kB40TRbwtQylFDMNdEIn4WJBMTj66RPbrNOyTuFYz24
-	wpLtAi+PGRcBh5vIM=
-X-Google-Smtp-Source: AGHT+IGCLmd8tRJyaKxnoPAOY3teB1a8/mQwQE4e51HEL7L4ZyHqrgXF4lwoEPkRwuQbHk3YrwrBYw==
-X-Received: by 2002:a05:600c:8b37:b0:477:9cc3:7971 with SMTP id 5b1f17b1804b1-47904b1ac02mr55156645e9.20.1764168751196;
-        Wed, 26 Nov 2025 06:52:31 -0800 (PST)
-Received: from localhost ([41.210.159.101])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7f2e454sm40974088f8f.2.2025.11.26.06.52.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 06:52:30 -0800 (PST)
-Date: Wed, 26 Nov 2025 17:52:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Cyril Chao <Cyril.Chao@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: mediatek: mt8189: remove unnecessary NULL check
-Message-ID: <aScUKqCEhSIZoOmg@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rpGprtZf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DD5C113D0;
+	Wed, 26 Nov 2025 14:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764168849;
+	bh=/HqO8CnY5UMV9Gl7Pn58ZWgYc8wXVab/JhcP9CSjlqs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rpGprtZftYmevyQTc8OzK4vDcRmBrZDkOItw+AF2LcSqO/5G5PGgBFfi2bhf+Ug90
+	 2Tai28k3+M/ff3OXnz9VkGAdvCow02vKGBpnsn2YuZIiXzRfvC4gLH2OqRvCkgWj93
+	 xIGgysnGZTIURdFDrKNat2a6/uaWFNE+H1kMnR69xlj78AVAbg7Emo8r7xQEsDyf/M
+	 9zQJa67Pn+iB1ZxIyeE/kn+7I/2/oRIJ2AnZX1nPxwzLNVlplmiGwSuPmIyKeUPlpt
+	 ka//p9xcNzhKmBvd99OqDvXysrVnw8Ui9prUgPXG3A7AyhYdp0JDFy2rnagkLl3Iji
+	 pTcHqFH/1vhFw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vOGuJ-000000001K0-1xsb;
+	Wed, 26 Nov 2025 15:54:11 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 2/6] slimbus: core: fix runtime PM imbalance on report present
+Date: Wed, 26 Nov 2025 15:53:25 +0100
+Message-ID: <20251126145329.5022-3-johan@kernel.org>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251126145329.5022-1-johan@kernel.org>
+References: <20251126145329.5022-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-Smatch complains that the call to snd_soc_component_get_drvdata(component)
-will dereference "component" so this NULL check is too late.  The probe()
-function will never be called with a NULL component pointer so just
-delete the check.
+Make sure to balance the runtime PM usage count in case slimbus device
+or address allocation fails on report present, which would otherwise
+prevent the controller from suspending.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Fixes: 4b14e62ad3c9 ("slimbus: Add support for 'clock-pause' feature")
+Cc: stable@vger.kernel.org	# 4.16
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- sound/soc/mediatek/mt8189/mt8189-afe-pcm.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/slimbus/core.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c b/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
-index dcee8e11eca8..166ece74270e 100644
---- a/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
-@@ -2352,12 +2352,10 @@ static int mt8189_afe_component_probe(struct snd_soc_component *component)
- {
- 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
+diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
+index c808233692ee..9f85c4280171 100644
+--- a/drivers/slimbus/core.c
++++ b/drivers/slimbus/core.c
+@@ -489,21 +489,23 @@ int slim_device_report_present(struct slim_controller *ctrl,
+ 	if (ctrl->sched.clk_state != SLIM_CLK_ACTIVE) {
+ 		dev_err(ctrl->dev, "slim ctrl not active,state:%d, ret:%d\n",
+ 				    ctrl->sched.clk_state, ret);
+-		goto slimbus_not_active;
++		goto out_put_rpm;
+ 	}
  
--	if (component) {
--		/* enable clock for regcache get default value from hw */
--		pm_runtime_get_sync(afe->dev);
--		mtk_afe_add_sub_dai_control(component);
--		pm_runtime_put_sync(afe->dev);
--	}
-+	/* enable clock for regcache get default value from hw */
-+	pm_runtime_get_sync(afe->dev);
-+	mtk_afe_add_sub_dai_control(component);
-+	pm_runtime_put_sync(afe->dev);
+ 	sbdev = slim_get_device(ctrl, e_addr);
+-	if (IS_ERR(sbdev))
+-		return -ENODEV;
++	if (IS_ERR(sbdev)) {
++		ret = -ENODEV;
++		goto out_put_rpm;
++	}
  
- 	return 0;
- }
+ 	if (sbdev->is_laddr_valid) {
+ 		*laddr = sbdev->laddr;
+-		return 0;
++		ret = 0;
++	} else {
++		ret = slim_device_alloc_laddr(sbdev, true);
+ 	}
+ 
+-	ret = slim_device_alloc_laddr(sbdev, true);
+-
+-slimbus_not_active:
++out_put_rpm:
+ 	pm_runtime_mark_last_busy(ctrl->dev);
+ 	pm_runtime_put_autosuspend(ctrl->dev);
+ 	return ret;
 -- 
-2.51.0
+2.51.2
 
