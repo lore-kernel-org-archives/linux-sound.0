@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62C22D6E6C
-	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 16:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1942D46B2
+	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 16:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764261297; cv=fail; b=PocCcFcJ56/Lz1bm3fMFWvNt+qNjC91CN+X8CWnmN4rn5rCRMculfPopXrqas1KMt8Gmk2cRfcspXG3Zs30ZwluWiAvuNWCmvFvF5a0LyHH+GzUe82BK2nd22Dl/MtIPnkKY8sextouvIfLrCsvaJQ4205n4YArkgOGQnGRseic=
+	t=1764261349; cv=fail; b=WWQAQhjLi4cJOWpKANypnD8am+4Iwy9HVUq5olTF5BXV6ItJ/t3j1Yo7dByo0CpPC7qLXkefquVkAyCCoh9LJm+VHIfbEzRW2zP04ohPG4RUW+M3v446rHk0fySyP07Un9SZZD8JVWJWJgpEC6jshj9Tndm1qXHRw1QhrrnGStU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764261297; c=relaxed/simple;
-	bh=OvZJYuhq7w+Qh4h29WXyBMeOxP2DkLt8qIX3evYWIk4=;
+	s=arc-20240116; t=1764261349; c=relaxed/simple;
+	bh=ZY5z1JxsB3YzqyFIjLG6avHcZJTTC1tRA4k2ZJ5tm1k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rgx8lx3pXlhEaoT3TygZmJyGGLeYbqQLGKo1VqEZ/phP+1k9CXvyn70ulDC8zhlAq+yUTEwLzTMCXs0g0/NGjSv/qI6Nvmag8rK/c8qRRXRTpVql5yHcbnasT7AS7/4aIO+KhhAH8Yvcrsdgilxu/KsjJZkC5JgtulFiGNvnTMs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=aUEST4rL; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=WnA53BkP; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=AQcQ9kB/CZEEChBzcqs9RUIjtXJpALhUDMXvw/kbFJ632s1NpFTXrVfhRDbuyS2hpweRmDLctStIBJMg3Wpkb7Cn23jO8juyqJW999wFj7C4ZW1E2kyE0wS5nJuqF0GQljrt8kPSUHKNvpBPNTO/aTdanQy169i9PqHuQsOPfq8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PeVy97kM; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=cnNk1T99; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="aUEST4rL";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="WnA53BkP"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AR60bEi181871;
-	Thu, 27 Nov 2025 10:34:37 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PeVy97kM";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="cnNk1T99"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AR61IkY687202;
+	Thu, 27 Nov 2025 10:34:35 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=GenR2V44g1SaoGEXY6GL0VB2lTjJl6HBugYCfnbNucM=; b=
-	aUEST4rLYeHJAvuW0phaJIW3edcvhDVnu/qxS/86D7gmLzkmHE0GLotnY1DEE8py
-	w7am/uY/yyWFJUuGBNb9DZsxL84ZnZbnQHVjYGITsi5nwqgoEXwIgd0c9dckWAWy
-	lSN/keJKui/5IOZpql9PKCsGUhwmce6WhM+Gf8WesTcf039PjZg/jWPAydfTEfGm
-	XkcATg3FA4zd1PewnnLT3xszAhjmPMmwm3rtKG+85/aQ+KvVnFbWEkOyHGi7hPoD
-	I+DqWCNnY4ysbaJQ/9wwpBb6vCEVECn5RNTCsqV1aJkaGb1THoMpPIYN1ZkgMIM4
-	iqoySQBF5gu4gpI+gxzdRQ==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023126.outbound.protection.outlook.com [40.93.201.126])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4anjw5jevc-1
+	PODMain02222019; bh=TSmPrH0nYzAEK1Hyv7qj05F4naCOcSGIISyDJFqVuNI=; b=
+	PeVy97kME50wRGaz2lMHcQVTTnKQvKA3BgLIGNiSymSGcmjvGvpmt9oicEDgbwpy
+	1o6MYVyKldsefMDgLmNzf2HRvodb5kjf7XIqoGiHEt0p5wRj0qwWa69gZqUsehRg
+	QF9E3NQVHOtQ231rLGp5J8kqAmrAle4bnN9BiKdYeY0OWdnIek9AUmAmodttwwRu
+	CgCddPHxbxNmAi5WEBRIMq6yChlm/4tvr0Uhy0kgP75cXSBTah8TMOUP5N6yFx9X
+	cMA+XCaQ86/AwzDnXIQfMhdtcbwuwP3Z+ix+d8OSa1SCPpxraEhmwXwR8J3wcq6J
+	shGTzz6qQj4A8KPCdHdGlg==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020128.outbound.protection.outlook.com [52.101.61.128])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4anjvwteky-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 27 Nov 2025 10:34:37 -0600 (CST)
+	Thu, 27 Nov 2025 10:34:34 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eJORTUdLJbuXkKKxujyHk6CUp7LJjqRneBMvXr+X68i0FFVy96R2W3EDXLvFOAFbfuterXesO/ZUYAm6uvQmtcOT3Bla+UB2SuHkye9tcdMD6UdnTCqoGsojZoqaDBIVhnMoi0SU0/RYG5Sb/ucYggifsspp2ksjrKmUY2ZphwylDAnfg43esGnWjIe+j70oV+SmbePhXHNcAvoDZSnHULYsDOJ/7hrntmMdFjxv3Oc8iZ2b0EFU7MMP/g7R3SGZ8GlUL1YbtPMAkcd+lFhyKAReKqGbk89sNxH/8D5H7Efc/k98IFKM3b0M+gIUTMqUQh+NFmoVZg8TKowm0l4ysQ==
+ b=J0/7T1Tl64JShThYq3i7tTn9OPTV++J6O/F1E7NDwqBdfjgRliQgfQmla2fAukvJ9LFxWqHk78x71v4FmtaVR525TCjrQ7YQxhNARcmXEVgVb9OhUSUCpRVADOCz7YdrUcxFuCd6wetI0n9iYtY/OYs3XzZgHhHL/joeHUmpQMidiiQA+ayT6Jzx8PUUy2AyhgEOTQy/I0oRsPNq0dVOO0YNXfM2uSqY7UbIMOYYjgz0De2lx+2nO9kawD+TUfH/FZRMz3OAse9xtA4MBcuyFJQ3eHCGnhMkgJzNzI9AEKVypeF5Dq/e7b/92nPixP7Il9LCbKVltjGqHyGBx73SAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GenR2V44g1SaoGEXY6GL0VB2lTjJl6HBugYCfnbNucM=;
- b=Iqyi8qgqyoraheKBonxNdmn2rJ3fq2c3TM1Sx3yIjBA14md6el6G1GHtO8Ff4bHGpoOCrwjoKH46E+qVvYzN1OONMoiigO2djkjgKzIiDskZMY0ek0RX1hBWXNaFXT6DO3h8Lh0FZjgNVrNHNOUdxG7W6vqvOnv4Df5Igt95EsBF2dKW/9ZBAOylWpJ6+aUsYKk7ruqxQ6e7/sxEFHAkR+/LfTmKc+RWyF0dC9p3+FlQQfQwlNBuRVZGWL44eDgbUmyGhLDJIG/JbK2Rp61lSkPRTtdZ0alOLC0loGbH4uFprkW1qqDVHdPkk/SlFTIcCVuGvMhljrMfT4LTiULMbQ==
+ bh=TSmPrH0nYzAEK1Hyv7qj05F4naCOcSGIISyDJFqVuNI=;
+ b=EY5+RqX3vzxDPVbATyl7aFlqyIuiHWz/aBc00/V1Y3zy6wx11QtRcCSp2pQlZXMn83XY1wCy/Uyl8iPDBFRt27mP0FdRVkM9/N14HoxS78GIVEB7rskfdFvMlfD2bDzNXDdevgY09iW2qoo8oXuUVb9W+sMqfAi3ow9EjNyierpTR2Jm2kClbALTLUWqS2nsyAcU5NrvIc4pSNIIpZjtpJpePQ1dSHNUHKeJTatnFzi02BhFDBN4DPWGYwrgflvzSMvUs7dRuGZf9efrX2MiNUvpDO2+XYyZgejJi9VlR8MGtE0CckBU/waoEdZa5tcY6M9gSUBfgc8vNZaTbVuPTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GenR2V44g1SaoGEXY6GL0VB2lTjJl6HBugYCfnbNucM=;
- b=WnA53BkPk0JGDwbOHs64qnmy8WNmQvrt5348T2mvgBhi+7hiw0YffMxAeqn7Rj7mD4H7wIQWeNMSEEPu6bQCkGxZTPJgfCFUEb52jDoHNYFyNCJTOSX+B4vG2xcc657lxbmg3sw32ywbaXD+GFjmEmDXEqX4XmWgFE9ktyRXaYg=
-Received: from CH0P223CA0027.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::17)
- by MW4PR19MB6578.namprd19.prod.outlook.com (2603:10b6:303:1e3::7) with
+ bh=TSmPrH0nYzAEK1Hyv7qj05F4naCOcSGIISyDJFqVuNI=;
+ b=cnNk1T99dkSEPdSkMwvkGYePWnep8WWE8168VL96qqI85t62cpX+V+R7aqTgUDtlWe4HoIuBRK+PKMTuOvAd59C67i7gOwwb/yx7NvAhAnEGc0s709oToGtA4r508KEri5v8aqcZSBcZfOa2vq7aRvWkSMf+IWz3p0c3UqvYqgk=
+Received: from SA9PR13CA0125.namprd13.prod.outlook.com (2603:10b6:806:27::10)
+ by DS3PR19MB9414.namprd19.prod.outlook.com (2603:10b6:8:2e0::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.15; Thu, 27 Nov
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Thu, 27 Nov
  2025 16:34:32 +0000
-Received: from CH2PEPF0000013E.namprd02.prod.outlook.com
- (2603:10b6:610:116:cafe::d6) by CH0P223CA0027.outlook.office365.com
- (2603:10b6:610:116::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.15 via Frontend Transport; Thu,
- 27 Nov 2025 16:34:19 +0000
+Received: from SA2PEPF0000150B.namprd04.prod.outlook.com
+ (2603:10b6:806:27:cafe::dc) by SA9PR13CA0125.outlook.office365.com
+ (2603:10b6:806:27::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.3 via Frontend Transport; Thu,
+ 27 Nov 2025 16:34:32 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,23 +69,23 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH2PEPF0000013E.mail.protection.outlook.com (10.167.244.70) with Microsoft
+ SA2PEPF0000150B.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7
  via Frontend Transport; Thu, 27 Nov 2025 16:34:31 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 30B1E406544;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3AA29406550;
 	Thu, 27 Nov 2025 16:34:30 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 0FC2482024D;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 16C0682026C;
 	Thu, 27 Nov 2025 16:34:30 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
         lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
         linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH 2/7] ASoC: SDCA: Add terminal type into input/output widget name
-Date: Thu, 27 Nov 2025 16:34:21 +0000
-Message-ID: <20251127163426.2500633-3-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 4/7] ASoC: sdw_utils: Move codec_name to dai info
+Date: Thu, 27 Nov 2025 16:34:23 +0000
+Message-ID: <20251127163426.2500633-5-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251127163426.2500633-1-ckeepax@opensource.cirrus.com>
 References: <20251127163426.2500633-1-ckeepax@opensource.cirrus.com>
@@ -98,269 +98,197 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000013E:EE_|MW4PR19MB6578:EE_
+X-MS-TrafficTypeDiagnostic: SA2PEPF0000150B:EE_|DS3PR19MB9414:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d6816426-892c-48ec-9875-08de2dd2d7ba
+X-MS-Office365-Filtering-Correlation-Id: f21b67cf-5f6b-4745-caee-08de2dd2d78e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|376014|36860700013|82310400026;
+	BCL:0;ARA:13230040|376014|36860700013|61400799027|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nY4us6wxvIwWHDDTHO8Q6PlDWlnIocIpqBcBAR+bGfilGg5iM0moxL8vP8gn?=
- =?us-ascii?Q?papxjTmBYqE9JviM0wQ18kURfPWst6kv4uCnlTA34PBh6q68k5Wmdj3U+RwB?=
- =?us-ascii?Q?8B3Kn6Q2GgLm/W7dSr5yB5qX0Mh11S5wEBTJHaw4vbe3jTwM17CMaQ7lFETQ?=
- =?us-ascii?Q?1eNwOkzlL6XMzIsYOhgxd+Xz3++55JbXAoDKLUgo2TKuQ3kr7Fo8yfUYjZz7?=
- =?us-ascii?Q?yVCBGAlF71vQDjSWFR/TbL63i9Mt4WTyM27NAUDpQIQ8pLtRJSDk0yFMbJve?=
- =?us-ascii?Q?LxlXLIlL5sc7zAvq98exFTsZsuNV7KcFu/jhinMMtYZ85Zj6daFp8z9dHJra?=
- =?us-ascii?Q?WCKgsr93in41a8fCHgwJIH0LbQXvCRFdM8gTztvqgFZuZHxw6mB3tovpgqqb?=
- =?us-ascii?Q?HwCJx1s34JMAd+WRjpyqMwu00B+n7sxPWKo7j3ISMRqkmfkrWdQH48gG//Ix?=
- =?us-ascii?Q?KfAHFypHeYy18F9P7gUjWoTL/CVI0TXRjTOCSpVDW14ZZTRu885TsgN2Y/DU?=
- =?us-ascii?Q?20GMlqhTvOC3naQ+7R6QFgs2MoSHCkojjvGRpPWm9HwenwSJDzF3T7Prxinh?=
- =?us-ascii?Q?ywzU2keg4esKQwi5ZKEkBxNfU4uJWe8pC/D3qd0Bx3PVSld0SO0FegRKqOIW?=
- =?us-ascii?Q?jHTp1mjFX30xlIUvr9QfLTkbswRsmYnezrk+WAKnpDvITq3ewRjxYqjmz5Pe?=
- =?us-ascii?Q?T0mGIwA0V0y4SVToRyUDKGmZwhf/b6acEgtquVvvKeq4rmBzjzLKLFjHR6/D?=
- =?us-ascii?Q?SZWuuRwfM5feuj4Gw537Y8Cn/8kLlQa07P0KSsUV4q8euqPl018dlzI2LK9A?=
- =?us-ascii?Q?E7z7cIgELG3JW4ZZu8mIXgkmSsvbHd+7F2fb323CAtYk17nIrY8zzqjSdyAq?=
- =?us-ascii?Q?dt//cCu7OwY1rlF+aDe01eJ6h+CJlDqyyeqVLS7fbGaSLixGhrexeBEb9F2o?=
- =?us-ascii?Q?/ERbnMg2BAqOQ4W3xPX/q9V9Sk9yWk/29Bz0pSmXb/ieHV4q5jImfhunqzpi?=
- =?us-ascii?Q?T+2yheXGmdTaQ3GEO0YyAdZGEpWGJ81EFbZlBxTl62i3zMj8ETq1mlgzhlgc?=
- =?us-ascii?Q?dgyurdPgaq/3+Qy/GIL9PaH/gLhWyebXkR69ggAV+tTCKqWJTRxxMY+20FOJ?=
- =?us-ascii?Q?L3KbYuNbQIBCQQ+zDFXdZdnIQtgsOcpMxCCtC6Sg3CMVAiqBNSvuuz0JqIjx?=
- =?us-ascii?Q?2BJ4S40y1N/pi/buAtmfYtBmdKOVaP0Wyt5GTebLgO5+QNB/uxcn+W5m/DEf?=
- =?us-ascii?Q?y2jT9zO6KwnfHyBJzhPREvlYjTfXgV3p05M2pM2QDW1uehpLioYaMpvoXZ7e?=
- =?us-ascii?Q?dfj+RGzolf0TkhNJrccRvbpTyfHj9GIaCBBziGJ2GDWUg0jA+ErJ7i6fN0LN?=
- =?us-ascii?Q?NgAVO81gP0QSfYwztULI2Patw3TCzWwEvfqv3GkKe8kzpw3GNW4frSqXR2f3?=
- =?us-ascii?Q?RofiY4OH671admmX7JBcbB39V8Zz3AXdYex8JwBUyW8r8yD3msnRTo+8xIgs?=
- =?us-ascii?Q?tWL9wYKlUObfNzYzBBcLbBcEn2oi2I6QKc6nWTrqYxItY6AJ4f31MU8nRE2l?=
- =?us-ascii?Q?/R+1cFZsdKJXQoO/Pig=3D?=
+	=?us-ascii?Q?EsTRSz0v8yak5ISir291JF/p5BeuUSQNDUvUlZpd4i/rjKsfOgEoPVYMH1+F?=
+ =?us-ascii?Q?xEZalTEuMCuuZTnJUQpe6yjqBG2GRknCCD9dfBk0ARPBOS5EM/x8ZbtNZ1Mx?=
+ =?us-ascii?Q?wRFE/MwQX0dmYVfZ+49fMOkwRqtH0uhxdTSsPs0eEBMO/U6HCvD7AEPFl3cy?=
+ =?us-ascii?Q?HuYghXhsWN/cdJHppqIXRCMy0SHzYqBaWzHTz76orf2yjRXtO8CXNoK4a80/?=
+ =?us-ascii?Q?hQnumrJf0D/Z4Kg7dWWnmUsUYRTGF5F+FZX/oKtI9tHYCakfVXRN421IFQng?=
+ =?us-ascii?Q?t9bMKTklm+VPjtQb5w4O87c4KOCnovwibTOJHqMwXZFdBKehcpDHxMN8WXvC?=
+ =?us-ascii?Q?rp3qGjQGK/6HWIkNPf+3J4aAD9/GpmTf9lwLFnKGAHafL6vpJhM8OA3PiIIE?=
+ =?us-ascii?Q?IpfZjCvQ9ZLfyYAC5cSXpi3sdSLR/W0a10KpXcyf0s6EhN7einEuWHOPifux?=
+ =?us-ascii?Q?rYmSSmExSywy8e4VndF2s583LQP/2Qi6WZoAbg5ZSK5wUo2JZ7DFZLa7xfvC?=
+ =?us-ascii?Q?8HxrcAhDaAfQG/L6+icPaA7+I9i4fjDRwR8HQ2CKvgcD3PmJVgNzn0/Jgav9?=
+ =?us-ascii?Q?DJlPja8CbnybmzdYJ72qh7Oa9ITyxATcUQEebizRairnd1VPxRwj77sog+fy?=
+ =?us-ascii?Q?fl7yQwJigrncGK8rrqoj2PKQ1dUpzEyGo0Weup4RVf7SaQpA7mYYCL4VrnE5?=
+ =?us-ascii?Q?bC3eX6Vh7D3dAHMZ9LCEAveKeHiCiQoXsZYb/bWV1C/D/Y3B4OZPPBFEDcUu?=
+ =?us-ascii?Q?ZnhiCNiHKGfFa0iU1L9i8ENt8zXAFWxq+fa842PumLPHge2hrLpi/OHLvc5o?=
+ =?us-ascii?Q?4F5zV2nwFsrQMxzJzkTjrEEctWievw4tcuzl6Hd6wKF6hms4TNQMCXpWphBn?=
+ =?us-ascii?Q?81jpOg+LUATJdzTURaphsBn5oXb+8VMfe4vkoHJuPVkkz+7Gh+Y3ESKNcdyP?=
+ =?us-ascii?Q?b/mk/OHKUKx7MkDUUUcNMDfFZaDRZZ2TXG072O1du7QyL75//ncHS0tBJs/x?=
+ =?us-ascii?Q?Gs81nTu9x3Tvs2pF+aebz7hAHdes2ZlF4N1HUVTsCSgvkCOY5NuvZes5qALg?=
+ =?us-ascii?Q?f1qxMm+zsI/hG67B5cp7cSdlQTKykmNEivu6QJFwKt0/GuArRl1XOTb0ZsNn?=
+ =?us-ascii?Q?iiqC6FbJbgEOgWCf3JLx4B6dcmxCm1Qa7J8Z5mopfIP4QjwAaNy89GxBgt4J?=
+ =?us-ascii?Q?Nf9NeZgsyyiYQF8OwaTgruk1jFGLtuB02bUgtNO9NBrNt46gi8//lJq1bJ2j?=
+ =?us-ascii?Q?7uIUbYDzYK3zSeMYPDQ14XAaXs+rQkYrdiOxaXdaQlqhV0kgSHtE9VskYf2N?=
+ =?us-ascii?Q?BVAeoKwVrKiS+/x3LzffCMfQh8dMP9ZtsggfgeUahmpb/TyujaMa0n3K7K+7?=
+ =?us-ascii?Q?qzf+g0SutMK7vZmyYa3dN5Z7I5n569Tbut3yy/SPbeTbYA0mKGaEEe6paMvi?=
+ =?us-ascii?Q?UBg8YAtJchaNJJcP/va52hglPE16VrTAkBj7U8Ld9gA7PGnPKs9WhXI7c1BH?=
+ =?us-ascii?Q?PYg6OP1uZaxtDPRSX6sBLGAPwaiX85abwAdjXWZngg0EBXMel9JKW/1jPoK/?=
+ =?us-ascii?Q?a6rUfqZR2UpiWZSvHvY=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(61400799027)(82310400026);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 16:34:31.6367
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 16:34:31.3274
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6816426-892c-48ec-9875-08de2dd2d7ba
+X-MS-Exchange-CrossTenant-Network-Message-Id: f21b67cf-5f6b-4745-caee-08de2dd2d78e
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000013E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF0000150B.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR19MB6578
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDEyMyBTYWx0ZWRfX/3JBbNkI6mdq
- ffw/RqVc3B6PWQEYJgRgYLM0B80Nx1zxNO4ZE5nXCuJPenWHOd4sHdlsFKinC0n8oNihA5bb5+0
- sTea7X2BZ7L6aztKGiinSxolowBFjInAZmSNPMx5r78wdG3VXMUlASyr25wWp7I847INLsMXxcb
- HTMUMY7IYtESIwljGpZQhaWSN917uMjJV2yH/kb31PJmzc2+o0UgzOsckwj+UyDvRFK1MuQp6/U
- XeBAG9MlHQOewUfaxMr5vlYldfy5i6UkG6iU0Z+m3yAA0Frb1MMAmdlD6fal2P221tdS3Jj+P51
- FCdO+pP/whmg6wFnUY88bkPbkxAJWIxcGE8JL/dSiUgUC/Te7j6zXMcjPToRZo0PMTz5TcYf7Gq
- lwn+a8dcVkMmD1ICUcpbkyH39CHlSw==
-X-Proofpoint-GUID: vidMaEe_0JWrbTdl18BMfeTjizGSUZ5D
-X-Proofpoint-ORIG-GUID: vidMaEe_0JWrbTdl18BMfeTjizGSUZ5D
-X-Authority-Analysis: v=2.4 cv=V4JwEOni c=1 sm=1 tr=0 ts=69287d9d cx=c_pps
- a=DIjkAsz29YVUvu3IkAIIcg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR19MB9414
+X-Proofpoint-ORIG-GUID: 8ojpbBDhuE95BDI09KAKJ-qsDUvYCvBe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDEyNCBTYWx0ZWRfX2O1c1U7pJ91t
+ DDCbaeiHL82x5qMTSHByjPmChlIoF10pBCzlKQVJc0EJpeOHz7fT1Yn2k3PULpUcZScJaYaMJ1O
+ vY4Bc4ovoMUvT+oX3f9LrkODdYs/pqors7vBAox5TyT1GCTb316PwUhSUqufFNitMJ1016rYhKh
+ gzoQPSL6OwyrU1wrENOVBoWXgju52dbRh8se8g618wqNkkMylNOXRgky/ClpgG/AChe2uQx+yPe
+ ef5NbY6NQTbuwkWKJ/HuhNx7y9MaApv97HkIfQAk+E/BZ5vq1l6knNtoEBhRc9/kWaHEKDXXlJY
+ 8sS8iA8MSE/B7EK9k/OrCVZpCe1nawmQnvsKstM7hGCQDdWx8Xr9tpVJoBtfSDyekb7Zbg90yML
+ ITsJ0k6fUhhWAr/aBUu1ikdYH/gCVw==
+X-Authority-Analysis: v=2.4 cv=Vvouwu2n c=1 sm=1 tr=0 ts=69287d9b cx=c_pps
+ a=8h7WK4dQWB09CNKj11a7yw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=6UeiqGixMTsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=gWklcw6WRvuabl4HOxAA:9
+ a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8
+ a=xvjx6ylBrtOVPY9pl5EA:9
+X-Proofpoint-GUID: 8ojpbBDhuE95BDI09KAKJ-qsDUvYCvBe
 X-Proofpoint-Spam-Reason: safe
 
-There have been some complaints around the UCM files for SDCA
-devices that the control system is quite hard to follow. This is
-definitely true without the specification handy the naming can be
-a little cryptic. However, as most of the information is parsed
-from DisCo there are some limits to what the driver can safely do
-to improve this.
+As SDCA devices will support each DAI link on a different child device,
+move the codec name from codec_info to each dai_info. To allow the
+appropriate function device to be bound to each DAI link.
 
-However, one area that can be improved is the non-streaming
-input/output terminals. These have a field (enum sdca_terminal_type)
-that describes the usage of that terminal. These types can be
-appended to the entity name to give the users a better clue as
-to the purpose. For example "OT 43", would now become "OT 43
-Headphone". This would follow through into the jack controls which
-would change from "OT 43 Jack" to "OT 43 Headphone Jack", making the
-purpose much more obvious to the user.
-
-This provides slightly more readable controls without relying on
-implicit knowledge that individual parts might not conform to.
-
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/sdca_function.h   |  2 ++
- sound/soc/sdca/sdca_asoc.c      | 48 ++--------------------------
- sound/soc/sdca/sdca_functions.c | 56 ++++++++++++++++++++++++++++++++-
- 3 files changed, 59 insertions(+), 47 deletions(-)
+ include/sound/soc_sdw_utils.h       |  4 ++--
+ sound/soc/sdw_utils/soc_sdw_utils.c | 19 ++++++++++---------
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index 2564fad33fd46..6e9391b3816c6 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -1456,6 +1456,8 @@ int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
- 			struct sdca_function_desc *desc,
- 			struct sdca_function_data *function);
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 76c64c5245d47..714e207d4c013 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -45,6 +45,7 @@ struct asoc_sdw_codec_info;
  
-+const char *sdca_find_terminal_name(enum sdca_terminal_type type);
-+
- struct sdca_control *sdca_selector_find_control(struct device *dev,
- 						struct sdca_entity *entity,
- 						const int sel);
-diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-index 0e21ed1091720..2d328bbb95b94 100644
---- a/sound/soc/sdca/sdca_asoc.c
-+++ b/sound/soc/sdca/sdca_asoc.c
-@@ -115,50 +115,6 @@ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *fun
+ struct asoc_sdw_dai_info {
+ 	const bool direction[2]; /* playback & capture support */
++	const char *codec_name;
+ 	const char *dai_name;
+ 	const char *component_name;
+ 	const int dai_type;
+@@ -67,7 +68,6 @@ struct asoc_sdw_dai_info {
+ struct asoc_sdw_codec_info {
+ 	const int part_id;
+ 	const int version_id;
+-	const char *codec_name;
+ 	const char *name_prefix;
+ 	int amp_num;
+ 	const u8 acpi_id[ACPI_ID_LEN];
+@@ -131,7 +131,7 @@ int asoc_sdw_hw_free(struct snd_pcm_substream *substream);
+ void asoc_sdw_shutdown(struct snd_pcm_substream *substream);
+ 
+ const char *asoc_sdw_get_codec_name(struct device *dev,
+-				    const struct asoc_sdw_codec_info *codec_info,
++				    const struct asoc_sdw_dai_info *dai_info,
+ 				    const struct snd_soc_acpi_link_adr *adr_link,
+ 				    int adr_index);
+ 
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index f2f1954adf221..f31213e00a16a 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -656,12 +656,12 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 	{
+ 		.part_id = 0x4243,
+ 		.name_prefix = "cs42l43",
+-		.codec_name = "cs42l43-codec",
+ 		.count_sidecar = asoc_sdw_bridge_cs35l56_count_sidecar,
+ 		.add_sidecar = asoc_sdw_bridge_cs35l56_add_sidecar,
+ 		.dais = {
+ 			{
+ 				.direction = {true, false},
++				.codec_name = "cs42l43-codec",
+ 				.dai_name = "cs42l43-dp5",
+ 				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+ 				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+@@ -673,6 +673,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 			},
+ 			{
+ 				.direction = {false, true},
++				.codec_name = "cs42l43-codec",
+ 				.dai_name = "cs42l43-dp1",
+ 				.dai_type = SOC_SDW_DAI_TYPE_MIC,
+ 				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+@@ -684,12 +685,14 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 			},
+ 			{
+ 				.direction = {false, true},
++				.codec_name = "cs42l43-codec",
+ 				.dai_name = "cs42l43-dp2",
+ 				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+ 				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+ 			},
+ 			{
+ 				.direction = {true, false},
++				.codec_name = "cs42l43-codec",
+ 				.dai_name = "cs42l43-dp6",
+ 				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+ 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+@@ -1094,7 +1097,6 @@ static bool asoc_sdw_is_unique_device(const struct snd_soc_acpi_link_adr *adr_li
  }
- EXPORT_SYMBOL_NS(sdca_asoc_count_component, "SND_SOC_SDCA");
  
--static const char *get_terminal_name(enum sdca_terminal_type type)
--{
--	switch (type) {
--	case SDCA_TERM_TYPE_LINEIN_STEREO:
--		return SDCA_TERM_TYPE_LINEIN_STEREO_NAME;
--	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
--		return SDCA_TERM_TYPE_LINEIN_FRONT_LR_NAME;
--	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
--		return SDCA_TERM_TYPE_LINEIN_CENTER_LFE_NAME;
--	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
--		return SDCA_TERM_TYPE_LINEIN_SURROUND_LR_NAME;
--	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
--		return SDCA_TERM_TYPE_LINEIN_REAR_LR_NAME;
--	case SDCA_TERM_TYPE_LINEOUT_STEREO:
--		return SDCA_TERM_TYPE_LINEOUT_STEREO_NAME;
--	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
--		return SDCA_TERM_TYPE_LINEOUT_FRONT_LR_NAME;
--	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
--		return SDCA_TERM_TYPE_LINEOUT_CENTER_LFE_NAME;
--	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
--		return SDCA_TERM_TYPE_LINEOUT_SURROUND_LR_NAME;
--	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
--		return SDCA_TERM_TYPE_LINEOUT_REAR_LR_NAME;
--	case SDCA_TERM_TYPE_MIC_JACK:
--		return SDCA_TERM_TYPE_MIC_JACK_NAME;
--	case SDCA_TERM_TYPE_STEREO_JACK:
--		return SDCA_TERM_TYPE_STEREO_JACK_NAME;
--	case SDCA_TERM_TYPE_FRONT_LR_JACK:
--		return SDCA_TERM_TYPE_FRONT_LR_JACK_NAME;
--	case SDCA_TERM_TYPE_CENTER_LFE_JACK:
--		return SDCA_TERM_TYPE_CENTER_LFE_JACK_NAME;
--	case SDCA_TERM_TYPE_SURROUND_LR_JACK:
--		return SDCA_TERM_TYPE_SURROUND_LR_JACK_NAME;
--	case SDCA_TERM_TYPE_REAR_LR_JACK:
--		return SDCA_TERM_TYPE_REAR_LR_JACK_NAME;
--	case SDCA_TERM_TYPE_HEADPHONE_JACK:
--		return SDCA_TERM_TYPE_HEADPHONE_JACK_NAME;
--	case SDCA_TERM_TYPE_HEADSET_JACK:
--		return SDCA_TERM_TYPE_HEADSET_JACK_NAME;
--	default:
--		return NULL;
--	}
--}
--
- static int entity_early_parse_ge(struct device *dev,
- 				 struct sdca_function_data *function,
- 				 struct sdca_entity *entity)
-@@ -217,7 +173,7 @@ static int entity_early_parse_ge(struct device *dev,
- 		type = sdca_range(range, SDCA_SELECTED_MODE_TERM_TYPE, i);
- 
- 		values[i + 3] = sdca_range(range, SDCA_SELECTED_MODE_INDEX, i);
--		texts[i + 3] = get_terminal_name(type);
-+		texts[i + 3] = sdca_find_terminal_name(type);
- 		if (!texts[i + 3]) {
- 			dev_err(dev, "%s: unrecognised terminal type: %#x\n",
- 				entity->label, type);
-@@ -499,7 +455,7 @@ static int entity_parse_su_device(struct device *dev,
- 				return -EINVAL;
- 			}
- 
--			add_route(route, entity->label, get_terminal_name(term),
-+			add_route(route, entity->label, sdca_find_terminal_name(term),
- 				  entity->sources[affected->val - 1]->label);
- 		}
- 	}
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index e4b3efeb30f0b..5a1f120487ef0 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
- #include <linux/property.h>
- #include <linux/soundwire/sdw.h>
-+#include <linux/string.h>
- #include <linux/types.h>
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
-@@ -1120,6 +1121,14 @@ static int find_sdca_entity_iot(struct device *dev,
- 	terminal->type = tmp;
- 	terminal->is_dataport = find_sdca_iot_dataport(terminal);
- 
-+	if (!terminal->is_dataport) {
-+		const char *type_name = sdca_find_terminal_name(terminal->type);
-+
-+		if (type_name)
-+			entity->label = devm_kasprintf(dev, GFP_KERNEL, "%s %s",
-+						       entity->label, type_name);
-+	}
-+
- 	ret = fwnode_property_read_u32(entity_node,
- 				       "mipi-sdca-terminal-reference-number", &tmp);
- 	if (!ret)
-@@ -1565,7 +1574,7 @@ static struct sdca_entity *find_sdca_entity_by_label(struct sdca_function_data *
- 	for (i = 0; i < function->num_entities; i++) {
- 		struct sdca_entity *entity = &function->entities[i];
- 
--		if (!strcmp(entity->label, entity_label))
-+		if (!strncmp(entity->label, entity_label, strlen(entity_label)))
- 			return entity;
- 	}
- 
-@@ -2156,6 +2165,51 @@ int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
+ static const char *_asoc_sdw_get_codec_name(struct device *dev,
+-					    const struct asoc_sdw_codec_info *codec_info,
+ 					    const struct snd_soc_acpi_link_adr *adr_link,
+ 					    int adr_index)
+ {
+@@ -1116,14 +1118,14 @@ static const char *_asoc_sdw_get_codec_name(struct device *dev,
  }
- EXPORT_SYMBOL_NS(sdca_parse_function, "SND_SOC_SDCA");
  
-+const char *sdca_find_terminal_name(enum sdca_terminal_type type)
-+{
-+	switch (type) {
-+	case SDCA_TERM_TYPE_LINEIN_STEREO:
-+		return SDCA_TERM_TYPE_LINEIN_STEREO_NAME;
-+	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
-+		return SDCA_TERM_TYPE_LINEIN_FRONT_LR_NAME;
-+	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
-+		return SDCA_TERM_TYPE_LINEIN_CENTER_LFE_NAME;
-+	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
-+		return SDCA_TERM_TYPE_LINEIN_SURROUND_LR_NAME;
-+	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
-+		return SDCA_TERM_TYPE_LINEIN_REAR_LR_NAME;
-+	case SDCA_TERM_TYPE_LINEOUT_STEREO:
-+		return SDCA_TERM_TYPE_LINEOUT_STEREO_NAME;
-+	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
-+		return SDCA_TERM_TYPE_LINEOUT_FRONT_LR_NAME;
-+	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
-+		return SDCA_TERM_TYPE_LINEOUT_CENTER_LFE_NAME;
-+	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
-+		return SDCA_TERM_TYPE_LINEOUT_SURROUND_LR_NAME;
-+	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
-+		return SDCA_TERM_TYPE_LINEOUT_REAR_LR_NAME;
-+	case SDCA_TERM_TYPE_MIC_JACK:
-+		return SDCA_TERM_TYPE_MIC_JACK_NAME;
-+	case SDCA_TERM_TYPE_STEREO_JACK:
-+		return SDCA_TERM_TYPE_STEREO_JACK_NAME;
-+	case SDCA_TERM_TYPE_FRONT_LR_JACK:
-+		return SDCA_TERM_TYPE_FRONT_LR_JACK_NAME;
-+	case SDCA_TERM_TYPE_CENTER_LFE_JACK:
-+		return SDCA_TERM_TYPE_CENTER_LFE_JACK_NAME;
-+	case SDCA_TERM_TYPE_SURROUND_LR_JACK:
-+		return SDCA_TERM_TYPE_SURROUND_LR_JACK_NAME;
-+	case SDCA_TERM_TYPE_REAR_LR_JACK:
-+		return SDCA_TERM_TYPE_REAR_LR_JACK_NAME;
-+	case SDCA_TERM_TYPE_HEADPHONE_JACK:
-+		return SDCA_TERM_TYPE_HEADPHONE_JACK_NAME;
-+	case SDCA_TERM_TYPE_HEADSET_JACK:
-+		return SDCA_TERM_TYPE_HEADSET_JACK_NAME;
-+	default:
-+		return NULL;
-+	}
-+}
-+EXPORT_SYMBOL_NS(sdca_find_terminal_name, "SND_SOC_SDCA");
-+
- struct sdca_control *sdca_selector_find_control(struct device *dev,
- 						struct sdca_entity *entity,
- 						const int sel)
+ const char *asoc_sdw_get_codec_name(struct device *dev,
+-				    const struct asoc_sdw_codec_info *codec_info,
++				    const struct asoc_sdw_dai_info *dai_info,
+ 				    const struct snd_soc_acpi_link_adr *adr_link,
+ 				    int adr_index)
+ {
+-	if (codec_info->codec_name)
+-		return devm_kstrdup(dev, codec_info->codec_name, GFP_KERNEL);
++	if (dai_info->codec_name)
++		return devm_kstrdup(dev, dai_info->codec_name, GFP_KERNEL);
+ 
+-	return _asoc_sdw_get_codec_name(dev, codec_info, adr_link, adr_index);
++	return _asoc_sdw_get_codec_name(dev, adr_link, adr_index);
+ }
+ EXPORT_SYMBOL_NS(asoc_sdw_get_codec_name, "SND_SOC_SDW_UTILS");
+ 
+@@ -1354,8 +1356,7 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	}
+ 	kfree(dlc);
+ 
+-	sdw_codec_name = _asoc_sdw_get_codec_name(dev, codec_info,
+-						  adr_link, adr_index);
++	sdw_codec_name = _asoc_sdw_get_codec_name(dev, adr_link, adr_index);
+ 	if (!sdw_codec_name)
+ 		return -ENOMEM;
+ 
+@@ -1529,7 +1530,7 @@ int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
+ 				num_link_dailinks += !!list_empty(&soc_dai->endpoints);
+ 				list_add_tail(&soc_end->list, &soc_dai->endpoints);
+ 
+-				codec_name = asoc_sdw_get_codec_name(dev, codec_info,
++				codec_name = asoc_sdw_get_codec_name(dev, dai_info,
+ 								     adr_link, i);
+ 				if (!codec_name)
+ 					return -ENOMEM;
 -- 
 2.47.3
 
