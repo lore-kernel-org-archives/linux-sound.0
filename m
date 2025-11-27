@@ -1,137 +1,217 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE8731196D
-	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 13:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3683128A6;
+	Thu, 27 Nov 2025 15:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764251901; cv=none; b=n6FCFlNLHnZdziG8pwlqntKL/1a5K/Q0hWAfo4QttQueQ7X82RVST4komrYAneN6BjxIeam786fWNZp7RbZUZQttFEoSO82sroJOjjfxgNbbH/DpBxRSoJOxzmomJ/DfNvPcpKo+0p/tyM7K3q7SXdP+I1hYz6h22P56ikSJ0Yk=
+	t=1764256039; cv=none; b=OQkdJy6XXKvAYesWEDW4wnCO2M702y/u1tI/RFnq4GjxMfaFPp8bPKxVof3np8DojhLUcSWmklG6wRD3U1VgjdOaPiCPXm1ZUJMqurUdSKhQh15PNj6Xuj/X05PMSJfWaBvw9nWxKP8D9K09y5C1qPhi8xNs9FRiJo7u9XcBKyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764251901; c=relaxed/simple;
-	bh=+gdfOs22C1HlhYzm8g+hfa+HH8oPT+RSiB+vCUuW1tY=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=YJuOtiOTjQICPBBPPgB4sMJ0akYS5cgn1TKM/rN8WEDFcxmBhP0mc2fMDRg4jDNBYgisVZKnx/J+iad5jWI+ZRT+w7q2iyMBF8t6b0dnjtrzgoUVuQ+C8zsa22XAGhV6O9gTSRTqnPMOVcyEAuwPhfp33QesqFzcF8+XAwTTcHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=Z0tHCNNk; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
+	s=arc-20240116; t=1764256039; c=relaxed/simple;
+	bh=NyPHAxEuBfxhiJKrWsktUqr6mdKRf3cbmidwmHAlulY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t15wy+0pnSRZ/B+lcJW6rRj9Vrd+eo/KMBluXZhg2SZ8cMWqp26Hby8fVKV9m+T+jD/07E3CNGvoK0JqHfbTUrRaXXh/7e880PGhFQfuf/CuHDO3+v0j3762zCsrI0HIND4fZjjhbeR6OYsc+rJqrC4042WsiiVRPKKzsMNQwNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KsDxrTwJ; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="Z0tHCNNk"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b1f2fbaed7so77617785a.2
-        for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 05:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=marek.ca; s=google; t=1764251898; x=1764856698; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rB5l1g0gWdjw9WGa87kNU8ZATb8WzLJUTgvTih8Ggpg=;
-        b=Z0tHCNNkLys0KA2TSIIFTD6EcH3J3bS99cdusQ0EfBgatgH+5CZYytiVMyYQ3f2BJH
-         9nge7oGpTi9nT3D8aa3BesUZwgthgnpvSc+GWE8s9v/qtj86Tf96za82bSNVKj8i5K1h
-         zIefVVBv0QFIeeEUR9Nfn1zMoPbIvARkJ5gzYGIpnXH/T8kVql9NO9j5vUFQWlHDLI+R
-         siXn9qTmSUVrPHw7Zi1WjbpT6y7ilFehkSVfdid+81gGBdjr0rkgOjSPPZtF08jJULgK
-         iXvPTPOa9AaEUFeNj41rbkLCKoZbH9w71+oLHLm9/EDFUFR7TWtfTRI3sjf1yLrsYsXb
-         eV8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764251898; x=1764856698;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rB5l1g0gWdjw9WGa87kNU8ZATb8WzLJUTgvTih8Ggpg=;
-        b=bkmk/w+2+ECMitANz/xX+jXm2Z0wbRP3GhfXd58lDh8ci+EI0hJjalSJkhVhXqSJdJ
-         co1XsYmNGWuhPkPOlb8f39vlBTSPSO601M+mT9FK1OKGYCmMNIQXE0PY1Tl3UlbAiCE5
-         z72+qTEMoi7PyBw2wbqmV4pZ4+YuaN2arceSxoU1nkgElERFL4uHpY2hfW2CTQUFeDDP
-         Xo/w7+0wh6lcWmtCjUVopvT2frAxMWhaiuaf/v+64ZyBFUpsTZ5gCUz0EBIgltwlTW7N
-         b1lA2YBYiOMwJnSoSO08pJ+JnVM3fvCwG03Ip5upV3lj0zAsqSOe/oe4wdSheyTdv6b9
-         K80A==
-X-Forwarded-Encrypted: i=1; AJvYcCW8iGQBRQIAW+VgzIAe9BC+d9Ct9MsCqm5cJJsxTyXTQK4Msyqw+QEQjP/0FlKqWuR51JS5aQkrzm1jig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDriYx/WrgQu2rS61Hkt2tvqlk6dWGYqpNZNYXEc/mw/ycjZeQ
-	AldDe8QaaC6aEtuYzqyPnxiLD4d/Z8kL5vuPycDpEjkdW0ZVhFAu2Hkt1Fhq5HNO5UWWn0FyliA
-	sKzs/
-X-Gm-Gg: ASbGncuuri4akLqM6qZYt9RdQXdiIm8q5DojOETRI07xMZLfjgx44UFN4wa7OzL1jsG
-	3WAZf40f5AUWbycJOqfbgQYH89qE7eQN5ROO/U7axnPjT/VovGaEzTBZZvRUbcouO92XTbvKdH1
-	I2X4CDQwQQnWia7RKTzBvXdYPZemm50CUneAZSnUZ1PT/nlwPirdsOWYwKpf2A8gOMCmHhGfeDm
-	wvm7TUA2Uj9PkQMWlSFP2l757Xg28XTgPrezYMvysbMVa9ZoQUvFufZqPJS4udy8ItmQIp/cl0s
-	eDcU7cUS//UFVKkS6qf6vqEsJO4LIqhhfN24E53EavOEx3UOCAnImhrxiZjJ5Q5eiJ/HMk+95u3
-	oP0DGIrDSUWX0ar243DUm9MGbYXSq0pmMko9F1QFxRCujdx7CPfajFZVp9jvXZ+k5UWJNH8AKt8
-	OYUZV/DIhh69e9d5jfbxDNpgME77uHJri41SUqEuVVnH17YoNN+3UK1qN9YM0HOxVVrr19
-X-Google-Smtp-Source: AGHT+IG2ePsHplqf7Mn9IMAX6R8N8JBcC8y8n1aUFt0jI2DCV5W/+7scoFZVOdSIm1Wcikw5ZHW6eg==
-X-Received: by 2002:a05:620a:7114:b0:8b2:33f5:fa49 with SMTP id af79cd13be357-8b33d23c372mr3173241985a.14.1764251898524;
-        Thu, 27 Nov 2025 05:58:18 -0800 (PST)
-Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b5304c960asm32868585a.19.2025.11.27.05.58.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Nov 2025 05:58:17 -0800 (PST)
-Subject: Re: [PATCH 1/6] ASoC: codecs: wsa884x: remove mute_unmute_on_trigger
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KsDxrTwJ"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C61A4C16A19;
+	Thu, 27 Nov 2025 15:06:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8520D6072A;
+	Thu, 27 Nov 2025 15:07:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EE57C102F218C;
+	Thu, 27 Nov 2025 16:06:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764256032; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=Xb2gYHXIhVp2zaSFmlDMNszWhEx2yHpcG9wfBD9WQ6Q=;
+	b=KsDxrTwJZ35P4V4zqNgBRz6dueQQQ479lYnTv33vH6BaAZQ6mqaBR8WEopD6/WxoiDZf3C
+	Ic4RTSKoLEfjd0/q+TBQmqIrfWBRSTeCoErZlb34wHoEcX2HAzuN2RzutFpS6+d2ln9KMJ
+	TSvAsAUfwMfwSBd4rCMr2Fdi3SKnKSNaEM9vqWiV42ClnoYd2t6PVCTiOsInGdUD2yiqj4
+	ZzTUOWwdLINFYrJ9uWeuCkQFxLH7ib2+v5JAxnvTykYWonFW1xB3OWNxxohmbmwdgPC/rA
+	Ba8/f4uTLQUuaOMbgPFSeaBwbd+ExYFXfFw+9W2+71ncOaO/+QIwmKbAGZv6Rw==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Peter Rosin <peda@axentia.se>,
+ Mariel Tinaco <Mariel.Tinaco@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Kevin Tsai <ktsai@capellamicro.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matheus Castello <matheus@castello.eng.br>,
+ Saravanan Sekar <sravanhome@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "open list:QCOM AUDIO (ASoC) DRIVERS" <linux-sound@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20251124064850.15419-1-jonathan@marek.ca>
- <20251124064850.15419-2-jonathan@marek.ca>
- <2758401b-e9b5-4f10-bb01-0a1fe4e09430@oss.qualcomm.com>
- <5f15fc5b-375a-1e75-b32d-0d543fa1014d@marek.ca>
- <fafe5de2-f682-4769-bb1f-166858808746@oss.qualcomm.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <c4004024-2f06-bcc3-353a-d432f7586b10@marek.ca>
-Date: Thu, 27 Nov 2025 08:57:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dixit Parmar <dixitparmar19@gmail.com>, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v4 0/6] Add support for the LTM8054 voltage regulator
+Date: Thu, 27 Nov 2025 16:06:47 +0100
+Message-ID: <8695751.T7Z3S40VBb@fw-rgant>
+In-Reply-To: <0E900830-E248-4F0F-A048-075EAF1D2440@goldelico.com>
+References:
+ <20251124-ltm8054-driver-v4-0-107a8a814abe@bootlin.com>
+ <3021060.e9J7NaK4W3@fw-rgant>
+ <0E900830-E248-4F0F-A048-075EAF1D2440@goldelico.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <fafe5de2-f682-4769-bb1f-166858808746@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="nextPart10847283.nUPlyArG6x";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 11/27/25 5:14 AM, Srinivas Kandagatla wrote:
+--nextPart10847283.nUPlyArG6x
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Date: Thu, 27 Nov 2025 16:06:47 +0100
+Message-ID: <8695751.T7Z3S40VBb@fw-rgant>
+In-Reply-To: <0E900830-E248-4F0F-A048-075EAF1D2440@goldelico.com>
+MIME-Version: 1.0
 
+On Tuesday, 25 November 2025 11:25:24 CET H. Nikolaus Schaller wrote:
+> Hi,
 > 
+> > Am 25.11.2025 um 09:41 schrieb Romain Gantois
+> > <romain.gantois@bootlin.com>:
+> > 
+> > 
+> > This is planned support for a voltage regulator chip.
 > 
-> Interesting, I guess this is not an upstream driver. The change and log
-> itself does not make any sense on upstream. pl correct me otherwise.
-> 
-
-> That is true, The issue that enable stream happens at machine driver
-> prepare and disable happens in hw_params_free.
-> We have window of opportunity for click and pop between the mute and
-> enable and in reverse direction.
-> 
-> Am not sure this patch is improving or fixing anything on this side.
-> 
-
-This patch isn't improving or fixing anything (at least upstream),
-its removing a hidden (and unnecessary) nonatomic dependency. It 
-shouldn't change anything with the pop/click situation. Without 
-mute_unmute_on_trigger the mute/unmute still happens inside that "window 
-of opportunity".
-
-My driver is not upstream but it could be, and I need atomic trigger. 
-You can imagine that I am using the lpass-cpu driver (which is similar 
-and upstream), which also does not want nonatomic trigger.
-
-note:
-- the common qcom sndcard parsing only sets nonatomic if a "platform" is 
-set, which the lpass-cpu dts don't have
-- none of the upstream dts that use lpass-cpu use wsa884x/wsa883x, but 
-its possible to use these parts with sc7280
-- upstream sc7280 uses wcd9385, so using mute_unmute_on_trigger in that 
-driver would break upstream sc7280 audio
-
-> Also I noticed during testing on T14s one of the speakers (left) went
-> into mute, not sure if this is something which is an existing issue but
-> reverting the patch made it work again.. Need more testing and debugging
-> to understand what could be going wrong.
+> Well, but one which is not by itself programmable. So IMHO, it does not
+> support that chip, but the circuit it is used in.
 > 
 
-This workaround might be relevant:
+The boundary is a bit blurry in this case, sure.
 
-https://github.com/flto/linux/commit/83b6c10d7c6248b9633a1516b816f211607d4eca
+> > > Are you looking for a virtual "glue" driver to logically combine several
+> > > low level functions?
+> > 
+> > I'm looking for a clean userspace abstraction for this component, the low-
+> > level functions in this case are those of a voltage regulator.
+> 
+> As far as I understood it has
+> - constant voltage
+> - current can be limited
+> - it can be turned on/off
+> 
+> That means it is a fixed-regulator (for constant voltage and turn on/off)
+> and a mechanism to program the current limit (iio-dac). Both have clean
+> userspace abstraction.
+> 
+> What am I missing?
+> 
+
+In my case, the regulator has a DAC tapping into the feedback divider with 
+allows modifying the output voltage level. This isn't specific to the LTM8054 
+though, you can theoretically do this with any regulator chip that has a 
+feedback pin.
+
+...
+> The question remains if you want to solve something for a single board which
+> happens to have an LTM8054 or if you are solving a more general design
+> pattern.
+> 
+> In summary my view is that the LTM8054 is just a "fixed-regulator" which
+> gets an additional current-limiter feature by adding a DAC chip (which needs
+> a driver of course). So software control is required not by the LTM8054 but
+> by adding a DAC chip.
+> 
+> Another suggestion: what extending the "regulator-fixed", "regulator-gpio",
+> "regulator-fixed-clock" pattern by some
+> "regulator-gpio-iio-dac-current-limiter" driver to make it independent of
+> your specific chip?
+> 
+> By the way, are you aware of this feature of the regulator-gpio driver?
+> 
+> https://elixir.bootlin.com/linux/v6.18-rc7/source/drivers/regulator/gpio-reg
+> ulator.c#L97
+> 
+
+That could be a preferable solution given that similar current limit and 
+output voltage limit control methods could apply to other regulator chips... 
+I'll have to think about it some more.
+
+> Just to note: I am neither maintainer nor doing any decisions on this, just
+> asking questions for curiosity and from experience and giving hints for
+> alternative approaches, where I hope they help to find the really best
+> solution.
+
+Sure, I appreciate that.
+
+Thanks,
+
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--nextPart10847283.nUPlyArG6x
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEIcCsAScRrtr7W0x0KCYAIARzeA4FAmkoaQcACgkQKCYAIARz
+eA4wIA//cR+gzKtW78qSkS/qn3QD4fmem8sIoJemjJ96zZS/fPrrD7BVbwlzmT8Z
+PX35PtLLxRdN0CRWsdmEqAAwFLRMn0/UBGpROLNSqKZT9c3SisrVH5XlVV0s95LB
+fS6l3xzgbIjdqhGxwXgV+43B2OuuBLE9AopgYIwRunAam9+nECFHo9hU/4glxqrS
+O54WKxLhs7/BMJdpAv4T8UYjqKiC7Lvpd4oq43g64sacplSnZNv4iwqkga0oOtd8
+2IayCT5+gRm6xd9Xt/cVkQUQAFsoiieLLt87+JZP1ECtjcfwIsDiPBf49DvppELP
+SLg8qwG44QYRhfsPvdBRLFuvkmsu1rGZaBdRQZ+npfBkkwljuh6EllMbFgUOpuCR
+aFQleHJ/6naNsAZGxp4mW6x1YPwsiYeCQuQdffSq2DrTLEAnG3EV3wIB5TbMsF72
+p6glXdEj3uYECnRJ9Lql1PWO9MHGnubF2xCDqRIn7HDxq+DLmZkkZzg4c69/V1fy
+O7go8T5OfK1233Kqb1VDvY9SDRL5+nLo1tacht8yyrhq3LEUumAf7TFLXzBmN+QQ
+5TURL5uovvulw4c6SXs9sa7yriUKuayb9s5CKLsJJI4uYBt+Csyhm/fOfpuvKVm5
+Bryk0xixSfV1ekLMojoBFaS3AFNPGNCHqSmjGOEsaK8hrJ5HgkM=
+=KPmo
+-----END PGP SIGNATURE-----
+
+--nextPart10847283.nUPlyArG6x--
+
+
 
