@@ -1,132 +1,120 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A979A2773DE;
-	Thu, 27 Nov 2025 18:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764267462; cv=pass; b=mQrkinFpyYsJ05Fk51I9hKp1Ml/+WS74Q/077Rg+39i+KvNZW5rjPLPSX11EOm/MI6FiVTky0S+q8mzQEUmg52u2tocgRYOJv7MjL+fDYq3CBN15FmGbutPgHOqysxdrDF64QyN15pHRAuslk6AOzp+vt2m8kIC0AwyajSLtSC4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764267462; c=relaxed/simple;
-	bh=Am9z6NB1hWcUKAtK2Wd4vEeA4UQDmYpPUuhYvTNI8BM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QqhvkhWz17105av0MafZHeOXNp8bBso5CfWJbj+x9agrq/3QNgQ28EklmDcAbW1OQkA6QcGbs4DKbTdLLtugV0BEshl2pMAdfNwncEAJYMbzMz9eyovTxbqhCC+mJJ6pa+Ee2mui5xbQR3j51tef3kKNTo9aq62bUd3/+YH0v3w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=MrrmR/Eb; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B6C23EAB6
+	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 19:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764271001; cv=none; b=tz94GIRGQLANyZefw7dBN71fiHL/4VbJWwsVSg+6zmNf+S3jJXuVrt3PZGetWK0ho99u/NUmvHoCaQtJiou6dGRudmWxwl2A5N3DK7UVzN2RORVzdS/Pv2cf8HufsSgS1+TkOH/cQb4tfuKmgkUY5hywwPb588hJlAOBqL+6BeI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764271001; c=relaxed/simple;
+	bh=HNyckrlhPDXbuHHYerL7mLHRGAGEQ08JMmI/0T/a3yA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M16w7IEdNbDU9nOU5YJUbOVGFFOhd1oYA7BfQruVF10aQ2R4+YHZTvp2/K9tfogZUm4go1HJIUECexCpuBZoSpmLFl+poqpvxE81CUjmYFWwwmCWsDRPv6oY/tlhsmpZLWFtb8W/TBY2uSAKXxFnxTxlYiv9kEn8DlMVajJ7coE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWC1YOQf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MrrmR/Eb"
-ARC-Seal: i=1; a=rsa-sha256; t=1764267379; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VHNPgFqZa0o6809/T+8jHJoMCBYjd2yZiYvEH43ecdDw0RDEoZBASvS8GXIRjf443u9HWsC87weywb65C5DIBcudiiLSfw66tyl4FaLNKaejlEIJIohOY954WwUx+6cfKsQdPDjAUxOAHUCJW2JVa5BuwC53SzyModibprg79Xg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1764267379; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=; 
-	b=VzgCDjp9rcRegJe18G1VoZpp248pQnSYb2nnPRvNYWxHUdyyrlHItaUgv2yGSNf+L6cT0ioGjEOUEpK+K0iTAkjcNQ9RhPc7ICm06mhWm7aOWDC7aTqGKcy/QGw9e2DvPfDfeB5pm0C9OwDjdwtPltUGw2ChGO1r7cznhhdiZRQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764267379;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=;
-	b=MrrmR/EbOR0f5Gb5Xbhy3YhzRySSoWvRdfWRmCgcQVrMezcKplDmR9LS92M5F8YU
-	44hmR7lvwMtOD/5nw3ELxQb8PadU5cfnfMx7ngMJ02a3mou1wD1bDW4FltRjo9ZXijV
-	BVrAa/6yr4xsF2CvbF/50U6ILU5JghWfinyStD5c=
-Received: by mx.zohomail.com with SMTPS id 1764267377521567.410213066609;
-	Thu, 27 Nov 2025 10:16:17 -0800 (PST)
-Message-ID: <2dd059f5-96d4-44a1-84be-b14dce28cf06@collabora.com>
-Date: Thu, 27 Nov 2025 15:15:47 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWC1YOQf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28828C4CEF8;
+	Thu, 27 Nov 2025 19:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764271000;
+	bh=HNyckrlhPDXbuHHYerL7mLHRGAGEQ08JMmI/0T/a3yA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NWC1YOQf6j5kk0rclU0NcfNoVbemrOxMjcJxtsl7YC4dw+63hX2kE5KkeeobQ/rby
+	 8GWXXnWv/0PVG8+Adq83wt9mAP7H1pnmRZiDAcoKpnvnXLR15bJ0P00kbtNs5DDNLu
+	 0uYQ9zE/6qwZ/+zeFxam2vvvCoPpz7Fns5Rky8gh0LFMNcnEL572R28MSWhWarNaxI
+	 U7jbq40JK0Jze27p/wHf+2Xt4SnZKk4ByLXCiqSkWUTLDkDk9FleErNG1lY6GCtNa/
+	 +ARe0Oh5GFzUYgGwoCyABY/ckRMTqaKxYyVUUqWhoZK5JxaTWqLkZNfaUvB7CvetAe
+	 o0uSDCHqvZB5Q==
+Date: Thu, 27 Nov 2025 19:16:36 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/7] ASoC: SDCA: Align mute controls to ALSA expectations
+Message-ID: <7a972ab0-a7bc-4c72-b0f1-06591f5075f6@sirena.org.uk>
+References: <20251127163426.2500633-1-ckeepax@opensource.cirrus.com>
+ <20251127163426.2500633-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
- bindings to DT schema
-To: Rob Herring <robh@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
- davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
- flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
- jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
- lgirdwood@gmail.com, linus.walleij@linaro.org,
- louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
- maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
- matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
- mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-4-ariel.dalessandro@collabora.com>
- <20250912140619.GA1293647-robh@kernel.org>
- <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
- <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BQC2HrtK/oGn927N"
+Content-Disposition: inline
+In-Reply-To: <20251127163426.2500633-2-ckeepax@opensource.cirrus.com>
+X-Cookie: But they went to MARS around 1953!!
 
-Hi Rob,
 
-On 11/24/25 3:54 PM, Rob Herring wrote:
-> On Wed, Oct 1, 2025 at 12:28 PM Ariel D'Alessandro
-> <ariel.dalessandro@collabora.com> wrote:
->>
->> Rob,
->>
->> On 9/12/25 11:06 AM, Rob Herring wrote:
->>> On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
->>>> Convert the existing text-based DT bindings for Marvell 8897/8997
->>>> (sd8897/sd8997) bluetooth devices controller to a DT schema.
->>>>
->>>> While here:
->>>>
->>>> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
->>>>     schema definition as these are currently documented in file [0].
->>>> * DT binding users are updated to use bluetooth generic name
->>>>     recommendation.
->>>>
->>>> [0] Documentation/devicetree/bindings/net/btusb.txt
->>>>
->>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->>>> ---
->>>>    .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 ++++++++++++++++++
->>>>    .../devicetree/bindings/net/btusb.txt         |  2 +-
->>>>    .../bindings/net/marvell-bt-8xxx.txt          | 83 -------------------
->>>
->>>>    .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
->>>>    .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
->>>>    arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
->>>
->>> .dts files should be separate patches. Please send the bindings patches
->>> separately per subsystem so subsystem maintainers can apply them. All
->>> the Mediatek dts changes can be 1 series.
->>
->> Ack, will fix in v3.
-> 
-> Are you going to send v3 still?
+--BQC2HrtK/oGn927N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, will be sending out v3 asap, with the remaining changes.
-Sorry for the delay.
+On Thu, Nov 27, 2025 at 04:34:20PM +0000, Charles Keepax wrote:
 
--- 
-Ariel D'Alessandro
-Software Engineer
+> Update the names and invert the mute controls to make them more
+> standard "FU XX Channel Switch", this does slightly deviate from
+> the SDCA specification but it makes the rest of the Linux ecosystem
+> a lot happier.
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+And there was me thinking you were going to address the FU bit. :)
 
+>=20
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+>  include/sound/sdca_function.h | 2 +-
+>  sound/soc/sdca/sdca_asoc.c    | 3 +++
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
+> index c97861508a158..2564fad33fd46 100644
+> --- a/include/sound/sdca_function.h
+> +++ b/include/sound/sdca_function.h
+> @@ -611,7 +611,7 @@ enum sdca_entity0_controls {
+>  #define SDCA_CTL_NDAI_PACKETTYPE_NAME			"NDAI Packet Type"
+>  #define SDCA_CTL_MIXER_NAME				"Mixer"
+>  #define SDCA_CTL_SELECTOR_NAME				"Selector"
+> -#define SDCA_CTL_MUTE_NAME				"Mute"
+> +#define SDCA_CTL_MUTE_NAME				"Channel"
+>  #define SDCA_CTL_CHANNEL_VOLUME_NAME			"Channel Volume"
+>  #define SDCA_CTL_AGC_NAME				"AGC"
+>  #define SDCA_CTL_BASS_BOOST_NAME			"Bass Boost"
+> diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+> index 4e3f193c75eff..0e21ed1091720 100644
+> --- a/sound/soc/sdca/sdca_asoc.c
+> +++ b/sound/soc/sdca/sdca_asoc.c
+> @@ -886,6 +886,9 @@ static int populate_control(struct device *dev,
+>  	mc->min =3D 0;
+>  	mc->max =3D clamp((0x1ull << control->nbits) - 1, 0, type_max(mc->max));
+> =20
+> +	if (SDCA_CTL_TYPE(entity->type, control->sel) =3D=3D SDCA_CTL_TYPE_S(FU=
+, MUTE))
+> +		mc->invert =3D true;
+> +
+>  	(*kctl)->name =3D control_name;
+>  	(*kctl)->private_value =3D (unsigned long)mc;
+>  	(*kctl)->iface =3D SNDRV_CTL_ELEM_IFACE_MIXER;
+> --=20
+> 2.47.3
+>=20
+
+--BQC2HrtK/oGn927N
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkoo5MACgkQJNaLcl1U
+h9Bc3Af9HX6Iu57l1+31THgssB1MW0M3zm/GiSSIs+MTC62w/tgSoJ/63AEQFDvH
+1McyTQqV1Q2WMZzt2mXpg0kwq6IMDlUJNS1n6UDZNOkZQTBZI5/TohpfZISdcMIw
+OXr+YnrP7IpL/sMsJOsH9OiJmgB76OTWi1aLOU06bt5Ccr/ljgYFLcxD75tk/CBd
+3X8W3VmALq+5SJIrXS2X/d4eQmQRSXoMyGM7DaiZ1loDKcI/1lqO3iKvz8FnNbWF
+rkpQB2IZX9A5Krwsof9DXHDZcZ+DDoDhxFP7yXjIrRdjjVzqRGClMlmrzxEiZd+9
+u9JduP1S/68zSu9ugTWocpbtXxe6gg==
+=13Zk
+-----END PGP SIGNATURE-----
+
+--BQC2HrtK/oGn927N--
