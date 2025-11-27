@@ -1,109 +1,149 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218F330F943
-	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 05:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFF730F53B
+	for <linux-sound@vger.kernel.org>; Thu, 27 Nov 2025 06:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764219989; cv=none; b=Gkyj2NPgc2Cer7TwCOUVFBf8bgPOvId8Gzb5CxCoJ92IUoD2DzzrA7m2k56KoF6+c+xqRJHr5hs8CMv2wierTzYImJhFo2oOX0IWzVg/IVY85E4bsR6R+PTVs0d9oioNxinvtYOiNxFgnf/sP/bI8ArzJvFpxkW3Q7W5dueow4g=
+	t=1764224516; cv=none; b=SgXSBKPjTJE+fD0Be0RskeuPx4qmINMW7YYBBh+76qHHmG2smO0vixDWOZb76Fjmj/d0rEGgNs5kJjBYtux/QfN7A6mAnhGOjWR6wCjY5uH+SLUz7BNmToSCHeXYCTEisX5v4mlkbKwZMSVJmpeQxOXFz80LcalmSGXCr7K8UVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764219989; c=relaxed/simple;
-	bh=NZc1MMWRCiEHE4LU8H56I28YXiDEXnS+Git/yidvVIU=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hcFkAb/d5MSs7TJr+h0jJlBuXz027NDGog/KEOD03fG/ryTsBiMmVlqEv6vv9eQjt5bpB4RPVwP4RpSc5paCXHQqAlUftB+IZAC24bfLSgzJ0L9z06b7m7TJQYPlLPlLZQZE/W9VxzZ24Ol2unA/7ea3q/uSDfBs3rka632kHHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DeChBcbv; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764224516; c=relaxed/simple;
+	bh=k+FOmYCaGVE9vvb/Rm9s7ThCFFXpjQrDwKd3hjAY/K4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ivNMMn3HQfWqIaZDn7M6m2+KAY/kW4yXl1GboTmY0cDVzPWF9O7o0pYUopQEx6hfVIuaYsQmG3kNP0jHZMmKQho2NhMucrbeaZBynTD0tmBwd/A/QxKrmk57l6dSKNhVM1hvV7k89Yr8EorUIu5gYyTYKu/527+sJHDM2tnpAPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ikTZD/YL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sa1IgNHw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ikTZD/YL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sa1IgNHw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DeChBcbv"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b38de7940so202983f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 26 Nov 2025 21:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764219986; x=1764824786; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZc1MMWRCiEHE4LU8H56I28YXiDEXnS+Git/yidvVIU=;
-        b=DeChBcbvSoqhBdw78Zq6q5HTPSqdAroByikWoCenm5DY/uWkMsxz1sLOAmEGRYnhS0
-         EffKN76r6TFfCww48DYy2thlJ8vaiSDclwecDLKSd2n979Ec9PRQaiLG0Pl8HTu4R9qk
-         8P82uffGhG/CR17uzlWxVKk3Zv3OjU2AbtNlJ3MOGVdPSUf/jsnncthnD1qUDwJ+IYbS
-         MqYdd5C8u/pYfwmKaorYZIhTqOyYHwYvLW5ASMAMO/5SEvhVSWFtRvvoAxzwzTU6AFIP
-         QitvpZdB5D6G2ubDISk0ehUDwRyDTaO92gAnjEiobPqcgjYFwILCNsirjPgIYNVqha5X
-         njuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764219986; x=1764824786;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NZc1MMWRCiEHE4LU8H56I28YXiDEXnS+Git/yidvVIU=;
-        b=Ml5Wco1gAOk+SIhRotUGyv8QgXrwxdrxyegsb/MEYgT2H4rfVlyrZZqxcbiW0Otc5p
-         uLBIpmsOdr0jwmdldSNdBdxW5xdbSpVyN1B9tQPc3YXDSJsjDhz3oett/ZTCWt4jlVPj
-         W+V0On5cH5Xu9E9QObH8prKP+ZznaZzmcpeaaLOZsF8k/nzoWkAxi4urdS8cYmv6n7PK
-         J++egOuME3OcrGG+7ULwi9luQTepvssVSq9cgj2loElQfSb/1h5ZWJTUU3QunGUL0lMd
-         VTY8Ag2CE4s2psO3lFJNA2KlKg2i5svAV1XFsv/TBf+g/6bCnbv4dPZRpRAtPySEWQeY
-         /OCg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwztuGpMiP00h8BXVAkovPbY4igMyVGcCGTNUUInd91FrzWv1XqGsiXg6J4cXNWEnXHL2jlKc3icZnbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yww8a/Pywphac7OefFR4xMzO6FvMlBzz405xO7jSKLs7RlTKzOA
-	RQOH5/4RwyqCyaIdjI3AiaRoKOnNvBCfPh6mnZopEfkQzoXXTX/wKBtt
-X-Gm-Gg: ASbGncvYR/YY/+prgKZY4Y9JtCbd0Q8CEtUKsmSRrJp9mz+wl6D6dI9SLPbj2h0akxV
-	gvJWDsCviVdcTMMhbjPMYXlDs+h9MXiGNnuGU207wf2cDBNG5MCdw1H+KVaHW8ZzWZs/bHAhB+X
-	/P9a3zy70vNfkG8ETfsIfQzY7SbeX/czWcmThOlG709RXaCSF+BftSxuS0f7BwsTJ3g0bzqcyqT
-	Pq8sCn+V79Qq0HaTcI9fOZ8ZWHjGpaG03Zd9P/3KK6ND0iLgKNmOfmtyCo/3czuq5tiwc6jfHwB
-	z3ZBDvyNG5su5wqHryrI/DuM9HMeEGxqtqPViFt55vXoyD4e2WI2YLCIQ/VYHlMqBZcxOwwhNuT
-	jRmdHibegrNv0eM+f+so8Cuo6XSgpHxh15Am3HL0CbOxwFG0zdrTUBs4wLUP+WjNjnLhOAmtD7S
-	5AWUQRYjljYk//Nm4=
-X-Google-Smtp-Source: AGHT+IEwZQwAFs4fVh48ZmwxPNAo/iap1J+ycBnaAN40is3jXoyDpqFiAiyK3aDzOaHtJzvzIrgySg==
-X-Received: by 2002:a05:6000:2085:b0:429:ed90:91dd with SMTP id ffacd0b85a97d-42cc1ab6bf9mr24403638f8f.6.1764219986073;
-        Wed, 26 Nov 2025 21:06:26 -0800 (PST)
-Received: from [172.23.94.183] ([136.226.168.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5c3022sm1344354f8f.4.2025.11.26.21.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 21:06:25 -0800 (PST)
-From: HariKrishna Sagala <hariconscious@gmail.com>
-X-Google-Original-From: HariKrishna Sagala <hkrishna@gmail.com>
-Date: Thu, 27 Nov 2025 10:35:34 +0530 (IST)
-To: HariKrishna Sagala <hariconscious@gmail.com>, 
-    Mark Brown <broonie@kernel.org>
-cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
-    yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
-    daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com, 
-    pierre-louis.bossart@linux.dev, shuah@kernel.org, perex@perex.cz, 
-    tiwai@suse.com, sound-open-firmware@alsa-project.org, 
-    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sound/soc/sof:Use kmalloc_array instead of kmalloc
-In-Reply-To: <9e808d38-c720-fd59-8bc1-d1da6255c59b@gmail.com>
-Message-ID: <19d12aaf-99a2-3b9c-e1d2-c39a77c9e1b3@gmail.com>
-References: <20250923142513.11005-1-hariconscious@gmail.com> <fad32f5c-f9a4-4cf2-9082-845deff309ea@sirena.org.uk> <9e808d38-c720-fd59-8bc1-d1da6255c59b@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ikTZD/YL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sa1IgNHw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ikTZD/YL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sa1IgNHw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 94CCF33691;
+	Thu, 27 Nov 2025 06:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764224512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B6lQ0PJXC47mIHApHGtxuyK1Vt0FrzwjcYIOrOsXRnI=;
+	b=ikTZD/YLctnXRP5zAYFQdsA6NENWz6lI9EwXrD5YobKqxL7EW+zmGIHe+BObrDIxUGyZrW
+	YHiaDUkdd0PGtBKIHBJ6nzkY1ewTwVcmZu0R+xBsb3OAhmOUbl/6X7WWLG3gnTFKm7uJ4C
+	c68N1kTReN0qokgi1jiCnyGjHw54xaw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764224512;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B6lQ0PJXC47mIHApHGtxuyK1Vt0FrzwjcYIOrOsXRnI=;
+	b=Sa1IgNHwW8SqmQhPc//ATvKG8GkqcTMJZqaiaZ97GBNsRzUiwjSK7A7x5TzsKqx77UsHBH
+	huadnLft7YW7MhAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ikTZD/YL";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Sa1IgNHw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764224512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B6lQ0PJXC47mIHApHGtxuyK1Vt0FrzwjcYIOrOsXRnI=;
+	b=ikTZD/YLctnXRP5zAYFQdsA6NENWz6lI9EwXrD5YobKqxL7EW+zmGIHe+BObrDIxUGyZrW
+	YHiaDUkdd0PGtBKIHBJ6nzkY1ewTwVcmZu0R+xBsb3OAhmOUbl/6X7WWLG3gnTFKm7uJ4C
+	c68N1kTReN0qokgi1jiCnyGjHw54xaw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764224512;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B6lQ0PJXC47mIHApHGtxuyK1Vt0FrzwjcYIOrOsXRnI=;
+	b=Sa1IgNHwW8SqmQhPc//ATvKG8GkqcTMJZqaiaZ97GBNsRzUiwjSK7A7x5TzsKqx77UsHBH
+	huadnLft7YW7MhAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 617923EA63;
+	Thu, 27 Nov 2025 06:21:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C2oYFgDuJ2lrMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 27 Nov 2025 06:21:52 +0000
+Date: Thu, 27 Nov 2025 07:21:51 +0100
+Message-ID: <87jyzc9erk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.18-rc7
+In-Reply-To: <25d5b5826b2e8d821caf7a37dea59186@kernel.org>
+References: <25d5b5826b2e8d821caf7a37dea59186@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 94CCF33691
+
+On Wed, 26 Nov 2025 21:46:45 +0100,
+Mark Brown wrote:
+> 
+> The following changes since commit 6a23ae0a96a600d1d12557add110e0bb6e32730c:
+> 
+>   Linux 6.18-rc6 (2025-11-16 14:25:38 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.18-rc7
+> 
+> for you to fetch changes up to 73b97d46dde64fa184d47865d4a532d818c3a007:
+> 
+>   ASoC: fsl_xcvr: clear the channel status control memory (2025-11-26 13:24:19 +0000)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.18
+> 
+> A small pile of driver specific fixes that came in during the past few
+> weeks, none of them especially major.
+
+Pulled now.  But not sure whether I'll send another PR for 6.18.
+Might be postponed in the next week for 6.19 merge window.
 
 
-On Thu, 6 Nov 2025, HariKrishna Sagala wrote:
+thanks,
 
->
->
-> On Wed, 15 Oct 2025, Mark Brown wrote:
->
-> > On Tue, Sep 23, 2025 at 07:55:13PM +0530, hariconscious@gmail.com wrote:
-> > > From: HariKrishna Sagala <hariconscious@gmail.com>
-> > >
-> > > Documentation/process/deprecated.rst recommends to avoid the use of
-> > > kmalloc with dynamic size calculations due to the risk of them
-> > > overflowing. This could lead to values wrapping around and a
-> >
-> > Please submit patches using subject lines reflecting the style for the
-> > subsystem, this makes it easier for people to identify relevant patches.
-> > Look at what existing commits in the area you're changing are doing and
-> > make sure your subject lines visually resemble what they're doing.
-> > There's no need to resubmit to fix this alone.
-> >
-> Just reminding for an opportunity to check this patch.
-> Thank you.
->
-Just checking in to see if you had a chance to review this.
-If it is missed in the box, please let me know.
-Thank you.
+Takashi
