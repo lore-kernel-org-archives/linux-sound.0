@@ -1,204 +1,852 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out198-27.us.a.mail.aliyun.com (out198-27.us.a.mail.aliyun.com [47.90.198.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12C630F81A;
-	Fri, 28 Nov 2025 12:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4ED119049B;
+	Fri, 28 Nov 2025 13:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764332617; cv=none; b=dX6MlrEHtVR8UoDOIlFQNZ1G2DuXeodEcWrRtsFLUOlqJs9XsJ/wHF02OJU7iQ9HkjadKQ4gKbDA4tFyyczShhgKqT9LKSrNoRTEaBi/KawbnCqAyF8T7uFmZRJIwwhNzdT6GYU4hW9N4gz6fp3P5UNL1QbHPIx2FO21cef1ivI=
+	t=1764335037; cv=none; b=XoN8hmCbmtkTYNgB0YGdyqyUAQjGy6JX/6GIcpovSxeEbDDgWQpy2avHE+X+qpomQsm86D72XYXQKqgjDYHSPMwakLqtePFPRb7whQmmj2lxRqoR/2D6WkBJgjFKaDjO0qYijugVOqHCAth8zReIuC/Z1PggzW7OJauN+igifiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764332617; c=relaxed/simple;
-	bh=Y/wKSI5aRgDH0iLGL57qXWy17/dMyIky4ooQy+3ubuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KGTkifzPdeJH+RhhYIFdGvq7LR678oRMaT9QKypT1jcVwg66/MI7SP117uGGN3r4ujRqDtq/J7MWzMFMzj2tiCGJ9sS7dhx7+6paI0MU2z6Q6vA4yNK7EGJkW5XM8SJ8Kcls1Hf5VJoI9e4spxXPpGmhICzymgqKbLX7tFDyd6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DDoQ4j/f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764335037; c=relaxed/simple;
+	bh=P1Xaq9sfhJqtHW/gnxiPKDjSzx1j+WUrwvIrLe3sEl4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nl2uJagapLK5JM6bHdyF8fZS6Ocj3Ka4vXr17sjEYBbXuRWs3OFwHia6N3lG/s2xdNtXPdGTOGEFW1mEVcIQw/xOwEQDZyoRgCVIAUowby/FxNItUuFQn9q3Ga9H5tv17LG+BxALSeFY8NNT7ZbT+CB781va2RHBdthsBana038=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b=AM59wq39; arc=none smtp.client-ip=47.90.198.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DDoQ4j/f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68569C116C6;
-	Fri, 28 Nov 2025 12:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764332616;
-	bh=Y/wKSI5aRgDH0iLGL57qXWy17/dMyIky4ooQy+3ubuc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DDoQ4j/f7DNWjhz9SHZAF9oB0PeY69l8XtjykxhEOECnuzp0H2pXM8mcN/pU3jLsb
-	 qWrTXHGCAD7JN2mj8tteeublQVlchxAZLOYW22cZ91dSxtaL/9iMZVTC99sSQ5SUDH
-	 v9iAyGS5JNoCW/usQJWyn2Jv3R3LK17kw54PmYuN5vCPQgaz9QEzV7/pxuFDtelu0m
-	 3PPUU2rSgr9Blp+IO3hEs1moOtnqjeYC8VwG0tQr+kCLprMEuYIqmHWT+9PbsBaSxv
-	 dfFUdxAQiYBs/eViuRIc1bqaqXhoYdHk6P4dHODOOzwEauKR6SVk6PFXV26PO41H6z
-	 6aJqlzNehVlbQ==
-Message-ID: <679b49b8-c965-4bee-943c-2e2af7e4d8fe@kernel.org>
-Date: Fri, 28 Nov 2025 13:23:32 +0100
+	dkim=pass (2048-bit key) header.d=awinic.com header.i=@awinic.com header.b="AM59wq39"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=awinic.com; s=default;
+	t=1764335009; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=mJ6rcDIWvjW+shum6zkZydY9HVJr7wIUjmNYWDwOWVI=;
+	b=AM59wq39XgIIJL3Qe1cvoFbXHgYyU26f7iqQq1p+/3Fwv+aptJDtg7mNqkrcqwO3wFi6KrrMlhcz5LjKhIVJaq1W/TJlCUh1NbZ2Hbe6Bi5DS6w7JrCCnWlEKRy538LXVJEJU0NfygbuMtHpw1VODqPMWQhXPoNpdElf5AjLwenSFs0eIC+n921M1zlZCKL6dP3uUJerAPIrakM2KlHlnYONFhoNUGkaQGBfk8H65JDqEDflEAX+MKRdhKkBRVBxPZL8kp9zxkfBUfHIhY3BFXzAipJOaeKa7ySSvOitgl51fp7xIojM/H6j/YpCrmLVumozMTnZLY4NKcNhcXZpPQ==
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.fYNuVZ3_1764335006 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Nov 2025 21:03:28 +0800
+From: wangweidong.a@awinic.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	cy_huang@richtek.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	zhangyi@everest-semi.com,
+	wangweidong.a@awinic.com,
+	nick.li@foursemi.com,
+	alexey.klimov@linaro.org,
+	linux@treblig.org,
+	thorsten.blum@linux.dev,
+	kuninori.morimoto.gx@renesas.com,
+	marco.crivellari@suse.com,
+	ardb@kernel.org,
+	ebiggers@google.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: yijiangtao@awinic.com
+Subject: [PATCH V1] ASoC: codecs: Modify awinic amplifier dsp read and write functions
+Date: Fri, 28 Nov 2025 21:03:22 +0800
+Message-ID: <20251128130323.628091-1-wangweidong.a@awinic.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: add CIX IPBLOQ HDA controller
- support
-To: Joakim Zhang <joakim.zhang@cixtech.com>
-Cc: "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
-References: <20251127094301.4107982-1-joakim.zhang@cixtech.com>
- <20251127094301.4107982-2-joakim.zhang@cixtech.com>
- <20251128-fearless-kittiwake-from-arcadia-662dbc@kuoka>
- <SEYPR06MB6226157DB7A5D5486500063A82DCA@SEYPR06MB6226.apcprd06.prod.outlook.com>
- <f9ce51ce-6fe9-4612-9be3-552736ea19a7@kernel.org>
- <SEYPR06MB62266F00FF610A9506807A3282DCA@SEYPR06MB6226.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <SEYPR06MB62266F00FF610A9506807A3282DCA@SEYPR06MB6226.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 28/11/2025 13:15, Joakim Zhang wrote:
-> 
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Friday, November 28, 2025 6:29 PM
->> To: Joakim Zhang <joakim.zhang@cixtech.com>
->> Cc: lgirdwood@gmail.com; broonie@kernel.org; robh@kernel.org;
->> krzk+dt@kernel.org; conor+dt@kernel.org; perex@perex.cz;
->> tiwai@suse.com; linux-sound@vger.kernel.org; devicetree@vger.kernel.org;
->> cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
->> Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: add CIX IPBLOQ HDA controller
->> support
->>
->> EXTERNAL EMAIL
->>
->> On 28/11/2025 10:54, Joakim Zhang wrote:
->>>
->>> Hello Krzysztof,
->>>
->>> Thanks for your review.
->>>
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzk@kernel.org>
->>>> Sent: Friday, November 28, 2025 5:28 PM
->>>> To: Joakim Zhang <joakim.zhang@cixtech.com>
->>>> Cc: lgirdwood@gmail.com; broonie@kernel.org; robh@kernel.org;
->>>> krzk+dt@kernel.org; conor+dt@kernel.org; perex@perex.cz;
->>>> tiwai@suse.com; linux-sound@vger.kernel.org;
->>>> devicetree@vger.kernel.org; cix-kernel-upstream
->>>> <cix-kernel-upstream@cixtech.com>
->>>> Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: add CIX IPBLOQ HDA
->>>> controller support
->>>>
->>>> EXTERNAL EMAIL
->>>>
->>>> On Thu, Nov 27, 2025 at 05:42:58PM +0800, joakim.zhang@cixtech.com
->>>> wrote:
->>>>> From: Joakim Zhang <joakim.zhang@cixtech.com>
->>>>>
->>>>>  - add CIX IPBLOQ HDA controller support
->>>>
->>>> Please write full sentences. Loook how other commits were created, it
->>>> is not the first cix commit, right?
->>>
->>> Yes, not the first cix commit, I will have a look.
->>>
->>>>
->>>>>
->>>>> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
->>>>> ---
->>>>>  .../bindings/sound/cix,ipbloq-hda.yaml        | 71 +++++++++++++++++++
->>>>>  1 file changed, 71 insertions(+)
->>>>>  create mode 100644
->>>>> Documentation/devicetree/bindings/sound/cix,ipbloq-hda.yaml
->>>>>
->>>>> diff --git
->>>>> a/Documentation/devicetree/bindings/sound/cix,ipbloq-hda.yaml
->>>>> b/Documentation/devicetree/bindings/sound/cix,ipbloq-hda.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..c9e4015a8174
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/sound/cix,ipbloq-hda.yaml
->>>>> @@ -0,0 +1,71 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/sound/cix,ipbloq-hda.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: CIX IPBLOQ HDA controller
->>>>> +
->>>>> +description:
->>>>> +  CIX IPBLOQ High Definition Audio (HDA) Controller
->>>>> +
->>>>> +maintainers:
->>>>> +  - Joakim Zhang <joakim.zhang@cixtech.com>
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: cix,ipbloq-hda
->>>>
->>>> What happened here? You miss SoC compatible. I did not ask to change
->>>> compatible.
->>>
->>> I used the cix,sky1-ipbloq-hda before, but you ask to use the compatible as
->> the file name, I think it's may not quite suitable, since we may have sky1p,
->> sky2... later, so I add a unified compatible here as a fallback.
->>
->> "Filename must match the compatible.". Your explanation "use compatible as
->> the filename" is also correct - use what? the compatible? as what? as the
->> filename so in place of filename. So how could you make it reversed?
->> filename as the compatible?
-> 
-> Yes, "Filename must match the compatible." is meaningful, I updated "cix,sky1-ipbloq-hda" to "cix,ipbloq-hda", since here use IP name is more suitable and may for all CIX SoCs later, if there is any difference, we can all other compatibles.
+From: Weidong Wang <wangweidong.a@awinic.com>
 
-So why did you reverse the logic? Anyway cix,ipbloq-hda is not correct,
-because it is generic. See also writing bindings doc for more explanation.
+Modify the dsp read and write functions of the chip and normalize
+the dsp read and write functions of all awinic amplifier
 
+Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
+---
+ sound/soc/codecs/Makefile                 |   4 +-
+ sound/soc/codecs/aw88166.c                | 131 +------------
+ sound/soc/codecs/aw88166.h                |   5 -
+ sound/soc/codecs/aw88395/aw88395_device.c |  39 ++--
+ sound/soc/codecs/aw88395/aw88395_device.h |   8 +-
+ sound/soc/codecs/aw88399.c                | 219 +++-------------------
+ sound/soc/codecs/aw88399.h                |   5 -
+ 7 files changed, 58 insertions(+), 353 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index 8701ed0f34f7..d687d4f74363 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -50,9 +50,9 @@ snd-soc-audio-iio-aux-y := audio-iio-aux.o
+ snd-soc-aw8738-y := aw8738.o
+ snd-soc-aw87390-y := aw87390.o
+ snd-soc-aw88081-y := aw88081.o
+-snd-soc-aw88395-lib-y := aw88395/aw88395_lib.o
+-snd-soc-aw88395-y := aw88395/aw88395.o \
++snd-soc-aw88395-lib-y := aw88395/aw88395_lib.o \
+ 			aw88395/aw88395_device.o
++snd-soc-aw88395-y := aw88395/aw88395.o
+ snd-soc-aw88166-y := aw88166.o
+ snd-soc-aw88261-y := aw88261.o
+ snd-soc-aw88399-y := aw88399.o
+diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
+index 1629906d5d33..daee4de9e3b0 100644
+--- a/sound/soc/codecs/aw88166.c
++++ b/sound/soc/codecs/aw88166.c
+@@ -41,109 +41,6 @@ static const struct regmap_config aw88166_remap_config = {
+ 	.val_format_endian = REGMAP_ENDIAN_BIG,
+ };
+ 
+-static int aw_dev_dsp_write_16bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int dsp_data)
+-{
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88166_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write addr error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_write(aw_dev->regmap, AW88166_DSPMDAT_REG, (u16)dsp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write data error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_read_16bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data)
+-{
+-	unsigned int temp_data;
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88166_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_read(aw_dev->regmap, AW88166_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data = temp_data;
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_read_32bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data)
+-{
+-	unsigned int temp_data;
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88166_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_read(aw_dev->regmap, AW88166_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data = temp_data;
+-
+-	ret = regmap_read(aw_dev->regmap, AW88166_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data |= (temp_data << 16);
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_read(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data, unsigned char data_type)
+-{
+-	u32 reg_value;
+-	int ret;
+-
+-	mutex_lock(&aw_dev->dsp_lock);
+-	switch (data_type) {
+-	case AW88166_DSP_16_DATA:
+-		ret = aw_dev_dsp_read_16bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 16-bit failed", (u32)dsp_addr);
+-		break;
+-	case AW88166_DSP_32_DATA:
+-		ret = aw_dev_dsp_read_32bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 32-bit failed", (u32)dsp_addr);
+-		break;
+-	default:
+-		dev_err(aw_dev->dev, "data type[%d] unsupported", data_type);
+-		ret = -EINVAL;
+-		break;
+-	}
+-
+-	/* clear dsp chip select state */
+-	if (regmap_read(aw_dev->regmap, AW88166_ID_REG, &reg_value))
+-		dev_err(aw_dev->dev, "%s fail to clear chip state. ret=%d\n", __func__, ret);
+-	mutex_unlock(&aw_dev->dsp_lock);
+-
+-	return ret;
+-}
+-
+ static void aw_dev_pwd(struct aw_device *aw_dev, bool pwd)
+ {
+ 	int ret;
+@@ -904,25 +801,19 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
+ 	u32 tmp_len;
+ 	int i, ret;
+ 
+-	mutex_lock(&aw_dev->dsp_lock);
+ 	ret = regmap_write(aw_dev->regmap, AW88166_DSPMADD_REG, base);
+ 	if (ret)
+-		goto error_operation;
++		return ret;
+ 
+ 	for (i = 0; i < len; i += AW88166_MAX_RAM_WRITE_BYTE_SIZE) {
+ 		tmp_len = min(len - i, AW88166_MAX_RAM_WRITE_BYTE_SIZE);
+ 		ret = regmap_raw_write(aw_dev->regmap, AW88166_DSPMDAT_REG,
+ 					&data[i], tmp_len);
+ 		if (ret)
+-			goto error_operation;
++			return ret;
+ 	}
+-	mutex_unlock(&aw_dev->dsp_lock);
+ 
+ 	return 0;
+-
+-error_operation:
+-	mutex_unlock(&aw_dev->dsp_lock);
+-	return ret;
+ }
+ 
+ static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
+@@ -933,7 +824,7 @@ static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88166_DSP_REG_CFG_ADPZ_RA,
+-				&dsp_ra, AW88166_DSP_32_DATA);
++				&dsp_ra, AW_DSP_32_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "read ra error\n");
+ 		return ret;
+@@ -990,29 +881,25 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
+ {
+ 	unsigned int reg_val;
+ 
+-	mutex_lock(&aw_dev->dsp_lock);
+ 	/* read dsp_rom_check_reg */
+-	aw_dev_dsp_read_16bit(aw_dev, AW88166_DSP_ROM_CHECK_ADDR, &reg_val);
++	aw_dev_dsp_read(aw_dev, AW88166_DSP_ROM_CHECK_ADDR, &reg_val, AW_DSP_16_DATA);
+ 	if (reg_val != AW88166_DSP_ROM_CHECK_DATA) {
+ 		dev_err(aw_dev->dev, "check dsp rom failed, read[0x%x] != check[0x%x]\n",
+ 						reg_val, AW88166_DSP_ROM_CHECK_DATA);
+-		goto error;
++		return -EPERM;
+ 	}
+ 
+ 	/* check dsp_cfg_base_addr */
+-	aw_dev_dsp_write_16bit(aw_dev, AW88166_DSP_CFG_ADDR, AW88166_DSP_ODD_NUM_BIT_TEST);
+-	aw_dev_dsp_read_16bit(aw_dev, AW88166_DSP_CFG_ADDR, &reg_val);
++	aw_dev_dsp_write(aw_dev, AW88166_DSP_CFG_ADDR,
++				AW88166_DSP_ODD_NUM_BIT_TEST, AW_DSP_16_DATA);
++	aw_dev_dsp_read(aw_dev, AW88166_DSP_CFG_ADDR, &reg_val, AW_DSP_16_DATA);
+ 	if (reg_val != AW88166_DSP_ODD_NUM_BIT_TEST) {
+ 		dev_err(aw_dev->dev, "check dsp cfg failed, read[0x%x] != write[0x%x]\n",
+ 						reg_val, AW88166_DSP_ODD_NUM_BIT_TEST);
+-		goto error;
++		return -EPERM;
+ 	}
+-	mutex_unlock(&aw_dev->dsp_lock);
+ 
+ 	return 0;
+-error:
+-	mutex_unlock(&aw_dev->dsp_lock);
+-	return -EPERM;
+ }
+ 
+ static void aw_dev_select_memclk(struct aw_device *aw_dev, unsigned char flag)
+diff --git a/sound/soc/codecs/aw88166.h b/sound/soc/codecs/aw88166.h
+index 3a53ba0ac625..9f3f47a7003e 100644
+--- a/sound/soc/codecs/aw88166.h
++++ b/sound/soc/codecs/aw88166.h
+@@ -516,11 +516,6 @@ enum AW88166_DEV_DSP_CFG {
+ 	AW88166_DEV_DSP_BYPASS = 1,
+ };
+ 
+-enum {
+-	AW88166_DSP_16_DATA = 0,
+-	AW88166_DSP_32_DATA = 1,
+-};
+-
+ enum {
+ 	AW88166_SYNC_START = 0,
+ 	AW88166_ASYNC_START,
+diff --git a/sound/soc/codecs/aw88395/aw88395_device.c b/sound/soc/codecs/aw88395/aw88395_device.c
+index e1430940015d..79c3135a4110 100644
+--- a/sound/soc/codecs/aw88395/aw88395_device.c
++++ b/sound/soc/codecs/aw88395/aw88395_device.c
+@@ -64,7 +64,7 @@ static int aw_dev_dsp_write_32bit(struct aw_device *aw_dev,
+ 	return 0;
+ }
+ 
+-static int aw_dev_dsp_write(struct aw_device *aw_dev,
++int aw_dev_dsp_write(struct aw_device *aw_dev,
+ 		unsigned short dsp_addr, unsigned int dsp_data, unsigned char data_type)
+ {
+ 	u32 reg_value;
+@@ -72,13 +72,13 @@ static int aw_dev_dsp_write(struct aw_device *aw_dev,
+ 
+ 	mutex_lock(&aw_dev->dsp_lock);
+ 	switch (data_type) {
+-	case AW88395_DSP_16_DATA:
++	case AW_DSP_16_DATA:
+ 		ret = aw_dev_dsp_write_16bit(aw_dev, dsp_addr, dsp_data);
+ 		if (ret)
+ 			dev_err(aw_dev->dev, "write dsp_addr[0x%x] 16-bit dsp_data[0x%x] failed",
+ 					(u32)dsp_addr, dsp_data);
+ 		break;
+-	case AW88395_DSP_32_DATA:
++	case AW_DSP_32_DATA:
+ 		ret = aw_dev_dsp_write_32bit(aw_dev, dsp_addr, dsp_data);
+ 		if (ret)
+ 			dev_err(aw_dev->dev, "write dsp_addr[0x%x] 32-bit dsp_data[0x%x] failed",
+@@ -97,6 +97,7 @@ static int aw_dev_dsp_write(struct aw_device *aw_dev,
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(aw_dev_dsp_write);
+ 
+ static int aw_dev_dsp_read_16bit(struct aw_device *aw_dev,
+ 		unsigned short dsp_addr, unsigned int *dsp_data)
+@@ -149,7 +150,7 @@ static int aw_dev_dsp_read_32bit(struct aw_device *aw_dev,
+ 	return 0;
+ }
+ 
+-static int aw_dev_dsp_read(struct aw_device *aw_dev,
++int aw_dev_dsp_read(struct aw_device *aw_dev,
+ 		unsigned short dsp_addr, unsigned int *dsp_data, unsigned char data_type)
+ {
+ 	u32 reg_value;
+@@ -157,13 +158,13 @@ static int aw_dev_dsp_read(struct aw_device *aw_dev,
+ 
+ 	mutex_lock(&aw_dev->dsp_lock);
+ 	switch (data_type) {
+-	case AW88395_DSP_16_DATA:
++	case AW_DSP_16_DATA:
+ 		ret = aw_dev_dsp_read_16bit(aw_dev, dsp_addr, dsp_data);
+ 		if (ret)
+ 			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 16-bit dsp_data[0x%x] failed",
+ 					(u32)dsp_addr, *dsp_data);
+ 		break;
+-	case AW88395_DSP_32_DATA:
++	case AW_DSP_32_DATA:
+ 		ret = aw_dev_dsp_read_32bit(aw_dev, dsp_addr, dsp_data);
+ 		if (ret)
+ 			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 32r-bit dsp_data[0x%x] failed",
+@@ -182,7 +183,7 @@ static int aw_dev_dsp_read(struct aw_device *aw_dev,
+ 
+ 	return ret;
+ }
+-
++EXPORT_SYMBOL_GPL(aw_dev_dsp_read);
+ 
+ static int aw_dev_read_chipid(struct aw_device *aw_dev, u16 *chip_id)
+ {
+@@ -231,7 +232,7 @@ static int aw_dev_dsp_fw_check(struct aw_device *aw_dev)
+ 	dsp_fw_desc = &set_prof_desc->sec_desc[AW88395_DATA_TYPE_DSP_FW];
+ 
+ 	for (i = 0; i < AW88395_FW_CHECK_PART; i++) {
+-		ret = aw_dev_dsp_read(aw_dev, addr, &dsp_val, AW88395_DSP_16_DATA);
++		ret = aw_dev_dsp_read(aw_dev, addr, &dsp_val, AW_DSP_16_DATA);
+ 		if (ret) {
+ 			dev_err(aw_dev->dev, "dsp read failed");
+ 			return ret;
+@@ -351,11 +352,11 @@ static int aw_dev_modify_dsp_cfg(struct aw_device *aw_dev,
+ 		return -EINVAL;
+ 	}
+ 	switch (data_type) {
+-	case AW88395_DSP_16_DATA:
++	case AW_DSP_16_DATA:
+ 		data1 = cpu_to_le16((u16)dsp_data);
+ 		memcpy(crc_dsp_cfg->data + addr_offset, (u8 *)&data1, 2);
+ 		break;
+-	case AW88395_DSP_32_DATA:
++	case AW_DSP_32_DATA:
+ 		data2 = cpu_to_le32(dsp_data);
+ 		memcpy(crc_dsp_cfg->data + addr_offset, (u8 *)&data2, 4);
+ 		break;
+@@ -377,14 +378,14 @@ static int aw_dev_dsp_set_cali_re(struct aw_device *aw_dev)
+ 
+ 	/* set cali re to device */
+ 	ret = aw_dev_dsp_write(aw_dev,
+-			AW88395_DSP_REG_CFG_ADPZ_RE, cali_re, AW88395_DSP_32_DATA);
++			AW88395_DSP_REG_CFG_ADPZ_RE, cali_re, AW_DSP_32_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "set cali re error");
+ 		return ret;
+ 	}
+ 
+ 	ret = aw_dev_modify_dsp_cfg(aw_dev, AW88395_DSP_REG_CFG_ADPZ_RE,
+-				cali_re, AW88395_DSP_32_DATA);
++				cali_re, AW_DSP_32_DATA);
+ 	if (ret)
+ 		dev_err(aw_dev->dev, "modify dsp cfg failed");
+ 
+@@ -428,7 +429,7 @@ static int aw_dev_dsp_set_crc32(struct aw_device *aw_dev)
+ 	crc_value = crc32c(0xFFFFFFFF, crc_dsp_cfg->data, crc_data_len) ^ 0xFFFFFFFF;
+ 
+ 	return aw_dev_dsp_write(aw_dev, AW88395_DSP_REG_CRC_ADDR, crc_value,
+-						AW88395_DSP_32_DATA);
++						AW_DSP_32_DATA);
+ }
+ 
+ static void aw_dev_dsp_check_crc_enable(struct aw_device *aw_dev, bool flag)
+@@ -663,7 +664,7 @@ static int aw_dev_set_vcalb(struct aw_device *aw_dev)
+ 	int vcalb, vcalk;
+ 	int ret;
+ 
+-	ret = aw_dev_dsp_read(aw_dev, AW88395_DSP_REG_VCALB, &vcalb_adj, AW88395_DSP_16_DATA);
++	ret = aw_dev_dsp_read(aw_dev, AW88395_DSP_REG_VCALB, &vcalb_adj, AW_DSP_16_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "read vcalb_adj failed");
+ 		return ret;
+@@ -720,14 +721,14 @@ static int aw_dev_set_vcalb(struct aw_device *aw_dev)
+ 	dev_dbg(aw_dev->dev, "vcalb=%d, reg_val=0x%x, vcalb_adj =0x%x",
+ 				vcalb, reg_val, vcalb_adj);
+ 
+-	ret = aw_dev_dsp_write(aw_dev, AW88395_DSP_REG_VCALB, reg_val, AW88395_DSP_16_DATA);
++	ret = aw_dev_dsp_write(aw_dev, AW88395_DSP_REG_VCALB, reg_val, AW_DSP_16_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "write vcalb failed");
+ 		return ret;
+ 	}
+ 
+ 	ret = aw_dev_modify_dsp_cfg(aw_dev, AW88395_DSP_REG_VCALB,
+-					(u32)reg_val, AW88395_DSP_16_DATA);
++					(u32)reg_val, AW_DSP_16_DATA);
+ 	if (ret)
+ 		dev_err(aw_dev->dev, "modify dsp cfg failed");
+ 
+@@ -741,7 +742,7 @@ static int aw_dev_get_cali_f0_delay(struct aw_device *aw_dev)
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev,
+-			AW88395_DSP_CALI_F0_DELAY, &cali_delay, AW88395_DSP_16_DATA);
++			AW88395_DSP_CALI_F0_DELAY, &cali_delay, AW_DSP_16_DATA);
+ 	if (ret)
+ 		dev_err(aw_dev->dev, "read cali delay failed, ret=%d", ret);
+ 	else
+@@ -991,7 +992,7 @@ static int aw_dev_get_dsp_status(struct aw_device *aw_dev)
+ 
+ static int aw_dev_get_vmax(struct aw_device *aw_dev, unsigned int *vmax)
+ {
+-	return aw_dev_dsp_read(aw_dev, AW88395_DSP_REG_VMAX, vmax, AW88395_DSP_16_DATA);
++	return aw_dev_dsp_read(aw_dev, AW88395_DSP_REG_VMAX, vmax, AW_DSP_16_DATA);
+ }
+ 
+ static int aw_dev_update_reg_container(struct aw_device *aw_dev,
+@@ -1089,7 +1090,7 @@ static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88395_DSP_REG_CFG_ADPZ_RA,
+-				&dsp_ra, AW88395_DSP_32_DATA);
++				&dsp_ra, AW_DSP_32_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "read ra error");
+ 		return ret;
+diff --git a/sound/soc/codecs/aw88395/aw88395_device.h b/sound/soc/codecs/aw88395/aw88395_device.h
+index 6f8b30b475da..3626f222899d 100644
+--- a/sound/soc/codecs/aw88395/aw88395_device.h
++++ b/sound/soc/codecs/aw88395/aw88395_device.h
+@@ -89,8 +89,8 @@ enum AW88395_DEV_DSP_CFG {
+ };
+ 
+ enum {
+-	AW88395_DSP_16_DATA = 0,
+-	AW88395_DSP_32_DATA = 1,
++	AW_DSP_16_DATA = 0,
++	AW_DSP_32_DATA = 1,
+ };
+ 
+ enum {
+@@ -210,5 +210,9 @@ int aw88395_dev_get_profile_count(struct aw_device *aw_dev);
+ int aw88395_dev_load_acf_check(struct aw_device *aw_dev, struct aw_container *aw_cfg);
+ int aw88395_dev_cfg_load(struct aw_device *aw_dev, struct aw_container *aw_cfg);
+ void aw88395_dev_mute(struct aw_device *aw_dev, bool is_mute);
++int aw_dev_dsp_write(struct aw_device *aw_dev,
++		unsigned short dsp_addr, unsigned int dsp_data, unsigned char data_type);
++int aw_dev_dsp_read(struct aw_device *aw_dev,
++		unsigned short dsp_addr, unsigned int *dsp_data, unsigned char data_type);
+ 
+ #endif
+diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
+index d1237c5bf925..b588c27909b5 100644
+--- a/sound/soc/codecs/aw88399.c
++++ b/sound/soc/codecs/aw88399.c
+@@ -26,172 +26,6 @@ static const struct regmap_config aw88399_remap_config = {
+ 	.val_format_endian = REGMAP_ENDIAN_BIG,
+ };
+ 
+-static int aw_dev_dsp_write_16bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int dsp_data)
+-{
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write addr error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMDAT_REG, (u16)dsp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write data error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_write_32bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int dsp_data)
+-{
+-	unsigned int temp_data;
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write addr error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	temp_data = dsp_data & AW88395_DSP_16_DATA_MASK;
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMDAT_REG, temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write datal error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	temp_data = dsp_data >> 16;
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMDAT_REG, temp_data);
+-	if (ret)
+-		dev_err(aw_dev->dev, "%s write datah error, ret=%d", __func__, ret);
+-
+-	return ret;
+-}
+-
+-static int aw_dev_dsp_write(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int dsp_data, unsigned char data_type)
+-{
+-	unsigned int reg_value;
+-	int ret;
+-
+-	mutex_lock(&aw_dev->dsp_lock);
+-	switch (data_type) {
+-	case AW88395_DSP_16_DATA:
+-		ret = aw_dev_dsp_write_16bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "write dsp_addr[0x%x] 16-bit dsp_data[0x%x] failed",
+-					dsp_addr, dsp_data);
+-		break;
+-	case AW88395_DSP_32_DATA:
+-		ret = aw_dev_dsp_write_32bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "write dsp_addr[0x%x] 32-bit dsp_data[0x%x] failed",
+-					dsp_addr, dsp_data);
+-		break;
+-	default:
+-		dev_err(aw_dev->dev, "data type[%d] unsupported", data_type);
+-		ret = -EINVAL;
+-		break;
+-	}
+-
+-	/* clear dsp chip select state */
+-	if (regmap_read(aw_dev->regmap, 0x00, &reg_value))
+-		dev_err(aw_dev->dev, "%s fail to clear chip state. Err=%d\n", __func__, ret);
+-	mutex_unlock(&aw_dev->dsp_lock);
+-
+-	return ret;
+-}
+-
+-static int aw_dev_dsp_read_16bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data)
+-{
+-	unsigned int temp_data;
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_read(aw_dev->regmap, AW88399_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data = temp_data;
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_read_32bit(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data)
+-{
+-	unsigned int temp_data;
+-	int ret;
+-
+-	ret = regmap_write(aw_dev->regmap, AW88399_DSPMADD_REG, dsp_addr);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s write error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-
+-	ret = regmap_read(aw_dev->regmap, AW88399_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data = temp_data;
+-
+-	ret = regmap_read(aw_dev->regmap, AW88399_DSPMDAT_REG, &temp_data);
+-	if (ret) {
+-		dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
+-		return ret;
+-	}
+-	*dsp_data |= (temp_data << 16);
+-
+-	return 0;
+-}
+-
+-static int aw_dev_dsp_read(struct aw_device *aw_dev,
+-		unsigned short dsp_addr, unsigned int *dsp_data, unsigned char data_type)
+-{
+-	u32 reg_value;
+-	int ret;
+-
+-	mutex_lock(&aw_dev->dsp_lock);
+-	switch (data_type) {
+-	case AW88399_DSP_16_DATA:
+-		ret = aw_dev_dsp_read_16bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 16-bit dsp_data[0x%x] failed",
+-					(u32)dsp_addr, *dsp_data);
+-		break;
+-	case AW88399_DSP_32_DATA:
+-		ret = aw_dev_dsp_read_32bit(aw_dev, dsp_addr, dsp_data);
+-		if (ret)
+-			dev_err(aw_dev->dev, "read dsp_addr[0x%x] 32r-bit dsp_data[0x%x] failed",
+-					(u32)dsp_addr, *dsp_data);
+-		break;
+-	default:
+-		dev_err(aw_dev->dev, "data type[%d] unsupported", data_type);
+-		ret = -EINVAL;
+-		break;
+-	}
+-
+-	/* clear dsp chip select state */
+-	if (regmap_read(aw_dev->regmap, AW88399_ID_REG, &reg_value))
+-		dev_err(aw_dev->dev, "%s fail to clear chip state. ret=%d\n", __func__, ret);
+-	mutex_unlock(&aw_dev->dsp_lock);
+-
+-	return ret;
+-}
+-
+ static void aw_dev_pwd(struct aw_device *aw_dev, bool pwd)
+ {
+ 	int ret;
+@@ -929,25 +763,19 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
+ 	u32 tmp_len;
+ 	int i, ret;
+ 
+-	mutex_lock(&aw_dev->dsp_lock);
+ 	ret = regmap_write(aw_dev->regmap, AW88399_DSPMADD_REG, base);
+ 	if (ret)
+-		goto error_operation;
++		return ret;
+ 
+ 	for (i = 0; i < len; i += AW88399_MAX_RAM_WRITE_BYTE_SIZE) {
+ 		tmp_len = min(len - i, AW88399_MAX_RAM_WRITE_BYTE_SIZE);
+ 		ret = regmap_raw_write(aw_dev->regmap, AW88399_DSPMDAT_REG,
+ 					&data[i], tmp_len);
+ 		if (ret)
+-			goto error_operation;
++			return ret;
+ 	}
+-	mutex_unlock(&aw_dev->dsp_lock);
+ 
+ 	return 0;
+-
+-error_operation:
+-	mutex_unlock(&aw_dev->dsp_lock);
+-	return ret;
+ }
+ 
+ static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
+@@ -958,7 +786,7 @@ static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CFG_ADPZ_RA,
+-				&dsp_ra, AW88399_DSP_32_DATA);
++				&dsp_ra, AW_DSP_32_DATA);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "read ra error");
+ 		return ret;
+@@ -1015,29 +843,25 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
+ {
+ 	unsigned int reg_val;
+ 
+-	mutex_lock(&aw_dev->dsp_lock);
+ 	/* read dsp_rom_check_reg */
+-	aw_dev_dsp_read_16bit(aw_dev, AW88399_DSP_ROM_CHECK_ADDR, &reg_val);
++	aw_dev_dsp_read(aw_dev, AW88399_DSP_ROM_CHECK_ADDR, &reg_val, AW_DSP_16_DATA);
+ 	if (reg_val != AW88399_DSP_ROM_CHECK_DATA) {
+ 		dev_err(aw_dev->dev, "check dsp rom failed, read[0x%x] != check[0x%x]",
+ 						reg_val, AW88399_DSP_ROM_CHECK_DATA);
+-		goto error;
++		return -EPERM;
+ 	}
+ 
+ 	/* check dsp_cfg_base_addr */
+-	aw_dev_dsp_write_16bit(aw_dev, AW88399_DSP_CFG_ADDR, AW88399_DSP_ODD_NUM_BIT_TEST);
+-	aw_dev_dsp_read_16bit(aw_dev, AW88399_DSP_CFG_ADDR, &reg_val);
++	aw_dev_dsp_write(aw_dev, AW88399_DSP_CFG_ADDR,
++				AW88399_DSP_ODD_NUM_BIT_TEST, AW_DSP_16_DATA);
++	aw_dev_dsp_read(aw_dev, AW88399_DSP_CFG_ADDR, &reg_val, AW_DSP_16_DATA);
+ 	if (reg_val != AW88399_DSP_ODD_NUM_BIT_TEST) {
+ 		dev_err(aw_dev->dev, "check dsp cfg failed, read[0x%x] != write[0x%x]",
+ 						reg_val, AW88399_DSP_ODD_NUM_BIT_TEST);
+-		goto error;
++		return -EPERM;
+ 	}
+-	mutex_unlock(&aw_dev->dsp_lock);
+ 
+ 	return 0;
+-error:
+-	mutex_unlock(&aw_dev->dsp_lock);
+-	return -EPERM;
+ }
+ 
+ static void aw_dev_select_memclk(struct aw_device *aw_dev, unsigned char flag)
+@@ -1432,22 +1256,22 @@ static int aw_cali_svc_get_cali_cfg(struct aw_device *aw_dev)
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CFG_MBMEC_ACTAMPTH,
+-					&cali_cfg->data[0], AW88399_DSP_32_DATA);
++					&cali_cfg->data[0], AW_DSP_32_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CFG_MBMEC_NOISEAMPTH,
+-					&cali_cfg->data[1], AW88399_DSP_32_DATA);
++					&cali_cfg->data[1], AW_DSP_32_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CFG_ADPZ_USTEPN,
+-					&cali_cfg->data[2], AW88399_DSP_16_DATA);
++					&cali_cfg->data[2], AW_DSP_16_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CFG_RE_ALPHA,
+-					&cali_cfg->data[3], AW88399_DSP_16_DATA);
++					&cali_cfg->data[3], AW_DSP_16_DATA);
+ 
+ 	return ret;
+ }
+@@ -1458,22 +1282,22 @@ static int aw_cali_svc_set_cali_cfg(struct aw_device *aw_dev,
+ 	int ret;
+ 
+ 	ret = aw_dev_dsp_write(aw_dev, AW88399_DSP_REG_CFG_MBMEC_ACTAMPTH,
+-					cali_cfg.data[0], AW88399_DSP_32_DATA);
++					cali_cfg.data[0], AW_DSP_32_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_write(aw_dev, AW88399_DSP_REG_CFG_MBMEC_NOISEAMPTH,
+-					cali_cfg.data[1], AW88399_DSP_32_DATA);
++					cali_cfg.data[1], AW_DSP_32_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_write(aw_dev, AW88399_DSP_REG_CFG_ADPZ_USTEPN,
+-					cali_cfg.data[2], AW88399_DSP_16_DATA);
++					cali_cfg.data[2], AW_DSP_16_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = aw_dev_dsp_write(aw_dev, AW88399_DSP_REG_CFG_RE_ALPHA,
+-					cali_cfg.data[3], AW88399_DSP_16_DATA);
++					cali_cfg.data[3], AW_DSP_16_DATA);
+ 
+ 	return ret;
+ }
+@@ -1488,7 +1312,7 @@ static int aw_cali_svc_cali_en(struct aw_device *aw_dev, bool cali_en)
+ 		regmap_update_bits(aw_dev->regmap, AW88399_DBGCTRL_REG,
+ 				~AW883XX_DSP_NG_EN_MASK, AW883XX_DSP_NG_EN_DISABLE_VALUE);
+ 		aw_dev_dsp_write(aw_dev, AW88399_DSP_LOW_POWER_SWITCH_CFG_ADDR,
+-				AW88399_DSP_LOW_POWER_SWITCH_DISABLE, AW88399_DSP_16_DATA);
++				AW88399_DSP_LOW_POWER_SWITCH_DISABLE, AW_DSP_16_DATA);
+ 
+ 		ret = aw_cali_svc_get_cali_cfg(aw_dev);
+ 		if (ret) {
+@@ -1548,8 +1372,7 @@ static void aw_cali_svc_backup_info(struct aw_device *aw_dev)
+ 	regmap_read(aw_dev->regmap, AW88399_DBGCTRL_REG, &reg_val);
+ 	backup_desc->dsp_ng_cfg = reg_val & (~AW883XX_DSP_NG_EN_MASK);
+ 
+-	aw_dev_dsp_read(aw_dev, AW88399_DSP_LOW_POWER_SWITCH_CFG_ADDR,
+-			&dsp_val, AW88399_DSP_16_DATA);
++	aw_dev_dsp_read(aw_dev, AW88399_DSP_LOW_POWER_SWITCH_CFG_ADDR, &dsp_val, AW_DSP_16_DATA);
+ 
+ 	backup_desc->dsp_lp_cfg = dsp_val;
+ }
+@@ -1562,7 +1385,7 @@ static void aw_cali_svc_recover_info(struct aw_device *aw_dev)
+ 			~AW883XX_DSP_NG_EN_MASK, backup_desc->dsp_ng_cfg);
+ 
+ 	aw_dev_dsp_write(aw_dev, AW88399_DSP_LOW_POWER_SWITCH_CFG_ADDR,
+-			backup_desc->dsp_lp_cfg, AW88399_DSP_16_DATA);
++			backup_desc->dsp_lp_cfg, AW_DSP_16_DATA);
+ }
+ 
+ static int aw_cali_svc_cali_re_mode_enable(struct aw_device *aw_dev, bool is_enable)
+@@ -1609,7 +1432,7 @@ static int aw_cali_svc_get_dev_re(struct aw_device *aw_dev, uint32_t *re)
+ 	uint32_t dsp_re, show_re;
+ 	int ret;
+ 
+-	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CALRE, &dsp_re, AW88399_DSP_16_DATA);
++	ret = aw_dev_dsp_read(aw_dev, AW88399_DSP_REG_CALRE, &dsp_re, AW_DSP_16_DATA);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/sound/soc/codecs/aw88399.h b/sound/soc/codecs/aw88399.h
+index cacc03b1eefa..b386f4836748 100644
+--- a/sound/soc/codecs/aw88399.h
++++ b/sound/soc/codecs/aw88399.h
+@@ -602,11 +602,6 @@ enum AW88399_DEV_DSP_CFG {
+ 	AW88399_DEV_DSP_BYPASS = 1,
+ };
+ 
+-enum {
+-	AW88399_DSP_16_DATA = 0,
+-	AW88399_DSP_32_DATA = 1,
+-};
+-
+ enum {
+ 	AW88399_NOT_RCV_MODE = 0,
+ 	AW88399_RCV_MODE = 1,
+
+base-commit: 3362786aaba1cdb8fd4e6b950140a42f15a71ade
+-- 
+2.47.0
+
