@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7CD21770A
-	for <linux-sound@vger.kernel.org>; Fri, 28 Nov 2025 18:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD4621770A
+	for <linux-sound@vger.kernel.org>; Fri, 28 Nov 2025 18:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764352888; cv=none; b=MRQhIxi4IZ2b9kUj0hpzcSSRVIq6gVb70IhWEDJT7RCkOS4ky9W/ZFE8+irb3Gb+v4gUuvMlr7sqznC5BnZU6CpcqBfTQ4BcM8xaH7B5uXqhGy/6g+/S6v59upQTDhF2XoJMTbMjTp1hPc0qepe9c6a2aHpypCsbRmDSALU/DZU=
+	t=1764352890; cv=none; b=FwOraFy6OdbZUnE1FP9khlskEuET5wXHqNIsOJHCZ3hTX7JFqJ9MdIN7uumclrXtRzBTKrPdtBEA/cprfooeh+JD5fxX8oJD7cfP6Cg1fsmZaA08GbnOh9AcAT+C2wGwJlMClp/fGdbjRPMJj0dJk+ktLmKi5gNMQMNEQ6QrTQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764352888; c=relaxed/simple;
-	bh=I/It0zyJbd+xON0ei+Hkx5qK4KQYTOnxOwcEXj/qfY8=;
+	s=arc-20240116; t=1764352890; c=relaxed/simple;
+	bh=RIJpNIi6duvsfLX/4fgLqBN2RHJ+I6L86K25H4TjTFE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sOoOCh5qwG4gHe+u1s8TiIucPN7HsBcy7n0Fdij9D35pGikxVp2I4j5UgB4ox0brPRBWFQrX6wDxYRD8PqXL3RjECkQXUQtET7BVNftaA2JOP1ytUdkbP0u4WEDN6Ouo9tBpbDqkmDhZQ+ztz5R5iCimKJOzMu2OlRsoVZLbjjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaf/JHjV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LE5bmjaeImbgHd09R7aOxkIPaxBIBiefvqAShhvFKBOwu5vqKeLpwef9jJjhFAr95B+fWGj8UN0ct+zuzPVLKw0eicvoaqFLlXCNqy8AOPOVBZSBn0vpAs3PAb3ChJKyBYfybpRGxf3cM9R33TcDT8vFO0aQkA8Q/hVLPMzwXog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HF14/O4Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaf/JHjV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA768C4CEF1;
-	Fri, 28 Nov 2025 18:01:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HF14/O4Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A4FC4CEFB;
+	Fri, 28 Nov 2025 18:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764352888;
-	bh=I/It0zyJbd+xON0ei+Hkx5qK4KQYTOnxOwcEXj/qfY8=;
+	s=k20201202; t=1764352890;
+	bh=RIJpNIi6duvsfLX/4fgLqBN2RHJ+I6L86K25H4TjTFE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aaf/JHjV5SmnqeoQhuZec9sQ6rzn92Oq7BZWFB6rKhc7u61y6r3hEsgGJoVH3gCe7
-	 kNjzy3GW5gtu3KgHELO1rrMP3ELxACS4IgqrsJK2sSeoBfC74mhM4EK337DkUpX2xX
-	 sS6VCRyUroBswN/y5njqgPGPSpAWwB3luFvlSXxFsEC7iRq8II3bVEDDp+HjfBnHSV
-	 xZwBy2KafTQeJkvua72ihXA3gJG/JnHnW4WkQlLaSxSlIo/IqSXH7+SWXVnPxkzmPE
-	 8NUJkAcSZUnM4Obku/wlmTkQlN+dGYuWVZuygkFss5oRopVYFmo/ordQuMpObpOFp/
-	 a6+nybSoAO/RA==
+	b=HF14/O4QInukNpHDRNfRrB4CGxC5lcm2iu/hQc1EcFdv7DepB/+mlLkeVWP8Z5YIg
+	 M+5AcgU7GbwxrDN23WiQhiJFDY180qj95nxn9ShoSEas7E4AFISsfb8TEfu9ZKPkiY
+	 vWpQ70UDMBD52AbupsQcNU1kJEFl41uP5vQRS4+fh4UKswwUV8Rf32YUx0BpfmPPjE
+	 fN+H719HaBXmzQlsplcI1TLbvpPTUoz7QaZ0YZSgUO7gZPAN2UcrLFHsaw44b+Ey58
+	 UQP9YtMv4w182t7Rz6EvURWOc+mhqHHFSXx86lJgHPj3ecLPvOzhW697LdulTf7iVf
+	 O234Fb0cz5z7w==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com
-In-Reply-To: <20251126095523.3925364-1-cezary.rojewski@intel.com>
-References: <20251126095523.3925364-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH v2 0/6] ASoC: Intel: catpt: Round of fixes and PM
- changes
-Message-Id: <176435288669.113594.17207979732433677458.b4-ty@kernel.org>
-Date: Fri, 28 Nov 2025 18:01:26 +0000
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20251127163426.2500633-1-ckeepax@opensource.cirrus.com>
+References: <20251127163426.2500633-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 0/7] Add support for cs42l45 into the Intel machine
+ driver
+Message-Id: <176435288836.113594.5643530676682511363.b4-ty@kernel.org>
+Date: Fri, 28 Nov 2025 18:01:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Wed, 26 Nov 2025 10:55:17 +0100, Cezary Rojewski wrote:
-> Set of changes addressing gaps in DRAM offset checks, error paths and
-> PM.
+On Thu, 27 Nov 2025 16:34:19 +0000, Charles Keepax wrote:
+> Now that the full class driver is in place we can add support to the
+> Intel machine driver for Cirrus's new SDCA audio CODEC the cs42l45. This
+> makes some minor tweaks to the machine driver itself to support SDCA
+> devices, and then adds the necessary tables etc. to define the device.
 > 
-> The first three patches are straight-forward, the last three relate to
-> the power management. The standing out PM change is removal of the
-> catpt-driver as a system-suspend (S3) blocker. This is a suggestion from
-> Andy as indeed, audio is not a critical component that should prevent
-> the system from going into S3. Whatever happens, the driver can recover
-> on a follow up resume (S3 -> S0).
+> Note, this series shouldn't have any dependencies on the other series of
+> improvements to the class driver that is already on the list. So either
+> can be merged first.
 > 
 > [...]
 
@@ -65,18 +65,20 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: Intel: catpt: Fix offset checks
-      commit: 1a0ce0a1e6d2e6e03469eb5233e2a571511b1ae1
-[2/6] ASoC: Intel: catpt: Switch to resource_xxx() API
-      commit: ea38b262a2df7c6f29753565fbe2db8492740f28
-[3/6] ASoC: Intel: catpt: Fix error path in hw_params()
-      commit: 86a5b621be658fc8fe594ca6db317d64de30cce1
-[4/6] ASoC: Intel: catpt: Fix probing order of driver components
-      commit: 16e17736282fea02c1a156b242c2dbf35d94e9a2
-[5/6] ASoC: Intel: catpt: Do not ignore errors on runtime resume
-      commit: 8a342b2be1c84ac205ccd8eb9cc5d8eb5871af47
-[6/6] ASoC: Intel: catpt: Do not block the system from suspending
-      commit: 56736543b570a1a16fbc4e3be1776a476c9ca14a
+[1/7] ASoC: SDCA: Align mute controls to ALSA expectations
+      commit: 5fee9edf791a50182382fae23f30690c93e16cec
+[2/7] ASoC: SDCA: Add terminal type into input/output widget name
+      commit: 48fa77af2f4a55ab961520f2a0e50560dc0baca8
+[3/7] ASoC: sdw_utils: Add codec_conf for every DAI
+      commit: 26ee34d2f5c7fba968fcc2f1fd94110e1c1660db
+[4/7] ASoC: sdw_utils: Move codec_name to dai info
+      commit: 2ae4659533d8e2b5e06e8f570e2b4b7b88ae0716
+[5/7] ASoC: intel: sof_sdw: Add ability to have auxiliary devices
+      commit: c66297d09e1a5813eb743bae8cda4e115b8a5c56
+[6/7] ASoC: sdw_utils: Add cs42l45 support functions
+      commit: 3f6b562f2107ab2467908fa1543e1a6ea8442bd1
+[7/7] ASoC: intel: sof_sdw: Add codec_info for cs42l45
+      commit: 1e645bca9d1e4c5970778114d2d9fc247fe12e7b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
