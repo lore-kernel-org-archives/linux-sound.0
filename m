@@ -1,101 +1,89 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214FE32F740
-	for <linux-sound@vger.kernel.org>; Fri, 28 Nov 2025 17:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D628134C
+	for <linux-sound@vger.kernel.org>; Fri, 28 Nov 2025 17:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764350573; cv=none; b=sXsQG8GtvjLvMRmGeErfQdUCmnSTowaYwRainVyrOkn1SZe4wtlFEe46Mh1zs7K2omfYqoLmlqKIHpB6WFlMvnFhShyBNkO7nzSJtJlFd6Qp5jzY/09yu5V3FfcwvENFRaw1NMDEig08+XCNCHtFCvA+KjtAAa/h3g6GVqhAI9k=
+	t=1764350690; cv=none; b=rWueKE4bKq/x4fhkIyZOvx4v4moXiO4XgG2/GJetNv5CBJM819u7sQPDUHjgFLIWiAjwoxpVvrDuk6sb0tFnK/KkyAlokl3JiYWdHN4m/BAGYs0GLBeJfNlL6Olmj2yrHhI6RcnVBFQ1tPIBzzrnaNDXa8mL9t4hjIVdHZ+m2w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764350573; c=relaxed/simple;
-	bh=j4ctd5LCVnnx034IAzXZZ4pnBuDLNCAqhpDGeW8rfg4=;
+	s=arc-20240116; t=1764350690; c=relaxed/simple;
+	bh=7xPUXfUJgLQHc5wa+HvPMYSQiApR7ZeSaBPlJv86M3s=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FRTzQeh+9T7rZw/10rsfxVHElowCyRxBZUxMUFeJ3oy3FJK0nP829bnG2BHEgLAoXYA8UjfvItriUke8JgmNCoZrIyFCqkkABjkqp2aVcK1goEgQjnh3o9miXSRnUH1ZzhnSoY6XdCIUnTbHEMSghbsKL45zucPOJWlaEQuxKTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bK3IE/m3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=44lePi+6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bK3IE/m3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=44lePi+6; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=kEtM5ohXwweL9xG/TctffAeE1410q/duNgStyJFsGFCyqnPkaFpc0rTdV14pvt+1qbmZvnH4o8gNx45xFDRX8Ge05YqRGgoFWzRDpMyda8GiV66/nQSLt5D1TqdCyGxNK/FKapackq2DVPHMcSDRcnwnCKplmMXypycTxZOtqIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QURXpmsL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EhmDZnDo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TqJ9VVaY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gjEBadP+; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bK3IE/m3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="44lePi+6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bK3IE/m3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="44lePi+6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QURXpmsL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EhmDZnDo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TqJ9VVaY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gjEBadP+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 558D15BDA5;
-	Fri, 28 Nov 2025 17:22:48 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 391635BDA5;
+	Fri, 28 Nov 2025 17:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764350568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1764350686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DRh2wCcILSm5accuChVjos/DcYSloCqTL4PctIDhz7M=;
-	b=bK3IE/m3EbTyS2eAuQvTZ57OrqIuqd/zsNA/9MhcUMuKCktaKeKNEbwySCtxe7wj+N20Jp
-	TQNxce0BIyDjtq4fb1RgM51TqGlQFPtQaC6c3/g/oa99tm/s8XRhpnCRtafINVcIIs5XY+
-	OTv0qWtRuP7we1xZJ7XfKPY1pxdCBqE=
+	bh=LNQG1vDIjyuI7APaW8OagC8vv1ooBxNd5zb0PpNo5Oc=;
+	b=QURXpmsLfUmPOrSxZo+LLDhBD0B/FvCWWqjHZXU3ZG3rtsBcZ9flKhg4MwXf1BhLNjfCaa
+	TTHQ0ojR795oYpx/v6Xxk1cMMJeq/fsEeuCIlwMEWqRHI/t3e8pPIBFAxCu+h8ZJAatN0j
+	bjzQowLqi1KqL4ax9zd6Ml+64rWLPVw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764350568;
+	s=susede2_ed25519; t=1764350686;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DRh2wCcILSm5accuChVjos/DcYSloCqTL4PctIDhz7M=;
-	b=44lePi+6R+Prd8f/kADDodEaYOz9CEXxk8IuVfwQJ6FY/7cPGPV0JVimHYaB8xTeG5vyr0
-	NXJrmIRUX0olHcCQ==
+	bh=LNQG1vDIjyuI7APaW8OagC8vv1ooBxNd5zb0PpNo5Oc=;
+	b=EhmDZnDo86prTBLdUzkGlfp6G14hFTMFeCVJhNIWrfwaFlbK24H6thgXa33KLI0g9g5GoA
+	ZiyZhebDgLj9LcAg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TqJ9VVaY;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gjEBadP+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764350568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1764350684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DRh2wCcILSm5accuChVjos/DcYSloCqTL4PctIDhz7M=;
-	b=bK3IE/m3EbTyS2eAuQvTZ57OrqIuqd/zsNA/9MhcUMuKCktaKeKNEbwySCtxe7wj+N20Jp
-	TQNxce0BIyDjtq4fb1RgM51TqGlQFPtQaC6c3/g/oa99tm/s8XRhpnCRtafINVcIIs5XY+
-	OTv0qWtRuP7we1xZJ7XfKPY1pxdCBqE=
+	bh=LNQG1vDIjyuI7APaW8OagC8vv1ooBxNd5zb0PpNo5Oc=;
+	b=TqJ9VVaYV95xZyvkUFO/x2UnOWwwztjQV0LxHHk9fnSsXxpVlCVDK68H5bXobRLAhQHQDl
+	XBsQCqzpQZzRmyWKvFMZK92oxBapfYMzggsKl4UzX7xfv8SzbF3avdqCnLueZZFTGqamM4
+	Myf6zQYDu99stKfjHQECuyf/Pz+RpQ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764350568;
+	s=susede2_ed25519; t=1764350684;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DRh2wCcILSm5accuChVjos/DcYSloCqTL4PctIDhz7M=;
-	b=44lePi+6R+Prd8f/kADDodEaYOz9CEXxk8IuVfwQJ6FY/7cPGPV0JVimHYaB8xTeG5vyr0
-	NXJrmIRUX0olHcCQ==
+	bh=LNQG1vDIjyuI7APaW8OagC8vv1ooBxNd5zb0PpNo5Oc=;
+	b=gjEBadP+5alkmHU/FZOFCyuBWiO3XciD33l4k8Xdmo/Jr2torwmtPpH7dP0eW+yPkhc88k
+	LSjwHQ+QuGSh6eDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 010C03EA63;
-	Fri, 28 Nov 2025 17:22:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00ECA3EA63;
+	Fri, 28 Nov 2025 17:24:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BusjOmfaKWm8AwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 28 Nov 2025 17:22:47 +0000
-Date: Fri, 28 Nov 2025 18:22:47 +0100
-Message-ID: <87ecpi842g.wl-tiwai@suse.de>
+	id kqVbOtvaKWmvBQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Nov 2025 17:24:43 +0000
+Date: Fri, 28 Nov 2025 18:24:43 +0100
+Message-ID: <87a50683z8.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "Joakim  Zhang" <joakim.zhang@cixtech.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"broonie@kernel.org"
-	<broonie@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org"
-	<conor+dt@kernel.org>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com"
-	<tiwai@suse.com>,
-	"linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-	"devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-	cix-kernel-upstream
-	<cix-kernel-upstream@cixtech.com>
-Subject: Re: [PATCH V1 2/3] ALSA: hda: add bus callback for address translation
-In-Reply-To: <SEYPR06MB62269EEF81C53AC28278694982DFA@SEYPR06MB6226.apcprd06.prod.outlook.com>
-References: <20251030110928.1572703-1-joakim.zhang@cixtech.com>
-	<20251030110928.1572703-3-joakim.zhang@cixtech.com>
-	<87pla3joop.wl-tiwai@suse.de>
-	<SEYPR06MB62269EEF81C53AC28278694982DFA@SEYPR06MB6226.apcprd06.prod.outlook.com>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	waxhead <waxhead@dirtcellar.net>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	1121535@bugs.debian.org
+Subject: Re: UBSAN: array-index-out-of-bounds in [...]sound/pci/ctxfi/ctamixer.c:347:48
+In-Reply-To: <aSk8KJI35H7gFru6@eldamar.lan>
+References: <176428476762.2962.8176922083972711750.reportbug@main.localdomain>
+	<aSk8KJI35H7gFru6@eldamar.lan>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -104,93 +92,118 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_RCPT(0.00)[dt];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,kernel.org,perex.cz,suse.com,vger.kernel.org,cixtech.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
-X-Spam-Score: -1.80
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 391635BDA5
 
-On Thu, 27 Nov 2025 10:44:26 +0100,
-Joakim  Zhang wrote:
+On Fri, 28 Nov 2025 07:07:36 +0100,
+Salvatore Bonaccorso wrote:
 > 
-> [...]
-> > >  include/sound/hdaudio.h     |  3 +++
-> > >  sound/hda/core/controller.c | 25 +++++++++++++++++++------
-> > >  sound/hda/core/stream.c     | 17 ++++++++++++++---
-> > >  3 files changed, 36 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h index
-> > > 4e0c1d8af09f..61b41a014f4a 100644
-> > > --- a/include/sound/hdaudio.h
-> > > +++ b/include/sound/hdaudio.h
-> > > @@ -293,6 +293,9 @@ struct hdac_bus {
-> > >       const struct hdac_bus_ops *ops;
-> > >       const struct hdac_ext_bus_ops *ext_ops;
-> > >
-> > > +     /* address translation from host to hdac */
-> > > +     dma_addr_t (*addr_host_to_hdac)(struct hdac_bus *bus, dma_addr_t
-> > > + addr);
-> >
-> > This should be rather added to hdac_bus_ops instead.
-> >
-> > Or, we can just add addr_offset field in hdac_bus instead of yet another
-> > callback.  Then the change would be simpler.
-> >
+> Hi Jaroslav, hi Takashi
 > 
-> Hello Takashi,
+> A user in Debian reported (in https://bugs.debian.org/1121535) an
+> array-index-out-of-bounds affecting ctxfi/ctamixer.c:
 > 
-> Sorry for late updating since I am involving in other tasks recently.
+> On Fri, Nov 28, 2025 at 12:06:07AM +0100, waxhead wrote:
+> >  ------------[ cut here ]------------
+> > Nov 27 23:46:53 main kernel: UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.8/sound/pci/ctxfi/ctamixer.c:347:48
+> > Nov 27 23:46:53 main kernel: index 8 is out of range for type 'unsigned char [8]'
+> > Nov 27 23:46:53 main kernel: CPU: 4 UID: 0 PID: 468 Comm: (udev-worker) Not tainted 6.17.8+deb14-amd64 #1 PREEMPT(lazy)  Debian 6.17.8-1 
+> > Nov 27 23:46:53 main kernel: Hardware name: FUJITSU /D3446-S2, BIOS V5.0.0.12 R1.26.0 for D3446-S2x                    02/11/2020
+> > Nov 27 23:46:53 main kernel: Call Trace:
+> > Nov 27 23:46:53 main kernel:  <TASK>
+> > Nov 27 23:46:53 main kernel:  dump_stack_lvl+0x5d/0x80
+> > Nov 27 23:46:53 main kernel:  ? __pfx_amixer_set_x+0x10/0x10 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  ubsan_epilogue+0x5/0x2b
+> > Nov 27 23:46:53 main kernel:  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+> > Nov 27 23:46:53 main kernel:  sum_output_slot+0x44/0x70 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  amixer_set_input+0x4b/0x80 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  amixer_setup+0x1b/0x50 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  ct_mixer_create+0x193/0x570 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  ct_atc_create+0x3cb/0x530 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  ct_card_probe+0x104/0x2c0 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  local_pci_probe+0x3f/0x90
+> > Nov 27 23:46:53 main kernel:  pci_device_probe+0xda/0x2b0
+> > Nov 27 23:46:53 main kernel:  ? sysfs_do_create_link_sd+0x6d/0xd0
+> > Nov 27 23:46:53 main kernel:  really_probe+0xdb/0x340
+> > Nov 27 23:46:53 main kernel:  ? pm_runtime_barrier+0x55/0x90
+> > Nov 27 23:46:53 main kernel:  __driver_probe_device+0x78/0x140
+> > Nov 27 23:46:53 main kernel:  driver_probe_device+0x1f/0xa0
+> > Nov 27 23:46:53 main kernel:  ? __pfx___driver_attach+0x10/0x10
+> > Nov 27 23:46:53 main kernel:  __driver_attach+0xcb/0x1e0
+> > Nov 27 23:46:53 main kernel:  bus_for_each_dev+0x82/0xd0
+> > Nov 27 23:46:53 main kernel:  bus_add_driver+0x10b/0x1f0
+> > Nov 27 23:46:53 main kernel:  ? __pfx_ct_driver_init+0x10/0x10 [snd_ctxfi]
+> > Nov 27 23:46:53 main kernel:  driver_register+0x75/0xe0
+> > Nov 27 23:46:53 main kernel:  do_one_initcall+0x58/0x300
+> > Nov 27 23:46:53 main kernel:  do_init_module+0x62/0x250
+> > Nov 27 23:46:53 main kernel:  ? init_module_from_file+0x8a/0xe0
+> > Nov 27 23:46:53 main kernel:  init_module_from_file+0x8a/0xe0
+> > Nov 27 23:46:53 main kernel:  idempotent_init_module+0x114/0x310
+> > Nov 27 23:46:53 main kernel:  __x64_sys_finit_module+0x6d/0xd0
+> > Nov 27 23:46:53 main kernel:  ? syscall_trace_enter+0x8d/0x1d0
+> > Nov 27 23:46:53 main kernel:  do_syscall_64+0x82/0x320
+> > Nov 27 23:46:53 main kernel:  ? restore_fpregs_from_fpstate+0x46/0xa0
+> > Nov 27 23:46:53 main kernel:  ? switch_fpu_return+0x5b/0xe0
+> > Nov 27 23:46:53 main kernel:  ? do_syscall_64+0x200/0x320
+> > Nov 27 23:46:53 main kernel:  ? exc_page_fault+0x74/0x180
+> > Nov 27 23:46:53 main kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > Nov 27 23:46:53 main kernel: RIP: 0033:0x7f77238f3779
+> > Nov 27 23:46:53 main kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 4f 86 0d 00 f7 d8 64 89 01 48
+> > Nov 27 23:46:53 main kernel: RSP: 002b:00007ffc398103f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> > Nov 27 23:46:53 main kernel: RAX: ffffffffffffffda RBX: 000055e0eb622480 RCX: 00007f77238f3779
+> > Nov 27 23:46:53 main kernel: RDX: 0000000000000004 RSI: 00007f77239f744d RDI: 000000000000001b
+> > Nov 27 23:46:53 main kernel: RBP: 0000000000000004 R08: 0000000000000000 R09: 00007f7723ef6280
+> > Nov 27 23:46:53 main kernel: R10: 0000000000000000 R11: 0000000000000246 R12: 00007f77239f744d
+> > Nov 27 23:46:53 main kernel: R13: 0000000000020000 R14: 000055e0eb61e630 R15: 0000000000000000
+> > Nov 27 23:46:53 main kernel:  </TASK>
+> > Nov 27 23:46:53 main kernel: ---[ end trace ]---
 > 
-> I tried to add addr_offset field in hdac_bus for the address translation, but met the issue,
-> e.g.
-> On our platform, if HOST address is 0xd0c09000, HDAC address is 0xd0c09000 - 0x90000000 = 0x40c09000.
-> 
-> If we use the pattern, HOST_addr + addr_offset = HDAC_addr
-> For 64bit host,
-> then addr_offset shound be 0x70000000, 0xd0c09000+0x70000000=0x1_40c09000, it will update both lower 32bit and
-> upper 32bit into hda registers. However, hda controller in our audio subsystem can only support 32bit address, if hda
->  sending address more than 32bit, it would not work.
+> This was specifically with 6.17.8 but up to the current stable 6.17.9
+> there should be no related changes afaics.
 
-Hm, I don't understand.  It we define something like
+Thanks for the report.  As a wild guess, a simple fix like below
+should suffice for this case?
 
-	dma_addr_t addr_offset;
-
-in hdac_bus, and the driver setting
-
-	bus->addr_offset = -0x90000000;
-
-then a calculation
-
-	dma_addr_t addr;
-
-	addr = bus->rb.addr + bus->addr_offset;
-	
-will lead to the very same result as your callback, no?
-Or am I missing something?
-
-
-thanks,
 
 Takashi
+
+-- 8< --
+--- a/sound/pci/ctxfi/ctamixer.h
++++ b/sound/pci/ctxfi/ctamixer.h
+@@ -22,7 +22,7 @@
+ /* Define the descriptor of a summation node resource */
+ struct sum {
+ 	struct rsc rsc;		/* Basic resource info */
+-	unsigned char idx[8];
++	unsigned char idx[8 + 1]; /* msr + master */
+ };
+ 
+ /* Define sum resource request description info */
