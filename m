@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C81D531;
-	Sat, 29 Nov 2025 00:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5A36D4F9;
+	Sat, 29 Nov 2025 01:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764377277; cv=none; b=PUkoefbxpsh7Qk7YDODXAc5lx0WDSaYHndB1hlEf8hAsFjA8TvyCREzp1GK8tozu5woWqtLB06G2rZfgi8/Y2pEfgXxc2H4wm5EcLZ2WRv8xcyUECR7inerdQJV68yLtn4S9dIbT32Itq/aAMfuqi5ASTHTiGrQYMiowo+pkNzo=
+	t=1764380496; cv=none; b=qzlBeZQN37M+FNvEwJkE7iRAoeATLOXG1ONqiawS4HnchHVjJ1u4PkUdkloaRMrxmBJ+Gaz+MGByj7nogJCKAHZcRslCkLUop65l2u6i96pkVtL4MaaX5EebXL3KOMZ3Rn9bb37uACqd3fZ8a3LId+1i3L+YF4Tn4qi5TOkYUkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764377277; c=relaxed/simple;
-	bh=tiAEou82DuUPk+Sgy3KV8Kfoc2rL2M+tYZqbLVakkhQ=;
+	s=arc-20240116; t=1764380496; c=relaxed/simple;
+	bh=ZwE+Itjkh+U8C3WMy0mxJYuCl+KFmCS8w8y77jCWL88=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DtpJrWAjQCow3n5wJ+CwX3VopFr/oUF3ra7bw3+FCwLWmDoEK1kX+Sza+I/CoISHeVCa/orhQMPkiaXh6FQrHQkHgGPGprOyxadifDfzTcbVIM06e4Skanbnf2RnwnJImPQvteIaUV5/k6EIPiJyiQV0VB/8ni8X4fQ+pZX3Lls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbnYBxG+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Xg7nF9qWL2TRtBbvRV0JNyjd/lPyd1UnVETOkgW3ImvBOOhAfIhRHqdtrzelFwWtPvnlt5d4eVOlU6RIt5Vp3xACOqvmu/Si1xqNa0ZCuOzQT+zaGS+1jyaitmhSskNtCgDFgjXlca6h31tIR3x4toYdW6KmD/UO+Isz3CXYWSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hw2+U/bX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbnYBxG+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD02C4CEF1;
-	Sat, 29 Nov 2025 00:47:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hw2+U/bX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03AC2C4CEF1;
+	Sat, 29 Nov 2025 01:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764377276;
-	bh=tiAEou82DuUPk+Sgy3KV8Kfoc2rL2M+tYZqbLVakkhQ=;
+	s=k20201202; t=1764380495;
+	bh=ZwE+Itjkh+U8C3WMy0mxJYuCl+KFmCS8w8y77jCWL88=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hbnYBxG+0cW43jI7TV6dBhFZ1hNYT9QQxSWJU5Hrt3/TBdQeW7vGtyxpraRyIiCuH
-	 FnBD5up1HB9OytsZDl62zIeDe1+giBTPNG4dV6JJpR1olYHHQWCG+sIico6tfoZV36
-	 GB3yHqteSF+Ft/Dh8/o3/ASzDD8XZajfMDI7pPlrH3+Twn6o1ynMKAz0MPPLytp4dX
-	 zMWjAJSgVr7A2IVMdvOZzA3t5DAsvzJ/ToqY/0RojJ1ntVsEsIrIxGYg/n1q+wbP20
-	 MzlBSOF6MWtv4JWPoW1LeQ6dz7Zj3I8P4+Ay6d1XpvA8wjzAf+VYRbcv5jVnPEHO3L
-	 4JfStWh/vN3Hg==
+	b=hw2+U/bXfQvrLsJ0VvuNMeol0yle+kMjbqTy4UqPp4pxqb6KHs2r688MiNEoNerMq
+	 c2pn8tpo1LSjoPTYlntqELrU1xsei2W4a+YIRMv6/KaTFhA3I7AYLbCvs/cG5JxWZ3
+	 pjMg8rG/t8XiRJH+dZ2i9SUQlFOgY9737HNxwcD5CxPaVvmhHYee5VPe7v+iJ+DfF5
+	 wLhjGsZoGQ7n01xISoMRm6cLu9E6a7gvcGL4tlCUiHJjvRnPIz33RlehzaTK4m59sw
+	 SSe4g2chJgYHI9otc92TvVagtzo7NeUyJBTxOYPuwzAYK1NmXM+gGl/5ihqdhWtiEn
+	 OnQMBcw5eSXqg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- cy_huang@richtek.com, srinivas.kandagatla@oss.qualcomm.com, 
- zhangyi@everest-semi.com, nick.li@foursemi.com, alexey.klimov@linaro.org, 
- linux@treblig.org, thorsten.blum@linux.dev, 
- kuninori.morimoto.gx@renesas.com, marco.crivellari@suse.com, 
- ardb@kernel.org, ebiggers@google.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, wangweidong.a@awinic.com
-Cc: yijiangtao@awinic.com
-In-Reply-To: <20251128130323.628091-1-wangweidong.a@awinic.com>
-References: <20251128130323.628091-1-wangweidong.a@awinic.com>
-Subject: Re: [PATCH V1] ASoC: codecs: Modify awinic amplifier dsp read and
- write functions
-Message-Id: <176437727292.280659.6109776095774075430.b4-ty@kernel.org>
-Date: Sat, 29 Nov 2025 00:47:52 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20251128102132.1575177-1-rf@opensource.cirrus.com>
+References: <20251128102132.1575177-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] firmware: cs_dsp: Remove need for clients to
+ supply dummy cs_dsp_client_ops
+Message-Id: <176438049472.294473.7137972891332960750.b4-ty@kernel.org>
+Date: Sat, 29 Nov 2025 01:41:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,11 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Fri, 28 Nov 2025 21:03:22 +0800, wangweidong.a@awinic.com wrote:
-> Modify the dsp read and write functions of the chip and normalize
-> the dsp read and write functions of all awinic amplifier
+On Fri, 28 Nov 2025 10:21:30 +0000, Richard Fitzgerald wrote:
+> Clients of cs_dsp can provide optional callback function pointers, in
+> a struct cs_dsp_client_ops. The client had to provide a pointer to a
+> struct even if it didn't implement any of the callbacks.
 > 
+> Commit 1 in this series changes that so the client doesn't have to
+> provide a dummy struct.
 > 
+> [...]
 
 Applied to
 
@@ -63,8 +62,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: Modify awinic amplifier dsp read and write functions
-      commit: fd16593d456053d110c6e7bd141a7f381a1b10f7
+[1/2] firmware: cs_dsp: Don't require client to provide a struct cs_dsp_client_ops
+      commit: af37511305c0da1d151cc9a1ee6077c2cbde4f1d
+[2/2] firmware: cs_dsp: Add test cases for client_ops == NULL
+      commit: 479b1f8d416501cc3c18b743b1cf63776934ada9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
