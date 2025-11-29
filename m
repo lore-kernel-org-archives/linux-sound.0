@@ -1,86 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4CB30FF26
-	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FED230F94A
+	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764424973; cv=none; b=WPz2F3a9GYe0gGGPK3ZTCTu745MMJrjArUIHLZ4qkFEbuHsPTT124hwGDYRCeY0yVPAen6LItp2vjl7RyvPKbhmnggGzpjcIqLS3JT39cL4XumGa38JhuRzfV/9cHcBQOt5IuZvuOjbh4j+ngzU39ZmZi80yRWMTVx7ST6pgk6s=
+	t=1764424984; cv=none; b=BcaMxCiMrgvbuJB0OIMIINTw++cIugm34zDgrk+imRVu72c1IIoVDoNvfdiPs0Vp/AdbLk54kNTTHOLfuD2bTKa94c0oer2OBfFIdt5aNIy6F2Z4bXLJtizk1jgQ3vUbiRF1vhPVhrBf/IE22QCT2l2LGDPY2YfxlZrbOn5Vutk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764424973; c=relaxed/simple;
-	bh=04Cuzfw2VebojgKd6eyQKbYS1AlTlbnBKerDpdGfCVc=;
+	s=arc-20240116; t=1764424984; c=relaxed/simple;
+	bh=Uh8OJJhQouGil3zYUiOAr2BWbxzrgTvVuHg1TGtywUU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EwBQF2zGUYH88NjhfcTIJUxXoNuy9QTBIRzGzXQlrfB78ygVN0xbjDew+ZVCkN0yRj3ytcHCUy3k+T1eanU5AzLOlbDH25Wiah1eni2XF1mJ/xrFqWO/OZzW69r1qIq1cwVyd0OVQnuJ+kzPPVz6vX0KW66hpX9POcHSNXwdxOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VYDsKK1I; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QsqwdtTy; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=BIWD7SzPjla9w5BRfAUz3iOa48yL1j+IQ+zpEQSr1H/8jb+WDneEs7VL+x6KzwTEdC/4tLlxzYTpzIW0E8kWAjr9m0HLqdkmth1j+rVWq7onggv1f2j/muq6GoeLlJDrsxXd6CN3YxoF/RHEhHrtxKwYtAwkpZKHA/wzAJVsBvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aA/mqe2s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IoYZ6Vqh; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VYDsKK1I";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QsqwdtTy"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AT6olrN2526313
-	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:02:51 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aA/mqe2s";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IoYZ6Vqh"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ATCMffB3006969
+	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:03:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	chsUriZQjNSkeOnAsLUFF4NtiQ/KxNIXFA294gdeF3w=; b=VYDsKK1I6B7wKo9c
-	azMvTz5PCT837lyUrip1d++VSN4Bw7eG/zvKlx163ukhOIBAaBpgSakgW61CmGJB
-	thYbluHRMqXj4TvG8NOVFWIykO4HMW+0gZRJ0BSHFlLnv6yLFoqMU3KwY3u+2yvO
-	77CwtRexY706jeb/O3HjpI3VN4myD9MUegvhnzDJPwbUBbLOqdh7qPxB0NX91Omk
-	fpD+IYKKEPu9vBdpcp95Ihk4Rvst3EQG53647b5nUSplLPKE4vAzl8mMM8YvvmML
-	bKOUEktAD7euGz+bYQyGujW3z05FK1dedlDslLQJvfEm9ps3fH5Pa4pnhhQfw2gJ
-	H1qyWg==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aqp6ph06h-1
+	kBn9TsgNDmvjax4JXmC6W7uKKCA5IQjJq9VNdLP6D1g=; b=aA/mqe2s86RZlF+T
+	qCeK2XJawk6QnKdVDABsoZkdDtlcyeVHcRQPtULbuaffjULhLi6yLmNOvSZUvUk1
+	3gmmEuuB7q+dzSM06a8C0ei/vxLFSqZ0Mwg2bxrt+GL5zyU41cbNw1aAyXE5erpd
+	edsEke02wqyjR/uQ/2o2fVfq0jRmWQVkNvZmo9VrEubVVdzqDR9icM+maX9wSpvj
+	tYNzPgC+tuoKBUGEZJ6hXaQ5pc7/Vz9hnThNz0dDbmwku/Wf2gXraeN+aiVWrUc+
+	4+3lzgBLJ9Y7SLFjj50yU476OrORO1x5PNs+Hka/EC3NFaXxir5ou9XBzG7JMrxM
+	UDusaA==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aqyw5g5nh-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:02:50 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-559e9092276so1312710e0c.2
-        for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 06:02:50 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 14:03:02 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-55b29194c04so1619027e0c.3
+        for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 06:03:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764424970; x=1765029770; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1764424982; x=1765029782; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=chsUriZQjNSkeOnAsLUFF4NtiQ/KxNIXFA294gdeF3w=;
-        b=QsqwdtTyQyHe9XDYv2p1gb39xx7ba93ANg/ob9iQzrEQytwopSTQUSMvoIaq1Z8Rab
-         /9+XqSR4Lb/3OVfoVHDqJKEV9rTj2FgVUlmSLnHCb250xheGbgLYcoP5bd+YIKlRQha/
-         htiTKbYqT+z5vp+KOSciUEsiMdbsywxyWzeT2uanpVskSdtwH4dxqMRW4VUuCJCsgM42
-         2Zk3GGMoY8A4+VvBX7gZSaSxMs87SCiXRVhp0WyU0nFY+41UWBtSzwz6owVLfcwSd6U3
-         eC2cNN6ifdg2LF69LuHAJdanezkFHgQiQR0w8KgSAuW+1kMvJeexLA7brzqyFmGDuYu/
-         Iq2A==
+        bh=kBn9TsgNDmvjax4JXmC6W7uKKCA5IQjJq9VNdLP6D1g=;
+        b=IoYZ6VqhH2uM8CDgx/WjjQKA8MtxYaul1CnICjWUe7MDv1SWKhHkqW+ue1lvbVdPRK
+         GpLLq8ODHdoZ/YifIO0aL5wIoROLyzZ0JrZozJWhZ5xjHG8hwRxWdzWBsCJeRYCt7eWS
+         2YRtvxjoRF452LPN7lUmAPDUN1v8xX8Ppunl9PSqiuk7fTKapKU0oJMAeVJo4hsAnwY9
+         96fVgJmATvxd7bzCrNtZiH7yaWG6ivEdBpUYo26lkb/5ywkFIAj5ZBLyHMVwypzCgDZq
+         nWWw3LAqN/lMo6EK0oaOU9vr0GmY/4b8f/SBw9Xzow5FDpPzWEL9bTXQfuhO+eMXW9IJ
+         m1Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764424970; x=1765029770;
+        d=1e100.net; s=20230601; t=1764424982; x=1765029782;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=chsUriZQjNSkeOnAsLUFF4NtiQ/KxNIXFA294gdeF3w=;
-        b=MYYhnh0RVNusyw5kHMVff+BNK8HEgi4NTjyTh6NhuVdG03iNsNqZf1O73qv5y84gXM
-         FuxooJOnPUoGZlNFLAAiposxmtppfpa1j1eoRh+FGTjuBZV4Ap8g70m6GlrD5G5cIFGs
-         2kxYkzc5h68CtOvUUAS2wdjMMIUKDj3VFn7q8krbI9yJfCGpPEZJ4rzdSaXk3DwgGVwL
-         ZcWN2zHRX0tdFa7ST8HldRWFdibdMKMuaDy3/ucmnBpkgrPCGo3pqbjNEASEz3QkmXcw
-         6i4cChwVJW/cIiR1dDqtgfzmN5NEFePAOZXYnbu2Hlo5tPC2ffDZzTuyl1hskDgn8ZM2
-         +g8g==
-X-Gm-Message-State: AOJu0YwldLYh1GxtQD54LPrxH+n4taZQ0/de+omdiLhUP55kAnT/j4MT
-	T17pJfkxSPz4l2nf1C+e+Wa0qR4hVmUbZYoRaNI+HrEoHEH+lzzlUlGJHaL6o0G519UUu/Npikj
-	hA/O7QAtcPaLe7GxHKzbfcmbJmC6GI1BMJJoZrYzbuj4AbHCyA2UJxZTdo/fZ6X3hEw==
-X-Gm-Gg: ASbGncvotqPxgno9qXOOr54wc4F8ouxd7Q1za74TI92tNNohiPWp364jKY2GNyaPPzb
-	QT5Q+jOHRrA1nm16FAei9wQw6hqxjtVcQUMGMXtTC0EXSknHgk3KLJqMHTJD1F3wLydQpuQwvy7
-	lf05Bra4WeS9avleE3E2MGUtck1Szs+xnLHOA0dWilYdRHg6R2MKX7UFGliJKHCfQCu6IRg2ddO
-	VHFtxh3XFj7JvS1lIP7iMccKRXcfgSqsztZwYx1Z20k1zaj7UhTGGgD9CLm6iB8+KxxIBQuu/qp
-	6mXNNVho0c+j+I4Jhj3WOBZ2+Br3O7P9Aw6WenWNv2k0XG7YXJS7KCZpDmVDSsLOOnR5X+MKi/M
-	kJkXD4VbKNTWUQnVDmHlt4EBLWmNcTFcSBA==
-X-Received: by 2002:a67:e70b:0:b0:5db:debf:6587 with SMTP id ada2fe7eead31-5e1de3a362emr11515985137.32.1764424969983;
-        Sat, 29 Nov 2025 06:02:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEUR9LqBywY4z/kAMEy2Z6mMHSf5z1syGuTBAXiFS+dSVmgg2z7MV138CJRLhEyg4ZlRAEhNQ==
-X-Received: by 2002:a67:e70b:0:b0:5db:debf:6587 with SMTP id ada2fe7eead31-5e1de3a362emr11515922137.32.1764424969552;
-        Sat, 29 Nov 2025 06:02:49 -0800 (PST)
+        bh=kBn9TsgNDmvjax4JXmC6W7uKKCA5IQjJq9VNdLP6D1g=;
+        b=LgKQ2Lofh1/P82CL7cIL3T5M3G2XXLPX7baTGav88eKm3JtPSHYNSsEz91jJl4gcH4
+         DalNHGRpWZYw+3MFSuh53gsdZbIrya/iledbkaXi+7nHag5DXUAiE8ZIB1yFEmRG9uxr
+         ki0SmN1CI/dlwoXRnwdqAn5hsegD1rPkVofoj2lGbshSq565lYaTwvUSZEaE6iA9N9vm
+         ue1jjQeaMJ8Pr9JYvnQkCwKiFhbR9hAICYNnWH/QZYQ1o3x3suYMdygNernLGS+k4Zw8
+         02Zor1x2+SvFwjhCJ+3iKUINPYlw70jqztHJ0rVy9ywQPNI+ljiduv1GUI+r8aJLAMyk
+         8nWA==
+X-Gm-Message-State: AOJu0YweC6MP38ybw4o5OWDwVjvYh7XxP8Y4Y2YBzu6pw1BGfNBAEqhZ
+	QYLRBPXjGu//+yvdGJSP0MTh7NZOtuKnaeMn7/oA13kyxM6qqAS58zw0BvRMKJlvCwqvkozptzJ
+	N1KIUTH2HljDZg07HJzEjwNJ2GKAGlBIvLYUQHi9ydrJQM6kUNIMO6+PDPjBWk+QPGw==
+X-Gm-Gg: ASbGnctAypPaKIqhpi1A5VKhSqMap+e5ME0KhremrxtLyVeLk34FmfS4pbghInx43oU
+	t1HlH7TOwJNKZyxhQi2AV7XYppRQGdtuWvgYZUwf1weL15L1UzAiUBC6C7wSNwJCusAdVYknj2P
+	GaLpx/xwwkRRy2wSnbSa7bJ2BAd+KnWLL51DiC6Pq/G5/Wv6FCEAbJ+ry0Cct9CGYwdDM2TDZYm
+	V3tQ3OU4dv1XPiJ3yk4kakT56VgsSOvKHyX5JZgXKzbaRuGXOskdtjXTkW4YdwpexXwv6mSgbdu
+	82CVy+/uWsAdESzqbGDtdBPkP/kPAldP/tqVlWtQrnIK3L6yZfwnRq3rdtWYm3FA9prKk+UTXbz
+	CveQaHOIPO3sWwieuTpcuQe0+9RYulIT2uw==
+X-Received: by 2002:a05:6122:2224:b0:54a:9927:7ab7 with SMTP id 71dfb90a1353d-55b8eefed87mr11187367e0c.4.1764424981745;
+        Sat, 29 Nov 2025 06:03:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEpkmdrXXPWF0WiAWH3OAz3608v38FLnkyad5YOk5ObUmJUfouiwgMuePXmWs1TEMHBF5mXXw==
+X-Received: by 2002:a05:6122:2224:b0:54a:9927:7ab7 with SMTP id 71dfb90a1353d-55b8eefed87mr11185892e0c.4.1764424962108;
+        Sat, 29 Nov 2025 06:02:42 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.195.159])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f59a63dfsm681649866b.37.2025.11.29.06.02.48
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f59a63dfsm681649866b.37.2025.11.29.06.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 06:02:48 -0800 (PST)
+        Sat, 29 Nov 2025 06:02:41 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Date: Sat, 29 Nov 2025 15:02:36 +0100
-Subject: [PATCH 6/6] ASoC: qcom: audioreach: Constify function arguments
+Date: Sat, 29 Nov 2025 15:02:31 +0100
+Subject: [PATCH 1/6] ASoC: qcom: audioreach: Drop unused
+ audioreach_control_load_mix() arguments
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251129-b4-container-of-const-asoc-qcom-v1-6-67a3d3320371@oss.qualcomm.com>
+Message-Id: <20251129-b4-container-of-const-asoc-qcom-v1-1-67a3d3320371@oss.qualcomm.com>
 References: <20251129-b4-container-of-const-asoc-qcom-v1-0-67a3d3320371@oss.qualcomm.com>
 In-Reply-To: <20251129-b4-container-of-const-asoc-qcom-v1-0-67a3d3320371@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
@@ -99,349 +100,78 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13351;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1383;
  i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=04Cuzfw2VebojgKd6eyQKbYS1AlTlbnBKerDpdGfCVc=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpKvz+6iyJw/q6kb9l4FtHtjc60xyvrLffvqFv8
- AhTZaZcvLqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaSr8/gAKCRDBN2bmhouD
- 12HED/0aWK70Zd5tNq6my6TZR4QWKrGaMRbQsS1eZtgSWeDC65vzNUV/yDja8ULgCds+yWGm5Km
- R4Tb+dLtRoGJWA+FIz1J/RktnErrmnL8GSedCZECq/XmmPlsLznpdRycOrmf/qlnxPtuJvl+0GU
- 19Im6Xf8qmH6MM8GL/VKKWCIepSUkUmcLtZY/oLX9h3KCPkA/r3CVl5Tsi9HhAyNbpfG9ksypbp
- 7EpWgWp6UA9+Cs1ybkqi0D6Nvku0Py+3GzaaP1y4sPB/4+AM/SADyMgP1zIa5t+R0dHVhDFtiRP
- jWLHq2YOsh6+RX6q8vJcjJV2LB/9doZduQbZi1OTh/FCubm/zEvAR53wg5lAp7DXQyCJRgkjEh/
- hZ7V35j+7Ux8GKD36iakK8Hm3uBUDCN+7XMZz9i7a9AAkv6Y5xKnG55QG6xo3mW0s/K9tD68ct0
- W1H5i7oaMfojKcHDRZkYJjO1F7rxlVUHPz5obWrTA+4MhWa/Enm+fqCD/w2ge/x8tFEBBffwy4J
- mgjPvXF7Ddp4XwUrqnUYXkQYK+ScHeE2Qi205sf0hSL+pGQDGELoImJMztfgZllsUQ8yd/ovDn/
- e8Z9wb7XxiBddaGZ87yTQU1kXlg6/9z2FMf/itDw5sFKbzw13jQp4RbHUdJw2y5E1lEyce1+bBZ
- HUcDWzyMF6MUNPA==
+ bh=Uh8OJJhQouGil3zYUiOAr2BWbxzrgTvVuHg1TGtywUU=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpKvz55y/PVilHoj7AfbnqhjQ5K7jUPXBcXtVyX
+ v+HV4KZSQyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaSr8+QAKCRDBN2bmhouD
+ 185LD/9rQ1QOr+t1X8ZMDEDNnH2CT+Tk9k1IVV6S8AzrjYDwyVZD0WFr9d85uiWuTq1+MviaUWR
+ MrTF8iF8Db/FfO1nnQCXzRKwlsopIi0drDIT9SPa8awJGenTh6qoJPhK1EH2igTh5hLBIjERxih
+ hgIjlqa05HFqErrIB0uI/vKDKgTE4LKTaUYSZI0hjDNpdsxQrVl8Vo9G/xanoTMWIU7klL2Cihm
+ Lrb1+pCUZ/wekjvi0JdkN9bjllZWdeHTGEhBMFyltR9HIleOdgE3AzPoyg75CVquvZjRvXuNJ/3
+ S9SPzGLFr3JVEdJ5cqq8k34zjQ+z+F/SVlSuh12p6VTicmAE6VJKQ2HNtUj/RvzTCjfsPjVBhND
+ nDVSDVzUHw/dRtVzifawuq89duAixtfn0fkkSI+Y8QEdkL0CYoAGMGeq85yjIsKMqMO9CNZH+xw
+ kLyBcoQZsM9P/L8QJQ6j5VmOUllmhLamdAWBnppq4REbXDWvPFZJoqKhPhkbJog95pXngmhcUKI
+ F1IgkG7aLQD1zz835/Mu2f/w1IF/ngTfOpNpIFSyx6eOipVYHA8dohHAH5bqzEu67xp0sR8O9bK
+ Lu1cuKIZPqfiywmqGr5Z80eiifOd90SCM5HYwKz3Guoo3ABTw8zV0uB9l9+HVkMzMiW9KMYvdaL
+ aA6iHteXHoA3iag==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-ORIG-GUID: XeGfKIZyM5vWvYQyOH9_H2ODm0yxi4yj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI5MDExMyBTYWx0ZWRfXzMih6eA8u94O
- f7A3s/v7i2rHNG4iFgq62Lg3NymE+EfseQxcVPIjPrJQzsS34aXFvtPtwid8NXxzESTB7q6/pVw
- SAXTKCzK4TyPjtj6ur3nc59PJho52i/g6HZ8LWzNTqSETDl0ldO6wet/MDD1iPBity2sPPqPArs
- kLHwf2PJBFUGZ2nvFoMRORnW7vTtuRLj8LmUSlVCrgZDV7qg3FT+sRVSVKsbXZsw2nNQ9g8Pkxy
- oN9RQql2qV2SNdtbIOkw8PVOxOt2IXOpyHD8ir7ZWTA/KSqmwuJpc61dU9k2hLA0m/sSqikEIgI
- 7xz6KLqm9KjC6BQ5aJ2/G8OH++PT5IqI1/+HlKKhWREO73gvIA+obVnbpHWmGDx5P+80n2QSaLw
- yoJkBmlD8BFFED/g36prWvS4HeKztQ==
-X-Proofpoint-GUID: XeGfKIZyM5vWvYQyOH9_H2ODm0yxi4yj
-X-Authority-Analysis: v=2.4 cv=KIpXzVFo c=1 sm=1 tr=0 ts=692afd0a cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=FPK7cjBCgYbqzSTDLBmM0Q==:17
+X-Proofpoint-ORIG-GUID: hz22IBo8zxZnorr0oMiUEjGBaELYKhBR
+X-Proofpoint-GUID: hz22IBo8zxZnorr0oMiUEjGBaELYKhBR
+X-Authority-Analysis: v=2.4 cv=SoKdKfO0 c=1 sm=1 tr=0 ts=692afd16 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=FPK7cjBCgYbqzSTDLBmM0Q==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=VJuunSxf47HV0C6rKqEA:9
- a=QEXdDO2ut3YA:10 a=hhpmQAJR8DioWGSBphRh:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=FyqqiJggdn_6IRYEkYUA:9
+ a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI5MDExMyBTYWx0ZWRfX/Z8cC27/Dp1Y
+ 2l4Pu62PO3lpJ/EmumBwyHlo24FZUxCjiotBkmQXjw+Otyke+/XYGDxcYN88Xr73CASDQun2Hk6
+ c2W3tDhxL8USRsZ5aULdRCxWU2mnvx2a56v1qyLWwCfPi3oxI7tx5or7Np8YAquT6bovR9EC87k
+ C68N7fO7aV5fieLsSLStr28mjgZ+xHScVg6Vfq3ynE56YoyEFOKxaMJOc33OfqpcGlBHzZca8qR
+ L0S2XFZ3/sPXSv55VNYHG7PIJHJe6DksE9VQRBaed06atb7JkIaaCiQnDBt5SFtwDQ1mB7F/BPZ
+ J9CYoKRT1aDRXOkopXxelc9GN6JDoyTtuNjuot7/REh4B/RJWAm4tyYwG3JhzCUW1BmQAFg6jSV
+ tGCxN4NqBsln71FrpMLuawZ9mEpBpQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 phishscore=0 impostorscore=0 suspectscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511290113
 
-Several functions receive pointers to parsed Audioreach topology (e.g.
-'struct audioreach_container', 'struct audioreach_module') and they do
-not modify their contents, but copy their data to send to the ADSP.
-Constify the pointers for self-explanatory code (pointed memory is not
-modified by the function) and a bit safer code.
+Simplify the audioreach_control_load_mix() function by removing its
+unused arguments.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.c | 81 ++++++++++++++++++++++-----------------
- sound/soc/qcom/qdsp6/audioreach.h | 16 ++++----
- 2 files changed, 54 insertions(+), 43 deletions(-)
+ sound/soc/qcom/qdsp6/topology.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index f3fa0a5b4095..3bb073de03be 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -284,7 +284,7 @@ void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
- EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
- 
- static void apm_populate_container_config(struct apm_container_obj *cfg,
--					  struct audioreach_container *cont)
-+					  const struct audioreach_container *cont)
- {
- 
- 	/* Container Config */
-@@ -314,7 +314,7 @@ static void apm_populate_container_config(struct apm_container_obj *cfg,
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index 5ce6edf3305e..5d138a956ca8 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -1203,9 +1203,7 @@ static int audioreach_put_vol_ctrl_audio_mixer(struct snd_kcontrol *kcontrol,
+ 	return 1;
  }
  
- static void apm_populate_sub_graph_config(struct apm_sub_graph_data *cfg,
--					  struct audioreach_sub_graph *sg)
-+					  const struct audioreach_sub_graph *sg)
+-static int audioreach_control_load_mix(struct snd_soc_component *scomp,
+-				       struct snd_ar_control *scontrol,
+-				       struct snd_kcontrol_new *kc,
++static int audioreach_control_load_mix(struct snd_ar_control *scontrol,
+ 				       struct snd_soc_tplg_ctl_hdr *hdr)
  {
- 	cfg->sub_graph_cfg.sub_graph_id = sg->sub_graph_id;
- 	cfg->sub_graph_cfg.num_sub_graph_prop = APM_SUB_GRAPH_CFG_NPROP;
-@@ -336,7 +336,7 @@ static void apm_populate_sub_graph_config(struct apm_sub_graph_data *cfg,
- }
- 
- static void apm_populate_module_prop_obj(struct apm_mod_prop_obj *obj,
--					 struct audioreach_module *module)
-+					 const struct audioreach_module *module)
- {
- 
- 	obj->instance_id = module->instance_id;
-@@ -348,7 +348,7 @@ static void apm_populate_module_prop_obj(struct apm_mod_prop_obj *obj,
- }
- 
- static void apm_populate_module_list_obj(struct apm_mod_list_obj *obj,
--					 struct audioreach_container *container,
-+					 const struct audioreach_container *container,
- 					 int sub_graph_id)
- {
- 	struct audioreach_module *module;
-@@ -365,9 +365,10 @@ static void apm_populate_module_list_obj(struct apm_mod_list_obj *obj,
- 	}
- }
- 
--static void audioreach_populate_graph(struct q6apm *apm, struct audioreach_graph_info *info,
-+static void audioreach_populate_graph(struct q6apm *apm,
-+				      const struct audioreach_graph_info *info,
- 				      struct apm_graph_open_params *open,
--				      struct list_head *sg_list,
-+				      const struct list_head *sg_list,
- 				      int num_sub_graphs)
- {
- 	struct apm_mod_conn_list_params *mc_data = open->mod_conn_list_data;
-@@ -439,7 +440,8 @@ static void audioreach_populate_graph(struct q6apm *apm, struct audioreach_graph
- 	}
- }
- 
--void *audioreach_alloc_graph_pkt(struct q6apm *apm, struct audioreach_graph_info *info)
-+void *audioreach_alloc_graph_pkt(struct q6apm *apm,
-+				 const struct audioreach_graph_info *info)
- {
- 	int payload_size, sg_sz, cont_sz, ml_sz, mp_sz, mc_sz;
- 	struct apm_module_param_data  *param_data;
-@@ -452,7 +454,7 @@ void *audioreach_alloc_graph_pkt(struct q6apm *apm, struct audioreach_graph_info
- 	struct audioreach_module *module;
- 	struct audioreach_sub_graph *sgs;
- 	struct apm_mod_list_obj *mlobj;
--	struct list_head *sg_list;
-+	const struct list_head *sg_list;
- 	int num_connections = 0;
- 	int num_containers = 0;
- 	int num_sub_graphs = 0;
-@@ -605,8 +607,8 @@ int audioreach_graph_send_cmd_sync(struct q6apm_graph *graph, struct gpr_pkt *pk
- EXPORT_SYMBOL_GPL(audioreach_graph_send_cmd_sync);
- 
- static int audioreach_display_port_set_media_format(struct q6apm_graph *graph,
--						    struct audioreach_module *module,
--						    struct audioreach_module_config *cfg)
-+						    const struct audioreach_module *module,
-+						    const struct audioreach_module_config *cfg)
- {
- 	struct apm_display_port_module_intf_cfg *intf_cfg;
- 	struct apm_module_frame_size_factor_cfg *fs_cfg;
-@@ -662,8 +664,8 @@ static int audioreach_display_port_set_media_format(struct q6apm_graph *graph,
- 
- /* LPASS Codec DMA port Module Media Format Setup */
- static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
--						 struct audioreach_module *module,
--						 struct audioreach_module_config *cfg)
-+						 const struct audioreach_module *module,
-+						 const struct audioreach_module_config *cfg)
- {
- 	struct apm_codec_dma_module_intf_cfg *intf_cfg;
- 	struct apm_module_frame_size_factor_cfg *fs_cfg;
-@@ -728,7 +730,8 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
--int audioreach_send_u32_param(struct q6apm_graph *graph, struct audioreach_module *module,
-+int audioreach_send_u32_param(struct q6apm_graph *graph,
-+			      const struct audioreach_module *module,
- 			      uint32_t param_id, uint32_t param_val)
- {
- 	struct apm_module_param_data *param_data;
-@@ -757,36 +760,37 @@ int audioreach_send_u32_param(struct q6apm_graph *graph, struct audioreach_modul
- EXPORT_SYMBOL_GPL(audioreach_send_u32_param);
- 
- static int audioreach_sal_limiter_enable(struct q6apm_graph *graph,
--					 struct audioreach_module *module, bool enable)
-+					 const struct audioreach_module *module,
-+					 bool enable)
- {
- 	return audioreach_send_u32_param(graph, module, PARAM_ID_SAL_LIMITER_ENABLE, enable);
- }
- 
- static int audioreach_sal_set_media_format(struct q6apm_graph *graph,
--					   struct audioreach_module *module,
--					   struct audioreach_module_config *cfg)
-+					   const struct audioreach_module *module,
-+					   const struct audioreach_module_config *cfg)
- {
- 	return audioreach_send_u32_param(graph, module, PARAM_ID_SAL_OUTPUT_CFG,  cfg->bit_width);
- }
- 
- static int audioreach_module_enable(struct q6apm_graph *graph,
--				    struct audioreach_module *module,
-+				    const struct audioreach_module *module,
- 				    bool enable)
- {
- 	return audioreach_send_u32_param(graph, module, PARAM_ID_MODULE_ENABLE, enable);
- }
- 
- static int audioreach_gapless_set_media_format(struct q6apm_graph *graph,
--					       struct audioreach_module *module,
--					       struct audioreach_module_config *cfg)
-+					       const struct audioreach_module *module,
-+					       const struct audioreach_module_config *cfg)
- {
- 	return audioreach_send_u32_param(graph, module, PARAM_ID_EARLY_EOS_DELAY,
- 					 EARLY_EOS_DELAY_MS);
- }
- 
- static int audioreach_set_module_config(struct q6apm_graph *graph,
--					struct audioreach_module *module,
--					struct audioreach_module_config *cfg)
-+					const struct audioreach_module *module,
-+					const struct audioreach_module_config *cfg)
- {
- 	int size = le32_to_cpu(module->data->size);
- 	void *p;
-@@ -803,8 +807,8 @@ static int audioreach_set_module_config(struct q6apm_graph *graph,
- }
- 
- static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
--					   struct audioreach_module *module,
--					   struct audioreach_module_config *cfg)
-+					   const struct audioreach_module *module,
-+					   const struct audioreach_module_config *cfg)
- {
- 	struct apm_module_param_data *param_data;
- 	struct param_id_mfc_media_format *media_format;
-@@ -838,7 +842,8 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- }
- 
- static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
--					     void *p, struct audioreach_module_config *mcfg)
-+					     void *p,
-+					     const struct audioreach_module_config *mcfg)
- {
- 	struct payload_media_fmt_aac_t *aac_cfg;
- 	struct payload_media_fmt_pcm *mp3_cfg;
-@@ -919,7 +924,8 @@ static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
- 	return 0;
- }
- 
--int audioreach_compr_set_param(struct q6apm_graph *graph, struct audioreach_module_config *mcfg)
-+int audioreach_compr_set_param(struct q6apm_graph *graph,
-+			       const struct audioreach_module_config *mcfg)
- {
- 	struct media_format *header;
- 	int rc;
-@@ -944,8 +950,8 @@ int audioreach_compr_set_param(struct q6apm_graph *graph, struct audioreach_modu
- EXPORT_SYMBOL_GPL(audioreach_compr_set_param);
- 
- static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
--					   struct audioreach_module *module,
--					   struct audioreach_module_config *cfg)
-+					   const struct audioreach_module *module,
-+					   const struct audioreach_module_config *cfg)
- {
- 	struct apm_module_frame_size_factor_cfg *fs_cfg;
- 	struct apm_module_param_data *param_data;
-@@ -1012,7 +1018,7 @@ static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
- }
- 
- static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
--					       struct audioreach_module *module)
-+					       const struct audioreach_module *module)
- {
- 	struct apm_module_param_data *param_data;
- 	struct data_logging_config *cfg;
-@@ -1041,8 +1047,8 @@ static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
- }
- 
- static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
--					   struct audioreach_module *module,
--					   struct audioreach_module_config *mcfg)
-+					   const struct audioreach_module *module,
-+					   const struct audioreach_module_config *mcfg)
- {
- 	struct payload_pcm_output_format_cfg *media_cfg;
- 	uint32_t num_channels = mcfg->num_channels;
-@@ -1088,8 +1094,8 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- }
- 
- static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
--					     struct audioreach_module *module,
--					     struct audioreach_module_config *mcfg)
-+					     const struct audioreach_module *module,
-+					     const struct audioreach_module_config *mcfg)
- {
- 	uint32_t num_channels = mcfg->num_channels;
- 	struct apm_module_param_data *param_data;
-@@ -1145,7 +1151,8 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 	return audioreach_graph_send_cmd_sync(graph, pkt, 0);
- }
- 
--int audioreach_gain_set_vol_ctrl(struct q6apm *apm, struct audioreach_module *module, int vol)
-+int audioreach_gain_set_vol_ctrl(struct q6apm *apm,
-+				 const struct audioreach_module *module, int vol)
- {
- 	struct param_id_vol_ctrl_master_gain *cfg;
- 	struct apm_module_param_data *param_data;
-@@ -1170,7 +1177,8 @@ int audioreach_gain_set_vol_ctrl(struct q6apm *apm, struct audioreach_module *mo
- }
- EXPORT_SYMBOL_GPL(audioreach_gain_set_vol_ctrl);
- 
--static int audioreach_gain_set(struct q6apm_graph *graph, struct audioreach_module *module)
-+static int audioreach_gain_set(struct q6apm_graph *graph,
-+			       const struct audioreach_module *module)
- {
- 	struct apm_module_param_data *param_data;
- 	struct apm_gain_module_cfg *cfg;
-@@ -1192,8 +1200,9 @@ static int audioreach_gain_set(struct q6apm_graph *graph, struct audioreach_modu
- 	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
- }
- 
--int audioreach_set_media_format(struct q6apm_graph *graph, struct audioreach_module *module,
--				struct audioreach_module_config *cfg)
-+int audioreach_set_media_format(struct q6apm_graph *graph,
-+				const struct audioreach_module *module,
-+				const struct audioreach_module_config *cfg)
- {
- 	int rc;
- 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index d1b60b36468a..3b7d9bca4820 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -792,8 +792,8 @@ void *audioreach_alloc_apm_pkt(int pkt_size, uint32_t opcode, uint32_t token,
- void *audioreach_alloc_pkt(int payload_size, uint32_t opcode,
- 			   uint32_t token, uint32_t src_port,
- 			   uint32_t dest_port);
--void *audioreach_alloc_graph_pkt(struct q6apm *apm, struct audioreach_graph_info
--				 *info);
-+void *audioreach_alloc_graph_pkt(struct q6apm *apm,
-+				 const struct audioreach_graph_info *info);
- /* Topology specific */
- int audioreach_tplg_init(struct snd_soc_component *component);
- 
-@@ -809,13 +809,15 @@ int audioreach_send_cmd_sync(struct device *dev, gpr_device_t *gdev, struct gpr_
- int audioreach_graph_send_cmd_sync(struct q6apm_graph *graph, struct gpr_pkt *pkt,
- 				   uint32_t rsp_opcode);
- int audioreach_set_media_format(struct q6apm_graph *graph,
--				struct audioreach_module *module,
--				struct audioreach_module_config *cfg);
-+				const struct audioreach_module *module,
-+				const struct audioreach_module_config *cfg);
- int audioreach_shared_memory_send_eos(struct q6apm_graph *graph);
- int audioreach_gain_set_vol_ctrl(struct q6apm *apm,
--				 struct audioreach_module *module, int vol);
--int audioreach_send_u32_param(struct q6apm_graph *graph, struct audioreach_module *module,
-+				 const struct audioreach_module *module, int vol);
-+int audioreach_send_u32_param(struct q6apm_graph *graph,
-+			      const struct audioreach_module *module,
- 			      uint32_t param_id, uint32_t param_val);
--int audioreach_compr_set_param(struct q6apm_graph *graph, struct audioreach_module_config *mcfg);
-+int audioreach_compr_set_param(struct q6apm_graph *graph,
-+			       const struct audioreach_module_config *mcfg);
- 
- #endif /* __AUDIOREACH_H__ */
+ 	struct snd_soc_tplg_vendor_value_elem *c_elem;
+@@ -1256,7 +1254,7 @@ static int audioreach_control_load(struct snd_soc_component *scomp, int index,
+ 	case SND_SOC_AR_TPLG_FE_BE_GRAPH_CTL_MIX:
+ 		sm = (struct soc_mixer_control *)kc->private_value;
+ 		dobj = &sm->dobj;
+-		ret = audioreach_control_load_mix(scomp, scontrol, kc, hdr);
++		ret = audioreach_control_load_mix(scontrol, hdr);
+ 		break;
+ 	case SND_SOC_AR_TPLG_VOL_CTL:
+ 		sm = (struct soc_mixer_control *)kc->private_value;
 
 -- 
 2.48.1
