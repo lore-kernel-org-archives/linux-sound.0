@@ -1,142 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48456272803
-	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 09:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9F736D50B
+	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 12:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764408849; cv=none; b=DNgHw/AV5CF4mDBoAPcJuvwLjY2z9NHQFSZzK879e98f5zr/QcjmTziEQXaixn7DIZleUWLJMFLDiV5kz4rYcZmuwMes1o+kjsa6RCfZ1+WqLo1TIABAXwFPQkwBNjScyua05Jsf74q776bWaElBqpA+19gfjonQzqEJQS75Ma4=
+	t=1764420331; cv=none; b=shldv9xR8rjnFFiUQ8BK9AFvzyxmsvwrqKnOVmNL4Mf5cslBTWVM+SgUpTDNabXnTxzXxc1Xd9g/I5QKfDttqzl7qBnpUQMX60E8zUu0Bws7dAs4W2V8kIWjLcVws7DtYdRvCITma7iGzEnZY6uPthkZiFlPlxSREtn9dfUJ1cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764408849; c=relaxed/simple;
-	bh=4x/5Zc18FlEHr1bMQhxGeUQjQ11p1NUAnxeZNhYJJko=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TpcEzYcKXstoUC7QDjSlL88YWLE76HACFdVxu9CEIgljxoxZ+d25mpbwPWGUDJ6gjy6QSRhp83/o2n1p7+2t7CsUpsfwbHAnWolr3D3ZOmoS4ITnPYKFjDeY7LmI87lznWK65rb38bms8WP8x0VR8oqLHOej1jaIGGGuFKDq9pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JdU+YkPm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hntlWK2j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lbJ0gUT7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2KCT2/wO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764420331; c=relaxed/simple;
+	bh=oIQOa0YkbZJTLqBcRYp6XmCfelUPKTbYCF49ctlrf5U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NJfBApv8XaIJ7IhYurSVjc3Y1q07t2KkUnKJY4sttQH0lt5sVpz5w00QH8BDsMJOcJScjv1tuB/Z1DwLwmxNpx67F0j0hdSzW4oQk3km38CoFD93gX+KlYptDY/pTl20J9Mox5MnRewHlPEh6Sz6jFJA2ul75UPFRPBWxWS1ZaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KpLK2to1; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JdU+YkPm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hntlWK2j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lbJ0gUT7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2KCT2/wO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 736295BCC1;
-	Sat, 29 Nov 2025 09:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764408845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c2lsPOZeTQ9RQZ04TOJk5LJvYq14wi+N67c/zp4S+PY=;
-	b=JdU+YkPmsHaCca7gp4S/R1/xmLK8zfXDJXX+dnOGHeghNQrsSEwLx3IYrWeiheXM0AUQUr
-	CXtbC4C07k2htzIY/FouR30D9rO8S8OA9nHQdN3k5F2KO625EvcHS3eClCm/Bx03d7cyaH
-	Ktw9YLakOs0NmMPKJAt7wF3teeybxYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764408845;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c2lsPOZeTQ9RQZ04TOJk5LJvYq14wi+N67c/zp4S+PY=;
-	b=hntlWK2jkFlZN4M1B/lgpoVCsXI4Mo6XI+VXqII9Au7fXxZ9d+dQYbWN3t+8cPEWSnfceK
-	jAsRu5/+sv11mmDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764408843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c2lsPOZeTQ9RQZ04TOJk5LJvYq14wi+N67c/zp4S+PY=;
-	b=lbJ0gUT7c2ZhMhXarWY603Hmj2yx+AxK25KffALERvM9JMvKQev25A2S+MqqQZwhHf4oGZ
-	QkS++NH3cy3Db14GawyDBzmaOhYpb8IwjBSWbHTE0HO35I8slZY5aw8dlTOZQSXiiwRpZv
-	ugXArdbeA1JCniUnoHgCbzG6QVdGj1Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764408843;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c2lsPOZeTQ9RQZ04TOJk5LJvYq14wi+N67c/zp4S+PY=;
-	b=2KCT2/wOIzoj5k0kaLQAN+hQAY7IWNVb5KEF6Iw0/ZQtFR7/Q525y5TL304SGwwN2AYlVO
-	+1eFZTjVx5rm5eCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B8BC3EA63;
-	Sat, 29 Nov 2025 09:34:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SOEJCQu+KmnuaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 29 Nov 2025 09:34:03 +0000
-Date: Sat, 29 Nov 2025 10:34:02 +0100
-Message-ID: <87y0npchdh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Junrui Luo <moonafterrain@outlook.com>
-Cc: Clemens Ladisch <clemens@ladisch.de>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuhao Jiang <danisjiang@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: dice: fix buffer overflow in detect_stream_formats()
-In-Reply-To: <SYBPR01MB7881B043FC68B4C0DA40B73DAFDCA@SYBPR01MB7881.ausprd01.prod.outlook.com>
-References: <SYBPR01MB7881B043FC68B4C0DA40B73DAFDCA@SYBPR01MB7881.ausprd01.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KpLK2to1"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 030E3C10191;
+	Sat, 29 Nov 2025 12:45:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E1BC06072E;
+	Sat, 29 Nov 2025 12:45:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 109BA11910699;
+	Sat, 29 Nov 2025 13:45:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764420325; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=TImXxPp3fH8t3WgGQuC2IHIt10tqIWX7TcyUqtyR31I=;
+	b=KpLK2to1cF7NAB3dxoOLV/QWk7f3DOgDWnlCCQ/eWjBGe2OiLoz4MRPaxtNjJ5LhgTdO2x
+	liQWrTjoV8SzbJ0IRNAWzjSTpxuBdKdZK+nMBBo+lz6eN4ScfF10Zi8hpoNB3oNhnhPAkB
+	EBcOP1L5+m8y1BhDyM8QV2Sd1zOhoSjtmlz4x+NWF5bSJDvmY6HuADwinRYPvMGebmhy3r
+	ecHZmVrqRYz0ygRRnstaU1i/ARfGhaUjItbgMb+f1cIphEqym8E4UMuA0rRIXKXq4K6uEQ
+	20vrn9fsYJ9NCOmjJv1jyigd96ejKGwakw15qyOFOaK5wOwWkE03lUfTBtfXBQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Yury Norov <yury.norov@gmail.com>,  Michael Turquette
+ <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,  Nicolas
+ Ferre <nicolas.ferre@microchip.com>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,  Giovanni Cabiddu
+ <giovanni.cabiddu@intel.com>,  Herbert Xu <herbert@gondor.apana.org.au>,
+  David Miller <davem@davemloft.net>,  Linus Walleij
+ <linus.walleij@linaro.org>,  Bartosz Golaszewski <brgl@bgdev.pl>,  Joel
+ Stanley <joel@jms.id.au>,  Andrew Jeffery <andrew@codeconstruct.com.au>,
+  Crt Mori <cmo@melexis.com>,  Jonathan Cameron <jic23@kernel.org>,
+  Lars-Peter Clausen <lars@metafoo.de>,  Jacky Huang
+ <ychuang3@nuvoton.com>,  Shan-Chun Hung <schung@nuvoton.com>,  Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Johannes Berg
+ <johannes@sipsolutions.net>,  Jakub Kicinski <kuba@kernel.org>,  Alex
+ Elder <elder@ieee.org>,  David Laight <david.laight.linux@gmail.com>,
+  Vincent Mailhol <mailhol.vincent@wanadoo.fr>,  Jason Baron
+ <jbaron@akamai.com>,  Borislav Petkov <bp@alien8.de>,  Tony Luck
+ <tony.luck@intel.com>,  Michael Hennerich <Michael.Hennerich@analog.com>,
+  Kim Seer Paller <kimseer.paller@analog.com>,  David Lechner
+ <dlechner@baylibre.com>,  Nuno =?utf-8?Q?S=C3=A1?= <nuno.sa@analog.com>,
+  Andy Shevchenko
+ <andy@kernel.org>,  Richard Genoud <richard.genoud@bootlin.com>,  Cosmin
+ Tanislav <demonsingur@gmail.com>,  Biju Das <biju.das.jz@bp.renesas.com>,
+  Jianping Shen <Jianping.Shen@de.bosch.com>,  Nathan Chancellor
+ <nathan@kernel.org>,  Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  linux-clk@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-renesas-soc@vger.kernel.org,
+  linux-crypto@vger.kernel.org,  linux-edac@vger.kernel.org,
+  qat-linux@intel.com,  linux-gpio@vger.kernel.org,
+  linux-aspeed@lists.ozlabs.org,  linux-iio@vger.kernel.org,
+  linux-sound@vger.kernel.org,  linux-mtd@lists.infradead.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next v6 11/26] mtd: rawnand: sunxi: #undef
+ field_{get,prep}() before local definition
+In-Reply-To: <703d7eec56074148daed4ea45b637f8a83f15305.1762435376.git.geert+renesas@glider.be>
+	(Geert Uytterhoeven's message of "Thu, 6 Nov 2025 14:33:59 +0100")
+References: <cover.1762435376.git.geert+renesas@glider.be>
+	<703d7eec56074148daed4ea45b637f8a83f15305.1762435376.git.geert+renesas@glider.be>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Sat, 29 Nov 2025 13:45:09 +0100
+Message-ID: <87h5udm2i2.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[outlook.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[ladisch.de,sakamocchi.jp,perex.cz,suse.com,suse.de,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 28 Nov 2025 05:06:31 +0100,
-Junrui Luo wrote:
-> 
-> The function detect_stream_formats() reads the stream_count value directly
-> from a FireWire device without validating it. This can lead to
-> out-of-bounds writes when a malicious device provides a stream_count value
-> greater than MAX_STREAMS.
-> 
-> Fix by applying the same validation to both TX and RX stream counts in
-> detect_stream_formats().
-> 
-> Reported-by: Yuhao Jiang <danisjiang@gmail.com>
-> Reported-by: Junrui Luo <moonafterrain@outlook.com>
-> Fixes: 58579c056c1c ("ALSA: dice: use extended protocol to detect available stream formats")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
+Hello,
 
-Applied now.  Thanks.
+On 06/11/2025 at 14:33:59 +01, Geert Uytterhoeven <geert+renesas@glider.be>=
+ wrote:
 
+> Prepare for the advent of globally available common field_get() and
+> field_prep() macros by undefining the symbols before defining local
+> variants.  This prevents redefinition warnings from the C preprocessor
+> when introducing the common macros later.
+>
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-Takashi
+Finally applied to nand/next, will be part of the next merge window.
+
+Thanks,
+Miqu=C3=A8l
