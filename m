@@ -1,128 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6247F1FBEB0;
-	Sat, 29 Nov 2025 14:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096121EA7DB
+	for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 19:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764426510; cv=none; b=W/2gRLQzQRkaJ67apai5v0TRKR6eVaPioQgKD3lrBeoVMLuPq3Y2y85MzoqwjOXROEqzjPZEwleuF5vw4TRAz2D0gOzfsWvV5oRznO4AE8O572f4c2vC4wj+3nAq3s8pnKdOeEQC+ikLD9rzQA/czVzbs0elrZJ9PXFITu2hJPs=
+	t=1764446208; cv=none; b=mxOAvbHalT9fvXxX9YxdzR7M24ZC43/hwenVvJh/dKqXiZ/6DPkHdAMnlEQmggnbK5ywd59A2tzAuM/FC162ws3dP8yfbHnoxU5OmRca0jXKz2LejjUyzzkOtTYOZHvWlrAi7UNRwG4sOC1cRDAtbdJ0TG1b8kS8AmhmizHdeBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764426510; c=relaxed/simple;
-	bh=Yyza6bU4Y/SiUtLPjfOk/Jc7aOWEO4iDocrSfDGTx8o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R1L0lJmfXvFe9vf1M2IAD28qMYKnXC8SNMwnrLJ+vMh2OlgNU6OhwNHXYjHDFhEqlRBxGwlRwKoqq0ppnZ4ClXUkBHiar2caPQ5u+aAQnHY8hTOHQARPR6LPDLOcUzv/wSX5Dq+Rs6n4bEcbtZumV8IWhsw5r9Y4hh2Ii/bWcZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0npYjMd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764446208; c=relaxed/simple;
+	bh=+hgh/g0BnBWw+qpebLsXCl14iSXwIPV4LuJw0I8YUTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AhfoIKQ6CxoHzZOYddIizX0l56LJTAbaHv709wkeDRkaczwGZ7KjbjaQLP2Lyjq4+nu9FtHmEmyrf5GfVYQ6Ny5PyRbiLyRSonV82N30cFJG0hJlclgOY8DPrP17W6i+qL8QDp5mdpBA6ljGOerrTHSBlThGRCHRE38k1UuzXY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vt1EmtVx; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0npYjMd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D075C4CEF7;
-	Sat, 29 Nov 2025 14:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764426510;
-	bh=Yyza6bU4Y/SiUtLPjfOk/Jc7aOWEO4iDocrSfDGTx8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o0npYjMddmw6y4FZ5jM/ANwUk9KDYPFXuCtobahwfGSeWu4b3p41WZWyoLT8mQJg9
-	 QYYhCRmB5NtNr+h7a4t93RugQ2I8SVtjUH089RQs/NaWh7K/K0z4knriAjsOweTAzV
-	 3qc/lVJ9Q7lIxtBOiFi8Jemo5qKuucQ29p6YG3nDWXI61eGHSJItr4f94fvX9aKNsK
-	 /atH7FtLzZAj8RN1FOxFpo+K2hpHYcRPITkWa8CgpX3dpGOIYkd2Pzc6Mn6gtY4Muu
-	 VpGbweCVuhgW906OP3fxtY39ulFrVXMeHfaBYfESRsl4lkS3FKMZUAlxaNjsYyQwAV
-	 qEkDxGQN3sq0g==
-Message-ID: <8f889b72-479c-46fb-a8cf-c9abfc491463@kernel.org>
-Date: Sat, 29 Nov 2025 15:28:26 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vt1EmtVx"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b735ce67d1dso482627666b.3
+        for <linux-sound@vger.kernel.org>; Sat, 29 Nov 2025 11:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764446205; x=1765051005; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O3AMeoVRXqR0tzI1TxjtI8lh/zxUBR98DSX18SQBkvQ=;
+        b=Vt1EmtVxKUdoFIx0UPko4CiJ+3uSzYLGB6cutz6raw12cCOUXMGzj1tlMjr16Vv87y
+         GWFtObxCRluaFohRUSjGnfmGjPas1FU8dmQhsrsVM6g47DmQ/60JzIXsG1ZZvHed+wyh
+         dlQMT5btQD/vBw+yLAQ2g6yLNkUbgbBflZvG7XM7zrIHg40XHGj+BGrwyPQZQrZeb7p1
+         P1TcKNiX/2Eqdu/7KZBjlkABTgsVKLSbRqPTxCV1awDUs6kEdV/O59bsQdNw8CZNFJ4T
+         ebtHTn9kkEW6y+7BYwaEa0McEBPSu3xKYDKObBjS1TLZ9g7g6EPQzEeOuwcsfmAplY27
+         fbtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764446205; x=1765051005;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O3AMeoVRXqR0tzI1TxjtI8lh/zxUBR98DSX18SQBkvQ=;
+        b=m5gd3gZjMWAqDSkrHgOfLKXJrkY6rKwqCaoFeqiVpdNBhHTNWAZOjRWGgwjqqe5H6a
+         1wS6fyA5deuL1mHSi5P/ezfxj0VF3aa/OBOMQa+LLbK3bRQZxW3cUwZZGpa+2UWVW8CR
+         9DXjHu+ua0htAkFkl0bH2T4oXdt9QaexTmvcMPKkV5RlvbrGeAOLbCZzv+6CmSss4R7w
+         86AdK9rJTYyVT4tiX1457rEFsc+FTAEMKBB2qeX2BC4YyD6oHWQ0MSZCaI8DIgFYMKTf
+         YZwKCTtauhRtYFRzFWZTRH5B3578LARwXOB75vCx0TaVqA1EDQ+9W+CElZkrYn2VWaNt
+         NPCA==
+X-Gm-Message-State: AOJu0YzVzLvxfr6ig7w3fMywfsj6fieepsgTHwJvM6RAtz8llOxt3776
+	RiogMZlSBb821uU7nJz5oUjhTUZyC7pa/qKEauOfo2pP/DtL7Cw9DAEQ
+X-Gm-Gg: ASbGncuhROFtGd5unQdg36JAUvttG7f0hdNUZWyn8Okv4pRacj224flS/GM/1X65b5q
+	iMVcay/z4Fn7LkLS49gtIj0oFiUkQuITT/6erXsMNJFcr9cQUFDJ8aX5oCINg6hC7R7V7DkErro
+	W0/K1K4Kj4ChDw0cOxVgKl1IYFn3VUKX3AjFy6vXV6IqskEpqU18gRFvWgssc93oLumeiyNdpxT
+	SeTQxXk8ND1JKFgMU/zHqZ2H4nhnCTh5mGs200Pexgkze3ajkvsQTOPInNmjeovoDmkAnsi3cPp
+	fPCGUCbQz8h6Iy4z9SWpOhJMhehzKGzU6zHFiZdEP/77nDozwhmzPyZ/YqK6vM/rSqQxTSL/o2V
+	y+z51S1QpqRgEoAfszL0FMa4g5AmI/5B6jr6GgjDG58tlphwNXsw6OIWx6y39Ox+L8AIpkgi9mK
+	1WwT8+Y1eZQlvQeZdhWKQCw6k=
+X-Google-Smtp-Source: AGHT+IHQ9zaUNVzgGxTzwCaTHRqZMx3oRsllkErV5jlogBMB6LB/zgVFb1daPizSnIDSerIbfOQWIQ==
+X-Received: by 2002:a17:907:7f16:b0:b73:5f48:6159 with SMTP id a640c23a62f3a-b76c5354c01mr2103475166b.5.1764446205151;
+        Sat, 29 Nov 2025 11:56:45 -0800 (PST)
+Received: from foxbook (bfg212.neoplus.adsl.tpnet.pl. [83.28.44.212])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f5199852sm772266166b.15.2025.11.29.11.56.44
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 29 Nov 2025 11:56:44 -0800 (PST)
+Date: Sat, 29 Nov 2025 20:56:39 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Dylan Robinson <dylan_robinson@motu.com>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
+Message-ID: <20251129205639.48fdbdf9.michal.pecio@gmail.com>
+In-Reply-To: <20251124210518.90054-1-dylan_robinson@motu.com>
+References: <20251124210518.90054-1-dylan_robinson@motu.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs-amp-lib: Use __free(kfree) instead of manual
- freeing
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20251127155817.1374079-1-rf@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251127155817.1374079-1-rf@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 27/11/2025 16:58, Richard Fitzgerald wrote:
-> Use the __free(kfree) cleanup to replace instances of manually
-> calling kfree(). Also make some code path simplifications that this
-> allows.
+On Mon, 24 Nov 2025 16:05:18 -0500, Dylan Robinson wrote:
+> The maxpacksize field in struct audioformat represents the maximum number
+> of bytes per isochronous interval. The current implementation only
+> special-cases high-speed endpoints and does not account for the different
+> computations required for SuperSpeed, SuperSpeedPlus, or eUSB2. As a
+> result, USB audio class devices operating at these speeds may fail to
+> stream correctly. The issue was observed on a MOTU 16A (2025) interface,
+> which requires more than 1024 bytes per interval at SuperSpeed.
 > 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> This patch replaces the existing logic with a helper that computes the
+> correct maximum bytes-per-interval for all USB speeds, borrowing the logic
+> used in drivers/usb/core/urb.c.
+
+Hi,
+
+Since v6.18 we have usb_endpoint_max_periodic_payload(), which looks
+like the exact function you need. It is already used by uvcvideo and
+xhci_hcd, the latter being particularly important because it ensures
+that your endpoints will get the bandwidth allocation you expect.
+
+The copy-pasta in urb.c should probably be cleaned up at this point,
+but that would be a separate and unrelated patch, of course.
+
+Regards,
+Michal
+
+> Signed-off-by: Dylan Robinson <dylan_robinson@motu.com>
 > ---
->  sound/soc/codecs/cs-amp-lib.c | 29 ++++++++++++-----------------
->  1 file changed, 12 insertions(+), 17 deletions(-)
+>  sound/usb/stream.c | 36 ++++++++++++++++++++++++++++++++----
+>  1 file changed, 32 insertions(+), 4 deletions(-)
 > 
-> diff --git a/sound/soc/codecs/cs-amp-lib.c b/sound/soc/codecs/cs-amp-lib.c
-> index d8f8b0259cd1..8c9fd9980a7d 100644
-> --- a/sound/soc/codecs/cs-amp-lib.c
-> +++ b/sound/soc/codecs/cs-amp-lib.c
-> @@ -7,6 +7,7 @@
+> diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+> index 5c235a5ba7e1..074a61215de6 100644
+> --- a/sound/usb/stream.c
+> +++ b/sound/usb/stream.c
+> @@ -684,6 +684,37 @@ snd_usb_find_output_terminal_descriptor(struct usb_host_interface *ctrl_iface,
+>  	return NULL;
+>  }
 >  
->  #include <asm/byteorder.h>
->  #include <kunit/static_stub.h>
-> +#include <linux/cleanup.h>
->  #include <linux/debugfs.h>
->  #include <linux/dev_printk.h>
->  #include <linux/efi.h>
-> @@ -309,9 +310,8 @@ static struct cirrus_amp_efi_data *cs_amp_get_cal_efi_buffer(struct device *dev,
->  							     efi_guid_t **guid,
->  							     u32 *attr)
->  {
-> -	struct cirrus_amp_efi_data *efi_data;
-> +	struct cirrus_amp_efi_data *efi_data __free(kfree) = NULL;
-
-This is an undesired syntax explicitly documented as one to avoid. You
-need here proper assignment, not NULL. Please don't use cleanup.h if you
-do not intend to follow it because it does not make the code simpler.
-
-
-Best regards,
-Krzysztof
+> +static unsigned int
+> +snd_usb_max_bytes_per_interval(struct snd_usb_audio *chip,
+> +					struct usb_host_interface *alts)
+> +{
+> +	struct usb_host_endpoint *ep = &alts->endpoint[0];
+> +	unsigned int max_bytes = usb_endpoint_maxp(&ep->desc);
+> +
+> +	/* SuperSpeed isoc endpoints have up to 16 bursts of up to 3 packets each */
+> +	if (snd_usb_get_speed(chip->dev) >= USB_SPEED_SUPER) {
+> +		int burst = 1 + ep->ss_ep_comp.bMaxBurst;
+> +		int mult = USB_SS_MULT(ep->ss_ep_comp.bmAttributes);
+> +		max_bytes *= burst;
+> +		max_bytes *= mult;
+> +	}
+> +
+> +	if (snd_usb_get_speed(chip->dev) == USB_SPEED_SUPER_PLUS &&
+> +		USB_SS_SSP_ISOC_COMP(ep->ss_ep_comp.bmAttributes)) {
+> +		max_bytes = le32_to_cpu(ep->ssp_isoc_ep_comp.dwBytesPerInterval);
+> +	}
+> +
+> +	/* High speed, 1-3 packets/uframe, max 6 for eUSB2 double bw */
+> +	if (snd_usb_get_speed(chip->dev) == USB_SPEED_HIGH) {
+> +		if (usb_endpoint_is_hs_isoc_double(chip->dev, ep))
+> +			max_bytes = le32_to_cpu(ep->eusb2_isoc_ep_comp.dwBytesPerInterval);
+> +		else
+> +			max_bytes *= usb_endpoint_maxp_mult(&ep->desc);
+> +	}
+> +
+> +	return max_bytes;
+> +}
+> +
+>  static struct audioformat *
+>  audio_format_alloc_init(struct snd_usb_audio *chip,
+>  		       struct usb_host_interface *alts,
+> @@ -703,11 +734,8 @@ audio_format_alloc_init(struct snd_usb_audio *chip,
+>  	fp->ep_attr = get_endpoint(alts, 0)->bmAttributes;
+>  	fp->datainterval = snd_usb_parse_datainterval(chip, alts);
+>  	fp->protocol = protocol;
+> -	fp->maxpacksize = le16_to_cpu(get_endpoint(alts, 0)->wMaxPacketSize);
+> +	fp->maxpacksize = snd_usb_max_bytes_per_interval(chip, alts);
+>  	fp->channels = num_channels;
+> -	if (snd_usb_get_speed(chip->dev) == USB_SPEED_HIGH)
+> -		fp->maxpacksize = (((fp->maxpacksize >> 11) & 3) + 1)
+> -				* (fp->maxpacksize & 0x7ff);
+>  	fp->clock = clock;
+>  	INIT_LIST_HEAD(&fp->list);
+>  
+> -- 
+> 2.51.1
+> 
