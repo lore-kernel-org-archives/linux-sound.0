@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5A36D4F9;
-	Sat, 29 Nov 2025 01:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2CA1DB34C;
+	Sat, 29 Nov 2025 01:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764380496; cv=none; b=qzlBeZQN37M+FNvEwJkE7iRAoeATLOXG1ONqiawS4HnchHVjJ1u4PkUdkloaRMrxmBJ+Gaz+MGByj7nogJCKAHZcRslCkLUop65l2u6i96pkVtL4MaaX5EebXL3KOMZ3Rn9bb37uACqd3fZ8a3LId+1i3L+YF4Tn4qi5TOkYUkw=
+	t=1764380499; cv=none; b=XBa5mh5CGkAi7AisJjEyWX1JBM69VuWgQyZptGxYRSSGXSYBi74gmDO4fAqqSqgd/JMSa1aVRImE+v0jF6WMmFdYZuIhI/2cvxUHQX8nY/fehSDIhU2eXc7N1kkyFJh+lTa/1yZeDgjYdQ2DPOFVYSJGvWEykzim70PERtHgEVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764380496; c=relaxed/simple;
-	bh=ZwE+Itjkh+U8C3WMy0mxJYuCl+KFmCS8w8y77jCWL88=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Xg7nF9qWL2TRtBbvRV0JNyjd/lPyd1UnVETOkgW3ImvBOOhAfIhRHqdtrzelFwWtPvnlt5d4eVOlU6RIt5Vp3xACOqvmu/Si1xqNa0ZCuOzQT+zaGS+1jyaitmhSskNtCgDFgjXlca6h31tIR3x4toYdW6KmD/UO+Isz3CXYWSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hw2+U/bX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764380499; c=relaxed/simple;
+	bh=F6ydmhHRnS3CBFKpni1UffTbIjbx91Myrpg0VTYpT2w=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WszUIHHRBrNmPP9I8l/udEUM32q+/tQEWn3SnWsOgWMQF2D+YBp4tIcglQx4JDqTewks/Wq0SX9+CETs5QIrFXCQYK+qRTrbbMHfAuagK2H6Y+vXMUWJ3PG+J7UcunE0/30c/aKDZYXLTPskIiQqL78/r7iG10Q3GFP4mb9qgIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2yZyvLU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hw2+U/bX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03AC2C4CEF1;
-	Sat, 29 Nov 2025 01:41:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2yZyvLU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE115C4CEF1;
+	Sat, 29 Nov 2025 01:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764380495;
-	bh=ZwE+Itjkh+U8C3WMy0mxJYuCl+KFmCS8w8y77jCWL88=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hw2+U/bXfQvrLsJ0VvuNMeol0yle+kMjbqTy4UqPp4pxqb6KHs2r688MiNEoNerMq
-	 c2pn8tpo1LSjoPTYlntqELrU1xsei2W4a+YIRMv6/KaTFhA3I7AYLbCvs/cG5JxWZ3
-	 pjMg8rG/t8XiRJH+dZ2i9SUQlFOgY9737HNxwcD5CxPaVvmhHYee5VPe7v+iJ+DfF5
-	 wLhjGsZoGQ7n01xISoMRm6cLu9E6a7gvcGL4tlCUiHJjvRnPIz33RlehzaTK4m59sw
-	 SSe4g2chJgYHI9otc92TvVagtzo7NeUyJBTxOYPuwzAYK1NmXM+gGl/5ihqdhWtiEn
-	 OnQMBcw5eSXqg==
+	s=k20201202; t=1764380498;
+	bh=F6ydmhHRnS3CBFKpni1UffTbIjbx91Myrpg0VTYpT2w=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=X2yZyvLUofmXzWgkfBYUqrVF95bWbOJi1wLbfL/YJcmme5SjHZxECR6jqViyUFwvn
+	 09DL3FvUMN7TLOxu5WKtp7cd5fKYIGdmVwDhgZKRL6EuLwc50vEHkYtStl1dA4JA7b
+	 Y/2uKEQO5fiR6eW/fqD8ozjBRnIVkdlR62TWAL+fzBIu7WlY/Lwqsvf5I2laDpGy/6
+	 lCQOmjsbVa2rORs6Aba27e/od9u1/rMD6uYJY75l0pV5yhKm+Qykpobe+cm8Px0yLm
+	 miyzlavkeIRg/PywLakr0adoOlerkiEnjDXSaKODel/ihHJ1kfvpugoMwZ9EYv/gGv
+	 iB91/xAO54qag==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251128102132.1575177-1-rf@opensource.cirrus.com>
-References: <20251128102132.1575177-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] firmware: cs_dsp: Remove need for clients to
- supply dummy cs_dsp_client_ops
-Message-Id: <176438049472.294473.7137972891332960750.b4-ty@kernel.org>
-Date: Sat, 29 Nov 2025 01:41:34 +0000
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
+In-Reply-To: <20251127022652.674574-1-chancel.liu@nxp.com>
+References: <20251127022652.674574-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH v2 0/2] ASoC: fsl_micfil: Set default quality and
+ channel range control
+Message-Id: <176438049657.294473.18267302643868268995.b4-ty@kernel.org>
+Date: Sat, 29 Nov 2025 01:41:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +47,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Fri, 28 Nov 2025 10:21:30 +0000, Richard Fitzgerald wrote:
-> Clients of cs_dsp can provide optional callback function pointers, in
-> a struct cs_dsp_client_ops. The client had to provide a pointer to a
-> struct even if it didn't implement any of the callbacks.
+On Thu, 27 Nov 2025 11:26:50 +0900, Chancel Liu wrote:
+> Add default quality for different platforms.
+> Set channel range control.
 > 
-> Commit 1 in this series changes that so the client doesn't have to
-> provide a dummy struct.
+> changes in v2
+> - use snd_kcontrol_chip() instead of snd_soc_kcontrol_component()
+> 
+> Chancel Liu (2):
+>   ASoC: fsl_micfil: Add default quality for different platforms
+>   ASoC: fsl_micfil: Set channel range control
 > 
 > [...]
 
@@ -62,10 +66,10 @@ Applied to
 
 Thanks!
 
-[1/2] firmware: cs_dsp: Don't require client to provide a struct cs_dsp_client_ops
-      commit: af37511305c0da1d151cc9a1ee6077c2cbde4f1d
-[2/2] firmware: cs_dsp: Add test cases for client_ops == NULL
-      commit: 479b1f8d416501cc3c18b743b1cf63776934ada9
+[1/2] ASoC: fsl_micfil: Add default quality for different platforms
+      commit: e04aab96b3776634ab37ddce6d50a431126edec3
+[2/2] ASoC: fsl_micfil: Set channel range control
+      commit: ef1a7e02fdb7526e8d7c75e744f1f5b2acd7100b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
