@@ -1,204 +1,202 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C321D88D7
-	for <linux-sound@vger.kernel.org>; Sun, 30 Nov 2025 12:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C316A930
+	for <linux-sound@vger.kernel.org>; Sun, 30 Nov 2025 12:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764504542; cv=none; b=aLpF/it5M9ws7IGTTh/VuG+hAucMIBLzv6gy2tzjs3RjN+PC9uuYDbx9dXaBxsF0SW8EkSDJ7vxGjNyeRZNyhQ8cYT7DPs3KRf5Ae5H/G+6p0n3HJt/DrhVjZyBbpJLSRfnbPvaj8auQncuQXlMwAUcX8Hhki1bm1nEXdp213AA=
+	t=1764506180; cv=none; b=a1Cs3s5LGJjE1yBJkICwZDdAHlm0xZKyCTLPHvoYCWpmH/47fQY3woj/BIj7euUIi6eaIv/gL9CS732yXNiF8HGiHzTRT7Gs/xJfsnRk5Q+RxjD3E4qNOVXFwP4WpkKlgaXm2kZ2PjhyyqVAd6dkg1sZIWIzTXt24QNFcx8IQPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764504542; c=relaxed/simple;
-	bh=h2CZ7Xv2NcR5qSwX88FWqUUSLLUnlGPhydrfqq1hCUQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uP3ED1V9NDrLKqe7J1Yz5qJ+g1n4sW/rs1ub3YL4JdcJMX4a6eEJxutwxZQyRTHICih12lL5SR4ZdeQBJPUQ8rZFXV+sA1nRkOg0yUYXcQuwpjoMpR7kZWySzCGNWFl4M8ldMoGoXGYqDYVKJs/o3hbiRcdVmm7tADNgSgnHepI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BnbJ94QG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vlq5+dVC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rwq4LuZR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FmLb0Gok; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764506180; c=relaxed/simple;
+	bh=O8qqd34rZzKAlT8emxlMGg0aXIBHepVV/wOrOHz5bV8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pyLOrW/Fu0LcZYjUxq/+WHmKCXYFIPoKFMQGKz3qnOE8Hhwq9s1pE8YKYizsjlEtzOP/Q2eURikZE/6afyA+FKHVa2HsSMfKQXQIcgfLnkkP4I7PcTW0j2zoLks94sBi/vkbZSJwvM/pZXWaAML4+vUMeALFn2zo0sg47kbJUYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RMw0BOPG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ivlUVbcv; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BnbJ94QG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vlq5+dVC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rwq4LuZR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FmLb0Gok"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3BC395BCD4;
-	Sun, 30 Nov 2025 12:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764504538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xytd0cRqyWLdMiI3d7ssVMcPm/89hSlVI49QUf/MIrI=;
-	b=BnbJ94QGEdN1La2BUscdnYwLTbASemAj9cpQ52vlBVhBMhQZSHhPzyKan6D2mwvntwRSWg
-	HtXmU+7zmoXbyrauUa/RMCJcXsW4ept/ijZQaeY7QJqmUAA0PbA8Ss39mlbaNME2CDAedS
-	nR1rKJ9oAOcgLXXSVSlyr7irMyJmoHo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764504538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xytd0cRqyWLdMiI3d7ssVMcPm/89hSlVI49QUf/MIrI=;
-	b=vlq5+dVCk/NfPzfyfRE/FCXf1qkHUZa5owgZwVWbX6pxAU4mVChPiAN8UW1vHlHiSWPnQp
-	wqrgEGdMHNF4nNAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Rwq4LuZR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FmLb0Gok
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764504537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xytd0cRqyWLdMiI3d7ssVMcPm/89hSlVI49QUf/MIrI=;
-	b=Rwq4LuZRbqTX0n7FrBsqZNkATeqBBt+gdBGeXyR0aZuqPLUi4O4L9VlP1xfUVdJD9QkjIW
-	aqQwTt3bjC9lEBNwUlWCB2LygQ0LUcV40lhBaJUthtzAnjmu/53y2FvQ72UNvfH0zBD1Rs
-	1IHQtO93XS0qSKr/moou7b4Hd0A5+18=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764504537;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xytd0cRqyWLdMiI3d7ssVMcPm/89hSlVI49QUf/MIrI=;
-	b=FmLb0GokS0cgDahhAgb+81/eLYdC4BZni8E51Env9kSE/0gG57VXfcUiTRDqVqSUNGWyNu
-	VPvowBjQbnA37pDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 073B23EA63;
-	Sun, 30 Nov 2025 12:08:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bqw2ANkzLGnobwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 30 Nov 2025 12:08:56 +0000
-Date: Sun, 30 Nov 2025 13:08:56 +0100
-Message-ID: <87h5ubd8o7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Dylan Robinson <dylan_robinson@motu.com>,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
-In-Reply-To: <20251130130035.6f44713e.michal.pecio@gmail.com>
-References: <20251124210518.90054-1-dylan_robinson@motu.com>
-	<20251129205639.48fdbdf9.michal.pecio@gmail.com>
-	<87jyz7dc6k.wl-tiwai@suse.de>
-	<20251130130035.6f44713e.michal.pecio@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RMw0BOPG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ivlUVbcv"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AU6RUkH260405
+	for <linux-sound@vger.kernel.org>; Sun, 30 Nov 2025 12:36:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=khDYn2iDAtsrUOzEA+11Sj
+	iFVdLA2q+h0420fjCDJjM=; b=RMw0BOPGhi5SF8Hgv5nYITpLNbk8W9uMtjCXhU
+	eOaPuU7Uvp8FvkUrEDiAdVuD8KS/xh+XUMjJZ534i/4I/BTMoQD08QxmbDZn+6KH
+	1hDdfm6vWMooTzha4Zn80izXs6+5+57I4WfLkHR5MgBqZu0CqihECgS4CX4bQ+Cw
+	aa1IJXl8+H8h3TRtqycKTk14TG1ZRYiviYdyvlH+83ZwyVcAYh4hFNZhiQal+kpc
+	hbOV+aKN5uCRnea7BZT3B5930I7gu8A04QyURPiqmrfnyVNZtqCILL+ivjgh1qlY
+	IBzBWiS3a1p/f1lSUbQdGbYtF+OosVq4+hEZB0GP6n7TnISw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aqt46a2ws-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 30 Nov 2025 12:36:17 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b24383b680so65622185a.0
+        for <linux-sound@vger.kernel.org>; Sun, 30 Nov 2025 04:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764506177; x=1765110977; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=khDYn2iDAtsrUOzEA+11SjiFVdLA2q+h0420fjCDJjM=;
+        b=ivlUVbcv4P68C0OViBrV2wdLorsjzj+copjWRG+g55CZd8k5HMZMlSqoGORUlDy8aR
+         JmYtfdkJASCyT9jBbD+h33Ikx5QwZBTMkzEACc/k+GdIPT53bpmrG7KV9WR3/VUTWNsa
+         1PEgBFT/fMnzeDxLNPFT1UtbVRtxMbIIhhYXgr6yNZgFzqf8gp77vwh5CTDwg4nkQ87R
+         o5w9BkDRo6MYW2SABc8Mtrtgc8QS3xQAC6gt8F88Zp2KhxwDwo0GquvOF7+1w+Lr+OwC
+         NOuDUR2NfQfUPKEq5BX6YxybQ1foNiLr9nbi7+VyHyZhyZ6Fu4yQVqL8g6aBAL7x25ru
+         yHUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764506177; x=1765110977;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=khDYn2iDAtsrUOzEA+11SjiFVdLA2q+h0420fjCDJjM=;
+        b=im1b+wjz2auW21CvkqhCI2f/NlC5D+aMPUoeM+VFV0hjYoWnFfG4fj2bDs+o7zPkmb
+         sFPsO2QpjIArcvAE2k3N7UUp51ZaW+YYyrqXGl6c0qVi3auoa5eCEvM/oqwH2Q+07XiE
+         dPISw1o48LK4yoChRT6bRuhZOTuFA9ZUGnNz946vRxLG5eZuqSGzdGSK1pLnUjpRJkNH
+         FKMLGKB/IYNC1taYuQHlAeqCN6F+umYIGnn7GxvBmkcpIuoS10XA3NhbClvtAvBfTZOK
+         XaTcDiSQIrtrxRx/uZRnnZR1V1P2r5Gjjcb59vHPzUwSSWE33DfqynaOEf0lkQ/00QJ7
+         FWdA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQRa8hZ1+xzDSqG5s94E4ETqTPsf8UszOTJ1s0nLYZS6mwQlExXBbADNxLHqb8mYQq0Hbl0FCEAc0iKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxopspTBdGvwqPrhmkLO7O/03Pzlu1ZhwDdNWTIlhyPauSGrKvx
+	wbPeo+yxfsrVv7e+99rvOlAiVWRHMQV3d8q/OXxQjjA4Zq8MTJTzh10V3LSgpidAJ+TC4PcEvY4
+	nhvVcXhCk7cjc5aauklzd10pQw80oLKTvqnS6VEI6IIS8bdwvNtcBBlH0ciM6rxl1lQ==
+X-Gm-Gg: ASbGnct/QIAH4MzuMFCbU1muhPQ6cdZF16+DgylQ6I56qIZDWLEUxMDIcBMTnnl8aYv
+	k0Jk6ILqqaO6XbSKRxa3EiIdl4VQVahz7hDhhYJYPlXetX/nPQF+MTxW9rUztVPO8vfliZrCd8P
+	nJiwoCa5tlx0CDbdYtXXU4s2fcB/Rc5bU4rD8Q2rJmhHpN6vYYZBpNSxJhEz1lxcDfY95Zs08Yc
+	U8MPZNg4d3fsp1EGNBa3vVcnvPcEKtNKeVjMmEtpDTeVBfwEg0ITYgMxIeLTHlMrVt3Po7snC3J
+	KwYBjg6YoDPI7vWeve/PYlhPnLQrPPOrG7j7g1QrxS6siczAglFFVoEmJAuTzhHi1bQ9RKUE2JB
+	g0ZgEba0MwgojMSzNZmAKRoz+sqEhlb4u/A==
+X-Received: by 2002:a05:620a:4411:b0:8b2:6251:64f9 with SMTP id af79cd13be357-8b33d4a74f3mr4231818085a.58.1764506176682;
+        Sun, 30 Nov 2025 04:36:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGeWK0WiHjAtwF/qYOyew/roqAG0tsI6NrdqTKzALGVqVXop4gZMar8qFcPH6xWCPkSaoNwMg==
+X-Received: by 2002:a05:620a:4411:b0:8b2:6251:64f9 with SMTP id af79cd13be357-8b33d4a74f3mr4231814785a.58.1764506176170;
+        Sun, 30 Nov 2025 04:36:16 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.195.159])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f51c6c12sm920506666b.29.2025.11.30.04.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Nov 2025 04:36:15 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 0/4] ASoC / rpmsg / remoteproc / soc: qcom: Constify buffer
+ passed to send functions
+Date: Sun, 30 Nov 2025 13:36:07 +0100
+Message-Id: <20251130-rpmsg-send-const-v1-0-cb11c7e0a024@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -2.01
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3BC395BCD4
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADc6LGkC/x3MMQqAMAxA0atIZgNNRRGvIg7VpprBKo2IIL27x
+ fEN/7+gnIQVhuqFxLeoHLGA6gqWzcWVUXwxWGNbosZgOnddUTl6XI6oFzq21DkKs+8DlOxMHOT
+ 5l+OU8wcxCDy5YgAAAA==
+X-Change-ID: 20251130-rpmsg-send-const-ae216a1fbd8f
+To: Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2077;
+ i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=O8qqd34rZzKAlT8emxlMGg0aXIBHepVV/wOrOHz5bV8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpLDo6DD/JawmdtkgkOBaTkDXZexZA72yvwkmRX
+ 2xb902gWAqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaSw6OgAKCRDBN2bmhouD
+ 16BfD/oDmj4P63MBv+3h6ohF7ryGULYXhCUqF9p+69+7wePAdkGFR0SJ+SLk6Vy15z2rlQeSYXS
+ Fq0PWTPhtAA3F1Ltma1AbOQtUE9D9Ovkh1yhinbcXfEmEo5kRDloS0j9684M6ig49Sd8AcrU/8B
+ 082KRFV04slBSkbB0LADnS0NIVUtOTXI1enIqRB/fb1b/XClxr9xdMFY89a9vLJbp01nB9eZuaO
+ eIRfeXxCK6HAHForIN0cpb8NvBA+D7ygWojSeB3S0I+FLMujOQ71pZjD9p9cIxZVsTBsGq4SB5o
+ 28sOHp4Z9VhM9ocdhOfEfje2u4h8Y3xRN7AQEBMTzdbXwCtthtVc0YE35DHNNPP1gWWl6Rkp8MJ
+ 8SlHUxvsxP5Img8IkUhJMbbkjtJye/7IHhPhsMRaZ5ANNJvp6jtcCelghY/Lyaip5VzXutDKsoD
+ srWqfPLvBae3f1g0ArGiIsAx87MkgflTDPvSQ0HxR5Pt+HNtrV0dBpEX+5Yn/tafiqWMANaoeB0
+ I5pPYvOdRsjAm/a0B2w0erknqUgmJHl6V3PETd8TiLyHb8LORu5YNLjcfF0q7cm1RcnzmOIVllq
+ cEMypHzNVe5FEFQqxGUVv/RJ4FuNFpaYmBCwwH+1SehdWQZZwn4woBF+Yz7b2SjkCHpUmJ7BGaS
+ pz9b+fLWw9Cti1Q==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTMwMDEwOCBTYWx0ZWRfX0UEld/zACQmk
+ /lwTmMMliNEDMszK4V7FID9Ex85/4ngNLc/ShcriyEfoDwir4McKagEvv9nOlkr/zHKPd+lbRla
+ vf20Js+EXO7MfQCP7cLRcqE+fs6P/jp9q8c1StbniezFj0EKLEUSJEap6ThYwN3K4AB8zhn4h+s
+ pGDL7wdaTokkCNhZLcM9R8DMmRqm6W4J6DMKhiMgPSzEjletQp1xCp4U6GXnr3Juogi1BMJPOZU
+ ocMaUhH2fjKONOv5isP+aB17rmDF8xIBiktEVqRYhFTuTzPkO8PFD991NRtV4Z1I2+UWUA6CNp2
+ 30gRN3dQujzCOnbNTXj7wR9f1eGPxMFbBqJy6Z71HVqGTLfF+iEPLFf1ibZfAjTdqSSo9cQe4kf
+ dQJX9Q7v9I2X+Zl1q7o5d8FT0s7csw==
+X-Proofpoint-ORIG-GUID: f0GUr4AvVBSxgP86BMEOvOUkSec8F82h
+X-Authority-Analysis: v=2.4 cv=aO79aL9m c=1 sm=1 tr=0 ts=692c3a42 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FPK7cjBCgYbqzSTDLBmM0Q==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=a5V6tGfecjnVh1JciPEA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: f0GUr4AvVBSxgP86BMEOvOUkSec8F82h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511300108
 
-On Sun, 30 Nov 2025 13:00:35 +0100,
-Michal Pecio wrote:
-> 
-> On Sun, 30 Nov 2025 11:53:07 +0100, Takashi Iwai wrote:
-> > On Sat, 29 Nov 2025 20:56:39 +0100,
-> > Michal Pecio wrote:
-> > > 
-> > > On Mon, 24 Nov 2025 16:05:18 -0500, Dylan Robinson wrote:  
-> > > > The maxpacksize field in struct audioformat represents the maximum number
-> > > > of bytes per isochronous interval. The current implementation only
-> > > > special-cases high-speed endpoints and does not account for the different
-> > > > computations required for SuperSpeed, SuperSpeedPlus, or eUSB2. As a
-> > > > result, USB audio class devices operating at these speeds may fail to
-> > > > stream correctly. The issue was observed on a MOTU 16A (2025) interface,
-> > > > which requires more than 1024 bytes per interval at SuperSpeed.
-> > > > 
-> > > > This patch replaces the existing logic with a helper that computes the
-> > > > correct maximum bytes-per-interval for all USB speeds, borrowing the logic
-> > > > used in drivers/usb/core/urb.c.  
-> > > 
-> > > Hi,
-> > > 
-> > > Since v6.18 we have usb_endpoint_max_periodic_payload(), which looks
-> > > like the exact function you need. It is already used by uvcvideo and
-> > > xhci_hcd, the latter being particularly important because it ensures
-> > > that your endpoints will get the bandwidth allocation you expect.
-> > > 
-> > > The copy-pasta in urb.c should probably be cleaned up at this point,
-> > > but that would be a separate and unrelated patch, of course.  
-> > 
-> > Thanks for the information!  So we can clean up a lot with this new
-> > helper like below.
-> 
-> Yes, something like that.
-> 
-> Note that there is a small gotcha here: Dylan's patch and the original
-> code, as well as usb_submit_urb(), didn't take wBytesPerInterval into
-> account, while usb_endpoint_max_periodic_payload() and xhci_hcd do.
-> 
-> Odd SuperSpeed endpoints like those below will now be considered to
-> have 512B/1536B capacity, not 1KB/2KB. Whether any such UAC devices
-> exist (mine is UVC) I don't know. My only SuperSpeed UAC device uses
-> one packet per interval and wMaxPacketSize == wBytesPerInterval.
-> 
->         wMaxPacketSize     0x0400  1x 1024 bytes
->         bInterval               1
->         bMaxBurst               0
->         wBytesPerInterval     512
-> 
->         wMaxPacketSize     0x0400  1x 1024 bytes
->         bInterval               1
->         bMaxBurst               1       /* two packets per interval */
->         wBytesPerInterval    1536
-> 
-> I also don't know whether this affects UAC operation in any way, but
-> it's something to watch out for.
-> 
-> Ignoring wBytesPerInterval wasn't right either, because xhci_hcd would
-> still reserve wBytesPerInterval bandwidth (as per spec) and URBs which
-> exceed that could complete with an error.
-> 
-> If a device is found where wBytesPerInterval makes no sense and must be
-> ignored, it needs to be ignored consistently across the kernel.
+Dependencies / merging
+======================
+Entire patchset is one logical chain, all further patches depend on
+previous ones, thus everything should be taken via same tree or shared
+between trees with tags.  Probably everything should go via ASoC with
+necessary acks.
 
-Agreed, it makes more sense to have the common criteria applied to all
-places.
+Also, first patch or two patches could be taken now for this merge
+window...
 
-Dylan, could you check whether the cleanup is OK?
-I'll apply it once after the confirmation.
+Description
+===========
+The remoteproc and rpmsg send-like functions should not modify data
+being sent, so buffer should be marked as pointer to const.  This is not
+only self-documenting code but actually increases the actual safety and
+clearly documents who is the owner of passed buffer.
 
+Best regards,
+Krzysztof
 
-thanks,
+---
+Krzysztof Kozlowski (4):
+      remoteproc: mtp_scp_ipi: Constify buffer passed to scp_ipi_send()
+      remoteproc: mtp_scp: Constify buffer passed to scp_send_ipi()
+      rpmsg: Constify buffer passed to send API
+      ASoC: qcom:: Constify GPR packet being send over GPR interface
 
-Takashi
+ drivers/remoteproc/mtk_scp.c       |  2 +-
+ drivers/remoteproc/mtk_scp_ipi.c   |  2 +-
+ drivers/rpmsg/mtk_rpmsg.c          |  4 ++--
+ drivers/rpmsg/qcom_glink_native.c  | 13 ++++++++-----
+ drivers/rpmsg/qcom_smd.c           | 10 ++++++----
+ drivers/rpmsg/rpmsg_core.c         |  8 ++++----
+ drivers/rpmsg/rpmsg_internal.h     |  8 ++++----
+ drivers/rpmsg/virtio_rpmsg_bus.c   | 24 +++++++++++++-----------
+ drivers/soc/qcom/apr.c             |  8 ++++----
+ include/linux/remoteproc/mtk_scp.h |  2 +-
+ include/linux/rpmsg.h              | 17 +++++++++--------
+ include/linux/rpmsg/mtk_rpmsg.h    |  2 +-
+ include/linux/soc/qcom/apr.h       |  4 ++--
+ sound/soc/qcom/qdsp6/audioreach.c  |  6 +++---
+ sound/soc/qcom/qdsp6/audioreach.h  |  4 ++--
+ sound/soc/qcom/qdsp6/q6apm.c       |  3 ++-
+ sound/soc/qcom/qdsp6/q6apm.h       |  2 +-
+ 17 files changed, 64 insertions(+), 55 deletions(-)
+---
+base-commit: 7a9e871ce4c7c8a7d75eaef8407083a0525de2dd
+change-id: 20251130-rpmsg-send-const-ae216a1fbd8f
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
