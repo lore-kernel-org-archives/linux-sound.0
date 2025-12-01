@@ -1,78 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815AF25C704;
-	Mon,  1 Dec 2025 21:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB2A2882AF
+	for <linux-sound@vger.kernel.org>; Mon,  1 Dec 2025 23:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764625094; cv=none; b=sH6v/mnximJFQe8rVgN15SN0QMAw68yhUTat67iRz/1ZQC7TmyYEo0QK4aIt6n9l4fagO9DDSQEtice3Ypw64EVdxKhnTA3J6U/E366hebp9MMBqi7zd1iQXeYhTyLbHiSPae9NX9qOUZtqa0L0QQCrXGo3FJpjx8ctmGDULPtQ=
+	t=1764630636; cv=none; b=bohN9EmB3nBF3mJ5LYj9q62FeepLvwFbC62H3jrpC4g02HKcgcBeEorP3I66VruWb0nBtPc/1tMd6eipZt1w0+s0AIg2U/BwxDqwRwuM6ZJAvBdz+9RqA9N5SfRDirbgctsVMpdVt903A0e5SXQTZ2KQ8zd6hO72xwTyw67ckJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764625094; c=relaxed/simple;
-	bh=VPn9USi2g/mwxAvho4yaUUyycfRJ5gCzbqEllDaKzQs=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=qga26rb/jsaW80oKgeO2FfrU/p+EisNTxOnwCNa1+JJHnJoyltwADVePULUESdnoabT9cciJvMdvifOcJohXXLCT29dEh2+XBtF7lhltYTB5+87V9/JGmqnh6oWeEVN5uMt7I1yfvGlgYiN8mBL9R6FnTRt9CCAKfnEqJ2F+Na8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZOxWvT9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764630636; c=relaxed/simple;
+	bh=Zag+UVR3msVpA+qVZV9ZjI2E7Uz3+fO7iOpmwtQbehk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d63NIh1FKW0qAls9IE0TwtA+7xt333Ix2kF/crNP2Y5JQcWH7jVn5I8sArQ1cshIOPczZIidnpvHELKiqzDFBqyLAqhJSbwPIh4+LB305JcYEEyiFNs5utixmpqdawZ2FtkoCMVpvWpEyRgOzFiNNgbJ5R8gaLFqbhkjAedyTV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com; spf=pass smtp.mailfrom=motu.com; dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b=VWZIYX/D; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZOxWvT9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EF0CC4CEF1;
-	Mon,  1 Dec 2025 21:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764625093;
-	bh=VPn9USi2g/mwxAvho4yaUUyycfRJ5gCzbqEllDaKzQs=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GZOxWvT9JJ4L1GdvGaMo1zQKiux0hn0MrtmHpIRYyhGcCgypLh7wEF1eD2/oIYmdQ
-	 YlvY4oqNWt9/l9ETNI1mCqHpBNpM0qRfxzb7FOWP+qtkZ7E6SOIhcxGVF9zcwkLrt3
-	 WGLbAG40W8pBJ4nOsgi3NBNm2O972j2fpCwp2K8OMRAWydALOSdrMmY2GtV1ICdNgQ
-	 GgFejEF1qVB8iBwtgTDBWJkR/FShq9J6UzIuFeakWBrx0vZCv3M0jBYP91lpJq6OHi
-	 AYCCzNJLlD6L5fH60ZqF4LedRlNeqBPYsMUuoogUtveTkDTkIG9lhqA0t+lloxsZ4r
-	 lhJKQln69l8/w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B6D0381196A;
-	Mon,  1 Dec 2025 21:35:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b="VWZIYX/D"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5942a631c2dso7316129e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 01 Dec 2025 15:10:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=motu.com; s=google; t=1764630633; x=1765235433; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=B03Gy5QMkXEv2ipiITJXQQdqWgCpAx0o53CCJ6DSin0=;
+        b=VWZIYX/DcZlqSxKP1X9mgRfvo5sjrp5Uk1oqrdSprOkKZ6qxsWQwauyEI/1kKXv748
+         pKIYVAsdJc2lWQDYkHnK48UfTYRnJuYYSD6OnuAJ5r+X6IwjX+Hc+xPRaWBCxp4ODrF3
+         /3rNpmDXNpfk4VDiX8oPJf5BXQyns6USSw3RQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764630633; x=1765235433;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B03Gy5QMkXEv2ipiITJXQQdqWgCpAx0o53CCJ6DSin0=;
+        b=U/NwWrh+AISp60wUOVxl2oI002/3OCfXy9ku3ENTK2Qwc12TCfhWGZLC0yoFVCaNT9
+         UAmnU7Y9NdQveBFxbWj5Q3yeVLbQpmgzGuKeisMSx9eGOmXWKoljlUpcxJBi7dicGm0Z
+         5gJD7Xu8SCkivYBXzwOyC4crjmRKmsFRiPmb7+yI1to/Lg0cYVoL4cPwPTDQBBLj7IF8
+         HP2gMg16MqahW7YXLsFSzJrSlP70LYemAg46ipX6CDP9w07ew7ui5zbs6z2O3XIDmWzE
+         S/JLBrm4b2bCN9y3JVhQtuXU0A0qHVSsaACHmaC7/o42uVpeVo7hM37uAYSf+KavH1oN
+         sPAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHWOIhodJhKs4ry20f/csa+T15o4BqO8u2Om+Plzh5eMX/9Yf4aKo9kPPRtv2dAbpp/r0/uH1TMvzKMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwAzzLwbuY6JnH1wyqx8QHINTMuelC0HYCUIDMUfW1v41wDTvj
+	dj88l3ql57V7oW8/Kx4qGxUcW6scWDC2zHox9e7nLjOes4OqiDq/8+UZmHYkahoxgE3l9rBHiCO
+	SG1YPfl6kA1JLd4PlPGJl01F16SxJTpEGfNUIuYLXOjE9ke4OHtmXhL0KcQ==
+X-Gm-Gg: ASbGnctK4BNM+xpXUJRcvI+Jrbue0KYXkVgY1V5MN8oLr0TjrzEcP7EFAYDsUrEpfH/
+	Qzeetw9OZG5xPmQx54aJs+a4nspxPWKXg4C1LRzh0jIpxJ7SofA18JwqpwIuhyg13l8S9rkpWSt
+	gNuU0uiRayHB+087/3fcUG93/qP7q6/wC+VvReXAkf3K67F+pO6mEzAxoDkCjM3NwD8zTGQLV2S
+	H2SC1L51a5v4GuhKP3fP3dJr395HX+pBQ/XODPswwThOhaTLmNSf3Erl0Z8DeaRW8k3lXxq39S8
+	pYWJAMI=
+X-Google-Smtp-Source: AGHT+IEH/rLJ/DK0860HOAqpGcmwBeUxOiWUaQn/OzVge4Ic5Y9g39O8QOIjewYjOAIoVHPnQzw0IWjdTzLWrJ2mHkA=
+X-Received: by 2002:a05:6512:308f:b0:595:7ed0:9c77 with SMTP id
+ 2adb3069b0e04-596a3e9f91fmr13260503e87.12.1764630632640; Mon, 01 Dec 2025
+ 15:10:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] ALSA: usb-audio: add min_mute quirk for SteelSeries
- Arctis
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <176462491281.2545331.15406826506379278586.git-patchwork-notify@kernel.org>
-Date: Mon, 01 Dec 2025 21:35:12 +0000
-References: 
- <a83f2694b1f8c37e4667a3cf057ffdc408b0f70d.1762108507.git.pav@iki.fi>
-In-Reply-To: 
- <a83f2694b1f8c37e4667a3cf057ffdc408b0f70d.1762108507.git.pav@iki.fi>
-To: Pauli Virtanen <pav@iki.fi>
-Cc: linux-bluetooth@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251124210518.90054-1-dylan_robinson@motu.com>
+ <20251129205639.48fdbdf9.michal.pecio@gmail.com> <87jyz7dc6k.wl-tiwai@suse.de>
+ <20251130130035.6f44713e.michal.pecio@gmail.com> <87h5ubd8o7.wl-tiwai@suse.de>
+ <20251201114705.470325f5.michal.pecio@gmail.com>
+In-Reply-To: <20251201114705.470325f5.michal.pecio@gmail.com>
+From: Dylan Robinson <dylan_robinson@motu.com>
+Date: Mon, 1 Dec 2025 18:10:21 -0500
+X-Gm-Features: AWmQ_bmeil3E0q3V9h9QAaMc468zW4PCaRqdn1ABNuE7NNnKqWJjjaPD0Cv_g-g
+Message-ID: <CA+Df+jeCQXAuxLp5woF1fb4wgPNcKn7uMNaXnNG6j8EvuKX-eQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, tiwai@suse.com, 
+	perex@perex.cz, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+> Dylan, could you check whether the cleanup is OK?
+> I'll apply it once after the confirmation.
 
-This patch was applied to bluetooth/bluetooth-next.git (master)
-by Takashi Iwai <tiwai@suse.de>:
+Tested and seems to be working. The cleanup looks good to me.
 
-On Sun,  2 Nov 2025 21:10:15 +0200 you wrote:
-> ID 1038:1294 SteelSeries ApS Arctis Pro Wireless
-> is reported to have muted min playback volume. Apply quirk for that.
-> 
-> Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4229#note_3174448
-> Signed-off-by: Pauli Virtanen <pav@iki.fi>
-> ---
->  sound/usb/quirks.c | 2 ++
->  1 file changed, 2 insertions(+)
+This is what our endpoint looks like:
 
-Here is the summary with links:
-  - ALSA: usb-audio: add min_mute quirk for SteelSeries Arctis
-    https://git.kernel.org/bluetooth/bluetooth-next/c/b98b69c38512
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes           37
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Implicit feedback Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               1
+        bMaxBurst               3
+        wBytesPerInterval    3205
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+-Dylan
