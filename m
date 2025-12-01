@@ -1,68 +1,60 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022140.outbound.protection.outlook.com [52.101.126.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91299305047;
-	Mon,  1 Dec 2025 10:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764586634; cv=fail; b=piP774rEMUAsNV57xucyDChiCgkD3LQ+bbkKnSOJ9BE1zsW6FI+405KqbgNN74sJ+NhePs3bnG0pHowonSzX+n2X6RtuQE1nAZ1MlLjY/CarThGXEsbDHUaCvJWRJfC/vCzciuww0nlZ1K8pbGOCJKSQj+WUFAAYJW0EQVJaPto=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764586634; c=relaxed/simple;
-	bh=324ea6lCMPrewNlwJZ8vR3+I5oI96NQxLrlwaAxylvc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RsoMEzdOEAh5JHyiZg9JdAmwq1YKgdwfFH0rlLGSWjCrE3XaVfUenNVjOQO+QSDe9oboQftpPhjat1sIJWEOsflKU+fU8xldpT5rs8Cxx2rDi13hRDa/3SraMr1PGEFu9d3BucWd7SJHQcZHvsaRqrro/6FHQjPqiwwppO/R09I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VpBkVvNmes9fUU3paGhtjp1wqDYy4RsiaelATFDYcSRnOKAN0JjR/eDZsar94VB13mmvs5Eu24RzktAFKCALy84ICT6dKvF9UvWt/TZ/OjHuopuDjS9eQif6H8/5yBMZtbQkZNaMN31DvDJw6/Vyn3RzbSicwvX+1zDTrB0BzJaQTQv7VAT1h9eOT5+PyKyz5jtT7sHwh7hJRgksb3stzS1eA7fXVVkJKhAUD6BSK3dljUdXWqJAvRuECJWvzKcSpRpqvJsfsMsJ9ckA/4oA9/ObwYKtvbRchxWq/hn6RCUWcIk5M9wCK3WssWAt6juIfdcHFlYRgHg0do2OmmE3Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+Do98GYWfYa4m/JO79lJqdbOsS02hliX8zBmH7syxg=;
- b=MBwigP3YdvkNqwNP3lL7OnbwOkTTGC+L4x7et7soV+IsXRv1mrntxaXh6wSvUs3cffZ9ZRf9yD/yJH1PEbzReTedXe2WhteuA59T8BUEgL8xcVS0AFICRStZPHId4YG5n+SfbhspxPrASvHumK/je/JNE0qZyTnVuoNm4s6jvY07vcX2adRTHeiw2svJ2m2rMtI4bm7/ksG27yS+0Th92neoDbIOehX4gr60wZQasAEEc8zRFePvW/jFzlkMczmXIv+BZXECh6Uiclm1y2uJggoHlulTYlBKvkqaw1U87iQevr5gchb5kaA92qEgOP/aEXsqxq0fA13hvq0UJqlZrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from TYCP286CA0151.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:383::8)
- by SG2PR06MB5311.apcprd06.prod.outlook.com (2603:1096:4:1ba::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 10:57:04 +0000
-Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
- (2603:1096:400:383:cafe::20) by TYCP286CA0151.outlook.office365.com
- (2603:1096:400:383::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Mon,
- 1 Dec 2025 10:57:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Mon, 1 Dec 2025 10:57:03 +0000
-Received: from localhost.localdomain (unknown [172.18.64.15])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id D1FA541604E0;
-	Mon,  1 Dec 2025 18:57:02 +0800 (CST)
-From: joakim.zhang@cixtech.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: cix-kernel-upstream@cixtech.com,
-	Joakim Zhang <joakim.zhang@cixtech.com>
-Subject: [PATCH v3 0/3] ALSA: hda: add CIX IPBLOQ HDA controller support
-Date: Mon,  1 Dec 2025 18:56:57 +0800
-Message-ID: <20251201105700.832715-1-joakim.zhang@cixtech.com>
-X-Mailer: git-send-email 2.49.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D902D30506A;
+	Mon,  1 Dec 2025 10:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764586726; cv=none; b=k6kEQ1qp+v38P365J1qj/M1YbvNo/Fgk5CyaFEhfEoQ82n+10sco41hUOlhnYf1fP4UwDP26/8bpcYnjo0YvAbnX9FTIuCUP0yDcbCGUCq4DCJN5iu0DcKFSqOcbJOr+dtpecf+kdHwNpJbBiCXXMoKe1qkCKlcm/kc6AnboiIw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764586726; c=relaxed/simple;
+	bh=Jjujg8mmQOAfvLsIyOjXK5kZjhiuf9VaHSSSuxZIwqc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XAFKgv288m6ldO68fzar0P6wh+Hb1ytQjjLBZPueZaJ5p+JRzebRhbB4RSVjaqGiJoNED3Dj3Hvrpc9K9XBtJgSOC178/JrYiS9h/XtkTzFbolMW1rsF/kOtJ0RVNQcngnfY33ANs0r7nSwndIc12mL8khmedImHl5w0hxe6Gpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Oa7Yw//M; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Oa7Yw//M"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5B1AvwHT32042569, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1764586678; bh=uuzFmx6pSN64JbRXtEU5Xp+dwQ3/vfKeXtpwqmvjnGY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	b=Oa7Yw//MwdoKHARXQraQsU6+JnO3rDwQF+oT6nwgsceOHA7HJwzk3fLPbDegKil11
+	 eNqFUPbyzL+1mngtbbOXMuguHOzE118vwaTN58VhDiNFl/08jb8KT15gGmzs5YQGGe
+	 uXTk6gKbDaZTJt10jJWA5c9uTJCreumtJZKC0JpaR8xebwaAPmX4oc0FkAcYorXKnZ
+	 njUnuOvoFgtMFnssLE38KlWEdMcychi7M4ouVZbcxw7bciNPRBYKqhk0MOBQJp7Ico
+	 gKMHIF4DEftjvp4AXoqVqK+5Ar5tbV55JluZ6I2H0pSa36mJ1GaUt/KZvZg5EU82T4
+	 qF4XpkaWTSbwg==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5B1AvwHT32042569
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 1 Dec 2025 18:57:58 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Mon, 1 Dec 2025 18:57:58 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Mon, 1 Dec 2025 18:57:57 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.1544.27 via Frontend Transport; Mon, 1 Dec 2025 18:57:57 +0800
+From: Oder Chiou <oder_chiou@realtek.com>
+To: <cezary.rojewski@intel.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <perex@perex.cz>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <flove@realtek.com>, <shumingf@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Oder Chiou <oder_chiou@realtek.com>
+Subject: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for the ALC5575
+Date: Mon, 1 Dec 2025 18:59:25 +0800
+Message-ID: <20251201105926.1714341-2-oder_chiou@realtek.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251201105926.1714341-1-oder_chiou@realtek.com>
+References: <20251201105926.1714341-1-oder_chiou@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,93 +62,632 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|SG2PR06MB5311:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: edb6a2e8-b97b-431a-44a6-08de30c85cb9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Fmb/l4SguHfTRy0pvc9UjJlWP6d3hHvM+dK/8oVlzzNh8sYytyZBbGsv+EdP?=
- =?us-ascii?Q?v7bGzsINzPpVx/KDvrlersAv7RrqgDrjNn9wm209UZEvOtEwnSQlU5GWbNd7?=
- =?us-ascii?Q?Ass2MsLmn/yIY5d1b84Q2zFV4EdB7QGyBHdnzP7GpNVpxxeliJKGgHvS7jJz?=
- =?us-ascii?Q?ONUE6ykOAF2sBQy8NZ3fnuY2t5nguy8cyEESdzmZzkTKZfGR5ZMipLgWHgkP?=
- =?us-ascii?Q?F8QZZ0ejfSIAsBg84AwwCAV5InhcyWlfxrLDlffVoEdQI5vtIMnNXr93u+vM?=
- =?us-ascii?Q?R15HtAprhwj4p1d0gr+PiyJP1Ajp2BSBJ8eH2pTjjI1SfSM47RJ1kH7pnM/i?=
- =?us-ascii?Q?CFQJ7ZCnMT4nwXHe1liq5bng3kkd+oYhXvPGIoky3nomHgxSPIzybGX4AtIE?=
- =?us-ascii?Q?NXG5G4yqsaOSblwA/3mzr+g32Kylf0v7sT0eQdaZ8NQADujKtYbjCdQMua8E?=
- =?us-ascii?Q?8afIN0ZUbF2Tj5OZtr8CXnxrNXimxHlm+kZPma87gZqUB7ShdxIH60v/kEGi?=
- =?us-ascii?Q?dm/KteRlnk2n2g1WH7ixoUyLOVwU8EGIj0PV+3oboG+MynasIjQqx7cToonn?=
- =?us-ascii?Q?5jctVp0mBILYoKyNr4H0IhOCU+VYHcSNVQNgH9aH58j/+TgU44UtlKtW9oqP?=
- =?us-ascii?Q?Dz7gpIT+DV9R+R5L3LzOhjPnX/ERicFa9VwUE9g4Q6bdLfogyB0mEFOwRZMh?=
- =?us-ascii?Q?UaaJCXZ2/RyOM0AfkTJ5rpMnWtgTsD80csqNtQ+95hCs7SigTJhCTcafVYsZ?=
- =?us-ascii?Q?EoBItzJ7gRrJEwnIMfD1my5A27vlthy4FHtMr+RQK7PLREmUFM2XqV+1pz/S?=
- =?us-ascii?Q?I4YizMRbZJyV9Z6RpZ57TRGsCQy9Xl+q3Q20k1+BU1Z6MdcMsv+ORDRNKdvx?=
- =?us-ascii?Q?CMxieLpFfqzRJG2DZxw993ducLfnOtHK/0yuYyEKDJE7BBcegcGWiMroK8+8?=
- =?us-ascii?Q?z+9H0UcnzL40k8Mo0UekjA1nlZfxdmfqvKJ38Y+HWHCt1y1upaOLkO1DFPLl?=
- =?us-ascii?Q?NhgCbgq8Q7tqFRZeNWqxS7Pv0pCMyAei6Tr9t91FBaOGaL5cc/S1eqNgod+j?=
- =?us-ascii?Q?nphTh1yB4GyZO6vnhMaoPQFDz7iVT7UzK1TOXnACPEFjo6MNVEyhnngoKBUF?=
- =?us-ascii?Q?iASv4oXM0cfvPuJsHDcX8J809BxwzD3wvrfmIrfFAle12XUbUq1YHVtmWocR?=
- =?us-ascii?Q?OkLJhUmxj4GUo15EnCf8bn0vF7311j496mqMHqUj8MDHUI6pM6usfUU71KZp?=
- =?us-ascii?Q?wA3MOJ/Htk15wE9tnwgv/6dwaMOd3lDxu80W0ww6QYj2gvQyrZTQrew9oRVQ?=
- =?us-ascii?Q?+dnOfvRWn1H8j+PJXYCMQcMhjCtTEdcJLQqPnTxRz6pCpxZAG3FOj0jkOxez?=
- =?us-ascii?Q?T7g9vCNw3pWup0Yzh/NKxWniVRqztgXVxSbieV9kUGxg6fuUPwlpoWBFK+be?=
- =?us-ascii?Q?CqUm4iqtsR6hKvF9LmxZVZ8rNthq9ktWhK5VyI3vAgi5atfZW1bmBN3f1hby?=
- =?us-ascii?Q?iDUNbAQ+Gixkwc4J4eGaN2Spa3yOKPFH03VI45Eml2bC4Qsz+GvfBCZ0L/zz?=
- =?us-ascii?Q?HQWPnmyadUYgMwI+CSE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 10:57:03.7918
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: edb6a2e8-b97b-431a-44a6-08de30c85cb9
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB85.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5311
 
-From: Joakim Zhang <joakim.zhang@cixtech.com>
+The ALC5575 integrates an audio DSP that typically loads its firmware
+from an external flash via its own SPI host interface. In certain
+hardware configurations, the firmware can alternatively be loaded
+through the SPI client interface. The driver provides basic mute and
+volume control functions. When the SPI client interface is enabled,
+firmware loading is handled by the SPI driver.
 
-Add CIX IPBLOQ HDA controller support.
-
+Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
 ---
-ChangeLogs:
-v1->v2:
-  - fix dt-binding issues
-  - remove delayed work for probing
-  - refine dma address traslation
-v2->v3:
-  - update dt-binding commit title and message
-    - ASoC: dt-bindings: -> ALSA: hda: dt-bindings
-    - use full sentences for commit message
-  - rename cix,ipbloq-hda.yaml to cix,sky1-ipbloq-hda.yaml
-  - update compatible cix,ipbloq-hda to cix,sky1-ipbloq-hda
-  - "cix,model" to generic "model"
-  - change the addr_host_to_hdac bus callback to addr_offset field
+ sound/soc/codecs/Kconfig      |  10 +
+ sound/soc/codecs/Makefile     |   4 +
+ sound/soc/codecs/rt5575-spi.c |  84 ++++++++
+ sound/soc/codecs/rt5575-spi.h |  16 ++
+ sound/soc/codecs/rt5575.c     | 375 ++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/rt5575.h     |  54 +++++
+ 6 files changed, 543 insertions(+)
+ create mode 100644 sound/soc/codecs/rt5575-spi.c
+ create mode 100644 sound/soc/codecs/rt5575-spi.h
+ create mode 100644 sound/soc/codecs/rt5575.c
+ create mode 100644 sound/soc/codecs/rt5575.h
 
-Joakim Zhang (3):
-  ALSA: hda: dt-bindings: add CIX IPBLOQ HDA controller support
-  ALSA: hda/core: add addr_offset field for bus address translation
-  ALSA: hda: add CIX IPBLOQ HDA controller support
-
- .../bindings/sound/cix,sky1-ipbloq-hda.yaml   |  72 +++
- include/sound/hdaudio.h                       |   3 +
- sound/hda/controllers/Kconfig                 |  14 +
- sound/hda/controllers/Makefile                |   2 +
- sound/hda/controllers/cix-ipbloq.c            | 438 ++++++++++++++++++
- sound/hda/core/bus.c                          |   1 +
- sound/hda/core/controller.c                   |  12 +-
- sound/hda/core/stream.c                       |  10 +-
- 8 files changed, 541 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml
- create mode 100644 sound/hda/controllers/cix-ipbloq.c
-
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 6087ebde9523..484618cf3cdd 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -212,6 +212,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_RT1305
+ 	imply SND_SOC_RT1308
+ 	imply SND_SOC_RT5514
++	imply SND_SOC_RT5575
+ 	imply SND_SOC_RT5616
+ 	imply SND_SOC_RT5631
+ 	imply SND_SOC_RT5640
+@@ -1784,6 +1785,15 @@ config SND_SOC_RT5514_SPI_BUILTIN
+ 	bool # force RT5514_SPI to be built-in to avoid link errors
+ 	default SND_SOC_RT5514=y && SND_SOC_RT5514_SPI=m
+ 
++config SND_SOC_RT5575
++	tristate "Realtek ALC5575 Codec - I2C"
++	depends on I2C
++
++config SND_SOC_RT5575_SPI
++	tristate "Realtek ALC5575 Codec - SPI"
++	depends on SPI_MASTER
++	select SND_SOC_RT5575
++
+ config SND_SOC_RT5616
+ 	tristate "Realtek RT5616 CODEC"
+ 	depends on I2C
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index d687d4f74363..1b9642318f77 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -253,6 +253,8 @@ snd-soc-rt286-y := rt286.o
+ snd-soc-rt298-y := rt298.o
+ snd-soc-rt5514-y := rt5514.o
+ snd-soc-rt5514-spi-y := rt5514-spi.o
++snd-soc-rt5575-y := rt5575.o
++snd-soc-rt5575-spi-y := rt5575-spi.o
+ snd-soc-rt5616-y := rt5616.o
+ snd-soc-rt5631-y := rt5631.o
+ snd-soc-rt5640-y := rt5640.o
+@@ -686,6 +688,8 @@ obj-$(CONFIG_SND_SOC_RT298)	+= snd-soc-rt298.o
+ obj-$(CONFIG_SND_SOC_RT5514)	+= snd-soc-rt5514.o
+ obj-$(CONFIG_SND_SOC_RT5514_SPI)	+= snd-soc-rt5514-spi.o
+ obj-$(CONFIG_SND_SOC_RT5514_SPI_BUILTIN)	+= snd-soc-rt5514-spi.o
++obj-$(CONFIG_SND_SOC_RT5575)	+= snd-soc-rt5575.o
++obj-$(CONFIG_SND_SOC_RT5575_SPI)	+= snd-soc-rt5575-spi.o
+ obj-$(CONFIG_SND_SOC_RT5616)	+= snd-soc-rt5616.o
+ obj-$(CONFIG_SND_SOC_RT5631)	+= snd-soc-rt5631.o
+ obj-$(CONFIG_SND_SOC_RT5640)	+= snd-soc-rt5640.o
+diff --git a/sound/soc/codecs/rt5575-spi.c b/sound/soc/codecs/rt5575-spi.c
+new file mode 100644
+index 000000000000..12c2379a061e
+--- /dev/null
++++ b/sound/soc/codecs/rt5575-spi.c
+@@ -0,0 +1,84 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * rt5575-spi.c  --  ALC5575 SPI driver
++ *
++ * Copyright(c) 2025 Realtek Semiconductor Corp.
++ *
++ */
++
++#include <linux/of.h>
++#include <linux/spi/spi.h>
++
++#include "rt5575-spi.h"
++
++#define RT5575_SPI_CMD_BURST_WRITE	5
++#define RT5575_SPI_BUF_LEN		240
++
++struct rt5575_spi_burst_write {
++	u8 cmd;
++	u32 addr;
++	u8 data[RT5575_SPI_BUF_LEN];
++	u8 dummy;
++} __packed;
++
++struct spi_device *rt5575_spi;
++EXPORT_SYMBOL_GPL(rt5575_spi);
++
++/**
++ * rt5575_spi_burst_write - Write data to SPI by rt5575 address.
++ * @addr: Start address.
++ * @txbuf: Data buffer for writing.
++ * @len: Data length.
++ *
++ */
++int rt5575_spi_burst_write(u32 addr, const u8 *txbuf, size_t len)
++{
++	struct rt5575_spi_burst_write buf = {
++		.cmd = RT5575_SPI_CMD_BURST_WRITE
++	};
++	unsigned int end, offset = 0;
++
++	while (offset < len) {
++		if (offset + RT5575_SPI_BUF_LEN <= len)
++			end = RT5575_SPI_BUF_LEN;
++		else
++			end = len % RT5575_SPI_BUF_LEN;
++
++		buf.addr = cpu_to_le32(addr + offset);
++
++		memcpy(&buf.data, &txbuf[offset], end);
++
++		spi_write(rt5575_spi, &buf, sizeof(buf));
++
++		offset += RT5575_SPI_BUF_LEN;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rt5575_spi_burst_write);
++
++static int rt5575_spi_probe(struct spi_device *spi)
++{
++	rt5575_spi = spi;
++
++	return 0;
++}
++
++static const struct of_device_id rt5575_of_match[] = {
++	{ .compatible = "realtek,rt5575" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, rt5575_of_match);
++
++static struct spi_driver rt5575_spi_driver = {
++	.driver = {
++		.name = "rt5575",
++		.of_match_table = of_match_ptr(rt5575_of_match),
++	},
++	.probe = rt5575_spi_probe,
++};
++module_spi_driver(rt5575_spi_driver);
++
++MODULE_DESCRIPTION("ALC5575 SPI driver");
++MODULE_AUTHOR("Oder Chiou <oder_chiou@realtek.com>");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/rt5575-spi.h b/sound/soc/codecs/rt5575-spi.h
+new file mode 100644
+index 000000000000..b364b49bb43e
+--- /dev/null
++++ b/sound/soc/codecs/rt5575-spi.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * rt5575-spi.h  --  ALC5575 SPI driver
++ *
++ * Copyright(c) 2025 Realtek Semiconductor Corp.
++ *
++ */
++
++#ifndef __RT5575_SPI_H__
++#define __RT5575_SPI_H__
++
++extern struct spi_device *rt5575_spi;
++
++int rt5575_spi_burst_write(u32 addr, const u8 *txbuf, size_t len);
++
++#endif /* __RT5575_SPI_H__ */
+diff --git a/sound/soc/codecs/rt5575.c b/sound/soc/codecs/rt5575.c
+new file mode 100644
+index 000000000000..c7e8f5a606bc
+--- /dev/null
++++ b/sound/soc/codecs/rt5575.c
+@@ -0,0 +1,375 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * rt5575.c  --  ALC5575 ALSA SoC audio component driver
++ *
++ * Copyright(c) 2025 Realtek Semiconductor Corp.
++ *
++ */
++
++#include <linux/firmware.h>
++#include <linux/i2c.h>
++#include <sound/soc.h>
++#include <sound/tlv.h>
++
++#include "rt5575.h"
++#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
++#include "rt5575-spi.h"
++#endif
++
++static bool rt5575_readable_register(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case RT5575_ID:
++	case RT5575_ID_1:
++	case RT5575_MIXL_VOL:
++	case RT5575_MIXR_VOL:
++	case RT5575_PROMPT_VOL:
++	case RT5575_SPK01_VOL:
++	case RT5575_SPK23_VOL:
++	case RT5575_MIC1_VOL:
++	case RT5575_MIC2_VOL:
++	case RT5575_WNC_CTRL:
++	case RT5575_MODE_CTRL:
++	case RT5575_I2S_RATE_CTRL:
++	case RT5575_SLEEP_CTRL:
++	case RT5575_ALG_BYPASS_CTRL:
++	case RT5575_PINMUX_CTRL_2:
++	case RT5575_GPIO_CTRL_1:
++	case RT5575_DSP_BUS_CTRL:
++	case RT5575_SW_INT:
++	case RT5575_DSP_BOOT_ERR:
++	case RT5575_DSP_READY:
++	case RT5575_DSP_CMD_ADDR:
++	case RT5575_EFUSE_DATA_2:
++	case RT5575_EFUSE_DATA_3:
++		return true;
++	default:
++		return false;
++	}
++}
++
++static const DECLARE_TLV_DB_SCALE(ob_tlv, -9525, 75, 0);
++
++#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
++static void rt5575_fw_load_by_spi(const struct firmware *fw, void *context)
++{
++	struct rt5575_priv *rt5575 = context;
++	struct i2c_client *i2c = rt5575->i2c;
++	const struct firmware *firmware;
++	static const char * const fw_path[] = {
++		"realtek/rt5575/rt5575_fw2.bin",
++		"realtek/rt5575/rt5575_fw3.bin",
++		"realtek/rt5575/rt5575_fw4.bin"
++	};
++	static const u32 fw_addr[] = { 0x5f600000, 0x5f7fe000, 0x5f7ff000 };
++	int i, ret;
++
++	regmap_write(rt5575->dsp_regmap, 0xfafafafa, 0x00000004);
++	regmap_write(rt5575->dsp_regmap, 0x18008064, 0x00000000);
++	regmap_write(rt5575->dsp_regmap, 0x18008068, 0x0002ffff);
++
++	rt5575_spi_burst_write(0x5f400000, fw->data, fw->size);
++	release_firmware(fw);
++
++	for (i = 0; i < ARRAY_SIZE(fw_addr); i++) {
++		ret = request_firmware(&firmware, fw_path[i], &i2c->dev);
++		if (!ret) {
++			rt5575_spi_burst_write(fw_addr[i], firmware->data, firmware->size);
++			release_firmware(firmware);
++		} else {
++			dev_err(&i2c->dev, "Request firmware failure: %d\n", ret);
++			return;
++		}
++	}
++
++	regmap_write(rt5575->dsp_regmap, 0x18000000, 0x00000000);
++
++	regmap_update_bits(rt5575->regmap, RT5575_SW_INT, 1, 1);
++
++	regmap_read_poll_timeout(rt5575->regmap, RT5575_SW_INT, ret, !ret, 100000, 10000000);
++
++	if (ret)
++		dev_err(&i2c->dev, "Run firmware failure: %d\n", ret);
++}
++#endif
++
++static const struct snd_kcontrol_new rt5575_snd_controls[] = {
++	SOC_DOUBLE("Speaker CH-01 Playback Switch", RT5575_SPK01_VOL, 31, 15, 1, 1),
++	SOC_DOUBLE_TLV("Speaker CH-01 Playback Volume", RT5575_SPK01_VOL, 17, 1, 167, 0, ob_tlv),
++	SOC_DOUBLE("Speaker CH-23 Playback Switch", RT5575_SPK23_VOL, 31, 15, 1, 1),
++	SOC_DOUBLE_TLV("Speaker CH-23 Playback Volume", RT5575_SPK23_VOL, 17, 1, 167, 0, ob_tlv),
++	SOC_DOUBLE("Mic1 Capture Switch", RT5575_MIC1_VOL, 31, 15, 1, 1),
++	SOC_DOUBLE_TLV("Mic1 Capture Volume", RT5575_MIC1_VOL, 17, 1, 167, 0, ob_tlv),
++	SOC_DOUBLE("Mic2 Capture Switch", RT5575_MIC2_VOL, 31, 15, 1, 1),
++	SOC_DOUBLE_TLV("Mic2 Capture Volume", RT5575_MIC2_VOL, 17, 1, 167, 0, ob_tlv),
++	SOC_DOUBLE_R("Mix Playback Switch", RT5575_MIXL_VOL, RT5575_MIXR_VOL, 31, 1, 1),
++	SOC_DOUBLE_R_TLV("Mix Playback Volume", RT5575_MIXL_VOL, RT5575_MIXR_VOL, 1, 127, 0,
++		ob_tlv),
++	SOC_DOUBLE("Prompt Playback Switch", RT5575_PROMPT_VOL, 31, 15, 1, 1),
++	SOC_DOUBLE_TLV("Prompt Playback Volume", RT5575_PROMPT_VOL, 17, 1, 167, 0, ob_tlv),
++};
++
++static const struct snd_soc_dapm_widget rt5575_dapm_widgets[] = {
++	SND_SOC_DAPM_AIF_IN("AIF1RX", "AIF1 Playback", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_OUT("AIF1TX", "AIF1 Capture", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_IN("AIF2RX", "AIF2 Playback", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_OUT("AIF2TX", "AIF2 Capture", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_IN("AIF3RX", "AIF3 Playback", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_OUT("AIF3TX", "AIF3 Capture", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_IN("AIF4RX", "AIF4 Playback", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_OUT("AIF4TX", "AIF4 Capture", 0, SND_SOC_NOPM, 0, 0),
++
++	SND_SOC_DAPM_INPUT("INPUT"),
++	SND_SOC_DAPM_OUTPUT("OUTPUT"),
++};
++
++static const struct snd_soc_dapm_route rt5575_dapm_routes[] = {
++	{ "AIF1TX", NULL, "INPUT" },
++	{ "AIF2TX", NULL, "INPUT" },
++	{ "AIF3TX", NULL, "INPUT" },
++	{ "AIF4TX", NULL, "INPUT" },
++	{ "OUTPUT", NULL, "AIF1RX" },
++	{ "OUTPUT", NULL, "AIF2RX" },
++	{ "OUTPUT", NULL, "AIF3RX" },
++	{ "OUTPUT", NULL, "AIF4RX" },
++};
++
++static long long rt5575_get_priv_id(struct rt5575_priv *rt5575)
++{
++	int priv_id_low, priv_id_high;
++
++	regmap_write(rt5575->regmap, RT5575_EFUSE_PID, 0xa0000000);
++	regmap_read(rt5575->regmap, RT5575_EFUSE_DATA_2, &priv_id_low);
++	regmap_read(rt5575->regmap, RT5575_EFUSE_DATA_3, &priv_id_high);
++	regmap_write(rt5575->regmap, RT5575_EFUSE_PID, 0);
++
++	return ((long long)priv_id_high << 32) | (long long)priv_id_low;
++}
++
++static const struct of_device_id rt5575_of_match[] = {
++	{ .compatible = "realtek,rt5575" },
++	{ .compatible = "realtek,rt5575-with-spi" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, rt5575_of_match);
++
++static int rt5575_probe(struct snd_soc_component *component)
++{
++	struct rt5575_priv *rt5575 = snd_soc_component_get_drvdata(component);
++	struct device *dev = component->dev;
++
++	rt5575->component = component;
++
++	dev_info(dev, "Private ID: %llx\n", rt5575_get_priv_id(rt5575));
++
++#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
++	if (of_device_is_compatible(dev->of_node, rt5575_of_match[1].compatible))
++		request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
++		"realtek/rt5575/rt5575_fw1.bin", component->dev, GFP_KERNEL, rt5575,
++		rt5575_fw_load_by_spi);
++#endif
++
++	return 0;
++}
++
++#define RT5575_STEREO_RATES SNDRV_PCM_RATE_8000_192000
++#define RT5575_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S20_3LE | \
++			SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S8 | \
++			SNDRV_PCM_FMTBIT_S32_LE)
++
++static struct snd_soc_dai_driver rt5575_dai[] = {
++	{
++		.name = "rt5575-aif1",
++		.id = RT5575_AIF1,
++		.playback = {
++			.stream_name = "AIF1 Playback",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++		.capture = {
++			.stream_name = "AIF1 Capture",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++	},
++	{
++		.name = "rt5575-aif2",
++		.id = RT5575_AIF2,
++		.playback = {
++			.stream_name = "AIF2 Playback",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++		.capture = {
++			.stream_name = "AIF2 Capture",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++	},
++	{
++		.name = "rt5575-aif3",
++		.id = RT5575_AIF3,
++		.playback = {
++			.stream_name = "AIF3 Playback",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++		.capture = {
++			.stream_name = "AIF3 Capture",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++	},
++	{
++		.name = "rt5575-aif4",
++		.id = RT5575_AIF4,
++		.playback = {
++			.stream_name = "AIF4 Playback",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++		.capture = {
++			.stream_name = "AIF4 Capture",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = RT5575_STEREO_RATES,
++			.formats = RT5575_FORMATS,
++		},
++	},
++};
++
++static const struct snd_soc_component_driver rt5575_soc_component_dev = {
++	.probe = rt5575_probe,
++	.controls = rt5575_snd_controls,
++	.num_controls = ARRAY_SIZE(rt5575_snd_controls),
++	.dapm_widgets = rt5575_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(rt5575_dapm_widgets),
++	.dapm_routes = rt5575_dapm_routes,
++	.num_dapm_routes = ARRAY_SIZE(rt5575_dapm_routes),
++	.use_pmdown_time = 1,
++	.endianness = 1,
++};
++
++static const struct regmap_config rt5575_dsp_regmap = {
++	.name = "dsp",
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 2,
++};
++
++static int rt5575_i2c_read(void *context, unsigned int reg, unsigned int *val)
++{
++	struct i2c_client *client = context;
++	struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
++
++	regmap_read(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING, val);
++
++	return 0;
++}
++
++static int rt5575_i2c_write(void *context, unsigned int reg, unsigned int val)
++{
++	struct i2c_client *client = context;
++	struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
++
++	regmap_write(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING, val);
++
++	return 0;
++}
++
++static const struct regmap_config rt5575_regmap = {
++	.reg_bits = 16,
++	.val_bits = 32,
++	.reg_stride = 4,
++	.max_register = 0xfffc,
++	.readable_reg = rt5575_readable_register,
++	.reg_read = rt5575_i2c_read,
++	.reg_write = rt5575_i2c_write,
++	.use_single_read = true,
++	.use_single_write = true,
++};
++
++static const struct i2c_device_id rt5575_i2c_id[] = {
++	{ "rt5575" },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, rt5575_i2c_id);
++
++static int rt5575_i2c_probe(struct i2c_client *i2c)
++{
++	struct rt5575_priv *rt5575;
++	struct device *dev = &i2c->dev;
++	int ret, val;
++
++#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
++	if (!rt5575_spi && of_device_is_compatible(dev->of_node, rt5575_of_match[1].compatible))
++		return -EPROBE_DEFER;
++#endif
++
++	rt5575 = devm_kzalloc(dev, sizeof(struct rt5575_priv),
++				GFP_KERNEL);
++	if (rt5575 == NULL)
++		return -ENOMEM;
++
++	i2c_set_clientdata(i2c, rt5575);
++
++	rt5575->i2c = i2c;
++
++	rt5575->dsp_regmap = devm_regmap_init_i2c(i2c, &rt5575_dsp_regmap);
++	if (IS_ERR(rt5575->dsp_regmap)) {
++		ret = PTR_ERR(rt5575->dsp_regmap);
++		dev_err(dev, "Failed to allocate register map: %d\n", ret);
++		return ret;
++	}
++
++	rt5575->regmap = devm_regmap_init(dev, NULL, i2c, &rt5575_regmap);
++	if (IS_ERR(rt5575->regmap)) {
++		ret = PTR_ERR(rt5575->regmap);
++		dev_err(dev, "Failed to allocate register map: %d\n", ret);
++		return ret;
++	}
++
++	regmap_read(rt5575->regmap, RT5575_ID, &val);
++	if (val != RT5575_DEVICE_ID) {
++		dev_err(dev, "Device with ID register %08x is not rt5575\n", val);
++		return -ENODEV;
++	}
++
++	regmap_read(rt5575->regmap, RT5575_ID_1, &val);
++	if (!val) {
++		dev_err(dev, "This is not formal version\n");
++		return -ENODEV;
++	}
++
++	return devm_snd_soc_register_component(dev, &rt5575_soc_component_dev, rt5575_dai,
++		ARRAY_SIZE(rt5575_dai));
++}
++
++static struct i2c_driver rt5575_i2c_driver = {
++	.driver = {
++		.name = "rt5575",
++		.owner = THIS_MODULE,
++		.of_match_table = of_match_ptr(rt5575_of_match),
++	},
++	.probe = rt5575_i2c_probe,
++	.id_table = rt5575_i2c_id,
++};
++module_i2c_driver(rt5575_i2c_driver);
++
++MODULE_DESCRIPTION("ASoC ALC5575 driver");
++MODULE_AUTHOR("Oder Chiou <oder_chiou@realtek.com>");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/rt5575.h b/sound/soc/codecs/rt5575.h
+new file mode 100644
+index 000000000000..11149612274a
+--- /dev/null
++++ b/sound/soc/codecs/rt5575.h
+@@ -0,0 +1,54 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * rt5575.h  --  ALC5575 ALSA SoC audio driver
++ *
++ * Copyright(c) 2025 Realtek Semiconductor Corp.
++ *
++ */
++
++#ifndef __RT5575_H__
++#define __RT5575_H__
++
++#define RT5575_DEVICE_ID	0x10ec5575
++#define RT5575_DSP_MAPPING	0x18000000
++
++#define RT5575_ID		0x8008
++#define RT5575_ID_1		0x800c
++#define RT5575_MIXL_VOL		0x8a14
++#define RT5575_MIXR_VOL		0x8a18
++#define RT5575_PROMPT_VOL	0x8a84
++#define RT5575_SPK01_VOL	0x8a88
++#define RT5575_SPK23_VOL	0x8a8c
++#define RT5575_MIC1_VOL		0x8a98
++#define RT5575_MIC2_VOL		0x8a9c
++#define RT5575_WNC_CTRL		0x80ec
++#define RT5575_MODE_CTRL	0x80f0
++#define RT5575_I2S_RATE_CTRL	0x80f4
++#define RT5575_SLEEP_CTRL	0x80f8
++#define RT5575_ALG_BYPASS_CTRL	0x80fc
++#define RT5575_PINMUX_CTRL_2	0x81a4
++#define RT5575_GPIO_CTRL_1	0x8208
++#define RT5575_DSP_BUS_CTRL	0x880c
++#define RT5575_SW_INT		0x0018
++#define RT5575_DSP_BOOT_ERR	0x8e14
++#define RT5575_DSP_READY	0x8e24
++#define RT5575_DSP_CMD_ADDR	0x8e28
++#define RT5575_EFUSE_DATA_2	0xc638
++#define RT5575_EFUSE_DATA_3	0xc63c
++#define RT5575_EFUSE_PID	0xc660
++
++enum {
++	RT5575_AIF1,
++	RT5575_AIF2,
++	RT5575_AIF3,
++	RT5575_AIF4,
++	RT5575_AIFS,
++};
++
++struct rt5575_priv {
++	struct i2c_client *i2c;
++	struct snd_soc_component *component;
++	struct regmap *dsp_regmap, *regmap;
++};
++
++#endif /* __RT5575_H__ */
 -- 
-2.49.0
+2.52.0
 
