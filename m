@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A7D2F7AA8;
-	Mon,  1 Dec 2025 09:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D1E2FE063;
+	Mon,  1 Dec 2025 09:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764581020; cv=none; b=IIz9ccqMOcZkWbtlUWCDdP3Hg8SObRMMuV0BB71k1m/Sf2P2/Ql//+Lzcfv7vgw5q+JMMpzkhC6YbZ/LaUTwsGIQ2fBnQYMoCDj4BZt8iMftffi+cXKhrRyiR1kdIZY/FuMFUj+WTgKH8zFCXzcx0tucDsQlWY4Zvr1r4vh86rM=
+	t=1764581680; cv=none; b=t8SiJIr3ns8IUdyq4FpoqrsswDrG/MYwxwpB198SSPIVdBKTcz+iR/uo3NwTN8ikEiETDmEYzqYuhCPmOGLMX5dKONY7pYiSUb05m4c3xvbBEwl0iXM/7C/7nkBXNB/9KHmkXDY2EZFOrnQo6eCbscCBG3rWvZ94qjwD6N6xnhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764581020; c=relaxed/simple;
-	bh=B57TeBQR82nNUbn/hl+HNkTw/w+l4dC1L/z6qT1VWVY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ftjrTJ9Ke3Rg/AHxIs/AFUtqSKDVU3rums0p7PTeeiPwDyQxsytK6SPXIOVXXqwGa66hi8RAKawqIPDGmhdU3lNsfvr1aJQ+MnlyZGxlf+J1njgHxKGFRafGEcSeWJWUaQBmqytQya01NwqkQZ3pLiG0Jw3eMURpR/qP+s0secU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wi6QqSfD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764581680; c=relaxed/simple;
+	bh=VIhyPXab8dDqL9Up88ILFvU9JOBm8uUfxAoUsAZP8fI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Yjuzm6PdCpV+LjssSovR1DmqVefXLOq/YDITFE19ZvGkS+CdlJgFGpLKPAkrF+qF/X8EOu8yJHNE/V+v/GfMAP0KyOX3PJ3AOE1/BuVodKqRzGxFuJQQ3Pzh52/F6VSdHgVHyget0jEBHjNWLPbfW11hGHjBzl+juAeFJTy5UNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sr6eHPh9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wi6QqSfD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0853CC4CEF1;
-	Mon,  1 Dec 2025 09:23:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sr6eHPh9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7927C116D0;
+	Mon,  1 Dec 2025 09:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764581020;
-	bh=B57TeBQR82nNUbn/hl+HNkTw/w+l4dC1L/z6qT1VWVY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Wi6QqSfDg/qixe7WPtZU3pfLiGous3RVFIEB4xaBuz0UMcATKbUWWGErj5U8Isni+
-	 n2dPwcm/wwhKS62dxa8+Xmg01LThTcs3I1mJzBoo2ikcgrNEX38RZlvPSHaUEeH7I3
-	 qri0rwQ4aOp7jgT2fxmay0Hu10oeeGpfAfajysvg1ylX6PlpZTi8zr0mACS0GfDgF1
-	 yCWbQ5NZL0zsFI3Czzp+pv179f7I1kwtTRyBHzoodaYDAB3/iIc5xL454ulswoix5t
-	 A8NunuhYJidnp6qjy+A0Jb+qE0w+Q5RTnlMtoWNkgVsDkGYFGxZ40oTRc4HVX213JH
-	 jJJisYkcMPkjA==
+	s=k20201202; t=1764581679;
+	bh=VIhyPXab8dDqL9Up88ILFvU9JOBm8uUfxAoUsAZP8fI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sr6eHPh9Lh3CIxmIdaZ3rKfRGG2G9HZPJ7/EdxqOO/A/B+Wawv1/2E8P17tvKNSci
+	 luv/k/9txS3Kr/ET+ezhpOI7qOe4hmG/JdW5otDRTHThJD6QL3Fx8dPRfLHHpf+VTW
+	 m9OczwNVnwsqp5b55hf4ZOWGOxol/+pKIE+Cjah+mVQigN/zQJj614uFve3Ut7Mlwb
+	 NV6Q5GHqHVHe3gepw4CyuHcT04yNxvqiPCqGVmozaXsdfp5xqufooX3z6aAq1+oh18
+	 jBHyPzMrzXGNKVY3D3O793g8ZUzWO11ngblN9tml1QKGhODcEGfgtvh4zfVkYh1jEp
+	 g6Quvuj6myi8w==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vQ08G-0000000034c-0buq;
-	Mon, 01 Dec 2025 10:23:44 +0100
+	id 1vQ0Iu-000000006NQ-2Uab;
+	Mon, 01 Dec 2025 10:34:44 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Mark Brown <broonie@kernel.org>
@@ -39,11 +40,13 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH] ASoC: codecs: wcd939x-sdw: use devres for regmap allocation
-Date: Mon,  1 Dec 2025 10:22:59 +0100
-Message-ID: <20251201092259.11761-1-johan@kernel.org>
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 2/3] ASoC: codecs: wcd938x: fix OF node leaks on probe failure
+Date: Mon,  1 Dec 2025 10:34:18 +0100
+Message-ID: <20251201093419.24474-3-johan@kernel.org>
 X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251201093419.24474-1-johan@kernel.org>
+References: <20251201093419.24474-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,69 +55,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Components are bound inside a new devres group so that any resources
-allocated can be released on bind failure and on unbind without
-affecting anything else.
+The component match entry release function will drop the references
+taken while looking up the soundwire OF nodes when the platform device
+is unbound.
 
-Switch to using device managed regmap allocation for consistency while
-dropping the misleading comment claiming that devres cannot be used.
+Drop the additional references taken to avoid leaking them on probe
+failure (e.g. probe deferral) and on driver unbind.
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Fixes: 8d78602aa87a ("ASoC: codecs: wcd938x: add basic driver")
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- sound/soc/codecs/wcd939x-sdw.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ sound/soc/codecs/wcd938x.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd939x-sdw.c b/sound/soc/codecs/wcd939x-sdw.c
-index da342a0c95a5..399dfba79aa2 100644
---- a/sound/soc/codecs/wcd939x-sdw.c
-+++ b/sound/soc/codecs/wcd939x-sdw.c
-@@ -1384,12 +1384,7 @@ static int wcd9390_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
+diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+index e1a4783b984c..8357f9f1ad72 100644
+--- a/sound/soc/codecs/wcd938x.c
++++ b/sound/soc/codecs/wcd938x.c
+@@ -3465,7 +3465,6 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+ 		return -ENODEV;
  	}
  
- 	if (wcd->is_tx) {
--		/*
--		 * Do not use devres here since devres_release_group() could
--		 * be called by component_unbind() id the aggregate device
--		 * fails to bind.
--		 */
--		wcd->regmap = regmap_init_sdw(pdev, &wcd939x_regmap_config);
-+		wcd->regmap = devm_regmap_init_sdw(pdev, &wcd939x_regmap_config);
- 		if (IS_ERR(wcd->regmap))
- 			return dev_err_probe(dev, PTR_ERR(wcd->regmap),
- 					     "Regmap init failed\n");
-@@ -1400,30 +1395,20 @@ static int wcd9390_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
+-	of_node_get(wcd938x->rxnode);
+ 	component_match_add_release(dev, matchptr, component_release_of,
+ 				    component_compare_of, wcd938x->rxnode);
  
- 	ret = component_add(dev, &wcd_sdw_component_ops);
- 	if (ret)
--		goto err_free_regmap;
-+		return ret;
- 
- 	/* Set suspended until aggregate device is bind */
- 	pm_runtime_set_suspended(dev);
- 
+@@ -3474,7 +3473,7 @@ static int wcd938x_add_slave_components(struct wcd938x_priv *wcd938x,
+ 		dev_err(dev, "%s: Tx-device node not defined\n", __func__);
+ 		return -ENODEV;
+ 	}
+-	of_node_get(wcd938x->txnode);
++
+ 	component_match_add_release(dev, matchptr, component_release_of,
+ 				    component_compare_of, wcd938x->txnode);
  	return 0;
--
--err_free_regmap:
--	if (wcd->regmap)
--		regmap_exit(wcd->regmap);
--
--	return ret;
- }
- 
- static int wcd9390_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct wcd939x_sdw_priv *wcd = dev_get_drvdata(dev);
- 
- 	component_del(dev, &wcd_sdw_component_ops);
- 
--	if (wcd->regmap)
--		regmap_exit(wcd->regmap);
--
- 	return 0;
- }
- 
 -- 
 2.51.2
 
