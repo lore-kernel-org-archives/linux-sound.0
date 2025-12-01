@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D902FE578;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477CA2FF143;
 	Mon,  1 Dec 2025 09:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764581680; cv=none; b=b/fJReT8EWaK1RflApl41odYFhOkWHNkQ5sf2Z2KM4vetf56XH9/nUWY4tpRZgMAF6YTxios0y00DdhKqThGuFIE8eVEA8h+6wffJDguigJBw60LINzHsn/uOr7lIgIBKeyHZkqApwUORkSGu7xgu/GQRyc7QtysPtIcCRkHHIA=
+	t=1764581680; cv=none; b=aA/otmm05flXOGMilnHoRkS5rNxX8V6ILFmfMro6GHHYfIfIU9x6mRHckx2DWGZorVvUq1YoQAiJdLb9oRrpPxnRKsyer2LkTguaWTQLA4tRC1/LWvUkgGTeZp7sjj9RtR9z/aiyZIB4DNC4gvobDwJBD+WQqydk5uTDpXZI3Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764581680; c=relaxed/simple;
-	bh=TmMiO2B3Os+0UOoUWpNfa5CpZiPIWUmd2ouSSyQjaVo=;
+	bh=Y401cRXetgMj8bk9FRO3LZNgQTatnuh7HEXVtI0iY/0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iCPxQlNC9Cpu4/rciCAWeYojlCcf8Ai8OUFrnAVLY554y5CAw/1HqAJAY2nJDsBVfBN2vHvJFJFfoCLzKmc2oFP07r0QBkLxwgiFLO/z06CTX+oCwF+/ejJlAN4Gvrjy2qhfClYdFTn2bHxwGXTEXwPGK+mca7uqwuh/6rG+nKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQGsC9T4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=KOOnzYlDF3YCmv5ummyy6FgOEH3aMwMiWjfTuozWhSNw0HSrCXUBUUemmmdNF1c/k6wc1RoM7v/tb4fo55vSfCWAYIMnoMEOTg4BCCSk+dPbu5hUstzRHyMSTx/nvmQKj3VniskZdJupVHboftUuLQ7l7StGygD5C8EsGEmUZXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITJUoiqP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQGsC9T4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4147C4CEF1;
-	Mon,  1 Dec 2025 09:34:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITJUoiqP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211B6C19422;
+	Mon,  1 Dec 2025 09:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764581679;
-	bh=TmMiO2B3Os+0UOoUWpNfa5CpZiPIWUmd2ouSSyQjaVo=;
+	s=k20201202; t=1764581680;
+	bh=Y401cRXetgMj8bk9FRO3LZNgQTatnuh7HEXVtI0iY/0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GQGsC9T4K1QmPAgoULmBrirFgs12qhJp4d+fI56OmhLwM+YKY3eU5HVOI3a9UINBW
-	 WL7SGAx9bAAXbrFvzI8/0x2leFrPsSiu1yohd4+bsbKTAcG11qOuGgxl9RQVuIUnJj
-	 qgTlk31tx7DRK5lrN5uEbRZpkT98qQ9iPbcX35tK+oaBUNhsLa3aEh1cCHgF9kfkCg
-	 wv8pAW3y7l/dtPWxFHV7MqFaVe1s2uWH5IAXMxapFxBfD7oo8W3zTmpW5cnx3/Efni
-	 5KSi8Vsj9rpKA/guW6bshecSAC6mpr8+TLAHXlEyIVXhSKZQbgyzdXWN5Hq7fCgm7o
-	 Z3bzxsjkZC4pw==
+	b=ITJUoiqPHSPVyHuGKY6yW2LFMwuOHj2pKvnkV9CVtupvSx+1NukwPnZT0H1jmS7/Y
+	 Yv1vRG7WZDIQNA7CqUV6IWzgG8ItgyBWYXWSJH+4NDTnv567Bsbw3RA9a1gg6yx3jO
+	 XLF+DnqOux1Ty+8mNpPnbH27inJ07EwHaKMAvZNtm+QESV7S8j/87I45Of1Q176F7S
+	 2AI8LiVgIiYQIt1VrNe/rrQiY830hDWgPRrRbSAdmfYp5VYkH1NwQOXqUd8kCbyPBA
+	 WV7nXYctTKk7EXEl1fubGpHrosrdZx9YsF3gC1ZP+XeBkzGdcCYJd2DfOYNDDJ1NVT
+	 zAkTxbjGQfJiw==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vQ0Iu-000000006NO-24VB;
+	id 1vQ0Iu-000000006NS-2ocT;
 	Mon, 01 Dec 2025 10:34:44 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Srinivas Kandagatla <srini@kernel.org>,
@@ -40,11 +40,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>,
-	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: [PATCH 1/3] ASoC: codecs: wcd937x: fix OF node leaks on probe failure
-Date: Mon,  1 Dec 2025 10:34:17 +0100
-Message-ID: <20251201093419.24474-2-johan@kernel.org>
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 3/3] ASoC: codecs: wcd939x: fix OF node leaks on probe failure
+Date: Mon,  1 Dec 2025 10:34:19 +0100
+Message-ID: <20251201093419.24474-4-johan@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251201093419.24474-1-johan@kernel.org>
 References: <20251201093419.24474-1-johan@kernel.org>
@@ -63,36 +62,34 @@ is unbound.
 Drop the additional references taken to avoid leaking them on probe
 failure (e.g. probe deferral) and on driver unbind.
 
-Fixes: 9be3ec196da4 ("ASoC: codecs: wcd937x: add wcd937x codec driver")
-Cc: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Fixes: 10f514bd172a ("ASoC: codecs: Add WCD939x Codec driver")
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- sound/soc/codecs/wcd937x.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/wcd939x.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 421ec7a2d6bd..339d2f097218 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -2843,7 +2843,7 @@ static int wcd937x_add_slave_components(struct wcd937x_priv *wcd937x,
- 		dev_err(dev, "Couldn't parse phandle to qcom,rx-device!\n");
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index e74e6f013131..4f3be55370e2 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -3526,7 +3526,6 @@ static int wcd939x_add_slave_components(struct wcd939x_priv *wcd939x,
  		return -ENODEV;
  	}
--	of_node_get(wcd937x->rxnode);
-+
- 	component_match_add_release(dev, matchptr, component_release_of,
- 				    component_compare_of, wcd937x->rxnode);
  
-@@ -2852,7 +2852,7 @@ static int wcd937x_add_slave_components(struct wcd937x_priv *wcd937x,
- 		dev_err(dev, "Couldn't parse phandle to qcom,tx-device\n");
- 			return -ENODEV;
+-	of_node_get(wcd939x->rxnode);
+ 	component_match_add_release(dev, matchptr, component_release_of,
+ 				    component_compare_of, wcd939x->rxnode);
+ 
+@@ -3535,7 +3534,7 @@ static int wcd939x_add_slave_components(struct wcd939x_priv *wcd939x,
+ 		dev_err(dev, "%s: Tx-device node not defined\n", __func__);
+ 		return -ENODEV;
  	}
--	of_node_get(wcd937x->txnode);
+-	of_node_get(wcd939x->txnode);
 +
  	component_match_add_release(dev, matchptr, component_release_of,
- 				    component_compare_of, wcd937x->txnode);
- 
+ 				    component_compare_of, wcd939x->txnode);
+ 	return 0;
 -- 
 2.51.2
 
