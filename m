@@ -1,252 +1,232 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022082.outbound.protection.outlook.com [40.107.75.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296B82E3B0D;
-	Mon,  1 Dec 2025 08:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764576906; cv=fail; b=sTUkbLkk3c3FykUD37fNao9UmlQ9LYoPW7uIoANl9VV5COS92N+fosp0s8rOIMNr8anNgvfl8QzYm5703hKxnVwKbh9shvpX3vftZ0ezYE1aBvz0qWCj6AJY3kV8qa4GOsZSuCJD7DJ2v2qdYfdJDhvYicq3MKAlUq0pR46wE9w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764576906; c=relaxed/simple;
-	bh=obtsKhbnTuoBSMk5foxADL2eYryVeGFTIOANxhCA2Pk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Hn88gG320wcwRHHDfBZnbYhvdoHbzW23emsSAZrihpsds/FTGSITHeaWhUPUigOiQkkZeMhXe+cEdM4u1CJnSN6UFnCze5h/6WBvI8YNWxvAuQQDXXh4Em9jJhdRjY+hR/Q5HzESLh2+YCpvk1pduXaflyGKyNt+ot0DwNB0e5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.75.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tMJ+yETMSvXBgvjWcd5xg6UkU2kV8NNL9yMhqygYSib+K8md7m7uJa4ztdXlIKSnbBCQB9doM3794M9w9Hq3xvJ1jnCnxcKC8dYkVlNAwLDWuJ/+sarLKYV6Bpdt1m3G7cy9qO4PVz7upkeYwHW1o7SDjKY0XPYsiyc8G5p8E0m7Msv6tIVRWmf2DYOa5gGMWBE5oGx5IRPeqiC7nThPVnXKPdCj+ojQUDkhM6EdS0SOpOVtbUh6ob8tFVAhjXG8F5elT6Q3n/tJA5kiSe8XLiwtgD11NyMLxLkNBYuXxkFWS+Ml36k5eymk+wpKphk/IZaRkk9ZdSUeGMkuMer/Gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OgrJJ8g0uvte2NhJbsXHW81ERyyusDp5Xhh/y7LPG1Y=;
- b=eJiP3C5sp2B3PADX8RyEVwAxAgYdvNNfiv28zs7z5OyF5TG3bUwfZ1cjSDBIQgRILJotpEy9w1MgIDU29fc5zA5gDsVAnG6k4HDzneDC21BCX6UJcXGKudE4SeWEwy5Swpbwe+WY8s672QAzQ+rQ11rXXHTeY1ViyeG/B4jEmzyUlASP0qVEE+PogCo5B89fh53QWcaI7ius5Xux+R54XyyObruydgkWoHr/ZXTguB84jta3ppMFP34wAu3dXEERcEPZCCW3FVgSL4sDgmTRfiRv1h/eO4sNDuQ7tQVxikpN4r4KjnNnQoWno77P7F5LAJzFfHP4UbTOSOqfJRRKZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
- dkim=pass header.d=cixtech.com; arc=none
-Received: from SEYPR06MB6226.apcprd06.prod.outlook.com (2603:1096:101:df::13)
- by TYZPR06MB6639.apcprd06.prod.outlook.com (2603:1096:400:45b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Mon, 1 Dec
- 2025 08:14:57 +0000
-Received: from SEYPR06MB6226.apcprd06.prod.outlook.com
- ([fe80::56e8:777c:d80e:d364]) by SEYPR06MB6226.apcprd06.prod.outlook.com
- ([fe80::56e8:777c:d80e:d364%5]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 08:14:57 +0000
-From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "broonie@kernel.org"
-	<broonie@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com"
-	<tiwai@suse.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, cix-kernel-upstream
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB5F2E7182
+	for <linux-sound@vger.kernel.org>; Mon,  1 Dec 2025 08:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764578470; cv=none; b=IuO9IqzqXVT0YCRO4iPqHwj4rr+MSzHEmuclDAeHavfMllumep7vKYiAO7g7bMQhpTr8eNHgmtVHFw0q8Zyyb12jjpRHq73mnt7k0IwdhgzLvz2dD+Ixh0faEo3yECETWSs9G9E+4E/ZdQtCQPjZRpPrbYYJyBakI1xrnFiCZc4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764578470; c=relaxed/simple;
+	bh=CG8i24/mz2sClXO9Z4WYHvqVvkWCiLpRn1K+K6HxuLw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TqGTy53IB7UFfYCNgOubxcX4nUIzBUXezIvCdm+ykZxCdH9fY4Wh0yNAGzlsQBNnS9fUr7G1JOaTV9+RDgix5U7YquEp8VNQXVr9J/P+e5lBZ3yyJa9/q61e81eAGe9S9j8tkWeVdFbYknTg/Vank0QeheUwHqTBPcbXHyBIG6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pYLNWuRl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l1kND3Pz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s17wxIhO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qrWjtcND; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pYLNWuRl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l1kND3Pz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s17wxIhO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qrWjtcND"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 376B93379C;
+	Mon,  1 Dec 2025 08:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764578466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/HqrAqUREYOgMdrbihNFfVZ5OBi2extLEfpQOjtfKdE=;
+	b=pYLNWuRllbg8avaCnfL6HD6BbkTP304Pw8k9Pz4ZcK2kXdGNbO0Jrsz07zvxs5CWufxNoR
+	VOX3KQb5YkPfT7aZCni3RATDD6zerfZAHk+JHtvBx5/wACfX64s6Hr4/Yjlktn+gdNfLG1
+	42iy02aE4PA0AMN8ynNx0pMi/KUD2PM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764578466;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/HqrAqUREYOgMdrbihNFfVZ5OBi2extLEfpQOjtfKdE=;
+	b=l1kND3PzI8+QaVdokb4vxy9JTwpT7mnbbPYNJ0QXUwWAxXOQ8NpfFLX/WhHKYvdtVJsU6c
+	FRNdcXT8oHUcxcCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764578464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/HqrAqUREYOgMdrbihNFfVZ5OBi2extLEfpQOjtfKdE=;
+	b=s17wxIhO+7GfZqTxBde944bWOsY5PiPwoNHnFbom46aHStNO/yCB2DQdaMmvWFpqZU18qT
+	Dll+fnKDeyMuLALN9f1tBQqc9Z4tc84+UPMi/2Bhj72ZENo9AKix6CzNMN+GS/7Fti/IXB
+	JcC9BgEchieP/sTGps2tpJrqjc1QZvc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764578464;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/HqrAqUREYOgMdrbihNFfVZ5OBi2extLEfpQOjtfKdE=;
+	b=qrWjtcNDxXU1fLaRk2j4xyRPFBmWWGaGJUtqSpcrQVe170mtYs+aL7mQbSovu47Vu2r8xi
+	lxEBV9cdR79y3dAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D50293EA63;
+	Mon,  1 Dec 2025 08:41:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EDTEMp9ULWkALQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Dec 2025 08:41:03 +0000
+Date: Mon, 01 Dec 2025 09:41:03 +0100
+Message-ID: <87cy4yd274.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Joakim  Zhang" <joakim.zhang@cixtech.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"broonie@kernel.org"
+	<broonie@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org"
+	<conor+dt@kernel.org>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com"
+	<tiwai@suse.com>,
+	"linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+	"devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+	cix-kernel-upstream
 	<cix-kernel-upstream@cixtech.com>
-Subject: RE: [PATCH V1 2/3] ALSA: hda: add bus callback for address
- translation
-Thread-Topic: [PATCH V1 2/3] ALSA: hda: add bus callback for address
- translation
-Thread-Index: AQHcSY3fXpnPYF79REi810Kk8OFzRrTcH74AgCpLopCAAhi+gIAED+iw
-Date: Mon, 1 Dec 2025 08:14:57 +0000
-Message-ID:
- <SEYPR06MB62263D352405481E3046320782DBA@SEYPR06MB6226.apcprd06.prod.outlook.com>
+Subject: Re: [PATCH V1 2/3] ALSA: hda: add bus callback for address translation
+In-Reply-To: <SEYPR06MB62263D352405481E3046320782DBA@SEYPR06MB6226.apcprd06.prod.outlook.com>
 References: <20251030110928.1572703-1-joakim.zhang@cixtech.com>
 	<20251030110928.1572703-3-joakim.zhang@cixtech.com>
 	<87pla3joop.wl-tiwai@suse.de>
 	<SEYPR06MB62269EEF81C53AC28278694982DFA@SEYPR06MB6226.apcprd06.prod.outlook.com>
- <87ecpi842g.wl-tiwai@suse.de>
-In-Reply-To: <87ecpi842g.wl-tiwai@suse.de>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cixtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB6226:EE_|TYZPR06MB6639:EE_
-x-ms-office365-filtering-correlation-id: 56a9b1de-243a-4a7e-3ef0-08de30b1b72c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021|7053199007;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?DQpwi3LaCdKbCkJiZbKlP5KYhqkBGXKdYWQpyOxJGgoQK8+iQfXGOpSy/aN2?=
- =?us-ascii?Q?V2KASNJujle/zjI7wNzrRoD24ym6ftbpXymESSQlivRIRbGFp7KaCrOg3yLu?=
- =?us-ascii?Q?gQLLH/d97TYE0+Pxu16PLlPeNGRHKRTzegN7rTeC2lL6LtDAsd9I8rRgPw5t?=
- =?us-ascii?Q?a90PsNEA5oI8qWZ0amVuhjBFrxza+sl2cBU1O26wz0w7qT+TMkyYFN8+EyPU?=
- =?us-ascii?Q?sLOJFJV5t2F3dQ8Py4M0/pQt3b7GO6LPzGptCA9CHnUnT5JrUEac5hqFPh/V?=
- =?us-ascii?Q?tUZScM8AT/ZEBRtqyc4Mgv0Rys6So5As3jvdrR5EMdM5SwixkwfbpO+8Rl/9?=
- =?us-ascii?Q?Jeqt+0oVAPbK39VEMYHSJStfEafY7dq74AhLbFICSVpGahX2SECLODQ65nol?=
- =?us-ascii?Q?4sNH74jbomKGkyzZ3kUwDimLJQW4eYaQ2u3ZQjHbEAREvX67P4mefxFcT6xA?=
- =?us-ascii?Q?6sG4ETw730rZsRT5PQbCyJDA4YY/5M6lfFGyAEsRmQ3PJnTvHRWzQmwD1y1X?=
- =?us-ascii?Q?k4ZbbaVBp87JHR93gQFVvZ2xs43ZoS6YluQhfC3jO0axsoUN+01AP+hZ73hY?=
- =?us-ascii?Q?WVgf+ZbmjFsnP3gGS2Cokw3TUtRL+uARsnlMShXi0axbW3iWFwufPFlhuB4i?=
- =?us-ascii?Q?7ORDPaua/J6ZtgL2wByk1vYqdzRoZKma5iOU58juaEvI6c8sC3t+HNJGD5Pj?=
- =?us-ascii?Q?keANpRkkjmHNn0kg8T3I7dPTZyezoo8fjjj2VBuaQqHJbFU4f79+0xXc6CvE?=
- =?us-ascii?Q?YcwZfmTZ0k1KRmxD8RAmy3errJsKXXBjefkbmMK9BeCsXRUDTGoeNhSElgQg?=
- =?us-ascii?Q?DQJBVFSWplnGUS6MOuXYQ1l0K4e6fpv+GuSkihow/k+6LtVas/oxiFHqXUJd?=
- =?us-ascii?Q?nlaY9kUHnJsKMqdNJY68+0BKpUTMVNi8xiGBGxVB5o8XVQjQfcp8n7vql7tw?=
- =?us-ascii?Q?xSsZP49oTv+yGn1m1xWDdzqTVUWpTFRvXvAnNbqs7wi/0MgSyXU/a6ZlhAMn?=
- =?us-ascii?Q?WQzYTWnUqdXW9mU86bo5H2h7nrcvBJRZlacDy9QOkEV4soRyhpsUi7a/S5oF?=
- =?us-ascii?Q?auHsfjlxCRgFXuRsdk03n3uapLXB8boezz3/P8f0sUPq/CY/NJcdrfZCCEhu?=
- =?us-ascii?Q?HiboOVrpJYlbVBPqCl/6O3MKYYHFCGuWx/UTtu+qW0nU03z+VSgSCUDBPeAM?=
- =?us-ascii?Q?o1R1EPc6QR/DVEYqF51orjrlzuhAjk7Uccu87mF1f68vgizALnJWuvnK3Fjr?=
- =?us-ascii?Q?etBqvSMwb+gEsAECJtkMlxli1mQwINel7KNV6XpUnR3uT4iaWCv8AVsZtx0V?=
- =?us-ascii?Q?fq3/SmKdylFPgy514LnBEA3fst9MgjGcnR6ApT6ZUXBZSLuYj95DRKm66e3w?=
- =?us-ascii?Q?HZpHuVExTpfqDh2xA2c+j7BtzoQfxJuOtovVO4JllVgsU34Uew9qaWmwzq5c?=
- =?us-ascii?Q?VYPgn2eBaeldh60rAojwwLB5+fxCRyb3TTyl5bsRxoByVyBByMyrmjXC6O4H?=
- =?us-ascii?Q?vHDnpbYi7uV5jH2Hlr66oaitKNl6Zuit6lVU?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6226.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(7053199007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?M9RbsjY28jDBSXcR8W7j5YqaHIWKpnwwsa6gZ7SEqAbssF89cos06z5ZkuDS?=
- =?us-ascii?Q?p1lLvyb9y+igleqeSLVjFPnXUCzDm1mka1tqK8XYezCBev8xzKGYqEjiBfUY?=
- =?us-ascii?Q?t0jt3ZzDwZuKf9kiHMj7AzpqJmqgB9eMboLMUFiQeYXqYZ5N1eDDQNOhhEJg?=
- =?us-ascii?Q?OnzXH1mL5nKoHethLesI1i80CTf/dQm41uJ1nmJfDwSkUiGUkSxNapLvBvny?=
- =?us-ascii?Q?o7kjk5/H6jSpc3TNxFgYEzlZDF024riuRyamJ1EUYRAfsPLWPwYaPp8Chf8/?=
- =?us-ascii?Q?+/K0fSHlnqJNePlqk4ujIv7k9L/Z+fgfmg6qV3ibDcik0GbWwWXMjQkUmHrZ?=
- =?us-ascii?Q?SSgyqV0+5sa/QyiocoRj2mSK2PAqaqQ4IskZK8UUngfLxAN2oG9hACIb0+j6?=
- =?us-ascii?Q?Bxua/FNuvlNRhHi6WkBWabgjZSDtvK415p76Ss7itjNKKuCn1P7wJUTtyGJB?=
- =?us-ascii?Q?6SeYnHPua6W9A0C202EUT8dogXPtG2Mel1ZWCdNr+R0OW+x8ZU5VDQEUGNWw?=
- =?us-ascii?Q?3ZnI4KkVYqlMAyi+TIzAryb5Mh1iQ0Xyfk7UxU1VCjgzSAO45ctaIyydb165?=
- =?us-ascii?Q?5b10K2xi0Lwsst9c9Mst93LGGkA13/CVAc81dcpYVWmSv0lGk6zQblQd4b1J?=
- =?us-ascii?Q?i14Hv/VET9iYi8S1+snZLh7ZHYuAM2mAy8LR/da76FJ2OURYzfd4zmTfGjGX?=
- =?us-ascii?Q?fv8iC4OEr/1m7Mqze+hVk0sh/mkQcKy+TBbrUxpGVLE5ahshAUBo4DX4Bmzp?=
- =?us-ascii?Q?AkWKg66M/FY4vgxvJP+VgvuCxXyHnM2H5b1IJrGMHcbBOiwv1V7k9lfvXspu?=
- =?us-ascii?Q?8kfC6UEymG5fBA8fSu1qIOgpwyKeTLfglQ20IFfjNmFAvc0y4f0e8S2EEae+?=
- =?us-ascii?Q?ZmM+bGTO+SV38+KpsZwnKidpbOY2AQt5ZmfBb7fxx8EcEPYihM9O0b0b8Q5x?=
- =?us-ascii?Q?iQ4JUc9U+C5L9+y30TxCjmXqNtMyAXHUDQ8jvh7nDHYZfqqAvA1FFvrp+Z3y?=
- =?us-ascii?Q?UhjE/rMS2WKa4JN4O+7JMVeFjpVyNEqJn5Zi5YdA4rMfs/7eVV7gbCeaFWt3?=
- =?us-ascii?Q?RRWSkaj4rFb/74o9RdQNb3GE0z7KzZImn46HqZn0veNEy4ZPTKakqBQ9YR8C?=
- =?us-ascii?Q?Mbl4t1GiUDHNLYbv7BeUS2tH89z0vaC3OdkLzWii+asJft23cPZBvUbC2hIL?=
- =?us-ascii?Q?wSEC5Pb7QmI0OP8/0rlPLMhEqO/ikA0XzzIZQoXzqQy4FpOHJ9m4pFIsiQux?=
- =?us-ascii?Q?vvR9N1QSBIOZe4lW5aNugv7zOwt72HjvPIqohuHv8Q8LbI13541i0hSeVgoz?=
- =?us-ascii?Q?GBnUuHImtTr/wVrmoro05i5wBfANLdvUJXo4zfK5uzEC02F1iLy6Zb0xVDJ6?=
- =?us-ascii?Q?Dl/5bsPUjweZjmu4r8HxMJ8jXHw9hfzPBJCBAZ1qdtv2Oh7TsUgqr0TkTxTy?=
- =?us-ascii?Q?+pru1jyt8GgLSwwk9DuRPw3+PDjRo9fHCUhJWmBuSbIRND421CRTvCHRUlNe?=
- =?us-ascii?Q?7KZOWcjkygAC78gxRLuQlVePI1ZFTW6hxvZxMJwBYui8OA/ZhALw+OH6+HIp?=
- =?us-ascii?Q?/7DI3Ix503KfHHsrAd7TROH4suBjtDte8GgDUXF8?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	<87ecpi842g.wl-tiwai@suse.de>
+	<SEYPR06MB62263D352405481E3046320782DBA@SEYPR06MB6226.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6226.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56a9b1de-243a-4a7e-3ef0-08de30b1b72c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2025 08:14:57.3114
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EOrP6/uxXwLHQnOyaST9fmoBJ7IAzBpDiv8XNyzc2ZfM+N5SX96PQf8ZaZtkuS9nS2l9qCtMB341lO8aB3QzieQ0wGL94k8pJi4NiKdWCAI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6639
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[dt];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,kernel.org,perex.cz,suse.com,vger.kernel.org,cixtech.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,perex.cz:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,cixtech.com:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,perex.cz:email]
+X-Spam-Level: 
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-
-Hello Takashi,
-
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Saturday, November 29, 2025 1:23 AM
-> To: Joakim Zhang <joakim.zhang@cixtech.com>
-> Cc: Takashi Iwai <tiwai@suse.de>; lgirdwood@gmail.com;
-> broonie@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
-> conor+dt@kernel.org; perex@perex.cz; tiwai@suse.com; linux-
-> sound@vger.kernel.org; devicetree@vger.kernel.org; cix-kernel-upstream
-> <cix-kernel-upstream@cixtech.com>
-> Subject: Re: [PATCH V1 2/3] ALSA: hda: add bus callback for address
-> translation
->=20
-> EXTERNAL EMAIL
->=20
-> CAUTION: Suspicious Email from unusual domain.
->=20
-> On Thu, 27 Nov 2025 10:44:26 +0100,
-> Joakim  Zhang wrote:
+On Mon, 01 Dec 2025 09:14:57 +0100,
+Joakim  Zhang wrote:
+> 
+> 
+> Hello Takashi,
+> 
+> > -----Original Message-----
+> > From: Takashi Iwai <tiwai@suse.de>
+> > Sent: Saturday, November 29, 2025 1:23 AM
+> > To: Joakim Zhang <joakim.zhang@cixtech.com>
+> > Cc: Takashi Iwai <tiwai@suse.de>; lgirdwood@gmail.com;
+> > broonie@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
+> > conor+dt@kernel.org; perex@perex.cz; tiwai@suse.com; linux-
+> > sound@vger.kernel.org; devicetree@vger.kernel.org; cix-kernel-upstream
+> > <cix-kernel-upstream@cixtech.com>
+> > Subject: Re: [PATCH V1 2/3] ALSA: hda: add bus callback for address
+> > translation
 > >
-> > [...]
-> > > >  include/sound/hdaudio.h     |  3 +++
-> > > >  sound/hda/core/controller.c | 25 +++++++++++++++++++------
-> > > >  sound/hda/core/stream.c     | 17 ++++++++++++++---
-> > > >  3 files changed, 36 insertions(+), 9 deletions(-)
+> > EXTERNAL EMAIL
+> >
+> > CAUTION: Suspicious Email from unusual domain.
+> >
+> > On Thu, 27 Nov 2025 10:44:26 +0100,
+> > Joakim  Zhang wrote:
+> > >
+> > > [...]
+> > > > >  include/sound/hdaudio.h     |  3 +++
+> > > > >  sound/hda/core/controller.c | 25 +++++++++++++++++++------
+> > > > >  sound/hda/core/stream.c     | 17 ++++++++++++++---
+> > > > >  3 files changed, 36 insertions(+), 9 deletions(-)
+> > > > >
+> > > > > diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+> > > > > index 4e0c1d8af09f..61b41a014f4a 100644
+> > > > > --- a/include/sound/hdaudio.h
+> > > > > +++ b/include/sound/hdaudio.h
+> > > > > @@ -293,6 +293,9 @@ struct hdac_bus {
+> > > > >       const struct hdac_bus_ops *ops;
+> > > > >       const struct hdac_ext_bus_ops *ext_ops;
+> > > > >
+> > > > > +     /* address translation from host to hdac */
+> > > > > +     dma_addr_t (*addr_host_to_hdac)(struct hdac_bus *bus,
+> > > > > + dma_addr_t addr);
 > > > >
-> > > > diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-> > > > index 4e0c1d8af09f..61b41a014f4a 100644
-> > > > --- a/include/sound/hdaudio.h
-> > > > +++ b/include/sound/hdaudio.h
-> > > > @@ -293,6 +293,9 @@ struct hdac_bus {
-> > > >       const struct hdac_bus_ops *ops;
-> > > >       const struct hdac_ext_bus_ops *ext_ops;
+> > > > This should be rather added to hdac_bus_ops instead.
 > > > >
-> > > > +     /* address translation from host to hdac */
-> > > > +     dma_addr_t (*addr_host_to_hdac)(struct hdac_bus *bus,
-> > > > + dma_addr_t addr);
+> > > > Or, we can just add addr_offset field in hdac_bus instead of yet
+> > > > another callback.  Then the change would be simpler.
+> > > >
 > > >
-> > > This should be rather added to hdac_bus_ops instead.
+> > > Hello Takashi,
 > > >
-> > > Or, we can just add addr_offset field in hdac_bus instead of yet
-> > > another callback.  Then the change would be simpler.
+> > > Sorry for late updating since I am involving in other tasks recently.
 > > >
+> > > I tried to add addr_offset field in hdac_bus for the address
+> > > translation, but met the issue, e.g.
+> > > On our platform, if HOST address is 0xd0c09000, HDAC address is
+> > 0xd0c09000 - 0x90000000 = 0x40c09000.
+> > >
+> > > If we use the pattern, HOST_addr + addr_offset = HDAC_addr For 64bit
+> > > host, then addr_offset shound be 0x70000000,
+> > > 0xd0c09000+0x70000000=0x1_40c09000, it will update both lower 32bit
+> > > and upper 32bit into hda registers. However, hda controller in our
+> > > audio subsystem can only support 32bit address, if hda  sending address
+> > more than 32bit, it would not work.
 > >
-> > Hello Takashi,
+> > Hm, I don't understand.  It we define something like
 > >
-> > Sorry for late updating since I am involving in other tasks recently.
+> >         dma_addr_t addr_offset;
 > >
-> > I tried to add addr_offset field in hdac_bus for the address
-> > translation, but met the issue, e.g.
-> > On our platform, if HOST address is 0xd0c09000, HDAC address is
-> 0xd0c09000 - 0x90000000 =3D 0x40c09000.
+> > in hdac_bus, and the driver setting
 > >
-> > If we use the pattern, HOST_addr + addr_offset =3D HDAC_addr For 64bit
-> > host, then addr_offset shound be 0x70000000,
-> > 0xd0c09000+0x70000000=3D0x1_40c09000, it will update both lower 32bit
-> > and upper 32bit into hda registers. However, hda controller in our
-> > audio subsystem can only support 32bit address, if hda  sending address
-> more than 32bit, it would not work.
->=20
-> Hm, I don't understand.  It we define something like
->=20
->         dma_addr_t addr_offset;
->=20
-> in hdac_bus, and the driver setting
->=20
->         bus->addr_offset =3D -0x90000000;
->=20
-> then a calculation
->=20
->         dma_addr_t addr;
->=20
->         addr =3D bus->rb.addr + bus->addr_offset;
->=20
-> will lead to the very same result as your callback, no?
-> Or am I missing something?
+> >         bus->addr_offset = -0x90000000;
+> >
+> > then a calculation
+> >
+> >         dma_addr_t addr;
+> >
+> >         addr = bus->rb.addr + bus->addr_offset;
+> >
+> > will lead to the very same result as your callback, no?
+> > Or am I missing something?
+> 
+> typedef u64 dma_addr_t;
+> 
+> 1)
+> dma_addr_t a = 0xd0c09000;
+> dma_addr_t b = -0x90000000;
 
-typedef u64 dma_addr_t;
+You have to pass with ULL suffix as a 64bit value instead:
+  dma_addr_t b = -0x90000000ULL;
 
-1)
-dma_addr_t a =3D 0xd0c09000;
-dma_addr_t b =3D -0x90000000;
-dma_addr_t c;
 
-c =3D a + b =3D 0x140c09000;
+thanks,
 
-2)
-dma_addr_t a =3D 0xd0c09000;
-dma_addr_t b =3D 0x90000000;
-dma_addr_t c;
-
-c =3D a - b =3D 0x40c09000;
-
-The results are different, 0x140c09000 vs 0x40c09000
-
-As I mentioned, our audio subsystem cannot accept which upper 32bit is not =
-zero.=20
-
-Is there any misunderstanding here?
-
+Takashi
