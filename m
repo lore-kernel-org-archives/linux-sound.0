@@ -1,86 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407831A262A;
-	Tue,  2 Dec 2025 17:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569502C0F7D;
+	Tue,  2 Dec 2025 17:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764695310; cv=none; b=FdtuPZOFHh/i8ldQfy5E5IMT5Pgut4LTr/ltyzjz4ESsqVvp9+wxTvG+Co72oWH0pnVC9X9tWkv7VbuUgzltC2wPnlt0wYDBWlEUq1BnLxVGlGbQLgI7b+I0HG+zhawiBLLUsOcO+84XNtRiey8VPS6g+AXVjn/onDth84f+0LU=
+	t=1764696544; cv=none; b=LYAiXsJKMaOYFf7BxqRvPkNIS2zvfP0YPOEmgeA1tXzpECC7/GNNrO+VxVSk/G18hb2m9T0E9JZtaIyvG8OdeP9gaQ0XqNlc/qnmtw8er2IQSp1DyN0yI7du/KzzaEVbFbYvTXG9a9cTVbaVwe+IoGsGJLThW3rUpwHomOS1qrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764695310; c=relaxed/simple;
-	bh=ieY+CarKhRxibM5rZwQkWt0RP9OzfnZZD5pQPMi4pSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZoFGyTEtpqHrcfMm05hvqlACtEb0cqHrtRJXf2qZXfZj59s5lC4EmogKDxWJ9y7cCULRsHB3/uf1T5N0XI1ubTk9KI6DvJ+HrF1rQYWlCM+LzqGSznA2MUutxylpcxLmz7nZrMMd9gqGXrHfd5S4eB8+GGNUy0VjKGB3+Cy9zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhKfO2A8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764696544; c=relaxed/simple;
+	bh=0CWgiXQjHQ+aAB2ksEpI1/F3O3ikreeGDOLzHq6IPXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SxD23Wt0V9J+DL/krg2qxwKQ+97gi7FUoiMoWDrxkg7yhNole7a8UEsDvDniZnouyx5PUnufR7mv/6bfca8wntGh7wM4tOooHPYvkSaepesPsv7jbx78qlB7g+hq2eL/8VnPeJk9rzGF5MFlnGLv9oF4y+Kw3uDaHJwgQKaWB9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JXgL/7g8; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhKfO2A8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F78C4CEF1;
-	Tue,  2 Dec 2025 17:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764695309;
-	bh=ieY+CarKhRxibM5rZwQkWt0RP9OzfnZZD5pQPMi4pSs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LhKfO2A8z0jlkWR4WtisKmOc4DEvzyilvSPnCkn7sOivttiD4HnjRcw90FjxQcp77
-	 WCkP7PuExyghmDlQINRfHfWgwokHtFQqXnSNk5yRFzLu6bGvNlz8GTKGgjtBOH8GmM
-	 3jqNGAsCiZmOqtF5GvWKM8GBpZ0DghB/4qrawZL707o96/1cgNYb3p6JsA+zK5PEAV
-	 PVoJWAile+s0QTMk+j/kzMUHBGhj8+xcNOaCQizxpDqxAiZ8VEWRUER+Gst6rR3bpL
-	 K1Sth+IOSF4NsNZhm0S9SpsBy4dubhGPaf9aqJLAMeiyNESzYdAXyNIl/vmLCNJdf4
-	 MF6NY2P7HfbqA==
-Date: Tue, 2 Dec 2025 17:08:24 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/4] ASoC / soc/qcom: Constify APR/GPR callback response
- data
-Message-ID: <3eef7aee-a3b2-481d-9aa2-262d717970ad@sirena.org.uk>
-References: <20251130-asoc-apr-const-v1-0-d0833f3ed423@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JXgL/7g8"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 769D1C15D7C;
+	Tue,  2 Dec 2025 17:28:37 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9EB6160706;
+	Tue,  2 Dec 2025 17:29:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9122811919DC9;
+	Tue,  2 Dec 2025 18:28:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764696536; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4BQ1XtM/oSaifBg16TjvVJ4//gt59MDXZf9Ix2wTO1g=;
+	b=JXgL/7g8k9S4vyskm8xyx1v29w1Me/J6AytYr7l55uyR3/5yDOXjtNyXEpR4wnxzYATmyM
+	vHSSeoX3hQa4vzJXXb6fc5ZendC+ixZc9ZsDBq5nvDbybqEuvHLSPd6L1sl+qyeFU7MMzF
+	Pakz/1p9eIVtQHV4cEBWcCm34HvitG+eThoA2ZyRWEjJuwS9JIrY+uH0GWqHJhx7YDau78
+	0rJqXrBVIAcZoW1khXUNBI6hJAnO3V31IUdVOOPz3tTjjTANzVp+WhhiUK2qKCKK6iRk1y
+	Qi0+GI7U02463lZtkJONer2Ox9Cl+afa+OUmpY8ymeUYGSefeooQJPNbGx16sg==
+Date: Tue, 2 Dec 2025 18:28:34 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Kalle Niemi <kaleposti@gmail.com>, Rob Herring <robh@kernel.org>, Matti
+ Vaittinen <mazziesaccount@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, Saravana
+ Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Charles
+ Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
+ Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
+ overlays"
+Message-ID: <20251202182834.65d7f0a1@bootlin.com>
+In-Reply-To: <CAMuHMdXogrkTAm=4pC0B+Sybr=PR3XovnBgmiEyTvUMmJHvBRA@mail.gmail.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	<20251015071420.1173068-2-herve.codina@bootlin.com>
+	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
+	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
+	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
+	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
+	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
+	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
+	<20251202102619.5cd971cc@bootlin.com>
+	<CAMuHMdXogrkTAm=4pC0B+Sybr=PR3XovnBgmiEyTvUMmJHvBRA@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sipniroWj3oprzj3"
-Content-Disposition: inline
-In-Reply-To: <20251130-asoc-apr-const-v1-0-d0833f3ed423@oss.qualcomm.com>
-X-Cookie: Beware the new TTY code!
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi Geert,
 
---sipniroWj3oprzj3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2 Dec 2025 17:35:35 +0100
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-On Sun, Nov 30, 2025 at 10:40:22AM +0100, Krzysztof Kozlowski wrote:
-> Patch #1 and #3 touches also Qualcomm SoC file, so this could go either
-> via Qualcomm SoC tree (with Mark's Ack) or via ASoC tree (with Bjorn's
-> Ack).
->=20
-> I propose to take it via ASoC tree (Bjorn's Ack), because I am
-> constifying things there already, so less possible conflicts.
+> Hi Hervé,
+> 
+> On Tue, 2 Dec 2025 at 10:26, Herve Codina <herve.codina@bootlin.com> wrote:
+> > On Fri, 28 Nov 2025 10:34:57 +0200
+> > Kalle Niemi <kaleposti@gmail.com> wrote:  
+> > > >>>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
+> > > >>>>>> BD71847 drivers probe to not be called.  
+> > > >>>>> This driver (and overlay support) is in linux-next or something out of
+> > > >>>>> tree on top of linux-next?
+> > > >>>>>
+> > > >>>>> Rob  
+> > > >>>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c  
+> > > >>> I don't see any support to apply overlays in that driver.  
+> > > >> Ah. Sorry for the confusion peeps. I asked Kalle to report this without
+> > > >> proper consideration. 100% my bad.
+> > > >>
+> > > >> While the bd718x7 drive indeed is mainline (and tested), the actual
+> > > >> 'glue-code' doing the overlay is part of the downstream test
+> > > >> infrastructure. So yes, this is not a bug in upstream kernel - this
+> > > >> falls in the category of an upstream change causing downstream things to
+> > > >> break. So, feel free to say: "Go fix your code" :)
+> > > >>
+> > > >> Now that this is sorted, if someone is still interested in helping us to
+> > > >> get our upstream drivers tested - the downstream piece is just taking
+> > > >> the compiled device-tree overlay at runtime (via bin-attribute file),
+> > > >> and applying it using the of_overlay_fdt_apply(). The approach is
+> > > >> working for our testing purposes when the device is added to I2C/SPI
+> > > >> node which is already enabled. However, in case where we have the I2C
+> > > >> disabled, and enable it in the same overlay where we add the new device
+> > > >> - then the new device does not get probed.
+> > > >>
+> > > >> I would be really grateful if someone had a pointer for us.  
+> > > > Seems to be fw_devlink related. I suppose if you turn it off it works?
+> > > > There's info about the dependencies in sysfs or maybe debugfs. I don't
+> > > > remember the details, but that should help to tell you why things
+> > > > aren't probing.  
+> >
+> > Rob reverted patches but I plan to continue my work on it.
+> > On my side, I need the reverted patches but I fully understand that, on
+> > your side, you need a working system.
+> >
+> > In order to move forward and find a solution for my next iteration, can you
+> > send your overlay (dtso) used in your working and non working cases?  
+> 
+> Hmm, I must have missed when Rob applied (part of) this series, as I
+> do an overlay test (using the out-of-tree configfs) on top of every
+> (bi-weekly) renesas-drivers release, and saw no issues during the last
+> few months.
+> 
+> So I applied this series and tested loading my SPI EEPROM overlay.
+> And it indeed breaks, with the culprit being this particular patch.
+> 
+> Interestingly, quoting from this patch:
+> 
+>    "While the commit fixed fw_devlink overlay handling for one case, it
+>     broke it for another case. So revert it and redo the fix in a separate
+>     patch."
+> 
+> Where is the separate patch that redid the fix? I assume it is "[PATCH
+> v4 03/29] of: dynamic: Fix overlayed devices not probing because
+> of fw_devlink"?  Unfortunately that doesn't fix the issue for me.
+> 
+> Quoting more from this patch:
+> 
+>    "Closes: https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com/"
+> 
+> Strange that it claims to fix the issue reported there, as the failure
+> mode I am seeing is exactly the same as documented in that report?
+> 
+> Do you know what is wrong? The overlay I am using is referenced in
+> the bug report linked above.
 
-That works for me, Bjorn?
+The first patch "Fix probing of devices in DT overlays" didn't fix all cases
+and so Saravana reverted this patch and proposed "of: dynamic: Fix overlayed
+devices not probing because of fw_devlink".
 
---sipniroWj3oprzj3
-Content-Type: application/pgp-signature; name="signature.asc"
+This second patch was needed to fix my use case even if more modification were
+needed to have my use case fully fixed (other patches in my series).
 
------BEGIN PGP SIGNATURE-----
+Rob applied those first patches from my series and some systems were broken.
+The breakage has been reported my Kalle and Matti and led to a revert of culprit
+patches.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkvHQcACgkQJNaLcl1U
-h9BSaQf/W4lHVLb/ICcvRVRV4xEmZAvcE6KQGaFO3SZllGPMfcwp1goMKpjbKUzR
-zbJPi5uDrDIpYqaUmV1TQdurHHQyJbvKqfjo58BhuHg0L/xNTBvnU4yk87gy6Xoq
-xqoY84kSHiKcNqmCi3O8Lp7V4eU/m8jOAWHdxA6Xu5rFXU6ts/zWzt54n3ftnbxR
-LHyPmh8GOf1IPs21c0h0csakmzhXMpdn9VE09/tOwkkkQ6DdTF0W+vuenF576ekN
-7d8VwUPWjToQGc6yp5t2navxQdOegn7Bcn9DdxWGaSNh3uGk2ySR3M05MvQP+DAD
-PBu/6p9X8HJDcoFBjSA9LoXcM/xkng==
-=YjqS
------END PGP SIGNATURE-----
+I tried to understand what was wrong. I am pretty convinced that modification
+done in "of: dynamic: Fix overlayed devices not probing because of fw_devlink"
+are really better than modification available in "treewide: Fix probing of
+devices in DT overlays".
 
---sipniroWj3oprzj3--
+I proposed an update [0] and I will be glad if you can also test this update 
+on your side and give me your feedback.
+
+[0] https://lore.kernel.org/lkml/20251202175836.747593c0@bootlin.com/
+
+Best regards,
+Hervé
