@@ -1,40 +1,40 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023125.outbound.protection.outlook.com [40.107.44.125])
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022110.outbound.protection.outlook.com [52.101.126.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF82299954;
-	Tue,  2 Dec 2025 11:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370C628727B;
+	Tue,  2 Dec 2025 11:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.110
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764675102; cv=fail; b=c86nbVKM63dlUmMW5wjdSRKz+fLa/zIWyG7XK9G1zVtHG5c/SmUqNV3dZv/+4HlrbshQ54rN/wwmUs76AOggi/3WNeMD2VelSZjKnDWXME/7fPSUK+96TOQiPYl469TR6R20MWhGQnGXRmwbn0sxC9NW8u1k6ym5cUSuuKlBV94=
+	t=1764675102; cv=fail; b=HGYOi8hk92vTaknlAyf1IfH1qyU0zVSkq/g/Q2phgNqDVuHuPPioYKa+TC7XsayUbqINKD9tv/ApYbbebkzPNbOW+bhepHU5v/Us5oINHfr3HVOURxuHN4drnO0xJhVqtykiB1lLJ1QHD8fhAJc++6qMgKoBL9FgSruigCZ/wag=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764675102; c=relaxed/simple;
-	bh=IXvJ0DupNObAnLQX6fOQdeShjHj38gvJwh5ngQFc2JI=;
+	bh=QdYFzYKiLqwSpEP3ES1Dn1p/flDP68qdHkfj4yQdgpo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NE7O895XoR8dStCRez9/+yyQhsu87FREqRY3Ngp+pMtVZbpuC1c2G7e4+5gC0jDy5bvz1UkH9+vgNce2eTFGD/Uy40VIhw2u21gvOKFjOh9hu5OwfIgwvXKitP//6Fdt95nm0LXYToqnKRjea8cK7k8R2G1oBlIifHDgqcZ7pqA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.125
+	 MIME-Version:Content-Type; b=ke8eKGI9RaRYTMAfWoyltKvP7ArVHyRa15mOVu1jZ5BLUCK2u4iqgFrmrq9yJ1usEyXVeV5yca6dOHskPq+vCn8Ke5E4ofrs9X3eRJd2/Jl0tF8yk00mM8S+sCG0zZNAzMOgqtfxeeKiHHaHsmxqfKW22EGwzkSMi5cvN1Bs4m8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.110
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G15nEs3fMZXS/sibh/tuvqR9NFBHfNdMQs6nR4Ry82ufWEs19StLHhZhoysYyN3XepjslsUwgaR2AWdTlOT8OQyLZdBw5MX5sswI1DvCOvCcoUuDQogKhRf2DogshV9YenS3Q6QeemvhmdiHUoBse4Ma0iMKvNPD9t55VdmX5EIRQwjdBqpVq/27jUxmqPMzhLHntiME2HdtamTDlN/JXJxw0e+N7/lJ3877NFYQ2LNDabhPGiWB5uQwOYu2YM6yvHgj8NEf7tedhgJQLp+/Lm0JaWQooYlUTTZvFu6YO0GT3XJOEpRHfoz7EezX/UUmDj7wH2jkLsGLdhLF7RBZ/A==
+ b=cGuRck0r9UYFPp/X729HunvzLrCVOtDILLGJHVYR/ZAwPxgoF1l4b1F8+A2Pm6ONQFBCV8nH5qIVhc49TKrceYtuvCFqLQ7e6ZItLR6uXdRSj4XdcrAoFuy/xC8Iia/atXsEN2aVU3iOSRjs6qeZX5LP3ITbAL4Y9LKpZyG5eJam/T7GTCu7h0PJNynoOp2T6qBN97nd+iBv1NNWUpLWE0sd1U3KZFanY1D01qecyV6LhMZrNzL06AWSzlNkSIK3sjrqwuY7Upm6m8RNgeUZ4d1e087UaAHqdLetahIRqmDJvSm62nPVgerbXvnnbS6rOWx6m9HBQpi06ckcHGcJjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CI2kRmtguZlGWbBBZjchuwicG8THkn8F3QqrhZykch8=;
- b=qexDpDqmEqRojbXRVADnzxW1j3dbuJfkercDWxeCUXfhzKlokU37VwSRolCkqIbXOrkyfkZ8T73YhrwKxLdw1JE8oPciDRP+ieRQxR6PDMAdTSP1JI3nJaywXTpeR8CsTaicZfVRIhMlLENu4EV0eNF9d6FJ1MFjMCupMjhKZP8GM9Vng+w9DRt077kfjU+iSMFdMUNEdeqYIXIKBBREtxOlKVWrKySPmwH1iJMyxcnElNnY2ZF4D2fy60biIK19D+xBKurEH8B4fGiKykn+MM3Y8QPe1Yx2ese/Ng7gT1WNp59Tn+IJCQ2Z+ZXIVf+MfQURlC2ZabiskEhIgF8gAA==
+ bh=vR1dpsCWigqejW7CwehG3I/qYkvp8KPZ+RtFrpL1UtE=;
+ b=MB0TbVzD+P8RD0VwyVe2JSTVqZFiS9VxHzSg+DfRevkIqwydbeMDxu+Owe+WnwjcyBG5JQKsDL++k9Cl1j1mcAwoyjK4G+RW3baenMJCFtgekFANv076yw4OrdIS5Hw0P21DPMd+EdqiXXViVAwB86boUVNWq4tfrUn81CVvdi4pSClDiKvyP9wd0ZhO8MteEU1TaeSVzR6vKpCGG96L2pLT5h3meQiYJIazYmEVODkD2vLOgA3EjOSOo8fvHdZSZtNO6PCN+YrUHc1aZQ55Si9aQF61d36GWXwukLsuyT5Dy+M/yeV7HYzI8z1zjwkfsGwut7g2m66pN1EAzBQkjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
  dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
  not signed); arc=none (0)
-Received: from PS2PR01CA0038.apcprd01.prod.exchangelabs.com
- (2603:1096:300:58::26) by OSQPR06MB7183.apcprd06.prod.outlook.com
- (2603:1096:604:295::8) with Microsoft SMTP Server (version=TLS1_2,
+Received: from SGBP274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::15) by
+ KL1PR06MB6908.apcprd06.prod.outlook.com (2603:1096:820:127::13) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
  2025 11:31:36 +0000
-Received: from TY2PEPF0000AB87.apcprd03.prod.outlook.com
- (2603:1096:300:58:cafe::de) by PS2PR01CA0038.outlook.office365.com
- (2603:1096:300:58::26) with Microsoft SMTP Server (version=TLS1_3,
+Received: from SG2PEPF000B66CF.apcprd03.prod.outlook.com
+ (2603:1096:4:b0:cafe::c6) by SGBP274CA0003.outlook.office365.com
+ (2603:1096:4:b0::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Tue,
- 2 Dec 2025 11:31:31 +0000
+ 2 Dec 2025 11:31:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
  smtp.mailfrom=cixtech.com; dkim=none (message not signed)
  header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
@@ -42,11 +42,11 @@ Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
  222.71.101.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
 Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB87.mail.protection.outlook.com (10.167.253.6) with Microsoft
+ SG2PEPF000B66CF.mail.protection.outlook.com (10.167.240.23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 11:31:35 +0000
 Received: from localhost.localdomain (unknown [172.18.64.15])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id A05F14126FFD;
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id D8D3C4143A8D;
 	Tue,  2 Dec 2025 19:31:34 +0800 (CST)
 From: joakim.zhang@cixtech.com
 To: lgirdwood@gmail.com,
@@ -60,9 +60,9 @@ To: lgirdwood@gmail.com,
 	devicetree@vger.kernel.org
 Cc: cix-kernel-upstream@cixtech.com,
 	Joakim Zhang <joakim.zhang@cixtech.com>
-Subject: [PATCH v4 1/3] ALSA: hda: dt-bindings: add CIX IPBLOQ HDA controller support
-Date: Tue,  2 Dec 2025 19:31:29 +0800
-Message-ID: <20251202113132.1094291-2-joakim.zhang@cixtech.com>
+Subject: [PATCH v4 3/3] ALSA: hda: add CIX IPBLOQ HDA controller support
+Date: Tue,  2 Dec 2025 19:31:31 +0800
+Message-ID: <20251202113132.1094291-4-joakim.zhang@cixtech.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251202113132.1094291-1-joakim.zhang@cixtech.com>
 References: <20251202113132.1094291-1-joakim.zhang@cixtech.com>
@@ -75,53 +75,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB87:EE_|OSQPR06MB7183:EE_
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CF:EE_|KL1PR06MB6908:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 354fca30-eea0-46b5-8348-08de31965a0a
+X-MS-Office365-Filtering-Correlation-Id: 6de27bf3-3ddf-44b2-bc33-08de31965a26
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013;
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?TrZTu3uEXmzZqXuxFomXZXhoWMaMFLbOmkiN+FR7SN7FyKRO7KVCX//qlQJp?=
- =?us-ascii?Q?CYMr+8CnFcrywIfwdr3EiautJix+Vccw94XmtEKvHpuSGuonmVGoOOxcIT73?=
- =?us-ascii?Q?iilbb2+ufsG3o2nqQNrJKqLXq7EXe9qQeKKIgU2dqwLgbloKxSvHFXKk0GfA?=
- =?us-ascii?Q?IEo47NA3A96PXy7+5N7cVCZjmlic3xgKnUcYOmiMSmtfIh86JVWT2nzXX2Tv?=
- =?us-ascii?Q?kxnWKNx4nzlnqHgHcvMZ/BGckcccXWYC9laMKP5Qp5USw5AiVZsHjFthzDxQ?=
- =?us-ascii?Q?2nPBMfvlr68Z9GUR08bUPqoZ/5f69I0gcIAE5hUu5YOKYcvgrvGUgi/CwDyT?=
- =?us-ascii?Q?uYf4M1nKTqVf2qWbcvWL5z1+pmj/oE2x6jpCHzm1meB4ws1YRx90iG7aL7dc?=
- =?us-ascii?Q?BLR3St5RFtGGxQZggmr95UWeQBab1WRhh+xIHaYbfNan5pyRaX/WDq4KDaj2?=
- =?us-ascii?Q?yNhurzjrXx7dIWa68CKJVqBu6wg/1J+AEhkXhW13igTbSKIahrHDTOowLIHS?=
- =?us-ascii?Q?T4inT+HtStH2tQw5Oadok3ruc0AiU2InAglJZSDUomzqiRiJG9OnEol+QdO2?=
- =?us-ascii?Q?/JGkYvoElv9xMjVJqMQs9KWSn9ixOPDSuvtQR0TnMgMzkk3WfWSEFwDBUZT/?=
- =?us-ascii?Q?N+i2vwuYERO3mwuyQd4FWY5hhKac0jCTyl9OKwBi3a2pSuZ/6oBmFzxGRplZ?=
- =?us-ascii?Q?FXKQNL/uxD7fqTFZ5SoLP/XoV2xX8uFvbgVCxATEvXNnXJZT2LNsmgsvEmzq?=
- =?us-ascii?Q?iSsw8HAjSwZIsUdK47H0pcqiSUabaN3wG+5oiUZa7gje6MjSqtTVC5VCCTCa?=
- =?us-ascii?Q?RrL0w1lW1GOUmyP3mZQXi9NLPw8mIDNN62Q8f08qAQMEg97fyFRWdFH75lHT?=
- =?us-ascii?Q?D4yF5fiknIKHp2aMZ7xyqj8Zp08R6ZB3/orGJblhWmNb6/cNK0AsxtsSv4oI?=
- =?us-ascii?Q?wkBAepUna7F+Q6AGCdJP/7QrafMTCVFwDbsn5OLpTP2W6bsWA9/HmRgOYrWW?=
- =?us-ascii?Q?R2nYdnnpfLX43TxNCOCMz7I/nSSUrIA91hOld+g0JJqe7fs1iaanI015bOSW?=
- =?us-ascii?Q?GJ9Qsv5aNVnjWnwrrvZUBtXF/XjsDmQEY27OVuOF6Wm0KsuG7ve0D3Erjnv+?=
- =?us-ascii?Q?b22wkMT7PfsSk+3fIHSOW3mhecdYEPQSkfHX6PEwAFde5u/ed9vhsma5juxD?=
- =?us-ascii?Q?C/vsM3N6nOsdV1RrcHaHF8Ykinlvyi8Gls/PaABZVh3lEgWp3XtsIvZbn/R8?=
- =?us-ascii?Q?O6nE4BkYDPEZps+Paa82qkJDLVzbjqbCZBh6la26ETEJfq85bGBPIDMO6IlL?=
- =?us-ascii?Q?KqOU/+/LRrjcSiorhyOI7Utjd02qWRYcqDy6UYkDUVbzTD0zCyYRG22sTi38?=
- =?us-ascii?Q?fMdTAtJu2He8LBqpv7Tby8szoVbL+RxbC1KaLY4PmiIeQcaXfVFB65P4rqA3?=
- =?us-ascii?Q?x82w9H0CjIOQ83Syy9PY9Bl0z/YZ7Nt3UCX8QvCXbM76w/NEJWJ2yDV3dW9o?=
- =?us-ascii?Q?xxOPnQqDF9JuV+So3r5HcRpHQE/b/2JRJUEU?=
+	=?us-ascii?Q?bhpSPUO+9A9GVdhlKV8k1+TzHtmpFdnhz+SKh+K9x3pOy0B2gls7ELOzrESF?=
+ =?us-ascii?Q?neecSbe6sqWGjetHmKwPoGPK+bBjgVkhkDqxueHBFJblAbQAbdZu8L2CTkuy?=
+ =?us-ascii?Q?ynUrHaPUZfewa8t2enibSxlNnJpTS30t3ZVwxrze008y7IcbFL0nus85C2xT?=
+ =?us-ascii?Q?pUZ/zinVtS87ZQS2hD8mn4l+yzkez1f++LUa1cnwDvI5nJ1GOwlshteMt/ot?=
+ =?us-ascii?Q?Gu1QJ1ZDv3F7zLm9tC2Oh1DhJciw7Ajbe+J0JFQ33M7j4UyMN0RXY6XAr3cK?=
+ =?us-ascii?Q?hZDculDzGrQNZLbzZ2vmss6xjbSdfOsQfcYpSQvGFssiy5NeskgHXGbfcv+7?=
+ =?us-ascii?Q?3kWa4XEqSHmFzpEqqSpAIPGkx1S43nh/ShxHnDJZvr+AYFaCvkiJttutniA/?=
+ =?us-ascii?Q?/gSm8Uc4o0ss6DuD2/0/OHJK5En8oTzlkotvK7PDoNh89u9jLVWXxHwMZB8F?=
+ =?us-ascii?Q?84PxfEQm3mg8Sx9SGgaiI8ve11Eo+r2UaHveo/8axPd3UOqqRw+fBSN8tvEi?=
+ =?us-ascii?Q?5wZrXyBnFusUdZzGonF/Mk9t+c2JPGOl724QUNqeRqxnW5J33o/VU1mYBxAx?=
+ =?us-ascii?Q?PJ3gkgok40HUhXnosA645jFdkjkZxGZj778FqyVitOqKC9BnDro2mdPCqtkw?=
+ =?us-ascii?Q?etwl40jL4phJrSQGym8f/T0JmgG9/haYItBdDMMm5YQ6UplkqYjlwLyEeDxV?=
+ =?us-ascii?Q?eaMwCr2JmRzyp+wI5oZcm7n4i5wyYohbHwuVOqOyWfkEgZ/8/ZjQ2k2wNTwt?=
+ =?us-ascii?Q?zfjUMMSvqq+EKcz1G0P+BJfjRfwAHvfI76yneUpNIHeFC2+C+9bYgRI2fR4Q?=
+ =?us-ascii?Q?8pPvvHCu0ycEfZemSpiegPUIFjbxezREmDfv+Gkol4GG/KWXJVGvSbx5Cs2r?=
+ =?us-ascii?Q?EzzycVfIyJ8G5YQG5EWLmq3Sbh4ZCH90eXfP9bhZrJeBQIwHNn5wnMce8vcu?=
+ =?us-ascii?Q?W5rWORQTlaVSeN4tRfI7oPUHG2bAES1b5QYVy6Sacj4Z/AAqa3XOUQ4fcKnt?=
+ =?us-ascii?Q?iSL9bc4446m/9thd/aoJuE/18/Y2bIXf/ZlLYWNFSB3SSLd8JT3iIDG62rEh?=
+ =?us-ascii?Q?mygFu3kKUlQHzaj59Kt2IjPGlYUKweeh0znxem4mgcsJTXTHfHUVj1uSRNwM?=
+ =?us-ascii?Q?T6ltRf8cH/uxrm2vXiOEPRC5rhk7M/WXTzP6i04EmqmffhowuHPeBFRsVFyM?=
+ =?us-ascii?Q?5NGu3pDkKejbHMTaG38vNq+2h2bTpEMVY+dc+okl1O7b/xP3A5wtfB0VMcyv?=
+ =?us-ascii?Q?1cd/iPz4tErIjntCibZizmYnrxvFzGJjzNqngZ31xFZ6CBBqc7YWoO0sECWo?=
+ =?us-ascii?Q?q8b8aU9ZyMHBbMb8LF0D6Rncy/pVsppNsTZpiwK3i63djKscF3V8v/r93V/K?=
+ =?us-ascii?Q?ClHIzdPc+irbKTbjf5PCjbWdroyxLzWpa56SUS9trlHJiHcCy8zEuVH3VQiL?=
+ =?us-ascii?Q?KOWIuuVuIGrtAYpwM9kNlCbDgL/yiIw/93kWyYy/Z5r6nlF8ChFwUO8S64uZ?=
+ =?us-ascii?Q?IVWnPISbgXyf8XuRlfvPgAmV3/xf1+trNQi55Kytyb6Uod5OXN6RTnW/1EmN?=
+ =?us-ascii?Q?ftxllXMy2xw3ABejSao=3D?=
 X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1102;
 X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 11:31:35.6242
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 11:31:35.6902
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354fca30-eea0-46b5-8348-08de31965a0a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6de27bf3-3ddf-44b2-bc33-08de31965a26
 X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB87.apcprd03.prod.outlook.com
+	SG2PEPF000B66CF.apcprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7183
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6908
 
 From: Joakim Zhang <joakim.zhang@cixtech.com>
 
@@ -134,88 +135,499 @@ need do dma address translation.
 
 Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
 ---
- .../bindings/sound/cix,sky1-ipbloq-hda.yaml   | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml
+ sound/hda/controllers/Kconfig      |  14 +
+ sound/hda/controllers/Makefile     |   2 +
+ sound/hda/controllers/cix-ipbloq.c | 438 +++++++++++++++++++++++++++++
+ 3 files changed, 454 insertions(+)
+ create mode 100644 sound/hda/controllers/cix-ipbloq.c
 
-diff --git a/Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml b/Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml
+diff --git a/sound/hda/controllers/Kconfig b/sound/hda/controllers/Kconfig
+index 34721f50b055..72855f2df451 100644
+--- a/sound/hda/controllers/Kconfig
++++ b/sound/hda/controllers/Kconfig
+@@ -30,6 +30,20 @@ config SND_HDA_TEGRA
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called snd-hda-tegra.
+ 
++config SND_HDA_CIX_IPBLOQ
++	tristate "CIX IPBLOQ HD Audio"
++	depends on ARCH_CIX || COMPILE_TEST
++	select SND_HDA
++	select SND_HDA_ALIGNED_MMIO
++	help
++	  Say Y here to support the HDA controller present in CIX SoCs
++
++	  This options enables support for the HD Audio controller
++	  present in some CIX SoCs.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called snd-hda-cix-ipbloq.
++
+ config SND_HDA_ACPI
+ 	tristate "HD Audio ACPI"
+ 	depends on ACPI
+diff --git a/sound/hda/controllers/Makefile b/sound/hda/controllers/Makefile
+index a4bcd055e9ae..8967b6771d90 100644
+--- a/sound/hda/controllers/Makefile
++++ b/sound/hda/controllers/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ snd-hda-intel-y := intel.o
+ snd-hda-tegra-y := tegra.o
++snd-hda-cix-ipbloq-y := cix-ipbloq.o
+ snd-hda-acpi-y := acpi.o
+ 
+ subdir-ccflags-y += -I$(src)/../common
+@@ -10,4 +11,5 @@ CFLAGS_intel.o := -I$(src)
+ 
+ obj-$(CONFIG_SND_HDA_INTEL) += snd-hda-intel.o
+ obj-$(CONFIG_SND_HDA_TEGRA) += snd-hda-tegra.o
++obj-$(CONFIG_SND_HDA_CIX_IPBLOQ) += snd-hda-cix-ipbloq.o
+ obj-$(CONFIG_SND_HDA_ACPI) += snd-hda-acpi.o
+diff --git a/sound/hda/controllers/cix-ipbloq.c b/sound/hda/controllers/cix-ipbloq.c
 new file mode 100644
-index 000000000000..b27d47523af3
+index 000000000000..28158e5f0e16
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cix,sky1-ipbloq-hda.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/hda/controllers/cix-ipbloq.c
+@@ -0,0 +1,438 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright 2025 Cix Technology Group Co., Ltd.
 +
-+title: CIX IPBLOQ HDA controller
++#include <linux/clk.h>
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/of.h>
++#include <linux/of_reserved_mem.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
++#include <linux/string.h>
 +
-+description:
-+  CIX IPBLOQ High Definition Audio (HDA) Controller
++#include <sound/hda_codec.h>
++#include "hda_controller.h"
 +
-+maintainers:
-+  - Joakim Zhang <joakim.zhang@cixtech.com>
++#define CIX_IPBLOQ_JACKPOLL_DEFAULT_TIME_MS		1000
++#define CIX_IPBLOQ_POWER_SAVE_DEFAULT_TIME_MS		100
 +
-+allOf:
-+  - $ref: sound-card-common.yaml#
++#define CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET	(-0x90000000ULL)
 +
-+properties:
-+  compatible:
-+    const: cix,sky1-ipbloq-hda
++struct cix_ipbloq_hda {
++	struct azx chip;
++	struct device *dev;
++	void __iomem *regs;
 +
-+  reg:
-+    maxItems: 1
++	struct reset_control_bulk_data resets[1];
++	struct clk_bulk_data clocks[2];
++	unsigned int nresets;
++	unsigned int nclocks;
++};
 +
-+  interrupts:
-+    maxItems: 1
++static const struct hda_controller_ops cix_ipbloq_hda_ops;
 +
-+  clocks:
-+    maxItems: 2
++static int cix_ipbloq_hda_dev_disconnect(struct snd_device *device)
++{
++	struct azx *chip = device->device_data;
 +
-+  clock-names:
-+    items:
-+      - const: sysclk
-+      - const: clk48m
++	chip->bus.shutdown = 1;
 +
-+  resets:
-+    maxItems: 1
++	return 0;
++}
 +
-+  reset-names:
-+    items:
-+      - const: hda
++static int cix_ipbloq_hda_dev_free(struct snd_device *device)
++{
++	struct azx *chip = device->device_data;
 +
-+  model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex
++	if (azx_bus(chip)->chip_init) {
++		azx_stop_all_streams(chip);
++		azx_stop_chip(chip);
++	}
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - reset-names
++	azx_free_stream_pages(chip);
++	azx_free_streams(chip);
++	snd_hdac_bus_exit(azx_bus(chip));
 +
-+additionalProperties: false
++	return 0;
++}
 +
-+examples:
-+  - |
-+    #include<dt-bindings/interrupt-controller/arm-gic.h>
++static int cix_ipbloq_hda_probe_codec(struct cix_ipbloq_hda *hda)
++{
++	struct azx *chip = &hda->chip;
++	struct hdac_bus *bus = azx_bus(chip);
++	int err;
 +
-+    hda@70c0000 {
-+        compatible = "cix,sky1-ipbloq-hda";
-+        reg = <0x70c0000 0x10000>;
-+        interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&audss_clk 7>,
-+                 <&audss_clk 8>;
-+        clock-names = "sysclk", "clk48m";
-+        resets = <&audss_rst 14>;
-+        reset-names = "hda";
-+        model = "CIX SKY1 EVB HDA";
-+    };
++	to_hda_bus(bus)->bus_probing = 1;
++
++	/* create codec instances */
++	err = azx_probe_codecs(chip, 8);
++	if (err < 0) {
++		dev_err(hda->dev, "probe codecs failed: %d\n", err);
++		return err;
++	}
++
++	err = azx_codec_configure(chip);
++	if (err < 0) {
++		dev_err(hda->dev, "codec configure failed: %d\n", err);
++		return err;
++	}
++
++	err = snd_card_register(chip->card);
++	if (err < 0) {
++		dev_err(hda->dev, "card register failed: %d\n", err);
++		return err;
++	}
++
++	chip->running = 1;
++
++	to_hda_bus(bus)->bus_probing = 0;
++
++	snd_hda_set_power_save(&chip->bus, CIX_IPBLOQ_POWER_SAVE_DEFAULT_TIME_MS);
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_init(struct cix_ipbloq_hda *hda,
++			       struct azx *chip,
++			       struct platform_device *pdev)
++{
++	const char *sname = NULL, *drv_name = "cix-ipbloq-hda";
++	struct hdac_bus *bus = azx_bus(chip);
++	struct snd_card *card = chip->card;
++	struct resource *res;
++	unsigned short gcap;
++	int irq_id, err;
++
++	hda->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
++	if (IS_ERR(hda->regs)) {
++		dev_err(hda->dev, "failed to get and ioremap resource\n");
++		return PTR_ERR(hda->regs);
++	}
++	bus->remap_addr = hda->regs;
++	bus->addr = res->start;
++
++	irq_id = platform_get_irq(pdev, 0);
++	if (irq_id < 0) {
++		dev_err(hda->dev, "failed to get the irq, err = %d\n", irq_id);
++		return irq_id;
++	}
++
++	err = devm_request_irq(hda->dev, irq_id, azx_interrupt,
++			       0, KBUILD_MODNAME, chip);
++	if (err < 0)
++		return dev_err_probe(hda->dev, err,
++				     "unable to request IRQ %d : err = %d\n", irq_id, err);
++	bus->irq = irq_id;
++	card->sync_irq = bus->irq;
++
++	gcap = azx_readw(chip, GCAP);
++	chip->capture_streams = (gcap >> 8) & 0x0f;
++	chip->playback_streams = (gcap >> 12) & 0x0f;
++	chip->capture_index_offset = 0;
++	chip->playback_index_offset = chip->capture_streams;
++	chip->num_streams = chip->playback_streams + chip->capture_streams;
++
++	/* initialize streams */
++	err = azx_init_streams(chip);
++	if (err < 0) {
++		dev_err(hda->dev, "failed to initialize streams: %d\n", err);
++		return err;
++	}
++
++	err = azx_alloc_stream_pages(chip);
++	if (err < 0) {
++		dev_err(hda->dev, "failed to allocate stream pages: %d\n", err);
++		return err;
++	}
++
++	/* initialize chip */
++	azx_init_chip(chip, 1);
++
++	/* codec detection */
++	if (!bus->codec_mask) {
++		dev_err(hda->dev, "no codecs found\n");
++		return -ENODEV;
++	}
++	dev_dbg(card->dev, "codec detection mask = 0x%lx\n", bus->codec_mask);
++
++	/* driver name */
++	strscpy(card->driver, drv_name, sizeof(card->driver));
++
++	/* shortname for card */
++	sname = of_get_property(pdev->dev.of_node, "model", NULL);
++	if (!sname)
++		sname = drv_name;
++	if (strlen(sname) > sizeof(card->shortname))
++		dev_dbg(card->dev, "truncating shortname for card\n");
++	strscpy(card->shortname, sname, sizeof(card->shortname));
++
++	/* longname for card */
++	snprintf(card->longname, sizeof(card->longname),
++		 "%s at 0x%lx irq %i",
++		 card->shortname, bus->addr, bus->irq);
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_create(struct cix_ipbloq_hda *hda,
++				 struct snd_card *card,
++				 unsigned int driver_caps)
++{
++	static const struct snd_device_ops ops = {
++		.dev_disconnect = cix_ipbloq_hda_dev_disconnect,
++		.dev_free = cix_ipbloq_hda_dev_free,
++	};
++	struct azx *chip;
++	int err;
++
++	chip = &hda->chip;
++	chip->card = card;
++	chip->ops = &cix_ipbloq_hda_ops;
++	chip->driver_caps = driver_caps;
++	chip->driver_type = driver_caps & 0xff;
++	chip->dev_index = 0;
++	chip->single_cmd = 0;
++	chip->codec_probe_mask = -1;
++	chip->align_buffer_size = 1;
++	chip->jackpoll_interval = msecs_to_jiffies(CIX_IPBLOQ_JACKPOLL_DEFAULT_TIME_MS);
++	mutex_init(&chip->open_mutex);
++	INIT_LIST_HEAD(&chip->pcm_list);
++
++	/*
++	 * HD-audio controllers appear pretty inaccurate about the update-IRQ timing.
++	 * The IRQ is issued before actually the data is processed. So use stream
++	 * link position by default instead of dma position buffer.
++	 */
++	chip->get_position[0] = chip->get_position[1] = azx_get_pos_lpib;
++
++	err = azx_bus_init(chip, NULL);
++	if (err < 0) {
++		dev_err(hda->dev, "failed to init bus, err = %d\n", err);
++		return err;
++	}
++
++	/* RIRBSTS.RINTFL cannot be cleared, cause interrupt storm */
++	chip->bus.core.polling_mode = 1;
++	chip->bus.core.not_use_interrupts = 1;
++
++	chip->bus.core.aligned_mmio = 1;
++	chip->bus.core.dma_stop_delay = 100;
++	chip->bus.core.addr_offset = (dma_addr_t)CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET;
++
++	chip->bus.jackpoll_in_suspend = 1;
++
++	err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops);
++	if (err < 0) {
++		dev_err(card->dev, "failed to create device, err = %d\n", err);
++		return err;
++	}
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_probe(struct platform_device *pdev)
++{
++	const unsigned int driver_flags = AZX_DCAPS_PM_RUNTIME;
++	struct cix_ipbloq_hda *hda;
++	struct snd_card *card;
++	struct azx *chip;
++	int err;
++
++	hda = devm_kzalloc(&pdev->dev, sizeof(*hda), GFP_KERNEL);
++	if (!hda)
++		return -ENOMEM;
++	hda->dev = &pdev->dev;
++
++	hda->resets[hda->nresets++].id = "hda";
++	err = devm_reset_control_bulk_get_exclusive(hda->dev, hda->nresets,
++						    hda->resets);
++	if (err < 0)
++		return dev_err_probe(hda->dev, err, "failed to get reset, err = %d\n", err);
++
++	hda->clocks[hda->nclocks++].id = "sysclk";
++	hda->clocks[hda->nclocks++].id = "clk48m";
++	err = devm_clk_bulk_get(hda->dev, hda->nclocks, hda->clocks);
++	if (err < 0)
++		return dev_err_probe(hda->dev, err, "failed to get clk, err = %d\n", err);
++
++	dma_set_mask_and_coherent(hda->dev, DMA_BIT_MASK(32));
++
++	err = of_reserved_mem_device_init(hda->dev);
++	if (err < 0 && err != -ENODEV) {
++		dev_err(hda->dev,
++			"failed to init reserved mem for DMA, err = %d\n", err);
++		return err;
++	}
++
++	err = snd_card_new(hda->dev, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
++			   THIS_MODULE, 0, &card);
++	if (err < 0)
++		return dev_err_probe(hda->dev, err, "failed to crate card, err = %d\n", err);
++
++	err = cix_ipbloq_hda_create(hda, card, driver_flags);
++	if (err < 0)
++		goto out_free_card;
++
++	chip = &hda->chip;
++	card->private_data = chip;
++	dev_set_drvdata(hda->dev, card);
++
++	pm_runtime_enable(hda->dev);
++	if (!azx_has_pm_runtime(chip))
++		pm_runtime_forbid(hda->dev);
++
++	err = pm_runtime_resume_and_get(hda->dev);
++	if (err < 0) {
++		dev_err(hda->dev, "runtime resume and get failed, err = %d\n", err);
++		goto out_free_device;
++	}
++
++	err = cix_ipbloq_hda_init(hda, chip, pdev);
++	if (err < 0)
++		goto out_free_device;
++
++	err = cix_ipbloq_hda_probe_codec(hda);
++	if (err < 0)
++		goto out_free_device;
++
++	pm_runtime_put(hda->dev);
++
++	return 0;
++
++out_free_device:
++	snd_device_free(card, chip);
++out_free_card:
++	snd_card_free(card);
++
++	return err;
++}
++
++static void cix_ipbloq_hda_remove(struct platform_device *pdev)
++{
++	struct snd_card *card = dev_get_drvdata(&pdev->dev);
++	struct azx *chip = card->private_data;
++
++	snd_device_free(card, chip);
++	snd_card_free(card);
++
++	pm_runtime_disable(&pdev->dev);
++}
++
++static void cix_ipbloq_hda_shutdown(struct platform_device *pdev)
++{
++	struct snd_card *card = dev_get_drvdata(&pdev->dev);
++	struct azx *chip;
++
++	if (!card)
++		return;
++
++	chip = card->private_data;
++	if (chip && chip->running)
++		azx_stop_chip(chip);
++}
++
++static int cix_ipbloq_hda_suspend(struct device *dev)
++{
++	struct snd_card *card = dev_get_drvdata(dev);
++	int rc;
++
++	rc = pm_runtime_force_suspend(dev);
++	if (rc < 0)
++		return rc;
++	snd_power_change_state(card, SNDRV_CTL_POWER_D3cold);
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_resume(struct device *dev)
++{
++	struct snd_card *card = dev_get_drvdata(dev);
++	int rc;
++
++	rc = pm_runtime_force_resume(dev);
++	if (rc < 0)
++		return rc;
++	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_runtime_suspend(struct device *dev)
++{
++	struct snd_card *card = dev_get_drvdata(dev);
++	struct azx *chip = card->private_data;
++	struct cix_ipbloq_hda *hda = container_of(chip, struct cix_ipbloq_hda, chip);
++
++	if (chip && chip->running) {
++		azx_stop_chip(chip);
++		azx_enter_link_reset(chip);
++	}
++
++	clk_bulk_disable_unprepare(hda->nclocks, hda->clocks);
++
++	return 0;
++}
++
++static int cix_ipbloq_hda_runtime_resume(struct device *dev)
++{
++	struct snd_card *card = dev_get_drvdata(dev);
++	struct azx *chip = card->private_data;
++	struct cix_ipbloq_hda *hda = container_of(chip, struct cix_ipbloq_hda, chip);
++	int rc;
++
++	rc = clk_bulk_prepare_enable(hda->nclocks, hda->clocks);
++	if (rc) {
++		dev_err(dev, "failed to enable clk bulk, rc: %d\n", rc);
++		return rc;
++	}
++
++	rc = reset_control_bulk_assert(hda->nresets, hda->resets);
++	if (rc) {
++		dev_err(dev, "failed to assert reset bulk, rc: %d\n", rc);
++		return rc;
++	}
++
++	rc = reset_control_bulk_deassert(hda->nresets, hda->resets);
++	if (rc) {
++		dev_err(dev, "failed to deassert reset bulk, rc: %d\n", rc);
++		return rc;
++	}
++
++	if (chip && chip->running)
++		azx_init_chip(chip, 1);
++
++	return 0;
++}
++
++static const struct dev_pm_ops cix_ipbloq_hda_pm = {
++	SET_SYSTEM_SLEEP_PM_OPS(cix_ipbloq_hda_suspend,
++				cix_ipbloq_hda_resume)
++	SET_RUNTIME_PM_OPS(cix_ipbloq_hda_runtime_suspend,
++			   cix_ipbloq_hda_runtime_resume, NULL)
++};
++
++static const struct of_device_id cix_ipbloq_hda_match[] = {
++	{ .compatible = "cix,sky1-ipbloq-hda" },
++	{ /* sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, cix_ipbloq_hda_match);
++
++static struct platform_driver cix_ipbloq_hda_driver = {
++	.driver = {
++		.name = "cix-ipbloq-hda",
++		.pm = &cix_ipbloq_hda_pm,
++		.of_match_table = cix_ipbloq_hda_match,
++	},
++	.probe = cix_ipbloq_hda_probe,
++	.remove = cix_ipbloq_hda_remove,
++	.shutdown = cix_ipbloq_hda_shutdown,
++};
++module_platform_driver(cix_ipbloq_hda_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("CIX IPBLOQ HDA bus driver");
++MODULE_AUTHOR("Joakim Zhang <joakim.zhang@cixtech.com>");
 -- 
 2.49.0
 
