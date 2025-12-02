@@ -1,138 +1,213 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB932BE7C6
-	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 16:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D682BDC2A;
+	Tue,  2 Dec 2025 16:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764694515; cv=none; b=RSH3NvjAmZbmEfdlaZEyqeT7FhqqIloddDTCDZmZGe3qMs4xxRgTy1kwfJ6kIBDxkLvzP8Sim8ufqH0cLNOMgQybI6qMNATrdKmuhdOJjA18+WMvY170F4msnclO7NVn1mEmvqnmH3IuRUEJsToyJQ6Bo6eS2jI3vUwumLN4cwU=
+	t=1764694741; cv=none; b=KXMji2+SfjP0T8t+XpkzyOH4uLE/+HxaeJBP2rrjEQqyzFYtjMnyBt4cEIuSWo6ce/5ImPbJE2XejOVIr1r/IjcPtIbYcklp+AE9UciHeA/kpU74nnAO+ErEHOL2gz5Y0ggbCfPccGCaDkEI7rq+5ssuGckCwZfQHuIXpC8MH/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764694515; c=relaxed/simple;
-	bh=Nm8CHo2/wVnkSx9CDFubjw/7urzCPmetAEy36Z/n0Sc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=USppB1WWiKjzt3BNfS7/KsLlnGJ7/33cPp3xsRgSxW0B1KDzzz/GDfCjcRqiZg+5fCPhHChs7PEYaANVJcX+dy+6SjgYZJr719t37YRfO8rAGHqNt+WyhXROGkWu/LEGh/1wl/zVTHGqqeZSgfngJW9dCWgpQVoYKFeoCoCDLvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KItYjhNB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FKZnD8TI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n1lRYyKx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hLJS0uro; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764694741; c=relaxed/simple;
+	bh=cJ+0lBBaACY/ruBAXciOILojsdgM4uyZ+IwWjpWT8rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mw0qFJrm+NX/6n0kZzv+0f+vnUL2DA2mO66lquRapJ9jLnSliE4r7HWMgLD91uh3e62q+nV5RLLCVdDNhbI6Lzx2DEKqp9SUD336HlmVSsIaGaw4VGtTlDWQegUVrgFN4EuAURJev8cxCoYjBsOVA22a61xwX0XiULwBG0c+SL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N1mYlPAL; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KItYjhNB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FKZnD8TI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n1lRYyKx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hLJS0uro"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B363B5BCC4;
-	Tue,  2 Dec 2025 16:55:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764694512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKvHImWVJBoMb97AFfMIepg5sxKKV3YxIoneRlKLuJg=;
-	b=KItYjhNB2RVhpt9u1v5abTIJfmpS40wXkJX5YK0r2nwJ0lMaRmlwoJU1J0ZdMseJ/GscWH
-	CIzVp1abeod9wZ4TD2lGnK87nstTUSgxljSn4ZCuv/kAhUPskWmNlw1Intp4ott+MAdH5P
-	oopPSbiUbpIScuO4nYkrK58MCG1y6t0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764694512;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKvHImWVJBoMb97AFfMIepg5sxKKV3YxIoneRlKLuJg=;
-	b=FKZnD8TIlDBtftvgU907zIy4NKk6tCIFCa3R7l0HXPTxdKgxapg20PrVZcGZCFX2jNDkwJ
-	C5npIsurt1anNsDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764694510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKvHImWVJBoMb97AFfMIepg5sxKKV3YxIoneRlKLuJg=;
-	b=n1lRYyKx66CN8pWi0549QXtMWd10SjCpHAsIssuLQuGr1ihg8SFz24kO3TLsy50II9+DO4
-	Rr3qsSGaxbjcUqapqwiJrcDjS8r106xOh7N7hVUrtxBTsXHISCfRPKilKbUrfwXIn3eSfb
-	heK+J3A1RXMW/T7Oj9yHeLVmeUVmVVU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764694510;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKvHImWVJBoMb97AFfMIepg5sxKKV3YxIoneRlKLuJg=;
-	b=hLJS0uromI1N+PPQ5avH6AaweWdOtiPxJky9eZTZ4UT2w4D79fOI6SbywBsXcFwTKDHhIv
-	XjpieUQQVNtJXFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EDB73EA63;
-	Tue,  2 Dec 2025 16:55:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h7K5Ie4ZL2m5ewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Dec 2025 16:55:10 +0000
-Date: Tue, 02 Dec 2025 17:55:10 +0100
-Message-ID: <87ikeou8lt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ilyas Gasanov <public@gsnoff.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Add PCI SSIDs to HP ProBook quirks
-In-Reply-To: <20251202154930.74481-1-public@gsnoff.com>
-References: <20251202131508.56184-1-public@gsnoff.com>
-	<20251202154930.74481-1-public@gsnoff.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N1mYlPAL"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E0626C16A21;
+	Tue,  2 Dec 2025 16:58:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 12D7360706;
+	Tue,  2 Dec 2025 16:58:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 533AC11919DE5;
+	Tue,  2 Dec 2025 17:58:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764694734; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=60d2epEciVcChcX/fhst0++0Pm7K5XN1skvCoKwYwIY=;
+	b=N1mYlPALz8BnTtZIdm1USL0q3OY2IZREyFfDG7zXuFkJYT9sNYehdXOg20XgTaJ63O1RjJ
+	bUmx7cMIqpc/rsqqZCp/8Jj9AormvV8YpywUJYYitC9u6WrsHbugREOW2hNMdu6QkK30ZI
+	M5zoEtIFTofdrhMl04uyDUgpJgkNUh5/bF47WpYIukp33KLifd5rWCuoT+5CIGBihgXYWz
+	DsPea9REd0INtCAQqrWPX5O5uc+tIiKwIbYSAylL2j2Fc9b9Bt+xdiKGYX+ahbsGLZ43OI
+	Mm9hCve73o18r2eaD+yNSlpj1C/GhiEErqVpiHh0OMKPEWU3s2GH3q0FfuC8TA==
+Date: Tue, 2 Dec 2025 17:58:36 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Kalle Niemi <kaleposti@gmail.com>, Rob Herring <robh@kernel.org>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Andrew Lunn
+ <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, Saravana
+ Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Charles
+ Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
+ Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Alison Schofield
+ <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
+ overlays"
+Message-ID: <20251202175836.747593c0@bootlin.com>
+In-Reply-To: <088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+	<20251015071420.1173068-2-herve.codina@bootlin.com>
+	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
+	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
+	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
+	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
+	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
+	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
+	<20251202102619.5cd971cc@bootlin.com>
+	<088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.27
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.27 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.17)[-0.864];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:mid,linux-hardware.org:url,gsnoff.com:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gsnoff.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 02 Dec 2025 16:49:30 +0100,
-Ilyas Gasanov wrote:
-> 
-> According to HW probes, there exist upgraded variants of HP ProBook
-> 440/450 G8 notebook PC hardware, with PCI SSIDs not yet covered:
-> 
->  - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a76
->    (HP ProBook 440 G8, SSID 103C:8A76, Tiger Lake HDA, ALC236)
->  - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a77
->    (HP ProBook 450 G8, SSID 103C:8A77, Tiger Lake HDA, ALC236)
-> 
-> The HDA GPIO indices for the mic mute (0x1) and speaker mute (0x2) LEDs
-> are virtually guaranteed to be identical for the HP ProBook 440/450 G8
-> variants with motherboard SSIDs 8A74/8A75 (BIOS T87) and 8A76/8A77 (BIOS
-> T88); especially since spare keyboard parts are interchangeable between
-> different revisions of the same notebook models, and thus necessarily
-> have the same slot pinouts.
-> 
-> Signed-off-by: Ilyas Gasanov <public@gsnoff.com>
+Hi Kalle, Matti,
 
-Thanks, applied now.
+On Tue, 2 Dec 2025 13:21:16 +0200
+Kalle Niemi <kaleposti@gmail.com> wrote:
 
+> On 12/2/25 11:26, Herve Codina wrote:
+> > Hi Kalle,
+> > 
+> > On Fri, 28 Nov 2025 10:34:57 +0200
+> > Kalle Niemi <kaleposti@gmail.com> wrote:
+> > 
+> > ...  
+> >>>>>>>>
+> >>>>>>>> Hello,
+> >>>>>>>>
+> >>>>>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
+> >>>>>>>> BD71847 drivers probe to not be called.  
+> >>>>>>> This driver (and overlay support) is in linux-next or something out of
+> >>>>>>> tree on top of linux-next?
+> >>>>>>>
+> >>>>>>> Rob  
+> >>>>>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c  
+> >>>>> I don't see any support to apply overlays in that driver.  
+> >>>> Ah. Sorry for the confusion peeps. I asked Kalle to report this without
+> >>>> proper consideration. 100% my bad.
+> >>>>
+> >>>> While the bd718x7 drive indeed is mainline (and tested), the actual
+> >>>> 'glue-code' doing the overlay is part of the downstream test
+> >>>> infrastructure. So yes, this is not a bug in upstream kernel - this
+> >>>> falls in the category of an upstream change causing downstream things to
+> >>>> break. So, feel free to say: "Go fix your code" :)
+> >>>>
+> >>>> Now that this is sorted, if someone is still interested in helping us to
+> >>>> get our upstream drivers tested - the downstream piece is just taking
+> >>>> the compiled device-tree overlay at runtime (via bin-attribute file),
+> >>>> and applying it using the of_overlay_fdt_apply(). The approach is
+> >>>> working for our testing purposes when the device is added to I2C/SPI
+> >>>> node which is already enabled. However, in case where we have the I2C
+> >>>> disabled, and enable it in the same overlay where we add the new device
+> >>>> - then the new device does not get probed.
+> >>>>
+> >>>> I would be really grateful if someone had a pointer for us.  
+> >>> Seems to be fw_devlink related. I suppose if you turn it off it works?
+> >>> There's info about the dependencies in sysfs or maybe debugfs. I don't
+> >>> remember the details, but that should help to tell you why things
+> >>> aren't probing.  
+> > 
+> > Rob reverted patches but I plan to continue my work on it.
+> > On my side, I need the reverted patches but I fully understand that, on
+> > your side, you need a working system.
+> > 
+> > In order to move forward and find a solution for my next iteration, can you
+> > send your overlay (dtso) used in your working and non working cases?
+> > 
+> > Best regards,
+> > Hervé  
+> 
+> Hello Hervé,
+> 
+> I have attached the overlay source file: bd71847_overlay.dts
 
-Takashi
+Thanks a lot for your overlay.
+
+I did an update of the reverted patches and I didn't detect any regression
+with the update applied on my use case but I don't have the needed code to
+perform tests similar to your use case. Indeed, you apply the overlay using
+an out of tree code.
+
+May I ask you to perform a test of this update on your side?
+
+First you can use the last linux-next kernel where reverted patches are present.
+The next-20251127 tag is a good candidate. Indeed both patches are present:
+  - 76841259ac092 ("of: dynamic: Fix overlayed devices not probing because of fw_devlink")
+  - 7d67ddc5f0148 ("Revert "treewide: Fix probing of devices in DT overlays"")
+
+Of course, be sure to have the issue using this kernel with your overlays.
+
+Then can you add the following modification on your faulty kernel:
+---- 8< ----
+diff --git a/drivers/of/overlay.c b/drivers/of/overlay.c
+index 1528d8ad9f26..aea7bb26d9c4 100644
+--- a/drivers/of/overlay.c
++++ b/drivers/of/overlay.c
+@@ -190,6 +190,20 @@ static void overlay_fw_devlink_refresh(struct overlay_changeset *ovcs)
+        for (int i = 0; i < ovcs->count; i++) {
+                struct device_node *np = ovcs->fragments[i].target;
+ 
++               /*
++                * The device related to target node itself could have been
++                * removed and re-added. This happens when the 'status' property
++                * in the target node has been changed by the overlay.
++                *
++                * In that case the parent node needs to be fixed.
++                *
++                * Before fixing the target node itself, fix its parent. To keep
++                * things simple, fix the parent in any case. If nothing needs
++                * to be fixed, fw_devlink_refresh_fwnode() acts as a no-op.
++                */
++               if (np->parent)
++                       fw_devlink_refresh_fwnode(of_fwnode_handle(np->parent));
++
+                fw_devlink_refresh_fwnode(of_fwnode_handle(np));
+        }
+ }
+---- 8< ----
+
+My hope is that this modification will fix your issue.
+If so, I will add it in my next iteration.
+
+If you cannot perform the test on your side, can you provide me the out of
+tree code you use to apply the overlay?
+
+Best regards,
+Hervé
