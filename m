@@ -1,161 +1,182 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C69221546
-	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 07:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9261C7012;
+	Tue,  2 Dec 2025 07:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764659340; cv=none; b=TM/xh/Kq8I9AecsH1spxpAmsHjRrrMxcUynAmKI9t9QY5oAMVLZTSjspflUPcxu5G8r9amGyQej/jg2H9Ifi5ZFPq3qjUE2q30obPtRQUxzx5NfOfqfrdvFLIe6tlKU+T99sACIQIRRrCcxMCo0kOt2fEoKthY5GvkF+CQ6byCI=
+	t=1764660685; cv=none; b=RaYVFLfOuxVB5r1WC3+/DWlv75AM5iKSTjorZxSrwRA1hu4j9z3CtIY1T7wc+KodNfQjYOcPVi3noRqKwaARY1AIIQ1nGBHAA/7B6xHbXGWJhPPH23+skecptbqgJ9Ssp6qUFoVHUYlLrtgmJ4uk0dbb0ObxwJ1ibpwF20ScAaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764659340; c=relaxed/simple;
-	bh=9oni4O3FH546gzWvprfOZq7bFoZoCQe6UmotMQrKenE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fmor1vZZXuj5L6ufLqEuOMtL1aFJpULk6aaQWJNkWsYE+TddFNoJyXs2yZyrSlEX6MoZd1rdf7f1n4KQ/EqK0KSXJyLMjdEHuRWHBcIX1HaK1D1nKwOxQGyKXX/Xo58DGx20bMokxN146vUOAv4FNzisCBSPXWGiBmc0qZ8hdmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ss3Z4KGT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=htkrx82c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ss3Z4KGT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=htkrx82c; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764660685; c=relaxed/simple;
+	bh=rWht80TdDMbsCZaWcUFcjjhYySkfTb93xasOXU5Ylxc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a3HLIaOZwrfYtozKIAvsRlYQuKmbwvbu3/ugjfxFd+JbYrkV1Tyie0uddKjBQoCh3IJ8WHloEvBYkoZfrb9wiAvmF37+zJqwTBmrms84+PInSdhFjG+fiS7iSux/HTMnR0dUovu8MwQp5D4aBiMXxzonx5FbvNXN7GTD65za+x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bY3TTYiS; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ss3Z4KGT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="htkrx82c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ss3Z4KGT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="htkrx82c"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1C32233686;
-	Tue,  2 Dec 2025 07:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764659336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yjdRZGIHCXKY8AWyYEvxhWGGJE5P1QgCYAu0R0Zl/m4=;
-	b=Ss3Z4KGTXAUW6uTMQXPLRX9dJ5FtJ+cRw4OJsh8quuZJR77mwAPqrVxkMBkvkX28Km0lWT
-	MkZuDoxujKqG6B7Ek/Qr9H65G0rruD+WHnw1xECF/8T+ALVtEfXTfLjByCfZF8BZT/8fW7
-	PDRZJ8Ll/xf/+oCWdBTbAx2O9IJUDNk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764659336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yjdRZGIHCXKY8AWyYEvxhWGGJE5P1QgCYAu0R0Zl/m4=;
-	b=htkrx82cfcb4BWu/MoqH919ARpns8NKvD4wXeRW6FuAtjERiTzdvc/xRNeLRDwO4xcQp2M
-	UFUhcteOFsUmjXCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ss3Z4KGT;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=htkrx82c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764659336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yjdRZGIHCXKY8AWyYEvxhWGGJE5P1QgCYAu0R0Zl/m4=;
-	b=Ss3Z4KGTXAUW6uTMQXPLRX9dJ5FtJ+cRw4OJsh8quuZJR77mwAPqrVxkMBkvkX28Km0lWT
-	MkZuDoxujKqG6B7Ek/Qr9H65G0rruD+WHnw1xECF/8T+ALVtEfXTfLjByCfZF8BZT/8fW7
-	PDRZJ8Ll/xf/+oCWdBTbAx2O9IJUDNk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764659336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yjdRZGIHCXKY8AWyYEvxhWGGJE5P1QgCYAu0R0Zl/m4=;
-	b=htkrx82cfcb4BWu/MoqH919ARpns8NKvD4wXeRW6FuAtjERiTzdvc/xRNeLRDwO4xcQp2M
-	UFUhcteOFsUmjXCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF8133EA63;
-	Tue,  2 Dec 2025 07:08:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6DdwNYeQLmkXYQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Dec 2025 07:08:55 +0000
-Date: Tue, 02 Dec 2025 08:08:55 +0100
-Message-ID: <87sedt5piw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dylan Robinson <dylan_robinson@motu.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Fix max bytes-per-interval calculation
-In-Reply-To: <CA+Df+jeCQXAuxLp5woF1fb4wgPNcKn7uMNaXnNG6j8EvuKX-eQ@mail.gmail.com>
-References: <20251124210518.90054-1-dylan_robinson@motu.com>
-	<20251129205639.48fdbdf9.michal.pecio@gmail.com>
-	<87jyz7dc6k.wl-tiwai@suse.de>
-	<20251130130035.6f44713e.michal.pecio@gmail.com>
-	<87h5ubd8o7.wl-tiwai@suse.de>
-	<20251201114705.470325f5.michal.pecio@gmail.com>
-	<CA+Df+jeCQXAuxLp5woF1fb4wgPNcKn7uMNaXnNG6j8EvuKX-eQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bY3TTYiS"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 07D5A1A1EB5;
+	Tue,  2 Dec 2025 07:31:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C3C60606E3;
+	Tue,  2 Dec 2025 07:31:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 403D9103C8F04;
+	Tue,  2 Dec 2025 08:30:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764660676; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=gutkuk21iRBLBzb9hvOl6cUp6HFUU/VZ7OrEhTRZmwQ=;
+	b=bY3TTYiSLFXa5B94KQgeAayt80JXK78ig76Aq2SyfufNuWcT41c/auFS4kPqbVeYIZlJKX
+	QrXrN/qRIP4zNsj2m/7od8XOWVPza9ZQvvaa8nia4r3ByMuNdtTuF/t2v7gxBFCMMsW9RB
+	i0p/8OBYWY3+n3FRUeyswfCRhz6Fv2at184ftP1FUUlpPAnLeFkqXVNSm5O6zbN24Wre4+
+	N8LDjO5ty4mD4BpDEbuBV6eat2hrRdfThqf+Hnymm7a9OslgagnMsXhZ11fV4HVQz7RWeL
+	AMcHDMFpAB93S2dU0dURDWQPs1MVtcc1ZnrYa/w6k4129RIITI9OMaZRIN58Wg==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Guenter Roeck <linux@roeck-us.net>,
+ Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Mariel Tinaco <Mariel.Tinaco@analog.com>,
+ Kevin Tsai <ktsai@capellamicro.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Hans de Goede <hansg@kernel.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matheus Castello <matheus@castello.eng.br>,
+ Saravanan Sekar <sravanhome@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ David Lechner <dlechner@baylibre.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH] iio: inkern: Use namespaced exports
+Date: Tue, 02 Dec 2025 08:30:58 +0100
+Message-ID: <5948030.DvuYhMxLoT@fw-rgant>
+In-Reply-To: <78240755-44dc-4835-aca5-99540cca0304@baylibre.com>
+References:
+ <20251201-iio-inkern-use-namespaced-exports-v1-1-da1935f70243@bootlin.com>
+ <78240755-44dc-4835-aca5-99540cca0304@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: 1C32233686
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,suse.de,vger.kernel.org,suse.com,perex.cz];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart6220005.lOV4Wx5bFT";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 02 Dec 2025 00:10:21 +0100,
-Dylan Robinson wrote:
-> 
-> > Dylan, could you check whether the cleanup is OK?
-> > I'll apply it once after the confirmation.
-> 
-> Tested and seems to be working. The cleanup looks good to me.
-> 
-> This is what our endpoint looks like:
-> 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes           37
->           Transfer Type            Isochronous
->           Synch Type               Asynchronous
->           Usage Type               Implicit feedback Data
->         wMaxPacketSize     0x0400  1x 1024 bytes
->         bInterval               1
->         bMaxBurst               3
->         wBytesPerInterval    3205
+--nextPart6220005.lOV4Wx5bFT
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: Re: [PATCH] iio: inkern: Use namespaced exports
+Date: Tue, 02 Dec 2025 08:30:58 +0100
+Message-ID: <5948030.DvuYhMxLoT@fw-rgant>
+In-Reply-To: <78240755-44dc-4835-aca5-99540cca0304@baylibre.com>
+MIME-Version: 1.0
 
-Thanks for confirmation.  Then let's take this.
+On Monday, 1 December 2025 18:15:54 CET David Lechner wrote:
+> On 12/1/25 4:59 AM, Romain Gantois wrote:
+> > Use namespaced exports for IIO consumer API functions.
+> > 
+> > Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+> > ---
+> 
+> ...
+> 
+> > diff --git a/drivers/iio/dac/ds4424.c b/drivers/iio/dac/ds4424.c
+> > index a8198ba4f98a..33d6692f46fe 100644
+> > --- a/drivers/iio/dac/ds4424.c
+> > +++ b/drivers/iio/dac/ds4424.c
+> > @@ -14,7 +14,6 @@
+> > 
+> >  #include <linux/iio/iio.h>
+> >  #include <linux/iio/driver.h>
+> >  #include <linux/iio/machine.h>
+> > 
+> > -#include <linux/iio/consumer.h>
+> 
+> Unrelated change?
+
+Indeed, I'll leave that out in v2.
+
+> >  #define DS4422_MAX_DAC_CHANNELS		2
+> >  #define DS4424_MAX_DAC_CHANNELS		4
+> > 
+> > @@ -321,3 +320,4 @@ MODULE_AUTHOR("Ismail H. Kose
+> > <ismail.kose@maximintegrated.com>");> 
+> >  MODULE_AUTHOR("Vishal Sood <vishal.sood@maximintegrated.com>");
+> >  MODULE_AUTHOR("David Jung <david.jung@maximintegrated.com>");
+> >  MODULE_LICENSE("GPL v2");
+> > 
+> > +MODULE_IMPORT_NS("IIO_CONSUMER");
+> 
+> Is this actually needed if we don't use anything from consumer.h?
+
+No, it's not.
+
+Thanks,
+
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--nextPart6220005.lOV4Wx5bFT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEIcCsAScRrtr7W0x0KCYAIARzeA4FAmkulbIACgkQKCYAIARz
+eA6r+A//aMF01GyQ28Vt1qVRnR+uQNAhVi/B2aUu4XYyy1hc2lVzhHwvSjyYiXET
+h1jorSaLD9m5MsoTo9Scxhpu1d5KWIy5DaNATac1wmHh9t0IdE8gw1kNaUcNmefr
+NFOanFttvVt7e9cko6PsxmX9GOioawS3CVrJuObkGGftqR3KVD3WMOg+n551pkK4
+63Xbfe6PPADF06Lyu2kyyxUXLwIsuXQ8Z4dQ+kX4Bky34L0v4w0Yxos4Uhkwv5ur
+SOUtezyExAQTgAJi9KW5MPADpCdXfB3moTv29CdWRs1K8XLkxxLeprZnutXRFxOu
+CrmiA30lNs2pp7wut+8PfmeYX6btqOCMQ8KENXNV9StrRc9UqD6K6TbbJGE/Vbzg
+gxDVp9t0i0nxcQAwhtvnlmAjf3pxeJWXf1iII5ooXoxv2yW1G+FsL9RBztyEnTA1
+0iLFg1Yyx/28b7iZsf6oD5luqSRnQ7Qi0js5sAA3rVHfMtOlO/rGcUH1BprrpLPa
+m5jycApgp26OuCSxacOhlAZ6iXy1pyepTaDlS9wz1kbdwVJOf3IaWuRhDHrRugCd
+zya/579XFCsbobzejkSRHzgwylhuGsDMAniIn0MaeQw3E5wyBTCVJTXx9qebFj3v
+sUVcLNhFQBy/G8YWighvreSaPr43mWS4ueBmAMClqYmOzq2nF2k=
+=n+bE
+-----END PGP SIGNATURE-----
+
+--nextPart6220005.lOV4Wx5bFT--
 
 
-Takashi
+
