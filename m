@@ -1,89 +1,137 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3F330F7F3
-	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 15:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317CE274641
+	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 16:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764690615; cv=none; b=o5krz8kOuKRA93+BCerpptpO8lzdBGuorAJZn9kOsTg3L583gcjuPznpTCpyHfYQCMxhTt2jgEnD1uHQFXNZbOESoNId6g+ns85GU0rtUQGmlLeiiQTAK3yf8fHANpFCNyx01VhIoTHtwoXnadQN6+WtcLcFqgiRtEU8mrgVlEE=
+	t=1764691963; cv=none; b=bv8qut/9+nwAtrHhJo/mrFVHykM2pxp1crjEQUhca06ZClcWrxYdV/iubW4jrjfVT+WXHhJYAjqCqXWANiU2EZXV4ZVFescLJyRvwtCjCku6xaWCa+4ub93tLBs5fh9s8S2rsWr4r7OsA8nPN5/xDig+P637UeW22UgZbkMemo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764690615; c=relaxed/simple;
-	bh=U1SKcNOF8MZPUhTpTtdqifT6JpGRY4x49+UW+vUxzpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IYjSxiYBfpANXjyYy+AW4cp73IoblGWWhqcjv3PsZNL1D0rFwfaexlV42PUruyIxaagF2xy3BveqRkv76gXJTW4LRJBiw3NdNDjNEGjsviBDu48GxziJoNPzG3CgRoxHqKuUeJAH0+MAxWuPE7WQ24YLdsZGgfLAhF2mlMgU12g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com; spf=pass smtp.mailfrom=gsnoff.com; dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b=VfnnhP7O; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsnoff.com
+	s=arc-20240116; t=1764691963; c=relaxed/simple;
+	bh=jGdyl39hGBTfFSqZGJdIn2Ab54gJcV0leFG5tbuxhQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SOuaqPSXRH5rjjxG0C+hPhQdaEC7Z3MEaIuKc1jUHwsxj11RqjwT8EOz+pVg9WmxorzQGI6bkyHQNcH5uD9jx+M8HWJHuBFTcpC1aml0O8JHr8bJxjRjQYSU8e4nOOgw4EY4WQAXjcbBd981IgTef/qLtw586isTvt71tCGqyF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=p2A3LZch; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b="VfnnhP7O"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4dLQFs0CrwzB0pf;
-	Tue,  2 Dec 2025 16:50:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsnoff.com; s=MBO0001;
-	t=1764690609;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kjGX0fI7HQIQSyULVM+IAlNuPRWjPQtBJCF00VOQ+ZM=;
-	b=VfnnhP7OPxGhctfwl0tHJwVEmrHH8pDr87fMz5Gt9O/mdLqyiz1OUJcCYSotfk/8YHSkas
-	WsT7SgTyD+bFmpUi1JhGKfbou8zdWCo2OCTgOsCxS+uuB+g2mlZVRz71wYWyqGWjaqg8fn
-	4sPE6sAibDKETuAlDvhX4OhJnn4hMAk6sUEiqBXxiUHAyMQsGL5UnpLRaUcDYWPNTLPtBs
-	5Xd7e/9/RCXb9uxSFiMYUM8xzZ4ZvLSp0EeKFxauSam9GG+Ak+EvGCba8CT4zlyKINfFwU
-	b8PmBk4RfnpICe9aR615cHVRUjGt7aNB4zWcT5X4F3CSUF9TsNAT0eHPzYYxvw==
-From: Ilyas Gasanov <public@gsnoff.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: Add PCI SSIDs to HP ProBook quirks
-Date: Tue,  2 Dec 2025 19:49:30 +0400
-Message-ID: <20251202154930.74481-1-public@gsnoff.com>
-In-Reply-To: <20251202131508.56184-1-public@gsnoff.com>
-References: <20251202131508.56184-1-public@gsnoff.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="p2A3LZch"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640e9f5951aso9539848a12.1
+        for <linux-sound@vger.kernel.org>; Tue, 02 Dec 2025 08:12:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764691959; x=1765296759; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UrmKwjlopRXYcqrFBEa/DTaDmyfP+x8xcBV9ce6wHdg=;
+        b=p2A3LZche6u5Y0Z6fbbA1jEz0uTV9+J11oEhEQR0CNFmrS5s7cGAXj3WLI52SOiwYY
+         5HZWQ4vxarof/ZAZkk74IwgABTGTKWXK6/fE50T2YNVlWW9gr34hcZu8+SrJtBwHPwk/
+         xXE0UzYyYYaSVWBa5rFsd2MiK8ARynoQYlg8gYykT4N0LUXNDog6ctlM8l6I2AdIt/Cl
+         UlwBI5bwSi9y7Df8+Ucd7q4q6PEBkS9D0ZRFRTmznMBw+sitZOdmR42nmZClsqqbqhI+
+         y5vvh/MxWEKz/vYBGaiBondxiKtvNDRb/i/HxHXmKfJe7dilgRcigwscEvFFwQzNqviS
+         2iRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764691959; x=1765296759;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UrmKwjlopRXYcqrFBEa/DTaDmyfP+x8xcBV9ce6wHdg=;
+        b=WAxJrOHdmr36+1/udiiTXuVEaqYow3dysADUE8R2rsKiKGFCpDwYIJccPnxkdUBkPW
+         yrA7ma9lIHJbq5/GtCPCboXWxGQtD4ruiE3PEfqND9gImiUZ8pkr0bOQVQU8y54+7dkA
+         zs7X/5sRk0gY4CeATRS8ft7T5xP8os0lOHRoIF0BANmka376r7mCzf8X606KiUrBeSL/
+         CFntSGZfoZJCFQqEVk//K/714aHZ8OHb3cechrbTKBsPISX8k7sO6mdQVriVkzcTVcV4
+         WZmj1E02v9bChYgc1KfhEn1Gihq53/fSjvbjU+jFv1VnuQ1bIK58et+4RwX3DCHDFY7V
+         84gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPK7AOl2G2+Pca0b9tYuB9CM49Ee6f9c5z1VvqOoQ9Z4gorjMs2aWF5K+6NXTw5BSK26iTV1p0oBjenw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx408FO/2Dpc2aWA7I9R1vr6vp38Yv0aA2nfHw0HTWQ1uRvZbmm
+	Xf43n8kay4QoP10wHYH3Y7a3XwHLQIm6ny8xZDSfGfVf9ULk01fMqSvwZGPTT/bsJ/8=
+X-Gm-Gg: ASbGncsQNlBuuWsePU84YHCATtQe6r+/kC/LsewQARMgUVgR1tFkS2pCYOfAxkgXY1K
+	3iXXO/ohZdUQYRZvqjSMJBAJNml4/KhBypBdX8AOU99MpdclILZc8cjgG17t9QuRhKpYahRBHVE
+	Qsr5vp18kRVWL11r0aAczAoV7Cha594J5I3ORazffRo1QoD9/VY+jJ6ZzgC9L+tHgiP1j0FFxtL
+	iQzXH4UypbFotbhTlE6ems9aN+2arTFskcNKhhrdZeDX2W6w/ofYI8mrSkPFt+dQCnrU6uEoXRN
+	yvKy2gE3nJN+I3fjXpGbICIlvxA2qBbVpVlsTr6lXf6cGtv4EoCXLt6HHllbyVG2+B2cq8avOsx
+	60cVK86l+tX/RKRoHo7AWZ/j2yZo5eJlaeEit14Fy5qB4KAJ84I6gvFfXU+yv08T2ap5NFqpdk0
+	VNAIctBS9XSJMb+QhtcjwlZ96vPJWv2y+IPK/AVrJpZPbYfHhVJDgn390HLUfF32t3GWjn+dMKV
+	LI=
+X-Google-Smtp-Source: AGHT+IHkoj4qi3VuuoXtMn7oSySNt+HflKI8cJYIZkn8DmdL3Zp08Fss6KvLm9mOz3t7CAAtYknZ9w==
+X-Received: by 2002:a05:6402:12c6:b0:643:130b:c615 with SMTP id 4fb4d7f45d1cf-64789263babmr2197112a12.6.1764691959402;
+        Tue, 02 Dec 2025 08:12:39 -0800 (PST)
+Received: from localhost (p200300f65f006608cf714cc86879bb1e.dip0.t-ipconnect.de. [2003:f6:5f00:6608:cf71:4cc8:6879:bb1e])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-64751062081sm15877219a12.34.2025.12.02.08.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 08:12:38 -0800 (PST)
+Date: Tue, 2 Dec 2025 17:12:38 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Clemens Ladisch <clemens@ladisch.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/9] ALSA: seq: Use bus specific probe and remove
+Message-ID: <3dd7gqk2mk5zppofatenrjv65womknptmrbeh2xzkkdnyq6ola@fkawcyiusdf7>
+References: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
+ <87v7ipt1cu.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lvoxzhlytr2neuyl"
+Content-Disposition: inline
+In-Reply-To: <87v7ipt1cu.wl-tiwai@suse.de>
 
-According to HW probes, there exist upgraded variants of HP ProBook
-440/450 G8 notebook PC hardware, with PCI SSIDs not yet covered:
 
- - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a76
-   (HP ProBook 440 G8, SSID 103C:8A76, Tiger Lake HDA, ALC236)
- - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a77
-   (HP ProBook 450 G8, SSID 103C:8A77, Tiger Lake HDA, ALC236)
+--lvoxzhlytr2neuyl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/9] ALSA: seq: Use bus specific probe and remove
+MIME-Version: 1.0
 
-The HDA GPIO indices for the mic mute (0x1) and speaker mute (0x2) LEDs
-are virtually guaranteed to be identical for the HP ProBook 440/450 G8
-variants with motherboard SSIDs 8A74/8A75 (BIOS T87) and 8A76/8A77 (BIOS
-T88); especially since spare keyboard parts are interchangeable between
-different revisions of the same notebook models, and thus necessarily
-have the same slot pinouts.
+Hello,
 
-Signed-off-by: Ilyas Gasanov <public@gsnoff.com>
----
- sound/hda/codecs/realtek/alc269.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Dec 02, 2025 at 03:17:05PM +0100, Takashi Iwai wrote:
+> On Tue, 02 Dec 2025 13:35:49 +0100,
+> Uwe Kleine-K=F6nig wrote:
+> > for the quest to drop .probe(), .remove() and .shutdown() from struct
+> > device_driver, this patch set converts all seq drivers to use bus type
+> > callbacks.
+> >=20
+> > The dependencies here are:
+> >  - patches #2 - #8 depend (only) on patch #1
+> >  - patch #9 depends on #1 - #8
+> > but I guess this series will go in in a single go and there is no need
+> > to coordinate merging.
+> >=20
+> > This series is compile tested only, as I have no access to seq devices.
+> > Still I'm reasonably sure that there is no user-visible effect when this
+> > series is applied. (There is a runtime warning introduced by patch #1
+> > that goes away with patches #2-#8 again. So future bisections suffer a
+> > tiny bit.)
+>=20
+> It looks OK though a quick glance, but since it's a bit too late for
+> 6.19, I'll postpone this series for 6.20, unless those are urgently
+> required for any reason.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 4efc16ae6b5d..d90a6c01f63b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6598,6 +6598,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41_I2C_4),
- 	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a75, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8a76, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8a77, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x103c, 0x8aa0, "HP ProBook 440 G9 (MB 8A9E)", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXUP_HP_GPIO_LED),
--- 
-2.51.0
+There is no urge on my side and 6.20 is fine. There is still much to do
+before struct device_driver can be adapted.
 
+Best regards and thanks for your feedback,
+Uwe
+
+--lvoxzhlytr2neuyl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkvD/MACgkQj4D7WH0S
+/k6Tnwf/dptb9h0mjb3fy1CBzwAtgrVPJMwxqx0Uezy4eZEV/vxOYlTxDdBjLSI6
+tq8tL+S2x5dXsqkp3+AQJqtrQaCKinEfxlO700FQfWKCIjtpeR5wBEdlABU7OtmA
+NJ1fUZRDCewCKQhXc6CrF/zOJEPUHYXcVBN2Qe0af5WOXkogwWVbnqB36Rqa3TK/
+PGyKtL20zbY0g6RzhNHZ2THzfibLg14WpyuYVlu1uyaq1f9jdw0n45Idgwye/D7x
+a/GE1tds9sIIsS20X2c6SGIqeUthjL5IBNCyZWi+HszUte50RWTMCLj772Yq+sTB
+xVosRgk0UrbvoVKoonEK26he4jJEgg==
+=siBO
+-----END PGP SIGNATURE-----
+
+--lvoxzhlytr2neuyl--
