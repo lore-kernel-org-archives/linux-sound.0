@@ -1,164 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B0C214228;
-	Tue,  2 Dec 2025 14:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262583161B5
+	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 14:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764684623; cv=none; b=ex3RbX9D2bkBzKLGYZn7yGS5AtAh+0j4hV8vt3hPpQWSr7IYTk+at0g9+2x196T+v5b3vehB72VI9gh2xm40LdQAqEsLAx1B5GBb7H3MSptYnvhZGVAHyjx5FiPJbU14u/Ye5LBDWtfKwqW+UjszpU7tNayuQ2XE8sTCmXtXpdo=
+	t=1764684685; cv=none; b=GzMlln+HZaWmgaSL36IDkHwrA8WC/zXj3PoH6mCHQZEng1MurGBvTLu1w1yUqq+KHOphpreyWyXRh2+eRY5yZ7mZDfCrrAriDywirR1KwofpnqI1i3YF+hKkPnq/CVIgS37/ZP+ROdS1Pg6nwAcso/BknOwWQIJ4MN6Ftt16UsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764684623; c=relaxed/simple;
-	bh=toiSa8aTXOXIee5QUwyIDTmaXbKxfpnU6/oadVqAivY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZwLPLmLQHRDPzryKxfKQtRZHqV/OUSMo4lIC93NWrekkkwTWDWRHoU/0Vwy6lhGhcwej026j5AGqmjExaPXTviQS+v18dxoWkxrbILLbJre1bhlL+rUmtJQv4+Pl8WU8jkwMJw7OJJP0WA1E7/9mWq4lhJHBx1+9kwiWduX4glA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0wmGbwz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764684685; c=relaxed/simple;
+	bh=i+NOMqe3W+mbiMSEB85YKovUVGexj2PGhDQt8vijn6w=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=KC9YcMJjs6OJltK5+/i+cSL7fHqqJGm+wZ/T9bDQ3lsLezzVb86uxQXsfCAt1HUDq5lCDFgLQNAxiCra7lLbAw794E9WEOeCW1OavTqYCMLfUy0DR9xwWcJFmqV98fC7NbrGh5PiBwFAUbbY0PX84k8mwAtrdANBpEa7CDVlR9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com; spf=pass smtp.mailfrom=gsnoff.com; dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b=swcBH/Ii; arc=none smtp.client-ip=91.198.250.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsnoff.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0wmGbwz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10EE1C4CEF1;
-	Tue,  2 Dec 2025 14:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764684622;
-	bh=toiSa8aTXOXIee5QUwyIDTmaXbKxfpnU6/oadVqAivY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q0wmGbwzvTfqiUqXzrLAaqK6Xv43UVufbVHnV6EJoA6gwU3bFdcz2bqWUb9Ws/yAT
-	 O+E7WEnWrmrz815F+57prqpOgcFOrhxySXxLgnC0bRSeVT0tP7uKVAySe//rr/0qq1
-	 niET7QINwKdxt30TNFOu9MPLZazIcUtoydBYIXuT7t5/Sp2Vq+r/rSo/PNv/yKJIp9
-	 1lgAEZdBjRIw4SjVupHIm8JwaFCocjasrMBVI7kBG8K1iA0YMtLrnvJt4xLbWzbfyM
-	 0CfWhJF8lrSsp0eEsQv2AweF1rUvhWixVH+z1Y0ApAOVVUUQ08PN/EUI3m1zSe/atH
-	 0o8OQO4NC1JNw==
-Date: Tue, 2 Dec 2025 14:10:18 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cpcap: Fix event generation for mux controls
-Message-ID: <80517214-ccdf-4497-8ced-2e06ad8f9358@sirena.org.uk>
-References: <20251201030354.961-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b="swcBH/Ii"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4dLN3n0XCdzB0Wk;
+	Tue,  2 Dec 2025 15:11:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsnoff.com; s=MBO0001;
+	t=1764684677;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xoQchs2sd50ixyX8ksRbcRvr5kfuox3c35UY5nHjvk8=;
+	b=swcBH/IiTvfmWaxtFXwVowgiN/W8iHGBO1AlLQ9G73L0MPyjwkB9JaAieoCNpjg9fH63Qr
+	aDLL/HI7uEBFDI9g9GEq8X/ArKBYpmdhUYFN5QbMV8RUHbovN8DDR+Wo+82ENdLBucbZXK
+	0mXfsC0HTrpLP7Ry/eppP+InZFygr/CDHjAIbwCeuQ9GSPu9cwZR+9f/arD+mr92kDM+m8
+	bGzQe+i2qKCghuewbL2mPQNGK+8sljBB2gjjZnHQ7CvzV3nM65OHn0qZZhAdDOh0RL+rNo
+	5IdC9PnOHO/CAybDK22cfKcBbKlFMaIrQl+srSI5uVeSuhsQc2t75h+HBqf9Uw==
+Date: Tue, 2 Dec 2025 18:11:16 +0400 (GET)
+From: Ilyas Gasanov <public@gsnoff.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
+Message-ID: <1338370824.94568.1764684676200@app.mailbox.org>
+In-Reply-To: <877bv5uia5.wl-tiwai@suse.de>
+References: <20251202131508.56184-1-public@gsnoff.com>
+ <877bv5uia5.wl-tiwai@suse.de>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add codec IDs to HP ProBook G8
+ fixups
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JJ4W//VJMKJyeoQQ"
-Content-Disposition: inline
-In-Reply-To: <20251201030354.961-1-vulab@iscas.ac.cn>
-X-Cookie: Beware the new TTY code!
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
+On Tue, 02 Dec 2025 17:26 +0400,
+Takashi Iwai wrote:
+> 
+> On Tue, 02 Dec 2025 14:15:08 +0100,
+> Ilyas Gasanov wrote:
+> > 
+> > According to amixer output, as well as the result value of the
+> > GET_SUBSYSTEM_ID HDA verb, the codec's own subsystem ID may differ from
+> > that of the HDA controller.
+> > 
+> > The snd_hda_pick_fixup() function specifically inspects just the codec's
+> > subsystem ID, ignoring that of the controller, which causes mismatch on
+> > machines where the above is the case, unless the codec's subsystem ID is
+> > also covered.
+> > 
+> > For reference:
+> > 
+> >  - https://linux-hardware.org/?probe=9829e4ea09&log=amixer
+> >    (HP ProBook 440 G8, MB 8A74, codec 10ec0236,103c8a7a)
+> >  - https://linux-hardware.org/?probe=5b2ca9b826&log=amixer
+> >    (HP ProBook 450 G8, MB 8A75, codec 10ec0236,103c8a7b)
+> >  - https://linux-hardware.org/?probe=228aee06a5&log=amixer
+> >    (HP ProBook 440 G8, MB 8A76, codec 10ec0236,103c8a7c)
+> >  - https://linux-hardware.org/?probe=1cd4bf968d&log=amixer
+> >    (HP ProBook 450 G8, MB 8A77, codec 10ec0236,103c8a7d)
+> > 
+> > Signed-off-by: Ilyas Gasanov <public@gsnoff.com>
+> 
+> The primary matching is with PCI SSID, not the codec SSID.
 
---JJ4W//VJMKJyeoQQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Good point. There is indeed a semantic difference between the SND_PCI_QUIRK() and HDA_CODEC_QUIRK() macros, specifically where the value of the .match_codec_ssid field is concerned.
 
-On Mon, Dec 01, 2025 at 11:03:54AM +0800, Haotian Zhang wrote:
+> Do they have the same numbers on those machines?
 
-> -	err =3D regmap_update_bits(cpcap->regmap, CPCAP_REG_RXCOA,
-> -				 mask, reg_voice);
-> +	err =3D regmap_update_bits_check(cpcap->regmap, CPCAP_REG_RXCOA,
-> +				 mask, reg_voice, &change);
->  	if (err)
->  		return err;
-> -	err =3D regmap_update_bits(cpcap->regmap, CPCAP_REG_RXSDOA,
-> -				 mask, reg_hifi);
-> +	err =3D regmap_update_bits_check(cpcap->regmap, CPCAP_REG_RXSDOA,
-> +				 mask, reg_hifi, &change);
->  	if (err)
->  		return err;
-> -	err =3D regmap_update_bits(cpcap->regmap, CPCAP_REG_RXEPOA,
-> -				 mask, reg_ext);
-> +	err =3D regmap_update_bits_check(cpcap->regmap, CPCAP_REG_RXEPOA,
-> +				 mask, reg_ext, &change);
+From what it looks like:
 
-This will only flag a change if it happens as part of the last update,
-each regmap call will overwrite the change flag.
+ - https://linux-hardware.org/?probe=9829e4ea09&log=lspci
+   Device:	00:1f.3
+   Class:	Multimedia audio controller [0401]
+   SVendor:	Hewlett-Packard Company [103c]
+   SDevice:	... [8a74]
+   (already covered)
 
->  	if (err)
->  		return err;
-> =20
->  	snd_soc_dapm_mux_update_power(dapm, kcontrol, muxval, e, NULL);
-> =20
-> -	return 0;
-> +	return change ? 1 : 0;
->  }
-> =20
->  static int cpcap_input_right_mux_get_enum(struct snd_kcontrol *kcontrol,
-> @@ -515,6 +516,7 @@ static int cpcap_input_right_mux_put_enum(struct snd_=
-kcontrol *kcontrol,
->  	unsigned int muxval =3D ucontrol->value.enumerated.item[0];
->  	int regval =3D 0, mask;
->  	int err;
-> +	bool change =3D false;
-> =20
->  	mask =3D 0;
->  	mask |=3D BIT(CPCAP_BIT_MIC1_MUX);
-> @@ -539,14 +541,14 @@ static int cpcap_input_right_mux_put_enum(struct sn=
-d_kcontrol *kcontrol,
->  		break;
->  	}
-> =20
-> -	err =3D regmap_update_bits(cpcap->regmap, CPCAP_REG_TXI,
-> -				 mask, regval);
-> +	err =3D regmap_update_bits_check(cpcap->regmap, CPCAP_REG_TXI,
-> +				 mask, regval, &change);
->  	if (err)
->  		return err;
-> =20
->  	snd_soc_dapm_mux_update_power(dapm, kcontrol, muxval, e, NULL);
-> =20
-> -	return 0;
-> +	return change ? 1 : 0;
->  }
-> =20
->  static int cpcap_input_left_mux_get_enum(struct snd_kcontrol *kcontrol,
-> @@ -591,6 +593,7 @@ static int cpcap_input_left_mux_put_enum(struct snd_k=
-control *kcontrol,
->  	unsigned int muxval =3D ucontrol->value.enumerated.item[0];
->  	int regval =3D 0, mask;
->  	int err;
-> +	bool change =3D false;
-> =20
->  	mask =3D 0;
->  	mask |=3D BIT(CPCAP_BIT_MIC2_MUX);
-> @@ -607,14 +610,14 @@ static int cpcap_input_left_mux_put_enum(struct snd=
-_kcontrol *kcontrol,
->  		break;
->  	}
-> =20
-> -	err =3D regmap_update_bits(cpcap->regmap, CPCAP_REG_TXI,
-> -				 mask, regval);
-> +	err =3D regmap_update_bits_check(cpcap->regmap, CPCAP_REG_TXI,
-> +				 mask, regval, &change);
->  	if (err)
->  		return err;
-> =20
->  	snd_soc_dapm_mux_update_power(dapm, kcontrol, muxval, e, NULL);
-> =20
-> -	return 0;
-> +	return change ? 1 : 0;
->  }
-> =20
->  static const struct snd_kcontrol_new cpcap_input_left_mux =3D
-> --=20
-> 2.50.1.windows.1
->=20
+ - https://linux-hardware.org/?probe=5b2ca9b826&log=lspci
+   Device:	00:1f.3
+   Class:	Multimedia audio controller [0401]
+   SVendor:	Hewlett-Packard Company [103c]
+   SDevice:	... [8a75]
+   (already covered)
 
---JJ4W//VJMKJyeoQQ
-Content-Type: application/pgp-signature; name="signature.asc"
+ - https://linux-hardware.org/?probe=228aee06a5&log=lspci
+   Device:	00:1f.3
+   Class:	Multimedia audio controller [0401]
+   SVendor:	Hewlett-Packard Company [103c]
+   SDevice:	... [8a76]
+   (not covered yet)
 
------BEGIN PGP SIGNATURE-----
+ - https://linux-hardware.org/?probe=1cd4bf968d&log=lspci
+   Device:	00:1f.3
+   Class:	Multimedia audio controller [0401]
+   SVendor:	Hewlett-Packard Company [103c]
+   SDevice:	... [8a77]
+   (not covered yet)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmku80kACgkQJNaLcl1U
-h9C+Ngf/Raji1qrpZenwOUKZ+1s0vJ6+yHIYmjInlkoIyCHXyH9I+zx/GAVziinO
-F6eOcoxu9PByfs1XOgLmsqM8BHxAtDxV3z4KZ189xcJ3P6H9YprIKdFQ5/+3Zbnp
-MFrXVFeIBQkzEacqHjEyRAq/12/6YerTn2wcveR00+eQNKyjsnwkzkC5ZeCL63yi
-yJwQwpxzY2Ra6zBU96rnKAljvaK4hSkAV3G/KDOHLzQaKAkkoDnD5W25i10XG0Me
-95dXIzQgSECk/8E3i9AMemKmkp3So8Dti4sK+3KcyzcdV6zLei9FxK7pVYOKaVns
-1FRXB0o1a0hbwpbiXCy8Ns99Gcop6Q==
-=mCZQ
------END PGP SIGNATURE-----
+In short, PCI SSIDs 0x8a74 and 0x8a75 are already covered within alc269_fixup_tbl, but not 0x8a76 nor 0x8a77.
 
---JJ4W//VJMKJyeoQQ--
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
+> > ---
+> >  sound/hda/codecs/realtek/alc269.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+> > index 4efc16ae6b5d..d34a196158aa 100644
+> > --- a/sound/hda/codecs/realtek/alc269.c
+> > +++ b/sound/hda/codecs/realtek/alc269.c
+> > @@ -6599,6 +6599,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+> >  	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8a75, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
+> > +	SND_PCI_QUIRK(0x103c, 0x8a7a, "HP ProBook 440 G8 (MB 8A74)", ALC236_FIXUP_HP_GPIO_LED),
+> > +	SND_PCI_QUIRK(0x103c, 0x8a7b, "HP ProBook 450 G8 (MB 8A75)", ALC236_FIXUP_HP_GPIO_LED),
+> > +	SND_PCI_QUIRK(0x103c, 0x8a7c, "HP ProBook 440 G8 (MB 8A76)", ALC236_FIXUP_HP_GPIO_LED),
+> > +	SND_PCI_QUIRK(0x103c, 0x8a7d, "HP ProBook 450 G8 (MB 8A77)", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8aa0, "HP ProBook 440 G9 (MB 8A9E)", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)", ALC236_FIXUP_HP_GPIO_LED),
+> > -- 
+> > 2.51.0
+> >
