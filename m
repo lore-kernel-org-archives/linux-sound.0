@@ -1,200 +1,232 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011039.outbound.protection.outlook.com [40.107.208.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569502C0F7D;
-	Tue,  2 Dec 2025 17:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764696544; cv=none; b=LYAiXsJKMaOYFf7BxqRvPkNIS2zvfP0YPOEmgeA1tXzpECC7/GNNrO+VxVSk/G18hb2m9T0E9JZtaIyvG8OdeP9gaQ0XqNlc/qnmtw8er2IQSp1DyN0yI7du/KzzaEVbFbYvTXG9a9cTVbaVwe+IoGsGJLThW3rUpwHomOS1qrg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764696544; c=relaxed/simple;
-	bh=0CWgiXQjHQ+aAB2ksEpI1/F3O3ikreeGDOLzHq6IPXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SxD23Wt0V9J+DL/krg2qxwKQ+97gi7FUoiMoWDrxkg7yhNole7a8UEsDvDniZnouyx5PUnufR7mv/6bfca8wntGh7wM4tOooHPYvkSaepesPsv7jbx78qlB7g+hq2eL/8VnPeJk9rzGF5MFlnGLv9oF4y+Kw3uDaHJwgQKaWB9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JXgL/7g8; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0213E2D060D;
+	Tue,  2 Dec 2025 17:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764698195; cv=fail; b=CQZVpxm+FU4s3l2/TVUSEfykj0k+SLpNRP4a7EPkkTm+NunnGyfk4NAu0gcq211Ac3sBmsBh7bGIAqK4OJAskB3sZJtzHIhv4zwshNrGYXkTvYtgozW19Ly0Fjmuf1v9+vq7hECsFeVlRXarkYjoZpZnMS5jRn7FpKSVAJvus3k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764698195; c=relaxed/simple;
+	bh=JxmgsnXBMGXo2/ktocDY47ESsbXOoQllx+109fbII7g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iZfx+ngbh/rztuUb4g7t4+eeda9UkrQPgpdmzhlorQiyD1wpbC4WtypGDOO2YD01QhduoN34smVrBlNNS6AUVAykFfkJr4hCWONvLbYq+lMkNcmjejiaXxbnOUAVkfWOTRPqYsD8YqEUnBlOUmCYYHl/oApvbUF8jDgL+mlOnz4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NGSniLc5; arc=fail smtp.client-ip=40.107.208.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JXgL/7g8"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 769D1C15D7C;
-	Tue,  2 Dec 2025 17:28:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9EB6160706;
-	Tue,  2 Dec 2025 17:29:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9122811919DC9;
-	Tue,  2 Dec 2025 18:28:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764696536; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=4BQ1XtM/oSaifBg16TjvVJ4//gt59MDXZf9Ix2wTO1g=;
-	b=JXgL/7g8k9S4vyskm8xyx1v29w1Me/J6AytYr7l55uyR3/5yDOXjtNyXEpR4wnxzYATmyM
-	vHSSeoX3hQa4vzJXXb6fc5ZendC+ixZc9ZsDBq5nvDbybqEuvHLSPd6L1sl+qyeFU7MMzF
-	Pakz/1p9eIVtQHV4cEBWcCm34HvitG+eThoA2ZyRWEjJuwS9JIrY+uH0GWqHJhx7YDau78
-	0rJqXrBVIAcZoW1khXUNBI6hJAnO3V31IUdVOOPz3tTjjTANzVp+WhhiUK2qKCKK6iRk1y
-	Qi0+GI7U02463lZtkJONer2Ox9Cl+afa+OUmpY8ymeUYGSefeooQJPNbGx16sg==
-Date: Tue, 2 Dec 2025 18:28:34 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kalle Niemi <kaleposti@gmail.com>, Rob Herring <robh@kernel.org>, Matti
- Vaittinen <mazziesaccount@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, Saravana
- Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Brown <broonie@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
- Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-Message-ID: <20251202182834.65d7f0a1@bootlin.com>
-In-Reply-To: <CAMuHMdXogrkTAm=4pC0B+Sybr=PR3XovnBgmiEyTvUMmJHvBRA@mail.gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<20251015071420.1173068-2-herve.codina@bootlin.com>
-	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
-	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
-	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
-	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
-	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-	<20251202102619.5cd971cc@bootlin.com>
-	<CAMuHMdXogrkTAm=4pC0B+Sybr=PR3XovnBgmiEyTvUMmJHvBRA@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NGSniLc5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F/9KrigZIpBb4H6ZqtMoJJfax+y/YSFcMOI74QtE9Wj7qWN6CtL7beyDDJ5Y5jJg87foxFK7SbLE5LuJXpMP4s1yTdAfHk6eM7t5uYkiF82clOrUxEgduI3r44dtMeldp4rR0kifjYkQbA96lDpe5aP6+lpRYoCYaEqRpL/GrdzfMmCNg/xnyiO6ox1CEspGsodHjHKQehlORZrs5dvwcTI3uYzeDvGxT5KxUfytjrCQL9n8jMl7hVxqK/d+yhE6nwlJdfUrVni0OhvWvrlzGccaC2EKyN0+M2NRa9orXkwoDqzWSNMeqC7D6TNeorq+NXc8MUNYhoQyd43zadBOkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZHiFNnXPyqQXw5KI7KS0xr/u/SYmb5vv0v6dX9BzFiE=;
+ b=MYnBXxowM3xH3OztLZ9VRXpZEnooG9oR4uHaRaYNpUE2auvOpgoeHXDovwI7yarC2XquWfNcTwBJJlJRZ1chWxOImYYnf7d85KKiyZwvFtLQfzvFfJEfBgCNgvXiBZMaMA8yildrf0T7J6CpL8KzYY1MVd5S1pBcjJhZEW+SeR4h3hp60vudVyLOrAxyxq0h1xG1dQPHAVdLeCmbOz8oYGfcIlVuixg4OmbvkAGrPqLT9Hk6eT+caSSUGPjCICXJIGlPYhXDre3I4k0KVh2Aa2H5Poo3pRBYr8YxnFu3IJeOsSGo6YqezEn8UqrNj0sgfI1ohScc01BmgbN613LP4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZHiFNnXPyqQXw5KI7KS0xr/u/SYmb5vv0v6dX9BzFiE=;
+ b=NGSniLc502ZfKGOMVXduHLBbPW4pcu5IJK4n0QdFmo8Sb5heE7XjHDO72xFFdXLfOvUD3Dww2UDpZN1BZEhBj0iaejYf26m9bPhdMRNYfqWDaajNL7q7bYpBfeNlRJ56qx3L5HO9NeS2tUazeiev9ydxTpgDNFnPLWVHyx5We4A=
+Received: from BY5PR04CA0014.namprd04.prod.outlook.com (2603:10b6:a03:1d0::24)
+ by SN7PR12MB7936.namprd12.prod.outlook.com (2603:10b6:806:347::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 17:56:27 +0000
+Received: from MWH0EPF000989E9.namprd02.prod.outlook.com
+ (2603:10b6:a03:1d0:cafe::34) by BY5PR04CA0014.outlook.office365.com
+ (2603:10b6:a03:1d0::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Tue, 2
+ Dec 2025 17:56:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000989E9.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 17:56:26 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 2 Dec
+ 2025 11:56:25 -0600
+Received: from drvdevbldsrv2.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 2 Dec 2025 09:56:22 -0800
+From: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, Hemalatha Pinnamreddy
+	<hemalatha.pinnamreddy2@amd.com>, Raghavendra Prasad Mallela
+	<raghavendraprasad.mallela@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Venkata
+ Prasad Potturu" <venkataprasad.potturu@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, Peter Zijlstra <peterz@infradead.org>, "open
+ list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] ASoC: amd: acp: Audio is not resuming after s0ix
+Date: Tue, 2 Dec 2025 23:26:14 +0530
+Message-ID: <20251202175616.2213054-1-raghavendraprasad.mallela@amd.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E9:EE_|SN7PR12MB7936:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e7e07d5-eb32-4c8d-b9e3-08de31cc1d4c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?byCjLuQQHsVZMjEXOVJ/KjVm6FCQwNDP6fOkslRtlQC6UY63lJbXyWRcn2LP?=
+ =?us-ascii?Q?z/WAHLLKZpoUSHm7v0rNulVA3LW4xxvYYEYMfZL0CYnxkBk4XlqFoe7qTFVa?=
+ =?us-ascii?Q?p7D4Exykvw9/e5zMx077UX2tVJO2e1aEGc4WUCVmHMjq3m8K6p5IMKtd1FX4?=
+ =?us-ascii?Q?g1Owb6UBXUJP+r2Jxc/VMTQyBKOa06VBBidQnQk7kGTfZ+eE1Ox7/GLCczAt?=
+ =?us-ascii?Q?I07RO/g7ZV7skIrfA1KFE2qjqDEGpPXyE2BkB5XdtNP3a6xdg54bpbiM3YtN?=
+ =?us-ascii?Q?CIuwY+MMiLcfbz7m0Os1cOxc2juIey11p78va2vBw+w3suGSWYnlfYCaCdnN?=
+ =?us-ascii?Q?su75YuZ1JXJDxp8a4hmsr65vE/c6r/1E8ya0xAAvAMKhpHv5HBJ+w6jCA3Gm?=
+ =?us-ascii?Q?ai3xmjziL1P1+Gm1ftL7VOZKmLSWDzh0hFhzaf72UiOV2P8p0Rd8xkuzNpnB?=
+ =?us-ascii?Q?gHSvGPFjte8wM17BtuKpETtMGWaPG/ok5F1Ny7/78XZ3fQW+Ih3rKT2QjKs1?=
+ =?us-ascii?Q?n9QXVvmFVbIcSxBHH2WWw39R2N8ke2ABP8cUd1y5/3r/T0czH3qgpvFUX9iP?=
+ =?us-ascii?Q?74zLsX5eQetxNVMo1EQqMjOZRllGVmttWziQgIH5gIETNXd1c/Z65IozFKM8?=
+ =?us-ascii?Q?3rzRy/rig8uRpR04Wl6gnRIa/iHKApPxhrL/T0KcePRDJkR0E623cdQY0Roa?=
+ =?us-ascii?Q?IK1uSAVtdr3dlLeOhrGaijXODhlqdKIkoRYbLccSqLO6XsOPmgg9q7m4dFLj?=
+ =?us-ascii?Q?r9QuX1tN/z3igEKkdemNOnnVYl7dmnPJjE610T0Eczo8hqMgXV6pUuW/4tkb?=
+ =?us-ascii?Q?r382XXJktHXTwiGO/RANkbTgV0H5tABBZZCSFYhB8BNmsw6+MXVhiORzT9J9?=
+ =?us-ascii?Q?Or3Cn5WHGQGK5Z8z1Phr4uRz64vGDbSXXyWLTCnMA9Ns5+QTgKlK19H+5XgC?=
+ =?us-ascii?Q?wwukpOmABtTRqingMpSbK+hmivraJURtHuhfsFO4bmeq8M0FWLI+T7rGhSyW?=
+ =?us-ascii?Q?gcmGajom9QRAGDIVxM8xbO57nQ2f//pND3aeY2oPg1+r+ANxtGrE0xqjHZKe?=
+ =?us-ascii?Q?6GvKkl6wCU3x/CJntN269WKl2DgKocuNWsfXc6u8/RtFwhRBXxx/xTzWajQQ?=
+ =?us-ascii?Q?YIkESZO8JGuJeOQI1SPq6GN0rA3eP5DCe3qlZBoM+8oDOc3rN0dbJI2VXHX2?=
+ =?us-ascii?Q?L0QfOlgnDTP1BuOAkjyDtTm/sUskTXS2pWSMxvCvBJEhJP0rTretu1aiuN3L?=
+ =?us-ascii?Q?pYbZLMkNfhEf9X2pTeozB6dGsHmPd+9+aC/wIt9QRAvIoO0YvxVNnhaYNmWY?=
+ =?us-ascii?Q?PWhrZ9WzS88XdT6VDjYq1afWBhYnG3ee2F8uWsq8D2Z8pZ0gD2xDDuYEWi2R?=
+ =?us-ascii?Q?ksb6tuk5uTewskeWpPbs9/rG8fSjCDX1xaEWv93vfmaDVAhcfmPW06NSbPRp?=
+ =?us-ascii?Q?Xm/SM7U19USrs9slJD8Q03nHaKYETliHG2G8U8LvSHJJ5oXa2XORkNtBH6mJ?=
+ =?us-ascii?Q?jnzGYcHGB1Uwp7PKik6cC6gHLEk30LgojQlD4pSS7YvEtMugMPhSZ6lqF+S6?=
+ =?us-ascii?Q?fSgHkA61BlKa14uk8tg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 17:56:26.6511
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e7e07d5-eb32-4c8d-b9e3-08de31cc1d4c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000989E9.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7936
 
-Hi Geert,
+From: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
 
-On Tue, 2 Dec 2025 17:35:35 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Audio fails to resume after system exits suspend mode
+due to accessing incorrect ring buffer address during
+resume. This patch resolves issue by selecting correct
+address based on the ACP version.
 
-> Hi Hervé,
-> 
-> On Tue, 2 Dec 2025 at 10:26, Herve Codina <herve.codina@bootlin.com> wrote:
-> > On Fri, 28 Nov 2025 10:34:57 +0200
-> > Kalle Niemi <kaleposti@gmail.com> wrote:  
-> > > >>>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
-> > > >>>>>> BD71847 drivers probe to not be called.  
-> > > >>>>> This driver (and overlay support) is in linux-next or something out of
-> > > >>>>> tree on top of linux-next?
-> > > >>>>>
-> > > >>>>> Rob  
-> > > >>>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c  
-> > > >>> I don't see any support to apply overlays in that driver.  
-> > > >> Ah. Sorry for the confusion peeps. I asked Kalle to report this without
-> > > >> proper consideration. 100% my bad.
-> > > >>
-> > > >> While the bd718x7 drive indeed is mainline (and tested), the actual
-> > > >> 'glue-code' doing the overlay is part of the downstream test
-> > > >> infrastructure. So yes, this is not a bug in upstream kernel - this
-> > > >> falls in the category of an upstream change causing downstream things to
-> > > >> break. So, feel free to say: "Go fix your code" :)
-> > > >>
-> > > >> Now that this is sorted, if someone is still interested in helping us to
-> > > >> get our upstream drivers tested - the downstream piece is just taking
-> > > >> the compiled device-tree overlay at runtime (via bin-attribute file),
-> > > >> and applying it using the of_overlay_fdt_apply(). The approach is
-> > > >> working for our testing purposes when the device is added to I2C/SPI
-> > > >> node which is already enabled. However, in case where we have the I2C
-> > > >> disabled, and enable it in the same overlay where we add the new device
-> > > >> - then the new device does not get probed.
-> > > >>
-> > > >> I would be really grateful if someone had a pointer for us.  
-> > > > Seems to be fw_devlink related. I suppose if you turn it off it works?
-> > > > There's info about the dependencies in sysfs or maybe debugfs. I don't
-> > > > remember the details, but that should help to tell you why things
-> > > > aren't probing.  
-> >
-> > Rob reverted patches but I plan to continue my work on it.
-> > On my side, I need the reverted patches but I fully understand that, on
-> > your side, you need a working system.
-> >
-> > In order to move forward and find a solution for my next iteration, can you
-> > send your overlay (dtso) used in your working and non working cases?  
-> 
-> Hmm, I must have missed when Rob applied (part of) this series, as I
-> do an overlay test (using the out-of-tree configfs) on top of every
-> (bi-weekly) renesas-drivers release, and saw no issues during the last
-> few months.
-> 
-> So I applied this series and tested loading my SPI EEPROM overlay.
-> And it indeed breaks, with the culprit being this particular patch.
-> 
-> Interestingly, quoting from this patch:
-> 
->    "While the commit fixed fw_devlink overlay handling for one case, it
->     broke it for another case. So revert it and redo the fix in a separate
->     patch."
-> 
-> Where is the separate patch that redid the fix? I assume it is "[PATCH
-> v4 03/29] of: dynamic: Fix overlayed devices not probing because
-> of fw_devlink"?  Unfortunately that doesn't fix the issue for me.
-> 
-> Quoting more from this patch:
-> 
->    "Closes: https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=9F9rZ+-KzjOg@mail.gmail.com/"
-> 
-> Strange that it claims to fix the issue reported there, as the failure
-> mode I am seeing is exactly the same as documented in that report?
-> 
-> Do you know what is wrong? The overlay I am using is referenced in
-> the bug report linked above.
+Signed-off-by: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
+Signed-off-by: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
+---
+ sound/soc/amd/acp/acp-legacy-common.c | 32 +++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-The first patch "Fix probing of devices in DT overlays" didn't fix all cases
-and so Saravana reverted this patch and proposed "of: dynamic: Fix overlayed
-devices not probing because of fw_devlink".
+diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+index 3078f459e005..da80c761d657 100644
+--- a/sound/soc/amd/acp/acp-legacy-common.c
++++ b/sound/soc/amd/acp/acp-legacy-common.c
+@@ -208,7 +208,7 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 	struct acp_resource *rsrc = chip->rsrc;
+ 	struct acp_stream *stream = substream->runtime->private_data;
+ 	u32 reg_dma_size, reg_fifo_size, reg_fifo_addr;
+-	u32 phy_addr, acp_fifo_addr, ext_int_ctrl;
++	u32 phy_addr = 0, acp_fifo_addr, ext_int_ctrl;
+ 	unsigned int dir = substream->stream;
+ 
+ 	switch (dai->driver->id) {
+@@ -219,7 +219,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					SP_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_I2S_TX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_I2S_TX_FIFOSIZE(chip);
+-			phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_SP_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_I2S_TX_RINGBUFADDR(chip));
+ 		} else {
+ 			reg_dma_size = ACP_I2S_RX_DMA_SIZE(chip);
+@@ -227,7 +230,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					SP_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_I2S_RX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_I2S_RX_FIFOSIZE(chip);
+-			phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_SP_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_I2S_RX_RINGBUFADDR(chip));
+ 		}
+ 		break;
+@@ -238,7 +244,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					BT_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_BT_TX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_BT_TX_FIFOSIZE(chip);
+-			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_BT_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_BT_TX_RINGBUFADDR(chip));
+ 		} else {
+ 			reg_dma_size = ACP_BT_RX_DMA_SIZE(chip);
+@@ -246,7 +255,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					BT_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_BT_RX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_BT_RX_FIFOSIZE(chip);
+-			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_BT_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_BT_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_BT_RX_RINGBUFADDR(chip));
+ 		}
+ 		break;
+@@ -257,7 +269,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					HS_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_HS_TX_FIFOADDR;
+ 			reg_fifo_size = ACP_HS_TX_FIFOSIZE;
+-			phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_HS_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_HS_TX_RINGBUFADDR);
+ 		} else {
+ 			reg_dma_size = ACP_HS_RX_DMA_SIZE;
+@@ -265,7 +280,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					HS_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_HS_RX_FIFOADDR;
+ 			reg_fifo_size = ACP_HS_RX_FIFOSIZE;
+-			phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_HS_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_HS_RX_RINGBUFADDR);
+ 		}
+ 		break;
+-- 
+2.17.1
 
-This second patch was needed to fix my use case even if more modification were
-needed to have my use case fully fixed (other patches in my series).
-
-Rob applied those first patches from my series and some systems were broken.
-The breakage has been reported my Kalle and Matti and led to a revert of culprit
-patches.
-
-I tried to understand what was wrong. I am pretty convinced that modification
-done in "of: dynamic: Fix overlayed devices not probing because of fw_devlink"
-are really better than modification available in "treewide: Fix probing of
-devices in DT overlays".
-
-I proposed an update [0] and I will be glad if you can also test this update 
-on your side and give me your feedback.
-
-[0] https://lore.kernel.org/lkml/20251202175836.747593c0@bootlin.com/
-
-Best regards,
-Hervé
