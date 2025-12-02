@@ -1,91 +1,165 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD7F7E110;
-	Tue,  2 Dec 2025 21:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AEF2E62D0;
+	Tue,  2 Dec 2025 22:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764711448; cv=none; b=kGVhp2BBEagsFvql1VMg4JrfNu2kGeVCw26n14u0TVMkDWZM5j2LzB1+2rVRnjECtC/isKNKQDHnLAZbTuuzS12a4/Ye5C9qmM32BZ8TWOmz2ziJTVQpowG7q9FzX1yPdgxJiLnB7mhSTpdseZg379q5G1+vMuSO5Axf4jvgAhM=
+	t=1764713292; cv=none; b=Psa84c1Jr9aBTN8XO9+5mOH+B6kZGdfNJEwmak5cAqV13i5oHssRfUu3e6aqYTKuSWQaVFLoOUcRYwvd7TXArg5WIeOIqCcl29Lnuj3CpvGp1yJld3wR5ZCnR7ZQS1Ica8lcF37TVJP9fV4sO5aIjNo+MPt9at2Sm0N9GLhY4ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764711448; c=relaxed/simple;
-	bh=8oXE2lAtW9OfH+A5+tytds5w/bJhvES9JtF/R/52vNw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NU6GtGGnW4GmEomkfho0tslyhFm5zRTYBWBunToNUEs4QWQs3e13gEce9TGOqS259JfhUaevl6aC905Axl12Gsa6U7PKUpAxwDq077wcLUwPKX3vQ7F/nn0mOT7rA4JwidHbfFmF049YHKXoJaC8+dBwIPmhdhqkPPF99QquaB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3VrrJmO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764713292; c=relaxed/simple;
+	bh=h504TlD4hkfWEx5CxoUKhaX/q+6HXNdHKNnpsA753es=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=re1gFl2iZcclBz5NHdJRuDlzPFXRYngA/bYb/kfYI4iEUkJuFM6pqUpKi4aDmYIjPlZKjRxuKCdeoF4Rjt+U3hBnGIx0E6mop6L01hRSZ543jzv6I34vTs/G3JOqRtcvQnxqV/7kyhQqRyLsvq52jcCE5SaPbbFIM/yK/dhPhm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JCRlYw5b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3VrrJmO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2768C4CEF1;
-	Tue,  2 Dec 2025 21:37:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JCRlYw5b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743A8C4CEF1;
+	Tue,  2 Dec 2025 22:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764711447;
-	bh=8oXE2lAtW9OfH+A5+tytds5w/bJhvES9JtF/R/52vNw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Z3VrrJmOhNBsqXBn0H5pjoCG7Uo3dM0ogGP/ZWMcGyIf2bSiOBxn7RQsg8JgVpfk1
-	 02aRRRpOb9Eswi2u7hLuCD22AT2yDcLj6HtYeStf2LULBu4BWRrSwvuZkSnO0FIWnc
-	 zIjecvofneaFrMz5GdYjCBlK+OYim8yrcbqOoBxszWBdWkqLsYytMtW+uju00511Ws
-	 Nz9bmyyQ1XNGuGtKPnP2XoxV360KClm39GSW1hpsbHdTF4Nd3cXQZl8NOf2yO0F7aN
-	 I0Won9tFrPVtCq8l/0tU3T1X0mOcf7sw/qycQohG0MwhJWIhRFOwmkh6QosKpWPvVy
-	 pw/5L0kfXBOzA==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251201111429.43517-1-rf@opensource.cirrus.com>
-References: <20251201111429.43517-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs-amp-lib: Revert use of __free(kfree) back to
- normal C cleanup
-Message-Id: <176471144659.85842.16970571597637988500.b4-ty@kernel.org>
-Date: Tue, 02 Dec 2025 21:37:26 +0000
+	s=k20201202; t=1764713291;
+	bh=h504TlD4hkfWEx5CxoUKhaX/q+6HXNdHKNnpsA753es=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JCRlYw5bmZNXcaX2ZPvhkXNTAqKvGQwmtBoY5BOnrG3H6DX7K5Mx4Bs4LXMb0OFAR
+	 zmkCm0lvdmUSCoeKti0VZpVDkF2vx/EHgu38bsLRnmxZl7XjW5JJsDkdKdkZ18Jc0K
+	 r77io/RyPRNrERAYgoPcBLdN+Jmi6rH7AC5v1FuXbmDW2EmAhEQfM2fYmq6yWL99TN
+	 1JphVlu2ex7DhDnKMgMIEqzyfWKrTz/6tTLurAUQB3T89DyVqzDshZUqIQU7Mdovah
+	 3K4buQHHFvp2cTOgUCsMyQHfkTmXoE90wIS9D5kDfRIuKgyeKB71SMGldY2YghoYiM
+	 8gMNJHYd3HXGg==
+Message-ID: <9070b032-03d3-4f01-85d7-d55918678659@kernel.org>
+Date: Tue, 2 Dec 2025 16:08:09 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: amd: acp: Audio is not resuming after s0ix
+To: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>,
+ broonie@kernel.org, alsa-devel@alsa-project.org
+Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com,
+ Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20251202175616.2213054-1-raghavendraprasad.mallela@amd.com>
+Content-Language: en-US
+From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+In-Reply-To: <20251202175616.2213054-1-raghavendraprasad.mallela@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-88d78
 
-On Mon, 01 Dec 2025 11:14:29 +0000, Richard Fitzgerald wrote:
-> Revert commit 6797540c8b76 ("ASoC: cs-amp-lib: Use __free(kfree) instead
-> of manual freeing").
+
+
+On 12/2/2025 11:56 AM, Raghavendra Prasad Mallela wrote:
+> From: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
 > 
-> Krzysztof Kozlowski pointed out that __free() can be dangerous.
-> It can introduce new cleanup bugs. These are more subtle and difficult to
-> spot than a missing goto in traditional cleanup, because they are triggered
-> by writing regular idiomatic C code instead of using C++ conventions. As
-> it's regular C style it's more likely to be missed because the code is as
-> would be expected for C. The traditional goto also more obviously flags
-> to anyone changing the code in the future that they must be careful about
-> the cleanup.
+> Audio fails to resume after system exits suspend mode
+> due to accessing incorrect ring buffer address during
+> resume. This patch resolves issue by selecting correct
+> address based on the ACP version.
 > 
-> [...]
+> Signed-off-by: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
+> Signed-off-by: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
 
-Applied to
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+One nit below.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> ---
+>   sound/soc/amd/acp/acp-legacy-common.c | 32 +++++++++++++++++++++------
+>   1 file changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+> index 3078f459e005..da80c761d657 100644
+> --- a/sound/soc/amd/acp/acp-legacy-common.c
+> +++ b/sound/soc/amd/acp/acp-legacy-common.c
+> @@ -208,7 +208,7 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   	struct acp_resource *rsrc = chip->rsrc;
+>   	struct acp_stream *stream = substream->runtime->private_data;
+>   	u32 reg_dma_size, reg_fifo_size, reg_fifo_addr;
+> -	u32 phy_addr, acp_fifo_addr, ext_int_ctrl;
+> +	u32 phy_addr = 0, acp_fifo_addr, ext_int_ctrl;
 
-Thanks!
+Why initialize this variable now?
 
-[1/1] ASoC: cs-amp-lib: Revert use of __free(kfree) back to normal C cleanup
-      commit: 2b69bee5a2d07bc0583f2a8f17d262ddf7c58466
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+>   	unsigned int dir = substream->stream;
+>   
+>   	switch (dai->driver->id) {
+> @@ -219,7 +219,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					SP_PB_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_I2S_TX_FIFOADDR(chip);
+>   			reg_fifo_size = ACP_I2S_TX_FIFOSIZE(chip);
+> -			phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_SP_TX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_I2S_TX_RINGBUFADDR(chip));
+>   		} else {
+>   			reg_dma_size = ACP_I2S_RX_DMA_SIZE(chip);
+> @@ -227,7 +230,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					SP_CAPT_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_I2S_RX_FIFOADDR(chip);
+>   			reg_fifo_size = ACP_I2S_RX_FIFOSIZE(chip);
+> -			phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_SP_RX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_I2S_RX_RINGBUFADDR(chip));
+>   		}
+>   		break;
+> @@ -238,7 +244,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					BT_PB_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_BT_TX_FIFOADDR(chip);
+>   			reg_fifo_size = ACP_BT_TX_FIFOSIZE(chip);
+> -			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_BT_TX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_BT_TX_RINGBUFADDR(chip));
+>   		} else {
+>   			reg_dma_size = ACP_BT_RX_DMA_SIZE(chip);
+> @@ -246,7 +255,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					BT_CAPT_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_BT_RX_FIFOADDR(chip);
+>   			reg_fifo_size = ACP_BT_RX_FIFOSIZE(chip);
+> -			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_BT_RX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_BT_RX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_BT_RX_RINGBUFADDR(chip));
+>   		}
+>   		break;
+> @@ -257,7 +269,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					HS_PB_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_HS_TX_FIFOADDR;
+>   			reg_fifo_size = ACP_HS_TX_FIFOSIZE;
+> -			phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_HS_TX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_HS_TX_RINGBUFADDR);
+>   		} else {
+>   			reg_dma_size = ACP_HS_RX_DMA_SIZE;
+> @@ -265,7 +280,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+>   					HS_CAPT_FIFO_ADDR_OFFSET;
+>   			reg_fifo_addr = ACP_HS_RX_FIFOADDR;
+>   			reg_fifo_size = ACP_HS_RX_FIFOSIZE;
+> -			phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
+> +			if (chip->acp_rev >= ACP70_PCI_ID)
+> +				phy_addr = ACP7x_I2S_HS_RX_MEM_WINDOW_START;
+> +			else
+> +				phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
+>   			writel(phy_addr, chip->base + ACP_HS_RX_RINGBUFADDR);
+>   		}
+>   		break;
 
