@@ -1,190 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3211FD4
-	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 14:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3F330F7F3
+	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 15:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764685031; cv=none; b=uITlIDMHDYfsKYf3J47SRUiv3uOx7wNy9ciUTMIxRrw/tSVQ2rsVJUf4C1j2tta7sapwe2kuT+62rfcUKhFJkJ0jrWdBsj6V0tfEO5jvqtM+LF57pDMoWqlR8ZW+wf+qBzu+lTCH5IXCm2mAPKQznnEfEWrfoylUgcbX6sQ/riA=
+	t=1764690615; cv=none; b=o5krz8kOuKRA93+BCerpptpO8lzdBGuorAJZn9kOsTg3L583gcjuPznpTCpyHfYQCMxhTt2jgEnD1uHQFXNZbOESoNId6g+ns85GU0rtUQGmlLeiiQTAK3yf8fHANpFCNyx01VhIoTHtwoXnadQN6+WtcLcFqgiRtEU8mrgVlEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764685031; c=relaxed/simple;
-	bh=rrqZ8lZwhPrWHjtJT2TtYHMwmwiD28LdUpzTU/mKZjg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m5MH7gzadZs+Quhxvb1E7vhaKh+uZQvNsGihraOttBPwoNdFRWhjj5BamG9lP3uKZunXqkOAnhRyl3rjbuBlY7dV1CDiko7SnUGkKWDgmBCz85YpgikDlnXYFxi7+3wKtBPFOZBK6HVHB2NlQbVdX9obY4MAqx7uLRXeZWVVpGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kNRHKDFB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=G6XYWFaC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xqs1t7/k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mJicuDSZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764690615; c=relaxed/simple;
+	bh=U1SKcNOF8MZPUhTpTtdqifT6JpGRY4x49+UW+vUxzpk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IYjSxiYBfpANXjyYy+AW4cp73IoblGWWhqcjv3PsZNL1D0rFwfaexlV42PUruyIxaagF2xy3BveqRkv76gXJTW4LRJBiw3NdNDjNEGjsviBDu48GxziJoNPzG3CgRoxHqKuUeJAH0+MAxWuPE7WQ24YLdsZGgfLAhF2mlMgU12g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com; spf=pass smtp.mailfrom=gsnoff.com; dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b=VfnnhP7O; arc=none smtp.client-ip=91.198.250.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gsnoff.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gsnoff.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kNRHKDFB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="G6XYWFaC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xqs1t7/k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mJicuDSZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=gsnoff.com header.i=@gsnoff.com header.b="VfnnhP7O"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6CFCD5BD4E;
-	Tue,  2 Dec 2025 14:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764685026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4dLQFs0CrwzB0pf;
+	Tue,  2 Dec 2025 16:50:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gsnoff.com; s=MBO0001;
+	t=1764690609;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O+eyJyhEKeRvgN6L1OAae9fcdlhnSZg5TA1PbS6jsJM=;
-	b=kNRHKDFBQpTWnWN9Pjock31EKjrDIXKrMtGT7AKKIbZl0EJJthTuMi+lbyvVwYW3eWsS7z
-	aVjjFoDLlJCbWpuIyr1norpKRz/Djai3mzvfoBvQl76qXTTPujh5O9ydhFDj8qp5xmdBaj
-	d1HdI/hIl868vwpzgY7boSPCpRBhAcA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764685026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O+eyJyhEKeRvgN6L1OAae9fcdlhnSZg5TA1PbS6jsJM=;
-	b=G6XYWFaCnAK13fzoqQz1ivwGbG9quDSvvAKxtip3+Hr8j8ZizjzhOx1f70MQGedrYpDV0q
-	jdPRZ73XJImuWvAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="xqs1t7/k";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mJicuDSZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764685025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O+eyJyhEKeRvgN6L1OAae9fcdlhnSZg5TA1PbS6jsJM=;
-	b=xqs1t7/ksDZo1TuQMheBpZVlD57QkZhbfnbWqW/1n2nXbYQmWRr3e/47TR0ALKp++Z3gtI
-	CyCvZjNxH38uOvDy14goIJesm7s1c3wtD0UID8KepMwWpHSlnwC+acyx2CAgwGElgTBgI2
-	7XI2tYrIFGamODqphDgJJg7u7zNRmHM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764685025;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O+eyJyhEKeRvgN6L1OAae9fcdlhnSZg5TA1PbS6jsJM=;
-	b=mJicuDSZJd0W5snu55u+hBInRyXWjSym92DlK1jnJdJxZLQc7c/pubQGndZcVyJBkkw8EQ
-	t9FS2tGwSEMtGSCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 559C83EA63;
-	Tue,  2 Dec 2025 14:17:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iEReFOH0LmmtawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Dec 2025 14:17:05 +0000
-Date: Tue, 02 Dec 2025 15:17:05 +0100
-Message-ID: <87v7ipt1cu.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/9] ALSA: seq: Use bus specific probe and remove
-In-Reply-To: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
-References: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	bh=kjGX0fI7HQIQSyULVM+IAlNuPRWjPQtBJCF00VOQ+ZM=;
+	b=VfnnhP7OPxGhctfwl0tHJwVEmrHH8pDr87fMz5Gt9O/mdLqyiz1OUJcCYSotfk/8YHSkas
+	WsT7SgTyD+bFmpUi1JhGKfbou8zdWCo2OCTgOsCxS+uuB+g2mlZVRz71wYWyqGWjaqg8fn
+	4sPE6sAibDKETuAlDvhX4OhJnn4hMAk6sUEiqBXxiUHAyMQsGL5UnpLRaUcDYWPNTLPtBs
+	5Xd7e/9/RCXb9uxSFiMYUM8xzZ4ZvLSp0EeKFxauSam9GG+Ak+EvGCba8CT4zlyKINfFwU
+	b8PmBk4RfnpICe9aR615cHVRUjGt7aNB4zWcT5X4F3CSUF9TsNAT0eHPzYYxvw==
+From: Ilyas Gasanov <public@gsnoff.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda/realtek: Add PCI SSIDs to HP ProBook quirks
+Date: Tue,  2 Dec 2025 19:49:30 +0400
+Message-ID: <20251202154930.74481-1-public@gsnoff.com>
+In-Reply-To: <20251202131508.56184-1-public@gsnoff.com>
+References: <20251202131508.56184-1-public@gsnoff.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 6CFCD5BD4E
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
 
-On Tue, 02 Dec 2025 13:35:49 +0100,
-Uwe Kleine-König wrote:
-> 
-> Hello,
-> 
-> for the quest to drop .probe(), .remove() and .shutdown() from struct
-> device_driver, this patch set converts all seq drivers to use bus type
-> callbacks.
-> 
-> The dependencies here are:
->  - patches #2 - #8 depend (only) on patch #1
->  - patch #9 depends on #1 - #8
-> but I guess this series will go in in a single go and there is no need
-> to coordinate merging.
-> 
-> This series is compile tested only, as I have no access to seq devices.
-> Still I'm reasonably sure that there is no user-visible effect when this
-> series is applied. (There is a runtime warning introduced by patch #1
-> that goes away with patches #2-#8 again. So future bisections suffer a
-> tiny bit.)
+According to HW probes, there exist upgraded variants of HP ProBook
+440/450 G8 notebook PC hardware, with PCI SSIDs not yet covered:
 
-It looks OK though a quick glance, but since it's a bit too late for
-6.19, I'll postpone this series for 6.20, unless those are urgently
-required for any reason.
+ - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a76
+   (HP ProBook 440 G8, SSID 103C:8A76, Tiger Lake HDA, ALC236)
+ - https://linux-hardware.org/?id=pci:8086-a0c8-103c-8a77
+   (HP ProBook 450 G8, SSID 103C:8A77, Tiger Lake HDA, ALC236)
 
+The HDA GPIO indices for the mic mute (0x1) and speaker mute (0x2) LEDs
+are virtually guaranteed to be identical for the HP ProBook 440/450 G8
+variants with motherboard SSIDs 8A74/8A75 (BIOS T87) and 8A76/8A77 (BIOS
+T88); especially since spare keyboard parts are interchangeable between
+different revisions of the same notebook models, and thus necessarily
+have the same slot pinouts.
 
-thanks,
+Signed-off-by: Ilyas Gasanov <public@gsnoff.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Takashi
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 4efc16ae6b5d..d90a6c01f63b 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6598,6 +6598,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41_I2C_4),
+ 	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a75, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8a76, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8a77, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x103c, 0x8aa0, "HP ProBook 440 G9 (MB 8A9E)", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.51.0
 
-> 
-> Best regards
-> Uwe
-> 
-> Uwe Kleine-König (9):
->   ALSA: seq: Use bus specific probe and remove
->   ALSA: seq: midi: Convert to snd_seq bus probe mechanism
->   ALSA: seq: ump: Convert to snd_seq bus probe mechanism
->   ALSA: opl3: Convert to snd_seq bus probe mechanism
->   ALSA: opl4: Convert to snd_seq bus probe mechanism
->   ALSA: sb: Convert to snd_seq bus probe mechanism
->   ALSA: emu10k1: Convert to snd_seq bus probe mechanism
->   ALSA: seq: oss: Convert to snd_seq bus probe mechanism
->   ALSA: seq: Refuse to probe seq drivers with non-bus probe or remove
-> 
->  include/sound/seq_device.h         |  2 ++
->  sound/core/seq/oss/seq_oss.c       |  4 ++--
->  sound/core/seq/oss/seq_oss_synth.c | 12 ++++--------
->  sound/core/seq/oss/seq_oss_synth.h |  4 ++--
->  sound/core/seq/seq_midi.c          | 15 ++++++---------
->  sound/core/seq/seq_ump_client.c    | 11 ++++-------
->  sound/core/seq_device.c            | 26 +++++++++++++++++++++++++-
->  sound/drivers/opl3/opl3_seq.c      | 13 +++++--------
->  sound/drivers/opl4/opl4_seq.c      | 10 ++++------
->  sound/isa/sb/emu8000_synth.c       | 13 +++++--------
->  sound/pci/emu10k1/emu10k1_synth.c  | 13 +++++--------
->  11 files changed, 64 insertions(+), 59 deletions(-)
-> 
-> 
-> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> -- 
-> 2.47.3
-> 
