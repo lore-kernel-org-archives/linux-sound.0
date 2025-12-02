@@ -1,148 +1,190 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022110.outbound.protection.outlook.com [52.101.126.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094852FFDC0;
-	Tue,  2 Dec 2025 09:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764667606; cv=none; b=k7h2PemchUSjP2VPl1mcX8DmPW7jpPDJW6/8Ci6tNPCjQZqgC9Mg1Jhubamw5OqUAN7DrHgtHjR0iuNVWJ/Suc+sK3ceyQM7xGGd5cVsdPpLQeJTxm8VrrpDVMmmfzWwYb1PCwzYC89rs/Uv7KBJuNOZeaiImGVra5BqXDTGfDo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764667606; c=relaxed/simple;
-	bh=e4ADKf5KnBtmyNx7K3nhN5sMxYdX8FSZtoZA9jdJSmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UzFHiQ/CwZkXF2p48PaaBjrA2LV/tsAigklVlFpoNkuEk3tBCxZPTyyK9J0bXiE2sZAaSRFTkcJKk0QuJ3l/XvbWaDGnIR0pATFylKDqr2q1A9pqOcGQI9YrRMRjMPkzmSQJG2nIYpEt+lIbSf3ebW1wgT58JPV/cnbAE8Vc+AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MfTUlGhn; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MfTUlGhn"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 243561A1EC1;
-	Tue,  2 Dec 2025 09:26:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E6457606E3;
-	Tue,  2 Dec 2025 09:26:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3DD6211918D13;
-	Tue,  2 Dec 2025 10:26:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764667597; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=0QhNzQsm8Oj1GGB/bH80Qc9yOMbCIo84NGjawpRGa0U=;
-	b=MfTUlGhnnw/aVreeaATbhw0gwkpem3K9EKovmRrLAuPocP4mtIEFaUBJAllgvpXiOFVYVs
-	/+wYe6BWiOjXN0TQXfqEbI4kTBiForiN43QgIRFG1Tif71C+pWFPguQb30OO5GR384TVLH
-	FZYaHMZgblFJnDTIPRv3nxFL2X7+IteBlMRlRxUIW82bL9nD/zWvqmrNnYX95WKYHUolBR
-	aWzmo2dED90Ls+6evrTylVevWGCfFb+t5/b4hRTOr5NOspn3gp8X2yP/8vpWUgnmn8SNQp
-	t2T7sfHrwl492i35smJdL2e7LttoyWu75OyA4aNg7/ydqIjfu3dWfVR//psj2w==
-Date: Tue, 2 Dec 2025 10:26:19 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Kalle Niemi <kaleposti@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Matti Vaittinen
- <mazziesaccount@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Brown <broonie@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
- Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-Message-ID: <20251202102619.5cd971cc@bootlin.com>
-In-Reply-To: <55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<20251015071420.1173068-2-herve.codina@bootlin.com>
-	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
-	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
-	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
-	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
-	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796E6283FEF;
+	Tue,  2 Dec 2025 09:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.110
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764668760; cv=fail; b=sOp8+JiOY6Q/BCeHhm3lL2wXjh35KIy7nS/stDZBL5G7b6/OGlKwHKWQWgzfwTBjxmtTTZfUvNXqUmisA+MgT2BtqEbDuIbQDqC8wjVPe0m7kX43PFJOrfX3DHpE0B+25GY9E/k1ykKdcrGbjOG1QEj04zR0NrpeOjubAkgkZGc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764668760; c=relaxed/simple;
+	bh=BoVJhujiKXPeDENPiMeR7AsGaEAv4FgbE7SFyqYYZek=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=d6rtfMxS/rqsHxNTONhVnwpBWaobNnXFHcb/m0PRDDD1YKuzahWTbqbkK3hx9/I+P7WHGZAVBCKfQty1Wx0SNOkOjpf45gCjpVAy/jPd6ZJw94Ul/cUodX2MAwUuaQ9hbSRW83yA0STcx/ANkNyOe1uUqBBNzjVH2urD+St7imQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mmg/fnTigX0EHjGwtkT0YlOslSfqk4924BdewzGQCYBJrWudRpTpCidSY1Ngn5HtnyTreDDo3aecjGvNGNqZAuUb7UiwI5jZeAdkZ46i1KmhUntxcXsd7IkiFCSj9MNORbSE2NWG2zMWsPe7pdke03kXjvFrSBLs38a/zPP5BTrJxcr6HYqA9Mm2wUZ9Und1FAV5nbgEQcQiC+ZvQ80q74Txd43QChakLDNLJBNFIY+0e+oV2M5M+YU8TveOCIZK9TS14keFIus0dSlSrE5JMnCtQ4TmpAFmqEAgiiCjvFPhWWlVwLQNvC0iXNI+n34DRLAc5zCwf+NUTJZZtkcOTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BoVJhujiKXPeDENPiMeR7AsGaEAv4FgbE7SFyqYYZek=;
+ b=EEBiRowHdtoZGVyIQlT6Z8XOKaXtBzMgpMc0BwkLkSG2Ej9J3r52kDUNA0z/8U/1YCRpAN5csmfFpkaovN0bhd54AoYFF/Lmk6+04OHBM3aF1Wa1LDj2Twuct7SzVxCHrWI8YYTL6fwYLU5O5ClcyDgTC0Ipr2pYNguwkUVqPY159NeLgz1oY18KjhetIT1Wux5b8z3GK1g9OMIltcbw4SnB4pkDSEabcWevGOisUB4ElXFzN/ylEduDKREBD984GEpAhquSrlC+NfOkob2I+m5ZmKyj+8ucYT5Aya2XB3gMYKLDcKr8PAoXPYMKL5GmsgrZN+FkN3t+Oe3r4uH02Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
+ dkim=pass header.d=cixtech.com; arc=none
+Received: from SEYPR06MB6226.apcprd06.prod.outlook.com (2603:1096:101:df::13)
+ by SEZPR06MB7004.apcprd06.prod.outlook.com (2603:1096:101:1f2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 09:45:53 +0000
+Received: from SEYPR06MB6226.apcprd06.prod.outlook.com
+ ([fe80::56e8:777c:d80e:d364]) by SEYPR06MB6226.apcprd06.prod.outlook.com
+ ([fe80::56e8:777c:d80e:d364%5]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
+ 09:45:52 +0000
+From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "broonie@kernel.org"
+	<broonie@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com"
+	<tiwai@suse.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, cix-kernel-upstream
+	<cix-kernel-upstream@cixtech.com>
+Subject: RE: [PATCH v3 3/3] ALSA: hda: add CIX IPBLOQ HDA controller support
+Thread-Topic: [PATCH v3 3/3] ALSA: hda: add CIX IPBLOQ HDA controller support
+Thread-Index: AQHcYrE8SyNQRYmPEEiZzVTFHQiBDLUMvZaAgAFW6mA=
+Date: Tue, 2 Dec 2025 09:45:51 +0000
+Message-ID:
+ <SEYPR06MB6226B3E1A33A299E1D94EE1F82D8A@SEYPR06MB6226.apcprd06.prod.outlook.com>
+References: <20251201105700.832715-1-joakim.zhang@cixtech.com>
+	<20251201105700.832715-4-joakim.zhang@cixtech.com>
+ <87zf82bby0.wl-tiwai@suse.de>
+In-Reply-To: <87zf82bby0.wl-tiwai@suse.de>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cixtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR06MB6226:EE_|SEZPR06MB7004:EE_
+x-ms-office365-filtering-correlation-id: 3d90cf79-f296-44c0-0536-08de318794c6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|7053199007|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?mNKx12kBjbCXN14Q8F6AFaAe9eQIisKeVo4HWjuYPFT3ai0eMLhisai5PSj+?=
+ =?us-ascii?Q?WwPM6gQmLxY9a75PxopQFZ+50Nw+k6LgDvbOcUc8YBiVuQlPStzV2/q/MW4c?=
+ =?us-ascii?Q?rUVzqYuKJ+TdmT/N5vDn9xuySYWUdleOeQEi4TR+zLvruMvSxiRBMcpiGWpi?=
+ =?us-ascii?Q?RJIx+LmyP5N+sxpYBEY6OxfW1NtrYiu29+Hk0OyG35714HUgDOozL4nbEw6x?=
+ =?us-ascii?Q?CfSSI3VGdFdKkR1Hm1jDstPht7NLPT5EYacMUPIfodlKdK+/X53AK90ijHxD?=
+ =?us-ascii?Q?5fGWkt0VJP/NgEKSn1Q28tn9gYjlRLbKtaUy80QbQiBY7zVIzvwp3U8dGSiw?=
+ =?us-ascii?Q?S8YEB6fRaorBC6NcUtI7/OJk1ZZwPX+/AjY6Or0ltH7qcVtEkd+V6FJHb3p+?=
+ =?us-ascii?Q?A1aEXOO5LR8IJF6O6BDZK+SuiGPadkT7ulKr57Nobev70Ecbi3bSxkjsxP5d?=
+ =?us-ascii?Q?C3Ie9LGVL5jH0lv/3k/4fzduV6eT2mX1VA90PYeeesuzSNKJPH/T6A9L5FaJ?=
+ =?us-ascii?Q?Uu/etBqcbONHYUKzf34kYFtvxgrm1ZBUNmfn4JDnWwTMngrEw+DxTnlyRXxN?=
+ =?us-ascii?Q?vv2h1Gkm57HWyIhOaMjwPbBFhdgXhq11QgASUL2jcFXallr6hyVA/GAeb+Z7?=
+ =?us-ascii?Q?R9Np/Ih6IgR9N9H3+pSXpZ8PqkTe0ErLNcqmD3/G2YYb4+FFnpr7uhTXwQFu?=
+ =?us-ascii?Q?CNxWAh+8rpeGdzVQyA3XfAaRPzg+R4JKXhAwoj0NqybDCGMxfltJPja5185k?=
+ =?us-ascii?Q?SIM1Guf9RtR58N0YYg6ZJhAJYL9hhpwhlJ68OHSPKeaykC/xuY7gKpnQaIEH?=
+ =?us-ascii?Q?2n+mxUQr6SstKVkibfs9nIQ0AtFQGmeyrjeYGrNdku0QYHkLp+alhxg+5OE0?=
+ =?us-ascii?Q?dVpY+bgHzoMLpSfogXm0aI++qsx1B3g/B1aorGnNulG/Or6zSdQVQSaP1LuC?=
+ =?us-ascii?Q?w5jYinmCqTer+S0p55Rgni69QkkKJest5srWdpwPtvFn6SQ/7b61JEkem1Le?=
+ =?us-ascii?Q?8niO7IQCoQpt1f+hO+sI6dTbMHcytA3jMiFnuwDDUlbS5ubSVUUZ48OBH2+S?=
+ =?us-ascii?Q?KA1vctSRqC/7Ab53/qYfgyoaIpQ9SHyK3gs0/bc7lzXJkbsORaWXvWVlWIh1?=
+ =?us-ascii?Q?x373zfyMT6DuKyjZv96nkxvMMunhT/L9m9xucmMyUMyph6wI4qrnV8xMZjyU?=
+ =?us-ascii?Q?F2A01ALz161OLjJfbQ87oZ+LP7xqYxmq7TChM2v+Sbt8kUIJ6+K0G3ZGLVz0?=
+ =?us-ascii?Q?Bhs0kv1kwcGmYwsSD7I7Fer5uZpBIDvbKqp1T3j/HrZoB3yvjxbYtAYzB3SI?=
+ =?us-ascii?Q?LyjKZYKhmJvSDxB+BxJ5Q8ls72Z/KzQGhQjKc6ldWkK9O2PW51+/ukQZQJOK?=
+ =?us-ascii?Q?zRhYHy7kn0ljr6JPNw/YiZERV7bndeB9dvcvuXWyNVJqLZaGWDoeSPYDqX+6?=
+ =?us-ascii?Q?MoJUsLPfofXt+FDHnkWjwrRBoU/OIf46nqvrh9G6Y8i8ZdyDPttVL6zFiYMp?=
+ =?us-ascii?Q?QgYCjwT+inTXAAkd3YTHByC8raclA0DRDHQu?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6226.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?pxvA+Sh/irAQLROwc4uMGg+4X4701itbKXZTJ8jxMkbhEH8hSbV3fun7U+jn?=
+ =?us-ascii?Q?tV6mZZVl1AYGqPM+brmNCrtOzEMkH2g1DQDJzJb1Gydmzy8KP2UBrIbESOAM?=
+ =?us-ascii?Q?vdqTXTcr1LFwp8/khrb+I06OPCaYEcsks7mGyVKVtoEYOk1ge3OEUe255UdD?=
+ =?us-ascii?Q?uP6TSTqgzCT2aUt3ilxu6yPjREELuVnkewsgEkG4S8RjTaxrUx9Zt6SvtbBB?=
+ =?us-ascii?Q?9Hen6Sg9qMVFbTjdSRsh5Kn6mgH0sJDoEzVpYpfLMgIVPZa8RwqVZsqK8RuN?=
+ =?us-ascii?Q?VeU0VA9JvYAHZYhHhjMTxF4IBJ2Fk0Y+JQ4uhWkZtvK7HAKEHQm5tNQ5c3pB?=
+ =?us-ascii?Q?CAsOvW6ka+c8R0IXRrHxOPbd8TPfOn6kQV5X9xDpyQObXnK+yapOvkOzYd94?=
+ =?us-ascii?Q?RzTdBO0507sShNvkozISZqJXMFnJjYHAXucENELm3Pk7M3M5y3FlOyPVVe1f?=
+ =?us-ascii?Q?IZX/vKOgeDuJPr1GcnkAFmTZkCagBU93/F5Up8LeyyxjUzv2pe8UX2S042Dk?=
+ =?us-ascii?Q?bTsmJx0Ifv+tQ2TquLS4TvR9k3EvGnNgf0cEBQolqyI8d54sGGiNV27RMhVX?=
+ =?us-ascii?Q?l08o4FKt9Gs7PEXPJjTBZe2kV3AIQMYxEAIthSK4fBJW0kF+U+nrXnikyERQ?=
+ =?us-ascii?Q?citn60MUNdAwsgmMjx3r6q7UWn+ek+IoCwJ7m1Mh6e3Xifq2VsS9ss74bsCa?=
+ =?us-ascii?Q?zvMi45R/68AbHxoY2EMV2pJeqXi69/xguymWo/SfS9taa8l2KAY+0H9GSNBM?=
+ =?us-ascii?Q?NQj1BDfoPj7TcCCD85EuJpzUhc0FJBf+vxh5KaPuuuXhT7yPVYYxNfT0wwuB?=
+ =?us-ascii?Q?SkCE23fH8NxIWPIkxd7eo6aTJJFbU4U5gdkiIjVsPQ/rs8K7otz5kV0d24UC?=
+ =?us-ascii?Q?5Srd1U+fEJ7vJz5LpL/lRrBieiRViNub235AvEMSSPRN0id3wkp6bElFHWhA?=
+ =?us-ascii?Q?6E6ssGld6rx3/w11PALmMYhmZCU8ApZ+5WVVV/+dlNe0YAJ2cc/NAGYRdMBp?=
+ =?us-ascii?Q?JQozgALMMw5G+6tgFOYTjHyT6HkLMGvC6a8L0qnlhj3MQ9Zhw5/7Wj5NahR0?=
+ =?us-ascii?Q?t/KdRD8t4KIQMVcM5GVfF1tNxdnGe/+APQCbi2h7mC3YZ9kmrJzussQ1uuaj?=
+ =?us-ascii?Q?aMTo1X0//KytYTElxwgkREgGdP0ePtYcz3YKz+m8nNksR+lKwd7NcEH4lYG7?=
+ =?us-ascii?Q?iFQWi8CS1FD+QHGfClngi9/k8pauQwFhu6AF601UDifbYXSN/RXfOmAv9/Zx?=
+ =?us-ascii?Q?SfPHTVj9i1yxMKfz/eCEqJOBV4YR+a5SLB1NqpIdRGn0q3Q1uUz1xSSwdkCT?=
+ =?us-ascii?Q?ZyD5iof/fi/aR4XN0ScjXwrtuVA/uG0dMBpCCrPl95N2EIMl6uP9j1zbsoDi?=
+ =?us-ascii?Q?lwIt9NRoXZ22HkwHx4yHOfNWtwORiinqswYVrs0ZEGbNA1l2tkPbV+jyXCoi?=
+ =?us-ascii?Q?qXeZXho2a2fcYcqOjfyHk9kg9c5kM89DUIlogOcXYNhBqi51ZNxBHyptvUJ9?=
+ =?us-ascii?Q?kLY0tbaf9K08ayfuRtibmtUcbkbm0oAJ0nf8OLDaIgejsuWNovatomUajDV5?=
+ =?us-ascii?Q?jkGy7kSRK2jTUoTReUgwn9sMwsCcui3rqSDo8/gq?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6226.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d90cf79-f296-44c0-0536-08de318794c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2025 09:45:51.8990
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xxHg9t+Hw95g2Ox4ZFvIkiyEGWYL6zCl1BqLef8k8g5DNwKgP/KeDCO3UKTPvloRkx97YYxkRq16H7oKQ7vACpld7NZ0LPfMdjqY4sQ7vX0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7004
 
-Hi Kalle,
 
-On Fri, 28 Nov 2025 10:34:57 +0200
-Kalle Niemi <kaleposti@gmail.com> wrote:
+Hello, Takashi
 
-...
-> >>>>>>
-> >>>>>> Hello,
-> >>>>>>
-> >>>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
-> >>>>>> BD71847 drivers probe to not be called.  
-> >>>>> This driver (and overlay support) is in linux-next or something out of
-> >>>>> tree on top of linux-next?
-> >>>>>
-> >>>>> Rob  
-> >>>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c  
-> >>> I don't see any support to apply overlays in that driver.  
-> >> Ah. Sorry for the confusion peeps. I asked Kalle to report this without
-> >> proper consideration. 100% my bad.
-> >>
-> >> While the bd718x7 drive indeed is mainline (and tested), the actual
-> >> 'glue-code' doing the overlay is part of the downstream test
-> >> infrastructure. So yes, this is not a bug in upstream kernel - this
-> >> falls in the category of an upstream change causing downstream things to
-> >> break. So, feel free to say: "Go fix your code" :)
-> >>
-> >> Now that this is sorted, if someone is still interested in helping us to
-> >> get our upstream drivers tested - the downstream piece is just taking
-> >> the compiled device-tree overlay at runtime (via bin-attribute file),
-> >> and applying it using the of_overlay_fdt_apply(). The approach is
-> >> working for our testing purposes when the device is added to I2C/SPI
-> >> node which is already enabled. However, in case where we have the I2C
-> >> disabled, and enable it in the same overlay where we add the new device
-> >> - then the new device does not get probed.
-> >>
-> >> I would be really grateful if someone had a pointer for us.  
-> > Seems to be fw_devlink related. I suppose if you turn it off it works?
-> > There's info about the dependencies in sysfs or maybe debugfs. I don't
-> > remember the details, but that should help to tell you why things
-> > aren't probing.
+> -----Original Message-----
+> From: Takashi Iwai <tiwai@suse.de>
+> Sent: Monday, December 1, 2025 8:53 PM
+> To: Joakim Zhang <joakim.zhang@cixtech.com>
+> Cc: lgirdwood@gmail.com; broonie@kernel.org; robh@kernel.org;
+> krzk+dt@kernel.org; conor+dt@kernel.org; perex@perex.cz;
+> tiwai@suse.com; linux-sound@vger.kernel.org; devicetree@vger.kernel.org;
+> cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
+> Subject: Re: [PATCH v3 3/3] ALSA: hda: add CIX IPBLOQ HDA controller
+> support
+>=20
+> EXTERNAL EMAIL
+>=20
+> CAUTION: Suspicious Email from unusual domain.
+>=20
+> On Mon, 01 Dec 2025 11:57:00 +0100,
+> joakim.zhang@cixtech.com wrote:
+> >
+> > From: Joakim Zhang <joakim.zhang@cixtech.com>
+> >
+> > Add CIX IPBLOQ HDA controller support, which integrated in CIX SKY1
+> > SoC.
+>=20
+> It'd be more helpful to describe the characteristics about this chip.
+> e.g. this chip requires special handling for jack polling, and it needs t=
+he
+> address offset, etc.
+>=20
 
-Rob reverted patches but I plan to continue my work on it.
-On my side, I need the reverted patches but I fully understand that, on
-your side, you need a working system.
+Fine.
 
-In order to move forward and find a solution for my next iteration, can you
-send your overlay (dtso) used in your working and non working cases?
+> > +static int __maybe_unused cix_ipbloq_hda_suspend(struct device *dev)
+>=20
+> Those __maybe_unused are superfluous when you use
+> SYSTEM_SLEEP_PM_OPS() or RUNTIME_PM_OPS() in dev_pm_ops
+> definition.
+>=20
 
-Best regards,
-Hervé
+OK
+
+Joakim
