@@ -1,73 +1,73 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39341469D
-	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 12:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F91E302CD6
+	for <linux-sound@vger.kernel.org>; Tue,  2 Dec 2025 12:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764678989; cv=none; b=E8JQZ74g+bdws2BxVUDEOIQ7m2OFtY3y9T+/vXdHK2mr3iFyApJPySe2ML0uqGDQ3zhVPFyEc2MPiZbmmmViz7q+25nx5TzQ6EZl2DtUDbnVNCQ0AX56kr8ljNwpqVKA1P0llsipoqeYF3h0M8lzXota76Nudyze5frXLwJTu3I=
+	t=1764678990; cv=none; b=LtCFLiW8T/UHOJ//O5DycBQ5wmViy5pD/e/aBLCxvkhWN2Rkpal2/GV0g0pD6G9i/L1ksrMI/IXNQLwqSxQtBi3yN2ZJRouvy4tiSZ9qaZLhC/gUn3pAy6WybtrKz1u670xoI1UkE1MH0gm07g/WPc6gpmRKWm7JlPgLl8PgyLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764678989; c=relaxed/simple;
-	bh=iGabLxvOaTsEc6gnsmnrQOoV0IQ9e8QdMHOGN5pZZ0E=;
+	s=arc-20240116; t=1764678990; c=relaxed/simple;
+	bh=vrLYL9wnyZ1gpaTdyAFYaPvKjjdM+2juWuwkHvQxrME=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o9JmaPqzkfHPxoSwOJdmkQNwbjlMIE2zraCdkQ+GaUW04+PSbMhQFgKQmyrm9iw7WIbB5EVN/ruO1aV1gMrfz8/PPb2WocZd24TlSASltoWt2CoKWDRPKQXF1vIthaQnT3f3Q7cEHApeBDHyva4AgUYAeyFh32YVhNkk6BUX31s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Cls5BWlf; arc=none smtp.client-ip=209.85.208.52
+	 MIME-Version:Content-Type; b=OKpFihzvHRoBwIrKTVJYk16OG5zPAe/TvSBjg6Mye5zIDgB8NwINnMsXNUzxGknurxH4ukXkZZiJnqiLav/6XnW+9F1OGC+WcgCpqvBxT1ml/crCtt1YvGL8YX6MPz/kM0oA8piMLPheI5QhaP1IlPRDN6sfadRLiErNuwnQv0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=faNg0HHj; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Cls5BWlf"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-644fcafdce9so8969350a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 02 Dec 2025 04:36:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="faNg0HHj"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b737cd03d46so775430366b.0
+        for <linux-sound@vger.kernel.org>; Tue, 02 Dec 2025 04:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764678984; x=1765283784; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764678985; x=1765283785; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pVeq5q/h+KxkZiuUmv2BK7fV/ImMZAXB8Bty5RnpInU=;
-        b=Cls5BWlf/zLGDE21JEN4cLWr0cRf9yMZb4yBzprBtdpp6hMx7/Ti84FygBm5RXspuj
-         JKdpxv46BcIejtpUWZrpW0QVxEdy9mTGUmLVvsE1c4qDT5mVbF1LjyPxhUGmwce7qcnJ
-         BE1lWtnNSxXtngtTjEdrgoM+wW6VrgH+tzJaa0GzzjbrjhsJvVkPpvFbDAImibI/bCUw
-         RJ4JwHioGYny2rYUU9nWv1d4Lbb/nN4cvbs2Tj+NqscxfknftOolCcv1bAagjtqIWQ43
-         je44/CG7YOgiaBV61gyRHv9qS4ZxwiFbxcuK5UNoNjCzxMDMj0uAttoFVbgWu8H8G5Ks
-         Mf9A==
+        bh=2G8bBUrUWrtFMH8HLtLp5rw2t8K9o1qfofuvPVC6g8c=;
+        b=faNg0HHjswJ3HvBUyOjxkl74/QfYAYxymxsEtBqLdY4+oaZIuAVERsDH5tVIN3UE/v
+         mzYpFUgo48+jdec/1j6jYUaW125NegOSqbh2O8rrwMh29M68POulDyIaX7PDXZstb08R
+         wCEsvAxvKnxYKX5BoqI6Oo5lhWh2XIBuKLl2s6nwGDxC6emWxHCv1NyvSty5fCgUUzGh
+         5Aw3goqvwAq5KL6uNxWy0K58KoTZKt7UwTpmHjKjyeeVkd0NtS59tWNQ7LLnITcKBY7T
+         PDj8gREpYHxS3NlVXNt1lftfw0Q0vpPFJmELklHOVSf7aK9zybgeFjLu5sXLU6vOrEt2
+         65UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764678984; x=1765283784;
+        d=1e100.net; s=20230601; t=1764678985; x=1765283785;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pVeq5q/h+KxkZiuUmv2BK7fV/ImMZAXB8Bty5RnpInU=;
-        b=fxSGfo+ilFmitasCaeEsGAj58FUqokbFvYzyQ5wmPt5jZC/Hix6lX+xJSaV7by8NuD
-         pWcWtZMESehwGtI2o2dw5lWbN82oGIKSOBJKHAboBC3AME8PpeDKZab9MiDSvNIDKClI
-         GQ1kcgQ3Z8eeSpTehOlbjqyCD5vn180vV05B12zlMt3IqthTpQQAKVHO5ZUKP52Z4lsQ
-         QFDeI7bSHW4J21Lk+YMQyNRJoAVq34AGvwfi3jDGkqBu00Gq+SLIwxw1JTRFsLWtCShA
-         +yfQgj6D0AZABeufL2IXIr/aHqTlKFMAEPYNC22Eesf3rbxMtaKGBGdewHTjTZ3px8P0
-         Tf0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXYR/io41OpOGbphTDgaMolWP7qGxZSHPhshC9zdOCDN/Ds2ZbfqJHhcJLVbDQvuAqGRDJkZ3dDDpCB3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGcH8jQmK4Gyb1dV6LMNZLVqJDE8OcOUKvxw+03vl1hcM7f/DT
-	YmInpkhrSyvNdnACWhmOtBYmshUf8RZ3eola7wWJWwdgfWdg+I8LIwMQL7GMx+SKjJI=
-X-Gm-Gg: ASbGncvH2teGfpk2BYhReUa2BlLO+aHhMgfgf9IfI4bin05ZXRAKRuZeZFGCfrpUAKB
-	+AlXHnvH000teJLrDPantM4Gatp9fmG6CMrHNw5ggZAXsBUtEQih33jmL5x4pQa9IXfFFXsGPp+
-	Bazsidl+2ffpfUbWmPxTTwtHhKy1E/JGw3L1ZmVsZbszSOf44phFWX5nzJ6ZFUiUfKV75Y/oCDP
-	E+F4cnMFPVqW2XvZ0G8OchR1T07tHR13eQ6F0nyAvztH673mT52/Q4EOcenC1Ws6wGtJCh/45jO
-	6gb4klhsDjnPRQ6Oues4jIdhEDCE+cKytd6YKKRFAgd0q9ezdPVMsJHev4vAdqUlWbTzetzWKXB
-	M8akXKA/j9WhU1P0MVvzf4x59NrleTdqppRjzMBfC8bv+7vtt5YCJufHYkyAEBH8HVGLYCJoP/z
-	r7v8WhSQItI8LFiW3U9rizexgRv0nxLW+UFuQfRIS4lUe+2Se6dioNZ6jWnLpn0PgiUuTxZQQYD
-	vQ=
-X-Google-Smtp-Source: AGHT+IEIoz5x67zy+jPqp4oM/mV/u/JP5TyGRAo+qsuhR52rTd3DKbd1Jqxgu4txMGqGvlUslABGoQ==
-X-Received: by 2002:a17:907:9117:b0:b76:ece3:510a with SMTP id a640c23a62f3a-b76ece351cfmr1740802266b.21.1764678984091;
-        Tue, 02 Dec 2025 04:36:24 -0800 (PST)
+        bh=2G8bBUrUWrtFMH8HLtLp5rw2t8K9o1qfofuvPVC6g8c=;
+        b=qYtqqszx0mH1r/Bjm0SAe1uSr6zsR1B9SNV1wxV2a7dNNa7TmLZdGaAUjRIRNqEQVE
+         CQ8HpTz8Nypf7Ni9S4nby2WBQoZaeOz2W6DDXcOpu9csxXVwVNZX1Kn+wvRFA7OHYYNt
+         kNSqkolKNUklYphm4WNdu641uAMVHfSYn9cTdf/0hq2X2CbILzWymg0h+MuOw57J3m7E
+         rkladqTMPMinhbAtjDhnSG7A6r40PGS6ZcHcYEiR8o4Mj026/zXNzpeNDfWLsM5ir7pU
+         WteNIsNgO9+Ytn3afy3ItC+IGF7faJsF86gWP0W8W7PwOPujsYZjVSVBuHXmds2sdinS
+         wF5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUlhpGN/dzlJzAfXuAiHPg3OGqxxEPAftjYUNPlJEyXlofAb25DBj7EbOTTEeBZFDHrK6S4QzfwwaQPTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLNPq1f5LadbTvPAv+a3cdpxBBsnmGNw1fypQHjyiOjHjHYLhB
+	omi5MRJd6Mnbja0CkErlnfEBxLDK6rLdRtlhTlMxNxLuLKSVf2OmuEYCxN3ffb3ByEA=
+X-Gm-Gg: ASbGncuOWV+Gc7oZ8S7fB77DhKUhLaHBo8QN1KTmQcgoWus1+IAVLMZzdXNOBod8PC1
+	ViRMUGi6WW52VJwBbg/A8WaocuPGzYCJ+mDecrlN7KgFPA3/phA7RKFK8SixJYbyyAh8WMNXStG
+	BZgYvE6aUKYBpvZK8CO1E+34SOPxG+Dip9lFW4lleqjVL1NIuDyKEMFc74m+z3djo3c0xzC8wU8
+	eYT/b+Y4G1JYUEtLk4csjldWJ70d125lP3NsPanKUbKf3t173h0SDjB6IOBNfitjB8O3ZJg71lQ
+	GY5RohL0UYuDC4/2UrfE418mvCZ4d/HVZokIENuKjJoglHx6Qd2QUgczub+awSY/HAIH2x3SQxj
+	MVAajNS2gVy9UMMdmGWu2ZSQSWE6K7wLOA9gFUFZwMBvqna1ESWu8GDMfBP0JKkX4blcQgBL7Ep
+	H3rv7I0oZMTwPpHIcaYLIygNTzSCMLj9QOWCK8kg8XvHNP871uuSEv/YUztR8uHdBTvV5h/mcmb
+	qs=
+X-Google-Smtp-Source: AGHT+IEq/3ORGe4UmpI3IRaZd+rw/uzS1cZ0rnsLzt4aBMUQsvByetr+QICL9WZzf7pr+EEuEGmwzg==
+X-Received: by 2002:a17:907:3f24:b0:b71:9c99:7b8a with SMTP id a640c23a62f3a-b7671732d17mr4671388166b.49.1764678985459;
+        Tue, 02 Dec 2025 04:36:25 -0800 (PST)
 Received: from localhost (p200300f65f006608c90d1d7fe637464b.dip0.t-ipconnect.de. [2003:f6:5f00:6608:c90d:1d7f:e637:464b])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b76f59e8612sm1463982866b.52.2025.12.02.04.36.23
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b76f519d883sm1500301566b.17.2025.12.02.04.36.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 04:36:23 -0800 (PST)
+        Tue, 02 Dec 2025 04:36:24 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 1/9] ALSA: seq: Use bus specific probe and remove
-Date: Tue,  2 Dec 2025 13:35:50 +0100
-Message-ID:  <2258e1f0ebd5209a79b5dd7cd6be8c5ec542e8bd.1764677854.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH 2/9] ALSA: seq: midi: Convert to snd_seq bus probe mechanism
+Date: Tue,  2 Dec 2025 13:35:51 +0100
+Message-ID:  <1d3362c1f15e7887b5709bee2df6d69b58d5d74c.1764677854.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
 References: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
@@ -78,115 +78,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3397; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=iGabLxvOaTsEc6gnsmnrQOoV0IQ9e8QdMHOGN5pZZ0E=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpLt0pZ31WOgB0VMFnne+S65AVlHe3xj+WyfFEX PatlNh5b/CJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaS7dKQAKCRCPgPtYfRL+ TknmB/41qeRHdMkgrzpoGJQ+MkNqy5KiuCyrIlsbWnaO5PqlMcT451Kbh41408+aWoM0UTGO+gc ojjz4p7AXDx+BC53aa607EykIjOX4Ug1l/28qMYpZljSQoL3jLpq6Eb9u0g+5yR/VZMpHObu7Py wDAhaVj4N5xt0O1iEB9HMwhu43hzIJEOCYzrpII79kg3XelDokG5U9q9PgT/oznWYZeo7DTjv8n I/K+ZoHM6RxgkDV7LDnnrnkbIQPgnBmrEhD01lTbxcJoh9SG+JdwVUmFNB/8Kjl1In4yHY4tbeu e8Jj+fo/KTC3Vrvrxybc2GW9LGYJ/vaFQERSdQRbx9+HTi0n
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2377; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=vrLYL9wnyZ1gpaTdyAFYaPvKjjdM+2juWuwkHvQxrME=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpLt0sCIhb0AfMogSCwLded1nYad2DtVOeu2zSv UE6jKkanFaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaS7dLAAKCRCPgPtYfRL+ TkUiB/488KJ+G7Hh/2CkG7dEX8RFDFN+00mVhdirMl/k47RHpXOrkjbUDfRqXEtu/BcbebHqELg 4/tmmI/AShCnxJk9tRtHWWG1GcqI5kHOcb0AeUqbblcDzwRmiyVP0xXxZJzz/p9vkMrwaaZm6h8 RqViza0Bbf6QnYjwjG1vAZ2Bwkv7RkglqAoVktP9kMdCeDclr2kcUwbiwGpvTlc7XY44IERgmED 85pUuYOeOQ2jpbVVqKVDrhg/RRgSoJXmZ/n4OwHFYVeBfALvQYshZ88ZFjPMhf1ii67nPpjC9dj gwbzTauFl4sWVOQySRFBcmudiP8FrtV/nXy4igDfXzQFd/BD
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Introduce a bus specific probe and remove function. For now this only
-allows to get rid of a cast of the generic device to an snd_seq device
-in the drivers and changes the remove prototype to return void---a
-non-zero return value is ignored anyhow.
+The snd_seq bus got a dedicated probe function. Make use of that. This
+fixes a runtime warning about the driver needing to be converted to the
+bus probe method.
 
-The objective is to get rid of users of struct device callbacks
-.probe(), .remove() and .shutdown() to eventually remove these. Until
-all snd_seq drivers are converted this results in a runtime warning
-about the drivers needing an update because there is a bus probe
-function and a driver probe function.
+Note that the remove callback returns void now. The actual return value
+was ignored before (see device_remove() in drivers/base/dd.c), so there
+is no problem introduced by converting `return -ENODEV` to `return`.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- include/sound/seq_device.h |  2 ++
- sound/core/seq_device.c    | 47 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ sound/core/seq/seq_midi.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/include/sound/seq_device.h b/include/sound/seq_device.h
-index dead74b022f4..a72380c202e9 100644
---- a/include/sound/seq_device.h
-+++ b/include/sound/seq_device.h
-@@ -43,6 +43,8 @@ struct snd_seq_device {
-  *	Typically, call snd_device_free(dev->card, dev->driver_data)
-  */
- struct snd_seq_driver {
-+	int (*probe)(struct snd_seq_device *dev);
-+	void (*remove)(struct snd_seq_device *dev);
- 	struct device_driver driver;
- 	char *id;
- 	int argsize;
-diff --git a/sound/core/seq_device.c b/sound/core/seq_device.c
-index bac9f8603734..d746c8d0c58b 100644
---- a/sound/core/seq_device.c
-+++ b/sound/core/seq_device.c
-@@ -49,9 +49,31 @@ static int snd_seq_bus_match(struct device *dev, const struct device_driver *drv
- 		sdrv->argsize == sdev->argsize;
+diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
+index 581e138a3115..de7ec7d15f23 100644
+--- a/sound/core/seq/seq_midi.c
++++ b/sound/core/seq/seq_midi.c
+@@ -265,9 +265,8 @@ static void snd_seq_midisynth_delete(struct seq_midisynth *msynth)
+ 
+ /* register new midi synth port */
+ static int
+-snd_seq_midisynth_probe(struct device *_dev)
++snd_seq_midisynth_probe(struct snd_seq_device *dev)
+ {
+-	struct snd_seq_device *dev = to_seq_dev(_dev);
+ 	struct seq_midisynth_client *client;
+ 	struct seq_midisynth *msynth, *ms;
+ 	struct snd_seq_port_info *port __free(kfree) = NULL;
+@@ -411,10 +410,9 @@ snd_seq_midisynth_probe(struct device *_dev)
  }
  
-+static int snd_seq_bus_probe(struct device *dev)
-+{
-+	struct snd_seq_device *sdev = to_seq_dev(dev);
-+	const struct snd_seq_driver *sdrv = to_seq_drv(dev->driver);
-+
-+	if (sdrv->probe)
-+		return sdrv->probe(sdev);
-+	else
-+		return 0;
-+}
-+
-+static void snd_seq_bus_remove(struct device *dev)
-+{
-+	struct snd_seq_device *sdev = to_seq_dev(dev);
-+	const struct snd_seq_driver *sdrv = to_seq_drv(dev->driver);
-+
-+	if (sdrv->remove)
-+		sdrv->remove(sdev);
-+}
-+
- static const struct bus_type snd_seq_bus_type = {
- 	.name = "snd_seq",
- 	.match = snd_seq_bus_match,
-+	.probe = snd_seq_bus_probe,
-+	.remove = snd_seq_bus_remove,
- };
- 
- /*
-@@ -242,6 +264,25 @@ int snd_seq_device_new(struct snd_card *card, int device, const char *id,
+ /* release midi synth port */
+-static int
+-snd_seq_midisynth_remove(struct device *_dev)
++static void
++snd_seq_midisynth_remove(struct snd_seq_device *dev)
+ {
+-	struct snd_seq_device *dev = to_seq_dev(_dev);
+ 	struct seq_midisynth_client *client;
+ 	struct seq_midisynth *msynth;
+ 	struct snd_card *card = dev->card;
+@@ -423,7 +421,7 @@ snd_seq_midisynth_remove(struct device *_dev)
+ 	guard(mutex)(&register_mutex);
+ 	client = synths[card->number];
+ 	if (client == NULL || client->ports[device] == NULL)
+-		return -ENODEV;
++		return;
+ 	ports = client->ports_per_device[device];
+ 	client->ports_per_device[device] = 0;
+ 	msynth = client->ports[device];
+@@ -437,14 +435,13 @@ snd_seq_midisynth_remove(struct device *_dev)
+ 		synths[card->number] = NULL;
+ 		kfree(client);
+ 	}
+-	return 0;
  }
- EXPORT_SYMBOL(snd_seq_device_new);
  
-+static int snd_seq_driver_legacy_probe(struct snd_seq_device *sdev)
-+{
-+	struct device *dev = &sdev->dev;
-+	struct device_driver *driver = dev->driver;
-+
-+	return driver->probe(dev);
-+}
-+
-+static void snd_seq_driver_legacy_remove(struct snd_seq_device *sdev)
-+{
-+	struct device *dev = &sdev->dev;
-+	struct device_driver *driver = dev->driver;
-+	int ret;
-+
-+	ret = driver->remove(dev);
-+	if (unlikely(ret))
-+		dev_warn(dev, "Ignoring return value of remove callback (%pe)\n", ERR_PTR(ret));
-+}
-+
- /*
-  * driver registration
-  */
-@@ -251,6 +292,12 @@ int __snd_seq_driver_register(struct snd_seq_driver *drv, struct module *mod)
- 		return -EINVAL;
- 	drv->driver.bus = &snd_seq_bus_type;
- 	drv->driver.owner = mod;
-+
-+	if (!drv->probe && drv->driver.probe)
-+		drv->probe = snd_seq_driver_legacy_probe;
-+	if (!drv->remove && drv->driver.remove)
-+		drv->remove = snd_seq_driver_legacy_remove;
-+
- 	return driver_register(&drv->driver);
- }
- EXPORT_SYMBOL_GPL(__snd_seq_driver_register);
+ static struct snd_seq_driver seq_midisynth_driver = {
++	.probe = snd_seq_midisynth_probe,
++	.remove = snd_seq_midisynth_remove,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+-		.probe = snd_seq_midisynth_probe,
+-		.remove = snd_seq_midisynth_remove,
+ 	},
+ 	.id = SNDRV_SEQ_DEV_ID_MIDISYNTH,
+ 	.argsize = 0,
 -- 
 2.47.3
 
