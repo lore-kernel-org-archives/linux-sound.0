@@ -1,159 +1,175 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4612C21EF
-	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 08:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9378D2C11D6
+	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 08:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764750295; cv=none; b=PQH4gcsjHraD+z54BrZZY7aZORuHFEvqK/SxPszQZCVXPS++2pigBKtfPYyFq81CLHPciCRFurU9YEtkV17tE8w4/Z7mK357WKgSYJ/zx7EktjudSVdE0FEW4GUZSAUx+M7bITr8o/4fHT6SZS70n73+eNU8Em29AI23h/O7I7c=
+	t=1764751224; cv=none; b=c55b5ox+7rmojDuDAUzPLBVHuFzASjPsuTgniuHsTVrUpahyWAAG2gGLyxKtZrqGOgc6XSFAyb/q1EfAdre9UBJXTLVVdU9nE9pXEHUgpuOWBm8CGpHJ09BGfeovcpLaPQwDtJj+IYXGjNARLAvAxI53MifYqKdy80v/J8a6NTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764750295; c=relaxed/simple;
-	bh=shO0z90gTGWwW3ALZBNjCFepr0kxAiw8L+nJz4d8F8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qa1M+3QjrlRdskEC5MYJ2kCOpI8wszrkjnm43G1S6KmvCuewrH4qsP7izY4ZqzTHrIsuw2YW6wwaRakKZofkPrVpBf2f5n9leCw16mlpVqT3pgvnEBjlKt7fjHPlN8+58jswF7sK2Q2sNzQaOxRDIdwWEHggTqg0iaY18EwzYgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ptziOfUg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XH3vfMFP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1764751224; c=relaxed/simple;
+	bh=4tL0XX2v/ImuD3AFNfZ4adVGbiSeuEmx4UDTbFLM42w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MmtstkTNTMRRPnI8SlDimG8vUbpl8Ou99E3HFXg24HBLMoNFV8/BIji+B7wfHNrLzwIwFQ/BaxVDIG9FVdJEMNX44nF1OtKMjKr0Q1C7EMFSA6Pbk2iV6Xdjwa5/LtlCtI5W/e6Q+l7xFyZgej9cvF9RezVnd6gc3dAnehOmha0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iePUb59a; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ptziOfUg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XH3vfMFP"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B37dXoI919642
-	for <linux-sound@vger.kernel.org>; Wed, 3 Dec 2025 08:24:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6XhxI6gy/uvV6B2ez/PZVwvZxyoyIGJD8E0BhCFc8sg=; b=ptziOfUg1VeRec0V
-	bJPi5oFzsUMLf/ds+ZXJerz2IGvbACDYbxKRxa4NWoB6rREsg+P02lpI+SbFGXMI
-	4I7WqLbAc+l3lU0FnkUJshGCeK10pbzbpc173yb62kRTbXxwOcQXVzgGLD1RbEeY
-	mKsDh+XZNpUO/xSSfKGWstsXWPc5A+FGdrDZwIBn5lkYIEdQUSkyj1fchmsSJSyb
-	CcviGzepvBTXGD81j/cY6l+f+mgfS5mwv4/6mUT1XJFRlmYar1EhuB6/uvTn2xYT
-	6uP8pODYfnjbl9ROLJrf2UVnQezwK5uh9PKI4temQC7zMZC1KHu/WQzFctoXr+OQ
-	XhPxCg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4at8eb1kwc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 08:24:52 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b2ea3d12fcso1240759685a.0
-        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 00:24:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iePUb59a"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b3d7c1321so4022092f8f.3
+        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 00:40:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764750291; x=1765355091; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6XhxI6gy/uvV6B2ez/PZVwvZxyoyIGJD8E0BhCFc8sg=;
-        b=XH3vfMFPO+fOZXE2UMByay8Jm+BUP6pVIiWrRMsF7LuFPeNVsm2q8K/WQGr7ofTucN
-         rfi801rtKoBw47Z7HLqcORLTFcrqqLP4iGtpPrVGdJ7xputMf4v5bbxW3PGeO8ietlMp
-         VS3s4Aktm1xnrlXfiCJF/Z1yPolQvhZvbm0eL+q8cYZwhynSxdlSX/wGmUNg00RIrHK9
-         MBI9Lg7k8OIBMxYUTb/M0MZF4fc159hPhWj7FAJnX+5NVg3k9/Kyddgwb7KP3FJC2BtX
-         z9Ga2QHO4Ec/ehvyk4dQAGJlACM5w9teX2mh+lseADHxz5G7PTVAoNlUVLkK3Iu/CDlD
-         3Hpw==
+        d=gmail.com; s=20230601; t=1764751220; x=1765356020; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4YERDsBGY6ZLvdjA/h59CXe6bvksaKRM4k4+72p5hrE=;
+        b=iePUb59a6az4TZ9QGFb2jy68nUCq/BUJBnpqHoharVoNx9iRxbsxnLM2XrAdriH+nq
+         K6ekMIvvhdl4ngDvUDt0PREdQIcEy3HNGPmtw3u5dzbQsaBmAi0MjI2NysnKL98i0GSz
+         SKEZMtOTR2PB9cv93Ar6bM0v/a5StjCABARdhvisdPHZSNQHf5b/PRLtcyjAZZe41UwR
+         kBnpSNseKsEn+SJsgJjZoiGhd0Yo5XXeHxCz8GbNpCSBMEsI7+/7V5NnTyju/Ew9x303
+         zygx8cYQ3VCv23kGYm2+u+Z+d1noUcbO/bsz0jAoeYxC9ae1fI9Ow5CgatuM8WrOWym7
+         tIXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764750291; x=1765355091;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6XhxI6gy/uvV6B2ez/PZVwvZxyoyIGJD8E0BhCFc8sg=;
-        b=nv63iYLX/656O2KKnyOQ2RHw+ha28q970onUA26ZfUfPmtmtl13Eg9Y+q5izlt4EWZ
-         Lo+eTcVoKz7OV79P9KYRdGy5R8PZ2YolmtOstWFEOEOllQzvbeTNF14sTzsYmURrFS0F
-         ASt0NCSC+UEnyMOtu8kAGn15bKWYkDe7+mzygOAoGT6gC6sB1afoYwNgNIeORUkXP2oP
-         fNhFwwAsvFtR2HAQS/8BlkPYwXHe7OzUPMi8FV4jBULX786QSahh7l4PCOKrb9yuhYEJ
-         IH64qnF/W4ftZsH5kWhMRSUTpPse/wdrOMmjygxAJnuGjMaVbAoGtWYZHTB9tIdJrlx5
-         kF+w==
-X-Gm-Message-State: AOJu0Yyurp+3z1xg0ZhT3gyL9C/SgJ+wI/h6KDPpMKyU5KFxxRMMYmqe
-	I2URnZp98IZqmn7E0zNvmf4RPMPjEt4UjugwFFbVaU4S38UxG8WoacyoQ1GP5Maa/myCM2V/GBT
-	UpV3EFjCmBXGfaTnYWwy41GVxMChQEpG+oB93BYIn79cBYvRRXoYQS/SpcKVlgt+Uqg==
-X-Gm-Gg: ASbGncs57GF55MlyEHkTxXEuIu8njRexSl+kVyzeX2V/jzU3oc4cQ71qhxfjzRTcjrS
-	dtd4xWhvTf3DlP/sR8ifSQNDigAmaQbxpZBdQNJMQuURTjp5VcIJt+252P9VOHAaIhnIBx9LNHg
-	BmZLrtoKpnsVI4Dmjo9LI/EiRAgeBUP+aj4n1ehtBT5mAhglQsSLT39l0T/Q77az98lFdiJ97Xp
-	2TcH+eRO4NabQ0Mgy24kBH6RSwyQGSnykDb55QTjMx2hGW7w4GDUP/qjGOur13QMBDD2YIzR2OK
-	eXNnPyMGHBH6x0lj3tfqxEtDcAzOcfuLxtNPK/QCQFYa/mLJucQtBAE+33n9JG2GGBfNv0+d4hA
-	RFu0OvhAB/rN24E5/lVphqdbxmNOtwfNZKqfC
-X-Received: by 2002:a05:620a:4402:b0:8b2:f0dd:2a89 with SMTP id af79cd13be357-8b5e5927c55mr190979385a.37.1764750291511;
-        Wed, 03 Dec 2025 00:24:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGk0eE9WLO3kY72PxlTPf3oB2KqFtDPAzLzhAMJ1Y400cFaxK3Enp46I6A+kwlwr5/jlhVdiw==
-X-Received: by 2002:a05:620a:4402:b0:8b2:f0dd:2a89 with SMTP id af79cd13be357-8b5e5927c55mr190977885a.37.1764750291050;
-        Wed, 03 Dec 2025 00:24:51 -0800 (PST)
-Received: from [192.168.68.121] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4792a79dd66sm35915695e9.6.2025.12.03.00.24.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 00:24:50 -0800 (PST)
-Message-ID: <3cddb94b-a63d-4b75-95b7-7fd0378fda1d@oss.qualcomm.com>
-Date: Wed, 3 Dec 2025 08:24:49 +0000
+        d=1e100.net; s=20230601; t=1764751220; x=1765356020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4YERDsBGY6ZLvdjA/h59CXe6bvksaKRM4k4+72p5hrE=;
+        b=cN1mGGNYl/L/L62amAv2/t5qwwQdZgXOvLK8fpiXeZXRU33rBY2SczyDJ1Tq8B+urW
+         UPgJIMoUyLlQdEHGqv64BhHBXrtSVjxo4Tk5WHCoYHYZo2w+1Q+/i/sF/3ZSZ8TC8CdR
+         47C/NwrV7Q2LrtckAgPy4AY/HvVrgre04I09xDibIEeoIifxwiWo8PN2E/BGPPjAdtbD
+         9ShJ32jjT/tRC97voGhe74r4W7zLOt8qo1uHRosjMpxTMqu7g932vn1o+T+00snVDNF3
+         UHZ9mopJvkigellfJUYEisTCakFNYMX8XwdP8vZKtKhAFLRElfteuZbc7VMnCQk/Wgl5
+         xhSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBT982kmi0wNhZ25TLn/56nnXjuhP2iddhTFycKGDrczX92h4IgeV+GKYpu2eQPoYlLe5cc3nDSQikiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7/eNkIZiJcuGXhYGo4X3cxVv9Tg7z0l872NVbFha0IKT96ftK
+	3nvec7l6JXTnIahN3t/gcWPtNmhU83g4Uf4BXbNFkArlHQiKPbv7Lphz
+X-Gm-Gg: ASbGncsgo4mjtVaVi5Wz9ohzcME2CyL0X9sdWyjgYxPbpKYosHhXHsjIaNnbr8rbKnN
+	eKlrJjLE6u8nR7oxviscz2gIA/WoRWymtG109Bh4DtC6f0+g0OdFxhFyLBtgfDPKlHNC9eL9xM9
+	NO2Ij43MAaRP/NFCm3i4kw7/NdQp4oH1F0Qxfv57zrkkigJtHzgYaQoFqycQjno0PjUQDf2o0Mc
+	PoLUZDjkXhFQLOEjIkvA9JBa2g3O6Y1qGJM6+Tr8JVE5TmY7tGLVXsgd0E78tb9leeZP/57ey1V
+	LghgHD/TM/HnGIurrMX0kHM40HVDEHW79TajbFHAoTOLcZPVX6dGruTJMGNLpLHPCYjOwCNad1y
+	WGaD3WWCwl1N6sDnxI36F6M4FGl5M+SBxax+36Hx8NEvfGRThEOzjOkZXHgo5NmYutV04Ri0nAk
+	3SSxlTREc13PXgcQ==
+X-Google-Smtp-Source: AGHT+IHVEClXbp6BY9v3fd/AR/zU0b09wXoFomhN0Hpcg3MQgKrJuvMAuL4hyn8XkHo8dIiZVZcvnw==
+X-Received: by 2002:a5d:584c:0:b0:427:813:6a52 with SMTP id ffacd0b85a97d-42f731c9b2bmr1334752f8f.41.1764751219713;
+        Wed, 03 Dec 2025 00:40:19 -0800 (PST)
+Received: from gmail.com ([147.161.143.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca9aea3sm37223405f8f.35.2025.12.03.00.40.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 00:40:19 -0800 (PST)
+From: hariconscious@gmail.com
+To: perex@perex.cz,
+	tiwai@suse.com,
+	cristian.ciocaltea@collabora.com,
+	cryolitia@uniontech.com,
+	franta-linux@frantovo.cz
+Cc: khalid@kernel.org,
+	shuah@kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Initialize status1 to fix uninitialized symbol errors
+Date: Wed,  3 Dec 2025 14:03:20 +0530
+Message-ID: <20251203083319.58555-2-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] ASoC: qcom: audioreach: Drop unused
- audioreach_control_load_mix() arguments
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251129-b4-container-of-const-asoc-qcom-v1-0-67a3d3320371@oss.qualcomm.com>
- <20251129-b4-container-of-const-asoc-qcom-v1-1-67a3d3320371@oss.qualcomm.com>
- <f029c82f-444e-40c7-a50b-493ce8ae159f@oss.qualcomm.com>
- <2ac6ccd1-9d35-49cf-aec6-771622e24876@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <2ac6ccd1-9d35-49cf-aec6-771622e24876@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=e98LiKp/ c=1 sm=1 tr=0 ts=692ff3d4 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=98aQCdHbM1csXaQqDRQA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: 5aJC2bmL4RrtKN_OmEtNHhy2d9p1HEjZ
-X-Proofpoint-GUID: 5aJC2bmL4RrtKN_OmEtNHhy2d9p1HEjZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDA2NSBTYWx0ZWRfX/hcC5lEc2Tgf
- bHQaDZ5l4R7kYtsuKoO4H6XzCDTE3ppnFrcHIsk66qZPLTt1/GXFLp7k2fJlMFGRcfgo+LJ7trF
- 71/XCxiPPkuJ0YGQlp0Z7JZ8tl8yxO2dY1XRokdOY+JOhLBNQQSvEByL/iqPB1dq5RAdTSZjl0M
- MSX6OvdR4APTcVa4Rm4bquQ7NHT7pVUAwJyUckxiB5lJI80FvZTWbcB/NnoAsHQIuvAwOMHFiff
- JGhrsSkVuXEARxEmNCJcivc8MbrVFCKNQZ8XIm1bih4YMW+g1vAv0bk83ttMfjpy/tBaeb7YrP+
- qecAliKFr/4LDpSNvtpQ4BaTVakyON0QKb1Lw8eL+j3LtH0SfDNXyASEFNjMTWyHXrTXpvsumrH
- fCEVrBnzM+S8JVNCb517ROYIi/TWgw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-02_01,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 spamscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512030065
+Content-Transfer-Encoding: 8bit
 
-On 12/3/25 8:05 AM, Krzysztof Kozlowski wrote:
-> On 01/12/2025 16:21, Srinivas Kandagatla wrote:
->>
->>
->> On 11/29/25 2:02 PM, Krzysztof Kozlowski wrote:
->>> Simplify the audioreach_control_load_mix() function by removing its
->>> unused arguments.
->>
->> TBH, this is an unnecessary cleanup.
->>
->> There are 1000+ of such instances in all over the kernel, if we audit this.
->>
->> Functions will have more arguments than that gets used in the
->> implementations for various reasons, consistency, future use etc..
->>
->> I dont see any point in this type of cleanups.
->>
-> 
-> 
-> Sure, no problem. Just please confirm - you mean only this patch
-> dropping the arguments?
-Yes please, just drop this patch.
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
+Initialize 'status1' with a default value to resolve the static analysis
+smatch reported error "uninitialized symbol 'status1'".
+The 'status1' variable is used to create a buff using "kmemdup".
+So, ensure to initialize the value before it is read.
 
---srini>
-> Best regards,
-> Krzysztof
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
+This patch fixes the below smatch reported errors.
+sound/usb/mixer_quirks.c:2462 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2467 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2472 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2495 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2501 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2522 snd_rme_spdif_if_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2535 snd_rme_spdif_format_get() error: uninitialized symbol 'status1'.
+sound/usb/mixer_quirks.c:2548 snd_rme_sync_source_get() error: uninitialized symbol 'status1'.
+
+The below is the flow of 'status1' it is used before initialization.
+
+snd_rme_rate_get -> status1 is uninitialized and passed
+	snd_rme_get_status1 -> passed as is
+		snd_rme_read_value -> passed as is
+			snd_usb_ctl_msg -> created buf from status1 using kmemdup
+				usb_control_msg -> sent buf for reading/writing
+
+Description of "usb_control_msg", states as
+" * @data: pointer to the data to send"
+
+Later from Usb control request, dst buf is copied to src buf but usb
+control msg request is made before initialization.
+
+Thank you.
+
+ sound/usb/mixer_quirks.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 828af3095b86..06903c5de087 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -2449,7 +2449,7 @@ static int snd_rme_get_status1(struct snd_kcontrol *kcontrol,
+ static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
+ 			    struct snd_ctl_elem_value *ucontrol)
+ {
+-	u32 status1;
++	u32 status1 = 0;
+ 	u32 rate = 0;
+ 	int idx;
+ 	int err;
+@@ -2483,7 +2483,7 @@ static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
+ static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
+ 				  struct snd_ctl_elem_value *ucontrol)
+ {
+-	u32 status1;
++	u32 status1 = 0;
+ 	int idx = SND_RME_CLOCK_NOLOCK;
+ 	int err;
+ 
+@@ -2513,7 +2513,7 @@ static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
+ static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
+ 				struct snd_ctl_elem_value *ucontrol)
+ {
+-	u32 status1;
++	u32 status1 = 0;
+ 	int err;
+ 
+ 	err = snd_rme_get_status1(kcontrol, &status1);
+@@ -2526,7 +2526,7 @@ static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
+ static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
+ 				    struct snd_ctl_elem_value *ucontrol)
+ {
+-	u32 status1;
++	u32 status1 = 0;
+ 	int err;
+ 
+ 	err = snd_rme_get_status1(kcontrol, &status1);
+@@ -2539,7 +2539,7 @@ static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
+ static int snd_rme_sync_source_get(struct snd_kcontrol *kcontrol,
+ 				   struct snd_ctl_elem_value *ucontrol)
+ {
+-	u32 status1;
++	u32 status1 = 0;
+ 	int err;
+ 
+ 	err = snd_rme_get_status1(kcontrol, &status1);
+
+base-commit: 4a26e7032d7d57c998598c08a034872d6f0d3945
+-- 
+2.43.0
 
