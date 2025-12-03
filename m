@@ -1,95 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7D72DE707;
-	Wed,  3 Dec 2025 10:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5E92F2606
+	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 11:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764759446; cv=none; b=h9o8FTFwDue3XX2a9TbMWdOkhlxaEqIwGOmRWrkzHl9C864XCtCS68dRkA7qCY75ZVZQN7XqBKUUQNqGAJPd15/KRIF/8AZmWqh7Dm/0x7H4xgvzUWKesZn/v96Z3ciyIgT3PYYzhNKv1m29uEHrh0qTCiAsLqK1NI3c2ZMcI8E=
+	t=1764759707; cv=none; b=r0XUazn/IvGFXXWJzCwn7//LEGy1erpCND7ufAZ20TsVbpqKzMqp/cWj0QzlJKSo63SwI9pVk/OCHeTYDRY7JNl1GeGfh9uOxsUiBvbQ1Z0yuua+GU1IPSE5uEabZcznlX0uZolN7I1+JCrWrq2hjVE2G9fkhZ+L4yiGYomxfu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764759446; c=relaxed/simple;
-	bh=zPeu4HgQNk9WYrgmIq8It0U7Hp9YmciMnoo6Kd1ObVs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AZNVLaPzDU0BW/1IFxyGsBTkhyHvpkMwINIhIHxLfq418e6/0vGHu+HW7KD8ysVITy/lHsRkKsZVeax2jMXou3pcs99nRjJLs789jYzYdgl0QIM/9a/4dOsvz4HZj0Q5DBe1qCMirbm9L4fSQ01YVhLDvwKOzmpZ8vDqF9+1Dw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iy5b9a5E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764759707; c=relaxed/simple;
+	bh=TFslczi42wrSYmyM02aO6atllZslPetHT/2A48UtXJY=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=AUH/9QnaifUNstzJs/7DOhJ/MOhxa67MqYjii+l/nYrMW2aGCP5B6Skju0lcaOXnkk1I2XFGjMmEEtOjX8sKEsdQRkekadyACZI2Vk9TmqMLDJKIitiM7ojOM0lvx6f0ozUurihmN/t7kGLEwY3mpCKNuZDOnvGFyDPLYOCdK8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zy6qQ0k8; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iy5b9a5E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE2BC4CEFB;
-	Wed,  3 Dec 2025 10:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764759445;
-	bh=zPeu4HgQNk9WYrgmIq8It0U7Hp9YmciMnoo6Kd1ObVs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Iy5b9a5EFiIBiJCxRsz+PFn9agcbAHdCHwI8iMkICwYMEhRUXdVivM3jJHHsuUWhT
-	 eI8sI+r277Yp9Pi6C43M+T/WzdMSW/Gb6yB45GFiOuOZz6J3je6GHlnKPK3FvGCLTD
-	 xj7fLKR7LF6E4zRvdIScbUpJv8IFy6qcPYKEVlo/GEXv+xp0otRrAtcFkzYCJPQ1lg
-	 fuM9H6sD4ugBxspOaU/OAFpPBpOZiGJKPxgmZWmWE9zDuexZnUUTQUpmm8jsu5mXop
-	 zaB1kQWfLAp8kAH1v4OIL3qtkUhGA53VnqefA139e985Kzz/Gxg2b3jyupJyGLWMkF
-	 Le2efAX9hFitA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vQkY9-000000006UW-2txW;
-	Wed, 03 Dec 2025 11:57:33 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 1/2] ASoc: qcom: q6afe: fix bad guard conversion
-Date: Wed,  3 Dec 2025 11:55:41 +0100
-Message-ID: <20251203105542.24765-2-johan@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251203105542.24765-1-johan@kernel.org>
-References: <20251203105542.24765-1-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zy6qQ0k8"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso60912205e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 03:01:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764759703; x=1765364503; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SFzt6QggPpTCMz+1TuyXui144AQc3Ybgeav2uv35GIQ=;
+        b=Zy6qQ0k8pnCZvt2QmgsOPbAGd6F+ZN0A2FBnxbPIohzFAN9SDrDKE2ONxtWTA/IE8w
+         mtqVcWxNYiuSajPLbAQ1n28E4QFPz4N7ldKOUY+AwrTxAXgOezfY0j2uraPxGRa39BIX
+         l3E186gqNQI5VKLh4lG2k/trtw+3iriEEGyvT6qiOOX4SepdxDwIFdLYV1IrbwQdhRbl
+         QD1bHeeRCcYU1Dw+Ni+Ng/dr6K+RY7cFbHILH6NWvLiqXh8LrqTaNAh4lXtB4bVa4XPT
+         oR95uVpE9CUL4/fcJBM99aJP76h5atD8Tx9nbfvLzMbB7w4wOOAEKTz+VkZCSCHFjsK+
+         gBSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764759703; x=1765364503;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SFzt6QggPpTCMz+1TuyXui144AQc3Ybgeav2uv35GIQ=;
+        b=IwG5ZHhmQlmQ3dnGAm12mAYk9h88wassXvHwCK3SinMWPDCUAifofwaKnshM/1J6z+
+         nyb/wn5zUg+zt6x58dSyq9JRjsW/OeQKyGdurjM6drq9n3ULJhb6+culIB46oH7bt5YW
+         r7rXfiIizVuPZAaMp18b8Ysvtvu4Eabwyq2BjENwIP4++xkcLPmKG+TIm+9KeIxqD4Rk
+         zy17BaKLWPUKu/VcvUW/MmnsYhEC0Y6Ea6f7wh8jOXG3wO3AcEQ9f4ArIEBoJJsUAKfC
+         nAGgqksLgFStIkyzdknxzBeW0rQtOUyg8WjrIqXbJ7X2m8gr3nw9Sh/NujPmm/qciacc
+         vCDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBXKrcFIqZBN+qdIhf1yPNHJ0CKpNKdDBM7EJMnfYoMrzwkuStnnGPGnOH8nhtefMUCR2GqmBB95rPWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgC/9kKaKCkpdAI4mfEpYogoMoLBFNGYV6mgYLydfc6gcIfldF
+	3FmeL1FoUEjomBfSXtWL+lRAT/HS8T724Oh9BFQDzKCcsYt0nvpK85Hb
+X-Gm-Gg: ASbGncs8qBwmEw8ro0QaapP0xzCrFaDuTwbe61lna0lTslLZmhL7pBVaSyWTV2hKXZm
+	FlBFghUxTJFPcGBA4x0sFWSLio7BtVtjG3QwdvGSwYT1cUlXp/0OhFCw3pdWuVE33C6JBqTyDXX
+	uXr0x8LAvhN0oA0A3Cd7TF3rdvJxxMeA0szyXsKeOxUday227qGeP6wqOgKGRQAPVEgJTI0lOM4
+	pV2ZRW79ceZfLiuJLqhn57JKDzqbJO+pNO/vhGT+U/Dsu6GIzrC6ND/cOrYZW5BPeeL2za4Lucl
+	8tYIS+Z5wTKRu5AlOdZ33glmASYxXovcTMKVszGsE6qV86lH/BpE1xktozGIR7zc0lcXTv0HJw1
+	4U4Wq0H6G9pV58/5xEPVGri9zB3AUh/J8kx2+zHJ3RR7qBTkjj+pcaK1HyU6Nela1kf/Jux8MY1
+	tFSzwNmplA8AfpHeA=
+X-Google-Smtp-Source: AGHT+IHjwf8HswGG/TpPsT6ndfuHYQc1UKDIDNcAt64B+fymzTtGr2/t4hT8V9a3x+3g07Zz6s+LXg==
+X-Received: by 2002:a05:600c:314b:b0:471:1717:411 with SMTP id 5b1f17b1804b1-4792af3d3c2mr19391035e9.24.1764759703078;
+        Wed, 03 Dec 2025 03:01:43 -0800 (PST)
+Received: from [172.23.94.183] ([147.161.143.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792a7b03cfsm43633845e9.14.2025.12.03.03.01.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 03:01:42 -0800 (PST)
+From: HariKrishna Sagala <hariconscious@gmail.com>
+X-Google-Original-From: HariKrishna Sagala <hkrishna@gmail.com>
+Date: Wed, 3 Dec 2025 16:31:35 +0530 (IST)
+To: Takashi Iwai <tiwai@suse.de>, hariconscious@gmail.com
+cc: perex@perex.cz, tiwai@suse.com, cristian.ciocaltea@collabora.com, 
+    cryolitia@uniontech.com, franta-linux@frantovo.cz, khalid@kernel.org, 
+    shuah@kernel.org, david.hunter.linux@gmail.com, 
+    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Initialize status1 to fix uninitialized
+ symbol errors
+In-Reply-To: <877bv4t03x.wl-tiwai@suse.de>
+Message-ID: <c6694145-253b-0ee3-c0f0-4b492994bfe7@gmail.com>
+References: <20251203083319.58555-2-hariconscious@gmail.com> <877bv4t03x.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-A recent spinlock guard conversion used the wrong guard so that
-interrupts are no longer disabled while holding the port list lock.
+On Wed, 3 Dec 2025, Takashi Iwai wrote:
 
-Based on a cursory look this appears to be safe currently, but it could
-cause a deadlock if one of these helpers are ever called in interrupt
-context.
+> On Wed, 03 Dec 2025 09:33:20 +0100,
+> hariconscious@gmail.com wrote:
+> >
+> > From: HariKrishna Sagala <hariconscious@gmail.com>
+> >
+> > Initialize 'status1' with a default value to resolve the static analysis
+> > smatch reported error "uninitialized symbol 'status1'".
+> > The 'status1' variable is used to create a buff using "kmemdup".
+> > So, ensure to initialize the value before it is read.
+> >
+> > Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+> > ---
+> > This patch fixes the below smatch reported errors.
+> > sound/usb/mixer_quirks.c:2462 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2467 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2472 snd_rme_rate_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2495 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2501 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2522 snd_rme_spdif_if_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2535 snd_rme_spdif_format_get() error: uninitialized symbol 'status1'.
+> > sound/usb/mixer_quirks.c:2548 snd_rme_sync_source_get() error: uninitialized symbol 'status1'.
+> >
+> > The below is the flow of 'status1' it is used before initialization.
+> >
+> > snd_rme_rate_get -> status1 is uninitialized and passed
+> > 	snd_rme_get_status1 -> passed as is
+> > 		snd_rme_read_value -> passed as is
+> > 			snd_usb_ctl_msg -> created buf from status1 using kmemdup
+> > 				usb_control_msg -> sent buf for reading/writing
+> >
+> > Description of "usb_control_msg", states as
+> > " * @data: pointer to the data to send"
+> >
+> > Later from Usb control request, dst buf is copied to src buf but usb
+> > control msg request is made before initialization.
+> >
+> > Thank you.
+> >
+> >  sound/usb/mixer_quirks.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> > index 828af3095b86..06903c5de087 100644
+> > --- a/sound/usb/mixer_quirks.c
+> > +++ b/sound/usb/mixer_quirks.c
+> > @@ -2449,7 +2449,7 @@ static int snd_rme_get_status1(struct snd_kcontrol *kcontrol,
+> >  static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
+> >  			    struct snd_ctl_elem_value *ucontrol)
+> >  {
+> > -	u32 status1;
+> > +	u32 status1 = 0;
+> >  	u32 rate = 0;
+> >  	int idx;
+> >  	int err;
+> > @@ -2483,7 +2483,7 @@ static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
+> >  static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
+> >  				  struct snd_ctl_elem_value *ucontrol)
+> >  {
+> > -	u32 status1;
+> > +	u32 status1 = 0;
+> >  	int idx = SND_RME_CLOCK_NOLOCK;
+> >  	int err;
+> >
+> > @@ -2513,7 +2513,7 @@ static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
+> >  static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
+> >  				struct snd_ctl_elem_value *ucontrol)
+> >  {
+> > -	u32 status1;
+> > +	u32 status1 = 0;
+> >  	int err;
+> >
+> >  	err = snd_rme_get_status1(kcontrol, &status1);
+> > @@ -2526,7 +2526,7 @@ static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
+> >  static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
+> >  				    struct snd_ctl_elem_value *ucontrol)
+> >  {
+> > -	u32 status1;
+> > +	u32 status1 = 0;
+> >  	int err;
+> >
+> >  	err = snd_rme_get_status1(kcontrol, &status1);
+> > @@ -2539,7 +2539,7 @@ static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
+> >  static int snd_rme_sync_source_get(struct snd_kcontrol *kcontrol,
+> >  				   struct snd_ctl_elem_value *ucontrol)
+> >  {
+> > -	u32 status1;
+> > +	u32 status1 = 0;
+> >  	int err;
+> >
+> >  	err = snd_rme_get_status1(kcontrol, &status1);
+> >
+>
+> The warning itself is rather dubious.  But it'd certainly give a safer
+> feeling to cover the uninitialized variables, so it would still make
+> some sense.
+>
+> But, the code change can be improved.  e.g. initialize the value in
+> the callee side, instead of callers; then it'll reduce all changes to
+> a one-liner.
+>
+> At the next time, please look at the patterns you changed more closely
+> and think again whether it's the best change or not before submission.
+> On the second look, often you see things from a different perspective
+> :)
+>
+>
+> thanks,
+>
+> Takashi
+>
 
-Fixes: 4b1edbb028fb ("ASoC: qcom: q6afe: Use guard() for spin locks")
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- sound/soc/qcom/qdsp6/q6afe.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Takashi,
 
-diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-index 980851a12976..0b01fc9e13a7 100644
---- a/sound/soc/qcom/qdsp6/q6afe.c
-+++ b/sound/soc/qcom/qdsp6/q6afe.c
-@@ -947,7 +947,7 @@ static struct q6afe_port *q6afe_find_port(struct q6afe *afe, int token)
- 	struct q6afe_port *p;
- 	struct q6afe_port *ret = NULL;
- 
--	guard(spinlock)(&afe->port_list_lock);
-+	guard(spinlock_irqsave)(&afe->port_list_lock);
- 	list_for_each_entry(p, &afe->port_list, node)
- 		if (p->token == token) {
- 			ret = p;
-@@ -1807,7 +1807,7 @@ struct q6afe_port *q6afe_port_get_from_id(struct device *dev, int id)
- 	port->cfg_type = cfg_type;
- 	kref_init(&port->refcount);
- 
--	guard(spinlock)(&afe->port_list_lock);
-+	guard(spinlock_irqsave)(&afe->port_list_lock);
- 	list_add_tail(&port->node, &afe->port_list);
- 
- 	return port;
--- 
-2.51.2
+Thank you for the feedback and complement.
+Yes, will check the pattern and avoid this going forward.
+As all the functions call "snd_rme_get_status1",
+initialized here but smatch didn't silence them.
 
+I prefer initializing a variable in caller side as it owns
+and aware of initialized value sent.
+
+Sorry, if I had misunderstood your suggestion.
+
+Thank you,
+HariKrishna.
