@@ -1,182 +1,255 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011051.outbound.protection.outlook.com [52.101.65.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08622E718B;
-	Wed,  3 Dec 2025 10:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764756396; cv=fail; b=k8QTs/B1QSe32aFRxfAcacg4hFRj0vq9WCa6vWbyCrLK6JXa092gF3XwgPdMk+vzceixZCv+AidEoKMbfyoyy/KZDVcYkNBuTDX61g2WygcEdpSuzH/jQlUFHsz3esHs3SFJ3k2d1dGIVU4tTrjvdKoiTnGuel4bgWJ1GDmYyeg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764756396; c=relaxed/simple;
-	bh=MlBpZjgyRNaKtUT2Ac0x1Blb3+tgJ95dFFczgUqOL6Y=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kY7ntyfF6FRrDmjx4d4rAeIWYw6LD6AMFDpFfLG76xO1ZE1nnzVt+5gtC8ey8MJILTKo2m3TbHLUYkeBfaiox7yPQi5z8ey4XIlfLfRaj5zDjgn3bTf6OU2PmbMe/7VvkNZ4Wz/2gBF4Qg9ghuFLlt7VB/qAIv353tQwBr90ESQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=k8XTbgmM; arc=fail smtp.client-ip=52.101.65.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616FC2E7165
+	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 10:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764756712; cv=none; b=iyxcnPIKEjAVOvyDjNhsRv3N2Q9sqNiWX2D7Vs8sYzU3VtnZKHA7ue+o/tBfWqS15RCgBvH8FLXoD0HAgZbggHnfhfFLG82PjHjTZvZ01Hhl+pZAxT2OOsBnndI3NC2DGxRAL7I6eUh09XzyCmODjTSwEjfiFCM+RwNZXksPf9Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764756712; c=relaxed/simple;
+	bh=yy2j4Gr2kBYId3840eqEXHigGss3DzYkeqaEM7aYlHA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pex50wnX+DHpgJyC2QXacX7hEsYWsDLa51URpjHc0tLpSrjEvTdKMjJe49fURNSEK6FnMGCFFCmkbNrex2myydgbYUN/zIniH4IpLt5xdZmyq+BspcPhCWjdF/4sTQBO/M+50e4xRWoIVXgkk2VUwMcCAYjIcMVnQ8kESgFrYSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CGQ3qm8f; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="k8XTbgmM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uE9zlAToMEdEkzUpsGgCXNqAaPQNK7iLm1nbVFe2qvUJqt2xmcBWuOu2+iiMQ3Bk1s2Of2up2DYPDQJRHshCZjrgbSecs3jpfGsWtztBBBYrSc0w8U1jA3Otvo0RnqmS174bS+OLrj5RzmRL1DBXvuuYQZpre+hfuddZZxemouATz7g08cfZmH7FSJOD8lXb8fz8q5dK6RG8N23sKakVqdcS/+HindegxSQbFCZJkehgQNEQmXCag1erwNLnmkQfYYErS5cEgpDSMUt2HaeemysJDtRLPl1ngE0oUZQ4J2B4IaX2OpJQIopmhu1f3yRcgX6dCfwyfNiqeQHJiGVxRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5LKDr1Lrx7rCB+64Q5ieDFcJXJkkLhXGMKVG0jVkOfg=;
- b=t9K82rW1NtFyNIwwtN+DXm1dGT+C7gei5yLsUfVW2P/P2XIRbJ1HljtGxrzr/TKsOrmrKf0rZmoiMN6Ll08ZolPAfSek3G/m75iCk2XUluCqjnLm6izfXeSxlQvkzRKrsMDDuxJxCapngSlxYmeOA4Wyb9cJ30h52wk4lDLfdF9fcVoT/94Het/TIE+nr0sSk9aI707H3rD2Nzlh76CN2s2MvO6t7iNFCMbnmIPvsFFg0/9nZAPG+KGwGMj1AmpXQnEDwxx1EjVMhGybYORqgJTQEfJePFVbE80aJ/hMQfJXTbN2SzX79QI7TCl4XgQwqMmm5ge0oSd4ia2/WWPuBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5LKDr1Lrx7rCB+64Q5ieDFcJXJkkLhXGMKVG0jVkOfg=;
- b=k8XTbgmM/HDjZPx6w8J+yTqO9EBQIPPqysSlvxhYmVntOx9oQLcBFgcDfiAwwPiiY+uVR8r/PiLpj5F9puxp4o8gSaEnoh7eOmZ7EGq+HrY80H5/Ok+2+tx+O7GvcjJIy4mXhv8pKzavDnLTvS6JuSipb9+WZqSB2+yjaZiW04NY3/TfYTwcMtIxeWPlm7JNQKzhb/GDRgbSr5KDuOsM5WSpq/oLNxWycTvPHPbWX2exXccg0mmLPxnGZkUylTlTXJET18QdVlTGLMV0EPYpDdnElw+Dd2mLWG2XPiW8ffBtcGdlbh1H+ugg/4S2DjRhjmHMp1hg3RVDy1AEBYsZLQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DU4PR04MB10766.eurprd04.prod.outlook.com (2603:10a6:10:587::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Wed, 3 Dec
- 2025 10:06:32 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9366.012; Wed, 3 Dec 2025
- 10:06:32 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	andriy.shevchenko@linux.intel.com,
-	kuninori.morimoto.gx@renesas.com,
-	nichen@iscas.ac.cn,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ckeepax@opensource.cirrus.com
-Subject: [PATCH v2 2/2] ASoC: ak5558: Disable regulator when error happens
-Date: Wed,  3 Dec 2025 18:05:29 +0800
-Message-Id: <20251203100529.3841203-3-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20251203100529.3841203-1-shengjiu.wang@nxp.com>
-References: <20251203100529.3841203-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0119.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::23) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGQ3qm8f"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59578e38613so5433171e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 02:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764756707; x=1765361507; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7hkzMjIodS1pI1goTlzUE28NNMhc2FNCH6n3nOuMBQE=;
+        b=CGQ3qm8f+FnQjwU2B6pdhx/AwemgYV6WVz3Dj7xUo4cV3I4MJgz1nWnTG6r2YQPOjf
+         fP8b+31wR1gNKe6nGF9q9e+RncRGjSWqm3UGUrUsUmPAxzh+gkAJ7quVLcI9rMrMg7vB
+         Uq0TC/2dS4oGg0gFqFJdmhF5vXYCsU+okjdR6We64fb16qwZPbwsgj6AxYG9IZAgrwah
+         tARdWVM8K9aVO6PuvFeMcAZk9zmPV6pfQJxh1anrbDS95rvuNVWG8Lrc27VSlQ9/IY0L
+         55DMxgyxALBxlRdganrQNQwaut8ICacgWsjCQgecIbz6bI07RlBRM+UX0VQC2wwTLQW+
+         owHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764756707; x=1765361507;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7hkzMjIodS1pI1goTlzUE28NNMhc2FNCH6n3nOuMBQE=;
+        b=JoTCJdDLIopXEABYrFSOL/YjSSGfzxkMFKiDmDq0q+am+gSO3H42Yc0PrynjYBwlfL
+         yOBSKDzpeS8sv2dp7XHCEpvKWgqd7zatfDc8aornRJeQTn8i+CxFqNsuWZnxd1ikj1td
+         TrSYCzGn3TcTlAlT1EHCEfz2O1AbQOeIvA61OcKO7+PQNaDAZSi3Psw6fvEh8bm2OwIn
+         21Z8XIYUac/3UP8AFpMGXFl7Pt6dN80u1DSGph7OvpWrzB7S6xonBIcdo7tRDJVT3Rpl
+         i7k9k8UzvDgJBMf4IzTv3N7meqM5fCQJLLQEyolbEXhBju4sTjjeWoUE9v6gXn24lkUr
+         HSZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXI9blLAklGVDa/dkfsDQfu1s33/+H2mO9SUfMpRYaTZSvPWyJDDTxvAHfqbtDkn4oqL8v88QyoachTag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpDFCAzj3iN2ywPzqD4LRLbXxH/CLiRCkZ67FVxcyO20EQacQg
+	OBc2Q4Jb9/dvjDNbTCI4d6eFfKjdMxkGno0A6aWJ+Y5BAn67dM/Ku7fe
+X-Gm-Gg: ASbGnctGrvn0nIzBxjmz3UYtRRaxWfUxxStgwEevbderyMerGRsKd+QMZS5lDXnbura
+	lMRrBFj3FyI6RZc0P0ZPYrooHMwxrK56MbxW4GYIvEYAMdirVTm0paMWhbpOlcdI/ky9vfrulx+
+	8gASpBAzOIPrXHO4j/ncnzzVfWlzz940pE/ks5rfV9MtTeuFmKTlCWQ4bOuNuzCawVzL9gxuHVW
+	X+ykZteauUAG2/hmLOm6Owjq5mu8LECeKm3dlRCCqqtb+dw9mL+bIdqhmFHpebJxSydPbvF31p+
+	UTDNFvZBMuR58kPMon91FR8vi9rtPhkH/5DYqFAcOZSuHvCL/IsG6NRH/eLGwaSFFlblwBQwI9O
+	MPqqQpmXu6I+WXb40XIuy8OepcY655NVw3jfEu9xJBntx0vmqc+1YffTNbc40s4+oTonBN4WjPZ
+	92VtuKDPaMWwgLRA==
+X-Google-Smtp-Source: AGHT+IGClRjrRzHtx62krt4asIMCvQHnP6xr/r5CpGOAwQrXHtwf7m7w8S9UGWZzoda9nXqVUQIx4Q==
+X-Received: by 2002:a05:6512:12c4:b0:595:7d86:f654 with SMTP id 2adb3069b0e04-597d3fb539emr853943e87.26.1764756707102;
+        Wed, 03 Dec 2025 02:11:47 -0800 (PST)
+Received: from [10.38.18.76] ([213.255.186.37])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bf8a7b2asm5560144e87.12.2025.12.03.02.11.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Dec 2025 02:11:46 -0800 (PST)
+Message-ID: <dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com>
+Date: Wed, 3 Dec 2025 12:11:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DU4PR04MB10766:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e3db97e-f6a1-4c84-bf53-08de3253a1ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|19092799006|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?yr7+tvn205fVOCY7wsjjCnN6fHvPGIJ1FUdfLJSIzUxHaez9PU/iOAPWQusH?=
- =?us-ascii?Q?mZjdmbMpkwE8LwvurYSHaM/LoE+6dzNKAi9FbNp7/XBypSu1MtypIhFSew7V?=
- =?us-ascii?Q?F2obJ6yHyyvcPBaWwHbsucQpOfY8DacWq4h2UVRgVMkjgXVYfScEkrZtvZoQ?=
- =?us-ascii?Q?JtZC2/9k5mto4MB3SgUWiXLvuhCF1YZR2SHSy6aWzThRxnxOvutd3aTmdKtI?=
- =?us-ascii?Q?hKgE3hkyAsbfU9sGfHFZGbJtcyA8kfvxme+SJsX7vL09lOQJWy8BL8h7EGSh?=
- =?us-ascii?Q?nE0cV2I+NM4lfeB/FLYgpKIb3ganXRgpsLW8PUW9Crwf0zmlBHHRvF11E5As?=
- =?us-ascii?Q?XPUjpsn4NsIRSYGV6Q2FE1cJPfg4U4/i95hRr28Vhz5fWR58GeZJPPicpJfm?=
- =?us-ascii?Q?yhE+TRy3jonGU++FR9+xjm007YTcDhvgYSbLeEYbVORfgyTlRb5PDA0hfPoo?=
- =?us-ascii?Q?p5izArz91lynH+8xJB1cDsNHfAwhzKaZupV9jKkLm61j1qQ6+B9nZDx5vltk?=
- =?us-ascii?Q?f7z5Im5t+DTDDJ9TnA53Zud28ImGgMON0+YwdDKASN6+HEGF331aDH5fphdJ?=
- =?us-ascii?Q?s5+QJgQnhrvsrQ0rxU9Eg6w9hgY9LKP3aYgySc/am/mNVgx8oj8/Lv0nb2Bm?=
- =?us-ascii?Q?BVEuMB4TMh0yGHj2F/K+AImPXh5O8zzw+0woI6btz2g1GuDBYeWs/8C8EATv?=
- =?us-ascii?Q?VvLyPmpVRkaksNSrz4uHo+ehqC5Fn6V/p+uvZr0Xykj0iM/gxlw875NW1W8C?=
- =?us-ascii?Q?b4/t5UNiq61IQacComAKnAFcc7hpSSRANLC9jyQfMs1xNlrSDeeVtcega5D7?=
- =?us-ascii?Q?bGaBaBP+W7lq/6N5RWSVUB3HwvihXVdEIk0hGaxM17ueqfCv49qPNf50cEsq?=
- =?us-ascii?Q?diZdtyd+qz30wG0AMUMEObkhbrjBlfzeG20Sqgc8tSsy5ykhbCY8A9FpjYbY?=
- =?us-ascii?Q?mKauYxe3/TUkhxW18qWhXdttCOrqAihZNBBk9KfQ6VphcUTzMJOer+ZbW5qj?=
- =?us-ascii?Q?L/0hwTKs5MYTEIlG1XeBjLEDHl6c7SgA/VczIu20Ova2bet/8v0W5UVti5hM?=
- =?us-ascii?Q?Sb8KGDzKeVz384uMzCBIJm1XS2Ja9QH1ZhY3anukc2/NJmCGycHVaLkNc2bb?=
- =?us-ascii?Q?uDEc7w7daovvpkj5hnCFjgm4IjWzYxJtvA28ur1A2PZbcESe7fqNBSiV6joS?=
- =?us-ascii?Q?IUevTNcUx2L0eX4I0hSgnoqeh3jYOMREkn77PE/zjvFewBZOItigYKkz3ZZJ?=
- =?us-ascii?Q?pCejYHXrK+FvVx3lPmRfIyvddFLrNXKBFlEMSESa43+BXQ4JmZ9t8yl6HtbF?=
- =?us-ascii?Q?DK6QF2yMxUuZCJsaLF6XCavj307EUB8jrAoxHC68cVP7zaS4ObQqVJUjYjMw?=
- =?us-ascii?Q?p+2SDGjahd79EnMflvyV+7tFAnpZ5E6s8Y144I/C+xslewgmROhiGeHi36zj?=
- =?us-ascii?Q?VJKBmX0uYXN2TQSJi8tJqMH46xXQ4AzNMeQw0P7YoLhM5V3JaAbA0aDXa2xx?=
- =?us-ascii?Q?Fgh+Pbd50fmWSkvfLC/9XRhFU3jM1IGFYyxO6r9hlLzLhR46z6Hx9sTkAQ?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kd7Ffi8plsHqiTh4s3OeSa05Zl1qnsWeZ5KmKAzwtywqAKcpX+ivwr7Thq5K?=
- =?us-ascii?Q?Y7TB9uwtQbjQCUpNgFlVZH4PbPHM0WGRMBAwRe8IYu2sEDqE10YIHMwLKu0O?=
- =?us-ascii?Q?rwEIddRzmWxJEm4ZDO0wDiSzPsoEIVwUjRrgkkAZ3iRb8o7KDO6a1stZkmg4?=
- =?us-ascii?Q?/itnpOfJwJDq1VhjyAZ4Ue+Da87+wcI01LhbOBZ7By6dm9M04eBvlZZ0vEkK?=
- =?us-ascii?Q?xwjZdIiPMJq7AVL/oS0eMkwO6NBQ2pjdAvQId7pyFkoNQwCHPvXEOxvhS+tu?=
- =?us-ascii?Q?I+j7K7qcVJOpcw3zz3rCo0djtxtN8HeZprJObzTlwWciX2jCch7Ip7BC8dE4?=
- =?us-ascii?Q?V8XORBioDEEgUtx4uUNL+h98TAD+NAx9lWEXWvmJ0qatAU0dDd8MXNwF6Pcw?=
- =?us-ascii?Q?t8qoijXbF6honsad7e5d5ixnjVfS4wtuPpFpE2w1lomDJPhSBPS4eyMrd92V?=
- =?us-ascii?Q?g7LLnHe7uBetVJeJNzwIbVxd6iUTIquV4cp+s9g9djNKVmisPpDxplRNeofp?=
- =?us-ascii?Q?h6ZpFIvzQfFu2ZIyUN32lELLvbTStPdd7e5budRKIbXgBJmxeSHXnHGF0gUM?=
- =?us-ascii?Q?vhOXbfUPzxDAygSq7zGx7oSpmGgOBoim8JwdmOZesw0hSO3U4qmporLrfetK?=
- =?us-ascii?Q?E5FmdV0g0SL+pCeIphNVH3CxPcCrvLTqyYl01Cjs+kYPAq6+SU5TziEqtmV7?=
- =?us-ascii?Q?tKCEwYbTRlwRF9U+F82FfZS1ldjF8GmGrcUaZdGsKoteKHPekbwig1cCZHdr?=
- =?us-ascii?Q?eh7omYSgawGYbtfobs0DjxiN4EU24O5Yn4iphQ8o2xA5tc4nJc8Nohhbd3rd?=
- =?us-ascii?Q?5Iwh+t1k3h4s9ggjkEYlQpmqBfNp7pvgnuXwLIauqvQCBkiKUIBGK4+viDfz?=
- =?us-ascii?Q?G5aULx1lUaaKVU6Ptqf9AV1fpRD7mmJdC+KQyv0jeWAGXypMoG44jFg9NDui?=
- =?us-ascii?Q?c6Pewb4DM4OtvtNJrIMfbfy6iXhztkIgqRWB3CyKts6SGx4WG2peE+YzD4YN?=
- =?us-ascii?Q?vz6XyIFWpuq1SnjIqv0eWVCscs6JN954g12/Er+1GT906VI7z1FrybekYwFN?=
- =?us-ascii?Q?Lecd0fOvK7sf1xNTh+xBX+6v28MayyUoEv535EUrihBa88/+aFHsGpTHEjFS?=
- =?us-ascii?Q?bII3Aa4Gk00cCaYHaUAwOxMLd6pZSFGyb/LtIShFStAl8OvCl1x3cv+gNkWg?=
- =?us-ascii?Q?rfHbihWiycKAdKTTyC69FxCvPwSH3oDb/Jf8KIQk13h47Ny/oxcBtPUgnj9V?=
- =?us-ascii?Q?CrTBD6CU0fcQl9xrivGcMkO5dzaIsLpplQHDn871cI8KCaJesHhV1z7XXE0H?=
- =?us-ascii?Q?1plFQh5lx10kHpvxtyw8K6HibxsKCOiJCoeEu8ghUCLNakbfFQB08FWcWLd+?=
- =?us-ascii?Q?WBvN+cnB43yeJsqQ00WTzOqllQBxrnl9mn/5YGb2LwwdQ3/Qza2xqUTRlwMh?=
- =?us-ascii?Q?bgs3wUw8GTsYs9p9i+ugA/JqrHYPpG9VGo5WcHRf+FgOgazN1mbhWDPrENjM?=
- =?us-ascii?Q?qyE8Nh/3eCeMnFfxjE/a6G4oPtOxlCTOMR+87J+l4zybJLT4rSEC+ajMtT/2?=
- =?us-ascii?Q?4xdTMDfr2EYQTj3TrpT+KD3BEKj3w8NpLKQPEf6P?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e3db97e-f6a1-4c84-bf53-08de3253a1ae
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 10:06:31.1399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mx79KM0wHzTW1z+RhumpvnnqpXjzavE4doDhJYfDLXeL+2ZVRVzuAn6nDCgfJrEXr1vxsSX2jqocelm3P/IOkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10766
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
+ overlays"
+To: Herve Codina <herve.codina@bootlin.com>, Rob Herring <robh@kernel.org>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
+ Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ Steen Hegelund <steen.hegelund@microchip.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <20251015071420.1173068-2-herve.codina@bootlin.com>
+ <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
+ <CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
+ <5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
+ <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+ <072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
+ <CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
+ <55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
+ <20251202102619.5cd971cc@bootlin.com>
+ <088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
+ <20251202175836.747593c0@bootlin.com>
+Content-Language: en-US
+From: Kalle Niemi <kaleposti@gmail.com>
+In-Reply-To: <20251202175836.747593c0@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Disable regulator in runtime resume when error happens to balance
-the reference count of regulator.
+On 12/2/25 18:58, Herve Codina wrote:
+> Hi Kalle, Matti,
+> 
+> On Tue, 2 Dec 2025 13:21:16 +0200
+> Kalle Niemi <kaleposti@gmail.com> wrote:
+> 
+>> On 12/2/25 11:26, Herve Codina wrote:
+>>> Hi Kalle,
+>>>
+>>> On Fri, 28 Nov 2025 10:34:57 +0200
+>>> Kalle Niemi <kaleposti@gmail.com> wrote:
+>>>
+>>> ...
+>>>>>>>>>>
+>>>>>>>>>> Hello,
+>>>>>>>>>>
+>>>>>>>>>> Test system testing drivers for ROHM ICs bisected this commit to cause
+>>>>>>>>>> BD71847 drivers probe to not be called.
+>>>>>>>>> This driver (and overlay support) is in linux-next or something out of
+>>>>>>>>> tree on top of linux-next?
+>>>>>>>>>
+>>>>>>>>> Rob
+>>>>>>>> Yes the driver is in mainline linux: /drivers/mfd/rohm-bd718x7.c
+>>>>>>> I don't see any support to apply overlays in that driver.
+>>>>>> Ah. Sorry for the confusion peeps. I asked Kalle to report this without
+>>>>>> proper consideration. 100% my bad.
+>>>>>>
+>>>>>> While the bd718x7 drive indeed is mainline (and tested), the actual
+>>>>>> 'glue-code' doing the overlay is part of the downstream test
+>>>>>> infrastructure. So yes, this is not a bug in upstream kernel - this
+>>>>>> falls in the category of an upstream change causing downstream things to
+>>>>>> break. So, feel free to say: "Go fix your code" :)
+>>>>>>
+>>>>>> Now that this is sorted, if someone is still interested in helping us to
+>>>>>> get our upstream drivers tested - the downstream piece is just taking
+>>>>>> the compiled device-tree overlay at runtime (via bin-attribute file),
+>>>>>> and applying it using the of_overlay_fdt_apply(). The approach is
+>>>>>> working for our testing purposes when the device is added to I2C/SPI
+>>>>>> node which is already enabled. However, in case where we have the I2C
+>>>>>> disabled, and enable it in the same overlay where we add the new device
+>>>>>> - then the new device does not get probed.
+>>>>>>
+>>>>>> I would be really grateful if someone had a pointer for us.
+>>>>> Seems to be fw_devlink related. I suppose if you turn it off it works?
+>>>>> There's info about the dependencies in sysfs or maybe debugfs. I don't
+>>>>> remember the details, but that should help to tell you why things
+>>>>> aren't probing.
+>>>
+>>> Rob reverted patches but I plan to continue my work on it.
+>>> On my side, I need the reverted patches but I fully understand that, on
+>>> your side, you need a working system.
+>>>
+>>> In order to move forward and find a solution for my next iteration, can you
+>>> send your overlay (dtso) used in your working and non working cases?
+>>>
+>>> Best regards,
+>>> Hervé
+>>
+>> Hello Hervé,
+>>
+>> I have attached the overlay source file: bd71847_overlay.dts
+> 
+> Thanks a lot for your overlay.
+> 
+> I did an update of the reverted patches and I didn't detect any regression
+> with the update applied on my use case but I don't have the needed code to
+> perform tests similar to your use case. Indeed, you apply the overlay using
+> an out of tree code.
+> 
+> May I ask you to perform a test of this update on your side?
+> 
+> First you can use the last linux-next kernel where reverted patches are present.
+> The next-20251127 tag is a good candidate. Indeed both patches are present:
+>    - 76841259ac092 ("of: dynamic: Fix overlayed devices not probing because of fw_devlink")
+>    - 7d67ddc5f0148 ("Revert "treewide: Fix probing of devices in DT overlays"")
+> 
+> Of course, be sure to have the issue using this kernel with your overlays.
+> 
+> Then can you add the following modification on your faulty kernel:
+> ---- 8< ----
+> diff --git a/drivers/of/overlay.c b/drivers/of/overlay.c
+> index 1528d8ad9f26..aea7bb26d9c4 100644
+> --- a/drivers/of/overlay.c
+> +++ b/drivers/of/overlay.c
+> @@ -190,6 +190,20 @@ static void overlay_fw_devlink_refresh(struct overlay_changeset *ovcs)
+>          for (int i = 0; i < ovcs->count; i++) {
+>                  struct device_node *np = ovcs->fragments[i].target;
+>   
+> +               /*
+> +                * The device related to target node itself could have been
+> +                * removed and re-added. This happens when the 'status' property
+> +                * in the target node has been changed by the overlay.
+> +                *
+> +                * In that case the parent node needs to be fixed.
+> +                *
+> +                * Before fixing the target node itself, fix its parent. To keep
+> +                * things simple, fix the parent in any case. If nothing needs
+> +                * to be fixed, fw_devlink_refresh_fwnode() acts as a no-op.
+> +                */
+> +               if (np->parent)
+> +                       fw_devlink_refresh_fwnode(of_fwnode_handle(np->parent));
+> +
+>                  fw_devlink_refresh_fwnode(of_fwnode_handle(np));
+>          }
+>   }
+> ---- 8< ----
+> 
+> My hope is that this modification will fix your issue.
+> If so, I will add it in my next iteration.
+> 
+> If you cannot perform the test on your side, can you provide me the out of
+> tree code you use to apply the overlay?
+> 
+> Best regards,
+> Hervé
+Hello Hervé,
 
-Fixes: 2ff6d5a108c6 ("ASoC: ak5558: Add regulator support")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/codecs/ak5558.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+I tried this patch on next-20251127 by manually adding the added lines 
+to /drivers/of/overlay.c, and it did not solve the issue. I will 
+continue to test this.
 
-diff --git a/sound/soc/codecs/ak5558.c b/sound/soc/codecs/ak5558.c
-index 683f3e472f50..73684fc5beb1 100644
---- a/sound/soc/codecs/ak5558.c
-+++ b/sound/soc/codecs/ak5558.c
-@@ -372,7 +372,15 @@ static int ak5558_runtime_resume(struct device *dev)
- 	regcache_cache_only(ak5558->regmap, false);
- 	regcache_mark_dirty(ak5558->regmap);
- 
--	return regcache_sync(ak5558->regmap);
-+	ret = regcache_sync(ak5558->regmap);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+err:
-+	regcache_cache_only(ak5558->regmap, true);
-+	regulator_bulk_disable(ARRAY_SIZE(ak5558->supplies), ak5558->supplies);
-+	return ret;
- }
- 
- static const struct dev_pm_ops ak5558_pm = {
--- 
-2.34.1
-
+BR
+Kalle
