@@ -1,109 +1,229 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013036.outbound.protection.outlook.com [40.93.196.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EF7231A41
-	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 06:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764742203; cv=none; b=GYy4LzylsibvYf3EzAr6UfVQXpmk6Ma9deWQAnrGT8eSOpUMM0VRXWt5r44QJOZWE71SwpCQPSrTCndJEV1MpzpXPOv+AgTvpIi/Qr+pXBDeT0kUbPP2h55JyfXzTr2McZ5QN2Hen6qR/+uH/7HivpnZdcSEEQePoZUEx5i3xW4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764742203; c=relaxed/simple;
-	bh=dRkqLCwb060C3+zapJxtd4kVUW7EnWK4hIJqPawwJJU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IeO3fP3RvNswwVyxZ8V3svZlYFWhuRaQTNh+qCzn+2O5PUuXvXeNMs4U0zUsYgY5WAuNgTnEYn4Z6XyU3EzpLyEjZxwGSrHVs11X3XqIbi51fDpH0Fqlj8y2Hu5/BKClwkaqxzB2q2+6aL9WrNh0qH0UN8CPoiQn6ajHZl4Yrp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUd0Tmju; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8129B3207;
+	Wed,  3 Dec 2025 06:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764744421; cv=fail; b=czcPbp1Wru83QUWq7fPewanAHIP4oxMGAu34kUV2270lThqIPuHRAWm+FeUMkSzGf7ueSFpBWTq/iVbGi2cLQNT0dB4IFVC+Vwvy9f1hHkmMwGrLlazCLuazDa/wXluF1kLeXT3L9WO0i+znBvzLxrUoLoaYZWZxIgPf3UUX4tw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764744421; c=relaxed/simple;
+	bh=2woq6sYaAyVBsYRQJy8h720HN2n+4Kj6rGcsFUW/4wY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hNk3CK8mP0B2pRGRK1iculwMGe60FFmkIg1pDYOmmeNh/rrNNkTAYWpNSUXXJCo/ZVgVKNCywtdCKZikllrvHo95kMZbvE0D5wPzaLLmG480niPLlKL8n8iQ7fymcCu9ykX7rO2Vyo5P4P09RPPPB2yC/DNvgVjy+AKzR0eAFho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=E0qVHS3z; arc=fail smtp.client-ip=40.93.196.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUd0Tmju"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29586626fbeso78067615ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 02 Dec 2025 22:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764742202; x=1765347002; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CG+D8buIw53AifXcbibNbBX5wNUF3zejbV3h/Ah3aeU=;
-        b=jUd0TmjuL41bcxOCBp5+ZcOg9lvvGwd5LpDzHa+FmSl03J7cZO1QaJ0aCzL+AaRnUG
-         xrvRZX3OPnbPcQDZOsPdAmH30IJGTIJsLfK9oYHDCXPpfJ2loSqFrXAh8R0v3YrKa4EB
-         u6kp9zoIjwua5YUcd5Qbvz+IJ0xwvfjTYzlBy+vG0m7wUSpWDLVb/7XqEvP7a6bh6g7j
-         YIYhhGNPiGZSRjISckal6lLmTZk21YJIHwzERQORT0awGra5jFl0rFADhrGo2t3hAxZu
-         r+xCvj314StIT+wGDkdgi0gY8cX0V7j+WmVVAx974Do1VCs7sb8te0wDAPDxudn8FG5U
-         M9lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764742202; x=1765347002;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CG+D8buIw53AifXcbibNbBX5wNUF3zejbV3h/Ah3aeU=;
-        b=FJZ2csJ20ywIXuOlFLOrnv9ekmE2UKvll7Ta9g6A1E9JUiYgCKujle24nk65S6CEYA
-         L8KvcRJoXWmonOHYSN9g7vPfFoZwKryxUK+riYzPijbRuguZwldOkE80ClLjgBlct+59
-         xk1xyZOLczC94mZQYHAFgDNkPAC/k493brOrejYXB5kS2efQbc+Ra4Hs9NSo7xUy0kSA
-         kZohDFViZoV31g9zN9rQ2GtBjiK3wgWBvQyPTnKEVWr47bw1BdWvqWhltGnzHjOjA0tj
-         U7QPEo9yvfl+1ABF95gNQxe8b4oVsOAk7wsM8+l87vQEgt8EKm8RMzRfWV6rC9dBOzor
-         XKZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdkVSiSz01vKfrqASMb83eEDD0t6U/b4uGTlZO9cpDKeGWQehKyELRMemT+dTTzjlYNMSEWsVSMfqlIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbAlMVpb5tVMJ1BgBvAIX5OI+VmnUi2BjGvRsa5QUbpg87jW20
-	7jQhCUXqG0AaqpQUhxdXNXoy3OkB1sGxj5dMDZG2KV8FJaUCM7B5f5KAyU42dcBQ3ZBJuVgsRnM
-	EENmKWCdZICg+AeU31bsIHlPLhKxItv8=
-X-Gm-Gg: ASbGncv2sApbjmN+PE1vrALw4/eYne7uxUavdTvPdouEFp7dHT1ZSuS2/na44bVRne5
-	ePQbbPfrxj/Kreg3WcHN46mRG75femMt9/TxWSffOtoXl0Tb2H/ypRuY8+yYHtlajgBJaXE0GAG
-	QkchKI6HMpwGtKuMsibbRZ1lpsHv66Bttiw7zARApf7h8wRWsBTFmonJTRdAARwLSw4Ah+gwDNp
-	xClFNLa8aY0T0xV8ob8HeoUP0/xXwBe3EhVL4jO34O+yB79PiglpM77kcBJB8cVtPqIQl8=
-X-Google-Smtp-Source: AGHT+IGFUk/6xEOOW2a4Vm5GIf8vTHzdr7EXagI4vOqBjGoGoPmZkppDvcLWt57GriqXrXPph9+z/adfs5D42AKyI6I=
-X-Received: by 2002:a17:903:234a:b0:298:33c9:eda2 with SMTP id
- d9443c01a7336-29d68395648mr17842375ad.33.1764742201743; Tue, 02 Dec 2025
- 22:10:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="E0qVHS3z"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ibvo6lRQwBOwUiip4a02iEinCjS5/yoZIGVSMyhuRsEpRXx4qkmi5Cu7rKxMzeGiQuaPk2KHnRAcC19mD1IoD3xYeR5fXYtLIb9YEm6Ty3pSYpzJA/jcF/xQOp3eXRpuWhSlKgGnod3TOcjwjTjscrGTA5gZkib8fSM67hVQB9mfwL3eBK/NMEKmqnAfPtGeOeZ166QvdzM0fEABoCraPymK0pRcf5eSUEYwydPeGDMFCd4RRtI87lFiiMYjYelTtRTrBT5fsZTORYg30u5IK4gz0Kju7EcyEzPnVWGLz154mXklSYGGgxWvgYzf763+MceF6+2nHEKvHITR628yCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZPcFtkW1J0OsPs3G9sfrXaQn/tWjQvqZTRHPlZaJYxI=;
+ b=iO7OjQM09T81WwL6VIikCPIiOlgjzamkTeCQR4gDCUou/4/0B3Y1SVYCslc/gDyhVvD+bisRGChujaezIczygBQRN8Tn8h+qbpIiGXrss+gKvjpb7paHcHctIseur0gTnzQQzkAxONX6YYtJl/710CcoPzjxzfj0boNXeFbDHGYZu6+o86hj7+dEP/toAQkJpv6tAOSfEOb/6wH0lCCwFpQoUvdjPMv1bGid8LCxjxvnc0Pq8BXuScEbvXMCFPfYue8RLsfBGZQfYTdwPcAop5gmGSvUg3WXK/4fvaHmrtBD4NjrPRjpIO8JAFuGnKy3ltOKUg5YDS7EuX1Oj4ONdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZPcFtkW1J0OsPs3G9sfrXaQn/tWjQvqZTRHPlZaJYxI=;
+ b=E0qVHS3zwxmRFaqmZp2qa3Ce8RHmTDtxM7xey+I3/A/DKm9eAWkHZ5hl3f+mOwLkx6pzowcq5vnVHETmszHS6JJZde9VyKIqFMpH1Env1FkVpKELY5jHu0mZ/T6hF9OmTGRxqyNasCWfWRa6jyiyPMdnxDwtAYXKXwsb8Lf2Pss=
+Received: from SA0PR11CA0026.namprd11.prod.outlook.com (2603:10b6:806:d3::31)
+ by MW3PR12MB4346.namprd12.prod.outlook.com (2603:10b6:303:58::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Wed, 3 Dec
+ 2025 06:46:55 +0000
+Received: from SN1PEPF000397B0.namprd05.prod.outlook.com
+ (2603:10b6:806:d3:cafe::ad) by SA0PR11CA0026.outlook.office365.com
+ (2603:10b6:806:d3::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Wed,
+ 3 Dec 2025 06:46:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF000397B0.mail.protection.outlook.com (10.167.248.54) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Wed, 3 Dec 2025 06:46:55 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 3 Dec
+ 2025 00:46:54 -0600
+Received: from drvdevbldsrv2.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 2 Dec 2025 22:46:51 -0800
+From: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, Hemalatha Pinnamreddy
+	<hemalatha.pinnamreddy2@amd.com>, Raghavendra Prasad Mallela
+	<raghavendraprasad.mallela@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Venkata
+ Prasad Potturu" <venkataprasad.potturu@amd.com>, Mario Limonciello
+	<mario.limonciello@amd.com>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] ASoC: amd: acp: Audio is not resuming after s0ix
+Date: Wed, 3 Dec 2025 12:16:48 +0530
+Message-ID: <20251203064650.2554625-1-raghavendraprasad.mallela@amd.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251202083535.1985714-1-shengjiu.wang@nxp.com>
- <20251202083535.1985714-2-shengjiu.wang@nxp.com> <7d926b4a-2fde-4411-9f4c-e12a9a2fcb81@sirena.org.uk>
-In-Reply-To: <7d926b4a-2fde-4411-9f4c-e12a9a2fcb81@sirena.org.uk>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 3 Dec 2025 14:09:49 +0800
-X-Gm-Features: AWmQ_bm50Lnpfq093c-7y4KxeWNAQDnrTsYZxEywcCyUclr5kGcLTcgAZHFbSt0
-Message-ID: <CAA+D8AMOGxf8Ln0vHhD_c=0WJ2haWStLqYqEnQS0NPfm1=3L=Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: ak4458: Disable regulator when error happens
-To: Mark Brown <broonie@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, perex@perex.cz, 
-	tiwai@suse.com, andriy.shevchenko@linux.intel.com, 
-	kuninori.morimoto.gx@renesas.com, nichen@iscas.ac.cn, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ckeepax@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B0:EE_|MW3PR12MB4346:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc7787e1-7e05-4cfa-045d-08de3237bf99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?/4oNijRp9FbHRHU9eLvsNeE3DA8+g6Lih5TTjsT8d4D2azCswGnYYsKj9taq?=
+ =?us-ascii?Q?OSaXH8oN1TypS/MDs9CI+mM3wu6VMUp0UkhqYytkuM+N7DxeU2a6LM4oD2W0?=
+ =?us-ascii?Q?8WoC8GGTKa9A2bkNcxPv7e2QNu9iC8wQqq6+4gyjogLFqXIjkzGS3lPdHeHc?=
+ =?us-ascii?Q?6crB3n0ZPG8kM8p/UnPGgBq1yG/xv16q8oyCd62T+kOBUql9t07rZK+OGNaF?=
+ =?us-ascii?Q?SxBPorory5vGDoeuEeqbLF13fDWT6Tklj9kjvPZUG9gp/Y7DCc5VAYK7XMbE?=
+ =?us-ascii?Q?icIow47D1vBmGY8XuIf1Zew69i70g6ooH4his0th/PftnY8ArnHknqxPkwzF?=
+ =?us-ascii?Q?1N7BG+okZ+xeJ1AFMwSImBpBFvpUR4pu5h3egH3rjgo6cb72G43Id9tAKrU3?=
+ =?us-ascii?Q?Nb7D/rI83CMZJyYC78iuX+2eFENT5C8l133GL4krqaQfZbIibEKSD64eu/uH?=
+ =?us-ascii?Q?52AasoRZSAPpZSatoV/SZZbLlGPpeaYKeW8Ohb/2M3+mK43zcw41CTusBVmS?=
+ =?us-ascii?Q?pSrOCarQTzomp91ZAfQvw4IMrxgQs8XmYLfw+8i+cWTb+11oefvG0BCGGMLe?=
+ =?us-ascii?Q?hChGiFSXGBQcxM5QYUxo8xRNMEvLd8jhxslqOxKkPusRBRBEGJd/H/rpCiaj?=
+ =?us-ascii?Q?WVyrKGkXBoGOV2B2ZLnjOoR7sQ6wJVvhNl1hl/u2LeiyjxzhU0rLw1YQAtrF?=
+ =?us-ascii?Q?Neyjc5o3tijLr5XfPthdfO/JEgkjPoZvEoiU72EmKQeBLyBztj+PCMfs+new?=
+ =?us-ascii?Q?xM69dOGmtSdnMk87LYRawETJTh5GUGisuhQv3Ubs/S6xMlzylw4rAOXE6u6z?=
+ =?us-ascii?Q?Z+GcSUpsTA3RePuRy1sp02QRlFHd7yrokVhQYeIjNHMW6sCE1tUuHj61xyQx?=
+ =?us-ascii?Q?36WBzPKLB8sIA1n2Y3mU3aN3rJoALj6iv0GNfqJqzOyznSVXLStYHEIldWbD?=
+ =?us-ascii?Q?MJoP5s1awEmGDgxTJuNzn779FGi6H5NkMkdczCNv4HqtfrJALJ7/ylVIBH+K?=
+ =?us-ascii?Q?FDsN/TuRGlrQqnk9Ikxt8B1rVc6pvyQf3wqiJLtm9e5gsPCFToGEmN1NBiqS?=
+ =?us-ascii?Q?xDrh65jftCaVWQwWgt7/4PVgjD1N33uvDMw7fv7Krk+CrSYgpRLdh7h8rqKj?=
+ =?us-ascii?Q?O2IWUv/9YdS68/m++UkJLXufgXtLfvDgfCSJj7rczERidTEofDvLvK2R6Tdy?=
+ =?us-ascii?Q?3QcnR5/2ey7Zp/b2QLnNDMeVMawcQQ8RYJSqkGZwuXdg1Jcxc7ZpRuS2ZKOL?=
+ =?us-ascii?Q?JrLtuOBHe9rSq8RBrb5cZjldd+yoKpcQKcFIaF7P1e+UW/YNiyi8h1huj2MH?=
+ =?us-ascii?Q?hcdkwzdLttu5akGuRUSAOWFYg5qHHKCwWcDh2mM5RZAeHSfhXJb+x6YbkTFt?=
+ =?us-ascii?Q?yB27D3MQRYi+NG07po1QTjo0qeOt9KjBHFa4q+Bio80YlbQYaRV0Ik8kweXk?=
+ =?us-ascii?Q?odmVLKgXLsAeAfOb8rTxnOTZsILiETUkG8XuiPjXyHQ9Z/9X8FhUvGHjp9JU?=
+ =?us-ascii?Q?jWAsgcejJddmgUcCIzEmSjBkSNPTVlz5eJ3ulLHeSTuLk+3WnYQlOuwsF46b?=
+ =?us-ascii?Q?iaPhTh2xXdEmg4BRPPE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 06:46:55.1626
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc7787e1-7e05-4cfa-045d-08de3237bf99
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397B0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4346
 
-On Tue, Dec 2, 2025 at 9:38=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Tue, Dec 02, 2025 at 04:35:34PM +0800, Shengjiu Wang wrote:
->
-> > --- a/sound/soc/codecs/ak4458.c
-> > +++ b/sound/soc/codecs/ak4458.c
-> > @@ -671,7 +671,14 @@ static int ak4458_runtime_resume(struct device *de=
-v)
-> >       regcache_cache_only(ak4458->regmap, false);
-> >       regcache_mark_dirty(ak4458->regmap);
-> >
-> > -     return regcache_sync(ak4458->regmap);
-> > +     ret =3D regcache_sync(ak4458->regmap);
-> > +     if (ret)
-> > +             goto err;
-> > +
-> > +     return 0;
-> > +err:
-> > +     regulator_bulk_disable(ARRAY_SIZE(ak4458->supplies), ak4458->supp=
-lies);
-> > +     return ret;
->
-> While we're at it we should also put the regmap back into cache only
-> mode, not that the error is likely to be usefully recoverable.
+From: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
 
-Thanks, I will update it.
+Audio fails to resume after system exits suspend mode
+due to accessing incorrect ring buffer address during
+resume. This patch resolves issue by selecting correct
+address based on the ACP version.
 
-Best regards
-Shengjiu Wang
+Fixes: f6f7d25b11033 ("ASoC: amd: acp: Add pte configuration for ACP7.0 platform")
+Signed-off-by: Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>
+Signed-off-by: Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
+---
+
+Changes since v1:
+	- Include Fixes commit
+	- drop unnecessary variable initialization
+	
+ sound/soc/amd/acp/acp-legacy-common.c | 30 +++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+index 3078f459e005..4e477c48d4bd 100644
+--- a/sound/soc/amd/acp/acp-legacy-common.c
++++ b/sound/soc/amd/acp/acp-legacy-common.c
+@@ -219,7 +219,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					SP_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_I2S_TX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_I2S_TX_FIFOSIZE(chip);
+-			phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_SP_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_SP_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_I2S_TX_RINGBUFADDR(chip));
+ 		} else {
+ 			reg_dma_size = ACP_I2S_RX_DMA_SIZE(chip);
+@@ -227,7 +230,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					SP_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_I2S_RX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_I2S_RX_FIFOSIZE(chip);
+-			phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_SP_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_SP_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_I2S_RX_RINGBUFADDR(chip));
+ 		}
+ 		break;
+@@ -238,7 +244,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					BT_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_BT_TX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_BT_TX_FIFOSIZE(chip);
+-			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_BT_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_BT_TX_RINGBUFADDR(chip));
+ 		} else {
+ 			reg_dma_size = ACP_BT_RX_DMA_SIZE(chip);
+@@ -246,7 +255,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					BT_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_BT_RX_FIFOADDR(chip);
+ 			reg_fifo_size = ACP_BT_RX_FIFOSIZE(chip);
+-			phy_addr = I2S_BT_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_BT_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_BT_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_BT_RX_RINGBUFADDR(chip));
+ 		}
+ 		break;
+@@ -257,7 +269,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					HS_PB_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_HS_TX_FIFOADDR;
+ 			reg_fifo_size = ACP_HS_TX_FIFOSIZE;
+-			phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_HS_TX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_HS_TX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_HS_TX_RINGBUFADDR);
+ 		} else {
+ 			reg_dma_size = ACP_HS_RX_DMA_SIZE;
+@@ -265,7 +280,10 @@ static int set_acp_i2s_dma_fifo(struct snd_pcm_substream *substream,
+ 					HS_CAPT_FIFO_ADDR_OFFSET;
+ 			reg_fifo_addr = ACP_HS_RX_FIFOADDR;
+ 			reg_fifo_size = ACP_HS_RX_FIFOSIZE;
+-			phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
++			if (chip->acp_rev >= ACP70_PCI_ID)
++				phy_addr = ACP7x_I2S_HS_RX_MEM_WINDOW_START;
++			else
++				phy_addr = I2S_HS_RX_MEM_WINDOW_START + stream->reg_offset;
+ 			writel(phy_addr, chip->base + ACP_HS_RX_RINGBUFADDR);
+ 		}
+ 		break;
+-- 
+2.17.1
+
