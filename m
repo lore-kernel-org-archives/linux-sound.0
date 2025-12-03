@@ -1,205 +1,173 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C9C36D4E2
-	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 13:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D83A22D4DD
+	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 14:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764769868; cv=none; b=uk7jwp2P7ZCkh7BrgsXzngU2G4ogrEIBiEKiB0hQ2RnnT2Dl6MerS2sLjeaDyLig5DLlztLv9EpaEF73JvK9qar1q+M1g+Lbxs09rC/FWTbCj91pr8a2FYRdKV4ZMve6FMzvz2aSTEi2yoF0SuVeU/kZd+YzN1x61f/B4D7bVpE=
+	t=1764770795; cv=none; b=UGmt9f4cqHfI66VqwYgPbnlmFXmdF9TI/hEiqDW6JTyaHvYoVDy5EzeGIWgQeypbDNexmjrpwN59VbsZZ90UmsidPcJBOSAkVfttVEftel/N5iDIKQdTFYgww+NTw1IW3vbmZqeQl+UIeijjegu6/ECNTxTAMMJAgforYgnDICM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764769868; c=relaxed/simple;
-	bh=OpEB4+b0Cv/cBn2v9wG02mISjMJq4HgDe23PS37roz4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g1DU1PJqRuNA7surlIMx6tkz01R5X2uFkceESQrVuYrtzaJmEV5SjcVNqs6kapfugtAeR3G/PIjCCA1HtVBV7pxEAlB3/A7AvBsOkZAYKixbarKaLhKG1UKLZ2lx/smHSQ9kGSFZOXVYADtvvYBmnlSyhLsx/JFdx1HfmyHIll8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Huzz1rts; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IwfLTnra; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rzmWKLf7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ob4NHNB0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764770795; c=relaxed/simple;
+	bh=ULORD3Nee9iQt6IG5z5ND4VmHm+dsifxczAT6/IsbVU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cxxSB9jkhtXR4V66eSe5Tpve9ULta5H82LrPjy9Bvo4MHMTgVt51i+bKvskVnbThiIJDRxhCQVQbm+3a1qe+egapBux1sV9IzNh7s+n80GXQtFktpR+d+m1PCEKshIXeScKeM2numqjJF4LCH7Jq1x3j4c1dPamLvnNDGTL2N3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XtVkBttU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=K3HRf/CU; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Huzz1rts";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IwfLTnra";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rzmWKLf7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ob4NHNB0"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 40AAE33724;
-	Wed,  3 Dec 2025 13:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764769864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRLAcx40sVH5YBh5sypT3xpAIdJT4lRsVm/4lCsP2mg=;
-	b=Huzz1rtsiUoYzkHK+v6jdTA0TktP6eJCuzq71UT+4sz9YozXJZaTxbDZ8EFyK5s7pt7v6K
-	E9v5KfF/DHrY8de29xJ4i/YaIWad2UlXaal+/PwMn3IwInhSXepS/jaE1oVyHq9HRh7Uoh
-	Y3eD2dJZijHCirt0BUVlMxm8xHtnkx4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764769864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRLAcx40sVH5YBh5sypT3xpAIdJT4lRsVm/4lCsP2mg=;
-	b=IwfLTnrauhjo6Hwqn8XSAu1VbSeGMs0hhrx8nn7+6ddpj/XYt7k/FZUsRLG+AI4FO47cR6
-	H8ykZqvwgTPusGBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764769863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRLAcx40sVH5YBh5sypT3xpAIdJT4lRsVm/4lCsP2mg=;
-	b=rzmWKLf771qoHWphB+E79MS7mwjqdQr1c8DllVhvs6YBhZDuKoMH12FqiGb7G3xtGQeDqY
-	tmEhDUJgnwKJm1fT7XoT+FG5AxnMBQOMZjkuPcCMMAwx8/xMJ02jQgyrqg4tbQ0i1uOdc1
-	dExWwjm+RDXPzIL2HW0Wkxin4w72ozE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764769863;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRLAcx40sVH5YBh5sypT3xpAIdJT4lRsVm/4lCsP2mg=;
-	b=ob4NHNB0BJ+60BZzJ900yfvYN83nc9PSc+P8n/4suqZ7ZwIZa/LZ14cRcrEkcC/7tZYgyy
-	3LLmxFk150Hz3IDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 092633EA63;
-	Wed,  3 Dec 2025 13:51:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qqoNAUdAMGkdAwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 03 Dec 2025 13:51:03 +0000
-Date: Wed, 03 Dec 2025 14:51:02 +0100
-Message-ID: <87pl8vsmgp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 5/9] ALSA: opl4: Convert to snd_seq bus probe mechanism
-In-Reply-To: <gl22ngzqfqigynqtw7giz4cbyaanx4y4dwr5ltywwlq3wozk7g@oj5l34antqty>
-References: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
-	<24b2d122830599b96f69fc20386f5830c758e840.1764677854.git.u.kleine-koenig@baylibre.com>
-	<gl22ngzqfqigynqtw7giz4cbyaanx4y4dwr5ltywwlq3wozk7g@oj5l34antqty>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XtVkBttU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="K3HRf/CU"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B3B3bbP1536211
+	for <linux-sound@vger.kernel.org>; Wed, 3 Dec 2025 14:06:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=YUOiQ+4tRELv6WOPEPoKfZ0qRhT6spqTIFQ
+	UmRxj4gU=; b=XtVkBttU/VErFv7rMCFAUD7QY0m/9kah7KTLM0Pzk6wHEEpWkKx
+	NWJa4X3j55fEBgLmeeVEYVqKM2juJ59s+zBYgvNp/sGNrJMJaV6Bfc6/AySV5FRw
+	xvQ8rlW/DFVEM0AhzRPvtsBVnPCxv/kETk+peSdXPje7tXa8S5b4RwXBpl9z2mW/
+	742KNUZRYO0/KlDXzh4QyoysYHGW9sB+VSXnHsKGRT1W9wdXOG+xMUvYEERMCkfm
+	toObCEFMd9K8XHDZNSEGVim0cI0gD/SLm+cqtVa11nKUhwSu+i57xANg2VoV8+BB
+	fMym8WFz+pD+OORobG8MmbMr8Wuo7Bh14fA==
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4atm0hrfjk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 14:06:32 +0000 (GMT)
+Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-9351ea95712so7032533241.0
+        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 06:06:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764770792; x=1765375592; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YUOiQ+4tRELv6WOPEPoKfZ0qRhT6spqTIFQUmRxj4gU=;
+        b=K3HRf/CUF93/Vx/LAH+PuqXL8vU4Td/AWlNfs3WW0SVRijxW7rYC/RHfNdii4wOul4
+         h0f2BceRr5QMp0d1CjWGZRDyVWPlN/T7n/ByKcnsctzIyrIp7LsJEINc27u3dfWIQJpZ
+         x0JWVNmpWaWmomF3/re0RzrbwYi90bYQHBaGe36y/c8b6aqQyHNBtmNQldRU8EbnVpZ1
+         MQbYGbaivXxmodUfZcx/BLLaJptWW/W74z7e2mroYI1jwEqHWpfqUrqgPW3C1Yoyiw9f
+         aBwnW2/cXhJXqtYHpHZW4E+iTLZ5X9fJFPoUggpJOjqsAJ5JDJjvF3iHbNjJhpv12tG0
+         k+xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764770792; x=1765375592;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YUOiQ+4tRELv6WOPEPoKfZ0qRhT6spqTIFQUmRxj4gU=;
+        b=BgFeV+bKH6+uutlZI1t5kondqFBjTZ9+csvpA9FJOJVfkW9OYZE2GNsojJU8o+htr4
+         kWR7VO01BjdeBknv24pQLo1bEkZvpJrUr+5WaBvDQ5cYh1UeOinLqEdzby1d4O89keyK
+         145P+gJyx/Lwjag1+Uau15CBpt6opnWR0u6g0gi3eVISKVYBfGfCKAVf5mU8F/fhVAAs
+         IHip1eDWoPhoNO+J1oU80cYbW3hNsNuOb+t+o3/P4acJF+W7nJSO0mU7iMBo337hCpWL
+         UHlVdJUC7vCO4up/DTIQC5WBn0tojBRBRvR0r2gU53Cnziky0qqwvvPba542W7+Mnrv3
+         v6LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXl27Zj9IbrHDdCtthoNhU23XFWLyyIEGw7gCPj0FSvmxBAscxi90pYvUY3pak8xB5Ybx7mmWU1InNaug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzA1WSr9U8UsuG654VAlX3+KXis0Rweyc0gMG5vZvcTOPjfbkf
+	5+0042GxHRAW1x2PAUYd7fpndzFJY44Z4a15gNx/3x2Z+4VdJDm+949BfwBkosmA7zBlp2pgF3t
+	Bqz1pBq4TXmKFzBauvFJa3f4/rGqRf7KMyHqqSoha5ubQs8UvJsbTODoNvY4j2pX50Q==
+X-Gm-Gg: ASbGncsV1mR1cwF8tx9U6XN/+gzSU6rP3VPp7ig9jAeQhi24EcexUcDdt8Na4T3tkVw
+	zXYycPN5soPZVsvvL9XoK+Ckv5U0oQUuBQ/n9xAab+LkCZpkZjV3DNF0ZOEyrkq+dh2fZxE1yJB
+	syu2Vp0vaITg0wpSCyEhX7cI2UN/O8wf7YtBwf0KL0vPYSD2qXcPXu/1yWNd5uUNRJQAxulenhz
+	jzkXq3OeLJfWczyzxzRy3ccs28Ml4zOVa6Jwy7ZykIWyIKGuri60OToG8mDgBOdEQa2NWkHwODD
+	c3CT+VDkaMywhTSRZwFzkZDkz8vzBTqHXwNnR902WioA0n2B7q4JSsWnTbl4651WLli+EwbrXiY
+	dBTRMHDHdjZZal7NdXPOH10VPPA==
+X-Received: by 2002:a05:6102:3f08:b0:5db:25b5:9b4f with SMTP id ada2fe7eead31-5e48e336a73mr729340137.26.1764770790002;
+        Wed, 03 Dec 2025 06:06:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH/Ehkc5vdz4n+xhETW2nUztusFVbDphsyvPLJ9Tv1PMzZwViPNNdecsSwshFOFC+SeK3YFng==
+X-Received: by 2002:a05:6102:3f08:b0:5db:25b5:9b4f with SMTP id ada2fe7eead31-5e48e336a73mr729134137.26.1764770788498;
+        Wed, 03 Dec 2025 06:06:28 -0800 (PST)
+Received: from quoll ([178.197.195.159])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792a8ccbf3sm52590115e9.12.2025.12.03.06.06.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 06:06:27 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] ASoC: codecs: nau8325: Silence uninitialized variables warnings
+Date: Wed,  3 Dec 2025 15:06:12 +0100
+Message-ID: <20251203140611.87191-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1419; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=ULORD3Nee9iQt6IG5z5ND4VmHm+dsifxczAT6/IsbVU=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpMEPT2hovVVp8ix4DQsWVMCa+egexZ4u26M7Nx
+ t2vT6lvEr2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaTBD0wAKCRDBN2bmhouD
+ 17RlEACFWTHmhEw+KG1nxyfifW2dapBHHiRzk06E6asHMNjeI7PMuStEij5EF8PdpUgs7JfW0sf
+ iEqU/DmzX/fMBRXA/vg3d8rHcpBVdHJrK8lnUKvXRh0XLEp8zZCd/YPmhwBuheP+oUjor9hzmwO
+ C2ccYrEYrlmYDz8QOKqOL9TuY+W5R3tVloVi8I58pDO/vLPpC+pFuW2tRvxqPXhf7VCaSPAA67F
+ Wn3o4ybfQpfP6cGXHPg4mlyPWRyMg1OATOTJjVHGUfDvYcpTWEA8SoTktHSDKN/GcU9Fpw0sh93
+ kjj3qSexXhfJCKFb55ht9Kzqb4gqmsgUlx+5XRWuYU5mnFo9j8sdYpmF4THSwyBDDu6btQyI/wP
+ 4Hb/DGtcx+5SQ8H6HUfrmbDgEoNB6pslnEfY+W5DfWfCaow30yBlXC03a4Dq4vGiRgthJwoFKor
+ +rVeGHoWSQQ9nOLCjHNyNcVdFWREqTzvSOWnoZJ+CTPTmcodk5Lm6A+qbdsOb+AX8+GEBA4G87v
+ xRoOGNY2tfafpzVPK6sQimj72Rrp5DnLE15e2DY6zeJwsfeuYaIjhhj5ngIo2N/72I6XY2MGm5U
+ +1hDBnDJZ1NWpFdZoklqIbPmipY/FtztM9mKbd+p3J5HYvIipPZTh++mWtXcQrt8gB0LummFnLH y8PZYX7VK4xje/Q==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.26 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.16)[-0.802];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.26
+X-Proofpoint-ORIG-GUID: c0Kh5yY3w22M1HGZjTlR57PbLPKhjxFA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDExMiBTYWx0ZWRfXyFMYUG/3aYVI
+ M2y42dOklN7/eYWygXaVs/f+pwTzOl0mMdx3IJklLVb6VXEOEoomAIlDObQwTCgaZA4DkabzKH1
+ K3lbdiKdViFkhl5a7qA1FvjTz99TUvPnKgWiTqYrgRJML0fbkmNHhVJ2LvbpuWo/xVrT0WlfENC
+ Wk9VMR0d3pZoMzY9o70WFReZSR55ebB5Ewi/lZ+btQjF8LhgOl0J+6gjkazzpHmNCm6hQ8ZG9io
+ WNe9DLEIsx9cD7goTyZISt4NaOsNj49ln2v2PwOZhTJe6k6czZIfV6+9LMuQnilF0wZhOI2qgJL
+ fLd/bcH9yaafJx+vZKI+ObXssuvjPDZ9s5ahvy+tfSXWYrgkxKv4UGNTU7/z/fGuAuT7l2EawN1
+ Rr0AzxM/YS2/+RkEoOr2ipK3LETvmQ==
+X-Proofpoint-GUID: c0Kh5yY3w22M1HGZjTlR57PbLPKhjxFA
+X-Authority-Analysis: v=2.4 cv=V5lwEOni c=1 sm=1 tr=0 ts=693043e8 cx=c_pps
+ a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=FPK7cjBCgYbqzSTDLBmM0Q==:17
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=uI0rWgL3eINdTr64SRQA:9 a=TOPH6uDL9cOC6tEoww4z:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-03_01,2025-11-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 priorityscore=1501 adultscore=0 malwarescore=0
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512030112
 
-On Wed, 03 Dec 2025 14:46:27 +0100,
-Uwe Kleine-König wrote:
-> 
-> hello,
-> 
-> On Tue, Dec 02, 2025 at 01:35:54PM +0100, Uwe Kleine-König wrote:
-> > The snd_seq bus got a dedicated probe function. Make use of that. This
-> > fixes a runtime warning about the driver needing to be converted to the
-> > bus probe method.
-> > 
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
-> > ---
-> >  sound/drivers/opl4/opl4_seq.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/sound/drivers/opl4/opl4_seq.c b/sound/drivers/opl4/opl4_seq.c
-> > index 7bb22089a093..043c537be293 100644
-> > --- a/sound/drivers/opl4/opl4_seq.c
-> > +++ b/sound/drivers/opl4/opl4_seq.c
-> > @@ -118,9 +118,8 @@ static void snd_opl4_seq_free_port(void *private_data)
-> >  	snd_midi_channel_free_set(opl4->chset);
-> >  }
-> >  
-> > -static int snd_opl4_seq_probe(struct device *_dev)
-> > +static int snd_opl4_seq_probe(struct snd_seq_device *dev)
-> >  {
-> > -	struct snd_seq_device *dev = to_seq_dev(_dev);
-> >  	struct snd_opl4 *opl4;
-> >  	int client;
-> >  	struct snd_seq_port_callback pcallbacks;
-> > @@ -175,9 +174,8 @@ static int snd_opl4_seq_probe(struct device *_dev)
-> >  	return 0;
-> >  }
-> >  
-> > -static int snd_opl4_seq_remove(struct device *_dev)
-> > +static int snd_opl4_seq_remove(struct snd_seq_device *dev)
-> >  {
-> > -	struct snd_seq_device *dev = to_seq_dev(_dev);
-> >  	struct snd_opl4 *opl4;
-> >  
-> >  	opl4 = *(struct snd_opl4 **)SNDRV_SEQ_DEVICE_ARGPTR(dev);
-> 
-> There is a build problem that escaped my build testing (on arm64). This
-> additionally needs:
-> 
-> diff --git a/sound/drivers/opl4/opl4_seq.c b/sound/drivers/opl4/opl4_seq.c
-> index 043c537be293..fd6f15be6109 100644
-> --- a/sound/drivers/opl4/opl4_seq.c
-> +++ b/sound/drivers/opl4/opl4_seq.c
-> @@ -174,19 +174,18 @@ static int snd_opl4_seq_probe(struct snd_seq_device *dev)
->  	return 0;
->  }
->  
-> -static int snd_opl4_seq_remove(struct snd_seq_device *dev)
-> +static void snd_opl4_seq_remove(struct snd_seq_device *dev)
->  {
->  	struct snd_opl4 *opl4;
->  
->  	opl4 = *(struct snd_opl4 **)SNDRV_SEQ_DEVICE_ARGPTR(dev);
->  	if (!opl4)
-> -		return -EINVAL;
-> +		return;
->  
->  	if (opl4->seq_client >= 0) {
->  		snd_seq_delete_kernel_client(opl4->seq_client);
->  		opl4->seq_client = -1;
->  	}
-> -	return 0;
->  }
->  
->  static struct snd_seq_driver opl4_seq_driver = {
-> 
-> I don't know if it's already applied, please tell me if you want a v2 or
-> a proper patch on top of this (or if you even squash this into the
-> original commit).
-> 
-> Sorry for the mess
+clang W=1 builds warn:
 
-Don't worry, I haven't applied them yet, so feel free to resubmit.
+  nau8325.c:430:13: error: variable 'n2_max' is uninitialized when used here [-Werror,-Wuninitialized]
 
+which are false positive, because the variables will be always
+initialized when used (guarded by mclk_max!=0 check).  However
+initializing them upfront makes the code more obvious and easier, plus
+it silences the warning.
 
-thanks,
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+ sound/soc/codecs/nau8325.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Takashi
+diff --git a/sound/soc/codecs/nau8325.c b/sound/soc/codecs/nau8325.c
+index 3bfdb448f8bd..e651263a9812 100644
+--- a/sound/soc/codecs/nau8325.c
++++ b/sound/soc/codecs/nau8325.c
+@@ -386,7 +386,8 @@ static int nau8325_clksrc_choose(struct nau8325 *nau8325,
+ 				 const struct nau8325_srate_attr **srate_table,
+ 				 int *n1_sel, int *mult_sel, int *n2_sel)
+ {
+-	int i, j, mclk, mclk_max, ratio, ratio_sel, n2_max;
++	int i, j, mclk, ratio;
++	int mclk_max = 0, ratio_sel = 0, n2_max = 0;
+ 
+ 	if (!nau8325->mclk || !nau8325->fs)
+ 		goto proc_err;
+@@ -408,7 +409,6 @@ static int nau8325_clksrc_choose(struct nau8325 *nau8325,
+ 	}
+ 
+ 	/* Get MCLK_SRC through 1/N, Multiplier, and then 1/N2. */
+-	mclk_max = 0;
+ 	for (i = 0; i < ARRAY_SIZE(mclk_n1_div); i++) {
+ 		for (j = 0; j < ARRAY_SIZE(mclk_n3_mult); j++) {
+ 			mclk = nau8325->mclk << mclk_n3_mult[j].param;
+-- 
+2.51.0
+
