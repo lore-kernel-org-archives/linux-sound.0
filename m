@@ -1,321 +1,182 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20C52D7D59
-	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 13:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A172FC017
+	for <linux-sound@vger.kernel.org>; Wed,  3 Dec 2025 13:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764768889; cv=none; b=abNmevymIAV/H0H15M8sBEduevSn6BmdTT/2nhh4P5Vfwws8puotjm24LFnOiAaTmaSN1VlOYNzBd0yQJL3CdvgDTJOcxqX+TDXuw+An0zD96cC6GUZKeRrQFn/w7F6tDasSSpM73ixAUJG4LcVs+5BR3bAvg4QEVahdjceKFPY=
+	t=1764769595; cv=none; b=KLlXnlvnIopv6O2MtTamBTZn5LAqCvR1K4RVhF+L6qkBvPq8B5+6bv4zd1MFSz4DUzaOOSLGed67OOSiMIPgbabppZZOEfN4j4kIdKO4F3WtOp3PnPLAi4NEZKaic4mIBs9cC1enGD1qv4FlA0yCwQEpDPs27k5cd7DPlMDcUto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764768889; c=relaxed/simple;
-	bh=Tqh3mAFFEpYiA6fivh/9gs5vQ23uQLVQP7vcMleDUIk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=YRUMKSoRy/zXaEqq5pzXmSeTgUxy5gZA5KYND4qS07/Sg+avJ+ROxywdUeiwF1smLkQvJYkT8vvtRE3iX3uOqr3gwnKNazT/PIg650wjA7ea0pQ7n91jo47WApLymJfHzXFrA0XfrAsReeGy1A2fFKoxFt02mzaxsELzmbuFez0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbuOC4V6; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764769595; c=relaxed/simple;
+	bh=a/o4XOXrv4QVAczVsrualpbuwkc+MPlE+vFmznTpZ/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FklIPgzFuH4li5ZsytfbeHp2UeYqO+Ul3SgcE0B6Z/0Qe+RZkp/uOl7ojMPDGSbbEnRZEhwoTvCn+vhGsSiUiPXOx14m2NgMmV8WkYRAdb6z76TVmolEYih3xfMgFUCphZVQP9ag2PPF1Kc2m27pEgYb5CTMjQDueIMlfrIxJ/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=M4fQNPT3; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbuOC4V6"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47795f6f5c0so41522975e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 05:34:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="M4fQNPT3"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b73a9592fb8so31578666b.1
+        for <linux-sound@vger.kernel.org>; Wed, 03 Dec 2025 05:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764768886; x=1765373686; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s8T+mHxnmZgIFTmUGmZS98RRyK+RWbmul9OF9tWScA8=;
-        b=QbuOC4V69TXnysuehBLaWYxWkTCPog4rwKQo1z962CuY+SsXpia2+TBA7iMxZfHWzu
-         B2UgTO0K0n+QeCl8M14lwsnANps0RbEejYPfxUrmxIuttCeOcr4ErThkjHNGBAI8wdF8
-         uXn/8q7RkzLvmrL4jF5DzZEo7VDIuRZlnE4yuooATP7Ce1GNHw3QxAydfwm5Hyt6/Q5I
-         1Ljfx7gizbX+fESBwRiIGZfsWvECdAuRJN1Xq+M9FY4vzKa68DgaBuyPCQSqcvPm9+C0
-         zmDAzXizn4jXAFDhIDraslB5rrkEL611KK39XRwDfA5gLf1Iu+zFTIzzszUin76PWY0z
-         Jcaw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764769589; x=1765374389; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=a0EVdcIw56Q4MfiX1Zij2fhgH+qn9wGOEe8zuhg8Xp8=;
+        b=M4fQNPT3MetfM+blAGA5HaRRKC0Hnt8Fj9NJXPAsmDZGMTW5RiWBLUrflzQrjh9hjQ
+         nkiepmFRKhU8AUA4St8S7UBtz8m/IzetZMqIDGB5K6LidD+3E5Si2pIj1TlWeHDwG3R0
+         ZBpbvQ8yW0h6eld8KlYLQDn9pnvxvAO3N6sx48LrfPA4fn/nDM345oxoQAO2ZuZapJIC
+         iZP2dX0NIpexVw0zrJhU5sDGMN3MAXbEzyCbwejKzQM2o3PZaqueRm4ZXE8fc1QTah2b
+         hZJ8zc6uOCYLbTLFxQAjKa5iTROTAnUOkBMoxrVi4ZQpnhWksUjMRAFxVqCFpSLEtJOG
+         8QmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764768886; x=1765373686;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s8T+mHxnmZgIFTmUGmZS98RRyK+RWbmul9OF9tWScA8=;
-        b=D+y/fhMO1fuDaGFKXGcPNAKwUyKikPqT/U370YCW8NKFinzKzBAYzaVLIjLtXCahlw
-         tH4voPpgK4H9f/ldv+Zec9UMUIb1LBW+sRz3g9gVxMrvLQdQnpeZZY7LhaJ9cHASBura
-         ZaFs3M686nNXB6JFQdDWzUzl1CPhOONw9dTug/90uQB11QiGPXASX8p0dZZnORgOGOIP
-         qGj8rzSdL2Jw3AJ+Njb9y6anzjdSzQ8zyI50CsBae2HHYPe4NZ/z7JFvRaztoAYDTHqh
-         lMDjT6YXM26gBMJ+otYWj5Ni5RlFd6taCwVUuYriGvbpFXckqgiM6rqjGT4u5nkew+sr
-         9dUA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6v/8HmrL8smFc8ZSW2eqHLbw6evl4OrHuVitPXJDevbUYPkBwd1gLnQzOfikcKCsSfX9PvjQB7FFCzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0tFFpSZR1Xu/NNu/ktIj8dyRLTjhDNfqguyWtQzA9vad0G0ND
-	6Fcvj7HBHeNTa2nozwwhBoYkuLLMk1PjdCqgZHmvOa88e+82G6RxJULy
-X-Gm-Gg: ASbGncsxj/Ph30eU4OR0Yw2I+rR3M7lyNEGb93TMVp64vnE+wPB41wO81SDKZd9jash
-	LXlfGZfnWkwOne19PJziclZK+a/37CSF7siiRW6QwzyAqAR4L8mNlGPEorjPaTKbm/ikmvr0myp
-	NPOA+Gave63EGZeAR76lMcxfnwme9+3/hRWUPiuD9/gzWaW46spW6p/CapfF4oXKjUqM6jGWrys
-	FLRGtqARXsGIWWKOoMb5L494OndHpGb1sT7Wp+wUorPq/N7e6A1NxSG4hvrpUd9YTJnlC3icKmE
-	vuz7Hof3QlQt++ovhmva3/kO3TkqwJcNosHS87uhftP97JHv9eSKOhZjCcXD2dMfvy2Fx86VJt7
-	tvFT14kSXXvQyntYCjHScM41QSjyl3sPysPfcHHSO7k+1FUxJTCjcYj63FEx9/nX2eH9gEPXGPt
-	xVjSBbKsrYMxTXDxE=
-X-Google-Smtp-Source: AGHT+IFnRlI71As2M3jQCZI5fwc2lWbr6i4RZOzf31TQN+wMM93RqrqlgXezZAjDN5rw8TOz//88/A==
-X-Received: by 2002:a05:600c:35d2:b0:477:8b2e:aa8f with SMTP id 5b1f17b1804b1-4792aefbf40mr33271195e9.15.1764768885573;
-        Wed, 03 Dec 2025 05:34:45 -0800 (PST)
-Received: from [172.23.94.183] ([147.161.143.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792a79dcfdsm47474225e9.5.2025.12.03.05.34.42
+        d=1e100.net; s=20230601; t=1764769589; x=1765374389;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a0EVdcIw56Q4MfiX1Zij2fhgH+qn9wGOEe8zuhg8Xp8=;
+        b=sZjIALH2g4GNAZXDy2GP33d+C8NGinqfozUle9g1RMuigH77TZ+ehYKGrcgl6O35og
+         o9jRS7zH1wlptBpO6SIM1J7lgEoudovcI68Rg0L+ebsb21ReWxbA+cK8KPJ4+H5ogA1G
+         /lxyMx/Tn1zWEmVCZy7eXhXxJ6twpSoy+EQyMWRkfipaT4CH8ocu+SMnxBhFT5QjZzoB
+         OgJZ0VWAvv3oN9wv4k9Jl+ny2X8Xx90OCWWhXXLNMJvek+BzHRzcVlAlxK5RfKjwm6UZ
+         p/VUMY1sEeZqylGM/mImeOoRwkjdNGQIyCLB0jvVnK/rZ0hR1flN8bCi/NIum3mTXYO1
+         2Qqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTd8fj0zVf/xw1pG8vP7UWMD2zzyC2MAyycbtFWhPhUnRzt/TtgaaDITTn7BX9E9bgtIH/mPvrobA6sg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze6E1Edpqu8rVM1tjtB0cquCOXNKTfHCb1TWK0t78lc4d8X/iD
+	ipGXdjJKycPbiN6m0xGmhWSwStLoxhLIIP2WBywUveJ1j/r2yvd6qZaFWDoj1VBfkyc=
+X-Gm-Gg: ASbGncszTE8SYJ/w+K8lLn/ORmBf8gsZuNkacr2jS+FO157cTddtxac4YCAf5mEKmHw
+	CdkpxYjQd/OjUc30xSh95XIexpHcvQi0BlpwPgQHy3A8iFc6acEpdX3qUT4JXnrFJLQnm2+lNUC
+	mZkxJ0M5WDSy+JKI7qJ0a69MUQ/MDMzC0CqiH3JCxvxd6qWIJZbDpSFzLLcQJoZEL9G+oB2fKF6
+	zbzZPKM+/8U/xmVVIWoETLGjSS9OOSRhP6xJ1gema4svaiJef0S50ITzf+FoRM4DWpkMvGv+oez
+	5rLwx38GbNuDa2WdQYyS7ALoOMAMGQFpv2TxTeQbMTip70Yb5e5NmNpmOhDKVLudruXfIkrXoUY
+	N6VWOegD0ysNWvPRtO8ZXd2tOOPGFeqBgdKqQhNVFbi0vCNQEgPrIi/vfYykeA+kk3VZKszeoU4
+	0ZtR8IBf6BtL+HsGVw
+X-Google-Smtp-Source: AGHT+IFt4IinyrSXuHH3zVjXlIMD2UrW6LpF9Rhevqpy56KnJIVIR0MMCtKCdYx79XSy0RWUudws3Q==
+X-Received: by 2002:a17:907:d14:b0:b73:8d49:d291 with SMTP id a640c23a62f3a-b79d565958amr346733166b.0.1764769589471;
+        Wed, 03 Dec 2025 05:46:29 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b76f5199852sm1777651066b.15.2025.12.03.05.46.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 05:34:45 -0800 (PST)
-From: HariKrishna Sagala <hariconscious@gmail.com>
-X-Google-Original-From: HariKrishna Sagala <hkrishna@gmail.com>
-Date: Wed, 3 Dec 2025 19:04:40 +0530 (IST)
-To: Takashi Iwai <tiwai@suse.de>, HariKrishna Sagala <hariconscious@gmail.com>
-cc: perex@perex.cz, tiwai@suse.com, cristian.ciocaltea@collabora.com, 
-    cryolitia@uniontech.com, franta-linux@frantovo.cz, khalid@kernel.org, 
-    shuah@kernel.org, david.hunter.linux@gmail.com, 
-    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Initialize status1 to fix uninitialized
- symbol errors
-In-Reply-To: <87sedrsp2z.wl-tiwai@suse.de>
-Message-ID: <9012f70d-a3d1-2f80-8f4f-e9b7b7bbb40d@gmail.com>
-References: <20251203083319.58555-2-hariconscious@gmail.com> <877bv4t03x.wl-tiwai@suse.de> <c6694145-253b-0ee3-c0f0-4b492994bfe7@gmail.com> <87wm33stye.wl-tiwai@suse.de> <54d0ac3b-6a10-7319-338c-80f52e62af58@gmail.com> <87v7inss1z.wl-tiwai@suse.de>
- <b44d6cf3-a96e-c0d4-99e3-c6af916a2e21@gmail.com> <87sedrsp2z.wl-tiwai@suse.de>
+        Wed, 03 Dec 2025 05:46:28 -0800 (PST)
+Date: Wed, 3 Dec 2025 14:46:27 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 5/9] ALSA: opl4: Convert to snd_seq bus probe mechanism
+Message-ID: <gl22ngzqfqigynqtw7giz4cbyaanx4y4dwr5ltywwlq3wozk7g@oj5l34antqty>
+References: <cover.1764677854.git.u.kleine-koenig@baylibre.com>
+ <24b2d122830599b96f69fc20386f5830c758e840.1764677854.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yga3vq5czqlwnn6i"
+Content-Disposition: inline
+In-Reply-To: <24b2d122830599b96f69fc20386f5830c758e840.1764677854.git.u.kleine-koenig@baylibre.com>
 
-On Wed, 3 Dec 2025, Takashi Iwai wrote:
 
-> On Wed, 03 Dec 2025 13:01:48 +0100,
-> HariKrishna Sagala wrote:
-> >
-> > On Wed, 3 Dec 2025, Takashi Iwai wrote:
-> >
-> > > On Wed, 03 Dec 2025 12:22:27 +0100,
-> > > HariKrishna Sagala wrote:
-> > > >
-> > > > On Wed, 3 Dec 2025, Takashi Iwai wrote:
-> > > >
-> > > > > On Wed, 03 Dec 2025 12:01:35 +0100,
-> > > > > HariKrishna Sagala wrote:
-> > > > > >
-> > > > > > On Wed, 3 Dec 2025, Takashi Iwai wrote:
-> > > > > >
-> > > > > > > On Wed, 03 Dec 2025 09:33:20 +0100,
-> > > > > > > hariconscious@gmail.com wrote:
-> > > > > > > >
-> > > > > > > > From: HariKrishna Sagala <hariconscious@gmail.com>
-> > > > > > > >
-> > > > > > > > Initialize 'status1' with a default value to resolve the static analysis
-> > > > > > > > smatch reported error "uninitialized symbol 'status1'".
-> > > > > > > > The 'status1' variable is used to create a buff using "kmemdup".
-> > > > > > > > So, ensure to initialize the value before it is read.
-> > > > > > > >
-> > > > > > > > Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
-> > > > > > > > ---
-> > > > > > > > This patch fixes the below smatch reported errors.
-> > > > > > > > sound/usb/mixer_quirks.c:2462 snd_rme_rate_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2467 snd_rme_rate_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2472 snd_rme_rate_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2495 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2501 snd_rme_sync_state_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2522 snd_rme_spdif_if_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2535 snd_rme_spdif_format_get() error: uninitialized symbol 'status1'.
-> > > > > > > > sound/usb/mixer_quirks.c:2548 snd_rme_sync_source_get() error: uninitialized symbol 'status1'.
-> > > > > > > >
-> > > > > > > > The below is the flow of 'status1' it is used before initialization.
-> > > > > > > >
-> > > > > > > > snd_rme_rate_get -> status1 is uninitialized and passed
-> > > > > > > > 	snd_rme_get_status1 -> passed as is
-> > > > > > > > 		snd_rme_read_value -> passed as is
-> > > > > > > > 			snd_usb_ctl_msg -> created buf from status1 using kmemdup
-> > > > > > > > 				usb_control_msg -> sent buf for reading/writing
-> > > > > > > >
-> > > > > > > > Description of "usb_control_msg", states as
-> > > > > > > > " * @data: pointer to the data to send"
-> > > > > > > >
-> > > > > > > > Later from Usb control request, dst buf is copied to src buf but usb
-> > > > > > > > control msg request is made before initialization.
-> > > > > > > >
-> > > > > > > > Thank you.
-> > > > > > > >
-> > > > > > > >  sound/usb/mixer_quirks.c | 10 +++++-----
-> > > > > > > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> > > > > > > > index 828af3095b86..06903c5de087 100644
-> > > > > > > > --- a/sound/usb/mixer_quirks.c
-> > > > > > > > +++ b/sound/usb/mixer_quirks.c
-> > > > > > > > @@ -2449,7 +2449,7 @@ static int snd_rme_get_status1(struct snd_kcontrol *kcontrol,
-> > > > > > > >  static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  			    struct snd_ctl_elem_value *ucontrol)
-> > > > > > > >  {
-> > > > > > > > -	u32 status1;
-> > > > > > > > +	u32 status1 = 0;
-> > > > > > > >  	u32 rate = 0;
-> > > > > > > >  	int idx;
-> > > > > > > >  	int err;
-> > > > > > > > @@ -2483,7 +2483,7 @@ static int snd_rme_rate_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  				  struct snd_ctl_elem_value *ucontrol)
-> > > > > > > >  {
-> > > > > > > > -	u32 status1;
-> > > > > > > > +	u32 status1 = 0;
-> > > > > > > >  	int idx = SND_RME_CLOCK_NOLOCK;
-> > > > > > > >  	int err;
-> > > > > > > >
-> > > > > > > > @@ -2513,7 +2513,7 @@ static int snd_rme_sync_state_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  				struct snd_ctl_elem_value *ucontrol)
-> > > > > > > >  {
-> > > > > > > > -	u32 status1;
-> > > > > > > > +	u32 status1 = 0;
-> > > > > > > >  	int err;
-> > > > > > > >
-> > > > > > > >  	err = snd_rme_get_status1(kcontrol, &status1);
-> > > > > > > > @@ -2526,7 +2526,7 @@ static int snd_rme_spdif_if_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  				    struct snd_ctl_elem_value *ucontrol)
-> > > > > > > >  {
-> > > > > > > > -	u32 status1;
-> > > > > > > > +	u32 status1 = 0;
-> > > > > > > >  	int err;
-> > > > > > > >
-> > > > > > > >  	err = snd_rme_get_status1(kcontrol, &status1);
-> > > > > > > > @@ -2539,7 +2539,7 @@ static int snd_rme_spdif_format_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  static int snd_rme_sync_source_get(struct snd_kcontrol *kcontrol,
-> > > > > > > >  				   struct snd_ctl_elem_value *ucontrol)
-> > > > > > > >  {
-> > > > > > > > -	u32 status1;
-> > > > > > > > +	u32 status1 = 0;
-> > > > > > > >  	int err;
-> > > > > > > >
-> > > > > > > >  	err = snd_rme_get_status1(kcontrol, &status1);
-> > > > > > > >
-> > > > > > >
-> > > > > > > The warning itself is rather dubious.  But it'd certainly give a safer
-> > > > > > > feeling to cover the uninitialized variables, so it would still make
-> > > > > > > some sense.
-> > > > > > >
-> > > > > > > But, the code change can be improved.  e.g. initialize the value in
-> > > > > > > the callee side, instead of callers; then it'll reduce all changes to
-> > > > > > > a one-liner.
-> > > > > > >
-> > > > > > > At the next time, please look at the patterns you changed more closely
-> > > > > > > and think again whether it's the best change or not before submission.
-> > > > > > > On the second look, often you see things from a different perspective
-> > > > > > > :)
-> > > > > > >
-> > > > > > >
-> > > > > > > thanks,
-> > > > > > >
-> > > > > > > Takashi
-> > > > > > >
-> > > > > >
-> > > > > > Hi Takashi,
-> > > > > >
-> > > > > > Thank you for the feedback and complement.
-> > > > > > Yes, will check the pattern and avoid this going forward.
-> > > > > > As all the functions call "snd_rme_get_status1",
-> > > > > > initialized here but smatch didn't silence them.
-> > > > > >
-> > > > > > I prefer initializing a variable in caller side as it owns
-> > > > > > and aware of initialized value sent.
-> > > > > >
-> > > > > > Sorry, if I had misunderstood your suggestion.
-> > > > >
-> > > > > Well, you seem driven too much by smatch.  Just look at your patch
-> > > > > again.
-> > > > >
-> > > > > You're repeating the same initializations and passing to the same
-> > > > > function.  And those are the only callers of snd_rme_get_status1().
-> > > > > So, instead of initializing in the caller side, initialize the value
-> > > > > in snd_rme_get_status1().  Then the whole your changes will be
-> > > > > oneliner like below.
-> > > > >
-> > > > >
-> > > > > Takashi
-> > > > >
-> > > > > --- a/sound/usb/mixer_quirks.c
-> > > > > +++ b/sound/usb/mixer_quirks.c
-> > > > > @@ -2548,6 +2548,7 @@ static int snd_rme_get_status1(struct snd_kcontrol *kcontrol,
-> > > > >  	CLASS(snd_usb_lock, pm)(chip);
-> > > > >  	if (pm.err < 0)
-> > > > >  		return pm.err;
-> > > > > +	*status1 = 0;
-> > > > >  	return snd_rme_read_value(chip, SND_RME_GET_STATUS1, status1);
-> > > > >  }
-> > > > >
-> > > > >
-> > > >
-> > > > Hi Takashi,
-> > > >
-> > > > Yes, tried that before, smatch didn't silence them.
-> > >
-> > > Then it's an obvious failure of smatch.
-> > >
-> > > Or you might set *status1 = 0 at the beginning of
-> > > snd_rme_get_status1() although it makes little sense.
-> > >
-> > > > If it is worth having this change though they are not silenced,
-> > > > will raise v2 otherwise will drop this patch.
-> > >
-> > > If the smatch still complains, it's not worth.
-> > >
-> > >
-> > > Takashi
-> > >
-> >
-> > Hi Takashi,
-> >
-> > This is the change I tried but smatch didn't silence them.
-> >
-> > diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> > index 828af3095b86..10354576d325 100644
-> > --- a/sound/usb/mixer_quirks.c
-> > +++ b/sound/usb/mixer_quirks.c
-> > @@ -2443,6 +2443,7 @@ static int snd_rme_get_status1(struct snd_kcontrol
-> > *kcontrol,
-> >         CLASS(snd_usb_lock, pm)(chip);
-> >         if (pm.err < 0)
-> >                 return pm.err;
-> > +       *status1 = 0;
-> >         return snd_rme_read_value(chip, SND_RME_GET_STATUS1, status1);
-> >  }
-> >
-> > Below are reported with the change, as seen they are not silenced.
-> >
-> > sound/usb/mixer_quirks.c:2463 snd_rme_rate_get() error: uninitialized
-> > symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2468 snd_rme_rate_get() error: uninitialized
-> > symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2473 snd_rme_rate_get() error: uninitialized
-> > symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2496 snd_rme_sync_state_get() error:
-> > uninitialized symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2502 snd_rme_sync_state_get() error:
-> > uninitialized symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2523 snd_rme_spdif_if_get() error: uninitialized
-> > symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2536 snd_rme_spdif_format_get() error:
-> > uninitialized symbol 'status1'.
-> > sound/usb/mixer_quirks.c:2549 snd_rme_sync_source_get() error:
-> > uninitialized symbol 'status1'.
-> > sound/usb/mixer_quirks.c:4137 snd_djm_controls_info() warn: potential
-> > spectre issue 'ctl->options' [r] (local cap)
->
-> As mentioned, try to put *status1=0 line before CLASS() call in the
-> above.  If this still doesn't help, it's a bug of smatch, and we
-> should ignore it.
->
->
-> Takashi
->
+--yga3vq5czqlwnn6i
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 5/9] ALSA: opl4: Convert to snd_seq bus probe mechanism
+MIME-Version: 1.0
 
-Hi Takashi,
+hello,
 
-Yes, with this change it got resolved :)
-Will raise v2 for the same.
+On Tue, Dec 02, 2025 at 01:35:54PM +0100, Uwe Kleine-K=F6nig wrote:
+> The snd_seq bus got a dedicated probe function. Make use of that. This
+> fixes a runtime warning about the driver needing to be converted to the
+> bus probe method.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> ---
+>  sound/drivers/opl4/opl4_seq.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/sound/drivers/opl4/opl4_seq.c b/sound/drivers/opl4/opl4_seq.c
+> index 7bb22089a093..043c537be293 100644
+> --- a/sound/drivers/opl4/opl4_seq.c
+> +++ b/sound/drivers/opl4/opl4_seq.c
+> @@ -118,9 +118,8 @@ static void snd_opl4_seq_free_port(void *private_data)
+>  	snd_midi_channel_free_set(opl4->chset);
+>  }
+> =20
+> -static int snd_opl4_seq_probe(struct device *_dev)
+> +static int snd_opl4_seq_probe(struct snd_seq_device *dev)
+>  {
+> -	struct snd_seq_device *dev =3D to_seq_dev(_dev);
+>  	struct snd_opl4 *opl4;
+>  	int client;
+>  	struct snd_seq_port_callback pcallbacks;
+> @@ -175,9 +174,8 @@ static int snd_opl4_seq_probe(struct device *_dev)
+>  	return 0;
+>  }
+> =20
+> -static int snd_opl4_seq_remove(struct device *_dev)
+> +static int snd_opl4_seq_remove(struct snd_seq_device *dev)
+>  {
+> -	struct snd_seq_device *dev =3D to_seq_dev(_dev);
+>  	struct snd_opl4 *opl4;
+> =20
+>  	opl4 =3D *(struct snd_opl4 **)SNDRV_SEQ_DEVICE_ARGPTR(dev);
 
-I need to understand the change before CLASS() is helping to resolve this.
-(Action item on me)
+There is a build problem that escaped my build testing (on arm64). This
+additionally needs:
 
-Thank you for the support.
+diff --git a/sound/drivers/opl4/opl4_seq.c b/sound/drivers/opl4/opl4_seq.c
+index 043c537be293..fd6f15be6109 100644
+--- a/sound/drivers/opl4/opl4_seq.c
++++ b/sound/drivers/opl4/opl4_seq.c
+@@ -174,19 +174,18 @@ static int snd_opl4_seq_probe(struct snd_seq_device *=
+dev)
+ 	return 0;
+ }
+=20
+-static int snd_opl4_seq_remove(struct snd_seq_device *dev)
++static void snd_opl4_seq_remove(struct snd_seq_device *dev)
+ {
+ 	struct snd_opl4 *opl4;
+=20
+ 	opl4 =3D *(struct snd_opl4 **)SNDRV_SEQ_DEVICE_ARGPTR(dev);
+ 	if (!opl4)
+-		return -EINVAL;
++		return;
+=20
+ 	if (opl4->seq_client >=3D 0) {
+ 		snd_seq_delete_kernel_client(opl4->seq_client);
+ 		opl4->seq_client =3D -1;
+ 	}
+-	return 0;
+ }
+=20
+ static struct snd_seq_driver opl4_seq_driver =3D {
 
-HariKrishna.
+I don't know if it's already applied, please tell me if you want a v2 or
+a proper patch on top of this (or if you even squash this into the
+original commit).
+
+Sorry for the mess
+Uwe
+
+--yga3vq5czqlwnn6i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkwPzAACgkQj4D7WH0S
+/k6Z7gf/UeDFjEmNrMwX/HMweCBh0S8aOS5YYCck8Hz9w5gLTZ5m6fQsx0PT1pCC
+JMfvQf2BoW/dSCxgNqQ4y6+8PTCtzXMYc7EsIsp0DRhmRJUq67uEib1oCVPAOCMe
+GtqXdM+JsQZc0OXwVbYl89vfJwbET7ipBKl/b1eyATiXjzsCfknGLvrObU+K+K9d
+cT3cTuGPQYypoEbyXrBywSzECzFiYjkweWzd5w0Ip78Kl7PGy29dSF+/aadV7wJH
+uL8/MEKGAUbQRfuEv/qMYRIfcaA9JP+Hv7vNAZdSLnlFmW9v5MruYD70YlbAUAel
+zEsxxQHXWrpg8Rphv16M+fz1wO4OKw==
+=Yg3+
+-----END PGP SIGNATURE-----
+
+--yga3vq5czqlwnn6i--
