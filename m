@@ -1,158 +1,321 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58181B4138;
-	Thu,  4 Dec 2025 07:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991292FFFAB;
+	Thu,  4 Dec 2025 07:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764833948; cv=none; b=jTATOHate32OklvLIhQwI3zWPNiM9Kjs1Qa56aDY/LSEMhCsJmT/10rqcgqBj5wlloyvSbv260qPEZC8JSDWKqsyMg4sFE1vhP/m9R3p3WSfTgnLsw+uWU5UZui4RF4m71I4yT8x2JEmq+x5HNMLNIGKzcj8HiE57BxZ4STT63I=
+	t=1764833953; cv=none; b=ANEZTFl2fcsLSE8sH8aEQe6iy85gVZnorQsvbb4iAnr+CZ1wulqm7tRTOONwOu0DrPLfV+AmkSdRTNHox5ekwsEGKHR0h4l27mGO4d87Rr151yUYbgzrd7w5ylv8pwekQ9/VTOpG8BAzuh5vYYPbgGHtyptZkAqahYXOkYjg++0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764833948; c=relaxed/simple;
-	bh=ZBbFP2u19PYaompzZPpRS3munLLvOSa0dafo71gqR4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jz6b72SMf5E7xXR7cu3EIUkv/kYYMspkKplYndV8yG2/YzmSE6JLh6Hr97T4byf/J1PE3BH67uv1SEEcRCon/tkDGGWvs8vD6WAYZ0LomcBZq5VWYcErfaxMxWgwYJQ1mQsrfA8Hl4toADXHOLwfX0h1SZe36WLjubU7MLstiAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PtQg8yrU; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1764833953; c=relaxed/simple;
+	bh=Qq0GWTvBPgCqUz9m3+8fVUgJ9uPY8K9dp5GcVDT/CYE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=URYYkqvs83gcP86hkm6dd0j6hkXsLDYoowumaSbfkSU8KiWYb3WI2X7UoMJQ4XJwN2/SfHilKJ1fCRlrWoLqKabVZGHEgZbJyQ5did8Pwt7MB3qBNmqh68Re9cjLK3J2Ho9MPydvoiRGFiwD5JcPnuJJqSwBN+YiiPgPwMDe7dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=naH7XhYE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PtQg8yrU"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id BA5FE1A1F39;
-	Thu,  4 Dec 2025 07:39:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 830D060731;
-	Thu,  4 Dec 2025 07:39:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B9D2611921EB0;
-	Thu,  4 Dec 2025 08:38:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764833941; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=k7CE06tyTx4yxeiWtpPuf1dnd1n3hRXeTtqv9aVcNzw=;
-	b=PtQg8yrUoGAKG/Uii8S7XQtskQAWYlZadXyZzx8jkUIfm66LC9Z6ad4cKNE4THRD7VoZSf
-	VpOBLrkjXDpI5hwZCvijtYB2Vy5ZG58J80S2F53J9dwWk7dpTNG30pcf/51U93DGiwEgRT
-	fQpgrXdq5ncqdGM17SDz8p09cF/kH78uKk1HPXF2geoo/Iq2hdicWw0z1OcT8qIlGWX4io
-	9e/70u+5e6wZE/l9cV4otQ1JJW0py/fWZuwlCOsKVDmZydp44Fq5GitqLtJS5kFRhZ2OUd
-	f1Zx5ECtIQ4aGzbOVCxCdOdmcvN4wJ599iZIa+qSHKGSWZgKnUBDj/ecIp/4rQ==
-Date: Thu, 4 Dec 2025 08:38:39 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Kalle Niemi <kaleposti@gmail.com>, Rob Herring <robh@kernel.org>, Matti
- Vaittinen <mazziesaccount@gmail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, linux-arm-kernel@lists.infradead.org
-Cc: Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@google.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Brown <broonie@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, Davidlohr
- Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
- Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-Message-ID: <20251204083839.4fb8a4b1@bootlin.com>
-In-Reply-To: <dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<20251015071420.1173068-2-herve.codina@bootlin.com>
-	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
-	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
-	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
-	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
-	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-	<20251202102619.5cd971cc@bootlin.com>
-	<088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
-	<20251202175836.747593c0@bootlin.com>
-	<dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naH7XhYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F690C113D0;
+	Thu,  4 Dec 2025 07:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764833953;
+	bh=Qq0GWTvBPgCqUz9m3+8fVUgJ9uPY8K9dp5GcVDT/CYE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=naH7XhYEsEkbtlW6bsr51zK1N3fr04bg7n2X9YlcuhrVgKW+16Y+Zb8p2vXqWEOvm
+	 p9IJks1elvXfDM72avZm44WkyA6S6axvsOO9yKOt107nN/XGV+syj1R0x2FySHa/dS
+	 ZsLnhKU8Vrt4l32kXkLXUT30bZaMTIP+zLvWVRwtijoZXIbe12bkkdIac79lyYcg7w
+	 KpKF8/bwnuwzXk75yU4uqCdpd7Ts3Cbb2sc+bOrThfJ9ZF+OuZIbCZk4chVYq1nAXF
+	 eBYKxcJR0XQctjXiK1mK01OaMZU6amOD6yjnjSy2A5qlDw9gZJxrPmhRDDX2kCtYNA
+	 8L5PdBOJKtD1g==
+Message-ID: <b896d109-d707-4651-8bb0-6cf5071e46bf@kernel.org>
+Date: Thu, 4 Dec 2025 08:39:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: Do not build obsolete API
+To: david@ixit.cz, Russell King <linux@armlinux.org.uk>,
+ Vladimir Zapolskiy <vz@mleia.com>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Keguang Zhang <keguang.zhang@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sh@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20251203-old-alsa-v1-1-ac80704f52c3@ixit.cz>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20251203-old-alsa-v1-1-ac80704f52c3@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Kalle,
 
-On Wed, 3 Dec 2025 12:11:45 +0200
-Kalle Niemi <kaleposti@gmail.com> wrote:
 
-...
+Le 03/12/2025 à 23:34, David Heidelberg via B4 Relay a écrit :
+> [Vous ne recevez pas souvent de courriers de devnull+david.ixit.cz@kernel.org. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> I tried this patch on next-20251127 by manually adding the added lines 
-> to /drivers/of/overlay.c, and it did not solve the issue. I will 
-> continue to test this.
+> From: David Heidelberg <david@ixit.cz>
+> 
+> ALSA 0.9.0-rc3 is from 2002, 23 years old.
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Maybe I could drop also the code and Kconfig option?
+> 
+> David
+> ---
+>   arch/arm/configs/am200epdkit_defconfig    | 1 -
+>   arch/arm/configs/lpc32xx_defconfig        | 1 -
+>   arch/arm/configs/omap1_defconfig          | 1 -
+>   arch/arm/configs/tegra_defconfig          | 1 -
+>   arch/mips/configs/gcw0_defconfig          | 1 -
+>   arch/mips/configs/loongson1_defconfig     | 1 -
+>   arch/mips/configs/qi_lb60_defconfig       | 1 -
+>   arch/mips/configs/rbtx49xx_defconfig      | 1 -
+>   arch/mips/configs/rs90_defconfig          | 1 -
+>   arch/powerpc/configs/85xx-hw.config       | 1 -
+>   arch/powerpc/configs/86xx-hw.config       | 1 -
+>   arch/powerpc/configs/mpc5200_defconfig    | 1 -
+>   arch/powerpc/configs/ppc6xx_defconfig     | 1 -
+
+For powerpc:
+
+Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+Acked-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+
+
+
+>   arch/sh/configs/edosk7760_defconfig       | 1 -
+>   arch/sh/configs/se7724_defconfig          | 1 -
+>   arch/sh/configs/sh7785lcr_32bit_defconfig | 1 -
+>   sound/core/Kconfig                        | 2 +-
+>   17 files changed, 1 insertion(+), 17 deletions(-)
+> 
+> diff --git a/arch/arm/configs/am200epdkit_defconfig b/arch/arm/configs/am200epdkit_defconfig
+> index 134a559aba3dd..2367b1685c1cf 100644
+> --- a/arch/arm/configs/am200epdkit_defconfig
+> +++ b/arch/arm/configs/am200epdkit_defconfig
+> @@ -68,7 +68,6 @@ CONFIG_SOUND=m
+>   CONFIG_SND=m
+>   CONFIG_SND_MIXER_OSS=m
+>   CONFIG_SND_PCM_OSS=m
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   CONFIG_SND_PXA2XX_AC97=m
+>   CONFIG_USB_GADGET=y
+> diff --git a/arch/arm/configs/lpc32xx_defconfig b/arch/arm/configs/lpc32xx_defconfig
+> index 2bddb0924a8c0..b9e2e603cd95e 100644
+> --- a/arch/arm/configs/lpc32xx_defconfig
+> +++ b/arch/arm/configs/lpc32xx_defconfig
+> @@ -113,7 +113,6 @@ CONFIG_LOGO=y
+>   # CONFIG_LOGO_LINUX_VGA16 is not set
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   CONFIG_SND_DEBUG=y
+>   CONFIG_SND_DEBUG_VERBOSE=y
+> diff --git a/arch/arm/configs/omap1_defconfig b/arch/arm/configs/omap1_defconfig
+> index dee820474f444..df88763fc7c3d 100644
+> --- a/arch/arm/configs/omap1_defconfig
+> +++ b/arch/arm/configs/omap1_defconfig
+> @@ -148,7 +148,6 @@ CONFIG_SOUND=y
+>   CONFIG_SND=y
+>   CONFIG_SND_MIXER_OSS=y
+>   CONFIG_SND_PCM_OSS=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   CONFIG_SND_DUMMY=y
+>   CONFIG_SND_USB_AUDIO=y
+> diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+> index ce70ff07c978a..68aedaf92667a 100644
+> --- a/arch/arm/configs/tegra_defconfig
+> +++ b/arch/arm/configs/tegra_defconfig
+> @@ -219,7 +219,6 @@ CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
+>   CONFIG_LOGO=y
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   CONFIG_SND_HDA_TEGRA=y
+>   CONFIG_SND_HDA_INPUT_BEEP=y
+> diff --git a/arch/mips/configs/gcw0_defconfig b/arch/mips/configs/gcw0_defconfig
+> index fda9971bdd8d9..adb9fd62ddb0d 100644
+> --- a/arch/mips/configs/gcw0_defconfig
+> +++ b/arch/mips/configs/gcw0_defconfig
+> @@ -79,7 +79,6 @@ CONFIG_LOGO=y
+>   # CONFIG_LOGO_LINUX_VGA16 is not set
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_PROC_FS is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_SPI is not set
+> diff --git a/arch/mips/configs/loongson1_defconfig b/arch/mips/configs/loongson1_defconfig
+> index 02d29110f7024..1d9781ff96986 100644
+> --- a/arch/mips/configs/loongson1_defconfig
+> +++ b/arch/mips/configs/loongson1_defconfig
+> @@ -119,7 +119,6 @@ CONFIG_WATCHDOG_SYSFS=y
+>   CONFIG_LOONGSON1_WDT=y
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_MIPS is not set
+>   # CONFIG_SND_USB is not set
+> diff --git a/arch/mips/configs/qi_lb60_defconfig b/arch/mips/configs/qi_lb60_defconfig
+> index 5f5b0254d75e7..a1bb0792f6eb1 100644
+> --- a/arch/mips/configs/qi_lb60_defconfig
+> +++ b/arch/mips/configs/qi_lb60_defconfig
+> @@ -81,7 +81,6 @@ CONFIG_LOGO=y
+>   # CONFIG_LOGO_LINUX_CLUT224 is not set
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_SPI is not set
+> diff --git a/arch/mips/configs/rbtx49xx_defconfig b/arch/mips/configs/rbtx49xx_defconfig
+> index 03a7bbe28a532..49c709d663beb 100644
+> --- a/arch/mips/configs/rbtx49xx_defconfig
+> +++ b/arch/mips/configs/rbtx49xx_defconfig
+> @@ -53,7 +53,6 @@ CONFIG_TXX9_WDT=m
+>   # CONFIG_VGA_ARB is not set
+>   CONFIG_SOUND=m
+>   CONFIG_SND=m
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_PCI is not set
+> diff --git a/arch/mips/configs/rs90_defconfig b/arch/mips/configs/rs90_defconfig
+> index a53dd66e9b864..8382d535e6dc1 100644
+> --- a/arch/mips/configs/rs90_defconfig
+> +++ b/arch/mips/configs/rs90_defconfig
+> @@ -105,7 +105,6 @@ CONFIG_LOGO=y
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+>   # CONFIG_SND_PCM_TIMER is not set
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_PROC_FS is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_MIPS is not set
+> diff --git a/arch/powerpc/configs/85xx-hw.config b/arch/powerpc/configs/85xx-hw.config
+> index 8aff832173977..2b19c20a9a2c4 100644
+> --- a/arch/powerpc/configs/85xx-hw.config
+> +++ b/arch/powerpc/configs/85xx-hw.config
+> @@ -117,7 +117,6 @@ CONFIG_SND_INTEL8X0=y
+>   CONFIG_SND_POWERPC_SOC=y
+>   # CONFIG_SND_PPC is not set
+>   CONFIG_SND_SOC=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_USB is not set
+>   CONFIG_SND=y
+>   CONFIG_SOUND=y
+> diff --git a/arch/powerpc/configs/86xx-hw.config b/arch/powerpc/configs/86xx-hw.config
+> index e7bd265fae5a4..07f30ab881e59 100644
+> --- a/arch/powerpc/configs/86xx-hw.config
+> +++ b/arch/powerpc/configs/86xx-hw.config
+> @@ -80,7 +80,6 @@ CONFIG_SERIO_LIBPS2=y
+>   CONFIG_SND_INTEL8X0=y
+>   CONFIG_SND_MIXER_OSS=y
+>   CONFIG_SND_PCM_OSS=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   CONFIG_SND=y
+>   CONFIG_SOUND=y
+>   CONFIG_ULI526X=y
+> diff --git a/arch/powerpc/configs/mpc5200_defconfig b/arch/powerpc/configs/mpc5200_defconfig
+> index c0fe5e76604a0..617650cea56a9 100644
+> --- a/arch/powerpc/configs/mpc5200_defconfig
+> +++ b/arch/powerpc/configs/mpc5200_defconfig
+> @@ -75,7 +75,6 @@ CONFIG_FB_SM501=m
+>   CONFIG_LOGO=y
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_PCI is not set
+>   # CONFIG_SND_PPC is not set
+> diff --git a/arch/powerpc/configs/ppc6xx_defconfig b/arch/powerpc/configs/ppc6xx_defconfig
+> index b082c1fae13c9..787d707f64a42 100644
+> --- a/arch/powerpc/configs/ppc6xx_defconfig
+> +++ b/arch/powerpc/configs/ppc6xx_defconfig
+> @@ -726,7 +726,6 @@ CONFIG_SND_OSSEMUL=y
+>   CONFIG_SND_MIXER_OSS=m
+>   CONFIG_SND_PCM_OSS=m
+>   CONFIG_SND_DYNAMIC_MINORS=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   CONFIG_SND_VERBOSE_PRINTK=y
+>   CONFIG_SND_DEBUG=y
+>   CONFIG_SND_DEBUG_VERBOSE=y
+> diff --git a/arch/sh/configs/edosk7760_defconfig b/arch/sh/configs/edosk7760_defconfig
+> index abeae220606a3..905fac1072845 100644
+> --- a/arch/sh/configs/edosk7760_defconfig
+> +++ b/arch/sh/configs/edosk7760_defconfig
+> @@ -79,7 +79,6 @@ CONFIG_FB_TILEBLITTING=y
+>   CONFIG_FB_SH_MOBILE_LCDC=m
+>   CONFIG_SOUND=y
+>   CONFIG_SND=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   CONFIG_SND_VERBOSE_PRINTK=y
+>   CONFIG_SND_SOC=y
+> diff --git a/arch/sh/configs/se7724_defconfig b/arch/sh/configs/se7724_defconfig
+> index 9e3a54936f76f..8ca46d704c8ba 100644
+> --- a/arch/sh/configs/se7724_defconfig
+> +++ b/arch/sh/configs/se7724_defconfig
+> @@ -83,7 +83,6 @@ CONFIG_LOGO=y
+>   # CONFIG_LOGO_SUPERH_VGA16 is not set
+>   CONFIG_SOUND=y
+>   CONFIG_SND=m
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_DRIVERS is not set
+>   # CONFIG_SND_SPI is not set
+>   # CONFIG_SND_SUPERH is not set
+> diff --git a/arch/sh/configs/sh7785lcr_32bit_defconfig b/arch/sh/configs/sh7785lcr_32bit_defconfig
+> index eb63aa61b0465..5468cc53cddb4 100644
+> --- a/arch/sh/configs/sh7785lcr_32bit_defconfig
+> +++ b/arch/sh/configs/sh7785lcr_32bit_defconfig
+> @@ -93,7 +93,6 @@ CONFIG_SND_PCM_OSS=y
+>   CONFIG_SND_SEQUENCER_OSS=y
+>   CONFIG_SND_HRTIMER=y
+>   CONFIG_SND_DYNAMIC_MINORS=y
+> -# CONFIG_SND_SUPPORT_OLD_API is not set
+>   # CONFIG_SND_VERBOSE_PROCFS is not set
+>   CONFIG_SND_VERBOSE_PRINTK=y
+>   CONFIG_SND_DEBUG=y
+> diff --git a/sound/core/Kconfig b/sound/core/Kconfig
+> index 48db44fa56feb..4e7bc370ffd7f 100644
+> --- a/sound/core/Kconfig
+> +++ b/sound/core/Kconfig
+> @@ -155,7 +155,7 @@ config SND_MAX_CARDS
+> 
+>   config SND_SUPPORT_OLD_API
+>          bool "Support old ALSA API"
+> -       default y
+> +       default n
+>          help
+>            Say Y here to support the obsolete ALSA PCM API (ver.0.9.0 rc3
+>            or older).
+> 
+> ---
+> base-commit: b2c27842ba853508b0da00187a7508eb3a96c8f7
+> change-id: 20251203-old-alsa-fa2c2cb038e1
+> 
+> Best regards,
+> --
+> David Heidelberg <david@ixit.cz>
+> 
 > 
 
-Did you observe same traces reported by Geert?
-
-To move forward, I think I will need help.
-
-Indeed, Kalle, Geert, I don't have your hardware, your related overlay or
-a similar one that could be used for test and also I don't have your out of
-tree code used to handle this overlay.
-
-I know overlays and fw_devlink have issues. Links created by fw_devlink
-when an overlay is applied were not correct on my side.
-
-Can you check your <supplier>--<consumer> links with 'ls /sys/class/devlinks'
-
-On my side, without my patches some links were not correct.
-They linked to the parent of the supplier instead of the supplier itself.
-The consequence is a kernel crash, use after free, refcounting failure, ...
-when the supplier device is removed.
-
-Indeed, with wrong links consumers were not removed before suppliers they
-used.
-
-Looking at Geert traces:
---- 8< ---
-rcar_sound ec500000.sound: Failed to create device link (0x180) with
-supplier soc for /soc/sound@ec500000/rcar_sound,src/src-0
-rcar_sound ec500000.sound: Failed to create device link (0x180) with
-supplier soc for /soc/sound@ec500000/rcar_sound,src/src-1
-[...]
---- 8< ---
-
-Even if it is not correct, why the soc device cannot be a provider?
-I don't have the answer to this question yet.
-
-Without having the exact tree structure of the base device-tree, the overlay
-and the way it is applied, and so without been able to reproduce the issue
-on my side, investigating the issue is going to be difficult.
-
-I hope to find some help to move forward and fix the issue.
-
-Saravana's email (Saravana Kannan <saravanak@google.com>) seems incorrect.
-Got emails delivery failure with this email address.
-
-Best regards,
-Hervé
