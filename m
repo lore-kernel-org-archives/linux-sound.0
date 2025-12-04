@@ -1,198 +1,206 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444083161BA
-	for <linux-sound@vger.kernel.org>; Thu,  4 Dec 2025 10:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764845860; cv=none; b=P0CPCZg2/c984FkqEzF3CKpE3t5CMEH0FLzuUDwiBp8qvuWFOnMyGyWKbtgLUQEfIc7XuOceX+BLlGInQmrp1aVKB7lznYPKUPyXbrn+Q8AEdi6UZDBs8ACJ7N0NUO64uhqfKGCLSuEP95hA4kMZeWqtbOw84xDsjLL3bsbdHCc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764845860; c=relaxed/simple;
-	bh=6slcK3EQrAXupPVJr9jM3Pcmh+QTUwh+iVFWsaKxXWo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jzzISmbkoAUA0BGb6hPEEqpTO/4mprU6y4yRsxGrRFsEiPPf2aSs4ZbZO2SuPv7jfnk8NpfW+CKlVd46HDdg78Y0yHYiYc23jMVzte59ADijkGfgo1sBL5QLP9uxEDSLaFNk1m3SalUTYItuuNLoZRQGPs9IkBUhBM7iZISnE/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so885778b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Dec 2025 02:57:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764845857; x=1765450657;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gfnzYJnOAkS7SHNqKKzIeFzoFbDZmoEYIAPmuyxm7j4=;
-        b=Y6K1Evl2U6/zSklpx0x0M9rdzF7lQLQHvuDJiI1oqJHlRJSUuRgTmFZov5vG/tvsAt
-         nP28CvlYfwg/b42Z0wUzpGcD+wZhxl13S1TT3cKTcZqsRpndiX3TSEe+es5HZKJfBW40
-         V8myhKq23I+Bejuto2V598UMbxSwy8ZvYPXYdJMZDSkr7o+1r+p+qfSNyb+SaQi6R6y5
-         FaQjcFdJVAZYyD1B7AMRyrpCkTewd0wOyRWGEUmBrRwDIDXyInv/TgcjFOyv+OGyzWW+
-         eWl/gNx74H7oFLrGanmTqpl4nkwmvqKxjEFBlJHkKrhvsPNmmdrctLt+NVV6lW5jXI+X
-         +J9w==
-X-Forwarded-Encrypted: i=1; AJvYcCXyEQFaZEaq6eJ0xvfT1JspTnDKwxmBbiKMzLFXlsxTzWJqmlu9q/tIs2xA0hCu6zA/pyCp0LO0RcFTGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3/P6xeoheGV8vL8RbmnMGDVG0fimetnvYGp8ZjVVagh5TEYUu
-	q3HC/kjpVhprfT4ylHpMSH5hZLjHbfiMCcoN7d8eslErpuLsaEAVF0775PCoRGL0
-X-Gm-Gg: ASbGncu8yUpqJH2TU2eGGIVeCUFkyN0AFd9039l4thBEnM/hlIK067FnSV1pT/bHOm/
-	cStKPLkrCBF8ARbDJ0G4GCb30+mQZAHv+cVndAOeCp+R1JRzLFMRFI+2MgVi/oE/3epIZSz7Kuk
-	bIA9mEWkJpV099LjRPRgnurIuEyjc5l9RTC8gZmjfUC7hJnB0kwLIgS9ao4d2Os+PBspfL0e0lB
-	VFvSiEkaY6Ho5SadIYJzgxamHMZzM0eSR7Y9JXYkLAKmzHts1ASbFBD8yZGvsyqghQSBEAxq2Uy
-	3vmktwt2/cHVssFeFnCrdN5ag7YWHsV3TZR4imVaRh0+iBC5hAHbIA9xNyFHw048pGDySDm0BcX
-	4+eLBiPNzU5IIPAMV8BA7zGyT+7zziGHc3HZFL8aGoHjkRkLcJGGsvCzQ5RLNY8AB/h8zpWAM3Y
-	a1vCN2x3zQf44MZRoGa+x7pOH0PPj8CSZjjteVSseGBcnkrEWp0JV+
-X-Google-Smtp-Source: AGHT+IHB89tB95eUubIevNBQn0xXghuvBfgjeLaA6ib7qg+mjI0qMMZfU7Lf2JKVhVxhM+P/+uyhcA==
-X-Received: by 2002:a05:6a20:6a23:b0:34e:63bd:81b4 with SMTP id adf61e73a8af0-363f5cef89bmr6600295637.7.1764845856526;
-        Thu, 04 Dec 2025 02:57:36 -0800 (PST)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com. [209.85.210.169])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e2a081587esm1847775b3a.27.2025.12.04.02.57.36
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Dec 2025 02:57:36 -0800 (PST)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so885759b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Dec 2025 02:57:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXVYH8HESzLSVQPdZ0N81bMTj8XOVwGtHcv2IMtZ5uWqaczORgCeYlxvycWdEYfyFkaHiiNjEEq+mSdiw==@vger.kernel.org
-X-Received: by 2002:a05:6102:6889:b0:5dd:b69a:cdce with SMTP id
- ada2fe7eead31-5e48e28ea62mr1665640137.1.1764845364523; Thu, 04 Dec 2025
- 02:49:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7199A2E6CC6;
+	Thu,  4 Dec 2025 11:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764846081; cv=fail; b=dNIeeK1mMd9D6reefk/u9ZFk6kI7xhhgokmLGP79NSyRx8UH0EZMUEPqO+gWlp0YoPn8PQAFK7JHGVpSUqC4UT0mu+f5GTv6feKTMkMUuXfgILEokGofMQZ5axuPKjmveluGBWtGY+iOJ1Kpl7yi96ONBn+2Q24CcUhG0uWKZws=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764846081; c=relaxed/simple;
+	bh=ojSukaTGfMhDV6S9DLtu43/TP1yMHgcHdj+tv2X/b8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oL+RqrVsTqLd8fQmc589LRWBQSzuiGnryZgBDr4PiYMIndjuEMfcBUQMIhCNE3NGOvGrkNkseXKlFwMTJanmXapX1lhWr4Pl/v4R/E5uLQfJbJxnXRnL1QwvghvnOjuRLh8BFuy9w63K1lGJvoOI8dSpbCExnc3zv6knZkmXH5c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UqqqnnKq; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=RHu4i0+T; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UqqqnnKq";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="RHu4i0+T"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B43sKS93870567;
+	Thu, 4 Dec 2025 05:00:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=RVzjj4jvafia/zUdQenCiuR37iRfJr1pJyCWfQIKHW0=; b=
+	UqqqnnKqN9f8XYSqL90nUgXajJYHIbqZqGL3liyiCm1z9UnlfjQZ4uy9sNEtD8Zk
+	avVC2ekD82ZtHiusGPa13SssxKWSbaA4hcG+7uM0zPNeHfaURQRsNIoTOKElIrur
+	Ck6and0GIr2ulV1TMWRxpM1Jb1Z7VVqJYIH4MA6s8ZQmT9mltThRhROhAaIAEdUv
+	d7R/W5/uLx5952kK9/U0L4Fpxr1VHzMP9iEHiS5mPW4kDS53rtfBJ8KLwy6CUhGO
+	onC3htL1aegPqK+wgSgST3SxtqguoMSa+Qaow4CLzp72OKnJPdsMWoMySqM2QayG
+	rMdVvUmXNf1HkQPAl/mkPw==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022125.outbound.protection.outlook.com [52.101.43.125])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4aqy4464p9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 04 Dec 2025 05:00:49 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vHFPIBCRZQSwoEjtullMtthX4JEFVSE104JXCPvmmNXThTQtrqGBJse/JNUkoFEe7vDR75yrIQca7IM1iCECA2OP2bKGIOkN+UcKjy2UG4Ek1OdsT4pouvkRbtCk06hbbIbiiNURUDYTGvgHiJ2mZtU2s9kK/MSP4MBcX18r9TO9cXSXNoYVCNZsFPBr0HKGBKqmKc9DGt3Enpm7LXtX3tR/0kCnKSz5oBEFvLlkcU8F7WU+Lxc1hBvbQMNHE9ELhiaQeFL6tJd1OtrZ6HvbsH9deHnKWsuz7R1jmp77I8KOjK8vsUcqAQJ3aKT3sWh0Mc/yfxxJZdDOo+dRdTeICQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RVzjj4jvafia/zUdQenCiuR37iRfJr1pJyCWfQIKHW0=;
+ b=G5Or/GE5jo6qo7KNvHqjppZlvI8C07t0s7BvXrOmbDFm/+awiEg+eqsJB7aig5VC3ydBmCRyWeOC75fRvb+D7WEignKOl46fV/wa1CNxXQh7YCrtl03TVyRrUkGBXd7FlC/8tQZopdEJ3uDnxIqEkiFJ5HnVtqVJITRSU7biks6aiaZmHF0QvnM7VQ96sQotxWNFe43OdYrnvKmt5aLYasNb7NIJ/nDuf8VzDVvs12dAGnRllvsADwXYLaEQ+przktCsn1OKeb34emaLGZPpjgB+H1SNPU+qOtNECHvM50HTRa8nyOc0dDT1M2dotUfqCqEBdqT5S8EMFed38JY4sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RVzjj4jvafia/zUdQenCiuR37iRfJr1pJyCWfQIKHW0=;
+ b=RHu4i0+T5SO0eVxq0XTDq4JTU9Id+0hkmZuaa5wKsg/1LeFLSPKtLLb+6UIZQe2AzZXBeIlW/4O7iJRu3dCa6iBk1Rx+RbSLO7zDLBYk0E4vUw+eHjqEMR0rMqk6IK312dwdBbahSNu80eUBpYt7igVlUxzjS8yhbaCPu00GIdA=
+Received: from CY5PR13CA0006.namprd13.prod.outlook.com (2603:10b6:930::7) by
+ BL1PR19MB5985.namprd19.prod.outlook.com (2603:10b6:208:39c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Thu, 4 Dec
+ 2025 11:00:41 +0000
+Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
+ (2603:10b6:930:0:cafe::dc) by CY5PR13CA0006.outlook.office365.com
+ (2603:10b6:930::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Thu, 4
+ Dec 2025 11:00:41 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8
+ via Frontend Transport; Thu, 4 Dec 2025 11:00:40 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 34022406541;
+	Thu,  4 Dec 2025 11:00:39 +0000 (UTC)
+Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 193CF822550;
+	Thu,  4 Dec 2025 11:00:39 +0000 (UTC)
+Message-ID: <0946e25c-ed51-43c2-ba28-ff9c18178bc6@opensource.cirrus.com>
+Date: Thu, 4 Dec 2025 11:00:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
- <20251015071420.1173068-2-herve.codina@bootlin.com> <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
- <CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
- <5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com> <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
- <072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com> <CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
- <55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com> <20251202102619.5cd971cc@bootlin.com>
- <088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com> <20251202175836.747593c0@bootlin.com>
- <dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com> <20251204083839.4fb8a4b1@bootlin.com>
-In-Reply-To: <20251204083839.4fb8a4b1@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 4 Dec 2025 11:49:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXdwf7La1EYBWTJadsTAJG3nKQVW6wtBn-bUqshA=XHRw@mail.gmail.com>
-X-Gm-Features: AWmQ_blMXTXWTKLb__jRgM2vj510G0Mh23mSqsI1Cojt34ffki3w4wmdXTg_pQg
-Message-ID: <CAMuHMdXdwf7La1EYBWTJadsTAJG3nKQVW6wtBn-bUqshA=XHRw@mail.gmail.com>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT overlays"
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Kalle Niemi <kaleposti@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, linux-arm-kernel@lists.infradead.org, 
-	Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Mark Brown <broonie@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: cs35l41: Fix NULL pointer dereference in
+ cs35l41_hda_read_acpi()
+To: Denis Arefev <arefev@swemel.ru>, David Rhodes <david.rhodes@cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Stefan Binding <sbinding@opensource.cirrus.com>,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+        stable@vger.kernel.org
+References: <20251202101338.11437-1-arefev@swemel.ru>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20251202101338.11437-1-arefev@swemel.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|BL1PR19MB5985:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61c78ce0-32da-4fdb-57f9-08de33245d24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|61400799027|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZW1PS0tpQkZ3ZWJpR29rdGwzb3JIL0MyMkVhNmkvaXd5R2E4SHZlUERlSzBW?=
+ =?utf-8?B?RW1xN0p3VUdWNldnVERHK2p4R01HSmp5ek1RdWNQMnFXWGpzb2kwQmNiVk5V?=
+ =?utf-8?B?YVQyeTRLRGR2MXBYd1ExZWE3alJEWkJBM2tRZklYMGxqbXJ4RUFSaHhLY2xZ?=
+ =?utf-8?B?b2lvSWI2Tk9WdktxcmVKR1huNDgxQXhnSkU0ZER0V3V0bFlBZS92akF2YTF3?=
+ =?utf-8?B?OEpPU0Q5VTBsZXZnQXF4SmR4NWVyRVZOZFVIUDRaS2xRTHB3dC95WE5neVFB?=
+ =?utf-8?B?NjFIaWpvS3A5MCtPYjQ5SEk5M0g5Yi96U3NGZU55bmpXcnBGSWFpRS9NUHdk?=
+ =?utf-8?B?Tk0rNWxLZHJ6NW10a2VObnRQblJNS08vUnU5Mm9Nc2l3UmdTS2pqUEdIVHM2?=
+ =?utf-8?B?RGxmbCtDUy9ITWhCTzV1OWxSZklPUnE2WVM2SDhqUVVPS0FXVFVHTW1EQVQz?=
+ =?utf-8?B?ZnMrLzBTeUk5UGozdmJNMzZSbUxrNHJ1cmdSc3JBMmtYMGFmMWx5Q3BpQzkv?=
+ =?utf-8?B?eU0wdWV5eE01enZmVWJBM2tFVEY3a1pvZ3B6ZnNBcTZBT0hpd0g4WHdFczBK?=
+ =?utf-8?B?VWhnS3ArWHgvcWhCc3g1QWQ0d3Y5UG1ZdDZ6QTFFcWxnczNGeTlDWkVxMEsz?=
+ =?utf-8?B?eW9SRW5PUkZ1Sk9nSlFwaTVGMTNjNENWUnNZYitPby94Nm1TZzNLUWVZaGNj?=
+ =?utf-8?B?eHZBN2c4cWx2OE0zWktkczdoNTR4eHBVRHNXRlFSeW1MbktVTEZIUmtiSjls?=
+ =?utf-8?B?S0RhZXdWWDZtcjloYnZNbFEySG9JTTFGeU9rd2tJdktYVFY3ek01c1JZMmlj?=
+ =?utf-8?B?RldnYUFCWnZCRVlkcy9PYnFsZVlyNTk0M2YrNWM0eG13eUxHTisxOGJETm9E?=
+ =?utf-8?B?ZVljZDhjOU1XdXc5c1pSVDNPODcwd3p3ZTROVnFuVHNFVHpUd3FCSHFqVjFz?=
+ =?utf-8?B?aE8zNjlza2NqSGFVWHFXRlVITEU5MmZZdmpMUC9uaUJhaitnM0x6YklwT3o2?=
+ =?utf-8?B?Y2l5L2VKL1NUbXFDS0NWdVJmN2pxVmZQeEc0emZzQXcwUEpTM1IyV1l5ZE91?=
+ =?utf-8?B?OGp1cGFERHVkcWxHbzYzcy91NWdHcHlHMHlHRCt3RmthNlZ6dkd3dnp6TS9P?=
+ =?utf-8?B?LzBjQ2dlS2VVb3VhYVpGK3dBT2Z0OEJTeExxT215SWhldnFmY1FKcnhRbzF4?=
+ =?utf-8?B?S0ZGWTlaRXJ6eWo5VUJybHQzeFJqaVpsdUh1SldzVkxwN3VwU2RpVFE3SHdt?=
+ =?utf-8?B?SnBjeXVLREhKcjhOMTFnaTlIN3ppc0poY1dzM2RTZFZmMDNZT1hyT09lNHpk?=
+ =?utf-8?B?bVZFbjNaMDZCWC9wRGJmcnZsZ3ZtYlJVVGZMblB6eHNPL0svWldIeEQ3WFdE?=
+ =?utf-8?B?SkNXWStuWS8vS0RCZjdtS2x4WjJyRVdwR2tMajV1WkxnSktJTVpBVHZUcElw?=
+ =?utf-8?B?NFozeldUa0NkSHpJMFJCclRNRk1zZnU4UE9mQkluZkQxYm42QnFyWWgxNDc0?=
+ =?utf-8?B?Rk9JY1dFZlpvWGdBSHB6dlZLMnUzKzVZSkxPOXhnYVdhRnJ0cWwzWEdBWlRT?=
+ =?utf-8?B?Nyt0RjROK2l3QkFmc1RFLzRDM3FYVm42aVhMaXlMcVlPY0t0U2xuQ09rTEQw?=
+ =?utf-8?B?QUdkWTZucWRHaU14UG5INkxTb3ZPNGtObTZUdEgrN3dabjN3NG8xTjhmZzNB?=
+ =?utf-8?B?cW9aa1FXeWFpTCt6WEhtTVJnQTNaaTdEeWpEVVhlNkJDcmZaQm1hRitXY0RC?=
+ =?utf-8?B?b2RiTTFLVEM5cy9kS1kzRjBBZDM0dTZ5V29qWWZ5bG03TW1aTlJobGtxR0xK?=
+ =?utf-8?B?bzd1RUYyRDhjb1Ivd01rMUo1dHZCTXJDKzNER3VmR0FXT2IvZE00T3dPN3lq?=
+ =?utf-8?B?Zy84RUI1ZTBZUFViQkVLKzd3QU9RUm02OVlaWml0REVIcURuSzRxVHJtS2th?=
+ =?utf-8?B?OUpZZVVnUjVQUHlPNEpIOVZlZ2gyYU5XekVpemRVSUVEc3ZMK0ljbkdQc2dY?=
+ =?utf-8?B?bi9EY1h0VjIzbEFzZ3RvRjRDeHp5Mm10b2REdGNIVFpYODVGT1lHRG1ranNP?=
+ =?utf-8?B?V1FBejE3c0REZ2JjVURtMHRRWjNSY2xuMEJZS2ZNNW9BOUZQcnZrbndWRFJw?=
+ =?utf-8?Q?XFdg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(61400799027)(36860700013)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 11:00:40.4684
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61c78ce0-32da-4fdb-57f9-08de33245d24
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000EE34.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR19MB5985
+X-Proofpoint-GUID: jRX7GLG2gf8mv7ip_f_rtC8BPjH04_Oq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA4OCBTYWx0ZWRfX6hvLPuPuVsm7
+ w2iY1iqCMnGwYTsxPWWuWUuXjrXTMrdmlX/CRcTfV4/VepPaCrBDKj+pKA0PKYnrIOntg7aZmjT
+ bmzqYNVAgbSLi3h/napudQzofBvvjyXvEeD/EzcdDJVhaAyNH9yeYCU9baCmInm5JFAtemaqm2p
+ Gc4+fV1E0xCcSBWQCn/GUHu1yovCtmNElClj/llvw25jpetCyKGZKIYg4xXYQFL9jVk7wOWV64/
+ ie2wg73L783R7dkE1rUA+TS46bgq5BnSKKv7GimErlEcbnp/LZBYwBOknJe9pP69mCcVo2CIgn4
+ e4sLudyuCsUmtof+dIch39MUtLrVnRus37S8bb6JX5JG+lbJZ3JAf+yYwbd0PKBYrNiLtRM6V1S
+ PA69UaLDnCE1OPsP5K6RhUSrcSAVfA==
+X-Authority-Analysis: v=2.4 cv=FK4WBuos c=1 sm=1 tr=0 ts=693169e1 cx=c_pps
+ a=YMpgYF4YqoZtRZf0gxQL+w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=HH5vDtPzAAAA:8 a=VwQbUJbxAAAA:8 a=EWWzKEDAAAAA:8
+ a=w1d2syhTAAAA:8 a=w9iMS3UdBibZJB-JNhgA:9 a=QEXdDO2ut3YA:10
+ a=QM_-zKB-Ew0MsOlNKMB5:22 a=8ZwbcxVZO41N_bDMix7v:22
+X-Proofpoint-ORIG-GUID: jRX7GLG2gf8mv7ip_f_rtC8BPjH04_Oq
+X-Proofpoint-Spam-Reason: safe
 
-Hi Herv=C3=A9,
-
-On Thu, 4 Dec 2025 at 08:39, Herve Codina <herve.codina@bootlin.com> wrote:
-> Indeed, Kalle, Geert, I don't have your hardware, your related overlay or
-> a similar one that could be used for test and also I don't have your out =
-of
-> tree code used to handle this overlay.
->
-> I know overlays and fw_devlink have issues. Links created by fw_devlink
-> when an overlay is applied were not correct on my side.
->
-> Can you check your <supplier>--<consumer> links with 'ls /sys/class/devli=
-nks'
->
-> On my side, without my patches some links were not correct.
-> They linked to the parent of the supplier instead of the supplier itself.
-> The consequence is a kernel crash, use after free, refcounting failure, .=
-..
-> when the supplier device is removed.
->
-> Indeed, with wrong links consumers were not removed before suppliers they
-> used.
->
-> Looking at Geert traces:
-> --- 8< ---
-> rcar_sound ec500000.sound: Failed to create device link (0x180) with
-> supplier soc for /soc/sound@ec500000/rcar_sound,src/src-0
-> rcar_sound ec500000.sound: Failed to create device link (0x180) with
-> supplier soc for /soc/sound@ec500000/rcar_sound,src/src-1
-> [...]
-> --- 8< ---
->
-> Even if it is not correct, why the soc device cannot be a provider?
-> I don't have the answer to this question yet.
-
-I have no idea. These failures (sound) are also not related to the
-device I am adding through the overlay (SPI EEPROM).
-Note that these failures appear only with your suggested fix, and are
-not seen with just the patch in the subject of this email thread.
-
-> Without having the exact tree structure of the base device-tree, the over=
-lay
-> and the way it is applied, and so without been able to reproduce the issu=
-e
-> on my side, investigating the issue is going to be difficult.
->
-> I hope to find some help to move forward and fix the issue.
-
-Base DTS is [1], overlay DTS is [2].
-Applying and removing the overlay is done using OF_CONFIGFS[3],
-and "overlay [add|rm] 25lc040"[4].
-
-I assume you can reproduce the issue on any board that has an SPI
-EEPROM, after moving the SPI bus enablement and SPI EEPROM node to an
-overlay. Probably even with an I2C EEPROM instead.  Or even without
-an actual EEPROM connected, as even the SPI bus fails to appear.
-
-> Saravana's email (Saravana Kannan <saravanak@google.com>) seems incorrect=
-.
-> Got emails delivery failure with this email address.
-
-Yeah, he moved company.
-He is still alive, I met him in the LPC Training Session yesterday ;-)
-
-Thanks!
-
-[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drive=
-rs.git/tree/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-[2] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drive=
-rs.git/tree/arch/arm64/boot/dts/renesas/r8a77990-ebisu-cn41-msiof0-25lc040.=
-dtso?h=3Dtopic/renesas-overlays-v6.17-rc1
-[3] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drive=
-rs.git/log/?h=3Dtopic/overlays-v6.17-rc1
-[4] https://elinux.org/R-Car/DT-Overlays#Helper_Script
-[5] https://lore.kernel.org/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=3D9F9rZ+=
--KzjOg@mail.gmail.com/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+On 02/12/2025 10:13 am, Denis Arefev wrote:
+> The acpi_get_first_physical_node() function can return NULL, in which
+> case the get_device() function also returns NULL, but this value is
+> then dereferenced without checking,so add a check to prevent a crash.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 7b2f3eb492da ("ALSA: hda: cs35l41: Add support for CS35L41 in HDA systems")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Denis Arefev <arefev@swemel.ru>
+> ---
+>   sound/hda/codecs/side-codecs/cs35l41_hda.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> index c0f2a3ff77a1..21e00055c0c4 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> @@ -1901,6 +1901,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+>   
+>   	cs35l41->dacpi = adev;
+>   	physdev = get_device(acpi_get_first_physical_node(adev));
+> +	if (!physdev)
+> +		return -ENODEV;
+>   
+>   	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+>   	if (IS_ERR(sub))
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
