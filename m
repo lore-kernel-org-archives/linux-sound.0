@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED882AD2B;
-	Thu,  4 Dec 2025 13:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC98342512;
+	Thu,  4 Dec 2025 13:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764853459; cv=none; b=FoTJa78qBBAi6rUj6ENEu2Ryh3BVjxv96MHEX48kOs1mBwHgcVV8a/vWmzSVNC80DIXps3LmNo0tWFDLoCE5EaoyzSUQ4xBegBKxoleOsDem+TV8lD5JBm/7B9z2Vsi41Ks4Sw9UMytDnBYHAXqV4cJvFYwO3EN56ZO0sMwHdJk=
+	t=1764853461; cv=none; b=W1AZ/cGl9eGtV0b9EJ8lNMVcackx4F62O9U+TuToBZVchTHLxd8ZTxML/TNDT+GUsvG5b5M1HOwJ+UM49/Yx3tFJF4t2xAWgZ/OCnpTzxCb5QVhsuo3mgH+g2rWdBIGTduJCWxSYMy9wdtAI3KzJomH1GD4fuEb3OCqLJ+Mq0Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764853459; c=relaxed/simple;
-	bh=3fDmVixiURReJZYPnTB2ray1Fg6XTd6Acttcjq2EZqQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kYyAUegiQUTCMTItQply1pzbdP0Y8VqH+9f3s82AAJsr9+8q9I2YPVWrMigSP8RNp91MvO9IUssIccUnsj9ZaV3eZeWQ//r///TlspwRnEHrHnQXzz4eLfePaU+VJcR4Vmr6PviLR5DmLZabTdU/0ewb3bm74HDw89f3GrvCf/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=At6Ecatu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764853461; c=relaxed/simple;
+	bh=i9CaqxQSMsTX3d3GKpLlwKiiwYVr+NKfrtieZfUCrb0=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NvbMz0BDVx0cy9LCLkI1p7smkzWvBlTMY6ChekCYdi+3+kA3PpK4bjhdjyTyNxKr2TzepUEC2xVpp44FoQ+xh3uc3JEUShSCOYxo6TDzkN2zxCKWFJ3T4gyGZMb+lQR6RGpJZD0ZtvpA5kuw5g1LJi1zbsPBQQ3gQ9HCnEsqveQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AgGEGRhb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="At6Ecatu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B8C6C4CEFB;
-	Thu,  4 Dec 2025 13:04:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AgGEGRhb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C67FC4CEFB;
+	Thu,  4 Dec 2025 13:04:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764853458;
-	bh=3fDmVixiURReJZYPnTB2ray1Fg6XTd6Acttcjq2EZqQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=At6Ecatua4V1QEIYFUylJ0KOepGmbdMIqIxznbtQTzxQoIugq6rU5SKp5hsKSEWJe
-	 ZBq/VQGdbCzAqYuQ/APswRH5bcx7julZoF0egjdF13vaFT1/tN7ei3bkkPRR7y2163
-	 iBBKIHwcLWgs5579H1tZYGbGf+dw02FtsgImOLbn2u1AfqWBs8OQc0vU6rCrhPtDc/
-	 gshau3lYU3cmNPMYJwzbeyIwXdN5N98m161W8t4qaCc/3ookCc9v2mWUK5c/diLYJ9
-	 /69NqLCDYE8MZAaH0QocqhdypDUGi41XGxDwaejiqC7vNJl4DTYd0c/A6LtZE+mf8B
-	 6Vrf8d2jeeNWA==
+	s=k20201202; t=1764853461;
+	bh=i9CaqxQSMsTX3d3GKpLlwKiiwYVr+NKfrtieZfUCrb0=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=AgGEGRhbV4A3T5G/djK7IUbU46ZAyHoBW8Oszk664tf3UT6akByAz3XH+JviqRAqD
+	 qikEJ9fQvjwM/keh3Grm7hQ9iHqwepImCzYHBwxtYWJt+F8iGbl2W054yG75gwX6IE
+	 qiVW61qmbMPGfq0rUGqaFdH63iv0gnC2+Tr0sP4A6GXvMDoOkI9U0TP2pOFEHxTaWx
+	 LCeWzWuKDZ453OtuOIAvxqw7IVywCItr7cZL3bil8H7PpAXugZXAwH91p6rVQWpIIy
+	 qCpLuW27fuEXJAHEXwCAOaO7yiCFjUDqXi5xNZ+wrcT0RNGqtIQckA89UJQjuKPWA1
+	 G4HGW43LYuR+w==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251201093419.24474-1-johan@kernel.org>
-References: <20251201093419.24474-1-johan@kernel.org>
-Subject: Re: [PATCH 0/3] ASoC: codecs: wcd93xx: fix OF node leaks on probe
- failure
-Message-Id: <176485345691.29556.7069249740822339004.b4-ty@kernel.org>
-Date: Thu, 04 Dec 2025 13:04:16 +0000
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ andriy.shevchenko@linux.intel.com, kuninori.morimoto.gx@renesas.com, 
+ nichen@iscas.ac.cn, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, ckeepax@opensource.cirrus.com, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20251203100529.3841203-1-shengjiu.wang@nxp.com>
+References: <20251203100529.3841203-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2 0/2] ASoC: ak4458 & ak5558: disable regulator if
+ error
+Message-Id: <176485345924.29556.8568992403267479103.b4-ty@kernel.org>
+Date: Thu, 04 Dec 2025 13:04:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,17 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-88d78
 
-On Mon, 01 Dec 2025 10:34:16 +0100, Johan Hovold wrote:
-> The original wcd938x driver has a couple of OF node reference leaks
-> which have been reproduced in the two later added drivers.
+On Wed, 03 Dec 2025 18:05:27 +0800, Shengjiu Wang wrote:
+> Disable regulator when error happens to balance the reference count.
 > 
-> Johan
+> changes in v2:
+> - set regmap to cache only also.
 > 
-> 
-> Johan Hovold (3):
->   ASoC: codecs: wcd937x: fix OF node leaks on probe failure
->   ASoC: codecs: wcd938x: fix OF node leaks on probe failure
->   ASoC: codecs: wcd939x: fix OF node leaks on probe failure
+> Shengjiu Wang (2):
+>   ASoC: ak4458: Disable regulator when error happens
+>   ASoC: ak5558: Disable regulator when error happens
 > 
 > [...]
 
@@ -67,12 +66,10 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: codecs: wcd937x: fix OF node leaks on probe failure
-      commit: 22a03ca7c20c4ed3a75047709b0ad15160e29d58
-[2/3] ASoC: codecs: wcd938x: fix OF node leaks on probe failure
-      commit: 32ae6ebe171aca9ce10f5790523a9865b6c08b02
-[3/3] ASoC: codecs: wcd939x: fix OF node leaks on probe failure
-      commit: 3ef4d9ede20db39bff34a559b04a1938fb31251e
+[1/2] ASoC: ak4458: Disable regulator when error happens
+      commit: ae585fabb9713a43e358cf606451386757225c95
+[2/2] ASoC: ak5558: Disable regulator when error happens
+      commit: 1f8f726a2a29c28f65b30880335a1610c5e63594
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
