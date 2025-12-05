@@ -1,136 +1,127 @@
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2292DCC13
-	for <linux-sound@vger.kernel.org>; Thu,  4 Dec 2025 21:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D215F328274;
+	Fri,  5 Dec 2025 08:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764883716; cv=none; b=LxUaqZbmh7i5ihV/4hba6bsYF1pAZPKGYDDlKz7njlakh2lZCkUe68pAafNJAHfujGetOpvhKWE8/4p8W8BKAL5uQdUkG7AWNkyAUyHoRXmDBgQVep67CRwBCN+ooi/hgcGK3K07mImINOAhqXCOhlukqvqlFnpspInfqLEMZPo=
+	t=1764923469; cv=none; b=gICsg1bzmjQV36FumXhOJhSnkP2SfZNRJ1QkHB5L30J42+L73/t5P6ijjdbJNquUXjEyF9XSbRF1yPzw3uk5+1wjGQ1w+o17H73MWEqPndjQSgRoQ2F3kPEu4sA6qtY3Nm3zIbSGZJ2RQ/NFlBK7QoHxTCOoo2NWv56Qfx591cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764883716; c=relaxed/simple;
-	bh=PjqzH3r6Vo+Ufmbw1cbrpycwF7XAp2Q1TQT6DzBHuzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mgkWS6+2YAclQ72cQJGj8GE3Dnj5Ipw8pscPGBTHxyxmUWYdfFd4IR3KAKF9r0GJKR44TSmawW6kQOB4KoFXVJPe9TEqDg4btT21fVitq2DWdryprGZtUbWq2qkC+YUh8cCckfUvpLRfZettJvCut6GX4m7/g7F3ldwIcMXC1Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=DFycKoGa; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1764923469; c=relaxed/simple;
+	bh=kQt1HdhZmTbIG9W7AxCo2bVlUBbx56TCPI0/Qxmog5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxUKntTENINtlrV51GN0ubMbMQKlXIr0IQm5nUxHaeDfMtAXzB9pVuWnOpHKfoNyLHnfTEM8ItJtQ7JKIJytgyJeVTtCp1wt2Zncm8gLAUkKEJqu35tEQaejn3qY1kUPXdLxjP/Pkzr6p8hKlLVgax/YLnvXJya6mfRQebEwBWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ureTOT+X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="DFycKoGa"
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 49140BD9E0
-	for <linux-sound@vger.kernel.org>; Thu,  4 Dec 2025 23:28:31 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 74DF1BC570
-	for <linux-sound@vger.kernel.org>; Thu,  4 Dec 2025 23:28:30 +0200 (EET)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id D92B8201CC2
-	for <linux-sound@vger.kernel.org>; Thu,  4 Dec 2025 23:28:29 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1764883710;
-	bh=PjqzH3r6Vo+Ufmbw1cbrpycwF7XAp2Q1TQT6DzBHuzs=;
-	h=Received:From:Subject:To;
-	b=DFycKoGaiVUHLY9tQKaRqq3BD/RXP6ey5S8PvECP83ys1ZPmoVzz3GP/xLqpymI/s
-	 SleOiohCplUx3tyqYQ8slT+3Cx9kwb0No0Da1qnjO/b9ZlrDokpWR7nT1wVEoUOb2B
-	 eE4ogCiCUXoP/hLWF2V94I8LcOsZut39HzGLwbn/HOUc1RgSLpnDPGBMhzDjFor7u8
-	 HHnwWIo8ScMy21uWkMcV0LgvybHCxb3mzPFaDNBmHIlTc9i4v1E6a6cu4NzVLVvcp0
-	 gGTAuIcaBt/tdqFAqJGAT+zWJBOn4mRJ4lxy9kDVCguFNrxdCH4vDuyxocSCXuYBe1
-	 gmGG94OC34LQw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.181) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f181.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-37bb8bef4cdso12674121fa.3
-        for <linux-sound@vger.kernel.org>;
- Thu, 04 Dec 2025 13:28:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbkJF51v28DzZ/pVqQOH+nFDPVhNwNtGZM4KB8idelCbSt/PKWCeS+WYpmp4FWkm5jxDkxSGZNV2gMIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrlkQbl46yQQzzjokIMjACfz0KAUQw9zXHLmV5zb7JIzLD5XWm
-	dhKGulu44zJFEYFLJ/7JNDEe6k+0gUIgnix/Rm3d0r8axKv6TcRsfmFEwcRrj8NbRcy28byv114
-	WnT3f203eEZgIEx+4ax2KSEkXBTha35E=
-X-Google-Smtp-Source: 
- AGHT+IGih8uIly4HD+k347BWNnGSGbbhZNyyUFPj9xrlobY1bUjYPo8n75+ynjMDj552hiWjh+BQ1bQMwgZ+tR2BhPA=
-X-Received: by 2002:a05:651c:31d9:b0:37b:ad8b:7680 with SMTP id
- 38308e7fff4ca-37e6dccaea4mr13412531fa.9.1764883709459; Thu, 04 Dec 2025
- 13:28:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ureTOT+X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CDA5C4CEF1;
+	Fri,  5 Dec 2025 08:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764923465;
+	bh=kQt1HdhZmTbIG9W7AxCo2bVlUBbx56TCPI0/Qxmog5Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ureTOT+XuvzaF8gcHwTFY9idv1nWMGd/KSr/AJC9A6+sVXvLZa14JVueHBWcG30xY
+	 CBtQ8EpVY54zUzFENGwVVfZZvyxyV7gWoFSnBUrWlz0w+Kb5JY8XmTmmD/jX46V/LO
+	 J1iFZOSYNvQT4Wfes69tS8Zag4782HA5/yKB2l84UWBtTNEqA5zeMZczx+fGYkXRQP
+	 ywydh0XY90wVRylxudlqo5GCUFwrmqX0Knl7j16uVLinexVy5D3qpmwmEE8uG17ip/
+	 0XE1tVNCLG0GpRhbK1BenYL75jM29wvreYzcDCVX8kOSfo8yzoDJY/V4c72Ix0J6a2
+	 u8JYpqryEjrjQ==
+Date: Fri, 5 Dec 2025 09:31:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Oder Chiou <oder_chiou@realtek.com>
+Cc: cezary.rojewski@intel.com, broonie@kernel.org, lgirdwood@gmail.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, 
+	flove@realtek.com, shumingf@realtek.com, jack.yu@realtek.com, 
+	derek.fang@realtek.com
+Subject: Re: [PATCH v8 2/2] ASoC: dt-bindings: realtek,rt5575: add bindings
+ for ALC5575
+Message-ID: <20251205-stylish-numbat-of-awe-10edcd@quoll>
+References: <20251201105926.1714341-1-oder_chiou@realtek.com>
+ <20251201105926.1714341-3-oder_chiou@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
-In-Reply-To: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 4 Dec 2025 22:28:17 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGsSFj6P7_QtiR2CAA5tEBufLaQO4qRLQ5N2_HiddcB4A@mail.gmail.com>
-X-Gm-Features: AWmQ_bnqVgrQAY2-HWKbIn1TtsrWvFSCmCBCfUTWTpfy9ptGklKJi6pSN5937qE
-Message-ID: 
- <CAGwozwGsSFj6P7_QtiR2CAA5tEBufLaQO4qRLQ5N2_HiddcB4A@mail.gmail.com>
-Subject: Re: [BUG] hda/tas2781: ASUS ROG Xbox Ally X audio issues with default
- firmware
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Baojun Xu <baojun.xu@ti.com>, Shenghao Ding <shenghao-ding@ti.com>,
- linux-sound@vger.kernel.org,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, tiwai@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <176488371009.2866862.17188553486337208275@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251201105926.1714341-3-oder_chiou@realtek.com>
 
-On Thu, 4 Dec 2025 at 02:47, Matthew Schwartz
-<matthew.schwartz@linux.dev> wrote:
->
-> Hello,
->
-> I have an ASUS ROG Xbox Ally X which uses hda/tas2781 for the speaker amp=
-lifiers. I am splitting this out into a new thread based on the suggestion =
-from [1] to fix the remaining issues with the device's audio separately.
->
-> I built a kernel from tags/sound-6.19-rc1 in tiwai/sound and included [2]=
-, which seemed potentially relevant to the issue that I describe below.
->
-> By default, my system loads /usr/lib/firmware/ti/audio/tas2781/TAS2XXX138=
-40.bin.zst. With this firmware file, any sound above the 70% volume limit r=
-ange starts to become distorted and frequently drop out from either one or =
-both speakers. I've included an alsa-info.sh report with this default firmw=
-are at [3].
->
-> If I run sudo mv /usr/lib/firmware/ti/audio/tas2781/TAS2XXX13841.bin.zst =
-/usr/lib/firmware/ti/audio/tas2781/TAS2XXX13840.bin.zst and force the other=
- firmware file for Xbox Ally models, my speakers work up to 100% without an=
-y of the drop outs I experience on the default firmware. I've included an a=
-lsa-info.sh report with this renamed firmware at [4].
->
-> I took an acpidump at [5] and extracted the dsdt table at [6]. Please let=
- me know if there's any additional information I can provide from the devic=
-e to further debug the sound issues with the default selected firmware.
->
-> Thanks,
-> Matt
->
-> [1]: https://lore.kernel.org/linux-sound/87zf8jesp0.wl-tiwai@suse.de/
-> [2]: https://lore.kernel.org/all/20251126141434.11110-1-baojun.xu@ti.com/
-> [3]: https://alsa-project.org/db/?f=3D840337cab11f6aa70cf48b15d55ac45e402=
-7ff41
-> [4]: https://alsa-project.org/db/?f=3D6e482f72765d89520ea171f15641228bcad=
-efcf0
-> [5]: https://gist.githubusercontent.com/matte-schwartz/d7ff3c857b45cca197=
-f3d3adc16df0bc/raw/2e3267b8d1a9d619ecd8157e4da426be756b6497/acpidump.txt
-> [6]: https://gist.githubusercontent.com/matte-schwartz/4042dcd3779c3738af=
-60536a9d4050d6/raw/5227717c6d40a2dc4012b95f7fefc6cd50ba784d/dsdt.dsl
->
+On Mon, Dec 01, 2025 at 06:59:26PM +0800, Oder Chiou wrote:
+> Realtek ALC5575 is a highly advanced DSP and microphone CODEC that has
+> been designed for AI audio technology. Its impressive features include
+> an advanced HiFi-5 DSP core, a Neural Network Processing Unit (NPU)
+> owned by Realtek, and embedded 4MB memory, which enables it to operate
+> highly advanced AI audio algorithms. The ALC5575 supports 4xA-mic input
+> and 8xD-mic input, as well as a rich set of interfaces such as I2S, I2C,
+> SPI, and UART.
 
-Related to this I have a follow up patch that fixes the audio jack on
-the Xbox Allies which regressed with the initial quirk applied. But it
-did not seem to help here. I will send it soon-
+When I asked to describe hardware, I did not meant marketing junk! Drop
+all impressive features and simply describe hardware in basic terms.
+This is not advanced DSP, not designed for AI audio (AI is the easiest way to
+get a grumpy review), not "highly advanced AI audio algorithms" and does
+not have "as a rich set of interfaces".
 
+Use simple terms what is this. Audio codec with I2S.... interfaces.
+> 
+> Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
+> ---
+>  .../bindings/sound/realtek,rt5575.yaml        | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
+> new file mode 100644
+> index 000000000000..83ccc79e6769
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/realtek,rt5575.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ALC5575 audio CODEC
+> +
+> +maintainers:
+> +  - Oder Chiou <oder_chiou@realtek.com>
+> +
+> +description:
+> +  The device supports both I2C and SPI. I2C is mandatory, while SPI is
+> +  optional depending on the hardware configuration.
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - realtek,rt5575
+> +      - realtek,rt5575-with-spi
 
-Antheas
+Drop the second compatible. It's the same device. Whether it supports
+SPI it is already known and obvious - you cannot place non-SPI chip on
+SPI bus and expect it to work.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+
+You listed so many "impressive" and "rich" features that for sure this
+is incomplete.
+
+Please post complete bindings for "impressive" device.
+
+You miss supplies, you miss all the AI related hype (no clue what that
+would be, but for sure NPU feels like needing remoteproc or at least
+some other way to communicate). We all know that AI is power hungry, so
+it is impossible to run it without electricity (thus supplies).
+
+Best regards,
+Krzysztof
 
