@@ -1,96 +1,98 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625F32D47E8;
-	Sat,  6 Dec 2025 19:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9232DF3CC
+	for <linux-sound@vger.kernel.org>; Sat,  6 Dec 2025 21:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765050314; cv=none; b=G27fd1+8OeqS1Nmg4qNwEBfNwNT24J0a7UxWb6/dZBXFDfO5X5YHKiGA5cDESa2ywJseWScO2Memg5eCnhD8uILRraeG6RKYcO61wF82HOWbo34bxcgShnelVA9BvE2/WJ4yI+Opd2SCie+Vr6tDWnA8AxibNp+g5fcjBwP/ZfA=
+	t=1765057231; cv=none; b=u3UdlCHshgc3ha7NvD8ltLl2xtGmpWyIOS9KtaoxLDnZnVIp+hZFghjLEIDaLq0IyOd0ns4WJpb9LOnbLiwC0/GTOS93tOkpGqEmuFPpQ74SdL+1HcZcCQ/MrQfo5kG3yz3/b/osXHG2us+33j3Qiv2XV9UcFA2dNEgDiKI1FTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765050314; c=relaxed/simple;
-	bh=FTrBCyfqDBEsjEjcAz6bo8YApO6xaBl7D0QY7b7BKag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UvJTRMwQGh/3mg0RPsgKU6aGVHHvrcOUjJ/gKinPmd6f7b1B+W57vUp9lxG3aGWrFd8SGUFMHsbk6/7Vj+XwMgeJcVji6odbSowysUs3psW6CcW0cj26X2V4KQZvesdFnk35L0cqUtMXq9L08vC4yhHhXzPf8pK5XB/hS8aoPHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=XY0bA0Xp; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+	s=arc-20240116; t=1765057231; c=relaxed/simple;
+	bh=NtKxi7YsFujc1I7HbuzJSsN573ytnARDXoaQUKiX+cw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d8a1oImbMJLckaMHVFvsTf5evKWIOCfTsZ6znxM9uh7H3bKQSuPgAmi8E562EwKM2Q2Q6fWE2XHeBhJShSkEbM3Kyghfb+ZibnneM46zuY+tIDqMuZIdNW0JjV0kTGoeegv+15jULIwBNHuXauIhduw3nNyMdJ2BwmWpb9jnWqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPkGwS4R; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="XY0bA0Xp"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08F0B28515E;
-	Sat,  6 Dec 2025 20:38:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1765049928; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=Cwllb3bLUf192JLNRbDuLArgEnvmfsJIhvqnHs2xnfQ=;
-	b=XY0bA0XpTDOfALq78kFnaa5k9v4BYf0WP1LpO9UJ40XhZO4zIQQzD7f+2/lfga7gMtQ033
-	fHvP0lTxs61cDsSinoKDfJXsyAR87SanjKvm1I4ZRwuUI09F9u5tqY3oGfWmx1f4GNEPTX
-	/0Oa0lXHFDzhFOZ+pqL8G5FVWWOxEk70SvlPM9LyAdwN0p1FD6V0PH57bNWIEzc/Blnfmd
-	GXC+S1VApJm8AHloIDyfkJBmbgqfq7jIR3HzJo38bMjXr3ITZrjLYxGBdTOlRNNP3mOFUX
-	s7ToipHMGGb2SQMAZVwXXCD1FPjjEXaNziJtke8rVa0CTfkY+zrlSE54Lr2Sog==
-From: Eric Naim <dnaim@cachyos.org>
-To: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Eric Naim <dnaim@cachyos.org>,
-	stable@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: cs35l41: Always return 0 when a subsystem ID is found
-Date: Sun,  7 Dec 2025 03:38:12 +0800
-Message-ID: <20251206193813.56955-1-dnaim@cachyos.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPkGwS4R"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-787c9f90eccso32220237b3.3
+        for <linux-sound@vger.kernel.org>; Sat, 06 Dec 2025 13:40:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765057229; x=1765662029; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BmZLch+tsUFf8GGxDj+inr14eUW0ua38vm6RI6oO3pE=;
+        b=iPkGwS4RshWupwzaC910sbQd7CjF+RTc8i2SM0iagzvwJS17j1SpEl2l460eRPbx9/
+         R6+AXZAETocb8O+d87p5KWylLgKpDH+r8RwieTppqi1ZSfqo/q3M3vJYHaNOFWOCzIyr
+         OcvBHDe1jV/dGUv75QTKpcMPXsYcLMBHZPUr7QW/ASSktS7ftCNAsEZ9U8KTgloGWrgm
+         k/KNLRprq+LMj/u2OHWFlyviYb3pwCAjOBTw2FaNbv7odKZrXZ7rA6WEu+eePSKM1xfa
+         hQef9gn+LGqYAkZTPGCDgO6QOoiymBTvUPTUIsC+AseDTKujkB1YvRjiMh4E3ERBrVEj
+         /3FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765057229; x=1765662029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BmZLch+tsUFf8GGxDj+inr14eUW0ua38vm6RI6oO3pE=;
+        b=Qc2ML8pbzSW8fWjnXUKh7uNvh8PDcuWEnB8dquLHCVW4cZvwLyxYG0CB0nksa7591l
+         zBT1z6ezQyestgQ6c8c8F+/pojJQb/80UY0/DqCcjEZloEqDEvcY4irHFOCBeQWD+FrK
+         87KTy3hDgbteg4qezYoUW+4nJDLX9m/8rqI81VpP6fHinOtyxAYvWHFXkyEgOdKA2kHh
+         il+q9XhHCKxqnSpwmZAafaMAHxrJRcnZL1s/DKOsXLORm2AZuAnFmrZZG0HV6ZGUchZ8
+         zKYutksgJC7vGjiAQY5MKyyWEYJxk9Bcme8ae4hfjm8NWr+SuHA7FTpQxqxwmKsuQkhx
+         SIKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrRzOkFtiKL47YYdERB10yBG86V+U70PLEgj+I0+e12dyH1YpQkrq0xmNAz29V+2qdXp4Qtl+SSEkTaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7WZ1uWDC6cGkoL4KzACQA0FgaYJh42BRLxiUo23tbyGmFsB8m
+	5qMlrNDfZ7/ANacph70KUMa85KMyvCFlY0icxLarrCUheNW5sseaZ3kwDP8pjTsTDbgApnH5pKE
+	orMofLo140cv/s4SorP9zITdDM8g8pWU=
+X-Gm-Gg: ASbGnculQQDcORI3kWjYFaST2GPYg3SLvHdqhgBkBtg/TYHBtYMr8FxZnNrL+iFVyeE
+	jMm1o9TIIXUSoepMUKwy+B4nri6epscRFHnrEvsnqpcnX1qWiq1s9AW4jSswTeYCSl4kO/oo2pG
+	BjapD/tjm339/Dee/svhbJvPUMVfdACEgWLHz/zVtcw+GRwkbntiPf5CpBTS3DUZMbTgVE2sbE/
+	Y3OobBbGKA2BQ7XnNJ1ijVzJ67XUGq54e+dmfejNwV3EP5X5QXRY4olonGZ8SOP1PotKIOe
+X-Google-Smtp-Source: AGHT+IHqbqmEJ2vaB5W4uwBXmi2AqqrA+VzbtYcWwJiGGaH0O5ufb0McVeuzgrEaiVyROG/3JlGg1/jbdyFP2FsqpvQ=
+X-Received: by 2002:a05:690c:f06:b0:78c:28b7:88e4 with SMTP id
+ 00721157ae682-78c33cd4cfbmr30764857b3.69.1765057228766; Sat, 06 Dec 2025
+ 13:40:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <87o6q8l68r.wl-tiwai@suse.de> <20251015145749.2572-1-safinaskar@gmail.com>
+ <878qhckxc5.wl-tiwai@suse.de> <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+ <875xcgkvnw.wl-tiwai@suse.de> <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+ <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+ <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+ <87bjm78978.wl-tiwai@suse.de> <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+ <871plbucj3.wl-tiwai@suse.de>
+In-Reply-To: <871plbucj3.wl-tiwai@suse.de>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Sun, 7 Dec 2025 00:39:52 +0300
+X-Gm-Features: AQt7F2oxKkU3ePgE3Z0z9BFc8gUWWy2Y-S8sruhwpHi2W7JaGHpQyHor_1Jl-cs
+Message-ID: <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
+ hda: Move controller drivers into sound/hda/controllers directory)
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com, 
+	baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com, 
+	kai.vehmanen@linux.intel.com, kailang@realtek.com, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	regressions@lists.linux.dev, rf@opensource.cirrus.com, 
+	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, sam@gentoo.org, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When trying to get the system name in the _HID path, after successfully
-retrieving the subsystem ID the return value isn't set to 0 but instead
-still kept at -ENODATA, leading to a false negative:
+On Wed, Dec 3, 2025 at 12:42=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+> A rather hackish fix would be something like below.  Instead of
 
-[   12.382507] cs35l41 spi-VLV1776:00: Subsystem ID: VLV1776
-[   12.382521] cs35l41 spi-VLV1776:00: probe with driver cs35l41 failed with error -61
+I tested. This patch works. Thank you!
+Tested-by: Askar Safin <safinaskar@gmail.com>
 
-Always return 0 when a subsystem ID is found to mitigate these false
-negatives.
-
-Link: https://github.com/CachyOS/CachyOS-Handheld/issues/83
-Fixes: 46c8b4d2a693 ("ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI")
-Cc: stable@vger.kernel.org # 6.18
-Signed-off-by: Eric Naim <dnaim@cachyos.org>
----
- sound/soc/codecs/cs35l41.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
-index 173d7c59b725..5001a546a3e7 100644
---- a/sound/soc/codecs/cs35l41.c
-+++ b/sound/soc/codecs/cs35l41.c
-@@ -1188,13 +1188,14 @@ static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
- 		}
- 	}
- 
--err:
- 	if (sub) {
- 		cs35l41->dsp.system_name = sub;
- 		dev_info(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
--	} else
--		dev_warn(cs35l41->dev, "Subsystem ID not found\n");
-+		return 0;
-+	}
- 
-+err:
-+	dev_warn(cs35l41->dev, "Subsystem ID not found\n");
- 	return ret;
- }
- 
--- 
-2.52.0
-
+--=20
+Askar Safin
