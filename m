@@ -1,78 +1,47 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9497279C8
-	for <linux-sound@vger.kernel.org>; Sat,  6 Dec 2025 14:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625F32D47E8;
+	Sat,  6 Dec 2025 19:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765032855; cv=none; b=RSwerLMslVlzK1p672YPazg1EFyOj+q4br6SW9vK8UuRz+u0c7ti54jN9n8sY2/NPWV7XrtsGdEUV7PRlBB6q+LO4dQzquqnAf8382c8ggc4rj1yIO1bl4z1BTxqutCLVGYKy5C3hVRdMcmIOp3Te9WgAlZTsYSqPzhf/Eyinms=
+	t=1765050314; cv=none; b=G27fd1+8OeqS1Nmg4qNwEBfNwNT24J0a7UxWb6/dZBXFDfO5X5YHKiGA5cDESa2ywJseWScO2Memg5eCnhD8uILRraeG6RKYcO61wF82HOWbo34bxcgShnelVA9BvE2/WJ4yI+Opd2SCie+Vr6tDWnA8AxibNp+g5fcjBwP/ZfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765032855; c=relaxed/simple;
-	bh=5D7VXlAUJDO1wgXYpuCdEwFMeC40y8y4aj8DR6xaffA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t4MutMV3vPQLda4G9cQ5364Txvkd0BiU2SbzYw+F2vUl6a8qofGu0UVXMVfsJRl8gzQ+f+uA/Pkf4kzCbaeW43jC+wRsm7FEFokZZ2sN+ysL09e22GdTAvIAuAN0DWJ4DL/st8BgqyxBqmFDOnvfLypv1OGX1rg97USGeCdpqK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGCQJ4Da; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765050314; c=relaxed/simple;
+	bh=FTrBCyfqDBEsjEjcAz6bo8YApO6xaBl7D0QY7b7BKag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UvJTRMwQGh/3mg0RPsgKU6aGVHHvrcOUjJ/gKinPmd6f7b1B+W57vUp9lxG3aGWrFd8SGUFMHsbk6/7Vj+XwMgeJcVji6odbSowysUs3psW6CcW0cj26X2V4KQZvesdFnk35L0cqUtMXq9L08vC4yhHhXzPf8pK5XB/hS8aoPHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=XY0bA0Xp; arc=none smtp.client-ip=202.61.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGCQJ4Da"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3414de5b27eso2251975a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 06 Dec 2025 06:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765032853; x=1765637653; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M7aGuIkb1zLGBw9QlRp9kXJ0T0y3DEkonULODaHEw7M=;
-        b=XGCQJ4DagFn49dh/5CDnYyV7nPd5ClRV4EIOjO2Gif4WzXMqo4rUDWa2udZMctDNMI
-         4jWbwd+IehzAre+NCprfl4f/0xqGS1VX6Bnl5bqjlQ4zzgJ7Ch8lYqy7nUDi4JxjcYoB
-         5CyBBypuGfvLmkRHwYql3Kn8K6fHXE1/dI00zLyEyqIkNIHV+NNtQEDMEBNcTEHrMSr4
-         EYBBHlGh92oXV6EOWckshx0J7fKGm4YC6SumhlTIdb1hcU0sjZrZRhmrobIeWshcBLGB
-         g/RUJHT+FHi5sbJoDM0u/tRfZINk14uWhtDvwx1u6y8OOsw1J4eJv4YtnqQcmxIR0VVO
-         XPGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765032853; x=1765637653;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M7aGuIkb1zLGBw9QlRp9kXJ0T0y3DEkonULODaHEw7M=;
-        b=l9jbCDPnqzbdWNrlZbU8DikNqTkBitB+bin3bL2g/R3Mun/TsZlRetN6xinzdy/VrJ
-         C7EFpkW26FynqW3dQa0/VdeQoAMVy6IetbY+NUuAr/bITv6OobH0yikQl/UogQsoi5w1
-         o/VxXK9lErsAxRNIji631Tkn3OLLqjAiPWlHcFFykukIePrHG816Bv3GK85g7mDtatbt
-         Hqv3VouIZkf+hE/m6ANLGAFvoA8hSDzsjJbEwsUzXCCAnY1h3YvB/8f2iN3REy8kb+q9
-         CuUBukp46vI+tzYIbu0LkRlIpZuLVjLDiecbhJZ2UZu7bK3hk3ynmsKzumGExled7s71
-         RS0g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/MDHD+dNksfDREr+sQ8CTCPVH988dj2Ddr8P7bcHyIP+yss+Vj1Egs5jsAWZzAirdvg5imMZCqml6dA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YymCLMLVU1DDW0hv7Kah26q4WbjGl+sGFEYaahcn0t8g87KfFsp
-	r3VDXhFDcYoksgiOy9JF7SO1olGcDx++yqca5t9kk1tu+2n263Hzzk/G
-X-Gm-Gg: ASbGncsDsKgk0/37CMbobODizst8iQTGRdih2AQH9ChFIio+IohF2M8+yG/gYfKzNKU
-	9JUjnc9yzy5KmoNH0QYseDFwtpTAtKFIYpgXHPxTKY7TO5yuEnlnoyKwIoXlPrnifWl4m+2Xg9y
-	TihTHAKJ6GW1NFUPBIsIRpT/r4GgZydTlNfKlyWSpVng3IiKcecTHsqeKd6GOss7trKKNfawfR4
-	efOqb2FP1k3uk8TTJICToBjuF1WcIksxGtrpBN7vzNTM5dTAaqbQHIsnkX173fhKUzCCPxqg8X3
-	wlRLzBa5SA14L6E6FEw4iVXgihv3MBFMCaCjSlhlp3YWQYbqgGXVJky5qT6v4RrI0lPcDcvJRMs
-	wYUS0Ag1mF65yTHrLCBaTZAgyj38oHdvNevaaLN7V4qWaVNZ9FruB0pOOYnloK2IsQeW4pSXlfM
-	mtGKiqzd/KjVFzOUJLmW/9hg==
-X-Google-Smtp-Source: AGHT+IHSInWWoI45tN4csnvwQ0FOn+OAE79vWC+/AcpAnlfHWXrmR4GqpXKNuXk8B6Rw/MtSM903XA==
-X-Received: by 2002:a17:90b:3b44:b0:341:8bda:d0ae with SMTP id 98e67ed59e1d1-349a259a061mr2098951a91.20.1765032852851;
-        Sat, 06 Dec 2025 06:54:12 -0800 (PST)
-Received: from gmail.com ([49.37.171.188])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e801c6a1fcsm3452695b3a.4.2025.12.06.06.54.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Dec 2025 06:54:12 -0800 (PST)
-From: hariconscious@gmail.com
-To: oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	khalid@kernel.org,
-	shuah@kernel.org,
-	david.hunter.linux@gmail.com,
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="XY0bA0Xp"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08F0B28515E;
+	Sat,  6 Dec 2025 20:38:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
+	t=1765049928; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=Cwllb3bLUf192JLNRbDuLArgEnvmfsJIhvqnHs2xnfQ=;
+	b=XY0bA0XpTDOfALq78kFnaa5k9v4BYf0WP1LpO9UJ40XhZO4zIQQzD7f+2/lfga7gMtQ033
+	fHvP0lTxs61cDsSinoKDfJXsyAR87SanjKvm1I4ZRwuUI09F9u5tqY3oGfWmx1f4GNEPTX
+	/0Oa0lXHFDzhFOZ+pqL8G5FVWWOxEk70SvlPM9LyAdwN0p1FD6V0PH57bNWIEzc/Blnfmd
+	GXC+S1VApJm8AHloIDyfkJBmbgqfq7jIR3HzJo38bMjXr3ITZrjLYxGBdTOlRNNP3mOFUX
+	s7ToipHMGGb2SQMAZVwXXCD1FPjjEXaNziJtke8rVa0CTfkY+zrlSE54Lr2Sog==
+From: Eric Naim <dnaim@cachyos.org>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Eric Naim <dnaim@cachyos.org>,
+	stable@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HariKrishna Sagala <hariconscious@gmail.com>
-Subject: [PATCH RESEND] ASoC: codec: rt274: Use devm_request_threaded_irq to manage IRQ lifetime and fix smatch warning
-Date: Sat,  6 Dec 2025 20:21:59 +0530
-Message-ID: <20251206145158.3623-2-hariconscious@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: cs35l41: Always return 0 when a subsystem ID is found
+Date: Sun,  7 Dec 2025 03:38:12 +0800
+Message-ID: <20251206193813.56955-1-dnaim@cachyos.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,74 +49,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: HariKrishna Sagala <hariconscious@gmail.com>
+When trying to get the system name in the _HID path, after successfully
+retrieving the subsystem ID the return value isn't set to 0 but instead
+still kept at -ENODATA, leading to a false negative:
 
-Replace manual "request_threaded_irq()" with the device managed
-"devm_request_threaded_irq" to manage the IRQ lifetime and also
-it removes the smatch reported warning.
-Remove the manual "free_irq()" in the "remove" function as free_irq
-is tied to device teardown.
+[   12.382507] cs35l41 spi-VLV1776:00: Subsystem ID: VLV1776
+[   12.382521] cs35l41 spi-VLV1776:00: probe with driver cs35l41 failed with error -61
 
-Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+Always return 0 when a subsystem ID is found to mitigate these false
+negatives.
+
+Link: https://github.com/CachyOS/CachyOS-Handheld/issues/83
+Fixes: 46c8b4d2a693 ("ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI")
+Cc: stable@vger.kernel.org # 6.18
+Signed-off-by: Eric Naim <dnaim@cachyos.org>
 ---
-This patch replaces the manual management of IRQ with the device
-managed IRQ API. Also, it removes the smatch reported warning.
-sound/soc/codecs/rt274.c:1204 rt274_i2c_probe() warn: 
-'rt274->i2c->irq' from request_threaded_irq() not released on lines: 1204.
+ sound/soc/codecs/cs35l41.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Removed the "remove" function as IRQ is managed automatically.
-Runtime testing is requested to see no regressions.
-Please report any failures or unexpected behaviour, I will support in
-updating the patch accordingly.
-
-Similar warning is present in the codecs rt286 & rt298.
-If you are ok for updating those, will update them.
-
-Thank you.
-
- sound/soc/codecs/rt274.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
-
-diff --git a/sound/soc/codecs/rt274.c b/sound/soc/codecs/rt274.c
-index 2c055c45111f..d441851dee8c 100644
---- a/sound/soc/codecs/rt274.c
-+++ b/sound/soc/codecs/rt274.c
-@@ -1188,7 +1188,7 @@ static int rt274_i2c_probe(struct i2c_client *i2c)
- 	regmap_write(rt274->regmap, RT274_UNSOLICITED_MIC, 0x82);
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index 173d7c59b725..5001a546a3e7 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -1188,13 +1188,14 @@ static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
+ 		}
+ 	}
  
- 	if (rt274->i2c->irq) {
--		ret = request_threaded_irq(rt274->i2c->irq, NULL, rt274_irq,
-+		ret = devm_request_threaded_irq(&rt274->i2c->dev, rt274->i2c->irq, NULL, rt274_irq,
- 			IRQF_TRIGGER_HIGH | IRQF_ONESHOT, "rt274", rt274);
- 		if (ret != 0) {
- 			dev_err(&i2c->dev,
-@@ -1204,15 +1204,6 @@ static int rt274_i2c_probe(struct i2c_client *i2c)
+-err:
+ 	if (sub) {
+ 		cs35l41->dsp.system_name = sub;
+ 		dev_info(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
+-	} else
+-		dev_warn(cs35l41->dev, "Subsystem ID not found\n");
++		return 0;
++	}
+ 
++err:
++	dev_warn(cs35l41->dev, "Subsystem ID not found\n");
  	return ret;
  }
  
--static void rt274_i2c_remove(struct i2c_client *i2c)
--{
--	struct rt274_priv *rt274 = i2c_get_clientdata(i2c);
--
--	if (i2c->irq)
--		free_irq(i2c->irq, rt274);
--}
--
--
- static struct i2c_driver rt274_i2c_driver = {
- 	.driver = {
- 		   .name = "rt274",
-@@ -1222,7 +1213,6 @@ static struct i2c_driver rt274_i2c_driver = {
- #endif
- 		   },
- 	.probe = rt274_i2c_probe,
--	.remove = rt274_i2c_remove,
- 	.id_table = rt274_i2c_id,
- };
- 
-
-base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
 -- 
-2.43.0
+2.52.0
 
