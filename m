@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3269A221543;
-	Mon,  8 Dec 2025 06:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74592B67A;
+	Mon,  8 Dec 2025 06:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765173758; cv=none; b=VTVgTwHospfJ36yE8Oc9wM0Nev0A0ayoghpRtCHdF7yQkWxMG6x1UJHOrIanS8FyKxgRq9DpTTQwaXaB96Iz/7xL7mch3oPFeD22WVhkBRROui/2+8XE6VsJqckGfr4ckaJNuWZ6dWUaGuWiwZgF0LPQdZIf93N77u6bd3GD3AQ=
+	t=1765173800; cv=none; b=l87Uaz/7qsJ+hAcuhhRKJCtwakUdsC1mMfFGm1Bkeecbp8/zS4oD66SiAfchL1As95bMR09m29R8mfPXWUGh43jxh2/hwNM15X7u5G0atGufnrDgKImVptGGr04fuIXBWtFpY1o6auG+zZ/0Z9M8rvJj25EhBNQWid3QW0m+Zvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765173758; c=relaxed/simple;
-	bh=C/xXzHgxSHtGALMkY3co7wZ+4Wed4ydI3ftSBlDKe9M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f0t8EGrfmJJ71XbpYI9enTqxzkwgJs46+xxQsyKKGRks8F+pV7IMMhDJrOQs8I5XhXkw6RoS3hly48YJkkeJCgaDq0mPFVA3vfQM8n/ihEDXy9ZaB96yZD2xHLE7CVraK6CzZIpzc3594ufSLzGAsjGqPJGkE9tnau4mKx1Lrq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GB9chBiE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765173800; c=relaxed/simple;
+	bh=TuJUF4jOu1rju8vgOko6OMo6MQIouOim7U8TLxMcK7U=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qJR2j804jH2H/AC1g0GpGOozg/D0VV//fNBu5rT3xWl9M0vq1W27NZYCIMmM1rB0j2OVVJ2ve22csUujoDig77PD910ckic2w7Gw0JcAhysuNqssTgF1d95xvJVG0QutmY5eaZih8wB88KttaRB84EmwViwQ5TE+oy2YjuXAPLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLit44SF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GB9chBiE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D114C4CEF1;
-	Mon,  8 Dec 2025 06:02:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLit44SF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C98C4CEF1;
+	Mon,  8 Dec 2025 06:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765173757;
-	bh=C/xXzHgxSHtGALMkY3co7wZ+4Wed4ydI3ftSBlDKe9M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GB9chBiEfhdGIcKQFSzTraPQ7B6V5SjlBH8cxVfj0I4Z9s+PBgWyBZaYOGAejxIKC
-	 0dCjVrgbh20YI6kJ8wDdJUd7w7GnkO8ztHpwBjXt1N+yM68pVD+2l5Q+VdtpHORqa8
-	 V1yeWoubu5pWGRaDj6IhGvDgj/9InTkSJaxhDok0K7/djNx9ZxZMksBZ0gBUxL87Ay
-	 2mwiUVMnOKbiI7qF+KznxWjxlqDIHUWtq33xHSr4kymsjs4Z2t9Lo4AKwJL8JTLaTJ
-	 wqj2adNLfEGh9FzjdMW8zwSZ1KD+CjgAo5XyBotA+VZSJSItKiZTXtMx2WqVA9qStI
-	 wOX2XW3RQcJRw==
-Message-ID: <12131cc3-58d9-4755-85d1-84efc125779f@kernel.org>
-Date: Mon, 8 Dec 2025 07:02:33 +0100
+	s=k20201202; t=1765173800;
+	bh=TuJUF4jOu1rju8vgOko6OMo6MQIouOim7U8TLxMcK7U=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=gLit44SFa7E/0Dc7AJZd32/OjSD4SKCLPzhZqhLbQlU+LRUt8UaxOTR7UP/uKff8Z
+	 mthQuOeyTxFPxK7wu+5u+WaHz7/UZZWDylMYPa4gqNweGUq8Mx6Aigjbk0wPtODHYp
+	 dE8IIFVRIZVuWTbvZF4d2VZ0BB76sIYyI0WD0A3zvoI+bQdgHcxlhAVc4AHZHnnQ7z
+	 nkk3CVuL/YlhGi/oXovl9x+rh5xfmUUNz0C2W36PESpXIzIlwlMPQZQ8ywV3e6qYZi
+	 yIbjBqNyoVA+87T0AnTL+BTVokEK9fUSulBYThC+1kAym5SvzA4V+lf3WYsOmmEm+B
+	 7+1U4NBFc4GXw==
+Message-ID: <7dbe62de-2394-407c-9e82-822be5d7bcfb@kernel.org>
+Date: Mon, 8 Dec 2025 07:03:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,6 +37,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v8 2/2] ASoC: dt-bindings: realtek,rt5575: add bindings
  for ALC5575
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Oder Chiou <oder_chiou@realtek.com>
 Cc: "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
  "broonie@kernel.org" <broonie@kernel.org>,
@@ -54,7 +55,7 @@ References: <20251201105926.1714341-1-oder_chiou@realtek.com>
  <20251201105926.1714341-3-oder_chiou@realtek.com>
  <20251205-stylish-numbat-of-awe-10edcd@quoll>
  <333205912a0b4a44b95b858ef83fa52e@realtek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <12131cc3-58d9-4755-85d1-84efc125779f@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -99,30 +100,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <333205912a0b4a44b95b858ef83fa52e@realtek.com>
+In-Reply-To: <12131cc3-58d9-4755-85d1-84efc125779f@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/12/2025 06:55, Oder Chiou wrote:
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - realtek,rt5575
->>> +      - realtek,rt5575-with-spi
+On 08/12/2025 07:02, Krzysztof Kozlowski wrote:
+> On 08/12/2025 06:55, Oder Chiou wrote:
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - realtek,rt5575
+>>>> +      - realtek,rt5575-with-spi
+>>>
+>>> Drop the second compatible. It's the same device. Whether it supports
+>>> SPI it is already known and obvious - you cannot place non-SPI chip on
+>>> SPI bus and expect it to work.
 >>
->> Drop the second compatible. It's the same device. Whether it supports
->> SPI it is already known and obvious - you cannot place non-SPI chip on
->> SPI bus and expect it to work.
+>> There are two hardware configurations: with SPI flash and without SPI flash.
+>> If the codec is shipped without an SPI flash, the SPI driver can still load
+>> the firmware through the SPI interface. The second compatible is intended to
+>> distinguish between the versions with and without the SPI flash.
+>>
 > 
-> There are two hardware configurations: with SPI flash and without SPI flash.
-> If the codec is shipped without an SPI flash, the SPI driver can still load
-> the firmware through the SPI interface. The second compatible is intended to
-> distinguish between the versions with and without the SPI flash.
+> Ah, so this is not about the bus. I don't see that compatible referenced
+> in your device ID table, so this is dead code. Drop or justify - by
+> writing driver code using it....
 > 
 
-Ah, so this is not about the bus. I don't see that compatible referenced
-in your device ID table, so this is dead code. Drop or justify - by
-writing driver code using it....
+Wait, I saw it in deice ID table, but there is no driver data so still
+pointless.
 
 Best regards,
 Krzysztof
