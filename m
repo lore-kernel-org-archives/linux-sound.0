@@ -1,33 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FD217E4;
-	Mon,  8 Dec 2025 08:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFF92D3A75
+	for <linux-sound@vger.kernel.org>; Mon,  8 Dec 2025 08:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765180911; cv=none; b=phSXBCekfOJoRx/RivaMaArgio8z+mDa/5PSm1TYGeDHvoEXxV9rIicwY1HdNkdWagfg89QNkMiah0oIV5P7VO5Zlp1IycbPINKDOkeWGTyh4c6r2JIB68/lvX1sFEtzlLeEAAZXkWOL9ihPeEGjgN2cpwfjHR+grhvtVbtad0I=
+	t=1765181049; cv=none; b=Lsi6y28zWqxbEYa78KlCdRHBDOEyXbjQ09Jbgga+Cf4iEX09E+rdj2Y412q5B8/loMzS2Eq0Pj9IkQ93VqNWkRMedMke3l/vms39IWtycftMFAfjQEZV/LVglsThCdsGggmTOsq39dnWpnYjSIojhRHbN/5GjLbjWSSLqz51eG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765180911; c=relaxed/simple;
-	bh=4o3k84cSoFVkEFHqlP6kdQk46PTl+iYPVlvk6x9AM7s=;
+	s=arc-20240116; t=1765181049; c=relaxed/simple;
+	bh=LcIjzS/QX9OdfzWd7S5fStct/j5BiQOmeNhDz/vl8LE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HZ+tizFGNU5x6NciTcS397tXaTPPtLSm87QtEJ3+TlgrJyx+bfM/9eCmGjsL1toLQuAcBSSsuHX4UN05Vkf1O4FVrx8iY9AcY4TUlbWLbJh12Zs92XSXEv+eHzyvuQ5asehSBIyuOIQiuCnZv4OCe4reTOU63D+SRMeRmJr3U/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j80OI97R; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=bIAYadlyyE6+2TUfjOp8sjNuhSPmIe0kNop9txT7xxCWiuO9KuGto5pkEc7my2HAOih947k6ATteR1cMt6PSI1sWHh0D6wYstJx6R+8X0HTK7DDa4cPxy1HTSzLXwZOA0zBLePaa5Xz1m6JIG8+P6Ma6ww5yz1twOR8FC6kXdOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RSTEl7vD; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j80OI97R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F3AC4CEF1;
-	Mon,  8 Dec 2025 08:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765180910;
-	bh=4o3k84cSoFVkEFHqlP6kdQk46PTl+iYPVlvk6x9AM7s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j80OI97RKDz5Ua10r/90B/K+sulEdDJuikydKmNdFReRjDbRKtscr7GEFvSM7UmQE
-	 js3dhNXoqAa8gRmiDsa3mCnJTAcjGfZIPvuB3Ata/c6ut1BIPGqrLKgcdCIBIga0Ys
-	 1iRszMxja7QCJylYxdbmSHgOnFduswhEzt6hVw9CC7nGJ7BCMk6ko2WRzMhNB9AjYF
-	 vvgGpMhlLmKl3+TNDs1wTYf7K8oO4s5meSeridMesNeSAwlOesM1s/1DserQs63QCb
-	 IO30I2IMrT6++rEpc7Jl7h1TyKqsVcP7WGAeATWxkcnTw3e08v3MIMJFH8kjvuItFO
-	 oig7shpTY8BTA==
-Message-ID: <20065270-0d88-4463-9641-f92b4c9e4674@kernel.org>
-Date: Mon, 8 Dec 2025 09:01:46 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSTEl7vD"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5943b62c47dso4071258e87.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Dec 2025 00:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765181045; x=1765785845; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0+tebP17XJiSVpHNLRMqnpjIXpj4TNVdcjDVZw4M8+c=;
+        b=RSTEl7vDc1dcrV43f4lJp71x71nXdxonolSC+FgFuW2YrEJPE+ZMyPV0P1/UvbeGg7
+         3rIAzVfJ1h0EgIoQYtz2j49lWTVnmXZgCkbqWODl5IF8edwdTqlPYrNnRJGjJ9zC9JJh
+         jg26EOgV7P0Vm9/2A8Ovijk839KiGACsWcyvRNyBTYzLEo9LOdlFT5Hmcx8vEXK1tV1P
+         OQIras0Rhqw/3cV1AH8p6GpM/2+6Cr1ogNpf2swjA4i7kItSWxFyxyy2T3nBWQHOIzPo
+         Qd4p/0Tg5LLNMbWm37CZG8gcG4QXRYLWvsCywPbO6ahrgrZi4l19j8AXaL1xAa6vmOoO
+         x3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765181045; x=1765785845;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0+tebP17XJiSVpHNLRMqnpjIXpj4TNVdcjDVZw4M8+c=;
+        b=RgZ4dz+HQHP6epzTxiQ84JuenvoqKYFelXkIJt6hFWrHQQTMSey+M0mAM4sYk0bCws
+         cVIecJr54sINLmaR2muLHB1c/fs+ovW9xwmE1EdWh+uadVmHfMawxXSR/lXJq0gAo0jZ
+         8AwiesGdXuvAoL9QOinOEX6tnwVC+ReZll9iGZXz9iXgNpAaZdoHXN5vYx3Gl61Q83x6
+         44vHueL83Rd2isu2d/LDijMN902bhLMq5kJmLzODIGpdxy7+dHf+jwbdV2In4BYiJq3A
+         UQk6JWfDFb3Dp+rArwvGMaVN964a8va7PO0bys4TxYSzriAL4YWc4xvh68ShwdJYPbf/
+         wb9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX9nHtSLsdRjnoEr4kW78FCCYfxV4LHZRLimvIuPXvqw/fvyTanMq+3DSxW9WLgMU82koxhGyXX1BoLKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7KzD5qIQCdNLp8+f7gYSBgwMmZoHAT2c9xLdNWviv9Y3mLDh0
+	GnR3879eGCfLFU3lU+7KRySI4xAhkQ94geemP3V+VhXLjTsoaGYb2n7c
+X-Gm-Gg: ASbGncuDywTKD5XzcD7dSG65p5tw7EZO63FwcbECLaT8iytCS2kAra1vS7egOIHH1qA
+	ULuT/M1S3S13arj3Qv2XkeNrdfodC0/a6/ELCnmB8yJh+pWoF/ximHtf88nxzfk0tU3VftOKMhr
+	u+kG8OMx7hPjWpRYtqRgjaNl2Wckov7woIbHJOlZAUZpdNxGr+/33IaRtblLPUQJWd4So5wx925
+	5E0rAJqlzmwgsjxXPAG1XGYlnQ74ZeIUxkQKe1+kqYBRsN+e+0cqcwX7+xvC0Zcs6Cs6kxgx6zx
+	NFnNECgqN6G1I0fmjThiHilvWYNmw5BADT9VW76YRdn8tYs2q6XtB6kqofsjH3+pnpwQOCccZXo
+	BgII7y80Px32VOr7ppU7z5ZNX4EJcHURLZy9gRYNwvTjYsIRkc166aMFRMTVSd9AHHB+kQwa6eU
+	sSCMJ7PVEUVD47aW+sStDkFaRwLiOb8TPpUctqOb/BUUrKxgxXg9adk4UUrbnAR58mWOUoP4RmI
+	t4HUI4=
+X-Google-Smtp-Source: AGHT+IEtsjzvo2jB+dbI9VQ7yZrjbx6yvK3VRttDJmqZME09yWJ/CiejjRuxkvbF6yvGpf9tC/V6mQ==
+X-Received: by 2002:a05:6512:104f:b0:592:fb5d:6300 with SMTP id 2adb3069b0e04-5987e88bb77mr1971804e87.10.1765181045203;
+        Mon, 08 Dec 2025 00:04:05 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c1e2b7sm3942418e87.51.2025.12.08.00.04.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Dec 2025 00:04:04 -0800 (PST)
+Message-ID: <bcbe66b0-23bc-4ba1-93ab-f2c09262e07b@gmail.com>
+Date: Mon, 8 Dec 2025 10:04:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,174 +70,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for the ALC5575
-To: Oder Chiou <oder_chiou@realtek.com>,
- "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
-Cc: "perex@perex.cz" <perex@perex.cz>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "Flove(HsinFu)" <flove@realtek.com>, =?UTF-8?B?U2h1bWluZyBb6IyD5pu46YqYXQ==?=
- <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
- =?UTF-8?B?RGVyZWsgW+aWueW+t+e+qV0=?= <derek.fang@realtek.com>
-References: <20251201105926.1714341-1-oder_chiou@realtek.com>
- <20251201105926.1714341-2-oder_chiou@realtek.com>
- <6c0639e2-dc59-4e0f-be42-224a98b37f75@kernel.org>
- <2202b463075f4219bffc636fbafb0684@realtek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <2202b463075f4219bffc636fbafb0684@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: Kconfig dangling references (BZ 216748)
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, andrew.jones@linux.dev, linux-omap@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-sound@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
+ Paul Cercueil <paul@crapouillou.net>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Cameron <jic23@kernel.org>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 08/12/2025 08:29, Oder Chiou wrote:
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Monday, December 8, 2025 2:05 PM
->> To: Oder Chiou <oder_chiou@realtek.com>; cezary.rojewski@intel.com;
->> broonie@kernel.org; lgirdwood@gmail.com; robh@kernel.org;
->> krzk+dt@kernel.org; conor+dt@kernel.org
->> Cc: perex@perex.cz; linux-sound@vger.kernel.org; devicetree@vger.kernel.org;
->> alsa-devel@alsa-project.org; Flove(HsinFu) <flove@realtek.com>; Shuming [范
->> 書銘] <shumingf@realtek.com>; Jack Yu <jack.yu@realtek.com>; Derek [方德
->> 義] <derek.fang@realtek.com>
->> Subject: Re: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for the
->> ALC5575
->>
->>
->> External mail : This email originated from outside the organization. Do not
->> reply, click links, or open attachments unless you recognize the sender and
->> know the content is safe.
->>
->>
->>
->> On 01/12/2025 11:59, Oder Chiou wrote:
->>> +
->>> +static int rt5575_i2c_read(void *context, unsigned int reg, unsigned int
->> *val)
->>> +{
->>> +     struct i2c_client *client = context;
->>> +     struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
->>> +
->>> +     regmap_read(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING,
->> val);
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static int rt5575_i2c_write(void *context, unsigned int reg, unsigned int val)
->>> +{
->>> +     struct i2c_client *client = context;
->>> +     struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
->>> +
->>> +     regmap_write(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING,
->> val);
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static const struct regmap_config rt5575_regmap = {
->>> +     .reg_bits = 16,
->>> +     .val_bits = 32,
->>> +     .reg_stride = 4,
->>> +     .max_register = 0xfffc,
->>> +     .readable_reg = rt5575_readable_register,
->>> +     .reg_read = rt5575_i2c_read,
->>> +     .reg_write = rt5575_i2c_write,
->>> +     .use_single_read = true,
->>> +     .use_single_write = true,
->>> +};
->>
->> OF device ID table goes around here - together with I2C.
-> I will correct it.
+On 08/12/2025 04:04, Randy Dunlap wrote:
+> from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
 > 
->>> +
->>> +static const struct i2c_device_id rt5575_i2c_id[] = {
->>> +     { "rt5575" },
->>> +     { }
->>> +};
->>> +MODULE_DEVICE_TABLE(i2c, rt5575_i2c_id);
->>> +
->>> +static int rt5575_i2c_probe(struct i2c_client *i2c)
->>> +{
->>> +     struct rt5575_priv *rt5575;
->>> +     struct device *dev = &i2c->dev;
->>> +     int ret, val;
->>> +
->>> +#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
->>
->> No ifdefs in driver code.
+> The bugzilla entry includes a Perl script and a shell script.
+> This is the edited result of running them (I removed some entries that were noise).
 > 
-> I am not understanding exactly.
-> If the machine is without SPI interface and the codec with flash, the
-> CONFIG_SND_SOC_RT5575_SPI can be disabled.
-
-But you still should not use #ifdef. Coding style gives you alternative,
-please look at the doc.
-
+> I'll try to Cc: all of the relevant mailing lists or individuals.
 > 
->>> +     if (!rt5575_spi && of_device_is_compatible(dev->of_node,
->> rt5575_of_match[1].compatible))
->>
->> No, use driver match data if ever, but this is just wrong. You said it
->> depends on SPI flash, not SPI interface.
-> 
-> I will modify it to use the match data as following.
-> static const struct of_device_id rt5575_of_match[] = {
-> 	{ .compatible = "realtek,rt5575", .data = (void *)RT5575_WITH_FLASH },
-> 	{ .compatible = "realtek,rt5575-use-spi", .data = (void *)RT5575_WITHOUT_FLASH },
 
-What is still wrong is that why you defer probe if there is no flash. I
-really do not get it...
+Thanks Randy! This is good.
 
+> TEST_KUNIT_DEVICE_HELPERS ---
+> drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
+This is a config for stuff that never went upstream. It was replaced by 
+more sophisticated kunit_device, which I believe is behind the 
+'CONFIG_KUNIT'. So, this should be dropped, thanks!
 
+Yours,
+	-- Matti
 
-Best regards,
-Krzysztof
+---
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
