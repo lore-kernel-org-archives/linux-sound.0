@@ -1,125 +1,124 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47FA328277
-	for <linux-sound@vger.kernel.org>; Mon,  8 Dec 2025 14:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87798281532;
+	Mon,  8 Dec 2025 18:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765204124; cv=none; b=SJfhP45E0r51qtLwT7z/Z3oNJT6aVzNP+RLUKhgp1dUpH9zeE2ci7HMfYJlcYJR307j1jt8d91CcoNZFKXl/BL0eYQvS/IJRxIEV168mir63Ew8vxCxopzFDOCHv859imH62iYDfwPpz8KLOgXc18TimaKAbTzEePgE6p7Y4Oug=
+	t=1765218248; cv=none; b=RCc0Lu3UyTZWLDCGLdyNe9+9WIuoiN3hXvFbbztYMuXJDTFnCexxh/FYo4cDs5ae8h71vHAqnSCv0OrM0uLByEivfrPc5hHTseicVMpRwwe7+Aab2CG1bR1DtahgpMtCp50PPtAgBgZE9pcS5c1xWvDcgCpLQ6yDyKmS/bH+oT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765204124; c=relaxed/simple;
-	bh=41O2RGhzMoDRw79CIKaLm9hYzODNfKspz0LTOYBpu+Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CqmlPjDOgmKI1yLn8rouPEHhEgI7vxqfqAr7jgGjxPA3e4KnNHK8ZLukMD8o+vLfvh0JnoF9A1XLYVXECiPqE4cGnqniET2IUWbYjwzsqWVi94bPbmNIEdRSaXQfeRc/L5rQYLLPARkNZ/voNDV6DFo83JV6TBQsTQFUYcEdAMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b7T0ejbN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=acBn5h/J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b7T0ejbN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=acBn5h/J; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b7T0ejbN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="acBn5h/J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b7T0ejbN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="acBn5h/J"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0D76337F1;
-	Mon,  8 Dec 2025 14:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765204120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vJ7o5yFokxGKDF1++LqzGxkl5wGif7X6hVbEcbWy9TQ=;
-	b=b7T0ejbNzmxrXvJqXJ2JGQlgCBP/9r7oaIqb7RFVe8AfwTVEKzYXuq3wWWm91UZJ5jWgi3
-	tIRX1Sabhu2dVQ3WowOzWABoNAKoKOtbAktMOxHpX+aQYhj0Bjg88dMd0ffFEz2Le+oWr2
-	0wiKIWSjMLnbeT65Pv0AtaBOJie83yw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765204120;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vJ7o5yFokxGKDF1++LqzGxkl5wGif7X6hVbEcbWy9TQ=;
-	b=acBn5h/J3udZkh8aQ20bMZevShp3sH6RRVf+VdB2ArzRNYHw5jhuv1jPCTmHXa9FJZpiad
-	uMZxLMkXWi2q5gDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765204120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vJ7o5yFokxGKDF1++LqzGxkl5wGif7X6hVbEcbWy9TQ=;
-	b=b7T0ejbNzmxrXvJqXJ2JGQlgCBP/9r7oaIqb7RFVe8AfwTVEKzYXuq3wWWm91UZJ5jWgi3
-	tIRX1Sabhu2dVQ3WowOzWABoNAKoKOtbAktMOxHpX+aQYhj0Bjg88dMd0ffFEz2Le+oWr2
-	0wiKIWSjMLnbeT65Pv0AtaBOJie83yw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765204120;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vJ7o5yFokxGKDF1++LqzGxkl5wGif7X6hVbEcbWy9TQ=;
-	b=acBn5h/J3udZkh8aQ20bMZevShp3sH6RRVf+VdB2ArzRNYHw5jhuv1jPCTmHXa9FJZpiad
-	uMZxLMkXWi2q5gDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 984E53EA63;
-	Mon,  8 Dec 2025 14:28:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zJUUJJjgNmlnNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 08 Dec 2025 14:28:40 +0000
-Date: Mon, 08 Dec 2025 15:28:40 +0100
-Message-ID: <87sedlt5d3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Andres J Rosa <andyrosa@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH] ALSA: uapi: Fix typo in asound.h comment
-In-Reply-To: <20251203162509.1822-1-andyrosa@gmail.com>
-References: <20251203162509.1822-1-andyrosa@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	s=arc-20240116; t=1765218248; c=relaxed/simple;
+	bh=W+NLJSeImOKki1mt9PgOe3q9Sm0BkibwAiwXq+bh4gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fn0UnnhhBcOro3RbfbVBGZM0UlUBz3qBIeAe5Aq00MTbYN7185IIZ5PjuRS1P6tMzDjJl9lOB684ZbTyefrO/1d5t1LGOjzubRTJqPGf+ole35I1Yg3uD+RAPSMbDX6AHAW+iNjRrtPKfqNl4RiYshaODLrIyWs/pFQfVcN5IiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 585021F8005F;
+	Mon,  8 Dec 2025 18:13:59 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id BE08DB121CD; Mon,  8 Dec 2025 18:13:56 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 74EE8B121BB;
+	Mon,  8 Dec 2025 18:13:53 +0000 (UTC)
+Date: Mon, 8 Dec 2025 19:13:50 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
+	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	chrome-platform@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	linux-sh@vger.kernel.org, x86@kernel.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: Kconfig dangling references (BZ 216748)
+Message-ID: <aTcVXrUXVsyjaT22@shepard>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.29 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.19)[-0.931];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.29
-
-On Wed, 03 Dec 2025 17:25:01 +0100,
-Andres J Rosa wrote:
-> 
-> Fix 'level-shit' to 'level-shift' in struct snd_cea_861_aud_if comment.
-> 
-> Signed-off-by: Andres J Rosa <andyrosa@gmail.com>
-
-Applied now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z9eEZ2V8rb9VqsSG"
+Content-Disposition: inline
+In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
 
 
-Takashi
+--z9eEZ2V8rb9VqsSG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Randy,
+
+On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
+> from  https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
+>=20
+> The bugzilla entry includes a Perl script and a shell script.
+> This is the edited result of running them (I removed some entries that we=
+re noise).
+
+[...]
+
+> DRM_KMS_DMA_HELPER ---
+> drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+
+For these two, the symbol was removed in commit
+09717af7d13d63df141ae6e71686289989d17efd but these two drivers either were
+missed by the batch rename or were introduced a bit later.
+
+Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by the
+drivers), it should be replaced with DRM_GEM_CMA_HELPER.
+
+Are you expecting to craft a patch for fixing this or should I do it myself?
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--z9eEZ2V8rb9VqsSG
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmk3FV4ACgkQhP3B6o/u
+lQxHMA/9EINPzAC/mNsqKqe+ejzVAFDvbkqgtj46jdHchIRyg5QqUNEoQvUKACwR
+bZftHenlJS3ho4n0eejvmJG9LkV6HYA4X0vXrPKGJTBCMgy1CUl7j7v8ZFn7qhcc
+KmyK3klG9hxRNAFrMTlxaE3uzNZWaZ56eEINuq5RkJWv5ieiadTkXR03L4x2l++z
+B1RqTh3yh5d57Ckfs7lLGfmiDUQAkhdAm1CASv6bO1jKRiyhuSN95aOZFZ94DV+m
+oV44vbSx4aXyh1lb07PxtPMa+WITGI6/mW0+TKhRNd0eAoO19K0zkSNA18KjgiOw
+3m/4Vs1pdWSKCTDIgtcymufTpdjqWt5LEpxEuzLprgUXrpoQbS7paAfhB4Ex6yIR
+CcQfarVp0SM0/OI5kZc40xoz6UEHrCjw7+loxHuUV+2KHAhfRlQhLcScrQXUO/X3
+L2vzAFURuGyVpPbZnq2ftkMT4h6o+W93ZtKP8vIHJjDijdwM3NAt90FT9byKXAYP
+AvVBPERmf9+savPI0eDYuO825wAcF3D2rvF4ZElPj4+OD6sq93Z52bDN3CUFHsMD
+tKp3GKwBxZ0ENUxQZvrIINzLx40EXOq/MDI1JZd4Nl89W5BBk6QGIRE4hj0FNctf
++4gCjq9z339Ik0u6aVtzq/jdewPuTo2wZ5DVPxsH1RyPX2cBWAg=
+=azY3
+-----END PGP SIGNATURE-----
+
+--z9eEZ2V8rb9VqsSG--
