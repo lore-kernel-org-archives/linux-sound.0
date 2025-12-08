@@ -1,102 +1,77 @@
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EF0245012
-	for <linux-sound@vger.kernel.org>; Mon,  8 Dec 2025 21:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF2C1DB95E
+	for <linux-sound@vger.kernel.org>; Mon,  8 Dec 2025 21:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765227913; cv=none; b=tagtE5Q5KLwrxbjB0XrMZqBFHUDL0XJkBW86DJm6TNq4SbQjFjlFYq4L1i2uTm1hPBqN3w8DQXEx1eVE0G2sN7dQYi2wO9ZdEFDX4w7/NPm3m9DO83Irak3V1YApJlthRUEmLfxzSVYjAlOYVrlN0RMpvCHkj6+rL/AON673O78=
+	t=1765229883; cv=none; b=XPufIrKhD+/7IfmxB5sRsT80Y5Ihp+k3GA9cNtX0dgPH3NOkQzGZ/uK7p07CloyxM6kwt75HN+kxL2u2wssyYqlkVUdZ5+K+yokYNb9jOvuQ0YwI6Q3IpfJfnp8I9RaQThfTP0S4IQ+UewSAPGrMIEHQUmfJYmUKsyYJ0Bx1BSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765227913; c=relaxed/simple;
-	bh=T8L1+/nl58TgGmw/lREAJJDSPazGgb7o36kAd3Y/6Bo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IhV0UmxcACzYxln0yEdkXjjh0TzK1zVItOHXLQyQ+4ozr7zk8AH5S1GlViTL/W1onQhlRNP1ArXp79GLvmfq3bryEKcZCO/RnHKBobKxbYoEn3b3NyhaGmPN1M77QERW1cTOX25a+YiVo6Wah5qrZE0dzaIKeoZC6h5tPP/FMCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=d+R9E0uF; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+	s=arc-20240116; t=1765229883; c=relaxed/simple;
+	bh=GNjdGrenXAng06XLUG8kpn4IuZEQcgE565NldEPKlnI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=LabZ7s+kA8sSre+/Jq39PL3Gr/pp2KZ4uN3c/r/O2CL9cTqocf7GunDZwtUdBu1gfSr6iJc9skf5tLXs9Vv6Ez0Yb1kiUCxQ6enbrtkaP0bh2rWMVZtSBBDTCLhIGYR5m+uXUoDuEEndHCke5Wj5SFDZNkTxhrgQDuWj2RHoasU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Z2RsaqLM; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="d+R9E0uF"
-Received: from [IPv6:2a02:1812:162c:8f00:74f7:450e:16bb:b45f] (2a02-1812-162c-8f00-74f7-450e-16bb-b45f.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:74f7:450e:16bb:b45f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 2B46A6ADD0C;
-	Mon,  8 Dec 2025 21:57:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1765227423;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Z2RsaqLM"
+Message-ID: <2d8b782c-a97c-4521-9307-a2cf8934802a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765229868;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T8L1+/nl58TgGmw/lREAJJDSPazGgb7o36kAd3Y/6Bo=;
-	b=d+R9E0uFllKD/RpPd92sKLX2ZSbJoIOry+nAbZE+8u1LeAMGi9g7pgweM90/HC0BuHafRc
-	rHO1sv6BM/wELY3LDthIh3gBOOBSzmFxUHbolUWu4r4HqvmeD/ge4vIOXb6kUy21fNtteN
-	oDiYwI2R7xAoo3iejMC+nZVaPOpvk4STX3bS1TXJMoIXlyvUS5cuB1lX+01OLXKghiEOYd
-	qgTDd1WpbeX+aOCfAGP3OciniNwvDC76ZMiXnHUZrFipdAcvLdCs3475g1CUhWTcYOb1gw
-	XFexckyxcSWxS5XYqcUaVK8nvpPN5/iV/HWYCB2mh6Wx/wbm63IHiPLDmvLHdQ==
-Message-ID: <3c8b0ff11a7b5bcc26c2e99b7369cb50d48621ec.camel@svanheule.net>
-Subject: Re: [PATCH] ASoC: tegra: Fix uninitialized flat cache warning in
- tegra210_ahub
-From: Sander Vanheule <sander@svanheule.net>
-To: "Sheetal ." <sheetal@nvidia.com>, linux-sound@vger.kernel.org, Mark
- Brown	 <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter	 <jonathanh@nvidia.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, 	linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Mon, 08 Dec 2025 21:57:01 +0100
-In-Reply-To: <20251208052040.4025612-1-sheetal@nvidia.com>
-References: <20251208052040.4025612-1-sheetal@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	bh=0+y2/vMbMxZSt8Rk39k+RmNNvGvECsT6Zy+zuiWOYu4=;
+	b=Z2RsaqLMNrP1+NyfCIySWidaKT8q1p7nTfhvbAfEUSNs5wIzocOQk2aS5Bf0Uj1jrQIQPu
+	LvMxde1xJAHlZaHZUoYzjmX6KEpx1MiFHTJpvOKVNznGoJPd7OGapQJ9hcC2FwRLJsY6pW
+	0+PCriP2BiKEPHNKGoA8OE10F4RVT9E=
+Date: Mon, 8 Dec 2025 13:37:41 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [BUG] hda/tas2781: ASUS ROG Xbox Ally X audio issues with default
+ firmware
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+To: Baojun Xu <baojun.xu@ti.com>, Shenghao Ding <shenghao-ding@ti.com>
+Cc: linux-sound@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Antheas Kapenekakis <lkml@antheas.dev>, tiwai@suse.de
+References: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
+Content-Language: en-US
+In-Reply-To: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+On 12/3/25 5:47 PM, Matthew Schwartz wrote:
+> Hello,
+> 
+> I have an ASUS ROG Xbox Ally X which uses hda/tas2781 for the speaker amplifiers. I am splitting this out into a new thread based on the suggestion from [1] to fix the remaining issues with the device's audio separately. 
+> 
+> I built a kernel from tags/sound-6.19-rc1 in tiwai/sound and included [2], which seemed potentially relevant to the issue that I describe below.
+> 
+> By default, my system loads /usr/lib/firmware/ti/audio/tas2781/TAS2XXX13840.bin.zst. With this firmware file, any sound above the 70% volume limit range starts to become distorted and frequently drop out from either one or both speakers. I've included an alsa-info.sh report with this default firmware at [3].
+> 
+> If I run sudo mv /usr/lib/firmware/ti/audio/tas2781/TAS2XXX13841.bin.zst /usr/lib/firmware/ti/audio/tas2781/TAS2XXX13840.bin.zst and force the other firmware file for Xbox Ally models, my speakers work up to 100% without any of the drop outs I experience on the default firmware. I've included an alsa-info.sh report with this renamed firmware at [4].
 
-On Mon, 2025-12-08 at 10:50 +0530, Sheetal . wrote:
-> From: sheetal <sheetal@nvidia.com>
->=20
-> The tegra210_ahub driver started triggering a warning after commit
-> e062bdfdd6ad ("regmap: warn users about uninitialized flat cache"),
-> which flags drivers using REGCACHE_FLAT without register defaults.
-> Since the driver omits default definitions because its registers are
-> zero initialized, the following warning is shown:
->=20
-> =C2=A0 WARNING KERN tegra210-ahub 2900800.ahub: using zero-initialized fl=
-at cache,
-> this may cause unexpected behavior
->=20
-> Switch to REGCACHE_FLAT_S which is the recommended cache type for
-> sparse register maps without defaults. This cache type initializes
-> entries on-demand from hardware, eliminating the warning while using
-> memory efficiently.
->=20
-> Fixes: e062bdfdd6ad ("regmap: warn users about uninitialized flat cache")
+Hmm, I did just boot into Windows to confirm which firmware blob loads, and it looks like Windows also uses TAS2XXX13840 for my unit. So the driver doesn't appear to be loading the wrong firmware on Linux...
 
-I disagree with this tag. The commit is working as intended by giving a war=
-ning.
+> 
+> I took an acpidump at [5] and extracted the dsdt table at [6]. Please let me know if there's any additional information I can provide from the device to further debug the sound issues with the default selected firmware.
+> 
+> Thanks,
+> Matt
+> 
+> [1]: https://lore.kernel.org/linux-sound/87zf8jesp0.wl-tiwai@suse.de/
+> [2]: https://lore.kernel.org/all/20251126141434.11110-1-baojun.xu@ti.com/
+> [3]: https://alsa-project.org/db/?f=840337cab11f6aa70cf48b15d55ac45e4027ff41
+> [4]: https://alsa-project.org/db/?f=6e482f72765d89520ea171f15641228bcadefcf0
+> [5]: https://gist.githubusercontent.com/matte-schwartz/d7ff3c857b45cca197f3d3adc16df0bc/raw/2e3267b8d1a9d619ecd8157e4da426be756b6497/acpidump.txt
+> [6]: https://gist.githubusercontent.com/matte-schwartz/4042dcd3779c3738af60536a9d4050d6/raw/5227717c6d40a2dc4012b95f7fefc6cd50ba784d/dsdt.dsl
 
-This device's reset state happens to match the zero-initialization of the f=
-lat
-cache, so there were no issues here. An earlier version of this sparse flat
-cache indicated a potential problem with another driver, so there are likel=
-y
-drivers out there that do need fixing:
-
-https://lore.kernel.org/all/a2f7e2c3-f072-40f7-a865-5693b82b636e@sirena.org=
-.uk/
-
-
-Regardless, this patch could still be material for 6.19 to avoid unneeded
-warnings, but that's up to Mark.
-
-Best,
-Sander
