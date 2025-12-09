@@ -1,240 +1,177 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3822DA74D
-	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 09:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1413719DF4F
+	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 09:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765272429; cv=none; b=jxpWOo67HuV2Lak5LbTqRg9v9rrgZuOwp/m/DKKQpuWorBqmnlNLwaO8i5nFGu3Lw2BpZwxaYDADZH8E0igtOzoFDYcqEglS4WhNjlLF7OTSCAmmaIufDM8Wrr2la5UFlXyPbH8d4xAodZZWfc08j39GjGWfq1OJ6kVQ1ibXaKE=
+	t=1765272694; cv=none; b=iXmARll9UeoaUx1YW2VpgtrEdqpa6RhrNsCJr/6r0B7Gf9B3KH56AaChQDTkwTyct742z5bb6VbVj7Sm2T1wg1V8hI7xsF2qG/+7bFGi1mlC3Qw6GZeuqeuZxnlcXgQAGsGLUK0dziA00u2rvtdF81O/voRxtSeydLl2b+KzfaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765272429; c=relaxed/simple;
-	bh=ZcKZ481C2jLZ7ih4+ZUTT8eeFrSLUYcjyUPbydQ7LPE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rgJfI55tR+TYmen6oxwPZgu/Sha+OKc3m2Va1L4jzVX0JWE73T+lFctTlApq/RNZl77wqRolnmqT1yH+UyT59pr+eVzofHhhKMAlQ/syZIZX8tv2dMacGipMh+Y3hqto3LEgMm5kH8DqKGQ2BxZRHkEQIWxWwm201cbmjSTUQbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xqc7svUB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lpm+0YKh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2LSQXNXG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gs7cwMOZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765272694; c=relaxed/simple;
+	bh=L2NXhYYRLt8OIp+LSK83T3wVNVp3FYPqt22R7zQ43L0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gTvs+iGF/WUZZRDUOkzJZ8bM20u6W1jx4LWoOB7P+DqZnEKY8ryQfDP8tYKJvnKZ05LTqvhVyO/L0T1pXkZST4+gFJN2eHIyXnmHh2MLIxT/2qLc0oIlAlCV+uHaVKCtl3nZNg+FyQpuCnoZfzzx/tOFyjNfzMJtvXAvOnNZ2Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duSD+Kz2; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xqc7svUB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lpm+0YKh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2LSQXNXG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gs7cwMOZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF0B133734;
-	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765272424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Xqc7svUBR1AJk/UN7X+MfgVxaTjswcCkeKCfdIIwMxlst6y9vz67qcnQnwwcG+1E8FNZIi
-	hv8XeFUrfCVThZPoMiLLgfp2y4ONq2xAVt9JLAy8apVpaE+HgvnHYfnhSKOQF66oo3sYfT
-	xjfjnfIZ9yXT2Lh0kQ0is4Mnwh6c65s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765272424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Lpm+0YKhPDaGZkgzeR4FlL82eQQ0ZlTXbRWvhcsy3E3qA81rRc5GjTwQnhmxULz7WYGlen
-	snr8Z+JICfjF7ZCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2LSQXNXG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gs7cwMOZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765272423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=2LSQXNXGlUWW5iBQpeO/S5XQSgJAz0VdDvE1JAFcGG+ik0nPS42u0w7/ia7FwfM/l5x5e+
-	fIMoOUec6XJsdz+MDclq0QPNpvc4bP74TT3+DJ0zCMNeOaR9ZQLA5XUx7YIhEhJnYeZI3S
-	hkp143y0PMAF9G9G/5NIije/udujwDo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765272423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Gs7cwMOZ99ycrBGLtJ/y/mIkZ88YXtKBMmSW0H3IN9ngklEhpzk+1Hr3FaNG99VfJRYbp/
-	CtT2FqJvn4pBn2Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 621033EA63;
-	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xWa9FmfrN2nnNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 09:27:03 +0000
-Date: Tue, 09 Dec 2025 10:27:03 +0100
-Message-ID: <87y0ncrons.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: Dell.Client.Kernel@dell.com,	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
-	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
- <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
- <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
-	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
- =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
- <dxu@dxuuu.xyz>
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <875xagt7d1.wl-tiwai@suse.de>
-References: <87o6q8l68r.wl-tiwai@suse.de>
-	<20251015145749.2572-1-safinaskar@gmail.com>
-	<878qhckxc5.wl-tiwai@suse.de>
-	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
-	<875xcgkvnw.wl-tiwai@suse.de>
-	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
-	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
-	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
-	<87bjm78978.wl-tiwai@suse.de>
-	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
-	<871plbucj3.wl-tiwai@suse.de>
-	<CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
-	<875xagt7d1.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duSD+Kz2"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bbf2c3eccc9so2601406a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Dec 2025 01:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765272691; x=1765877491; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MRxNXZW5HGKhav3cQeIpm16SYzyMsJXYbVPLK0TzqeI=;
+        b=duSD+Kz2X3Ha9zOWpS+WcwkgwLbBTLBjF+ZmogaMhUz7DNuZBwayVPFlMx+XN0KeJq
+         Ih7eX9Ua00bTh72Q7T8pJ6gXsJrRgqBLdys4JuSs2r5nTyi7pstOiswh2LUyv8aJ/9os
+         VMATXXt7MCfs7yIP6dD5WDKxNm2/NKzdgxGgcQwuTxJkW6BI3gHapnxn6PrZfk4Ly08v
+         dd9A+xtYViuyVt8/d5yz2a7uq0nvLmyFMzS4Y2Q7HYq0O09+wil0ye4nQxYlI5B+ezBP
+         OpF8ZfC4w1OFllNR18JFEt4K07OAwc54amTZkBDpW+hXtR3RYzQEPK7d2lmwQSPSZrDH
+         +NZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765272691; x=1765877491;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MRxNXZW5HGKhav3cQeIpm16SYzyMsJXYbVPLK0TzqeI=;
+        b=uP9mxnjtZyF44TPSUiwYW6Rjg4fKiKOSCd4sfy+EvrLo3Kc+fer+79ed0iSTzCDUuo
+         N12R85Z5haF3o2ly9w7AqwX/rSpmJe07I4KdYkK9NDy93f1YRIlx8zxyg2BY2n7sRoeq
+         heYQAGWYH1lp6RnA2dWAPPUrXKtz/QgndCqvIlcj4oYewD840DURK5ykRVfjVeaArasL
+         HytZJiz0vzwyS8SgYTQ20hxr5MzbSJnDQb59LsnSxPeEJkie/fhbmceDIn60MQ32Sxl9
+         +kbquPvKnhWwcHtGxF3PBXURjHGJZVzBY0NJH5nBsAya26D8KKl+uS7hJrOzDDWW+Txf
+         tXjQ==
+X-Gm-Message-State: AOJu0YyjQ32P6elHNHov40iiGSu8aUxVeF2CCNP3cJLL/cH+JDVAZg2M
+	9NazbWdFPWhjT2WDTau3BLxuss50eMRCT4ztkBCh3/JDJQUVAqJdM+av
+X-Gm-Gg: AY/fxX6VXVF7Wsb9FMjBTOdBb/EfYP1FM5gNKT6VJA1ma3pDfTLDuFIAXaft8SkIDDl
+	rg+5ot7yd9f1WNeW5haCZ0E17hucH7e/Sc2ScOLmpsQd6PdpJxni3W0cftAlGkJU10C/Q8o1JLX
+	As2C6uR5EZsRYnWu7DsFY5Vd6w14UCJNAiwRMHakdY4saiwpIFrKv3igFW/ryR593BufgLSt++y
+	wOQKM8jWGHIj/vboyf88oFbVx6/EqpUIKtW5qEQWGWPT35KGlRTtvxGVfaDVDptFkjwpywIApzm
+	YV2C4qdTeZsxXQeqn11MRTYpHi5zQZYAIxtuxb9tnX28i+yf2wU/wux3OaOMrR8qBQrHLtkl62i
+	lPPsGbQrG1WMpCU57mKf038AnJ1GeWr+IzUn4ihzcJ/EAAQiUZZaRx6Yil6wwA+kCIKa0rCqPCK
+	eoUJ9O2hImRTm5KpSz9Y7hpOt8dsaoq27HaVkSPPAFum4TvaLxa4OOoeKstSk/QUhjCbY6wL7PZ
+	BjA7vUspvz3tntdW2jouwbSPqobI1rI7dsnutTVRwUThMW7fBzVINC0VvQZrrELz4d82qxXUucO
+	Uz0pnCTtT4jIMz6A1zxJOSogKb/VqZGBc4WNkYWSDJnE/xtcT6Q=
+X-Google-Smtp-Source: AGHT+IFL+1r/PaRqVVNGXNwojrxl0XaiTGaLLglD0VKcZyQgQAl1LXB5j5aWz2pOa2uC61OCwPtJew==
+X-Received: by 2002:a17:90b:3fcc:b0:343:72d5:2c18 with SMTP id 98e67ed59e1d1-34a4f89b3d4mr722746a91.12.1765272691298;
+        Tue, 09 Dec 2025 01:31:31 -0800 (PST)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a49658704sm1800408a91.6.2025.12.09.01.31.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 01:31:30 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 0/7] ASoC: basic support for configuring bus keepers
+Date: Tue, 09 Dec 2025 19:31:13 +1000
+Message-Id: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: DF0B133734
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGHsN2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDIwND3ZKUXKBQTqpucU5+SbGuoUFSoiVQyiwl0UQJqKmgKDUtswJsYHR
+ sbS0AIqk2u2AAAAA=
+X-Change-ID: 20251201-tdm-idle-slots-10ba92516da4
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3561;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=L2NXhYYRLt8OIp+LSK83T3wVNVp3FYPqt22R7zQ43L0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJnmb7Lqeleti/sfK8JcZtv+e7XCRM0YuTVffT1bNnhu3
+ WXgcK2gYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ hjrGOkYMXJwCMNUJpxkZTjp4J+y6LttmvjF4Za7M3z0nFh2bcb7x6n3jb5a5zd3vfBn+Z2utDpe
+ 3nlC34vKxrdN+SP6WfPOB9UO38/QY/t3v+3lfsAAA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-On Tue, 09 Dec 2025 08:57:46 +0100,
-Takashi Iwai wrote:
-> 
-> On Sat, 06 Dec 2025 22:39:52 +0100,
-> Askar Safin wrote:
-> > 
-> > On Wed, Dec 3, 2025 at 12:42 PM Takashi Iwai <tiwai@suse.de> wrote:
-> > > A rather hackish fix would be something like below.  Instead of
-> > 
-> > I tested. This patch works. Thank you!
-> > Tested-by: Askar Safin <safinaskar@gmail.com>
-> 
-> Thanks for testing!
-> 
-> On the second thought, a better fix would be just to change the
-> default fallback from ANY to LEGACY, so a oneliner change like below.
-> Could you test it instead of the previous one?
-> 
-> It was set to ANY as we assumed that all drivers should cover the
-> devices generally, but in the end, SOF or AVS need specific firmware
-> files, hence it doesn't make sense to bind to them if specific kconfig
-> is enabled.
+Hi all,
 
-The below one is a revised fix, just to be safer in case the legacy
-driver is disabled, too.  Give it a try.
+This series introduces some infrastructure to allow platform drivers
+to specify what a DAI should be doing when it is not active on the
+bus. The primary use case for this is configuring bus keepers which
+may be integrated into various codecs.
 
+Consider a device with two codecs that report voice coil voltage and
+current data back to the host via I2S. Codec A is configured to transmit
+its V/ISENSE data on TDM slots 1 and 3, while Codec B is configured to
+do so on slots 2 and 4. The receiving end sums the two together.
+If Codec A transmits anything on slots 2 or 4 (and vice versa), the
+result is a bus conflict.
 
-Takashi
+Some codecs include configurable bus keepers to ameliorate this issue.
+Notable examples are the TI TAS2764 and TAS2770. By default, these
+codecs keep their SDOUT pin floating during unconfigured TDM slots,
+however this can result in garbage data on the bus. TAS2764 can be
+set up to fill specific TDM slots with zeroes, TAS2770 can hold its
+SDOUT pin to ground.
 
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ALSA: hda: intel-dsp-config: Prefer legacy driver as fallback
+This feature is necessary to properly drive the speaker systems found
+on most Apple Silicon laptops. All but three models include six codecs
+in two groups of three driving two woofers and a tweeter on both the left
+and right channels. Each codec group has a single line for SDOUT, to
+which all codecs are connected. The two groups are then summed on to
+one I2S port. Each group must ensure that it is silent on the bus while
+the other is supposed to be active.
 
-When config table entries don't match with the device to be probed,
-currently we fall back to SND_INTEL_DSP_DRIVER_ANY, which means to
-allow any drivers to bind with it.
+In the downstream Asahi Linux kernel[1], we set up one codec in each
+group to zero-fill or pull down its group's side of the bus for the
+opposite group's transmit slots. This is done entirely in the codec
+driver, however this approach is perhaps over-fit for our use case.
+Following previous mailing list discussions[2], I have tried to
+expose the functionality in a more configurable and generic way.
 
-This was set so with the assumption (or hope) that all controller
-drivers should cover the devices generally, but in practice, this
-caused a problem as reported recently.  Namely, when a specific
-kconfig for SOF isn't set for the modern Intel chips like Alderlake,
-a wrong driver (AVS) got probed and failed.  This is because we have
-entries like:
+I have integrated this approach into our downstream platform driver
+and select Devicetrees as an example of how this mechanism is intended
+to be used[3].
 
-/* Alder Lake / Raptor Lake */
-	{
-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_S,
-	},
-....
+Regards,
+James
 
-so this entry is effective only when CONFIG_SND_SOC_SOF_ALDERLAKE is
-set.  If not set, there is no matching entry, hence it returns
-SND_INTEL_DSP_DRIVER_ANY as fallback.  OTOH, if the kconfig is set, it
-explicitly falls back to SND_INTEL_DSP_DRIVER_LEGACY when no DMIC or
-SoundWire is found -- that was the working scenario.  That being said,
-the current setup may be broken for modern Intel chips that are
-supposed to work with either SOF or legacy driver when the
-corresponding kconfig were missing.
+[1] https://github.com/AsahiLinux/linux/tree/bits/070-audio
+[2] https://lore.kernel.org/asahi/20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com/
+[3] https://github.com/chadmed/tree/tdm-revised2
 
-For addressing the problem above, this patch changes the fallback
-driver to the legacy driver as much as possible, i.e. return
-SND_INTEL_DSP_DRIVER_LEGACY type.  When CONFIG_SND_HDA_INTEL is also
-off, the fallback is set to SND_INTEL_DSP_DRIVER_ANY type, just to be
-sure.
-
-Link: https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/core/intel-dsp-config.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+James Calligeros (7):
+      ASoC: dt-bindings: convert tdm-slot to YAML
+      ASoC: dt-bindings: update tdm-slot.txt references to tdm-slot.yaml
+      ASoC: dt-bindings: add TDM slot idle mode properties
+      ASoC: soc-dai: define TDM idle behaviour modes
+      ASoC: soc-dai: add common operation to set TDM idle mode
+      ASoC: tas2764: expose SDOUT bus keeper via set_tdm_idle operation
+      ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
 
-diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
-index c401c0658421..0c25e87408de 100644
---- a/sound/hda/core/intel-dsp-config.c
-+++ b/sound/hda/core/intel-dsp-config.c
-@@ -718,7 +718,8 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
- 	/* find the configuration for the specific device */
- 	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
- 	if (!cfg)
--		return SND_INTEL_DSP_DRIVER_ANY;
-+		return IS_ENABLED(CONFIG_SND_HDA_INTEL) ?
-+			SND_INTEL_DSP_DRIVER_LEGACY : SND_INTEL_DSP_DRIVER_ANY;
- 
- 	if (cfg->flags & FLAG_SOF) {
- 		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
+ .../bindings/sound/imx-audio-card.yaml   |  4 +-
+ .../bindings/sound/simple-card.yaml      |  4 +-
+ .../bindings/sound/tdm-slot.txt          | 29 --------
+ .../bindings/sound/tdm-slot.yaml         | 66 +++++++++++++++++
+ include/sound/soc-dai.h                  | 20 ++++++
+ sound/soc/codecs/tas2764.c               | 95 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2764.h               | 11 +++
+ sound/soc/codecs/tas2770.c               | 75 +++++++++++++++++++
+ sound/soc/codecs/tas2770.h               | 12 ++++
+ sound/soc/soc-dai.c                      | 40 +++++++++++
+ 10 files changed, 323 insertions(+), 33 deletions(-)
+---
+base-commit: e4deadb3e562aadf2825f28be3dcbbf01cf2ef17
+change-id: 20251201-tdm-idle-slots-10ba92516da4
+
+Best regards,
 -- 
-2.52.0
+James Calligeros <jcalligeros99@gmail.com>
 
