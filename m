@@ -1,246 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469D08F4A;
-	Tue,  9 Dec 2025 06:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FE722A817
+	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 07:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765260463; cv=none; b=EpdYn4AMfE4ELG5m5UhfWx/hwO+bXiYk8qEzBGUrzzH/8WAqKdaSpJZ2IJSaNjfE6pJijLpx6xcSaInEkE6xVAez0ydLnKtdyX/cvQC0QsUMaP/vCHAD5KbtcAW1JmexNGuhnWhmQ8bG821s+kjpumhB7vgB1K4ea8QM8wJ5HZM=
+	t=1765264177; cv=none; b=hDCBpDKXBoGvMxr2j/s6DE2F63SVNCwlWmh96OaN1ieDoS4+FkuqRTc7Wb2NBUps3N0AU6vEncDqipo47h2AjdoI9zwpTrL/U5YOWC4FNLTr9AbwD/hacwOehlMHyofSyL6tH/4uu1zqsev17a5uE4bjEDUZaNfYpskEhzct3m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765260463; c=relaxed/simple;
-	bh=dvx5Kj6GjsQIgmbGMLZOiBl94WqVJBRgoTZ92Y5c8Y4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pCYTO7u5n20MqykM7cUO62HQboD0pw3kTitjD1FUWir7XbQdp3c3Z4ZjJf3FK/sSNTLpWPGY96rpl/zZ0uocEyO23dMEbbPqqDWu607V0uYDWAQoo2dymCBCNrAPx4EwsEmqvTqwu2NIqHfJ7mOlsaUA2tw1jOapXqrzRwQD+sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOG3hutS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765264177; c=relaxed/simple;
+	bh=UO9ciZnTTbhmWYffgQguuYC/b4/lH9WOP2lwSvcXny4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MIxfM90SZm+yOKAiXbdHFCQthv3jHVffgavJotPk2dUmLPupkAM7/6xXt3uGpxjPvxdZAJOD5SGhoSQ4eAwL5LVWQ/qyqBUkJ9BLIztAZFHCgwqH5t8dsrpOHOdb1HnW+qnhvzHbkaqww22FqNa+Em2K+sDE0susi8txKLrUW+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kYcGlXmK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KvdwSd6n; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kYcGlXmK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KvdwSd6n; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOG3hutS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96997C4CEF5;
-	Tue,  9 Dec 2025 06:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765260462;
-	bh=dvx5Kj6GjsQIgmbGMLZOiBl94WqVJBRgoTZ92Y5c8Y4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lOG3hutSOR4bsfptQAoA7NWEMwZbDv7XvtJls/Tvtj7ExgyXqhELLnWOcV/lHt8AG
-	 CPCjSYk7wxJJRLlaV0D7ZFjjH9pl0gGDFnj//09xgdgGG2T0qRYP8w01nJy/4cUWU4
-	 VvoNk6KcMm2tl9LrtAUMPag13ZhRY+s5M4Xa+cd/LFrejFd6DlkNJrxFvK8afxDCLU
-	 WZUwhEgy3E7kbNH2QhLhrX2yXiigmGxs+zdHpXf+fPOh/j3gJEiC6v96pve9wdQ3sV
-	 Pmcd/ZzWAovEsDpZGRgObwgJDIBV0BNK56W5rLEGfrqUrsYJaQCPqkYfrBWXEh48SW
-	 ZMvoOl1LfwgEg==
-Message-ID: <545e2353-c8f3-4e3b-82a6-92970a17b8d7@kernel.org>
-Date: Tue, 9 Dec 2025 07:07:38 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kYcGlXmK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KvdwSd6n";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kYcGlXmK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KvdwSd6n"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C6AFA5BD97;
+	Tue,  9 Dec 2025 07:09:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765264173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRquHJZZ+GvgQlEDY9NlRFzXHqH3Jhkyh7uxwx+J+6M=;
+	b=kYcGlXmKL0jZft8tD5J7IPyj9d/L/GwVYagJpQ9g4G5kBiADuFiiZ78wnsZXTC7cTN87r5
+	UY50t2pqm05iB8iTeJ1od5tJwD0/xaHEhY0bD4o4x565uWvSk1zQh0KLIUW2H239KP/gFq
+	4LpKJdKe5eNLa59ox179OyYErlgcxUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765264173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRquHJZZ+GvgQlEDY9NlRFzXHqH3Jhkyh7uxwx+J+6M=;
+	b=KvdwSd6n0sAuqT2HmFxWF1jjRMtoJykMD2dxR9dNJH1E0eEgtqxiosKZ//EFDgsgxGpcnM
+	wod05chdVEzoq1AA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765264173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRquHJZZ+GvgQlEDY9NlRFzXHqH3Jhkyh7uxwx+J+6M=;
+	b=kYcGlXmKL0jZft8tD5J7IPyj9d/L/GwVYagJpQ9g4G5kBiADuFiiZ78wnsZXTC7cTN87r5
+	UY50t2pqm05iB8iTeJ1od5tJwD0/xaHEhY0bD4o4x565uWvSk1zQh0KLIUW2H239KP/gFq
+	4LpKJdKe5eNLa59ox179OyYErlgcxUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765264173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRquHJZZ+GvgQlEDY9NlRFzXHqH3Jhkyh7uxwx+J+6M=;
+	b=KvdwSd6n0sAuqT2HmFxWF1jjRMtoJykMD2dxR9dNJH1E0eEgtqxiosKZ//EFDgsgxGpcnM
+	wod05chdVEzoq1AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 899653EA63;
+	Tue,  9 Dec 2025 07:09:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p7nVHy3LN2lEOAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 07:09:33 +0000
+Date: Tue, 09 Dec 2025 08:09:33 +0100
+Message-ID: <878qfct9le.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Junrui Luo <moonafterrain@outlook.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire-motu: add bounds check in put_user loop for DSP events
+In-Reply-To: <SYBPR01MB788112C72AF8A1C8C448B4B8AFA3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+References: <SYBPR01MB788112C72AF8A1C8C448B4B8AFA3A@SYBPR01MB7881.ausprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for the ALC5575
-To: Oder Chiou <oder_chiou@realtek.com>,
- "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
-Cc: "perex@perex.cz" <perex@perex.cz>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "Flove(HsinFu)" <flove@realtek.com>, =?UTF-8?B?U2h1bWluZyBb6IyD5pu46YqYXQ==?=
- <shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
- =?UTF-8?B?RGVyZWsgW+aWueW+t+e+qV0=?= <derek.fang@realtek.com>
-References: <20251201105926.1714341-1-oder_chiou@realtek.com>
- <20251201105926.1714341-2-oder_chiou@realtek.com>
- <6c0639e2-dc59-4e0f-be42-224a98b37f75@kernel.org>
- <2202b463075f4219bffc636fbafb0684@realtek.com>
- <20065270-0d88-4463-9641-f92b4c9e4674@kernel.org>
- <4859e7819e264382be4b3b58cd348aa0@realtek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <4859e7819e264382be4b3b58cd348aa0@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.29
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.29 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.960];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[outlook.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On 08/12/2025 10:16, Oder Chiou wrote:
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Monday, December 8, 2025 4:02 PM
->> To: Oder Chiou <oder_chiou@realtek.com>; cezary.rojewski@intel.com;
->> broonie@kernel.org; lgirdwood@gmail.com; robh@kernel.org;
->> krzk+dt@kernel.org; conor+dt@kernel.org
->> Cc: perex@perex.cz; linux-sound@vger.kernel.org; devicetree@vger.kernel.org;
->> alsa-devel@alsa-project.org; Flove(HsinFu) <flove@realtek.com>; Shuming [范
->> 書銘] <shumingf@realtek.com>; Jack Yu <jack.yu@realtek.com>; Derek [方德
->> 義] <derek.fang@realtek.com>
->> Subject: Re: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for the
->> ALC5575
->>
->>
->> External mail : This email originated from outside the organization. Do not
->> reply, click links, or open attachments unless you recognize the sender and
->> know the content is safe.
->>
->>
->>
->> On 08/12/2025 08:29, Oder Chiou wrote:
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzk@kernel.org>
->>>> Sent: Monday, December 8, 2025 2:05 PM
->>>> To: Oder Chiou <oder_chiou@realtek.com>; cezary.rojewski@intel.com;
->>>> broonie@kernel.org; lgirdwood@gmail.com; robh@kernel.org;
->>>> krzk+dt@kernel.org; conor+dt@kernel.org
->>>> Cc: perex@perex.cz; linux-sound@vger.kernel.org;
->>>> devicetree@vger.kernel.org; alsa-devel@alsa-project.org;
->>>> Flove(HsinFu) <flove@realtek.com>; Shuming [范
->>>> 書銘] <shumingf@realtek.com>; Jack Yu <jack.yu@realtek.com>; Derek [方
->> 德
->>>> 義] <derek.fang@realtek.com>
->>>> Subject: Re: [PATCH v8 1/2] ASoC: rt5575: Add the codec driver for
->>>> the
->>>> ALC5575
->>>>
->>>>
->>>> External mail : This email originated from outside the organization.
->>>> Do not reply, click links, or open attachments unless you recognize
->>>> the sender and know the content is safe.
->>>>
->>>>
->>>>
->>>> On 01/12/2025 11:59, Oder Chiou wrote:
->>>>> +
->>>>> +static int rt5575_i2c_read(void *context, unsigned int reg,
->>>>> +unsigned int
->>>> *val)
->>>>> +{
->>>>> +     struct i2c_client *client = context;
->>>>> +     struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
->>>>> +
->>>>> +     regmap_read(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING,
->>>> val);
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int rt5575_i2c_write(void *context, unsigned int reg,
->>>>> +unsigned int val) {
->>>>> +     struct i2c_client *client = context;
->>>>> +     struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
->>>>> +
->>>>> +     regmap_write(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING,
->>>> val);
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct regmap_config rt5575_regmap = {
->>>>> +     .reg_bits = 16,
->>>>> +     .val_bits = 32,
->>>>> +     .reg_stride = 4,
->>>>> +     .max_register = 0xfffc,
->>>>> +     .readable_reg = rt5575_readable_register,
->>>>> +     .reg_read = rt5575_i2c_read,
->>>>> +     .reg_write = rt5575_i2c_write,
->>>>> +     .use_single_read = true,
->>>>> +     .use_single_write = true,
->>>>> +};
->>>>
->>>> OF device ID table goes around here - together with I2C.
->>> I will correct it.
->>>
->>>>> +
->>>>> +static const struct i2c_device_id rt5575_i2c_id[] = {
->>>>> +     { "rt5575" },
->>>>> +     { }
->>>>> +};
->>>>> +MODULE_DEVICE_TABLE(i2c, rt5575_i2c_id);
->>>>> +
->>>>> +static int rt5575_i2c_probe(struct i2c_client *i2c) {
->>>>> +     struct rt5575_priv *rt5575;
->>>>> +     struct device *dev = &i2c->dev;
->>>>> +     int ret, val;
->>>>> +
->>>>> +#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
->>>>
->>>> No ifdefs in driver code.
->>>
->>> I am not understanding exactly.
->>> If the machine is without SPI interface and the codec with flash, the
->>> CONFIG_SND_SOC_RT5575_SPI can be disabled.
->>
->> But you still should not use #ifdef. Coding style gives you alternative, please
->> look at the doc.
->>
->>>
->>>>> +     if (!rt5575_spi && of_device_is_compatible(dev->of_node,
->>>> rt5575_of_match[1].compatible))
->>>>
->>>> No, use driver match data if ever, but this is just wrong. You said
->>>> it depends on SPI flash, not SPI interface.
->>>
->>> I will modify it to use the match data as following.
->>> static const struct of_device_id rt5575_of_match[] = {
->>>       { .compatible = "realtek,rt5575", .data = (void
->> *)RT5575_WITH_FLASH },
->>>       { .compatible = "realtek,rt5575-use-spi", .data = (void
->>> *)RT5575_WITHOUT_FLASH },
->>
->> What is still wrong is that why you defer probe if there is no flash. I really do
->> not get it...
+On Tue, 09 Dec 2025 06:16:41 +0100,
+Junrui Luo wrote:
 > 
-> If the codec has flash, the flash is connected to the codec's SPI host
-> interface.
+> In the DSP event handling code, a put_user() loop copies event data.
+> When the user buffer size is not aligned to 4 bytes, it could overwrite
+> beyond the buffer boundary.
 > 
-> If the codec has no flash, the codec SPI driver should load the firmware
-> from the codec's SPI slave interface. The I2C driver must wait until the
-> SPI driver is ready to ensure the firmware is loaded correctly.
+> Fix by adding a bounds check before put_user().
 > 
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Fixes: 634ec0b2906e ("ALSA: firewire-motu: notify event for parameter change in register DSP model")
+> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
 
-Ah, so for that reason you created that singleton, exported it and you
-wait for it? Singletons are pretty no-go anyway, how do you handle to
-codecs in the system? Fragile design.
+Applied now.  Thanks.
 
-Best regards,
-Krzysztof
+
+Takashi
