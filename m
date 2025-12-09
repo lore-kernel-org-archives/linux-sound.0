@@ -1,176 +1,186 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E262C2346
-	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 07:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE22417DE;
+	Tue,  9 Dec 2025 08:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765267070; cv=none; b=DpxU61lwcUXvNqAJGTzb+b3Ml0GJpZwHRYArYvIfHtJ4jv85Rp/rhdJ/iPOPrXOAxMPGG3K7HzMhgUpNhYHLi75j3gvlPTHShSr9NnmsarsZcaF6N4EWq+h8T9Nujl463XHZSLOG5eOeequaW6GRXT30BQNEb6HoDtS3SJNY/jk=
+	t=1765268791; cv=none; b=FFJjBmIil68vtJY8j4aZvYs3UYQlysTwUP/Do/4he3miY0tNOcq03NyzBx9TtRrGqKFKGJOSM+q5Ffh8BAt8TjPRk/D+LN2zV799jb7dMW5mJ6rWGyZ0HCkvy/iG1HE/E4+EJjYcAfvRI94gJNhRBOwPCfoZyzYm+nd+mVHmM4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765267070; c=relaxed/simple;
-	bh=nz87QrQLYiSwa0c/YpdP/GTj8UJPE4nba5/2QW7IP4g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BnQzwTlsVnJEsjB2bd7q27XgjwBH+4FdjuXBM/+fmxqGdZRvBxYShq80l1BLD1bTT+V2m1f6Pdcuim5ikrPvzNTW/9vTwOUTRHlGq13HNUVW8Aq+EHUGHS2TmxnrJde/9HJ5hR7+GYbYkJMmHRk/GyOiSu1aRi9y/n5aKkYG+48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HsPDtfrG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TYOIuoFd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HsPDtfrG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TYOIuoFd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765268791; c=relaxed/simple;
+	bh=MT/qY8MX0ozkYBW0qMvzRIWzDIZmrsZJkEszJ+YNa54=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JTSswe2sptiOaNA8T/suUN1DV06cT3eRuvdbFxNWAHJUxM5YiluEj0XwfE3lNLF3I9zWyTZsgOY9gJiEGwJH8gaHcpEqMGmSZdVnwmvb5I1CX/7tMoec5oBtg/mpiZf0tJoiCodeAQH5kcXaKvWMZJMT3XIfOog6C1V0xD9zyvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fHyy3p3R; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HsPDtfrG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TYOIuoFd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HsPDtfrG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TYOIuoFd"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1F2D0337A2;
-	Tue,  9 Dec 2025 07:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765267067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
-	b=HsPDtfrG0BiNJkejAKo9Qdrl25YPIeSiLhFAFE0NLNGSX5NDSIq4AfnQ7kdaFm59QA+mim
-	CL0pwE0yuTIpYYXmyWLDHFuYav3eEdK3el1QjtvS/N2Z5jTDviWwanGcj8IhghNfsz8RwI
-	NFcumvQYkN2OUXbZ6OAzb94NwsoIUrs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765267067;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
-	b=TYOIuoFdOg859/7mJSrj5aS+f4V8M2rBUBLv8iOd04TDKIRzy0DAKn1j2J1qYDHH4Z+DZv
-	fG58+fCBpob08cDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765267067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
-	b=HsPDtfrG0BiNJkejAKo9Qdrl25YPIeSiLhFAFE0NLNGSX5NDSIq4AfnQ7kdaFm59QA+mim
-	CL0pwE0yuTIpYYXmyWLDHFuYav3eEdK3el1QjtvS/N2Z5jTDviWwanGcj8IhghNfsz8RwI
-	NFcumvQYkN2OUXbZ6OAzb94NwsoIUrs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765267067;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
-	b=TYOIuoFdOg859/7mJSrj5aS+f4V8M2rBUBLv8iOd04TDKIRzy0DAKn1j2J1qYDHH4Z+DZv
-	fG58+fCBpob08cDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91FB73EA63;
-	Tue,  9 Dec 2025 07:57:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7+T2IXrWN2nYZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 07:57:46 +0000
-Date: Tue, 09 Dec 2025 08:57:46 +0100
-Message-ID: <875xagt7d1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,	Dell.Client.Kernel@dell.com,
-	amadeuszx.slawinski@linux.intel.com,	baojun.xu@ti.com,
-	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
-	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
- <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
- <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
-	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
- =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
- <dxu@dxuuu.xyz>
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
-References: <87o6q8l68r.wl-tiwai@suse.de>
-	<20251015145749.2572-1-safinaskar@gmail.com>
-	<878qhckxc5.wl-tiwai@suse.de>
-	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
-	<875xcgkvnw.wl-tiwai@suse.de>
-	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
-	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
-	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
-	<87bjm78978.wl-tiwai@suse.de>
-	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
-	<871plbucj3.wl-tiwai@suse.de>
-	<CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fHyy3p3R"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4FE444E41B17;
+	Tue,  9 Dec 2025 08:26:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0BFF760714;
+	Tue,  9 Dec 2025 08:26:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0CD79102F0BF6;
+	Tue,  9 Dec 2025 09:26:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765268783; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=wcg04tlEy44VWHetyJPa6vtgrSi9hQkJ8Wr3ssO16Z0=;
+	b=fHyy3p3RXDvWm/ScQ573O19lBfA7i99dTtnNMKIgZo6j5P27qUaUjbhNTv08DA8IFMfpHy
+	AgxHwoL/NW76FusS9uDh40xSgmfteD+0AIKiUzKm6X50QBH9u+CGQe/shfCBYk6cYKg2TZ
+	8gN2cTM7D1TIOGI5CBJ9VtNcRcbmeEPaK0KH5amKURGuYmw9NosAHrgGe3H35kv5rwXRKw
+	4FLoSOslR05puLB4/PTfDmvtHxQZ+eNY+xwyZu7eIBJfZyxeM1KAbSzgzSDiYTjCGWaCLA
+	VyDhDTs5Dy0D0lluZeF/pIm4ZgCjPNF9eHgaCtNllGMYqa2jowZM4WLyZc41kQ==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH v2 0/2] iio: inkern: Use namespaced exports
+Date: Tue, 09 Dec 2025 09:25:54 +0100
+Message-Id: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABLdN2kC/42NQQ6CMBAAv0J6dk13gRA8+Q/DoZRFNkpLWiQYw
+ t+t+AGPM4eZTUUOwlFdsk0FXiSKdwnolCk7GHdnkC6xIk0lIlUg4kHcg4ODV2RwZuQ4Gcsd8Dr
+ 5MEcosLe6JsrbklXqTIF7WY/HrUk8SJx9eB/LBb/2VyeNf9QXBITOYJ2XfaWpyK+t9/NT3Nn6U
+ TX7vn8Avu6Bn9QAAAA=
+X-Change-ID: 20251127-iio-inkern-use-namespaced-exports-41fc09223b5e
+To: MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Mariel Tinaco <Mariel.Tinaco@analog.com>, 
+ Kevin Tsai <ktsai@capellamicro.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Matheus Castello <matheus@castello.eng.br>, 
+ Saravanan Sekar <sravanhome@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Casey Connolly <casey.connolly@linaro.org>, 
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>, 
+ Thara Gopinath <thara.gopinath@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat, 06 Dec 2025 22:39:52 +0100,
-Askar Safin wrote:
-> 
-> On Wed, Dec 3, 2025 at 12:42 PM Takashi Iwai <tiwai@suse.de> wrote:
-> > A rather hackish fix would be something like below.  Instead of
-> 
-> I tested. This patch works. Thank you!
-> Tested-by: Askar Safin <safinaskar@gmail.com>
+Hello everyone,
 
-Thanks for testing!
+This is version two of my series which introduces namespaced exports for
+the IIO consumer API.
 
-On the second thought, a better fix would be just to change the
-default fallback from ANY to LEGACY, so a oneliner change like below.
-Could you test it instead of the previous one?
+Best Regards,
 
-It was set to ANY as we assumed that all drivers should cover the
-devices generally, but in the end, SOF or AVS need specific firmware
-files, hence it doesn't make sense to bind to them if specific kconfig
-is enabled.
+Romain
 
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+---
+Changes in v2:
+- Separated out ds4424 changes.
+- Improved commit descriptions.
+- Link to v1: https://lore.kernel.org/r/20251201-iio-inkern-use-namespaced-exports-v1-1-da1935f70243@bootlin.com
 
-Takashi
+---
+Romain Gantois (2):
+      iio: dac: ds4424: drop unused include IIO consumer header
+      iio: inkern: Use namespaced exports
 
--- 8< --
---- a/sound/hda/core/intel-dsp-config.c
-+++ b/sound/hda/core/intel-dsp-config.c
-@@ -718,7 +718,7 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
- 	/* find the configuration for the specific device */
- 	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
- 	if (!cfg)
--		return SND_INTEL_DSP_DRIVER_ANY;
-+		return SND_INTEL_DSP_DRIVER_LEGACY;
- 
- 	if (cfg->flags & FLAG_SOF) {
- 		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
+ drivers/extcon/extcon-adc-jack.c                |  1 +
+ drivers/hwmon/iio_hwmon.c                       |  1 +
+ drivers/hwmon/ntc_thermistor.c                  |  1 +
+ drivers/iio/adc/envelope-detector.c             |  1 +
+ drivers/iio/afe/iio-rescale.c                   |  1 +
+ drivers/iio/buffer/industrialio-buffer-cb.c     |  1 +
+ drivers/iio/buffer/industrialio-hw-consumer.c   |  1 +
+ drivers/iio/dac/ad8460.c                        |  1 +
+ drivers/iio/dac/dpot-dac.c                      |  1 +
+ drivers/iio/dac/ds4424.c                        |  1 -
+ drivers/iio/inkern.c                            | 54 ++++++++++++-------------
+ drivers/iio/light/cm3605.c                      |  1 +
+ drivers/iio/light/gp2ap002.c                    |  1 +
+ drivers/iio/multiplexer/iio-mux.c               |  1 +
+ drivers/iio/potentiostat/lmp91000.c             |  1 +
+ drivers/input/joystick/adc-joystick.c           |  1 +
+ drivers/input/keyboard/adc-keys.c               |  1 +
+ drivers/input/touchscreen/colibri-vf50-ts.c     |  1 +
+ drivers/input/touchscreen/resistive-adc-touch.c |  1 +
+ drivers/phy/motorola/phy-cpcap-usb.c            |  1 +
+ drivers/power/supply/ab8500_btemp.c             |  1 +
+ drivers/power/supply/ab8500_charger.c           |  1 +
+ drivers/power/supply/ab8500_fg.c                |  1 +
+ drivers/power/supply/axp20x_ac_power.c          |  1 +
+ drivers/power/supply/axp20x_battery.c           |  1 +
+ drivers/power/supply/axp20x_usb_power.c         |  1 +
+ drivers/power/supply/axp288_fuel_gauge.c        |  1 +
+ drivers/power/supply/cpcap-battery.c            |  1 +
+ drivers/power/supply/cpcap-charger.c            |  1 +
+ drivers/power/supply/da9150-charger.c           |  1 +
+ drivers/power/supply/generic-adc-battery.c      |  1 +
+ drivers/power/supply/ingenic-battery.c          |  1 +
+ drivers/power/supply/intel_dc_ti_battery.c      |  1 +
+ drivers/power/supply/lego_ev3_battery.c         |  1 +
+ drivers/power/supply/lp8788-charger.c           |  1 +
+ drivers/power/supply/max17040_battery.c         |  1 +
+ drivers/power/supply/mp2629_charger.c           |  1 +
+ drivers/power/supply/mt6370-charger.c           |  1 +
+ drivers/power/supply/qcom_smbx.c                |  1 +
+ drivers/power/supply/rn5t618_power.c            |  1 +
+ drivers/power/supply/rx51_battery.c             |  1 +
+ drivers/power/supply/sc27xx_fuel_gauge.c        |  1 +
+ drivers/power/supply/twl4030_charger.c          |  1 +
+ drivers/power/supply/twl4030_madc_battery.c     |  1 +
+ drivers/power/supply/twl6030_charger.c          |  1 +
+ drivers/thermal/qcom/qcom-spmi-adc-tm5.c        |  1 +
+ drivers/thermal/qcom/qcom-spmi-temp-alarm.c     |  1 +
+ drivers/thermal/renesas/rzg3s_thermal.c         |  1 +
+ drivers/thermal/thermal-generic-adc.c           |  1 +
+ sound/soc/codecs/audio-iio-aux.c                |  1 +
+ sound/soc/samsung/aries_wm8994.c                |  1 +
+ sound/soc/samsung/midas_wm1811.c                |  1 +
+ sound/soc/stm/stm32_adfsdm.c                    |  1 +
+ 53 files changed, 78 insertions(+), 28 deletions(-)
+---
+base-commit: 99fece7ab29c9654d7945312b275b527757ac4b3
+change-id: 20251127-iio-inkern-use-namespaced-exports-41fc09223b5e
+
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
+
