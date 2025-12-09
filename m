@@ -1,67 +1,68 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1413719DF4F
-	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 09:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B66C2DEA9B
+	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 09:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765272694; cv=none; b=iXmARll9UeoaUx1YW2VpgtrEdqpa6RhrNsCJr/6r0B7Gf9B3KH56AaChQDTkwTyct742z5bb6VbVj7Sm2T1wg1V8hI7xsF2qG/+7bFGi1mlC3Qw6GZeuqeuZxnlcXgQAGsGLUK0dziA00u2rvtdF81O/voRxtSeydLl2b+KzfaE=
+	t=1765272702; cv=none; b=Cd4bCDIQpMtsvQKfJ2lTEAI1gZXNjTb2l5xqFz50gbSIaXasG/5ura84t7qJ6YiY+y6zrWOHnqjHZ2dS+bfPt3YgIT5jnzOFfb5DcBW00neK7lLJpqty3fkwnMKXOLEc5ARpJ1y6udogXo7bmFlEZoQM6NUvlQ2EpZXvAr71zB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765272694; c=relaxed/simple;
-	bh=L2NXhYYRLt8OIp+LSK83T3wVNVp3FYPqt22R7zQ43L0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gTvs+iGF/WUZZRDUOkzJZ8bM20u6W1jx4LWoOB7P+DqZnEKY8ryQfDP8tYKJvnKZ05LTqvhVyO/L0T1pXkZST4+gFJN2eHIyXnmHh2MLIxT/2qLc0oIlAlCV+uHaVKCtl3nZNg+FyQpuCnoZfzzx/tOFyjNfzMJtvXAvOnNZ2Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duSD+Kz2; arc=none smtp.client-ip=209.85.215.170
+	s=arc-20240116; t=1765272702; c=relaxed/simple;
+	bh=jnORVtQ7uwoxce9j3Ho2s0Rrsem8arYyTUJQLMiHu/E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=P/HPmExXdH3P+0hZFJinfa9ms9mkE5q/SRFhyxjddDiXdShDa16/jkA0G2d/E5nVcGWMxZJmOchawM0LmVwM/F9gZE66+9hRSn9k0fEI4GiEvsDVrxqfAXe2E2c/MK/fZui83skUWQSiU9tWqL21bRPzsqgT/tfPEw6tEJv15ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GL3JV9nC; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duSD+Kz2"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bbf2c3eccc9so2601406a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Dec 2025 01:31:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GL3JV9nC"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-341988c720aso4212347a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 09 Dec 2025 01:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765272691; x=1765877491; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRxNXZW5HGKhav3cQeIpm16SYzyMsJXYbVPLK0TzqeI=;
-        b=duSD+Kz2X3Ha9zOWpS+WcwkgwLbBTLBjF+ZmogaMhUz7DNuZBwayVPFlMx+XN0KeJq
-         Ih7eX9Ua00bTh72Q7T8pJ6gXsJrRgqBLdys4JuSs2r5nTyi7pstOiswh2LUyv8aJ/9os
-         VMATXXt7MCfs7yIP6dD5WDKxNm2/NKzdgxGgcQwuTxJkW6BI3gHapnxn6PrZfk4Ly08v
-         dd9A+xtYViuyVt8/d5yz2a7uq0nvLmyFMzS4Y2Q7HYq0O09+wil0ye4nQxYlI5B+ezBP
-         OpF8ZfC4w1OFllNR18JFEt4K07OAwc54amTZkBDpW+hXtR3RYzQEPK7d2lmwQSPSZrDH
-         +NZQ==
+        d=gmail.com; s=20230601; t=1765272699; x=1765877499; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B/uimxPOVZnzKfBrHV18SDw/9y+UsMeBXkZvH5M2DDo=;
+        b=GL3JV9nCNpsTvCJhSOA6FaA8i13WFfUXcit4wHxzrIrecaGiECi0lZzyqtobEIpCrS
+         QRwWFyxpk8DJKAnS/73tNu5H42MlNCM9jrfcX/VJVzbsqQLueFiRcNw8cMB6r06gyPRr
+         F2Kzv9Mj5wfaxIN2rp19IYJNPwAs9V/ntZ6i9puBQf3nqYW18CUhoceAUMJFK6hh0HFZ
+         yyNeQ670tA3SoVNi0VTx4mDILRIAU68eggRdC1Ae54ftlsOWNvUBa2NPdHP4vTOmeFeN
+         J/0+WSmOeZqA0DYlhT/eBbOTHAO4Vvox/DYckZiH0t0MjSqtV4x/G3MU91fLNjXac2tR
+         8WAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765272691; x=1765877491;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MRxNXZW5HGKhav3cQeIpm16SYzyMsJXYbVPLK0TzqeI=;
-        b=uP9mxnjtZyF44TPSUiwYW6Rjg4fKiKOSCd4sfy+EvrLo3Kc+fer+79ed0iSTzCDUuo
-         N12R85Z5haF3o2ly9w7AqwX/rSpmJe07I4KdYkK9NDy93f1YRIlx8zxyg2BY2n7sRoeq
-         heYQAGWYH1lp6RnA2dWAPPUrXKtz/QgndCqvIlcj4oYewD840DURK5ykRVfjVeaArasL
-         HytZJiz0vzwyS8SgYTQ20hxr5MzbSJnDQb59LsnSxPeEJkie/fhbmceDIn60MQ32Sxl9
-         +kbquPvKnhWwcHtGxF3PBXURjHGJZVzBY0NJH5nBsAya26D8KKl+uS7hJrOzDDWW+Txf
-         tXjQ==
-X-Gm-Message-State: AOJu0YyjQ32P6elHNHov40iiGSu8aUxVeF2CCNP3cJLL/cH+JDVAZg2M
-	9NazbWdFPWhjT2WDTau3BLxuss50eMRCT4ztkBCh3/JDJQUVAqJdM+av
-X-Gm-Gg: AY/fxX6VXVF7Wsb9FMjBTOdBb/EfYP1FM5gNKT6VJA1ma3pDfTLDuFIAXaft8SkIDDl
-	rg+5ot7yd9f1WNeW5haCZ0E17hucH7e/Sc2ScOLmpsQd6PdpJxni3W0cftAlGkJU10C/Q8o1JLX
-	As2C6uR5EZsRYnWu7DsFY5Vd6w14UCJNAiwRMHakdY4saiwpIFrKv3igFW/ryR593BufgLSt++y
-	wOQKM8jWGHIj/vboyf88oFbVx6/EqpUIKtW5qEQWGWPT35KGlRTtvxGVfaDVDptFkjwpywIApzm
-	YV2C4qdTeZsxXQeqn11MRTYpHi5zQZYAIxtuxb9tnX28i+yf2wU/wux3OaOMrR8qBQrHLtkl62i
-	lPPsGbQrG1WMpCU57mKf038AnJ1GeWr+IzUn4ihzcJ/EAAQiUZZaRx6Yil6wwA+kCIKa0rCqPCK
-	eoUJ9O2hImRTm5KpSz9Y7hpOt8dsaoq27HaVkSPPAFum4TvaLxa4OOoeKstSk/QUhjCbY6wL7PZ
-	BjA7vUspvz3tntdW2jouwbSPqobI1rI7dsnutTVRwUThMW7fBzVINC0VvQZrrELz4d82qxXUucO
-	Uz0pnCTtT4jIMz6A1zxJOSogKb/VqZGBc4WNkYWSDJnE/xtcT6Q=
-X-Google-Smtp-Source: AGHT+IFL+1r/PaRqVVNGXNwojrxl0XaiTGaLLglD0VKcZyQgQAl1LXB5j5aWz2pOa2uC61OCwPtJew==
-X-Received: by 2002:a17:90b:3fcc:b0:343:72d5:2c18 with SMTP id 98e67ed59e1d1-34a4f89b3d4mr722746a91.12.1765272691298;
-        Tue, 09 Dec 2025 01:31:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765272699; x=1765877499;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=B/uimxPOVZnzKfBrHV18SDw/9y+UsMeBXkZvH5M2DDo=;
+        b=xPbwzcODE+blE66a9ucM+HuPrGvCObvvddphZ6ngehH7RjajG7FJKP/mAFjMTJ/+2C
+         bb5wUzOgc902QpAkMdMx2/vvjajdSl5eTNHxHZPrPpoj2btLAowtDjAnlQI7onP2L3Du
+         y9+72gTG/cAS8yfuqGr7khPg44RUOLUZbsGNWnfgbmq+Er30YJjCSO8piWhBtr7BbYaf
+         Uqb4+hsAh5cMhwKU9IEHQ3dggJLPxMNkKZEk6pDLbYoqvuMANny8mbxvBEv2Pn4ArIIm
+         V4rSoO/bbDhtle9uf/Qnm9aMBJT+SAp1pVEnIMhQVzUa+oTxifzcsXfMnbGGGXCSqSIh
+         RKAg==
+X-Gm-Message-State: AOJu0YwzaAYjpaUvdwVIZ/Q3vBlUVbfOPkbxToPGDNHzfl++jL5N/3uc
+	tRRhIidHlEinKwxb8pZBnt6MlWxzjbnBjypUASiwoAOKgNrx7MWULRHV
+X-Gm-Gg: ASbGncua6axLrzttmEQlOqsKpeUJJ7MLglWrOS5kU0083w8jKtXTu5n7cT1uqZF1YiL
+	OLV0PFxTha4vA8RllihcIG8HXx9kKhIPR6dWiX+OtLoeqhQRaBt7PVJLDBFBM63ruGgxeIef/Yq
+	zcFtFPSoE8ImamazyglvOFadO7Vm6aegOnUNMFBKI+iGheVFluFEGfkRGuGvuml4sLQDBvKvm3B
+	l7Kz7lceIsgr4VkFRgnsslOSx3Rf6l29uCn0kB5ExAuhjdsXNymhZXc6RZ/GvQzsFBZjQ0PDRVx
+	nmJIq3BIoXiDfwBKr56s02ZvfpMYSNXcMMHy1+GACNH8w4MQzlWWipmuFW1p+yA6QPHcMnobxty
+	pMdya5c8zatNaeXlnTeJvR+TZbfqDJywo62irC7I41IwvDHBiXlKAl7qfevxtcjSP2g9siPrdME
+	Q1ODCcc6m4Z50lpxchdL/qaH9Mk2muF9HRc8KZGpGQx/NgZihQxtIdxMqtFa4FpXyUPgnTwNa4G
+	twtME1uQeLqqVXU+m5yjuB8KUPapplhrCD4VmDBfZg0j5OWVLYOr6+aLvF7PzaYCrOuPmtAWpsG
+	gzl8xzERdOTFzMXoFUJm4gbz3FD+7CccBEHXGp0iwvOSNOzOGt4RXuPfX3psVg==
+X-Google-Smtp-Source: AGHT+IHEi2mCBtg0iCmcmf1gH4uYiFRGoKIeFa7PXJa21FQTMXXvhgplPXzOltuWl1u4iFR2Sxk4JA==
+X-Received: by 2002:a17:90b:554b:b0:32d:dc3e:5575 with SMTP id 98e67ed59e1d1-349a24cb7f3mr7136131a91.5.1765272698893;
+        Tue, 09 Dec 2025 01:31:38 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a49658704sm1800408a91.6.2025.12.09.01.31.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a49658704sm1800408a91.6.2025.12.09.01.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 01:31:30 -0800 (PST)
+        Tue, 09 Dec 2025 01:31:38 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/7] ASoC: basic support for configuring bus keepers
-Date: Tue, 09 Dec 2025 19:31:13 +1000
-Message-Id: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+Date: Tue, 09 Dec 2025 19:31:14 +1000
+Subject: [PATCH 1/7] ASoC: dt-bindings: convert tdm-slot to YAML
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,10 +71,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGHsN2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDIwND3ZKUXKBQTqpucU5+SbGuoUFSoiVQyiwl0UQJqKmgKDUtswJsYHR
- sbS0AIqk2u2AAAAA=
-X-Change-ID: 20251201-tdm-idle-slots-10ba92516da4
+Message-Id: <20251209-tdm-idle-slots-v1-1-38dabf6bc01e@gmail.com>
+References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+In-Reply-To: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
@@ -89,89 +89,100 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3561;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3318;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=L2NXhYYRLt8OIp+LSK83T3wVNVp3FYPqt22R7zQ43L0=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJnmb7Lqeleti/sfK8JcZtv+e7XCRM0YuTVffT1bNnhu3
- WXgcK2gYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- hjrGOkYMXJwCMNUJpxkZTjp4J+y6LttmvjF4Za7M3z0nFh2bcb7x6n3jb5a5zd3vfBn+Z2utDpe
- 3nlC34vKxrdN+SP6WfPOB9UO38/QY/t3v+3lfsAAA
+ bh=jnORVtQ7uwoxce9j3Ho2s0Rrsem8arYyTUJQLMiHu/E=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJnmb7LYrpxfsZcrSnJ+7Q6bp+oLO14/uMazNz1yzc370
+ 77GbUmN7ZjIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
+ oaGOsY4RAxenAEx1whpGhndnbxZPurXd8IHCzimiC5Y+WdvpG2i34hrX7NZu/+B4cS6GvyJca+L
+ KH6gmqgcn75+y/fuBnXNuqSw9F1fS7j3x7C12R0YA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi all,
+This schema was still in plaintext form. Convert to YAML format.
 
-This series introduces some infrastructure to allow platform drivers
-to specify what a DAI should be doing when it is not active on the
-bus. The primary use case for this is configuring bus keepers which
-may be integrated into various codecs.
-
-Consider a device with two codecs that report voice coil voltage and
-current data back to the host via I2S. Codec A is configured to transmit
-its V/ISENSE data on TDM slots 1 and 3, while Codec B is configured to
-do so on slots 2 and 4. The receiving end sums the two together.
-If Codec A transmits anything on slots 2 or 4 (and vice versa), the
-result is a bus conflict.
-
-Some codecs include configurable bus keepers to ameliorate this issue.
-Notable examples are the TI TAS2764 and TAS2770. By default, these
-codecs keep their SDOUT pin floating during unconfigured TDM slots,
-however this can result in garbage data on the bus. TAS2764 can be
-set up to fill specific TDM slots with zeroes, TAS2770 can hold its
-SDOUT pin to ground.
-
-This feature is necessary to properly drive the speaker systems found
-on most Apple Silicon laptops. All but three models include six codecs
-in two groups of three driving two woofers and a tweeter on both the left
-and right channels. Each codec group has a single line for SDOUT, to
-which all codecs are connected. The two groups are then summed on to
-one I2S port. Each group must ensure that it is silent on the bus while
-the other is supposed to be active.
-
-In the downstream Asahi Linux kernel[1], we set up one codec in each
-group to zero-fill or pull down its group's side of the bus for the
-opposite group's transmit slots. This is done entirely in the codec
-driver, however this approach is perhaps over-fit for our use case.
-Following previous mailing list discussions[2], I have tried to
-expose the functionality in a more configurable and generic way.
-
-I have integrated this approach into our downstream platform driver
-and select Devicetrees as an example of how this mechanism is intended
-to be used[3].
-
-Regards,
-James
-
-[1] https://github.com/AsahiLinux/linux/tree/bits/070-audio
-[2] https://lore.kernel.org/asahi/20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com/
-[3] https://github.com/chadmed/tree/tdm-revised2
-
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-James Calligeros (7):
-      ASoC: dt-bindings: convert tdm-slot to YAML
-      ASoC: dt-bindings: update tdm-slot.txt references to tdm-slot.yaml
-      ASoC: dt-bindings: add TDM slot idle mode properties
-      ASoC: soc-dai: define TDM idle behaviour modes
-      ASoC: soc-dai: add common operation to set TDM idle mode
-      ASoC: tas2764: expose SDOUT bus keeper via set_tdm_idle operation
-      ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
+ .../bindings/sound/tdm-slot.txt          | 29 ---------------------
+ .../bindings/sound/tdm-slot.yaml         | 34 +++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 29 deletions(-)
 
- .../bindings/sound/imx-audio-card.yaml   |  4 +-
- .../bindings/sound/simple-card.yaml      |  4 +-
- .../bindings/sound/tdm-slot.txt          | 29 --------
- .../bindings/sound/tdm-slot.yaml         | 66 +++++++++++++++++
- include/sound/soc-dai.h                  | 20 ++++++
- sound/soc/codecs/tas2764.c               | 95 +++++++++++++++++++++++++
- sound/soc/codecs/tas2764.h               | 11 +++
- sound/soc/codecs/tas2770.c               | 75 +++++++++++++++++++
- sound/soc/codecs/tas2770.h               | 12 ++++
- sound/soc/soc-dai.c                      | 40 +++++++++++
- 10 files changed, 323 insertions(+), 33 deletions(-)
----
-base-commit: e4deadb3e562aadf2825f28be3dcbbf01cf2ef17
-change-id: 20251201-tdm-idle-slots-10ba92516da4
+diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.txt b/Documentation/devicetree/bindings/sound/tdm-slot.txt
+deleted file mode 100644
+index 4bb513ae62fc..000000000000
+--- a/Documentation/devicetree/bindings/sound/tdm-slot.txt
++++ /dev/null
+@@ -1,29 +0,0 @@
+-TDM slot:
+-
+-This specifies audio DAI's TDM slot.
+-
+-TDM slot properties:
+-dai-tdm-slot-num : Number of slots in use.
+-dai-tdm-slot-width : Width in bits for each slot.
+-dai-tdm-slot-tx-mask : Transmit direction slot mask, optional
+-dai-tdm-slot-rx-mask : Receive direction slot mask, optional
+-
+-For instance:
+-	dai-tdm-slot-num = <2>;
+-	dai-tdm-slot-width = <8>;
+-	dai-tdm-slot-tx-mask = <0 1>;
+-	dai-tdm-slot-rx-mask = <1 0>;
+-
+-And for each specified driver, there could be one .of_xlate_tdm_slot_mask()
+-to specify an explicit mapping of the channels and the slots. If it's absent
+-the default snd_soc_of_xlate_tdm_slot_mask() will be used to generating the
+-tx and rx masks.
+-
+-For snd_soc_of_xlate_tdm_slot_mask(), the tx and rx masks will use a 1 bit
+-for an active slot as default, and the default active bits are at the LSB of
+-the masks.
+-
+-The explicit masks are given as array of integers, where the first
+-number presents bit-0 (LSB), second presents bit-1, etc. Any non zero
+-number is considered 1 and 0 is 0. snd_soc_of_xlate_tdm_slot_mask()
+-does not do anything, if either mask is set non zero value.
+diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.yaml b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+new file mode 100644
+index 000000000000..b67844e1dfd5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+@@ -0,0 +1,34 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/tdm-slot.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Time Division Multiplexing (TDM) Slot Parameters
++
++maintainers:
++  - Liam Girdwood <lgirdwood@gmail.com>
++
++select: false
++
++definitions:
++  dai-tdm-slot-num:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Number of slots in use
++
++  dai-tdm-slot-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Width, in bits, of each slot
++
++  dai-tdm-slot-tx-mask:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: Transmit direction slot mask. Optional. Drivers may specify an
++      .xlate_tdm_slot_mask() to generate a slot mask dynamically. If neither
++      this property nor a driver-specific function are specified, the default
++      snd_soc_xlate_tdm_slot_mask() function will be used to generate a mask.
++      The first element of the array is slot 0 (LSB). Any nonzero value will be
++      treated as 1.
++
++  dai-tdm-slot-rx-mask:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: Receive direction slot mask. Optional. Identical to TX mask.
 
-Best regards,
 -- 
-James Calligeros <jcalligeros99@gmail.com>
+2.52.0
 
