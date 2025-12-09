@@ -1,870 +1,240 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94348262D27;
-	Tue,  9 Dec 2025 08:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3822DA74D
+	for <linux-sound@vger.kernel.org>; Tue,  9 Dec 2025 09:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765268809; cv=none; b=JtaN0O24uv9gOI12EG5G5Q22gVKcwqRXYZDONJAKnpU4CCce/1bmzrZNRgKzeLWd91ee3pOngFOpKQjHw/xjcvHFBkmSNpxo5HHq6bioxa60hZx6Kk+4csCfDGa6mQvJpFrtXEQwjc5cDBh+cNkhTaObjMD+ypqOi/XVBQQGg9I=
+	t=1765272429; cv=none; b=jxpWOo67HuV2Lak5LbTqRg9v9rrgZuOwp/m/DKKQpuWorBqmnlNLwaO8i5nFGu3Lw2BpZwxaYDADZH8E0igtOzoFDYcqEglS4WhNjlLF7OTSCAmmaIufDM8Wrr2la5UFlXyPbH8d4xAodZZWfc08j39GjGWfq1OJ6kVQ1ibXaKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765268809; c=relaxed/simple;
-	bh=K7ANdXcomz10Sspv/pjHNCxRJFAen6zvKd0HlvOYUOA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q3s36mkyXUV6GDG3Bu8wMmHwxQGpKXk0rjXRPGPQu7eKjOAY766oNg8W18NYQNVp997Bg4Ved511n+aGxp3jOUXrLHr1QchHkVcyLDf+8twsV8U5ITnDhCS8XLShAaAwOkVnLGabTamBwCWVBsm/lbPalyEZ7N8XN3qCOw2EVec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=echLdR9a; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1765272429; c=relaxed/simple;
+	bh=ZcKZ481C2jLZ7ih4+ZUTT8eeFrSLUYcjyUPbydQ7LPE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rgJfI55tR+TYmen6oxwPZgu/Sha+OKc3m2Va1L4jzVX0JWE73T+lFctTlApq/RNZl77wqRolnmqT1yH+UyT59pr+eVzofHhhKMAlQ/syZIZX8tv2dMacGipMh+Y3hqto3LEgMm5kH8DqKGQ2BxZRHkEQIWxWwm201cbmjSTUQbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xqc7svUB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lpm+0YKh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2LSQXNXG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gs7cwMOZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="echLdR9a"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0B9B41A2059;
-	Tue,  9 Dec 2025 08:26:45 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D61B5606E2;
-	Tue,  9 Dec 2025 08:26:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 45162102F0BF6;
-	Tue,  9 Dec 2025 09:26:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765268801; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=CAwakq+M3XLQ3v6bO0sb810odQLx1Otn6654dEAbP5M=;
-	b=echLdR9axeZh9TeJIHGvnBK53KeBdylSdJUOrtlaZe1QpbZ5otkvtD8hmkdy2tvff8cVe7
-	nV6wuIXopjjn0Kuekqe6vl8QYkFNyD/nrLAx4SFX3PD1MtN2pkSb+9nB9D2CkMF1/Y8p5o
-	Sfn4UIBbRvd6RctGMgBsPfmy6RaaHrotE29NOfVTZYkf8AD/CggIMGG4/lxc2ZVSaCBMiX
-	kE4JW86lRcU6ZET1Ijjkv+W2GJCXbiTshlMp2Dlv4s12tIDCont6hOMveimLgA4guqCVxz
-	uT7r0QXLXjopjZs4lzCWgtFqcs6qqoKoU7oizxHA88TyG5fV+TMxfOMmIB6QvA==
-From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Tue, 09 Dec 2025 09:25:56 +0100
-Subject: [PATCH v2 2/2] iio: inkern: Use namespaced exports
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xqc7svUB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lpm+0YKh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2LSQXNXG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gs7cwMOZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DF0B133734;
+	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765272424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
+	b=Xqc7svUBR1AJk/UN7X+MfgVxaTjswcCkeKCfdIIwMxlst6y9vz67qcnQnwwcG+1E8FNZIi
+	hv8XeFUrfCVThZPoMiLLgfp2y4ONq2xAVt9JLAy8apVpaE+HgvnHYfnhSKOQF66oo3sYfT
+	xjfjnfIZ9yXT2Lh0kQ0is4Mnwh6c65s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765272424;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
+	b=Lpm+0YKhPDaGZkgzeR4FlL82eQQ0ZlTXbRWvhcsy3E3qA81rRc5GjTwQnhmxULz7WYGlen
+	snr8Z+JICfjF7ZCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2LSQXNXG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gs7cwMOZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765272423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
+	b=2LSQXNXGlUWW5iBQpeO/S5XQSgJAz0VdDvE1JAFcGG+ik0nPS42u0w7/ia7FwfM/l5x5e+
+	fIMoOUec6XJsdz+MDclq0QPNpvc4bP74TT3+DJ0zCMNeOaR9ZQLA5XUx7YIhEhJnYeZI3S
+	hkp143y0PMAF9G9G/5NIije/udujwDo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765272423;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
+	b=Gs7cwMOZ99ycrBGLtJ/y/mIkZ88YXtKBMmSW0H3IN9ngklEhpzk+1Hr3FaNG99VfJRYbp/
+	CtT2FqJvn4pBn2Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 621033EA63;
+	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xWa9FmfrN2nnNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 09:27:03 +0000
+Date: Tue, 09 Dec 2025 10:27:03 +0100
+Message-ID: <87y0ncrons.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Dell.Client.Kernel@dell.com,	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
+ <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
+ <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
+ <dxu@dxuuu.xyz>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <875xagt7d1.wl-tiwai@suse.de>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+	<878qhckxc5.wl-tiwai@suse.de>
+	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+	<875xcgkvnw.wl-tiwai@suse.de>
+	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+	<87bjm78978.wl-tiwai@suse.de>
+	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+	<871plbucj3.wl-tiwai@suse.de>
+	<CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+	<875xagt7d1.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251209-iio-inkern-use-namespaced-exports-v2-2-9799a33c4b7f@bootlin.com>
-References: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
-In-Reply-To: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
-To: MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Guenter Roeck <linux@roeck-us.net>, 
- Peter Rosin <peda@axentia.se>, Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Mariel Tinaco <Mariel.Tinaco@analog.com>, 
- Kevin Tsai <ktsai@capellamicro.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Hans de Goede <hansg@kernel.org>, 
- Support Opensource <support.opensource@diasemi.com>, 
- Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Matheus Castello <matheus@castello.eng.br>, 
- Saravanan Sekar <sravanhome@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
- Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Amit Kucheria <amitk@kernel.org>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
- linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Romain Gantois <romain.gantois@bootlin.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Andy Shevchenko <andriy.shevchenko@intel.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: DF0B133734
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-Use namespaced exports for IIO consumer API functions.
+On Tue, 09 Dec 2025 08:57:46 +0100,
+Takashi Iwai wrote:
+> 
+> On Sat, 06 Dec 2025 22:39:52 +0100,
+> Askar Safin wrote:
+> > 
+> > On Wed, Dec 3, 2025 at 12:42 PM Takashi Iwai <tiwai@suse.de> wrote:
+> > > A rather hackish fix would be something like below.  Instead of
+> > 
+> > I tested. This patch works. Thank you!
+> > Tested-by: Askar Safin <safinaskar@gmail.com>
+> 
+> Thanks for testing!
+> 
+> On the second thought, a better fix would be just to change the
+> default fallback from ANY to LEGACY, so a oneliner change like below.
+> Could you test it instead of the previous one?
+> 
+> It was set to ANY as we assumed that all drivers should cover the
+> devices generally, but in the end, SOF or AVS need specific firmware
+> files, hence it doesn't make sense to bind to them if specific kconfig
+> is enabled.
 
-This will make it easier to manage the IIO export surface. Consumer drivers
-will only be provided access to a specific set of functions, thereby
-restricting usage of internal IIO functions by other parts of the kernel.
+The below one is a revised fix, just to be safer in case the legacy
+driver is disabled, too.  Give it a try.
 
-This change cannot be split into several parts without breaking
-bisectability, thus all of the affected drivers are modified at once.
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> # for power-supply
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: hda: intel-dsp-config: Prefer legacy driver as fallback
+
+When config table entries don't match with the device to be probed,
+currently we fall back to SND_INTEL_DSP_DRIVER_ANY, which means to
+allow any drivers to bind with it.
+
+This was set so with the assumption (or hope) that all controller
+drivers should cover the devices generally, but in practice, this
+caused a problem as reported recently.  Namely, when a specific
+kconfig for SOF isn't set for the modern Intel chips like Alderlake,
+a wrong driver (AVS) got probed and failed.  This is because we have
+entries like:
+
+/* Alder Lake / Raptor Lake */
+	{
+		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_S,
+	},
+....
+
+so this entry is effective only when CONFIG_SND_SOC_SOF_ALDERLAKE is
+set.  If not set, there is no matching entry, hence it returns
+SND_INTEL_DSP_DRIVER_ANY as fallback.  OTOH, if the kconfig is set, it
+explicitly falls back to SND_INTEL_DSP_DRIVER_LEGACY when no DMIC or
+SoundWire is found -- that was the working scenario.  That being said,
+the current setup may be broken for modern Intel chips that are
+supposed to work with either SOF or legacy driver when the
+corresponding kconfig were missing.
+
+For addressing the problem above, this patch changes the fallback
+driver to the legacy driver as much as possible, i.e. return
+SND_INTEL_DSP_DRIVER_LEGACY type.  When CONFIG_SND_HDA_INTEL is also
+off, the fallback is set to SND_INTEL_DSP_DRIVER_ANY type, just to be
+sure.
+
+Link: https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- drivers/extcon/extcon-adc-jack.c                |  1 +
- drivers/hwmon/iio_hwmon.c                       |  1 +
- drivers/hwmon/ntc_thermistor.c                  |  1 +
- drivers/iio/adc/envelope-detector.c             |  1 +
- drivers/iio/afe/iio-rescale.c                   |  1 +
- drivers/iio/buffer/industrialio-buffer-cb.c     |  1 +
- drivers/iio/buffer/industrialio-hw-consumer.c   |  1 +
- drivers/iio/dac/ad8460.c                        |  1 +
- drivers/iio/dac/dpot-dac.c                      |  1 +
- drivers/iio/inkern.c                            | 54 ++++++++++++-------------
- drivers/iio/light/cm3605.c                      |  1 +
- drivers/iio/light/gp2ap002.c                    |  1 +
- drivers/iio/multiplexer/iio-mux.c               |  1 +
- drivers/iio/potentiostat/lmp91000.c             |  1 +
- drivers/input/joystick/adc-joystick.c           |  1 +
- drivers/input/keyboard/adc-keys.c               |  1 +
- drivers/input/touchscreen/colibri-vf50-ts.c     |  1 +
- drivers/input/touchscreen/resistive-adc-touch.c |  1 +
- drivers/phy/motorola/phy-cpcap-usb.c            |  1 +
- drivers/power/supply/ab8500_btemp.c             |  1 +
- drivers/power/supply/ab8500_charger.c           |  1 +
- drivers/power/supply/ab8500_fg.c                |  1 +
- drivers/power/supply/axp20x_ac_power.c          |  1 +
- drivers/power/supply/axp20x_battery.c           |  1 +
- drivers/power/supply/axp20x_usb_power.c         |  1 +
- drivers/power/supply/axp288_fuel_gauge.c        |  1 +
- drivers/power/supply/cpcap-battery.c            |  1 +
- drivers/power/supply/cpcap-charger.c            |  1 +
- drivers/power/supply/da9150-charger.c           |  1 +
- drivers/power/supply/generic-adc-battery.c      |  1 +
- drivers/power/supply/ingenic-battery.c          |  1 +
- drivers/power/supply/intel_dc_ti_battery.c      |  1 +
- drivers/power/supply/lego_ev3_battery.c         |  1 +
- drivers/power/supply/lp8788-charger.c           |  1 +
- drivers/power/supply/max17040_battery.c         |  1 +
- drivers/power/supply/mp2629_charger.c           |  1 +
- drivers/power/supply/mt6370-charger.c           |  1 +
- drivers/power/supply/qcom_smbx.c                |  1 +
- drivers/power/supply/rn5t618_power.c            |  1 +
- drivers/power/supply/rx51_battery.c             |  1 +
- drivers/power/supply/sc27xx_fuel_gauge.c        |  1 +
- drivers/power/supply/twl4030_charger.c          |  1 +
- drivers/power/supply/twl4030_madc_battery.c     |  1 +
- drivers/power/supply/twl6030_charger.c          |  1 +
- drivers/thermal/qcom/qcom-spmi-adc-tm5.c        |  1 +
- drivers/thermal/qcom/qcom-spmi-temp-alarm.c     |  1 +
- drivers/thermal/renesas/rzg3s_thermal.c         |  1 +
- drivers/thermal/thermal-generic-adc.c           |  1 +
- sound/soc/codecs/audio-iio-aux.c                |  1 +
- sound/soc/samsung/aries_wm8994.c                |  1 +
- sound/soc/samsung/midas_wm1811.c                |  1 +
- sound/soc/stm/stm32_adfsdm.c                    |  1 +
- 52 files changed, 78 insertions(+), 27 deletions(-)
+ sound/hda/core/intel-dsp-config.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/extcon/extcon-adc-jack.c b/drivers/extcon/extcon-adc-jack.c
-index 7e3c9f38297b..e735f43dcdeb 100644
---- a/drivers/extcon/extcon-adc-jack.c
-+++ b/drivers/extcon/extcon-adc-jack.c
-@@ -210,3 +210,4 @@ module_platform_driver(adc_jack_driver);
- MODULE_AUTHOR("MyungJoo Ham <myungjoo.ham@samsung.com>");
- MODULE_DESCRIPTION("ADC Jack extcon driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/hwmon/iio_hwmon.c b/drivers/hwmon/iio_hwmon.c
-index e376d4cde5ad..4c7843fbcc50 100644
---- a/drivers/hwmon/iio_hwmon.c
-+++ b/drivers/hwmon/iio_hwmon.c
-@@ -222,3 +222,4 @@ module_platform_driver(iio_hwmon_driver);
- MODULE_AUTHOR("Jonathan Cameron <jic23@kernel.org>");
- MODULE_DESCRIPTION("IIO to hwmon driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/hwmon/ntc_thermistor.c b/drivers/hwmon/ntc_thermistor.c
-index d21f7266c411..417807fad80b 100644
---- a/drivers/hwmon/ntc_thermistor.c
-+++ b/drivers/hwmon/ntc_thermistor.c
-@@ -706,3 +706,4 @@ MODULE_DESCRIPTION("NTC Thermistor Driver");
- MODULE_AUTHOR("MyungJoo Ham <myungjoo.ham@samsung.com>");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:ntc-thermistor");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/adc/envelope-detector.c b/drivers/iio/adc/envelope-detector.c
-index 5b16fe737659..fea20e7e6cd9 100644
---- a/drivers/iio/adc/envelope-detector.c
-+++ b/drivers/iio/adc/envelope-detector.c
-@@ -406,3 +406,4 @@ module_platform_driver(envelope_detector_driver);
- MODULE_DESCRIPTION("Envelope detector using a DAC and a comparator");
- MODULE_AUTHOR("Peter Rosin <peda@axentia.se>");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/afe/iio-rescale.c b/drivers/iio/afe/iio-rescale.c
-index ecaf59278c6f..d7f55109af3e 100644
---- a/drivers/iio/afe/iio-rescale.c
-+++ b/drivers/iio/afe/iio-rescale.c
-@@ -609,3 +609,4 @@ module_platform_driver(rescale_driver);
- MODULE_DESCRIPTION("IIO rescale driver");
- MODULE_AUTHOR("Peter Rosin <peda@axentia.se>");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/buffer/industrialio-buffer-cb.c b/drivers/iio/buffer/industrialio-buffer-cb.c
-index 3e27385069ed..608ea9afc15a 100644
---- a/drivers/iio/buffer/industrialio-buffer-cb.c
-+++ b/drivers/iio/buffer/industrialio-buffer-cb.c
-@@ -153,3 +153,4 @@ EXPORT_SYMBOL_GPL(iio_channel_cb_get_iio_dev);
- MODULE_AUTHOR("Jonathan Cameron <jic23@kernel.org>");
- MODULE_DESCRIPTION("Industrial I/O callback buffer");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/buffer/industrialio-hw-consumer.c b/drivers/iio/buffer/industrialio-hw-consumer.c
-index 526b2a8d725d..d7ff086ed783 100644
---- a/drivers/iio/buffer/industrialio-hw-consumer.c
-+++ b/drivers/iio/buffer/industrialio-hw-consumer.c
-@@ -211,3 +211,4 @@ EXPORT_SYMBOL_GPL(iio_hw_consumer_disable);
- MODULE_AUTHOR("Lars-Peter Clausen <lars@metafoo.de>");
- MODULE_DESCRIPTION("Hardware consumer buffer the IIO framework");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/dac/ad8460.c b/drivers/iio/dac/ad8460.c
-index 6e45686902dd..ad654819ca22 100644
---- a/drivers/iio/dac/ad8460.c
-+++ b/drivers/iio/dac/ad8460.c
-@@ -955,3 +955,4 @@ MODULE_AUTHOR("Mariel Tinaco <mariel.tinaco@analog.com");
- MODULE_DESCRIPTION("AD8460 DAC driver");
- MODULE_LICENSE("GPL");
- MODULE_IMPORT_NS("IIO_DMAENGINE_BUFFER");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/dac/dpot-dac.c b/drivers/iio/dac/dpot-dac.c
-index d1b8441051ae..49dbdb7df955 100644
---- a/drivers/iio/dac/dpot-dac.c
-+++ b/drivers/iio/dac/dpot-dac.c
-@@ -254,3 +254,4 @@ module_platform_driver(dpot_dac_driver);
- MODULE_DESCRIPTION("DAC emulation driver using a digital potentiometer");
- MODULE_AUTHOR("Peter Rosin <peda@axentia.se>");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/inkern.c b/drivers/iio/inkern.c
-index 1e5eb5a41271..c75c3a8d233f 100644
---- a/drivers/iio/inkern.c
-+++ b/drivers/iio/inkern.c
-@@ -281,7 +281,7 @@ struct iio_channel *fwnode_iio_channel_get_by_name(struct fwnode_handle *fwnode,
+diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
+index c401c0658421..0c25e87408de 100644
+--- a/sound/hda/core/intel-dsp-config.c
++++ b/sound/hda/core/intel-dsp-config.c
+@@ -718,7 +718,8 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
+ 	/* find the configuration for the specific device */
+ 	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
+ 	if (!cfg)
+-		return SND_INTEL_DSP_DRIVER_ANY;
++		return IS_ENABLED(CONFIG_SND_HDA_INTEL) ?
++			SND_INTEL_DSP_DRIVER_LEGACY : SND_INTEL_DSP_DRIVER_ANY;
  
- 	return ERR_PTR(-ENODEV);
- }
--EXPORT_SYMBOL_GPL(fwnode_iio_channel_get_by_name);
-+EXPORT_SYMBOL_NS_GPL(fwnode_iio_channel_get_by_name, "IIO_CONSUMER");
- 
- static struct iio_channel *fwnode_iio_channel_get_all(struct device *dev)
- {
-@@ -386,7 +386,7 @@ struct iio_channel *iio_channel_get(struct device *dev,
- 
- 	return iio_channel_get_sys(name, channel_name);
- }
--EXPORT_SYMBOL_GPL(iio_channel_get);
-+EXPORT_SYMBOL_NS_GPL(iio_channel_get, "IIO_CONSUMER");
- 
- void iio_channel_release(struct iio_channel *channel)
- {
-@@ -395,7 +395,7 @@ void iio_channel_release(struct iio_channel *channel)
- 	iio_device_put(channel->indio_dev);
- 	kfree(channel);
- }
--EXPORT_SYMBOL_GPL(iio_channel_release);
-+EXPORT_SYMBOL_NS_GPL(iio_channel_release, "IIO_CONSUMER");
- 
- static void devm_iio_channel_free(void *iio_channel)
- {
-@@ -418,7 +418,7 @@ struct iio_channel *devm_iio_channel_get(struct device *dev,
- 
- 	return channel;
- }
--EXPORT_SYMBOL_GPL(devm_iio_channel_get);
-+EXPORT_SYMBOL_NS_GPL(devm_iio_channel_get, "IIO_CONSUMER");
- 
- struct iio_channel *devm_fwnode_iio_channel_get_by_name(struct device *dev,
- 							struct fwnode_handle *fwnode,
-@@ -437,7 +437,7 @@ struct iio_channel *devm_fwnode_iio_channel_get_by_name(struct device *dev,
- 
- 	return channel;
- }
--EXPORT_SYMBOL_GPL(devm_fwnode_iio_channel_get_by_name);
-+EXPORT_SYMBOL_NS_GPL(devm_fwnode_iio_channel_get_by_name, "IIO_CONSUMER");
- 
- struct iio_channel *iio_channel_get_all(struct device *dev)
- {
-@@ -506,7 +506,7 @@ struct iio_channel *iio_channel_get_all(struct device *dev)
- 		iio_device_put(chans[i].indio_dev);
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(iio_channel_get_all);
-+EXPORT_SYMBOL_NS_GPL(iio_channel_get_all, "IIO_CONSUMER");
- 
- void iio_channel_release_all(struct iio_channel *channels)
- {
-@@ -518,7 +518,7 @@ void iio_channel_release_all(struct iio_channel *channels)
- 	}
- 	kfree(channels);
- }
--EXPORT_SYMBOL_GPL(iio_channel_release_all);
-+EXPORT_SYMBOL_NS_GPL(iio_channel_release_all, "IIO_CONSUMER");
- 
- static void devm_iio_channel_free_all(void *iio_channels)
- {
-@@ -541,7 +541,7 @@ struct iio_channel *devm_iio_channel_get_all(struct device *dev)
- 
- 	return channels;
- }
--EXPORT_SYMBOL_GPL(devm_iio_channel_get_all);
-+EXPORT_SYMBOL_NS_GPL(devm_iio_channel_get_all, "IIO_CONSUMER");
- 
- static int iio_channel_read(struct iio_channel *chan, int *val, int *val2,
- 			    enum iio_chan_info_enum info)
-@@ -585,7 +585,7 @@ int iio_read_channel_raw(struct iio_channel *chan, int *val)
- 
- 	return iio_channel_read(chan, val, NULL, IIO_CHAN_INFO_RAW);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_raw, "IIO_CONSUMER");
- 
- int iio_read_channel_average_raw(struct iio_channel *chan, int *val)
- {
-@@ -597,7 +597,7 @@ int iio_read_channel_average_raw(struct iio_channel *chan, int *val)
- 
- 	return iio_channel_read(chan, val, NULL, IIO_CHAN_INFO_AVERAGE_RAW);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_average_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_average_raw, "IIO_CONSUMER");
- 
- int iio_multiply_value(int *result, s64 multiplier,
- 		       unsigned int type, int val, int val2)
-@@ -701,7 +701,7 @@ int iio_convert_raw_to_processed(struct iio_channel *chan, int raw,
- 	return iio_convert_raw_to_processed_unlocked(chan, raw, processed,
- 						     scale);
- }
--EXPORT_SYMBOL_GPL(iio_convert_raw_to_processed);
-+EXPORT_SYMBOL_NS_GPL(iio_convert_raw_to_processed, "IIO_CONSUMER");
- 
- int iio_read_channel_attribute(struct iio_channel *chan, int *val, int *val2,
- 			       enum iio_chan_info_enum attribute)
-@@ -714,13 +714,13 @@ int iio_read_channel_attribute(struct iio_channel *chan, int *val, int *val2,
- 
- 	return iio_channel_read(chan, val, val2, attribute);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_attribute);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_attribute, "IIO_CONSUMER");
- 
- int iio_read_channel_offset(struct iio_channel *chan, int *val, int *val2)
- {
- 	return iio_read_channel_attribute(chan, val, val2, IIO_CHAN_INFO_OFFSET);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_offset);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_offset, "IIO_CONSUMER");
- 
- int iio_read_channel_processed_scale(struct iio_channel *chan, int *val,
- 				     unsigned int scale)
-@@ -748,20 +748,20 @@ int iio_read_channel_processed_scale(struct iio_channel *chan, int *val,
- 							     scale);
- 	}
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_processed_scale);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_processed_scale, "IIO_CONSUMER");
- 
- int iio_read_channel_processed(struct iio_channel *chan, int *val)
- {
- 	/* This is just a special case with scale factor 1 */
- 	return iio_read_channel_processed_scale(chan, val, 1);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_processed);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_processed, "IIO_CONSUMER");
- 
- int iio_read_channel_scale(struct iio_channel *chan, int *val, int *val2)
- {
- 	return iio_read_channel_attribute(chan, val, val2, IIO_CHAN_INFO_SCALE);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_scale);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_scale, "IIO_CONSUMER");
- 
- static int iio_channel_read_avail(struct iio_channel *chan,
- 				  const int **vals, int *type, int *length,
-@@ -790,7 +790,7 @@ int iio_read_avail_channel_attribute(struct iio_channel *chan,
- 
- 	return iio_channel_read_avail(chan, vals, type, length, attribute);
- }
--EXPORT_SYMBOL_GPL(iio_read_avail_channel_attribute);
-+EXPORT_SYMBOL_NS_GPL(iio_read_avail_channel_attribute, "IIO_CONSUMER");
- 
- int iio_read_avail_channel_raw(struct iio_channel *chan,
- 			       const int **vals, int *length)
-@@ -807,7 +807,7 @@ int iio_read_avail_channel_raw(struct iio_channel *chan,
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(iio_read_avail_channel_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_read_avail_channel_raw, "IIO_CONSUMER");
- 
- static int iio_channel_read_max(struct iio_channel *chan,
- 				int *val, int *val2, int *type,
-@@ -863,7 +863,7 @@ int iio_read_max_channel_raw(struct iio_channel *chan, int *val)
- 
- 	return iio_channel_read_max(chan, val, NULL, &type, IIO_CHAN_INFO_RAW);
- }
--EXPORT_SYMBOL_GPL(iio_read_max_channel_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_read_max_channel_raw, "IIO_CONSUMER");
- 
- static int iio_channel_read_min(struct iio_channel *chan,
- 				int *val, int *val2, int *type,
-@@ -919,7 +919,7 @@ int iio_read_min_channel_raw(struct iio_channel *chan, int *val)
- 
- 	return iio_channel_read_min(chan, val, NULL, &type, IIO_CHAN_INFO_RAW);
- }
--EXPORT_SYMBOL_GPL(iio_read_min_channel_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_read_min_channel_raw, "IIO_CONSUMER");
- 
- int iio_get_channel_type(struct iio_channel *chan, enum iio_chan_type *type)
- {
-@@ -933,7 +933,7 @@ int iio_get_channel_type(struct iio_channel *chan, enum iio_chan_type *type)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(iio_get_channel_type);
-+EXPORT_SYMBOL_NS_GPL(iio_get_channel_type, "IIO_CONSUMER");
- 
- static int iio_channel_write(struct iio_channel *chan, int val, int val2,
- 			     enum iio_chan_info_enum info)
-@@ -957,13 +957,13 @@ int iio_write_channel_attribute(struct iio_channel *chan, int val, int val2,
- 
- 	return iio_channel_write(chan, val, val2, attribute);
- }
--EXPORT_SYMBOL_GPL(iio_write_channel_attribute);
-+EXPORT_SYMBOL_NS_GPL(iio_write_channel_attribute, "IIO_CONSUMER");
- 
- int iio_write_channel_raw(struct iio_channel *chan, int val)
- {
- 	return iio_write_channel_attribute(chan, val, 0, IIO_CHAN_INFO_RAW);
- }
--EXPORT_SYMBOL_GPL(iio_write_channel_raw);
-+EXPORT_SYMBOL_NS_GPL(iio_write_channel_raw, "IIO_CONSUMER");
- 
- unsigned int iio_get_channel_ext_info_count(struct iio_channel *chan)
- {
-@@ -978,7 +978,7 @@ unsigned int iio_get_channel_ext_info_count(struct iio_channel *chan)
- 
- 	return i;
- }
--EXPORT_SYMBOL_GPL(iio_get_channel_ext_info_count);
-+EXPORT_SYMBOL_NS_GPL(iio_get_channel_ext_info_count, "IIO_CONSUMER");
- 
- static const struct iio_chan_spec_ext_info *
- iio_lookup_ext_info(const struct iio_channel *chan, const char *attr)
-@@ -1013,7 +1013,7 @@ ssize_t iio_read_channel_ext_info(struct iio_channel *chan,
- 	return ext_info->read(chan->indio_dev, ext_info->private,
- 			      chan->channel, buf);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_ext_info);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_ext_info, "IIO_CONSUMER");
- 
- ssize_t iio_write_channel_ext_info(struct iio_channel *chan, const char *attr,
- 				   const char *buf, size_t len)
-@@ -1027,7 +1027,7 @@ ssize_t iio_write_channel_ext_info(struct iio_channel *chan, const char *attr,
- 	return ext_info->write(chan->indio_dev, ext_info->private,
- 			       chan->channel, buf, len);
- }
--EXPORT_SYMBOL_GPL(iio_write_channel_ext_info);
-+EXPORT_SYMBOL_NS_GPL(iio_write_channel_ext_info, "IIO_CONSUMER");
- 
- ssize_t iio_read_channel_label(struct iio_channel *chan, char *buf)
- {
-@@ -1038,4 +1038,4 @@ ssize_t iio_read_channel_label(struct iio_channel *chan, char *buf)
- 
- 	return do_iio_read_channel_label(chan->indio_dev, chan->channel, buf);
- }
--EXPORT_SYMBOL_GPL(iio_read_channel_label);
-+EXPORT_SYMBOL_NS_GPL(iio_read_channel_label, "IIO_CONSUMER");
-diff --git a/drivers/iio/light/cm3605.c b/drivers/iio/light/cm3605.c
-index 0c17378e27d1..1bd11292d005 100644
---- a/drivers/iio/light/cm3605.c
-+++ b/drivers/iio/light/cm3605.c
-@@ -325,3 +325,4 @@ module_platform_driver(cm3605_driver);
- MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
- MODULE_DESCRIPTION("CM3605 ambient light and proximity sensor driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/light/gp2ap002.c b/drivers/iio/light/gp2ap002.c
-index a0d8a58f2704..04b1f6eade0e 100644
---- a/drivers/iio/light/gp2ap002.c
-+++ b/drivers/iio/light/gp2ap002.c
-@@ -717,3 +717,4 @@ module_i2c_driver(gp2ap002_driver);
- MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
- MODULE_DESCRIPTION("GP2AP002 ambient light and proximity sensor driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/multiplexer/iio-mux.c b/drivers/iio/multiplexer/iio-mux.c
-index b742ca9a99d1..e193913f5af7 100644
---- a/drivers/iio/multiplexer/iio-mux.c
-+++ b/drivers/iio/multiplexer/iio-mux.c
-@@ -464,3 +464,4 @@ module_platform_driver(mux_driver);
- MODULE_DESCRIPTION("IIO multiplexer driver");
- MODULE_AUTHOR("Peter Rosin <peda@axentia.se>");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/iio/potentiostat/lmp91000.c b/drivers/iio/potentiostat/lmp91000.c
-index eccc2a34358f..7d993f2acda4 100644
---- a/drivers/iio/potentiostat/lmp91000.c
-+++ b/drivers/iio/potentiostat/lmp91000.c
-@@ -423,3 +423,4 @@ module_i2c_driver(lmp91000_driver);
- MODULE_AUTHOR("Matt Ranostay <matt.ranostay@konsulko.com>");
- MODULE_DESCRIPTION("LMP91000 digital potentiostat");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/input/joystick/adc-joystick.c b/drivers/input/joystick/adc-joystick.c
-index ff44f9978b71..4fa42f88bcfa 100644
---- a/drivers/input/joystick/adc-joystick.c
-+++ b/drivers/input/joystick/adc-joystick.c
-@@ -329,3 +329,4 @@ module_platform_driver(adc_joystick_driver);
- MODULE_DESCRIPTION("Input driver for joysticks connected over ADC");
- MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/input/keyboard/adc-keys.c b/drivers/input/keyboard/adc-keys.c
-index f1753207429d..d687459a0c80 100644
---- a/drivers/input/keyboard/adc-keys.c
-+++ b/drivers/input/keyboard/adc-keys.c
-@@ -202,3 +202,4 @@ module_platform_driver(adc_keys_driver);
- MODULE_AUTHOR("Alexandre Belloni <alexandre.belloni@free-electrons.com>");
- MODULE_DESCRIPTION("Input driver for resistor ladder connected on ADC");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/input/touchscreen/colibri-vf50-ts.c b/drivers/input/touchscreen/colibri-vf50-ts.c
-index 98d5b2ba63fb..89c4d7b2b89e 100644
---- a/drivers/input/touchscreen/colibri-vf50-ts.c
-+++ b/drivers/input/touchscreen/colibri-vf50-ts.c
-@@ -372,3 +372,4 @@ module_platform_driver(vf50_touch_driver);
- MODULE_AUTHOR("Sanchayan Maity");
- MODULE_DESCRIPTION("Colibri VF50 Touchscreen driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
-index 7e761ec73273..2fefd652864c 100644
---- a/drivers/input/touchscreen/resistive-adc-touch.c
-+++ b/drivers/input/touchscreen/resistive-adc-touch.c
-@@ -301,3 +301,4 @@ module_platform_driver(grts_driver);
- MODULE_AUTHOR("Eugen Hristev <eugen.hristev@microchip.com>");
- MODULE_DESCRIPTION("Generic ADC Resistive Touch Driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/phy/motorola/phy-cpcap-usb.c b/drivers/phy/motorola/phy-cpcap-usb.c
-index 7cb020dd3423..9591672b0511 100644
---- a/drivers/phy/motorola/phy-cpcap-usb.c
-+++ b/drivers/phy/motorola/phy-cpcap-usb.c
-@@ -717,3 +717,4 @@ MODULE_ALIAS("platform:cpcap_usb");
- MODULE_AUTHOR("Tony Lindgren <tony@atomide.com>");
- MODULE_DESCRIPTION("CPCAP usb phy driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/ab8500_btemp.c b/drivers/power/supply/ab8500_btemp.c
-index e5202a7b6209..36b0c52a4b8b 100644
---- a/drivers/power/supply/ab8500_btemp.c
-+++ b/drivers/power/supply/ab8500_btemp.c
-@@ -829,3 +829,4 @@ MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Johan Palsson, Karl Komierowski, Arun R Murthy");
- MODULE_ALIAS("platform:ab8500-btemp");
- MODULE_DESCRIPTION("AB8500 battery temperature driver");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/ab8500_charger.c b/drivers/power/supply/ab8500_charger.c
-index 5f4537766e5b..6e49d1b28254 100644
---- a/drivers/power/supply/ab8500_charger.c
-+++ b/drivers/power/supply/ab8500_charger.c
-@@ -3751,3 +3751,4 @@ MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Johan Palsson, Karl Komierowski, Arun R Murthy");
- MODULE_ALIAS("platform:ab8500-charger");
- MODULE_DESCRIPTION("AB8500 charger management driver");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/ab8500_fg.c b/drivers/power/supply/ab8500_fg.c
-index 9dd99722667a..5fa559f796aa 100644
---- a/drivers/power/supply/ab8500_fg.c
-+++ b/drivers/power/supply/ab8500_fg.c
-@@ -3252,3 +3252,4 @@ MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Johan Palsson, Karl Komierowski");
- MODULE_ALIAS("platform:ab8500-fg");
- MODULE_DESCRIPTION("AB8500 Fuel Gauge driver");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/axp20x_ac_power.c b/drivers/power/supply/axp20x_ac_power.c
-index 5f6ea416fa30..e9049d6229df 100644
---- a/drivers/power/supply/axp20x_ac_power.c
-+++ b/drivers/power/supply/axp20x_ac_power.c
-@@ -421,3 +421,4 @@ module_platform_driver(axp20x_ac_power_driver);
- MODULE_AUTHOR("Quentin Schulz <quentin.schulz@free-electrons.com>");
- MODULE_DESCRIPTION("AXP20X and AXP22X PMICs' AC power supply driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/axp20x_battery.c b/drivers/power/supply/axp20x_battery.c
-index 50ca8e110085..ee8701a6e907 100644
---- a/drivers/power/supply/axp20x_battery.c
-+++ b/drivers/power/supply/axp20x_battery.c
-@@ -1155,3 +1155,4 @@ module_platform_driver(axp20x_batt_driver);
- MODULE_DESCRIPTION("Battery power supply driver for AXP20X and AXP22X PMICs");
- MODULE_AUTHOR("Quentin Schulz <quentin.schulz@free-electrons.com>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/axp20x_usb_power.c b/drivers/power/supply/axp20x_usb_power.c
-index e75d1e377ac1..599adcf84968 100644
---- a/drivers/power/supply/axp20x_usb_power.c
-+++ b/drivers/power/supply/axp20x_usb_power.c
-@@ -1080,3 +1080,4 @@ module_platform_driver(axp20x_usb_power_driver);
- MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
- MODULE_DESCRIPTION("AXP20x PMIC USB power supply status driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/axp288_fuel_gauge.c b/drivers/power/supply/axp288_fuel_gauge.c
-index a3d71fc72064..c6897dd808fc 100644
---- a/drivers/power/supply/axp288_fuel_gauge.c
-+++ b/drivers/power/supply/axp288_fuel_gauge.c
-@@ -817,3 +817,4 @@ MODULE_AUTHOR("Ramakrishna Pallala <ramakrishna.pallala@intel.com>");
- MODULE_AUTHOR("Todd Brandt <todd.e.brandt@linux.intel.com>");
- MODULE_DESCRIPTION("Xpower AXP288 Fuel Gauge Driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/cpcap-battery.c b/drivers/power/supply/cpcap-battery.c
-index 8106d1edcbc2..542c3c70e3cb 100644
---- a/drivers/power/supply/cpcap-battery.c
-+++ b/drivers/power/supply/cpcap-battery.c
-@@ -1176,3 +1176,4 @@ module_platform_driver(cpcap_battery_driver);
- MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Tony Lindgren <tony@atomide.com>");
- MODULE_DESCRIPTION("CPCAP PMIC Battery Driver");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/cpcap-charger.c b/drivers/power/supply/cpcap-charger.c
-index d0c3008db534..89bc0fc3c9f8 100644
---- a/drivers/power/supply/cpcap-charger.c
-+++ b/drivers/power/supply/cpcap-charger.c
-@@ -977,3 +977,4 @@ MODULE_AUTHOR("Tony Lindgren <tony@atomide.com>");
- MODULE_DESCRIPTION("CPCAP Battery Charger Interface driver");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:cpcap-charger");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/da9150-charger.c b/drivers/power/supply/da9150-charger.c
-index 27f36ef5b88d..58449df6068c 100644
---- a/drivers/power/supply/da9150-charger.c
-+++ b/drivers/power/supply/da9150-charger.c
-@@ -644,3 +644,4 @@ module_platform_driver(da9150_charger_driver);
- MODULE_DESCRIPTION("Charger Driver for DA9150");
- MODULE_AUTHOR("Adam Thomson <Adam.Thomson.Opensource@diasemi.com>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/generic-adc-battery.c b/drivers/power/supply/generic-adc-battery.c
-index f5f2566b3a32..d18c8ee40405 100644
---- a/drivers/power/supply/generic-adc-battery.c
-+++ b/drivers/power/supply/generic-adc-battery.c
-@@ -298,3 +298,4 @@ module_platform_driver(gab_driver);
- MODULE_AUTHOR("anish kumar <yesanishhere@gmail.com>");
- MODULE_DESCRIPTION("generic battery driver using IIO");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/ingenic-battery.c b/drivers/power/supply/ingenic-battery.c
-index b111c7ce2be3..5be269f17bff 100644
---- a/drivers/power/supply/ingenic-battery.c
-+++ b/drivers/power/supply/ingenic-battery.c
-@@ -190,3 +190,4 @@ module_platform_driver(ingenic_battery_driver);
- MODULE_DESCRIPTION("Battery driver for Ingenic JZ47xx SoCs");
- MODULE_AUTHOR("Artur Rojek <contact@artur-rojek.eu>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/intel_dc_ti_battery.c b/drivers/power/supply/intel_dc_ti_battery.c
-index 56b0c92e9d28..1a16ded563bc 100644
---- a/drivers/power/supply/intel_dc_ti_battery.c
-+++ b/drivers/power/supply/intel_dc_ti_battery.c
-@@ -387,3 +387,4 @@ MODULE_ALIAS("platform:" DEV_NAME);
- MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
- MODULE_DESCRIPTION("Intel Dollar Cove (TI) battery driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/lego_ev3_battery.c b/drivers/power/supply/lego_ev3_battery.c
-index 28454de05761..414816662b06 100644
---- a/drivers/power/supply/lego_ev3_battery.c
-+++ b/drivers/power/supply/lego_ev3_battery.c
-@@ -231,3 +231,4 @@ module_platform_driver(lego_ev3_battery_driver);
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("David Lechner <david@lechnology.com>");
- MODULE_DESCRIPTION("LEGO MINDSTORMS EV3 Battery Driver");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/lp8788-charger.c b/drivers/power/supply/lp8788-charger.c
-index f0a680c155c4..8c6ec98362d0 100644
---- a/drivers/power/supply/lp8788-charger.c
-+++ b/drivers/power/supply/lp8788-charger.c
-@@ -727,3 +727,4 @@ MODULE_DESCRIPTION("TI LP8788 Charger Driver");
- MODULE_AUTHOR("Milo Kim");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:lp8788-charger");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/max17040_battery.c b/drivers/power/supply/max17040_battery.c
-index c1640bc6accd..1fe658bfecc1 100644
---- a/drivers/power/supply/max17040_battery.c
-+++ b/drivers/power/supply/max17040_battery.c
-@@ -635,3 +635,4 @@ module_i2c_driver(max17040_i2c_driver);
- MODULE_AUTHOR("Minkyu Kang <mk7.kang@samsung.com>");
- MODULE_DESCRIPTION("MAX17040 Fuel Gauge");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/mp2629_charger.c b/drivers/power/supply/mp2629_charger.c
-index d281c1059629..ed49f9a04c8c 100644
---- a/drivers/power/supply/mp2629_charger.c
-+++ b/drivers/power/supply/mp2629_charger.c
-@@ -660,3 +660,4 @@ module_platform_driver(mp2629_charger_driver);
- MODULE_AUTHOR("Saravanan Sekar <sravanhome@gmail.com>");
- MODULE_DESCRIPTION("MP2629 Charger driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/mt6370-charger.c b/drivers/power/supply/mt6370-charger.c
-index e6db961d5818..2d02fdf37d70 100644
---- a/drivers/power/supply/mt6370-charger.c
-+++ b/drivers/power/supply/mt6370-charger.c
-@@ -941,3 +941,4 @@ module_platform_driver(mt6370_chg_driver);
- MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
- MODULE_DESCRIPTION("MediaTek MT6370 Charger Driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/qcom_smbx.c b/drivers/power/supply/qcom_smbx.c
-index b1cb925581ec..63b88754155c 100644
---- a/drivers/power/supply/qcom_smbx.c
-+++ b/drivers/power/supply/qcom_smbx.c
-@@ -1050,3 +1050,4 @@ module_platform_driver(qcom_spmi_smb);
- MODULE_AUTHOR("Casey Connolly <casey.connolly@linaro.org>");
- MODULE_DESCRIPTION("Qualcomm SMB2 Charger Driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/rn5t618_power.c b/drivers/power/supply/rn5t618_power.c
-index 40dec55a9f73..a3f30e390c11 100644
---- a/drivers/power/supply/rn5t618_power.c
-+++ b/drivers/power/supply/rn5t618_power.c
-@@ -821,3 +821,4 @@ module_platform_driver(rn5t618_power_driver);
- MODULE_ALIAS("platform:rn5t618-power");
- MODULE_DESCRIPTION("Power supply driver for RICOH RN5T618");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/rx51_battery.c b/drivers/power/supply/rx51_battery.c
-index b0220ec2d926..57266921dc8e 100644
---- a/drivers/power/supply/rx51_battery.c
-+++ b/drivers/power/supply/rx51_battery.c
-@@ -246,3 +246,4 @@ MODULE_ALIAS("platform:rx51-battery");
- MODULE_AUTHOR("Pali Rohár <pali@kernel.org>");
- MODULE_DESCRIPTION("Nokia RX-51 battery driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/sc27xx_fuel_gauge.c b/drivers/power/supply/sc27xx_fuel_gauge.c
-index a7ed9de8a289..1719ec4173e6 100644
---- a/drivers/power/supply/sc27xx_fuel_gauge.c
-+++ b/drivers/power/supply/sc27xx_fuel_gauge.c
-@@ -1350,3 +1350,4 @@ module_platform_driver(sc27xx_fgu_driver);
- 
- MODULE_DESCRIPTION("Spreadtrum SC27XX PMICs Fual Gauge Unit Driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/twl4030_charger.c b/drivers/power/supply/twl4030_charger.c
-index 04216b2bfb6c..151f7b24e9b9 100644
---- a/drivers/power/supply/twl4030_charger.c
-+++ b/drivers/power/supply/twl4030_charger.c
-@@ -1144,3 +1144,4 @@ MODULE_AUTHOR("Gražvydas Ignotas");
- MODULE_DESCRIPTION("TWL4030 Battery Charger Interface driver");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:twl4030_bci");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/twl4030_madc_battery.c b/drivers/power/supply/twl4030_madc_battery.c
-index 3935162e350b..9b3785d1643c 100644
---- a/drivers/power/supply/twl4030_madc_battery.c
-+++ b/drivers/power/supply/twl4030_madc_battery.c
-@@ -237,3 +237,4 @@ MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Lukas Märdian <lukas@goldelico.com>");
- MODULE_DESCRIPTION("twl4030_madc battery driver");
- MODULE_ALIAS("platform:twl4030_madc_battery");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/power/supply/twl6030_charger.c b/drivers/power/supply/twl6030_charger.c
-index b4ec26ff257c..82911a811f4e 100644
---- a/drivers/power/supply/twl6030_charger.c
-+++ b/drivers/power/supply/twl6030_charger.c
-@@ -579,3 +579,4 @@ module_platform_driver(twl6030_charger_driver);
- 
- MODULE_DESCRIPTION("TWL6030 Battery Charger Interface driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-index d7f2e6ca92c2..bb6222c8cc5f 100644
---- a/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-+++ b/drivers/thermal/qcom/qcom-spmi-adc-tm5.c
-@@ -1069,3 +1069,4 @@ module_platform_driver(adc_tm5_driver);
- 
- MODULE_DESCRIPTION("SPMI PMIC Thermal Monitor ADC driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-index f39ca0ddd17b..fb003ca96454 100644
---- a/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-+++ b/drivers/thermal/qcom/qcom-spmi-temp-alarm.c
-@@ -904,3 +904,4 @@ module_platform_driver(qpnp_tm_driver);
- MODULE_ALIAS("platform:spmi-temp-alarm");
- MODULE_DESCRIPTION("QPNP PMIC Temperature Alarm driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/thermal/renesas/rzg3s_thermal.c b/drivers/thermal/renesas/rzg3s_thermal.c
-index e25e36c99a88..7ced8f76a0ec 100644
---- a/drivers/thermal/renesas/rzg3s_thermal.c
-+++ b/drivers/thermal/renesas/rzg3s_thermal.c
-@@ -270,3 +270,4 @@ module_platform_driver(rzg3s_thermal_driver);
- MODULE_DESCRIPTION("Renesas RZ/G3S Thermal Sensor Unit Driver");
- MODULE_AUTHOR("Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/drivers/thermal/thermal-generic-adc.c b/drivers/thermal/thermal-generic-adc.c
-index 7c844589b153..cfdb8e674dd2 100644
---- a/drivers/thermal/thermal-generic-adc.c
-+++ b/drivers/thermal/thermal-generic-adc.c
-@@ -228,3 +228,4 @@ module_platform_driver(gadc_thermal_driver);
- MODULE_AUTHOR("Laxman Dewangan <ldewangan@nvidia.com>");
- MODULE_DESCRIPTION("Generic ADC thermal driver using IIO framework with DT");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/sound/soc/codecs/audio-iio-aux.c b/sound/soc/codecs/audio-iio-aux.c
-index 588e48044c13..864a5a676495 100644
---- a/sound/soc/codecs/audio-iio-aux.c
-+++ b/sound/soc/codecs/audio-iio-aux.c
-@@ -312,3 +312,4 @@ module_platform_driver(audio_iio_aux_driver);
- MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>");
- MODULE_DESCRIPTION("IIO ALSA SoC aux driver");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/sound/soc/samsung/aries_wm8994.c b/sound/soc/samsung/aries_wm8994.c
-index 3723329b266d..b6f0f3c0d393 100644
---- a/sound/soc/samsung/aries_wm8994.c
-+++ b/sound/soc/samsung/aries_wm8994.c
-@@ -700,3 +700,4 @@ module_platform_driver(aries_audio_driver);
- MODULE_DESCRIPTION("ALSA SoC ARIES WM8994");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:aries-audio-wm8994");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/sound/soc/samsung/midas_wm1811.c b/sound/soc/samsung/midas_wm1811.c
-index 239e958b88d3..12c4962f901d 100644
---- a/sound/soc/samsung/midas_wm1811.c
-+++ b/sound/soc/samsung/midas_wm1811.c
-@@ -773,3 +773,4 @@ module_platform_driver(midas_driver);
- MODULE_AUTHOR("Simon Shields <simon@lineageos.org>");
- MODULE_DESCRIPTION("ASoC support for Midas");
- MODULE_LICENSE("GPL v2");
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
-index c914d1c46850..dabcd2759187 100644
---- a/sound/soc/stm/stm32_adfsdm.c
-+++ b/sound/soc/stm/stm32_adfsdm.c
-@@ -407,3 +407,4 @@ MODULE_DESCRIPTION("stm32 DFSDM DAI driver");
- MODULE_AUTHOR("Arnaud Pouliquen <arnaud.pouliquen@st.com>");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:" STM32_ADFSDM_DRV_NAME);
-+MODULE_IMPORT_NS("IIO_CONSUMER");
-
+ 	if (cfg->flags & FLAG_SOF) {
+ 		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
 -- 
-2.51.2
+2.52.0
 
