@@ -1,95 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB861FBC8C;
-	Wed, 10 Dec 2025 02:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780C52512FF;
+	Wed, 10 Dec 2025 02:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765333112; cv=none; b=QQct4nsKSZe4yymEMvRAr+4w4pQ2af3DflBY6HhMkMkBI+839+Ij06CeKec3LY1GeD4P+z6EPfT8qj6Eg0RD6VmYtXfUejmRaeduP4HjLFhEuoI38Z6dkzPKT0Sdy2ZYAT8AlKozgqlno4LddVSL3dDWrrNHUFEbZLkGucBV2/0=
+	t=1765333368; cv=none; b=cJKbOb1cPRZHXwImxcKvVfLN/5eeK64oO1WB7k5gJRsuzB7nYIoJQBSF0/MoMUaRAYn5Mz2a4RvZVHWM2nmhYhMad5o3QOAxV5hpJf/e01hi9oymKCg4xYsM1CfGRbl0u7jCDB+FcuYExmUNRVK5Itrl4DteVJgQCjR+0oZIBB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765333112; c=relaxed/simple;
-	bh=/uxoRzbJrRjPDXsTarshYtHtLiesJNJtU9NUEQj7nQ0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eePx0aovDBHH/aDwdNDIgtUjNfqta7uURol/HEat6FZ0wy5rf4lI+xe7mQGb0AVEJRhOPtzrMSxGsDHLA6YRqw44J+LGD3fmm9lhX9Ii1c3ytS90HxlvpNHRIZPJbCLBBiFcmhlfCvZkXULGw8aR+wm9439CVeSW0d6tYd/s2ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WMm0aZ/P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765333368; c=relaxed/simple;
+	bh=BdZF2pNd4UIWn0TZnS2/oExdzTkeLzEDfnMcg2OQOR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IR26+iCdDNjqV5uVO0OPxNLPqX8C6FD4oT0HFNntRMRizpuZD2kLhNaSp1o6YneYEdh37h/qDfMgslCPpO3Dj17E81nPVcp2fUTmqN/TY5Xgb6B78XTJ17VMNzUY7ihvBfBf5GaEm8+kmrUX4/YOMc+mJbgMvG1AdiSYjWx6ajU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gs06zghp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WMm0aZ/P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B5D8C4CEF5;
-	Wed, 10 Dec 2025 02:18:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gs06zghp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3A46C4CEF5;
+	Wed, 10 Dec 2025 02:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765333112;
-	bh=/uxoRzbJrRjPDXsTarshYtHtLiesJNJtU9NUEQj7nQ0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WMm0aZ/P2PC4Il8Qg6nIopEeYmDJs4DWHoy2ukRi+hIipW0ZqB5F8wls9K9bwbS6c
-	 1NO/omNrCbg/AbHkCg1+7v0Txt1U9SOZBG5drF8qeBmobU18CxeKdBcmrApScD5jpo
-	 Bs6yeRZMc0XcPhj+FfZYbGMkp5AcZHkyZR/BtnR60ERzXHP3HS/pPE2wqgmOaK7xdZ
-	 6drkvjOqJ6L0gZXRsXFAGvLUe5Y9hYmIpEca2OfkzD6hEQacOAIdp844Tspn7vwZtn
-	 R/KsC5bV2eeHVplhOjR7S6R6uS2psCrXmG6a3qyIC1XQpeoduWSiLexFJJGMNxAzPW
-	 DLveTR48fFJjA==
+	s=k20201202; t=1765333366;
+	bh=BdZF2pNd4UIWn0TZnS2/oExdzTkeLzEDfnMcg2OQOR4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gs06zghpqLzTxOlMoiGA6jMiwlvq+UADOE1DnQMhmYIAiH9dfmhXppHkd7jTOIOvM
+	 o60UV+4uvP/ZZU9H1EnCRMXukPh7rtYrlp9VxoHq9ahIcHuDm4qbQs/JZAFnSS6Li4
+	 A0rzwvJIrSnAqhpuA6mJHcxE1ffLvU4d2z9o/WtL4fuS8jIfrH0bIE/vqTrJJ4TMnM
+	 mpVEtHuOHcV8SRZ/ZIvCF5UWiOhzSdGcLrvk/AVgCzT/pupFCYa9uQOnwPvf5amC2S
+	 Tz3Biw7vN4skwOcLOr0daKLTs1n5L4cEcH1JvAtjIMzKQgBwluE1d8mj6zo5JIgPnK
+	 ZKB1oPLrt9zEw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 4E38E1ACB974; Wed, 10 Dec 2025 02:22:43 +0000 (GMT)
+Date: Wed, 10 Dec 2025 11:22:43 +0900
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Raghavendra Prasad Mallela <raghavendraprasad.mallela@amd.com>
-Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, 
- Hemalatha Pinnamreddy <hemalatha.pinnamreddy2@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20251203120136.2591395-1-raghavendraprasad.mallela@amd.com>
-References: <20251203120136.2591395-1-raghavendraprasad.mallela@amd.com>
-Subject: Re: [PATCH v1] ASoC: amd: acp: update tdm channels for specific
- DAI
-Message-Id: <176533310879.649124.15118877289373769932.b4-ty@kernel.org>
-Date: Wed, 10 Dec 2025 11:18:28 +0900
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 4/7] ASoC: soc-dai: define TDM idle behaviour modes
+Message-ID: <aTjZc3mgu7CQOkDU@sirena.co.uk>
+References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+ <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="er/1OtNA51My+cwA"
+Content-Disposition: inline
+In-Reply-To: <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com>
+X-Cookie: It's clever, but is it art?
 
-On Wed, 03 Dec 2025 17:31:34 +0530, Raghavendra Prasad Mallela wrote:
-> TDM channel updates were applied to all DAIs, causing configurations
-> to overwrite for unrelated streams. The logic is modified to update
-> channels only for targeted DAI. This prevents corruption of other DAI
-> settings and resolves audio issues observed during system suspend and
-> resume cycles.
-> 
-> 
-> [...]
 
-Applied to
+--er/1OtNA51My+cwA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Dec 09, 2025 at 07:31:17PM +1000, James Calligeros wrote:
 
-Thanks!
+> Imagine for example two codecs sharing a bus. When one codec is
+> transmitting, the other must ensure that it is holding its side
+> to 0, or data from the transmitting codec will be corrupted. We
+> can trust the "idle" codec to simply do this itself, however
+> this is undefined behaviour. Some devices may leave the line
+> floating, others still may pull the line high. We need a way to
+> control this behaviour.
 
-[1/1] ASoC: amd: acp: update tdm channels for specific DAI
-      commit: f34836a8ddf9216ff919927cddb705022bf30aab
+I'm finding this explanation quite confusing - you appear to be
+describing the situation where two devices simultaneously drive the same
+signal which would be extremely unusual and I can't see how it would
+work electrically.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> Thus, we define five possible bus-keeping modes that a device can
+> be in: NONE (UB/as initialised), OFF (explicitly disabled), ZERO
+> (actively transmit a 0), PULLDOWN, and HIZ (floating).
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+What is "explicitly disabled" in ths context?  Why aren't pull up or
+drive high options?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--er/1OtNA51My+cwA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk42XIACgkQJNaLcl1U
+h9Dvngf/Q8hLsUPgUG/WCbl9wKOoJ0KFzFLX0pXGLPoa5P1aal4uK1pP4erJN/7L
+qegwM8H6BSQ3wD6l2JBGYmZJKH/UKEr3b+n7pFh4ek40r8h+Y/g9QOZknIHaTtrs
+07areWAyrXXVr20+YcHlsKGmyV1xqBMNoMiA9r6cs8d3LRfNprkXzN9YQN2fcKcQ
+AUJYg01zlsOkdjcoSeJFmnIhgv9klROT7xGj1gNmUKMp+lVUkRV3mHRr56g0enE8
+Q5nWUQ4G2UqxNMBJmMVij7Oz3QHfuK8zwk/x3t+M/wXWkK5zSUo3a0ceJIH09u3/
+0IX7nNttZTCXalNXZzVMtPnxRwCIbw==
+=RadW
+-----END PGP SIGNATURE-----
 
+--er/1OtNA51My+cwA--
