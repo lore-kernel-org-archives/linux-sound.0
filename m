@@ -1,80 +1,82 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD7D28B4FD
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3E3285074
+	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765349559; cv=none; b=A+0TsngyPSu8Wn2u1juYVU5fk3lohKMCCpSbQRPrdQWDEAmVbHx+PrjeHG73DNLPfLVyfNnXWsz/OdcYOkJAeePBOLXN2N1nhcdv6LW+GF95+3IqNztjbmbHVgeRLvA7B+il5CIBPvLpGFao4V98jndB1uRhFj9q8wgymGjkqgo=
+	t=1765349563; cv=none; b=iBQ8WMpOJrNAURwtZJI8+MqWa2BuwL7ZtAAEiIy8flMJzvFDIqLrxTu4LFYu53NBukF9HBZ2UKLOz+dgpsaLkZoP28FrTTCRP0Q2x7wo75dZ+3QetTLdf4zWGKF5icmbHyQgkV0ZQWx6Q9abthxO1ZOXIyd3108tO3OP8b2diVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765349559; c=relaxed/simple;
-	bh=KpKDXoemsveBuX/STj6AV8aHp/CuCY5D2sBI6JNWvuI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PCedZu1UDE+nDkQMRipFtRA3nEmSO6fn3Qpq0uV7TeHqt/9MjDcLM8hgiybSp3dWssw198uls/2PvrEhR3R7T+QOUYdVmbAQT6ePIUV2UdjeDLC4U5yqLyOn9DfmZznPF+tS69CtNkJq9ISKt5S6vhW799h7rvE/YPWZBCX/rzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q6l1ABGL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Z0No044d; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1765349563; c=relaxed/simple;
+	bh=Qg2jH4tYa3DjSOyKiyIg7vBI3R3xAo9V9E3PUvA+oHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=flHKrinwGy/t8FKO+ztCC1wz4DR2+fRpTJrgfXl4Wp0+C6S2xZpFficZoQ/PLkuBnND9470WWYeLnsnbrcTNNtchYWO/EoOqkXyxQR5fs6QxULw5emjtKG6rFDD28VjGu7JvlUePGd1AwrNphu7A7gicF9sEu77AVTelbuZy/Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L9naU4wg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JRqwnKJ1; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q6l1ABGL";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Z0No044d"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA6Dx6a2114256
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:36 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="L9naU4wg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JRqwnKJ1"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA6DeGe2351193
+	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=/guRiMdRuAu5Z+FMmb/rp9vrrBjPh8cAJTF
-	k719b7NQ=; b=Q6l1ABGLddUBWDYiQK+uE5EvgNGFZgZm9beQ9+OzpGC87SycSUc
-	c40DgI1JaGVnz9AlVI0M/SzCFsnWZmLwoHqUQ6fWq56T0tSR3BvpoaYRJuqMctD/
-	9v8CJ4dXM8sExJvNXPhpiuDBih/yCzTvFZDuXtsQumVha3zM3Ut4lyHBwRyl5NgM
-	CUd/0zmGUa9aXRjoR+K4oCt9mquVDGSnAkDFc9bJdsC68NUe211ndKkZ/XyRcmf6
-	t2SpPEPOHrNB058//MvtGW0nbguf7kKw8bq0qZJaa1/2ewVJOj3AGZGC9fx3gkl3
-	1d2sf/4F5NycL38qghftu2tBctnwvtqEADA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axvm69h11-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=+i7mT83QSfV
+	PYvwCBiECqpSVCGQIrkmGOqxS8j2Joo8=; b=L9naU4wgkVB7DCkPkiHT1rJTEzg
+	RINlQwSe8XHz+LWuEuqR66K9e33GXvVLoquRfeaXWywa/3se6Z5Xjh89l0k+31pF
+	YhO3XofJs0P0MHVIOtlLm0iSVLmH+1cWBPI4jRiuUppmmbnyYs3k1OOysvgYXCXP
+	SGoYUzIw7yy4jeCxMuB/NwUAL209ceBRbQ1BKeb7lPHzpsW0U6vcHgKD7hr3hdvk
+	rTM/3xaQTP4H2kkDrtpTIQqb62Dmb5+XYNEGEVyE07Xk+wDRBdxIqhIRIXChrIU9
+	+wkHcK6zsIpjjTSYEmfCZ0RJeQnUJBVqYnZyupsAGpVkAqtZrep2DXOeVPA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axvn4hfws-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:36 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-297d50cd8c4so170892265ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Dec 2025 22:52:36 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 06:52:40 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-297f48e81b8so9269185ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Dec 2025 22:52:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765349555; x=1765954355; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/guRiMdRuAu5Z+FMmb/rp9vrrBjPh8cAJTFk719b7NQ=;
-        b=Z0No044dpA8dUTc+ckD7Tu3kn/RDxtHIvaJFw/BwtTb7ObMtw0WRZC61MTIH4qSzGD
-         TBY/oEbzUiKcXD3pznXcZRg6lgMzCegiSF38fp5xkZCqLc8LsDnSrcsEHTCJrOejTJhh
-         ZqJp4CoctUUkq5FcGa1P1/L8JJvaCvuKbPrI5xi1X44C3M3yJKPRo+QPLX2KF0CREO6A
-         OCWjowsS2THerP8liceKdWkwth8FrL6N0eFqcRxhnDDFhtz83iZ+6Ee+21Yu/Zf8qPlE
-         0fpVlCaCEz8weYLe86/Hjl8ZtGKpG0KH0eTy3W1HLEh16rXWsWtyK6t6ITHm9s5mYSNh
-         qM8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765349555; x=1765954355;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1765349559; x=1765954359; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/guRiMdRuAu5Z+FMmb/rp9vrrBjPh8cAJTFk719b7NQ=;
-        b=HEuAz/mPueXVS2UE4HMA98W4uNBte3Ao4VawnnLIrj5UrTwPqJ/qtxVHURBIWPubip
-         tsBWEvebxsDwYZwXp7x93qnSMKaGEaO+w5viJzLbxt/gQqBnlpCvpG7NJMe94sUQv2l0
-         ghpLkREWjp3Q2D1W319CDvP5PqlB7QFkqdf8AFrxKH7edr6QXRbF4nDEFLDNR8r0amGN
-         CmU0puWto/+4qYFi0fnA2jeBnGvMr6YOK/rL+5J+R/QCXf46GOyyH7Zgc8p+rZ8/3SYI
-         aEAh18F9WhrqDswtAUonr3ztCinY6afRt+zzALm64S/pD9izxRYGxWLY+JXV/HeLrHkI
-         yD0g==
-X-Gm-Message-State: AOJu0YwCqh2D0qwH7m+s5Dnwn0YOtp4t5wSV3oYzHS49++QfqkoyeOap
-	K9FDuWWVLOSc+wnDN7hrielJLvz7qUubjuph8kVu3t7ND6apdNHTs3QVGWUrVrvyPb3brTkTNj0
-	C6ELAcO49TDrl/nlJE+rSIhWM75PFNyRTnIDJb2zroBqPst2A7AuBxJktr6rXA3LlIQ==
-X-Gm-Gg: AY/fxX7W9QAsBW/NSVv8+2rAjVt1I24aohIdTOzc4fJoSaP0YIxgdbo4V4By753t6hJ
-	fXSUxM7jZyfGvDQEQrnwtAxRTB9cFBMUfLFFv7M2X5jkPUgogUdbBoyzSxW8U+ASLRXQtezzEhb
-	jMlkd35X+HTT/lMKxd6q4eWTVgrTQihso6kvHnGCvAVbWJhtcS6Hz4YB6iXIUGaOM1A5RyUTfi9
-	nv3UvqIsuqow73Uh27WhGno/XCSYED9FRUVMGH6FChw8VUY3XcnKWTGD4E0oBTIUbB5Bw51ymVn
-	gt8j2/cLXaMwVbPgayftzeb28psgVJW8wpHDH4jcSP1hqp8RbuanYaDZlLRT4XD+rAp+UNraL/M
-	DUdpC2MQ78hWnpAU0EhC9z6ePLyq4jWiAttEsHDw=
-X-Received: by 2002:a17:903:3508:b0:294:d953:6ff9 with SMTP id d9443c01a7336-29ec27d17f9mr13992555ad.47.1765349555523;
-        Tue, 09 Dec 2025 22:52:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEyFa3r0LjOGGGw6Zax0bfNyI4OFRdfM/ejz2rz21XatErfmeZxoIjj1Z9zeFJQ3CaAN/ssUg==
-X-Received: by 2002:a17:903:3508:b0:294:d953:6ff9 with SMTP id d9443c01a7336-29ec27d17f9mr13992355ad.47.1765349555064;
-        Tue, 09 Dec 2025 22:52:35 -0800 (PST)
+        bh=+i7mT83QSfVPYvwCBiECqpSVCGQIrkmGOqxS8j2Joo8=;
+        b=JRqwnKJ1UmZu+H3o/JvxIkYK9eWkfUkGVdzE+ZLA6pRhk7PppmaCiaoo5P52VWxUUS
+         9OV3zuFidiDFtpXkbcNp5okVLr0EqZEQ3jd2sX562LCes2fUFrT7SBY5BTJaU+JbQ+La
+         k7iBfVOwrNUVD8McGzE6btr4QS8JUbWuZJADUuf4xDgp0lsWzN1vIY+3gkmSYXMySb4p
+         R6gG6mlQjpKXJYKhB1x/iL0k7YaeSP3wWfBMuzdfyNM6lNqyC61IzPEV1cKGFxIHj4Vq
+         zuNVDO01WeAp3nwLb5JPD2c+Dvg8sQcGX5+CyaSSlzkELqHpiS28jSfczTW+eBcUdBdP
+         H3sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765349559; x=1765954359;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+i7mT83QSfVPYvwCBiECqpSVCGQIrkmGOqxS8j2Joo8=;
+        b=BevKFJIksKa0ZHi8mnNbZJ/uYM3HuPOAgS2VkZamwf9kwytgK1xTskNklLFL6L4dWI
+         aYRtvQ/jTnNoeXGVmCgJ4Sufn+aPyVGBxV9hBwGiMglLcsU1ffpjpybxchfNMXdu54ER
+         H0bPnrJndP0wVRxiq1mjW5pQSchDMqrJ9EHeG5M661q6aBQ6GjbNZD1h940Bko1ATWP7
+         Cr7ka/Jj7AlYOsv/Tm0UnG2aAN0afHIjWhVDlHg27684GX5BAEn8z0rozzg5pnD4nDsF
+         WH2XEzYy7ME4d2E56s0l/3HDCG8ovHBxcE1np9Dkbo1US45fQVGrZl2GuzLfZ/Gd/AbC
+         ta/Q==
+X-Gm-Message-State: AOJu0YygsDvP4eHqUT61zqSiCt4/mVqi23t8NdzT7vO1yrZeR2ibFpU8
+	KxdFyTyFG8JPXCIsPzJvSwqPU21vrO+SAQcDjmJmN/xWnF6g0XdSUZSJv9ApIeYDmLNowLEgh+N
+	lZu/kE5TnU5Vo5W464tPGG8g9fDHD/Kxa05/whJ7CEWQQoQaZHT+y3nRDFkH/cI+z0g==
+X-Gm-Gg: AY/fxX4yjupdVpMy8RrWv+VWaD41aKIq+kRf7vOfcxJrfFwCdnLDgyUAuZ1tMFGE/NQ
+	ezdHiuLTjuOEFhm4vMsu127OycErVeOxjLEL0vB3t+alH74ax3NiMLsJ/JJn0DvM3gq3P507t/B
+	yEbhIMOQnqgBbp4yzHC7JLvbeNgz/xK80mwNuWHsxaoubRsfnTWt1ndinuuRFAxsT9Qr+zLMQir
+	c0lXc/ig2LsiLz1GydskBFFG+Iq3GekTfZ5mTbGBOyO8U6lqSctwqqry+xTOCBc9S4fRNi9c3Bz
+	nWkQRL1x1QwBZM4VcPGauQB/HS+TEOyqb4aCegrVef4unIOAdia/eoeDn6bHqx5y+cM7b503icj
+	cxcz4tNv27c0PT7ERkLcQ9LvF4zJMqi+I3d7OW1w=
+X-Received: by 2002:a17:903:19cc:b0:281:fd60:807d with SMTP id d9443c01a7336-29ec27c5a6amr17492065ad.2.1765349559246;
+        Tue, 09 Dec 2025 22:52:39 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFcv2v0k+WHxxfI+NcDx9UVEcYTb1mW0GwRVVwF4j8Gijal2mVCNvlKl7YXQA1MmxUkSPjWMw==
+X-Received: by 2002:a17:903:19cc:b0:281:fd60:807d with SMTP id d9443c01a7336-29ec27c5a6amr17491725ad.2.1765349558708;
+        Tue, 09 Dec 2025 22:52:38 -0800 (PST)
 Received: from hu-raviravi-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29daeac7360sm171728205ad.81.2025.12.09.22.52.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29daeac7360sm171728205ad.81.2025.12.09.22.52.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 22:52:34 -0800 (PST)
+        Tue, 09 Dec 2025 22:52:38 -0800 (PST)
 From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -82,10 +84,12 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
         mohammad.rafi.shaik@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
-Subject: [PATCH v2 0/2] ASoC: qcom: q6dsp-lpass-ports: Expand sampling rate and PCM format constraints
-Date: Wed, 10 Dec 2025 12:21:54 +0530
-Message-Id: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
+Subject: [PATCH v2 1/2] ASoC: qcom: q6dsp-lpass-ports: Extend q6dsp-lpass-ports driver to support additional sampling rates
+Date: Wed, 10 Dec 2025 12:21:55 +0530
+Message-Id: <20251210065157.2775514-2-ravi.hothi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
+References: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -93,57 +97,270 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 2_kmIt4DQdRAmncnsu3t1C9Wk2fph_Gg
-X-Proofpoint-ORIG-GUID: 2_kmIt4DQdRAmncnsu3t1C9Wk2fph_Gg
-X-Authority-Analysis: v=2.4 cv=Ztbg6t7G c=1 sm=1 tr=0 ts=693918b4 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA1OCBTYWx0ZWRfX9UB0D1pdpsAP
+ Gd3IAW0yAEDX0Tv2QkFAGuOAeJaz98TVwc2Bw3QDaTUu2VOEkUgkZmuB/WruFjwwrQPoXm/Au60
+ P0dLafvDAiwnhUKcy7ZLi8HaTJlld68+IpwtOlHeUggkaclzQ/NXpf43iTRLUcO5zZK1DypkNO1
+ TasHb5Y765orC+sBRFvIF5nL6fcxSC5rRu/ecpAtWgAFbnz9ui6Y8M8ns8xNY87vIwJfX45qzLt
+ x5kOoZ/OgiKurDmeMi/FnIxsERnaGeM+i7M6riWOSxLMWGYyU/FfGfO1lFWE0CK7KpWDRkkp2tZ
+ kzZSaSllhH5dzxh+L2WZmMgAS9yolcWzLlMlQ591IP97bfuLtMz5zKlhWM+iW4tIhdQY8Xs7v+R
+ 4gRqA/uBLre4/3w0sspFvWbFiRUg9Q==
+X-Proofpoint-GUID: DDMafLMjEq87EKgkCrRvPZy58P4e2Gkc
+X-Authority-Analysis: v=2.4 cv=EarFgfmC c=1 sm=1 tr=0 ts=693918b8 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=fYhDv7OwVwtdUCyixT8A:9
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA1OCBTYWx0ZWRfX3XSGAIlKEdjg
- hVM9bUhjsxe9xi4P1Z6tWdtqpEpgTgq+Hz/kO9SM2PzXQ+99b3rIhHgg+6RNBH2MNYA98l4SjBn
- D+ip0dLOJhMCi/D1nix6B+zOdMwhs7oVWr0p/1rt1mwg2KfS3nbK8KFuYCDhnkEgINumC2iJeiZ
- gOM6pIcZw44EqDPL5Zh5ZmsQ9OicIWmmy1i+ofI9OhmmcnUdOKAYX1V5lbb54kvsyqSNf58ZyUf
- IBU2svIuij2gM9jsvtMnevYpmW7mTInKrK2jb7UjeId4hpumxsFL6hhGtmlOHOzsYJm3cJK2jV1
- JFHGUTFPnGG66eENYj8MXLIlMbFgMTyclrGfaN+cfDj79QIyOpjMz4pkvDVybAM2D8UAZloHC8C
- ZACH+587nbgsl+aoRDXftXMw6qp8bg==
+ a=EUspDBNiAAAA:8 a=wbo3agcGWv7YO2hpoMUA:9 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: DDMafLMjEq87EKgkCrRvPZy58P4e2Gkc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0 spamscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 phishscore=0 lowpriorityscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100058
 
-This patch series expands the existing constraints in
-the q6dsp-lpass-ports driver to improve compatibility
-and flexibility for audio stream configurations. 
+Expand the existing constraints in the q6dsp-lpass-ports driver
+to allow a wider range of sampling rates, from 8000 Hz to 192000 Hz.
+This change improves compatibility with diverse audio hardware and
+provides greater flexibility for audio stream configurations.
 
-The first patch extends the supported sampling rates to cover a wider
-range, from 8000 Hz to 192000 Hz, ensuring better compatibility with
-diverse audio hardware and allowing more flexible audio stream setups.
+Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+---
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 73 +++++++++---------------
+ 1 file changed, 27 insertions(+), 46 deletions(-)
 
-The second patch adds support for the 32-bit PCM format
-(SNDRV_PCM_FMTBIT_S32_LE) alongside the existing 16-bit
-and 24-bit formats, enabling handling of high-resolution
-audio streams and improving audio quality for supported hardware.
-
-changes in [v2]:
-	- Updated commit description as suggested by Mark Brown.
-	- Link to V1 : https://lore.kernel.org/all/20251118100203.2751955-1-ravi.hothi@oss.qualcomm.com/
-
-Ravi Hothi (2):
-  ASoC: qcom: q6dsp-lpass-ports: Extend q6dsp-lpass-ports driver to
-    support additional sampling rates
-  ASoC: qcom: q6dsp-lpass-ports: Update constraints to support 32-bit
-    PCM format
-
- sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 108 +++++++++++------------
- 1 file changed, 52 insertions(+), 56 deletions(-)
-
-
-base-commit: 008d3547aae5bc86fac3eda317489169c3fda112
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+index 4eed54b071a5..76421adb5afa 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+@@ -10,16 +10,14 @@
+ #define Q6AFE_TDM_PB_DAI(pre, num, did) {				\
+ 		.playback = {						\
+ 			.stream_name = pre" TDM"#num" Playback",	\
+-			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
+-				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_48000 |\
+-				SNDRV_PCM_RATE_176400,			\
++			.rates = SNDRV_PCM_RATE_8000_192000,		\
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S24_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,		\
+ 			.channels_min = 1,				\
+ 			.channels_max = 8,				\
+ 			.rate_min = 8000,				\
+-			.rate_max = 176400,				\
++			.rate_max = 192000,				\
+ 		},							\
+ 		.name = #did,						\
+ 		.id = did,						\
+@@ -28,16 +26,14 @@
+ #define Q6AFE_TDM_CAP_DAI(pre, num, did) {				\
+ 		.capture = {						\
+ 			.stream_name = pre" TDM"#num" Capture",		\
+-			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
+-				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_48000 |\
+-				SNDRV_PCM_RATE_176400,			\
++			.rates = SNDRV_PCM_RATE_8000_192000,		\
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S24_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,		\
+ 			.channels_min = 1,				\
+ 			.channels_max = 8,				\
+ 			.rate_min = 8000,				\
+-			.rate_max = 176400,				\
++			.rate_max = 192000,				\
+ 		},							\
+ 		.name = #did,						\
+ 		.id = did,						\
+@@ -46,16 +42,14 @@
+ #define Q6AFE_CDC_DMA_RX_DAI(did) {				\
+ 		.playback = {						\
+ 			.stream_name = #did" Playback",	\
+-			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
+-				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_48000 |\
+-				SNDRV_PCM_RATE_176400,			\
++			.rates = SNDRV_PCM_RATE_8000_192000,		\
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S24_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,		\
+ 			.channels_min = 1,				\
+ 			.channels_max = 8,				\
+ 			.rate_min = 8000,				\
+-			.rate_max = 176400,				\
++			.rate_max = 192000,				\
+ 		},							\
+ 		.name = #did,						\
+ 		.id = did,						\
+@@ -64,16 +58,14 @@
+ #define Q6AFE_CDC_DMA_TX_DAI(did) {				\
+ 		.capture = {						\
+ 			.stream_name = #did" Capture",		\
+-			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
+-				SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_48000 |\
+-				SNDRV_PCM_RATE_176400,			\
++			.rates = SNDRV_PCM_RATE_8000_192000,		\
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S24_LE |		\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,		\
+ 			.channels_min = 1,				\
+ 			.channels_max = 8,				\
+ 			.rate_min = 8000,				\
+-			.rate_max = 176400,				\
++			.rate_max = 192000,				\
+ 		},							\
+ 		.name = #did,						\
+ 		.id = did,						\
+@@ -350,118 +342,108 @@ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
+ 	}, {
+ 		.playback = {
+ 			.stream_name = "Primary MI2S Playback",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |
+ 				   SNDRV_PCM_FMTBIT_S24_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = PRIMARY_MI2S_RX,
+ 		.name = "PRI_MI2S_RX",
+ 	}, {
+ 		.capture = {
+ 			.stream_name = "Primary MI2S Capture",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |
+ 				   SNDRV_PCM_FMTBIT_S24_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = PRIMARY_MI2S_TX,
+ 		.name = "PRI_MI2S_TX",
+ 	}, {
+ 		.playback = {
+ 			.stream_name = "Secondary MI2S Playback",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.name = "SEC_MI2S_RX",
+ 		.id = SECONDARY_MI2S_RX,
+ 	}, {
+ 		.capture = {
+ 			.stream_name = "Secondary MI2S Capture",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |
+ 				   SNDRV_PCM_FMTBIT_S24_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = SECONDARY_MI2S_TX,
+ 		.name = "SEC_MI2S_TX",
+ 	}, {
+ 		.playback = {
+ 			.stream_name = "Tertiary MI2S Playback",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.name = "TERT_MI2S_RX",
+ 		.id = TERTIARY_MI2S_RX,
+ 	}, {
+ 		.capture = {
+ 			.stream_name = "Tertiary MI2S Capture",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |
+ 				   SNDRV_PCM_FMTBIT_S24_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = TERTIARY_MI2S_TX,
+ 		.name = "TERT_MI2S_TX",
+ 	}, {
+ 		.playback = {
+ 			.stream_name = "Quaternary MI2S Playback",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.name = "QUAT_MI2S_RX",
+ 		.id = QUATERNARY_MI2S_RX,
+ 	}, {
+ 		.capture = {
+ 			.stream_name = "Quaternary MI2S Capture",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE |
+ 				   SNDRV_PCM_FMTBIT_S24_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = QUATERNARY_MI2S_TX,
+ 		.name = "QUAT_MI2S_TX",
+ 	}, {
+ 		.playback = {
+ 			.stream_name = "Quinary MI2S Playback",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-			SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_96000 |
+-			SNDRV_PCM_RATE_192000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+@@ -473,13 +455,12 @@ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
+ 	}, {
+ 		.capture = {
+ 			.stream_name = "Quinary MI2S Capture",
+-			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_8000 |
+-				 SNDRV_PCM_RATE_16000,
++			.rates = SNDRV_PCM_RATE_8000_192000,
+ 			.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 			.channels_min = 1,
+ 			.channels_max = 8,
+ 			.rate_min =     8000,
+-			.rate_max =     48000,
++			.rate_max =     192000,
+ 		},
+ 		.id = QUINARY_MI2S_TX,
+ 		.name = "QUIN_MI2S_TX",
 -- 
 2.34.1
 
