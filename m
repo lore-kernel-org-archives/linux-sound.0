@@ -1,45 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E2F2FE041
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 09:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1151CAA79;
+	Wed, 10 Dec 2025 09:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765360586; cv=fail; b=F1HQeZ9rpn9Pew446eWF+XR7b5V+UKvOltSkAgRxefSKySow8MUNfjTfJtgigc/fbMMPh/R86hl3XIysbeJIVZHqjAxfmsX5mcbEZCIBfCWanCuhtmarXA37FYIcCQ7znqvujhuU6RXe/5bhLNW5KvHbm6BFzzHx2/2yEMK3WHA=
+	t=1765360771; cv=fail; b=jY/gAeZIGHJapxpRs8d6WPLEdy23KYGTeyNpisC0Cs3VeypEzGXfU8n8uPFWZl3apYBZLklNNZHPrxibY/yh/7Gpuz5KJ2t9Zo4CSCRNOFebnsircRNgaHzj1R0BbkmkuKjjFhFueN8N85Kq2gbkSXcI0Dyys40M1E2Moh2XAbM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765360586; c=relaxed/simple;
-	bh=fh6jbfY2GuU8te9C8LjNsghYzIprBygHipXzMhd3+yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2ATcZVk2x/LyPzTO351PBVbc7L3L2E3qKm6mCMe11wqR8/2TRjiMoLrMes08NKogIzsNKsxpHHOhuLLTCJYWeTSAiECcqA9B51P/L0KygXMPTrfMKwZLzsyM2uY7CLSJHWebPuB8+kKJioJ35bXxIw2amcRIk08kFMbmIpNRDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=a+WRfWWF; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=X5fXuvoh; arc=fail smtp.client-ip=67.231.149.25
+	s=arc-20240116; t=1765360771; c=relaxed/simple;
+	bh=qQ3p5Tmx3O39JMrkeTelN6N/WfnO5ZT/QwXAdbRHy+w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cOLy7TxW6+V0hUGG/zva0da7ondsKma3C9U/MhAmJPkPzIipEaSepFTPmCtt5g4D+sklkRWwunQc461b5w0qDTmnUg3BRDeDlrWaQfAp/yTkzHivNbbdmpcVa1kFR8R7EGPJux/G9htmPXZzwIj8yYTKUeyizpZVZeZWwK+cqeM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Jsgded1t; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ehY03hsP; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="a+WRfWWF";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="X5fXuvoh"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jsgded1t";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ehY03hsP"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA3wHNK1225799;
-	Wed, 10 Dec 2025 03:55:55 -0600
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA3wHNU1225799;
+	Wed, 10 Dec 2025 03:59:05 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=FDaRMNlxfE8490/cQG
-	rtTeAFHbe650iulU66CB6naDs=; b=a+WRfWWFARoD5dkfYFCFd1UkgHTA3GyS7g
-	ZK839RnLDwi2SL088WxHaolSYedne30Z+wywtSmwX41MM2XC6Fi18GnnexCSV8if
-	g/5Lg9Cz2nE4k+K0xfWtphJXq8PeHasfaj3IFsa8EdfzhOSyrqjvntLzW3GqRuuk
-	RxJoDXSCHzIZxB5O0EXSNJ2gzZqJTnzvSel++VExxATzIvLyUAna6T8BfP1mAcjy
-	YAGbAn7xaN1pOzDQnGeblqnib2CahEUZIyBGLOVK06l1CTn9/+rbUnoC/6p+guEE
-	5ZKBUlyf3Po60XQk46cqxVrunXhJokvFfIYcCfrWx7vWapyi3BAw==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020110.outbound.protection.outlook.com [52.101.201.110])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4avjs2ge5s-1
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=pgdPgaAb2FD2ZX2PptV5ZgULS5u85IOjU6fj8TEcHDk=; b=
+	Jsgded1tqwVAFL6VxriKU4aXm74aKTb8m+0/3NQmi6ExVmY71+5MPDCukdTMM0wv
+	Ay+gRz406ptEeoy0AqFyPROrYPVC516OQhTq1tOLwgmlhFaVljOOos9AWy0DGSxP
+	7TOnzXmBoVsi6B320nQXcIzc7LgEjNdkjsbkI9pekn7eonqRtx3vOk7FJuaNfK9O
+	/n9Trui6NYxz+89by2iXBOuy+RR7SzFNX7IZnAaUCF/NUa8MYq0uOd2UqNRzp62K
+	sbqY21YUoNkVQrwbET0tnkec3q+hyClMmYows5r728AjF6pS7xwMxY7xZRTgitzk
+	xyyu8EYxFMw+Oqo8tC+u2g==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020127.outbound.protection.outlook.com [52.101.61.127])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4avjs2ge8c-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 10 Dec 2025 03:55:54 -0600 (CST)
+	Wed, 10 Dec 2025 03:59:04 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q8JagPCrasG9cIFkP0YuFZg703CyBP2kZG7PlUYrXMBunGzuz2kuONxwWqkSAn+h9UhjhqOQzk6piTwZr7Bypy/TmHr+CVJ4Ycco/jVGXPohWMnsJr9/APWsJCHKEs/e3bCCbM4/P0agMddkQ07CzHC4nPTrApUEL8eoL3+cQ2aySU7fiSRO5kkXJD6Inmp/9YTTocx9e0VYDAjrx38J6dLVCw3cLVuFa+eQwOHmkPH7gWPteIT4tOeP/RYEqyIpa2MqY0OXSVitGMetARWU7kB4HnPmNrdwWNXFLQS5DuntRx4X6vVazT7+KLBKTRGMMc4YbNSJlg98Ztte56JP7g==
+ b=ePNSccqhUVcSrdfstAz8q3ozl2RXw0Rf8Iujt8ShpdvXUhZ+4pYmwAKCDfUccB5SOhs/KfhZLbT9r7ManLpP8BNvGGFvIJOYTun637sJKJQhy4UbrumZQUIkB7oARVtDXoAjiQjeU4TmTZOJFdxLV9VLvgytnie2Mxu/BtkXG8bmiod3EbBh7AqOrj6z/5E1ud/K7oqSFLRExNk+lD73FweClKjs4aG6Qj7XPOOkBKWZ1rRVJqDdhyGja3BNTNK1b84hzhv898Dc5+kHqS+X0WYH/UY6d/0CrrAeBf1F0l8rhsd23C9itR0ikcv49St0AvJeSJEnUwQU2QbkU9Ga0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FDaRMNlxfE8490/cQGrtTeAFHbe650iulU66CB6naDs=;
- b=vcvCYtVi87fPOKZDnTZvpHIT+y0APD2kpuzOR7h5kyAkql/sixhHh6EFWEZVWZcCskh8ZSvhA03Q9/Icv0PMMRow35kWHDs9rOm5YgJ7V56TnRDu/D/UGLTrW74pxJX9gKIIZt7EzdgZULnyqdoXS/C/IU5zrGhDQTs+8J7DWw0stAX/8pCn41Tic8xsK3igIAUAl3AXQYRLQNM3cKboICHLaAdtgs85HJMeGEzcjTngGO+JdxZg0Aa7IfWMCq0DuR4IuozPOVVe20DgZZMPunraq6WzeqDWU9/qoEJx44rM1jA15WGpmybp0GvB58MZZtJtADxMw5vZXPHrw6WDOw==
+ bh=pgdPgaAb2FD2ZX2PptV5ZgULS5u85IOjU6fj8TEcHDk=;
+ b=m3+Aud8nLm5AkRRQlxbywY0W1I9q9+BJkLOeaLcYVZmPr3ZJ2OmqCz/OslXcvLHzsO9eVDh341P8Fo/je3pnQ3GCq0kWcBz0WegBEI4rEhFO++vZqBY/0ei+4b4kpJf6u9QEIl7wAkcuE28oYrWIEHLVqI5o58ycz9KqPuFoagDqOZKkZ8A3gvF4gKLbKeYF+5/cK9qHQVVxwQXiC1xkhKhImhWgQNdqc4J6fS8t2YZeXiIqXStgGg92fUjWT3k4msfHSLWazY9ndDXP2ryTXxVfz+p6IHicAHxIpdvHBjSZQnTXyOWf1ECSfo/LXksRRc9CvCd+ygEQrUdP9oNbJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -48,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FDaRMNlxfE8490/cQGrtTeAFHbe650iulU66CB6naDs=;
- b=X5fXuvohcusWMJXf3/maa31PO+61KV2pPsSKALKUmsX2CvG07KEe+eDBNZoM2mrHYKAsvehW+xeWSM8kAOjuGw9Y51HOS2P1NwYgjfBAcs23wwWM298w/qCfne/emKA1QPgLgZaJ95y2SIfbyEzFRBxnyyIG4foglIbtT27U4N4=
-Received: from DM6PR18CA0024.namprd18.prod.outlook.com (2603:10b6:5:15b::37)
- by PH3PPF0B76EB972.namprd19.prod.outlook.com (2603:10b6:518:1::c05) with
+ bh=pgdPgaAb2FD2ZX2PptV5ZgULS5u85IOjU6fj8TEcHDk=;
+ b=ehY03hsPAGNQiN9ceVjqEA9Hy5aYVxHafQt6UoDoMXbZMK3k9Q9ITQ00vEiUTT9fF1Z4xXu/5ZP/Ho0eKZmpR9pSwPbRXq3r0Fm5dELdwzmbD6WMcQ9DKBy5kXnEydaPfLi3ma7eFDfavjmHugLgIUmhGUBKeQun4fkOC1k1hHI=
+Received: from MW4P220CA0017.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::22)
+ by IA0PR19MB7193.namprd19.prod.outlook.com (2603:10b6:208:430::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.7; Wed, 10 Dec
- 2025 09:55:48 +0000
-Received: from DS2PEPF00003446.namprd04.prod.outlook.com
- (2603:10b6:5:15b:cafe::93) by DM6PR18CA0024.outlook.office365.com
- (2603:10b6:5:15b::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.15 via Frontend Transport; Wed,
- 10 Dec 2025 09:55:53 +0000
+ 2025 09:58:58 +0000
+Received: from CO1PEPF000075F4.namprd03.prod.outlook.com
+ (2603:10b6:303:115:cafe::eb) by MW4P220CA0017.outlook.office365.com
+ (2603:10b6:303:115::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.6 via Frontend Transport; Wed,
+ 10 Dec 2025 09:58:50 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -68,184 +69,191 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS2PEPF00003446.mail.protection.outlook.com (10.167.17.73) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.4
- via Frontend Transport; Wed, 10 Dec 2025 09:55:47 +0000
+ CO1PEPF000075F4.mail.protection.outlook.com (10.167.249.43) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8
+ via Frontend Transport; Wed, 10 Dec 2025 09:58:57 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id AA7C9406540;
-	Wed, 10 Dec 2025 09:55:46 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8A0BA820247;
-	Wed, 10 Dec 2025 09:55:46 +0000 (UTC)
-Date: Wed, 10 Dec 2025 09:55:45 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
-        vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-        peter.ujfalusi@linux.intel.com, shumingf@realtek.com,
-        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: Re: [PATCH 3/4] ASoC: SDCA: Add basic SDCA class driver
-Message-ID: <aTlDoVxI0gJMQOuw@opensource.cirrus.com>
-References: <20250925133306.502514-1-ckeepax@opensource.cirrus.com>
- <20250925133306.502514-4-ckeepax@opensource.cirrus.com>
- <13c14d26-29ba-4d39-b96a-b12b97935d33@linux.dev>
- <aQOEREIJ8TiwZHef@opensource.cirrus.com>
- <a855b919-d21a-4564-a901-fc09e68a9087@opensource.cirrus.com>
- <382ce438-5251-4d4d-af44-863197c77b94@linux.dev>
- <aQo0d3UWKinyzTYT@opensource.cirrus.com>
- <5dcb51e4-e9e1-4b26-816a-90c92fbb200d@linux.dev>
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 041B2406540;
+	Wed, 10 Dec 2025 09:58:56 +0000 (UTC)
+Received: from [198.61.69.19] (EDIN4L06LR3.ad.cirrus.com [198.61.69.19])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id A7B8B820247;
+	Wed, 10 Dec 2025 09:58:55 +0000 (UTC)
+Message-ID: <d86e401a-205d-42a3-b90d-239d669c6ee1@opensource.cirrus.com>
+Date: Wed, 10 Dec 2025 09:59:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5dcb51e4-e9e1-4b26-816a-90c92fbb200d@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] soundwire: stream: Prepare ports in parallel to reduce
+ stream start latency
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org,
+        yung-chuan.liao@linux.intel.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+References: <20251125165609.483763-1-rf@opensource.cirrus.com>
+ <4d811207-1c01-4302-85b1-9d4079ea1a4b@linux.dev>
+ <795fd33c-7a0f-4600-87be-1690cb0c0ea3@opensource.cirrus.com>
+ <5c80bead-716a-4528-b614-4b425184a484@linux.dev>
+Content-Language: en-US
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <5c80bead-716a-4528-b614-4b425184a484@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003446:EE_|PH3PPF0B76EB972:EE_
-X-MS-Office365-Filtering-Correlation-Id: df469c65-d4f8-4cd0-02d7-08de37d24b65
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F4:EE_|IA0PR19MB7193:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9126beee-f98a-407f-4e68-08de37d2bc65
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|61400799027;
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700013|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?XIM32mvwAfkMYvt34LM4ZtVJ/Joa5VYoTPfHZww7RXZyVv4k1J4TaUDQ+jPU?=
- =?us-ascii?Q?fgD7H6/euLeFS4twwF3XtsIcbmWCOgXkLkIX1YqCqI4kVPEawJjry4isQMM9?=
- =?us-ascii?Q?0ApWzGF6XlJwl1crrspnGSRJHH+poig7XD3TdpYFCtw9ZuPaUVvjeffiuudZ?=
- =?us-ascii?Q?yV8UFizjtBBUq+N8jhnqp4mmTTEyapd3PleSDvHFcaOxdTBIjDBjJWCazSIR?=
- =?us-ascii?Q?x+YgShSdex6eO+bzOayQ4dPzllg/szVFsk3HDagPfWMsAYu5pWx0Y//huW/V?=
- =?us-ascii?Q?sY364jn1fN0sAr3ONRlrCefnBW4TwIOndDpazCNzJEvdm81fMfLXUHJn8RXh?=
- =?us-ascii?Q?xbPZHgHpEAtaSUOC+28qL10Qo1viDrYqkt7ts3nE+/IzGI8YcOQQPOPuX3JT?=
- =?us-ascii?Q?T6JRchVsW3Xf745LnqVY7NjQr6BJkgbVavu3JgegdN9qojOd/RJ+HJSMzmK7?=
- =?us-ascii?Q?KtmzwwMqwzjRF/+Uc6G+7//OA1PQa6WJtjf/DJ1p2Dmy1+7cGNksFKjXNB5h?=
- =?us-ascii?Q?7C9gPt83ByEy9CiSB5XVKWn+ZuFWKLnF18ylVQPCtfIzaZgFvmd4WfCz/iJH?=
- =?us-ascii?Q?QeYxV+r3gFqTrp2EixYaKt3lPbRYgY2XvxnZRIfLCaeIbUFYj2VJ3pZPqPtO?=
- =?us-ascii?Q?7BMpslLUxYFE3zch8nFp8x8Co1tdi36tmtqxwLCJhEVyqMo8TiF7fGcEjF0c?=
- =?us-ascii?Q?xQ1sO8XzD2Ei8g2VsbtZ4Kv5nbMv0KtpftnJjV5znyy2Y9HAfyRlFWEOeMvN?=
- =?us-ascii?Q?tzFkkXFb4h1gat3oHa+uD8gtItGniSBSi5JipJUbfP54UlPLmk5pYmJQtZD8?=
- =?us-ascii?Q?byWX01H+KviN4O6n8vk6MNUltTZIU/NugjRCkPsvubxmeQ5uIJ79Mb27xNCu?=
- =?us-ascii?Q?VDu6irqaa4Q2x901Cng6UMY2gN5BRrNy1KyWcnu+ixUpMnS/vdn6ZfoB3nb5?=
- =?us-ascii?Q?2xGLfRKW9y62a2Wvd7/s/Ydsv6S98WfG1qSrrWzn88CXg6fJiO9a6BroJn9H?=
- =?us-ascii?Q?Qa2F1WQqH91BbpPUV6lwJXFB8fd89TRAeX5v/Nq8q4Ctwl1p3FZ+QInQJAeI?=
- =?us-ascii?Q?AkE3qeHqSdSUPOver6SSTL53Pk7c0RHIjaRCNAJ6fA1LAqRDcefZ8ciGEWFY?=
- =?us-ascii?Q?TH8Fces1zR7MI62u05unyDschcxJ3VrBRgbCKLdhyWBRnC64bbAv2Fb2VsmA?=
- =?us-ascii?Q?uD/TjrdJfLsbzi33V9gnMtuYAe+v5KldS96sK/xA505x5esBmzw8s/S7Fc6W?=
- =?us-ascii?Q?rSRtkoWA4ET4qTuXGo2RU6fMxUvWgoiXrqrcxx/yvsJRr92VC7zVePgWvxE9?=
- =?us-ascii?Q?ZQsz8IZeucZTMtVB7YdgVK69/1ze/qAyEY8dlIkwFWyKX1SGbABuKWUZ2dxD?=
- =?us-ascii?Q?Br0RcqYHLMTBv0k1sZA+s75g96HeymmnGyFjGFa6NlRQNJ8LRjoPv27iobDn?=
- =?us-ascii?Q?j1o3HuzTIEamAeiC1ErrJVk3u/45huXXZx4A+FleRWZwoFmDdQs1lMQQ8QhS?=
- =?us-ascii?Q?SyiWdvtBEYFVrQwuIwoDTfL8FfQ4DECn4ThZ7id35D/Jl6il+8ijy3d/Lrge?=
- =?us-ascii?Q?PS4ZDY7mvFxXWamQG2c=3D?=
+	=?utf-8?B?R20wOUxiZ3BTUUNWZ3dxYWtxVVBTb2xrMzdWa21tZStsdkdObHB5ejQ3SmFK?=
+ =?utf-8?B?d0xYazlwYTV5QTJRYW5OYmpoazRvem5vdUdzcmVsaldOd2RIMTFPemNwa01K?=
+ =?utf-8?B?Yy9wa2ZWVzB1ak1BMXF1ZmdGY3ZnRXh2ekpONGpUWEdTTUZrSHEzVjgwYTlG?=
+ =?utf-8?B?VEE2bXZKVUdUcTJJTHI4aVQzYVpVOXFIbnZWMXlEQ3FuTWVvaXhKaEpFdi9R?=
+ =?utf-8?B?MkNxcHY3N0lxd3h5QU5iZVRXRE1Nd0xrckdxK1ZLdUpxM1VKR0xGcE1zTkZJ?=
+ =?utf-8?B?aE1ycCswa1AzcTBabEQ2c2RpRUpTbVZ3WTF5c1pPNVRVMHh1YzYycGZMV3gr?=
+ =?utf-8?B?bFEyZVZkbE1FQUhrSkdPV21PSld3YzdDNllxMXNXdFNVRlBTLzhLTTFPNjdJ?=
+ =?utf-8?B?UHJyYXMrN0w1OXRlMUpxZWZOVEJ5by9DVzRZOGdrU29lRFZpOFhRNXNzYUF2?=
+ =?utf-8?B?dDczRm5WS2s5S25kamJpY2lKenRjSHdtR1RQSm1vMUJndG1sa1VxeU91ZnlO?=
+ =?utf-8?B?czNsZDViSlBzdGVUUmk1a1BSVktHV1Nsd3FuKzEzR1Q5cjZtcTVMaEgrK1FJ?=
+ =?utf-8?B?MzZBVmtXL1B4WkxJS3ZPZy9KR3JKTDhHMkhrSmpwUlQwNkV5UVhVL2Zmd0Ra?=
+ =?utf-8?B?b0h4YURXOC9VakR5bkJHVm9nWnlHS2FwdmI2eTZMYklKZC9uVTZYMEdoM1R0?=
+ =?utf-8?B?VEhrZWFpeUpSK2kvSnRhUXpGY1JYSEMvbjExcnBxdDN6ZGJ4YUx1TU9JRy9C?=
+ =?utf-8?B?c1FpRlhLSVFaNWtZdHRKODRNTFRTUjk2dHIzZUxhSEFHT3JNYis0cDRzNnFW?=
+ =?utf-8?B?VmFWWTV3STEvMzlDa3dvWTZHdE5GVE94K0UzZDBMWjlIMWFVWFRuTEFqbmts?=
+ =?utf-8?B?WDdKMjNydEh3YXFvOFhZdUFOVHhibElJaUZZVFZlNnNodEFoOGV2UFNOdS82?=
+ =?utf-8?B?RmxoQWxTaGwzQjdVOFYvMkYwdlJXcEhicm83TFpJYnAzMXA5MFg5VDNHSG9s?=
+ =?utf-8?B?U1FESzBBQWY1OVRsWmZHS0RWcC9VTmlSdFhrWUJHb3drcEtLUnpEY2dweUp4?=
+ =?utf-8?B?N1IzWEhDYkhIU3BrUGMyTW04N3FHR3RoOXUzWGhZUisyT1k0VUpJS0Z0Qy9Z?=
+ =?utf-8?B?VTh6Wm9iN1E3eDZRRTAxcHhISHlUOU5yNkM0cnBFNmYzSHZrbUxJT3hNam04?=
+ =?utf-8?B?eHVmTERoVk8vTXA3K3NoaE5yNkRsUWVQblJZOFl2eGJISUdBR241aFQvR1V6?=
+ =?utf-8?B?bDhtcDZPa3R1elFBdWJDcmowZUNicmVDRmZQMXEvMnNWclllUXg5NVFhVDNW?=
+ =?utf-8?B?MlpOaXR5Tjl3L1NITkxrS2Jmb3RmeW92QmhQVG85QW5RbFFQR0FIZWFZR1VE?=
+ =?utf-8?B?Ty9mUGRYNlhwN1Zuc2lEWUs4TVlyT25Hak1VNUdFeUNGelpkaDRNVXByU3dt?=
+ =?utf-8?B?M1UrVGpSNUNtZ2RvY1RsV0hYNU1PVXd6YVpqZXRiV3NKK3VmNU9GVmtRVnJ2?=
+ =?utf-8?B?bjVLVlZ0bmxXaXBnelhCdDhqVi9NTUpFbmkxOEU4Y3VtTVpQcUN3amRZTXlY?=
+ =?utf-8?B?Vnd5WjlNd1dzTk5kODcvOThsWWV5QWNSMk9nMUxyK1ptSDRJcklvTjlnSk9N?=
+ =?utf-8?B?NEJEZUpMYkJEUzVITSsyL1JZVzI2NlFhZXplUWJGUmVBRm5yRDROWmUyelc2?=
+ =?utf-8?B?OVJ1NnR1dG5QMldySnhJd3RiYjdxakQvbDdLTFpmRCtUUWNUOFpRM0hTV0xQ?=
+ =?utf-8?B?dTY2aU1reWNucFY1VzF1bmZNWEpCMXhVbWZaSzlkQXNjRFNGSWMwV2lrRkNR?=
+ =?utf-8?B?bTR3Wko1MFNpOGVjbkFHL3ZaZ0dJOW5BNTJQOEVtejFKUDk2SXQvMmh4ZFlo?=
+ =?utf-8?B?Qlp1d3BrTllaL3ZIUDJKeGR6RStmWnRKWVBMOXBHNnhoYmx0UjB4T0pubkh2?=
+ =?utf-8?B?ZmZUTFpHNWRzSkZjMzJXMzlDbHQ4RDZaMVdBbmFpNkRNOEJ5OVFlV1JMZkxs?=
+ =?utf-8?B?Q1N1Ky9VQXF0T3JNdFdIV2l2U1BwM3puT1ZYRjNIRXZIcWlab3BvenBMZnEr?=
+ =?utf-8?B?ejcxMHdFK2d2WmNxTzFFVWdzdGJ3eTlPTGlvSXJPaXRtYk9xZU5xeGx4M2Nk?=
+ =?utf-8?Q?wme8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700013)(376014);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2025 09:55:47.8120
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2025 09:58:57.3313
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df469c65-d4f8-4cd0-02d7-08de37d24b65
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9126beee-f98a-407f-4e68-08de37d2bc65
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF00003446.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CO1PEPF000075F4.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF0B76EB972
-X-Authority-Analysis: v=2.4 cv=dZONHHXe c=1 sm=1 tr=0 ts=693943aa cx=c_pps
- a=FaoZe42t3hJ4J9xi/30H+Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR19MB7193
+X-Authority-Analysis: v=2.4 cv=dZONHHXe c=1 sm=1 tr=0 ts=69394468 cx=c_pps
+ a=zX+IWXFbiTryU9FQSZboQA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=nMDIn12j2Ybx7ldIpkIA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA4NCBTYWx0ZWRfXxMhaYCN4JPjV
- zyy8nvZ0IWvjrYENCiJKZaKIyaOQUDFydnSw7NIwYF8MxyZLN4HqxBXXkb9a1HO19BOWS0RSkSv
- u9KqmBWLSfF5BQ1Ld9rXDJHvVe4XQ7DEDkAvQBwS6kt89Eo4Jnm91nQ59V/AnV4o/a4oODH4ma9
- uh5ptZMVqKBmm+YQh/I5nsGRGSiA6mmaHWmwDGOzluVoXO3zCb/XzFRy11qd/usrkETQKJRKH0W
- JSQvlM5IwMvzyb+vhAUd4MPUZM97IOQqZr3zA2LFK4SUwxVy3UsWBWcg+IJM9yzYVS2+UhH8O+2
- +ttOIe7NmljFhajQBRhvDmcao4UI/Ul346uevXlf6Sf/qKyrihkcTpzwCAk41C87RF/XKmukCyW
- UwK6VH8b1mNFKwxhqhHX/mmukPIxfg==
-X-Proofpoint-GUID: s98-C4uuHb-NlFojvMdhZC4lIkJ33PF5
-X-Proofpoint-ORIG-GUID: s98-C4uuHb-NlFojvMdhZC4lIkJ33PF5
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=QoUP7h7R2SX7oimVjcsA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA4NCBTYWx0ZWRfX2wWuO2Y85Vnj
+ M4Zpi61rYa1oS4anHuBAN75/kiahMkThHtt9q51UlGKDhdhrTXFpl7tT6VkmOjhsOPCRe9KyWzU
+ 5BLmbCNLeOLCCyUbs7eBGhUk16oEn+BKtvp7ab95FqCX3ODLHkG4IE0rgcd6cBogahBO2on0lXH
+ KhQhWr50CTMN/VGwtsEobL8L6YGVZMibTIuOouLH9D3btozHKeBjklk7eeLOHocAcJFuAiG3m9Z
+ sZcBe6x9RU+6nUCr2a6RmI2QRf6kAXx2P/2HJj/CVvhSVwe/ES+6CO3nwL443lfkqo7WUta1QVq
+ Y2OysMgN2Z5tjiRFKEoHTwu8XBMMmeasYknFcZAI2wtwi07wP8FiRb1E5e4Am8SOw5IjX14aOKr
+ aY+EfRf84PX/Q7gs1sQmbOzzC4jcaw==
+X-Proofpoint-GUID: UYlyPHCsYlVyVxtGrscrwCF7RgXuLoRD
+X-Proofpoint-ORIG-GUID: UYlyPHCsYlVyVxtGrscrwCF7RgXuLoRD
 X-Proofpoint-Spam-Reason: safe
 
-On Tue, Dec 09, 2025 at 12:47:06PM +0000, Pierre-Louis Bossart wrote:
-> > That is some scary stuff there, that is basically working around
-> > the fact that with those drivers the soundcard is created before
-> > the hardware is actually ready. But its one aspect of that and
-> > there are likely many knock on effects/races hiding in there. At
-> > some point we should probably revisit the whole enumeration
-> > thing in soundwire it does cause a lot of scary code.
-> I don't see how we can revisit this, the codec probe happens
-> based on ACPI information even before the bus is started. The
-> card driver is also probed when the PCI driver creates a platform
-> device.
-
-I mean in general the fact SoundWire probes devices before they
-are available. It introduces a lot of scary things, as basically
-the whole kernel is setup to believe that when a device is probed
-it is ready. I mean I know why we did it, because we might need
-to setup some things (resets/regulators) to cause the SoundWire
-device to enumerate, but it does result in scaryness.
-
-> > That said... the class driver doesn't have the same problem
-> > however, because of the two layer nature of the auxiliary driver
-> > stuff. The soundwire driver binds to the device and completes
-> > probe, but it is the auxiliary drivers that are used in the
-> > soundcard and those are only probed once the device itself has
-> > enumerated in class_boot_work(). This means the sound card is
-> > only created after the device has enumerated, so the same problem
-> > isn't present and we can have a more normal PM runtime startup.
-> Humm, that's an important detail indeed that I completely missed...
+On 9/12/25 16:41, Pierre-Louis Bossart wrote:
 > 
-> You could also have registered the function subdevices based on
-> ACPI information *before* the whole enumeration. I can see why
-> you took that function-register-after-device-enumeration route,
-> but I have mixed feelings about having separate mechanisms for
-> vendor- and class-drivers.
+>>>> Changes in V2:
+>>>> +    if (simple_ch_prep_sm)
+>>>> +        return 0;
+>>>> +
+>>>> +    /*
+>>>> +     * Check if already prepared. Avoid overhead of waiting for interrupt
+>>>> +     * and port_ready completion if we don't need to.
+>>>> +     */
+> 
+> 1.
+> 
+>>>> +    val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
+>>>> +    if (val < 0) {
+>>>> +        ret = val;
+>>>> +        goto err;
+>>>> +    }
+>>>> +
+>>>> +    if (val & p_rt->ch_mask) {
+>>>
+>>> Can you explain why we don't use the ch_mask in the already-prepared case? I am missing something.
+>>>
+>> I'm not sure what you mean here. The if() immediately above your comment
+>> uses ch_mask to check the already-prepared state.
+> 
+> I was referring to the 1. above, you read the prepare status without checking for ch_mask first.
+>
 
-At least currently you have separate mechanisms regardless
-of the choice of probe time since all existing vendor drivers
-register a single driver and the class driver registers many
-through auxiliary. The difference is only in the secondary
-drivers that the vendor drivers don't have anyway.
+What would be the purpose of checking ch_mask before the read?
 
-Personally I like the only registering the functions when the
-device has enumerated approach as keeps interactions with other
-kernel subsystems within the expectations those subsystems have
-of the driver. There is a lot less to think about.
+>>>> +        /* Wait for completion on port ready */
+>>>> +        port_ready = &s_rt->slave->port_ready[p_rt->num];
+>>>> +        wait_for_completion_timeout(port_ready, msecs_to_jiffies(ch_prep_timeout));
+>>>
+>>> I understand the code is the same as before but would there be any merit in checking the timeout before starting a read? If the device is already in the weeds, doing another read adds even more time before reporting an error.
+>>>
+>> Do you mean save the system time when the DPN_PREPARE was written to
+>> that peripheral and then check here whether the timeout period has
+>> already elapsed?
+> 
+> I meant testing the return value of wait_for_completion_timeout(). If you already timed out at this point with a return value of zero, there's no point in checking the status any more, the system is in the weeds.
+> 
 
-Ultimately, I think the long game solution here is probably that
-we move SoundWire to internally have two devices. An initial
-device the gets registered and does the probe setup and then a
-child device that probes on enumeration. Basically, the same
-setup as we have for the auxiliaries in SDCA but internal to
-SoundWire. But in the mean time I think using MFD/auxiliary to
-introduce a 2 step probe seems like a really neat solution.
+Wait completion will _always_ timeout because this code is holding the
+bus lock, which blocks the ALERT handler from running and signalling
+the completion. The wait_for_completion_timeout() is effectively
+msleep(msecs_to_jiffies(ch_prep_timeout));
+So we have to read the register afterwards to see whether the peripheral
+actually prepared.
 
-Additionally, there arn't that many SDCA vendor drivers at the
-moment, a handful of Realtek ones and a TI one. If we wanted
-to standardise I would suggest standardising on the better
-solution, which to my mind is clearly this approach.
+I've left the useless wait_for_completion_timeout() in the code so this
+commit is only changing what it says it is changing, and nothing else.
 
-> Note that things will be interesting when we use the new
-> ACPI aggregation information to create the card, we're missing
-> a means to re-trigger deferred probe checks as devices become
-> functional. I had a patch on this a couple of years ago, look
-> for "driver core: export driver_deferred_probe_trigger()",
-> we probably need to revisit the entire scheme...
+What to do about the deadlocked wait_for_completion_timeout() is a
+separate problem.
 
-Apologies if I am misunderstanding but is this not another example
-of the advantages of probing when the device enumerates? If I
-understand correctly the problem those patches are solving is
-resources that become available outside of a probe break deferred
-probe. By tying the probe of the auxiliaries to the enumeration
-of the device, we ensure that link between probe and resource
-availability. I think the point Greg is making in that thread
-is that the kernel expects resources are available once probed,
-so if one is going to break that assumption it should really
-be handled exclusively in the driver that does that. But the
-simplest solution to my mind is just to not break that assumption
-then everything works as expected.
+>> If that's what you mean, I don't see much advantage in that. If the
+>> hardware is working correctly, this will be detected by the read above
+>> that checks if the peripheral has already prepared. If it has we skip
+>> the wait_for_completion_timeout().
+>>
+>> If the peripheral is "in the weeds", so that its prepare time has
+>> already passed and it still isn't ready, we're no longer in a state
+>> where we care about minimizing audio startup time because the hardware
+>> is now broken. So it's probably not worth complicating the code to
+>> take a few milliseconds off that case.
+> 
+> I agree it's no longer about minimizing the start time but rather providing an error faster, without waiting for a second timeout on read.
+>   
+>>>> +        val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
+>>>> +        if ((val < 0) || (val & p_rt->ch_mask)) {
+>>>> +            ret = (val < 0) ? val : -ETIMEDOUT;
+>>>> +            goto err;
+>>>> +        }
+>>>> +    }
+>>> T
+>>>
+>>
+> 
 
-Thanks,
-Charles
