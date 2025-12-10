@@ -1,107 +1,148 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C436532C936
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 20:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE5326FDBD;
+	Wed, 10 Dec 2025 22:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765399297; cv=none; b=pgytNKNDWGiIU5XfaE0pz/zzlfLHcG74Em5fLj7wtbysZSRXz81NfWqgwBXnRq3WUP4UUesZ3zBfCcY0YKghRKLtAFk9vfQtNCyTzEllTMO5CJhI6ZIHi9hwu7DFsolkmLRQxWEUXvdYR9Y19b+QDjR+q5NRyBYXS22MQ3Z6ZYA=
+	t=1765404627; cv=none; b=FFRi5WUvb3WwRR66Cl+UsJ3LXe54+GYEueV6tt2epOVsevNGHapZcyRvP5azSXGeJbPmd+88ZCyV+Chex0/SjoM98fadrXp5Sgv5+kQWyYGsHiJ56r91KCswMTHgZsSGASlaCJweac989wJPRw1D8sJrJJVt7PMuRIFFFMLTe+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765399297; c=relaxed/simple;
-	bh=TRyLCd+ncXqbnRsh/grUAYh0/d/ygzxIV8KiJU6IL+k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+kX3hKdSwICCutUwi51ZQb5297xn9XLNqaTicWR7bsxI+NK09ZH8E6Rw9adj1rwMuO/dTQ5MDHChG/b+QStpI4OYO2l8JaMmEg+kq4s62BsVkB2Nm8hiULb/BEJHDelPPuexz2snXh0Ok0Hu1/PqvQ1kJIQE1EFiIe55OQlgsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bJA0Q6YH; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bJA0Q6YH"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4eda77e2358so2069011cf.1
-        for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 12:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765399295; x=1766004095; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zGnnIWhAb1bzkSy61y4yLLtVCAL4PeVPAsSuYFYfM8M=;
-        b=bJA0Q6YH28RXAivwXcxSCzZAsax/oLDKYAlyz2WeFmPSjKO6tqUmlndbOs1MXAElMi
-         eq0/BXHdN22fw1ey6g4nxZhpGBV0UJUFHD0pdyDH9HvGgosDo9lcR2gi79OrVkokeG4G
-         1oCLVcCPpdMUbX2DAThZqTP9LaESrYyzim8ussbtgj5AnMMG1oW9SKzje9TPwBlcDw7M
-         u/OHGkSFqxdkqY5cxyf3zOYK5wkGNX2CvAZa/1bm4l/hdslbSEDx8nwI2/WWjbUucbJX
-         m+dEvI88jAMRtVzw1gLN4SxNCRuMBeRk9htpSOctIAI+xmxVHU6DX93vpqHoa7a/y0O+
-         LFBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765399295; x=1766004095;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zGnnIWhAb1bzkSy61y4yLLtVCAL4PeVPAsSuYFYfM8M=;
-        b=dtWjkc0e42iI2Chv/gNs1BZTudYsNnGb0oBBKvku/3VPAHyQV7MCLweABl8Xlp5jU/
-         RJv9cJM85DP4556AwrJ6UGctqLEycsAYQnMJ/QLxXkyGrlqeAt5DOznA65cU+sMWnnro
-         TR6VfbWrF/5/xP5ayRQxLGl3sRxSsKLhKJRETjMrQoeKNjhqbmnLG7dZ2NhAo9PT3c+h
-         ZVJ2j4xLelIwLr7SOpXujTPM07wwx05ontXfUhZoXSo8YHU28LxglT82uU0sfMqjLP6R
-         H0JsG2up2a++ByuYFAUZoCPXSYeOx7/oND3LMomAVxH3IhWqr0Pww5vTMZgXHsyoUOYF
-         oprg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4skuSvswh6Iie71WsQXiVmb3T0C/Cmzweg9X79Eeclsy5ajo0UpqsQbCdd4VSI4bAgMePFUk1DDeeug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAPhqV2EUZPNx2AoJqFQ9m7QGqzvnX4F7/isdIKWX8d2UPcO/k
-	FOXdi6Q8SuuUmte7iB2KWEFQI1V+vBmyPmvCm39oa7w1snvYw8gh1gn7BrMVgQ+T
-X-Gm-Gg: ASbGnct+21WSkO5qJQgwowTUKcwz8NNz0I+U0mJiQUr2gMcknrsbKcG99iS19Kw/YgW
-	G6wtmIKtbmAKIf67bZq22LcFb5XKIe/QKAy5GplQs+VChMXitPAo32t81FJm7QhI2sWxDDKIBOA
-	UICk2BwtC3WVAdo3lMkI7FKq1n4U0uGcjuHdNsFZZaKhXmT2o+sJQ5erDAbLV0/NVnp+HUQtki1
-	kZGG0SpLESzlIj5CRWcsKcFDAV6YxXqWIxPuD45v5gLmMVDHg9wdO+IBp4hD7tE4wDQv+aIswui
-	2H4aMpqYJnmr13fx9yE1H0/usn+XRDCbjl+XAolPiT/LoTESVrzeZGFxnSzsX9YjFBrRqgYPTbQ
-	x8gXMY5Tq/aLQ0hIgK930syBseDEAdrOCV+8rbiTmXuvq4pYe1dwMcLA1YiAIGHGNlP+Qre1i4I
-	TeJ49BCDD05L9Na8706ejvQuadpw==
-X-Google-Smtp-Source: AGHT+IFh7BfhZVQssgyJw0FyvGQuJ0VlGnbRTYVC/qPD0j3szewpyz45kxL37EBXzM+MNXrZ9an1bA==
-X-Received: by 2002:a05:622a:64f:b0:4e8:b288:7b6a with SMTP id d75a77b69052e-4f1b1ae6074mr50514801cf.82.1765399294678;
-        Wed, 10 Dec 2025 12:41:34 -0800 (PST)
-Received: from archlinux ([89.169.15.126])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f1bd6e8179sm2937861cf.24.2025.12.10.12.41.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 12:41:34 -0800 (PST)
-From: Bluecross <elantsew.andrew@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
+	s=arc-20240116; t=1765404627; c=relaxed/simple;
+	bh=9Mbw+2a+O0bpocbYBboqIR0wKgD/bxSaeJe1Sq+BSnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/5gSkUC3JSQmdmMXRSk87tcZeqZZuLuCQB4lRMIOKvzY4t0DgWtb8iRQCveYND/+p45I88n1P0Qx8jhTs3p9aziJvYgl426rnTb1Po9uDMbjNBlAAPqHlug7ZhUYT8t4hT7HU8HUhytWmPVdS8SBTONGxILEaQ/Yteuu2ftcMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 85D0E1F8005F;
+	Wed, 10 Dec 2025 22:09:49 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 0A9C4B127E9; Wed, 10 Dec 2025 22:09:38 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id EBB48B127E9;
+	Wed, 10 Dec 2025 22:09:35 +0000 (UTC)
+Date: Wed, 10 Dec 2025 23:09:33 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Janne Grunau <j@jannau.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
+	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bluecross <elantsew.andrew@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
-Date: Wed, 10 Dec 2025 23:38:00 +0300
-Message-ID: <20251210203800.142822-1-elantsew.andrew@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	chrome-platform@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	linux-sh@vger.kernel.org, x86@kernel.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: Kconfig dangling references (BZ 216748)
+Message-ID: <aTnvnaRuJ5lF4dVv@collins>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+ <aTcVXrUXVsyjaT22@shepard>
+ <20251208200555.GA333481@robin.jannau.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MEb6eXQ93P1+3Wd8"
+Content-Disposition: inline
+In-Reply-To: <20251208200555.GA333481@robin.jannau.net>
 
-Add a DMI quirk for the Honor MagicBook X16 2025 laptop
-fixing the issue where the internal microphone was
-not detected.
 
-Signed-off-by: Andrew Elantsev <elantsew.andrew@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+--MEb6eXQ93P1+3Wd8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index f210a253da9f..bf4d9d336561 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -661,6 +661,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7UCX"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HONOR"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GOH-X"),
-+		}
-+	},
- 	{}
- };
- 
--- 
-2.52.0
+Hi Janne,
 
+Le Mon 08 Dec 25, 21:05, Janne Grunau a =C3=A9crit :
+> On Mon, Dec 08, 2025 at 07:13:50PM +0100, Paul Kocialkowski wrote:
+> > Hi Randy,
+> >=20
+> > On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
+> > > from  https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
+> > >=20
+> > > The bugzilla entry includes a Perl script and a shell script.
+> > > This is the edited result of running them (I removed some entries tha=
+t were noise).
+> >=20
+> > [...]
+> >=20
+> > > DRM_KMS_DMA_HELPER ---
+> > > drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> > > drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+> >=20
+> > For these two, the symbol was removed in commit
+> > 09717af7d13d63df141ae6e71686289989d17efd
+>=20
+> That commit removed DRM_KMS_CMA_HELPER. Later commit 6bcfe8eaeef0
+> ("drm/fb: rename FB CMA helpers to FB DMA helpers") renamed
+> DRM_KMS_CMA_HELPER erroneously to DRM_KMS_DMA_HELPER.
+>=20
+> > but these two drivers either were
+> > missed by the batch rename or were introduced a bit later.
+>=20
+> In the case of drivers/gpu/drm/adp/Kconfig it was missed much later
+> during review (but iirc went through the same rename out of tree).
+>=20
+> > Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by =
+the
+> > drivers), it should be replaced with DRM_GEM_CMA_HELPER.
+>=20
+> That symbol doesn't exist anymore either. It's now DRM_GEM_DMA_HELPER
+> which is already present in both files.
+
+Thanks for the details! It seems that I was looking at an older tree.
+
+> So the "select DRM_KMS_DMA_HELPER" lines can be removed from both files.
+
+Good, then I'll craft a patch removing these two lines.
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--MEb6eXQ93P1+3Wd8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmk5750ACgkQhP3B6o/u
+lQxOag/+J9Lwmq+hqcg9BxoDCZl6KmFGAh/RmelPeBUew6LlQphMcDpjQ0yJavK3
+bxojss4r12rV5307+f47JlSMFJa/100MablzoWV0koupx/JCRszhYf2w1lxYHKJh
+7jwy8GLd9NnaZGaiscrckVEcfaVRufzSM2I6ErSZIMSYEZ1LUTCakTPAwrgtarZb
+b9FzHmCrau56mdC2M6StWaolU90t4em1/We8XVRtLY87MEY/VQK6qLylL2fbpuIX
+5+DjnOBDMrvyB7UJFVbzcQA4ev1ckCBvnB2JdzGOfquj6XTO23m5/L5qfxTVk6qa
+yp9ShU6lQZ9RjinifpGWf8JTYl46U7hch9PrUCE/n0FgVl2frQHb/N08ynKUniCB
+1U76zgnG48Wkj08Sz6anRvER3dqEhzJgxJxpkW1UqoXFOSBQeeJZzZONuuUxYw3M
+8JKSldwJVj/oLlvCOI6QO0Q9T+U4YS1gpNBfHbysPaJgZyqld5tXaElOo9k8P8pX
+kAMhcvAn6FaXqkX5qJOAN+91M+CkQwQlWf16G7HKV0LcOvzCtGHYWVrxb7xWw9Em
+JBZRsrdq4CaQc34D8GkBR14H6WGWkGR4OQSTqxshPv7x/S4u9vV8FQWIhLW2LToY
+kw9ephtALgBj6D79R84K2DGlmZwPH2sunV3y9huDh3SNlR5dZg8=
+=EEMR
+-----END PGP SIGNATURE-----
+
+--MEb6eXQ93P1+3Wd8--
