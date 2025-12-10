@@ -1,50 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C05C15ECCC
-	for <linux-sound@vger.kernel.org>; Wed, 10 Dec 2025 13:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BCA322C83;
+	Wed, 10 Dec 2025 13:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765373962; cv=none; b=baZmeuihfMQofAqqB8BlDD7Q09sHsnLMx2syPr91VBYaU6h0r2ga2ZQvKoXn+k60sboMX+uN9M/gWgLghEfLbSBUaIjywtaKob6Yz7Oh4iLzun+OUzSTqXtjSGwzKkrbQIjROuKFpteQGaaIoCL+wEqbErUSK0hgjU3E9abvZug=
+	t=1765374930; cv=none; b=t6FBnGcGQTbsimRx1oxcb8+dqSebqmQHhYQ4mA47m0M818CwhjIHnP1yEaS2y8WvjjumETF7rHUf8ebNkOY+JMO6ehD/9+kanJ3izwb3MilIJZ61hdqoFJRgDRTUNQhwvN+s1Zg15cF7dldPoZP92oVzESFSO7RbTaY3ZyJ4B9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765373962; c=relaxed/simple;
-	bh=xI8DTo119y2RXhYk5giNngcIprKazHeNum3kpVtjdJE=;
+	s=arc-20240116; t=1765374930; c=relaxed/simple;
+	bh=DAtUlv8bDxKZGj8g2l9j9Ya3tL4DDzbIQQvoToS86R4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lRi9Nv1ehGCbow02b7K18WvbqIZc2vXijnZTpHPqelauT+wztHuPPdJjnPI2w5h2KI/SafUffTSkDHDpAGClSDD4aQRtgLfNKpwGtb0u764glb81RSWhH0W7tJcX55it86b9FIBANh3JZHd3Az26jUYiHMqqGWlEnrcaJLUER8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IC4kyDuN; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=D+lQH5XZR3dI1ewBS8G4uHLw4zCLSblvbV29LdJvYUtQNxM/e3NUGXneULbbACRti9voxM8kK+q8cHNgE4PhRTC6ZdgLmC3bCQRFsiBXZynPP97nkluMkoInBeMJ2T0r9b3AolbioFvcdifPcZEVPyWoU0efc5RpFjpF4mZPOYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=AbYn7C8g; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IC4kyDuN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765373960; x=1796909960;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=xI8DTo119y2RXhYk5giNngcIprKazHeNum3kpVtjdJE=;
-  b=IC4kyDuN/538ePJ0KNKvIjYl/D5RwgytSj33eo8XbuOsFRSUuKjaHSiy
-   PXgZQ7ycjYELOh8U/bT7z5LgmXC96vQHwlVTZxKRy8S/2idRnvlc3KIAz
-   AxC3zcIsESfrk3/FqVFtXg2pu4IONUCcMceSTHxlnq/KTCNxQgDi3KeeU
-   OTcMWTAm3hp6s/Jm4UEm45yLCNh+/FnzsJZuvdFqbDOV707BQe7W6vlbf
-   S1Jtwe12UyXrbuaT32cijKrFLe3KOu6TSEsqoPTSYIJiY35ESiwk60jaL
-   t+jeblgqaZHo1qSE18bbr5cUfg+lllnhoJV22lHuizySejOyheCT/Myqx
-   Q==;
-X-CSE-ConnectionGUID: PkeKn+OaQayNM05tidTH6Q==
-X-CSE-MsgGUID: AoR1hYDqQpevVKIi3N28nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="54888711"
-X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="54888711"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:39:19 -0800
-X-CSE-ConnectionGUID: je2GOBwvTdO83senBq6sRg==
-X-CSE-MsgGUID: sOtAju3AQRO/W4J9Des9rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="201632822"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.191]) ([10.245.246.191])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:39:18 -0800
-Message-ID: <92f98115-9b3c-4e63-b6fc-f5ce119f0545@linux.intel.com>
-Date: Wed, 10 Dec 2025 15:39:38 +0200
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="AbYn7C8g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=UIMfeOC7d4j2HsZslC/hqGz2UqxXTYa7u4kBsuOIxeQ=; t=1765374928;
+	x=1765806928; b=AbYn7C8g/H4AE60+esc3mTLK2qo6UYY9mLeT2mBNyOF2ZWX5A6/FJuL3pWL73
+	JEMDPO99vrH5Us+c5MdrAbyfvjR836tra4lUdnT8pB7F5eW3a4RyKDSg/cko3LVNHYNtqAenTvdkH
+	Bm0W2bvYKA3LDin1vBYRHmtiG8pvf+Xn1S2X2JVqzYtX1zUUIatxuJ0QqvjSkWlchXiTlemJzwwUF
+	j2dtNn5f0qlsn2lKnnTpT42KlMNKlAzQzPp5Hci9k02ZmUN/4jWEHrC5lVXhTg/JFyCgRMDuCk9Fw
+	Ezv4y48vPRrHhGCjhhxJ/COSKNalIhRDADk56V/xA9rDXrODaw==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1vTKex-00BHlF-1z;
+	Wed, 10 Dec 2025 14:55:15 +0100
+Message-ID: <429d18da-af3a-43d2-987f-a6da89935d60@leemhuis.info>
+Date: Wed, 10 Dec 2025 14:55:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,82 +40,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Prefer legacy driver as
- fallback
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: sound-open-firmware@alsa-project.org, Askar Safin <safinaskar@gmail.com>
-References: <20251210131553.184404-1-tiwai@suse.de>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20251210131553.184404-1-tiwai@suse.de>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
+ hda: Move controller drivers into sound/hda/controllers directory)
+To: Takashi Iwai <tiwai@suse.de>, Askar Safin <safinaskar@gmail.com>
+Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com,
+ baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com,
+ kai.vehmanen@linux.intel.com, kailang@realtek.com,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ regressions@lists.linux.dev, rf@opensource.cirrus.com,
+ Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+ sam@gentoo.org, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <thomas.weissschuh@linutronix.de>, Daniel Xu <dxu@dxuuu.xyz>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+ <20251015145749.2572-1-safinaskar@gmail.com> <878qhckxc5.wl-tiwai@suse.de>
+ <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+ <875xcgkvnw.wl-tiwai@suse.de>
+ <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+ <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+ <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+ <87bjm78978.wl-tiwai@suse.de>
+ <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+ <871plbucj3.wl-tiwai@suse.de>
+ <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+ <875xagt7d1.wl-tiwai@suse.de> <87y0ncrons.wl-tiwai@suse.de>
+ <CAPnZJGCknqB3XjNY5zhD7i84pz+uL+v4OUgw04ADxR-W=CAeGA@mail.gmail.com>
+ <87345iebky.wl-tiwai@suse.de>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <87345iebky.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1765374928;8fb7157f;
+X-HE-SMSGID: 1vTKex-00BHlF-1z
 
-
-
-On 10/12/2025 15:15, Takashi Iwai wrote:
-> When config table entries don't match with the device to be probed,
-> currently we fall back to SND_INTEL_DSP_DRIVER_ANY, which means to
-> allow any drivers to bind with it.
+On 12/10/25 14:00, Takashi Iwai wrote:
+> On Wed, 10 Dec 2025 02:45:55 +0100,
+>> On Tue, Dec 9, 2025 at 12:27 PM Takashi Iwai <tiwai@suse.de> wrote:
+>> Also, please, add this for regzbot:
+>>> Fixes: 2d9223d2d64c ("ALSA: hda: Move controller drivers into sound/hda/controllers directory")
 > 
-> This was set so with the assumption (or hope) that all controller
-> drivers should cover the devices generally, but in practice, this
-> caused a problem as reported recently.  Namely, when a specific
-> kconfig for SOF isn't set for the modern Intel chips like Alderlake,
-> a wrong driver (AVS) got probed and failed.  This is because we have
-> entries like:
-> 
->  #if IS_ENABLED(CONFIG_SND_SOC_SOF_ALDERLAKE)
->  /* Alder Lake / Raptor Lake */
->  	{
->  		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
->  		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_S,
->  	},
->  ....
->  #endif
-> 
-> so this entry is effective only when CONFIG_SND_SOC_SOF_ALDERLAKE is
-> set.  If not set, there is no matching entry, hence it returns
-> SND_INTEL_DSP_DRIVER_ANY as fallback.  OTOH, if the kconfig is set, it
-> explicitly falls back to SND_INTEL_DSP_DRIVER_LEGACY when no DMIC or
-> SoundWire is found -- that was the working scenario.  That being said,
-> the current setup may be broken for modern Intel chips that are
-> supposed to work with either SOF or legacy driver when the
-> corresponding kconfig were missing.
-> 
-> For addressing the problem above, this patch changes the fallback
-> driver to the legacy driver, i.e. return SND_INTEL_DSP_DRIVER_LEGACY
-> type as much as possible.  When CONFIG_SND_HDA_INTEL is also disabled,
-> the fallback is set to SND_INTEL_DSP_DRIVER_ANY type, just to be sure.
+> Actually this tag isn't really right.  This commit casually surfaced
+> the issue in your particular case, but the bug itself was introduced
+> from the very beginning, and it could hit earlier.
 
-Makes sense.
+And for the record: regzbot notices when a commit that is tracked to
+have caused as regression is mentioned, but only takes a note, as one
+commit can cause different regressions that need separate fixes.
 
-> Reported-by: Askar Safin <safinaskar@gmail.com>
-> Closes: https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/
-> Tested-by: Askar Safin <safinaskar@gmail.com>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+What counts for regzbot is the link to the report (e.g.
+https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/)
+in the fix using a Link or Closes tag. And Takashi usually adds those iirc.
 
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
-> ---
->  sound/hda/core/intel-dsp-config.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
-> index c401c0658421..0c25e87408de 100644
-> --- a/sound/hda/core/intel-dsp-config.c
-> +++ b/sound/hda/core/intel-dsp-config.c
-> @@ -718,7 +718,8 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
->  	/* find the configuration for the specific device */
->  	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
->  	if (!cfg)
-> -		return SND_INTEL_DSP_DRIVER_ANY;
-> +		return IS_ENABLED(CONFIG_SND_HDA_INTEL) ?
-> +			SND_INTEL_DSP_DRIVER_LEGACY : SND_INTEL_DSP_DRIVER_ANY;
->  
->  	if (cfg->flags & FLAG_SOF) {
->  		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
-
--- 
-Péter
+Ciao, Thorsten
 
