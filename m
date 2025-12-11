@@ -1,112 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6B61DFFD
-	for <linux-sound@vger.kernel.org>; Thu, 11 Dec 2025 00:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF69322259F;
+	Thu, 11 Dec 2025 01:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765414130; cv=none; b=Oqdy9h2ngy6lwL/4B8qAI+DFpaK3Bj/ljXCIjw2wHexGssopC0+iQ76cQR09Y+pwXuQuSK2CcO1CECp65GiVcWqlUubAufyd7x/K5nkDu62CQlsiYmgQhQ0+0e7TTCax0MH4lv7Lk5MJGTmJpimrSrFelfgkZNQs8y2g6eQ7cVc=
+	t=1765417707; cv=none; b=jCyHBikjKOuuiQotulBHtvAQAqrj6C3kivyvXCFauaeE7sQwbk5hTfPh7HLnxrhk6keg+DpP5lGIR4klB1Oy+iP4UHv291WIuDJHdo3F87++2LBCRQan0/1xWJXuthsrTLvrPOHXttT67c5JJ6Sof7rUEN/dkCV3LxRT2C9waeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765414130; c=relaxed/simple;
-	bh=ugYzIIND/LcIOVmEMPIMFDr53DhGYIWESwbexiw2vIY=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=lMiVaBbCqVN0eibSKGdrun2Ufa63YxNtLoPDqIb7Chg3XSxTs49Aq16eWgJuex/nTIPjgZvJwuPBzgLOcqoNJq0MfnAuOZW+pPBjB1fY3hTydkxOFIThDnRTx+xp5WNaG+hoRJ9I5PgB66L+ynlMcCqzGcCH9LZ706RYhtuCjME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQeYRf6n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765417707; c=relaxed/simple;
+	bh=bsNHK4wRv0LhzVOGuJzCuJXVaLyhXJunj4croYtEeWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHdlToDKTJiI0Xnb/lEbEinP0nHX4GMHahRyPZW3f4XVD0lYf3b7pjaL1qQyt6s+CI/GfTwNKQOTpWdo7so1KWxFsjww/Lk4a4HfYhSaXgGeWbwrIt5q4zmBLr0fvb9oRzA3SJu1iNW48o7UGRQ7kQhyXp9U8y37zMOGw7gjBiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lm7a7I7m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQeYRf6n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4FAAC4CEF1;
-	Thu, 11 Dec 2025 00:48:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lm7a7I7m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A6EC4CEF1;
+	Thu, 11 Dec 2025 01:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765414129;
-	bh=ugYzIIND/LcIOVmEMPIMFDr53DhGYIWESwbexiw2vIY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UQeYRf6nMfdNfoY9qa+qNYjSPErFlkrtdsanbnxGUPj5IzJRKTBYconp7FFoa/zXL
-	 RyoV5ahEfAMk6kFIBE2VSG9oewfJoxlV9oTDrBxnH4uD7IbsQIL7e37EB7P1SB+/PA
-	 k/FgZy1nj4VPGUrH7JfLrppnh5L9gc/+4JJrvpU6w0GPR1/M0zf5mtm0eMpbIVr3BR
-	 T2qENNRKjz3/eDLJ9N6ITecE8BNKJsRZoeIU4u+J3vlJMwAlqmxCWBxP+Uf41GotFy
-	 +6cfxtWlKKzrd127lRq/nKw9SZBetPwLReWxlYalM+wKfz5nY7/qKzqb6buLWTCwCH
-	 5qD0U23WUXEAw==
+	s=k20201202; t=1765417707;
+	bh=bsNHK4wRv0LhzVOGuJzCuJXVaLyhXJunj4croYtEeWA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lm7a7I7mE9qT7WGiGUx8UdxDcVZSa9UN0nSaP4kBdo+g4JvLCTiRlTJ5N6u2XpsaI
+	 3H/0he3VN4xfMWgfLDlRSC/2ZPWMELjtV4Sb7JUvQTeZPJ83sfDsCKUJdU0/s8ugnU
+	 FuJJLcqRqY7PjJSOvqVH9+Tn3skjW5GMcqX0jGbLIqtTEUTLBR+HnFLJenNTJF/elA
+	 RqNAVSBRTtql7F3quGz3ZEWZCy9kkTvjGzJk/eCcGWdjcY1uuXH3evh9/l+gq2HBsa
+	 inrR6e+d4Oolyqn7mBvKmiLACb/xVnlrG3mSlQQzCc423uLgjGHDQJ7eqscGN/9Xz6
+	 xs82Ied/wIB1A==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 5B15D1ACB974; Thu, 11 Dec 2025 00:48:47 +0000 (GMT)
+	id 0045E1ACB974; Thu, 11 Dec 2025 01:48:24 +0000 (GMT)
+Date: Thu, 11 Dec 2025 10:48:24 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.19-merge-window
-Date: Thu, 11 Dec 2025 09:48:41 +0900
-Message-Id: <20251211004847.5B15D1ACB974@finisterre.sirena.org.uk>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 4/7] ASoC: soc-dai: define TDM idle behaviour modes
+Message-ID: <aToi6OMxiAcdBrnV@sirena.co.uk>
+References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+ <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com>
+ <aTjZc3mgu7CQOkDU@sirena.co.uk>
+ <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Pb1joisuHwCHeqND"
+Content-Disposition: inline
+In-Reply-To: <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
+X-Cookie: It's clever, but is it art?
 
-The following changes since commit c5fae31f60a91dbe884ef2789fb3440bb4cddf05:
 
-  ASoC: fsl_micfil: Set default quality and channel (2025-11-29 00:59:00 +0000)
+--Pb1joisuHwCHeqND
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-are available in the Git repository at:
+On Wed, Dec 10, 2025 at 01:57:50PM +1000, James Calligeros wrote:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-merge-window
+> We have the use case where a codec enjoys exclusive use of a bus. For
+> these, the codec can transmit 0 on any unused slots to hold the bus.
 
-for you to fetch changes up to f34836a8ddf9216ff919927cddb705022bf30aab:
+> We also have the case where multiple codecs share a single bus. One
+> codec can weakly pull the bus low when it's not being actively driven by
+> any of the attached codecs.
 
-  ASoC: amd: acp: update tdm channels for specific DAI (2025-12-10 09:17:53 +0900)
+Or configure so you don't have any idle slots.
 
-----------------------------------------------------------------
-ASoC: Fixes for v6.19
+> However, a number of machines split six codecs into groups of three
+> across two electrical lines and then OR them at the receiving
+> port such that they appear on a single bus at the SoC. Because the two
+> data lines are ORed at the receiver, we have to guarantee that line B is
+> zero while line A is active, and vice versa. To do this, we set a single codec
+> from each group to zero-fill during the active slots of the other group.
 
-A small pile of fixes that came in during the merge window, it's all
-fairly standard device specific stuff.
+So this is an actual logical OR gate somewhere rather than a direct
+electrical connection?
 
-----------------------------------------------------------------
-Eric Biggers (1):
-      ASoC: cros_ec_codec: Remove unnecessary selection of CRYPTO
+It'd be good to have an explanation more like this in the commit
+messages to make it clearer to users what this is intended to do.
 
-Eric Naim (1):
-      ASoC: cs35l41: Always return 0 when a subsystem ID is found
+--Pb1joisuHwCHeqND
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Haotian Zhang (1):
-      ASoC: bcm: bcm63xx-pcm-whistler: Check return value of of_dma_configure()
+-----BEGIN PGP SIGNATURE-----
 
-Hemalatha Pinnamreddy (2):
-      ASoC: amd: acp: Audio is not resuming after s0ix
-      ASoC: amd: acp: update tdm channels for specific DAI
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk6IuUACgkQJNaLcl1U
+h9D25wf/UsJQP72iHm3Bx4cCkiOBX1vxvax9DWGQFjRnVyUlib3e81+nEUN9hPUP
+F1z7hEOJl9VBT8DTHkCF+u69lJqj3VcaLyv4y9p5JRmnn8a752strfvFCbb6u8ut
+zDAP+3DZ0s7/xaM55dr+dXoUfmde97HiZkk23mwW6Mk1GaVR0eW1Q141j2lMBCzM
+oy2m9mRNnF0FqYMUhtXJE1X2ZqZJ4M3ATessCDZqG3HLk50nNdZxpYKl3T6J6KpG
+fYksvE1mvk+Kub9c4I7iZ7rpJk09wOy9JMgL1kDKwKmsjsR5SkxnBBMoy6+r/7nP
+uvdJYoHVO71HRc47ISk6XHQGduPIIA==
+=WXvU
+-----END PGP SIGNATURE-----
 
-Johan Hovold (4):
-      ASoC: codecs: wcd937x: fix OF node leaks on probe failure
-      ASoC: codecs: wcd938x: fix OF node leaks on probe failure
-      ASoC: codecs: wcd939x: fix OF node leaks on probe failure
-      ASoc: qcom: q6afe: fix bad guard conversion
-
-Krzysztof Kozlowski (2):
-      ASoC: codecs: nau8325: Silence uninitialized variables warnings
-      ASoC: rockchip: Fix Wvoid-pointer-to-enum-cast warning (again)
-
-Mark Brown (2):
-      ASoC: ak4458 & ak5558: disable regulator if error
-      ASoC: codecs: wcd93xx: fix OF node leaks on probe
-
-Richard Fitzgerald (2):
-      ASoC: cs-amp-lib: Revert use of __free(kfree) back to normal C cleanup
-      ASoC: cs35l56: Fix incorrect select SND_SOC_CS35L56_CAL_SYSFS_COMMON
-
-Shengjiu Wang (3):
-      ASoC: dt-bindings: cirrus,cs42xx8: Reference common DAI properties
-      ASoC: ak4458: Disable regulator when error happens
-      ASoC: ak5558: Disable regulator when error happens
-
- .../devicetree/bindings/sound/cirrus,cs42xx8.yaml  |  5 +++-
- sound/soc/amd/acp/acp-i2s.c                        |  2 ++
- sound/soc/amd/acp/acp-legacy-common.c              | 30 +++++++++++++++++-----
- sound/soc/bcm/bcm63xx-pcm-whistler.c               |  4 ++-
- sound/soc/codecs/Kconfig                           |  3 +--
- sound/soc/codecs/ak4458.c                          | 10 +++++++-
- sound/soc/codecs/ak5558.c                          | 10 +++++++-
- sound/soc/codecs/cs-amp-lib.c                      | 29 ++++++++++++---------
- sound/soc/codecs/cs35l41.c                         |  7 ++---
- sound/soc/codecs/nau8325.c                         |  4 +--
- sound/soc/codecs/wcd937x.c                         |  4 +--
- sound/soc/codecs/wcd938x.c                         |  3 +--
- sound/soc/codecs/wcd939x.c                         |  3 +--
- sound/soc/qcom/qdsp6/q6afe.c                       |  4 +--
- sound/soc/rockchip/rockchip_pdm.c                  |  2 +-
- 15 files changed, 82 insertions(+), 38 deletions(-)
+--Pb1joisuHwCHeqND--
