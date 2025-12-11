@@ -1,713 +1,225 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D1423EA86;
-	Thu, 11 Dec 2025 11:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765450857; cv=none; b=GeI4k6gzG5ZWU2vrFLRTm9DwHl1IB9pagaWk6DpTkgWBW48jy7KJFXGLCxtNfnSFfsvqPCGsGG3V0+Uiw8TCh4K9fT+WV40HDeOSsBJtINsIDIyTjVX0X5U+pCGu70sd5XsshZkP2Y21M6pz/wAEA2W992oCNw3rfj42+DyfNQo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765450857; c=relaxed/simple;
-	bh=EnrHGy6bvVOLekEbVKxGwi3Xa97QDYN6IwyvNUpKksU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MHBwiNI93jollHnaT9+UQ62gTmVRTrVXFp8Jhre0BuHubOcAkVfb/P3BDUmBcydlBkMBGxc3iPPdnX3YIBurmH8K51INCLoIrvZ2iDLHL57AYBjN/G5ib0BaoSPW/MKYIe6wcZl6rWvrtpHdbHCU/PVGgwDMm5nomY+qOc8Yyeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ADISOo1L; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176D0304BBA
+	for <linux-sound@vger.kernel.org>; Thu, 11 Dec 2025 11:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765452548; cv=fail; b=XOFxTGRxLsMOO++9K3Q8mc0OVrI33ET846ZrvGl/5R+xVc7vn3bWx6vbggmyNxpP6rl/9X2wnHi12P3WH7gDWk3I57fnLdk5QCOQKD7xOjADtQtuoljmIFHvrhjWKj6Y9B+w8KVy4Aq2Eu7ZBUw5whBxEAJz1WUphIeLh9AsrMg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765452548; c=relaxed/simple;
+	bh=tBtJbs7SEyN3ffzafOgpQnkTI8Zd5cVPnlTF/2h1UFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+IQfCYCEFqj2PswEQ0P6o9qzHG1nh0RFl99y9iccCWQt/kAl7QnQB9y+BZaKvG3Z36/uKkO0USP8rZ3EsV7A7XrL2A/wbN49AsabsQDP8FhGZUeuMPcYh+WWp3eQGe8lzB42ncGok3C6tZuMsJE0vNF6P++gT7nl3zx07QcN0s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HeVtSci/; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=p85sQg9d; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ADISOo1L"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BBB0ARB02044098, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1765450810; bh=aqIWfYozSGPCmYPZEyM411Ya1lvN4VhZjLC2ljlRQ9c=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=ADISOo1L59Ha2Q6PBymZgQBJRI3yfxq9D7k/OEdNeUCL92PV508e9xASqBvpOO/g+
-	 9jgEHH711Ozp1GvhmSf0Xk0lXfINfNoFB9Q7hn0yxBZhpjyKq3vmfogLBZdb4Q6le0
-	 HcXWUFj6lRyPJRL86hxJhTLSghFJGv6BNWf5LiIdE9MNTvVmOLp2Chj1G4+D4hTPVy
-	 wFiyW7cbg4E504Of4hx9InhXsnKY8lIxo9tgTg0Cqbszu5apdA1ftOcU/9LQZBnsrQ
-	 lM5+1y46A5nOwLqMfcW8h89NRrzfHhOIRWZgeCKaVTD8FmDs5y4VT268s+vR+/uhOM
-	 KClcLcr1HR4qg==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BBB0ARB02044098
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Dec 2025 19:00:10 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 11 Dec 2025 19:00:10 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 11 Dec 2025 19:00:09 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Thu, 11 Dec 2025 19:00:09 +0800
-From: Oder Chiou <oder_chiou@realtek.com>
-To: <cezary.rojewski@intel.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <perex@perex.cz>, <linux-sound@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <flove@realtek.com>, <shumingf@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Oder Chiou <oder_chiou@realtek.com>
-Subject: [PATCH v9 2/2] ASoC: rt5575: Add the codec driver for the ALC5575
-Date: Thu, 11 Dec 2025 19:01:30 +0800
-Message-ID: <20251211110130.2925541-3-oder_chiou@realtek.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251211110130.2925541-1-oder_chiou@realtek.com>
-References: <20251211110130.2925541-1-oder_chiou@realtek.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HeVtSci/";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="p85sQg9d"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB5qfGR1155572;
+	Thu, 11 Dec 2025 05:28:55 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=DBa4X98lJ03j0cRDFQ
+	SVTajE764mlf9WxSA5CUYpXL4=; b=HeVtSci/YBqoMr5h7ddhhgLwTSLZb4DRLm
+	8rVd4XSRbimWakMlRc4TWAGwoqVViyQsjE6GmYM49ZxgOVtGry2TpTskFuN+yBo+
+	4mrjwbJPzYvza9bP3CqsPH8TW8rWxjcHU9lQsakV897GcxP5WrKM9rTIuOHltPBQ
+	IiSMWbIvYJWW0Ua+ulB2tqhTxTwWHph+IaWilZ2i3j383pVd+sRF7LfyLX/rOIm2
+	WzOH9U71ezpfy8bBB90CNUrvD2vcm4fXpwIoccgCrRanfRhSoAp/pgOU3FTmdFx+
+	c78m+Kccz9pUI+lklm14eI2GtbSFd7yVPAbyLXiY5oAO8fTGQhig==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023107.outbound.protection.outlook.com [40.93.201.107])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4avhskuekc-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Dec 2025 05:28:54 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EZ6NR6QTlYZX40fD1KA8ko5X8RVewTL24axrDmKw3zgbJAuOH6ZS8W9S0oY0SsD+h+mVsbXy3skZ4kcEUAe1L5HYjuDF0H4qhevQVwo3Yk9xQSkdr9HEQF633Hi+0H9EZ3VJJTMo7auOZKtXDoz0hHSIxdebUai1tqDNSsklko1z91JcJHQbzgMbNYdvkPuqXxitOZsq69AKfUxEx8OomLDpu4CNAfPPtwV3IHl9Yf9TVKwEaRFxnR9ijdXSaUwNcV+ow5ghkHQPCgBur5ZKCFXz3zI0RPl55ueUWXGVPijVzFOBzw9ydpK/dLNQpZConaMuBHQRmZnguHS96ExhNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DBa4X98lJ03j0cRDFQSVTajE764mlf9WxSA5CUYpXL4=;
+ b=TXvpIHIz7cXwGby6mpGoBA/alv1kKJzPjEpXjHOL1BkJ7P4UzU8Ujnri1mo3LHF4qX8AY8fcPYlB0Obsmei+T92e7B805mX3fxojJ8ylZzWc9kQhWIQ+B42V/8Tomo4mh4XKOG4e7a9OBrMnGmkJal/3Y6KOp12fkSHgHA5GxTYmCyiqoBF7V3sGJl1t2eQcZsQzBP1cxa55eMLIuQ2/w+cHML9pD/YVuF+rOE4sed9fGZCr7iW2wcRRd0tL9rLO16SXsYjCIKEkYf5oqGrfGdW/UfAKloIFrN4H/ij2jHWQtZKmtfETlIw3wMSVGYZEkBlR/OwVfN43uKd2bU0BQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DBa4X98lJ03j0cRDFQSVTajE764mlf9WxSA5CUYpXL4=;
+ b=p85sQg9diMH2SHL07+TkGpAaclJuWLxgZKgUOEhNgX5KPLVIIGlA0hU+enxYzKgHwk1HofW/WoJ/KBowXZfB6/of3XRmDYZcK056mKPH5ONXOWlR3DDJZ0YkkkYhtBJItLoT34buZm0m2dLqs/cMvboyeZMr0GVCAAla/ucWrK0=
+Received: from SJ0PR05CA0049.namprd05.prod.outlook.com (2603:10b6:a03:33f::24)
+ by DS1PR19MB8525.namprd19.prod.outlook.com (2603:10b6:8:1e4::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
+ 2025 11:28:50 +0000
+Received: from SJ1PEPF000023D4.namprd21.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::ae) by SJ0PR05CA0049.outlook.office365.com
+ (2603:10b6:a03:33f::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.6 via Frontend Transport; Thu,
+ 11 Dec 2025 11:28:47 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF000023D4.mail.protection.outlook.com (10.167.244.69) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.0
+ via Frontend Transport; Thu, 11 Dec 2025 11:28:46 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 208FA406540;
+	Thu, 11 Dec 2025 11:28:45 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 093E2820247;
+	Thu, 11 Dec 2025 11:28:45 +0000 (UTC)
+Date: Thu, 11 Dec 2025 11:28:43 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, broonie@kernel.org,
+        yung-chuan.liao@linux.intel.com, lgirdwood@gmail.com,
+        peter.ujfalusi@linux.intel.com, shumingf@realtek.com,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 5/7] ASoC: SDCA: Add basic system suspend support
+Message-ID: <aTqq68epKmoJs3ip@opensource.cirrus.com>
+References: <20251125152128.274808-1-ckeepax@opensource.cirrus.com>
+ <20251125152128.274808-6-ckeepax@opensource.cirrus.com>
+ <02bc8d1b-ae25-4398-acc5-e5779c245a3c@linux.dev>
+ <aTmHBbS22GyoH+RB@opensource.cirrus.com>
+ <aTqd3omCzmFuTJ7l@vaman>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aTqd3omCzmFuTJ7l@vaman>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D4:EE_|DS1PR19MB8525:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cc65a7d-a3b8-469b-27b6-08de38a87311
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|61400799027|36860700013|30052699003|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?gM0b3m2RnDbhjsEBTEXMEgO1sia5AtUTWmEMfomSu8PDAEPzqyxigoUl1RyD?=
+ =?us-ascii?Q?0RKJB0qNVmUvF8qt8Nwz1FNV2bcWaCOxWA9aUH7dZ906xPze2LHB26rMAGP3?=
+ =?us-ascii?Q?/LhjmsPnQYk8kr9tuewV5LS/ZrQ4fEytnRB8HDjp/1RT3lFEhVevsxNyfQje?=
+ =?us-ascii?Q?j0IOp6jYDOCsThCVRk8NMBtM4B4bqY6UJdHPJuQKGozyrpJXQLUpEI4xCWxD?=
+ =?us-ascii?Q?uFmwGGqw/LibBBIuhynty4WMgo1SDRIqRKUlFfbQXba3gjhVXaffCLSlfXUh?=
+ =?us-ascii?Q?+ZMsUI0ixm6QD34nosS1vhekVTkmCECCxkobFQTZ38/u/JFTT/UKAmx+IAiH?=
+ =?us-ascii?Q?ifZVaFD5JV2jNCKLxWGqeiZOdFlBPFY+0w7V3C3HBAd7qquJ2vJVRTstDtwu?=
+ =?us-ascii?Q?b+mOCbHDpUv0Z0oueEdgbJlTEiGXTbcAkRKwgruNOLo7bi2NSbpQio8/9OGL?=
+ =?us-ascii?Q?dITh1QaWMu05yxWiiUppAIFzz/rr8MlhvpRcD7IFzlenLtSpZoLsgoeTn5oq?=
+ =?us-ascii?Q?NJopUC9JLB4QQBcJGeyQ5hCS5wj9czbtH1T9GDmfIs7oCtWCr+aSLzspa7xO?=
+ =?us-ascii?Q?0GyrToVmmkQfX/RT6nWB/A6AIauLsSE3W0Ui1c6OHEbV+6gYC94cqnKWHe+6?=
+ =?us-ascii?Q?SOQtCbFLYXXG6PAhjtkhw/jDNSTgLfjFhidD/xX8aDzcveABfDIl57WCicEQ?=
+ =?us-ascii?Q?mwCJ8zTGC7ocRlp2flUvSY0XCmqV/vh0N0/5wSJY8aLG3siHDrYHMgsHGKmi?=
+ =?us-ascii?Q?vIXdWTntDQ5KvU8EHRMO/Bc3zJzbKRgM0cojWsZM6n3EuO8v/md8k3xz8Mbv?=
+ =?us-ascii?Q?uXf1X1l+uFgnXHg51UK0pKbcRX3iNzR8TtGhii7beAMGfvZvG3b/M32n+TFk?=
+ =?us-ascii?Q?vcH+qYjvMJ8kLqiLGpLjYDSE/6USRCPcUEdkwiPIfieu9Qw3wpi61I6jyHJZ?=
+ =?us-ascii?Q?t689mQxl3pfjhmv+JoSa8OkZo887HDutyflkjmv+4vTi3OuCyIZgHCgfifsn?=
+ =?us-ascii?Q?jldIRulSHvnoxgyj5fJA2IS0B3I06VooIG7ueMUQT2A7OuV2x56YyOdHwDFJ?=
+ =?us-ascii?Q?b8AHjadeF0s43SZ1BvrHctj8wQjljxHpaE0NyJJ8dsmr9+5UNxCAkTjiX80M?=
+ =?us-ascii?Q?FmZ5d6tz+DO/rTQswwiMtDc9ghsGwbmmp0yMRnyEmGqQ8Cz3tpq38F8+rrEF?=
+ =?us-ascii?Q?TtKFUE1djCau9MQv0FiC/foE+t231gRU6WjY+Zk7Ke4/5cF2xq+gCIFO6beo?=
+ =?us-ascii?Q?T/YwCwrK48xVKnWlpbtDMSDOTAzw0Fc8Zdu+KpkmeNSY4snc3mNAWst9WdU4?=
+ =?us-ascii?Q?m92qsmq05UBCmsjrSYGBREJIm1Az7C5WTWlKQUs/Ia77uuPJyy8ywz6X/Phu?=
+ =?us-ascii?Q?fRPJLktCCd4VsVJumw+2HJslIonCruxr12Dw1FhCLFtZ0OcFbSbqpob8k+5p?=
+ =?us-ascii?Q?VnuXjhEEzSkUZF2ijndTXZsRzDC3ktZ4y/NoTpYi6tUMTqJxqesC3J2uJ4C0?=
+ =?us-ascii?Q?hRC1dHD1fKkyrl4DRsxPz72F9fZPHWCSB4A6OMvvqR7rQ7RICv++1lbi9NVt?=
+ =?us-ascii?Q?wmR3Awu1Z6FTs2pVyXs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(61400799027)(36860700013)(30052699003)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 11:28:46.5948
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cc65a7d-a3b8-469b-27b6-08de38a87311
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000023D4.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR19MB8525
+X-Proofpoint-ORIG-GUID: u0NBOWXjyo-TeCLK32ZwEmcIsIlCiL6q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA4OCBTYWx0ZWRfX8Guf97wzM4ZJ
+ 8YStFcMYRMkvj6TBO6DI7els57JJ/kbOCubOyShVoigSEXPLfPHm90al4m6dr4IjCznUY1PKFER
+ 3N13hODmevMk9lUc3FGQxGiCGRjKbCNYAxPaaf4ZZ6+WPaxxKOsvfhpgI97JW7Znt5wQL4OD3Sc
+ pw/3JeECLDb3Fuc9lHD3uZSTw467LSOMWBa7pWlVre7qNG/DwrOzah1fAKDBBCE5Mm9r+Gc6OQO
+ GtI9g3NpiM+Tcp6DdieW1YD9h/UG9NPHgnFJd9bP33yWOo+7bBmhtrAT/pLOJ4oYZDFaRq91El2
+ zHZGGv16Ijc2geQUag+Nu/sbETpcTsNLMn8HTewibSQHflVF1XgqWo40OH2nZdQsqYvab/1LvD2
+ cfBiu5Q7utFnuM//OUXaMyw3P7xWqw==
+X-Authority-Analysis: v=2.4 cv=DJ6CIiNb c=1 sm=1 tr=0 ts=693aaaf7 cx=c_pps
+ a=hPX4sJ9ttNblXMIvR1KFjw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KBXiMPTM13BkscG_QVMA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: u0NBOWXjyo-TeCLK32ZwEmcIsIlCiL6q
+X-Proofpoint-Spam-Reason: safe
 
-The ALC5575 integrates an audio DSP that typically loads its firmware
-from an external flash via its own SPI host interface. In certain
-hardware configurations, the firmware can alternatively be loaded
-through the SPI client interface. The driver provides basic mute and
-volume control functions. When the SPI client interface is enabled,
-firmware loading is handled by the SPI driver.
+On Thu, Dec 11, 2025 at 04:03:02PM +0530, Vinod Koul wrote:
+> On 10-12-25, 14:43, Charles Keepax wrote:
+> > On Tue, Dec 09, 2025 at 12:11:27PM +0000, Pierre-Louis Bossart wrote:
+> > > On 11/25/25 15:21, Charles Keepax wrote:
+> > This is definitely up for debate, my primary issue with allowing
+> > firmware download at the runtime level is that SDCA gives you no
+> > way to tell that the device is ready to rock. The only way I have
+> > been able to divine to do this is to wait for an FDL irq and if
+> > one doesn't come within a reasonable time out move on. However,
+> > that waiting would add a considerable delay to runtime resume
+> > even if no firmware was downloaded, which feels problematic.
+> 
+> What is the typical time to have firmware downloaded and get the irq?
 
-Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
----
- sound/soc/codecs/Kconfig      |  10 +
- sound/soc/codecs/Makefile     |   3 +
- sound/soc/codecs/rt5575-spi.c | 102 ++++++++++
- sound/soc/codecs/rt5575-spi.h |  26 +++
- sound/soc/codecs/rt5575.c     | 363 ++++++++++++++++++++++++++++++++++
- sound/soc/codecs/rt5575.h     |  59 ++++++
- 6 files changed, 563 insertions(+)
- create mode 100644 sound/soc/codecs/rt5575-spi.c
- create mode 100644 sound/soc/codecs/rt5575-spi.h
- create mode 100644 sound/soc/codecs/rt5575.c
- create mode 100644 sound/soc/codecs/rt5575.h
+There isn't really an answer to that, it will vary alot based on
+the host, the firmware size, the device itself. The timeout we
+use to wait for the FDL IRQ in the kernel is currently 100mS, but
+that isn't determined by the specification so may need extended
+when new hardware arrives. For our device on a MTL UPX, with the
+current firmware, and that 100mS timeout, it takes just over 300mS
+to complete FDL.
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 061791e61907..4286e7c480d8 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -212,6 +212,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_RT1305
- 	imply SND_SOC_RT1308
- 	imply SND_SOC_RT5514
-+	imply SND_SOC_RT5575
- 	imply SND_SOC_RT5616
- 	imply SND_SOC_RT5631
- 	imply SND_SOC_RT5640
-@@ -1783,6 +1784,15 @@ config SND_SOC_RT5514_SPI_BUILTIN
- 	bool # force RT5514_SPI to be built-in to avoid link errors
- 	default SND_SOC_RT5514=y && SND_SOC_RT5514_SPI=m
- 
-+config SND_SOC_RT5575
-+	tristate "Realtek ALC5575 Codec - I2C"
-+	depends on I2C
-+
-+config SND_SOC_RT5575_SPI
-+	tristate "Realtek ALC5575 Codec - SPI"
-+	depends on SPI_MASTER
-+	select SND_SOC_RT5575
-+
- config SND_SOC_RT5616
- 	tristate "Realtek RT5616 CODEC"
- 	depends on I2C
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index d687d4f74363..a6406bc907a9 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -253,6 +253,8 @@ snd-soc-rt286-y := rt286.o
- snd-soc-rt298-y := rt298.o
- snd-soc-rt5514-y := rt5514.o
- snd-soc-rt5514-spi-y := rt5514-spi.o
-+snd-soc-rt5575-y := rt5575.o
-+snd-soc-rt5575-$(CONFIG_SND_SOC_RT5575_SPI) += rt5575-spi.o
- snd-soc-rt5616-y := rt5616.o
- snd-soc-rt5631-y := rt5631.o
- snd-soc-rt5640-y := rt5640.o
-@@ -686,6 +688,7 @@ obj-$(CONFIG_SND_SOC_RT298)	+= snd-soc-rt298.o
- obj-$(CONFIG_SND_SOC_RT5514)	+= snd-soc-rt5514.o
- obj-$(CONFIG_SND_SOC_RT5514_SPI)	+= snd-soc-rt5514-spi.o
- obj-$(CONFIG_SND_SOC_RT5514_SPI_BUILTIN)	+= snd-soc-rt5514-spi.o
-+obj-$(CONFIG_SND_SOC_RT5575)	+= snd-soc-rt5575.o
- obj-$(CONFIG_SND_SOC_RT5616)	+= snd-soc-rt5616.o
- obj-$(CONFIG_SND_SOC_RT5631)	+= snd-soc-rt5631.o
- obj-$(CONFIG_SND_SOC_RT5640)	+= snd-soc-rt5640.o
-diff --git a/sound/soc/codecs/rt5575-spi.c b/sound/soc/codecs/rt5575-spi.c
-new file mode 100644
-index 000000000000..39879ee52366
---- /dev/null
-+++ b/sound/soc/codecs/rt5575-spi.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * rt5575-spi.c  --  ALC5575 SPI driver
-+ *
-+ * Copyright(c) 2025 Realtek Semiconductor Corp.
-+ *
-+ */
-+
-+#include <linux/firmware.h>
-+#include <linux/spi/spi.h>
-+
-+#include "rt5575-spi.h"
-+
-+#define RT5575_SPI_CMD_BURST_WRITE	5
-+#define RT5575_SPI_BUF_LEN		240
-+
-+struct rt5575_spi_burst_write {
-+	u8 cmd;
-+	u32 addr;
-+	u8 data[RT5575_SPI_BUF_LEN];
-+	u8 dummy;
-+} __packed;
-+
-+static int rt5575_spi_device_match(struct device *dev, const void *data)
-+{
-+	struct spi_device *spi = container_of(dev, struct spi_device, dev);
-+
-+	if (!strcmp("rt5575", spi->modalias))
-+		return 1;
-+
-+	return 0;
-+}
-+
-+struct spi_device *rt5575_spi_find_device(void)
-+{
-+	struct device *dev;
-+
-+	dev = bus_find_device(&spi_bus_type, NULL, NULL, rt5575_spi_device_match);
-+	if (dev)
-+		return container_of(dev, struct spi_device, dev);
-+	else
-+		return NULL;
-+}
-+
-+/**
-+ * rt5575_spi_burst_write - Write data to SPI by rt5575 address.
-+ * @spi: SPI device.
-+ * @addr: Start address.
-+ * @txbuf: Data buffer for writing.
-+ * @len: Data length.
-+ *
-+ */
-+static int rt5575_spi_burst_write(struct spi_device *spi, u32 addr, const u8 *txbuf,
-+						size_t len)
-+{
-+	struct rt5575_spi_burst_write buf = {
-+		.cmd = RT5575_SPI_CMD_BURST_WRITE
-+	};
-+	unsigned int end, offset = 0;
-+
-+	while (offset < len) {
-+		if (offset + RT5575_SPI_BUF_LEN <= len)
-+			end = RT5575_SPI_BUF_LEN;
-+		else
-+			end = len % RT5575_SPI_BUF_LEN;
-+
-+		buf.addr = cpu_to_le32(addr + offset);
-+		memcpy(&buf.data, &txbuf[offset], end);
-+		spi_write(spi, &buf, sizeof(buf));
-+
-+		offset += RT5575_SPI_BUF_LEN;
-+	}
-+
-+	return 0;
-+}
-+
-+int rt5575_spi_fw_load(struct spi_device *spi)
-+{
-+	const struct firmware *firmware;
-+	struct device *dev = &spi->dev;
-+	static const char * const fw_path[] = {
-+		"realtek/rt5575/rt5575_fw1.bin",
-+		"realtek/rt5575/rt5575_fw2.bin",
-+		"realtek/rt5575/rt5575_fw3.bin",
-+		"realtek/rt5575/rt5575_fw4.bin"
-+	};
-+	static const u32 fw_addr[] = { 0x5f400000, 0x5f600000, 0x5f7fe000, 0x5f7ff000 };
-+	int i, ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(fw_addr); i++) {
-+		ret = request_firmware(&firmware, fw_path[i], dev);
-+		if (!ret) {
-+			rt5575_spi_burst_write(spi, fw_addr[i], firmware->data, firmware->size);
-+			release_firmware(firmware);
-+		} else {
-+			dev_err(dev, "Request firmware failure: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-diff --git a/sound/soc/codecs/rt5575-spi.h b/sound/soc/codecs/rt5575-spi.h
-new file mode 100644
-index 000000000000..08f793044865
---- /dev/null
-+++ b/sound/soc/codecs/rt5575-spi.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * rt5575-spi.h  --  ALC5575 SPI driver
-+ *
-+ * Copyright(c) 2025 Realtek Semiconductor Corp.
-+ *
-+ */
-+
-+#ifndef __RT5575_SPI_H__
-+#define __RT5575_SPI_H__
-+
-+#if IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)
-+struct spi_device *rt5575_spi_find_device(void);
-+int rt5575_spi_fw_load(struct spi_device *spi);
-+#else
-+static inline struct spi_device *rt5575_spi_find_device(void)
-+{
-+	return NULL;
-+}
-+static inline int rt5575_spi_fw_load(struct spi_device *spi)
-+{
-+	return -EINVAL;
-+}
-+#endif
-+
-+#endif /* __RT5575_SPI_H__ */
-diff --git a/sound/soc/codecs/rt5575.c b/sound/soc/codecs/rt5575.c
-new file mode 100644
-index 000000000000..64bb3296e0a0
---- /dev/null
-+++ b/sound/soc/codecs/rt5575.c
-@@ -0,0 +1,363 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * rt5575.c  --  ALC5575 ALSA SoC audio component driver
-+ *
-+ * Copyright(c) 2025 Realtek Semiconductor Corp.
-+ *
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/spi/spi.h>
-+#include <sound/soc.h>
-+#include <sound/tlv.h>
-+
-+#include "rt5575.h"
-+#include "rt5575-spi.h"
-+
-+static bool rt5575_readable_register(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case RT5575_ID:
-+	case RT5575_ID_1:
-+	case RT5575_MIXL_VOL:
-+	case RT5575_MIXR_VOL:
-+	case RT5575_PROMPT_VOL:
-+	case RT5575_SPK01_VOL:
-+	case RT5575_SPK23_VOL:
-+	case RT5575_MIC1_VOL:
-+	case RT5575_MIC2_VOL:
-+	case RT5575_WNC_CTRL:
-+	case RT5575_MODE_CTRL:
-+	case RT5575_I2S_RATE_CTRL:
-+	case RT5575_SLEEP_CTRL:
-+	case RT5575_ALG_BYPASS_CTRL:
-+	case RT5575_PINMUX_CTRL_2:
-+	case RT5575_GPIO_CTRL_1:
-+	case RT5575_DSP_BUS_CTRL:
-+	case RT5575_SW_INT:
-+	case RT5575_DSP_BOOT_ERR:
-+	case RT5575_DSP_READY:
-+	case RT5575_DSP_CMD_ADDR:
-+	case RT5575_EFUSE_DATA_2:
-+	case RT5575_EFUSE_DATA_3:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const DECLARE_TLV_DB_SCALE(ob_tlv, -9525, 75, 0);
-+
-+static const struct snd_kcontrol_new rt5575_snd_controls[] = {
-+	SOC_DOUBLE("Speaker CH-01 Playback Switch", RT5575_SPK01_VOL, 31, 15, 1, 1),
-+	SOC_DOUBLE_TLV("Speaker CH-01 Playback Volume", RT5575_SPK01_VOL, 17, 1, 167, 0, ob_tlv),
-+	SOC_DOUBLE("Speaker CH-23 Playback Switch", RT5575_SPK23_VOL, 31, 15, 1, 1),
-+	SOC_DOUBLE_TLV("Speaker CH-23 Playback Volume", RT5575_SPK23_VOL, 17, 1, 167, 0, ob_tlv),
-+	SOC_DOUBLE("Mic1 Capture Switch", RT5575_MIC1_VOL, 31, 15, 1, 1),
-+	SOC_DOUBLE_TLV("Mic1 Capture Volume", RT5575_MIC1_VOL, 17, 1, 167, 0, ob_tlv),
-+	SOC_DOUBLE("Mic2 Capture Switch", RT5575_MIC2_VOL, 31, 15, 1, 1),
-+	SOC_DOUBLE_TLV("Mic2 Capture Volume", RT5575_MIC2_VOL, 17, 1, 167, 0, ob_tlv),
-+	SOC_DOUBLE_R("Mix Playback Switch", RT5575_MIXL_VOL, RT5575_MIXR_VOL, 31, 1, 1),
-+	SOC_DOUBLE_R_TLV("Mix Playback Volume", RT5575_MIXL_VOL, RT5575_MIXR_VOL, 1, 127, 0,
-+		ob_tlv),
-+	SOC_DOUBLE("Prompt Playback Switch", RT5575_PROMPT_VOL, 31, 15, 1, 1),
-+	SOC_DOUBLE_TLV("Prompt Playback Volume", RT5575_PROMPT_VOL, 17, 1, 167, 0, ob_tlv),
-+};
-+
-+static const struct snd_soc_dapm_widget rt5575_dapm_widgets[] = {
-+	SND_SOC_DAPM_AIF_IN("AIF1RX", "AIF1 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("AIF1TX", "AIF1 Capture", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("AIF2RX", "AIF2 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("AIF2TX", "AIF2 Capture", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("AIF3RX", "AIF3 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("AIF3TX", "AIF3 Capture", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("AIF4RX", "AIF4 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("AIF4TX", "AIF4 Capture", 0, SND_SOC_NOPM, 0, 0),
-+
-+	SND_SOC_DAPM_INPUT("INPUT"),
-+	SND_SOC_DAPM_OUTPUT("OUTPUT"),
-+};
-+
-+static const struct snd_soc_dapm_route rt5575_dapm_routes[] = {
-+	{ "AIF1TX", NULL, "INPUT" },
-+	{ "AIF2TX", NULL, "INPUT" },
-+	{ "AIF3TX", NULL, "INPUT" },
-+	{ "AIF4TX", NULL, "INPUT" },
-+	{ "OUTPUT", NULL, "AIF1RX" },
-+	{ "OUTPUT", NULL, "AIF2RX" },
-+	{ "OUTPUT", NULL, "AIF3RX" },
-+	{ "OUTPUT", NULL, "AIF4RX" },
-+};
-+
-+static long long rt5575_get_priv_id(struct rt5575_priv *rt5575)
-+{
-+	int priv_id_low, priv_id_high;
-+
-+	regmap_write(rt5575->regmap, RT5575_EFUSE_PID, 0xa0000000);
-+	regmap_read(rt5575->regmap, RT5575_EFUSE_DATA_2, &priv_id_low);
-+	regmap_read(rt5575->regmap, RT5575_EFUSE_DATA_3, &priv_id_high);
-+	regmap_write(rt5575->regmap, RT5575_EFUSE_PID, 0);
-+
-+	return ((long long)priv_id_high << 32) | (long long)priv_id_low;
-+}
-+
-+static int rt5575_probe(struct snd_soc_component *component)
-+{
-+	struct rt5575_priv *rt5575 = snd_soc_component_get_drvdata(component);
-+	struct device *dev = component->dev;
-+
-+	rt5575->component = component;
-+
-+	dev_info(dev, "Private ID: %llx\n", rt5575_get_priv_id(rt5575));
-+
-+	return 0;
-+}
-+
-+#define RT5575_STEREO_RATES SNDRV_PCM_RATE_8000_192000
-+#define RT5575_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S20_3LE | \
-+			SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S8 | \
-+			SNDRV_PCM_FMTBIT_S32_LE)
-+
-+static struct snd_soc_dai_driver rt5575_dai[] = {
-+	{
-+		.name = "rt5575-aif1",
-+		.id = RT5575_AIF1,
-+		.playback = {
-+			.stream_name = "AIF1 Playback",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "AIF1 Capture",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+	},
-+	{
-+		.name = "rt5575-aif2",
-+		.id = RT5575_AIF2,
-+		.playback = {
-+			.stream_name = "AIF2 Playback",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "AIF2 Capture",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+	},
-+	{
-+		.name = "rt5575-aif3",
-+		.id = RT5575_AIF3,
-+		.playback = {
-+			.stream_name = "AIF3 Playback",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "AIF3 Capture",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+	},
-+	{
-+		.name = "rt5575-aif4",
-+		.id = RT5575_AIF4,
-+		.playback = {
-+			.stream_name = "AIF4 Playback",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "AIF4 Capture",
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rates = RT5575_STEREO_RATES,
-+			.formats = RT5575_FORMATS,
-+		},
-+	},
-+};
-+
-+static const struct snd_soc_component_driver rt5575_soc_component_dev = {
-+	.probe = rt5575_probe,
-+	.controls = rt5575_snd_controls,
-+	.num_controls = ARRAY_SIZE(rt5575_snd_controls),
-+	.dapm_widgets = rt5575_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(rt5575_dapm_widgets),
-+	.dapm_routes = rt5575_dapm_routes,
-+	.num_dapm_routes = ARRAY_SIZE(rt5575_dapm_routes),
-+	.use_pmdown_time = 1,
-+	.endianness = 1,
-+};
-+
-+static const struct regmap_config rt5575_dsp_regmap = {
-+	.name = "dsp",
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 2,
-+};
-+
-+static int rt5575_i2c_read(void *context, unsigned int reg, unsigned int *val)
-+{
-+	struct i2c_client *client = context;
-+	struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
-+
-+	regmap_read(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING, val);
-+
-+	return 0;
-+}
-+
-+static int rt5575_i2c_write(void *context, unsigned int reg, unsigned int val)
-+{
-+	struct i2c_client *client = context;
-+	struct rt5575_priv *rt5575 = i2c_get_clientdata(client);
-+
-+	regmap_write(rt5575->dsp_regmap, reg | RT5575_DSP_MAPPING, val);
-+
-+	return 0;
-+}
-+
-+static const struct regmap_config rt5575_regmap = {
-+	.reg_bits = 16,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.max_register = 0xfffc,
-+	.readable_reg = rt5575_readable_register,
-+	.reg_read = rt5575_i2c_read,
-+	.reg_write = rt5575_i2c_write,
-+	.use_single_read = true,
-+	.use_single_write = true,
-+};
-+
-+static int rt5575_fw_load_by_spi(struct rt5575_priv *rt5575)
-+{
-+	struct i2c_client *i2c = rt5575->i2c;
-+	struct spi_device *spi;
-+	struct device *dev = &i2c->dev;
-+	int ret;
-+
-+	spi = rt5575_spi_find_device();
-+	if (!spi) {
-+		dev_err(dev, "Get SPI device failure: %d\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	regmap_write(rt5575->dsp_regmap, 0xfafafafa, 0x00000004);
-+	regmap_write(rt5575->dsp_regmap, 0x18008064, 0x00000000);
-+	regmap_write(rt5575->dsp_regmap, 0x18008068, 0x0002ffff);
-+
-+	ret = rt5575_spi_fw_load(spi);
-+	if (ret) {
-+		dev_err(dev, "Load firmware failure: %d\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	regmap_write(rt5575->dsp_regmap, 0x18000000, 0x00000000);
-+	regmap_update_bits(rt5575->regmap, RT5575_SW_INT, 1, 1);
-+
-+	regmap_read_poll_timeout(rt5575->regmap, RT5575_SW_INT, ret, !ret, 100000, 10000000);
-+	if (ret) {
-+		dev_err(dev, "Run firmware failure: %d\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rt5575_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct rt5575_priv *rt5575;
-+	struct device *dev = &i2c->dev;
-+	int dev_type = (uintptr_t)i2c_get_match_data(i2c);
-+	int ret, val;
-+
-+	rt5575 = devm_kzalloc(dev, sizeof(struct rt5575_priv), GFP_KERNEL);
-+	if (!rt5575)
-+		return -ENOMEM;
-+
-+	i2c_set_clientdata(i2c, rt5575);
-+
-+	rt5575->i2c = i2c;
-+
-+	rt5575->dsp_regmap = devm_regmap_init_i2c(i2c, &rt5575_dsp_regmap);
-+	if (IS_ERR(rt5575->dsp_regmap)) {
-+		ret = PTR_ERR(rt5575->dsp_regmap);
-+		dev_err(dev, "Failed to allocate DSP register map: %d\n", ret);
-+		return ret;
-+	}
-+
-+	rt5575->regmap = devm_regmap_init(dev, NULL, i2c, &rt5575_regmap);
-+	if (IS_ERR(rt5575->regmap)) {
-+		ret = PTR_ERR(rt5575->regmap);
-+		dev_err(dev, "Failed to allocate register map: %d\n", ret);
-+		return ret;
-+	}
-+
-+	regmap_read(rt5575->regmap, RT5575_ID, &val);
-+	if (val != RT5575_DEVICE_ID) {
-+		dev_err(dev, "Device with ID register %08x is not rt5575\n", val);
-+		return -ENODEV;
-+	}
-+
-+	regmap_read(rt5575->regmap, RT5575_ID_1, &val);
-+	if (!val) {
-+		dev_err(dev, "This is not formal version\n");
-+		return -ENODEV;
-+	}
-+
-+	if (dev_type == RT5575_WITHOUT_FLASH) {
-+		if (IS_ENABLED(CONFIG_SND_SOC_RT5575_SPI)) {
-+			if (rt5575_fw_load_by_spi(rt5575))
-+				return -ENODEV;
-+		} else {
-+			dev_err(dev, "This dev type should enable CONFIG_SND_SOC_RT5575_SPI\n");
-+			return -ENODEV;
-+		}
-+	}
-+
-+	return devm_snd_soc_register_component(dev, &rt5575_soc_component_dev, rt5575_dai,
-+						ARRAY_SIZE(rt5575_dai));
-+}
-+
-+static const struct i2c_device_id rt5575_i2c_id[] = {
-+	{ "rt5575" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, rt5575_i2c_id);
-+
-+static const struct of_device_id rt5575_of_match[] = {
-+	{ .compatible = "realtek,rt5575", .data = (void *)RT5575_WITH_FLASH },
-+	{ .compatible = "realtek,rt5575-use-spi", .data = (void *)RT5575_WITHOUT_FLASH },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, rt5575_of_match);
-+
-+static struct i2c_driver rt5575_i2c_driver = {
-+	.driver = {
-+		.name = "rt5575",
-+		.owner = THIS_MODULE,
-+		.of_match_table = rt5575_of_match,
-+	},
-+	.probe = rt5575_i2c_probe,
-+	.id_table = rt5575_i2c_id,
-+};
-+module_i2c_driver(rt5575_i2c_driver);
-+
-+MODULE_DESCRIPTION("ASoC ALC5575 driver");
-+MODULE_AUTHOR("Oder Chiou <oder_chiou@realtek.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/sound/soc/codecs/rt5575.h b/sound/soc/codecs/rt5575.h
-new file mode 100644
-index 000000000000..6e19050f0b09
---- /dev/null
-+++ b/sound/soc/codecs/rt5575.h
-@@ -0,0 +1,59 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * rt5575.h  --  ALC5575 ALSA SoC audio driver
-+ *
-+ * Copyright(c) 2025 Realtek Semiconductor Corp.
-+ *
-+ */
-+
-+#ifndef __RT5575_H__
-+#define __RT5575_H__
-+
-+#define RT5575_DEVICE_ID	0x10ec5575
-+#define RT5575_DSP_MAPPING	0x18000000
-+
-+#define RT5575_ID		0x8008
-+#define RT5575_ID_1		0x800c
-+#define RT5575_MIXL_VOL		0x8a14
-+#define RT5575_MIXR_VOL		0x8a18
-+#define RT5575_PROMPT_VOL	0x8a84
-+#define RT5575_SPK01_VOL	0x8a88
-+#define RT5575_SPK23_VOL	0x8a8c
-+#define RT5575_MIC1_VOL		0x8a98
-+#define RT5575_MIC2_VOL		0x8a9c
-+#define RT5575_WNC_CTRL		0x80ec
-+#define RT5575_MODE_CTRL	0x80f0
-+#define RT5575_I2S_RATE_CTRL	0x80f4
-+#define RT5575_SLEEP_CTRL	0x80f8
-+#define RT5575_ALG_BYPASS_CTRL	0x80fc
-+#define RT5575_PINMUX_CTRL_2	0x81a4
-+#define RT5575_GPIO_CTRL_1	0x8208
-+#define RT5575_DSP_BUS_CTRL	0x880c
-+#define RT5575_SW_INT		0x0018
-+#define RT5575_DSP_BOOT_ERR	0x8e14
-+#define RT5575_DSP_READY	0x8e24
-+#define RT5575_DSP_CMD_ADDR	0x8e28
-+#define RT5575_EFUSE_DATA_2	0xc638
-+#define RT5575_EFUSE_DATA_3	0xc63c
-+#define RT5575_EFUSE_PID	0xc660
-+
-+enum {
-+	RT5575_AIF1,
-+	RT5575_AIF2,
-+	RT5575_AIF3,
-+	RT5575_AIF4,
-+	RT5575_AIFS,
-+};
-+
-+enum {
-+	RT5575_WITH_FLASH,
-+	RT5575_WITHOUT_FLASH,
-+};
-+
-+struct rt5575_priv {
-+	struct i2c_client *i2c;
-+	struct snd_soc_component *component;
-+	struct regmap *dsp_regmap, *regmap;
-+};
-+
-+#endif /* __RT5575_H__ */
--- 
-2.52.0
+> > 1) Do we really want to support downloading firmware on runtime
+> >    suspend? I am doubtful it is really usable due to latency.
+> 
+> I feel there is no way around. We cant do this async
 
+Obviously agree, if we need to download firmware we have to,
+but I think you misunderstand my point. Currently, we don't
+have anything that requires this, so why not add support when
+we do? I think there is a reasonable chance no one will use the
+feature and even if I did add support now, it won't be tested.
+Furthermore, there is nothing in the current code that prevents
+adding support for this in the future.
+
+> Best is to speed up loading by having firmware cached in the kernel so
+> userspace delays can be avoided (unless ofcourse it is humongous size)
+> If device needs firmware, we have to download, dont see a choice here
+
+Caching the firmware makes very minimal difference (on my system
+pull firmware from user-space takes less than 1% of the time),
+the majority of the time is a) spend pumping data through the bus,
+b) waiting to ensure are no new FDL IRQs.
+
+> > 2) If we do, do you have any ideas about how to determine if the
+> >    device needs firmware?
+> 
+> Driver should know and first thing in resume, download the firmware,
+> maybe a flag in device properties?
+
+Yeah I think that would be about my best guess at how we would
+could reduce the impact of this change. We could add a quirk to
+say skip runtime download for this device/system. That would mean
+new hardware would work albeit a bit sluggishly and established
+systems/devices could quirk for a reasonable user-experience. But
+I can't say I love that as a solution.
+
+Thanks,
+Charles
