@@ -1,146 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CB119C546;
-	Thu, 11 Dec 2025 15:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA9B1D7E42
+	for <linux-sound@vger.kernel.org>; Thu, 11 Dec 2025 17:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765467518; cv=none; b=QY8fN3J/+JyHVxJMuHjFfuqZTLtkLivaAgRun11hc6qhJ5eLdEPScKVSSepuc4r51TF/TsJ53Mzke5g+lKlLX9Ru/qAgy1W3wiISAjoKs017O8eaRnVsG8RFQjke7CWccSUYDVRRrqzg2Ks+G/LZKZ39XcL5cGTnfXHu4RPb7P4=
+	t=1765472830; cv=none; b=STtjjHdbnZVrH6LpeY0SJ2H7hlDo8J5twlt38uFwevjjopBwgSgo5bQHALUvsj7cQMSIzABTfMNqoCsWxsPZaJQukS0PfGoFi3ekMJmaWgYVqNXb14yY6Az+OdZv2N7YkS89JwdTFKUpyOYMLySCpnlHXZBRO2EQRzCCfOLxUPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765467518; c=relaxed/simple;
-	bh=MJ1gyPr6loaROZIhwYVOWWE3NQ2VnakiFje9rVBA03A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=th58iYEKA4lY+wztNfSoyyYNZMG0F07qmbg6KYyEp8u2yINT5s7j9kHs2C0KDV9Ij+OKmbABg33KOfL/Ng7pByrK+rh8jai/QkPlEArLfNrkgk5a57HeKJ4tIqzzbZOPtuz04G/SnggEPN6EFksOxL8QT8PaxZOXeFYA/Khe5oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYmsbdks; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765472830; c=relaxed/simple;
+	bh=WWbq98uNJC8y7XIaAnMfpIdeRyxcr23avyHwi5wfJ60=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=sYmjl1VBeVH4wgVVLlA2zqVYmyzyQCAdKzoEh/oD14UtdxmS1jVShP6N+HI4UaMe1lDT+ahJH8BJ3R6h6arp9rBvo81gw817rhhBdRU2MuhTLrI/Jj4wBqsZSF8TrvzFFjwV49XO13YKWdPSD+rybEwG+w5SC32OqTwY8DqGyz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cARUUODk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=42BlJf3i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cARUUODk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=42BlJf3i; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYmsbdks"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7135FC4CEF7;
-	Thu, 11 Dec 2025 15:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765467517;
-	bh=MJ1gyPr6loaROZIhwYVOWWE3NQ2VnakiFje9rVBA03A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iYmsbdksd51pbb6IQ5HDxAIc00S35FJfwV8+PYbKjb3iBFHNPjIYoDxgNeeuqZWnG
-	 xmc5H/BpzfZLNf1BNrVf7DdYDzkfHAH0RsF+6gFzS017zmuj7wTAcTlfrlmx4IFPAS
-	 MulEDVczs4nwE9MxPpdye46j0CI468/+L0ABzIBYWZpHA/1vjl7SXOnPmDBQo9eixs
-	 +28mf7NwhritHgY6wPYy3/ags07NcAR9/d9Gva42e1ZJHO+nbN3RDtUfWZ0Wnw65xO
-	 eRYn/+vPepXOnS8k0pQ2pdi0sjyT2XoAjQAWecvZhSWuPCyrSWZJgB5CA8GcAJuVOx
-	 fX5Gg+6YoKpvg==
-Date: Thu, 11 Dec 2025 09:38:35 -0600
-From: Rob Herring <robh@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>
-Cc: cezary.rojewski@intel.com, broonie@kernel.org, lgirdwood@gmail.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	alsa-devel@alsa-project.org, flove@realtek.com,
-	shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-Subject: Re: [PATCH v9 1/2] ASoC: dt-bindings: realtek,rt5575: add support
- for ALC5575
-Message-ID: <20251211153835.GA1251928-robh@kernel.org>
-References: <20251211110130.2925541-1-oder_chiou@realtek.com>
- <20251211110130.2925541-2-oder_chiou@realtek.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cARUUODk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="42BlJf3i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cARUUODk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="42BlJf3i"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5DD0F5BE11;
+	Thu, 11 Dec 2025 17:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765472821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=dcqYQxFry4YMD4O33qi8RCQXRI+W8JX+xOCKsTI0HMM=;
+	b=cARUUODkJjcYY7/Pt1h8JSgsGzx5fMwEbFHiWlsg/umCeVcnhrn5R27yo+3OgG9PskH42k
+	p3BKF4yiPN85ANmKhCfNrBn7dtWuwOsZXJMxBAMwSEQGJdWAas5zSKmb0u2ZMUjAw2iPLC
+	99TQg0I1QT+7sb5td+rU/iap41gFNUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765472821;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=dcqYQxFry4YMD4O33qi8RCQXRI+W8JX+xOCKsTI0HMM=;
+	b=42BlJf3ia+Le86h4wwDI0a/vJd+fIfLF88g5YMytfCWvhly/CfWEGgMmuFoaOTLrlTSgdj
+	IKBugH8zkxf8OdBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765472821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=dcqYQxFry4YMD4O33qi8RCQXRI+W8JX+xOCKsTI0HMM=;
+	b=cARUUODkJjcYY7/Pt1h8JSgsGzx5fMwEbFHiWlsg/umCeVcnhrn5R27yo+3OgG9PskH42k
+	p3BKF4yiPN85ANmKhCfNrBn7dtWuwOsZXJMxBAMwSEQGJdWAas5zSKmb0u2ZMUjAw2iPLC
+	99TQg0I1QT+7sb5td+rU/iap41gFNUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765472821;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=dcqYQxFry4YMD4O33qi8RCQXRI+W8JX+xOCKsTI0HMM=;
+	b=42BlJf3ia+Le86h4wwDI0a/vJd+fIfLF88g5YMytfCWvhly/CfWEGgMmuFoaOTLrlTSgdj
+	IKBugH8zkxf8OdBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D5023EA63;
+	Thu, 11 Dec 2025 17:07:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I8zSBTX6OmmxUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 11 Dec 2025 17:07:01 +0000
+Date: Thu, 11 Dec 2025 18:07:00 +0100
+Message-ID: <87zf7p9ccr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.19-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251211110130.2925541-2-oder_chiou@realtek.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.984];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 
-On Thu, Dec 11, 2025 at 07:01:29PM +0800, Oder Chiou wrote:
-> Audio codec with I2S, I2C and SPI.
-> 
-> Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
-> ---
->  .../bindings/sound/realtek,rt5575.yaml        | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
-> new file mode 100644
-> index 000000000000..60f9af399dd2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/realtek,rt5575.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ALC5575 audio CODEC
-> +
-> +maintainers:
-> +  - Oder Chiou <oder_chiou@realtek.com>
-> +
-> +description:
-> +  The device supports both I2C and SPI. I2C is mandatory, while SPI is
-> +  optional depending on the hardware configuration.
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - realtek,rt5575
-> +      - realtek,rt5575-use-spi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        codec@57 {
-> +            compatible = "realtek,rt5575";
-> +            reg = <0x57>;
-> +        };
-> +    };
+Linus,
 
-It is completely unclear what you are doing in the SPI case. I 
-deciphered it studying the driver. I shouldn't have to do that, your 
-binding should make that clear. 
+please pull sound fixes for v6.19-rc1 from:
 
-So your DT must look like this:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.19-rc1
 
-i2c {
-	codec@57 {
-		compatible = "realtek,rt5575-use-spi";
-		reg = <0x57>;
-	};
-};
+The topmost commit is fd324768eb2c132bb111ba76675b4c72406251d9
 
-spi {
-	codec@1 {
-		compatible = "realtek,rt5575";
-		reg = <0x1>;
-	};
-};
+----------------------------------------------------------------
 
-First, there's no need for "-use-spi" because you can just check if 
-there is a rt5575 SPI device and use it if there is. Why would you have 
-the SPI device and not use it?
+sound fixes for 6.19-rc1
 
-But really it is not ideal having 2 device nodes for a single device. It 
-would be much simpler to just have something like this in the i2c node:
+The rest for 6.19 merge window.  The only slightly large change is
+the enablement of CIX HD-audio controller, which took a bit time to
+be cooked up, while most of other changes are device-specific small
+trivial fixes.
 
-spi-parent = <&spi0 1>;
+- Default disablement of the kconfig for decades old pre-release
+  alsa-lib PCM API; it's only the default config value change, so
+  it can't lead to any regressions for the existing setups
+- Support for CIX HD-audio controller
+- A few ASoC ACP fixes
+- Fixes for ASoC cirrus, bcm, wcd, qcom, ak platforms
+- Trivial hardening for FireWire and USB-audio
+- HD-audio Intel binding fix and quirks
 
-Where the cell is the chip-select #.
+----------------------------------------------------------------
 
-We have an 'i2c-parent' already for similar reasons when there are 2 
-bus connections.
+Andres J Rosa (1):
+      ALSA: uapi: Fix typo in asound.h comment
 
-Rob
+Baojun Xu (1):
+      ALSA: hda/tas2781: Add new quirk for HP new project
+
+David Heidelberg (1):
+      ALSA: Do not build obsolete API
+
+Denis Arefev (1):
+      ALSA: hda: cs35l41: Fix NULL pointer dereference in cs35l41_hda_read_acpi()
+
+Eric Biggers (1):
+      ASoC: cros_ec_codec: Remove unnecessary selection of CRYPTO
+
+Eric Naim (1):
+      ASoC: cs35l41: Always return 0 when a subsystem ID is found
+
+Haotian Zhang (1):
+      ASoC: bcm: bcm63xx-pcm-whistler: Check return value of of_dma_configure()
+
+HariKrishna Sagala (1):
+      ALSA: usb-audio: Initialize status1 to fix uninitialized symbol errors
+
+Hemalatha Pinnamreddy (2):
+      ASoC: amd: acp: Audio is not resuming after s0ix
+      ASoC: amd: acp: update tdm channels for specific DAI
+
+Joakim Zhang (3):
+      ALSA: hda: dt-bindings: add CIX IPBLOQ HDA controller support
+      ALSA: hda/core: add addr_offset field for bus address translation
+      ALSA: hda: add CIX IPBLOQ HDA controller support
+
+Johan Hovold (4):
+      ASoC: codecs: wcd937x: fix OF node leaks on probe failure
+      ASoC: codecs: wcd938x: fix OF node leaks on probe failure
+      ASoC: codecs: wcd939x: fix OF node leaks on probe failure
+      ASoc: qcom: q6afe: fix bad guard conversion
+
+Junrui Luo (2):
+      ALSA: firewire-motu: fix buffer overflow in hwdep read for DSP events
+      ALSA: firewire-motu: add bounds check in put_user loop for DSP events
+
+Krzysztof Kozlowski (2):
+      ASoC: codecs: nau8325: Silence uninitialized variables warnings
+      ASoC: rockchip: Fix Wvoid-pointer-to-enum-cast warning (again)
+
+Nathan Chancellor (1):
+      ALSA: hda: cix-ipbloq: Use modern PM ops
+
+Richard Fitzgerald (2):
+      ASoC: cs-amp-lib: Revert use of __free(kfree) back to normal C cleanup
+      ASoC: cs35l56: Fix incorrect select SND_SOC_CS35L56_CAL_SYSFS_COMMON
+
+Shengjiu Wang (3):
+      ASoC: dt-bindings: cirrus,cs42xx8: Reference common DAI properties
+      ASoC: ak4458: Disable regulator when error happens
+      ASoC: ak5558: Disable regulator when error happens
+
+Stefan Binding (2):
+      ALSA: hda/realtek: Add support for HP Turbine Laptops
+      ALSA: hda/realtek: Add support for ASUS UM3406GA
+
+Takashi Iwai (1):
+      ALSA: hda: intel-dsp-config: Prefer legacy driver as fallback
+
+---
+ .../devicetree/bindings/sound/cirrus,cs42xx8.yaml  |   5 +-
+ .../bindings/sound/cix,sky1-ipbloq-hda.yaml        |  62 +++
+ arch/arm/configs/am200epdkit_defconfig             |   1 -
+ arch/arm/configs/lpc32xx_defconfig                 |   1 -
+ arch/arm/configs/omap1_defconfig                   |   1 -
+ arch/arm/configs/tegra_defconfig                   |   1 -
+ arch/mips/configs/gcw0_defconfig                   |   1 -
+ arch/mips/configs/loongson1_defconfig              |   1 -
+ arch/mips/configs/qi_lb60_defconfig                |   1 -
+ arch/mips/configs/rbtx49xx_defconfig               |   1 -
+ arch/mips/configs/rs90_defconfig                   |   1 -
+ arch/powerpc/configs/85xx-hw.config                |   1 -
+ arch/powerpc/configs/86xx-hw.config                |   1 -
+ arch/powerpc/configs/mpc5200_defconfig             |   1 -
+ arch/powerpc/configs/ppc6xx_defconfig              |   1 -
+ arch/sh/configs/edosk7760_defconfig                |   1 -
+ arch/sh/configs/se7724_defconfig                   |   1 -
+ arch/sh/configs/sh7785lcr_32bit_defconfig          |   1 -
+ include/sound/hdaudio.h                            |   3 +
+ include/uapi/sound/asound.h                        |   2 +-
+ sound/core/Kconfig                                 |   2 +-
+ sound/firewire/motu/motu-hwdep.c                   |   7 +-
+ sound/hda/codecs/realtek/alc269.c                  |   4 +
+ sound/hda/codecs/side-codecs/cs35l41_hda.c         |   2 +
+ sound/hda/controllers/Kconfig                      |  14 +
+ sound/hda/controllers/Makefile                     |   2 +
+ sound/hda/controllers/cix-ipbloq.c                 | 436 +++++++++++++++++++++
+ sound/hda/core/bus.c                               |   1 +
+ sound/hda/core/controller.c                        |  12 +-
+ sound/hda/core/intel-dsp-config.c                  |   3 +-
+ sound/hda/core/stream.c                            |  10 +-
+ sound/soc/amd/acp/acp-i2s.c                        |   2 +
+ sound/soc/amd/acp/acp-legacy-common.c              |  30 +-
+ sound/soc/bcm/bcm63xx-pcm-whistler.c               |   4 +-
+ sound/soc/codecs/Kconfig                           |   3 +-
+ sound/soc/codecs/ak4458.c                          |  10 +-
+ sound/soc/codecs/ak5558.c                          |  10 +-
+ sound/soc/codecs/cs-amp-lib.c                      |  29 +-
+ sound/soc/codecs/cs35l41.c                         |   7 +-
+ sound/soc/codecs/nau8325.c                         |   4 +-
+ sound/soc/codecs/wcd937x.c                         |   4 +-
+ sound/soc/codecs/wcd938x.c                         |   3 +-
+ sound/soc/codecs/wcd939x.c                         |   3 +-
+ sound/soc/qcom/qdsp6/q6afe.c                       |   4 +-
+ sound/soc/rockchip/rockchip_pdm.c                  |   2 +-
+ sound/usb/mixer_quirks.c                           |   1 +
+ 46 files changed, 626 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml
+ create mode 100644 sound/hda/controllers/cix-ipbloq.c
+
