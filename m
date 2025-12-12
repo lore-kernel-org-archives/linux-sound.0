@@ -1,157 +1,421 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF54221DB1;
-	Fri, 12 Dec 2025 08:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BD83B2A0
+	for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 09:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765529992; cv=none; b=UU9Ej9CBC/YXfvX5H63ELXmlFdh6OB+S7wuYHNP/tqpEAMhjf+E6FjpWAKgz3+zRpAC3WEqlP5GGp+ZIluWAR1xl4EwJHdFHpXSm32OMQgWi24qzIOaDhpPGxMBRwVWXcrEpshgENqLz4cdFxeFWwDbS3P4QVC8cQViiLmZ7+8w=
+	t=1765531937; cv=none; b=CU9naqHKIV1RKHLCV9fPrxdHGvTCrPEvrLKOcnsaxfC7YWQjET+99ojJ7c4jqizry0WI4AX9eU6kKtPVhUncaeVoXgu7AC0/fVMaJdBGIqgmfmSZtEihvAKfMmJh9mqwsW2lBQgt1+kiqAeCBTQ2WKcBHBgPH2706SiWKgpvz5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765529992; c=relaxed/simple;
-	bh=J7+MHP9JHv0O6N4thchA53z0h4Lo6YTW9NlwTADzJ9c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FYrkO9y8z14trucbya5E5VwCLIC4KAtkEAGV0owWdj26l3bGjGHUo4nQHI07ZE5G901HVZrIyXFKz6jCNBFaPLw1oYQHgQwjQzr/Go+2TpyUEE5nufJEaIOhThKPeuT0y41Fo8SdMWS+UyAJitDOR0Szjrv2Zay/M7Ruj8f9xAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=fail (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=kyaO2tZO reason="signature verification failed"; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1765531937; c=relaxed/simple;
+	bh=F2kGpPjTjl+ds78GJkb6r8krPQKstADgSoF/b8xKuzQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g7/1FVj/7UpXPiKfC4zV1Yj9tvYkr2NCOGFmvRLTSYSQE/y489dmMAoG2fjOyjFc3yfoVeVUeVTR5dES6hL6tR2D7xtJeWhoYGeNnVmFa9j3xmSC8l1+m4AlficQ6NtWOL1c+gwFc/Taw4JmrhYXW13w2hxUd3+4v2ng6KrLMGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfW2z6uC; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="kyaO2tZO"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BC8xAunD3978353, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1765529950; bh=J7+MHP9JHv0O6N4thchA53z0h4Lo6YTW9NlwTADzJ9c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=kyaO2tZOhlb26XWKzWjyl2tvLqtJ6Qe+Z7cBgs6a27SGEVj00ag6GTmERPmaDkmS/
-	 I4+HZHjyBdWOma6uiN93aPccdQEe/XecjXxCk73dj96SKOqhd4BAJx5gvK8K1v/i+F
-	 CD+zfMZWUBqL5cUBftgRlU7/WHAJdtnS7Y8qB1STzphuNYYUBwHNQiIWG9qLCHa/XI
-	 VeUCdr84y9Os6k+LCkNEhMOGjt7SkXo1v3X+/kfZ67qO8/E++QRHKt9ifVXwG3ppAk
-	 XIZ7SqcA/2FS7GwjHLYln/XIpLB74g1mFa7MXRGFXMFkP339e/lI77pCfvy7lQ4QL1
-	 i5eSu2zSnwfBg==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BC8xAunD3978353
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 12 Dec 2025 16:59:10 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Fri, 12 Dec 2025 16:59:10 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::2fa5:eccb:34ee:7bb%10]) with mapi id
- 15.02.1544.027; Fri, 12 Dec 2025 16:59:10 +0800
-From: Oder Chiou <oder_chiou@realtek.com>
-To: "'Rob Herring'" <robh@kernel.org>
-CC: "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        "Flove(HsinFu)" <flove@realtek.com>,
-        =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>,
-        Jack Yu
-	<jack.yu@realtek.com>,
-        =?big5?B?RGVyZWsgW6TovHe4cV0=?=
-	<derek.fang@realtek.com>
-Subject: RE: [PATCH v9 1/2] ASoC: dt-bindings: realtek,rt5575: add support for
- ALC5575
-Thread-Topic: [PATCH v9 1/2] ASoC: dt-bindings: realtek,rt5575: add support
- for ALC5575
-Thread-Index: AQHcao1RKCDC/uF5H0eyR5PDy/RBT7UcDTWAgAGESCA=
-Date: Fri, 12 Dec 2025 08:59:10 +0000
-Message-ID: <6c85fd92dc244789a5259ff4b11ec2e0@realtek.com>
-References: <20251211110130.2925541-1-oder_chiou@realtek.com>
- <20251211110130.2925541-2-oder_chiou@realtek.com>
- <20251211153835.GA1251928-robh@kernel.org>
-In-Reply-To: <20251211153835.GA1251928-robh@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfW2z6uC"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-29586626fbeso13413955ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 01:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765531935; x=1766136735; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+y7eN0J2T6Ss4EZrn0oVR9n8YFCSQO6NxtkJ2iN8TDE=;
+        b=gfW2z6uCU6AUv1LEHbfN9vF+HgU6NA4mBU+83dgTJS1zVH1SvkMV1K5nVKIz83BBlJ
+         Zt8v/erz5R0x7sL1M7jVYPI0B7hKSywcc8cKE7cOsOhQ0bUUuW99ecGe7tL5egr9wIjz
+         oBmcOpFvdoqE9AWK7faYtwNvP0xYul6BLGL+QNhnggRGXykoVBRB1TkAFDMKRGZNuh2R
+         VnIhMPUmFwF9W6olvVtenox8y2t8AjOaLbjjNqh6n1rSdo7TgcC5WGiV6Nk9SbbKLHh/
+         lmYfLb0DITyLd1rIiiqV2bAVtYkr7U92B+yBV2onOTg9OvD75jMzR1Bk43Fn9NKpVWJ1
+         zwrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765531935; x=1766136735;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+y7eN0J2T6Ss4EZrn0oVR9n8YFCSQO6NxtkJ2iN8TDE=;
+        b=RHnTKsJaJr++0ztryDc2CqB0uJFtRxtlKrtGyavw36iRT8p9ymBN4tEJ2SZQDbm7+d
+         jn0fkzRZcwmDzBRBaTg181b38+gx33HJn1lYjxU5ipH0BsFhPxptNYdxLCv7gp952pS7
+         V4f1z0vx9FdaxFV741vamVsyyOdDQiofUjUAyeXFQf2DFZM0sWZR4zBvTSSozVDGtYj4
+         Rzvu6zxliJ2ImKCZYmZVKmfRmqJ61jYPZay9VohK3VtKqAoVFaw81DcXeYaiiS1YoXkb
+         rtPrEk13FQwID3ZNksc6Zsj9h6z7twGBT66fA0v+XAAsEXeIQzSkdmpSY28e6PQIdkrq
+         Sx/g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1XNAccKyn+5otIzPSDFBeSt4Ma6m0V4v8eIWKjlb1l8a7p6HiQuv7VApDiB+czs8/1wSKliUFnaosug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrsJS+pZWt4qt1PpJoyQ3eW8deKPOfcfhrJjRBJddvY3lgl46r
+	AYDdKJWAI250eG15UDZUwuJUhFuMhxSNCrreEVF2Uk5MUaj0yCyeE757
+X-Gm-Gg: AY/fxX4+I8c3U8F0C6yjF9x9OQh1f4F0BuB1e1VNOWOPmaqZw8fmb96EHDiV3k3+ZGr
+	em/5NheToOc8ZVdKQ8RLWe8W0Xs2Qj9vDy4Xe6indToHEqH4K94Ceso+rWTC3h+vfuRpI6gMoKM
+	6e2CGhoYBLs6HgnWdktdG0/iscEj6rcQMNXhzMGrFDaYjnYgyDMzzrBYPtl3tTqIONHqPmdDlP+
+	JWi3jzJBVo2incKPhyyDRbnbG2cZjM82jHetAKO0o3hLXMS+x+6L3c7sQmeYTbeG05cgbB7GdI1
+	FAqK77EhzKts7sRJIqqh/YMGD5OXpre2gYt1/YYHBj/Y1ZxExoYZVeaM7UYyu9x8RSvlJR5nuCD
+	x+eoqf//HD0rXp3QBo9SzyzHHrLcWpF2WPPPDMOpGhy5qrBarBGkvYBZxyhEpFUuLX+/GG8nZTA
+	iwpTkQ8BNsE/MA/EfDg7LfjxIqOeO6YqK4n//LOuJWbd2vHxYzkpyHLUo96CiMFmoGdMne
+X-Google-Smtp-Source: AGHT+IGmoUl2cbjyJ1EHEQ8fp3WXPHUAFBFxlC363yt/8hhcWrsMfhX4CysA3uiX3kjo3crHvXU0Tg==
+X-Received: by 2002:a17:903:238b:b0:295:5b68:9967 with SMTP id d9443c01a7336-29f24484ec0mr17010205ad.49.1765531935054;
+        Fri, 12 Dec 2025 01:32:15 -0800 (PST)
+Received: from smtp.gmail.com (220-128-132-142.hinet-ip.hinet.net. [220.128.132.142])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29f13d6a887sm20358355ad.91.2025.12.12.01.32.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 01:32:13 -0800 (PST)
+From: Leo Tsai <antivirus621@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	rf@opensource.cirrus.com
+Cc: leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Leo Tsai <antivirus621@gmail.com>
+Subject: [PATCH] ALSA: hda/cm9825: Add new project GENE_TWL7 for AAEON
+Date: Fri, 12 Dec 2025 17:31:57 +0800
+Message-ID: <20251212093157.5618-1-antivirus621@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2IgSGVycmluZyA8cm9iaEBr
-ZXJuZWwub3JnPg0KPiBTZW50OiBUaHVyc2RheSwgRGVjZW1iZXIgMTEsIDIwMjUgMTE6MzkgUE0N
-Cj4gVG86IE9kZXIgQ2hpb3UgPG9kZXJfY2hpb3VAcmVhbHRlay5jb20+DQo+IENjOiBjZXphcnku
-cm9qZXdza2lAaW50ZWwuY29tOyBicm9vbmllQGtlcm5lbC5vcmc7IGxnaXJkd29vZEBnbWFpbC5j
-b207DQo+IGtyemsrZHRAa2VybmVsLm9yZzsgY29ub3IrZHRAa2VybmVsLm9yZzsgcGVyZXhAcGVy
-ZXguY3o7DQo+IGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtl
-cm5lbC5vcmc7DQo+IGFsc2EtZGV2ZWxAYWxzYS1wcm9qZWN0Lm9yZzsgRmxvdmUoSHNpbkZ1KSA8
-ZmxvdmVAcmVhbHRlay5jb20+OyBTaHVtaW5nIFutUw0KPiCu0bvKXSA8c2h1bWluZ2ZAcmVhbHRl
-ay5jb20+OyBKYWNrIFl1IDxqYWNrLnl1QHJlYWx0ZWsuY29tPjsgRGVyZWsgW6TovHcNCj4guHFd
-IDxkZXJlay5mYW5nQHJlYWx0ZWsuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY5IDEvMl0g
-QVNvQzogZHQtYmluZGluZ3M6IHJlYWx0ZWsscnQ1NTc1OiBhZGQgc3VwcG9ydCBmb3INCj4gQUxD
-NTU3NQ0KPiANCj4gDQo+IEV4dGVybmFsIG1haWwgOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJv
-bSBvdXRzaWRlIHRoZSBvcmdhbml6YXRpb24uIERvIG5vdA0KPiByZXBseSwgY2xpY2sgbGlua3Ms
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNlbmRlciBhbmQN
-Cj4ga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KPiANCj4gDQo+IA0KPiBPbiBUaHUsIERlYyAx
-MSwgMjAyNSBhdCAwNzowMToyOVBNICswODAwLCBPZGVyIENoaW91IHdyb3RlOg0KPiA+IEF1ZGlv
-IGNvZGVjIHdpdGggSTJTLCBJMkMgYW5kIFNQSS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE9k
-ZXIgQ2hpb3UgPG9kZXJfY2hpb3VAcmVhbHRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5k
-aW5ncy9zb3VuZC9yZWFsdGVrLHJ0NTU3NS55YW1sICAgICAgICB8IDQ0DQo+ICsrKysrKysrKysr
-KysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKykNCj4gPiAgY3Jl
-YXRlIG1vZGUgMTAwNjQ0DQo+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9zb3Vu
-ZC9yZWFsdGVrLHJ0NTU3NS55YW1sDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NvdW5kL3JlYWx0ZWsscnQ1NTc1LnlhbWwNCj4gYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc291bmQvcmVhbHRlayxydDU1NzUueWFtbA0K
-PiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi42MGY5YWYz
-OTlkZDINCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL3NvdW5kL3JlYWx0ZWsscnQ1NTc1LnlhbWwNCj4gPiBAQCAtMCwwICsxLDQ0
-IEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seSBPUiBCU0Qt
-Mi1DbGF1c2UNCj4gPiArJVlBTUwgMS4yDQo+ID4gKy0tLQ0KPiA+ICskaWQ6IGh0dHA6Ly9kZXZp
-Y2V0cmVlLm9yZy9zY2hlbWFzL3NvdW5kL3JlYWx0ZWsscnQ1NTc1LnlhbWwjDQo+ID4gKyRzY2hl
-bWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KPiA+ICsN
-Cj4gPiArdGl0bGU6IEFMQzU1NzUgYXVkaW8gQ09ERUMNCj4gPiArDQo+ID4gK21haW50YWluZXJz
-Og0KPiA+ICsgIC0gT2RlciBDaGlvdSA8b2Rlcl9jaGlvdUByZWFsdGVrLmNvbT4NCj4gPiArDQo+
-ID4gK2Rlc2NyaXB0aW9uOg0KPiA+ICsgIFRoZSBkZXZpY2Ugc3VwcG9ydHMgYm90aCBJMkMgYW5k
-IFNQSS4gSTJDIGlzIG1hbmRhdG9yeSwgd2hpbGUgU1BJIGlzDQo+ID4gKyAgb3B0aW9uYWwgZGVw
-ZW5kaW5nIG9uIHRoZSBoYXJkd2FyZSBjb25maWd1cmF0aW9uLg0KPiA+ICsNCj4gPiArYWxsT2Y6
-DQo+ID4gKyAgLSAkcmVmOiAvc2NoZW1hcy9zcGkvc3BpLXBlcmlwaGVyYWwtcHJvcHMueWFtbCMN
-Cj4gPiArICAtICRyZWY6IGRhaS1jb21tb24ueWFtbCMNCj4gPiArDQo+ID4gK3Byb3BlcnRpZXM6
-DQo+ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgIGVudW06DQo+ID4gKyAgICAgIC0gcmVhbHRl
-ayxydDU1NzUNCj4gPiArICAgICAgLSByZWFsdGVrLHJ0NTU3NS11c2Utc3BpDQo+ID4gKw0KPiA+
-ICsgIHJlZzoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4g
-PiArICAtIGNvbXBhdGlibGUNCj4gPiArICAtIHJlZw0KPiA+ICsNCj4gPiArdW5ldmFsdWF0ZWRQ
-cm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ICsNCj4gPiArZXhhbXBsZXM6DQo+ID4gKyAgLSB8DQo+ID4g
-KyAgICBpMmMgew0KPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiA+ICsgICAg
-ICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiA+ICsgICAgICAgIGNvZGVjQDU3IHsNCj4gPiArICAg
-ICAgICAgICAgY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0NTU3NSI7DQo+ID4gKyAgICAgICAgICAg
-IHJlZyA9IDwweDU3PjsNCj4gPiArICAgICAgICB9Ow0KPiA+ICsgICAgfTsNCj4gDQo+IEl0IGlz
-IGNvbXBsZXRlbHkgdW5jbGVhciB3aGF0IHlvdSBhcmUgZG9pbmcgaW4gdGhlIFNQSSBjYXNlLiBJ
-DQo+IGRlY2lwaGVyZWQgaXQgc3R1ZHlpbmcgdGhlIGRyaXZlci4gSSBzaG91bGRuJ3QgaGF2ZSB0
-byBkbyB0aGF0LCB5b3VyDQo+IGJpbmRpbmcgc2hvdWxkIG1ha2UgdGhhdCBjbGVhci4NCj4gDQo+
-IFNvIHlvdXIgRFQgbXVzdCBsb29rIGxpa2UgdGhpczoNCj4gDQo+IGkyYyB7DQo+ICAgICAgICAg
-Y29kZWNANTcgew0KPiAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0NTU3
-NS11c2Utc3BpIjsNCj4gICAgICAgICAgICAgICAgIHJlZyA9IDwweDU3PjsNCj4gICAgICAgICB9
-Ow0KPiB9Ow0KPiANCj4gc3BpIHsNCj4gICAgICAgICBjb2RlY0AxIHsNCj4gICAgICAgICAgICAg
-ICAgIGNvbXBhdGlibGUgPSAicmVhbHRlayxydDU1NzUiOw0KPiAgICAgICAgICAgICAgICAgcmVn
-ID0gPDB4MT47DQo+ICAgICAgICAgfTsNCj4gfTsNCj4gDQo+IEZpcnN0LCB0aGVyZSdzIG5vIG5l
-ZWQgZm9yICItdXNlLXNwaSIgYmVjYXVzZSB5b3UgY2FuIGp1c3QgY2hlY2sgaWYNCj4gdGhlcmUg
-aXMgYSBydDU1NzUgU1BJIGRldmljZSBhbmQgdXNlIGl0IGlmIHRoZXJlIGlzLiBXaHkgd291bGQg
-eW91IGhhdmUNCj4gdGhlIFNQSSBkZXZpY2UgYW5kIG5vdCB1c2UgaXQ/DQoNClRoZSBjb21wYXRp
-YmxlIHJlYWx0ZWsscnQ1NTc1LXVzZS1zcGkgd2lsbCBiZSByZW1vdmVkLCBhbmQgaWYgdGhlcmUg
-aXMgbm8NClNQSSBkZXZpY2UgaW4gdGhlIERUUywgdGhlIHdhcm5pbmcgbWVzc2FnZSB3aWxsIGJl
-IHNob3duIGFzICJUaGUgaGFyZHdhcmUNCmNvbmZpZ3VyYXRpb24gc2hvdWxkIGJlIHdpdGggYnVp
-bHQtaW4gZmxhc2giLg0KDQo+IEJ1dCByZWFsbHkgaXQgaXMgbm90IGlkZWFsIGhhdmluZyAyIGRl
-dmljZSBub2RlcyBmb3IgYSBzaW5nbGUgZGV2aWNlLiBJdA0KPiB3b3VsZCBiZSBtdWNoIHNpbXBs
-ZXIgdG8ganVzdCBoYXZlIHNvbWV0aGluZyBsaWtlIHRoaXMgaW4gdGhlIGkyYyBub2RlOg0KPiAN
-Cj4gc3BpLXBhcmVudCA9IDwmc3BpMCAxPjsNCj4gDQo+IFdoZXJlIHRoZSBjZWxsIGlzIHRoZSBj
-aGlwLXNlbGVjdCAjLg0KPiANCj4gV2UgaGF2ZSBhbiAnaTJjLXBhcmVudCcgYWxyZWFkeSBmb3Ig
-c2ltaWxhciByZWFzb25zIHdoZW4gdGhlcmUgYXJlIDINCj4gYnVzIGNvbm5lY3Rpb25zLg0KDQpJ
-biB0aGUgY3VycmVudCBrZXJuZWwsIEkgY2Fubm90IGZpbmQgYW55IGZ1bmN0aW9uIHRvIG9idGFp
-biBhDQpzdHJ1Y3Qgc3BpX2NvbnRyb2xsZXIgd2hlbiBubyBTUEkgZGV2aWNlIGlzIGRlZmluZWQg
-aW4gdGhlIERUUy4gVGhpcyB3YXMNCnBvc3NpYmxlIGluIG9sZGVyIGtlcm5lbHMgdXNpbmcgdGhl
-IGxlZ2FjeSBzcGlfYnVzbnVtX3RvX21hc3RlcigpLCBidXQNCnRoYXQgZnVuY3Rpb24gaXMgbm8g
-bG9uZ2VyIGF2YWlsYWJsZSBpbiB1cHN0cmVhbS4NCg0KVGhhbmtzLA0KT2Rlcg0K
+Update CM9825 to support GENE_TWL7 which supports Line-out, Line-in, and Mic-in.
+
+Signed-off-by: Leo Tsai <antivirus621@gmail.com>
+---
+ sound/hda/codecs/cm9825.c | 219 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 210 insertions(+), 9 deletions(-)
+
+diff --git a/sound/hda/codecs/cm9825.c b/sound/hda/codecs/cm9825.c
+index 5c474ce44348..1c08cef8050d 100644
+--- a/sound/hda/codecs/cm9825.c
++++ b/sound/hda/codecs/cm9825.c
+@@ -13,6 +13,11 @@
+ #include "hda_jack.h"
+ #include "generic.h"
+ 
++enum {
++	QUIRK_CM_STD = 0x0,
++	QUIRK_GENE_TWL7_SSID = 0x160dc000
++};
++
+ /* CM9825 Offset Definitions */
+ 
+ #define CM9825_VERB_SET_HPF_1 0x781
+@@ -25,6 +30,7 @@
+ #define CM9825_VERB_SET_VNEG 0x7a8
+ #define CM9825_VERB_SET_D2S 0x7a9
+ #define CM9825_VERB_SET_DACTRL 0x7aa
++#define CM9825_VERB_SET_P3BCP 0x7ab
+ #define CM9825_VERB_SET_PDNEG 0x7ac
+ #define CM9825_VERB_SET_VDO 0x7ad
+ #define CM9825_VERB_SET_CDALR 0x7b0
+@@ -42,6 +48,7 @@ struct cmi_spec {
+ 	const struct hda_verb *chip_hp_present_verbs;
+ 	const struct hda_verb *chip_hp_remove_verbs;
+ 	struct hda_codec *codec;
++	struct delayed_work unsol_line_work;
+ 	struct delayed_work unsol_hp_work;
+ 	int quirk;
+ };
+@@ -80,10 +87,8 @@ static const struct hda_verb cm9825_std_d0_verbs[] = {
+ 	{0x43, CM9825_VERB_SET_OCP, 0x33},	/* OTP set */
+ 	{0x43, CM9825_VERB_SET_GAD, 0x07},	/* ADC -3db */
+ 	{0x43, CM9825_VERB_SET_TMOD, 0x26},	/* Class D clk */
+-	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
+-		AC_AMP_SET_OUTPUT | AC_AMP_SET_RIGHT, 0x2d},	/* Gain set */
+-	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
+-		AC_AMP_SET_OUTPUT | AC_AMP_SET_LEFT, 0x2d},	/* Gain set */
++	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0xa0, 0x2d},	/* Gain set */
++	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0x90, 0x2d},	/* Gain set */
+ 	{0x43, CM9825_VERB_SET_HPF_1, 0x40},	/* HPF set */
+ 	{0x43, CM9825_VERB_SET_HPF_2, 0x40},	/* HPF set */
+ 	{}
+@@ -111,6 +116,60 @@ static const struct hda_verb cm9825_hp_remove_verbs[] = {
+ 	{}
+ };
+ 
++static const struct hda_verb cm9825_gene_twl7_d3_verbs[] = {
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_PLL, 0x01},
++	{0x43, CM9825_VERB_SET_NEG, 0xc2},
++	{0x43, CM9825_VERB_SET_ADCL, 0x00},
++	{0x43, CM9825_VERB_SET_DACL, 0x02},
++	{0x43, CM9825_VERB_SET_MBIAS, 0x00},
++	{0x43, CM9825_VERB_SET_VNEG, 0x50},
++	{0x43, CM9825_VERB_SET_PDNEG, 0x04},
++	{0x43, CM9825_VERB_SET_CDALR, 0xf6},
++	{0x43, CM9825_VERB_SET_OTP, 0xcd},
++	{}
++};
++
++static const struct hda_verb cm9825_gene_twl7_d0_verbs[] = {
++	{0x34, AC_VERB_SET_EAPD_BTLENABLE, 0x02},
++	{0x43, CM9825_VERB_SET_SNR, 0x38},
++	{0x43, CM9825_VERB_SET_PLL, 0x00},
++	{0x43, CM9825_VERB_SET_ADCL, 0xcf},
++	{0x43, CM9825_VERB_SET_DACL, 0xaa},
++	{0x43, CM9825_VERB_SET_MBIAS, 0x1c},
++	{0x43, CM9825_VERB_SET_VNEG, 0x56},
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_DACTRL, 0x00},
++	{0x43, CM9825_VERB_SET_PDNEG, 0x0c},
++	{0x43, CM9825_VERB_SET_CDALR, 0xf4},
++	{0x43, CM9825_VERB_SET_OTP, 0xcd},
++	{0x43, CM9825_VERB_SET_MTCBA, 0x61},
++	{0x43, CM9825_VERB_SET_OCP, 0x33},
++	{0x43, CM9825_VERB_SET_GAD, 0x07},
++	{0x43, CM9825_VERB_SET_TMOD, 0x26},
++	{0x43, CM9825_VERB_SET_HPF_1, 0x40},
++	{0x43, CM9825_VERB_SET_HPF_2, 0x40},
++	{0x40, AC_VERB_SET_CONNECT_SEL, 0x00},
++	{0x3d, AC_VERB_SET_CONNECT_SEL, 0x01},
++	{0x46, CM9825_VERB_SET_P3BCP, 0x20},
++	{}
++};
++
++static const struct hda_verb cm9825_gene_twl7_playback_start_verbs[] = {
++	{0x43, CM9825_VERB_SET_D2S, 0xf2},
++	{0x43, CM9825_VERB_SET_VDO, 0xd4},
++	{0x43, CM9825_VERB_SET_SNR, 0x30},
++	{}
++};
++
++static const struct hda_verb cm9825_gene_twl7_playback_stop_verbs[] = {
++	{0x43, CM9825_VERB_SET_VDO, 0xc0},
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_VDO, 0xd0},
++	{0x43, CM9825_VERB_SET_SNR, 0x38},
++	{}
++};
++
+ static void cm9825_unsol_hp_delayed(struct work_struct *work)
+ {
+ 	struct cmi_spec *spec =
+@@ -120,6 +179,9 @@ static void cm9825_unsol_hp_delayed(struct work_struct *work)
+ 	bool hp_jack_plugin = false;
+ 	int err = 0;
+ 
++	if (spec->codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		hp_pin = 0x36;
++
+ 	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
+ 
+ 	codec_dbg(spec->codec, "hp_jack_plugin %d, hp_pin 0x%X\n",
+@@ -132,10 +194,13 @@ static void cm9825_unsol_hp_delayed(struct work_struct *work)
+ 		if (err)
+ 			codec_dbg(spec->codec, "codec_write err %d\n", err);
+ 
+-		snd_hda_sequence_write(spec->codec, spec->chip_hp_remove_verbs);
++		if (spec->codec->core.subsystem_id == QUIRK_CM_STD)
++			snd_hda_sequence_write(spec->codec,
++					       spec->chip_hp_remove_verbs);
+ 	} else {
+-		snd_hda_sequence_write(spec->codec,
+-				       spec->chip_hp_present_verbs);
++		if (spec->codec->core.subsystem_id == QUIRK_CM_STD)
++			snd_hda_sequence_write(spec->codec,
++					       spec->chip_hp_present_verbs);
+ 	}
+ 
+ 	jack = snd_hda_jack_tbl_get(spec->codec, hp_pin);
+@@ -162,13 +227,104 @@ static void hp_callback(struct hda_codec *codec, struct hda_jack_callback *cb)
+ 	schedule_delayed_work(&spec->unsol_hp_work, msecs_to_jiffies(200));
+ }
+ 
++static void cm9825_unsol_line_delayed(struct work_struct *work)
++{
++	struct cmi_spec *spec =
++	    container_of(to_delayed_work(work), struct cmi_spec,
++			 unsol_line_work);
++	struct hda_jack_tbl *jack;
++	hda_nid_t lineout_pin = 0x3b;
++	bool lineout_jack_plugin = false;
++
++	lineout_jack_plugin = snd_hda_jack_detect(spec->codec, 0x3b);
++
++	codec_dbg(spec->codec,
++		  "%s, lineout_jack_plugin %d, lineout_pin 0x%X, line%d\n",
++		  __func__, (int)lineout_jack_plugin, lineout_pin, __LINE__);
++
++	jack = snd_hda_jack_tbl_get(spec->codec, lineout_pin);
++
++	if (jack) {
++		jack->block_report = 0;
++		snd_hda_jack_report_sync(spec->codec);
++	}
++}
++
++static void line_callback(struct hda_codec *codec, struct hda_jack_callback *cb)
++{
++	struct cmi_spec *spec = codec->spec;
++	struct hda_jack_tbl *tbl;
++
++	/* Delay enabling the line, to let the linein-detection
++	 * state machine run.
++	 */
++
++	codec_dbg(codec, "%s, cb->nid 0x%X, line%d\n", __func__,
++		  (int)cb->nid, __LINE__);
++
++	tbl = snd_hda_jack_tbl_get(codec, cb->nid);
++	if (tbl)
++		tbl->block_report = 1;
++	schedule_delayed_work(&spec->unsol_line_work, msecs_to_jiffies(200));
++}
++
+ static void cm9825_setup_unsol(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec = codec->spec;
+ 
+ 	hda_nid_t hp_pin = spec->gen.autocfg.hp_pins[0];
+ 
++	if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		hp_pin = 0x36;
++
+ 	snd_hda_jack_detect_enable_callback(codec, hp_pin, hp_callback);
++
++	if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID) {
++		hda_nid_t linein_pin = 0x3b;
++
++		snd_hda_jack_detect_enable_callback(codec, linein_pin,
++						    line_callback);
++	}
++}
++
++static void cm9825_init_hook(struct hda_codec *codec)
++{
++	unsigned int val;
++
++	codec_dbg(codec, "init hook\n");
++
++	/* OMTP */
++	val = snd_hda_codec_read(codec, 0x46, 0, 0xfec, 0x0);
++	snd_hda_codec_write(codec, 0x46, 0, 0x7ef, (val >> 24) & 0x7f);
++
++	// link reset
++	if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		snd_hda_sequence_write(codec, cm9825_gene_twl7_d0_verbs);
++}
++
++static void cm9825_playback_pcm_hook(struct hda_pcm_stream *hinfo,
++				     struct hda_codec *codec,
++				     struct snd_pcm_substream *substream,
++				     int action)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	switch (action) {
++	case HDA_GEN_PCM_ACT_PREPARE:
++		if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID) {
++			snd_hda_sequence_write(spec->codec,
++					       cm9825_gene_twl7_playback_start_verbs);
++		}
++		break;
++	case HDA_GEN_PCM_ACT_CLEANUP:
++		if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID) {
++			snd_hda_sequence_write(spec->codec,
++					       cm9825_gene_twl7_playback_stop_verbs);
++		}
++		break;
++	default:
++		return;
++	}
+ }
+ 
+ static int cm9825_init(struct hda_codec *codec)
+@@ -184,6 +340,7 @@ static void cm9825_remove(struct hda_codec *codec)
+ 	struct cmi_spec *spec = codec->spec;
+ 
+ 	cancel_delayed_work_sync(&spec->unsol_hp_work);
++	cancel_delayed_work_sync(&spec->unsol_line_work);
+ 	snd_hda_gen_remove(codec);
+ }
+ 
+@@ -195,6 +352,9 @@ static int cm9825_suspend(struct hda_codec *codec)
+ 
+ 	snd_hda_sequence_write(codec, spec->chip_d3_verbs);
+ 
++	if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		cancel_delayed_work_sync(&spec->unsol_line_work);
++
+ 	return 0;
+ }
+ 
+@@ -213,7 +373,7 @@ static int cm9825_resume(struct hda_codec *codec)
+ 
+ 	msleep(150);		/* for depop noise */
+ 
+-	snd_hda_codec_init(codec);
++	snd_hda_sequence_write(codec, spec->chip_d0_verbs);
+ 
+ 	hp_pin = spec->gen.autocfg.hp_pins[0];
+ 	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
+@@ -229,7 +389,9 @@ static int cm9825_resume(struct hda_codec *codec)
+ 		if (err)
+ 			codec_dbg(codec, "codec_write err %d\n", err);
+ 
+-		snd_hda_sequence_write(codec, cm9825_hp_remove_verbs);
++		if (codec->core.subsystem_id == QUIRK_CM_STD)
++			snd_hda_sequence_write(codec,
++					       spec->chip_hp_remove_verbs);
+ 	}
+ 
+ 	snd_hda_regmap_sync(codec);
+@@ -248,9 +410,13 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	if (spec == NULL)
+ 		return -ENOMEM;
+ 
++	codec_dbg(codec, "chip_name: %s, ssid: 0x%X\n",
++		   codec->core.chip_name, codec->core.subsystem_id);
++
+ 	INIT_DELAYED_WORK(&spec->unsol_hp_work, cm9825_unsol_hp_delayed);
+ 	codec->spec = spec;
+ 	spec->codec = codec;
++	spec->gen.init_hook = cm9825_init_hook;
+ 	cfg = &spec->gen.autocfg;
+ 	snd_hda_gen_spec_init(&spec->gen);
+ 	spec->chip_d0_verbs = cm9825_std_d0_verbs;
+@@ -258,6 +424,41 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
+ 	spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
+ 
++	switch (codec->core.subsystem_id) {
++	case QUIRK_CM_STD:
++		snd_hda_codec_set_name(codec, "CM9825 STD");
++		spec->chip_d0_verbs = cm9825_std_d0_verbs;
++		spec->chip_d3_verbs = cm9825_std_d3_verbs;
++		spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
++		spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
++		break;
++	case QUIRK_GENE_TWL7_SSID:
++		snd_hda_codec_set_name(codec, "CM9825 GENE_TWL7");
++		INIT_DELAYED_WORK(&spec->unsol_line_work,
++				  cm9825_unsol_line_delayed);
++		spec->gen.hp_mic = 0;
++		cfg->line_outs = 1;
++		cfg->line_out_pins[0] = 0x36;
++		cfg->line_out_type = AUTO_PIN_LINE_OUT;
++		cfg->num_inputs = 2;
++		cfg->inputs[0].pin = 0x3b;
++		cfg->inputs[0].type = AUTO_PIN_LINE_IN;
++		cfg->inputs[1].pin = 0x37;
++		cfg->inputs[1].type = AUTO_PIN_MIC;
++		cfg->inputs[1].is_headphone_mic = 1;
++		spec->chip_d0_verbs = cm9825_gene_twl7_d0_verbs;
++		spec->chip_d3_verbs = cm9825_gene_twl7_d3_verbs;
++		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
++		snd_hda_codec_set_pincfg(codec, 0x37, 0x24A70100);
++		break;
++	default:
++		spec->chip_d0_verbs = cm9825_std_d0_verbs;
++		spec->chip_d3_verbs = cm9825_std_d3_verbs;
++		spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
++		spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
++		break;
++	}
++
+ 	snd_hda_sequence_write(codec, spec->chip_d0_verbs);
+ 
+ 	err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
+-- 
+2.43.0
+
