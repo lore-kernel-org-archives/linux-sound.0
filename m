@@ -1,190 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B012FF656;
-	Fri, 12 Dec 2025 18:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D019643147
+	for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 19:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765563476; cv=none; b=cmj9doN1KzcvmbORBAm8ri+vySP3yCkTnphYuomvCGaxIlq2cagK5DVxcnpdG8fBcpVuVwlFAPzla2JhJ4V0mMlicVPdq7fkShbEe9cByyfxXyuaChl0i33oVDyZvzVTdxQ8GM6sw6lHV3yfDpSghGE/3o4M4nxtapSbOnGqEmY=
+	t=1765566732; cv=none; b=DhX1B1TwYNx2JxzQOkVP0J1iRhHmLaBIudlYF0zK8C9KXLCRZ3DFzg6Z+QpkVgYLTgKaTMOJ1jTkz3hZBUAca3VJsTYU4tvZ0DmuubN6o838QciFmp7S3t/piLwp/sKGvGTAobb1tknALWisYuIsS1ydtaY9trdQDOuNbaCN8ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765563476; c=relaxed/simple;
-	bh=TOFsD/pnvFybujerKESd5EmoAy4h3WqeGEyDM23DM9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f3Z4bn5c+1u9SHfO2g3TfGRZUjumsrudbixhq+M4dpUm5rJiBAh25RhsfQBE5rHb9Lz3k61aq6OdML2gWuhppss3wIfqFXBP4CKShJddE/QAK88rX1JYvDKl5Ed5a49hY+imlBZxv8AEursKqU/WQ4gqOsU+d9I/2B0F9D6E6EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjCrh2EW; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765566732; c=relaxed/simple;
+	bh=JSKXSfuWmth0e3j5V0Pbds3rdE7zZeYH/sK5ejXFogo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=RTpJ8sWiG6gWdKWplXOvNXZoztYztB5tr6XGcFfkUx/LCMz0rOAPIQsDoP6LKNPgIIpKbx2X9TZ7tkE0F/EMSmpP0iZnPFvInUdMNy6tQz/admJdrraWUgQB07o4HfNyPZ01Z2Z1IRGUHtj0mF3CcBEvhGws78SMRpGAL+iPoM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6aP04cP; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjCrh2EW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765563473; x=1797099473;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TOFsD/pnvFybujerKESd5EmoAy4h3WqeGEyDM23DM9A=;
-  b=JjCrh2EWtJL5cPgFlbHlLPdKMIpDFQvdVNGpeQUGsChyT4uSNyKrAd1g
-   q22vd5FXuihzH/LgaO3AL5BbW8MnlFm9p9v5mc8AWlSPC9b2Tb4X5w1oq
-   dF9pNgeQtQncoLCRTz6+TOd+Gkug+v6Ycoh2vWCaOpF5glq2cEwlVezgE
-   lNKzubfsKHwFSGGYuTQng0wuwz0yaXTcCRtor5z0og6TGnpRzdIjnfH9S
-   q5EqSUH6Us7jUOIR47sqcXi5GPPwNkr2tVKz9hD7mE4IBssEOq++jnrT3
-   lbc6LXKcW4o154WUm3XgiBJCUpY6HwB0YJsW6tov5GEtzdPw+2h6RiQtb
-   Q==;
-X-CSE-ConnectionGUID: 4J1+OLh1TQe8+D0t2EvqyQ==
-X-CSE-MsgGUID: 6pUE9URWQ3ebDAbOjzFRSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67529586"
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67529586"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:17:51 -0800
-X-CSE-ConnectionGUID: ZUDLEdGGQW2GVEeo28YGFw==
-X-CSE-MsgGUID: /U7CIvEZTMqWkmhEexhq7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="201566780"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Dec 2025 10:17:47 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id B1DDD93; Fri, 12 Dec 2025 19:17:45 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Daniel Baluta <daniel.baluta@nxp.com>
-Subject: [PATCH v2 1/1] ASoC: Fix acronym for Intel Gemini Lake
-Date: Fri, 12 Dec 2025 19:16:20 +0100
-Message-ID: <20251212181742.3944789-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6aP04cP"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37a2dcc52aeso13469431fa.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 11:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765566729; x=1766171529; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ukvRgMINo4cgRsNKCNTMLrsVB8Bgy8vz4JhLYrjNDk0=;
+        b=F6aP04cPjIjmHlPKJhaZMuAWH8mS+isgeLMB6SXie4z3J3hlOL86egRbhdLUCnWNt0
+         3KAWGTXT9sz/N///qp060JgGnyUXJOqZsws64nJir0BPpjNjX5pjiGO4bMVeRWYjqVTD
+         Hdy/XLevK/X6ZsWi+Sne8ivJexIZcLd/Zlc2W0B+dREb1Vh29HNBhc3ifFuGC9rrgWcO
+         NpB7kqQWnNRkqSQ/mmQmDaThSAGN4TtsQSXYqOSjKxKAZkailm1KL+xMlWmE61geR7CR
+         KRIEtBhBSWYv8RN7HVNRsegeEIAG3vx6+FGBDx72EdVvS0kPojTEvooYgf1tMm8HNI44
+         o0Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765566729; x=1766171529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ukvRgMINo4cgRsNKCNTMLrsVB8Bgy8vz4JhLYrjNDk0=;
+        b=D+HWh8w5aLxapZITvlItNuNX9cICBrMFYKGeURamMw4YqoOpclxwbngb0+6rv/aC7p
+         wC5mkww7+8ARqsk4PYEa/kFQYZVgj8/ufOq+xJxsnSGDVrSLXCah52DRF/szQhU3r0yT
+         3PaSkfG6NeuDDH1uUsaT5jBoUQ4gQKwh56yE/fQCKszj+GB1PI47g2EVZfo2EPUJmW4f
+         EPeQv6ayQwwgdqQdNrw0pkQ12LYW1X9J6WeZwVpeErLWSwDcZJa0ZrChvMuN0ZN70ngr
+         HegvYmOXFGuzNXT5Fx/4IsI3XT2i3TJocAyO/AU9QVePz+pEIwEEtj00c3pJO47FU3fN
+         ePZA==
+X-Gm-Message-State: AOJu0Yy8HPwxk8//G62SphFDldYEEN7KOeQ+q7nsmTEj5Bb9Ez7B5Otz
+	Fm6vvGNDhkrrkKS7i5GN9I0DQnqiD8KQXo59Hn0BgBlMDjn2dt6x6SyxliPzMAY/+izWdT47HaN
+	OqribsaG1caZYaznIz/qUPiUf+cU6cuhm6rnshRc=
+X-Gm-Gg: AY/fxX7Kt2VRQnMH4vM1W7Zm44wXtP8QmSYkveLItlBEblh3YBlJMXP0E2ajVIWgaVm
+	/+Xpaurut3f/TMlLrxj1DWk7Sst/KWTRdBVauG7K14VrnYYysJc8gJ1kBdxQnnv6o0sL0+udmX5
+	mYdadSyIkQ+GSUSn3PZViIOL5EGjxtPtLll7f9hGQvfFboepR5WciC6ywFxR1m4/8TOyRxfqjIS
+	049Z6+J3j8wl+xucyIQZPIm361fzJreqwHfDltplicxSC5cZMe3pjSWgUcUQ/zdORZFjVD4w2PT
+	mWl9CHqH1I5AWZ41NVIc7TAPwSS2J7eqSpuT5Q==
+X-Google-Smtp-Source: AGHT+IEj10dSESv4tqdD92uZgst/HdgduZtFST/NwUvAzU4bgg9CM9GXNKBGTyQEbISBDFfwIgz40BfqPb/BI7eLkUw=
+X-Received: by 2002:a05:651c:2222:b0:37b:9dd9:d203 with SMTP id
+ 38308e7fff4ca-37fd074cb0fmr9631101fa.11.1765566728739; Fri, 12 Dec 2025
+ 11:12:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 12 Dec 2025 16:11:57 -0300
+X-Gm-Features: AQt7F2rggIkxVWeg4u46uD2Cc-AiiURCFH_xEAAKKwLi1TDPjFTpo4ieh6EQ3lw
+Message-ID: <CAOMZO5BuMLhMyMkfE1xhOwEs2U=+pZnVq+FP+_bp5W_Qg6oMxQ@mail.gmail.com>
+Subject: imx8mp SPDIF TX does not produce a lockable signal
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>
+Cc: "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>, 
+	Viorel Suman <viorel.suman@nxp.com>, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-While the used GML is consistent with the pattern for other Intel * Lake
-SoCs, the de facto use is GLK. Update the acronym and users accordingly.
+Hi,
 
-Note, a handful of the drivers for Gemini Lake in the Linux kernel use
-GLK already (LPC, MEI, pin control, SDHCI, ...) and even some in ASoC.
-The only ones in this patch used the inconsistent one.
+I=E2=80=99m working on a custom i.MX8MP-based board, and I am trying to get
+SPDIF output working on kernel 6.12.60.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # pci_ids.h
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+The XCVR node in the device tree is essentially identical to the one
+in imx8mp-evk.dts, with the only differences being the SPDIF TX/RX pin
+definitions.
 
-v2: added tag (Bjorn), left variable name as is (Cezary), added comment (Cezary)
+The audio card is registered correctly:
 
- include/linux/pci_ids.h               | 3 ++-
- sound/hda/controllers/intel.c         | 2 +-
- sound/hda/core/intel-dsp-config.c     | 4 ++--
- sound/soc/intel/avs/board_selection.c | 2 +-
- sound/soc/intel/avs/core.c            | 2 +-
- sound/soc/sof/intel/pci-apl.c         | 2 +-
- 6 files changed, 8 insertions(+), 7 deletions(-)
+# aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: imxaudioxcvr [imx-audio-xcvr], device 0: XCVR PCM snd-soc-dummy-dai=
+-0
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
 
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index a9a089566b7c..84b830036fb4 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2950,7 +2950,8 @@
- #define PCI_DEVICE_ID_INTEL_LYNNFIELD_MC_CH2_ADDR_REV2  0x2db1
- #define PCI_DEVICE_ID_INTEL_LYNNFIELD_MC_CH2_RANK_REV2  0x2db2
- #define PCI_DEVICE_ID_INTEL_LYNNFIELD_MC_CH2_TC_REV2    0x2db3
--#define PCI_DEVICE_ID_INTEL_HDA_GML	0x3198
-+/* In a few of the Intel documents the GML acronym is used for Gemini Lake */
-+#define PCI_DEVICE_ID_INTEL_HDA_GLK	0x3198
- #define PCI_DEVICE_ID_INTEL_82855PM_HB	0x3340
- #define PCI_DEVICE_ID_INTEL_IOAT_TBG4	0x3429
- #define PCI_DEVICE_ID_INTEL_IOAT_TBG5	0x342a
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 1e8e3d61291a..bb9a64d41580 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2555,7 +2555,7 @@ static const struct pci_device_id azx_ids[] = {
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Gemini-Lake */
--	{ PCI_DEVICE_DATA(INTEL, HDA_GML, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
-+	{ PCI_DEVICE_DATA(INTEL, HDA_GLK, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Haswell */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_HSW_0, AZX_DRIVER_HDMI | AZX_DCAPS_INTEL_HASWELL) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_HSW_2, AZX_DRIVER_HDMI | AZX_DCAPS_INTEL_HASWELL) },
-diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
-index 0c25e87408de..ddb8db3e8e39 100644
---- a/sound/hda/core/intel-dsp-config.c
-+++ b/sound/hda/core/intel-dsp-config.c
-@@ -154,7 +154,7 @@ static const struct config_entry config_table[] = {
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_GEMINILAKE)
- 	{
- 		.flags = FLAG_SOF,
--		.device = PCI_DEVICE_ID_INTEL_HDA_GML,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_GLK,
- 		.dmi_table = (const struct dmi_system_id []) {
- 			{
- 				.ident = "Google Chromebooks",
-@@ -167,7 +167,7 @@ static const struct config_entry config_table[] = {
- 	},
- 	{
- 		.flags = FLAG_SOF,
--		.device = PCI_DEVICE_ID_INTEL_HDA_GML,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_GLK,
- 		.codec_hid =  &essx_83x6,
- 	},
- #endif
-diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
-index 52e6266a7cb8..8a46285181fa 100644
---- a/sound/soc/intel/avs/board_selection.c
-+++ b/sound/soc/intel/avs/board_selection.c
-@@ -367,7 +367,7 @@ static const struct avs_acpi_boards i2s_boards[] = {
- 	AVS_MACH_ENTRY(HDA_SKL_LP,	avs_skl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_KBL_LP,	avs_kbl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_APL,		avs_apl_i2s_machines),
--	AVS_MACH_ENTRY(HDA_GML,		avs_gml_i2s_machines),
-+	AVS_MACH_ENTRY(HDA_GLK,		avs_gml_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_CNL_LP,	avs_cnl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_CNL_H,	avs_cnl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_CML_LP,	avs_cnl_i2s_machines),
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 6e0e65584c7f..1a53856c2ffb 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -897,7 +897,7 @@ static const struct pci_device_id avs_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_KBL_H, &skl_desc) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_CML_S, &skl_desc) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, &apl_desc) },
--	{ PCI_DEVICE_DATA(INTEL, HDA_GML, &apl_desc) },
-+	{ PCI_DEVICE_DATA(INTEL, HDA_GLK, &apl_desc) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_CNL_LP,	&cnl_desc) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_CNL_H,	&cnl_desc) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_CML_LP,	&cnl_desc) },
-diff --git a/sound/soc/sof/intel/pci-apl.c b/sound/soc/sof/intel/pci-apl.c
-index 0bf7ee753bc3..3241403efa60 100644
---- a/sound/soc/sof/intel/pci-apl.c
-+++ b/sound/soc/sof/intel/pci-apl.c
-@@ -86,7 +86,7 @@ static const struct sof_dev_desc glk_desc = {
- /* PCI IDs */
- static const struct pci_device_id sof_pci_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, &bxt_desc) },
--	{ PCI_DEVICE_DATA(INTEL, HDA_GML, &glk_desc) },
-+	{ PCI_DEVICE_DATA(INTEL, HDA_GLK, &glk_desc) },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, sof_pci_ids);
--- 
-2.50.1
+When I play audio:
 
+aplay -D hw:0,0 -t raw -f IEC958_SUBFRAME_LE -c 2 -r 96000 96-24.wav
+
+I do see activity on the SPDIF TX pin on a scope.
+
+However, no SPDIF receiver (a DSP and a standalone consumer receiver)
+is able to detect or lock onto the stream. Both devices report =E2=80=9Cno
+lock=E2=80=9D even though there is signal activity. The waveform does not
+appear to be interpreted as valid SPDIF.
+
+I also tested by taking the XCVR driver from NXP=E2=80=99s downstream tree
+(lf-6.12.y) and applying it to mainline, but the behavior is
+unchanged.
+
+Has anyone seen similar issues with the i.MX8MP SPDIF TX path, or is
+there anything known to be missing from the mainline XCVR
+implementation (clock configuration, channel status bits, preamble
+handling, etc.) that might result in a non-lockable SPDIF output?
+
+Any suggestions for debugging or fixing this would be appreciated.
+
+Thanks,
+
+Fabio Estevam
