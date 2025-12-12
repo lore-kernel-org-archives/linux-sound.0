@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C74131812F
-	for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 10:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623843161A3
+	for <linux-sound@vger.kernel.org>; Fri, 12 Dec 2025 10:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765534438; cv=none; b=MCZXQ3HJzKwkd5J92xRWOx0wJ3rN5dqJFWTQNUV3+7ftSB6to6eq6hWx3GkctAJdAQm1S+p+qZ1t25uliQbJKRQmC6bupladULVQ4Ub5xI52tirH622WqkJIP2SJyObIMT3uli19PSacjzPZmLfzw5zUmMHXjnTYhIsB7CnsEDA=
+	t=1765534440; cv=none; b=WfH1UMZPZuNQA5GREM+8Hsx7+ob484ObejP+KlUKfHLDI/9ox/gRCiloKXzm/4EkMqi/vfh4iRADXWo+gveUaysIekodKK9qNPgx1bVmx6TfdWD5u2Itj11uSh8NT47gf8e04R/rHn7fimj7ewWUGclhIgSQ7NyjWxRLK9+D6Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765534438; c=relaxed/simple;
-	bh=q18ZQHX/5ZM08tY4SZoJn2GaM2J6ZaiU1aWzBH1bcwg=;
+	s=arc-20240116; t=1765534440; c=relaxed/simple;
+	bh=5s4LLRqz7ubfBtYQsnoHHS5fNR7AlY5PDNyq+fqJhMM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G3t/w5BJnhb2Ciaat8rwZcSdzynLoqNG+9z8b2nhh/nQgkbSfy/sABjx06E+9VxM4HGJftx/q+H3i8b1p99m97DaTiONBHRPtB8nU/RAJJG/+mI5Tf9YIjvESSrusmAhqheAVbchmyk72OWzuyuuaC2O0EF0bW3xHxsWyakJbZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxKXUx3/; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=d7TfqrOc30/Q6y1oZPVitVni8KZ+rId/wcCHH7ZjVuNaPcoZSfFyMLwwgFFeJW/R/k78AogVpL3Rijovqi/Aj7L7/Ru6FkyW7v2avd2rhH+8QlbDTwf1M2VJotcq/cTQUvKCLsdN0Vwl49+Zr8+IjVqF/7B4WR/H4jhDFUONinM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIRIaA+s; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxKXUx3/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIRIaA+s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765534437; x=1797070437;
+  t=1765534439; x=1797070439;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=q18ZQHX/5ZM08tY4SZoJn2GaM2J6ZaiU1aWzBH1bcwg=;
-  b=TxKXUx3/0ZMvi+u0p51jjLejzNz5r/n8tQqpDfEVGJgeDGAXqxQKT7hT
-   j8Zl9rwcoB/B1WOBDorkjMThZKxX2Lvt+oRiIB6Rq15mTLHdnRlsqr2Y8
-   YbA+zyvaglIdFBM/DRLTvokQq+fHNrD9r8kg42+LJheSarvciKuPL3Uhe
-   ga0JG9jJvIJQ6PERAZD6coc1druCM/fQjfQ1LRBoU1Wkg8eCHZ+HeTEbZ
-   w1VMeX9yvK0wNgUuVwQbeug6K3RDer42e3h00fUUlfalU5WWj88aSHCwQ
-   OQw1Ka52any5OlkrgF4soRx65yGiCa3koUqPr0e2aLeeukh+aKs1iF4wv
-   Q==;
-X-CSE-ConnectionGUID: wZXNFGdwQpyUrOcYYNKxVg==
-X-CSE-MsgGUID: RNNmJiJMRjiHS7mh9PPfaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78891339"
+  bh=5s4LLRqz7ubfBtYQsnoHHS5fNR7AlY5PDNyq+fqJhMM=;
+  b=GIRIaA+shUaxehEkPxFDQIOXakHjf4lWtMXmrf/qPA3T8Q/2apVeNsu9
+   DPI2PYZ5TaXxOUMxEa/7Ev+kpna9hx3V0ukThmvuQ8raVQpNe7YpBZ06D
+   Z1SkoQZ/HT0zMSlbaQZepKgHFM6PtUHFLkw2vLQhIOX51RUlTgxTrOdQO
+   YZGBnUgxCycUiZH4wPmPBDAo76XZ4acKGxihj89LYdCy7f8g4VjBO5jZ0
+   sZ7V5ckIEQhhuv5bNwjH9JilkWfEKOu/hu84T3P6LLxRFCxtmTXDXrZoE
+   dfM/x/hniflG9bOuY4uHckDV8sn1F4ISFoU9Zy3tEmodELl1y9+sFxItc
+   w==;
+X-CSE-ConnectionGUID: 4lEs8swYRbioEIgdros3LQ==
+X-CSE-MsgGUID: GSV0b5osT1KqixQ08YSLMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78891344"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="78891339"
+   d="scan'208";a="78891344"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 02:13:56 -0800
-X-CSE-ConnectionGUID: DGbEiIXQT72wjKHiJB/fUg==
-X-CSE-MsgGUID: 1EBwiK2HSHq4ymdEkOdqWg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 02:13:58 -0800
+X-CSE-ConnectionGUID: qWMbWeZDS7qU7gNHJOC/Ww==
+X-CSE-MsgGUID: 43Iel4nnTr61uNc0GRPaXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="234444927"
+   d="scan'208";a="234444930"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa001.jf.intel.com with ESMTP; 12 Dec 2025 02:13:55 -0800
+  by orviesa001.jf.intel.com with ESMTP; 12 Dec 2025 02:13:57 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 3/5] ASoC: Intel: catpt: Simplify catpt_stream_read_position()
-Date: Fri, 12 Dec 2025 11:38:56 +0100
-Message-Id: <20251212103858.110701-4-cezary.rojewski@intel.com>
+Subject: [PATCH 4/5] ASoC: Intel: catpt: Specify image names in the device descriptor
+Date: Fri, 12 Dec 2025 11:38:57 +0100
+Message-Id: <20251212103858.110701-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251212103858.110701-1-cezary.rojewski@intel.com>
 References: <20251212103858.110701-1-cezary.rojewski@intel.com>
@@ -64,44 +64,73 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add position to the argument list to simplify the wrapper.
+State files to load explicitly in the device descriptor instead of
+hiding the details within a loading function. Apart from readability,
+this also reduces the catpt module size slightly.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/pcm.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ sound/soc/intel/catpt/core.h   | 1 +
+ sound/soc/intel/catpt/device.c | 2 ++
+ sound/soc/intel/catpt/loader.c | 6 +-----
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/intel/catpt/pcm.c b/sound/soc/intel/catpt/pcm.c
-index cc43346f83af..cbb1c3942409 100644
---- a/sound/soc/intel/catpt/pcm.c
-+++ b/sound/soc/intel/catpt/pcm.c
-@@ -114,14 +114,10 @@ catpt_stream_find(struct catpt_dev *cdev, u8 stream_hw_id)
- 	return result;
- }
+diff --git a/sound/soc/intel/catpt/core.h b/sound/soc/intel/catpt/core.h
+index d273f24d3d53..df8a5fd95e13 100644
+--- a/sound/soc/intel/catpt/core.h
++++ b/sound/soc/intel/catpt/core.h
+@@ -62,6 +62,7 @@ struct catpt_module_type {
+ struct catpt_spec {
+ 	struct snd_soc_acpi_mach *machines;
+ 	u8 core_id;
++	const char *fw_name;
+ 	u32 host_dram_offset;
+ 	u32 host_iram_offset;
+ 	u32 host_shim_offset;
+diff --git a/sound/soc/intel/catpt/device.c b/sound/soc/intel/catpt/device.c
+index d8e0da558495..0638aecba40d 100644
+--- a/sound/soc/intel/catpt/device.c
++++ b/sound/soc/intel/catpt/device.c
+@@ -348,6 +348,7 @@ static struct snd_soc_acpi_mach wpt_machines[] = {
+ static struct catpt_spec lpt_desc = {
+ 	.machines = lpt_machines,
+ 	.core_id = 0x01,
++	.fw_name = "intel/IntcSST1.bin",
+ 	.host_dram_offset = 0x000000,
+ 	.host_iram_offset = 0x080000,
+ 	.host_shim_offset = 0x0E7000,
+@@ -363,6 +364,7 @@ static struct catpt_spec lpt_desc = {
+ static struct catpt_spec wpt_desc = {
+ 	.machines = wpt_machines,
+ 	.core_id = 0x02,
++	.fw_name = "intel/IntcSST2.bin",
+ 	.host_dram_offset = 0x000000,
+ 	.host_iram_offset = 0x0A0000,
+ 	.host_shim_offset = 0x0FB000,
+diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
+index 566b6e04a848..05c50a6728f6 100644
+--- a/sound/soc/intel/catpt/loader.c
++++ b/sound/soc/intel/catpt/loader.c
+@@ -581,10 +581,6 @@ static int catpt_load_image(struct catpt_dev *cdev, struct dma_chan *chan,
  
--static u32 catpt_stream_read_position(struct catpt_dev *cdev,
--				      struct catpt_stream_runtime *stream)
-+static void catpt_stream_read_position(struct catpt_dev *cdev,
-+				       struct catpt_stream_runtime *stream, u32 *pos)
+ static int catpt_load_images(struct catpt_dev *cdev, bool restore)
  {
--	u32 pos;
--
--	memcpy_fromio(&pos, cdev->lpe_ba + stream->info.read_pos_regaddr,
--		      sizeof(pos));
--	return pos;
-+	memcpy_fromio(pos, cdev->lpe_ba + stream->info.read_pos_regaddr, sizeof(*pos));
- }
+-	static const char *const names[] = {
+-		"intel/IntcSST1.bin",
+-		"intel/IntcSST2.bin",
+-	};
+ 	struct dma_chan *chan;
+ 	int ret;
  
- static u32 catpt_stream_volume(struct catpt_dev *cdev,
-@@ -615,7 +611,7 @@ catpt_component_pointer(struct snd_soc_component *component,
- 		return 0;
+@@ -592,7 +588,7 @@ static int catpt_load_images(struct catpt_dev *cdev, bool restore)
+ 	if (IS_ERR(chan))
+ 		return PTR_ERR(chan);
  
- 	stream = snd_soc_dai_get_dma_data(cpu_dai, substream);
--	pos = catpt_stream_read_position(cdev, stream);
-+	catpt_stream_read_position(cdev, stream, &pos);
- 
- 	return bytes_to_frames(substream->runtime, pos);
- }
+-	ret = catpt_load_image(cdev, chan, names[cdev->spec->core_id - 1],
++	ret = catpt_load_image(cdev, chan, cdev->spec->fw_name,
+ 			       FW_SIGNATURE, restore);
+ 	if (ret)
+ 		goto release_dma_chan;
 -- 
 2.25.1
 
