@@ -1,141 +1,82 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6791FDA
-	for <linux-sound@vger.kernel.org>; Sat, 13 Dec 2025 09:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4861C2D6E6A;
+	Sat, 13 Dec 2025 17:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765618452; cv=none; b=fFJMJ8SCJ/+dlURRwZZrtHee4jKEgIX5Zi3Z5Crk4R9zm/MkFt03HQi/Efimg1+krjQM5viacdenutWDjqBK1lzfHx3sEUxiC/HKwJbeOKd5Z/NNXJum6UbYAcn4FElZ+Vy/7kh2YV1mKvRu3G2UyMoAzou2u5uAh9mbmknVZAc=
+	t=1765645208; cv=none; b=W7b1aNuskS57WPAkf4xS5lUNUKLS6nr2x17M8UGTC6FaLtqaI5qxCwYM0UsfBqExlraPv6T0Qxwp2t0s8doi629w6jp4c+Nx1vDdrfJhX/2HE+9YrG3kNyi/d5SkgfFVfVXfGmxak6V2pICPtSJZ/cy85WpXzXY3AdlF38enUlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765618452; c=relaxed/simple;
-	bh=952Zsf2UbmLg+afOqb7sF1xivo5VJQaglXlKabQCHG4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iHMFtIAwjVwKwh3c78vms96q5ieEmWB806lLd9kv0wxo2dpX7jj2LKXS0Vr5WW+Mme2B1AJ7PWlUlvZJNaEb+ckqL2UaseUpGeMStaZRgjTDX7J+SKEmQtvI3BowH5UVeIobSzIRpjbuzf9B0MPA9q8K58TRZTTJAWf27nikP8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rtHwEo9q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GdO2t5sz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rtHwEo9q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GdO2t5sz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765645208; c=relaxed/simple;
+	bh=VzKBYcoy1QLzHCut6+iKlDtsmmJak9U5g55kExj/JFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SDuFPXgszTYzVwbJMXXIUOF45dM0q52mPtJZlH0Lxjt6kKDFyYsjakf1DV6Hz+5iuwYuwNJNxQqEJE0KG0DSdLuL2TNHUMF3KKDaeewdXB6h/fehxKMZYBet36eZlgDctSWN+nzypdJNHpI1bB5I9LBxG6T1gkkstjRq3i5hobU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwzsPYFW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rtHwEo9q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GdO2t5sz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rtHwEo9q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GdO2t5sz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6E3FE5BEA0;
-	Sat, 13 Dec 2025 09:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765618448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v5NFiZ3H8RjzZAmcf6ObggXS4th7qqHuTmEK5VH2Jus=;
-	b=rtHwEo9qxEyy53WaFReB8AVV4cYiLgksrNCfjC4REtmBKrEWitVqQYQVBSTbukmNQW4Auz
-	0V8CzHQTZ6GHtnsJ94C2gykRmlaLFDnHgVEpFP4+mnXT+rg0SD0IzUwu0ANoNfzKzZ4L0D
-	G/QHSwoVPmz8XazfC7XRtC9sfUewk0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765618448;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v5NFiZ3H8RjzZAmcf6ObggXS4th7qqHuTmEK5VH2Jus=;
-	b=GdO2t5szuiXgNmc5+5mV19+GtQ1oqkCd87Da21pOB0gmXWc8SAoTVD/e3P1IKtk+VVmk3t
-	DkUu0vex9qH8mnCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rtHwEo9q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GdO2t5sz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765618448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v5NFiZ3H8RjzZAmcf6ObggXS4th7qqHuTmEK5VH2Jus=;
-	b=rtHwEo9qxEyy53WaFReB8AVV4cYiLgksrNCfjC4REtmBKrEWitVqQYQVBSTbukmNQW4Auz
-	0V8CzHQTZ6GHtnsJ94C2gykRmlaLFDnHgVEpFP4+mnXT+rg0SD0IzUwu0ANoNfzKzZ4L0D
-	G/QHSwoVPmz8XazfC7XRtC9sfUewk0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765618448;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v5NFiZ3H8RjzZAmcf6ObggXS4th7qqHuTmEK5VH2Jus=;
-	b=GdO2t5szuiXgNmc5+5mV19+GtQ1oqkCd87Da21pOB0gmXWc8SAoTVD/e3P1IKtk+VVmk3t
-	DkUu0vex9qH8mnCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A4153EA63;
-	Sat, 13 Dec 2025 09:34:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Z5UsCRAzPWnxKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 13 Dec 2025 09:34:08 +0000
-Date: Sat, 13 Dec 2025 10:34:07 +0100
-Message-ID: <87o6o2914g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: tiwai@suse.de,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kailang Yang <kailang@realtek.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	Edip Hazuri <edip@medip.dev>,
-	linux-sound@vger.kernel.org,
-	davplsm <davpal@yahoo.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: enable woofer speakers on Medion NM14LNL
-In-Reply-To: <20251212174658.752641-1-kai.vehmanen@linux.intel.com>
-References: <20251212174658.752641-1-kai.vehmanen@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwzsPYFW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96631C4CEF7;
+	Sat, 13 Dec 2025 16:59:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765645207;
+	bh=VzKBYcoy1QLzHCut6+iKlDtsmmJak9U5g55kExj/JFI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RwzsPYFWZct3fYDaSoH2MO8Pr6OmUerebApwD55CqIDmIjhoGYii118YuorwNlvqq
+	 ScAULQd/58dFFaqTTbGQluGmGyWmjP197/lR0mEIj9eB+4T931oqm6bV+zZ3Dtp3UB
+	 /3rEA58xa9OtbeLC8Sdoct2UoObIYuhaP3mRahKBMFr5MyUfu8A/UkiQKKb0hJJ052
+	 XpUK03v0ZQVQ46uHO5Tv0MUUttfEsK/oQCNHvdjrmUt7X7j38m0kpVAalfiSZ9oRUU
+	 sWgR/3U8XMRryBhIuoNjoTDFmxZ+oM6dTz94zalzS6WErXPW7Vhg3NOCfVaTboJchh
+	 qJxB4vBT3+yhg==
+Date: Sat, 13 Dec 2025 16:59:49 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Michal Simek
+ <michal.simek@amd.com>, Vinod Koul <vkoul@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Peter Rosin
+ <peda@axentia.se>, Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-iio@vger.kernel.org, iommu@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Remove unused includes
+Message-ID: <20251213165949.4b51f7cb@jic23-huawei>
+In-Reply-To: <20251212231203.727227-1-robh@kernel.org>
+References: <20251212231203.727227-1-robh@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 6E3FE5BEA0
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,realtek.com,canonical.com,medip.dev,vger.kernel.org,yahoo.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
 
-On Fri, 12 Dec 2025 18:46:58 +0100,
-Kai Vehmanen wrote:
+On Fri, 12 Dec 2025 17:11:52 -0600
+"Rob Herring (Arm)" <robh@kernel.org> wrote:
+
+> Remove includes which are not referenced by either DTS files or drivers.
 > 
-> The ALC233 codec on these Medion NM14LNL (SPRCHRGD 14 S2) systems
-> requires a quirk to enable all speakers.
+> There's a few more which are new, so they are excluded for now.
 > 
-> Tested-by: davplsm <davpal@yahoo.com>
-> Link: https://github.com/thesofproject/linux/issues/5611
-> Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Applied now.  Thanks.
+Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
 
+Ideally we'll get a QC ack on those as well.
 
-Takashi
+Jonathan
+>  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
+>  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
