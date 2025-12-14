@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48620FBF6;
-	Sun, 14 Dec 2025 10:36:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA172FBF6;
+	Sun, 14 Dec 2025 10:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765708593; cv=none; b=Gffu8worauoYReYiQlfoWjt9MzborZQDEJD9QraWaycx49P4BnGPYSqgx2NwFbl9a7kc5cETCEJncizlJEFdjgTUQft8ed1M3Yt879eYPaXi7Y6Z5xLjFEy27AM5pVNCCzknzpVce3XUrkcLlN2JN8nWQmInQmMP2YwL5tztDg4=
+	t=1765708703; cv=none; b=HuRaWApJCdqBIGmV2cCEb9x80TkVSwko7jQ6pe21GClTL0FPt9kMzrO4N0933KtL3Lf77/YRKiMzDLn6JIt6P7wEY93B6jC9UnagVACuMrM5KtApV7llW3lHTQNfFn+uwUmRMgnA68zhdrlIBOVWYK5uPqDAVpYUTqUr4f6Hzz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765708593; c=relaxed/simple;
-	bh=Bb3gaOEY5RHee7gQk1ex1YcCU+/dbzpvULfO5tzYYDQ=;
+	s=arc-20240116; t=1765708703; c=relaxed/simple;
+	bh=80olQ6vOco0mlqqftd4nCKQJWTfx+IFvRdHC+Jad9jQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdzgplQ6VpZ5YgBTOb+jmlahJU3qYNJ3nGMYHUn/fXGFmuAi9o+eo7tM5I5PE4iG6bXTibvxUcjaPiQWTGv6nXXUltg6T3bJh5fwcUEgqeEk/3QvMGP7g0lxJkF45LvlqrMMHjPvVRnTQsvuSfP1IF6Oc28FvaF/UKOGKtlGT+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+BDsUow; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNKv+N9zkesiOjyrFcaP66wzziAbEhrw86pSmFF63M037zjcUEpEmd3SNJfWk0kaStkPTeqSfb3X1ps9FclMaL5r9br2my3jNunB0FDfBTwlm3fBe1jlLbWo07UaryvjVwtwHkPD37In4Y9N1qmH8MoJql8kF+dUbgJCupBjcMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXaMNbeB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+BDsUow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DD99C4CEF1;
-	Sun, 14 Dec 2025 10:36:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXaMNbeB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688FBC4CEF1;
+	Sun, 14 Dec 2025 10:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765708592;
-	bh=Bb3gaOEY5RHee7gQk1ex1YcCU+/dbzpvULfO5tzYYDQ=;
+	s=k20201202; t=1765708702;
+	bh=80olQ6vOco0mlqqftd4nCKQJWTfx+IFvRdHC+Jad9jQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J+BDsUowotkCEH5trAml11w3cO5apChP51JVU32tn21Y3uncQj6yGLu4SKw2QyShQ
-	 kMCiYFFafCJlLdXr6YKN3X9x2++OewbcWPJA5yy0/dvYV2Az6+BZC7oLUZEirLkEYQ
-	 ECv1znP9t11MxGSLCAjjX77tQhMj7ehAYYsqWCVKU+wKb7Jwy8N322zwjp5rtO8Vk2
-	 R8gjq+7MYyOUZwGILWv9MYOw9imZJinohJwlugVym74Tfatat5lMoyB0kK1SbPOfNq
-	 brQDqeC4FjI1wGfUBnLl8rwZrqXJcvXvn5BNjJRu/dtdkoXrXYrQ/8HxB/Y1W6C4Fn
-	 wZAD0uHXD1abQ==
+	b=SXaMNbeB/47ggq8hUaqv8Fbxdfu0gxoxfRsxEd4s5R39dniVaWdZIFlcyK+PXtIzy
+	 3EsPTiaZrYV6GRsUGtB5BYV32aPeMXtP1hch7tq48eaCi/eL4PV2fsidaFa8/yU+cx
+	 U9QF49e/rKXKgUPtPt7/IuE3IbigqlPA/iO0xoDBbI3PLJiMTMQD1RFTJSLJSKhXhq
+	 F0j37od6aJTVLzP0SLsP4mxQZeomfCAnC+nFSiKIPjUc6u+GUQNX4HbVNmGAkEQOJw
+	 vrdi8nvChGljgiHBHelZ67cX7lZUmlsjVcdRtHkt4toxTKjPhzaEgp8y+wB1FyeF6Q
+	 1qq4ejhclXouQ==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 9C43D1AC5687; Sun, 14 Dec 2025 19:36:29 +0900 (JST)
-Date: Sun, 14 Dec 2025 19:36:29 +0900
+	id 730141AC5687; Sun, 14 Dec 2025 19:38:19 +0900 (JST)
+Date: Sun, 14 Dec 2025 19:38:19 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Cc: linux-arm-msm@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"open list:QCOM AUDIO (ASoC) DRIVERS" <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/2] ASoC: codecs: lpass-wsa-macro: add
- RX4/RX5/RX6/RX7/RX8
-Message-ID: <aT6TLZRgWwGjrLPD@sirena.co.uk>
-References: <20251125223848.1798-1-jonathan@marek.ca>
- <20251125223848.1798-2-jonathan@marek.ca>
+To: harindhu007 <harikrs0905@gmail.com>
+Cc: dmitry.torokhov@gmail.com, support.opensource@diasemi.com,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] input: sound: Fix comment typos in apbps2 and codecs
+Message-ID: <aT6Tm4r1jiYn0AkM@sirena.co.uk>
+References: <20251214102008.10582-1-harikrs0905@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,40 +45,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eT4X1ujPdsk8ugJq"
+	protocol="application/pgp-signature"; boundary="DSPvND38Xp/Pay8w"
 Content-Disposition: inline
-In-Reply-To: <20251125223848.1798-2-jonathan@marek.ca>
-X-Cookie: -- I have seen the FUN --
+In-Reply-To: <20251214102008.10582-1-harikrs0905@gmail.com>
+X-Cookie: Think big.  Pollute the Mississippi.
 
 
---eT4X1ujPdsk8ugJq
+--DSPvND38Xp/Pay8w
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 25, 2025 at 05:35:32PM -0500, Jonathan Marek wrote:
-> This allows playback using the WSA_2CH AIF, which feeds RX4 and RX5 on bo=
-th
-> WSA and WSA2.
+On Sun, Dec 14, 2025 at 03:20:08AM -0700, harindhu007 wrote:
+> Fix spelling mistakes and minor wording in comments in apbps2, da732x, an=
+d spdif_receiver drivers.
 >=20
-> RX6/RX7/RX8 can be tested with the regular WSA AIF (the 3rd intf is RX8,
-> the 5th intf is RX6/7).
+> Signed-off-by: harindhu007 <harikrs0905@gmail.com>
+> ---
+>  drivers/input/serio/apbps2.c      | 2 +-
+>  sound/soc/codecs/da732x.c         | 2 +-
+>  sound/soc/codecs/spdif_receiver.c | 2 +-
 
-This doesn't apply against current code, please check and resend.
+Please don't send patches to multiple subsystems in a single patch
+unless there is a strong reason to, send one (or more) patch per
+subsystem.
 
---eT4X1ujPdsk8ugJq
+--DSPvND38Xp/Pay8w
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk+kywACgkQJNaLcl1U
-h9AHCAf+J0hVdJmLHtreA3iP43lWhh1jQak9lrRRHJ8QYyPjNznB9n3lzUTrrs1z
-EAy8CqQhqXEWnhcNnmEf37EiBEWu4fMCmW0T1KEb6tm3YRkia4DpFG8XPfumnXdE
-+9Gsudx34Ykr/TFlaKNfHJpNvzV8jbpi8TEEdhpGjkHjLWqPF6RpD0Z2Y7/Ei491
-tGX7M0AwvY4w2w1LnMqTnbodlvKSycOvn4yraNjX2H99LyUAC4qnpfg/FQVOBiBr
-06VjNKKnFWJ5VauM+nZQKxMr/9kSB0+fvM8lmhgEKakOtvPmwxASDSfQnW4ptnXT
-6l3Ixdt5OHCjRptRO6DC+iu9TZPPQA==
-=JhlX
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk+k5oACgkQJNaLcl1U
+h9Bk6Af/ZVSmOOws2qhE6gt3jzTeMXq4HskJyJDhI1HTqAOhSBNBZpoH9sX26G1v
+lXFEAFMCOZnDgSRAm7Cvg6Lq6pCzsjVfKKPQRn8N3OnSwaocMgRVP6GiKnh5E4FX
+PuIfGr35JychhI8jYS9420CliB6H/iX0j9PKrVO0nSgqIQhQMEWptjai2h0rByvy
+ZIB2U2sQnhyxUPV4DNbb0pWE5cJWIoFI5GrJtfUMN1UobiULaY4jmZSy0dFJA5QO
+xWuKehEABvajpwfpWhZ+xws7gdRstEvE6Q/i1eqPuMRIbRZpTgP5O/yXkkkb/U6E
+mC6UiwZOkKB2Y0E1MTrsQJo7AaGBvQ==
+=ua/R
 -----END PGP SIGNATURE-----
 
---eT4X1ujPdsk8ugJq--
+--DSPvND38Xp/Pay8w--
