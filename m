@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A44E308F2A;
-	Mon, 15 Dec 2025 13:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF93090C1;
+	Mon, 15 Dec 2025 13:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807125; cv=none; b=pIN+JoBeqgPhxUNGFijq6IOIM2meC5JHqV1RuhaL9cB0Vo8E7y4C40zffzCyGSl85M/3m0zP3RHdhGwKHEsBQ+8myNz8cb/CituS+2mzzvHmwJyGcToJC99OSsGDGFioLmsQIVRZYW/xGiAadrQildltzqaudx0nKnAJlM8t0cg=
+	t=1765807128; cv=none; b=cT+JSV6IFXWoDrCXuDxKnexODMPA0PR838zqS57p2rjXQTlU7mtEByHdz0CiAHPirJxj/Q1U/lbmEFbwoyjY4SohUkMTMyC5tr5pfz0XJJ/Sp05xVDn656r1LWii2HbkJLZBonU4K4y+pWESHhrz3TbYkvCu8B0fTE941XHyUw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807125; c=relaxed/simple;
-	bh=ObcPYFjOgd+e74qo34+MtvWuVotkWlvOL3RKKEDTZmI=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OXRWz/hu90XTeK45Z2W3VNvBmsW+9g7hHbe98tJNajqCERIjT+BWSCb/7o9q6Dj4RemRZwMSB1yP4ZGKOuaBkwk8ftmAZFTT3VcTqbsfhPx68ARdHRAWWmsARK0WstDH80hP3Y3vrxnI93vFNRi9kCfILFcBKZHJq7eaaf9833c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7GH20J5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765807128; c=relaxed/simple;
+	bh=zV42fdFgQvaHn8g9/Yz2XawzLeS/o3lpBivWYvPsjn4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=k2YwnfHqlIqLPiMvCz895Kk69/91uzydgXK5eOXXR+qihYT2SRPt7rT9VRJcuoWFx0swKM2PIbFQlpzp02ICf5nJJs5YpqQyHq1Peu15OJyaVzE2T3SiHy3RCrQaGWRLqEO1Vdi1Ey5yRzFYkl2x0hRWooVvcXqsaLU0KhikcTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B/B6fuBn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7GH20J5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A0AC4AF09;
-	Mon, 15 Dec 2025 13:58:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B/B6fuBn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BBDC4CEF5;
+	Mon, 15 Dec 2025 13:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807125;
-	bh=ObcPYFjOgd+e74qo34+MtvWuVotkWlvOL3RKKEDTZmI=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=g7GH20J54u0rCVGE8EBGLyIZGH8Hj7ZtySsDL4mUMySysSiFIH27khZ9Ohk/E6D/e
-	 1PJqD9lrM68sZ3n9/Q1Og/upbwmdWu5gYKNM6Buwi3TVYgybxMkdkivkvZ2yCeoWBP
-	 ClXE6lY9OERau/GW4JEHn94juCiK3mICNC5lpb58GCaEVtdME7Mep9+BQutIwyJ21P
-	 s7prlYkwj/c9zfBY9tErNEWmERc/1pgSHJznAudsBHukGwBmQLeo3Jqvedng8IlIMb
-	 PkvRaPQjQFXPfQqUvp4C8mMCe1zVcygOjIvukrA4Fvtv7w1CuBuiUVX5dRJiDwPL6a
-	 ZhkOlT3ksRFag==
+	s=k20201202; t=1765807127;
+	bh=zV42fdFgQvaHn8g9/Yz2XawzLeS/o3lpBivWYvPsjn4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=B/B6fuBnWP2Zbi/2Qy3EIh1tMxzLN9Tpzwvpd7yEiif8yUDb59a1K00PeKrmbLG2i
+	 0yd2DLEoNiBKhz5nX2QRSpuWc2z2CcUX/WUO8gpcdUxfHiF9dmXwfjU/BG+pDKj0qX
+	 2lCc8+o5efpuDA2JYMLxKe1WsBSgXmKaZUhhAYTGoyPAZaXhIsixLAYNUVJcJ2Tmit
+	 QaHfRyvQYVJU4v6byPT9bYlytvIAKNnAUsxeKSJb7w+YcAaNLHRIsM9tuWM0rlkzwI
+	 3aEhswgXpb6WBUJkCBVmPGyfE4X3ZjKrO98hhE6J3r/sKQzOuJ3meJ9N/PeHry06v4
+	 nBOrBxwuTLmLg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, imx@lists.linux.dev, 
- Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20251210062109.2577735-1-chancel.liu@nxp.com>
-References: <20251210062109.2577735-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_sai: Constrain sample rates from audio PLLs
- only in master mode
-Message-Id: <176580712207.161056.14407929260579507141.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:42 +0900
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, David Heidelberg <david@ixit.cz>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Robert Oscilowski <drgitx@gmail.com>, 
+ Casey Connolly <casey.connolly@linaro.org>
+In-Reply-To: <20251115-sdm845-quaternary-v3-1-c16bf19128ac@ixit.cz>
+References: <20251115-sdm845-quaternary-v3-1-c16bf19128ac@ixit.cz>
+Subject: Re: [PATCH v3] ASoC: qcom: sdm845: set quaternary MI2S codec DAI
+ to I2S format
+Message-Id: <176580712510.161056.2503669103240241615.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:45 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,11 +50,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 10 Dec 2025 15:21:09 +0900, Chancel Liu wrote:
-> If SAI works in master mode it will generate clocks for external codec
-> from audio PLLs. Thus sample rates should be constrained according to
-> audio PLL clocks. While SAI works in slave mode which means clocks are
-> generated externally then constraints are independent of audio PLLs.
+On Sat, 15 Nov 2025 19:43:58 +0100, David Heidelberg wrote:
+> We configure the codec DAI format for primary and secondary but not the
+> quaternery MI2S path. Add the missing configuration to enable speaker
+> codecs on the quaternary MI2S like the MAX9827 found on the OnePlus 6.
 > 
 > 
 
@@ -62,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_sai: Constrain sample rates from audio PLLs only in master mode
-      commit: 9f4d0899efd9892fc7514c9488270e1bb7dedd2b
+[1/1] ASoC: qcom: sdm845: set quaternary MI2S codec DAI to I2S format
+      commit: 20c734cb678332883d317b17bf8fe7361648e170
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
