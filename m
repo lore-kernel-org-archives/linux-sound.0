@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7EE32AADC
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 10:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0831FB1
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 11:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765793422; cv=none; b=RxyXESHHW1bNf6G72wam1cpnMlQQWa4dEFlVT2qeLJyeRSddlZEjSVSNO972e7Asks7w/pkX5Es8Apc7uQfBAWPzbT3OAt4h8M8Foedvq3IkRBAbiVVGROzz8Ig1QOZCDeYheGPH+p0yfkwZPxw5rz8Fw4nJjoBefpnemmR/4Sc=
+	t=1765797629; cv=none; b=XhPJCyt4Re6q3Nu6CaPBsPCOOYGP2cQiw8/lhPpkuTxhES7z2NqX86Z98JIOZYdjh2E7HVofXqREvExjk3FMJtidr04g3Pn7X5+83gJ1g9O4Ewdn9HRTzYDQKihjpjaJkY2JvWjdfcXi7jN57KnGOiDsQPYJ3ZvHlEPb2XKovYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765793422; c=relaxed/simple;
-	bh=hZSA4UCqzuiWXPnAJOtEsOfew4T67VlslK3c0MX59/w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qvP+ZpKlG045/+o7NxiEZ75w3PwW4OmYAXo35dnz7JV352qrXvvK1z68ZNE2wMb6O9jsBX8fGdhwE4ABe2RHMYHHPOYHL/ss0c4zDw/MDMp6rTpopiYNEmrRBgj6/HNhhzNTtC7s4oKWklPra0Ym9nS6qfcceoLU4/X7FLvroWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fh8q+hTP; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1765797629; c=relaxed/simple;
+	bh=PRfThtBw+tIqQ8VRX8aXGo/i0wIhfl2jaIg8WfwD6tg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sZqbpBEnE1jt8O0ugwlZjOTE0lf4LbH9bShKF/8ZzVyDdslDkf3EOF6pA7QSXK5SFz+RXMjtXAKT1E1mx+5cX8gxCI0gw0bQq2FkYlP+tgCsGClJOzrlZDEXs892eXwQ5Rx9eav1Ad+T9m30gIMQHdgrq+11dg7/ySuw+5rYgRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyOS9qVm; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fh8q+hTP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyOS9qVm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765793420; x=1797329420;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hZSA4UCqzuiWXPnAJOtEsOfew4T67VlslK3c0MX59/w=;
-  b=Fh8q+hTP8SOa9kw+f/Qb1SVEtNV2i6ev1JnresZDsz9ul6m6WN3gpmoN
-   f+bmvyVU7hXcg88DUy84y+Jydp+O3Y+qvdUwndKvp51R9N0bp4KrxPPLL
-   q8jG4D0JmU+RM7T3+UTNYFWy/xyjUe9rNkKOizHb1iJJlpLnUt8npnqPw
-   QtkCPd+jiC207mU0dhHGfH3sGFfOWooFy3OyPF0rbieZXGSW/UX5DcNiT
-   4vPNpKxab5rzlfhF9LS0s6g+Sc67g9Sx6VP09QK7eXjJ2dubR11tXmnKU
-   t9cDVOLOITkKzoy1AJV4UzYJ4z46zg0ZA/MoFQ6LdOYPSACXvU8LPG2Xb
+  t=1765797627; x=1797333627;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PRfThtBw+tIqQ8VRX8aXGo/i0wIhfl2jaIg8WfwD6tg=;
+  b=MyOS9qVmQT4XqR8uzfp2OuX37DD1BHwd+3S/zAXoPDDiyH3+mcEVwSLI
+   D1CBfCnEhXUuMuCgqqULTZs8SFWCRoBL5o954vt5kLhMegbm39wagzrBX
+   wJAVIpivZgSagwRZyfHdEEFkbnjPOTP48KcPvpGdFwOD48AB1Y4TqWJ91
+   p7slJkWdLEtuozqNi80uTrAvGmvNysmre9FWkqclejepeQK+y9u9NHy7Y
+   gJXFhvpZRgTxXv6dL05LvURstADkcI1AzlBb13EKzcJUtD7xU/L4Sph9l
+   3Yg+jU8wdWNdK1Zp3S0nBejIqnkS244uJE5zg+d6wH5uIGqCodTe+txRD
    Q==;
-X-CSE-ConnectionGUID: LPF46+iOSOqL1ZLA9YFdTg==
-X-CSE-MsgGUID: 2uBvMkXkSjiP0njOAtjo8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="85282912"
+X-CSE-ConnectionGUID: ejQxZbdSRUq5Sd6J7HJ/qQ==
+X-CSE-MsgGUID: D5+mlWHxSKiCP1PsBWh44w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67731737"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="85282912"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 02:10:20 -0800
-X-CSE-ConnectionGUID: B8ZIzPAmR/WV7uSlOEmAKg==
-X-CSE-MsgGUID: B+UEdIm3Rn6tfS9R4mCD3Q==
+   d="scan'208";a="67731737"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:27 -0800
+X-CSE-ConnectionGUID: RP9AVwgnT0q7dN7EnnG1IQ==
+X-CSE-MsgGUID: h9Zc6w8oSd6dxXebMCNkwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="201872320"
+   d="scan'208";a="197690197"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.95])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 02:10:18 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:24 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,13 +50,11 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
-	tiwai@suse.de
-Subject: [PATCH for 6.19 2/2] ASoC: Intel: soc-acpi-intel-nvl-match: Drop rt722 l3 from the match table
-Date: Mon, 15 Dec 2025 12:10:36 +0200
-Message-ID: <20251215101036.9370-3-peter.ujfalusi@linux.intel.com>
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH 0/8] ASoC: SOF: ipoc4: Support for generic bytes controls
+Date: Mon, 15 Dec 2025 13:20:40 +0200
+Message-ID: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251215101036.9370-1-peter.ujfalusi@linux.intel.com>
-References: <20251215101036.9370-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,91 +63,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Revert "ASoC: Intel: soc-acpi-intel-nvl-match: add rt722 l3 support"
+Hi,
 
-NVL should be only using functional topologies for products, no monolithic
-topologies are planned to be released.
+We support bytes control type for set and get, but these are module specific
+controls and there is no way to handle notifications from them in a generic way.
+Each control have module specific param_id and this param_id is only valid in
+the module's scope, other modules might use the same id for different functions
+for example.
 
-In parallel a feature has been landed [1] which allows to remove the
-entries from the match table for sdca codecs to rely solely on function
-fragments.
+This series will add a new generic control type, similar to the existing ones
+for ENUM and SWITCH, which can be used to create bytes controls which can send
+notifications from firmware on change.
 
-Link: https://lore.kernel.org/linux-sound/20251014071335.3844631-1-yung-chuan.liao@linux.intel.com/
-This reverts commit 41566e3de40616375e8dfe5455344558b79f9354.
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+The new param_id is 202 and the sof_ipc4_control_msg_payload is updated to
+describe bytes payload also.
+
+On set, the payload must include the sof_ipc4_control_msg_payload struct with
+the control's ID and data size, followed by the data.
+
+On get, the kernel needs to send the sof_ipc4_control_msg_payload struct along
+with the LARGE_CONFIG_GET message as payload with the ID of the control that
+needs to be retrieved. The raw data is received back without additional header.
+
+A notification might contain data, in this case the num_elems reflects the size
+in bytes, or without data. If no data is received then the control is marked as
+dirty and on read the kernel will refresh the data from firmware.
+
+The series includes mandatory fixes for existing code and adds support for
+sending payload with LARGE_CONFIG_GET when the param_id is either generic ENUM,
+SWITCH or BYTES control.
+
+Regards,
+Peter
 ---
- .../intel/common/soc-acpi-intel-nvl-match.c   | 49 -------------------
- 1 file changed, 49 deletions(-)
+Peter Ujfalusi (8):
+  ASoC: SOF: ipc4-control: If there is no data do not send bytes update
+  ASoC: SOF: ipc4-topology: Correct the allocation size for bytes
+    controls
+  ASoC: SOF: ipc4-control: Use the correct size for
+    scontrol->ipc_control_data
+  ASoC: SOF: ipc4-control: Keep the payload size up to date
+  ASoC: SOF: ipc4-topology: Set initial param_id for bytes control type
+  ASoC: SOF: ipc4: Support for sending payload along with
+    LARGE_CONFIG_GET
+  ASoC: SOF: ipc4: Add definition for generic bytes control
+  ASoC: SOF: ipc4-control: Add support for generic bytes control
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-nvl-match.c b/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
-index 2768dd10aaa0..b8695d47e55b 100644
---- a/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
-@@ -15,49 +15,6 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_nvl_machines[] = {
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_nvl_machines);
- 
--/*
-- * Multi-function codecs with three endpoints created for
-- * headset, amp and dmic functions.
-- */
--static const struct snd_soc_acpi_endpoint rt_mf_endpoints[] = {
--	{
--		.num = 0,
--		.aggregated = 0,
--		.group_position = 0,
--		.group_id = 0,
--	},
--	{
--		.num = 1,
--		.aggregated = 0,
--		.group_position = 0,
--		.group_id = 0,
--	},
--	{
--		.num = 2,
--		.aggregated = 0,
--		.group_position = 0,
--		.group_id = 0,
--	},
--};
--
--static const struct snd_soc_acpi_adr_device rt722_3_single_adr[] = {
--	{
--		.adr = 0x000330025d072201ull,
--		.num_endpoints = ARRAY_SIZE(rt_mf_endpoints),
--		.endpoints = rt_mf_endpoints,
--		.name_prefix = "rt722"
--	}
--};
--
--static const struct snd_soc_acpi_link_adr nvl_rt722_l3[] = {
--	{
--		.mask = BIT(3),
--		.num_adr = ARRAY_SIZE(rt722_3_single_adr),
--		.adr_d = rt722_3_single_adr,
--	},
--	{}
--};
--
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_nvl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -79,12 +36,6 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_nvl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-nvl-rt715-rt711-rt1308-mono.tplg",
- 	},
--	{
--		.link_mask = BIT(3),
--		.links = nvl_rt722_l3,
--		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-nvl-rt722.tplg",
--	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_nvl_sdw_machines);
+ sound/soc/sof/ipc4-control.c  | 197 ++++++++++++++++++++++++++++++----
+ sound/soc/sof/ipc4-topology.c |  36 +++++--
+ sound/soc/sof/ipc4-topology.h |   9 +-
+ sound/soc/sof/ipc4.c          |  45 +++++++-
+ 4 files changed, 252 insertions(+), 35 deletions(-)
+
 -- 
 2.52.0
 
