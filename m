@@ -1,91 +1,73 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD46316182
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 17:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA1D30FC04
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 17:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765820988; cv=none; b=ayKzMQ6cz0RkftIOA2nciTR15l2ireIbMtYe972SFrPMfWVckGamE8k8BxQNP7KpKbtJyT1CvvnJMkT4kDh+dRE//v97P3IyG3yhdtivckJoQC5Vsg3ISDoHbyFkvJsh5NZBBFZYWkGLdqIKpBrkQFCvm9b66YXVjngOGiAXoFQ=
+	t=1765820989; cv=none; b=OKLrkt9KmOZsJE4kP0YqStRfXQ5KrkuX2wusY+i/a2N0bj40gkTuPREYE8n3pcJQL5ztIvoKTM5JJyIHfuu1FDFCQIz0EzFJEyIMKUzQjM7PAE/OLmSeegvcPwwdsRBPvsSLjqREg/ukuCDJqe83cQtg18qpcQClTRrtEGd2T7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765820988; c=relaxed/simple;
-	bh=Ug7z6hNXgyhetekE6C8cgQu3wJuNMkvuK/vyVoJ56uc=;
+	s=arc-20240116; t=1765820989; c=relaxed/simple;
+	bh=PAmBLmRiIkXe9rNa5lLBLU+a1+l9BlQA+ShgbVK4cFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VCDCY3ZrvilwfxJjLkwg+TncljnJB3lkzd4zqnKHn7UzX3genBuunpqrJSUFNZRNfkyXwKoKvIk15Tel4de8eh4m4yBLZMgvC+W6eBiafEpAIgeQO8LwV9IlZZbgWGLM9WgQ7dq/WtVMowIT1piCC/KXT7J4bDbCuwFncG+WFEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CAyJC5Ek; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version:Content-Type; b=oHTaLLrpo3X8MWZvjVGzA1bIrAkeq/C9qWjcQaQnY17CiEa/J4eENlW57VYNEDuA4NztzSUeOfNCAisr/eHxp88NqdHG66CCVYawA7oQUbKVTBCbJHviOTsQJKR5pjtwLoAxo2aencoK13H7MFo0oszOKsoDibxbyUCzteHTQMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I41IEgQd; arc=none smtp.client-ip=209.85.218.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CAyJC5Ek"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6498a6f8ab4so6089392a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 09:49:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I41IEgQd"
+Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b735487129fso639907566b.0
+        for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 09:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765820984; x=1766425784; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765820986; x=1766425786; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2YU313m3BNCaKIyQOcKAwuqwt5SA77bY4YL6Y9S40NY=;
-        b=CAyJC5EkW+d4VGn7+VqF1+tnFmMKmD5xXKPRxLYZsiE0oTqEXzgPIsNWDqZhX2o5p3
-         CbZe/peQupJE1vtTNUhmOzjuCRS5L4rzcgBnXFBEbVHzehQODzLYG9nTDxZorw7+NwrX
-         Ea2i10Gv78UUmhTvHa+fcAEfbEitAdICItiFAYFQI0jer1dEHQpiVw+4FQdNYFZFDaCC
-         GDYSeqwEkO/e5awt1SGhvPaSyyimXGeu+RCJjV91/UWYOc+qmjh3zCEfcQAL+j1hdpDC
-         d8YvKGoXIYC6q243J6nwsk8hA8+ZLF13Rzc12IVEcNbc2AFEJro5qa5m/yOm8tobVkLz
-         8ZuA==
+        bh=rZumfcNGGgSER51rDR4phT/MXB2LlgC2V8greSsX2nk=;
+        b=I41IEgQdME0VzHEXM+9GzGREfnNEE34Kb5G1IlQHVSkRe3r1XH4w/FLwvwIG3vDNUV
+         QE1htvHA3WmEU79hM3YcFLU801N3YmtCBym/RV6EaoYBl0AYPO1baCR1qp37XZtVkf0k
+         5uuROdS631ADv+jiqehGtfdxC7cIDQf9ijiCY2bTM+O58NHxHrlAkSnCX7SH/+UOByOl
+         EPG0o6UaGhUs9FBY5apYdqmA7XGwuWOMVrlsc99a3kjPEo3g2GwmPRa2VxiKC9WG5Khx
+         VDq3jNrEpynSeqYi1GigCvmsy2/kUNssizqOO/xaFAKP+Sxe8tjzn6VTZmI8DAi+JXyX
+         FRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765820984; x=1766425784;
+        d=1e100.net; s=20230601; t=1765820986; x=1766425786;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2YU313m3BNCaKIyQOcKAwuqwt5SA77bY4YL6Y9S40NY=;
-        b=N0vXeY4v3gIA/y6dpDBW1VUU6qn4Dj95NibzWId15D9Ep71UC+U+lrA5dhlmbav013
-         vs5cRc361D1XZ4TTsuD+xhDQBezf+G5BGuBfmJdKVcA+vnpfFX3FJyqjWc2Sj35y60tU
-         8fOviUc45qg/SYBMhg9dET8iLpzqt6nbenqDSi/CpTYIZqjAkmJTNQlwEenSALS7Rs5l
-         6Mdj+/ZGOLvnsPnYtOdTqhc8XHzbpj/G0GN9ADTMQEFOj5WF9QzrqQfd1SkNoLgIHR8s
-         5yeSbJ6GxV/hwKVPYLsz/eQ2626lGrEicvmr3dv4yh9yJu4RMjAY2ukuaM0rlmBsoxgi
-         LtOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWEKTLOCDgp6GoWOT38/L3mbcxxSrqSPjdmm25mmcI7StE0lYKVqkH0Xa4fJulsfmYJEehzut+maTVzYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkRUdEPOx3C4Ktg7w7/0rwBdpE3ZE2UrTI0M25Cqaxb7jTrt+Y
-	J/PmS/kyNFBVgUso5GiD1gGCbScscPncBFrhwxb7XO6619lTadXPMdnst7Uldyj3U8Su/+BnejP
-	HdOOB
-X-Gm-Gg: AY/fxX4mCizsFdqXtK6HKZrYoC9UQ4NrWlTHBlTEPAJOrTmo3GUpKRc4owwO/LLpBDf
-	bsSeYIAS1dRRdnjIBT2O6XsNLCFX+n5RSjrMEu+9+7rh9FUeoovcsTAX8rRgOJYEIzbdExB92wX
-	3I7qcdTsxS1RRXu7nkhXRUy3HUD6HLS/s7wMKUgesvbDRNGNmew/rr0ApdWweV9g5VGU28OFaA4
-	yjm9hw8qGLoFUTbS3k1xjr9LKlaz6cheuhft9stawvHS+fsEfS216HF6CFvNGjQ24CGjYBodMQk
-	W0ZZa9Rl/86pTWmudO5RaYKVRnNgi2YugQQ+EazPOppxNEFUGJFUTm6wpWwuTeH7XbanE3kG8Y/
-	L+/miVzNzzyM58gE8CW7tKlqnWyUU9A1QV27aLgCB8/+H6BbceYLLw6mAjVI6o5F+ELO6gy/kDA
-	iMbDIuBQMNcnaLppG6R90VFgINlz4iOipewEpk28fex/izGi8liKbr1vQ6ttTRpCC92eM8PTk3T
-	yc=
-X-Google-Smtp-Source: AGHT+IECC4hN+rfmDhT36oFOLr+fiHe8Khn0vwelE2hcLV8BQhWlPFkmUc9wqut2mwm+xxZ/2xl69g==
-X-Received: by 2002:a17:907:2d8d:b0:b76:23b0:7d89 with SMTP id a640c23a62f3a-b7d236265abmr1169169766b.14.1765820984029;
-        Mon, 15 Dec 2025 09:49:44 -0800 (PST)
+        bh=rZumfcNGGgSER51rDR4phT/MXB2LlgC2V8greSsX2nk=;
+        b=Fxe+v1qtDTeGOwPM+SBdwnv0Ox2k00i5rc7bdqjGvTDoJLj4LQpcCamGzMH/nHd8qc
+         n1dt+tLJXaiZyozm/J+OiOO6wlhpYaPwMIrp5yt0WJJy/RR/+FdNtx3XcpEeDU35NoFE
+         UOo9kGOawv/c4Qn8UEiPobaKhFqFnk0epseEJ3sdcNT4BViBeqCmdy3eviz3U8rm+MyN
+         wJIW6INNAx3AS1VOd2tSfME/m0igcLPMk36y+HC778KoogeFb25udNTVEL3uA8URNwbm
+         Q6g/UyZs8GLZZSkvfrewsQApwaEXvA8ri0GSLfY4WGMAdHpAoP4sU51qJSS0s5fPySL0
+         UT0A==
+X-Forwarded-Encrypted: i=1; AJvYcCV2mR5S3iy1klRNoOXvPFFMmonwMd5x3vS2Rdlg9zt+zOTWlAeLuyjNuYuu+7MdTC06ETNY8V2CAD29Ww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlrxnDvwZ2CstEUtuvdPTHKidlD5QEFxYPu34D7rudSElgZFef
+	pJ2NeO3mAA45hi8G3IW47wAY/BgZUMiOPwYaToOanYXH7fUVEmYmBCO41zqobZBOX/U=
+X-Gm-Gg: AY/fxX6VWPZXyJI5D2TmaGoc1AlTHoiX+DwFMveQZR3l3SbXxjqc5MCgX/3lZWx7vfD
+	AGvWDwDQob2SFefQFDQQdtwRrDkubwutJVKtdpu2yEqcwPoUEVBcUjWlozOPesfxbeBWxB17pod
+	0yepaiDnyUE6wNtwHtSDPwdTjxDFW05iOcWBO1eQDeCSfZBBPVSfc2b9B1USLzLNZlkXduru7M0
+	tgL83QjTWbg4SjiwhUcM/7kU6BnlQa6OP0pmmfUsu/xROrIDZpffJmjp6U84NXUnfq41hB3k1PJ
+	G1w4dJuMTBSEOeFEKohrlsGu5tf0fkSiLZR6WvKMf7wFVkesIw+OplgAllGdvAAWhSDNQmN2ByU
+	aZzW4At0/hAywhleqtMK0mbQnR/JwFsOyKUcsz1a3MQD0x6nLZc6N6JfBFCy64jySqJRh7DonUU
+	RkVAfCGiFKf6JRgmLRom/pUfT/3ifJYAFwb9Mpd16YX/KzhCgwMZcJ/bRWy0yWM4QyQHKmXju72
+	drQeEEyrOuJNw==
+X-Google-Smtp-Source: AGHT+IFl3Bpyn7X8AAKzXIGPAZPZ/c5ujpcKxh9IlvWoZx4DfJ3Rw+CgIUqSciBohfCMoI3C9mU+Lg==
+X-Received: by 2002:a17:907:7e97:b0:b73:8e7d:4f91 with SMTP id a640c23a62f3a-b7d238baa3dmr1152490766b.41.1765820985967;
+        Mon, 15 Dec 2025 09:49:45 -0800 (PST)
 Received: from localhost (p200300f65f006608e858c1c813bae2c0.dip0.t-ipconnect.de. [2003:f6:5f00:6608:e858:c1c8:13ba:e2c0])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b7cfa5d0b02sm1453264766b.63.2025.12.15.09.49.43
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b7cfa517585sm1477115466b.41.2025.12.15.09.49.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 09:49:43 -0800 (PST)
+        Mon, 15 Dec 2025 09:49:45 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	=?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+	Bard Liao <yung-chuan.liao@linux.intel.com>
 Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v1 1/2] soundwire: Make remove function return no value
-Date: Mon, 15 Dec 2025 18:49:25 +0100
-Message-ID: <20251215174925.1327021-5-u.kleine-koenig@baylibre.com>
+	linux-sound@vger.kernel.org
+Subject: [PATCH v1 2/2] soundwire: Use bus methods for .probe(), .remove() and .shutdown()
+Date: Mon, 15 Dec 2025 18:49:26 +0100
+Message-ID: <20251215174925.1327021-6-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
 References: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
@@ -96,536 +78,91 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=18059; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=Ug7z6hNXgyhetekE6C8cgQu3wJuNMkvuK/vyVoJ56uc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpQEoqQCaZ+67skDsMq3NOL0rihiwcrbtc+Qozf 2jbvIkN7uuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaUBKKgAKCRCPgPtYfRL+ TtAAB/wLZKWRGVO1PnyaaQls2qsrgU57mKdDxoUPJbbQXAn+LUREji4WkUElDvdCJGiuTZHbsTm FDTfoeZbrXDEGbF7znGZEoNxKWb2VEhTfoWICitoBBKfh6+1+LF7deiOYsnds5DU8jO24cL7cAG WoBUHA9ZHfEp6eEb3Gzx2y5D+BsOxLJK7DmaJGoDr8mLwPOhlAp+SAV2YtIpJkDbOuB+Vq5/Mx+ UbxwmH7ggUi/WiEB8f9urNoODd17a1OA2Q3nTI4T4iIgBgHbeIitdcspoet+Bw7+e7V/yhKdvm3 FJaZGQ+Hx0oJfDW6PHU8Op+s9F+OPtr0dvlkxJCb7JIg/fM7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2617; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=PAmBLmRiIkXe9rNa5lLBLU+a1+l9BlQA+ShgbVK4cFU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpQEouPMZH+yO4nYB2FjSPyoSVldocQPtF07LGP iIiz63AbdGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaUBKLgAKCRCPgPtYfRL+ TtTJB/kBPhkLg2oQsrNaWNNPQissHmhwQBvrq7DT/l1kwtfPqo246gTzjGnFBkG3ydyYP1n+Ckf gVyef7KpkMORtyzVuPP/5255b4TEh2reQ9w7139uf/E9yG+PUkS2MqrVNSUgjAKk1Xx4Kc/Ic2W Q2oL/cqHwypUPc9L33TAZSh2+zTcW14r0P9miwZh4Tvif/u6K8vKokUkM003K3911Qgir+bjzAv y73RociY0aJZW1//LnCsGrAE6M/IcClZGLZLxh/JJ66wU9WH5biuJpDhJxs1ZUTt3NeLs265HLo EkDc5+FZWXZ78KqV53Vtc1kP8YOwf/BjJy4BTxtK57z9qy8D
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-All remove functions return zero and the driver core ignores any other
-returned value (just emits a warning about it being ignored). So make all
-remove callbacks return void instead of an ignored int. This is in line
-with most other subsystems.
+These are nearly identical to the respective driver callbacks. The only
+differences are that .remove() returns void instead of int and .shutdown()
+has to cope for unbound devices.
+
+The objective is to get rid of users of struct device_driver callbacks
+.probe(), .remove() and .shutdown() to eventually remove these.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/soundwire/bus_type.c       | 5 ++---
- include/linux/soundwire/sdw.h      | 2 +-
- sound/soc/codecs/cs35l56-sdw.c     | 4 +---
- sound/soc/codecs/cs42l42-sdw.c     | 4 +---
- sound/soc/codecs/max98373-sdw.c    | 4 +---
- sound/soc/codecs/pm4125-sdw.c      | 4 +---
- sound/soc/codecs/rt1017-sdca-sdw.c | 4 +---
- sound/soc/codecs/rt1308-sdw.c      | 4 +---
- sound/soc/codecs/rt1316-sdw.c      | 4 +---
- sound/soc/codecs/rt1318-sdw.c      | 4 +---
- sound/soc/codecs/rt1320-sdw.c      | 4 +---
- sound/soc/codecs/rt5682-sdw.c      | 4 +---
- sound/soc/codecs/rt700-sdw.c       | 4 +---
- sound/soc/codecs/rt711-sdca-sdw.c  | 4 +---
- sound/soc/codecs/rt711-sdw.c       | 4 +---
- sound/soc/codecs/rt712-sdca-dmic.c | 4 +---
- sound/soc/codecs/rt712-sdca-sdw.c  | 4 +---
- sound/soc/codecs/rt715-sdca-sdw.c  | 4 +---
- sound/soc/codecs/rt715-sdw.c       | 4 +---
- sound/soc/codecs/rt721-sdca-sdw.c  | 4 +---
- sound/soc/codecs/rt722-sdca-sdw.c  | 4 +---
- sound/soc/codecs/tas2783-sdw.c     | 4 +---
- sound/soc/codecs/wcd937x-sdw.c     | 4 +---
- sound/soc/codecs/wcd938x-sdw.c     | 4 +---
- sound/soc/codecs/wcd939x-sdw.c     | 4 +---
- 25 files changed, 26 insertions(+), 73 deletions(-)
+ drivers/soundwire/bus_type.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
-index 91e70cb46fb5..c40de98f1485 100644
+index c40de98f1485..80ed3468e860 100644
 --- a/drivers/soundwire/bus_type.c
 +++ b/drivers/soundwire/bus_type.c
-@@ -168,7 +168,6 @@ static int sdw_drv_remove(struct device *dev)
+@@ -72,13 +72,7 @@ int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	return 0;
+ }
+ 
+-const struct bus_type sdw_bus_type = {
+-	.name = "soundwire",
+-	.match = sdw_bus_match,
+-};
+-EXPORT_SYMBOL_GPL(sdw_bus_type);
+-
+-static int sdw_drv_probe(struct device *dev)
++static int sdw_bus_probe(struct device *dev)
  {
  	struct sdw_slave *slave = dev_to_sdw_dev(dev);
  	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
--	int ret = 0;
+@@ -164,7 +158,7 @@ static int sdw_drv_probe(struct device *dev)
+ 	return 0;
+ }
  
- 	mutex_lock(&slave->sdw_dev_lock);
- 
-@@ -177,11 +176,11 @@ static int sdw_drv_remove(struct device *dev)
- 	mutex_unlock(&slave->sdw_dev_lock);
- 
- 	if (drv->remove)
--		ret = drv->remove(slave);
-+		drv->remove(slave);
+-static int sdw_drv_remove(struct device *dev)
++static void sdw_bus_remove(struct device *dev)
+ {
+ 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+ 	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
+@@ -179,19 +173,26 @@ static int sdw_drv_remove(struct device *dev)
+ 		drv->remove(slave);
  
  	ida_free(&slave->bus->slave_ida, slave->index);
- 
--	return ret;
-+	return 0;
- }
- 
- static void sdw_drv_shutdown(struct device *dev)
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index e6a3476bcef1..f462717acf20 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -705,7 +705,7 @@ struct sdw_master_device {
- 
- struct sdw_driver {
- 	int (*probe)(struct sdw_slave *sdw, const struct sdw_device_id *id);
--	int (*remove)(struct sdw_slave *sdw);
-+	void (*remove)(struct sdw_slave *sdw);
- 	void (*shutdown)(struct sdw_slave *sdw);
- 
- 	const struct sdw_device_id *id_table;
-diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
-index 42d24ac2977f..30b3192d6ce9 100644
---- a/sound/soc/codecs/cs35l56-sdw.c
-+++ b/sound/soc/codecs/cs35l56-sdw.c
-@@ -554,7 +554,7 @@ static int cs35l56_sdw_probe(struct sdw_slave *peripheral, const struct sdw_devi
- 	return 0;
- }
- 
--static int cs35l56_sdw_remove(struct sdw_slave *peripheral)
-+static void cs35l56_sdw_remove(struct sdw_slave *peripheral)
- {
- 	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
- 
-@@ -566,8 +566,6 @@ static int cs35l56_sdw_remove(struct sdw_slave *peripheral)
- 	sdw_write_no_pm(peripheral, CS35L56_SDW_GEN_INT_STAT_1, 0xFF);
- 
- 	cs35l56_remove(cs35l56);
 -
 -	return 0;
  }
  
- static const struct dev_pm_ops cs35l56_sdw_pm = {
-diff --git a/sound/soc/codecs/cs42l42-sdw.c b/sound/soc/codecs/cs42l42-sdw.c
-index f837c7eff10b..d5999ad9ff9b 100644
---- a/sound/soc/codecs/cs42l42-sdw.c
-+++ b/sound/soc/codecs/cs42l42-sdw.c
-@@ -585,14 +585,12 @@ static int cs42l42_sdw_probe(struct sdw_slave *peripheral, const struct sdw_devi
- 	return 0;
- }
- 
--static int cs42l42_sdw_remove(struct sdw_slave *peripheral)
-+static void cs42l42_sdw_remove(struct sdw_slave *peripheral)
+-static void sdw_drv_shutdown(struct device *dev)
++static void sdw_bus_shutdown(struct device *dev)
  {
- 	struct cs42l42_private *cs42l42 = dev_get_drvdata(&peripheral->dev);
+ 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+ 	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
  
- 	cs42l42_common_remove(cs42l42);
- 	pm_runtime_disable(cs42l42->dev);
--
--	return 0;
+-	if (drv->shutdown)
++	if (dev->driver && drv->shutdown)
+ 		drv->shutdown(slave);
  }
  
- static const struct dev_pm_ops cs42l42_sdw_pm = {
-diff --git a/sound/soc/codecs/max98373-sdw.c b/sound/soc/codecs/max98373-sdw.c
-index 88ff215f52b3..16673440218c 100644
---- a/sound/soc/codecs/max98373-sdw.c
-+++ b/sound/soc/codecs/max98373-sdw.c
-@@ -839,11 +839,9 @@ static int max98373_sdw_probe(struct sdw_slave *slave,
- 	return max98373_init(slave, regmap);
- }
- 
--static int max98373_sdw_remove(struct sdw_slave *slave)
-+static void max98373_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- #if defined(CONFIG_OF)
-diff --git a/sound/soc/codecs/pm4125-sdw.c b/sound/soc/codecs/pm4125-sdw.c
-index 3167b38e2876..1c612ae4a4b2 100644
---- a/sound/soc/codecs/pm4125-sdw.c
-+++ b/sound/soc/codecs/pm4125-sdw.c
-@@ -436,13 +436,11 @@ static int pm4125_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
- 	return 0;
- }
- 
--static int pm4125_remove(struct sdw_slave *pdev)
-+static void pm4125_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 
- 	component_del(dev, &wcd_sdw_component_ops);
--
--	return 0;
- }
- 
- static const struct sdw_device_id pm4125_slave_id[] = {
-diff --git a/sound/soc/codecs/rt1017-sdca-sdw.c b/sound/soc/codecs/rt1017-sdca-sdw.c
-index a9c000876be8..148b36173a25 100644
---- a/sound/soc/codecs/rt1017-sdca-sdw.c
-+++ b/sound/soc/codecs/rt1017-sdca-sdw.c
-@@ -741,14 +741,12 @@ static int rt1017_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt1017_sdca_init(&slave->dev, regmap, slave);
- }
- 
--static int rt1017_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt1017_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt1017_sdca_priv *rt1017 = dev_get_drvdata(&slave->dev);
- 
- 	if (rt1017->first_hw_init)
- 		pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt1017_sdca_id[] = {
-diff --git a/sound/soc/codecs/rt1308-sdw.c b/sound/soc/codecs/rt1308-sdw.c
-index b6c224832a43..e077d096bc23 100644
---- a/sound/soc/codecs/rt1308-sdw.c
-+++ b/sound/soc/codecs/rt1308-sdw.c
-@@ -739,11 +739,9 @@ static int rt1308_sdw_probe(struct sdw_slave *slave,
- 	return rt1308_sdw_init(&slave->dev, regmap, slave);
- }
- 
--static int rt1308_sdw_remove(struct sdw_slave *slave)
-+static void rt1308_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt1308_id[] = {
-diff --git a/sound/soc/codecs/rt1316-sdw.c b/sound/soc/codecs/rt1316-sdw.c
-index 01a977398864..20fc1579eb9c 100644
---- a/sound/soc/codecs/rt1316-sdw.c
-+++ b/sound/soc/codecs/rt1316-sdw.c
-@@ -716,11 +716,9 @@ static int rt1316_sdw_probe(struct sdw_slave *slave,
- 	return rt1316_sdw_init(&slave->dev, regmap, slave);
- }
- 
--static int rt1316_sdw_remove(struct sdw_slave *slave)
-+static void rt1316_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt1316_id[] = {
-diff --git a/sound/soc/codecs/rt1318-sdw.c b/sound/soc/codecs/rt1318-sdw.c
-index 70db5450d6d2..d28f1afe68f1 100644
---- a/sound/soc/codecs/rt1318-sdw.c
-+++ b/sound/soc/codecs/rt1318-sdw.c
-@@ -793,11 +793,9 @@ static int rt1318_sdw_probe(struct sdw_slave *slave,
- 	return rt1318_sdw_init(&slave->dev, regmap, slave);
- }
- 
--static int rt1318_sdw_remove(struct sdw_slave *slave)
-+static void rt1318_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt1318_id[] = {
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index e3f9b03df3aa..d03e8dbd0cda 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1740,11 +1740,9 @@ static int rt1320_sdw_probe(struct sdw_slave *slave,
- 	return rt1320_sdw_init(&slave->dev, regmap, mbq_regmap, slave);
- }
- 
--static int rt1320_sdw_remove(struct sdw_slave *slave)
-+static void rt1320_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- /*
-diff --git a/sound/soc/codecs/rt5682-sdw.c b/sound/soc/codecs/rt5682-sdw.c
-index 055bea0a4a3b..fc464538ceff 100644
---- a/sound/soc/codecs/rt5682-sdw.c
-+++ b/sound/soc/codecs/rt5682-sdw.c
-@@ -690,7 +690,7 @@ static int rt5682_sdw_probe(struct sdw_slave *slave,
- 	return rt5682_sdw_init(&slave->dev, regmap, slave);
- }
- 
--static int rt5682_sdw_remove(struct sdw_slave *slave)
-+static void rt5682_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt5682_priv *rt5682 = dev_get_drvdata(&slave->dev);
- 
-@@ -698,8 +698,6 @@ static int rt5682_sdw_remove(struct sdw_slave *slave)
- 		cancel_delayed_work_sync(&rt5682->jack_detect_work);
- 
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt5682_id[] = {
-diff --git a/sound/soc/codecs/rt700-sdw.c b/sound/soc/codecs/rt700-sdw.c
-index 44543c0da177..9ce36a66fae1 100644
---- a/sound/soc/codecs/rt700-sdw.c
-+++ b/sound/soc/codecs/rt700-sdw.c
-@@ -455,7 +455,7 @@ static int rt700_sdw_probe(struct sdw_slave *slave,
- 	return rt700_init(&slave->dev, sdw_regmap, regmap, slave);
- }
- 
--static int rt700_sdw_remove(struct sdw_slave *slave)
-+static void rt700_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt700_priv *rt700 = dev_get_drvdata(&slave->dev);
- 
-@@ -465,8 +465,6 @@ static int rt700_sdw_remove(struct sdw_slave *slave)
++const struct bus_type sdw_bus_type = {
++	.name = "soundwire",
++	.match = sdw_bus_match,
++	.probe = sdw_bus_probe,
++	.remove = sdw_bus_remove,
++	.shutdown = sdw_bus_shutdown,
++};
++EXPORT_SYMBOL_GPL(sdw_bus_type);
++
+ /**
+  * __sdw_register_driver() - register a SoundWire Slave driver
+  * @drv: driver to register
+@@ -210,9 +211,6 @@ int __sdw_register_driver(struct sdw_driver *drv, struct module *owner)
  	}
  
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
+ 	drv->driver.owner = owner;
+-	drv->driver.probe = sdw_drv_probe;
+-	drv->driver.remove = sdw_drv_remove;
+-	drv->driver.shutdown = sdw_drv_shutdown;
+ 	drv->driver.dev_groups = sdw_attr_groups;
  
- static const struct sdw_device_id rt700_id[] = {
-diff --git a/sound/soc/codecs/rt711-sdca-sdw.c b/sound/soc/codecs/rt711-sdca-sdw.c
-index 6eb05871db37..49dacceddf81 100644
---- a/sound/soc/codecs/rt711-sdca-sdw.c
-+++ b/sound/soc/codecs/rt711-sdca-sdw.c
-@@ -365,7 +365,7 @@ static int rt711_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt711_sdca_init(&slave->dev, regmap, mbq_regmap, slave);
- }
- 
--static int rt711_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt711_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt711_sdca_priv *rt711 = dev_get_drvdata(&slave->dev);
- 
-@@ -378,8 +378,6 @@ static int rt711_sdca_sdw_remove(struct sdw_slave *slave)
- 
- 	mutex_destroy(&rt711->calibrate_mutex);
- 	mutex_destroy(&rt711->disable_irq_lock);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt711_sdca_id[] = {
-diff --git a/sound/soc/codecs/rt711-sdw.c b/sound/soc/codecs/rt711-sdw.c
-index 93a5a89a96b1..72ddf4cebdf3 100644
---- a/sound/soc/codecs/rt711-sdw.c
-+++ b/sound/soc/codecs/rt711-sdw.c
-@@ -458,7 +458,7 @@ static int rt711_sdw_probe(struct sdw_slave *slave,
- 	return rt711_init(&slave->dev, sdw_regmap, regmap, slave);
- }
- 
--static int rt711_sdw_remove(struct sdw_slave *slave)
-+static void rt711_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt711_priv *rt711 = dev_get_drvdata(&slave->dev);
- 
-@@ -472,8 +472,6 @@ static int rt711_sdw_remove(struct sdw_slave *slave)
- 
- 	mutex_destroy(&rt711->calibrate_mutex);
- 	mutex_destroy(&rt711->disable_irq_lock);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt711_id[] = {
-diff --git a/sound/soc/codecs/rt712-sdca-dmic.c b/sound/soc/codecs/rt712-sdca-dmic.c
-index 2928649e80e4..4d83544ef204 100644
---- a/sound/soc/codecs/rt712-sdca-dmic.c
-+++ b/sound/soc/codecs/rt712-sdca-dmic.c
-@@ -960,11 +960,9 @@ static int rt712_sdca_dmic_sdw_probe(struct sdw_slave *slave,
- 	return rt712_sdca_dmic_init(&slave->dev, regmap, mbq_regmap, slave);
- }
- 
--static int rt712_sdca_dmic_sdw_remove(struct sdw_slave *slave)
-+static void rt712_sdca_dmic_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static struct sdw_driver rt712_sdca_dmic_sdw_driver = {
-diff --git a/sound/soc/codecs/rt712-sdca-sdw.c b/sound/soc/codecs/rt712-sdca-sdw.c
-index ea07131edfa2..8c82887174db 100644
---- a/sound/soc/codecs/rt712-sdca-sdw.c
-+++ b/sound/soc/codecs/rt712-sdca-sdw.c
-@@ -374,7 +374,7 @@ static int rt712_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt712_sdca_init(&slave->dev, regmap, mbq_regmap, slave);
- }
- 
--static int rt712_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt712_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt712_sdca_priv *rt712 = dev_get_drvdata(&slave->dev);
- 
-@@ -387,8 +387,6 @@ static int rt712_sdca_sdw_remove(struct sdw_slave *slave)
- 
- 	mutex_destroy(&rt712->calibrate_mutex);
- 	mutex_destroy(&rt712->disable_irq_lock);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt712_sdca_id[] = {
-diff --git a/sound/soc/codecs/rt715-sdca-sdw.c b/sound/soc/codecs/rt715-sdca-sdw.c
-index ce7d8955efc3..968bc183b8d8 100644
---- a/sound/soc/codecs/rt715-sdca-sdw.c
-+++ b/sound/soc/codecs/rt715-sdca-sdw.c
-@@ -191,11 +191,9 @@ static int rt715_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt715_sdca_init(&slave->dev, mbq_regmap, regmap, slave);
- }
- 
--static int rt715_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt715_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt715_sdca_id[] = {
-diff --git a/sound/soc/codecs/rt715-sdw.c b/sound/soc/codecs/rt715-sdw.c
-index a3df4bbedf86..49c91d015be4 100644
---- a/sound/soc/codecs/rt715-sdw.c
-+++ b/sound/soc/codecs/rt715-sdw.c
-@@ -471,11 +471,9 @@ static int rt715_sdw_probe(struct sdw_slave *slave,
- 	return rt715_init(&slave->dev, sdw_regmap, regmap, slave);
- }
- 
--static int rt715_sdw_remove(struct sdw_slave *slave)
-+static void rt715_sdw_remove(struct sdw_slave *slave)
- {
- 	pm_runtime_disable(&slave->dev);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt715_id[] = {
-diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
-index 4d8a12b13015..6eb8512975b8 100644
---- a/sound/soc/codecs/rt721-sdca-sdw.c
-+++ b/sound/soc/codecs/rt721-sdca-sdw.c
-@@ -415,7 +415,7 @@ static int rt721_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt721_sdca_init(&slave->dev, regmap, mbq_regmap, slave);
- }
- 
--static int rt721_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt721_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt721_sdca_priv *rt721 = dev_get_drvdata(&slave->dev);
- 
-@@ -429,8 +429,6 @@ static int rt721_sdca_sdw_remove(struct sdw_slave *slave)
- 
- 	mutex_destroy(&rt721->calibrate_mutex);
- 	mutex_destroy(&rt721->disable_irq_lock);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt721_sdca_id[] = {
-diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
-index a0f5601a262a..0a5b3ffa90da 100644
---- a/sound/soc/codecs/rt722-sdca-sdw.c
-+++ b/sound/soc/codecs/rt722-sdca-sdw.c
-@@ -428,7 +428,7 @@ static int rt722_sdca_sdw_probe(struct sdw_slave *slave,
- 	return rt722_sdca_init(&slave->dev, regmap, slave);
- }
- 
--static int rt722_sdca_sdw_remove(struct sdw_slave *slave)
-+static void rt722_sdca_sdw_remove(struct sdw_slave *slave)
- {
- 	struct rt722_sdca_priv *rt722 = dev_get_drvdata(&slave->dev);
- 
-@@ -442,8 +442,6 @@ static int rt722_sdca_sdw_remove(struct sdw_slave *slave)
- 
- 	mutex_destroy(&rt722->calibrate_mutex);
- 	mutex_destroy(&rt722->disable_irq_lock);
--
--	return 0;
- }
- 
- static const struct sdw_device_id rt722_sdca_id[] = {
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 43b779873b93..0b07981c3f2c 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1310,7 +1310,7 @@ static s32 tas_sdw_probe(struct sdw_slave *peripheral,
- 	return tas_init(tas_dev);
- }
- 
--static s32 tas_sdw_remove(struct sdw_slave *peripheral)
-+static void tas_sdw_remove(struct sdw_slave *peripheral)
- {
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(&peripheral->dev);
- 
-@@ -1319,8 +1319,6 @@ static s32 tas_sdw_remove(struct sdw_slave *peripheral)
- 	mutex_destroy(&tas_dev->calib_lock);
- 	mutex_destroy(&tas_dev->pde_lock);
- 	dev_set_drvdata(&peripheral->dev, NULL);
--
--	return 0;
- }
- 
- static const struct sdw_device_id tas_sdw_id[] = {
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 1878d67e3fa1..7a18bed7f347 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -1056,13 +1056,11 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	return 0;
- }
- 
--static int wcd9370_remove(struct sdw_slave *pdev)
-+static void wcd9370_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 
- 	component_del(dev, &wcd_sdw_component_ops);
--
--	return 0;
- }
- 
- static const struct sdw_device_id wcd9370_slave_id[] = {
-diff --git a/sound/soc/codecs/wcd938x-sdw.c b/sound/soc/codecs/wcd938x-sdw.c
-index 8c8f39d04972..0f0cc0ac3056 100644
---- a/sound/soc/codecs/wcd938x-sdw.c
-+++ b/sound/soc/codecs/wcd938x-sdw.c
-@@ -1217,13 +1217,11 @@ static int wcd9380_probe(struct sdw_slave *pdev,
- 	return 0;
- }
- 
--static int wcd9380_remove(struct sdw_slave *pdev)
-+static void wcd9380_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 
- 	component_del(dev, &wcd_sdw_component_ops);
--
--	return 0;
- }
- 
- static const struct sdw_device_id wcd9380_slave_id[] = {
-diff --git a/sound/soc/codecs/wcd939x-sdw.c b/sound/soc/codecs/wcd939x-sdw.c
-index da342a0c95a5..965c768e7995 100644
---- a/sound/soc/codecs/wcd939x-sdw.c
-+++ b/sound/soc/codecs/wcd939x-sdw.c
-@@ -1414,7 +1414,7 @@ static int wcd9390_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
- 	return ret;
- }
- 
--static int wcd9390_remove(struct sdw_slave *pdev)
-+static void wcd9390_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct wcd939x_sdw_priv *wcd = dev_get_drvdata(dev);
-@@ -1423,8 +1423,6 @@ static int wcd9390_remove(struct sdw_slave *pdev)
- 
- 	if (wcd->regmap)
- 		regmap_exit(wcd->regmap);
--
--	return 0;
- }
- 
- static const struct sdw_device_id wcd9390_slave_id[] = {
+ 	return driver_register(&drv->driver);
 -- 
 2.47.3
 
