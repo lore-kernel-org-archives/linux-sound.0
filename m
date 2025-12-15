@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB30E2F4A1E;
-	Mon, 15 Dec 2025 13:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82954315D27;
+	Mon, 15 Dec 2025 13:58:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807119; cv=none; b=MRa5aIo28a0jhe0mpooHSaSvfmyxBXCYAvPGrGqcgKYYHRTn1xgKr7+1630YWmgV5TXWCxL/wKMKnQrxcblBtjE2mDDOUCJjYzMasjM/duux6xm4zip4c1BpAW1nZfkhe7vc1OfToCA0Z25HbwlMAa16Utd2Srza0HTqGl9eGSs=
+	t=1765807121; cv=none; b=LLmfjrQUlZUzJ0SkdNFUqisfxbN/VpmPDZxjIJL4UDc+YF33BZnC/VJmumLbsAKBnN780FIy38pSvraVjd25icIum796eMH8CBZ7Uyp2LcC7LAvl6hsUXSUpQC3AbF1fJoJ6PYdbSwn5O7XAeIB2Wv58KlW3TRhigslJzztZv1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807119; c=relaxed/simple;
-	bh=Vk8sRS8+QZJdcXzr67W1agraTzLrzvrzBYhCTK9yLkk=;
+	s=arc-20240116; t=1765807121; c=relaxed/simple;
+	bh=mDoQSoV4Trw3E7JIctccbj4Bpep4NAS6BAnFbDtlDEI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LhIJHGHsdns7u2k3gtely32lihzftWt2UsbwF9s7BSop1m11QIOFECJZMsiwknLYc4PKBmij/QosiNKo6zd16KpQERX3D5RuZvGVc2DHjTqjFq4fxBmkxHOPwWIEy55m84ygEo21ZphJjHH2uAf2EXzioNugOxjeP9Oe4RDRPSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmRtx8N2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=E/lC3wHx2FBPekq/GrX4WKNG/ERt8teoerogMnQmXuYOevHA1ixoCI67pYCJBt21W/cV7IC/7sS37p2kPu7Hs37S9iKbPCJ+g1xkEbjSluKhVvGz26MueRAHdkhwP0WmUc+to6oYAeBz0Vv3pkhUO5+jI48AVvT03X6BxLizIQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pq7N7c1C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmRtx8N2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C80C4CEF5;
-	Mon, 15 Dec 2025 13:58:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pq7N7c1C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8A81C19422;
+	Mon, 15 Dec 2025 13:58:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807119;
-	bh=Vk8sRS8+QZJdcXzr67W1agraTzLrzvrzBYhCTK9yLkk=;
+	s=k20201202; t=1765807121;
+	bh=mDoQSoV4Trw3E7JIctccbj4Bpep4NAS6BAnFbDtlDEI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JmRtx8N2MnrY38hGONjoZcTNNgXkQhqkiozzu6XKqkecxYCP3mtt1uHlrmOuE3/z/
-	 T/YHDdVd46qHgWe0jshp9W5zPz1UxRde9qWEDVFL99eGtgdfjxiUFcpmRFjV4Xi2Ht
-	 EXJZ4xR2PBugZbO65Mj8VhWs0gPros3zPQEhRX/xQCbtio3Wfw3v4yZ4/oDDv5Ge3h
-	 4sOhFIjuasOcRw1HWxiy6eQVzGC/JqPYuPEzj5rRCZ6tany8sGEYG3VZar8ynjFrWa
-	 Kes7me2Fc9Ys1MLZw/cglk1NtyGBT3z2ZupB1Fa7yZdYWlOFFSrAsZByyTCa/Q38ci
-	 j/PRW9d+8NFHw==
+	b=Pq7N7c1ChXJ8wNF3kHbfdJJVREOHU0sYQAWy9PnBhF3lDG614Uuv9MRc06dNl/7jD
+	 mvyYJkg5qQYB07e6nbHjJShTAjZvoIpkJRXZ4GFBQqVTXgttE301XJAb6r7bjIyWMp
+	 9s13+e9fWKRgwCOums/9YUR5bC5bgnosOA7IzjL+8/iDcQi/EuW/MODMQoxdri6q9o
+	 q1ZVYZX8IVMSBSMos4XDQQYkft3bTdQhbzry0AH3ApVGANSVPFKJQvGDeBs/sdSNW4
+	 6y9FhKtRZmoC67L8NdWYiF00pCgha4nAD4ubfhBQ9mRNvrUIeIAAzWO3M+JlW9/d+7
+	 KGlqTxy49p8GQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, "Sheetal ." <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
  Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Sander Vanheule <sander@svanheule.net>, linux-tegra@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+ Thorsten Blum <thorsten.blum@linux.dev>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20251208052040.4025612-1-sheetal@nvidia.com>
-References: <20251208052040.4025612-1-sheetal@nvidia.com>
-Subject: Re: [PATCH] ASoC: tegra: Fix uninitialized flat cache warning in
- tegra210_ahub
-Message-Id: <176580711685.161056.2870238132964388874.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:36 +0900
+In-Reply-To: <20251209151853.432518-1-thorsten.blum@linux.dev>
+References: <20251209151853.432518-1-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] ASoC: codecs: wm0010: Replace cpu_to_be64 +
+ le64_to_cpu with swab64
+Message-Id: <176580711909.161056.3094183851804630244.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:39 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,16 +51,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 08 Dec 2025 10:50:40 +0530, Sheetal . wrote:
-> The tegra210_ahub driver started triggering a warning after commit
-> e062bdfdd6ad ("regmap: warn users about uninitialized flat cache"),
-> which flags drivers using REGCACHE_FLAT without register defaults.
-> Since the driver omits default definitions because its registers are
-> zero initialized, the following warning is shown:
+On Tue, 09 Dec 2025 16:18:50 +0100, Thorsten Blum wrote:
+> Replace cpu_to_be64(le64_to_cpu()) with swab64() to simplify
+> byte_swap_64().  No functional changes.
 > 
->   WARNING KERN tegra210-ahub 2900800.ahub: using zero-initialized flat cache, this may cause unexpected behavior
 > 
-> [...]
 
 Applied to
 
@@ -67,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tegra: Fix uninitialized flat cache warning in tegra210_ahub
-      commit: 4d4021b0bbd1fad7c72b9155863f5b3ccb43ae91
+[1/1] ASoC: codecs: wm0010: Replace cpu_to_be64 + le64_to_cpu with swab64
+      commit: a49e098be20063c91b673a674b8f0f92135448da
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
