@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7602727E2
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 13:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4D12DF134
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 13:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765805375; cv=none; b=tgeetXlsBLpSlcFqSxM+qlFy027ZToMHvBaSKoCKp8h2aV43uarDn3TlqacZbLBaCpeYwJGxxPz1gKJbhRJWeo4aSSUU/96/zShHMRr26GrChzSOoVckeOFAx3AWkwskc+Ngxs94lfv0ZVYxc7T5qQ6tBsIpG9OxXcizn8MbBGE=
+	t=1765805377; cv=none; b=jBvzZPjyInfvMCmKKNBtAMBVIO5lOX+lJ+LbSlvY1yi2lsGI/l4jqr6/ttGHdgcafzJLfu9HEJhLx8i2mwg9NVj9SJZm/NEM5eKb8wjNb0IbnBG3m8celRa9Y8VOwMsnnb0dYrHIRVpNnL7QOkZjXkjRkdLoHnhv8GL2otUqtTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765805375; c=relaxed/simple;
-	bh=KsQ53WjqfTFVFScr0CxfJnaY3fAKUQAu+D/VBYVHJ+0=;
+	s=arc-20240116; t=1765805377; c=relaxed/simple;
+	bh=CBcykDfTzYbZsYvjMLL9jbj+C9D0N9FCzcZLGXYkzPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KaXerGD/3tYMK4fUXZhJAI1agVmMcNh16/nEbLUH80ZMADNO5pNRA4cpNjja84e5DfaKW5re8pIWbachAJpxWNiBz708zBPXYJ+JtzTES+IqQ3S2rIV/0t4sRi/Y7MHTJ3dTUDH02mmJUi5SUBwBTNFqC75/nQ7gmSj1EGjqcq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UBQM4TQI; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=KFK+NyhLAAdEkuTM/fczdN5XEkfAA2T8KwYqtAyTfoOcQsIPje+HbM/PhqiwHvzARRmf0QJjSSzAXMT3NqfEwplN9ymVX0zUE851sAf2X7ixLq0KiOoXJB1tFd+ZbsWIU0HAf+VzJQEehONZe+BK0ZArbaWQO0zPLQEup5VGEg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Suj4skcp; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBQM4TQI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Suj4skcp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765805373; x=1797341373;
+  t=1765805376; x=1797341376;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KsQ53WjqfTFVFScr0CxfJnaY3fAKUQAu+D/VBYVHJ+0=;
-  b=UBQM4TQIZ98jMSGEjM316/1FjcP6rwlhYiv4SXWHD4tNPEWgKjWNjR8e
-   Ck/F4l9O7tfa7wv91oROsZKDN4KAIVj2qYjnpY+GO5l0OC2iGxvPW8v6A
-   FAQPHsUEv5XxXM3pTqzqpeyGNRyE36+UFlLvCQIgolgtIaCSjWEOdCU3a
-   rS1sKHfWdcYvKSSz5Ma5k7uYggy58+CUtckiB15IpqGqZM6PFqg4W3p3e
-   KlmSQd9kuE78XjQe8nmEOR8cVUu8432QdB3PQ1Q2nbrlIt19Vz8DaJu1L
-   y6qnzipmGm6/dZaJO+p0j0b4aBo36+4lxz1pVxYwzz2soBGQxqdXxj8lW
-   w==;
-X-CSE-ConnectionGUID: SnNjFksTQGa03xCH4Rnfbg==
-X-CSE-MsgGUID: 9vOI7FJBR9Gl9EFbBeEGTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="93179472"
+  bh=CBcykDfTzYbZsYvjMLL9jbj+C9D0N9FCzcZLGXYkzPk=;
+  b=Suj4skcpsIas34QuxHr5M8yMeG+UDaj0BGSFwDDYr6GAA3gMedaejgLM
+   ykowtuwKbIJCx41Ai/QTaBVYpScAs1IIDXNyZbXFX502LelbPttFO8qqW
+   r2L3KDaRYMNMAT5p7FI+GTR4OJpVBEWh91C2uq7e7G7efy/+WVAndI19d
+   n9gBk7wUHD0M8uyBU9PakUUW6lVSZ+X6Oc55LoFWobamO76ZvK+MaWGab
+   rX1vlFsA4LH1EE2Z/F7ssQatDjrTxk/aPC8v0q8jMwVlAQEyVYkwQJy7f
+   4cO+tVAfA6ajlkEDtwuCL9AdKOEnQqkoTN3VXfaX0njcCXopgDRBqgXqf
+   Q==;
+X-CSE-ConnectionGUID: A/MiXDtvSBOHrgoGskcdbQ==
+X-CSE-MsgGUID: vFn/6G8KR3mnEtfJ7f4NRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="93179476"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="93179472"
+   d="scan'208";a="93179476"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:33 -0800
-X-CSE-ConnectionGUID: 8EB9qpiQRcmWIpEnUqud1w==
-X-CSE-MsgGUID: miv25N3QSpuENmWtcaiDbA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:36 -0800
+X-CSE-ConnectionGUID: h6Z28Jw4TsGmy3pG19OIUA==
+X-CSE-MsgGUID: Z30cbxVfTdup/9nP9kVpTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="228376982"
+   d="scan'208";a="228376989"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.95])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:31 -0800
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:34 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 3/8] ASoC: SOF: Add support for on-demand DSP boot
-Date: Mon, 15 Dec 2025 15:29:41 +0200
-Message-ID: <20251215132946.2155-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 4/8] ASoC: SOF: sof-client: Add support for on-demand DSP boot
+Date: Mon, 15 Dec 2025 15:29:42 +0200
+Message-ID: <20251215132946.2155-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
 References: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
@@ -66,440 +66,175 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On system suspend / resume we always power up the DSP and boot the
-firmware, which is not strictly needed as right after the firmware booted
-up we power the DSP down again on suspend and we also power it down after
-resume after some inactivity.
+With the introduction of on-demand DSP boot the rpm status not necessary
+tells that the DSP firmware is booted up.
 
-Out of caution, add a new platform descriptor flag to enable on-demand
-DSP boot since this might not work without changes to platform code on
-certain platforms.
+Introduce the sof_client_boot_dsp() which can be used to make sure that
+the DSP is booted and it can handle IPCs.
 
-With the on-demand dsp boot enabled we will not boot the DSP and firmware
-up on system or rpm resume, just enable audio subsystem since audio IPs,
-like HDA and SoundWire might be needed (codecs suspend/resume operation).
-Only boot up the DSP during the first hw_params() call when the DSP is
-really going to be needed.
-
-In this way we can handle the audio related use cases:
-normal audio use (rpm suspend/resume)
-system suspend/resume without active audio
-system suspend/resume with active audio
-system suspend/resume without active audio, and audio start before the rpm
-suspend timeout
-
-Add module option to force the on-demand DSP boot to allow it to be
-disabled or enabled without kernel change for testing.
+Update the client drivers to use the new function where it is expected that
+the DSP is booted up.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- include/sound/sof.h         |   3 +
- sound/soc/sof/compress.c    |   8 ++
- sound/soc/sof/control.c     |   7 +-
- sound/soc/sof/core.c        |   1 +
- sound/soc/sof/debug.c       |   7 +-
- sound/soc/sof/ipc3-dtrace.c |   7 +-
- sound/soc/sof/ipc4.c        |  13 ++++
- sound/soc/sof/pcm.c         |  10 +++
- sound/soc/sof/pm.c          | 149 ++++++++++++++++++++++--------------
- sound/soc/sof/sof-priv.h    |   3 +
- 10 files changed, 149 insertions(+), 59 deletions(-)
+ sound/soc/sof/sof-client-ipc-flood-test.c     |  7 ++---
+ .../soc/sof/sof-client-ipc-kernel-injector.c  |  4 ++-
+ sound/soc/sof/sof-client-ipc-msg-injector.c   | 14 ++++++----
+ sound/soc/sof/sof-client-probes.c             | 26 ++++++++++++++-----
+ sound/soc/sof/sof-client.c                    |  6 +++++
+ sound/soc/sof/sof-client.h                    |  3 +++
+ 6 files changed, 45 insertions(+), 15 deletions(-)
 
-diff --git a/include/sound/sof.h b/include/sound/sof.h
-index eddea82c7b5a..38d6c8cb5e83 100644
---- a/include/sound/sof.h
-+++ b/include/sound/sof.h
-@@ -159,6 +159,9 @@ struct sof_dev_desc {
- 	/* The platform supports DSPless mode */
- 	bool dspless_mode_supported;
+diff --git a/sound/soc/sof/sof-client-ipc-flood-test.c b/sound/soc/sof/sof-client-ipc-flood-test.c
+index 373f3a125372..7b72d1c9c739 100644
+--- a/sound/soc/sof/sof-client-ipc-flood-test.c
++++ b/sound/soc/sof/sof-client-ipc-flood-test.c
+@@ -219,9 +219,10 @@ static ssize_t sof_ipc_flood_dfs_write(struct file *file, const char __user *buf
+ 		goto out;
+ 	}
  
-+	/* On demand DSP booting is possible on the platform */
-+	bool on_demand_dsp_boot;
-+
- 	/* defaults paths for firmware, library and topology files */
- 	const char *default_fw_path[SOF_IPC_TYPE_COUNT];
- 	const char *default_lib_path[SOF_IPC_TYPE_COUNT];
-diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
-index 90b932ae3bab..86d563c864e5 100644
---- a/sound/soc/sof/compress.c
-+++ b/sound/soc/sof/compress.c
-@@ -195,6 +195,14 @@ static int sof_compr_set_params(struct snd_soc_component *component,
- 	if (sizeof(*pcm) + ext_data_size > sdev->ipc->max_payload_size)
- 		return -EINVAL;
+-	/* flood test */
+-	ret = sof_debug_ipc_flood_test(cdev, flood_duration_test,
+-				       ipc_duration_ms, ipc_count);
++	ret = sof_client_boot_dsp(cdev);
++	if (!ret)
++		ret = sof_debug_ipc_flood_test(cdev, flood_duration_test,
++					       ipc_duration_ms, ipc_count);
  
-+	/*
-+	 * Make sure that the DSP is booted up, which might not be the
-+	 * case if the on-demand DSP boot is used
-+	 */
-+	ret = snd_sof_boot_dsp_firmware(sdev);
+ 	err = pm_runtime_put_autosuspend(dev);
+ 	if (err < 0)
+diff --git a/sound/soc/sof/sof-client-ipc-kernel-injector.c b/sound/soc/sof/sof-client-ipc-kernel-injector.c
+index 249bd2d6c8d2..d5984990098a 100644
+--- a/sound/soc/sof/sof-client-ipc-kernel-injector.c
++++ b/sound/soc/sof/sof-client-ipc-kernel-injector.c
+@@ -63,7 +63,9 @@ static ssize_t sof_kernel_msg_inject_dfs_write(struct file *file, const char __u
+ 		return ret;
+ 	}
+ 
+-	sof_client_ipc_rx_message(cdev, hdr, priv->kernel_buffer);
++	ret = sof_client_boot_dsp(cdev);
++	if (!ret)
++		sof_client_ipc_rx_message(cdev, hdr, priv->kernel_buffer);
+ 
+ 	ret = pm_runtime_put_autosuspend(dev);
+ 	if (ret < 0)
+diff --git a/sound/soc/sof/sof-client-ipc-msg-injector.c b/sound/soc/sof/sof-client-ipc-msg-injector.c
+index 9c8a0fbfb8df..c28f106de6ba 100644
+--- a/sound/soc/sof/sof-client-ipc-msg-injector.c
++++ b/sound/soc/sof/sof-client-ipc-msg-injector.c
+@@ -131,11 +131,15 @@ static int sof_msg_inject_send_message(struct sof_client_dev *cdev)
+ 		return ret;
+ 	}
+ 
+-	/* send the message */
+-	ret = sof_client_ipc_tx_message(cdev, priv->tx_buffer, priv->rx_buffer,
+-					priv->max_msg_size);
+-	if (ret)
+-		dev_err(dev, "IPC message send failed: %d\n", ret);
++	ret = sof_client_boot_dsp(cdev);
++	if (!ret) {
++		/* send the message */
++		ret = sof_client_ipc_tx_message(cdev, priv->tx_buffer,
++						priv->rx_buffer,
++						priv->max_msg_size);
++		if (ret)
++			dev_err(dev, "IPC message send failed: %d\n", ret);
++	}
+ 
+ 	err = pm_runtime_put_autosuspend(dev);
+ 	if (err < 0)
+diff --git a/sound/soc/sof/sof-client-probes.c b/sound/soc/sof/sof-client-probes.c
+index f753e0faff99..124f55508159 100644
+--- a/sound/soc/sof/sof-client-probes.c
++++ b/sound/soc/sof/sof-client-probes.c
+@@ -123,6 +123,10 @@ static int sof_probes_compr_set_params(struct snd_compr_stream *cstream,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = sof_client_boot_dsp(cdev);
 +	if (ret)
 +		return ret;
 +
- 	pcm = kzalloc(sizeof(*pcm) + ext_data_size, GFP_KERNEL);
- 	if (!pcm)
- 		return -ENOMEM;
-diff --git a/sound/soc/sof/control.c b/sound/soc/sof/control.c
-index 9582ab5f1113..74d997a4f620 100644
---- a/sound/soc/sof/control.c
-+++ b/sound/soc/sof/control.c
-@@ -198,7 +198,12 @@ int snd_sof_bytes_ext_volatile_get(struct snd_kcontrol *kcontrol, unsigned int _
- 		return ret;
+ 	ret = ipc->init(cdev, priv->extractor_stream_tag, rtd->dma_bytes);
+ 	if (ret < 0) {
+ 		dev_err(dai->dev, "Failed to init probe: %d\n", ret);
+@@ -224,6 +228,10 @@ static ssize_t sof_probes_dfs_points_read(struct file *file, char __user *to,
+ 		goto exit;
  	}
  
--	ret = tplg_ops->control->bytes_ext_volatile_get(scontrol, binary_data, size);
-+	/* Make sure the DSP/firmware is booted up */
-+	ret = snd_sof_boot_dsp_firmware(sdev);
-+	if (!ret)
-+		ret = tplg_ops->control->bytes_ext_volatile_get(scontrol,
-+								binary_data,
-+								size);
++	ret = sof_client_boot_dsp(cdev);
++	if (ret)
++		goto pm_error;
++
+ 	ret = ipc->points_info(cdev, &desc, &num_desc, type);
+ 	if (ret < 0)
+ 		goto pm_error;
+@@ -312,9 +320,12 @@ sof_probes_dfs_points_write(struct file *file, const char __user *from,
+ 		goto exit;
+ 	}
  
- 	err = pm_runtime_put_autosuspend(scomp->dev);
+-	ret = ipc->points_add(cdev, desc, bytes / sizeof(*desc));
+-	if (!ret)
+-		ret = count;
++	ret = sof_client_boot_dsp(cdev);
++	if (!ret) {
++		ret = ipc->points_add(cdev, desc, bytes / sizeof(*desc));
++		if (!ret)
++			ret = count;
++	}
+ 
+ 	err = pm_runtime_put_autosuspend(dev);
  	if (err < 0)
-diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
-index b11f408f1366..2d394389c945 100644
---- a/sound/soc/sof/core.c
-+++ b/sound/soc/sof/core.c
-@@ -680,6 +680,7 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
- 	mutex_init(&sdev->power_state_access);
- 	mutex_init(&sdev->ipc_client_mutex);
- 	mutex_init(&sdev->client_event_handler_mutex);
-+	mutex_init(&sdev->dsp_fw_boot_mutex);
- 
- 	/* set default timeouts if none provided */
- 	if (plat_data->desc->ipc_timeout == 0)
-diff --git a/sound/soc/sof/debug.c b/sound/soc/sof/debug.c
-index b24943a65c89..6b9e1f1ee657 100644
---- a/sound/soc/sof/debug.c
-+++ b/sound/soc/sof/debug.c
-@@ -216,7 +216,12 @@ static int memory_info_update(struct snd_sof_dev *sdev, char *buf, size_t buff_s
- 		goto error;
+@@ -367,9 +378,12 @@ sof_probes_dfs_points_remove_write(struct file *file, const char __user *from,
+ 		goto exit;
  	}
  
--	ret = sof_ipc_tx_message(sdev->ipc, &msg, msg.size, reply, SOF_IPC_MSG_MAX_SIZE);
-+	/* Make sure the DSP/firmware is booted up */
-+	ret = snd_sof_boot_dsp_firmware(sdev);
-+	if (!ret)
-+		ret = sof_ipc_tx_message(sdev->ipc, &msg, msg.size, reply,
-+					 SOF_IPC_MSG_MAX_SIZE);
-+
- 	pm_runtime_put_autosuspend(sdev->dev);
- 	if (ret < 0 || reply->rhdr.error < 0) {
- 		ret = min(ret, reply->rhdr.error);
-diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
-index 6ec391fd39a9..50700f5cb0ef 100644
---- a/sound/soc/sof/ipc3-dtrace.c
-+++ b/sound/soc/sof/ipc3-dtrace.c
-@@ -171,7 +171,12 @@ static int ipc3_trace_update_filter(struct snd_sof_dev *sdev, int num_elems,
- 		dev_err(sdev->dev, "enabling device failed: %d\n", ret);
- 		goto error;
- 	}
--	ret = sof_ipc_tx_message_no_reply(sdev->ipc, msg, msg->hdr.size);
-+
-+	/* Make sure the DSP/firmware is booted up */
-+	ret = snd_sof_boot_dsp_firmware(sdev);
-+	if (!ret)
-+		ret = sof_ipc_tx_message_no_reply(sdev->ipc, msg, msg->hdr.size);
-+
- 	pm_runtime_put_autosuspend(sdev->dev);
- 
- error:
-diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
-index a4a090e6724a..1df97129cee6 100644
---- a/sound/soc/sof/ipc4.c
-+++ b/sound/soc/sof/ipc4.c
-@@ -892,6 +892,19 @@ void sof_ipc4_mic_privacy_state_change(struct snd_sof_dev *sdev, bool state)
- 	struct sof_ipc4_msg msg;
- 	u32 data = state;
- 
-+	/*
-+	 * The mic privacy change notification's role is to notify the running
-+	 * firmware that there is a change in mic privacy state from whatever
-+	 * the state was before - since the firmware booted up or since the
-+	 * previous change during runtime.
-+	 *
-+	 * If the firmware has not been booted up, there is no need to send
-+	 * change notification (the firmware is not booted up).
-+	 * The firmware checks the current state during its boot.
-+	 */
-+	if (sdev->fw_state != SOF_FW_BOOT_COMPLETE)
-+		return;
-+
- 	msg.primary = SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
- 	msg.primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
- 	msg.primary |= SOF_IPC4_MOD_ID(SOF_IPC4_MOD_INIT_BASEFW_MOD_ID);
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index cee04574264e..31879a11c33e 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -122,6 +122,16 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
- 
- 	spcm_dbg(spcm, substream->stream, "Entry: hw_params\n");
- 
-+	if (!sdev->dspless_mode_selected) {
-+		/*
-+		 * Make sure that the DSP is booted up, which might not be the
-+		 * case if the on-demand DSP boot is used
-+		 */
-+		ret = snd_sof_boot_dsp_firmware(sdev);
-+		if (ret)
-+			return ret;
+-	ret = ipc->points_remove(cdev, &array[1], array[0]);
+-	if (!ret)
+-		ret = count;
++	ret = sof_client_boot_dsp(cdev);
++	if (!ret) {
++		ret = ipc->points_remove(cdev, &array[1], array[0]);
++		if (!ret)
++			ret = count;
 +	}
-+
- 	/*
- 	 * Handle repeated calls to hw_params() without free_pcm() in
- 	 * between. At least ALSA OSS emulation depends on this.
-diff --git a/sound/soc/sof/pm.c b/sound/soc/sof/pm.c
-index 8e3bcf602beb..dd7cd87f1fa5 100644
---- a/sound/soc/sof/pm.c
-+++ b/sound/soc/sof/pm.c
-@@ -8,10 +8,15 @@
- // Author: Liam Girdwood <liam.r.girdwood@linux.intel.com>
- //
  
-+#include <linux/module.h>
- #include "ops.h"
- #include "sof-priv.h"
- #include "sof-audio.h"
- 
-+static int override_on_demand_boot = -1;
-+module_param_named(on_demand_boot, override_on_demand_boot, int, 0444);
-+MODULE_PARM_DESC(on_demand_boot, "Force on-demand DSP boot: 0 - disabled, 1 - enabled");
-+
- /*
-  * Helper function to determine the target DSP state during
-  * system suspend. This function only cares about the device
-@@ -70,67 +75,28 @@ static void sof_cache_debugfs(struct snd_sof_dev *sdev)
+ 	err = pm_runtime_put_autosuspend(dev);
+ 	if (err < 0)
+diff --git a/sound/soc/sof/sof-client.c b/sound/soc/sof/sof-client.c
+index 2dbfc7699c73..b0802484a2d3 100644
+--- a/sound/soc/sof/sof-client.c
++++ b/sound/soc/sof/sof-client.c
+@@ -486,6 +486,12 @@ enum sof_ipc_type sof_client_get_ipc_type(struct sof_client_dev *cdev)
  }
- #endif
+ EXPORT_SYMBOL_NS_GPL(sof_client_get_ipc_type, "SND_SOC_SOF_CLIENT");
  
--static int sof_resume(struct device *dev, bool runtime_resume)
-+int snd_sof_boot_dsp_firmware(struct snd_sof_dev *sdev)
- {
--	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
- 	const struct sof_ipc_pm_ops *pm_ops = sof_ipc_get_ops(sdev, pm);
- 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
--	u32 old_state = sdev->dsp_power_state.state;
- 	int ret;
- 
--	/* do nothing if dsp resume callbacks are not set */
--	if (!runtime_resume && !sof_ops(sdev)->resume)
--		return 0;
--
--	if (runtime_resume && !sof_ops(sdev)->runtime_resume)
--		return 0;
--
--	/* DSP was never successfully started, nothing to resume */
--	if (sdev->first_boot)
--		return 0;
--
--	/*
--	 * if the runtime_resume flag is set, call the runtime_resume routine
--	 * or else call the system resume routine
--	 */
--	if (runtime_resume)
--		ret = snd_sof_dsp_runtime_resume(sdev);
--	else
--		ret = snd_sof_dsp_resume(sdev);
--	if (ret < 0) {
--		dev_err(sdev->dev,
--			"error: failed to power up DSP after resume\n");
--		return ret;
--	}
-+	guard(mutex)(&sdev->dsp_fw_boot_mutex);
- 
--	if (sdev->dspless_mode_selected) {
--		sof_set_fw_state(sdev, SOF_DSPLESS_MODE);
-+	if (sdev->fw_state == SOF_FW_BOOT_COMPLETE) {
-+		/* Firmware already booted, just return */
- 		return 0;
- 	}
- 
--	/*
--	 * Nothing further to be done for platforms that support the low power
--	 * D0 substate. Resume trace and return when resuming from
--	 * low-power D0 substate
--	 */
--	if (!runtime_resume && sof_ops(sdev)->set_power_state &&
--	    old_state == SOF_DSP_PM_D0) {
--		ret = sof_fw_trace_resume(sdev);
--		if (ret < 0)
--			/* non fatal */
--			dev_warn(sdev->dev,
--				 "failed to enable trace after resume %d\n", ret);
--		return 0;
--	}
-+	dev_dbg(sdev->dev, "Booting DSP firmware\n");
- 
- 	sof_set_fw_state(sdev, SOF_FW_BOOT_PREPARE);
- 
- 	/* load the firmware */
- 	ret = snd_sof_load_firmware(sdev);
- 	if (ret < 0) {
--		dev_err(sdev->dev,
--			"error: failed to load DSP firmware after resume %d\n",
--			ret);
-+		dev_err(sdev->dev, "%s: failed to load DSP firmware: %d\n",
-+			__func__, ret);
- 		sof_set_fw_state(sdev, SOF_FW_BOOT_FAILED);
- 		return ret;
- 	}
-@@ -143,9 +109,8 @@ static int sof_resume(struct device *dev, bool runtime_resume)
- 	 */
- 	ret = snd_sof_run_firmware(sdev);
- 	if (ret < 0) {
--		dev_err(sdev->dev,
--			"error: failed to boot DSP firmware after resume %d\n",
--			ret);
-+		dev_err(sdev->dev, "%s: failed to boot DSP firmware: %d\n",
-+			__func__, ret);
- 		sof_set_fw_state(sdev, SOF_FW_BOOT_FAILED);
- 		return ret;
- 	}
-@@ -154,16 +119,16 @@ static int sof_resume(struct device *dev, bool runtime_resume)
- 	ret = sof_fw_trace_resume(sdev);
- 	if (ret < 0) {
- 		/* non fatal */
--		dev_warn(sdev->dev,
--			 "warning: failed to init trace after resume %d\n",
--			 ret);
-+		dev_warn(sdev->dev, "%s: failed to resume trace: %d\n",
-+			 __func__, ret);
- 	}
- 
- 	/* restore pipelines */
- 	if (tplg_ops && tplg_ops->set_up_all_pipelines) {
- 		ret = tplg_ops->set_up_all_pipelines(sdev, false);
- 		if (ret < 0) {
--			dev_err(sdev->dev, "Failed to restore pipeline after resume %d\n", ret);
-+			dev_err(sdev->dev, "%s: failed to restore pipeline: %d\n",
-+				__func__, ret);
- 			goto setup_fail;
- 		}
- 	}
-@@ -175,7 +140,8 @@ static int sof_resume(struct device *dev, bool runtime_resume)
- 	if (pm_ops && pm_ops->ctx_restore) {
- 		ret = pm_ops->ctx_restore(sdev);
- 		if (ret < 0)
--			dev_err(sdev->dev, "ctx_restore IPC error during resume: %d\n", ret);
-+			dev_err(sdev->dev, "%s: ctx_restore IPC failed: %d\n",
-+				__func__, ret);
- 	}
- 
- setup_fail:
-@@ -192,6 +158,73 @@ static int sof_resume(struct device *dev, bool runtime_resume)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL(snd_sof_boot_dsp_firmware);
-+
-+static int sof_resume(struct device *dev, bool runtime_resume)
++int sof_client_boot_dsp(struct sof_client_dev *cdev)
 +{
-+	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
-+	u32 old_state = sdev->dsp_power_state.state;
-+	bool on_demand_boot;
-+	int ret;
-+
-+	/* do nothing if dsp resume callbacks are not set */
-+	if (!runtime_resume && !sof_ops(sdev)->resume)
-+		return 0;
-+
-+	if (runtime_resume && !sof_ops(sdev)->runtime_resume)
-+		return 0;
-+
-+	/* DSP was never successfully started, nothing to resume */
-+	if (sdev->first_boot)
-+		return 0;
-+
-+	/*
-+	 * if the runtime_resume flag is set, call the runtime_resume routine
-+	 * or else call the system resume routine
-+	 */
-+	if (runtime_resume)
-+		ret = snd_sof_dsp_runtime_resume(sdev);
-+	else
-+		ret = snd_sof_dsp_resume(sdev);
-+	if (ret < 0) {
-+		dev_err(sdev->dev,
-+			"error: failed to power up DSP after resume\n");
-+		return ret;
-+	}
-+
-+	if (sdev->dspless_mode_selected) {
-+		sof_set_fw_state(sdev, SOF_DSPLESS_MODE);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Nothing further to be done for platforms that support the low power
-+	 * D0 substate. Resume trace and return when resuming from
-+	 * low-power D0 substate
-+	 */
-+	if (!runtime_resume && sof_ops(sdev)->set_power_state &&
-+	    old_state == SOF_DSP_PM_D0) {
-+		ret = sof_fw_trace_resume(sdev);
-+		if (ret < 0)
-+			/* non fatal */
-+			dev_warn(sdev->dev,
-+				 "failed to enable trace after resume %d\n", ret);
-+		return 0;
-+	}
-+
-+	if (override_on_demand_boot > -1)
-+		on_demand_boot = override_on_demand_boot ? true : false;
-+	else
-+		on_demand_boot = sdev->pdata->desc->on_demand_dsp_boot;
-+
-+	if (on_demand_boot) {
-+		/* Only change the fw_state to PREPARE but skip booting */
-+		sof_set_fw_state(sdev, SOF_FW_BOOT_PREPARE);
-+		return 0;
-+	}
-+
-+	return snd_sof_boot_dsp_firmware(sdev);
++	return snd_sof_boot_dsp_firmware(sof_client_dev_to_sof_dev(cdev));
 +}
- 
- static int sof_suspend(struct device *dev, bool runtime_suspend)
++EXPORT_SYMBOL_NS_GPL(sof_client_boot_dsp, "SND_SOC_SOF_CLIENT");
++
+ /* module refcount management of SOF core */
+ int sof_client_core_module_get(struct sof_client_dev *cdev)
  {
-@@ -297,8 +330,12 @@ int snd_sof_dsp_power_down_notify(struct snd_sof_dev *sdev)
- {
- 	const struct sof_ipc_pm_ops *pm_ops = sof_ipc_get_ops(sdev, pm);
+diff --git a/sound/soc/sof/sof-client.h b/sound/soc/sof/sof-client.h
+index 1a9015e38474..3b02506c03f1 100644
+--- a/sound/soc/sof/sof-client.h
++++ b/sound/soc/sof/sof-client.h
+@@ -50,6 +50,9 @@ const struct sof_ipc_fw_version *sof_client_get_fw_version(struct sof_client_dev
+ size_t sof_client_get_ipc_max_payload_size(struct sof_client_dev *cdev);
+ enum sof_ipc_type sof_client_get_ipc_type(struct sof_client_dev *cdev);
  
--	/* Notify DSP of upcoming power down */
--	if (sof_ops(sdev)->remove && pm_ops && pm_ops->ctx_save)
-+	/*
-+	 * Notify DSP of upcoming power down only if the firmware has been
-+	 * booted up
-+	 */
-+	if (sdev->fw_state == SOF_FW_BOOT_COMPLETE && sof_ops(sdev)->remove &&
-+	    pm_ops && pm_ops->ctx_save)
- 		return pm_ops->ctx_save(sdev);
- 
- 	return 0;
-diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-index 0f624d8cde20..693d063830fa 100644
---- a/sound/soc/sof/sof-priv.h
-+++ b/sound/soc/sof/sof-priv.h
-@@ -580,6 +580,8 @@ struct snd_sof_dev {
- 	wait_queue_head_t boot_wait;
- 	enum sof_fw_state fw_state;
- 	bool first_boot;
-+	/* mutex to protect DSP firmware boot (except initial, probe time boot */
-+	struct mutex dsp_fw_boot_mutex;
- 
- 	/* work queue in case the probe is implemented in two steps */
- 	struct work_struct probe_work;
-@@ -703,6 +705,7 @@ int snd_sof_suspend(struct device *dev);
- int snd_sof_dsp_power_down_notify(struct snd_sof_dev *sdev);
- int snd_sof_prepare(struct device *dev);
- void snd_sof_complete(struct device *dev);
-+int snd_sof_boot_dsp_firmware(struct snd_sof_dev *sdev);
- 
- void snd_sof_new_platform_drv(struct snd_sof_dev *sdev);
- 
++/* DSP/firmware boot request */
++int sof_client_boot_dsp(struct sof_client_dev *cdev);
++
+ /* module refcount management of SOF core */
+ int sof_client_core_module_get(struct sof_client_dev *cdev);
+ void sof_client_core_module_put(struct sof_client_dev *cdev);
 -- 
 2.52.0
 
