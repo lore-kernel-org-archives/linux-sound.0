@@ -1,93 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7296E2DFA48
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 13:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2452749D6;
+	Mon, 15 Dec 2025 13:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765805388; cv=none; b=pmgCTnGF1RGcTl72MUiWaIqbl6wdfCvvo1W1XsjpqaMe3+PVD44YrUU0QTbLWuOMzQtsz4O/bQwhA7tUpDKOjNw7UbWavUSvIZqXIRO4A8GGrbKhq1hJ3NS5TMmTNqzwvDfI+qP6tNBJ+v94YExND5ayNeKieTWhbEMCizBtEfk=
+	t=1765807104; cv=none; b=iasxjIkby11SG/2IRVmuOEA4xHuScMVykzWKShwxTBZn9X0xbM/7yuQVI4ZKLwCkxYSPBUX4KfB6kMr/llfLSGMPgcUZ66Fpt8vv6cwT49r3K4x/H/Def5wNYiXaKySNCqpV+AsP2WdiaofN+lbPz8pHcpcgDZZoKTPX7tajexk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765805388; c=relaxed/simple;
-	bh=9suOuEfRjmUm8GvfIZR1+SdrEu5xOaXfed7urXueX50=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gx8mNA02j9Qb8bEcKY1AcgQKIOjmvka+emFAE/MODmbmF6fPDzAQojMFthFfxaMdJtZ6l3ZJhsQmBOHlJ7cVNHL2cuTMiDEAB9PClV1eSLIPW5z5Sg1g9ZuuE6D3ZBVMUplsjU+X5WSdFQhiLZaTZRkm3uLnaOBXWI92EMjvjAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcUkS6lP; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765807104; c=relaxed/simple;
+	bh=g/48S9b/SlzM6mvy3E8dnmmogUAiNufhdHSvXCANVF8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BZvLyV20n/WQzhVPehYdfw3IQE7ZY10etr3ZMukZhl9SXcvlr86QJ9AoBX40C4UgBtzj1Zj8oLJSd9gU5SgHKqPdqI2G5bZd85Ehr1NzfEABf1nuiLTMpXLlArzfj8nJj6LB3n9awT2o/uEo27gTdGltPckpsiGKseIqvlIVJhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0EzLenC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcUkS6lP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765805387; x=1797341387;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9suOuEfRjmUm8GvfIZR1+SdrEu5xOaXfed7urXueX50=;
-  b=dcUkS6lPGmv1sf3TrLvZhY+5tYYaI0BCxYTLbZhQzxHystFJEg95v8az
-   v1cGdlQASaVzocExOEI63NPTNboPly1mBxF+o3i8bzSaBPSrATXM2mvx9
-   RqoZKh56PFNZmtqBk/OFkBnsH92cxSHtCEPRL1ft76QVxX58xLUhn0VTB
-   x147udDZUciOs9gf9/AMNIkbg7//hvePi488miJ75hzG/VZXqC2tkwALQ
-   ekuRu8AV5Occ7pFhVmoP+VK6IiF+hOiklTv4DldmzTUwaxz+eH1ofc7pb
-   K67X70H6E3nuCon0Iyv2VG1dVkMcweApQ3naWzw7CC6kOu1bs7Nhqe97X
-   w==;
-X-CSE-ConnectionGUID: LiykvnsHS5+txBNxTp+7yg==
-X-CSE-MsgGUID: PkfbXlX1TRClznQjFcSiGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="93179499"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="93179499"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:47 -0800
-X-CSE-ConnectionGUID: TL4jzFVvT9mPD8COJIrfuA==
-X-CSE-MsgGUID: Yh5H/wxsR1Otz+6NLnHC6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="228377026"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.95])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 05:29:45 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: [PATCH 8/8] ASoC: SOF: Intel: pci-nvl: Set on_demand_dsp_boot for NVL-S
-Date: Mon, 15 Dec 2025 15:29:46 +0200
-Message-ID: <20251215132946.2155-9-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
-References: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0EzLenC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A7DC4CEF5;
+	Mon, 15 Dec 2025 13:58:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765807104;
+	bh=g/48S9b/SlzM6mvy3E8dnmmogUAiNufhdHSvXCANVF8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=o0EzLenCe9OE8Wtzns4+3MYHp5P60R7E4Xz7k16kcPuNdMkviYQVvlckP0pl9R3u3
+	 NP8aBVPKqez/3W0qMF/dQ9QD+3J7OKRgxHQMmY2KaRqUYbGBV/AryJyA+6zNogtnvl
+	 zYPF8kvngPZz9CkLvXV7VnvNd0zMIN24C5F6Y22OD9bHncVeW+lKu6qwNS6tnbBdWb
+	 lGPSl4oOGUyTFqFrm1Uxca5Co5i9FJlan7yL4cjq9PlOrbf9hVGKUKbzrodBP8EZ30
+	 Iaqu9t7DM7iLg1ALtyVHNXBtDyHVR4EvOWpHDIZQCaVNSx4HLJOeMCnLZyNxcu0NLl
+	 dq69nAYbKs2iA==
+From: Mark Brown <broonie@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Biju <biju.das.au@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
+References: <20251114075856.4751-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 0/5] Add {24,32}-bit sample width support for RZ/G2L
+ SSI
+Message-Id: <176580710142.161056.6367112117497563338.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-NVL-S can be used with on-demand DSP booting, set the flag to enable it.
+On Fri, 14 Nov 2025 07:58:47 +0000, Biju wrote:
+> Add support for 24 and 32-bit sample format width for RZ/G2L SoCs. Apart
+> from this, the patch series includes some code cleanups.
+> 
+> This patch series depend upon [1]
+> [1] https://lore.kernel.org/all/20251114073709.4376-1-biju.das.jz@bp.renesas.com/T/#t
+> 
+> v1->v2:
+>  * Split the feature patches separate.
+>  * Updated rz_ssi_clk_setup() to make ssicr assignment in single line for
+>    24-bit sample width.
+>  * Dropped checking {24,32}-bit sample width in rz_ssi_dma_slave_config() as
+>    it is taken care by restructuring the test for 16-bit sample width.
+> 
+> [...]
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/intel/pci-nvl.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied to
 
-diff --git a/sound/soc/sof/intel/pci-nvl.c b/sound/soc/sof/intel/pci-nvl.c
-index c499c14b93d5..f75aa996a5bd 100644
---- a/sound/soc/sof/intel/pci-nvl.c
-+++ b/sound/soc/sof/intel/pci-nvl.c
-@@ -38,6 +38,7 @@ static const struct sof_dev_desc nvl_s_desc = {
- 	.ipc_supported_mask	= BIT(SOF_IPC_TYPE_4),
- 	.ipc_default		= SOF_IPC_TYPE_4,
- 	.dspless_mode_supported	= true,
-+	.on_demand_dsp_boot	= true,
- 	.default_fw_path = {
- 		[SOF_IPC_TYPE_4] = "intel/sof-ipc4/nvl-s",
- 	},
--- 
-2.52.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/5] ASoC: renesas: rz-ssi: Use dev variable in probe()
+      commit: d6c160d5e86f4e7354dd6c3154b7cb562abc6c7d
+[2/5] ASoC: renesas: rz-ssi: Remove trailing comma in the terminator entry
+      commit: a472f0b157832fc91c83179b1628d8f660c84c82
+[3/5] ASoC: renesas: rz-ssi: Move DMA configuration
+      commit: b541cb0a27dfa7504a8008320502f869c75f8bfc
+[4/5] ASoC: renesas: rz-ssi: Add support for 24 bits sample width
+      commit: 9e10709f831408d948be66bc8f6329fa37a3dc82
+[5/5] ASoC: renesas: rz-ssi: Add support for 32 bits sample width
+      commit: 124f6155f3d97b0e33f178c10a5138a42c8fd207
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
