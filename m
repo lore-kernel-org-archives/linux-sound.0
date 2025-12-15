@@ -1,219 +1,525 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1A7286417;
-	Mon, 15 Dec 2025 08:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765786106; cv=fail; b=DhbCCmdirdkNC/DexrBfILh4ojOxF2JUmJkhB9jmAQ+QYS0/TprBsRyD/b4j5Oxsnf+tLNGO2zzptqWBVGZNviZOVIC7ppto+ptY5d8yHK/sHEdACj+FSJfVnZA/CwrfkQuS+7y0m/ipXZDBPvpXxu5BM45vHVa//LEqYLgDPXs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765786106; c=relaxed/simple;
-	bh=14M3aiOM3Ex0l7u3jce0rHQkIQaq7S8/ppTWdB5QcSU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g2NLprj8rRjUHtDqt0q3ZMQxGLo95qZWbz3COXi6TEnUPE8vV0i/sa06ijDjvm9EBqIBE3CVEv/bJaBLudEAyzF8ZqvYhKVooU+McdkNSnaeVI1Tm2gGwg6V7W8s0Zi6qt3BFffZkFCFv4CklkZzf0EglXXgV7mjF7NAGdlRNyw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8t68scw; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6B327BE1
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 08:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765786486; cv=none; b=pDj2WLGxXwCiAJcLQq+1PfOrnWm5FLCPiehrt411y/Sun6/Hc3Fe9stW00z8inJAFFwEL+64TW+FmD3NHHjDn6kTqq+1ik7IHV6UptdkxMsg235UMS5cOs4hv3hE1ZwBrDBaTkEg7mm1K8s9V1DgN3zkVfAY1kyDhAOWMW3puCg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765786486; c=relaxed/simple;
+	bh=9VprdvrDclc97uyoktWnCnUOZ0WpEQ7ZppjjIMiwlTA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bLqkcJCQ8pFCVSFYbTKsVuu4v3fqP3FwEiswCnOw/l9oUVwmwQWrnMmkgGoYIIeN0j8VQJJDFvxyNn16hZ8t4L6KNdb5TaLg2DDztWNQtOnRRkhX/cckVBjTcQLh/W9Az1aKvxqdqbKY6OyF7pMcd/R3usvZUZp50HxsEr1ggOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bwyqXuim; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8t68scw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765786104; x=1797322104;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=14M3aiOM3Ex0l7u3jce0rHQkIQaq7S8/ppTWdB5QcSU=;
-  b=G8t68scwnyJ5a0RWd1ydVrh1cHOapAEVDtBwBsBiEcYjSGwIXDSKSHxj
-   05bcp/wq9Hfwv1/2QNyr5v6Zv+jA8dM/DL+Cm2DtanV0j4uBsqLHVHY2H
-   MlsURbwMwkqsPMXcbQmRGv3O34o8tAjQj/lFMDK/oMP31y+zmmE7iE/He
-   V5NRfMvZuYdfz1POgJozAVpm86QqDDbnQCmwtGTMpIky8qZmGvgEBX01+
-   SGW/6/T0WbLnNJgDDu4E4/XYI0oxvZBi015Bibg5c99s6QjVhtOcV52hx
-   aKg1XoOhZwsniO5zpuqBITdhIns42LdN5rmtilW6Yvag9yEwDYm3nIyL+
-   w==;
-X-CSE-ConnectionGUID: 6/gicuw2SSu6oCHkb18nXQ==
-X-CSE-MsgGUID: K6V+HX+lQv+tj1Huw95eeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="66863249"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="66863249"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 00:08:23 -0800
-X-CSE-ConnectionGUID: PUE7DCVmRPiprUSI7GZAog==
-X-CSE-MsgGUID: jtxTB78HRA+1jkEO2kI2iA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="196739686"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 00:08:23 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 15 Dec 2025 00:08:22 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 15 Dec 2025 00:08:22 -0800
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.50) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 15 Dec 2025 00:08:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NzsDg8wX2+xq2aEVBSQMXJmpSU/1vBBxcpCPFkNgkVD06kL/R4WvaNDZit33XN1q54s4OX1OOYZJz4mX8MJ9LkK6BYiJ24KkQtB1MPcWGUw31eSNXTmfHy0nZF6EcAPAL7sPkZFAIX4UrN+uk/pyunyfQ0WfFE6Os5JuQSQqvNiyBsk2PiA6NqGlAXIGbj6ZVRQKzhlgTRGgzuSf7wB6bdcdLp8TlLd5eEnju2Vods0HENpJd6lbTFa96arZuiPa8ECUXWkSCMM+y4xkF3GMSaDHOJ/gVFr1L0JEvqZyMFY04cQsP1xgy2G0gUeaDEr/p3NLJ8qKpAip+GqZ+Un95g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NZ1Hmd75S4vyJlAFWyeMJTo+gX8TdejypyPVNiU4haE=;
- b=Q9KHvjPGN4Ja/0av2Q5maICRT6uwWOn8OzaCgvXv9A52c9z03Oo/gvP6k9dxo2qkgj5WeYQzSA+sDo+l7OqP/uqnqNPHwBrU0xnxRAa+96sOlCauAaTc1vPUjZfhOWdMTuGuwG+ooOKf5d6PfsVQp7sOUcG7zXB8uGia5CSYbRg4q0zqiRIvaXw49SmK/5QzlB68fEsxwjV1ohxEVNvNWlPSFiZ1d6W/jOXBoQvUX/7GxRdvHzJVU6WtfUFrsvkM6BNKOwB/0rb2KP0QKNLJmFG4t2EBY+cWasfIT0LH+wgvHgUUJj/eNz3HQ790NVIkkVyMMkd/zs9JasUxDGV5Ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by IA0PR11MB7955.namprd11.prod.outlook.com (2603:10b6:208:3dd::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 08:08:21 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 08:08:20 +0000
-Message-ID: <e3182e87-cd11-4fc6-86c4-091431013380@intel.com>
-Date: Mon, 15 Dec 2025 09:08:14 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] ASoC: Fix acronym for Intel Gemini Lake
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Daniel Baluta <daniel.baluta@nxp.com>,
-	Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
-	=?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>, <linux-pci@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<sound-open-firmware@alsa-project.org>
-References: <20251212181742.3944789-1-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20251212181742.3944789-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P190CA0051.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:800:1bb::10) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bwyqXuim"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7f0db5700b2so2788662b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 00:14:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765786482; x=1766391282; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a5HLohBXAas9jbs4W4e7L8I8lHMRaCBg0b6CX2mTD2Y=;
+        b=bwyqXuimb/LmT/eunztYRCr9ksL0TwycfuWJYw9LXIrSaxCZm+6CqLuGP8kia+Txa1
+         gRn2Ht90q7PU9/xfvCvMxBJOe5+j9uHhiE6JlxN6VkWutnP2v4fsQpru3HyjFWZFWH5d
+         woVIuZCn7JvnYYFqYTPOFLjE10PpYefIcPQ+SdA91K0WpUXjIxBjI61/uVy2kUrLrfac
+         xI1vw3c4S+HHci4HH2zKEml2uV6gkrPGIa5/Jxlr80WvdMGT4fEX6aj39mnenELT4hw7
+         Un9IlQvoTMlGF46hA1h6m4KXugT2UvrT24gZLYNWvrWu89fIoansgiM2EdCQjykmIcR2
+         1FOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765786482; x=1766391282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a5HLohBXAas9jbs4W4e7L8I8lHMRaCBg0b6CX2mTD2Y=;
+        b=Av7s/OMyTKlQ3LpMhX1rAiHxOvpcx7BsdjI1A5Myus1Yt9OEdKx0CAwtKEAWcxVRg8
+         urxYMG8etkzolm52VwOdHsdIuzHFYANbZ3ZtxSBn3I1l5bz/Ae4RxJZE8SYjhGVRhd7V
+         U8NJCYZoV0htQ7wir0rtjLOree9AgOdLnDsfzpkV1COjQb2dC7OQrWbGK18UmXGmE0o2
+         wdPvJn1T2s9cCr7zOchn+eEVYqRBppW5Z+VXRt7hPtGj3duUr5TS5BXiLsRgNTOL2hHx
+         WBdakTCEanqHKSOTYwnhmU7SqxIOJUhBjFJ+Ev2/xmmEJkX5liev+241XvaawGj8Z6bw
+         BgmA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1acbYUJQPtelKi1yKl0MHC62kMDi+HW1dxw2PZHxV5EasYckHrH7wjNT9d9ORaO1gx7FRtEYuwv6cDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFPeHZNTk4a2M9WdqokYTtpY2zyYFogftVNM6pqSLZ+3nzCsPj
+	wXbl53Wn91kj+3f1eM/QE1MOsU45kCBRip3jgbI6lvQqGqKJkzGxKbKB
+X-Gm-Gg: AY/fxX7sR8tTMdI7+WpGdtoeslkIsIDu31HB27AjWw4b+ktYbmsIjq7NWaxibMsLFfg
+	gm6CusXkN/HemUGehFg5FEG/FtGeyfm+XBkzb9TEXRfsnbdD2wPjgHRbyXmmKUU93Ub4SFVUIQR
+	QdjgynLSf8BcPzYHEiBpvnBeyApgLb3H1cxC11cLh+aAdYWYiPH99cKhHIqjS2tjArw7Q6xZu6v
+	q8VnEkbUMaMH1mrtybvw4KiO4bzChVw5jLoFgZF3fgMQBG/6I0KukTvzf1h0WrU9xCmH7Mahnin
+	gHROoFmOFRksSEkVvEf6/s19MrayapDzlD5PEQ+u13IOPoMYtrR2ivAh5S3/vSfXhg3oIyayk6u
+	iNQA+nJmgdsTIlk52k34ZgzNtdlwtV3SusIOiMtCydenc+oUOD75SGyww/NzP3tyNanQBjZhZt9
+	wwK9fmqMY9qFlvOMuYyDt5+5+/GBLcWciLAvARBZugADJCoESpwWdr8ea1sA==
+X-Google-Smtp-Source: AGHT+IFAlqP7e7wr6Y8H/MMUceHYwQSBIyWP5IwWFSnOQYYaS2nRzhJ6QAKJedVnUmcquwv5SIeddw==
+X-Received: by 2002:a05:6a00:430a:b0:7e8:4398:b36b with SMTP id d2e1a72fcca58-7f669c8517bmr8732360b3a.62.1765786482296;
+        Mon, 15 Dec 2025 00:14:42 -0800 (PST)
+Received: from smtp.gmail.com (220-128-132-142.hinet-ip.hinet.net. [220.128.132.142])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f66e12698asm8514367b3a.22.2025.12.15.00.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 00:14:42 -0800 (PST)
+From: Leo Tsai <antivirus621@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	rf@opensource.cirrus.com
+Cc: leo.tsai@cmedia.com.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Leo Tsai <antivirus621@gmail.com>
+Subject: [PATCH] ALSA: hda/cm9825: Add new project GENE_TWL7 for AAEON
+Date: Mon, 15 Dec 2025 16:14:21 +0800
+Message-ID: <20251215081422.3771-1-antivirus621@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|IA0PR11MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1de4d91e-eb7f-4bd2-4926-08de3bb11c7a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SmxyeFFzeWR2V1NSZ29TWkNoOFVRY2NNTElzWTRFa3ppSzh0RVR2VEI2TUF5?=
- =?utf-8?B?aFFNbWtjZ2I1NWhNTDFRak5pajR0SlhpeWgvQXVIdVNVYnpqUjU1V0RLYmlI?=
- =?utf-8?B?dGNUanlHTEx1cHZDakxqM2NuMUlkck1ibm9oV3FpdXp4cmhzeVZPNEh4WmZM?=
- =?utf-8?B?WWZ5ODJaeUU4bjYyRGw3d0Rjaktna3hhR1hvQzNZSkswdm4vUUgrQnRZTzlz?=
- =?utf-8?B?Vm5pU3NYSC9kb29wdHFVaDliRS9QNkRaRmkxcFZXUEs0Rjc0SUtkeUhpaUpk?=
- =?utf-8?B?bVNkT0Z0ZDRtc2d5dzhmczNPUGh3OEZWWU1WYzBRbWRXQk5GdEJ2SjBNOHJu?=
- =?utf-8?B?YzVTaFRGZWlzYmUyaEtoRXRHL2ZicFl6bCtaaFhsOUVEYXNkcjBIc0w0TVhD?=
- =?utf-8?B?YUhjYUtLbHZrRWYxNTVPVExvUEhRcEp2OG9zOGFnVnM4Q0svVUFkL20rbkRJ?=
- =?utf-8?B?cXozQk1vTytVcUhSZVBpV014WXBIZXFPak14eTF0MmJZYy8yb0kwcnFFQklx?=
- =?utf-8?B?Tng5OTY5c3Y2aTRsMjVndDRKdkRRUmtZODM5WHJVMTg5aDl3akxteFIyTGdC?=
- =?utf-8?B?VEtUWDdqUUJhVTM0U1ZyRlJYQ3IwaGM2K2dEOHlMcUVLUnJUbTFrWjBlZXpk?=
- =?utf-8?B?VmxvMFdJL0Q3eS91WmFyQ1BHcWxRbSs3cGxGUFVMUUMxU2kxQW12NEpCampF?=
- =?utf-8?B?SzFkcDVEbXQ0RGVneHB5QmtqdTJoQXlJOG5Lbm40RUhGSTFwamxqYnNkeUdV?=
- =?utf-8?B?NzhlM0ppSTQ3dnJ3R2hWR0I4VWNpMmtiZ0c5UExnVTMrK0MyVStjV3pZYWFy?=
- =?utf-8?B?OW9nR0ZNelh3NU1GNk5TL3lpaXhDdXZyU1B5VGpPZE5BZmhta3NqVkhpLzVv?=
- =?utf-8?B?dmh4OVRZUWpIYkJoeVZxZmhHZHF3cWZhOURMYnpnNUlwanFmbFViTG9JTzh1?=
- =?utf-8?B?aFhOdURmTDN5MEtOTVVsOVBReWlnR1dsOUZXbmoySGNDM09jRVV4WW83S1Bl?=
- =?utf-8?B?WFhGQ21WY1dhTDRQbnVURGpITFhZYlp0aHpFa3hRRFI2bFpOUnExVjFwTVc4?=
- =?utf-8?B?UDFleVZ0RU0zV3YzUmVnbnRMUDNqUG5NZmx1dmxhbURhRXVGQkNqTTFRcENN?=
- =?utf-8?B?S3NyNFNlTGRlMjVSZXNoZUV6SkR3QmJlc1FPS3RLY1hZWmx0cjdKNzNIZnhu?=
- =?utf-8?B?YitVeVpwekltaEhLTW9RVi80VUhoWkJxN3RoMURqeTlETjFNT2ZCSnBpeGRy?=
- =?utf-8?B?S2h0WWtjL0tTL0hDMzZQeVpweTAwb1oxZk5aNjRSNjU0d0dMclBOU3RXaGE4?=
- =?utf-8?B?NzkzQ21PdDFXR1hvc05GSytvOWRYQVJXUU9XL09ZaGk2dHR4OGE0MGZ2Zllw?=
- =?utf-8?B?OXJjL1RqL3Vqem5pNXo4VTZ3WmIwVHdoc1Vrak5TSVhLb3hvYW8xZmk4MGtt?=
- =?utf-8?B?aUdReGpTMGh1NjNGbmVkWVRJRzNzNVpUTDB1eFY3Vk5ONk15ZmhZV1Q0YUIw?=
- =?utf-8?B?MlREZnFMclBnd2V2bXdqUWFoR0cxcUtOc2ZTb05TcmJBOVdFNGlYekxtS3Va?=
- =?utf-8?B?amJyMC8wRG82empxZFFnbkVvcEJHdUorNG5WNWxTVnRkYzJpbGJOcWJGdElm?=
- =?utf-8?B?QzdvQkQzdStxUUxwaFNiUWpsRSttV0dlbmRDakxoQ0pid1FSMUxrdWgwUFFu?=
- =?utf-8?B?TkZac1NqeGk5YXdhR3hQYUdTbzlZaWFieitkaW80ai91RzlmM3RLVnNuSG9z?=
- =?utf-8?B?NElOTUFmNHkxaGwwODllelpPQjVZNStYTkJOVUZtNkRTdHJBTUVKc1ZkY2Qx?=
- =?utf-8?B?YTJZM3ZNUUtMWlZXZ3VNUGcwQVV2N0U4T2lSVURFTEM0VElvdUN0S3pIMVZt?=
- =?utf-8?B?QWRyekNMejRTUU81bEFSUmpwYWpDN21Qd2M0dmFVVDRFZ2ZINlRiMENTT0Ju?=
- =?utf-8?Q?kJoTk1dDD7xNJe61/rmZnljGIzqjQgXP?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TS9BL2lSTE5zZFZMQi9WeVVPT1JxZTdvV1h0dDhpSVNqdU55VVc5SFFWVGtL?=
- =?utf-8?B?YVc2bDNXR0FyKytLZDR6VzBtU1NrN1JXT05vZG9ScE9zb21pc0VjNVM1SlJN?=
- =?utf-8?B?RXJ6VWlPZEttMWxpV2VYVm45VTBzNXdPRVhlOHRxTHZlc1F5cnd2OTQ5aDB5?=
- =?utf-8?B?S2dwem40MnBOcjRDV01mR2swUndRSVNCcVA4cTJxMHhXelQ0UDBXR0ZnQ1Y3?=
- =?utf-8?B?YTFUSHBFSEhUUFBVQ0ZXaG14KytoSW9MREo5OGYxWnJ2b3pCQlNPL0M2YUx0?=
- =?utf-8?B?TmJjMEsyMmdXYXBKVWRkQ2sxdUhUMlZ5VkxtQUNpWW0xczdXeWNFbytpTjhi?=
- =?utf-8?B?TFdGRXplUjVXc3FHVzZneHB2VW1IV1R6U2x0cFJod3BoUTE2bFRDeTdsTXA1?=
- =?utf-8?B?WHc2TG5zTE9KdWoxVDBHMGU3UHZZQzE5cXhUOURrcGpQNWptSy9wZkpUSkxl?=
- =?utf-8?B?eGJXOU8yanpEN0NrTVZyR2dnZGt0cU5ON20wenhLU2tMeWRqV2JBNXltMFdz?=
- =?utf-8?B?RExRUnRnUHhaakNvcldBb3FHMTB0Q0NtNjRZaHllbDNpSGt0dzYzUGFtOTIx?=
- =?utf-8?B?YU1OaUxqNFFpY1dYWFpoWEFUR1A0SUdRWlY2SmtVaks2NWhBcHpuNnpaMmZa?=
- =?utf-8?B?ZVlUdmxUMlUyTFowUEdzS0UweFZTT1hQcVV0M21zaW5NZlllVGI5SWhwODd5?=
- =?utf-8?B?WmluNjVEMXBGYUxYN2ZWLy9kbjBqOFpFYzFGL2xJK3cvK042cFdMUGRLUklO?=
- =?utf-8?B?WEtKWmxqMSt5NCtjbXNCM0k2T3RHMmQ0ZFBVKzJMaUlRMm42Ym1FM3FGUTVF?=
- =?utf-8?B?ZnNoVU9vWWFNY0tQVGVJUHVNZTg0RGZJb3ZKa3A0SDNZTFRJaFYxelVwWDhk?=
- =?utf-8?B?Y3BlV2xhTUZyY2crSUNXeG8yRDVaRVJmOXJqRUlVcXJwRFRTZTl6NExiQnJK?=
- =?utf-8?B?ZkZvMlZMTkxMRVhnWDFqSWJ4MGRKSForWjdRY1NXd1dNSlNyZ2pUTFE5V2lO?=
- =?utf-8?B?OTdQYkdESGtIZThoWGwzNHplQjNSRmg3elRXMUlkQ0tIalRWZTN5S2ZpZGJP?=
- =?utf-8?B?ZXBVai9VOWQ5WVFqR240cmFhb0hPVlZxQjZPM2lNdm15RmpCT1FLUE56d0Y4?=
- =?utf-8?B?cG95bGtjdDRRNkJES05OcXcvVEYwNFJienZhS3YyNm5oZUQ4eHB0eHpuNXNB?=
- =?utf-8?B?b3hCVzc1OTR6RnpUazlhSVJacU96aHlZSFN2TGV1OFNSL3JoWFhhTkp0Zktt?=
- =?utf-8?B?STF6U1NKU2ZWRFZZQWd1Q2d6U2xHSDB6ekRienVKMWJ4SXNIMEhsaXpKTS90?=
- =?utf-8?B?dEdVd0VRcjdsQXVJMjVKL29HdGx3ZnV6ZFhDQ1YrYXhVZjdQZm53bUtlOUs2?=
- =?utf-8?B?Vm9rMitBQzB2TEZlYmtZTlhPRDltdlBkaERxY0VGcHJSRjY1T2hFeFd6cURi?=
- =?utf-8?B?VGhhQVBmRXI3RXU0SW5JTEVpb1dTSEY0bVRDSlg5Zk4zTUpoMDdiUnViMDRE?=
- =?utf-8?B?NGhzZ3RPbEVmZDFqU0thVjl0RWMva0M4ek81NjFnQlFGTkV2ZDJOUXVNQnVq?=
- =?utf-8?B?Mkc4azVYRWhrNXlnaHloTS9xd2lsVitGZkFDb20rS1FDd1Yzb202VGgxUUpE?=
- =?utf-8?B?YjFSRnJaaHZqV0ZmdFRmYXVkOEpUNTEvL1puNm9Od3JqVnhMYzNqeG5Fci9K?=
- =?utf-8?B?eTVmVDE3Q1llRGFNS1FHQVIzTHB1cm1hRzRyQ0dhS1FXaktRbEZPM0x3TlU5?=
- =?utf-8?B?NTljVk1lUHVCSDB1YWpYNHBYR2JXOVd5SWV4SWs2bUlOU1draU9MMmZROWpZ?=
- =?utf-8?B?SW5SOGcybjlPbGl2eG5UbU1WaFZQa3hvQ0pMVGNNTnR4RFBYZDJKNnlpaGcx?=
- =?utf-8?B?ZS84KzhJTGtxd3M0ZENJZ1NuODh1NnBQQnU0OEhhZ2ZZZW1NK002MUtFV2po?=
- =?utf-8?B?T1RwNHVTd1B6R09HOXUzVnltSTMwQTc3ODhYRjlOYmhYSnkraVpxWDBYbkJk?=
- =?utf-8?B?YmZSTjNFcjBRRkJHNTlGaVNqZFAxOGR3UFBJUTlheU53bE00bWtFNzRoVWE5?=
- =?utf-8?B?UHJpbk96YXFDbktKYnlDRC9OTmRkTHc0UmJ0NTNIWERTamhleUljNWtGOXdZ?=
- =?utf-8?B?Q08yeVc4YUk0WDZ3cmpuUGQvb2QvemwyUzRPQVF4T29TaHFvKzFNaHFEeXZS?=
- =?utf-8?B?YVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1de4d91e-eb7f-4bd2-4926-08de3bb11c7a
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 08:08:20.8799
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KmNwCZOOU/bvWbu+EM9/07tGXivmAry3LYE22b7/D7jGrjRq69ycZCxetCD4qt46FVA5/ZU4vexXlbAQnXe66kiNls/tUklbH95zUExhr/Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7955
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 2025-12-12 7:16 PM, Andy Shevchenko wrote:
-> While the used GML is consistent with the pattern for other Intel * Lake
-> SoCs, the de facto use is GLK. Update the acronym and users accordingly.
-> 
-> Note, a handful of the drivers for Gemini Lake in the Linux kernel use
-> GLK already (LPC, MEI, pin control, SDHCI, ...) and even some in ASoC.
-> The only ones in this patch used the inconsistent one.
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com> # pci_ids.h
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> v2: added tag (Bjorn), left variable name as is (Cezary), added comment (Cezary)
+The GENE_TWL7 project is an AAEON platform with a fixed audio
+configuration consisting of line-out, line-in, and mic-in.
+The audio routing and pin assignments are defined according to
+the board-level hardware design and are not intended to be
+dynamically changed.
 
+Signed-off-by: Leo Tsai <antivirus621@gmail.com>
+---
+ sound/hda/codecs/cm9825.c | 315 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 303 insertions(+), 12 deletions(-)
 
-Looks good.
+diff --git a/sound/hda/codecs/cm9825.c b/sound/hda/codecs/cm9825.c
+index 5c474ce44348..d92b3df582af 100644
+--- a/sound/hda/codecs/cm9825.c
++++ b/sound/hda/codecs/cm9825.c
+@@ -13,6 +13,11 @@
+ #include "hda_jack.h"
+ #include "generic.h"
+ 
++enum {
++	QUIRK_CM_STD = 0x0,
++	QUIRK_GENE_TWL7_SSID = 0x160dc000
++};
++
+ /* CM9825 Offset Definitions */
+ 
+ #define CM9825_VERB_SET_HPF_1 0x781
+@@ -25,6 +30,7 @@
+ #define CM9825_VERB_SET_VNEG 0x7a8
+ #define CM9825_VERB_SET_D2S 0x7a9
+ #define CM9825_VERB_SET_DACTRL 0x7aa
++#define CM9825_VERB_SET_P3BCP 0x7ab
+ #define CM9825_VERB_SET_PDNEG 0x7ac
+ #define CM9825_VERB_SET_VDO 0x7ad
+ #define CM9825_VERB_SET_CDALR 0x7b0
+@@ -42,6 +48,8 @@ struct cmi_spec {
+ 	const struct hda_verb *chip_hp_present_verbs;
+ 	const struct hda_verb *chip_hp_remove_verbs;
+ 	struct hda_codec *codec;
++	struct delayed_work unsol_linein_work;
++	struct delayed_work unsol_lineout_work;
+ 	struct delayed_work unsol_hp_work;
+ 	int quirk;
+ };
+@@ -80,10 +88,8 @@ static const struct hda_verb cm9825_std_d0_verbs[] = {
+ 	{0x43, CM9825_VERB_SET_OCP, 0x33},	/* OTP set */
+ 	{0x43, CM9825_VERB_SET_GAD, 0x07},	/* ADC -3db */
+ 	{0x43, CM9825_VERB_SET_TMOD, 0x26},	/* Class D clk */
+-	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
+-		AC_AMP_SET_OUTPUT | AC_AMP_SET_RIGHT, 0x2d},	/* Gain set */
+-	{0x3C, AC_VERB_SET_AMP_GAIN_MUTE |
+-		AC_AMP_SET_OUTPUT | AC_AMP_SET_LEFT, 0x2d},	/* Gain set */
++	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0xa0, 0x2d},	/* Gain set */
++	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0x90, 0x2d},	/* Gain set */
+ 	{0x43, CM9825_VERB_SET_HPF_1, 0x40},	/* HPF set */
+ 	{0x43, CM9825_VERB_SET_HPF_2, 0x40},	/* HPF set */
+ 	{}
+@@ -111,6 +117,72 @@ static const struct hda_verb cm9825_hp_remove_verbs[] = {
+ 	{}
+ };
+ 
++/*
++ * To save power, AD/CLK is turned off.
++ */
++static const struct hda_verb cm9825_gene_twl7_d3_verbs[] = {
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_PLL, 0x01},
++	{0x43, CM9825_VERB_SET_NEG, 0xc2},
++	{0x43, CM9825_VERB_SET_ADCL, 0x00},
++	{0x43, CM9825_VERB_SET_DACL, 0x02},
++	{0x43, CM9825_VERB_SET_MBIAS, 0x00},
++	{0x43, CM9825_VERB_SET_VNEG, 0x50},
++	{0x43, CM9825_VERB_SET_PDNEG, 0x04},
++	{0x43, CM9825_VERB_SET_CDALR, 0xf6},
++	{0x43, CM9825_VERB_SET_OTP, 0xcd},
++	{}
++};
++
++/*
++ * Enable CLK/ADC to start recording.
++ */
++static const struct hda_verb cm9825_gene_twl7_d0_verbs[] = {
++	{0x34, AC_VERB_SET_EAPD_BTLENABLE, 0x02},
++	{0x43, CM9825_VERB_SET_SNR, 0x38},
++	{0x43, CM9825_VERB_SET_PLL, 0x00},
++	{0x43, CM9825_VERB_SET_ADCL, 0xcf},
++	{0x43, CM9825_VERB_SET_DACL, 0xaa},
++	{0x43, CM9825_VERB_SET_MBIAS, 0x1c},
++	{0x43, CM9825_VERB_SET_VNEG, 0x56},
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_DACTRL, 0x00},
++	{0x43, CM9825_VERB_SET_PDNEG, 0x0c},
++	{0x43, CM9825_VERB_SET_CDALR, 0xf4},
++	{0x43, CM9825_VERB_SET_OTP, 0xcd},
++	{0x43, CM9825_VERB_SET_MTCBA, 0x61},
++	{0x43, CM9825_VERB_SET_OCP, 0x33},
++	{0x43, CM9825_VERB_SET_GAD, 0x07},
++	{0x43, CM9825_VERB_SET_TMOD, 0x26},
++	{0x43, CM9825_VERB_SET_HPF_1, 0x40},
++	{0x43, CM9825_VERB_SET_HPF_2, 0x40},
++	{0x40, AC_VERB_SET_CONNECT_SEL, 0x00},
++	{0x3d, AC_VERB_SET_CONNECT_SEL, 0x01},
++	{0x46, CM9825_VERB_SET_P3BCP, 0x20},
++	{}
++};
++
++/*
++ * Enable DAC to start playback.
++ */
++static const struct hda_verb cm9825_gene_twl7_playback_start_verbs[] = {
++	{0x43, CM9825_VERB_SET_D2S, 0xf2},
++	{0x43, CM9825_VERB_SET_VDO, 0xd4},
++	{0x43, CM9825_VERB_SET_SNR, 0x30},
++	{}
++};
++
++/*
++ * Disable DAC and enable de-pop noise mechanism.
++ */
++static const struct hda_verb cm9825_gene_twl7_playback_stop_verbs[] = {
++	{0x43, CM9825_VERB_SET_VDO, 0xc0},
++	{0x43, CM9825_VERB_SET_D2S, 0x62},
++	{0x43, CM9825_VERB_SET_VDO, 0xd0},
++	{0x43, CM9825_VERB_SET_SNR, 0x38},
++	{}
++};
++
+ static void cm9825_unsol_hp_delayed(struct work_struct *work)
+ {
+ 	struct cmi_spec *spec =
+@@ -162,6 +234,94 @@ static void hp_callback(struct hda_codec *codec, struct hda_jack_callback *cb)
+ 	schedule_delayed_work(&spec->unsol_hp_work, msecs_to_jiffies(200));
+ }
+ 
++static void cm9825_unsol_linein_delayed(struct work_struct *work)
++{
++	struct cmi_spec *spec =
++	    container_of(to_delayed_work(work), struct cmi_spec,
++			 unsol_linein_work);
++	struct hda_jack_tbl *jack;
++
++	hda_nid_t linein_pin = spec->gen.autocfg.inputs[1].pin;
++
++	bool linein_jack_plugin = false;
++
++	linein_jack_plugin = snd_hda_jack_detect(spec->codec, linein_pin);
++
++	codec_dbg(spec->codec,
++		    "%s, lineout_jack_plugin %d, linein_pin 0x%X, line%d\n",
++		    __func__, (int)linein_jack_plugin, linein_pin, __LINE__);
++
++	jack = snd_hda_jack_tbl_get(spec->codec, linein_pin);
++
++	if (jack) {
++		jack->block_report = 0;
++		snd_hda_jack_report_sync(spec->codec);
++	}
++}
++
++static void linein_callback(struct hda_codec *codec,
++			    struct hda_jack_callback *cb)
++{
++	struct cmi_spec *spec = codec->spec;
++	struct hda_jack_tbl *tbl;
++
++	/* Delay enabling the line, to let the linein-detection
++	 * state machine run.
++	 */
++
++	codec_dbg(codec, "%s, cb->nid 0x%X, line%d\n", __func__,
++		    (int)cb->nid, __LINE__);
++
++	tbl = snd_hda_jack_tbl_get(codec, cb->nid);
++	if (tbl)
++		tbl->block_report = 1;
++	schedule_delayed_work(&spec->unsol_linein_work, msecs_to_jiffies(200));
++}
++
++static void cm9825_unsol_lineout_delayed(struct work_struct *work)
++{
++	struct cmi_spec *spec =
++	    container_of(to_delayed_work(work), struct cmi_spec,
++			 unsol_lineout_work);
++	struct hda_jack_tbl *jack;
++
++	hda_nid_t lineout_pin = spec->gen.autocfg.line_out_pins[0];
++
++	bool lineout_jack_plugin = false;
++
++	lineout_jack_plugin = snd_hda_jack_detect(spec->codec, lineout_pin);
++
++	codec_dbg(spec->codec,
++		  "%s, lineout_jack_plugin %d, lineout_pin 0x%X, line%d\n",
++		  __func__, (int)lineout_jack_plugin, lineout_pin, __LINE__);
++
++	jack = snd_hda_jack_tbl_get(spec->codec, lineout_pin);
++
++	if (jack) {
++		jack->block_report = 0;
++		snd_hda_jack_report_sync(spec->codec);
++	}
++}
++
++static void lineout_callback(struct hda_codec *codec,
++			     struct hda_jack_callback *cb)
++{
++	struct cmi_spec *spec = codec->spec;
++	struct hda_jack_tbl *tbl;
++
++	/* Delay enabling the line, to let the linein-detection
++	 * state machine run.
++	 */
++
++	codec_dbg(codec, "%s, cb->nid 0x%X, line%d\n", __func__,
++		  (int)cb->nid, __LINE__);
++
++	tbl = snd_hda_jack_tbl_get(codec, cb->nid);
++	if (tbl)
++		tbl->block_report = 1;
++	schedule_delayed_work(&spec->unsol_lineout_work, msecs_to_jiffies(200));
++}
++
+ static void cm9825_setup_unsol(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec = codec->spec;
+@@ -171,6 +331,44 @@ static void cm9825_setup_unsol(struct hda_codec *codec)
+ 	snd_hda_jack_detect_enable_callback(codec, hp_pin, hp_callback);
+ }
+ 
++static void cm9825_gene_twl7_setup_unsol(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	hda_nid_t lineout_pin = spec->gen.autocfg.line_out_pins[0];
++
++	hda_nid_t lineint_pin = spec->gen.autocfg.inputs[0].pin;
++
++	codec_dbg(codec, "%s, lineout_pin 0x%X, lineint_pin 0x%X, line%d\n",
++		    __func__, lineout_pin, lineint_pin, __LINE__);
++
++	snd_hda_jack_detect_enable_callback(codec, lineout_pin,
++					    lineout_callback);
++	snd_hda_jack_detect_enable_callback(codec, lineint_pin,
++					    linein_callback);
++}
++
++static void cm9825_playback_pcm_hook(struct hda_pcm_stream *hinfo,
++				     struct hda_codec *codec,
++				     struct snd_pcm_substream *substream,
++				     int action)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	switch (action) {
++	case HDA_GEN_PCM_ACT_PREPARE:
++		snd_hda_sequence_write(spec->codec,
++				       cm9825_gene_twl7_playback_start_verbs);
++		break;
++	case HDA_GEN_PCM_ACT_CLEANUP:
++		snd_hda_sequence_write(spec->codec,
++				       cm9825_gene_twl7_playback_stop_verbs);
++		break;
++	default:
++		return;
++	}
++}
++
+ static int cm9825_init(struct hda_codec *codec)
+ {
+ 	snd_hda_gen_init(codec);
+@@ -179,26 +377,61 @@ static int cm9825_init(struct hda_codec *codec)
+ 	return 0;
+ }
+ 
+-static void cm9825_remove(struct hda_codec *codec)
++static void cm9825_cm_std_remove(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec = codec->spec;
+ 
+ 	cancel_delayed_work_sync(&spec->unsol_hp_work);
++}
++
++static void cm9825_gene_twl7_remove(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	cancel_delayed_work_sync(&spec->unsol_linein_work);
++	cancel_delayed_work_sync(&spec->unsol_lineout_work);
++}
++
++static void cm9825_remove(struct hda_codec *codec)
++{
++	if (codec->core.subsystem_id == QUIRK_CM_STD)
++		cm9825_cm_std_remove(codec);
++	else if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		cm9825_gene_twl7_remove(codec);
++
+ 	snd_hda_gen_remove(codec);
+ }
+ 
+-static int cm9825_suspend(struct hda_codec *codec)
++static void cm9825_cm_std_suspend(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec = codec->spec;
+ 
+ 	cancel_delayed_work_sync(&spec->unsol_hp_work);
++}
++
++static void cm9825_gene_twl7_suspend(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	cancel_delayed_work_sync(&spec->unsol_linein_work);
++	cancel_delayed_work_sync(&spec->unsol_lineout_work);
++}
++
++static int cm9825_suspend(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	if (codec->core.subsystem_id == QUIRK_CM_STD)
++		cm9825_cm_std_suspend(codec);
++	else if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		cm9825_gene_twl7_suspend(codec);
+ 
+ 	snd_hda_sequence_write(codec, spec->chip_d3_verbs);
+ 
+ 	return 0;
+ }
+ 
+-static int cm9825_resume(struct hda_codec *codec)
++static int cm9825_cm_std_resume(struct hda_codec *codec)
+ {
+ 	struct cmi_spec *spec = codec->spec;
+ 	hda_nid_t hp_pin = 0;
+@@ -213,7 +446,7 @@ static int cm9825_resume(struct hda_codec *codec)
+ 
+ 	msleep(150);		/* for depop noise */
+ 
+-	snd_hda_codec_init(codec);
++	snd_hda_sequence_write(codec, spec->chip_d0_verbs);
+ 
+ 	hp_pin = spec->gen.autocfg.hp_pins[0];
+ 	hp_jack_plugin = snd_hda_jack_detect(spec->codec, hp_pin);
+@@ -232,6 +465,18 @@ static int cm9825_resume(struct hda_codec *codec)
+ 		snd_hda_sequence_write(codec, cm9825_hp_remove_verbs);
+ 	}
+ 
++	return 0;
++}
++
++static int cm9825_resume(struct hda_codec *codec)
++{
++	struct cmi_spec *spec = codec->spec;
++
++	if (codec->core.subsystem_id == QUIRK_CM_STD)
++		cm9825_cm_std_resume(codec);
++	else if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID)
++		snd_hda_sequence_write(codec, spec->chip_d0_verbs);
++
+ 	snd_hda_regmap_sync(codec);
+ 	hda_call_check_power_status(codec, 0x01);
+ 
+@@ -242,13 +487,16 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ {
+ 	struct cmi_spec *spec;
+ 	struct auto_pin_cfg *cfg;
+-	int err;
++	int err = 0;
++	unsigned int val = 0;
+ 
+ 	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
+ 	if (spec == NULL)
+ 		return -ENOMEM;
+ 
+-	INIT_DELAYED_WORK(&spec->unsol_hp_work, cm9825_unsol_hp_delayed);
++	codec_dbg(codec, "chip_name: %s, ssid: 0x%X\n",
++		  codec->core.chip_name, codec->core.subsystem_id);
++
+ 	codec->spec = spec;
+ 	spec->codec = codec;
+ 	cfg = &spec->gen.autocfg;
+@@ -258,6 +506,51 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
+ 	spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
+ 
++	switch (codec->core.subsystem_id) {
++	case QUIRK_CM_STD:
++		snd_hda_codec_set_name(codec, "CM9825 STD");
++		INIT_DELAYED_WORK(&spec->unsol_hp_work,
++				  cm9825_unsol_hp_delayed);
++		spec->chip_d0_verbs = cm9825_std_d0_verbs;
++		spec->chip_d3_verbs = cm9825_std_d3_verbs;
++		spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
++		spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
++		cm9825_setup_unsol(codec);
++		break;
++	case QUIRK_GENE_TWL7_SSID:
++		snd_hda_codec_set_name(codec, "CM9825 GENE_TWL7");
++		INIT_DELAYED_WORK(&spec->unsol_linein_work,
++				  cm9825_unsol_linein_delayed);
++		INIT_DELAYED_WORK(&spec->unsol_lineout_work,
++				  cm9825_unsol_lineout_delayed);
++		spec->gen.hp_mic = 0;
++		cfg->line_outs = 1;
++		cfg->line_out_pins[0] = 0x36;
++		cfg->line_out_type = AUTO_PIN_LINE_OUT;
++		cfg->num_inputs = 2;
++		cfg->inputs[0].pin = 0x3b;
++		cfg->inputs[0].type = AUTO_PIN_LINE_IN;
++		cfg->inputs[1].pin = 0x37;
++		cfg->inputs[1].type = AUTO_PIN_MIC;
++		cfg->inputs[1].is_headphone_mic = 1;
++		spec->chip_d0_verbs = cm9825_gene_twl7_d0_verbs;
++		spec->chip_d3_verbs = cm9825_gene_twl7_d3_verbs;
++		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
++		snd_hda_codec_set_pincfg(codec, 0x37, 0x24A70100);
++		cm9825_gene_twl7_setup_unsol(codec);
++		break;
++	default:
++		err = -ENXIO;
++		break;
++	}
++
++	if (err < 0)
++		goto error;
++
++	/* Support OMTP Jack */
++	val = snd_hda_codec_read(codec, 0x46, 0, 0xfec, 0x0);
++	snd_hda_codec_write(codec, 0x46, 0, 0x7ef, (val >> 24) & 0x7f);
++
+ 	snd_hda_sequence_write(codec, spec->chip_d0_verbs);
+ 
+ 	err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
+@@ -267,8 +560,6 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	if (err < 0)
+ 		goto error;
+ 
+-	cm9825_setup_unsol(codec);
+-
+ 	return 0;
+ 
+  error:
+-- 
+2.43.0
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
