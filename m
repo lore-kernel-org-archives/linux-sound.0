@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E252F25EF
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 13:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7012931A549;
+	Mon, 15 Dec 2025 13:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807134; cv=none; b=TaUoUW69zJMglXspc5v3HQbkAhYdpz83oppgJvY6t/t/uSyJaXcTzqVtkBQTjTPzOZTi98FFwQfcneAnKyrPatHW2i6FxbyLhhBWGpZDwtM/MCcSdpOdif5NpAeE86L0oZuawpuYkuJPSJlu8Xx5+1AULxDRNX7/nElC1iEgEbM=
+	t=1765807136; cv=none; b=OHP1YXHGKc9ShN5AKYVLP1b//6gd6/Wu3gi6g17HGliK0xZKo6mGGlrACBflZvwizdu3XnfSZyPsc9SeaxtXVwSg2xVRvTWxGOXviLM0IAcPZ6W7zCI3aaKAsnVH7UzWP6PWnIyfhui7W6RYUa2MWFgcvHreTV76YLHuTQ+wAYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807134; c=relaxed/simple;
-	bh=UXO5Hf9pen7dN3s4a7cAeEkZUpTFHG2af1g4MTOaqxE=;
+	s=arc-20240116; t=1765807136; c=relaxed/simple;
+	bh=QftfheSx+e7Pz/hQ8qwsybGwm4nLmTi4LE+s13cohIo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t8cVlUv92pN2P4tLOdDRqd2pAHIIjAE5o1H1VrS52A7TzO/ogU9ySo2Q3DCi7WmPr15ubqlx2vORj5COJE+jamTyAi13xjNQtbwyGkPGV+++WrooAQZEqLsxJg3gtrD+E4i78LruWD023ajPRc5Wn5qiPqCUvN+SzX+r4T6Z0QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SbAtVI+U; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nWv6MInzlcGD7n+vmZlh4rigZ8u7+olvT8zirpJTEfhTbV3uF83GKlTegO2HoxETNX7aE1UoHnMoWJuHklhvwTHSMvGAo87ReMtgT69t9POlH5lFTBp+abgam1Op42bZF7WShMBXH36nGQ8fKi0pq7ymqSumLQYVeRoLm7vLH2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cq/PGFk4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SbAtVI+U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81278C19424;
-	Mon, 15 Dec 2025 13:58:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cq/PGFk4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881F3C4CEF5;
+	Mon, 15 Dec 2025 13:58:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807134;
-	bh=UXO5Hf9pen7dN3s4a7cAeEkZUpTFHG2af1g4MTOaqxE=;
+	s=k20201202; t=1765807136;
+	bh=QftfheSx+e7Pz/hQ8qwsybGwm4nLmTi4LE+s13cohIo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SbAtVI+UlQwJQnS+t9PCSku9Z/dFSQbQwlW3VYKoXNLpHJ6pmVbgbds9PoBsp52PE
-	 fTSUtGZKu4Gg4rcPuhsotpN52u0B71fQ6Zj66HVGqqCBdM7VcpxzTlJYZo0HPXL5W6
-	 gk431Gs4osH8/7uqrn3Rja6+xQSKET2meAkFgiHP7lhBOfueHBnePVR2ZD6AkXexDQ
-	 Fjy5tkRLR34I/5MFJVufdHQtzhaoJLHddbPdVa5RpTTGOCs+1ZzxQHVcxehhwEXgqe
-	 BYZE48QI67Epc7RAUTKvNByPHOSSTdP4qR3N+Cp2n6VuOpPrmhMAmQcvN/u6E3ZcKR
-	 2lgxEF2KoOBAw==
+	b=Cq/PGFk4rOkGOvMsmFwB/sQnVbnH6eY+JJW3IJVL3MbMwXK7RZpH/mffTs3Z/78NE
+	 Xws3aU1cG8ZneQhgkDCq/WBirV82zkDa7t3aj55mT0tyFJkPEVY1ZRPtZ0OI4SSmuZ
+	 EshNuWhkmST6RvXq610iDHRKMTY/av/BFoUWe4Nr4MVpwhHXISlvpnO/3j6rzUkkkV
+	 2NdSA3sM4acWzvNjnrNv+IlCEOQ3cNiIAas0hkuYE4FpCO7UgxgvPmTyJfh/zo3sOh
+	 eSHvK0tAibmgZF5t8mwm6L9YobKf/tDNNwysxlLjjbPZge5W1x8GmEAGL844WdUmGJ
+	 b+38thSW0MfVA==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20251212103858.110701-1-cezary.rojewski@intel.com>
-References: <20251212103858.110701-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/5] ASoC: Intel: catpt: IPC log improvements and code
- simplification
-Message-Id: <176580713295.161056.3659304742036550658.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:52 +0900
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ HariKrishna Sagala <hariconscious@gmail.com>
+Cc: khalid@kernel.org, shuah@kernel.org, david.hunter.linux@gmail.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <29c40b5a-3e4d-e89d-ca22-a1059cca3480@gmail.com>
+References: <29c40b5a-3e4d-e89d-ca22-a1059cca3480@gmail.com>
+Subject: Re: [PATCH RESEND] ASoC: fsl: fsl_ssi: Replace deprecated strcpy()
+ with strscpy()
+Message-Id: <176580713397.161056.2062584359169802375.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:53 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +48,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 12 Dec 2025 11:38:53 +0100, Cezary Rojewski wrote:
-> Entire patchset provides no new features and does not alter the code
-> from functional (user) perspective.
+On Mon, 17 Nov 2025 18:18:48 +0530, HariKrishna Sagala wrote:
+> strcpy() is deprecated,use strscpy() instead.
+> No functional changes intended.
+> Link: https://github.com/KSPP/linux/issues/88
 > 
-> The first two improve IPC-error logging 'mechanism' and align the
-> catpt-driver with what's done in another Intel's driver: the avs-driver.
-> In essence, no need to log the error in every function, let the common
-> handler do so instead.
 > 
-> [...]
 
 Applied to
 
@@ -63,16 +61,8 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: Intel: catpt: Move IPC error messages one level down
-      commit: 384b13038715f16713d1b2bfe5fb927c8437e48b
-[2/5] ASoC: Intel: catpt: Update CATPT_IPC_ERROR macro
-      commit: eded4483b8a21eaeb0886ef6f961ccf4e0d9c976
-[3/5] ASoC: Intel: catpt: Simplify catpt_stream_read_position()
-      commit: d44f62b09b1e97baee3b10484a1c3c203bb83caf
-[4/5] ASoC: Intel: catpt: Specify image names in the device descriptor
-      commit: e97e07138f956a551895a9556d1a929978a5346d
-[5/5] ASoC: Intel: catpt: Drop superfluous space in PCM code
-      commit: aa30193af8873b3ccfd70a4275336ab6cbd4e5e6
+[1/1] ASoC: fsl: fsl_ssi: Replace deprecated strcpy() with strscpy()
+      commit: 774d075a80c652a0f35a5dd6f9e35cac5b7f6bdd
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
