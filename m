@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDBB1FB1
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 11:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49624281503
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 11:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765797631; cv=none; b=dCvRzWlN60AbrLnbg7o1YnYsIbF/SMIipWXPPziy1be9wOyUn8nBAIFlf8x1h/mWvKnyx/VpjRaXrjofB9HbjxunRfq79VtQeMqh67a8JETgo3WRooLd3/uwVyw/oyOlZJo8Gox+JBkA/oc8gkeiqVTZXAfSow070m1uYZD2Up0=
+	t=1765797634; cv=none; b=o/dX9IgkDKaNIcNGpF7P5ayfQmUvnG4CfvqK6Eikoq80PgOIZ/DQcgqy/Q/S7N3NsyizEW4BJhNV0+Q11ubLjWMtVXA5F2Fa70eTDDDL/O0prPrA6MOMF1KTxb8OhV8GYRoW8rakz0WnNLUUqcR3kA37BBiR1GfXLNiaKDQr8vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765797631; c=relaxed/simple;
-	bh=XdnJr50ITHxMZzF2A1reH4pl/m8D2mXU1qSxmNPxvTg=;
+	s=arc-20240116; t=1765797634; c=relaxed/simple;
+	bh=vEwPyQPRXlTNVQq1eW5GjLCY7W8nBAQ2OCxfR/hTbgg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ltvKvqllyZhJJCasABYDWu3HTCo39TnJD+CoW+dPnZqhy6/NFZn7fnJ2tCX1Ixwj+cisd4C+sslIyglplnbm8Ps45oYhbdQl5PeECMlWujmZ+Wc7Qtjc3ykHm4KTHQ0/5GFcb+kuCX0TxmIoAFsiQjGudsGL047RA0SkAaOp0G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOdE5HY3; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=FYEY8S8n9vCs9mGGYxo6UFSPJv5vHV3mJTqBpSJ4AJ87MxHyNOdEvNVSZJaiBW1BSgsnbY/c2i9TENOkJJcmK39RnVLKPL5vkBDJaP2m1qUohkcv93OiR8fvaeZDJ0jM+eMKvQfilJAd4Tk0e2OCxXTGEAifi3ebPAfFnpe1oMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NaVDQcak; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOdE5HY3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NaVDQcak"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765797630; x=1797333630;
+  t=1765797632; x=1797333632;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XdnJr50ITHxMZzF2A1reH4pl/m8D2mXU1qSxmNPxvTg=;
-  b=DOdE5HY3CXyUCeO3InqlZng351XmiVTLayJayIQajNbLj4sNAhwohsOr
-   N6MA1ZcgcSYtfQlU3FPPVrfDJ9TWDdF8buxgJnW3j3uy0vtVAWomvJMat
-   kCiiSvz69xUCoxv2koEHQgf7atR+u3NdmJfoIHMn695pS4AsJ+iWYLdOB
-   C15UX2S2w7qJRIiQ400l2v/i1+HNHxsdSd5OtguhjtitVfRTolCMKzOG3
-   TOKFU1Yirsw4X28aKDjlTRKPo1MNhUL3BM1VzhKFjwbP+SKTCcMhuQFyr
-   hA4JmbwiBaKf4qwJXbcLc7LcG1EPNYtkjKh4JldkgGxwB5zY7Y5ot9WH1
-   A==;
-X-CSE-ConnectionGUID: sFbyjE5ZSuGN8ncuxPYA9g==
-X-CSE-MsgGUID: Yw7svemlRsmzCaeWysKyyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67731746"
+  bh=vEwPyQPRXlTNVQq1eW5GjLCY7W8nBAQ2OCxfR/hTbgg=;
+  b=NaVDQcakRKT9PmTENHMO0dcHF6nuGpuqSuWjFM1lu65UXIYnbOkflxsN
+   1fdS/ZonzcfgwciY0nY29PHOlwEURLFjrqKGbm37CLkM1b8pFTsP8EROg
+   FUBgAkWUL6LT646kQk0rmMBEtiYui1E18v02dNIult9OmKAEg+2hAvZKN
+   9a5Sd+BAzPxJKTraOhU5khs3Uioq4bSU51VMJBlKmD0wSMf8Q9QxcA7Ui
+   IgZ6QVhv6Iysx1mP0cwXagT/SrKjQQde/d/4IzylQU22ogAVQzy5HJjdM
+   P0VOm/AiC2rEG2xcSjg7ZN0vLonPcnkmTfLkRYKcaMv7F0/1+jIfQnAeh
+   w==;
+X-CSE-ConnectionGUID: +q7fBBikT0apQ8NFNRPDXg==
+X-CSE-MsgGUID: 8Ymvr/4tSuCgoTWojOBfgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67731752"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="67731746"
+   d="scan'208";a="67731752"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:29 -0800
-X-CSE-ConnectionGUID: BP9QicimQIiCQa63/6IDzA==
-X-CSE-MsgGUID: DHF5fBvdTluUaAQrJbFz4Q==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:32 -0800
+X-CSE-ConnectionGUID: dJcDUf4ZTe24viJAOnS+9A==
+X-CSE-MsgGUID: tl7ej9rvTKeIO9WJySfSkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197690205"
+   d="scan'208";a="197690211"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.95])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:27 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:30 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH 1/8] ASoC: SOF: ipc4-control: If there is no data do not send bytes update
-Date: Mon, 15 Dec 2025 13:20:41 +0200
-Message-ID: <20251215112048.16331-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/8] ASoC: SOF: ipc4-topology: Correct the allocation size for bytes controls
+Date: Mon, 15 Dec 2025 13:20:42 +0200
+Message-ID: <20251215112048.16331-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
 References: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
@@ -66,41 +66,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the bytes control have no data (payload) then there is no need to send
-an IPC message as there is nothing to send.
+The size of the data behind of scontrol->ipc_control_data for bytes
+controls is:
+[1] sizeof(struct sof_ipc4_control_data) + // kernel only struct
+[2] sizeof(struct sof_abi_hdr)) + payload
 
-Fixes: a062c8899fed ("ASoC: SOF: ipc4-control: Add support for bytes control get and put")
+The max_size specifies the size of [2] and it is coming from topology.
+
+Change the function to take this into account and allocate adequate amount
+of memory behind scontrol->ipc_control_data.
+
+With the change we will allocate [1] amount more memory to be able to hold
+the full size of data.
+
+Fixes: 1bfde5818266 ("ASoC: SOF: ipc4-topology: add byte kcontrol support")
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- sound/soc/sof/ipc4-control.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 35 +++++++++++++++++++++++++++--------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 976a4794d610..0a05f66ec7d9 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -412,8 +412,16 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
- 	int ret = 0;
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 221e9d4052b8..4272d84679ac 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -2855,22 +2855,41 @@ static int sof_ipc4_control_load_bytes(struct snd_sof_dev *sdev, struct snd_sof_
+ 	struct sof_ipc4_msg *msg;
+ 	int ret;
  
- 	/* Send the new data to the firmware only if it is powered up */
--	if (set && !pm_runtime_active(sdev->dev))
--		return 0;
-+	if (set) {
-+		if (!pm_runtime_active(sdev->dev))
-+			return 0;
-+
-+		if (!data->size) {
-+			dev_dbg(sdev->dev, "%s: No data to be sent.\n",
-+				scontrol->name);
-+			return 0;
-+		}
+-	if (scontrol->max_size < (sizeof(*control_data) + sizeof(struct sof_abi_hdr))) {
+-		dev_err(sdev->dev, "insufficient size for a bytes control %s: %zu.\n",
++	/*
++	 * The max_size is coming from topology and indicates the maximum size
++	 * of sof_abi_hdr plus the payload, which excludes the local only
++	 * 'struct sof_ipc4_control_data'
++	 */
++	if (scontrol->max_size < sizeof(struct sof_abi_hdr)) {
++		dev_err(sdev->dev,
++			"insufficient maximum size for a bytes control %s: %zu.\n",
+ 			scontrol->name, scontrol->max_size);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (scontrol->priv_size > scontrol->max_size - sizeof(*control_data)) {
+-		dev_err(sdev->dev, "scontrol %s bytes data size %zu exceeds max %zu.\n",
+-			scontrol->name, scontrol->priv_size,
+-			scontrol->max_size - sizeof(*control_data));
++	if (scontrol->priv_size > scontrol->max_size) {
++		dev_err(sdev->dev,
++			"bytes control %s initial data size %zu exceeds max %zu.\n",
++			scontrol->name, scontrol->priv_size, scontrol->max_size);
++		return -EINVAL;
 +	}
++
++	if (scontrol->priv_size < sizeof(struct sof_abi_hdr)) {
++		dev_err(sdev->dev,
++			"bytes control %s initial data size %zu is insufficient.\n",
++			scontrol->name, scontrol->priv_size);
+ 		return -EINVAL;
+ 	}
  
- 	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+-	scontrol->size = sizeof(struct sof_ipc4_control_data) + scontrol->priv_size;
++	/*
++	 * The used size behind the cdata pointer, which can be smaller than
++	 * the maximum size
++	 */
++	scontrol->size = sizeof(*control_data) + scontrol->priv_size;
+ 
+-	scontrol->ipc_control_data = kzalloc(scontrol->max_size, GFP_KERNEL);
++	/* Allocate the cdata: local struct size + maximum payload size */
++	scontrol->ipc_control_data = kzalloc(sizeof(*control_data) + scontrol->max_size,
++					     GFP_KERNEL);
+ 	if (!scontrol->ipc_control_data)
+ 		return -ENOMEM;
  
 -- 
 2.52.0
