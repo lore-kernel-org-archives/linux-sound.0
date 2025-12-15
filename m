@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0831FB1
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 11:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDBB1FB1
+	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 11:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765797629; cv=none; b=XhPJCyt4Re6q3Nu6CaPBsPCOOYGP2cQiw8/lhPpkuTxhES7z2NqX86Z98JIOZYdjh2E7HVofXqREvExjk3FMJtidr04g3Pn7X5+83gJ1g9O4Ewdn9HRTzYDQKihjpjaJkY2JvWjdfcXi7jN57KnGOiDsQPYJ3ZvHlEPb2XKovYw=
+	t=1765797631; cv=none; b=dCvRzWlN60AbrLnbg7o1YnYsIbF/SMIipWXPPziy1be9wOyUn8nBAIFlf8x1h/mWvKnyx/VpjRaXrjofB9HbjxunRfq79VtQeMqh67a8JETgo3WRooLd3/uwVyw/oyOlZJo8Gox+JBkA/oc8gkeiqVTZXAfSow070m1uYZD2Up0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765797629; c=relaxed/simple;
-	bh=PRfThtBw+tIqQ8VRX8aXGo/i0wIhfl2jaIg8WfwD6tg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sZqbpBEnE1jt8O0ugwlZjOTE0lf4LbH9bShKF/8ZzVyDdslDkf3EOF6pA7QSXK5SFz+RXMjtXAKT1E1mx+5cX8gxCI0gw0bQq2FkYlP+tgCsGClJOzrlZDEXs892eXwQ5Rx9eav1Ad+T9m30gIMQHdgrq+11dg7/ySuw+5rYgRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyOS9qVm; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1765797631; c=relaxed/simple;
+	bh=XdnJr50ITHxMZzF2A1reH4pl/m8D2mXU1qSxmNPxvTg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ltvKvqllyZhJJCasABYDWu3HTCo39TnJD+CoW+dPnZqhy6/NFZn7fnJ2tCX1Ixwj+cisd4C+sslIyglplnbm8Ps45oYhbdQl5PeECMlWujmZ+Wc7Qtjc3ykHm4KTHQ0/5GFcb+kuCX0TxmIoAFsiQjGudsGL047RA0SkAaOp0G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOdE5HY3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyOS9qVm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOdE5HY3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765797627; x=1797333627;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PRfThtBw+tIqQ8VRX8aXGo/i0wIhfl2jaIg8WfwD6tg=;
-  b=MyOS9qVmQT4XqR8uzfp2OuX37DD1BHwd+3S/zAXoPDDiyH3+mcEVwSLI
-   D1CBfCnEhXUuMuCgqqULTZs8SFWCRoBL5o954vt5kLhMegbm39wagzrBX
-   wJAVIpivZgSagwRZyfHdEEFkbnjPOTP48KcPvpGdFwOD48AB1Y4TqWJ91
-   p7slJkWdLEtuozqNi80uTrAvGmvNysmre9FWkqclejepeQK+y9u9NHy7Y
-   gJXFhvpZRgTxXv6dL05LvURstADkcI1AzlBb13EKzcJUtD7xU/L4Sph9l
-   3Yg+jU8wdWNdK1Zp3S0nBejIqnkS244uJE5zg+d6wH5uIGqCodTe+txRD
-   Q==;
-X-CSE-ConnectionGUID: ejQxZbdSRUq5Sd6J7HJ/qQ==
-X-CSE-MsgGUID: D5+mlWHxSKiCP1PsBWh44w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67731737"
+  t=1765797630; x=1797333630;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XdnJr50ITHxMZzF2A1reH4pl/m8D2mXU1qSxmNPxvTg=;
+  b=DOdE5HY3CXyUCeO3InqlZng351XmiVTLayJayIQajNbLj4sNAhwohsOr
+   N6MA1ZcgcSYtfQlU3FPPVrfDJ9TWDdF8buxgJnW3j3uy0vtVAWomvJMat
+   kCiiSvz69xUCoxv2koEHQgf7atR+u3NdmJfoIHMn695pS4AsJ+iWYLdOB
+   C15UX2S2w7qJRIiQ400l2v/i1+HNHxsdSd5OtguhjtitVfRTolCMKzOG3
+   TOKFU1Yirsw4X28aKDjlTRKPo1MNhUL3BM1VzhKFjwbP+SKTCcMhuQFyr
+   hA4JmbwiBaKf4qwJXbcLc7LcG1EPNYtkjKh4JldkgGxwB5zY7Y5ot9WH1
+   A==;
+X-CSE-ConnectionGUID: sFbyjE5ZSuGN8ncuxPYA9g==
+X-CSE-MsgGUID: Yw7svemlRsmzCaeWysKyyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67731746"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="67731737"
+   d="scan'208";a="67731746"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:27 -0800
-X-CSE-ConnectionGUID: RP9AVwgnT0q7dN7EnnG1IQ==
-X-CSE-MsgGUID: h9Zc6w8oSd6dxXebMCNkwQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:29 -0800
+X-CSE-ConnectionGUID: BP9QicimQIiCQa63/6IDzA==
+X-CSE-MsgGUID: DHF5fBvdTluUaAQrJbFz4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197690197"
+   d="scan'208";a="197690205"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.95])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:24 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 03:20:27 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,10 +52,12 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH 0/8] ASoC: SOF: ipoc4: Support for generic bytes controls
-Date: Mon, 15 Dec 2025 13:20:40 +0200
-Message-ID: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 1/8] ASoC: SOF: ipc4-control: If there is no data do not send bytes update
+Date: Mon, 15 Dec 2025 13:20:41 +0200
+Message-ID: <20251215112048.16331-2-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
+References: <20251215112048.16331-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,58 +66,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+When the bytes control have no data (payload) then there is no need to send
+an IPC message as there is nothing to send.
 
-We support bytes control type for set and get, but these are module specific
-controls and there is no way to handle notifications from them in a generic way.
-Each control have module specific param_id and this param_id is only valid in
-the module's scope, other modules might use the same id for different functions
-for example.
-
-This series will add a new generic control type, similar to the existing ones
-for ENUM and SWITCH, which can be used to create bytes controls which can send
-notifications from firmware on change.
-
-The new param_id is 202 and the sof_ipc4_control_msg_payload is updated to
-describe bytes payload also.
-
-On set, the payload must include the sof_ipc4_control_msg_payload struct with
-the control's ID and data size, followed by the data.
-
-On get, the kernel needs to send the sof_ipc4_control_msg_payload struct along
-with the LARGE_CONFIG_GET message as payload with the ID of the control that
-needs to be retrieved. The raw data is received back without additional header.
-
-A notification might contain data, in this case the num_elems reflects the size
-in bytes, or without data. If no data is received then the control is marked as
-dirty and on read the kernel will refresh the data from firmware.
-
-The series includes mandatory fixes for existing code and adds support for
-sending payload with LARGE_CONFIG_GET when the param_id is either generic ENUM,
-SWITCH or BYTES control.
-
-Regards,
-Peter
+Fixes: a062c8899fed ("ASoC: SOF: ipc4-control: Add support for bytes control get and put")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
-Peter Ujfalusi (8):
-  ASoC: SOF: ipc4-control: If there is no data do not send bytes update
-  ASoC: SOF: ipc4-topology: Correct the allocation size for bytes
-    controls
-  ASoC: SOF: ipc4-control: Use the correct size for
-    scontrol->ipc_control_data
-  ASoC: SOF: ipc4-control: Keep the payload size up to date
-  ASoC: SOF: ipc4-topology: Set initial param_id for bytes control type
-  ASoC: SOF: ipc4: Support for sending payload along with
-    LARGE_CONFIG_GET
-  ASoC: SOF: ipc4: Add definition for generic bytes control
-  ASoC: SOF: ipc4-control: Add support for generic bytes control
+ sound/soc/sof/ipc4-control.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
- sound/soc/sof/ipc4-control.c  | 197 ++++++++++++++++++++++++++++++----
- sound/soc/sof/ipc4-topology.c |  36 +++++--
- sound/soc/sof/ipc4-topology.h |   9 +-
- sound/soc/sof/ipc4.c          |  45 +++++++-
- 4 files changed, 252 insertions(+), 35 deletions(-)
-
+diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
+index 976a4794d610..0a05f66ec7d9 100644
+--- a/sound/soc/sof/ipc4-control.c
++++ b/sound/soc/sof/ipc4-control.c
+@@ -412,8 +412,16 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
+ 	int ret = 0;
+ 
+ 	/* Send the new data to the firmware only if it is powered up */
+-	if (set && !pm_runtime_active(sdev->dev))
+-		return 0;
++	if (set) {
++		if (!pm_runtime_active(sdev->dev))
++			return 0;
++
++		if (!data->size) {
++			dev_dbg(sdev->dev, "%s: No data to be sent.\n",
++				scontrol->name);
++			return 0;
++		}
++	}
+ 
+ 	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+ 
 -- 
 2.52.0
 
