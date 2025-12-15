@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9752F2FFF99;
-	Mon, 15 Dec 2025 13:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A44E308F2A;
+	Mon, 15 Dec 2025 13:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807122; cv=none; b=QUMeGYrP9JqoSpfCNqPgZe4zytBl9BTloaq+YpMwJFNR68Sx/XjXme707ZI3QO7GBrgljbtfo2r34w1Px7VMni9oCuuPjtUEhL8cbtRgQeDqbwNwmAU4BoPm+snZ0poTTGYVFNI/1+Yb8fJBFDICfbLPKPF2SMN5bw4CFh1VBB4=
+	t=1765807125; cv=none; b=pIN+JoBeqgPhxUNGFijq6IOIM2meC5JHqV1RuhaL9cB0Vo8E7y4C40zffzCyGSl85M/3m0zP3RHdhGwKHEsBQ+8myNz8cb/CituS+2mzzvHmwJyGcToJC99OSsGDGFioLmsQIVRZYW/xGiAadrQildltzqaudx0nKnAJlM8t0cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807122; c=relaxed/simple;
-	bh=ovPUCVblW/h3OT9xKZ4TnUGxFzza2+qTksmjbs/1YYA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uC6bJKk1cXM8G8LpDj4wbKF/HmvxGVXpcpReJ5Rk7KFQ+ecONePl1juJRoPJuihh/4hc/AviwRPu+IbTleO3BFPOaB3zdTW/NtGMRNDHGHx8JTTyTHTf3PWAldPVujoC9xAI12ElxEZWXjBTkpnYpx/akycFk4/GsPBDmnDrTyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLkZ5N3Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765807125; c=relaxed/simple;
+	bh=ObcPYFjOgd+e74qo34+MtvWuVotkWlvOL3RKKEDTZmI=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OXRWz/hu90XTeK45Z2W3VNvBmsW+9g7hHbe98tJNajqCERIjT+BWSCb/7o9q6Dj4RemRZwMSB1yP4ZGKOuaBkwk8ftmAZFTT3VcTqbsfhPx68ARdHRAWWmsARK0WstDH80hP3Y3vrxnI93vFNRi9kCfILFcBKZHJq7eaaf9833c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7GH20J5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLkZ5N3Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781BBC19425;
-	Mon, 15 Dec 2025 13:58:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7GH20J5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A0AC4AF09;
+	Mon, 15 Dec 2025 13:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807122;
-	bh=ovPUCVblW/h3OT9xKZ4TnUGxFzza2+qTksmjbs/1YYA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TLkZ5N3ZKCg+UHcEpGZg0CvrjudVNFNNwqfrDfqvvTP6vvPqMTZhwFWzSxu8wfpfG
-	 2JQMDXWadq81U/e3H0mJ33wjzRow+p848h/cgXFl2tqOr4gNOxUsZRCgECGZmkO+8W
-	 VGrOm+7F0VhnQj+4O29HYn8OBsiY3Suvcwr4Z07VlZfVCvsYsByWo2bc4u0m2v+AoS
-	 McohdJp9zUqNJDClw8sDzyysZUCF6K/awkNHoZxZMXvv2AidROagys8n4pgEEfAbf9
-	 /YnCQzaEPoH26zqivR1PIXbocr+wxbpUjjldpJq/nF28M3y/KyGUzyyBf/kIYOVzAV
-	 4eSn/GxZQSoEw==
+	s=k20201202; t=1765807125;
+	bh=ObcPYFjOgd+e74qo34+MtvWuVotkWlvOL3RKKEDTZmI=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=g7GH20J54u0rCVGE8EBGLyIZGH8Hj7ZtySsDL4mUMySysSiFIH27khZ9Ohk/E6D/e
+	 1PJqD9lrM68sZ3n9/Q1Og/upbwmdWu5gYKNM6Buwi3TVYgybxMkdkivkvZ2yCeoWBP
+	 ClXE6lY9OERau/GW4JEHn94juCiK3mICNC5lpb58GCaEVtdME7Mep9+BQutIwyJ21P
+	 s7prlYkwj/c9zfBY9tErNEWmERc/1pgSHJznAudsBHukGwBmQLeo3Jqvedng8IlIMb
+	 PkvRaPQjQFXPfQqUvp4C8mMCe1zVcygOjIvukrA4Fvtv7w1CuBuiUVX5dRJiDwPL6a
+	 ZhkOlT3ksRFag==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Bluecross <elantsew.andrew@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251210203800.142822-1-elantsew.andrew@gmail.com>
-References: <20251210203800.142822-1-elantsew.andrew@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
-Message-Id: <176580712091.161056.16634106161315474445.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:40 +0900
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+ Chancel Liu <chancel.liu@nxp.com>
+In-Reply-To: <20251210062109.2577735-1-chancel.liu@nxp.com>
+References: <20251210062109.2577735-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_sai: Constrain sample rates from audio PLLs
+ only in master mode
+Message-Id: <176580712207.161056.14407929260579507141.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,10 +48,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 10 Dec 2025 23:38:00 +0300, Bluecross wrote:
-> Add a DMI quirk for the Honor MagicBook X16 2025 laptop
-> fixing the issue where the internal microphone was
-> not detected.
+On Wed, 10 Dec 2025 15:21:09 +0900, Chancel Liu wrote:
+> If SAI works in master mode it will generate clocks for external codec
+> from audio PLLs. Thus sample rates should be constrained according to
+> audio PLL clocks. While SAI works in slave mode which means clocks are
+> generated externally then constraints are independent of audio PLLs.
 > 
 > 
 
@@ -58,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
-      commit: e2cb8ef0372665854fca6fa7b30b20dd35acffeb
+[1/1] ASoC: fsl_sai: Constrain sample rates from audio PLLs only in master mode
+      commit: 9f4d0899efd9892fc7514c9488270e1bb7dedd2b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
