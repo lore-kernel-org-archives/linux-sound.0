@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712DA2F39DD;
-	Mon, 15 Dec 2025 13:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC97B2F1FE4;
+	Mon, 15 Dec 2025 13:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807107; cv=none; b=cVh+1+dunH9yR1UQVPA+QtHiKQPk+eSCuQaQ6L7ulYdMdM2kEbFygnn28WIEwE5hLqlsNw7RsW08yJ7LWwfskG50etpNKzB2mZn+RVjQjhiJuhA+BfdGWP3Hc8pcTGsoPc8AiZ3dtN8KCwlab1mG9uq4gjPMjUOXx3AQl/ZHNjI=
+	t=1765807108; cv=none; b=BCRQ5vicGClA5Q5LnoZsOHtk6U6/jaHcLAS+WS3P1RCo8iZ9QaD9CMZy81DMxnGQc03Pr653p8vGVjtsdgqBtMCNqAJCq6tsYG0ODlSiZk2IVpmQ8pVmtGf2czF/EZsWa4mZK1FZqcOzbjZvXpDmSnR+dovkCdQP6PGS6JysWo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807107; c=relaxed/simple;
-	bh=6bmglP9RmOdGhk5B5obusc/nrNoyASh/6Kg1YIXr2CU=;
+	s=arc-20240116; t=1765807108; c=relaxed/simple;
+	bh=nlLNH+vGhBgKmzykSFeitePP02WUsMrJ9i5X5bV3xhg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=g9WNIvSBaNuqPJBDE1XThAZ63hJqwXYMBPWqjtZ1AFiATHH+PLz96OKFq70Cv4sknoNF3Ufu93iGfgf0mXexpEW+73JKSPA+U03DaoYeSMuyFFhDRlo/l/fzt0Bx3yISJ3h8X+LylExSVs2WoaaOH0PF2Z/zVe7gRjP+oVBAmD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Imau9M/g; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ga9O7kwkTA5N1D+tXfu01UZVJzA8zdSz8AJfe1Vl+e2dSP/UorbOIqQD5YBV0notWRFdHnTC+VnspgBT2tVYCdVPu97bN/sVWgh9tSni3UPkKatBT7djG18Vfb4wyomyBAEFxINRYuCaLPjkIeiSRaIvS0OzK1AL7WTg3EerQ6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTy5n955; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Imau9M/g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C8AC16AAE;
-	Mon, 15 Dec 2025 13:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTy5n955"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F82CC4CEF5;
+	Mon, 15 Dec 2025 13:58:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765807107;
-	bh=6bmglP9RmOdGhk5B5obusc/nrNoyASh/6Kg1YIXr2CU=;
+	s=k20201202; t=1765807108;
+	bh=nlLNH+vGhBgKmzykSFeitePP02WUsMrJ9i5X5bV3xhg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Imau9M/gu1nE9yCkQ4XBG2+glEOooCbylJVOr8orL2pRKXO7wK2mSF7FfPavOKlg9
-	 fp9PXTuaa2Y4vmojYhheyxpsXAeZh4J3kY3vVrfotjnMl0GDbZv5tlBG2tQKLgFzB6
-	 zhj6l3rEVbuN5rpx89zIAYBy6yLGIBYLy+wffHKTIGOW6+B1DuGKNbPLKTzDBhtREw
-	 4MA5ntERwwdqkfojVCyNGxQzoN+UUUCcFtFpuxTExqQEasuEyNt9neuorKmLMo08BO
-	 oGQOamYJ+Qp2oB/qX2bK8tgqkXzLt/w+Y/ZWwxMvNbBaSdy+/6K+AH56c5FV38qOp6
-	 9oFcn9pxkJWCw==
+	b=rTy5n955QLZc21kzcR3XLYB6yfbzgt1u2Ft5S/kwzieoSpCGToxaCWjS1BEgzOvVi
+	 fdFhfpJYVe+VuraW9wrkOR7AZ5uwQP/fryLYfDlprc4/9p4/oGwtpT+Msrpf+DaClH
+	 IDH273Cs8KaxZRci5WaVLF0RPp1ZpICZc4reH4TPCJYGeCv350Sqwau5Tt2SI8TWEW
+	 jCL7YzjjHnflu/eDt4DDa9msn6ciELwliPI48oSh776/uD3Zagai241pjtCW201J9n
+	 ffXtE+rrquIx0uyBIwfaRvmI2z6mrix4gQVJkoxMRd+khkLQv2hiF2Q+4cHzRRYiJk
+	 Gv1u092roWXoA==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251129-asoc-wrong-cleanup-h-can-people-stop-sending-this-without-reading-docs-v1-0-c38b06884e39@oss.qualcomm.com>
-References: <20251129-asoc-wrong-cleanup-h-can-people-stop-sending-this-without-reading-docs-v1-0-c38b06884e39@oss.qualcomm.com>
-Subject: Re: [PATCH 0/6] ASoC: qcom: Fix confusing cleanup.h
-Message-Id: <176580710495.161056.18321549435251092606.b4-ty@kernel.org>
-Date: Mon, 15 Dec 2025 22:58:24 +0900
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20251202113425.413700-1-rf@opensource.cirrus.com>
+References: <20251202113425.413700-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] firmware: cs_dsp: Remove __free() from
+ cs_dsp_debugfs_string_read()
+Message-Id: <176580710686.161056.14028894471626088064.b4-ty@kernel.org>
+Date: Mon, 15 Dec 2025 22:58:26 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,17 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sat, 29 Nov 2025 14:17:52 +0100, Krzysztof Kozlowski wrote:
-> Please, please stop ending cleanup.h patches for very simple code like:
+On Tue, 02 Dec 2025 11:34:25 +0000, Richard Fitzgerald wrote:
+> Don't use __free(kfree) in cs_dsp_debugfs_string_read. Instead use
+> normal kfree() to cleanup.
 > 
->   foo = kzalloc();
->   kfree(foo);
->   return;
-> 
-> ... *if you do not intend to read cleanup.h*. These changes are making
-> simple code not necessarily simpler. But worse, if you do not read
-> cleanup.h then you introduce actually undesired, error-prone and wrong
-> style of having constructors with redundant values (= NULL).
+> The use of __free() can create new cleanup bugs that are difficult to spot
+> because the defective code is idiomatically correct regular C. This
+> function used the suspect declaration __free(kfree) = NULL;.
 > 
 > [...]
 
@@ -68,18 +62,8 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: qcom: q6prm: Fix confusing cleanup.h syntax
-      commit: bd9e7182e36169cd7e1ea3b25b5c82b1c5698e64
-[2/6] ASoC: qcom: q6asm: Fix confusing cleanup.h syntax
-      commit: c862dc9019f517893eb83096076d7eed4ecbb372
-[3/6] ASoC: qcom: q6apm: Fix confusing cleanup.h syntax
-      commit: 310e6f95eedaae04990072078adbb38beb149811
-[4/6] ASoC: qcom: q6afe: Fix confusing cleanup.h syntax
-      commit: 3c84bfa47ff29ec0c202cb139d365421c6778d65
-[5/6] ASoC: qcom: audioreach: Fix confusing cleanup.h syntax
-      commit: 0e6071d656fb284e003a45ce158831d4d12aac5a
-[6/6] ASoC: qcom: Minor readability improve with new lines
-      commit: 0bb160c92ad400c692984763996b758458adea17
+[1/1] firmware: cs_dsp: Remove __free() from cs_dsp_debugfs_string_read()
+      commit: 7a9fa7fda93b7b3ae515f40f67bbf8e1d16337e8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
