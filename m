@@ -1,87 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5901A34EEED
-	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 14:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF93522579E
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 14:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765894048; cv=none; b=D9degZxZEGR1ffZ2NvyrYHFQlyqDJPhsofMZcwfOi/hK5Yc5lTcxQ3Mt/L9K6/jnnpN25yRVGtIiga21/GnsdoDElKk4+YLg4n0a7JZtryAja5XRhOi3e05aVII9OyfSXYPN33wLpq694jR8862zOWbxx7d3KnPQHNNQcnfuteQ=
+	t=1765894329; cv=none; b=fvmMw5uiIkUKUfNilWqUiuwQe6MyKNeOyQwJYIYUeX5eu5/Fl7IfF0NYcQ+KcAmtDV2QQxotzR5W8WWX/F1JltZFDZM4aP4iey9hTbec2FNPCYJK0BdW1bG5hitFcWgtPTHqlzSB6jdJWuHnN1BI4KODLgnjAWl/JTd0EumwRWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765894048; c=relaxed/simple;
-	bh=PXwMAInEhFfP0cW1Wn8Nc8oTVtrinAPNTEeZUDVOTew=;
+	s=arc-20240116; t=1765894329; c=relaxed/simple;
+	bh=CQlmKHo0HXrPY/D1CuaCh+yyLbTR7gATEQ0GozQI0p0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JgXjsttBtqOO+H0gX5H980eOWDiigZpbinDWM95j3DyiHro1pgP0kof3nror/wbDbraMQG5Wf/3uHhj2erLzy6V6D+EPmBSvlfKL5+jYQgL7a5imZ4CIAjl9nw8ueRmx0F9L0LecKWqBHugM9T7T6cK/91VQeRw4hM19zJ9BaNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NP+onnhG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m5yy6Fen; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xKrbg1lY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bFW10fbU; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=HfedosBcDJ6IzirwgP1SJLhf9vy82nRW4OcCdcOXp4FB0PEvDnOuV3WUldAcZtS/WtexLThW0LfMsAlfPkfRSq5m4+FjaOKg5Ga0clVb6+iAq8X/sf53C4oU8KUEziA9DXsph/p0uhS2FUwFLjUYlNAxNZGwtIVG7THvsvdBIsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xo0ethsO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=auw2vEof; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xo0ethsO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=auw2vEof; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NP+onnhG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m5yy6Fen";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xKrbg1lY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bFW10fbU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xo0ethsO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="auw2vEof";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xo0ethsO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="auw2vEof"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A4537336A6;
-	Tue, 16 Dec 2025 14:06:42 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FF9B5BCDE;
+	Tue, 16 Dec 2025 14:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765894003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1765894326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uGpEHcRT8D3Hmv5fXxG+MeSZodI0OPWHBAQ4Wv2OH04=;
-	b=NP+onnhGANAxOhKrQqOmun3AeM5+SzVMWbJ8EMRA4KniqDTWHnTkCtPlp3YWeoYLg/foqT
-	SSWjzi6Cq//RqWT8TM4bo4ElMRZs4zEX6BsgryQg4tLFguXu9AHbIDar/MV533oto/CCUD
-	quYMmDVT+nQ3Lk6H5zLU9OKYg9P840s=
+	bh=LYCqxTz7319UfCGeqx/Q4avfW0UkfayXllTxF0TShcI=;
+	b=xo0ethsOooQJWQORg2asR3HjG2svBOHnqCsivrxG0SUigQQXowUQWL5cU5h73Rn8BUZpBd
+	Jf+D5wUomlpkT2eJU5yB7H6ljUUUhoPfg0Erip7D7pu9u/UI86Fqk69UrUZXWqIJdFfbCZ
+	E5yb4LfJ/EDf81H5fLmXHL8lsgiZ8Ak=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765894003;
+	s=susede2_ed25519; t=1765894326;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uGpEHcRT8D3Hmv5fXxG+MeSZodI0OPWHBAQ4Wv2OH04=;
-	b=m5yy6Fen4rcri8BWCgK4GSbO7omSDMFeoEYep7PSmg5ZOFpeTgM2lc5u7+lXkPlxHi+BrS
-	4LUYrhhfnPrbWiDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xKrbg1lY;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bFW10fbU
+	bh=LYCqxTz7319UfCGeqx/Q4avfW0UkfayXllTxF0TShcI=;
+	b=auw2vEofoT8Vccrwh/RxOsUv04yWZzOE5PM516/tICCbUJwWVLSXAWPf78qjbZSLwl64tJ
+	j3s6dB/MaC/3alAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xo0ethsO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=auw2vEof
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765894002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1765894326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uGpEHcRT8D3Hmv5fXxG+MeSZodI0OPWHBAQ4Wv2OH04=;
-	b=xKrbg1lYuSExGXUFpD+m2YbKGw2M4modg6V1vlLV2TpphPF8PAdIwartqSFKj9JOA+6f58
-	yoE7ttSMFHznjoP2wYlM3OBAImAbJ0TCV3fcqKnXLf1o4Pb7f/ZYX2DzIEB84UppD3G7tp
-	IFU2XhfYc55T1+2PytfIyrlldn2ThLo=
+	bh=LYCqxTz7319UfCGeqx/Q4avfW0UkfayXllTxF0TShcI=;
+	b=xo0ethsOooQJWQORg2asR3HjG2svBOHnqCsivrxG0SUigQQXowUQWL5cU5h73Rn8BUZpBd
+	Jf+D5wUomlpkT2eJU5yB7H6ljUUUhoPfg0Erip7D7pu9u/UI86Fqk69UrUZXWqIJdFfbCZ
+	E5yb4LfJ/EDf81H5fLmXHL8lsgiZ8Ak=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765894002;
+	s=susede2_ed25519; t=1765894326;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uGpEHcRT8D3Hmv5fXxG+MeSZodI0OPWHBAQ4Wv2OH04=;
-	b=bFW10fbU2VLV+RZW1IYyDcNB+llCxjHgR86qYn/ovawttKmPbDbWYvo2GJJbpVpDs9G/La
-	6fDhplgJw2QieVBg==
+	bh=LYCqxTz7319UfCGeqx/Q4avfW0UkfayXllTxF0TShcI=;
+	b=auw2vEofoT8Vccrwh/RxOsUv04yWZzOE5PM516/tICCbUJwWVLSXAWPf78qjbZSLwl64tJ
+	j3s6dB/MaC/3alAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93A953EA66;
-	Tue, 16 Dec 2025 14:06:42 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12F143EA65;
+	Tue, 16 Dec 2025 14:12:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iMGII3JnQWnrNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Dec 2025 14:06:42 +0000
+	id cFYcBLZoQWk7OwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 16 Dec 2025 14:12:06 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 02/11] ALSA: control: Relax __free() variable declarations
-Date: Tue, 16 Dec 2025 15:06:24 +0100
-Message-ID: <20251216140634.171890-3-tiwai@suse.de>
+Subject: [PATCH 1/5] ALSA: hda/cs35l41: Clean up runtime PM with guard()
+Date: Tue, 16 Dec 2025 15:11:46 +0100
+Message-ID: <20251216141154.172218-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251216140634.171890-1-tiwai@suse.de>
-References: <20251216140634.171890-1-tiwai@suse.de>
+In-Reply-To: <20251216141154.172218-1-tiwai@suse.de>
+References: <20251216141154.172218-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,223 +89,103 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 1FF9B5BCDE
+X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Rspamd-Queue-Id: A4537336A6
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
 
-We used to have a variable declaration with __free() initialized with
-NULL.  This was to keep the old coding style rule, but recently it's
-relaxed and rather recommends to follow the new rule to declare in
-place of use for __free() -- which avoids potential deadlocks or UAFs
-with nested cleanups.
+Replace the manual pm_runtime_get_sync() and
+pm_runtime_put_autosuspend() calls with the new
+guard(pm_runtime_active_auto) for code simplification.
 
-Although the current code has no bug, per se, let's follow the new
-standard and move the declaration to the place of assignment (or
-directly assign the allocated result) instead of NULL initializations.
+Along with this change, the former scoped_guard(mutex) can be set back
+to the plain guard(mutex), and the indent level is taken back, too.
 
-Fixes: 7dba48a474e6 ("ALSA: control_led: Use guard() for locking")
-Fixes: 1052d9882269 ("ALSA: control: Use automatic cleanup of kfree()")
+Merely code cleanups, and no functional changes.
+
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/control.c        | 12 ++++++------
- sound/core/control_compat.c | 21 +++++++++++----------
- sound/core/control_led.c    | 12 ++++++------
- 3 files changed, 23 insertions(+), 22 deletions(-)
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 23 +++++++++-------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 9c3fd5113a61..486d1bc4dac2 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -867,9 +867,9 @@ EXPORT_SYMBOL(snd_ctl_find_id);
- static int snd_ctl_card_info(struct snd_card *card, struct snd_ctl_file * ctl,
- 			     unsigned int cmd, void __user *arg)
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index 21e00055c0c4..b64890006bb7 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -1255,19 +1255,16 @@ static void cs35l41_fw_load_work(struct work_struct *work)
  {
--	struct snd_ctl_card_info *info __free(kfree) = NULL;
-+	struct snd_ctl_card_info *info __free(kfree) =
-+		kzalloc(sizeof(*info), GFP_KERNEL);
+ 	struct cs35l41_hda *cs35l41 = container_of(work, struct cs35l41_hda, fw_load_work);
  
--	info = kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (! info)
- 		return -ENOMEM;
- 	scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
-@@ -1244,10 +1244,10 @@ static int snd_ctl_elem_read(struct snd_card *card,
- static int snd_ctl_elem_read_user(struct snd_card *card,
- 				  struct snd_ctl_elem_value __user *_control)
- {
--	struct snd_ctl_elem_value *control __free(kfree) = NULL;
- 	int result;
-+	struct snd_ctl_elem_value *control __free(kfree) =
-+		memdup_user(_control, sizeof(*control));
+-	pm_runtime_get_sync(cs35l41->dev);
++	guard(pm_runtime_active_auto)(cs35l41->dev);
  
--	control = memdup_user(_control, sizeof(*control));
- 	if (IS_ERR(control))
- 		return PTR_ERR(control);
+-	scoped_guard(mutex, &cs35l41->fw_mutex) {
+-		/* Recheck if playback is ongoing, mutex will block playback during firmware loading */
+-		if (cs35l41->playback_started)
+-			dev_err(cs35l41->dev, "Cannot Load/Unload firmware during Playback. Retrying...\n");
+-		else
+-			cs35l41_load_firmware(cs35l41, cs35l41->request_fw_load);
++	guard(mutex)(&cs35l41->fw_mutex);
++	/* Recheck if playback is ongoing, mutex will block playback during firmware loading */
++	if (cs35l41->playback_started)
++		dev_err(cs35l41->dev, "Cannot Load/Unload firmware during Playback. Retrying...\n");
++	else
++		cs35l41_load_firmware(cs35l41, cs35l41->request_fw_load);
  
-@@ -1320,11 +1320,11 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- static int snd_ctl_elem_write_user(struct snd_ctl_file *file,
- 				   struct snd_ctl_elem_value __user *_control)
- {
--	struct snd_ctl_elem_value *control __free(kfree) = NULL;
- 	struct snd_card *card;
- 	int result;
-+	struct snd_ctl_elem_value *control __free(kfree) =
-+		memdup_user(_control, sizeof(*control));
+-		cs35l41->fw_request_ongoing = false;
+-	}
+-
+-	pm_runtime_put_autosuspend(cs35l41->dev);
++	cs35l41->fw_request_ongoing = false;
+ }
  
--	control = memdup_user(_control, sizeof(*control));
- 	if (IS_ERR(control))
- 		return PTR_ERR(control);
+ static int cs35l41_fw_load_ctl_put(struct snd_kcontrol *kcontrol,
+@@ -1455,7 +1452,7 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
+ 	if (comp->dev)
+ 		return -EBUSY;
  
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 6459809ed364..b8988a4bcd9b 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -80,10 +80,10 @@ static int snd_ctl_elem_info_compat(struct snd_ctl_file *ctl,
- 				    struct snd_ctl_elem_info32 __user *data32)
- {
- 	struct snd_card *card = ctl->card;
--	struct snd_ctl_elem_info *data __free(kfree) = NULL;
- 	int err;
-+	struct snd_ctl_elem_info *data __free(kfree) =
-+		kzalloc(sizeof(*data), GFP_KERNEL);
+-	pm_runtime_get_sync(dev);
++	guard(pm_runtime_active_auto)(dev);
  
--	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (! data)
- 		return -ENOMEM;
+ 	mutex_lock(&cs35l41->fw_mutex);
  
-@@ -169,14 +169,15 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 			int *countp)
- {
- 	struct snd_kcontrol *kctl;
--	struct snd_ctl_elem_info *info __free(kfree) = NULL;
- 	int err;
+@@ -1499,8 +1496,6 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
+ 		dev_warn(dev, "Unable to create device link\n");
+ 	unlock_system_sleep(sleep_flags);
  
- 	guard(rwsem_read)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id(card, id);
- 	if (!kctl)
- 		return -ENOENT;
--	info = kzalloc(sizeof(*info), GFP_KERNEL);
-+
-+	struct snd_ctl_elem_info *info __free(kfree) =
-+		kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (info == NULL)
- 		return -ENOMEM;
- 	info->id = *id;
-@@ -280,10 +281,10 @@ static int copy_ctl_value_to_user(void __user *userdata,
- static int __ctl_elem_read_user(struct snd_card *card,
- 				void __user *userdata, void __user *valuep)
- {
--	struct snd_ctl_elem_value *data __free(kfree) = NULL;
- 	int err, type, count;
-+	struct snd_ctl_elem_value *data __free(kfree) =
-+		kzalloc(sizeof(*data), GFP_KERNEL);
- 
--	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (data == NULL)
- 		return -ENOMEM;
- 
-@@ -314,11 +315,11 @@ static int ctl_elem_read_user(struct snd_card *card,
- static int __ctl_elem_write_user(struct snd_ctl_file *file,
- 				 void __user *userdata, void __user *valuep)
- {
--	struct snd_ctl_elem_value *data __free(kfree) = NULL;
- 	struct snd_card *card = file->card;
- 	int err, type, count;
-+	struct snd_ctl_elem_value *data __free(kfree) =
-+		kzalloc(sizeof(*data), GFP_KERNEL);
- 
--	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (data == NULL)
- 		return -ENOMEM;
- 
-@@ -378,9 +379,9 @@ static int snd_ctl_elem_add_compat(struct snd_ctl_file *file,
- 				   struct snd_ctl_elem_info32 __user *data32,
- 				   int replace)
- {
--	struct snd_ctl_elem_info *data __free(kfree) = NULL;
-+	struct snd_ctl_elem_info *data __free(kfree) =
-+		kzalloc(sizeof(*data), GFP_KERNEL);
- 
--	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (! data)
- 		return -ENOMEM;
- 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index e33dfcf863cf..c7641d5084e7 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -245,12 +245,12 @@ DEFINE_FREE(snd_card_unref, struct snd_card *, if (_T) snd_card_unref(_T))
- static int snd_ctl_led_set_id(int card_number, struct snd_ctl_elem_id *id,
- 			      unsigned int group, bool set)
- {
--	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_kcontrol *kctl;
- 	struct snd_kcontrol_volatile *vd;
- 	unsigned int ioff, access, new_access;
-+	struct snd_card *card __free(snd_card_unref) =
-+		snd_card_ref(card_number);
- 
--	card = snd_card_ref(card_number);
- 	if (!card)
- 		return -ENXIO;
- 	guard(rwsem_write)(&card->controls_rwsem);
-@@ -302,13 +302,13 @@ static void snd_ctl_led_clean(struct snd_card *card)
- 
- static int snd_ctl_led_reset(int card_number, unsigned int group)
- {
--	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_ctl_led_ctl *lctl, *_lctl;
- 	struct snd_ctl_led *led;
- 	struct snd_kcontrol_volatile *vd;
- 	bool change = false;
-+	struct snd_card *card __free(snd_card_unref) =
-+		snd_card_ref(card_number);
- 
--	card = snd_card_ref(card_number);
- 	if (!card)
- 		return -ENXIO;
- 
-@@ -598,11 +598,11 @@ static ssize_t list_show(struct device *dev,
- 			 struct device_attribute *attr, char *buf)
- {
- 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
--	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_ctl_led_ctl *lctl;
- 	size_t l = 0;
-+	struct snd_card *card __free(snd_card_unref) =
-+		snd_card_ref(led_card->number);
- 
--	card = snd_card_ref(led_card->number);
- 	if (!card)
- 		return -ENXIO;
- 	guard(rwsem_read)(&card->controls_rwsem);
+-	pm_runtime_put_autosuspend(dev);
+-
+ 	dev_info(cs35l41->dev,
+ 		 "CS35L41 Bound - SSID: %s, BST: %d, VSPK: %d, CH: %c, FW EN: %d, SPKID: %d\n",
+ 		 cs35l41->acpi_subsystem_id, cs35l41->hw_cfg.bst_type,
 -- 
 2.52.0
 
