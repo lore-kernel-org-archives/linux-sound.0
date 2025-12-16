@@ -1,106 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462EF72602;
-	Tue, 16 Dec 2025 17:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F300279DAE
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 19:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765905309; cv=none; b=LnuBWAAjmNS2H98DgxXyYO0++R/7z6nfVFFmOBNxnmRrzJO4YbXJ3UzLvKgXYTaYKuzM4KQ0XghUM0VymuD4mYmdBnSPH7tynXhqwB3tIbpa+pZxfBb8qkIuscPTn9De8dk61UpXIeDtAYiqlJUl0Np+hUBNBxPfkpeWXrOtUEs=
+	t=1765914919; cv=none; b=KyUHV/tctZDuj2PbLd49RUnyQ1K0m9rnTBeU5jSkfdWwzlBOJlRgoNNueMQvSe1AyFQx+f2Wy41SjaQbuJJpm0obvf+Pqdq63vztY1KWXKISdTSvWcOXlQfELc/yD5q7von6FwhDMwL4rr29XOdka7F6/tunitnjK6aAo5UXgYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765905309; c=relaxed/simple;
-	bh=mcmdjoIeQ8dVaydge/S3sCXDOzpTarcOqio6eoFh39k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrHXTHMM8940VyGS/oFtYGMoLc0inKaEen3gfFSjzRe7hxDv+h6CXG8f1C6j1EL+GVsg7SXXRfTic0i4cDAjJGllioKn/CEVIYo3k65J38YH6pkjVC/jeOovTFpI04ejlhHffXEJJeIDMx5eZzfHHNIrto//AQQ7DGmtaBDR07I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fd77r7CV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765914919; c=relaxed/simple;
+	bh=ygHrWzRVINoS86YdYNtnj7uyaOkyD2Z7pbl8R/eHejE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HnNqKzbW+pxmy/KDUHaC5CJ6Y/UivClPmlXjxlWGwOuod3Srp2eSdIaiIaMoOHQL6BYR9purjdPZUcDmsAZhCaNcmsT5HhQVV1ZOUfJtB7qcdvB+6K73bHzJDrqUeuCSx3QD4YI/7kkH/erVWSO3D+AnxB03qXnh/atLyV6KHa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0pvxdi1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fd77r7CV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79985C4CEF1;
-	Tue, 16 Dec 2025 17:15:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0pvxdi1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A58C4CEF1;
+	Tue, 16 Dec 2025 19:55:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765905308;
-	bh=mcmdjoIeQ8dVaydge/S3sCXDOzpTarcOqio6eoFh39k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fd77r7CVON1lRH0b5ILmf5Gy/OkXnk169H1lioS5jyy9elisWdT1B/13wKfu+8pZc
-	 MMVtqqxS56r1V01p+Q85v7lwRhImLwUnIJJ0vwO75aAuzEyDngWY8pLjYM79dfY8f+
-	 5hyuQnh96NvBdqQApeIyRFLfbs6yW4Y4LKCn8Aw/RrfYIIobxDskLwKUX6wRtVGBKw
-	 R2zpsoAI2i5/AFYKvFT2N8twQh/qnJ6umnF7PnanyQvjDYoEksoloEXlTs+/elMEY/
-	 PTZGiL02hNPhdY5Gtl8RycZ9WpmAyen3c6YEpedvcyXnwPyXz276eehtsd3P+/npXv
-	 IAcWNiEQ0WdfQ==
-Date: Tue, 16 Dec 2025 11:15:05 -0600
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michal Simek <michal.simek@amd.com>, Vinod Koul <vkoul@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-	Peter Rosin <peda@axentia.se>, Linus Walleij <linusw@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-iio@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove unused includes
-Message-ID: <20251216171505.GA2641341-robh@kernel.org>
-References: <20251212231203.727227-1-robh@kernel.org>
- <20251213165949.4b51f7cb@jic23-huawei>
- <695ca5d2-b713-4838-8427-a9d31751c0cf@oss.qualcomm.com>
+	s=k20201202; t=1765914918;
+	bh=ygHrWzRVINoS86YdYNtnj7uyaOkyD2Z7pbl8R/eHejE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=B0pvxdi1eorXTDlPKVupjbv2rOEBrOAKr+83RtVxcYmGmgqL6Bkq2WkKbycjqWprP
+	 NGF2MRBX7zbh89NfSR5+o//w66EU2AgYkA39MyBQUkhny55hItgq9MST2Nj8MsuRrE
+	 ZxzuhvbQ2S+LlPfCTmiurihNB8bw6wf99gSB4DCDEGr/EG9RuRaSS6RU7HfQJsfyfY
+	 7boS3jtQWX7Vn7tmH/4yR6ijLtTyxempigcYiHYjRxHC4G9mjQz22p0VXeGnU+AFZH
+	 JtcgIShJIG/AtPom0dKUq/oYKD8InYCbQos3GDhSf9DcRhreWPA9wXDXmvtQDCO1fh
+	 iNKYKHzM0EsHg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+In-Reply-To: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
+References: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/8] ASoC: SOF: Support for on-demand DSP boot
+Message-Id: <176591491676.218242.13642755018656624745.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 19:55:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <695ca5d2-b713-4838-8427-a9d31751c0cf@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-On Tue, Dec 16, 2025 at 01:02:52PM +0100, Konrad Dybcio wrote:
-> On 12/13/25 5:59 PM, Jonathan Cameron wrote:
-> > On Fri, 12 Dec 2025 17:11:52 -0600
-> > "Rob Herring (Arm)" <robh@kernel.org> wrote:
-> > 
-> >> Remove includes which are not referenced by either DTS files or drivers.
-> >>
-> >> There's a few more which are new, so they are excluded for now.
-> >>
-> >> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > 
-> > Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
-> > 
-> > Ideally we'll get a QC ack on those as well.
-> > 
-> > Jonathan
-> >>  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
-> >>  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
+On Mon, 15 Dec 2025 15:29:38 +0200, Peter Ujfalusi wrote:
+> On system suspend / resume we always power up the DSP and boot the
+> firmware, which is not strictly needed as right after the firmware booted
+> up we power the DSP down again on suspend and we also power it down after
+> resume after some inactivity.
 > 
-> Those are being moved to dts/qcom:
+> Similarly, on jack insert/removal we needlesly boot up the firmware to check
+> the jack status, which needs no DSP/firmware communication.
 > 
-> https://lore.kernel.org/linux-arm-msm/20251127133903.208760-1-jishnu.prakash@oss.qualcomm.com/
-> 
-> and will hopefully be in use later in this cycle.
-> 
-> Krzysztof and the submitter agreed on that outcome since they represent
-> hw constants and aren't "real" bindings (connecting sw to sw)
+> [...]
 
-Okay, I'll drop those 2 when applying.
+Applied to
 
-Rob
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/8] ASoC: SOF: ipc4-loader: Remove redundant rpm resume_and_get from load_library
+      commit: b8e54b447cdec234f0e0d80487af9540063d17dd
+[2/8] ASoC: SOF: control: skip rpm calls in ext_volatile_get if not implemented
+      commit: 2c77ff200f59103ecdee60c00818a43cee38a6b8
+[3/8] ASoC: SOF: Add support for on-demand DSP boot
+      commit: c3e1549811747e4b4ff7e4bba691980d9dab2d9e
+[4/8] ASoC: SOF: sof-client: Add support for on-demand DSP boot
+      commit: 2cf7a9ced3c1a999f7de8711cb2a212557fbd800
+[5/8] ASoC: SOF: Intel: hda-sdw-bpt: Add support for on-demand DSP boot
+      commit: d4e34f4ef88fc48a09b654bbe1b23c6788e7844a
+[6/8] ASoC: SOF: Intel: pci-lnl: Set on_demand_dsp_boot for LNL
+      commit: 6780fb864d5b80f20694c9141036717b23190150
+[7/8] ASoC: SOF: Intel: pci-ptl: Set on_demand_dsp_boot for PTL and WCL
+      commit: aabcb01353013d38533ba4346b6ca84bff1b96f0
+[8/8] ASoC: SOF: Intel: pci-nvl: Set on_demand_dsp_boot for NVL-S
+      commit: f25c7d709b93602ee9a08eba522808a18e1f5d56
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
