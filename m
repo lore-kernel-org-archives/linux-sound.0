@@ -1,168 +1,118 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA1D30FC04
-	for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 17:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F143FC9;
+	Tue, 16 Dec 2025 00:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765820989; cv=none; b=OKLrkt9KmOZsJE4kP0YqStRfXQ5KrkuX2wusY+i/a2N0bj40gkTuPREYE8n3pcJQL5ztIvoKTM5JJyIHfuu1FDFCQIz0EzFJEyIMKUzQjM7PAE/OLmSeegvcPwwdsRBPvsSLjqREg/ukuCDJqe83cQtg18qpcQClTRrtEGd2T7s=
+	t=1765844720; cv=none; b=KUAYiMf1V77ielsUdfABIkokeHxNh2TLVjU3Y2WvToVQMqQ0i6mvEI2UrkdPChGkCu/sQUu23zHG4sJzYQ4o4p9A2UYQiGjCMWJnQx2zSOepk188JIB70vFtgukt27ryK+x6gROw8k5WpsKXtPQN4RQOV51UFjrDhSMPT0ajUXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765820989; c=relaxed/simple;
-	bh=PAmBLmRiIkXe9rNa5lLBLU+a1+l9BlQA+ShgbVK4cFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oHTaLLrpo3X8MWZvjVGzA1bIrAkeq/C9qWjcQaQnY17CiEa/J4eENlW57VYNEDuA4NztzSUeOfNCAisr/eHxp88NqdHG66CCVYawA7oQUbKVTBCbJHviOTsQJKR5pjtwLoAxo2aencoK13H7MFo0oszOKsoDibxbyUCzteHTQMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I41IEgQd; arc=none smtp.client-ip=209.85.218.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1765844720; c=relaxed/simple;
+	bh=SJju++Ng3SSXh4VyyG/fpZAIPqU9nXk95mBWRMAyIcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OD1ho1jebbr4ase4WvKXZb79b7D945NvhlzEoXcO/Ld1HDJiyJpwwi9Fj2uDETGntcnA5AoQsXbD4O3Gv6aLxaCVLnz39Af3UmXQ8scGCLpkABw6ifmaHvCaaN47dkKvaPmty3ZlMRO2yeXYFkbI3yVppgiRwpTVeSTOp4CECrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=eq2Gbkr0; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I41IEgQd"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b735487129fso639907566b.0
-        for <linux-sound@vger.kernel.org>; Mon, 15 Dec 2025 09:49:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765820986; x=1766425786; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZumfcNGGgSER51rDR4phT/MXB2LlgC2V8greSsX2nk=;
-        b=I41IEgQdME0VzHEXM+9GzGREfnNEE34Kb5G1IlQHVSkRe3r1XH4w/FLwvwIG3vDNUV
-         QE1htvHA3WmEU79hM3YcFLU801N3YmtCBym/RV6EaoYBl0AYPO1baCR1qp37XZtVkf0k
-         5uuROdS631ADv+jiqehGtfdxC7cIDQf9ijiCY2bTM+O58NHxHrlAkSnCX7SH/+UOByOl
-         EPG0o6UaGhUs9FBY5apYdqmA7XGwuWOMVrlsc99a3kjPEo3g2GwmPRa2VxiKC9WG5Khx
-         VDq3jNrEpynSeqYi1GigCvmsy2/kUNssizqOO/xaFAKP+Sxe8tjzn6VTZmI8DAi+JXyX
-         FRXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765820986; x=1766425786;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rZumfcNGGgSER51rDR4phT/MXB2LlgC2V8greSsX2nk=;
-        b=Fxe+v1qtDTeGOwPM+SBdwnv0Ox2k00i5rc7bdqjGvTDoJLj4LQpcCamGzMH/nHd8qc
-         n1dt+tLJXaiZyozm/J+OiOO6wlhpYaPwMIrp5yt0WJJy/RR/+FdNtx3XcpEeDU35NoFE
-         UOo9kGOawv/c4Qn8UEiPobaKhFqFnk0epseEJ3sdcNT4BViBeqCmdy3eviz3U8rm+MyN
-         wJIW6INNAx3AS1VOd2tSfME/m0igcLPMk36y+HC778KoogeFb25udNTVEL3uA8URNwbm
-         Q6g/UyZs8GLZZSkvfrewsQApwaEXvA8ri0GSLfY4WGMAdHpAoP4sU51qJSS0s5fPySL0
-         UT0A==
-X-Forwarded-Encrypted: i=1; AJvYcCV2mR5S3iy1klRNoOXvPFFMmonwMd5x3vS2Rdlg9zt+zOTWlAeLuyjNuYuu+7MdTC06ETNY8V2CAD29Ww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlrxnDvwZ2CstEUtuvdPTHKidlD5QEFxYPu34D7rudSElgZFef
-	pJ2NeO3mAA45hi8G3IW47wAY/BgZUMiOPwYaToOanYXH7fUVEmYmBCO41zqobZBOX/U=
-X-Gm-Gg: AY/fxX6VWPZXyJI5D2TmaGoc1AlTHoiX+DwFMveQZR3l3SbXxjqc5MCgX/3lZWx7vfD
-	AGvWDwDQob2SFefQFDQQdtwRrDkubwutJVKtdpu2yEqcwPoUEVBcUjWlozOPesfxbeBWxB17pod
-	0yepaiDnyUE6wNtwHtSDPwdTjxDFW05iOcWBO1eQDeCSfZBBPVSfc2b9B1USLzLNZlkXduru7M0
-	tgL83QjTWbg4SjiwhUcM/7kU6BnlQa6OP0pmmfUsu/xROrIDZpffJmjp6U84NXUnfq41hB3k1PJ
-	G1w4dJuMTBSEOeFEKohrlsGu5tf0fkSiLZR6WvKMf7wFVkesIw+OplgAllGdvAAWhSDNQmN2ByU
-	aZzW4At0/hAywhleqtMK0mbQnR/JwFsOyKUcsz1a3MQD0x6nLZc6N6JfBFCy64jySqJRh7DonUU
-	RkVAfCGiFKf6JRgmLRom/pUfT/3ifJYAFwb9Mpd16YX/KzhCgwMZcJ/bRWy0yWM4QyQHKmXju72
-	drQeEEyrOuJNw==
-X-Google-Smtp-Source: AGHT+IFl3Bpyn7X8AAKzXIGPAZPZ/c5ujpcKxh9IlvWoZx4DfJ3Rw+CgIUqSciBohfCMoI3C9mU+Lg==
-X-Received: by 2002:a17:907:7e97:b0:b73:8e7d:4f91 with SMTP id a640c23a62f3a-b7d238baa3dmr1152490766b.41.1765820985967;
-        Mon, 15 Dec 2025 09:49:45 -0800 (PST)
-Received: from localhost (p200300f65f006608e858c1c813bae2c0.dip0.t-ipconnect.de. [2003:f6:5f00:6608:e858:c1c8:13ba:e2c0])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b7cfa517585sm1477115466b.41.2025.12.15.09.49.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 09:49:45 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v1 2/2] soundwire: Use bus methods for .probe(), .remove() and .shutdown()
-Date: Mon, 15 Dec 2025 18:49:26 +0100
-Message-ID: <20251215174925.1327021-6-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
-References: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="eq2Gbkr0"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BFJCC642788589;
+	Tue, 16 Dec 2025 00:25:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=snWcDOPmz+rmR554nf2c7zTcBCZrk
+	09WoMEvdp77ED8=; b=eq2Gbkr0jr26zv46E5yojEIw0LCORWd9YXm5emwF8NzL4
+	lAfxgliTW+KaXZUxCxqcZ+V3zgGCzYcb5X2KS7UZnAcwyYCMESSVMm6K1OKyUyth
+	IzVQowowUsostPQM0I3mC7GWmHfmUTnAcyV7SA2KsooI37K831xmFkl9p6z32R0H
+	weJfXEM32CxLKCVhTYxE1zYfU/DMv0JDqRSCVDE1xk9eoJTmzulhs0o/gzoxWD4m
+	jz2I7htEUJaPiDYK9GBqVcfiVMwVeUb4CN7wwmrhNJQWYHMos8rMLHcyaDBuBs8d
+	iWk8BkE1qknPcS3W43Pv38PDAU1NObnMnbqnfvsiQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b10prk306-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Dec 2025 00:25:14 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BG0KI8h005876;
+	Tue, 16 Dec 2025 00:25:13 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkcmaau-1;
+	Tue, 16 Dec 2025 00:25:13 +0000
+From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+To: g@b4.vu
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: scarlett2: Fix buffer overflow in config retrieval
+Date: Mon, 15 Dec 2025 16:25:12 -0800
+Message-ID: <20251216002512.3951683-1-samasth.norway.ananda@oracle.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2617; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=PAmBLmRiIkXe9rNa5lLBLU+a1+l9BlQA+ShgbVK4cFU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpQEouPMZH+yO4nYB2FjSPyoSVldocQPtF07LGP iIiz63AbdGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaUBKLgAKCRCPgPtYfRL+ TtTJB/kBPhkLg2oQsrNaWNNPQissHmhwQBvrq7DT/l1kwtfPqo246gTzjGnFBkG3ydyYP1n+Ckf gVyef7KpkMORtyzVuPP/5255b4TEh2reQ9w7139uf/E9yG+PUkS2MqrVNSUgjAKk1Xx4Kc/Ic2W Q2oL/cqHwypUPc9L33TAZSh2+zTcW14r0P9miwZh4Tvif/u6K8vKokUkM003K3911Qgir+bjzAv y73RociY0aJZW1//LnCsGrAE6M/IcClZGLZLxh/JJ66wU9WH5biuJpDhJxs1ZUTt3NeLs265HLo EkDc5+FZWXZ78KqV53Vtc1kP8YOwf/BjJy4BTxtK57z9qy8D
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-15_05,2025-12-15_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2512160002
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDAwMSBTYWx0ZWRfX7TIOVSAz1kep
+ /I6vfohbxVDVZSfdYUWc+baV7wkYyUYHJAMl3p1Kaybfk/q5ryREUGeFYmAgws4ZeekSzAsqonu
+ 7EIq5bhOflOnSnMOUYAskDKme9VIT4LrEOd5jKARVerbOEvjC/3bxbQ9///3xXKsgb5j8i0yjfg
+ 7OhclSqDpwzBVF5vK8KXbM/M8UYA/xsorjOCMuDXyPGXjs1cKceKsqhmQqfPTpjEVccBs7DgBB/
+ aP+7vSveFC0AoMCt1VzJBSFrmQMUHXUo5Nd1co4Bm0lvn6q3kzrUx1UXQEx6arOvOnOn0TIRrzn
+ 2i7p+lNnuQfPW/cDB0fQ31LZ1tZFl8GzCfdbPclX6A/1aoeM4XwfgchgYpDnPibE07IVEHB/q6T
+ ih6IwHlzCzfkgsFvpiGuc6DAb7HcHR3TFWuhc0yposQi/5XLDIE=
+X-Proofpoint-GUID: sqR9laavwjW9Aypu67cBdxBh-zqTcGt0
+X-Proofpoint-ORIG-GUID: sqR9laavwjW9Aypu67cBdxBh-zqTcGt0
+X-Authority-Analysis: v=2.4 cv=dParWeZb c=1 sm=1 tr=0 ts=6940a6eb b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
+ a=HUaxR9rN2OWM8muhoRsA:9 cc=ntf awl=host:12109
 
-These are nearly identical to the respective driver callbacks. The only
-differences are that .remove() returns void instead of int and .shutdown()
-has to cope for unbound devices.
+The scarlett2_usb_get_config() function has a logic error in the
+endianness conversion code that can cause buffer overflows when
+count > 1.
 
-The objective is to get rid of users of struct device_driver callbacks
-.probe(), .remove() and .shutdown() to eventually remove these.
+The code checks `if (size == 2)` where `size` is the total buffer size in
+bytes, then loops `count` times treating each element as u16 (2 bytes).
+This causes the loop to access `count * 2` bytes when the buffer only
+has `size` bytes allocated.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Fix by checking the element size (config_item->size) instead of the
+total buffer size. This ensures the endianness conversion matches the
+actual element type.
+
+Fixes: ac34df733d2d ("ALSA: usb-audio: scarlett2: Update get_config to do endian conversion")
+Cc: stable@vger.kernel.org
+Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
 ---
- drivers/soundwire/bus_type.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ sound/usb/mixer_scarlett2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
-index c40de98f1485..80ed3468e860 100644
---- a/drivers/soundwire/bus_type.c
-+++ b/drivers/soundwire/bus_type.c
-@@ -72,13 +72,7 @@ int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	return 0;
- }
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 1150cf104985..8ec436cf10e4 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -2489,13 +2489,13 @@ static int scarlett2_usb_get_config(
+ 		err = scarlett2_usb_get(mixer, config_item->offset, buf, size);
+ 		if (err < 0)
+ 			return err;
+-		if (size == 2) {
++		if (config_item->size == 16) {
+ 			u16 *buf_16 = buf;
  
--const struct bus_type sdw_bus_type = {
--	.name = "soundwire",
--	.match = sdw_bus_match,
--};
--EXPORT_SYMBOL_GPL(sdw_bus_type);
--
--static int sdw_drv_probe(struct device *dev)
-+static int sdw_bus_probe(struct device *dev)
- {
- 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
- 	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-@@ -164,7 +158,7 @@ static int sdw_drv_probe(struct device *dev)
- 	return 0;
- }
+ 			for (i = 0; i < count; i++, buf_16++)
+ 				*buf_16 = le16_to_cpu(*(__le16 *)buf_16);
+-		} else if (size == 4) {
+-			u32 *buf_32 = buf;
++		} else if (config_item->size == 32) {
++			u32 *buf_32 = (u32 *)buf;
  
--static int sdw_drv_remove(struct device *dev)
-+static void sdw_bus_remove(struct device *dev)
- {
- 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
- 	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-@@ -179,19 +173,26 @@ static int sdw_drv_remove(struct device *dev)
- 		drv->remove(slave);
- 
- 	ida_free(&slave->bus->slave_ida, slave->index);
--
--	return 0;
- }
- 
--static void sdw_drv_shutdown(struct device *dev)
-+static void sdw_bus_shutdown(struct device *dev)
- {
- 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
- 	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
- 
--	if (drv->shutdown)
-+	if (dev->driver && drv->shutdown)
- 		drv->shutdown(slave);
- }
- 
-+const struct bus_type sdw_bus_type = {
-+	.name = "soundwire",
-+	.match = sdw_bus_match,
-+	.probe = sdw_bus_probe,
-+	.remove = sdw_bus_remove,
-+	.shutdown = sdw_bus_shutdown,
-+};
-+EXPORT_SYMBOL_GPL(sdw_bus_type);
-+
- /**
-  * __sdw_register_driver() - register a SoundWire Slave driver
-  * @drv: driver to register
-@@ -210,9 +211,6 @@ int __sdw_register_driver(struct sdw_driver *drv, struct module *owner)
- 	}
- 
- 	drv->driver.owner = owner;
--	drv->driver.probe = sdw_drv_probe;
--	drv->driver.remove = sdw_drv_remove;
--	drv->driver.shutdown = sdw_drv_shutdown;
- 	drv->driver.dev_groups = sdw_attr_groups;
- 
- 	return driver_register(&drv->driver);
+ 			for (i = 0; i < count; i++, buf_32++)
+ 				*buf_32 = le32_to_cpu(*(__le32 *)buf_32);
 -- 
-2.47.3
+2.50.1
 
