@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8E6338917;
-	Tue, 16 Dec 2025 09:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC08D33A6E0;
+	Tue, 16 Dec 2025 09:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765876795; cv=none; b=VpIPRFuicdCax7bwcVMe3wO/7W4VBYnU3An6x3qXeYFmrqxGy4DLb5LIEL+BkqsKRilaRX/VhWGT2AyRzbKY2R21zdDRTM/nMp1jBnXHiaWViSQeg1arS/AttoK7EJ+yST4yns7C7Z1VXlXQbZV/F3EgOiA4By83GuNlmm41jsI=
+	t=1765876797; cv=none; b=d29eQmJTna3nQP92zLtRHhT+rm1D4Tbv44EXSzXqN/n0GsaMqKO8MdlSnk5rcdkQzBz8M/H7o37a7oVS35ke3yIPRFJ+EQ1+UzzVRuef0SUyEJPZBFk26rbJv4zgaXvENW7/NHGX9jAVwu6ZjfaI4eKFoNS/2NkLAgMD+rGeFbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765876795; c=relaxed/simple;
-	bh=r0kpcR2OHwi1d7NbDqXWtTEUvm6L4IsvQmKQvw5GPtg=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=G3RRcROq9yBGjSSV4qCBGRmd7ONoBMYc9//iewkN6eD0G+OcXKSYMkkKH7j9qWcWsLQ+/713JDyyC9DBqsn3zm/JrChdJS0eGqyFRrqStUDKmJgVdfKv1m8Pq+WO3w2tSM2y3er0P3q2GSwjlH1zj8Cvw1wNf1I72fxDwPIG5lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KajvJRcC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765876797; c=relaxed/simple;
+	bh=YEkJeIhk2M4F9Rr5VG+saCQip1iEXmyqlC3eS+4v8FQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=lOW/vNQclBRWoC0cxDdbS1j+flWJEbFkV971B6rqB2rXYA3KA/CIMJaNGpSgNzk8BmJnJ3JArjDqscrvv5PuVQea0Cs4YspijeRCwPnb5eXWDPzkjiq4eKUWwwOni51TKpQ2gy7gy1sBWcPKqeJ1vOh6YCzURneNBCbWftc7DHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2BMyoPZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KajvJRcC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A2D4C113D0;
-	Tue, 16 Dec 2025 09:19:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2BMyoPZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076E0C16AAE;
+	Tue, 16 Dec 2025 09:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765876795;
-	bh=r0kpcR2OHwi1d7NbDqXWtTEUvm6L4IsvQmKQvw5GPtg=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=KajvJRcCVQTcl/2lCSq2cxlW2Q/CKB25wko+b+dK5jPqWIk3e41KsphbtFJKKxYKi
-	 YokFUPXcKs0ObjUi4EzslGMsPy6yIVeJL1TtCLXzD0WaaIXlEzhGISekl91mxn7NU9
-	 QKrLifIOtshRI3O0+codXn8BLKw24V6flk53oBZr37nT89/v2egSRm760UHVRVfdZm
-	 iq4sKidfoa+v41IMVvRnZP4laK5VT/Arhl6925hLTgCTDD4qV0lxBDLeqEMmLj7baq
-	 JWJX77uvzC5P4KKmlQkFRWVP4GAP71KPS5Ifn/XEhlR4Oa/iEMn9k24l83WHAtPCm+
-	 VDMfr9tghtg6Q==
+	s=k20201202; t=1765876797;
+	bh=YEkJeIhk2M4F9Rr5VG+saCQip1iEXmyqlC3eS+4v8FQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=F2BMyoPZKHmCh7I8y5WowCPuJZYSow0w1lova+WntQN5MC3axwGN4P8Q3b55KTjnN
+	 WS5ZQZ2Mv+Vk9v30lD8Ono+E60b89Bn9BUl299QrvUjAl0VM0D5Dj23Y1J4QYmbLY/
+	 jkvOmizzDvYgiXtAkFyPO3e03iUrxte6lsj/baxbU47H/yKHXbWoXrcDTz/HJRCXb0
+	 Y1yxxSxfnRCqTUjX8GgaIzGBgaJZVIdbw/xUlA+rwJAc1OU5imnSdodi9FSdGTVl2e
+	 iJUQgHq0DdCs4njoAf/rlqbL6nXZLsygliZ0V3cxGTTqnn2dP4zgU9nlDluhMJRRp1
+	 pTa9EV/x+I2pQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20251201102627.146182-2-krzysztof.kozlowski@oss.qualcomm.com>
-References: <20251201102627.146182-2-krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH] soundwire: qcom: Use guard to avoid mixing cleanup and
- goto
-Message-Id: <176587679319.348344.13509792002074257048.b4-ty@kernel.org>
-Date: Tue, 16 Dec 2025 14:49:53 +0530
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251215130947.31385-1-peter.ujfalusi@linux.intel.com>
+References: <20251215130947.31385-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] soundwire: dmi-quirks: add mapping for Avell B.ON (OEM
+ rebranded of NUC15)
+Message-Id: <176587679566.348344.10609395210156073352.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 14:49:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,20 +47,16 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
 
-On Mon, 01 Dec 2025 11:26:28 +0100, Krzysztof Kozlowski wrote:
-> qcom_swrm_stream_alloc_ports() already uses cleanup.h but also has goto.
-> Such combination is error-prone and discouraged:
+On Mon, 15 Dec 2025 15:09:47 +0200, Peter Ujfalusi wrote:
+> Avell B.ON is an OEM re-branded NUC15 'Bishop County' LAPBC510 and
+> LAPBC710.
 > 
-> "... and that the "goto" statement can jump between scopes, the
-> expectation is that usage of "goto" and cleanup helpers is never mixed
-> in the same function."
 > 
-> [...]
 
 Applied, thanks!
 
-[1/1] soundwire: qcom: Use guard to avoid mixing cleanup and goto
-      commit: 82ab754d102273f4c974a285aa8025bed7521b15
+[1/1] soundwire: dmi-quirks: add mapping for Avell B.ON (OEM rebranded of NUC15)
+      commit: 59946373755d71dbd7614ba235e0093159f80b69
 
 Best regards,
 -- 
