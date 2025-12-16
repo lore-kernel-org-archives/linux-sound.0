@@ -1,118 +1,167 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011058.outbound.protection.outlook.com [40.107.74.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F143FC9;
-	Tue, 16 Dec 2025 00:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765844720; cv=none; b=KUAYiMf1V77ielsUdfABIkokeHxNh2TLVjU3Y2WvToVQMqQ0i6mvEI2UrkdPChGkCu/sQUu23zHG4sJzYQ4o4p9A2UYQiGjCMWJnQx2zSOepk188JIB70vFtgukt27ryK+x6gROw8k5WpsKXtPQN4RQOV51UFjrDhSMPT0ajUXk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765844720; c=relaxed/simple;
-	bh=SJju++Ng3SSXh4VyyG/fpZAIPqU9nXk95mBWRMAyIcw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OD1ho1jebbr4ase4WvKXZb79b7D945NvhlzEoXcO/Ld1HDJiyJpwwi9Fj2uDETGntcnA5AoQsXbD4O3Gv6aLxaCVLnz39Af3UmXQ8scGCLpkABw6ifmaHvCaaN47dkKvaPmty3ZlMRO2yeXYFkbI3yVppgiRwpTVeSTOp4CECrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=eq2Gbkr0; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA7021CC55
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 02:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765851265; cv=fail; b=lf9IxtK/kz8wFYAW/cSfeQ93+b4ZNX7RDjx12lRBeIzjwhWe7vwCLU7abSZ8NDsxibH3Fs1xiteTyB3apIXYqLPs6jhpoODB9Gyw3HsEXnm7wwW9a25/tUydyCXQI6yvIyPZdbQ8EQO2zzjIeKbDYKxReKbguqPpa9MCCBintuQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765851265; c=relaxed/simple;
+	bh=McgoBtORVnPpoieKBhguNpi9YAgjvAqQOz2fDhTuyhM=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=VrpZSrepYbSaWDHzzuuD9ahXBpS5h9qUCfHeDPywem8/7v+Klqs0BOFNteHAIppHAdP+KedW4pdQDk6mPWqiucZisNx8Y7X1SoiDcl0LgVE+dxfb5eSfMSQF2scybV1M5/gAdelF+xYqkHq7xBzb7fvwGYAYGDeb9mUwupcNmEo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=J+oddegy; arc=fail smtp.client-ip=40.107.74.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="eq2Gbkr0"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BFJCC642788589;
-	Tue, 16 Dec 2025 00:25:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=snWcDOPmz+rmR554nf2c7zTcBCZrk
-	09WoMEvdp77ED8=; b=eq2Gbkr0jr26zv46E5yojEIw0LCORWd9YXm5emwF8NzL4
-	lAfxgliTW+KaXZUxCxqcZ+V3zgGCzYcb5X2KS7UZnAcwyYCMESSVMm6K1OKyUyth
-	IzVQowowUsostPQM0I3mC7GWmHfmUTnAcyV7SA2KsooI37K831xmFkl9p6z32R0H
-	weJfXEM32CxLKCVhTYxE1zYfU/DMv0JDqRSCVDE1xk9eoJTmzulhs0o/gzoxWD4m
-	jz2I7htEUJaPiDYK9GBqVcfiVMwVeUb4CN7wwmrhNJQWYHMos8rMLHcyaDBuBs8d
-	iWk8BkE1qknPcS3W43Pv38PDAU1NObnMnbqnfvsiQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b10prk306-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Dec 2025 00:25:14 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BG0KI8h005876;
-	Tue, 16 Dec 2025 00:25:13 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkcmaau-1;
-	Tue, 16 Dec 2025 00:25:13 +0000
-From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-To: g@b4.vu
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: scarlett2: Fix buffer overflow in config retrieval
-Date: Mon, 15 Dec 2025 16:25:12 -0800
-Message-ID: <20251216002512.3951683-1-samasth.norway.ananda@oracle.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="J+oddegy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VNzijVqnfLRcaxRGRkFcDkkPA1RhYQqq7C9fUiz8TUnmGj73QEsyg2qv5Nsjjkb4IQUe02FQTXzswGPoDDOEfKYt/fBbhtdfgmIjBDy/mZ3OVg3/t/8L4Syv67QyhLOuYHWvoaNk9xKeUqMQj67fuB0vBTUofjzsaVOLy6zaq2lnUW8iZXZxdGbkpekpv/VvSOPk/5Hc8cfDl9C9vKthVzSGDV04ruyX+DIoX167wp3ezR2gOdANxEHgsd1+ySpArpmAXqd09zRmGQpQ7ab/tlv+4E6667rXstCwcvk67c2VQwscMatxK+1sxwJrJqPtU1eSm7n0vfCd2h1GCsqxgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hfdb+p63MM/tu1fYlL+R9BToonREtdUGAZQx+kgHNYU=;
+ b=tqrnuKa5+s97HbvWI3JQMGkj/cld/KZDqzLHAg7NdJLYeN0g8ib/w4bOnT14fimiwUK4e8aToZ8+zwdJZvZW2rWRtU3DdiabCrlyIXCrZPL6I5WvXBGf3gS0kCapUqwdJ+tENuhOa+rGK0RrJuj3JohExpvcI7VXk1/sCLpm50NjhpLxAUsUbX6dzznC73TKzxCrEY1tKLMCMS1RJJTHLoYumZWPAHWPT8M1z9KOhMYISkgSm29Rd43Xl6YIHAhu5F0Ya6RVUCfNhNpRfyYsgHH9UwOyY4Y2OwCjkJJn7ncEPuHoTAmK6Z+oXK6fm+10A4pQaCQlrzyn92FPvly3hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hfdb+p63MM/tu1fYlL+R9BToonREtdUGAZQx+kgHNYU=;
+ b=J+oddegy/fjyoC6+HxYF8fC4949xJvBfzP26qbNrxSTT060aTqBejbc1FzWJDCg7rX1qNVXHNCFqiDW3bAxSY8BDsHG3wvvCMJl3qrGEAHkFczXQLleIG87Mhd2LZ72l2jhmoZxtdsUF4lHvXqNQcMT/5BhJFoMMk8+nvpg/mr4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY4PR01MB12719.jpnprd01.prod.outlook.com
+ (2603:1096:405:1e9::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
+ 2025 02:14:19 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9434.001; Tue, 16 Dec 2025
+ 02:14:18 +0000
+Message-ID: <87zf7jrx52.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/8] ASoC: capsuling struct snd_soc_dapm_context
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 16 Dec 2025 02:14:18 +0000
+X-ClientProxiedBy: TYCP286CA0280.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c9::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-15_05,2025-12-15_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2512160002
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDAwMSBTYWx0ZWRfX7TIOVSAz1kep
- /I6vfohbxVDVZSfdYUWc+baV7wkYyUYHJAMl3p1Kaybfk/q5ryREUGeFYmAgws4ZeekSzAsqonu
- 7EIq5bhOflOnSnMOUYAskDKme9VIT4LrEOd5jKARVerbOEvjC/3bxbQ9///3xXKsgb5j8i0yjfg
- 7OhclSqDpwzBVF5vK8KXbM/M8UYA/xsorjOCMuDXyPGXjs1cKceKsqhmQqfPTpjEVccBs7DgBB/
- aP+7vSveFC0AoMCt1VzJBSFrmQMUHXUo5Nd1co4Bm0lvn6q3kzrUx1UXQEx6arOvOnOn0TIRrzn
- 2i7p+lNnuQfPW/cDB0fQ31LZ1tZFl8GzCfdbPclX6A/1aoeM4XwfgchgYpDnPibE07IVEHB/q6T
- ih6IwHlzCzfkgsFvpiGuc6DAb7HcHR3TFWuhc0yposQi/5XLDIE=
-X-Proofpoint-GUID: sqR9laavwjW9Aypu67cBdxBh-zqTcGt0
-X-Proofpoint-ORIG-GUID: sqR9laavwjW9Aypu67cBdxBh-zqTcGt0
-X-Authority-Analysis: v=2.4 cv=dParWeZb c=1 sm=1 tr=0 ts=6940a6eb b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=HUaxR9rN2OWM8muhoRsA:9 cc=ntf awl=host:12109
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY4PR01MB12719:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91b38230-034a-4e8c-74ee-08de3c48d16d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hAzc1AcP9GFZMYelClhiZ4IryBrt0muWbzI1srWppXACGlRvT30gUDhTR0Qe?=
+ =?us-ascii?Q?Y8dJdZqQOpVddrIXFPpaRCfZyX9tzwnYaVBXv/1blufYyN5Wc0W2g6825m6G?=
+ =?us-ascii?Q?a2EGY5C9/1iuLE8WS0jvVc3rT7uvaXFGKYn66EFfz1j6N49/H7KEA9FrO6Y0?=
+ =?us-ascii?Q?aXcF7/Ap/6+KL8QbB4CkNn6uKwesYBZZcMqhFmaaFzDsQPCo+jAmYa42mDCA?=
+ =?us-ascii?Q?AuDXouqg9f3vX6DOeUM8k6I4578zvrPMdCRWbVgk39ozhflSeOuYlMywtDdg?=
+ =?us-ascii?Q?hpO873KwwmcOVrphLag8nciv5CZnkPviR/B/JcdSDe4nIIqghPegnhqkVcvI?=
+ =?us-ascii?Q?Lr9yiLmJL/P4gAS6NYxCuHLvE7BWsd3V22UYmDKRMaVOfx59HXB+tMM1d4xo?=
+ =?us-ascii?Q?43NgS+JUV43a0J705xxMxsNj8OzesBLGJe/7IIMBlqLgJg8sPdf2iopmCqFP?=
+ =?us-ascii?Q?zSJSyhwVdAglNUa76DHKP/PXc6Tcea0EhA/4DfJPmYREfDN8RB1rvZqSkDVu?=
+ =?us-ascii?Q?vwfWsnMbjBfyxDQYUP9IQ4BlWHZ21269BwVff+s2eF2YV0NyzmS/bR4/9UbF?=
+ =?us-ascii?Q?etUHogHSX6NbzC7riPuBA/EC33WL4wNc1aocwo4JlNryIVghV8msgWXqOvpf?=
+ =?us-ascii?Q?/0K9JvVZxu+s4hqXPQIIKVUuKE0XKvWP5h9f9x6rlyFH+GXp84rfUpR0QfmU?=
+ =?us-ascii?Q?vsKKOsNRGVeoQs0CBlONTw02Oe6tQhGdYBeLaHVV6flhAHvLXDlyEJ1xqAPR?=
+ =?us-ascii?Q?0yE+LKn0N/Vur1053/DCPR62hj0qW73HaagL3GBiDGnTnzGpDv6AD5SWnhSd?=
+ =?us-ascii?Q?DAWVPhDhYJ0kj5Sm83QIqZpNQoL7VexUT/Iz8ooEeFdNR7tZRXRxvJwv7uxk?=
+ =?us-ascii?Q?Ig1FBqeDKIaHFFnza8h3olUkWg8X04hua5hMZhAiOdzBE+PmYh6QjZzrdKE7?=
+ =?us-ascii?Q?bCyvTyUWmTVUFQzv+7f4mpsAPx5g57OmWkQgkUWpZM7idc/KWakRFzXkVH5I?=
+ =?us-ascii?Q?XQd1LtNQloZ+lOm/C77gLZkkHmdE277w+ZS8sdEMUrQ2M5ljflOmIQWxuZ7u?=
+ =?us-ascii?Q?qyDeCxU73Rm80R+YEIRrwcKhPaSWnhk92es6YCStVMkyJNmvW1lr7c+Z/EWU?=
+ =?us-ascii?Q?OoynY8xvfpw4LskYt4Xc/PA554yzsb7J4TnqBvy15VNCk9e4LN0dKKvMHeRH?=
+ =?us-ascii?Q?XB5zh8zRQItc5sbZfF2WlEboRN20qg1cG0n8ntiSWYOYwI3ZAddtbSY7Lvvc?=
+ =?us-ascii?Q?Pw1NNIYyuZgoBvfHVyWvgCORziZ4pW2MTIMy/V7IOXpLoFxOHupvDDvO5Fxx?=
+ =?us-ascii?Q?JppT5Hr9YwLQUdEe+DbhOBjWt1O2wEG6eda/NEQ0gOh8UTxog0tpKXwBaGYw?=
+ =?us-ascii?Q?GqAlF5m9iA2kDHV3wv1KrhXVR6EFtPmu/baAhJWbvQm9vO9xtEVZjG0PP+77?=
+ =?us-ascii?Q?e5lqN43X+5fq+uUzC3kTCR8IHS4ln41uMM64ClKCh8eE94k4C30cln/lLplZ?=
+ =?us-ascii?Q?xB4Tf3q5sWo21C0lUsrV3QkV0A/cEK324oON?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2uCMMvQcWf0if+3tzPIjUzpIXt07N7ulktWujj+kgYZa6oMkl3HfUdHFsSP3?=
+ =?us-ascii?Q?4O4H8jxu/xXrn2AsZP15zjKydrlqhFDC20J266MVTTBTDwn9lh93ebzFnkM8?=
+ =?us-ascii?Q?+sVBimKztmDllB0z1ZJdDOIijnImPv5TbMOn1dNbDLTLlBFL2TwuBquURgiy?=
+ =?us-ascii?Q?EXHAFy9zvJLfNZljBD+A9JAKvPLbSmjB9bKvzrWmofj6RKQcb9vm7w1y9ZA+?=
+ =?us-ascii?Q?JuKZPjmumNO9MUYX2N8w5eo7IxUuf29ssRL2L4eWSSHDxYptd8a9f5cxA8O/?=
+ =?us-ascii?Q?La9f84Je5avPTEwZasXs5DpfByK6V0IpyAVev1nSu5O6dygaZSRFDOhdy+/s?=
+ =?us-ascii?Q?SB0cn2uyoUGeSP9eN6NlzZ3UAJhusWd3T4ZCmQbyQK0JZEGVqPTS6cAoth34?=
+ =?us-ascii?Q?EYvV5tCuNPTWi7ZQbJLZsIbAEGaH8Eg+m51w3fzSxnfMauapEiGfDqkTXlTc?=
+ =?us-ascii?Q?ZPP2QEjEtI5Z8hgHsxBNNxh2WqhGjAo2DXfEWtAmEL/jSXE46F5lhdkbGxz7?=
+ =?us-ascii?Q?99DBgLgiPd9lp5tNHJfCWTDj0BL3ncHG4kj1SHtkcy6YxX0mKdQ6eqQpan/L?=
+ =?us-ascii?Q?xDqdk91aB5W5iyHMBl4dvV8egwPkiQBh30txj/Z/2ain/+Vss7CbBPdMQAAW?=
+ =?us-ascii?Q?K44Z8tRkWCm44WZc6lYGo/t05Z+pzAYDzxXwaovEG/dYZqV/MRwJxw5NDQ1T?=
+ =?us-ascii?Q?vRfzTnoUxpIlwPAwyUAUTiou3jHoPXZhn6qMZl0pz/nWAb6/bfd3mPxLpDoU?=
+ =?us-ascii?Q?ILqjnOQxfNkN9NJYs0CaWXB/7YM1yLGoUrUC7uMdE9p/Oi7tzuJRCuSp6zrY?=
+ =?us-ascii?Q?4/4lAIYQ6DcD6N1qzZikedWaHiNvhJArncJxnK8A1zfCnopDf2QFAA8r0aiq?=
+ =?us-ascii?Q?E+13Lin0WPytRPGyVsq0GA0BrzaGH8CDTt3KtJD2j0gjFALutYdLSv1PP/ap?=
+ =?us-ascii?Q?X4ycw9g6Rf6468KXJUeqgq7apnOY0wQYfZEBavhcr0FL1r7yePPIp2hotYFF?=
+ =?us-ascii?Q?cGQEc9EgW6pQ/f0d2s/hMspMv+Hn709I2QDYR9ho7o1x6HfZswi1QnHDiie8?=
+ =?us-ascii?Q?5LYxjbRBfY4qD7Hjgh7RoCBva0szg7lyJOkDcaxjLneTud60wGoYjvI0hWny?=
+ =?us-ascii?Q?sy+ivKJ4ILqzQ1vhafpBRolzgZNp44JN2WBnSWOnQ7lpfBrx8pVnu2VLRR4r?=
+ =?us-ascii?Q?ancQLrRv9gotdCzXuL4FYIijLpWWBAGXCYUBx5JmL+2Fib1J3PTwdiCq4A60?=
+ =?us-ascii?Q?jgbUeKtFbBeZ3aWpahJtD+5gXmJonfOvW5YVfRsZ5jBwihY4taI8EhSDmGAM?=
+ =?us-ascii?Q?AcRLxU033g/gezhvju2/HwkmaIwb8f4nnckaI1HsEvriZr4mAEJ5cuTb94b1?=
+ =?us-ascii?Q?UYAU5eOP4tGDvT5TFWxV7Elq7Ixis2wsOG5YfbIsutMBoirTO4M2AlE470lf?=
+ =?us-ascii?Q?OeDrXTmjZD0wTga+cFlCxWx/XiGAs6O96G8Eo45xeGATddSgFAtOF622KSgG?=
+ =?us-ascii?Q?1eYyv6FdIeqzF5bsNOIpJi/RpU4DWAsf40/suRq/CFVYJHNpZ5OZg/a04CbT?=
+ =?us-ascii?Q?Zfc04/mCeKvO5sqKWr5wfpo/uiqUgV/YYi7z0QjA+vh2LEX2FSYsLQ89HDBk?=
+ =?us-ascii?Q?xZj2voBThE4DOSzXntVHFbw=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91b38230-034a-4e8c-74ee-08de3c48d16d
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 02:14:18.3687
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s8c8JjJQQbWmzRa2xcDTdAlr5nUSQFMiD+Sa21Olk5rI/jOet0GHRXeCi0qZbTfYdlf/TN9XbMwESgMIcNQxEQxZQ6yz+fveibOvmFqrFT4rxzRZkv/aCASG40yU1vEq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB12719
 
-The scarlett2_usb_get_config() function has a logic error in the
-endianness conversion code that can cause buffer overflows when
-count > 1.
 
-The code checks `if (size == 2)` where `size` is the total buffer size in
-bytes, then loops `count` times treating each element as u16 (2 bytes).
-This causes the loop to access `count * 2` bytes when the buffer only
-has `size` bytes allocated.
+Hi Mark
 
-Fix by checking the element size (config_item->size) instead of the
-total buffer size. This ensures the endianness conversion matches the
-actual element type.
+Now, all DAPM users are using function to handling it.
+We can capsuling it. This patchset moves struct snd_soc_dapm_context into
+soc-dapm.c, and remove un-used functions.
 
-Fixes: ac34df733d2d ("ALSA: usb-audio: scarlett2: Update get_config to do endian conversion")
-Cc: stable@vger.kernel.org
-Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
----
- sound/usb/mixer_scarlett2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Kuninori Morimoto (8):
+  ASoC: mediatek: mt8189-nau8825: don't use card->damp directly
+  ASoC: soc-component: remove snd_soc_component_xxx() wrapper
+  ASoC: soc-component: remove compatibility definition for component
+  ASoC: soc-dapm: remove compatibility definition for dapm
+  ASoC: soc-dapm: remove dev from snd_soc_dapm_context()
+  ASoC: soc-dapm: add snd_soc_dapm_alloc()
+  ASoC: soc-dapm: move struct snd_soc_dapm_context
+  ASoC: soc-dapm: tidyup function naming
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 1150cf104985..8ec436cf10e4 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -2489,13 +2489,13 @@ static int scarlett2_usb_get_config(
- 		err = scarlett2_usb_get(mixer, config_item->offset, buf, size);
- 		if (err < 0)
- 			return err;
--		if (size == 2) {
-+		if (config_item->size == 16) {
- 			u16 *buf_16 = buf;
- 
- 			for (i = 0; i < count; i++, buf_16++)
- 				*buf_16 = le16_to_cpu(*(__le16 *)buf_16);
--		} else if (size == 4) {
--			u32 *buf_32 = buf;
-+		} else if (config_item->size == 32) {
-+			u32 *buf_32 = (u32 *)buf;
- 
- 			for (i = 0; i < count; i++, buf_32++)
- 				*buf_32 = le32_to_cpu(*(__le32 *)buf_32);
+ include/sound/soc-component.h              |  29 +-
+ include/sound/soc-dapm.h                   |  44 +--
+ include/sound/soc.h                        |   4 +-
+ sound/soc/mediatek/mt8189/mt8189-nau8825.c |   6 +-
+ sound/soc/soc-component.c                  |  82 -----
+ sound/soc/soc-core.c                       |   8 +
+ sound/soc/soc-dapm.c                       | 352 +++++++++++----------
+ 7 files changed, 204 insertions(+), 321 deletions(-)
+
 -- 
-2.50.1
+2.43.0
 
