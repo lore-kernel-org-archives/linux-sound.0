@@ -1,48 +1,48 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8680B346ADD
-	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 14:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26FF346AE9
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 14:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765894006; cv=none; b=sz5KvqtFsPRWnev7h0jXuAXMr+2POijAtRmKdWhccmuZWSJekFY2/MA36BKcSaEDpaNDRndeXC4yfux6pn4m0hkYj7mpsvB5uF0KLp9z1TnzdTDsRiV66vxdSdEovx+WkNStA5TobhZ/UkW9YUF4YTES6MUL1Co9/CmG5DxcdYE=
+	t=1765894012; cv=none; b=lvf3djgWswd63rzNYYo2m9eFfX/P9Sa6VXfBBwLUF2TeDjjrWZeYENo0FArxjRcmf6MFnEZOrVrTHrxc5nKg5+fJKuapYcCFS/8KWboAEAEbY0F2r5AhIB01oo2fRpW9Kml00wdPchtuCpCpNCoMHHf3owYDEocb/U6ox/6OTOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765894006; c=relaxed/simple;
-	bh=8gcmcfLlxe+9S8hdMiQ2/wx0hlUIckXGtY0lQ/If0Mg=;
+	s=arc-20240116; t=1765894012; c=relaxed/simple;
+	bh=hM/YA6JN+4rYWizfF2MyzrfHv37YG1vHfEs8zUqm8Kc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YAB+f7vWW5l7Uva9d/cTxDeiH34N8czIirXHOu58r20jWXw3/u1NpgqtPeMjyNl7hCkcxH9lVa5uYV+PQQKBBD0H3xl51GSpVNwe5qQRRYzll7ZRW8bxpP7zRs93jcZMqSlcUDM5vVrcSEMzaH1wEq/1UV9Qpy7k3YZa1AOTC5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MU7VnFmx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4uOjijUf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MU7VnFmx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4uOjijUf; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=lbA0U+Yo4CU00haQuhD2+e8d/h/7GCtUFy1CqD51uG7MOG2G4vbc4R7dl1kCP6XhNWrCxqaufNfC8t8ecTc/xQ5sPuM3SL+pBJTE1+wzJkFmGMCGBHmGFYJa4eG9fBneY6fWl18PbcqIiVnKvrpdLMvb5LRtYKPH+/keLKAoaaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a4AGY4II; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m8+Vwb6L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a4AGY4II; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m8+Vwb6L; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MU7VnFmx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4uOjijUf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MU7VnFmx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4uOjijUf"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a4AGY4II";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m8+Vwb6L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a4AGY4II";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m8+Vwb6L"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BD75A5BCE3;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D39B95BCE7;
 	Tue, 16 Dec 2025 14:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1765894002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cpH5SoRSNvjvohmu7Cvp8LK4Af2EIQ06l2bVs3N9i3U=;
-	b=MU7VnFmxosaKulkf7FzQfdg++1BzUTlJistY9+p/ocYBh9lyhsZds8l9FSmH3j9XXJ5v1W
-	xJRIjQlaTT5NJLSbFqODAsaE5tw1evIcewTaEm5QkKwIuv8xNNmk2sONHmMGw0SMIqJXXX
-	YJPJlu21wvW1DMoplxttlQVSFvwpIcU=
+	bh=i54KoCALi/QHG9XJx+qCOWeN4rljvY/Er+vm+Fuaf34=;
+	b=a4AGY4IIVcdXJdaifMdrg3b1RlrgDEjcjy1ttXLMiTtLj9+Z64ZEdt/Xb24NoM5eOgE1r1
+	TkW5t9Pu5/spUUifjtTnaZiNS3XZxtDXtXWY93ltabhH6AcBhIOvPFSKIbsU7iIBM9EMcn
+	yCateFPGysSJv/Gsue7LRBjMGfThIx4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1765894002;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cpH5SoRSNvjvohmu7Cvp8LK4Af2EIQ06l2bVs3N9i3U=;
-	b=4uOjijUf2LLm4bWdgL9oUsiKj+k8u08sG7z59KnzHYrdstwghqd5lY5OzaRWaYHKdPDxrL
-	VXC0icFHjAmaVmCg==
+	bh=i54KoCALi/QHG9XJx+qCOWeN4rljvY/Er+vm+Fuaf34=;
+	b=m8+Vwb6LdifNhjYg9JBWXNps8FMAW/it8q4ePdJG0Hc86O+AaBgiAqpynqndk+l4Ff6ciC
+	72hJZp0ROQAimKCQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -50,34 +50,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cpH5SoRSNvjvohmu7Cvp8LK4Af2EIQ06l2bVs3N9i3U=;
-	b=MU7VnFmxosaKulkf7FzQfdg++1BzUTlJistY9+p/ocYBh9lyhsZds8l9FSmH3j9XXJ5v1W
-	xJRIjQlaTT5NJLSbFqODAsaE5tw1evIcewTaEm5QkKwIuv8xNNmk2sONHmMGw0SMIqJXXX
-	YJPJlu21wvW1DMoplxttlQVSFvwpIcU=
+	bh=i54KoCALi/QHG9XJx+qCOWeN4rljvY/Er+vm+Fuaf34=;
+	b=a4AGY4IIVcdXJdaifMdrg3b1RlrgDEjcjy1ttXLMiTtLj9+Z64ZEdt/Xb24NoM5eOgE1r1
+	TkW5t9Pu5/spUUifjtTnaZiNS3XZxtDXtXWY93ltabhH6AcBhIOvPFSKIbsU7iIBM9EMcn
+	yCateFPGysSJv/Gsue7LRBjMGfThIx4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1765894002;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cpH5SoRSNvjvohmu7Cvp8LK4Af2EIQ06l2bVs3N9i3U=;
-	b=4uOjijUf2LLm4bWdgL9oUsiKj+k8u08sG7z59KnzHYrdstwghqd5lY5OzaRWaYHKdPDxrL
-	VXC0icFHjAmaVmCg==
+	bh=i54KoCALi/QHG9XJx+qCOWeN4rljvY/Er+vm+Fuaf34=;
+	b=m8+Vwb6LdifNhjYg9JBWXNps8FMAW/it8q4ePdJG0Hc86O+AaBgiAqpynqndk+l4Ff6ciC
+	72hJZp0ROQAimKCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1E273EA63;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C0D073EA68;
 	Tue, 16 Dec 2025 14:06:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oJP6JnJnQWnrNgAAD6G6ig
+	id QGDwLXJnQWnrNgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 16 Dec 2025 14:06:42 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 03/11] ALSA: pcm: Relax __free() variable declarations
-Date: Tue, 16 Dec 2025 15:06:25 +0100
-Message-ID: <20251216140634.171890-4-tiwai@suse.de>
+Subject: [PATCH 05/11] ALSA: seq: oss: Relax __free() variable declarations
+Date: Tue, 16 Dec 2025 15:06:27 +0100
+Message-ID: <20251216140634.171890-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251216140634.171890-1-tiwai@suse.de>
 References: <20251216140634.171890-1-tiwai@suse.de>
@@ -88,22 +88,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.78
-X-Spam-Level: 
 X-Spamd-Result: default: False [-2.78 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.18)[-0.900];
+	NEURAL_HAM_SHORT(-0.18)[-0.903];
 	MIME_GOOD(-0.10)[text/plain];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -111,6 +108,9 @@ X-Spamd-Result: default: False [-2.78 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.78
 
 We used to have a variable declaration with __free() initialized with
 NULL.  This was to keep the old coding style rule, but recently it's
@@ -122,250 +122,249 @@ Although the current code has no bug, per se, let's follow the new
 standard and move the declaration to the place of assignment (or
 directly assign the allocated result) instead of NULL initializations.
 
-Fixes: ae9213984864 ("ALSA: pcm: Use automatic cleanup of kfree()")
+Fixes: 80ccbe91adab ("ALSA: seq: oss/synth: Clean up with guard and auto cleanup")
+Fixes: 895a46e034f9 ("ALSA: seq: oss/midi: Cleanup with guard and auto-cleanup")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/pcm.c        |  4 ++--
- sound/core/pcm_compat.c |  9 ++++----
- sound/core/pcm_native.c | 50 +++++++++++++++++++++--------------------
- 3 files changed, 33 insertions(+), 30 deletions(-)
+ sound/core/seq/oss/seq_oss_init.c  |  4 +--
+ sound/core/seq/oss/seq_oss_midi.c  | 45 +++++++++++++++---------------
+ sound/core/seq/oss/seq_oss_synth.c | 23 +++++++--------
+ 3 files changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-index 283aac441fa0..0b512085eb63 100644
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -328,13 +328,13 @@ static const char *snd_pcm_oss_format_name(int format)
- static void snd_pcm_proc_info_read(struct snd_pcm_substream *substream,
- 				   struct snd_info_buffer *buffer)
+diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
+index 973f057eb731..e0c368bd09cb 100644
+--- a/sound/core/seq/oss/seq_oss_init.c
++++ b/sound/core/seq/oss/seq_oss_init.c
+@@ -63,10 +63,10 @@ int __init
+ snd_seq_oss_create_client(void)
  {
--	struct snd_pcm_info *info __free(kfree) = NULL;
- 	int err;
+ 	int rc;
+-	struct snd_seq_port_info *port __free(kfree) = NULL;
+ 	struct snd_seq_port_callback port_callback;
++	struct snd_seq_port_info *port __free(kfree) =
++		kzalloc(sizeof(*port), GFP_KERNEL);
  
- 	if (! substream)
+-	port = kzalloc(sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+ 		return -ENOMEM;
+ 
+diff --git a/sound/core/seq/oss/seq_oss_midi.c b/sound/core/seq/oss/seq_oss_midi.c
+index 023e5d0a4351..2d48c25ff4df 100644
+--- a/sound/core/seq/oss/seq_oss_midi.c
++++ b/sound/core/seq/oss/seq_oss_midi.c
+@@ -65,11 +65,11 @@ static int send_midi_event(struct seq_oss_devinfo *dp, struct snd_seq_event *ev,
+ int
+ snd_seq_oss_midi_lookup_ports(int client)
+ {
+-	struct snd_seq_client_info *clinfo __free(kfree) = NULL;
+-	struct snd_seq_port_info *pinfo __free(kfree) = NULL;
++	struct snd_seq_client_info *clinfo __free(kfree) =
++		kzalloc(sizeof(*clinfo), GFP_KERNEL);
++	struct snd_seq_port_info *pinfo __free(kfree) =
++		kzalloc(sizeof(*pinfo), GFP_KERNEL);
+ 
+-	clinfo = kzalloc(sizeof(*clinfo), GFP_KERNEL);
+-	pinfo = kzalloc(sizeof(*pinfo), GFP_KERNEL);
+ 	if (!clinfo || !pinfo)
+ 		return -ENOMEM;
+ 	clinfo->client = -1;
+@@ -305,10 +305,10 @@ int
+ snd_seq_oss_midi_open(struct seq_oss_devinfo *dp, int dev, int fmode)
+ {
+ 	int perm;
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
+ 	struct snd_seq_port_subscribe subs;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
+ 
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
+ 		return -ENODEV;
+ 
+@@ -364,10 +364,10 @@ snd_seq_oss_midi_open(struct seq_oss_devinfo *dp, int dev, int fmode)
+ int
+ snd_seq_oss_midi_close(struct seq_oss_devinfo *dp, int dev)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
+ 	struct snd_seq_port_subscribe subs;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
+ 
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
+ 		return -ENODEV;
+ 	guard(mutex)(&mdev->open_mutex);
+@@ -399,10 +399,10 @@ snd_seq_oss_midi_close(struct seq_oss_devinfo *dp, int dev)
+ int
+ snd_seq_oss_midi_filemode(struct seq_oss_devinfo *dp, int dev)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
+ 	int mode;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
+ 
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
+ 		return 0;
+ 
+@@ -422,9 +422,9 @@ snd_seq_oss_midi_filemode(struct seq_oss_devinfo *dp, int dev)
+ void
+ snd_seq_oss_midi_reset(struct seq_oss_devinfo *dp, int dev)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
+ 
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
  		return;
+ 	if (!mdev->opened)
+@@ -468,9 +468,9 @@ snd_seq_oss_midi_reset(struct seq_oss_devinfo *dp, int dev)
+ void
+ snd_seq_oss_midi_get_addr(struct seq_oss_devinfo *dp, int dev, struct snd_seq_addr *addr)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
  
--	info = kmalloc(sizeof(*info), GFP_KERNEL);
-+	struct snd_pcm_info *info __free(kfree) =
-+		kmalloc(sizeof(*info), GFP_KERNEL);
- 	if (!info)
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
  		return;
- 
-diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
-index 54eb9bd8eb21..e86f68f1f23c 100644
---- a/sound/core/pcm_compat.c
-+++ b/sound/core/pcm_compat.c
-@@ -235,7 +235,6 @@ static int snd_pcm_ioctl_hw_params_compat(struct snd_pcm_substream *substream,
- 					  int refine, 
- 					  struct snd_pcm_hw_params32 __user *data32)
+ 	addr->client = mdev->client;
+@@ -485,11 +485,11 @@ int
+ snd_seq_oss_midi_input(struct snd_seq_event *ev, int direct, void *private_data)
  {
--	struct snd_pcm_hw_params *data __free(kfree) = NULL;
- 	struct snd_pcm_runtime *runtime;
- 	int err;
+ 	struct seq_oss_devinfo *dp = (struct seq_oss_devinfo *)private_data;
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
  
-@@ -243,7 +242,8 @@ static int snd_pcm_ioctl_hw_params_compat(struct snd_pcm_substream *substream,
- 	if (!runtime)
- 		return -ENOTTY;
+ 	if (dp->readq == NULL)
+ 		return 0;
+-	mdev = find_slot(ev->source.client, ev->source.port);
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		find_slot(ev->source.client, ev->source.port);
+ 	if (!mdev)
+ 		return 0;
+ 	if (!(mdev->opened & PERM_READ))
+@@ -595,9 +595,9 @@ send_midi_event(struct seq_oss_devinfo *dp, struct snd_seq_event *ev, struct seq
+ int
+ snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, struct snd_seq_event *ev)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
  
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	struct snd_pcm_hw_params *data __free(kfree) =
-+		kmalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
+ 		return -ENODEV;
+ 	if (snd_midi_event_encode_byte(mdev->coder, c, ev)) {
+@@ -613,9 +613,9 @@ snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, stru
+ int
+ snd_seq_oss_midi_make_info(struct seq_oss_devinfo *dp, int dev, struct midi_info *inf)
+ {
+-	struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
++	struct seq_oss_midi *mdev __free(seq_oss_midi) =
++		get_mididev(dp, dev);
  
-@@ -332,7 +332,6 @@ static int snd_pcm_ioctl_xfern_compat(struct snd_pcm_substream *substream,
- 	compat_caddr_t buf;
- 	compat_caddr_t __user *bufptr;
- 	u32 frames;
--	void __user **bufs __free(kfree) = NULL;
- 	int err, ch, i;
+-	mdev = get_mididev(dp, dev);
+ 	if (!mdev)
+ 		return -ENXIO;
+ 	inf->device = dev;
+@@ -651,10 +651,9 @@ snd_seq_oss_midi_info_read(struct snd_info_buffer *buf)
  
- 	if (! substream->runtime)
-@@ -349,7 +348,9 @@ static int snd_pcm_ioctl_xfern_compat(struct snd_pcm_substream *substream,
- 	    get_user(frames, &data32->frames))
- 		return -EFAULT;
- 	bufptr = compat_ptr(buf);
--	bufs = kmalloc_array(ch, sizeof(void __user *), GFP_KERNEL);
+ 	snd_iprintf(buf, "\nNumber of MIDI devices: %d\n", max_midi_devs);
+ 	for (i = 0; i < max_midi_devs; i++) {
+-		struct seq_oss_midi *mdev __free(seq_oss_midi) = NULL;
+-
+ 		snd_iprintf(buf, "\nmidi %d: ", i);
+-		mdev = get_mdev(i);
++		struct seq_oss_midi *mdev __free(seq_oss_midi) =
++			get_mdev(i);
+ 		if (mdev == NULL) {
+ 			snd_iprintf(buf, "*empty*\n");
+ 			continue;
+diff --git a/sound/core/seq/oss/seq_oss_synth.c b/sound/core/seq/oss/seq_oss_synth.c
+index 68bc6d4eed53..c7f81f2053a7 100644
+--- a/sound/core/seq/oss/seq_oss_synth.c
++++ b/sound/core/seq/oss/seq_oss_synth.c
+@@ -364,7 +364,6 @@ reset_channels(struct seq_oss_synthinfo *info)
+ void
+ snd_seq_oss_synth_reset(struct seq_oss_devinfo *dp, int dev)
+ {
+-	struct seq_oss_synth *rec __free(seq_oss_synth) = NULL;
+ 	struct seq_oss_synthinfo *info;
+ 
+ 	info = get_synthinfo_nospec(dp, dev);
+@@ -387,7 +386,8 @@ snd_seq_oss_synth_reset(struct seq_oss_devinfo *dp, int dev)
+ 		return;
+ 	}
+ 
+-	rec = get_sdev(dev);
++	struct seq_oss_synth *rec __free(seq_oss_synth) =
++		get_sdev(dev);
+ 	if (rec == NULL)
+ 		return;
+ 	if (rec->oper.reset) {
+@@ -411,7 +411,6 @@ int
+ snd_seq_oss_synth_load_patch(struct seq_oss_devinfo *dp, int dev, int fmt,
+ 			    const char __user *buf, int p, int c)
+ {
+-	struct seq_oss_synth *rec __free(seq_oss_synth) = NULL;
+ 	struct seq_oss_synthinfo *info;
+ 
+ 	info = get_synthinfo_nospec(dp, dev);
+@@ -420,7 +419,9 @@ snd_seq_oss_synth_load_patch(struct seq_oss_devinfo *dp, int dev, int fmt,
+ 
+ 	if (info->is_midi)
+ 		return 0;
+-	rec = get_synthdev(dp, dev);
 +
-+	void __user **bufs __free(kfree) =
-+		kmalloc_array(ch, sizeof(void __user *), GFP_KERNEL);
- 	if (bufs == NULL)
- 		return -ENOMEM;
- 	for (i = 0; i < ch; i++) {
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 68bee40c9ada..4352c0a40f8d 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -242,10 +242,10 @@ int snd_pcm_info(struct snd_pcm_substream *substream, struct snd_pcm_info *info)
- int snd_pcm_info_user(struct snd_pcm_substream *substream,
- 		      struct snd_pcm_info __user * _info)
++	struct seq_oss_synth *rec __free(seq_oss_synth) =
++		get_synthdev(dp, dev);
+ 	if (!rec)
+ 		return -ENXIO;
+ 
+@@ -436,9 +437,9 @@ snd_seq_oss_synth_load_patch(struct seq_oss_devinfo *dp, int dev, int fmt,
+ struct seq_oss_synthinfo *
+ snd_seq_oss_synth_info(struct seq_oss_devinfo *dp, int dev)
  {
--	struct snd_pcm_info *info __free(kfree) = NULL;
- 	int err;
-+	struct snd_pcm_info *info __free(kfree) =
-+		kmalloc(sizeof(*info), GFP_KERNEL);
+-	struct seq_oss_synth *rec __free(seq_oss_synth) = NULL;
++	struct seq_oss_synth *rec __free(seq_oss_synth) =
++		get_synthdev(dp, dev);
  
--	info = kmalloc(sizeof(*info), GFP_KERNEL);
- 	if (! info)
- 		return -ENOMEM;
- 	err = snd_pcm_info(substream, info);
-@@ -364,7 +364,6 @@ static int constrain_params_by_rules(struct snd_pcm_substream *substream,
- 	struct snd_pcm_hw_constraints *constrs =
- 					&substream->runtime->hw_constraints;
- 	unsigned int k;
--	unsigned int *rstamps __free(kfree) = NULL;
- 	unsigned int vstamps[SNDRV_PCM_HW_PARAM_LAST_INTERVAL + 1];
- 	unsigned int stamp;
- 	struct snd_pcm_hw_rule *r;
-@@ -380,7 +379,8 @@ static int constrain_params_by_rules(struct snd_pcm_substream *substream,
- 	 * Each member of 'rstamps' array represents the sequence number of
- 	 * recent application of corresponding rule.
- 	 */
--	rstamps = kcalloc(constrs->rules_num, sizeof(unsigned int), GFP_KERNEL);
-+	unsigned int *rstamps __free(kfree) =
-+		kcalloc(constrs->rules_num, sizeof(unsigned int), GFP_KERNEL);
- 	if (!rstamps)
- 		return -ENOMEM;
- 
-@@ -583,10 +583,10 @@ EXPORT_SYMBOL(snd_pcm_hw_refine);
- static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
- 				  struct snd_pcm_hw_params __user * _params)
+-	rec = get_synthdev(dp, dev);
+ 	if (rec)
+ 		return get_synthinfo_nospec(dp, dev);
+ 	return NULL;
+@@ -491,13 +492,14 @@ snd_seq_oss_synth_addr(struct seq_oss_devinfo *dp, int dev, struct snd_seq_event
+ int
+ snd_seq_oss_synth_ioctl(struct seq_oss_devinfo *dp, int dev, unsigned int cmd, unsigned long addr)
  {
--	struct snd_pcm_hw_params *params __free(kfree) = NULL;
- 	int err;
-+	struct snd_pcm_hw_params *params __free(kfree) =
-+		memdup_user(_params, sizeof(*params));
+-	struct seq_oss_synth *rec __free(seq_oss_synth) = NULL;
+ 	struct seq_oss_synthinfo *info;
  
--	params = memdup_user(_params, sizeof(*params));
- 	if (IS_ERR(params))
- 		return PTR_ERR(params);
- 
-@@ -884,10 +884,10 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
- static int snd_pcm_hw_params_user(struct snd_pcm_substream *substream,
- 				  struct snd_pcm_hw_params __user * _params)
- {
--	struct snd_pcm_hw_params *params __free(kfree) = NULL;
- 	int err;
-+	struct snd_pcm_hw_params *params __free(kfree) =
-+		memdup_user(_params, sizeof(*params));
- 
--	params = memdup_user(_params, sizeof(*params));
- 	if (IS_ERR(params))
- 		return PTR_ERR(params);
- 
-@@ -2262,7 +2262,6 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
- {
- 	struct snd_pcm_file *pcm_file;
- 	struct snd_pcm_substream *substream1;
--	struct snd_pcm_group *group __free(kfree) = NULL;
- 	struct snd_pcm_group *target_group;
- 	bool nonatomic = substream->pcm->nonatomic;
- 	CLASS(fd, f)(fd);
-@@ -2278,7 +2277,8 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
- 	if (substream == substream1)
- 		return -EINVAL;
- 
--	group = kzalloc(sizeof(*group), GFP_KERNEL);
-+	struct snd_pcm_group *group __free(kfree) =
-+		kzalloc(sizeof(*group), GFP_KERNEL);
- 	if (!group)
- 		return -ENOMEM;
- 	snd_pcm_group_init(group);
-@@ -3286,7 +3286,6 @@ static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
- {
- 	struct snd_xfern xfern;
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	void *bufs __free(kfree) = NULL;
- 	snd_pcm_sframes_t result;
- 
- 	if (runtime->state == SNDRV_PCM_STATE_OPEN)
-@@ -3298,7 +3297,8 @@ static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
- 	if (copy_from_user(&xfern, _xfern, sizeof(xfern)))
- 		return -EFAULT;
- 
--	bufs = memdup_array_user(xfern.bufs, runtime->channels, sizeof(void *));
-+	void *bufs __free(kfree) =
-+		memdup_array_user(xfern.bufs, runtime->channels, sizeof(void *));
- 	if (IS_ERR(bufs))
- 		return PTR_ERR(bufs);
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-@@ -3572,7 +3572,6 @@ static ssize_t snd_pcm_readv(struct kiocb *iocb, struct iov_iter *to)
- 	struct snd_pcm_runtime *runtime;
- 	snd_pcm_sframes_t result;
- 	unsigned long i;
--	void __user **bufs __free(kfree) = NULL;
- 	snd_pcm_uframes_t frames;
- 	const struct iovec *iov = iter_iov(to);
- 
-@@ -3591,7 +3590,9 @@ static ssize_t snd_pcm_readv(struct kiocb *iocb, struct iov_iter *to)
- 	if (!frame_aligned(runtime, iov->iov_len))
- 		return -EINVAL;
- 	frames = bytes_to_samples(runtime, iov->iov_len);
--	bufs = kmalloc_array(to->nr_segs, sizeof(void *), GFP_KERNEL);
+ 	info = get_synthinfo_nospec(dp, dev);
+ 	if (!info || info->is_midi)
+ 		return -ENXIO;
+-	rec = get_synthdev(dp, dev);
 +
-+	void __user **bufs __free(kfree) =
-+		kmalloc_array(to->nr_segs, sizeof(void *), GFP_KERNEL);
- 	if (bufs == NULL)
- 		return -ENOMEM;
- 	for (i = 0; i < to->nr_segs; ++i) {
-@@ -3611,7 +3612,6 @@ static ssize_t snd_pcm_writev(struct kiocb *iocb, struct iov_iter *from)
- 	struct snd_pcm_runtime *runtime;
- 	snd_pcm_sframes_t result;
- 	unsigned long i;
--	void __user **bufs __free(kfree) = NULL;
- 	snd_pcm_uframes_t frames;
- 	const struct iovec *iov = iter_iov(from);
++	struct seq_oss_synth *rec __free(seq_oss_synth) =
++		get_synthdev(dp, dev);
+ 	if (!rec)
+ 		return -ENXIO;
+ 	if (rec->oper.ioctl == NULL)
+@@ -571,10 +573,9 @@ snd_seq_oss_synth_info_read(struct snd_info_buffer *buf)
  
-@@ -3629,7 +3629,9 @@ static ssize_t snd_pcm_writev(struct kiocb *iocb, struct iov_iter *from)
- 	    !frame_aligned(runtime, iov->iov_len))
- 		return -EINVAL;
- 	frames = bytes_to_samples(runtime, iov->iov_len);
--	bufs = kmalloc_array(from->nr_segs, sizeof(void *), GFP_KERNEL);
-+
-+	void __user **bufs __free(kfree) =
-+		kmalloc_array(from->nr_segs, sizeof(void *), GFP_KERNEL);
- 	if (bufs == NULL)
- 		return -ENOMEM;
- 	for (i = 0; i < from->nr_segs; ++i) {
-@@ -4101,15 +4103,15 @@ static void snd_pcm_hw_convert_to_old_params(struct snd_pcm_hw_params_old *opara
- static int snd_pcm_hw_refine_old_user(struct snd_pcm_substream *substream,
- 				      struct snd_pcm_hw_params_old __user * _oparams)
- {
--	struct snd_pcm_hw_params *params __free(kfree) = NULL;
--	struct snd_pcm_hw_params_old *oparams __free(kfree) = NULL;
- 	int err;
- 
--	params = kmalloc(sizeof(*params), GFP_KERNEL);
-+	struct snd_pcm_hw_params *params __free(kfree) =
-+		kmalloc(sizeof(*params), GFP_KERNEL);
- 	if (!params)
- 		return -ENOMEM;
- 
--	oparams = memdup_user(_oparams, sizeof(*oparams));
-+	struct snd_pcm_hw_params_old *oparams __free(kfree) =
-+		memdup_user(_oparams, sizeof(*oparams));
- 	if (IS_ERR(oparams))
- 		return PTR_ERR(oparams);
- 	snd_pcm_hw_convert_from_old_params(params, oparams);
-@@ -4130,15 +4132,15 @@ static int snd_pcm_hw_refine_old_user(struct snd_pcm_substream *substream,
- static int snd_pcm_hw_params_old_user(struct snd_pcm_substream *substream,
- 				      struct snd_pcm_hw_params_old __user * _oparams)
- {
--	struct snd_pcm_hw_params *params __free(kfree) = NULL;
--	struct snd_pcm_hw_params_old *oparams __free(kfree) = NULL;
- 	int err;
- 
--	params = kmalloc(sizeof(*params), GFP_KERNEL);
-+	struct snd_pcm_hw_params *params __free(kfree) =
-+		kmalloc(sizeof(*params), GFP_KERNEL);
- 	if (!params)
- 		return -ENOMEM;
- 
--	oparams = memdup_user(_oparams, sizeof(*oparams));
-+	struct snd_pcm_hw_params_old *oparams __free(kfree) =
-+		memdup_user(_oparams, sizeof(*oparams));
- 	if (IS_ERR(oparams))
- 		return PTR_ERR(oparams);
- 
+ 	snd_iprintf(buf, "\nNumber of synth devices: %d\n", max_synth_devs);
+ 	for (i = 0; i < max_synth_devs; i++) {
+-		struct seq_oss_synth *rec __free(seq_oss_synth) = NULL;
+-
+ 		snd_iprintf(buf, "\nsynth %d: ", i);
+-		rec = get_sdev(i);
++		struct seq_oss_synth *rec __free(seq_oss_synth) =
++			get_sdev(i);
+ 		if (rec == NULL) {
+ 			snd_iprintf(buf, "*empty*\n");
+ 			continue;
 -- 
 2.52.0
 
