@@ -1,277 +1,181 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4547B348458
-	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 11:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E967357735
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 12:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765886365; cv=none; b=tNJIH5xQo7Q2R4TWNuL2TcxZxpKk+VF/ooU8D57BpBCDK3ghjwLN6BRDQuQeghs/7JRgsV4+oMAzgtIB+Y9I2lfBcej3LC4e7Hv+xKak5POUUjYZOU8CqcSufkq5NdDkWGSvwMZ+w6wKPfGt4TjBj8v5Pp1GN5f+AL9xmJ6Cc6g=
+	t=1765886585; cv=none; b=kT1Bcn17RWki1WhK3bMP3v4nNgXwsbzssuWCCr5hWnEVu2m6NE5mdV3gG3l2m2r8Ll0Yytg7ncLk/HpOi/QctqAd5H3nj61GHLGYuiLgcIYOlBqHrY2vD2CS25Gg538/1SNtTSJjMsaA1unE6y8/MrJX+zUFzdsy7pY7PzQ2jEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765886365; c=relaxed/simple;
-	bh=Su63DNRWUuPoXvWhZr7uqypaBcIvPGaX4LymkT8Vm9c=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QQZp2IYmnyp05m6QpUJ90RIgn84KNZA55B40gIiNAblPbz3Pswni0RT15iwYpDmquyN9wLg4NnUB6wQS+FDA3StcuAqtc9y3TYI8MA/PZb3AoSOAVsCa2YecOQh5XzkNb/mEXRbOv8n65nAmBwRuRww7bG2+mjxocaY2OzdLGVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zWbYyQwC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mcaBODnE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zWbYyQwC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mcaBODnE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765886585; c=relaxed/simple;
+	bh=1fqkqkNEzTSWAwW3B+qpzd2aY6yMg5j1xLcgYYtCn9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I2LZCiE4pNpR7xogFQhodAhocUZsMH8VVOvE3lCjpESPYgjIq2YP3FU9Yo03OcwcDnTseKsGlc2AQwEpZRSU3uB7nn6xXEefBxJf0z8JJUFDQ5Day6cF0mhjp/lKj0P5TNtZH4/x2PYZdVQuINuB5YrDnKJihPf5urrZvtmLVaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WTuuKQx8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=brUftz0u; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zWbYyQwC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mcaBODnE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zWbYyQwC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mcaBODnE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 713BB336A1;
-	Tue, 16 Dec 2025 11:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765886361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A0s5qcXOYZX+aQdPdZzui793GgJ1WtGjxIoMAls3d58=;
-	b=zWbYyQwCJjZeXpGF/NRT8J1ucpI9tFP9zweH0vvaY9ddP6zU5oAlAMR5YtGLSwsEVA+l5U
-	/Bqcu+6p6wKOJx1qusxfEyrRBk9FbTdEGfJ0rVpapDDKR4c0Uld6kysXgecu2EW9EH/VTU
-	tg9l8+bxUifP4pDPaGDNEbxFvscq1s8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765886361;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A0s5qcXOYZX+aQdPdZzui793GgJ1WtGjxIoMAls3d58=;
-	b=mcaBODnEiO3sGboqAG9s1uyAvqpwKbkIpufq71fJb1r7pxY83/6An5F9nTfHmK3BdudOnt
-	HZronmG256N+beDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765886361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A0s5qcXOYZX+aQdPdZzui793GgJ1WtGjxIoMAls3d58=;
-	b=zWbYyQwCJjZeXpGF/NRT8J1ucpI9tFP9zweH0vvaY9ddP6zU5oAlAMR5YtGLSwsEVA+l5U
-	/Bqcu+6p6wKOJx1qusxfEyrRBk9FbTdEGfJ0rVpapDDKR4c0Uld6kysXgecu2EW9EH/VTU
-	tg9l8+bxUifP4pDPaGDNEbxFvscq1s8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765886361;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A0s5qcXOYZX+aQdPdZzui793GgJ1WtGjxIoMAls3d58=;
-	b=mcaBODnEiO3sGboqAG9s1uyAvqpwKbkIpufq71fJb1r7pxY83/6An5F9nTfHmK3BdudOnt
-	HZronmG256N+beDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 501C63EA63;
-	Tue, 16 Dec 2025 11:59:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sJazEplJQWnVQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Dec 2025 11:59:21 +0000
-Date: Tue, 16 Dec 2025 12:59:21 +0100
-Message-ID: <875xa6fxie.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Leo Tsai <antivirus621@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	rf@opensource.cirrus.com,
-	leo.tsai@cmedia.com.tw,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [PATCH v5] ALSA: hda/cm9825: Add GENE_TWL7 support for AAEON
-In-Reply-To: <20251216080148.37686-1-antivirus621@gmail.com>
-References: <20251216080148.37686-1-antivirus621@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WTuuKQx8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="brUftz0u"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BGAMKgV3829726
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 12:03:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=; b=WTuuKQx8zjT7yA9n
+	RcbkvqABZwczl032YJYNNIyEMQQ0tM+vIYIzu5g3Dn6Vu8y9nSVDA/pHjGy0I+DO
+	kf15TiqGU4+zNGPYK06xCKaXZJ7qclWs1jao4YkvXbKIZ+pyozusvyzYCINi6/br
+	lzPLi01djXZzGrCWTp/xAGD0biZWoAwBN3OsG6oF/2MURjRalhKBPSMz+q37jOOJ
+	ZGEoNU9XbiyPLo0IR26nMlkTduTn/0lQvy11X/NvYy+zjberHj69u4tyOk1aPwTS
+	9jI8WWAUDGCRH2jNuU0sknu4VMLaz4s2VrnNfRIrO6wuKogI4/A5TufHPHXhPrLf
+	BdTovQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b35m2rcd3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 12:03:00 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8bbb6031cfdso67002085a.1
+        for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 04:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765886580; x=1766491380; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=;
+        b=brUftz0u9slhPLGiWz/UOVN+I2nfhpd3OK9UEFORSoD5YK6CInrMQz0rD0sItRzt+U
+         itk4Sk1NmOqqRh2nPrMUbyQVs4a4nTzM0XUxxw7tgjDGA072nhi/rBJpXvXsNPmO4qbj
+         bYN5rgewjYB8esFh+CWnKkK1POpp19QSpbohWOTdb0H7PsMx5zY64XzkQ/rt2lNbTxIW
+         NPT1ldNGLqmf5E0dfpMGWYKcLa952UNe7IOlrKLulfi9W5UVsItBB8AYe2FJ77HjL/0k
+         34/GbNTaLt/pEcjW00kii+95cFMOUVgsnjUx3sBPJ185n+tBUMrkhixlr3k3EasjSW1g
+         dhaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765886580; x=1766491380;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S1bUZC3wQ09/vUi2Wz/LwL1M7PS4s9jI4u+ipA1NkPU=;
+        b=evb3Knt4ta/p7bpfXP606Thxnll4JabgZlSUqjNgpObKlS5wtEJdvtj7hsLxf8d6EB
+         wEP1PJ+ZPZo3/EZT62RrDGrkgLlYvppXONz30kIpUR+ttmcTn+/7yddlQNJ38/CAlT8H
+         OGTKg9qfwtuEIh2yIhTCU1G+qkvxwMtZGZ2GFKq1IIqV0G+7ELRpMamcSHyzxQzU+GKS
+         aM7QTCDl77E8qoMiY2K/7Hz47YpXkw+lRi9DJeOcgLS9/6GEz/cM5fI0ZPWNNokJCkg4
+         2BgdTRf/dJsKpw+jebNyjipiFE31/fwn1Ftq2E9mo9SpawdGQEXaspbnKB4Ja+ndgkla
+         cIqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzkrVAMJrozBs0VnQAsfXxa55Gy5ooZIWX+Wx/cZtUwsJ4pJYknPl19o/2PKB0UyK7CMYmjovJDAazGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2USzyNNx383mMj37AYckQ1F+gFg3LKrXzryDzseDbX56sBLvd
+	t5DIysMk7GHW3GuJmjqs0mNwb1VODWawbnlODZglsiFB+OCckEbkclkrHzqItH+DhjHrJB1UrA/
+	6q3A/4fvIE7EiSZ/vCYKWcLR0U1PeSXTEeqlrgJIxgnhE5HTt/R057/xXu8DoK1lkiA==
+X-Gm-Gg: AY/fxX47km06OJHXQ3dSqdvShHkVEfkKY7oaT27C63puf+tB/nHMmPbsOsyxh2bFojM
+	D2NeX3+ukoXwWUPPQVtCabPOf51zdEgNr6QP7rFiPgx42w58HKzmFkJfJETXt8n+BmLqDlhTwAm
+	o9nFLXKDMS9Hccw6xXNSUx2whZWzDhcfynPCUoCzDv7LSsuT5pheuuTaKyN7hvY4E7AxxNX43WB
+	wYTs0Fce19ZUgGqMYNQ5FucAYe8MrRjCDZcqmQ+C/s6xIwQcnOgERvuYPBYXa9O0dAZuqHq6yxx
+	dYnBskPCDoRfFqV2WYBe+h/nUt0KFwb7l6PNWxx63yDyarxISBLzOJTrCw4xk06eeegWIOgmDer
+	jsMNf3mBlNomNGn1x7OIjfZ8V8cWaVnK7rSnGSA4guOdcJxe6lMCJvmaSqY38Oq5YKQ==
+X-Received: by 2002:a05:620a:468f:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8bb3a0b7e5amr1437506985a.3.1765886579658;
+        Tue, 16 Dec 2025 04:02:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+LwGQhgX+HV6xSu98Kp8PBKIcLhjvja7byx1nEf8nekydl7DDS37zTtoZtPzNHvCnZUEeTw==
+X-Received: by 2002:a05:620a:468f:b0:8b1:fa2a:702f with SMTP id af79cd13be357-8bb3a0b7e5amr1437499185a.3.1765886578963;
+        Tue, 16 Dec 2025 04:02:58 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-649820f77e3sm16041066a12.18.2025.12.16.04.02.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 04:02:57 -0800 (PST)
+Message-ID: <695ca5d2-b713-4838-8427-a9d31751c0cf@oss.qualcomm.com>
+Date: Tue, 16 Dec 2025 13:02:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.19)[-0.956];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.29
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: Remove unused includes
+To: Jonathan Cameron <jic23@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, Vinod Koul <vkoul@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        David Lechner <dlechner@baylibre.com>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>,
+        Andy Shevchenko <andy@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+        Peter Rosin <peda@axentia.se>, Linus Walleij <linusw@kernel.org>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Philipp Zabel
+ <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-iio@vger.kernel.org,
+        iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, imx@lists.linux.dev,
+        linux-sound@vger.kernel.org
+References: <20251212231203.727227-1-robh@kernel.org>
+ <20251213165949.4b51f7cb@jic23-huawei>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251213165949.4b51f7cb@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=LpGfC3dc c=1 sm=1 tr=0 ts=69414a74 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i0EeH86SAAAA:8
+ a=UbNXja__m5_aMge2JzcA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: fxuzDQU-JRNJ768baH--p8grK9acIMDk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDEwMiBTYWx0ZWRfX/WLHXQbEIYtE
+ yvVF8zZLPJXNMN/SDAkuE24Qp4REBg9nooY1PWBlIqANCuJWkXHdHBSKmgSRPz4qAkx8SB7f4Y2
+ 27zmI9pCVheUgUSpf08/3jvw5i9fXVtbeOVtM45Z5046RHAjRZJkI+gYPeQMTNaq6UwU4THIypy
+ zVp3NPEVrHLPo0QhPEVRSXBFGRDAY64QuNKJqbtq7MwFxbj1OCyXxKpt1EdwvLAgFLXZcP10/Jm
+ iBibbW3592t3CnfbkLSW+lE6DonTmshrDs+t0TBSC4WvmrXHMpRMsZlf5mKlPgPY60jxKjQ/3lP
+ b2munXM1RQX5C82zAXqMfTFv2IBvkJtArI7cm1vLW0/k6YPl/wDKaOAZksFkcnL8F9K+A0PAYKK
+ t6u/njl12bYIJSMfRMtpguJedh+VfQ==
+X-Proofpoint-ORIG-GUID: fxuzDQU-JRNJ768baH--p8grK9acIMDk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-16_02,2025-12-15_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512160102
 
-On Tue, 16 Dec 2025 09:01:48 +0100,
-Leo Tsai wrote:
+On 12/13/25 5:59 PM, Jonathan Cameron wrote:
+> On Fri, 12 Dec 2025 17:11:52 -0600
+> "Rob Herring (Arm)" <robh@kernel.org> wrote:
 > 
-> The GENE_TWL7 project is an AAEON platform with a fixed audio
-> configuration consisting of line-out, line-in, and mic-in.
-> The audio routing and pin assignments are defined according to
-> the board-level hardware design and are not intended to be
-> dynamically changed.
+>> Remove includes which are not referenced by either DTS files or drivers.
+>>
+>> There's a few more which are new, so they are excluded for now.
+>>
+>> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
+> 
+> Ideally we'll get a QC ack on those as well.
+> 
+> Jonathan
+>>  .../dt-bindings/iio/qcom,spmi-adc7-pmr735b.h  |  30 --
+>>  .../dt-bindings/iio/qcom,spmi-adc7-smb139x.h  |  19 --
 
-Now it's getting butter, but you can give a bit more details, too.
-e.g. mention about the workarounds and the extra code that are added
-for this model, and explain why they are needed and how they work.
+Those are being moved to dts/qcom:
 
-> +/*
-> + * Enable CLK/ADC to start recording.
-> + */
-> +static const struct hda_verb cm9825_gene_twl7_d0_verbs[] = {
-> +	{0x34, AC_VERB_SET_EAPD_BTLENABLE, 0x02},
-> +	{0x43, CM9825_VERB_SET_SNR, 0x38},
-> +	{0x43, CM9825_VERB_SET_PLL, 0x00},
-> +	{0x43, CM9825_VERB_SET_ADCL, 0xcf},
-> +	{0x43, CM9825_VERB_SET_DACL, 0xaa},
-> +	{0x43, CM9825_VERB_SET_MBIAS, 0x1c},
-> +	{0x43, CM9825_VERB_SET_VNEG, 0x56},
-> +	{0x43, CM9825_VERB_SET_D2S, 0x62},
-> +	{0x43, CM9825_VERB_SET_DACTRL, 0x00},
-> +	{0x43, CM9825_VERB_SET_PDNEG, 0x0c},
-> +	{0x43, CM9825_VERB_SET_CDALR, 0xf4},
-> +	{0x43, CM9825_VERB_SET_OTP, 0xcd},
-> +	{0x43, CM9825_VERB_SET_MTCBA, 0x61},
-> +	{0x43, CM9825_VERB_SET_OCP, 0x33},
-> +	{0x43, CM9825_VERB_SET_GAD, 0x07},
-> +	{0x43, CM9825_VERB_SET_TMOD, 0x26},
-> +	{0x43, CM9825_VERB_SET_HPF_1, 0x40},
-> +	{0x43, CM9825_VERB_SET_HPF_2, 0x40},
-> +	{0x40, AC_VERB_SET_CONNECT_SEL, 0x00},
-> +	{0x3d, AC_VERB_SET_CONNECT_SEL, 0x01},
+https://lore.kernel.org/linux-arm-msm/20251127133903.208760-1-jishnu.prakash@oss.qualcomm.com/
 
-What do these connections do?  IOW, why it wouldn't work without those
-explicit setups?
+and will hopefully be in use later in this cycle.
 
-> +
-> +static bool cm9825_jd_cap(struct hda_codec *codec, hda_nid_t pin_id)
-> +{
-> +	int cap;
-> +
-> +	cap =
-> +	    snd_hdac_read_parm(&codec->core, pin_id,
-> +			       AC_PAR_PIN_CAP) & AC_PINCAP_PRES_DETECT;
-> +
-> +	codec_dbg(codec, "%s, cap 0x%X, line%d\n", __func__, cap, __LINE__);
-> +
-> +	return (bool)cap;
-> +}
+Krzysztof and the submitter agreed on that outcome since they represent
+hw constants and aren't "real" bindings (connecting sw to sw)
 
-I guess you can use the existing is_jack_detectable() function.
-It covers more tests.
-
-And, instead of bool, you can keep the pin id in jd_cap_hp, and co.
-Then, cm9825_unsol_hp_delayed() can be more simplified like:
-
-	if (cb->nid == spec->jd_cap_hp)
-		schedule_delayed_work(&spec->unsol_hp_work,
-				      msecs_to_jiffies(200));
-	else if (cb->nid == spec->jp_cap_lineout)
-		schedule_delayed_work(&spec->unsol_lineout_work,
-				      msecs_to_jiffies(200));
-	....
-
-
-> +static void cm9825_unsol_inputs_delayed(struct work_struct *work)
-> +{
-> +	struct cmi_spec *spec =
-> +	    container_of(to_delayed_work(work), struct cmi_spec,
-> +			 unsol_inputs_work);
-> +	struct hda_jack_tbl *jack;
-> +	int i;
-> +	bool input_jack_plugin;
-> +
-> +	for (i = 0; i < spec->gen.autocfg.num_inputs; i++) {
-> +		if (!spec->jd_cap_inputs[i])
-> +			continue;
-> +
-> +		input_jack_plugin =
-> +		    snd_hda_jack_detect(spec->codec,
-> +					spec->gen.autocfg.inputs[i].pin);
-> +		jack =
-> +		    snd_hda_jack_tbl_get(spec->codec,
-> +					 spec->gen.autocfg.inputs[i].pin);
-> +		if (jack) {
-> +			jack->block_report = 0;
-> +			snd_hda_jack_report_sync(spec->codec);
-> +		}
-> +
-> +		codec_dbg(spec->codec,
-> +			  "%s, input_jack_plugin %d, linein_pin 0x%X, line%d\n",
-> +			  __func__, (int)input_jack_plugin,
-> +			  spec->gen.autocfg.inputs[i].pin, __LINE__);
-> +	}
-
-This code pattern
-
-	jack_plugin = snd_hda_jack_detect(codec, pin);
-	jack = snd_hda_jack_tbl_get(codec, pin);
-	if (jack) {
-		jack->block_report = 0;
-		snd_hda_jack_report_sync(codec);
-	}
-	codec_dbug(codec, ....);
-	
-is used in multiple places in your patch, so it can be a common
-function.
-
-> @@ -242,13 +504,15 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
->  {
->  	struct cmi_spec *spec;
->  	struct auto_pin_cfg *cfg;
-> -	int err;
-> +	int err = 0;
->  
->  	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
->  	if (spec == NULL)
->  		return -ENOMEM;
->  
-> -	INIT_DELAYED_WORK(&spec->unsol_hp_work, cm9825_unsol_hp_delayed);
-> +	codec_dbg(codec, "chip_name: %s, ssid: 0x%X\n",
-> +		  codec->core.chip_name, codec->core.subsystem_id);
-> +
->  	codec->spec = spec;
->  	spec->codec = codec;
->  	cfg = &spec->gen.autocfg;
-> @@ -258,6 +522,36 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
->  	spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
->  	spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
->  
-> +	switch (codec->core.subsystem_id) {
-> +	case QUIRK_CM_STD:
-> +		snd_hda_codec_set_name(codec, "CM9825 STD");
-> +		INIT_DELAYED_WORK(&spec->unsol_hp_work,
-> +				  cm9825_unsol_hp_delayed);
-> +		spec->chip_d0_verbs = cm9825_std_d0_verbs;
-> +		spec->chip_d3_verbs = cm9825_std_d3_verbs;
-> +		spec->chip_hp_present_verbs = cm9825_hp_present_verbs;
-> +		spec->chip_hp_remove_verbs = cm9825_hp_remove_verbs;
-> +		break;
-> +	case QUIRK_GENE_TWL7_SSID:
-> +		snd_hda_codec_set_name(codec, "CM9825 GENE_TWL7");
-> +		INIT_DELAYED_WORK(&spec->unsol_inputs_work,
-> +				  cm9825_unsol_inputs_delayed);
-> +		INIT_DELAYED_WORK(&spec->unsol_lineout_work,
-> +				  cm9825_unsol_lineout_delayed);
-
-Basically all those delayed works can be initialized unconditionally.
-It's safer than leaving as uninitialized.
-
-
-thanks,
-
-Takashi
-
+Konrad 
