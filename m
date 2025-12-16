@@ -1,52 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A953191C9;
-	Tue, 16 Dec 2025 16:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D905319603
+	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 16:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765903580; cv=none; b=l6qyPVozutX6mp8PiC5VSV0llItB9Wbd1zLOcV+hwgmewwVxR8toylCgD7C+mhUpeN9Ht4qmQfqFdtW6n/qFTwzVr3Ry3dBXb4MShKvlcR4iQ5dfdVKczI17kB7+6bX3YAAso+KP8JiJupodCGDG7IGA0OTjKMjdxpqGsIKKv28=
+	t=1765903582; cv=none; b=ctVdJuAIFWAgepkfwup3KqN/QM1pYtNtP0HIEUZJEVOAOzPF0bCrca6qk6zd3PIqmb9qYdDmMoCVOHsUGl1xdL91T7ARSEYvBAO6UIalC4c1IEdwhix1iO+Yqj8STDi56K1X5gEgy5n3XNq6wv+0CyfdM7imN1ALlVS6QHOXNcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765903580; c=relaxed/simple;
-	bh=fdsOlCqDmuoC8xqnbQE/ACVjDKZxdyqPXG0FiRF1xhk=;
+	s=arc-20240116; t=1765903582; c=relaxed/simple;
+	bh=5etvbCEWYU5Tja5CRZn/LqcqgHhpp29+i2SDawd2RQs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PKOgY26b25yyFOdOn2BuHAp0ZcIGgVS4cNWD+S13SHAOwhNO+f/4dbgbCscfpB3AJ6ozjGjrJ4TXohuAzKif8w2CeLMW9eTMZOpHrNU86TBifuT0qTOrlQu/UdfFpgFoSjVOXtDZEqfvwSIkn2fknecFf6psXRsrAfbTybjJkp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opuDQwUP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=V16HjjjsJOCFUxZHKSkDM8QLqB8gGOrYEufw2g81wZJ/dEBHl6JWKNkXWNwxgxBe9fnQl17DEETdtgtFlGeEvuOIlz9fT8oZUh5iQ2MXg9iCF7CvvURWyINKnnvMTWUnPPXWX9b0DycKTtHtqqZAI3tBoKR2ILE9big9zYVZjf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTkipWtB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opuDQwUP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352C2C4CEFB;
-	Tue, 16 Dec 2025 16:46:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTkipWtB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EACDC4CEF1;
+	Tue, 16 Dec 2025 16:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765903580;
-	bh=fdsOlCqDmuoC8xqnbQE/ACVjDKZxdyqPXG0FiRF1xhk=;
+	s=k20201202; t=1765903582;
+	bh=5etvbCEWYU5Tja5CRZn/LqcqgHhpp29+i2SDawd2RQs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=opuDQwUPFOReBmmQ1y8Ih+R1Cvmv+iSgrCE5VcjSJrUr5X3ldKe9arMmZK4VtzQxV
-	 ozjHU5Czv9rNh7QWzL5iC2US7DxP1livhjpkszoD05ubGpWgTNS6GsdK21KeMIDV3+
-	 37v+K9ncDsLleInfqHVKKFSBR9jwhtIXZFwKGduFkQyccrxZR9FuG5Ufm1y9FPhBE7
-	 v0fOmFrLoSWfvCCbpm8PdTa/7+SDvVOiaUaqffoSEZaVL47hubZ7V14VTjdy/7bAgv
-	 KubiqdM9HdaWT4XUFJ8Q90PtQYWeXyPk7/goD6BuUG7/L3MWWA7GtJg2iRYQL54P7k
-	 DW5NxOucjBLMA==
+	b=gTkipWtB9XMw69Di2/Ienw7XP1FkNJrl4h8h9wdA8fcXjlf6JPkhaDDpsfs1B8UxN
+	 T4uDrrrgw5NVg9MFFGl74LXnTvcrKgnt2dgvVvXaf2HJE2xmJmeH7W6NvJxe8jKWVI
+	 WGh2hy7BeDa/wm2RZN+NAdQvkiVzmvMDhSXDuGSPPa4zPNdGx5dPo1apF8Nxolh/jx
+	 OaHrJ6evTAkk08lZTlAAJG3jhX2s/eNQa9NFZioDgRZAIOcvqIC3sDxlVN7GpfsB5b
+	 +GYAuey9CdVEE8Gz4yTz2JikNneb42nSkzgustTT3YZfOvW63CEsKtCT7cOnL+smhV
+	 bB0Yg8tPY+wcQ==
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Daniel Baluta <daniel.baluta@nxp.com>
-In-Reply-To: <20251212181742.3944789-1-andriy.shevchenko@linux.intel.com>
-References: <20251212181742.3944789-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 1/1] ASoC: Fix acronym for Intel Gemini Lake
-Message-Id: <176590357497.182908.10897215642693418711.b4-ty@kernel.org>
-Date: Tue, 16 Dec 2025 16:46:14 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+In-Reply-To: <20251215130723.31081-1-peter.ujfalusi@linux.intel.com>
+References: <20251215130723.31081-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: set playback channel mask
+Message-Id: <176590357929.182908.3067426984878766179.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 16:46:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,13 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 12 Dec 2025 19:16:20 +0100, Andy Shevchenko wrote:
-> While the used GML is consistent with the pattern for other Intel * Lake
-> SoCs, the de facto use is GLK. Update the acronym and users accordingly.
-> 
-> Note, a handful of the drivers for Gemini Lake in the Linux kernel use
-> GLK already (LPC, MEI, pin control, SDHCI, ...) and even some in ASoC.
-> The only ones in this patch used the inconsistent one.
+On Mon, 15 Dec 2025 15:07:23 +0200, Peter Ujfalusi wrote:
+> Currently, we send all channels to all amps and copy the channel_mask
+> to all ALH DMAs in playback. However, the amp may not have the
+> capability to run any process and SOF may need to split the channels
+> and send specific data channel to each amp. In that case, we need
+> to split the channel_mask in ALH DMA.
+> Copy the channel mask only if the widget channel count is the same
+> the FE channels for playback, otherwise, split the channels among the
+> aggregated DAIs. Like what we did in capture.
 > 
 > [...]
 
@@ -73,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Fix acronym for Intel Gemini Lake
-      commit: a1bcb66209a745c9ca18deae9f1c207b009dee1c
+[1/1] ASoC: SOF: ipc4-topology: set playback channel mask
+      commit: da230e232352750a80c8fc883eac1c87c8849027
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
