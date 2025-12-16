@@ -1,101 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F300279DAE
-	for <linux-sound@vger.kernel.org>; Tue, 16 Dec 2025 19:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188A2673B0;
+	Tue, 16 Dec 2025 21:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765914919; cv=none; b=KyUHV/tctZDuj2PbLd49RUnyQ1K0m9rnTBeU5jSkfdWwzlBOJlRgoNNueMQvSe1AyFQx+f2Wy41SjaQbuJJpm0obvf+Pqdq63vztY1KWXKISdTSvWcOXlQfELc/yD5q7von6FwhDMwL4rr29XOdka7F6/tunitnjK6aAo5UXgYE=
+	t=1765920169; cv=none; b=DWDuefPz5hjYCLv+QH63uQcRxvi5bSYDaNqk90ETh4Tnawm2Kb0YvQ71k8p1jeQrQmAXCFVxgE3qatXxgQZyTTk909d9sTsq3FL/dLpfb9VVxsQKuknfivkllkF0WPNssxCm7iqDIT3M0DyL4D/YAQsKzT6k8PcCd+i6A/CoisM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765914919; c=relaxed/simple;
-	bh=ygHrWzRVINoS86YdYNtnj7uyaOkyD2Z7pbl8R/eHejE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HnNqKzbW+pxmy/KDUHaC5CJ6Y/UivClPmlXjxlWGwOuod3Srp2eSdIaiIaMoOHQL6BYR9purjdPZUcDmsAZhCaNcmsT5HhQVV1ZOUfJtB7qcdvB+6K73bHzJDrqUeuCSx3QD4YI/7kkH/erVWSO3D+AnxB03qXnh/atLyV6KHa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0pvxdi1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765920169; c=relaxed/simple;
+	bh=RBYGtTm3amflln63YEHsVFZVFwxxfexl+z8dJiDry1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pZ3V09DhLgapkOC0PeVfeM8KPziJXuUi3g29ngIJFpfBlzGmrgyZxY9Fb329bA/s5TnsSwpcsR6BAaUSC9s1JfnYdx5R7e7L0wXmPRZ3FJay+5KYUItprbiuuwDTBemFPajiIx2EXWVYgS3rdazkvAqCmQmNptd2LDg5omC5orw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=BLFBzMbk; arc=none smtp.client-ip=78.46.171.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0pvxdi1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A58C4CEF1;
-	Tue, 16 Dec 2025 19:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765914918;
-	bh=ygHrWzRVINoS86YdYNtnj7uyaOkyD2Z7pbl8R/eHejE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=B0pvxdi1eorXTDlPKVupjbv2rOEBrOAKr+83RtVxcYmGmgqL6Bkq2WkKbycjqWprP
-	 NGF2MRBX7zbh89NfSR5+o//w66EU2AgYkA39MyBQUkhny55hItgq9MST2Nj8MsuRrE
-	 ZxzuhvbQ2S+LlPfCTmiurihNB8bw6wf99gSB4DCDEGr/EG9RuRaSS6RU7HfQJsfyfY
-	 7boS3jtQWX7Vn7tmH/4yR6ijLtTyxempigcYiHYjRxHC4G9mjQz22p0VXeGnU+AFZH
-	 JtcgIShJIG/AtPom0dKUq/oYKD8InYCbQos3GDhSf9DcRhreWPA9wXDXmvtQDCO1fh
-	 iNKYKHzM0EsHg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-In-Reply-To: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
-References: <20251215132946.2155-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/8] ASoC: SOF: Support for on-demand DSP boot
-Message-Id: <176591491676.218242.13642755018656624745.b4-ty@kernel.org>
-Date: Tue, 16 Dec 2025 19:55:16 +0000
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="BLFBzMbk"
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+	by relay11.grserver.gr (Proxmox) with ESMTP id 495E8C685E;
+	Tue, 16 Dec 2025 23:17:18 +0200 (EET)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay11.grserver.gr (Proxmox) with ESMTPS id A0BFFC676F;
+	Tue, 16 Dec 2025 23:17:17 +0200 (EET)
+Received: from antheas-z13 (adsl-99.79.107.40.tellas.gr [79.107.40.99])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 03BED1FCE22;
+	Tue, 16 Dec 2025 23:17:15 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1765919837;
+	bh=kDVF7TchhkZbdqat7XUbOb6j5G523NDr1vtTcYKQ12I=; h=From:To:Subject;
+	b=BLFBzMbkH4u6PdgFa/BHvW6TNrD4TT0PrnyoEZ4pX0POWeRCJ29P9K9+y77t5KwCz
+	 eL0XWTXlWGadybtCYgLfjnmewwO08KC9qx6eFOASRfzY5buDk76ANR37OYTMJuznqm
+	 QxI+ruiCccklPqnozEM4n03xJNRbTh+POHg6yEMvx64F6+0wO9J14iuDj2+CfPIJFl
+	 pCGLqk4x4AZhX+IsIP7V2DfdD5mdiQPdyTRum6NI7vSf4Bc4AmNONnS9CSYT8xccGD
+	 PJ2lCBhErvrkVoUvaiTis2pPFuCN5YnKj3DWK9INYYhc6iphePDsfYmU85jQ6s8AZ1
+	 KQ3iYjBa8jUpA==
+Authentication-Results: linux3247.grserver.gr;
+	spf=pass (sender IP is 79.107.40.99) smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	matthew.schwartz@linux.dev,
+	Antheas Kapenekakis <lkml@antheas.dev>,
+	stable@kernel.org
+Subject: [PATCH v1] ALSA: hda/realtek: Add Asus quirk for TAS amplifiers
+Date: Tue, 16 Dec 2025 22:17:14 +0100
+Message-ID: <20251216211714.1116898-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <176591983714.3600275.9087171459208310693@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Mon, 15 Dec 2025 15:29:38 +0200, Peter Ujfalusi wrote:
-> On system suspend / resume we always power up the DSP and boot the
-> firmware, which is not strictly needed as right after the firmware booted
-> up we power the DSP down again on suspend and we also power it down after
-> resume after some inactivity.
-> 
-> Similarly, on jack insert/removal we needlesly boot up the firmware to check
-> the jack status, which needs no DSP/firmware communication.
-> 
-> [...]
+By default, these devices use the quirk ALC294_FIXUP_ASUS_SPK. Not
+using it causes the headphone jack to stop working. Therefore,
+introduce a new quirk ALC287_FIXUP_TXNW2781_I2C_ASUS that binds
+to the TAS amplifier while using that quirk.
 
-Applied to
+Cc: stable@kernel.org
+Fixes: 18a4895370a7 ("ALSA: hda/realtek: Add match for ASUS Xbox Ally projects")
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+---
+I was pretty busy the last few weeks. Now that the initial quirk is
+merged, we should try to get this to fixes as well to prevent this
+small regression.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+It turns out that when not using a quirk, the fallback is
+ALC294_FIXUP_ASUS_SPK and with the quirk optimized for lenovo devices
+this causes the audio jack to not work. Other than that, the previous
+quirk worked fine.
 
-Thanks!
+This was tested on both devices.
 
-[1/8] ASoC: SOF: ipc4-loader: Remove redundant rpm resume_and_get from load_library
-      commit: b8e54b447cdec234f0e0d80487af9540063d17dd
-[2/8] ASoC: SOF: control: skip rpm calls in ext_volatile_get if not implemented
-      commit: 2c77ff200f59103ecdee60c00818a43cee38a6b8
-[3/8] ASoC: SOF: Add support for on-demand DSP boot
-      commit: c3e1549811747e4b4ff7e4bba691980d9dab2d9e
-[4/8] ASoC: SOF: sof-client: Add support for on-demand DSP boot
-      commit: 2cf7a9ced3c1a999f7de8711cb2a212557fbd800
-[5/8] ASoC: SOF: Intel: hda-sdw-bpt: Add support for on-demand DSP boot
-      commit: d4e34f4ef88fc48a09b654bbe1b23c6788e7844a
-[6/8] ASoC: SOF: Intel: pci-lnl: Set on_demand_dsp_boot for LNL
-      commit: 6780fb864d5b80f20694c9141036717b23190150
-[7/8] ASoC: SOF: Intel: pci-ptl: Set on_demand_dsp_boot for PTL and WCL
-      commit: aabcb01353013d38533ba4346b6ca84bff1b96f0
-[8/8] ASoC: SOF: Intel: pci-nvl: Set on_demand_dsp_boot for NVL-S
-      commit: f25c7d709b93602ee9a08eba522808a18e1f5d56
+@Matt you might want to add a tested-by, since you were the one to test
+on Xbox Ally X.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Matt also figured out that the firmware issue on XAX is not related to
+the quirks, but to incorrect configuration loading by TAS for dual
+amplifiers, which would be a separate patch.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Thanks
+---
+ sound/hda/codecs/realtek/alc269.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 171a71457ec3..9ad8b6676910 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -3753,6 +3753,7 @@ enum {
+ 	ALC295_FIXUP_DELL_TAS2781_I2C,
+ 	ALC245_FIXUP_TAS2781_SPI_2,
+ 	ALC287_FIXUP_TXNW2781_I2C,
++	ALC287_FIXUP_TXNW2781_I2C_ASUS,
+ 	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+ 	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
+ 	ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT,
+@@ -6053,6 +6054,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+ 	},
++	[ALC287_FIXUP_TXNW2781_I2C_ASUS] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = tas2781_fixup_txnw_i2c,
++		.chained = true,
++		.chain_id = ALC294_FIXUP_ASUS_SPK,
++	},
+ 	[ALC287_FIXUP_YOGA7_14ARB7_I2C] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = yoga7_14arb7_fixup_i2c,
+@@ -6827,8 +6834,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1313, "Asus K42JZ", ALC269VB_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1314, "ASUS GA605K", ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC),
+-	SND_PCI_QUIRK(0x1043, 0x1384, "ASUS RC73XA", ALC287_FIXUP_TXNW2781_I2C),
+-	SND_PCI_QUIRK(0x1043, 0x1394, "ASUS RC73YA", ALC287_FIXUP_TXNW2781_I2C),
++	SND_PCI_QUIRK(0x1043, 0x1384, "ASUS RC73XA", ALC287_FIXUP_TXNW2781_I2C_ASUS),
++	SND_PCI_QUIRK(0x1043, 0x1394, "ASUS RC73YA", ALC287_FIXUP_TXNW2781_I2C_ASUS),
+ 	SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", ALC269VB_FIXUP_ASUS_ZENBOOK),
+ 	SND_PCI_QUIRK(0x1043, 0x1433, "ASUS GX650PY/PZ/PV/PU/PYV/PZV/PIV/PVV", ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+-- 
+2.52.0
 
-Thanks,
-Mark
 
