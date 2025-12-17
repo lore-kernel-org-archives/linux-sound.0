@@ -1,98 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D732235A93E;
-	Wed, 17 Dec 2025 13:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646F9363C56;
+	Wed, 17 Dec 2025 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765979897; cv=none; b=eAegkynpaeGY1txwSlwdkdsz9HtGuf5eqoP0avJ3qoZqzzLTSh/XdppkhpMUDP+yEH1x/+CzKjepNHKn9oAbnTqkIPUycKU9VDHYOpfnGXlulNJXjZEn4yvIyeeX74W3h/Gco0S+hbyZrQTa6L7LERheG8QEebXD6awqZvSkDl8=
+	t=1765979926; cv=none; b=URFEmBdONyUFS1hiCNd6ZZ9PJfcMUewTHWBSS/ybIKKbIg8NrLsMAvPuNR/MZavZvcecOizQfrGff39OOXkVCsbBJmaJkOSNYBjTB6VxS4P/EkPWtKP9c7I5q5GcLYRbaaZnftTO8AAlC1aBQCDASy/b7OkuqVdvXOvJDfVYlqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765979897; c=relaxed/simple;
-	bh=RLTtIHL+8ssdN0LOd4IbIYWj6sDtUvnRVhgT5giRWvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ED+c6Nq9/33gPAH2Mo30bxL3RVwgPHUofZMQ+JIFfLs7jb5w09gA2/rmqpp30+inK6j3KxR77NCN7r/9FaoZ9aNhua4FQXBjkJMdKZhc3opIp5GnVVaBQK+YobXgHM4x0MmNBfS+Proy2HWdZGKlYZ3+iAZoutxUwNi25pF/fkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVh4d34v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765979926; c=relaxed/simple;
+	bh=I3QJCJZ1ljm8J3Va4YCMB4RQa1pGsuARiW8BtPzfX3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lZqyfEDa0m8onGFkjcsDbfQM2tM6LOJsovU82C5+LEJqumt/xSQflxugLgtiafqXuEg8LAgo+SJumGoiWsejAk8XdUi9jSF9F/fP8HJTYilASiayXQRdS1F4JyszY9cvvOt7mfmnFwsSEGzB/l1ZcoqRVK1tR26teSddxv7OuJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLx1fvtP; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVh4d34v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCCBC113D0;
-	Wed, 17 Dec 2025 13:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765979896;
-	bh=RLTtIHL+8ssdN0LOd4IbIYWj6sDtUvnRVhgT5giRWvA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BVh4d34v4rcetfDxZF8EY1b6h03VGuxyXkney0hjtyTsW+mh9/l1gEM9k4l1oApmn
-	 LvdZiKzsPcR1+OBB2LWpzj6sAXEUnE3pOZ4h8g+HKgkEKbd8AJGLel9K+cSUPijW19
-	 Ia4/hzAgXhZ2/7Af3TXsMa1mapptBuk+NjN7mtquV05OkLr46c2cxKq6wXWhU7wU3u
-	 0qQYHz8jna0Vs/OurSumAhUJo9pnr5sEpbTIIfFU7R2Ga9JnOtLpFAjLK7rJXO0Zgt
-	 oTcjd+YXY2QhQUNrljDKP462RP7G2IaeQwAUGPvK2f3JGFTny5oBxm965W4YXlkUFe
-	 xhjHTlQAMG49Q==
-Date: Wed, 17 Dec 2025 13:58:09 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Kevin Lu <luminlong@139.com>,
-	linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org,
-	Emil Svendsen <emas@bang-olufsen.dk>
-Subject: Re: [PATCH 02/11] ASoC: tlv320adcx140: fix null pointer
-Message-ID: <0a1c34ae-16f2-4e03-b8e6-6a27c811a1e5@sirena.org.uk>
-References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
- <20251217-sound-soc-codecs-tvl320adcx140-v1-2-293dea149d7b@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLx1fvtP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765979923; x=1797515923;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=I3QJCJZ1ljm8J3Va4YCMB4RQa1pGsuARiW8BtPzfX3A=;
+  b=JLx1fvtPh1o734sfbFeRfetFi7pyYOE4avEkqyBb5Y+/+o60QgKt4Yo2
+   KSO5rsvBLFby0T9Qv0/DwV5giu4lK/3isv6Bz4eBMIJa+KLQkRoMnYgFv
+   TFKshyTtwia0g4glx36QevTPJKJos4lSdFjwxPO03IrU2250PUF08VNBo
+   +OcUWpN+xCD153dJTreyi++Ca7x3HhUTZ/ZtfirJjboXO0aPGbFkvlybh
+   ZBLN5wDIsjeM92vJinKMW+y1G855KU1IUFboXgLg8Rj67oNLegTieeVB3
+   875Unoq1qPI6cQTx9X8UmRv4XdXlQg0+oAwOoXa5Ff1Lb+XsDA9SdIkKQ
+   A==;
+X-CSE-ConnectionGUID: aeysSJwXSYy1DKpBVxqTbA==
+X-CSE-MsgGUID: fQf9aqloQ9aFq55s6piM9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78554889"
+X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
+   d="scan'208";a="78554889"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:58:41 -0800
+X-CSE-ConnectionGUID: NV4AbHmWTrCpDknnVrYUNw==
+X-CSE-MsgGUID: 6JAvtKVIQbq0z7654THSDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
+   d="scan'208";a="197928350"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.187]) ([10.245.246.187])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:58:37 -0800
+Message-ID: <9e0c68de-c528-47f2-94e7-ddb118d3dda2@linux.intel.com>
+Date: Wed, 17 Dec 2025 15:59:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s/+9y65xb/fH6ROY"
-Content-Disposition: inline
-In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-2-293dea149d7b@pengutronix.de>
-X-Cookie: Big book, big bore.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: soc-ops: Correct the max value for clamp in
+ soc_mixer_reg_to_ctl()
+To: Mark Brown <broonie@kernel.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, lgirdwood@gmail.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ seppo.ingalsuo@linux.intel.com, stable@vger.kernel.org, niranjan.hy@ti.com,
+ ckeepax@opensource.cirrus.com, sbinding@opensource.cirrus.com
+References: <20251217120623.16620-1-peter.ujfalusi@linux.intel.com>
+ <6e97293c-71c1-40a8-8eba-4e2feda1e6ea@sirena.org.uk>
+ <27404fce-b371-4003-b44b-a468572cf76d@linux.intel.com>
+ <af368a9e-16c0-4512-8103-2351a9163e2c@opensource.cirrus.com>
+ <56411df9-3253-439a-b8eb-75c5b0175a7a@linux.intel.com>
+ <bc6f3e66-ca9b-4ba3-bbe1-5ef31c373e6d@opensource.cirrus.com>
+ <e98a78fc-0b30-4af1-b6f5-2bc5cacc8115@linux.intel.com>
+ <9f1d5b88-e638-4b87-bee0-fc963231d20e@opensource.cirrus.com>
+ <87c2d498-60fe-4339-83c8-f6d6bc256ea7@linux.intel.com>
+ <8e2d0294-318c-4776-a02e-f6e6497852db@sirena.org.uk>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <8e2d0294-318c-4776-a02e-f6e6497852db@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---s/+9y65xb/fH6ROY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Dec 17, 2025 at 02:54:52PM +0100, Sascha Hauer wrote:
+On 17/12/2025 15:56, Mark Brown wrote:
+> On Wed, Dec 17, 2025 at 03:54:43PM +0200, Péter Ujfalusi wrote:
+> 
+>>> rf@debianbox:~/work/kernel/linux$ time ./tools/testing/kunit/kunit.py
+>>> run --alltests
+> 
+>> well, I don't have kunit test setup, so it fails, but I can build the
+> 
+> What do you mean by "kunit test setup" - that's just a self contained
+> Python script that drives everything, it has minimal Python
+> requirements.
 
-> Kernel OOPS:
-> [  438.223704] Unable to handle kernel read from unreadable memory at virtual address 0000000000000018
-> [  438.232776] Mem abort info:
-> [  438.235569]   ESR = 0x0000000096000004
-> [  438.239326]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [  438.244646]   SET = 0, FnV = 0
-> [  438.247764]   EA = 0, S1PTW = 0
-> [  438.250906]   FSC = 0x04: level 0 translation fault
+I'm holding it wrong I'm sure:
 
-Please think hard before including complete backtraces in upstream
-reports, they are very large and contain almost no useful information
-relative to their size so often obscure the relevant content in your
-message. If part of the backtrace is usefully illustrative (it often is
-for search engines if nothing else) then it's usually better to pull out
-the relevant sections.
+[15:35:21] Configuring KUnit Kernel ...
+[15:35:21] Building KUnit Kernel ...
+Populating config with:
+$ make ARCH=um O=.kunit olddefconfig
+Building with:
+$ make all compile_commands.json scripts_gdb ARCH=um O=.kunit --jobs=14
+[15:35:30] Starting KUnit Kernel (1/1)...
+[15:35:30] ============================================================
+Running tests with:
+$ .kunit/linux kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+[15:35:30] [ERROR] Test: <missing>: Could not find any KTAP output. Did any KUnit tests run?
+[15:35:30] ============================================================
+[15:35:30] Testing complete. Ran 0 tests: errors: 1
+[15:35:30] Elapsed time: 9.328s total, 0.001s configuring, 9.321s building, 0.006s running
 
---s/+9y65xb/fH6ROY
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Péter
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlCtvEACgkQJNaLcl1U
-h9Clogf9E8YzNWLUTsIMpec9hGJ5U1pdxlIZ33R0El8wCw3ujTH+Hxlgv6wuSwSt
-jf+VFkjbqo5KwbWxp6I+Kmh2IEMeTvD8sZil2KuTHwMryZrCJlQvnpDKODBA67ct
-m4qxqD6Ev4SuYMkkW2GvOChPD9ejFJWLLVWRRlrrU7XA07WfZl1kCRKtaMW8PnQ7
-ZYJM/7e94ch95aeAJQNF8CrBnbaGLPo5Eefjwk/6lQjVpImnkYQETrmMKkmaAtyI
-kjwO4mUvVvjm5lsmwYxiIuCRW87860ZO8vpqFHkIXr67NwvEIwOXSf4sxyZQZEum
-CJV9QC7nFoSqHKP3vm53GX6JRRgCWQ==
-=XMq/
------END PGP SIGNATURE-----
-
---s/+9y65xb/fH6ROY--
