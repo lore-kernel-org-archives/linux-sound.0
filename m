@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A9033D6C1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C816533E374
 	for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 13:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765979732; cv=none; b=YiUdepuy1g5WrCcQ7Q2ztcdq67aF7JXBZHWC5RSAO1u3ABZriNHSEVtPq8NeqSU+yGqMZvF+4fTTkPBgN7OAFEU4PifLwJIsnkve65eWko9GQiAXUbLyqLqS47o/x/XDmwzPn0/16aPJU9Lgx6uG+yTF7Y5QJTTNNUSyrSvTpIE=
+	t=1765979733; cv=none; b=A/XpdXL9pqdJx9m5HIQIYCxL6rYOuii0CXhgDf67TSFmF1tvxjFkAR/ylqQLLjFZ4saqDp0CwIONfRT8w7SyaAK6lpykzdfRa0bNi4qoKXFM2uqjgISsl9BfV07R4bGTQzdAQ+faneBaigQ/pvdT+qWPbS8CYxyWFlwHjs7GFFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765979732; c=relaxed/simple;
-	bh=mufaNSnxOyOJaXre14Y6jf5ZcVEkcfur+VRINOEz6V8=;
+	s=arc-20240116; t=1765979733; c=relaxed/simple;
+	bh=3q1Bb9aNUhXdLZynKuJFzoIjjRh/VZFhJ+NnPBLkf78=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ce2R3LWyNiq1Asupc3J27DSqO7+C6JEJbM/4dwF8wsHHIm2WYrhI9Aa0WSU89W/iU3LQk5qjcfvMbBOf9+m6tKygECBv25Q60r2SGLm8o76fnuC6TRWlrkb8tvOcef8T5A5DFT6v013zet9A1mWkfDgBwi7YZ5ANEjMHWGMbFdc=
+	 In-Reply-To:To:Cc; b=DcuGMh+xEmylDNnwvvEzALEiWPZHsL4/HCZlQd7CWtgX/+PxSj1o41Z/sAOQrietLR4bg/jsY9NO+L8kDvHzkrIGkpWAobKNahiNRPftfrf7IlfunlmSMNBT5wF2j49RU4Mz3TLFE/GiqSuft6jlIBTfhQmQSNpoNY8PzMqLZ+I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzW-00019G-Af; Wed, 17 Dec 2025 14:54:58 +0100
+	id 1vVrzW-00019D-Af; Wed, 17 Dec 2025 14:54:58 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzR-0067Z0-09;
+	id 1vVrzR-0067Yz-07;
 	Wed, 17 Dec 2025 14:54:53 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzQ-00000004tQv-3bQK;
+	id 1vVrzQ-00000004tQv-3aI0;
 	Wed, 17 Dec 2025 14:54:52 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Wed, 17 Dec 2025 14:54:59 +0100
-Subject: [PATCH 09/11] ASoC: tlv320adcx140: Add kcontrols for TDM Slot
- assignment
+Date: Wed, 17 Dec 2025 14:54:58 +0100
+Subject: [PATCH 08/11] ASoC: dt-bindings: clarify areg-supply documentation
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,7 +41,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-sound-soc-codecs-tvl320adcx140-v1-9-293dea149d7b@pengutronix.de>
+Message-Id: <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
 References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
 In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -57,14 +56,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Andreas Sloth <anps@bang-olufsen.dk>, 
- Andreas Pehn Sloth <anps@bang-olufsen.com>
+ Emil-Juhl <emdj@bang-olufsen.dk>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765979692; l=1243;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765979692; l=1226;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=/CKeb3D1C2I/QEaSoCCDRI6gq3lhbGRa4YCn/nWD5Kg=;
- b=+zTgmoquauS/t8FniXCXoxFBGV0jP1HkA+mYqbRY7+xWQfr8qlFceMARyv44s6YNJGZ7N/2aI
- fPJ21HKzRjdAmJmrnFTrAqTHh9sb9K4LuSEMiYoofUtKKk+tKdA3Q64
+ bh=Zi7IATji7fJN0pX28I/qZv7ioSn8CLaQD4yfaWXgIc0=;
+ b=FdPzUlucFHYTia4/7FxZ+STWp59ObsDQjnL96Yu+A9qslowjUi8wE8WawjLSG1B+rbPTsvjzO
+ woFWxO1hH/VDpjFS8snJq7tNVaTxV8YcN8FD/1cLMj9QbJyFiW+XM3/
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -72,35 +70,37 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-From: Andreas Sloth <anps@bang-olufsen.dk>
+From: Emil-Juhl <emdj@bang-olufsen.dk>
 
-Signed-off-by: Andreas Pehn Sloth <anps@bang-olufsen.com>
+The documentation for areg-supply could cause confusion mainly in terms
+of the relationship between AREG and AVDD.
+According to the datasheet[1] the AREG can be one of two cases:
+
+1) an external 1.8V supply
+2) generated by an internal regulator (hence a 1.8V output)
+
+[1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- sound/soc/codecs/tlv320adcx140.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index a7200e149e5f40ddd61e3c0455b796c81f55e2e8..a835074d9a7898466c6854f0c0e8ab687a99c57a 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -708,6 +708,16 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
- 			0, 0xff, 0, dig_vol_tlv),
- 	SOC_SINGLE_TLV("Digital CH8 Out Volume", ADCX140_CH8_CFG2,
- 			0, 0xff, 0, dig_vol_tlv),
-+
-+	SOC_SINGLE("CH1_ASI_Slot", ADCX140_ASI_CH1, 0, 0x3f, 0),
-+	SOC_SINGLE("CH2_ASI_Slot", ADCX140_ASI_CH2,	0, 0x3f, 0),
-+	SOC_SINGLE("CH3_ASI_Slot", ADCX140_ASI_CH3,	0, 0x3f, 0),
-+	SOC_SINGLE("CH4_ASI_Slot", ADCX140_ASI_CH4,	0, 0x3f, 0),
-+	SOC_SINGLE("CH5_ASI_Slot", ADCX140_ASI_CH5,	0, 0x3f, 0),
-+	SOC_SINGLE("CH6_ASI_Slot", ADCX140_ASI_CH6,	0, 0x3f, 0),
-+	SOC_SINGLE("CH7_ASI_Slot", ADCX140_ASI_CH7,	0, 0x3f, 0),
-+	SOC_SINGLE("CH8_ASI_Slot", ADCX140_ASI_CH8,	0, 0x3f, 0),
-+
- 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
- };
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+index 0f043a51f1822f4d39214438818e3bc84d3e8681..0c550c04f5ef239f403bea668ffd8c6051d86821 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+@@ -41,8 +41,8 @@ properties:
  
+   areg-supply:
+     description: |
+-      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
+-      is enabled.
++      External supply of 1.8V. If not defined then the internal regulator is
++      enabled instead.
+ 
+   avdd-supply:
+     description: |
 
 -- 
 2.47.3
