@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85FC347FD0;
-	Wed, 17 Dec 2025 13:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CE735E549;
+	Wed, 17 Dec 2025 13:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765976471; cv=none; b=SOROhLq4qM1nq5T6lH4NUcbu715c9+bSTE7uFTUFl3Jm1s07xQhN/sgirAnO1hAmZ7HfkopRK/MS0H/5ylIj7IO6w3gP4ailAEtQ6hxoX2g8WJyEiEBA8Jcigtx0iMgIj4MEw3c+XA3iuV85gPMdV/aW/7emaZ6YH0WE29bDVww=
+	t=1765977203; cv=none; b=AMzDSh+h10A94U/fRQLQNS5Z8OR9ulofvYLbbV08x9J5dfYZDYwkH066NJ4/L9ZyyIut1FbY9HThEqOugrj+2ZVsYg5SYe1KHnVtVbx+Syc9U1ty0k/mQX8RslfHnEwPJsfpHhcLgq9eJrOlAhhNlVF8xNdWhI0adDp8PwLLrvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765976471; c=relaxed/simple;
-	bh=cjgn/BA7Ju+Q5Ubk2VcZLOA1TllX33llG7QDDvCmOpk=;
+	s=arc-20240116; t=1765977203; c=relaxed/simple;
+	bh=tSv6Of/KX32L/VhoylIdl3hqC7tOsk3YVZYTTyUICyM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FyLqVQe9TV3ZUhu//NcY5yK1UNK2CCCDiPlPf8lGMghcM44QM9ifPrfvn3bJvCYJzUvWhISiunuy8qm5RJ37Uk0wPHGeiWRG4BcNH3v6+mmRC3fsBZsQoIXdV2ISlNc2HOBOKtPggJIcdggvbifCPRuiVltp+ZXIqZY4gralz0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzLzVrl3; arc=none smtp.client-ip=198.175.65.15
+	 In-Reply-To:Content-Type; b=YZEg68muWIyFETk9L8E3KggkGYF6LZ5mDMcCojJ7xdFEp2tlWiU3fZf7vbC2zg6rnfANCETr+TPrR6czfA1pNTMD//ov4R2pr7YrgMpKvw6DpZewKpYCLTlQh6zomKHq60X9MNLNlevU+c6hFx+8Oz2rdPfRoAx8HAMxpQFsdlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UVuOBzWs; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzLzVrl3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVuOBzWs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765976469; x=1797512469;
+  t=1765977202; x=1797513202;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=cjgn/BA7Ju+Q5Ubk2VcZLOA1TllX33llG7QDDvCmOpk=;
-  b=gzLzVrl3PGCzwPuxHh6gZnZIP4r0/iJ86SVDdMJOBbJtPYFv7nFWnPiu
-   4LnZjga9hz3Sl3vmonnTm7WZ/GC7IoU3Y6SCXPxKEaBdRXTIhe79yxVnK
-   uxTjRfWYPQbLsMftSsognXrBy6kSbcoQA64B8yBJMNYxoutihUTyQ2/u1
-   Aevda4GjaBwbfX8eVfn+CXRk+VIz0efMnClAnM05kYI4lm7dzPfuGKI6b
-   KOMB07m17Rh0T3PXZELMJEJw2MPsBUmOvUoAzcQiiN5Q41xi14HbqGedF
-   kCPL6v+mKUxnuieF5+IRciwXgS30w0IlnB2gM6qAEMuhXO9Ty5giaVQEJ
-   w==;
-X-CSE-ConnectionGUID: z3zd+t8sSyCCVUomcrY92w==
-X-CSE-MsgGUID: Fn+UdWAmSJKvAXog1zQyvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="71542632"
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="71542632"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:01:09 -0800
-X-CSE-ConnectionGUID: eZp8HpbIS1ev7ELvRXINPw==
-X-CSE-MsgGUID: wv4Qa3EzQka36zqqvPnrEA==
+  bh=tSv6Of/KX32L/VhoylIdl3hqC7tOsk3YVZYTTyUICyM=;
+  b=UVuOBzWsDHIlsQkmO/omO3YwQ/yQcofKUuv5DVSAfsbsi3y4oTEd+CF/
+   eoaazDxdhe7/Dc/hE7Tu249j5mr2zvh48UnQIlvqSYrTwKQ0iUKRu0H6O
+   3M79VdOORtQIAE0oJgrGXL8x/K5/JzW07j2gHpgtrygoXLehh6qAKJW9S
+   7wir3e45VP5/uAH1c5JKeF2v6sohRc5GVRQOlN0NUW0N5Hk7RGOhPgVpt
+   1ttyvp5U3ZGvbU4CAJ9HcWzAD5WBulJFwbwl+NENI6MmbMWmrnuyIMxan
+   LtUNnf72DYj/vb1GgUu3318HLd4RPSG73KliHzl3GzIEICrhKynm3Dp0G
+   Q==;
+X-CSE-ConnectionGUID: dbFb+ZQ2QfGYYkXNQbM9CQ==
+X-CSE-MsgGUID: hQHMpXkEQmmSB+g1KNQOHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67852087"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="67852087"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:13:21 -0800
+X-CSE-ConnectionGUID: +ECf8BSTQKa6TzA8bA3nTg==
+X-CSE-MsgGUID: NsJMt7khRAi+39CkRwks1g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="202677818"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.187]) ([10.245.246.187])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:01:06 -0800
-Message-ID: <e98a78fc-0b30-4af1-b6f5-2bc5cacc8115@linux.intel.com>
-Date: Wed, 17 Dec 2025 15:01:32 +0200
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 05:13:19 -0800
+Message-ID: <a7038077-2dfd-4a14-b38f-09a5ed3713be@linux.intel.com>
+Date: Wed, 17 Dec 2025 15:13:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,43 +52,85 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] ASoC: soc-ops: Correct the max value for clamp in
  soc_mixer_reg_to_ctl()
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
  kai.vehmanen@linux.intel.com, seppo.ingalsuo@linux.intel.com,
- stable@vger.kernel.org, niranjan.hy@ti.com, ckeepax@opensource.cirrus.com,
- sbinding@opensource.cirrus.com
+ stable@vger.kernel.org, niranjan.hy@ti.com
 References: <20251217120623.16620-1-peter.ujfalusi@linux.intel.com>
- <6e97293c-71c1-40a8-8eba-4e2feda1e6ea@sirena.org.uk>
- <27404fce-b371-4003-b44b-a468572cf76d@linux.intel.com>
- <af368a9e-16c0-4512-8103-2351a9163e2c@opensource.cirrus.com>
- <56411df9-3253-439a-b8eb-75c5b0175a7a@linux.intel.com>
- <bc6f3e66-ca9b-4ba3-bbe1-5ef31c373e6d@opensource.cirrus.com>
+ <aUKmcpUzUac5Dmfq@opensource.cirrus.com>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
 Content-Language: en-US
-In-Reply-To: <bc6f3e66-ca9b-4ba3-bbe1-5ef31c373e6d@opensource.cirrus.com>
+In-Reply-To: <aUKmcpUzUac5Dmfq@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 17/12/2025 14:40, Richard Fitzgerald wrote:
+On 17/12/2025 14:47, Charles Keepax wrote:
+> On Wed, Dec 17, 2025 at 02:06:23PM +0200, Peter Ujfalusi wrote:
+>>  sound/soc/soc-ops.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> It passes my manual tests on cs42l43, not sure how to run the unit-test
->> for SX, can you by chance test this?
->>
-> The easiest option is to run them from your kernel build tree like this:
+>> diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+>> index ce86978c158d..6a18c56a9746 100644
+>> --- a/sound/soc/soc-ops.c
+>> +++ b/sound/soc/soc-ops.c
+>> @@ -148,7 +148,7 @@ static int soc_mixer_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_v
+>>  	if (mc->sign_bit)
+>>  		val = sign_extend32(val, mc->sign_bit);
+>>  
+>> -	val = clamp(val, mc->min, mc->max);
+>> +	val = clamp(val, mc->min, mc->min + max);
+> 
+> This won't work, for an SX control it is perfectly valid for
+> the value read from the register to be smaller than the minimum
+> value specified in the control.
 
-It is in my to-do list to get kunit working on my setups (Artix Linux on
-dev and DUTs), so it is really something that will take rest of the year
-easily ;)
+Hrm, so an SX control returns sort of rand() and the value have no
+correlation to min or max?
+
+The info() gives this explanation:
+SX TLV controls have a range that represents both positive and negative
+values either side of zero but without a sign bit. min is the minimum
+register value, max is the number of steps.
+
+which kind of makes some sense, but really fuzzy.
+> The minimum value gives the register value that equates to the
+> smallest possible control value.
+
+right, so min is min, OK
+
+> From there the values increase
+> but the register field can overflow and end up lower than the
+> min.
+
+smaller value than min is then bigger than min, right?
+The value can wrap at any random value to 0 and continue from 0 up to
+some value, which is the max?
+max (which is the number of steps) = vrap_point-min + some_value (where
+the value is likely less than min, but not specified)
+
+How this is in practice for the cs42l43' Headphone Digital Volume?
+SOC_DOUBLE_SX_TLV("Headphone Digital Volume", CS42L43_HPPATHVOL,
+	  CS42L43_AMP3_PATH_VOL_SHIFT, CS42L43_AMP4_PATH_VOL_SHIFT,
+	  0x11B, 229, cs42l43_headphone_tlv),
+
+min=283
+max=229
+shifts: 0 and 16
+masks are 0x1ff
+
+if you step 229 from 283 then you reach 0x1ff, this is the max the mask
+can cover.
+
+> I often think of it in terms of a 2's compliement number
+> with an implicit sign bit.
+
+I see, but why???
 
 > 
-> make mrproper
-> ./tools/testing/kunit/kunit.py run --kunitconfig=tools/testing/kunit/
-> configs/all_tests.config
-
-> 
+> Thanks,
+> Charles
 
 -- 
 Péter
