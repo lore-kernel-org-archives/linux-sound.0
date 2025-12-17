@@ -1,97 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7419E1D5CF2;
-	Wed, 17 Dec 2025 14:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AC9387B2D;
+	Wed, 17 Dec 2025 14:29:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765981369; cv=none; b=tJKbi3Lpd0bfL1C8R4b+Qxki1iKfKlJUCz2k7SPXpN2miPCojaYY8PgXxIg7UTrqxp48E5PDusk02qNEQ4DWK4ic2OoYosfLm9hIeou9IwaX6+Iht4hpHHA+oZW23CSk1/CEvqLXUYEae/7rdxwKwVAJQKLqgXQ7PAj/JZnp9o4=
+	t=1765981783; cv=none; b=I2DU4Q7Un1mM5cLoscSY3u7H2HlzwNoMFPaiq7edwekI8R3ckZgoqybpqZ8l+IzfVqO4fZ+ZIGVPMj0C56pNv3oyqIeBGed0ezVRJMi8IUdnaRxANNBSexAws1828AII6Aiu00Qjlc+jLZSy27z79bU3PpPQqBfRVBkz6Or7BLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765981369; c=relaxed/simple;
-	bh=KB+55qmFD4iUy4V1fCdeZyJ9JuaxVKBZl1f8SKw0+eU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiV/Bo/k7FB6/4EKck++s8U7dfUs8/p1bpE3jBxM/B/1Fr3Qd0Y9gGUh6MXaAGCINPGYNUIwC3Uw4L7GkZ0OjgRKh0960pBRamT9hDnNpuCADj9KSgcWPa7xxCrLX8msKAFgtyN4HNdd3ATQAxhRPMPJ0rZdL8qUJRA4A0BSov4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VM+YPxs/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765981783; c=relaxed/simple;
+	bh=+b0zbJKTVU4wL/is9T0X2/DEKt1H+pdpd6OhWTz/zxA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZvF8+cEOm7e6msPTHdyXxr08LLaC3YlcjcZ/YTRhq83/Z52oaVoCcePSn9Mpa8unsMUKktW3F67yiVH0WnABwQ9K7rtKJHUghgGEhAfYgKfxTgDUEnQ8JaCtMX86fpRrkuwd3btUOj8+BEFD3E1NZSomQn1IApHgveU/X6oaALM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DDDQlNSN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VM+YPxs/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAC3CC116B1;
-	Wed, 17 Dec 2025 14:22:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DDDQlNSN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A0EC113D0;
+	Wed, 17 Dec 2025 14:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765981365;
-	bh=KB+55qmFD4iUy4V1fCdeZyJ9JuaxVKBZl1f8SKw0+eU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VM+YPxs/uwyN5p3c4+aiScotCfMfow/4EuhDQbz+PaEBc007rKul+puKbqSHZUdqH
-	 IqPeZtlZY8uy/T1Y/mDIrquFAcFHaIjVGuBJbLyO0MQ7NOvRjUX+6+8JBQw3XX6BuO
-	 i8jx2pP7aB7U+UfBZTQh/xy1zRrK2Q4PIs86XevJvJ9t+hF8+y6BFAF9DgSxdFIwjl
-	 xFRc0GyaAz2EwaBsxSYr31xi894t/OeY1w4J/RKBiZA61cJmaGab0t0OjBEs8X5l8e
-	 XTxMvO3yCr0Mm1z6YRIyFgZWJqJTO+5tf8Hu3mZd1z2/MY+xzCwRhgkNp2QdJNAh02
-	 HaEuEMOj2R2FQ==
-Date: Wed, 17 Dec 2025 14:22:41 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
-	seppo.ingalsuo@linux.intel.com, stable@vger.kernel.org,
-	niranjan.hy@ti.com, ckeepax@opensource.cirrus.com,
-	sbinding@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: soc-ops: Correct the max value for clamp in
- soc_mixer_reg_to_ctl()
-Message-ID: <002df03b-18c4-450f-bb18-40f6ad246514@sirena.org.uk>
-References: <af368a9e-16c0-4512-8103-2351a9163e2c@opensource.cirrus.com>
- <56411df9-3253-439a-b8eb-75c5b0175a7a@linux.intel.com>
- <bc6f3e66-ca9b-4ba3-bbe1-5ef31c373e6d@opensource.cirrus.com>
- <e98a78fc-0b30-4af1-b6f5-2bc5cacc8115@linux.intel.com>
- <9f1d5b88-e638-4b87-bee0-fc963231d20e@opensource.cirrus.com>
- <87c2d498-60fe-4339-83c8-f6d6bc256ea7@linux.intel.com>
- <8e2d0294-318c-4776-a02e-f6e6497852db@sirena.org.uk>
- <9e0c68de-c528-47f2-94e7-ddb118d3dda2@linux.intel.com>
- <ccc3f3c6-c99d-4e78-9296-f49898894c61@sirena.org.uk>
- <e513fe97-a0b2-4d96-9987-07b41a2891a7@linux.intel.com>
+	s=k20201202; t=1765981782;
+	bh=+b0zbJKTVU4wL/is9T0X2/DEKt1H+pdpd6OhWTz/zxA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DDDQlNSNF5zWuVlnA7eFaMQ1RKkvhaA2oWaALIHE/PWDxcneheF3r4+Whi4PXsNox
+	 JJ/dPH/0b9lFhgnGs4wy16aJzDx5GCZSsFSjwshqf8CI0Yj6FBm9MSrvhO3rD4/8Dv
+	 PYX8IahI/r/APf/9G7KzfrL+oG01q77SG33A4Y0eBnQ7PSwm2VyWHG4hKvB/RVMuCN
+	 2fgP0Q7r+gEseS8xsMOYMPgZRvyWgi7SHPx2QkBFVWCZ0PNC6fl5tWdP0ZFmt4Vnfj
+	 nB87gAxPIr1s3mNkwUTmsVaIVBjDGkrOll3szWpiWpL55oaQax4Hdlrsgub/Pd5bYD
+	 78+4Gc18T2wuw==
+Message-ID: <ebbe7852-6f1d-4bfe-995d-5d6d668e9961@kernel.org>
+Date: Wed, 17 Dec 2025 15:29:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EjSetY0rl15ikZdM"
-Content-Disposition: inline
-In-Reply-To: <e513fe97-a0b2-4d96-9987-07b41a2891a7@linux.intel.com>
-X-Cookie: Big book, big bore.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/11] ASoC: dt-bindings: add avdd and iovdd supply
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev,
+ devicetree@vger.kernel.org
+References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
+ <20251217-sound-soc-codecs-tvl320adcx140-v1-7-293dea149d7b@pengutronix.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-7-293dea149d7b@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 17/12/2025 14:54, Sascha Hauer wrote:
+> Add bindings for the avdd-supply and iovdd-supply which are named after
+> the corresponding pins on the tlv320adcx140 chips.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+> index 876fa97bfbcdd3b9450aa6ff57de42f1faed350d..0f043a51f1822f4d39214438818e3bc84d3e8681 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+> @@ -44,6 +44,16 @@ properties:
+>        Regulator with AVDD at 3.3V.  If not defined then the internal regulator
+>        is enabled.
+>  
+> +  avdd-supply:
+> +    description: |
+> +      Provide a handle to the regulator supplying AVDD. If not provided, a dummy
+> +      regulator will be used.
 
---EjSetY0rl15ikZdM
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Drop description, you did not say anything useful. Core already tells
+this is phandle, "AVDD" duplicates property name and Linux kernel
+behavior is here irrelevant.
 
-On Wed, Dec 17, 2025 at 04:19:31PM +0200, P=E9ter Ujfalusi wrote:
-> On 17/12/2025 16:00, Mark Brown wrote:
+If BSD does not create a dummy regulator, does this mean binding is wrong?
 
-> > What did you actually run there?  Did you somehow have an existing
-> > .config that it was picking up with everything turned off?
-> git clean -xdf
-> make mrproper
+The bigger problem is that you are duplicating AVDD already described
+under name areg. At least that's my impression and commit msg idd not
+clarify anything here.
 
-> ./tools/testing/kunit/kunit.py run --alltests
-
-Interesting, that works happily for me.  You might try running in qemu
-by specifying --arch I guess, but generally I'd report that to the kunit
-people.
-
---EjSetY0rl15ikZdM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlCvLAACgkQJNaLcl1U
-h9D3cgf+M2csv/fcxg3yI1Wg8MP7R+bfq/CL4X4UBtPHTNnmxBT9PQjrfmc/BFbF
-eHnkVlUQggymyJY5Cgf3FOYKIrwQbISmbDnt7+GGSghbt+7r3lcgUUnVhK+Qm3cK
-1qWyW8mBzDUtE3urnAJKOSby7KhwvP5mhpiCHFX2vnshwL4d8l7f7o0/gDwr4E+/
-7tiCsZzxtw+bPbJkda41HfPnS0M9nfBmnqerjrHq0dLpTU+Yf9U3+vVie1X8VVWw
-6HY1LBuj7nxkuz1jD8pXMDWLTStVWtbapTY393hMgGksK1oNs7+IMqfjpBMqaXR+
-vN0T+jYkPYjisnuNgnkBIAVTcQoIOQ==
-=YJ2j
------END PGP SIGNATURE-----
-
---EjSetY0rl15ikZdM--
+Best regards,
+Krzysztof
