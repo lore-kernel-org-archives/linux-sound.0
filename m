@@ -1,135 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0DD2DAFA8
-	for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 11:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B5A352955
+	for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 11:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765969494; cv=none; b=cdBLzSLUxhSr/1MPkv65b+c5eQAzc4hXg7CrWwgbmQ1ozyqxUSs8kYjYozTHPU9TavWZf8QtzvcJ/vbIZzBb8xqDEa+h0E0KCJ3FJHG8MysLAWTA5H0kSIbCQZzxnYPDSd06/zQAtoPM93tfvbysP0YUxI0CHSBS2LQr+0EBjzg=
+	t=1765971488; cv=none; b=iUu5055c3d6CgNHLxt9h9cYRqJV5Zfkkr0uVId23rTY+HDBZGMuqTTzuloqFFANWV7QElhgjsDiTVUtVRslc4Pc6VijkIMPh+Xl3WBWad7sVbM5tDTqu8zosnGPBESHqjI/oZB9JftW54QJCaR3JAgdb4oQ+PaaDMLtml8oCoPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765969494; c=relaxed/simple;
-	bh=TKsNtJ8WOW9NguFWDHZZECRMbCXdG20wPtZCVuNiJmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=abCARQTjFVr/ntWghvEVlZxBY7OUIOpQfY3PgaJX57FHbplJ5lq5GixWvONUHvA7geTnwdOgoJGTY8Ei8klCqbWaTs2S7giUlDEYRoLWsukDMPyQpY9D23iMv5DAGoRZ14vnrtCLnWolXVKg25YSBtb3F7u4yMi8xH5NUwPfJO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no2dh+r9; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765971488; c=relaxed/simple;
+	bh=fu7sMIYgUSh/v4rkjBNhREAJ1FIhusnRA78rCGY6UUI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=nYoRQ4NYi+k3gNXEvKNwTquIdZrdIOcJuFMAhRLniVblcwoee1tcMDUTsRC+XlLA8OC6cZXsC0nl3wdOQC2FP0VXT6JiBeC/xpjDuk6eUUbtUZ1n369VG0NoAIZvAto3LH/vtSuy71QktdCLXmxgpMmeV9i5zLEtNYKCjYrmQWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d+d58dUj; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no2dh+r9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765969493; x=1797505493;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TKsNtJ8WOW9NguFWDHZZECRMbCXdG20wPtZCVuNiJmQ=;
-  b=no2dh+r9FVf16uB0LZKoZ0U3lbbPjwOmHt4GOo6y9xmdJlgZqqXvlpz+
-   A/OvbQsoFGX7yjtev4LHMC+iuHB53uXVak7c/soi8ljNgKom59tcu8w6R
-   nKvvYkijBkcDWPnFaCQej+URgXCb/9s5EpMNVa29A9IY5VOwCtjfQSP74
-   XpW+biPXMgq6QPQIboxUjA/tcJE/GGrQymJcPxkGTEECst4JPCOW5J/Mi
-   2t4HqtgIERwVGRfAOR6TpwoZ0yujjvP7yr2YMntbBrsaQW3k51ZxS+PZN
-   Olu3TfdvUZ2LpxOkVrcnwtd0Fsmr4Ye83Fm0bQu5cVFm4cfq3ZmZz1fho
-   w==;
-X-CSE-ConnectionGUID: u+6bptg5RxujOVveTGXelQ==
-X-CSE-MsgGUID: kT3FoUGfSAOdWdCn63VqOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="55476847"
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="55476847"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 03:04:52 -0800
-X-CSE-ConnectionGUID: aToHa6H4RCqNUVChLmSHMw==
-X-CSE-MsgGUID: 7f9BZv2oSaav8BOzCYxLLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="198765882"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 03:04:51 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 2/2] ASoC: Intel: sof_rt5682: add tas2563 speaker amp support
-Date: Wed, 17 Dec 2025 19:04:32 +0800
-Message-ID: <20251217110433.3558136-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251217110433.3558136-1-yung-chuan.liao@linux.intel.com>
-References: <20251217110433.3558136-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d+d58dUj"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-477770019e4so52882395e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 03:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765971485; x=1766576285; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fu7sMIYgUSh/v4rkjBNhREAJ1FIhusnRA78rCGY6UUI=;
+        b=d+d58dUjx3fplfb9BR7VzEG9exatnCl8buZ5IaFR3+e7cnRsgY2Ho3S+o2XDy6scy1
+         cNbJ6rm5mrw3IMVmOXJnIronvvqL4xBYAMPABGFyYY/wIEpnYRBh4CGdpqxmpjtOP94K
+         FHg4kf0LsFFplh3h6Ppk/tpX3wGohHbdRqy9jd+RwuHZfvJTYwsb8hpJBihmnQM2dKpD
+         Mo6qik0eXc6HgkbTb7DUrTTxidlApMko6FPrs2g/5MDs3rktfFheQ76jUCH8y73/rlbi
+         88inoGEMWS0HdogzAeKqr9+dh0DzBEL9EewXDgmmrDU7TBWLpAzZ4T/8+prBNSa9M8m9
+         vBPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765971485; x=1766576285;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fu7sMIYgUSh/v4rkjBNhREAJ1FIhusnRA78rCGY6UUI=;
+        b=hNNgYwF3hutnLvEsT86CFlGMMbAhTGFBYn5XKKmaU6B0LlrT3ZvgDYr9Nf+L0hDhpr
+         ZGp7hpRxP0PR4vSMvG9QlcCLYuyXyWnwIRctPn+tgjbkgsLUTc7lTc8DnH1vGWkcPWPJ
+         gTDsfvwPSs0JHNUgLAqX3W2s8eieKPjhpyC46JfIxhvoQ4lAKhQPDFs4/Sildqy0e0vl
+         OZkpS3rFJ4R6n+AtMc1KTYHIqFFUzjKjdif1U8q35GqRlrMN1/nCglLlZaP1SdJBailI
+         2cm6rajfg9SqHgNTSORew3HRICpAI5iBDEasfZmbQ3za5GOu75kSFJN0QLsQNNJ11ohg
+         cnhQ==
+X-Gm-Message-State: AOJu0YwTe02/dpHAKyBHdP2S3MYU/kXi/xcbVYvfH8vrVctHLbK/oOfK
+	R22RD6xQro3i88TCwt0PbAjVK51v5KaoI1Fed7OKcMSUgGuMpxka1xQh9P5ig7GFgiE=
+X-Gm-Gg: AY/fxX5SZ3qaMiE5bCddJ7hSwnn7GrbytqQjX7nd584zmEjvp89lnuF5inycGBxYg33
+	ffKGG4GklLUjqjmVFEaavWGM3UGgoW9kBwF9tZWqH1ZfwMLmzKDSDwwisG2jeJIdkndxd3LX7nl
+	XIiVHx5GmNLz8jFXxngCQdk2cvkv/bTn2AmAlS1+PBx7DtmPCtKA73hNWJbxO/BCYhsprpF7yGD
+	IkLX/Ls0ln12QAtMg+6G8osnmmragiwD4FQ7rbvRMX8Me2mhb3Tiqg1uH11pg//dbrc2QL6gAxH
+	S+vaSif5vlJEem06zCx8wfwKhyJyKmfTwjHVysOxJBOpt/ty8ROPTZWN6Glri8b1fR/fQzp/bFO
+	tjsHX3VFE132vK3fg6FXTcSwePo8yEFX17Qxa51G3sp0oWG95yxUzPg5YJyyrjArkcEekrPTcP9
+	pL6mU16skHT4NLa0sM
+X-Google-Smtp-Source: AGHT+IHnX+LxQmLQiVs+ZpZFsuF5KyxBkwZoY99AYE5aZUalbfeBEMXFDIkjxf7sAdzdTezvtXYJLQ==
+X-Received: by 2002:a05:600c:a46:b0:477:58:7cf4 with SMTP id 5b1f17b1804b1-47a8f8a7d03mr182754515e9.4.1765971484924;
+        Wed, 17 Dec 2025 03:38:04 -0800 (PST)
+Received: from localhost ([2a02:c7c:5e34:8000:95b6:94a5:9a2e:e813])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bdc14b421sm33633925e9.0.2025.12.17.03.38.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Dec 2025 03:38:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 17 Dec 2025 11:38:03 +0000
+Message-Id: <DF0GN7VV4R2W.2E3U1LMOF0JPG@linaro.org>
+To: "Ravi Hothi" <ravi.hothi@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>
+Cc: <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kernel@oss.qualcomm.com>,
+ <mohammad.rafi.shaik@oss.qualcomm.com>, <ajay.nandam@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/2] ASoC: qcom: q6dsp-lpass-ports: Expand sampling
+ rate and PCM format constraints
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+X-Mailer: aerc 0.20.0
+References: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
+ <DEUL786WEYBY.3502XZKMTYTN3@linaro.org>
+ <370a9d69-1706-438a-bb36-01a22e5cf540@oss.qualcomm.com>
+In-Reply-To: <370a9d69-1706-438a-bb36-01a22e5cf540@oss.qualcomm.com>
 
-From: David Lin <david.lin@intel.com>
+On Mon Dec 15, 2025 at 7:29 AM GMT, Ravi Hothi wrote:
+>
+>
+> On 12/10/2025 7:26 PM, Alexey Klimov wrote:
+>> On Wed Dec 10, 2025 at 6:51 AM GMT, Ravi Hothi wrote:
+>>> This patch series expands the existing constraints in
+>>> the q6dsp-lpass-ports driver to improve compatibility
+>>> and flexibility for audio stream configurations.
+>>>
+>>> The first patch extends the supported sampling rates to cover a wider
+>>> range, from 8000 Hz to 192000 Hz, ensuring better compatibility with
+>>> diverse audio hardware and allowing more flexible audio stream setups.
+>>>
+>>> The second patch adds support for the 32-bit PCM format
+>>> (SNDRV_PCM_FMTBIT_S32_LE) alongside the existing 16-bit
+>>> and 24-bit formats, enabling handling of high-resolution
+>>> audio streams and improving audio quality for supported hardware.
+>>=20
+>> Is q6dsp-lpass-ports involved in compress offloaded playback on
+>> existing devices? If yes, then how is it gonna play with
+>> explicitly setting format/sampling rate to s16le/48k in sndcards drivers=
+?
+>>
+> Support for s16le/48k is already available; these patch will expand the=
+=20
+> existing constraint so that customers can use a wider range.
 
-This patch adds tas2563 which supports the RT5682 headset codec
-and TAS2563 speaker amplifier combination on PantherLake platform.
+Unfortunately, you didn't answer any of my questions or answered
+a different one.
 
-Signed-off-by: David Lin <david.lin@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/Kconfig      | 2 ++
- sound/soc/intel/boards/sof_rt5682.c | 6 ++++++
- 2 files changed, 8 insertions(+)
+Perhaps the main one: is q6dsp-lpass-ports involved in compress offloaded
+playback on existing devices?
 
-diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
-index 724064149906..c5942b5655d3 100644
---- a/sound/soc/intel/boards/Kconfig
-+++ b/sound/soc/intel/boards/Kconfig
-@@ -330,11 +330,13 @@ config SND_SOC_INTEL_SOF_RT5682_MACH
- 	select SND_SOC_RT5645
- 	select SND_SOC_RT5682_I2C
- 	select SND_SOC_RT5682S
-+	select SND_SOC_TAS2781_I2C
- 	select SND_SOC_DMIC
- 	select SND_SOC_INTEL_HDA_DSP_COMMON
- 	select SND_SOC_INTEL_SOF_BOARD_HELPERS
- 	select SND_SOC_INTEL_SOF_MAXIM_COMMON
- 	select SND_SOC_INTEL_SOF_REALTEK_COMMON
-+	select SND_SOC_INTEL_SOF_TI_COMMON
- 	select SND_SOC_ACPI_INTEL_MATCH
- 	help
- 	   This adds support for ASoC machine driver for SOF platforms
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 3d9d8a97d153..649378957b20 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -27,6 +27,7 @@
- #include "sof_board_helpers.h"
- #include "sof_maxim_common.h"
- #include "sof_realtek_common.h"
-+#include "sof_ti_common.h"
- 
- /* Driver-specific board quirks: from bit 0 to 7 */
- #define SOF_RT5682_MCLK_EN			BIT(0)
-@@ -620,6 +621,9 @@ sof_card_dai_links_create(struct device *dev, struct snd_soc_card *card,
- 		ctx->amp_link->init = rt5650_spk_init;
- 		ctx->amp_link->ops = &sof_rt5682_ops;
- 		break;
-+	case CODEC_TAS2563:
-+		sof_tas2563_dai_link(ctx->amp_link);
-+		break;
- 	default:
- 		dev_err(dev, "invalid amp type %d\n", ctx->amp_type);
- 		return -EINVAL;
-@@ -767,6 +771,7 @@ static int sof_audio_probe(struct platform_device *pdev)
- 	case CODEC_MAX98360A:
- 	case CODEC_RT1019P:
- 	case CODEC_RT5650:
-+	case CODEC_TAS2563:
- 	case CODEC_NONE:
- 		/* no codec conf required */
- 		break;
-@@ -934,3 +939,4 @@ MODULE_LICENSE("GPL v2");
- MODULE_IMPORT_NS("SND_SOC_INTEL_SOF_BOARD_HELPERS");
- MODULE_IMPORT_NS("SND_SOC_INTEL_SOF_MAXIM_COMMON");
- MODULE_IMPORT_NS("SND_SOC_INTEL_SOF_REALTEK_COMMON");
-+MODULE_IMPORT_NS("SND_SOC_INTEL_SOF_TI_COMMON");
--- 
-2.43.0
+Thanks,
+Alexey
 
