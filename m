@@ -1,107 +1,93 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5A834E263
-	for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 13:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFFA33C190;
+	Wed, 17 Dec 2025 13:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765979742; cv=none; b=CxYv3ImFDWuX+aQYh9vHRpgm55lfSVPaWj1rdmGPkbjEGK0yx/YMOy5iwu4oci9xvaeII8oGKv3JWbhu5xiHV29alYg2NhrQWQwhPfXS50tf/WEXAVKUDiPjOhNdp9IwHKUZoLHG4HOKeL+lE26lVTUuDeuN9EXiuv4MzXLzFsg=
+	t=1765979818; cv=none; b=rA3KROPoul6lqed6URiUFglvqSsLl/aQwyRjMRz5Lk4qiOnbLPd/WdtZUc3BtKtb1NVOLGp4N0Hz3p9AB9n4uxG5t6rHcGA6xvi44svOcaG9FiPNfOK2YjR54E+hjOCdxFPC545BGcqdd9SPKf1CpNczv8rHYWM7X/RE8Upg0e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765979742; c=relaxed/simple;
-	bh=KIVZf9eQsEe24xzKqF2imdi5YUmFlNEbdV3+FMOkKwE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VjHjBclIIKWwdD3DGU/DOU68WUQXTDKEn9vuLkewyJe3v7P1ueldjJOPGU6H66uUKkYYu/gM1hP13Ch9U4NTGQWKxOERyCdwdmdpt6EOtzvDfP+K9b7Drr9Y+PEePULpTPkUeyK9jA/f6VDzl86gOz09MQprPCg2TUnfGOrymkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzW-00019E-Aw; Wed, 17 Dec 2025 14:54:58 +0100
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzR-0067Yu-08;
-	Wed, 17 Dec 2025 14:54:53 +0100
-Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
-	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vVrzQ-00000004tQv-3U9J;
-	Wed, 17 Dec 2025 14:54:52 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Wed, 17 Dec 2025 14:54:53 +0100
-Subject: [PATCH 03/11] ASoC: tlv320adcx140: Propagate error codes during
- probe
+	s=arc-20240116; t=1765979818; c=relaxed/simple;
+	bh=G22sIiiKSA2XXcfZ6KfilrDGAu/xSkPbnLABxe6mfqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SDlsg4Y9N4dSs4ST/e0MrSk7JDSNKLabLlCw51D5vBBxqr/NcbKXSuraGAOIdUyqA5bYSM0QqNXEQzd6GXf1CcE4HEO8wya3hbTEieU4o9cptJGCkDqLDPS6aIoqUGNUxYRe0pDCpVc8qRFYxnnjVTgzf9CBVvZILu8c+Kj9BQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mKxOMcq6; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mKxOMcq6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C330C4CEF5;
+	Wed, 17 Dec 2025 13:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765979817;
+	bh=G22sIiiKSA2XXcfZ6KfilrDGAu/xSkPbnLABxe6mfqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mKxOMcq62Igo8foAGZZi5lh0jE/WCR+cNu6BFJqCaO4Jn6X2EJW6iu1y+nSJVroqS
+	 ZmyFCqDo+In4G9OYTspyVfuhllVmv51Ug/WmviY8akYrMDfBS4wMP2nVBZf6mNQUJb
+	 VWaLVS6tPIu2FLVBOH+08Krq8Qv5Zk0SwWskGgNGfyF8NSs00wlPlvSy/6ruXL3t6H
+	 g7T01Ft3wd6YQRDF5byWxZ+6z5X2UoJzjDoNxDvPWnKdivGAU+nwQOhAvGD2SoIK31
+	 2tdXdLXH91Yq7Ek+fadDK2LchL+4sp+1q6TOEDhahvRB8xlj7/2zcCPsowj8mwXThj
+	 hLpvtYwmyUKmA==
+Date: Wed, 17 Dec 2025 13:56:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+	seppo.ingalsuo@linux.intel.com, stable@vger.kernel.org,
+	niranjan.hy@ti.com, ckeepax@opensource.cirrus.com,
+	sbinding@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: soc-ops: Correct the max value for clamp in
+ soc_mixer_reg_to_ctl()
+Message-ID: <8e2d0294-318c-4776-a02e-f6e6497852db@sirena.org.uk>
+References: <20251217120623.16620-1-peter.ujfalusi@linux.intel.com>
+ <6e97293c-71c1-40a8-8eba-4e2feda1e6ea@sirena.org.uk>
+ <27404fce-b371-4003-b44b-a468572cf76d@linux.intel.com>
+ <af368a9e-16c0-4512-8103-2351a9163e2c@opensource.cirrus.com>
+ <56411df9-3253-439a-b8eb-75c5b0175a7a@linux.intel.com>
+ <bc6f3e66-ca9b-4ba3-bbe1-5ef31c373e6d@opensource.cirrus.com>
+ <e98a78fc-0b30-4af1-b6f5-2bc5cacc8115@linux.intel.com>
+ <9f1d5b88-e638-4b87-bee0-fc963231d20e@opensource.cirrus.com>
+ <87c2d498-60fe-4339-83c8-f6d6bc256ea7@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-sound-soc-codecs-tvl320adcx140-v1-3-293dea149d7b@pengutronix.de>
-References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
-In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
- Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Dimitrios Katsaros <patcherwork@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765979692; l=1285;
- i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=PpAmR8wKqRTX1YV1R8fVM7vj/FkNO/cKPTJr6ncyO00=;
- b=Lmsr373tVsUPXJXaGvQZv99Z8QpPFjlDFtShSLA+VZS/trGASkNcumkV6pvm6/9fBy0dl9vVK
- A17congPgMrCHuBPmCnQtJn/6bzNzaYFniJ425lxP10TgYuc1BgRMO8
-X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
- pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: s.hauer@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xUs9rGoQPc9ol9px"
+Content-Disposition: inline
+In-Reply-To: <87c2d498-60fe-4339-83c8-f6d6bc256ea7@linux.intel.com>
+X-Cookie: Big book, big bore.
 
-From: Dimitrios Katsaros <patcherwork@gmail.com>
 
-When scanning for the reset pin, we could get an -EPROBE_DEFER.
-The driver would assume that no reset pin had been defined,
-which would mean that the chip would never be powered.
+--xUs9rGoQPc9ol9px
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Now we both respect any error we get from devm_gpiod_get_optional.
-We also now properly report the missing GPIO definition when
-'gpio_reset' is NULL.
+On Wed, Dec 17, 2025 at 03:54:43PM +0200, P=E9ter Ujfalusi wrote:
 
-Signed-off-by: Dimitrios Katsaros <patcherwork@gmail.com>
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- sound/soc/codecs/tlv320adcx140.c | 3 +++
- 1 file changed, 3 insertions(+)
+> > rf@debianbox:~/work/kernel/linux$ time ./tools/testing/kunit/kunit.py
+> > run --alltests
 
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935..58a6dfa228cc326d18b3c3f126732033749c8e49 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -1154,6 +1154,9 @@ static int adcx140_i2c_probe(struct i2c_client *i2c)
- 	adcx140->gpio_reset = devm_gpiod_get_optional(adcx140->dev,
- 						      "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(adcx140->gpio_reset))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(adcx140->gpio_reset),
-+				     "Failed to get Reset GPIO\n");
-+	if (!adcx140->gpio_reset)
- 		dev_info(&i2c->dev, "Reset GPIO not defined\n");
- 
- 	adcx140->supply_areg = devm_regulator_get_optional(adcx140->dev,
+> well, I don't have kunit test setup, so it fails, but I can build the
 
--- 
-2.47.3
+What do you mean by "kunit test setup" - that's just a self contained
+Python script that drives everything, it has minimal Python
+requirements.
 
+--xUs9rGoQPc9ol9px
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlCtqMACgkQJNaLcl1U
+h9DM3wf/VeIMzYgXB51+ej5Ci2X2ylHzQzf8U2IDBoZcqKhhNRw4jTozH2dN8mRn
+lN8U+v1DKwhng1KQhHO72p7TsGIXPplRGZPAypDoLRtELTXtU5JTgxjxtOmSS//p
+RVCd775zGysGsVQDNGLtKGvL4fSozv1sTdvW918ZfbSOCGWdXMKXaXf6CdenGKf/
+LWZu3mbSsCOcJlTZry3EI+ZNqa1NyO46ZvbsRmRWxwrjrEmiAT290eq8GHJw/dIN
+XAiRjMd5xO/+6FYBbPs9XvK0YKAR8vPYpd+/w80/UhZDMaNJ2EZmD7RlNTbz9Cyo
+8YFN2I8iXB482mh0bV8O2Vc/W5jYaw==
+=RF0b
+-----END PGP SIGNATURE-----
+
+--xUs9rGoQPc9ol9px--
