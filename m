@@ -1,33 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA26A39BEAF;
-	Wed, 17 Dec 2025 14:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9C3355053;
+	Wed, 17 Dec 2025 14:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765981846; cv=none; b=UAAodMSZ+yhz3cUTgMsBHPRK5VCbHjPdI6T4qtKM1bpzDHoyHhEyK8IWGbRo3x6A4/Dl/zHReqCL+xjCnD6H9RHwdAwhvptsM8Nw9WGUwIMF734EQ8qa94noDMR0nXLZt0KX+trBpzSilR+YztkM4D4psAvh1hizQDyaCjpzISs=
+	t=1765981876; cv=none; b=MWrmH98CkrHUScoL45gfOSAVD/e5Slw4mAQYQwCNFGj5aPqdK5pdImhX3z5ApivdyQmSm6PykkzwkZ/L95UorXG8eCa8qaISrrIpq2UPAKsS49r4q7aW8AR+8wy9F+Y7Ij9GhGlvCjacND57lmjl3AdqaJy2Mmb5SmPQa6QTUqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765981846; c=relaxed/simple;
-	bh=hPrViA/mDV5njR4QGkK0WGZBy9Y1e9ziNuDvAB7tbGQ=;
+	s=arc-20240116; t=1765981876; c=relaxed/simple;
+	bh=PymflYNKcYw8mup+B634nitgOaXLqkons7eEUJsdoU8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iP2LyLRLe6ktz5notjXVR4wsj6l/FReQZK4B7dM/1jQlF2m+BDCqayHv9yakqxcN63+6q/7DC01ZPEj0QB/1KTp2YKiK6a2+Bm6vV1RREBRMScl1tW5d5gBXRQMhcOFwOU2ulxyzxyoi5gkah3w0LdcJumENjk92Xt7QYqhPw7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0B5RPAA; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=KpdUI/ZzzDtBYy6iY6sywQnwhl0/LbOtUsS1gcXwXnx0covWu1HXrC60eSI5Iv7Ql9hssdMeW+0yj/QklKOFJbmsplVmacQyzqSEN3PZZM4oAMqJe3Q8oCmFyggBFdA5JKQ2mTy5DspUjASYsQsnDjUxJFNHUenphFWYD48PQ+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTD769er; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0B5RPAA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C2CC4CEF5;
-	Wed, 17 Dec 2025 14:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765981845;
-	bh=hPrViA/mDV5njR4QGkK0WGZBy9Y1e9ziNuDvAB7tbGQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=S0B5RPAATTBsHNL48b+HWLvopFBrpBJwOFKNEcPtsaGX1grspiH7IAJzGjSi3iATF
-	 y0xdWPm3j4ZlypSsgEMNsLjoxb/5eULJr80saUSDlBpV9jEU+ch06a9WosL0SUQvUA
-	 c0ag4ppBNZTe0+fp8CuF4TR4KXrIgs/SiA27Esu6e/94avgKAfozKlZgdresEGfDVD
-	 jurR9Lg7A22UAHBjS8OOkBdU3BrfiCSs24Ug0nJiRvXTgc2GfO6QQIrILmDrk6PksW
-	 syVOwTCT1/l1n6Tol3ZZJw5Rw8NNo7tzm0eeQlPs9Ufk89mrsD3Vvdfsk2WkO9/HCa
-	 13VG3TtbDMiXw==
-Message-ID: <07f8f657-8d9e-4310-ad9b-99fa6055eb5e@kernel.org>
-Date: Wed, 17 Dec 2025 15:30:39 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTD769er"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765981874; x=1797517874;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PymflYNKcYw8mup+B634nitgOaXLqkons7eEUJsdoU8=;
+  b=lTD769ergwh9UA66JfYUI1xHmsA/RXH8L4+z3i8GJ1S9eGomxWvsTrEW
+   cdPp6UH3n3Cl2NPn7OatcAdAMVuw8DObMgmpa/BG2FJwLaPfxlptIhu/A
+   Yskeid6y4L+pMfe6dtJfXcdWRYhokxfoHbFFVsrozvNH8J/EaT+W8AdRm
+   /hDAhSjX5VSINOFbYhVB80SGro7YQJkltcl6Xk4N/RrHJGNMB7rZwFuek
+   BrC5EFH1+oMEDXFgLKN92l9ip5uoYpJ0E9gbPrCbxd0ZYO4n5nch1J6Mg
+   wPKeYxXGlDNKkCSicEUWDQjud0AhIkOjHpzboVaw8auw1WSgU+vNBGtMO
+   A==;
+X-CSE-ConnectionGUID: 4en4XGi7SMWbcLgy0eO+iw==
+X-CSE-MsgGUID: hNzexgjIT0u6TlR9tIS3Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="85507257"
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="85507257"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 06:31:13 -0800
+X-CSE-ConnectionGUID: W7FK7oBzQYem9+4BPjjBZA==
+X-CSE-MsgGUID: 461iDD4oTqCbrl4wpQQxUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="197933322"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.187]) ([10.245.246.187])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 06:31:11 -0800
+Message-ID: <a367ee5f-c46f-470f-976c-011ac9cfc55b@linux.intel.com>
+Date: Wed, 17 Dec 2025 16:31:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,108 +52,123 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] ASoC: dt-bindings: clarify areg-supply
- documentation
-To: Sascha Hauer <s.hauer@pengutronix.de>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
- Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev,
- devicetree@vger.kernel.org, Emil-Juhl <emdj@bang-olufsen.dk>
-References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
- <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] ASoC: soc-ops: Correct the max value for clamp in
+ soc_mixer_reg_to_ctl()
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, seppo.ingalsuo@linux.intel.com,
+ stable@vger.kernel.org, niranjan.hy@ti.com
+References: <20251217120623.16620-1-peter.ujfalusi@linux.intel.com>
+ <aUKmcpUzUac5Dmfq@opensource.cirrus.com>
+ <a7038077-2dfd-4a14-b38f-09a5ed3713be@linux.intel.com>
+ <aUKzQCIF6DvVRRUJ@opensource.cirrus.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
+In-Reply-To: <aUKzQCIF6DvVRRUJ@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/12/2025 14:54, Sascha Hauer wrote:
-> From: Emil-Juhl <emdj@bang-olufsen.dk>
+
+
+On 17/12/2025 15:42, Charles Keepax wrote:
+> On Wed, Dec 17, 2025 at 03:13:45PM +0200, Péter Ujfalusi wrote:
+>> On 17/12/2025 14:47, Charles Keepax wrote:
+>>> On Wed, Dec 17, 2025 at 02:06:23PM +0200, Peter Ujfalusi wrote:
+>>>>  sound/soc/soc-ops.c | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+>>>> index ce86978c158d..6a18c56a9746 100644
+>>>> --- a/sound/soc/soc-ops.c
+>>>> +++ b/sound/soc/soc-ops.c
+>>>> @@ -148,7 +148,7 @@ static int soc_mixer_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_v
+>>>>  	if (mc->sign_bit)
+>>>>  		val = sign_extend32(val, mc->sign_bit);
+>>>>  
+>>>> -	val = clamp(val, mc->min, mc->max);
+>>>> +	val = clamp(val, mc->min, mc->min + max);
+>>>
+>>> This won't work, for an SX control it is perfectly valid for
+>>> the value read from the register to be smaller than the minimum
+>>> value specified in the control.
+>>
+>> Hrm, so an SX control returns sort of rand() and the value have no
+>> correlation to min or max?
 > 
-> The documentation for areg-supply could cause confusion mainly in terms
-> of the relationship between AREG and AVDD.
-> According to the datasheet[1] the AREG can be one of two cases:
+> lol, yes exactly :-) arn't they great
 > 
-> 1) an external 1.8V supply
-> 2) generated by an internal regulator (hence a 1.8V output)
+>> The value can wrap at any random value to 0 and continue from 0 up to
+>> some value, which is the max?
 > 
-> [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+> Mostly correct, not any random value it wraps at the mask.
 > 
-
-Incomplete DCO chain.
-
-
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>> How this is in practice for the cs42l43' Headphone Digital Volume?
+>> SOC_DOUBLE_SX_TLV("Headphone Digital Volume", CS42L43_HPPATHVOL,
+>> 	  CS42L43_AMP3_PATH_VOL_SHIFT, CS42L43_AMP4_PATH_VOL_SHIFT,
+>> 	  0x11B, 229, cs42l43_headphone_tlv),
+>>
+>> min=283
+>> max=229
+>> shifts: 0 and 16
+>> masks are 0x1ff
+>>
+>> if you step 229 from 283 then you reach 0x1ff, this is the max the mask
+>> can cover.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-> index 0f043a51f1822f4d39214438818e3bc84d3e8681..0c550c04f5ef239f403bea668ffd8c6051d86821 100644
-> --- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-> +++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-> @@ -41,8 +41,8 @@ properties:
->  
->    areg-supply:
->      description: |
-> -      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
-> -      is enabled.
-> +      External supply of 1.8V. If not defined then the internal regulator is
-> +      enabled instead.
+> Not quite your maths is off by one, 229 + 283 = 512 = 0x200,
+> which is then &ed with the mask to get 0x0. Which on the cs42l43
+> headphones a value of 0x0->0dB. Stepping 1 back from that would
+> give you 0x1FF->-0.5dB.
+> 
+>>> I often think of it in terms of a 2's compliement number
+>>> with an implicit sign bit.
+>>
+>> I see, but why???
+> 
+> Mostly because hardware people love to wind me up, I assume. But
+> more seriously, imagine an 4-bit signed number volume control
+> with 5 values:
+> 
+> 0xE -> -2 -> -2dB
+> 0xF -> -1 -> -1dB
+> 0x0 ->  0 -> 0dB
+> 0x1 ->  1 -> 1dB
+> 0x2 ->  2 -> 2dB
+> 
+> Super, a very sensible control, but wait being a good hardware
+> engineer you realise you don't need 4 bits to represent 5 values
+> you can get away with 3 bits for that and save like 2 gates
+> resulting in an ice cream and a plaque from your manager. So
+> you drop the sign bit giving you:
+> 
+> 0x6 -> -2dB
+> 0x7 -> -1dB
+> 0x0 -> 0dB
+> 0x1 -> 1dB
+> 0x2 -> 2dB
 
-Please re-order the patches. Fixes are always before new features and
-you would solve yourself one review question...
+I must say, wow.
+Being a SW guy I would probably done this differently:
+0x0 -> -2dB
+0x1 -> -1dB
+0x2 -> 0dB
+0x3 -> 1dB
+0x4 -> 2dB
 
-Best regards,
-Krzysztof
+> This then results in an SX control with a minimum of 0x6 and a
+> mask of 0x7.
+
+then the comment at info() is hard to match still.
+
+static const DECLARE_TLV_DB_RANGE(sx_thing,
+	6, 7, TLV_DB_SCALE_ITEM(-2000, -1000, 0),
+	0, 2, TLV_DB_SCALE_ITEM(0, 1000, 0)
+};
+
+is sort of the same, no?
+
+Thanks for the explanation, fascinating!
+
+-- 
+Péter
+
