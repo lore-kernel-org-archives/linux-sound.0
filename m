@@ -1,102 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4187369962;
-	Wed, 17 Dec 2025 10:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6EC339710
+	for <linux-sound@vger.kernel.org>; Wed, 17 Dec 2025 11:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765968897; cv=none; b=OZogz+bILVJg6cYhb+0TH6ES43C4DYsE1WHgwGyEIVhy1jqzzPIR91q+07LChQuzVlMMfHKkSTtejDIJjHmukYNenJmrn/YK0gMFgq63J4WWOyX+z6wrJi0eMseVR5u0jSm1mC2t8tSlTdYQTHEZOfDm9KUXA7AE5W7T9bCcc0w=
+	t=1765969491; cv=none; b=uClAtRRBEIGMqwEkiDJGULDjC2nz6M6JBRTGF4FkqQ87ZYmC/YMW/YydK99ib58EExFBkgG4cIJoU6cW+0vpy64RV40J3w+59KNsjy1GwAqFF1+YKcFh/cYoBoTnHj9PP2zQRniPWG0cC3MevUCP5D7OZp4QBLPz32g+uRyD0JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765968897; c=relaxed/simple;
-	bh=Uznq9mEUv6T74S4Xmp6qiieh29EWHGRHrevT8ui/oog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q9opQq1I79NuE7KFc9Lu9dTtCE/eZCP+fagpj6lBs1c1PoWIgnow+zetcOCbVrDLcSXvJCb+X2FRCf6UBWZETzeXrQRAZen2nKkt/sC8IYkar6yer4RQLFBis91FYMuLdLtVhLmta7fhxlcm4joQdZxyGI5aSxsZ9hW5ghdmJzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9u5uSuw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765969491; c=relaxed/simple;
+	bh=wYgEWLpLTS44UVNd+lK4hiotdHcqGuo9yv5SOrDRW/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DvZNK1DZnXoW99OUSKj0GznHnkZ3qUXqTW9X64Q0UKkwVpSj/snJeKdNq359rn5NYM1U5MAgpEKQ2AF+74o3UMgjnoToOBoeaVg+IUYu89LFIJKxbrcqgB2sYYbHc9IbJeje9rPFZRhRu7UD5GEYhHog9S2b6gBjFn5srfv5gI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ytm4m5aB; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9u5uSuw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B6DC4CEF5;
-	Wed, 17 Dec 2025 10:54:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765968896;
-	bh=Uznq9mEUv6T74S4Xmp6qiieh29EWHGRHrevT8ui/oog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p9u5uSuwqz+y3cLwWfDjS+4Y4YSkibpmT5AkKpgF00lluHELcKpNZWGO1lLF8o0kG
-	 0ewnPPyz6ddfxCerpLINVNUSSLF6bo/EHnbisKgyClK8ssNoAZtjjVfblg5Ii0mhZ0
-	 XTOfwEcsrfywAGAujq472RYHc79eEvCh0229xqA8kAr3Tgc2+2mggNvw1ZDYB606Ue
-	 qiTl7D7Nu5WnBhl/UREyT4cKlo0x5LpDpew1SDb9CwNMFeR/J2txH94BxQhrH+cgc6
-	 WtByU3rfD8HtsWlv+UJyYwRkQSrkZPxv05/tMwMFlzGH/HBF/IovTYvOz3U+zhPMe0
-	 KPfF7b7ky1XCg==
-Date: Wed, 17 Dec 2025 10:54:51 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>, linux-spi@vger.kernel.org,
-	perex@perex.cz, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	flove@realtek.com, shumingf@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com, lgirdwood@gmail.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Subject: Re: [PATCH v10 3/3] ASoC: rt5575: Add the codec driver for the
- ALC5575
-Message-ID: <921509e8-618f-46ed-9757-650bb37ff0ff@sirena.org.uk>
-References: <20251216071853.3929135-1-oder_chiou@realtek.com>
- <20251216071853.3929135-4-oder_chiou@realtek.com>
- <81510775-c277-4dfc-bbe1-d3b75debc140@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ytm4m5aB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765969490; x=1797505490;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wYgEWLpLTS44UVNd+lK4hiotdHcqGuo9yv5SOrDRW/k=;
+  b=Ytm4m5aBjkXYZTurjA58BfYzB20OxT0o084BHLEOteS4PMp6YLYk8JMc
+   S47tHq5ULthF5qiYd/m0fpPhY7JGgSWwQZprVaJOMZfVfllk/7OmXPsNJ
+   JCsPefurojYqEUfn+IDkGBlVsiscdmk99EI2zYPfgILYFxEosmIv+16H4
+   iRl5/SgXcRMHKqpC7gYuUOXDRRiJ44GIXRUUqq7UVYxUZrapy0Pcc1wQw
+   ZrU6/JYFbF7mI9H7lmzKxhmhqhsAG5Spji9gwp3mqUlRW+uLLnTTKUi9m
+   +TduuivXvgRNpniAWmRd+gyZ/j2Nmt0il+9OONIDiJtqEH8BXDrtYwp/A
+   w==;
+X-CSE-ConnectionGUID: VP7IWeHGR3WzQDhGwRzfdA==
+X-CSE-MsgGUID: spsV0/LJSfKSc8u0RmYsSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="55476837"
+X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
+   d="scan'208";a="55476837"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 03:04:49 -0800
+X-CSE-ConnectionGUID: 9x33n4jWR4uftGw7AO0H3Q==
+X-CSE-MsgGUID: GlGVL5METaSthvlGI6xcTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
+   d="scan'208";a="198765864"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 03:04:48 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 0/2] ASoC: Intel: add support for TAS2563 amplifier
+Date: Wed, 17 Dec 2025 19:04:30 +0800
+Message-ID: <20251217110433.3558136-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KhJPFKIKSji/h6Ex"
-Content-Disposition: inline
-In-Reply-To: <81510775-c277-4dfc-bbe1-d3b75debc140@intel.com>
-X-Cookie: To err is human, to moo bovine.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Add support for TAS2563 amplifier on Intel platforms.
 
---KhJPFKIKSji/h6Ex
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+David Lin (2):
+  ASoC: Intel: ti-common: support tas2563 amplifier
+  ASoC: Intel: sof_rt5682: add tas2563 speaker amp support
 
-On Wed, Dec 17, 2025 at 11:45:54AM +0100, Cezary Rojewski wrote:
-> On 2025-12-16 8:18 AM, Oder Chiou wrote:
+ include/sound/soc-acpi-intel-ssp-common.h     |  4 +
+ sound/soc/intel/boards/Kconfig                |  5 ++
+ sound/soc/intel/boards/Makefile               |  3 +
+ sound/soc/intel/boards/sof_rt5682.c           |  6 ++
+ sound/soc/intel/boards/sof_ti_common.c        | 76 +++++++++++++++++++
+ sound/soc/intel/boards/sof_ti_common.h        | 24 ++++++
+ .../intel/common/soc-acpi-intel-ssp-common.c  |  3 +
+ 7 files changed, 121 insertions(+)
+ create mode 100644 sound/soc/intel/boards/sof_ti_common.c
+ create mode 100644 sound/soc/intel/boards/sof_ti_common.h
 
-> > The ALC5575 integrates an audio DSP that typically loads its firmware
-> > from an external flash via its own SPI host interface. In certain
-> > hardware configurations, the firmware can alternatively be loaded
-> > through the SPI client interface. The driver provides basic mute and
-> > volume control functions. When the SPI client interface is enabled,
-> > firmware loading is handled by the SPI driver.
+-- 
+2.43.0
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
-> > +struct spi_device *rt5575_spi_get_device(struct device *dev)
-> > +{
-> > +	struct device_node *spi_np;
-> > +	struct spi_controller *ctlr;
-
-> Reorder to achieve reverse-christmas-tree notation. Waterfall to a number of
-> functions found in this patch.
-
-This is not a general requirement for ASoC, it's something specific to
-the x86 and SOF stuff.
-
---KhJPFKIKSji/h6Ex
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlCi/oACgkQJNaLcl1U
-h9DifQf/Yz/49L9umyOcGn179d8e0YjBXmMCpoFzBUOdjWM+HhnuHGoPa6XGye6W
-toeg2mJ5rJSmtdTWtrevVkbWK8LXUOufRXqHGIwVjMIZVgtVu/DBMj6gpALJS6tA
-nxUKDmXnV2Qr3OYMUzgm2rHsPPLpleGy3VfXG21rzMOR2ZvECiF2LZ8NFVjJiHJ7
-QUzEo0Dq5tN/3BgKIi8JDhUbWrb5CubEe06+/J4QlUtgZytsPuT9rH6tMuRvKefk
-LNpDeZ8zSBHNSRuymuaBpQucvBhAiNWBrA+2uNf1bJf57t1eD1gM/SS1STj021+o
-xaZ/agcfyfi5PdkYYC72CXqmVQqrZg==
-=9MGi
------END PGP SIGNATURE-----
-
---KhJPFKIKSji/h6Ex--
