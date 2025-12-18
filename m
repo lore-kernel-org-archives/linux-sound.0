@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C952C11D4;
-	Thu, 18 Dec 2025 18:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978662DC77D
+	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 18:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766081877; cv=none; b=T8bITMLTQsmD2D73SPjkmbJMw4H2kVE/A70IqgaeeOWEGcZovZjrR/QktCPrmgI2BiatE/lCwJH38hMuhtfGd9394DbdDLnVPxlLtaYcKlvUd5OmnlVRV3x6gX9gXVrI0R2ojBGyvfMNiBeYu4Y7upDDh7dQGrfD+N6TkhGecfs=
+	t=1766081879; cv=none; b=pGPcPkTbFzRDTrP7Lw0NaYSzIbPQ59hrHDRiVxkS5OVeiTnn1YLBe5A8i6lXaBHDPgEYISn3UeuRADkaIKljujKAhmUOxpPLvz1eFAEY/8VUD4BixQVLdyLh4+dEgZFfEQ678MuuD3tyTG4lPj/OwutuL3OyJQaMDimvVEKFAzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766081877; c=relaxed/simple;
-	bh=pWxzxV2ERpNbrD9L8kun4z2fQ/h+mC0aWXfZj1yYrPQ=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OtjMHQ65qfijF6Fi0Ug0avZCLK+mxbSVFLeU+sQrdXAiFsaoFipdzXoSyZRk/2r6JzOIWQrUDHru2VJcq+qOjnSNCQHBwFKEs5Z82mpw4gx6CqD/hJLuqO3lqdH+Bq4RbC7cYWSIzOHAnQFXGWQcMboH17LIIQoGi6EwWHXFJ9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9MG8j3m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766081879; c=relaxed/simple;
+	bh=cAlh1SEmrtoE1//iarYjz3DxFxJWhTgcWczXeKaBZ3k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gpHsAbCR2XI46tvotIuHjptiHbElp4z42DMzdq9sA1zpzy2CrbEP/Zf5l7IONGn//hbDcHl3GWLnMokSi/b6eWhm6e5YAPIAosQV7xZKfWbeVREZo+kXu5GEnw5KdPNnBqCbunkUOXtP2UuqA2Y9GSd4SZrMHMC0vROZsxxBUyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYhwgPoR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9MG8j3m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A97C4CEFB;
-	Thu, 18 Dec 2025 18:17:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYhwgPoR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B8EC113D0;
+	Thu, 18 Dec 2025 18:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766081877;
-	bh=pWxzxV2ERpNbrD9L8kun4z2fQ/h+mC0aWXfZj1yYrPQ=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=V9MG8j3mb6EY3/o7CNWxaul3cOszPImUcKNbIxbU5vAHTZga4UXlQZsCUcNeFyO56
-	 bg/26ZU7OBbsnAgL64+yHdBriENsXHAJeLWO8wmIVwqAgOgBc8KgLN/bMTithUftfR
-	 lQGJgXzO7i7RFsr8tV2+fhH1v9yWEfIw6Ln4vgD6U2bsrralKt2ZuyDDAqz6Sn6/hs
-	 tNDurw4NV9FWQGuKsmeHWclM5iangoulyqSv7dBNmArVKctQRyAw/Fw8NAOGEYjAbs
-	 n/KNExArBNizQ8D3LAYoyJ9cyTe2KdCMBDEk8KPU+KtwrbANUF+Bq7fhLwAPkGlMlZ
-	 GItvzLME36mQw==
+	s=k20201202; t=1766081879;
+	bh=cAlh1SEmrtoE1//iarYjz3DxFxJWhTgcWczXeKaBZ3k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gYhwgPoRr6vTIZJya9gw2X2ti0N97eXqusuSsvZVvxnuXxMZZoIKtaqwdjm81olMd
+	 u1MH5T5ehU6wPjA7TZpI1wvFWUnrR4vP5hqYSOARX74Y1AFAuvi0YAbYIZL2ghxPm/
+	 EY+Hb41RwbN7h66GaAz3HbD/qtr4+JLQebLURNhul0p+C4SP431kMvIlerdV1DWJX2
+	 43u3nWzWZFv7eMdKt3UUQLTLH5UYjhrvfyyWzzKxrS8LHt9UxNCc2aBafaFtGpQ6Ss
+	 AIUV57Y7XolfykqbOCiOdaZsevSesv/pWhDZ7SBXTWJkS0H6TDRsZrfq6K8y/z0enR
+	 fWsOjRGiUbiRg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, imx@lists.linux.dev, 
- Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20251216071656.648412-1-chancel.liu@nxp.com>
-References: <20251216071656.648412-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl-asoc-card: Use of_property_present() for
- non-boolean properties
-Message-Id: <176608187468.237766.15246617240590815373.b4-ty@kernel.org>
-Date: Thu, 18 Dec 2025 18:17:54 +0000
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20251216090601.3955252-1-shumingf@realtek.com>
+References: <20251216090601.3955252-1-shumingf@realtek.com>
+Subject: Re: [PATCH 1/3] ASoC: rt1320: update VC blind write settings
+Message-Id: <176608187735.237766.16435113488611332589.b4-ty@kernel.org>
+Date: Thu, 18 Dec 2025 18:17:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +45,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 16:16:56 +0900, Chancel Liu wrote:
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
-> Otherwise there'll be kernel warning:
-> [   29.018081] OF: /sound-wm8962: Read of boolean property 'hp-det-gpios' with a value.
+On Tue, 16 Dec 2025 17:06:01 +0800, shumingf@realtek.com wrote:
+> This patch updates blind write settings for VC version.
 > 
 > 
-> [...]
 
 Applied to
 
@@ -64,8 +56,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl-asoc-card: Use of_property_present() for non-boolean properties
-      commit: fa43ab13c59f4c047c479673792ed033ab567c65
+[1/3] ASoC: rt1320: update VC blind write settings
+      commit: d05d125f4e123e23c89d002e9922f83cee7716e1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
