@@ -1,131 +1,130 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC5320458A
-	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 18:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9E6221FBA;
+	Thu, 18 Dec 2025 19:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766082949; cv=none; b=DIm1AW8NWP7GBLNryEBwJ1iweNKZrdvLuxkQbanTkg0qBholroJDXvdMj7sdRWQNVeT0YcH1UR2xdSJwTxGuQE0MUN2qXvd93rs0h5x6lsmHLcVoLxzbiSPnES2oDudR2QfslzVI/hEvpk79PHN9icFF0THcmMYbxFY8v6ZHYcg=
+	t=1766087859; cv=none; b=X3jxpiGS5Ruy71/L8Zd0vEMy822R4lf0rWtS1I4Nc6LQO8MY1m8YBPeZJRHvKc5jRVbYfg4HcoiCysoC8Y/ylzxHIQzXtbyrV2c6GbO05b9crTWCLhUnZBbXOla7bYiJaEpgwufAXDJkeXAUL4tr7PTYxQK7VTbyXQBBHvUPQgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766082949; c=relaxed/simple;
-	bh=zIzI+RWN8I+PPp7gM10QfdwWfky+ttRAA/4WGgQBPSs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PY8flqvRyQ00HoYe6/uzTigGjbqfkSEjx0DKTJYLGdYuZ2225qTG2lCloR5iG76UWEA7sEPaZjv0gGg2M+xE2nTG8dWDSHfAfvDl+bV8hPu/Z8ND8lvkceEWmfJMlgTQaOdvxOmrUbTyr0qFkyAE6O/5z9VJeGW/FRwdfgFH/zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIqh-0004Sf-Ct; Thu, 18 Dec 2025 19:35:39 +0100
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIqf-006KdZ-2S;
-	Thu, 18 Dec 2025 19:35:37 +0100
-Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
-	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdP-00000002wYr-2WL8;
-	Thu, 18 Dec 2025 19:21:55 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Thu, 18 Dec 2025 19:22:04 +0100
-Subject: [PATCH v3 10/10] ASoC: tlv320adcx140: add channel sum control
+	s=arc-20240116; t=1766087859; c=relaxed/simple;
+	bh=IiB+gHwWpiyovjEmGP/G/NH4rnknxwDxN8kGZDSHlYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=be05VfK8u7t+yicbDaMFUgWuWwdCgSAR8Yl/Bd0Drr73S818DH47i+Z14gNBWqg5rkhim4oEg4SUYuJT5PuNpfRZDEAD52MIF/dYb3mn5hK4HcQiTaYWWTVIetscN1YTA+9I41RM6TPKD+XOxyyN/5/wSssCcDdjBFwCcxSssQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aY9LqyLA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aY9LqyLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF2DC4CEFB;
+	Thu, 18 Dec 2025 19:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766087858;
+	bh=IiB+gHwWpiyovjEmGP/G/NH4rnknxwDxN8kGZDSHlYw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aY9LqyLAkAKvQm7U5Ncu3+kFayEmShmoTfe6mSh2sY/EMkGEbeK9mCHQXZbl6zuA1
+	 jx6GK6Wh706afnpG+A1cFh0R6VOn5v2a+mEEprvHcJDCVNUwny1PM23XOX7zonrw5b
+	 AXYNXg+hoxMh1sz2mfSU+85H/HFPsW5Cgc5AYEZHSK0etYZH2EFwQ7No/Xgx3UH0r7
+	 R4p4gPjx0TeIQDUV/AVm80cu0kQm3VWdP0351rZbantJEW+M5K9YdKWFvpx8yuBRnt
+	 llhBHc8dqpe5KLptTbkBIWch579tJpaxOTp4xdr2om7IAnQH9P7mOFC8F/eRyS0p7Z
+	 Mrng8b1z/AHEw==
+Message-ID: <827963fb-c72a-4595-97b8-769c43400e48@kernel.org>
+Date: Thu, 18 Dec 2025 20:57:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-10-70ff66e5b93f@pengutronix.de>
-References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
-In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/10] ASoC: dt-bindings: clarify areg-supply
+ documentation
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
  Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=1805;
- i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=0KnIM+Y4QBq/N0NnDfRAKNRfpAubDFVWi/5K2Fijr9k=;
- b=Av2cZaCv6yAwJU+BanSDSEEIBlfDjXAlgK+Z+bYa6TKp/u69ckE5ol+wHw51MKJJmtYM7TH9w
- XOj9xuTM6CBDDk3O/BFZFdTCR1ysoYcuVv6qYno+3Yz6n+QYeNcx9tx
-X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
- pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: s.hauer@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev,
+ devicetree@vger.kernel.org, Emil-Juhl <emdj@bang-olufsen.dk>,
+ Emil-Juhl <juhl.emildahl@gmail.com>
+References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
+ <20251218-sound-soc-codecs-tvl320adcx140-v3-7-70ff66e5b93f@pengutronix.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-7-70ff66e5b93f@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+On 18/12/2025 19:22, Sascha Hauer wrote:
+> From: Emil-Juhl <emdj@bang-olufsen.dk>
+> 
+> The documentation for areg-supply could cause confusion mainly in terms
+> of the relationship between AREG and AVDD.
+> According to the datasheet[1] the AREG can be one of two cases:
+> 
+> 1) an external 1.8V supply
+> 2) generated by an internal regulator (hence a 1.8V output)
+> 
+> [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+> 
+> Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
 
-Add control for channel summation.
+Does not match from. Please use consistent identities. The SoB must not
+be different than From address.
 
-3 modes are supported:
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-1. "Disabled": Normal operation
 
-2. "2 Channel": Every two channels are summed and divided by 2
-
-  Out 1 <- (CH1 + CH2) / 2
-  Out 2 <- (CH1 + CH2) / 2
-  Out 3 <- (CH3 + CH4) / 2
-  Out 4 <- (CH3 + CH4) / 2
-
-3. "4 Channel": Every four channels are summed and divided by 4
-
-  Out 1 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 2 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 3 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 4 <- (CH1 + CH2 + CH3 + CH4) / 4
-
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- sound/soc/codecs/tlv320adcx140.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index e7c607af642f43b2b783597f3cba3a8cbb31de4a..ac6aab8d722409b2c47b4e1df2a23760bebe795b 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -222,6 +222,13 @@ static const struct snd_kcontrol_new decimation_filter_controls[] = {
- 	SOC_DAPM_ENUM("Decimation Filter", decimation_filter_enum),
- };
- 
-+static const char * const channel_summation_text[] = {
-+	"Disabled", "2 Channel", "4 Channel"
-+};
-+
-+static SOC_ENUM_SINGLE_DECL(channel_summation_enum, ADCX140_DSP_CFG0, 2,
-+			    channel_summation_text);
-+
- static const char * const pdmclk_text[] = {
- 	"2.8224 MHz", "1.4112 MHz", "705.6 kHz", "5.6448 MHz"
- };
-@@ -711,6 +718,8 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
- 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
- 
- 	SOC_SINGLE("Biquads Per Channel", ADCX140_DSP_CFG1, 5, 3, 0),
-+
-+	SOC_ENUM("Channel Summation", channel_summation_enum),
- };
- 
- static int adcx140_reset(struct adcx140_priv *adcx140)
-
--- 
-2.47.3
-
+Best regards,
+Krzysztof
