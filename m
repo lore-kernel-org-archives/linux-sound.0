@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB0E339860
-	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 08:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8A9329C40;
+	Thu, 18 Dec 2025 08:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766046071; cv=none; b=r+yk+BSiUYU+s8oxQy3hGYpVK6rGf/3ngsvF1DVVUgPB44sHKOLCNIW8Wv/6h+lotNrG4kVzUInbEsNJW9KHCg6hH4FeGVKEy4zlYmW0jTgG1YFXIwvEAgO8AdfYBpZoymzWgIYTf4haJ3jBgRPeouDKUzsX1huQw1GVmGPiB1A=
+	t=1766046073; cv=none; b=O5+izWaYs1r5kFzmB8UimSLnUM1gNWsYdhch+Tm14wSAMTuP30pLG3F06OXSZPAguaOVeNGKAhOQjJl0nAF0I3+iRcGJqCpwwbrZSjzTixTT1sx15rFBHZGapjKz5H7tUCauSZyWfO4bLXY/tikqy3Phid7HD0PnLxL6kUqoQio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766046071; c=relaxed/simple;
-	bh=p9NXeTfjJ+L71GCYsrXIefqc0vqv1mQogRCm7XVKb0g=;
+	s=arc-20240116; t=1766046073; c=relaxed/simple;
+	bh=R3asQQdz6TmI+GJz49VWg6UjgoqlN9AMqI8tCVkVTh0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oXsrDmwj7nfRrDb8vqwD0tIgpv33ZPp32vjxxVIvCvlPLb7oN3JKOSzHpD42u+s8WFROeiqDPmJD36ATQc3bUT4ZUW7iZ14SSknglY3rUepJPvPBQAMpoOt9TMIxgaBjDXJUVEeBfu3UfTus++le5Wi65V+XysMyI4XtG9+NJxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dD3FFTGa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HUE6j6e61Q+/z4veEuSxN5mrMwKq8tgzWEB2j/SmDW0vcbYar9TFJgmhOY7/vzoP/zTPM3mvgkOfa2a8mREK17eoXxlQ1t5SJAdWtIOI9KEDRG95r7NtDSsBCWpIWOEQniVjJ+jO9msXK4zwOn9IkflqX3NcNgbKkBXjc7lwF5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b0ikqlUC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dD3FFTGa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DD22C16AAE;
-	Thu, 18 Dec 2025 08:21:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b0ikqlUC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 683A9C4CEFB;
+	Thu, 18 Dec 2025 08:21:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766046070;
-	bh=p9NXeTfjJ+L71GCYsrXIefqc0vqv1mQogRCm7XVKb0g=;
+	s=k20201202; t=1766046073;
+	bh=R3asQQdz6TmI+GJz49VWg6UjgoqlN9AMqI8tCVkVTh0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dD3FFTGaJ8vxmGD9qO/4NZ1PQbfDu4mbzOmGNEB2RAam3xMpgXhhQMZ2gM4qH/Z6W
-	 603jUUO08lMgUjZJ2+sRX//dPosP/NV9GMdEYyk+jRquqLZ6WVWxQt+pgNZwiWYRLG
-	 5Mk+CBb2G9lhFRnOkJokma+Wq8r7OTwJQGuWWV2ctEUY0xLODlPuXp5s8qzQVI3WJk
-	 TIOGVXDdrX+r5cLwlnKv5ZrP53JQUGQ6hpFEN4ZMHAgnBg+XPQw/qwv5B3W1cEFPKd
-	 5mSHznMxXxD+ser1EikZsV8g/jxDPw9Yk+zABIol4rEjbP+dZE5q3wPPA5e2fmo0al
-	 tSEKSht0IcWHg==
+	b=b0ikqlUC/3iGp0KQGPfjPspSc74aVJ/P18sypOuQc47UP50piVjr3acehncbYkMhY
+	 LGrLYmicK8BqqiTwk2kG5rLnSqV7vRJkphJKtDdoLsNHQiPfiRb3eRbNeQwa/2b+Bp
+	 vcNQNFk19VKpxsQIFksS6ET89MqGcU3kb6X3Y+78y3RtS+fUT1FyTyMQxObrFRLTdr
+	 lPydu6oy/PJ8mm9EoS3S8PMGBAHqxnoGfmPhwopHPPs7cr9k3Hs0YysuNT2slTi7N6
+	 BtjbpVrYPWK1ldizf3/kIhBkCFiiT2IkIOZmgY+w0jJN5p6ZhA8H/nMwx4zTzTPSZW
+	 khaXU6Pj74YQA==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-In-Reply-To: <87h5trrljz.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h5trrljz.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: codecs: tas2780: tidyup format check in
- tas2780_set_fmt()
-Message-Id: <176604606918.48417.952602330124408763.b4-ty@kernel.org>
-Date: Thu, 18 Dec 2025 08:21:09 +0000
+To: oder_chiou@realtek.com, lgirdwood@gmail.com, hariconscious@gmail.com
+Cc: perex@perex.cz, tiwai@suse.com, khalid@kernel.org, shuah@kernel.org, 
+ david.hunter.linux@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251217104356.60839-3-hariconscious@gmail.com>
+References: <20251217104356.60839-3-hariconscious@gmail.com>
+Subject: Re: [PATCH] ASoC: codec: rt298: Use devm_request_threaded_irq to
+ manage IRQ lifetime and fix smatch warning
+Message-Id: <176604607116.48417.2906210047267177275.b4-ty@kernel.org>
+Date: Thu, 18 Dec 2025 08:21:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,11 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 06:24:32 +0000, Kuninori Morimoto wrote:
-> Current code is using messy code to check format. Let's cleanup
-> it by using switch().
+On Wed, 17 Dec 2025 16:13:58 +0530, hariconscious@gmail.com wrote:
+> Replace manual "request_threaded_irq()" with the device managed
+> "devm_request_threaded_irq" to manage the IRQ lifetime and also
+> it removes the smatch reported warning.
+> Remove the manual "free_irq()" in the "remove" function as free_irq
+> is tied to device teardown.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -60,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: tas2780: tidyup format check in tas2780_set_fmt()
-      commit: f764645cb85a8b8f58067289cdfed28f6c1cdf49
+[1/1] ASoC: codec: rt298: Use devm_request_threaded_irq to manage IRQ lifetime and fix smatch warning
+      commit: 3a4e4e0003678a87600e82d02c9522af282a5c0b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
