@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E44B322C6D;
-	Thu, 18 Dec 2025 08:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA33329C40;
+	Thu, 18 Dec 2025 08:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766046069; cv=none; b=KaE++vJSWr4pnGdPNOhG+LOqidecRR3SiDrul0J+6mAERHVb7TNmIEc8F6PgDyqAq5Rqu8xDKC9Aky67eV37Zt2ogDT/tqVLopJbic0lx/6yg5HFxvSTdO8yw7UzWx1j0nmY9X2EmqVPrDETrgAJT8ybeC3oX+sUm3WFAx22ZjY=
+	t=1766046069; cv=none; b=dGhs5rwKpqx2vMhWN7CoxtnqyvekyuzoToeFEjAS42Klf5Sabsbdmq9qrT/OPo001b4vFpc8epdmqqsw0HYyM+cRyFrCKvONHIKOhIMF1i+yU0/eFF045Ab82gSVPGWrSgKAAVHsIIIgQ6/LOghTr3uuTlmEaOb5y+qjVGwMteg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766046069; c=relaxed/simple;
-	bh=uERldCdr1OS/x5qYI8OmivEYE4GjVONVAGrpGJTKBMk=;
+	bh=eHaXCMfNPrzGKKskN0ftcIIedst5WnhbseQpDz6pWOc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ldQwDLMVnfu7lzrgZ0UuVnDUftWFAlrVGrhNqnF3irkZK3scgLod55nGuVCFlQBSXReQvjx5Q2ONGJ5zggOrSHMnWPl2d0fhQc6aHPNL/u5w8UVIdQPZ6n6oj20NMjR9OWTz5FGhYJp3nk34dcMbdxtVRsUOMu4TvNzr1kfUjqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DViEwp06; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=vEmHaKaGOtC08Rnu85V7z+P4EXzOW1/0BTLsQglqYLqhSyynVPJyqaZLgcBDExq7IL9EYIyuVtozUUSv1f8aYr+ZcIJw7YJNg3+sDzl+v8TqGjr3ky+F0tyJTTTDWjfjVqgThWH0znc4kZCTpqWvi3b5KBncBr7/0t/AqHpW0UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVL3BDJK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DViEwp06"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B11C116D0;
-	Thu, 18 Dec 2025 08:21:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVL3BDJK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1C5C113D0;
+	Thu, 18 Dec 2025 08:21:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766046066;
-	bh=uERldCdr1OS/x5qYI8OmivEYE4GjVONVAGrpGJTKBMk=;
+	s=k20201202; t=1766046069;
+	bh=eHaXCMfNPrzGKKskN0ftcIIedst5WnhbseQpDz6pWOc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DViEwp06Fb3EgQvIxbNYZqpoZgUiBAIGQsR0qkomx4SmfA9HfP+xMda0dlw3l843v
-	 NvKzcOyAzPKo0RKmt7SHD+MdXn/fsITXBS2vvL0JlZcNvrI5kQpOZY+PtDlZCT3JaV
-	 DdVEASZ/ah23nndhI+2b67X+2tGWyK56tr0HsJ6eTUz4wAKe9VOGtsj/r4BVnVqJkF
-	 Up1RkYcNYl7hzEB4z7P0MCTT5XAmNGMvImBrqAAjK3QoniHy80OZeG4RIpyXyJxtW2
-	 dPVAvA5mFMsMQY2xuu+9DcSemvEnMZf1gR5pIeobJGzaShwmFB04vOZIUxFYUItm2A
-	 lSkWvSOuI102w==
+	b=gVL3BDJK87Tty1gmGoNnwxGNkY5Xw+KRSXfRU3ZjV0NdBFyq3rwm7LOPUngYZbzZU
+	 6zLuUH/n//TLWJYsG4bml2u0yasTF90eq+sjLUsw3mjIoKftzjL/gZ/AmDYykmhJqs
+	 z1FeaBd2bj+jiHKK4HZn/9f0QC7aA6Ce+Z86IInmOdQad51cHum/lX68BMjlJBLDPB
+	 MM3+QE8lBwhgBofFv9eEoiJiRHl3hto0JFUS9VBA5dP2hCvizCNDr3oPTTbP/GlEnA
+	 CDUV+KJoinY4O7SoMqy0IvVePiq4RTfyaVaUGmI726jZO3FnN0mBVDV3ZhhL9hfjWP
+	 P2BU5tc6smjjg==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251201123906.86876-1-rf@opensource.cirrus.com>
-References: <20251201123906.86876-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs-amp-lib: Replace __free(kfree) with normal
- kfree() cleanup
-Message-Id: <176604606576.48417.12415715226763234194.b4-ty@kernel.org>
-Date: Thu, 18 Dec 2025 08:21:05 +0000
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20251217094602.55117-3-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20251217094602.55117-3-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/2] ASoC: qcom: audioreach: Add support for Speaker
+ Protection module
+Message-Id: <176604606703.48417.8295362346139487733.b4-ty@kernel.org>
+Date: Thu, 18 Dec 2025 08:21:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,18 +49,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 01 Dec 2025 12:39:06 +0000, Richard Fitzgerald wrote:
-> Replace the use of __free(kfree) in _cs_amp_set_efi_calibration_data()
-> with normal kfree() at the end of the function.
+On Wed, 17 Dec 2025 10:46:03 +0100, Krzysztof Kozlowski wrote:
+> Speaker Protection is capability of ADSP to adjust the gain during
+> playback to different speakers and their temperature.  This allows good
+> playback without blowing the speakers up.
 > 
-> Krzysztof Kozlowski pointed out that __free() can be dangerous.
-> It can introduce new cleanup bugs. These are more subtle and difficult to
-> spot than a missing goto in traditional cleanup, because they are triggered
-> by writing regular idiomatic C code instead of using C++ conventions. As
-> it's regular C style it's more likely to be missed because the code is as
-> would be expected for C. The traditional goto also more obviously flags
-> to anyone changing the code in the future that they must be careful about
-> the cleanup.
+> Implement parsing MODULE_ID_SPEAKER_PROTECTION from Audioreach topology
+> and sending it as command to the ADSP.
 > 
 > [...]
 
@@ -67,8 +65,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs-amp-lib: Replace __free(kfree) with normal kfree() cleanup
-      commit: 9a123f222e1889d020d873aa6e0799098d22cdb1
+[1/2] ASoC: qcom: audioreach: Add support for Speaker Protection module
+      commit: 0db76f5b2235ab456814ee8e4e2cdf0cef09dd6b
+[2/2] ASoC: qcom: audioreach: Add support for VI Sense module
+      commit: 3e43a8c033c3187e0f441ed5570a0fb5dcc9dafb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
