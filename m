@@ -1,97 +1,105 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C0032E6BC
-	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 14:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909182D9EEA
+	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 15:04:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766067265; cv=none; b=GSqeZU8E8q7PoegUpdTmx3jP7793V4BEnKpCVWmuuULNW2vovzewMBSlEecVuBZp+V4SHUALUSh/E8GPsFGgR37g9ddwuuHE2ccXAdFB0cy6z2yk3ETm06OdPi3BTCvNunxoYWGwbohP5ZNZx3/N+cYVkeGalz/Dwbcj+geRMf8=
+	t=1766070273; cv=none; b=lHuFoPyKDUu3PtNsgcbTXF1AAAfrbaSZc2Fb2Q3BtVv3dlt1cBPa4pdMboXBba5OMCOjeiD77O3jYXSfml9cLWlNm9/i7a3F1kNk9627EbR4u5NeX1N/ox++kqKYvTk3rAJ29luhuC+b2Ap9UkD625jmt1ncNAEEOFz1uDwu9xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766067265; c=relaxed/simple;
-	bh=Eal/mYd9OBrTps6PIF1sV+D4oMl8RMWtWwVANTi3tOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NEV2uHWuoz/LSwex0iFe65VS6aKN+G9JW+DV8mKWVci3iC+sVU3hEArkcIh/0T3tkc/AXDBDOwvVrHhhX6ylkmjJAF4lB3xvphM3dcuWbpC3v2dryqe5+3KC9/cknzAw92oNFDKv4Ie+EPkpNGUsZg1zLI3SqT6vHPYAhdJ8rh0=
+	s=arc-20240116; t=1766070273; c=relaxed/simple;
+	bh=BftEMXNe9b9u5qp4tnrpwQrsP8OnPjgSNlWWBG1pYyE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oOeO/FeK2r7o86+UN8aIpZhNvgkEVf3b5azYupw1dDI8gI05QNtjKZL/IB5vuJBbhqYESKLr4dgNT7eibMQBeoi8S9gy1VRPphY0h8bSITNWda8oddrceg537+5bYfU3tbLO/lYLz+0Zqq5ximS3czAFlze2t5m2VBq6LQSfYQU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1vWElP-0001qK-ML; Thu, 18 Dec 2025 15:13:55 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWFY4-0007j8-OY; Thu, 18 Dec 2025 16:04:12 +0100
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1vWElG-006ISJ-06;
-	Thu, 18 Dec 2025 15:13:46 +0100
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1vWElF-00EafE-2n;
-	Thu, 18 Dec 2025 15:13:45 +0100
-Date: Thu, 18 Dec 2025 15:13:45 +0100
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWFY1-006IfQ-2J;
+	Thu, 18 Dec 2025 16:04:09 +0100
+Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
+	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWFY1-00000002kPh-1zsF;
+	Thu, 18 Dec 2025 16:04:09 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Kevin Lu <luminlong@139.com>,
-	linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org,
-	Emil-Juhl <emdj@bang-olufsen.dk>
-Subject: Re: [PATCH 08/11] ASoC: dt-bindings: clarify areg-supply
- documentation
-Message-ID: <aUQMGawP_dWcTFTc@pengutronix.de>
-References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
- <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
- <07f8f657-8d9e-4310-ad9b-99fa6055eb5e@kernel.org>
+Date: Thu, 18 Dec 2025 16:04:15 +0100
+Subject: [PATCH v2 09/10] ASoC: tlv320adcx140: add kcontrol for num biquads
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07f8f657-8d9e-4310-ad9b-99fa6055eb5e@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v2-9-3c2270c34bac@pengutronix.de>
+References: <20251218-sound-soc-codecs-tvl320adcx140-v2-0-3c2270c34bac@pengutronix.de>
+In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v2-0-3c2270c34bac@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
+ devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Emil-Juhl <emdj@bang-olufsen.dk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766070249; l=1189;
+ i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
+ bh=qc2dQpr272s/at2Ej519T5bc2Pd27yFq5qfLTQIbZ5w=;
+ b=k3j1lAsnKy8JJbxs9OEGZyC/a8foLGiD/KZDlTrkeg4oEcqoYeCyVLtTHIu1kpCMuQVI0hcIx
+ jd81geFfQMbAxGEf7+RvxeTfuOIDW6xFK1e6BeE0RFiJofe64JiOpwP
+X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
+ pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Wed, Dec 17, 2025 at 03:30:39PM +0100, Krzysztof Kozlowski wrote:
-> On 17/12/2025 14:54, Sascha Hauer wrote:
-> > From: Emil-Juhl <emdj@bang-olufsen.dk>
-> > 
-> > The documentation for areg-supply could cause confusion mainly in terms
-> > of the relationship between AREG and AVDD.
-> > According to the datasheet[1] the AREG can be one of two cases:
-> > 
-> > 1) an external 1.8V supply
-> > 2) generated by an internal regulator (hence a 1.8V output)
-> > 
-> > [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
-> > 
-> 
-> Incomplete DCO chain.
+From: Emil-Juhl <emdj@bang-olufsen.dk>
 
-We asked Emil to provide his signed-off-by: I'll wait for that before
-sending an updated series.
+The tlv320adcx140 chips have a configurable amount of biquad filters
+enabled per input channel. Currently this number is always left at the
+default value of 2 biquads per channel.
+This commit adds a kcontrol to allow runtime configuration of the amount
+of biquads per channel.
 
-Sascha
+The configuration is controlled by bits [5-6] in the DSP_CFG1 register.
+
+Signed-off-by: Emil-Juhl <emdj@bang-olufsen.dk>
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ sound/soc/codecs/tlv320adcx140.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index a7200e149e5f40ddd61e3c0455b796c81f55e2e8..e7c607af642f43b2b783597f3cba3a8cbb31de4a 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -709,6 +709,8 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
+ 	SOC_SINGLE_TLV("Digital CH8 Out Volume", ADCX140_CH8_CFG2,
+ 			0, 0xff, 0, dig_vol_tlv),
+ 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
++
++	SOC_SINGLE("Biquads Per Channel", ADCX140_DSP_CFG1, 5, 3, 0),
+ };
+ 
+ static int adcx140_reset(struct adcx140_priv *adcx140)
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.47.3
+
