@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD3030BF65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5D02FF675
 	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 18:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766082144; cv=none; b=G3ZxSwq6Y3GCYF0BXhSHXMp14R2G79RpFKLbc8c+OXwuJQCSg0woVwMZ5SNVlaCTRcxBzohCOJapMhKp6dZz2y9CdPudlbqiM4wRwz7PbAWHVrMAnm4/kLY03iHwYsgZqC2H49gJcouDOdVLzPxjEdWaGg6KWamE1kKyJ9rzpi0=
+	t=1766082146; cv=none; b=XtpY1MU1U1Zdo+c6zxg6c9GQIotxg34V8HonkjrGkgU8/jL9hP8XIINu7TJpe2GflJGjMkCEPUXFUlq3FE1YXFy2rgCanPOTiq9/liO5GriWKCz6JYslKTdhmHkI+UMUpZGFlRIP0cqPxmPtffuiYvaLk3C0ZzAaaextGYuEJyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766082144; c=relaxed/simple;
-	bh=41flRPH4TSGsnCvQyNzqSTUzQqo/QHTY/SRkQLuvrVs=;
+	s=arc-20240116; t=1766082146; c=relaxed/simple;
+	bh=KIVZf9eQsEe24xzKqF2imdi5YUmFlNEbdV3+FMOkKwE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eMcB10Xf3gwS71SUySUqU1kAgUjjPUT29aMhHhVokQoOA64nBtU9VVLFJ/kmT3mK0jb/bVwE3iy1GyuMJTSpZ5orjzRmsXXecbNCYq2ZSolX3HqVQ8nZf6v9Nk1nKNQ6gxNB2htzV5InBvztb5rVu2ao6snoSvlphzEtTnuYVeg=
+	 In-Reply-To:To:Cc; b=c0OqH/1jdhXvxyTWNHbjjxo2ohbmHtUStepQ/aP7pGuj080uhfz8LPku6Tto2vFDWswhXLkGQSyi6SUOax+eDg3jsSDkeKQOl/zpvjd11Jh1eGX3I2OUSZikVyLazzt1nN9R2zoU2WmAuaJv/lZCG4LN0l6SbRA3IH+xra5Xdm4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdV-0003AD-2E; Thu, 18 Dec 2025 19:22:01 +0100
+	id 1vWIdV-0003AE-2G; Thu, 18 Dec 2025 19:22:01 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdP-006KXQ-2a;
+	id 1vWIdP-006KXR-2e;
 	Thu, 18 Dec 2025 19:21:55 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdP-00000002wYr-2LGY;
+	id 1vWIdP-00000002wYr-2N2j;
 	Thu, 18 Dec 2025 19:21:55 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Thu, 18 Dec 2025 19:21:56 +0100
-Subject: [PATCH v3 02/10] ASoC: tlv320adcx140: fix null pointer
+Date: Thu, 18 Dec 2025 19:21:57 +0100
+Subject: [PATCH v3 03/10] ASoC: tlv320adcx140: Propagate error codes during
+ probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-2-70ff66e5b93f@pengutronix.de>
+Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-3-70ff66e5b93f@pengutronix.de>
 References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
 In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -56,13 +57,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
+ Dimitrios Katsaros <patcherwork@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=1573;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=1285;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=Rp2iiRNuVwV+taJffar+hJiVimp4OjAE0fMMm0vIwyQ=;
- b=SzNQJul35q+y1lx/Ajz4MN8bqE2itAKbnkAoVeuSXIjBeoNjaR9q98Fs+1ctGWKKHj2JnEXtS
- AwJlKbgRtZVAx645ZQ4RgRWQTTyaj0p9KsBbEYP7K1rFkyz6DBWEK48
+ bh=PpAmR8wKqRTX1YV1R8fVM7vj/FkNO/cKPTJr6ncyO00=;
+ b=rzv+kErorMMHKPk5Ddf0/kcTAHSjtMJvzgdX93GXJAPl2zAPHwq2EqHLeauQiJtlOQlwG0F9Y
+ iwe7v8etnSwC/NlCXfS3wFuwJkPFgYMu7biJ3QpyumgBI2fM0L+pIsm
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,48 +71,36 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+From: Dimitrios Katsaros <patcherwork@gmail.com>
 
-The "snd_soc_component" in "adcx140_priv" was only used once but never
-set. It was only used for reaching "dev" which is already present in
-"adcx140_priv".
+When scanning for the reset pin, we could get an -EPROBE_DEFER.
+The driver would assume that no reset pin had been defined,
+which would mean that the chip would never be powered.
 
-Fixes: 4e82971f7b55 ("ASoC: tlv320adcx140: Add a new kcontrol")
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+Now we both respect any error we get from devm_gpiod_get_optional.
+We also now properly report the missing GPIO definition when
+'gpio_reset' is NULL.
+
+Signed-off-by: Dimitrios Katsaros <patcherwork@gmail.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- sound/soc/codecs/tlv320adcx140.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ sound/soc/codecs/tlv320adcx140.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 75e1007012a48a569586bc2896400e79ddce1c71..3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935 100644
+index 3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935..58a6dfa228cc326d18b3c3f126732033749c8e49 100644
 --- a/sound/soc/codecs/tlv320adcx140.c
 +++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -23,7 +23,6 @@
- #include "tlv320adcx140.h"
+@@ -1154,6 +1154,9 @@ static int adcx140_i2c_probe(struct i2c_client *i2c)
+ 	adcx140->gpio_reset = devm_gpiod_get_optional(adcx140->dev,
+ 						      "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(adcx140->gpio_reset))
++		return dev_err_probe(&i2c->dev, PTR_ERR(adcx140->gpio_reset),
++				     "Failed to get Reset GPIO\n");
++	if (!adcx140->gpio_reset)
+ 		dev_info(&i2c->dev, "Reset GPIO not defined\n");
  
- struct adcx140_priv {
--	struct snd_soc_component *component;
- 	struct regulator *supply_areg;
- 	struct gpio_desc *gpio_reset;
- 	struct regmap *regmap;
-@@ -699,7 +698,6 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- {
- 	int pwr_ctrl = 0;
- 	int ret = 0;
--	struct snd_soc_component *component = adcx140->component;
- 
- 	if (power_state)
- 		pwr_ctrl = ADCX140_PWR_CFG_ADC_PDZ | ADCX140_PWR_CFG_PLL_PDZ;
-@@ -711,7 +709,7 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- 		ret = regmap_write(adcx140->regmap, ADCX140_PHASE_CALIB,
- 			adcx140->phase_calib_on ? 0x00 : 0x40);
- 		if (ret)
--			dev_err(component->dev, "%s: register write error %d\n",
-+			dev_err(adcx140->dev, "%s: register write error %d\n",
- 				__func__, ret);
- 	}
- 
+ 	adcx140->supply_areg = devm_regulator_get_optional(adcx140->dev,
 
 -- 
 2.47.3
