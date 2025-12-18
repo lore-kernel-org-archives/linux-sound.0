@@ -1,40 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978662DC77D
-	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 18:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C27B23875D
+	for <linux-sound@vger.kernel.org>; Thu, 18 Dec 2025 18:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766081879; cv=none; b=pGPcPkTbFzRDTrP7Lw0NaYSzIbPQ59hrHDRiVxkS5OVeiTnn1YLBe5A8i6lXaBHDPgEYISn3UeuRADkaIKljujKAhmUOxpPLvz1eFAEY/8VUD4BixQVLdyLh4+dEgZFfEQ678MuuD3tyTG4lPj/OwutuL3OyJQaMDimvVEKFAzY=
+	t=1766082134; cv=none; b=bAYFOatBwQVdXFK1xIwLZ0wJbnVeCsL0B9yIj/mKscR1sNNZvmUR3pu1polpuw7dg8XiLLDxWLZVkw0xgMIYprgwIfRcVvCdQwCYc3FtSKMT4tcgPuMDZjIt0rhW1homT0zrfY+MWFNip0dae377AxpKqMVDQvlc6Y0hO577sCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766081879; c=relaxed/simple;
-	bh=cAlh1SEmrtoE1//iarYjz3DxFxJWhTgcWczXeKaBZ3k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gpHsAbCR2XI46tvotIuHjptiHbElp4z42DMzdq9sA1zpzy2CrbEP/Zf5l7IONGn//hbDcHl3GWLnMokSi/b6eWhm6e5YAPIAosQV7xZKfWbeVREZo+kXu5GEnw5KdPNnBqCbunkUOXtP2UuqA2Y9GSd4SZrMHMC0vROZsxxBUyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYhwgPoR; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYhwgPoR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B8EC113D0;
-	Thu, 18 Dec 2025 18:17:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766081879;
-	bh=cAlh1SEmrtoE1//iarYjz3DxFxJWhTgcWczXeKaBZ3k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gYhwgPoRr6vTIZJya9gw2X2ti0N97eXqusuSsvZVvxnuXxMZZoIKtaqwdjm81olMd
-	 u1MH5T5ehU6wPjA7TZpI1wvFWUnrR4vP5hqYSOARX74Y1AFAuvi0YAbYIZL2ghxPm/
-	 EY+Hb41RwbN7h66GaAz3HbD/qtr4+JLQebLURNhul0p+C4SP431kMvIlerdV1DWJX2
-	 43u3nWzWZFv7eMdKt3UUQLTLH5UYjhrvfyyWzzKxrS8LHt9UxNCc2aBafaFtGpQ6Ss
-	 AIUV57Y7XolfykqbOCiOdaZsevSesv/pWhDZ7SBXTWJkS0H6TDRsZrfq6K8y/z0enR
-	 fWsOjRGiUbiRg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20251216090601.3955252-1-shumingf@realtek.com>
-References: <20251216090601.3955252-1-shumingf@realtek.com>
-Subject: Re: [PATCH 1/3] ASoC: rt1320: update VC blind write settings
-Message-Id: <176608187735.237766.16435113488611332589.b4-ty@kernel.org>
-Date: Thu, 18 Dec 2025 18:17:57 +0000
+	s=arc-20240116; t=1766082134; c=relaxed/simple;
+	bh=sMAOvxmCw6OmDAyaMZWgESnKkBLUiDQChGiH/5dU728=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Zmdpuq4Sqclc9LLyHjSA/ldP810IzJV9mQVEWWH9+Kn0krsVmEUfdY9HX/HXCyO5xEgTI1h/r/l2FucuBhjP3onjPnxfAUDwJ6322NGbvsLyIBiFXw1qkaBFSQ3fWAf5tJm78LsXoFueq7hWZz0a6N1+U+BhWiJoMZ8oJknjIcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWIdV-0003AG-2E; Thu, 18 Dec 2025 19:22:01 +0100
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWIdP-006KXW-2f;
+	Thu, 18 Dec 2025 19:21:55 +0100
+Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
+	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vWIdP-00000002wYr-2U0v;
+	Thu, 18 Dec 2025 19:21:55 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Thu, 18 Dec 2025 19:22:02 +0100
+Subject: [PATCH v3 08/10] ASoC: dt-bindings: add avdd and iovdd supply
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,38 +41,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-8-70ff66e5b93f@pengutronix.de>
+References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
+In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
+ devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=958;
+ i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
+ bh=sMAOvxmCw6OmDAyaMZWgESnKkBLUiDQChGiH/5dU728=;
+ b=OK8kIkQA4Q0iYOYUSVPisfxG75rucqH6ENRAXGK5CqyulhFxXYy9qKID2+228+9fPU25qHNTH
+ mRH52UcR+yxAlp43hQF19zWSqUlPiM27lsYySGcoOuVn9Y4vesoc586
+X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
+ pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: s.hauer@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Tue, 16 Dec 2025 17:06:01 +0800, shumingf@realtek.com wrote:
-> This patch updates blind write settings for VC version.
-> 
-> 
+Add bindings for the avdd-supply and iovdd-supply which are named after
+the corresponding pins on the tlv320adcx140 chips.
 
-Applied to
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+index b34ea7824360310434d8b826392864dbfa5fc369..a93de2debbb45a3daebb0e24397e4893262e3a11 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+@@ -44,6 +44,9 @@ properties:
+       External supply of 1.8V. If not defined then the internal regulator is
+       enabled instead.
+ 
++  avdd-supply: true
++  iovdd-supply: true
++
+   ti,mic-bias-source:
+     description: |
+       Indicates the source for MIC Bias.
 
-Thanks!
-
-[1/3] ASoC: rt1320: update VC blind write settings
-      commit: d05d125f4e123e23c89d002e9922f83cee7716e1
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.47.3
 
