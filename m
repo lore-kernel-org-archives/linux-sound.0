@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EF932825F;
-	Fri, 19 Dec 2025 14:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2490D329C5F;
+	Fri, 19 Dec 2025 14:09:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766153378; cv=none; b=MPrYUgA2EcNrnsGBPcjz3Pkv7urZpDRfkQRgFd9kSqO8FEOzJESzFDhYMomi+VkZZdPQVqJuD//izMGNlvmnEsRVtKk2bZTzCjmhKh+2uKfXZ9JC4JA9D3J7wEE6b6c2+TGwouIY5OSDJH33GduG9ZjsZcfWJ/d/ETZ719gO3tQ=
+	t=1766153381; cv=none; b=XJfWbDZ2FBvI8lTqqSahdskjmw5DZifAsEnPWeUykejJl2wxYHYwxbAlGYBOHCza53puMdvTGLvfSmFi6CWGvEKTwpgQE6yPTe3DhxA93e2jlI8PGR1F3YeMXtGPyiNsb1gzbWghyqNi17CjcLiLbBQJ+7S1SlHlD61XwVymAc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766153378; c=relaxed/simple;
-	bh=p8naBn4GIYaJ0stZAMOiS0XH/cToPFzsSgXNLfvwUIs=;
+	s=arc-20240116; t=1766153381; c=relaxed/simple;
+	bh=3Y1mJw5AklsR4Q1u7kodeIcaXTuzWdVqNRFxY89/6k8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=br3Yr7NWCy+M/8RLSx95GBvZruubWCs6X/RMh5Gtu8IBw5ATQy6daievth6HiD/KXJ2m+1rMeavBPVjywiaSfZoV55/GIyMN/L9nKAF1/9pabHm1/3tGemu2RG7T1jMGLo/mdZORWTJwB9o+s10OdPvARZkPH/VHGToEZ6wDeVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ehnZ/L3z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BV16LmGdJRmI3m9kqD8FxmH05OqjqXnH2+6H+tZcKi284JueHFcOcPys2P5D7G3uq8JhOL0C8pfxjbCvPxetLMjMNwkEF+5Hos5azLLdBCzk4HfRcR1fq17AZsxrCLhTOkEauI1GQ/H2R1LRRT1CtyecxcusnVu2RfNIh45ZEXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gq9MzjsZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ehnZ/L3z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DDEBC113D0;
-	Fri, 19 Dec 2025 14:09:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gq9MzjsZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE50DC116C6;
+	Fri, 19 Dec 2025 14:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766153378;
-	bh=p8naBn4GIYaJ0stZAMOiS0XH/cToPFzsSgXNLfvwUIs=;
+	s=k20201202; t=1766153380;
+	bh=3Y1mJw5AklsR4Q1u7kodeIcaXTuzWdVqNRFxY89/6k8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ehnZ/L3zDduGxE0X335C1ZBhsuunVsemH+Lvc0xcWMrxmt6LExzrgKyBcI7Zi4Nu7
-	 bBgHBTEd1jTiOCRCSnTd7gEYm5l40PgCqJjODddQMO4xxd0SMdOq0TtjQmoCXtvQ48
-	 7EkaQf0BYXTFvcRIBgnulDj3nk/y0HsxHIU0QAbe6jwgXom3fj9tIwqkH2zBMcNONa
-	 8Dp+1rQtaLPgdTM0FM8GTizu3NrdJfPCVqAmpsdCUnbQqdYJRWKlOMUVY1JYgNJKlq
-	 RMp6V4te61bODHjK25yifO4CuT+hKn88RTwhhvOI0xQc8/ew0/NDePFig/FnT+WiX/
-	 rHS6/cl8XBpbw==
+	b=gq9MzjsZ2vluG3wCnt80FsizP9rDQ2dbS5hFkOtd6u/hPOWXSf/lcU/hxWvQAk8Q3
+	 Dx5khi7k8ngDEI8XtMga6LcCDRt+ASCyK+ksid4Mg2HMnUzHGMO0a1Mghg8XAmmg1b
+	 ZzpjzmOG9ycrNSHIJGkrMHjNh3GpoaEwgIDiNtsy4lgakJ0f6iWl547DeOnUvuyY7c
+	 nO4AVcE7H12cgZDp5yZ985XKQFrt3B6TfkoqlD2gOO5NKe7O9Y/0Fm0O2HGR2ZXwbN
+	 ssXLeez9m5hk1ALpTMtb2gr2ySdsIJFQukXEdYcLD6QmM8WSWjhYwm2sYB5Rn4YMWC
+	 EYXXlikO78Ktw==
 From: Mark Brown <broonie@kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-In-Reply-To: <20251216134938.788625-1-sbinding@opensource.cirrus.com>
-References: <20251216134938.788625-1-sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v1] ASoC: ops: fix snd_soc_get_volsw for sx controls
-Message-Id: <176615337705.412520.1728010945033810192.b4-ty@kernel.org>
-Date: Fri, 19 Dec 2025 14:09:37 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, seppo.ingalsuo@linux.intel.com, 
+ stable@vger.kernel.org
+In-Reply-To: <20251217143945.2667-1-peter.ujfalusi@linux.intel.com>
+References: <20251217143945.2667-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v3 0/8] ASoC: SOF: ipoc4: Support for generic bytes
+ controls
+Message-Id: <176615337870.412520.14252524036895395324.b4-ty@kernel.org>
+Date: Fri, 19 Dec 2025 14:09:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +48,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 13:49:20 +0000, Stefan Binding wrote:
-> SX controls are currently broken, since the clamp introduced in
-> commit a0ce874cfaaa ("ASoC: ops: improve snd_soc_get_volsw") does not
-> handle SX controls, for example where the min value in the clamp is
-> greater than the max value in the clamp.
+On Wed, 17 Dec 2025 16:39:37 +0200, Peter Ujfalusi wrote:
+> Changes since v2:
+> - correct the fixes tag for the second path
 > 
-> Add clamp parameter to prevent clamping in SX controls.
-> The nature of SX controls mean that it wraps around 0, with a variable
-> number of bits, therefore clamping the value becomes complicated and
-> prone to error.
+> Changes since v1:
+> - correct SHAs for fixes tags
+> - add Cc stable tag
 > 
 > [...]
 
@@ -65,8 +64,22 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ops: fix snd_soc_get_volsw for sx controls
-      commit: 095d621141826a2841dae85b52c784c147ea99d3
+[1/8] ASoC: SOF: ipc4-control: If there is no data do not send bytes update
+      commit: 2fa74713744dc5e908fff851c20f5f89fd665fb7
+[2/8] ASoC: SOF: ipc4-topology: Correct the allocation size for bytes controls
+      commit: a653820700b81c9e6f05ac23b7969ecec1a18e85
+[3/8] ASoC: SOF: ipc4-control: Use the correct size for scontrol->ipc_control_data
+      commit: c1876fc33c5976837e4c73719c7582617efc6919
+[4/8] ASoC: SOF: ipc4-control: Keep the payload size up to date
+      commit: ebcfdbe4add923dfb690e6fb9d158da87ae0b6bf
+[5/8] ASoC: SOF: ipc4-topology: Set initial param_id for bytes control type
+      commit: 2fdde18a2cb1631c01e4ab87d949564c7d134dd8
+[6/8] ASoC: SOF: ipc4: Support for sending payload along with LARGE_CONFIG_GET
+      commit: d96cb0b86d6e8bbbbfa425771606f6c1aebc318e
+[7/8] ASoC: SOF: ipc4: Add definition for generic bytes control
+      commit: 7fd8c216c422c5d42addc3e46d5d26630ff646d1
+[8/8] ASoC: SOF: ipc4-control: Add support for generic bytes control
+      commit: 2a28b5240f2b328495c6565d277f438dbc583d61
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
