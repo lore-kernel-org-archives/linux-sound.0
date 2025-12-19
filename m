@@ -1,89 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE832D7DDF;
-	Fri, 19 Dec 2025 14:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB046246BD5;
+	Fri, 19 Dec 2025 14:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766153382; cv=none; b=MgR6vxLIbelv1rp+ogb1GH5OXmZsD2Wv5BCUQQmLSPvCJhw6HHrrqLL5VRJ1gOAlX7JD35l/72kqlz7MM7wH0ES4uQIrehsJ2/7ErawrhUTtVyZKhINwCz3EptVVnRYaV6ewC5IJZkJUc+LlBnOmhxYrLRjhLFviDONHFURjbyw=
+	t=1766154266; cv=none; b=n3tO/ZgwwMqbqfYo6Hw6g2zYNgT8aId1ixN+mQvEsFIYlA7HlvgwV6usV7HWLstWMzbCWn+LeX1/4K9c0Qd6eDiQyUpZk6JQ2d+cjgh2ZfpWv5FLRKtWdttfxNe5HYT6KlEh8HtCuE7TDiVU9pkixseahw8q67AT7J/rPGW0wfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766153382; c=relaxed/simple;
-	bh=bS6o5KQV5NmeS8Knm5nXjCP4j0b8R+t8+omKFOhR33E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lgJB4q4+92nb6Ek7md6k/8Ul8Th5jNomZOaUWlzkKsvu/27pncCG0ylwLiaK+QCbAkUqkG1ciEsDgh99lkOA2wo8qCThwXo7XDFARb4BZ1UFfSsc7RSr9jFMX8hNBcJqU9VkRGJwqnsVgAB60IAg0ps+BolIOJFx8P7lwzgAhAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GkXARABf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766154266; c=relaxed/simple;
+	bh=FK6J5Y6NhuZq3oBB3Vfh2GPqKVSjbMb/FlvZjJU/avU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tOaYr8WPX0Ark4OQ9XvslcBLWv1zhJQXwImDfzrRIBYD2m2KIMpBDpiQIjnkCB+I746lhCck81VmN3RYVaEEWIVDxhk6NdBa5wxfHwISnFBZQrX6DAljhE6zqKsc6EMTQcpaAXykjfnZaecUjCEk2qpVhiI0bJVESJ22WeUniYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0Rm5C40; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GkXARABf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 194D3C113D0;
-	Fri, 19 Dec 2025 14:09:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0Rm5C40"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82F0C4CEF1;
+	Fri, 19 Dec 2025 14:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766153382;
-	bh=bS6o5KQV5NmeS8Knm5nXjCP4j0b8R+t8+omKFOhR33E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GkXARABfJJWxWrh4mU1S8gH1+qNHl+t6bkgolBR/YljDVeQHH2oV/jgkLK+chRVDP
-	 tPNMRrUaGfyLqkDBB8lC2XS03cP+OtkaKkM8V3SdPORlWz5B7z1q/oVYhkipRui6RO
-	 u1Tcv639C4UyaBXnVD4pHqin6p3KBvUolcIpz2bsir4UDCkyM7vpltO/TwiJZBaOF9
-	 GfDBTq5PFU69ZRwfXPMVCQeYqWJLaTgyTRLwfgHgDdz1h64aN+RTPW9cr45S+iCVdg
-	 QR9cpM550qGR4SqGHkG3fdW7arUb3OoG64N9VHpFvvDfmU8FrmlJ9lC7QPYobgsAkL
-	 uFM9Pui0pEigQ==
-From: Mark Brown <broonie@kernel.org>
-To: yung-chuan.liao@linux.intel.com, 
- Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251217163227.1186373-1-rf@opensource.cirrus.com>
-References: <20251217163227.1186373-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: mtl-match: Add 6-amp matches for
- CS35L56 and CS35L63
-Message-Id: <176615338083.412520.16318107650352498935.b4-ty@kernel.org>
-Date: Fri, 19 Dec 2025 14:09:40 +0000
+	s=k20201202; t=1766154265;
+	bh=FK6J5Y6NhuZq3oBB3Vfh2GPqKVSjbMb/FlvZjJU/avU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L0Rm5C40E4eXMmiSLIibK02jBPnfIlHHbmhqJmVZwA9TbGOSmjTzOXHeqh37aUWxr
+	 ZH3negNOsMSKPhEc/x7Zuu7nwiE9kV7jHKtXXYXjXJf3qRi4PVSZjqEBB+GKb+tF4G
+	 ChAFWPqIkfg7lTyJKLnjrfhtyVHNfHlkKZGj19ZINnPvjyMf6UI6SFnYVdrwIpIape
+	 sal4czAsDzXhY16YOIUglYC9cfOIRwsr92Ap3Mlh2amnpqP0mxLei3zUrOeejMSs4U
+	 HDkGl4gdBHyoQU6abWNCvMYqVuTOIB7dbCcP+jYJlfcuRoeHW/UhAYR79gEu/Qghx3
+	 PRudBsDFG/f8Q==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vWbP6-000000004xS-0IPd;
+	Fri, 19 Dec 2025 15:24:24 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Ma Ke <make24@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: pm4125: clean up bind() device reference handling
+Date: Fri, 19 Dec 2025 15:24:12 +0100
+Message-ID: <20251219142412.19043-1-johan@kernel.org>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
 
-On Wed, 17 Dec 2025 16:32:25 +0000, Richard Fitzgerald wrote:
-> These two commits add support for 6 amps with feedback, primarily for
-> the CDB35L56-EIGHT-C and CDB35L63-CB8 and similar hardware.
-> 
-> Stefan Binding (2):
->   ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L56 with feedback
->   ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L63 with feedback
-> 
-> [...]
+A recent change fixed a couple of device leaks on component bind failure
+and on unbind but did so in a confusing way by adding misleading
+initialisations at bind() and bogus NULL checks at unbind().
 
-Applied to
+Cc: Ma Ke <make24@iscas.ac.cn>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ sound/soc/codecs/pm4125.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L56 with feedback
-      commit: e43aefb771e82f2e13a435c37ef55813f4140f93
-[2/2] ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L63 with feedback
-      commit: 26f637fa08879152b9c82417d0d4096019b386ff
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/codecs/pm4125.c b/sound/soc/codecs/pm4125.c
+index 8bc3b9994019..43dcafff6c77 100644
+--- a/sound/soc/codecs/pm4125.c
++++ b/sound/soc/codecs/pm4125.c
+@@ -1505,10 +1505,6 @@ static int pm4125_bind(struct device *dev)
+ 	struct device_link *devlink;
+ 	int ret;
+ 
+-	/* Initialize device pointers to NULL for safe cleanup */
+-	pm4125->rxdev = NULL;
+-	pm4125->txdev = NULL;
+-
+ 	/* Give the soundwire subdevices some more time to settle */
+ 	usleep_range(15000, 15010);
+ 
+@@ -1624,11 +1620,8 @@ static void pm4125_unbind(struct device *dev)
+ 	device_link_remove(dev, pm4125->rxdev);
+ 	device_link_remove(pm4125->rxdev, pm4125->txdev);
+ 
+-	/* Release device references acquired in bind */
+-	if (pm4125->txdev)
+-		put_device(pm4125->txdev);
+-	if (pm4125->rxdev)
+-		put_device(pm4125->rxdev);
++	put_device(pm4125->txdev);
++	put_device(pm4125->rxdev);
+ 
+ 	component_unbind_all(dev, pm4125);
+ }
+-- 
+2.51.2
 
