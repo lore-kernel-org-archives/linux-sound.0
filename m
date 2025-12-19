@@ -1,103 +1,88 @@
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5FF258ECB;
-	Fri, 19 Dec 2025 04:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00762D876B
+	for <linux-sound@vger.kernel.org>; Fri, 19 Dec 2025 09:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766118611; cv=none; b=EKItLryWy3GHH7HQRKBjp1NLF50X2S9SAt+5P1USIRPxOwFs5SxLu2mbBMSKiBUz1U4kHPRkvjege6up9HipUl8gLOg8DPW+O3aTVOqymiFTkVqPGqymJv88g3srsFNuIUhrLqktSfxbrZiHn81DElwMjRAeDd/oF8WsSSusqLg=
+	t=1766135435; cv=none; b=OGNk1YeMGFda+781VMKtfyQUDTVepoaGL7byrXW6raBIgAM1Mr8ek+TVESxNViEzLsdC7fDt3g/ckSODyyBxJZbXDjLj2qv/WSs9Ce9g/pgSDCyw0/V6DJm5oRWX6PbgJaPmtt9kbzgbU2wdprx+uGGRfTaUlI3dJRVswToY1So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766118611; c=relaxed/simple;
-	bh=tQ48w5dtuOe92p0iA3QahLgH9d2IZNXIgByp1F4qGHg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nTVd2qnprpNatc1GkybTqPuGm/6ATJX1tDvYsIrZJHYLY8h4DXtatUAWk0h/E6xeOQh/Wb4h17s0LiEgtwSaOCW7ZrPzANFqXClDN0xe8UfbF02GmUkyEIYlvp7qxBo3qGwZxjSN3R0JaEV8FSOn8gaSo0HFkc7NkX+mZASUj48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=B5mX9N6T; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=S7PGnjA2; arc=none smtp.client-ip=203.29.242.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+	s=arc-20240116; t=1766135435; c=relaxed/simple;
+	bh=OqrFHGtlH34SSU+bMNB/8QnzTpqYaj+tyH1M3FobZ/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jB6AnKWFPBJ0TUsaTrgCd0oGMWmlijDVGiHueTOBaTdB+hk0BwULlarhZyrvPPAGGtIsyCJdXzw+1klQbCQRqi0ZBl7Uqgc0/saoN+yhas3ZYnoIw+QzqAe8OWcjoCSOvwRhiXLITtyc9yQluyz9wQlb9Uw9MVlSK5Jkb4q9hdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XB2MixF/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="B5mX9N6T";
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="S7PGnjA2"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1766118174;
-	bh=tQ48w5dtuOe92p0iA3QahLgH9d2IZNXIgByp1F4qGHg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=B5mX9N6TQzIo422awhmmFSNkGLLqsMZZ08AYZHnwHqasxcqmW4rYN/LC7j/7wZOqT
-	 QeFzivyu7kiqejHzaySX4iURZ+WyvKXSa5yxMvl/Go75m1xwTHCJ8VXQRM3ll7h5G1
-	 6QOvp/j3PTxA8Mjjn5YTxuj1UmH0946A4wpyIpJ6W4pNwLpWyB52D/JRArBRl6CQyv
-	 kX7r3HrJvWhTMnTRolr1NWH/Lvr7J7gejGV/Pkx7TlDAddO5FnKs6ByxESItUY/wlm
-	 FlYXW2sfRAGdv7a5bW5bLnlL5kzj1Wltel9q//hLRkeZGkGliJpAIFfao6zpf29LKO
-	 ZpGNvlAdc3QHW5G6O7DpSpMURYXkXHKAUXxAzSK8h9lK6jxTRLpsdvUsN+PkxzM21v
-	 ewBKJRZFGaL7COr8jCL+dD1KyrC1RmiumdGASXrjZMh2UU29BNO9gkNNJZIWL0g7qS
-	 3GokLW3guus0RUNE22QD/rUef/8NERVQgJ/0y0JiwixjfdqRbKp2LPAGJB5q3Tjliq
-	 CjuQrw8KYg6i9tAqHPraUhkqN1b6QwHcbLD6yiQM3FMdJnvpygI154cuK851rI8MTZ
-	 +CEO+xlyBVwlF0PjO4h50CeEN0AmTg/ywJYvE3ORWDCC4N76XWz+Kodxf9e33Yphlf
-	 BIkeq5dHklcKMcGAggYTMijw=
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id B8CAD1E6589; Fri, 19 Dec 2025 12:22:54 +0800 (AWST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1766118173;
-	bh=tQ48w5dtuOe92p0iA3QahLgH9d2IZNXIgByp1F4qGHg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=S7PGnjA2N2ziI5ub7Id+Gal5qIgJScfEwtSiDTWDHk/zSLH963rD7GMz6IEPee35E
-	 /mrz+MQHqr6T2kcMPB5GXWKsvmq/J0antbZkGi6tD6OJLDWUVYS99/2YHQdI0uf0ia
-	 1yk6TiV6nq9MdHvLqDv1nsbu4eWLxo0QJVsJtN654k1A0Zff/wX0F8FUA6lYXtjwB4
-	 dNo0ZObBvnWQrGjxUd5nnQsGOzSiLZx7BA7MkmdxaxuifoDSgkd+otk8A12gMcjQJd
-	 Pm0g2LyzPYT6clVNiR9L/E5k9SAa58fksG3IXxVClv1NUk5v39seXJ4f6K7CPSESRN
-	 fLcIbiw/GzR2APt6xJSXQrd0eOaSJf7Bay/eEXTXbYiswT+acIRfQ1dub2493Z1BFT
-	 F2ViJ/CDN9WALuU8fM+rm6tPUTNFIXMJfb1pfbRxnsVnvt/UjxCrHhfQcpdWePBg9/
-	 0o6WKWQFE1oueItmO1rFA9AYNfoY3cgZQ3pba5p7ULJr48dne9SvNaG4kneT8jF8Cq
-	 6MaZdWMab30LAp9BW/tzb6GfrYPV6F8I9d2pq+KNcIm+WNsUUIDGvaMwRirosq7ztN
-	 kLL77Dyxu5L/pO4pElC+yFhA4lkbLVhjCVPurk1lX5kGkNS6Z61sjqnjB0XGxbFz0m
-	 12Oo6FC9nz7Vt4U0IrUBMN8k=
-Received: from [IPV6:2001:8003:8824:9e00::bec] (unknown [IPv6:2001:8003:8824:9e00::bec])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 9577F1E6584;
-	Fri, 19 Dec 2025 12:22:53 +0800 (AWST)
-Message-ID: <62f352ef-f89e-49b6-9b51-c6e1c3c4f510@davidgow.net>
-Date: Fri, 19 Dec 2025 12:22:49 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XB2MixF/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7A1C4CEF1;
+	Fri, 19 Dec 2025 09:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766135435;
+	bh=OqrFHGtlH34SSU+bMNB/8QnzTpqYaj+tyH1M3FobZ/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XB2MixF/6O45ytQXIaYxW+sgB2KEcpVBcC0HNiAvqP97dhy+IJS+VyOf+5FZoqWKy
+	 JU4HIG5jfDOSPD32K4ia8ygpYevLr1FLVkT2h7o40lhIJFdkbDEXCdAykw1h/K0tVq
+	 sXC9S8u4GCBNsTl/bUiUlD0j+/FKirPxz96LU9uPhLSGRwyTFbEsyc+bxl/DleDly7
+	 fUol6diZ7SvJQ8VjRQSGEEou0X6wS8XTyz6VfM0+Y68h6M8E8aWKZU/vwrrvZN2SZd
+	 dLhCJUCHOlb6zOtqOKY792JFjc/wz+3tyg1L9xecOHgQ3gtAzfD66gRNTH6h6YyC3Z
+	 SH4rcT5FJY2DA==
+Date: Fri, 19 Dec 2025 09:10:31 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Takashi Iwai <tiwai@suse.de>, Lars-Peter Clausen <lars@metafoo.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: About component->card
+Message-ID: <f3e964e5-dfc7-4c76-8b98-a6bec0f784c7@sirena.org.uk>
+References: <87v7i5esrk.wl-kuninori.morimoto.gx@renesas.com>
+ <874ippecif.wl-tiwai@suse.de>
+ <873457z45u.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: ops: fix snd_soc_get_volsw for sx controls
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-References: <20251216134938.788625-1-sbinding@opensource.cirrus.com>
-Content-Language: fr
-From: David Gow <david@davidgow.net>
-In-Reply-To: <20251216134938.788625-1-sbinding@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6dven0ZxiL4/opXe"
+Content-Disposition: inline
+In-Reply-To: <873457z45u.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Save gas, don't eat beans.
 
-Le 16/12/2025 à 9:49 PM, Stefan Binding a écrit :
-> SX controls are currently broken, since the clamp introduced in
-> commit a0ce874cfaaa ("ASoC: ops: improve snd_soc_get_volsw") does not
-> handle SX controls, for example where the min value in the clamp is
-> greater than the max value in the clamp.
-> 
-> Add clamp parameter to prevent clamping in SX controls.
-> The nature of SX controls mean that it wraps around 0, with a variable
-> number of bits, therefore clamping the value becomes complicated and
-> prone to error.
-> 
-> Fixes 35 kunit tests for soc_ops_test_access.
-> 
-> Fixes: a0ce874cfaaa ("ASoC: ops: improve snd_soc_get_volsw")
-> 
-> Co-developed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-> ---
 
-Thanks very much: I've just bisected those failures to the same patch, 
-so am definitely keen to see this fixed.
+--6dven0ZxiL4/opXe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Tested-by: David Gow <david@davidgow.net>
+On Fri, Dec 19, 2025 at 12:49:49AM +0000, Kuninori Morimoto wrote:
 
-Cheers,
--- David
+> One question. I can agree about "the card is the top-level abstraction",
+> but what does "it'd be unnatural to go beyond that in the ASoC component"
+> mean ?
+
+> Indeed there are practical concerns (= complicate locking), but apart from
+> that, above image itself is not so strange, but am I misunderstanding ?
+> (= It is one of the gap between "ideals" and "reality" of ASoC ?)
+
+ASoC really wants to glue a bunch of components together into a card, it
+doesn't have the concept of a component being in multiple cards.  There
+are more assumptions than just the locking issue, for example DAPM
+really wants to have a single graph for the whole card.  If there's any
+overlap at all in hardware the natural thing in ASoC would be to have a
+card with many PCMs and ouputs rather than have several cards.
+
+--6dven0ZxiL4/opXe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlFFocACgkQJNaLcl1U
+h9Cuzgf7B40ZS01t93VHVp4FnH1KACzjueNx+kH3miaYLBdHczkjtgO3/5NS8uq3
+C/5KNOgP2ljX3JeKDOdjfIlYE72qKYiBiqkV/A9xgY+q/zq9QZmQ0ukei+p1T56I
+ZZoJW1YSAF4cZGWVGJMT5+nYjafuWKlOia6wcdO/z60x1gwGE+D5wXJ5PhB7DxpM
+urZ+Xe2KjqwiYHsU7LQTjJk/gEJhQzOaovy2aUkU0OOnWMCSQq59ITUxq5/FRHSn
+xKWJUBtAmlDxDw1B2zaNihnPM1xBhmrOhbrMdLEvEsFTSO023NblXckqaKeywMKO
+dTveB73vJzQ3KhpKN6VQ/dNJvAGEfg==
+=O779
+-----END PGP SIGNATURE-----
+
+--6dven0ZxiL4/opXe--
