@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFE6264628;
-	Fri, 19 Dec 2025 14:09:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4D62D29B7;
+	Fri, 19 Dec 2025 14:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766153374; cv=none; b=Nd/iY9mmoSwxrjRxpWeigKPj/DFcgU7YS74qJ5+XQjIZPx2k8MRAWoZ3HTA+nhpv/Dnij7d5qiPTnM/0Njt7gjOtNX1vJkYpEjhfS8fb1rvq5aTRayK6dbpqKTK1uiuaovpgaJI+xwARAEg8BDxouiQg38K9/mM5kKXoUrjUfQo=
+	t=1766153375; cv=none; b=cYlWLhVGKB5mLrYTVmsJg1lFsMrmRASE5/zS4cOkQ3JMpKaYdb0CY8hs7O+YA5u8tqV8c1hwch6J+wlWPcykTL7pPlO1v+HYysw1yMXtsPMEh/nNUYgsZ8jGVn3EAd2/IoVHfyncn6ASa5qKVioiocOIp4IhPH7OhI/SD8OvN9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766153374; c=relaxed/simple;
-	bh=C39rTcxAkIHv99X3RPljuO/4e4VbRRgUEip2DvPO0g4=;
+	s=arc-20240116; t=1766153375; c=relaxed/simple;
+	bh=UN0Mdg7W0tnMFqXs/oDk505vUqsvmgjP/v5TojxbzAU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=m3gYDXSw1qxMOSmVHFERkr/RMcDRXYbI7+L8cFWsRD+NSfMwE+OLFPoL+KRUjfFZDbZplZkXU49rL5H6wX6C37zjglZ+zMzyYwQGTh813bWV67Uu5YX5Rxqqz9GHxjOWMaSASvhP6trfV85rZVWE1XhmA0OXzIEZAOCVaLK83lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9QefJJN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CFwva+LsIkFzywBZHEXo6g284SZqv5WB82PCim4ZCysCTNizN7H4BqtPj02JePl/flYrVrNJCNe9NTzOLmxWCBXNCKZb+RQu5m2xHpplKA3Rzo924s+nqXfeQkGh4Qic20c6/9sUfFXhB8CU1RuP/CkcTjkd7kOxrMbefOAcqzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYAs0Edk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9QefJJN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A68C113D0;
-	Fri, 19 Dec 2025 14:09:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYAs0Edk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39ADCC4CEF1;
+	Fri, 19 Dec 2025 14:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766153373;
-	bh=C39rTcxAkIHv99X3RPljuO/4e4VbRRgUEip2DvPO0g4=;
+	s=k20201202; t=1766153375;
+	bh=UN0Mdg7W0tnMFqXs/oDk505vUqsvmgjP/v5TojxbzAU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X9QefJJNU2LOIz01mwiA3qKSM6jtH2/vmKMJL/J6f5D0MzVCYhDdbZQam8a74LjOL
-	 wfyUjk5TGqbophYe+c3HaULoOfnQx9YsbqnA211YU37zoti7tmFIWpD5X9LDmxaaet
-	 y7tZdMRTI30e5hH1gu1BpsdvIcTAl++fRedeEdwYUjuyJnsg0Hscjyg+hMApUFRMBP
-	 lX7jUcwmtW39Km7gJOU3cJ0Mt7H+KNC5fi2ApUvGW1g5RtsYy/+rhfbsM8040vyLNZ
-	 oIkWTZ45heqm0n927TgW+EQ3otn/+Oi3Fr+J05XcKBRY69IDgCZF5N3/wGiKgWHC0a
-	 fZAaU0XLpXdPQ==
+	b=eYAs0EdkTER9JkGoUn+7p6/vexf8MbgjyW5TGJjh527luFHnIeEUSI611+cCHraqD
+	 s9mdX3U9FNhCeF39EH8LXxCxMol9phEQn0uwaA8nlALyqDs2J7d546AeCtT37YWZt5
+	 F34jG4ErHjcnfA7kJJP0q6JGGorDvIUKJQVPlVf82fsf2YQVbXyhjEQrA5dGLExCDd
+	 HwdEL55K7zxPtKg0XCXTYWDLzSjGbN3QXXz4Pv+uDN0PRkWYeJ8g3Wj3CuQEdB0COq
+	 iqiIygwrkELT9fAriqzPlD8bLymvp32UX+7a542aL/z4akjJtp7AAvTXiMeBMDT3ep
+	 4GLi2vCjPL9nw==
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20251216094045.623184-1-alexander.stein@ew.tq-group.com>
-References: <20251216094045.623184-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl_easrc: Fix duplicate debufs entries
-Message-Id: <176615337149.412520.18004973037532955036.b4-ty@kernel.org>
-Date: Fri, 19 Dec 2025 14:09:31 +0000
+To: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, 
+ Zhang Yi <zhangyi@everest-semi.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20251216064721.4622-1-zhangyi@everest-semi.com>
+References: <20251216064721.4622-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH 0/2] ASoC: codecs: ES8326 : Add Kcontrol
+Message-Id: <176615337397.412520.17326760984744611865.b4-ty@kernel.org>
+Date: Fri, 19 Dec 2025 14:09:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +45,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 10:40:41 +0100, Alexander Stein wrote:
-> this series fixes the error regarding duplicate debugfs directory creation on
-> TQMa8MPxL (imx8mp) when easrc is enabled:
->   debugfs: '30c90000.easrc' already exists in 'tqm-tlv320aic32'
+On Tue, 16 Dec 2025 14:47:19 +0800, Zhang Yi wrote:
+> Add some Kcontrols for ES8326
 > 
-> This is caused because fsl_easrc adds two components which use the device name
-> as component name. Debugfs directories for each component is created, resulting
-> on name conflict. Fix this by adding the debugfs_prefix for both component
-> drivers.
+> Zhang Yi (2):
+>   ASoC: codecs: ES8326: Add a kcontrol for PGAGAIN
+>   ASoC: codecs: ES8326: Add kcontrol for DRE
+> 
+> sound/soc/codecs/es8326.c | 18 +++++++++++++++---
+>  sound/soc/codecs/es8326.h |  3 +++
+>  2 files changed, 18 insertions(+), 3 deletions(-)
 > 
 > [...]
 
@@ -67,10 +64,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: fsl_easrc: fix duplicate debugfs directory error
-      commit: 9f5f3583ba423e6eed0a96e4d4b7d808d618f3aa
-[2/2] ASoC: fsl_asrc_dma: fix duplicate debugfs directory error
-      commit: 4de6cea0d8e10c9e3f38ccff7edd45891976e67a
+[1/2] ASoC: codecs: ES8326: Add a kcontrol for PGAGAIN
+      commit: 68970b53890c877c61686c86fe28cc3a142c1584
+[2/2] ASoC: codecs: ES8326: Add kcontrol for DRE
+      commit: 9a6bc0a406608e2520f18d996483c9d2e4a9fb27
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
