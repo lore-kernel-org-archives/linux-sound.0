@@ -1,101 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6562773D3
-	for <linux-sound@vger.kernel.org>; Fri, 19 Dec 2025 01:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047BF1F5820
+	for <linux-sound@vger.kernel.org>; Fri, 19 Dec 2025 03:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766109509; cv=none; b=IbBCRoQO8s/KicLFq3LzkNDR4OOvni2y2f5lT2dkTtd479YdMfwHqy7phKtquX9r1BLVYxptH4Gm5SW7PwyRNK0PdNfXvF+FwDkYGCNY9YgWA5NFlwMx/zl8vOazIpN0byey9kZ4x+V2iX0tJdgIficP7tKPMta8K5dPWjeWdVU=
+	t=1766116155; cv=none; b=doFQy6xDlK4kTVR2+eq2G3FQp/JTQC8CgBeNDKN2SK0Dv2bFF/yXBKVrIKqBYihsmB/vR6FxMl9SKLwb4xtXR+3CUYDgBD9V17ECQwX6I44BihQ5BmKReon1Rn4UO8E44Zn8BK2BqSy8vu9Tw/qi/0ang47L/+kjbuwgOOMsyUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766109509; c=relaxed/simple;
-	bh=7Iag5fk86ATm/ZFesHFU5D7xq+SppfoojKcWnyFlfuA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RZ84gCONotPgRTY41X99QyHDgjnlCDRd1Y/9Ccn9k2cRkgmTKCoSVtTJZoolE4nP2O9KIk+Fn37AyL5kZSsvTtHokCTnbykVDHK5QaIzXu9r8yb/cc+GXhbhZoKJN8NLmV6UHKosdsmI291W9FexUANL7Noxz5Nx6W9alystff8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DY0Bgew2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766116155; c=relaxed/simple;
+	bh=wUUlzkhH5w9nDD2KAOM6oX5GoTlmxndH1F6c8FsaYp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OuGv0YLaCe1Tz8pcoEAttvM79Rzhz8TzH0La5tCQ3urS6PFXmKLxWFreZKdJES3EErG0TN91pafGShbhmxJsjVY81SIfiahNye//JWINLquKPgf2sWoLCPqTZ7WZh+sdLHlpYKlrT1Ga/z+X86IqO8+KvPhZgnW/wiV0c3xpDcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsRZhIeB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DY0Bgew2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsRZhIeB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766109507; x=1797645507;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7Iag5fk86ATm/ZFesHFU5D7xq+SppfoojKcWnyFlfuA=;
-  b=DY0Bgew2h3ANe40zxkG9nn2HpJjuMWyDOtRWBfGOsMU9irBEzSjYpDZZ
-   wDSSJQmZQS/eHvYgpaLfxIH19VeZEBPSK0YSqdqZUYWFDOPw+QrhtDNGI
-   wbYt3aQE3BqRca50TbgAM8ZvnBVG+myRdnc+nYkC6AQXKjwBlEQJ8MIqa
-   jy2YNUSJx6hewshwia+NVryIh4bUaQmcprI96X/j6IgpblXPgbV7mWIoL
-   4qdg3XncGM0E/HbU0Oe80nTW4kD0WKRRWEk2g2w20+OJOgnnd69EZea6O
-   4EOjAEg5Xi+FKnox8ZL2QSkgELO1ZOtwGyw0dcsE9w3/IiVzVHD5+gZ3b
-   Q==;
-X-CSE-ConnectionGUID: 4hp2FDZKT3qACoVY3PCMew==
-X-CSE-MsgGUID: 9pyMibcRQ5+zwwgOM3vAnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85658136"
+  t=1766116153; x=1797652153;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wUUlzkhH5w9nDD2KAOM6oX5GoTlmxndH1F6c8FsaYp4=;
+  b=gsRZhIeBnLeQhk+Vv3vqOL5l1BO//1FF+NSkpI0nt3cylcsC/3egFw/R
+   r1O/9dkV6CfuewxBnHTUW/Uh6rpXjfwnrpkNmFtdTykc1fZvUVjgJuGc6
+   GlnJeqIY4kgEE1gGNpBULm+hqsGKgrSQLRK8W67D+S1jsCgc2h99SEv5K
+   H8yDoc3N2kgmBEn+zbPkJ7VVIr76dMxom3XW/+iZ2y5qL2EvjspLadt4k
+   aWBqYnsbqLh0mvHFOtsb0K+aYub9gdcw/w6NOVJAqoB7hOJhWaM4FeWDf
+   f0lyoR3heQUYv/bgtVj579q/8NKRoV90cHp6OIMAT7mAbKvuWH/EWU97p
+   A==;
+X-CSE-ConnectionGUID: CsouLBQMSCuFQSvmTMoR0Q==
+X-CSE-MsgGUID: cOBMSNdJS2CHtvKuNfp2RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79536047"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="85658136"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 17:58:27 -0800
-X-CSE-ConnectionGUID: gnKbiUinTrmlc2ox517xLQ==
-X-CSE-MsgGUID: Lfy3ni4bSCODvooYff/wWQ==
+   d="scan'208";a="79536047"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 19:49:12 -0800
+X-CSE-ConnectionGUID: sRg+k+U0REeMGihSdfOYbw==
+X-CSE-MsgGUID: r/CEX0SoTZaFFQ/22vewIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="229780360"
-Received: from unknown (HELO [10.227.10.59]) ([10.227.10.59])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 17:58:23 -0800
-Message-ID: <b2483cc9-d549-4c59-baa1-8dba8ebd6804@linux.intel.com>
-Date: Fri, 19 Dec 2025 09:58:13 +0800
+   d="scan'208";a="197903925"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 19:49:11 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH] ASoC: Intel: sof_sdw: shift SSP BT mask bits.
+Date: Fri, 19 Dec 2025 11:49:02 +0800
+Message-ID: <20251219034902.3630537-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] SDCA Jack Fixups
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, vkoul@kernel.org, pierre-louis.bossart@linux.dev,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20251215153650.3913117-1-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <20251215153650.3913117-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Mac Chiang <mac.chiang@intel.com>
 
+The SSP BT mask bits overlapped with SOC_SDW_CODEC_SPKR,
+SOC_SDW_SIDECAR_AMPS, and SOC_SDW_CODEC_MIC BIT[15–17] in
+sdw_utils.h. Shift the SSP BT mask bits to a higher range to
+eliminate the conflict.
 
-On 12/15/2025 11:36 PM, Charles Keepax wrote:
-> Some fixups to the jack handling, adding some necessary hooks to connect
-> things with the machine driver. I have split these out from the system
-> suspend chain as that has been generating a fair amount of discussion
-> and getting these 3 merged is far more important to get basic
-> functionality working smoothly. I will do a spin of the system suspend
-> stuff soon, if either no new comments pop up, or we reach some consensus
-> on how to proceed.
-> 
-> Thanks,
-> Charles
+Signed-off-by: Mac Chiang <mac.chiang@intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ sound/soc/intel/boards/sof_sdw_common.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Looks good to me.
-For the series:
-
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-
-> 
-> Charles Keepax (3):
->   ASoC: SDCA: Factor out jack handling into new c file
->   ASoC: SDCA: Add ability to connect SDCA jacks to ASoC jacks
->   ASoC: SDCA: Add ASoC jack hookup in class driver
-> 
->  include/sound/sdca_jack.h            |  32 ++++
->  sound/soc/sdca/Makefile              |   2 +-
->  sound/soc/sdca/sdca_class_function.c |  13 ++
->  sound/soc/sdca/sdca_interrupts.c     |  83 +--------
->  sound/soc/sdca/sdca_jack.c           | 244 +++++++++++++++++++++++++++
->  5 files changed, 297 insertions(+), 77 deletions(-)
->  create mode 100644 include/sound/sdca_jack.h
->  create mode 100644 sound/soc/sdca/sdca_jack.c
-> 
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index 3aa1dcec5172..5390f0a749d6 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -46,11 +46,11 @@ enum {
+ #define SOC_SDW_NO_AGGREGATION		BIT(14)
+ 
+ /* BT audio offload: reserve 3 bits for future */
+-#define SOF_BT_OFFLOAD_SSP_SHIFT	15
+-#define SOF_BT_OFFLOAD_SSP_MASK	(GENMASK(17, 15))
++#define SOF_BT_OFFLOAD_SSP_SHIFT	18
++#define SOF_BT_OFFLOAD_SSP_MASK	(GENMASK(20, 18))
+ #define SOF_BT_OFFLOAD_SSP(quirk)	\
+ 	(((quirk) << SOF_BT_OFFLOAD_SSP_SHIFT) & SOF_BT_OFFLOAD_SSP_MASK)
+-#define SOF_SSP_BT_OFFLOAD_PRESENT	BIT(18)
++#define SOF_SSP_BT_OFFLOAD_PRESENT	BIT(21)
+ 
+ struct intel_mc_ctx {
+ 	struct sof_hdmi_private hdmi;
+-- 
+2.43.0
 
