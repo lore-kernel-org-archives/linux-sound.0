@@ -1,129 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739DC33D6C4
-	for <linux-sound@vger.kernel.org>; Fri, 19 Dec 2025 15:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4CC33F8C8;
+	Fri, 19 Dec 2025 16:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766157931; cv=none; b=Nm8WAIgCjW6JBqETB6JUNRTQY3F1ifYRQnLs213ZngQHH2Uwvo2wnasuzbF0ecV2ROhwwzdxU6OItJADnOKFnz0UFBBZRqN4i1bqBzzJQel7od4nEDLui5IonTrwF19c1U2fUVsjIDaL8INke1zD03p7sxvAtFinPmiQAyNeo/Q=
+	t=1766161746; cv=none; b=akpKNmPLWZLGUl0ymPSuEYQ8cn7yWqSVniXvAAbN6PORUSDfg7d4WRBA8E96SqyrJW6gBpfbcFYzYLKCUip7w4BFc04K2Bh4k5z1fXg/iBszAB5alX0AJDfRCpHbfwVeCTKd/D/8rN4/ybAF7/5QkbMTXXlJJ5JmFseENquQjjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766157931; c=relaxed/simple;
-	bh=j1GOTP4uW+ablI4hgNqOr9maHcvcticbqrr0oiC53Lk=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=KhLNICRXKZRgNu+vJSlINO4/eQYaAxxUXRWhP4P360DHT28gxuT4OofjmzgYg4e/MnkGDbnvt/1N7El/KRB3YBVd8FL3e0m+E/BWeM7TySZ0EwSv/K2GSeD5HaDTCFFwQaPABDk5xNPslDo5gBlkK3Ujg/VK5E55vh+8r7ITAfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nyX7FEpw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nyX7FEpw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9743EC113D0;
-	Fri, 19 Dec 2025 15:25:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766157931;
-	bh=j1GOTP4uW+ablI4hgNqOr9maHcvcticbqrr0oiC53Lk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nyX7FEpwkg7JE399N61Ilfq3PAB+7QFOoeShUwdERSdxBhVb15FaMW9sB3gSZFIJY
-	 iJt9GuMPHKPLfgA09dHvDHpKzWJ9rZ7wePL2NpiuIPbbOlck8EnUcWMob4k4Afqu/p
-	 zEfAKXSGNncb/EH8X1c31cvi/ri/19aNwKQIxSFypXkWfwOl47hIIyWck9C5YEGQVo
-	 DPtbiIIqGOb9D7tf7gwNO0gyoLvU9RaVcHcwnLM1I17aW5Um5hS6IhejbwQnKb7N8e
-	 vFyMMoBigZI/KPDgwlaa7iZWoJdc6TwTKM5gaUQF4fBCDYfkaUQ64IIr/+hN50e2aL
-	 jJAmRZ3DpTEdQ==
-Message-ID: <00e012c86db2f59544afb66176c25978@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.19-rc1
-Date: Fri, 19 Dec 2025 15:25:22 +0000
+	s=arc-20240116; t=1766161746; c=relaxed/simple;
+	bh=LG7/zBNaMxhNgYXA2UtTbwQfgiJEBduc/chRTM9RdMo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VhmzidVj9i6U/DuKj+AuY2WI7xh+wAl2LeE5KMS3IUOMl1Ztk3pCSP7jwvLK6Zn8n2jht2oUQU+GJBDRHso29KMhm02xnYB94TGIudP4CVb8Vu5e8Uuok3uUp5YMzYkcYfmtW6VamFsxTCmTNMJdoiYQqxb2bhr3tRxZXgBhekA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [36.112.3.209])
+	by APP-03 (Coremail) with SMTP id rQCowADnANg_fUVpuy49AQ--.30316S2;
+	Sat, 20 Dec 2025 00:28:47 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	robert.jarzmik@free.fr,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: ac97: fix a double free in snd_ac97_controller_register()
+Date: Sat, 20 Dec 2025 00:28:45 +0800
+Message-Id: <20251219162845.657525-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADnANg_fUVpuy49AQ--.30316S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFyruw4kCr4UKr13uF4fGrg_yoW8WF4rpF
+	48AayxtFW2qrn5Wan7AFn7XFy3Wan7Ka48uF48Ww4xG3ZxXryrA3yUGFy0vF4akF1xGa13
+	Ar4UKw18Cr15ZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r1j6r
+	4UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUYCJmUUUUU
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiBwkBE2lFacUrDQAAs6
 
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
+If ac97_add_adapter() fails, put_device() is the correct way to drop
+the device reference. kfree() is not required.
+Add kfree() if idr_alloc() fails and in ac97_adapter_release() to do
+the cleanup.
 
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
+Found by code review.
 
-are available in the Git repository at:
+Fixes: 74426fbff66e ("ALSA: ac97: add an ac97 bus")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+---
+ sound/ac97/bus.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-rc1
+diff --git a/sound/ac97/bus.c b/sound/ac97/bus.c
+index f4254703d29f..bb9b795e0226 100644
+--- a/sound/ac97/bus.c
++++ b/sound/ac97/bus.c
+@@ -298,6 +298,7 @@ static void ac97_adapter_release(struct device *dev)
+ 	idr_remove(&ac97_adapter_idr, ac97_ctrl->nr);
+ 	dev_dbg(&ac97_ctrl->adap, "adapter unregistered by %s\n",
+ 		dev_name(ac97_ctrl->parent));
++	kfree(ac97_ctrl);
+ }
+ 
+ static const struct device_type ac97_adapter_type = {
+@@ -319,7 +320,9 @@ static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
+ 		ret = device_register(&ac97_ctrl->adap);
+ 		if (ret)
+ 			put_device(&ac97_ctrl->adap);
+-	}
++	} else
++		kfree(ac97_ctrl);
++
+ 	if (!ret) {
+ 		list_add(&ac97_ctrl->controllers, &ac97_controllers);
+ 		dev_dbg(&ac97_ctrl->adap, "adapter registered by %s\n",
+@@ -361,14 +364,11 @@ struct ac97_controller *snd_ac97_controller_register(
+ 	ret = ac97_add_adapter(ac97_ctrl);
+ 
+ 	if (ret)
+-		goto err;
++		return ERR_PTR(ret);
+ 	ac97_bus_reset(ac97_ctrl);
+ 	ac97_bus_scan(ac97_ctrl);
+ 
+ 	return ac97_ctrl;
+-err:
+-	kfree(ac97_ctrl);
+-	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(snd_ac97_controller_register);
+ 
+-- 
+2.25.1
 
-for you to fetch changes up to 56d953a8d0da5e53c2594edde23465ec49385b1c:
-
-  ASoC: Intel: mtl-match: Add 6-amp matches for CS35L56 (2025-12-19 13:25:16 +0000)
-
-----------------------------------------------------------------
-ASoC: Fixes for v6.19
-
-We've been quite busy with fixes since the merge window, though not in
-any particularly exciting ways - the standout thing is the fix for _SX
-controls which were broken by a change to how we do clamping, otherwise
-it's all fairly run of the mill fixes and quirks.
-
-----------------------------------------------------------------
-Alexander Stein (4):
-      ASoC: fsl_easrc: fix duplicate debugfs directory error
-      ASoC: fsl_asrc_dma: fix duplicate debugfs directory error
-      ASoC: fsl_sai: Add missing registers to cache default
-      ASoC: fsl_xcvr: provide regmap names
-
-Andrew Elantsev (1):
-      ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
-
-Bard Liao (2):
-      ASoC: sdw_utils: subtract the endpoint that is not present
-      ASoC: SOF: ipc4-topology: set playback channel mask
-
-Chancel Liu (2):
-      ASoC: fsl_sai: Constrain sample rates from audio PLLs only in master mode
-      ASoC: fsl-asoc-card: Use of_property_present() for non-boolean properties
-
-Mark Brown (4):
-      ASoC: Intel: common / SOF: Use function topologies for
-      ASoC: SOF: ipc4-topology: fixes for 'exotic' format
-      ASoC: fsl_easrc: Fix duplicate debufs entries
-      ASoC: Intel: mtl-match: Add 6-amp matches for CS35L56
-
-Peter Ujfalusi (6):
-      ASoC: SOF: ipc4-topology: Prefer 32-bit DMIC blobs for 8-bit formats as well
-      ASoC: SOF: ipc4-topology: Convert FLOAT to S32 during blob selection
-      ASoC: SOF: topology: Add context when sink or source widget is missing
-      ASoC: SOF: Intel: pci-mtl: Change the topology path to intel/sof-ipc4-tplg
-      ASoC: soc-acpi / SOF: Add best_effort flag to get_function_tplg_files op
-      ASoC: Intel: soc-acpi-intel-nvl-match: Drop rt722 l3 from the match table
-
-Robert Oscilowski (1):
-      ASoC: qcom: sdm845: set quaternary MI2S codec DAI to I2S format
-
-Shengjiu Wang (1):
-      ASoC: ak4458: remove the reset operation in probe and remove
-
-Shuming Fan (1):
-      ASoC: rt1320: update VC blind write settings
-
-Stefan Binding (3):
-      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L56 with feedback
-      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L63 with feedback
-      ASoC: ops: fix snd_soc_get_volsw for sx controls
-
-sheetal (1):
-      ASoC: tegra: Fix uninitialized flat cache warning in tegra210_ahub
-
- include/sound/soc-acpi.h                           |   5 +-
- sound/soc/amd/yc/acp6x-mach.c                      |   7 ++
- sound/soc/codecs/ak4458.c                          |   4 -
- sound/soc/codecs/rt1320-sdw.c                      |  16 ++--
- sound/soc/fsl/fsl-asoc-card.c                      |   8 +-
- sound/soc/fsl/fsl_asrc_dma.c                       |   3 +
- sound/soc/fsl/fsl_easrc.c                          |   3 +
- sound/soc/fsl/fsl_sai.c                            |  13 ++-
- sound/soc/fsl/fsl_xcvr.c                           |   3 +
- sound/soc/intel/common/soc-acpi-intel-mtl-match.c  | 104 +++++++++++++++++++++
- sound/soc/intel/common/soc-acpi-intel-nvl-match.c  |  49 ----------
- sound/soc/intel/common/sof-function-topology-lib.c |   5 +-
- sound/soc/intel/common/sof-function-topology-lib.h |   2 +-
- sound/soc/qcom/sdm845.c                            |   2 +
- sound/soc/sdw_utils/soc_sdw_utils.c                |   8 +-
- sound/soc/soc-ops.c                                |  32 ++++---
- sound/soc/sof/intel/pci-mtl.c                      |   6 +-
- sound/soc/sof/ipc4-topology.c                      |  49 ++++++----
- sound/soc/sof/topology.c                           |  26 +++++-
- sound/soc/tegra/tegra210_ahub.c                    |   6 +-
- 20 files changed, 238 insertions(+), 113 deletions(-)
