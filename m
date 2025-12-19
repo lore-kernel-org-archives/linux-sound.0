@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C313BB44;
-	Fri, 19 Dec 2025 20:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D452D4B68;
+	Fri, 19 Dec 2025 20:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766176131; cv=none; b=YOA0EkERvgo9ow6rewr/J9Riw9z2BnHWtoUkL70jCqc36P7HPjmXxlTadLmGhrBh5RDObwYSyZbloA/8athohzLjNGBNx24E7FeCg7dtUXLdj6SOhc7GCsbmevtNpHAFf0D72wby4XXd7moiJTv1JyeYwFNXSx8lNHyb5jv2Gt0=
+	t=1766177020; cv=none; b=Tp22CFwmg47eU8tGoY28/u93oa2G9aZI0jZ3qdgGO0h+/FPzGORkacuUYhUQQNBZ2mHZMjfqUgM0UlLtmM0p7oPzOJYQmQgpIm8rUCz8+6wCMPIksxdBDG5TBiOeHT3u/9bGvTwSV+EyUc2sd3mfGcTdzii6uASOostG50LgL9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766176131; c=relaxed/simple;
-	bh=mH/3+P1Mni8rlKaukV/fxOSy+vtN9HEN1c/tYQywphs=;
+	s=arc-20240116; t=1766177020; c=relaxed/simple;
+	bh=pX3I54VXZttvfFVA3YxMLNVpmsQM2u4lcy8kfCEYm94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TlA7WTeNpqnW+gYGOIYBDRW4CqzNBH3STOfLGYDtmYKrp8pSgS5VgFeNc9Tf/gDnjtDwUz7pfH+aqHeKsFVTxphazpFUzIubesjSurub+brIEBmEXZ5qlFePCVtOWD+bIdtYU4i67GD7QykxxbKSpDvyqW8kBV/8WJvbNu8JBCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=crnVuR+g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fhRYnOYlHJ5PNINU/UBdxe6+EXK9S46t+aU1V8jknxQPuZjsHpCQLa3urMMM2O/Wp4yHI7tABx3Jx8SValNDOhA291knZ8gtYLMCbYfz0uDP+rcbwbntaGFifL47GNelDx11mDQ5y7onfDzUg5XZKNpuEDkmm2FyInIBxBy0So0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f2dNuMTn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="crnVuR+g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A879FC4CEF1;
-	Fri, 19 Dec 2025 20:28:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f2dNuMTn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3197C4CEF1;
+	Fri, 19 Dec 2025 20:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766176130;
-	bh=mH/3+P1Mni8rlKaukV/fxOSy+vtN9HEN1c/tYQywphs=;
+	s=k20201202; t=1766177019;
+	bh=pX3I54VXZttvfFVA3YxMLNVpmsQM2u4lcy8kfCEYm94=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=crnVuR+g5NQ0T9xAWciVjRH4LzvzWCNRFTDXObYNb3YWkrr3WcDTgqyCV0k6jtgjF
-	 J6A87OsC47ct0vvFAlcU73hCImjE5ZeQqYGHEj6oUAQTFQgFIE1BlijsFybHHSHkdr
-	 VP+b33seyUDuDCouYbAEkiPrQCXoruNMq8nTT0jFwV4RJZ/AjKeFgHn0XE0Tn4ibgy
-	 fBmv1I3Wzr+lUpEPNRdQp+Cz6HfAL8ZAuwCFhjrhLk+S5XA+FWXDlhtHbfkh2XGauG
-	 5OmJEiHKOUNWYYke88nVE+Ye35NNwy/PERGgNCyyNIFDG/bP/6h7UNz/pgf6vO6LeB
-	 2IA9CIpqzW+Mg==
-Date: Fri, 19 Dec 2025 14:28:47 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>
-Cc: derek.fang@realtek.com, krzk+dt@kernel.org, lgirdwood@gmail.com,
-	broonie@kernel.org, devicetree@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
-	conor+dt@kernel.org, perex@perex.cz, flove@realtek.com,
-	jack.yu@realtek.com, shumingf@realtek.com,
-	cezary.rojewski@intel.com, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v10 2/3] ASoC: dt-bindings: realtek,rt5575: add support
- for ALC5575
-Message-ID: <176617612625.3881717.16468499127318005797.robh@kernel.org>
-References: <20251216071853.3929135-1-oder_chiou@realtek.com>
- <20251216071853.3929135-3-oder_chiou@realtek.com>
+	b=f2dNuMTnK/16qiP4fS60eK5xBGmalupWLj7SjXP76odQ/OEY12nLtjKM2Jl3s0Mse
+	 vATjXQrLCE7zVp7BQ4sdYpzjUTc07sZ64CksBoIKD9hnlVX/rV1bHEPA3/LHzfnBxz
+	 ERzLYCnLg+rZ36Bd1//ydixTduzi+/Oc5258/UvbrVFBjNV9qmQNKbJ5+4k0Rn9VML
+	 zVY4WdGEl5m5NPzX9Vkp1uteBri/Rr+ebHsTU+w7Ws8scES7Zy8Ib+Qz9OAczHbOQP
+	 ROOBnJW0f60aKYvWHD+WkYK222fKJAyfCpx3jjOwEDbTgzWclz9S3+uC8XZ2ovJMli
+	 3hKDNVMKezBxQ==
+Date: Fri, 19 Dec 2025 12:43:37 -0800
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/4] soc: qcom: apr: Use typedef for GPR callback member
+Message-ID: <7rk2zdwyznc7ljiqkylmmqlakmo3c4k3r3hhlbq2j6ojujusy7@iwg6qj7smvkk>
+References: <20251130-asoc-apr-const-v1-0-d0833f3ed423@oss.qualcomm.com>
+ <20251130-asoc-apr-const-v1-2-d0833f3ed423@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,18 +45,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216071853.3929135-3-oder_chiou@realtek.com>
+In-Reply-To: <20251130-asoc-apr-const-v1-2-d0833f3ed423@oss.qualcomm.com>
 
-
-On Tue, 16 Dec 2025 15:18:52 +0800, Oder Chiou wrote:
-> Audio codec with I2S, I2C and SPI.
+On Sun, Nov 30, 2025 at 10:40:24AM +0100, Krzysztof Kozlowski wrote:
+> There is already a typedef for GPR callback used in 'struct
+> pkt_router_svc', so use it also in 'struct apr_driver', because it is
+> the same type - one is assigned to another in apr_device_probe().
 > 
-> Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Acked-by: Bjorn Andersson <andersson@kernel.org>
+
+Regards,
+Bjorn
+
 > ---
->  .../bindings/sound/realtek,rt5575.yaml        | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
+>  include/linux/soc/qcom/apr.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+> diff --git a/include/linux/soc/qcom/apr.h b/include/linux/soc/qcom/apr.h
+> index 35f44cd868cb..b16530f319ad 100644
+> --- a/include/linux/soc/qcom/apr.h
+> +++ b/include/linux/soc/qcom/apr.h
+> @@ -156,7 +156,7 @@ struct apr_driver {
+>  	void	(*remove)(struct apr_device *sl);
+>  	int	(*callback)(struct apr_device *a,
+>  			    const struct apr_resp_pkt *d);
+> -	int	(*gpr_callback)(struct gpr_resp_pkt *d, void *data, int op);
+> +	gpr_port_cb gpr_callback;
+>  	struct device_driver		driver;
+>  	const struct apr_device_id	*id_table;
+>  };
+> 
+> -- 
+> 2.48.1
+> 
