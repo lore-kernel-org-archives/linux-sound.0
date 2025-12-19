@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4D62D29B7;
-	Fri, 19 Dec 2025 14:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED0232939F
+	for <linux-sound@vger.kernel.org>; Fri, 19 Dec 2025 14:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766153375; cv=none; b=cYlWLhVGKB5mLrYTVmsJg1lFsMrmRASE5/zS4cOkQ3JMpKaYdb0CY8hs7O+YA5u8tqV8c1hwch6J+wlWPcykTL7pPlO1v+HYysw1yMXtsPMEh/nNUYgsZ8jGVn3EAd2/IoVHfyncn6ASa5qKVioiocOIp4IhPH7OhI/SD8OvN9s=
+	t=1766153377; cv=none; b=UMLXQO2guw3+ssGHxslorGvJt289MaAyPyhI69XBbig167pDZslrgOGm8eSFrhXQwlwy0Ugh9Unt/5g0LA0rOfw0/CFI5KSf+ShS2wuU230AnKDuwQSo4f6bLws+3oobzrDkoqp5xwikXDB5ADJ0qJVMPbKS/qRAsAPCJYkJwb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766153375; c=relaxed/simple;
-	bh=UN0Mdg7W0tnMFqXs/oDk505vUqsvmgjP/v5TojxbzAU=;
+	s=arc-20240116; t=1766153377; c=relaxed/simple;
+	bh=k+4Lk1SPWdrtALXmRB3VQ55y3w6rmizkgsbsoaV2fig=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CFwva+LsIkFzywBZHEXo6g284SZqv5WB82PCim4ZCysCTNizN7H4BqtPj02JePl/flYrVrNJCNe9NTzOLmxWCBXNCKZb+RQu5m2xHpplKA3Rzo924s+nqXfeQkGh4Qic20c6/9sUfFXhB8CU1RuP/CkcTjkd7kOxrMbefOAcqzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYAs0Edk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PLJLOi7pL5Fjr7V+h6C70EsieVCqQO/EknNv8IXdWmSZQUn+D7QhmmZOJa1D6YvSDRrpyXTGwbShuN9+bRTt6YmzEJQb9RQ3LoR4uAVof/aFalgiBSumtHzCH37wmCpySSVRgOXX2khxNz+tMNJDmTBjPcj0NJdPYqIlRXn2/2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sMONaXY7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYAs0Edk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39ADCC4CEF1;
-	Fri, 19 Dec 2025 14:09:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sMONaXY7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0206C116D0;
+	Fri, 19 Dec 2025 14:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766153375;
-	bh=UN0Mdg7W0tnMFqXs/oDk505vUqsvmgjP/v5TojxbzAU=;
+	s=k20201202; t=1766153376;
+	bh=k+4Lk1SPWdrtALXmRB3VQ55y3w6rmizkgsbsoaV2fig=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=eYAs0EdkTER9JkGoUn+7p6/vexf8MbgjyW5TGJjh527luFHnIeEUSI611+cCHraqD
-	 s9mdX3U9FNhCeF39EH8LXxCxMol9phEQn0uwaA8nlALyqDs2J7d546AeCtT37YWZt5
-	 F34jG4ErHjcnfA7kJJP0q6JGGorDvIUKJQVPlVf82fsf2YQVbXyhjEQrA5dGLExCDd
-	 HwdEL55K7zxPtKg0XCXTYWDLzSjGbN3QXXz4Pv+uDN0PRkWYeJ8g3Wj3CuQEdB0COq
-	 iqiIygwrkELT9fAriqzPlD8bLymvp32UX+7a542aL/z4akjJtp7AAvTXiMeBMDT3ep
-	 4GLi2vCjPL9nw==
+	b=sMONaXY7XyEe/juvS2TgPfjodw/ICm/hmiJ/OaXFSGt1d56h3pLiEZN34oTiXg1Wf
+	 ulxITcNUaoPyOeX39RnTfsFRbpUYYYbDs501RkDTcRrCmwbJZQo9FCDuutWeZ69e1X
+	 iTzceNxIrdnPRvYwOmkhhnUohgvns3K+GdXkelo55MphLcqvl+CdxB57cV1e0CVOKU
+	 zk+9VIaWugdqcJ/mvfpZHRF+dkr1lddZcEjkX15KT5sjxd7yMPxLgewEHAD4vELSQk
+	 pYFYKKt0ZAfI2GvXXxeNSQi9P3Fxa2d045dD24DKjeD4+U63/drvOtMX9w62RsmvoL
+	 5UurKs2gW1Ezw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, 
- Zhang Yi <zhangyi@everest-semi.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20251216064721.4622-1-zhangyi@everest-semi.com>
-References: <20251216064721.4622-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH 0/2] ASoC: codecs: ES8326 : Add Kcontrol
-Message-Id: <176615337397.412520.17326760984744611865.b4-ty@kernel.org>
-Date: Fri, 19 Dec 2025 14:09:33 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20251217110433.3558136-1-yung-chuan.liao@linux.intel.com>
+References: <20251217110433.3558136-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: add support for TAS2563 amplifier
+Message-Id: <176615337558.412520.749138488969758639.b4-ty@kernel.org>
+Date: Fri, 19 Dec 2025 14:09:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,16 +45,23 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 14:47:19 +0800, Zhang Yi wrote:
-> Add some Kcontrols for ES8326
+On Wed, 17 Dec 2025 19:04:30 +0800, Bard Liao wrote:
+> Add support for TAS2563 amplifier on Intel platforms.
 > 
-> Zhang Yi (2):
->   ASoC: codecs: ES8326: Add a kcontrol for PGAGAIN
->   ASoC: codecs: ES8326: Add kcontrol for DRE
+> David Lin (2):
+>   ASoC: Intel: ti-common: support tas2563 amplifier
+>   ASoC: Intel: sof_rt5682: add tas2563 speaker amp support
 > 
-> sound/soc/codecs/es8326.c | 18 +++++++++++++++---
->  sound/soc/codecs/es8326.h |  3 +++
->  2 files changed, 18 insertions(+), 3 deletions(-)
+> include/sound/soc-acpi-intel-ssp-common.h     |  4 +
+>  sound/soc/intel/boards/Kconfig                |  5 ++
+>  sound/soc/intel/boards/Makefile               |  3 +
+>  sound/soc/intel/boards/sof_rt5682.c           |  6 ++
+>  sound/soc/intel/boards/sof_ti_common.c        | 76 +++++++++++++++++++
+>  sound/soc/intel/boards/sof_ti_common.h        | 24 ++++++
+>  .../intel/common/soc-acpi-intel-ssp-common.c  |  3 +
+>  7 files changed, 121 insertions(+)
+>  create mode 100644 sound/soc/intel/boards/sof_ti_common.c
+>  create mode 100644 sound/soc/intel/boards/sof_ti_common.h
 > 
 > [...]
 
@@ -64,10 +71,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: ES8326: Add a kcontrol for PGAGAIN
-      commit: 68970b53890c877c61686c86fe28cc3a142c1584
-[2/2] ASoC: codecs: ES8326: Add kcontrol for DRE
-      commit: 9a6bc0a406608e2520f18d996483c9d2e4a9fb27
+[1/2] ASoC: Intel: ti-common: support tas2563 amplifier
+      commit: 331786db1b464fae42c36f53d6901d1d54975e04
+[2/2] ASoC: Intel: sof_rt5682: add tas2563 speaker amp support
+      commit: 02e7af5b6423d2dbf82f852572f2fa8c00aafb19
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
