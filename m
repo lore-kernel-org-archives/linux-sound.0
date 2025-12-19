@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D55A329E75;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4DC329E66;
 	Fri, 19 Dec 2025 14:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766154477; cv=none; b=M+ifDtqLsvckDt6xKPWDHuEhBmfstkzgdlauCSWNNKidDKHJbxmZNgzgzGQOqh95yXriss93hDEQZe8iEbq8Tgp8b+w8t7nJmj/9A3P3h6I5iGGFwwjX2taL5RtR8MK6XAQHtfP5JKCfs4sBxIYm0sXYZiF/zoMWrzynDoqrGAI=
+	t=1766154477; cv=none; b=gtehTMcA2lj0504GMzhi0q+B0VxCk10cllSgSUpc+pueDJDcFhqpvp/G1g7fzPLPPzvWJzSI9N+Scba7V/16g/3MWfqwBKFdDHK7xxrWYenWh7SLBVnnWh+SlYl252KFoTqnwRiX7hJISytctuwlUgd1a3VYGOupGqVvIIQBDDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766154477; c=relaxed/simple;
-	bh=eDtGYGTH17764v29Lss/qoa/UMzlKT7EjxFZXo4HF3w=;
+	bh=FN2zfuLAXWM1lYAhAsms4o1qNUWJ9mz1PleMCxFH1zk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c3asH0eqrnSBQW4d/ViSMba+zwOBnfnGongTEQGbRW3gHAknkFlCTDCiXKIxX8xgmFj9go0KOB2k+7E5V4SQUi30Rf9+TKASTODMT5x9pNLyHnM1j7IEWIyU31xLcQvATJLO5Q/mcQiHP5fisC1kPc9Mqe8Ns91FiPDzSDkCKxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NAvnL9Kk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dDoP5OIgFGOmFORtX8Cg1Epc+7N+0IGzX141S552H5pPlt+jrYEnyzHaz3DGbMG8sJ8OSjVsjaXUIeqesTbPHWYoitYA1v5a6pa42D/CeI1KbS2qJW/1ktrFQHQPsWVE+ouo96mTual3v4mF0IePHLqwoP6Y+WWBDMto/Z/jPn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqlIa2hR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NAvnL9Kk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 493B9C116D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqlIa2hR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4105BC4CEF1;
 	Fri, 19 Dec 2025 14:27:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1766154477;
-	bh=eDtGYGTH17764v29Lss/qoa/UMzlKT7EjxFZXo4HF3w=;
+	bh=FN2zfuLAXWM1lYAhAsms4o1qNUWJ9mz1PleMCxFH1zk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NAvnL9KkbaGEKDTWlsu32uqsds/vMsqmoKLkv/XJeNJePN63Q698MRPG273vy508h
-	 BM+7ay527lfzaTZyYMF3nY6a7IcFX7x1bua1wE9JRTXATLWYg5bNTdwLGPdyKPgmTq
-	 B/9DL5oKhHOPwzcXfYOdHMz5EszLdcp8EOhERetcud9INoOlbPWYCGgqfyrGMcFe+K
-	 WP85G0yn5qiOjj5FoFSA1SMshX2eEggg4geR1NuGvNGp9wXZcKJ6EA89NcyU8Mepbe
-	 6cWn8vvsowYFNQ5/bcAx4U0p+UIhI81drwJxnOVFfZoqMai98AXZtLbSARGDTkIA0p
-	 mv2EWy+s5PwgQ==
+	b=mqlIa2hRLIPKtPXOMlvu+LPCJ6DghClGnwxfQO0gYKl3Kbb7kS6ATvKE+LgHH1ddQ
+	 U2lq3q43Sci0fqDslQ2CXezDw6ksU4G+PYYjpUt+gOMh3IkTZVHQu6VWRo+foSBZrm
+	 iGuPTcTthHJ+rA0NsR9uChWEwVlnZ/c3Rzev1wmVpgbrI1sHkm/Rzuxy0lZU+1LzgG
+	 GJdKdIVpk6U9hQvWAOeAQLGZRVdQjZHSdwJs3Bhya+Pg1ftBHzr4Pkcou3ZX3WJsns
+	 lBwTHNgu53CXFxV4+ruzjCUr5QqYPCM+MfdbSDJAa8xhAKVd6BV+g8ccBjg2EBJiP7
+	 byXQ1NnpyDmfQ==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vWbSW-0000000051X-1TMm;
+	id 1vWbSW-0000000051c-2E0u;
 	Fri, 19 Dec 2025 15:27:56 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Srinivas Kandagatla <srini@kernel.org>,
@@ -38,10 +38,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>
-Subject: [PATCH 1/3] ASoC: codecs: pm4125: drop bogus container_of() error handling
-Date: Fri, 19 Dec 2025 15:27:13 +0100
-Message-ID: <20251219142715.19254-2-johan@kernel.org>
+	Bard Liao <yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 3/3] ASoC: soc_sdw_utils: drop bogus container_of() error handling
+Date: Fri, 19 Dec 2025 15:27:15 +0100
+Message-ID: <20251219142715.19254-4-johan@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251219142715.19254-1-johan@kernel.org>
 References: <20251219142715.19254-1-johan@kernel.org>
@@ -57,31 +57,28 @@ The dev_to_sdw_dev() helper uses container_of() to return the containing
 soundwire device structure of its pointer argument and will never return
 NULL.
 
-Fixes: 8ad529484937 ("ASoC: codecs: add new pm4125 audio codec driver")
-Cc: Alexey Klimov <alexey.klimov@linaro.org>
+Fixes: 4f8ef33dd44a ("ASoC: soc_sdw_utils: skip the endpoint that doesn't present")
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- sound/soc/codecs/pm4125.c | 6 ------
- 1 file changed, 6 deletions(-)
+ sound/soc/sdw_utils/soc_sdw_utils.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/sound/soc/codecs/pm4125.c b/sound/soc/codecs/pm4125.c
-index 43dcafff6c77..1f0a3f5389f1 100644
---- a/sound/soc/codecs/pm4125.c
-+++ b/sound/soc/codecs/pm4125.c
-@@ -1533,13 +1533,7 @@ static int pm4125_bind(struct device *dev)
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 6c656b2f7f3a..f62e291c089f 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1414,10 +1414,6 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	}
  
- 	pm4125->sdw_priv[AIF1_CAP] = dev_get_drvdata(pm4125->txdev);
- 	pm4125->sdw_priv[AIF1_CAP]->pm4125 = pm4125;
--
- 	pm4125->tx_sdw_dev = dev_to_sdw_dev(pm4125->txdev);
--	if (!pm4125->tx_sdw_dev) {
--		dev_err(dev, "could not get txslave with matching of dev\n");
+ 	slave = dev_to_sdw_dev(sdw_dev);
+-	if (!slave) {
 -		ret = -EINVAL;
--		goto error_put_tx;
+-		goto put_device;
 -	}
  
- 	/*
- 	 * As TX is the main CSR reg interface, which should not be suspended first.
+ 	/* Make sure BIOS provides SDCA properties */
+ 	if (!slave->sdca_data.interface_revision) {
 -- 
 2.51.2
 
