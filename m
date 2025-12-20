@@ -1,150 +1,119 @@
 Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2621487E9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDE21925BC
 	for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 11:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766231284; cv=none; b=VwDu03jtlxbtvRkfnjPS6SCxRyuddlfXy3CZmxOtiOMTmB2NDCpr4ogBKhBvfUEWZ96YV/PhMbrs3eT9wZriFS8OcmvG1br2bbW7tYAu91S/PM4Xm0JINav8hkCBx+iJ3dC8/CzYIAS7lN9P+9ddd7hzlLo591OxlMBPQ6IUP5k=
+	t=1766231284; cv=none; b=n+BCeDbwq8ZeKY2s4cqxKbRTUj44QABz/eisZY7yy76mksPP54uvyzb4uBWx+maMynct8JHMk6RPym2ExKgoavoJ/hh8aLCBmMROgfVJ8ksCjLHc/x8j95/MCxoAGN525lBiDPIOgSAtrBzDJeH7wbKjzcACNlj4rV+02l0AW+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766231284; c=relaxed/simple;
-	bh=8xP4h1x5zTczBTAUGzvhza3H0E/IeC/SZPhPm+uI/5k=;
+	bh=YuTaqj10n28bAGQ6v8sBFF2A9JG1IkJu4viCiVUbQns=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G3ENeSwE2f42noYLoRdjACHrlCUTc750sNKNe8g/Mnw1Mo+BNp1z2VZrXOydhRgzwtHVKxtuJK5bXJAHYoHkmtwZc0N9aiEqLjN12c0cO+63kJh2v3kAXWWhAR2o5BC9LBPtUn2dwDEc5zt3lL5xH3Dpwiln1LRXIlRW0xsOrew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LnhKJBlP; arc=none smtp.client-ip=91.218.175.174
+	 In-Reply-To:Content-Type; b=ew2avHWnt9Mo9CwDYnP/eKiVY94pTqbTT6BMImvdqiXHib42IepTa1T1Lcc/8UDJa7WY19kVXC4HMUzHh3YTbHGGvX8f5/cpOd9W0ycmETxJ360Axk7tgLU/yBXBHe13ytSkSxQEaH02KNZJkgoa0Bw0o6k3J6MVNNcg4H0z7Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T/X+4Pwr; arc=none smtp.client-ip=91.218.175.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LnhKJBlP"
-Message-ID: <0c9837fd-5ca8-464a-b365-a2e2bed3d9e4@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T/X+4Pwr"
+Message-ID: <1e2035bc-5168-4ec8-83cb-eeff41bdaed6@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766231279;
+	t=1766231280;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iZw4/12a/XYdkf/K6VK1rPqt/icWiiK+13TCk8R9hIQ=;
-	b=LnhKJBlPWpfd3cqHQuYcGezsZokh/uVHc3Dc7UQVNsIJA22hYFmYkhI+DdBjxSOFdl3AwQ
-	sl1DxDrBfvhb9/RGJjzCQy4/0j4vtKIvRXt+PgVogdgEK7nnGsXVhdv7K3s/zFA/5kPLDk
-	oskVwgrWSOlok6bCkjbtkRlGal3tBoI=
-Date: Sat, 20 Dec 2025 12:04:47 +0100
+	bh=znnq34TAQb8CeBct4D7B2cGx0UHwEbU53M8LYZZt1Q8=;
+	b=T/X+4PwriK6MkhdSJoAu6v3dwpVluFjuyChKsz+uX69MlvGqoRGex6pVpnkLDFD9g3D1qP
+	c1bsNnc8CtHw+hDgXCP2ogLhuPGUxiyhM68ri99iGvVUsOpbiLAeVwohaEB2aLtfJZToDE
+	vu5nInomBiclJLMCb2hdT08dFEeDHIY=
+Date: Sat, 20 Dec 2025 12:15:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] ASoC: SDCA: Add basic SDCA class driver
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
- vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250925133306.502514-1-ckeepax@opensource.cirrus.com>
- <20250925133306.502514-4-ckeepax@opensource.cirrus.com>
- <13c14d26-29ba-4d39-b96a-b12b97935d33@linux.dev>
- <aQOEREIJ8TiwZHef@opensource.cirrus.com>
- <a855b919-d21a-4564-a901-fc09e68a9087@opensource.cirrus.com>
- <382ce438-5251-4d4d-af44-863197c77b94@linux.dev>
- <aQo0d3UWKinyzTYT@opensource.cirrus.com>
- <5dcb51e4-e9e1-4b26-816a-90c92fbb200d@linux.dev>
- <aTlDoVxI0gJMQOuw@opensource.cirrus.com>
+Subject: Re: [PATCH v3] soundwire: stream: Prepare ports in parallel to reduce
+ stream start latency
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
+ yung-chuan.liao@linux.intel.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20251125165609.483763-1-rf@opensource.cirrus.com>
+ <4d811207-1c01-4302-85b1-9d4079ea1a4b@linux.dev>
+ <795fd33c-7a0f-4600-87be-1690cb0c0ea3@opensource.cirrus.com>
+ <5c80bead-716a-4528-b614-4b425184a484@linux.dev>
+ <d86e401a-205d-42a3-b90d-239d669c6ee1@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aTlDoVxI0gJMQOuw@opensource.cirrus.com>
+In-Reply-To: <d86e401a-205d-42a3-b90d-239d669c6ee1@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 12/10/25 10:55, Charles Keepax wrote:
-> On Tue, Dec 09, 2025 at 12:47:06PM +0000, Pierre-Louis Bossart wrote:
->>> That is some scary stuff there, that is basically working around
->>> the fact that with those drivers the soundcard is created before
->>> the hardware is actually ready. But its one aspect of that and
->>> there are likely many knock on effects/races hiding in there. At
->>> some point we should probably revisit the whole enumeration
->>> thing in soundwire it does cause a lot of scary code.
->> I don't see how we can revisit this, the codec probe happens
->> based on ACPI information even before the bus is started. The
->> card driver is also probed when the PCI driver creates a platform
->> device.
-> 
-> I mean in general the fact SoundWire probes devices before they
-> are available. It introduces a lot of scary things, as basically
-> the whole kernel is setup to believe that when a device is probed
-> it is ready. I mean I know why we did it, because we might need
-> to setup some things (resets/regulators) to cause the SoundWire
-> device to enumerate, but it does result in scaryness.
-> 
->>> That said... the class driver doesn't have the same problem
->>> however, because of the two layer nature of the auxiliary driver
->>> stuff. The soundwire driver binds to the device and completes
->>> probe, but it is the auxiliary drivers that are used in the
->>> soundcard and those are only probed once the device itself has
->>> enumerated in class_boot_work(). This means the sound card is
->>> only created after the device has enumerated, so the same problem
->>> isn't present and we can have a more normal PM runtime startup.
->> Humm, that's an important detail indeed that I completely missed...
+On 12/10/25 10:59, Richard Fitzgerald wrote:
+> On 9/12/25 16:41, Pierre-Louis Bossart wrote:
 >>
->> You could also have registered the function subdevices based on
->> ACPI information *before* the whole enumeration. I can see why
->> you took that function-register-after-device-enumeration route,
->> but I have mixed feelings about having separate mechanisms for
->> vendor- and class-drivers.
+>>>>> Changes in V2:
+>>>>> +    if (simple_ch_prep_sm)
+>>>>> +        return 0;
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Check if already prepared. Avoid overhead of waiting for interrupt
+>>>>> +     * and port_ready completion if we don't need to.
+>>>>> +     */
+>>
+>> 1.
+>>
+>>>>> +    val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
+>>>>> +    if (val < 0) {
+>>>>> +        ret = val;
+>>>>> +        goto err;
+>>>>> +    }
+>>>>> +
+>>>>> +    if (val & p_rt->ch_mask) {
+>>>>
+>>>> Can you explain why we don't use the ch_mask in the already-prepared case? I am missing something.
+>>>>
+>>> I'm not sure what you mean here. The if() immediately above your comment
+>>> uses ch_mask to check the already-prepared state.
+>>
+>> I was referring to the 1. above, you read the prepare status without checking for ch_mask first.
+>>
 > 
-> At least currently you have separate mechanisms regardless
-> of the choice of probe time since all existing vendor drivers
-> register a single driver and the class driver registers many
-> through auxiliary. The difference is only in the secondary
-> drivers that the vendor drivers don't have anyway.
+> What would be the purpose of checking ch_mask before the read?
+
+I don't know - why do we need to read it in the second case and not the first is all I am asking.
+ 
+>>>>> +        /* Wait for completion on port ready */
+>>>>> +        port_ready = &s_rt->slave->port_ready[p_rt->num];
+>>>>> +        wait_for_completion_timeout(port_ready, msecs_to_jiffies(ch_prep_timeout));
+>>>>
+>>>> I understand the code is the same as before but would there be any merit in checking the timeout before starting a read? If the device is already in the weeds, doing another read adds even more time before reporting an error.
+>>>>
+>>> Do you mean save the system time when the DPN_PREPARE was written to
+>>> that peripheral and then check here whether the timeout period has
+>>> already elapsed?
+>>
+>> I meant testing the return value of wait_for_completion_timeout(). If you already timed out at this point with a return value of zero, there's no point in checking the status any more, the system is in the weeds.
+>>
 > 
-> Personally I like the only registering the functions when the
-> device has enumerated approach as keeps interactions with other
-> kernel subsystems within the expectations those subsystems have
-> of the driver. There is a lot less to think about.
+> Wait completion will _always_ timeout because this code is holding the
+> bus lock, which blocks the ALERT handler from running and signalling
+> the completion. The wait_for_completion_timeout() is effectively
+> msleep(msecs_to_jiffies(ch_prep_timeout));
+> So we have to read the register afterwards to see whether the peripheral
+> actually prepared.
 > 
-> Ultimately, I think the long game solution here is probably that
-> we move SoundWire to internally have two devices. An initial
-> device the gets registered and does the probe setup and then a
-> child device that probes on enumeration. Basically, the same
-> setup as we have for the auxiliaries in SDCA but internal to
-> SoundWire. But in the mean time I think using MFD/auxiliary to
-> introduce a 2 step probe seems like a really neat solution.
+> I've left the useless wait_for_completion_timeout() in the code so this
+> commit is only changing what it says it is changing, and nothing else.
 > 
-> Additionally, there arn't that many SDCA vendor drivers at the
-> moment, a handful of Realtek ones and a TI one. If we wanted
-> to standardise I would suggest standardising on the better
-> solution, which to my mind is clearly this approach.
+> What to do about the deadlocked wait_for_completion_timeout() is a
+> separate problem.
 
-I am not against having a single mechanism, and that change would be relatively minimal.
+Humm, what happens if you have a single peripheral, does this result in an increase of the prepare time all the way to the timeout value?
+I can see how preparing all ports in parallel would reduce the total time compared to a serial approach, even with a timeout, but if we end-up always timing out even in the case where there is a single device it'd be quite odd.
 
-The only issue I have with it is whether one would deregister the child device on a soft reset or whenever the device loses sync? It'd be somewhat ugly to do so, but then again we have the issue that for the second enumeration we already have a probed child driver, which would bring us back to an async model really.
-The 'beauty' of the current model is that the probe does nothing really, everything happens at enumeration/sync loss. If we dynamically add/remove child devices it'll be 'fun' really quickly.
-
->> Note that things will be interesting when we use the new
->> ACPI aggregation information to create the card, we're missing
->> a means to re-trigger deferred probe checks as devices become
->> functional. I had a patch on this a couple of years ago, look
->> for "driver core: export driver_deferred_probe_trigger()",
->> we probably need to revisit the entire scheme...
-> 
-> Apologies if I am misunderstanding but is this not another example
-> of the advantages of probing when the device enumerates? If I
-> understand correctly the problem those patches are solving is
-> resources that become available outside of a probe break deferred
-> probe. By tying the probe of the auxiliaries to the enumeration
-> of the device, we ensure that link between probe and resource
-> availability. I think the point Greg is making in that thread
-> is that the kernel expects resources are available once probed,
-> so if one is going to break that assumption it should really
-> be handled exclusively in the driver that does that. But the
-> simplest solution to my mind is just to not break that assumption
-> then everything works as expected.
-
-That's precisely the problem, the model assumes something that is broken left and right in practice.
-Exhibit A is the PCI/HDaudio parts where we rely on an async probe due to the module handling.
-You also have devices that require firmware download to be functional, or some sort of internal ramp-up needed.
-Assuming a perfect behavior where all resources are available at probe time is naive IMHO. In the specific case of the machine driver probed with ACPI information that isn't tied to the bus status, it's a guaranteed fail.
-
-
+In other words does this patch reduce the start latency only in the case of multiple devices, but adds a 'tax' for all other cases?
