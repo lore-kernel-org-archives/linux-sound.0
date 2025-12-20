@@ -1,143 +1,131 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24813112A5
-	for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 18:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3E123EA99
+	for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 22:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766257104; cv=none; b=szXcJQg92kjoNvUrtANby3K9OmiypgzrbXX5xAWrgXi5ztjcZLD/MoCIbMGbL1VRMr8B+5oX0TqxGxoPKWqdhSIqkGib9NNgLjCmBqk+fbdYQIzLQm0+H9Qn7MSxUIUL3io0AaB+fZRKYAhGhy5S3a7lE6g1dVbdUbwNVXNtQ+g=
+	t=1766271481; cv=none; b=g8KYhg+T9aesMjOYamOXkCCDcVbm32IdQrQ6MsiLcy37RKevM4nM+bjg5V7KPvvYFOOWwSffzM0eu+E9OuK4MNF87LpfcxLQ3tXqLOYHsyUdxe3JuNygUF+FKZghx9EBUpXzUZxFjUl39v7IryPPri7n1U+B6/2Lhh/FefsflPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766257104; c=relaxed/simple;
-	bh=VimJvaVqV0OpZkRn7JBEzHNUNExfFab1UXxkgrUmSw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SjiHgfR4VxuizucK9rFoakdPZvQHQxn8C/JPODuvV1mcqCMlfsqFbkokgEJNoC9j3xw41yI35s1/fPs0vIp0qamv7qqlDO2dvmDEm0JFnLEf9EKEocMgNJ/apyxYVCMAa7aRgTWj6He1Fi2DfJS/Qd6YP57rLHaU0BcJO5BJO78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SWWnc0F2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fmgVrfH+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1766271481; c=relaxed/simple;
+	bh=j1GOTP4uW+ablI4hgNqOr9maHcvcticbqrr0oiC53Lk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=SfHtRSVEDGJTNDi1gZBEPaSahfxoCO737HYgemTV0vx7sh/HddP2h9gdeCwyQYAoAVOVnJiXm7PFyHrR5szQ4QEBtsWSEkw3qyPb01cst72kL1fnAsuCQSPuPrWOHNLGocWP3HLEXOa7WP9+qh7kcKog4E+ygq7q0kaSzo2qZmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Do6HH5c0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SWWnc0F2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fmgVrfH+"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BKBOoTT3762478
-	for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 18:58:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=yPSPJr528GYZqS/w8DWqqkwY
-	ATTphriuR4ox+wQELJo=; b=SWWnc0F2A52KFAf3pF6AijvSmI2ZwacTQHFDvJdm
-	UfKBPvsD8kvz4zno+nNdPYji1XhhQ+zlRg+GB4LTUOh0v7uT83CAP6nPJNrt+BGJ
-	jjlwsmSvzizyuNJkDy4NVV1LWpZUzaqmed6l+oUk3QowgwXPFrM5wcEa+HA2MEp/
-	O/48ZtPSLQW3yvTKecqnSOQ6ufxePIoI+FzKa1GnBbW4oMKPQU8da9uh7kgyxdoy
-	xzRO+T1kpLX3LaMCDEN9Styk1uk0psiej6dGlJiKpH4v05HFZjc1rr93JpQT1pE7
-	Kzpf4vYW3E4sAhCvENE5rMKCzSXR+FwFPBQTIetvE1tE7Q==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mrt956m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 18:58:20 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4ed74e6c468so38850611cf.3
-        for <linux-sound@vger.kernel.org>; Sat, 20 Dec 2025 10:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766257100; x=1766861900; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yPSPJr528GYZqS/w8DWqqkwYATTphriuR4ox+wQELJo=;
-        b=fmgVrfH+zxmddfvvLJM5GB+HzBxvJdLMwShDvzjQrWZeRHsk+YP8UjIOQPgnvf+nf7
-         kl5nUJKqv+DGB3eDYb9c4XldWVH5htV5/zzL1gE/HHW98iakIOfn4V7ovbRE77eAK5No
-         CyDrZk4mbP6Xszu5eB8lrJ+wGYbIysovNZVvcUiC2elvKxpt0x6bF/OE4ifMsLq6tTTn
-         cqky0cEfnowMCmhpWSnEzTbf6bQrRgks0Al808j7y+CGVBVrtfB8Bq5zUTyjVK/SbrIY
-         coN9P0PdwH3PJI7SgIa1mhqlt6/zRPChpJI4dZZxYpumKGMUuJ3GFp4Mn5G2DGHgEamn
-         jfvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766257100; x=1766861900;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yPSPJr528GYZqS/w8DWqqkwYATTphriuR4ox+wQELJo=;
-        b=pU8kGfAd0PTQ7WqxNtQR7i+iZbYibUGcoW5UKA85cQeXyjL3ejUzAtg9AZGYxBIWlQ
-         mone1+oyKxNS+r5zCvgLF9fJAjzV1bbXmdpNMoxtDYLFQCaGUtuGwGXF9glJ1GESHaAf
-         2ruivPT6LeHQamCuX6QZjh2ez7oMZb4Qwy1XeLFn21/xao5FlzBCXjDBWzLlW6u7wwqL
-         w4OyJkiX45PlV77IcJBKpGWket29Skrv1r6Zn2fBpZhTiC/cKzoJSh8mPBcvTJ6kv7vz
-         LOAvy70AXXyvW9tp5Ai9J9NLajzQ0osEWBm8TdAAhwdlxar80wDcDe9YKn+PYglHshp4
-         xwdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxu33MaW0yS+crs6aLk2BCA4/0dPT4KuvZNCR0Oajk03STluX6BMbXkMHrPHw51AL6JNzPHzInfUICig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVYCgv1OaKIDXErl4dQMPs474SnuGk+Des3TE3rBD6OxWfqdQJ
-	IQahRiy9IBntaiWsKYe8vgREWmZLw6G/VRUKTTDLz2hC7+oDB5mqpSJGN5bhSsB37cu3ZOjhtQM
-	jYtSbhD+Y7o1YqZW4tktEswP+0ChwW6LSKJqrDZefHbxKev6GYT3ZgmWIrAlFSfGL2Q==
-X-Gm-Gg: AY/fxX7mY3xTl8q9MIyUZ8tzmoZt1WK4I6nmScE58nXJ+jCuXpF/jxrFWPxdHz0W5w0
-	cTSTjsmJLfF6b+IcWIGVSWPSVt9m4yK4Ah93FXjJBOhP9Z2rCASXGjzftdd/W9u71d+/lJIcdeb
-	E1ImUb4Z8D/YaYkU0seQ+vhfcgGM772o8OTwXMTd+bKIE0SsJXxxAWJDW8g+cjqd7tBN64xrolH
-	/EZxEfZC/Px0EE3yL3iP1WSVv1FYATBNRLuYkPsWkQz6EctfDYFnNTWC1W3y4UHbBCnusVBQvKF
-	5i8/8Jf2LPtqX1tRCJglWUG7enTymicdKJ1zPH8OYOJVMellFq6tjb6QZ1UR85oazeOXF6a7iyA
-	uX0GViPTeXeqZp54ADHQ+9NVb5cGjA+HnYgTNwSH6Dju84efpW7oBQyLJmIIth4FFZsEUTwNVaZ
-	GqOeTALjlGSDzW02Dtg6omO2c=
-X-Received: by 2002:a05:622a:259b:b0:4ed:e595:bc85 with SMTP id d75a77b69052e-4f4abd621b7mr115510151cf.46.1766257099724;
-        Sat, 20 Dec 2025 10:58:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG71tkmZOaEXRVDTFkxQxTteoL/5u6WPcPmvcI5BdbEGhUXZpVrRz4Ui56FFiPshPAmtjf9xw==
-X-Received: by 2002:a05:622a:259b:b0:4ed:e595:bc85 with SMTP id d75a77b69052e-4f4abd621b7mr115509871cf.46.1766257099183;
-        Sat, 20 Dec 2025 10:58:19 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3812267a438sm13985661fa.41.2025.12.20.10.58.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 10:58:18 -0800 (PST)
-Date: Sat, 20 Dec 2025 20:58:16 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ma Ke <make24@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: codecs: pm4125: clean up bind() device reference
- handling
-Message-ID: <o2ow7tizpgueqhulpubdjftasn7u5iugdkvdwnawbiewsaihyw@n4escb7hcnzx>
-References: <20251219142412.19043-1-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Do6HH5c0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D761C4CEF5;
+	Sat, 20 Dec 2025 22:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766271480;
+	bh=j1GOTP4uW+ablI4hgNqOr9maHcvcticbqrr0oiC53Lk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Do6HH5c0QWYitZLtSX3srYlmB3d0h6ClRkgb6CjTRmAg0jbJmARjOeGcAqN7OtqLa
+	 OJQV0IQhBynNdV9oF1EtskzIuC/umvXRfbO/btSk59AZHGaI/GjBm/xzoM1lOsQrlC
+	 FMOvC6W0u6pedDn3uS82sk08ulxhViYc4RBsd9Q04CS5Rc1+HyllqEhH0hXbPGkmEq
+	 GCmJdA1Qk+s5tVSpwo05EyDOsmUOIVSzLSQrVAU8xI9zClS4374zqv8aB60WDNhfx+
+	 ny3uKrN9eWsoMSgJHyTyzXhSr4uCobki+XjsKoKSLxBx9QKa46NFkkdDWXGppPA8hn
+	 YAxK1xWXLSReQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id D29B21AC56B2; Sun, 21 Dec 2025 07:57:55 +0900 (JST)
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.19-rc1
+Date: Sat, 20 Dec 2025 22:57:55 +0000
+Message-Id: <20251220225755.D29B21AC56B2@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219142412.19043-1-johan@kernel.org>
-X-Proofpoint-ORIG-GUID: QE9rZTbeuz7NVG3NT-Io_kxD9sqtYiB2
-X-Proofpoint-GUID: QE9rZTbeuz7NVG3NT-Io_kxD9sqtYiB2
-X-Authority-Analysis: v=2.4 cv=CeEFJbrl c=1 sm=1 tr=0 ts=6946f1cc cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=qZ3YKT8rVdHzq0eVhogA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIwMDE2NyBTYWx0ZWRfX2Ggjh2paYimM
- e5so+ykz18cS39YnkvYaKYHqjtEZWZAm1fWeP6rs7CFTiRys89JQ/Ev5coK0ge69rc9P0HvGvUV
- 6+9UCrZHixEj95fi07xhud7J3bqDYCVAK/bhKPYBfj+V4yC2Igc80xY/g25qxKeTntM+5gJl4k2
- 8DwDPZ7E+AHYkBY8U2/piz4n1yURuffGzkvzdWHVa57Z7S/3g/xRp0yE/1jOvrOzQceZmeNJ7Tp
- yazXZNqog5Tz4YoRwPR0L/jaVxlzdZpxbwJuaRy2g0qFnEiOrqEBTt2k2lLyufMOIH49EGjKaLl
- vIZOeZwT677ItWtoKDCefDZG66BuByKlNT+xAHqPbnvhfpRshm9HFidjXBITIrlkvssOImLlScJ
- raO6318BpSU7PxdMjUZCENBZxyGq7CLd+W/K4dFG4YdY2ln4glq+1rVVL+E/WyK0OuX/OxSKBKs
- 2mZeVpudbpG9VXXMx6w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-20_04,2025-12-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- bulkscore=0 adultscore=0 spamscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512200167
 
-On Fri, Dec 19, 2025 at 03:24:12PM +0100, Johan Hovold wrote:
-> A recent change fixed a couple of device leaks on component bind failure
-> and on unbind but did so in a confusing way by adding misleading
-> initialisations at bind() and bogus NULL checks at unbind().
-> 
-> Cc: Ma Ke <make24@iscas.ac.cn>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  sound/soc/codecs/pm4125.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
-> 
+The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
 
+are available in the Git repository at:
 
--- 
-With best wishes
-Dmitry
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-rc1
+
+for you to fetch changes up to 56d953a8d0da5e53c2594edde23465ec49385b1c:
+
+  ASoC: Intel: mtl-match: Add 6-amp matches for CS35L56 (2025-12-19 13:25:16 +0000)
+
+----------------------------------------------------------------
+ASoC: Fixes for v6.19
+
+We've been quite busy with fixes since the merge window, though not in
+any particularly exciting ways - the standout thing is the fix for _SX
+controls which were broken by a change to how we do clamping, otherwise
+it's all fairly run of the mill fixes and quirks.
+
+----------------------------------------------------------------
+Alexander Stein (4):
+      ASoC: fsl_easrc: fix duplicate debugfs directory error
+      ASoC: fsl_asrc_dma: fix duplicate debugfs directory error
+      ASoC: fsl_sai: Add missing registers to cache default
+      ASoC: fsl_xcvr: provide regmap names
+
+Andrew Elantsev (1):
+      ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
+
+Bard Liao (2):
+      ASoC: sdw_utils: subtract the endpoint that is not present
+      ASoC: SOF: ipc4-topology: set playback channel mask
+
+Chancel Liu (2):
+      ASoC: fsl_sai: Constrain sample rates from audio PLLs only in master mode
+      ASoC: fsl-asoc-card: Use of_property_present() for non-boolean properties
+
+Mark Brown (4):
+      ASoC: Intel: common / SOF: Use function topologies for
+      ASoC: SOF: ipc4-topology: fixes for 'exotic' format
+      ASoC: fsl_easrc: Fix duplicate debufs entries
+      ASoC: Intel: mtl-match: Add 6-amp matches for CS35L56
+
+Peter Ujfalusi (6):
+      ASoC: SOF: ipc4-topology: Prefer 32-bit DMIC blobs for 8-bit formats as well
+      ASoC: SOF: ipc4-topology: Convert FLOAT to S32 during blob selection
+      ASoC: SOF: topology: Add context when sink or source widget is missing
+      ASoC: SOF: Intel: pci-mtl: Change the topology path to intel/sof-ipc4-tplg
+      ASoC: soc-acpi / SOF: Add best_effort flag to get_function_tplg_files op
+      ASoC: Intel: soc-acpi-intel-nvl-match: Drop rt722 l3 from the match table
+
+Robert Oscilowski (1):
+      ASoC: qcom: sdm845: set quaternary MI2S codec DAI to I2S format
+
+Shengjiu Wang (1):
+      ASoC: ak4458: remove the reset operation in probe and remove
+
+Shuming Fan (1):
+      ASoC: rt1320: update VC blind write settings
+
+Stefan Binding (3):
+      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L56 with feedback
+      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L63 with feedback
+      ASoC: ops: fix snd_soc_get_volsw for sx controls
+
+sheetal (1):
+      ASoC: tegra: Fix uninitialized flat cache warning in tegra210_ahub
+
+ include/sound/soc-acpi.h                           |   5 +-
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 ++
+ sound/soc/codecs/ak4458.c                          |   4 -
+ sound/soc/codecs/rt1320-sdw.c                      |  16 ++--
+ sound/soc/fsl/fsl-asoc-card.c                      |   8 +-
+ sound/soc/fsl/fsl_asrc_dma.c                       |   3 +
+ sound/soc/fsl/fsl_easrc.c                          |   3 +
+ sound/soc/fsl/fsl_sai.c                            |  13 ++-
+ sound/soc/fsl/fsl_xcvr.c                           |   3 +
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c  | 104 +++++++++++++++++++++
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c  |  49 ----------
+ sound/soc/intel/common/sof-function-topology-lib.c |   5 +-
+ sound/soc/intel/common/sof-function-topology-lib.h |   2 +-
+ sound/soc/qcom/sdm845.c                            |   2 +
+ sound/soc/sdw_utils/soc_sdw_utils.c                |   8 +-
+ sound/soc/soc-ops.c                                |  32 ++++---
+ sound/soc/sof/intel/pci-mtl.c                      |   6 +-
+ sound/soc/sof/ipc4-topology.c                      |  49 ++++++----
+ sound/soc/sof/topology.c                           |  26 +++++-
+ sound/soc/tegra/tegra210_ahub.c                    |   6 +-
+ 20 files changed, 238 insertions(+), 113 deletions(-)
