@@ -1,135 +1,144 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69512868A7
-	for <linux-sound@vger.kernel.org>; Sun, 21 Dec 2025 10:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B590F231845;
+	Sun, 21 Dec 2025 11:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766312755; cv=none; b=EGwsThZfpEmeyToqaeP++3+5MlM36xdnbTHv4Jl7iCt3dUu9JNwBiLGXHgjMkXkNd5QJ7mciXFBU/VXq+zA+/mslq7ZKqY9Vgg4lnRrdm88EbcypyTkM6LzRtHW44bXqHG0NmxPZoIZvYZjIGMnKr0kyhFwXTXQ6ojyJBa5F80U=
+	t=1766317824; cv=none; b=FQEbIomvQXWOIllbCwdq/mgpsrxRM8Hp5cKSFUoX1NAs+YBJrbC2QvVk/m9LAxW7pQ0dk0TAvuAR3jfZNgWVbgK/Qth1b4prqsNM37QOX5gwq2v7LaJB22tLnpu2dxmq7HHr5Isjmxwjr9/c1KaaSggXCPlpc2epN9Xu6wxAbck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766312755; c=relaxed/simple;
-	bh=WArwVu7K8L4T3Andja9eSxSmx344/0acHOie/dbsS5Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MPyhUtYQDAQ3HR+zQ0j/owvRo/1FrIBGhN0EQxmPSTnhX7krZSWiKDTpaBnZzX9AgWVZUo5144/o/xw+kISQxsufYhbxKJ36RmfwlBqXs1KtH8VGqQo2ybuJcDvf0GH9SUXk3QnqC9SBsC8xIXOwwwfyLRJgy7cK8A/BO6w4HPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VLRlCG0B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PaNaC0LX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Uasz2k9v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cANf1lbR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VLRlCG0B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PaNaC0LX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Uasz2k9v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cANf1lbR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A995B33859;
-	Sun, 21 Dec 2025 10:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1766312393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FYQ9kZWdhDwh285JYrg++cC/URoLnUWwdFbQoLQx/Jk=;
-	b=VLRlCG0B8PZ8gftFTn20niSr+rgk/fjHFEJRZasJyX3viyMLBeM3KwBDqQutW8ViIOL/cv
-	smvF2qZ6cZOfxRJp0WApGx3qguasWoJHmfKEs1gzqIdf8yyOsPO4vxjYva6fBpHG35HF8P
-	8rl6WEwazkA1izNpDdJcnnj7W7qcvkQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1766312393;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FYQ9kZWdhDwh285JYrg++cC/URoLnUWwdFbQoLQx/Jk=;
-	b=PaNaC0LXJIeg+6Gms+n0awoc8p/NXPNoJzMEqhCkySRqFoEbO9nOdYECrbBqRzHbk+Ct2b
-	XzDZcVt01GgbHTAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Uasz2k9v;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cANf1lbR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1766312391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FYQ9kZWdhDwh285JYrg++cC/URoLnUWwdFbQoLQx/Jk=;
-	b=Uasz2k9vQFqCAvFuIn8dE46gwyGuzSLbDRUP/pO4AVYP+l9aV3atN1w5sSszk9WK8QyCiO
-	GO1dKQhMeePyV0F1LoOSczDkx7VBCLVnier4vQqnYWQkp0nG+sKUP+yIQ55SvZtSAtuNPn
-	g1VxNCp5ye8g6tdZRnSU8VszOwHXz44=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1766312391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FYQ9kZWdhDwh285JYrg++cC/URoLnUWwdFbQoLQx/Jk=;
-	b=cANf1lbR4e+U0vATaXk+lHtuH3vAWzQzbg+5h3bdrK1+KoPICOafvcvGI9Y6s7rxrwLwBL
-	7FxLXD4lfQagrGBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40FDC3EA63;
-	Sun, 21 Dec 2025 10:19:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EELODMfJR2l8fQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 21 Dec 2025 10:19:51 +0000
-Date: Sun, 21 Dec 2025 11:19:50 +0100
-Message-ID: <87wm2gyw55.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Chris Chiu <chris.chiu@canonical.com>
-Cc: tiwai@suse.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: fix PCI SSID for one of the HP 200 G2i laptop
-In-Reply-To: <20251218062251.2039592-1-chris.chiu@canonical.com>
-References: <20251218062251.2039592-1-chris.chiu@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	s=arc-20240116; t=1766317824; c=relaxed/simple;
+	bh=NJuGcgmI9AFqkVh96sWwH3BvXGoRbjJ5NN1a/RV/0zg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bCRIUC/F9HW//vlSbRXwxSA0Ffqh7pZPYgF55eliGyaD5En1We39pekU/BvEMgXnp8x5tPB7KaUMWfFFJiNAATz6kz/ieAL6/+qzTA9n20pKWeE6VqK5jc+l9Ii+4sXBU/t/BmNBrD46nEOf4flIL92ZgUJuaFgLmSAjwdMcfmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [36.112.3.209])
+	by APP-05 (Coremail) with SMTP id zQCowABH2g3p3kdptE5sAQ--.34171S2;
+	Sun, 21 Dec 2025 19:50:02 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: vkoul@kernel.org,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: [PATCH] soundwire: bus: fix missing error handling in sdw_bus_master_add()
+Date: Sun, 21 Dec 2025 19:49:57 +0800
+Message-Id: <20251221114957.945463-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: A995B33859
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABH2g3p3kdptE5sAQ--.34171S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw4rAr18Jr4UAw4rGw17Jrb_yoW8Kr1Upa
+	18Ga95KrW8tr1fuwn0ya10vwnYq3yIqay8ArWxGwnakr47trWFqr1jgFy0qFy3Krn5Ca1U
+	Ar4aq3yjkFy5WF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r1j6r
+	4UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUehL0UUUUU
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiCQ4CE2lGuxxfkgABsS
 
-On Thu, 18 Dec 2025 07:22:51 +0100,
-Chris Chiu wrote:
-> 
-> The PCI subsystem ID of the HP machine Abe A6U should be 0x8ee7
-> instead of 0x8eb7.
-> 
-> Fixes: a30fa8122222 ("ALSA: hda/realtek: fix mute/micmute LEDs don't work for more HP laptops")
-> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+sdw_bus_master_add() lacks proper error handling, which may
+lead to resource leakage. Fix this by adding corresponding
+error handling operations.
 
-Thanks, applied now.
+Found by code review and compiled on ubuntu 20.04.
 
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+---
+ drivers/soundwire/bus.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-Takashi
+diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+index fb68738dfb9b..0fb6ca164786 100644
+--- a/drivers/soundwire/bus.c
++++ b/drivers/soundwire/bus.c
+@@ -62,18 +62,20 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 	if (ret < 0) {
+ 		dev_err(parent, "Failed to add master device at link %d\n",
+ 			bus->link_id);
+-		return ret;
++		goto free_ida;
+ 	}
+ 
+ 	if (!bus->ops) {
+ 		dev_err(bus->dev, "SoundWire Bus ops are not set\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto del_master_dev;
+ 	}
+ 
+ 	if (!bus->compute_params) {
+ 		dev_err(bus->dev,
+ 			"Bandwidth allocation not configured, compute_params no set\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto del_master_dev;
+ 	}
+ 
+ 	/*
+@@ -99,7 +101,7 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 		if (ret < 0) {
+ 			dev_err(bus->dev,
+ 				"Bus read properties failed:%d\n", ret);
+-			return ret;
++			goto unregister_key;
+ 		}
+ 	}
+ 
+@@ -126,7 +128,7 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 
+ 	ret = sdw_irq_create(bus, fwnode);
+ 	if (ret)
+-		return ret;
++		goto exit_debugfs;
+ 
+ 	/*
+ 	 * SDW is an enumerable bus, but devices can be powered off. So,
+@@ -144,8 +146,7 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 
+ 	if (ret < 0) {
+ 		dev_err(bus->dev, "Finding slaves failed:%d\n", ret);
+-		sdw_irq_delete(bus);
+-		return ret;
++		goto delete_irq;
+ 	}
+ 
+ 	/*
+@@ -164,6 +165,19 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 	bus->params.next_bank = SDW_BANK1;
+ 
+ 	return 0;
++
++delete_irq:
++	sdw_irq_delete(bus);
++exit_debugfs:
++	sdw_bus_debugfs_exit(bus);
++unregister_key:
++	lockdep_unregister_key(&bus->bus_lock_key);
++	lockdep_unregister_key(&bus->msg_lock_key);
++del_master_dev:
++	sdw_master_device_del(bus);
++free_ida:
++	ida_free(&sdw_bus_ida, bus->id);
++	return ret;
+ }
+ EXPORT_SYMBOL(sdw_bus_master_add);
+ 
+-- 
+2.25.1
+
