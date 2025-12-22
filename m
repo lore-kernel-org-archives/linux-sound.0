@@ -1,89 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1D8334C08;
-	Mon, 22 Dec 2025 22:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D27C3451C8;
+	Mon, 22 Dec 2025 22:57:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766444183; cv=none; b=PhFKHhit0SCB+vfcaRVjfimmz9hnFdLcOZA4LRbnu7ywt6sxuAsT76R8/6JBbUVsC50rhXCWLoKZcDa4LZlUhs5eDTXJrXSVHXPy9iv6ELxeyt7OgXE0oL2HAe7E0ZLzfqriFpyT5CQM6EP/vZ/REfyZNEU53JREdwkd7SkcscY=
+	t=1766444243; cv=none; b=pAjN3LsizLtOrC4FPBDmXZv8C908F8o4AAVfpW/q8Qw1uZnlTCYo0SjH+r7ngrMhEebLbC0B6FwgqCytrggaEWwhP+FpO0nxdcLndEY5KmXjrmXULjpdlkdF3vK/QCx1lpCNPCV3HQJQnsVbFel3AW6FlK+XsAej4LlEH5oQK1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766444183; c=relaxed/simple;
-	bh=slwF4LGEeOItWEHJbtxF2RfUGh8stpQCq97A5MCUP/8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZElXTZpPTSScxL0hwydsaWEHZSa0cn9viksXlOAki4A+EsGxIZuwPrjA6gJfo6lzD2AjOBj97c8gHY3IuuRhWZQRA7G66frdn8v+r7b56tUWNlral1D0qLzvaEY4qCz2uxQdqPAB3Y1WnfBiQPoJ6KfFGoTGk/pMQionLzcctWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtPH0iJ+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766444243; c=relaxed/simple;
+	bh=iGYFb6IBoflfqDoZcq97Sl/imErxh/s7ix/63yX+HQQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bNL3stOeE4z+5Pgy+kRenyntIh73+7QbY4cqfOUdCLC9wOOKXB/OWFzpsl9v213IKpLqiKRNgdBVa3tfzBXFl4vYaU/GH/UWAI881wZZXvJBTNzCnyPHnszaNoppLyTdag9F0BnrxjExT6bvyfwdSKuvPO77JGArgi2mbEQ1Vjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0TYwQd0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtPH0iJ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B6ADC116D0;
-	Mon, 22 Dec 2025 22:56:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0TYwQd0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DF0C16AAE;
+	Mon, 22 Dec 2025 22:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766444182;
-	bh=slwF4LGEeOItWEHJbtxF2RfUGh8stpQCq97A5MCUP/8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BtPH0iJ+u8Z7ihnRArd9f7yASkL5cznW7M4RFrTESDOrj+wWsv0NFelL95DDHpKE2
-	 NqBZmT3rePm7xleEOWRuyNiRAJFcARYntlXDQdXrD8A5K/Uip216bI5JnmbX4jwkKU
-	 pVppEKqKTi9HQFsbEr/cdkenIUIYwW4ntFyIFgaCFzKdNhC0VQBY+ttWZ2bYj9qYPI
-	 bASGPy+kCfuYrIWI89Yz/7Np8Bi4AQVYYaiNvHZ6sHp6mHjYxU8C37tMJ0w7fggJl3
-	 w/qof389Vkohxal+D9W8c7aFB5mQzHZ7AoBV8TPF651QfGApn2Pab6k2CfqqqARGbt
-	 VXCgWUZZ6mK8Q==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251219142715.19254-1-johan@kernel.org>
-References: <20251219142715.19254-1-johan@kernel.org>
-Subject: Re: [PATCH 0/3] ASoC: drop bogus container_of() error handling
-Message-Id: <176644418126.2691602.4012078053889750862.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 22:56:21 +0000
+	s=k20201202; t=1766444243;
+	bh=iGYFb6IBoflfqDoZcq97Sl/imErxh/s7ix/63yX+HQQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P0TYwQd0RgxT4LlaiCQD6Q916vvSkayvKih/mBx7/mx+JujAUegtW89+dA0ETB5N8
+	 uJOoV92bxAfZXOhO6LkNHeu149BxRkI/P1Q5qnBR6KiFNRXJPtiErUvSag7hau81iv
+	 ioW7oVFyEotJSq/iiTIuyNV4XqeNvHMVL8gxL2e/4cJMDDD+yqGAoTiCEYlaQEqsBM
+	 w/W+FZF6tQWgQmtQp+aBP7H9lOLTTHsl8QjCmkupuXXZoU8p8KcUVw/tbmc6AxFoMs
+	 6KqVQ0QvbEDCdBwcTkGbmufr/WIN9xzmZUAW7lSy8a5GcICbtjJqd9phb2EXsK4cV+
+	 KWCo9OD+zBLOA==
+From: Namhyung Kim <namhyung@kernel.org>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Ian Rogers <irogers@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-perf-users@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 06/11] tools headers: Sync UAPI sound/asound.h with kernel sources
+Date: Mon, 22 Dec 2025 14:57:11 -0800
+Message-ID: <20251222225716.3565649-6-namhyung@kernel.org>
+X-Mailer: git-send-email 2.52.0.351.gbe84eed79e-goog
+In-Reply-To: <20251222225716.3565649-1-namhyung@kernel.org>
+References: <20251222225716.3565649-1-namhyung@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
 
-On Fri, 19 Dec 2025 15:27:12 +0100, Johan Hovold wrote:
-> The dev_to_sdw_dev() helper uses container_of() to return the containing
-> soundwire device structure of its pointer argument and will never
-> return NULL.
-> 
-> Johan
-> 
-> 
-> [...]
+To pick up changes from:
 
-Applied to
+  9a97857db0c5655b ("ALSA: uapi: Fix typo in asound.h comment")
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This should address these tools/perf build warnings:
 
-Thanks!
+  Warning: Kernel ABI header differences:
+    diff -u tools/perf/trace/beauty/include/uapi/sound/asound.h include/uapi/sound/asound.h
 
-[1/3] ASoC: codecs: pm4125: drop bogus container_of() error handling
-      commit: 54fa71f5f965fa3ec8846cef9d1154bcb2ba2850
-[2/3] ASoC: codecs: wcd937x: drop bogus container_of() error handling
-      commit: 61a50d6f58b41e8a7e68d8fc8fc6bfbe30d790d8
-[3/3] ASoC: soc_sdw_utils: drop bogus container_of() error handling
-      commit: 870b10f61d527fec594e0888f18cc4f32c47433d
+Please see tools/include/README.kernel-copies.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Namhyung Kim <namhyung@kernel.org>
+---
+ tools/perf/trace/beauty/include/uapi/sound/asound.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/tools/perf/trace/beauty/include/uapi/sound/asound.h b/tools/perf/trace/beauty/include/uapi/sound/asound.h
+index 5a049eeaeccea59f..d3ce75ba938a8497 100644
+--- a/tools/perf/trace/beauty/include/uapi/sound/asound.h
++++ b/tools/perf/trace/beauty/include/uapi/sound/asound.h
+@@ -60,7 +60,7 @@ struct snd_cea_861_aud_if {
+ 	unsigned char db2_sf_ss; /* sample frequency and size */
+ 	unsigned char db3; /* not used, all zeros */
+ 	unsigned char db4_ca; /* channel allocation code */
+-	unsigned char db5_dminh_lsv; /* downmix inhibit & level-shit values */
++	unsigned char db5_dminh_lsv; /* downmix inhibit & level-shift values */
+ };
+ 
+ /****************************************************************************
+-- 
+2.52.0.351.gbe84eed79e-goog
 
