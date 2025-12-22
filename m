@@ -1,177 +1,159 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011008.outbound.protection.outlook.com [52.101.62.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD151E885A;
-	Mon, 22 Dec 2025 07:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766390266; cv=fail; b=GJP3Tw9W4AwFgLTnL8/RDfpl4fuIUrcTx9AlXCYQsDNHkmq3jxCoeYO00hqJjGoZzgMNwuzTTK6JIRXaO8w70BG55O7Hxu9Y7fEIHZ3vFb2DYc5TLat5konn5P42uZFGrDweKkmT0MgIUJOqr+so6raoeQoK8sivC3bqUq29tNQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766390266; c=relaxed/simple;
-	bh=5S1TahzbrlMpo9pA6mfeEq9VZ8OLbzw478m3g30rTG4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uZrrMRKeEk/f8OLeqNv23Q5KkMRtJlCw08Gp7KjEw+VMDZ5C0K64huHeJLcQ1NW3f4uNzQ1LpU7c/kAakTu5PN2MjK22QUsNMzVwfWbfZBn81GyYbMlfwctHtR/uivzBi92Bmoa4FD6feipSpBh9D7wTGpkYVGoip9IJRMnDN/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jpIxrTjX; arc=fail smtp.client-ip=52.101.62.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD743054EC
+	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 09:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766396046; cv=none; b=QXn6yXjrVADnxMSc4Dqxg3ODVOQVJab7SCjYHgxJusdCyoqbi28zXifvmmkLKGhl6refi1kOjgOBq1MAw6xcL9mKf+Eh/jHTFr9/R6w0u+kgLlIVXRi2FPzJuPlikOxoJY5HsXih/jChCkQkmUPyKUY8VD/ZEm45u3vyKLJeFck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766396046; c=relaxed/simple;
+	bh=ZA2qP0G/a9M/P6UHxZt5AslOtMaaYfdSqdRp6fr6Zgw=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oOAP8s3rxGKqvWjCUJ7NRD31HuIW9oGZmnBeCObbhY/JnyXujN64ykDFesSXAQ3bpzcc8+7k66LWrumQoXWPyxQgoy2XI4MsNsJN7tBwVHx8aWjHdfkpyZWM+f/NmGj3bB/EBZIo9JyqlakOqj707KldkLM/gj/feRX5lUf2eD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=E2PewdHk; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jpIxrTjX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tWGiSiLJ926xg+OTrTaCtgBXBhzDHl4N/7ku01irmJPQ0DalVBHMnAaChQEBSjEPlvpbAEd2It9hMcNdqEY0y38V1CVx7X3E6JUodsU+umMU7Q/qAB8+CAtfCwA3uja9wRuhygXwAWCDRug962Oa4tnLAmdvQoVbpW9M3oIvqRnY9XTllnF0hqUY3lziHCWHQSShqE93XYi7p98dnPl5av/xO19hua8QyXoXzA8hscbmJsRN7/P0C45zb81XIQvbVFY3IVuXAcECwFAd2fJnNxq2osTuaaUDuu0Gx6TQbbLW0aO0l2AyLNfInW7R+jL11+izLEvRv9HzrrqHWoCrSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hV0PVx0KiYGg73hkqXBI94E8rZOyK5U0oK9+Vz3jlfA=;
- b=n/4VvpHoBuAi4g1hTjaxoS4bgD72DSbeqbhdG5FvgjK+1G5brYf4v0V2jFIHlHIWpoCDcLe+qRqxzQvXTi/r5jpwaTeNNTlk+okXI34VyqPaT+qzM1VS/4YpkE2J4Nbtm9lcHgmWC16txJ4duq3tPY3+Gmt+AjxOZ2VDXvbUBkV6IV7UXDwM69gT7Q4SS4bQBvsm1LoJmJWJvdITsbf27ce4Igj/DRWsWJdvkD1F2wgaVcVan5/tL+j3cy8pTGUTTDs3ZNuooXK05nyhxtHrBnZhXh79z7lQ5YoB7zt3oAOBszHGi04iA8meG0LwvDEltePbLebJ9Z2kHFzbOBDoMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hV0PVx0KiYGg73hkqXBI94E8rZOyK5U0oK9+Vz3jlfA=;
- b=jpIxrTjXEbKcZPYik+Gcwb7064PVQF2YuSiB1k+1NXRxSY+eetTqEbS+UwSzziMNumOZS1UVF7GFel59OITAON4tEhu/Xxdq5RcpmKzMB06kGitVstIWod4wur7HP1iND6bRbzuQrgpnzzfwVqxG9SQPOKBw2oKOe9xZM/hLRJw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- DS7PR12MB5959.namprd12.prod.outlook.com (2603:10b6:8:7e::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.11; Mon, 22 Dec 2025 07:57:43 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::5c31:b454:e529:99f]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::5c31:b454:e529:99f%6]) with mapi id 15.20.9434.009; Mon, 22 Dec 2025
- 07:57:42 +0000
-Message-ID: <890c81e6-e950-43f2-8fd4-2b2e794367ce@amd.com>
-Date: Mon, 22 Dec 2025 13:27:36 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] soundwire: amd: refactor clock init sequence and
-Content-Language: en-US
-To: vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- Sunil-kumar.Dommati@amd.com, Mario.Limonciello@amd.com,
- venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251222074847.7270-1-Vijendar.Mukunda@amd.com>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20251222074847.7270-1-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0165.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::9) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="E2PewdHk"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BM9XiBlA3157941, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1766396024; bh=Jkm2kSar05WFpc8af/wZU6hw8iz8mm9ZSwUx4Vm1ynY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=E2PewdHkSXkGQOdVrCtA2GoEJ61nKmmDtyclZJ6TqCZpcPehDtEDDgIuRsuFVF43G
+	 PaHkul1bmJn6XFTXkVxyOUgpsIlgwFNjCQU6ALmQYIYDA9E8BIHpOTFchemC/8lNkI
+	 qOjFAKGa4nfpuozcJWMI/9WTCHNf8tTB5SqcNfxfURftVU4HxujQ3nbMArfixEwWRT
+	 cNQP1RZMg8Od1zmcVoeov2RXH69ZSububl4zocNz8LzEClLjx28ton2s+apvSMcI9N
+	 DsuFaCtTYUZWPiRVOPrXMRPs4EZFuwVANvPruVKBl1V2GF//0pZQGIkBbpd/1IDGJp
+	 saOe4VPQOgBQw==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BM9XiBlA3157941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 22 Dec 2025 17:33:44 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 22 Dec 2025 17:33:44 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 22 Dec 2025 17:33:44 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913%10]) with mapi id
+ 15.02.1748.010; Mon, 22 Dec 2025 17:33:44 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Enable Mute LED for Lenovo platform
+Thread-Topic: Enable Mute LED for Lenovo platform
+Thread-Index: AdxzJZTpQBMS0SqrS+iIpeTmji/LTA==
+Date: Mon, 22 Dec 2025 09:33:44 +0000
+Message-ID: <8a99edffee044e13b6e348d1b69c2b57@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|DS7PR12MB5959:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6cce08b-c611-4447-f4e2-08de412fc90c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VkZEeDVsTVBBanBIeFhaTFpmRVY0Q0FmTjJucXBkcVlNZUpiMmhUZDk4YWNH?=
- =?utf-8?B?S09JdkxVajlLbXU0Vmd1cmp4T0t1OThUZmpXK0NGN3IxMUxxVU5saFBzUnNj?=
- =?utf-8?B?TE1TL2dPK2ZmY1F0eWoxNThVaDlTRWtaQWJNQk4vM2lqYUJWZC9zb2wzemR1?=
- =?utf-8?B?blJ6MW5MYW50SUxsbU5vRGdyQUJKR2VBSlp1em9CbmVPV0JVVmJ6R0NuR2Rn?=
- =?utf-8?B?TU50MUxCT2Rhb0RlNXcvVmhEWkRhL2RtYWNLTmVjbzNrajY3bW9uaHk2SzBB?=
- =?utf-8?B?dlAycEdEQzMwOTZsdGFITXFkTFV0S1FHUGFuUWFiRHNhZWFOeVVEMkovSWJn?=
- =?utf-8?B?ZUs5SnlQM1NXc0x2VVIrenZPSmVabUtDVUlMOTBPdmVLZmlpczgra3lLRmRv?=
- =?utf-8?B?cmUybXBxOVBGRmdRWTl3dWdxcE5jdmEybndtTkp1SVVzZFBVeDM0cnZQYnZ2?=
- =?utf-8?B?WTBOQUd5MjB4OUpmTmNLV1MyV0ptdjBZRS9KT21NMWwySERZYnBlSktDVS8v?=
- =?utf-8?B?SmYxMVNmbW4rSHlNV3ZVdlRPTWhaQXA0U0hCYTZHTmpDTFA3Y2J1SFA3T08y?=
- =?utf-8?B?S3U5aGFoRjZjY2twMEtnZjlPWWp3Zm1oVVBhMEhtTnpubmdwRlBNWmNqeFpu?=
- =?utf-8?B?SjhkK1JIaW9wclNNNFhoM2FSQXZuMzFMaVc3U2dLdmJ0cytJK01Vd21xcVcy?=
- =?utf-8?B?MnQ2dE42VHFuOTQ2UzZqaGtwUXkxdlpKdTYzUnp2U3NVcm9wSnMwV3NSak53?=
- =?utf-8?B?OW5WRlRTb2Q4NjhIeFBZVWwrN3FvSVJlSGFteFJNdEl3Wlo4ZDd4M25zbWRN?=
- =?utf-8?B?S0I5ZlVTc2d2WmZlcndUUy9rb2I5UDJKT0JuSEtobWFrcnlFRGNLVXVLL25K?=
- =?utf-8?B?RkpmTERENkFpOG1zaVN6dHJMWGp1SzA0bVJEc3FGTjFzcXRVYlB0aUdSM09P?=
- =?utf-8?B?QlRlMFp5Y1FBb0l3a0I3aG5uNTFZdEhHUldxa1UzMG5OT08rTlZKdTB2NzZi?=
- =?utf-8?B?QnJMcVpxS3RuRHQxeExJRGFueDlqZTlvem1jeVJIUU80ZzB4dkRKOEtONnli?=
- =?utf-8?B?QjFwTk1CRzRkZ1MrOFVjVDkzZ1pyNmtmZXFyc1R4VTVzY0k4T0JPSkdKcFhI?=
- =?utf-8?B?WHdYVjMyRzRlbmhhRk03QTNvUDlTVnlWNnk1ZWVWQktWYkh3V3ZhbWRoNC9Q?=
- =?utf-8?B?NFBpaElZRVR6WGFBTkp0QXFtV3JQZHFvQXF6cm5xNDJRdklYbm5wejl3NVk1?=
- =?utf-8?B?UXRQTEZZRTVoWlhlMlZUSHd4d3hHejlrNlg4dVBOTGRGKzZqRlhvWWtWallG?=
- =?utf-8?B?TGpFaG4vVys0M1Rwc1cxRkVjRGpvU0RhMUlKcENRMkVaL0NESHpOREliNlI0?=
- =?utf-8?B?cVpFT1ZJQjA1MXV0NlZXVktCZFFBbU1oTTJYWXQ1Y1Vqb3g5YU9DNHlYUDdl?=
- =?utf-8?B?L0xkRUpyZjVxUUJ4NnlEeWt1U1d4MFNZR0Y0TWE2NkFRMDlGeVc1V2NTQ1Nh?=
- =?utf-8?B?NFhXbW5jQnlDeG1mcWk1R1NGS3NaTTlsWXBESGY2NVUyekdzMHRMNUl0Slov?=
- =?utf-8?B?SDdIYnBJNkNSZ3ZSblVETk1td1lqUStaVEs4OHFWNXdUT2NQTjBZUU12UHFW?=
- =?utf-8?B?YVJlVnh6d0RCZi9jWnN4RFpGMnVka0RjOTFvRXY3ZkxqTTJJWVJwY1M3cCsv?=
- =?utf-8?B?RDFCZ0ZKZm05RFRZRmhlY3cwek4wRHE0aGdxNjhnemlOM3hYRjVVdHFHa2ww?=
- =?utf-8?B?S3B5RWttRDNJU3hzSW4ydzZyUHJrNHcxKyt3NjA4MXJFUWZjeks0SEdqODE4?=
- =?utf-8?B?eXU5QjRQU3BLSXVMb0xDd3JVWi9mNnQwVHQrRGdLczcyL2swZmY5WFZLZnhD?=
- =?utf-8?B?ZjRBcnpnWTZWazN0TlVtcks5d2d0Q2p2UW1BMzZweFFiNUpxa1A2Z2JCYlhp?=
- =?utf-8?Q?N/5AOq4OyctRx+JayuYJ18qTLJlV1Wsd?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OWhDVFNwWWFacjZJNjBrWitaejYweXN2UEIwZ2NYVmhQbHlZR3h3S3VtQTBE?=
- =?utf-8?B?VXhVcFhNK2NNVjZueGhIR2ZwOW96MzFNeUI1cmFXMEhzMU9EYzhBZXBHMk5S?=
- =?utf-8?B?NlFCNnVFMGtZT2s0S0Jibm1VOTJja1k5L29Wcmg3WndlbmJYSzE2RjBUZWM4?=
- =?utf-8?B?Qk1UWVh2cXNiU1U2WDJrelFOUlEzbHZmVGxtajJCYUcwZC9ML1UyOG9RUnZT?=
- =?utf-8?B?VlBNMk45djZLMkd5VGxybVhmWXVEeXVwSmhrN0R6SlhmY3dtUzcyYkNQOVlL?=
- =?utf-8?B?VHRYVWYyTEpUTDlwVERscG5pVjRPU1drUGN1aWdDWGc3VjF0Z1FKYkpDZWhx?=
- =?utf-8?B?YWpMS3lGYzZRY1RKczN6cDM3dHdMWVN2Rks2TGpGd1BFQm9CYnFjRjhzWXJx?=
- =?utf-8?B?UURIc3FwNHp6N2p6M0l5elhoT1VPNElYcWdOcUJiOVlvbDNDQWhtbitRb3U5?=
- =?utf-8?B?Vkx4SG93TWpHSityeFRPdjRDZzRWYXNzVWt3UUVJM0E2anNUZEhsUkZPYmV6?=
- =?utf-8?B?alh4Tnd4OHlRL1owMUcxMDJMcUpNbDd0blRleTFZM25XbGNNWlJ1L2M3R2Nl?=
- =?utf-8?B?ZUtKc2dnUXZSVlJmS3FIak0rNXl4UVpZYkhwcXFwakZHeEJXMXpZbHk4cUhi?=
- =?utf-8?B?Wm05ZlpUMEpQQUIzTmFwM243a1RuTHRTTUJYRUs3V25pUlFNUlFiMmVWRGdU?=
- =?utf-8?B?QlBmdnU1dVp1V25aMkdJZ0Fia0dlQU1mM05PRGVIaVgxWTgzcnJ2ZmsxSmV3?=
- =?utf-8?B?N3NrMEtEV3FCcS9ic01Pdkd6VVFXczFWOE00TCs3SWxReVhvUHFveWZVaCtq?=
- =?utf-8?B?S3ZtRjUwYXhVK0J6NzBiUWNONzhiS0ZJV2M4alErem1yN3c5cE8xT1Zkc0Zt?=
- =?utf-8?B?OTN6Y3BERkJTMm1VdFFYNnB1VHh6dkFPeTBwS3E1Y2thNXAwWTR1OUQ4NGVp?=
- =?utf-8?B?RFJNRERkWERoMVZMbUtyaWlNZUlka0t4cERyNTIwN1RhUFh5cGllMU5oa3Za?=
- =?utf-8?B?VmNSUU83QmVVN3BuNmM4UEFvNHZCTTVoSytWMGZVd3dJcENsdnNBSGFpNFAy?=
- =?utf-8?B?dFZxMld5VkJQT2F4RnhXNkRleUN0SWYwQ0Y4S0tRUzFQL0cwSDJVbnBIRHJB?=
- =?utf-8?B?S1JNOGtvbUxxTkE2MWdySWRNTHd6Z2RSOFl5RlYwN2g5Vklob2Vac2VOREsx?=
- =?utf-8?B?aFRURjNWckxMTUJJd1d2OFVCNW85bUtyZXQrMkpPOXZXZ0p3eEpadzlFbVE3?=
- =?utf-8?B?YmcvODVNcyt0dU9Ob1NEQkV1SmFnY1RhNnlHRnUvUFNYUmUvYURiYWVTdTgw?=
- =?utf-8?B?cWgxajdielZiQkw1dE5sdWI0MjVaZ2Z6RmxjSzlhaVYwcmV3dHpneE1JR3pU?=
- =?utf-8?B?c2RKY3R1d3JlUHUzRi8xeVdJekk0cmFZeXJPbm9mYUJqZkREc0JZcnBIemVY?=
- =?utf-8?B?K0xOZmNRekZ5eHJBUk9LS2ljczFuUXp6YTBVUU1GKzJyMkpCeFNTQWNVOTVt?=
- =?utf-8?B?Q0gzZFlPd2NvVThEczkvZVlpK2NVbXRWcG4rWjlTLzVVNlRXN3B3QVBpWGIx?=
- =?utf-8?B?UkFSM3o3VGErc3VObnFQSTJYbVpQdEtxU0hxWVNZVnNvWFdjR1hwNkNGTHNY?=
- =?utf-8?B?QXUxa09BRXpsRG9qQzdMNmxlckE2cHhFTnAwNWliMTJZZmFxK2kvUnRaeUpS?=
- =?utf-8?B?d2tMNHV1UFErTXYxd3NjeVRnWkFjcTdsRWlhN1hPcUJnd0dOdGZxNUVZNTZZ?=
- =?utf-8?B?VDhlbVY5ZTdyTG16RkpacU1YdWFkZ3VXNldBNWNRMVRmSy9WT2k2N3h5RlAy?=
- =?utf-8?B?dGlNTmZOTVNHQ3ZWNGc0WldhNSszMGhjTkk0SEF1Y2hzQ1Z5RjBCY3ZxZStZ?=
- =?utf-8?B?WjFQcVlCc0RqT3o2L1NONktidU1TOWhkSit2M2dBdUY1VmJtUUh1UVZ4UEtr?=
- =?utf-8?B?R3luV2Z3TDRoajROdktuQ3NpRnVWeHdqUnhiby9zdm5vbWhFd0FhbWhhUlZw?=
- =?utf-8?B?SDROTW1pcWdCakZGYk02WFI1SExlNTJTV01xeVB1RkNZT1cyR1ZhczA0aHMv?=
- =?utf-8?B?Q1ZRTS8xRG4wcldQMFREdmJBVTBrUk5iQlRFakRldWdXYTVya0FCbFM1YXFt?=
- =?utf-8?B?aDJMbDQ1MlpKZmc1MnE5YjBoNk5yYTlkRC9jdVBoeDlZcHpnMklpaXhvT25p?=
- =?utf-8?B?YnUvUUs4eEFVWHYvQVJlaW5ReVUxQlZJUGxnZ05ncTNxLzd3NGtTWUNGNWNN?=
- =?utf-8?B?WHZaMnh6YkJ6clVaVnkrZ0pzZElOTHBDZDI4MUlzQTh3cTdDMW04TExlalJ6?=
- =?utf-8?B?WElyZklHeU1HZGdqRG5GWnlqOE9OSDJOKzc1U212d0JCTTUyQ0UwZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6cce08b-c611-4447-f4e2-08de412fc90c
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2025 07:57:42.8688
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Mm2puusO4WSSHZj+Ike6VFd3aRuVjD+nnhe5gMdo1+8acoMDoy0BWfr3DcU6/f1iZ+3onb4vO4DEv6GuQ31Kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5959
 
-On 22/12/25 13:18, Vijendar Mukunda wrote:
-> Refactor clock init sequence to support different bus clock frequencies
-> other than 12Mhz. Modify the bandwidth calculation logic to support 12Mhz,
-> 6Mhz with different frame sizes.
->
-> Vijendar Mukunda (2):
->   soundwire: amd: add clock init control function
->   soundwire: amd: refactor bandwidth calculaiton logic
->
->  drivers/soundwire/amd_manager.c   | 108 +++++++++++++++++++++++++++---
->  drivers/soundwire/amd_manager.h   |   4 --
->  include/linux/soundwire/sdw_amd.h |   4 ++
->  3 files changed, 101 insertions(+), 15 deletions(-)
->
-Cover letter title is discarded. Will update the cover letter title and
-resend the patch series in the next spin.
+--_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Takashi,
+
+Attach patch was for enable mute led functions of the Lenovo platform.
+Many Thanks.
+
+BR,
+Kailang
+
+--_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_
+Content-Type: application/octet-stream;
+	name="0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch"
+Content-Description: 0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch
+Content-Disposition: attachment;
+	filename="0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch"; size=4090;
+	creation-date="Mon, 22 Dec 2025 09:30:23 GMT";
+	modification-date="Mon, 22 Dec 2025 09:28:22 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSAxYzZjZjRhMjliZWRiZTJjNDQ0MjdhYmVkMDk5NmIxYzBhNjc4MDA5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IE1vbiwgMjIgRGVjIDIwMjUgMTc6MjA6MDYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
+OiBoZGEvcmVhbHRlayAtIEVuYWJsZSBNdXRlIExFRCBmb3IgTGVub3ZvIHBsYXRmb3JtCgpFbmFi
+bGUgU1BLIE11dGUgTGVkIGFuZCBNaWMgTXV0ZSBMZWQgZm9yIExlbm92byBwbGF0Zm9ybS4KClBy
+aW9yaXR5OiBQMQpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5j
+b20+CgpkaWZmIC0tZ2l0IGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jIGIvc291
+bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCmluZGV4IDk1MTBhYTJmMWJkYS4uZjQ4OGQ5
+NTIwMjRhIDEwMDY0NAotLS0gYS9zb3VuZC9oZGEvY29kZWNzL3JlYWx0ZWsvYWxjMjY5LmMKKysr
+IGIvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCkBAIC0xNjE2LDYgKzE2MTYsMjAg
+QEAgc3RhdGljIHZvaWQgYWxjMjk1X2ZpeHVwX2hwX211dGVfbGVkX2NvZWZiaXQxMShzdHJ1Y3Qg
+aGRhX2NvZGVjICpjb2RlYywKIAl9CiB9CiAKK3N0YXRpYyB2b2lkIGFsYzIzM19maXh1cF9sZW5v
+dm9fY29lZl9taWNtdXRlX2xlZChzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYywKKwkJCQljb25zdCBz
+dHJ1Y3QgaGRhX2ZpeHVwICpmaXgsIGludCBhY3Rpb24pCit7CisJc3RydWN0IGFsY19zcGVjICpz
+cGVjID0gY29kZWMtPnNwZWM7CisKKwlpZiAoYWN0aW9uID09IEhEQV9GSVhVUF9BQ1RfUFJFX1BS
+T0JFKSB7CisJCXNwZWMtPm1pY19sZWRfY29lZi5pZHggPSAweDEwOworCQlzcGVjLT5taWNfbGVk
+X2NvZWYubWFzayA9IDEgPDwgMTM7CisJCXNwZWMtPm1pY19sZWRfY29lZi5vbiA9IDA7CisJCXNw
+ZWMtPm1pY19sZWRfY29lZi5vZmYgPSAxIDw8IDEzOworCQlzbmRfaGRhX2dlbl9hZGRfbWljbXV0
+ZV9sZWRfY2Rldihjb2RlYywgY29lZl9taWNtdXRlX2xlZF9zZXQpOworCX0KK30KKwogc3RhdGlj
+IHZvaWQgYWxjMjg1X2ZpeHVwX2hwX211dGVfbGVkKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAog
+CQkJCWNvbnN0IHN0cnVjdCBoZGFfZml4dXAgKmZpeCwgaW50IGFjdGlvbikKIHsKQEAgLTE5MDUs
+NiArMTkxOSwzOCBAQCBzdGF0aWMgdm9pZCBhbGMyODBfZml4dXBfaHBfZ3BpbzJfbWljX2hvdGtl
+eShzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYywKIAkJc3BlYy0+a2JfZGV2ID0gTlVMTDsKIAl9CiB9
+CisvKiBHUElPMiA9IG1pYyBtdXRlIGhvdGtleQorICogR1BJTzMgPSBtaWMgbXV0ZSBMRUQKKyAq
+Lworc3RhdGljIHZvaWQgYWxjMjMzX2ZpeHVwX2xlbm92b19ncGlvMl9taWNfaG90a2V5KHN0cnVj
+dCBoZGFfY29kZWMgKmNvZGVjLAorCQkJCQkgICAgIGNvbnN0IHN0cnVjdCBoZGFfZml4dXAgKmZp
+eCwgaW50IGFjdGlvbikKK3sKKwlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsK
+KworCWFsYzIzM19maXh1cF9sZW5vdm9fY29lZl9taWNtdXRlX2xlZChjb2RlYywgZml4LCBhY3Rp
+b24pOworCWlmIChhY3Rpb24gPT0gSERBX0ZJWFVQX0FDVF9QUkVfUFJPQkUpIHsKKwkJYWxjX3Vw
+ZGF0ZV9jb2VmX2lkeChjb2RlYywgMHgxMCwgMTw8MiwgMTw8Mik7CisJCWlmIChhbGNfcmVnaXN0
+ZXJfbWljbXV0ZV9pbnB1dF9kZXZpY2UoY29kZWMpICE9IDApCisJCQlyZXR1cm47CisKKwkJc3Bl
+Yy0+Z3Bpb19tYXNrIHw9IDB4MDQ7CisJCXNwZWMtPmdwaW9fZGlyIHw9IDB4MDsKKwkJc25kX2hk
+YV9jb2RlY193cml0ZV9jYWNoZShjb2RlYywgY29kZWMtPmNvcmUuYWZnLCAwLAorCQkJCQkgIEFD
+X1ZFUkJfU0VUX0dQSU9fVU5TT0xJQ0lURURfUlNQX01BU0ssIDB4MDQpOworCQlzbmRfaGRhX2ph
+Y2tfZGV0ZWN0X2VuYWJsZV9jYWxsYmFjayhjb2RlYywgY29kZWMtPmNvcmUuYWZnLAorCQkJCQkJ
+ICAgIGdwaW8yX21pY19ob3RrZXlfZXZlbnQpOworCQlyZXR1cm47CisJfQorCisJaWYgKCFzcGVj
+LT5rYl9kZXYpCisJCXJldHVybjsKKworCXN3aXRjaCAoYWN0aW9uKSB7CisJY2FzZSBIREFfRklY
+VVBfQUNUX0ZSRUU6CisJCWlucHV0X3VucmVnaXN0ZXJfZGV2aWNlKHNwZWMtPmtiX2Rldik7CisJ
+CXNwZWMtPmtiX2RldiA9IE5VTEw7CisJfQorfQogCiAvKiBMaW5lMiA9IG1pYyBtdXRlIGhvdGtl
+eQogICogR1BJTzIgPSBtaWMgbXV0ZSBMRUQKQEAgLTM3OTEsNiArMzgzNyw3IEBAIGVudW0gewog
+CUFMQzI0NV9GSVhVUF9IUF9UQVMyNzgxX0kyQ19NVVRFX0xFRCwKIAlBTEMyODhfRklYVVBfU1VS
+RkFDRV9TV0FQX0RBQ1MsCiAJQUxDMjM2X0ZJWFVQX0hQX01VVEVfTEVEX01JQ01VVEVfR1BJTywK
+KwlBTEMyMzNfRklYVVBfTEVOT1ZPX0dQSU8yX01JQ19IT1RLRVksCiB9OwogCiAvKiBBIHNwZWNp
+YWwgZml4dXAgZm9yIExlbm92byBDOTQwIGFuZCBZb2dhIER1ZXQgNzsKQEAgLTYyNTYsNiArNjMw
+MywxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkYV9maXh1cCBhbGMyNjlfZml4dXBzW10gPSB7
+CiAJCS50eXBlID0gSERBX0ZJWFVQX0ZVTkMsCiAJCS52LmZ1bmMgPSBhbGMyODhfZml4dXBfc3Vy
+ZmFjZV9zd2FwX2RhY3MsCiAJfSwKKyAgICAgICAgW0FMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJf
+TUlDX0hPVEtFWV0gPSB7CisgICAgICAgICAgICAgICAgLnR5cGUgPSBIREFfRklYVVBfRlVOQywK
+KyAgICAgICAgICAgICAgICAudi5mdW5jID0gYWxjMjMzX2ZpeHVwX2xlbm92b19ncGlvMl9taWNf
+aG90a2V5LAorICAgICAgICB9LAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsg
+YWxjMjY5X2ZpeHVwX3RibFtdID0gewpAQCAtNzE1MSw3ICs3MjAyLDEyIEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKIAlTTkRfUENJX1FVSVJL
+KDB4MTdhYSwgMHgzMTc2LCAiVGhpbmtDZW50cmUgU3RhdGlvbiIsIEFMQzI4M19GSVhVUF9IRUFE
+U0VUX01JQyksCiAJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzE3OCwgIlRoaW5rQ2VudHJlIFN0
+YXRpb24iLCBBTEMyODNfRklYVVBfSEVBRFNFVF9NSUMpLAogCVNORF9QQ0lfUVVJUksoMHgxN2Fh
+LCAweDMxYWYsICJUaGlua0NlbnRyZSBTdGF0aW9uIiwgQUxDNjIzX0ZJWFVQX0xFTk9WT19USElO
+S1NUQVRJT05fUDM0MCksCisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0MSwgIkxlbm92byBU
+aGlua0NlbnRyZSBNOTAgR2VuNCIsIEFMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtF
+WSksCisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0MiwgIkxlbm92byBUaGlua0NlbnRyZSBN
+OTAgR2VuNCIsIEFMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCisJU05EX1BD
+SV9RVUlSSygweDE3YWEsIDB4MzM0MywgIkxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNCIsIEFM
+QzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCisJU05EX1BDSV9RVUlSSygweDE3
+YWEsIDB4MzM0NCwgIkxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNCIsIEFMQzIzM19GSVhVUF9M
+RU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCiAJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0Yiwg
+Ikxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNSIsIEFMQzI4M19GSVhVUF9IRUFEU0VUX01JQyks
+CisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0ZiwgIkxlbm92byBUaGlua0NlbnRyZSBNOTBh
+IEdlbjUiLCBBTEMyMzNfRklYVVBfTEVOT1ZPX0dQSU8yX01JQ19IT1RLRVkpLAogCVNORF9QQ0lf
+UVVJUksoMHgxN2FhLCAweDMzODQsICJUaGlua0NlbnRyZSBNOTBhIFBSTyIsIEFMQzIzM19GSVhV
+UF9MRU5PVk9fTDJNSF9MT1dfRU5MRUQpLAogCVNORF9QQ0lfUVVJUksoMHgxN2FhLCAweDMzODYs
+ICJUaGlua0NlbnRyZSBNOTBhIEdlbjYiLCBBTEMyMzNfRklYVVBfTEVOT1ZPX0wyTUhfTE9XX0VO
+TEVEKSwKIAlTTkRfUENJX1FVSVJLKDB4MTdhYSwgMHgzMzg3LCAiVGhpbmtDZW50cmUgTTcwYSBH
+ZW42IiwgQUxDMjMzX0ZJWFVQX0xFTk9WT19MMk1IX0xPV19FTkxFRCksCg==
+
+--_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_--
