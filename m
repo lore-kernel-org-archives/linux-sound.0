@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F28332EB8
-	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 20:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1E6339B4F;
+	Mon, 22 Dec 2025 20:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766437129; cv=none; b=rsND9n883hkYsTnP8TvwEwC2RmqV4d5+qtzbyx4UHnI0o3cNGi6f31UCBgqyzgdjlXzgc730DYZz/QmQ0M2FJhX7p6ym0/UTr+CWrezn43c7So+j7WMqF4pmROBi2ay129eYZpyY/yevI3xXrIOD6Xw94xEOW+kTQ3x783n2O+s=
+	t=1766437130; cv=none; b=QQ5qOQoFHtiAJ69J1pp1Fo2H66kWbdqC/w5tkhhnR1UQHHwFcZxF1DTEpfb10j4h69woUPxXtWn3BQIJbQXugpRkgTnBCy8WtT2E7G+pLylQaiMIWlj4ZXOQTKCh8MVsY+GTH104/805TgtdbFYL0Bw5CO9beXClB73bqijZotQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766437129; c=relaxed/simple;
-	bh=Js8h3ih4VOAkEmADUc9kyi471W1R7SYhPzJogr/WpsA=;
+	s=arc-20240116; t=1766437130; c=relaxed/simple;
+	bh=RjcKXrzPX2dFCZErCFk///NOU9Z1yUxKAtOOeJz9X0o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JS2awhNbLhN2dFRPJ6tpUnAC/YhXOvSXc2XVEOiM90rNwH0EipgBydwvkk7bpxkX7gQhe6ngf/NxmC0XXc/HMvF4TikdDCpWBnMVNpkYkcKA4edSNQ6Dc5iQ+m1kLSUUQ2GDpnEePRmp87c6lEbj4fdlZsDEKHi0ZcovxApH++I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NydT9nhG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=c+xz89aT73xPU3NsBrdiBvBiD+IUwWitp7ziDdBBrmj6lP0ic9f3euftKzr+2fHJFFXQR8YFIdvl4QXyF2Z0MyEzrfVwc992+uGf8euUAxmjS5wG6QCcva6FkNaNPVBqAUCqmbELulHaLycsJaEiQXB4nhyj7KUS3+83aR+flh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViMmFbtv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NydT9nhG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6530C16AAE;
-	Mon, 22 Dec 2025 20:58:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViMmFbtv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC32C19422;
+	Mon, 22 Dec 2025 20:58:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766437127;
-	bh=Js8h3ih4VOAkEmADUc9kyi471W1R7SYhPzJogr/WpsA=;
+	s=k20201202; t=1766437129;
+	bh=RjcKXrzPX2dFCZErCFk///NOU9Z1yUxKAtOOeJz9X0o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NydT9nhG7foVAsiFnIcYptq9ASVTbfLGE1njhj2zPe97jsJs2mMyu25jp512U+fTv
-	 iXZkJ6iHIJU9eTqLAgWs9vte9o2lMmi09NhoBt8IBWmL0sp8gOZNtDb8MVgMalswPJ
-	 e5fa/zzIjGSKHP5oFfN0fbY5BJmYDfmILvirLWw+DkpBednzUdobAuCyztQzdLjM9V
-	 w53JOfYHAqJFw6VhLp8SVFb0xIROEeODzwkuchqadkw1MCLrzmp0q46P539LWtaq/D
-	 mPIr817wq2RD8n2sdd9fuyFiYE0G75y5KN8hOydELdjasuMzEq99/3ZQzegiRIrJXH
-	 hJNGkc1NAJVEQ==
+	b=ViMmFbtvRRJTBVvRHcOrrc5YEzgxCYK8lP01m1aCPoZyLGn93aARQHU5vG10L1ArM
+	 CFXgNj9m5cT/T40bxcYRCu0OpKZ1WIO1Rmn3wnm+hok2FNxoTwVW3emMqr1JxSJXmh
+	 2ux7NY8Envw+DSGOx10fa0ND/8+SQsrAJwW4CP783/74p3KWBvYAcz7k9Bfj4Zx0k+
+	 O4ixE2KyIueGcrbwfC2n2kR9Lp0Jly1udmnXyXjdj6sNxiNRmZd6AForKiAhTJuK9Y
+	 +USr2DLXZB9EpvA7ZkiAoUkWdJ8NXHFIsfmWGTPsKIIn+9FCI56gmLxGIgu6WUAYby
+	 lfeR4Fd8fPN0g==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- shumingf@realtek.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20251215153650.3913117-1-ckeepax@opensource.cirrus.com>
-References: <20251215153650.3913117-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/3] SDCA Jack Fixups
-Message-Id: <176643712543.2127897.15726604656127454281.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 20:58:45 +0000
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20251130-asoc-apr-const-v1-0-d0833f3ed423@oss.qualcomm.com>
+References: <20251130-asoc-apr-const-v1-0-d0833f3ed423@oss.qualcomm.com>
+Subject: Re: [PATCH 0/4] ASoC / soc/qcom: Constify APR/GPR callback
+ response data
+Message-Id: <176643712752.2127897.13538433686192847231.b4-ty@kernel.org>
+Date: Mon, 22 Dec 2025 20:58:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,14 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 15 Dec 2025 15:36:46 +0000, Charles Keepax wrote:
-> Some fixups to the jack handling, adding some necessary hooks to connect
-> things with the machine driver. I have split these out from the system
-> suspend chain as that has been generating a fair amount of discussion
-> and getting these 3 merged is far more important to get basic
-> functionality working smoothly. I will do a spin of the system suspend
-> stuff soon, if either no new comments pop up, or we reach some consensus
-> on how to proceed.
+On Sun, 30 Nov 2025 10:40:22 +0100, Krzysztof Kozlowski wrote:
+> Patch #1 and #3 touches also Qualcomm SoC file, so this could go either
+> via Qualcomm SoC tree (with Mark's Ack) or via ASoC tree (with Bjorn's
+> Ack).
+> 
+> I propose to take it via ASoC tree (Bjorn's Ack), because I am
+> constifying things there already, so less possible conflicts.
 > 
 > [...]
 
@@ -64,12 +66,14 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: SDCA: Factor out jack handling into new c file
-      commit: 3addd63d1fba8d9013e00b06d9420e39271c0c4e
-[2/3] ASoC: SDCA: Add ability to connect SDCA jacks to ASoC jacks
-      commit: 82e12800f563baf663277ef0017f40a335b8e84c
-[3/3] ASoC: SDCA: Add ASoC jack hookup in class driver
-      commit: 99a3ef1e81cd1775bc1f8cc2ad188b1fc755d5cd
+[1/4] ASoC: qcom: Constify APR callback response data
+      commit: 86af3c229245fe1e59f428fc6abe19127ce15f5f
+[2/4] soc: qcom: apr: Use typedef for GPR callback member
+      commit: c66cea195d76c7c396c4c565b967d3e2a709e762
+[3/4] ASoC: qcom: Constify GPR callback response data
+      commit: f3a86870c5938fe82ce02c29235326d417010ffb
+[4/4] ASoC: qcom: Constify APR/GPR result structs
+      commit: a2a631830deb382a3d27b6f52b2d654a3e6bb427
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
