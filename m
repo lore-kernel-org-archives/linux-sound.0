@@ -1,64 +1,63 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E6D239E79
-	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 04:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2994239E79
+	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 04:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766377354; cv=none; b=IzeSK7bx0T4kG0o2IiEyDvIIe4FH5UzsaWuNuqADjR6miYopQ+SuSI7jhBuZPpKYv7Ki5NRBy01oJIBwc/wzAQyJZOKCVN1/f2/gUuYTj3ohkaM/JgBlcPWsArKD7ICzsEGh5oahs0cjZC5YZDoI3j0/YUYI1RcdCSAInnyaiVQ=
+	t=1766377517; cv=none; b=iPVGfrR4m1o4ND+7WJKm40JSzpAqyDeI3/wh4UFOOBmuQl0LyecPQPkJO1QpgYhnQX3+vSgvYIWlOdF1/snenFzTjPvSYR200wDzXRZofZOQeehMnZ7EdtQSl0UeWO5H5cTrnVKITBJApVlgl0EtTAj4QJICh1waI0EMThdTXsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766377354; c=relaxed/simple;
-	bh=0LwOEmSLUvqtOCFnBOOkFA5xwF1Cm1Ys6DbVr/XikT0=;
+	s=arc-20240116; t=1766377517; c=relaxed/simple;
+	bh=zx+0zrUpNplPzxs7nAKriwd+5omooaKME7WghPYhMn8=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=YDGYjMVKXXLJIKPFIQMQeBl+aW0ZBaBpmIAzqN3W9kE12+4AcGAPgUrHPHZG+KlDWt1S2IcYqYdhN81jmtJ10UNKHYETzCwxvEul8TASbBuD+BtDLvvVbBMEMmVt7FPpX8b4gT7CYh8FQ8WJ2/D4Rg5ub5ZYyANuOaV0+kWQ05I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=awkLY/5o; arc=none smtp.client-ip=209.85.128.49
+	 References:In-Reply-To; b=X7U7goYRdL1+S1fSQkuvHRUh1rwK/ekL0YZicAKq8jwDk0SopEi8W7hVSyMdI0V4h9R/rWiRTnajSeZYdUSKAnVqvhxhIuaoYO5uU6FlpCYEKOqqAeAcxOt1wvETj9/sPnbdrmF4CQgTOu7NA7eKLPnPqPCCYoP19tpkAc/zTo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n4pxWTDw; arc=none smtp.client-ip=209.85.128.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="awkLY/5o"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47d182a8c6cso11671875e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 21 Dec 2025 20:22:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n4pxWTDw"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso13959515e9.2
+        for <linux-sound@vger.kernel.org>; Sun, 21 Dec 2025 20:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766377351; x=1766982151; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1766377514; x=1766982314; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0LwOEmSLUvqtOCFnBOOkFA5xwF1Cm1Ys6DbVr/XikT0=;
-        b=awkLY/5oXNBRR1PTFM84o7+kdw8iRolfrYgnDWMFBE2DzbgjJxUt2nSCm/rbj17GAc
-         DBZmqWnoUgSJuPSndUddgJWbWocTRYysorTvNsod3FykGCP75pkuPuyryO6GhuXsSNwt
-         6/HwdDJ2SN8uMfAARMAc4xVPXsDAcMULDe8VgiAd+tNJmVw3BAg3hFIoKGKQio21RSxc
-         Rs0VVpF+jJGKTaFg0nBn5q1/Dp5OQXC0dZ0akMdACraTvAP8v9vUIR2TRVoepx+dSJLV
-         NpEVsGJLHA6woE1SdpyzB3ETVo8i/O9co5CNU/t2LFde1IZMssOkBis7HKMYuKhTlg4+
-         MGfg==
+        bh=zx+0zrUpNplPzxs7nAKriwd+5omooaKME7WghPYhMn8=;
+        b=n4pxWTDwr3YFj+V7OStUlZBkWUATtB2BS874+3yKeoORGhQhhdjWGa+OfOAtX9E6ct
+         kxLFr2VuLA8cWkD0oDjCTwkzTkYP09Dx5OaaDCKc8inKIutpa6IrHLa/oT0gtu353zVj
+         T5zK5E/v/nIcSM/5jtu5NqZlQgXMQBmxmollcD4VrHKBPH7GkCtSRS/YfVwEBOCTM9tB
+         dlSDQiOw2yzaHp2jpOQ9tckTgEfEwlExnYuZTleP1tLCiVsob0KWNAdQlNnARt8ZcUwl
+         U122PFq4L2fSb01w57PhM1CZ3UwSQ5UwvWK8nReL7nXun4ky1+bYnUAMdfcbDZfCpxZo
+         stBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766377351; x=1766982151;
+        d=1e100.net; s=20230601; t=1766377514; x=1766982314;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0LwOEmSLUvqtOCFnBOOkFA5xwF1Cm1Ys6DbVr/XikT0=;
-        b=R6H9wMzMNot+HHlwuiJd41dTTASOzwoZ5Vf52sFwnZBIitglmauZIQ3RXNyKJRf0fH
-         YjMb20uD5/rUetVMOvGHw42g7asvmhd8SGGg04153lDv2iOGIMteDV4dpGkcP3olHsmL
-         UQzejmpzTHfpX5qOkkm9hYdEbe7vog3rwQSqWEKJ50C/7Nq7PBZqovl6gf1bRDjFDxsV
-         Nk9u1a0EhXeZeuFowRRm+wYxS8eHZ49siimO8SAab6d9IeoYRtzu5M0AIogC6vXfPZPs
-         d/U08Z4i7rlMCjfGYkm4C8HnBOkzSi1EkqhBl5lVu0R/Z7vnGTr70lNVYkO7AH8tZBH7
-         ZwNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdn4BUZzQffByHV8PazAifYgixwhGZk8KZJHpWOFCRT2Nw3pNB4DiNtDiY/iCfqFOLY2jWsdRynq7C1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/jBZwtCfWsGRiAd/jIy1qV/FI70SJfmNamY9DAZy3K5lvlXRA
-	k3oE8s2A1AjVpJNOxXlyl1jrJRkatz0LqzzlvdEwJ1D+rRHScfseCuiLrTIfoxZ9l1g=
-X-Gm-Gg: AY/fxX6gqafv4OBhOiFGQc6hn1BgjGT1KeR9UMzD7LFK+vOSL5su5753fkXjt2qvWnK
-	q+WZ8E3/yUW4wW3EgcpE4emGmrB/P0Ow1D9XoQFHDc73Nf1HZaknE2N9KHypQ3IsIEPaj302msZ
-	co1pWPW5HdWNBYZmRTdFY3Sec1uoEArlIx1bfPYfSDiar7wgvu0sZkR2RB/uVj4OJGN4w1zscO8
-	GuDATEhObI9ZwrsVpH4aehUAFC33Kn22b8egEzr67X3F6IbVVM1Hw1sQSJhVGRKtQYuMTq5UV7C
-	jTU05OtInRqOt+cCW5E76DJWIW4yODpuz+fNUaQ2SIUXyXldnmP5KcPi52tSJCu4YENkWNFeMtC
-	dXdWJ0KWv+1i2BUSWj33sLZNWn2xMvoM0szP0M0nxfYTcmVNC2xzlD5AJUoBmpZX28SSx+o88u9
-	wwbGPn4xjdHqIBR0SG
-X-Google-Smtp-Source: AGHT+IEs9e4aPSZitB+bwWgO0s/e++ZvJwYm1tGEu5X55DpbwZELF7OMqDSKx6sWEcr+z5bswR/5FQ==
-X-Received: by 2002:a05:600c:350c:b0:477:7658:572a with SMTP id 5b1f17b1804b1-47d19584900mr84023475e9.20.1766377351470;
-        Sun, 21 Dec 2025 20:22:31 -0800 (PST)
+        bh=zx+0zrUpNplPzxs7nAKriwd+5omooaKME7WghPYhMn8=;
+        b=qpn77fm3ShdgRCywznVUXyIR7myId4nUBymzAyun0qqTPoIRVLFICFPDrhuPcmdXqk
+         uPzkNZcY7P7gTyuwJqdqETCOmttFRfdQok/W3Qh8fl8xmWQbOupvoiyzbPZtiiyA4y4z
+         rcoJQUBjVIQli7f0mPiV55pAwkdaWKqFvTW9l1t7i7CINLi6CoSyo2+WPP5jl/kcjgGH
+         T9NdOiQU/a7XKZlxw+9FI71JLQrV3qLlCUCcLFQnwdaAjsvhEyRMP+Vnrq7O9d7xcRcy
+         AALdtTD0Czm0lqQJ2fGfFMCNLH503QR6Sk9V7mIZvGFJWYpOYu0Qx9OMNQLeCCZs7lZu
+         YAww==
+X-Gm-Message-State: AOJu0YznLY+9hi97s8EeZRiervSZitTQu+7tZJUB14UXB+wpRQk2I9Hu
+	RLqDBtrcGvCIk8i59RfRIooqkfFQ8xOTGEAE4clo7aniO19PoPCpp3jKNrSwWcE3hfA=
+X-Gm-Gg: AY/fxX64UUpTj58nV1hTkMxr2NpaMbafe6ybyVPnUFdfM20Hs3taOA47CnII6esX7Sp
+	rvQhHi7jdmhL81ozHytje2yYZrJVn+U6TVLho4riU9MQBz3zZUYqDV4tOP9U7AW1ExlVslkznRv
+	aq81UTOpSnXKYJC80Z+Os/6ycZKCyfwo2o1L/Z7Psiu9cWUFsE4psgKlXI+MSkpFwPcqrD6m9xr
+	fiJb9ys+pbLIkrvm0YUAYB1Iw4fcTh3Pv8+vFVAI4i98vlCfGG5bynV8g0c/I1OjJ8mnt//+DUc
+	Pd83aXAwpR3gUw8r9toXLWyGTdZ5Vghk61W/0MGhF41UsM8FPwC/FgmG7fVOJiqcFylebOcz3ih
+	9nFRMB+3DUs5f2hQfZzJAo0qIoM6YEHtsRX1g+qAbYrzw+rF+ta8bU1lHxVO9aajRfBYipQNY0V
+	74FQUyR6SvXYLIN+14
+X-Google-Smtp-Source: AGHT+IEFPw6BHurC+yxPzjyCPrPhsx+XJDFA6UxzACnVNeSrnr8kjsZNwCOidsPpjrowChadwhrkMQ==
+X-Received: by 2002:a05:600c:4595:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-47d1953ead3mr95117845e9.13.1766377514186;
+        Sun, 21 Dec 2025 20:25:14 -0800 (PST)
 Received: from localhost ([2a02:c7c:5e34:8000:7db7:794c:2c30:e530])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa0908sm19706896f8f.31.2025.12.21.20.22.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193cba81sm168582455e9.10.2025.12.21.20.25.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Dec 2025 20:22:30 -0800 (PST)
+        Sun, 21 Dec 2025 20:25:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,34 +66,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Dec 2025 04:22:28 +0000
-Message-Id: <DF4GIFQ51LXM.243ZASZKP9NJ7@linaro.org>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] ASoC: codecs: pm4125: drop bogus container_of()
- error handling
+Date: Mon, 22 Dec 2025 04:25:12 +0000
+Message-Id: <DF4GKIYJPDKA.DTLON4U0AZHB@linaro.org>
+Cc: <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kernel@oss.qualcomm.com>,
+ <mohammad.rafi.shaik@oss.qualcomm.com>, <ajay.nandam@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/2] ASoC: qcom: q6dsp-lpass-ports: Expand sampling
+ rate and PCM format constraints
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Johan Hovold" <johan@kernel.org>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Ravi
+ Hothi" <ravi.hothi@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>
 X-Mailer: aerc 0.20.0
-References: <20251219142715.19254-1-johan@kernel.org>
- <20251219142715.19254-2-johan@kernel.org>
-In-Reply-To: <20251219142715.19254-2-johan@kernel.org>
+References: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
+ <DEUL786WEYBY.3502XZKMTYTN3@linaro.org>
+ <370a9d69-1706-438a-bb36-01a22e5cf540@oss.qualcomm.com>
+ <DF0GN7VV4R2W.2E3U1LMOF0JPG@linaro.org>
+ <d9e64bd0-7ccf-490c-a6be-d9cc9484475d@oss.qualcomm.com>
+In-Reply-To: <d9e64bd0-7ccf-490c-a6be-d9cc9484475d@oss.qualcomm.com>
 
-On Fri Dec 19, 2025 at 2:27 PM GMT, Johan Hovold wrote:
-> The dev_to_sdw_dev() helper uses container_of() to return the containing
-> soundwire device structure of its pointer argument and will never return
-> NULL.
+On Wed Dec 17, 2025 at 12:56 PM GMT, Srinivas Kandagatla wrote:
 >
-> Fixes: 8ad529484937 ("ASoC: codecs: add new pm4125 audio codec driver")
-> Cc: Alexey Klimov <alexey.klimov@linaro.org>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+>
+> On 12/17/25 11:38 AM, Alexey Klimov wrote:
+>> On Mon Dec 15, 2025 at 7:29 AM GMT, Ravi Hothi wrote:
+>>>
+>>>
+>>> On 12/10/2025 7:26 PM, Alexey Klimov wrote:
+>>>> On Wed Dec 10, 2025 at 6:51 AM GMT, Ravi Hothi wrote:
+>>>>> This patch series expands the existing constraints in
+>>>>> the q6dsp-lpass-ports driver to improve compatibility
+>>>>> and flexibility for audio stream configurations.
+>>>>>
+>>>>> The first patch extends the supported sampling rates to cover a wider
+>>>>> range, from 8000 Hz to 192000 Hz, ensuring better compatibility with
+>>>>> diverse audio hardware and allowing more flexible audio stream setups=
+.
+>>>>>
+>>>>> The second patch adds support for the 32-bit PCM format
+>>>>> (SNDRV_PCM_FMTBIT_S32_LE) alongside the existing 16-bit
+>>>>> and 24-bit formats, enabling handling of high-resolution
+>>>>> audio streams and improving audio quality for supported hardware.
+>>>>
+>>>> Is q6dsp-lpass-ports involved in compress offloaded playback on
+>>>> existing devices? If yes, then how is it gonna play with
+>>>> explicitly setting format/sampling rate to s16le/48k in sndcards drive=
+rs?
+>
+> be_hw_params_fixup callback in machine drivers can select any format
+> that fits the usecase. currently this is hardcoded for s16le samples and
+> 48K rate, but its not limited to this. This patch is expanding the
+> allowed range in the dais so that machine drivers should be able to
+> select other options, ex: for HDMI its better to be at S24LE or S32LE.
 
-I was about to ask to check other drivers/codecs, most likely
-wcd937x as one of the reference points to pm4125 codec,
-but you already did. Thank you for checking this.
+Yes. Exactly.
+So, should we add kcontrols to machine driver to handle these usecases like
+selecting s24le instead of s16le? Or what's the plan?
 
-Acked-by: Alexey Klimov <alexey.klimov@linaro.org>
+>>> Support for s16le/48k is already available; these patch will expand the=
+=20
+>>> existing constraint so that customers can use a wider range.
+>>=20
+>> Unfortunately, you didn't answer any of my questions or answered
+>> a different one.
+>>=20
+>> Perhaps the main one: is q6dsp-lpass-ports involved in compress offloade=
+d
+>> playback on existing devices?
+>
+> lpass-ports are the Backend DAI ports, So yes, they will be involved in
+> all the usecases that deal with handling sinks or sources irrespective
+> of pcm or compressed content.
 
-Best regards,
+Thanks,
 Alexey
+
