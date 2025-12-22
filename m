@@ -1,159 +1,105 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD743054EC
-	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 09:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C05D31AA81
+	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 10:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766396046; cv=none; b=QXn6yXjrVADnxMSc4Dqxg3ODVOQVJab7SCjYHgxJusdCyoqbi28zXifvmmkLKGhl6refi1kOjgOBq1MAw6xcL9mKf+Eh/jHTFr9/R6w0u+kgLlIVXRi2FPzJuPlikOxoJY5HsXih/jChCkQkmUPyKUY8VD/ZEm45u3vyKLJeFck=
+	t=1766398351; cv=none; b=QbbvBPTwp9nU1ydbkn4uY4jSyzdL+Vs+vA4/cmOy07sOGhIqaL3AnhrQ0JLNSLxK1oUO1enalaYXEGVMz6F9QQjVwXdFDr72oje9GUDUJmRQ1fknK4tmIThBoITMhc/NePbQAHpk9AL3TnzWNlkMoRpYiZzrNNAc6C3ZfKqw/E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766396046; c=relaxed/simple;
-	bh=ZA2qP0G/a9M/P6UHxZt5AslOtMaaYfdSqdRp6fr6Zgw=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oOAP8s3rxGKqvWjCUJ7NRD31HuIW9oGZmnBeCObbhY/JnyXujN64ykDFesSXAQ3bpzcc8+7k66LWrumQoXWPyxQgoy2XI4MsNsJN7tBwVHx8aWjHdfkpyZWM+f/NmGj3bB/EBZIo9JyqlakOqj707KldkLM/gj/feRX5lUf2eD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=E2PewdHk; arc=none smtp.client-ip=211.75.126.72
+	s=arc-20240116; t=1766398351; c=relaxed/simple;
+	bh=ufxcb52H/NK7GuDdLTWoy8Es0WULZEbmj87CKtKzJvs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mHvmNsd35i1zDw+GtiSKJxxmMC4VPJGG7sefDb0TUHf8GmB0iP8UsHivvhF8sX7f6gtn7DHojchftw7Rb0QtluNBA9Sb4/LASVWMf+JcuEIOgZEoB9+jHG2zk9czplK/V89MTI36L0VlrHgKvQEHw3F+YQbna8T4V6BnBb+h8UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=iKvxjw6z; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="E2PewdHk"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BM9XiBlA3157941, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="iKvxjw6z"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BMAC1SC03210221, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1766396024; bh=Jkm2kSar05WFpc8af/wZU6hw8iz8mm9ZSwUx4Vm1ynY=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=E2PewdHkSXkGQOdVrCtA2GoEJ61nKmmDtyclZJ6TqCZpcPehDtEDDgIuRsuFVF43G
-	 PaHkul1bmJn6XFTXkVxyOUgpsIlgwFNjCQU6ALmQYIYDA9E8BIHpOTFchemC/8lNkI
-	 qOjFAKGa4nfpuozcJWMI/9WTCHNf8tTB5SqcNfxfURftVU4HxujQ3nbMArfixEwWRT
-	 cNQP1RZMg8Od1zmcVoeov2RXH69ZSububl4zocNz8LzEClLjx28ton2s+apvSMcI9N
-	 DsuFaCtTYUZWPiRVOPrXMRPs4EZFuwVANvPruVKBl1V2GF//0pZQGIkBbpd/1IDGJp
-	 saOe4VPQOgBQw==
+	t=1766398321; bh=WpOj35UvJg9kcbPrnbG1ItcPcjHfTshw8jDyuc3sKyA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=iKvxjw6z3LIIQW+rodTyb6pEYD5wNfDNjVPwe+A0A914vJ5BAyozFTbicy00fwEsX
+	 +vNC914B2Hr7gxG6vDO5MT1d5KYRl8TwOXAR7WEVOQ622TQ3gFF3cUDiitg5kLKkEN
+	 zHHeJLy0tu+SVRzCXGSH95rD3FCoUunhjBIjOqLLWVk42jSQySXmKnCJhpSZPlNL7J
+	 NsrN13qbqdwORZ57DDW6bfQd2naOSEG9DP3Em+ecNjU/WWsm3O1HxGqWIIRLTv8D+N
+	 /eeDm52L/7MrRqt182OqfthJ1B9XklB181mWFGMTKQg07dUsI0kCdF/x2NhxyUaJGX
+	 BWa/K1qC8fyzA==
 Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BM9XiBlA3157941
+	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BMAC1SC03210221
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Dec 2025 17:33:44 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+	Mon, 22 Dec 2025 18:12:01 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
  RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 22 Dec 2025 17:33:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ 15.2.1748.10; Mon, 22 Dec 2025 18:12:02 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 22 Dec 2025 17:33:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913%10]) with mapi id
- 15.02.1748.010; Mon, 22 Dec 2025 17:33:44 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Enable Mute LED for Lenovo platform
-Thread-Topic: Enable Mute LED for Lenovo platform
-Thread-Index: AdxzJZTpQBMS0SqrS+iIpeTmji/LTA==
-Date: Mon, 22 Dec 2025 09:33:44 +0000
-Message-ID: <8a99edffee044e13b6e348d1b69c2b57@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-Content-Type: multipart/mixed;
-	boundary="_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_"
+ 15.2.1748.10; Mon, 22 Dec 2025 18:12:01 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Mon, 22 Dec 2025 18:12:01 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASoC: rt1320: fix the warning the string may be truncated
+Date: Mon, 22 Dec 2025 18:13:29 +0800
+Message-ID: <20251222101329.558973-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Shuming Fan <shumingf@realtek.com>
 
-Hi Takashi,
+1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
+     |                                                 ^~             ~~~~~~
+sound/soc/codecs/rt1320-sdw.c:1487:17: note: 'snprintf' output between 29 and 410 bytes into a destination of size 128
+1487 |                 snprintf(filename, sizeof(filename),
+     |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
+     |
 
-Attach patch was for enable mute led functions of the Lenovo platform.
-Many Thanks.
+Fixes: da1682d5e8b5 ("ASoC: rt1320: support calibration and temperature/r0 loading")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512191521.RK0edKdX-lkp@intel.com/
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt1320-sdw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-BR,
-Kailang
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index 9447e742c672..4c3756940ae2 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -1435,7 +1435,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 	const char *dmi_vendor, *dmi_product, *dmi_sku;
+ 	char vendor[128], product[128], sku[128];
+ 	char *ptr_vendor, *ptr_product, *ptr_sku;
+-	char rae_filename[128];
++	char rae_filename[512];
+ 	char tag[5];
+ 	int ret = 0;
+ 	int retry = 200;
+@@ -1602,7 +1602,7 @@ struct rt1320_dspfwheader {
+ 	const char *dmi_vendor, *dmi_product, *dmi_sku;
+ 	char vendor[128], product[128], sku[128];
+ 	char *ptr_vendor, *ptr_product, *ptr_sku;
+-	char filename[128];
++	char filename[512];
+ 
+ 	switch (rt1320->dev_id) {
+ 	case RT1320_DEV_ID:
+-- 
+2.52.0
 
---_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_
-Content-Type: application/octet-stream;
-	name="0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch"
-Content-Description: 0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch
-Content-Disposition: attachment;
-	filename="0000-alc233-lenovo-M90-GEN5-mute-key-v4.patch"; size=4090;
-	creation-date="Mon, 22 Dec 2025 09:30:23 GMT";
-	modification-date="Mon, 22 Dec 2025 09:28:22 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSAxYzZjZjRhMjliZWRiZTJjNDQ0MjdhYmVkMDk5NmIxYzBhNjc4MDA5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IE1vbiwgMjIgRGVjIDIwMjUgMTc6MjA6MDYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
-OiBoZGEvcmVhbHRlayAtIEVuYWJsZSBNdXRlIExFRCBmb3IgTGVub3ZvIHBsYXRmb3JtCgpFbmFi
-bGUgU1BLIE11dGUgTGVkIGFuZCBNaWMgTXV0ZSBMZWQgZm9yIExlbm92byBwbGF0Zm9ybS4KClBy
-aW9yaXR5OiBQMQpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5j
-b20+CgpkaWZmIC0tZ2l0IGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jIGIvc291
-bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCmluZGV4IDk1MTBhYTJmMWJkYS4uZjQ4OGQ5
-NTIwMjRhIDEwMDY0NAotLS0gYS9zb3VuZC9oZGEvY29kZWNzL3JlYWx0ZWsvYWxjMjY5LmMKKysr
-IGIvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCkBAIC0xNjE2LDYgKzE2MTYsMjAg
-QEAgc3RhdGljIHZvaWQgYWxjMjk1X2ZpeHVwX2hwX211dGVfbGVkX2NvZWZiaXQxMShzdHJ1Y3Qg
-aGRhX2NvZGVjICpjb2RlYywKIAl9CiB9CiAKK3N0YXRpYyB2b2lkIGFsYzIzM19maXh1cF9sZW5v
-dm9fY29lZl9taWNtdXRlX2xlZChzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYywKKwkJCQljb25zdCBz
-dHJ1Y3QgaGRhX2ZpeHVwICpmaXgsIGludCBhY3Rpb24pCit7CisJc3RydWN0IGFsY19zcGVjICpz
-cGVjID0gY29kZWMtPnNwZWM7CisKKwlpZiAoYWN0aW9uID09IEhEQV9GSVhVUF9BQ1RfUFJFX1BS
-T0JFKSB7CisJCXNwZWMtPm1pY19sZWRfY29lZi5pZHggPSAweDEwOworCQlzcGVjLT5taWNfbGVk
-X2NvZWYubWFzayA9IDEgPDwgMTM7CisJCXNwZWMtPm1pY19sZWRfY29lZi5vbiA9IDA7CisJCXNw
-ZWMtPm1pY19sZWRfY29lZi5vZmYgPSAxIDw8IDEzOworCQlzbmRfaGRhX2dlbl9hZGRfbWljbXV0
-ZV9sZWRfY2Rldihjb2RlYywgY29lZl9taWNtdXRlX2xlZF9zZXQpOworCX0KK30KKwogc3RhdGlj
-IHZvaWQgYWxjMjg1X2ZpeHVwX2hwX211dGVfbGVkKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAog
-CQkJCWNvbnN0IHN0cnVjdCBoZGFfZml4dXAgKmZpeCwgaW50IGFjdGlvbikKIHsKQEAgLTE5MDUs
-NiArMTkxOSwzOCBAQCBzdGF0aWMgdm9pZCBhbGMyODBfZml4dXBfaHBfZ3BpbzJfbWljX2hvdGtl
-eShzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYywKIAkJc3BlYy0+a2JfZGV2ID0gTlVMTDsKIAl9CiB9
-CisvKiBHUElPMiA9IG1pYyBtdXRlIGhvdGtleQorICogR1BJTzMgPSBtaWMgbXV0ZSBMRUQKKyAq
-Lworc3RhdGljIHZvaWQgYWxjMjMzX2ZpeHVwX2xlbm92b19ncGlvMl9taWNfaG90a2V5KHN0cnVj
-dCBoZGFfY29kZWMgKmNvZGVjLAorCQkJCQkgICAgIGNvbnN0IHN0cnVjdCBoZGFfZml4dXAgKmZp
-eCwgaW50IGFjdGlvbikKK3sKKwlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsK
-KworCWFsYzIzM19maXh1cF9sZW5vdm9fY29lZl9taWNtdXRlX2xlZChjb2RlYywgZml4LCBhY3Rp
-b24pOworCWlmIChhY3Rpb24gPT0gSERBX0ZJWFVQX0FDVF9QUkVfUFJPQkUpIHsKKwkJYWxjX3Vw
-ZGF0ZV9jb2VmX2lkeChjb2RlYywgMHgxMCwgMTw8MiwgMTw8Mik7CisJCWlmIChhbGNfcmVnaXN0
-ZXJfbWljbXV0ZV9pbnB1dF9kZXZpY2UoY29kZWMpICE9IDApCisJCQlyZXR1cm47CisKKwkJc3Bl
-Yy0+Z3Bpb19tYXNrIHw9IDB4MDQ7CisJCXNwZWMtPmdwaW9fZGlyIHw9IDB4MDsKKwkJc25kX2hk
-YV9jb2RlY193cml0ZV9jYWNoZShjb2RlYywgY29kZWMtPmNvcmUuYWZnLCAwLAorCQkJCQkgIEFD
-X1ZFUkJfU0VUX0dQSU9fVU5TT0xJQ0lURURfUlNQX01BU0ssIDB4MDQpOworCQlzbmRfaGRhX2ph
-Y2tfZGV0ZWN0X2VuYWJsZV9jYWxsYmFjayhjb2RlYywgY29kZWMtPmNvcmUuYWZnLAorCQkJCQkJ
-ICAgIGdwaW8yX21pY19ob3RrZXlfZXZlbnQpOworCQlyZXR1cm47CisJfQorCisJaWYgKCFzcGVj
-LT5rYl9kZXYpCisJCXJldHVybjsKKworCXN3aXRjaCAoYWN0aW9uKSB7CisJY2FzZSBIREFfRklY
-VVBfQUNUX0ZSRUU6CisJCWlucHV0X3VucmVnaXN0ZXJfZGV2aWNlKHNwZWMtPmtiX2Rldik7CisJ
-CXNwZWMtPmtiX2RldiA9IE5VTEw7CisJfQorfQogCiAvKiBMaW5lMiA9IG1pYyBtdXRlIGhvdGtl
-eQogICogR1BJTzIgPSBtaWMgbXV0ZSBMRUQKQEAgLTM3OTEsNiArMzgzNyw3IEBAIGVudW0gewog
-CUFMQzI0NV9GSVhVUF9IUF9UQVMyNzgxX0kyQ19NVVRFX0xFRCwKIAlBTEMyODhfRklYVVBfU1VS
-RkFDRV9TV0FQX0RBQ1MsCiAJQUxDMjM2X0ZJWFVQX0hQX01VVEVfTEVEX01JQ01VVEVfR1BJTywK
-KwlBTEMyMzNfRklYVVBfTEVOT1ZPX0dQSU8yX01JQ19IT1RLRVksCiB9OwogCiAvKiBBIHNwZWNp
-YWwgZml4dXAgZm9yIExlbm92byBDOTQwIGFuZCBZb2dhIER1ZXQgNzsKQEAgLTYyNTYsNiArNjMw
-MywxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkYV9maXh1cCBhbGMyNjlfZml4dXBzW10gPSB7
-CiAJCS50eXBlID0gSERBX0ZJWFVQX0ZVTkMsCiAJCS52LmZ1bmMgPSBhbGMyODhfZml4dXBfc3Vy
-ZmFjZV9zd2FwX2RhY3MsCiAJfSwKKyAgICAgICAgW0FMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJf
-TUlDX0hPVEtFWV0gPSB7CisgICAgICAgICAgICAgICAgLnR5cGUgPSBIREFfRklYVVBfRlVOQywK
-KyAgICAgICAgICAgICAgICAudi5mdW5jID0gYWxjMjMzX2ZpeHVwX2xlbm92b19ncGlvMl9taWNf
-aG90a2V5LAorICAgICAgICB9LAogfTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsg
-YWxjMjY5X2ZpeHVwX3RibFtdID0gewpAQCAtNzE1MSw3ICs3MjAyLDEyIEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKIAlTTkRfUENJX1FVSVJL
-KDB4MTdhYSwgMHgzMTc2LCAiVGhpbmtDZW50cmUgU3RhdGlvbiIsIEFMQzI4M19GSVhVUF9IRUFE
-U0VUX01JQyksCiAJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzE3OCwgIlRoaW5rQ2VudHJlIFN0
-YXRpb24iLCBBTEMyODNfRklYVVBfSEVBRFNFVF9NSUMpLAogCVNORF9QQ0lfUVVJUksoMHgxN2Fh
-LCAweDMxYWYsICJUaGlua0NlbnRyZSBTdGF0aW9uIiwgQUxDNjIzX0ZJWFVQX0xFTk9WT19USElO
-S1NUQVRJT05fUDM0MCksCisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0MSwgIkxlbm92byBU
-aGlua0NlbnRyZSBNOTAgR2VuNCIsIEFMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtF
-WSksCisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0MiwgIkxlbm92byBUaGlua0NlbnRyZSBN
-OTAgR2VuNCIsIEFMQzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCisJU05EX1BD
-SV9RVUlSSygweDE3YWEsIDB4MzM0MywgIkxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNCIsIEFM
-QzIzM19GSVhVUF9MRU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCisJU05EX1BDSV9RVUlSSygweDE3
-YWEsIDB4MzM0NCwgIkxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNCIsIEFMQzIzM19GSVhVUF9M
-RU5PVk9fR1BJTzJfTUlDX0hPVEtFWSksCiAJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0Yiwg
-Ikxlbm92byBUaGlua0NlbnRyZSBNNzAgR2VuNSIsIEFMQzI4M19GSVhVUF9IRUFEU0VUX01JQyks
-CisJU05EX1BDSV9RVUlSSygweDE3YWEsIDB4MzM0ZiwgIkxlbm92byBUaGlua0NlbnRyZSBNOTBh
-IEdlbjUiLCBBTEMyMzNfRklYVVBfTEVOT1ZPX0dQSU8yX01JQ19IT1RLRVkpLAogCVNORF9QQ0lf
-UVVJUksoMHgxN2FhLCAweDMzODQsICJUaGlua0NlbnRyZSBNOTBhIFBSTyIsIEFMQzIzM19GSVhV
-UF9MRU5PVk9fTDJNSF9MT1dfRU5MRUQpLAogCVNORF9QQ0lfUVVJUksoMHgxN2FhLCAweDMzODYs
-ICJUaGlua0NlbnRyZSBNOTBhIEdlbjYiLCBBTEMyMzNfRklYVVBfTEVOT1ZPX0wyTUhfTE9XX0VO
-TEVEKSwKIAlTTkRfUENJX1FVSVJLKDB4MTdhYSwgMHgzMzg3LCAiVGhpbmtDZW50cmUgTTcwYSBH
-ZW42IiwgQUxDMjMzX0ZJWFVQX0xFTk9WT19MMk1IX0xPV19FTkxFRCksCg==
-
---_002_8a99edffee044e13b6e348d1b69c2b57realtekcom_--
