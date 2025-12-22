@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8013F23AB98;
-	Mon, 22 Dec 2025 22:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082313254A2;
+	Mon, 22 Dec 2025 22:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766441564; cv=none; b=LeiaPBybpWoz83aMLHS35adouwDFUfO77bp6NED3vK1WnBsPNQn9EjX3CKT5rqVcqCNTHg63t+xFVhz8tbNb6cpzTtKxkSXK3TACxgsDYUXFc7tTJsjqZqScF1gs6OvXg9QFyGavGLiNY1eG5S/mfeObyUrxb2NuR5RLFxTdhsY=
+	t=1766441566; cv=none; b=NAKRJnePVIqns7qu50QVOuylC+FhJvb1/395jT7EJKDt5kOse5AlhdKtQodbkuDEhYpFOwL33g4t243CukjNNXp3VabMVfqm2vWqhPTauAV4tu4AV3CRcg4eIjs1qvR1+LVGoLi7g/WHspjvPXuK7lAaY6MAx5a+el7lGewoiQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766441564; c=relaxed/simple;
-	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
+	s=arc-20240116; t=1766441566; c=relaxed/simple;
+	bh=PMDODyDWIB/IYC0AmTfC8hBD+46msPfpsVNcvj0+ax8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OU4pKuqcXEkHByqQG+5RogMnGxSFWINBu26bro4AUT/Zj7+80YhiUQeh7lJKwngvF4d1u3LMSwOi+wAaNtnzW5NgNXZrTmM7ik/8g4X39X3f22DEzf8Bm1DnaW4AZJ+XyVZYs4Kr6ScN9eqLCXgMYlB6z+z7LX37fWL8OxO9fLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBvsORVa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Dsdx1/a8fe/m41U/CUyFkz9HpPCl6W25rb42JH4wNvfCUFA0ZEd6frUD9nRjn3fzVBtgOEaP/1Lv5rd6o9JAQcXMPqS3/58HjefyczApxfTQ1Ta9AGiITVRClUboogeNZjqx4bvQZ7Wf3g2PTdNKSAsWyzqd7vfMj32U54L3JjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKM/7+Wt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBvsORVa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39E1C4CEF1;
-	Mon, 22 Dec 2025 22:12:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKM/7+Wt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB7EC16AAE;
+	Mon, 22 Dec 2025 22:12:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766441564;
-	bh=1r7h0p7ofkj/BfHkzN7bGtcjE/zZ8wu11lyGgKO3f28=;
+	s=k20201202; t=1766441565;
+	bh=PMDODyDWIB/IYC0AmTfC8hBD+46msPfpsVNcvj0+ax8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uBvsORVawtXBxCxdeWb3yw0tUFFUu+rcrQlIGlqoX8a/KBlxek5SpAgRW2ZSRRUSc
-	 VhNjjdqFNE7GJvhwWwBWK0oMlGNlHYcRcLglD2oNHw/TjIdgCe1K6mI5HHirSutHkw
-	 rE5VRU4N84Re5KyRReTPofUZIXGCqPUX0JtAONIjxPf3bOt6VOqyLa0BZ/gsHenfnT
-	 8Pxvql1gblLe5XqoWVJBOHHEOl1Rwrl2egRoudb1M8dYANiFdofrN1MBy6IwaGkBiK
-	 MTF9TO2Mdgybww3GCEPeURxmDo3/8Tu4I/8Cqf17fUnXAODJxjLGcU5NVmNNFTywSk
-	 B+wb3++0g+Pyg==
+	b=jKM/7+Wtqt/6QQWox7+PA9F2jL30fLnC4VBH9YpfZdnrnqa8ROlSZkGphwxLXTZDL
+	 d6LOUl5GrBMd2vbN4eSDHEMg7vMvO+vEowhpeXTj/g0MWQYWCgxjiWy7dAgo+9hnGn
+	 au7NnKACftW7u1FMKAKKemmXwTXTn7LjWonseFgTUGbDLls4T45E0p3vQ9qH0sVmnK
+	 j/Gr7W9U9nkzyNvR6/B/9OgQQ57glrudB02xJ0HjYwlkmV41H9Ex3Y82EcCvsoBchX
+	 aoexPOe8KRbUZiS1JUt8wjb9ahnnN8Ny6QMecC9qdmViu6rykwTy8c78tZX4NAKCXH
+	 DJXBuj0VCUQJQ==
 From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20251221035715.1722584-1-wens@kernel.org>
-References: <20251221035715.1722584-1-wens@kernel.org>
-Subject: Re: [PATCH] ASoC: sun4i-spdif: Add missing kerneldoc fields for
- sun4i_spdif_quirks
-Message-Id: <176644156265.2187098.7267492024920127346.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 22:12:42 +0000
+To: Srinivas Kandagatla <srini@kernel.org>, Johan Hovold <johan@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ma Ke <make24@iscas.ac.cn>
+In-Reply-To: <20251219142412.19043-1-johan@kernel.org>
+References: <20251219142412.19043-1-johan@kernel.org>
+Subject: Re: [PATCH] ASoC: codecs: pm4125: clean up bind() device reference
+ handling
+Message-Id: <176644156432.2187098.8236741716951052616.b4-ty@kernel.org>
+Date: Mon, 22 Dec 2025 22:12:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sun, 21 Dec 2025 11:57:13 +0800, Chen-Yu Tsai wrote:
-> When sun4i_spdif_quirks was recently expanded, the kerneldoc covering
-> the structure was not expanded to match. This ends up causing a warning
-> when the documents are built.
-> 
-> Add the missing fields.
+On Fri, 19 Dec 2025 15:24:12 +0100, Johan Hovold wrote:
+> A recent change fixed a couple of device leaks on component bind failure
+> and on unbind but did so in a confusing way by adding misleading
+> initialisations at bind() and bogus NULL checks at unbind().
 > 
 > 
-> [...]
 
 Applied to
 
@@ -63,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sun4i-spdif: Add missing kerneldoc fields for sun4i_spdif_quirks
-      commit: 6c11aa2b4cf767f5ccfe290b2572d53102dbe5ea
+[1/1] ASoC: codecs: pm4125: clean up bind() device reference handling
+      commit: 97af54473f2a79f663bd14d7c75e97d04bd0e283
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
