@@ -1,100 +1,262 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp153-141.sina.com.cn (smtp153-141.sina.com.cn [61.135.153.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C440CA55;
-	Mon, 22 Dec 2025 01:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95BD33993
+	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 02:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766368484; cv=none; b=fhR5iGDKgobM+BueL8kH0Tym1LGgsgLJJDi1ub+bWKS1EZFrldqC2tOAnraZU4lcFGVMwNAJxJ6K1aIjXvc+wKvBCsz2JRZRTBQEEPETZ8uF13YR7oABQHU/RSl+beIfFr+YC4oY8nCCA/Sh1gI3NCHgPWIUi3VFjfQ5hODqP5U=
+	t=1766370705; cv=none; b=A5b7j36qVD1zFwhVvn8b8My6yiADARW65ZUy+ZSOYYVMYFwqa9rHq6okVeqVZeedzXq1JtjdUHrDVBVthEQ013B24euHw2M/v4a+ledK5x5CuCbznndrHebhZdq3y9qPTJNGHpzFxkOFnkcrKPbd70vo0P6iktVI6jrXPAX5CkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766368484; c=relaxed/simple;
-	bh=hstSQlRrclpj3vOekMKCdO+1kUTSaifMxDJmnxbHoqc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WYsCmm4O3Sjf8pae0fzu0yUcrQazaKR5xaTSPHwx/pRxd9aanL2j9AnknkYxuAulTpOcQpprIb3TUnkMdkIagYuGhB0EMhqXf44aodLkFsoYeBLuOc9xUZFdeTPi7z1fq2VXlGueU80jtZJ+EyKc+ibpJFtmgaKZNncslaYvfAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Fs1r3HLm; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1766370705; c=relaxed/simple;
+	bh=4cpjFkaIxvGC2CdZz8O2s6W4Sd9+00CMwjHiHN6aEzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qbJIk23w5bZ58P36y9s3idUsQ0WPIKqBJLxdfS+BD6ryDxMpXKJHCzH8N5HdSVAdRlto93o+WoktTDudzdv2mCSaxK7CMvW+SwdENsEHUpXzNeSS3Eb1gRh7nLbywShbE7c5TPztuFW5lYNMAF68KO6b1g+Ya6keQVROG0QlYNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=UcO2iCYV; arc=none smtp.client-ip=61.135.153.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Fs1r3HLm"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BM1sC2o92481742, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1766368453; bh=hstSQlRrclpj3vOekMKCdO+1kUTSaifMxDJmnxbHoqc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=Fs1r3HLmOwgyGhTU5Tbw81mPhJbxUnAcej2U0PFOAcsZ6i8DJybjmNm4O8UbRa8ag
-	 wgEgNaEh9HL5x44MFM7zP2YjHmvYYo4IoR8XvQfehSysv9Ea08nwJ5MyDiF3UdLIDN
-	 +8hiHmIUpIlJZ5w9+nv/MoKzcDrYq9DmrJ9Nlpup8VQfRhrLi+HGsHPgBOI/DHBB69
-	 fxtyb0MGU5oJ9fOWFOtGmqz6sHyoP5bREJRRVNR27wSfWNoAarwZATSq/DbRF1zymF
-	 +OcJ9FNyGPuxs+Hll/DstMVS31C1sY0wow3EbsMCVMvdovoopDJBjlhcehNrrd+JDh
-	 Hc0WGFrxeXpeQ==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BM1sC2o92481742
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Dec 2025 09:54:13 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 22 Dec 2025 09:54:12 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 22 Dec 2025 09:54:12 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913%10]) with mapi id
- 15.02.1748.010; Mon, 22 Dec 2025 09:54:12 +0800
-From: =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        "Takashi
- Iwai" <tiwai@suse.com>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org"
-	<kernel-janitors@vger.kernel.org>
-Subject: RE: [PATCH next] ASoC: rt1320: Fix retry checking in
- rt1320_rae_load()
-Thread-Topic: [PATCH next] ASoC: rt1320: Fix retry checking in
- rt1320_rae_load()
-Thread-Index: AQHccY0LFtKkl4c9ckC9yVIttVbc4bUs6EOw
-Date: Mon, 22 Dec 2025 01:54:12 +0000
-Message-ID: <98f9d4af7fd245358d49081fd3632bf9@realtek.com>
-References: <aUZiNJ7pzuahXFYE@stanley.mountain>
-In-Reply-To: <aUZiNJ7pzuahXFYE@stanley.mountain>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="UcO2iCYV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1766370698;
+	bh=xfYScdRzDUMkwtF2N59Av5N+XnwJH1e5xwWFgmNecCk=;
+	h=From:Subject:Date:Message-ID;
+	b=UcO2iCYVtxgjDqo1fim1jjXc/0TSDTILX0YMQCnswJ4vsZbk8WNQlEv6mOnEhO8HF
+	 YIAuT9JFb+ALW5f8o/CWLl9ad1b0mQbbzgHogabw7shp/aQ3y80K3mPcS3PqSQ3vd8
+	 8yB3VqjpwubyqeCuAY/tO/1L4k5p3cPyWtfUg4SA=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.57.85])
+	by sina.com (10.54.253.31) with ESMTP
+	id 6948ACF200000F70; Mon, 22 Dec 2025 10:29:10 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 1877496816545
+X-SMAIL-UIID: 5F57D0F51BF3477DB14C30BDA7E45474-20251222-102910-1
+From: Hillf Danton <hdanton@sina.com>
+To: syzbot <syzbot+addf1973f8732e2cc468@syzkaller.appspotmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [syzbot] [sound?] KASAN: slab-use-after-free Read in snd_pcm_action
+Date: Mon, 22 Dec 2025 10:28:57 +0800
+Message-ID: <20251222022859.1691-1-hdanton@sina.com>
+In-Reply-To: <69488caa.050a0220.1b4e0c.002d.GAE@google.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-PiBUaGlzIGxvb3AgaXRlcmF0ZXMgMjAwIHRpbWVzIGFuZCB0aGVuIGdpdmVzIHVwLiAgVGhlIHBy
-b2JsZW0gaXMgdGhhdCBjdXJyZW50bHkNCj4gdGhlIGxvb3AgZXhpdHMgd2l0aCAicmV0cnkiIHNl
-dCB0byAtMSBvbiB0aGUgZmFpbHVyZSBwYXRoIGJ1dCB0aGUgY2hlY2sgZm9yIGZhaWx1cmUNCj4g
-ZXhwZWN0cyBpdCB0byBiZSAwLiAgQ2hhbmdlIGZyb20gYSBwb3N0LW9wIHRvIGEgcHJlLW9wIHNv
-IHRoYXQgaXQgZXhpdHMgd2l0aA0KPiAicmV0cnkiIHNldCB0byAwLg0KPiANCj4gRml4ZXM6IDIy
-OTM3YWY3NWFiYiAoIkFTb0M6IHJ0MTMyMDogc3VwcG9ydCBSQUUgcGFyYW1ldGVycyBsb2FkaW5n
-IikNCj4gU2lnbmVkLW9mZi1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBsaW5hcm8u
-b3JnPg0KPiAtLS0NCj4gVGVjaG5pY2FsbHkgbm93IHRoZSBsb29wIG9ubHkgdHJpZXMgMTk5IHRp
-bWVzIGFmdGVyIG15IGNoYW5nZSwgaG93ZXZlciBJIGFtDQo+IG9rYXkgd2l0aCB0aGF0Lg0KPiAN
-Cj4gIHNvdW5kL3NvYy9jb2RlY3MvcnQxMzIwLXNkdy5jIHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvc291
-bmQvc29jL2NvZGVjcy9ydDEzMjAtc2R3LmMgYi9zb3VuZC9zb2MvY29kZWNzL3J0MTMyMC1zZHcu
-Yw0KPiBpbmRleCA5NDQ3ZTc0MmM2NzIuLmMwYWNiNmFjNDYyZCAxMDA2NDQNCj4gLS0tIGEvc291
-bmQvc29jL2NvZGVjcy9ydDEzMjAtc2R3LmMNCj4gKysrIGIvc291bmQvc29jL2NvZGVjcy9ydDEz
-MjAtc2R3LmMNCj4gQEAgLTE0ODAsNyArMTQ4MCw3IEBAIHN0YXRpYyBpbnQgcnQxMzIwX3JhZV9s
-b2FkKHN0cnVjdCBydDEzMjBfc2R3X3ByaXYNCj4gKnJ0MTMyMCkNCj4gICAgICAgICAgICAgICAg
-IC8qIFJBRSBzdG9wICYgQ1JDIGRpc2FibGUgKi8NCj4gICAgICAgICAgICAgICAgIHJlZ21hcF91
-cGRhdGVfYml0cyhydDEzMjAtPnJlZ21hcCwgMHhlODAzLCAweGJjLA0KPiAweDAwKTsNCj4gDQo+
-IC0gICAgICAgICAgICAgICB3aGlsZSAocmV0cnktLSkgew0KPiArICAgICAgICAgICAgICAgd2hp
-bGUgKC0tcmV0cnkpIHsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgcmVnbWFwX3JlYWQocnQx
-MzIwLT5yZWdtYXAsIDB4ZTgzZiwgJnZhbHVlKTsNCj4gICAgICAgICAgICAgICAgICAgICAgICAg
-aWYgKHZhbHVlICYgMHg0MCkNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVh
-azsNCj4gLS0NCg0KQWNrZWQtYnk6IFNodW1pbmcgRmFuIDxzaHVtaW5nZkByZWFsdGVrLmNvbT4N
-Cg0KVGhhbmtzIGZvciB0aGlzIHBhdGNoLg0KDQo=
+Date: Sun, 21 Dec 2025 16:11:22 -0800
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    9094662f6707 Merge tag 'ata-6.19-rc2' of git://git.kernel...
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1568ddb4580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=1f2b6fe1fdf1a00b
+> dashboard link: https://syzkaller.appspot.com/bug?extid=addf1973f8732e2cc468
+> compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13b343c2580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1762db1a580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/024031cc0ef1/disk-9094662f.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/ba00f3b9b8e7/vmlinux-9094662f.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/a92db982c114/bzImage-9094662f.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+addf1973f8732e2cc468@syzkaller.appspotmail.com
+> 
+> ==================================================================
+> BUG: KASAN: slab-use-after-free in rt_spin_lock+0x88/0x3e0 kernel/locking/spinlock_rt.c:56
+> Read of size 1 at addr ffff888034ea7200 by task syz.1.1236/9742
+> 
+> CPU: 1 UID: 0 PID: 9742 Comm: syz.1.1236 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+>  print_address_description mm/kasan/report.c:378 [inline]
+>  print_report+0xca/0x240 mm/kasan/report.c:482
+>  kasan_report+0x118/0x150 mm/kasan/report.c:595
+>  __kasan_check_byte+0x2a/0x40 mm/kasan/common.c:573
+>  kasan_check_byte include/linux/kasan.h:401 [inline]
+>  lock_acquire+0x84/0x340 kernel/locking/lockdep.c:5842
+>  rt_spin_lock+0x88/0x3e0 kernel/locking/spinlock_rt.c:56
+>  spin_lock include/linux/spinlock_rt.h:44 [inline]
+>  __wake_up_common_lock+0x2f/0x1e0 kernel/sched/wait.c:124
+>  snd_pcm_action_single sound/core/pcm_native.c:-1 [inline]
+>  snd_pcm_action+0x1f4/0x240 sound/core/pcm_native.c:1393
+>  loopback_check_format sound/drivers/aloop.c:363 [inline]
+>  loopback_trigger+0xb82/0x1b60 sound/drivers/aloop.c:411
+>  snd_pcm_do_start+0xb7/0x180 sound/core/pcm_native.c:1454
+>  snd_pcm_action_single sound/core/pcm_native.c:1310 [inline]
+>  snd_pcm_action+0xe7/0x240 sound/core/pcm_native.c:1393
+>  __snd_pcm_lib_xfer+0x1762/0x1d00 sound/core/pcm_lib.c:2405
+>  snd_pcm_oss_write3+0x1bc/0x350 sound/core/oss/pcm_oss.c:1241
+>  snd_pcm_plug_write_transfer+0x2cb/0x4c0 sound/core/oss/pcm_plugin.c:630
+>  snd_pcm_oss_write2 sound/core/oss/pcm_oss.c:1373 [inline]
+>  snd_pcm_oss_write1 sound/core/oss/pcm_oss.c:1439 [inline]
+>  snd_pcm_oss_write+0xa31/0xf20 sound/core/oss/pcm_oss.c:2794
+
+What is weird is why snd_pcm_oss_write failed to block snd_pcm_oss_release
+in file_operations POV. By weird I mean file can not be closed with a writer.
+
+>  vfs_write+0x287/0xb40 fs/read_write.c:684
+>  ksys_write+0x14b/0x260 fs/read_write.c:738
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f1277acf749
+> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f1277115038 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> RAX: ffffffffffffffda RBX: 00007f1277d26090 RCX: 00007f1277acf749
+> RDX: 0000000000004000 RSI: 00002000000012c0 RDI: 0000000000000008
+> RBP: 00007f1277b53f91 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f1277d26128 R14: 00007f1277d26090 R15: 00007ffea9722d18
+>  </TASK>
+> 
+> Allocated by task 9740:
+>  kasan_save_stack mm/kasan/common.c:56 [inline]
+>  kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
+>  poison_kmalloc_redzone mm/kasan/common.c:397 [inline]
+>  __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:414
+>  kasan_kmalloc include/linux/kasan.h:262 [inline]
+>  __kmalloc_cache_noprof+0x1fb/0x6d0 mm/slub.c:5776
+>  kmalloc_noprof include/linux/slab.h:957 [inline]
+>  kzalloc_noprof include/linux/slab.h:1094 [inline]
+>  snd_pcm_attach_substream+0x5b7/0xb30 sound/core/pcm.c:938
+>  snd_pcm_open_substream+0xb6/0x2410 sound/core/pcm_native.c:2756
+>  snd_pcm_oss_open_file sound/core/oss/pcm_oss.c:2437 [inline]
+>  snd_pcm_oss_open+0xf2a/0x1bd0 sound/core/oss/pcm_oss.c:2518
+>  chrdev_open+0x4cf/0x5e0 fs/char_dev.c:414
+>  do_dentry_open+0x7d0/0x1270 fs/open.c:962
+>  vfs_open+0x3b/0x350 fs/open.c:1094
+>  do_open fs/namei.c:4628 [inline]
+>  path_openat+0x342a/0x3df0 fs/namei.c:4787
+>  do_filp_open+0x1fa/0x410 fs/namei.c:4814
+>  do_sys_openat2+0x121/0x200 fs/open.c:1430
+>  do_sys_open fs/open.c:1436 [inline]
+>  __do_sys_openat fs/open.c:1452 [inline]
+>  __se_sys_openat fs/open.c:1447 [inline]
+>  __x64_sys_openat+0x138/0x170 fs/open.c:1447
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> Freed by task 9740:
+>  kasan_save_stack mm/kasan/common.c:56 [inline]
+>  kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
+>  kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
+>  poison_slab_object mm/kasan/common.c:252 [inline]
+>  __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:284
+>  kasan_slab_free include/linux/kasan.h:234 [inline]
+>  slab_free_hook mm/slub.c:2540 [inline]
+>  slab_free mm/slub.c:6670 [inline]
+>  kfree+0x1bd/0x900 mm/slub.c:6878
+>  snd_pcm_detach_substream+0x1e1/0x290 sound/core/pcm.c:1003
+>  snd_pcm_oss_release_file sound/core/oss/pcm_oss.c:2396 [inline]
+>  snd_pcm_oss_release+0x184/0x250 sound/core/oss/pcm_oss.c:2575
+>  __fput+0x45b/0xa80 fs/file_table.c:468
+>  task_work_run+0x1d4/0x260 kernel/task_work.c:233
+>  get_signal+0x11c4/0x1310 kernel/signal.c:2807
+>  arch_do_signal_or_restart+0x9a/0x7a0 arch/x86/kernel/signal.c:337
+>  __exit_to_user_mode_loop kernel/entry/common.c:41 [inline]
+>  exit_to_user_mode_loop+0x87/0x4e0 kernel/entry/common.c:75
+>  __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
+>  syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
+>  syscall_exit_to_user_mode_work include/linux/entry-common.h:159 [inline]
+>  syscall_exit_to_user_mode include/linux/entry-common.h:194 [inline]
+>  do_syscall_64+0x2b7/0xf80 arch/x86/entry/syscall_64.c:100
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> The buggy address belongs to the object at ffff888034ea7000
+>  which belongs to the cache kmalloc-2k of size 2048
+> The buggy address is located 512 bytes inside of
+>  freed 2048-byte region [ffff888034ea7000, ffff888034ea7800)
+> 
+> The buggy address belongs to the physical page:
+> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x34ea0
+> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> flags: 0x80000000000040(head|node=0|zone=1)
+> page_type: f5(slab)
+> raw: 0080000000000040 ffff88813ff27000 dead000000000100 dead000000000122
+> raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+> head: 0080000000000040 ffff88813ff27000 dead000000000100 dead000000000122
+> head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+> head: 0080000000000003 ffffea0000d3a801 00000000ffffffff 00000000ffffffff
+> head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd28c0(GFP_NOWAIT|__GFP_IO|__GFP_FS|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5917, tgid 5917 (syz-executor), ts 127811454833, free_ts 125843464373
+>  set_page_owner include/linux/page_owner.h:32 [inline]
+>  post_alloc_hook+0x234/0x290 mm/page_alloc.c:1846
+>  prep_new_page mm/page_alloc.c:1854 [inline]
+>  get_page_from_freelist+0x28c0/0x2960 mm/page_alloc.c:3915
+>  __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:5210
+>  alloc_pages_mpol+0xd1/0x380 mm/mempolicy.c:2486
+>  alloc_slab_page mm/slub.c:3075 [inline]
+>  allocate_slab+0x86/0x3b0 mm/slub.c:3248
+>  new_slab mm/slub.c:3302 [inline]
+>  ___slab_alloc+0xb10/0x13e0 mm/slub.c:4656
+>  __slab_alloc+0xc6/0x1f0 mm/slub.c:4779
+>  __slab_alloc_node mm/slub.c:4855 [inline]
+>  slab_alloc_node mm/slub.c:5251 [inline]
+>  __do_kmalloc_node mm/slub.c:5656 [inline]
+>  __kmalloc_node_track_caller_noprof+0x2bf/0x810 mm/slub.c:5764
+>  kmalloc_reserve+0x136/0x290 net/core/skbuff.c:608
+>  pskb_expand_head+0x19d/0x1160 net/core/skbuff.c:2282
+>  netlink_trim+0x1b3/0x2c0 net/netlink/af_netlink.c:1299
+>  netlink_broadcast_filtered+0xd6/0x1000 net/netlink/af_netlink.c:1512
+>  nlmsg_multicast_filtered include/net/netlink.h:1165 [inline]
+>  nlmsg_multicast include/net/netlink.h:1184 [inline]
+>  nlmsg_notify+0xf0/0x1a0 net/netlink/af_netlink.c:2593
+>  rtnl_notify net/core/rtnetlink.c:958 [inline]
+>  rtmsg_ifinfo_send net/core/rtnetlink.c:4436 [inline]
+>  rtmsg_ifinfo_event net/core/rtnetlink.c:4452 [inline]
+>  rtnetlink_event+0x224/0x270 net/core/rtnetlink.c:7018
+>  notifier_call_chain+0x19d/0x3a0 kernel/notifier.c:85
+>  call_netdevice_notifiers_extack net/core/dev.c:2268 [inline]
+>  call_netdevice_notifiers net/core/dev.c:2282 [inline]
+>  netif_change_name+0x5db/0x970 net/core/dev.c:1490
+> page last free pid 5966 tgid 5966 stack trace:
+>  reset_page_owner include/linux/page_owner.h:25 [inline]
+>  free_pages_prepare mm/page_alloc.c:1395 [inline]
+>  __free_frozen_pages+0xfe1/0x1170 mm/page_alloc.c:2943
+>  discard_slab mm/slub.c:3346 [inline]
+>  __put_partials+0x149/0x170 mm/slub.c:3886
+>  __slab_free+0x2af/0x330 mm/slub.c:5952
+>  qlink_free mm/kasan/quarantine.c:163 [inline]
+>  qlist_free_all+0x97/0x100 mm/kasan/quarantine.c:179
+>  kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+>  __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:349
+>  kasan_slab_alloc include/linux/kasan.h:252 [inline]
+>  slab_post_alloc_hook mm/slub.c:4953 [inline]
+>  slab_alloc_node mm/slub.c:5263 [inline]
+>  kmem_cache_alloc_noprof+0x18d/0x6c0 mm/slub.c:5270
+>  getname_flags+0xb8/0x540 fs/namei.c:146
+>  user_path_at+0x24/0x60 fs/namei.c:3566
+>  user_statfs+0x94/0x170 fs/statfs.c:103
+>  __do_sys_statfs fs/statfs.c:193 [inline]
+>  __se_sys_statfs fs/statfs.c:190 [inline]
+>  __x64_sys_statfs+0xe0/0x1b0 fs/statfs.c:190
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> Memory state around the buggy address:
+>  ffff888034ea7100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>  ffff888034ea7180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> >ffff888034ea7200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                    ^
+>  ffff888034ea7280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>  ffff888034ea7300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
