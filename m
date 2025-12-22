@@ -1,88 +1,97 @@
-Received: from retry-chloe4.scw-tem.cloud (retry-chloe4.scw-tem.cloud [51.159.124.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D41F1DEFF5
-	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 20:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.124.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E68230BBB6;
+	Mon, 22 Dec 2025 20:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766433754; cv=none; b=XsxOWa+SVqnP44K6b2MfJh5tyLZMnJrOeomWV6XiZUbCTrsjFGbTQjqAB/GGDydTDel57FMgsCQZhc/6Cg1AWKy11WpnsZ1Abpoja24JlsVxIjoyV13snA2W6DGLnlv1NHYMOHBALfxzOjeFUQZIssU+I7kH2nrLbf0v8lxbBpw=
+	t=1766435826; cv=none; b=if9/jfHmM/fHzx3+vvmdnREpeahMjvRuFs3IBb7WqzI+B23X5PB37542STO4Q1WSZGAgQm2zQrDP1iZtX540EmyjRvIpRLVq0+UhP5iNwdXC+IBRxbWgI03rcAH6vRdBllZh7rqhSAvfU2ePCCPGv14FB0lpDpVWywvA3W2cUuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766433754; c=relaxed/simple;
-	bh=5q6Gc9RbVKHlxdGqP+DukSSwJK7nYBNLZwfn8tl5M4U=;
-	h=Cc:Date:From:Message-Id:Mime-Version:Subject:To; b=Ow2u0idrsQb5VXRRmLqbZ15/8cTD9RRbKxQE0c7yEBsqtyLvUcPvGZan5q4A+WyLuV1bCVW5rHWGeSf51KAlyi8mzGAw71gzGPfdP/Gnivtr+55GE3clbbHZEl7VfTSfUa6s7/UXUY6jdLvJyc7RtmojK/fAnMSNUXvAsBee/zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=augustwikerfors.se; spf=pass smtp.mailfrom=augustwikerfors.se; dkim=pass (2048-bit key) header.d=augustwikerfors.se header.i=@augustwikerfors.se header.b=L8Cqs6W5; arc=none smtp.client-ip=51.159.124.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=augustwikerfors.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=augustwikerfors.se
+	s=arc-20240116; t=1766435826; c=relaxed/simple;
+	bh=qU1xEqH8d5/3tAVNsT6IV9ERtj/PGsYjFsn2yDftN5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hsk7UMbHAJB4BJlNUcdvgxWSHwgK8/4FGSEQrDw/sk7Lcjb6H5mDk8LWdgFOWVtmKgyBVf3czKkFRhP3XPFqicayzUx2dF5IM7DUwOHRL0guAMdNZMUzTHFVcP17HVC+noKb/1HstjFsaO3VsObrkMmAplW2mbIAZEOR8BApGko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKSzpzo7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=augustwikerfors.se header.i=@augustwikerfors.se header.b="L8Cqs6W5"
-DKIM-Signature: a=rsa-sha256; bh=L3TLn/EcvZeWtU0VY8XFMU5miek6MUe85vKchA2Nn1A=;
- c=relaxed/relaxed; d=augustwikerfors.se;
- h=subject:to:date:cc:from:message-id;
- s=812a4465-b64d-440c-bdd2-3148e8f56cf0; t=1766433750; v=1;
- b=L8Cqs6W5OxiaYRehME8UmdPX9HMF3viGiAxg2LSGSuXulOnwSHtYYGG8BoYj7xrZz0zp9ejQ
- KbONDgfhkpL54uRGQPm3qGYxOG6NS73hhidqcd+3hco7917Ld2COd7VIe59r3UvUVyL0gCNpXvB
- oyt9DvoUrTNuwCDEi2t32u6/VhPML6ra4jm0jh3+rzxBqRbsi7MuuEChIueuRZ757ujtXRvfBOI
- apGA7QHsRxgwGLs8vxhPCm2o6Sz6uYllsVYNlfXtYtQ/RWki0/rlp5LgtKgvQYvNMi7CBTVIqMa
- EbECQ8fVFHNp5GePl+Bl1WV7epu9qKyzW8fI8KR7LFdzQ==
-Cc: Antheas Kapenekakis <lkml@antheas.dev>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, August Wikerfors <git@augustwikerfors.se>
-Content-Transfer-Encoding: 8bit
-Date: Mon, 22 Dec 2025 20:47:04 +0100
-From: August Wikerfors <git@augustwikerfors.se>
-Message-Id: <20251222194704.87232-1-git@augustwikerfors.se>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKSzpzo7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAFDEC16AAE;
+	Mon, 22 Dec 2025 20:37:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766435825;
+	bh=qU1xEqH8d5/3tAVNsT6IV9ERtj/PGsYjFsn2yDftN5Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PKSzpzo7dZvCE4otps9jA7DCZ+mGvpTC/qTJK1+mCdPoaOo2UXkYVRtAVg6c97RTp
+	 uwjQTaFHqYu1SeoMeggsmQ9Ku0NRc4NhXYj6G7zxWcALjh2r1wMggGUuTKXeM1Cyw2
+	 R+/W0sK3Gwbg3oZlkrpHXCnkfYPMveJCeD94dBivJCn4IXRyuIQV+/RKSrlkb8l8Uf
+	 3H+CecKKAdH39vTExCZjz5qklsUAh0PD7jS/Eejus3xFsvP3rg1fSy86FYofbMnwUi
+	 n0dlARVZElTNtzk5TV2rCGmBp4d3TPbP+05PqLX2oSrgDqB0eXNp4XqHE0Q5nnyWLP
+	 JNTMq/KxbtHhA==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Linux PM <linux-pm@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Brian Norris <briannorris@chromium.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org
+Subject:
+ [PATCH v1 22/23] ASoC: rockchip: Discard pm_runtime_put() return value
+Date: Mon, 22 Dec 2025 21:35:33 +0100
+Message-ID: <5160923.0VBMTVartN@rafael.j.wysocki>
+Organization: Linux Kernel Development
+In-Reply-To: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
+References: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: [PATCH] ALSA: hda/tas2781: properly initialize speaker_id for
- TAS2563
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>
-X-Scw-Domain: augustwikerfors.se
-X-Scw-Tem-Message-Id: <3f6ec5d4-3e09-4320-bb75-59b270f5dc49@retry-chloe4.scw-tem.cloud>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-After speaker id retrieval was refactored to happen in tas2781_read_acpi,
-devices that do not use a speaker id need a negative speaker_id value
-instead of NULL, but no initialization was added to the TAS2563 code path.
-This causes the driver to attempt to load a non-existent firmware file name
-with a speaker id of 0 ("TAS2XXX38700.bin") instead of the correct file
-name without a speaker id ("TAS2XXX3870.bin"), resulting in low volume and
-these dmesg errors:
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-    tas2781-hda i2c-INT8866:00: Direct firmware load for TAS2XXX38700.bin failed with error -2
-    tas2781-hda i2c-INT8866:00: tasdevice_dsp_parser: load TAS2XXX38700.bin error
-    tas2781-hda i2c-INT8866:00: dspfw load TAS2XXX38700.bin error
-    [...]
-    tas2781-hda i2c-INT8866:00: tasdevice_prmg_load: Firmware is NULL
+It is better to check directly whether or not CONFIG_PM has
+been enabled instead of relying on an error value returned by
+pm_runtime_put() in that case because pm_runtime_put() may also return
+an error value in other cases, like after writing "on" to the devices'
+runtime PM "control" attribute in sysfs for one example.
 
-Fix this by setting speaker_id to -1 as is done for other models.
+This will facilitate a planned change of the pm_runtime_put() return
+type to void in the future.
 
-Fixes: 945865a0ddf3 ("ALSA: hda/tas2781: fix speaker id retrieval for multiple probes")
-Cc: stable@vger.kernel.org
-Signed-off-by: August Wikerfors <git@augustwikerfors.se>
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index c8619995b1d7..f7a7f216d586 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -111,8 +111,10 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
- 	if (IS_ERR(sub)) {
- 		/* No subsys id in older tas2563 projects. */
--		if (!strncmp(hid, "INT8866", sizeof("INT8866")))
-+		if (!strncmp(hid, "INT8866", sizeof("INT8866"))) {
-+			p->speaker_id = -1;
- 			goto end_2563;
-+		}
- 		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
- 		ret = PTR_ERR(sub);
- 		goto err;
--- 
-2.52.0
+This patch is part of a series, but it doesn't depend on anything else
+in that series.  The last patch in the series depends on it.
+
+It can be applied by itself and if you decide to do so, please let me
+know.
+
+Otherwise, an ACK or equivalent will be appreciated, but also the lack
+of specific criticism will be eventually regarded as consent.
+
+---
+ sound/soc/rockchip/rockchip_sai.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+--- a/sound/soc/rockchip/rockchip_sai.c
++++ b/sound/soc/rockchip/rockchip_sai.c
+@@ -1487,8 +1487,9 @@ static int rockchip_sai_probe(struct pla
+ 	return 0;
+ 
+ err_runtime_suspend:
+-	/* If we're !CONFIG_PM, we get -ENOSYS and disable manually */
+-	if (pm_runtime_put(&pdev->dev))
++	if (IS_ENABLED(CONFIG_PM))
++		pm_runtime_put(&pdev->dev);
++	else
+ 		rockchip_sai_runtime_suspend(&pdev->dev);
+ 
+ 	return ret;
+
+
 
