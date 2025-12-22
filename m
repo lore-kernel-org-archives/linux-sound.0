@@ -1,88 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from retry-chloe4.scw-tem.cloud (retry-chloe4.scw-tem.cloud [51.159.124.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A941CAA78
-	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 19:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D41F1DEFF5
+	for <linux-sound@vger.kernel.org>; Mon, 22 Dec 2025 20:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.124.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766432460; cv=none; b=LuSO3ToSqR1EgBWMGL1O/fF7MVd9ONh9+SRh8w8Gnry++ynwK9bB32RCSLk3/seW/C4i/3WlYvKYtbA1Pv+GWBoIDVBPlhGS10X8YhsBUhSmiLvKO5MkQvmmAVGF7oFolouZJ8e3gAARzhHxKlAM/HpMr/owppFbYhYey+n1d44=
+	t=1766433754; cv=none; b=XsxOWa+SVqnP44K6b2MfJh5tyLZMnJrOeomWV6XiZUbCTrsjFGbTQjqAB/GGDydTDel57FMgsCQZhc/6Cg1AWKy11WpnsZ1Abpoja24JlsVxIjoyV13snA2W6DGLnlv1NHYMOHBALfxzOjeFUQZIssU+I7kH2nrLbf0v8lxbBpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766432460; c=relaxed/simple;
-	bh=ybcut6GydhKbYL6DOn3KmBa3ILU+nMRN3lLJCSw7XNk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=l+ftSf9DmRC0MrXEILMelBvm1vAz5nFpnlbbKzr8YshqRcZ0UbgISwgYzfasoD2WbNuRhfKWFB6wxqeNdMDgJ2PSAo+EdMtVQoHvIH19XgZRQCYK6vHkgA2RjbCWpwY46wORdOIxZCEHOboCff2E/IPbBfFGOzWdpkt0XsGqieU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RBucnCmO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766433754; c=relaxed/simple;
+	bh=5q6Gc9RbVKHlxdGqP+DukSSwJK7nYBNLZwfn8tl5M4U=;
+	h=Cc:Date:From:Message-Id:Mime-Version:Subject:To; b=Ow2u0idrsQb5VXRRmLqbZ15/8cTD9RRbKxQE0c7yEBsqtyLvUcPvGZan5q4A+WyLuV1bCVW5rHWGeSf51KAlyi8mzGAw71gzGPfdP/Gnivtr+55GE3clbbHZEl7VfTSfUa6s7/UXUY6jdLvJyc7RtmojK/fAnMSNUXvAsBee/zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=augustwikerfors.se; spf=pass smtp.mailfrom=augustwikerfors.se; dkim=pass (2048-bit key) header.d=augustwikerfors.se header.i=@augustwikerfors.se header.b=L8Cqs6W5; arc=none smtp.client-ip=51.159.124.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=augustwikerfors.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=augustwikerfors.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RBucnCmO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE67C116D0;
-	Mon, 22 Dec 2025 19:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766432459;
-	bh=ybcut6GydhKbYL6DOn3KmBa3ILU+nMRN3lLJCSw7XNk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RBucnCmOKMl1seXW8AB/PgA9AeaKLkSsQJr9ri45YzUxK4MamDbSgL3uvIRppiVrs
-	 GmJxQau8GLkl/iKz+DEkH+JepyPRFMkYGNR1a6twGBtsxBHC81iDP1LO42qtRWlMgY
-	 Y17fzll/XPd/EYDSU8hVE/5nqqR1NzWq/alEH4svj8f/bsw5LD54XOPrKPMyLzCvUJ
-	 yfphx8GRXbAP12WlCQ8gS0ZrJMuw4DcDqS7IC8mnHjKWUZTIM72ObFE5BW6F95jphD
-	 XdrOO4o7uwqnSILe4gzgyPdpJU+cT/EcqbNoRcDQb+FnLODvWlamejMJ/apwaf4XCd
-	 fNi3Uco+CCE9g==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20251222101329.558973-1-shumingf@realtek.com>
-References: <20251222101329.558973-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: rt1320: fix the warning the string may be
- truncated
-Message-Id: <176643245803.952913.12078144368679476007.b4-ty@kernel.org>
-Date: Mon, 22 Dec 2025 19:40:58 +0000
+	dkim=pass (2048-bit key) header.d=augustwikerfors.se header.i=@augustwikerfors.se header.b="L8Cqs6W5"
+DKIM-Signature: a=rsa-sha256; bh=L3TLn/EcvZeWtU0VY8XFMU5miek6MUe85vKchA2Nn1A=;
+ c=relaxed/relaxed; d=augustwikerfors.se;
+ h=subject:to:date:cc:from:message-id;
+ s=812a4465-b64d-440c-bdd2-3148e8f56cf0; t=1766433750; v=1;
+ b=L8Cqs6W5OxiaYRehME8UmdPX9HMF3viGiAxg2LSGSuXulOnwSHtYYGG8BoYj7xrZz0zp9ejQ
+ KbONDgfhkpL54uRGQPm3qGYxOG6NS73hhidqcd+3hco7917Ld2COd7VIe59r3UvUVyL0gCNpXvB
+ oyt9DvoUrTNuwCDEi2t32u6/VhPML6ra4jm0jh3+rzxBqRbsi7MuuEChIueuRZ757ujtXRvfBOI
+ apGA7QHsRxgwGLs8vxhPCm2o6Sz6uYllsVYNlfXtYtQ/RWki0/rlp5LgtKgvQYvNMi7CBTVIqMa
+ EbECQ8fVFHNp5GePl+Bl1WV7epu9qKyzW8fI8KR7LFdzQ==
+Cc: Antheas Kapenekakis <lkml@antheas.dev>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, August Wikerfors <git@augustwikerfors.se>
+Content-Transfer-Encoding: 8bit
+Date: Mon, 22 Dec 2025 20:47:04 +0100
+From: August Wikerfors <git@augustwikerfors.se>
+Message-Id: <20251222194704.87232-1-git@augustwikerfors.se>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Mime-Version: 1.0
+Subject: [PATCH] ALSA: hda/tas2781: properly initialize speaker_id for
+ TAS2563
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>
+X-Scw-Domain: augustwikerfors.se
+X-Scw-Tem-Message-Id: <3f6ec5d4-3e09-4320-bb75-59b270f5dc49@retry-chloe4.scw-tem.cloud>
 
-On Mon, 22 Dec 2025 18:13:29 +0800, shumingf@realtek.com wrote:
-> 1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
->      |                                                 ^~             ~~~~~~
-> sound/soc/codecs/rt1320-sdw.c:1487:17: note: 'snprintf' output between 29 and 410 bytes into a destination of size 128
-> 1487 |                 snprintf(filename, sizeof(filename),
->      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
->      |
-> 
-> [...]
+After speaker id retrieval was refactored to happen in tas2781_read_acpi,
+devices that do not use a speaker id need a negative speaker_id value
+instead of NULL, but no initialization was added to the TAS2563 code path.
+This causes the driver to attempt to load a non-existent firmware file name
+with a speaker id of 0 ("TAS2XXX38700.bin") instead of the correct file
+name without a speaker id ("TAS2XXX3870.bin"), resulting in low volume and
+these dmesg errors:
 
-Applied to
+    tas2781-hda i2c-INT8866:00: Direct firmware load for TAS2XXX38700.bin failed with error -2
+    tas2781-hda i2c-INT8866:00: tasdevice_dsp_parser: load TAS2XXX38700.bin error
+    tas2781-hda i2c-INT8866:00: dspfw load TAS2XXX38700.bin error
+    [...]
+    tas2781-hda i2c-INT8866:00: tasdevice_prmg_load: Firmware is NULL
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fix this by setting speaker_id to -1 as is done for other models.
 
-Thanks!
+Fixes: 945865a0ddf3 ("ALSA: hda/tas2781: fix speaker id retrieval for multiple probes")
+Cc: stable@vger.kernel.org
+Signed-off-by: August Wikerfors <git@augustwikerfors.se>
+---
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[1/1] ASoC: rt1320: fix the warning the string may be truncated
-      commit: 8db50f0fa43efe8799fd40b872dcdd39a90d7549
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index c8619995b1d7..f7a7f216d586 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -111,8 +111,10 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+ 	if (IS_ERR(sub)) {
+ 		/* No subsys id in older tas2563 projects. */
+-		if (!strncmp(hid, "INT8866", sizeof("INT8866")))
++		if (!strncmp(hid, "INT8866", sizeof("INT8866"))) {
++			p->speaker_id = -1;
+ 			goto end_2563;
++		}
+ 		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
+ 		ret = PTR_ERR(sub);
+ 		goto err;
+-- 
+2.52.0
 
