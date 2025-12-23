@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF6311977;
-	Tue, 23 Dec 2025 21:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16CD311977;
+	Tue, 23 Dec 2025 21:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766526789; cv=none; b=T/oOeg+ZJ+M24Nnhg0AO/x24JIxquXp06r98ImYP5qQ5Z9GPoioqLsghuYz/0dpRyp/2NsdL12ZbExbIwNFFDIzXEB4r8hYmkanPpUSE94/XIaqtqOvOuVHQhODqf39rlmCuCEn7BV8KW/6IMmHwcJeRIkZWKava9qBuZITzNn0=
+	t=1766526808; cv=none; b=RAOUMGfCrubgen1/Mvom8OT/oRuSoa/EIrNosTF2WP1tI/TDaPckzKBmM0fODLVMz2azpwwrbBZFjYese6ybDo0PmzEET7N4IhQC8MFT3cRaBm8UgyBWCD+Vy2Q2jaAld9SebCq2XDbspOQbethMPtQP0t38v8hbSi80Ac+xeew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766526789; c=relaxed/simple;
-	bh=chtisksDWQeKKSd3BqZElfuZnqmZwkIvrdFfyKKOx1A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZNMAJZv7NwGIDJdYGavmQK535AN1vvEwnWThSbbkmY4FQ2D8f1oWYzKuHsZnAm4kJBK1OzsPkixyfeRbQu7KItr8pzS6q5QZSurMHCatASJAlQMASVL/eTN9OQlfiNRjRnnKTSSTmVneJAsX3lD91OOJzABgAUpzoCeNex8bKws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2mEBOBK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766526808; c=relaxed/simple;
+	bh=D6LNkBnKf059M6BLMV5W6odKm+Bri+H/iK86T+kHUE4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jDZbcIcpqDIxepqtUfE4NuIEnK6dwXxJocVigunfEDQ9AJPdrwmd0jldoV5WHDNVZkx0n+GUx50PclOvBWB2oPORQe/1kFW7DPgPy9z4zZrb6JZ7kP1BkiPv2I2W2cL79t0D+iQlegKkK1wgiv/WYuDqKiK3O2DlkiM2mSlHiGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj7mPszq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2mEBOBK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132C6C113D0;
-	Tue, 23 Dec 2025 21:53:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj7mPszq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961B2C113D0;
+	Tue, 23 Dec 2025 21:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766526785;
-	bh=chtisksDWQeKKSd3BqZElfuZnqmZwkIvrdFfyKKOx1A=;
+	s=k20201202; t=1766526808;
+	bh=D6LNkBnKf059M6BLMV5W6odKm+Bri+H/iK86T+kHUE4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=A2mEBOBKzz596yh2/QGl31BcW5qIMvHu6UaEfEsaSuA79JmB/Awqw1JK3uJnWzX0t
-	 0Z/Sa2EpZJpYpSeSUoxfEnbvsZAaEdGSkpuP4eOurvppWND2lMbP5nH+DsQ9C046yX
-	 JozoFY1EdUYV/7AHQk/hkZvkQk+KxxqWj40WFFku6bpYNRGipsDSg3N6tT1NHaPOSm
-	 o56JAexgeYqr6PrkPbC2eJL2/6KRXdItVch7c104+uyzBv3C7IJ2TCDwpguZSSFLql
-	 mm1fcumhy15TvDEqKrlzPOTiwihq8o16tA9MGnTu96y8/S4TtdwM2G6fNHU8PIiWan
-	 ad5KzEOc6IzEg==
+	b=Aj7mPszq5wk1hRiWDUvdIIJ1ijCTe0kyJGtYuBkWwCDD5kjeb/jcS96Ky979yny7T
+	 yqHCkqrAtdqkAuqlhwmw05iBFfQt7R1NHlwXPyCac0r9r8nodoRwzVWRaUgCuJ5K7o
+	 Z8a3tnhEqSBSxQQB5F9MNYX0zpgpTIo8uv5M0MW/olBEiNXYwaWwt0pdM8traYeu0U
+	 wv7XuYB0ektHlpSDB394P+SqFGK2zGKPaJSxA9tS+s8EleDHQhgNO40oT1Khh9BaQ8
+	 YYoc8R6z4FrSMBVSke4TVL516eUZcJZ5QK3d2CL6INcLL0HplQXrAAEbHL/l7nIbdv
+	 hb6tKMlMj+SUQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -33,13 +33,14 @@ To: Oder Chiou <oder_chiou@realtek.com>,
 	Takashi Iwai <tiwai@suse.com>,
 	Shuming Fan <shumingf@realtek.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rt1320: fix 32-bit link failure
-Date: Tue, 23 Dec 2025 22:52:53 +0100
-Message-Id: <20251223215259.677762-1-arnd@kernel.org>
+Subject: [PATCH] ASoC: rt1320: fix size_t format string
+Date: Tue, 23 Dec 2025 22:53:19 +0100
+Message-Id: <20251223215322.694265-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,58 +52,31 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-A plain 64-bit division causes a link failure in some configurations:
+Printing a size_t portably requires the use of %z instead of %l:
 
-ERROR: modpost: "__aeabi_uldivmod" [sound/soc/codecs/snd-soc-rt1320-sdw.ko] undefined!
+sound/soc/codecs/rt1320-sdw.c:1494:30: error: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+ 1494 |                 dev_dbg(dev, "%s, rae_fw size=0x%lx\n", __func__, rae_fw->size);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since this divides by a constant, using the div_u64() macro ends up
-turning this into an efficient multiply/shift operation where possible.
-
-In rt1320_calc_r0(), the open-coded shift seems a litle simpler.
-
-Fixes: da1682d5e8b5 ("ASoC: rt1320: support calibration and temperature/r0 loading")
+Fixes: 22937af75abb ("ASoC: rt1320: support RAE parameters loading")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/codecs/rt1320-sdw.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ sound/soc/codecs/rt1320-sdw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 342494e0fc5a..245b9d9980f9 100644
+index 2999ab95971a..245b9d9980f9 100644
 --- a/sound/soc/codecs/rt1320-sdw.c
 +++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1065,8 +1065,8 @@ static int rt1320_invrs_load(struct rt1320_sdw_priv *rt1320)
- 	r_rsratio = rt1320_rsgain_to_rsratio(rt1320, r_rsgain);
- 	dev_dbg(dev, "%s, LR rsratio=%lld, %lld\n", __func__, l_rsratio, r_rsratio);
+@@ -1491,7 +1491,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 			return -ETIMEDOUT;
+ 		}
  
--	l_invrs = (l_rsratio * factor) / 1000000000U;
--	r_invrs = (r_rsratio * factor) / 1000000000U;
-+	l_invrs = div_u64(l_rsratio * factor, 1000000000U);
-+	r_invrs = div_u64(r_rsratio * factor, 1000000000U);
+-		dev_dbg(dev, "%s, rae_fw size=0x%lx\n", __func__, rae_fw->size);
++		dev_dbg(dev, "%s, rae_fw size=0x%zx\n", __func__, rae_fw->size);
+ 		regcache_cache_bypass(rt1320->regmap, true);
+ 		for (fw_offset = 0; fw_offset < rae_fw->size;) {
  
- 	rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 6, &r0_data[0], sizeof(struct rt1320_datafixpoint));
- 	rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 7, &r0_data[1], sizeof(struct rt1320_datafixpoint));
-@@ -1087,15 +1087,15 @@ static int rt1320_invrs_load(struct rt1320_sdw_priv *rt1320)
- static void rt1320_calc_r0(struct rt1320_sdw_priv *rt1320)
- {
- 	struct device *dev = &rt1320->sdw_slave->dev;
--	unsigned long long l_calir0, r_calir0;
--	const unsigned int factor = (1 << 27);
-+	unsigned long long l_calir0, r_calir0, l_calir0_lo, r_calir0_lo;
- 
--	l_calir0 = (rt1320->r0_l_reg * 1000) / factor;
--	r_calir0 = (rt1320->r0_r_reg * 1000) / factor;
-+	l_calir0 = rt1320->r0_l_reg >> 27;
-+	r_calir0 = rt1320->r0_r_reg >> 27;
-+	l_calir0_lo = (rt1320->r0_l_reg & ((1ull << 27) - 1) * 1000) >> 27;
-+	r_calir0_lo = (rt1320->r0_r_reg & ((1ull << 27) - 1) * 1000) >> 27;
- 
- 	dev_dbg(dev, "%s, l_calir0=%lld.%03lld ohm, r_calir0=%lld.%03lld ohm\n", __func__,
--		l_calir0 / 1000, l_calir0 % 1000,
--		r_calir0 / 1000, r_calir0 % 1000);
-+		l_calir0, l_calir0_lo, r_calir0, r_calir0_lo);
- }
- 
- static void rt1320_calibrate(struct rt1320_sdw_priv *rt1320)
 -- 
 2.39.5
 
