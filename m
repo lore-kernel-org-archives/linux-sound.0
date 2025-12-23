@@ -1,145 +1,189 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AABD2DEA78
-	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 09:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA7B3A1E8B;
+	Tue, 23 Dec 2025 09:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766483066; cv=none; b=W4oOkZQL+WavD8sThir3vKf85HBwsH/ecgpbXhD/Yx57/1IlQQ54kijFoKAqOiiW8oRJh1GuiN2BUvDjKLaTsFQ68hTyVz+x64fC9OzMV8VnErzkDmxxcJASmi3JP2V2ynQz3Rz8uTURSowARzr2WRLT3lKXCyq3BaUuOvSaO90=
+	t=1766483314; cv=none; b=t3gi3ZZ9aIQFxSjZAKa19PbycXPzYgjfCATvx6R7beMLP/JE7F3RV1+7vNwubUsNh40KEz+rB9ZYsS8UCm3fjOMJ4SUMWVcasCSIwROjTlbiOQSxiu6N6MK6TxcPzaa/3BEa3KMkPQEym3kthhAkCd4YUVQfLdwm6/LYOr61DBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766483066; c=relaxed/simple;
-	bh=hyqKqLKYrhhRb+iZ7HA2ifsFD63meib3IShgRJi+43w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EBjVAFsYGiqjcy5BT0BfOJt3fjN0gKgX0xZb7Kq/Y/dcsnJzetdjG1DPFAUtXwYiJ2ii5OaqAhlMRqC6IMqpZlA0wPRy1p3RT76P/A6tsmjtXnevaHRB2vM7KJ1Hw5V1E/d7Rl4N8HNsnjeoPD8I4qOKQ+IsHb3JEEhVhMX/7+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cs3L+Tcn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q55W66tg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K3o23JPZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0OWwYcDR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cs3L+Tcn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q55W66tg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K3o23JPZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0OWwYcDR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F5BF336A0;
-	Tue, 23 Dec 2025 09:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1766483062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MSLJBDAPSfb3msP2C66IWohWd4oOrB6SRphHJh3DKaA=;
-	b=cs3L+TcnMHtpb5Pk6LTvsu5k6LKflCDxwRUJdLAd6DoD1oA9I6eFHQkkKOkktZdsPy/2t3
-	9CgBEUyNuctHgijKUzWe9ZRZmJFh7UoLhgcdG7xw6lygQaE+P9FMwnEp9B/OfndLRH+HEA
-	91E7E9EgdXfT3PB3f/tz+yhbeYCkqRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1766483062;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MSLJBDAPSfb3msP2C66IWohWd4oOrB6SRphHJh3DKaA=;
-	b=Q55W66tgMD5cYBb+ZJkEnQPLRMByyjixlB3jLB8OVP/g5wchHu+3xW1IfjcWvDjvpWuVat
-	MkyEGuioiQb0VsCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=K3o23JPZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0OWwYcDR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1766483061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MSLJBDAPSfb3msP2C66IWohWd4oOrB6SRphHJh3DKaA=;
-	b=K3o23JPZjZXF1Ymxn3ZGzVbO6A8Q/N0ehGtYfs450VxKqfyYr8XEVTtI/JwPJYczYi98k+
-	RZWHji5MKhDDnALjtLOQTQWXpnB3j6pQ1FYqgx40e5wTdLMCilulz5R8aMSrJy4NyO14DV
-	OMZ+TlL7U6CQ13efvEJ4JPMH8+5cdWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1766483061;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MSLJBDAPSfb3msP2C66IWohWd4oOrB6SRphHJh3DKaA=;
-	b=0OWwYcDRuM2D0xgiz7vLFRnRCSMKeRWChg9oPBjl3zlM3oFqr2OI1V6g4/X66uBlW3OxBm
-	NC02RM9qBeuy0IAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 943683EA63;
-	Tue, 23 Dec 2025 09:44:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7HEYIXRkSmmFOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 23 Dec 2025 09:44:20 +0000
-Date: Tue, 23 Dec 2025 10:44:04 +0100
-Message-ID: <87qzslilcr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	robert.jarzmik@free.fr,
-	broonie@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: ac97: fix a double free in snd_ac97_controller_register()
-In-Reply-To: <20251219162845.657525-1-lihaoxiang@isrc.iscas.ac.cn>
-References: <20251219162845.657525-1-lihaoxiang@isrc.iscas.ac.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	s=arc-20240116; t=1766483314; c=relaxed/simple;
+	bh=NSK5fKc+qwzvToyUpEv21cUeZPQdVTDmi5IyXk6yn3Y=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qfR5O0RLYGf9QttHCMKwKloLh6aC31m/Swd/JgCv+TlavqtilJ+m8Qa1x6Jodf9DxS4Z5fYmpUn4w/eWtr0vQZ2TFqyDFa3lnsRZcfGH/N5vVZAaKu8ZzzzN2KceEZtPppciAqQgz/znubPhdFOoCNad/Z2HM4f7UG3SspkhI3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustnetic.com; spf=pass smtp.mailfrom=trustnetic.com; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustnetic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trustnetic.com
+X-QQ-mid:Yeas7t1766483303t410t46878
+Received: from 3DB253DBDE8942B29385B9DFB0B7E889 (jiawenwu@trustnetic.com [36.24.96.96])
+X-QQ-SSF:0000000000000000000000000000000
+From: =?utf-8?b?Smlhd2VuIFd1?= <jiawenwu@trustnetic.com>
+X-BIZMAIL-ID: 575001686058145555
+To: "'Bartosz Golaszewski'" <brgl@kernel.org>
+Cc: "'Bartosz Golaszewski'" <bartosz.golaszewski@linaro.org>,
+	<andriy.shevchenko@linux.intel.com>,
+	<andy@kernel.org>,
+	<broonie@kernel.org>,
+	<ckeepax@opensource.cirrus.com>,
+	<dakr@kernel.org>,
+	<david.rhodes@cirrus.com>,
+	<djrscally@gmail.com>,
+	<gregkh@linuxfoundation.org>,
+	<heikki.krogerus@linux.intel.com>,
+	<krzk@kernel.org>,
+	<linus.walleij@linaro.org>,
+	<linux-acpi@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-spi@vger.kernel.org>,
+	<mstrozek@opensource.cirrus.com>,
+	<p.zabel@pengutronix.de>,
+	<patches@opensource.cirrus.com>,
+	<rafael@kernel.org>,
+	<rf@opensource.cirrus.com>,
+	<sakari.ailus@linux.intel.com>
+References: <02fd01dc73df$3b641bf0$b22c53d0$@trustnetic.com> <CAMRc=Mf2A++CHYcMdBi0bQ0DOAGLaSatQEOmu=aAEG_YjCqEWg@mail.gmail.com> <030001dc73e8$56e38330$04aa8990$@trustnetic.com> <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
+In-Reply-To: <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
+Subject: RE: [PATCH v7 3/9] software node: allow referencing firmware nodes
+Date: Tue, 23 Dec 2025 17:48:22 +0800
+Message-ID: <030101dc73f1$46a62b40$d3f281c0$@trustnetic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[free.fr];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,free.fr,kernel.org,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,iscas.ac.cn:email,suse.de:dkim,suse.de:mid];
-	URIBL_BLOCKED(0.00)[iscas.ac.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 2F5BF336A0
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: zh-cn
+Thread-Index: AQIzaRfJPMiwz9071uYI3gJ0t6u2qwFWX8iGAiY76pIB9a+LsLRVe7rQ
+X-QQ-SENDSIZE: 520
+Feedback-ID: Yeas:trustnetic.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NG63YEgwc4yzH2s6FZiZ+v+sw7ZGl4YXG+B8TH52Xwp4o1MTGUCz/VeS
+	OmdMT4fRmHwT5sai5aZEKyISsYpXXDKgwnvs8s8LKzEuM7y62eWWCYUvLGeYGUR9Mh20njk
+	nJdaFKGwejxAIITrDCmG9+LCQywVrUvi9Zq+CrcKVcB+H1pRKwcw0bI3SSj/whmh7BMnSdz
+	3VOUDnsOW/UDY/kYpnjtC2FyUtznGR7LE7mBBVWneck3WIja9jxjifRqXdCREj8LYKYryEB
+	eqWFnUSbLfuCe4w/J0wbBtjeN8GiE7jhtXOuQ8KIObY9/v0wHDrV8OnWXKZeoSoWVSz9UVm
+	fir4aVctCGlNKCVJcVw+L25B7RY5lqef68vw4WJEly52DuASlVyGdTcuNgKksv3aqaXF1Js
+	5u9jmZ9HKlGNVGwScexUNvupJo3CFVLn14+BbL0M0PdkiG0v/bfyOFZ2b9OWFNi/YcmCUJL
+	AP3JRw6J87IaTLsWbJNSgxlTjxuoMeDbteCSjL4MYKaxfGgJcY2DRr8EhV2hOcYUtVmKn/D
+	pGzDTbMvO6QwjVx+HwFkpPMjH0Q9i3KeIJtltuYeVISv+3I/JtITynfDDeG0k7NW5sCSXOP
+	VddtQYIsN6waMM20Xw0KDRtF7k/waddLcMtScihoLksYQipgKLEGDV3fa5blqeIJ4shPa7E
+	XHPmwAV9yC2CVeejpdU5jqf7bkDYhihhrsFVZYcNkXbSzH57nL7JJa65kWjwlZHWqWZB3zU
+	cVqwkD1/pZ233ZXJzbeq+NzL8ZrW8GJDolV0iyqKhvsrg+wpcpsTAzttQafnqYFuct/FWmx
+	j25PWsgt7Bol9nK4Lv6Oz71UvAUfRUtvSEwax1X7OIMxdz4IHmAj7U72Bo5ZrVZ7FpXJzvK
+	9Ob1Kmt57a/V7+FGrs0EQSaLTTYh6deXtI51fZoig9jKdXW4i3IMCjuNv7sVyBP2X90ErVa
+	oBoVKBLR4g99VUBzFN9Ewae3qMd92j34Hm4yBuX9ouoBZY4+VzhnrbynAT1B6nMUrhmCqkW
+	M2c3hZaAWlvHgcKtrN
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-On Fri, 19 Dec 2025 17:28:45 +0100,
-Haoxiang Li wrote:
-> 
-> If ac97_add_adapter() fails, put_device() is the correct way to drop
-> the device reference. kfree() is not required.
-> Add kfree() if idr_alloc() fails and in ac97_adapter_release() to do
-> the cleanup.
-> 
-> Found by code review.
-> 
-> Fixes: 74426fbff66e ("ALSA: ac97: add an ac97 bus")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+On Tue, Dec 23, 2025 5:37 PM, Bartosz Golaszewski wrote:
+> On Tue, Dec 23, 2025 at 9:44=E2=80=AFAM Jiawen Wu =
+<jiawenwu@trustnetic.com> wrote:
+> >
+> > On Tue, Dec 23, 2025 4:09 PM, Bartosz Golaszewski wrote:
+> > > On Tue, Dec 23, 2025 at 8:39=E2=80=AFAM Jiawen Wu =
+<jiawenwu@trustnetic.com> wrote:
+> > > >
+> > > > >
+> > > > >  #define SOFTWARE_NODE_REFERENCE(_ref_, ...)                  =
+\
+> > > > >  (const struct software_node_ref_args) {                       =
+       \
+> > > > > -     .node =3D _ref_,                                         =
+ \
+> > > > > +     .swnode =3D _Generic(_ref_,                              =
+ \
+> > > > > +                        const struct software_node *: _ref_, =
+\
+> > > > > +                        default: NULL),                      =
+\
+> > > > > +     .fwnode =3D _Generic(_ref_,                              =
+ \
+> > > > > +                        struct fwnode_handle *: _ref_,       =
+\
+> > > > > +                        default: NULL),                      =
+\
+> > > > >       .nargs =3D COUNT_ARGS(__VA_ARGS__),                      =
+ \
+> > > > >       .args =3D { __VA_ARGS__ },                               =
+ \
+> > > > >  }
+> > > >
+> > > > This change seems incompatible with my driver txgbe, since the =
+software nodes
+> > > > are registered in " struct software_node * " but not " const =
+struct software_node * ".
+> > > >
+> > > > So when I pulled the net-next-6.19-rc1 that merged this patch, =
+to probe my driver.
+> > > > The error logs shows:
+> > > >
+> > > > [    5.243396] txgbe 0000:10:00.0 (unnamed net_device) =
+(uninitialized): unable to attach SFP bus: -EINVAL
+> > > > [    5.243399] txgbe 0000:10:00.0: failed to init phylink
+> > > > [    5.576008] txgbe 0000:10:00.0: probe with driver txgbe =
+failed with error -22
+> > > > [    6.109548] txgbe 0000:10:00.1 (unnamed net_device) =
+(uninitialized): unable to attach SFP bus: -EINVAL
+> > > > [    6.109551] txgbe 0000:10:00.1: failed to init phylink
+> > > > [    6.442044] txgbe 0000:10:00.1: probe with driver txgbe =
+failed with error -22
+> > > >
+> > >
+> > > This shouldn't have changed anything for existing software nodes - =
+the
+> > > pointer in struct software_node_ref_args has always been const. =
+This
+> > > would have failed at build-time if this was an issue. Have you
+> > > bisected it to this very commit? What line is the -EINVAL assigned =
+and
+> > > for what reason?
+> >
+> > The -EINVAL is assigned software_node_get_reference_args():
+> >
+> >         if (ref->swnode)
+> >                 refnode =3D software_node_fwnode(ref->swnode);
+> >         else if (ref->fwnode)
+> >                 refnode =3D ref->fwnode;
+> >         else
+> >                 return -EINVAL;
+> >
+> > I think the reason is that _Generic selection is restrictive, it =
+only accept
+> > exactly const struct software_node for software node references. So =
+the
+> > macro SOFTWARE_NODE_REFERENCE fall back to the default to set =
+.swnode =3D  NULL.
+> >
+> > And I temporarily added this line to fix it:
+> >
+> > diff --git a/include/linux/property.h b/include/linux/property.h
+> > index 272bfbdea7bf..e30ef23a9af3 100644
+> > --- a/include/linux/property.h
+> > +++ b/include/linux/property.h
+> > @@ -371,6 +371,7 @@ struct software_node_ref_args {
+> >  (const struct software_node_ref_args) {                             =
+   \
+> >         .swnode =3D _Generic(_ref_,                               \
+> >                            const struct software_node *: _ref_, \
+> > +                          struct software_node *: _ref_,       \
+> >                            default: NULL),                      \
+> >         .fwnode =3D _Generic(_ref_,                               \
+> >                            struct fwnode_handle *: _ref_,       \
+> >
+>=20
+> Ah I see, we'd assign struct software_node * to const struct
+> software_node * and it used to work but with _Generic() we need the
+> exact type. I agree with this approach, do you want to send a proper
+> patch?
 
-Thanks, applied now.
+It might be more appropriate for you to send the patch, and could also
+check if there are any other missed details, like for fwnode...
+I'm not very proficient in this field. :)
 
 
-Takashi
