@@ -1,53 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9A927979A;
-	Tue, 23 Dec 2025 06:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64132F0C48;
+	Tue, 23 Dec 2025 06:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766472424; cv=none; b=uoN/UNt/o7Z3J0C6EjVh1CH4mlMOXPkztomnYLOpWeuJdWMHGOxBpIzfWLaj5o246Se/i+L9r57hHyMDqzz06TiSd2AZK7/PkcxQoxNcncfYSS57fBjyF79f7krAQU4sg5m0w5+1D3jSW9Ikhq52cJbCiPLS3gzix6+0ZaY3Dyk=
+	t=1766472429; cv=none; b=bNE/f8TYUEXJ1RIJTTbZcBzoiMgiinLNOe+MHxNZyPCdMeW2/pZw7nHUTp0iZ/whU6vXfb47Grmg0Z9Y1NqVCwCQLF4cxtDUVNRUYWDdH8NuU2u2ZRvSe9u0H89f1uCKDBtFqCx541r1z5W31NZ3AhfO6kUbONhD8N7gfBR8Gf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766472424; c=relaxed/simple;
-	bh=cFge2vlhRMUIT0+8omY6uD5N3ir1Dqt5yv4+Go+gKIg=;
+	s=arc-20240116; t=1766472429; c=relaxed/simple;
+	bh=FKGVd541rtXI+7s6OU7PLTV7kRjXh+fAWesttldyVIA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tp0WAQdgvOHsGAoDA9j0eZMU9aceBvaMcdbJVj48x9ACBTW5Myfr/UOVOM04uYDygzgdMaurrOp+b3LJ4IpZepu5EOJNSkZXVZ72XlMN56JIUZ3voxzYIY5fpA0vhyAmHwHIt34sfBQL2/omQx/nT0o+G+6XddMq0vHYe0CKK7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYsmq4S/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=h/WiMdZkm3Qs1gluLsDwZlGjAorBSBOUf+1ah7yGSSNck1aDGOe+uZe7dW32xfbfMaejCr5zoCa7Q8z3lGEQ5ciMbb5h7SimAiXZZ5l4Ar4bIzgn1FdtKtIjwqUJWf7RQVg5tF8CKSs2/rxji6xd5j6BYQiHZPLWhuhIkHWw9jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LvyQdCOz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYsmq4S/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E06C113D0;
-	Tue, 23 Dec 2025 06:46:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LvyQdCOz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE72C113D0;
+	Tue, 23 Dec 2025 06:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766472424;
-	bh=cFge2vlhRMUIT0+8omY6uD5N3ir1Dqt5yv4+Go+gKIg=;
+	s=k20201202; t=1766472429;
+	bh=FKGVd541rtXI+7s6OU7PLTV7kRjXh+fAWesttldyVIA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SYsmq4S/jItHU1UXU6OPNhYrB/JlZgo1Ob6jUMaiqlpbfpA8XznJmc98a/0PYt0rB
-	 i/j52FpXCJBawC8qAG0oRbsevlMiyYh5CwPjgrHW0/mpSh2taySZgkzWzGc87cwxq5
-	 LiByC3dG2insA69vLpt1MrWKoub3quFLLf+9EoAJyImEMaiyT75ewvuMvqIAQBnFAX
-	 wh7Q7UBLPbfelviC/YzH/SNdlU/Pz4qN/VaTR0EXvuVXR/U8ZR9q5GpES/c7GeJD2T
-	 pc+cVwDu/VCMsUJvWvNcN6PXydwQY6sSrrvrJdppIRSjnDUXtVtSTlgtp/04iCjomB
-	 ODucPLO2vw9YA==
+	b=LvyQdCOzG4yBdWNHFBiUk60l840fEpOAMb8y7lvwgMIIb1v6Y/vwSjqvxngZxOQC4
+	 iAIWmW4bkWJ0eyq8WIDjrZiWoBBF06VSvqtGKTn+V9EPK+3/zkJvwYIHtqVrkeDe4W
+	 DvVcGcVTmTuKWl30dAgCvHqoqZ6Cd5uRDn0T3ScUJlESPXg5zUMfehrIBKmwkqBC83
+	 mptOIa58xBqyGX75t+B65winTS5tFVLbB7mwVG2IDpeMx4u3hL62z0OI/CMXp5DTSX
+	 Vz4JErEqmDcMsheti41aaC1LBcn9opztU4XMqM+0Bl35qyJthAy0xHtglV0MvAZ1Ub
+	 P0N9kK9aCmYQQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srini@kernel.org>, Oder Chiou <oder_chiou@realtek.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-arm-msm@vger.kernel.org
-In-Reply-To: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
-References: <20251215174925.1327021-4-u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v1 0/2] soundwire: Use bus methods for .probe(),
- .remove() and .shutdown()
-Message-Id: <176647241852.660744.6794196408685688679.b4-ty@kernel.org>
-Date: Tue, 23 Dec 2025 12:16:58 +0530
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, bard.liao@intel.com
+In-Reply-To: <20251111115413.245828-1-yung-chuan.liao@linux.intel.com>
+References: <20251111115413.245828-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] soundwire: dmi-quirks: add mapping for Avell B.ON (OEM
+ rebranded of NUC15)
+Message-Id: <176647242733.660744.16966082229786295095.b4-ty@kernel.org>
+Date: Tue, 23 Dec 2025 12:17:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,26 +44,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
 
-On Mon, 15 Dec 2025 18:49:24 +0100, Uwe Kleine-König wrote:
-> this patch set converts the soundwire bus to use bus callbacks instead
-> of driver callbacks.
+On Tue, 11 Nov 2025 19:54:12 +0800, Bard Liao wrote:
+> Avell B.ON is an OEM re-branded NUC15 'Bishop County' LAPBC510 and
+> LAPBC710.
 > 
-> Both have the same purpose. Bus methods are a bit more powerful (because
-> .shutdown is also called for unbound drivers). This series is part of
-> the quest to remove the driver callbacks.
 > 
-> [...]
 
 Applied, thanks!
 
-[1/2] soundwire: Make remove function return no value
-      commit: 478f3890709a092a97a0218f61af19ac9b725573
-[2/2] soundwire: Use bus methods for .probe(), .remove() and .shutdown()
-      commit: 866160a51f5586d53e17ceab36029c8805ffea28
+[1/1] soundwire: dmi-quirks: add mapping for Avell B.ON (OEM rebranded of NUC15)
+      commit: 59946373755d71dbd7614ba235e0093159f80b69
 
 Best regards,
 -- 
