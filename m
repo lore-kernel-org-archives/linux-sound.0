@@ -1,152 +1,96 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94392ED87C
-	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 10:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F41315D3E;
+	Tue, 23 Dec 2025 10:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766485781; cv=none; b=DNCgR0X7aL5+9C+F21EosAcT/S8Wvlq1JQ990RsWX63pbS/6c709d9YQr85Z8lRqUh6u9wwCFxYzKt5+O7cqC5yDl30mr+7D8a3AkfIALs35dZ2CrzszBUJvQxS+uLpqwlugmxnx1LvdKIU6QVLdvYeOMAZB2zeAyJt8Id0Txy8=
+	t=1766486520; cv=none; b=Flct4cLCdURbg07kAxhl2uOx1R/RUCvk33P45GHt3Z5RT7gZimLRM4CRefCteCzKqxdmodtPlJ894wTqEqzSaCweP2zgugLsICWiQyCvCfMC9JSq2Z2Z+j9s9Tgx9kJBbRhKU40H8nfYw+fQNuDHApOyateCX7QN+QwubxY6EtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766485781; c=relaxed/simple;
-	bh=jxIFOmlWecQJXp8Qnfwordtrr3O42+XJoY4jDUThUEE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N5dYYUbC+XhrJzfGaLdUfNEOpYfAfDtr7btrMFys73FafZytrFpSuGNJbgc2aNJKyDMy+5jdHyBN7tk90TaLdZDqd3EA2JMM78VvHH9gTlA9lxWxmeblTGUFzCdRKyNu9sqOQn93GeC4T/v+K1a1A0um/EyCVC/kcJFr12vR+Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EdJIg3m6; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1766486520; c=relaxed/simple;
+	bh=UFw3iIBjIOQhDLXO7EWczIafIBrzpn1pV/Yc2YaQ6Rs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=ZE/v6AdLiwEHD3vui/NovcjOJz4g++p0acdAQWWQWgXpPBKMFft9SLUJWb639FtgryZzR2D4r16YDNyN/ekqP5QSo3/UO1Z0MGsrkwZj680t0h9aeyxIxmRN1GO5SsjF8ZdPhbhKr9Am3Bjs/jRtwTrsbXAzhQSwVWvqw8h/e30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bB9Gi0xH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EdJIg3m6"
-Message-ID: <319caf4d-a96d-4c25-b912-e00c76ad8038@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766485776;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uxJiSaZut/yH228snLkgQ75WoU0duQVax7NMZA3TEDU=;
-	b=EdJIg3m6uEyUCa4O2JNal2F1xIl9Zn9qULXJp33croUd/DpEd6BDqnxYOzr8uPZLOV+0Bo
-	rHgSDDfke9TENoVu4nYPYJAL+JlIK07D18FGTZ4n+rfijC9xLCFn0o/0zQGwbg2H0qA0jn
-	PhuHUNNp2iaRqgQ+thl+9Ta99GRE8iY=
-Date: Tue, 23 Dec 2025 11:29:29 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bB9Gi0xH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD325C113D0;
+	Tue, 23 Dec 2025 10:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766486519;
+	bh=UFw3iIBjIOQhDLXO7EWczIafIBrzpn1pV/Yc2YaQ6Rs=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+	b=bB9Gi0xH+Xstu+d5D3qkSvWf/MUNfAXsJcn2rD7o/ZTbUNdYIZZLYXOaSgMbqZFSB
+	 kOP4uO/cbfu+RhxgUbDUsG7rfpkKG60bPoJg8nHF0N6+504HLM2L6ebCF+cMehQl68
+	 QreicZhaSonuMnCL+ZadqXii0AG9//fztuqbcnUQq2PtIPtacx4sXMOSBAXNs6wvKR
+	 z0u9Dnx7xoJ7k8udqSPzt+1XHRCZqWkHN2PcuILSb4WL9vQ8Z/CpkAQx4USmsFN0M/
+	 jCL6oqXmSupgKj7+4MGECsd4hwlwo+EuQb5+chk1IJQhIpaK+LSUCZhRYVMaSHKKHO
+	 w/v8zKYPH5HVg==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v3] soundwire: stream: Prepare ports in parallel to reduce
- stream start latency
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20251125165609.483763-1-rf@opensource.cirrus.com>
- <4d811207-1c01-4302-85b1-9d4079ea1a4b@linux.dev>
- <795fd33c-7a0f-4600-87be-1690cb0c0ea3@opensource.cirrus.com>
- <5c80bead-716a-4528-b614-4b425184a484@linux.dev>
- <d86e401a-205d-42a3-b90d-239d669c6ee1@opensource.cirrus.com>
- <1e2035bc-5168-4ec8-83cb-eeff41bdaed6@linux.dev>
- <a1b2b617-448d-4457-891e-d2cc00858f50@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <a1b2b617-448d-4457-891e-d2cc00858f50@opensource.cirrus.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Date: Tue, 23 Dec 2025 11:41:52 +0100
+Message-Id: <DF5J7H0BSBTK.362ZAJTRBK6U1@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v7 3/9] software node: allow referencing firmware nodes
+Cc: "'Bartosz Golaszewski'" <brgl@kernel.org>, "'Bartosz Golaszewski'"
+ <bartosz.golaszewski@linaro.org>, <andriy.shevchenko@linux.intel.com>,
+ <andy@kernel.org>, <broonie@kernel.org>, <ckeepax@opensource.cirrus.com>,
+ <david.rhodes@cirrus.com>, <djrscally@gmail.com>,
+ <gregkh@linuxfoundation.org>, <heikki.krogerus@linux.intel.com>,
+ <krzk@kernel.org>, <linus.walleij@linaro.org>,
+ <linux-acpi@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <mstrozek@opensource.cirrus.com>,
+ <p.zabel@pengutronix.de>, <patches@opensource.cirrus.com>,
+ <rafael@kernel.org>, <rf@opensource.cirrus.com>,
+ <sakari.ailus@linux.intel.com>
+To: "Jiawen Wu" <jiawenwu@trustnetic.com>
+References: <02fd01dc73df$3b641bf0$b22c53d0$@trustnetic.com>
+ <CAMRc=Mf2A++CHYcMdBi0bQ0DOAGLaSatQEOmu=aAEG_YjCqEWg@mail.gmail.com>
+ <030001dc73e8$56e38330$04aa8990$@trustnetic.com>
+ <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
+ <030101dc73f1$46a62b40$d3f281c0$@trustnetic.com>
+In-Reply-To: <030101dc73f1$46a62b40$d3f281c0$@trustnetic.com>
 
+On Tue Dec 23, 2025 at 10:48 AM CET, Jiawen Wu wrote:
+> On Tue, Dec 23, 2025 5:37 PM, Bartosz Golaszewski wrote:
+>> On Tue, Dec 23, 2025 at 9:44=E2=80=AFAM Jiawen Wu <jiawenwu@trustnetic.c=
+om> wrote:
+>> > And I temporarily added this line to fix it:
+>> >
+>> > diff --git a/include/linux/property.h b/include/linux/property.h
+>> > index 272bfbdea7bf..e30ef23a9af3 100644
+>> > --- a/include/linux/property.h
+>> > +++ b/include/linux/property.h
+>> > @@ -371,6 +371,7 @@ struct software_node_ref_args {
+>> >  (const struct software_node_ref_args) {                              =
+  \
+>> >         .swnode =3D _Generic(_ref_,                               \
+>> >                            const struct software_node *: _ref_, \
+>> > +                          struct software_node *: _ref_,       \
+>> >                            default: NULL),                      \
+>> >         .fwnode =3D _Generic(_ref_,                               \
+>> >                            struct fwnode_handle *: _ref_,       \
+>> >
+>>=20
+>> Ah I see, we'd assign struct software_node * to const struct
+>> software_node * and it used to work but with _Generic() we need the
+>> exact type. I agree with this approach, do you want to send a proper
+>> patch?
+>
+> It might be more appropriate for you to send the patch, and could also
+> check if there are any other missed details, like for fwnode...
+> I'm not very proficient in this field. :)
 
->>>>>>> +    val = sdw_read_no_pm(s_rt->slave, SDW_DPN_PREPARESTATUS(p_rt->num));
->>>>>>> +    if (val < 0) {
->>>>>>> +        ret = val;
->>>>>>> +        goto err;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    if (val & p_rt->ch_mask) {
->>>>>>
->>>>>> Can you explain why we don't use the ch_mask in the already-prepared case? I am missing something.
->>>>>>
->>>>> I'm not sure what you mean here. The if() immediately above your comment
->>>>> uses ch_mask to check the already-prepared state.
->>>>
->>>> I was referring to the 1. above, you read the prepare status without checking for ch_mask first.
->>>>
->>>
->>> What would be the purpose of checking ch_mask before the read?
->>
->> I don't know - why do we need to read it in the second case and not the first is all I am asking.
->>
-> 
-> What the code is doing is:
-> 
-> 1. Read the current prepare status
-> 2. Check if any channels we prepared are still reporting NOT_PREPARED
-> 3. If there are any NOT_PREPARED channels we need to do the wait, else
->    we can skip it
+There is already [1], which I queued up in the driver-core tree to send as =
+fix
+for -rc3.
 
-ok, sorry for being thick. The code is just fine, I misread it with the test split in two.
-
->>>>>>> +        /* Wait for completion on port ready */
->>>>>>> +        port_ready = &s_rt->slave->port_ready[p_rt->num];
->>>>>>> +        wait_for_completion_timeout(port_ready, msecs_to_jiffies(ch_prep_timeout));
->>>>>>
->>>>>> I understand the code is the same as before but would there be any merit in checking the timeout before starting a read? If the device is already in the weeds, doing another read adds even more time before reporting an error.
->>>>>>
->>>>> Do you mean save the system time when the DPN_PREPARE was written to
->>>>> that peripheral and then check here whether the timeout period has
->>>>> already elapsed?
->>>>
->>>> I meant testing the return value of wait_for_completion_timeout(). If you already timed out at this point with a return value of zero, there's no point in checking the status any more, the system is in the weeds.
->>>>
->>>
->>> Wait completion will _always_ timeout because this code is holding the
->>> bus lock, which blocks the ALERT handler from running and signalling
->>> the completion. The wait_for_completion_timeout() is effectively
->>> msleep(msecs_to_jiffies(ch_prep_timeout));
->>> So we have to read the register afterwards to see whether the peripheral
->>> actually prepared.
->>>
->>> I've left the useless wait_for_completion_timeout() in the code so this
->>> commit is only changing what it says it is changing, and nothing else.
->>>
->>> What to do about the deadlocked wait_for_completion_timeout() is a
->>> separate problem.
->>
->> Humm, what happens if you have a single peripheral, does this result in an increase of the prepare time all the way to the timeout value?
->> I can see how preparing all ports in parallel would reduce the total time compared to a serial approach, even with a timeout, but if we end-up always timing out even in the case where there is a single device it'd be quite odd.
-> 
-> Yes, but that's a separate problem that needs fixing. The current code
-> in the kernel does the timeout for every amp. So if you have 4 amps with
-> a timeout of 10ms it takes >40ms to do the port prepare.
-
-so is this fair to say that by not testing the return value of wait_for_completion_timeout(), we never detected the 'always-timeout' behavior since the initial contribution circa 2018, even with a single device per link? 
-
-Wow, that'd be a big 7-year old conceptual miss...
- 
->> In other words does this patch reduce the start latency only in the case of multiple devices, but adds a 'tax' for all other cases?
-> 
-> This only affects peripherals that use the full CP_SM (not simplified).
-> 
-> If you have only 1 peripheral there is either no change or a possibility
-> of skipping the wait. Before this change it would always wait the full
-> timeout before noticing that it is ready.
-> 
-> After this change, you might be able to skip the wait. If it prepared
-> immediately, so that it is already reporting prepared when the first
-> read tests for that, it will skip the wait.
-> (BTW I see that happening with CS35L56. It prepares so fast that it
-> is already done, without waiting for any of the timeouts.)
-> 
-> If it isn't ready that early, you get the timeout as before.
-> 
-> It isn't adding any penalty to single devices, unless you count the
-> trivial time it takes to do the register read, which is negligible
-> compared to getting deadlocked in the wait_for_completion_timeout().
-
-ok, now I get the point that the use of sdw_acquire_bus_lock() in sdw_prepare_stream() prevents the use of device-initiated interrupts.
-
-One possible change is a departure from the use of the PORT_READY alert. This was meant to be a worst-case scenario for cases where the prepare time is in hundreds of ms - IIRC we thought devices would need to adjust their internal clock to that of the bus, which might change during a prepare operation. But as you mentioned it in practice devices are prepared much faster. So we could have a typical loop with multiple read/sleep instead. See for example cdns_clear_bit() as an example of what I have in mind, classic kernel code really.
-
-That might speed-up the prepare time even for the single device case - and then that may be enough to avoid the deferred check on PORT_READY and make the code simpler for multiple devices as well.
-
-At any rate you're onto something, thanks for submitting this and bearing with my questions.
+[1] https://lore.kernel.org/lkml/20251219083638.2454138-1-sakari.ailus@linu=
+x.intel.com/
