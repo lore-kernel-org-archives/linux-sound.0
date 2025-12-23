@@ -1,144 +1,139 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBFE30EF6F;
-	Tue, 23 Dec 2025 13:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1690318151;
+	Tue, 23 Dec 2025 16:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766495958; cv=none; b=D4wrIfQy2d1ZuyFrY7q8qKfROGZlLiEZ/xS3FhtjsoaV8semin89m1To0fx0gr6Jlnkr4GawQr3kReF0DIRtdO4dvrWNEkIzRfqjTRBeZIoohZSw1CS+xmwOyQD0dBm6hb9+mNV2vx/EoQ1zHdgoQ93SHJI6h6/dU8qJP0LbwhE=
+	t=1766507079; cv=none; b=S9EaB2CULqY0KQnrsPsFk76Gl8XkxnGBuJYGX/7CinykRYIt7yZhV2FG3fwXLw3Vps0OwZ5FWzjRvUG/Mzbc8YFXVvqY4AkKrWdmrQL9VBKeosFKNu6PKxYQaErC/PfOOwjkJmf1luA1fKCxPpGHG7pJRRH5Vew1s5NVpSJH6+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766495958; c=relaxed/simple;
-	bh=Na7wFT9EjN71eDrumUXgPSC0I4dorFjBIQtthbkw5EY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZmDV4zz5kEjlXR1geo8tKVy5cxiMGiZvQ7YN4WIG0ORCYjWky6auGXao5yRJV8KoXDOFpZDalm/tnm46UebGBH+rO3xvAoSdUU7YFjcR5vl7IXN2XwrWKQCpivAx8zVflyXNeii+de7z8iExoI3uR58ACBvBeHmlaim//KNqiDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gzjA2xAr; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1766507079; c=relaxed/simple;
+	bh=3qVOvSQIWwScePELLmWnd91+x+FO0ghrlMNcQT2LZbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxrAiWi14x+jbvNinMhC5DAN1MxVH3yBT0xzr6v3VSI+CrMked+1o4XAPgu/nYSzsQzu03T2l6zFXnYUSZwxG0WBy6Fv1b2krScnGCH9MhDyxbY90/eqd7LuCKDPXCT6uCGI10tiGFxqptNuoNw1KRycLl9jQYk6TT6VIyzjlpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxocYG+q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gzjA2xAr"
-Message-ID: <c81f581a-ee9f-4692-8ed8-736b5c5053af@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766495954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8W8h9uESaI+H4KXOl0BngZ9NI5rpMeeC0gQh3RG4jR4=;
-	b=gzjA2xArZxH3538YxGlm+T3KzDBfSjXEiRzc1SCEj+KGGDfua17mcosJnlrBa0uuozj43K
-	Uk7Qp3PwXp/DVpH38p8JR8AaWQdrEJOpVEVXToDiwpOYcW+LzPdBc2AbpGJh0DnISSKHYF
-	sPcMAnJb/iauScvttANQ1O0BRw295wk=
-Date: Tue, 23 Dec 2025 14:19:11 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxocYG+q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0240C113D0;
+	Tue, 23 Dec 2025 16:24:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766507078;
+	bh=3qVOvSQIWwScePELLmWnd91+x+FO0ghrlMNcQT2LZbk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YxocYG+qrFsexKvWp8UnmdmobfpsDyH7P1+YJTEa2MYESPoFxhafpM8gsfi6cIU1R
+	 n9Gfg1fwPKTG1mVszIKw6gD/hi1FUHPlichzp8hHC1c+ODcPI9IBtiK3ysngVX/8kW
+	 6qtUsjPhga/f+L4DCnVAi/486vh+xUTx4zZGQNwJ3DsWuw1m/H07s9A63d0isPWvAn
+	 xfv73Q5cyzS9PAQGwA0vuOAt9j1S+Rh8W8c92InWjFECnByviZpnF8o0xVzvH73G+F
+	 Ou0DXgasgqiym6+NqEvExYrZ1OZI3ZKfz52X4AGZYCiiAOFPgWM25YiaBJBeAweuxD
+	 6BLkrF9xDKKgg==
+Date: Tue, 23 Dec 2025 21:54:34 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Guenter Roeck <linux@roeck-us.net>, Peter Rosin <peda@axentia.se>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Mariel Tinaco <Mariel.Tinaco@analog.com>,
+	Kevin Tsai <ktsai@capellamicro.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Iskren Chernev <me@iskren.info>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Matheus Castello <matheus@castello.eng.br>,
+	Saravanan Sekar <sravanhome@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Amit Kucheria <amitk@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v2 2/2] iio: inkern: Use namespaced exports
+Message-ID: <aUrCQu-wmQ7gOyD3@vaman>
+References: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
+ <20251209-iio-inkern-use-namespaced-exports-v2-2-9799a33c4b7f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] soundwire: stream: Prepare ports in parallel to reduce
- stream start latency
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20251125165609.483763-1-rf@opensource.cirrus.com>
- <4d811207-1c01-4302-85b1-9d4079ea1a4b@linux.dev>
- <795fd33c-7a0f-4600-87be-1690cb0c0ea3@opensource.cirrus.com>
- <5c80bead-716a-4528-b614-4b425184a484@linux.dev>
- <d86e401a-205d-42a3-b90d-239d669c6ee1@opensource.cirrus.com>
- <1e2035bc-5168-4ec8-83cb-eeff41bdaed6@linux.dev>
- <a1b2b617-448d-4457-891e-d2cc00858f50@opensource.cirrus.com>
- <319caf4d-a96d-4c25-b912-e00c76ad8038@linux.dev>
- <028ae5fc-5ce1-4fbb-a09c-88700f2d77b1@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <028ae5fc-5ce1-4fbb-a09c-88700f2d77b1@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209-iio-inkern-use-namespaced-exports-v2-2-9799a33c4b7f@bootlin.com>
 
-On 12/23/25 11:47, Richard Fitzgerald wrote:
-> On 23/12/25 10:29, Pierre-Louis Bossart wrote:
-> <SNIP>
+On 09-12-25, 09:25, Romain Gantois wrote:
+> Use namespaced exports for IIO consumer API functions.
 > 
->>>> I can see how preparing all ports in parallel would reduce the total time compared to a serial approach, even with a timeout, but if we end-up always timing out even in the case where there is a single device it'd be quite odd.
->>>
->>> Yes, but that's a separate problem that needs fixing. The current code
->>> in the kernel does the timeout for every amp. So if you have 4 amps with
->>> a timeout of 10ms it takes >40ms to do the port prepare.
->>
->> so is this fair to say that by not testing the return value of wait_for_completion_timeout(), we never detected the 'always-timeout' behavior since the initial contribution circa 2018, even with a single device per link?
->>
->> Wow, that'd be a big 7-year old conceptual miss...
+> This will make it easier to manage the IIO export surface. Consumer drivers
+> will only be provided access to a specific set of functions, thereby
+> restricting usage of internal IIO functions by other parts of the kernel.
 > 
-> It's just  a design flaw in the code. It wasn't found because it was
-> tested against Realtek codecs, which use the simplified CP_SM so the
-> code can skip the Prepare stage.
-
-ok, thanks for the precision.
-
-> The original code checked for timeout and then always failed, because it
-> always timed out. So none of the Cirrus amps and codecs worked. I sent
-> the "temporary" workaround of reading the status register after the
-> wait_for_completion() and ignoring the timeout if the device is now
-> reporting prepared, until I could fix it properly. I've only just got
-> around to looking at this again.
-
-ok, so this is a follow-up to commit 3d3e88e from 2021, where the timeout check was removed?
-This should probably be mentioned in the commit description, with a clear explanation that the timeout happens in all cases.
-
-I personally misunderstood that earlier commit, which states 
-
-'The previous implementation would always fail if the
-wait_for_completion() timed out, even if the port was reporting
-successful prepare.
-'
-
- 
->>>> In other words does this patch reduce the start latency only in the case of multiple devices, but adds a 'tax' for all other cases?
->>>
->>> This only affects peripherals that use the full CP_SM (not simplified).
->>>
->>> If you have only 1 peripheral there is either no change or a possibility
->>> of skipping the wait. Before this change it would always wait the full
->>> timeout before noticing that it is ready.
->>>
->>> After this change, you might be able to skip the wait. If it prepared
->>> immediately, so that it is already reporting prepared when the first
->>> read tests for that, it will skip the wait.
->>> (BTW I see that happening with CS35L56. It prepares so fast that it
->>> is already done, without waiting for any of the timeouts.)
->>>
->>> If it isn't ready that early, you get the timeout as before.
->>>
->>> It isn't adding any penalty to single devices, unless you count the
->>> trivial time it takes to do the register read, which is negligible
->>> compared to getting deadlocked in the wait_for_completion_timeout().
->>
->> ok, now I get the point that the use of sdw_acquire_bus_lock() in sdw_prepare_stream() prevents the use of device-initiated interrupts.
->>
->> One possible change is a departure from the use of the PORT_READY alert. This was meant to be a worst-case scenario for cases where the prepare time is in hundreds of ms - IIRC we thought devices would need to adjust their internal clock to that of the bus, which might change during a prepare operation. But as you mentioned it in practice devices are prepared much faster. So we could have a typical loop with multiple read/sleep instead. See for example cdns_clear_bit() as an example of what I have in mind, classic kernel code really.
->>
->> That might speed-up the prepare time even for the single device case - and then that may be enough to avoid the deferred check on PORT_READY and make the code simpler for multiple devices as well.
->>
+> This change cannot be split into several parts without breaking
+> bisectability, thus all of the affected drivers are modified at once.
 > 
-> I've got an experimental patch to replace the
-> wait_for_completion_timeout() with a polling loop. It's a brute-force
-> approach but reduces the overhead without the scary rewrite of the bus
-> locking.
+> Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> # for power-supply
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+> ---
+>  drivers/extcon/extcon-adc-jack.c                |  1 +
+>  drivers/hwmon/iio_hwmon.c                       |  1 +
+>  drivers/hwmon/ntc_thermistor.c                  |  1 +
+>  drivers/iio/adc/envelope-detector.c             |  1 +
+>  drivers/iio/afe/iio-rescale.c                   |  1 +
+>  drivers/iio/buffer/industrialio-buffer-cb.c     |  1 +
+>  drivers/iio/buffer/industrialio-hw-consumer.c   |  1 +
+>  drivers/iio/dac/ad8460.c                        |  1 +
+>  drivers/iio/dac/dpot-dac.c                      |  1 +
+>  drivers/iio/inkern.c                            | 54 ++++++++++++-------------
+>  drivers/iio/light/cm3605.c                      |  1 +
+>  drivers/iio/light/gp2ap002.c                    |  1 +
+>  drivers/iio/multiplexer/iio-mux.c               |  1 +
+>  drivers/iio/potentiostat/lmp91000.c             |  1 +
+>  drivers/input/joystick/adc-joystick.c           |  1 +
+>  drivers/input/keyboard/adc-keys.c               |  1 +
+>  drivers/input/touchscreen/colibri-vf50-ts.c     |  1 +
+>  drivers/input/touchscreen/resistive-adc-touch.c |  1 +
+>  drivers/phy/motorola/phy-cpcap-usb.c            |  1 +
 
-sounds good, it's not that bad in terms of brute-forcing and certainly less bad than a broken design where an expected interrupt cannot be serviced by construction.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
->> At any rate you're onto something, thanks for submitting this and bearing with my questions.
-> 
-> I need to send a new version of this patch anyway because it will
-> need rebasing onto https://lore.kernel.org/linux-sound/20251219173830.407-1-niranjan.hy@ti.com/T/#u
-> That one is fixing a problem so makes sense to take it first.
-> 
-> I'll improve the commenting in V2 to explain better what the code
-> is doing.
 
-I'd recommend the 'brute-force' approach, this wait_for_completion_timeout() makes no sense - and it'd remove the need for the extra read before the nonsensical wait.
-
-Probably something for 2026 now ;-)
-
+-- 
+~Vinod
