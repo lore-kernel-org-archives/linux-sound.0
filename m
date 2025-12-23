@@ -1,79 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxe.seznam.cz (mxe.seznam.cz [77.75.76.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E5C3314CB;
-	Tue, 23 Dec 2025 11:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBD52FF67A;
+	Tue, 23 Dec 2025 13:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.76.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766489326; cv=none; b=c4C5jowXq2J6lYtZSrv7GyEIyxejxNquWdi7jEVJCFf00ovX6pKUbvpNbdNXp3AcxGOLTJ2VNWvOiOZcQRbT1iSoo4Z+BLA215QQdbehGaJ/2aqx8/9SaKh/zOSRn0W8mu24dy8KN1Kr6stf5nEMYfy5Gpblk72afhiyfms+OTM=
+	t=1766495546; cv=none; b=DQbjC/z2fetH0F/gNJ12W5HUPwYYIu3eaNdqxzJFglRgB/kbs+abuvJTXYQVKvPagGGms6jrRODkXdCrRSeIx+MXNuWYz78kIAr+7q7ocfhWBt45JX/wfaHCszEcZknF4hKlJE/MLXqVIy68N798ypn/lOYXmPT4u4TV5i8+NME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766489326; c=relaxed/simple;
-	bh=eOIiJTg87KZoXyZI/ZS/lA9apqI7cx2ccwsU6fjgU3w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=A+iHyeHLHnPTn0XyKV9Qn0a9TOlFV3Dm1a0YHE/QAdkd+CMEanPZFIgGVYaMGKeCL+0nfz8VqSoxm7R2uqZREfIpYyuNupncwbrHn1Q05Agm8xA4LzFNSdsYbyHhBqrZEJzmE2HXzNAAGv8a/E+YetjU/8TIThX6xgycNZBDhuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXcrXQUK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766495546; c=relaxed/simple;
+	bh=t6e4iy61d4b4qYIrN4T7aJTIJl4eq59BGlKNhp024WQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:Mime-Version:Content-Type; b=lrqPr0/Xz8oVRt8FMWsHx6GuhRLi6HmyY/oq5IvNz06JX6qcZlmsDipjwINdiHG5bOiM8KWO+ihMNrLDINElKyi0LJ++7ABrNY75dVDEJSZALPVaAIcCuBA7nWWBp9vq8Kf3rLjVwYODMaxsfQ6f/ydh16UEAwL51silVChbxPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz; spf=pass smtp.mailfrom=post.cz; dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b=b0Q5dXjf; arc=none smtp.client-ip=77.75.76.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=post.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BXcrXQUK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ABBAC116D0;
-	Tue, 23 Dec 2025 11:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766489325;
-	bh=eOIiJTg87KZoXyZI/ZS/lA9apqI7cx2ccwsU6fjgU3w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BXcrXQUKMKbWls6QLJXwo/Wt8OeHk0k8ksI2AvD21eKBO3haiE04qbJSt2PByaa3F
-	 pKXqD/+T340++ZrRFo2Qy8nRIeoQB9OXKzGeoXT5Cw2ZCQZpJvnR79s098srsjH0rY
-	 rLEowP+kqQt1sjKll1naO8PXjKzUZvNJh+bkp6h8QfeyNa74FT0oRODxbbKzeaujF3
-	 9tNnnELLuNFz6GhZ64qsdnWdX7q+oMf/kF286WVhAe0wtEk3HJbpuDThPJhvyJbAHs
-	 rx9dEVj7xGaP4EwTNftnZaoXh8DylkOOC19c/EFiusciCq/X+6QEs8/1LSMADwS2SJ
-	 FTHmSpxn2XJEg==
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Marc Zyngier <maz@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, "Sheetal ." <sheetal@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>, 
- Sameer Pujar <spujar@nvidia.com>, dmaengine@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250929105930.1767294-1-sheetal@nvidia.com>
-References: <20250929105930.1767294-1-sheetal@nvidia.com>
-Subject: Re: (subset) [PATCH V2 0/4] Add tegra264 audio device tree support
-Message-Id: <176648932106.697163.11384203027531307860.b4-ty@kernel.org>
-Date: Tue, 23 Dec 2025 16:58:41 +0530
+	dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b="b0Q5dXjf"
+Received: from email.seznam.cz
+	by smtpc-mxe-5d8b775f4-75s6n
+	(smtpc-mxe-5d8b775f4-75s6n [2a02:598:128:8a00::1000:a8b])
+	id 79916aabbec3d2507f04fd2a;
+	Tue, 23 Dec 2025 14:12:18 +0100 (CET)
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz;
+	s=szn20221014; t=1766495538;
+	bh=OiMK41e3cnyQAjbpH3Z4GAZM92VrVcpwEK0PjbgCt90=;
+	h=From:To:Cc:Subject:Date:Message-Id:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=b0Q5dXjfsRHRdWF3SFzRetGHYfhjktKGItxmoUmaEGdE1PRHiGsUFPRXsX2hq0Swx
+	 oJp150WBS7DlnxdVAn0tiSPtfJlOSOdyic6KRmrqibzV0loXXIfFPBjVgoqQK/dLtf
+	 2PBsVIMLfHPIY+du5cspQIbVowPwOilBy9VVLjaZSBWLqlUE+LHKrdTjw00cgfoY6z
+	 lHD0UG42Mm5u1a40IUhzgmunhhIhuYJZkp0c49fcN2ymMDKMHYG8qGnm6YYOj0SP3q
+	 6mdx1tJCXIcEeBRjgkBJmDJZlTkCGF9PFyhLlHU1iwpzob3eoZJVdJUzfA6FugOhdF
+	 giaHHVx3VwYeQ==
+Received: from unknown ([89.176.227.181])
+	by email.seznam.cz (szn-UNKNOWN-unknown) with HTTP;
+	Tue, 23 Dec 2025 14:05:55 +0100 (CET)
+From: <matouslansky@post.cz>
+To: <perex@perex.cz>,
+	<tiwai@suse.com>
+Cc: <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Acer Nitro AN517-55
+Date: Tue, 23 Dec 2025 14:05:55 +0100 (CET)
+Message-Id: <ew.6bOzj.272VHi0zCEN.1fIfEp@seznam.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Mime-Version: 1.0 (szn-mime-2.1.91)
+X-Mailer: szn-UNKNOWN-unknown
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Add headset mic quirk for Acer Nitro AN517-55. This laptop uses
+the same audio configuration as the AN515-58 model.
 
-On Mon, 29 Sep 2025 16:29:26 +0530, Sheetal . wrote:
-> Add device tree support for tegra264 audio subsystem including:
-> - Binding update for
->   - 64-channel ADMA controller
->   - 32 RX/TX ADMAIF channels
->   - tegra264-agic binding for arm,gic
-> - Add device tree nodes for
->   - APE subsystem (ACONNECT, AGIC, ADMA, AHUB and children (ADMAIF, I2S,
->     DMIC, DSPK, MVC, SFC, ASRC, AMX, ADX, OPE and Mixer) nodes
->   - HDA controller
->   - sound
-> 
-> [...]
+Signed-off-by: Matou=C5=A1 L=C3=A1nsk=C3=BD <matouslansky@post.cz>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Applied, thanks!
-
-[1/4] dt-bindings: dma: Update ADMA bindings for tegra264
-      commit: 0b4f3aeee766fd3cc3bf254a26b9761d9b53818b
-
-Best regards,
--- 
-~Vinod
-
-
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/=
+alc269.c
+index 171a71457ec3..90b9a20b7d97 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6304,6 +6304,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =3D=
+ {
+        SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_=
+ACER_HEADPHONE_AND_MIC),
+        SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIX=
+UP_ACER_MIC_NO_PRESENCE),
+        SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXU=
+P_HEADSET_MIC),
++       SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro AN517-55", ALC2XX_FIXUP_=
+HEADSET_MIC),
+        SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACE=
+R_SFG16_MICMUTE_LED),
+        SND_PCI_QUIRK(0x1025, 0x1826, "Acer Helios ZPC", ALC287_FIXUP_PRED=
+ATOR_SPK_CS35L41_I2C_2),
+        SND_PCI_QUIRK(0x1025, 0x182c, "Acer Helios ZPD", ALC287_FIXUP_PRED=
+ATOR_SPK_CS35L41_I2C_2),
