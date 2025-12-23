@@ -1,153 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADDB328B41
-	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 09:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA110290D81
+	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 09:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766482624; cv=none; b=uBMA01OvulQxpn5vMOIN5UAEhM4B+Rv4uacIL0dKw59dJzHzZRkn1OQwD5IItWeGEUB4KEZqMYqFvaYkof6DUNdzSMbplHsetwgRj0zdKmuzi9g+vY/m/x/rITGIgSbTUOPunKUGiLjMeuBRzP89etZq2UU2jWgPZvGCk5zR/Hc=
+	t=1766482712; cv=none; b=e9JViUmAPurxoC8GY0MRPYLNhy1xqKsWwlxFtFXMaqsxpVY66ctRYymTfETYZI9cKJivEqZ3P9HxXtVHhv5fkg2orZ0WTGbk327ceDfYOzA2l575l0DyApzBISBHH1wvoOf1RoNBW/IirNKfZNEjkPi5BIGm9uDnHHM5MmeBajo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766482624; c=relaxed/simple;
-	bh=T7KdQjnc1uAnk0At9YIJM3OVO0ziJByUW/8OGO/MlBg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=abau2kSHcTs0xFqs59D2vab3BtB5Hl/9ImKHAfCJ62q4vrdZ96ZJZKl4WOTjmIoIuzp+h26ETLes25f42XbW7VqhHkcRUzhSJPncpQtqvznOluaPaiOqMS/HW8eSXPlcxbhh1t/DKh3LFjNrwyJB2PIqoUZc6p27FfCltLEXcoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0mtlyEY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766482712; c=relaxed/simple;
+	bh=Fn1KSa1w103viVMIgSChiB2v+IIDyuhX1kY560OmwiI=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=IqXjiVQPTYllVjWHK/iuyrG9cBuOo7gJGQ1pE2idN8V3+nqoMWa8ke67oFr2HFk/J9ZMCzI23o8+eD5UiaYFhAmt3Lg2EOYIwiMkeqsp2IkgsAzfIgEmeHbUlASCxbMkC1e6AwaepzzPK5+gL3ElAtrfS6kSrX92qVbH1EEyvSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L5T+LbAx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mNJUrhcO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L5T+LbAx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mNJUrhcO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0mtlyEY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893A3C2BC9E
-	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 09:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766482623;
-	bh=T7KdQjnc1uAnk0At9YIJM3OVO0ziJByUW/8OGO/MlBg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Q0mtlyEYiBuWBeUMXAJByFmBy8npgy2+oi12ugdiP0o5JCAhEA3zeSKW+micYtDa6
-	 7TwBW3mwlYmcUQIPmOqZ0EpXQteHWQrEXoh2CpQd/fO3C6MBcWwyOwFGXIXXP4r0ph
-	 1/yZ7X9oC7OfPezZ8UozxmIyqHWPJRRv8911BfqqI//WDMliRy17DzesDncZ1uGcdc
-	 jyEuCQzy2v71YIZsjeJjaav+ksZPZh+hbsc7rvZo2YLdYZfOEw10DsMhEWsG+LsCpw
-	 ieJQUpSQNg+QvAS5N2u7TWsXqEckSNDq/UMLmns7irEfYYhhQC1VhvlUC9S0ngamKd
-	 OZP+JopGHaDCg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-596ba07504dso4360888e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 01:37:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVUZQ7HDN3WEvW65hMnqx+5gIK45/Q7xzTODocanNffxobwI8vx6CLle6IVl8swnDSNOKRy5Gi8OWOHmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAa+ZvS9LadfrBYph0XkjxM3KXYzKbmmvF4bspo6o9hqjVSRdD
-	Pc9VUhN96Yk/XpVwgfXK1W6VpTRHP5iu03IAK+aGT2OinAGeI5nWfULIentzYzxuy614ELrsdes
-	CjQTHhwHMGD1gPsdmV16/aN/4bRwWMr7zMEpU2mD8jw==
-X-Google-Smtp-Source: AGHT+IFQmsuAwcJwXOY4Cft1R1mIu4P0sIxwn5FcrYQ9SfkpyCGe9lU8pbvbXq6nf2AIumojH6nvcmsXC8PZXvc1epU=
-X-Received: by 2002:a05:6512:150c:20b0:59a:19dd:5225 with SMTP id
- 2adb3069b0e04-59a19dd523fmr3452366e87.16.1766482621926; Tue, 23 Dec 2025
- 01:37:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L5T+LbAx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mNJUrhcO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L5T+LbAx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mNJUrhcO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DC5FF5BCF3;
+	Tue, 23 Dec 2025 09:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1766482708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SFUwb2s/VqfarFZiUDBoKBt6FtSMccAfg1zI7RLwAtk=;
+	b=L5T+LbAxZShuXrSUkhVGDz6eCkN2H7qWzb+ZucJrZf8I3ai8c+sYnnynX75Wk3cpsvp6Oa
+	hWmUmDnyIq2Y4c4FDNLRXJ7N8r9UwDlq05oaV+WqIQsLYI9e4uBEDvtmw1TW6z6pMpzZWa
+	pK/jwAomtt0LV4iEfULD9nMqYn8ARmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1766482708;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SFUwb2s/VqfarFZiUDBoKBt6FtSMccAfg1zI7RLwAtk=;
+	b=mNJUrhcOQJ77qyjxl2Krx12G7MYrCItlUEo0V98GhvICBPJmpMWgOx/rz8gv009+CA6Q0Y
+	dPlKoB/NHnUmdhDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1766482708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SFUwb2s/VqfarFZiUDBoKBt6FtSMccAfg1zI7RLwAtk=;
+	b=L5T+LbAxZShuXrSUkhVGDz6eCkN2H7qWzb+ZucJrZf8I3ai8c+sYnnynX75Wk3cpsvp6Oa
+	hWmUmDnyIq2Y4c4FDNLRXJ7N8r9UwDlq05oaV+WqIQsLYI9e4uBEDvtmw1TW6z6pMpzZWa
+	pK/jwAomtt0LV4iEfULD9nMqYn8ARmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1766482708;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SFUwb2s/VqfarFZiUDBoKBt6FtSMccAfg1zI7RLwAtk=;
+	b=mNJUrhcOQJ77qyjxl2Krx12G7MYrCItlUEo0V98GhvICBPJmpMWgOx/rz8gv009+CA6Q0Y
+	dPlKoB/NHnUmdhDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F8A73EA63;
+	Tue, 23 Dec 2025 09:38:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PqHAFxRjSmmCOgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 23 Dec 2025 09:38:28 +0000
+Date: Tue, 23 Dec 2025 10:38:11 +0100
+Message-ID: <87v7hxilmk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.19-rc3
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <02fd01dc73df$3b641bf0$b22c53d0$@trustnetic.com>
- <CAMRc=Mf2A++CHYcMdBi0bQ0DOAGLaSatQEOmu=aAEG_YjCqEWg@mail.gmail.com> <030001dc73e8$56e38330$04aa8990$@trustnetic.com>
-In-Reply-To: <030001dc73e8$56e38330$04aa8990$@trustnetic.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 23 Dec 2025 10:36:49 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
-X-Gm-Features: AQt7F2qmNlXBQvP6GbuHDACTxUbNxwHE2nXemqt_etQvVh1rf8nZyb3TWDSPYLc
-Message-ID: <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
-Subject: Re: [PATCH v7 3/9] software node: allow referencing firmware nodes
-To: Jiawen Wu <jiawenwu@trustnetic.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, andriy.shevchenko@linux.intel.com, 
-	andy@kernel.org, broonie@kernel.org, ckeepax@opensource.cirrus.com, 
-	dakr@kernel.org, david.rhodes@cirrus.com, djrscally@gmail.com, 
-	gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, krzk@kernel.org, 
-	linus.walleij@linaro.org, linux-acpi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	mstrozek@opensource.cirrus.com, p.zabel@pengutronix.de, 
-	patches@opensource.cirrus.com, rafael@kernel.org, rf@opensource.cirrus.com, 
-	sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.983];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Tue, Dec 23, 2025 at 9:44=E2=80=AFAM Jiawen Wu <jiawenwu@trustnetic.com>=
- wrote:
->
-> On Tue, Dec 23, 2025 4:09 PM, Bartosz Golaszewski wrote:
-> > On Tue, Dec 23, 2025 at 8:39=E2=80=AFAM Jiawen Wu <jiawenwu@trustnetic.=
-com> wrote:
-> > >
-> > > >
-> > > >  #define SOFTWARE_NODE_REFERENCE(_ref_, ...)                  \
-> > > >  (const struct software_node_ref_args) {                           =
-   \
-> > > > -     .node =3D _ref_,                                          \
-> > > > +     .swnode =3D _Generic(_ref_,                               \
-> > > > +                        const struct software_node *: _ref_, \
-> > > > +                        default: NULL),                      \
-> > > > +     .fwnode =3D _Generic(_ref_,                               \
-> > > > +                        struct fwnode_handle *: _ref_,       \
-> > > > +                        default: NULL),                      \
-> > > >       .nargs =3D COUNT_ARGS(__VA_ARGS__),                       \
-> > > >       .args =3D { __VA_ARGS__ },                                \
-> > > >  }
-> > >
-> > > This change seems incompatible with my driver txgbe, since the softwa=
-re nodes
-> > > are registered in " struct software_node * " but not " const struct s=
-oftware_node * ".
-> > >
-> > > So when I pulled the net-next-6.19-rc1 that merged this patch, to pro=
-be my driver.
-> > > The error logs shows:
-> > >
-> > > [    5.243396] txgbe 0000:10:00.0 (unnamed net_device) (uninitialized=
-): unable to attach SFP bus: -EINVAL
-> > > [    5.243399] txgbe 0000:10:00.0: failed to init phylink
-> > > [    5.576008] txgbe 0000:10:00.0: probe with driver txgbe failed wit=
-h error -22
-> > > [    6.109548] txgbe 0000:10:00.1 (unnamed net_device) (uninitialized=
-): unable to attach SFP bus: -EINVAL
-> > > [    6.109551] txgbe 0000:10:00.1: failed to init phylink
-> > > [    6.442044] txgbe 0000:10:00.1: probe with driver txgbe failed wit=
-h error -22
-> > >
-> >
-> > This shouldn't have changed anything for existing software nodes - the
-> > pointer in struct software_node_ref_args has always been const. This
-> > would have failed at build-time if this was an issue. Have you
-> > bisected it to this very commit? What line is the -EINVAL assigned and
-> > for what reason?
->
-> The -EINVAL is assigned software_node_get_reference_args():
->
->         if (ref->swnode)
->                 refnode =3D software_node_fwnode(ref->swnode);
->         else if (ref->fwnode)
->                 refnode =3D ref->fwnode;
->         else
->                 return -EINVAL;
->
-> I think the reason is that _Generic selection is restrictive, it only acc=
-ept
-> exactly const struct software_node for software node references. So the
-> macro SOFTWARE_NODE_REFERENCE fall back to the default to set .swnode =3D=
-  NULL.
->
-> And I temporarily added this line to fix it:
->
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 272bfbdea7bf..e30ef23a9af3 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -371,6 +371,7 @@ struct software_node_ref_args {
->  (const struct software_node_ref_args) {                                \
->         .swnode =3D _Generic(_ref_,                               \
->                            const struct software_node *: _ref_, \
-> +                          struct software_node *: _ref_,       \
->                            default: NULL),                      \
->         .fwnode =3D _Generic(_ref_,                               \
->                            struct fwnode_handle *: _ref_,       \
->
+Linus,
 
-Ah I see, we'd assign struct software_node * to const struct
-software_node * and it used to work but with _Generic() we need the
-exact type. I agree with this approach, do you want to send a proper
-patch?
+please pull sound fixes for v6.19-rc3 from:
 
-Bart
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc3
+
+The topmost commit is 17753d1755a589659433ff4ead595f2bb7f695a8
+
+----------------------------------------------------------------
+
+sound fixes for 6.13-rc3
+
+Likely the last PR in 2025, again a collection of lots of small fixes.
+Most of them are various device-specific small fixes.
+
+* An ASoC core fix for correcting the clamping behavior of *_SX mixer
+  elements
+* Various fixes for ASoC fsl, SOF, etc
+* Usual HD- and USB-audio quirks / fix-ups
+* A couple of error-handling fixes for legacy PCMCIA drivers
+
+----------------------------------------------------------------
+
+Alexander Stein (4):
+      ASoC: fsl_easrc: fix duplicate debugfs directory error
+      ASoC: fsl_asrc_dma: fix duplicate debugfs directory error
+      ASoC: fsl_sai: Add missing registers to cache default
+      ASoC: fsl_xcvr: provide regmap names
+
+Andrew Elantsev (1):
+      ASoC: amd: yc: Add quirk for Honor MagicBook X16 2025
+
+Antheas Kapenekakis (1):
+      ALSA: hda/realtek: Add Asus quirk for TAS amplifiers
+
+Bard Liao (2):
+      ASoC: sdw_utils: subtract the endpoint that is not present
+      ASoC: SOF: ipc4-topology: set playback channel mask
+
+Chancel Liu (2):
+      ASoC: fsl_sai: Constrain sample rates from audio PLLs only in master mode
+      ASoC: fsl-asoc-card: Use of_property_present() for non-boolean properties
+
+Chris Chiu (1):
+      ALSA: hda/realtek: fix PCI SSID for one of the HP 200 G2i laptop
+
+Dirk Su (1):
+      ALSA: hda/realtek: fix micmute LED reversed on HP Abe and Bantie
+
+Haotian Zhang (2):
+      ALSA: vxpocket: Fix resource leak in vxpocket_probe error path
+      ALSA: pcmcia: Fix resource leak in snd_pdacf_probe error path
+
+Jiapeng Chong (1):
+      ALSA: hda: Remove unnecessary print function dev_err()
+
+Jussi Laako (3):
+      ALSA: usb-audio: Update for native DSD support quirks
+      ALSA: usb-audio: Reorder USB mode selection quirk
+      ALSA: usb-audio: Do not expose PCM and DSD on same altsetting unless DoP
+
+Kai Vehmanen (1):
+      ALSA: hda/realtek: enable woofer speakers on Medion NM14LNL
+
+Peter Ujfalusi (6):
+      ASoC: SOF: ipc4-topology: Prefer 32-bit DMIC blobs for 8-bit formats as well
+      ASoC: SOF: ipc4-topology: Convert FLOAT to S32 during blob selection
+      ASoC: SOF: topology: Add context when sink or source widget is missing
+      ASoC: SOF: Intel: pci-mtl: Change the topology path to intel/sof-ipc4-tplg
+      ASoC: soc-acpi / SOF: Add best_effort flag to get_function_tplg_files op
+      ASoC: Intel: soc-acpi-intel-nvl-match: Drop rt722 l3 from the match table
+
+Robert Oscilowski (1):
+      ASoC: qcom: sdm845: set quaternary MI2S codec DAI to I2S format
+
+Shengjiu Wang (1):
+      ASoC: ak4458: remove the reset operation in probe and remove
+
+Shipei Qu (1):
+      ALSA: usb-mixer: us16x08: validate meter packet indices
+
+Shuming Fan (1):
+      ASoC: rt1320: update VC blind write settings
+
+Stefan Binding (5):
+      ALSA: hda/realtek: Add support for HP Trekker Laptop
+      ALSA: hda/realtek: Add support for HP Clipper Laptop
+      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L56 with feedback
+      ASoC: Intel: soc-acpi-intel-mtl-match: Add 6 amp CS35L63 with feedback
+      ASoC: ops: fix snd_soc_get_volsw for sx controls
+
+sheetal (1):
+      ASoC: tegra: Fix uninitialized flat cache warning in tegra210_ahub
+
+---
+ include/sound/soc-acpi.h                           |   5 +-
+ sound/hda/codecs/realtek/alc269.c                  |  32 +++++--
+ sound/hda/controllers/cix-ipbloq.c                 |   4 +-
+ sound/pcmcia/pdaudiocf/pdaudiocf.c                 |   8 +-
+ sound/pcmcia/vx/vxpocket.c                         |   8 +-
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 ++
+ sound/soc/codecs/ak4458.c                          |   4 -
+ sound/soc/codecs/rt1320-sdw.c                      |  16 ++--
+ sound/soc/fsl/fsl-asoc-card.c                      |   8 +-
+ sound/soc/fsl/fsl_asrc_dma.c                       |   3 +
+ sound/soc/fsl/fsl_easrc.c                          |   3 +
+ sound/soc/fsl/fsl_sai.c                            |  13 ++-
+ sound/soc/fsl/fsl_xcvr.c                           |   3 +
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c  | 104 +++++++++++++++++++++
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c  |  49 ----------
+ sound/soc/intel/common/sof-function-topology-lib.c |   5 +-
+ sound/soc/intel/common/sof-function-topology-lib.h |   2 +-
+ sound/soc/qcom/sdm845.c                            |   2 +
+ sound/soc/sdw_utils/soc_sdw_utils.c                |   8 +-
+ sound/soc/soc-ops.c                                |  32 ++++---
+ sound/soc/sof/intel/pci-mtl.c                      |   6 +-
+ sound/soc/sof/ipc4-topology.c                      |  49 ++++++----
+ sound/soc/sof/topology.c                           |  26 +++++-
+ sound/soc/tegra/tegra210_ahub.c                    |   6 +-
+ sound/usb/endpoint.c                               |   8 +-
+ sound/usb/format.c                                 |   5 +-
+ sound/usb/mixer_us16x08.c                          |  20 ++--
+ sound/usb/quirks.c                                 |  14 ++-
+ 28 files changed, 313 insertions(+), 137 deletions(-)
+
