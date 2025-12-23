@@ -1,189 +1,134 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA7B3A1E8B;
-	Tue, 23 Dec 2025 09:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C48A330661
+	for <linux-sound@vger.kernel.org>; Tue, 23 Dec 2025 09:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766483314; cv=none; b=t3gi3ZZ9aIQFxSjZAKa19PbycXPzYgjfCATvx6R7beMLP/JE7F3RV1+7vNwubUsNh40KEz+rB9ZYsS8UCm3fjOMJ4SUMWVcasCSIwROjTlbiOQSxiu6N6MK6TxcPzaa/3BEa3KMkPQEym3kthhAkCd4YUVQfLdwm6/LYOr61DBA=
+	t=1766483372; cv=none; b=t9LNE+0B+GfQauDhz3/Pky+40xfu8y1OoutwRAY2oAg/zfU2F/InZMCOvZc9HZ3/lclmDFq3M8j35nU+iySMTxSUE3ojtg01CvOpj/36zA/4DWQl8EdNCRGHClE+jkjoYuq/N8+UPcH/1HW8dcO+7O5y+alLO68I4X5mlY3/wWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766483314; c=relaxed/simple;
-	bh=NSK5fKc+qwzvToyUpEv21cUeZPQdVTDmi5IyXk6yn3Y=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qfR5O0RLYGf9QttHCMKwKloLh6aC31m/Swd/JgCv+TlavqtilJ+m8Qa1x6Jodf9DxS4Z5fYmpUn4w/eWtr0vQZ2TFqyDFa3lnsRZcfGH/N5vVZAaKu8ZzzzN2KceEZtPppciAqQgz/znubPhdFOoCNad/Z2HM4f7UG3SspkhI3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustnetic.com; spf=pass smtp.mailfrom=trustnetic.com; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustnetic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trustnetic.com
-X-QQ-mid:Yeas7t1766483303t410t46878
-Received: from 3DB253DBDE8942B29385B9DFB0B7E889 (jiawenwu@trustnetic.com [36.24.96.96])
-X-QQ-SSF:0000000000000000000000000000000
-From: =?utf-8?b?Smlhd2VuIFd1?= <jiawenwu@trustnetic.com>
-X-BIZMAIL-ID: 575001686058145555
-To: "'Bartosz Golaszewski'" <brgl@kernel.org>
-Cc: "'Bartosz Golaszewski'" <bartosz.golaszewski@linaro.org>,
-	<andriy.shevchenko@linux.intel.com>,
-	<andy@kernel.org>,
-	<broonie@kernel.org>,
-	<ckeepax@opensource.cirrus.com>,
-	<dakr@kernel.org>,
-	<david.rhodes@cirrus.com>,
-	<djrscally@gmail.com>,
-	<gregkh@linuxfoundation.org>,
-	<heikki.krogerus@linux.intel.com>,
-	<krzk@kernel.org>,
-	<linus.walleij@linaro.org>,
-	<linux-acpi@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-spi@vger.kernel.org>,
-	<mstrozek@opensource.cirrus.com>,
-	<p.zabel@pengutronix.de>,
-	<patches@opensource.cirrus.com>,
-	<rafael@kernel.org>,
-	<rf@opensource.cirrus.com>,
-	<sakari.ailus@linux.intel.com>
-References: <02fd01dc73df$3b641bf0$b22c53d0$@trustnetic.com> <CAMRc=Mf2A++CHYcMdBi0bQ0DOAGLaSatQEOmu=aAEG_YjCqEWg@mail.gmail.com> <030001dc73e8$56e38330$04aa8990$@trustnetic.com> <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
-In-Reply-To: <CAMRc=Meugd9tEDefPnYHidDMTdCP+8fptVXNvqjSi1tjXPuVRA@mail.gmail.com>
-Subject: RE: [PATCH v7 3/9] software node: allow referencing firmware nodes
-Date: Tue, 23 Dec 2025 17:48:22 +0800
-Message-ID: <030101dc73f1$46a62b40$d3f281c0$@trustnetic.com>
+	s=arc-20240116; t=1766483372; c=relaxed/simple;
+	bh=Ga76KVgerH7N+RudTz2jDPqQo8hXnNQHfwC0GNacKSU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DAZejS/wyYfTK9xJbOfdDf9Plc3f5DaPDHQY+pC5Qj/iGvAGSoVv5tsKiPiEmriS2znm/47Pv28XdYghUbNqfBA15Qbnpakc9u5J0ulBchQDSCa7t1ZoXCjrrNVyNIWsL5yy90DSK2qjUQaGl0D7u3/8FprTdH8A7J8m9urnb4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xKRgSOkq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9XcGUXRJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T/EBsI9Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L/AJWZIZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xKRgSOkq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9XcGUXRJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T/EBsI9Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L/AJWZIZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D6F8E336A0;
+	Tue, 23 Dec 2025 09:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1766483368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1X29ty62scZ8p6FeRrl9HbbCQYJ5o5mL8wxvJx6F2EY=;
+	b=xKRgSOkqZr4FyY2HZ/U05qB4yU8x+86dHPr+612+gdn/vnt4kt4k9Ox+hALKBWKHuuMiPo
+	vjKSLhwD9QToTngpdmoR91ol3+dtcWUtQ0SSx9cumb/kLw0Arb+oN1F/t2h7QRFTqC1niv
+	bz/EBPGzCgMTv15odE+Pf0XjMrKLTt0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1766483368;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1X29ty62scZ8p6FeRrl9HbbCQYJ5o5mL8wxvJx6F2EY=;
+	b=9XcGUXRJfIfL1XAVtV3NRNT5+h87H4XICbPqegTMltcw7pEihIfgZ6+FJ5UhNwziQDKMyD
+	VufRdrKQjrElpWAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="T/EBsI9Q";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="L/AJWZIZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1766483366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1X29ty62scZ8p6FeRrl9HbbCQYJ5o5mL8wxvJx6F2EY=;
+	b=T/EBsI9QNwkwJJt2wLORx/EpixnpZrYpjLnQVBu9m1qlsGXWVQDL0oIctaek9ittAzGoun
+	0hgrnaUki+ySziIulPlGTCNc92bAiIf59Cums5g4rnGPUrKvBQrHFHI3dwgVxLXQP+EBfE
+	JVFv92pjEkMg0WEXYW+a6s1fjYPy4Lw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1766483366;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1X29ty62scZ8p6FeRrl9HbbCQYJ5o5mL8wxvJx6F2EY=;
+	b=L/AJWZIZSTusyqvXgfhSIF30Xxcp0Bc8RY6djgPFDvlh+iFENOBlwjdIsSTj1TuBYK1icS
+	JdL2R/nl6BxlQqCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 411F03EA63;
+	Tue, 23 Dec 2025 09:49:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9Fb3C6ZlSmlqPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 23 Dec 2025 09:49:26 +0000
+Date: Tue, 23 Dec 2025 10:49:25 +0100
+Message-ID: <87pl85il3u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kailang <kailang@realtek.com>
+Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: Enable Mute LED for Lenovo platform
+In-Reply-To: <8a99edffee044e13b6e348d1b69c2b57@realtek.com>
+References: <8a99edffee044e13b6e348d1b69c2b57@realtek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: zh-cn
-Thread-Index: AQIzaRfJPMiwz9071uYI3gJ0t6u2qwFWX8iGAiY76pIB9a+LsLRVe7rQ
-X-QQ-SENDSIZE: 520
-Feedback-ID: Yeas:trustnetic.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NG63YEgwc4yzH2s6FZiZ+v+sw7ZGl4YXG+B8TH52Xwp4o1MTGUCz/VeS
-	OmdMT4fRmHwT5sai5aZEKyISsYpXXDKgwnvs8s8LKzEuM7y62eWWCYUvLGeYGUR9Mh20njk
-	nJdaFKGwejxAIITrDCmG9+LCQywVrUvi9Zq+CrcKVcB+H1pRKwcw0bI3SSj/whmh7BMnSdz
-	3VOUDnsOW/UDY/kYpnjtC2FyUtznGR7LE7mBBVWneck3WIja9jxjifRqXdCREj8LYKYryEB
-	eqWFnUSbLfuCe4w/J0wbBtjeN8GiE7jhtXOuQ8KIObY9/v0wHDrV8OnWXKZeoSoWVSz9UVm
-	fir4aVctCGlNKCVJcVw+L25B7RY5lqef68vw4WJEly52DuASlVyGdTcuNgKksv3aqaXF1Js
-	5u9jmZ9HKlGNVGwScexUNvupJo3CFVLn14+BbL0M0PdkiG0v/bfyOFZ2b9OWFNi/YcmCUJL
-	AP3JRw6J87IaTLsWbJNSgxlTjxuoMeDbteCSjL4MYKaxfGgJcY2DRr8EhV2hOcYUtVmKn/D
-	pGzDTbMvO6QwjVx+HwFkpPMjH0Q9i3KeIJtltuYeVISv+3I/JtITynfDDeG0k7NW5sCSXOP
-	VddtQYIsN6waMM20Xw0KDRtF7k/waddLcMtScihoLksYQipgKLEGDV3fa5blqeIJ4shPa7E
-	XHPmwAV9yC2CVeejpdU5jqf7bkDYhihhrsFVZYcNkXbSzH57nL7JJa65kWjwlZHWqWZB3zU
-	cVqwkD1/pZ233ZXJzbeq+NzL8ZrW8GJDolV0iyqKhvsrg+wpcpsTAzttQafnqYFuct/FWmx
-	j25PWsgt7Bol9nK4Lv6Oz71UvAUfRUtvSEwax1X7OIMxdz4IHmAj7U72Bo5ZrVZ7FpXJzvK
-	9Ob1Kmt57a/V7+FGrs0EQSaLTTYh6deXtI51fZoig9jKdXW4i3IMCjuNv7sVyBP2X90ErVa
-	oBoVKBLR4g99VUBzFN9Ewae3qMd92j34Hm4yBuX9ouoBZY4+VzhnrbynAT1B6nMUrhmCqkW
-	M2c3hZaAWlvHgcKtrN
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: D6F8E336A0
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-On Tue, Dec 23, 2025 5:37 PM, Bartosz Golaszewski wrote:
-> On Tue, Dec 23, 2025 at 9:44=E2=80=AFAM Jiawen Wu =
-<jiawenwu@trustnetic.com> wrote:
-> >
-> > On Tue, Dec 23, 2025 4:09 PM, Bartosz Golaszewski wrote:
-> > > On Tue, Dec 23, 2025 at 8:39=E2=80=AFAM Jiawen Wu =
-<jiawenwu@trustnetic.com> wrote:
-> > > >
-> > > > >
-> > > > >  #define SOFTWARE_NODE_REFERENCE(_ref_, ...)                  =
-\
-> > > > >  (const struct software_node_ref_args) {                       =
-       \
-> > > > > -     .node =3D _ref_,                                         =
- \
-> > > > > +     .swnode =3D _Generic(_ref_,                              =
- \
-> > > > > +                        const struct software_node *: _ref_, =
-\
-> > > > > +                        default: NULL),                      =
-\
-> > > > > +     .fwnode =3D _Generic(_ref_,                              =
- \
-> > > > > +                        struct fwnode_handle *: _ref_,       =
-\
-> > > > > +                        default: NULL),                      =
-\
-> > > > >       .nargs =3D COUNT_ARGS(__VA_ARGS__),                      =
- \
-> > > > >       .args =3D { __VA_ARGS__ },                               =
- \
-> > > > >  }
-> > > >
-> > > > This change seems incompatible with my driver txgbe, since the =
-software nodes
-> > > > are registered in " struct software_node * " but not " const =
-struct software_node * ".
-> > > >
-> > > > So when I pulled the net-next-6.19-rc1 that merged this patch, =
-to probe my driver.
-> > > > The error logs shows:
-> > > >
-> > > > [    5.243396] txgbe 0000:10:00.0 (unnamed net_device) =
-(uninitialized): unable to attach SFP bus: -EINVAL
-> > > > [    5.243399] txgbe 0000:10:00.0: failed to init phylink
-> > > > [    5.576008] txgbe 0000:10:00.0: probe with driver txgbe =
-failed with error -22
-> > > > [    6.109548] txgbe 0000:10:00.1 (unnamed net_device) =
-(uninitialized): unable to attach SFP bus: -EINVAL
-> > > > [    6.109551] txgbe 0000:10:00.1: failed to init phylink
-> > > > [    6.442044] txgbe 0000:10:00.1: probe with driver txgbe =
-failed with error -22
-> > > >
-> > >
-> > > This shouldn't have changed anything for existing software nodes - =
-the
-> > > pointer in struct software_node_ref_args has always been const. =
-This
-> > > would have failed at build-time if this was an issue. Have you
-> > > bisected it to this very commit? What line is the -EINVAL assigned =
-and
-> > > for what reason?
-> >
-> > The -EINVAL is assigned software_node_get_reference_args():
-> >
-> >         if (ref->swnode)
-> >                 refnode =3D software_node_fwnode(ref->swnode);
-> >         else if (ref->fwnode)
-> >                 refnode =3D ref->fwnode;
-> >         else
-> >                 return -EINVAL;
-> >
-> > I think the reason is that _Generic selection is restrictive, it =
-only accept
-> > exactly const struct software_node for software node references. So =
-the
-> > macro SOFTWARE_NODE_REFERENCE fall back to the default to set =
-.swnode =3D  NULL.
-> >
-> > And I temporarily added this line to fix it:
-> >
-> > diff --git a/include/linux/property.h b/include/linux/property.h
-> > index 272bfbdea7bf..e30ef23a9af3 100644
-> > --- a/include/linux/property.h
-> > +++ b/include/linux/property.h
-> > @@ -371,6 +371,7 @@ struct software_node_ref_args {
-> >  (const struct software_node_ref_args) {                             =
-   \
-> >         .swnode =3D _Generic(_ref_,                               \
-> >                            const struct software_node *: _ref_, \
-> > +                          struct software_node *: _ref_,       \
-> >                            default: NULL),                      \
-> >         .fwnode =3D _Generic(_ref_,                               \
-> >                            struct fwnode_handle *: _ref_,       \
-> >
->=20
-> Ah I see, we'd assign struct software_node * to const struct
-> software_node * and it used to work but with _Generic() we need the
-> exact type. I agree with this approach, do you want to send a proper
-> patch?
+On Mon, 22 Dec 2025 10:33:44 +0100,
+Kailang wrote:
+> 
+> Hi Takashi,
+> 
+> Attach patch was for enable mute led functions of the Lenovo platform.
+> Many Thanks.
 
-It might be more appropriate for you to send the patch, and could also
-check if there are any other missed details, like for fwnode...
-I'm not very proficient in this field. :)
+Applied now to for-next branch.
 
 
+thanks,
+
+Takashi
