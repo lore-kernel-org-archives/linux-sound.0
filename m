@@ -1,63 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508F222A4D8;
-	Wed, 24 Dec 2025 18:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19527221F34;
+	Wed, 24 Dec 2025 20:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766602720; cv=none; b=lev17MB80DNMAyf8WKO3sbvgvjIAc7JEczSlnVUrZw4oCEk6PD9wtj8yaWPAt3H7CQQgVFcWyWHwYpwrQSYLiKB3KD36wSekFXrn65iru3kwv8J/+Kpg8Yldy3JH7/PDQH2g2wCwUW2ke8jeUAUEDWV3FGCg+a9ss2hQTn0jmIc=
+	t=1766608210; cv=none; b=IoI8mEmhSl0QAVDvB75dJLgr+yUq7rN+5gRteEjcxEeothNL1+ctQS86r+oA0kay3Qv2KZ3ApuGIMSDazavhv/p1E1EU0nH9loYBvSn+fbGJLYU+Ta76o6NDeLwAF8f/DHAhzRPLfS/qhUFO4ptQdIg5f8+bdOxBcwUYytZL0hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766602720; c=relaxed/simple;
-	bh=tXCrLtD6yRUTeZ18dgjkrVXVOA4BkoXjDna9eSyh+nE=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=PqZTyjwngQu8g5YoCtMjZC3A5mBXBydoRD0uq0AadxZBZgNnnKykz54p1SCdwXGY2bDrSLcgfl4Wc/H/B/jmRstSAfKC7Gc+BETVWd7MlbltPSTpVT+qGLDCgnpD76yrKN3+stEo07P1+shZLR28J6AxeNCy79YhRq/e2FtKk8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rePnhf3A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766608210; c=relaxed/simple;
+	bh=wmS3id9EcK0cIQdCD72nBHD46MqIrntdRcKGmvGTeKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ht+jWzj8QmiWY/UGi16jLFvom7e05XS+3fAt4DtGvarB1lWfsWeE9sRt7iSqNVfkKyL1Nt8UhLAfFTxv/N8MdIeNiC5xsDg4XHNdpNHHCEValZ4tye27WeB/QKHxiBteiMBgHMS5a/zEG/t8Kjk0dqcWV6PWLkgEueA1ZxT2r0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFb27WcA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rePnhf3A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF1FC4CEF7;
-	Wed, 24 Dec 2025 18:58:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFb27WcA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642CCC4CEF7;
+	Wed, 24 Dec 2025 20:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766602719;
-	bh=tXCrLtD6yRUTeZ18dgjkrVXVOA4BkoXjDna9eSyh+nE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rePnhf3A+rl0xARVNLGTIU6OBYSX3XS8Xsaqj9zZmO3Cwrt7pG2pBIYVwiBgQX0gF
-	 NZNquMVLgq3tL+Ga8XUc6aycaZI8FDrxIYPf9ey46dQsOzf8L1tLiM9o28RIKx0hOU
-	 Q0OKjYMHKjxwwBdYvKIYGWE7vgRDKOxm2oCUWtbYeRPcF4zfNBw3gnq2O9cw9djQIR
-	 QacmPgzacAcJ8v/Pl8Y4j/5ZZoY7kfTI1fILCwwd83p8Tkk7bFZ1FsPLmfPFZQ8s0G
-	 FwkYe8av3t0OXOtqKbc3phUz5/YAKP2il/o5qgH1bRO9EAzN4vmbhKWF2H2G/bp/Jb
-	 g/5yTzOI8+gXg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B59D73AAA0CD;
-	Wed, 24 Dec 2025 18:55:26 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.19-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87v7hxilmk.wl-tiwai@suse.de>
-References: <87v7hxilmk.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87v7hxilmk.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc3
-X-PR-Tracked-Commit-Id: 17753d1755a589659433ff4ead595f2bb7f695a8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ebb8719c1a7dd3d0c6f49e38a95bb6ac89f7f7e1
-Message-Id: <176660252519.1574379.12759450167240445450.pr-tracker-bot@kernel.org>
-Date: Wed, 24 Dec 2025 18:55:25 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1766608209;
+	bh=wmS3id9EcK0cIQdCD72nBHD46MqIrntdRcKGmvGTeKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CFb27WcAFJFSiXG+t5qQBuzY82nKZU+vKHPuya14NUWfLq+ATgLhM/1r9jaxHE8P+
+	 ed9d6TJhQeTDKAaplkhvKiTdupUE1/DhcOtCXO5pgZAbsUOE7juHikXPIG3RORxN6V
+	 vUZjfTujxHl3Bn6G/yL+nT3/MDkINF4K6LTThCI6+aFpUK8wKakvx67WjQpTRaT8Aj
+	 EJ23T+S18xjqrsDumbEEI2Cq59QBk6e62lCNQ95nfn7f0Yoi5tXIcUgXCBQxQkzuTQ
+	 CtKjrpRWqQ2lefhzwpKwEzXhEMtXmQN+iZzUPxGDcgeyp2pZurjkc6fZ7t4uXzy8iR
+	 Q0xdEuB05s7tA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 2030F1AC56B3; Thu, 25 Dec 2025 05:30:04 +0900 (JST)
+Date: Wed, 24 Dec 2025 20:30:04 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ASoC: SDCA: Replace use of system_wq with
+ system_percpu_wq
+Message-ID: <aUxNTF-wOWSDBCU4@sirena.co.uk>
+References: <20251224162635.147710-1-marco.crivellari@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xWdktTKIjnmuLjns"
+Content-Disposition: inline
+In-Reply-To: <20251224162635.147710-1-marco.crivellari@suse.com>
+X-Cookie: Think big.  Pollute the Mississippi.
 
-The pull request you sent on Tue, 23 Dec 2025 10:38:11 +0100:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc3
+--xWdktTKIjnmuLjns
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ebb8719c1a7dd3d0c6f49e38a95bb6ac89f7f7e1
+On Wed, Dec 24, 2025 at 05:26:35PM +0100, Marco Crivellari wrote:
 
-Thank you!
+> -	queue_delayed_work(system_wq, work, usecs_to_jiffies(timeout_us));
+> +	queue_delayed_work(system_percpu_wq, work, usecs_to_jiffies(timeout_us));
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+As with all of these thus far I am unconvinced that there was any
+intention to use a percpu queue here.
+
+--xWdktTKIjnmuLjns
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlMTUgACgkQJNaLcl1U
+h9BjMgf8DMhAbdNuWqGCBeuKGoTjLZMcmOQb58G6MiRszrwGImqPs6uuylNcZnP2
+a7t3Esu03jGYfjP5hmITZF4rYgfVc/my2+l0tQ8AQiLyze3d6qQwSmKRLIdH8v6r
+eWIsuNlDotXxDdGuanmr4pEF7KKfrInLCcczLvJS0ojEVJJ/AeWMDqZ62marhajY
+12FmhlC6jU5VZTDmqtxu3VawM/HzLRtk92Q+f0VCVWpsKGFgQmor1QBkHSSH5dz0
+qmP99EWCDt+cxLd6NcUI+U5oK4lx+Ffeu5UyVzPXEn75gBhDcnKDvA9sdX/FiQaL
+J5IvTBVYCcD2OzF5L387LDEVv/8dnw==
+=g2DL
+-----END PGP SIGNATURE-----
+
+--xWdktTKIjnmuLjns--
