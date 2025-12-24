@@ -1,105 +1,76 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5F918859B;
-	Wed, 24 Dec 2025 04:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4EC1F936;
+	Wed, 24 Dec 2025 05:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766551940; cv=none; b=Pa+umfLLBONZPFW0k+JTDQZ/76+J8RdYoiQmdL+qCNO6Xyq/cMVuKmESfSQLcX7Q4YJe3DJggzAx/DbVMNucpmPph3yjy5V/eGKOqdvERDvsXY13IZol9czPuVbO1nHnyOI1WhxQ0IisdcilVGxbf8ZBcN7T7jl8MQU0ZTpSEJM=
+	t=1766553583; cv=none; b=U6bJTSYALwxyxCmSbhGN+FjC7XMn65t/f724AGCUcMh4fZroGLXHHrdrQGRdlhdL2C13YX6s4yapbC0tMY7oLMvfDqqot2aAzQOIbhe4LgvIUvSlgvYu3/zYOb067YGO7/N/lOdCIznIJG3tY9oE2MuNlNWhhX6PF6EDm1bFqpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766551940; c=relaxed/simple;
-	bh=l3CCrJ+c2k6AUWpACP9eTGThKPDgGk8UuAh6i2CCU8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rb/DVvEe8mdNn7pZw5WD996Z6hZWOHt27MV6/fTdOxOpaFb3XEk0NyhCZabMidJVV3EZ37T2tKGVjqsBykeO7M9s3GVSF7luH2k7jkdpj0XlE7NvJivq0sv80mVPf437FhLcS3WrT4VHe1q5Xce8KHwds4ljp3tcK5a8dG/pdSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.109] (unknown [114.241.82.59])
-	by APP-05 (Coremail) with SMTP id zQCowADHWAxmcUtp2LW8AQ--.30082S2;
-	Wed, 24 Dec 2025 12:51:51 +0800 (CST)
-Message-ID: <2eb2ad42-67e7-4f5b-bade-4a3627eb270c@iscas.ac.cn>
-Date: Wed, 24 Dec 2025 12:51:51 +0800
+	s=arc-20240116; t=1766553583; c=relaxed/simple;
+	bh=oaIzG61YO346lvrJ+E6WZfpa0Ib/7fIMxliygY80izQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IRLEhmP8W0URjMc+rSurKEGNrjFBVbC4KmClB6EcFzzS+mdCWgjlhSdlHKY8i4dg4M6DiiPxdeBRji7hKVatRrT2m8QOk3OLwQIVpIU0DqeZMC1sSE15XMstPo+18/uIqHQPmcgRWlGEZTOS1mKDuGJ4IiqUcDNK7kzrqgZy3CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jwWsbhh4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jwWsbhh4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE61CC4CEFB;
+	Wed, 24 Dec 2025 05:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766553582;
+	bh=oaIzG61YO346lvrJ+E6WZfpa0Ib/7fIMxliygY80izQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jwWsbhh4Z4+aO8pDw8jPSAv4NyXCPde76TJILszyUTh66MnUxrl3kAe5I2XQbtz0r
+	 CCYLpdw30QYFJ/CyxgIKhB/OPFh/I44nddWzBDaDfzSmg3/xzlilRJEl+JJ86Rx9Gd
+	 au4bhMWcuinWjiKWtlAWBt0yn5k5TN00q2/cxCKUk0vkaWGujJ91ySyN9vo7zfkivk
+	 D7oQZRYoIeH8YLRElhEkiuyeUJolyGS9dpuE+9CDvRHzeSAtIsdy4rdN2oF1AzL/ZX
+	 QaTbhIgMp+nedT0dYHMV2CLIwTNdClxN19pXvAWfERtUkDLzPp8t7HHQf8Q41gPziK
+	 n9Tkz6qzKJYvw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Rander Wang <rander.wang@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Liam Girdwood <liam.r.girdwood@intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251223215014.534756-1-arnd@kernel.org>
+References: <20251223215014.534756-1-arnd@kernel.org>
+Subject: Re: [PATCH] soundwire: intel_ace2x: add SND_HDA_CORE dependency
+Message-Id: <176655357953.792216.8437808469032273609.b4-ty@kernel.org>
+Date: Wed, 24 Dec 2025 10:49:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] PCI/MSI: Generalize no_64bit_msi into msi_addr_mask
-To: Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:zQCowADHWAxmcUtp2LW8AQ--.30082S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw1rGFyUZF4fuFW7AFW8Zwb_yoW8Jw4rpF
-	4UGFW3uFWFy3yftFWay3Wj9F15Z3Z3K343W3y3Kwn3ZFnIqr17XrnrGF13JwnFqrWxJr40
-	qFy7Gwn0gFnxWr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvmb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
-	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	c7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnU
-	UI43ZEXa7IUn1v3UUUUUU==
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-Mailer: b4 0.13.0
 
-On 12/24/25 11:10, Vivian Wang wrote:
-> The Sophgo SG2042 is a cursed machine in more ways than one.
->
-[...]
 
-> ---
-> Vivian Wang (5):
->       PCI/MSI: Conservatively generalize no_64bit_msi into msi_addr_mask
->       PCI/MSI: Check msi_addr_mask in msi_verify_entries()
->       drm/radeon: Raise msi_addr_mask to 40 bits for pre-Bonaire
->       ALSA: hda/intel: Raise msi_addr_mask to dma_bits
->       [RFC net-next] net: ionic: Set msi_addr_mask to IONIC_ADDR_LEN-bit everywhere
->
->  arch/powerpc/platforms/powernv/pci-ioda.c           |  2 +-
->  arch/powerpc/platforms/pseries/msi.c                |  4 ++--
->  drivers/gpu/drm/radeon/radeon_irq_kms.c             |  4 ++--
->  drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c |  4 +---
->  drivers/pci/msi/msi.c                               | 11 +++++++----
->  drivers/pci/msi/pcidev_msi.c                        |  2 +-
->  drivers/pci/probe.c                                 |  7 +++++++
->  include/linux/pci.h                                 |  8 +++++++-
->  sound/hda/controllers/intel.c                       | 10 +++++-----
->  9 files changed, 33 insertions(+), 19 deletions(-)
-> ---
-> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> change-id: 20251223-pci-msi-addr-mask-2d765a7eb390
->
-> Best regards,
+On Tue, 23 Dec 2025 22:50:01 +0100, Arnd Bergmann wrote:
+> The ace2x driver can optionally use the HDA infrastructure, but can still
+> build without that. However, with SND_HDA_CORE=m and SND_HDA_ALIGNED_MMIO=y,
+> it fails to link as built-in:
+> 
+> aarch64-linux-ld: drivers/soundwire/intel_ace2x.o: in function `intel_shim_wake':
+> intel_ace2x.c:(.text+0x2518): undefined reference to `snd_hdac_aligned_read'
+> aarch64-linux-ld: intel_ace2x.c:(.text+0x25d4): undefined reference to `snd_hdac_aligned_read'
+> aarch64-linux-ld: intel_ace2x.c:(.text+0x268c): undefined reference to `snd_hdac_aligned_write'
+> 
+> [...]
 
-+cc linux-riscv and sophgo lists. Please see:
+Applied, thanks!
 
-    https://lore.kernel.org/r/20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn/
+[1/1] soundwire: intel_ace2x: add SND_HDA_CORE dependency
+      commit: dddbe80536f3676b9b14a034058c81a1798fe374
 
-This is what happens when I rely on get_maintainers.pl too much...
+Best regards,
+-- 
+~Vinod
+
 
