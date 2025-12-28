@@ -1,50 +1,37 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAE227E077;
-	Sun, 28 Dec 2025 07:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6417D2;
+	Sun, 28 Dec 2025 14:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766905848; cv=none; b=AA4+ngmfOOJZEW3txSTRfGAw44NVMuLcQXvoyTsr1G2URM3To7yHSpue0bl83NAPuOBdrZwWj9TFWLJCUlde2foaaPbTSf2PevDBbmvIPilmvoCy1T4P7H3yfrY2Axr9QNk0ufkyOWrAPsIs22vyYJzuTsx5Qg2Rp2TnkKhL0w8=
+	t=1766930751; cv=none; b=p1/gRZZPUwEAcBWIsDGiWHsQc4ghd7tpMcuAAj8zk/r+I5/AcF+AYWjX0/P5dDhaLdcIXnvY5mP3Qzf5p33RTLFEGL6355UvYxM+bxsFWrOLeTbOx7Zx3Dwqo43tuz8CP8kCDMu0puxoH1QgQufobpdbVlRqz0h8mPuYmRk7Pos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766905848; c=relaxed/simple;
-	bh=oVbI1OINkWIZzkGWs2jsH2fQ0RvaeRCZ7tkw2V3CoKY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qlQzoLZjCXOJHFkN+3ghHGw+XqTvImxqz5sVhX13+2E5Ih+0ERrjQ9ewukFx6EG4japjwOTr7+SaMBCBa6Cf03nd+69dOQSqv90+UR2NA9aVHO4M2wilx1SkoBHhsaa+PiKG3Y3wYs8ubxk5r3MZorksFugQEmNVJB6OwvdabBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pq8Ego9v; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pq8Ego9v"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=9wMpsIKtKlBBHkIflbaKqArf2l+TBlvDYa2sfvLCjcQ=; b=pq8Ego9vSpsfukJ3m52FZqJIoE
-	EqQk1Imb13+PNguAEfMXKx/GJjmP0AqKmpYCc+FQytTLeClfNHnlJ/qE1+E0NvOzoeWoQuuvthRnR
-	jTFJXifYs10zixwMwwX1uDGZoIqBfkTTvM097YMoplH8AmoWstVSM7A+mOMqT5GHejufQaQ0vNGaD
-	E06PxeCkwCyOKq8Lex+9mr+L895pqx4dYtBEf+PRec7ZQio38rlszrjgKm/Zdrcuo0ZaV03BUVVwZ
-	LD2/v+Ko62rKhLtCZcwdct/mNEkzirMzL4CQbrh2+QqW3XGKe99gONigFGFb7FMNPoBWS6BBf1iLN
-	TgHVl6bQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZkvK-00000002ZI1-0eRE;
-	Sun, 28 Dec 2025 07:10:42 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ASoC: pxa: drop unused Kconfig symbol
-Date: Sat, 27 Dec 2025 23:10:41 -0800
-Message-ID: <20251228071041.2246718-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1766930751; c=relaxed/simple;
+	bh=FBXfg07Vy/REELT/WtPWWE2sgR4BtVwR4C0c9lNQYTk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oZyGzsx+olH4C7MLOGH75d1BccS4FTSQYA+1kiL2AHCOf6BwJ7l2Nlq9pjaBsayUuP0bxz0vxMIBzE+I5pV3TFIUoojmf9X1joVVIQsea9BNq/ouIdoklHIY2NX6Ev8sYg2GnyGKLM/+jQIxtYUiQbqhEWmpt8Zs5jDRDFGu7gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [36.112.3.223])
+	by APP-05 (Coremail) with SMTP id zQCowAA3yw4rOVFpwKtAAg--.51186S2;
+	Sun, 28 Dec 2025 22:05:32 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	mkumard@nvidia.com,
+	ddadap@nvidia.com,
+	sheetal@nvidia.com
+Cc: linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: [PATCH] ALSA: hda/tegra: fix a memory leak in hda_tegra_first_init()
+Date: Sun, 28 Dec 2025 22:05:30 +0800
+Message-Id: <20251228140530.3739960-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,33 +39,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAA3yw4rOVFpwKtAAg--.51186S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr1kKry3XF47ZF43WF4Uurg_yoWxKrb_Cw
+	47WF48Za4UurZ2kF1Fyr1xAayFvFZakr1jgrn2yryj9FyfWrZ8try3WrW3urWDJa1vkF9x
+	Xryjvr47GFy5CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiDAcKE2lQ7ahY2gAAss
 
-Drop a bogus dangling Kconfig symbol for select SND_SOC_AC97_BUS_NEW.
+Add azx_free_stream_pages() to release the resources allocated
+by azx_alloc_stream_pages().
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748
-Fixes: 1c8bc7b3de5e ("ASoC: pxa: switch to new ac97 bus support")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 ---
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
+ sound/hda/controllers/tegra.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- sound/soc/pxa/Kconfig |    1 -
- 1 file changed, 1 deletion(-)
-
---- linux-next-20251219.orig/sound/soc/pxa/Kconfig
-+++ linux-next-20251219/sound/soc/pxa/Kconfig
-@@ -18,7 +18,6 @@ config SND_PXA2XX_SOC_AC97
- 	select AC97_BUS_NEW
- 	select SND_PXA2XX_LIB
- 	select SND_PXA2XX_LIB_AC97
--	select SND_SOC_AC97_BUS_NEW
+diff --git a/sound/hda/controllers/tegra.c b/sound/hda/controllers/tegra.c
+index 6ab338f37db5..656cbd88b9aa 100644
+--- a/sound/hda/controllers/tegra.c
++++ b/sound/hda/controllers/tegra.c
+@@ -380,6 +380,7 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+ 	/* codec detection */
+ 	if (!bus->codec_mask) {
+ 		dev_err(card->dev, "no codecs found!\n");
++		azx_free_stream_pages(chip);
+ 		return -ENODEV;
+ 	}
  
- config SND_PXA2XX_SOC_I2S
- 	select SND_PXA2XX_LIB
+-- 
+2.25.1
+
