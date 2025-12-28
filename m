@@ -1,37 +1,47 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6417D2;
-	Sun, 28 Dec 2025 14:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA9778F26;
+	Sun, 28 Dec 2025 19:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766930751; cv=none; b=p1/gRZZPUwEAcBWIsDGiWHsQc4ghd7tpMcuAAj8zk/r+I5/AcF+AYWjX0/P5dDhaLdcIXnvY5mP3Qzf5p33RTLFEGL6355UvYxM+bxsFWrOLeTbOx7Zx3Dwqo43tuz8CP8kCDMu0puxoH1QgQufobpdbVlRqz0h8mPuYmRk7Pos=
+	t=1766948747; cv=none; b=q2GTufsKN5Naz0fO9H0mURwTT1DSITmGzg+oGpcEPHUSwCZo9nQxru8DCtHBAXx9TbG++CNwUwv0JnFDVbiy1HrNe7HZN8f6IXEsq7zBeaGs856AQJSSvCuFh/H5ZT3eB3gxI1fZPq0E/c3go10OCBknTGMOLYT+SNCvJ9lGTqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766930751; c=relaxed/simple;
-	bh=FBXfg07Vy/REELT/WtPWWE2sgR4BtVwR4C0c9lNQYTk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oZyGzsx+olH4C7MLOGH75d1BccS4FTSQYA+1kiL2AHCOf6BwJ7l2Nlq9pjaBsayUuP0bxz0vxMIBzE+I5pV3TFIUoojmf9X1joVVIQsea9BNq/ouIdoklHIY2NX6Ev8sYg2GnyGKLM/+jQIxtYUiQbqhEWmpt8Zs5jDRDFGu7gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from localhost.localdomain (unknown [36.112.3.223])
-	by APP-05 (Coremail) with SMTP id zQCowAA3yw4rOVFpwKtAAg--.51186S2;
-	Sun, 28 Dec 2025 22:05:32 +0800 (CST)
-From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	mkumard@nvidia.com,
-	ddadap@nvidia.com,
-	sheetal@nvidia.com
-Cc: linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Subject: [PATCH] ALSA: hda/tegra: fix a memory leak in hda_tegra_first_init()
-Date: Sun, 28 Dec 2025 22:05:30 +0800
-Message-Id: <20251228140530.3739960-1-lihaoxiang@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1766948747; c=relaxed/simple;
+	bh=yIW1itpfq4CSXu2sfksEkTZjz7bdgnyASehkn9CC0VI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gx+9CcKzoW2IQ88TdfpEefrjVtvCVZ8kItAZnIKu7aERBCsyIXBJX4blyXZlA7SS1bfL+7yRRiUgJ4VQbivSYhtrC/+04LFRhuD03Cx/xqoP/mAhOMJV5RZ3D0F9tWza1jGQDQac3tQ048NNpu27/dh3RKfKtN0S5Z/9hBfTiEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mIpOGMon; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mIpOGMon"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=J7ghhVjA2vNps27YFwg2duyej4YGtF2xHyL5LlKeuoY=; b=mIpOGMonqc5rADNZW/N075uvH+
+	KzLfqLOPTOgk//kebaOwlv0sCQGDeKGilvP2qizEwj6xaBHQQUqWiXOWk7Q4IHrV+yvFDor4ON8yg
+	9wfiYgANfAq5Zu7uqfG3v3Bo8RgMOwEEvGe1fivymm15HLpq+Cqb/h9fOaR4ZhuF0rer/jUyYQS9G
+	9dEN39pp1j4SEpy2EMTCo4u7dX+JW24PEg4SxOFkrQm3bRQqU7/U6dZc3rV914Ydk8WCudQDOTCpe
+	VSSabY17iEWd03GUnktWL7O3Qm5ErjZQS1XcJeon/5HMkeZSNIwPCehIn9oQVlMzV2xNBX3DasQOc
+	zCVWxjnQ==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vZw5G-00000002y1a-3uQp;
+	Sun, 28 Dec 2025 19:05:42 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH] ASoC: amd: drop unused Kconfig symbols
+Date: Sun, 28 Dec 2025 11:05:42 -0800
+Message-ID: <20251228190542.2482910-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,45 +49,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAA3yw4rOVFpwKtAAg--.51186S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr1kKry3XF47ZF43WF4Uurg_yoWxKrb_Cw
-	47WF48Za4UurZ2kF1Fyr1xAayFvFZakr1jgrn2yryj9FyfWrZ8try3WrW3urWDJa1vkF9x
-	Xryjvr47GFy5CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiDAcKE2lQ7ahY2gAAss
 
-Add azx_free_stream_pages() to release the resources allocated
-by azx_alloc_stream_pages().
+Remove the dangling Kconfig references to CLK_FIXED_FCH since they
+are not used anywhere else in the kernel source tree.
 
-Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Fixes: 281ddf62f551 ("ASoC: amd: Kconfig: Select fch clock support with machine driver")
+Fixes: d4c750f2c7d4 ("ASoC: amd: acp: Add generic machine driver support for ACP cards")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- sound/hda/controllers/tegra.c | 1 +
- 1 file changed, 1 insertion(+)
+Cc: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
 
-diff --git a/sound/hda/controllers/tegra.c b/sound/hda/controllers/tegra.c
-index 6ab338f37db5..656cbd88b9aa 100644
---- a/sound/hda/controllers/tegra.c
-+++ b/sound/hda/controllers/tegra.c
-@@ -380,6 +380,7 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	/* codec detection */
- 	if (!bus->codec_mask) {
- 		dev_err(card->dev, "no codecs found!\n");
-+		azx_free_stream_pages(chip);
- 		return -ENODEV;
- 	}
+ sound/soc/amd/Kconfig     |    2 --
+ sound/soc/amd/acp/Kconfig |    1 -
+ 2 files changed, 3 deletions(-)
+
+--- linux-next-20251219.orig/sound/soc/amd/acp/Kconfig
++++ linux-next-20251219/sound/soc/amd/acp/Kconfig
+@@ -104,7 +104,6 @@ config SND_AMD_ASOC_ACP70
+ config SND_SOC_AMD_MACH_COMMON
+ 	tristate
+ 	depends on X86 && PCI && I2C
+-	select CLK_FIXED_FCH
+ 	select SND_SOC_RT5682_I2C
+ 	select SND_SOC_DMIC
+ 	select SND_SOC_RT1019
+--- linux-next-20251219.orig/sound/soc/amd/Kconfig
++++ linux-next-20251219/sound/soc/amd/Kconfig
+@@ -8,7 +8,6 @@ config SND_SOC_AMD_ACP
  
--- 
-2.25.1
-
+ config SND_SOC_AMD_CZ_DA7219MX98357_MACH
+ 	tristate "AMD CZ support for DA7219, RT5682 and MAX9835"
+-	select CLK_FIXED_FCH
+ 	select SND_SOC_DA7219
+ 	select SND_SOC_RT5682_I2C
+ 	select SND_SOC_MAX98357A
+@@ -45,7 +44,6 @@ config SND_SOC_AMD_ACP3x
+ 
+ config SND_SOC_AMD_RV_RT5682_MACH
+ 	tristate "AMD RV support for RT5682"
+-	select CLK_FIXED_FCH
+ 	select SND_SOC_RT5682_I2C
+ 	select SND_SOC_MAX98357A
+ 	select SND_SOC_CROS_EC_CODEC
