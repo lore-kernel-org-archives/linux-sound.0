@@ -1,98 +1,180 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013054.outbound.protection.outlook.com [40.107.159.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA9778F26;
-	Sun, 28 Dec 2025 19:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766948747; cv=none; b=q2GTufsKN5Naz0fO9H0mURwTT1DSITmGzg+oGpcEPHUSwCZo9nQxru8DCtHBAXx9TbG++CNwUwv0JnFDVbiy1HrNe7HZN8f6IXEsq7zBeaGs856AQJSSvCuFh/H5ZT3eB3gxI1fZPq0E/c3go10OCBknTGMOLYT+SNCvJ9lGTqE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766948747; c=relaxed/simple;
-	bh=yIW1itpfq4CSXu2sfksEkTZjz7bdgnyASehkn9CC0VI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gx+9CcKzoW2IQ88TdfpEefrjVtvCVZ8kItAZnIKu7aERBCsyIXBJX4blyXZlA7SS1bfL+7yRRiUgJ4VQbivSYhtrC/+04LFRhuD03Cx/xqoP/mAhOMJV5RZ3D0F9tWza1jGQDQac3tQ048NNpu27/dh3RKfKtN0S5Z/9hBfTiEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mIpOGMon; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3AF3FC2;
+	Mon, 29 Dec 2025 09:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766998845; cv=fail; b=WHWPuB5cxSCyNYidjGWibbImAfbYqluQfJKrs2yq0lEw83sZPaQGn5qG6C3xW9mMKS8U5Aax3S6fMCOPk7JU/tmpkmrnHL23Fq7eeuhyc8pFAg8mcW9eeY8L8CugWulNmkKRK5JQ6lccMePrx/JTf1kBFFPmAdwaTenFuQH32QQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766998845; c=relaxed/simple;
+	bh=xxv+cWsEbYRanxraaBjlAigNspPfczf0nS+BU718cLE=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=rWsvlh8mCklw4qO5qSYrmdvBu92yg5DeC+n59qEmLSuP4ube4Nf/XftWII//UIUKCYBtC2IWwB1Oz9ubeBvf3Lhu3m6HGlbuuaPD3JRpDGbdP0xC+D+rZPd/WeB/30FH1PqLJNs6zfAaN7b2Z5m/TR1dFhXj8WXbM4Ps8WGpdjo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ce0WLqbn; arc=fail smtp.client-ip=40.107.159.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mIpOGMon"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=J7ghhVjA2vNps27YFwg2duyej4YGtF2xHyL5LlKeuoY=; b=mIpOGMonqc5rADNZW/N075uvH+
-	KzLfqLOPTOgk//kebaOwlv0sCQGDeKGilvP2qizEwj6xaBHQQUqWiXOWk7Q4IHrV+yvFDor4ON8yg
-	9wfiYgANfAq5Zu7uqfG3v3Bo8RgMOwEEvGe1fivymm15HLpq+Cqb/h9fOaR4ZhuF0rer/jUyYQS9G
-	9dEN39pp1j4SEpy2EMTCo4u7dX+JW24PEg4SxOFkrQm3bRQqU7/U6dZc3rV914Ydk8WCudQDOTCpe
-	VSSabY17iEWd03GUnktWL7O3Qm5ErjZQS1XcJeon/5HMkeZSNIwPCehIn9oQVlMzV2xNBX3DasQOc
-	zCVWxjnQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZw5G-00000002y1a-3uQp;
-	Sun, 28 Dec 2025 19:05:42 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ce0WLqbn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y9l6znVuBcluoT3WZZbfxhJBPl+Cp90gcDrGJ8H48SPpcJJR414dOBj2zyEbd5vAkxO0HjQ2MC80l++hafkyMiReSZrWeEJUmNSxX0oeXhK7v1u+5Gz70FJA4RwUOKcToN582XlFqzkgvLq9Czp9Rlv1/AplYxSyxFXzvTr8IZkYaUtKQtGFAQM2m3E61G3FjgmNdahW3QXfp+LcOwwa3YF4ETDYrLl3J0/1mFGMnP4aM9ZVBLk/Wi3Z0MpbSk7AIVud56hfKxorJxXObQc4TGYBu9RLch2SiRhT5tPY9elH8/uq8bsmZwC2a1NQ0LQOFsNpiFPTWSNKpWRd2w8TFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LjAHruMCX4Pr0sK+SyUXmoycalDXDWRMIsKbhqSOIgc=;
+ b=QfMuImpVgzNUtRdmVwSrJXCW/8f1dVKwt7xdMrn4ZMrEMVHvEMDoMIs6Q0tB5MfLpEi8GRG35atNp7hxffL2cbkfmqmg8SntEzWlNfn0jpVXKskNt/EPmLCu3+1HKN/Yn1gkoBcWzzzeSbcW9pJHrBcteshI2YAG6uSLPIeLjSkHBcKSfbo+N4wxK6zJR76if7JGVFNSgIf0d2u3/iEELISoeX618IP0LnhuoWRIdHKC8mQ+mVcl70J19CJr0a3xDAbFwf9L0LNpL4mqIAT4UAO2mzxKFgVgaIWO7FN8N9uaiZbFtJsWXYwUn0GXUIF/2ryrmngh8RXzcMKqG1NyOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LjAHruMCX4Pr0sK+SyUXmoycalDXDWRMIsKbhqSOIgc=;
+ b=ce0WLqbn5MytZKzaD7AmY7BtFHHTXl6IQPXlrRAAPWZKifP45ga/Ojx/GgVLh+DI79ZZ8n5OihrOLMRTfhWna9yWUsQYnvHpOB5lOwpTaJ2QhuuSbwYzrXO85FcHkaOOoUSbHKPIlD1W7jeDMlDUAMnD06KCK59LD2CNBCrzzECLyRHXYkVmUCXpGZhvpPf6k4JVQwzn/H/Z2sfvZWmjkg2hhtqUYPt5ZIKRAyaFh/Bkf80fL81oLkAP7D+T/j4kulLh1Slh9+UyBW3/hdxoPu+uCC+WEobHq0o8nKTwHzIflLJ3dYMua/44B4VtACN4ZL7ugZqCjpqDzXeagTKKrw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PAXPR04MB8270.eurprd04.prod.outlook.com (2603:10a6:102:1c7::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 29 Dec
+ 2025 09:00:39 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
+ 09:00:39 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ASoC: amd: drop unused Kconfig symbols
-Date: Sun, 28 Dec 2025 11:05:42 -0800
-Message-ID: <20251228190542.2482910-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_easrc: force cast 'val1' to u32 for do_div()
+Date: Mon, 29 Dec 2025 16:59:19 +0800
+Message-Id: <20251229085919.3952347-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0008.apcprd02.prod.outlook.com
+ (2603:1096:4:194::12) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PAXPR04MB8270:EE_
+X-MS-Office365-Filtering-Correlation-Id: addc720c-c894-47e4-c253-08de46b8bcd2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|19092799006|52116014|366016|7416014|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GeFcP1nLKUN88Lju3oxX5TiQVhOV2RkKUpt3kYZaAg+8DoAOjdDwJMVi9WeQ?=
+ =?us-ascii?Q?M9a4gFL5WhT30wP+vAniaaSyw3W3N8FEposyUSHLZNZB7Z1uAqfRfjrXl0En?=
+ =?us-ascii?Q?w5vC41ZwStAE3cUV098oBe7SAphhdZdBX41EqHeIGQupVozdoPRaE6GBoGQg?=
+ =?us-ascii?Q?osy9bUhR+qjabMvytXKr4Ojt+lIXOqXQrqeWSEehbOh/U3IPTYl10R/JFCng?=
+ =?us-ascii?Q?hN0BJGU8Rhcx3kWPI5R9hgQSUYc3PMnNn2SWuJilobPqy7Jm6dyj0cuFmMpr?=
+ =?us-ascii?Q?if3LwPVSalOTdDJ3P+hBczDp9bDSNeQ6sWO58OqDgEs1X9eLH3Wwov/B0dL0?=
+ =?us-ascii?Q?GEvWGMd9XjegwXvx+HsV+c91wJxvfncbtPpFLABKYbYMRRjGNjDiKvf6TWNQ?=
+ =?us-ascii?Q?zyQd6C882pemlmgYX3RDZ78gtE6Rs+mYipaQyzcmz2e/VVAd0G9agUUBQ763?=
+ =?us-ascii?Q?msBnQiQawcPaG+AHQL7DNDQU1UFOMtEU3BTtnrof6CIMU3b/XcK54a6W7+9I?=
+ =?us-ascii?Q?9+UmaAZ69grQ/Q4PeFwZKPUYW4/dUvm3I1eoW/MLvncG/RqxzDOl5uHSDT1x?=
+ =?us-ascii?Q?PSXxZq/UHtReF2A30/T2KqanuDKQ4UaPSiEa326hApDkDmbqQtw86IdNVWGn?=
+ =?us-ascii?Q?1nWG1ad9RpHsDmj0MIHb9nB+YOQ50k9zuD6eTVdizNVxjukRxoeuJWcKTk3f?=
+ =?us-ascii?Q?JwOVEgnzsmufpPXumJn1ECsyuxXvFfHiLM+PMJbJJllrPs/MqBAeyUC/Etbn?=
+ =?us-ascii?Q?wQAIDY9FGxwDihrY1AMw4ZPu3pp0Se/cIAvbBkPbeiqDmoJuRPZ6hS64EEWV?=
+ =?us-ascii?Q?1Z8o5i1h9yqK6OetCWv/lKICQA91VCWCISYF2AEFZIItX6TLy2RuQlIWkpKT?=
+ =?us-ascii?Q?6kTaiNsxSk5T3XoE3zemXaSNih6cXjuneGpZDrzv7s0NmtHGaDkuJ4RDC8P/?=
+ =?us-ascii?Q?hchHR5ZdpY95qLSqWfTfj7gMNsQB/Z3yt+tRvL1Yu9v4ZHSPkt/jglERkbqQ?=
+ =?us-ascii?Q?B1enFOhA88/i7PLMobkuLHYqO8zz7kLnlnVL+J07gYCzUitzSygT4f3uARSl?=
+ =?us-ascii?Q?UGPSU9TWXROtu7BU2qw1QMYaebowkPfwKWpiF+JnbMPs9C/3UbWc+Nk93lU4?=
+ =?us-ascii?Q?cEJhBhFvwYMOgiIgEPeXyx79wOe1Ozsp0f5gt1WJ9YeXReS/m4mFmk0Mx77p?=
+ =?us-ascii?Q?iSVDf5THerk13US6spb1Z09d+7EVK3cW4vubmsbsQVBegwZYlkas01HsD5hc?=
+ =?us-ascii?Q?fuoY7rN3H4IGEtN30D0VYaLI5I4YR7T0Z+LJ5NLHeaIT8ToGOIO0B6rJ1Xpe?=
+ =?us-ascii?Q?haKgAPuUr79856MHKsaZivL3ZAFis3EtGXMaq9Cl6Ex3iWE3413KSDWKgb8i?=
+ =?us-ascii?Q?0meb/vwXRBEyEExyDN8b0BHVaPsbXOIPUKlu8mesYER09iUAaUgp+q/SW4zX?=
+ =?us-ascii?Q?PrhID3Aec1A5RyIJ2xbVSHLfVR6sbTwNgrwVVMN46cHVn+VAOXSUSKE10BVu?=
+ =?us-ascii?Q?FyHeIRwb0cJoOOOdW1kqe2COIPs+YD/IPqTlPCzBIZ67vKD9uLX8nuOkQQ?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(52116014)(366016)(7416014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Wf9Kd8cSS9jAsOjPQcqOeVetRQ0WTKOUd0wokzo16+7vTsXgjo5iqSFshkDk?=
+ =?us-ascii?Q?CL7oSpeNyrfCOgIBKPHReP9GkUbTz3Y1C6RuwF/7R530m5C7kWfjRbP1TXtl?=
+ =?us-ascii?Q?rqN9IShjl8wESDzFeKAnO5oijVf5UBmqGgHdJtCcLzN/c8ZG0ycA69Dg6MQr?=
+ =?us-ascii?Q?b7gEHH5XzGghSZ51Qh2/P7EHc7iAZR5ynWgbgWOcuzK6LzLV4oKW0oqVpULe?=
+ =?us-ascii?Q?/ERcmlae1o2EeXrh340APn0oUc9TMRByfeGLlisFBNOMdgEx5STZ9Yq4Km3/?=
+ =?us-ascii?Q?ixekCuEn2vfmTYsxKKzzDAGTOs5a1pAejKTk0MZqZ8jXALaUcXXc0xSAXg31?=
+ =?us-ascii?Q?QxNW7hEZmxM0J5a7gZhqJ9ejK6h29WQEb+0nMfERM+EnqR4uGnUcTXEatnoL?=
+ =?us-ascii?Q?eegjvS0DKtr01q0JV/xqjVZvTzdWnZoglR08dcr2YfIGDtqHChwXy6y53olr?=
+ =?us-ascii?Q?4bfBuFa5QPuAe4Ffzsk8alkO/ewRqzo3x+yS2EuY+Ri/JgqGlM9ppsNfmVfo?=
+ =?us-ascii?Q?3bpG9gNnkFaN9UfMJbZzNGPrjIZS9XyNvVpYJ/zPrJZ3y26upxoSpaaqCFW3?=
+ =?us-ascii?Q?qyofucPg2bK+GjvYwmmT56i7Y6G0DpMEbIyvfBP1Flyp8Vy0OM7HHIvN73J2?=
+ =?us-ascii?Q?Y6VcPZXp4Nv53D3SD29En60tb4w8v0d3injqatZQ2CHgCu6pI0cXIwIzaYox?=
+ =?us-ascii?Q?BmZYAD6BX3/tu8WrUiZRsoA6V2C3VzAT6pNWfKAEu1EnvBUxyD7HaU3qlz1f?=
+ =?us-ascii?Q?sgq4IJ9aKAFGsprslBgV86lYs1u+ctpeZWxE7lYxXe7GFXCwKcl3vbK6VIF3?=
+ =?us-ascii?Q?452BoTOsYlB0mRtEc9+bTx0HGdS3X21H5etaRogipBzRcPooHgnrFwjQUaKc?=
+ =?us-ascii?Q?5rV/cu0kt+jfrQV4Oqh6IRR4BXw95VVrvnKDpjFINGOeldPJoIoy0JK0I2LX?=
+ =?us-ascii?Q?VGJU+787ih4pIobZVde0gqP+Dr12WT6I/LWVmDiMmtuwRHAC0plAGuGA2gf6?=
+ =?us-ascii?Q?lPmwqln3QwvlEXyqarXSpJdB7hljiicOrTRz2ENzCv3lC3lY2dJteHV6sEn1?=
+ =?us-ascii?Q?2gL8fucjuONmmKJFmEepxnqXn0id8ad+x09AMEVcol6Y9YAgjYyQMgYLZb/i?=
+ =?us-ascii?Q?NxZkubQuVPW0QGo06dg51P4puOsg+Jn3Tcrxn9dfsScHXTcMvjK3q0XXG6hN?=
+ =?us-ascii?Q?cfscifikIoqqJZnLL58KEaRO8cZmA/BZjYLY3W7Km98mngdFzuw3VI/qLDM8?=
+ =?us-ascii?Q?+PF9I9/bhcAr/PI93yqPX6xX5rj5ASDc0VHuSH9rXPC2O1AxjIM52hQW7WUk?=
+ =?us-ascii?Q?a1RSrT+P6o61VL0XU3fCrL0NC/lcQJwCCn4mLCg/R21YaCh7GvtJKE7bPBNE?=
+ =?us-ascii?Q?INhDa73VdK167dgEbHqCVazwK2D8+JNCipmk0GHWAVv96rJDohPH2k++mkyB?=
+ =?us-ascii?Q?pm/d3vXHBmzcOpg7XbhVFlUOTd4b1vsLjKMclc/vO6jUgdepaXNiNnG4NW7V?=
+ =?us-ascii?Q?pLMNe/3OatFCGUYIp+K/xwc1YuultZO3QdGk1ZNWQvvUKb4ialEF6cW30f+r?=
+ =?us-ascii?Q?WB0uPQVkl6/HgCrQ0K79W4USClA+i1GfbOzZb4EMHFwpJ3TjAZYaN/DE5Rsz?=
+ =?us-ascii?Q?lbxtaJnCVa2ixEfqSYjcFzpvg9ueovs3WQr7iPcdLuucU9YG2Oejipn/GWX8?=
+ =?us-ascii?Q?J9gaNw4QC26EL5MKj9mUThs8EmRi2uG6aSzATkHuwHQnOD5+/UeQk90u3wLj?=
+ =?us-ascii?Q?6OipXD1SKA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: addc720c-c894-47e4-c253-08de46b8bcd2
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2025 09:00:39.2145
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jQVj1zlB8YTggyukkbWsEMx3SGyVzJ24oTO5zXu6SD7BA0o4TUYyByxde81dlKLlQs64RqL4eyEg0RK3NBHXTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8270
 
-Remove the dangling Kconfig references to CLK_FIXED_FCH since they
-are not used anywhere else in the kernel source tree.
+Fix below cocci warnings, the real width of val1 is 32bit, so use force
+cast to avoid warning.
 
-Fixes: 281ddf62f551 ("ASoC: amd: Kconfig: Select fch clock support with machine driver")
-Fixes: d4c750f2c7d4 ("ASoC: amd: acp: Add generic machine driver support for ACP cards")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+cocci warnings: (new ones prefixed by >>)
+>> sound/soc/fsl/fsl_easrc.c:1999:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+
+Fixes: 27147695aaf7 ("ASoC: fsl_easrc: define functions for memory to memory usage")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512281902.bPsKjjkC-lkp@intel.com/
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
-Cc: Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
+ sound/soc/fsl/fsl_easrc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- sound/soc/amd/Kconfig     |    2 --
- sound/soc/amd/acp/Kconfig |    1 -
- 2 files changed, 3 deletions(-)
+diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
+index f404a39009e1..16a45a7146e8 100644
+--- a/sound/soc/fsl/fsl_easrc.c
++++ b/sound/soc/fsl/fsl_easrc.c
+@@ -1996,7 +1996,7 @@ static int fsl_easrc_m2m_calc_out_len(struct fsl_asrc_pair *pair, int input_buff
+ 		/* right shift 12 bit to make ratio in 32bit space */
+ 		val2 = (u64)in_samples << (frac_bits - 12);
+ 		val1 = val1 >> 12;
+-		do_div(val2, val1);
++		do_div(val2, (u32)val1);
+ 		out_samples = val2;
+ 
+ 		out_length = out_samples * out_width * channels;
+-- 
+2.34.1
 
---- linux-next-20251219.orig/sound/soc/amd/acp/Kconfig
-+++ linux-next-20251219/sound/soc/amd/acp/Kconfig
-@@ -104,7 +104,6 @@ config SND_AMD_ASOC_ACP70
- config SND_SOC_AMD_MACH_COMMON
- 	tristate
- 	depends on X86 && PCI && I2C
--	select CLK_FIXED_FCH
- 	select SND_SOC_RT5682_I2C
- 	select SND_SOC_DMIC
- 	select SND_SOC_RT1019
---- linux-next-20251219.orig/sound/soc/amd/Kconfig
-+++ linux-next-20251219/sound/soc/amd/Kconfig
-@@ -8,7 +8,6 @@ config SND_SOC_AMD_ACP
- 
- config SND_SOC_AMD_CZ_DA7219MX98357_MACH
- 	tristate "AMD CZ support for DA7219, RT5682 and MAX9835"
--	select CLK_FIXED_FCH
- 	select SND_SOC_DA7219
- 	select SND_SOC_RT5682_I2C
- 	select SND_SOC_MAX98357A
-@@ -45,7 +44,6 @@ config SND_SOC_AMD_ACP3x
- 
- config SND_SOC_AMD_RV_RT5682_MACH
- 	tristate "AMD RV support for RT5682"
--	select CLK_FIXED_FCH
- 	select SND_SOC_RT5682_I2C
- 	select SND_SOC_MAX98357A
- 	select SND_SOC_CROS_EC_CODEC
