@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE813093C1;
-	Mon, 29 Dec 2025 11:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A3A308F2E;
+	Mon, 29 Dec 2025 11:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767008508; cv=none; b=Rkq5qZpsEmP3Md64mAOQJSOdlWEwbKRpO16/bTjP4unDl4rzF3LLLKYplY9Guh9+CoIUbMYW1KCa+86xi+8JwGExK1PvW9e5Zv7aAV3AmdBPlUVuf0ImCpBm1hYM48fQPjf9NrcxRf+BLVjvtFUR+L/Y9+90S90R23aQIMezPNg=
+	t=1767008591; cv=none; b=nNjUGNx9ZZcN1NTcd2AsYyKwI/F7TOPfvAMQ5RYoD8KPOqp64tqxSAcDrr0Ad0a+/WZdzFCicdZ1xef8ZGwP0wcKMLP9TmLDS5l0elzXYU9RE3fsTz/1RwP8whEULo7VzmR8dgwfVoUABhc8GNQ3o3a3RstUfMZWvtT/SQtS0tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767008508; c=relaxed/simple;
-	bh=AgJkKBTnAePQZOzh6NVfAguauBTO4GywMSEwK2X8WjU=;
+	s=arc-20240116; t=1767008591; c=relaxed/simple;
+	bh=7KyUqnzbcmY9nVaZYZv15nAKUNcPig4+HZFwwNo+vFk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=F4MGIVHijQxgjkEhrntiwYUQiBZy47eT9Lhi3E42KYzxa3rSZPKvdW7UaB0ShMYMG2Fx4ifa4lj/yB5/w8rukFT098y8+BU8JfJk9BU4AbnzbDbwmwdKWQsBwaS0WMxK5ddANm23+YIQeHR8pUOCxHb/u2Zeic/85FzbRnhcSs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CjPhabs9; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=rBoQsUu6o4md6vXPOJ+Ze/k5zQhDfD8MlbIcwe/SsRC+pAFyeGBT49xGm7+Y/tNJwO3rVU5VViBYrvwjGcyM9wXO/RYTjfXEQ/LAFfxCR5xwmilkrEDhgAZRq7/fTm6T4e7T+fv5mo8rHTS2D6fz+ejiCa9vog0+3r+tGZWgqpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQorYVXZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CjPhabs9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD75C4CEF7;
-	Mon, 29 Dec 2025 11:41:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQorYVXZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B19C4CEF7;
+	Mon, 29 Dec 2025 11:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767008506;
-	bh=AgJkKBTnAePQZOzh6NVfAguauBTO4GywMSEwK2X8WjU=;
+	s=k20201202; t=1767008590;
+	bh=7KyUqnzbcmY9nVaZYZv15nAKUNcPig4+HZFwwNo+vFk=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=CjPhabs98ILmiTmTpEtIK41rooqSUuFkIiEXhs6bdEe6TzYs/Mc1Psug/4fhOyxD+
-	 oY9VGEdK55q2Ptxo0WEwoTpIPjD6CicPMGuDvNU0340KDZONkW2PAhOxuyQGqUaqJD
-	 z8Ds5RvcD3bn3XuXcOHfJX6IfWvWOD1ehMVf7hlRedxrQuDpfGPzef0fqXG6i8oS9Q
-	 vOuQrYCGHphyk5HwiUgQyGFwco65DU/gIuCSb9R2jDqKlEqZPAtU8lTbr+7l8oHSVT
-	 rKL4tBvwFx46a7jn0sBsOJQYcVjRaJKv4cFCH9HffH4kzkFWWV2IEUfhQC7OBiGS8i
-	 J+xd8Ll7W9hCg==
-Message-ID: <659ae0db-8bb2-4638-88a0-fe975f5fbd8d@kernel.org>
-Date: Mon, 29 Dec 2025 12:41:40 +0100
+	b=AQorYVXZAi3/++LvytZJW/TaKAv9CucHPxFoJzCNbI9sFSFIBAxsLjPEDBeB7+ToV
+	 fSEhyVmXyyZnEbhSwIytd5Jk7gAeCMvhyt/Javdtb/pdHevBQ6XNahaprNF68JXcvg
+	 /+u2hMJCeEElmbDSELy5qdw+Rx9yhW0MnOGOuXDN7cl1u70wAXJ+m7fJP4tOEjzxEV
+	 z5uzPQ4VEf1lmseTjYsh3dXFzHfIvOw/aUDCweO5fuMopWjzimJQqV8q9BycEDnhDY
+	 fkwCBUvBQWFGYb9U7dxQa37b/c2ooqjWnNRQWcN5NPZ6ajhg5yTFEciqwmr9/C9UyY
+	 x8yG/eZ6MXXUw==
+Message-ID: <6bfbce03-e58d-4468-8d9d-822bd8ee75d6@kernel.org>
+Date: Mon, 29 Dec 2025 12:43:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: simple-card: add
- 'hp-pin-name-headphone' property
+Subject: Re: [PATCH 2/2] ASoC: simple-card-utils: Add support of
+ "hp-pin-name-headphone" property
 To: Shengjiu Wang <shengjiu.wang@nxp.com>, broonie@kernel.org,
  kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz,
  tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  devicetree@vger.kernel.org
 References: <20251229111839.4009517-1-shengjiu.wang@nxp.com>
- <20251229111839.4009517-2-shengjiu.wang@nxp.com>
+ <20251229111839.4009517-3-shengjiu.wang@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,7 +89,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251229111839.4009517-2-shengjiu.wang@nxp.com>
+In-Reply-To: <20251229111839.4009517-3-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -102,24 +102,31 @@ On 29/12/2025 12:18, Shengjiu Wang wrote:
 > 
 > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  Documentation/devicetree/bindings/sound/audio-graph-card2.yaml | 3 +++
->  Documentation/devicetree/bindings/sound/audio-graph.yaml       | 3 +++
->  Documentation/devicetree/bindings/sound/simple-card.yaml       | 3 +++
->  3 files changed, 9 insertions(+)
+>  sound/soc/generic/simple-card-utils.c | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
-> index 40eb1d7d6cf1..803e0a960d2e 100644
-> --- a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
-> +++ b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
-> @@ -39,6 +39,9 @@ properties:
->      $ref: audio-graph.yaml#/properties/mic-det-gpios
->    widgets:
->      $ref: audio-graph.yaml#/properties/widgets
-> +  hp-pin-name-headphone:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: Specify 'Headphone' as headphone pin name.
+> diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+> index bdc02e85b089..3d2194e23373 100644
+> --- a/sound/soc/generic/simple-card-utils.c
+> +++ b/sound/soc/generic/simple-card-utils.c
+> @@ -779,6 +779,24 @@ int simple_util_parse_pin_switches(struct snd_soc_card *card,
+>  }
+>  EXPORT_SYMBOL_GPL(simple_util_parse_pin_switches);
+>  
+> +static const char *simple_util_parse_hp_pin_name(struct snd_soc_card *card,
+> +						 char *prefix, char *pin)
+> +{
+> +	struct device_node *node = card->dev->of_node;
+> +	const char *str = NULL;
+> +	char prop[128];
+> +
+> +	if (!prefix)
+> +		prefix = "";
+> +
+> +	snprintf(prop, sizeof(prop), "%s%s", prefix, "hp-pin-name-headphone");
+> +
 
-Not a DT property. You described ASoC drivers / core code, not hardware.
+That's different name than you defined in the bindings.
 
 Best regards,
 Krzysztof
