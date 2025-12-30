@@ -1,209 +1,64 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE1A30E822
-	for <linux-sound@vger.kernel.org>; Tue, 30 Dec 2025 14:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6120D296BB5;
+	Tue, 30 Dec 2025 17:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767106084; cv=none; b=SbI9vXLniKD1/lwDnSeoZVyy0o5xzkbYmbVHjfc8qaKi4STaprT5WwJLq4dBi7Zo+CNX6r39HZ824NFmPmVgUOzdNtVjCNlrAryzSssQt/T2qdAt2BvQC0DNOMSP6HW26QZ5j5QH5CXerqFbxN0aFeECqh6vejinUFcT92eo2NY=
+	t=1767117215; cv=none; b=cIXMf2IZ3RB9/fMN/L549CXVzG/nh0Z5TKbJNyRLJ8/wNyAKUs7iN6mSqmybvF9Kbjfcc4etSk4ZtlOGFlgXYgZHkrpZ+FY6QIRegJtAnPX9SSrGBGAuG/WAGh1vv04A8eCQSDiDZCpJXKfTObrpI29B8fZHZB2x6vRTYSalKMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767106084; c=relaxed/simple;
-	bh=86YxvffXdzhiRDnZ7Cz3ttihzhPnIkUW8CUHVCS1mLY=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=egLl8b6BlRZVU6PprORrYfqfeDH3Ba/FxDi8b8/rN/OBhhGVxquUW7QMt/45GoW/GUFyVxHswsbxmU6xwXJBK7/nFJBGITy589cR8W16rpzDqtNKGZUvMg4OqvKqPOxaF8jXMT4m3KJnd4kQPyICDTzt9qkkOiGqH90RwTie4FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uYv0aP1s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwawA58b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uYv0aP1s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwawA58b; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1767117215; c=relaxed/simple;
+	bh=+N/IjSIDB5ejHj2ePTrKIdz05Jvs6mJBEoU2jFHEjFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i6UIQ4BMlhUwaPygt2uOWn96tD2j9QxOIC6hIuOcatOopqxfxWR2QN8e3Bz63ElDnHuf2arh2tFwMyW8vKdzW888AjK2uaxPRFR0KyCP9d2BNgXYqwDWlmp4taB4yWbTR57Eukm7aWV1e65zt7c9b5ISW2yct+wuwj0hO6tmaqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OrVh/PY7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uYv0aP1s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwawA58b";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uYv0aP1s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwawA58b"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4ECF833683;
-	Tue, 30 Dec 2025 14:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767106073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
-	b=uYv0aP1sxIlVrAh4kbrrG3g4MOBzEOy6aZj4Seo49yeSZNRIJeFZo9SxDDS5tcAh0fR3NR
-	+iyDcGx/0GMx6qrt8Nzg+HvJXZoxut31U2RcGDHVjkvV1wgpcxdZERcNmlfBzNLRDOLybd
-	27IT8JtAT8J1hEOd2KQQjhUi4aYKRyM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767106073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
-	b=rwawA58bhb59k2H1cV7HEIKQrDx1KPJReRoggjcopiKt5k0cp1PHOcJYegwDs7mYiDj5M3
-	M2ko68+gaSz5u6Dw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uYv0aP1s;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rwawA58b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767106073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
-	b=uYv0aP1sxIlVrAh4kbrrG3g4MOBzEOy6aZj4Seo49yeSZNRIJeFZo9SxDDS5tcAh0fR3NR
-	+iyDcGx/0GMx6qrt8Nzg+HvJXZoxut31U2RcGDHVjkvV1wgpcxdZERcNmlfBzNLRDOLybd
-	27IT8JtAT8J1hEOd2KQQjhUi4aYKRyM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767106073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
-	b=rwawA58bhb59k2H1cV7HEIKQrDx1KPJReRoggjcopiKt5k0cp1PHOcJYegwDs7mYiDj5M3
-	M2ko68+gaSz5u6Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A46F13879;
-	Tue, 30 Dec 2025 14:47:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id t7YzDhnmU2klIAAAD6G6ig
-	(envelope-from <rguenther@suse.de>); Tue, 30 Dec 2025 14:47:53 +0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Richard Biener <rguenther@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OrVh/PY7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0471C4CEFB;
+	Tue, 30 Dec 2025 17:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767117214;
+	bh=+N/IjSIDB5ejHj2ePTrKIdz05Jvs6mJBEoU2jFHEjFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OrVh/PY7ejRXIMFdmu2fzHvatsSUKUI6jkfdZmwmXvRjXZMQlAG24v/vT+mwuSTZj
+	 JvmMJJYhnl992wkNpqBzMjPezPbMsO9FISnGe0hAlbI9hI0C4A7oviodt7GO6c8Cl8
+	 +F5JSqAv13sE4R+P3XXvCLFhqTYsCksIBycUsoRxVBRVckwgurscva4Or644cEqPMn
+	 aYTaOc8htK7Udk0AfJm2k9yhVQZWYW6X0tZbjEOWIatXuw7VBxtYZknApSVSQh9azG
+	 /lka5watD/jPIJkh8/om06MS25djB+LdyJFmr5SrUaDm0blE2yc7TJCYTkzv7jiMIu
+	 2Z7Z4pxNN9jzA==
+Date: Tue, 30 Dec 2025 11:53:33 -0600
+From: Rob Herring <robh@kernel.org>
+To: Oder Chiou <oder_chiou@realtek.com>
+Cc: cezary.rojewski@intel.com, broonie@kernel.org, lgirdwood@gmail.com,
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	alsa-devel@alsa-project.org, flove@realtek.com,
+	shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+Subject: Re: [PATCH v11 3/4] ASoC: dt-bindings: realtek,rt5575: add support
+ for ALC5575
+Message-ID: <20251230175333.GA854335-robh@kernel.org>
+References: <20251226083914.1052653-1-oder_chiou@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] ASoC: Intel: avs: replace strcmp with sysfs_streq
-Date: Tue, 30 Dec 2025 15:47:27 +0100
-Message-Id: <3F5AC302-8FC6-40A7-A180-F10B46A2E077@suse.de>
-References: <20251230132542.27c99ab5@fedora>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
- Brahmajit Das <listout@listout.xyz>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
- linux-next@vger.kernel.org, liam.r.girdwood@linux.intel.com,
- peter.ujfalusi@linux.intel.com, tiwai@suse.com,
- Richard Biener <rguenth@gcc.gnu.org>
-In-Reply-To: <20251230132542.27c99ab5@fedora>
-To: =?utf-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-X-Mailer: iPhone Mail (23C55)
-X-Spam-Flag: NO
-X-Spam-Score: -5.51
-X-Rspamd-Queue-Id: 4ECF833683
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[asmblr.net:email,suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,gnu.org:url];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	APPLE_IOS_MAILER_COMMON(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,gnu.org:url,intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251226083914.1052653-1-oder_chiou@realtek.com>
 
+On Fri, Dec 26, 2025 at 04:39:14PM +0800, Oder Chiou wrote:
+> Audio codec with I2S, I2C and SPI.
+> 
+> Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../bindings/sound/realtek,rt5575.yaml        | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
 
+Where's the rest of the series? You are missing an In-Reply-To header 
+and that breaks the tools (b4).
 
-> Am 30.12.2025 um 13:25 schrieb Amadeusz S=C5=82awi=C5=84ski <amade@asmblr.=
-net>:
->=20
-> =EF=BB=BFOn Tue, 30 Dec 2025 10:36:27 +0100
-> Cezary Rojewski <cezary.rojewski@intel.com> wrote:
->=20
->>> On 2025-12-30 9:32 AM, Brahmajit Das wrote:
->>>=20
->>> Not sure if it would help but I tracked or narrowed down the issue to
->>> this section of the code in the avs_condpaths_walk function.
->>>=20
->>>=20
->>>    if (avs_tplg_path_template_id_equal(&template->source,
->>>                                        &template->sink) && dir)
->>>        continue;
->>>=20
->>> If I just comment that code segment out, then it builds successfully;
->>> both with and without the hard coded name length. =20
->>=20
->> Outstanding! Thank you for this exercise.
->=20
-> Yes, I also managed to reproduce it on my machine.
->=20
-> You can also just reverse the order in
-> avs_tplg_path_template_id_equal() to:
-> return !strcmp(id->tplg_name, id2->tplg_name) && id->id =3D=3D id2->id;
-> which for some reason makes the error disappear.
->=20
->>> I was also looking into GCC bugzilla and there seems to lot of reports
->>> saying these kind of error could be bogus or false positive. I'm not
->>> familiar with GCC internal or experienced in compilers to say/understand=
-
->>> whether this case in particular is a false positive or not. =20
->>=20
->> Wouldn't be the first time, though having successful builds ain't wrong
->> either. After all we have git log and incremental changes/reverts are
->> not a problem.
->>=20
->=20
-> I've bisected it down on GCC side to:
-> https://gcc.gnu.org/git/gitweb.cgi?p=3Dgcc.git;a=3Dcommitdiff;h=3Dfc628345=
-33f357125b9c1934f80c2ba249adbf9e
-> in particular it seems to be caused by code added in gcc/tree-ssa-pre.cc
-> I'm not that familiar with how GCC works, but to me it seems like maybe
-> it loses size information during this conversion.
->=20
-> I would make normal bug report, but apparently I can't just make GCC
-> bugzilla account, so adding Richard to CC, while I go through request
-> process for an account.
->=20
-> @Richard
-> Hi, we seem to have hit a slight problem while building kernel with pre
-> release GCC caused by one of your patches, full thread is available
-> here:
-> https://lore.kernel.org/linux-sound/20251221185531.6453-1-listout@listout.=
-xyz/T/#u
-> and my reasoning above.
-
-It would be great if you can share preprocessed source to reproduce the issu=
-e, ideally attached to a new bugreport on the GCC bugzilla.
-
-I=E2=80=99ll note the diagnostic in question is highly dependent on prior op=
-timization and known to be prone to false positives.  I=E2=80=99ll investiga=
-te after holidays.
-
-Richard=20
-
->>> BTW I can't seem to send the email to Amadeusz, hence removing them from=
-
->>> the CC-list =20
->>>> msmtp: recipient address amade@asmblr.net not accepted by the server =20=
-
->>=20
->> That's weird. The @linux.intel.com is gone but what you mentioned is the
->> correct one.
->=20
-> Yup, that's weird, but nothing lost, I'm subscribed to mailing list ;)
+Rob
