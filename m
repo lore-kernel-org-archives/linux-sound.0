@@ -1,127 +1,79 @@
-Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19E41D416C;
-	Tue, 30 Dec 2025 12:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.128.243.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C121EEA5F;
+	Tue, 30 Dec 2025 13:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767097557; cv=none; b=vFjlicby1wl8dzQTEfv5LJA3ufwUHpcMeglJhROL2NpAgHi56J467BnAgQHGDggnaXuSkgbod3NRn/BT1k2az9Giv8LfVf1X3imbcy8GXUY7IVN4zsvkZelz4mDEftQ9kxgmnBp+r/v53q26+akVwk5IEcUEw7741LMPKxy2Mjw=
+	t=1767100971; cv=none; b=lhnsNvOPg5hKAZB5CT7inb49zDbkIFEELkshI4Xku4CGxH87CO9cPDikYM82ykyU7s+q+bzrLFJnSaInNrJ96eFawD48xdejLaBMeaiTAqv7E4daHR9X3cTfgsjoxhP7EIOnnZPzMavSaujsLfeZSRelLAHd5CkYwOV9XqUpm+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767097557; c=relaxed/simple;
-	bh=MQRkymz0aI75p72QKuUuSGmmcfQqw5F7Xa7YToTDrkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aBJgHr/hmDSmo1KZTLG6L8fIcZjkW8n9dxOCs3dPrwEGQlWIsqjAZGJgwlTTjTr7QAjcNUikTZ/4M1QMtvblMyMbLqN1KopvR8R5lRKL0ytylILuhPqQcQvxmjLfYR/IBaP3YnAW72uRn8nvVBJsdLjelGTlXfrC4MdR3WiNtxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net; spf=pass smtp.mailfrom=asmblr.net; dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.b=x0wNEmuP; arc=none smtp.client-ip=85.128.243.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
+	s=arc-20240116; t=1767100971; c=relaxed/simple;
+	bh=Wze0NFgpdfS00ZnmObWrak6jbkWCcH3+swvVf2/bpfc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H7CHbz5gU4x7Zp2Twt+89MS+YeRJ2edL4v6wbzqukCLrQuzk0TbgZbPhOySBO6jHchSyGx1lT0hB9Q/xv6DIxZNI/dGuVyZ/mDWKppbqALZkU6aTidwfNru5AIOz+yujz4WQnCOEVfczZ2OHlLY4ueqmHPr9dQsqOFcOBmqlD7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=H+YkMepq; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.b="x0wNEmuP"
-X-Virus-Scanned: by amavisd-new using ClamAV (24)
-X-Spam-Flag: NO
-X-Spam-Score: -0.635
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
-	s=1706450368.internal; t=1767097543;
-	bh=Ih1oNrDIRN30m9hjYu0UQBdcWcllJnU2Yu6b5P76YOg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=x0wNEmuPTMAy74VTM4S8zfmfEBJgcC2bjBwiYm1LQlflOXGDIyAodTmstN0pn2cdO
-	 dwVRzJ8aLSl2beE0KKLlD2RHLXJlaklm2hYJq3pIv8NcTIjNkU29ZggKI6tG6jZAW2
-	 Q5GmMe7klhzE2PvWBjxw/XUeB3wRIxfByCO5lTzlcCJyVeNGiUDNNg2mD4+VZMjg26
-	 xY8w1iRbXFlpwkBC3oGutI4S/U1kCMRQyUrWy5r7+C+n5x0mBf+pEGgRINOu9vbfFa
-	 c6/Xpq82vDtb4AAKpCZfDX+cXw2IPm/4w6u8Coh5GLmpTfO6POGkXe8l2NG7PfGdIW
-	 7DyUjZFBz/S9A==
-Received: from fedora (91-150-220-202.dynamic.play.pl [91.150.220.202])
-	by server753313.nazwa.pl (Postfix) with ESMTP id 439A91BD578;
-	Tue, 30 Dec 2025 13:25:43 +0100 (CET)
-Date: Tue, 30 Dec 2025 13:25:42 +0100
-From: Amadeusz =?UTF-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Brahmajit Das <listout@listout.xyz>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.de>, <linux-sound@vger.kernel.org>,
- <linux-next@vger.kernel.org>, <liam.r.girdwood@linux.intel.com>,
- <peter.ujfalusi@linux.intel.com>, <tiwai@suse.com>, Richard Biener
- <rguenther@suse.de>, Richard Biener <rguenth@gcc.gnu.org>
-Subject: Re: [PATCH] ASoC: Intel: avs: replace strcmp with sysfs_streq
-Message-ID: <20251230132542.27c99ab5@fedora>
-In-Reply-To: <4b85c90a-727e-43a2-b1bc-91dd00045e90@intel.com>
-References: <20251221185531.6453-1-listout@listout.xyz>
-	<176650962400.445350.17331328109538303145.b4-ty@kernel.org>
-	<20251223192409.50a6e4ab@fedora>
-	<aUsBgVbloPqBa6sZ@localhost>
-	<877bucgpob.wl-tiwai@suse.de>
-	<aUvP7FL6c1snBc_S@sirena.co.uk>
-	<3cd18fd0-6fef-4804-9474-41a500329e6f@intel.com>
-	<aVOKgHJ4NXs5mKe_@localhost>
-	<4b85c90a-727e-43a2-b1bc-91dd00045e90@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="H+YkMepq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3VqAlD/08mwAxFeaLeqivqwc8/RkhMgCfs5Gg8e6XRo=;
+  b=H+YkMepqDNbPPKa2M3KWHakp93F81fLCg3yIQ12wRtWCLiqcdmo190Xw
+   3JWKoQrUdJkwdqtBRxGOyCsBKCo3Ed41/+FIQGgTSBWe6dvbCNvEBw/jQ
+   Z6swy103UDTftY5MyiHBZAPYbYV83Zpu2MpPGf/m0KkN20ul4/U5TyvJb
+   k=;
+X-CSE-ConnectionGUID: TFa8zwzrRQKj4JnU1XvEfg==
+X-CSE-MsgGUID: HfdnC1D4RueiOgDL36YQDw==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.21,189,1763420400"; 
+   d="scan'208";a="256343479"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.102.196])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 14:22:40 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: yunbolyu@smu.edu.sg,
+	kexinsun@smail.nju.edu.cn,
+	ratnadiraw@smu.edu.sg,
+	xutong.ma@inria.fr,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: mixart: adjust field name reference
+Date: Tue, 30 Dec 2025 14:22:35 +0100
+Message-Id: <20251230132235.90687-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-NA-AI-Spam-Probability: 0.48
-X-NA-AI-Is-Spam: no
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Dec 2025 10:36:27 +0100
-Cezary Rojewski <cezary.rojewski@intel.com> wrote:
+buf_period_pos seems to not have existed in the git history, but the
+buf_period_frag field is used with the buf_periods field in the
+function snd_mixart_stream_pointer in mixart.c, so it seems that
+buf_periods is what was intended.
 
-> On 2025-12-30 9:32 AM, Brahmajit Das wrote:
-> > 
-> > Not sure if it would help but I tracked or narrowed down the issue to
-> > this section of the code in the avs_condpaths_walk function.
-> > 
-> > 
-> > 	if (avs_tplg_path_template_id_equal(&template->source,
-> > 										&template->sink) && dir)
-> > 		continue;
-> > 
-> > If I just comment that code segment out, then it builds successfully;
-> > both with and without the hard coded name length.  
-> 
-> Outstanding! Thank you for this exercise.
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Yes, I also managed to reproduce it on my machine.
+---
+ sound/pci/mixart/mixart.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You can also just reverse the order in
-avs_tplg_path_template_id_equal() to:
-return !strcmp(id->tplg_name, id2->tplg_name) && id->id == id2->id;
-which for some reason makes the error disappear.
+diff --git a/sound/pci/mixart/mixart.h b/sound/pci/mixart/mixart.h
+index cbed6d9a9f2e..3fcc5ca757c1 100644
+--- a/sound/pci/mixart/mixart.h
++++ b/sound/pci/mixart/mixart.h
+@@ -125,7 +125,7 @@ struct mixart_stream {
+ 
+ 	u64  abs_period_elapsed;  /* last absolute stream position where period_elapsed was called (multiple of runtime->period_size) */
+ 	u32  buf_periods;         /* periods counter in the buffer (< runtime->periods) */
+-	u32  buf_period_frag;     /* defines with buf_period_pos the exact position in the buffer (< runtime->period_size) */
++	u32  buf_period_frag;     /* defines with buf_periods the exact position in the buffer (< runtime->period_size) */
+ 
+ 	int channels;
+ };
 
-> > I was also looking into GCC bugzilla and there seems to lot of reports
-> > saying these kind of error could be bogus or false positive. I'm not
-> > familiar with GCC internal or experienced in compilers to say/understand
-> > whether this case in particular is a false positive or not.  
-> 
-> Wouldn't be the first time, though having successful builds ain't wrong 
-> either. After all we have git log and incremental changes/reverts are 
-> not a problem.
-> 
-
-I've bisected it down on GCC side to:
-https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;a=commitdiff;h=fc62834533f357125b9c1934f80c2ba249adbf9e
-in particular it seems to be caused by code added in gcc/tree-ssa-pre.cc
-I'm not that familiar with how GCC works, but to me it seems like maybe
-it loses size information during this conversion.
-
-I would make normal bug report, but apparently I can't just make GCC
-bugzilla account, so adding Richard to CC, while I go through request
-process for an account.
-
-@Richard
-Hi, we seem to have hit a slight problem while building kernel with pre
-release GCC caused by one of your patches, full thread is available
-here:
-https://lore.kernel.org/linux-sound/20251221185531.6453-1-listout@listout.xyz/T/#u
-and my reasoning above.
-
-> > BTW I can't seem to send the email to Amadeusz, hence removing them from
-> > the CC-list  
-> >> msmtp: recipient address amade@asmblr.net not accepted by the server  
-> 
-> That's weird. The @linux.intel.com is gone but what you mentioned is the 
-> correct one.
-
-Yup, that's weird, but nothing lost, I'm subscribed to mailing list ;)
