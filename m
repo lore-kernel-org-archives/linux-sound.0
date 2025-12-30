@@ -1,139 +1,209 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C52913B584
-	for <linux-sound@vger.kernel.org>; Tue, 30 Dec 2025 14:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE1A30E822
+	for <linux-sound@vger.kernel.org>; Tue, 30 Dec 2025 14:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767105283; cv=none; b=F2ZPQoObpIdiJt8cv1lBTBtqkPb6wkWJ17HcbRp/tVW52K8oa/6Ph5p+Su1jbHh9jv3hLjU4Gd5JWXegOEwHcah9DEhAfpackOh1im/9MCcRr7HWXulkF7mB6azdcQGOLBFSTJ0upv7XxXHI8hy21VwHtv596+YS0WztWRzyBks=
+	t=1767106084; cv=none; b=SbI9vXLniKD1/lwDnSeoZVyy0o5xzkbYmbVHjfc8qaKi4STaprT5WwJLq4dBi7Zo+CNX6r39HZ824NFmPmVgUOzdNtVjCNlrAryzSssQt/T2qdAt2BvQC0DNOMSP6HW26QZ5j5QH5CXerqFbxN0aFeECqh6vejinUFcT92eo2NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767105283; c=relaxed/simple;
-	bh=KoYLwHneht1PiDc3ZMeV8jsaEkp3iNQJynkzP0bKtzg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gFhYZ9Fs3+VmQ8jWBmCZcRuokYpj/Z/k+1tZxB/CjvULkEdW8rLbtdu/7ZcSI36VaVq5xIeyIJHocZ0a36RXZRgCzuzxhi+byOsWU6c/jYJAkJHjZEOulnJjP/BzSDcEDqlzYlcHFe4hUsogVwdmhm0B8wf61OmJr6w+rB3yJgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IB5xAREA; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767106084; c=relaxed/simple;
+	bh=86YxvffXdzhiRDnZ7Cz3ttihzhPnIkUW8CUHVCS1mLY=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=egLl8b6BlRZVU6PprORrYfqfeDH3Ba/FxDi8b8/rN/OBhhGVxquUW7QMt/45GoW/GUFyVxHswsbxmU6xwXJBK7/nFJBGITy589cR8W16rpzDqtNKGZUvMg4OqvKqPOxaF8jXMT4m3KJnd4kQPyICDTzt9qkkOiGqH90RwTie4FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uYv0aP1s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwawA58b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uYv0aP1s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwawA58b; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IB5xAREA"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43284ed32a0so1549926f8f.3
-        for <linux-sound@vger.kernel.org>; Tue, 30 Dec 2025 06:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767105279; x=1767710079; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bdN/9k6EsRbfhtuyrjMNEuOVTDLjPmM9gCITSIDuBIc=;
-        b=IB5xAREAZ1khE0ULQ9OFNWQTUbyhfig5iOwtWSajY5Sq09rlUR5dNLAqJkIqhULH1Z
-         DxsfAG577ge++Uhkgj3ktTV/otmFQIbCVXOfGH4RKoimetpNrl7LM7szhMOzse2tpyHZ
-         9Fvzsa1om30thUNACUEB5sTXpbx0E34wwUfJV4y1EDCisZjMyPnowKfx25dpH0GLAWJd
-         0QUhn7lRJB3cb4dgCic8BYxvIpkmWNxJvL/ZCIYElAMXi8Rbd51cGkCB9AdE0s45vTG4
-         PCxP9U6shyp3r833nWm2kpSE3zT1xbsXisca0SOqOBv3OSOs1pjEFz3+ug3CaQHPmaJX
-         WRYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767105279; x=1767710079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bdN/9k6EsRbfhtuyrjMNEuOVTDLjPmM9gCITSIDuBIc=;
-        b=h9PQGjgAhK/Is43IO90RNzAmjIB5VfpZbiGyP4kQ5RZYLGwUyAcjUTmm5L8iyTvnzX
-         in9oh4uSLG5NMNzeXC0pLzDoB4Tiu3IIoDzSkzrhDhrA+BpWjq1JvvkcK/Dtyucf9se5
-         EbSQJRmBYVUQcUBZj5hBiHMVVCAwUybKPzTq6TPMaLDatYIxaoQ3W7GpD1I523HA31N9
-         wwPnmxkwTPLZfUZjZE0c6P/9GL2mB89l8qy8Yyo2uL886F6YlXvIk04kDpQPAv2vpDK9
-         EqulZpwafuSGU+sGDemJqKnZndVLijvUs4IWdK0EsvQ93+giuS0qlisEpzTyfknGCyVZ
-         qkfA==
-X-Forwarded-Encrypted: i=1; AJvYcCVcbF1XUVeDfSsIxu/GBg8D2+J1gt6YWiSXpSKVxf49KlLiL++V/wW/xfzdq5unvkZsrU6SE4cHeDSzXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx47QoQohkigomLaJXy8i+HXMYuOvnl1LyFe41UNu2h6iPr/ZnJ
-	ozI1nGals+JNJEmRMZX8akm/yvRvXZVkGL7tf3Gz4R2O3iDAHh9IxHjZevk5CusON50=
-X-Gm-Gg: AY/fxX5QoFldFz3ujFGX1igG6HimnWdGrLh+VwSlGtc5G/ZiCBPaVRqNoFMZrHCEeEM
-	CvUj3vY20IR3FWqeF6+qVL0gpguqa3w3oGFunWSqrSVtCw8YYyyUdZOn2bzAexwBA6wK5nuV/tA
-	HQSnsvPW7zVhPEEgwFzaqp+vEf2Yv92VAUGNXRIHRrmetpOjoj0wvGwUv/CIH+8TGNpUpkusp7K
-	7KbtuufdQhgK7asYIgSyPkP8ntxGJXtc6wyzInCbDevHacpP3c7k/flX9RYfyVGw1LmdHauC7h1
-	Ko8qjLqZ4hhulyeUpszA9yGyk6LLrTHZXx0Njy7mK5lpUPBYs6KYU774qyoqovZSI2GMEdIxgN2
-	f/5zfJETpgziW6j73BfCSvp6bzKcC4s+yH7QcJ6jIKSeIIkvYJ5bvBhs+dYqHB/POH8KUAwO4Gx
-	Rd4cOFt1/rPfM/Gn0wZKOtw6GGsA==
-X-Google-Smtp-Source: AGHT+IEjE9Uo0j0DxPcH6y2QbUU75EjGUcWU0gw8zzeZp5kqlhNVFXs0AuUBVHTwm3DxKo/tsQJClA==
-X-Received: by 2002:a05:6000:2c06:b0:431:1ae:a3be with SMTP id ffacd0b85a97d-4324e4bf93bmr37309699f8f.3.1767105279446;
-        Tue, 30 Dec 2025 06:34:39 -0800 (PST)
-Received: from linux.fritz.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43277b0efefsm35621387f8f.25.2025.12.30.06.34.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 06:34:39 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2] ASoC: SDCA: Replace use of system_wq with system_dfl_wq
-Date: Tue, 30 Dec 2025 15:34:29 +0100
-Message-ID: <20251230143429.179643-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uYv0aP1s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwawA58b";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uYv0aP1s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwawA58b"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4ECF833683;
+	Tue, 30 Dec 2025 14:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767106073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
+	b=uYv0aP1sxIlVrAh4kbrrG3g4MOBzEOy6aZj4Seo49yeSZNRIJeFZo9SxDDS5tcAh0fR3NR
+	+iyDcGx/0GMx6qrt8Nzg+HvJXZoxut31U2RcGDHVjkvV1wgpcxdZERcNmlfBzNLRDOLybd
+	27IT8JtAT8J1hEOd2KQQjhUi4aYKRyM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767106073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
+	b=rwawA58bhb59k2H1cV7HEIKQrDx1KPJReRoggjcopiKt5k0cp1PHOcJYegwDs7mYiDj5M3
+	M2ko68+gaSz5u6Dw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uYv0aP1s;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rwawA58b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767106073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
+	b=uYv0aP1sxIlVrAh4kbrrG3g4MOBzEOy6aZj4Seo49yeSZNRIJeFZo9SxDDS5tcAh0fR3NR
+	+iyDcGx/0GMx6qrt8Nzg+HvJXZoxut31U2RcGDHVjkvV1wgpcxdZERcNmlfBzNLRDOLybd
+	27IT8JtAT8J1hEOd2KQQjhUi4aYKRyM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767106073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2f129EplgPD25oA6CVml3VSpc9/LxaEOBuvabgGLHCM=;
+	b=rwawA58bhb59k2H1cV7HEIKQrDx1KPJReRoggjcopiKt5k0cp1PHOcJYegwDs7mYiDj5M3
+	M2ko68+gaSz5u6Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A46F13879;
+	Tue, 30 Dec 2025 14:47:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t7YzDhnmU2klIAAAD6G6ig
+	(envelope-from <rguenther@suse.de>); Tue, 30 Dec 2025 14:47:53 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Richard Biener <rguenther@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] ASoC: Intel: avs: replace strcmp with sysfs_streq
+Date: Tue, 30 Dec 2025 15:47:27 +0100
+Message-Id: <3F5AC302-8FC6-40A7-A180-F10B46A2E077@suse.de>
+References: <20251230132542.27c99ab5@fedora>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Brahmajit Das <listout@listout.xyz>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
+ linux-next@vger.kernel.org, liam.r.girdwood@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, tiwai@suse.com,
+ Richard Biener <rguenth@gcc.gnu.org>
+In-Reply-To: <20251230132542.27c99ab5@fedora>
+To: =?utf-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= <amade@asmblr.net>
+X-Mailer: iPhone Mail (23C55)
+X-Spam-Flag: NO
+X-Spam-Score: -5.51
+X-Rspamd-Queue-Id: 4ECF833683
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[asmblr.net:email,suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,gnu.org:url];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	APPLE_IOS_MAILER_COMMON(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,gnu.org:url,intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-This patch continues the effort to refactor workqueue APIs, which has begun
-with the changes introducing new workqueues and a new alloc_workqueue flag:
 
-   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-The point of the refactoring is to eventually alter the default behavior of
-workqueues to become unbound by default so that their workload placement is
-optimized by the scheduler.
+> Am 30.12.2025 um 13:25 schrieb Amadeusz S=C5=82awi=C5=84ski <amade@asmblr.=
+net>:
+>=20
+> =EF=BB=BFOn Tue, 30 Dec 2025 10:36:27 +0100
+> Cezary Rojewski <cezary.rojewski@intel.com> wrote:
+>=20
+>>> On 2025-12-30 9:32 AM, Brahmajit Das wrote:
+>>>=20
+>>> Not sure if it would help but I tracked or narrowed down the issue to
+>>> this section of the code in the avs_condpaths_walk function.
+>>>=20
+>>>=20
+>>>    if (avs_tplg_path_template_id_equal(&template->source,
+>>>                                        &template->sink) && dir)
+>>>        continue;
+>>>=20
+>>> If I just comment that code segment out, then it builds successfully;
+>>> both with and without the hard coded name length. =20
+>>=20
+>> Outstanding! Thank you for this exercise.
+>=20
+> Yes, I also managed to reproduce it on my machine.
+>=20
+> You can also just reverse the order in
+> avs_tplg_path_template_id_equal() to:
+> return !strcmp(id->tplg_name, id2->tplg_name) && id->id =3D=3D id2->id;
+> which for some reason makes the error disappear.
+>=20
+>>> I was also looking into GCC bugzilla and there seems to lot of reports
+>>> saying these kind of error could be bogus or false positive. I'm not
+>>> familiar with GCC internal or experienced in compilers to say/understand=
 
-Before that to happen after a careful review and conversion of each individual
-case, workqueue users must be converted to the better named new workqueues with
-no intended behaviour changes:
+>>> whether this case in particular is a false positive or not. =20
+>>=20
+>> Wouldn't be the first time, though having successful builds ain't wrong
+>> either. After all we have git log and incremental changes/reverts are
+>> not a problem.
+>>=20
+>=20
+> I've bisected it down on GCC side to:
+> https://gcc.gnu.org/git/gitweb.cgi?p=3Dgcc.git;a=3Dcommitdiff;h=3Dfc628345=
+33f357125b9c1934f80c2ba249adbf9e
+> in particular it seems to be caused by code added in gcc/tree-ssa-pre.cc
+> I'm not that familiar with how GCC works, but to me it seems like maybe
+> it loses size information during this conversion.
+>=20
+> I would make normal bug report, but apparently I can't just make GCC
+> bugzilla account, so adding Richard to CC, while I go through request
+> process for an account.
+>=20
+> @Richard
+> Hi, we seem to have hit a slight problem while building kernel with pre
+> release GCC caused by one of your patches, full thread is available
+> here:
+> https://lore.kernel.org/linux-sound/20251221185531.6453-1-listout@listout.=
+xyz/T/#u
+> and my reasoning above.
 
-   system_wq -> system_percpu_wq
-   system_unbound_wq -> system_dfl_wq
+It would be great if you can share preprocessed source to reproduce the issu=
+e, ideally attached to a new bugreport on the GCC bugzilla.
 
-This specific workload has no benefits being per-cpu, so system_wq
-has been replaced with system_dfl_wq (the unbound workqueue).
+I=E2=80=99ll note the diagnostic in question is highly dependent on prior op=
+timization and known to be prone to false positives.  I=E2=80=99ll investiga=
+te after holidays.
 
-This way the old obsolete workqueues (system_wq, system_unbound_wq) can be
-removed in the future.
+Richard=20
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
-Changes in v2:
-- use system_dfl_wq instead of system_percpu_wq because this workload has no
-  benefits being per-cpu.
+>>> BTW I can't seem to send the email to Amadeusz, hence removing them from=
 
-- rebase on v6.19-rc3.
+>>> the CC-list =20
+>>>> msmtp: recipient address amade@asmblr.net not accepted by the server =20=
 
- sound/soc/sdca/sdca_ump.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sdca/sdca_ump.c b/sound/soc/sdca/sdca_ump.c
-index 8aba3ff16872..a86bb28c6d0a 100644
---- a/sound/soc/sdca/sdca_ump.c
-+++ b/sound/soc/sdca/sdca_ump.c
-@@ -257,6 +257,6 @@ void sdca_ump_schedule_timeout(struct delayed_work *work, unsigned int timeout_u
- 	if (!timeout_us)
- 		return;
- 
--	queue_delayed_work(system_wq, work, usecs_to_jiffies(timeout_us));
-+	queue_delayed_work(system_dfl_wq, work, usecs_to_jiffies(timeout_us));
- }
- EXPORT_SYMBOL_NS_GPL(sdca_ump_schedule_timeout, "SND_SOC_SDCA");
--- 
-2.52.0
-
+>>=20
+>> That's weird. The @linux.intel.com is gone but what you mentioned is the
+>> correct one.
+>=20
+> Yup, that's weird, but nothing lost, I'm subscribed to mailing list ;)
