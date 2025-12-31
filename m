@@ -1,115 +1,173 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2529C1F95C;
-	Wed, 31 Dec 2025 02:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99110A1E;
+	Wed, 31 Dec 2025 02:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767148051; cv=none; b=u11ANF6tcXqyhzxxtdTrrJSzzVefUpbS6cOt8OA3stlMEuClXtAiGCwHdTp+FfARdl02DClvJJRa4irozNkaSqQbvA/p3eWscJJYOIQ353UsPHDuU8BCbBJMyE8vfHiSb/qKUJ7+WhS/uLIp288qqgbutDkWshcdkSqMJHxTB7k=
+	t=1767148446; cv=none; b=mwK1lBhgqLSr8NB9HRVCSzN/+N3sQaIF/i6eZP0UJsKRx7yY/cV24AzG5Bti400J0ldSITn7yqNbXWWEF4ESQB7ncgaWZEDWk1JelIdcP53xZHe3rJ4W7GduHhKVisHxztiSmgb7N4UlX4Oe5uC3fIbOd8UtclmugztCA7GcAJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767148051; c=relaxed/simple;
-	bh=XR6rKn9MfBnuHrf+SFg25Qnko+Xx0LMcYu8Q9RctwyQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mC4LM+vqOgZo1aCXZoqTm3YlAIGniriUw7rsTIFMG39JGX7d97zzJAeqCrOkNdgTJ+QCN5C61RGOMAcl4mfHCBBkn5uYf+m6lNH4lQgdVRmhBaMrdl0iSCl4aL/y0eYUdiaZJdhDt35uo8EIAVc47El5YKPk2RGgB3f7Tq+E+P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=fail (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=LIttljs1 reason="signature verification failed"; arc=none smtp.client-ip=211.75.126.72
+	s=arc-20240116; t=1767148446; c=relaxed/simple;
+	bh=50qYJ2DZ96TiSEEgFQEJGsQA5DUBzpAAjzlrDEelmgU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BTV/gWslEe/ZZLGMMQX6nzFM5L/qqTr8sELI4v8GG4CvdUPq/zXUbr+t0yh46adNRKM7G0DsslrUMPDf1qeWP1gAY8tpayb2E7BbVtiXVN+4s/yDWVW171iWX6eSyLmsTlvXtNRuMgn1BMUJVolBm7HNAncy/pU2Vfu/BDQ8xyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=t7ABzls/; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="LIttljs1"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BV2Qk7rA255715, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="t7ABzls/"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5BV2XeTeA261566, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1767148006; bh=XR6rKn9MfBnuHrf+SFg25Qnko+Xx0LMcYu8Q9RctwyQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=LIttljs1ORQvL5Z5zkKmp/Gm96VotgVRPmaMGRJZSQHtM1/HVIqKxtEAH2jbQlya4
-	 WdfUP8dAyK15l6djj6ssUjEOytwOe3QFnw1oSOcTnBoswguq6Gb8eN+9eZv9eVeuo9
-	 itrtkD14dj4IyJjOW7LAPB3Ac9APAHm0QFEtRghT/hW60RIKftUpQuDxuWI/Md1Pxr
-	 xutquBOHEIxxaliCFKyfMotKltv54OYk7HnkMTcdc4Ma21cUqWtHks/jx6gvLwEOXu
-	 niW2CnVxxjkckMzMzJEpV+RpgyQaiWxp2l1JbV+dR/BTkrb2PU/4da4S1qaaxtjhGg
-	 i/Ob7cCqgl7/A==
+	t=1767148420; bh=/YCmdqLFVOU0Zv6DNVRLclyXRlZ/6iZL3but2jGhJRk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=t7ABzls/vvdw28UoahYUJ6WNeAUcFQ5z0zpyC+olJPZJI6KLn6aMqTG9KV2R2PpBa
+	 TCDHoWbrY9EYGapMCdKP078gWiBg9uL4jq9tZOVl48yOvCGGIzGgSKznc9HNCAEruB
+	 qmroppMaQ7lmf6xpR3X6PL4Nf2pM/i/F8NUp07xlMUxx2j1NZsxGaFXZJyMtYsw80r
+	 CDGzqGXQVd6rRembJl0UFd2+W8yzP8fZLCotQo3hBZOLgeJUel5QrAsbqMUcL66jZT
+	 vkopH+bryXXPpWqi8hRkeporqBbyTygtYY8npb1fgvnd4PCq1it+o7JZQHd8cTwcVo
+	 oe7tHj1eaHicg==
 Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BV2Qk7rA255715
+	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 5BV2XeTeA261566
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Dec 2025 10:26:46 +0800
+	Wed, 31 Dec 2025 10:33:40 +0800
 Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
  RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Wed, 31 Dec 2025 10:26:46 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ 15.2.1748.10; Wed, 31 Dec 2025 10:33:41 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
  RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Wed, 31 Dec 2025 10:26:46 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913%10]) with mapi id
- 15.02.1748.010; Wed, 31 Dec 2025 10:26:46 +0800
+ 15.2.1748.10; Wed, 31 Dec 2025 10:33:40 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Wed, 31 Dec 2025 10:33:40 +0800
 From: Oder Chiou <oder_chiou@realtek.com>
-To: "'Rob Herring'" <robh@kernel.org>
-CC: "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "perex@perex.cz"
-	<perex@perex.cz>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        "Flove(HsinFu)" <flove@realtek.com>,
-        =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>,
-        Jack Yu
-	<jack.yu@realtek.com>,
-        =?big5?B?RGVyZWsgW6TovHe4cV0=?=
-	<derek.fang@realtek.com>
-Subject: RE: [PATCH v11 3/4] ASoC: dt-bindings: realtek,rt5575: add support
- for ALC5575
-Thread-Topic: [PATCH v11 3/4] ASoC: dt-bindings: realtek,rt5575: add support
- for ALC5575
-Thread-Index: AQHcdkLqh/rMpMzvnkCUGMXyQR8FMrU598uAgAEVLoA=
-Date: Wed, 31 Dec 2025 02:26:46 +0000
-Message-ID: <2f37dcd86a9c41808b918371a23dfebb@realtek.com>
-References: <20251226083914.1052653-1-oder_chiou@realtek.com>
- <20251230175333.GA854335-robh@kernel.org>
-In-Reply-To: <20251230175333.GA854335-robh@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+To: <cezary.rojewski@intel.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <linux-spi@vger.kernel.org>, <perex@perex.cz>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <flove@realtek.com>,
+        <shumingf@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Oder Chiou
+	<oder_chiou@realtek.com>
+Subject: [PATCH v11 0/4] ASoC: rt5575: Add the codec driver for the ALC5575
+Date: Wed, 31 Dec 2025 10:35:01 +0800
+Message-ID: <cover.1767148150.git.oder_chiou@realtek.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2IgSGVycmluZyA8cm9iaEBr
-ZXJuZWwub3JnPg0KPiBTZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDMxLCAyMDI1IDE6NTQgQU0N
-Cj4gVG86IE9kZXIgQ2hpb3UgPG9kZXJfY2hpb3VAcmVhbHRlay5jb20+DQo+IENjOiBjZXphcnku
-cm9qZXdza2lAaW50ZWwuY29tOyBicm9vbmllQGtlcm5lbC5vcmc7IGxnaXJkd29vZEBnbWFpbC5j
-b207DQo+IGtyemsrZHRAa2VybmVsLm9yZzsgY29ub3IrZHRAa2VybmVsLm9yZzsgcGVyZXhAcGVy
-ZXguY3o7DQo+IGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtl
-cm5lbC5vcmc7DQo+IGFsc2EtZGV2ZWxAYWxzYS1wcm9qZWN0Lm9yZzsgRmxvdmUoSHNpbkZ1KSA8
-ZmxvdmVAcmVhbHRlay5jb20+OyBTaHVtaW5nIFutUw0KPiCu0bvKXSA8c2h1bWluZ2ZAcmVhbHRl
-ay5jb20+OyBKYWNrIFl1IDxqYWNrLnl1QHJlYWx0ZWsuY29tPjsgRGVyZWsgW6TovHcNCj4guHFd
-IDxkZXJlay5mYW5nQHJlYWx0ZWsuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxMSAzLzRd
-IEFTb0M6IGR0LWJpbmRpbmdzOiByZWFsdGVrLHJ0NTU3NTogYWRkIHN1cHBvcnQgZm9yDQo+IEFM
-QzU1NzUNCj4gDQo+IA0KPiBFeHRlcm5hbCBtYWlsIDogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZy
-b20gb3V0c2lkZSB0aGUgb3JnYW5pemF0aW9uLiBEbyBub3QNCj4gcmVwbHksIGNsaWNrIGxpbmtz
-LCBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRoZSBzZW5kZXIgYW5k
-DQo+IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCj4gDQo+IA0KPiANCj4gT24gRnJpLCBEZWMg
-MjYsIDIwMjUgYXQgMDQ6Mzk6MTRQTSArMDgwMCwgT2RlciBDaGlvdSB3cm90ZToNCj4gPiBBdWRp
-byBjb2RlYyB3aXRoIEkyUywgSTJDIGFuZCBTUEkuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBP
-ZGVyIENoaW91IDxvZGVyX2NoaW91QHJlYWx0ZWsuY29tPg0KPiA+IFJldmlld2VkLWJ5OiBSb2Ig
-SGVycmluZyAoQXJtKSA8cm9iaEBrZXJuZWwub3JnPg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmluZGlu
-Z3Mvc291bmQvcmVhbHRlayxydDU1NzUueWFtbCAgICAgICAgfCA2MQ0KPiArKysrKysrKysrKysr
-KysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2MSBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NA0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9zb3Vu
-ZC9yZWFsdGVrLHJ0NTU3NS55YW1sDQo+IA0KPiBXaGVyZSdzIHRoZSByZXN0IG9mIHRoZSBzZXJp
-ZXM/IFlvdSBhcmUgbWlzc2luZyBhbiBJbi1SZXBseS1UbyBoZWFkZXIgYW5kIHRoYXQNCj4gYnJl
-YWtzIHRoZSB0b29scyAoYjQpLg0KPiANCkhpIFJvYiwNCg0KU29ycnkgYWJvdXQgdGhhdCChWCB0
-aGlzIHdhcyBhIHNlbmQtZW1haWwgdGhyZWFkaW5nIGlzc3VlLg0KSSdsbCByZXNlbmQgdGhlIGZ1
-bGwgdjExIHNlcmllcyB3aXRoIHByb3BlciBJbi1SZXBseS1UbyBoZWFkZXJzLg0KDQpUaGFua3Ms
-DQpPZGVyDQo=
+Hi all,
+
+This patch series adds support for the Realtek ALC5575 audio codec.
+
+Changes in v11:
+- Patch 1/4:
+  - minor fixes
+- Patch 2/4:
+  - change of_find_spi_controller_by_node() gating to CONFIG_OF
+- Patch 3/4:
+  - nothing
+- Patch 4/4:
+  - achieve reverse-christmas-tree notation
+  - remove formal version check
+  - revise check whether the firmware boots from SPI or not
+  - minor fixes
+
+Changes in v10:
+- Patch 1/3:
+  - export of_find_spi_controller_by_node()
+- Patch 2/3:
+  - remove realtek,rt5575-use-spi
+  - add spi-parent for firmware-loading
+- Patch 3/3:
+  - use of_find_spi_controller_by_node() to get the SPI controller and add
+    the spi device for firmware-loading
+- Link to v10: https://lore.kernel.org/all/20251216071853.3929135-1-oder_chiou@realtek.com/
+
+Changes in v9:
+- Patch 1/2:
+  - modify the comment
+  - change the compatible name to "realtek,rt5575-use-spi"
+- Patch 2/2:
+  - remove the standalone rt5575_spi_driver module and integrate its
+    functionality into the I2C driver
+  - move the SPI firmware-loading function to rt5575-spi.c
+  - use the match data to distinguish between w/wo flash
+  - minor fixes
+- Link to v9: https://lore.kernel.org/all/20251211110130.2925541-1-oder_chiou@realtek.com/
+
+Changes in v8:
+- Patch 1/2:
+  - remove the variable rt5575_spi_ready
+  - use the multiple compatible names to distinguish between w/wo flash
+- Patch 2/2:
+  - add compatible enum "realtek,rt5575-with-spi"
+- Link to v8: https://lore.kernel.org/all/20251201105926.1714341-1-oder_chiou@realtek.com/
+
+Changes in v7:
+- Patch 1/2:
+  - add a caption for the tristates
+  - remove the redundant enum of the SPI command
+  - add the error log in the request firmware failure
+  - change the function name rt5575_spi_fw_loaded to rt5575_fw_load_by_spi
+  - minor fixes
+- Patch 2/2:
+  - modify commit message
+- Link to v7: https://lore.kernel.org/all/20251121084112.743518-1-oder_chiou@realtek.com/
+
+Changes in v6:
+- Patch 1/2:
+  - modify commit message
+  - add select SND_SOC_RT5575 to config SND_SOC_RT5575_SPI in the Kconfig
+  - revise the boiler plate in the head of the file
+  - sort the include files
+  - use a structure to transfer the spi data
+  - use the poll() related function instead the for-loop
+  - revise the UUID to the private ID
+  - minor fixes
+- Patch 2/2:
+  - modify description
+- Link to v6: https://lore.kernel.org/all/20251031073245.3629060-1-oder_chiou@realtek.com/
+
+Changes in v2 to v5:
+- Patch 1/2:
+  - move the firmware to the subdirectory
+  - remove the empty functions
+  - remove the cache_type in the regmap_config
+  - add the error log in the run firmware failure
+- Patch 2/2:
+  - nothing
+- Link to v5: https://lore.kernel.org/all/20251015103404.3075684-1-oder_chiou@realtek.com/
+
+Oder Chiou (4):
+  spi: export of_find_spi_controller_by_node()
+  spi: change of_find_spi_controller_by_node() gating to CONFIG_OF
+  ASoC: dt-bindings: realtek,rt5575: add support for ALC5575
+  ASoC: rt5575: Add the codec driver for the ALC5575
+
+ .../bindings/sound/realtek,rt5575.yaml        |  61 +++
+ drivers/spi/spi.c                             |  23 +-
+ include/linux/spi/spi.h                       |   9 +
+ sound/soc/codecs/Kconfig                      |  10 +
+ sound/soc/codecs/Makefile                     |   3 +
+ sound/soc/codecs/rt5575-spi.c                 | 118 ++++++
+ sound/soc/codecs/rt5575-spi.h                 |  27 ++
+ sound/soc/codecs/rt5575.c                     | 352 ++++++++++++++++++
+ sound/soc/codecs/rt5575.h                     |  58 +++
+ 9 files changed, 651 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,rt5575.yaml
+ create mode 100644 sound/soc/codecs/rt5575-spi.c
+ create mode 100644 sound/soc/codecs/rt5575-spi.h
+ create mode 100644 sound/soc/codecs/rt5575.c
+ create mode 100644 sound/soc/codecs/rt5575.h
+
+-- 
+2.52.0
+
