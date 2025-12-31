@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563962BDC19;
-	Wed, 31 Dec 2025 17:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483972BDC3E;
+	Wed, 31 Dec 2025 17:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767202052; cv=fail; b=hJsRWxLcVeA5IKmqLYp5UoCeSJTXSgyO7y85I8P0O3OLfd0DiRYBzmkBO8EYxa+cvpddSSoamSrVGXL1trN4udgLXoer00KKWMb/cxWT2fq+AVqJpRa1cpawCLAizgL865nMOlEVVCBLD7P3xaFw71yQptfk332Oi2Ub/vNj3BY=
+	t=1767202053; cv=fail; b=Lh6Sy+GAjSQGi0jZ/wCZsOV8WRcaMJFYIMFyERtyb1AYxO8GBfcbWiz3+YjuKa1UvQBEyPFrH6viC3UGMKR45RNPiecmKQYfvVLKFX+5AwSRio59ZUa3NUnIe1cMRYK/YfgtNKbJfuk/xqdXCUw37hyAqUnlwWO5QjCc4K0ndd0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767202052; c=relaxed/simple;
-	bh=ga3KAahCuVLIW66LdCBIlYkuPsmE0N0pCvR3ioynDh4=;
+	s=arc-20240116; t=1767202053; c=relaxed/simple;
+	bh=SrKhjEEPm0JvM0O70UoT9ZlZyS0Lg6Ugg9EE4VlFPYA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ohWJecjsW7E7d3bceup2YYyJewxntaN1M3Xl0Gx4zGdjvu/Xjogz/OOvstquIrOtaikh/dLZ+5GgyEKDUDJ4P2A4kySllQI9iZtbirqrZO41NjXSqzB2MqgRRDR/WaPYaZPqz9WuscJXO1tkFhuQWTZ0I4CS32xxYhV+5iCSPWs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=C5GP2A7C; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=mr9Y0gTV; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=B16Bp+/HY64yULdoSkibaLjf++6iQ0Y+JKaArOONkj6S5TCSUcEEEI3IAKc5Jx4MDUriAjV9r3bHzNgS06de7ci/4UAB/JVLUGds4UCSsueQ7SVzNh+zOq1SSrhn52Eul5qE3IA9ntLNwax8mrnsWdlTeLmkcC20vXeQ5uhb6LY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jxYPWgJK; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=TE0IqTg0; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="C5GP2A7C";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="mr9Y0gTV"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BVF0iar743550;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jxYPWgJK";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="TE0IqTg0"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BVGvqof139094;
 	Wed, 31 Dec 2025 11:27:27 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=hB/SJTUQHN+Wf9qMLEztBFpQ4Rbdx9JaUDlUyhUBTEk=; b=
-	C5GP2A7C6LHW16XwivGDAUfG4GkCRJ3jSHmJQbxobLsWuH4poDC3oOz1PH1E8cWW
-	idGsHCwudXihkzn+ck+XJnn01ItibE7+8cOa/2LAuxRsGM5eryqaub2f8f9CfVvK
-	BAS26Y2aUW8cLwYhjdmJiPnhwbVcvVFyH5ZJDo0d7YdONqovCt6zlgGIxnwZW/Oh
-	AX4+P9blJeV9Fs7BNLZBOk2MyfNsT/2kenDKQozmMrfHVtN+kj+oVK2m1mt97Xtm
-	jez4Z4wkVi+HmTaeB+mht4U2NYVJm0Z1fgM1jYtePiwaB7/kLeRxbezPykBjVTLG
-	lUx8rVoqll++7Ens4CZH7w==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021076.outbound.protection.outlook.com [40.107.208.76])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4badr3cakv-1
+	PODMain02222019; bh=65iO20CLzIE66iN1053wJXMRGgysgU1SoteRju/CD/o=; b=
+	jxYPWgJKsUvztzAWVNpMv5yy+mAieJxk7OtiF3GuQs8qEp0AhPQld0A8qb60vVgZ
+	/JNhMyLZ0A+Z1s2OYt9g09V93dC0m8o72lRrli6hKJeNep9pDT9YcljljjEEDvPA
+	UulXNK1m/i5aB0ZivuVQBIYQoziPs/N16rXmEPMUCvrlXyGKxI+9842L1vGcWUSb
+	VuN93m30GAYtQz4lmsmQH/Jqb/w1SQosrW8iYaHQ8Ukpui/+aoZVMqQpS1+4PKp8
+	crki9XW3eWg0CUB1xnEYzlxo6bGDhI/YQfxzCfN41J8SU+lHfzytcaOxHxAVhCBO
+	CtOGsRbUhqp5T/hdH1kxTg==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11020134.outbound.protection.outlook.com [52.101.46.134])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4bacrmvcsp-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Wed, 31 Dec 2025 11:27:27 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oAj3qNy5drZUruxknLualHHbxniaDVO3xnEQ4YBm9WSvc/qgBPoYjf7EH3JRMw7/vErwMhjkyeiN3B10EVeQNwySUrLi66qw35FAeIzEGjQvTELaSFRDp1gXljMDf98o5TyQPsOuTTsljVIDW35Wub7YGEluvK9q88HZrs1mccF2A0zLJF0h8aOAvoFAfvMPnmJAYIBBwp19VpIuT4lefo08j6pgqSgUC0XTEsgZUisuLlyugtMqeBdukYfGb0pUbY0DIzjs2CZ4d2Mq9F/+uLu0i3B6Tw13qIDRQ+RYLKVXD/2wjg77hQh7FqATYRHZhmv8GutfjkIuPX6gAXIT4A==
+ b=GuBWF4wMd6el2Uj+CkhgONugmzdmiQASZP9x0I5CzKNtWMa8QAUFIz+Ryo3Oos6ktjzRJdCBeRdx/KPpHHy8hVKHDSz1UFgRBEt4lHu1SlpUxIDWTFySCV8pNLQW4cexLFDOg+TCCe/DXuXxVZvfDkuKaHAKkVs32HBlCDIBLYP54AbtZbRrpjFuFmcklOcv/KbAaR+MTe24Ubm4vFEkQH70es1lURPR/dyVDnpq3l8ponh07gJ0L3nN/1nucl0BMTz5r8k+2QGr7eQ7Vy6vg1+abVvsBHKrrCjIgcBn2AV1hBZByvjQZn0EMVqkBTiirxSw1FHVKnaDBTsNIsN3RQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hB/SJTUQHN+Wf9qMLEztBFpQ4Rbdx9JaUDlUyhUBTEk=;
- b=hl37f0NKPXzFv0yQ1Kjk64aIvUMIbz1Hs+t+Pby2cSsX+3z2oTho5cpruUHjDm3y/LF8WbybXom0g6/pkxANQzi98zZQIiO7a8sCbzQN/OjetJwq7WnVtPPJUqiqqEZvbByXY+sb6fhAGdEUa823i9wR1+V+CmomTbEaCyZSaqc4mY1nhADVAl1quFj53HzGwiSzrFKB+xn0IjB6+LBgQ2Kt73Z9JGu1focNvXg/GG+0q1apKr3hvRdv6DGp1S8iO8aAFTOlXZpAPW4QkUoEdc1jO63CJdse0p3G1pSmmpgiMfsORBc2bciU1qpFRcxOkiKI5XvfwO2yDbtOQ5WIgA==
+ bh=65iO20CLzIE66iN1053wJXMRGgysgU1SoteRju/CD/o=;
+ b=QzzRmsVmdgBW/Tk2fzxEzH38AHsxJ2eB57YhXP+YuYoO4ZfRsq2xOjly+4Gzc9kdOgKivpM+k7FtsVeQv/1Ba5w5iwc8xmxFHuhla7RJdbccSdmlslNZ7x8bh/ksofXaRoDEPiV4I8QlHqjxdAAUbXy8aBYpEiSaDJhXRMxYqOLgj9k6GftW7gQ0phEi3j5z5TZyQEAG7QTRb0hkOHeTLoaFyumPBKUtU2L6l08wK2oSYiJ+QwnIAT827CciN47FMQlQAfKohXdPBRacp1d3nz+f7ce4zbLIVI6eGdJL/UbDIR0kFNJ8bjiTqAlF2ZAwjKvAun5uLled+34O36NIRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hB/SJTUQHN+Wf9qMLEztBFpQ4Rbdx9JaUDlUyhUBTEk=;
- b=mr9Y0gTVnBh2t3gU5eifNLF0mxnMNhAsk22dPXzqIRvwZVGGNdeq2qnAbaYsZ59mmDriz6hBxIzJ9/aqIh/6XswY7qhY5erqeHMC65qVbmTAI7JwVTWS3P8pZYZYkPqN6R37j0p+B+fOOTc4uv95HJveYhMc7BAy8nKQo2VZcSA=
-Received: from SN7PR04CA0182.namprd04.prod.outlook.com (2603:10b6:806:126::7)
- by DS7PR19MB8857.namprd19.prod.outlook.com (2603:10b6:8:253::6) with
+ bh=65iO20CLzIE66iN1053wJXMRGgysgU1SoteRju/CD/o=;
+ b=TE0IqTg0B5z9a79MSG+ZZcGko8z9A/fPOfkFVBL4thDcrFjTJraNZm++MpI0C4ZbGwC3VOQwVy5kycgz+HJ2AorxJXhu3YSw+bHCzfPZTNL0NnGOQspIeX+32YzUpMmMfAdJYFf+EXhscC1vpo+RRNq4Qu3qti+/8M/r6iDHr4w=
+Received: from DM6PR02CA0106.namprd02.prod.outlook.com (2603:10b6:5:1f4::47)
+ by CO1PR19MB5015.namprd19.prod.outlook.com (2603:10b6:303:f0::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Wed, 31 Dec
- 2025 17:27:22 +0000
-Received: from SA2PEPF00001504.namprd04.prod.outlook.com
- (2603:10b6:806:126:cafe::87) by SN7PR04CA0182.outlook.office365.com
- (2603:10b6:806:126::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Wed, 31 Dec
+ 2025 17:27:23 +0000
+Received: from DS3PEPF000099DD.namprd04.prod.outlook.com
+ (2603:10b6:5:1f4:cafe::5e) by DM6PR02CA0106.outlook.office365.com
+ (2603:10b6:5:1f4::47) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Wed,
- 31 Dec 2025 17:27:17 +0000
+ 31 Dec 2025 17:27:21 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,22 +69,22 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00001504.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ DS3PEPF000099DD.mail.protection.outlook.com (10.167.17.199) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4
- via Frontend Transport; Wed, 31 Dec 2025 17:27:21 +0000
+ via Frontend Transport; Wed, 31 Dec 2025 17:27:22 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B748B406550;
-	Wed, 31 Dec 2025 17:27:20 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 728FC406543;
+	Wed, 31 Dec 2025 17:27:21 +0000 (UTC)
 Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.69.19])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5534B820249;
-	Wed, 31 Dec 2025 17:27:20 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2BF64820249;
+	Wed, 31 Dec 2025 17:27:21 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v2 4/8] firmware: cs_dsp: mock_bin: Pass offset32 to cs_dsp_mock_bin_add_raw_block()
-Date: Wed, 31 Dec 2025 17:27:07 +0000
-Message-ID: <20251231172711.450024-5-rf@opensource.cirrus.com>
+Subject: [PATCH v2 6/8] firmware: cs_dsp: test: Increase size of XM and YM on Halo Core
+Date: Wed, 31 Dec 2025 17:27:09 +0000
+Message-ID: <20251231172711.450024-7-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251231172711.450024-1-rf@opensource.cirrus.com>
 References: <20251231172711.450024-1-rf@opensource.cirrus.com>
@@ -97,214 +97,135 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001504:EE_|DS7PR19MB8857:EE_
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DD:EE_|CO1PR19MB5015:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f167c27a-8aa9-4be5-eb24-08de4891db59
+X-MS-Office365-Filtering-Correlation-Id: e4096172-2a86-450b-d928-08de4891dbe0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|376014|82310400026|36860700013;
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6BN5ha1s0E/ij1SHJRR6RAbMIw0T1kGteyB5NisAU71ZdJOKh5PNwVRGUHMn?=
- =?us-ascii?Q?Vj9FCsFrVlccpE+1h1bMioGwzVmW95UlAcBIq8o44R1pehLnT2tohyceoHxo?=
- =?us-ascii?Q?NwNBz/JcFvxdj/sYyt0MWwNuctO8XSfy3rQkui0ny0nUY+JDSM/QDcIZbLn2?=
- =?us-ascii?Q?u9AszsgoILZ+MloMcmmEEbkWW8N1XZVqarhet/OWPMXhnfMMwk4oJlW174Y5?=
- =?us-ascii?Q?E3YukNLujDauBmVG8dH0til93hx6FePk4kBPCYzBl+0N64HNGh+rYWuE/0Q5?=
- =?us-ascii?Q?E6M1bFejAQxjHNno5HSpRdVx2s6QcJ1bmYt2YKxfZWsZewPDZwqbnRwox9R4?=
- =?us-ascii?Q?EOtzMJqpF56GTCMrq1SlZgAGKR+zy3QDXD0nylqlXiyKZaZVaJcatA3R8hXV?=
- =?us-ascii?Q?jqoFMxTgSVdapTQqGCsnUzjVv+J6FmX1pHvas374h3PGkYn3Tun4jdU/59Sn?=
- =?us-ascii?Q?4IIz5yPC8EWVP0nHkhYzNVmaIASRuCObQqPC695yvk7LlzofrQcKfPvnuf24?=
- =?us-ascii?Q?0fBBpHYymubsgSmzISTuEHETL9hmq1F0TXqdVCVdMwlWDj9bWhXtcR/xJiYs?=
- =?us-ascii?Q?8z0MQexVhjEgxkrTD0KKpQTBVGlIixfb7dlItZfexixDfu4MRk+AlwwtWIwz?=
- =?us-ascii?Q?6EiyFbr9Y+uFdSu/lV2qoTJNiatokcADYl5nYAVegXruseFiQojC92CqtOm/?=
- =?us-ascii?Q?nl7Uzjwu+kUJ8BIlMB0neOxjtLBDV7sLrGRwkjtZTCM74bvJ3qpnCRvjQ4/z?=
- =?us-ascii?Q?1VQz5blwnZn1ebIXr/rF6K9wtJDevWb2sxr2Ld2qPHpnxKmJEsjctTe4/RZQ?=
- =?us-ascii?Q?6QDopG1DmTAx0U3lEXZ4TOBzXDAMztliAHHYomsCu7Pg0PmenzUeAqjSj4QO?=
- =?us-ascii?Q?1el0N+nMW7ivlckXkN3PSgikWyeyje8lal8Syqas9FvRyHMTTLLsE7t0BfQM?=
- =?us-ascii?Q?vFZ9wZuBhtc8P9+c4O2Yuvxc9RnkO2WduyHNG0pvZoj2J9TuHj48O4MJl/Uu?=
- =?us-ascii?Q?XD32OB0yZyjQiona5IUjr9QQXIml8N4/8mqidskq4wB5eT3MZqOcAHJJbtcP?=
- =?us-ascii?Q?yKXZtJvaYwlrpv8V5yD/ZqN1sHHjjnbtVBznUdOWMRHXEnmc9XZh0c73AhuW?=
- =?us-ascii?Q?+Vvpetb/7EWlwuUqsJsvCQmCo4kOegWSQgyYZ0wr9qp5JorDBlmbPub8Cn95?=
- =?us-ascii?Q?fBSeyh7Ot8BEJnU9bHs8gsKnEQ1nfTAcrbxSDj/Cm7V1z4OtlV1KXLFriTjK?=
- =?us-ascii?Q?RRXieKGkrn44DcrGk8Udy5Z25XUrAbqbPRzHVNOsUdjkwpsxkFK2/DR1Smap?=
- =?us-ascii?Q?LBm0BhfT/ectn0c+SY2LwhwVPFIG0v87aZdmyL/CEcJT+2DfjAQeMQGVfWo9?=
- =?us-ascii?Q?/MmRAXxPmUOty5kCaI0ip2N0b956TYE9s7biyUTn5p0sTTrmAJPbcKVcrsTL?=
- =?us-ascii?Q?oec8bT9ruv3Zna+NykCFt4eq2u4Mt0CRI98eFxEc45XWOlg+OL9vZyTTCbg5?=
- =?us-ascii?Q?+nFTmuMhfY//SvRtJk46HKwgqaonV+eyHDOVdZMtZQrjztG9ZytG79Xmgjxo?=
- =?us-ascii?Q?ZUTWyMwHutsxk1czkW8=3D?=
+	=?us-ascii?Q?mwsQ1pIwqzYBWYnXkJVKJZ94+ER8GyieUtt5KuKxWUTAzmf+xsgLC2BynaYU?=
+ =?us-ascii?Q?6zbfLJ0K2dDQyNWmU+zB8HfnkSjwZmdSCWxhkbRs7u7IHdivQONjX+SfRCdN?=
+ =?us-ascii?Q?Up2y5ZRnqKfGfZ4zP3eou3omF3IBGNVEtJYWQ2Frqjr40wpRpTgJN2NrX9Zh?=
+ =?us-ascii?Q?5luJM0jvJStGnbNE9tooThoDPED0qwt2ivI2EZTAJpHoofuGlqgZhseZFiK8?=
+ =?us-ascii?Q?UQPnyhNRu37Vr5FkMlGtxAOGlBUZa20i9WdJRJUH4soOxHqf6ogdcyhx1bZk?=
+ =?us-ascii?Q?y7me2wiQy+rF4h9qxEqvAv93XS2etIzhs2HB7rZlkodGdBPLRHLB1oEQXHE8?=
+ =?us-ascii?Q?2k9PtRhSGmAWoUe8mXbjnbywV8UNbYPw3xmnLu5p6CvOR4I+aXsYEXExWd8V?=
+ =?us-ascii?Q?xaRbf2xzEjpSjtEhlJgNNmiUerA1cYuXHpiukfKC1DgyKWWqpDxFuq8gwv5l?=
+ =?us-ascii?Q?17vTIGzKFJpxHwCPIeRATi51/A8JVixGVQiYF6XxVp73246uTuJQW55ea+zi?=
+ =?us-ascii?Q?cRmhLDxtzkZ8VCNpLOHQUmRPs0mtlYvGiOP4Yvq/pvpSiZr8zObw2g84VbFi?=
+ =?us-ascii?Q?ll6JX8Z8Pc6LBVcTxkAJ0Aw1tk8lYyUD/iAJNxhXvMh4kGhJkBYXZckJD2/7?=
+ =?us-ascii?Q?Te7MN3KvsG9blzdr1k16Q91I4n9Vopcu/PrZ4AaGCR7NnGKh0xyx/2cL+h8S?=
+ =?us-ascii?Q?RBmPJGJxpbXlXAqwutXDNuLUMyhLyG4VFPxkehEDeQygSQuUSro+r0u6HzXQ?=
+ =?us-ascii?Q?A38GT+uLNS6JOyntt/vciozXAkZ1RtPchSrX0xZ3o4grczMn3V0KJmRA6of1?=
+ =?us-ascii?Q?oDo/zfANKQ5/yvY2SVCD4xEI0GFKYGI+b+iay2U197QdHAJQJb2LUJ5ZeGUv?=
+ =?us-ascii?Q?k66KXnYGxCgI1M9LUVOP1tf9eJWVLHifcd0pWmcx+yo6BeQuXfi0y1SjqXhn?=
+ =?us-ascii?Q?fVebXOPeJxmgtZRlT7kwm16rbTPGs5/V5gHJD3pIi6gm5LAO/89nSzSq1CAc?=
+ =?us-ascii?Q?TLO0vboyDOAhdfLJTcylkQ7/X0CiUCKtHW7rwlRf5A3H7U1a0lGKlAa43Wi4?=
+ =?us-ascii?Q?SHZoiXLIb3LVMyafC2qKzcy5eq8cpEU7Kv6s5abeUwYPbpwrpKCajHTO2zjW?=
+ =?us-ascii?Q?TOChBOYpRhzpq5h/lkhRv+Tinm3Aaav53qXet4l3CGEAnaRj3a8MmAyrMoih?=
+ =?us-ascii?Q?i1ati6ccWlZ4D03H3m/NWNjym4VChIuOemdHjir7IBwOv/kxZHHtYw7SqOdz?=
+ =?us-ascii?Q?9DOnE6x1tnO9TeLiMtypuThnKulEgbq6RnNcf+7VTJd6qVr5oKi3ZCCO107D?=
+ =?us-ascii?Q?1JFwCfq5uG1iFInul2Vya8x838hKwwM6WX1Kflq7TfOklgLy48J9QJiNLhwW?=
+ =?us-ascii?Q?G/0dCdr42OLtoS28Fel9AoM85mDYX0bRKDLPp1trEAYm38qPxo78H/BEI2ek?=
+ =?us-ascii?Q?NHvleqrHFN1ZJIEW74Cc0PoX6p7eNRxSCRg6NmhTI5dtt6HRKdmALibVq1uH?=
+ =?us-ascii?Q?uTceKliKltUz02P/12Uc/+NSPvgIEV8uQo3GInTUnjngUz/oDMrNe3huC0YF?=
+ =?us-ascii?Q?j2tUfrcda0L7MKCnlcs=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2025 17:27:21.7999
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Dec 2025 17:27:22.6863
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f167c27a-8aa9-4be5-eb24-08de4891db59
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4096172-2a86-450b-d928-08de4891dbe0
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00001504.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF000099DD.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB8857
-X-Proofpoint-GUID: fVslh-EWVkbKpzOFO4USoKRqAUQIW3qJ
-X-Authority-Analysis: v=2.4 cv=Z8Hh3XRA c=1 sm=1 tr=0 ts=69555cff cx=c_pps
- a=Jf/U7KFl3YoH1y/TBsSIlw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB5015
+X-Proofpoint-GUID: jAw0hcQvCfRKD3CJVqTaU4vnvOLohSys
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDE1MyBTYWx0ZWRfX0cgVZ822PK5/
+ C7rj7RBsQrQDf+zFGrG7zMSAlibCicuAk40By9kUHIAINRui9mtwRqDZDUYix75bsst5eL7bvvL
+ B1t4ANa2Jc2YA63ejMvg+GjUWS5qT+XL+m33riqqnnf8cT/ThrdRvabzL/tJvhQf1o/WMp8KO/V
+ nL4bWfe2gGrYjHLXcKtGaKqKa6eSt+6MVMIaoiUKP1pnLLAGOB4/T1WwheaSFVr4dN2q4x3opQ7
+ pj4NGcF0G7/xHe7FKH56ovdEe+cgu5dXKtWnv0pQ3oeEUs/PwqMrPs3n9moOFyF/xGFBpcMtMgB
+ DQd1hBfdMMELG+HW7mlkHvVBtFZK4ZWtpjtuly7u+gIHuXiRXvunLS3te1RBpnKOJaM/J89/+xk
+ /SFLIQrCKhuZWW+MS6dBkXrdIhH5a7gbs60T4OfqkC5mw+/GckOJ+bS/b58F3j0okYk/wYT6Wmg
+ 7sOuU23m4jSWavepEVg==
+X-Authority-Analysis: v=2.4 cv=bJgb4f+Z c=1 sm=1 tr=0 ts=69555cff cx=c_pps
+ a=1nHe0GVLCxVa2bATzrft2Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=Ac3_NjksB7D9Vqi9SkkA:9
-X-Proofpoint-ORIG-GUID: fVslh-EWVkbKpzOFO4USoKRqAUQIW3qJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMxMDE1MyBTYWx0ZWRfXzvdoSBzpgiBx
- vAYcFVi4wgenkObzRLGacHjlHVrz4pP8NUNyjgPp13dnJHYeJypOa1/w+UtntvnXZ9VqT8tGVAL
- gW4UlJAAH1nh9z3xhPyfQ/YSJA5Hj//1M9zdRkNF7wbTBkvvVfBieoOgBMXtjo94n4Cms0uyj5M
- t5aaQYMBjI884a9dqNKUJgWY2M2Ju3yp0wxZRK2EzEvBZGg9Fqa7BxlJ5mr4au1USE6B8pKgNhz
- GTUpN3q208Fic+i07AQqqbsyWq+nGgd92mDqbutHL1XTrjsnWQG6OS5ZVyiN7p8nO6Yphu8Hm8e
- nlw+GIeQjwz6N4rnc4gOARfj8k4/QnMt8DX1IVojijFcOycUW0KacypysGb7RU23JAjYgIKhBr+
- DbFXQjOeiGZ0aIwYtSIvfyQ5u3/0prZLdYg/RhgtImxrcKwIRRZpFKFovCWh9LCeB47xzrySfRC
- OQSrkhkV5UmssGiEKzg==
+ a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=QJCE3FmpgMk_I34YA98A:9
+X-Proofpoint-ORIG-GUID: jAw0hcQvCfRKD3CJVqTaU4vnvOLohSys
 X-Proofpoint-Spam-Reason: safe
 
-Add an argument to cs_dsp_mock_bin_add_raw_block() to pass a 32-bit
-offset, and change the type of the existing offset argument to u16.
-
-The cs_dsp_test_bin_error.c test uses cs_dsp_mock_bin_add_raw_block()
-so it needs corresponding updates to pass 0 as the 32-bit offset.
-
-Version 1 and 2 of the bin file format had a 16-bit offset on blocks
-and the sample rate field of the blocks was not used. Version 3 adds
-new block types that change the old sample rate field to be a 32-bit
-offset with the old offset currently unused.
-
-cs_dsp_mock_bin_add_raw_block() doesn't attempt to do any magic - its
-purpose is to create a raw block exactly as specified by the calling
-test code. So the test case can pass a value for both offset fields.
+Increase the size of the XM and YM regions in the mock Halo Core
+register map for testing patch blocks with 32-bit offsets.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
 No changes since V1.
 
- drivers/firmware/cirrus/test/cs_dsp_mock_bin.c     | 10 ++++++----
- .../firmware/cirrus/test/cs_dsp_test_bin_error.c   | 14 +++++++-------
- include/linux/firmware/cirrus/cs_dsp_test_utils.h  |  2 +-
- 3 files changed, 14 insertions(+), 12 deletions(-)
+ .../firmware/cirrus/test/cs_dsp_mock_mem_maps.c  |  8 ++++----
+ .../firmware/cirrus/test/cs_dsp_mock_regmap.c    | 16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c b/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-index 3f8777ee4dc0..bc6b8651259c 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-@@ -56,13 +56,14 @@ EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_bin_get_firmware, "FW_CS_DSP_KUNIT_TEST_UTILS")
-  * @alg_id:		Algorithm ID.
-  * @alg_ver:		Algorithm version.
-  * @type:		Type of the block.
-- * @offset:		Offset.
-+ * @offset:		16-bit offset.
-+ * @offset32:		32-bit offset (sample rate on V1 and V2 file formats).
-  * @payload_data:	Pointer to buffer containing the payload data.
-  * @payload_len_bytes:	Length of payload data in bytes.
-  */
- void cs_dsp_mock_bin_add_raw_block(struct cs_dsp_mock_bin_builder *builder,
- 				   unsigned int alg_id, unsigned int alg_ver,
--				   int type, unsigned int offset,
-+				   int type, u16 offset, u32 offset32,
- 				   const void *payload_data, size_t payload_len_bytes)
- {
- 	struct wmfw_coeff_item *item;
-@@ -75,6 +76,7 @@ void cs_dsp_mock_bin_add_raw_block(struct cs_dsp_mock_bin_builder *builder,
- 	item = builder->write_p;
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
+index 95946fac5563..7fb404425fd6 100644
+--- a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
++++ b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
+@@ -23,10 +23,10 @@ EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_halo_dsp1_regions, "FW_CS_DSP_KUNIT_TEST_UTILS"
+ /*  List of sizes in bytes, for each entry above */
+ const unsigned int cs_dsp_mock_halo_dsp1_region_sizes[] = {
+ 	0x5000,		/* PM_PACKED */
+-	0x6000,		/* XM_PACKED */
+-	0x47F4,		/* YM_PACKED */
+-	0x8000,		/* XM_UNPACKED_24 */
+-	0x5FF8,		/* YM_UNPACKED_24 */
++	0x8fff4,	/* XM_PACKED */
++	0x8fff4,	/* YM_PACKED */
++	0xbfff8,	/* XM_UNPACKED_24 */
++	0xbfff8,	/* YM_UNPACKED_24 */
  
- 	item->offset = cpu_to_le16(offset);
-+	item->offset32 = cpu_to_le32(offset32);
- 	item->type = cpu_to_le16(type);
- 	item->id = cpu_to_le32(alg_id);
- 	item->ver = cpu_to_le32(alg_ver << 8);
-@@ -104,7 +106,7 @@ static void cs_dsp_mock_bin_add_name_or_info(struct cs_dsp_mock_bin_builder *bui
- 		info = tmp;
- 	}
+ 	0		/* terminator */
+ };
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c b/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
+index fb8e4a5d189a..5167305521cd 100644
+--- a/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
++++ b/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
+@@ -157,22 +157,22 @@ static const struct reg_default halo_register_defaults[] = {
+ };
  
--	cs_dsp_mock_bin_add_raw_block(builder, 0, 0, WMFW_INFO_TEXT, 0, info, info_len);
-+	cs_dsp_mock_bin_add_raw_block(builder, 0, 0, WMFW_INFO_TEXT, 0, 0, info, info_len);
- 	kunit_kfree(builder->test_priv->test, tmp);
- }
+ static const struct regmap_range halo_readable_registers[] = {
+-	regmap_reg_range(0x2000000, 0x2005fff), /* XM_PACKED */
++	regmap_reg_range(0x2000000, 0x208fff0), /* XM_PACKED */
+ 	regmap_reg_range(0x25e0000, 0x25e004f), /* SYSINFO */
+ 	regmap_reg_range(0x25e2000, 0x25e2047), /* SYSINFO */
+-	regmap_reg_range(0x2800000, 0x2807fff), /* XM */
++	regmap_reg_range(0x2800000, 0x28bfff4), /* XM */
+ 	regmap_reg_range(0x2b80000, 0x2bc700b), /* CORE CTRL */
+-	regmap_reg_range(0x2c00000, 0x2c047f3), /* YM_PACKED */
+-	regmap_reg_range(0x3400000, 0x3405ff7), /* YM */
++	regmap_reg_range(0x2c00000, 0x2c8fff0), /* YM_PACKED */
++	regmap_reg_range(0x3400000, 0x34bfff4), /* YM */
+ 	regmap_reg_range(0x3800000, 0x3804fff), /* PM_PACKED */
+ };
  
-@@ -156,7 +158,7 @@ void cs_dsp_mock_bin_add_patch(struct cs_dsp_mock_bin_builder *builder,
- 	KUNIT_ASSERT_EQ(builder->test_priv->test, payload_len_bytes % 4, 0);
+ static const struct regmap_range halo_writeable_registers[] = {
+-	regmap_reg_range(0x2000000, 0x2005fff), /* XM_PACKED */
+-	regmap_reg_range(0x2800000, 0x2807fff), /* XM */
++	regmap_reg_range(0x2000000, 0x208fff0), /* XM_PACKED */
++	regmap_reg_range(0x2800000, 0x28bfff4), /* XM */
+ 	regmap_reg_range(0x2b80000, 0x2bc700b), /* CORE CTRL */
+-	regmap_reg_range(0x2c00000, 0x2c047f3), /* YM_PACKED */
+-	regmap_reg_range(0x3400000, 0x3405ff7), /* YM */
++	regmap_reg_range(0x2c00000, 0x2c8fff0), /* YM_PACKED */
++	regmap_reg_range(0x3400000, 0x34bfff4), /* YM */
+ 	regmap_reg_range(0x3800000, 0x3804fff), /* PM_PACKED */
+ };
  
- 	cs_dsp_mock_bin_add_raw_block(builder, alg_id, alg_ver,
--				      mem_region, reg_addr_offset,
-+				      mem_region, (u16)reg_addr_offset, 0,
- 				      payload_data, payload_len_bytes);
- }
- EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_bin_add_patch, "FW_CS_DSP_KUNIT_TEST_UTILS");
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c b/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-index a7ec956d2724..fe0112dc3077 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-@@ -66,24 +66,24 @@ static void bin_load_with_unknown_blocks(struct kunit *test)
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      0xf5, 0,
-+				      0xf5, 0, 0,
- 				      random_data, sizeof(random_data));
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      0xf500, 0,
-+				      0xf500, 0, 0,
- 				      random_data, sizeof(random_data));
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      0xc300, 0,
-+				      0xc300, 0, 0,
- 				      random_data, sizeof(random_data));
- 
- 	/* Add a single payload to be written to DSP memory */
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      WMFW_ADSP2_YM, 0,
-+				      WMFW_ADSP2_YM, 0, 0,
- 				      payload_data, payload_size_bytes);
- 
- 	bin = cs_dsp_mock_bin_get_firmware(local->bin_builder);
-@@ -277,7 +277,7 @@ static void bin_too_short_for_block_header(struct kunit *test)
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      param->block_type, 0,
-+				      param->block_type, 0, 0,
- 				      NULL, 0);
- 
- 	bin = cs_dsp_mock_bin_get_firmware(local->bin_builder);
-@@ -309,7 +309,7 @@ static void bin_too_short_for_block_payload(struct kunit *test)
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      param->block_type, 0,
-+				      param->block_type, 0, 0,
- 				      payload, sizeof(payload));
- 
- 	bin = cs_dsp_mock_bin_get_firmware(local->bin_builder);
-@@ -341,7 +341,7 @@ static void bin_block_payload_len_garbage(struct kunit *test)
- 	cs_dsp_mock_bin_add_raw_block(local->bin_builder,
- 				      cs_dsp_bin_err_test_mock_algs[0].id,
- 				      cs_dsp_bin_err_test_mock_algs[0].ver,
--				      param->block_type, 0,
-+				      param->block_type, 0, 0,
- 				      &payload, sizeof(payload));
- 
- 	bin = cs_dsp_mock_bin_get_firmware(local->bin_builder);
-diff --git a/include/linux/firmware/cirrus/cs_dsp_test_utils.h b/include/linux/firmware/cirrus/cs_dsp_test_utils.h
-index 1f97764fdfd7..877fa4a496dd 100644
---- a/include/linux/firmware/cirrus/cs_dsp_test_utils.h
-+++ b/include/linux/firmware/cirrus/cs_dsp_test_utils.h
-@@ -126,7 +126,7 @@ struct cs_dsp_mock_bin_builder *cs_dsp_mock_bin_init(struct cs_dsp_test *priv,
- 						     unsigned int fw_version);
- void cs_dsp_mock_bin_add_raw_block(struct cs_dsp_mock_bin_builder *builder,
- 				   unsigned int alg_id, unsigned int alg_ver,
--				   int type, unsigned int offset,
-+				   int type, u16 offset, u32 offset32,
- 				   const void *payload_data, size_t payload_len_bytes);
- void cs_dsp_mock_bin_add_info(struct cs_dsp_mock_bin_builder *builder,
- 			      const char *info);
 -- 
 2.43.0
 
