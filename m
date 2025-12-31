@@ -1,116 +1,137 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DAE20C001;
-	Wed, 31 Dec 2025 16:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04C727FD45
+	for <linux-sound@vger.kernel.org>; Wed, 31 Dec 2025 16:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767197493; cv=none; b=X2JZ5jMiII8Btiodkr8ifwQXx08LcX6Ay40ARvButtvo1i1snKmyNx9G4+d+D4+Qv4uKIs4Skc0f1DWcTPU2TLR6TeEP4f74cDCsbzf/JGznkIS0qGyOCt2WQOYQoW3RFN93yUNFe9UzZIsEiFdW4PcUI/07c6PmlCOlTeG0HbQ=
+	t=1767197713; cv=none; b=oCUqm+A6A0AmtKW3rFYZR4T7rG/UBKXg3++DcGeM0oLOMZMo5reRWGePqDlNR7tU/wokjZnUoFRtQlXK1qG4mLVswa8pn7uKazWCuhbYCiVDsoJ3l0JWzenuEod/vEksyfIcoQR7cuFJw+CuBwnDugGP8cAvugaV1jOcwXmO0pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767197493; c=relaxed/simple;
-	bh=5BiygOw5UNn5YywNE8xU9RXfaS51Avk/RtJNsmgIcfE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ej3wFrvGKvoopcZdiMGXxSEqI7YTY7BPPa+PTBHTJRznS8zuBqb6YAwtyPMTnAHH5OkJx3ruBNNfvB9xjiFm3MfgYXPXNFRaiwwnohL7Mz7qYWsNaxgaEnCbNmxKCTa8HOHNP1AyxF64bMOt2alSThzpDiPGi/lIUjhIKoMqFN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=KRbz9/6A; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1767197713; c=relaxed/simple;
+	bh=8pY1uOl975Zbwc/wI4ZGGOII9lr14HgM9g33Bc/Kavc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GKxXBGUMGY8Xz0xE3lf/22MnsEuzrpZyVqa+guNXME4ms1wlPA+mfgvFQlEluV6LOiIRxYC53kbQTcu/mLWpL/DtP6DdBNX5vFAn9TK+1RwvlawoqodG1d4/mFu3QPLQICd1Jyk48VWx9J/Gt1A6m8nlCYtIKQ5oPqwBezkoRKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DtlNwxN+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LmKkRgja; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NCybQWSU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eworGuMV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="KRbz9/6A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OeLFUtBFjTtGUz3AwnZlKFPf8V2epJZinbRJZcB2uRg=;
-  b=KRbz9/6A71WArkBMNrrX+OtXqcwYSbdYOLjyqHDgDU6SfGVNZvurIsT+
-   iwV+FjdK2FpKITvQxhhzB/y2qpzPOBjL32zD03OAx4jUTHNj7bNYCI01D
-   3D47whtsvxsPcQAfPua0XPS2DM/Ex6I6c5vakdNCytgKuHsTrQFysdecu
-   w=;
-X-CSE-ConnectionGUID: gxcLhT65RAixvqSgYSvLAQ==
-X-CSE-MsgGUID: RBX6q09rTVe7AJA8ntVbGQ==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.21,192,1763420400"; 
-   d="scan'208";a="134815114"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.102.196])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 17:11:21 +0100
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: yunbolyu@smu.edu.sg,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DtlNwxN+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LmKkRgja";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NCybQWSU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eworGuMV"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D94FC5BDC5;
+	Wed, 31 Dec 2025 16:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767197710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MtAYyxesiodPJj1zBIKuNiN57/3GWJH5KWT7lAV7wtU=;
+	b=DtlNwxN+JP58xc9HwHTF1QH3ReJCcdWQWJ2gUa3a2jJcK2AWdTK+4nV6Zcb1KcZlX36Ym8
+	SvyTlafbTtub1vOHWWHDlI9+dFeEk2gdfws7AqECyQfCi2C9HFU3WXgYCwlfHQUPSOvYdV
+	GIyDItvgQZtEk4mDso4+mMSMeEonGUs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767197710;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MtAYyxesiodPJj1zBIKuNiN57/3GWJH5KWT7lAV7wtU=;
+	b=LmKkRgja3BQnfHm561QiqhhZNp//ZgOCj/y8lDRcvxwZQsk4Xxa+EKGbgQSJiqFjo0P0kQ
+	dqHs2GHcq8LaFvDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767197709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MtAYyxesiodPJj1zBIKuNiN57/3GWJH5KWT7lAV7wtU=;
+	b=NCybQWSUmVbz2BLjhF9rMgQ+vkrTVDiH1X7jPauMau5MNk6PgIJ5i9/JuiIQ6JDylmRU5a
+	kZdufe7RKpVdFem7TTqUzwTOsqW+0W4OW3bzW+PgEtHfzkPIQ9nWNjSddtTFh9vcNEh86B
+	fKxo9FAeBCrltvCNvFCetizy8UaUbo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767197709;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MtAYyxesiodPJj1zBIKuNiN57/3GWJH5KWT7lAV7wtU=;
+	b=eworGuMVMSwZ0hIDY1Omz1FA8CCi8GMmNldmrQW38jfUauMyM7Gq9khZ3ffCPOWVH7cYOi
+	uj3sN7Rp+3SDo4BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F2763EA63;
+	Wed, 31 Dec 2025 16:15:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Dcu0IQ1MVWklbgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 31 Dec 2025 16:15:09 +0000
+Date: Wed, 31 Dec 2025 17:15:09 +0100
+Message-ID: <875x9my6eq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	yunbolyu@smu.edu.sg,
 	kexinsun@smail.nju.edu.cn,
 	ratnadiraw@smu.edu.sg,
 	xutong.ma@inria.fr,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: echoaudio: adjust function name
-Date: Wed, 31 Dec 2025 17:11:16 +0100
-Message-Id: <20251231161116.141071-1-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH v2] ALSA: echoaudio: adjust function name
+In-Reply-To: <20251231161116.141071-1-Julia.Lawall@inria.fr>
+References: <20251231161116.141071-1-Julia.Lawall@inria.fr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.26 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.16)[-0.810];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,inria.fr:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.26
 
-The function restore_dsp_rettings sets a lot of things, so change the
-name to the more natural restore_dsp_settings.  This name was indeed
-already used in a comment above the code in
-sound/pci/echoaudio/echoaudio.c.
+On Wed, 31 Dec 2025 17:11:16 +0100,
+Julia Lawall wrote:
+> 
+> The function restore_dsp_rettings sets a lot of things, so change the
+> name to the more natural restore_dsp_settings.  This name was indeed
+> already used in a comment above the code in
+> sound/pci/echoaudio/echoaudio.c.
+> 
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> 
+> ---
+> v2: change the function name in the code, rather than in the comment
+> 
+> This was tested by compiling sound/pci/echoaudio/darla20.c, which
+> includes both files.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Thanks, applied now to for-next branch.
 
----
-v2: change the function name in the code, rather than in the comment
 
-This was tested by compiling sound/pci/echoaudio/darla20.c, which
-includes both files.
-
- sound/pci/echoaudio/echoaudio.c     |    2 +-
- sound/pci/echoaudio/echoaudio_dsp.c |    6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/pci/echoaudio/echoaudio.c b/sound/pci/echoaudio/echoaudio.c
-index f2c8602a1ad7..8b7b6838106f 100644
---- a/sound/pci/echoaudio/echoaudio.c
-+++ b/sound/pci/echoaudio/echoaudio.c
-@@ -2159,7 +2159,7 @@ static int snd_echo_resume(struct device *dev)
- 	 */
- 	pipe_alloc_mask = chip->pipe_alloc_mask;
- 	chip->pipe_alloc_mask = 0;
--	err = restore_dsp_rettings(chip);
-+	err = restore_dsp_settings(chip);
- 	chip->pipe_alloc_mask = pipe_alloc_mask;
- 	if (err < 0) {
- 		kfree(commpage_bak);
-diff --git a/sound/pci/echoaudio/echoaudio_dsp.c b/sound/pci/echoaudio/echoaudio_dsp.c
-index 2a40091d472c..6e872103305b 100644
---- a/sound/pci/echoaudio/echoaudio_dsp.c
-+++ b/sound/pci/echoaudio/echoaudio_dsp.c
-@@ -32,7 +32,7 @@
- #error PAGE_SIZE is < 4k
- #endif
- 
--static int restore_dsp_rettings(struct echoaudio *chip);
-+static int restore_dsp_settings(struct echoaudio *chip);
- 
- 
- /* Some vector commands involve the DSP reading or writing data to and from the
-@@ -666,7 +666,7 @@ static void get_audio_meters(struct echoaudio *chip, long *meters)
- 
- 
- 
--static int restore_dsp_rettings(struct echoaudio *chip)
-+static int restore_dsp_settings(struct echoaudio *chip)
- {
- 	int i, o, err;
- 
-@@ -1014,7 +1014,7 @@ static int init_line_levels(struct echoaudio *chip)
- 	chip->input_clock = ECHO_CLOCK_INTERNAL;
- 	chip->output_clock = ECHO_CLOCK_WORD;
- 	chip->sample_rate = 44100;
--	return restore_dsp_rettings(chip);
-+	return restore_dsp_settings(chip);
- }
- 
- 
-
+Takashi
