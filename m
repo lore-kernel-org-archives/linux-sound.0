@@ -1,93 +1,93 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE74C13D8B1
-	for <linux-sound@vger.kernel.org>; Thu,  1 Jan 2026 10:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C951EDA2C
+	for <linux-sound@vger.kernel.org>; Thu,  1 Jan 2026 10:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767261790; cv=none; b=BroWDkKcAn9ly9iRxYL1LTNQ1yPUrwXnJrjPBtU1W1Xhm9t4nz3Nq1JoDIxXob9UMD4e912t97nd8s7eNkwgTBUjCEj+k0BAJozl99Rw5PW3Nhrq/GXxM/Bif4xV0I37ACzaKlicvKr0SP/u/blPAChYu8QUO733cLreoQmSNJo=
+	t=1767261941; cv=none; b=hPowfdDHoIQgNdwP3W7cR2VR5F69T5F13mbTAG6vTHoRJwFx+xWLnT/sIKH11ERUgAOlTnM9AZ3VMybi8BE1NaSIFhfwMIohqwFmmiCAobmNqrbnu5FGaOQTdacbPH8RwrWuDgidmRiXA1H31KeUNR+ZuaErDSyd+Udyv4cdCkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767261790; c=relaxed/simple;
-	bh=6T0eA6HBlO6H3oiXyPCq6b6G7ruCAqVjNL3Ds6CTDuw=;
+	s=arc-20240116; t=1767261941; c=relaxed/simple;
+	bh=LK5vavosDmxOp2yAUHy3TdCXklRHWn8OWf4J5nr5qHc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EbAOEXEsXc7a3TZQTT/QsBw2Z6dFiM+Ix5pTGgbliesjNzzoaXf666rxTLici00SKekllEcVLiQU5MsZtZDujXGruz2DyrSImLWgerGoOiK081Fjym2nUIWNzO/8cKkrAyHRuGgmti2+GoeFUseT/g772qwZclTadYtDAvGJYo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uf3Dew59; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vJjZ5MOC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uf3Dew59; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vJjZ5MOC; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=uJFDLoMrH0xYaSMRZgtF+pOzN9dGRfxS6M6NXQkFh+bGeVin7gysECnkT1ed2j6AAYnXd0H/S8CLW7/5K8Ak/Nva8KwIPLjzb9rubuuS3vxmY6hss8N5M6LFARHzyJqXwayeGSO+Tgqy5QVO2DCdnA4mpyX88l+hBK4JbJ8IvRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xM8H5wCO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hjJ+96oj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xM8H5wCO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hjJ+96oj; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uf3Dew59";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vJjZ5MOC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uf3Dew59";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vJjZ5MOC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xM8H5wCO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hjJ+96oj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xM8H5wCO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hjJ+96oj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A898D33682;
-	Thu,  1 Jan 2026 10:03:05 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3EF5F33682;
+	Thu,  1 Jan 2026 10:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767261785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767261937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I6gTp/Lgh/mJJ+1LckOGm8f+mp6zs+hW5SJe5o1N6Eg=;
-	b=uf3Dew59Yyvjc2CJoiESJy3ACb4qIMvDRZZzEhunm2n1NDVH3tfFfht9PRPzCaWDyoN29Z
-	CcWakz6mR4AujDLMwZMtSizAmS6nj7MFCuX2Y54QOk8RGeP+ByWB/AkQ3/d3Ftz6rTCkHD
-	iYkyyXDMgp/uGH632XTzOD+5jil8jbw=
+	bh=y2wL38ULj1v7ZBVK63mQi4hjkbTlxTSFnmoxdJKRTZc=;
+	b=xM8H5wCOfvR7JKcd808OPOlq/ph9d9Jo2iy4LZ5VrWHhLUoXykoMEsSJzDR62h/z/HrWQJ
+	K5VldOGH9TMQD1hjlSRoXpxNEuDxtpIPhbr/+S4/8sBxCAMpJwI2+6Lq9M0n8sP5kEcGL5
+	BXkjSdvFG/QlR4dhzohZESOJb72I+R4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767261785;
+	s=susede2_ed25519; t=1767261937;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I6gTp/Lgh/mJJ+1LckOGm8f+mp6zs+hW5SJe5o1N6Eg=;
-	b=vJjZ5MOCgW2Gx9V1v4tncb56/YfikKtzsnxnikKKqU3PRQ14Sik70e1So89i7lkb8QPtcJ
-	Ykb9GLgBkRRtuQBw==
+	bh=y2wL38ULj1v7ZBVK63mQi4hjkbTlxTSFnmoxdJKRTZc=;
+	b=hjJ+96ojUgS9MHDsHdPphAYB9n6NHUTeodYMkUH256Fa/e2vfXSMyYPdxGfIvcMdifz6Lm
+	M2bsXIWzWoVWt2Dw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xM8H5wCO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hjJ+96oj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767261785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767261937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I6gTp/Lgh/mJJ+1LckOGm8f+mp6zs+hW5SJe5o1N6Eg=;
-	b=uf3Dew59Yyvjc2CJoiESJy3ACb4qIMvDRZZzEhunm2n1NDVH3tfFfht9PRPzCaWDyoN29Z
-	CcWakz6mR4AujDLMwZMtSizAmS6nj7MFCuX2Y54QOk8RGeP+ByWB/AkQ3/d3Ftz6rTCkHD
-	iYkyyXDMgp/uGH632XTzOD+5jil8jbw=
+	bh=y2wL38ULj1v7ZBVK63mQi4hjkbTlxTSFnmoxdJKRTZc=;
+	b=xM8H5wCOfvR7JKcd808OPOlq/ph9d9Jo2iy4LZ5VrWHhLUoXykoMEsSJzDR62h/z/HrWQJ
+	K5VldOGH9TMQD1hjlSRoXpxNEuDxtpIPhbr/+S4/8sBxCAMpJwI2+6Lq9M0n8sP5kEcGL5
+	BXkjSdvFG/QlR4dhzohZESOJb72I+R4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767261785;
+	s=susede2_ed25519; t=1767261937;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I6gTp/Lgh/mJJ+1LckOGm8f+mp6zs+hW5SJe5o1N6Eg=;
-	b=vJjZ5MOCgW2Gx9V1v4tncb56/YfikKtzsnxnikKKqU3PRQ14Sik70e1So89i7lkb8QPtcJ
-	Ykb9GLgBkRRtuQBw==
+	bh=y2wL38ULj1v7ZBVK63mQi4hjkbTlxTSFnmoxdJKRTZc=;
+	b=hjJ+96ojUgS9MHDsHdPphAYB9n6NHUTeodYMkUH256Fa/e2vfXSMyYPdxGfIvcMdifz6Lm
+	M2bsXIWzWoVWt2Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 561CE1376C;
-	Thu,  1 Jan 2026 10:03:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0ED271376C;
+	Thu,  1 Jan 2026 10:05:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 45SgE1lGVmlEAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 01 Jan 2026 10:03:05 +0000
-Date: Thu, 01 Jan 2026 11:03:04 +0100
-Message-ID: <87344py7jb.wl-tiwai@suse.de>
+	id MfEdAvFGVmmQAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 01 Jan 2026 10:05:37 +0000
+Date: Thu, 01 Jan 2026 11:05:36 +0100
+Message-ID: <871pk9y7f3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: zhangheng <zhangheng@kylinos.cn>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	cryolitia.pukngae@linux.dev,
-	kuninori.morimoto.gx@renesas.com,
-	lhi0729@kaist.ac.kr,
-	pav@iki.fi,
-	rene@exactco.de,
+To: =?ISO-8859-2?Q?Matou=B9_?= =?ISO-8859-1?Q?L=E1nsk=FD?=
+ <matouslansky@post.cz>
+Cc: tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add Line Out to iterm_names
-In-Reply-To: <5879f82a-d21e-4210-987f-449d2452b5bd@kylinos.cn>
-References: <20251229093130.3202058-1-zhangheng@kylinos.cn>
-	<87ecoay7vt.wl-tiwai@suse.de>
-	<5879f82a-d21e-4210-987f-449d2452b5bd@kylinos.cn>
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Add quirk for Acer Nitro AN517-55
+In-Reply-To: <20251231171207.76943-1-matouslansky@post.cz>
+References: <87h5t6y85o.wl-tiwai@suse.de>
+	<20251231171207.76943-1-matouslansky@post.cz>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -95,96 +95,53 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-2022-JP
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -3.27
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.27 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spam-Score: -2.94
+X-Rspamd-Queue-Id: 3EF5F33682
+X-Spamd-Result: default: False [-2.94 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.17)[-0.845];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MIXED_CHARSET(0.57)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[post.cz];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[post.cz];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,kylinos.cn:email,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[post.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-On Thu, 01 Jan 2026 02:18:21 +0100,
-zhangheng wrote:
+On Wed, 31 Dec 2025 18:12:07 +0100,
+Matou¹ Lánský wrote:
 > 
-> Sorry, this is not a new standard. It's just my personal idea. Can we
-> promote
+> Add headset mic quirk for Acer Nitro AN517-55. This laptop uses
+> the same audio configuration as the AN515-58 model.
 > 
-> the addition of this, adding this Line Out, so that it can be similar
-> to hda,
-> 
-> simplifying the adaptation task of the core outer layer? The jack events
-> 
-> are relatively unified. Otherwise, for the current sound card, the
-> 
-> rear jack event is Speaker, which requires separate adaptation.
+> Signed-off-by: Matou¹ Lánský <matouslansky@post.cz>
+> ---
+> v2:
+>  - Resend using git-send-email to fix whitespace/tab corruption.
 
-Well, the question is how this 0x0308 came up.
-It's the value that is used actually by the descriptor, right?
-That is, the vendor uses this non-standard number regularly?
-If so, we may define it as a de facto standard and implement as you
-suggested.
+Thanks, applied now.
 
-Basically I like the idea, but I'd like to know more about the current
-situation at first.
-
-
-thanks,
 
 Takashi
-
-
-> $B:_(B 2025/12/31 23:43, Takashi Iwai $B<LF;(B:
-> > On Mon, 29 Dec 2025 10:31:29 +0100,
-> > Zhang Heng wrote:
-> >> There are three jack events for a sound card on a desktop computer,
-> >> namely Speaker, Headphone, and Desktop Speaker. When both audio
-> >> devices are available, users cannot distinguish which audio device
-> >> is being used. Can we consider adding Line Out? similar to the HDA
-> >> sound card. This can change one of them and reduce the complexity
-> >> of the upper layer adaptation of the sound card.
-> >> 
-> >> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-> > Is 0x0308 something properly defined standard?
-> > If so, we can add the entry, of course.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> > 
-> >> ---
-> >>   sound/usb/mixer.c | 1 +
-> >>   1 file changed, 1 insertion(+)
-> >> 
-> >> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> >> index 3af71d42b9b9..bdde4261d994 100644
-> >> --- a/sound/usb/mixer.c
-> >> +++ b/sound/usb/mixer.c
-> >> @@ -615,6 +615,7 @@ static struct iterm_name_combo {
-> >>   	{ 0x0305, "Room Speaker" },
-> >>   	{ 0x0306, "Com Speaker" },
-> >>   	{ 0x0307, "LFE" },
-> >> +	{ 0x0308, "Line Out" },
-> >>   	{ 0x0600, "External In" },
-> >>   	{ 0x0601, "Analog In" },
-> >>   	{ 0x0602, "Digital In" },
-> >> -- 
-> >> 2.47.1
-> >> 
