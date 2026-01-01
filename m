@@ -1,92 +1,107 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5CA30DD19;
-	Wed, 31 Dec 2025 20:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3B426980F;
+	Thu,  1 Jan 2026 01:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767211487; cv=none; b=oM/LudmZmgmarAD/jOUrKwk0zpSxI0XAOBtcUBjOVu8vAKJuR96KlbjeI4dtH/CRxavSyzfPxoAP/0hhPpee3sacdBORFUnjIMSA7LYbZFLoBs3WPcyYlp3E8szz7kJ7nShf+E2dywHogOgEV1+ZytL6IBPobtJBfEyyl1sQE44=
+	t=1767230317; cv=none; b=b/YCrn/rwKH20Lj9tbZ2Fv8Vccjl2gHARE/SjUg6Me85lBcAdB2ObW1J6GB1y875+2TuemQqnM47zyHnTayiu0masopmeHkJq2IDALtfVrz5iero/P1QUTw5otAz4rPU7X2WPdQop4q5x/Nnxl8ik/IYLyxpsmsZHlGOIVaLlfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767211487; c=relaxed/simple;
-	bh=G5tbss/I9BerqD7yyqFl5i2+sbkH+2tcNPOQsdt7FAY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dlVZ8zlqjm7mne7jWzsDd9uR7qmd7ujlh5MycK8dAK/hG5nM03pwtdHAyXDlgGQwcUPKBCqHaMy0XECWoT3VNiwFCKsrV/FPjjytYX0epuGjAHsRnr/fNNJDlMTm2Ii3Fg8vYYzXBAUd6oZ2I00mE14S6IV3DOjL5DSlWh+r/d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=a2JCYNeF; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a2JCYNeF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1767211478;
-	bh=G5tbss/I9BerqD7yyqFl5i2+sbkH+2tcNPOQsdt7FAY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=a2JCYNeFNK0OMuHhdOniUS4T9bsFy7b/BewAmhYxJjDckMjXFVpbXWewaH0SLat2I
-	 UoloAUYJi2BMx6xIV1whA7LKN3f4FpNpT5hw3KS5oQYX0HBQ/v2shCJy0BZ4F+YR/L
-	 IgXFHgHsC7C0O380UfmvZLNvXB4h811h9kpqxM3CFUSwdTsxkVWdotTafpkwuXI9+w
-	 DJYr0oSyAWSwY6304rSB0gEpU2dOME/ZWTBYevwJSNGHIL2lBRWZYxbcogTUvChKUK
-	 8lmExbkmTKQf82Iqc/O3FvElUuCZEgjAEmOsnT+Bh+d4qyux4vhwatHeGofh+hr7Py
-	 XZgtVremR3vfg==
-Received: from localhost (unknown [82.79.138.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 66D6B17E0EFE;
-	Wed, 31 Dec 2025 21:04:38 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 31 Dec 2025 22:04:21 +0200
-Subject: [PATCH 7/7] ASoC: nau8821: Sort #include directives
+	s=arc-20240116; t=1767230317; c=relaxed/simple;
+	bh=jJh/gfRbn0HGkteVEjdrNixoOYdwoMnNMXioA/vGzgU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dbMVZgS7FKRdlvFXq3LySphOQlGqF/yyGcEDA/K1CGsvMwdmBJHdpk3Cxthh3xGPpXR8aeXROaX3u3l4/7ioi2HYWDBBenBL2gfT8wwWwkgk3MZZmVQJ+4B11VixfjB40wdWiZCGVzOHg6qm0BrE3bRAQlyyQxtKY/d7sODPduc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c5bc99d8e6af11f0a38c85956e01ac42-20260101
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:45c5b92a-d8b4-4da5-8ce2-539fb97b9737,IP:0,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:-5
+X-CID-META: VersionHash:a9d874c,CLOUDID:c9b0724d29e3fea90103c643588e5b21,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: c5bc99d8e6af11f0a38c85956e01ac42-20260101
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1766834081; Thu, 01 Jan 2026 09:18:25 +0800
+Message-ID: <5879f82a-d21e-4210-987f-449d2452b5bd@kylinos.cn>
+Date: Thu, 1 Jan 2026 09:18:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251231-nau8821-cleanup-v1-7-6b0b76cbbb64@collabora.com>
-References: <20251231-nau8821-cleanup-v1-0-6b0b76cbbb64@collabora.com>
-In-Reply-To: <20251231-nau8821-cleanup-v1-0-6b0b76cbbb64@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Seven Lee <wtli@nuvoton.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Add Line Out to iterm_names
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, cryolitia.pukngae@linux.dev,
+ kuninori.morimoto.gx@renesas.com, lhi0729@kaist.ac.kr, pav@iki.fi,
+ rene@exactco.de, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251229093130.3202058-1-zhangheng@kylinos.cn>
+ <87ecoay7vt.wl-tiwai@suse.de>
+From: zhangheng <zhangheng@kylinos.cn>
+In-Reply-To: <87ecoay7vt.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Make sure #include directives are ordered alphabetically.
+Sorry, this is not a new standard. It's just my personal idea. Can we 
+promote
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- sound/soc/codecs/nau8821.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+the addition of this, adding this Line Out, so that it can be similar to 
+hda,
 
-diff --git a/sound/soc/codecs/nau8821.c b/sound/soc/codecs/nau8821.c
-index 181214fa792d..ffb526de0021 100644
---- a/sound/soc/codecs/nau8821.c
-+++ b/sound/soc/codecs/nau8821.c
-@@ -11,10 +11,10 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/dmi.h>
--#include <linux/init.h>
- #include <linux/i2c.h>
--#include <linux/module.h>
-+#include <linux/init.h>
- #include <linux/math64.h>
-+#include <linux/module.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
- #include <sound/core.h>
-@@ -24,6 +24,7 @@
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
- #include <sound/tlv.h>
-+
- #include "nau8821.h"
- 
- #define NAU8821_QUIRK_JD_ACTIVE_HIGH			BIT(0)
+simplifying the adaptation task of the core outer layer? The jack events
 
--- 
-2.52.0
+are relatively unified. Otherwise, for the current sound card, the
 
+rear jack event is Speaker, which requires separate adaptation.
+
+在 2025/12/31 23:43, Takashi Iwai 写道:
+> On Mon, 29 Dec 2025 10:31:29 +0100,
+> Zhang Heng wrote:
+>> There are three jack events for a sound card on a desktop computer,
+>> namely Speaker, Headphone, and Desktop Speaker. When both audio
+>> devices are available, users cannot distinguish which audio device
+>> is being used. Can we consider adding Line Out? similar to the HDA
+>> sound card. This can change one of them and reduce the complexity
+>> of the upper layer adaptation of the sound card.
+>>
+>> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> Is 0x0308 something properly defined standard?
+> If so, we can add the entry, of course.
+>
+>
+> thanks,
+>
+> Takashi
+>
+>
+>> ---
+>>   sound/usb/mixer.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+>> index 3af71d42b9b9..bdde4261d994 100644
+>> --- a/sound/usb/mixer.c
+>> +++ b/sound/usb/mixer.c
+>> @@ -615,6 +615,7 @@ static struct iterm_name_combo {
+>>   	{ 0x0305, "Room Speaker" },
+>>   	{ 0x0306, "Com Speaker" },
+>>   	{ 0x0307, "LFE" },
+>> +	{ 0x0308, "Line Out" },
+>>   	{ 0x0600, "External In" },
+>>   	{ 0x0601, "Analog In" },
+>>   	{ 0x0602, "Digital In" },
+>> -- 
+>> 2.47.1
+>>
