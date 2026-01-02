@@ -1,95 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927A4184;
-	Fri,  2 Jan 2026 12:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533D230EF7A;
+	Fri,  2 Jan 2026 12:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767356259; cv=none; b=X75Q14ux1LUaUKMg53QxP93kp/+5Cxe7eq/VeKb1HATXyA53ksYArCaZktjgbPKAYb8Xed7sYoz3I/HND+lkd4oKU40YGQo0IYJftL6NvbpibTq4R5NiHBUIApU1MA//BkImBIg1OYxR7NMRjDKHhZmI774QjD6MW9P+ZPqgW2o=
+	t=1767356321; cv=none; b=K2xP1ZwmfOVs7bPr5xEXOHnnd0q6LOj0UxfdYP0jmPrDvUElVp6KlHEKkAz5ZQXwm5agcBjkmBIE+kTSwnQb2iWzfrB9VYQLKMULQ+5MPml8MTFEyVNPY3kVJEKsBRROybQ3f2hO1XQnDNB83lV9q8+Ddps7trvlczbNecQPHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767356259; c=relaxed/simple;
-	bh=TSlD5GTOB3iJ+iDN2gxB4z6rcomIZnSlCO8Hm5Htk1U=;
+	s=arc-20240116; t=1767356321; c=relaxed/simple;
+	bh=Tb2YDXRKcVQK2vPJv/quYKFzQ2ip2fRl0IeUjAystjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qF7BfB1WS8RKKcRKbkhEQXLRbWCZjIzwHMEwC36H+UmsWILT2en2NBLyAw3yeU8HSefzYl15LW40iPsePiMHr3L/dnghynSMjaTYQ3QwdBnboUBhKJvxN+7w0LLqrU3zrREcd7X1yAgsz+/FqD8pWKmrlXokS+yK5+O341kxWOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpyDFbF3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrQhTCeh1hQoAKoCpjM9rvGJFb2QJzpPchGM+h4uueYwhCNX69Gq71KUQkRaKpZQu6LCY6Qbuq1ahm3V9gifsKgPcfFuA1iV4DxINPaHAPN+3t9/g2fPahCX6un3vH2Rudjy2ZkAEeZkDH/I/1tfi6xcu3L6nfaxWuob4KhP4IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktg/X2UE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpyDFbF3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD89C116B1;
-	Fri,  2 Jan 2026 12:17:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktg/X2UE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE6DC116C6;
+	Fri,  2 Jan 2026 12:18:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767356259;
-	bh=TSlD5GTOB3iJ+iDN2gxB4z6rcomIZnSlCO8Hm5Htk1U=;
+	s=k20201202; t=1767356321;
+	bh=Tb2YDXRKcVQK2vPJv/quYKFzQ2ip2fRl0IeUjAystjo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tpyDFbF3I1Km3wHCd6mnBWp6X1Hxob4N0UHlKYEf2clD/QD7OYcPOL3oCk7y01SCc
-	 oaRe7W7P0lgxE6cPIXhKTx/hj0Fcn8tJbD00QBSUC7QxyPmJbZd4DjIA4MnVbtyiFg
-	 KhQyjLm9HS9dUUeuFKkJHvf+RibtBv3sVXRoA+X4Jz3aKK2kk2VJ7Udl5Dh4SPtJeW
-	 ax1nWAUKo7AMaP82QHTGN17l6uPj6Ln+wIyGUwMqpnEoEM7fby6qVjrfNL3hPdID4g
-	 /ShPq1Qi4Om+qp3spHn1ah+fl4ljvqx/M4Gdw4DFt+uPyEHwDzRq2tIO7tMKqXhKVS
-	 6Z8Zlt8Yh9wiA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vbe5u-000000004t4-0wM7;
-	Fri, 02 Jan 2026 13:17:26 +0100
-Date: Fri, 2 Jan 2026 13:17:26 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 3/4] ASoC: codecs: wsa884x: fix codec initialisation
-Message-ID: <aVe3VgrKi7WsqrYA@hovoldconsulting.com>
-References: <20260102111413.9605-1-johan@kernel.org>
- <20260102111413.9605-4-johan@kernel.org>
- <18f646c0-00f3-4460-842d-cf8811dddecf@kernel.org>
- <aVevbmfwoHCqrnQF@hovoldconsulting.com>
- <9c68b403-f11b-4395-a564-8172e7db5390@kernel.org>
+	b=ktg/X2UE+tCc8C8dX9A/3G0im4i6nDacLtA+mHqt3ttjLNMYDbABukyS16ZGsMFgt
+	 EuR2gYg1o7QSvHpBp7ajMaxvbTtAATU+nV+SMezRvnrSdks5vOCcFUk3hnqVu9vk/e
+	 GBLiGir02y3Rb/XTwIieYlqT/vsejJp57UPdi9m9ciDMuKBmDk9b859YhqV3AQ9z4s
+	 PuMjZYatbP7KY1n7qiYEYdpx1jyCs6i4ZEriZyvVTbc1yCdHkjgTuGMRaJlh60SJz6
+	 HyK3YKr9wVs5gkOcflnDJ9QZMCFqtuABxwL5R9Ue0HjjSAQfP9dCFaZWj0vaCkkdxl
+	 NEJ+XawINS6RA==
+Date: Fri, 2 Jan 2026 13:18:38 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
+	jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: serial: google,goldfish-tty: Convert to
+ DT schema
+Message-ID: <20260102-fast-clay-jackrabbit-6d6637@quoll>
+References: <20251230181031.3191565-1-visitorckw@gmail.com>
+ <20251230181031.3191565-2-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9c68b403-f11b-4395-a564-8172e7db5390@kernel.org>
+In-Reply-To: <20251230181031.3191565-2-visitorckw@gmail.com>
 
-On Fri, Jan 02, 2026 at 12:50:45PM +0100, Krzysztof Kozlowski wrote:
-> On 02/01/2026 12:43, Johan Hovold wrote:
-> > On Fri, Jan 02, 2026 at 12:31:21PM +0100, Krzysztof Kozlowski wrote:
-> >> On 02/01/2026 12:14, Johan Hovold wrote:
-> >>> The soundwire update_status() callback may be called multiple times with
-> >>> the same ATTACHED status but initialisation should only be done when
-> >>> transitioning from UNATTACHED to ATTACHED.
-> >>>
-> >>> Fix the inverted hw_init flag which was set to false instead of true
-> >>> after initialisation which defeats its purpose and may result in
-> >>> repeated unnecessary initialisation.
-
-> > No, update_status() has:
-> > 
-> > 	if (wsa884x->hw_init || status != SDW_SLAVE_ATTACHED)
-> > 		return 0;
-> > 
-> > 	...
-> > 
-> > 	wsa884x_init(wsa884x);
-> > 
-> > so if you set hw_init to true then init is never called when status is
-> > changed to ATTACHED.
+On Tue, Dec 30, 2025 at 06:10:26PM +0000, Kuan-Wei Chiu wrote:
+> Convert the Google Goldfish TTY binding to DT schema format.
+> Move the file to the serial directory to match the subsystem.
+> Update the example node name to 'serial' to comply with generic node
+> naming standards.
 > 
-> Uh, indeed, so this was supposed to be !wsa884x->hw_init... or indeed
-> your meaning. This also means that this was never passing above if() and
-> the init() was never called.
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  .../devicetree/bindings/goldfish/tty.txt      | 17 ---------
+>  .../bindings/serial/google,goldfish-tty.yaml  | 38 +++++++++++++++++++
+>  2 files changed, 38 insertions(+), 17 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/goldfish/tty.txt
+>  create mode 100644 Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
 > 
-> regcache was probably synced via runtime PM, so at least that part worked.
-> 
-> Did you test this driver on actual device how it affects the behavior?
+> diff --git a/Documentation/devicetree/bindings/goldfish/tty.txt b/Documentation/devicetree/bindings/goldfish/tty.txt
+> deleted file mode 100644
+> index 82648278da77..000000000000
+> --- a/Documentation/devicetree/bindings/goldfish/tty.txt
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Android Goldfish TTY
+> -
+> -Android goldfish tty device generated by android emulator.
+> -
+> -Required properties:
+> -
+> -- compatible : should contain "google,goldfish-tty" to match emulator
+> -- reg        : <registers mapping>
+> -- interrupts : <interrupt mapping>
+> -
+> -Example:
+> -
+> -	goldfish_tty@1f004000 {
+> -		compatible = "google,goldfish-tty";
+> -		reg = <0x1f004000 0x1000>;
+> -		interrupts = <0xc>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
+> new file mode 100644
+> index 000000000000..08fa12449a01
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/serial/google,goldfish-tty.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Google Goldfish TTY
+> +
+> +maintainers:
+> +  - Kuan-Wei Chiu <visitorckw@gmail.com>
+> +
 
-No, I don't have a device that uses this codec anymore.
+Missing allOf to /schemas/serial/serial, unless this is not a serial, but then your
+commit msg should explain that.
 
-If you could give it a spin that would be great. It seems we have been
-depending on reset values or an UNATTACHED => ATTACHED transition so
-far.
+Best regards,
+Krzysztof
 
-Johan
