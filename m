@@ -1,80 +1,46 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012057.outbound.protection.outlook.com [40.107.200.57])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9FB22D4C3;
-	Sun,  4 Jan 2026 08:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767517104; cv=fail; b=QJ/HONY91d+SX9xDAQF54/Uvay/n1UG+ZW5nRuI1wnfLQttHsnARfcCzCYuD7BFoc0OvF8WRak028CG6Bof1MmTbKiAIeSk9PZWiVeuambw9Wju4MxALReDcB4dxeHEkj5m5afND/BNFb+R4VI5hy1YvXISPlif6QGUbK21HEzE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767517104; c=relaxed/simple;
-	bh=FxE6rR3k0PP1KWHKqwD2ck/5CJApmM+pJM8UalHh2J8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=p8K34peAXuzq6/W4qVGNBb/elJo3jXUeis024NhqXv74p0uaDVmFzLIoGAM5vDuVqyLRvIpnvwf3fjJYtLJs3N1udjEr1utdBC/Tmh1DpRz83bWXNA21EgJvrTni/Z5ehy0Sqsf2Airzeb2ccMYKhfaT1PaDaWmwi/p92s49vKw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dbSvO6IK; arc=fail smtp.client-ip=40.107.200.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141A327AC5C
+	for <linux-sound@vger.kernel.org>; Sun,  4 Jan 2026 09:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767518968; cv=none; b=h8Qx4+byuvQb2dd6elmjMoO0RRoQChwlJNBl/LZX+HIG8SqzmnHx5rWK4NjTaOeIRlOK7hc7nyp3p6tYWzz2r9WFjoTA0XWcmgy8KNtDCuEdrjBMJkWHW1cBXctkPI4QJuv6Pf5HUSgtLDQ3L0V2uTJqBiBqrmVs4RQtTuJmDtM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767518968; c=relaxed/simple;
+	bh=SC35mJGYdWM8p2dbffxwY8WEyDF3XamGlcbv/0YMxng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iQhYFkMCmGrgTUmYIqlH9o66PBDGe3JI88juTQkWCNvM2wweTgf3J5w2TFEsQOqSQoKTupxMDfDkQE701iplT7zGfc+FZar6ZJYqqrJF32ZFQYt/g52n5kUEw67VVYCSl5YWO8O6c8JPZOqlVU1HTTohf64T2A1GONRJWzl2d1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lH730AWu; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dbSvO6IK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=INKx3NI4ClH0A2VwJbaC+ysz6qgydluFlYnAAOdfZaJMbSuY/9XAiZ4ILxXfF1yRdOePRzsPX2EqwEVskSMPntKns4iuOR38y8KRKjYW26oBr6rfXKUAvqycfNxYY9eHMUQPf6CO7GTB+f2WCMJbZGKVByqSerZL83NO+KRiXK1X/DyvSULZiPqMP7beY15KWExknMIyVOElicsIP0UexRmRpLCzkOZ+h8+aWXUWP2PnpQWYGdOVIi6ETBWfHNFibUJOaZJmJ468A3zHVR/nKsBcsFywG1Yo6Ej7c8xR14/vNGE9y7LMhNrYQrI0S9xzYAS4FtQb1N8XzIx0mgJ0ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FxE6rR3k0PP1KWHKqwD2ck/5CJApmM+pJM8UalHh2J8=;
- b=U2weyI23R9Wnqu3Buk6dewupyUkpPKFLsj2aAUUHo2leO+C9Qw+Xf80Kd9O+LQtDQKIyYLUDVskqG/0Ic0U7MCTYzMHdIroWJNlFRS64vBRbyMmcZReGijbW3Vllez37Aw1FYEMkKG9LkRoaC+/FHng7Sv34dZpHSKxQoqyTRpZoCIYVnGHdMbM+jvySNZzlIURdgESZUcp/8sGb4FdaCGner1+csAucdZHKAZsTZ12QoXouWbs+UScczp4JywnFphrP7Y9H2BuUePrHGzlM+KOOFqIjaVoHfUph6GKAYhQXnCZVgwq7eLnKnjbjFpI1FGYzOMTWBwuuIEwpcv0Xdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FxE6rR3k0PP1KWHKqwD2ck/5CJApmM+pJM8UalHh2J8=;
- b=dbSvO6IKkerGQ8c6LGA3Jg+4OZVI8SsqMNrmidFF9A8Yrfz/oxpeGMKyhf07+jQ+3byLaztCTaQMYbh3DiczognNArc9qkJtCboFYcRi+Oc43DlrDFqT2OHdNlKWnyZt6RvQsGTdBX8CTL8VVY3QSx1HTaAXhOlUhN1zA5uxJ88=
-Received: from BN0PR03CA0024.namprd03.prod.outlook.com (2603:10b6:408:e6::29)
- by MW6PR10MB7658.namprd10.prod.outlook.com (2603:10b6:303:244::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Sun, 4 Jan
- 2026 08:58:17 +0000
-Received: from BN1PEPF00004681.namprd03.prod.outlook.com
- (2603:10b6:408:e6:cafe::10) by BN0PR03CA0024.outlook.office365.com
- (2603:10b6:408:e6::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Sun, 4
- Jan 2026 08:58:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN1PEPF00004681.mail.protection.outlook.com (10.167.243.87) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.1 via Frontend Transport; Sun, 4 Jan 2026 08:58:16 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 4 Jan
- 2026 02:58:09 -0600
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 4 Jan
- 2026 02:58:09 -0600
-Received: from DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe]) by
- DLEE209.ent.ti.com ([fe80::9756:3b42:e53b:3cbe%7]) with mapi id
- 15.02.2562.020; Sun, 4 Jan 2026 02:58:09 -0600
-From: "Xu, Baojun" <baojun.xu@ti.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>, Matthew Schwartz
-	<matthew.schwartz@linux.dev>
-CC: "Ding, Shenghao" <shenghao-ding@ti.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lH730AWu"
+Message-ID: <d50cbda2-7c62-433e-b7a4-c716e6818007@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767518962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RmfHKR3WkakqFhp/KjzQuDDI91MgrnU8fDNhAQ457T0=;
+	b=lH730AWuGzNeGVdZeOvu7XTYxx2HbYvYEbppx9udKwrdN2vAX32A1/3CbHh92rv2MILO3L
+	L6dXtKiSvxXEmanUhFfr3ZlT7+BQ+dPOACmipAVxC362r//4S54fKge1/Ny2AihCEuDh3w
+	4coW4Q8DYFVslyN1RguNGMiutYfeRRo=
+Date: Sun, 4 Jan 2026 01:29:17 -0800
+Precedence: bulk
+X-Mailing-List: linux-sound@vger.kernel.org
+List-Id: <linux-sound.vger.kernel.org>
+List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 Subject: Re: [EXTERNAL] Re: [BUG] hda/tas2781: ASUS ROG Xbox Ally X audio
  issues with default firmware
-Thread-Topic: [EXTERNAL] Re: [BUG] hda/tas2781: ASUS ROG Xbox Ally X audio
- issues with default firmware
-Thread-Index: AQHcaIroCsldfQsZnkeqsog04aaSRbUZFDQAgCIZRwCABHwYgIAAIqWAgABB94CAABXTgIAAvTgAgAD7S6U=
-Date: Sun, 4 Jan 2026 08:58:09 +0000
-Message-ID: <160aef32646c4d5498cbfd624fd683cc@ti.com>
+To: "Xu, Baojun" <baojun.xu@ti.com>, Antheas Kapenekakis <lkml@antheas.dev>
+Cc: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "tiwai@suse.de" <tiwai@suse.de>
 References: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
  <2d8b782c-a97c-4521-9307-a2cf8934802a@linux.dev>
  <288f6482-9a6b-4362-ac97-18043659deb7@linux.dev>
@@ -82,301 +48,303 @@ References: <0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev>
  <CAGwozwEJRDq96ZUQv+8H5fiXBVQ2jFvvuK48WpDqZ0eQ_NB+NA@mail.gmail.com>
  <c7929aa2-93d4-40d5-aa6f-d554729f4bee@linux.dev>
  <CAGwozwH6A-NNCioS7J_EiTbxv2Y0B3YFXuyeWU_RMsW2Z+YsRA@mail.gmail.com>
- <0b18b97f-a5dc-4f24-9716-e1eb26ac85af@linux.dev>,<CAGwozwFQKoQgo_Q=qdr-FTD+uoVWA8AtHyDmKwTOV4ZU6+F3SQ@mail.gmail.com>
-In-Reply-To: <CAGwozwFQKoQgo_Q=qdr-FTD+uoVWA8AtHyDmKwTOV4ZU6+F3SQ@mail.gmail.com>
-Accept-Language: en-GB, zh-CN, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Precedence: bulk
-X-Mailing-List: linux-sound@vger.kernel.org
-List-Id: <linux-sound.vger.kernel.org>
-List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004681:EE_|MW6PR10MB7658:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b050551-ef1f-414e-e859-08de4b6f668f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dzVhVDNDa01QZ052QkxNSGkxcWQ1WHkvYXRsMElmWG5RdHJFMzVTRkJYaTgv?=
- =?utf-8?B?T1dyYzVFOFhjNVBDak93b1lJQ3UzT3dhRXEvbVFrWjlMUmxZL1NZTzlaMWVi?=
- =?utf-8?B?OVZRTUx2VmZkUmw1RG45S2hYbjBvTTdiU3QvMWtmYVBpdGlPQjR5MlladlRP?=
- =?utf-8?B?WDA5NXB4STNzTkU5QjZrOXQ2dU53SnhwajgzeWJDYVZQRUpBekZKV2xjd05Z?=
- =?utf-8?B?NmpvejkwVXE5SE9pSTZmN0N5YW5NNTZUTWF2am9RRXA0a3hublg4cUQrSlM1?=
- =?utf-8?B?aWNlcVdZTGF5ajUraWR3L25hTXBNSkJVTFF0aGxpeW9KRE1PRE9EakFYR3Vv?=
- =?utf-8?B?ZGczaCs2UUw4ZSs4U21YSTUrWi84SjZ6ZHR0aDBhZHFkN3I3UW5kQmRUcUxE?=
- =?utf-8?B?VDJHTmtVL0M5OW5PeWkxK09ZWVVsaHB6cHJkdEttelZKUjltRXoxZ3ZwR08y?=
- =?utf-8?B?MFl3aFZwWTFvL3UzTk9hL3VpbXN3VFpSc0daUjZZTW5mRjdlMDVMVEx0YzF3?=
- =?utf-8?B?a082RFFMajVobEQwMENmSy9uMXNQaFkvbGxqY3JPbDVNNWhoTUxGWXlZc3Zx?=
- =?utf-8?B?QStldUdEbDZldnoxc3hyWWNIaHd0SWtNVmpiTnFrV1A5N1Erd01PSEgwZUlw?=
- =?utf-8?B?bUdJUHNaQzdKbkNmcnJia0RuRDErWXlBVFFFa240Y2liTk0wRG5KaVhVQnFv?=
- =?utf-8?B?RFVJZWp5dDREVXJUQlFueG1JVmZpYTZjTFJ0T3JoNGFNcHYyckJCUG1Valo2?=
- =?utf-8?B?T1p4dXBwNUZUcWp6aWk5L3EzSDdRNDNsdXBOTGU2SHl5OC9mUmhPbGN1RnlG?=
- =?utf-8?B?RmRwTndpRStqM0xOL2NxcnNVVzNJdWlTMnR4SXV4UE42UkE3MlBQak11bzRO?=
- =?utf-8?B?N1pRdTNjd3lXdi94cFVGOW50cTBjeHF3MFdaTTYvUzlNeU1yYkRBRGZteWFK?=
- =?utf-8?B?OHlVcjhLSUFSMHNWN1IxTXNBRDZyS1A4Q1NJdG0rU0ltZHZkclJxRzhHRS9H?=
- =?utf-8?B?T2c0UkVlbERsZDdJbXgwKzdLQ2dtQUlOOUNYdmxyNzV3ZDZwUldmaTZJdVlw?=
- =?utf-8?B?SlRGNzVwd3Y1YTJrNTd3WDFuOXhHNVlLVWdOc1FiWHFueVFSVzJNbFo5QmIy?=
- =?utf-8?B?c0pnSnFXcFFsQ05iN2NJb3VYK2VDUzRKc0FyYlZYVDN5aHJHZ2twQWs4Umg0?=
- =?utf-8?B?RDBNZ0ovWUtQNGRGV0tzNXd0OWVQY1l5cEVjbXpERktaV2pqbWJIekFBaCs0?=
- =?utf-8?B?VlhBNWRid2xqMTNNT0dXNnFrTHhDb0ZvQjI1N3AvMjFxSnRoNWU0Y0lIME1m?=
- =?utf-8?B?Ykxjd29LakZYYndNeVRjWDlmMEd1dHdDTkVQaEovQisrSnJBZWh5dWVydUhS?=
- =?utf-8?B?aDJTaUlaVGNpRSsvSG8rU2hEbmdrcG5GODAzOW9HcEtwcG1TRGRjdWxTL1F5?=
- =?utf-8?B?ckVHMlZ4TTNkUk8xSzNnaXhUSHY4Q3c1YTlkajJMVTlLN1NkeVI4MjNMZU5V?=
- =?utf-8?B?NEJEc2RTUWJ2VUdoSHJFcENaekRVczJrSUpzM0d1ZnFGb3prZVh2UkFWSWZW?=
- =?utf-8?B?OHFaUWpTekl0OWMxbTNRQWtFVWRiVDlybCtiV1Q2dmgyYURwQkpBemtUaFZJ?=
- =?utf-8?B?OXB1WTlRT3N4TDZWM2JMUkYxME0wYkIzSVdMTE95eEFVc1VuQ01aemIzTC9n?=
- =?utf-8?B?UCtaZGFkYUxqYjlMYmh0V0pxOXFycGxPMG9WekU3UkZnbDlvTzVRcVo5VEZ4?=
- =?utf-8?B?UGZ6UzYybFNsUUNRWEFJbzNZaXo4ZkI4S210d2FsNkxvV0ZOMnAvaG5wdlhw?=
- =?utf-8?B?Ylh4QU9RYkpaU1pQU3NGN1REdXNFOXNKZFU0cFJxcG1CVHRjUnJtWnU2TnQr?=
- =?utf-8?B?NmZrUHMvZFNIWXpDNCtxWlRpVlNyNVc2QmdPVmtVQnpLMWo2VVdEK2lHcVIv?=
- =?utf-8?B?WThCSWdQMXNhQ0NOWWxpU2lTamdtd0pkTHZKSUZDK0tkYjh4UWJlbXQyZ0ZR?=
- =?utf-8?B?R3NWbzV3cUhsNUJWbzZnZTNadDU4WnhSWWlhS014alY3TjIyRlBiOEYzN29H?=
- =?utf-8?B?ZmtKNnNEeWlyTG1yQ1FUSURKY2o5bVBHTGRuV0hTMmpiL3VUMmphVGx0dUtZ?=
- =?utf-8?Q?ccbiyq3l1gqWfYMguXWvAK0jD?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2026 08:58:16.6125
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b050551-ef1f-414e-e859-08de4b6f668f
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004681.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7658
+ <0b18b97f-a5dc-4f24-9716-e1eb26ac85af@linux.dev>
+ <CAGwozwFQKoQgo_Q=qdr-FTD+uoVWA8AtHyDmKwTOV4ZU6+F3SQ@mail.gmail.com>
+ <160aef32646c4d5498cbfd624fd683cc@ti.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+In-Reply-To: <160aef32646c4d5498cbfd624fd683cc@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-SGkgQW50aGVhcywNCg0KSXQgbWF5IGtub3duIGlzc3VlIHdoaWNoIHJlbGF0aXZlIHdpdGggY2Fs
-aWJyYXRpb24gcmVzdWx0Lg0KQ291bGQgeW91IHRyeSB0byByZW1vdmUgY2FsaWJyYXRpb24gcmVz
-dWx0IGFwcGx5LCBhbmQgY2hlY2sgaWYgdGhlIHByb2JsZW0gc3RpbGwgZXhpc3Q/DQpGb3IgZXhh
-bXBsZSwgbWFzayBiZWxvdyBsaW5lIChsaW5lIG51bWJlciBpcyA0OTQpIGluIHRhc2RldmljZV9k
-c3Bmd19pbml0KCkgZnJvbSB0YXMyNzgxLWhkYS1pMmMuYzoNCg0KaGRhX3ByaXYtPnNhdmVfY2Fs
-aWJyYXRpb24odGFzX2hkYSk7DQoNCkJlc3QgUmVnYXJkcw0KSmltDQpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQpGcm9tOiBBbnRoZWFzIEthcGVuZWtha2lzIDxsa21s
-QGFudGhlYXMuZGV2Pg0KU2VudDogMDMgSmFudWFyeSAyMDI2IDE5OjQ4DQpUbzogTWF0dGhldyBT
-Y2h3YXJ0eg0KQ2M6IFh1LCBCYW9qdW47IERpbmcsIFNoZW5naGFvOyBsaW51eC1zb3VuZEB2Z2Vy
-Lmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHRpd2FpQHN1c2UuZGUN
-ClN1YmplY3Q6IFtFWFRFUk5BTF0gUmU6IFtCVUddIGhkYS90YXMyNzgxOiBBU1VTIFJPRyBYYm94
-IEFsbHkgWCBhdWRpbyBpc3N1ZXMgd2l0aCBkZWZhdWx0IGZpcm13YXJlDQoNCk9uIFNhdCwgMyBK
-YW4gMjAyNiBhdCAwMjrigIozMSwgTWF0dGhldyBTY2h3YXJ0eiA8bWF0dGhldy7igIpzY2h3YXJ0
-ekDigIpsaW51eC7igIpkZXY+IHdyb3RlOiA+ID4gT24gMS8yLzI2IDM64oCKMTMgUE0sIEFudGhl
-YXMgS2FwZW5la2FraXMgd3JvdGU6ID4gPiBPbiBGcmksIDIgSmFuIDIwMjYgYXQgMjE64oCKMTcs
-IE1hdHRoZXcgU2Nod2FydHogPiA+IDxtYXR0aGV3LuKAinNjaHdhcnR6QOKAimxpbnV4LuKAimRl
-dj4NClpqUWNtUVJZRnBmcHRCYW5uZXJTdGFydA0KVGhpcyBtZXNzYWdlIHdhcyBzZW50IGZyb20g
-b3V0c2lkZSBvZiBUZXhhcyBJbnN0cnVtZW50cy4NCkRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
-IGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRoZSBzb3VyY2Ugb2YgdGhpcyBlbWFp
-bCBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KPGh0dHBzOi8vdXMtcGhpc2hhbGFybS1l
-d3QucHJvb2Zwb2ludC5jb20vRVdUL3YxL0czdkshdERka2N6bG5uWVJUeE1wTFZ6LXBONUVaT0Nw
-cWc3d0dqeURSQnZNZUFaRnVXWlhCSmxmTlVRZEo0dlIyREx2bU8xbzkxdE12Y0ZZMkNrRldFTzRV
-SUJPQko4MGV4THowbzBmalJfcWJkc2dBNGFIVlVhZUpoLW9VV2ckPg0KUmVwb3J0IFN1c3BpY2lv
-dXMNCg0KWmpRY21RUllGcGZwdEJhbm5lckVuZA0KDQpPbiBTYXQsIDMgSmFuIDIwMjYgYXQgMDI6
-MzEsIE1hdHRoZXcgU2Nod2FydHoNCjxtYXR0aGV3LnNjaHdhcnR6QGxpbnV4LmRldj4gd3JvdGU6
-DQo+DQo+IE9uIDEvMi8yNiAzOjEzIFBNLCBBbnRoZWFzIEthcGVuZWtha2lzIHdyb3RlOg0KPiA+
-IE9uIEZyaSwgMiBKYW4gMjAyNiBhdCAyMToxNywgTWF0dGhldyBTY2h3YXJ0eg0KPiA+IDxtYXR0
-aGV3LnNjaHdhcnR6QGxpbnV4LmRldj4gd3JvdGU6DQo+ID4+DQo+ID4+IE9uIDEvMi8yNiA5OjEy
-IEFNLCBBbnRoZWFzIEthcGVuZWtha2lzIHdyb3RlOg0KPiA+Pj4gT24gVHVlLCAzMCBEZWMgMjAy
-NSBhdCAyMjo0NCwgTWF0dGhldyBTY2h3YXJ0eg0KPiA+Pj4gPG1hdHRoZXcuc2Nod2FydHpAbGlu
-dXguZGV2PiB3cm90ZToNCj4gPj4+Pg0KPiA+Pj4+DQo+ID4+Pj4NCj4gPj4+Pj4gT24gRGVjIDgs
-IDIwMjUsIGF0IDg6MDDigK9QTSwgTWF0dGhldyBTY2h3YXJ0eiA8bWF0dGhldy5zY2h3YXJ0ekBs
-aW51eC5kZXY+IHdyb3RlOg0KPiA+Pj4+Pg0KPiA+Pj4+IC0gc25pcA0KPiA+Pj4+PiAyLjUyLjAN
-Cj4gPj4+Pg0KPiA+Pj4+IEFmdGVyIHJlYWRpbmcgdGhlIFRJIEUyRSBmb3J1bXMsIGl0IHNlZW1z
-IHRoZXNlIGNhbGlicmF0aW9uIHR1bmluZyBjb25maWd1cmF0aW9ucyBhcmUgb25seSBtZWFudCB0
-byBiZSB1c2VkIGR1cmluZyBhIGNhbGlicmF0aW9uIHByb2Nlc3MuDQo+ID4+Pg0KPiA+Pj4gQSBz
-b3VyY2Ugd291bGQgYmUgZ29vZCBoZXJlLCBhIGxpbmsgb3IgdHdvDQo+ID4+DQo+ID4+IFNvcnJ5
-IGFib3V0IHRoYXQsIGhlcmUgaXMgd2hlcmUgSSByZWFkIGFib3V0IHRoZSBkaWZmZXJlbmNlcyBi
-ZXR3ZWVuIHRoZSB0d28gY29uZmlnczoNCj4gPj4gaHR0cHM6Ly9lMmUudGkuY29tL3N1cHBvcnQv
-YXVkaW8tZ3JvdXAvYXVkaW8vZi9hdWRpby1mb3J1bS8xNTU4MzEwL3RhczI1NjMtd2hhdC1pcy10
-aGUtZGlmZmVyZW5jZS1iZXR3ZWVuLXR1bmluZy1hbmQtY2FsaWJyYXRpb24tY29uZmlndXJhdGlv
-bi1pbi1leHBvcnRlZC1zbWFydGFtcC1iaW5hcnkNCj4gPg0KPiA+IFRoaXMgbGluayBkZXNjcmli
-ZXMgImNhbGlicmF0aW9uIiBjb25maWd1cmF0aW9ucyB0aGF0IGFyZSB1c2VkIGluIHRoZQ0KPiA+
-IGNhbGlicmF0aW9uIHByb2NlZHVyZS4gSXQgaXMgbm90IGNsZWFyIHRvIG1lIHRoYXQgaXQgcmVm
-ZXJzIHRvIHRoZQ0KPiA+IGNhbGlicmF0aW9uIHBhcmFtZXRlcnMgZXhwb3J0ZWQgYnkgVUVGSSBv
-ciBpbiB0aGUgY29uZmlndXJhdGlvbiBpdHNlbGYNCj4gPiB0byBiZSB1c2VkIGFsb25nc2lkZSBh
-IGNvbmZpZ3VyYXRpb24uIEkgd291bGQgdGVuZCB0b3dhcmQgdGhpcyBiZWluZw0KPiA+IGlycmVs
-ZXZhbnQuDQo+ID4NCj4gPj4gSXQncyBhYm91dCBhIGRpZmZlcmVudCBhbXBsaWZpZXIgbW9kZWws
-IGJ1dCBJIGFzc3VtZSB0aGUgc2FtZSBhcHBsaWVzIHRvIHRhczI3ODEgZ2l2ZW4gdGhlIG5hbWlu
-ZyBzdHJ1Y3R1cmUgaXMgdGhlIHNhbWUgZm9yIHRoZSBjb25maWd1cmF0aW9ucy4NCj4gPj4NCj4g
-Pj4+DQo+ID4+Pj4gSW5zdGVhZCwgc29tZXRoaW5nIGVsc2UgSSBmb3VuZCB0aGF0IHdvcmtzIGlz
-IG5vdCBvdmVycmlkaW5nIHRoZSBmaXJtd2FyZSBmaWxlIGNhbGlicmF0aW9uIGRhdGEgd2l0aCB0
-aGUgVUVGSSBjYWxpYnJhdGlvbiBkYXRhOg0KPiA+DQo+ID4gSSBtaXN1bmRlcnN0b29kIHdoYXQg
-eW91IG1lYW50IGJ5IHRoaXMgYmVmb3JlLiBJIHRob3VnaHQgeW91IG1lYW50DQo+ID4gdGhhdCB0
-aGUgZmlybXdhcmUgb3ZlcnJvZGUgdGhlIFVFRkkgZGF0YSwgbm90IHRoZSBvdGhlciB3YXkgYXJv
-dW5kLg0KPiA+IFN1cmVseSwgdXNpbmcgdGhlIGR1bW15IGRhdGEgaW4gdGhlIGZpcm13YXJlIGZp
-bGUgaXMgYmV0dGVyIHRoYW4gdXNpbmcNCj4gPiBpbmNvcnJlY3QgZGF0YSBmcm9tIFVFRkkuIEhv
-d2V2ZXIsIHRoZSBtYW51ZmFjdHVyZXIgY2FsaWJyYXRlZCBkYXRhDQo+ID4gZnJvbSB0aGUgZmFj
-dG9yeSBmbG9vciBmb3IgZWFjaCBzcGVjaWZpYyB1bml0IGlzIGluIFVFRkksIHNvIHRoYXQgaXMN
-Cj4gPiB3aGF0IHNob3VsZCBiZSB1c2VkLg0KPiA+DQo+ID4+PiBJIGRpZCBub3QgbG9vayBpbnRv
-IHRoZSBzb3VyY2UgY29kZSwgZG8geW91IGhhdmUgYW55IHJlZmVyZW5jZSBpbiB0aGUNCj4gPj4+
-IEFDUEkgVEFTIGNvZGUgdGhhdCByMF9idWYgaXMgcHJlZmlsbGVkIHdpdGggVUVGSSBkYXRhPw0K
-PiA+Pg0KPiA+PiBGcm9tIHdoYXQgSSB1bmRlcnN0YW5kLCBJIHRoaW5rIHRoZSBjdXJyZW50IGZs
-b3cgZ29lcyBsaWtlIHRoaXM6DQo+ID4+DQo+ID4+IDEuIER1cmluZyBkcml2ZXIgaW5pdCwgdGFz
-Mjc4MV9zYXZlX2NhbGlicmF0aW9uKCkgcmVhZHMgVUVGSSBjYWxpYnJhdGlvbiBkYXRhIGludG8g
-dGhlIGNhbGlfZGF0YSBtZW1vcnkgYnVmZmVyIGFuZCBzZXRzIGlzX3VzZXJfc3BhY2VfY2FsaWRh
-dGE9dHJ1ZTogaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vZ2l0aHViLmNvbS90
-b3J2YWxkcy9saW51eC9ibG9iL21hc3Rlci9zb3VuZC9oZGEvY29kZWNzL3NpZGUtY29kZWNzL3Rh
-czI3ODFfaGRhLmMqTDE2Mi1MMTczX187SXchIUczdkshVTNtRUpOdVJwQjlaeFZBR1paQ3lvTU5x
-TW5BbDRNMU44WW94YkhpTUhJc0YtMTNoNFdnX2ZiVmZkMDA4ZHJRZnZnc3RZeUExYVFuV0h3JA0K
-PiA+Pg0KPiA+PiAyLiBXaGVuIHN3aXRjaGluZyB0byBhIERTUCBjb25maWcsIHRhc2RldmljZV9z
-ZWxlY3RfdHVuaW5ncHJtX2NmZygpIGNhbGxzIHRhc2RldmljZV9sb2FkX2RhdGEoKSB3aGljaCB3
-cml0ZXMgdGhlIGZpcm13YXJlIGNvbmZpZ3VyYXRpb24sIGluY2x1ZGluZyBhbnkgY2FsaWJyYXRp
-b24gdmFsdWVzIGVtYmVkZGVkIGluIHRoYXQgY29uZmlnOiBodHRwczovL3VybGRlZmVuc2UuY29t
-L3YzL19faHR0cHM6Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2Jsb2IvbWFzdGVyL3NvdW5k
-L3NvYy9jb2RlY3MvdGFzMjc4MS1mbXdsaWIuYypMMjUxMF9fO0l3ISFHM3ZLIVUzbUVKTnVScEI5
-WnhWQUdaWkN5b01OcU1uQWw0TTFOOFlveGJIaU1ISXNGLTEzaDRXZ19mYlZmZDAwOGRyUWZ2Z3N0
-WXlESlRyY2hiUSQNCj4gPj4NCj4gPj4gMy4gSW1tZWRpYXRlbHkgYWZ0ZXIsIHRhc2Rldl9sb2Fk
-X2NhbGlicmF0ZWRfZGF0YSgpIHdyaXRlcyB0aGUgVUVGSSBjYWxpYnJhdGlvbiBkYXRhIGZyb20g
-c3RlcCAxLCBvdmVyd3JpdGluZyB0aGUgdmFsdWVzIGp1c3Qgc2V0IGluIHN0ZXAgMjogaHR0cHM6
-Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxkcy9saW51eC9i
-bG9iLzliMDQzNjgwNDQ2MDY3MzU4OTEzZWRjMmU5ZGQ3MWJmOGZmYWUyMDgvc291bmQvc29jL2Nv
-ZGVjcy90YXMyNzgxLWZtd2xpYi5jKkwyMzkyLUwyNDI4X187SXchIUczdkshVTNtRUpOdVJwQjla
-eFZBR1paQ3lvTU5xTW5BbDRNMU44WW94YkhpTUhJc0YtMTNoNFdnX2ZiVmZkMDA4ZHJRZnZnc3RZ
-eUJlWW5Hcl93JCArIGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovL2dpdGh1Yi5j
-b20vdG9ydmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvc291bmQvc29jL2NvZGVjcy90YXMyNzgxLWZt
-d2xpYi5jKkwyNTE5X187SXchIUczdkshVTNtRUpOdVJwQjlaeFZBR1paQ3lvTU5xTW5BbDRNMU44
-WW94YkhpTUhJc0YtMTNoNFdnX2ZiVmZkMDA4ZHJRZnZnc3RZeUJ6OC03WjZnJA0KPiA+Pg0KPiA+
-PiBJIGNvbmZpcm1lZCB0aGlzIHRoaXMgYnkgaW5zZXJ0aW5nIHNvbWUgZGVidWcgbG9ncyBhcm91
-bmQgdGFzZGV2X2xvYWRfY2FsaWJyYXRlZF9kYXRhOg0KPiA+DQo+ID4gSSB3ZW50IHRocm91Z2gg
-dGhlIGNvZGUuIEl0IGxvYWRzIHRoZSBVRUZJIGRhdGEsIHNldHMNCj4gPiBpc191c2VyX3NwYWNl
-X2NhbGlkYXRhPTEsIHRoZW4gaWYgdGhlIGRhdGEgaXMgYXZhaWxhYmxlIGl0IGxvYWRzIGl0Lg0K
-PiA+IFRoaXMgaXMgY29ycmVjdC4NCj4gPg0KPiA+IFRvIG1lIHRoaXMgc2VlbXMgbGlrZSB0aGUg
-Y2FsaWJyYXRpb24gZGF0YSBmb3IgYW1wIDEgaXMgd3JpdHRlbiB0bw0KPiA+IGJvdGggYW1wIDEg
-YW5kIGFtcCAyLCBhbmQgZm9yIHlvdXIgZmlybXdhcmUgdGhpcyBicmVha3MgYW1wMi4NCj4NCj4g
-SWYgdGhpcyB3ZXJlIHRoZSBjYXNlLCBzaG91bGRuJ3QgbXkgZGVidWcgbG9ncyBoYXZlIHRoZSBz
-YW1lIGRhdGEgYmVpbmcgd3JpdHRlbiB0byBkZXYgMCBhbmQgZGV2IDE/DQo+DQo+IFsgICAgNi4z
-NjczODBdIHRhczI3ODEtaGRhIGkyYy1UWE5XMjc4MTowMC10YXMyNzgxLWhkYS4wOiB0YXNkZXZf
-bG9hZF9jYWxpYnJhdGVkX2RhdGE6IGRldiAwIHdyaXRpbmcgY2FsaWJyYXRpb246IHIwX3JlZz0w
-eDAwMGNlNCBkYXRhPTNjNWY3MjIyDQo+IFsgICAgNi4zNzE3MThdIHRhczI3ODEtaGRhIGkyYy1U
-WE5XMjc4MTowMC10YXMyNzgxLWhkYS4wOiB0YXNkZXZfbG9hZF9jYWxpYnJhdGVkX2RhdGE6IGRl
-diAxIHdyaXRpbmcgY2FsaWJyYXRpb246IHIwX3JlZz0weDAwMGNlNCBkYXRhPTNjOTBlNzJkDQo+
-DQo+ID4NCj4gPiBJbiB0YXNkZXZfbG9hZF9jYWxpYnJhdGVkX2RhdGEoKSwgYW4gaSBpbmRleCBp
-cyBwcm92aWRlZCwgYnV0DQo+ID4gY2FsaV9kYXRhIGlzIG5lc3RlZCB1bmRlciBwcml2LiBTbyBv
-bmx5IG9uZSBjYWxpYnJhdGlvbiBzZXQgaXMNCj4gPiBzdXBwb3J0ZWQuIFRoaXMgbWVhbnMgdGhh
-dCBhbXAgMiBnZXRzIGFtcCAxIGNhbGlicmF0aW9ucy4NCj4gPg0KPiA+IFBlcmhhcHMgdGhlcmUg
-aXMgYSAiU21hcnRBbXBDYWxpYnJhdGlvbkRhdGEyIiB0aGF0IHNob3VsZCBiZSByZWFkDQo+ID4g
-aW5zdGVhZCBmb3IgYW1wIDIgaW5zdGVhZCwgY2FuIHlvdSBkdW1wIHRoZSBFRkkgdmFyaWFibGVz
-IGFuZCBjaGVjaz8NCj4NCj4gKDEyOCkoZGVja0BzdGVhbWRlY2sgfikkIGxzIC9zeXMvZmlybXdh
-cmUvZWZpL2VmaXZhcnMvDQo+IEFtZEFjcGlWYXItNzk5NDFlY2QtZWQzNi00OWQwLTgxMjQtZTRj
-MzFhYzc1Y2Q0ICAgICAgICAgICAgICAgQnVnQ2hlY2tQcm9ncmVzcy1iYTU3ZTAxNS02NWIzLTRj
-M2MtYjI3NC02NTkxOTJmNjk5ZTMgICAgICAgICAgICAgTWVtb3J5T3ZlcndyaXRlUmVxdWVzdENv
-bnRyb2wtZTIwOTM5YmUtMzJkNC00MWJlLWExNTAtODk3Zjg1ZDQ5ODI5DQo+IDxzbmlwPg0KPiBU
-aGVyZSdzIG9ubHkgb25lIEVGSSB2YXIgdGhhdCBzZWVtcyB0byBiZSBmb3IgY2FsaWJyYXRpb24g
-ZGF0YToNCj4NCj4geHhkIC9zeXMvZmlybXdhcmUvZWZpL2VmaXZhcnMvQ0FMSV9EQVRBLTFmNTJk
-MmExLWJiM2EtNDU3ZC1iYzA5LTQzYTNmNDMxMGE5MjoNCj4NCj4gMDAwMDAwMDA6IDA3MDAgMDAw
-MCBkZDBhIDAwMDAgMDMwMCAwMDAwIDdlNGEgOWQ2OCAgLi4uLi4uLi4uLi4ufkouaA0KPiAwMDAw
-MDAxMDogMDAwMCAwMDAwIDIyNzIgNWYzYyBkNTE1IGY2MTAgYWM5YSA5YjJlICAuLi4uInJfPC4u
-Li4uLi4uDQo+IDAwMDAwMDIwOiA1ZDkxIDk2MDAgMDAwMCA4MDI1IDAxMDAgMDAwMCAyZGU3IDkw
-M2MgIF0uLi4uLi4lLi4uLi0uLjwNCj4gMDAwMDAwMzA6IDI4M2MgZTgxMCBmZmM4IGMxMmUgZmNj
-ZSA5NjAwIDAwMDAgODAyNSAgKDwuLi4uLi4uLi4uLi4uJQ0KPiAwMDAwMDA0MDogODAwMCAwMDAw
-IDAwMDAgMTk2NCAwMDAwIDE5NzQgMDAwMCAxOTdjICAuLi4uLi4uZC4uLnQuLi58DQo+IDAwMDAw
-MDUwOiAwMDAwIDE1NjAgMDAwMCAxYTcwIGViN2YgYjEyYiAgICAgICAgICAgIC4uLmAuLi5wLi4u
-Kw0KDQpJIHJldmlld2VkIHRoZSBsb2FkZXIgZm9yIENBTElfREFUQSwgaXQgc3VwcG9ydHMgbXVs
-dGlwbGUgZGV2aWNlDQpjYWxpYnJhdGlvbiBkYXRhIGFuZCBpbmRleGVzIGl0IGN1cnJlbnRseS4g
-SW4gYWRkaXRpb24sIGl0IGhhcyB0d28NCnZlcnNpb25zIHdpdGggQ1JDIGNoZWNrcyB0aGF0IHBh
-c3MsIHNvIG9uZSBvZiB0aG9zZSB2ZXJzaW9ucyBsb2FkcyB0aGUNCmRhdGEgY29ycmVjdGx5Lg0K
-DQpTbyBldmVyeXRoaW5nIGxvb2tzIHRlY2huaWNhbGx5IGNvcnJlY3QNCg0KSGVyZSBpcyB5b3Vy
-IGRhdGEgZnJvbSB0aGUgZmlyc3QgYW1wIHJlb3JkZXJlZDoNCiAgICAgICByMF9yZWc9MHgwMDBj
-ZTQgNDA4ZjVjMjkNCiAgICAgICByMF9yZWc9MHgwMDBjZTQgM2M1ZjcyMjINCiAgIGludnIwX3Jl
-Zz0weDAwMGNmNCAwZmRjNzg4Yw0KICAgaW52cjBfcmVnPTB4MDAwY2Y0IDEwZjYxNWQ1DQpyMF9s
-b3dfcmVnPTB4MDAwY2ZjIDBmN2U5MTAwDQpyMF9sb3dfcmVnPTB4MDAwY2ZjIDJlOWI5YWFjDQog
-IHBvd19yZWc9MHgwMDBhZTAgMDA5YjUyODENCiAgcG93X3JlZz0weDAwMGFlMCAwMDk2OTE1ZA0K
-IHRsaW1pdF9yZWc9MHgwMDBkNzAgMjU4MDAwMDANCiB0bGltaXRfcmVnPTB4MDAwZDcwIDI1ODAw
-MDAwDQoNCkFuZCB0aGUgc2Vjb25kIGFtcDoNCiAgICByMF9yZWc9MHgwMDBjZTQgNDBjY2NjY2QN
-CiAgICByMF9yZWc9MHgwMDBjZTQgM2M5MGU3MmQNCiBpbnZyMF9yZWc9MHgwMDBjZjQgMGZjZDZl
-OWUNCiBpbnZyMF9yZWc9MHgwMDBjZjQgMTBlODNjMjgNCnIwX2xvd19yZWc9MHgwMDBjZmMgMGY4
-ZDRmZGYNCnIwX2xvd19yZWc9MHgwMDBjZmMgMmVjMWM4ZmYNCiAgIHBvd19yZWc9MHgwMDBhZTAg
-MDA5YjljNTgNCiAgIHBvd19yZWc9MHgwMDBhZTAgMDA5NmNlZmMNCnRsaW1pdF9yZWc9MHgwMDBk
-NzAgMjU4MDAwMDANCnRsaW1pdF9yZWc9MHgwMDBkNzAgMjU4MDAwMDANCg0KVGhlcmUgaXMgYSBs
-YXJnZSBkZXZpYXRpb24gaW4gcjAsIGludnIwLCBhbmQgcjBfbG93IGluIGJvdGggb2YgdGhlbS4N
-ClVuZm9ydHVuYXRlbHksIEkgZG8gbm90IGhhdmUgbXkgWGJveCBBbGx5IG5vbi1YIHRvIGNoZWNr
-IHRvIHNlZSBpZg0KaXQncyBpbmNvcnJlY3QuIFRoaXMgaGludHMgdG8gbWUgdGhhdCB0aGUgcmVn
-aXN0ZXJzIGdldCBpbmNvcnJlY3QgZGF0YQ0KbG9hZGVkLCBzbyB0aGVyZSBtaWdodCBiZSBhIG1p
-c3Rha2UgaW4gdGhlIFVFRkkgcGFyc2VyLg0KDQpIZXJlIGlzIGEgYnJlYWtkb3duIG9mIHlvdXIg
-ZWZpdmFyDQowNzAwIDAwMDAgIyBUaGlzIGlzIG5vdCBzdXBwb3NlZCB0byBiZSBoZXJlIC8gTWln
-aHQgaGF2ZSBiZWVuIHRocm93bg0Kb3V0IGJ5IGtlcm5lbCBpZiB2MiBsb2Fkcw0KDQpkZDBhIDAw
-MDAgIyAyNzgxLCBpcyB2MiBwcm90b2NvbA0KMDMwMCAwMDAwICMgRGF0YS1Hcm91cC1TdW0gLyBI
-b3cgbWFueSBub2Rlcw0KN2U0YSA5ZDY4ICMgVGltZXN0YW1wDQoNCiMgRmlyc3QgYW1wbGlmaWVy
-IGRhdGENCjAwMDAgMDAwMA0KMjI3MiA1ZjNjICMgcjANCmQ1MTUgZjYxMCAjIGludnIwDQphYzlh
-IDliMmUgIyByMF9sb3cNCjVkOTEgOTYwMCAjIHBvdw0KMDAwMCA4MDI1ICMgdGxpbWl0DQoNCiMg
-U2Vjb25kIGFtcGxpZmllciBkYXRhDQowMTAwIDAwMDANCjJkZTcgOTAzYyAjIHIwDQoyODNjIGU4
-MTAgIyBpbnZyMA0KZmZjOCBjMTJlICMgcjBfbG93DQpmY2NlIDk2MDAgIyBwb3cNCjAwMDAgODAy
-NSAjIHRsaW1pdA0KDQo4MDAwIDAwMDAgIyBDYWxpYnJhdGlvbiBkYXRhIC8gRGVyaXZhdGlvbiBs
-b2dpYyBpbiBUQVNERVZJQ0VfUkVHDQowMDAwIDE5NjQgIyByMCBhZGRyDQowMDAwIDE5NzQgIyBp
-bnZyMCBhZGRyDQowMDAwIDE5N2MgIyByMF9sb3cgYWRkcg0KMDAwMCAxNTYwICMgcG93IGFkZHIN
-CjAwMDAgMWE3MCAjIHRsaW1pdCBhZGRyDQoNCmViN2YgYjEyYiAjIENSQzMyDQoNClNwZWNpZmlj
-YWxseSBmb3IgdGhlIDB4ODAsIGNhbGlfcmVnIGFkZHJlc3NlcyBnZXQgc3RvcmVkIGludG8NCnIw
-L2ludnIwLi4uIGlmZiBwLT5kc3BiaW5fdHlwID09IFRBU0RFVl9CQVNJQy4NCg0KSSBzdXNwZWN0
-IHRoZSBwcm9ibGVtIGhlcmUgaXMgdGhhdCB0aGUgVUVGSSBvdmVycmlkZSBmb3IgdGhlIGZpcnN0
-DQp0aHJlZSB2YWx1ZXMgdHJpZXMgdG8gY2hhbmdlIGRpZmZlcmVudCByZWdpc3RlcnMgYW5kIG5v
-dCByMCwgaW52cjAgYW5kDQpyMF9sb3cuIFRoZSBwb3csIHRsaW1pdCBsb29rIGNvcnJlY3QuDQoN
-CkJ1dCwgZHVlIHRvIHAtPmRzcGJpbl90eXAgIT0gVEFTREVWX0JBU0lDLCBjYWxpX3JlZyBlbmRz
-IHVwIGJlaW5nDQp0aHJvd24gb3V0IGFuZCB0aGUgVUVGSSB2YWx1ZXMgZW5kIHVwIGNvcnJ1cHRp
-bmcgdGhlIHIwLCBpbnZyMCBhbmQNCnIwX2xvdyBkZWZhdWx0IGFkZHJlc3Nlcy4gYW5kIG5vdCAw
-MCwgMTksIDY0Lzc0LzdjDQoNCkFudGhlYXMNCg0KPiA+DQo+ID4gSW4gdGhhdCBjYXNlLCBhIG1p
-bm9yIHJlZmFjdG9yIHRvIG1vdmUgY2FsaV9kYXRhIGFuZA0KPiA+IGlzX3VzZXJfc3BhY2VfY2Fs
-aWRhdGEgZnJvbSBwcml2IHRvIHByaXYtPnRhc2RldmljZVtpXSBhbmQgdGhlbiB1c2UNCj4gPiB0
-aGUgcHJvcGVyIGVmaSB2YXIgd291bGQgZml4IHRoaXMuDQo+ID4NCj4gPiBBbnRoZWFzDQo+ID4N
-Cj4gPj4gWyAgICAzLjkwODk2M10gdGFzMjc4MS1oZGEgaTJjLVRYTlcyNzgxOjAwLXRhczI3ODEt
-aGRhLjA6IHRhczI3ODFfYXBwbHlfY2FsaWI6IGRzcGJpbl90eXA9MiwgbmRldj0yLCBTZXR0aW5n
-IGlzX3VzZXJfc3BhY2VfY2FsaWRhdGE9dHJ1ZQ0KPiA+PiA8c25pcD4NCj4gPj4NCj4gPj4gd2hl
-cmUgaXQgbG9hZHMgdGhlIFVFRkkgY2FsaWJyYXRpb24gb3ZlciB0b3Agb2YgdGhlIGZpcm13YXJl
-IGNhbGlicmF0aW9uLg0KPiA+Pg0KPiA+Pj4NCj4gPj4+IEl0IGNvdWxkIGJlIHRoYXQgdGhlcmUg
-aXMgYSBzcGVjaWZpYyBwcmlvcml0eSwgd2hlcmUgVUVGSSBkYXRhIGlzDQo+ID4+PiBzdXBwb3Nl
-ZCB0byBiZSBsb2FkZWQgYWZ0ZXIgdGhlIGZpcm13YXJlIGNvZGUsIHJlcGxhY2luZyB0aGUNCj4g
-Pj4+IGNhbGlicmF0aW9uIGRhdGEgZnJvbSB0aGUgZmlsZSwgb3IgdGhhdCBpcyB3aGF0IGlzIGRv
-bmUgaW4gV2luZG93cy4NCj4gPj4+IEJ1dCBoZXJlIGl0IGlzIGRvbmUgdGhlIG90aGVyIHdheS4g
-SW4gdGhhdCBjYXNlLCBpdCBtaWdodCBiZSBtb3JlDQo+ID4+PiBhcHByb3ByaWF0ZSB0byBzZXQg
-YSBkdW1teSB2YXIgc3VjaCBhcyBib29sIHVlZmlfY2FsaWIgdGhhdCBiZWNvbWVzIDENCj4gPj4+
-IHdoZW4gbG9hZGluZyBjYWxpYnJhdGlvbiBmcm9tIFVFRkksIGFuZCBza2lwIGxvYWRpbmcgZnJv
-bSB0aGUgZncgZmlsZQ0KPiA+Pj4gaWYgYXZhaWxhYmxlLg0KPiA+Pj4NCj4gPj4+IEJ1dCBsaW5r
-cywgZXRjLiBIZXJlLCB0aGlzIHdvdWxkIGFmZmVjdCBhbGwgVEFTIGRldmljZXMgdG9vLCBzbyBp
-dCBpcw0KPiA+Pj4gbW9yZSBtYWpvci4NCj4gPj4NCj4gPj4gWWVzLCB3YXMgcmVhbGx5IGhvcGlu
-ZyB0byBnZXQgVEkncyBmZWVkYmFjayBiZWZvcmUgcG90ZW50aWFsbHkgc2VuZGluZyBpdCBvdXQs
-IGFzIGl0IHdvdWxkIGJlIGEgbWFqb3IgY2hhbmdlIGFuZCB0aGUgZG9jdW1lbnRhdGlvbiBvbiB0
-aGlzIGlzIHNjYXJjZS4gSSBjb3VsZCBhbHNvIGJlIG1pc3VuZGVyc3RhbmRpbmcgdGhlIGNhbGli
-cmF0aW9uIGRhdGEgbG9hZCBmbG93LCBidXQgdGhpcyBpcyBqdXN0IGZyb20gcG9raW5nIGF0IHRo
-aXMgaXNzdWUgZnJvbSBldmVyeSBhbmdsZSBJIGNhbiB0aGluayBvZi4NCj4gPj4NCj4gPj4gSGFw
-cHkgbmV3IHllYXIsDQo+ID4+IE1hdHQNCj4gPj4NCj4gPj4+DQo+ID4+PiBIYXBweSBuZXcgeWVh
-ciwNCj4gPj4+IEFudGhlYXMNCj4gPj4+DQo+ID4+Pj4gZGlmZiAtLWdpdCBhL3NvdW5kL3NvYy9j
-b2RlY3MvdGFzMjc4MS1mbXdsaWIuYyBiL3NvdW5kL3NvYy9jb2RlY3MvdGFzMjc4MS1mbXdsaWIu
-Yw0KPiA+Pj4+IGluZGV4IDc4ZmQwYTVkYzZmMi4uMWU3NjhlNjE4N2RhIDEwMDY0NA0KPiA+Pj4+
-IC0tLSBhL3NvdW5kL3NvYy9jb2RlY3MvdGFzMjc4MS1mbXdsaWIuYw0KPiA+Pj4+ICsrKyBiL3Nv
-dW5kL3NvYy9jb2RlY3MvdGFzMjc4MS1mbXdsaWIuYw0KPiA+Pj4+IEBAIC0yMzc3LDYgKzIzNzcs
-NyBAQCBzdGF0aWMgdm9pZCB0YXNkZXZfbG9hZF9jYWxpYnJhdGVkX2RhdGEoc3RydWN0IHRhc2Rl
-dmljZV9wcml2ICpwcml2LCBpbnQgaSkNCj4gPj4+PiAgICAgICAgIHVuc2lnbmVkIGNoYXIgKmRh
-dGEgPSBjYWxpX2RhdGEtPmRhdGE7DQo+ID4+Pj4gICAgICAgICBzdHJ1Y3QgdGFzZGV2aWNlX2Nh
-bGlicmF0aW9uICpjYWw7DQo+ID4+Pj4gICAgICAgICBpbnQgayA9IGkgKiAoY2FsaV9kYXRhLT5j
-YWxpX2RhdF9zel9wZXJfZGV2ICsgMSk7DQo+ID4+Pj4gKyAgICAgICB1bnNpZ25lZCBjaGFyIHIw
-X2J1Zls0XTsNCj4gPj4+PiAgICAgICAgIGludCByYzsNCj4gPj4+Pg0KPiA+Pj4+ICAgICAgICAg
-LyogTG9hZCB0aGUgY2FsaWJyYXRlZCBkYXRhIGZyb20gY2FsIGJpbiBmaWxlICovDQo+ID4+Pj4g
-QEAgLTIzODksNiArMjM5MCwyMCBAQCBzdGF0aWMgdm9pZCB0YXNkZXZfbG9hZF9jYWxpYnJhdGVk
-X2RhdGEoc3RydWN0IHRhc2RldmljZV9wcml2ICpwcml2LCBpbnQgaSkNCj4gPj4+PiAgICAgICAg
-IH0NCj4gPj4+PiAgICAgICAgIGlmICghcHJpdi0+aXNfdXNlcl9zcGFjZV9jYWxpZGF0YSkNCj4g
-Pj4+PiAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPiA+Pj4+ICsNCj4gPj4+PiArICAgICAgIC8q
-DQo+ID4+Pj4gKyAgICAgICAgKiBDaGVjayBpZiB0aGUgRFNQIGNvbmZpZyBhbHJlYWR5IHNldCB0
-aGUgY2FsaWJyYXRpb24gcmVnaXN0ZXJzLg0KPiA+Pj4+ICsgICAgICAgICogU29tZSB0dW5pbmcg
-Y29uZmlncyBjb250YWluIHRoZWlyIG93biBjYWxpYnJhdGlvbiBkYXRhIHdoaWNoIHNob3VsZA0K
-PiA+Pj4+ICsgICAgICAgICogbm90IGJlIG92ZXJ3cml0dGVuIGJ5IHVzZXIgc3BhY2UgY2FsaWJy
-YXRpb24gZGF0YS4NCj4gPj4+PiArICAgICAgICAqLw0KPiA+Pj4+ICsgICAgICAgcmMgPSB0YXNk
-ZXZpY2VfZGV2X2J1bGtfcmVhZChwcml2LCBpLCBwLT5yMF9yZWcsIHIwX2J1ZiwgNCk7DQo+ID4+
-Pj4gKyAgICAgICBpZiAocmMgPj0gMCAmJiAocjBfYnVmWzBdIHwgcjBfYnVmWzFdIHwgcjBfYnVm
-WzJdIHwgcjBfYnVmWzNdKSkgew0KPiA+Pj4+ICsgICAgICAgICAgICAgICBkZXZfZGJnKHByaXYt
-PmRldiwNCj4gPj4+PiArICAgICAgICAgICAgICAgICAgICAgICAiJXM6IGRldiAlZCByMF9yZWcg
-YWxyZWFkeSBzZXQgYnkgY29uZmlnLCBza2lwcGluZyBjYWxpYnJhdGlvblxuIiwNCj4gPj4+PiAr
-ICAgICAgICAgICAgICAgICAgICAgICBfX2Z1bmNfXywgaSk7DQo+ID4+Pj4gKyAgICAgICAgICAg
-ICAgIHJldHVybjsNCj4gPj4+PiArICAgICAgIH0NCj4gPj4+PiArDQo+ID4+Pj4gICAgICAgICAv
-KiBsb2FkIGNhbGlicmF0ZWQgZGF0YSBmcm9tIHVzZXIgc3BhY2UgKi8NCj4gPj4+PiAgICAgICAg
-IGlmIChkYXRhW2tdICE9IGkpIHsNCj4gPj4+PiAgICAgICAgICAgICAgICAgZGV2X2Vycihwcml2
-LT5kZXYsICIlczogbm8gY2FsLWRhdGEgZm9yIGRldiAlZCBmcm9tIHVzci1zcGNcbiIsDQo+ID4+
-Pj4NCj4gPj4+PiBJcyB0aGlzIG1vcmUgc3VpdGFibGUgdG8gYmUgdXBzdHJlYW1lZD8NCj4gPj4+
-Pg0KPiA+Pj4+IFRoYW5rcywNCj4gPj4+PiBNYXR0DQo+ID4+Pj4gPHNuaXA+DQo+ID4+Pj4NCj4g
-Pj4+DQo+ID4+DQo+ID4+DQo+ID4NCj4NCj4NCg0KDQoNCg==
+On 1/4/26 12:58 AM, Xu, Baojun wrote:
+> Hi Antheas,
+> 
+> It may known issue which relative with calibration result.
+> Could you try to remove calibration result apply, and check if the problem still exist?
+> For example, mask below line (line number is 494) in tasdevice_dspfw_init() from tas2781-hda-i2c.c:
+> 
+> hda_priv->save_calibration(tas_hda);
+> 
+> Best Regards
+> Jim
+
+Hi Jim,
+
+Thanks for the reply. Antheas does not have hardware affected by this issue, but I can confirm that this fixes the problem on my own device.
+
+Matt
+
+> ________________________________________
+> From: Antheas Kapenekakis <lkml@antheas.dev>
+> Sent: 03 January 2026 19:48
+> To: Matthew Schwartz
+> Cc: Xu, Baojun; Ding, Shenghao; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; tiwai@suse.de
+> Subject: [EXTERNAL] Re: [BUG] hda/tas2781: ASUS ROG Xbox Ally X audio issues with default firmware
+> 
+> On Sat, 3 Jan 2026 at 02: 31, Matthew Schwartz <matthew. schwartz@ linux. dev> wrote: > > On 1/2/26 3: 13 PM, Antheas Kapenekakis wrote: > > On Fri, 2 Jan 2026 at 21: 17, Matthew Schwartz > > <matthew. schwartz@ linux. dev>
+> ZjQcmQRYFpfptBannerStart
+> This message was sent from outside of Texas Instruments.
+> Do not click links or open attachments unless you recognize the source of this email and know the content is safe.
+> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!tDdkczlnnYRTxMpLVz-pN5EZOCpqg7wGjyDRBvMeAZFuWZXBJlfNUQdJ4vR2DLvmO1o91tMvcFY2CkFWEO4UIBOBJ80exLz0o0fjR_qbdsgA4aHVUaeJh-oUWg$>
+> Report Suspicious
+> 
+> ZjQcmQRYFpfptBannerEnd
+> 
+> On Sat, 3 Jan 2026 at 02:31, Matthew Schwartz
+> <matthew.schwartz@linux.dev> wrote:
+>>
+>> On 1/2/26 3:13 PM, Antheas Kapenekakis wrote:
+>>> On Fri, 2 Jan 2026 at 21:17, Matthew Schwartz
+>>> <matthew.schwartz@linux.dev> wrote:
+>>>>
+>>>> On 1/2/26 9:12 AM, Antheas Kapenekakis wrote:
+>>>>> On Tue, 30 Dec 2025 at 22:44, Matthew Schwartz
+>>>>> <matthew.schwartz@linux.dev> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>> On Dec 8, 2025, at 8:00 PM, Matthew Schwartz <matthew.schwartz@linux.dev> wrote:
+>>>>>>>
+>>>>>> - snip
+>>>>>>> 2.52.0
+>>>>>>
+>>>>>> After reading the TI E2E forums, it seems these calibration tuning configurations are only meant to be used during a calibration process.
+>>>>>
+>>>>> A source would be good here, a link or two
+>>>>
+>>>> Sorry about that, here is where I read about the differences between the two configs:
+>>>> https://e2e.ti.com/support/audio-group/audio/f/audio-forum/1558310/tas2563-what-is-the-difference-between-tuning-and-calibration-configuration-in-exported-smartamp-binary
+>>>
+>>> This link describes "calibration" configurations that are used in the
+>>> calibration procedure. It is not clear to me that it refers to the
+>>> calibration parameters exported by UEFI or in the configuration itself
+>>> to be used alongside a configuration. I would tend toward this being
+>>> irrelevant.
+>>>
+>>>> It's about a different amplifier model, but I assume the same applies to tas2781 given the naming structure is the same for the configurations.
+>>>>
+>>>>>
+>>>>>> Instead, something else I found that works is not overriding the firmware file calibration data with the UEFI calibration data:
+>>>
+>>> I misunderstood what you meant by this before. I thought you meant
+>>> that the firmware overrode the UEFI data, not the other way around.
+>>> Surely, using the dummy data in the firmware file is better than using
+>>> incorrect data from UEFI. However, the manufacturer calibrated data
+>>> from the factory floor for each specific unit is in UEFI, so that is
+>>> what should be used.
+>>>
+>>>>> I did not look into the source code, do you have any reference in the
+>>>>> ACPI TAS code that r0_buf is prefilled with UEFI data?
+>>>>
+>>>> From what I understand, I think the current flow goes like this:
+>>>>
+>>>> 1. During driver init, tas2781_save_calibration() reads UEFI calibration data into the cali_data memory buffer and sets is_user_space_calidata=true: https://urldefense.com/v3/__https://github.com/torvalds/linux/blob/master/sound/hda/codecs/side-codecs/tas2781_hda.c*L162-L173__;Iw!!G3vK!U3mEJNuRpB9ZxVAGZZCyoMNqMnAl4M1N8YoxbHiMHIsF-13h4Wg_fbVfd008drQfvgstYyA1aQnWHw$
+>>>>
+>>>> 2. When switching to a DSP config, tasdevice_select_tuningprm_cfg() calls tasdevice_load_data() which writes the firmware configuration, including any calibration values embedded in that config: https://urldefense.com/v3/__https://github.com/torvalds/linux/blob/master/sound/soc/codecs/tas2781-fmwlib.c*L2510__;Iw!!G3vK!U3mEJNuRpB9ZxVAGZZCyoMNqMnAl4M1N8YoxbHiMHIsF-13h4Wg_fbVfd008drQfvgstYyDJTrchbQ$
+>>>>
+>>>> 3. Immediately after, tasdev_load_calibrated_data() writes the UEFI calibration data from step 1, overwriting the values just set in step 2: https://urldefense.com/v3/__https://github.com/torvalds/linux/blob/9b043680446067358913edc2e9dd71bf8ffae208/sound/soc/codecs/tas2781-fmwlib.c*L2392-L2428__;Iw!!G3vK!U3mEJNuRpB9ZxVAGZZCyoMNqMnAl4M1N8YoxbHiMHIsF-13h4Wg_fbVfd008drQfvgstYyBeYnGr_w$ + https://urldefense.com/v3/__https://github.com/torvalds/linux/blob/master/sound/soc/codecs/tas2781-fmwlib.c*L2519__;Iw!!G3vK!U3mEJNuRpB9ZxVAGZZCyoMNqMnAl4M1N8YoxbHiMHIsF-13h4Wg_fbVfd008drQfvgstYyBz8-7Z6g$
+>>>>
+>>>> I confirmed this this by inserting some debug logs around tasdev_load_calibrated_data:
+>>>
+>>> I went through the code. It loads the UEFI data, sets
+>>> is_user_space_calidata=1, then if the data is available it loads it.
+>>> This is correct.
+>>>
+>>> To me this seems like the calibration data for amp 1 is written to
+>>> both amp 1 and amp 2, and for your firmware this breaks amp2.
+>>
+>> If this were the case, shouldn't my debug logs have the same data being written to dev 0 and dev 1?
+>>
+>> [    6.367380] tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: tasdev_load_calibrated_data: dev 0 writing calibration: r0_reg=0x000ce4 data=3c5f7222
+>> [    6.371718] tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: tasdev_load_calibrated_data: dev 1 writing calibration: r0_reg=0x000ce4 data=3c90e72d
+>>
+>>>
+>>> In tasdev_load_calibrated_data(), an i index is provided, but
+>>> cali_data is nested under priv. So only one calibration set is
+>>> supported. This means that amp 2 gets amp 1 calibrations.
+>>>
+>>> Perhaps there is a "SmartAmpCalibrationData2" that should be read
+>>> instead for amp 2 instead, can you dump the EFI variables and check?
+>>
+>> (128)(deck@steamdeck ~)$ ls /sys/firmware/efi/efivars/
+>> AmdAcpiVar-79941ecd-ed36-49d0-8124-e4c31ac75cd4               BugCheckProgress-ba57e015-65b3-4c3c-b274-659192f699e3             MemoryOverwriteRequestControl-e20939be-32d4-41be-a150-897f85d49829
+>> <snip>
+>> There's only one EFI var that seems to be for calibration data:
+>>
+>> xxd /sys/firmware/efi/efivars/CALI_DATA-1f52d2a1-bb3a-457d-bc09-43a3f4310a92:
+>>
+>> 00000000: 0700 0000 dd0a 0000 0300 0000 7e4a 9d68  ............~J.h
+>> 00000010: 0000 0000 2272 5f3c d515 f610 ac9a 9b2e  ...."r_<........
+>> 00000020: 5d91 9600 0000 8025 0100 0000 2de7 903c  ]......%....-..<
+>> 00000030: 283c e810 ffc8 c12e fcce 9600 0000 8025  (<.............%
+>> 00000040: 8000 0000 0000 1964 0000 1974 0000 197c  .......d...t...|
+>> 00000050: 0000 1560 0000 1a70 eb7f b12b            ...`...p...+
+> 
+> I reviewed the loader for CALI_DATA, it supports multiple device
+> calibration data and indexes it currently. In addition, it has two
+> versions with CRC checks that pass, so one of those versions loads the
+> data correctly.
+> 
+> So everything looks technically correct
+> 
+> Here is your data from the first amp reordered:
+>        r0_reg=0x000ce4 408f5c29
+>        r0_reg=0x000ce4 3c5f7222
+>    invr0_reg=0x000cf4 0fdc788c
+>    invr0_reg=0x000cf4 10f615d5
+> r0_low_reg=0x000cfc 0f7e9100
+> r0_low_reg=0x000cfc 2e9b9aac
+>   pow_reg=0x000ae0 009b5281
+>   pow_reg=0x000ae0 0096915d
+>  tlimit_reg=0x000d70 25800000
+>  tlimit_reg=0x000d70 25800000
+> 
+> And the second amp:
+>     r0_reg=0x000ce4 40cccccd
+>     r0_reg=0x000ce4 3c90e72d
+>  invr0_reg=0x000cf4 0fcd6e9e
+>  invr0_reg=0x000cf4 10e83c28
+> r0_low_reg=0x000cfc 0f8d4fdf
+> r0_low_reg=0x000cfc 2ec1c8ff
+>    pow_reg=0x000ae0 009b9c58
+>    pow_reg=0x000ae0 0096cefc
+> tlimit_reg=0x000d70 25800000
+> tlimit_reg=0x000d70 25800000
+> 
+> There is a large deviation in r0, invr0, and r0_low in both of them.
+> Unfortunately, I do not have my Xbox Ally non-X to check to see if
+> it's incorrect. This hints to me that the registers get incorrect data
+> loaded, so there might be a mistake in the UEFI parser.
+> 
+> Here is a breakdown of your efivar
+> 0700 0000 # This is not supposed to be here / Might have been thrown
+> out by kernel if v2 loads
+> 
+> dd0a 0000 # 2781, is v2 protocol
+> 0300 0000 # Data-Group-Sum / How many nodes
+> 7e4a 9d68 # Timestamp
+> 
+> # First amplifier data
+> 0000 0000
+> 2272 5f3c # r0
+> d515 f610 # invr0
+> ac9a 9b2e # r0_low
+> 5d91 9600 # pow
+> 0000 8025 # tlimit
+> 
+> # Second amplifier data
+> 0100 0000
+> 2de7 903c # r0
+> 283c e810 # invr0
+> ffc8 c12e # r0_low
+> fcce 9600 # pow
+> 0000 8025 # tlimit
+> 
+> 8000 0000 # Calibration data / Derivation logic in TASDEVICE_REG
+> 0000 1964 # r0 addr
+> 0000 1974 # invr0 addr
+> 0000 197c # r0_low addr
+> 0000 1560 # pow addr
+> 0000 1a70 # tlimit addr
+> 
+> eb7f b12b # CRC32
+> 
+> Specifically for the 0x80, cali_reg addresses get stored into
+> r0/invr0... iff p->dspbin_typ == TASDEV_BASIC.
+> 
+> I suspect the problem here is that the UEFI override for the first
+> three values tries to change different registers and not r0, invr0 and
+> r0_low. The pow, tlimit look correct.
+> 
+> But, due to p->dspbin_typ != TASDEV_BASIC, cali_reg ends up being
+> thrown out and the UEFI values end up corrupting the r0, invr0 and
+> r0_low default addresses. and not 00, 19, 64/74/7c
+> 
+> Antheas
+> 
+>>>
+>>> In that case, a minor refactor to move cali_data and
+>>> is_user_space_calidata from priv to priv->tasdevice[i] and then use
+>>> the proper efi var would fix this.
+>>>
+>>> Antheas
+>>>
+>>>> [    3.908963] tas2781-hda i2c-TXNW2781:00-tas2781-hda.0: tas2781_apply_calib: dspbin_typ=2, ndev=2, Setting is_user_space_calidata=true
+>>>> <snip>
+>>>>
+>>>> where it loads the UEFI calibration over top of the firmware calibration.
+>>>>
+>>>>>
+>>>>> It could be that there is a specific priority, where UEFI data is
+>>>>> supposed to be loaded after the firmware code, replacing the
+>>>>> calibration data from the file, or that is what is done in Windows.
+>>>>> But here it is done the other way. In that case, it might be more
+>>>>> appropriate to set a dummy var such as bool uefi_calib that becomes 1
+>>>>> when loading calibration from UEFI, and skip loading from the fw file
+>>>>> if available.
+>>>>>
+>>>>> But links, etc. Here, this would affect all TAS devices too, so it is
+>>>>> more major.
+>>>>
+>>>> Yes, was really hoping to get TI's feedback before potentially sending it out, as it would be a major change and the documentation on this is scarce. I could also be misunderstanding the calibration data load flow, but this is just from poking at this issue from every angle I can think of.
+>>>>
+>>>> Happy new year,
+>>>> Matt
+>>>>
+>>>>>
+>>>>> Happy new year,
+>>>>> Antheas
+>>>>>
+>>>>>> diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+>>>>>> index 78fd0a5dc6f2..1e768e6187da 100644
+>>>>>> --- a/sound/soc/codecs/tas2781-fmwlib.c
+>>>>>> +++ b/sound/soc/codecs/tas2781-fmwlib.c
+>>>>>> @@ -2377,6 +2377,7 @@ static void tasdev_load_calibrated_data(struct tasdevice_priv *priv, int i)
+>>>>>>         unsigned char *data = cali_data->data;
+>>>>>>         struct tasdevice_calibration *cal;
+>>>>>>         int k = i * (cali_data->cali_dat_sz_per_dev + 1);
+>>>>>> +       unsigned char r0_buf[4];
+>>>>>>         int rc;
+>>>>>>
+>>>>>>         /* Load the calibrated data from cal bin file */
+>>>>>> @@ -2389,6 +2390,20 @@ static void tasdev_load_calibrated_data(struct tasdevice_priv *priv, int i)
+>>>>>>         }
+>>>>>>         if (!priv->is_user_space_calidata)
+>>>>>>                 return;
+>>>>>> +
+>>>>>> +       /*
+>>>>>> +        * Check if the DSP config already set the calibration registers.
+>>>>>> +        * Some tuning configs contain their own calibration data which should
+>>>>>> +        * not be overwritten by user space calibration data.
+>>>>>> +        */
+>>>>>> +       rc = tasdevice_dev_bulk_read(priv, i, p->r0_reg, r0_buf, 4);
+>>>>>> +       if (rc >= 0 && (r0_buf[0] | r0_buf[1] | r0_buf[2] | r0_buf[3])) {
+>>>>>> +               dev_dbg(priv->dev,
+>>>>>> +                       "%s: dev %d r0_reg already set by config, skipping calibration\n",
+>>>>>> +                       __func__, i);
+>>>>>> +               return;
+>>>>>> +       }
+>>>>>> +
+>>>>>>         /* load calibrated data from user space */
+>>>>>>         if (data[k] != i) {
+>>>>>>                 dev_err(priv->dev, "%s: no cal-data for dev %d from usr-spc\n",
+>>>>>>
+>>>>>> Is this more suitable to be upstreamed?
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Matt
+>>>>>> <snip>
+>>>>>>
+>>>>>
+>>>>
+>>>>
+>>>
+>>
+>>
+> 
+> 
+> 
+
