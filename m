@@ -1,81 +1,119 @@
-Received: from ms.puri.sm (ms.puri.sm [135.181.196.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A75B3D561;
-	Mon,  5 Jan 2026 03:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=135.181.196.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2807127E056;
+	Mon,  5 Jan 2026 07:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767582955; cv=none; b=IHGxSYnKiQ0Q9fOY9sQ5F//J4lDtIathjcuBUI6PZ8qqMiyxgo33sGPoZUcy0tcFM4ym6/WukhNaDmTZsW6D/ukOGjFhO0jUsxJD1mvDU+Kk/Y+fOEOWP1O53/pYVVnk9evwUHBizoTRgVcNk7ss8HbyDS9601AZFHvAFFUj/b0=
+	t=1767597645; cv=none; b=RVGBUHFgKn0Bzikh1h7cosyclDazh/Vz4pyRM6Emyr2AmxTgPSS33gX2UcDe+l8BdejJX6BCjLSISt6rd97IxwyYuSIlNtGQyhWtZlSX2nESoPsaQupGFlyif05PZ45kjDJeQXRIEeyM1X/JoMJm5o6g0MjuHC3UKxZJTGS9sFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767582955; c=relaxed/simple;
-	bh=PRWsrjQN5fV6IBHibze5Lz5bXzuPreu95fcZbiS+agM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WKfE8ij0TGpHqkpY+KFqQaMliVuUmbwnKG0F31EtN/CnWR+5iUr80ATsAQbVra8YGBizPGFV2znkCS6yCUBDGAKgD2j164Xj2f9YiUP1c3i4Gbi6VNwTTVvHLCJXAN9ELl+RDXFXfY4kdRwUDhh6BMpT0KSjANy5k0fvqLbEMX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puri.sm; spf=pass smtp.mailfrom=puri.sm; dkim=pass (2048-bit key) header.d=puri.sm header.i=@puri.sm header.b=XHK96aYE; arc=none smtp.client-ip=135.181.196.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puri.sm
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puri.sm
+	s=arc-20240116; t=1767597645; c=relaxed/simple;
+	bh=2KDTUXMjhxn5Kz+O4XewKViYOEewr+IPihm7nCoKuqo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AGy98OqSqrr0zAU6JjDFf6ekLl+FzQFwOxqaeWdsY7EyRd89dAjiaxonMH9clnDTF5iJ5Dm/rvbi50TBVN8BPGtkIo6gfuQWUMSwuiwWIhnmYj10w4HrP7BsWfEFO7BDCPW8ljsjO5FUL/FwY2fZV4SVdz56vBcm/170N/2VPXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbHDMcCT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=puri.sm header.i=@puri.sm header.b="XHK96aYE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=smtp2;
-	t=1767582597; bh=PRWsrjQN5fV6IBHibze5Lz5bXzuPreu95fcZbiS+agM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XHK96aYEeC/iamA3N4E9lgDEgrPbdRZzt4iRQegzs+sx7YMAF1T87q12rgb/qzg/V
-	 bMPJtJ2v5SVPyd9Yf5ZydtRdlKPKxELyEuYR9YUjqy2qdZ17qAOZOxTIRgW1HjCPjt
-	 bLOoFViFvxZ/66EIGKFzBbRLMiRlrUENgI1Z0ZFl9TT9+ECGvEfQrAmzxhIQN7p+LG
-	 dlaEzbpr5wsNTYCjxrLWcAwVZ/Gs2hGV85+DNXXQpfCTthzev5iuwEdiKypR1gFWjR
-	 kCpEU20cw6urbyasaITt2GT170Mx1q08gx4O1hpbYRhxQIL/z12V8F8iOFHb35T4Ss
-	 q6Nhi1OJvBF/A==
-Received: from pliszka.localnet (79.184.51.180.ipv4.supernova.orange.pl [79.184.51.180])
-	by ms.puri.sm (Postfix) with ESMTPSA id 3C7F01FC1D;
-	Sun, 04 Jan 2026 19:09:57 -0800 (PST)
-From: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@puri.sm
-Subject: Re: [PATCH RESEND 0/4] sound: codecs: wm8962: Assorted fixes
-Date: Mon, 05 Jan 2026 04:09:55 +0100
-Message-ID: <5999268.DvuYhMxLoT@pliszka>
-In-Reply-To: <20260105-wm8962-l5-fixes-v1-0-f4f4eeacf089@puri.sm>
-References: <20260105-wm8962-l5-fixes-v1-0-f4f4eeacf089@puri.sm>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbHDMcCT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50BCC116D0;
+	Mon,  5 Jan 2026 07:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767597644;
+	bh=2KDTUXMjhxn5Kz+O4XewKViYOEewr+IPihm7nCoKuqo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JbHDMcCTu6NBFw9JxoJ5akDx9RTcTjhV39qqX0fT2DOOZn3Rc8uUM9IuGTHEUiiTv
+	 jwOVt/COgp1XNujJKp8KVn1MH24BKBIfXMvskPUyMM+jseKowoKJaxYAh+lHPfTxzz
+	 CsLaOedKxiH5DKm+U1NCj7hWNm7MMHiLyxh0uCKydpfo5azEGwbRA/Mv8uTFDjyjkN
+	 qM0B9vsHUrhqUj86QVxSe4Y3aHhMBXbdOfC3iDLFxa8wEW1268pfV3DJCJpm/EdZrh
+	 kGQyH2yXWvvVvEsUIg4WJprzSsaCI8u7MwCB+5HjNeJvp9l0TN5h6zmc9EPvz9dilp
+	 GQcIQ8OSiTwRQ==
+Message-ID: <922a12da-eb4b-46f2-b203-f13c9577f3f7@kernel.org>
+Date: Mon, 5 Jan 2026 07:20:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] ASoC: qcom: q6dsp-lpass-ports: Expand sampling
+ rate and PCM format constraints
+To: Alexey Klimov <alexey.klimov@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Ravi Hothi <ravi.hothi@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+ mohammad.rafi.shaik@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
+References: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
+ <DEUL786WEYBY.3502XZKMTYTN3@linaro.org>
+ <370a9d69-1706-438a-bb36-01a22e5cf540@oss.qualcomm.com>
+ <DF0GN7VV4R2W.2E3U1LMOF0JPG@linaro.org>
+ <d9e64bd0-7ccf-490c-a6be-d9cc9484475d@oss.qualcomm.com>
+ <DF4GKIYJPDKA.DTLON4U0AZHB@linaro.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <DF4GKIYJPDKA.DTLON4U0AZHB@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On poniedzia=C5=82ek, 5 stycznia 2026 04:02:07 czas =C5=9Brodkowoeuropejski=
- standardowy=20
-Sebastian Krzyszkowiak via B4 Relay wrote:
-> Bunch of patches developed while working on Purism's Librem 5 phone.
->=20
-> Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-> ---
-> Sebastian Krzyszkowiak (4):
->       ASoC: wm8962: Add WM8962_ADC_MONOMIX to "3D Coefficients" mask
->       ASoC: wm8962: Don't disable SYSCLK if it's enabled via DAPM
->       ASoC: wm8962: Don't report a microphone if it's shorted to ground on
-> plug ASoC: wm8962: Don't mark WM8962_ADDITIONAL_CONTROL_4 as volatile
->=20
->  sound/soc/codecs/wm8962.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> ---
-> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
-> change-id: 20260105-wm8962-l5-fixes-8cde049eb67d
->=20
-> Best regards,
 
-Sorry for an instant resend - this is the exact same content as the origina=
-l=20
-patchset that at first appeared to me as if its sending has failed, so I=20
-retried through the B4 relay just to see them both going through... Please=
-=20
-ignore the extra copy.
 
-Thanks and happy New Year,
-Sebastian
+On 12/22/25 4:25 AM, Alexey Klimov wrote:
+> On Wed Dec 17, 2025 at 12:56 PM GMT, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 12/17/25 11:38 AM, Alexey Klimov wrote:
+>>> On Mon Dec 15, 2025 at 7:29 AM GMT, Ravi Hothi wrote:
+>>>>
+>>>>
+>>>> On 12/10/2025 7:26 PM, Alexey Klimov wrote:
+>>>>> On Wed Dec 10, 2025 at 6:51 AM GMT, Ravi Hothi wrote:
+>>>>>> This patch series expands the existing constraints in
+>>>>>> the q6dsp-lpass-ports driver to improve compatibility
+>>>>>> and flexibility for audio stream configurations.
+>>>>>>
+>>>>>> The first patch extends the supported sampling rates to cover a wider
+>>>>>> range, from 8000 Hz to 192000 Hz, ensuring better compatibility with
+>>>>>> diverse audio hardware and allowing more flexible audio stream setups.
+>>>>>>
+>>>>>> The second patch adds support for the 32-bit PCM format
+>>>>>> (SNDRV_PCM_FMTBIT_S32_LE) alongside the existing 16-bit
+>>>>>> and 24-bit formats, enabling handling of high-resolution
+>>>>>> audio streams and improving audio quality for supported hardware.
+>>>>>
+>>>>> Is q6dsp-lpass-ports involved in compress offloaded playback on
+>>>>> existing devices? If yes, then how is it gonna play with
+>>>>> explicitly setting format/sampling rate to s16le/48k in sndcards drivers?
+>>
+>> be_hw_params_fixup callback in machine drivers can select any format
+>> that fits the usecase. currently this is hardcoded for s16le samples and
+>> 48K rate, but its not limited to this. This patch is expanding the
+>> allowed range in the dais so that machine drivers should be able to
+>> select other options, ex: for HDMI its better to be at S24LE or S32LE.
+> 
+> Yes. Exactly.
+> So, should we add kcontrols to machine driver to handle these usecases like
+> selecting s24le instead of s16le? Or what's the plan?
+We can always do that if that is how things are wired up at the platform
+level on case by case basis.
 
+--srini>
+>>>> Support for s16le/48k is already available; these patch will expand the 
+>>>> existing constraint so that customers can use a wider range.
+>>>
+>>> Unfortunately, you didn't answer any of my questions or answered
+>>> a different one.
+>>>
+>>> Perhaps the main one: is q6dsp-lpass-ports involved in compress offloaded
+>>> playback on existing devices?
+>>
+>> lpass-ports are the Backend DAI ports, So yes, they will be involved in
+>> all the usecases that deal with handling sinks or sources irrespective
+>> of pcm or compressed content.
+> 
+> Thanks,
+> Alexey
+> 
 
