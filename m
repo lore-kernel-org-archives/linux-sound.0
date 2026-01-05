@@ -1,109 +1,116 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2682251795;
-	Mon,  5 Jan 2026 01:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4F014A8E;
+	Mon,  5 Jan 2026 02:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.203.221.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767575845; cv=none; b=jxCjq+eslDwzZnYce+6dgkqLUuahofDevRXT1LRjw37bmG7nys9D0KIWjASnuoRtV1wXdbizT5QJB2+dEU6ke1jNrEajKb5yc0EhYbuUqOEkN+xmHwCoitJtGguzrOv129iVnQxUJiAxxzO3/i3yiLHUa8zqrDW0QCqE7cVcjgk=
+	t=1767581567; cv=none; b=W4GR1vJOhDrToD2OwTmfg1FH4kF2JoUspm0blEQEHrh0+YarIySUkyIUFlZ+xm78HqrAhTyA7qfK7zEdkzNX0XzIEqcVZuR6F6b3phG0CPUq9+merqwUHbS2SJ5LUN/oQJ00d8W1fRsGrzqxOuerMs6mmEUziaUbmjC9KHTHQoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767575845; c=relaxed/simple;
-	bh=lKYlFUk3wTX+gwXFOMsXeQ4+0b/Y3itIzSFepyAzzDk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FvRMSne941cGw4VtG2k9spnZqIb3e6Y6vtKAfmF8nwM1/Rr+xxc6p65WBdQBkCyRUCbM3HtQewP2uIjhpr95MO2+lAxZzYczov4V6lcwe7RULYPAFd7y0uPL/a2rEDeOUXgzpf8S6gg6f0VGTFAMRXTrXltYaw1vs3zadtmKIlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AKRq+C0R; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1767581567; c=relaxed/simple;
+	bh=Ihi1/3FQbf8+c123/VfTZPL88wj1LxemPR2Lj4RLjvk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=uqn4qqmtQbiBGn4kB1u3UgVUE6hlV0LoUNmBzsMWeA/UsUf3iFzaDMvlK2G2bAawn53Fhsne3mGzt6eEFoVrGVg9RI2rxMilIaJiuTeKQYruLwZDfqlKNa+7BXd4W+NDZ4yf63SvwlOxZm3oww6/vckbRqIL/sCdg/ULxkuXgOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puri.sm; spf=pass smtp.mailfrom=puri.sm; dkim=pass (2048-bit key) header.d=puri.sm header.i=@puri.sm header.b=IYDJEn4t; arc=none smtp.client-ip=159.203.221.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=puri.sm
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puri.sm
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AKRq+C0R"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pZJXqr1shDOJNTqRYSFVIu1Zdtd7/8R285rGmkkRm1E=; b=AKRq+C0RidbJ2ebH1AwJJaiFtO
-	8KWAnzMMb5j2/RD+jEWnlyhtwoMIEpAqesaCl2mj+Bgr79rcXC2iLY4X8UoUZ1J6ZcERcRLZf/1Mr
-	Qj9AvTYMuYYMDIchA/83TyX753gWfZ5EHQHWWsZhznwSoZHN6XQ9mSMXkqJBZRxUOF8JjK7kxTjy8
-	YRYm5cRRxcqihc4WnIbQJI4hdpLFCyLFM5d6xhV3rSlhTjcSnziwDYdjnr6V0QQi5WmSmqCxg8qg0
-	JaNWJvB4I8S7f1CbEKaO5cHJ++lZok1J0rNm2fPDugTXr2azRdsHFhVo21Rw9ChmdPDMCgZBM4Cj0
-	TJFOwEpA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcZDf-0000000AbSy-3tej;
-	Mon, 05 Jan 2026 01:17:16 +0000
-Message-ID: <eb7c246a-6c5f-4d8d-bc96-2a71ece2e042@infradead.org>
-Date: Sun, 4 Jan 2026 17:17:14 -0800
+	dkim=pass (2048-bit key) header.d=puri.sm header.i=@puri.sm header.b="IYDJEn4t"
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 44F87E27DD;
+	Sun,  4 Jan 2026 18:52:45 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+ by localhost (comms.puri.sm [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id e2fxmsRPZFyH; Sun,  4 Jan 2026 18:52:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1767581564; bh=Ihi1/3FQbf8+c123/VfTZPL88wj1LxemPR2Lj4RLjvk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=IYDJEn4tv4jPrFF9BdeCo/2dTGC0F8wqoOMfJXVFwK/usQIFrSZbvOd+cF27jIfw8
+	 mYl0nIA1KaKZVbBINjWtxs+GNaUu9jaAErV5AYDuWv4fNXfG70k24vRdgZpwjJP+YN
+	 sXwtPk+PlMktE3zVbL9J/SJoXvlYYf3cXMJR0IdRO8FyiHOSYZQ/jF4Ok2uxG8bNOS
+	 fb+MnvoXB0Zdu4xYLTFCo7WSemhvhV0NhUhvZw+2RqN7761JETmhqitBBkLyyYT4dv
+	 nYNMU7jGnpk7YGCrOiFgU5GuZM3Q1pfal0iEQWpApDiks2tCTMVzLZXnRWj7wTHXKK
+	 lM84KVKnzx1NA==
+From: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Date: Mon, 05 Jan 2026 03:51:56 +0100
+Subject: [PATCH 3/4] ASoC: wm8962: Don't report a microphone if it's
+ shorted to ground on plug
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [Linux-stm32] Kconfig dangling references (BZ 216748)
-To: Antonio Borneo <antonio.borneo@foss.st.com>, Arnd Bergmann
- <arnd@arndb.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: linux-sh@vger.kernel.org,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- andrew.jones@linux.dev, Paul Cercueil <paul@crapouillou.net>,
- Max Filippov <jcmvbkbc@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
- chrome-platform@lists.linux.dev, openbmc@lists.ozlabs.org, x86@kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Kocialkowski
- <paulk@sys-base.io>, linux-sound@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-mips@vger.kernel.org, asahi@lists.linux.dev,
- Srinivas Kandagatla <srini@kernel.org>, Jonathan Cameron <jic23@kernel.org>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
- <5e335232-89b4-4c35-93bd-efad7e4d8995@app.fastmail.com>
- <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
-Content-Language: en-US
-In-Reply-To: <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260105-wm8962-l5-fixes-v1-3-8e047171da2d@puri.sm>
+References: <20260105-wm8962-l5-fixes-v1-0-8e047171da2d@puri.sm>
+In-Reply-To: <20260105-wm8962-l5-fixes-v1-0-8e047171da2d@puri.sm>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@puri.sm, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1365;
+ i=sebastian.krzyszkowiak@puri.sm; h=from:subject:message-id;
+ bh=Ihi1/3FQbf8+c123/VfTZPL88wj1LxemPR2Lj4RLjvk=;
+ b=owEBbQKS/ZANAwAKAejyNc8728P/AcsmYgBpWyd02aNmP27Ei3p5zBmk+Czf5jq/Wz9cz4KaS
+ lMJhfCqHKqJAjMEAAEKAB0WIQQi3Z+uAGoRQ1g2YXzo8jXPO9vD/wUCaVsndAAKCRDo8jXPO9vD
+ /2R6EACubUuKKTMGrlaM2TbetEU35+tQ4jPWECzjBYkSbkyV0HAmbOACta3M8iWHj+MLbD4vCQX
+ V/joWdu1sb8SGoU0n/vlBXPEhnb1cYZM2EOfP/d5OC2D8uhB+Z11gqGMK946t4e/7QcPZR9sA3a
+ rsF2O7/IdM4v3yukGNHJFNxBQrkNYl+MfmNy7Us6vOmj3pvTDzwfH2Np3Z0ZGDrxe4NwsCYHbi/
+ ekRWzW00RI4hRRycL5j8Fj9xh4+r1TyG1p311TXbODIFjYmRKFeCdw01nl/+8Q0GXddvYx12i3D
+ Zd7CctZwySfnaWaAVt6ujN7cb5sC30x3XqioyLiHVmf2jDAkwQwZN8tdQF3NwvLLMVz0lIavGnJ
+ +QA2KZ0Isp6MHVUq+7Nyigmudb7oefu6mCx/zPHninBBYZq9ZiSSpZjVWxA+d568+q8LIPIdW0t
+ XnsQrJ3nUi/Xae082HxUHNCBl6KoUOs5X1TAcYXypa26qtDNKLr5fYCpiX6heXbJtzTDIBCIuBa
+ KiNZnIAbTKh7X3C5dO3P3RDTvF0tAOyObKmkM8EmHwDp53fpn121XlFot9oytZIt45vRGnLheNm
+ XiZ6Dg4sxGO4wS723j0kIkhICGuGjD0oGhru0cZ27fQOhXWEffnGmH/sjbBl+p4Tsu6XnM91usR
+ CNwzygfjjPQDFCA==
+X-Developer-Key: i=sebastian.krzyszkowiak@puri.sm; a=openpgp;
+ fpr=22DD9FAE006A11435836617CE8F235CF3BDBC3FF
 
+This usually means that a TRS plug with no microphone pin has been plugged
+into a TRRS socket. Cases where a user is plugging in a microphone while
+pressing a button will be handled via incoming interrupt after the user
+releases the button, so the microphone will still be detected once it
+becomes usable.
 
+Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+---
+ sound/soc/codecs/wm8962.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-On 12/8/25 1:48 AM, Antonio Borneo wrote:
-> On Mon, 2025-12-08 at 09:55 +0100, Arnd Bergmann wrote:
->> On Mon, Dec 8, 2025, at 03:04, Randy Dunlap wrote:
->>> from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
->>>
->>> The bugzilla entry includes a Perl script and a shell script.
->>> This is the edited result of running them (I removed some entries that 
->>> were noise).
->>>
->>> I'll try to Cc: all of the relevant mailing lists or individuals.
->>>
->>> ...
->>>
->>> MACH_STM32MP25 ---
->>> drivers/pinctrl/stm32/Kconfig:58:       default MACH_STM32MP25 || (ARCH_STM32 
->>> && ARM64)
->>
->> This was likely intended for 32-bit kernels on 64-bit STM32MP25
->> chips, which we don't support. I think this can go.
-> 
-> Yes, I fully agree!
-> 
-> I have a series pinctrl stm32 to be rebased on v6.19-rc1 and I can include the
-> drop of MACH_STM32MP25 inside it.
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index 843b8c6b40a4..dd73b4dc1b97 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -67,6 +67,8 @@ struct wm8962_priv {
+ 	struct mutex dsp2_ena_lock;
+ 	u16 dsp2_ena;
+ 
++	int mic_status;
++
+ 	struct delayed_work mic_work;
+ 	struct snd_soc_jack *jack;
+ 
+@@ -3082,8 +3084,16 @@ static void wm8962_mic_work(struct work_struct *work)
+ 	if (reg & WM8962_MICSHORT_STS) {
+ 		status |= SND_JACK_BTN_0;
+ 		irq_pol |= WM8962_MICSCD_IRQ_POL;
++
++		/* Don't report a microphone if it's shorted right after
++		 * plugging in, as this may be a TRS plug in a TRRS socket.
++		 */
++		if (!(wm8962->mic_status & WM8962_MICDET_STS))
++			status = 0;
+ 	}
+ 
++	wm8962->mic_status = status;
++
+ 	snd_soc_jack_report(wm8962->jack, status,
+ 			    SND_JACK_MICROPHONE | SND_JACK_BTN_0);
+ 
 
-and what about this dangling symbol?
-arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
-
-It was merged with ARCH_STM32 in
-9e4e24414cc6 ("arm64: introduce STM32 family on Armv8 architecture")
-
-Same answer as for MACH_STM32MP25?
-If so, Antonio, can you take care of that one also, please?
-
-thanks.
 -- 
-~Randy
+2.52.0
 
