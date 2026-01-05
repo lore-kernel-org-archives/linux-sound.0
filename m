@@ -1,119 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2807127E056;
-	Mon,  5 Jan 2026 07:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FA92C0281;
+	Mon,  5 Jan 2026 07:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767597645; cv=none; b=RVGBUHFgKn0Bzikh1h7cosyclDazh/Vz4pyRM6Emyr2AmxTgPSS33gX2UcDe+l8BdejJX6BCjLSISt6rd97IxwyYuSIlNtGQyhWtZlSX2nESoPsaQupGFlyif05PZ45kjDJeQXRIEeyM1X/JoMJm5o6g0MjuHC3UKxZJTGS9sFs=
+	t=1767599586; cv=none; b=Xryt029OBMWKzCCcOpi7yxuc8QeDC8WKlFZIRaIlWUcfVGxpelJX6KPooZrKYTG+FBCpJgftZCVRj+qZWQRvrcCM1IP/ilulWXHi08NwUcyJRsLkefTc/PF10c5NtwGrf8wGFPTFV/1EiL0aDvSY4Xj/RkGqmI5mWBZXvM7JRhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767597645; c=relaxed/simple;
-	bh=2KDTUXMjhxn5Kz+O4XewKViYOEewr+IPihm7nCoKuqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AGy98OqSqrr0zAU6JjDFf6ekLl+FzQFwOxqaeWdsY7EyRd89dAjiaxonMH9clnDTF5iJ5Dm/rvbi50TBVN8BPGtkIo6gfuQWUMSwuiwWIhnmYj10w4HrP7BsWfEFO7BDCPW8ljsjO5FUL/FwY2fZV4SVdz56vBcm/170N/2VPXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbHDMcCT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767599586; c=relaxed/simple;
+	bh=Vl9Fn6kZeCMLR1Ud+b/QmBMv3YvMdmFK0HP02rXbN+M=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=B4BIfcnUQU8n9EfLdiO+LXaXQVg0pppa64itJAVG1arbQbdxuSBcwN3ofG4CCmH1RtUCYVu08HHGXro8cCVZZtP/1Btg4EYUxhGhwBtBcZ0LaRSS7AlJ3Kfed6jDE2wp2DQPFwom1z7V1xRFoY6ikf/rkTbAr4BGDo0CwRaGBHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLNvTwzm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbHDMcCT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50BCC116D0;
-	Mon,  5 Jan 2026 07:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLNvTwzm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70913C19421;
+	Mon,  5 Jan 2026 07:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767597644;
-	bh=2KDTUXMjhxn5Kz+O4XewKViYOEewr+IPihm7nCoKuqo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JbHDMcCTu6NBFw9JxoJ5akDx9RTcTjhV39qqX0fT2DOOZn3Rc8uUM9IuGTHEUiiTv
-	 jwOVt/COgp1XNujJKp8KVn1MH24BKBIfXMvskPUyMM+jseKowoKJaxYAh+lHPfTxzz
-	 CsLaOedKxiH5DKm+U1NCj7hWNm7MMHiLyxh0uCKydpfo5azEGwbRA/Mv8uTFDjyjkN
-	 qM0B9vsHUrhqUj86QVxSe4Y3aHhMBXbdOfC3iDLFxa8wEW1268pfV3DJCJpm/EdZrh
-	 kGQyH2yXWvvVvEsUIg4WJprzSsaCI8u7MwCB+5HjNeJvp9l0TN5h6zmc9EPvz9dilp
-	 GQcIQ8OSiTwRQ==
-Message-ID: <922a12da-eb4b-46f2-b203-f13c9577f3f7@kernel.org>
-Date: Mon, 5 Jan 2026 07:20:35 +0000
+	s=k20201202; t=1767599585;
+	bh=Vl9Fn6kZeCMLR1Ud+b/QmBMv3YvMdmFK0HP02rXbN+M=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=FLNvTwzmBC4xn47pAo7WQakISc5qNVy905ywL+KdRXqSBdJpxCqpVqntzwL7cpNm8
+	 foXBQl94KmegRQjGxYIAYR1doIkP+umcM6Cwy2/E+Wogjuf+CyyZCmok0JvVHMVIHD
+	 zzjKfKaVmUBPHgsD2c3BXJOJC1sFMO2MPwgZj4Qu72X+0veEm3DObxFnjCCoAmcfgn
+	 RID3v+DWFyuWGLyvdhDMXI1sR8x88tMCuZo97ZOeTXqr/YEZrailxp352d4wTgU2PJ
+	 +A+8RDoJLiNejbLcKqaS95nsxqjzATzte8JEncyWJ0SkwpHtmMka9QhqSKTuXXzEKn
+	 U/O0Gg9RwdSwA==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260102124808.64219-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260102124808.64219-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH] slimbus: qcom-ngd: Simplify with scoped for each OF
+ child loop
+Message-Id: <176759958394.16703.16018114241492921567.b4-ty@kernel.org>
+Date: Mon, 05 Jan 2026 07:53:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] ASoC: qcom: q6dsp-lpass-ports: Expand sampling
- rate and PCM format constraints
-To: Alexey Klimov <alexey.klimov@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Ravi Hothi <ravi.hothi@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
- mohammad.rafi.shaik@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
-References: <20251210065157.2775514-1-ravi.hothi@oss.qualcomm.com>
- <DEUL786WEYBY.3502XZKMTYTN3@linaro.org>
- <370a9d69-1706-438a-bb36-01a22e5cf540@oss.qualcomm.com>
- <DF0GN7VV4R2W.2E3U1LMOF0JPG@linaro.org>
- <d9e64bd0-7ccf-490c-a6be-d9cc9484475d@oss.qualcomm.com>
- <DF4GKIYJPDKA.DTLON4U0AZHB@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <DF4GKIYJPDKA.DTLON4U0AZHB@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
 
-
-On 12/22/25 4:25 AM, Alexey Klimov wrote:
-> On Wed Dec 17, 2025 at 12:56 PM GMT, Srinivas Kandagatla wrote:
->>
->>
->> On 12/17/25 11:38 AM, Alexey Klimov wrote:
->>> On Mon Dec 15, 2025 at 7:29 AM GMT, Ravi Hothi wrote:
->>>>
->>>>
->>>> On 12/10/2025 7:26 PM, Alexey Klimov wrote:
->>>>> On Wed Dec 10, 2025 at 6:51 AM GMT, Ravi Hothi wrote:
->>>>>> This patch series expands the existing constraints in
->>>>>> the q6dsp-lpass-ports driver to improve compatibility
->>>>>> and flexibility for audio stream configurations.
->>>>>>
->>>>>> The first patch extends the supported sampling rates to cover a wider
->>>>>> range, from 8000 Hz to 192000 Hz, ensuring better compatibility with
->>>>>> diverse audio hardware and allowing more flexible audio stream setups.
->>>>>>
->>>>>> The second patch adds support for the 32-bit PCM format
->>>>>> (SNDRV_PCM_FMTBIT_S32_LE) alongside the existing 16-bit
->>>>>> and 24-bit formats, enabling handling of high-resolution
->>>>>> audio streams and improving audio quality for supported hardware.
->>>>>
->>>>> Is q6dsp-lpass-ports involved in compress offloaded playback on
->>>>> existing devices? If yes, then how is it gonna play with
->>>>> explicitly setting format/sampling rate to s16le/48k in sndcards drivers?
->>
->> be_hw_params_fixup callback in machine drivers can select any format
->> that fits the usecase. currently this is hardcoded for s16le samples and
->> 48K rate, but its not limited to this. This patch is expanding the
->> allowed range in the dais so that machine drivers should be able to
->> select other options, ex: for HDMI its better to be at S24LE or S32LE.
+On Fri, 02 Jan 2026 13:48:09 +0100, Krzysztof Kozlowski wrote:
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
 > 
-> Yes. Exactly.
-> So, should we add kcontrols to machine driver to handle these usecases like
-> selecting s24le instead of s16le? Or what's the plan?
-We can always do that if that is how things are wired up at the platform
-level on case by case basis.
+> 
 
---srini>
->>>> Support for s16le/48k is already available; these patch will expand the 
->>>> existing constraint so that customers can use a wider range.
->>>
->>> Unfortunately, you didn't answer any of my questions or answered
->>> a different one.
->>>
->>> Perhaps the main one: is q6dsp-lpass-ports involved in compress offloaded
->>> playback on existing devices?
->>
->> lpass-ports are the Backend DAI ports, So yes, they will be involved in
->> all the usecases that deal with handling sinks or sources irrespective
->> of pcm or compressed content.
-> 
-> Thanks,
-> Alexey
-> 
+Applied, thanks!
+
+[1/1] slimbus: qcom-ngd: Simplify with scoped for each OF child loop
+      commit: 6af1ec752dd456ffbff48fa3c9f717470ae83e9e
+
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
 
