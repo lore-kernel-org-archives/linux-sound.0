@@ -1,40 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5B525CC6C;
-	Tue,  6 Jan 2026 18:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4453F25CC6C;
+	Tue,  6 Jan 2026 18:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767725284; cv=none; b=dEsfEukML/7Df5lTubGSigelG7yJA4+RnLMkuFkPFQHCcXiB/BDqhCcisG3n3FVhwezXHjTlexnurPR+blYMEp8nya8myMIwvdB+m2MXCue0cPGlgm8cgeqTxQloidk1Cms6BDdXAGkW6vKhs81V2lFP6k8XBvT/+KloZHQEbds=
+	t=1767725288; cv=none; b=UIreJETVRwXlCOaUBXGVdp4nkPE117mjsOxf/L/4lDmhWD0RSDMN7uuUzXVbbjJg7g4IaPRQd2OuYsYcwyr/scuiM14zJ7H6XBGKe/D5NLqst566bKcy87d/ZAGzddaRpIck5n0jG2Gpl51ykYT3tsFBkL4poxhQzkfkhyxPPog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767725284; c=relaxed/simple;
-	bh=9EqdNSLfHaFAFJa+20f5p4Xvwf7+oAWhRKGngbn+aTY=;
+	s=arc-20240116; t=1767725288; c=relaxed/simple;
+	bh=P8QVf4RwmiEyYwK4R5BmmRR+t4Mw7nxfknqo0NSszvs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kpbk4dUthqhaIerpjYh4XQxKFLoi0BTnNS8Laf3aGyxI3XuPfAQoqnn70O8BcH4VmFfiJgeW5TnLpJShHgZmEVZSiuPHqeqnJvF0Hw1vDN0mpK0Gb8svnvqKu0Q6HQVPxXifp0PNtL3N6oa7Rn6nFt8jYOBleUrASO5LlIY1xrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+1Rr/Eo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=f1LmaUHcnH73TivGiVFip90J3JX+VPMdUdkVJCshaqn0jD/Qj/P3TNM8b/Fz8qFkZyhdkfnN5qt/hAeawW+2W1NBqysGtFSP1ieSmONKQ9D4hUPbX3VDFmsGbe1GQTUZe+WMeB82uEdoeCuCCkSOHoS28HezouMmjn0i06WIZ6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lzc7cu73; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+1Rr/Eo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27ECFC116C6;
-	Tue,  6 Jan 2026 18:48:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lzc7cu73"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D63D7C19422;
+	Tue,  6 Jan 2026 18:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767725284;
-	bh=9EqdNSLfHaFAFJa+20f5p4Xvwf7+oAWhRKGngbn+aTY=;
+	s=k20201202; t=1767725287;
+	bh=P8QVf4RwmiEyYwK4R5BmmRR+t4Mw7nxfknqo0NSszvs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=c+1Rr/Eo+ff2ysg3Zh4edeRO/OorC9WcO5N9g6kjRskumZ9sFfHwDZyxB0okoV2x4
-	 yrx+kXWAvRqLwb1BBHn4ex+4ddJI1KUmQtqgrzjs34Wp7P/s6owDV2GzV+9875PA5Q
-	 0Nq1KNHcpKOIUCRyYxxbTY61YLEuengNYBg8rjtzKl+bPGaGBzss0tBAm0kf3qUusK
-	 UIh2UdoO/bprU4jdcqb8PZ8Eso0XWsgmJilObN82ICncUrKt6nw83SqqQLowG1M3/m
-	 QR/6H82DVL06cdWAZquLQ5PqoAnfDXmN5Og1d3hgKab3kF02L4yQzV/WgBprCkKEFJ
-	 TuPNPa5W8+J8Q==
+	b=Lzc7cu73pVxkIn0xafyLc1jDq46RVxpqDP4hShUVFO120EabAza7DSu60JxIiGhce
+	 jH3co4TJ9muLal+SuunnlVnPnh79Lt+MOEingnphaSrmJmS3Eo8LpFWzVLhUPJ8fOQ
+	 hLOZwl21x5RRAf8+p4Z5K/H4HxdysSCf8NIV2Jb04BbBABW9O01Zi8EMyD4pW8UL3h
+	 CSjZ11upK4Wuzh1uu8V2FFrUwmlK2q76519ZWl3BwHdMnIKBOPoyY1hdYPQACMNEQN
+	 vzz2roDfYm65h8OOI28W4WDVhKVs+NFpjhpJSziFx/U7J73iX/T5WdHMgCrfJOFSOX
+	 aOjc406i0CpGg==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260102111413.9605-1-johan@kernel.org>
-References: <20260102111413.9605-1-johan@kernel.org>
-Subject: Re: [PATCH 0/4] ASoC: codecs: wsa88xx: fix codec initialisation
-Message-Id: <176772528289.317829.14666571712516939644.b4-ty@kernel.org>
-Date: Tue, 06 Jan 2026 18:48:02 +0000
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, Marco Crivellari <marco.crivellari@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20251230143429.179643-1-marco.crivellari@suse.com>
+References: <20251230143429.179643-1-marco.crivellari@suse.com>
+Subject: Re: [PATCH v2] ASoC: SDCA: Replace use of system_wq with
+ system_dfl_wq
+Message-Id: <176772528461.317829.14450147757093125866.b4-ty@kernel.org>
+Date: Tue, 06 Jan 2026 18:48:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,13 +55,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 02 Jan 2026 12:14:09 +0100, Johan Hovold wrote:
-> The soundwire update_status() callback may be called multiple times with
-> the same ATTACHED status but initialisation should only be done when
-> transitioning from UNATTACHED to ATTACHED.
+On Tue, 30 Dec 2025 15:34:29 +0100, Marco Crivellari wrote:
+> This patch continues the effort to refactor workqueue APIs, which has begun
+> with the changes introducing new workqueues and a new alloc_workqueue flag:
 > 
-> This series fixes the Qualcomm wsa88xx codec drivers that do unnecessary
-> reinitialisation or potentially fail to initialise at all.
+>    commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+>    commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+> 
+> The point of the refactoring is to eventually alter the default behavior of
+> workqueues to become unbound by default so that their workload placement is
+> optimized by the scheduler.
 > 
 > [...]
 
@@ -61,14 +74,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: codecs: wsa883x: fix unnecessary initialisation
-      commit: 49aadf830eb048134d33ad7329d92ecff45d8dbb
-[2/4] ASoC: codecs: wsa881x: fix unnecessary initialisation
-      commit: 29d71b8a5a40708b3eed9ba4953bfc2312c9c776
-[3/4] ASoC: codecs: wsa884x: fix codec initialisation
-      commit: 120f3e6ff76209ee2f62a64e5e7e9d70274df42b
-[4/4] ASoC: codecs: wsa883x: suppress variant printk
-      commit: 46a16d89d097ac2c93b63382a37d60aa7f21dc71
+[1/1] ASoC: SDCA: Replace use of system_wq with system_dfl_wq
+      commit: 04b61513dfe40f80f0dcc795003637b510522b3c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
