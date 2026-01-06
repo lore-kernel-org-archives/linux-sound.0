@@ -1,78 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7639D23184F;
-	Mon,  5 Jan 2026 19:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285A130ACE6;
+	Tue,  6 Jan 2026 07:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767641533; cv=none; b=ttmTA6y0zRSA5PbyHW+uofGqBWwmVaPOIaocHy7zM6C3Ds0WQoaNkZmXqSeoQ90quc/UTbhuNbgcnxiuHbUJtaSq34Qgq1YA6AIwWVgCv2o3pWGnr1bU+YQhmD43SMbiaoOqwMBYhygkmY9v09J62RLCv7C4yi5viz0xrN14MqE=
+	t=1767685379; cv=none; b=QR25lWqebIIurC3XHPVnGp7U1Jo/hG5fbB18GDLSDWU+i4+Xnu4MGezI0DuNiTdbdXAgj1GMekdpBxMStG+bCD5kGCzjVoMxQtCrYxdfbh8+WUvpgxqgTuhEtNzxXHZWEpBvUDa5C7SKtDGwN+O50b+ur+r+faxU40o/SYqS67I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767641533; c=relaxed/simple;
-	bh=KBG4rviyS0j6Xo5va6SbAcnrxZBfIhv+e+OgRAYM6TM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DhncB2Iamw8j/j7jUcotJTb7O4mD9+JC/mhr/ouZiTX2iYyxL+pZVWaZDSvDWINBBfLQg7JAK5wSUwF07MLfUgvv+bk9/cXmpQw3943KPhMp9FYhq2QwIhvUV4SFJAbu2HCEJ+YarohXgf44wP9c73wbqqCa7pavF9dwzBIZsRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWGXp6aL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWGXp6aL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9B2C116D0;
-	Mon,  5 Jan 2026 19:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767641532;
-	bh=KBG4rviyS0j6Xo5va6SbAcnrxZBfIhv+e+OgRAYM6TM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oWGXp6aLh47mBISayyU2wHoYxDZ/UzjaKt5m9A7587BJC2tchvadf+BHwutJ9N88S
-	 dGpFgGd+KETpeHR0G1xdajsjbvxdWt0oX2CIkuJ+k+9t0MUUAFuhCE6tXJOqd/CRKm
-	 NmVqwEL18z7T2Z2NsNHqFwIeJxpxhar5iHh9JnXImgWVa6ybr1cQuQWv4Lsuqj8T28
-	 9bp3mgIK4lcu7QetNGdovj2FVWzJjmGEwPy5bG9Q7ACVNwJsRhFBB/Q5EfpoK/fYD7
-	 0FDzCL8SY9fZPq0haIHPzx6fX14uV42UPkHv0UB+N498lb66iUzTOnGCo3exlQEzgG
-	 cE+5E4kebsy5g==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Drake <drake@endlessm.com>,
-	Katsuhiro Suzuki <katsuhiro@katsuster.net>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: everest,es8316: Add interrupt support
-Date: Mon,  5 Jan 2026 13:32:03 -0600
-Message-ID: <20260105193203.3166320-1-robh@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1767685379; c=relaxed/simple;
+	bh=FnFVktoPWBOSCK8MVWM+2l2bWZ056ZdA91400Wd8JfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uO/3MCrBWA95fJa4RN4Faj/mzBqc3d7PdBmqVai5MNu+rqhHGXgsjXWr4XmHgrGfuDGgcerXUVZEsdIfGz/IrDjvs87Ig/dSrsufDyJfls4GPipiuAaNbQHCfVS8j5Du8a7qjDEC4gkfTPdh4DUS5XfTtoQ1gH8sfrzKGzbzDCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [192.168.0.114] (unknown [114.241.82.145])
+	by APP-05 (Coremail) with SMTP id zQCowABX6AvAvFxpa_ebAw--.32437S2;
+	Tue, 06 Jan 2026 15:41:52 +0800 (CST)
+Message-ID: <c652e45c-fedc-4bcd-9310-fc428e0e6c57@iscas.ac.cn>
+Date: Tue, 6 Jan 2026 15:41:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] PCI/MSI: Conservatively generalize no_64bit_msi into
+ msi_addr_mask
+To: "Creeley, Brett" <bcreeley@amd.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
+ <20251224-pci-msi-addr-mask-v1-1-05a6fcb4b4c0@iscas.ac.cn>
+ <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID:zQCowABX6AvAvFxpa_ebAw--.32437S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtF17AF4DGF4UKr1ruF43trb_yoWxAw4fpa
+	ykGFWSyFW8K3yUta9Fy3WUZF1Yva1qgrWrWrW7K3sa93ZIvFy8JFnayry3Gwn7Xr4kCF40
+	qr1jgw1jgFnIk3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+	04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+	b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7sRidbbtUUUUU==
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-The Everest ES8316 has interrupt capability on its GPIO3 pin for
-headphone detection. Several of the RockPi 4 variants are using it
-already.
+On 1/6/26 02:05, Creeley, Brett wrote:
+> On 12/23/2025 7:10 PM, Vivian Wang wrote:
+>> Caution: This message originated from an External Source. Use proper c=
+aution when opening attachments, clicking links, or responding.
+>>
+>>
+>> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
+>> implement less than 64 address bits. This breaks on platforms where su=
+ch
+>> a device is assigned an MSI address higher than what's reachable.
+>>
+>> Currently, we deal with this with a single no_64bit_msi flag, and
+>> (notably on powerpc) use 32-bit MSI address for these devices. However=
+,
+>> on some platforms the MSI doorbell address is above 32-bit but within
+>> device ability.
+>>
+>> As a first step, conservatively generalize the single-bit flag
+>> no_64bit_msi into msi_addr_mask. (The name msi_addr_mask is chosen to
+>> avoid confusion with msi_mask.)
+>>
+>> The translation is essentially:
+>>
+>> - no_64bit_msi =3D 1    ->    msi_addr_mask =3D DMA_BIT_MASK(32)
+>> - no_64bit_msi =3D 0    ->    msi_addr_mask =3D DMA_BIT_MASK(64)
+>> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
+>>
+>> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) is
+>> used, no functional change is intended. Future patches that make use o=
+f
+>> intermediate values of msi_addr_mask will follow, allowing devices tha=
+t
+>> cannot use full 64-bit addresses for MSI to work on platforms with MSI=
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
- Documentation/devicetree/bindings/sound/everest,es8316.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+>> doorbell above 32-bit address space.
+>>
+>> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+>>
+>> ---
+>>
+>> checkpatch complains about the comment include/linux/pci.h, which I ha=
+ve
+>> formatted similarly with other comments in the vicinity.
+>> ---
+>>   arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
+>>   arch/powerpc/platforms/pseries/msi.c                | 4 ++--
+>>   drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
+>>   drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
+>>   drivers/pci/msi/msi.c                               | 2 +-
+>>   drivers/pci/msi/pcidev_msi.c                        | 2 +-
+>>   drivers/pci/probe.c                                 | 7 +++++++
+>>   include/linux/pci.h                                 | 8 +++++++-
+>>   sound/hda/controllers/intel.c                       | 2 +-
+>>   9 files changed, 22 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/=
+platforms/powernv/pci-ioda.c
+>> index b0c1d9d16fb5..1c78fdfb7b03 100644
+>> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
+>> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+>> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_p=
+hb *phb, struct pci_dev *dev,
+>>                  return -ENXIO;
+>>
+>>          /* Force 32-bit MSI on some broken devices */
+>> -       if (dev->no_64bit_msi)
+>> +       if (dev->msi_addr_mask < DMA_BIT_MASK(64))
+>>                  is_64 =3D 0;
+>>
+>>          /* Assign XIVE to PE */
+>> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platf=
+orms/pseries/msi.c
+>> index a82aaa786e9e..7473c7ca1db0 100644
+>> --- a/arch/powerpc/platforms/pseries/msi.c
+>> +++ b/arch/powerpc/platforms/pseries/msi.c
+>> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
+dev, int nvec_in, int type,
+>>           */
+>>   again:
+>>          if (type =3D=3D PCI_CAP_ID_MSI) {
+>> -               if (pdev->no_64bit_msi) {
+>> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
+_FN, nvec);
+>>                          if (rc < 0) {
+>>                                  /*
+>> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
+dev, int nvec_in, int type,
+>>                  if (use_32bit_msi_hack && rc > 0)
+>>                          rtas_hack_32bit_msi_gen2(pdev);
+>>          } else {
+>> -               if (pdev->no_64bit_msi)
+>> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
+X_FN, nvec);
+>>                  else
+>>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_MSIX_=
+FN, nvec);
+>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm=
+/radeon/radeon_irq_kms.c
+>> index 9961251b44ba..d550554a6f3f 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rd=
+ev)
+>>           */
+>>          if (rdev->family < CHIP_BONAIRE) {
+>>                  dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n"=
+);
+>> -               rdev->pdev->no_64bit_msi =3D 1;
+>> +               rdev->pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
+>>          }
+>>
+>>          /* force MSI on */
+>> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/dri=
+vers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> index 70d86c5f52fb..0671deae9a28 100644
+>> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+>> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const=
+ struct pci_device_id *ent)
+>>
+>>   #ifdef CONFIG_PPC64
+>>          /* Ensure MSI/MSI-X interrupts lie within addressable physica=
+l memory */
+>> -       pdev->no_64bit_msi =3D 1;
+>> +       pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
+> I know this is just an intermediate commit in the series, but does this=
 
-diff --git a/Documentation/devicetree/bindings/sound/everest,es8316.yaml b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
-index 81a0215050e0..fe5d938ca310 100644
---- a/Documentation/devicetree/bindings/sound/everest,es8316.yaml
-+++ b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
-@@ -49,6 +49,10 @@ properties:
-     items:
-       - const: mclk
- 
-+  interrupts:
-+    maxItems: 1
-+    description: Headphone detect interrupt
-+
-   port:
-     $ref: audio-graph-port.yaml#
-     unevaluatedProperties: false
--- 
-2.51.0
+> retain the original intent?
+I do believe so, yes. The no_64bit_msi bit's meaning is the negation of
+this bit found in the MSI capability:
+
+=C2=A0 =C2=A0 #define=C2=A0 PCI_MSI_FLAGS_64BIT=C2=A0 =C2=A0 0x0080=C2=A0=
+ =C2=A0 /* 64-bit addresses allowed */
+
+PCI_MSI_FLAGS_64BIT is set if this function handles PCI_MSI_ADDRESS_HI
+and cleared if doesn't handle=C2=A0PCI_MSI_ADDRESS_HI. So=C2=A0with "no 6=
+4bit",
+only PCI_MSI_ADDRESS_LO is usable, and MSI is limited to 32 bits. See
+also old handling here:
+
+>> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi=
+=2Ec
+>> index 5520aff53b56..0b0346813092 100644
+>> --- a/drivers/pci/msi/pcidev_msi.c
+>> +++ b/drivers/pci/msi/pcidev_msi.c
+>> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
+>>          }
+>>
+>>          if (!(ctrl & PCI_MSI_FLAGS_64BIT))
+>> -               dev->no_64bit_msi =3D 1;
+>> +               dev->msi_addr_mask =3D DMA_BIT_MASK(32);
+>>   }
+>>
+>>   void pci_msix_init(struct pci_dev *dev)
+=2E.. and the old definition of the flag here, where the comment
+explicitly says no_64bit_msi means 32-bit:
+>> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+>> index 41183aed8f5d..a2bff57176a3 100644
+>> --- a/drivers/pci/probe.c
+>> +++ b/drivers/pci/probe.c
+>>
+>> [...]
+>>
+>> @@ -441,7 +448,6 @@ struct pci_dev {
+>>
+>>          unsigned int    is_busmaster:1;         /* Is busmaster */
+>>          unsigned int    no_msi:1;               /* May not use MSI */=
+
+>> -       unsigned int    no_64bit_msi:1;         /* May only use 32-bit=
+ MSIs */
+>>          unsigned int    block_cfg_access:1;     /* Config space acces=
+s blocked */
+>>          unsigned int    broken_parity_status:1; /* Generates false po=
+sitive parity */
+>>          unsigned int    irq_reroute_variant:2;  /* Needs IRQ reroutin=
+g variant */
+Vivian "dramforever" Wang
 
