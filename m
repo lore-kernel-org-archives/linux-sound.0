@@ -1,253 +1,158 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285A130ACE6;
-	Tue,  6 Jan 2026 07:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664C132572C
+	for <linux-sound@vger.kernel.org>; Tue,  6 Jan 2026 07:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767685379; cv=none; b=QR25lWqebIIurC3XHPVnGp7U1Jo/hG5fbB18GDLSDWU+i4+Xnu4MGezI0DuNiTdbdXAgj1GMekdpBxMStG+bCD5kGCzjVoMxQtCrYxdfbh8+WUvpgxqgTuhEtNzxXHZWEpBvUDa5C7SKtDGwN+O50b+ur+r+faxU40o/SYqS67I=
+	t=1767686308; cv=none; b=PjG01C4hb6EMPR6zAnILuv61ZpvNjb0wsumj/vRGr2DFqsGBGnV580Q7mdQPJZeM1FgOSbQhgNf6oLXjGAsLq8i+iGNaibQPBnay0TBaIlemtCaulBIwZB2YeTHzKb9zrfDtFdaN2/BBm8AgMIlkqnQRGnIrLA3H0en1UFwA3xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767685379; c=relaxed/simple;
-	bh=FnFVktoPWBOSCK8MVWM+2l2bWZ056ZdA91400Wd8JfE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uO/3MCrBWA95fJa4RN4Faj/mzBqc3d7PdBmqVai5MNu+rqhHGXgsjXWr4XmHgrGfuDGgcerXUVZEsdIfGz/IrDjvs87Ig/dSrsufDyJfls4GPipiuAaNbQHCfVS8j5Du8a7qjDEC4gkfTPdh4DUS5XfTtoQ1gH8sfrzKGzbzDCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.114] (unknown [114.241.82.145])
-	by APP-05 (Coremail) with SMTP id zQCowABX6AvAvFxpa_ebAw--.32437S2;
-	Tue, 06 Jan 2026 15:41:52 +0800 (CST)
-Message-ID: <c652e45c-fedc-4bcd-9310-fc428e0e6c57@iscas.ac.cn>
-Date: Tue, 6 Jan 2026 15:41:52 +0800
+	s=arc-20240116; t=1767686308; c=relaxed/simple;
+	bh=MtkIYuoA74SG2oZ3h+Ie7HThkUa9MD0Zemt0Da+cK+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lp++nI9gih6QMvF0HYgeJPxsszDt9i4QfGFwXL1qd9g8bKlvrtmPncvlEq0W92aDjA7M8RW2Tt1+WqCF8pbeolT8BdnPwedcZEqqjlP3VMvnPVESXt72fNQpuYF/99Z2ywWtcuT3phZb4+o6JMyfqN47d+3bCCwi51RK5/OFbXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dqlj5Vnp; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dqlj5Vnp"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso908855b3a.3
+        for <linux-sound@vger.kernel.org>; Mon, 05 Jan 2026 23:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767686307; x=1768291107; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bLBza2X5HD47Z5qYWRdV/0voLmxJvN9RKBL9LmOat68=;
+        b=Dqlj5Vnp0iSvTml9CsmhWTfwI9xsxMLGbdgzuIedeZdJHN2Az2aZchGsj+BbUHPmko
+         KriSC/HeYad+c8vhHfrQsQtCuEyK0KVe9FUVPGqcOK68t6gVfoom2VaxMrDRMnCNQjQh
+         hb9Y0q3Rx1+cKnlq6nLbaSWRBn4Utj1MmzqpN7b2s1tMMIPyaGQ4H3wOOo8AGpuiBq4T
+         jws5W/56ZJdtpROsedgmN+nGKelqsIuMO561lcqfe5E1VbBWDnFuLQdeaUOqW02cJ1pQ
+         26mti0uxWEbRId9HEG5oVj0mYtahpmm7Onl8QTekiu+GcSgiHQzf24Vvyy/TI/Su6h00
+         Od5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767686307; x=1768291107;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bLBza2X5HD47Z5qYWRdV/0voLmxJvN9RKBL9LmOat68=;
+        b=YbwdBLs4OUo5bpmPU0ClC5iBNz/9Nxh2jDAcr+ffqOg8QOymW64YOwBzBPmx6i/Ili
+         qEL8novYj0Rxz1GbjOSt77LK4JdyJ4VR7nwxuBmf2m2sbSWTOdVoUkKCRbwBbUIOIqkt
+         Zlv21ypEUV/j5QMIMzbVO7IbkzLV9/M6fIhRc1wZNMFySKDRZrMtQ7YQC6fsNzARo/5z
+         gbOvApgfBv5VZQYmhJKO+NpP5AMCDRQSFY0J9rNMqxpUW/h1Ip/lwZtTlxLnLukoszHv
+         aibLOjYexL67t+uFbCbCdjtU2ElaVOwbk9IoI0yNaCaGJIHf2XPWaD+gvLWjfIpcLsz0
+         gHHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZGOBjqW+uuwTHkWY4cd/e92hKbhGVn4pCeXUxV4p22niOsmJh3rphvTDVrj7+TqDHJyJVukoDWyvdpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIhxEbX+wDi5Wepu1INOzwYz+Lg6hMkhWqSzxUnHQd05vz9kPo
+	CB/Unceky7VCLTO7MnoqRG9G4M1gCqPMxidGaCiSs7jPjnC1fy+312GItsbC09drLkRr4S5W+hi
+	U9Gvg0EWPaoNUTxJwAY+IJ+ViGAwXB9Q=
+X-Gm-Gg: AY/fxX5NhjOVChEspxFqqXnBCdrznR5AhPT5EqEaeh8L9bZDu4xTPUG6v7lO5CGG59X
+	bK401UUUcbftq58f8/+G2L0Ev78J0tApWkCjnuQnExmrKLT/xQO6cZekZad9n5kAScIXMJfq1uj
+	k1uodMgWl4Tj7SVFaStKUgrETMwxwzWuHXyJSyiuIp2lQsMZakB2RBoSIBhBWvv3MeR0MhPbIY2
+	1YOYXvtZOc+QZd48TL20fl6Wljd3LFhjv+qN99kq8EEYpTmVSD2GkcYukmJLaHr5UHZVW4=
+X-Google-Smtp-Source: AGHT+IEHlZyXdXcxR5RsluHTNejvpJpV18nZCBNr3m6Nqhf2aV0r3VQUhWRXd06ytprpu4gzIW1qts9QEpxINJHvE4c=
+X-Received: by 2002:a05:6a20:7345:b0:366:1955:e965 with SMTP id
+ adf61e73a8af0-38982240dedmr1889055637.5.1767686306654; Mon, 05 Jan 2026
+ 23:58:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] PCI/MSI: Conservatively generalize no_64bit_msi into
- msi_addr_mask
-To: "Creeley, Brett" <bcreeley@amd.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
- <20251224-pci-msi-addr-mask-v1-1-05a6fcb4b4c0@iscas.ac.cn>
- <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <641c55d4-5c18-4b81-be04-404e6bb3fbb1@amd.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20251229111839.4009517-1-shengjiu.wang@nxp.com> <20251229111839.4009517-3-shengjiu.wang@nxp.com>
+In-Reply-To: <20251229111839.4009517-3-shengjiu.wang@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 6 Jan 2026 15:58:14 +0800
+X-Gm-Features: AQt7F2qmHeLdaE0xHM15dTnD0T7XxV2U60ncNvPLhWTQmD-57Nj_7ZRqCsdpot4
+Message-ID: <CAA+D8ANu4i7BV-gCcXOAeUSgFd5-rULwfu36DOdeD=n9779LLQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: simple-card-utils: Add support of
+ "hp-pin-name-headphone" property
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: broonie@kernel.org, kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:zQCowABX6AvAvFxpa_ebAw--.32437S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF17AF4DGF4UKr1ruF43trb_yoWxAw4fpa
-	ykGFWSyFW8K3yUta9Fy3WUZF1Yva1qgrWrWrW7K3sa93ZIvFy8JFnayry3Gwn7Xr4kCF40
-	qr1jgw1jgFnIk3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
-	04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7sRidbbtUUUUU==
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-On 1/6/26 02:05, Creeley, Brett wrote:
-> On 12/23/2025 7:10 PM, Vivian Wang wrote:
->> Caution: This message originated from an External Source. Use proper c=
-aution when opening attachments, clicking links, or responding.
->>
->>
->> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
->> implement less than 64 address bits. This breaks on platforms where su=
-ch
->> a device is assigned an MSI address higher than what's reachable.
->>
->> Currently, we deal with this with a single no_64bit_msi flag, and
->> (notably on powerpc) use 32-bit MSI address for these devices. However=
-,
->> on some platforms the MSI doorbell address is above 32-bit but within
->> device ability.
->>
->> As a first step, conservatively generalize the single-bit flag
->> no_64bit_msi into msi_addr_mask. (The name msi_addr_mask is chosen to
->> avoid confusion with msi_mask.)
->>
->> The translation is essentially:
->>
->> - no_64bit_msi =3D 1    ->    msi_addr_mask =3D DMA_BIT_MASK(32)
->> - no_64bit_msi =3D 0    ->    msi_addr_mask =3D DMA_BIT_MASK(64)
->> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
->>
->> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) is
->> used, no functional change is intended. Future patches that make use o=
-f
->> intermediate values of msi_addr_mask will follow, allowing devices tha=
-t
->> cannot use full 64-bit addresses for MSI to work on platforms with MSI=
+On Mon, Dec 29, 2025 at 7:23=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> The 'Headphones Jack' name used in current simple-card and audio-graph
+> card driver can't be recognized by user space service daemon like
+> pulseaudio and pipewire, which only recognize the 'Headphone Jack',
+> so add 'hp-pin-name-headphone' property for this case and it won't block
+> original use cases for 'Headphones Jack'
+>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  sound/soc/generic/simple-card-utils.c | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+>
+> diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/si=
+mple-card-utils.c
+> index bdc02e85b089..3d2194e23373 100644
+> --- a/sound/soc/generic/simple-card-utils.c
+> +++ b/sound/soc/generic/simple-card-utils.c
+> @@ -779,6 +779,24 @@ int simple_util_parse_pin_switches(struct snd_soc_ca=
+rd *card,
+>  }
+>  EXPORT_SYMBOL_GPL(simple_util_parse_pin_switches);
+>
+> +static const char *simple_util_parse_hp_pin_name(struct snd_soc_card *ca=
+rd,
+> +                                                char *prefix, char *pin)
+> +{
+> +       struct device_node *node =3D card->dev->of_node;
+> +       const char *str =3D NULL;
+> +       char prop[128];
+> +
+> +       if (!prefix)
+> +               prefix =3D "";
+> +
+> +       snprintf(prop, sizeof(prop), "%s%s", prefix, "hp-pin-name-headpho=
+ne");
+> +
+> +       if (of_property_present(node, prop))
+> +               str =3D "Headphone";
+> +
+> +       return pin ? pin : (str ? str : "Headphones");
+> +}
+> +
+>  int simple_util_init_jack(struct snd_soc_card *card,
+>                           struct simple_util_jack *sjack,
+>                           int is_hp, char *prefix,
+> @@ -787,7 +805,7 @@ int simple_util_init_jack(struct snd_soc_card *card,
+>         struct device *dev =3D card->dev;
+>         struct gpio_desc *desc;
+>         char prop[128];
+> -       char *pin_name;
+> +       const char *pin_name;
+>         char *gpio_name;
+>         int mask;
+>         int error;
+> @@ -797,7 +815,7 @@ int simple_util_init_jack(struct snd_soc_card *card,
+>
+>         if (is_hp) {
+>                 snprintf(prop, sizeof(prop), "%shp-det", prefix);
+> -               pin_name        =3D pin ? pin : "Headphones";
 
->> doorbell above 32-bit address space.
->>
->> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
->>
->> ---
->>
->> checkpatch complains about the comment include/linux/pci.h, which I ha=
-ve
->> formatted similarly with other comments in the vicinity.
->> ---
->>   arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
->>   arch/powerpc/platforms/pseries/msi.c                | 4 ++--
->>   drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
->>   drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
->>   drivers/pci/msi/msi.c                               | 2 +-
->>   drivers/pci/msi/pcidev_msi.c                        | 2 +-
->>   drivers/pci/probe.c                                 | 7 +++++++
->>   include/linux/pci.h                                 | 8 +++++++-
->>   sound/hda/controllers/intel.c                       | 2 +-
->>   9 files changed, 22 insertions(+), 9 deletions(-)
->>
->> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/=
-platforms/powernv/pci-ioda.c
->> index b0c1d9d16fb5..1c78fdfb7b03 100644
->> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
->> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
->> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_p=
-hb *phb, struct pci_dev *dev,
->>                  return -ENXIO;
->>
->>          /* Force 32-bit MSI on some broken devices */
->> -       if (dev->no_64bit_msi)
->> +       if (dev->msi_addr_mask < DMA_BIT_MASK(64))
->>                  is_64 =3D 0;
->>
->>          /* Assign XIVE to PE */
->> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platf=
-orms/pseries/msi.c
->> index a82aaa786e9e..7473c7ca1db0 100644
->> --- a/arch/powerpc/platforms/pseries/msi.c
->> +++ b/arch/powerpc/platforms/pseries/msi.c
->> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
-dev, int nvec_in, int type,
->>           */
->>   again:
->>          if (type =3D=3D PCI_CAP_ID_MSI) {
->> -               if (pdev->no_64bit_msi) {
->> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
->>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
-_FN, nvec);
->>                          if (rc < 0) {
->>                                  /*
->> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *p=
-dev, int nvec_in, int type,
->>                  if (use_32bit_msi_hack && rc > 0)
->>                          rtas_hack_32bit_msi_gen2(pdev);
->>          } else {
->> -               if (pdev->no_64bit_msi)
->> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
->>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_32MSI=
-X_FN, nvec);
->>                  else
->>                          rc =3D rtas_change_msi(pdn, RTAS_CHANGE_MSIX_=
-FN, nvec);
->> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm=
-/radeon/radeon_irq_kms.c
->> index 9961251b44ba..d550554a6f3f 100644
->> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
->> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
->> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rd=
-ev)
->>           */
->>          if (rdev->family < CHIP_BONAIRE) {
->>                  dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n"=
-);
->> -               rdev->pdev->no_64bit_msi =3D 1;
->> +               rdev->pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
->>          }
->>
->>          /* force MSI on */
->> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/dri=
-vers/net/ethernet/pensando/ionic/ionic_bus_pci.c
->> index 70d86c5f52fb..0671deae9a28 100644
->> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
->> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
->> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const=
- struct pci_device_id *ent)
->>
->>   #ifdef CONFIG_PPC64
->>          /* Ensure MSI/MSI-X interrupts lie within addressable physica=
-l memory */
->> -       pdev->no_64bit_msi =3D 1;
->> +       pdev->msi_addr_mask =3D DMA_BIT_MASK(32);
-> I know this is just an intermediate commit in the series, but does this=
+If the DT binding is not a choice,  shall I change the "Headphones" to
+"Headphone"
+directly?  I don't know if this change will block any case?
 
-> retain the original intent?
-I do believe so, yes. The no_64bit_msi bit's meaning is the negation of
-this bit found in the MSI capability:
+    pin_name        =3D pin ? pin : "Headphone";
 
-=C2=A0 =C2=A0 #define=C2=A0 PCI_MSI_FLAGS_64BIT=C2=A0 =C2=A0 0x0080=C2=A0=
- =C2=A0 /* 64-bit addresses allowed */
+best regards
+Shengjiu Wang
 
-PCI_MSI_FLAGS_64BIT is set if this function handles PCI_MSI_ADDRESS_HI
-and cleared if doesn't handle=C2=A0PCI_MSI_ADDRESS_HI. So=C2=A0with "no 6=
-4bit",
-only PCI_MSI_ADDRESS_LO is usable, and MSI is limited to 32 bits. See
-also old handling here:
-
->> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi=
-=2Ec
->> index 5520aff53b56..0b0346813092 100644
->> --- a/drivers/pci/msi/pcidev_msi.c
->> +++ b/drivers/pci/msi/pcidev_msi.c
->> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
->>          }
->>
->>          if (!(ctrl & PCI_MSI_FLAGS_64BIT))
->> -               dev->no_64bit_msi =3D 1;
->> +               dev->msi_addr_mask =3D DMA_BIT_MASK(32);
->>   }
->>
->>   void pci_msix_init(struct pci_dev *dev)
-=2E.. and the old definition of the flag here, where the comment
-explicitly says no_64bit_msi means 32-bit:
->> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
->> index 41183aed8f5d..a2bff57176a3 100644
->> --- a/drivers/pci/probe.c
->> +++ b/drivers/pci/probe.c
->>
->> [...]
->>
->> @@ -441,7 +448,6 @@ struct pci_dev {
->>
->>          unsigned int    is_busmaster:1;         /* Is busmaster */
->>          unsigned int    no_msi:1;               /* May not use MSI */=
-
->> -       unsigned int    no_64bit_msi:1;         /* May only use 32-bit=
- MSIs */
->>          unsigned int    block_cfg_access:1;     /* Config space acces=
-s blocked */
->>          unsigned int    broken_parity_status:1; /* Generates false po=
-sitive parity */
->>          unsigned int    irq_reroute_variant:2;  /* Needs IRQ reroutin=
-g variant */
-Vivian "dramforever" Wang
-
+> +               pin_name =3D simple_util_parse_hp_pin_name(card, prefix, =
+pin);
+>                 gpio_name       =3D "Headphone detection";
+>                 mask            =3D SND_JACK_HEADPHONE;
+>         } else {
+> --
+> 2.34.1
+>
+>
