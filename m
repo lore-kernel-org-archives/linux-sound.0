@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C1F21CC51;
-	Tue,  6 Jan 2026 12:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D712F616E;
+	Tue,  6 Jan 2026 12:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767702069; cv=none; b=j+AXi67ZkU44nirKM3gKj3Tea+vU/+YsVTnYT3deDVgkMPC4ufUfM8iL3GQNquUpwjNQ6io/HT5LN+yxUp4Q6zKBVjwOf7PHJYh0/FVDzX6GZXyfJJGgR4J6w3H4cCaXugNHAP3XytEe7vcHWMjWY3xNsrA9j8kqAbrh7lIroK8=
+	t=1767702070; cv=none; b=muy3UXjoy5t8dJJW81veFt7oRWIGopG76iZS/NrpT81wDCa5fs6VpfZMML6iGDOS3f2pITRPCGgb4vJ2texsOakfVcfKOMJ/wOL7yjNacfxM+MnarnqPZAmUepFVcp4yTts4ULGImIntg/EJsunLksPEzXXIw4TbOJDbnXCgi10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767702069; c=relaxed/simple;
-	bh=0xGhuZ9BpB6bO2r8s889CeM37MFZ1DO13Mv1L5fSGhU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ErOkN3xjN+xcPoRIYukP3slOeK7l8kSXS8N9RQZVPzZ9Sv3Aj8Xouv4+lqUd+ekirOGTDo7ZT6PL80GVUQj3XRldVY8I8qljDt1PF0A/1XYRjvcr8j6kv8OJViX+ZozPbBXjvRW/DzkHYw/irHrlHFRRrH9YGSsJesWN5BmBpFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8fHAJYi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767702070; c=relaxed/simple;
+	bh=VDKCdSjKGs5XziVF9QY3t4FzNXOgmDAZk821kwGV9gI=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qOSjjBk82zyM9QE5dezQfQlvZZvR8S1mh0SMjkJpa6G3+AcwcTTE86R0BC1eSg8vHwZwixuz0b4ajRFp8YiObfH9N43U/vAZ93VZgXaexj3rea6xEQNnWYSoZcUVjwoIdijv9QWXTMVSgvLPSKNhlzuQaT4xZVag/sk5TX8OMZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzVAkC/W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8fHAJYi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE0DC116C6;
-	Tue,  6 Jan 2026 12:21:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzVAkC/W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA7B5C16AAE;
+	Tue,  6 Jan 2026 12:21:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767702068;
-	bh=0xGhuZ9BpB6bO2r8s889CeM37MFZ1DO13Mv1L5fSGhU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=S8fHAJYiPSyBG7nLnRBYEOhRSLuPYMkEGGjRfeig7hApQ9KDTZuj5ThmMCVAnKrHl
-	 +1h5KyBWvs6MgO4d+G/rMlnZEz0wsLNoyjSYQXEVqEFVkt2llM8GupgoM4C/f9/wny
-	 EoqVcmgpypHHT3CEEYZJ5eeRhtHhkC6J7vpu8vAf/CEBYbmZi1FeJ1aFpo3yl8mJxR
-	 WzZbE6MS1h4EmnoBwBzgkAZT7tvc3tSZzfkbsRZZLMxv/e5IxvvkNOl7Mu7Lmg8D4+
-	 dVYN7jNsbvV0trSoaAzCpYlmjTY/8ilwp5lsF/rR1DnTBW+/g6VgOmdfN068y2QuJS
-	 0vWC0veHWBRxg==
+	s=k20201202; t=1767702070;
+	bh=VDKCdSjKGs5XziVF9QY3t4FzNXOgmDAZk821kwGV9gI=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=UzVAkC/W5Y9Vg3ydHfeYy3n4PWj9UCPh4vSzqKPaneKwk9RAxd2tQJVnIKavkX9oE
+	 WO1nGuQtFMdQF2KQxgRyaQfh68iMj5cgngMpaHMUDMD6jLi4iHBfoXJvZYlf2JD0y1
+	 VAIDpbxGIZbQPOyreW6Y4BdXxg7C8oQ3RNWvKmhwP8ycZgXP+MIKWWwwoPRGm/JRdp
+	 xp5X/H/BfcTsj5xS58O7INJFYqGLm7kzTkCIH7oEsNpfwYYKtyrqmcj+t5InpHZtSp
+	 N2DeVlrRAkRXOyRA7g/w11ooNcyyWTwL7OH/iNufNAaJ2pcw/m83uAKCCH/St7r8FS
+	 yIzQDG62PyNdQ==
 From: Mark Brown <broonie@kernel.org>
-To: Hsieh Hung-En <hungen3108@gmail.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251231084554.265916-1-hungen3108@gmail.com>
-References: <20251231084554.265916-1-hungen3108@gmail.com>
-Subject: Re: [PATCH] ASoC: es8328: Remove duplicate DAPM routes
-Message-Id: <176770206664.32636.14212285684486375827.b4-ty@kernel.org>
-Date: Tue, 06 Jan 2026 12:21:06 +0000
+To: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20251229090432.3964848-1-shengjiu.wang@nxp.com>
+References: <20251229090432.3964848-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: simple-card-utils: Check device node before
+ overwrite direction
+Message-Id: <176770206863.32636.4462808122550788569.b4-ty@kernel.org>
+Date: Tue, 06 Jan 2026 12:21:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,15 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 31 Dec 2025 16:45:54 +0800, Hsieh Hung-En wrote:
-> The DAPM routes for "Left Line Mux" and "Right Line Mux" are defined
-> twice in es8328_dapm_routes[]. The redundant entries appear after
-> the "Mic Bias" route and duplicate the definitions found earlier in
-> the array.
+On Mon, 29 Dec 2025 17:04:32 +0800, Shengjiu Wang wrote:
+> Even the device node don't exist, the graph_util_parse_link_direction()
+> will overwrite the playback_only and capture_only to be zero. Which
+> cause the playback_only and capture_only are not correct, so check device
+> node exist or not before update the value.
 > 
-> Remove the duplicate entries to clean up the code.
 > 
-> [...]
 
 Applied to
 
@@ -61,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: es8328: Remove duplicate DAPM routes
-      commit: 52ddc0106c77ff0eacf07b309833ae6e6a4e8587
+[1/1] ASoC: simple-card-utils: Check device node before overwrite direction
+      commit: 22a507d7680f2c3499c133f6384349f62f916176
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
