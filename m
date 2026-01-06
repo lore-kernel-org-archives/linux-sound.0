@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A030F2C11CA;
-	Tue,  6 Jan 2026 19:42:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A072C21EB;
+	Tue,  6 Jan 2026 19:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767728553; cv=none; b=Nfaou/17bO4B5Iapk+uOY2pMUWRhCbS+Iv2XmNhsmBELthxscRC2S786c8F8RARclTw6yvrTaLaOTanAfbxtkt3BFK1vpZSXfJte576+BVegP9F72APqbVi3ldQVOWEW2YrzWVQ1Y8XjePzBZzby8JNm+rcCpN2gUjvvMqGbDzI=
+	t=1767728555; cv=none; b=Dbc303PJoIVB8ypNCrJM2Miyk/GToe4dKUzEOOPhc0JNv+95sOjQk3QASyUMulmC3nRwmrhiL8jGn0SCcLc6L1jXAUoWfQE3fvZ0CYyAUJFFXVx0ITGoRF/HZhiMVAm4Z+ehUPmsDH86MCdUdWduNMbeBDcp14r2L7oabWzWahM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767728553; c=relaxed/simple;
-	bh=s+1JedlIyWeQqbDvglfgq6oP3kT0MW4kLflc5hfg6E0=;
+	s=arc-20240116; t=1767728555; c=relaxed/simple;
+	bh=jWF3m6daFoYmqFeFTzfMLsBLzmOCVcH/zwRjAtfY4ww=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qWNBKPGDWKhzUJeQyShL2J8n8B2iwWxeh/OcTAMv8uqiISH4ypClqUGctS/cllazlq3/weQXM8YAyn8FqcOoJ3nZ5dg49HPoe/gp0xsw8SC3+eh/HZZfhnz7lKfG6rcIcNpR7v5zmGHzejKkl78y4MQsJPQK2YNHHvXvaoSPmZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1oloWF2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dcBGeAsExZNUnggo9dKStCMyug+u0B8RHCAhkUGNto8XAKHL0HfIc5HkIOSmDgqvDTehKuNLR4FZbuyE2COTazMEV36NevZpYYmyTxlW3WXyfZPJWXnJ7fcEl83KYm4Y/0LFHWHkDrMabqZopuPWnUin5SLkQjfJK6wrPVsELQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAfoSjqh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1oloWF2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E92C19422;
-	Tue,  6 Jan 2026 19:42:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAfoSjqh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6690C116C6;
+	Tue,  6 Jan 2026 19:42:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767728553;
-	bh=s+1JedlIyWeQqbDvglfgq6oP3kT0MW4kLflc5hfg6E0=;
+	s=k20201202; t=1767728554;
+	bh=jWF3m6daFoYmqFeFTzfMLsBLzmOCVcH/zwRjAtfY4ww=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=B1oloWF2QRAYBT24LurkPclFX8FBgMjCnDDwa6f/qv+XyNFyULTFn8d5TisBXnXDR
-	 HDj5Nds9SgH4a6LWjtt+B+5rR4jpqActkBtTLLEZwvAQHBvMZMO7jEDlDdSRzJhFyu
-	 v7g69obHF/EpvjxP/EUhkJYSgK1aBHQvbxw7R+FaW1yvBxLACFPxO0+lEMzROF4V51
-	 TBdXG+ag6L1uUsLs1oFtYiKXky5wwIvU/lWg+9cSksZmPb2p0c2j0plNmiAubiSTWN
-	 yq3pPlZddZ2uh4spsHBce1u2VV2Kz4C7xVShR3ygXSxfgMPyAKo15mS5gWuqcFw4fi
-	 ST/ZY/qOwmLaw==
+	b=AAfoSjqhhi2pRUpHYPF23HdQ7e80qcKRx4kaHXQOGRgqGUqeJtI6ND7KKSb/Q/B/5
+	 /JShcWrqB7SO2D0UEdbmAlJkrYAdPg+d9dCUQ0v+vGOD5o+QaLGUCszBqcqI90k5XV
+	 o6a0ocKCaAEuZTzugxKztxU2Uzcpyu8sEwnMKyiT17n+gsUXoQgQ27NDne1auoII+T
+	 hAG+PQUv4hA6kZvuxwGkEv7hQLaNEkhXbqlnTQSg//3st7pz/7pptUfujLjuBqzWiW
+	 GDwNClkwJkbcIXfyYfydZlwrX/UL3Jp4m9SZrA2YrF8eQYZsevaPwowwudOef8Qvax
+	 2HtdlF3XxMsEA==
 From: Mark Brown <broonie@kernel.org>
-To: cezary.rojewski@intel.com, lgirdwood@gmail.com, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, 
- Oder Chiou <oder_chiou@realtek.com>
-Cc: linux-spi@vger.kernel.org, perex@perex.cz, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, alsa-devel@alsa-project.org, flove@realtek.com, 
- shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <cover.1767148150.git.oder_chiou@realtek.com>
-References: <cover.1767148150.git.oder_chiou@realtek.com>
-Subject: Re: [PATCH v11 0/4] ASoC: rt5575: Add the codec driver for the
- ALC5575
-Message-Id: <176772855067.328192.13240221041944953554.b4-ty@kernel.org>
-Date: Tue, 06 Jan 2026 19:42:30 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20251231172711.450024-1-rf@opensource.cirrus.com>
+References: <20251231172711.450024-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/8] firmware: cirrus: cs_dsp: Add long-offset WMDR
+ blocks
+Message-Id: <176772855363.328192.192529625158196380.b4-ty@kernel.org>
+Date: Tue, 06 Jan 2026 19:42:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,21 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 31 Dec 2025 10:35:01 +0800, Oder Chiou wrote:
-> This patch series adds support for the Realtek ALC5575 audio codec.
+On Wed, 31 Dec 2025 17:27:03 +0000, Richard Fitzgerald wrote:
+> Version 3 of the WMDR file format introduces a new block type that has a
+> 32-bit address offset.
 > 
-> Changes in v11:
-> - Patch 1/4:
->   - minor fixes
-> - Patch 2/4:
->   - change of_find_spi_controller_by_node() gating to CONFIG_OF
-> - Patch 3/4:
->   - nothing
-> - Patch 4/4:
->   - achieve reverse-christmas-tree notation
->   - remove formal version check
->   - revise check whether the firmware boots from SPI or not
->   - minor fixes
+> The first patch of this series adds the support to the cs_dsp driver.
+> 
+> The rest of the series is adding KUnit tests for this.
 > 
 > [...]
 
@@ -73,14 +62,22 @@ Applied to
 
 Thanks!
 
-[1/4] spi: export of_find_spi_controller_by_node()
-      commit: ee69f55eb183efb43da14cdad72910b1b1cc2932
-[2/4] spi: change of_find_spi_controller_by_node() gating to CONFIG_OF
-      commit: 037f8d896688bf3384eb6bf34e24e8fbc9f6e02d
-[3/4] ASoC: dt-bindings: realtek,rt5575: add support for ALC5575
-      commit: af4c0b951b18a8af73fa8541fabf1bf2484bba9b
-[4/4] ASoC: rt5575: Add the codec driver for the ALC5575
-      commit: c7ac7499ac5bb50ab3e00add121822c5c904bc91
+[1/8] firmware: cs_dsp: Handle long-offset data blocks
+      commit: bc0305cb294c693b2762cf863324defb9e5175e5
+[2/8] firmware: cs_dsp: test_bin: Run test cases with v3 file format
+      commit: afcbb0460e0a9f0e971512c66619fc649bdb86a6
+[3/8] firmware: cs_dsp: test_bin: Make patch function a test parameter
+      commit: a01816edf11fc9e6c8216bc03870311ce2add5a2
+[4/8] firmware: cs_dsp: mock_bin: Pass offset32 to cs_dsp_mock_bin_add_raw_block()
+      commit: 9e6f4c5b2d3af58390cf554ada9591935c5ac774
+[5/8] firmware: cs_dsp: mock_bin: Add function to create long-offset patches
+      commit: 880f1eb5b95ccf250f567927462a7d3fa8f2a727
+[6/8] firmware: cs_dsp: test: Increase size of XM and YM on Halo Core
+      commit: 6e60c6aa1e4b929f6fbb04dc9fa786aeaedf3693
+[7/8] firmware: cs_dsp: test_bin: Run test cases on long-offset blocks
+      commit: 7fecf0bf1202599920d929704a3787291fc068db
+[8/8] firmware: cs_dsp: test_bin: Add tests for offsets > 0xffff
+      commit: 211243b69533e968cc6f0259fb80ffee02fbe0ca
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
