@@ -1,88 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21451BA3F;
-	Wed,  7 Jan 2026 19:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078C5332912;
+	Wed,  7 Jan 2026 21:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767812583; cv=none; b=Hyap+9i8qWXhoekR60RZGGoHLTo3C+jM3HmeM1o1EgPaeqal6tPd08a/2b6UvUFjINpR/IuZFrWTcq/7rClzVGs0MgJoyXRqmkPx7XuVIJ3SE80gmPE3WNYtfEeNSaxTr2ZDYaLy5EmSV8op1yW4SC2C0YG10oOWBJDHvpYWAIY=
+	t=1767821827; cv=none; b=BRnQCQjvMShwsM1KMA6s48NOidjrSGySJIrLxiQXNQcd3RLm0MpbdIem1kncEsku8IltniM7iWgwu23VCPUyM3Xxc13RdgjOwWxSAdkBCMzOL85mihjy1FkGXE+JtHQLXC/bRZrYj81cBJRdaBV7Vp5/24bNSFju6ybIy78e2Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767812583; c=relaxed/simple;
-	bh=fYx5B0yukc8Q2NJiE4ts/RndtVX6ltIjc7V2ZU4gyl4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YE/vF+bnt6WRtBJRccGNd+MRPYo5oTR4F5msq6DaVvrWtp2/+fqpS8VDiHP77m9PcNzRI58zSBu8gbuYk9U3cF/z8DKG4bpXcLrWANkdND/jaFzoyQkNn8EJ9M21U2Vs2uPGlJmLP/YrZU/HCn0Hiklqb/dEGn3RoyvT+9k6AuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4Cpk/Tg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767821827; c=relaxed/simple;
+	bh=TN6p14zk4i2fdHlP0UHWZyCKlDsPZybqAunkuk5hWCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVMhT+0cm1nUXofYsWZAQZSAEUP6yseo31bDWvm7dRyOTTV6ml1WJIMSo68aioUTfPFcvRNGomscWo1FM6FPyZF2hm7PAeGsVjAUCZG11Flfd1NSh/UKEeI6gNvZco5CpvtRL9zigYaPlw/m/cykrbQ4NrGXg0s8PknDtFI8Vm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=HhraP5iT; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4Cpk/Tg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC1EC4CEF1;
-	Wed,  7 Jan 2026 19:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767812580;
-	bh=fYx5B0yukc8Q2NJiE4ts/RndtVX6ltIjc7V2ZU4gyl4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=G4Cpk/TgBMjsmYgbEb+0NUXkDGUGgJe2HYohNFDbxKdPffyJOpfpiGRkxgE6mBLx0
-	 yMkllZ81/3wdm5D78gCeXDvGNonfJuYbTDUlhC/r2C41/XvUuQn5TS529m1iyCifx0
-	 o9Be7ONSgBo01+xA6jZQOFVmtPh3FURNcCYsuizYIAdD56s9Z2EsKmLUMg7VrefrGU
-	 EyNOH6migGZ8VWLSgZLfbYEVsEcvlZ4/68+x3QvFl1NB65c9giyN2hjPxjfL4JS5To
-	 ORXc7NK7yHEEEI2cSb2kgPTq/p120AQKDdzRe/+fNGsqRNrjuBL8MBM2Bx4FHqHBLm
-	 KVr2BcBJMqD1w==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20260106225846.83580-1-ben.dooks@codethink.co.uk>
-References: <20260106225846.83580-1-ben.dooks@codethink.co.uk>
-Subject: Re: [PATCH] ASoC: ops: fix pointer types to be big-endian
-Message-Id: <176781257959.127389.8591799726303745547.b4-ty@kernel.org>
-Date: Wed, 07 Jan 2026 19:02:59 +0000
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="HhraP5iT"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 093AA3E13A;
+	Wed,  7 Jan 2026 22:36:52 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 093AA3E13A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1767821812; bh=1g5pCNyE2qpUqyl7rpB6YGkIsPLmOcYoaRMFsevthv4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HhraP5iTQ3fUS7dXccTK+6p/jO3xyVA6gExtvOoKeDwo+icLHXCfSM91Zs0nlPZZc
+	 0V7HP4DFDo5/B6TL8ko8Ix/+8Sn60YDfmmtp8qQH6Huika63b+fP0pTSRxXaicxrTm
+	 kOgTetd37NuZl0TfMc2AHC+YFW7IMSPr0JlPb1Sg=
+Received: from p1gen7.perex-int.cz (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed,  7 Jan 2026 22:36:47 +0100 (CET)
+From: Jaroslav Kysela <perex@perex.cz>
+To: Linux Sound ML <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Improve the fix for race of buffer access at PCM OSS layer
+Date: Wed,  7 Jan 2026 22:36:42 +0100
+Message-ID: <20260107213642.332954-1-perex@perex.cz>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
 
-On Tue, 06 Jan 2026 22:58:46 +0000, Ben Dooks wrote:
-> If manipulating big-endian data, make the pointers be big-endian
-> instead of host-endian. This should stop the following sparse
-> warnigns about endian-conversion:
-> 
-> sound/soc/soc-ops.c:547:33: warning: invalid assignment: &=
-> sound/soc/soc-ops.c:547:33:    left side has type unsigned short
-> sound/soc/soc-ops.c:547:33:    right side has type restricted __be16
-> sound/soc/soc-ops.c:551:33: warning: invalid assignment: &=
-> sound/soc/soc-ops.c:551:33:    left side has type unsigned int
-> sound/soc/soc-ops.c:551:33:    right side has type restricted __be32
-> 
-> [...]
+Handle the error code from snd_pcm_buffer_access_lock() in
+snd_pcm_runtime_buffer_set_silence() function.
 
-Applied to
+Found by Alexandros Panagiotou <apanagio@redhat.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fixes: 93a81ca06577 ("ALSA: pcm: Fix race of buffer access at PCM OSS layer")
+Cc: stable@vger.kernel.org # 6.15
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ include/sound/pcm.h      | 2 +-
+ sound/core/oss/pcm_oss.c | 4 +++-
+ sound/core/pcm_native.c  | 9 +++++++--
+ 3 files changed, 11 insertions(+), 4 deletions(-)
 
-Thanks!
-
-[1/1] ASoC: ops: fix pointer types to be big-endian
-      commit: 2fa0eaf78c4bb24c2b05a4db3e0d86a7dcd8fd9f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 58fd6e84f961..a7860c047503 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -1402,7 +1402,7 @@ int snd_pcm_lib_mmap_iomem(struct snd_pcm_substream *substream, struct vm_area_s
+ #define snd_pcm_lib_mmap_iomem	NULL
+ #endif
+ 
+-void snd_pcm_runtime_buffer_set_silence(struct snd_pcm_runtime *runtime);
++int snd_pcm_runtime_buffer_set_silence(struct snd_pcm_runtime *runtime);
+ 
+ /**
+  * snd_pcm_limit_isa_dma_size - Get the max size fitting with ISA DMA transfer
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index a82dd155e1d3..b12df5b5ddfc 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -1074,7 +1074,9 @@ static int snd_pcm_oss_change_params_locked(struct snd_pcm_substream *substream)
+ 	runtime->oss.params = 0;
+ 	runtime->oss.prepare = 1;
+ 	runtime->oss.buffer_used = 0;
+-	snd_pcm_runtime_buffer_set_silence(runtime);
++	err = snd_pcm_runtime_buffer_set_silence(runtime);
++	if (err < 0)
++		goto failure;
+ 
+ 	runtime->oss.period_frames = snd_pcm_alsa_frames(substream, oss_period_size);
+ 
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 68bee40c9ada..932a9bf98cbc 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -730,13 +730,18 @@ static void snd_pcm_buffer_access_unlock(struct snd_pcm_runtime *runtime)
+ }
+ 
+ /* fill the PCM buffer with the current silence format; called from pcm_oss.c */
+-void snd_pcm_runtime_buffer_set_silence(struct snd_pcm_runtime *runtime)
++int snd_pcm_runtime_buffer_set_silence(struct snd_pcm_runtime *runtime)
+ {
+-	snd_pcm_buffer_access_lock(runtime);
++	int err;
++
++	err = snd_pcm_buffer_access_lock(runtime);
++	if (err < 0)
++		return err;
+ 	if (runtime->dma_area)
+ 		snd_pcm_format_set_silence(runtime->format, runtime->dma_area,
+ 					   bytes_to_samples(runtime, runtime->dma_bytes));
+ 	snd_pcm_buffer_access_unlock(runtime);
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(snd_pcm_runtime_buffer_set_silence);
+ 
+-- 
+2.52.0
 
