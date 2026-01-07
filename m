@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C963EBA3F
-	for <linux-sound@vger.kernel.org>; Wed,  7 Jan 2026 19:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21451BA3F;
+	Wed,  7 Jan 2026 19:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767812580; cv=none; b=CfNYvfFGeR3iPBTJfWoAQYdjyd8zpTbazUnNHmv5IbVIb4WN3ET8MbAsvzn7SNuR9BBRgNHwBonuwHanK6TRPCGjaQnIyrf9K2vrONjHt3CEEfGZbaDeHPSQPACbpMlX8kpzGm0z230rAezsTNuUWx8L9WDjUASXrfOKzLes5wU=
+	t=1767812583; cv=none; b=Hyap+9i8qWXhoekR60RZGGoHLTo3C+jM3HmeM1o1EgPaeqal6tPd08a/2b6UvUFjINpR/IuZFrWTcq/7rClzVGs0MgJoyXRqmkPx7XuVIJ3SE80gmPE3WNYtfEeNSaxTr2ZDYaLy5EmSV8op1yW4SC2C0YG10oOWBJDHvpYWAIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767812580; c=relaxed/simple;
-	bh=IqqcRkZti77aCTxYqrqIsBhYZTMrpdE3+lcw8m9Qn6U=;
+	s=arc-20240116; t=1767812583; c=relaxed/simple;
+	bh=fYx5B0yukc8Q2NJiE4ts/RndtVX6ltIjc7V2ZU4gyl4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fLztbh9V+N07MLHDVbYuuKNix3f6uDNovJqiwuDvS3bnAPL/xeMXxHag4F+f3LW8bhetZnnZwA4HcbaUfsoyuFRy6SN0SXY8DqLhU/8rcK1U3Do0Y16Bs2BaHwQZBAc6XEq7nBVWuT+fNdbCO/X2VupoaRvFVU0IuL9oUCPnQu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/4naJyG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YE/vF+bnt6WRtBJRccGNd+MRPYo5oTR4F5msq6DaVvrWtp2/+fqpS8VDiHP77m9PcNzRI58zSBu8gbuYk9U3cF/z8DKG4bpXcLrWANkdND/jaFzoyQkNn8EJ9M21U2Vs2uPGlJmLP/YrZU/HCn0Hiklqb/dEGn3RoyvT+9k6AuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4Cpk/Tg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/4naJyG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44425C16AAE;
-	Wed,  7 Jan 2026 19:02:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4Cpk/Tg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC1EC4CEF1;
+	Wed,  7 Jan 2026 19:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767812579;
-	bh=IqqcRkZti77aCTxYqrqIsBhYZTMrpdE3+lcw8m9Qn6U=;
+	s=k20201202; t=1767812580;
+	bh=fYx5B0yukc8Q2NJiE4ts/RndtVX6ltIjc7V2ZU4gyl4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=q/4naJyGfvN5PsQbvctqAIMqm0Ne1m7Col316YQE1gwA/7omv3YavgFlZiZLkaRO4
-	 NCokoe3EVcDdr4TZ2GoNpCUegRyl5oGPKQT8ZWrfjGddbFciDBJYZ2U0ESsVm/48Kb
-	 52az0dCWD2dR/P+YTNBsLDzXKcbwq+D9pW4Bv6sYy8HgdfdstP1YggwppuiIitmwxq
-	 ugGUs8kitndEEPexXYnLmKK//Q68a38G8fOuikrJg5w/738uJI2ns0CDB8alBDVG/u
-	 z4GEttIgFV7kCTaZ+h53jFdSDIfXEeKY2g+3zRBDB5jpf92wvj9enT9litzG4T7Dx4
-	 Yv20F5MLQTycQ==
+	b=G4Cpk/TgBMjsmYgbEb+0NUXkDGUGgJe2HYohNFDbxKdPffyJOpfpiGRkxgE6mBLx0
+	 yMkllZ81/3wdm5D78gCeXDvGNonfJuYbTDUlhC/r2C41/XvUuQn5TS529m1iyCifx0
+	 o9Be7ONSgBo01+xA6jZQOFVmtPh3FURNcCYsuizYIAdD56s9Z2EsKmLUMg7VrefrGU
+	 EyNOH6migGZ8VWLSgZLfbYEVsEcvlZ4/68+x3QvFl1NB65c9giyN2hjPxjfL4JS5To
+	 ORXc7NK7yHEEEI2cSb2kgPTq/p120AQKDdzRe/+fNGsqRNrjuBL8MBM2Bx4FHqHBLm
+	 KVr2BcBJMqD1w==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
- Zhang Yi <zhangyi@everest-semi.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Qasim Ijaz <qasdev00@gmail.com>
-In-Reply-To: <87eco20zn3.wl-kuninori.morimoto.gx@renesas.com>
-References: <87eco20zn3.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: codecs: es8375: remove unnecessary format check
-Message-Id: <176781257802.127389.15292097699386935546.b4-ty@kernel.org>
-Date: Wed, 07 Jan 2026 19:02:58 +0000
+To: linux-sound@vger.kernel.org, Ben Dooks <ben.dooks@codethink.co.uk>
+Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20260106225846.83580-1-ben.dooks@codethink.co.uk>
+References: <20260106225846.83580-1-ben.dooks@codethink.co.uk>
+Subject: Re: [PATCH] ASoC: ops: fix pointer types to be big-endian
+Message-Id: <176781257959.127389.8591799726303745547.b4-ty@kernel.org>
+Date: Wed, 07 Jan 2026 19:02:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,21 +44,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 07 Jan 2026 05:18:08 +0000, Kuninori Morimoto wrote:
-> It already have default for error case (A), no need to have
-> SND_SOC_DAIFMT_RIGHT_J for error (B). Remove it.
+On Tue, 06 Jan 2026 22:58:46 +0000, Ben Dooks wrote:
+> If manipulating big-endian data, make the pointers be big-endian
+> instead of host-endian. This should stop the following sparse
+> warnigns about endian-conversion:
 > 
-> 	static int es8375_set_dai_fmt(...)
-> 		...
-> 		switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-> 		case SND_SOC_DAIFMT_RIGHT_J:
-> (B)			return -EINVAL;
-> 		...
-> 		default:
-> (A)			return -EINVAL;
-> 		}
-> 		...
-> 	}
+> sound/soc/soc-ops.c:547:33: warning: invalid assignment: &=
+> sound/soc/soc-ops.c:547:33:    left side has type unsigned short
+> sound/soc/soc-ops.c:547:33:    right side has type restricted __be16
+> sound/soc/soc-ops.c:551:33: warning: invalid assignment: &=
+> sound/soc/soc-ops.c:551:33:    left side has type unsigned int
+> sound/soc/soc-ops.c:551:33:    right side has type restricted __be32
 > 
 > [...]
 
@@ -71,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: es8375: remove unnecessary format check
-      commit: 22a4776a9ce50aa47f602d28f53ba9d613a38f49
+[1/1] ASoC: ops: fix pointer types to be big-endian
+      commit: 2fa0eaf78c4bb24c2b05a4db3e0d86a7dcd8fd9f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
