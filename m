@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020AF33D51D;
-	Thu,  8 Jan 2026 21:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A642D0615;
+	Thu,  8 Jan 2026 22:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767909192; cv=none; b=BgRpy7FzkTYPm9d2ylcE7H1PF7xcs4v+NvrMFzIG9VeTxQ1gLlFRmHKFsJ8+RW/mh7jTY8imWL1crZN3D8tqLlq1a+230gODVYN+8UXP4xGXwNid5PviUBxw3TY8pAsgrZ6/uF7Y6oYaC5fjsAqYxIIdTSVhWpk5uE5LuAVJWhU=
+	t=1767912589; cv=none; b=krlxEF7EiLMsttoIwm5+wEJn9stWufTFxQ/Aav3819HBfrmj9fr4xogM8TjAcA17SqSLT2vaW8v7lABiQxxIZOw8l8y1yQtHTsDzVrfYbZm8WCMmMc5MLpmPPjK97/UIoteYnkP0yqmtYihmMrOG9hNTxpuA6IKtgpOhbeOgSWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767909192; c=relaxed/simple;
-	bh=ZzSqtnRtEj//N+Hdq6610QbqR1q6icmP3gNZvPkrh/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t/oxQJvxurrLmvCcqqR86eKuMJ96DQjDdUdo91kWKB165VDT6ex4jkx/RTNyQnXYLvOMWhCZxELqvDfqRgKsaJHEDXhf1lgSKpZqTtEOhvH4Fg46RRo5rF3KQmt4TIBv5GN8fX7XJaXtXbTCUxPRtFMmR9r1t5TPB22OnJbaZDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sO1QXwVI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767912589; c=relaxed/simple;
+	bh=gLUTVZsyrlzlQM2BPw05odFnPxR0Wfu002nPLnUp7tE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QHm4CrR1MplVTyGCFtMXIbtbFy0K4nKqu13Kcs37HFc8/Mnw8dtSVcJR+FMXFRiVbjlZG8AwJA4c1PbRsFhnHlg2hbEDg+K/ZWZBf9jcQB57bF+mmSNJCKruGGmv7MHT5IzLwsqU3bzgshSY4k4c7RvWV5Mr/q3dcSYuCKpsjUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=drfh8mEt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sO1QXwVI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9334C116C6;
-	Thu,  8 Jan 2026 21:53:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="drfh8mEt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A897C116C6;
+	Thu,  8 Jan 2026 22:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767909191;
-	bh=ZzSqtnRtEj//N+Hdq6610QbqR1q6icmP3gNZvPkrh/Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sO1QXwVINqVu47pfjHXVXs4H7rpJjNNp34Rg1gDh/eT3aa22OG0qIYIXX+Z25cIi9
-	 sw1iVJZnXh+yw+ErSsaMwWknfLTJFdXFTfeuAYWHKViMCcMONNIcirlHDQaj729otZ
-	 Mb1Gc7k1zU9gUDE+sQqV2Xjg2UfCdne/pXFOzxtfnPycMrjoLHgJnMa4b8mQBo+mla
-	 UpKUjpkbkwn6Fa9zWLWSQgovnWYff7Kj5UfBjXeXFW5wqsVagJ4lY+zcthCiKu8p58
-	 OQC0xe/QDw/m0NQ+25OF3shTehhuZeZ/aE2qwvrRmlDznL+EagZFBnW68ANruOorT9
-	 CALmDtTBBUskw==
+	s=k20201202; t=1767912589;
+	bh=gLUTVZsyrlzlQM2BPw05odFnPxR0Wfu002nPLnUp7tE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=drfh8mEtaNQj/vzo0dlnRwPecAdGf2qS/KT7xk+Z3GxYlTj5rhR6Fe4X89SGDUYGx
+	 9hnar2lvOxLLhRQCDf+PNxyQDqQjpH9Zwvsd/7KoEkNFn+yLyTI1Fr+4+JK9oWGQEk
+	 L8xT8kUdH1tVIelIQ4nicr0S3yUAgZvtVVkjisl4vqfg6bSnm0tHAZZM7aeumcWoVW
+	 8BSB0yGoknwKIyWBMuRfdDBjegOV0099zUctPq8247OuFaRQ2/JzzDpNS8DZijk/Ec
+	 GH/0dCTaV90Wae+gcDlmL2k2nXoK5VRIaaFYV5TuOGBiZU9UaWfNzIpxXJrjM08j3d
+	 Om9S15AUKxTkA==
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
+	Heiko Stuebner <heiko@sntech.de>
 Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5640: Allow 7 for realtek,jack-detect-source
-Date: Thu,  8 Jan 2026 15:53:06 -0600
-Message-ID: <20260108215307.1138515-2-robh@kernel.org>
+Subject: [PATCH] ASoC: dt-bindings: rockchip-spdif: Allow "port" node
+Date: Thu,  8 Jan 2026 16:49:36 -0600
+Message-ID: <20260108224938.1320809-1-robh@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260108215307.1138515-1-robh@kernel.org>
-References: <20260108215307.1138515-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,26 +48,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver accepts and uses a value of 7 for realtek,jack-detect-source.
-What exactly it means isn't clear though.
+Add a "port" node entry for Rockchip S/PDIF binding. It's already in use
+and a common property for DAIs.
 
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/sound/realtek,rt5640.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/sound/rockchip-spdif.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-index a0b8bf6cb110..cd95d7189d34 100644
---- a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-@@ -104,6 +104,7 @@ properties:
-       - 4 # Use GPIO2 for jack-detect
-       - 5 # Use GPIO3 for jack-detect
-       - 6 # Use GPIO4 for jack-detect
-+      - 7 # HDA?
+diff --git a/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml b/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
+index 32dea7392e8d..56c755c22945 100644
+--- a/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
++++ b/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
+@@ -70,6 +70,9 @@ properties:
+   "#sound-dai-cells":
+     const: 0
  
-   realtek,jack-detect-not-inverted:
-     description:
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++
+ required:
+   - compatible
+   - reg
 -- 
 2.51.0
 
