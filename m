@@ -1,114 +1,181 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2702133BBC6;
-	Thu,  8 Jan 2026 06:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB47B5695
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 07:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767854534; cv=none; b=q5vGpdiCODDfcWbuMzSIpjoLQJNAIchV+/78Aa+6mhmz9WS/2IMDGhtEVJpwZQ6XMW5zsiW6py5LGARdTHKItjZYFBAYMvrWdh+YwQOCgKQCNRTspF2KiW+4BRmmiNIlb4eIKhu3aOXCB0DW30uI5hUkInrVr6iOjw/EIzFLAyc=
+	t=1767856672; cv=none; b=mDDMKpnBWNA3GLa7LsxvgXl9MWPVoTYDX/UAw2VAd8aFLEKV/8pVQKiBE9EWkn5C22ZdMPk09aSOCLCTmetJLzAQcG99WmraXZZKFEcKMZgRfwQvpjrgzsPAAvdAXKXVJz1J03ZYpBOlWbKtKVodNrCh4aBSiRMbtQOFBgxi3wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767854534; c=relaxed/simple;
-	bh=ivIqnI2zEUjC4OJwj+vb1q+Ivmz424hYR9nY7UVpNWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=moTGtnRtqjDR8kN6WtR4ZXGrTC5MJSIk82nlSaPlUM3i1x1ArqWEdbcf3q7i3Vp1+6PbT6XemJLYosZd5X214bwom6VJwFir9LfAHgG7tl33h+Mhiam1GXnd3/jk2CVJl8WA0dczTl0lthqZcM1GYv3RRpKf9OeNkCH4i+lVf0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.105] (unknown [114.241.82.145])
-	by APP-03 (Coremail) with SMTP id rQCowACXtt2SUV9pJAwYBA--.18933S2;
-	Thu, 08 Jan 2026 14:41:23 +0800 (CST)
-Message-ID: <8c16931b-8637-43c3-a2db-5c66d8865124@iscas.ac.cn>
-Date: Thu, 8 Jan 2026 14:41:22 +0800
+	s=arc-20240116; t=1767856672; c=relaxed/simple;
+	bh=xLOKUARNRsr7HlGhqG3MalsSROEJR9VAh8S8yEijrBY=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=BBKfxxJ/4qhX2EnvMm3UbbQnhnWce9LX0jYTUUzI+1sioLWOsDHhRenmqfcRR7Aqqvfn6SATwS5QkSKsko6jm14fcilwvKJXvckD91hJdt3m8G50C5tgvEL8S8yqNTnGTcXkpAJ8ohy37v9JSElWNlhvoTD+6pyPgCdAhdzasgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y4692QGm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LsQQ9SDG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DGvA4CPQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I0yTLA1U; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y4692QGm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LsQQ9SDG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DGvA4CPQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I0yTLA1U"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E819333699;
+	Thu,  8 Jan 2026 07:17:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767856668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T5SmfBZ1yHHxnf/4/ZgoiVJWqyNsbO9/YDpiggKQw1Y=;
+	b=y4692QGm0WMaN1t0Lhc1d+AXVcIrww1IGDK14gg9X20wjTaOVRaAXpAVQkwCFS0waAHYFm
+	sZvlVEXn89F9/IBtA2uSTMJ4rtxnBiZDXqnjRUBzRP7ihRthT+C+fW2O0cTtnE8lyqCAAR
+	4bwanKo16OfAJEyoyig5h6FhKUwqKpI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767856668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T5SmfBZ1yHHxnf/4/ZgoiVJWqyNsbO9/YDpiggKQw1Y=;
+	b=LsQQ9SDG5UZQIjaScc3OkYVUJcQk1brfR/IOLSvoq8/Jm6cei32wRrSNYdMcsc9kram2bf
+	2Y+cuU1mpwtluLBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DGvA4CPQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=I0yTLA1U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767856667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T5SmfBZ1yHHxnf/4/ZgoiVJWqyNsbO9/YDpiggKQw1Y=;
+	b=DGvA4CPQo8LLI4qhZGqRBjafcMkDjj7WrMApxUGsrZfH5EKiWuY/lgBLBIxOgrQbSC1LJL
+	LI/R2PO+SWIou8MpuhEolXzq+yIk0ziXpJkTTXJsyjK6+iXIFPiLb7EpuRjOsrCmVuYY5T
+	8q8FR10zFd07dDH3HdgzxBmUIW9pIbE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767856667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T5SmfBZ1yHHxnf/4/ZgoiVJWqyNsbO9/YDpiggKQw1Y=;
+	b=I0yTLA1UAOG5dSd8N34wIJ2RudaZXp1dlWGPcEUD2nZ5V7axMbnc00ysOQCvL7uG8DUJmN
+	bxd9jaFQQIv6afBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C07213EA63;
+	Thu,  8 Jan 2026 07:17:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4JLkLRtaX2kiHAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Jan 2026 07:17:47 +0000
+Date: Thu, 08 Jan 2026 08:17:47 +0100
+Message-ID: <87jyxsh8tg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.19-rc5
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/radeon: Raise msi_addr_mask to 40 bits for
- pre-Bonaire
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Brett Creeley <brett.creeley@amd.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
- <20251224-pci-msi-addr-mask-v1-3-05a6fcb4b4c0@iscas.ac.cn>
- <15ec03f3-f0cf-45f7-b7f6-98b075533d3e@amd.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <15ec03f3-f0cf-45f7-b7f6-98b075533d3e@amd.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowACXtt2SUV9pJAwYBA--.18933S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFy5KrWUGFyUtw18Jr1rCrg_yoW8Cw4Upa
-	y8Ga98KrZIy34jkay7u39rZF1Yya10kayrWrZrK343u34Yvry2gFZIv3WUJa4kXr1ktw4j
-	vFyUG3W8ZFn5CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-	1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjTRNJ5oDUUUU
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: E819333699
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	TO_DN_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-On 1/7/26 23:20, Christian KÃ¶nig wrote:
-> On 12/24/25 04:10, Vivian Wang wrote:
->> The code was originally written using no_64bit_msi, which restricts the
->> device to 32-bit MSI addresses.
->>
->> Since msi_addr_mask is introduced, use DMA_BIT_MASK(40) instead of
->> DMA_BIT_MASK(32) here for msi_addr_mask, describing the restriction more
->> precisely and allowing these devices to work on platforms with MSI
->> doorbell address above 32-bit space, as long as it is within the
->> hardware restriction of 40-bit space.
->>
->> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
->> ---
->>  drivers/gpu/drm/radeon/radeon_irq_kms.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
->> index d550554a6f3f..ea519d43348b 100644
->> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
->> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
->> @@ -251,8 +251,8 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
->>  	 * IBM POWER servers, so we limit them
->>  	 */
->>  	if (rdev->family < CHIP_BONAIRE) {
->> -		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
->> -		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
->> +		dev_info(rdev->dev, "radeon: MSI limited to 40-bit\n");
->> +		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(40);
-> Well, that is not even remotely correct.
->
-> Please move that close to the dma_set_mask_and_coherent() call in radeon_device_init() (file radeon_device.c).
->
-> The check there is most likely already what you need. Should be pretty straight forward.
+Linus,
 
-Thanks. In that case, maybe this msi_addr_mask thing was overcomplicated
-after all. Maybe coherent_dma_mask is just the right thing to check anyway.
+please pull sound fixes for v6.19-rc5 from:
 
-I'll see if I can figure something out. Of course I need to keep the
-logic for Power still working...
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc5
 
-Vivian "dramforever" Wang
+The topmost commit is 9ed7a28225af02b74f61e7880d460db49db83758
+
+----------------------------------------------------------------
+
+sound fixes for 6.19-rc5
+
+A collection of small device-specific fixes.
+
+* ASoC Intel topology fixes for conflicting Bluetooth bits
+* Cleanups of ASoC drivers for superfluous NULL checks
+* Fix for error handling in the AC97 bus
+* A regression fix for TAS2781 speaker ID handling
+* HD-audio quirks
+
+----------------------------------------------------------------
+
+August Wikerfors (1):
+      ALSA: hda/tas2781: properly initialize speaker_id for TAS2563
+
+Bard Liao (1):
+      ASoC: SOF: Intel: add -bt tplg suffix if BT is present
+
+Chen-Yu Tsai (1):
+      ASoC: sun4i-spdif: Add missing kerneldoc fields for sun4i_spdif_quirks
+
+Haoxiang Li (1):
+      ALSA: ac97: fix a double free in snd_ac97_controller_register()
+
+Johan Hovold (4):
+      ASoC: codecs: pm4125: drop bogus container_of() error handling
+      ASoC: codecs: wcd937x: drop bogus container_of() error handling
+      ASoC: soc_sdw_utils: drop bogus container_of() error handling
+      ASoC: codecs: pm4125: clean up bind() device reference handling
+
+Mac Chiang (1):
+      ASoC: Intel: sof_sdw: shift SSP BT mask bits.
+
+Matou¹ Lánský (1):
+      ALSA: hda/realtek: Add quirk for Acer Nitro AN517-55
+
+Ruslan Krupitsa (1):
+      ALSA: hda/realtek: add HP Laptop 15s-eq1xxx mute LED quirk
+
+---
+ sound/ac97/bus.c                               | 10 +++++-----
+ sound/hda/codecs/realtek/alc269.c              |  2 ++
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  4 +++-
+ sound/soc/codecs/pm4125.c                      | 17 ++---------------
+ sound/soc/codecs/wcd937x.c                     |  5 -----
+ sound/soc/intel/boards/sof_sdw_common.h        |  6 +++---
+ sound/soc/sdw_utils/soc_sdw_utils.c            |  4 ----
+ sound/soc/sof/intel/hda.c                      | 14 +++++++++++++-
+ sound/soc/sunxi/sun4i-spdif.c                  |  2 ++
+ 9 files changed, 30 insertions(+), 34 deletions(-)
 
