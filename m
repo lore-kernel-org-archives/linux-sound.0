@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9EE32ED29;
-	Thu,  8 Jan 2026 21:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020AF33D51D;
+	Thu,  8 Jan 2026 21:53:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767909190; cv=none; b=LA5L6O6j3tx8yDjs/kzTZNbzS37ijO7xEm99blhW9v28VtpyXUn3SR5dFHwFqhdBkwkYVS+P84zTxm1FyJLGrMfGOEL4RTq3M6dIPGNKv7oq2zq8B13xh7rllfk7Y/F5ZMVve9YYuMTMUAR+T9ZKfqEspD7N2Hwwl7pDz3LUaH8=
+	t=1767909192; cv=none; b=BgRpy7FzkTYPm9d2ylcE7H1PF7xcs4v+NvrMFzIG9VeTxQ1gLlFRmHKFsJ8+RW/mh7jTY8imWL1crZN3D8tqLlq1a+230gODVYN+8UXP4xGXwNid5PviUBxw3TY8pAsgrZ6/uF7Y6oYaC5fjsAqYxIIdTSVhWpk5uE5LuAVJWhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767909190; c=relaxed/simple;
-	bh=cf1/6UwDYifaropgmsnpTKh6BSkF0gTiEZ0SJBzKquU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MP4it5RhWKHCx9gEzUT/fzLiBqEUH1OmDWojuHxT40V2+4aNJLbfxpK9+fnKqEiW0aoeLEQqWw5ZaufiB4AQt0brjWIpoJ9M7ux9xuUpDkN8bR5TTgZ/JkMkeXvxVoPKM6leeFLMHeZkXsaIw8+H/Q50g84GIqEXjQHM8goelJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YC7toaff; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767909192; c=relaxed/simple;
+	bh=ZzSqtnRtEj//N+Hdq6610QbqR1q6icmP3gNZvPkrh/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=t/oxQJvxurrLmvCcqqR86eKuMJ96DQjDdUdo91kWKB165VDT6ex4jkx/RTNyQnXYLvOMWhCZxELqvDfqRgKsaJHEDXhf1lgSKpZqTtEOhvH4Fg46RRo5rF3KQmt4TIBv5GN8fX7XJaXtXbTCUxPRtFMmR9r1t5TPB22OnJbaZDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sO1QXwVI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YC7toaff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 384E1C116C6;
-	Thu,  8 Jan 2026 21:53:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sO1QXwVI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9334C116C6;
+	Thu,  8 Jan 2026 21:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767909190;
-	bh=cf1/6UwDYifaropgmsnpTKh6BSkF0gTiEZ0SJBzKquU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YC7toaff6pOXBj5FKkg7kZjPdMg+By6pkp9qKXojQQuUolAW5d70m4AyQKkglb/DQ
-	 rUZxpY7ub+bOnl9HOhy/YcYWJgCYys+SCXe2uZgbFiBVobS9/IXm9pAcDqbsOlkl8m
-	 CELkS/erEti1G8QvOeUBFWicV5EZVsbGoL7UQdFkaMT74CCyM4DUqXsZCcOJs0NxZp
-	 LGIuExkJAgWZqPEkPS6gKD/Sl/EpO6CvxmSJaMmFT84sMTodBGnQQCec9unUuRkQWm
-	 icws57O8lHEeZ2yBOsD6YoEiu3jXkW//FQpDG+GXF7Jy02R9EIg12bhA48N9vFdCMv
-	 K4KP51K6mjl8w==
+	s=k20201202; t=1767909191;
+	bh=ZzSqtnRtEj//N+Hdq6610QbqR1q6icmP3gNZvPkrh/Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sO1QXwVINqVu47pfjHXVXs4H7rpJjNNp34Rg1gDh/eT3aa22OG0qIYIXX+Z25cIi9
+	 sw1iVJZnXh+yw+ErSsaMwWknfLTJFdXFTfeuAYWHKViMCcMONNIcirlHDQaj729otZ
+	 Mb1Gc7k1zU9gUDE+sQqV2Xjg2UfCdne/pXFOzxtfnPycMrjoLHgJnMa4b8mQBo+mla
+	 UpKUjpkbkwn6Fa9zWLWSQgovnWYff7Kj5UfBjXeXFW5wqsVagJ4lY+zcthCiKu8p58
+	 OQC0xe/QDw/m0NQ+25OF3shTehhuZeZ/aE2qwvrRmlDznL+EagZFBnW68ANruOorT9
+	 CALmDtTBBUskw==
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -34,10 +35,12 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5640: Add missing properties/node
-Date: Thu,  8 Jan 2026 15:53:05 -0600
-Message-ID: <20260108215307.1138515-1-robh@kernel.org>
+Subject: [PATCH 2/2] ASoC: dt-bindings: realtek,rt5640: Allow 7 for realtek,jack-detect-source
+Date: Thu,  8 Jan 2026 15:53:06 -0600
+Message-ID: <20260108215307.1138515-2-robh@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260108215307.1138515-1-robh@kernel.org>
+References: <20260108215307.1138515-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,41 +49,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The RT5640 has an MCLK pin and several users already define a clocks
-entry. A 'port' node is also in use and a common node for codecs.
+The driver accepts and uses a value of 7 for realtek,jack-detect-source.
+What exactly it means isn't clear though.
 
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../devicetree/bindings/sound/realtek,rt5640.yaml        | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/sound/realtek,rt5640.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-index 3f4f59287c1c..a0b8bf6cb110 100644
+index a0b8bf6cb110..cd95d7189d34 100644
 --- a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
 +++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-@@ -47,6 +47,12 @@ properties:
-   reg:
-     maxItems: 1
+@@ -104,6 +104,7 @@ properties:
+       - 4 # Use GPIO2 for jack-detect
+       - 5 # Use GPIO3 for jack-detect
+       - 6 # Use GPIO4 for jack-detect
++      - 7 # HDA?
  
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: mclk
-+
-   interrupts:
-     maxItems: 1
-     description: The CODEC's interrupt output.
-@@ -121,6 +127,9 @@ properties:
-       - 2 # Scale current by 1.0
-       - 3 # Scale current by 1.5
- 
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+
- required:
-   - compatible
-   - reg
+   realtek,jack-detect-not-inverted:
+     description:
 -- 
 2.51.0
 
