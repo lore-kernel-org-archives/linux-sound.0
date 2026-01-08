@@ -1,162 +1,192 @@
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AA93587A0
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 09:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465F343839B
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 09:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767865417; cv=none; b=Q2hKCMj+ERNWHEwfseNDH+zDCPyiVLBlw/876JXOov9+CzMdOg2GrOR2XXIe9IFtLnum4U6NTpHEKN3+88oR4AhFkEin4K5Rz7AV5SnCjwZUDvj1RCioLApJqGjpKfHE2pfO7g4YLLlU+zHkfE5eNeuh4To2aIJKBSDD3TxtY3o=
+	t=1767866151; cv=none; b=aLF0kXF1X7hIPacR47dNxZRpJS5CVVpYtirQx1qxE7MNxUn1pHFe6XccLDc6SGUK6Me5J1effwPpJUqOOAAqNcitAxjlMhi5Vaw6p3jZiK5fOJjB/1D7rVVu267tqseNFwgbib1ZDolJHVLelxl5QCb0GMsLYbD10VwwMuUeY38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767865417; c=relaxed/simple;
-	bh=T/YyaTdcu9Q2dPEDTBWA257lGsUEkmz/nCEEUKJjjpU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DHHkbu649FLxoTl3CBSSAdZbygvz0N/HE2AqTCNXHkL1xAEIc3rFDlhQQZ+L2KN+dMa5onaGcyzTW6mC34xhqK6CyZreGobCAol72wmM8oClLVrdJDnaR1BTQSzVGug0aM+DMV+3GvPzyMn93YXUSqEP1WlK2wowJHCm6nv3c9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=cS5DPDsB; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1767866151; c=relaxed/simple;
+	bh=3n90BbXpZmo7/97SyvwdOM2dgbMwLekUvvzKLPzma1k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IZ2TuYVplmWv0m51LykV7xIXsHic6vH+To/h5th2B4jNKYDkGq2k0+5Qe129td/WKtnr4bVGeDDYJnaUWieJoB35ve+1+ReySf6DW+tHzwpIq2nw5W4hKCrD8k++QeTnhhuNZuX1ljGB7FbsGi0W9DxK9elBi7bsw3BM0DX1Q3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8r59M/x; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="cS5DPDsB"
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id D3F8DC388F
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 11:43:25 +0200 (EET)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id F2BE1C36A4
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 11:43:24 +0200 (EET)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 46DEA20235E
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 11:43:24 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1767865404;
-	bh=mXo0irbNY2IXfVrun0XMX+jYxeQRfUkfceORyt5hAfY=;
-	h=Received:From:Subject:To;
-	b=cS5DPDsBurAutp71GAjnHqhaw/JAc1u1MgMcc9all/K+thevBT+SDewLUiSwGRU02
-	 7irlieiEO/j8++CA9aTha/o+KhE9Y0dHJUqTjA/3GmcTTsUtWIORGOw2OwsSBFRRnb
-	 bdzNOZx1Xwug/biy3b5qzhuQp0LT4jjATgHpvt+lH53ws5x8mRIgI+c8BCUOSABtkE
-	 eJNHmqMxW+LoLZl21D3FvVNzV9XI7cWJU+IoUdvUL+VY4r/E99X5bvW6lns/Oas+ch
-	 T41s2+5A1B6G/GvAq85/jTBYVkGc/ILtzGNF+nU8AXT/FNqsyxbE8dC/N+onGnugNo
-	 oAkUjHQ2XhKcg==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.208.169) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f169.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-382fb535b73so17159101fa.0
-        for <linux-sound@vger.kernel.org>;
- Thu, 08 Jan 2026 01:43:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtshyPSY9m1ghcB+51yfOyxKIRvURje3OWPo1GFAuwyiRBkRZTU7dhZ6Zh2GOXok9zRBwa2dmqsWO3Ng==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz1UPKNVZ6WzrqFQDdENuYuzTYjV0GUpAbyW1V50hikcswbwvX
-	uMuLAWh2vHnms3DQYZqkLOJY9G9CGCueLI4cR/aUOdacrLaqJ91wff++7bAySHUE5nCJ9AhRFEX
-	vbEUFBfWE2qEccxEsnKhAdWnBKVetSas=
-X-Google-Smtp-Source: 
- AGHT+IF4HOWqyM6OYSnApZIwhGS8Tpvn/fv//n5t8s0zNL6cCKPTjt5V0lEQOYi4Dskh8u++YjG2TinHQMVgsik1tfg=
-X-Received: by 2002:a2e:a581:0:b0:37b:b849:31c3 with SMTP id
- 38308e7fff4ca-382ff86a815mr16959911fa.44.1767865403830; Thu, 08 Jan 2026
- 01:43:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8r59M/x"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8b220ddc189so393583285a.0
+        for <linux-sound@vger.kernel.org>; Thu, 08 Jan 2026 01:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767866136; x=1768470936; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3jVrer7foxeDXiFbFRi4WTYBqb7mxG96n3TZ489PhHs=;
+        b=W8r59M/x5233SLH1np/nqaj04lXxmx0mLRj6Xoe2T8SFpzLE1xly5wvabQuw8wrAVR
+         ZRRuKtuNcb1IEEIM1WtCHPxrIqTaosmlD8ChFIOfqzJ5sXeA94oCHFwRLcX4Ac91UZpW
+         j98hTZYVloRap2Rl3HU+0GfJkThva03w04YMXd28T07qUTcl13nNyEcmvU4lGP8wZgJ4
+         q3ZsEpoJUtCXB8BXZ68Qns3ZowmKb1AiOEajm/dP0nKS5PHaVbcnnJPCw6JcMYPO7P5w
+         r7z/3Pty2ayaIYC9XC69n0lTs3rY91VQ8ZQEKbymxwAXWXfwUWZl/TT3mgRkLRRDIfMS
+         ejpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767866136; x=1768470936;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3jVrer7foxeDXiFbFRi4WTYBqb7mxG96n3TZ489PhHs=;
+        b=Lot/eHEto7Ne2zNr5zt5HKMkAebJ5v3LVGQ7H8wvt4qJoZEP60U+UD4IXMB7j14KC2
+         GMUVe7//wvgpLrVdCNZxxwxS/B/bo+2Hi7AvhDAQQkdULvtYwnVZ4sN1n3Djxud0Ceqj
+         Cw9w4bjgvw3vic4wTLhF33PLQsWlveQjtZoH/bxwojga3c1IfWPrXYVISxGBrCr3G7fD
+         rX0yGwFI75ULFexUYtg6JnAw80ZBZQjFOvkpoRXFftRbPYrCPrj6/nBnANQJ4c5Cg4d5
+         QlG7qrhg+/75nF//PfPDnVe3jvBjHkeO2W6S9lsicMmo55afpiJw7hJO0HxQwCTs0JEL
+         vHYw==
+X-Forwarded-Encrypted: i=1; AJvYcCW33umL7icdU/AxdMKjqwl2KTaHofLtSO8mR07+vD2VcSuJX7ROdG3otAYyP+VQm0QHUdFFyfc7qalHhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyzs8YAksoCp5M0PaJlW9S5Ctr22Jn0Q/HBxiXiY6UtyF03wHS3
+	jNbZ5JPPvBqKfNRn2UkObkJqV2Frgqo1pazgjVpQCHeAdV+h4M/1Pv9b79xJcg==
+X-Gm-Gg: AY/fxX7/OxsXB3qmgEisADWFnHf4anS496TJHVtUP6hWycznelaLbbWwqB1Nb2pll6c
+	4GXHitV6QchihBpQzv11DbUdfy7rbhY1FEU1Egj4RfsUSI4EKHIQ/j8B8gG8HnimR7CijcgzTSb
+	Kdwe35dMohOquRXeBdzSOxuB8EDNtUnUIUGDr1Nb1JgpkW0LNCrgiW0xVrwx4EcG3zMv+o8HPNR
+	uyn/kQ1973TwVxkrGZHc48aF15JZjk3Y17CDBtNTVvMUED3NzNUMzuflSCDMx5ZnZsWet8mRBjg
+	orHQE4cgoiSGlZ4hR8Tb5hrMTl1Gt+6MHjHedErRRHVH0vdcn/gztIYev5hbaPYiQjpxX5bpYki
+	jGTAtUR2QYraM018n2gSn1ayig9hDu41dthoQUSqcy10RWFWrZmv/3VF9qg7uH+qZ/D6YWiTKD6
+	mnT9p8DqBmN7ZHd3mEZALXg9xg75NhOtBI7i4ABRpW1gW6lT0o7jSRjnV9CZek6CB83Sty2YQTd
+	Qrc9gC6qV4ut86q0ZKiRg==
+X-Google-Smtp-Source: AGHT+IHrWmrWZovQhYEcCj3OW2qe/OMr35yE9xC18wSEU8hxPlfPFqonbAeAYlH/zyT0y2ccrqO9lw==
+X-Received: by 2002:a05:6a00:9085:b0:7e8:4471:8de with SMTP id d2e1a72fcca58-81b7fbc91b7mr5136728b3a.63.1767859762235;
+        Thu, 08 Jan 2026 00:09:22 -0800 (PST)
+Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bafe991dsm6900582b3a.16.2026.01.08.00.09.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 00:09:21 -0800 (PST)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	sre@kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: jserv@ccns.ncku.edu.tw,
+	eleanor15x@gmail.com,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	krzysztof.kozlowski@oss.qualcomm.com,
+	Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: [PATCH v2 3/6] dt-bindings: input: google,goldfish-events-keypad: Convert to DT schema
+Date: Thu,  8 Jan 2026 08:08:33 +0000
+Message-ID: <20260108080836.3777829-4-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+In-Reply-To: <20260108080836.3777829-1-visitorckw@gmail.com>
+References: <20260108080836.3777829-1-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108093650.1142176-1-matthew.schwartz@linux.dev>
-In-Reply-To: <20260108093650.1142176-1-matthew.schwartz@linux.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 8 Jan 2026 11:43:12 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwGvibcndLz-Qd1awQ_E3SybbZ5--aROWZYJJrHTw1iOAA@mail.gmail.com>
-X-Gm-Features: AQt7F2pFolTlntfZHnsAnr0DeAUdzyoG9JqA6J9pZFuOHHITqqRddXu39Nry8WY
-Message-ID: 
- <CAGwozwGvibcndLz-Qd1awQ_E3SybbZ5--aROWZYJJrHTw1iOAA@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: hda/tas2781: Skip UEFI calibration on ASUS ROG
- Xbox Ally X
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Baojun Xu <baojun.xu@ti.com>,
- tiwai@suse.de,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <176786540451.2367382.14648423176295711733@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Thu, 8 Jan 2026 at 11:38, Matthew Schwartz
-<matthew.schwartz@linux.dev> wrote:
->
-> There is currently an issue with UEFI calibration data parsing for some
-> TAS devices, like the ASUS ROG Xbox Ally X (RC73XA), that causes audio
-> quality issues such as gaps in playback. Until the issue is root caused
-> and fixed, add a quirk to skip using the UEFI calibration data and fall
-> back to using the calibration data provided by the DSP firmware, which
-> restores full speaker functionality on affected devices.
->
-> Cc: stable@vger.kernel.org # 6.18
-> Link: https://lore.kernel.org/all/160aef32646c4d5498cbfd624fd683cc@ti.com/
-> Closes: https://lore.kernel.org/all/0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev/
-> Suggested-by: Baojun Xu <baojun.xu@ti.com>
+Convert the Android Goldfish Events Keypad binding to DT schema format.
+Move the file to the input directory to match the subsystem.
+Update the example node name to 'keypad' to comply with generic node
+naming standards.
 
-Reviewed-by: Antheas Kapenekakis <lkml@antheas.dev>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
+Changes in v2:
+- Add reference to input.yaml schema.
+- Change additionalProperties to unevaluatedProperties: false.
 
+ .../devicetree/bindings/goldfish/events.txt   | 17 --------
+ .../input/google,goldfish-events-keypad.yaml  | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/goldfish/events.txt
+ create mode 100644 Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
 
-> Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
-> ---
-> v1->v2: drop wrong Fixes tag, amend commit to clarify suspected root cause
-> and workaround being used.
-> ---
->  sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> index c8619995b1d7..ec3761050cab 100644
-> --- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> +++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> @@ -60,6 +60,7 @@ struct tas2781_hda_i2c_priv {
->         int (*save_calibration)(struct tas2781_hda *h);
->
->         int hda_chip_id;
-> +       bool skip_calibration;
->  };
->
->  static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
-> @@ -489,7 +490,8 @@ static void tasdevice_dspfw_init(void *context)
->         /* If calibrated data occurs error, dsp will still works with default
->          * calibrated data inside algo.
->          */
-> -       hda_priv->save_calibration(tas_hda);
-> +       if (!hda_priv->skip_calibration)
-> +               hda_priv->save_calibration(tas_hda);
->  }
->
->  static void tasdev_fw_ready(const struct firmware *fmw, void *context)
-> @@ -546,6 +548,7 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
->         void *master_data)
->  {
->         struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
-> +       struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
->         struct hda_component_parent *parent = master_data;
->         struct hda_component *comp;
->         struct hda_codec *codec;
-> @@ -571,6 +574,14 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
->                 break;
->         }
->
-> +       /*
-> +        * Using ASUS ROG Xbox Ally X (RC73XA) UEFI calibration data
-> +        * causes audio dropouts during playback, use fallback data
-> +        * from DSP firmware as a workaround.
-> +        */
-> +       if (codec->core.subsystem_id == 0x10431384)
-> +               hda_priv->skip_calibration = true;
-> +
->         pm_runtime_get_sync(dev);
->
->         comp->dev = dev;
-> --
-> 2.52.0
->
->
+diff --git a/Documentation/devicetree/bindings/goldfish/events.txt b/Documentation/devicetree/bindings/goldfish/events.txt
+deleted file mode 100644
+index 5babf46317a4..000000000000
+--- a/Documentation/devicetree/bindings/goldfish/events.txt
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Android Goldfish Events Keypad
+-
+-Android goldfish events keypad device generated by android emulator.
+-
+-Required properties:
+-
+-- compatible : should contain "google,goldfish-events-keypad" to match emulator
+-- reg        : <registers mapping>
+-- interrupts : <interrupt mapping>
+-
+-Example:
+-
+-	goldfish-events@9040000 {
+-		compatible = "google,goldfish-events-keypad";
+-		reg = <0x9040000 0x1000>;
+-		interrupts = <0x5>;
+-	};
+diff --git a/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml b/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
+new file mode 100644
+index 000000000000..4d359c9be600
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/google,goldfish-events-keypad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Android Goldfish Events Keypad
++
++maintainers:
++  - Kuan-Wei Chiu <visitorckw@gmail.com>
++
++allOf:
++  - $ref: input.yaml#
++
++description:
++  Android goldfish events keypad device generated by android emulator.
++
++properties:
++  compatible:
++    const: google,goldfish-events-keypad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    keypad@9040000 {
++        compatible = "google,goldfish-events-keypad";
++        reg = <0x9040000 0x1000>;
++        interrupts = <0x5>;
++    };
+-- 
+2.52.0.457.g6b5491de43-goog
 
