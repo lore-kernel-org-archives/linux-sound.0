@@ -1,133 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C274F38B9A6
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 07:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4503637C0F3
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 08:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767858847; cv=none; b=n5W7MoO3rBOjuxl2UvhV/f4Agz/jZFQbFpQKWcqx/eQ/sdom8CgxmLZ7cn8vnl2f+IMmBlO3MZhS9DaqfoNmyMfrXnMPIrNPoFHgqavB9q8rUoYl8R82UKIe8THbxYFJZEc6AgeaL+vZe2AgSDBWGJ7wBkucfm0VcqjrTIJY3VY=
+	t=1767859783; cv=none; b=SH5D4wK3kE+KAO1wTfW2adbTn+DvMvIPzRnGjMOUbY8Rh/qIVYg6My/TZ75Z79yDyPCT5ygN+EJbCGl73Y0RTbQbb63d8QE7u8TXPlR+2jCjuuha5uGtP9MgvmH8d94FCWjrrtr1gqxTWh22ps5PkgtLqj/CtWWqahUNmr1Qwj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767858847; c=relaxed/simple;
-	bh=Oat8Ou69Boc/QWkzBIaS0AdsCze4tkLUTDL+HxfGJK0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hn9M+XgYcFoep8GNwuEQUtjtIz30P3ZbnmXxrIXTxl5gbCNjzHCNBqcawhwzBYI5M4QQRSbCsKj7H7aa6myo0ERx5M3HWSdmj79KZU0Lw2CGe5yNr6S4AHQEpg14h44TZFvnalBT5TMXEL4Nou5vYibbiqllnKcu2wTrtiAy9Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vut6KfTb; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767859783; c=relaxed/simple;
+	bh=BkuzIM+xJSw6D9gd0ClP6IeKUS3iAxeuX1yHGi4chXw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eXDibF7mof7i3QBOxLv1zZ8/LVZMhYjs6nebKitbkjgEwMaxVDLCpyQx+QWnXCCVSiapEX5TtbmI9UQrU7q9IMPoThjlqt3rIW4w0SAoY1jW1fb0VLp9TYhcencMHiNAJQlqFIZtQi0M5Bi1iUJyl2lNeexzXYZHsWLIoxVvWm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WbMtxix7; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vut6KfTb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767858842; x=1799394842;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Oat8Ou69Boc/QWkzBIaS0AdsCze4tkLUTDL+HxfGJK0=;
-  b=Vut6KfTbIDP7ttNyWHRzNDotJVg1oRMYZOk4Ii5VkF9YJjrEFF8DY785
-   6wfUjkX/trXJ7S+eWU06jjTrZ+tjn1VEXHxrvto9/osTH65w3OiVuODbs
-   pIL1dXIQXuXe2vtEr5LQiAO55MVait8LdOBvM5Zh9muSzrkAaCtUuUwWe
-   d67nsy80NjhkALFf80t6yZaMg6ph8tixwUBeOW7AyJT5z7RKue2qQf/uZ
-   bom8m+EwmIE/13AL+qoXDg+1AdlKEnfLn9zZbfQzKvcwooqk51g0EDtUF
-   VV6nKilBl7FoijSzTSwapYuZmLSPVLFsqqTiUbo/yYkyNoQpghucPVYrL
-   Q==;
-X-CSE-ConnectionGUID: 6EV37zJ1R+WWbOoYbn65vw==
-X-CSE-MsgGUID: G+dD01MyQd+WeItjx8EGBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69145176"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="69145176"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 23:53:58 -0800
-X-CSE-ConnectionGUID: BLtfOUCgQEKaL5ANX05Clw==
-X-CSE-MsgGUID: w9c9+4rnQrS2SNMkEYMgcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="207273581"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO [10.245.246.92]) ([10.245.246.92])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 23:53:57 -0800
-Message-ID: <0a0234c5-b6c6-4318-b627-d75e75a7598c@linux.intel.com>
-Date: Thu, 8 Jan 2026 09:53:17 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WbMtxix7"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so1979400b3a.2
+        for <linux-sound@vger.kernel.org>; Thu, 08 Jan 2026 00:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767859767; x=1768464567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cM8S9Nf7P6gRpX7oKCBS4znehPOLHvbNE32ZCa5tCAA=;
+        b=WbMtxix77iyRiMu/v6TL6S3OE4lOZf0DwNv0JOtIuj0UWdibRbv7EvHx/rC4SrGzEI
+         j8FIUcuUbWNqf3OHvvwnjp16n/ZVsN3Zqqo2u/sPVCPcDY7KRQCIPkCfqBx+MSCgeNrj
+         FhglvRwKieoa43KClvFE1X8AXiHAqWN1u2qcBtrQyxADPdHHAp5J7G0PeJ+VGcmzc16H
+         Qr6mlPaoK+3KHnALV+6lbtMfVlf8sNcOAUz9K0VWPh1zGndJCuKoGfn46pYcTUej8gWW
+         wn3jYiiY6+sQPI/3ufuLrH77ZZvcplgWmNlX601WCLYmsP8NVyDteo8AjjAUd5uAhraR
+         OnKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767859767; x=1768464567;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cM8S9Nf7P6gRpX7oKCBS4znehPOLHvbNE32ZCa5tCAA=;
+        b=iyXmQqauxrN5nTLzlnuzAN7Kprny+kslajdUREN8MkDUkpdG92KLOKEG7VI7x8ndGj
+         y6+U73mpUrnNnMfITF2WeZjen8v11QusF4EM88oUDFuN+44mgL6ncOzX9OUz0Evdtyx8
+         PIkV40rzBGhx+9sVeAejndhcGyDKwZu0QnVgEM4Dh503mnQmfVXsyJ53Op6y7IDNKdVw
+         ckpOFjw44fFXISsGU5ArrIKb0mW18q+nxetGL66rn0vJsyFZqcn3cKz09UvNJl5N3GEh
+         I2AD57fB1vnncN8N53Oud7o61pE/4NdWAlNiMyemox2ki56bqwoKUEbMyhG/b9F6N4By
+         4z7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVchOLzUixSZACLvq/7M1HxBAs7PQkIhsvijd9bvC8IX9kdfXVf5DIg1orhjjItsNxgNSWHqQLMPMfU0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxW4oApWghin2A6uS7MLJPxi1rsnIY9F0V9kYGyGL1/pmzdpLc
+	GxNU/2KNtD9TJSEOvTMc6XW4sRSD/eUQPMFt8cPVvQ4Hav4vLXfB9V5T
+X-Gm-Gg: AY/fxX7b0JVOosf9cT82E+X4/fWUsvKLvfbMJnl+43NeUK5PaugQUSkkTY0uEpv5zly
+	oCt8RiE2InoSjPo8ROvy5R+vLCY9HovmauQvAcQbjMZ6lpCGpuw+R088lgBhdLcKefUv1SBMoFH
+	0rM5NoWF1anOWjk/bxu5G0tVg0tcwHgZHuRBziwqEM5zj8vVCsyDCrrjC1IAeR+ziVpWOMcZyc+
+	lw1+iGEBw03dHh4Y+XaAl0kZZZCuM6wU99C5xY43mZE4t7dqIB6ReNotRKwdBTjU89LjAMtHIyQ
+	iBz/Rc2XIiMaNi7GkJYlznwkVNNE1qFbhV+RzgkzvaBkhSyyB5dhkr80pt5exg6a4ex+wgcUg86
+	npvHH/fUp+HCTwYXldxFIDYFp9gXsdoQsV/AcpPD5X5EtR8+bFd+5rLTAtUvzheHcWxuVnWmm03
+	qxMfx0cXPoHtjCvBLhOIJoG/y5cjGMVSyUymxV95NI8i0bf8afm/RN3tzupGahwuRF+EVFn+q7P
+	RF4sX7nc0q3+Ibme6Pn+NNptSeMza8B
+X-Google-Smtp-Source: AGHT+IHkLLcdy5t5w8lcYwpa7aN5PM2YSQikFaFZHwIq35VG+97ooL0I8Sxc+NQu2jzK08rf+aGvdA==
+X-Received: by 2002:a05:6a00:1f09:b0:781:16de:cc1a with SMTP id d2e1a72fcca58-81b806c7544mr4661904b3a.32.1767859766947;
+        Thu, 08 Jan 2026 00:09:26 -0800 (PST)
+Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bafe991dsm6900582b3a.16.2026.01.08.00.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 00:09:26 -0800 (PST)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	sre@kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: jserv@ccns.ncku.edu.tw,
+	eleanor15x@gmail.com,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	krzysztof.kozlowski@oss.qualcomm.com,
+	Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: [PATCH v2 4/6] dt-bindings: power: supply: google,goldfish-battery: Convert to DT schema
+Date: Thu,  8 Jan 2026 08:08:34 +0000
+Message-ID: <20260108080836.3777829-5-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+In-Reply-To: <20260108080836.3777829-1-visitorckw@gmail.com>
+References: <20260108080836.3777829-1-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] Samsung Galaxy Book 4 Ultra - MAX98390 speakers not
- supported on MTL platform
-To: =?UTF-8?Q?Jos=C3=A9_Augusto_de_Almeida_Neto?= <jaalneto@hotmail.com>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <PH3PPF0A8D5CDB5873FA91A7F768F4E2F10D984A@PH3PPF0A8D5CDB5.namprd10.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <PH3PPF0A8D5CDB5873FA91A7F768F4E2F10D984A@PH3PPF0A8D5CDB5.namprd10.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi José,
+Convert the Android Goldfish Battery binding to DT schema format.
+Move the file to the power/supply directory to match the subsystem.
+Update the example node name to 'battery' to comply with generic node
+naming standards.
 
-The machine likely similar to Book 4 Pro, it is an HDA+companion amp setup:
-https://github.com/thesofproject/linux/issues/5002
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
+Changes in v2:
+- Add reference to power-supply.yaml schema.
+- Change additionalProperties to unevaluatedProperties: false.
 
-The bounty for Book 4 Pro resulted (as far as I know) working audio,
-which can be replicated:
-https://github.com/stephanlensky/galaxy-book4-linux-sound
+ .../devicetree/bindings/goldfish/battery.txt  | 17 --------
+ .../power/supply/google,goldfish-battery.yaml | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/goldfish/battery.txt
+ create mode 100644 Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
 
-You might need to add the quirk for the Ultra and by luck it might work
-as well.
-
-SOF is not needed, used in these machines as they are pure HDA devices.
-
+diff --git a/Documentation/devicetree/bindings/goldfish/battery.txt b/Documentation/devicetree/bindings/goldfish/battery.txt
+deleted file mode 100644
+index 4fb613933214..000000000000
+--- a/Documentation/devicetree/bindings/goldfish/battery.txt
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Android Goldfish Battery
+-
+-Android goldfish battery device generated by android emulator.
+-
+-Required properties:
+-
+-- compatible : should contain "google,goldfish-battery" to match emulator
+-- reg        : <registers mapping>
+-- interrupts : <interrupt mapping>
+-
+-Example:
+-
+-	goldfish_battery@9020000 {
+-		compatible = "google,goldfish-battery";
+-		reg = <0x9020000 0x1000>;
+-		interrupts = <0x3>;
+-	};
+diff --git a/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml b/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
+new file mode 100644
+index 000000000000..909252d91c16
+--- /dev/null
++++ b/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/power/supply/google,goldfish-battery.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Android Goldfish Battery
++
++maintainers:
++  - Kuan-Wei Chiu <visitorckw@gmail.com>
++
++allOf:
++  - $ref: power-supply.yaml#
++
++description:
++  Android goldfish battery device generated by Android emulator.
++
++properties:
++  compatible:
++    const: google,goldfish-battery
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    battery@9020000 {
++        compatible = "google,goldfish-battery";
++        reg = <0x9020000 0x1000>;
++        interrupts = <0x3>;
++    };
 -- 
-Péter
-
-On 08/01/2026 00:26, José Augusto de Almeida Neto wrote:
-> Hi ALSA developers,
-> 
-> I'm reporting a hardware support issue with the Samsung Galaxy Book 4 Ultra
-> (NP960XGL-XG1BR) running on Intel Meteor Lake (MTL) platform.
-> 
-> SUMMARY:
-> The laptop has MAX98390 smart speaker amplifiers that are not supported in
-> the current Linux kernel. Headphones work (ALC298 HDA codec) but speakers
-> are completely non-functional.
-> 
-> HARDWARE:
-> - System: Samsung Galaxy Book 4 Ultra (NP960XGL-XG1BR)
-> - CPU: Intel Meteor Lake-P
-> - Audio Controller: Intel MTL HD Audio (8086:7728)
-> - HDA Codec: Realtek ALC298 (working for headphones)
-> - Speaker Amps: 4x Maxim MAX98390 on I2C bus 2 (addresses 0x38, 0x39,
-> 0x3C, 0x3D)
-> - Kernel: 6.17.9 (also tested on 6.8.0 mainline)
-> 
-> ROOT CAUSE:
-> 1. No machine driver match in soc-acpi-intel-mtl-match.c for Samsung +
-> MAX98390
-> 2. No SOF topology file for MTL + HDA + MAX98390 combination
-> 3. NHLT only shows SSP2 (Bluetooth), no SSP configured for speakers
-> 4. SOF falls back to generic skl_hda_dsp_generic (2-channel HDA only)
-> 
-> VERIFICATION:
-> - MAX98390 chips respond on I2C (revision 0x42 confirmed on all 4 chips)
-> - ACPI device MAX98390:00 present (status 15 - enabled)
-> - ALC298 speaker DAC receives audio but no output from physical speakers
-> - No I2S/TDM connection to MAX98390 amplifiers
-> 
-> I have collected detailed technical information including:
-> - DSDT and NHLT ACPI tables
-> - Full HDA codec dump
-> - I2C bus scans and MAX98390 register reads
-> - dmesg logs showing current SOF behavior
-> 
-> Full detailed report: BUG_REPORT.md attached
-> 
-> QUESTION:
-> Is there ongoing work to support MAX98390 on Meteor Lake platforms?
-> I'm willing to test patches and provide additional debugging information.
-> 
-> Thank you,
-> Jose
-> 
-
+2.52.0.457.g6b5491de43-goog
 
