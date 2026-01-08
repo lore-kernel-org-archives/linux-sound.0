@@ -1,113 +1,114 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E8C32BF55
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 05:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2702133BBC6;
+	Thu,  8 Jan 2026 06:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767851100; cv=none; b=ZkL49ybRhdF6ZOO8H1tunaKAsfVnuwDncVcXudKTVexJJvPSoHZzRwPh7e07i/Q1WjbGJ3J+miS0XTr6XfYxmhTJWtlWPksDDlsHbkqT/67pC7W9gAL2dXijXu/SxiQQuQzvEHRba0DutBQC5j/YW01vA7frqKY+dqPFq6GsUj8=
+	t=1767854534; cv=none; b=q5vGpdiCODDfcWbuMzSIpjoLQJNAIchV+/78Aa+6mhmz9WS/2IMDGhtEVJpwZQ6XMW5zsiW6py5LGARdTHKItjZYFBAYMvrWdh+YwQOCgKQCNRTspF2KiW+4BRmmiNIlb4eIKhu3aOXCB0DW30uI5hUkInrVr6iOjw/EIzFLAyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767851100; c=relaxed/simple;
-	bh=83hMrfD4Fq+rbllC/UgUpAibyMdmCI4nkIk8uf15amY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NfhevXTky+qpzZ30QWxT5EjdgWS2XPie7paANx3NFO76rlk+UQYIJPOfDQ0pQF7Et+x627TlEC3A4BIQZISDRkBsjhOJ+tFdZ57+cWqXG0LVXYogrVFQe9+Dgs6WsEKWolHOPVRrv0HwZsomDwnrM/7pDO+YXmOs4NlSlIZ3NBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L40ygFMK; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L40ygFMK"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767851094;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ihOiMefa8nZKz5PB3yBRxWRObBZpFoE38eiFZWgVW/Y=;
-	b=L40ygFMKu57l6l59NOUteBE/PFftAGbVzgTcviXCA/MXx58ovDauTapCSD8PjNho5XDOaX
-	fYb05R7EK06rBw1qZeZbi4zVVCdSMX9QtJSATc6WyqjsTcWA+NV2BaN8t9Vm9NDPMed+K0
-	8tKQ06xloVfzztDdl0xHBBVhFYs3qgc=
-From: Matthew Schwartz <matthew.schwartz@linux.dev>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Matthew Schwartz <matthew.schwartz@linux.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/tas2781: Skip UEFI calibration on ASUS ROG Xbox Ally X
-Date: Wed,  7 Jan 2026 21:40:36 -0800
-Message-ID: <20260108054036.11229-1-matthew.schwartz@linux.dev>
+	s=arc-20240116; t=1767854534; c=relaxed/simple;
+	bh=ivIqnI2zEUjC4OJwj+vb1q+Ivmz424hYR9nY7UVpNWQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=moTGtnRtqjDR8kN6WtR4ZXGrTC5MJSIk82nlSaPlUM3i1x1ArqWEdbcf3q7i3Vp1+6PbT6XemJLYosZd5X214bwom6VJwFir9LfAHgG7tl33h+Mhiam1GXnd3/jk2CVJl8WA0dczTl0lthqZcM1GYv3RRpKf9OeNkCH4i+lVf0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [192.168.0.105] (unknown [114.241.82.145])
+	by APP-03 (Coremail) with SMTP id rQCowACXtt2SUV9pJAwYBA--.18933S2;
+	Thu, 08 Jan 2026 14:41:23 +0800 (CST)
+Message-ID: <8c16931b-8637-43c3-a2db-5c66d8865124@iscas.ac.cn>
+Date: Thu, 8 Jan 2026 14:41:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] drm/radeon: Raise msi_addr_mask to 40 bits for
+ pre-Bonaire
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Brett Creeley <brett.creeley@amd.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20251224-pci-msi-addr-mask-v1-0-05a6fcb4b4c0@iscas.ac.cn>
+ <20251224-pci-msi-addr-mask-v1-3-05a6fcb4b4c0@iscas.ac.cn>
+ <15ec03f3-f0cf-45f7-b7f6-98b075533d3e@amd.com>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <15ec03f3-f0cf-45f7-b7f6-98b075533d3e@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:rQCowACXtt2SUV9pJAwYBA--.18933S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFy5KrWUGFyUtw18Jr1rCrg_yoW8Cw4Upa
+	y8Ga98KrZIy34jkay7u39rZF1Yya10kayrWrZrK343u34Yvry2gFZIv3WUJa4kXr1ktw4j
+	vFyUG3W8ZFn5CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+	1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+	evJa73UjIFyTuYvjTRNJ5oDUUUU
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-According to TI, there is an issue with the UEFI calibration result on
-some devices where the calibration can cause audio dropouts and other
-quality issues. The ASUS ROG Xbox Ally X (RC73XA) is one such device.
+On 1/7/26 23:20, Christian König wrote:
+> On 12/24/25 04:10, Vivian Wang wrote:
+>> The code was originally written using no_64bit_msi, which restricts the
+>> device to 32-bit MSI addresses.
+>>
+>> Since msi_addr_mask is introduced, use DMA_BIT_MASK(40) instead of
+>> DMA_BIT_MASK(32) here for msi_addr_mask, describing the restriction more
+>> precisely and allowing these devices to work on platforms with MSI
+>> doorbell address above 32-bit space, as long as it is within the
+>> hardware restriction of 40-bit space.
+>>
+>> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+>> ---
+>>  drivers/gpu/drm/radeon/radeon_irq_kms.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> index d550554a6f3f..ea519d43348b 100644
+>> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+>> @@ -251,8 +251,8 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
+>>  	 * IBM POWER servers, so we limit them
+>>  	 */
+>>  	if (rdev->family < CHIP_BONAIRE) {
+>> -		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
+>> -		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
+>> +		dev_info(rdev->dev, "radeon: MSI limited to 40-bit\n");
+>> +		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(40);
+> Well, that is not even remotely correct.
+>
+> Please move that close to the dma_set_mask_and_coherent() call in radeon_device_init() (file radeon_device.c).
+>
+> The check there is most likely already what you need. Should be pretty straight forward.
 
-Skipping the UEFI calibration result and using the fallback in the DSP
-firmware fixes the audio issues.
+Thanks. In that case, maybe this msi_addr_mask thing was overcomplicated
+after all. Maybe coherent_dma_mask is just the right thing to check anyway.
 
-Fixes: 945865a0ddf3 ("ALSA: hda/tas2781: fix speaker id retrieval for multiple probes")
-Cc: stable@vger.kernel.org # 6.18
-Link: https://lore.kernel.org/all/160aef32646c4d5498cbfd624fd683cc@ti.com/
-Closes: https://lore.kernel.org/all/0ba100d0-9b6f-4a3b-bffa-61abe1b46cd5@linux.dev/
-Suggested-by: Baojun Xu <baojun.xu@ti.com>
-Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
----
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+I'll see if I can figure something out. Of course I need to keep the
+logic for Power still working...
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index c8619995b1d7..ec3761050cab 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -60,6 +60,7 @@ struct tas2781_hda_i2c_priv {
- 	int (*save_calibration)(struct tas2781_hda *h);
- 
- 	int hda_chip_id;
-+	bool skip_calibration;
- };
- 
- static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
-@@ -489,7 +490,8 @@ static void tasdevice_dspfw_init(void *context)
- 	/* If calibrated data occurs error, dsp will still works with default
- 	 * calibrated data inside algo.
- 	 */
--	hda_priv->save_calibration(tas_hda);
-+	if (!hda_priv->skip_calibration)
-+		hda_priv->save_calibration(tas_hda);
- }
- 
- static void tasdev_fw_ready(const struct firmware *fmw, void *context)
-@@ -546,6 +548,7 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
- 	void *master_data)
- {
- 	struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
-+	struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
- 	struct hda_component_parent *parent = master_data;
- 	struct hda_component *comp;
- 	struct hda_codec *codec;
-@@ -571,6 +574,14 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
- 		break;
- 	}
- 
-+	/*
-+	 * ASUS ROG Xbox Ally X (RC73XA) UEFI calibration data
-+	 * causes audio dropouts during playback, use fallback data
-+	 * from DSP firmware instead.
-+	 */
-+	if (codec->core.subsystem_id == 0x10431384)
-+		hda_priv->skip_calibration = true;
-+
- 	pm_runtime_get_sync(dev);
- 
- 	comp->dev = dev;
--- 
-2.52.0
+Vivian "dramforever" Wang
 
