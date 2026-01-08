@@ -1,136 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3D132AAA1
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 07:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C274F38B9A6
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 07:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767856963; cv=none; b=N2vsiyuv9BgrNeF+JcBSb2nWiZTEPkpgT2R4cqFWPIWNnZaEN6Z+QZOBCLUknJ1pxWmReNdPYYLOlcyLsIYfEn0SBV82nuIf88rYiI7FYSA9t8qAA5O5EXjhzUps/jLZjO7i3QIL21EAJbTMl//vmguxljorbks36tLVh8Xpz4E=
+	t=1767858847; cv=none; b=n5W7MoO3rBOjuxl2UvhV/f4Agz/jZFQbFpQKWcqx/eQ/sdom8CgxmLZ7cn8vnl2f+IMmBlO3MZhS9DaqfoNmyMfrXnMPIrNPoFHgqavB9q8rUoYl8R82UKIe8THbxYFJZEc6AgeaL+vZe2AgSDBWGJ7wBkucfm0VcqjrTIJY3VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767856963; c=relaxed/simple;
-	bh=C0x9Us3kZSNBZXg1ryEpxMecRoJB/tTZRgsadALeFrs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sK1fPTLB8ot4IdjbQYXLIPFo520sYODVcbt7lWmxXuCvq1gqGddUuNZhmjJu4JAvXbWS9FTGWSthKhRCR0JRpzt87MvwyE6ot5xq9G+s+L8Rr96OvVuu5NPUgPSnDNWUoevn7oiaCEKF59deXu6lmBhLrvUj9bsWoqdFulfnh0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1oIsKLmo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iSt/2a0u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K2h65fjR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xGz7iFgT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1767858847; c=relaxed/simple;
+	bh=Oat8Ou69Boc/QWkzBIaS0AdsCze4tkLUTDL+HxfGJK0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hn9M+XgYcFoep8GNwuEQUtjtIz30P3ZbnmXxrIXTxl5gbCNjzHCNBqcawhwzBYI5M4QQRSbCsKj7H7aa6myo0ERx5M3HWSdmj79KZU0Lw2CGe5yNr6S4AHQEpg14h44TZFvnalBT5TMXEL4Nou5vYibbiqllnKcu2wTrtiAy9Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vut6KfTb; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1oIsKLmo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iSt/2a0u";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K2h65fjR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xGz7iFgT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DFC6D5BD4B;
-	Thu,  8 Jan 2026 07:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767856957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=15R0s/8wnRrsIExoQFc/IdXdRPV23JX8M6kBTR46dWM=;
-	b=1oIsKLmoZuut/WrNY9J8rUlrPWBsIwr+5bBhptcDp/kn9rixg7/L0iAz8XwYP4j3FwWePA
-	mA2g+SMhUa0plH5bOLaKXU4+tfiR9Kvb4hE098moWhdvp8xol6ZrNcIxAuTyUUtmls5cnp
-	b9lPzMJZjSIlBy0tuOPZgZe3jJ2Z5O4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767856957;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=15R0s/8wnRrsIExoQFc/IdXdRPV23JX8M6kBTR46dWM=;
-	b=iSt/2a0ur1hYpf66US+9UqDfP5V+2vh3qUOh0jcC1W4d86d3/RfeVPDu3zyuacS74GGHKS
-	aLuFO2ZrRqbFOBCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=K2h65fjR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xGz7iFgT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767856955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=15R0s/8wnRrsIExoQFc/IdXdRPV23JX8M6kBTR46dWM=;
-	b=K2h65fjRfCke3N5ZRZwc3SW1Jw2zJI6OO2obMAxGbjgT3wxmKz79kVeNmoVzGW/JR96OEp
-	aofh8wEp4V3qbrd3vrMmbMsm7XP+ZF+T3HTdsw8KvJ+fQ/qx6PBcjo4jJ/3+y6IhWtUMlm
-	WoI1gtl8zHEEfbrdW9tDr8xaLJEEfE0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767856955;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=15R0s/8wnRrsIExoQFc/IdXdRPV23JX8M6kBTR46dWM=;
-	b=xGz7iFgTxkYTy0G61rp03gkV01VzSFmNOpA8LhrJtrQFMQvjfuCUlcUHX8SjRYSi86xNZf
-	z+1mO4W9dQeKVjBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B70B23EA63;
-	Thu,  8 Jan 2026 07:22:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PX+MKztbX2mSIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Jan 2026 07:22:35 +0000
-Date: Thu, 08 Jan 2026 08:22:35 +0100
-Message-ID: <87fr8gh8lg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Linux Sound ML <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Improve the fix for race of buffer access at PCM OSS layer
-In-Reply-To: <20260107213642.332954-1-perex@perex.cz>
-References: <20260107213642.332954-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vut6KfTb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767858842; x=1799394842;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Oat8Ou69Boc/QWkzBIaS0AdsCze4tkLUTDL+HxfGJK0=;
+  b=Vut6KfTbIDP7ttNyWHRzNDotJVg1oRMYZOk4Ii5VkF9YJjrEFF8DY785
+   6wfUjkX/trXJ7S+eWU06jjTrZ+tjn1VEXHxrvto9/osTH65w3OiVuODbs
+   pIL1dXIQXuXe2vtEr5LQiAO55MVait8LdOBvM5Zh9muSzrkAaCtUuUwWe
+   d67nsy80NjhkALFf80t6yZaMg6ph8tixwUBeOW7AyJT5z7RKue2qQf/uZ
+   bom8m+EwmIE/13AL+qoXDg+1AdlKEnfLn9zZbfQzKvcwooqk51g0EDtUF
+   VV6nKilBl7FoijSzTSwapYuZmLSPVLFsqqTiUbo/yYkyNoQpghucPVYrL
+   Q==;
+X-CSE-ConnectionGUID: 6EV37zJ1R+WWbOoYbn65vw==
+X-CSE-MsgGUID: G+dD01MyQd+WeItjx8EGBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69145176"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
+   d="scan'208";a="69145176"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 23:53:58 -0800
+X-CSE-ConnectionGUID: BLtfOUCgQEKaL5ANX05Clw==
+X-CSE-MsgGUID: w9c9+4rnQrS2SNMkEYMgcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
+   d="scan'208";a="207273581"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO [10.245.246.92]) ([10.245.246.92])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 23:53:57 -0800
+Message-ID: <0a0234c5-b6c6-4318-b627-d75e75a7598c@linux.intel.com>
+Date: Thu, 8 Jan 2026 09:53:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,perex.cz:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: DFC6D5BD4B
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] Samsung Galaxy Book 4 Ultra - MAX98390 speakers not
+ supported on MTL platform
+To: =?UTF-8?Q?Jos=C3=A9_Augusto_de_Almeida_Neto?= <jaalneto@hotmail.com>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <PH3PPF0A8D5CDB5873FA91A7F768F4E2F10D984A@PH3PPF0A8D5CDB5.namprd10.prod.outlook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <PH3PPF0A8D5CDB5873FA91A7F768F4E2F10D984A@PH3PPF0A8D5CDB5.namprd10.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 07 Jan 2026 22:36:42 +0100,
-Jaroslav Kysela wrote:
+Hi José,
+
+The machine likely similar to Book 4 Pro, it is an HDA+companion amp setup:
+https://github.com/thesofproject/linux/issues/5002
+
+The bounty for Book 4 Pro resulted (as far as I know) working audio,
+which can be replicated:
+https://github.com/stephanlensky/galaxy-book4-linux-sound
+
+You might need to add the quirk for the Ultra and by luck it might work
+as well.
+
+SOF is not needed, used in these machines as they are pure HDA devices.
+
+-- 
+Péter
+
+On 08/01/2026 00:26, José Augusto de Almeida Neto wrote:
+> Hi ALSA developers,
 > 
-> Handle the error code from snd_pcm_buffer_access_lock() in
-> snd_pcm_runtime_buffer_set_silence() function.
+> I'm reporting a hardware support issue with the Samsung Galaxy Book 4 Ultra
+> (NP960XGL-XG1BR) running on Intel Meteor Lake (MTL) platform.
 > 
-> Found by Alexandros Panagiotou <apanagio@redhat.com>
+> SUMMARY:
+> The laptop has MAX98390 smart speaker amplifiers that are not supported in
+> the current Linux kernel. Headphones work (ALC298 HDA codec) but speakers
+> are completely non-functional.
 > 
-> Fixes: 93a81ca06577 ("ALSA: pcm: Fix race of buffer access at PCM OSS layer")
-> Cc: stable@vger.kernel.org # 6.15
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> HARDWARE:
+> - System: Samsung Galaxy Book 4 Ultra (NP960XGL-XG1BR)
+> - CPU: Intel Meteor Lake-P
+> - Audio Controller: Intel MTL HD Audio (8086:7728)
+> - HDA Codec: Realtek ALC298 (working for headphones)
+> - Speaker Amps: 4x Maxim MAX98390 on I2C bus 2 (addresses 0x38, 0x39,
+> 0x3C, 0x3D)
+> - Kernel: 6.17.9 (also tested on 6.8.0 mainline)
+> 
+> ROOT CAUSE:
+> 1. No machine driver match in soc-acpi-intel-mtl-match.c for Samsung +
+> MAX98390
+> 2. No SOF topology file for MTL + HDA + MAX98390 combination
+> 3. NHLT only shows SSP2 (Bluetooth), no SSP configured for speakers
+> 4. SOF falls back to generic skl_hda_dsp_generic (2-channel HDA only)
+> 
+> VERIFICATION:
+> - MAX98390 chips respond on I2C (revision 0x42 confirmed on all 4 chips)
+> - ACPI device MAX98390:00 present (status 15 - enabled)
+> - ALC298 speaker DAC receives audio but no output from physical speakers
+> - No I2S/TDM connection to MAX98390 amplifiers
+> 
+> I have collected detailed technical information including:
+> - DSDT and NHLT ACPI tables
+> - Full HDA codec dump
+> - I2C bus scans and MAX98390 register reads
+> - dmesg logs showing current SOF behavior
+> 
+> Full detailed report: BUG_REPORT.md attached
+> 
+> QUESTION:
+> Is there ongoing work to support MAX98390 on Meteor Lake platforms?
+> I'm willing to test patches and provide additional debugging information.
+> 
+> Thank you,
+> Jose
+> 
 
-Applied now.  Thanks.
 
-
-Takashi
