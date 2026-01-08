@@ -1,110 +1,152 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD1A23EA95
-	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 15:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC8C3B28D
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 15:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767887066; cv=none; b=F6X9YFieSjUdoBCiPMcUhOea21Q9Tt9jKyX7zeg1gCuo13LjApF5cBtPrLUc/NO7QBFca6EDjrnyNGt1u2kWrJLIrIoa5xP2blJSkv8Ogf66q1ByDQlgdruZ53aRfAYlZJf9HbUZhnJXovHKRD9noL4DNA7j8X5seTLVAKIxdtc=
+	t=1767887419; cv=none; b=LEsE2D3wkCedvT6B5c77AuFLYulXA0nhXW/VWn2/gz8Zj/7SU2BS2iUgF2RDHlrM4lvFBFNt6h6qv6CB768LgN6Ck9L4mAfGgctF1YnRHNq74gNpRdXXwHC3umU1/eO6+cyZ7UTnMx4fvSNnFKqy2yPlDT99n8qSvcuCj4R+gPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767887066; c=relaxed/simple;
-	bh=Ao12BqEQyfQ/4Pen7/TZc8Hd7KoQVTDoRAU7Lr7jEk0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HDvdD2pDlv/E3dQTBWjhvHxw5vWXBYfrAzPQ9pQBd9B3riHd3pfzxgMvRs2dfYPnxRTrX+p402wDhxtUBRbI/g30hCA28WNygD14Wxrgnpyaq3FrLQbR2HBMMXGW4xWIBh32UiLYs9a6yi/vLZfAwEp7QSTFlNAkK6yRke6iR7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Kx4m2SVC; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1767887419; c=relaxed/simple;
+	bh=KGaO4EypoOGLhlEAtkWsb6d+AORWtthHeHFesJA4a2E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LxsX/1NniRwY4i9pxkXE5CdkW0OFUT2igxsp76D4ItDKS+yCKuHfdWyBcNIlK6M7BUQjFAvzR+C1Ln6VoDUHiu3iJdiOqf8DDfrvKeN9nKQLg3b5RBOLnSadxzwPrRjuJAhchj4laKFT7M/JCRxwKxFy9GO5F08bLBG6VPJKZe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=usb4MmHJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Kx4m2SVC"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so22543215e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 08 Jan 2026 07:44:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1767887063; x=1768491863; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RRHfUTN65/SxhjcPxe9tauiwI0lIQzUFNXk8Xbx52M4=;
-        b=Kx4m2SVCqeAY7tafhNMcsbXsx+l13vqUok1k056CVpNtGzW8hZWHalN5l9QC1sfR2L
-         NDpRVe6zWOSvs1Hm6gXOlmbalAROGPtzIn0E3KcOmoQojfwCIlJUzhWQREAuj3UM6zEb
-         QRdyaeyV5R3vus7XjCUkmQ63nd0XPWzpviM8Q9SPH1IxdRhyuJAfEPtmVkktrVPBZej+
-         sXalT7yjAayHmnJigMPJ11qdm8yXLCe6vQHUFPsLT3QRbOpAHemjlVdd3uOCQ2oRR+Dz
-         /70Cv133vbXhi9TKF76yKAJPqul/tJwmBt29dEz7H4bPzXR0wwNZ98w8sMMdWe4I+HCk
-         nUuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767887063; x=1768491863;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RRHfUTN65/SxhjcPxe9tauiwI0lIQzUFNXk8Xbx52M4=;
-        b=KLagfFQH7MA5lcy5rz7K4ko9r5DNsnNLu2pXpwOHtn+i0NyLJ/FZtah0mGaM/bnYlR
-         t0Mscy4agCvoFzEIxsbjJYQgkVxAFLyV9HaZTsSh+fpKO+gxs+thnCaWcWr6vI1+59ZA
-         TmjqcD9pnJDvnOFSoNeO6+1ZS7SYzQwNkC3MGtGwxeGzMwn7GYlXSmdkwwT0rRP0PfLx
-         V1VV5GTjgcnw/i03+GH3bGUA9u+SQQZzw+R9rMw3dxB8DzfMFOHukX/qOiWIJg1glfu1
-         0IH9URONsgH8FEZxDmYhIVYEnSAgLcQz05uFeHOdChPfuc7OCiqyL3fi5KIJmywcAIGF
-         vpfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRYe1QLwSY9r6tJL94+Mcp+IfYVgUwNDhuw0SpveJO1dSWv1rJMgMda6YDD2jI0m0Z0+nIxVAB5gQyng==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyo23XNwryI1U69UoA2jAkHtgkxMwCOhSD4M4c6VHy712FKKcGl
-	fRtVwgpcaO92/cMhcPotFVEUbCHtVcPy4aTkO+ZJPfIBxvFcOmMsvlJ5RH4KBG1WiKQ=
-X-Gm-Gg: AY/fxX62PHNnqh4vSt5NbuY0iBd5FN4jua7CikYeVSjXX/Zmi/jf6eRfjHzz3Tk3Sxu
-	p8dZ0jipMXAJ7QrHpQrQqvle/PXRq/vrNpdq7QjZudbQEebdENotRKREqSwU+UGL7PN6+Pg3kwh
-	uW1BPSgbO/1F4tabD1JNcGQOLuKKbZXG2tCah2eEnSE8dmKWfVe5GVmyZgW6hqX2G2cROm4JjMt
-	JkwWuEUASEZNYwkeCR4mLCHJ6Ud599Q2IEWuOec+MNGEFkfjygi/mnbO6mOI7Elj/w3dnn6WsKj
-	pf+tyQ2cM/njcPsv1xGcn8OufzwwZOMN6HV/B28pWwnq8Yb/Zt1c76Y7BVedjvrxkvjXrAPBrZG
-	aYsNGio3h9GRBm/oQephC6E+rkB6MR3R4issYzott6NK30G2kY0ITYSLcUga+mZcIH+uEEGAanw
-	6oZiNR0sfRUnCM3NSiXSXKr9XStrBJO24UijrB3C0=
-X-Google-Smtp-Source: AGHT+IETPnYZXqExdCivpdjsKulzUOEgjQ0J3xxIoqwbGCRPDT9f98ykDgpeuTsfhR8kg/LMaaclTg==
-X-Received: by 2002:a05:600c:3484:b0:479:2a0b:180d with SMTP id 5b1f17b1804b1-47d84b20fd7mr80173425e9.11.1767887063254;
-        Thu, 08 Jan 2026 07:44:23 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d87018bbbsm45244345e9.1.2026.01.08.07.44.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 07:44:22 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: support.opensource@diasemi.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH] ASoC: codecs: da7213: Move comma operator at the end of the line
-Date: Thu,  8 Jan 2026 17:44:19 +0200
-Message-ID: <20260108154419.3580562-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="usb4MmHJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41BF8C2BC86
+	for <linux-sound@vger.kernel.org>; Thu,  8 Jan 2026 15:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767887419;
+	bh=KGaO4EypoOGLhlEAtkWsb6d+AORWtthHeHFesJA4a2E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=usb4MmHJvMLPE8uELsbbUngRbBgpdUECKMmpwddwY189gnOVhVBEvsoZsN2ANAdRb
+	 t7YJmkUsI9dpY6rq3gm5zN+eWtCpnRWzMnswxbZt/3shCn1wvzBb6oYQm2AxSMd8L2
+	 aCjReJjs2BJSzqIfnDjwdIh0H+pIVeALv4Qb2w9gNm6PwbE6R8fAcA/k6cuBuzoyj2
+	 NhNfiv4Ogfl7hnnK2f4+nk9nB3DplTx6QoLshFLps02T775YICN3NhywEhdZfnZKkX
+	 vbjmlj1v8ZjzZvhG86NGzW0fQaG98pdSVWRSeYI9YPWE3FowX1Y01DeD7yYI2lNiZ5
+	 Cbw/z69BwcSyg==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59b78886454so989938e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 08 Jan 2026 07:50:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWxL5DE9uMF3uqJ6csFQSKTd2WHlN6pE/7x7oHM8BgVqIC+td1Z6tLn3KWB6aYbRWKYX/d5Cw//QGwKRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuxxmNj0m2mpwfKVmCd2QGdggeI3KIt5E36SBow6zigIpV/SPW
+	WXCZ9ZjDSWrgDzXDI6ZzyVptRKYPhWMMCcyZX6vJAiyh0VZAaOrep5LeZ4OGGjFN9KiEci+Iola
+	Vr1SMsEGtRgkOXTqCsdI6XclTdL0Jm5KOMnRjvCvlkQ==
+X-Google-Smtp-Source: AGHT+IG2+2F01A/KIFuHK5i46mt9KUdYZatvNxavAnjoIfZZaIpd0eF4zkN5fLaXr4bY1KSJ4MsEy0n1PYP8LkHGkdo=
+X-Received: by 2002:a05:6512:6d0:b0:598:f031:dc2e with SMTP id
+ 2adb3069b0e04-59b6ef02957mr2037319e87.1.1767887416901; Thu, 08 Jan 2026
+ 07:50:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org> <DFJAFK3DTBOZ.3G2P3A5IH34GF@kernel.org>
+In-Reply-To: <DFJAFK3DTBOZ.3G2P3A5IH34GF@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 8 Jan 2026 16:50:04 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MeQ_zr047PxFFGhfZ43TuHoKG-9VLLefxVyScpO5ZxjzQ@mail.gmail.com>
+X-Gm-Features: AQt7F2obhuvUlvgUZPHF2Ox96e1T1TX-fbUl1bOPtAWt-u2PKGO9E-yuFxHItZY
+Message-ID: <CAMRc=MeQ_zr047PxFFGhfZ43TuHoKG-9VLLefxVyScpO5ZxjzQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
+To: Michael Walle <mwalle@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Thu, Jan 8, 2026 at 3:46=E2=80=AFPM Michael Walle <mwalle@kernel.org> wr=
+ote:
+>
+> >
+> > The changes are implemented in a way that allows to seamlessly compile
+> > out any code related to sharing GPIOs for systems that don't need it.
+>
+> The problem here is that the aarch64 defconfig has ARCH_QCOM enabled
+> and thus it will get enabled for any platforms, right?
+>
 
-Move the comma operator to the end of the line to comply with the
-coding style.
+On arm64 with defconfig, yes. I want to make it transparent for
+platforms that don't have shared GPIOs though. I'm aware of issues and
+am actively fixing all that are reported to me. Another set of fixes
+will be in tomorrow's linux-next.
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- sound/soc/codecs/da7213.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> I haven't grokked everything, but does GPIO_SHARED=3Dy makes any sense
+> without GPIO_SHARED_PROXY? It seems to me that the probing of shared
+> pins will be deferred indefinitely.
+>
 
-diff --git a/sound/soc/codecs/da7213.c b/sound/soc/codecs/da7213.c
-index 0a2b50cdea95..19f69a523f22 100644
---- a/sound/soc/codecs/da7213.c
-+++ b/sound/soc/codecs/da7213.c
-@@ -79,8 +79,8 @@ static const char * const da7213_audio_hpf_corner_txt[] = {
- };
- 
- static SOC_ENUM_SINGLE_DECL(da7213_dac_audio_hpf_corner,
--			    DA7213_DAC_FILTERS1
--			    , DA7213_AUDIO_HPF_CORNER_SHIFT,
-+			    DA7213_DAC_FILTERS1,
-+			    DA7213_AUDIO_HPF_CORNER_SHIFT,
- 			    da7213_audio_hpf_corner_txt);
- 
- static SOC_ENUM_SINGLE_DECL(da7213_adc_audio_hpf_corner,
--- 
-2.43.0
+Do you have a use-case where there are shared GPIOs that are needed at
+boot time when there are no modules? I am aware of the issue where
+false-positive shared GPIOs are detected, I posted a fix for that too.
+Without logs, I can't really tell if that's the case for you though.
+:(
 
+> > The practical use-case for this are the powerdown GPIOs shared by
+> > speakers on Qualcomm db845c platform, however I have also extensively
+> > tested it using gpio-virtuser on arm64 qemu with various DT
+> > configurations.
+> >
+> > I'm Cc'ing some people that may help with reviewing/be interested in
+> > this: OF maintainers (because the main target are OF systems initially)=
+,
+> > Mark Brown because most users of GPIOD_FLAGS_BIT_NONEXCLUSIVE live
+> > in audio or regulator drivers and one of the goals of this series is
+> > dropping the hand-crafted GPIO enable counting via struct
+> > regulator_enable_gpio in regulator core), Andy and Mika because I'd lik=
+e
+> > to also cover ACPI (even though I don't know about any ACPI platform th=
+at
+> > would need this at the moment, I think it makes sense to make the
+> > solution complete), Dmitry (same thing but for software nodes), Mani
+> > (because you have a somewhat related use-case for the PERST# signal and
+> > I'd like to hear your input on whether this is something you can use or
+> > maybe it needs a separate, implicit gpio-perst driver similar to what
+> > Krzysztof did for reset-gpios) and Greg (because I mentioned this to yo=
+u
+> > last week in person and I also use the auxiliary bus for the proxy
+> > devices).
+>
+> This broke my board (using the arm64 defconfig, works without
+> GPIO_SHARED of course). I'm seeing two issues here with my board
+> (arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67*):
+>
+>  (1) It's GPIO controller (gpio-davinci) doesn't support
+>      .get_direction so I'm getting ENOTSUPP during probing of the
+>      (some?) shared GPIOs.
+>
+
+Unless this board really shares GPIOs, it may be due to the
+false-positives that will be fixed by this patch[1]. If you enable
+CONFIG_DEBUG_GPIO and post the kernel log, I'll be able to tell for
+sure.
+
+Though thanks for bringing this to my attention as I now see there is
+indeed an issue when the proxied chip doesn't support .get_direction()
+as well as a duplicated check in GPIO core. I'll fix it too.
+
+>  (2) GPIO_SHARED_PROXY is default m in the defconfig, but I need the
+>      pins for the root filesystem medium, i.e. the SD card regulators.
+>
+
+I'll take care of this is you confirm, the issue persists even with patch[1=
+].
+
+Thanks,
+Bartosz
+
+[1] https://lore.kernel.org/all/20260108-gpio-shared-false-positive-v1-1-5d=
+bf8d1b2f7d@oss.qualcomm.com/
