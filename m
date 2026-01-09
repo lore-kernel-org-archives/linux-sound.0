@@ -1,33 +1,34 @@
 Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD2E357A4C;
-	Fri,  9 Jan 2026 09:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580413587B1;
+	Fri,  9 Jan 2026 09:04:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767949467; cv=none; b=TYpgVQBsAQtst4eHAMvpXJvu9jhFyp9w1H+B63E5fL3XHD6N49QOpv282GQpcUeum/k+kzb05BylFchxtuwmMd5pM4vvLLFUbORF6pqMUj0OK//L56r0JOlRq8YrTc8AJjTeqdo65xOplS1SdhkH5jyUESvL+K98f1TEV3v3llM=
+	t=1767949469; cv=none; b=n9rNdDU93ysHMpyXnT50iI5RR81T2YY/ULUxZ0RrYoDPi84VwFwyCEtdilz1GFeV16n8zUIc99GEhi71iEJrNAD/gohekJZZlc4xQAbrpgcULU4zH469OssJTK+KTGeQ5nEIRmvwFUxvh6yBbjo6qj/BUFw9hCkIwIp0IKYWl1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767949467; c=relaxed/simple;
-	bh=Bn5X2vdRF2WnlJCk1id3vXSW3OfBZe3EjDM5m3vmlzk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jI/O4kO2ed+RHw545UtL0AobNlLlAGu+DRJnFjbukGGQI/tSWZoseOuzK5S7EnyN9rwB8SXbuCVCa+xSKMsQ9iGAup+e5vEMRNK6TYp+iroa6AK2qtGDcCWJ5LuTQkgnGzwjJHAkVn3gsmMk59C0lYw5wHZ1m3E90qDlZMyhQwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=24lV4PBC; arc=none smtp.client-ip=220.130.44.152
+	s=arc-20240116; t=1767949469; c=relaxed/simple;
+	bh=9Wk7FrbTcv+dFo1caqWBl1Bt+jFb3v9kyRkmsHEUZuQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZV+MbWPiY1f30h4/tFvbOZy5DFcT/oU5tXs1VJB32ooYp+ID+cf9TKcthHtf1cvoM7A5JDSTERKPiQdWPeIv+ZqBZZz98fpvzJ4oYKjxnjwMoMKcSfmrVMilpNfFOdvaFd5BkD1vFiE1+SO+oLQ9ArcXyvmAz31AdXfMaEinG50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=YuXXDADA; arc=none smtp.client-ip=220.130.44.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="24lV4PBC"
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="YuXXDADA"
 X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1767949457;
-	bh=PMawZLCXDjs5OqPIY8yGDtmIflK1E6VmjuRtvjlXdY8=; l=618;
+	s=richtek; t=1767949458;
+	bh=QPKxOxkLsCyaMcJwN0XhMC5MGMh+uxaYm+lWvEdp1uw=; l=1355;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=24lV4PBC6LNc1CvqbVfbvEeBygPPCkRIEeYMlMTy4vqvXmiAWqh8D6HGPnOLwmsq4
-	 Tsnc5Twgs+tf+gaEJZRRyKoZx5CQdyjoN4AfGwElw6z6c8+1dlrTo4i+NSjM/bluj2
-	 CPGtjzve7ZsBIXbgdSOZiRMlBCFjGKLXNr1xACooWjAFqYZ119m42tIMKPmLIjNGVs
-	 iMeewLXy2nTY1cSUKs6jyWC9Ry5r+JNyv/mIOTIKzDuKkFolfx2HEfpgKRjZ4MBKqp
-	 k8KlbstBMA6ZxzsnCL7UWY770C2bUhv1buwHotugpped1yZz4IswY4QoODurDP/LYk
-	 FRm/W4WPDjYTA==
+	b=YuXXDADAB5WSzMpEFXQU+DCe+Vbx5+4geLNZZH8Fr9H+zH9YLWQN112R5vDr8NLPa
+	 X8x56K53kkCh08BsT94jBflDH9gwXyufDF7dX0VRh/BRv5p1OPHpuj+cFaAfdPKojs
+	 AV5x4xEhbaFmLnrPHZ4y1Ye01EG6ATohVR6dCIHXdmsn4VfXyajo9XTAJxIPra0mU2
+	 MhKKc3Im/L1tCkuDYaw6bEda5Zm4/q9YtO3PpK1xQBa6oZLQEcwaTNjC8M4wiR8FT1
+	 pFdgK/I564Yk5A+IIqN4nG+e+f0hJkLs+9k1EBqBw60Mic2EKKg+Gy5NEu/SkbJ6OZ
+	 qXlr8GK3KzAHg==
 Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2572468:0:AUTH_RELAY)
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(2572453:0:AUTH_RELAY)
 	(envelope-from <cy_huang@richtek.com>)
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Fri, 09 Jan 2026 17:03:59 +0800 (CST)
 Received: from ex4.rt.l (192.168.10.47) by ex4.rt.l (192.168.10.47) with
@@ -44,10 +45,12 @@ CC: Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
 	ChiYuan Huang <cy_huang@richtek.com>, <musk_wang@richtek.com>,
 	<roy_chiu@richtek.com>, <allen_lin@richtek.com>,
 	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH 0/3] ASoC: Update rtq9128 document and source file
-Date: Fri, 9 Jan 2026 17:03:51 +0800
-Message-ID: <cover.1767948925.git.cy_huang@richtek.com>
+Subject: [PATCH 1/3] ASoC: codecs: rtq9128: Modify the chip initial setting
+Date: Fri, 9 Jan 2026 17:03:52 +0800
+Message-ID: <340c88ae78edeb76cde812453c9a72d28b73e9f4.1767948925.git.cy_huang@richtek.com>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <cover.1767948925.git.cy_huang@richtek.com>
+References: <cover.1767948925.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,21 +62,46 @@ Content-Type: text/plain
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-This patch series include two parts
-- Update initial setting for rtq9128 specific feature
-- Add rtq9154 backward compatible with rtq9128
+Modify the chip initial setting to default enable DC load detection
+function. This function is the chip specific feature that can detect
+the output open/short.
 
-ChiYuan Huang (3):
-  ASoC: codecs: rtq9128: Modify the chip initial setting
-  dt-bindings: sound: rtq9128: Add rtq9154 backward compatible
-  ASoC: codecs: rtq9128: Add compatible changes for rtq9154
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+ sound/soc/codecs/rtq9128.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- .../bindings/sound/richtek,rtq9128.yaml       |  12 +-
- sound/soc/codecs/rtq9128.c                    | 114 ++++++++++++++++--
- 2 files changed, 117 insertions(+), 9 deletions(-)
-
-
-base-commit: f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
+index 391cc03d687f..289bb3c04a90 100644
+--- a/sound/soc/codecs/rtq9128.c
++++ b/sound/soc/codecs/rtq9128.c
+@@ -352,7 +352,7 @@ static const struct snd_soc_dapm_route rtq9128_dapm_routes[] = {
+ static const struct rtq9128_init_reg rtq9128_tka470b_tables[] = {
+ 	{ 0xA0, 0xEF },
+ 	{ 0x0D, 0x00 },
+-	{ 0x03, 0x05 },
++	{ 0x03, 0x45 },
+ 	{ 0x05, 0x31 },
+ 	{ 0x06, 0x23 },
+ 	{ 0x70, 0x11 },
+@@ -367,7 +367,7 @@ static const struct rtq9128_init_reg rtq9128_tka470b_tables[] = {
+ 
+ static const struct rtq9128_init_reg rtq9128_dh_tables[] = {
+ 	{ 0x0F, 0x00 },
+-	{ 0x03, 0x0D },
++	{ 0x03, 0x4D },
+ 	{ 0xB2, 0xFF },
+ 	{ 0xB3, 0xFF },
+ 	{ 0x30, 0x180 },
+@@ -378,7 +378,7 @@ static const struct rtq9128_init_reg rtq9128_dh_tables[] = {
+ 
+ static const struct rtq9128_init_reg rtq9128_dl_tables[] = {
+ 	{ 0x0F, 0x00 },
+-	{ 0x03, 0x0D },
++	{ 0x03, 0x4D },
+ 	{ 0x30, 0x180 },
+ 	{ 0x8A, 0x55 },
+ 	{ 0x72, 0x00 },
 -- 
 2.34.1
 
