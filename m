@@ -1,112 +1,168 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B3AC2EA
-	for <linux-sound@vger.kernel.org>; Fri,  9 Jan 2026 20:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4D31D362
+	for <linux-sound@vger.kernel.org>; Fri,  9 Jan 2026 21:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767991534; cv=none; b=qu5kVhwt/rkGvvD6fA04r5ZE/kJxNLj/oimiQ8M9uvI3BcrrcYND0SMcxwP0OyQhYdGMeDT/nqm+3Vnho4SvigT+TnVCxYD9ueBa+HlVrZ9eXi+IHiWBXNJgtA9SJqQZzr8jkoYzfcM7rD+E+TZi6HcA1HhQ3Q22KoqwF8URluk=
+	t=1767992760; cv=none; b=XIz7dGpWzA8FeFadEZtb7XBFIcYdq+nGYP246+oVmvKRZd1ClL0vns3uSX3+Zb6dmgQl++CDbhB8OLAygg4TIRE43LM38TuRuZvOSTYFz3EfPT+OV1H8kZjKh07PYaNYpZEvpyzzop/0xq8vkbfAz2ApDUQ1kFmtNvffJS3ALAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767991534; c=relaxed/simple;
-	bh=ogHjj3BvQt5jOaR/BGS1ykAyVjZWosinkPDYx0AtBMg=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=scQxWRC3uD2EoskecjUJGBr3/IIuKa5sn+8+M4mGSbtE87wuD4IZK0JK50+pohRoFKwSJDqnJQVXnDLgHoQdCEuOkAQH+KF61HzDte9+Fz0kgH0PE09zFlOb2M64a7vd6oRbRUR05j8GWzudjceOA4mjrPaYoGJjlgMUAK+Irxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTTm0tW/; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767992760; c=relaxed/simple;
+	bh=hFkoYS6mSblvGR8UZ5SC4jjV6cZBaoNUpvigDTKOQCw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hFqpbzrUjsmbL2+QzOL5fpecFpxV1K/Z5gnGQ5Y5/pTRHk9Q19jMzazgKpP5Tj7abDYJxhXkpHuAYRrvca9XmDZ7tzrHQoDi/xiWeHtd2Wh0jMWjkFiZYb1ARG9afsOh7W+KkQSRMso7P1NmgGxf/AHsO0pS596ym78M9k/36g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=URIHGgFl; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTTm0tW/"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59b855a4700so182479e87.0
-        for <linux-sound@vger.kernel.org>; Fri, 09 Jan 2026 12:45:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="URIHGgFl"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a0d6f647e2so48340895ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 09 Jan 2026 13:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767991531; x=1768596331; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UbFlw6y6HEdQl5XBQYcsPuzEfVMtaRzKV1+itXfaKAY=;
-        b=MTTm0tW/C7JoFuE3bYQeP6Pm4xTNgktuH/Z6SRwPrEyWe3nDcBJNzg2ZlhQ3E1f9fI
-         HyuzCLyOv+BOVmWhPqaegSgBdTCkpCV3TNSa0D5YNazBpXq8gX3Cs7+PnQw59M/rwUD8
-         wZiTuyDPdetG83S7NtRiB2XmEeeOuXixkgqy8PL2sTSrSi2x3atJkEDH8PcgEHXT3k50
-         fZOHXBGmFK8i25EjwMUTCC2E1P26ALNedrBM0h1CB09PsUEO+B6pytc0g3OlH/+isVlw
-         EvHc2kH+vJe659kWikdv37cruIidEJBsl9PipPwy+ET09cmBQBSvjrZsFdH1Tky7E7AF
-         NhdA==
+        d=googlemail.com; s=20230601; t=1767992757; x=1768597557; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f+kn0nlzGkQ0BViOYfFFGO8lkUm/rT4hSAopw8yn9RE=;
+        b=URIHGgFlpzAx3y+8RduQQACSJ0VhfsF17LPSSoz/M4Ww3a7B3gDfqkAIVdPaRQnOgS
+         wqI+2ZA05+JYuVYEnmQp1ciwjIs4kOdbZxI+dtuHwGxHaO4oIqKPZwVV2C6RSkP2zhDN
+         Fef8UkjrVh6eUeK6vOTx6A7Z3q2b/KlqOvViIzxLeJanr+UXPmlYMlwdu29Y/uaQAM2i
+         EXcnpeQs8YJuOuBJDdxzM2aQpqxTzxpSHOX+vep+BQMe+E1SZmttKTt35KS2KVL2A27T
+         6FeJqFtF68U/Z5smIZSmtHwoSpGqSXRDOkPDz6GCc70/29PPSq2136HiaJNiUzZd4yDY
+         KJoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767991531; x=1768596331;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UbFlw6y6HEdQl5XBQYcsPuzEfVMtaRzKV1+itXfaKAY=;
-        b=tpQZfJ+vnRWQGRTvEmk5X/8zju9Li7ovelanfFgqqhrQIUmR57avIkWq3LaZ/woKHY
-         N7sgiR0m5q496fvFrI/VkVqUra2brQE32bjDzbEro+9bMWCv3AqqoO3zxyypGp/LoZ9F
-         7s4eEIx8mXhW804L+NRheaO4RXMjiKVY66IANqaDJwrTxuJL4H4PU7WzWzOU6G2xhlqh
-         a4XJlIb+exbHUpUflGldBJVx92PE9nYJqYHaJvEDf60B2PHVMZogTjJ/1fUpdxSi7GQf
-         xKaoviWwaXH0Tgf7+VC6HQ4isnFzYg0NVwseoD2NvoTbha1v2j6tNi5e+ZZDJpBR+PIZ
-         VLLA==
-X-Gm-Message-State: AOJu0YwVo1+1OT7pca6MUpIUFGMxLwdtuNHsL8RW67KosOrROrQaiy03
-	LoiNUmQNQ+hBEqguU3X/40L7X5tW15elCjMVA16rv3NzLNt2cEtu3yMD
-X-Gm-Gg: AY/fxX7ljj8zY28eNbLsLNE1+/9aCEEgiwLENb/qUmOKyVQNjFk6Rl41Wb+PZbULuw+
-	UmmrZM+fhCCvlFTRp2CNLDV2CnaD32kPLFQsXJM2OODxG44QBbIIEAT1sKGZTSGOfa/Vhg0CE+0
-	9iBLKdmuBHC8lO1F9f7ld1oemmTNIvlSuOyTXA2coW1t6A49KjVDC+jA+495JuRF+t3YmfTs4U1
-	VRvTn2GhorVSUuJrjksetvZteQXDrrmBSzS0QQRXJ8v4g2nkfuZiZ6XdMPqGQ0hkptjyz1GgQ+Q
-	FNQ+i7XCHCeLeAk1QyV/slj+A8L2qz6yvO+tU9WLVdp9U+WC29MPh3GR7ABZmVJ9VPMn3/g2nZk
-	+jJYetU2Utf3O8+iSFm4qjn+j35sQGJaKecF7umCO94GxfdRR2s/w/u9I
-X-Google-Smtp-Source: AGHT+IFlHnYZI60n3G/H3ozkjAxTpHjQAd8gdW/aYyEH9M7TWtUCnYa4LAq/1xC5iu68hs85PqhAVg==
-X-Received: by 2002:a05:6512:12cc:b0:59b:7301:2378 with SMTP id 2adb3069b0e04-59b73012524mr2988978e87.42.1767991530779;
-        Fri, 09 Jan 2026 12:45:30 -0800 (PST)
-Received: from corsair ([2a01:799:8db:a400::1000])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59b6df1a132sm2360918e87.93.2026.01.09.12.45.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 12:45:29 -0800 (PST)
-From: Roy Vegard Ovesen <roy.vegard.ovesen@gmail.com>
-X-Google-Original-From: Roy Vegard Ovesen <royvegard@ark>
-Date: Fri, 9 Jan 2026 21:45:04 +0100
-To: fenugrec@mail.com
-Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: Re: accidental revert of Presonus 1824c quirk ?
-Message-ID: <aWFo0EV2eWhJrNTk@corsair>
-References: <trinity-0d3414bb-7704-4eb9-b805-01baaa2fcb8d-1767805061344@3c-app-mailcom-lxa05>
- <87h5swh8m2.wl-tiwai@suse.de>
- <trinity-f8cff6e0-b542-4caf-bae7-2a84a9a58d59-1767886416445@3c-app-mailcom-lxa07>
- <aWBE7DlmgZLoDkaI@ark>
- <trinity-46fb2e4e-993c-4225-b831-2d03dc541780-1767918098396@3c-app-mailcom-lxa07>
+        d=1e100.net; s=20230601; t=1767992757; x=1768597557;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f+kn0nlzGkQ0BViOYfFFGO8lkUm/rT4hSAopw8yn9RE=;
+        b=wMRKZo5fb5b2XGzqtKF5BDdMaB70l38rJIO1kD4AXKoyva6J4f8m4sn+VNHrNzkWsw
+         x+7QqEIFNfsj63PfZE10hIAclp/fi9zlP5tWpafa5w+PbFCoFrVW2bNm0P7UMcnHXhgx
+         YVwNIVUAAmHZMkjyPX2KYzQ/SpLcVojFeDyKc5D+Blzf90VMCEOHPmdQcK72VogIIUDn
+         0LD/kdcgrHR/UvSF+Bc3OyRYEgGhXtI/fiQno5lwzqnP+qEJRi6KvW0s3/UqCZiUT4nA
+         g9+pyzEXqU8dm8EMPj4gCUFAaj9dQg6ACSbdn5WprbL526+qJ0ahbPdQ0PI1YTeMfIX1
+         liXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ/CvIcuaNE31t1iRnpRP8n9v71RBsGC9cDJGHenhs0cWJJLeI0MDkG8MmeLnORnQJZgjQSUo1uOch8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZSwB3KJKiWvjLN6rxz2CztbXyIATNBQ3RMhlJisdAknB2183p
+	jjG+5zWqkFqaw3vegZRWW7tbqmKOcXKTOScXOz2x+c+9QICtzXitfRTI6tHDuxe03p5mTVpvwlL
+	0Pr5AaWBqAHHd3buO223rTKdQGaTgplg=
+X-Gm-Gg: AY/fxX5vb1tpy/eze1ijGr5n+guX7IAXVNlhxZovVG0C8KwrN6dvuY0fRwTnGjZRLkT
+	6tfvx+eUGLcOISoS9bOd+KBFFsWV3YycdEPdZhdjIcPHTEt/1z+KIp5jrGY/a8hkJ/bv8FiGgXw
+	ypd7MSkstuyFKsJwscBZQj2rzs0DxHym8p5OAxRqGeK7IWAMuBHXSrdWRp13njizqcJbhwfNXMl
+	nAHMgWr3nW1fgQIzhUfl4bVi8DJBCGw8bTyrO3fUVTm7Z22PoFSWhuhzRkctqWiJTvSESaUCkpm
+	yUmeEi339u/JCl/pZy0AnCicSIjV6wD/imIrBGM=
+X-Google-Smtp-Source: AGHT+IGzEqZSKhDh+mfZnkqq/TwV9IRDJvdndDZXOgFLWIDXGIN31XCilSikaluLQUb1REl5xfFtQyCdyy3ZvPXVWkE=
+X-Received: by 2002:a17:903:1acc:b0:295:592f:94a3 with SMTP id
+ d9443c01a7336-2a3ee49b5camr115632895ad.48.1767992757127; Fri, 09 Jan 2026
+ 13:05:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <trinity-46fb2e4e-993c-4225-b831-2d03dc541780-1767918098396@3c-app-mailcom-lxa07>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com> <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Fri, 9 Jan 2026 22:05:46 +0100
+X-Gm-Features: AZwV_QgnJP_ucVFfV4UzfxU71gNnGoxRPDRc5QYDA0rdtBqGfiMffeomtdZlKmw
+Message-ID: <CAFBinCDzAOC9Sc_LZEbLhtajvPC4zjRiaoq6k9at2iJQnJxwjw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Varshini Rajendran <varshini.rajendran@microchip.com>, 
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sunny Luo <sunny.luo@amlogic.com>, 
+	Janne Grunau <j@jannau.net>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+	CL Wang <cl634@andestech.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	David Lechner <dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
+	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+	Sergio Perez Gonzalez <sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
+	Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
+	Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Longbin Li <looong.bin@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+	Alessandro Grassi <alessandro.grassi@mailbox.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Darshan R <rathod.darshan.0896@gmail.com>, Aaron Kling <webgeek1234@gmail.com>, 
+	Vishwaroop A <va@nvidia.com>, Haixu Cui <quic_haixcui@quicinc.com>, 
+	Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, imx@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
+	Neal Gompa <neal@gompa.dev>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Wanner <ryan.wanner@microchip.com>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
+	Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Heiko Stuebner <heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar <jaswinder.singh@linaro.org>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 09, 2026 at 01:21:38AM +0100, fenugrec@mail.com wrote:
-> That is so strange ! At least we're running the exact same system & kernel so we can rule out a few things .
-> 
-> I wonder if pulseaudio/pw settings could have an impact on the hopping between altsettings ?
-> I'm not running pipewire, and in pulse's pavucontrol I had the presonus "profile" disabled.
-
-Normally I'm running pw, but for this testing I have stopped pipewire completely
-and use alsa directly. So far I have observed:
-
-- Reaper, Ardour and arecord are working fine.
-
-- When testing arecord I have to use -D plughw:S1824c to get direct control of
-the device. If I use -D sysdefault:CARD=S1824c it always uses sampling rate 176400
-for the device and, I assume, converts in software to the sample rate that I requested.
-
-- By monitoring USB traffic with Wireshark I see that when for example I run arecord
-it first checks and sets the clock selector, then it checks and sets the sample
-rate, next it sets the interface with altsetting according to the sample rate.
-When recording is done it sets the interface with altsetting to 0.
-
-I'm wondering if one way to make the 1824c panic is by setting an invalid
-sample rate and interface/altsetting combination. For example setting
-sample rate to 96000 and interface/altsetting to 1/1 for playback
-and/or 2/1 for recording. Are you able to monitor USB traffic when
-arecord fails and check if it tries to set an invalid sample rate
-and interface/altsetting combo?
-
-So far I have not been able to break the device in this testing session,
-but I will crack on.
-
--- 
-Roy Vegard
+On Thu, Jan 8, 2026 at 9:30=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The SPI core provides the default of_node for the controller,
+> inherited from the actual (parent) device. No need to repeat it
+> in the driver.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+[...]
+>  drivers/spi/spi-amlogic-spifc-a1.c   | 1 -
+>  drivers/spi/spi-amlogic-spisg.c      | 1 -
+[...]
+>  drivers/spi/spi-meson-spicc.c        | 1 -
+>  drivers/spi/spi-meson-spifc.c        | 1 -
+For the Amlogic and Amlogic Meson drivers:
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
