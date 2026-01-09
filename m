@@ -1,67 +1,67 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3725527FD48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3783F28B4FE
 	for <linux-sound@vger.kernel.org>; Fri,  9 Jan 2026 15:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767970951; cv=none; b=uBKcsT00lCOZRGXgH2Me/u9MeHLGVMAZ73jPBB71V12is34xJo3+3XlKgkFiISDkKtnz2KooyWd1xnr9wBTfoPmPbqQDZQfXo5/Yv7KofdsqcmBMqJmkwKnzw+9N2caOaFBidbCnWfnK815MQeu4K1CkvdL+e8GX930w/3/7e7Y=
+	t=1767970951; cv=none; b=sFDpkh861poR4zsRAQx3u3B7OvVix0TDWj0Wf0aJn/D3K+FmhLcnbbs8D7NB6qXWqOUesvlqmOX8iu3lD7kubrCEIbD2agHZJjcmXtO5N3TJwNmPS/YmEOGgGmoHBJedkhRvIQ3NcHGQl2D49JrTtTC1YNimtdADFgO/KXjn5Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767970951; c=relaxed/simple;
-	bh=nCBqxP5sqd/ywO7hxySgo/z7MuNVnRmbeNezGsLL5DM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hkAvjygKhy6YyiMe8FP1/FIb9QyhMUcbQ9KLGkom4EVyVGIININLiQt6IINcVTeSW+qpFDvOUQ/M7zDVtE2Jnb1r8PqAdHae/qsS52UukBD95mI8+oB+IwXMncCj0u8m7WrfR5NLtgYs+VXLHflmFPWEGvOvr2AVTpBblobCy+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=q2/OL9oT; arc=none smtp.client-ip=209.85.218.53
+	bh=wRc5twflyyFQSILWhyg08ey4btvhfHooe2gCLfKHRmw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=omab/SKnHYSIU9qiI72L78gXnoGTrdayKVXWbv67bih10ty63cQcXL3CTV9LF/Ky25bkFzPCJ477kpPm5VfD1qKqVcYIhz+KCTLB+haq6KHGfHEOStMTiNwOu4ZCBojD47+sE1lJrHPGmsIoCN7H7fcimXMgG+e4suVZaUploVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=OP9P+Ati; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="q2/OL9oT"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b736ffc531fso830372866b.1
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="OP9P+Ati"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6503b561daeso6594771a12.1
         for <linux-sound@vger.kernel.org>; Fri, 09 Jan 2026 07:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1767970947; x=1768575747; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Eh1b7PJlh1mkmaX9+zF40XSmRj4kINuJfJyjc07Wr4o=;
-        b=q2/OL9oTh1284U6vIcRNDODlYbw9lpy4TrqO7gQ1ZEBMPGawqJXDsvR+mdvUqBi+VV
-         4MnvcNitsk2gwrzn8rZrQJ/Mp2jWvtDpwhWnNQEQL70oCr+ZwSh4XA4IUU5u64+QXW//
-         inmtQtkNM2ZBHpdj0FDqHGG9bVwTIgZUugEfK1f+jTvkZAZ9AgbRckNXe4T2uYDciWKJ
-         B2KAjepwXb3LbR7tp3VKkKFenqCl4/QVXcmNGub5md4Wy8sQcx7ApSabp/YTV4py5ef6
-         HeZUNqD+PXyVhIT1np+dM9FfrFpo6VoUo/Yey7F0vFsGa6On/MMQJuKSCB/Net6CZCs+
-         wCJA==
+        d=fairphone.com; s=fair; t=1767970948; x=1768575748; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HeSyD6yfhxvpe/Oaa7+xX4FTSI4jf1sOWdVvCt4V298=;
+        b=OP9P+AtimVHq0KQKrUZY1RXODjDNWKv9gnhyoHq22h0/RbcnQ7lYEKSIHsKnsxsSKJ
+         7NEumAoh5LmuV1xOn0SaSNdsT9dxp8hWBPtVvwxEJeQ08j/I4t8UoPxlpYwC3iep84Fh
+         2UhBP5mCt60MzozCdcJm4NHAkEEPum4n6Xkx1bMaRMc8EGZ4DmIn2+ttkftZeJPqdfJD
+         7smF5wSLTB61NwDXZPflmDjJRgSzkgVih3ArVT3yYmD91fRsXoFZllUCZKW0wAKadYE+
+         PPgWyXJ4+/H2TjwtTAxSlWeVvAP1qR9SYsCbdYywuPkymj78o6u9wKhGPEirXta871IH
+         NFHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767970947; x=1768575747;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Eh1b7PJlh1mkmaX9+zF40XSmRj4kINuJfJyjc07Wr4o=;
-        b=U0Y2rHXiwlJ7/WZ/Vx1Xw3zKKQ69Zm+a9XI7XL7/zhncxWqdatnlhm0S3QqAX1Ae2t
-         uKhy1bW0bUetvH4m1AaYZ3iy6v4Fs2GTuIXcecE9zRmwqZQsX/MBHLOwttIjdUhI69yT
-         VSyECIeW6yT3BuNk3lCaYD0rwJL4VZMyx4u0z6VF+QWeDHhJBTFd7/TV+dfPXM5TEoeU
-         HlQDBq5gNVpUYcugurla0UImTetm/gdw4EmaII4DWD8YcpGhr3dHUDHB9C9MjPCuEFua
-         Uvg7hovvtd0xBCgCzARY/jy+X1oOlBdcMeReLYF9hB52Dr0dooNaW8PdydYQpQmgf4J8
-         iqaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBWI0aX+XbSDewf/uoIqWh7h0XnsxAb0RpQXd5/BDjHbxV4/heMfXHV2ZeKRYN5QqeRVUHeOkuth7ugQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGsTurHNQ+Dbvmkgj95jSiv8SKFz7/sf/ZC/lwTw6Pa05dQ1Q+
-	OEct4f3QGWTHUuCuoetiwTJkipnD2yh2RrdgNlyGYf3fUmlIWE49jLxuxPtjc9ubtyE=
-X-Gm-Gg: AY/fxX7f8ZSxhmZ4owS+peBxwJ3DXH9mmUDhG/HKuAsCXBpXJ/pB04AQLDFZnTgqTK5
-	lzV3mlwm2tZVw2llrsNy85CU0fWAx6I8WHQ50zhbp1AxQJKMJwLf+5SKGYxnM7prEdEw0NMV7RU
-	5XSuytXn/578IMA+3isRMB3SbShSWH5QLR9A5On3MSbY3RAisUUmZiTP+ku9UrJ4VGZvzE4y+3V
-	8nGdKN47VGJ/w/xLEHgt5RkEcsg4Tq+YJeBVDLP68jES7dQj2RhW5JHZOAYDhn+Vl/M/IFnE502
-	sMlOyZqkJVJXcT+2wG6pNoMbgivQh+kxh9kCkJA/EwsL8hv1YZoh0eSoT0NdZHrTlSa+gtCjqLp
-	U1D4dOAJ2MR+VU8+BRAsIlZ5iy+EwQ7SQeKS0fwwKJQ2mr/lgU6CHdYdIk2z5OJuPG1OC9v2OXZ
-	3RZ7fQNjKkec/IYytHFrvAAPhKV8D04fnEcAZzvHqpa4L9o6fSKnHMsZDdlDyS13dL
-X-Google-Smtp-Source: AGHT+IHFXaqkqUvJibSzS1JQRooC7jLomB5BmheUGAePTs8yM3pFtmiu+UW+F11F/cwtA4H1dqY/AA==
-X-Received: by 2002:a17:907:3fa3:b0:b7d:406f:2d3d with SMTP id a640c23a62f3a-b84453fc81amr1073349766b.54.1767970946746;
+        d=1e100.net; s=20230601; t=1767970948; x=1768575748;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HeSyD6yfhxvpe/Oaa7+xX4FTSI4jf1sOWdVvCt4V298=;
+        b=BJ8SwgCQYcpkBMo3XlziPPJlUSWGTd6/qeAw34h3tPIlpXMhY+UZixOM5UxxEOHZOT
+         SpsyVJHYMFWgDhy060Snf2tlIXmttr6A1XHYNyEkswQ6OMu7P7u4UGY6vO/zhgoqR9+u
+         ydize18hFyealWTIvUq5MuV8teCHg4MpAIGKGtT6DK/kftEvH9e73199yKJmdJwRfV+b
+         mqJHQnDsECAbiZCXDOB305q8Ra4rtlo4DVSJ8ypZy8OmXu3Z8fnmnWsqjy/iGMw4JAFq
+         Jy1p67iSyLrI8eIei0f9YdPxS5wTdCDfzKH6FG4cqHU5Rlk4WxxyYp0y1hCfut3yaLrh
+         VVCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCHFn/L5U0l8yBtdQrbHwTYtUBbvqMJVyMraxA4gcQpW8oypTvYDnzx9MxSh/VhM7CsZwcpeQBlb5IJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIPaIPiLqWi4R9M5p0gFnfdEqjhUdpgWyypU8D1bzsAxPQiE5g
+	+K4aPQ2dV5vXvd2dhixIbKOz4yOmXm8N/m8SVGXA4k2TszBDpqKI80tHh4hQq8y5ik4=
+X-Gm-Gg: AY/fxX4XDY1q/I4qYIs/h6ShT6MSj0KXlWkgoIsDHraxVlpetG9pFPV2dY8NaLVJOQo
+	anQY+z6H1lSuKiiltWFo0juK8w1c8M64D+e+VnFd0ckJ05vg0ht/sIRzyYArx4Lrz5RkTou0SoA
+	kBuLLJtvk5HVDVMudnFT/GwnJ58oNV5oaaR5hJjv8Xx6i6nNwO6iaRFZH/7Lmy6fXibHzQyoQ2X
+	oQjd9ExoeItO4wjyvZ2GwrgPeKeJMuMNkl0DjScldXvTdfvB1CLqhEP07m8xeiyTnDxJtnazxWT
+	LK6edvIDsoUjXHZSJ/A79xgkAu/CumKMVjN9viOCkZ4bYgaJNM+hT+XN9Qf2JYOj3aTA8+g6Fl2
+	wVcvo35BFmpnGba5Jy7CRgXTNTFcMqrODIEcIX1NI5z16aUWPVK+wWpSHYrwbxcvghgyk5I0Wq8
+	bMmPNgc+QYEuPsAywh2j4EABq1ow5Xq71T+i+JMaaKsScNZSXg0R7XHyJkYXFQg3ZE
+X-Google-Smtp-Source: AGHT+IEjfP6A1CmXs7mnARjKVxJhdK8lh59mDTvHmWizSVj8GLhKK2kEDHpDfzSLw+1QB+x6+N6M7g==
+X-Received: by 2002:a17:907:3d4c:b0:b76:bcf5:a388 with SMTP id a640c23a62f3a-b8444fcea01mr1075396966b.50.1767970946131;
         Fri, 09 Jan 2026 07:02:26 -0800 (PST)
 Received: from [172.16.240.99] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a511546sm1132090766b.48.2026.01.09.07.02.26
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a511546sm1132090766b.48.2026.01.09.07.02.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 07:02:26 -0800 (PST)
+        Fri, 09 Jan 2026 07:02:25 -0800 (PST)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 09 Jan 2026 16:02:05 +0100
-Subject: [PATCH 1/2] ASoC: codecs: aw88261: Remove AW88261_I2C_NAME macro
+Subject: [PATCH 0/2] Add devicetree support for aw88261 amplifier driver &
+ minor cleanup
+Date: Fri, 09 Jan 2026 16:02:04 +0100
+Message-Id: <20260109-aw88261-dt-v1-0-45840c7632a3@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,9 +70,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-aw88261-dt-v1-1-45840c7632a3@fairphone.com>
-References: <20260109-aw88261-dt-v1-0-45840c7632a3@fairphone.com>
-In-Reply-To: <20260109-aw88261-dt-v1-0-45840c7632a3@fairphone.com>
+X-B4-Tracking: v=1; b=H4sIAGwYYWkC/y3MQQ6CMBCF4as0s3aSTk0K5SqGRaWjzoKibVESw
+ t1pwOX/kvetkDkJZ+jUCom/kmWKNeiiYHj5+GSUUBuMNlaTduh/bWssYSh4tY0jHYzzxFAP78Q
+ PWQ7s1p+d+DNXs5wj3H1mHKZxlNKpyEvBv9tAv207MZajv40AAAA=
+X-Change-ID: 20260109-aw88261-dt-367910d29a1e
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Bhushan Shah <bhushan.shah@machinesoul.in>, 
@@ -82,58 +83,31 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767970945; l=1369;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767970945; l=592;
  i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=nCBqxP5sqd/ywO7hxySgo/z7MuNVnRmbeNezGsLL5DM=;
- b=wfZz4y2xYmwI3It8e/xiHU5Prd79hzi8oRx/wgI/iQUyo3PgzFLcrAkvZb/BG6o2zoOPYOnKw
- XjVtdh/c8I2B/Ee+rf87dF6zrHTATOMjd5ihmyaG7GBO6Oytrjr11Bd
+ bh=wRc5twflyyFQSILWhyg08ey4btvhfHooe2gCLfKHRmw=;
+ b=OqOnuhXtyziGYKDoEYnnsH0FVInvK21ffvcVg6UwstKtcIHKnMW+jrM3ZKsOPvuJtLOX9Hyri
+ uDiFLAQzxPpBlSHo5kg355FyTfM7cPU9ylO2WEBrcRT1fs2Su1LL/a7
 X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
  pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 
-Replace the macro by its simple string value, to make the code less
-unnecessarily complicated.
+A series with a small cleanup and then a patch adding devicetree support
+for the aw88261 driver.
 
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- sound/soc/codecs/aw88261.c | 4 ++--
- sound/soc/codecs/aw88261.h | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Luca Weiss (2):
+      ASoC: codecs: aw88261: Remove AW88261_I2C_NAME macro
+      ASoC: codecs: aw88261: Add devicetree support
 
-diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-index 8f37bfb974ae..ceea0c8c60b1 100644
---- a/sound/soc/codecs/aw88261.c
-+++ b/sound/soc/codecs/aw88261.c
-@@ -1264,14 +1264,14 @@ static int aw88261_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id aw88261_i2c_id[] = {
--	{ AW88261_I2C_NAME },
-+	{ "aw88261" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, aw88261_i2c_id);
- 
- static struct i2c_driver aw88261_i2c_driver = {
- 	.driver = {
--		.name = AW88261_I2C_NAME,
-+		.name = "aw88261",
- 	},
- 	.probe = aw88261_i2c_probe,
- 	.id_table = aw88261_i2c_id,
-diff --git a/sound/soc/codecs/aw88261.h b/sound/soc/codecs/aw88261.h
-index 734d0f93ced9..1fee589608d6 100644
---- a/sound/soc/codecs/aw88261.h
-+++ b/sound/soc/codecs/aw88261.h
-@@ -370,8 +370,6 @@
- #define AW88261_START_RETRIES		(5)
- #define AW88261_START_WORK_DELAY_MS	(0)
- 
--#define AW88261_I2C_NAME		"aw88261"
--
- #define AW88261_RATES (SNDRV_PCM_RATE_8000_48000 | \
- 			SNDRV_PCM_RATE_96000)
- #define AW88261_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | \
+ sound/soc/codecs/aw88261.c | 11 +++++++++--
+ sound/soc/codecs/aw88261.h |  2 --
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+---
+base-commit: ef1c7b875741bef0ff37ae8ab8a9aaf407dc141c
+change-id: 20260109-aw88261-dt-367910d29a1e
 
+Best regards,
 -- 
-2.52.0
+Luca Weiss <luca.weiss@fairphone.com>
 
