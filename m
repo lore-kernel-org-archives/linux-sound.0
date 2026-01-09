@@ -1,98 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7FB320A1F;
-	Fri,  9 Jan 2026 15:08:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7393B364028;
+	Fri,  9 Jan 2026 15:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767971292; cv=none; b=jNiclR8J4T467FA6BGxWtueNpyq15fiE+cmOfl3a3KLzZhElq5q+moKWoCTaCHko3V9fy/l+vnG5+GvUXgLffMO+w3aZ+SV0NifaFWJ8EP3wbU/tOmHzpHPQwN5UK9PJTUCp49ue1fdtlqdQUNWNLznEg6GCfqTXnglJKLzE7Nw=
+	t=1767972573; cv=none; b=qLVrhzJQUXPmpRv+ykV762u5PisXCeUGDyURaVsocAnVK7sUqCMo4jFQ8pC5bVWDIEbGkv5kgU2jiI9Hvq7wykti7JIizYd9Pn4p20KP+79T5GT3mWdLQCLLs36Sh0E3390z0DaP3QCcrWyZTSNLHBx6SPdiODG4ouBhncbcbbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767971292; c=relaxed/simple;
-	bh=+yYivR6m7de4bVDJo8K4370S1d12YvRa0ve7K/19OdA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=WdMbhCBKSAAkw2sJaI4/DSJqCT8uXcgrtlc+z/n7y8RYOIPL613Ckt1Kq1MC1BSrhL5mvUH85ghMd3g4W63yQLooXo/D0BqTLmxE4VxVAcMApHBCokzktvVNupR/kH5FtfFSdIqAz0cZ7HGyjwFS8IjimkJZCWCKQo7jF8k7bL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rHPNztUN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767972573; c=relaxed/simple;
+	bh=NlYorFcv2Q+BEfuuMX30J9QgbeghuMMo0rPhFdXFgW0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nHKlAyy9X6v2U1BI0OlHarrT4QnyKYFLRe+elScSgzD1ih7U1MBAGyCmRQpKOQKXXNBX//H7DQM/6HF2oVNndAH9CyzjtFzCgCazURDWzzCIaKj2GddPiPq9MdNLQXzt70jrPCJhcx8u5tA7AU8IbdrnY5CNq29OkCtL2MV1eEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOmaQg2u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rHPNztUN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A2E2C4CEF1;
-	Fri,  9 Jan 2026 15:08:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOmaQg2u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F0BC19423;
+	Fri,  9 Jan 2026 15:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767971291;
-	bh=+yYivR6m7de4bVDJo8K4370S1d12YvRa0ve7K/19OdA=;
-	h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
-	b=rHPNztUNBvwrgM0+tRT43MKzu+mXAx8v7Lt9DNa4Z11mWqsBgqYXFdOwknanHxt8h
-	 xbQ+zcfZOdDV9rRQ/PFWBjxLzN0goMyVYNufIck5vIT+c2JDzBmkf+jNrUZ2SD3exR
-	 t9xSQpiEvKToocxG/iOHoTui6oawpqrQ2FYY8kpkBjz4HJSn1dQMZWg/uWo2Ynwjv/
-	 5eNuHBce79tUeJlVpeV6tda5gFVTIiuKnxXKjsvF1ZOBaC6p2tH6C0otpMhovgdKz8
-	 ez547ye1cbQArVuQK+dby5qd0afLjaykn72q5lBEZsWA6RionYN6Y2FOjEEfZBm7RR
-	 DvoH40ihTouFw==
+	s=k20201202; t=1767972573;
+	bh=NlYorFcv2Q+BEfuuMX30J9QgbeghuMMo0rPhFdXFgW0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KOmaQg2uVSBh/uN7+KgT8X2wnpATZIzymTeQoKlAqsF7RiNxoB0Eg5w4SZHCcbJYN
+	 O+5WxxuUO9BsO4u0gDzk33+JJ+qeu7ZRj63H7bUnZ8MpGFiL5FJyAyMBQPLfIrDXqh
+	 L+B5xvZmFkEW8MSA9P4xes79nCeVSV2KErm5JVNJ68uhwUtJzmTO8SKA9ZOxvVFlZY
+	 HJ6M95QpHb6C3lzuiVBSTGtPC5vCHYzRvFCFDfVtSAU5JEOZ0MRNZtjTHBqCKej+CM
+	 AaF0wiIaqKUkBjN9CSYHVVtwIJdAloLgzzaeZFRkJ/5SrYlYl74NG97HsdEH2m39zV
+	 IybjcU2u16pWg==
+From: Mark Brown <broonie@kernel.org>
+To: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260108154419.3580562-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20260108154419.3580562-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: codecs: da7213: Move comma operator at the end
+ of the line
+Message-Id: <176797257125.63356.15317595390832925573.b4-ty@kernel.org>
+Date: Fri, 09 Jan 2026 15:29:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=409e69e9e42622a8efaea00c6722208abb1f34df3b9e30332a381e829f3b;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 09 Jan 2026 16:08:07 +0100
-Message-Id: <DFK5IKWIJYLM.2CCXMRAXS0LYI@kernel.org>
-Subject: Re: [PATCH v4 00/10] gpio: improve support for shared GPIOs
-Cc: "Kees Cook" <kees@kernel.org>, "Mika Westerberg" <westeri@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Linus Walleij" <linus.walleij@linaro.org>,
- "Manivannan Sadhasivam" <mani@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Saravana Kannan" <saravanak@google.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Andy Shevchenko"
- <andy@kernel.org>, "Catalin Marinas" <catalin.marinas@arm.com>, "Will
- Deacon" <will@kernel.org>, "Srinivas Kandagatla" <srini@kernel.org>, "Liam
- Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Alexey Klimov" <alexey.klimov@linaro.org>, "Bjorn Andersson"
- <andersson@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>,
- <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>, "Bartosz
- Golaszewski" <bartosz.golaszewski@linaro.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Bartosz Golaszewski" <brgl@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
- <DFJAFK3DTBOZ.3G2P3A5IH34GF@kernel.org>
- <CAMRc=MeQ_zr047PxFFGhfZ43TuHoKG-9VLLefxVyScpO5ZxjzQ@mail.gmail.com>
- <DFK4Y3EOXTFL.1M25VAPJAS2BU@kernel.org>
- <CAMRc=MeG9fPaq8M8ACq7_9+ysmYX+aRRzZVgApv5YMGtjx72Mw@mail.gmail.com>
-In-Reply-To: <CAMRc=MeG9fPaq8M8ACq7_9+ysmYX+aRRzZVgApv5YMGtjx72Mw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
---409e69e9e42622a8efaea00c6722208abb1f34df3b9e30332a381e829f3b
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Thu, 08 Jan 2026 17:44:19 +0200, Claudiu wrote:
+> Move the comma operator to the end of the line to comply with the
+> coding style.
+> 
+> 
 
->> Not sure this is still valid. Because I've just learned that
->> apparently, the arm64 Image shall be made smaller and thus "need
->> a driver for rootfs" isn't a valid reason for =3Dy anymore.
->>
->
-> Is a switch to disable shared GPIO management entirely via Kconfig
-> (depending on CONFIG_EXPERT) good enough for you?
+Applied to
 
-I don't really need that (as I'd also need a PMIC driver, which
-probably won't be accepted either as =3Dy), maybe other do. Not sure,
-up to you.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--michael
+Thanks!
 
---409e69e9e42622a8efaea00c6722208abb1f34df3b9e30332a381e829f3b
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: codecs: da7213: Move comma operator at the end of the line
+      commit: 0cd9bf6a6d9a1861087236cc5c275b3bea83cfdd
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaWEZ1xIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/jb6QF/cKSDNHxnvueWH5aVmuyPcce5VtwNVM28
-ulztUB/LQdv1McH02EzbRVwRhh0VAP+PAX9TgaecNELyf37cr7SC2SmZQ15ZqBwR
-xXpQ0WmkfDXKsuE5DRyyGgZF13/qGopvROE=
-=If2G
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---409e69e9e42622a8efaea00c6722208abb1f34df3b9e30332a381e829f3b--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
