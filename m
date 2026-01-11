@@ -1,170 +1,152 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961831EDA3C;
-	Sun, 11 Jan 2026 19:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013E313B58A;
+	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768160604; cv=none; b=NodAetYNj3wLMSY6/xPZ2Isd/h86XxHNWrJ8xHvppxu3/HVNaMHx5GbN/HjHYrmmgJ3I1RtNpxUpT1Ecnx8tcmq7Q7uFKM2Z8e2iHcCTU2qTp1MPCQCtIVFUV0nALehMJrRbJgADDKpNpVs2+150Yl/zYCa+78Bduohp61mzp/s=
+	t=1768167410; cv=none; b=mDeCyjiJcR6KIlmpJihLMYoSJEBbJHeum3/n42nEu/Z98rydqOnTdA2VGqr9EFUyI/igdpM6e4wKmaHMPrujaJvyB+Lp4Pzw4taqQuHHkf2akmNRMTiwLaLuIZx99LMB51zF3TZmJ6nZqnvBwDTxVLNWHgXE3XjCaCaP7T+Otno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768160604; c=relaxed/simple;
-	bh=6ZO358wLWJv/7P+XiGaHMqEVTywze7565bGmQ4IzofM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m0bG3NSb3GHkqQVAh7bNoGGJW+QT/gMGgKOKDBiW1f0cadVd6q4Gtz3QaHerPNgU7GuL2rpRwsG1GwdOPGWEs/hXAfxkgfx8K4hBTp5Pup00laHE3v7Np+i1s4Yqc73Zp1XwEUQShlt+vYrwis9UG+BaJiCROQdCABRrKwMiJ+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=zGZTG77h; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1768167410; c=relaxed/simple;
+	bh=JsrpsJOJxoM1uVDX0crSzyfo2WhYOlPJq4u7fjRtP7c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KQ5RxI8bupeB+EWTotKZ/EWtkbgI//KDXB+OaaV5TOeWYKsbKjiFEwVLGhAQvbwSdTO8B8mLcxNlhuXpnf0rQIc7k9fqrHn5sxwK1qi2akYds4DQqnghwhF6nNn+XeHID9gQJhJ9CplIY3xNyysIVcuorOYbn0EyKP1Tj4CMAPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdQbh4q5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="zGZTG77h"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=vyCElViucl+cLlUVhuVJcUJ20mw8TamaI7jWvsVoS30=; b=zGZTG77h1xr2PAvnP5M0ngyGAl
-	Es/dPUiyTwI/SyqG+ZIuZ3rOtVW/12j7XQr7d5aonB3wQsRXE8UHrw1tFxPg5ZpfiVZNO2T/cVHLv
-	geG9A3sxKpjugqC8rZYrqV6SEDZZUv5Mz/zmQPX6EGdmLZxgq9EMlRFHGWX2Mj+wXPYPwpJiZFl2h
-	QE7JGQYc7ldmySSxW/k/g2PQfDlA1r7cGsQGuGCqeUQsGaO0Atp/LPRP6U/zy/n24zT2DumDZuWLJ
-	5LcE+MEJKyZ6YgCn00XU73GORZqYWdgtEKhSu84RJQfG43W/cHzHlVz5lv2JLULcfv+EnfC0Ud7yw
-	4NKTtwbQ==;
-Received: from i53875aef.versanet.de ([83.135.90.239] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1vf1K0-001rtK-85; Sun, 11 Jan 2026 20:41:56 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Mark Brown <broonie@kernel.org>,
- Varshini Rajendran <varshini.rajendran@microchip.com>,
- Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- David Lechner <dlechner@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>,
- Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Bartosz Golaszewski <brgl@kernel.org>,
- =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>,
- Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>,
- Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Huacai Chen <chenhuacai@kernel.org>, Xianwei Zhao <xianwei.zhao@amlogic.com>,
- Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
- Sergio Perez Gonzalez <sperezglz@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>,
- Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>,
- Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li <looong.bin@gmail.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- =?UTF-8?B?Q2zDqW1lbnQ=?= Le Goffic <clement.legoffic@foss.st.com>,
- Alessandro Grassi <alessandro.grassi@mailbox.org>,
- Chen-Yu Tsai <wens@kernel.org>, Darshan R <rathod.darshan.0896@gmail.com>,
- Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>,
- Haixu Cui <quic_haixcui@quicinc.com>,
- Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, imx@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>,
- Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- Ryan Wanner <ryan.wanner@microchip.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Kamal Dasu <kamal.dasu@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- William Zhang <william.zhang@broadcom.com>,
- Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
- Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lixu Zhang <lixu.zhang@intel.com>,
- Yinbo Zhu <zhuyinbo@loongson.cn>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- Han Xu <han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>,
- Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>,
- Masahisa Kojima <masahisa.kojima@linaro.org>,
- Jassi Brar <jaswinder.singh@linaro.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
- Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
-Date: Sun, 11 Jan 2026 20:41:50 +0100
-Message-ID: <2911099.XrmoMso0CX@diego>
-In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
-References:
- <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
- <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdQbh4q5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D60D2C19423;
+	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768167409;
+	bh=JsrpsJOJxoM1uVDX0crSzyfo2WhYOlPJq4u7fjRtP7c=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=PdQbh4q5xHGDnTrWF6scbsYs0fiq3gewPFZbN3BIVCciMDxmbrn7swp418L5NRkHR
+	 EJzV9nkszMKwWge9ACM40BWSdsfHcqsEBIYEP6fTdRMCjhK1eS4TTHPNqRNvE3aL0p
+	 Dm2LYxXg+lBRJbNNQCfCTG0s6HNNdJVfx47C9cbBsE3pjiAG3srxrMAqRtXsB2zU2Z
+	 KAYUTmmmol63Oa+6FYHtV/s+nJr5YO70lsYL9vDgrCgeRoLAE0EJHc8kXku/bHmsa4
+	 vRoRZgQ9VmFCj1V1MxnhO+NuML2mKUmndNIB1DTFJKL1moRdejadfv/wAtiFUAaS9W
+	 DXHC1qnYDG1tA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C41B1D2502E;
+	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
+From: fenugrec via B4 Relay <devnull+fenugrec.mail.com@kernel.org>
+Date: Sun, 11 Jan 2026 16:36:40 -0500
+Subject: [PATCH v2 1/2] ALSA: usb-audio: presonus s18xx uses little-endian
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260111-preso_clean1-v2-1-44b4e5129a75@mail.com>
+References: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
+In-Reply-To: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ roy.vegard.ovesen@gmail.com, mickflemm@gmail.com, 
+ fenugrec <fenugrec@mail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768167408; l=2326;
+ i=fenugrec@mail.com; s=20260110; h=from:subject:message-id;
+ bh=8P3tKjfthpc+uL9YV2TXD3wzFIRjHVY7PbgXHqkhu3o=;
+ b=fB8bl1am8yHZjlcSnZRASlCNx4tfirjYEuG1QozizAtGqdDzqzQLBSwxaclfoGTHZUQjDbX8X
+ APHDxQYlNwxBBhlr7O1wp7ErqkkrbtcBvSNUQc/6SsxARl0WxRUBb0H
+X-Developer-Key: i=fenugrec@mail.com; a=ed25519;
+ pk=lEWyQQHFuqFAWupzIuoHgEvr9FgSscJjTpmL97lrmOE=
+X-Endpoint-Received: by B4 Relay for fenugrec@mail.com/20260110 with
+ auth_id=597
+X-Original-From: fenugrec <fenugrec@mail.com>
+Reply-To: fenugrec@mail.com
 
-Am Donnerstag, 8. Januar 2026, 21:23:39 Mitteleurop=C3=A4ische Normalzeit s=
-chrieb Andy Shevchenko:
-> The SPI core provides the default of_node for the controller,
-> inherited from the actual (parent) device. No need to repeat it
-> in the driver.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
+From: fenugrec <fenugrec@mail.com>
 
->  drivers/spi/spi-rockchip-sfc.c       | 1 -
->  drivers/spi/spi-rockchip.c           | 1 -
+Use __le32 types for USB control transfers
 
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: fenugrec <fenugrec@mail.com>
+---
+ sound/usb/mixer_s1810c.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
+diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
+index 6e09e074c0e7..93510aa0dc5e 100644
+--- a/sound/usb/mixer_s1810c.c
++++ b/sound/usb/mixer_s1810c.c
+@@ -82,13 +82,13 @@
+  * mixer and output but a different set for device.
+  */
+ struct s1810c_ctl_packet {
+-	u32 a;
+-	u32 b;
+-	u32 fixed1;
+-	u32 fixed2;
+-	u32 c;
+-	u32 d;
+-	u32 e;
++	__le32 a;
++	__le32 b;
++	__le32 fixed1;
++	__le32 fixed2;
++	__le32 c;
++	__le32 d;
++	__le32 e;
+ };
+ 
+ #define SC1810C_CTL_LINE_SW	0
+@@ -118,7 +118,7 @@ struct s1810c_ctl_packet {
+  * being zero and different f1/f2.
+  */
+ struct s1810c_state_packet {
+-	u32 fields[63];
++	__le32 fields[63];
+ };
+ 
+ #define SC1810C_STATE_48V_SW	58
+@@ -140,14 +140,14 @@ snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 a,
+ 	struct s1810c_ctl_packet pkt = { 0 };
+ 	int ret = 0;
+ 
+-	pkt.fixed1 = SC1810C_CMD_F1;
+-	pkt.fixed2 = SC1810C_CMD_F2;
++	pkt.fixed1 = __cpu_to_le32(SC1810C_CMD_F1);
++	pkt.fixed2 = __cpu_to_le32(SC1810C_CMD_F2);
+ 
+-	pkt.a = a;
+-	pkt.b = b;
+-	pkt.c = c;
+-	pkt.d = d;
+-	pkt.e = e;
++	pkt.a = __cpu_to_le32(a);
++	pkt.b = __cpu_to_le32(b);
++	pkt.c = __cpu_to_le32(c);
++	pkt.d = __cpu_to_le32(d);
++	pkt.e = __cpu_to_le32(e);
+ 
+ 	ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 			      SC1810C_CMD_REQ,
+@@ -176,8 +176,8 @@ snd_sc1810c_get_status_field(struct usb_device *dev,
+ 	struct s1810c_state_packet pkt_in = { { 0 } };
+ 	int ret = 0;
+ 
+-	pkt_out.fields[SC1810C_STATE_F1_IDX] = SC1810C_SET_STATE_F1;
+-	pkt_out.fields[SC1810C_STATE_F2_IDX] = SC1810C_SET_STATE_F2;
++	pkt_out.fields[SC1810C_STATE_F1_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F1);
++	pkt_out.fields[SC1810C_STATE_F2_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F2);
+ 	ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 			      SC1810C_SET_STATE_REQ,
+ 			      SC1810C_SET_STATE_REQTYPE,
+@@ -197,7 +197,7 @@ snd_sc1810c_get_status_field(struct usb_device *dev,
+ 		return ret;
+ 	}
+ 
+-	(*field) = pkt_in.fields[field_idx];
++	(*field) = __le32_to_cpu(pkt_in.fields[field_idx]);
+ 	(*seqnum)++;
+ 	return 0;
+ }
+
+-- 
+2.52.0
 
 
