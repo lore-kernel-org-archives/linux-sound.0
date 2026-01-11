@@ -1,88 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3067330D34;
-	Sun, 11 Jan 2026 10:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BC723C50A;
+	Sun, 11 Jan 2026 10:36:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768126256; cv=none; b=raVVU92mYx9iL33nkNXhSxnM8wFlD/3BcQy2M65Yxe8QOzIn7AP9kvnG5K4j3awBRL2faMaGe+3wgTs4gKlyvHsePDLMvCH4VM9ZcgKdQmB6wxfMZPqyeDzkSRqAzttYL4sAoORAo2ARh56YybcRP9rpFLLkr8JGAhP8NEq3/9k=
+	t=1768127789; cv=none; b=u/k45+/WnoOgmbaELFtBb2QAo54C3wcs4qnGAP+NSqd5j4Bkhe8IKvdBuDbQM3wTs3lWqIRXjgBB5fqUOorCr0DzrTWGXfL3EHsSspS486JdPJzzc67HgCmCrnBObSo8Zy+yjB8fxFtDAmY2E1dMhP6fdOARcc2qyyLBIoOxYqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768126256; c=relaxed/simple;
-	bh=zV/ctewfiPYQ3WgFlicNsePqY0KYzA9iBBwBOFgllA0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fs4+w6Uugx847zJ/dfdIegZ/cjw44rnqUelDwPGlvzmSvb3U/F7fN1re4QG8Zh8Amehx/CuNZuxehExJ+7RdVzAWrjruC1aeEZfbM9IcManxLbtr3VmPauc4D/05whEQ+H7fywde2o1X0JlK71Dx4s6N4ghJgBL6xv6pPPYlx5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RfbBiXxy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768127789; c=relaxed/simple;
+	bh=gUOhgXuwBlu60lhjZNAzHC0wkSh5DUcY96l2rSVARE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOeILPZmaKpjIyp0pWOR4ctvhcj1qVJK7d+4Rbfu+6vq39IRUIrbIGmIV1+251x07g+CDmx9MtFZGr7nlyWC7rRHVq5Os5vzjej5ZlIk/5CzvWuvA0kCuqTTWK57HDT0IaUmkg6BMJfWFcm2Xb5D+AEOv9Orkln2pZDSSgb+q6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qztZJHY3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RfbBiXxy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C2B0C4CEF7;
-	Sun, 11 Jan 2026 10:10:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qztZJHY3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3142CC4CEF7;
+	Sun, 11 Jan 2026 10:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768126256;
-	bh=zV/ctewfiPYQ3WgFlicNsePqY0KYzA9iBBwBOFgllA0=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=RfbBiXxy3Wrb49OTy3QSW0X3iYnPEUoanZ3ZOJut+ao6soJYBqOs3QPRrLSjlKbDW
-	 YEoDLv2P+yZNZuzIgEott6YqgXGRk06JJQOvSwkAdwPKIW7PGmsEYIdSGew6nOqyii
-	 vm9VB9OvNGVchnll1W31WE1QlOzHtpD6Kllqot8yD9i0X/UeKYUEgPHPEgvxkylGKl
-	 t8M/V/3QKRy02sqB/GfueaGfen06gbRewWmqL2Uo7CwrOLyYYj9RNMuOnpgWb5I34y
-	 OQos9p1BzNBZIdZK7u0t7m358DhnuC/Osk6P+lopRrNkJ2B7faQNWHGu+EOPrz+7yT
-	 WE1zwb+g4xu3w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 429C8D25030;
-	Sun, 11 Jan 2026 10:10:56 +0000 (UTC)
-From: Bharadwaj Raju via B4 Relay <devnull+bharadwaj.raju.machinesoul.in@kernel.org>
-Subject: [PATCH 0/2] ASoC: codecs: aw88261: add dvdd-supply property
-Date: Sun, 11 Jan 2026 15:40:29 +0530
-Message-Id: <20260111-aw88261-dvdd-v1-0-83fa0850d561@machinesoul.in>
+	s=k20201202; t=1768127788;
+	bh=gUOhgXuwBlu60lhjZNAzHC0wkSh5DUcY96l2rSVARE8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qztZJHY3GtVjhxU5tMBgzDOMXadvu3V3yPjEtbNEIsA3Hd/tIMDQ5thQXGtO3+gN1
+	 kN+MyVRJcsA0RzSEWAPfSJwk1UdKXLeq5YeQpS2KvPigHT47uH2nQncAb5kG3vhGPM
+	 e415A20y3T17Ub9FyC99TFgH1QUO1wSPKYAn5ACAvOSWefainsCx0QggC3d7qtGIP9
+	 oY/efDC46PwpC4KpebCANBYM7038cZhRaq0OsCX8enwoR+iS/rnUrhD53wmr5VVI/n
+	 xUCIQLucSSFVvfA6LNbAp/3gv5JD+GM/F5FU0Ejxd0+NZ8vFoGx3tuE/433mO8t0lW
+	 +je6pKnOGqzig==
+Date: Sun, 11 Jan 2026 11:36:26 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: cy_huang@richtek.com
+Cc: Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, musk_wang@richtek.com, 
+	roy_chiu@richtek.com, allen_lin@richtek.com, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: sound: rtq9128: Add rtq9154 backward
+ compatible
+Message-ID: <20260111-polite-rebel-armadillo-22fe2d@quoll>
+References: <cover.1767948925.git.cy_huang@richtek.com>
+ <714d1455279d8e9814e592a26dc2f8440949062f.1767948925.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABZ3Y2kC/x3MQQqAIBBA0avIrBMcSZGuEi1Mp5qNhYIF0t2Tl
- m/xf4NCmanAJBpkqlz4TB04CAiHTztJjt2glbYKEaW/ndMWZawxSqPCiAENrl5BT65MGz//bl7
- e9wOaJ6zHXgAAAA==
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Weidong Wang <wangweidong.a@awinic.com>
-Cc: Bhushan Shah <bhushan.shah@machinesoul.in>, 
- Luca Weiss <luca.weiss@fairphone.com>, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768126255; l=732;
- i=bharadwaj.raju@machinesoul.in; s=20260111; h=from:subject:message-id;
- bh=zV/ctewfiPYQ3WgFlicNsePqY0KYzA9iBBwBOFgllA0=;
- b=BlsJq7CwBNYETg1lA3PeqFyXeE9jGEu7zr0hww5nZDeDOXZQhXjwfXR3UaJ8wLUbnbouHWxgB
- HkhYLeKb8M7BoiBRmwiL5iITfLACHtVCtWtG1B2qnRY1q9ozCiJ2bXp
-X-Developer-Key: i=bharadwaj.raju@machinesoul.in; a=ed25519;
- pk=0M1a+iMXDqasbx7bQL71NdtuutFXu+lVxsiSnEiyAIg=
-X-Endpoint-Received: by B4 Relay for bharadwaj.raju@machinesoul.in/20260111
- with auth_id=598
-X-Original-From: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
-Reply-To: bharadwaj.raju@machinesoul.in
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <714d1455279d8e9814e592a26dc2f8440949062f.1767948925.git.cy_huang@richtek.com>
 
-Make the aw88261 driver depend on and enable the dvdd-supply regulator,
-so that the correct regulator can be specified in the device tree.
+On Fri, Jan 09, 2026 at 05:03:53PM +0800, cy_huang@richtek.com wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add rtq9154 backward comaptible support.
 
-Signed-off-by: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
----
-Bharadwaj Raju (2):
-      ASoC: codecs: aw88261: use dvdd-supply regulator
-      ASoC: dt-bindings: document dvdd-supply property for awinic,aw88261
+You have typo here.
 
- Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 13 +++++++++++++
- sound/soc/codecs/aw88261.c                                  |  5 +++++
- 2 files changed, 18 insertions(+)
----
-base-commit: db1c30e19243982e34f027a2e564c93e94f42cb2
-change-id: 20260111-aw88261-dvdd-50c41c151ba0
+With this fixed:
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
--- 
-Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
-
+Krzysztof
 
