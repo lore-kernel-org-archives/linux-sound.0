@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37215268C42;
-	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372832877ED;
+	Sun, 11 Jan 2026 21:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768167410; cv=none; b=t9Rllk+yXPOj3klMtAl3doIYz3ZEx8yLamDhl9tTYyDsZzK6WALpu9rG5nfBpFE3j51fl03OJEjZV88/zMWmq5SJSaD5qMQv9aw3sUFImgOCWAW3OR1doZomYtRcxmugo1zZ+gktBy90Qh0Roj0OjEUzs78h/oJHqfoFWHdXSpk=
+	t=1768167410; cv=none; b=qk3Ale14CwP+SNnAoKTxP86BzuW3nvnnPSKbmXZ0eZoAHwyc+3xfxJAh3UUQDwB6Kro+lGRwumi6lovZoMmgITULOPl383bdC+Mpbv/eoz/RyOKyc1CLyjMXIAj91vY2CdKcxWSvfIuu0qcisqg1lbp8YNzHiZs5slhUeIb4L1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768167410; c=relaxed/simple;
-	bh=yzHufDSAmjhHeJmk9w8TQVb2dLlvp/K/O4FdfAf56cU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bTdj3spAI9QLrskC+200d7SVbfYCS8KHErEMSKOr7JXWZ9+GFk5WwJ8VWran8fz8j6+OGwbImQ7DscSnMn9ZqMfuNR/El0GGRGbnkuJkMLh4bdgyRyB//k0P+WjTj/Ys+d2oJpk5C2K65//Gp4xT6msgHUsieWw1xHAkM+z9uFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tcwJ5tDr; arc=none smtp.client-ip=10.30.226.201
+	bh=GdY/Cglg3MpVvPTfRM0u2Sapew8vzusHFuk13SMYeh8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=m/N4D8jQ7bOONqv2tVFG08ot5a3Ua++Csp2XzfA0pNt+3c7ll7J3w+uyK2Dw/9E/ZS7OreFw61Zez8oeoIW2GFn/o5Q24aIioU07i7hhpUMNWPpZA4Qpiri8MXqjJD3FHQha0YO62OKBaY/p7UeLRzfhLEtiODB9i0GwoTYkh+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE6kr/c2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tcwJ5tDr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C4D8EC4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE6kr/c2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DF346C19422;
 	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768167409;
-	bh=yzHufDSAmjhHeJmk9w8TQVb2dLlvp/K/O4FdfAf56cU=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=tcwJ5tDr6A382gqcyY6gT3pas8VcexA14cKLD2MWxVs5nusttp1lFLnf3c5tzvtHb
-	 Wp3X4A+PlENTTrmAeZq9XtUEbGnN5hH68U9vt7Thz/M1abozX1UjO0c1Ao2OIiDfqu
-	 cJcBA8UNd1We9N3R/sZTRlnWs6UWB9H+1LWzwz+WUJ2eeWCwztTZLt9nFpKp46LK6/
-	 HIo/5CNKkfJnrX6BDQ+5cc0+mnu0TNhznxozHeoCj1GI12EzEcTv4aybEdPimxBUvR
-	 3+hcemclY3djBBUTkUTMFSgbLw7H3jqSw6/gx7j1cOTxqL91s9bQkqdqOicg99R0uw
-	 k3ObAKA1n+5MA==
+	bh=GdY/Cglg3MpVvPTfRM0u2Sapew8vzusHFuk13SMYeh8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=YE6kr/c29tYU2pfvGiFjCxKRLfOespq7pKGXWEAimCWp+y/YZ2J/FHh6e3GK41DZT
+	 S07A2l/0kjsP59HnwaWHeYC99a8YvzrjndCaQ3TWbe05Mmjn1li1SzDaNT4MiYAVxI
+	 iji/hZq3GP9Np392lkXDnRRmZC/0XuntulpGtu435cReJYlfk4FlSPAsHVkeKG7nac
+	 kUL/34BpgyL1Ey773rqMCwHmaG4L84cnnuRboFtW0NIpVoUW34Zqu3QgngdWsUuCuU
+	 wVc0wLKjbaYrvpfCGfDZXcERD7GJZq/kQy/UfQgfyA6XbjcW+KplBmEJQ+eF07DN+h
+	 cRehiUEYMB75g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDDCD25031;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F91D25036;
 	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
 From: fenugrec via B4 Relay <devnull+fenugrec.mail.com@kernel.org>
-Subject: [PATCH v2 0/2] ALSA: usb-audio: presonus s1810 minor cleanup and
- document
-Date: Sun, 11 Jan 2026 16:36:39 -0500
-Message-Id: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
+Date: Sun, 11 Jan 2026 16:36:41 -0500
+Subject: [PATCH v2 2/2] ALSA: usb-audio: clean up presonus s1810 consts
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,20 +40,19 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WMywrCMBBFf6XM2khm1KCu/A8pksdoB9pGEglKy
- b8bu3d57uWcBTIn4QznboHERbLEuQFtOvCDnR+sJDQG0mQ0olbPxDne/Mh2RoWGHLlwdMGdoCn
- tvMt7zV37xoPkV0yftV7wt/4JFVRaeaYQdmz3B20uk5Vx6+MEfa31C5Q7o7SnAAAA
-X-Change-ID: 20260110-preso_clean1-162b2bd8bdb9
+Message-Id: <20260111-preso_clean1-v2-2-44b4e5129a75@mail.com>
+References: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
+In-Reply-To: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  roy.vegard.ovesen@gmail.com, mickflemm@gmail.com, 
  fenugrec <fenugrec@mail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768167408; l=1149;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768167408; l=12940;
  i=fenugrec@mail.com; s=20260110; h=from:subject:message-id;
- bh=yzHufDSAmjhHeJmk9w8TQVb2dLlvp/K/O4FdfAf56cU=;
- b=NS7SnewJkiNsiaE5u3gF9KrKwzjhSkmxkGL+BmXSbd7JtjiE06audx4q7H3IkcDYIY/qQEJO+
- hPFedFvtvGYA8qp0XR/uxL2m8o19S52LLawyK9FJ4JaT1rHLQaF/ckL
+ bh=goMhkYCIyyvM4be1YgRP8+WLU7bsS/sCK4Jkox8DUnU=;
+ b=CkwkrP/n5zD2erDzjb1kkG5UGztE3Sj0FWkL0R64gzRR03WOLNNRhWAY7LSj89EMlTGJuQa3B
+ d0PKijv83maDgoJmIfts573el42kkI3b/+YngnAH3ywiatFJQpiOPXC
 X-Developer-Key: i=fenugrec@mail.com; a=ed25519;
  pk=lEWyQQHFuqFAWupzIuoHgEvr9FgSscJjTpmL97lrmOE=
 X-Endpoint-Received: by B4 Relay for fenugrec@mail.com/20260110 with
@@ -62,38 +60,389 @@ X-Endpoint-Received: by B4 Relay for fenugrec@mail.com/20260110 with
 X-Original-From: fenugrec <fenugrec@mail.com>
 Reply-To: fenugrec@mail.com
 
-patch v2 : apologies, I had missed an __le32 field.
+From: fenugrec <fenugrec@mail.com>
 
-- Use __le32 fields for structures sent/received over USB
- Addresses a comment from when this driver was initially merged:
-  https://lore.kernel.org/all/s5hd0agcjw1.wl-tiwai@suse.de/
+- Reorder some #define blocks
+- Document mixer/volume levels
+- Document some Ctl request fields (tag, len)
+- replace some magic numbers with macros
 
-- Document constants and protocol details common to the Studio 1810 and
-1824c devices
-
-Except for a hypothetical big-endian platform (which I cannot test) where the first
-commit would make a difference, both these should have no functional
-change.
+No functional change intended. The information is based on reverse
+engineering.
 
 Signed-off-by: fenugrec <fenugrec@mail.com>
 ---
-Changes in v2:
-- fix an overlooked __le32 conversion for .tag and .len fields
-- Link to v1: https://lore.kernel.org/r/20260110-preso_clean1-v1-0-ce2dd3ea4506@mail.com
+ sound/usb/mixer_s1810c.c | 204 ++++++++++++++++++++++++++++-------------------
+ 1 file changed, 124 insertions(+), 80 deletions(-)
 
----
-fenugrec (2):
-      ALSA: usb-audio: presonus s18xx uses little-endian
-      ALSA: usb-audio: clean up presonus s1810 consts
+diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
+index 93510aa0dc5e..b4ce89afb25b 100644
+--- a/sound/usb/mixer_s1810c.c
++++ b/sound/usb/mixer_s1810c.c
+@@ -25,12 +25,6 @@
+ #include "helper.h"
+ #include "mixer_s1810c.h"
+ 
+-#define SC1810C_CMD_REQ	160
+-#define SC1810C_CMD_REQTYPE \
+-	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT)
+-#define SC1810C_CMD_F1		0x50617269
+-#define SC1810C_CMD_F2		0x14
+-
+ /*
+  * DISCLAIMER: These are just guesses based on the
+  * dumps I got.
+@@ -42,9 +36,8 @@
+  *  * b selects an input channel (see below).
+  *  * c selects an output channel pair (see below).
+  *  * d selects left (0) or right (1) of that pair.
+- *  * e 0-> disconnect, 0x01000000-> connect,
+- *	0x0109-> used for stereo-linking channels,
+- *	e is also used for setting volume levels
++ *  * e level : see MIXER_LEVEL_* defines below.
++ *	Also used for setting volume levels
+  *	in which case b is also set so I guess
+  *	this way it is possible to set the volume
+  *	level from the specified input to the
+@@ -75,52 +68,98 @@
+  * For output (0x65):
+  *   * b is the output channel (see above).
+  *   * c is zero.
+- *   * e I guess the same as with mixer except 0x0109
+- *	 which I didn't see in my dumps.
++ *   * e I guess the same as with mixer
++ *
++ */
++/** struct s1810c_ctl_packet - basic vendor request
++ * @selector: device/mixer/output
++ * @b: request-dependant field b
++ * @tag: fixed value identifying type of request
++ * @len: sizeof this struct - 8 (excludes first 2 fields)
++ *	i.e. for basic struct s1810c_ctl_packet: len is 5*4=0x14
++ * @c: request-dependant field c
++ * @d: request-dependant field d
++ * @e: request-dependant field e
+  *
+- * The two fixed fields have the same values for
+- * mixer and output but a different set for device.
++ * See longer description above. This could be combined
++ * (as a union?) with the longer struct s1810c_state_packet
+  */
+ struct s1810c_ctl_packet {
+-	__le32 a;
++	__le32 selector;
+ 	__le32 b;
+-	__le32 fixed1;
+-	__le32 fixed2;
++	__le32 tag;
++	__le32 len;
+ 	__le32 c;
+ 	__le32 d;
+ 	__le32 e;
+ };
+ 
++/** selectors for CMD request
++ */
++#define SC1810C_SEL_DEVICE 0
++#define SC1810C_SEL_MIXER 0x64
++#define SC1810C_SEL_OUTPUT 0x65
++
++
++/** control ids */
+ #define SC1810C_CTL_LINE_SW	0
+ #define SC1810C_CTL_MUTE_SW	1
+ #define SC1824C_CTL_MONO_SW	2
+ #define SC1810C_CTL_AB_SW	3
+ #define SC1810C_CTL_48V_SW	4
+ 
++/* USB Control (vendor) requests
++ */
++#define SC1810C_CMD_REQ	160
++#define SC1810C_CMD_REQTYPE \
++	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT)
++#define SC1810C_CMD_TAG		0x50617269
++#define SC1810C_CMD_LEN		0x14
++
+ #define SC1810C_SET_STATE_REQ	161
+ #define SC1810C_SET_STATE_REQTYPE SC1810C_CMD_REQTYPE
+-#define SC1810C_SET_STATE_F1	0x64656D73
+-#define SC1810C_SET_STATE_F2	0xF4
++#define SC1810C_SET_STATE_TAG	0x64656D73
++#define SC1810C_SET_STATE_LEN	0xF4
+ 
+ #define SC1810C_GET_STATE_REQ	162
+ #define SC1810C_GET_STATE_REQTYPE \
+ 	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN)
+-#define SC1810C_GET_STATE_F1	SC1810C_SET_STATE_F1
+-#define SC1810C_GET_STATE_F2	SC1810C_SET_STATE_F2
+-
+-#define SC1810C_STATE_F1_IDX	2
+-#define SC1810C_STATE_F2_IDX	3
++#define SC1810C_GET_STATE_TAG	SC1810C_SET_STATE_TAG
++#define SC1810C_GET_STATE_LEN	SC1810C_SET_STATE_LEN
++
++/** Mixer levels normally range from 0 (off) to 0x0100 0000 (0 dB).
++ * raw_level = 2^24 * 10^(db_level / 20), thus
++ * -3dB = 0xb53bf0 (technically, half-power -3.01...dB would be 0xb504f3)
++ * -96dB = 0x109
++ * -99dB = 0xBC
++ * PC software sliders cover -96 to +10dB (0x0329 8b08),
++ * but the value 0 (-inf dB) can be used when e.g. Mixer Bypass is enabled.
++ * Unclear what the hardware's maximum value is.
++ *
++ * Note, when a channel is panned to two channels (stereo),
++ * the mixer level is set to slider value (by default -96dB) minus 3dB,
++ * which explains the -99dB value seen in USB captures.
++ */
++#define MIXER_LEVEL_MUTE 0
++#define MIXER_LEVEL_N99DB 0xbc
++#define MIXER_LEVEL_N3DB 0xb53bf0
++#define MIXER_LEVEL_0DB 0x1000000
+ 
+-/*
++/**
+  * This packet includes mixer volumes and
+  * various other fields, it's an extended
+  * version of ctl_packet, with a and b
+- * being zero and different f1/f2.
++ * being zero and different tag/length.
+  */
+ struct s1810c_state_packet {
+ 	__le32 fields[63];
+ };
+ 
++/** indices into s1810c_state_packet.fields[]
++ */
++#define SC1810C_STATE_TAG_IDX	2
++#define SC1810C_STATE_LEN_IDX	3
++
+ #define SC1810C_STATE_48V_SW	58
+ #define SC1810C_STATE_LINE_SW	59
+ #define SC1810C_STATE_MUTE_SW	60
+@@ -134,16 +173,16 @@ struct s1810_mixer_state {
+ };
+ 
+ static int
+-snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 a,
++snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 sel,
+ 			   u32 b, u32 c, u32 d, u32 e)
+ {
+ 	struct s1810c_ctl_packet pkt = { 0 };
+ 	int ret = 0;
+ 
+-	pkt.fixed1 = __cpu_to_le32(SC1810C_CMD_F1);
+-	pkt.fixed2 = __cpu_to_le32(SC1810C_CMD_F2);
++	pkt.tag = __cpu_to_le32(SC1810C_CMD_TAG);
++	pkt.len = __cpu_to_le32(SC1810C_CMD_LEN);
+ 
+-	pkt.a = __cpu_to_le32(a);
++	pkt.selector = __cpu_to_le32(sel);
+ 	pkt.b = __cpu_to_le32(b);
+ 	pkt.c = __cpu_to_le32(c);
+ 	pkt.d = __cpu_to_le32(d);
+@@ -176,8 +215,8 @@ snd_sc1810c_get_status_field(struct usb_device *dev,
+ 	struct s1810c_state_packet pkt_in = { { 0 } };
+ 	int ret = 0;
+ 
+-	pkt_out.fields[SC1810C_STATE_F1_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F1);
+-	pkt_out.fields[SC1810C_STATE_F2_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F2);
++	pkt_out.fields[SC1810C_STATE_TAG_IDX] = __cpu_to_le32(SC1810C_SET_STATE_TAG);
++	pkt_out.fields[SC1810C_STATE_LEN_IDX] = __cpu_to_le32(SC1810C_SET_STATE_LEN);
+ 	ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 			      SC1810C_SET_STATE_REQ,
+ 			      SC1810C_SET_STATE_REQTYPE,
+@@ -216,8 +255,8 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 	switch (chip->usb_id) {
+ 	case USB_ID(0x194f, 0x010c): /* 1810c */
+ 		/* Set initial volume levels ? */
+-		a = 0x64;
+-		e = 0xbc;
++		a = SC1810C_SEL_MIXER;
++		e = MIXER_LEVEL_N99DB;
+ 		for (n = 0; n < 2; n++) {
+ 			off = n * 18;
+ 			for (b = off; b < 18 + off; b++) {
+@@ -234,22 +273,21 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 			 * I noticed on UC that DAW channels have different
+ 			 * initial volumes, so this makes sense.
+ 			 */
+-			e = 0xb53bf0;
++			e = MIXER_LEVEL_N3DB;
+ 		}
+ 
+ 		/* Connect analog outputs ? */
+-		a = 0x65;
+-		e = 0x01000000;
++		a = SC1810C_SEL_OUTPUT;
+ 		for (b = 1; b < 3; b++) {
+-			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, e);
+-			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, e);
++			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, MIXER_LEVEL_0DB);
++			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, MIXER_LEVEL_0DB);
+ 		}
+-		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 0, e);
+-		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 1, e);
++		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 0, MIXER_LEVEL_0DB);
++		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 1, MIXER_LEVEL_0DB);
+ 
+ 		/* Set initial volume levels for S/PDIF mappings ? */
+-		a = 0x64;
+-		e = 0xbc;
++		a = SC1810C_SEL_MIXER;
++		e = MIXER_LEVEL_N99DB;
+ 		c = 3;
+ 		for (n = 0; n < 2; n++) {
+ 			off = n * 18;
+@@ -257,26 +295,23 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 				snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
+ 				snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
+ 			}
+-			e = 0xb53bf0;
++			e = MIXER_LEVEL_N3DB;
+ 		}
+ 
+ 		/* Connect S/PDIF output ? */
+-		a = 0x65;
+-		e = 0x01000000;
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
++		a = SC1810C_SEL_OUTPUT;
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
+ 
+ 		/* Connect all outputs (again) ? */
+-		a = 0x65;
+-		e = 0x01000000;
++		a = SC1810C_SEL_OUTPUT;
+ 		for (b = 0; b < 4; b++) {
+-			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, e);
+-			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, e);
++			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, MIXER_LEVEL_0DB);
++			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, MIXER_LEVEL_0DB);
+ 		}
+ 
+ 		/* Basic routing to get sound out of the device */
+-		a = 0x64;
+-		e = 0x01000000;
++		a = SC1810C_SEL_MIXER;
+ 		for (c = 0; c < 4; c++) {
+ 			for (b = 0; b < 36; b++) {
+ 				if ((c == 0 && b == 18) ||	/* DAW1/2 -> Main */
+@@ -284,23 +319,29 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 					(c == 2 && b == 22) ||	/* DAW4/5 -> Line5/6 */
+ 					(c == 3 && b == 24)) {	/* DAW5/6 -> S/PDIF */
+ 					/* Left */
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_0DB);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_MUTE);
+ 					b++;
+ 					/* Right */
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_MUTE);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_0DB);
+ 				} else {
+ 					/* Leave the rest disconnected */
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_MUTE);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_MUTE);
+ 				}
+ 			}
+ 		}
+ 
+ 		/* Set initial volume levels for S/PDIF (again) ? */
+-		a = 0x64;
+-		e = 0xbc;
++		a = SC1810C_SEL_MIXER;
++		e = MIXER_LEVEL_N99DB;
+ 		c = 3;
+ 		for (n = 0; n < 2; n++) {
+ 			off = n * 18;
+@@ -308,29 +349,26 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 				snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
+ 				snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
+ 			}
+-			e = 0xb53bf0;
++			e = MIXER_LEVEL_N3DB;
+ 		}
+ 
+ 		/* Connect S/PDIF outputs (again) ? */
+-		a = 0x65;
+-		e = 0x01000000;
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
++		a = SC1810C_SEL_OUTPUT;
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
+ 
+ 		/* Again ? */
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
+-		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
++		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
+ 		break;
+ 
+ 	case USB_ID(0x194f, 0x010d): /* 1824c */
+ 		/* Set all output faders to unity gain */
+-		a = 0x65;
++		a = SC1810C_SEL_OUTPUT;
+ 		c = 0x00;
+-		e = 0x01000000;
+-
+ 		for (b = 0; b < 9; b++) {
+-			snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
+-			snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
++			snd_s1810c_send_ctl_packet(dev, a, b, c, 0, MIXER_LEVEL_0DB);
++			snd_s1810c_send_ctl_packet(dev, a, b, c, 1, MIXER_LEVEL_0DB);
+ 		}
+ 
+ 		/* Set
+@@ -345,7 +383,7 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 		 * Daw 17 -> ADAT out 7, (left) Daw 18 -> ADAT out 8 (right)
+ 		 * Everything else muted
+ 		 */
+-		a = 0x64;
++		a = SC1810C_SEL_MIXER;
+ 		/* The first Daw channel is channel 18 */
+ 		left = 18;
+ 
+@@ -354,14 +392,20 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
+ 
+ 			for (b = 0; b < 36; b++) {
+ 				if (b == left) {
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x01000000);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x00);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_0DB);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_MUTE);
+ 				} else if (b == right) {
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x00);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x01000000);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_MUTE);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_0DB);
+ 				} else {
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x00);
+-					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x00);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 0, MIXER_LEVEL_MUTE);
++					snd_s1810c_send_ctl_packet(dev,
++							a, b, c, 1, MIXER_LEVEL_MUTE);
+ 				}
+ 			}
+ 			left += 2;
 
- sound/usb/mixer_s1810c.c | 224 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 134 insertions(+), 90 deletions(-)
----
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-change-id: 20260110-preso_clean1-162b2bd8bdb9
-
-Best regards,
 -- 
-fenugrec <fenugrec@mail.com>
+2.52.0
 
 
