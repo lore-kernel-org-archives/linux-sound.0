@@ -1,124 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4526F1CAA68;
-	Sun, 11 Jan 2026 16:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF8E22AE65;
+	Sun, 11 Jan 2026 16:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768147834; cv=none; b=gtUWEyNkHMX31o4S80p7BYbkvzSOrv1rDZyHshnoJ0LNswcqPtl//b80ek2YRaTemW0up9jOZRxS2xPIp64IYj1iXitcW8s5osiILHyZvgCHm3GBy07AIlUAe5FVbN71bYL2w0ugLdb8ITo4Glpz0SuzKB3ixYWYm5nJt+BpJik=
+	t=1768150705; cv=none; b=Wvb9Uf1zE51d+7tt+D6jmO9x/C10bLScXv2pfRfTY41cPMYqGrGw8LN5lhcqpekIjM1vwnTR4C6Xr/U5a++jjb15cmUUnUNkTBEjIz9u6170d0w5cYKaefojjPJ1RtRq7Pr4W4WbkJqUxvSxLU/ok9SKPq7yyWcJ5QUAiPrrTDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768147834; c=relaxed/simple;
-	bh=leRp0sBnnlAzhq88lOJpyV1MLEu7YgR8PUVZS46tQys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N6UmqYTu1sBLBfcCY1bu/xUrcLhNW3D8t0CT/2sqCDqZKULksOJoml4JlTGCRq+Me7glpGlWqq8RNiw4/Dr2PmhKQpB78OQqlbqB7pgL77IONPhjsIQzLhyi+jo5/BiBobnAdHqV0QT07hNbf81dlP3KD3rmIrKQvP9gJocTs/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fg8YJTcz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768150705; c=relaxed/simple;
+	bh=2wbW41C2J76Sms115w/xbUlLwXKlyG+kYWdIrr/qsDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LJXo9JU2LP7j4MoQdh85KXV7EET6W7VXWOYj+VzQ+jVIK4CoeaOiJedEqKoYNXrKAMwEs2RD1Y2dJc01o3Vsytb8sfoJxStkMl5r6mh+9DULH3HhaJnjCGfIbvg8H5U8RMZvFFDYHpNP7VU0T/sg+QBEF3x3D3mnMvM3rvQeE/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5PCNrhP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fg8YJTcz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F0CC4CEF7;
-	Sun, 11 Jan 2026 16:10:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5PCNrhP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B94C4CEF7;
+	Sun, 11 Jan 2026 16:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768147834;
-	bh=leRp0sBnnlAzhq88lOJpyV1MLEu7YgR8PUVZS46tQys=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fg8YJTczENNb3aLhM1aHWf4G7BZODgr709FusP01wkxTW9hYj4eUYL1oNGdy12YLW
-	 HhUmsMgCr1UlFMVEOPzScnTNNHlxHB0KbndNqa0Lh85tZsy0Bo9mygfbOI6MLrBqrg
-	 xdtY5sIvygdLZjLH1kwEAuLjMCbFnkKDRNPlQ8Ljx2cVgroxrrFFI4fqvGuAdWFYob
-	 5XrKrMONrjVzoQ67iFTpcS5rGEeS9qLEqC6PISU1Ksr75+lMUiubq+sVakoWtYeJYh
-	 HfX8y3prsIKJLl71yTDYNCRqbo2MiaNuAIYhxb728WadPr8B/J4zKI3MG2oCX5v+0u
-	 FhwUEj0Y2t8Vw==
-Message-ID: <1ab13178-8253-4dc7-9143-6684ededd8f9@kernel.org>
-Date: Sun, 11 Jan 2026 17:10:28 +0100
+	s=k20201202; t=1768150705;
+	bh=2wbW41C2J76Sms115w/xbUlLwXKlyG+kYWdIrr/qsDc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=P5PCNrhPcaJ6XgRJcU2TduO4WKsQM5ILv9aSb19pPv7i20fpDsJbn3GwB+TeRu6tk
+	 HHlw8YPtqrKhjPnlMxNkxf7Q19UAEmtPdQIr0D1EiKipCQ7T9FTAlsYItaUriFDjXz
+	 OXZBNgbYOY2gG4mwXfJDllKa2k7op7UVTYBmE9ZUetjvyx3ttHcq5DT6vNvpn04aNW
+	 qvDiy2a+o0DG5yc6rGODRfJm4OgxGvY+98HjA2GFpwftHZ3XDOAaCD+rn7qr3dBrxn
+	 ZxB0ByoBmt8MwSToF8OPf3y1B4Obiqrfi2OfJ7xD2vS+K2/LFec2tHqUpRQvORglcl
+	 xoYYSIMBwFh5w==
+Date: Sun, 11 Jan 2026 16:57:57 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Romain Gantois <romain.gantois@bootlin.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, Guenter
+ Roeck <linux@roeck-us.net>, Peter Rosin <peda@axentia.se>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Mariel Tinaco
+ <Mariel.Tinaco@analog.com>, Kevin Tsai <ktsai@capellamicro.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Eugen Hristev <eugen.hristev@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Hans de
+ Goede <hansg@kernel.org>, Support Opensource
+ <support.opensource@diasemi.com>, Paul Cercueil <paul@crapouillou.net>,
+ Iskren Chernev <me@iskren.info>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Matheus Castello
+ <matheus@castello.eng.br>, Saravanan Sekar <sravanhome@gmail.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Casey Connolly
+ <casey.connolly@linaro.org>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Amit
+ Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
+ <lukasz.luba@arm.com>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Sylwester
+ Nawrocki <s.nawrocki@samsung.com>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Arnaud Pouliquen
+ <arnaud.pouliquen@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 1/2] iio: dac: ds4424: drop unused include IIO
+ consumer header
+Message-ID: <20260111165757.15d1a2bc@jic23-huawei>
+In-Reply-To: <CAHp75VcX_z6q879gmWcb76SeFHtqMvpZ=y9PwNn0=eVFb06wAw@mail.gmail.com>
+References: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
+	<20251209-iio-inkern-use-namespaced-exports-v2-1-9799a33c4b7f@bootlin.com>
+	<CAHp75VcX_z6q879gmWcb76SeFHtqMvpZ=y9PwNn0=eVFb06wAw@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: document dvdd-supply property for
- awinic,aw88261
-To: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Weidong Wang <wangweidong.a@awinic.com>
-Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
- Luca Weiss <luca.weiss@fairphone.com>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20260111-aw88261-dvdd-v1-0-83fa0850d561@machinesoul.in>
- <20260111-aw88261-dvdd-v1-2-83fa0850d561@machinesoul.in>
- <9249c034-de8c-479b-a9c5-f1252e0beba2@kernel.org>
- <5e47fe91-e150-4b5d-a669-3a7beeea4f03@app.fastmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <5e47fe91-e150-4b5d-a669-3a7beeea4f03@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 11/01/2026 13:48, Bharadwaj Raju wrote:
-> On Sun, 11 Jan 2026, at 5:00 PM, Krzysztof Kozlowski wrote:
->> Why? Was it missing? Why require it, which is an ABI break (or is not?)?
->> Why is ABI break allowed or what is its impact?
-> 
-> Right now there are no users of aw88261 in the kernel device tree sources.
-> This patch is part of an effort to mainline the FairPhone 5, for which we 
-> will add the first use of this compatible, and there we need to specify 
-> dvdd-supply for this chip's power supply.
+On Tue, 9 Dec 2025 16:45:29 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-You mean the bindings were incomplete?
+> On Tue, Dec 9, 2025 at 10:26=E2=80=AFAM Romain Gantois
+> <romain.gantois@bootlin.com> wrote:
+> >
+> > To prepare for the introduction of namespaced exports for the IIO consu=
+mer
+> > API, remove this include directive which isn't actually used by the dri=
+ver. =20
+>=20
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+>=20
+Picked this one up on the togreg branch of iio.git.  I'll sort out the othe=
+r one
+separately given I should do an immutable branch etc and that takes a little
+more effort and time than I'm putting in today!
 
-> 
-> Since there are no present users, I thought it was OK to add a new required 
-> property. If not, I can make it optional.
+Jonathan
 
-Nothing like that was explained in commit msg. Also your explanation
-above does not consider out of tree users of this ABI. That's fine in
-general, but needs reason why you are doing this.
 
-Best regards,
-Krzysztof
