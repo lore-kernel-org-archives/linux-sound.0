@@ -1,118 +1,129 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA53BB44;
-	Sun, 11 Jan 2026 12:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CD433D4EA;
+	Sun, 11 Jan 2026 14:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768135795; cv=none; b=egmeVKSRGmbMF5UPe0MxRJV7/lCvhanaryU84r8KbHJJYtKy4JZHdlhPL7JzQGwi0nmQYXbtTWhIk4Sg/4Codz2SuOYcWfmYEZQ+CRRdSRytYD3gDDfKpzrtVamMVMOHjaube8bpTBgmh57PvSM9++QDOJtqsaSVUYHb8uR0kIw=
+	t=1768140885; cv=none; b=EB0UPlH/qcSMjwxw3MrvttSJQt/F/TXU8MWcMqfMa9uHiWtkqFh5N0lYc9E8wbvCyCaTnRd0OxvwxHcUckZjHXr1u48ybIilC1Q9unj9ixFm6KGKY1d2f8UKhh+jO1WLYIAb4FezmUoqQxhAhvTLHqyYibmsdfeanfFTX9K5SOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768135795; c=relaxed/simple;
-	bh=80VrWFxklQiC2GuGjPFXtOITn+vfYoXKApuzbVmx/BQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Mn0E9SqQfvGLPJxFtNikVXRL/AN11ZYhoMOohd+LVln+mMInfmPtqaphYn1S91/hH0G1ENuI8SBMlYjydXo7UC4/RB1ec5CTsYcg7QEBS/Qm4cehpM1BDzC78lba6cSJFb2DAMuhEAU3Bs0UtbGHKx9uVBEVvO5Ayzh8m6kF9QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machinesoul.in; spf=pass smtp.mailfrom=machinesoul.in; dkim=pass (2048-bit key) header.d=machinesoul.in header.i=@machinesoul.in header.b=eTL7bh8c; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SDdcRvWT; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machinesoul.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=machinesoul.in
+	s=arc-20240116; t=1768140885; c=relaxed/simple;
+	bh=IdKSb7U5L9VjNm0AfwaIov8/g6vk6LX/eFr07xEJsaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQyspRoSdFJK6/WlgwgGyAji6QQsFXV97Jc1oC4aHKZsROQV+DiT3fY49De7g0z44nFp4fHI5ljM8Jvu+wHFyCNDIF5DF5FVUwawJec83NQkcfTH34++YjRmjNaRLeWblD/rKGyFsnUjvFkMOncPhFqTXQpSEQ9HfJK8SBOWBwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYD97ZWt; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=machinesoul.in header.i=@machinesoul.in header.b="eTL7bh8c";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SDdcRvWT"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 927C11D00117;
-	Sun, 11 Jan 2026 07:49:52 -0500 (EST)
-Received: from phl-imap-14 ([10.202.2.87])
-  by phl-compute-01.internal (MEProxy); Sun, 11 Jan 2026 07:49:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=machinesoul.in;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1768135792; x=1768222192; bh=o054WpN5HcmGcr752nHkWih9TAp94o4B
-	t7F3jynb8eU=; b=eTL7bh8clphpxMQaKEYNKNritrtdYLtEKofJSKC8Ys0swuih
-	6BMgzdOFHiJFq5xacHdNs5h1yvvah0HeKveOz/MA7GuM+Q4l8/NiOchPC7W+CR5y
-	sDFFzi177J/ERwcL/sWP3AxDcLSsW4Bn8ngUsVQsohW1r7n0AR0hqGn3qdmnT1pm
-	2LRpoZcq+E9PrE3lJ88bhZpuQfohjBitd4ktMhTXsaFRoc7afN9S1rCz3J9EJW11
-	5xPT1c9l00V+Xs/Iab2VwtAPuEb18YVDG/eH+wX1WK2Sk2WhIRBGTJIXJJYHdtan
-	mZngEBaqV+eXddCAlV2b9RQLW34zugtFh1QJwA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768135792; x=
-	1768222192; bh=o054WpN5HcmGcr752nHkWih9TAp94o4Bt7F3jynb8eU=; b=S
-	DdcRvWTUYV4ZPQekbw/WkyzKrg4zl/vH1uVDLfDTKUaQolFKp5JHZ9NAKb/H+oe7
-	C8gJTwesA+gYg+FMNRFCI1z529esPPCFthe/dI58Yai0uWIBv483efwb4f2O0zyL
-	Io0Qi72jpkOSJ2N2fj0xIlvhn3vP7vyKXhI7EJY7oYfOeT3ftj7lp5B2i3/de7W8
-	kHoYtIDr68EhjCl2H6kvN1A3imZiY1ki2Vw76+mhAjyfLCv1MG16U9LeYbPDbQwi
-	iiEFF/oA9xsHjIi2xuJ4jmTm66fUgQfxRG3HAp/FFoWmcmGcKvXFCj995x1wOY6R
-	Y9qb9wWJ04XpaGSaw6Phw==
-X-ME-Sender: <xms:b5xjafSBdu1mjJXC6A8_N228a-thZsXfgPCb4GLoUC2XZ9n5iaoMxw>
-    <xme:b5xjablgtdT5wlDNakH7rP7TdeNrNTl-ND-5Yz-oGGEpd0u29EdVd3CKPyHXjKR3s
-    SAGa2GS6k-Ku1lcxUBmgwO2RB70tXuaEdoqPwBAAWJdhOT0xVtuYg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudegiedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfuehhrghr
-    rggufigrjhcutfgrjhhufdcuoegshhgrrhgrugifrghjrdhrrghjuhesmhgrtghhihhnvg
-    hsohhulhdrihhnqeenucggtffrrghtthgvrhhnpeefteefieetuddvgeetgfehteeitdek
-    gefhleejjeffgfeiueevleeuheeigfffleenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpegshhgrrhgrugifrghjrdhrrghjuhesmhgrtghhihhn
-    vghsohhulhdrihhnpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepfigrnhhgfigvihguohhnghdrrgesrgifihhnihgtrdgtohhmpdhrtghp
-    thhtoheplhhutggrrdifvghishhssehfrghirhhphhhonhgvrdgtohhmpdhrtghpthhtoh
-    eplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgv
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepmihpohhsthhmrghrkhgvthhoshdsuhhpshhtrhgvrghm
-    ihhngheslhhishhtshdrshhrrdhhth
-X-ME-Proxy: <xmx:b5xjaRbSpkEwHgaBPK4p2q_ElXwt1mUe6QuLsqQqeLtHl-ZDfTV5AA>
-    <xmx:b5xjaZW1R9HAs-Q9HXfgZdLn2kLNL7CcmmAOQxmc32W5YdmlFI5s_g>
-    <xmx:b5xjaUQ0tQLYi8xrG7QdhBKUqQXjjqsAWVjo-PtGXeRLcG0zWFDrqA>
-    <xmx:b5xjaeEiTsinPNSiF2dIuMPkl78iJofSMav5zWZO3lT4B5kruOex7Q>
-    <xmx:cJxjafS20QMwlsZDiJ3heS_Al9ll3JZQl5d4t-YSkUJ0IcLqKrBMQTf3>
-Feedback-ID: i19fe481e:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 46C01C4006D; Sun, 11 Jan 2026 07:49:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYD97ZWt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768140883; x=1799676883;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IdKSb7U5L9VjNm0AfwaIov8/g6vk6LX/eFr07xEJsaE=;
+  b=ZYD97ZWtx8Vf682UoeoMYnIdq0oSZA7TfSFDrtfBI6Z8VEvPykYcnwIN
+   53oKKxsWoIwBphuWOLAKG/0RC4kZyGjZ5w2tRcf6SKmS8B62HGkDUfmGy
+   0hh3gZDKng2yUwQhWhvMnq8NPpC4cqHL7f43sgF5H6PLFYXx4T6daIdhx
+   JGiq6tweZ7butsLkXBBBA8NgHTzab714mIshDd+2wwsHvRvxti5uFLHnJ
+   M4SWckT3sDLmwIT2o6T5E4aN6QJtOuiB5uaKiBHgm3cr1zmjMoCdXPM5i
+   2Ba0PlIrw9Mb1ihB6E0CG7iH9+EaFefFwB/uyO/YHJXKZSywj9gCd5j9A
+   Q==;
+X-CSE-ConnectionGUID: uKZlWSkWRQeo0KoO1DYRoA==
+X-CSE-MsgGUID: 9xFSO8oWQpCA7H9TbZx9pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80159928"
+X-IronPort-AV: E=Sophos;i="6.21,218,1763452800"; 
+   d="scan'208";a="80159928"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 06:14:43 -0800
+X-CSE-ConnectionGUID: BYZbI5xASIuO0cGEUgXivQ==
+X-CSE-MsgGUID: 9WKx7FSzQ0W9YY5oDD2CKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,218,1763452800"; 
+   d="scan'208";a="208410595"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Jan 2026 06:14:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vewDG-00000000A92-2y82;
+	Sun, 11 Jan 2026 14:14:38 +0000
+Date: Sun, 11 Jan 2026 22:13:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: fenugrec via B4 Relay <devnull+fenugrec.mail.com@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, roy.vegard.ovesen@gmail.com,
+	fenugrec <fenugrec@mail.com>
+Subject: Re: [PATCH 2/2] ALSA: usb-audio: clean up presonus s1810 consts
+Message-ID: <202601112158.zMc5ZyZt-lkp@intel.com>
+References: <20260110-preso_clean1-v1-2-ce2dd3ea4506@mail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AHXG7HT5u_Wc
-Date: Sun, 11 Jan 2026 18:18:55 +0530
-From: "Bharadwaj Raju" <bharadwaj.raju@machinesoul.in>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Weidong Wang" <wangweidong.a@awinic.com>
-Cc: "Bhushan Shah" <bhushan.shah@machinesoul.in>,
- "Luca Weiss" <luca.weiss@fairphone.com>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Message-Id: <5e47fe91-e150-4b5d-a669-3a7beeea4f03@app.fastmail.com>
-In-Reply-To: <9249c034-de8c-479b-a9c5-f1252e0beba2@kernel.org>
-References: <20260111-aw88261-dvdd-v1-0-83fa0850d561@machinesoul.in>
- <20260111-aw88261-dvdd-v1-2-83fa0850d561@machinesoul.in>
- <9249c034-de8c-479b-a9c5-f1252e0beba2@kernel.org>
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: document dvdd-supply property for
- awinic,aw88261
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260110-preso_clean1-v1-2-ce2dd3ea4506@mail.com>
 
-On Sun, 11 Jan 2026, at 5:00 PM, Krzysztof Kozlowski wrote:
-> Why? Was it missing? Why require it, which is an ABI break (or is not?)?
-> Why is ABI break allowed or what is its impact?
+Hi fenugrec,
 
-Right now there are no users of aw88261 in the kernel device tree sources.
-This patch is part of an effort to mainline the FairPhone 5, for which we 
-will add the first use of this compatible, and there we need to specify 
-dvdd-supply for this chip's power supply.
+kernel test robot noticed the following build warnings:
 
-Since there are no present users, I thought it was OK to add a new required 
-property. If not, I can make it optional.
+[auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/fenugrec-via-B4-Relay/ALSA-usb-audio-presonus-s18xx-uses-little-endian/20260111-080634
+base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+patch link:    https://lore.kernel.org/r/20260110-preso_clean1-v1-2-ce2dd3ea4506%40mail.com
+patch subject: [PATCH 2/2] ALSA: usb-audio: clean up presonus s1810 consts
+config: i386-randconfig-r134-20260111 (https://download.01.org/0day-ci/archive/20260111/202601112158.zMc5ZyZt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260111/202601112158.zMc5ZyZt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601112158.zMc5ZyZt-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/usb/mixer_s1810c.c:182:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] tag @@     got int @@
+   sound/usb/mixer_s1810c.c:182:17: sparse:     expected restricted __le32 [usertype] tag
+   sound/usb/mixer_s1810c.c:182:17: sparse:     got int
+>> sound/usb/mixer_s1810c.c:183:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got int @@
+   sound/usb/mixer_s1810c.c:183:17: sparse:     expected restricted __le32 [usertype] len
+   sound/usb/mixer_s1810c.c:183:17: sparse:     got int
+
+vim +182 sound/usb/mixer_s1810c.c
+
+   174	
+   175	static int
+   176	snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 sel,
+   177				   u32 b, u32 c, u32 d, u32 e)
+   178	{
+   179		struct s1810c_ctl_packet pkt = { 0 };
+   180		int ret = 0;
+   181	
+ > 182		pkt.tag = SC1810C_CMD_TAG;
+ > 183		pkt.len = SC1810C_CMD_LEN;
+   184	
+   185		pkt.selector = __cpu_to_le32(sel);
+   186		pkt.b = __cpu_to_le32(b);
+   187		pkt.c = __cpu_to_le32(c);
+   188		pkt.d = __cpu_to_le32(d);
+   189		pkt.e = __cpu_to_le32(e);
+   190	
+   191		ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+   192				      SC1810C_CMD_REQ,
+   193				      SC1810C_CMD_REQTYPE, 0, 0, &pkt, sizeof(pkt));
+   194		if (ret < 0) {
+   195			dev_warn(&dev->dev, "could not send ctl packet\n");
+   196			return ret;
+   197		}
+   198		return 0;
+   199	}
+   200	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
