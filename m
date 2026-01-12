@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A8B2820A0
-	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 10:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF60428CF5F
+	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 10:09:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768212580; cv=none; b=qB/2OmR+utUfx3oR9byleiXXNKg+JNL/Bf+NGVO2dEb/ciSXz0CAVbH8AHj4ogGIHoMsxq6A49Bh/p7AQfStLLPh2wy0a+juGfNF7xv6/kguJS7byEu5pJqHaE4wkOnjgWM0Nso4doxH2PpVp61bnQFGru/rEs+gHS05qbSMmRE=
+	t=1768212583; cv=none; b=Dou+ge69sYNsOVjh6fwrZhKWS8y5Oqi9lfEJVY9Gapwowmm5P38WovEVHBasqQVtnEaNB0D4bOa5bWxaSsVypdM9ahyEJ+HzDJ/HO+dwK5ML9YXFxmpgf2gNh37KX+Ph4aoBnabAr22fiGY+w/5ju+6CQWLBMwuUD5ic97fSStU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768212580; c=relaxed/simple;
-	bh=IO5fica7q6i7VablJMCqVg2Zui5ZNe/5l1w73lNAwos=;
+	s=arc-20240116; t=1768212583; c=relaxed/simple;
+	bh=IGTBsl17f1hTcuEqK+R2lYKCT5vRYeo27x40VBiLknc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JT+0IknZ4QaJPIbsC0VXMO2YSBS8v4ydOrwLXNRlIH8wnQAI6lunG9OQxxQLGBTbUBPcKKardzFPKCHznPs1p2RoUAxjV1vNJfgH0H2GR70YSC6KRELARycnVHI3x898n/2bt5gN4Sq3LjujVFkh1cyCxfvOTbPMZweEBmgnDEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrwFjbue; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=RrV3l5N0z807AiZYA6ZxSY0z9gmi9J9L4JvR4EztK7q+BDE5TN6Nw5SS3Un35rrGR4siQEHaj8PwPwgRTBXDkC84Kskb+O+ovKpse1Rgi6c1s1IAqSF8rXQyLOSVXsnRZcOIFRc6dM8uH60p8+WZY21GRiApb0hVs8szr2LHj4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n1YmNBEo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrwFjbue"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n1YmNBEo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768212579; x=1799748579;
+  t=1768212581; x=1799748581;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=IO5fica7q6i7VablJMCqVg2Zui5ZNe/5l1w73lNAwos=;
-  b=BrwFjbueGp0Y9ox4ST0KsiVajDVsYm2f5TWVN5fPsoAEzk8xkdJ9BEzg
-   dihLTbT52IeWLdGxdL1TD/iexWyFXcpD8jUjUJenszgOQ71rbeOL1cVWG
-   CbFxa5O80mhACb7hhVVmMXWyfJ7qnsAuDFfGM6jn9DTDMvJjn3A+5OTjj
-   3CpuzavApEOUCV42deo2G78yrtVx4TJyUdqOzbnY2J2ujkivL/0L74Fga
-   yQG+HIJFcT14VX46IYtfHdsNhUoBs87ebPPrpK0DOlWb0LTengTmJSdY0
-   nC7hKyJT1Zb5tKDzBp+EliOrDwmjskFyUqujGRT9R67Zrw8cUxYBEnXdr
-   Q==;
-X-CSE-ConnectionGUID: OL5BH0LCQWi+lz8tt6KcOw==
-X-CSE-MsgGUID: LG4vk9bAT0WhqKUs5sE3Og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69535286"
+  bh=IGTBsl17f1hTcuEqK+R2lYKCT5vRYeo27x40VBiLknc=;
+  b=n1YmNBEoRSkgK2IXvMyf/cN1RQkoAMuUHUcCa8pHX2u9EKJ5TyrM0VF+
+   CBZp5oatllXOXYAd+S8bdc2s2pO3ZaIsA4T+S0QslpceHDcpwq9mcyKBY
+   rZZmBvEVdDWZgcEjq/fie9FeBc8BBWnRqBHcDlmNKI4/lXaPCVcmkMZ5v
+   unayp9sAUZIzrD9zBdA2Ai5gv9sByIg/WZepV36k6IH9w2+0fGzxaUCQ0
+   PclsIjNXXtinE4S/kDsQDlvJcp+O6MXuhIiUS+0bSUf/+TdFho1rZiHUS
+   WMoU2u9tiL89Ul8Efg40eWzTKVDo7JvamEFMp8CE0AW5f3Cpa7PilmD2r
+   w==;
+X-CSE-ConnectionGUID: UhXyFuP2TmSYHo9WfT3bow==
+X-CSE-MsgGUID: jOOWagcURS6Pkc9VkQUppg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69535292"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69535286"
+   d="scan'208";a="69535292"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:09:39 -0800
-X-CSE-ConnectionGUID: lgvFEeT1TXKECQryyA6+xA==
-X-CSE-MsgGUID: GJNSXvDcR6Cff0eJSiOtXQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:09:41 -0800
+X-CSE-ConnectionGUID: RC+eqeDPR+Chr4JV4ibzhw==
+X-CSE-MsgGUID: xoORcX5aROKh2WnBYhQPgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208534718"
+   d="scan'208";a="208534720"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.204])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:09:36 -0800
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:09:39 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH 4/7] ASoC: SOF: imx: imx-common: Use guard() for spinlock_irqsafe()
-Date: Mon, 12 Jan 2026 12:10:01 +0200
-Message-ID: <20260112101004.7648-5-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 5/7] ASoC: SOF: mediatek: mtk-adsp-common: Use guard() for spinlock_irqsave
+Date: Mon, 12 Jan 2026 12:10:02 +0200
+Message-ID: <20260112101004.7648-6-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260112101004.7648-1-peter.ujfalusi@linux.intel.com>
 References: <20260112101004.7648-1-peter.ujfalusi@linux.intel.com>
@@ -66,7 +66,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the manual spinlock_irqsafe lock/unlock pairs with guard().
+Replace the manual spinlock_irqsave lock/unlock pairs with guard().
 
 Only code refactoring, and no behavior change.
 
@@ -74,30 +74,26 @@ Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/imx/imx-common.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ sound/soc/sof/mediatek/mtk-adsp-common.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/sof/imx/imx-common.c b/sound/soc/sof/imx/imx-common.c
-index e787d3932fbb..7a03c8cc5dd4 100644
---- a/sound/soc/sof/imx/imx-common.c
-+++ b/sound/soc/sof/imx/imx-common.c
-@@ -81,14 +81,10 @@ EXPORT_SYMBOL(imx8_dump);
- 
- static void imx_handle_reply(struct imx_dsp_ipc *ipc)
+diff --git a/sound/soc/sof/mediatek/mtk-adsp-common.c b/sound/soc/sof/mediatek/mtk-adsp-common.c
+index 01bbadb160ff..75b4af4b5111 100644
+--- a/sound/soc/sof/mediatek/mtk-adsp-common.c
++++ b/sound/soc/sof/mediatek/mtk-adsp-common.c
+@@ -107,11 +107,9 @@ EXPORT_SYMBOL(mtk_adsp_send_msg);
+ void mtk_adsp_handle_reply(struct mtk_adsp_ipc *ipc)
  {
--	struct snd_sof_dev *sdev;
+ 	struct adsp_priv *priv = mtk_adsp_ipc_get_data(ipc);
 -	unsigned long flags;
--
--	sdev = imx_dsp_get_data(ipc);
-+	struct snd_sof_dev *sdev = imx_dsp_get_data(ipc);
  
--	spin_lock_irqsave(&sdev->ipc_lock, flags);
-+	guard(spinlock_irqsave)(&sdev->ipc_lock);
- 	snd_sof_ipc_process_reply(sdev, 0);
--	spin_unlock_irqrestore(&sdev->ipc_lock, flags);
+-	spin_lock_irqsave(&priv->sdev->ipc_lock, flags);
++	guard(spinlock_irqsave)(&priv->sdev->ipc_lock);
+ 	snd_sof_ipc_process_reply(priv->sdev, 0);
+-	spin_unlock_irqrestore(&priv->sdev->ipc_lock, flags);
  }
+ EXPORT_SYMBOL(mtk_adsp_handle_reply);
  
- static void imx_handle_request(struct imx_dsp_ipc *ipc)
 -- 
 2.52.0
 
