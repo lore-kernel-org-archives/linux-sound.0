@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47414315D2C;
-	Mon, 12 Jan 2026 20:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C5732D45B
+	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 20:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768248495; cv=none; b=bIdx5YBYa/Wyvk2pDoD+SX5qZNdRjBhKL1cNJSIbozXx4K84IgRlV1mZ+msKuNJ7mmCUdv5iB3RMAtcv8965tgeg5Pv6xG63V3PvevGsSJv5yVgWNgrDJJrFYbwqQgpYNQSmhiEJaVwZbhmCdUwBiPZ8SBYDN4lcSM37RMaDfAY=
+	t=1768248496; cv=none; b=jK77FId/MByY41K7egERB2a4nfUCYpzDderHowimFCgqeEIt323R2WwiqNgsbCcsBhyLjyjQfEwEkwTJmvnzmq/Z4yyqZibSlay/IfX2a5DnvCvYBYgYzmxSNdaiNuIIcm9Mmxx9kK0O+FRNVRWaq2uTL/+p9tUrA8ARc3ij96E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768248495; c=relaxed/simple;
-	bh=OMBhGDl1hwQY+DNRk7VkjXiJLOWnm0ay29IBbNlJF4c=;
+	s=arc-20240116; t=1768248496; c=relaxed/simple;
+	bh=Bh7d/zdwXpmwXITXhyeVoeECx68s1pjgRXnqahNXttU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JbrqalX+Wf3WGsvlLEZ9lQQkQeYmb57kwA5ZsA6XnsGV6kqy8Ke0wUlXeVn5igsD6vWDJa6mxMAvA+k/WHqYHXU2ZNJroL7uJF3znlDSgPUj/LA7LPWkibe0sKevTEPntJC5LZCr6fhdtiNbXRk30Ptx1IdnKbqcPwzwbi20uUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktoWuEQg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ne6Z30KvFDu0ChsIMsqIw5ZRn6XkbEZDBKy5aEzKh33GbC7e6vkz2pThbjriHW+04lCiksviKYdxfh52vrFiA4zLAI/RPdTvG9C5qiDKWeOQF0NEzGoWr1T4JbvP2i7dlmBNs0MJbCmjUBW7OjC3Q6nLBQV1uXrTM5imv8Qovs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgIjJDPd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktoWuEQg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927D9C116D0;
-	Mon, 12 Jan 2026 20:08:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgIjJDPd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D21C116D0;
+	Mon, 12 Jan 2026 20:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768248495;
-	bh=OMBhGDl1hwQY+DNRk7VkjXiJLOWnm0ay29IBbNlJF4c=;
+	s=k20201202; t=1768248496;
+	bh=Bh7d/zdwXpmwXITXhyeVoeECx68s1pjgRXnqahNXttU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ktoWuEQgYwaZGH8FjwiwIKmounYUSG9l3YpuDpoC2W7KB0JHxpAoGpRg0FKth3B0p
-	 K8SHbeYHlB8WdLd68Z4nsSVRylCw1J/ZfR9yGXG/cytrIX/eOxl+9d5wEVd4zqfgAf
-	 O50sqTzY1hGsnVLjpT1FTk2U+2FEFYD33Zyyxu24Gr5pe7BM/jHdT7GDq6RboEbItt
-	 S+LflNxUJNlqYf5qEfL4RKuzv7mmHTSo5PfDDsjx9n/XsuiIA+ZS9a8IEpMsqNvdDV
-	 Cc7Qf5DGmNYc2TogBXonsmFytnMLTQWXZp3f5LiJ+Jhsyyj+fS3aRK87W9cr56IbGv
-	 xKP/4iaeca1NQ==
+	b=hgIjJDPdOidNt28xwTkU4ksUBXF5wpQXgCDNGGrGPadIj/Mk7vvf9az5hY8zu+SEj
+	 uiPQFrjC7Y2U8tMOO4NSGFzyHdfhgjspu+Mg/3ZX/lPLqR5E2UDGk67945R3Wvalko
+	 0+fSyWVOhEgd6397u7DeNc2xbgwOsF9GuTzpvBwDnVw2yNo7Q19MdO/CipHHbSiVdG
+	 +8IjITsA3jQ9KnIf/ruuRZ+dsUb9WxiLS/L1Rkz92tJH+/mCuwFdWaLGXAfY+ZaN0a
+	 v9jn5KIhB7SlUKKAv5kIbGlnUiyYKdLvuT9XNDozBIu9xPzAPMUVK90Z+jlL+mh95u
+	 BWtKs4BzfqyzQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260108214443.1127685-1-robh@kernel.org>
-References: <20260108214443.1127685-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: Convert realtek,rt5651 to DT schema
-Message-Id: <176824849331.206448.10716916421615090014.b4-ty@kernel.org>
-Date: Mon, 12 Jan 2026 20:08:13 +0000
+To: Oder Chiou <oder_chiou@realtek.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>
+In-Reply-To: <87344f3bko.wl-kuninori.morimoto.gx@renesas.com>
+References: <87344f3bko.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: codecs: rt1320-sdw: convert to
+ snd_soc_dapm_xxx()
+Message-Id: <176824849533.206448.7632064572233461164.b4-ty@kernel.org>
+Date: Mon, 12 Jan 2026 20:08:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,10 +46,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Thu, 08 Jan 2026 15:44:40 -0600, Rob Herring (Arm) wrote:
-> Convert the Realtek RT5661 codec binding to DT schema format. Add
-> missing clocks/clock-names for MCLK which is in use already. Also add
-> the standard "#sound-dai-cells" property.
+On Thu, 08 Jan 2026 23:54:15 +0000, Kuninori Morimoto wrote:
+> This patch converts below functions.
+> 
+> snd_soc_component_get_bias_level() -> snd_soc_dapm_get_bias_level()
+> snd_soc_component_get_dapm()       -> snd_soc_component_to_dapm()
 > 
 > 
 
@@ -61,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: Convert realtek,rt5651 to DT schema
-      commit: 35bffbe49dfd3395c65d76f14d773a1225f3489f
+[1/1] ASoC: codecs: rt1320-sdw: convert to snd_soc_dapm_xxx()
+      commit: 77157cb45c66bd652a08a360693fcced558c5ef9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
