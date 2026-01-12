@@ -1,190 +1,348 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D57C33AD93
-	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 20:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3760C33C511;
+	Mon, 12 Jan 2026 20:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768250032; cv=none; b=L3gYOCvz4QGiAkusuw8f3giM9VrpR8HxbaEEZxy+RvSxZ59SpYu0Tdh+AZAd+0/EwB74JSjYrLFVAORqy4/bOdlNmc542p0xw2YvscVJHF8kHTPr6UrW0DrP/em+fkre32NZm95pDTeyL80S9km2zJ84d4l7uR/s7mywhqvduaE=
+	t=1768250152; cv=none; b=fnuDB3mxhEKuvAvNevfoNVverwp+/HpWh8nO+X9b7Wv8aNbXofc6C+esd+HZhp8haa58nLSh4xiQHGJmGntgk8nl3ak+dmJkcyrEtoPMSK/bD5ogsCg9HA716Ej1SiLYkxhlZpPwPgkJfs9cYk60pugvF9JLIZ0VespfLWRBVkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768250032; c=relaxed/simple;
-	bh=FJzcSHDXluO4dUb76g2nKqIIglQO2UJtt5G2NIwIGRI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gK6yLzkjjZMUW8BrhJDIZfPZFSDfdho/Kv2PKZp9dDbmR3uIyxiRQrTowfCIA40WFxBUdrPMO+cwWFeGiwH9ysAeq2eGv4JAhYaGzApJqyB86qesItjFhOIu9iJb0ggnbJB09U92TEE2Q7CPwae7LwBtX5owiuRgU4igCMv5LcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwH3vRY/; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768250152; c=relaxed/simple;
+	bh=REqCyoJrIpewtMdGURz7oYk9zmr7BJajQXuF1TakMwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KGc4j6Ht0H3iJH3Jj1/gVdllG4YvbjanFjk3yjLAT4xmapgCqZ95wMu+UudZBEGiyV0BUAdmgiA20hklKj4a4vVh7y58Wo9KAJc6pHSI2x+TDS5eR/q8MXYg8jax200Znmb2VaRFQ5YOO/+Xmtq3jqlqIvXm+hr0nOpjDnv9U2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QCguevzN; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwH3vRY/"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-3f0ec55ce57so4748370fac.2
-        for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 12:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768250030; x=1768854830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HcdvqbOz52LfBLxCMSffSYUjax3JQUZoLUuen8kKWUc=;
-        b=HwH3vRY/2gEox7HoaCT1/3B4rkhSu0vZu5CRAhqUbPcfdTHCaoBet3+zA9N1ofMNfL
-         nV93iOW3htxGxqd2BhGKGwXpaPT37878Iwz3ApnBca5UYH7D2/GfkGrguLrnchvGPObO
-         wWRHhTIw174ho//PWay2sooE8QW8R1Abbr2G/rnGL7Lr+Bs95by4QKaSBy7FJXOD9NDy
-         ecorWxf8iMGJO3cs/nA8Umd3SDHlsJrvAPhCJ2diG7Jk9bWZEa4EAeyH/KiKd4k7NGoj
-         eik/IlVRB0JEr1zn87u1wkjEaMljmtyMh+mU/kST9bipRXkQLfHQmlfvTGlAZ+cW+Vn5
-         5kfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768250030; x=1768854830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HcdvqbOz52LfBLxCMSffSYUjax3JQUZoLUuen8kKWUc=;
-        b=LZRkKTx14B5qTDeFk6IMH7O/mNDFl5reQut4VVOSekLeRoHdMBxS3zVX6tA9v3/gL1
-         CqE1BaW8c5wk2HI2DXvy30oz6Ix91mlEt2eqJ2YTVH7YRPabxulenJdW6/WfZH34hD8v
-         DRgRq8MtbicrfHxa79wl+0fb8ptQQUHNdPSNYoiiW0lblM0pErjjf8sySGi/VTBP8sug
-         PnJaAt6qS/84E7LPb8Hgy27mTl4IKwypi/vub62mX6WNgY4D8jkxeYdcpQ81sgBzH7+c
-         T53yLR/XL07ARHL9dcNTE4qHvKVxXPVoOFgRQ8kjGYfXdwaN9djWP3htzU8HHZUdmfOU
-         K03w==
-X-Forwarded-Encrypted: i=1; AJvYcCUOkucRbCUOTVYxTZHtWEHU9OKe4I4jhXB62hn7G8qMLR6Z7I5h1olnwAZ6o78C+6vYoFt0+xDwuaw1bg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKBqPJbWDd+kDEDnVlsCFI/UzDxAgP9wNbrkh+n+qb07r23XJ8
-	wxPrwDbU4Xa6v69yOPZAKjoFUfqKZq8rBn5qtnpFFl+4R5txBtNzkCVXy6w9Lg==
-X-Gm-Gg: AY/fxX7qNMlFGbC+QPSuYPHuvvjaHaVsV5KqypQap0PTpFDw33GV1GXHNSu/F5j/0Zv
-	MUqVDhfO+9ruJgthComf6IWWIxBocW4f8o+Xl4HTSllizPsww13Su0fwxoRvdZVw5sTOe2UQ102
-	dXY8CZstdnSuf2y9u9WmG2dkiDSiT6IiyggRaGsydo3LuxoWuXoLKhU09WIP/dlRfeZzHR8m8Fi
-	p3kSFCDcJ+3HffiDA/p3gcOukMZEr1IMer+4YNpVfu6uzbWZSRHHtKnnpGyGeZOs9/YfMYnZdKW
-	6r3Yep34eELbxXZfVBXzD3SRYkvB35Yr3uTjBlJedXGK8lMis/poTfnMUuZmU3t486MkeJuqd7w
-	ZJzjnKXJVRW2QSPmD2FcwxiyAmXKSn4UNTlCO/Ad+G0fvHP093Z4Yidz1sxkoitT7tUwp15AVT2
-	hGukufNKDwzyi9SuYVBJLR/rXyBuRlLLq64ptgCCyyVEodGdicwmYQdnTbUYWfhSQ0ka4bY1hXf
-	6IDOJAiuqvsz9oeEZQb8Q==
-X-Google-Smtp-Source: AGHT+IFk1Dr6wslFyNgQa2xGPUDljm9kHZ7BOgUopSMDiNk3ke91/OiF9CCfER+TuAOFwDhwgffkQA==
-X-Received: by 2002:a05:6a20:9389:b0:364:13ca:3702 with SMTP id adf61e73a8af0-3898f987e4dmr16296668637.42.1768243926226;
-        Mon, 12 Jan 2026 10:52:06 -0800 (PST)
-Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cca06b16fsm18874197a12.31.2026.01.12.10.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 10:52:05 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com,
-	sre@kernel.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: jserv@ccns.ncku.edu.tw,
-	eleanor15x@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCguevzN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768250150; x=1799786150;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=REqCyoJrIpewtMdGURz7oYk9zmr7BJajQXuF1TakMwI=;
+  b=QCguevzNgwfX1JAE49nWByuGOxIM8sxLJ4WqKj2vGkzgURnNGX7qjSlH
+   vBOddmWfj7QO/sQh3HV/IKa0nKA078K+jaGji+FxSpQ4J3yFOotQIbxRK
+   SUwdX7xByKHfkMsYQ3OPgf0pEUWJdQ03oS/7qlMOl0i+cmLI7sgJUcY00
+   A2o4W/Psa5jqwDaMc1f9B0lITHt7/PPCMQ8cWt/3u81+/vCgs5orlFIKz
+   5xhguICZ+yjZBUBSzYmj66TT+ZnFIZ5NghP/qcAb8GW0KRrYBRbygslRQ
+   EXg4r2/nB7n0UGycseTGRWYpgywNY7IFTcWsgHOeTu97nG2v+JGTWCin7
+   g==;
+X-CSE-ConnectionGUID: d4Z7sdjYT9SE3fbNYjaQXA==
+X-CSE-MsgGUID: L+lqyCOKSxmCMABSasr3cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80173655"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="80173655"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:35:49 -0800
+X-CSE-ConnectionGUID: qrF+XUj5Smmcrdyy5Dee6Q==
+X-CSE-MsgGUID: pPBsBLFtQSOQR4pxhpa//Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="208707588"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 12:35:38 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 6841594; Mon, 12 Jan 2026 21:35:37 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Varshini Rajendran <varshini.rajendran@microchip.com>,
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Haotian Zhang <vulab@iscas.ac.cn>,
+	Sunny Luo <sunny.luo@amlogic.com>,
+	Janne Grunau <j@jannau.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+	CL Wang <cl634@andestech.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	William Zhang <william.zhang@broadcom.com>,
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+	Manikandan Muralidharan <manikandan.m@microchip.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Hang Zhou <929513338@qq.com>,
+	Jun Guo <jun.guo@cixtech.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	=?UTF-8?q?Beno=C3=AEt=20Monin?= <benoit.monin@bootlin.com>,
+	Shiji Yang <yangshiji66@outlook.com>,
+	James Clark <james.clark@linaro.org>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Carlos Song <carlos.song@nxp.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
+	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Gabor Juhos <j4g8y7@gmail.com>,
+	Md Sadre Alam <quic_mdalam@quicinc.com>,
+	Rosen Penev <rosenp@gmail.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Luis de Arquer <luis.dearquer@inertim.com>,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Longbin Li <looong.bin@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20Le=20Goffic?= <clement.legoffic@foss.st.com>,
+	Alessandro Grassi <alessandro.grassi@mailbox.org>,
+	Darshan R <rathod.darshan.0896@gmail.com>,
+	Aaron Kling <webgeek1234@gmail.com>,
+	Vishwaroop A <va@nvidia.com>,
+	Haixu Cui <quic_haixcui@quicinc.com>,
+	Darshan Rathod <darshanrathod475@gmail.com>,
+	linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-serial@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org,
+	linux-rpi-kernel@lists.infradead.org,
 	linux-sound@vger.kernel.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v3 4/6] dt-bindings: power: supply: google,goldfish-battery: Convert to DT schema
-Date: Mon, 12 Jan 2026 18:50:42 +0000
-Message-ID: <20260112185044.1865605-5-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-In-Reply-To: <20260112185044.1865605-1-visitorckw@gmail.com>
-References: <20260112185044.1865605-1-visitorckw@gmail.com>
+	patches@opensource.cirrus.com,
+	imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Ray Liu <ray.liu@airoha.com>,
+	Sven Peter <sven@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ryan Wanner <ryan.wanner@microchip.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Yang Shen <shenyang39@huawei.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Lixu Zhang <lixu.zhang@intel.com>,
+	Yinbo Zhu <zhuyinbo@loongson.cn>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Han Xu <han.xu@nxp.com>,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Li-hao Kuo <lhjeff911@gmail.com>,
+	Masahisa Kojima <masahisa.kojima@linaro.org>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Michal Simek <michal.simek@amd.com>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH v2 0/4] spi: Make SPI core to take care of fwnode assignment
+Date: Mon, 12 Jan 2026 21:21:22 +0100
+Message-ID: <20260112203534.4186261-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Convert the Android Goldfish Battery binding to DT schema format.
-Move the file to the power/supply directory to match the subsystem.
-Update the example node name to 'battery' to comply with generic node
-naming standards.
+It seems all of the SPI drivers want to propagate fwnode (or of_node)
+of the physical device to the SPI device. Make sure we don't duplicate
+it over and over in each new driver (+2 in this cycle) by making core
+to take care of that. Note, similar is done already by IIO and
+I²C subsystems.
 
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
-Changes in v3:
-- Use decimal format for interrupts in the example.
+There is one noticeable and quite specific case that is taken care in
+the first patch and now we have a confirmation from Cirrus that everything
+is okay.  The rest is just a mechanical conversion after checking that
+the parent device is assigned to the same that provides the respective
+fwnode.
 
- .../devicetree/bindings/goldfish/battery.txt  | 17 --------
- .../power/supply/google,goldfish-battery.yaml | 41 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/goldfish/battery.txt
- create mode 100644 Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
+Changelog v2:
+- collected tags
+- fixed W=1 warning (unused variable) in spi-dln2.c (LKP)
 
-diff --git a/Documentation/devicetree/bindings/goldfish/battery.txt b/Documentation/devicetree/bindings/goldfish/battery.txt
-deleted file mode 100644
-index 4fb613933214..000000000000
---- a/Documentation/devicetree/bindings/goldfish/battery.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--Android Goldfish Battery
--
--Android goldfish battery device generated by android emulator.
--
--Required properties:
--
--- compatible : should contain "google,goldfish-battery" to match emulator
--- reg        : <registers mapping>
--- interrupts : <interrupt mapping>
--
--Example:
--
--	goldfish_battery@9020000 {
--		compatible = "google,goldfish-battery";
--		reg = <0x9020000 0x1000>;
--		interrupts = <0x3>;
--	};
-diff --git a/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml b/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
-new file mode 100644
-index 000000000000..634327c89c88
---- /dev/null
-+++ b/Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
-@@ -0,0 +1,41 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/power/supply/google,goldfish-battery.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Android Goldfish Battery
-+
-+maintainers:
-+  - Kuan-Wei Chiu <visitorckw@gmail.com>
-+
-+allOf:
-+  - $ref: power-supply.yaml#
-+
-+description:
-+  Android goldfish battery device generated by Android emulator.
-+
-+properties:
-+  compatible:
-+    const: google,goldfish-battery
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    battery@9020000 {
-+        compatible = "google,goldfish-battery";
-+        reg = <0x9020000 0x1000>;
-+        interrupts = <3>;
-+    };
+v1: 20260108203004.3538449-1-andriy.shevchenko@linux.intel.com
+
+Andy Shevchenko (4):
+  spi: Propagate default fwnode to the SPI controller device
+  spi: Drop duplicate of_node assignment
+  spi: Drop duplicate fwnode assignment
+  spi: Drop duplicate device_set_node() call
+
+ drivers/spi/atmel-quadspi.c          | 1 -
+ drivers/spi/spi-airoha-snfi.c        | 1 -
+ drivers/spi/spi-altera-platform.c    | 2 --
+ drivers/spi/spi-amlogic-spifc-a1.c   | 1 -
+ drivers/spi/spi-amlogic-spisg.c      | 1 -
+ drivers/spi/spi-apple.c              | 1 -
+ drivers/spi/spi-ar934x.c             | 1 -
+ drivers/spi/spi-armada-3700.c        | 4 +---
+ drivers/spi/spi-aspeed-smc.c         | 1 -
+ drivers/spi/spi-atcspi200.c          | 1 -
+ drivers/spi/spi-ath79.c              | 1 -
+ drivers/spi/spi-atmel.c              | 1 -
+ drivers/spi/spi-axi-spi-engine.c     | 1 -
+ drivers/spi/spi-bcm-qspi.c           | 1 -
+ drivers/spi/spi-bcm2835.c            | 1 -
+ drivers/spi/spi-bcm2835aux.c         | 1 -
+ drivers/spi/spi-bcm63xx-hsspi.c      | 1 -
+ drivers/spi/spi-bcm63xx.c            | 1 -
+ drivers/spi/spi-bcmbca-hsspi.c       | 1 -
+ drivers/spi/spi-cadence-quadspi.c    | 1 -
+ drivers/spi/spi-cadence-xspi.c       | 1 -
+ drivers/spi/spi-cadence.c            | 1 -
+ drivers/spi/spi-cavium-octeon.c      | 1 -
+ drivers/spi/spi-cavium-thunderx.c    | 1 -
+ drivers/spi/spi-clps711x.c           | 1 -
+ drivers/spi/spi-cs42l43.c            | 8 ++++++++
+ drivers/spi/spi-davinci.c            | 1 -
+ drivers/spi/spi-dln2.c               | 3 ---
+ drivers/spi/spi-dw-core.c            | 2 --
+ drivers/spi/spi-ep93xx.c             | 1 -
+ drivers/spi/spi-falcon.c             | 1 -
+ drivers/spi/spi-fsl-dspi.c           | 1 -
+ drivers/spi/spi-fsl-espi.c           | 1 -
+ drivers/spi/spi-fsl-lib.c            | 1 -
+ drivers/spi/spi-fsl-lpspi.c          | 1 -
+ drivers/spi/spi-geni-qcom.c          | 1 -
+ drivers/spi/spi-gpio.c               | 1 -
+ drivers/spi/spi-gxp.c                | 1 -
+ drivers/spi/spi-hisi-kunpeng.c       | 1 -
+ drivers/spi/spi-img-spfi.c           | 1 -
+ drivers/spi/spi-imx.c                | 1 -
+ drivers/spi/spi-ingenic.c            | 1 -
+ drivers/spi/spi-lantiq-ssc.c         | 1 -
+ drivers/spi/spi-ljca.c               | 1 -
+ drivers/spi/spi-loongson-core.c      | 1 -
+ drivers/spi/spi-lp8841-rtc.c         | 1 -
+ drivers/spi/spi-meson-spicc.c        | 1 -
+ drivers/spi/spi-meson-spifc.c        | 1 -
+ drivers/spi/spi-microchip-core-spi.c | 1 -
+ drivers/spi/spi-mpc512x-psc.c        | 2 --
+ drivers/spi/spi-mpc52xx-psc.c        | 2 --
+ drivers/spi/spi-mpc52xx.c            | 1 -
+ drivers/spi/spi-mpfs.c               | 1 -
+ drivers/spi/spi-mt65xx.c             | 1 -
+ drivers/spi/spi-mt7621.c             | 1 -
+ drivers/spi/spi-mtk-nor.c            | 1 -
+ drivers/spi/spi-mtk-snfi.c           | 1 -
+ drivers/spi/spi-mux.c                | 1 -
+ drivers/spi/spi-mxic.c               | 1 -
+ drivers/spi/spi-npcm-fiu.c           | 1 -
+ drivers/spi/spi-npcm-pspi.c          | 1 -
+ drivers/spi/spi-nxp-fspi.c           | 2 --
+ drivers/spi/spi-nxp-xspi.c           | 1 -
+ drivers/spi/spi-oc-tiny.c            | 1 -
+ drivers/spi/spi-orion.c              | 1 -
+ drivers/spi/spi-pl022.c              | 1 -
+ drivers/spi/spi-pxa2xx.c             | 2 --
+ drivers/spi/spi-qcom-qspi.c          | 1 -
+ drivers/spi/spi-qpic-snand.c         | 1 -
+ drivers/spi/spi-qup.c                | 1 -
+ drivers/spi/spi-rb4xx.c              | 1 -
+ drivers/spi/spi-realtek-rtl-snand.c  | 1 -
+ drivers/spi/spi-realtek-rtl.c        | 1 -
+ drivers/spi/spi-rockchip-sfc.c       | 1 -
+ drivers/spi/spi-rockchip.c           | 1 -
+ drivers/spi/spi-rspi.c               | 1 -
+ drivers/spi/spi-rzv2h-rspi.c         | 2 --
+ drivers/spi/spi-rzv2m-csi.c          | 2 --
+ drivers/spi/spi-s3c64xx.c            | 1 -
+ drivers/spi/spi-sc18is602.c          | 2 --
+ drivers/spi/spi-sg2044-nor.c         | 1 -
+ drivers/spi/spi-sh-hspi.c            | 1 -
+ drivers/spi/spi-sh-msiof.c           | 1 -
+ drivers/spi/spi-sifive.c             | 1 -
+ drivers/spi/spi-slave-mt27xx.c       | 1 -
+ drivers/spi/spi-sn-f-ospi.c          | 1 -
+ drivers/spi/spi-sprd-adi.c           | 1 -
+ drivers/spi/spi-sprd.c               | 1 -
+ drivers/spi/spi-stm32-ospi.c         | 1 -
+ drivers/spi/spi-stm32-qspi.c         | 1 -
+ drivers/spi/spi-stm32.c              | 1 -
+ drivers/spi/spi-sun4i.c              | 1 -
+ drivers/spi/spi-sun6i.c              | 1 -
+ drivers/spi/spi-sunplus-sp7021.c     | 1 -
+ drivers/spi/spi-synquacer.c          | 3 ---
+ drivers/spi/spi-tegra114.c           | 1 -
+ drivers/spi/spi-tegra20-sflash.c     | 1 -
+ drivers/spi/spi-tegra20-slink.c      | 1 -
+ drivers/spi/spi-tegra210-quad.c      | 1 -
+ drivers/spi/spi-ti-qspi.c            | 1 -
+ drivers/spi/spi-uniphier.c           | 1 -
+ drivers/spi/spi-virtio.c             | 2 --
+ drivers/spi/spi-wpcm-fiu.c           | 1 -
+ drivers/spi/spi-xcomm.c              | 1 -
+ drivers/spi/spi-xilinx.c             | 1 -
+ drivers/spi/spi-xlp.c                | 1 -
+ drivers/spi/spi-xtensa-xtfpga.c      | 1 -
+ drivers/spi/spi.c                    | 3 +++
+ 108 files changed, 12 insertions(+), 122 deletions(-)
+
 -- 
-2.52.0.457.g6b5491de43-goog
+2.50.1
 
