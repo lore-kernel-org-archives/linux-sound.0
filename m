@@ -1,41 +1,41 @@
-Received: from sender-op-o19.zoho.eu (sender-op-o19.zoho.eu [136.143.169.19])
+Received: from sender-op-o18.zoho.eu (sender-op-o18.zoho.eu [136.143.169.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8961FDE31
-	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 23:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=136.143.169.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C83726CE2C
+	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 23:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=136.143.169.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768260059; cv=fail; b=kSmKmEJUz7SgRW9e4IzsCaG0VnLyTgUg3KmXMzTAEHYw4BB7h2X3rXQrCmPIjTXb+P0SFiuRCIeRNatlJ4tvTyMSpxe1FX2ndMJGghqvOqyYDQCYlw8hknqXht0iIaXhNXLxQIusbeDaQpnRx/Vzv8gybpTlCKOuUyjcxIJA6dI=
+	t=1768260970; cv=fail; b=kcTwn8j2wJ6hsR8SfPZOdJdz9rNg8ue2yOIaOi++N/1WdD/iDKdspIjxRQWazG3D8izIb/uMHFvmVqvABXj5ArYodpea5RkeLgKEfEmi6xM7djFOpObrW8+/diHEVYQ1l8nG2dL+8YJB9wPTiXTCvQLdUKrdhH8iF7DYvfiz/YQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768260059; c=relaxed/simple;
-	bh=gUCl8rJgi5JZZUajDSeEje2inVX+NbOYueTDg7Ukjaw=;
+	s=arc-20240116; t=1768260970; c=relaxed/simple;
+	bh=2lNNZyVcSEhfqQ1JM0hbJ4lXsHZaZN8CkTusTkV2fJw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lMD7EyQc/4gVF2v10ECLXTVeRP8371nG85krTjG8q8OvKLZioD6kU2P4M4iNCEAV+TIV/a/eTUEuwydiCU926S3xq+NtpL25UD5eBWJFBjewsV8PB3P29T1XzoYIVu8syrxCBE7ri/4FGgRYG0zFlUhBBLc00yguJXE+D5D4/T0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me; spf=pass smtp.mailfrom=redaril.me; dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b=RRLs7wC3; arc=fail smtp.client-ip=136.143.169.19
+	 MIME-Version; b=LYmmv0CeSnUf6ZIJQVbhYa2k2fsv8vUbf0G1Nr5wjqzT8IpquxBSYKl/gNOAunycu4Zs8kZmEPm/m2A19PvKABUtg2tn99dnmP77hP+gmeCZ21BL0hTb96e/sNzMc1kk5XHgAAHoXCZc8p6PaiUcAsCZDTxbWSjkXsyTnBsRkW8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me; spf=pass smtp.mailfrom=redaril.me; dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b=MlgL8lld; arc=fail smtp.client-ip=136.143.169.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redaril.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b="RRLs7wC3"
-ARC-Seal: i=1; a=rsa-sha256; t=1768260028; cv=none; 
+	dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b="MlgL8lld"
+ARC-Seal: i=1; a=rsa-sha256; t=1768260027; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=RJHiHvMT2jdt5hfSrzAqXeCuGCzgByON/1QrkNhYN8tSFE4RROtBdr1Zk7dxnQh/ZkVTrln+HmD9rU3cYgYqEPZfdHw/DF0JYZ3NmW4ye/wnLZrdL0acdAgPbLeFbTTbJuS+MD6To4l2zvTGbe4lGayOZeup/VDlDTBcpfn2/aw=
+	b=HJbjk3wXShhE2eQNVmbxN9BZ+ZnAdZl3nwRQ5E0tAe5sYYOdxYyY0tlRze768zrHcwZ+1cPUtRPmbzpXLSBwdRHIQY3ww0CaXCBq49rYRA3DAaTtq0pZjOdFvVm0xwnt330vnT4x8SJRdC3Ped+l3KrNnA5kB5r9LOLppFufA2s=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1768260028; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:Message-Id:Reply-To:To; 
-	bh=t8YVTUNDPbiGlyRP9Kvs+TKskbRinStYzkp4l9CgP4c=; 
-	b=GkRrXv+dtfesqZBdlrfrerAIZ8fH4eTkoO5zTVjjXtiPHw4REJQ+EsN8wM7hJnRpkAP98SecfTCO23QGc15PiYHQSIg46KGNgIVEgqtFVUlwzwZm49b85GHMLKxJCDSU2fBL3AEg33jQWa+V4+4t+74exH6IrEQr7h9dzH7u9Rw=
+	t=1768260027; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:Message-Id:Reply-To:To; 
+	bh=ZiCdlfnSAuIfrjfP9jnHbyyHEvw/Vv98d32i+eBqpz4=; 
+	b=HqnaoyN12yCDI75GBaOQZV2XFwqKW5MtX5NiCAe7+zJBNnEZ3soRivN8T7Zg4Uxge+fPpK7Rv9Cbsb4MKCxtTnk0MCb9VQ2LmzShq7jUFj7v1/eixobe4kc/mcZLcpBL9+72276SIPX2oHTyTN3uK+CGBtOzUMeq4KiIXDVxFJs=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=redaril.me;
 	spf=pass  smtp.mailfrom=development@redaril.me;
 	dmarc=pass header.from=<development@redaril.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768260028;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768260027;
 	s=zmail; d=redaril.me; i=development@redaril.me;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=t8YVTUNDPbiGlyRP9Kvs+TKskbRinStYzkp4l9CgP4c=;
-	b=RRLs7wC32CNBGbuwdjGrPTOC8UizSCjJhqkfe2MzUd2LD9WQ4e0bQ2trMPU97GZE
-	9JMD/A3IaM5QXIo86ZdUyEazYIU4KRZLjLwvJclu/bM4U1vGMwR/EHEnREnCdTBa/yc
-	aon0TJfsVf3cspjeyBze1MQQxUdgpMVvjRoyps6U=
-Received: by mx.zoho.eu with SMTPS id 1768260028167168.20392177406688;
-	Tue, 13 Jan 2026 00:20:28 +0100 (CET)
+	bh=ZiCdlfnSAuIfrjfP9jnHbyyHEvw/Vv98d32i+eBqpz4=;
+	b=MlgL8lldh1J+KbSO6NXLIbuf+T6J+yqCQf0IZ3OrwtmpeNmv/EpykXttwPwBAmIh
+	t55iQozmBmxFc9uKcxymi4Lw1okPAMsCbVTHhEWCgNI//EHCk40Yez8iZBOi+m166G1
+	7nuvhNSAVVgsMnWI9i41a8kiKFawTCxQrSke3S8g=
+Received: by mx.zoho.eu with SMTPS id 1768260027520443.0365422851705;
+	Tue, 13 Jan 2026 00:20:27 +0100 (CET)
 From: Fabio Forni <development@redaril.me>
 To: 
 Cc: Fabio Forni <development@redaril.me>,
@@ -46,9 +46,9 @@ Cc: Fabio Forni <development@redaril.me>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC 2/3] ASoC: simple-card: Replace "parse error" with a more descriptive msg
-Date: Tue, 13 Jan 2026 00:12:23 +0100
-Message-ID: <20260112231855.193030-3-development@redaril.me>
+Subject: [RFC 1/3] ASoC: simple-card: Do not print "parse error" twice
+Date: Tue, 13 Jan 2026 00:12:22 +0100
+Message-ID: <20260112231855.193030-2-development@redaril.me>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260112231855.193030-1-development@redaril.me>
 References: <20260112231855.193030-1-development@redaril.me>
@@ -60,33 +60,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-"parse error" is misleading: it made me think the device tree contains
-syntax errors, or phandles of the wrong type were passed to the
-simple-audio-card node. Instead in my case, the `sound-dai` subnode of
-`simple-audio-card,cpu` was referring to an uninitialized device, because
-its kernel module wasn't loaded yet.
-
-As far as I understood, simple_probe fails when components composing
-the sound card are missing or simply not ready.
+If an error occurred on line 747, we'd print "parse error" and then go
+to the `err` label, where we print the same message.
+Let's remove the duplicated print.
 
 Signed-off-by: Fabio Forni <development@redaril.me>
 ---
- sound/soc/generic/simple-card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/generic/simple-card.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index 8d36cbbfca1d..298f8cc98130 100644
+index 5af6d1b308f2..8d36cbbfca1d 100644
 --- a/sound/soc/generic/simple-card.c
 +++ b/sound/soc/generic/simple-card.c
-@@ -806,7 +806,7 @@ static int simple_probe(struct platform_device *pdev)
- err:
- 	simple_util_clean_reference(card);
- end:
--	return dev_err_probe(dev, ret, "parse error\n");
-+	return dev_err_probe(dev, ret, "components missing or uninitialized\n");
- }
+@@ -745,10 +745,8 @@ static int simple_probe(struct platform_device *pdev)
+ 	if (np && of_device_is_available(np)) {
  
- static const struct of_device_id simple_of_match[] = {
+ 		ret = simple_parse_of(priv, li);
+-		if (ret < 0) {
+-			dev_err_probe(dev, ret, "parse error\n");
++		if (ret < 0)
+ 			goto err;
+-		}
+ 
+ 	} else {
+ 		struct simple_util_info *cinfo;
 -- 
 2.52.0
 
