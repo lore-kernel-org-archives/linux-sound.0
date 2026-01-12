@@ -1,129 +1,85 @@
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F602701CF
-	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 19:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47414315D2C;
+	Mon, 12 Jan 2026 20:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768244984; cv=none; b=EU3Z5w39C7OSuOml45WwdfcTzCNydyL4w6+kjIM0W0f1V3DuUHPCn0w3Kehv42NbxfMVx93EFDZp05FMiSN7JVftE0vQDC+x25LzyJCBKn8YYhJ6ZlTyuIqlyWMrJ5CdxJg2RHiWsZla6YkR7WSc+fpsfR7m3jMY2ZAqFuGQzAY=
+	t=1768248495; cv=none; b=bIdx5YBYa/Wyvk2pDoD+SX5qZNdRjBhKL1cNJSIbozXx4K84IgRlV1mZ+msKuNJ7mmCUdv5iB3RMAtcv8965tgeg5Pv6xG63V3PvevGsSJv5yVgWNgrDJJrFYbwqQgpYNQSmhiEJaVwZbhmCdUwBiPZ8SBYDN4lcSM37RMaDfAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768244984; c=relaxed/simple;
-	bh=KC39OQq1b6fPbusVOCtRhkW8fCXtGUD/PDijPlIEHRA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PmgYZY9YFu6jqkT1MxkOn/+5qODnsHQLJSxDh1Fl9f3HrrcBgnt3L0BkMZWZvtAcHO6EKihUiNjqzy4eV3AuPsSnwZcUSwmuvP95Ib5k1CZf6fLqVUIvdwEW8zjJS2sCZ2++igZ2VN3voR9eSL8AK/ovGm4s4yoBBdeEJiY7cOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=R+JFwris; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+	s=arc-20240116; t=1768248495; c=relaxed/simple;
+	bh=OMBhGDl1hwQY+DNRk7VkjXiJLOWnm0ay29IBbNlJF4c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JbrqalX+Wf3WGsvlLEZ9lQQkQeYmb57kwA5ZsA6XnsGV6kqy8Ke0wUlXeVn5igsD6vWDJa6mxMAvA+k/WHqYHXU2ZNJroL7uJF3znlDSgPUj/LA7LPWkibe0sKevTEPntJC5LZCr6fhdtiNbXRk30Ptx1IdnKbqcPwzwbi20uUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktoWuEQg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="R+JFwris"
-Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 108136C8F72;
-	Mon, 12 Jan 2026 20:09:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1768244975;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KC39OQq1b6fPbusVOCtRhkW8fCXtGUD/PDijPlIEHRA=;
-	b=R+JFwris0Ijbux7QUlL4B0WkrNS4e5PxuGu5OWQuD61HsSCcBVMsycyNmvCSRAb0vTb4X0
-	pDuDS0E2TtFQnSJg2/XumoxBfmdSxgSFSpoEKBn04xx2ANZzqVWshfliyFEduxvL81e8Ug
-	MqW9rpdjTuRNBLzlTXL6YRio333iAdsgXvDyq6g7EJC9hurzpO4lez/PYrORm4xZJHunUz
-	kl/r9Yq27tYD72Yol8udBkQxAqcjGPJrm6f9WyVmpD4MB6eBAiSLMznZhd0wqHZKl1ukxX
-	6u4JO+sEfvM9X7+6iRmpw/Aepi5ta6t0bD1NTwJL9YmildFX2eFX0lHXL1XbVg==
-Message-ID: <c477be44febb94b8c81f522c4d86971417740e6d.camel@svanheule.net>
-Subject: Re: [RFC PATCH v2 1/3] regmap: Add flat_cache_default_is_zero flag
- for flat cache
-From: Sander Vanheule <sander@svanheule.net>
-To: "Sheetal ." <sheetal@nvidia.com>, Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"	
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Liam Girdwood	
- <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai	
- <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
- Hunter	 <jonathanh@nvidia.com>, Mohan kumar <mkumard@nvidia.com>, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
-Date: Mon, 12 Jan 2026 20:09:33 +0100
-In-Reply-To: <20260112042841.51799-2-sheetal@nvidia.com>
-References: <20260112042841.51799-1-sheetal@nvidia.com>
-	 <20260112042841.51799-2-sheetal@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktoWuEQg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927D9C116D0;
+	Mon, 12 Jan 2026 20:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768248495;
+	bh=OMBhGDl1hwQY+DNRk7VkjXiJLOWnm0ay29IBbNlJF4c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ktoWuEQgYwaZGH8FjwiwIKmounYUSG9l3YpuDpoC2W7KB0JHxpAoGpRg0FKth3B0p
+	 K8SHbeYHlB8WdLd68Z4nsSVRylCw1J/ZfR9yGXG/cytrIX/eOxl+9d5wEVd4zqfgAf
+	 O50sqTzY1hGsnVLjpT1FTk2U+2FEFYD33Zyyxu24Gr5pe7BM/jHdT7GDq6RboEbItt
+	 S+LflNxUJNlqYf5qEfL4RKuzv7mmHTSo5PfDDsjx9n/XsuiIA+ZS9a8IEpMsqNvdDV
+	 Cc7Qf5DGmNYc2TogBXonsmFytnMLTQWXZp3f5LiJ+Jhsyyj+fS3aRK87W9cr56IbGv
+	 xKP/4iaeca1NQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>, 
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260108214443.1127685-1-robh@kernel.org>
+References: <20260108214443.1127685-1-robh@kernel.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: Convert realtek,rt5651 to DT schema
+Message-Id: <176824849331.206448.10716916421615090014.b4-ty@kernel.org>
+Date: Mon, 12 Jan 2026 20:08:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-Hi,
+On Thu, 08 Jan 2026 15:44:40 -0600, Rob Herring (Arm) wrote:
+> Convert the Realtek RT5661 codec binding to DT schema format. Add
+> missing clocks/clock-names for MCLK which is in use already. Also add
+> the standard "#sound-dai-cells" property.
+> 
+> 
 
-On Mon, 2026-01-12 at 09:58 +0530, Sheetal . wrote:
-> From: Sheetal <sheetal@nvidia.com>
->=20
-> Commit e062bdfdd6ad ("regmap: warn users about uninitialized flat
-> cache") added a warning for drivers using REGCACHE_FLAT when reading
-> registers not present in reg_defaults.
->=20
-> For hardware where registers have a power-on-reset value of zero
-> or drivers that wish to treat zero as a valid cache default, adding
-> all such registers to reg_defaults has drawbacks:
->=20
-> 1. Maintenance burden: Drivers must list every readable register
-> =C2=A0=C2=A0 regardless of its reset value.
+Applied to
 
-If you would extend regmap_config to accept a callback for defaults, this b=
-urden
-could be reduced to near-zero if it was a simple wrapper for the writeable_=
-regs
-and/or readable_regs callbacks. I.e. "return 0x0 if readable or writable".
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
 
-> 2. No functional benefit: Entries like { REG, 0x0 } only set the
-> =C2=A0=C2=A0 validity bit; the flat cache value is already zero.
+[1/1] ASoC: dt-bindings: Convert realtek,rt5651 to DT schema
+      commit: 35bffbe49dfd3395c65d76f14d773a1225f3489f
 
-There is a functional benefit: it allows regmap_sync() to do what it is sup=
-posed
-to do: check if a cached register matches the reset value to omit writing t=
-he
-cached value to hardware after a reset.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> 3. Code bloat: Large reg_defaults arrays increase driver size.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-As I argued before, bloat would be limited if the user could provide tables=
- or
-callbacks for defaults.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
->=20
-> Add a flat_cache_default_is_zero flag to struct regmap_config. When
-> set, the flat cache marks registers as valid on first read instead
-> of warning.
->=20
-> The valid bit is set on first read rather than marking all registers
-> valid at init time for the following reasons:
-> - Avoids writes to register holes or unused addresses during sync.
-> - Safer for drivers that don't have writeable_reg callback defined.
+Thanks,
+Mark
 
-These are benefits of using a sparse cache, but on closer inspection don't
-actually apply here. You can validate this in your kunit test if you also d=
-o the
-negative check: assert that registers outside of the written range are left
-untouched (written =3D=3D 0).
-
-Because regcache_read() will never return -ENOENT with this option enabled,
-regmap_sync() will see all registers as "written". Since there are no defau=
-lts
-to check against, this will cause regmap_sync() to write to *all* writable
-registers. With this patch, you are just reverting to the old behaviour whe=
-re
-regmap_sync() silently overwrites registers you never accessed with 0.
-
-
-Best,
-Sander
