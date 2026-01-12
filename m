@@ -1,391 +1,249 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013053.outbound.protection.outlook.com [40.93.196.53])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011063.outbound.protection.outlook.com [52.101.65.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3409830DEA2;
-	Mon, 12 Jan 2026 05:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582DE311C36;
+	Mon, 12 Jan 2026 07:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768197159; cv=fail; b=Ke3OO/43stDYKvDFG0GgYstYknIjJUYE9ky9u7RE6kKVJlDtzZHCJL5oyNCrk3Zi4sAFz5oMdLMiBs2LsURva+a0XpDQQ7P+b7Kfcrp+WeFvz+ArD6OIhlT2tHo4hXjQlSqq5AQAHppN8FSQBW4kegwMgnUPOTmDGLqsk7BZing=
+	t=1768201934; cv=fail; b=aQXsIadB10mm7szolemdbv4qqqYEriVVSHiUq8n/pNVKh39aBfuVscuqzMQrtIhB80GvHG8Ijsmp2hMuV/8sJLzXP6G7deGLPv5sydgzSUCqgSn6174qYKmxf51XHMnFXrlPLxlOOG3PN0oK/FExl6OHnd9MszDllG9xuL/lg4I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768197159; c=relaxed/simple;
-	bh=e0uti7KImUp87qz7caR3j1c+rTqa1WX0asWcfnaeRtk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=iEajcvVBLLkMOHuVDCFB/YL/YJfWozBiJVK0E8UF6wMZ1YYjJZtb1L0zJfHhG5R0qpR4ghjLTCnigS0hHYOebXjzPebi1QYKhIraOWM+sGcJWZH91IKq2+07qUruZrY7QT2z554Xa+xP6kDNO2QrpVO8gViJTduKgfxAq1eL7a8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=J75MCNZt; arc=fail smtp.client-ip=40.93.196.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1768201934; c=relaxed/simple;
+	bh=NPDl28R1JosLfHoF7Z1pIdOw8Xq7GICB462Ot5vupGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=q0ciqJ6R0F3C74g1IhDeUR1rAAhhkWbG4Chi1oelqwhII4mBY3s6TiVgdQjqVn1oWVLvbPNNRCacrdzrb0p50tAYl5QD7i1VGwq/EP3gl9Vf2RqSap2hAJpdem7sY60uXVwjU6BsMrucIfep7DMwxMFf/n/jJ5YyvMckT/xDYy4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=JWMiwXzN; arc=fail smtp.client-ip=52.101.65.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="J75MCNZt"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="JWMiwXzN"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q6zZ7/uBg5oloHpXl1S8W81PI9VrTohqJ7ddw8zEF8kwibBvWz2vXofuM5xIYqiOmm2EQFRdQbsNYdwxdjma3W3QkQRJOl/wxaZ0SX9uwUnFMGWRtz0EnDfZGR9nDYZwK6P40hMOSKhOBdhENZOenawShU3lG/76ICzDFWS38y5+qaq+yMtC9VN67A3L8texP6W/e5VYn/TLbNmgFM31xugY3HiCqi0MsUDlSnTf6HMkEq6YG7SQ7UFosfJlpQchkwYVAkzGvgwL7/PjTEwWlNdx0hbZC0na/TchGlto1GY3+MXZuu18W+FeFyyirh73/nZDj5LkClZG2d63t06F4A==
+ b=DiWjBw3NhX4cyS3lnH2JMD74N88jVMZeCHcUNTZ8zdAZq22MkAmlEy+wDn4fUqyzXbF8hhpiARDecpRSi+0gmlPdNLfrVIiAZ/HoP9cwDCD0WKlNz52Giz93YAC8RRZ9O5CgOgehwCvH7QZ1Satd0zchZpRTN2jzQPbm6KJ7wLTfDMwbk3Cr+Zo8hrLEIaKkC49M4gMAovVCSepFEL5dvpE3pkKRekOXmxgSeFORVYXy9BF0kgFJ1UHVl7tnh4b8swEhccsMePQ4n4DRm+E37Q9S8N/Yat8ObtRmqhXmd7QHmDKJk1SCRb5icIOyDKrDe/2XQw1ZKNitgOEwu0vhTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e0uti7KImUp87qz7caR3j1c+rTqa1WX0asWcfnaeRtk=;
- b=BwA+q9EI5ix3oob0e4s402Ern1Idlr3y7fN5itGoYgf1PmL0lHsVwT/0UWXD7gMorH3c9gkBYsLrpncLDdoD1zMKvJo/jMAa2lcaLiXdtQd/dDB6HtAzo0yyVJaZXMHnTAuaiuprSXhf8mC4D2oNmUkZD/1APwgjJrSJ/ywOw2gZvAlL5gSeDGQQEofjeztv1fbgix5I/r4ns7hkNDlZP/Y2ZVfIORFlobmL5YLcKhDLd6NS308kgzbONBVOOHigOFxND0TaBMQ4/ZOjLZMzZN8tSWsTpxB4C15IeaN4kOjq1kqAI/scGG5JPPOd7fZdKoE0m7vZeZ4LTn5WFJJgbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=5sUtyRzyU2X/5L8qtvUfjHP+2SVXxP81mWDh1Of6sls=;
+ b=bV5+glcNenM4PLDhrF7n5PnEJaopUOIuXyx5YBokvhqC3SNaXqGN4BI7tdgs+RgeNdrKsGKHEywf3ReINzXlWWA2KJ1N2zZ5tUtWgsRZ4sJRw6Z+zHlc+JgfU3tl8KuMS8wxeruIT/RK19BdgTFgrmRUb+NXoK02kzGRuOFOJA2Cd6OHIzFOlB6G/nz/Y0jnDPYMkWyuXjzQDR8mwkhm/WoB0XmC0GsM65T9Q2arK9fFVr5WwgRWOnYrK1HgP8lWH6BFk08FSTWZlM0Nu48Lz2FIKZmE3fnbYEC4yZzsWJCr062agUgskdXTKLZ4qLU27oyg9gC/5BuyTOqIY0ym4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e0uti7KImUp87qz7caR3j1c+rTqa1WX0asWcfnaeRtk=;
- b=J75MCNZt3u6lNMcTsQVmWDMG/KUs7ukZxWbMQuvhgpnOposhtGfIVYJ/JYUFtDRRYwkeRGJnW1zCyPQlT1mp6RtDbMQOOCZHWykZBC/lnVTK7XnewqEMhfyObgllXJeYMw8QBKS+GcMGjfQLFtD/XTcF7fOlm0mM9OMuZHKKsEk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- BN5PR12MB9488.namprd12.prod.outlook.com (2603:10b6:408:2a9::10) with
+ bh=5sUtyRzyU2X/5L8qtvUfjHP+2SVXxP81mWDh1Of6sls=;
+ b=JWMiwXzNiqiOjlBD+gmAlAWXLcpT4kC4lRUGBL4iAJAF3opUQxylUVz2aB5dST+coYssMF5Fh6RgICWhlnG+eI9u/GR29pvJIEWZHly6urfoSrIaiMVHn5qkomUIbjGlNigrb4JnG8Dn2pimUVEb51h3qEksdlxylLVWM9uGu3u7ePfoQ1DuDbl/eqM4qd4vSl/37dZgqYgxzeetI+eJ6iUoYdn81VKto5ObDIYHOAJzvXJVtBwqxWzndSq3+kIrQBFLjJuZmtNUZEtkS4x3KqbTkz8TBhiErzrB7G16Ib0Eygv03/ufay4bu+fBX/KkM/FGCjuqSEnRWkNoXybo5A==
+Received: from DU7P250CA0026.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:54f::9) by
+ VI1PR10MB3197.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:13c::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 05:52:35 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
- 05:52:35 +0000
-Message-ID: <d2e8c4be-76e0-4e52-aa27-ff8924e13eb3@amd.com>
-Date: Mon, 12 Jan 2026 11:22:29 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: acp: soc-acpi: add is_device_rt712_vb() helper
-Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- simont@opensource.cirrus.com, Sunil-kumar.Dommati@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260110064505.1485927-1-Vijendar.Mukunda@amd.com>
- <3baa51df-5891-4fa9-be0e-4695944bb38c@amd.com>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <3baa51df-5891-4fa9-be0e-4695944bb38c@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4PR01CA0089.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:2ae::7) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+ 2026 07:12:04 +0000
+Received: from DU2PEPF00028D03.eurprd03.prod.outlook.com
+ (2603:10a6:10:54f:cafe::f) by DU7P250CA0026.outlook.office365.com
+ (2603:10a6:10:54f::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.7 via Frontend Transport; Mon,
+ 12 Jan 2026 07:12:04 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ DU2PEPF00028D03.mail.protection.outlook.com (10.167.242.187) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.1 via Frontend Transport; Mon, 12 Jan 2026 07:12:02 +0000
+Received: from STKDAG1NODE1.st.com (10.75.128.132) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 12 Jan
+ 2026 08:13:26 +0100
+Received: from [10.48.86.129] (10.48.86.129) by STKDAG1NODE1.st.com
+ (10.75.128.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 12 Jan
+ 2026 08:11:57 +0100
+Message-ID: <faacf28a-7877-4500-9c2f-f60589462ed5@foss.st.com>
+Date: Mon, 12 Jan 2026 08:11:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown
+	<broonie@kernel.org>, Varshini Rajendran <varshini.rajendran@microchip.com>,
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, "AngeloGioacchino Del
+ Regno" <angelogioacchino.delregno@collabora.com>, Sunny Luo
+	<sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>, Chin-Ting Kuo
+	<chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>, "Manikandan
+ Muralidharan" <manikandan.m@microchip.com>, David Lechner
+	<dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo
+	<jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>, Charles Keepax
+	<ckeepax@opensource.cirrus.com>, Bartosz Golaszewski <brgl@kernel.org>,
+	=?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, Shiji Yang
+	<yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, "Jonathan
+ Marek" <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, "Xianwei
+ Zhao" <xianwei.zhao@amlogic.com>, Prajna Rajendra Kumar
+	<prajna.rajendrakumar@microchip.com>, Sergio Perez Gonzalez
+	<sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, "Qianfeng
+ Rong" <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, Gabor Juhos
+	<j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, Rosen Penev
+	<rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, Cosmin Tanislav
+	<cosmin-gabriel.tanislav.xa@renesas.com>, Tudor Ambarus
+	<tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li
+	<looong.bin@gmail.com>, =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?=
+	<clement.legoffic@foss.st.com>, Alessandro Grassi
+	<alessandro.grassi@mailbox.org>, Chen-Yu Tsai <wens@kernel.org>, Darshan R
+	<rathod.darshan.0896@gmail.com>, Aaron Kling <webgeek1234@gmail.com>,
+	Vishwaroop A <va@nvidia.com>, Haixu Cui <quic_haixcui@quicinc.com>, "Darshan
+ Rathod" <darshanrathod475@gmail.com>, <linux-spi@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-amlogic@lists.infradead.org>, <asahi@lists.linux.dev>,
+	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+	<linux-rpi-kernel@lists.infradead.org>, <linux-sound@vger.kernel.org>,
+	<patches@opensource.cirrus.com>, <imx@lists.linux.dev>,
+	<linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>
+CC: Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, "Sven
+ Peter" <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Joel Stanley
+	<joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Wanner
+	<ryan.wanner@microchip.com>, Michael Hennerich
+	<michael.hennerich@analog.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+	<nuno.sa@analog.com>, Kamal Dasu <kamal.dasu@broadcom.com>, "Broadcom
+ internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>, Ray Jui
+	<rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, William Zhang
+	<william.zhang@broadcom.com>, Kursad Oney <kursad.oney@broadcom.com>, "Anand
+ Gore" <anand.gore@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+	<rafal@milecki.pl>, David Rhodes <david.rhodes@cirrus.com>, "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>, Vladimir Oltean <olteanv@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins
+	<nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, Shawn Guo
+	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	"Lixu Zhang" <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Conor Dooley
+	<conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Avi Fishman
+	<avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry
+	<tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen
+	<yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Han Xu
+	<han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij
+	<linusw@kernel.org>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
+	<haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, "Chris
+ Packham" <chris.packham@alliedtelesis.co.nz>, Heiko Stuebner
+	<heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, "Andi
+ Shyti" <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, "Paul
+ Walmsley" <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>,
+	"Orson Zhai" <orsonzhai@gmail.com>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>,
+	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar
+	<jaswinder.singh@linaro.org>, "Laxman Dewangan" <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+	<jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu
+	<mhiramat@kernel.org>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?=
+	<j.neuschaefer@gmx.net>, Michal Simek <michal.simek@amd.com>, Max Filippov
+	<jcmvbkbc@gmail.com>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+ <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE1.st.com
+ (10.75.128.132)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|BN5PR12MB9488:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3104ccf-45eb-4021-7536-08de519ec936
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028D03:EE_|VI1PR10MB3197:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d5c2bce-94d6-45d7-965b-08de51a9e2df
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|32650700017|36860700013|7053199007|921020|41080700001;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZHFuaUM5V1NBdWh3SXRSZ1hIeWUvMzhPRnJTVUR3ZGxSNEFoOG9GQXJqbXZR?=
- =?utf-8?B?ckRSUUtSWWkrb3dFNHh2ZXkyMEpJb2NYSi9yeXZFcXdIaDdBWnExTlNqWDNv?=
- =?utf-8?B?ZUxCTnJydzQrMzVWTGh3cDE0YWYxUUgwZTJCVVhvUUN1TFNoZXZVWDU2OE1s?=
- =?utf-8?B?SG5qYllIUVhkVHM1R3htZGMvK3BNMGdUV1pYdjhnaGlVTmhkV0VCUUlMRFph?=
- =?utf-8?B?ajZ6N2R0Rm9lS1grdXZQcllFMlNnbXozd2phN3Rrbm84N0pPT3JrSXJCaE55?=
- =?utf-8?B?QjZ6emJlNGk0bnNDR2FiOFloYmVnMFYrQ3lHSVhtY3ZUOXdXdlZMMXNxQmF1?=
- =?utf-8?B?UEs5b2VROHVReG5iT1plNVo5ZWlOeFBTd0ZZakluZ01DckowRzNLSExETDRM?=
- =?utf-8?B?VFp2VXJVaGxWSEd0elRNV01FUklNT2UyZVBmOE01SVpHQnpWZXA3U09jZWw3?=
- =?utf-8?B?akdyUGMrQ2FOYTJ5NStUSjRTQjNyT2daZ2tYOGtUNkpUSXVVd2Fyd0dYWTQ3?=
- =?utf-8?B?QnFEUXB0WUJrcGFQK0lDdTVZSGFaeWRYdGFrYjRnZ3JPTCtiWnFvcitIKzFX?=
- =?utf-8?B?UVFXYnAwb3Y5OUFyQTZoRFM5SzVNczhtUTJERTVad1BFanFXTEFReXlncnZq?=
- =?utf-8?B?dTFwMWpWTUNWV3dqSUFCRW04Zm1yeVVtcDNaa2pJeHVmZ1AxWUI1anBmY0VS?=
- =?utf-8?B?SE05ZFNFeG1abW9rRG53SU01czBIM1lOVGFvTEJZVHViR01IV3AybzEveFgz?=
- =?utf-8?B?MWkvc2VvZEJ2aGVaVDdIMmZXaG1ZYUNMMnZPeTJsWGRORm9XSzYxTEF2ZTh5?=
- =?utf-8?B?eVBSb0ZaSWRjY1VxUm41UUpWbEVXeWcvMmtTcUdUdU5VS25VZGc4a3E2QlZ1?=
- =?utf-8?B?REJLL2pwVmY2bDFIUlJUTU5Bc0RwQ0pPVGl2LzFaSGxra3BxU0pYOEpLczBy?=
- =?utf-8?B?aGM0NENUZXdRUkVMT2crd0JwbGNOUnpVL0d0WWo5YTNXTGdhM2l5bW5Sd2c1?=
- =?utf-8?B?dS9zSVNiK0NucGNtd2RxaklKZ0pXa21iNUgvS2NZMUdVZWIyVUZlazFpWlZh?=
- =?utf-8?B?ZWVwbDRoMTVKWWNWSERMSnUyYldkM21WUWd4SWhNbHlJYUZTZVpmVjdCb240?=
- =?utf-8?B?RStxNGNxei9tTmhJd2tzOVFvRGdMQjl4My91bTFGMUFJa3VOa2xseDNVSU1K?=
- =?utf-8?B?VlUrcXAybXNDWm45elRPUWF3dHNrZmY3eHY3eWZZUm1mZXNMbkZyRk90cTQx?=
- =?utf-8?B?YXJpd29NOWFsRUc1VytvNjNCMkc3RnNvcXZ2Y2xEUjZnT0Y1QUl5YWkwNzVu?=
- =?utf-8?B?NkphbGIrYXNVdmhPbEplRWZLSm5PcnRCa2VZT2ZWaDBFUGJlL1ErU0lXZkRO?=
- =?utf-8?B?UUlJNnltaU5jUWtQbGF0QmYxajhIWUw2QnNlR2hOMjMvUFlyUURGR3lkWjZs?=
- =?utf-8?B?OU4zREdmRzNlVWE3VVBRODBRckw3VUtlS2YvbHdnYi93Y1NLYzZ3cGJYWU1I?=
- =?utf-8?B?MUpZNjZkTXBrb0MrMFBiUjlkcWdBckhlWlQveHA2WWViNVZ4STFpOFBlMEh2?=
- =?utf-8?B?VUVGSFdRcnNzNFRBUE9vVDU2bTJ6TnBaU3ZNaTRFaEtlclErVlNuS3V1RVky?=
- =?utf-8?B?VkxpWlpmYXpZZk8yWm82aGJmYjJKcWhObnluT3VrL25GdGhkSitTN2JqYWY0?=
- =?utf-8?B?VkphajNqdXBPcUlPRWIwdGZFV3YxUVF2RDF3Y0hiSCtRTXF4WHhKZjl6amUx?=
- =?utf-8?B?eU9nNWN0NGgxQ2lIMFBKSzhaWDV6WDV3cEY2a25FajNIbGdWQzJrdE1jZTBB?=
- =?utf-8?B?N290U1UzeFBLOUxyMExVNXFGc1NDeXE0cmpVWHd3OGNaMXJxVnpyVEw4Zjg2?=
- =?utf-8?B?djRZL0l0WXZNZVNLcDMzajB6SlpUcTRCcXJwZC9PNjZOSGlyd1FldnE5RVRG?=
- =?utf-8?Q?Cx4znxjauhv+sIYeEcKnW93mt8nvz9xM?=
+	=?utf-8?B?VnZWRDJoUC8rR0xOTER6aDdYSlN3bWdqOXJnelZzSlVLeXRscDI2ZURBOHBB?=
+ =?utf-8?B?dHg5YWRmZnpFVllnT2pBQjM1Wm52bVI3dUZmSHlibGcwWEQ2K2QxNEZKNFR1?=
+ =?utf-8?B?RmtuOU50Njc2dWhMbE1Ma3M1c2o4VUFreVNuVEQyR3dHTCtiaGM5aWJweUFG?=
+ =?utf-8?B?MUJGeldDYnRSUllrdGVKMUVVYUVCTlh2RVZCWDc0T1VQMWU5RmhKa1ZleUhK?=
+ =?utf-8?B?SkEwL3ZyT0djV3QrNEx6UlpqaTE0K2RJNFlRdERoZkQzQjhQM0hDOUhoUHZl?=
+ =?utf-8?B?Vy9GQys0QXhXbHRiVStlbURnczhLRUowTXl1Tk9XRzU3cjQzL3oxUGR2b1Bt?=
+ =?utf-8?B?WU9CdXVMVFdjenFuMDMxTk9URGRQc2s4RVVycVYwaGxtVlptUDZXcmw0MWhm?=
+ =?utf-8?B?S3VSNU1PUDkvM3dPaDVYNXJTVzE0aHUyY0o4U0FUZkV3Nm1CMDFSSk5HaS9m?=
+ =?utf-8?B?akpObmVSTDRFbXdyM0NPcHFGRVlqZW55ZHdma1dGVmZ6K2hKelU2WlFRazV0?=
+ =?utf-8?B?TWJLQm10dW1uRXVLV1FRU3A3V2pwbHFObTAxRVArcjI5aGZrelVYQW9SY1RR?=
+ =?utf-8?B?R2EzMUtGejdFSmkxdkluUTc1MUxzZzIxZFhvUUlpREMrYnM4TEFndmVadVps?=
+ =?utf-8?B?TnVZMlBtQmtSVmgxbTlzckpmd1c1YmhMWEJUdHpsOEtDM3ZDODh3OXhqNUVK?=
+ =?utf-8?B?MU1lcUFhTEQzTkdVQjBpSmFFSldnc21sTU4wRnQxaWhOaDNqSnZnTkVSZ2pu?=
+ =?utf-8?B?ZCt3TlBkQWZzL3Vtem1ZYzI2a05CcDk4RE12bUdBZUNta084ZnN1WXBUdXkr?=
+ =?utf-8?B?UTl3Q2F2WmdqVEV4dTRtY1ZXQU9HN3BSZitheGZYeDYxQUZLODFZSHNJWHEy?=
+ =?utf-8?B?UHNSY2VsQU4zNksrODd1T1dhYkY0b2dVeVEzTFcxUUlVaERQUlFwQko0L3A4?=
+ =?utf-8?B?SDVGeCt5Vks4RnlGMVZTZ0lsMGZqeGVtQmRoZjB5SWM5YVN1RUp0dWltRTZN?=
+ =?utf-8?B?bG9Dd0NxNVhhVlZQeVE0dGd5cmdibXk5VWVRblNYVE82QlVWaGgyUjNwblhD?=
+ =?utf-8?B?YkNVN082dnJoTzFRLzQ3RTZXdWVlWE9udjNYbUU1OE1IQWhJRzZWMnQwNzI0?=
+ =?utf-8?B?dE9Tc0hSTVNNbTZiem9OUUtqNi85QzhZS2wzUSs0cXBrNTZEaWZCZTl5ck0x?=
+ =?utf-8?B?UmlPK05YSDVKQmR0RzlMeXp5bnZFQlpVc1lwUTV3cWRHM2k4MXk5aWd0NE1P?=
+ =?utf-8?B?UHV4VXRRQ1krZmpZU0xJVVJBOE9lM2FtT2hpZHVXb1YwZFc2bi9rRU9oK2tP?=
+ =?utf-8?B?T0svRmZ3clFsYW9UZnNRY1BFNGJFRjBhalpPb1ZUdnpCOFVQWFpPRmRsd1NQ?=
+ =?utf-8?B?VlM3OEhyWTE4bjJ5UWJKV1p5MHZvYWlNcTFTKzhtU2VIWkJKbzZGcXM0ZjhR?=
+ =?utf-8?B?bXNkQ1hjeThtVzhWQ1ZzZ1prMFNBYmdoYkMrNU9NZ1VJOHVNaHhyMlRaRWhG?=
+ =?utf-8?B?bHRwVjVyc0p5Snl0aE42ZHN0bTIrYnVPVkNGM1lja2o1Q1o5cTJxOXpuZDFj?=
+ =?utf-8?B?NWlpSkliL0NIUG90dTBSSFVFZHgrYXEyVVRYK0JmRllDR1ExazJ2RDgySmk0?=
+ =?utf-8?B?UGNvQWxDdVFscXp3Vm5uUEpESEFjakEzQ2hEWVNjZDI0Qys5MHNmWkdHZWdj?=
+ =?utf-8?B?dUdTaGM2TUttMHorTVlxRW4wL2Y2MStVQUpQWGZEQVpFb0c0ZmVyMythU1dF?=
+ =?utf-8?B?ejlMcGQvZ01NdDRlMjB0QWhqK3lFWFozNTB2aTh3WTFLVCt5akgrMHVnSkht?=
+ =?utf-8?B?bEpWNFkzV1haMUtIRnY5S3lUcGhoQy9MZUFZSnpYcDF2SVM1MExvSllnb2JV?=
+ =?utf-8?B?a3o0WWtiRk50UVJnVFNLOUplcnNucndNb1AxVzBzMExaR0IxdUwyN0REMWtF?=
+ =?utf-8?B?UlVGOXVMSlVJSWt0VFE5WS9oSXpNUklhRHJBU3RtZzhSKzFWZjFkN1NXZzU1?=
+ =?utf-8?B?VGdYYjZJNCtEMUV1WXA2Z29JQlRQVVRzaFQyS2wxQnkrWHVnN0dUSGR4YSt3?=
+ =?utf-8?B?Uk5PNGcrYW94WDk1aXhQK1BydWFFalhoNXl2UUZNTTRmT28vZUZSenltaW5C?=
+ =?utf-8?B?K002UGkyL3BkcEQxa3MzSXdNUkVsZDR4RlAzdTFOakkzNFNMd09rUlowcURr?=
+ =?utf-8?B?QXc9PQ==?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bno4KzYzMnhaczZxRjNqclR1M3IwR0o2R0JCWk9mZXZ4d2RzNTJac2lYT0NO?=
- =?utf-8?B?TGlpVjVDajJnWnhTd0YzaGFlb2IyeHlFS2M4eGR4dmdSUk5LMnhQN2xRTUQ2?=
- =?utf-8?B?MXlHMGJQTnJSOTRQYjl6ZTN2SEprSzJwbTJpZjNVSEszb3BvdXJXL1Y1OXhC?=
- =?utf-8?B?YlpBMGJib01GSExlMUpWQXB2enFxcU1yT2x0OVVoMm5BbHJuSjJZdS94TG5t?=
- =?utf-8?B?ZXlsS1BXeVBXRlFHMDNScUFnMGRoNzhDM3h6ZFMxTVkyMEtGalo3ZjZNU0JK?=
- =?utf-8?B?b2VsbSs5NjV6UEd4aEdaTmxrVUkzMWtDYnNmQ3FJU1R4ZndtdlZOOHJ2dmZ5?=
- =?utf-8?B?NDAreEgzTVpkUFpHcWtUU245TzkwWjJkeWs1Z2tHbDM2dmtwYmJ6S0MybDZE?=
- =?utf-8?B?U0NCRW5sTlNEZzRzanUrR2puTFgzek12WlNJMjNGbFlFT0NmS1JIY0dNdFZu?=
- =?utf-8?B?TEhyVHVuR3N4VFh2L3FvTWUyYk8wT0hQdGN1aHRVSUxUT2pCcnVhT2FRN0xG?=
- =?utf-8?B?ZGFlaEdDbmEzSGthejlmdURWK2N2cjcyZm1vUTBsbXlRYTNIN1drMnpDVDVq?=
- =?utf-8?B?eVl0RGlTODNvUU9VdlpvTGhaYVJMbVlXTmVWRUkyZktQSktBVzZuSlEwTHdp?=
- =?utf-8?B?cTBScExaN2xMcVlvejBLcTBCRDBBeldjcExmd3VZZ09wZUdxMjNZSm1TK1Iy?=
- =?utf-8?B?UkhlVnZCaUNtUVJveWFKOVpOc2h0R1dJUlBpeTM2ZmVRK0Y1WEJhUlZqaWxW?=
- =?utf-8?B?YXdpUkJnUGh5N21EZy9NTWRZeHgxbmF1M0liOWlIUUpMY1ZnT3NJZk1nbVQ2?=
- =?utf-8?B?SkRvSmtOaCtkWHNzWVVMQmErYm4zTFVFeWxqeTFoK1NRUVVvdVhnWW9yVEpr?=
- =?utf-8?B?alkvdityRlJReTZHMkRSeHFwZWNOS1NuY0pyL3hFQi95WEwxVTIxQ2xDVUsx?=
- =?utf-8?B?Q1ZlMFVKWFhRMm5ONWlLVHp2UzR6ME1oSS96NWdpWkl4RFpwMWhSVlZoRlc2?=
- =?utf-8?B?UC9QYzcvVGFRbitNbFlYRzJPL3ZmYTEzOGdTajNEajE2TWYzbHJaZkNvSVFh?=
- =?utf-8?B?RFo4ZlNpQkdyRnBMOWJMNUtxUjViMEYxNEl0emoycVVpaVdqeHBRdEtEKzRn?=
- =?utf-8?B?Mzl5clcrdFphMi9PS0lxeWh6ZEpIaStYT3NTTmVkaVpQZlo5UUlmb2UyL3Ja?=
- =?utf-8?B?Y3YyUVQ5VE56Y3VmWEU2UGpKTTFrS2ZJTEhaYW9Qa2dkQy9PMUVoYzEzci9T?=
- =?utf-8?B?bnd1Q3BnOCs1RCt4eXc2RmNLWm5HZFViVnFMTDRhTzd4V0F0WGxCQ1NWYmJX?=
- =?utf-8?B?TXFuNTF1cHpmWlNDbFpDZGkzYVNaUk9Sb3lQaTRzRjZwTjJ6T1cvc1ZZeHZW?=
- =?utf-8?B?ZjZpTnhjM0xNTnNGQjFlWnFFQUxmSGk4ZjVuaTc4TWhEbkxYei9SS3V2bGF0?=
- =?utf-8?B?blp5QW5hOFFsbXZiQTFteUc3QTNndSt2MndCckRlTnIvUi9JSEJiV0haV2ZP?=
- =?utf-8?B?MWFGWDExMmgvVUh5Q2ZLRXFaT0JCSkpySnFwdmJiQWM1S201b1hxbHZpSEZD?=
- =?utf-8?B?UktLemFncHRjK0NBSDlnbEZESDFCUUF1SDZqWW12MnRidGZ0ZHgvTld2K3pT?=
- =?utf-8?B?bmZ0ellKVG5KQjdkSy9rY1VRUVF3c0VQbVF0SjNmOWZIejU3QjRXK2lOcG5y?=
- =?utf-8?B?RDlrUkFvTGlHTkx2dEpRQ0NDS0ZXb1luV1g3Y2Z2dzNuU1VGb2JnSGV6TW1S?=
- =?utf-8?B?ZlB2Z1NVYlZUQjNSdENSdFJ2N0Q3VHlpOTJ4cWRsOWNKUUxic2xRS2kxNWlW?=
- =?utf-8?B?MVV2c0Z0eVplWU5ENlk5b0owYXZ0OEhzTGtaRXA4TkJta3JmV0hTNzhlY3hr?=
- =?utf-8?B?c2J3amczVStEdGtmRkwxeEhBVFVzd2MwcTArd2pKb0ZTdFdUaUMyRVNBUE9o?=
- =?utf-8?B?OVZKcVlqWCs5L2hyZGtsaHZ2WGtBQU9RM09CUDgwTm16K3p0elpwWDFjWkg2?=
- =?utf-8?B?bTR5RXBaM1k0TTZUZnI5clVPVUI0V2dpZFN3WjFFSHRweTZhMnNZNW9OWE5B?=
- =?utf-8?B?dC9NWDJDVUNHbDVJM2Ira253RVNkUzZhRUNJeVNNemdHL3dMSzY2a3VBM1pz?=
- =?utf-8?B?YStCZW1oUVJneXVaTjM5WEcrVGp2Tk5IZm90NDlIcmlxRGJRdFZtMXNpMnJY?=
- =?utf-8?B?QmR2dDBhWHdIQ3c1SXVLc1VidHQ1bmhoUDRVNTJIZjMyZldkcE83Mk93WjNJ?=
- =?utf-8?B?cStCdkNFcU5PaHE4NmtUWldlNUVmRi9iQy9qdXpSVWRYOUtiMEpZZFBVY0VL?=
- =?utf-8?B?bHZYdDNjblhMZ1NUem5TZGx4Ukg0Vk51dU5VN1pvc3dFOTdkNWNxZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3104ccf-45eb-4021-7536-08de519ec936
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 05:52:35.6902
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(32650700017)(36860700013)(7053199007)(921020)(41080700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	P6BK0ZgB8SUTDfdxaJ8c8uL2dwTw5IEdwkAzylPE9GisUNIQvtA5bN+iI85qmoZR8i60+K5BvP6ArNOViQn0ERimnfKEfjDW+qbxwC5iKX9HkBzfP2v7377aWnloj08itWVqr2QWGH2HO2l601gVnXYqiIk3J43SxEiqnn3aPUgWOvWR3PshG2P+DhiOony75p4grRcx/VJiH15Kpf+oekulACyL/ix2yRIW4Qcfqwmk8U+1U3yZF5kFs9V82SJ2JB9aXDJyxRy7dbiaaIf4DHIum/Mh5OcmsBMb6j0pqyBxRbCsFqrfj8VPj5ZW71yBpCNFxfGyFgprSD624xGOAe3LWUe6M4rXcIg6A4eIBSTkq3z+djWm+KQS94f2BNUYlBv95TTKNP651EKDI86sUgWoig0yBV2TuLLdTyvATXPghfUrXnq87/L9vl+TKbIONKtNb6EVBumKiP2oi9X7tdhuLMjtFuNfK8K33b9p0F60nVvHyaQbH9rl7PQ/eCrCi6P/WzSwWHUk5TgDE7xXdR7/BfUAEfXVvCas//cGrzr6edD8AGoxHAwls8yWjtmbtdvEqWLOoFhtD0k+txJuD0ofeWOyt6LAYwTWmtd96915CwgcqXxaekOrYWjKNn6C4RJJSQHBEXjXfwmajIxQGbgZ3rwY7epTWeybKuFvwrPk06eiGxF2YcrjI+amIA4b
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 07:12:02.9802
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vJYiBa1sSRXzhJQsfQW4dIheNR7WORpDVHkikNlvs98XqrvRp0Mq6iQ5lgZ31gIlFExRm0i1o1E4VReW8Z7/HQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9488
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d5c2bce-94d6-45d7-965b-08de51a9e2df
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU2PEPF00028D03.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3197
 
-On 11/01/26 04:17, Mario Limonciello wrote:
->
->
-> On 1/10/2026 12:44 AM, Vijendar Mukunda wrote:
->> Add a filter to skip the RT172 VB configuration if a SmartMic Function
->> is not found in the SDCA descriptors.
->>
->> If the ACPI information is incorrect this can only be quirked further
->> with DMI information.
->>
->> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->> ---
->>   sound/soc/amd/acp/Kconfig                    |  6 +++
->>   sound/soc/amd/acp/Makefile                   |  2 +
->>   sound/soc/amd/acp/amd-acp70-acpi-match.c     | 50 ++++++++++++++++++++
->>   sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c | 42 ++++++++++++++++
->>   sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h | 14 ++++++
->>   5 files changed, 114 insertions(+)
->>   create mode 100644 sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
->>   create mode 100644 sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
->>
->> diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
->> index c2a60bc80ee6..ed2fa055f7f6 100644
->> --- a/sound/soc/amd/acp/Kconfig
->> +++ b/sound/soc/amd/acp/Kconfig
->> @@ -15,8 +15,14 @@ config SND_SOC_AMD_ACP_COMMON
->>     config SND_SOC_ACPI_AMD_MATCH
->>       tristate
->> +    select SND_SOC_ACPI_AMD_SDCA_QUIRKS
->>       select SND_SOC_ACPI if ACPI
->>   +config SND_SOC_ACPI_AMD_SDCA_QUIRKS
->> +    tristate
->> +    depends on ACPI
->> +    depends on SND_SOC_SDCA
->
-> Does this need a description? 
-Not required. This Config is not directly populated where user can go and select.
->
->> +
->>   if SND_SOC_AMD_ACP_COMMON
->>     config SND_SOC_AMD_ACP_PDM
->> diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
->> index 08220b9a3802..81d23aded348 100644
->> --- a/sound/soc/amd/acp/Makefile
->> +++ b/sound/soc/amd/acp/Makefile
->> @@ -27,6 +27,7 @@ snd-soc-acpi-amd-match-y := amd-acp63-acpi-match.o
->> amd-acp70-acpi-match.o
->>   snd-acp-sdw-mach-y     := acp-sdw-mach-common.o
->>   snd-acp-sdw-sof-mach-y += acp-sdw-sof-mach.o
->>   snd-acp-sdw-legacy-mach-y += acp-sdw-legacy-mach.o
->> +snd-soc-acpi-amd-sdca-quirks-y += soc-acpi-amd-sdca-quirks.o
->>     obj-$(CONFIG_SND_SOC_AMD_ACP_PCM) += snd-acp-pcm.o
->>   obj-$(CONFIG_SND_SOC_AMD_ACP_I2S) += snd-acp-i2s.o
->> @@ -40,6 +41,7 @@ obj-$(CONFIG_SND_AMD_ASOC_REMBRANDT) += snd-acp-rembrandt.o
->>   obj-$(CONFIG_SND_AMD_ASOC_ACP63) += snd-acp63.o
->>   obj-$(CONFIG_SND_AMD_ASOC_ACP70) += snd-acp70.o
->>   +obj-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += snd-soc-acpi-amd-sdca-quirks.o
->>   obj-$(CONFIG_SND_AMD_SOUNDWIRE_ACPI) += snd-amd-sdw-acpi.o
->>   obj-$(CONFIG_SND_SOC_AMD_MACH_COMMON) += snd-acp-mach.o
->>   obj-$(CONFIG_SND_SOC_AMD_LEGACY_MACH) += snd-acp-legacy-mach.o
->> diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c
->> b/sound/soc/amd/acp/amd-acp70-acpi-match.c
->> index 871b4f054a84..fa39f18578ca 100644
->> --- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
->> +++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
->> @@ -7,6 +7,7 @@
->>    */
->>     #include <sound/soc-acpi.h>
->> +#include "soc-acpi-amd-sdca-quirks.h"
->>   #include "../mach-config.h"
->>     static const struct snd_soc_acpi_endpoint single_endpoint = {
->> @@ -44,6 +45,39 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
->>       .group_id = 1
->>   };
->>   +static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
->> +    /* Jack Endpoint */
->> +    {
->> +        .num = 0,
->> +        .aggregated = 0,
->> +        .group_position = 0,
->> +        .group_id = 0,
->> +    },
->> +    /* Amp Endpoint, work as spk_l_endpoint */
->> +    {
->> +        .num = 1,
->> +        .aggregated = 1,
->> +        .group_position = 0,
->> +        .group_id = 1,
->> +    },
->> +    /* DMIC Endpoint */
->> +    {
->> +        .num = 2,
->> +        .aggregated = 0,
->> +        .group_position = 0,
->> +        .group_id = 0,
->> +    },
->> +};
->> +
->> +static const struct snd_soc_acpi_adr_device rt712_vb_1_group1_adr[] = {
->> +    {
->> +        .adr = 0x000130025D071201ull,
->> +        .num_endpoints = ARRAY_SIZE(jack_amp_g1_dmic_endpoints),
->> +        .endpoints = jack_amp_g1_dmic_endpoints,
->> +        .name_prefix = "rt712"
->> +    }
->> +};
->> +
->>   static const struct snd_soc_acpi_adr_device rt711_rt1316_group_adr[] = {
->>       {
->>           .adr = 0x000030025D071101ull,
->> @@ -254,6 +288,15 @@ static const struct snd_soc_acpi_link_adr
->> acp70_cs35l56x4_l1[] = {
->>       {}
->>   };
->>   +static const struct snd_soc_acpi_link_adr acp70_alc712_vb_l1[] = {
->> +    {
->> +        .mask = BIT(1),
->> +        .num_adr = ARRAY_SIZE(rt712_vb_1_group1_adr),
->> +        .adr_d = rt712_vb_1_group1_adr,
->> +    },
->> +    {}
->> +};
->> +
->>   static const struct snd_soc_acpi_link_adr acp70_rt722_only[] = {
->>       {
->>           .mask = BIT(0),
->> @@ -308,6 +351,12 @@ struct snd_soc_acpi_mach
->> snd_soc_acpi_amd_acp70_sdw_machines[] = {
->>           .links = acp70_cs35l56x4_l1,
->>           .drv_name = "amd_sdw",
->>       },
->> +    {
->> +        .link_mask = BIT(1),
->> +        .links = acp70_alc712_vb_l1,
->> +        .machine_check = snd_soc_acpi_amd_sdca_is_device_rt712_vb,
->> +        .drv_name = "amd_sdw",
->> +    },
->>       {},
->>   };
->>   EXPORT_SYMBOL(snd_soc_acpi_amd_acp70_sdw_machines);
->> @@ -327,3 +376,4 @@ EXPORT_SYMBOL(snd_soc_acpi_amd_acp70_sof_sdw_machines);
->>   MODULE_DESCRIPTION("AMD ACP7.0 & ACP7.1 tables and support for ACPI
->> enumeration");
->>   MODULE_LICENSE("GPL");
->>   MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
->> +MODULE_IMPORT_NS("SND_SOC_ACPI_AMD_SDCA_QUIRKS");
->> diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
->> b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
->> new file mode 100644
->> index 000000000000..63bf9e3c0ae1
->> --- /dev/null
->> +++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
->> @@ -0,0 +1,42 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * soc-acpi-amd-sdca-quirks.c - tables and support for SDCA quirks
->> + *
->> + * Copyright(c) 2025 Advanced Micro Devices, Inc. All rights reserved.
->
-> 2026 now 
- This patch was implemented and posted as a PR in SOF GitHub last month.
-That's why the year was mentioned as 2025.
->
->> + *
->> + */
->> +
->> +#include <linux/soundwire/sdw_amd.h>
->> +#include <sound/sdca.h>
->> +#include <sound/soc-acpi.h>
->> +#include "soc-acpi-amd-sdca-quirks.h"
->> +
->> +/*
->> + * Pretend machine quirk. The argument type is not the traditional
->> + * 'struct snd_soc_acpi_mach' pointer but instead the sdw_amd_ctx
->> + * which contains the peripheral information required for the
->> + * SoundWire/SDCA filter on the SMART_MIC setup and interface
->> + * revision. When the return value is false, the entry in the
->> + * 'snd_soc_acpi_mach' table needs to be skipped.
->> + */
->> +bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg)
->> +{
->> +    struct sdw_amd_ctx *ctx = arg;
->> +    int i;
->> +
->> +    if (!ctx)
->> +        return false;
->> +
->> +    for (i = 0; i < ctx->peripherals->num_peripherals; i++) {
->> +        if (sdca_device_quirk_match(ctx->peripherals->array[i],
->> +                        SDCA_QUIRKS_RT712_VB))
->> +            return true;
->> +    }
->> +
->> +    return false;
->> +}
->> +EXPORT_SYMBOL_NS(snd_soc_acpi_amd_sdca_is_device_rt712_vb,
->> "SND_SOC_ACPI_AMD_SDCA_QUIRKS");
->> +
->> +MODULE_DESCRIPTION("ASoC ACPI AMD SDCA quirks");
->> +MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS("SND_SOC_SDCA");
->> diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
->> b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
->> new file mode 100644
->> index 000000000000..7e345a236da1
->> --- /dev/null
->> +++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
->> @@ -0,0 +1,14 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * soc-acpi-amd-sdca-quirks.h - tables and support for SDCA quirks
->> + *
->> + * Copyright(c) 2025 Advanced Micro Devices, Inc. All rights reserved.
->
-> 2026
->
->
->> + *
->> + */
->> +
->> +#ifndef _SND_SOC_ACPI_AMD_SDCA_QUIRKS
->> +#define _SND_SOC_ACPI_AMD_SDCA_QUIRKS
->> +
->> +bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg);
->> +
->> +#endif
->
 
+
+On 1/8/26 21:23, Andy Shevchenko wrote:
+> The SPI core provides the default of_node for the controller,
+> inherited from the actual (parent) device. No need to repeat it
+> in the driver.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+
+>  drivers/spi/spi-stm32-ospi.c         | 1 -
+>  drivers/spi/spi-stm32-qspi.c         | 1 -
+> 
+
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+
+Thanks
