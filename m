@@ -1,113 +1,107 @@
-Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA3A946C
-	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 00:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFC847A6B;
+	Mon, 12 Jan 2026 01:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768176423; cv=none; b=mKVMycFnprmIRdqUEOWv0egGCty7IWhL2mXoWbMTORTGx9ePEaYK2HpdzBJO8wFnH4JRupD21QrnNqpkPUqhnOolrkDpxoaPzsXhT86yNx9/Nc/nxBYH6oG1vW3XUu7eb5Tyx7KDBIAcS8qy2Qnl7QIcr8n/ACxZqYkEHr6B4bk=
+	t=1768181282; cv=none; b=HClHg6+8dDJN1AZ0VZ1e7VUodABu5Nd07D58UQqoUctJ9QFdchcyCJWTA7UiewKT7ZsCOfmOnIdA+R/coJvT5NnRL1U7tqsNJVt2offR/YtxaqKLDK+z70q0AJdT/M5pvpQabqpuoCi0pWGXoyrEdPL/rLC3gtU6FmAKSoz1khY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768176423; c=relaxed/simple;
-	bh=nEbu02rGcieGd7SL591dhL4TUhMm6PUoFBDrEsPWVGY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pMsWoOpR1/2u+DQNtpGPoLHmRzcN0qjfsBSojBwEfL3pAIwFMHBXEPqEqO5iUYwysLfq4aSS827z+f7PUNf27zhl/btktblpGsWE2gDKt0LZWgCYKyS5Qx87c2apyfwAJ0j1raPsxHJV2rX939+G1+YyYliUTvOnW7SBHHJQ9Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=KMHxKuSf; arc=none smtp.client-ip=85.9.206.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
+	s=arc-20240116; t=1768181282; c=relaxed/simple;
+	bh=9Wk7FrbTcv+dFo1caqWBl1Bt+jFb3v9kyRkmsHEUZuQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FVQd/OS+N2VeRl9Z17iWHdzYkwIBDaETRPnXFFsm3RBPhvZRHRh33aG6QXjdSdI/yuiDCQS3O81g6vK8dMNx9TnOCdULmGA0RvPX8s/xQS46G0QDNXwn0KJHHQeAD0MTY+Am9R+e77ITp2RLwKTjiRbeoVTucYOV+/kqaisbnkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=1pwYGLd1; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="KMHxKuSf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1768176411; x=1768435611;
-	bh=BLb5konC06hAl0DCz872KkcPrxiy16ODuN9xDkr7EHQ=;
-	h=From:Date:Subject:Message-Id:To:Cc:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=KMHxKuSfuqYUEutkuN1iVORGlhWyIqlDrjA6Yh6tmtFmuDDW2jYTFjWebw84RvWdO
-	 1ReVVop1jTcMYj63taoDnDPgd3Wr27qdCuczIqkEIyb9X64orId4FlRF7+jdaZdvBS
-	 l/aNIzw51RpBgOsXOM/KN5w8b3J5Fqzb/OozOTd7o8UXHwQzgv26ef3i3QxcT5kdGg
-	 seVoU6uygLbsA/MwKqMvXhAhJflSuvlCRWbpjvFG4Wkf/7WI7+fqER7hqfDoHb0vPM
-	 O5E6RW5cIloj1nvNJAl1YWmKURHRbNB24S2JiRJYVFrI29fGlP1Wm0At6heUIUPCOw
-	 ewEwSpntrdDfg==
-X-Pm-Submission-Id: 4dqCNV2G9nz2SjQT
-gpg: WARNING: unsafe permissions on homedir '/home/alex/.gnupg'
-gpg: Signature made Mo 12 Jan 2026 01:04:28 CET
-gpg: using EDDSA key 8BFCF5668AA29DAD00D728F6EDAE71A20F500310
-gpg: Good signature from "Aleksandrs Vinarskis <alex@vinarskis.com>"
- [ultimate]
-gpg: aka "Aleksandrs Vinarskis <alex.vinarskis@gmail.com>" [ultimate]
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Mon, 12 Jan 2026 01:06:37 +0100
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Asus Zephyrus G14 2025
- using CS35L56, fix speakers
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="1pwYGLd1"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1768181272;
+	bh=QPKxOxkLsCyaMcJwN0XhMC5MGMh+uxaYm+lWvEdp1uw=; l=1355;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=1pwYGLd1jXtnLgn5D7binzP222RnuggZ/L2PtJV49/owmDBgCWZh7Y6Z68js9R3d7
+	 2OpDOhNPMS4LRdTlSH/WwQ2NNYtdg+44c7StsjotTv0jmvNkLg9eGiSUZGweYMz2Lq
+	 59pkAdn14x1cGbl8eQJ1cIxsKNardcptMzaSqA9+xyKmdaopFGpZetc/FhMy3y+XJJ
+	 SILjuqc8Uw5jbtyeUtYE9o6afRcMKEGD1HEBWzkwwI23Q6Z9YF3dAacD0XqRYEEm0u
+	 EnHZ9vebVey0G9GsdSmYsTdXMRvd9DsOeAsefQq6hcI98Dr8H4QZ3CC8PQASFdwYAB
+	 sVv9Gcf4Vws4Q==
+Received: from 192.168.10.47
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(2572451:1:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 12 Jan 2026 09:27:39 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Mon, 12 Jan
+ 2026 09:27:38 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1748.26 via Frontend
+ Transport; Mon, 12 Jan 2026 09:27:38 +0800
+From: <cy_huang@richtek.com>
+To: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+CC: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
+	<musk_wang@richtek.com>, <roy_chiu@richtek.com>, <allen_lin@richtek.com>,
+	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/3] ASoC: codecs: rtq9128: Modify the chip initial setting
+Date: Mon, 12 Jan 2026 09:27:32 +0800
+Message-ID: <340c88ae78edeb76cde812453c9a72d28b73e9f4.1768180827.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <cover.1768180827.git.cy_huang@richtek.com>
+References: <cover.1768180827.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260112-asus-rog-audio-v1-1-513957b4704e@vinarskis.com>
-X-B4-Tracking: v=1; b=H4sIAAw7ZGkC/x3MPQqAMAxA4auUzAaa+jN4FXGoNmoWKw0VQXp3i
- +M3vPeCchJWGM0LiW9RiWcFNQbWw587o4RqcNYNlsih16yY4o4+B4nYhXZdiLqNuYcaXYk3ef7
- hNJfyAfkL5NJgAAAA
-X-Change-ID: 20260112-asus-rog-audio-4d3cb114fee5
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2270; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=nEbu02rGcieGd7SL591dhL4TUhMm6PUoFBDrEsPWVGY=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDJkp1pKfjJLeMnmHLYl1SHW/pPQpxyGmUufTJPGfUlMZf
- huvyojrKGVhEONikBVTZOn+8zWta9HctQzXNb7BzGFlAhnCwMUpABO5dZGR4YbAm+MNL/kKz/zk
- 6Wb+8fm5nqmc0fxDG7YeVPSMvzanNIjhf1jSLZXFYv7sFguXrdydm+T1/MTrUsvc0t5ncb90dWe
- v5QUA
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Just like GA403U, this GA403W needs to remap woofers to DAC1. Similarly to
-other Asus devices, headphones/headset MIC is not working, however the pin
-config alone is not enough to fix it.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-From Windows dump of GA403W:
-  0x12, 0x90a60140 # Correctly set by codec out of the box
-  0x13, 0x90a60550
-  0x14, 0x90170510
-  0x17, 0x90170120 # Correctly set by codec out of the box
-  0x19, 0x03a11050 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
-  0x1a, 0x411115F0
-  0x1b, 0x03a11c30 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
-  0x1d, 0x40663A45 # Correctly set by codec out of the box
-  0x21, 0x03211430
+Modify the chip initial setting to default enable DC load detection
+function. This function is the chip specific feature that can detect
+the output open/short.
 
-Even with all the values set, MIC of the jack is not detected. Until a
-complete solution is found, set ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
-for GA403W which fixes audio volume control for woofers. No need to
-create new quirk with missing pin config just yet, since its not
-making the situation better.
-
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 ---
-As per commit description, enable quirk to fix woofers.
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/codecs/rtq9128.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index e63a555eda6538027b0141c90c1c8de445e359bc..8c1ec2f6da41cd716dc5c45f4a0f6724099686d7 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6869,6 +6869,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8f42, "HP ZBook 8 G2a 14W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f57, "HP Trekker G7JC", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8f62, "HP ZBook 8 G2a 16W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
-+	SND_PCI_QUIRK(0x1043, 0x1024, "ASUS Zephyrus G14 2025", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1032, "ASUS VivoBook X513EA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1034, "ASUS GU605C", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
-
----
-base-commit: f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-change-id: 20260112-asus-rog-audio-4d3cb114fee5
-
-Best regards,
+diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
+index 391cc03d687f..289bb3c04a90 100644
+--- a/sound/soc/codecs/rtq9128.c
++++ b/sound/soc/codecs/rtq9128.c
+@@ -352,7 +352,7 @@ static const struct snd_soc_dapm_route rtq9128_dapm_routes[] = {
+ static const struct rtq9128_init_reg rtq9128_tka470b_tables[] = {
+ 	{ 0xA0, 0xEF },
+ 	{ 0x0D, 0x00 },
+-	{ 0x03, 0x05 },
++	{ 0x03, 0x45 },
+ 	{ 0x05, 0x31 },
+ 	{ 0x06, 0x23 },
+ 	{ 0x70, 0x11 },
+@@ -367,7 +367,7 @@ static const struct rtq9128_init_reg rtq9128_tka470b_tables[] = {
+ 
+ static const struct rtq9128_init_reg rtq9128_dh_tables[] = {
+ 	{ 0x0F, 0x00 },
+-	{ 0x03, 0x0D },
++	{ 0x03, 0x4D },
+ 	{ 0xB2, 0xFF },
+ 	{ 0xB3, 0xFF },
+ 	{ 0x30, 0x180 },
+@@ -378,7 +378,7 @@ static const struct rtq9128_init_reg rtq9128_dh_tables[] = {
+ 
+ static const struct rtq9128_init_reg rtq9128_dl_tables[] = {
+ 	{ 0x0F, 0x00 },
+-	{ 0x03, 0x0D },
++	{ 0x03, 0x4D },
+ 	{ 0x30, 0x180 },
+ 	{ 0x8A, 0x55 },
+ 	{ 0x72, 0x00 },
 -- 
-Aleksandrs Vinarskis <alex@vinarskis.com>
+2.34.1
 
