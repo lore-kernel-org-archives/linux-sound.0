@@ -1,148 +1,139 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1EC433B3;
-	Mon, 12 Jan 2026 14:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DEE36920F;
+	Mon, 12 Jan 2026 16:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229278; cv=none; b=c/x5m1aHIuzofa3aYEHs3XNXYa0wIIfchXVeuWY3y0CJHrXsRaPdhC75dwtTAHoDh+4z7/vHUyPSQzBXOaNwCRGU8SYnsKRWxwapN0k/bkF3SUNqUYd2F0dstZVQ6Vi6ShjanWQr+zzdnq9EjV95QBrUvGU92Z4u0SF7WACR8+E=
+	t=1768235343; cv=none; b=Ee/anwpRu4Tzja3LwkneuSJO2LKDyww7ZCleFPQTQAa1cameBxMmtG+V+2WOq9yXrjfRu9CUFDWFZoxCmU+iqi5BbQAio3hlKuvVlZLyY2CsPVfeUrQXmx9KNr0shXutNxFeO/dEtjIxRnHx3dgdmH6QMXebtrOFaaHfeaOxaDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229278; c=relaxed/simple;
-	bh=nUGXhmxfk4xVstkedOcb8jdC/4d8W+cXsb3tcmVsSFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ben6dkvqyniUjb21tjEwpevylp4fyRujP0lOpVPxKxLirB9XW/bIAjBmUmDwgVtPUFL5I1PUGiywgx5xmZFvSqwcdUtm+yEN9qz3fJ6TmPctCbJ4z+tS1MNmWEsPAk/S9B1fZ4nefmcs6urXkiXVU5ZA/26AswsA7Ai4QoZN+Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iUXN7uSf; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1768235343; c=relaxed/simple;
+	bh=YlCu7k+Wp5aO3LXoKIvn1JdG466yBIodD6PEhjLg/ss=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=akjKDJLc0rwVCP/ts7aLcVG6Pg9H2H+gs7ivmvw12oqngvKsFHe+h2Qo/878GgULal8WVKhz7lqu5h4hsMHbR+G7Epe0UDivNUkgPQFqhRG8R7hQz8RCOQd9Z0ix9D+Q8SNb0odTz9MYpod2tR/QHEhvvS0u1eYFuiZ5g7QTrMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machinesoul.in; spf=pass smtp.mailfrom=machinesoul.in; dkim=pass (2048-bit key) header.d=machinesoul.in header.i=@machinesoul.in header.b=IS1gC0hN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=0PAptMsJ; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=machinesoul.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=machinesoul.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iUXN7uSf"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id C1F6AC20867;
-	Mon, 12 Jan 2026 14:47:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 42F05606FA;
-	Mon, 12 Jan 2026 14:47:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A0B3F103C8A5B;
-	Mon, 12 Jan 2026 15:47:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768229271; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=q/WLPrz5mCQaWOceOk8Ks2oQ15KuKRHou0wGW5c209g=;
-	b=iUXN7uSfeXgQl4nNnPIxxArDY5Gzbwtk5FBobBJO+ueYTKc1/BEPsvLsksdtAAQpqIsWQO
-	/cnIaP1yp40XU+4otLwInaG3Ccgw4ZjdYuBZpKDSxPUmWLKE7SIJzjlyOttIjV5+FmXYBq
-	R26TBX76EEVjpW2JNaMKjbn9Bg5Hc0m/7+OqUYza1Mg8WIkIk5gJ9KPNwyEZMv8Yjfzikr
-	sTt+xW+RYnH9eZug2OQgC+nbK+tcnBHgnDLk+ZgL/pp++VYX0gvJquvTFjdbT3L5ZBtzCj
-	N8BCh1TaOXz9DcWQNxj+3/dOOdCe3qyYIz/NXGcGMfeq+14pb1zJbp2/pCkjtg==
-Date: Mon, 12 Jan 2026 15:47:31 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Saravana Kannan <saravanak@kernel.org>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Rob Herring <robh@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Kalle Niemi
- <kaleposti@gmail.com>, linux-arm-kernel@lists.infradead.org, Andrew Lunn
- <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally
- <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron
- <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, Alison
- Schofield <alison.schofield@intel.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
- <dan.j.williams@intel.com>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-Message-ID: <20260112154731.6540453b@bootlin.com>
-In-Reply-To: <20251211161902.11ef4248@bootlin.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com>
-	<CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
-	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
-	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
-	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-	<20251202102619.5cd971cc@bootlin.com>
-	<088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
-	<20251202175836.747593c0@bootlin.com>
-	<dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com>
-	<20251204083839.4fb8a4b1@bootlin.com>
-	<CAMuHMdXdwf7La1EYBWTJadsTAJG3nKQVW6wtBn-bUqshA=XHRw@mail.gmail.com>
-	<20251210132140.32dbc3d7@bootlin.com>
-	<c50c40cc-69f6-436c-a94e-94a3a10f6727@gmail.com>
-	<20251211132044.10f5b1ea@bootlin.com>
-	<1b9fa77b-d74a-4fa7-b2e7-8b389d59a5a0@gmail.com>
-	<20251211161902.11ef4248@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=machinesoul.in header.i=@machinesoul.in header.b="IS1gC0hN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="0PAptMsJ"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id EDD351400150;
+	Mon, 12 Jan 2026 11:28:40 -0500 (EST)
+Received: from phl-imap-14 ([10.202.2.87])
+  by phl-compute-01.internal (MEProxy); Mon, 12 Jan 2026 11:28:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=machinesoul.in;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1768235320; x=1768321720; bh=QCDkMBMy2ui8oxl3R/8b2JxjhGAtXl0M
+	UjPheNK+Gl0=; b=IS1gC0hNFEjj4Ap3saiW/1AyyTeilvauJqhPdJMuiKRM+4uQ
+	1ymheQsF7aVkBQIKIv/fE3YZNrrvKd1TaHewQ+xnJKZFBuDk9napcPm20tle8kNb
+	WpAkjQVmQ5IU8UjSpMMSSvFpNC1HdVfxGMV4JcHhU2husmywXEp3dBvb4qrSZHvc
+	wziH19rGGJSVrXyWLYzQkT256m5tLk43YJiC9yEgBcDoGMuWeNlR5UASl8NsDr46
+	00UOzPIUWbJicH4g416dwaPC0EkkG8PhhX1mwt8YycLBoU9USdmfJwk+Xb1AP6ir
+	9Zr9CYs3+YWIHL50GkLN9E2CG1VE8FBmguN+9w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768235320; x=
+	1768321720; bh=QCDkMBMy2ui8oxl3R/8b2JxjhGAtXl0MUjPheNK+Gl0=; b=0
+	PAptMsJC2GmCAKx2xI4FECp3q4u/b9m8MpamhLQ88Vk8oorzsIeh10n0UJ0vpWYv
+	M15qV/AB+z1zgziVPc2I0f9HQnqDvSUVk3tsBDvg+RhrjuJ3i+iR3BlwjNdlvrT+
+	yn5/mDTZVxdL/ZcO2AZjoBLIYsW1GS35L4fY7M1d1jZbQrw6ypxYZb1vf3MihUrR
+	VAIhxGmsaRny3IbDW03CVeCU6iDxLp2xnKRT3x8HYq7Osy+o2V2hcOMpj9NFEPET
+	GYnICoPUXdyMZjf8SNUV99N0hiPh04FjI2BMifu6xvnUd3v46gYYmPs59dpbzuhC
+	Mzy2nlpf3wsiDjU+B1Zeg==
+X-ME-Sender: <xms:NyFlaYrwBTPJfSElJTj1apBOJxxZ4HnXbzZcpi-5xlioA0cn-1H03Q>
+    <xme:NyFlaZc6alYE-o1MunTw231t1qzDfZtSEqcgnfC_1BjqIEtC3KpihfuoYr8m0lMSI
+    cd96BCpzRl5ra-aDMeUCc6rCiTTyJ4nR7Zvd1Vs-FOOX1yEyL_Os-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudejleefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfuehhrghr
+    rggufigrjhcutfgrjhhufdcuoegshhgrrhgrugifrghjrdhrrghjuhesmhgrtghhihhnvg
+    hsohhulhdrihhnqeenucggtffrrghtthgvrhhnpeefteefieetuddvgeetgfehteeitdek
+    gefhleejjeffgfeiueevleeuheeigfffleenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegshhgrrhgrugifrghjrdhrrghjuhesmhgrtghhihhn
+    vghsohhulhdrihhnpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepfigrnhhgfigvihguohhnghdrrgesrgifihhnihgtrdgtohhmpdhrtghp
+    thhtoheplhhutggrrdifvghishhssehfrghirhhphhhonhgvrdgtohhmpdhrtghpthhtoh
+    eplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgv
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepmihpohhsthhmrghrkhgvthhoshdsuhhpshhtrhgvrghm
+    ihhngheslhhishhtshdrshhrrdhhth
+X-ME-Proxy: <xmx:NyFlacwVYsK8zgGesQ7LmXZCEHDzvwhlZaNsIIO-ZYZt4LsPh5hPCA>
+    <xmx:NyFlaRMOoR-I4fMznodGpzCz4oA99JkrftFAL9yWzNDHYgxowvY81Q>
+    <xmx:NyFlaeoVaXxHHpO1bZGDebwkgVZuO4Kg3zETDnDlDAOlTSTbJX-7Vg>
+    <xmx:NyFlaY9aqC8BKFPZrYCw8_pQ_07VyZluaHKEaexrM1ZM0Kqkt49Teg>
+    <xmx:OCFlaYK1sbb36iceZ7Oe11c2yeZB9TyUnXcp_AxS8UGHJ_JOricyzUM2>
+Feedback-ID: i19fe481e:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 44875C4006D; Mon, 12 Jan 2026 11:28:39 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-ThreadId: AHXG7HT5u_Wc
+Date: Mon, 12 Jan 2026 21:57:46 +0530
+From: "Bharadwaj Raju" <bharadwaj.raju@machinesoul.in>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Weidong Wang" <wangweidong.a@awinic.com>
+Cc: "Bhushan Shah" <bhushan.shah@machinesoul.in>,
+ "Luca Weiss" <luca.weiss@fairphone.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Message-Id: <19035a09-8b6b-4590-a816-82350c1389e3@app.fastmail.com>
+In-Reply-To: <1ab13178-8253-4dc7-9143-6684ededd8f9@kernel.org>
+References: <20260111-aw88261-dvdd-v1-0-83fa0850d561@machinesoul.in>
+ <20260111-aw88261-dvdd-v1-2-83fa0850d561@machinesoul.in>
+ <9249c034-de8c-479b-a9c5-f1252e0beba2@kernel.org>
+ <5e47fe91-e150-4b5d-a669-3a7beeea4f03@app.fastmail.com>
+ <1ab13178-8253-4dc7-9143-6684ededd8f9@kernel.org>
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: document dvdd-supply property for
+ awinic,aw88261
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Saravana,
+On Sun, 11 Jan 2026, at 9:40 PM, Krzysztof Kozlowski wrote:
+> On 11/01/2026 13:48, Bharadwaj Raju wrote:
+>> On Sun, 11 Jan 2026, at 5:00 PM, Krzysztof Kozlowski wrote:
+>>> Why? Was it missing? Why require it, which is an ABI break (or is not?)?
+>>> Why is ABI break allowed or what is its impact?
+>> 
+>> Right now there are no users of aw88261 in the kernel device tree sources.
+>> This patch is part of an effort to mainline the FairPhone 5, for which we 
+>> will add the first use of this compatible, and there we need to specify 
+>> dvdd-supply for this chip's power supply.
+>
+> You mean the bindings were incomplete?
 
-(+To Saravana using his new email address)
+Yes, the chip needs DVDD to power on.
 
-We still have issues related to devlink and overlays.
+>> 
+>> Since there are no present users, I thought it was OK to add a new required 
+>> property. If not, I can make it optional.
+>
+> Nothing like that was explained in commit msg. Also your explanation
+> above does not consider out of tree users of this ABI. That's fine in
+> general, but needs reason why you are doing this.
 
-In order to move forward on the topic, I think I need your help.
+After looking at other codec drivers, they generally make it optional 
+in the binding but error out from probe if it can't be enabled.
 
-Can you have a look and share any ideas to fix them?
+I'll resend the series with it made optional.
 
-On Thu, 11 Dec 2025 16:19:02 +0100
-Herve Codina <herve.codina@bootlin.com> wrote:
-...
-> 
-> IMHO, I think the issue is related to overlays and fw_devlink.
-> The distinction between "a new node is going to lead to a device" vs "a new
-> node is just data and will never been attached to a new device" when an
-> overlay is applied is broken.
-> 
-> This is broken with the upstream "treewide: Fix probing of devices in DT
-> overlays" commit I've tried to revert. Indeed, on the LAN966x PCI device
-> use case devlinks created are not correct with this commit applied.
-> 
-> I am not sure also that devlinks created with a more complex overlay will be
-> correct. For instance, Matti, with your overlay not sure that a phandle from
-> the oscillator node referencing the pmic node will lead to a correct
-> provider/consumer devlink between the pmic device and the oscillator device.
-> 
-> On the other hand, this is broken with "of: dynamic: Fix overlayed devices
-> not probing because of fw_devlink" works for the LAN966x PCI device use case
-> an lead to correct devlinks but breaks your use cases.
-> 
-> Does anyone have an idea about how to fix those issues?
-> 
-
-The commit "of: dynamic: Fix overlayed devices not probing because of fw_devlink"
-can be found in this series (patch 3)
-  https://lore.kernel.org/all/20251015071420.1173068-4-herve.codina@bootlin.com/
-
-Best regards,
-Hervé
+Regards,
+Bharadwaj
