@@ -1,37 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372832877ED;
-	Sun, 11 Jan 2026 21:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA3A946C
+	for <linux-sound@vger.kernel.org>; Mon, 12 Jan 2026 00:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768167410; cv=none; b=qk3Ale14CwP+SNnAoKTxP86BzuW3nvnnPSKbmXZ0eZoAHwyc+3xfxJAh3UUQDwB6Kro+lGRwumi6lovZoMmgITULOPl383bdC+Mpbv/eoz/RyOKyc1CLyjMXIAj91vY2CdKcxWSvfIuu0qcisqg1lbp8YNzHiZs5slhUeIb4L1E=
+	t=1768176423; cv=none; b=mKVMycFnprmIRdqUEOWv0egGCty7IWhL2mXoWbMTORTGx9ePEaYK2HpdzBJO8wFnH4JRupD21QrnNqpkPUqhnOolrkDpxoaPzsXhT86yNx9/Nc/nxBYH6oG1vW3XUu7eb5Tyx7KDBIAcS8qy2Qnl7QIcr8n/ACxZqYkEHr6B4bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768167410; c=relaxed/simple;
-	bh=GdY/Cglg3MpVvPTfRM0u2Sapew8vzusHFuk13SMYeh8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m/N4D8jQ7bOONqv2tVFG08ot5a3Ua++Csp2XzfA0pNt+3c7ll7J3w+uyK2Dw/9E/ZS7OreFw61Zez8oeoIW2GFn/o5Q24aIioU07i7hhpUMNWPpZA4Qpiri8MXqjJD3FHQha0YO62OKBaY/p7UeLRzfhLEtiODB9i0GwoTYkh+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE6kr/c2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768176423; c=relaxed/simple;
+	bh=nEbu02rGcieGd7SL591dhL4TUhMm6PUoFBDrEsPWVGY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pMsWoOpR1/2u+DQNtpGPoLHmRzcN0qjfsBSojBwEfL3pAIwFMHBXEPqEqO5iUYwysLfq4aSS827z+f7PUNf27zhl/btktblpGsWE2gDKt0LZWgCYKyS5Qx87c2apyfwAJ0j1raPsxHJV2rX939+G1+YyYliUTvOnW7SBHHJQ9Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=KMHxKuSf; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE6kr/c2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DF346C19422;
-	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768167409;
-	bh=GdY/Cglg3MpVvPTfRM0u2Sapew8vzusHFuk13SMYeh8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=YE6kr/c29tYU2pfvGiFjCxKRLfOespq7pKGXWEAimCWp+y/YZ2J/FHh6e3GK41DZT
-	 S07A2l/0kjsP59HnwaWHeYC99a8YvzrjndCaQ3TWbe05Mmjn1li1SzDaNT4MiYAVxI
-	 iji/hZq3GP9Np392lkXDnRRmZC/0XuntulpGtu435cReJYlfk4FlSPAsHVkeKG7nac
-	 kUL/34BpgyL1Ey773rqMCwHmaG4L84cnnuRboFtW0NIpVoUW34Zqu3QgngdWsUuCuU
-	 wVc0wLKjbaYrvpfCGfDZXcERD7GJZq/kQy/UfQgfyA6XbjcW+KplBmEJQ+eF07DN+h
-	 cRehiUEYMB75g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F91D25036;
-	Sun, 11 Jan 2026 21:36:49 +0000 (UTC)
-From: fenugrec via B4 Relay <devnull+fenugrec.mail.com@kernel.org>
-Date: Sun, 11 Jan 2026 16:36:41 -0500
-Subject: [PATCH v2 2/2] ALSA: usb-audio: clean up presonus s1810 consts
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="KMHxKuSf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+	s=protonmail; t=1768176411; x=1768435611;
+	bh=BLb5konC06hAl0DCz872KkcPrxiy16ODuN9xDkr7EHQ=;
+	h=From:Date:Subject:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=KMHxKuSfuqYUEutkuN1iVORGlhWyIqlDrjA6Yh6tmtFmuDDW2jYTFjWebw84RvWdO
+	 1ReVVop1jTcMYj63taoDnDPgd3Wr27qdCuczIqkEIyb9X64orId4FlRF7+jdaZdvBS
+	 l/aNIzw51RpBgOsXOM/KN5w8b3J5Fqzb/OozOTd7o8UXHwQzgv26ef3i3QxcT5kdGg
+	 seVoU6uygLbsA/MwKqMvXhAhJflSuvlCRWbpjvFG4Wkf/7WI7+fqER7hqfDoHb0vPM
+	 O5E6RW5cIloj1nvNJAl1YWmKURHRbNB24S2JiRJYVFrI29fGlP1Wm0At6heUIUPCOw
+	 ewEwSpntrdDfg==
+X-Pm-Submission-Id: 4dqCNV2G9nz2SjQT
+gpg: WARNING: unsafe permissions on homedir '/home/alex/.gnupg'
+gpg: Signature made Mo 12 Jan 2026 01:04:28 CET
+gpg: using EDDSA key 8BFCF5668AA29DAD00D728F6EDAE71A20F500310
+gpg: Good signature from "Aleksandrs Vinarskis <alex@vinarskis.com>"
+ [ultimate]
+gpg: aka "Aleksandrs Vinarskis <alex.vinarskis@gmail.com>" [ultimate]
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Mon, 12 Jan 2026 01:06:37 +0100
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Asus Zephyrus G14 2025
+ using CS35L56, fix speakers
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,409 +45,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260111-preso_clean1-v2-2-44b4e5129a75@mail.com>
-References: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
-In-Reply-To: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- roy.vegard.ovesen@gmail.com, mickflemm@gmail.com, 
- fenugrec <fenugrec@mail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768167408; l=12940;
- i=fenugrec@mail.com; s=20260110; h=from:subject:message-id;
- bh=goMhkYCIyyvM4be1YgRP8+WLU7bsS/sCK4Jkox8DUnU=;
- b=CkwkrP/n5zD2erDzjb1kkG5UGztE3Sj0FWkL0R64gzRR03WOLNNRhWAY7LSj89EMlTGJuQa3B
- d0PKijv83maDgoJmIfts573el42kkI3b/+YngnAH3ywiatFJQpiOPXC
-X-Developer-Key: i=fenugrec@mail.com; a=ed25519;
- pk=lEWyQQHFuqFAWupzIuoHgEvr9FgSscJjTpmL97lrmOE=
-X-Endpoint-Received: by B4 Relay for fenugrec@mail.com/20260110 with
- auth_id=597
-X-Original-From: fenugrec <fenugrec@mail.com>
-Reply-To: fenugrec@mail.com
+Message-Id: <20260112-asus-rog-audio-v1-1-513957b4704e@vinarskis.com>
+X-B4-Tracking: v=1; b=H4sIAAw7ZGkC/x3MPQqAMAxA4auUzAaa+jN4FXGoNmoWKw0VQXp3i
+ +M3vPeCchJWGM0LiW9RiWcFNQbWw587o4RqcNYNlsih16yY4o4+B4nYhXZdiLqNuYcaXYk3ef7
+ hNJfyAfkL5NJgAAAA
+X-Change-ID: 20260112-asus-rog-audio-4d3cb114fee5
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2270; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=nEbu02rGcieGd7SL591dhL4TUhMm6PUoFBDrEsPWVGY=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDJkp1pKfjJLeMnmHLYl1SHW/pPQpxyGmUufTJPGfUlMZf
+ huvyojrKGVhEONikBVTZOn+8zWta9HctQzXNb7BzGFlAhnCwMUpABO5dZGR4YbAm+MNL/kKz/zk
+ 6Wb+8fm5nqmc0fxDG7YeVPSMvzanNIjhf1jSLZXFYv7sFguXrdydm+T1/MTrUsvc0t5ncb90dWe
+ v5QUA
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-From: fenugrec <fenugrec@mail.com>
+Just like GA403U, this GA403W needs to remap woofers to DAC1. Similarly to
+other Asus devices, headphones/headset MIC is not working, however the pin
+config alone is not enough to fix it.
 
-- Reorder some #define blocks
-- Document mixer/volume levels
-- Document some Ctl request fields (tag, len)
-- replace some magic numbers with macros
+From Windows dump of GA403W:
+  0x12, 0x90a60140 # Correctly set by codec out of the box
+  0x13, 0x90a60550
+  0x14, 0x90170510
+  0x17, 0x90170120 # Correctly set by codec out of the box
+  0x19, 0x03a11050 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+  0x1a, 0x411115F0
+  0x1b, 0x03a11c30 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+  0x1d, 0x40663A45 # Correctly set by codec out of the box
+  0x21, 0x03211430
 
-No functional change intended. The information is based on reverse
-engineering.
+Even with all the values set, MIC of the jack is not detected. Until a
+complete solution is found, set ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+for GA403W which fixes audio volume control for woofers. No need to
+create new quirk with missing pin config just yet, since its not
+making the situation better.
 
-Signed-off-by: fenugrec <fenugrec@mail.com>
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- sound/usb/mixer_s1810c.c | 204 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 124 insertions(+), 80 deletions(-)
+As per commit description, enable quirk to fix woofers.
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
-index 93510aa0dc5e..b4ce89afb25b 100644
---- a/sound/usb/mixer_s1810c.c
-+++ b/sound/usb/mixer_s1810c.c
-@@ -25,12 +25,6 @@
- #include "helper.h"
- #include "mixer_s1810c.h"
- 
--#define SC1810C_CMD_REQ	160
--#define SC1810C_CMD_REQTYPE \
--	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT)
--#define SC1810C_CMD_F1		0x50617269
--#define SC1810C_CMD_F2		0x14
--
- /*
-  * DISCLAIMER: These are just guesses based on the
-  * dumps I got.
-@@ -42,9 +36,8 @@
-  *  * b selects an input channel (see below).
-  *  * c selects an output channel pair (see below).
-  *  * d selects left (0) or right (1) of that pair.
-- *  * e 0-> disconnect, 0x01000000-> connect,
-- *	0x0109-> used for stereo-linking channels,
-- *	e is also used for setting volume levels
-+ *  * e level : see MIXER_LEVEL_* defines below.
-+ *	Also used for setting volume levels
-  *	in which case b is also set so I guess
-  *	this way it is possible to set the volume
-  *	level from the specified input to the
-@@ -75,52 +68,98 @@
-  * For output (0x65):
-  *   * b is the output channel (see above).
-  *   * c is zero.
-- *   * e I guess the same as with mixer except 0x0109
-- *	 which I didn't see in my dumps.
-+ *   * e I guess the same as with mixer
-+ *
-+ */
-+/** struct s1810c_ctl_packet - basic vendor request
-+ * @selector: device/mixer/output
-+ * @b: request-dependant field b
-+ * @tag: fixed value identifying type of request
-+ * @len: sizeof this struct - 8 (excludes first 2 fields)
-+ *	i.e. for basic struct s1810c_ctl_packet: len is 5*4=0x14
-+ * @c: request-dependant field c
-+ * @d: request-dependant field d
-+ * @e: request-dependant field e
-  *
-- * The two fixed fields have the same values for
-- * mixer and output but a different set for device.
-+ * See longer description above. This could be combined
-+ * (as a union?) with the longer struct s1810c_state_packet
-  */
- struct s1810c_ctl_packet {
--	__le32 a;
-+	__le32 selector;
- 	__le32 b;
--	__le32 fixed1;
--	__le32 fixed2;
-+	__le32 tag;
-+	__le32 len;
- 	__le32 c;
- 	__le32 d;
- 	__le32 e;
- };
- 
-+/** selectors for CMD request
-+ */
-+#define SC1810C_SEL_DEVICE 0
-+#define SC1810C_SEL_MIXER 0x64
-+#define SC1810C_SEL_OUTPUT 0x65
-+
-+
-+/** control ids */
- #define SC1810C_CTL_LINE_SW	0
- #define SC1810C_CTL_MUTE_SW	1
- #define SC1824C_CTL_MONO_SW	2
- #define SC1810C_CTL_AB_SW	3
- #define SC1810C_CTL_48V_SW	4
- 
-+/* USB Control (vendor) requests
-+ */
-+#define SC1810C_CMD_REQ	160
-+#define SC1810C_CMD_REQTYPE \
-+	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT)
-+#define SC1810C_CMD_TAG		0x50617269
-+#define SC1810C_CMD_LEN		0x14
-+
- #define SC1810C_SET_STATE_REQ	161
- #define SC1810C_SET_STATE_REQTYPE SC1810C_CMD_REQTYPE
--#define SC1810C_SET_STATE_F1	0x64656D73
--#define SC1810C_SET_STATE_F2	0xF4
-+#define SC1810C_SET_STATE_TAG	0x64656D73
-+#define SC1810C_SET_STATE_LEN	0xF4
- 
- #define SC1810C_GET_STATE_REQ	162
- #define SC1810C_GET_STATE_REQTYPE \
- 	(USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN)
--#define SC1810C_GET_STATE_F1	SC1810C_SET_STATE_F1
--#define SC1810C_GET_STATE_F2	SC1810C_SET_STATE_F2
--
--#define SC1810C_STATE_F1_IDX	2
--#define SC1810C_STATE_F2_IDX	3
-+#define SC1810C_GET_STATE_TAG	SC1810C_SET_STATE_TAG
-+#define SC1810C_GET_STATE_LEN	SC1810C_SET_STATE_LEN
-+
-+/** Mixer levels normally range from 0 (off) to 0x0100 0000 (0 dB).
-+ * raw_level = 2^24 * 10^(db_level / 20), thus
-+ * -3dB = 0xb53bf0 (technically, half-power -3.01...dB would be 0xb504f3)
-+ * -96dB = 0x109
-+ * -99dB = 0xBC
-+ * PC software sliders cover -96 to +10dB (0x0329 8b08),
-+ * but the value 0 (-inf dB) can be used when e.g. Mixer Bypass is enabled.
-+ * Unclear what the hardware's maximum value is.
-+ *
-+ * Note, when a channel is panned to two channels (stereo),
-+ * the mixer level is set to slider value (by default -96dB) minus 3dB,
-+ * which explains the -99dB value seen in USB captures.
-+ */
-+#define MIXER_LEVEL_MUTE 0
-+#define MIXER_LEVEL_N99DB 0xbc
-+#define MIXER_LEVEL_N3DB 0xb53bf0
-+#define MIXER_LEVEL_0DB 0x1000000
- 
--/*
-+/**
-  * This packet includes mixer volumes and
-  * various other fields, it's an extended
-  * version of ctl_packet, with a and b
-- * being zero and different f1/f2.
-+ * being zero and different tag/length.
-  */
- struct s1810c_state_packet {
- 	__le32 fields[63];
- };
- 
-+/** indices into s1810c_state_packet.fields[]
-+ */
-+#define SC1810C_STATE_TAG_IDX	2
-+#define SC1810C_STATE_LEN_IDX	3
-+
- #define SC1810C_STATE_48V_SW	58
- #define SC1810C_STATE_LINE_SW	59
- #define SC1810C_STATE_MUTE_SW	60
-@@ -134,16 +173,16 @@ struct s1810_mixer_state {
- };
- 
- static int
--snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 a,
-+snd_s1810c_send_ctl_packet(struct usb_device *dev, u32 sel,
- 			   u32 b, u32 c, u32 d, u32 e)
- {
- 	struct s1810c_ctl_packet pkt = { 0 };
- 	int ret = 0;
- 
--	pkt.fixed1 = __cpu_to_le32(SC1810C_CMD_F1);
--	pkt.fixed2 = __cpu_to_le32(SC1810C_CMD_F2);
-+	pkt.tag = __cpu_to_le32(SC1810C_CMD_TAG);
-+	pkt.len = __cpu_to_le32(SC1810C_CMD_LEN);
- 
--	pkt.a = __cpu_to_le32(a);
-+	pkt.selector = __cpu_to_le32(sel);
- 	pkt.b = __cpu_to_le32(b);
- 	pkt.c = __cpu_to_le32(c);
- 	pkt.d = __cpu_to_le32(d);
-@@ -176,8 +215,8 @@ snd_sc1810c_get_status_field(struct usb_device *dev,
- 	struct s1810c_state_packet pkt_in = { { 0 } };
- 	int ret = 0;
- 
--	pkt_out.fields[SC1810C_STATE_F1_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F1);
--	pkt_out.fields[SC1810C_STATE_F2_IDX] = __cpu_to_le32(SC1810C_SET_STATE_F2);
-+	pkt_out.fields[SC1810C_STATE_TAG_IDX] = __cpu_to_le32(SC1810C_SET_STATE_TAG);
-+	pkt_out.fields[SC1810C_STATE_LEN_IDX] = __cpu_to_le32(SC1810C_SET_STATE_LEN);
- 	ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
- 			      SC1810C_SET_STATE_REQ,
- 			      SC1810C_SET_STATE_REQTYPE,
-@@ -216,8 +255,8 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 	switch (chip->usb_id) {
- 	case USB_ID(0x194f, 0x010c): /* 1810c */
- 		/* Set initial volume levels ? */
--		a = 0x64;
--		e = 0xbc;
-+		a = SC1810C_SEL_MIXER;
-+		e = MIXER_LEVEL_N99DB;
- 		for (n = 0; n < 2; n++) {
- 			off = n * 18;
- 			for (b = off; b < 18 + off; b++) {
-@@ -234,22 +273,21 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 			 * I noticed on UC that DAW channels have different
- 			 * initial volumes, so this makes sense.
- 			 */
--			e = 0xb53bf0;
-+			e = MIXER_LEVEL_N3DB;
- 		}
- 
- 		/* Connect analog outputs ? */
--		a = 0x65;
--		e = 0x01000000;
-+		a = SC1810C_SEL_OUTPUT;
- 		for (b = 1; b < 3; b++) {
--			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, e);
--			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, e);
-+			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, MIXER_LEVEL_0DB);
-+			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, MIXER_LEVEL_0DB);
- 		}
--		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 0, e);
--		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 1, e);
-+		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 0, MIXER_LEVEL_0DB);
-+		snd_s1810c_send_ctl_packet(dev, a, 0, 0, 1, MIXER_LEVEL_0DB);
- 
- 		/* Set initial volume levels for S/PDIF mappings ? */
--		a = 0x64;
--		e = 0xbc;
-+		a = SC1810C_SEL_MIXER;
-+		e = MIXER_LEVEL_N99DB;
- 		c = 3;
- 		for (n = 0; n < 2; n++) {
- 			off = n * 18;
-@@ -257,26 +295,23 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 				snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
- 				snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
- 			}
--			e = 0xb53bf0;
-+			e = MIXER_LEVEL_N3DB;
- 		}
- 
- 		/* Connect S/PDIF output ? */
--		a = 0x65;
--		e = 0x01000000;
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
-+		a = SC1810C_SEL_OUTPUT;
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
- 
- 		/* Connect all outputs (again) ? */
--		a = 0x65;
--		e = 0x01000000;
-+		a = SC1810C_SEL_OUTPUT;
- 		for (b = 0; b < 4; b++) {
--			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, e);
--			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, e);
-+			snd_s1810c_send_ctl_packet(dev, a, b, 0, 0, MIXER_LEVEL_0DB);
-+			snd_s1810c_send_ctl_packet(dev, a, b, 0, 1, MIXER_LEVEL_0DB);
- 		}
- 
- 		/* Basic routing to get sound out of the device */
--		a = 0x64;
--		e = 0x01000000;
-+		a = SC1810C_SEL_MIXER;
- 		for (c = 0; c < 4; c++) {
- 			for (b = 0; b < 36; b++) {
- 				if ((c == 0 && b == 18) ||	/* DAW1/2 -> Main */
-@@ -284,23 +319,29 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 					(c == 2 && b == 22) ||	/* DAW4/5 -> Line5/6 */
- 					(c == 3 && b == 24)) {	/* DAW5/6 -> S/PDIF */
- 					/* Left */
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_0DB);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_MUTE);
- 					b++;
- 					/* Right */
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_MUTE);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_0DB);
- 				} else {
- 					/* Leave the rest disconnected */
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_MUTE);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_MUTE);
- 				}
- 			}
- 		}
- 
- 		/* Set initial volume levels for S/PDIF (again) ? */
--		a = 0x64;
--		e = 0xbc;
-+		a = SC1810C_SEL_MIXER;
-+		e = MIXER_LEVEL_N99DB;
- 		c = 3;
- 		for (n = 0; n < 2; n++) {
- 			off = n * 18;
-@@ -308,29 +349,26 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 				snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
- 				snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
- 			}
--			e = 0xb53bf0;
-+			e = MIXER_LEVEL_N3DB;
- 		}
- 
- 		/* Connect S/PDIF outputs (again) ? */
--		a = 0x65;
--		e = 0x01000000;
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
-+		a = SC1810C_SEL_OUTPUT;
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
- 
- 		/* Again ? */
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, e);
--		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, e);
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 0, MIXER_LEVEL_0DB);
-+		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
- 		break;
- 
- 	case USB_ID(0x194f, 0x010d): /* 1824c */
- 		/* Set all output faders to unity gain */
--		a = 0x65;
-+		a = SC1810C_SEL_OUTPUT;
- 		c = 0x00;
--		e = 0x01000000;
--
- 		for (b = 0; b < 9; b++) {
--			snd_s1810c_send_ctl_packet(dev, a, b, c, 0, e);
--			snd_s1810c_send_ctl_packet(dev, a, b, c, 1, e);
-+			snd_s1810c_send_ctl_packet(dev, a, b, c, 0, MIXER_LEVEL_0DB);
-+			snd_s1810c_send_ctl_packet(dev, a, b, c, 1, MIXER_LEVEL_0DB);
- 		}
- 
- 		/* Set
-@@ -345,7 +383,7 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 		 * Daw 17 -> ADAT out 7, (left) Daw 18 -> ADAT out 8 (right)
- 		 * Everything else muted
- 		 */
--		a = 0x64;
-+		a = SC1810C_SEL_MIXER;
- 		/* The first Daw channel is channel 18 */
- 		left = 18;
- 
-@@ -354,14 +392,20 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 
- 			for (b = 0; b < 36; b++) {
- 				if (b == left) {
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x01000000);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x00);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_0DB);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_MUTE);
- 				} else if (b == right) {
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x00);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x01000000);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_MUTE);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_0DB);
- 				} else {
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 0, 0x00);
--					snd_s1810c_send_ctl_packet(dev, a, b, c, 1, 0x00);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 0, MIXER_LEVEL_MUTE);
-+					snd_s1810c_send_ctl_packet(dev,
-+							a, b, c, 1, MIXER_LEVEL_MUTE);
- 				}
- 			}
- 			left += 2;
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index e63a555eda6538027b0141c90c1c8de445e359bc..8c1ec2f6da41cd716dc5c45f4a0f6724099686d7 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6869,6 +6869,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8f42, "HP ZBook 8 G2a 14W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8f57, "HP Trekker G7JC", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8f62, "HP ZBook 8 G2a 16W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
++	SND_PCI_QUIRK(0x1043, 0x1024, "ASUS Zephyrus G14 2025", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1032, "ASUS VivoBook X513EA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1034, "ASUS GU605C", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
 
+---
+base-commit: f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+change-id: 20260112-asus-rog-audio-4d3cb114fee5
+
+Best regards,
 -- 
-2.52.0
-
+Aleksandrs Vinarskis <alex@vinarskis.com>
 
