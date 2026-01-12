@@ -1,178 +1,287 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FAE1D555;
-	Mon, 12 Jan 2026 14:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47793154425;
+	Mon, 12 Jan 2026 14:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768227103; cv=none; b=S7gsB5KxlTgs5469op9YDvh7S9DfPmT13byL1nXigqReRljxrwuU97EjyaNYuJAVgPS/3hzLxcIA0cw/hR45HwtLrDOyF1NcI6i2XMEOHvrbwZ1Z4d1e7e8h/lv/DQf5VjiS35ADh55bgy93ULAkxGt4/xH6JqO1aFVMjANiX9E=
+	t=1768227142; cv=none; b=n9E8UTkIbNkAk+sI0LGvTMRJj2cwiVZpLWVKr3Lc4nixwVIxYU0QLO8jwsyFJpKYiN71vmO5gbzvMXCfCM8fZFkSxvAWNOvrF69vS1h/vBK9jJFyMIOVRituv9bEDllqi+XfFwdJotCoT7Mxv08iqhudIhabz4jYRCiyTgElHjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768227103; c=relaxed/simple;
-	bh=bgJaNUM5VIgE3jmg2aRlC1+4Tim4pBQlk9u6DJ16NrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jYYPWlE4VSQHwpsEft/ylb9aw8vVWLwplNg9quvW8NOTcGN/0jeRDQ5XfApl7vCs3IpSpZ+z12UbUQun/EESF65fJ5Pn7+GaZVFd2GCz+on/RzPvHtRNWUcmgX2KU5lOsTm9OWs1GFDer6Nf07An2Ldn0+1Op9u1taIHNEvBSj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CakAumhF; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1768227142; c=relaxed/simple;
+	bh=Az3a5g6sBrkuDHH5gEVvcMq32Bro10i1f5TI8YYZcR4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UBBIz2nd3VOG8Ua5miZW2b2qXipudCAGW7JQNEFpfo/FrLIVWbsyN6br+b4sGHjXvbIhdYslvngY0V944U6GNCrNaVsCO8hr/V75b5mTGhh5Es2eii3TMFV7/qcKVQctW88pASpGCgSlRfun+StaQoo0v+HK5yChHNw611AsZfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fi9Py0FD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CakAumhF"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 45BC14E42087;
-	Mon, 12 Jan 2026 14:11:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0D1FB6074A;
-	Mon, 12 Jan 2026 14:11:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 736BF103C8C61;
-	Mon, 12 Jan 2026 15:10:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768227090; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=S8c2ARP9HcnV+reUeOF4Vcg2quHBkPmCAqYrhfyr6c0=;
-	b=CakAumhFpasu+3ZI3BaB812kdRiuu+v1Tg/Sp3TTEi8pdVKDZEtVO84AoLEgEc1xrnFluT
-	i+SAwVNTU/VK298rD4GgfOlbL1x1IRBq+LMtmjrslvr8iNw/wqHBq7SowNZ+1bxrqAdaPR
-	ziVMPo032s+fSJqG9mpYJmDIazpKyi53yb/qGj1zj4VwwbAj77lJfzPnCy7GfnRvSCaoiG
-	VLNhV0T9IC//MbbHQG1tnGAF03XNmqvN+K3xG6/Renyw+hJ5Ia+fO3n6d7mTvuZI7e4oUm
-	CIup66ln9btW8iWglHRpKXcMS5I6EydGAat63GN0yLYYuyDF497mBLdXxOQ06g==
-From: =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>
-To: Mark Brown <broonie@kernel.org>,
- Varshini Rajendran <varshini.rajendran@microchip.com>,
- Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- David Lechner <dlechner@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>,
- Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Shiji Yang <yangshiji66@outlook.com>,
- James Clark <james.clark@linaro.org>, Jonathan Marek <jonathan@marek.ca>,
- Carlos Song <carlos.song@nxp.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Huacai Chen <chenhuacai@kernel.org>, Xianwei Zhao <xianwei.zhao@amlogic.com>,
- Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
- Sergio Perez Gonzalez <sperezglz@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>,
- Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>,
- Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li <looong.bin@gmail.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- =?UTF-8?B?Q2zDqW1lbnQ=?= Le Goffic <clement.legoffic@foss.st.com>,
- Alessandro Grassi <alessandro.grassi@mailbox.org>,
- Chen-Yu Tsai <wens@kernel.org>, Darshan R <rathod.darshan.0896@gmail.com>,
- Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>,
- Haixu Cui <quic_haixcui@quicinc.com>,
- Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, imx@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>,
- Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- Ryan Wanner <ryan.wanner@microchip.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Kamal Dasu <kamal.dasu@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- William Zhang <william.zhang@broadcom.com>,
- Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>,
- Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Lixu Zhang <lixu.zhang@intel.com>,
- Yinbo Zhu <zhuyinbo@loongson.cn>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- Han Xu <han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>,
- Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Chris Packham <chris.packham@alliedtelesis.co.nz>,
- Heiko Stuebner <heiko@sntech.de>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>,
- Masahisa Kojima <masahisa.kojima@linaro.org>,
- Jassi Brar <jaswinder.singh@linaro.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
- Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v1 4/4] spi: Drop duplicate device_set_node() call
-Date: Mon, 12 Jan 2026 15:10:36 +0100
-Message-ID: <2776743.vuYhMxLoTh@benoit.monin>
-In-Reply-To: <20260108203004.3538449-5-andriy.shevchenko@linux.intel.com>
-References:
- <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
- <20260108203004.3538449-5-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fi9Py0FD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 041F9C16AAE;
+	Mon, 12 Jan 2026 14:12:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768227141;
+	bh=Az3a5g6sBrkuDHH5gEVvcMq32Bro10i1f5TI8YYZcR4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Fi9Py0FDbKfjkqv3JN1HrtZ2G3riC2LaEjjAry6nE3lD9vBd5oXemiQ4wFIFzQ8vX
+	 mi9A/L+0s92ijbmqBPrBi0uMsMSeG4V1BRo92cuvoX+t8ReBlUjk5uEGWZ6dDW++JK
+	 /el2TyFw59FaTm4EwRru+DZ21vUezKgkUAw43j4UihWFMzmXgWIaJaGKb3Pzs+Te0G
+	 GVM1UQKlXj4uok7zFH4P/KTR+T4nHS94QxyLnY8KakJh3l7WpNQ3iu9fRQUld3UnOD
+	 n9OQWEw/3d6dMMZxz4vUTHaQaJ3AKi0dTMaBty/9fjIQGUYaDxiCCKPjJk5aO7Tq/L
+	 GXCnriTYr2L1w==
+Message-ID: <cbe560b5-2cf2-4b77-b49d-1f4d4b46e5fd@kernel.org>
+Date: Mon, 12 Jan 2026 08:12:20 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: acp: soc-acpi: add is_device_rt712_vb() helper
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+ simont@opensource.cirrus.com, Sunil-kumar.Dommati@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260110064505.1485927-1-Vijendar.Mukunda@amd.com>
+ <3baa51df-5891-4fa9-be0e-4695944bb38c@amd.com>
+ <d2e8c4be-76e0-4e52-aa27-ff8924e13eb3@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <d2e8c4be-76e0-4e52-aa27-ff8924e13eb3@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thursday, 8 January 2026 at 21:23:41 CET, Andy Shevchenko wrote:
-> The SPI core provides the default fwnode for the controller,
-> assigned by device_set_node(). No need to repeat it in the driver.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On 1/11/26 11:52 PM, Mukunda,Vijendar wrote:
+> On 11/01/26 04:17, Mario Limonciello wrote:
+>>
+>>
+>> On 1/10/2026 12:44 AM, Vijendar Mukunda wrote:
+>>> Add a filter to skip the RT172 VB configuration if a SmartMic Function
+>>> is not found in the SDCA descriptors.
+>>>
+>>> If the ACPI information is incorrect this can only be quirked further
+>>> with DMI information.
+>>>
+>>> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
->  drivers/spi/spi-dw-core.c           | 2 --
->=20
-Works fine on Mobileye EyeQ6Lplus SoC in both host and target mode.
+Thanks for the comments below, no remaining concerns by me.
 
-Tested-by: Beno=C3=AEt Monin <benoit.monin@bootlin.com> # dw mobileye
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-Thanks,
-=2D-=20
-Beno=C3=AEt Monin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+>>> ---
+>>>    sound/soc/amd/acp/Kconfig                    |  6 +++
+>>>    sound/soc/amd/acp/Makefile                   |  2 +
+>>>    sound/soc/amd/acp/amd-acp70-acpi-match.c     | 50 ++++++++++++++++++++
+>>>    sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c | 42 ++++++++++++++++
+>>>    sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h | 14 ++++++
+>>>    5 files changed, 114 insertions(+)
+>>>    create mode 100644 sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
+>>>    create mode 100644 sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+>>>
+>>> diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
+>>> index c2a60bc80ee6..ed2fa055f7f6 100644
+>>> --- a/sound/soc/amd/acp/Kconfig
+>>> +++ b/sound/soc/amd/acp/Kconfig
+>>> @@ -15,8 +15,14 @@ config SND_SOC_AMD_ACP_COMMON
+>>>      config SND_SOC_ACPI_AMD_MATCH
+>>>        tristate
+>>> +    select SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>>>        select SND_SOC_ACPI if ACPI
+>>>    +config SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>>> +    tristate
+>>> +    depends on ACPI
+>>> +    depends on SND_SOC_SDCA
+>>
+>> Does this need a description?
+> Not required. This Config is not directly populated where user can go and select.
+>>
+>>> +
+>>>    if SND_SOC_AMD_ACP_COMMON
+>>>      config SND_SOC_AMD_ACP_PDM
+>>> diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
+>>> index 08220b9a3802..81d23aded348 100644
+>>> --- a/sound/soc/amd/acp/Makefile
+>>> +++ b/sound/soc/amd/acp/Makefile
+>>> @@ -27,6 +27,7 @@ snd-soc-acpi-amd-match-y := amd-acp63-acpi-match.o
+>>> amd-acp70-acpi-match.o
+>>>    snd-acp-sdw-mach-y     := acp-sdw-mach-common.o
+>>>    snd-acp-sdw-sof-mach-y += acp-sdw-sof-mach.o
+>>>    snd-acp-sdw-legacy-mach-y += acp-sdw-legacy-mach.o
+>>> +snd-soc-acpi-amd-sdca-quirks-y += soc-acpi-amd-sdca-quirks.o
+>>>      obj-$(CONFIG_SND_SOC_AMD_ACP_PCM) += snd-acp-pcm.o
+>>>    obj-$(CONFIG_SND_SOC_AMD_ACP_I2S) += snd-acp-i2s.o
+>>> @@ -40,6 +41,7 @@ obj-$(CONFIG_SND_AMD_ASOC_REMBRANDT) += snd-acp-rembrandt.o
+>>>    obj-$(CONFIG_SND_AMD_ASOC_ACP63) += snd-acp63.o
+>>>    obj-$(CONFIG_SND_AMD_ASOC_ACP70) += snd-acp70.o
+>>>    +obj-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += snd-soc-acpi-amd-sdca-quirks.o
+>>>    obj-$(CONFIG_SND_AMD_SOUNDWIRE_ACPI) += snd-amd-sdw-acpi.o
+>>>    obj-$(CONFIG_SND_SOC_AMD_MACH_COMMON) += snd-acp-mach.o
+>>>    obj-$(CONFIG_SND_SOC_AMD_LEGACY_MACH) += snd-acp-legacy-mach.o
+>>> diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c
+>>> b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+>>> index 871b4f054a84..fa39f18578ca 100644
+>>> --- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
+>>> +++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+>>> @@ -7,6 +7,7 @@
+>>>     */
+>>>      #include <sound/soc-acpi.h>
+>>> +#include "soc-acpi-amd-sdca-quirks.h"
+>>>    #include "../mach-config.h"
+>>>      static const struct snd_soc_acpi_endpoint single_endpoint = {
+>>> @@ -44,6 +45,39 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
+>>>        .group_id = 1
+>>>    };
+>>>    +static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
+>>> +    /* Jack Endpoint */
+>>> +    {
+>>> +        .num = 0,
+>>> +        .aggregated = 0,
+>>> +        .group_position = 0,
+>>> +        .group_id = 0,
+>>> +    },
+>>> +    /* Amp Endpoint, work as spk_l_endpoint */
+>>> +    {
+>>> +        .num = 1,
+>>> +        .aggregated = 1,
+>>> +        .group_position = 0,
+>>> +        .group_id = 1,
+>>> +    },
+>>> +    /* DMIC Endpoint */
+>>> +    {
+>>> +        .num = 2,
+>>> +        .aggregated = 0,
+>>> +        .group_position = 0,
+>>> +        .group_id = 0,
+>>> +    },
+>>> +};
+>>> +
+>>> +static const struct snd_soc_acpi_adr_device rt712_vb_1_group1_adr[] = {
+>>> +    {
+>>> +        .adr = 0x000130025D071201ull,
+>>> +        .num_endpoints = ARRAY_SIZE(jack_amp_g1_dmic_endpoints),
+>>> +        .endpoints = jack_amp_g1_dmic_endpoints,
+>>> +        .name_prefix = "rt712"
+>>> +    }
+>>> +};
+>>> +
+>>>    static const struct snd_soc_acpi_adr_device rt711_rt1316_group_adr[] = {
+>>>        {
+>>>            .adr = 0x000030025D071101ull,
+>>> @@ -254,6 +288,15 @@ static const struct snd_soc_acpi_link_adr
+>>> acp70_cs35l56x4_l1[] = {
+>>>        {}
+>>>    };
+>>>    +static const struct snd_soc_acpi_link_adr acp70_alc712_vb_l1[] = {
+>>> +    {
+>>> +        .mask = BIT(1),
+>>> +        .num_adr = ARRAY_SIZE(rt712_vb_1_group1_adr),
+>>> +        .adr_d = rt712_vb_1_group1_adr,
+>>> +    },
+>>> +    {}
+>>> +};
+>>> +
+>>>    static const struct snd_soc_acpi_link_adr acp70_rt722_only[] = {
+>>>        {
+>>>            .mask = BIT(0),
+>>> @@ -308,6 +351,12 @@ struct snd_soc_acpi_mach
+>>> snd_soc_acpi_amd_acp70_sdw_machines[] = {
+>>>            .links = acp70_cs35l56x4_l1,
+>>>            .drv_name = "amd_sdw",
+>>>        },
+>>> +    {
+>>> +        .link_mask = BIT(1),
+>>> +        .links = acp70_alc712_vb_l1,
+>>> +        .machine_check = snd_soc_acpi_amd_sdca_is_device_rt712_vb,
+>>> +        .drv_name = "amd_sdw",
+>>> +    },
+>>>        {},
+>>>    };
+>>>    EXPORT_SYMBOL(snd_soc_acpi_amd_acp70_sdw_machines);
+>>> @@ -327,3 +376,4 @@ EXPORT_SYMBOL(snd_soc_acpi_amd_acp70_sof_sdw_machines);
+>>>    MODULE_DESCRIPTION("AMD ACP7.0 & ACP7.1 tables and support for ACPI
+>>> enumeration");
+>>>    MODULE_LICENSE("GPL");
+>>>    MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
+>>> +MODULE_IMPORT_NS("SND_SOC_ACPI_AMD_SDCA_QUIRKS");
+>>> diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
+>>> b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
+>>> new file mode 100644
+>>> index 000000000000..63bf9e3c0ae1
+>>> --- /dev/null
+>>> +++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
+>>> @@ -0,0 +1,42 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +/*
+>>> + * soc-acpi-amd-sdca-quirks.c - tables and support for SDCA quirks
+>>> + *
+>>> + * Copyright(c) 2025 Advanced Micro Devices, Inc. All rights reserved.
+>>
+>> 2026 now
+>   This patch was implemented and posted as a PR in SOF GitHub last month.
+> That's why the year was mentioned as 2025.
+>>
+>>> + *
+>>> + */
+>>> +
+>>> +#include <linux/soundwire/sdw_amd.h>
+>>> +#include <sound/sdca.h>
+>>> +#include <sound/soc-acpi.h>
+>>> +#include "soc-acpi-amd-sdca-quirks.h"
+>>> +
+>>> +/*
+>>> + * Pretend machine quirk. The argument type is not the traditional
+>>> + * 'struct snd_soc_acpi_mach' pointer but instead the sdw_amd_ctx
+>>> + * which contains the peripheral information required for the
+>>> + * SoundWire/SDCA filter on the SMART_MIC setup and interface
+>>> + * revision. When the return value is false, the entry in the
+>>> + * 'snd_soc_acpi_mach' table needs to be skipped.
+>>> + */
+>>> +bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg)
+>>> +{
+>>> +    struct sdw_amd_ctx *ctx = arg;
+>>> +    int i;
+>>> +
+>>> +    if (!ctx)
+>>> +        return false;
+>>> +
+>>> +    for (i = 0; i < ctx->peripherals->num_peripherals; i++) {
+>>> +        if (sdca_device_quirk_match(ctx->peripherals->array[i],
+>>> +                        SDCA_QUIRKS_RT712_VB))
+>>> +            return true;
+>>> +    }
+>>> +
+>>> +    return false;
+>>> +}
+>>> +EXPORT_SYMBOL_NS(snd_soc_acpi_amd_sdca_is_device_rt712_vb,
+>>> "SND_SOC_ACPI_AMD_SDCA_QUIRKS");
+>>> +
+>>> +MODULE_DESCRIPTION("ASoC ACPI AMD SDCA quirks");
+>>> +MODULE_LICENSE("GPL");
+>>> +MODULE_IMPORT_NS("SND_SOC_SDCA");
+>>> diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+>>> b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+>>> new file mode 100644
+>>> index 000000000000..7e345a236da1
+>>> --- /dev/null
+>>> +++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+>>> @@ -0,0 +1,14 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>> +/*
+>>> + * soc-acpi-amd-sdca-quirks.h - tables and support for SDCA quirks
+>>> + *
+>>> + * Copyright(c) 2025 Advanced Micro Devices, Inc. All rights reserved.
+>>
+>> 2026
+>>
+>>
+>>> + *
+>>> + */
+>>> +
+>>> +#ifndef _SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>>> +#define _SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>>> +
+>>> +bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg);
+>>> +
+>>> +#endif
+>>
+> 
 
