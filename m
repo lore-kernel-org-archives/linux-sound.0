@@ -1,91 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DF03921FC;
-	Tue, 13 Jan 2026 13:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D99B330663
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 13:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312207; cv=none; b=QWU50XbFcNvgCOJATj0JIWrhzR6zWtpo65EucIhz71uy8SPcsfXcXnk4GfqECSQA9TaF+vVWdceTeWtGBSvTbXcC1eH8qe5h8UqfH+osq8hGl7aFwu0XelHXQmVhXswaN6LNCIZcDRXoo0Z0sJ4jGO6YzMsg/Ktbsa6LTRISHdU=
+	t=1768312445; cv=none; b=f9J8Si3xb0unlsgVVLt1Hh+qThM0+ZTrzQM8Awx13qacu/VlOObd7472W+MFENs8AVhlELAduVH0zrJwNbDZy93fygN7OvYCqRsXWTM6YsG36fDpicFb9cIYy6SoSwhdhzLr2ziKL2iDROCSSNv0HNh0yJgRszSi8qjuwX7AaXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312207; c=relaxed/simple;
-	bh=O/ufUS1ejEBbKS5Ea5alMxQF73hHCU1/fhBl/pMj/rg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pYKRY4f9/APKn3vYHLqt0DwzYCQ/cLbEw2TIca8D+cw5HXqzIPD5A2GfG3gHictT4u8R0RvVWr8JELPF5FCBr+DR0t1UwgAb7bk8TgPgSdCbC5TanztmYZ5tHYTtRWyGZf85GadeqaS0RrJDwsnbWX87NBF9bp1AMKLUw+WK+1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhnFJoJR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768312445; c=relaxed/simple;
+	bh=aKaBl+gUIqb1HSX8fODgW0tlqMVqxV+JilBWhAP/9IA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a8MwCXDpO/REML+e/G47KHG4pyxnG8PutzYlmz9NgS7XTkKW92dbjXGfpzKCM4lqOHf6IDCKtHYCTwU8rci+92+yBHoU1h3mHmc6yxzcDqizBMwYcJ9syZVVeKD4Jk1F3JwVmIWcIdqS4WcVRK6VwAbuS9kpeyx8yz+ckdSATqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mSf9MnZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8DA48hXU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mSf9MnZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8DA48hXU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhnFJoJR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9016DC19422;
-	Tue, 13 Jan 2026 13:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768312206;
-	bh=O/ufUS1ejEBbKS5Ea5alMxQF73hHCU1/fhBl/pMj/rg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WhnFJoJR1JVke1lDWfwXQxyyIDbHE3GG6F28e+GG86gbgmBZiD+m/KJ4D0ac5kqgR
-	 7lZ6AF7XojI+BsR8iOSOIsSiPgZEJC3HN26RX6BRIYb3sH4OIJ1nO/gEvWXaLUQsSX
-	 2sbY2L6GDPLxpmYPjUlrRMOlz5UtgpZcuR4YO4V/zn7R7QLYQWKIDIApD8k1HZV4oJ
-	 QvjM4Moq675ZzAk+9XxxgRcKdVNL/Gw2Y2c/0MLOS/8N8lhGYBMmVzYkw+tPiRPJsX
-	 03U1O2PZDWZxsA3kNcUa3xp5zVU8TkIiyj1T2GopIZJhjSQ6Ym8C0rKFq1UikPNQKU
-	 Ex1OcShM8Y+qg==
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>, cy_huang@richtek.com
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, musk_wang@richtek.com, 
- roy_chiu@richtek.com, allen_lin@richtek.com, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <cover.1768180827.git.cy_huang@richtek.com>
-References: <cover.1768180827.git.cy_huang@richtek.com>
-Subject: Re: [PATCH v2 0/3] ASoC: Update rtq9128 document and source file
-Message-Id: <176831220432.70484.10730103796055155517.b4-ty@kernel.org>
-Date: Tue, 13 Jan 2026 13:50:04 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mSf9MnZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8DA48hXU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mSf9MnZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8DA48hXU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8AFAB33681;
+	Tue, 13 Jan 2026 13:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768312442; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xVXW3u7yEQ0srw4GCIi7TfXUqcy0t8tEUsjAIMaA6A=;
+	b=mSf9MnZdFDwpd0/FyP0cTEwfYP1Ja9gGCewvWBPnu7fV1cDwKpqZ8I6WeJttrgyUGoxlEV
+	tLm4CPjdBRveeI8QrWO4MOX1dfBiuUbsZNniPuw6r1cH5A6x+djFxKLjUY83W9nqsC9Z/u
+	tIg78XXGiNhL+f6MfTu0fRCbYrorrJ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768312442;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xVXW3u7yEQ0srw4GCIi7TfXUqcy0t8tEUsjAIMaA6A=;
+	b=8DA48hXUitoTwyJ087iyqqMKyYHB+/3fwOWcwll4649XgdMpZSIKR8wWU+8VHiNWsxXJnD
+	kcycwonQjw1hTJBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768312442; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xVXW3u7yEQ0srw4GCIi7TfXUqcy0t8tEUsjAIMaA6A=;
+	b=mSf9MnZdFDwpd0/FyP0cTEwfYP1Ja9gGCewvWBPnu7fV1cDwKpqZ8I6WeJttrgyUGoxlEV
+	tLm4CPjdBRveeI8QrWO4MOX1dfBiuUbsZNniPuw6r1cH5A6x+djFxKLjUY83W9nqsC9Z/u
+	tIg78XXGiNhL+f6MfTu0fRCbYrorrJ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768312442;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8xVXW3u7yEQ0srw4GCIi7TfXUqcy0t8tEUsjAIMaA6A=;
+	b=8DA48hXUitoTwyJ087iyqqMKyYHB+/3fwOWcwll4649XgdMpZSIKR8wWU+8VHiNWsxXJnD
+	kcycwonQjw1hTJBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 776653EA63;
+	Tue, 13 Jan 2026 13:54:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id R9aKHHlOZmmcKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Jan 2026 13:54:01 +0000
+Date: Tue, 13 Jan 2026 14:54:00 +0100
+Message-ID: <87o6mxpqiv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ALSA: hda/cirrus_scodec_test: Fix test suite name
+In-Reply-To: <20260113134056.619051-1-rf@opensource.cirrus.com>
+References: <20260113134056.619051-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,cirrus.com:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Mon, 12 Jan 2026 09:27:31 +0800, cy_huang@richtek.com wrote:
-> This patch series include two parts
-> - Update initial setting for rtq9128 specific feature
-> - Add rtq9154 backward compatible with rtq9128
+On Tue, 13 Jan 2026 14:40:56 +0100,
+Richard Fitzgerald wrote:
 > 
-> v2
-> - Fix commit message typo
+> Change the test suite name string to "snd-hda-cirrus-scodec-test".
 > 
-> [...]
+> It was incorrectly named "snd-hda-scodec-cs35l56-test", a leftover
+> from when the code under test was actually in the cs35l56 driver.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: 2144833e7b414 ("ALSA: hda: cirrus_scodec: Add KUnit test")
 
-Applied to
+Applied now.  Thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/3] ASoC: codecs: rtq9128: Modify the chip initial setting
-      commit: daf86dcdbb40c4a0e4b8e579c6eecf148560711f
-[2/3] dt-bindings: sound: rtq9128: Add rtq9154 backward compatible
-      commit: b7d53fe53cb57db1ca5743d2ac2db28140c37647
-[3/3] ASoC: codecs: rtq9128: Add compatible changes for rtq9154
-      commit: 6be9ea62afedef0f976eb3dba4c117be0c1d3809
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
