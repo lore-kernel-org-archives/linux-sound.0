@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B4C2773CB
-	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 13:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE138E5E8;
+	Tue, 13 Jan 2026 13:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312202; cv=none; b=kZkDRK6FU4qPi0p5zljov1vQsfQRU2KzuFa0qQfeiMS/zzXkj0xTj4NETa/dq0Vg8X5nkoJPnHxn26MrNU3R/a9XNX7FCzOkIwlmeNBxdbVzHPFD26/WI1tqvPX4NWVvjta5KbhLd/GjasaDt4dSdnH0wdPoce2Y98e7jthqrbc=
+	t=1768312204; cv=none; b=rUXCfHsUj5BAyKGsFi6njS37Zia6do8qRbQXW9FyS4twPrQffpN43dOnlbq/KImJrA0ZjK40CzPPBlMfEl39qfD9jrnMfYngowRB+BKDvbqnQlsDJzAf72IbfsdblSMIqW4Sn+TVpmNGmnOcpiKQnzff5tNdV/TSDDxN14TRhZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312202; c=relaxed/simple;
-	bh=hqaetRvQD4qhULKHtYUFqOYEdt3AnJMeK8O0snX1XB0=;
+	s=arc-20240116; t=1768312204; c=relaxed/simple;
+	bh=z7vysxioJbz4b7ISaqoGSZ/iiDtrxIOqrsNxEAd5W7Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Gr8RGWpRI8NuzNND0HHgT1Rx7bfKmSbdCOJ3Kopz6mQX+/GodHO2lBH9GN4vMM8esIjOE/3fqIm1IZPu+TjTr4MXDIUFL791NVpak23gY8V1bB4npBhN5Nfix8MHXoA7joY44TMxkQVjBFTzSly+1EGmSaXGVZPxJL29e4Ac8UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOk2U7Vp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PAJtB+T3jRtrB907vhYAy23xLjd5JhdLh8Xn8qD5y0rqZIRbuSezdZ9YREKPIECIQQwZGWj4iSAzx0rFl5xZFwv/XiT6TwTvchu3UyILQcIeanqmnjDedN6JL38umfgIgxD4zusFbeM/PKDeuBuilNId/OKfC7tn+dkqpUdVz2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQ7Mqdkr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOk2U7Vp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C6EC16AAE;
-	Tue, 13 Jan 2026 13:50:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQ7Mqdkr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B81C116C6;
+	Tue, 13 Jan 2026 13:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768312202;
-	bh=hqaetRvQD4qhULKHtYUFqOYEdt3AnJMeK8O0snX1XB0=;
+	s=k20201202; t=1768312204;
+	bh=z7vysxioJbz4b7ISaqoGSZ/iiDtrxIOqrsNxEAd5W7Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gOk2U7VpyV49mCOiS7iVHKf7/5R+fCXLmcUpd3YPSNj4x2G0hrVwetPpM8cHNo2Od
-	 iNwuayuj64KKodFcBWS5QT80FCLcD06AHUBl4Jk4F26YXI7VF31GrxStIm0+gFWYsz
-	 WywTQ6qTQsNhsCvlu0XM7lS6xd3EIZwMIW7PCMcuoiBSMYJI1+CzGuw//qr0+Wzydn
-	 vQqi8RYPd/OB21rHMa59w/bnJRGUS1CniFUErsoKiObKjliGtv31t+7zqHaSDdqUu7
-	 qnwkOnmaD3C7Alz3Sl0ICbMoH6HYtY+QXoK8FqwWPfnhq42C78v1oZWaWEzWIkUD4f
-	 m/qhFiX36KNag==
+	b=pQ7MqdkrW8G9X0CfzGP0NQrk6i2tZ7p05XhZbfimGOJeXkIxKBbqAJLftljaB1h9d
+	 Ly3z7DDpYQhSZENiY1ToduCgBvKEACVYiyZYlB1EAhlEnByUn+UsC7xlM8b2SOvQEk
+	 e82lP7cMnu/18eEgTuQdRAUV01rnIFix/gqt1Z+WtRCI3/7RL0LTAqLfB3kzfUqJQi
+	 hB/tHnDB3bkOwB1YQcbS3J9na4fREiLw0XjCsrnc0d6dK/bd/uDc+8xPKisDyYuvtL
+	 Hc+Yh/xmZtw85hsUTpsKVkqdjbjY9OXVMe03rO9qkp5gfEIcHiSUMxSgkGvOwhiLhX
+	 evJZ+c4fHlRTA==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, guennadi.liakhovetski@linux.intel.com, 
- jyri.sarha@linux.intel.com
-In-Reply-To: <20260112113221.4442-1-peter.ujfalusi@linux.intel.com>
-References: <20260112113221.4442-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: ipc4: Send heap/stack bytes via new
- ext_init
-Message-Id: <176831220029.70484.584104329560112456.b4-ty@kernel.org>
-Date: Tue, 13 Jan 2026 13:50:00 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@puri.sm
+In-Reply-To: <20260105-wm8962-l5-fixes-v1-0-f4f4eeacf089@puri.sm>
+References: <20260105-wm8962-l5-fixes-v1-0-f4f4eeacf089@puri.sm>
+Subject: Re: (subset) [PATCH RESEND 0/4] sound: codecs: wm8962: Assorted
+ fixes
+Message-Id: <176831220240.70484.239744247812927978.b4-ty@kernel.org>
+Date: Tue, 13 Jan 2026 13:50:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +48,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 12 Jan 2026 13:32:17 +0200, Peter Ujfalusi wrote:
-> Add new module init payload (this has already been partly specified in
-> SOF FW src/include/ipc4/module.h) and use that to pass new topology widget
-> properties to FW.
+On Mon, 05 Jan 2026 04:02:07 +0100, Sebastian Krzyszkowiak wrote:
+> Bunch of patches developed while working on Purism's Librem 5 phone.
 > 
-> The original ext_init payload extension for this is already already
-> supported by the firmware.
 > 
-> [...]
 
 Applied to
 
@@ -64,14 +59,10 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: sof: ipc4-topology: Add topology tokens domain_in stack & heap_bytes
-      commit: 0432fe32c129780f89fd5426059cb1ddd8e50858
-[2/4] ASoC: sof: Add domain_id, heap_bytes and stack_bytes to snd_sof_widget
-      commit: 854d4389f20f07b646981ebb1ef44b7503658e9c
-[3/4] ASoC: SOF: ipc4: sof_ipc4_module_init_ext_init structs and macros
-      commit: 1cd8fbec6dfa9a9c25400b775fed887b59153afd
-[4/4] ASoC: sof ipc4: Add sof_ipc4_widget_setup_msg_payload() and call it
-      commit: fc6ceb7e4ea746e663ff8c5593e67ad8ccbee34a
+[1/4] ASoC: wm8962: Add WM8962_ADC_MONOMIX to "3D Coefficients" mask
+      commit: 66c26346ae30c883eef70acf9cf9054dfdb4fb2f
+[3/4] ASoC: wm8962: Don't report a microphone if it's shorted to ground on plug
+      commit: e590752119029d87ce46d725e11245a52d22e1fe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
