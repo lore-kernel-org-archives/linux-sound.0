@@ -1,71 +1,110 @@
-Received: from sender-op-o19.zoho.eu (sender-op-o19.zoho.eu [136.143.169.19])
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F3137C119;
-	Tue, 13 Jan 2026 08:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768292709; cv=pass; b=NxjQotXAb0w/ZIdR0PUWO8UUAMuxZ+BhjNEFwBd/KiVQndrnLeo2BbMzNDPXaqhruu0LmYjfXGAkyFQTXKJMndWP5PfTobXdckTd0wrysaL45uWwkY2xY0iNlt3f4N5GzejuHS850Fhew3KdEt3uCRTdgDNaiOaqoRAOqE31ZrY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768292709; c=relaxed/simple;
-	bh=c3gb6l61bYgoUUWsADIoZVZnfTLYdBh7GmdrQ4ckeRQ=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=gEZ6g7k8MsfUfOAVwbz37Y+a1VqL3sTSCE5Y+Wf4HBfFJEtytpXGaH1DRAv62g6rjlxtpGMhjJIfY8bxupXYCYj0ATTy0VT+LYScP3OVIJAWC13XfF2Otic58sgjj/TpMuZCBDYLC78UKjO4NNZ8OOv/bkHmOtFdtfYpN8icG68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me; spf=pass smtp.mailfrom=redaril.me; dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b=G+CF3uiu; arc=pass smtp.client-ip=136.143.169.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redaril.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BD92264BB;
+	Tue, 13 Jan 2026 08:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.210
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768293048; cv=none; b=h+XyKIrHmcAFHs+EP/QfTom5O8Ia9TG1gcm20BAmnVgTmIE/YA1Igrxp2lYJWhFt4n6diP/5fl/s5PbwlgzyZLqdZTAr8qdcnFOZkM8yBUs3FQE838STniUaEyTTqRHZBE7sco30DsyaHwNMngDiAJZXUvrNONvjzzu5adzQoJU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768293048; c=relaxed/simple;
+	bh=m3IuV4ZXbtAkwv6zg4oUMPIPXHweCM9YFIkqoVNmHbs=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=ewAQXRZHPPod08BsdATJeZ+CBG1llotND1jz6oOcOk3BIPgX2LziV3x896Bp0JDYlbFKhtei0+jlZ3MOB4sMYHdrDGnTtNKtPK2t/FrCz02veYBOKW7l66Y6w1oSzr6dSSLIHZCtppT1esflhXUV2z2+vHS7HKhAGDU7IfrEYWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=GtGmWJZu; arc=none smtp.client-ip=203.205.221.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redaril.me header.i=development@redaril.me header.b="G+CF3uiu"
-ARC-Seal: i=1; a=rsa-sha256; t=1768292689; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=ggLwUH/iZ6PLapnXP9Myy9FiNqKk+vgQsvH48A8xa0U0Panm32yVCc+7tbE1aZLIuH97erOWGMm7n7WdON04rRDjkLDD8Nwmtu5YL1JiS+v47WuuZ9geRH2BBEx17Zux6pPSjlWIcbT98t4HfuHQpZ9gYAQ64zUm+Tyhswra3AA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1768292689; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SF+D0cRSzEGK7QgPPoQMNNKSHz2t2jV4CuDOPHoV8kk=; 
-	b=hGauqUk9fvELH58xvhz264eLpKC5lOIBRGhALPv1MBntG8JVq+vm/Uizdrb9d8/Rf7cgRFXNbQbxPdDgQuWJrWHV5LRyuv6wxJZECdB7Hh3XXBeCLAD25ef+ctH8uEN911MDZBwYE1d3g/S3bXsr6F69cACK8dI7Sw1rixH13fg=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=redaril.me;
-	spf=pass  smtp.mailfrom=development@redaril.me;
-	dmarc=pass header.from=<development@redaril.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768292689;
-	s=zmail; d=redaril.me; i=development@redaril.me;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=SF+D0cRSzEGK7QgPPoQMNNKSHz2t2jV4CuDOPHoV8kk=;
-	b=G+CF3uiuWumhp9E8gXcLy4NPoHkMXkNQJT35QkY7wl65t0ZvabjjQ5gIWdY5bW7l
-	QHC+bJ7ow0qyUX4OPGpwj3/htc8tISp2uXhQmwzF6VfoEcq8AXphX8pmVWWnHKcImQK
-	5qsEFyJoATmSu8cD94yO19l6zLCTipXUtsRz7aI8=
-Received: from mail.zoho.eu by mx.zoho.eu
-	with SMTP id 1768292687120897.3629929634897; Tue, 13 Jan 2026 09:24:47 +0100 (CET)
-Date: Tue, 13 Jan 2026 09:24:47 +0100
-From: Fabio <development@redaril.me>
-To: "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>
-Cc: "Mark Brown" <broonie@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
-	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
-	"linux-sound" <linux-sound@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <19bb6751cf4.c072e63c5407.2942878463240323196@redaril.me>
-In-Reply-To: <87v7h6p7mn.wl-kuninori.morimoto.gx@renesas.com>
-References: <20260112231855.193030-1-development@redaril.me>
-	<20260112231855.193030-2-development@redaril.me> <87v7h6p7mn.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [RFC 1/3] ASoC: simple-card: Do not print "parse error" twice
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="GtGmWJZu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1768293037; bh=oP3eSR2188lw7kNfd0sBbiUcMey2IzVvyS1HIhfA6Hc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=GtGmWJZuibXLUo1kDPulNVggkMU6ceCki2JXpHE9S4JnEbjQCiVo/VApMusu49WXv
+	 SSvv0/slvgF+MAeCNFWXPg+J83Rp2MFGsKO3vI413LKsamCxudF+gBKov9almJ+Q1g
+	 BKeqd4K+hDeHsqOEo6wJlS66uOsciquyTfV+aBD8=
+Received: from lxu-ped-host.. ([114.244.57.237])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 7571D6E2; Tue, 13 Jan 2026 16:29:23 +0800
+X-QQ-mid: xmsmtpt1768292963togkapueg
+Message-ID: <tencent_9AECE6CD2C7A826D902D696C289724E8120A@qq.com>
+X-QQ-XMAILINFO: OZebYClYfzV+cAmvPAHwOa6Zo4Bld06tNs64uhgWX0cB9bKPwP1dfeSkHLR8yL
+	 zTf6NhzYehG0HHXbYDuIn+PtXQblT5kJ6sXfJ2ODFMyWRGtCWgFgwh4fZN0j6QFm9+uIgjSAse4T
+	 CFQODaREVhQQYwYhsje9WoCuwaiM/Joevn0DyvZq5C1x6dWmZA+hpDDkbYbxr1t/vcUkdgocCrIp
+	 0kRkSp4uoVJya942KIVkb+kc3lXb6K+Swi+yk0HwOlSxPTwXbLg3sTDFDYQgChIM07t7vqe0r0gf
+	 XvtFRMyC2KDDKL3Af6GP0WHvbAEEdkNVeYc3HMZvsHOo8xjjSLn2zdywYD1PHdOZ8Zot097zADDI
+	 JZpdjRPH57vTEM3vC3HdsJIx+ABpwei5Ah2VhvbUsmAtkDcPHVQpGYoKeKRLndP1u4klgvqvU12y
+	 E6YOQs4ICrteOZQOtUGMzG8ic4CznY0IENRIrL3lEV7DsaluY7FzCONn2hYwLn4+fvkXn6bzRUhF
+	 Cf9gYBwt2c3Kpy337RVei0bjbGzQ6eX5J06BAjECbq3K7r9CMTDTuZanC0n/EZA8w0eosC7ur+vm
+	 weEVoUD9WE33H7TjwkfPjthPGS0skQfXrAtusY0GTT4jM22B3uN6LvalUsS2arTdN8Qeg/gk0DYC
+	 BgT9da/RNafCoCPLYEjGiw1/PC2VPEfEAgXPI9hR8zv2cjbedXKJbft0fW+zhT3uItHacos7n6Se
+	 j/j68ghQ5F9prpL2wZZYnmmFZV+j4liyYL9IChHwLNrL5XuNqzA48BwlRMzNgdGWXPDJhO0iQLZC
+	 YcEJKYOMkZTANCq/jf6hRCOf9dfLLmdDVMwYXun87EqIrw84YzRxQ6KEdSUj+xot2SYgrL6x9a9O
+	 J3H3ViT1Kj2iwzAZ27RJzBEwJFElMBge3PIskJKlXBwQRX1epCosdxGKVfEoIq3J6+fWntSH0tV7
+	 +8F7rRFD0h9375DV1QEtfGg2ON4/FzK9hIC6YR3NoWk5wVlNzdRd0PuhykdFJgsEUBIRNQ60qiyX
+	 bFXdF6od5T4sQ4XGkB
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+6db0415d6d5c635f72cb@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: [PATCH] ALSA: usb-audio: Prevent excessive number of frames
+Date: Tue, 13 Jan 2026 16:29:23 +0800
+X-OQ-MSGID: <20260113082922.683088-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6965a06e.050a0220.38aacd.0004.GAE@google.com>
+References: <6965a06e.050a0220.38aacd.0004.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-Thank you for your fast review, Kuninori!
+In this case, the user constructed the parameters with maxpacksize 40
+for rate 22050 / pps 1000, and packsize[0] 22 packsize[1] 23. The buffer
+size for each data URB is maxpacksize * packets, which in this example
+is 40 * 6 = 240; When the user performs a write operation to send audio
+data into the ALSA PCM playback stream, the calculated number of frames
+is packsize[0] * packets = 264, which exceeds the allocated URB buffer
+size, triggering the out-of-bounds (OOB) issue reported by syzbot [1].
 
-> I think this patch effect will be removed/freshed by [3/3] patch anyway ?
-> Same comment to [2/3] patch
+Added a check for the number of single data URB frames when calculating
+the number of frames to prevent [1].
 
-Yes, definitely. I kept my commit history to document my flow of thought and to address specific problems.
-At this point I'll just squash #1 and #2 into one commit in v2. 
+[1]
+BUG: KASAN: slab-out-of-bounds in copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+Write of size 264 at addr ffff88804337e800 by task syz.0.17/5506
+Call Trace:
+ copy_to_urb+0x261/0x460 sound/usb/pcm.c:1487
+ prepare_playback_urb+0x953/0x13d0 sound/usb/pcm.c:1611
+ prepare_outbound_urb+0x377/0xc50 sound/usb/endpoint.c:333
 
+Reported-by: syzbot+6db0415d6d5c635f72cb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6db0415d6d5c635f72cb
+Tested-by: syzbot+6db0415d6d5c635f72cb@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ sound/usb/pcm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index 54d01dfd820f..263abb36bb2d 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -1553,7 +1553,7 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+ 
+ 		for (i = 0; i < ctx->packets; i++) {
+ 			counts = snd_usb_endpoint_next_packet_size(ep, ctx, i, avail);
+-			if (counts < 0)
++			if (counts < 0 || frames + counts >= ep->max_urb_frames)
+ 				break;
+ 			/* set up descriptor */
+ 			urb->iso_frame_desc[i].offset = frames * stride;
+-- 
+2.43.0
 
