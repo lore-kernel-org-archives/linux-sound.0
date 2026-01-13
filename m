@@ -1,166 +1,113 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C2D31A044
-	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 10:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D332A38A9DC
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 10:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301946; cv=none; b=o67cgE7MjrpUnjuCr6fXFra7sQniuXeO8jmqomR+txKNg0NBWILEACAgmcFgQ9e10FE/2E5c0Y00oIrfaHNuoubOqjqNJmKVklfgoQph0NaThcYKB41po0VbUV0pdQ4xTK1LQM+TA0HgTSRLCWIehOHZEtmRnjSTfU9fwdZWIDk=
+	t=1768301981; cv=none; b=an/pc5j6HgbX2HIXgkd/75hEc6KZUMr9B0h0duWJZ8uylPyRyFJTiN/1McOIoNMHxvLx2VTehZTfBV7x2/jFOIUWZVk02tbvPPNsgcqBP+SWdEJs7scBvelEDHMxm68kW+QAOSw8wkQsIsAuv+Rc2JsDq7rezVl8Mqma8UpU04M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301946; c=relaxed/simple;
-	bh=BxQThXKC8yeHVSgVuMqaQwxA6jCxwJIGPEfZiSybX3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cyK4WO+2EDMeyLD5Ykw/P9aSBBmpwEQZIWnAq1p+sET4G/1FKmqRQV5HarssBOtEFEubt0ceUum5VPWByPttzgG6UqMj3HrocmpApmcub+Od07eY7bLvcDz3HU0E2Yt48/n50z20V5Len+IdZMZCwZ5Blf5DK4MYXACX36itZhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AWnKISaL; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AWnKISaL"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2ae57f34e22so7443484eec.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 02:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768301944; x=1768906744; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Sop77tdlghLGqlW2lD54uYlYaNgTrSImbZcSm1W050=;
-        b=AWnKISaL2TQ5/Gy+DG9D8qQvYcAbxtnodjWrJMp1CknPdlQwFxyQ1DeNuAi/wmVe9G
-         Ev+f7E+oowdv5HqFnd7Er2OMGSron1qvcxUB86MChq//gst9BAcSPAiLkzlKZ5y6bn5G
-         FJGjyXwQIA9vKedIccyCZ6VAOc1BLbRXUd67y0VPIv/fsMiQylrKsv7gk6julDfcReRe
-         RcpCkfhcxqkoVXu9W6o7m5P/N/qk5eumGn0E2PsJyco1Ew3nFNQuGg9G8d74spKEtR1p
-         vI4D+7Fc6avKzhBSSkqCuNIoQG8/3kIMKty925lfcJ6Oo7kU1gdfRc3aH4a3z/ybJAhS
-         a1/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768301944; x=1768906744;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Sop77tdlghLGqlW2lD54uYlYaNgTrSImbZcSm1W050=;
-        b=a9rzivj+DovFMj1+CqNfCba1EdxNGHYcYAmbXpGuZD+eI6HfdaNq3SzkYPt2brZun4
-         l/8J8gvE1CggZsz7Ac7btbexinU9oobonv4ApKWwGMJR6DlJiMeofX4T4gCedbLz8xQb
-         rVB60pr0n2/mQ4+4k00XLfvN0Qjk14AOWkGgirP/dCAExPScsiUBpnw0XxcfSUJHijm0
-         T7dRqBj6hpxWtQjIrEMoUS8q/+LbCzje0EGd4b8HeWnmySq2shfen3BfFjwR7op9kqaY
-         eKYkM755unR1BXMe/GlYNzdFQPE+uw2SkJa11gZJmqp7bCbgZLmIX8QLi2EekkoFewHq
-         LB3w==
-X-Forwarded-Encrypted: i=1; AJvYcCUzyw++I8cLZ1BQfAakTLmsPRrh89TDEiWH1DoItudoQEdchKCUs/6yOrHpwArEYhNBe1SQj13eW3bmKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRmUJybJDXfTcZhJc7qOTwdrBuvpJ1YkFw0LrPvw43vMK5Dljx
-	xUmrH4GtJ8C12r1eMPOthCoSzDBQ2KMAIXpgV33A+2DCs2zneIzwjMWaQe+bLQ==
-X-Gm-Gg: AY/fxX5PnXKr+vzkmmlsHI8VlM4qiemPrxDuUfiiVssWJNNbEphWCzbDX0hmypPEXXh
-	p326V5SDAmaTMSCZUJjTxHtQgmrDL8YhAIRqi5lmn+NJqBPL4+a8waUy3WTHPNPbbSEeSy44gq5
-	ayZXV2Perm78U3HldjAjhhVm5UUNJeo+9FyNwaCPwRU67MZFcdBw5V5vHBr2NFChkXCE0EqoKn0
-	A+JHMagrJeABNnweJl49x/tZAPRpW22VqXobZ2WsKETRPF75BjlBPutGn7hhoNEW1HLWoRBcVFd
-	UGfO5zPsXvUkrb/9SgdDW2X25g9Z7BkWu0v9VA0cIFZCIs39VxaZAyWt+RzOI6k/q9rRYB/B8BU
-	1J4RYkC6Dws4JDfdol4dtkTyaiBdk8Hc+SwnuOOF2ihIvdGN8ZVsV0wV7V8nVIRM280d51E7XaH
-	ZPwIPzMxhvYLq4h7wlesH7QK6fCs3n96lyZ75eaA7L3BjZhqCx7OLKhUG+0N6VFEBiReHAY/a3l
-	L2XuxGh6kP5GWNVWianoA==
-X-Google-Smtp-Source: AGHT+IFDZv7qvFhhROPl5N9K7peOOsuOQ4CyM9RhLyedWdWjF2fUf/8J4j0bRoJff45OX+N60FkOeg==
-X-Received: by 2002:a05:6a20:9193:b0:35d:3523:c90d with SMTP id adf61e73a8af0-3898f757a29mr19808618637.0.1768296379649;
-        Tue, 13 Jan 2026 01:26:19 -0800 (PST)
-Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5f8b0f67sm19483200a91.15.2026.01.13.01.26.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 01:26:19 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com,
-	sre@kernel.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: jserv@ccns.ncku.edu.tw,
-	eleanor15x@gmail.com,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH v4 0/6] dt-bindings: goldfish: Convert to DT schema
-Date: Tue, 13 Jan 2026 09:25:56 +0000
-Message-ID: <20260113092602.3197681-1-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+	s=arc-20240116; t=1768301981; c=relaxed/simple;
+	bh=VZx0u1LV4OE/RGQRohcWYqHEcQkYI+lNdynE0cp27ZQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sXAEYRolYodIB8CThpYrbE26bXXiwKERvK5IQXxYWtanqbYZCxa2dTXedbYilVGumOfk9sARBu72u6/QycZt1h7Tp73YhQaFmy4ZycrVcN0EaSuZ8bClYMvYcK0XfaXN72BgcAZxXLCJXuhbKD9ENOYx3d+17+EG38N0Uv/3/AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc78-0008DG-Al; Tue, 13 Jan 2026 11:59:06 +0100
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc74-000PME-2e;
+	Tue, 13 Jan 2026 11:59:02 +0100
+Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
+	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc73-00000004mJf-3wJr;
+	Tue, 13 Jan 2026 11:59:01 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Tue, 13 Jan 2026 11:58:47 +0100
+Subject: [PATCH v4 04/10] ASoC: tlv320adcx140: fix word length
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-4-8f7ecec525c8@pengutronix.de>
+References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
+In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
+ devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Emil Svendsen <emas@bang-olufsen.dk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1458;
+ i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
+ bh=v43nJHLbOeXsx5JJSDE5Vevx6RwD4qkqiA+EJyAWPpo=;
+ b=eYZWxZZyC+4MaDN9ffemKsnFovArbxNxfeyj9XfzFbm0qUpWn+/U45E9veNPZEP3r7sb8ZO5q
+ w11NremxVzQBjBIswzztinOJlFzRY3vmFzotqyKoJMQtJRhoBeoliTr
+X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
+ pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: s.hauer@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-Convert the Android Goldfish emulator platform bindings from text
-format to DT schema.
+From: Emil Svendsen <emas@bang-olufsen.dk>
 
-Most of these bindings are currently located in
-Documentation/devicetree/bindings/goldfish/. Move them to the
-appropriate subsystem directories (serial, input, power, sound, misc)
-to align with the kernel directory structure.
+The word length is the physical width of the channel slots. So the
+hw_params would misconfigure when format width and physical width
+doesn't match. Like S24_LE which has data width of 24 bits but physical
+width of 32 bits. So if using asymmetric formats you will get a lot of
+noise.
 
-Update the examples to use generic node names (e.g., 'serial' instead
-of 'goldfish_tty') and fix minor inconsistencies in the original
-documentation to comply with current DT specifications.
+Fixes: 689c7655b50c5 ("ASoC: tlv320adcx140: Add the tlv320adcx140 codec driver family")
+Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
-Changes in v4:
-- Update 'interrupts' property in examples to use decimal values where
-  appropriate, replacing hex values.
+ sound/soc/codecs/tlv320adcx140.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes in v3:
-- Update 'interrupts' property in examples to use decimal values where
-  appropriate, replacing hex values.
-
-Changes in v2:
-- Add references to generic subsystem schemas (serial, input,
-  power-supply) where applicable.
-- Update property validation to use 'unevaluatedProperties: false' for
-  schemas referencing generic bindings.
-
-v3: https://lore.kernel.org/lkml/20260112185044.1865605-1-visitorckw@gmail.com/
-v2: https://lore.kernel.org/lkml/20260108080836.3777829-1-visitorckw@gmail.com/
-v1: https://lore.kernel.org/lkml/20251230181031.3191565-1-visitorckw@gmail.com/
-
-Kuan-Wei Chiu (6):
-  dt-bindings: serial: google,goldfish-tty: Convert to DT schema
-  dt-bindings: misc: google,android-pipe: Convert to DT schema
-  dt-bindings: input: google,goldfish-events-keypad: Convert to DT
-    schema
-  dt-bindings: power: supply: google,goldfish-battery: Convert to DT
-    schema
-  dt-bindings: sound: google,goldfish-audio: Convert to DT schema
-  dt-bindings: display: google,goldfish-fb: Convert to DT schema
-
- .../bindings/display/google,goldfish-fb.txt   | 17 --------
- .../bindings/display/google,goldfish-fb.yaml  | 38 +++++++++++++++++
- .../devicetree/bindings/goldfish/audio.txt    | 17 --------
- .../devicetree/bindings/goldfish/battery.txt  | 17 --------
- .../devicetree/bindings/goldfish/events.txt   | 17 --------
- .../devicetree/bindings/goldfish/pipe.txt     | 17 --------
- .../devicetree/bindings/goldfish/tty.txt      | 17 --------
- .../input/google,goldfish-events-keypad.yaml  | 41 +++++++++++++++++++
- .../bindings/misc/google,android-pipe.yaml    | 38 +++++++++++++++++
- .../power/supply/google,goldfish-battery.yaml | 41 +++++++++++++++++++
- .../bindings/serial/google,goldfish-tty.yaml  | 41 +++++++++++++++++++
- .../bindings/sound/google,goldfish-audio.yaml | 38 +++++++++++++++++
- 12 files changed, 237 insertions(+), 102 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.txt
- create mode 100644 Documentation/devicetree/bindings/display/google,goldfish-fb.yaml
- delete mode 100644 Documentation/devicetree/bindings/goldfish/audio.txt
- delete mode 100644 Documentation/devicetree/bindings/goldfish/battery.txt
- delete mode 100644 Documentation/devicetree/bindings/goldfish/events.txt
- delete mode 100644 Documentation/devicetree/bindings/goldfish/pipe.txt
- delete mode 100644 Documentation/devicetree/bindings/goldfish/tty.txt
- create mode 100644 Documentation/devicetree/bindings/input/google,goldfish-events-keypad.yaml
- create mode 100644 Documentation/devicetree/bindings/misc/google,android-pipe.yaml
- create mode 100644 Documentation/devicetree/bindings/power/supply/google,goldfish-battery.yaml
- create mode 100644 Documentation/devicetree/bindings/serial/google,goldfish-tty.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index 58a6dfa228cc326d18b3c3f126732033749c8e49..fdf4a9add852deb5e879dba5c8a09458fc6e709d 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -725,7 +725,7 @@ static int adcx140_hw_params(struct snd_pcm_substream *substream,
+ 	struct adcx140_priv *adcx140 = snd_soc_component_get_drvdata(component);
+ 	u8 data = 0;
+ 
+-	switch (params_width(params)) {
++	switch (params_physical_width(params)) {
+ 	case 16:
+ 		data = ADCX140_16_BIT_WORD;
+ 		break;
+@@ -740,7 +740,7 @@ static int adcx140_hw_params(struct snd_pcm_substream *substream,
+ 		break;
+ 	default:
+ 		dev_err(component->dev, "%s: Unsupported width %d\n",
+-			__func__, params_width(params));
++			__func__, params_physical_width(params));
+ 		return -EINVAL;
+ 	}
+ 
 
 -- 
-2.52.0.457.g6b5491de43-goog
+2.47.3
 
