@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC39E38E5FE
-	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 10:59:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D6738F233
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 10:59:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301993; cv=none; b=fQmiyBVRW6rgM3zbtvjU1OJN6DRi2w1KIer1VYs5vO543SEe7LqU5zhWTxYjlGbtfcbKtZPMERpuHnHAnpVKrb2LzGx1vn35PL6k5V8MMq0h4BC5MGbHzMukOEDN/1QZ/XDB6XNe2BipTJqGH0l9ikOJno6lgCz0wPAA3TywZrM=
+	t=1768301994; cv=none; b=ppINxImfJFS/eZveTYmL+9WXkAlBH2RrwWU6/nksi23DbIjiRkxKZfmq5dsZ8aSAuEgxVGNAp/9A90VjVLVts4vNScy9KqVJ6VauPLP9/gPWSY8seE7w0A9uWhZsvNNmM269lEOuMQS5/enxs5FASIQlMYD3pF8GwEInzwu0T6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301993; c=relaxed/simple;
-	bh=7TG8ChsmEKxx4/BuNL3tSZPzlIU0WQm6MqDGP2DlTJw=;
+	s=arc-20240116; t=1768301994; c=relaxed/simple;
+	bh=KIVZf9eQsEe24xzKqF2imdi5YUmFlNEbdV3+FMOkKwE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qXyx9Fu0tDtggRwTF38CU6dZdaAV3VHAemjH1vP00YSyhUoASvdxWxuIAtfmloSoA7JH8aWZNOb7Lktp2vAosfDrZyJiQsC5q9D/u810x0ckZiaAAxC7SnARC22IP6JQb2bK9JLhXHIlFSz+lV2OE9obouP46xObqrspmObv8N4=
+	 In-Reply-To:To:Cc; b=mnm415lMrHwmnp5X8nPy5BfSmQKTmrZu0vbzlVlC8yv5+t/0vFKytpvSFJGtPRLY++Stg70zOZfrjR//yIcI+NztC2Tu29ifUJPuaaWQq8A3Vfj1MmrW9Yavd4Vya12/zKYB2b2xECP5muWTDEo1ncH61jOr5jclYxa6EwsSP0E=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc78-0008DM-Al; Tue, 13 Jan 2026 11:59:06 +0100
+	id 1vfc78-0008DD-Al; Tue, 13 Jan 2026 11:59:06 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc74-000PMH-2j;
+	id 1vfc74-000PMB-2V;
 	Tue, 13 Jan 2026 11:59:02 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc73-00000004mJf-43P4;
+	id 1vfc73-00000004mJf-3sVx;
 	Tue, 13 Jan 2026 11:59:01 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Tue, 13 Jan 2026 11:58:50 +0100
-Subject: [PATCH v4 07/10] ASoC: dt-bindings: clarify areg-supply
- documentation
+Date: Tue, 13 Jan 2026 11:58:46 +0100
+Subject: [PATCH v4 03/10] ASoC: tlv320adcx140: Propagate error codes during
+ probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-7-8f7ecec525c8@pengutronix.de>
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-3-8f7ecec525c8@pengutronix.de>
 References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -57,13 +57,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil-Juhl <juhl.emildahl@gmail.com>
+ Dimitrios Katsaros <patcherwork@gmail.com>
 X-Mailer: b4 0.14.2
 X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1285;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=7RfFbFyTNGaSY6avmnHjxprtJDzNzxIoQg0ZhbFwspg=;
- b=UBHlJ/236Ziodfh+SzYNxLFSl0PVrHj9nCxIZcNe4js09atVM98k6bbIjGkiXUhCK1rGh+WIB
- Hlwn4fF/VHEA+PhZvuJB692JtlfjeOpS4UVDyrnVOJST2F/YJMjfnBm
+ bh=PpAmR8wKqRTX1YV1R8fVM7vj/FkNO/cKPTJr6ncyO00=;
+ b=lk9pE9Jz6dF0lHuvppUqckzKGu3lcyQ2JhAoDASt/AiCejXAgd5O1WSnaxQbS5MuCxEHIvVP6
+ bj2F/dE8bT1DP8APyzRBOoKGU/g/d+RqSDBMvZmafW5/vNQZbI8pGfV
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,38 +71,36 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-From: Emil-Juhl <juhl.emildahl@gmail.com>
+From: Dimitrios Katsaros <patcherwork@gmail.com>
 
-The documentation for areg-supply could cause confusion mainly in terms
-of the relationship between AREG and AVDD.
-According to the datasheet[1] the AREG can be one of two cases:
+When scanning for the reset pin, we could get an -EPROBE_DEFER.
+The driver would assume that no reset pin had been defined,
+which would mean that the chip would never be powered.
 
-1) an external 1.8V supply
-2) generated by an internal regulator (hence a 1.8V output)
+Now we both respect any error we get from devm_gpiod_get_optional.
+We also now properly report the missing GPIO definition when
+'gpio_reset' is NULL.
 
-[1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
-
-Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
+Signed-off-by: Dimitrios Katsaros <patcherwork@gmail.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/tlv320adcx140.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-index 876fa97bfbcdd3b9450aa6ff57de42f1faed350d..b34ea7824360310434d8b826392864dbfa5fc369 100644
---- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-@@ -41,8 +41,8 @@ properties:
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index 3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935..58a6dfa228cc326d18b3c3f126732033749c8e49 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -1154,6 +1154,9 @@ static int adcx140_i2c_probe(struct i2c_client *i2c)
+ 	adcx140->gpio_reset = devm_gpiod_get_optional(adcx140->dev,
+ 						      "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(adcx140->gpio_reset))
++		return dev_err_probe(&i2c->dev, PTR_ERR(adcx140->gpio_reset),
++				     "Failed to get Reset GPIO\n");
++	if (!adcx140->gpio_reset)
+ 		dev_info(&i2c->dev, "Reset GPIO not defined\n");
  
-   areg-supply:
-     description: |
--      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
--      is enabled.
-+      External supply of 1.8V. If not defined then the internal regulator is
-+      enabled instead.
- 
-   ti,mic-bias-source:
-     description: |
+ 	adcx140->supply_areg = devm_regulator_get_optional(adcx140->dev,
 
 -- 
 2.47.3
