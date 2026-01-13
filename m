@@ -1,185 +1,191 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2447387368;
-	Tue, 13 Jan 2026 11:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768302786; cv=fail; b=p3AWtFYw4/tLO69emVcD6uA3Rj6qRrLMA1nq3ZTQUi6PgasZ3bfa63cO69Gz3CkkAgNe5lVd13IKw6Vkqz+XOuzA8N0WvUfsPfRNXKqiFgUbQgE96vHOiSKpGiRUDZMx/S1Pgq+Ok9akG5Sbj2GuWf++iQHRGyWveVpHdA5Z3oo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768302786; c=relaxed/simple;
-	bh=tYAjoz/MMhPX8+q2ENx9j6q5y71jGRtuId0ktO7EN9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aCTAgYQ+3DWynVKBWEf0askGNiaKDXpldn5eUq26EXKsk8RRzDPfbQV93dHbpt+kk2+CFm0KGw9JWDLvxiescDNHLz9k4+0DSn0dyEn/B3+geLZJx97RJIITUNaccWPnQ8oTwX2o860yRg8qYsubzgO6OC+9Ll8c/qbWH8GQIV0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Xvh5YYVI; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=qbzFft+S; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCDD3876D0
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 11:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768302788; cv=none; b=fSC9ddmcHCAKhVAn2G/GxjOo4C/bJOmXtPoivy3gFA227q0TdHVu9WcEK5SvRp3Nc42HCsPDxLcVZjXm5SU4wf6z2UXvVilmXkFL05fBajnau/VxjA9Exw2iZnQJrZyFLO5sSTfJiQPxgxVUoAHvPbbPh9mTQahZBfTJKJZuFV0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768302788; c=relaxed/simple;
+	bh=H/DtsJ2E/56brWT90bF0TB1znfavml5P75EoVlijniE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KtcLXTe1IOuSQBf5sADZfg/PQ0XfiGw5pMRBEw1rYs1PZG+8unf9nCm2jP1IEa3vVMa7PQhN1UMVYNcHf0zgM4gXtxtqdCJ+BLAoXAOz4zzyA514+OujgVwnT1MZodewrfoC0ZP5WQhSf9x/UPCNRNliCOag/vRsZRQ43vA/h94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmPcBVQX; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Xvh5YYVI";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="qbzFft+S"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60D570QI151079;
-	Tue, 13 Jan 2026 05:12:49 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=SAhZmLUwiNuf8pka7q
-	PIWSIjrdCbPvwbcpw1BoLw9y0=; b=Xvh5YYVITnElSuY/IZBpBwXP7TgRjwwL5u
-	IxZ0jxgT+fpgSZ/aAsGVWbDeF4DFeS5n2A+TtTDjKlHhnDI5UGyEsljRoX0p/Xri
-	shCCbEE+HHGKOS+yKpr3/l3bzg/I1wCQCWo3RFWmwtYAPhZVtbcVIw08h7u9Jkh1
-	g9pEd5DgJ38XcF7hJ33asfmDqXRPnb+q8pRFXlFPwo9yi4hXbsm9HQ5fLajXI79J
-	ml289RQPwwe4Qh+0eefZUye6dk1bphRsjAE/1V1ti/XNA6YArSVu+PBgtMd3X4+b
-	EWENRKyborAUgUotCZHuaPMut+PiOWXGRFTxWBNMtlQbBbuqalVw==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020122.outbound.protection.outlook.com [52.101.56.122])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4bkn202u7c-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 13 Jan 2026 05:12:49 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HWDT/3RofIwDofjBpWxJgutxHFU0MF1qy1Pn3HaEKG2FiXo9Jtv3KqaLRtBNS0Rw/YBJoyA2GRdd8yV2KMcU1rffrmkL2krW9frqxdpl6tiY6gSUHjaLcGPQ/5E/EV4nwtUqOm/+/Y4vTGibeA/y2vLG+xTyk0epR6CEHsQKBEMZRj7uSoZboDj0xfAnHEjw+KDmu+yG65Vj0HykAOXMqOyf/1KU2wcA//zJ6GPliaoI5G8oTHiDXCLDIp87Rbw/8GbzbfxgDBfmI+qV7DQC+WrW3LP4r28Squ6iWCHOuGyI3IKnu54OfH4ml4Y6zTea4TEixdu79hToETkFVBDXuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SAhZmLUwiNuf8pka7qPIWSIjrdCbPvwbcpw1BoLw9y0=;
- b=rOueyh13qDxvfZcK4/o7Ph8DKxbPfVAia04CglOuLZNNCI4ur9zQ7MuLYsIW7DbFyTfDWo3UuVrEjOLMV27JNKfkRx8wvyzT5OdMb7mI0xbnYitF6CRu9UM7IsPVEdTFfbj1UssVtMZbQ0q5IxTk8SYBjn0o8yOiTfmce07byK7MrEXDZqNombHZyxf4B41BQ9V+vZAtJhcbDsoJvyG7QFvgWPngG/IGoOMP8FxM65gHImxUrfW4IySwHDuCQ9z0LzELgtRlzy2RG4uVRX09yyFMISRqPZS2yPj3gsMo1Se3lQD0E6iVY5YPrLu+2fxL45xuvONJjJ63gJrCpKSm+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmPcBVQX"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7c6e9538945so3996000a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 03:13:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SAhZmLUwiNuf8pka7qPIWSIjrdCbPvwbcpw1BoLw9y0=;
- b=qbzFft+SuRRIGm2Fz2/ppuSTytH+lXbpQwLXOcRwbUubOa+8GCideWVGW5qCarz4pbPip0swQbFMsr6nnlS6DF8TlMjNEYAu53shwkq80nyWjxiTJWOE4NN00UFPrnAINJMZvNvlVZUP7DOZ9ZPzOQV2tfY1L/RxzTmAoiPK508=
-Received: from SN1PR12CA0112.namprd12.prod.outlook.com (2603:10b6:802:21::47)
- by BL1PR19MB6084.namprd19.prod.outlook.com (2603:10b6:208:39f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
- 2026 11:12:44 +0000
-Received: from SA2PEPF00003AEB.namprd02.prod.outlook.com
- (2603:10b6:802:21:cafe::18) by SN1PR12CA0112.outlook.office365.com
- (2603:10b6:802:21::47) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.4 via Frontend Transport; Tue,
- 13 Jan 2026 11:12:44 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00003AEB.mail.protection.outlook.com (10.167.248.11) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.1
- via Frontend Transport; Tue, 13 Jan 2026 11:12:44 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 88F1F40654A;
-	Tue, 13 Jan 2026 11:12:42 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 70B3F82024A;
-	Tue, 13 Jan 2026 11:12:42 +0000 (UTC)
-Date: Tue, 13 Jan 2026 11:12:41 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: vkoul@kernel.org, broonie@kernel.org, yung-chuan.liao@linux.intel.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: Re: [PATCH 0/2] ASoC: Fix sdw_utils calling wrong codec init
- callbacks
-Message-ID: <aWYoqQAYydHkrtQX@opensource.cirrus.com>
-References: <20260112140758.215799-1-rf@opensource.cirrus.com>
+        d=gmail.com; s=20230601; t=1768302785; x=1768907585; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4XLlcSDrZxQliY6Jsns4WsjKtz/A9etiQH4EFHPP5z8=;
+        b=CmPcBVQXmRxnFs9fvmGYNxU2dnnTM3aNaTTeFJMh2spJA7xAirf8dodlyJmkUi+kzK
+         +5+N0O85NX2w7thvk71v+uWGCefgN1hARRUv/p25kufrPASEjrV4tGYrZyt+fi8wcNw8
+         yhMWRHsdJMy7sN+aAocjsEQlvUDYXXXfPRvFzKTmCf9Kr6eJ4nyOTk+Sd7YHlhGFiP6W
+         9Hll7N3z0UxyndNXn95wr/AVuFW67G5MpHIBpCrnbXFMH0zVKz7rRFp2ePaMVZQYSELJ
+         RNIWOT0nfOmu+4WxlwLbDMbcVisjzIn8gJGLgAeC1MfticAEpI5mapkGSjwzaqNijgii
+         Clmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768302785; x=1768907585;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4XLlcSDrZxQliY6Jsns4WsjKtz/A9etiQH4EFHPP5z8=;
+        b=jxxV4KetqXaMT2z+48IW55zM3GWjH2xwUNq2EUYIL8CwceB87lDsl7TzqeuLoBd9qX
+         HwpdePOtrqSc03PY2xf7P5gSF75tCd7gR0WAstkIPWLaLltpLwKkSQtU46XQckh4Ro+I
+         4CkrwiXam9FUTPMYAYjlpBiI0Ak6yEy5ukObzJpmDu4TsKSu6scQbqVH53P0dP6AjhG0
+         XA2kNbcA/uxRUAuYsDNMcdX+FahogLf0Kgde7/aF7cbv30nfK3gasylW5CpeBXbJqqye
+         jxnkDztGbT3KJiehBtcHDskIGSR/RxJ+1+O0J69JwKDpvW5kgioO8ZCctiyQD6dfqs8Z
+         Gn5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVankyQLfIudtrkkeO3Rl5fV/VFxgLC4Y+2UumZZneC62FS37vOmc7gknwW/dg2bcHH8wjHGpkd8qXpLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmWmoCOyTLNe53k+t1pqyLcDBtzdEIeMre0fBTV0DBnBk9R8R+
+	8fcbvNcKEbScj9uADpjTuRZ4j/POimOwwq17JYOnt/oOZkLeX/bkOJQ4w/UryQ==
+X-Gm-Gg: AY/fxX6LG2+214SyWMKIH7uJugFdkteEPNh8Ks0bwmEouqLQ51Fo7ykhiRVCb9VQtxR
+	vzJiPAvkNKBxp1j/KjvOw5CWVG4OZEp51EP5Q/xKigxhHvUA6EaBDAB/zh3pUNdqXgzJiFBr0yI
+	PIqN0Zke71Bhh0Kw71FZ1YQTr9PnCg7F2jMuhfO1pXU4cJ1Bkpt9KpzjJWvd4dTmz+rJBmOD2yh
+	n64xptm6ut+XvTZK1TyJsghne145S1m59+aoxq7DvQVOJyQn0JvNDVaGjGv40LONDsJAK44OPXe
+	wAuf+HtrBlNcLXrVe/F0q4oj5MAGnezfpFnT7+K8H7OnBoc8fWF2pvQqEuPtLsGmODj3qGV4t1k
+	Dyx2uAE3L4PxLVN+VnO07dCYDAWPWsBwwYtr1VRGM9nu/PO31/jmThwGxE/NWRj2B+9G+IVtdR0
+	VWfVpH07oafSPLf/x2tKpAf5skEvP9ztf5ILX/HTJS0Z5f1Ab+DEY1/zy0XFc6Fh7TwtwgBL6gv
+	A/VIc8Oli8b5UjHNBHzZg==
+X-Google-Smtp-Source: AGHT+IHoetKCTy/pEDc32+prvwD2Q1RnoCrCBHHEv/M6mDpq1Oqnx5ryJch1QdsdD39c7PlRb7aCxQ==
+X-Received: by 2002:a05:6a21:c154:10b0:38b:dd94:936a with SMTP id adf61e73a8af0-38bdd949736mr1217364637.24.1768296389614;
+        Tue, 13 Jan 2026 01:26:29 -0800 (PST)
+Received: from visitorckw-work01.c.googlers.com.com (25.118.81.34.bc.googleusercontent.com. [34.81.118.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5f8b0f67sm19483200a91.15.2026.01.13.01.26.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 01:26:29 -0800 (PST)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	sre@kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: jserv@ccns.ncku.edu.tw,
+	eleanor15x@gmail.com,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v4 2/6] dt-bindings: misc: google,android-pipe: Convert to DT schema
+Date: Tue, 13 Jan 2026 09:25:58 +0000
+Message-ID: <20260113092602.3197681-3-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+In-Reply-To: <20260113092602.3197681-1-visitorckw@gmail.com>
+References: <20260113092602.3197681-1-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112140758.215799-1-rf@opensource.cirrus.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEB:EE_|BL1PR19MB6084:EE_
-X-MS-Office365-Filtering-Correlation-Id: d89c93c3-4b90-4f37-172f-08de5294acf7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|61400799027|54012099003;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?M/xSFStRbhLWgzfNpUSuEDKUAb6nfhHIw0NVOlNj5JTDh4zPuDHjQ6tDdpd3?=
- =?us-ascii?Q?apUy0I+2p26Tt2L7tqjJcTpSYLCTWFrw1PtZM1JKQ/g5X7lsNyQYWVh5hG6R?=
- =?us-ascii?Q?pym1IJpYpcBDk6S6eBWzZR501HV0+AhmNkOW1UlLvtIerCTxf4fjf4Lu1BGt?=
- =?us-ascii?Q?ATKjf9uZ2V3jF8K2m7TlDs5ugpUh8DFhWSmDRFlzTOnprR0snn5Km3mOY7s/?=
- =?us-ascii?Q?wRNW9Wg8LQO6ihyQMeR6KFuRZ/8K/qXtuxbdXMBlAgxVMuqyAFk9s+u1F+Se?=
- =?us-ascii?Q?8OazhGkCTf9rbTfegloaSMTh+UATBihHJdb7So0OUNvPt1VUOYzckl4JV8j0?=
- =?us-ascii?Q?DELZ3hHEWa9VJNyk3S0Bviow5eDksyEJzn16VtEPNubr6JrmZM4hEAurFiuT?=
- =?us-ascii?Q?2nQNbz9tSSf3gEkg3XkNui/fRvh+t9F4ga4asmq3PCU30DnXC1hEcrNYJjHV?=
- =?us-ascii?Q?yLfvQw8mCpymlxZf1hai7oB2dP7C+Xkb/Twnkz8dOSIjIU/I69rDAUTAFQfy?=
- =?us-ascii?Q?YumKC0weikiD6vZ/Sb1ekqgPNmJF+1TRNLmTwSSfL3+YYg9eWX8XFfm7R9Kk?=
- =?us-ascii?Q?x89xva4bMukexTwR34Rv4xGdsPeAlRwKjAK0YaoCiWNqagSs29ZaAxbGuCFK?=
- =?us-ascii?Q?2zATd+rNuYRUV3GV/A+lAGMAsXfcRKdrtj16g5/MoKt1XtChV3hm/XWLeNWD?=
- =?us-ascii?Q?WDgKlwqW72/pV6CxFb+C7Ago9sFZh2nFbSBE+VDOoG6yJ3Kta0iFm76zIDZz?=
- =?us-ascii?Q?313M3J3Ek7Hd3MW6uOPsfM4ra+w6Yk5ZrL8vqUHyXdhR82W1RljYzI/5Rywy?=
- =?us-ascii?Q?Z1Iz1g7MgDwnko4FLaw5dQpS6LApVk0Dk3RcVlO8c79ok3ytCypVvxHkg6r6?=
- =?us-ascii?Q?580+xQF4wFyDqJDCnnWk2BS3eWHG90r6aLmxqjkVgP2VdS7A4ftgXrG+k7gy?=
- =?us-ascii?Q?tV0CQlJofnf7ySgaKEZw1ox9dDfshKGFiGYa3OuM8s11HulaePXP36CH0F6h?=
- =?us-ascii?Q?xEpenM86tOAmaLCedjIdht3dqXW77ojRBTFFFoVcWsiprwP7EvBEvqaJStOA?=
- =?us-ascii?Q?3HOcavld4LvovPMcxw5oswNxJGHBHyvXCjLzEEw3bgf4lh2jSIIkNPf/MvkI?=
- =?us-ascii?Q?Rxy30NxxEYJWpMSIf4MJjEpESHoodrMnOfs3PLLjJP1nbQ8gxiFCdCpLYjPy?=
- =?us-ascii?Q?mXUzoYGUsp03fwMpBIayWPhM+0TFj2PxYSX2tjjIXmhiWxna1/ifXyaHaglG?=
- =?us-ascii?Q?tr4frPoyk3i081M1rTEp14EBXt4GEcksRHz1DEBmij8vaBHYR67R2+pNsbOd?=
- =?us-ascii?Q?4MlKGNOoIZuVABXs9bGqKIQHcSyj7pdz9u5oKQltkOzMRA7WaqNSPj+yKXB9?=
- =?us-ascii?Q?639qC3PbHS95nmyp6yCyyikhwR/OwVetmgajFHPojIQSZ4Xz2LHQTiMTjh7b?=
- =?us-ascii?Q?HqzLvpScNdh8Y8HQEjnCgyjWyYsqzknaTDb+7ULquZaR8ZmMV3ipzIIRiRIS?=
- =?us-ascii?Q?fMnD+aG+DqU6B1E0G//yf1wplAwBiJYJUxg2tXuNXzXETVopvLE/CJ3nq//T?=
- =?us-ascii?Q?lPQF7X0BhoQJXeHBALM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(61400799027)(54012099003);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 11:12:44.0811
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d89c93c3-4b90-4f37-172f-08de5294acf7
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003AEB.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR19MB6084
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDA5NSBTYWx0ZWRfX/Nl+AB3wOCgd
- qzqecdWKdTsf6l18kzOi2yC4wz8yZzrEvTCYPuU2S148owvyZs6WZ0kHpkSf2pmDRg5iDeeSas6
- Jkk2GfuJO4P/RyWtUrrLXWoz4PdpTueZQMHSZzHhDf9IhV8iPW4QJm3oDLUITZozX+yVL06PLLt
- 37v+wxQMueBQBj/MPOh2/5kWQ2DWWS3/jruX9wgNfY67SaJxBBRHf+/uhp43X0I5ZEYb/35JT0R
- h+15CdtOkGvR3bRFN5jKUzFd3Pyz1NDWOdKlqG6BiTXmDPQkIyj+sLuxsMoWQ5DsVJhecYQEPdf
- dWQUnxCWBjh/WrqkjUrW0AK5pI20LI16yIJYrCu5kyaNN8so05wo0G4nR0dpgxPR+8al5QtYUGM
- wuzUIo49cibXNLyjooOktaPVAmqtS0g7K3ee4DdZ0ZudX5pLa1kJR6g27UxmXm5EyL9QhAHyTJ1
- CpnltXzfF4j0MXcMYsQ==
-X-Authority-Analysis: v=2.4 cv=LPVrgZW9 c=1 sm=1 tr=0 ts=696628b1 cx=c_pps
- a=tlQSIbIJF6LFNc9o/Tmckw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=_9V_MuQnr6Q-yjFEdUQA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: R37k-WgKJ11mrI6DpkXDJSC11bv4X1mQ
-X-Proofpoint-ORIG-GUID: R37k-WgKJ11mrI6DpkXDJSC11bv4X1mQ
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 12, 2026 at 02:07:55PM +0000, Richard Fitzgerald wrote:
-> This series fixes a problem with soc_sdw_utils.c calling the wrong
-> codec init callbacks, because it assumed that the DAI name could be
-> used to uniquely identify the codec. This isn't the case, especially
-> on SDCA which is a generic driver for many parts.
-> 
-> The second patch is the actual fix.
-> The first patch is needed to add a missing export to SoundWire core.
-> 
-> Richard Fitzgerald (2):
->   soundwire: Add missing EXPORT for sdw_slave_type
->   ASoC: sdw_utils: Call init callbacks on the correct codec DAI
-> 
->  drivers/soundwire/slave.c           |  1 +
->  sound/soc/sdw_utils/soc_sdw_utils.c | 43 ++++++++++++++++++++++++++++-
->  2 files changed, 43 insertions(+), 1 deletion(-)
+Convert the Android Goldfish QEMU Pipe binding to DT schema format.
+Move the file to the misc directory as it represents a miscellaneous
+communication device.
+Update the example node name to 'pipe' to comply with generic node
+naming standards and fix the mismatch between unit address and reg
+property in the original example.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+Changes in v4:
+- Use decimal format for interrupts in the example.
 
-Thanks,
-Charles
+ .../devicetree/bindings/goldfish/pipe.txt     | 17 ---------
+ .../bindings/misc/google,android-pipe.yaml    | 38 +++++++++++++++++++
+ 2 files changed, 38 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/goldfish/pipe.txt
+ create mode 100644 Documentation/devicetree/bindings/misc/google,android-pipe.yaml
+
+diff --git a/Documentation/devicetree/bindings/goldfish/pipe.txt b/Documentation/devicetree/bindings/goldfish/pipe.txt
+deleted file mode 100644
+index 5637ce701788..000000000000
+--- a/Documentation/devicetree/bindings/goldfish/pipe.txt
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Android Goldfish QEMU Pipe
+-
+-Android pipe virtual device generated by android emulator.
+-
+-Required properties:
+-
+-- compatible : should contain "google,android-pipe" to match emulator
+-- reg        : <registers mapping>
+-- interrupts : <interrupt mapping>
+-
+-Example:
+-
+-	android_pipe@a010000 {
+-		compatible = "google,android-pipe";
+-		reg = <ff018000 0x2000>;
+-		interrupts = <0x12>;
+-	};
+diff --git a/Documentation/devicetree/bindings/misc/google,android-pipe.yaml b/Documentation/devicetree/bindings/misc/google,android-pipe.yaml
+new file mode 100644
+index 000000000000..9e8046fd358d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/misc/google,android-pipe.yaml
+@@ -0,0 +1,38 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/misc/google,android-pipe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Android Goldfish QEMU Pipe
++
++maintainers:
++  - Kuan-Wei Chiu <visitorckw@gmail.com>
++
++description:
++  Android QEMU pipe virtual device generated by Android emulator.
++
++properties:
++  compatible:
++    const: google,android-pipe
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    pipe@ff018000 {
++        compatible = "google,android-pipe";
++        reg = <0xff018000 0x2000>;
++        interrupts = <18>;
++    };
+-- 
+2.52.0.457.g6b5491de43-goog
+
