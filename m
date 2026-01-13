@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B413904F0;
-	Tue, 13 Jan 2026 13:49:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EDB3921DB
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 13:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312198; cv=none; b=iyUl0TzJQy468T4ZRMwGILKTt7Vsr9cctUpZD9/aecKwSTM4aM35KM5/JQYtIMogaYDIAiTQkQ/3ibryOBvZ/EOxazFJeBvst7q22LEsYc+PxDdpWrXj7IwO+l+BtIPEXVZerfvMVnzTkzHi9zdl7Ro7Z+FRjCFmWVwMGr/ARp8=
+	t=1768312200; cv=none; b=XHYsKoM2lgTaZ9OEbnheEKq04yDe6aHTWgdlxNggIh6YLm8MKO7X30pI1TktDyg0NXv/+OGMKr1W0IyFyto5bW21RkYCixZu/PKZwT6vO3QD5GHXPlSPa5X8o8X5ma1D0V0+fPB2UXFyLONiBxxGnh5pnC0t/z6Ab0qJe/I1oI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312198; c=relaxed/simple;
-	bh=GDFDkGbCJ5TgA92X+tpXDckP8PixVMFa8wvkXOOtY5g=;
+	s=arc-20240116; t=1768312200; c=relaxed/simple;
+	bh=wxoAj/A6po/vHFvKikZXhrhsMZM/I8bhI5RazqI6j1M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Y2LW/lNbx9epU3XVtQ9zKBJ5lCW6Nm/S+WxtTk/pndxnFgecRHUnx07JnDQZArJIuSlV1gi+rNCdc5CbTmXEHRX23BIUaInxeUO72D1UN0pYX3VAAmaNKBYZfAs9m0jy41KH+pn8GlkSxL3e9yG/nDgmefU8GxKPUNo+8PI6ne8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXrVJG2m; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iy12idC8yfK9hgcjTt7p88HC4+M2aa68H6Y61n4dmqzk9pWHRId+KWJorwUsIBNNBJqHHDwwpSjCnwmUar2jckWZJpF3ZVdL9jEX3Tx1Mh2SZdtBpABNpd0AlS+aMPjFDWzONeS2b7tgDNminXXKBCed9N7czCa6JrcBJzvRHVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/ZjD0RQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXrVJG2m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27355C19422;
-	Tue, 13 Jan 2026 13:49:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/ZjD0RQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 987D1C19422;
+	Tue, 13 Jan 2026 13:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768312198;
-	bh=GDFDkGbCJ5TgA92X+tpXDckP8PixVMFa8wvkXOOtY5g=;
+	s=k20201202; t=1768312200;
+	bh=wxoAj/A6po/vHFvKikZXhrhsMZM/I8bhI5RazqI6j1M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bXrVJG2mrwi9h7q/S1LeQlVSuWNEQwu8+nlKb1V4Gs7zfamZJRBurUzS5a5i/fD9G
-	 yx50NtinLHXySdusnJ+g19MtUjSJ7I1ahyCTXF90XGpfD3+QAckGr6Jl2/Wupk96Ns
-	 CbdXTmbBCLLNeddEomD4nEV+KmrVcNd+oM5gMb5ZrVQBhYR9w/lp1D9ByRiy1yHgvu
-	 /eoA63tVIR2UTDVU2XFxtiuSEfOVhIuBivP2kiB9tej+qPxridj3vF4WliNrzWJXpK
-	 HViltXJyRnTS/86hDQaGiPQYim5wndBJEpgcqkvuiQIMkL+jMJAdfdVHyfxsES/uZF
-	 8XDCOYTwfCLVg==
+	b=q/ZjD0RQwisDklqKNOzAJYYFsV/LYUaKZQPd5eCahstIrSETC+/DMctKlPwMzdwUr
+	 WpC3+EPvgDAofGi4Kw7+GVvKdl6urP+EI4JjAiIeOxdfCIpsXSR2KVB9FsEz1jFQgg
+	 9nvSmbr7NtUBa8pe74PFnF1hKzbCcVx5jzAZaLfPd7jfAbHqZUGkLJ+tkXdL1kYB1h
+	 SLORnRU3qHHjZ5uxkEjv8LwELTrbzgLLl+Bd50dY3ruqe4z5501NGMO3ZAmY1540nw
+	 ADWb5LTDNNRa5T0sx/m4zzEBApJbgtt7Acj6EuGzCrilSHZVD/C80mHY1Z/Ly6PVy1
+	 +8B70UN/UuYJQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bhushan Shah <bhushan.shah@machinesoul.in>, 
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
- Alexandre Ferrieux <alexandre.ferrieux@orange.com>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260109-aw88261-dt-v1-0-45840c7632a3@fairphone.com>
-References: <20260109-aw88261-dt-v1-0-45840c7632a3@fairphone.com>
-Subject: Re: [PATCH 0/2] Add devicetree support for aw88261 amplifier
- driver & minor cleanup
-Message-Id: <176831219589.70484.13135502001126330506.b4-ty@kernel.org>
-Date: Tue, 13 Jan 2026 13:49:55 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
+In-Reply-To: <20260112101004.7648-1-peter.ujfalusi@linux.intel.com>
+References: <20260112101004.7648-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/7] ASoC: SOF: Use guard()/scoped_guard() for locks
+ when makes sense
+Message-Id: <176831219836.70484.12871978324661169486.b4-ty@kernel.org>
+Date: Tue, 13 Jan 2026 13:49:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,11 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 09 Jan 2026 16:02:04 +0100, Luca Weiss wrote:
-> A series with a small cleanup and then a patch adding devicetree support
-> for the aw88261 driver.
+On Mon, 12 Jan 2026 12:09:57 +0200, Peter Ujfalusi wrote:
+> Only code refactoring, and no behavior change.
 > 
+> Replace most of the manual *lock/*unlock handling with guard use.
 > 
+> Regards,
+> Peter
+> 
+> [...]
 
 Applied to
 
@@ -62,10 +63,20 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: aw88261: Remove AW88261_I2C_NAME macro
-      commit: e76f8c269e3558d02e19515cd3cc470e42ddbd36
-[2/2] ASoC: codecs: aw88261: Add devicetree support
-      commit: b9198ce5c6dfee19b9662dda95ba559af9cdf53f
+[1/7] ASoC: SOF: Use guard()/scoped_guard() for mutex locks where it makes sense
+      commit: 5c19da34df029fdc29fec1bedf210af7d2c4fccf
+[2/7] ASoC: SOF: Intel: Use guard()/scoped_guard() for mutex locks where it makes sense
+      commit: 599a5b00a1bf2fdc5abb42985eb21c1ce3489416
+[3/7] ASoC: SOF: amd: acp-ipc: Use guard() for spinlock_irq()
+      commit: 58a581c38babe5ae2fa96b9a8387418f3275993e
+[4/7] ASoC: SOF: imx: imx-common: Use guard() for spinlock_irqsafe()
+      commit: aa234886c7263e8c78031a20e33a9725acdbcf5d
+[5/7] ASoC: SOF: mediatek: mtk-adsp-common: Use guard() for spinlock_irqsave
+      commit: 36fabc449a055547960712c164bfa3fe77cf0a88
+[6/7] ASoC: SOF: Intel: Use guard() for spinlocks where it makes sense
+      commit: 294b9e7e8ecafd4dd4b1cc13d7585082451be0e7
+[7/7] ASoC: SOF: ipc/ops: Use guard() for spinlocks
+      commit: 83aee46dc2142eed2dc40b5cef0e9e08e14cac42
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
