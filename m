@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF72538BDB2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9E438BDDC
 	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 10:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301987; cv=none; b=PzbNR4H3/QLu/UIe5ynYT8vmhIU0I/3ISh5/b1CeaZrZPPu2EuIp0Q9eozm3rVKZMyq9BEYeWJ5k/+wtfqSaT7dGfTCNW4+/XXFB5FhLxDqHZHPPxox86GiWC5CBHd9HPv5NHwipoG7YQAJlXt+gVVJtxAZUlhezQJgMa9JeK2M=
+	t=1768301987; cv=none; b=FXO9hVzjWzVcE7bxdP87f0pq1r4QrC2h+eGUbnIQye+EWfeb7k9Z4DfQDO/UEaHtUabRnAQS26SAscrJE8MkN8wkMknENPwMpSIgUXuLVb+XrTOZVLK3u0y9p//YkXM6vIsH1Fcmnux5WwimngzwcaPAkG4k9dgW0V101Hibwps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768301987; c=relaxed/simple;
-	bh=41flRPH4TSGsnCvQyNzqSTUzQqo/QHTY/SRkQLuvrVs=;
+	bh=bWlAzt0P6LRMId2/rhlsH78d9IkGsugNdtTEQyxu0AY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dHWhtH9VWImRCeKulX2EXXbtFG9iEg5T1AfH2lm7f9f3wzaNkwNLh/EGc19iyZveWJTmPRtOX9+YjOe0MYsxSi8jnL9vN/zsj3YdK+ZvJ+JFar/U9+98tfAfrr5vAfzdpp12sNuU46YVrcY9r5rA0gK1t2DinLihUtxoAqMZKTo=
+	 In-Reply-To:To:Cc; b=BCtrBsHk1pUDJUZpA7v9ycnMDCMwhvyjyKghOcSJk03St/sjmW5eWy+8Vkw2Twzt42ubnsJpyGBJi1LLGc13n8y41xz5/jQHiHrW++k9oRJ7AWuOr+Zm1FmPtbupr/8Bn+Cn6KbHv5X9CL663B6Kvdn3HBJFLLRhthoCXBdS1lo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc78-0008DE-Al; Tue, 13 Jan 2026 11:59:06 +0100
+	id 1vfc78-0008DJ-Al; Tue, 13 Jan 2026 11:59:06 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc74-000PMA-2X;
+	id 1vfc74-000PMI-2j;
 	Tue, 13 Jan 2026 11:59:02 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc73-00000004mJf-3r1u;
+	id 1vfc73-00000004mJf-44vq;
 	Tue, 13 Jan 2026 11:59:01 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Tue, 13 Jan 2026 11:58:45 +0100
-Subject: [PATCH v4 02/10] ASoC: tlv320adcx140: fix null pointer
+Date: Tue, 13 Jan 2026 11:58:51 +0100
+Subject: [PATCH v4 08/10] ASoC: dt-bindings: add avdd and iovdd supply
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-2-8f7ecec525c8@pengutronix.de>
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-8-8f7ecec525c8@pengutronix.de>
 References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -56,13 +56,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1573;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1028;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=Rp2iiRNuVwV+taJffar+hJiVimp4OjAE0fMMm0vIwyQ=;
- b=0qNVGH6hCvH+R0LFN+H8JaR2PCgvIvjjz9ls4EplufBemqpH7D2u/zyLEXoshQrAlp/OXD4x1
- 3im3rBi+Y5hBtBHaAbQaRRJZhx0m1/9rjTMbALl6AJ8dA0fjVkl+eXt
+ bh=bWlAzt0P6LRMId2/rhlsH78d9IkGsugNdtTEQyxu0AY=;
+ b=z9/h8LxMekobiOM8Xojfefnxi1miRWaIjjCsOR+N+c2ucIdB0wSfcfJGCb7FpEXaY6B9Y0iTW
+ SDRJFMYOTMXCSDgVXhs9dP8B5fIixTZuc+e2yuKEUx/V+SFhdDOmORs
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,48 +70,29 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+Add bindings for the avdd-supply and iovdd-supply which are named after
+the corresponding pins on the tlv320adcx140 chips.
 
-The "snd_soc_component" in "adcx140_priv" was only used once but never
-set. It was only used for reaching "dev" which is already present in
-"adcx140_priv".
-
-Fixes: 4e82971f7b55 ("ASoC: tlv320adcx140: Add a new kcontrol")
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- sound/soc/codecs/tlv320adcx140.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 75e1007012a48a569586bc2896400e79ddce1c71..3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -23,7 +23,6 @@
- #include "tlv320adcx140.h"
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+index b34ea7824360310434d8b826392864dbfa5fc369..a93de2debbb45a3daebb0e24397e4893262e3a11 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+@@ -44,6 +44,9 @@ properties:
+       External supply of 1.8V. If not defined then the internal regulator is
+       enabled instead.
  
- struct adcx140_priv {
--	struct snd_soc_component *component;
- 	struct regulator *supply_areg;
- 	struct gpio_desc *gpio_reset;
- 	struct regmap *regmap;
-@@ -699,7 +698,6 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- {
- 	int pwr_ctrl = 0;
- 	int ret = 0;
--	struct snd_soc_component *component = adcx140->component;
- 
- 	if (power_state)
- 		pwr_ctrl = ADCX140_PWR_CFG_ADC_PDZ | ADCX140_PWR_CFG_PLL_PDZ;
-@@ -711,7 +709,7 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- 		ret = regmap_write(adcx140->regmap, ADCX140_PHASE_CALIB,
- 			adcx140->phase_calib_on ? 0x00 : 0x40);
- 		if (ret)
--			dev_err(component->dev, "%s: register write error %d\n",
-+			dev_err(adcx140->dev, "%s: register write error %d\n",
- 				__func__, ret);
- 	}
- 
++  avdd-supply: true
++  iovdd-supply: true
++
+   ti,mic-bias-source:
+     description: |
+       Indicates the source for MIC Bias.
 
 -- 
 2.47.3
