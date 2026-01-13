@@ -1,86 +1,86 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900D7223336
-	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 12:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A6638BF88
+	for <linux-sound@vger.kernel.org>; Tue, 13 Jan 2026 12:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768306945; cv=none; b=iXwN2FTmvlV4l95/8tUHPP86heDBvZhBn4aXM92SoFv9rhq7SgFG5zF3K+7Um9NDUybHbgI1NbjiqS9orW7/L9ihtvBT7f/QqTNfUN7VZ2nN7lU4dRQb/4ZiACZ5Twoih6PSARLT3fimq2BzbASDYyghZw6/YNCCZ24h3/OPu2c=
+	t=1768307088; cv=none; b=KmJNLvtJVQ4qnfB5F4LxsUk4TNZuZXeCJK3P8ibspCbDsf/j2RLXe2+EHfYzKOVX5yyt5jmgIBDB5XRgIqLfvtb4wqlcIjVF8Bi6IPxjZbUCfa9EEAuOuXpaFoqZAagReGGYzYmdPGufL97eZ8InIIegwEaugceelafuR6mkWzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768306945; c=relaxed/simple;
-	bh=q8+wk+PFRef0/b+8PMCbITMCShfo4tfOHZcyrWuzLMo=;
+	s=arc-20240116; t=1768307088; c=relaxed/simple;
+	bh=I9ikO501BRHQHnfF7H1f2oUnwLHyP/T+0BYeuER4hQc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a6816yeVD4/mgWMzadtH6kdYLScFz81d7WVKmPmMQB0/kPCKyJBWOEpp9mKTa9KLp6kiIg00O4tVd+q1ATJkJzSDAKdOce+PuNbw8fBktwFRomP+icknALfdUzMb1/6hAFaID42OqGye8UI5D15oS1UOiHh2RGbL1Vzdq03qEF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WukxPFOf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oAnikVEh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WukxPFOf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oAnikVEh; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=fnD/qy7LiVk8VeEQcz3LylKR4q/MeDl5yCFx+1G0XpZdC/mOrzYOOk/hegK9oi93H2iJeEDfuRmzDex6NRon2rR3UHMZquXx5IEcdwhKuoK/4/HmUJFYu+UgrS/q9xHOEiUvV6Nz16GajuySbbaBb8D9ObyyVoaokaa+kNnEFQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TfQUMBUc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8s5BGoJR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TfQUMBUc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8s5BGoJR; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WukxPFOf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oAnikVEh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WukxPFOf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oAnikVEh"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TfQUMBUc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8s5BGoJR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TfQUMBUc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8s5BGoJR"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B3E6C5BCDC;
-	Tue, 13 Jan 2026 12:22:22 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FA125BCCA;
+	Tue, 13 Jan 2026 12:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768306942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768307083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=apSrpptBhUAlTI3jBowki6e8qk4aH5Om2BN4S+cX7Q8=;
-	b=WukxPFOfi5rnpM/L2yjb0cRNXdV23RpzVPmyLHdkVsCWPkXLMT7RJ+DXKEsd/oMIY0BXJA
-	B1X3rheTolOQVFhbYw4SePdcMwzAzJXK/QSpX9nwVA+fD/3Xkd23YbmbQQhxgzj2Z3i0cF
-	5tgzVo0tCb8xbb0aRw0cLZN8KbTyEiA=
+	bh=jXdy6TSBk2CngkOsMSmODZsSgAsbsCgnkEwqdeuELts=;
+	b=TfQUMBUcRNNFIK+Pjg86ggmbkiVoATN9QBDO4uDyHtx30SE3skHff3VJplozm4jYt7AFkh
+	DEU7VJjzQsw55CWFr4eVm7kE8p6xhxAyl84raK5ug9JavUyLquHD6dnfSOkYDcV227TKeU
+	ltFsacFKR60YccGXPESAL4wXa7t5ZGc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768306942;
+	s=susede2_ed25519; t=1768307083;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=apSrpptBhUAlTI3jBowki6e8qk4aH5Om2BN4S+cX7Q8=;
-	b=oAnikVEhg1o3tR9y1WuqruLvslHbnSaej2/YhKbEJPti7rw+pEaZJlF/3HfGdApkS8v5WU
-	sStGXEdaFiKttfBg==
+	bh=jXdy6TSBk2CngkOsMSmODZsSgAsbsCgnkEwqdeuELts=;
+	b=8s5BGoJRH7loH/bQk6pze1Re9s8mlx1Qm+6+5bOzhx4/ibVmJEeNXSIwB3Tyd0vBhRmcDi
+	trhFZyb2HJIpNlDw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WukxPFOf;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oAnikVEh
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TfQUMBUc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8s5BGoJR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768306942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768307083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=apSrpptBhUAlTI3jBowki6e8qk4aH5Om2BN4S+cX7Q8=;
-	b=WukxPFOfi5rnpM/L2yjb0cRNXdV23RpzVPmyLHdkVsCWPkXLMT7RJ+DXKEsd/oMIY0BXJA
-	B1X3rheTolOQVFhbYw4SePdcMwzAzJXK/QSpX9nwVA+fD/3Xkd23YbmbQQhxgzj2Z3i0cF
-	5tgzVo0tCb8xbb0aRw0cLZN8KbTyEiA=
+	bh=jXdy6TSBk2CngkOsMSmODZsSgAsbsCgnkEwqdeuELts=;
+	b=TfQUMBUcRNNFIK+Pjg86ggmbkiVoATN9QBDO4uDyHtx30SE3skHff3VJplozm4jYt7AFkh
+	DEU7VJjzQsw55CWFr4eVm7kE8p6xhxAyl84raK5ug9JavUyLquHD6dnfSOkYDcV227TKeU
+	ltFsacFKR60YccGXPESAL4wXa7t5ZGc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768306942;
+	s=susede2_ed25519; t=1768307083;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=apSrpptBhUAlTI3jBowki6e8qk4aH5Om2BN4S+cX7Q8=;
-	b=oAnikVEhg1o3tR9y1WuqruLvslHbnSaej2/YhKbEJPti7rw+pEaZJlF/3HfGdApkS8v5WU
-	sStGXEdaFiKttfBg==
+	bh=jXdy6TSBk2CngkOsMSmODZsSgAsbsCgnkEwqdeuELts=;
+	b=8s5BGoJRH7loH/bQk6pze1Re9s8mlx1Qm+6+5bOzhx4/ibVmJEeNXSIwB3Tyd0vBhRmcDi
+	trhFZyb2HJIpNlDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B8CA3EA63;
-	Tue, 13 Jan 2026 12:22:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 880A33EA63;
+	Tue, 13 Jan 2026 12:24:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ShIsJf44Zmm+TgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Jan 2026 12:22:22 +0000
-Date: Tue, 13 Jan 2026 13:22:18 +0100
-Message-ID: <87ecntr9c5.wl-tiwai@suse.de>
+	id A2J3IIs5Zml0UQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Jan 2026 12:24:43 +0000
+Date: Tue, 13 Jan 2026 13:24:39 +0100
+Message-ID: <87cy3dr988.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: fenugrec@mail.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	roy.vegard.ovesen@gmail.com,
-	mickflemm@gmail.com
-Subject: Re: [PATCH v2 0/2] ALSA: usb-audio: presonus s1810 minor cleanup and document
-In-Reply-To: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
-References: <20260111-preso_clean1-v2-0-44b4e5129a75@mail.com>
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Asus Zephyrus G14 2025 using CS35L56, fix speakers
+In-Reply-To: <20260112-asus-rog-audio-v1-1-513957b4704e@vinarskis.com>
+References: <20260112-asus-rog-audio-v1-1-513957b4704e@vinarskis.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,6 +89,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -97,65 +98,59 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[mail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_NONE(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: B3E6C5BCDC
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9FA125BCCA
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Sun, 11 Jan 2026 22:36:39 +0100,
-fenugrec via B4 Relay wrote:
+On Mon, 12 Jan 2026 01:06:37 +0100,
+Aleksandrs Vinarskis wrote:
 > 
-> patch v2 : apologies, I had missed an __le32 field.
+> Just like GA403U, this GA403W needs to remap woofers to DAC1. Similarly to
+> other Asus devices, headphones/headset MIC is not working, however the pin
+> config alone is not enough to fix it.
 > 
-> - Use __le32 fields for structures sent/received over USB
->  Addresses a comment from when this driver was initially merged:
->   https://lore.kernel.org/all/s5hd0agcjw1.wl-tiwai@suse.de/
+> From Windows dump of GA403W:
+>   0x12, 0x90a60140 # Correctly set by codec out of the box
+>   0x13, 0x90a60550
+>   0x14, 0x90170510
+>   0x17, 0x90170120 # Correctly set by codec out of the box
+>   0x19, 0x03a11050 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+>   0x1a, 0x411115F0
+>   0x1b, 0x03a11c30 # Set by ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+>   0x1d, 0x40663A45 # Correctly set by codec out of the box
+>   0x21, 0x03211430
 > 
-> - Document constants and protocol details common to the Studio 1810 and
-> 1824c devices
+> Even with all the values set, MIC of the jack is not detected. Until a
+> complete solution is found, set ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC
+> for GA403W which fixes audio volume control for woofers. No need to
+> create new quirk with missing pin config just yet, since its not
+> making the situation better.
 > 
-> Except for a hypothetical big-endian platform (which I cannot test) where the first
-> commit would make a difference, both these should have no functional
-> change.
-> 
-> Signed-off-by: fenugrec <fenugrec@mail.com>
+> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 > ---
-> Changes in v2:
-> - fix an overlooked __le32 conversion for .tag and .len fields
-> - Link to v1: https://lore.kernel.org/r/20260110-preso_clean1-v1-0-ce2dd3ea4506@mail.com
+> As per commit description, enable quirk to fix woofers.
 
-Thanks for the patches.  The code changes look OK, so I can take as
-is.
+Thanks, applied now.
 
-But I wonder about your identity "fenugrec".  Is it a real name?
-The Signed-off-by line needs to be a real name (or a known identity) 
-for legal reasons.
-
-
-thanks,
 
 Takashi
