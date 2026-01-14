@@ -1,88 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136C3AE6E2;
-	Wed, 14 Jan 2026 22:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F044936166D;
+	Wed, 14 Jan 2026 22:08:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428370; cv=none; b=ImY8/WRX8j/CY/MBtIWeHgj3pvoQjgXGKkPSkRuVUTAGSioOq5ewSlcnvpjSYR5KmYF+DBKL0bIWcVKRIrlkLuxi9WpIri01dWIRJNOQiSSuVtsasPyqP3zlfrwak9Z6+1da0jOfx+I1IyPsHof2uDIaxza3raMmel4IKjPb7mg=
+	t=1768428535; cv=none; b=sD465jk5CDd/hs7vY1x6H5NdjqyJ2eV9TlQhnSjhcNq5U8SuBj9eToG/fEr/ukTRQMU+xpU6h5X7inheQAQ73qzoDqgxuLUsLrXCI0MVr0gi6dKOOCtMzIsTZUUb090eLkbwQR7zySZFgZmbG3mXG8wAiYjGxwTqD9atx1cJVQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428370; c=relaxed/simple;
-	bh=n05io87oGtlyB5NMdWFRT6Fs3b8ujs35Z4GpqeORnZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q+TGNFMXjyQrHWSz5j8rMlJsvuV8BzOl2ewb4tox3eHlYAXObmm3oSJPJ+HM/1jxmXkY9h8Goo/y8A0kN1QrQwrJ6Y7lEpCq6OPbPzkPyTjUDPgU5wxw/qWNjxN32N93mpqV911oF4s/f7pUHB9/2YM+KfLpzikPgQJ1ttPfSuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWhOit0Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768428535; c=relaxed/simple;
+	bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=onWx0iEKLt5wG8gcj7wBrBNSYqGCdfysWXRODOZRXsAPcRKQA3nN1cb8K7TFknivmdqowKzkiOtSXd3xHG0hU/SJDLxQgU+F3a9Jbuzo1mOv7YvlwUcjAV4VMfYHdaWXnuXDU51lhG/3A2LvDVuvAJViAuA5HQt0Xl7UIdkb33s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACVNTbEL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWhOit0Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EDD9C4CEF7;
-	Wed, 14 Jan 2026 22:06:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACVNTbEL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DEB6C4CEF7;
+	Wed, 14 Jan 2026 22:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768428369;
-	bh=n05io87oGtlyB5NMdWFRT6Fs3b8ujs35Z4GpqeORnZw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RWhOit0YnJ0aPmjP5qWAafgk+adQjVvLY1bC5R/k5H/4Ap3g0w3RRCatAozJfHjuk
-	 bNcwXI8UZDenR5Xcvc7QhMVfklWtGSfv23mFagAp2NMo25ISVxQg7hj7SmMXdAHGHb
-	 l/xuiZsjl7r5LP6VtqkuyY83ZYFNvQRCWX8bTiRl8nAP9qIvdEzQ5E6sLSSDN5seOP
-	 fXKPg8qhv6OWkVzWHMf9wm/tK8idw+BEwd6u4zJ4ziwkTjZUudUPbzzNAKr1DQsLvh
-	 rYTJyF6PAckW8UdleEbe7pLuzod8voXhcKbMptifRR0K8nHao30vRuzmuMC0lcsMPL
-	 RoqsiIQ5bgigw==
-Date: Wed, 14 Jan 2026 22:06:05 +0000
+	s=k20201202; t=1768428534;
+	bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ACVNTbELbPQUo1izn8oQoEfc1Cp+HXjDndyG4u2zjdVuDmbYBKkYUkVpf5//7n9gj
+	 GGsZyrck04sal+pTA98zB/eZwKEibxVBjimiqh4uvhBvWpPi24RfUbcl1C2gBmToci
+	 GbjR/l3vzHxd5KgrdrAEsbrC5iZ6J5ffTICnoLzyLekKSU7qbHiVF6LL3usdKX12Y3
+	 uUWwK2yv1DyPmjvz9HEsaSF4Ik0qpjJp90kswqYbt3lr7b2JY+4q8uAQMyb6LsWRMh
+	 ojWODru80gWs8vSr4WkeerTfYrkyKbch4z/LuTfCk3l5V2UXLuox6/ppjTNGsCQZOl
+	 3pgl5dp2cfebg==
 From: Mark Brown <broonie@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: dt-bindings: realtek,rt5640: Various fixes
-Message-ID: <ae789c57-bc9a-471b-9168-748a2e8400a1@sirena.org.uk>
-References: <20260108143158.351223-1-jonathanh@nvidia.com>
- <176832669841.1106728.13139168898095349975.b4-ty@kernel.org>
- <0e68c5f4-f68d-4544-bc7a-40694829db75@nvidia.com>
- <829bbb9e-70e7-43cf-ad93-373e4c8da55e@sirena.org.uk>
+Date: Wed, 14 Jan 2026 22:08:35 +0000
+Subject: [PATCH] ASoC: rt5640: Fix duplicate clock properties in DT binding
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WK/Nq6V2nZplmgjc"
-Content-Disposition: inline
-In-Reply-To: <829bbb9e-70e7-43cf-ad93-373e4c8da55e@sirena.org.uk>
-X-Cookie: Absence makes the heart grow frantic.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260114-asoc-fix-rt5640-dt-clocks-v1-1-421d438673c2@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAOMTaGkC/yXMQQqDMBCF4avIrDuQaIzQqxQX6TjV0WJKJpaCe
+ PemdvnBe/8OyklY4VrtkPgtKnEtsJcKaArryChDMdSm9sZah0Ej4UM+mHLrncEhIz0jLYqOGw4
+ +uM43Fsr/lbjszvat/1u3+8yUf0E4ji9N2mkAfQAAAA==
+X-Change-ID: 20260114-asoc-fix-rt5640-dt-clocks-4e3ea6a47631
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jon Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1229; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpaBPzAGZEULmyCR7N6ebCNI7Umg3vVwzRYInaQ
+ 9kM1tZUFwCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaWgT8wAKCRAk1otyXVSH
+ 0EjsB/sHXY9XYb9XRvynR2f2Yh4L1cikmzRpyd07cUnpoCJ96kw0u6rBunkDFqgFQ8HQDfNDh0a
+ PMYyDqRhMxRuGEoIE+d53qCeP5eKPwaQxkXd52q7EMvukHgfwuhGVvGBSOwcgz3RA3YaFmv0mrX
+ H1TuUJNGCqe83DzDBL3ULIOCq1ZQwNBi1OlcfPgQ0q1iaYCiOD4F2fwTu1yYwiRLTMKKRsmwFel
+ UMtkMDxPlbvGJsKZLEwRHxqOBOaQKT1xFV719qDg+Gn2wJTytW/Y7MnK+hECYGKzUMVwhTW/p0+
+ XuubbCseUi2gNioZrbRifphq9j5//irwymGJ+zNA0Rkhvwbw
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+Not quite overlapping changes to the rt5640 binding resulted in duplicate
+definitions of the clocks and clock-names properties. Delete one of them,
+preferring the simpler one.
 
---WK/Nq6V2nZplmgjc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reported-by: Jon Hunter <jonathanh@nvidia.com>
+Closes: https://lore.kernel.org/r/0e68c5f4-f68d-4544-bc7a-40694829db75@nvidia.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/devicetree/bindings/sound/realtek,rt5640.yaml | 8 --------
+ 1 file changed, 8 deletions(-)
 
-On Wed, Jan 14, 2026 at 12:03:18PM +0000, Mark Brown wrote:
-> On Wed, Jan 14, 2026 at 11:27:12AM +0000, Jon Hunter wrote:
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
+index 02591d6be12b..2eb631950963 100644
+--- a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
+@@ -44,14 +44,6 @@ properties:
+       - realtek,rt5640
+       - realtek,rt5639
+ 
+-  clocks:
+-    items:
+-      - description: phandle and clock specifier for codec MCLK.
+-
+-  clock-names:
+-    items:
+-      - const: mclk
+-
+   reg:
+     maxItems: 1
+ 
 
-> > It appears that Rob also has merged similar fixes to the above and now
-> > we have two lots of fixes merged and duplicated properties ...
+---
+base-commit: 1a75f24a7f8c2cac9c34126d7221ff59c5265316
+change-id: 20260114-asoc-fix-rt5640-dt-clocks-4e3ea6a47631
 
-> > So we need to drop one set of fixes from one of the trees.
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
 
-> Can you send a patch that puts everything into a good state please?
-
-I think I've got it sorted, you'd added the clock properties in
-different places so git merge didn't tell me about it like for the other
-ones.
-
---WK/Nq6V2nZplmgjc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmloE0wACgkQJNaLcl1U
-h9AcHgf/SC/pZmKwZNftTQBlEybp8Y+DXghf01Bxkk4n+ajMmIUiBeSBsjA6jJvP
-Yfyq4hJXuY4XPUVP5N+LE71SQjf0yB+RBHOUo5yAGYtMfsyXSJtppp1aVzNNoeY8
-Ug0KeUtqI13cGQkaxBpO/Hv7qxrbI+2AWVMxjpPUvtnS+1BilhraUjGMt+4sl30Q
-mzJu1TnR0oTiz01TnjWkgVSlM1YzOYViDFocZ9cXpJm7r1n6QoTOzJQ0YVFEEEeR
-IJ/4P9xnxGSeUhO10SWYau0mv1XmFQLvr0mZQ/ysyawfVn6vEUgiA2BSx8xMFQp9
-ijzWLQPHiNrRCUsBipFrpRe6T4i5ZQ==
-=kV/O
------END PGP SIGNATURE-----
-
---WK/Nq6V2nZplmgjc--
