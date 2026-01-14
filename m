@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E55436C0DA
-	for <linux-sound@vger.kernel.org>; Wed, 14 Jan 2026 21:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EDB36CDE8;
+	Wed, 14 Jan 2026 21:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426604; cv=none; b=FY6SrcPu9NUkab59hk3JI09XFwYTo7FOz7fmUh+vatl4fYFduYAxOnH+RNYK+QvDwhYeqKMNb299zpMuaDYZYQWkJo7a/7aNeVafyvN6rc92qof60U4lxxcxfxIwRs3bne9paD79a7U/bY79BSafoZoOEY8YLOUcDzuHuoJOX1w=
+	t=1768426608; cv=none; b=P7qor6mGNhrf3cXGyppSFcHqbKle3g8fWWTNLasWKBeeeIj5U0Ilr359U2931bsy/gkZdGKzkW6tR1bFwM0DjiIZlY0pK5WTG0VXhRtIHyVNpuzxlcpL8E5iZ4ApKHxW/Erd9d02At7hQAZpy7duppvqZXKCHg0nVhZun1fLK0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426604; c=relaxed/simple;
-	bh=JXVmiqbZx/ENevPGBPqApwTU3Vs1KJ/HQ3gvThI9vz4=;
+	s=arc-20240116; t=1768426608; c=relaxed/simple;
+	bh=WVO6osBIohiBYtrg3CeMVJao578MY2yze+0eFa3vztY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oy2aiCqw1H/+LGViGntvNDrt76YlerF1dYVobIyPj4Abz6EyDNvTI9aSdV672iqQ4+OZs0UTsNwyYvWpl/gKMrtRS2+6nxYHGYWGg3hdB5OPybSJv7/uxRogdkmzmF3kw0XKpKIiGtynZ+KfJgbeKswiclNDCfsHH1qNMhkR+04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdfZkXQE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OMwXZ/iUNLyL/6iLvyCJ8aFCsVif32R4EV8U+Rx3GPuFBuXQwqHSfUjAyjRfi5sQnngjRzIK+lD87sRDoT04buJXji+ZknvPM+HbVF9OSNuP6Wp4e7GWWMYM9RnVzWG3XoMZPsZm3ahwqf7rP2nF2SYH2CuRgMSILmzGRWLEQmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8HsnKDp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdfZkXQE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 486B3C4CEF7;
-	Wed, 14 Jan 2026 21:36:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8HsnKDp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5819AC19424;
+	Wed, 14 Jan 2026 21:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768426601;
-	bh=JXVmiqbZx/ENevPGBPqApwTU3Vs1KJ/HQ3gvThI9vz4=;
+	s=k20201202; t=1768426607;
+	bh=WVO6osBIohiBYtrg3CeMVJao578MY2yze+0eFa3vztY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TdfZkXQE856nbMuUZL2GkKHG+RWvwsqIJ/PFkyDhBOeJocXYSu4rLnjY8OpGX0Pwc
-	 cd18mpMwQBmj1DN/2aVlcH493+0R0gORJeWlEDSr9Y7Nzm18+XPxvRF1OBOAk+8SUp
-	 mAfcIsXTW/wwrhEZ30y7AGK8EFGSH2mYdJY8Y/B6I1B+CV/puEOVPvkLuWSjPVco9k
-	 QGeYTYiaFLk1GfM2qao2pSGfN1lNSW2HrJbBjvLfrIDbu5Q/Fz5fgU9L4paGw3C+/0
-	 k5NiNwybo9VXbxkeasbSGwLUAuXpg7lSZ5h9Bm99//xQ4D3WaQ9AWrYE0P3wpzfyWa
-	 4J+G9wkoyTOEA==
+	b=e8HsnKDpwFN6/zQvtnWiC1TLCk1/a/d23fOLW+6w1LqjLlSkWQEgmfn1JLJLlDE7v
+	 cqRykWw1V57S492AZY6rJ+0yck1CplYYN3r1j+a6RwPHNUdemEEsY3N8TzTnLR/Gm6
+	 C9BmcagtEs7ODmgDAcv+M/20fiPhlm+7KH55Glpp/ukxJR8s23gJJZBA1VAZYlEO8q
+	 F8X68mDaW3JT+aMLmPGFJTV1N6zQx1CgOsQfQOa3FW6Rgl1WPvpxyqDN5NCxKEvhsW
+	 4/L/uNl4K3lGyvY9eN2tqMnd+YBc/reDpPBgD0lq6yqt/vlmTCHypFyRkY2MBfqy5F
+	 oBBlu1fKJ7uew==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, David Lin <david.lin@intel.com>, 
- linux-sound@vger.kernel.org
-In-Reply-To: <87tswv1t9c.wl-kuninori.morimoto.gx@renesas.com>
-References: <87tswv1t9c.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: intel: convert to snd_soc_dapm_xxx()
-Message-Id: <176842659903.229619.13690940325171068342.b4-ty@kernel.org>
-Date: Wed, 14 Jan 2026 21:36:39 +0000
+To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.torokhov@gmail.com, 
+ sre@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+ lgirdwood@gmail.com, Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: jserv@ccns.ncku.edu.tw, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Yu-Chun Lin <eleanor.lin@realtek.com>
+In-Reply-To: <20260113092602.3197681-1-visitorckw@gmail.com>
+References: <20260113092602.3197681-1-visitorckw@gmail.com>
+Subject: Re: (subset) [PATCH v4 0/6] dt-bindings: goldfish: Convert to DT
+ schema
+Message-Id: <176842660309.229619.6412457616367822654.b4-ty@kernel.org>
+Date: Wed, 14 Jan 2026 21:36:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,10 +53,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 09 Jan 2026 01:15:11 +0000, Kuninori Morimoto wrote:
-> This patch uses snd_soc_card_to_dapm() to get dapm from card
+On Tue, 13 Jan 2026 09:25:56 +0000, Kuan-Wei Chiu wrote:
+> Convert the Android Goldfish emulator platform bindings from text
+> format to DT schema.
 > 
+> Most of these bindings are currently located in
+> Documentation/devicetree/bindings/goldfish/. Move them to the
+> appropriate subsystem directories (serial, input, power, sound, misc)
+> to align with the kernel directory structure.
 > 
+> [...]
 
 Applied to
 
@@ -62,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: intel: convert to snd_soc_dapm_xxx()
-      commit: 850c9884b917f440e659a09dd309a46a136adada
+[5/6] dt-bindings: sound: google,goldfish-audio: Convert to DT schema
+      commit: 10303b32519f52a5afd40593a507543143c8ec6a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
