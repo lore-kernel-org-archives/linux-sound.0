@@ -1,81 +1,56 @@
-Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C7F320385
-	for <linux-sound@vger.kernel.org>; Wed, 14 Jan 2026 02:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCEA274B40;
+	Wed, 14 Jan 2026 05:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768359374; cv=none; b=OpARe179RSG4caqzhnEFzQpxuhJOptzmAR1pk6xg+rJ+uwI87eOc4r46ksN3FTcTQSG9JMOaSk8H3walhJaiLgMAQxRC1B6J3RkPQ8ke7BSxDmO87h5zaXAGGPRzlF+0lsJYDs9y0mxqqiNq3Jhwa21gHDMsbsDGClgs+2g+Ykw=
+	t=1768368381; cv=none; b=T3GxjIiCR0W9zvKDA4CCj42XzSGPmBJ4Q4DehQaVBAe1h6FAUTYN/pupp3ngH4Z5acIedtS7GXSg0F1YFf/JlB84kxNeNEErAJMo9ca/BEcGeIzRa8dxe7S5jbzAQ8wZPDYIS8an8uKKvE6jjUptFvNVTpDuDcxjvx884eFeEUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768359374; c=relaxed/simple;
-	bh=9EhXfKEsiO99DFG4Or4PWBIn5H8mSq9LQbb85lpYTKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hS8lvc1pnEXFrzZ13ZBTUK2Hbi2bami/a1Y+HeXMRPHkCO1diB2AU48CZB5ofczBrn4l5U4u8jCIihBjm63AjKUFTQbkj15vLehumjbUYHR34XFARLKu8SA0Kja+FfHfbQ2ytvRPZj0x9+aOKUyCXWaaI+y3MzzXpVqoUjN6P/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; arc=none smtp.client-ip=172.232.15.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
-From: Cole Leavitt <cole@unwrap.rs>
-To: linux-sound@vger.kernel.org
-Cc: ckeepax@opensource.cirrus.com,
-	sbinding@opensource.cirrus.com,
-	broonie@kernel.org,
-	patches@opensource.cirrus.com,
-	cole@unwrap.rs
-Subject: [PATCH v2] ASoC: sdw_utils: cs42l43: Enable Headphone pin for LINEOUT jack type
-Date: Tue, 13 Jan 2026 19:55:18 -0700
-Message-ID: <20260114025518.28519-1-cole@unwrap.rs>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260113084402.10427-1-cole@unwrap.rs>
-References: <20260113084402.10427-1-cole@unwrap.rs>
+	s=arc-20240116; t=1768368381; c=relaxed/simple;
+	bh=IFDXDtZyZXEM35Wnc+ZUP0eNJrEagpUvHijKlqP+Li4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sm/84bLsXjV1lAPXUI2wzy3OMIu51k9ZV89hjEJ4QSi49JGF/xUmApMsHls0xrCt65d4gzW4O2B34zqoxFl0rrSo/kCTIxgfcbI0eNacPg/FeAKFZKeq2uPq0UMH3Ylkdv60fe8CMqMoWg7RdEjmeGgv2VQCxkaVH+SKz6VqNqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/vWbnhN; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/vWbnhN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CFFEC4CEF7;
+	Wed, 14 Jan 2026 05:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768368381;
+	bh=IFDXDtZyZXEM35Wnc+ZUP0eNJrEagpUvHijKlqP+Li4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/vWbnhNoy0a5AQPNOAgm6d2xOdT7Vo8AZLLEQCL7MfepLoYBlnZrTAoWM2qU4ywP
+	 enIygzkTOcTIYgo82VVc49x1wLH+geWgY/WB9wdriTvNrIAn2FKZt7sMVzNFqXRsG6
+	 jepFFv3G/M6GUoqQgDqyYKZssBni12qJuGdiZ8Z9JmLiiwvnLbVUxStxt1N2v1zLkq
+	 UaHPP7/p+sK/2w7sa0knDLdaX0ruNMQIYwmdzOP0U4zFsB8pe55ppycRoxRUMAtTZv
+	 Wt6fgzMwpEn8KWBAd9bSGGUT0i1ltQkIh+EkB2ftn5GkUZ+2TWCwj5R3W8xCloP7XD
+	 PbiDirDlzSSvQ==
+Date: Wed, 14 Jan 2026 10:56:17 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org, yung-chuan.liao@linux.intel.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/2] soundwire: Add missing EXPORT for sdw_slave_type
+Message-ID: <aWco-X-omtS7vLF_@vaman>
+References: <20260112140758.215799-1-rf@opensource.cirrus.com>
+ <20260112140758.215799-2-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112140758.215799-2-rf@opensource.cirrus.com>
 
-The CS42L43 codec's load detection can return different impedance values
-that map to either HEADPHONE or LINEOUT jack types. However, the
-soc_jack_pins array only maps SND_JACK_HEADPHONE to the "Headphone" DAPM
-pin, not SND_JACK_LINEOUT.
+On 12-01-26, 14:07, Richard Fitzgerald wrote:
+> include/sdw_type.h provides the function is_sdw_slave() which
+> requires sdw_slave_type. But sdw_slave_type was not exported.
 
-When headphones are detected with an impedance that maps to LINEOUT
-(such as impedance value 0x2), the driver reports SND_JACK_LINEOUT.
-Since this doesn't match the jack pin mask, the "Headphone" DAPM pin
-is not activated, and no audio is routed to the headphone outputs.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-Fix by adding SND_JACK_LINEOUT to the Headphone pin mask, so that both
-headphone and line-out detection properly enable the headphone output
-path.
-
-This fixes no audio output on devices like the Lenovo ThinkPad P16 Gen 3
-where headphones are detected with LINEOUT impedance.
-
-Fixes: d74bad3b7452 ("ASoC: intel: sof_sdw_cs42l43: Create separate jacks for hp and mic")
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Cole Leavitt <cole@unwrap.rs>
----
-Changes in v2:
-- Fixed Fixes tag to reference correct commit d74bad3b7452
-- Added Reviewed-by from Charles Keepax
----
- sound/soc/sdw_utils/soc_sdw_cs42l43.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sdw_utils/soc_sdw_cs42l43.c b/sound/soc/sdw_utils/soc_sdw_cs42l43.c
-index 4c954501e500..2685ff4f0932 100644
---- a/sound/soc/sdw_utils/soc_sdw_cs42l43.c
-+++ b/sound/soc/sdw_utils/soc_sdw_cs42l43.c
-@@ -44,7 +44,7 @@ static const struct snd_soc_dapm_route cs42l43_dmic_map[] = {
- static struct snd_soc_jack_pin soc_jack_pins[] = {
- 	{
- 		.pin    = "Headphone",
--		.mask   = SND_JACK_HEADPHONE,
-+		.mask   = SND_JACK_HEADPHONE | SND_JACK_LINEOUT,
- 	},
- 	{
- 		.pin    = "Headset Mic",
 -- 
-2.52.0
-
+~Vinod
