@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D9C36D504
-	for <linux-sound@vger.kernel.org>; Wed, 14 Jan 2026 21:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A6936D4FB;
+	Wed, 14 Jan 2026 21:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426599; cv=none; b=OuQPcoT0DiUQRu0+uKxQziLAppXw9wlz5StRHv+dvNm4Mc5VkvPQfw1/K1pggNLLhNmNzaateXrpXmln9xs3g7J3wMTvUoQWHj6azDRxEOpzCfnvtZvLQPe1zVrwZZkb8/VqJBBwhrkwcPFNF+gHSKxkDrbaiOP8ck/WldKfG4I=
+	t=1768426604; cv=none; b=l8ZFWUYvaVMFOsc4fguedxx0z/07IzyXoRQwlha5uBeZ/I58hNdG1xRN73sHYn93f0H2ff+k3t0ruB7qw8PNiwCpGNCExDT30PoTG/JJaYp8dqPj6TJB7J8OkL9LGAVD+hcQMB0NG8cAgqVQXq/DggUNutkcAtQoEYEgzr2qhU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426599; c=relaxed/simple;
-	bh=A+isppos2uBF4pvtaTywHRKhFz9WurWBsbCY7SlGuVo=;
+	s=arc-20240116; t=1768426604; c=relaxed/simple;
+	bh=iUdnCyo7xu2jMP6fSTFRWznjQ0rKG4U/jCOtU7ZCn+U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IRT05DPFNU91GUHfHfmwWigJWZFGW/CzPez00BJjUM8dIE8nKkHigGy7y+Vs8EjoT+AUMZMkxwRNrOM0KujI+hN2UCvCCI+BysudtLv+LCp2bJLun+2OTUp/SZ3CW/Dhl27zY6k6x5tntQKXc/dDoWNE3+JXlo2y6BQg4Hyv3bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RBLbCVzO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=jFIyT1vMdBUCQuSnvWfsg83Td4gtWLFzM8DfwUN2F/cNut1Y8kLLmx8lYFMS/lg4lnCtQtuGOIA7vat0ib4Ol3wWnCNYmtMnQks6Mc+au9vVVp33MlKTG8dimdTl1n6x6XA0p3mvWWeKJJV8fXajH9bDtGPpLW3GaGJdCR45gpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ec7fpTpE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RBLbCVzO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA2FC19423;
-	Wed, 14 Jan 2026 21:36:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ec7fpTpE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9788EC19423;
+	Wed, 14 Jan 2026 21:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768426598;
-	bh=A+isppos2uBF4pvtaTywHRKhFz9WurWBsbCY7SlGuVo=;
+	s=k20201202; t=1768426602;
+	bh=iUdnCyo7xu2jMP6fSTFRWznjQ0rKG4U/jCOtU7ZCn+U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RBLbCVzOBN9yX/feaPUgjPWvQS8hxJb4Uw+98WO6pW9SvocXWgK2X5r+F0067rcCf
-	 TZRjdV/B5FMPwhxQk0QRQF59Hg8gQeuv1pXDJcVFfTM4/ZoDOOAZ2myucxUNq8Gy+m
-	 z9q6GEPG0iuNxdrHDQEvk787XihcS6ajHOMi2/Mvey8aJWF6BOfhEehqZ0dY1eQpGJ
-	 C6kReDaULShwCwphgqM7+ViS/UE0WVq2ZM/zYGE81LMtVU9K4e5hadjQCcPlrFjIpC
-	 1FmPdJaz/rhhkMHRZcVodp9UBhepvEyAL2RCloif79ZqJJjNXn+/BuvE48ckgEOAt3
-	 Rqxp6EA0yIR+Q==
+	b=Ec7fpTpE6piyNSpSEaBaEXzzk7Y62GW4vY6O4meaXS+uRhAdDxqBrYCTvx06X4L08
+	 dV4f7qcODkXbDZZ79qdr1Pr66topjemlEMWHPiDYy8aItqo4rmLkwjKltXkQ+cguA6
+	 bDoB64MNEKDavFfeeuYyKDFLACv/6lemlHX5LENyn7eVCZ0ZJPtUWUvgleiNdJLia6
+	 K54toXGyU8N78PfA39zwLGZBSryIAwCSk/EIQ+4xeWcWc1e16WlUIuHQWA0BXqtwBf
+	 cUcvT4krHW2ohiR4ORpc6NfllmxNea+rJeETMMGdTZMIwirn4KP8s+0GZY123cduyy
+	 ycnkCAooeqEYg==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- shumingf@realtek.com, linux-sound@vger.kernel.org, 
+To: vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20260109145206.3456151-1-ckeepax@opensource.cirrus.com>
-References: <20260109145206.3456151-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v3 0/4] SDCA System Suspend Support
-Message-Id: <176842659682.229619.1192096125878474929.b4-ty@kernel.org>
-Date: Wed, 14 Jan 2026 21:36:36 +0000
+In-Reply-To: <20260112140758.215799-1-rf@opensource.cirrus.com>
+References: <20260112140758.215799-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] ASoC: Fix sdw_utils calling wrong codec init
+ callbacks
+Message-Id: <176842660135.229619.5331099202255368085.b4-ty@kernel.org>
+Date: Wed, 14 Jan 2026 21:36:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,19 +47,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 09 Jan 2026 14:52:02 +0000, Charles Keepax wrote:
-> Add support for system suspend into the class driver, now split
-> out into a separate patch chain.
+On Mon, 12 Jan 2026 14:07:55 +0000, Richard Fitzgerald wrote:
+> This series fixes a problem with soc_sdw_utils.c calling the wrong
+> codec init callbacks, because it assumed that the DAI name could be
+> used to uniquely identify the codec. This isn't the case, especially
+> on SDCA which is a generic driver for many parts.
 > 
-> Where we got to on the previous discussion, was we don't currently
-> have any parts requiring download on runtime resume, doing so
-> will add noticeable delay to the runtime resume, and we are not
-> blocking someone from adding support for firmware download on
-> runtime resume in the future. Also as runtime resume is really
-> a kernel concept and power rails are primarily controlled by
-> ACPI it is quite unlikely anyone will actually power down the
-> part on a runtime suspend anyway. So this version of the chain
-> still only downloads firmware on probe and system resume.
+> The second patch is the actual fix.
+> The first patch is needed to add a missing export to SoundWire core.
 > 
 > [...]
 
@@ -69,14 +64,10 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: SDCA: Add SDCA IRQ enable/disable helpers
-      commit: 9e3d4f794cbe9a4e286b3052cb97908005807aee
-[2/4] ASoC: SDCA: Add basic system suspend support
-      commit: 7a5214f769c7c953c58971027a762f2e191057d4
-[3/4] ASoC: SDCA: Device boot into the system suspend process
-      commit: ffd7e8a101110cba86925a2906d925e0db7102f3
-[4/4] ASoC: SDCA: Add lock to serialise the Function initialisation
-      commit: da7afdc79cba00f952df12cd579e44832d829c0a
+[1/2] soundwire: Add missing EXPORT for sdw_slave_type
+      commit: 1ddbcb910a06f53fc2b14e1743c6ad4ccfd7107f
+[2/2] ASoC: sdw_utils: Call init callbacks on the correct codec DAI
+      commit: 5b027c74f3ee8979193c50d31187edfa31acc0db
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
