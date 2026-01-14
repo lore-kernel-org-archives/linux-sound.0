@@ -1,72 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5563B3624A0;
-	Wed, 14 Jan 2026 07:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617B13112D2;
+	Wed, 14 Jan 2026 08:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768375922; cv=none; b=DPhtdsbF9TNkdsUcbguGenbah6I8h4SExsarE+IXBwQPu9tAck3TKAODciEYlsHVMG5UCyzRlHdXVqoDe1ctzNoqpctI5VgU8YF2XXuGGJA1rY9xkegfITjX/SWLt8w/L/gDd5U6DOBTnk32qhIQv+KR2e5gWaonJ6AV8fneMfc=
+	t=1768377689; cv=none; b=LcI4mVWYiho2u5WPwpWTHy10au3xD7F3U0HcjglbhCKfYhS483SnL1gfrgU7Gh9kZOHuZkgiaAo2Bepx/v+o+J8FCnBzt9/xaBaVVBCDj0jBLyY8+v3C+BqLhjmtJFCBnPbsmGKTL+lFpPDxNfSt/oHRQxpJNWh6DgbPP7JGKKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768375922; c=relaxed/simple;
-	bh=orcwKbiN7UgOJj304kfxPoo8ZOOnHKD4pLKX5LgxnVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xou8BiF7VUJ/xSpdXH8Lhw2/Pvl+uGskDQG/mCBFFCQk0bpBwXuS4txKFRCdB1i+ANymAbir40Kg588FtLc0QEkMFxzTWx3XraDoVxwhDowic0IYsJi+7jE98OvWWPBsauk54Km/CActykrcoriWRXcGRh5sgFbNgbzXqpj6nOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pBZAJV31; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBZAJV31"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2517FC4CEF7;
-	Wed, 14 Jan 2026 07:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768375921;
-	bh=orcwKbiN7UgOJj304kfxPoo8ZOOnHKD4pLKX5LgxnVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pBZAJV31mQg2RRApzC2Efuxi+GRtdWpVi13qsQteRGqABdi0Gvl+qAUQ5j5/qexNx
-	 FgZZJOvq7kaTP8ZFwklFn7chW2MuDKaWSHy+suy2R/CAxv79sH1+E6HVlk72yd9YHA
-	 2BCMkmZCNhSX3AXHyWUxtWR82wpI9WLNJV7/d/lNeXuFYIArWCTtxB8gsRXdZ+Ox0n
-	 tPIG2mL6IvNkDJCq66CwVQJsjlj/sVh05AwFdW9QyXp5rF+kP36Z4P0bwh2wRA8cGY
-	 hGvnsO5oYQjehioerAnKzktCGy4Byjumiy8v+cSNBRYOm4t3wFPpmsbhWQRPyDDNBo
-	 7D/iuflB4Bbzw==
-Date: Wed, 14 Jan 2026 08:31:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, sre@kernel.org, 
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
-	jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] dt-bindings: sound: google,goldfish-audio:
- Convert to DT schema
-Message-ID: <20260114-gainful-mutant-lemur-92ede9@quoll>
-References: <20260113092602.3197681-1-visitorckw@gmail.com>
- <20260113092602.3197681-6-visitorckw@gmail.com>
+	s=arc-20240116; t=1768377689; c=relaxed/simple;
+	bh=Tk6DW8eEOr+7C0cYveP3Vvc7GcgYRr/zb306VEgULfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Laqg7fHWRKbmc+X9Z0Xz698I/VTtEfXPfAA9ALs333VsokvTRhzaJOal3ZEGDLYlAsuN7sxSJhjQx5Baob3HL/yPTGwpii4rQcRdyMWONLuT07sp7RqgbrnqO+J8wz7rOdRzr71qK9Sjti/OkM7UZf/PzTlkq9lgJm4Z8wQNQuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 31537120f11f11f0a38c85956e01ac42-20260114
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:400e92c9-564a-4de9-b285-efb62cbe5838,IP:0,UR
+	L:0,TC:0,Content:23,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:23
+X-CID-META: VersionHash:a9d874c,CLOUDID:b390171d5423b8ab932fbcee7d088c3a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|898,TC:nil,Content:4|15|50,
+	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 31537120f11f11f0a38c85956e01ac42-20260114
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1455287023; Wed, 14 Jan 2026 16:01:12 +0800
+Message-ID: <dce94739-2632-45d9-b212-447848bf6058@kylinos.cn>
+Date: Wed, 14 Jan 2026 16:01:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260113092602.3197681-6-visitorckw@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Add Line Out to iterm_names
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+Cc: tiwai@suse.com, cryolitia.pukngae@linux.dev,
+ kuninori.morimoto.gx@renesas.com, lhi0729@kaist.ac.kr, pav@iki.fi,
+ rene@exactco.de, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251229093130.3202058-1-zhangheng@kylinos.cn>
+ <87ecoay7vt.wl-tiwai@suse.de>
+ <5879f82a-d21e-4210-987f-449d2452b5bd@kylinos.cn>
+ <d16a9af6-2b35-4588-a08e-83846a5f6242@perex.cz>
+From: zhangheng <zhangheng@kylinos.cn>
+In-Reply-To: <d16a9af6-2b35-4588-a08e-83846a5f6242@perex.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 13, 2026 at 09:26:01AM +0000, Kuan-Wei Chiu wrote:
-> Convert the Android Goldfish Audio binding to DT schema format.
-> Move the file to the sound directory to match the subsystem.
-> Update the example node name to 'sound' to comply with generic node
-> naming standards.
-> 
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
->  .../devicetree/bindings/goldfish/audio.txt    | 17 ---------
->  .../bindings/sound/google,goldfish-audio.yaml | 38 +++++++++++++++++++
->  2 files changed, 38 insertions(+), 17 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/goldfish/audio.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/google,goldfish-audio.yaml
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
-
+Is it feasible to add a Line Out?
+The original intention was to reduce the complexity of upper level UCM 
+adaptation and make the USB onboard sound card backend consistent with HDA.
