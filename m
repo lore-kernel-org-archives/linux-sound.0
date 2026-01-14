@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D47D3921F4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3D53921C0;
 	Wed, 14 Jan 2026 10:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768386807; cv=none; b=RJBzDYBZH49FvioDfzyhRkuPm7Ja8ZTus6FT2HjfPAH3e+42eVNdRTwhr4h66EGz2GU2Xsla0Lr1PogOIKz+KgFOtFnBjIYLnvTG/UVrdUkththZGDjdwK1JdFQTcWFuucyG2cXC3KVTWDcwfbdd05NRM1F5xnQFxoByVFtk4DM=
+	t=1768386807; cv=none; b=T+oPQhJXSvgR8OpxOqTdri5KvV378CiBSMtfuey/LIeFxCflKi5NEOm3h0veGNF/XB8W1nkDwr7cW03VV81vD8TIqECpo1SRB9swrmQ9mgJCFDMwvxZDB/eY8EZ7BFtMp/anA73xcOYIhj7vAngFmLwxUDUR+v7XSix5TN38vrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768386807; c=relaxed/simple;
-	bh=N1BdKy4sBKxvIIyVtsyzDq2V8jFFwsJOFrPu6Lzc2tg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XnwVx7CnzHvH3gz5RhvrpjZsvj9RsTWHpB2Bcs6ZsWNDkJgIeYWFkJ+scPkw+PqI5i576uEl9dC5xfsHIvctzZdA52YoAxaHcvBI2XS59FotD6lbGp+rEJ95DFt/VQUV7Lgf0UbmJGNfDw6gNueRj3yLphAVFHQWRoBI/NqeEQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBrkSDW6; arc=none smtp.client-ip=10.30.226.201
+	bh=EZvwB5xw50grkJYmYSe3ftlsXRapgsRBC0XIhXklg7s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NpHCR+uH7WK3R4LMCywvMGpBp40aqSs5J2Fezi9H7ihMzrefeMCjkyiPCXA4bNwD2F6BwG6msEFWXCw4vIxxINv+vGeZ64Coa1WP7ES9GPKRwfuM6pnPa32L+UPqSX7ewYSTfwHXqavpCxDfdUzmr3nwlCghA6q2vCXlI5Fp7Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D/c+cDQB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBrkSDW6"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F85CC16AAE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D/c+cDQB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 30BA3C4CEF7;
 	Wed, 14 Jan 2026 10:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768386806;
-	bh=N1BdKy4sBKxvIIyVtsyzDq2V8jFFwsJOFrPu6Lzc2tg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dBrkSDW63df4ofNC4rmOdXPywp4yrcQkcU2ncSYV06QJRkXhENHg8ZrKOccHWhIBY
-	 0/RPRwDvXn5vekyjuDeDWcBcdZkXkCnEVl1oo6HoNhD6iUADRYabGIHJovW27mnLAB
-	 VORTQdOp9ieRDqf3WPGch+ozO1CE893riJ4pWlSVvN5i5+7cj0dKRDO3tgJJJ9MkJP
-	 a4O86dV90l8G6ZuOJUzK4vXREbTGrQpW0ezVIEqWKiTFgVDa7wdzDqMafSZceOOouL
-	 XFyCOybX4GbtLp5L3U9VC6kCsBm4AZlo1/YG1fgq1uNRhM66wnR/s6GXgjYlfr9XMI
-	 6SpSoG3uCrMhA==
+	bh=EZvwB5xw50grkJYmYSe3ftlsXRapgsRBC0XIhXklg7s=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=D/c+cDQBs0+J6lfSYb3uHq/LNeb2+Mgp5UVMAtVPK4iiqRE10IzVYjTSQfWNMvbnW
+	 EGTz8gnpYntfT0t8T0ycNJh6clHfRy92V+p4tOAbdUzuuuWE6W6xX0sNvLM3S/phJv
+	 X2xiM9fkvR/JPd403BUfwGzRxyFY3BkQwKEA1ZEgYhFCw412Yw2Kdg7XxtSSViW4tK
+	 01ghCSvMyNSgy6HAUfwjm2l65YH/du2g1ABS1ByJAit7BN888H43/2eCNph5g6kLHV
+	 5C2e+31M+XjOatpyRZP56yHlB61u0gMYGAaBmsOTCe2v78MMWwrL0Fe1eE4ZJPOwyB
+	 TButNnTc39AAw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F45FD29FE6;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAD9D29FE7;
 	Wed, 14 Jan 2026 10:33:26 +0000 (UTC)
 From: Bharadwaj Raju via B4 Relay <devnull+bharadwaj.raju.machinesoul.in@kernel.org>
-Date: Wed, 14 Jan 2026 16:03:24 +0530
-Subject: [PATCH v2 1/2] ASoC: dt-bindings: document dvdd-supply property
- for awinic,aw88261
+Subject: [PATCH v2 0/2] ASoC: codecs: aw88261: add dvdd-supply property
+Date: Wed, 14 Jan 2026 16:03:23 +0530
+Message-Id: <20260114-aw88261-dvdd-v2-0-ef485b82a7a7@machinesoul.in>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,9 +40,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260114-aw88261-dvdd-v2-1-ef485b82a7a7@machinesoul.in>
-References: <20260114-aw88261-dvdd-v2-0-ef485b82a7a7@machinesoul.in>
-In-Reply-To: <20260114-aw88261-dvdd-v2-0-ef485b82a7a7@machinesoul.in>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XMQQ7CIBCF4as0sxYzg0KIK+9hukCgMolSA4qah
+ ruL3bv8X/K+BUrIHAochgVyqFx4Tj3kZgAXbboEwb43SJQaiUjYlzFSk/DVe6HQ7cmRorNF6Jd
+ 7DhO/V+409o5cHnP+rHql3/oHqiRQmN1k0Sj0StPxZl3kFMr8vG45wdha+wJAH0KgrQAAAA==
+X-Change-ID: 20260111-aw88261-dvdd-50c41c151ba0
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -54,11 +54,11 @@ Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768386804; l=1347;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768386804; l=1091;
  i=bharadwaj.raju@machinesoul.in; s=20260111; h=from:subject:message-id;
- bh=ytR+KVyf/ePc8ymcKGXV0QZMqpvAJw8hDP+6Qezgv+4=;
- b=FzKAImxPg3NqbTQ0C4Kf35xzU8OrTOeaM3al7ov8KZQXNIk/mrJOsAcYDPDrCzgvHYR05paM5
- GJwlIPfjo1SD3LJ8W4IM94SqXch/LjSVTc5UzzWumexHz8JEiK9ZUxj
+ bh=EZvwB5xw50grkJYmYSe3ftlsXRapgsRBC0XIhXklg7s=;
+ b=dctiuFwMwQeOuQtE+M4tVuEm8ZhDLG09fILkQ25KfKPtApWh78uS5cujBhwx+MZPCYE1LH/Fh
+ Uu/V3Qm+9Q4DQeKeRQzzHD5Yu5djgvrF0PZRj3465embPdYDbKhJ87E
 X-Developer-Key: i=bharadwaj.raju@machinesoul.in; a=ed25519;
  pk=0M1a+iMXDqasbx7bQL71NdtuutFXu+lVxsiSnEiyAIg=
 X-Endpoint-Received: by B4 Relay for bharadwaj.raju@machinesoul.in/20260111
@@ -66,53 +66,32 @@ X-Endpoint-Received: by B4 Relay for bharadwaj.raju@machinesoul.in/20260111
 X-Original-From: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
 Reply-To: bharadwaj.raju@machinesoul.in
 
-From: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
-
-Add (and require) the dvdd-supply property for awinic,aw88261 in
-the awinic,aw88395.yaml binding.
-
-The chip needs DVDD to power on, and currently there are no users of
-this compatible in the kernel device trees, so we should be fine to
-change the ABI in this case.
+The AW88261 has a DVDD chip which needs to be powered on for it to 
+function correctly. The property for this was missing, so this patchset 
+adds the dvdd-supply property which enables a regulator to be bound 
+to it in a device tree.
 
 Signed-off-by: Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
 ---
+Changes in v2:
+- reorder so that the dt-bindings change is before the implementation
+- describe the reasons for the new required property in the commit msg
+- Link to v1: https://lore.kernel.org/r/20260111-aw88261-dvdd-v1-0-83fa0850d561@machinesoul.in
+
+---
+Bharadwaj Raju (2):
+      ASoC: dt-bindings: document dvdd-supply property for awinic,aw88261
+      ASoC: codecs: aw88261: use dvdd-supply regulator
+
  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ sound/soc/codecs/aw88261.c                                  |  5 +++++
+ 2 files changed, 18 insertions(+)
+---
+base-commit: db1c30e19243982e34f027a2e564c93e94f42cb2
+change-id: 20260111-aw88261-dvdd-50c41c151ba0
 
-diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-index bb92d6ca3144..994d68c074a9 100644
---- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-+++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-@@ -33,6 +33,8 @@ properties:
-   reset-gpios:
-     maxItems: 1
- 
-+  dvdd-supply: true
-+
-   awinic,audio-channel:
-     description:
-       It is used to distinguish multiple PA devices, so that different
-@@ -65,6 +67,17 @@ allOf:
-     then:
-       properties:
-         reset-gpios: false
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: awinic,aw88261
-+    then:
-+      required:
-+        - dvdd-supply
-+    else:
-+      properties:
-+        dvdd-supply: false
- 
- unevaluatedProperties: false
- 
-
+Best regards,
 -- 
-2.43.0
+Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
 
 
