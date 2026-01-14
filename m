@@ -1,78 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6FE25783C;
-	Wed, 14 Jan 2026 08:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D792E0916;
+	Wed, 14 Jan 2026 09:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768378468; cv=none; b=q0sh0Q4xFbo7FEcIqj3B7RPJdKnRiev7ugpUfJkyqlP39ziZHGN8VmKd/JDWyPlj8scftVcslfa+Dd/grR6sX1mWyQbcGWHTTEh5f0Wvs1UU5zO1KKB4nPDZpnBUxZqcsVe7aQeQsh7xoZjUPABSvzMUHFZTgrdAPWIfnNdbx58=
+	t=1768382567; cv=none; b=ATLwW5tvY9RqWAkwV54lCiWygVzYHvMLOp8SLtoEyh4shRF4duCRljqbBnrqaLv5THdHaKlnt//jTeemn3xzSeA4npqM0OEPLYuQHoGFd4Ff6IZs5MRfWgKZqTG4h4BjDiRuVnIAbAaqEP9J3Hg4pCr/XdAFfIfh7p2dlK/5E10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768378468; c=relaxed/simple;
-	bh=9BtM4xDtv05kFWe+zj/Ig9PlRfKcY93LHPz3M4mDXJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sa7gjfq/ZHKE15UzGHbM5rOve+d1KVHeWKo4RL9+XUymfYSYfNULa4zABR0E2RxyNrIXMhah5zQkbIE+8ijFeOsnzIPalqaQYIeBUzDZlcRUBLvln5jPYf6QJdOpuPDQiG9mJ6b7bClztki++drhppbQgGO6Tz8Wu/xWchTpzH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtzuplXP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtzuplXP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A841C4CEF7;
-	Wed, 14 Jan 2026 08:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768378467;
-	bh=9BtM4xDtv05kFWe+zj/Ig9PlRfKcY93LHPz3M4mDXJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CtzuplXPdzu3Zecu/Zu2jpl2kYNKizSqkmeoQT7reHKsfRLhmS7nK6pACVLnLyMh7
-	 /RgMd4OMMuzIY6stXmk5z61WHOx3BEIW0vQ62FrhNthg4W9EuJNIV7lTfeTv4qIvhM
-	 G1RlYvcABnI8eyvPDOcmVJvncuvNUYCHi1TqS2hwRR3tftb73jbwIAm+KuCS8JWTNo
-	 go2mg6mGJM68yZth1Tmiwreb5MgG7PsSqgmJngDPfIS3613teOhfco0ol7YFqxpRL1
-	 I9PKiO+BZb7jX8cFA3U0mJiHzBHDL4vEBXDNiaUhIVX3CAAjAM85DE3qjS2aNGN5Rg
-	 0i8IMKyMXhN+Q==
-Date: Wed, 14 Jan 2026 09:14:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
-	Dan Murphy <dmurphy@ti.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, 
-	Emil-Juhl <juhl.emildahl@gmail.com>
-Subject: Re: [PATCH v4 07/10] ASoC: dt-bindings: clarify areg-supply
- documentation
-Message-ID: <20260114-rampant-spiked-heron-a4fb58@quoll>
-References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
- <20260113-sound-soc-codecs-tvl320adcx140-v4-7-8f7ecec525c8@pengutronix.de>
+	s=arc-20240116; t=1768382567; c=relaxed/simple;
+	bh=ahX/3wrDXq3nxF0VdhFX/y8GedTEdTx8Xu7D/J5BaOA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ehrM8im8229T5MXVJAMw/GXtKRtJeyBwiW7LeuiC4fqAVHArwLERih3ULgZT+/vHhHWVNVD/pIcsxe3mFCtN1TUx2w5dU7RhCO5WjpUC+6lSYAF+NjhdNJP6ckZWZ2tL4cKzIKF0oN87cE/HUCr5QJf6s9rYqjYbUU7qu6FACCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 918aea5ef12a11f0a38c85956e01ac42-20260114
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:60b60259-d6c6-4b8a-bf25-56c27d5971b0,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:6749871abe083486557f1e800b2a7cfd,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|898,TC:nil,Content:0|15|50,
+	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 918aea5ef12a11f0a38c85956e01ac42-20260114
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 457102914; Wed, 14 Jan 2026 17:22:38 +0800
+Message-ID: <50aabc16-a8c5-4e6c-ae9a-da79a271958e@kylinos.cn>
+Date: Wed, 14 Jan 2026 17:22:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-7-8f7ecec525c8@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Add Line Out to iterm_names
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: tiwai@suse.com, cryolitia.pukngae@linux.dev,
+ kuninori.morimoto.gx@renesas.com, lhi0729@kaist.ac.kr, pav@iki.fi,
+ rene@exactco.de, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251229093130.3202058-1-zhangheng@kylinos.cn>
+ <87ecoay7vt.wl-tiwai@suse.de>
+ <5879f82a-d21e-4210-987f-449d2452b5bd@kylinos.cn>
+ <d16a9af6-2b35-4588-a08e-83846a5f6242@perex.cz>
+ <dce94739-2632-45d9-b212-447848bf6058@kylinos.cn>
+ <77e5e5d9-1de6-42ec-997d-24f76cf4f383@perex.cz>
+From: zhangheng <zhangheng@kylinos.cn>
+In-Reply-To: <77e5e5d9-1de6-42ec-997d-24f76cf4f383@perex.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 13, 2026 at 11:58:50AM +0100, Sascha Hauer wrote:
-> From: Emil-Juhl <juhl.emildahl@gmail.com>
-> 
-> The documentation for areg-supply could cause confusion mainly in terms
-> of the relationship between AREG and AVDD.
-> According to the datasheet[1] the AREG can be one of two cases:
-> 
-> 1) an external 1.8V supply
-> 2) generated by an internal regulator (hence a 1.8V output)
-> 
-> [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
-> 
-> Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Okay, then keep the status quo.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
-
+>
