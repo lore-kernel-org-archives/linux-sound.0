@@ -1,102 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F044936166D;
-	Wed, 14 Jan 2026 22:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF1913D891;
+	Thu, 15 Jan 2026 01:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428535; cv=none; b=sD465jk5CDd/hs7vY1x6H5NdjqyJ2eV9TlQhnSjhcNq5U8SuBj9eToG/fEr/ukTRQMU+xpU6h5X7inheQAQ73qzoDqgxuLUsLrXCI0MVr0gi6dKOOCtMzIsTZUUb090eLkbwQR7zySZFgZmbG3mXG8wAiYjGxwTqD9atx1cJVQ8=
+	t=1768442340; cv=none; b=nYWVY4bcZM3PPEPaVZzFf2YilQQ2fTp/r4bzWnhNGpm63he2bnHyMZA+Er3nCm0Unwv2oM2YIXCrZUe1IZspHCzdZTmpCZkypkgzYcmXnwpH0fxY79fp6/5B86qqCCpjFHeS7r9wLnnv9OYpjAaKDVrfGzHkq8H1Sg4/9+rPWmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428535; c=relaxed/simple;
-	bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=onWx0iEKLt5wG8gcj7wBrBNSYqGCdfysWXRODOZRXsAPcRKQA3nN1cb8K7TFknivmdqowKzkiOtSXd3xHG0hU/SJDLxQgU+F3a9Jbuzo1mOv7YvlwUcjAV4VMfYHdaWXnuXDU51lhG/3A2LvDVuvAJViAuA5HQt0Xl7UIdkb33s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACVNTbEL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACVNTbEL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DEB6C4CEF7;
-	Wed, 14 Jan 2026 22:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768428534;
-	bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=ACVNTbELbPQUo1izn8oQoEfc1Cp+HXjDndyG4u2zjdVuDmbYBKkYUkVpf5//7n9gj
-	 GGsZyrck04sal+pTA98zB/eZwKEibxVBjimiqh4uvhBvWpPi24RfUbcl1C2gBmToci
-	 GbjR/l3vzHxd5KgrdrAEsbrC5iZ6J5ffTICnoLzyLekKSU7qbHiVF6LL3usdKX12Y3
-	 uUWwK2yv1DyPmjvz9HEsaSF4Ik0qpjJp90kswqYbt3lr7b2JY+4q8uAQMyb6LsWRMh
-	 ojWODru80gWs8vSr4WkeerTfYrkyKbch4z/LuTfCk3l5V2UXLuox6/ppjTNGsCQZOl
-	 3pgl5dp2cfebg==
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 14 Jan 2026 22:08:35 +0000
-Subject: [PATCH] ASoC: rt5640: Fix duplicate clock properties in DT binding
+	s=arc-20240116; t=1768442340; c=relaxed/simple;
+	bh=hO2FpFnCj4r04MU1daOcUM4rHX/mVDc9FusV+ahqFeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rNnHmu389DXBVI6IaMJX3fwf6dsviupVxJxAiGnVoYPMPc/oxlifbPQzj7zCkoddB6U/srrZ3K8inBlrHuiC/GvOvuT3IIEwK6vfu9BBrQ9EV1+vbTvvjhDUdjs7RqGR2amuL1TBeHbKicIZcEI02AdDguAlwOeYC561rbesCx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: bce91bb8f1b511f0a38c85956e01ac42-20260115
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:c59f48e1-efa8-45bb-8e9f-7d72d771b1b4,IP:0,UR
+	L:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:20
+X-CID-META: VersionHash:a9d874c,CLOUDID:573fa7a6ed7a08471d23edbff27491ae,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|898,TC:nil,Content:0|15|50,EDM:5,IP:
+	nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:
+	0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: bce91bb8f1b511f0a38c85956e01ac42-20260115
+X-User: zhangheng@kylinos.cn
+Received: from kylin-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1046769265; Thu, 15 Jan 2026 09:58:50 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	chris.chiu@canonical.com,
+	edip@medip.dev
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek:  Add quirk for HP Pavilion x360 to enable mute LED
+Date: Thu, 15 Jan 2026 09:58:44 +0800
+Message-ID: <20260115015844.3129890-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260114-asoc-fix-rt5640-dt-clocks-v1-1-421d438673c2@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOMTaGkC/yXMQQqDMBCF4avIrDuQaIzQqxQX6TjV0WJKJpaCe
- PemdvnBe/8OyklY4VrtkPgtKnEtsJcKaArryChDMdSm9sZah0Ej4UM+mHLrncEhIz0jLYqOGw4
- +uM43Fsr/lbjszvat/1u3+8yUf0E4ji9N2mkAfQAAAA==
-X-Change-ID: 20260114-asoc-fix-rt5640-dt-clocks-4e3ea6a47631
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jon Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1229; i=broonie@kernel.org;
- h=from:subject:message-id; bh=aqILKRtoAlmN/2PS1o7yjJtfTfvVyv80U9M03cV8WM4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpaBPzAGZEULmyCR7N6ebCNI7Umg3vVwzRYInaQ
- 9kM1tZUFwCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaWgT8wAKCRAk1otyXVSH
- 0EjsB/sHXY9XYb9XRvynR2f2Yh4L1cikmzRpyd07cUnpoCJ96kw0u6rBunkDFqgFQ8HQDfNDh0a
- PMYyDqRhMxRuGEoIE+d53qCeP5eKPwaQxkXd52q7EMvukHgfwuhGVvGBSOwcgz3RA3YaFmv0mrX
- H1TuUJNGCqe83DzDBL3ULIOCq1ZQwNBi1OlcfPgQ0q1iaYCiOD4F2fwTu1yYwiRLTMKKRsmwFel
- UMtkMDxPlbvGJsKZLEwRHxqOBOaQKT1xFV719qDg+Gn2wJTytW/Y7MnK+hECYGKzUMVwhTW/p0+
- XuubbCseUi2gNioZrbRifphq9j5//irwymGJ+zNA0Rkhvwbw
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-Not quite overlapping changes to the rt5640 binding resulted in duplicate
-definitions of the clocks and clock-names properties. Delete one of them,
-preferring the simpler one.
+This quirk enables mute LED on HP Pavilion x360 2-in-1 Laptop 14-ek0xxx,
+which use ALC245 codec.
 
-Reported-by: Jon Hunter <jonathanh@nvidia.com>
-Closes: https://lore.kernel.org/r/0e68c5f4-f68d-4544-bc7a-40694829db75@nvidia.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220220
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- Documentation/devicetree/bindings/sound/realtek,rt5640.yaml | 8 --------
- 1 file changed, 8 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-index 02591d6be12b..2eb631950963 100644
---- a/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5640.yaml
-@@ -44,14 +44,6 @@ properties:
-       - realtek,rt5640
-       - realtek,rt5639
- 
--  clocks:
--    items:
--      - description: phandle and clock specifier for codec MCLK.
--
--  clock-names:
--    items:
--      - const: mclk
--
-   reg:
-     maxItems: 1
- 
-
----
-base-commit: 1a75f24a7f8c2cac9c34126d7221ff59c5265316
-change-id: 20260114-asoc-fix-rt5640-dt-clocks-4e3ea6a47631
-
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 9457fd363bfc..cf263a164987 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6687,6 +6687,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8a2e, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a30, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a31, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8a34, "HP Pavilion x360 2-in-1 Laptop 14-ek0xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a4f, "HP Victus 15-fa0xxx (MB 8A4F)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41_I2C_4),
+ 	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.47.1
 
