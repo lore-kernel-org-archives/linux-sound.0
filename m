@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A83A39A80C;
-	Thu, 15 Jan 2026 12:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EAE39B480;
+	Thu, 15 Jan 2026 12:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768481816; cv=none; b=UeCFyPCx2AcWr70xxKlDm0fRNFhLBsUCEWAIqMqtq3lQ5OC6rgIPoBAAcVvnUsOpJir/yA+LGo7cbjaLIYPOx+Gm/SRDw55J1bOkc8OmiKCKGVp1FRLnSDEXsrPTRM51GerhzCQ8dRfNadSFuLoVjbNi0ubXNIyKo9NCGRNnRPA=
+	t=1768481820; cv=none; b=eGuS8aR2vDgh7xJMAL7IDleItfbi6UwO0cVQhXbazJeCGZ350Hzi0eT4XsmMvGOe9GoeTuGnZxGlvfTFOyPa8nAzCCQRnp7WdOFhMXnwiW44WKW5TbjaKwG19SeHM1na1BNVjn7U01qAYoa48qTR/vwlQYbZTm4nXf3VJE8BKPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768481816; c=relaxed/simple;
-	bh=7B+xKo0mpKeN6a69BBeF6xLjGA21Jku6TgKwUt5s5vM=;
+	s=arc-20240116; t=1768481820; c=relaxed/simple;
+	bh=Q1TWR+L5EJCk8ltk3+o6+5a+NLRELXyTxRSjaigjumg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iLWM/owXbA6m+qtADqmXftOoNOh3G2EZxO+lNKzvRKZa42OLMer3eI+UuiQ2YzTJZ1jIg0b60C3gOU7FaDZIhuv3zg4ZAyf2opAHNXkfpFb5LG0fs0H+Ff3V7SR4kV5VNCt2Te0dfknR3ALIxMLT6tHsD8UeeVBqR0iQf7YqpqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NjuA6UjT; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=AyZ0BSISYoDl9DkfGIdDNvZCJEeCFDrfLiR9BQZ3uPlds/E2bZ2V3WLieutWQlAE8szZR3k2XtvN3CjwhxdV98S4WIrawrQhLeDkQFNEd+LaDURvdrLclbHpxGW3LWPAJr6Ir/1XdL/dcQedH2+VRadCFkhiYLgugRec8+qJrms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nnEAsli0; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NjuA6UjT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nnEAsli0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768481808;
-	bh=7B+xKo0mpKeN6a69BBeF6xLjGA21Jku6TgKwUt5s5vM=;
+	s=mail; t=1768481810;
+	bh=Q1TWR+L5EJCk8ltk3+o6+5a+NLRELXyTxRSjaigjumg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NjuA6UjTaxtjEZyZleGy2pYld0mX3nAVYJKipbI9C8eFK9QaBICff4C7U0iup6/LY
-	 NGu75uyWAGXttPXOSI00qm0PSS/RkKgR9I+19ETmT8bvOf17ThI3AIU+ViTUpilW9i
-	 hy/az0plG3VYy+2R6hurcslIPIvntGbQbUor9Xo3EECYoNDMsjjR4/7xJ2tZW5R6Ew
-	 bSDSGLxw5HiN04dP6lmlcYZeyfK16PFw9Nh5rXmyGNxocJ61CTUfp4TLXY1WxNXUj/
-	 sD/Ld8aDIjMmS+YnYtW3D9Opfpo0+ySjCBTbPiqz6bMvlf2LJ6BwQ2VtlusxQXtZlp
-	 C1h1ikWroYwOw==
+	b=nnEAsli0VXjwyu3dIi44q2cjh+ozeXVJXSovtksTn371xTbIBk8+o3sZXukA9tMNS
+	 k98XLQhCWDGvFDhEAJ5VkbC0zAFOA39NkNIX/+01xwH+Tym4ZxneDvqFjOV4byTb1M
+	 oac8gQnrepoDrDCiC48Xh6xTfBkF+0RtZ7/7rpwtA8VgibuTUlX3Y96IeZvWWRBZjh
+	 CWiVt2g/xKXhkdYaeiQraUaZbJ9b3GAhonCeDtmb/l9Vu6bsgqLEXIPI9bxuYSIunm
+	 OT8zDV4C3axJGIMNuLCjbUk5faXkJuSVXtVwwxG+KPswpiYbSzG8A5dhgzz4vNQ8ay
+	 OZ5DKMLTiDX/g==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7C3BC17E1274;
-	Thu, 15 Jan 2026 13:56:47 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 907AB17E13D3;
+	Thu, 15 Jan 2026 13:56:49 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: robh@kernel.org
 Cc: krzk+dt@kernel.org,
@@ -58,9 +58,9 @@ Cc: krzk+dt@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	kernel@collabora.com
-Subject: [PATCH 1/4] dt-bindings: mtd: jedec,spi-nor: Add Winbond W25Q(32/64/128/256)JWM
-Date: Thu, 15 Jan 2026 13:56:21 +0100
-Message-ID: <20260115125624.73598-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 3/4] dt-bindings: arm: mediatek: audsys: Support mt8192-audsys variant
+Date: Thu, 15 Jan 2026 13:56:23 +0100
+Message-ID: <20260115125624.73598-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
 References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
@@ -72,30 +72,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Winbond W25Q32JWM, W25Q64JWM, W25Q128JWM, W25Q256JWM to the
-allowed compatible strings pattern.
+Add support for the mediatek,mt8192-audsys compatible, which uses
+a different audio controller (mt8192-afe-pcm) compared to mt8183
+and mt2701.
 
-This also resolves a dtbs_check warning happening on all of the
-MediaTek MT8192 Chromebooks devicetrees (for winbond,w25q64jwm).
+This resolves a dtbs_check warning on all MT8192 devicetrees.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../arm/mediatek/mediatek,audsys.yaml         | 46 +++++++++++++------
+ 1 file changed, 33 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-index 587af4968255..2db446c9ca9b 100644
---- a/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-+++ b/Documentation/devicetree/bindings/mtd/jedec,spi-nor.yaml
-@@ -29,7 +29,7 @@ properties:
-               (sst,)?sst26wf016b|\
-               (sst,)?sst25wf(040b|080)|\
-               winbond,w25x(80|32)|\
--              (winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$"
-+              (winbond,)?w25q(16|32(w|dw)?|64(dw|jwm)?|80bl|128(fw|jwm)?|256(jwm)?))$"
-           - const: jedec,spi-nor
-       - items:
-           - enum:
+diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
+index f3a761cbd0fd..09a6c16e7e82 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
+@@ -48,19 +48,39 @@ required:
+   - compatible
+   - '#clock-cells'
+ 
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        const: mediatek,mt8183-audiosys
+-then:
+-  properties:
+-    audio-controller:
+-      $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
+-else:
+-  properties:
+-    audio-controller:
+-      $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
++allOf:
++ - if:
++     properties:
++       compatible:
++         contains:
++           enum:
++             - mediatek,mt2701-audsys
++             - mediatek,mt7622-audsys
++   then:
++     properties:
++       audio-controller:
++         $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
++
++ - if:
++     properties:
++       compatible:
++         contains:
++           const: mediatek,mt8183-audiosys
++   then:
++     properties:
++       audio-controller:
++         $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
++
++ - if:
++     properties:
++       compatible:
++         contains:
++           const: mediatek,mt8192-audsys
++   then:
++     properties:
++       audio-controller:
++         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
++
+ 
+ additionalProperties: false
+ 
 -- 
 2.52.0
 
