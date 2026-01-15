@@ -1,101 +1,86 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C9739A81F;
-	Thu, 15 Jan 2026 12:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB2839C65F;
+	Thu, 15 Jan 2026 13:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768481824; cv=none; b=Igsd2EhM8pqNUItGophg5fmWeYO2ZjBnS7X0FK+++Fi9Dj3X6gXGUN9FW827tCEVIf+1YdfFYnCgqjIOrKAXRb3ASRHinaQNkmtlTiWvFrCWfui2hmBL8CX5bAHSGxzthhLzFv9o1F2sX5jpt2vxBjBvAYq5Vt7IdU5YxCGAVYc=
+	t=1768482320; cv=none; b=G4XU+YSSiIVSR83gcK074jrUDtutEWirHkjrgi/tX5M+TAcM2p4hrNu5XEUTIfeEJ895l2pz35yE7cAN4W6pLnD2Mpmvr7zUXSxM9JNcDBC+6/OM2pUAfLzUzDq0NuXOC+c1nrDMedvkuNsD6LgsCyjlTvBWP+R32zOFR1Abpo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768481824; c=relaxed/simple;
-	bh=5c73jSB5V916CT35L36ZsmgrVWA8Vvvy6jaycwwPDQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F8e3sJXEV9mn1MJgAeMkTA1tkfvXANEl+GUEJJ/EcgEEZlL/0w3JgToVAXywr79fZZ2xrXRuxoiThsulqxvcfxTOkXywuo6YR3UVYA6pyT745PUWqpIi5vmwMU+ZQOEDWpO6QIXYdkM9UI533Mvuf2av5qbcjbkhTFUjvl1LbyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JZhEIDgY; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1768482320; c=relaxed/simple;
+	bh=AV6S2P9Ha5EJDykqz3kCRpFsdgFAy2RLPRCtoH/Kzz0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Td31N2YBc2PKmsfQuhXOhTPgk+h+qgwJBkGc44BofDJxSY4zVJFA1ncYDodAywJyxaY60O88F5sUOc/e00UhKvGS/lk5JE4GGFu6FwnWtnts+eU/VvGAtZhfJsxcnctp18NzzRvTmLjt4yGNmYdly1u4g8sDu/RG6oib/ViSVFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eU9vxoD4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JZhEIDgY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768481811;
-	bh=5c73jSB5V916CT35L36ZsmgrVWA8Vvvy6jaycwwPDQU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JZhEIDgYj+2dJ+8Z6AaGGwdgiGAncfG9P2Xmzf5svHPgghSEuJPkGFH5elw7IlPsj
-	 muU/qnYPTm4Hh9mdj6J5OusJyq+W8ijj5/WNgbfV+CTzzB+fjkO64H9KXrzF5JzTg/
-	 fpnGdYyLvrueNp+46fsxBduHSQZkhR1S+hyNJtVJgB5cJRgVNKTrmkA+1ZlsOijZqp
-	 nF5am7vlnuY+ILx/dm+m30Aw7bvKHYviokJMaX+yPUHawgBsrMi6ZeALFR9TbzU7Bn
-	 BqVjexWJ+YSP6x2TRA+Je5x7CTpjGJgc+FW2PfR5PPGyTnpnQqhR62DVRmPj2iz6TK
-	 XPNoA6ClZoR5w==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9907A17E1406;
-	Thu, 15 Jan 2026 13:56:50 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: robh@kernel.org
-Cc: krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	tudor.ambarus@linaro.org,
-	pratyush@kernel.org,
-	mwalle@kernel.org,
-	miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	julien.massot@collabora.com,
-	eugen.hristev@linaro.org,
-	jiaxin.yu@mediatek.com,
-	shane.chien@mediatek.com,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com
-Subject: [PATCH 4/4] arm64: dts: mediatek: mt8192: Rename mt8192-afe-pcm to audio-controller
-Date: Thu, 15 Jan 2026 13:56:24 +0100
-Message-ID: <20260115125624.73598-5-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
-References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eU9vxoD4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F018C116D0;
+	Thu, 15 Jan 2026 13:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768482320;
+	bh=AV6S2P9Ha5EJDykqz3kCRpFsdgFAy2RLPRCtoH/Kzz0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eU9vxoD4XL73IBTOVJwGViXK6D7A6H3IAMJHC6NXDj+1kun0h/+o2h1lDoQsgGlvm
+	 Csgf82R5NrDoGDworAzQEcJGYOPI1TC8roBSHiHFHOp7PkC/5L04UPjCdjZfqMgRJg
+	 eqovAsYSYzEvtwUFj+VCQ6hzfKPBy4T2Xt8IN/q1lu2ot9Z1Q4XRQm/1ZEcObkNGIv
+	 vyMOHO3N38I5s/W6iInK7Ak7BwprdUmgV5vnsH5OLYJ4TngMjHy4AzImU3VW4A2pNA
+	 bcVbzYy1NzjfsR04XhhqU/tCZk9lX4LAxAqLJDTJfNuUBgwAE52K6O4Sgbd/SwS1kN
+	 N6VKW9aKZHe/A==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>
+Cc: Jon Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260114-asoc-fix-rt5640-dt-clocks-v1-1-421d438673c2@kernel.org>
+References: <20260114-asoc-fix-rt5640-dt-clocks-v1-1-421d438673c2@kernel.org>
+Subject: Re: [PATCH] ASoC: rt5640: Fix duplicate clock properties in DT
+ binding
+Message-Id: <176848231789.253446.13860422269412592694.b4-ty@kernel.org>
+Date: Thu, 15 Jan 2026 13:05:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-Device tree nodes should have generic names, and this one doesn't.
-Rename the mt8192-afe-pcm subnode of audsys to `audio-controller`.
+On Wed, 14 Jan 2026 22:08:35 +0000, Mark Brown wrote:
+> Not quite overlapping changes to the rt5640 binding resulted in duplicate
+> definitions of the clocks and clock-names properties. Delete one of them,
+> preferring the simpler one.
+> 
+> 
 
-This commit brings no functional changes, but resolves dtbs_check
-warnings.
+Applied to
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index 47dea10dd3b8..9f8f115edd4c 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -973,7 +973,7 @@ audsys: syscon@11210000 {
- 			reg = <0 0x11210000 0 0x2000>;
- 			#clock-cells = <1>;
- 
--			afe: mt8192-afe-pcm {
-+			afe: audio-controller {
- 				compatible = "mediatek,mt8192-audio";
- 				interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH 0>;
- 				resets = <&watchdog 17>;
--- 
-2.52.0
+Thanks!
+
+[1/1] ASoC: rt5640: Fix duplicate clock properties in DT binding
+      commit: be5a39e7994ec9f003c8569b670c794a4e5d1551
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
