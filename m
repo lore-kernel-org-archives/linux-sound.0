@@ -1,87 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0046539E199;
-	Thu, 15 Jan 2026 14:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA453A1CF3
+	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 14:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768485601; cv=none; b=lRO5Xm0xZkPz6aixXyFxcGv7BreGiC7Ankq27d9+HF/m7l+seMgBtJhHwK7iusmUhQBKdacK5kwbHYg/43twDN7uIdoVrttW9n7aK0H1PMAs73UbQzBDxGNk6qCvyHKkJNa5xgxKT9lhNXMPCjVUiyL2ZWMzA94DvajX7N+sLF8=
+	t=1768485982; cv=none; b=eZoL8tpvgiEEoer1yeE4/tu6gWpUH/bsPG8fNSUxAqS0WE/yKtKZuD+9iG8L62+XTcWD/mGuBPyNapWYpJ0ds9JP13le9pBlHtIywGx0Ob6kZUyzLcI5pYAVQyMtq/mFKHJkDPtvb0jCeITvIl/4qY7mLG7fEx8Xr7Rv++7wvc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768485601; c=relaxed/simple;
-	bh=OKBnnzXnv4roaOCQlDLWfODP62IZQc7buuvsINQqVPA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lZJYGf3uv8F6dW2I8rSaCnYnC0AO4bV7IP6oKlhLyzxGpG/YxrfH/pI2JJMx+uRgpPI7wTHC0PZccOIdgaZqLhGB5RWCXTXhGFT54TzgiWvoU/FheUxSha3t9HyFVZkSxEW8o6cRT65KFBt9W1Wr1klR7LH3eaaT3ChYVwqd4/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vBcN3NNR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768485982; c=relaxed/simple;
+	bh=Sz1JVLetJgbXP7hYuetJkD/JIm6SjOvtMNuKGxwWyJU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j34reN3JtApY0pw+de/rFFLBG+eMiSAKKSL59OMA/MoWe3DmEcAwpO0iKXlHzk8Ct3UMXN0Pg6K4sDGEzLSYWGWeCt5Ao2eUpOCFvSLrwkYEPi/IMjA7tB9MXbUXvZIIicA3/0sf0mCs/09K+SBYCBpmH+yyaaRB71EdODLgA8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ESNmL/UN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IZxksgOl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ESNmL/UN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IZxksgOl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vBcN3NNR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B24BDC16AAE;
-	Thu, 15 Jan 2026 13:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768485600;
-	bh=OKBnnzXnv4roaOCQlDLWfODP62IZQc7buuvsINQqVPA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=vBcN3NNR1lHLtbRSRDzfdWnk9KxjvbvUbAUGLCQnEUk/+5AQ/hr0Vlj1khcryohCJ
-	 sbmsMwMF1Me5qzhV3ob5X+DAjCeVgK5smA1D9uqhqUmvtmEPeGh8pWBE3GE+0+QRhn
-	 kPg6o2TrqCljqHbk0+nN6frQx/mz3xGMqoVM63TiQzGDcyJUPGYUcId0PMj6Y/SZLd
-	 8utZqaMkWtIDv2176hg1uDV9HHVvtPZpgcyX4IHm/7gJfX/adpglSdnyZb9Qrc5BAQ
-	 17bZcrl2/zIWoigVtmiknEPK6H2I8C+9hDp6EGCEPi4/W6/qAYr7E5lGpYUTryLN8N
-	 TCcItHQYWo0Ww==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  robh@kernel.org,
-  krzk+dt@kernel.org,  conor+dt@kernel.org,  tudor.ambarus@linaro.org,
-  mwalle@kernel.org,  miquel.raynal@bootlin.com,  richard@nod.at,
-  vigneshr@ti.com,  lgirdwood@gmail.com,  broonie@kernel.org,
-  matthias.bgg@gmail.com,  julien.massot@collabora.com,
-  eugen.hristev@linaro.org,  jiaxin.yu@mediatek.com,
-  shane.chien@mediatek.com,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-mtd@lists.infradead.org,
-  linux-sound@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-mediatek@lists.infradead.org,  kernel@collabora.com
-Subject: Re: [PATCH 1/4] dt-bindings: mtd: jedec,spi-nor: Add Winbond
- W25Q(32/64/128/256)JWM
-In-Reply-To: <60bb622a-f88a-46ce-b835-bbefe47509bc@collabora.com>
-	(AngeloGioacchino Del Regno's message of "Thu, 15 Jan 2026 14:55:41
-	+0100")
-References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
-	<20260115125624.73598-2-angelogioacchino.delregno@collabora.com>
-	<2vxz5x93818a.fsf@kernel.org>
-	<60bb622a-f88a-46ce-b835-bbefe47509bc@collabora.com>
-Date: Thu, 15 Jan 2026 13:59:55 +0000
-Message-ID: <2vxz1pjr7z8k.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ESNmL/UN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IZxksgOl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ESNmL/UN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IZxksgOl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E7C9D3368D;
+	Thu, 15 Jan 2026 14:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768485978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w4hgFWxLdmhX1dWuRM3yAz1BB/oaa3MAPoAUTPBFzsE=;
+	b=ESNmL/UNhOIW0F2Wwt/jzHpHCDYUzL9ebtN6Yg7IGP5EHQbtKDDu4vD6J+RjadAXYmQFxw
+	Ip5+EkH6w+ZJrF15s8vVAfS5ZmFTJ81pecNHVmNUcqH5Wz4lgLRVOx3YX8PrXFjgMlLxHr
+	kVjmgtAR8YgklhGqQzU/vibgJp+DZAc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768485978;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w4hgFWxLdmhX1dWuRM3yAz1BB/oaa3MAPoAUTPBFzsE=;
+	b=IZxksgOlqHwBY89O7cSvBarTNEYijZSGWiG4rmWtAM2jSRRTZHYySGy2uN6a4nfUiBUftU
+	s92DG18W4Ir392Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768485978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w4hgFWxLdmhX1dWuRM3yAz1BB/oaa3MAPoAUTPBFzsE=;
+	b=ESNmL/UNhOIW0F2Wwt/jzHpHCDYUzL9ebtN6Yg7IGP5EHQbtKDDu4vD6J+RjadAXYmQFxw
+	Ip5+EkH6w+ZJrF15s8vVAfS5ZmFTJ81pecNHVmNUcqH5Wz4lgLRVOx3YX8PrXFjgMlLxHr
+	kVjmgtAR8YgklhGqQzU/vibgJp+DZAc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768485978;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w4hgFWxLdmhX1dWuRM3yAz1BB/oaa3MAPoAUTPBFzsE=;
+	b=IZxksgOlqHwBY89O7cSvBarTNEYijZSGWiG4rmWtAM2jSRRTZHYySGy2uN6a4nfUiBUftU
+	s92DG18W4Ir392Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C42503EA63;
+	Thu, 15 Jan 2026 14:06:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OF61Llr0aGk5UQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Jan 2026 14:06:18 +0000
+Date: Thu, 15 Jan 2026 15:06:18 +0100
+Message-ID: <871pjr3r8l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.19-rc5
+In-Reply-To: <7e292ad75850560429f37325a0656aae@kernel.org>
+References: <7e292ad75850560429f37325a0656aae@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Thu, Jan 15 2026, AngeloGioacchino Del Regno wrote:
+On Thu, 15 Jan 2026 14:31:21 +0100,
+Mark Brown wrote:
+> 
+> The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
+> 
+>   Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-rc5
+> 
+> for you to fetch changes up to be5a39e7994ec9f003c8569b670c794a4e5d1551:
+> 
+>   ASoC: rt5640: Fix duplicate clock properties in DT binding (2026-01-15 11:21:44 +0000)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.19
+> 
+> A moderately large collection of fixes since I missed a week, plus a few
+> new device IDs and quirks.  It's all fairly minor, including a bunch of
+> work on the device tree bindings fixes which have no runtime effect.
+> 
+> There's one SoundWire change here exporting a symbol which was required
+> for a fix to the ASoC SoundWire code.
 
-> Il 15/01/26 14:16, Pratyush Yadav ha scritto:
->> On Thu, Jan 15 2026, AngeloGioacchino Del Regno wrote:
->> 
->>> Add Winbond W25Q32JWM, W25Q64JWM, W25Q128JWM, W25Q256JWM to the
->>> allowed compatible strings pattern.
->>>
->>> This also resolves a dtbs_check warning happening on all of the
->>> MediaTek MT8192 Chromebooks devicetrees (for winbond,w25q64jwm).
->> We normally don't allow adding any more device-specific compatibles.
->> This list here is only for legacy DTS. You should be using
->> "jedec,spi-nor" in your device trees.
->> 
->
-> Ah, okay, didn't know that.
->
-> That's actually making things easier for me honestly as removing the
-> model string is a 10 seconds change, so I'm totally happy with that.
+Pulled now.  Thanks.
 
-Awesome! Thanks.
 
-[...]
-
--- 
-Regards,
-Pratyush Yadav
+Takashi
