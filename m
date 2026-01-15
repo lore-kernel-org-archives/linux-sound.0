@@ -1,136 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFC83A0EBB
-	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 13:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8564720C00C;
+	Thu, 15 Jan 2026 13:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768483890; cv=none; b=N3XlviDPlili9cMVjZTkeCIoeQRx6LhVHaFAyyurDlTuLSrf2SziWqCuYEgidBTbollEQdWv3Sb7JV3jWbJHtFblzRiPo402BZHl500p425KaMH5vmhee+KShn9i9FL9OEVwI7Di8U0iYcAaWhn17YsIjvbDZdgBrFuXy8jrfjg=
+	t=1768483906; cv=none; b=FZBnRf9cdWDg1gDfAPwt5I53eIY+UERi86zKxQAc9fsQAXl2tkHFKo1aBrjmrALs/MSCmWYhM6Sst7pb5GSwf1SKr9Jr8yRdhanvgSdZAuFpEvmszBtJ1EdGLev5gQ8zS50S2P3mih6yBAXKE3rMaDbVeo7267+ucp1AJfRHXtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768483890; c=relaxed/simple;
-	bh=I3H1nL2bNj+kbOnV8n/EIezPSbG3sh9iRqJ+i7rFau8=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=T3OQUWat9cS75NZ2ty/wL3hhkM0mdiQZkcsGcoBy3o0OWN7HCUDg/ps969YEIQNYcUCszsEuX6H3dXm4zY5atbaSbK8bxPDhioC8WXQJxmOqEiv+5KnA2aP7pW3ImquN/2lipURLgk6Auq274yDIyp8q0LzBAettHH1rkcC9Lfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e/1dEPGE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768483906; c=relaxed/simple;
+	bh=j1wiepT+hzeg7Y1djEHsSLAONuKihZ6Pn/rPYeqsOWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxzTtvpMzyDl51b7ETOJiRPmbvbTi3OXZmNpaDmfT3d2ea7j9NajRXEml4Uj8iuHI1iFFv401imVXGWLJsUFCjGRbi/kouUl9tEe4OZUevsVHzQkt1IcbCtwYl5L5xcr37ulkpzwxwn1fW5TWRbY2xX8PhFZpp0WvrBhEUqyIq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKi267M9; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e/1dEPGE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E2DC116D0;
-	Thu, 15 Jan 2026 13:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768483889;
-	bh=I3H1nL2bNj+kbOnV8n/EIezPSbG3sh9iRqJ+i7rFau8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=e/1dEPGEJ8tCfORXSsDYGoT69NYr6aMUJRtQwojKd8FRpy+4r61XcH01licruxQ5K
-	 iqNKfWzZaZSzkMM7aJqTpu9jNhghulzsZUK7dvyB+3+mtjgCBqoUSKCHElY7tS2HfK
-	 h4QUtbZEAGZa9LXJ0wlUbw3F8Sp3+QOZ2/9DLzL3AwNmVIRQPVRbiYSbe7vOu+lJGk
-	 /BItQAf9aAtM0dy0UKRPHo2CEcbyztSMdAqf/Ds/A+iAS0de0lai75xWOqz0zWlX73
-	 D66xhZgcai91FOF96tKRlR/MKvGhgMo65v9d2PqtRbpR0B+BhLimYK6oQ5lRf1PuCe
-	 cjG3dxBa4jzNA==
-Message-ID: <7e292ad75850560429f37325a0656aae@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.19-rc5
-Date: Thu, 15 Jan 2026 13:31:21 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKi267M9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768483906; x=1800019906;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j1wiepT+hzeg7Y1djEHsSLAONuKihZ6Pn/rPYeqsOWY=;
+  b=XKi267M95143E6R08qqIp0AZJqA+dAWQmaNJDRfKYOJY+fVcYBNNro+T
+   i2Hd7+PsO8XuyKgd7w7fYnY6zPhQRkTg+mVDC9YbDrtbXAjx1WDsRLa/v
+   KU3YjJgOx/Kg14KY5BqWALcJGlcF+TZ+IBaqGfWHw3oZ/DVPGz0j3dU0Z
+   s2ggVysdS8tqfKbq/7j+Wk0j8rMClaWxC9djpKTgzIBNW/SzOvB7jtfXD
+   JMD53yAWIqF0E2Zn2ouqMGWDr8m+USGyMHySyFGQOawjTl54X4jtSimy0
+   9D+jw7DULnmHeUFfsXahzu18xb6OcdBLde6fjGqyYh69FpyY9vuclkK13
+   Q==;
+X-CSE-ConnectionGUID: bPdnycq+TFaV1t4G5ZqoXQ==
+X-CSE-MsgGUID: NTWHF++eRBuPKDUUGKLZAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69767855"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="69767855"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 05:31:45 -0800
+X-CSE-ConnectionGUID: utDa7AUNQoGjbUFx+TyNLg==
+X-CSE-MsgGUID: fKEOryDMTvq7e9/QkkTjKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="205233698"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 15 Jan 2026 05:31:43 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 9EF4F98; Thu, 15 Jan 2026 14:31:41 +0100 (CET)
+Date: Thu, 15 Jan 2026 14:31:41 +0100
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jon Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: rt5640: Fix duplicate clock properties in DT
+ binding
+Message-ID: <aWjsPfGO75DzjWhb@black.igk.intel.com>
+References: <20260114-asoc-fix-rt5640-dt-clocks-v1-1-421d438673c2@kernel.org>
+ <176848231789.253446.13860422269412592694.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176848231789.253446.13860422269412592694.b4-ty@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193:
+On Thu, Jan 15, 2026 at 01:05:17PM +0000, Mark Brown wrote:
+> On Wed, 14 Jan 2026 22:08:35 +0000, Mark Brown wrote:
+> > Not quite overlapping changes to the rt5640 binding resulted in duplicate
+> > definitions of the clocks and clock-names properties. Delete one of them,
+> > preferring the simpler one.
+> > 
+> 
+> Applied to
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> Thanks!
+> 
+> [1/1] ASoC: rt5640: Fix duplicate clock properties in DT binding
+>       commit: be5a39e7994ec9f003c8569b670c794a4e5d1551
 
-  Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
+Note, in the repository the change has duplicate SoB tag. IIRC Linux Next validation
+complains (used to complain?) about inconsistencies or this kind of issues with tags.
 
-are available in the Git repository at:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-rc5
 
-for you to fetch changes up to be5a39e7994ec9f003c8569b670c794a4e5d1551:
-
-  ASoC: rt5640: Fix duplicate clock properties in DT binding (2026-01-15 11:21:44 +0000)
-
-----------------------------------------------------------------
-ASoC: Fixes for v6.19
-
-A moderately large collection of fixes since I missed a week, plus a few
-new device IDs and quirks.  It's all fairly minor, including a bunch of
-work on the device tree bindings fixes which have no runtime effect.
-
-There's one SoundWire change here exporting a symbol which was required
-for a fix to the ASoC SoundWire code.
-
-----------------------------------------------------------------
-Ben Dooks (1):
-      ASoC: ops: fix pointer types to be big-endian
-
-Cole Leavitt (1):
-      ASoC: sdw_utils: cs42l43: Enable Headphone pin for LINEOUT jack type
-
-Deep Harsora (1):
-      ASoC: Intel: sof_sdw: Add new quirks for PTL on Dell with CS42L43
-
-Dimitrios Katsaros (1):
-      ASoC: tlv320adcx140: Propagate error codes during probe
-
-Emil Svendsen (3):
-      ASoC: tlv320adcx140: invert DRE_ENABLE
-      ASoC: tlv320adcx140: fix null pointer
-      ASoC: tlv320adcx140: fix word length
-
-Johan Hovold (4):
-      ASoC: codecs: wsa883x: fix unnecessary initialisation
-      ASoC: codecs: wsa881x: fix unnecessary initialisation
-      ASoC: codecs: wsa884x: fix codec initialisation
-      ASoC: codecs: wsa883x: suppress variant printk
-
-Jon Hunter (3):
-      ASoC: dt-bindings: realtek,rt5640: Document mclk
-      ASoC: dt-bindings: realtek,rt5640: Update jack-detect
-      ASoC: dt-bindings: realtek,rt5640: Document port node
-
-Kery Qi (1):
-      ASoC: davinci-evm: Fix reference leak in davinci_evm_probe
-
-Mark Brown (5):
-      ASoC: codecs: wsa88xx: fix codec initialisation
-      ASoC: dt-bindings: realtek,rt5640: Various fixes
-      ASoC: Fix sdw_utils calling wrong codec init callbacks
-      ASoC: tlv320adcx140: Merge fixes from Pengutronix
-      ASoC: rt5640: Fix duplicate clock properties in DT binding
-
-Radhi Bajahaw (1):
-      ASoC: amd: yc: Fix microphone on ASUS M6500RE
-
-Richard Fitzgerald (2):
-      soundwire: Add missing EXPORT for sdw_slave_type
-      ASoC: sdw_utils: Call init callbacks on the correct codec DAI
-
-Rob Herring (Arm) (4):
-      ASoC: dt-bindings: everest,es8316: Add interrupt support
-      ASoC: dt-bindings: realtek,rt5640: Add missing properties/node
-      ASoC: dt-bindings: realtek,rt5640: Allow 7 for realtek,jack-detect-source
-      ASoC: dt-bindings: rockchip-spdif: Allow "port" node
-
-Shengjiu Wang (1):
-      ASoC: simple-card-utils: Check device node before overwrite direction
-
-sheetal (1):
-      ASoC: tegra: Revert fix for uninitialized flat cache warning in tegra210_ahub
-
- .../devicetree/bindings/sound/everest,es8316.yaml  |  4 ++
- .../devicetree/bindings/sound/realtek,rt5640.yaml  | 11 ++++++
- .../devicetree/bindings/sound/rockchip-spdif.yaml  |  3 ++
- drivers/soundwire/slave.c                          |  1 +
- sound/soc/amd/yc/acp6x-mach.c                      |  7 ++++
- sound/soc/codecs/tlv320adcx140.c                   | 13 ++++---
- sound/soc/codecs/wsa881x.c                         |  9 +++++
- sound/soc/codecs/wsa883x.c                         | 26 +++++++++----
- sound/soc/codecs/wsa884x.c                         |  3 +-
- sound/soc/generic/simple-card-utils.c              |  4 +-
- sound/soc/intel/boards/sof_sdw.c                   |  8 ++++
- sound/soc/sdw_utils/soc_sdw_cs42l43.c              |  2 +-
- sound/soc/sdw_utils/soc_sdw_utils.c                | 43 +++++++++++++++++++++-
- sound/soc/soc-ops.c                                |  4 +-
- sound/soc/tegra/tegra210_ahub.c                    |  6 +--
- sound/soc/ti/davinci-evm.c                         | 39 ++++++++++++++++----
- 16 files changed, 150 insertions(+), 33 deletions(-)
