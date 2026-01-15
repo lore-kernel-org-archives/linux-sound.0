@@ -1,82 +1,67 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9622533291B
-	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 09:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0472E041D;
+	Thu, 15 Jan 2026 09:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768468049; cv=none; b=WuosQ1JoviEs9ZT4yBB+Pvmja7SbygnBGUknhO9hoybKcc6pkQ008K+YlNb9KXYl1/eOztkDdqf4iStOc9D+tj2UNEtemtvU2rlbV/e2qfXsPS3771Vh+l7FiJ+sJV4gvSTM9Hc/KyzuMtSZE/fIHDbhFlqZst3NTWUWZ9pZpfc=
+	t=1768469707; cv=none; b=p+F+rVzlbCe+IqjgemxBOTMt1CDH8HTjDb3/c7lZ/F7HsYLXIRBqt6ODZ30fcEqvyVPPLoOrshWj4TCJoAMBmTWEA19gCpWWrKA2gFCPt7xtYRRMLYsvc9xUlYYHaElprI+drP6bKJotCtVu2UnzPUG2/lGd/ZdzNgwA9RBn2SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768468049; c=relaxed/simple;
-	bh=WJyBjTNYrMK5HcB/pPJt4qk7q1ShNxNdZFkTPmZ55aw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=g+b2XzfzG/d4w6TdZEaZiyzbqVGGMv9VZIa4l8WKxN1xopHppOBts2L6ArLLc/YuMg+m3+ESOkgJJN5dhaUTAtU9LlltyobDrNraHwr9z5oPdmmrj0gHDxzbcfrIqAf0P41amgcuy5gJ/tB5nzUNkN4z3usTvMTt8vGgsbxDIus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-66103e40e26so2035541eaf.0
-        for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 01:07:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768468046; x=1769072846;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HCFWhWFC99o2UbytPhnyqE71Gz47bH9tcB69THGH0yE=;
-        b=MiKt/f8riTg5yTyN8XCk1eWTKCk9F9b4L+el8grrgU20YVpVqWBbkDAdqDmjWfszwn
-         Lyw920AuSOSj3oOyIKsMnNQo0ArCPGWjrQkLS3ECkEVwH4Q5eerFC7qn5e8/p5xC722q
-         vVZA+hQTF6fXSRGWOB8u16ZeQNoAJ8/VSfn3Wg6bGE8TiKCXpok7pI+mUNoD+MQYlrCl
-         UDCmqyX0L/VXpONQYlcj+NrAY4JX50gdvEiKzt3AhQDJDvZblHrjf7uSYgjgZpJVw6Ve
-         26zgCudp9ZWvf4V62RSJQZrtXgKopZQ6mhzV1GzvWpSnKWSXKg8Jj4HsZGSDc3QqI12Z
-         Ja+A==
-X-Forwarded-Encrypted: i=1; AJvYcCW/eC79e9/SIk0YZIkPpUosV5abPhbHXjv0f9+YeCQkqPwC/488o7QLKFD3YnXwSRvHds0+NnXJUf1f6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhcEcBEEtUXhEPYzwWAXI/0BvOxXSLPc+VnVfRKVq17U5kSAQP
-	alzkTGGT5kS9nOq/jRZgh/5nt2VEeEPJUpzRkriN3IhwHaEANYTudXj3cSGeUpOWkOYNrKUrHx3
-	AfLB4/eRLjfPvwuPvpQgsckWUSsQ6gN0a+TyqohBu6qI+GBQALu7HakHlNx0=
+	s=arc-20240116; t=1768469707; c=relaxed/simple;
+	bh=SSDkmMF+IODJFDYFIJgpnmI+1nvN8+lx0HlSTFA4zgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rP7fc0eYhBiw7f6xH6hE8op6xe86+4FMFbkB46bVotprg+SnaR7oZp5WlyDyy3SLvqUwEfHL5HRDIXQfF/W2g/RBmsP7/7hqey0ahjD2O3MBrqrG4H3qER9wSGseC65nWct7vAB5daEKLziTgF+TyMuhzwry6P8eWSMdkk7Fp14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uMp4GtGL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uMp4GtGL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA932C16AAE;
+	Thu, 15 Jan 2026 09:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768469707;
+	bh=SSDkmMF+IODJFDYFIJgpnmI+1nvN8+lx0HlSTFA4zgM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uMp4GtGL7P+vbe+wWO0FzanFpYnV0LsPC19sEANYragKdUc9CO37v4paShJlFNUWs
+	 JdA8Gyw9kdLwwLnILOmuFIlo/L/w9TPoqEe4T2YjH5LVl1RHBvjDxHx7s+XUW4eFwZ
+	 usqvKyxT5msdYw3X+k//CAGrEyn13KQuIMEtu2NO0nmKdIl/YRXYqSvzeYvqyC7GFF
+	 uL4Ru1hEX8DfPJY1ipddgQsnCVq9X115Hvx+G2o/EkWo+7sGiJg5PKDE71u2r5P2+R
+	 4gZCDl6/ccI0jHRPKcz7Vgei+iMG5I47FguPva3XpZJW7JqOfbasH7N8cmNzV32zEp
+	 PRIQU4MUe8Diw==
+Date: Thu, 15 Jan 2026 10:35:04 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
+	tiwai@suse.com, linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl,sai: Add support for i.MX952
+ platform
+Message-ID: <20260115-truthful-marvellous-okapi-edeb92@quoll>
+References: <20260115061418.4131432-1-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:7709:b0:659:9a49:8f1f with SMTP id
- 006d021491bc7-661006d3616mr3393829eaf.48.1768468046582; Thu, 15 Jan 2026
- 01:07:26 -0800 (PST)
-Date: Thu, 15 Jan 2026 01:07:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6968ae4e.050a0220.58bed.0015.GAE@google.com>
-Subject: [syzbot] Monthly sound report (Jan 2026)
-From: syzbot <syzbot+list94fb4af3b5e1c586a55a@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260115061418.4131432-1-shengjiu.wang@nxp.com>
 
-Hello sound maintainers/developers,
+On Thu, Jan 15, 2026 at 02:14:18PM +0800, Shengjiu Wang wrote:
+> Add a new compatible string 'fsl,imx952-sai' for i.MX952 platform, which
+> is fallback compatible with 'fsl,imx95-sai'.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+> changes in v2:
+> - drop driver changes, as it is fallback compatible with mx95
+> 
+>  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-This is a 31-day syzbot report for the sound subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/sound
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 3 issues are still open and 137 have already been fixed.
+Best regards,
+Krzysztof
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 27      Yes   KASAN: slab-use-after-free Read in snd_pcm_action
-                  https://syzkaller.appspot.com/bug?extid=addf1973f8732e2cc468
-<2> 14      No    WARNING in update_rq_clock
-                  https://syzkaller.appspot.com/bug?extid=9bcc3c097b2741b0b3d4
-<3> 1       No    WARNING in snd_usb_endpoint_start/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=a8a8041d41f9655c601b
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
