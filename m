@@ -1,65 +1,65 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9132FCBFC
-	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 19:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341A32FD67C
+	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 19:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768504706; cv=none; b=A3fA31vPafKUJjxMivpPIPyR7y2PJARBqLlHTHanU/G9AnYyKzna597SbZOB5S+cjqpLx7ajsXBhpb+v3j8Yf2zMWltRK2JA3DtQRSwq34E1BToXbM4NZOv3xXJLce7cNjreNXbHn29d//47cU/KXAJ6Pnu7AaBbkWTnZA16MAI=
+	t=1768504710; cv=none; b=CyHS3BOaSWi+zaovNgBafeZr4xKdogvXM4VOi3Rv88OaL0qFIDx8mZQhYavAAlNinNaqF7GD4rX2FqdJPGxnbx0icq88QgphQ0lWo3y/XX3Nvrp3dfoeV4408vvha1002UpYIGXpjDcvIuZ01YT2+mQJ3d4FTSVgfTI7B/tRMSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768504706; c=relaxed/simple;
-	bh=ZvpnRa7g8hCkE7r1q64LPBBaiWff0x2lLnMd+0VKnb0=;
+	s=arc-20240116; t=1768504710; c=relaxed/simple;
+	bh=9hhnvku6/o7SnlNe4s7OxE/c/yY1MeLPXn9ZiuwHDts=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YsApEjiBgOHe6fvBGa8QD9sOMMD4xaAEfipClRsOJfEkP0GXxk+HAwUSR7CY+9UaAej3dHCqRxspSjXIAelQDys2LNetGF3V38aIIPXxD4/ZbAR7SS+YUtlrzJS09DDJ+Yc5BE6Wa9UP9HH09EznJK4Q7d6f5QWIwhg01Ci123Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwCJdi7A; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:To:Cc; b=JrY5lnsHnN/X1ycsBCw6LhOFPqkR1yBu2jzr0WowmR1/G0Z3lvngAKReMEMmV0aZz0uZn/whM4Sz4SF9tLsglsSkFxLqUGr5PQO/QeE3j0WdRuEAkZc+8dKiJ8Ael0BK9vGAirtTka+YmhD3YdRlyTn5Q4Ks8ypsGXy+bWeH57I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/vJjUJf; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwCJdi7A"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee76e8656so15534585e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 11:18:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/vJjUJf"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso737619f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 11:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768504703; x=1769109503; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768504706; x=1769109506; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9bZybh6ajNmTP3emcxjHSZEZGR4b5MsX3LqH44SKh2E=;
-        b=ZwCJdi7ApXOmT/0pOHuGsR4hf9tODJBPxzqRxrs0tSBoCawEjWPllrBLoGwVOHGe3Y
-         AUw+UQISBOKR2PxDneoe10CjI0XkduyJlAttFlNXdsB1Hv5t+EIhZ7+UhWibRJ7GG1gW
-         Yn2xf6Dxri4DEgwNadFUxWKVuoj5nkeNIpIzXEVbQ9MSVOqxocFO6av4AdD9F9Qmi2RI
-         DC/spXs/ZlKhC6ST1PQe+oxiA3TJ24CtxkZXXHKdnfp0iObuPgrLmlUt5yS37iYltqvA
-         uWimG4KKZXmOE+C3WOKI1fIOD1ukow/whWbQMwibR1z3YknEoGJKCjYl9MkEOm8lL3aF
-         t/KA==
+        bh=u4OBbtgA8tqfAE3cwS/lYCrnVUiM8rMD+darqSO7wyo=;
+        b=D/vJjUJfz8n1ndJ9FhhzeB/0Nf/qhk6TuIV6uvN+qiv31HQ8CiZp2g2jJFYbbSQo2N
+         PBgk8q3lNIfaml8JLF5Tm+4O+jORkFahAxAC78O9kpNX0SJlwLbyz9f+UDeoFA1CCcpt
+         FaNinXLnInENznRLixzqXOcjiK6KnrbV0CzuvHYyBxWKzVpzqs7b1OrfvZs1YoAerKmE
+         tLKeuIi/MePBsDnesybxEWwmIUqYNO1SpWQD8L1Xy5WQsGgvoH8jdaZ4lXj2r9FXd+1F
+         s+aXtnJSch4iBfbBQFyk3VXzBJ2KovC2gnNOKxAqN8sSzozlW+1+r5h0r0pA6zhmML4O
+         YnLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768504703; x=1769109503;
+        d=1e100.net; s=20230601; t=1768504706; x=1769109506;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=9bZybh6ajNmTP3emcxjHSZEZGR4b5MsX3LqH44SKh2E=;
-        b=IZObimJUjCq3jDlNoXuLAoifJvcq+1nc1hvbC1e3JafADGdc5aHQhcLD8QV/0Xz4ee
-         v9U1TRP9tJLXqrzIOalQFD3BKjm1O8F8dmDOsAgadg7hrt9CBohCXQ0LAHTYR6aCpyJz
-         jba2RmIwWB81V951VzVUuGWP0J0pdABqVVaq2UsxfWYty7D78hI4e8rqunOyIglx+2nT
-         /aZ7lwBVrcxOoABEwkH3NCQgNuYD65o2/+a9dLN+btgnIqmwqhhIU7zvZDtRFTKEx8kw
-         NIQYAMCW0yXbTNd88mk2a+CaC2w1Q1sxP69YFJNY2j8yRpv34c3R+r1F/537tesM2q8R
-         7xMA==
-X-Gm-Message-State: AOJu0Yw6M+sDdhyh87jwMHSOmieqDsCIkoDPE67QU32XRnVsL1huBU74
-	fhP/ZR6E5kPoSRMc4AxvB77r1CCddfZ+fbnR7qpYcA/DkGdO4E+EQcR7
-X-Gm-Gg: AY/fxX67Oysokx/X4Zn6BaRW52/EPZc/WoacJPG4IryoI7E5yiDHR/NmwZI8GSjXD0a
-	yfElLNoLkEmrSzA6tWhVzIXTqBhUNtXTs2Xl0zCHgCiSdRw7v+N9Zo78+jPk7ITp7WaA6D+8uLb
-	OOtrVSnqEWyisnYG7lh5MohwGQdqQPCMyXwoQM6JAoVEfezBr5Oo5C60NngOAuuaVieX0rtF+vZ
-	lrmR6pYfyCt7Am+SMOveQT6I2LSrMMes+lvgydNTgYWdqE1cZgV3iO+eZ2yf4H1CXf/fFEWhvnP
-	YOIXF7D0lB2CjdsC2RXW84fdRhq8161XktpT+qhftfkshMlePN6QQts8z+3qpf3tEMbUrQNesdT
-	0jmwzu9BYGtec0mYRnHkgwQCMfg9gsrWn9w2Om+rchO3dm43RrazPp7dQG7KvaKzjHx+EoEWpJS
-	m4tqEO5FTWYm4HjXsgd3fqx0FBNcLI0HaSipNbM3Uxs20P
-X-Received: by 2002:a05:6000:2209:b0:430:f7dc:7e96 with SMTP id ffacd0b85a97d-43569bc59b6mr523652f8f.48.1768504703038;
-        Thu, 15 Jan 2026 11:18:23 -0800 (PST)
+        bh=u4OBbtgA8tqfAE3cwS/lYCrnVUiM8rMD+darqSO7wyo=;
+        b=niLceOnvgkPECAviwOYhKqoOi2e2EOZeAui56NihHX0mrv3ZUIFTC6lYOgYfTux0Vf
+         3dk4GbXvAJjU0CxPCYXlGxEeS3whu/oDH6iF/SdYDhgMYGWB7DTWtdfdvp3l2PbjZNlF
+         4IZOYAg7ZOLkFl23VjmJgBErmiWMjp8z4lp6kUjHlT8HK3Ipp+Sbhi9DLuSHmxdD9kl/
+         N4/C+2RnX8Nu/ICFTxNK5OZmS5VET8caUumpFwm25+o4f8FIXJueHJ/3cnk6MAd6CKTg
+         C6tCqf5k45gwl9dysUHbktXAw2/7sR1s3XRolG+QVK5D5CbCnQZDmQdM3/FXypmFeABy
+         sk7w==
+X-Gm-Message-State: AOJu0Ywbo+XsWplz1EvwFHCoHxisxIC4dMZiXR5hPV4NXObE5uucnKTS
+	TFm3J3u9UICg0ayKL418wPMPWG4F5deZaE6ABd+LE/xYko8i/ujZOU3n
+X-Gm-Gg: AY/fxX4Rg0OGtgvoTGJFeALtNzpJpGFRCt06+iwZQik+ahnzg5qpo5NJHPDDJMuRHfV
+	1A5sCfbSdM+Y/29jYtc+A4N/AYjqH9byWfzqkdGjdAUv69P6wu1xiELxtkf4RAe53tTR+Nw5uB6
+	I8OHITal7TLO78/eRgqR+lI9pRjv3sXKC8qC6WQpHbRopfyRv2h2gfz3ZEp+X9ScbVGnG+qLeK9
+	37GYDRZHwJZk9I8TDo4GlB2zdsK/iaWBQ4dCockrJ+jE/zNre0sT6vjtxyP1pWpJv9uHY64yEzM
+	0/pkLOL6oeVVMdMkOYA7l/AumWCL9Z5O499mrw6E5rabR1I4Mt2JN0luTg2VoOLn1Lke28gnfyX
+	q3OMb5eipfFdDxoaYOrzrbDk5YAAPwjRf97HbCfjs1MybpPPxy7N893iG8/GJhZ6JkCY/fHxiH3
+	ky5LotDuXMhZI+NV3pf40iv7umKP+IjFIMmIMM2g9/CTTb
+X-Received: by 2002:a5d:5848:0:b0:42c:b8fd:21b4 with SMTP id ffacd0b85a97d-43569bd3483mr527130f8f.57.1768504706222;
+        Thu, 15 Jan 2026 11:18:26 -0800 (PST)
 Received: from [127.0.1.1] (bba-94-59-215-181.alshamil.net.ae. [94.59.215.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921dedsm692734f8f.9.2026.01.15.11.18.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921dedsm692734f8f.9.2026.01.15.11.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 11:18:22 -0800 (PST)
+        Thu, 15 Jan 2026 11:18:25 -0800 (PST)
 From: "Anton D. Stavinskii" <stavinsky@gmail.com>
-Date: Thu, 15 Jan 2026 23:17:44 +0400
-Subject: [PATCH 7/8] riscv: dts: sophgo: dts nodes for i2s tdm modules
+Date: Thu, 15 Jan 2026 23:17:45 +0400
+Subject: [PATCH 8/8] riscv: dts: sophgo: add Milk-V Duo 256M board dts
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-cv1800b-i2s-driver-v1-7-e8b22b8578ab@gmail.com>
+Message-Id: <20260115-cv1800b-i2s-driver-v1-8-e8b22b8578ab@gmail.com>
 References: <20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com>
 In-Reply-To: <20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -83,152 +83,286 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, 
  "Anton D. Stavinskii" <stavinsky@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768504677; l=4041;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768504677; l=6398;
  i=stavinsky@gmail.com; s=20260115; h=from:subject:message-id;
- bh=ZvpnRa7g8hCkE7r1q64LPBBaiWff0x2lLnMd+0VKnb0=;
- b=vwb7UYqSlXo3rPP9yGKTfWtMY3ZhNyyOZjfBpq/qKetxn106Ow7lZhWEbkNRzwEkQv1jaiQWa
- 4bJ9F94rEA5BNdFZq1EVeJ1mjB3FJd8ZDKSoSUN8dkyyucDYqKQeG9n
+ bh=9hhnvku6/o7SnlNe4s7OxE/c/yY1MeLPXn9ZiuwHDts=;
+ b=j7D/duGQ4GkjR/PUiJLYxY2ySpoiZWhKC8trthmiOSLexzpyG9Kh+TZAgY8WBeTjjKbHh/F7s
+ iKkJ7H/r284CqabbvOv7ff/QWJ2jz2zIhswlcsz/Ux6bUvDo5XxUoDn
 X-Developer-Key: i=stavinsky@gmail.com; a=ed25519;
  pk=2WxGZ1zd1vQwSPFCSks6zrADqUDBUdtq39lElk4ZE7Q=
 
-New dts nodes for TDMs and readable DMA names
+Example of usage internal dac/adc and external I2S mic
+The example shows how to use the card and
+will actually work other boards.
+Fixed clocks needed to make simple card make
+initial .set_sysclk with proper clock rates.
+Same for DAC. I2S3 has to be started not only
+for DAC but for the ADC also because it
+provides mclk for both.
+
+dai-link@2 will only work if registers
+are set according to this issue
+https://github.com/sophgo/sophgo-doc/issues/174#event-21395297524
+in other case i2s2 will not output clocks and data.
+Those changes are not connected to the driver itself,
+but for another subsystem which is not yet ipmlemented.
+The following config properly works for MilkV Duo/256Mm, Module.
+Basically everything with sg2000/sg2002 but on some boards
+i2s2 output pins are soldered to Ethernet module.
+In Milk 256M they are free to use as external DAC/ADC.
 
 Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
 ---
- arch/riscv/boot/dts/sophgo/cv180x-dmamux.h | 57 ++++++++++++++++++++++++++++++
- arch/riscv/boot/dts/sophgo/cv180x.dtsi     | 49 +++++++++++++++++++++++++
- 2 files changed, 106 insertions(+)
+ arch/riscv/boot/dts/sophgo/Makefile                |   1 +
+ .../boot/dts/sophgo/sg2002-milkv-duo-256m.dts      | 231 +++++++++++++++++++++
+ 2 files changed, 232 insertions(+)
 
-diff --git a/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h b/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h
+diff --git a/arch/riscv/boot/dts/sophgo/Makefile b/arch/riscv/boot/dts/sophgo/Makefile
+index 6f65526d4193..c8901ff680cb 100644
+--- a/arch/riscv/boot/dts/sophgo/Makefile
++++ b/arch/riscv/boot/dts/sophgo/Makefile
+@@ -6,3 +6,4 @@ dtb-$(CONFIG_ARCH_SOPHGO) += sg2042-milkv-pioneer.dtb
+ dtb-$(CONFIG_ARCH_SOPHGO) += sg2042-evb-v1.dtb
+ dtb-$(CONFIG_ARCH_SOPHGO) += sg2042-evb-v2.dtb
+ dtb-$(CONFIG_ARCH_SOPHGO) += sg2044-sophgo-srd3-10.dtb
++dtb-$(CONFIG_ARCH_SOPHGO) += sg2002-milkv-duo-256m.dtb
+diff --git a/arch/riscv/boot/dts/sophgo/sg2002-milkv-duo-256m.dts b/arch/riscv/boot/dts/sophgo/sg2002-milkv-duo-256m.dts
 new file mode 100644
-index 000000000000..6314bf6e9dc8
+index 000000000000..cc33c4355969
 --- /dev/null
-+++ b/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: (GPL-2.0 OR MIT) */
++++ b/arch/riscv/boot/dts/sophgo/sg2002-milkv-duo-256m.dts
+@@ -0,0 +1,231 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
 +/*
-+ * Copyright (C) 2025 Inochi Amaoto <inochiama@gmail.com>
++ * Copyright (C) 2024 Thomas Bonnefille <thomas.bonnefille@bootlin.com>
 + */
 +
-+#ifndef _SOPHGO_CV18XX_DMAMUX
-+#define _SOPHGO_CV18XX_DMAMUX
++/dts-v1/;
 +
-+#define DMA_I2S0_RX		0
-+#define DMA_I2S0_TX		1
-+#define DMA_I2S1_RX		2
-+#define DMA_I2S1_TX		3
-+#define DMA_I2S2_RX		4
-+#define DMA_I2S2_TX		5
-+#define DMA_I2S3_RX		6
-+#define DMA_I2S3_TX		7
-+#define DMA_UART0_RX	8
-+#define DMA_UART0_TX	9
-+#define DMA_UART1_RX	10
-+#define DMA_UART1_TX	11
-+#define DMA_UART2_RX	12
-+#define DMA_UART2_TX	13
-+#define DMA_UART3_RX	14
-+#define DMA_UART3_TX	15
-+#define DMA_SPI0_RX		16
-+#define DMA_SPI0_TX		17
-+#define DMA_SPI1_RX		18
-+#define DMA_SPI1_TX		19
-+#define DMA_SPI2_RX		20
-+#define DMA_SPI2_TX		21
-+#define DMA_SPI3_RX		22
-+#define DMA_SPI3_TX		23
-+#define DMA_I2C0_RX		24
-+#define DMA_I2C0_TX		25
-+#define DMA_I2C1_RX		26
-+#define DMA_I2C1_TX		27
-+#define DMA_I2C2_RX		28
-+#define DMA_I2C2_TX		29
-+#define DMA_I2C3_RX		30
-+#define DMA_I2C3_TX		31
-+#define DMA_I2C4_RX		32
-+#define DMA_I2C4_TX		33
-+#define DMA_TDM0_RX		34
-+#define DMA_TDM0_TX		35
-+#define DMA_TDM1_RX		36
-+#define DMA_AUDSRC		37
-+#define DMA_SPI_NAND	38
-+#define DMA_SPI_NOR		39
-+#define DMA_UART4_RX	40
-+#define DMA_UART4_TX	41
-+#define DMA_SPI_NOR1	42
++#include "sg2002.dtsi"
 +
-+#define DMA_CPU_A53		0
-+#define DMA_CPU_C906_0	1
-+#define DMA_CPU_C906_1	2
++/ {
++	model = "Milk-V duo 256M";
++	compatible = "milkv,duo-256m",
++	"sipeed,licheerv-nano",
++	"sophgo,sg2002";
 +
-+#endif // _SOPHGO_CV18XX_DMAMUX
-diff --git a/arch/riscv/boot/dts/sophgo/cv180x.dtsi b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-index 06b0ce5a2db7..9dd93e028ba9 100644
---- a/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-+++ b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-@@ -8,6 +8,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include "cv18xx-reset.h"
-+#include "cv180x-dmamux.h"
- 
- / {
- 	#address-cells = <1>;
-@@ -448,6 +449,54 @@ usb: usb@4340000 {
- 			status = "disabled";
- 		};
- 
-+		i2s0: i2s@4100000 {
-+			compatible = "sophgo,cv1800b-i2s";
-+			reg = <0x04100000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			clocks = <&clk CLK_APB_I2S0>, <&clk CLK_SDMA_AUD0>;
-+			clock-names = "i2s", "mclk";
-+			dmas = <&dmamux DMA_I2S0_RX 1>, <&dmamux DMA_I2S0_TX 1>;
-+			dma-names = "rx", "tx";
-+			status = "disabled";
++	aliases {
++		gpio0 = &gpio0;
++		gpio1 = &gpio1;
++		gpio2 = &gpio2;
++		gpio3 = &gpio3;
++		serial0 = &uart0;
++		serial1 = &uart1;
++		serial2 = &uart2;
++		serial3 = &uart3;
++		serial4 = &uart4;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++};
++
++&osc {
++	clock-frequency = <25000000>;
++};
++
++&pinctrl {
++	uart0_cfg: uart0-cfg {
++		uart0-pins {
++			pinmux = <PINMUX(PIN_UART0_TX, 0)>,
++			<PINMUX(PIN_UART0_RX, 0)>;
++			bias-pull-up;
++			drive-strength-microamp = <10800>;
++			power-source = <3300>;
++		};
++	};
++
++	sdhci0_cfg: sdhci0-cfg {
++		sdhci0-clk-pins {
++			pinmux = <PINMUX(PIN_SD0_CLK, 0)>;
++			bias-pull-up;
++			drive-strength-microamp = <16100>;
++			power-source = <3300>;
 +		};
 +
-+		i2s1: i2s@4110000 {
-+			compatible = "sophgo,cv1800b-i2s";
-+			reg = <0x04110000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			clocks = <&clk CLK_APB_I2S1>, <&clk CLK_SDMA_AUD1>;
-+			clock-names = "i2s", "mclk";
-+			dmas = <&dmamux DMA_I2S1_RX 1>, <&dmamux DMA_I2S1_TX 1>;
-+			dma-names = "rx", "tx";
-+			status = "disabled";
++		sdhci0-cmd-pins {
++			pinmux = <PINMUX(PIN_SD0_CMD, 0)>;
++			bias-pull-up;
++			drive-strength-microamp = <10800>;
++			power-source = <3300>;
 +		};
 +
-+		i2s2: i2s@4120000 {
-+			compatible = "sophgo,cv1800b-i2s";
-+			reg = <0x04120000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			clocks = <&clk CLK_APB_I2S2>, <&clk CLK_SDMA_AUD2>;
-+			clock-names = "i2s", "mclk";
-+			dmas = <&dmamux DMA_I2S2_RX 1>, <&dmamux DMA_I2S2_TX 1>;
-+			dma-names = "rx", "tx";
-+			status = "disabled";
++		sdhci0-data-pins {
++			pinmux = <PINMUX(PIN_SD0_D0, 0)>,
++			<PINMUX(PIN_SD0_D1, 0)>,
++			<PINMUX(PIN_SD0_D2, 0)>,
++			<PINMUX(PIN_SD0_D3, 0)>;
++			bias-pull-up;
++			drive-strength-microamp = <10800>;
++			power-source = <3300>;
 +		};
 +
-+		i2s3: i2s@4130000 {
-+			compatible = "sophgo,cv1800b-i2s";
-+			reg = <0x04130000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			clocks = <&clk CLK_APB_I2S3>, <&clk CLK_SDMA_AUD3>;
-+			clock-names = "i2s", "mclk";
-+			dmas = <&dmamux DMA_I2S3_RX 1>, <&dmamux DMA_I2S3_TX 1>;
-+			dma-names = "rx", "tx";
-+			status = "disabled";
++		sdhci0-cd-pins {
++			pinmux = <PINMUX(PIN_SD0_CD, 0)>;
++			bias-pull-up;
++			drive-strength-microamp = <10800>;
++			power-source = <3300>;
++		};
++	};
++};
++
++&sdhci0 {
++	pinctrl-0 = <&sdhci0_cfg>;
++	pinctrl-names = "default";
++	status = "okay";
++	bus-width = <4>;
++	no-1-8-v;
++	no-mmc;
++	no-sdio;
++	disable-wp;
++};
++
++&usb {
++	dr_mode = "peripheral";
++	status = "okay";
++	g-rx-fifo-size = <1536>;
++	g-tx-fifo-size = <128 128 64 64 64 64 32 32>;
++};
++
++&uart0 {
++	pinctrl-0 = <&uart0_cfg>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&dmac {
++	status = "okay";
++};
++
++&dmamux {
++	status = "okay";
++};
++
++&pinctrl {
++	i2s2_cfg: i2s2-cfg {
++		i2s2-out-pins {
++			pinmux = <PINMUX(PIN_ETH_TXM, 7)>,
++			<PINMUX(PIN_ETH_RXP,  7)>,
++			<PINMUX(PIN_ETH_RXM,  7)>;
++
++			drive-strength-microamp = <15700>;
++			power-source = <1800>;
 +		};
 +
- 		rtc@5025000 {
- 			compatible = "sophgo,cv1800b-rtc", "syscon";
- 			reg = <0x5025000 0x2000>;
++		i2s2-in-pins {
++			pinmux = <PINMUX(PIN_ETH_TXP, 7)>;
++			power-source = <1800>;
++		};
++	};
++};
++
++&i2s0 {
++	#sound-dai-cells = <0>;
++	status = "okay";
++};
++
++&i2s2 {
++	pinctrl-0 = <&i2s2_cfg>;
++	pinctrl-names = "default";
++	#sound-dai-cells = <0>;
++	status = "okay";
++};
++
++&i2s3 {
++	#sound-dai-cells = <0>;
++	status = "okay";
++};
++
++/ {
++	int_adc: codec@300a100 {
++		compatible = "sophgo,cv1800b-sound-adc";
++		#sound-dai-cells = <0>;
++		reg = <0x300a100 0x100>;
++	};
++
++	int_dac: codec@300a000 {
++		compatible = "sophgo,cv1800b-sound-dac";
++		#sound-dai-cells = <0>;
++		reg = <0x300a000 0x100>;
++	};
++
++	ext_adc: my-ext-adc {
++		compatible = "invensense,ics43432";
++		#sound-dai-cells = <0>;
++	};
++
++	sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "cv1800b card";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		simple-audio-card,dai-link@0 {
++			reg = <0>;
++			format = "i2s";
++			bitclock-master = <&clock_master0>;
++			frame-master = <&clock_master0>;
++
++			codec {
++				sound-dai = <&int_dac>;
++			};
++
++			clock_master0: cpu {
++				system-clock-frequency = <12288000>;
++				system-clock-fixed;
++				system-clock-direction-out;
++				mclk-fs = <256>;
++				sound-dai = <&i2s3>;
++			};
++		};
++
++		simple-audio-card,dai-link@1 {
++			reg = <1>;
++			format = "i2s";
++			bitclock-master = <&clock_master1>;
++			frame-master = <&clock_master1>;
++
++			clock_master1: codec {
++				mclk-fs = <256>;
++				system-clock-frequency = <12288000>;
++				system-clock-fixed;
++				sound-dai = <&int_adc>;
++			};
++
++			cpu {
++				mclk-fs = <256>;
++				system-clock-frequency = <12288000>;
++				system-clock-fixed;
++				sound-dai = <&i2s0>;
++			};
++		};
++
++		simple-audio-card,dai-link@2 {
++			reg = <2>;
++			format = "i2s";
++			bitclock-master = <&clock_master2>;
++			frame-master = <&clock_master2>;
++
++			codec {
++				sound-dai = <&ext_adc>;
++			};
++
++			clock_master2: cpu {
++				mclk-fs = <256>;
++				system-clock-frequency = <12288000>;
++				system-clock-fixed;
++				sound-dai = <&i2s2>;
++			};
++		};
++	};
++};
 
 -- 
 2.43.0
