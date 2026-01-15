@@ -1,146 +1,157 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE6F31A7E4
-	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 19:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768506133; cv=pass; b=m+obsEs2m00mEQ2t08BbZALWlGmB/HNUt0ecx1Y+2MKS5lU1ji5AUPqXkuasw8xhcmgM78g24TlhS4i/0pxbBbF2qUMCumYgD9OU5tQy7zWCTwdVIMQmqvpSxK6BSeDBDnh6sv0WMUauN1Vk+NuOxfexyZPo6sHg5TAiFslcIPc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768506133; c=relaxed/simple;
-	bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=X19nBuaZtiNX6myGY73ZeHgdm0QWdyCTCBWFMQJy50X4fU7VsOcJe/L6BB1Tc7MIu5639d1ISOk9MUW78BtwRd0QAkMm474qeEeRRgJBYoYlWeNtUlTxiXYtpSrAqYcqdMbLDojd3cqcl2lpZs9YziLp7H4l4hm2aJ57FSv3UTY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oasis-open.org; spf=pass smtp.mailfrom=oasis-open.org; dkim=pass (2048-bit key) header.d=oasis-open-org.20230601.gappssmtp.com header.i=@oasis-open-org.20230601.gappssmtp.com header.b=g7stoxyz; arc=pass smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oasis-open.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oasis-open.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA4413A3ED
+	for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 01:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768525369; cv=none; b=nn1xo86FBKVKU/gHeKG1DJ0f7+tF9q7rw8hWu/x4g4QHQ0FUBXFsdNfcv0GTBCtGEvNl8iIDinoFgPKi0DMSiVW+n5OJ/0WCooXvXOcAom/9o1OB+2swXzz/CeMROk1IEA78aTkrHC2G9ygnDYrML28CHl+eSEnWmh5/HN92c5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768525369; c=relaxed/simple;
+	bh=WVAFk/G9Jae2iegxU72AI5Nf1GESFNgXZ0s6CTi6AQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G3SbKa/snJh/0BHP2HCg3YYdWTZlduvvse2RoTRqEsP5DSahtQMBhR5Im0YBlobRK3f8B9IPan69PRfHPL+w1Tul3weSKUcPJRe67r8Cx1amI19qP8mIM3Rr/nJ06sJzgLQZrOYNt6qdeznQURH/2xzDsonVjKSqcR3ATbmiQXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHyjA18O; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oasis-open-org.20230601.gappssmtp.com header.i=@oasis-open-org.20230601.gappssmtp.com header.b="g7stoxyz"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-88fca7bce90so13888606d6.3
-        for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 11:42:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768506130; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CweNmbOgcxqKQWGxZRFdUiTeIT0IknqUyJKykciYZ4eF03orVpoL/4jF0fn5PRdprQ
-         jSEC4pdNa+Tg6rUEKzaKO5cYhFywlLQ47Q5bgXYailRp+FhAY8y/onmoor8vR+U+vfaC
-         aNaANKiUxsuJgEEvQBRqgWgogCaNoDVFUEPuI625slXtuEIOKrJMygSl4D5KndSALHW7
-         qWzqFFfbjMPV0DhYNLQPnneHYgbheIraaj6AvmL4TQhWySboeBdiRL6VT1PQr43Sw6Pp
-         vuyLkBWFpzNzDPBW937YCg4FzCre+rXSB/ctDhIVThKQTOeXg+v3N98BgQsj3QzeeKLo
-         pQYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
-        b=j4vhtpF0rn50EndXlp2Z/tcRKuPXRsGetR79Js1f4hFQNkjw8yAeh9XfHkzh/L3GSB
-         ttC9bY+jK6vt8P5QbZPRB1wiqe+RSlRg5VW+r1gTodcY3LC1UQOqdVHP1qWhzWBPDYoV
-         F1Mz+9HXQulGalvWiQAHBstpE5uXZCbn/WsuI4aYNPk02d/sBagUuKgOLUvWfRHfpDPq
-         K59kxc033PgrXCvk5wmJyiEZD0wFSqMnyYkpUojRdrwPChXT5ddzC+SUejPIz3QlBrUm
-         Vmgu4gczPF5u+M4uIpPw8O6Le2E+kN97Rq4t2jiOPfpt5F51KQEtq6oG9PmWptj40ONT
-         vWqA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHyjA18O"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7cfdf0c8908so285016a34.0
+        for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 17:02:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oasis-open-org.20230601.gappssmtp.com; s=20230601; t=1768506130; x=1769110930; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-        b=g7stoxyzz6JIeH6o5V7lpRk0q8Nm8YvBf+RCEEK4aYqE0Ea/RkwjYak5rHYKkMpkMD
-         LQS+wRznporRlk18CS/hZyP8uJZrBhFG+iFwK4brJaYcTVfSlwCxB517pa3sxQUK3R5y
-         7ZbD4Y03jl12pZ6hbLHuG8t3oKTHWGXIkZN7M070nPK9nI7RhvX6izJcvY+PpcYoiO9C
-         O9Ra8PNuFXxPRyBOcnvUXA/rD9E+7xrt3MtF4zAhOfsGKWU0EroQtFSXmIKgvEEmYyL0
-         0ETP2C5r0ZHtNudZxOuljVoFTlJ4upVDtjS/vVUBTFeM9glSu3YWlP4sQUCYn7NXtCBi
-         m1zA==
+        d=gmail.com; s=20230601; t=1768525366; x=1769130166; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wFG3gVNxJD7Ap7fJ1CZDygWmut6qTFwFZjaDYw553m8=;
+        b=nHyjA18OZEU/w/UUUZDM9yL6MwMfjms6ULetB6BufrL/j66xs1mVqWTY8NJLKPwms1
+         xaDaPUg82k65BUU/R2FLMeeQTnxCv4HdiQUQf7ZwIp04efsOcuayK46I7ZbcvIUyjTCe
+         Lnv4O0BsbuN+O8JyKik532T7FiJYQ89EvJlPQZLPx+ZpVzxK+F4rARNGd6IBVccnvk/S
+         jFN5EcEgTmGBCYTLW6d41cJCSXqesMBnrrnv2ehDNLNHeOCAKgOrVyy1djYQITlM+MCz
+         FAORluPWeR5+7hTL6va5cPXjShhHb1xd4ydsOi/+MHrG5EBn6Idbxw5ajDn2EjX+Efur
+         V4yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768506130; x=1769110930;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-        b=Dp4Ur21Zh1y3vS1yKAOSh9d3KL1fpaLjqy+Um5qCeor/cH84fu/sykpukgdn6KwS9R
-         aVzRskgyckVgOvW15uGM0X/aVriLKWCOgxKprtXYjsH8xLa4WkMHaBXJ6pWXuk12Kssr
-         8ZkpxadisemaZx/lSt1MIjgXswoJ3FS4A8qJ/vjo9JBdBT4GACeOmgSoXbx6rM9fr9oU
-         vp2OphdO3T2G9F1/I8f88QcwRoO4lAWdHHBqrCC2P/TpSaRx4hsJSV6GFes9HHja2SG+
-         wDpLQwq27VF0Gis0b5b6A+r9t4hnVILZ2ZaR51sDlHbbwA/VODxf8XU0WPUHpn2qnmmc
-         5yuA==
-X-Gm-Message-State: AOJu0YyGShOON7xKFPbo8yxrQ/p/z12fQlsqbvg4LNVeDUW/DWSoB0+h
-	N6RG1Kw2KgecIHbDGMj1yQZGNgVo1YQdduniWlV4z8WDUl9CoXrTDwjuz6WASNY60gm9YK0xS+Z
-	XM3rOCZL53UDeuWGS7B9FUX4hZyqEju77V1HiiAeemhf0JH0F46egETQ=
-X-Gm-Gg: AY/fxX5cu4rOp0MhFlL+kCjsMG4jT68AmzOsWmRn2wyDEaUtYodsxCmYjSwj6ChSXP2
-	6aynp2gbZ4cGVTHwLHQF6X3YYMY3AwUdErte4+rWarURgm5khxLVLJ9He+jIa1dmFEM/QVHj1/P
-	er6cxkeZ5I4xzQFMx/lWMcHm19XqPCuIJnI1WR1I1JVi5jGaNZ/fPw1uNV93Q/ODVG2yABSqrZF
-	SGS1+UqqBR9oYxJDuidYjDoO/rCO1MiowEDlGG2jTjLKnimLUSHtRoR6rKhgQdbHeWzfrv/PndE
-	+kkdM3yCNc35yPS+N1uvSOdVDWEtGG6Bn2EHaMdSdkdI1lLhXsKpda3jEzjE
-X-Received: by 2002:a05:6214:2583:b0:88f:ca80:2b98 with SMTP id
- 6a1803df08f44-8942dcf5b2amr7545216d6.27.1768506129650; Thu, 15 Jan 2026
- 11:42:09 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768525366; x=1769130166;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wFG3gVNxJD7Ap7fJ1CZDygWmut6qTFwFZjaDYw553m8=;
+        b=BQs7dkQHs/74tZ1RbpWcjN3OJXBUPET/HIKrlaegNQF6IoDUC5LCWByloOfYxpIKHq
+         xCLtRMKEIVmjs5GQTIBYwzV89JWQ/EQGoiZug6BDPm1Cs3xtwzz1PSK08dBwUay6OYYY
+         bdbCRJap3y0POYG5H/lG9hRY6ugcT1vrJgJCuFHqbr6DqsKWCBFKNLv78IL0p8b08+g1
+         ONGj8v1p4fovsw3//mCbHZ7qWBcUYN8OYIS2UPk9H4YT5UXvMhXahPgxkBtcSpHElB8C
+         s7ChabJl5Ir38XSVYaMB/xIeoWYaD8oaMVvkUEdMMtY+z/28yt1YCRF1gpBiKxDrA8y0
+         qMAA==
+X-Gm-Message-State: AOJu0YwZsIgPKLV6zQ38nDdQKvu7EcYBP+hT6GVArQ0NqRUfE+qcZezS
+	8y2AqcfzQbkIzp36udPTa1cJJ1rmOrei208BQz1hMbQWm6dc9pN3rgukiGLmzU4WZmc=
+X-Gm-Gg: AY/fxX5WgWQyYgK9MO571NAU3QzMhGN5kzE+xsJYkP8uKSnXW5oFY6IvdZj/aEpxTS4
+	4ZttwCYwe9BqcbFJB/MilgIx3DcdAsD1yEZpXava1SIz8SeCjLhWKqgG70jwGajIW6njZ27wgnQ
+	R0uOVGMKpTFUyn9uqZGet4Rinwa33G2sVeKcxPUXZiB9ljvDOSb+a06cEVVL4e5GaJwtoMX6xDB
+	Jijg0Ned291SffTNDqU54loUTi8BqvQqhP3aJ7SwM1WG+taVvOCqVfjIe1nhChJjFwN3fsObFc1
+	TjwIOyMkzXKdCO3kYDa1fD6Y4Fxa3545Md/nPYo5p7f0j53LXjRnA/NjFuycEZEhSFfsGss4G+v
+	hRg95MgxA13JdtVicu+XSO+3f6jpNTFwG8s+rycJ9tk5B75zibu1T9fMakf/zu5SosehID4p98G
+	Jgd7hWyqjCx3VgoB6ZLKeL
+X-Received: by 2002:a05:7300:6ca1:b0:2b0:5079:d3c8 with SMTP id 5a478bee46e88-2b6b3f139f5mr1020729eec.4.1768520046558;
+        Thu, 15 Jan 2026 15:34:06 -0800 (PST)
+Received: from localhost ([2001:19f0:ac00:4eb8:5400:5ff:fe30:7df3])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b3696f40sm696762eec.35.2026.01.15.15.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 15:34:06 -0800 (PST)
+Date: Fri, 16 Jan 2026 07:34:01 +0800
+From: Inochi Amaoto <inochiama@gmail.com>
+To: "Anton D. Stavinskii" <stavinsky@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 0/8] ASoC: sophgo: add CV1800 AIAO mux and I2S support
+Message-ID: <aWl4fvKsUZDg9dwj@inochi.infowork>
+References: <20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Kelly Cullinane <kelly.cullinane@oasis-open.org>
-Date: Thu, 15 Jan 2026 14:41:34 -0500
-X-Gm-Features: AZwV_QhPrBA1USmJKnxycS7V_YDquwPERLemL7LfYN4BochVOlm79UizP7V7RQQ
-Message-ID: <CAAiF603hgMQ2+STZ+7vhcZPPTQRA9WUG5OHmXrxiR9i5UbJhWA@mail.gmail.com>
-Subject: Invitation to comment on VIRTIO v1.4 CSD01
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com>
 
-OASIS members and other interested parties,
+On Thu, Jan 15, 2026 at 11:17:37PM +0400, Anton D. Stavinskii wrote:
+> This patch series adds basic audio support for Sophgo CV1800B, 
+> as used on boards such as the Milk-V Duo. 
+> The series introduces an AIAO audio mux driver, 
+> an I2S controller driver, corresponding DT bindings, 
+> and DTS updates to wire the components together.
+> 
 
-OASIS and the VIRTIO TC are pleased to announce that VIRTIO v1.4 CSD01
-is now available for public review and comment.
+I haven't see your mux driver, is it missed?
 
-VIRTIO TC aims to enhance the performance of virtual devices by
-standardizing key features of the VIRTIO (Virtual I/O) Device
-Specification.
+> The implementation is based on vendor documentation 
+> and testing on real hardware.  This series relies on 
+> recent fixes in the DesignWare AXI DMA support; 
+> in particular, correct operation depends on 
+> the DMA changes discussed at:
+> https://lore.kernel.org/all/20251214224601.598358-1-inochiama@gmail.com/ 
+> The current driver implementation supports a fixed audio configuration 
+> of 48 kHz sample rate.  The series has been tested on the 
+> Milk-V Duo 256M board using the Sophgo SG2002 SoC. 
+> The implementation is expected to also work on Milk-V Duo and Milk-V Module 
+> boards based on the SG2000 SoC, as the audio 
+> and DMA blocks are closely related.
+> 
+> Known hardware limitation:
+> On CV1800B / SG2002, the I2S2 output pins cannot be enabled via pinctrl alone.
+> Due to SoC design constraints, the output path becomes functional only after 
+> additional vendor-specific register programming. 
+> This series makes the limitation explicit and does not attempt to work around 
+> it implicitly via pinctrl or undocumented behavior.
+> 
+> Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
+> ---
+> Anton D. Stavinskii (8):
+>       dt-bindings: sound: sophgo: add CV1800B I2S/TDM controller binding
+>       ASoC: sophgo: add CV1800B I2S/TDM controller driver
+>       dt-bindings: sound: sophgo: add CV1800B internal ADC codec
+>       ASoC: sophgo: add CV1800B internal ADC codec driver
+>       dt-bindings: sound: sophgo: add CV1800B internal DAC codec
+>       ASoC: sophgo: add CV1800B internal DAC codec driver
+>       riscv: dts: sophgo: dts nodes for i2s tdm modules
+>       riscv: dts: sophgo: add Milk-V Duo 256M board dts
+> 
+>  .../bindings/sound/sophgo,cv1800b-i2s.yaml         |  75 +++
+>  .../bindings/sound/sophgo,cv1800b-sound-adc.yaml   |  43 ++
+>  .../bindings/sound/sophgo,cv1800b-sound-dac.yaml   |  43 ++
+>  arch/riscv/boot/dts/sophgo/Makefile                |   1 +
+>  arch/riscv/boot/dts/sophgo/cv180x-dmamux.h         |  57 ++
+>  arch/riscv/boot/dts/sophgo/cv180x.dtsi             |  49 ++
+>  .../boot/dts/sophgo/sg2002-milkv-duo-256m.dts      | 231 +++++++
+>  sound/soc/Kconfig                                  |   1 +
+>  sound/soc/Makefile                                 |   1 +
+>  sound/soc/sophgo/Kconfig                           |  41 ++
+>  sound/soc/sophgo/Makefile                          |   5 +
+>  sound/soc/sophgo/cv1800b-sound-adc.c               | 322 ++++++++++
+>  sound/soc/sophgo/cv1800b-sound-dac.c               | 204 ++++++
+>  sound/soc/sophgo/cv1800b-tdm.c                     | 714 +++++++++++++++++++++
+>  14 files changed, 1787 insertions(+)
+> ---
+> base-commit: 7a52965b6976c936f413eebeee3f78c6faf09012
+> change-id: 20260115-cv1800b-i2s-driver-4f17836dec56
+> 
+> Best regards,
+> -- 
+> Anton D. Stavinskii <stavinsky@gmail.com>
+> 
 
-Virtual I/O Device (VIRTIO) Version 1.4
-Committee Specification Draft 01 / Public Review Draft 01
-09 December 2025
+Thanks for your patch, for all the patchs, I hope you write a
+meaningful comment for the patch, at least for now I found it
+is nothing in your comment.
 
-TEX: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csp=
-rd01.html
-(Authoritative)
-HTML: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-cs=
-prd01.html
-PDF: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csp=
-rd01.pdf
+Also, the patch 8 should not in this patch and should be a
+separate patch.
 
-The ZIP containing the complete files of this release is found in the direc=
-tory:
-https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csprd01.=
-zip
-
-How to Provide Feedback
-OASIS and the VIRTIO TC value your feedback. We solicit input from
-developers, users and others, whether OASIS members or not, for the
-sake of improving the interoperability and quality of its technical
-work.
-
-The public review is now open and ends Friday, February 13 2026 at 23:59 UT=
-C.
-
-Comments may be submitted to the project=E2=80=99s comment mailing list at
-virtio-comment@lists.linux.dev. You can subscribe to the list by
-sending an email to
-virtio-comment+subscribe@lists.linux.dev.
-
-All comments submitted to OASIS are subject to the OASIS Feedback
-License, which ensures that the feedback you provide carries the same
-obligations at least as the obligations of the TC members. In
-connection with this public review, we call your attention to the
-OASIS IPR Policy applicable especially to the work of this technical
-committee. All members of the TC should be familiar with this
-document, which may create obligations regarding the disclosure and
-availability of a member's patent, copyright, trademark and license
-rights that read on an approved OASIS specification.
-
-OASIS invites any persons who know of any such claims to disclose
-these if they may be essential to the implementation of the above
-specification, so that notice of them may be posted to the notice page
-for this TC's work.
-
-Additional information about the specification and the VIRTIO TC can
-be found at the TC=E2=80=99s public homepage.
+Regards,
+Inochi
