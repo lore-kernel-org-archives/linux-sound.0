@@ -1,87 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53B13D349F;
-	Thu, 15 Jan 2026 17:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C67B2D594F
+	for <linux-sound@vger.kernel.org>; Thu, 15 Jan 2026 18:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768499972; cv=none; b=T4R6zZfoR6/K7KNbFKiSnWXD7ORfukdr5K2RzMQmc3hsiL9ikXOYxKOQMnu3gniKEGfgvR4cYFqVMke7LQ35+nCGxdOJZZsh2Q0xnaM3hHR3hf+3J6Wpz75j68WezYWVi27kZ/lE9iM5sEMPVeQYMPkxVDMNK4sXYrBthzfwmuw=
+	t=1768502503; cv=none; b=cLtqZUXQODRE1xHieXHSgFfLRXp7xC1Fd5PMzn3P/SnINzcQbSLhaVmhdPS8igvkrKHRBtrLDKV5CdbyTVROjreN2xJR8XoVx/csZA02gSBule+5c4jAyNCN5qB/10ace72umtM3crBcD/18buP4+DsTq7je5yhBVmdBk50KNRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768499972; c=relaxed/simple;
-	bh=k4nv3LNd06xUvMB9BLcG7D7UT7+uRA8LQwwCBmUw9b8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdtJ1nrG/NdakwGZ8gHxwCA4QTBAZh6HA6lLJYzrWQ3fA+rCUhfkC4Pf0bp5fFkCJSHp32d+NdNvk2FoO+xuzQ/93P/o3JwuX556VLqde+pxufAQQVz9bgafl3GAn+Zw+J9cIFr8rGamf2hOerEAojhZI7Aww/J6N3goY724BLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bG1i4O1+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768502503; c=relaxed/simple;
+	bh=sefFJM000cBoTHmEK034mKrPL1rN39O9Z7IRhNyugBs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Juafj72syrychYcUObxbYev09PMF5mX6h5bIPFcg5fPuHb/x+EjFZ9VXr3PuTpTcIx2152LSpFj1CEoXaxMBKep9ocfLTdP58dsLHGf12UIRXYI0dmGVc/13gO5PcwUZsiomOSGsClZTIwmJ4Tzufw1GWQhZgpC2ZF/zPNx/c2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1h3IfUg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bG1i4O1+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F1CC116D0;
-	Thu, 15 Jan 2026 17:59:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1h3IfUg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F80C116D0;
+	Thu, 15 Jan 2026 18:41:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768499972;
-	bh=k4nv3LNd06xUvMB9BLcG7D7UT7+uRA8LQwwCBmUw9b8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bG1i4O1+W2z7yWUtJI1p/k45SGqFHEUeCXPRng04/jkQsWUyjPvq3mHb5AciPxV/C
-	 UukaXnh3Yj+ph19La4HWe8yH9NzKH/gw3gbimVogSubKyLiGhmzyF5u9Gym/B22Z2J
-	 rb4/ZcqhkCesFC7O3e2GcmvMY2mUJ3LtFcZbyUopScOin/CYRKn+S3iQUMpDgX33OQ
-	 2zDSdShciJprta6Vl9mZk/jP8OgxzS9ugcb/N80LOgq/fqICk0I3EG53CPXPbxJBPm
-	 K4XHnOueqew3hL2YV5evGkeOZjzJkbP2l0I77g56YrBAZKq1xsDtcG0M3TAiJV664u
-	 JzpLo5rXebRHw==
-Date: Thu, 15 Jan 2026 17:59:25 +0000
+	s=k20201202; t=1768502502;
+	bh=sefFJM000cBoTHmEK034mKrPL1rN39O9Z7IRhNyugBs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=N1h3IfUgGSeCnZVyJU0720BmwhZULUO6kW62CBN/3vI80QjEabfkPCMveXoQ3LnHn
+	 na4DzvUN9ZwLIs6XuWZjLNO4WuV/xmKt0P+6dLkjPIs5k7xacHt6N66jJwbj07BtXS
+	 Fo5gM1U7j+y3moU6GKRykDIbKCaMruKsH5FDYrLHBN0q9G6HhnWp3Hd3jtD01Fj+f4
+	 co3P23UmLn8+eHFPJMP+M4JVmxtOol3G9gEef9PP5aOpyO4OOIesjX4XWFCXxU5Mho
+	 txvXObwszfInyVRLJLwRsgGxr0hqVKVab1WLkEaW5eyLsXfwqxd4gw+3Nul0N2WG9Y
+	 6J/FQ7ti4NG6g==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Eugen Hristev <eugen.hristev@linaro.org>, krzk+dt@kernel.org,
-	conor+dt@kernel.org, tudor.ambarus@linaro.org, pratyush@kernel.org,
-	mwalle@kernel.org, miquel.raynal@bootlin.com, richard@nod.at,
-	vigneshr@ti.com, lgirdwood@gmail.com, matthias.bgg@gmail.com,
-	julien.massot@collabora.com, jiaxin.yu@mediatek.com,
-	shane.chien@mediatek.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com,
-	robh@kernel.org
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and
- clock-names
-Message-ID: <246e84a5-18f9-464c-926d-3f1f305283c1@sirena.org.uk>
-References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
- <20260115125624.73598-3-angelogioacchino.delregno@collabora.com>
- <e1ed2a68-683c-4235-890b-9b2c5ad93e38@linaro.org>
- <9bb24b4a-248d-4a97-a9fc-a00b5237f548@collabora.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260115114607.271990-1-ckeepax@opensource.cirrus.com>
+References: <20260115114607.271990-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Tidy up some memory allocations
+Message-Id: <176850250138.1337585.5714359524781512770.b4-ty@kernel.org>
+Date: Thu, 15 Jan 2026 18:41:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KyHCmqwLxjNYg8pj"
-Content-Disposition: inline
-In-Reply-To: <9bb24b4a-248d-4a97-a9fc-a00b5237f548@collabora.com>
-X-Cookie: Are you sure the back door is locked?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
+On Thu, 15 Jan 2026 11:46:07 +0000, Charles Keepax wrote:
+> It is slightly better to deference the type being allocate for a sizeof
+> rather than manually using the type. Saves effort if types change in the
+> future. This results in no functional changes, just tidies up the style
+> of the code a little.
+> 
+> 
 
---KyHCmqwLxjNYg8pj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Jan 15, 2026 at 03:46:18PM +0100, AngeloGioacchino Del Regno wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> I wonder if the Fixes tag can be added while applying.
+Thanks!
 
-Yeah, b4 will DTRT by default there.
+[1/1] ASoC: SDCA: Tidy up some memory allocations
+      commit: 61d2a7699ab39d448f44919ef15c16187e6f70ec
 
---KyHCmqwLxjNYg8pj
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlpKvwACgkQJNaLcl1U
-h9C6GQf/YxMHx6TFHxRD11tVNCK7jX3h2fjjKf1TF9IusHOSp+9QdQzpXJWWi83w
-hDYIsC5WX4jgAZ+IFLo3qaDsFtsPBfPvBvbSdbncbCDuqPYcdGr9EQK7gC2tugyT
-107X+LJwJ73+cM/zlGxgv3qpvdhd+RrRqXiKNOPv+a/DXfip360bRzKWvEkfiNSD
-HX/tEKhncVVHePdGClv71P+fZ2F6jP7jRcG6ExPE4KLj0YRa/NZ8iOUMg1dtIYBx
-pL/vDRD5Sq6eXq4az9H/xgCH1/+J/GmGe4ZislsRksNFRmcVoh2WGXGA3ZEg3TY/
-7AO+EqXRxfl97vJBipSqR2HUGChvlQ==
-=lO8H
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---KyHCmqwLxjNYg8pj--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
