@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EAE39B480;
-	Thu, 15 Jan 2026 12:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E1A39B492;
+	Thu, 15 Jan 2026 12:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768481820; cv=none; b=eGuS8aR2vDgh7xJMAL7IDleItfbi6UwO0cVQhXbazJeCGZ350Hzi0eT4XsmMvGOe9GoeTuGnZxGlvfTFOyPa8nAzCCQRnp7WdOFhMXnwiW44WKW5TbjaKwG19SeHM1na1BNVjn7U01qAYoa48qTR/vwlQYbZTm4nXf3VJE8BKPU=
+	t=1768481822; cv=none; b=Iath/4ZJzIDEnR8vFCXY0W/4P67NBnkepSbuAG77gTRmMEAlYdROL0G0+wQ/ffUG2RZBgVz1ulh7MY1L6BXCw9jemGZ3ce5lce3tV698z0lKk80BsrECQ1LB9Rpo8lgqtZZxjUJOSyUyjjWtoQMcFEdRjQR8B1DGcLx61kbplbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768481820; c=relaxed/simple;
-	bh=Q1TWR+L5EJCk8ltk3+o6+5a+NLRELXyTxRSjaigjumg=;
+	s=arc-20240116; t=1768481822; c=relaxed/simple;
+	bh=ij+2/xT0i/DoFW7FxfCJXcT/tjhq17PWimE3fp7QbIs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AyZ0BSISYoDl9DkfGIdDNvZCJEeCFDrfLiR9BQZ3uPlds/E2bZ2V3WLieutWQlAE8szZR3k2XtvN3CjwhxdV98S4WIrawrQhLeDkQFNEd+LaDURvdrLclbHpxGW3LWPAJr6Ir/1XdL/dcQedH2+VRadCFkhiYLgugRec8+qJrms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nnEAsli0; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=QhgYRJs4m2zPyUgtvA3dBGkmYMkHMJuH9oHfQrR1EarSOSKJ+TnkRRP7UIto/gty2EOih+Wbl0DA0hpNxhiw2ynNukVqbIFaosbObiRVSvTrg61VvRIidic2B27CzAe3fXyUbbb0MBuXqwJIDkS3uzRtIU0BDDn7AuFWQVGAYNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=H1H3Wx8I; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nnEAsli0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="H1H3Wx8I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768481810;
-	bh=Q1TWR+L5EJCk8ltk3+o6+5a+NLRELXyTxRSjaigjumg=;
+	s=mail; t=1768481809;
+	bh=ij+2/xT0i/DoFW7FxfCJXcT/tjhq17PWimE3fp7QbIs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nnEAsli0VXjwyu3dIi44q2cjh+ozeXVJXSovtksTn371xTbIBk8+o3sZXukA9tMNS
-	 k98XLQhCWDGvFDhEAJ5VkbC0zAFOA39NkNIX/+01xwH+Tym4ZxneDvqFjOV4byTb1M
-	 oac8gQnrepoDrDCiC48Xh6xTfBkF+0RtZ7/7rpwtA8VgibuTUlX3Y96IeZvWWRBZjh
-	 CWiVt2g/xKXhkdYaeiQraUaZbJ9b3GAhonCeDtmb/l9Vu6bsgqLEXIPI9bxuYSIunm
-	 OT8zDV4C3axJGIMNuLCjbUk5faXkJuSVXtVwwxG+KPswpiYbSzG8A5dhgzz4vNQ8ay
-	 OZ5DKMLTiDX/g==
+	b=H1H3Wx8IM+qm3v9y+JUnLd4IuvBfDhb87DHI7Tvchu+5xuzXWhDODvvP1cOIT/qVw
+	 Yn+0A67aAC/sxZw4TNPXeXshIPCQio2SawHBdDT36gaCogjcPSx/TFyspXtG3hsWPu
+	 u1x3oigL8BqznjNaVohErhtqAt3xBLdYS9YQaCkj2OzKve6QzasD+lpP8N9FaC0dGj
+	 7vrt5utCvcvFCnHNqSlsL9yvyFFHA10qC//35Q8EuEHaFnvnt4D2yYrXmOe3vlVRNF
+	 gjfIX2ypYdmY/8H93o3OblLktBUpJVtxzmIhLbSe4djyf2H8kpdmFQW7SH9hUDhgCQ
+	 l+VKcSKnRvChA==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 907AB17E13D3;
-	Thu, 15 Jan 2026 13:56:49 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8790117E137B;
+	Thu, 15 Jan 2026 13:56:48 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: robh@kernel.org
 Cc: krzk+dt@kernel.org,
@@ -58,9 +58,9 @@ Cc: krzk+dt@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	kernel@collabora.com
-Subject: [PATCH 3/4] dt-bindings: arm: mediatek: audsys: Support mt8192-audsys variant
-Date: Thu, 15 Jan 2026 13:56:23 +0100
-Message-ID: <20260115125624.73598-4-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 2/4] ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and clock-names
+Date: Thu, 15 Jan 2026 13:56:22 +0100
+Message-ID: <20260115125624.73598-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
 References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
@@ -72,74 +72,222 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for the mediatek,mt8192-audsys compatible, which uses
-a different audio controller (mt8192-afe-pcm) compared to mt8183
-and mt2701.
-
-This resolves a dtbs_check warning on all MT8192 devicetrees.
+Both clocks and clock-names are missing (a lot of) entries: add
+all the used audio clocks and their description and also fix the
+example node.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../arm/mediatek/mediatek,audsys.yaml         | 46 +++++++++++++------
- 1 file changed, 33 insertions(+), 13 deletions(-)
+ .../bindings/sound/mt8192-afe-pcm.yaml        | 176 ++++++++++++++++--
+ 1 file changed, 162 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
-index f3a761cbd0fd..09a6c16e7e82 100644
---- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
-@@ -48,19 +48,39 @@ required:
+diff --git a/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml b/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
+index 8ddf49b0040d..16ae3328f70d 100644
+--- a/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
++++ b/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
+@@ -47,16 +47,118 @@ properties:
+       - description: AFE clock
+       - description: ADDA DAC clock
+       - description: ADDA DAC pre-distortion clock
+-      - description: audio infra sys clock
+-      - description: audio infra 26M clock
++      - description: ADDA ADC clock
++      - description: ADDA6 ADC clock
++      - description: Audio low-jitter 22.5792m clock
++      - description: Audio low-jitter 24.576m clock
++      - description: Audio PLL1 tuner clock
++      - description: Audio PLL2 tuner clock
++      - description: Audio Time-Division Multiplexing interface clock
++      - description: ADDA ADC Sine Generator clock
++      - description: audio Non-LE clock
++      - description: Audio DAC High-Resolution clock
++      - description: Audio High-Resolution ADC clock
++      - description: Audio High-Resolution ADC SineGen clock
++      - description: Audio ADDA6 High-Resolution ADC clock
++      - description: Tertiary ADDA DAC clock
++      - description: Tertiary ADDA DAC pre-distortion clock
++      - description: Tertiary ADDA DAC Sine Generator clock
++      - description: Tertiary ADDA DAC High-Resolution clock
++      - description: Audio infra sys clock
++      - description: Audio infra 26M clock
++      - description: Mux for audio clock
++      - description: Mux for audio internal bus clock
++      - description: Mux main divider by 4
++      - description: Primary audio mux
++      - description: Primary audio PLL
++      - description: Secondary audio mux
++      - description: Secondary audio PLL
++      - description: Primary audio en-generator clock
++      - description: Primary PLL divider by 4 for IEC
++      - description: Secondary audio en-generator clock
++      - description: Secondary PLL divider by 4 for IEC
++      - description: Mux selector for I2S port 0
++      - description: Mux selector for I2S port 1
++      - description: Mux selector for I2S port 2
++      - description: Mux selector for I2S port 3
++      - description: Mux selector for I2S port 4
++      - description: Mux selector for I2S port 5
++      - description: Mux selector for I2S port 6
++      - description: Mux selector for I2S port 7
++      - description: Mux selector for I2S port 8
++      - description: Mux selector for I2S port 9
++      - description: APLL1 and APLL2 divider for I2S port 0
++      - description: APLL1 and APLL2 divider for I2S port 1
++      - description: APLL1 and APLL2 divider for I2S port 2
++      - description: APLL1 and APLL2 divider for I2S port 3
++      - description: APLL1 and APLL2 divider for I2S port 4
++      - description: APLL1 and APLL2 divider for IEC
++      - description: APLL1 and APLL2 divider for I2S port 5
++      - description: APLL1 and APLL2 divider for I2S port 6
++      - description: APLL1 and APLL2 divider for I2S port 7
++      - description: APLL1 and APLL2 divider for I2S port 8
++      - description: APLL1 and APLL2 divider for I2S port 9
++      - description: Top mux for audio subsystem
++      - description: 26MHz clock for audio subsystem
+ 
+   clock-names:
+     items:
+       - const: aud_afe_clk
+       - const: aud_dac_clk
+       - const: aud_dac_predis_clk
++      - const: aud_adc_clk
++      - const: aud_adda6_adc_clk
++      - const: aud_apll22m_clk
++      - const: aud_apll24m_clk
++      - const: aud_apll1_tuner_clk
++      - const: aud_apll2_tuner_clk
++      - const: aud_tdm_clk
++      - const: aud_tml_clk
++      - const: aud_nle
++      - const: aud_dac_hires_clk
++      - const: aud_adc_hires_clk
++      - const: aud_adc_hires_tml
++      - const: aud_adda6_adc_hires_clk
++      - const: aud_3rd_dac_clk
++      - const: aud_3rd_dac_predis_clk
++      - const: aud_3rd_dac_tml
++      - const: aud_3rd_dac_hires_clk
+       - const: aud_infra_clk
+       - const: aud_infra_26m_clk
++      - const: top_mux_audio
++      - const: top_mux_audio_int
++      - const: top_mainpll_d4_d4
++      - const: top_mux_aud_1
++      - const: top_apll1_ck
++      - const: top_mux_aud_2
++      - const: top_apll2_ck
++      - const: top_mux_aud_eng1
++      - const: top_apll1_d4
++      - const: top_mux_aud_eng2
++      - const: top_apll2_d4
++      - const: top_i2s0_m_sel
++      - const: top_i2s1_m_sel
++      - const: top_i2s2_m_sel
++      - const: top_i2s3_m_sel
++      - const: top_i2s4_m_sel
++      - const: top_i2s5_m_sel
++      - const: top_i2s6_m_sel
++      - const: top_i2s7_m_sel
++      - const: top_i2s8_m_sel
++      - const: top_i2s9_m_sel
++      - const: top_apll12_div0
++      - const: top_apll12_div1
++      - const: top_apll12_div2
++      - const: top_apll12_div3
++      - const: top_apll12_div4
++      - const: top_apll12_divb
++      - const: top_apll12_div5
++      - const: top_apll12_div6
++      - const: top_apll12_div7
++      - const: top_apll12_div8
++      - const: top_apll12_div9
++      - const: top_mux_audio_h
++      - const: top_clk26m_clk
+ 
+ required:
    - compatible
-   - '#clock-cells'
+@@ -83,23 +185,69 @@ examples:
+     afe: mt8192-afe-pcm {
+         compatible = "mediatek,mt8192-audio";
+         interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&audsys CLK_AUD_AFE>, <&audsys CLK_AUD_DAC>,
++                 <&audsys CLK_AUD_DAC_PREDIS>, <&audsys CLK_AUD_ADC>,
++                 <&audsys CLK_AUD_ADDA6_ADC>, <&audsys CLK_AUD_22M>,
++                 <&audsys CLK_AUD_24M>, <&audsys CLK_AUD_APLL_TUNER>,
++                 <&audsys CLK_AUD_APLL2_TUNER>, <&audsys CLK_AUD_TDM>,
++                 <&audsys CLK_AUD_TML>, <&audsys CLK_AUD_NLE>,
++                 <&audsys CLK_AUD_DAC_HIRES>, <&audsys CLK_AUD_ADC_HIRES>,
++                 <&audsys CLK_AUD_ADC_HIRES_TML>, <&audsys CLK_AUD_ADDA6_ADC_HIRES>,
++                 <&audsys CLK_AUD_3RD_DAC>, <&audsys CLK_AUD_3RD_DAC_PREDIS>,
++                 <&audsys CLK_AUD_3RD_DAC_TML>, <&audsys CLK_AUD_3RD_DAC_HIRES>,
++                 <&infracfg CLK_INFRA_AUDIO>, <&infracfg CLK_INFRA_AUDIO_26M_B>,
++                 <&topckgen CLK_TOP_AUDIO_SEL>, <&topckgen CLK_TOP_AUD_INTBUS_SEL>,
++                 <&topckgen CLK_TOP_MAINPLL_D4_D4>, <&topckgen CLK_TOP_AUD_1_SEL>,
++                 <&topckgen CLK_TOP_APLL1>, <&topckgen CLK_TOP_AUD_2_SEL>,
++                 <&topckgen CLK_TOP_APLL2>, <&topckgen CLK_TOP_AUD_ENGEN1_SEL>,
++                 <&topckgen CLK_TOP_APLL1_D4>, <&topckgen CLK_TOP_AUD_ENGEN2_SEL>,
++                 <&topckgen CLK_TOP_APLL2_D4>, <&topckgen CLK_TOP_APLL_I2S0_M_SEL>,
++                 <&topckgen CLK_TOP_APLL_I2S1_M_SEL>, <&topckgen CLK_TOP_APLL_I2S2_M_SEL>,
++                 <&topckgen CLK_TOP_APLL_I2S3_M_SEL>, <&topckgen CLK_TOP_APLL_I2S4_M_SEL>,
++                 <&topckgen CLK_TOP_APLL_I2S5_M_SEL>, <&topckgen CLK_TOP_APLL_I2S6_M_SEL>,
++                 <&topckgen CLK_TOP_APLL_I2S7_M_SEL>, <&topckgen CLK_TOP_APLL_I2S8_M_SEL>,
++                 <&topckgen CLK_TOP_APLL_I2S9_M_SEL>, <&topckgen CLK_TOP_APLL12_DIV0>,
++                 <&topckgen CLK_TOP_APLL12_DIV1>, <&topckgen CLK_TOP_APLL12_DIV2>,
++                 <&topckgen CLK_TOP_APLL12_DIV3>, <&topckgen CLK_TOP_APLL12_DIV4>,
++                 <&topckgen CLK_TOP_APLL12_DIVB>, <&topckgen CLK_TOP_APLL12_DIV5>,
++                 <&topckgen CLK_TOP_APLL12_DIV6>, <&topckgen CLK_TOP_APLL12_DIV7>,
++                 <&topckgen CLK_TOP_APLL12_DIV8>, <&topckgen CLK_TOP_APLL12_DIV9>,
++                 <&topckgen CLK_TOP_AUDIO_H_SEL>, <&clk26m>;
++        clock-names = "aud_afe_clk", "aud_dac_clk",
++                      "aud_dac_predis_clk", "aud_adc_clk",
++                      "aud_adda6_adc_clk", "aud_apll22m_clk",
++                      "aud_apll24m_clk", "aud_apll1_tuner_clk",
++                      "aud_apll2_tuner_clk", "aud_tdm_clk",
++                      "aud_tml_clk", "aud_nle",
++                      "aud_dac_hires_clk", "aud_adc_hires_clk",
++                      "aud_adc_hires_tml", "aud_adda6_adc_hires_clk",
++                      "aud_3rd_dac_clk", "aud_3rd_dac_predis_clk",
++                      "aud_3rd_dac_tml", "aud_3rd_dac_hires_clk",
++                      "aud_infra_clk", "aud_infra_26m_clk",
++                      "top_mux_audio", "top_mux_audio_int",
++                      "top_mainpll_d4_d4", "top_mux_aud_1",
++                      "top_apll1_ck", "top_mux_aud_2",
++                      "top_apll2_ck", "top_mux_aud_eng1",
++                      "top_apll1_d4", "top_mux_aud_eng2",
++                      "top_apll2_d4", "top_i2s0_m_sel",
++                      "top_i2s1_m_sel", "top_i2s2_m_sel",
++                      "top_i2s3_m_sel", "top_i2s4_m_sel",
++                      "top_i2s5_m_sel", "top_i2s6_m_sel",
++                      "top_i2s7_m_sel", "top_i2s8_m_sel",
++                      "top_i2s9_m_sel", "top_apll12_div0",
++                      "top_apll12_div1", "top_apll12_div2",
++                      "top_apll12_div3", "top_apll12_div4",
++                      "top_apll12_divb", "top_apll12_div5",
++                      "top_apll12_div6", "top_apll12_div7",
++                      "top_apll12_div8", "top_apll12_div9",
++                      "top_mux_audio_h", "top_clk26m_clk";
++        memory-region = <&afe_dma_mem>;
++        power-domains = <&scpsys MT8192_POWER_DOMAIN_AUDIO>;
+         resets = <&watchdog MT8192_TOPRGU_AUDIO_SW_RST>;
+         reset-names = "audiosys";
+         mediatek,apmixedsys = <&apmixedsys>;
+         mediatek,infracfg = <&infracfg>;
+         mediatek,topckgen = <&topckgen>;
+-        power-domains = <&scpsys MT8192_POWER_DOMAIN_AUDIO>;
+-        clocks = <&audsys CLK_AUD_AFE>,
+-                 <&audsys CLK_AUD_DAC>,
+-                 <&audsys CLK_AUD_DAC_PREDIS>,
+-                 <&infracfg CLK_INFRA_AUDIO>,
+-                 <&infracfg CLK_INFRA_AUDIO_26M_B>;
+-        clock-names = "aud_afe_clk",
+-                      "aud_dac_clk",
+-                      "aud_dac_predis_clk",
+-                      "aud_infra_clk",
+-                      "aud_infra_26m_clk";
+-        memory-region = <&afe_dma_mem>;
+     };
  
--if:
--  properties:
--    compatible:
--      contains:
--        const: mediatek,mt8183-audiosys
--then:
--  properties:
--    audio-controller:
--      $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
--else:
--  properties:
--    audio-controller:
--      $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
-+allOf:
-+ - if:
-+     properties:
-+       compatible:
-+         contains:
-+           enum:
-+             - mediatek,mt2701-audsys
-+             - mediatek,mt7622-audsys
-+   then:
-+     properties:
-+       audio-controller:
-+         $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
-+
-+ - if:
-+     properties:
-+       compatible:
-+         contains:
-+           const: mediatek,mt8183-audiosys
-+   then:
-+     properties:
-+       audio-controller:
-+         $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
-+
-+ - if:
-+     properties:
-+       compatible:
-+         contains:
-+           const: mediatek,mt8192-audsys
-+   then:
-+     properties:
-+       audio-controller:
-+         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
-+
- 
- additionalProperties: false
- 
+ ...
 -- 
 2.52.0
 
