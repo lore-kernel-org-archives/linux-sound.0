@@ -1,123 +1,122 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA6D33ADA9
-	for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 17:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C2736B046
+	for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 18:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768584359; cv=none; b=iuuCRUg7TRm9OThPoo/1bUfNoiEznnFGm1676RO+J0jpmal97R8mkebfxPiHadx/7Xchf6Zmw9e/1b7Jsi9nc1SPKq/D1uwC0NsBxAW5XW0LX/+PmnLDEABpFqDMVEKZ+1B7zt/gEYp2cqIDHTrf4/WbeZA0Nvi2xSIGRBQ5FxQ=
+	t=1768589978; cv=none; b=SFsmWsAbOV787VheSs3bIrTF7W1367nWv7GbL58wPVhvAvk8AvElNsE46OJde+eeP4WHsiqncVqH9Ihi30ZrB8z4/Yxu6s9xLvGyrxSU7aiUC7ZAWSbZXfke7eQ3cOUddordookj6hd/HJi5w4/N3/8RgTAdOaEGU7AJufrC2IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768584359; c=relaxed/simple;
-	bh=YdviBTA8jRw1D2gT88VYxUJR+OiJuzgjG+E0JzrSNxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=skLXneQJD1NELsK0yd7O8YbFT3X9RTSVWXQDO/aBl9wq7peYDebUg1mXlBDs18MGDx0N0FHy34pn4PE3v38qSQaLOD0Y7fOnfQ7MevtA7jvWNtDJAEPjJOnDT4WYADT01VL4QncsJepA96Bv9hxTqH4xTdT4nh6QiwoPfKicXbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTLXafyk; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1768589978; c=relaxed/simple;
+	bh=TzSo+tlzxFxHwZ9wkSBmczjkeQhikq+vs+l7Oy23ORw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aSDTUdc77a27pcO84huJHLC65N1wlSkf7AYm2nud7EIKiIlnQsuPZ+igUp7FZqOW6ACh6V8daxHIGiNg381AHAJ8MNSDBZ94P3QdYWYdgjRu4uCjtw6TYb7vmDLTqD8/4s6BhKVMpqSrI4yS9/VCmWTECVuDs2fsk6XTumlFz/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlUCJCIT; arc=none smtp.client-ip=74.125.82.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTLXafyk"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42fbc305882so1268123f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 09:25:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlUCJCIT"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12336c0a8b6so4849543c88.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 10:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768584356; x=1769189156; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=guLdPSMspTYOQSTOoD0vgqQiAA/YDtF0X8jjlbY9les=;
-        b=ZTLXafykwOWeH2jSFBA9oCl5fInL88gaM1UOVuOiqisXzYS2AIkYkkpx4c2KawaIcN
-         MNZDlaeBPHeHalbcvtMOtYBbm+L7dY23vUF8B0uTvFvAHPtRbTUNwVjvWfKmn1CNCGD2
-         VCfdBOJRgYZcp0ZAnd4hyYz9GDaJyKzVa50Cp0Xu16eB2VOz0vePVuCTJnkUkanzLo9Z
-         nJoZrfwfD/6T41sqZfGQ03QuwQ2FpDRu4uqupvltxREoIloEFjgacx2QpXhDDTsjx0zl
-         tp4k0QgKdPUPxWuM1hhM7BV7dQNoF+ZjIpRQE1m1sgW9lAnIcgr+mF+BucFOr234QA2s
-         fakg==
+        d=gmail.com; s=20230601; t=1768589976; x=1769194776; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OsdpmGsyOkVZsi/y+GsHdikzRvoYJyk6QlblSikl37w=;
+        b=dlUCJCITWmOW4mqAG7Xbkgj7NRmaG6VLpoK2ZrOwa9PzqpvHtGbpNt5DdfpbMfI6f8
+         MBGic3fBcQxkFvtOjk955jVpueQA5L71DVScE8srthwcmmWi6tvUIoZqdNi2YffNpGmk
+         nqVy3jRkPUWNZnptHQNu2KRgIOL7hsgUSXO1eWclnZgNriW3n4x8V9A0JN1Rz/eg+0fz
+         I5uYs8QjYI8lqZOB6xDQN9pNTWgLwmbwOgRq3tRDln7ik7iB7ngax4onYVoAZIby/bP0
+         gdQh79wASr6VolTux/EhIL5Mm+IT6ZYbr2SZABz4upgyfMN2j/1vF4xkRiVh0oXGcBrP
+         GlHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768584356; x=1769189156;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=guLdPSMspTYOQSTOoD0vgqQiAA/YDtF0X8jjlbY9les=;
-        b=spK5F2EAMRS+2FcRf3QMBJ8Qv2TX5thErbPifHX0emmxykw8QBHinV8SyhUTapGIkr
-         GAUI/oufLLQkfeQNuie98zpp+U0PQr0CFL47r/C/qXYg/ivz6xrDr5F5wC7T0exynIQK
-         RVouRUnSgakzT6oN2FaCLVcXQbmm9LwMfD5BX3EH6E9X4Z3nOrrN3O4tflYcIF/q8tRS
-         b2CfAwaXKqscMSGroIMsrkty1JuEixE4bCec+JGJ97/ZT+kALX6QO2hesrwwMao8gaXd
-         eeKR2s5fxi18gRjmgLMziUORmQbPcF0QOP0vIeXzWbc/bAv9n6BE+ltTaKE9m1IZNj3U
-         F/vA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvD3bPexch7bYNxEmqM/YRF8C+zi8318C1rvY5z6pKjJ2P8xmYyDRHHgmpE3ndYgL316Y1l5F6wBucOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKW3aOLU0wzNNRPBRE6JbOHo8DHEsJfyJrVK6Wi8C8oXYcOjly
-	vlZrUX7aID4FsU14WxROmUkaE9lhPWOf9XEimRJ7v5OeFTNKnORPIITS
-X-Gm-Gg: AY/fxX5RoAJhifRF2rweBEAAw9ezrba4+an+4UPlhxJAkbYpGlpoEaOhFnF9Jb5O7dG
-	Yki7Knz8TH0U6731kivpnssWTBJ3LcJJpYDMu/U4xKxxRld10sjInQicSt612VLhVio4UjAC0xS
-	c9qi98/Ag7szLA+yr75laUszDfjk3r+4DAZCaCrZkCmoxqsQNhQ3UnYbD1BE8Kc1bMIhtR4X8U3
-	r7TCLAoQkZAlDKeS9vXa/WOG5MeCPDwDxwV06VeYlon5NgUr8ZKcONj2QWz150uW1O8q4Luo+Gk
-	AP/e2jpGYhCGDVW1lDRqcZuSAD/epTdi1rDDkTWP7aHjYc7v2+7yyn3FmKeqRZK8e22zyJ9wX2z
-	EKsDzHwR1kJUecwMEr5D9xQh5fZhfi8GTAkOHLoW6wiNgLFblSZCeDLiWh1sdNTdwy+jqeE7+Rm
-	LTmKcXn0TnNGTlNdRmkLVqCXjSZu3D8HUFC3C/9exwDJmPd9ear+nwW7I=
-X-Received: by 2002:a05:6000:3105:b0:430:f622:8cca with SMTP id ffacd0b85a97d-43569bd2aa3mr4952607f8f.56.1768584356323;
-        Fri, 16 Jan 2026 09:25:56 -0800 (PST)
-Received: from anton.local (bba-94-59-215-181.alshamil.net.ae. [94.59.215.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569998240sm6098837f8f.43.2026.01.16.09.25.53
+        d=1e100.net; s=20230601; t=1768589976; x=1769194776;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OsdpmGsyOkVZsi/y+GsHdikzRvoYJyk6QlblSikl37w=;
+        b=uPwa8mDUct8viulRMruBqDsDmz7HiIVoo5KOkdhTsejeP2dsd1efcuWq9oxDSIWU2w
+         y+h5LmAa6BXQMD1ekNEPgSPbtWWgYf8FwaE2WRKjd7/fLzRhfnogcyv5CpWLzxLgesEL
+         M8LYTEg16XfocBVe6UiXdWyq+59nmi6pwk67eBPPYsK4CDomWQVj4khaneJvnOvvjsIE
+         1mSUfwwXZgoZ1dpXVpbQsM//nEBsm3Kf8d5CzgKOTVtncZm0cBNw7krxVk14aRY9sEH6
+         4JX79PjtoxHAAdFUkAI3LuwbxLuwoD16AI4TvwReyOl8DXcteqEb07VGmbqrqUokR35O
+         bU0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWB5H9n0rGkceuNREfaVE/9YDWoDGdBP8zrtsFXWxGSYpZiUON1QwuE1JrFyqKpBvQfDtXt6w3/KW85zA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztC5FyInnriEeT+fLvjf97xsDq24s4A/7ZeulZDQZvOJO9wMb0
+	2luNBYSCncVH0i8poCj4IEhW1xqY9Kkw77ZuLcjFb9vQgzDC56e/9Bk0
+X-Gm-Gg: AY/fxX5+askXrICFjCNygNVthdzL/1U0O1WtNXYBySy86N3L2UsbDPLSsLUBjWi/bVI
+	B64jnxKzX6o9azQzt+6E4DrNlVO/KbKa7l5ojM1vcDyS8xeeL2ReqBvCUW8r+Zs1fMNoS5j0j96
+	MTW8rPEXUba4imeKEzYTo8/WxKqEnJ3T5uV6P7FsXjwT+dBZffBwepFSwS9wjT+lTUJLnY1OMpV
+	GoIaFQXTs91hybLehCnEIp8vwksJf7D2h5hne/ePxi4dVESqobcpQFFTsyvVa+i+VjK0vXhOhx9
+	yO2UG0GNxS1OgnMIhEFbDrWgFsnrrzc0fXFsHvKP40Yz7R/5hv1OhdyYF7ZoRPCzWGQJ4sxkYtO
+	cWo6YY2y6nq/fOmF2sFvDEn+VMh29wK2HVuuPzgcKf1yJpqhh9epnE31PyGXUQL0eVUuNrr5Uj2
+	pRo/8dITB7M9GNzvXOYxCyKnw6R89RDEnec9UZmGVhI8Mc3orLFajo/ByhFBYdOFmdsAdtX1suF
+	BLesJY=
+X-Received: by 2002:a05:7022:2397:b0:11b:88a7:e1b0 with SMTP id a92af1059eb24-1244a75f051mr3682555c88.26.1768589976312;
+        Fri, 16 Jan 2026 10:59:36 -0800 (PST)
+Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac57fd0sm3522534c88.3.2026.01.16.10.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 09:25:56 -0800 (PST)
-Date: Fri, 16 Jan 2026 21:25:51 +0400
-From: "Anton D. Stavinskii" <stavinsky@gmail.com>
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 0/8] ASoC: sophgo: add CV1800 AIAO mux and I2S support
-Message-ID: <aWpyLQ6FR8_RsD1n@anton.local>
-Mail-Followup-To: Inochi Amaoto <inochiama@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen Wang <unicorn_wang@outlook.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-References: <20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com>
- <aWl4fvKsUZDg9dwj@inochi.infowork>
+        Fri, 16 Jan 2026 10:59:35 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Sheetal ." <sheetal@nvidia.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>,
+	dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: Re: (subset) [PATCH V2 0/4] Add tegra264 audio device tree support
+Date: Fri, 16 Jan 2026 19:59:27 +0100
+Message-ID: <176858995889.167465.8638060731154515673.b4-ty@nvidia.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20250929105930.1767294-1-sheetal@nvidia.com>
+References: <20250929105930.1767294-1-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWl4fvKsUZDg9dwj@inochi.infowork>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-> On Thu, Jan 15, 2026 at 11:17:37PM +0400, Anton D. Stavinskii wrote:
-> > This patch series adds basic audio support for Sophgo CV1800B, 
-> > as used on boards such as the Milk-V Duo. 
-> > The series introduces an AIAO audio mux driver, 
-> > an I2S controller driver, corresponding DT bindings, 
-> > and DTS updates to wire the components together.
-> > 
+From: Thierry Reding <treding@nvidia.com>
+
+
+On Mon, 29 Sep 2025 16:29:26 +0530, Sheetal . wrote:
+> From: sheetal <sheetal@nvidia.com>
 > 
-> I haven't see your mux driver, is it missed?
-
-That was bad copy paste from original version. 
-Thanks for noticing this. Will update the cover letter.
-I want to not overcomplicate already big patch series.
-So multiplexing will be done later. 
+> Add device tree support for tegra264 audio subsystem including:
+> - Binding update for
+>   - 64-channel ADMA controller
+>   - 32 RX/TX ADMAIF channels
+>   - tegra264-agic binding for arm,gic
+> - Add device tree nodes for
+>   - APE subsystem (ACONNECT, AGIC, ADMA, AHUB and children (ADMAIF, I2S,
+>     DMIC, DSPK, MVC, SFC, ASRC, AMX, ADX, OPE and Mixer) nodes
+>   - HDA controller
+>   - sound
 > 
+> [...]
 
-> Thanks for your patch, for all the patchs, I hope you write a
-> meaningful comment for the patch, at least for now I found it
-> is nothing in your comment.
+Applied, thanks!
 
-Thank you for a great help with that series. Do you mean
-I need to add more meaningful comments for each commit or the 
-cover letter is not describing everything clear enough? 
-Anyway will do my best in the second version. 
-> 
-> Also, the patch 8 should not in this patch and should be a
-> separate patch.
+[1/4] dt-bindings: dma: Update ADMA bindings for tegra264
+      commit: 919f6cd469c605f1de2269d46d04ebf80a1af568
 
-Yes I've missed this thing. I will remove the last commit 
-and move codecs nodes to the base dtsi file. 
-
+Best regards,
+-- 
+Thierry Reding <treding@nvidia.com>
