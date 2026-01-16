@@ -1,173 +1,175 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011049.outbound.protection.outlook.com [52.101.65.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCF031AABC;
-	Fri, 16 Jan 2026 07:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768549382; cv=none; b=kuGgfEcnmcAIwysACTYb+g2qLyl6rJlmh5ZGi3Iy5jy+ilTW9qi3qqdqAmXR43NeEtYPOUc02Aiw2gpujaD0wL5PlKGNABrj9G9px+FizpsKPQAWe+Mh07xDiqcX0bO56nDsrXwfwaEguaHTVOTVBt9xEtBCGegYT+05OPtRLe8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768549382; c=relaxed/simple;
-	bh=pOCcgQ6fdvw/LOi7KpxYMwopKefugDTwpWLtyJGHqzA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a6/xGxoxdSHMHWfwJYEHj+zlK4mkHYGB+A1guqHK6ZcpB1nyxaDZk1arGFW43cwJR1W/R7GURSAZNZM7yl0+wmHwdkkMWJF1OcR5UC6Da2Ek0QUtw+SFhoirGGPCJFTtxP8AfDkSThpNyxFQz3mikSNcrj3m6Ickg+Ux3h4GzlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=PFctT9wO; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096903502BA;
+	Fri, 16 Jan 2026 10:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768558648; cv=fail; b=cU0vnBxQ0Ws9pQBFrJxYxHSuNn9jFWqY3rvZ5NBFwZGO3yNOOQG1lmcUQS8kgvj64ZEPuVV+mE/6bqKan4azHb94lotEeoEm5ZYv3kmr0UMo+U57ZIWZkbOiu7cWwXJC3I2wUIKkRwFpQ7mDrD78xHrQi1b/7D3niW0L0JE9Xjc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768558648; c=relaxed/simple;
+	bh=k+SmHlBoDGuAPvTx/PMAjMd6ADfwrh4HTjQLOg8cGjI=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=luAVGznmE/17RGrj2cGt9urEZAHYLrHYtsKArGebJJ14aLZw/BdFUwUQZ2cW2C+k+0ZZ1Qn9szIMxKdHZ6Qo/8mxWRLc8AMETiA0I7173H1eILk5SI3jRV4rgrJHP8JueyGxlSR2qzsgFO1qNJfhbOORB1c1ijtDnaPBiKOHN+s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ObUCLSVX; arc=fail smtp.client-ip=52.101.65.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="PFctT9wO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1768549345;
-	bh=clnzf/H1JmwR0ak8FPrl0YMZL+WsDsmHb/QJM015m/E=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=PFctT9wOZw4ZqOmCZpucEUVPTlLPHNN3T/Br7kVwi9bKI0dmVpRfsQoypkKMQG/XT
-	 bwNxAuiV78K/ufTzcud11fBQpjqhXRrAKMHj+YygGhewTkNQWeLhLP4oq8EOqxtied
-	 rpU1IkMVFRtRtsNENvuWl48Idyu5IScDmI2VtnNw=
-X-QQ-mid: zesmtpip4t1768549333t9f98ac5c
-X-QQ-Originating-IP: DU9ZYwVUrtfQbkh8Im5uPNO9uZxdnn03eHkqvpXs+GI=
-Received: from PECI2107 ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 16 Jan 2026 15:42:05 +0800 (CST)
-X-QQ-SSF: 0002000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11121185886742935995
-EX-QQ-RecipientCnt: 21
-From: Runrun Liu <liurunrun@uniontech.com>
-To: Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ObUCLSVX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AKNbU6JwxooLjJqPbVD8oI5NGx+sstvmxn0/x1s8xSMHU7+ZDJ/qe2n586H7TE6W9ZEbylkbn00ebLNv2JqMHeY/IrXcrLNcyzdsrZm0t2kINjCMNKLgArQPa+BvWT05MYbo7dgvnyb5kUHAM68wMFTBumupoXrkMDUGc9bozXW2FEdvqUTPeacfBjB5D+T9MmzNpHioK4YJADp6hq02TFirZ+LOzu/YmBZPSptNJ4yyTZcYE2QhuY7c0+j11AMbBNTRMFEW/b/w27p9nymWEVOQxg65LxohXU1vOWg5K8ofqMo8sSCxQrc2oT86HGYNO7X4+wGK7kTa9q6S2h3lag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZOtS/RhHsIGZN+7TiwRRC/p4ALE9+e/m3sDD0svFZdY=;
+ b=bmX9ro3maqSUdLDcBnAp2Q4JGScBKYp78vkyNuLG+x4iRPHwteCja+Yps0+weTsyfuTEu2W2juPDVrVzHOD2ajeq6Lg676yfIWn7vFRyDfawnnm7s05NREvSdpLPlrKcbOZxWrwggO6dW2C+i2peIF/P9i1wagyOLNttT38llhcm2z+ZqL/viCNC/iaN0MBmKKx8DllNxh/Ee2uc7YcAt01DZhc7iUrrxy1mWT0U33zBdMQhGzBvzHJkuP3mXkuEu2Ky4Nz9MIHE9Sd4arBAw4gP3nZt9LCkopQ6I0DHgKJKYTv4r4RC+ixi5HgYbcxEEYZ9gfv7ofdW+6+LENdCQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZOtS/RhHsIGZN+7TiwRRC/p4ALE9+e/m3sDD0svFZdY=;
+ b=ObUCLSVXOw6bZ8yQWon4ZFz4etThkyvjXoRlLzGVxVrRUvVdx0owDIWZlKNq3XDPwCLX55FucnYgM0hZqBpcN/qLjLaVwsLghyVUxBDoWs8J+PZYRGTt25DpjRra5sWMv+vuk20vXGef6iWRmsKcrq/V5bwuFUh6xnDdQCX23c3FIONehqeXpAObQ2dQUrzsTloxkyWi9XYHwj12GqEjvDtbs99Zdq+CTqY6CbLCMiWHo2CYKAuQEdAM6YW/KvSAAR8AXdts/l99683HmydjfAWu0pN1xrnpGl9U83/FUQ8j14HtVQr5CuR3jAE17A3e/TI7aX7DglSz3ZChXvoVwg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by DB9PR04MB11598.eurprd04.prod.outlook.com (2603:10a6:10:60f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 10:17:19 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 10:17:19 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	kernel@uniontech.com,
-	Runrun Liu <liurunrun@uniontech.com>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>
-Subject: [PATCH] treewide: fix misspelling of "minimum" in comments
-Date: Fri, 16 Jan 2026 15:42:01 +0800
-Message-ID: <8FCE6718C7BBE127+20260116074202.56135-1-liurunrun@uniontech.com>
-X-Mailer: git-send-email 2.51.0
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/2] ASoC: fsl_audmix: Support the i.MX952 platform
+Date: Fri, 16 Jan 2026 18:16:46 +0800
+Message-Id: <20260116101648.377952-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::36)
+ To AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NrnJSkE52p6cOYffWNs6Nb5hF6bl90D1/ZvYa8Ega4O+qh/PaGP6P9Qe
-	fFzsutiHC/zEAfIKhTOvWuHv100nX5ewV7eJFtt8yfMD0t+1WR/Tc7Arl55+gAm13U+tm0f
-	0h3anR/kKjASpsh8gHeeOweVRiX5mlaSJNdM/RQbSZP6/OJ0Ioj7aGGN7L8/0vMRbpKcO6t
-	fAoQMEoaaYIbStdm3+ibGXWo0tDh8gu1yEEL6q2q6MAA9HM0Giwa5O9n/yI+JejTjlv1+G2
-	/H0vOKYuvUOP8FxHsnquWRoxf0pXONsLiePPv5fc9yDMaXhTHlTdDGvLB6VbqaUQ0YvhdXc
-	MXrVeR9x2Qr06e/SWWQZMzoCmOvGyQdmdmutq7kRQfhk2lxeOPXlCp3Q6D0OVhxII1f9Q5a
-	jGt/Mcf2XGksw1DSJd1t4BYrCslfTDDYoQgNRsHjZausI/ufnj7qC3yFaWffC9RQYr66G1H
-	9V53RHsYEkl8YjP9XyGIX4mZ0x57YfwmFYrEenZV/hsJG7NRYHKxW6sdkBxingfV9lYN953
-	DS3JYBeY8xZbPfE6oTZHgSBiGHlOhjdsA/EUEVmBEms3W5PQupbbpfi89srZbw/rCnjE1/c
-	Lee+qnG6u/oLGXAQoeCdUA5bBRUnNTq8DsRn5omStQvNVWmE1EYUgucUSIPqotwtt4JHH4+
-	GyFTsiYTjL1Tw5Ht4z1yV/IzMmwdPvDXh0WmMvlv/+qWDhBhBdU+NfAEDX4WOf5Mqsk+JPz
-	slUXD7CKXaNu6Ggbc/0TWwQLexBLy9cMr1ee5Y4b+69iKdFiyLq1CQT16Xd/4YnwjYZ+NaJ
-	h5V7VF8Ltto9xzn98xkuCMQ77yOXu4wNozNkUdasaTHmgxOHoDVzGlWti7RC4ffd6+kQegT
-	71LKxVfU0Eq+mrmSedPMQHr6ZpQjTzX/pobu0pB/sT+2sqvukEw7ZZVizkzg4BSS1l0NlU/
-	fHkd66SvEECaa4uifPmnWOxjrf+UuqMFO3/wM83OeqzgPpWQs6CBb0JAxLO8NpnwR6kYBF4
-	Ge6u3x7M3eIYVZjqPm7C/e2ziIP0x6M4pay5SjRiXP8wSytI69KV56ZwhyVvlDbD7Qs7ZPh
-	/boGaxaezMr0wrJ8H685Wb7i+ldj71xDg==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DB9PR04MB11598:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d111262-56b2-4b6d-e671-08de54e86e0b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|7416014|52116014|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cyu+im75XvltwwnYYxu6xlu1z1zl5xJll2b6s8UpnjGiW18yvjwK68rSnX1v?=
+ =?us-ascii?Q?H3KAtVqbRnEK/fkf0irP4Vxkn1+MFCAC3Vef8Y6tbrs+pE3o53VSex2cHNzD?=
+ =?us-ascii?Q?h7E8IgS3kBx365lzA5B454/uxNiCb0QudZ8ikyfBrFBNDHoeXwscJFndNaUl?=
+ =?us-ascii?Q?bUwQ/6hOdxX2baQdb/Yg4OduNi/ku6LSA2tobA0TQm+vd4ygnCy6lbQMavEl?=
+ =?us-ascii?Q?ouTTG0dz9Im5s5QLfsvSOXawS7JMkbQHH6arPLmi9Pj3QLS1k9W8E6z86eb/?=
+ =?us-ascii?Q?83BoAe59n5m8FBByV345oAO2oqUqOgnLbmoecGrvfFxzSeM+xGgcnzgKWgLu?=
+ =?us-ascii?Q?qdO7aTkqBqW3mCWByoNaPWzEwUnSjRVgylIwp64vS0ZEJV5Xhtv6EwRpk+PU?=
+ =?us-ascii?Q?IY++Vzn1HQtPv/1oDGRhcXZIsR4FmdaSe6bHse3TuCE2VhMYi2PRmbtjxh1+?=
+ =?us-ascii?Q?hNN7IdaI2/hWUcjJWTxG/UrV/JFpeO0wdkVNOxDiChgtksrldRbARnlP2Bef?=
+ =?us-ascii?Q?PZO2wmtD7P4zGwLRzvMOakZGiJZLhddSzMspQtG6wAsCWuchnJ/c89xvfFgc?=
+ =?us-ascii?Q?sX+0FaiNzHyqypciDwW8ogsOfTouGCVodipYnriGV0pI2CqvxXieGz7PYyaI?=
+ =?us-ascii?Q?FeXy3EE7c64Q7ETtT8h6o804QTHDo3gFMWAON+tkQDuWxLQqamPyA7IqGTGm?=
+ =?us-ascii?Q?tlA61jtHgiubfef999+jZd5uQ1LBUm+53IxhZ2vGemQRXA8LnTZ+Uni4DRcb?=
+ =?us-ascii?Q?ZSuQhwFgEho8YS5X3YVDqJVDxNDj2xdJmwpd2kV+Q/wPZa4Fg4d3NwRHnbJn?=
+ =?us-ascii?Q?ZTZ9th9GX+0OkzmXepl1BjMcYk6kablx3I/+HzR0EdKbAhZwzsL5I6tae4Wg?=
+ =?us-ascii?Q?h4+X87+Z94R0VtyEP6o8rpTgcImOmV4j9yG3gpKuSWoo3GQ4iZBSizWTx7vJ?=
+ =?us-ascii?Q?VMaKd4UfbCrp+188f/JqVcUfusk2IavlMoyj97ZwtE/gc5TgFtiR3q1ZqeU4?=
+ =?us-ascii?Q?w5UhXAYPCOWyGT0vKIviSw+SCCB1lJJxupjayRaU5/uMD+dpEZIBPP4O3G9D?=
+ =?us-ascii?Q?pCpDEhJAMq0k0327IzEs4QiKB2sVvjrcFg3FZAS1eqWwjT3yEre2Ezx3lQVg?=
+ =?us-ascii?Q?DnGuKjn479Dw7rku8fAioT02Wg2vayWB0nWvfanglr0k27QtfF5Bgg+O88a0?=
+ =?us-ascii?Q?lu9vutFUOh1c3M6zOr7gJ+z8YGtCb64KvNnBqviGZbVJep+sbGEAbmxNGDUV?=
+ =?us-ascii?Q?g5kPm4VTU+6dvMJ92GJGaLkICzrp4e2ssfZupdjd+tO/j9bUKhu4wELRKoVZ?=
+ =?us-ascii?Q?H9VBPGr9HTXKwHmGp6zE2i8GT0r6Hi/rOE1YBI9ZULeSYEPzG5V5ArVU2vhB?=
+ =?us-ascii?Q?Tyfjr79u27BJQrxRk7FtF1JftlvsUGw3ZkAGk0NJrpIlZWHtO+Ki8LOkY8d2?=
+ =?us-ascii?Q?pWcZc7ghyBr4UzJ47xxGwMBc7zeMhkuNg9mn+enzibf1aEKC5xtMHOtbggQy?=
+ =?us-ascii?Q?kkxdjfAI47pfJqwpgmtT9mH+RJrVwqUPhylDlYCEcQ8TmsN4pXop2Tx9s3dw?=
+ =?us-ascii?Q?NWPt9XjNVCTGjKeiH/fXfFdcHRxxzyvYb4DwnYeTWGvPejRIoYvXgh6xhX69?=
+ =?us-ascii?Q?DPeLeHZBtppQbMQoqnKxarW6mfgKxfiX+98SxMs5UZ2c?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(52116014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Dsn/Ht/puv7BhbJVQHX3EDne4iia+t89ySc8mWzOtJUP6Dt2PHXb3UrlkVg0?=
+ =?us-ascii?Q?UQFJEisV4OnxisfrfMo6O1JXQO9uRd5kc0keCGfNybigYE/zHk5eopJqbQm5?=
+ =?us-ascii?Q?7XoHlE5fnG8n63k5z6GPStjAtTNQKBI4WHqsc/oig6Y1+8cgbuE1I+e6yBrz?=
+ =?us-ascii?Q?ngk4Xv92j3HMOcIEDvjCUdMyhA6znyfz5nDHWehUNjpsq0rA649lpI7RcVA5?=
+ =?us-ascii?Q?J9RJesBkL0X4f2c28963r4hYBNXlxlav0l7LxEeP+WFWVw3ZdhgClH2T4BHj?=
+ =?us-ascii?Q?rbdiHpCliUHc4+XSbBUuO69uFdFNVXX/SHOis4Q9BAiCcRuIiN4Y/qfuU2iC?=
+ =?us-ascii?Q?JBrqxWSZVYpxHWhYdQltB8oXeYIh3uohcKl3kn6k5mn14a/TbD+7W3pqqpcy?=
+ =?us-ascii?Q?QYul3At27EY7AHpJZPVcDXD5WRbKec3c8Ddf9UywzKQNqIdXiOXRdDXqLZUo?=
+ =?us-ascii?Q?f1bUIanGGI1+dEKydk0q/UCokf/wF6bKJ0sLSV4JtOCmBxxSeedtbJuUKOXt?=
+ =?us-ascii?Q?qvbwZZLg3Amoq9/VF137wwkpz2LR1K2WNXk41yLVvBNYWuF7fi+a06ssa5vp?=
+ =?us-ascii?Q?ajeHSF0JMGeZbYsVJvbAyXWynmNDodTQEANCjoBJhpYc+ZXZkrVK9ctXP8KS?=
+ =?us-ascii?Q?ozwgf+YOePFuaihqy8NKT2/EYTCER+c97gamlgLbdMbfPyJKaPC1Exk6hXE6?=
+ =?us-ascii?Q?FogjUCfZRpIfgGna2bHMAAQmDOSHgC8/e2Cl+SfxzcgBvsldJFN+rHLI0A2y?=
+ =?us-ascii?Q?D+y6HqpUAfjtslfiUwpNEpbvcqxrRzcnKfEltfyLef4w0y/SVzOY55w1fx9r?=
+ =?us-ascii?Q?42Zty6qPybqngKaJ4xvVzfTNizO5w9PgpYm4UU5E/cLF0HadLzAZnTAJSOhP?=
+ =?us-ascii?Q?pB7pcdcCoCrwv/l74SFtPXWTD6elUIDB5QkkEkSNT4lvnL3Yjc8rcgWUpgFa?=
+ =?us-ascii?Q?Sp81Vk5z4gTVPsr6aTdf46Ow2jFFPc9u1ri0cW7oCZmDdFjUtNXSu026JXMu?=
+ =?us-ascii?Q?Wb68hVNNi65PMpydpmUVWqoE6yXJe/obBPDPc0N/4tVr8sGXod+2ZRj8raWT?=
+ =?us-ascii?Q?Z+IrNL/a6hZh12+mI16/CIorfpzNHmaa2Xm/863O61cq7R2bW1wr1b+oLlRr?=
+ =?us-ascii?Q?BrQ4FV5NGRjlqaLc4tOri0+CE5mG7pa24j9Kb2kG0NFKYe51AoGaMC5HIpIj?=
+ =?us-ascii?Q?DIRQ2g2mqZy3uz7dckrH3+O7MlbX+aEOTS8oSN/8kzjv1AvFrngqAbKD1PA7?=
+ =?us-ascii?Q?9nX8Eg4VqT00r9R3qigM9B3Ks1QgU72FOEYzyOuXTki+B/t0uuQyC2CkVk/3?=
+ =?us-ascii?Q?MoxjEZUgbZmz/2QC/MENHObVydh0qBSQTcqNTQVw6i7D+s1dLAMM4GWUDcPR?=
+ =?us-ascii?Q?Z7SRNS7qdlDuopOzypvOiHKNEBKAtQgVTz6am5NYqjVlVmEM+n7GDIJYbk+X?=
+ =?us-ascii?Q?ftVB18CpSRc3vkyJ+N2gzg5fkTjtEypqdNjcm2WdCZPE2Q6YYdVKv8VRPgNJ?=
+ =?us-ascii?Q?s/M6P7f/SO1VZa8J2IIDJEM+RZFeSjeajRrf/nm/Oxn+CZHCNhjsWEcdfe8r?=
+ =?us-ascii?Q?ZHkRlY8N9CePqeowZp1nA6WQYXnGmWa8axFXd9TSL+a/+O0EhyMUceXYz9+D?=
+ =?us-ascii?Q?1jnuLJejP8MsUBabJA7l4AV37coJlU55E074NoBASy18umXLUjTtCxDeeGmt?=
+ =?us-ascii?Q?YkwPnBWOJRv16J+OZQHiV7+Au0KKHKtnhYtO/0oRSaMcuW+7FsPQPJ7PwR0L?=
+ =?us-ascii?Q?smwPXia2Cw=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d111262-56b2-4b6d-e671-08de54e86e0b
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 10:17:19.2184
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a81VpxHgMPln5liWv+qOYaWOYciq3DokLUpiQD9a5fBONiLfrtnHJUzpXkkBpJD61UCU9qCBCo16H1vYUB+G1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB11598
 
-Fix misspelling of "minimum" in comments across AMD display and Realtek
-codec drivers.
+Enable audmix on i.MX952 platform, update dt binding document and
+driver.
 
-This typo is already listed in scripts/spelling.txt by commit
-8c3200265787 ("scripts/spelling.txt: add several more common
-spelling mistakes").
+Shengjiu Wang (2):
+  ASoC: dt-bindings: fsl,audmix: Add support for i.MX952 platform
+  ASoC: fsl_audmix: Add support for i.MX952 platform
 
-Suggested-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-Signed-off-by: Runrun Liu <liurunrun@uniontech.com>
----
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 2 +-
- sound/soc/codecs/rt5659.c                   | 2 +-
- sound/soc/codecs/rt5665.c                   | 2 +-
- sound/soc/codecs/rt5668.c                   | 2 +-
- sound/soc/codecs/rt5682-i2c.c               | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/sound/fsl,audmix.yaml | 35 +++++++++++++++++--
+ include/linux/firmware/imx/sm.h               |  2 ++
+ sound/soc/fsl/fsl_audmix.c                    | 28 +++++++++++++++
+ sound/soc/fsl/fsl_audmix.h                    |  5 +++
+ 4 files changed, 68 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-index e4144b244332..5b3584ad5b6b 100644
---- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-@@ -1157,7 +1157,7 @@ static bool setup_dsc_config(
- 	if (!is_dsc_possible)
- 		goto done;
- 
--	/* increase miniumum slice count to meet sink slice width limitations */
-+	/* increase minimum slice count to meet sink slice width limitations */
- 	min_slices_h = dc_fixpt_ceil(dc_fixpt_max(
- 			dc_fixpt_div_int(dc_fixpt_from_int(pic_width), dsc_common_caps.max_slice_width), // sink min
- 			dc_fixpt_from_int(min_slices_h))); // source min
-diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-index f5957470652c..3590ebd41c27 100644
---- a/sound/soc/codecs/rt5659.c
-+++ b/sound/soc/codecs/rt5659.c
-@@ -4118,7 +4118,7 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 	rt5659->gpiod_reset = devm_gpiod_get_optional(&i2c->dev, "reset",
- 							GPIOD_OUT_HIGH);
- 
--	/* Sleep for 300 ms miniumum */
-+	/* Sleep for 300 ms minimum */
- 	msleep(300);
- 
- 	rt5659->regmap = devm_regmap_init_i2c(i2c, &rt5659_regmap);
-diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
-index c7beccd54b16..38fb3a277e26 100644
---- a/sound/soc/codecs/rt5665.c
-+++ b/sound/soc/codecs/rt5665.c
-@@ -4688,7 +4688,7 @@ static int rt5665_i2c_probe(struct i2c_client *i2c)
- 		return PTR_ERR(rt5665->gpiod_ldo1_en);
- 	}
- 
--	/* Sleep for 300 ms miniumum */
-+	/* Sleep for 300 ms minimum */
- 	usleep_range(300000, 350000);
- 
- 	rt5665->regmap = devm_regmap_init_i2c(i2c, &rt5665_regmap);
-diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-index 5fcdb50d5184..c551696ae11a 100644
---- a/sound/soc/codecs/rt5668.c
-+++ b/sound/soc/codecs/rt5668.c
-@@ -2458,7 +2458,7 @@ static int rt5668_i2c_probe(struct i2c_client *i2c)
- 		return PTR_ERR(rt5668->ldo1_en);
- 	}
- 
--	/* Sleep for 300 ms miniumum */
-+	/* Sleep for 300 ms minimum */
- 	usleep_range(300000, 350000);
- 
- 	regmap_write(rt5668->regmap, RT5668_I2C_MODE, 0x1);
-diff --git a/sound/soc/codecs/rt5682-i2c.c b/sound/soc/codecs/rt5682-i2c.c
-index bba987308e15..e556a365adc8 100644
---- a/sound/soc/codecs/rt5682-i2c.c
-+++ b/sound/soc/codecs/rt5682-i2c.c
-@@ -173,7 +173,7 @@ static int rt5682_i2c_probe(struct i2c_client *i2c)
- 	if (ret)
- 		return ret;
- 
--	/* Sleep for 300 ms miniumum */
-+	/* Sleep for 300 ms minimum */
- 	usleep_range(300000, 350000);
- 
- 	regmap_write(rt5682->regmap, RT5682_I2C_MODE, 0x1);
 -- 
-2.51.0
+2.34.1
 
