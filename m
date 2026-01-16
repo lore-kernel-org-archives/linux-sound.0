@@ -1,122 +1,110 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C2736B046
-	for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 18:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAE63FEF
+	for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 19:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768589978; cv=none; b=SFsmWsAbOV787VheSs3bIrTF7W1367nWv7GbL58wPVhvAvk8AvElNsE46OJde+eeP4WHsiqncVqH9Ihi30ZrB8z4/Yxu6s9xLvGyrxSU7aiUC7ZAWSbZXfke7eQ3cOUddordookj6hd/HJi5w4/N3/8RgTAdOaEGU7AJufrC2IM=
+	t=1768592789; cv=none; b=FgFiNqVwlHCzx//9VEHdOP3/eeUdAq35B18xEB6Mku3I41PVl0uaAffNZDBLYlMwORumCtteq2Z670bUHnscnn3oMgGuyP2xYi2DOeaVqt6qMU7CxT81veoC8bpQUEzkk/Z8Op+kXam25mk1Tj9fTjMXCJwCORkyeueBhoNcu+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768589978; c=relaxed/simple;
-	bh=TzSo+tlzxFxHwZ9wkSBmczjkeQhikq+vs+l7Oy23ORw=;
+	s=arc-20240116; t=1768592789; c=relaxed/simple;
+	bh=+3+9+qRqbGNSZ4pG9u0yN3/d22iLd0/JPUx28owwajU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aSDTUdc77a27pcO84huJHLC65N1wlSkf7AYm2nud7EIKiIlnQsuPZ+igUp7FZqOW6ACh6V8daxHIGiNg381AHAJ8MNSDBZ94P3QdYWYdgjRu4uCjtw6TYb7vmDLTqD8/4s6BhKVMpqSrI4yS9/VCmWTECVuDs2fsk6XTumlFz/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlUCJCIT; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=cBbMDYH8/XQg411nnm1Nn3+hAW3CVqgoAF9SVoFS+SjbLZtAtFghCjZFh6Okx67spQ9Pwn7tWa5RglDwPKxnpQfWvWwHWb0LRsaCouTXQRDpWrOMvlPI20T+oeriGwbiQxHXuapIDS4iU7lF3pfyKgesccPwahL1Zw3GqeyTCHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=mGJjj658; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlUCJCIT"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12336c0a8b6so4849543c88.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 10:59:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="mGJjj658"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-64b92abe63aso4852650a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 11:46:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768589976; x=1769194776; darn=vger.kernel.org;
+        d=googlemail.com; s=20230601; t=1768592786; x=1769197586; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OsdpmGsyOkVZsi/y+GsHdikzRvoYJyk6QlblSikl37w=;
-        b=dlUCJCITWmOW4mqAG7Xbkgj7NRmaG6VLpoK2ZrOwa9PzqpvHtGbpNt5DdfpbMfI6f8
-         MBGic3fBcQxkFvtOjk955jVpueQA5L71DVScE8srthwcmmWi6tvUIoZqdNi2YffNpGmk
-         nqVy3jRkPUWNZnptHQNu2KRgIOL7hsgUSXO1eWclnZgNriW3n4x8V9A0JN1Rz/eg+0fz
-         I5uYs8QjYI8lqZOB6xDQN9pNTWgLwmbwOgRq3tRDln7ik7iB7ngax4onYVoAZIby/bP0
-         gdQh79wASr6VolTux/EhIL5Mm+IT6ZYbr2SZABz4upgyfMN2j/1vF4xkRiVh0oXGcBrP
-         GlHA==
+        bh=pkFvSAMSQc6d4H3mgr4LzydlXkiQ6nVNfuytLXPQy5s=;
+        b=mGJjj658i5uXrL3UUKmtmSw6P9wJGCkJCn3hswpTS0r+XRb3AqBW+hjDYe3JlbTp0C
+         rSd6O0gpp8Z1Z+Pnpno8iKPCko8WgT6j2kB/DqucX/AP1F8gkmq07XbD+Hr7edEtkyap
+         5z2/wIs2ull8/KN7OOzW9x9TU/5vSRtwiB5earHZciZAEYIWWuxww3P8I5FouI+9pC5Y
+         LsNRB63USA6UycCUnkzzb2xVE4MZHR5uVh9wjY6wU9RPOR2THzdhVhaEHA2BE6Dlh/zY
+         wrVO3swk+eJYlVEDe7YCoUqpN62T5VxPXZgBsZTgiWITJiNDTIBm0YyvE03ALq0XF7B0
+         BEDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768589976; x=1769194776;
+        d=1e100.net; s=20230601; t=1768592786; x=1769197586;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OsdpmGsyOkVZsi/y+GsHdikzRvoYJyk6QlblSikl37w=;
-        b=uPwa8mDUct8viulRMruBqDsDmz7HiIVoo5KOkdhTsejeP2dsd1efcuWq9oxDSIWU2w
-         y+h5LmAa6BXQMD1ekNEPgSPbtWWgYf8FwaE2WRKjd7/fLzRhfnogcyv5CpWLzxLgesEL
-         M8LYTEg16XfocBVe6UiXdWyq+59nmi6pwk67eBPPYsK4CDomWQVj4khaneJvnOvvjsIE
-         1mSUfwwXZgoZ1dpXVpbQsM//nEBsm3Kf8d5CzgKOTVtncZm0cBNw7krxVk14aRY9sEH6
-         4JX79PjtoxHAAdFUkAI3LuwbxLuwoD16AI4TvwReyOl8DXcteqEb07VGmbqrqUokR35O
-         bU0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWB5H9n0rGkceuNREfaVE/9YDWoDGdBP8zrtsFXWxGSYpZiUON1QwuE1JrFyqKpBvQfDtXt6w3/KW85zA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YztC5FyInnriEeT+fLvjf97xsDq24s4A/7ZeulZDQZvOJO9wMb0
-	2luNBYSCncVH0i8poCj4IEhW1xqY9Kkw77ZuLcjFb9vQgzDC56e/9Bk0
-X-Gm-Gg: AY/fxX5+askXrICFjCNygNVthdzL/1U0O1WtNXYBySy86N3L2UsbDPLSsLUBjWi/bVI
-	B64jnxKzX6o9azQzt+6E4DrNlVO/KbKa7l5ojM1vcDyS8xeeL2ReqBvCUW8r+Zs1fMNoS5j0j96
-	MTW8rPEXUba4imeKEzYTo8/WxKqEnJ3T5uV6P7FsXjwT+dBZffBwepFSwS9wjT+lTUJLnY1OMpV
-	GoIaFQXTs91hybLehCnEIp8vwksJf7D2h5hne/ePxi4dVESqobcpQFFTsyvVa+i+VjK0vXhOhx9
-	yO2UG0GNxS1OgnMIhEFbDrWgFsnrrzc0fXFsHvKP40Yz7R/5hv1OhdyYF7ZoRPCzWGQJ4sxkYtO
-	cWo6YY2y6nq/fOmF2sFvDEn+VMh29wK2HVuuPzgcKf1yJpqhh9epnE31PyGXUQL0eVUuNrr5Uj2
-	pRo/8dITB7M9GNzvXOYxCyKnw6R89RDEnec9UZmGVhI8Mc3orLFajo/ByhFBYdOFmdsAdtX1suF
-	BLesJY=
-X-Received: by 2002:a05:7022:2397:b0:11b:88a7:e1b0 with SMTP id a92af1059eb24-1244a75f051mr3682555c88.26.1768589976312;
-        Fri, 16 Jan 2026 10:59:36 -0800 (PST)
-Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac57fd0sm3522534c88.3.2026.01.16.10.59.34
+        bh=pkFvSAMSQc6d4H3mgr4LzydlXkiQ6nVNfuytLXPQy5s=;
+        b=vxY+U7jNoQIoah7RI51CPSwKQ5CK3mRZl72holdko/39A+wiXChcezBzACzCACrT3E
+         SCDst+SwYEfUiEFK96CdJviavvJYJmRBnUv2zSNYVHN4cJr6RAfnti0xb76jDOpuLSS4
+         LxaNXt1lnip1ul34Ul5x6MaKdADViWuG3IoxBIX+yZJP0PMrMkecIlU/2Z5I2XzWcy7v
+         Yi0UPpBLmjperkex8luGfVh676PGnTsQMTesvLpuufAcm8JRCaYw8BpnxO1shCizxIm0
+         zLKG8Q+gK0xYPZDfPxWMVladwdJc+Q3kiZZv3H0vPX/NBb+9K5Vgb5Ul/QkszdZOk7g0
+         gr8Q==
+X-Gm-Message-State: AOJu0YxWzpHEkpC+4GJ/qkKsh0H3Oh78Vw/m6a5upSUI5OL4qTdAgSdz
+	uGOqvUSuLZsBMw8ZEDwmLpTVkO5DB5tk+/JvWeDhWj7yYg31c1325c/INa3n4g==
+X-Gm-Gg: AY/fxX54Q2lu7tr7HpIueJ8URCc/DoDUPehYn6XLOQsfGqGJ7rpaQkHArc2THqHsqyM
+	RvVqgn/N2xJ1vNix9AII7fdqrWsQu2H1Gw9Y/ynYZ24CgvVzPggCv3CcgYNkRNHYL3QfPko59EZ
+	F1nlCQqLgyjGNjGIJDVY3qRjrhqhlFP4l/Ld9jKfab/aByaojQC3zhhH2ZzXl1PPOjt39EWvMP/
+	EVuTTi07usioXYi/PFd1yIbVcRR2Tlz9rGlA2GtARJ6RhXUeROkrR4PwM4CJFwJfg0dX2fdWWfP
+	eMp2yqLJKhiNHp5ILAQ6NUzzwGRckeY/1PGB6jv4IsSQwIfCU/cYrGk6okbxo5KCo53Ar9Wc6Mz
+	QWqYtsk79CzeHx1/TNPJoNLfuEExQH/TQd6qcMhGwPbvpsHvNLkvGef8ax9ozcMSn6iVMIjef6t
+	Imp/nR9Z1AlVnsk/+8m7EMfNnzi5074beHUdHc6FrVtYWnuYvCXFZ2LI1/O5a5hWdr64LLSrCku
+	wtGj2WhxxQnkjrDooHOILEe
+X-Received: by 2002:a17:907:930b:b0:b7d:3728:7d11 with SMTP id a640c23a62f3a-b879327f46fmr316376966b.50.1768592786133;
+        Fri, 16 Jan 2026 11:46:26 -0800 (PST)
+Received: from alien18.fritz.box ([2a00:6020:9cc0:fb00:4ed9:817d:d682:2599])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8795168c7bsm343782366b.20.2026.01.16.11.46.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 10:59:35 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Sheetal ." <sheetal@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>,
-	dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: Re: (subset) [PATCH V2 0/4] Add tegra264 audio device tree support
-Date: Fri, 16 Jan 2026 19:59:27 +0100
-Message-ID: <176858995889.167465.8638060731154515673.b4-ty@nvidia.com>
+        Fri, 16 Jan 2026 11:46:25 -0800 (PST)
+From: Oliver Freyermuth <o.freyermuth@googlemail.com>
+To: tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	Oliver Freyermuth <o.freyermuth@googlemail.com>
+Subject: [PATCH v2] ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCD SKU
+Date: Fri, 16 Jan 2026 20:46:04 +0100
+Message-ID: <20260116194604.21099-1-o.freyermuth@googlemail.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20250929105930.1767294-1-sheetal@nvidia.com>
-References: <20250929105930.1767294-1-sheetal@nvidia.com>
+In-Reply-To: <3da4b3e6-1c4b-44d3-91da-640d34d22236@googlemail.com>
+References: <3da4b3e6-1c4b-44d3-91da-640d34d22236@googlemail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Thierry Reding <treding@nvidia.com>
+This adds the necessary quirk for the Alienware 18 Area 51 (2025).
+Complements 1b03391d073dad748636a1ad9668b837cce58265, which added
+support for the Alienware 16 Area 51 (2025).
+---
+v2:
+ - Resend using git-send-email to fix whitespace/tab corruption.
 
+ sound/soc/intel/boards/sof_sdw.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On Mon, 29 Sep 2025 16:29:26 +0530, Sheetal . wrote:
-> From: sheetal <sheetal@nvidia.com>
-> 
-> Add device tree support for tegra264 audio subsystem including:
-> - Binding update for
->   - 64-channel ADMA controller
->   - 32 RX/TX ADMAIF channels
->   - tegra264-agic binding for arm,gic
-> - Add device tree nodes for
->   - APE subsystem (ACONNECT, AGIC, ADMA, AHUB and children (ADMAIF, I2S,
->     DMIC, DSPK, MVC, SFC, ASRC, AMX, ADX, OPE and Mixer) nodes
->   - HDA controller
->   - sound
-> 
-> [...]
-
-Applied, thanks!
-
-[1/4] dt-bindings: dma: Update ADMA bindings for tegra264
-      commit: 919f6cd469c605f1de2269d46d04ebf80a1af568
-
-Best regards,
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index c013e31d0..f486bd74b 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -749,6 +749,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Alienware"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CCD")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	/* Pantherlake devices*/
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
 -- 
-Thierry Reding <treding@nvidia.com>
+2.52.0
+
