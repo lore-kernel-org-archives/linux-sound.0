@@ -1,134 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137362AE77;
-	Sat, 17 Jan 2026 11:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE38013C8EA;
+	Sat, 17 Jan 2026 14:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768650250; cv=none; b=NKoc0S+bR/GsJSuOwTyrmqozPKbn/CQThXzCWt0W4YC255jrZAMIEyuaB0WEaDSlWOQLm54czd8ULZloxM8HL5d06kM24VgiNuF1PAMpLtqLB+sqivBJaLB8gzSRzE1AlxnYeBN4eU7nFKE4NCyxkfAgh1xzgS6qFIupK8QNOow=
+	t=1768660110; cv=none; b=UbFRAWn1w8/uBv+OiRsjdrYbz48FgFBITRevJqz9lmwOx2URgePeI2VtI8dqBRXBFMN+JL0jzrSDXQJb87swZPUYCkeM3YzTBzIxOrpAZlf3VSTK7S6+nJETaiPE540TEaFXlNHqb2lOo51e3gIJH7CO9/xSjJ02p/f8TbDg8Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768650250; c=relaxed/simple;
-	bh=7lknc6FIsN8kTaQ3hRHqL8L6jIldGI7xwi+wz3k2pVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G3rm0PzdgAf3SSCvbJreahj2Yo+AmIMaNIq5CKI4k/fMTIwJkllEz2+mSko6uUtWvqN0IMyoiij6BBuKQm/NctQull8+n4xcLfpsF/3VritIeL/rxCKhSXDEw6raO9i5O6LVrSueILIp2zJnT1GLXRh0ofwrCMjEmVz89SCByUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUrkHI3T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768660110; c=relaxed/simple;
+	bh=aR8PqHX/8PnLjQejIKfGWMlmrb2xdlVvm/gNTEWfFfg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kfk+6DN0tKeh6c6/qKVnh4bMNdHA0e38l/PlVjA3BEUT5KdFQvpQr0+z1hmPf8ktSZtMCl+rxVmAbI/qJRHyyCWWMdQzg3ZiUOcLlRQ1I2eQ6wZlsHtQs3aQJUPKenM+YqIOgXUxGG7L0Hkq9R2tec3l3k+xqQlShAUF89L7Z0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=YHhYN5lF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RHgh3uCx; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUrkHI3T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B1EEC4CEF7;
-	Sat, 17 Jan 2026 11:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768650249;
-	bh=7lknc6FIsN8kTaQ3hRHqL8L6jIldGI7xwi+wz3k2pVU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cUrkHI3TVz80ah/2V2OAa3YVWKUKlfBKTjrVaFB4AvpYJLenjYw9sIIbogSR970f8
-	 cvGB31uAzYakxyaHsj1BFcCz55w8Mz/hymC0nr0RrfpvsMeLZdfb5ZxTU2A9814g5j
-	 t1loXK3qayAfqBwBD4uwBn/HIh14LsGlngm/Wwm7DzHcqI8DGBM3giqP1+TjCTwFEX
-	 SqlVmei7xQ2O9BMJZFQXZQ75mvE1uaGLhMEdvvTUHmRXhSM7CovoKwl/Hi4f4WaWEO
-	 MGLT1KHJBv3T7Wk0UQgD5CBJ84TbxroJ9OcVHNYDcH4QkIx2XPUzMCWo0FHWVuIaQQ
-	 wK0e+49RC5ceA==
-Date: Sat, 17 Jan 2026 12:44:07 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl,audmix: Add support for
- i.MX952 platform
-Message-ID: <20260117-versed-proficient-pigeon-bd0b2a@quoll>
-References: <20260116101648.377952-1-shengjiu.wang@nxp.com>
- <20260116101648.377952-2-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="YHhYN5lF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RHgh3uCx"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2B7621D00318;
+	Sat, 17 Jan 2026 09:28:27 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Sat, 17 Jan 2026 09:28:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1768660107; x=1768746507; bh=VxGIvxEnlM
+	yLJw1AXQ5i8GRHQcqLmhfOwo0BLQWHxO4=; b=YHhYN5lFu9zBO4pkoKnrLOKxAE
+	XpGXfFVlW/VvjP7FvQ5ns6tqpIfY2MHyBaY3KFEVjlAabPLE9N9HJ4qs2Vpbr0TJ
+	/zVYA4Q6CYashcrHmsjBRgHNPmKrRd7Qzt4tR8iAr5BwDp6xOBtUji/skhmTepGr
+	ja1D9H5D2Y4rQJA+J+SjNTISSImnszRMKpHA8NKqxJKp0npRcvOBbFTyAKUNmDne
+	d7Noo2k/8netQtAdYzGnzRHz8CJ9yH4wJTVF/MyljnQtS8I2ot7G/s0r8lrxB4U7
+	vJ4C2knLRzoELc731Glvd1EXzvDtxn5cTLocuOCwHWdkQtyw5tqbezFNIH5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1768660107; x=1768746507; bh=VxGIvxEnlMyLJw1AXQ5i8GRHQcqLmhfOwo0
+	BLQWHxO4=; b=RHgh3uCxHyeOP37dKg67w8RTU3d7/FkvLvGEXWuWyLsN7xCzdMM
+	u4RUy0hClbQPmUbkhZjR6Bg1hWeCHrArPFoRZWU2bHhlcLmyNGOBjo/y4YPXDQID
+	QhWo7W9gyLImtdzme5KU4ZbOI0llDJkRETHSnaBYSBjwUvd8UY00Qy3SeDkGJ5wQ
+	RehzKQxOWvr7xs0rnTb6JqlvcE/Ph6letQ/ipG7aqZzmETDMO1yYFBqbmad/IqFW
+	El15cSzd62dVk0+autlOd4bfPBBMuEfA8VBiyGU5/32T+M7njIfEB59IO6tbRwdD
+	7naqJeXQo5tlRuiNFqP8ik+n0E4R9k8S/FQ==
+X-ME-Sender: <xms:ipxraRCZCstn2JcGULe4Yh_V0MFpJB0TuWymPfQJlfTTJ4rP0YmMSw>
+    <xme:ipxrafoMWf4C-8kkAAAoj7gSYgIdsD01VeZlUbhPAfJURfAgL2eiJH62pDxvFcio8
+    U7soAwVyXHNIvWK9VrtYGs732oPJcmdyqKhD_rrOW8z0d4MlRSlwA>
+X-ME-Received: <xmr:ipxraUgs3n16poBmY9xiXM16vdq0n66nfrTtaZ0_-7F895h-m4d0SelgjA3zmcW8clvdsAzq9cy7EZT7PB85b6sNcMll5JPzyQ__nPlyxjS5bA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufedvtdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeffvdeuleffveekud
+    fhteejudffgefhtedtgfeutdfgvdfgueefudehveehveekkeenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrg
+    hmohgttghhihdrjhhppdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlsehlihhsthhsrdhsohhurhgtvg
+    hfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:ipxraUBL8NiS7o5bDDQvuaqqpPIsEmoKvUSwKJ6u3rlleSc1EdF2FA>
+    <xmx:ipxraRGY1Y6G3gIJobvKoUmBWeIjciGR6VUBu6IwH0ufkirn7Qgz4A>
+    <xmx:ipxraUITXX7CVspNI-LQ1e7dpdScGK_evM69aCrwoG4Kb0FUcWEbYg>
+    <xmx:ipxradm0BxcN1cSO9osiRvRFitSRQtunP3uKW_qWt01dbM3Ca8z1sg>
+    <xmx:i5xraenPVQBee2bP7KxQz9RtASRisJ92JXFs6w8Z1hL_jEUySU6amXy9>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 17 Jan 2026 09:28:25 -0500 (EST)
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux1394-devel@lists.sourceforge.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/9] firewire: core: add fw_iso_context() variant with configurable isoc header size
+Date: Sat, 17 Jan 2026 23:28:13 +0900
+Message-ID: <20260117142823.440811-1-o-takashi@sakamocchi.jp>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260116101648.377952-2-shengjiu.wang@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 16, 2026 at 06:16:47PM +0800, Shengjiu Wang wrote:
-> The specific feature for AUDMIX on i.MX952 is that it can be bypassed,
-> so add fsl,amix-bypass property for this feature, besides this there is
-> no power domain defined on i.MX952, so make power-domains to be
-> dedicated to i.MX8QM.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../devicetree/bindings/sound/fsl,audmix.yaml | 35 +++++++++++++++++--
->  1 file changed, 33 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,audmix.yaml b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
-> index 3ad197b3c82c..50fb08460b4f 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
-> @@ -34,7 +34,9 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: fsl,imx8qm-audmix
-> +    enum:
-> +      - fsl,imx8qm-audmix
-> +      - fsl,imx952-audmix
->  
->    reg:
->      maxItems: 1
-> @@ -75,12 +77,41 @@ properties:
->          unevaluatedProperties: false
->          description: Output port to SAI RX
->  
-> +  fsl,amix-bypass:
-> +    type: boolean
-> +    description:
-> +      The audmix module is bypassed from hardware.
+Hi,
 
-I don't understand why device AUDMIX would have property saying AUDMIX
-(so itself) can by bypassed. If you bypass the device itself, what do
-you configure here?
+Currently ALSA IEC 61883-1/6 packet streaming engine provides the maximum
+PCM buffer size constraints to drivers for audio and music units in
+IEEE 1394 bus, due to hard-coded size of isochronous context header for
+1394 OHCI IR context.
+
+The limitation is inconvenient a bit, and this patchset removes it by
+allowing the drivers to configure the size of isochronous context
+header.
+
+To sound subsystem maintainer, I'd like to send the last patch to
+mainline in my side.
+
+Takashi Sakamoto (9):
+  firewire: core: add function variants for isochronous context creation
+  firewire: ohci: refactor isoc single-channel state using a union
+  firewire: ohci: code refactoring to use union for isoc multiple
+    channel state
+  firewire: ohci: use cleanup helper for isoc context header allocation
+  firewire: core: add flags member for isochronous context structure
+  firewire: ohci: allocate isoc context header by kvmalloc()
+  firewire: core: provide isoc header buffer size outside card driver
+  firewire: core: add fw_iso_context_create() variant with header
+    storage size
+  ALSA: firewire: remove PCM buffer size constraint from isoc context
+    header
+
+ drivers/firewire/core-card.c  |   4 +-
+ drivers/firewire/core-cdev.c  |  30 ++--------
+ drivers/firewire/core-iso.c   |  16 ++---
+ drivers/firewire/core.h       |  13 +++-
+ drivers/firewire/ohci.c       | 110 +++++++++++++++++++---------------
+ include/linux/firewire.h      |  33 ++++++++--
+ sound/firewire/amdtp-stream.c |  31 +++-------
+ 7 files changed, 125 insertions(+), 112 deletions(-)
 
 
-> +
->  required:
->    - compatible
->    - reg
->    - clocks
->    - clock-names
-> -  - power-domains
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx8qm-audmix
-> +    then:
-> +      required:
-> +        - power-domains
-> +      not:
-> +        required:
-> +          - fsl,amix-bypass
-
-fsl,amix-bypass: false
-
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx952-audmix
-> +    then:
-> +      not:
-> +        required:
-> +          - power-domains
-
-Not sure what you want to say here, but disallowing properties is shown
-in example-schema (:false).
-
-Best regards,
-Krzysztof
+base-commit: a4cd9860fa085f0d04d2065f4c151fcde9fcdf4a
+-- 
+2.51.0
 
