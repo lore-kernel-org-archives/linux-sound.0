@@ -1,82 +1,82 @@
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7474C1D88AC;
-	Sat, 17 Jan 2026 14:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF5322D7B6;
+	Sat, 17 Jan 2026 14:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768660124; cv=none; b=bJfB0j2uBnATgUIbgIEeYTbr+TQwlXeI9zaIteAcb3YIKASD9p1xVy/dPGFakjwfX35kjRJBZTZCto7zNf9jYwN/BmNELs66T7INlpBnIJ5k7ZXx0/NGbX2aTmBSs5deEoPPUEs14aDhUEJl/umsHBBvlov1pKWuNN+US7H63U8=
+	t=1768660124; cv=none; b=eOYITgJU0R4+9MdOEZmjXHCoX04GkD0MoRjQ5sCmolbg8pJZH8LzjMyIE/zbgY34JKiP+TXjMMfGdvLm9TCDwHmkbLXsO0fQsrVIm8jB979tJd+jc8pFpo5Kn2633CQvdfYiAdD+IhGNjrNDApQy7afv3iAaBRz5y3xOSQPd4PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768660124; c=relaxed/simple;
-	bh=FXDzsTyEDrOCDoe1FuBGPqltI1yoo6g4v8q8GdA+zi0=;
+	bh=2fpSded8DV2zo3EcRCIuAv40PL286xZPQpAgxmWoBNM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NumlhBF6/kUs48RfecVHyi3BLhOugpVZe9LWhBxughelqHehoPf2p6HSdTwY1vLkzT5XchnWLrGTF84YtfYS4U3Y6nDZX4N6/0iaklELJOVmXjWCNFms6/rRPyWUEHDpEHtBHpnXyDMwf1xcFwAX9tP1FjPB605UDLt69XpcqA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=LYJ+Kf2C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zcW3RvX+; arc=none smtp.client-ip=202.12.124.149
+	 MIME-Version; b=rJX+jCD+zXSxom3ykVaLECfnwpV/gIdQyeP1221c6X7CAmCzxiprwqplH8SFSgNP1Sg6McunJ0EQvBvU0L5XWT+h1EWBU+AUCipE43Kb44eE6llFXYklmhKgOwP51rHMhaWewBBhqtnC+qJP41KRPiYR+LpfVvagUXQuh7BUSeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=DxN/I+Ku; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g6PQOzyW; arc=none smtp.client-ip=202.12.124.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="LYJ+Kf2C";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zcW3RvX+"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id AF16B1D002EB;
-	Sat, 17 Jan 2026 09:28:41 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="DxN/I+Ku";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g6PQOzyW"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 861717A0322;
+	Sat, 17 Jan 2026 09:28:38 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sat, 17 Jan 2026 09:28:41 -0500
+  by phl-compute-05.internal (MEProxy); Sat, 17 Jan 2026 09:28:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1768660121; x=
-	1768746521; bh=EpU7s6MYPGtj7LZ20r796f5THbt7CSmvMGny3xKCmVQ=; b=L
-	YJ+Kf2CFW42n3qvT5ItPotE/Rm1ae1ymqS8yXwATdJNTrmCTGmxNUy9CZwe0frgm
-	UhCKOamq8hBSe00V0BWG+Ui29XfV3krb3szzKW6jES8yxsd8dDwFqiQFywU2hL7u
-	ELovGAYdUuJtE4rOgLRsXdGUYUpOeORqHxnGbN6idW9uf6XbEwc98dL6cHyfg/0q
-	J4Spr2HjihvWC/r9kDUmM4jhi+Lhmeaj12VaEq7hLQEKsDB0YP88DUPdiZdjBfce
-	lveB1qNv3vFerEcjBVyVGuuvNaEnrEajVxqmIM+olSVY1DSeffLggLWGvCiBPt7h
-	HSreNGBHxaLEwMynAAU0g==
+	:reply-to:subject:subject:to:to; s=fm2; t=1768660118; x=
+	1768746518; bh=sXsLq3IZoGvB6vceJiH6t/T7rkt89IB3p1KmJSv+MW8=; b=D
+	xN/I+KuhHoq/GU4pOPOwzT4YYP4r9+hxzbkEk2JU/mhwIZ+JId1ZQON1vSD7DWu0
+	UXLUqxHpfVKTu1jwl2QCPoAgDkjA/5600LS5x8v5R5m8NdJ9gs5K6RMw/voMiGYz
+	JE6dCHSI3L+Urwc2SbP59AJ44zTPbyjO65R4RWQb3eP1Mkcwx6EtOTBv7Wp+Gxyn
+	f7Dz89egbYlvcMH6Hotcp1ZqXlC8XZF1u6c51RGby1R0S+YqOGttrrvLKxgeVZSt
+	XMThyvxWIJHtjBoN5rthbzB9yjT/TVUUQ18RAMQgJtYmLtH6vgP2tEjb0WrJHoTG
+	kGD9KY/YVCWCjELtN8K0g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1768660121; x=1768746521; bh=E
-	pU7s6MYPGtj7LZ20r796f5THbt7CSmvMGny3xKCmVQ=; b=zcW3RvX+fJg9w1fdQ
-	d/DiNY7ROkEi23J2Q1iS50dIenLUfcrF8jbqUEUAWOJCn4TI+5XcbWYDTwmM1DWB
-	R0Vb2PCu1/RdLhaiUYZQjnxm6Keylss7WbdahGUDOtO7Vc/SWq0+g9eZ9Za1FOup
-	85MnFqj2b8hLnbKc1qS1i8fI6pAGYqd2rxRZsvRj0PMbiNEn3jq8cYF8vNBxaZFD
-	PZFscUrhIEt4B09fNmUZY1/zt0w98+deUU48sOG004dt+paX8qWshfEESIW2icCo
-	Cee2zqeVDk5xxEs1nk9npNLs/7wrLWwI8Y3aAwB8HfAnMUJMP60yy2OmKG7qcZW/
-	EcLdw==
-X-ME-Sender: <xms:mZxrafo1DD4escYfgiBwb-jOCoHgU82qnK2N-Qr1YD6SZ-zEra60PA>
-    <xme:mZxraZwYu_z2-7oVlWwp1Mro-pTW4R9Z74sltaooNTxRvulWYz3hzOkQs9bB7Fhq3
-    aj61VZmzwqKyw8yq2Dqq0nONGZ-lvOzcQbT1yZ3NTDl-hGiMGU4Nzc>
-X-ME-Received: <xmr:mZxraUKsaBlkOvVM00At2CMjDdM2usnfzEa0Ms177IGmxMR-B4CFu-KOArjNi0XIqZz5odXY01ij4hbdooy3UNUFTrSwOKU0mKvIG9zD6TBiDA>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1768660118; x=1768746518; bh=s
+	XsLq3IZoGvB6vceJiH6t/T7rkt89IB3p1KmJSv+MW8=; b=g6PQOzyWc+kbNinuu
+	N4SLuf6iPgyt77DoYvAuZVRMxGnVxp86iY6ApA8QiV250xYwcmoXjGyXy2+Gdfc8
+	WU48CoSQ0RCCcarH/OC5WgTiP2ZUUPWDFZRc6XkF5snar2q62Qt0Z/2MMFX9N9O+
+	1eprt48vsBGJ/UsTJHIl79wRbz5CxmBS0wZDo85z1ktAdnJ41tQSDyUPvI7WX66E
+	ZFp1MVjnMFVvFeGnrvXamWWIZ0+qewqPOezg7ux+V07Ei8X4eC/dTemC+JdLp7Tj
+	XX/S9FdCxF7gQFZhhORKVENBz3uZ2/Z75MEAIjw9C8YSY4B7se0fnxFwpM5ZiuEm
+	P0Heg==
+X-ME-Sender: <xms:lpxraRo3rhYXStUCJsvni4CUw7ckVXhBGk4sH-ORR4QSjjWVk0SHhw>
+    <xme:lpxraTxTOJA3tMmjseoJD9LDMUdP75Q1inMO1wLjXT_OBhP6kBWZNzhjgf2FmAj2O
+    _XDBn5hSdkVLCiNmrLulUFjl6-r891_bbcx9I7-Lxzrx-NiYt2oww>
+X-ME-Received: <xmr:lpxraWJi5jNawPpTwpVQ6vyGcVfUvxayqwZ4wcj86VgQ1xNntO-KWX3suM6q_BKJ8Ga5DowelmfC6fxqQb8cPT1j6Pf-WUgrp8ToCFjqK_42Fw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufedvtdehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtkeertd
     ertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
     hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpedvjefgjeeuvd
     fguddukeelveetgfdtvefhtdfffeeigfevueetffeivdffkedvtdenucevlhhushhtvghr
-    ufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
     hkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhu
     thdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlsehlihhsthhsrdhsohhurh
     gtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
     rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvg
     hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:mZxrabJkW0hfNXZWuiG2ND1JsW3JY8lAcJaB-lumpn9OlJEnTJnUUw>
-    <xmx:mZxraZvZY4nZNaj5Cc0AUvAsloqx9IDCzKrYFhJ2h4Znb_ENqD9ZpA>
-    <xmx:mZxraQT3CBPu6Dx0huNuZPSbcMBb7jYhze_Aa-oTlf6WvGp-bP1XmQ>
-    <xmx:mZxraXP6rwWmXuzKGS-gZhzHXFAzdbhiSAz8yQDi0Un7nmhfypOmjg>
-    <xmx:mZxraRu2xGPeZYiVa9MgbNqiHUcr15Q6176tKkPJmXQgzLvcmBd8Y26U>
+X-ME-Proxy: <xmx:lpxraVKwAieu3aMLAyFHwfVV-1x77ylDaLbXXSitCWNbxD8d59WKqg>
+    <xmx:lpxrabvMEByKhZuexSKTzNzqcv6k0THh_Xo97qE9c_NWKHb5-2A0uA>
+    <xmx:lpxraaQ7m8psQT_NYlkqNPmBT0M9EGYxyGxVQapn-pPDIOxm207ang>
+    <xmx:lpxraZPyHpwpdJdV_CkJwrriSrFKvQtsDR5QczYZ5LjuVkQ9LZlStA>
+    <xmx:lpxrabv9dF6_xNFVMYweAM_gXzrdlBLvAsQNuU1n5j-kOaZv3YRnGsQD>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 17 Jan 2026 09:28:40 -0500 (EST)
+ 17 Jan 2026 09:28:37 -0500 (EST)
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 To: linux1394-devel@lists.sourceforge.net
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 9/9] ALSA: firewire: remove PCM buffer size constraint from isoc context header
-Date: Sat, 17 Jan 2026 23:28:22 +0900
-Message-ID: <20260117142823.440811-10-o-takashi@sakamocchi.jp>
+Subject: [PATCH 7/9] firewire: core: provide isoc header buffer size outside card driver
+Date: Sat, 17 Jan 2026 23:28:20 +0900
+Message-ID: <20260117142823.440811-8-o-takashi@sakamocchi.jp>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260117142823.440811-1-o-takashi@sakamocchi.jp>
 References: <20260117142823.440811-1-o-takashi@sakamocchi.jp>
@@ -88,97 +88,162 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the IEC 61883-1/6 packet streaming engine, the isochronous context
-header stores CIP headers. Previously, the header storage was limited to
-PAGE_SIZE, which constrained the maximum PCM buffer size.
+For single-channel isochronous contexts, the header storage size is
+hard-coded to PAGE_SIZE. which is inconvenient for protocol
+implementations requiring more space.
 
-There is a function with configurable header size. Now the limitation is
-removed.
+This commit refactors the code to obtain the header storage size outside
+the 1394 OHCI driver.
 
 Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 ---
- sound/firewire/amdtp-stream.c | 31 +++++++++----------------------
- 1 file changed, 9 insertions(+), 22 deletions(-)
+ drivers/firewire/core-card.c |  4 ++--
+ drivers/firewire/core-iso.c  |  8 +++++---
+ drivers/firewire/core.h      |  6 +++---
+ drivers/firewire/ohci.c      | 10 +++++-----
+ include/linux/firewire.h     |  7 +++++--
+ 5 files changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index 5cdc34877fc1..223c880af802 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -191,8 +191,6 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
- 					struct snd_pcm_runtime *runtime)
+diff --git a/drivers/firewire/core-card.c b/drivers/firewire/core-card.c
+index 0462d7b9e547..a754c6366b97 100644
+--- a/drivers/firewire/core-card.c
++++ b/drivers/firewire/core-card.c
+@@ -704,8 +704,8 @@ static int dummy_enable_phys_dma(struct fw_card *card,
+ 	return -ENODEV;
+ }
+ 
+-static struct fw_iso_context *dummy_allocate_iso_context(struct fw_card *card,
+-				int type, int channel, size_t header_size)
++static struct fw_iso_context *dummy_allocate_iso_context(struct fw_card *card, int type,
++		int channel, size_t header_size, size_t header_storage_size)
  {
- 	struct snd_pcm_hardware *hw = &runtime->hw;
--	unsigned int ctx_header_size;
--	unsigned int maximum_usec_per_period;
- 	int err;
+ 	return ERR_PTR(-ENODEV);
+ }
+diff --git a/drivers/firewire/core-iso.c b/drivers/firewire/core-iso.c
+index fbbd14d21ca4..3190b2ca1298 100644
+--- a/drivers/firewire/core-iso.c
++++ b/drivers/firewire/core-iso.c
+@@ -138,12 +138,13 @@ size_t fw_iso_buffer_lookup(struct fw_iso_buffer *buffer, dma_addr_t completed)
+ }
  
- 	hw->info = SNDRV_PCM_INFO_BLOCK_TRANSFER |
-@@ -212,21 +210,6 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
- 	hw->period_bytes_max = hw->period_bytes_min * 2048;
- 	hw->buffer_bytes_max = hw->period_bytes_max * hw->periods_min;
+ struct fw_iso_context *__fw_iso_context_create(struct fw_card *card, int type, int channel,
+-		int speed, size_t header_size, union fw_iso_callback callback, void *callback_data)
++		int speed, size_t header_size, size_t header_storage_size,
++		union fw_iso_callback callback, void *callback_data)
+ {
+ 	struct fw_iso_context *ctx;
  
--	// Linux driver for 1394 OHCI controller voluntarily flushes isoc
--	// context when total size of accumulated context header reaches
--	// PAGE_SIZE. This kicks work for the isoc context and brings
--	// callback in the middle of scheduled interrupts.
--	// Although AMDTP streams in the same domain use the same events per
--	// IRQ, use the largest size of context header between IT/IR contexts.
--	// Here, use the value of context header in IR context is for both
--	// contexts.
--	if (!(s->flags & CIP_NO_HEADER))
--		ctx_header_size = IR_CTX_HEADER_SIZE_CIP;
--	else
--		ctx_header_size = IR_CTX_HEADER_SIZE_NO_CIP;
--	maximum_usec_per_period = USEC_PER_SEC * PAGE_SIZE /
--				  CYCLES_PER_SECOND / ctx_header_size;
--
- 	// In IEC 61883-6, one isoc packet can transfer events up to the value
- 	// of syt interval. This comes from the interval of isoc cycle. As 1394
- 	// OHCI controller can generate hardware IRQ per isoc packet, the
-@@ -239,9 +222,10 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
- 	// Due to the above protocol design, the minimum PCM frames per
- 	// interrupt should be double of the value of syt interval, thus it is
- 	// 250 usec.
-+	// There is no reason, but up to 250 msec to avoid consuming resources so much.
- 	err = snd_pcm_hw_constraint_minmax(runtime,
- 					   SNDRV_PCM_HW_PARAM_PERIOD_TIME,
--					   250, maximum_usec_per_period);
-+					   250, USEC_PER_SEC / 4);
- 	if (err < 0)
- 		goto end;
+-	ctx = card->driver->allocate_iso_context(card,
+-						 type, channel, header_size);
++	ctx = card->driver->allocate_iso_context(card, type, channel, header_size,
++						 header_storage_size);
+ 	if (IS_ERR(ctx))
+ 		return ctx;
  
-@@ -261,6 +245,7 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
- 				  SNDRV_PCM_HW_PARAM_RATE, -1);
- 	if (err < 0)
- 		goto end;
-+
- 	err = snd_pcm_hw_rule_add(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
- 				  apply_constraint_to_size, NULL,
- 				  SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
-@@ -1715,7 +1700,9 @@ static int amdtp_stream_start(struct amdtp_stream *s, int channel, int speed,
- 	} else {
- 		dir = DMA_TO_DEVICE;
- 		type = FW_ISO_CONTEXT_TRANSMIT;
--		ctx_header_size = 0;	// No effect for IT context.
-+		// Although no effect for IT context, this value is required to compute the size
-+		// of header storage correctly.
-+		ctx_header_size = sizeof(__be32);
- 	}
- 	max_ctx_payload_size = amdtp_stream_get_max_ctx_payload_size(s);
+@@ -153,6 +154,7 @@ struct fw_iso_context *__fw_iso_context_create(struct fw_card *card, int type, i
+ 	ctx->speed = speed;
+ 	ctx->flags = 0;
+ 	ctx->header_size = header_size;
++	ctx->header_storage_size = header_storage_size;
+ 	ctx->callback = callback;
+ 	ctx->callback_data = callback_data;
  
-@@ -1724,9 +1711,9 @@ static int amdtp_stream_start(struct amdtp_stream *s, int channel, int speed,
- 		return err;
- 	s->queue_size = queue_size;
+diff --git a/drivers/firewire/core.h b/drivers/firewire/core.h
+index e0ae948605e1..8b49d7480c37 100644
+--- a/drivers/firewire/core.h
++++ b/drivers/firewire/core.h
+@@ -100,8 +100,8 @@ struct fw_card_driver {
+ 	void (*write_csr)(struct fw_card *card, int csr_offset, u32 value);
  
--	s->context = fw_iso_context_create(fw_parent_device(s->unit)->card,
--					  type, channel, speed, ctx_header_size,
--					  amdtp_stream_first_callback, s);
-+	s->context = fw_iso_context_create_with_header_storage_size(
-+			fw_parent_device(s->unit)->card, type, channel, speed, ctx_header_size,
-+			ctx_header_size * queue_size, amdtp_stream_first_callback, s);
- 	if (IS_ERR(s->context)) {
- 		err = PTR_ERR(s->context);
- 		if (err == -EBUSY)
+ 	struct fw_iso_context *
+-	(*allocate_iso_context)(struct fw_card *card,
+-				int type, int channel, size_t header_size);
++	(*allocate_iso_context)(struct fw_card *card, int type, int channel, size_t header_size,
++				size_t header_storage_size);
+ 	void (*free_iso_context)(struct fw_iso_context *ctx);
+ 
+ 	int (*start_iso)(struct fw_iso_context *ctx,
+@@ -178,7 +178,7 @@ static inline struct fw_iso_context *fw_iso_mc_context_create(struct fw_card *ca
+ {
+ 	union fw_iso_callback cb = { .mc = callback };
+ 
+-	return __fw_iso_context_create(card, FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL, 0, 0, 0, cb,
++	return __fw_iso_context_create(card, FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL, 0, 0, 0, 0, cb,
+ 				       callback_data);
+ }
+ 
+diff --git a/drivers/firewire/ohci.c b/drivers/firewire/ohci.c
+index 888c43940999..1c868c1e4a49 100644
+--- a/drivers/firewire/ohci.c
++++ b/drivers/firewire/ohci.c
+@@ -2755,7 +2755,7 @@ static void copy_iso_headers(struct iso_context *ctx, const u32 *dma_hdr)
+ {
+ 	u32 *ctx_hdr;
+ 
+-	if (ctx->sc.header_length + ctx->base.header_size > PAGE_SIZE) {
++	if (ctx->sc.header_length + ctx->base.header_size > ctx->base.header_storage_size) {
+ 		if (ctx->base.flags & FW_ISO_CONTEXT_FLAG_DROP_OVERFLOW_HEADERS)
+ 			return;
+ 		flush_iso_completions(ctx, FW_ISO_CONTEXT_COMPLETIONS_CAUSE_HEADER_OVERFLOW);
+@@ -2924,7 +2924,7 @@ static int handle_it_packet(struct context *context,
+ 
+ 	sync_it_packet_for_cpu(context, d);
+ 
+-	if (ctx->sc.header_length + 4 > PAGE_SIZE) {
++	if (ctx->sc.header_length + 4 > ctx->base.header_storage_size) {
+ 		if (ctx->base.flags & FW_ISO_CONTEXT_FLAG_DROP_OVERFLOW_HEADERS)
+ 			return 1;
+ 		flush_iso_completions(ctx, FW_ISO_CONTEXT_COMPLETIONS_CAUSE_HEADER_OVERFLOW);
+@@ -2954,8 +2954,8 @@ static void set_multichannel_mask(struct fw_ohci *ohci, u64 channels)
+ 	ohci->mc_channels = channels;
+ }
+ 
+-static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card,
+-				int type, int channel, size_t header_size)
++static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card, int type, int channel,
++		size_t header_size, size_t header_storage_size)
+ {
+ 	struct fw_ohci *ohci = fw_ohci(card);
+ 	void *header __free(kvfree) = NULL;
+@@ -3016,7 +3016,7 @@ static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card,
+ 
+ 	if (type != FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL) {
+ 		ctx->sc.header_length = 0;
+-		header = kvmalloc(PAGE_SIZE, GFP_KERNEL);
++		header = kvmalloc(header_storage_size, GFP_KERNEL);
+ 		if (!header) {
+ 			ret = -ENOMEM;
+ 			goto out;
+diff --git a/include/linux/firewire.h b/include/linux/firewire.h
+index 71d5cc8f28ce..8bf568471588 100644
+--- a/include/linux/firewire.h
++++ b/include/linux/firewire.h
+@@ -558,12 +558,14 @@ struct fw_iso_context {
+ 	int speed;
+ 	int flags;
+ 	size_t header_size;
++	size_t header_storage_size;
+ 	union fw_iso_callback callback;
+ 	void *callback_data;
+ };
+ 
+ struct fw_iso_context *__fw_iso_context_create(struct fw_card *card, int type, int channel,
+-		int speed, size_t header_size, union fw_iso_callback callback, void *callback_data);
++		int speed, size_t header_size, size_t header_storage_size,
++		union fw_iso_callback callback, void *callback_data);
+ int fw_iso_context_set_channels(struct fw_iso_context *ctx, u64 *channels);
+ int fw_iso_context_queue(struct fw_iso_context *ctx,
+ 			 struct fw_iso_packet *packet,
+@@ -578,7 +580,8 @@ static inline struct fw_iso_context *fw_iso_context_create(struct fw_card *card,
+ {
+ 	union fw_iso_callback cb = { .sc = callback };
+ 
+-	return __fw_iso_context_create(card, type, channel, speed, header_size, cb, callback_data);
++	return __fw_iso_context_create(card, type, channel, speed, header_size, PAGE_SIZE, cb,
++				       callback_data);
+ }
+ 
+ /**
 -- 
 2.51.0
 
