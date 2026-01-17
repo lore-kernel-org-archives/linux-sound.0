@@ -1,112 +1,119 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA202C86D
-	for <linux-sound@vger.kernel.org>; Sat, 17 Jan 2026 00:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399E02C11C9;
+	Sat, 17 Jan 2026 01:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768611547; cv=none; b=WFWHPpCfqzC+yFN+kB5M0f4V8ZUxpcCdfjlMro2MKmEduVCzS6OXkJIIuCq/bjmKLJRgmd/7UphN5kCipLtvS1xqxRrW4gfUqvHDrTKJgPRmG/pifzh7iu20IRXXw2HxvxXIWq/B08iqqObTU1z6tfhJrPUrlCBK3UL1j3JQEDw=
+	t=1768613244; cv=none; b=DqTLvlfJYCeszrbq0y0nblio7IKHmSQaMu9KZCoVI5YyXqgqPhtknGBVMrHfYFQ2f7Rq8YEC35exMvElGHMj5wHSuhrMsnqh6/mA4bGmAsNzd9s3tbMBpCAEj9knAi48Q9nPudKnGExNvn4fHcuZexLHR5BGf3tCGo0mzO7TKH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768611547; c=relaxed/simple;
-	bh=ZveipeIP7Bmtra4tJV836ZoRkFGm7qdMZOJGSTZHv5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=APLRXs8wY05124UrhjrTqJQQ8V7vIhPPjmH5gpTwelGfFvn0slcj2w6CfOumVmABUrMpPryBUCq76mZy6RICr60Lvg38f18Z3hrDYEpEMIOBnJFZJ6J/MHhA7gN9IbEYnxQa/1olv2RwWbpGiFdJbdOFDKgqCoBWjOqvwEi5uoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhI+LvMa; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768613244; c=relaxed/simple;
+	bh=SJju++Ng3SSXh4VyyG/fpZAIPqU9nXk95mBWRMAyIcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WPhtrySd2x95UlKv+0bgN+jNq2c7jxynYLv73/mU/AnHcu9TIVjTV56XWTr3Ri0+TB1xgvRxN5L5QbAqP9qGGGDYtz6w5St3+aNbfX4W1H6/RlCsfDVOKAjIHVVRjs9KJyFvsXt6DUucx86fJYFOexRgJdTRpQKNbkWAjSli6F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=EjxF4o/A; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhI+LvMa"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa4so2137487f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Jan 2026 16:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768611545; x=1769216345; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wzbNnTwPY3sl1kDBYO8pjwy7AQ3U6oZDZIuHTJM1cw=;
-        b=OhI+LvMaHSser8ogUVoWen08Y4NvsMT4duH30zfQaOucwAYuWbKrgK82rtSCfUZJCH
-         atEz1QdpNqqFd+FUzN+IAK+tqA5PES3gUc0sMmuVo2iEc9lX09JPwLNtUZ3mKKS4iTfQ
-         oVccuUVQMubtxoukZroBcWgY8kGMMMQe0qbjO24WTOql99gI/wcq3z5k8CRktpbNGjO6
-         YJ5R5AbWWKFY93FlYYiOQl1a6Sjp1SQp6u57MwSXNQya1nhBvONMnXSl8xyUp8dm6+3L
-         MITX+znpE6JV9HWgcyzS0f8z64h298AL9OAo/bd6j2+97OE+D+IZr5Om6IKBtuuQ18BB
-         J9JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768611545; x=1769216345;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8wzbNnTwPY3sl1kDBYO8pjwy7AQ3U6oZDZIuHTJM1cw=;
-        b=OiahCfK9VeJu2zWf+XCpWf/rr2Cb1vEP2PjwRu6vBxCdm6q1rAp5oy0FCvaS7XCQCq
-         HTzev/eEfnLwaxRhHKue8KrasL4hJeBsjENd3CsOQQzP8Usf7IgWts1IWbQ0QgnWrKAk
-         AUfkdAZf/ev8Wf6jswhbAUkf07wSV6izVW3bJjM672hCrxLjRllGnwnb2nHfNJOhn50R
-         AkMiczlkVHkpe80Uk+z67vRPhqR6qEgLuaPk7CObgeu4GcJtI5n8u9sQ8qZNQFZWGbr3
-         LBFID5dg1uOdaij01/vBGkoJbbLHWnc+Ryrci4m5q1qyDUBGcH5HQCe8LNFKsKgu6R4X
-         z//A==
-X-Gm-Message-State: AOJu0YyL9pJ0CizUrWo9SMi467zUZGt/V8TB4csENq94dViN8/WE2Jkr
-	Mr73cdRVkuq26s+DY6V7/UeuxKy3elFRvgLvaAUycIp4UqZg38ltFZ0y
-X-Gm-Gg: AY/fxX5l3Pg/WTR5/BijoQbag6/hEk2CtZkCj7Fuysm3HMNeoqbFGC2nsmzGsZdViVw
-	rd5JRxqoTeCd4dw0trA2qqN6AIUFbdIIMNlDsyY+V32Vq2OlMgBUNdo0KnWzNsNuiZmdRwdeh7X
-	pop2+nba3cjgdZges9L4bg4h9nu5eL2N0VaiEsTvV8Y0WIou9PyCGyJ6IUOALUnagqYuzj6C0iV
-	GI0E4WJ7NTlo0Le8zZFLTse3oUcjH9r9JY6Uc4xggdaOFDLgOKnX3KKBpf9+ku/30jULrSh6uBr
-	RycEBBY/wN1KHIUuKUw3o9L2SWezdhFFVU38Nt0WrPhtvDv7djRnCEBhOTbEJxcl/Bbi+RoRTWW
-	xZ7QFNleXJt1k7myb+xiU2neGlcZP3iSfb5zf3gLK9uiJkbiwwZpQI09wZK3HLzpKAYH0/3WtTN
-	mZ372oBfnSmGuiCUGvGeDWHJ91Ok12HKVCBjWkOlHVaDe6AORtBhrfrvgiWX1ReKCoYaz1kxXMa
-	SErsbBVZI1o8eK/1Q==
-X-Received: by 2002:a05:6000:288e:b0:430:f622:8cd4 with SMTP id ffacd0b85a97d-4356a082f50mr5383723f8f.49.1768611544731;
-        Fri, 16 Jan 2026 16:59:04 -0800 (PST)
-Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921facsm7885225f8f.5.2026.01.16.16.59.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 16:59:03 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jon Hunter <jonathanh@nvidia.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: dt-bindings: realtek,rt5640: Various fixes
-Date: Sat, 17 Jan 2026 01:58:55 +0100
-Message-ID: <176861152450.1947082.2637987844354037789.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260108143158.351223-1-jonathanh@nvidia.com>
-References: <20260108143158.351223-1-jonathanh@nvidia.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EjxF4o/A"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GKYs2T3916307;
+	Sat, 17 Jan 2026 01:27:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=snWcDOPmz+rmR554nf2c7zTcBCZrk
+	09WoMEvdp77ED8=; b=EjxF4o/AMVBCarjgtlaw6qeMGgddHuiwW4QRHLR8zU+wj
+	odOoLp6AAImaTq1NZz0BXMFnPUmACqhhhxjYf24ju8ObugmfDP4DJJvE6xnESmoq
+	BBCEoEoPFr8uEJ4RerXQh4n/gc7QsTBuEvBkqjzoBEMgiQwDRdXW7XMuskE4BXpY
+	wIv1B9OnIRMCHPkjygLKw5fX0cPyRn3GEY07s5f3agIW2vz0mOeyCMUlBk3AypNH
+	DhZfAR7ou21jZKlnoaydbJ6mYRf+48jieQn7Equka2bgjlMyykrjw0hDqWEn+k/R
+	UTKzPGZdcKyfHzM4zO8D3CPwXSA79vgD//afep+mw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bqvg4r9m8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 17 Jan 2026 01:27:08 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GMtbx0010805;
+	Sat, 17 Jan 2026 01:27:07 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4bqv9m7vs5-1;
+	Sat, 17 Jan 2026 01:27:07 +0000
+From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+To: perex@perex.cz, tiwai@suse.com, g@b4.vu
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] ALSA: scarlett2: Fix buffer overflow in config retrieval
+Date: Fri, 16 Jan 2026 17:27:06 -0800
+Message-ID: <20260117012706.1715574-1-samasth.norway.ananda@oracle.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_09,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2601170010
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE3MDAxMCBTYWx0ZWRfX24fRNm9TOCYG
+ Xn9Gsz5Sa9l0XkrLARAhO15yTY3KePtOFxUwQlygn/AmKzoK+Su6otldFsqJF6Pd96/oDyzypEb
+ vBosF1wRwCbfVZGEH7Fm59Yx0P50XdsZimNhp+6igI03iA5jLydsdn87Zo4ayBi66NaUbxBvUim
+ GTTRo0tmA4blp6xZcTe7oKI6y/FpKbBWbzrr2dzGNmqJdREgJ4O4aCMBT3vhgg6LP7/GXxiTseR
+ sFasAAKWKxesw0Jf2rHZnljyDwt/dnf9EskaAHdHoTCn9Q5WNGNuZXS8N7dTVKQbbUO+KLsS/xx
+ QhSWRdji4BA4mQxL1hfbr1xzPWulcfL70RiRboIoq/fQQYJ+Fmi5+i9OZCtsOx1+KLOvbBrq0vv
+ 1+8jw9NrP0exS8bX6HvZAMqitRRvzMDjvlLCZzGcJghdm+D1sb3e1klN3pYdWiRAZ7i2aPzXQ4q
+ Sn121JVRdPRkP3iwCHQ==
+X-Proofpoint-ORIG-GUID: 85CEq8PyX4Sbv-LlvaSa2m8is1z6w9do
+X-Proofpoint-GUID: 85CEq8PyX4Sbv-LlvaSa2m8is1z6w9do
+X-Authority-Analysis: v=2.4 cv=famgCkQF c=1 sm=1 tr=0 ts=696ae56c cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
+ a=HUaxR9rN2OWM8muhoRsA:9
 
-From: Thierry Reding <treding@nvidia.com>
+The scarlett2_usb_get_config() function has a logic error in the
+endianness conversion code that can cause buffer overflows when
+count > 1.
 
+The code checks `if (size == 2)` where `size` is the total buffer size in
+bytes, then loops `count` times treating each element as u16 (2 bytes).
+This causes the loop to access `count * 2` bytes when the buffer only
+has `size` bytes allocated.
 
-On Thu, 08 Jan 2026 14:31:55 +0000, Jon Hunter wrote:
-> This series includes fixes for the realtek,rt5640 dt-binding to address
-> a few warnings that are observed when running the CHECK_DTBS=y for some
-> DTBs that use this codec.
-> 
-> Jon Hunter (3):
->   ASoC: dt-bindings: realtek,rt5640: Document mclk
->   ASoC: dt-bindings: realtek,rt5640: Update jack-detect
->   ASoC: dt-bindings: realtek,rt5640: Document port node
-> 
-> [...]
+Fix by checking the element size (config_item->size) instead of the
+total buffer size. This ensures the endianness conversion matches the
+actual element type.
 
-Applied, thanks!
+Fixes: ac34df733d2d ("ALSA: usb-audio: scarlett2: Update get_config to do endian conversion")
+Cc: stable@vger.kernel.org
+Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+---
+ sound/usb/mixer_scarlett2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[1/3] ASoC: dt-bindings: realtek,rt5640: Document mclk
-      commit: 601a821631c55014b02371740c39748d0af916c1
-[2/3] ASoC: dt-bindings: realtek,rt5640: Update jack-detect
-      commit: 2efe28d11cc19b69b19b9bcdb6f498c1bf842fbc
-[3/3] ASoC: dt-bindings: realtek,rt5640: Document port node
-      commit: b2788f6320722d6059f849f35a77eb082608c627
-
-Best regards,
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 1150cf104985..8ec436cf10e4 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -2489,13 +2489,13 @@ static int scarlett2_usb_get_config(
+ 		err = scarlett2_usb_get(mixer, config_item->offset, buf, size);
+ 		if (err < 0)
+ 			return err;
+-		if (size == 2) {
++		if (config_item->size == 16) {
+ 			u16 *buf_16 = buf;
+ 
+ 			for (i = 0; i < count; i++, buf_16++)
+ 				*buf_16 = le16_to_cpu(*(__le16 *)buf_16);
+-		} else if (size == 4) {
+-			u32 *buf_32 = buf;
++		} else if (config_item->size == 32) {
++			u32 *buf_32 = (u32 *)buf;
+ 
+ 			for (i = 0; i < count; i++, buf_32++)
+ 				*buf_32 = le32_to_cpu(*(__le32 *)buf_32);
 -- 
-Thierry Reding <treding@nvidia.com>
+2.50.1
+
