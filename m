@@ -1,138 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83AB288C27
-	for <linux-sound@vger.kernel.org>; Sat, 17 Jan 2026 08:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD80CB640
+	for <linux-sound@vger.kernel.org>; Sat, 17 Jan 2026 09:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768638799; cv=none; b=hHsl0u9utxiedjD/ANU5gMrR7dy5YwFFOTYCm8Hx0wKdm+sDxndB87JZuZSNqGhKAMjt1EpEBDW7oJSAjSdQ3GGCm/Y4xzk7Jn4F8dmXV18Vryw+fNIERs2kWaIZFmRl7YJEXoN2gse5R6I7gI+PDHhVRN8nD6qSEtcGU5GOSVQ=
+	t=1768641531; cv=none; b=JH5iw/vbwDYuBNk06iijtvhCDA/5nGijdVBhqgZsRJdG5bRxnyMguhjDmVw7gXvS7XzO7MImM09VTjG0hmk0gCMAo5s5/AiqmpsaG+qALjhBtIleLPS71IxqrTXFItQsakY2lKiD9KoB+F0EO5CwZm17nlOL04iv70Z8JlQN86M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768638799; c=relaxed/simple;
-	bh=KBnomWOTqx/GjC2IfQR43kJme+8EL5qD11qlDj00An4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DZT2o6lqhj2gtkeogIG8ti9lxE5Th0Zq++Cunf5AN7tD+ODVKohDYfiF+rnT0yr5hKXIU/ctB1XdVcL5QhxZGkKI/NBx8uoBNuMeduCG0UqjMvQhkeExSxmm7e93I04zIVFXsQ8e3DtP86MvtC7+IJSY6FLPkWZyUgxoAhkE6F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Si7nDCBt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=44NwzR/N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Si7nDCBt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=44NwzR/N; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Si7nDCBt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="44NwzR/N";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Si7nDCBt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="44NwzR/N"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 290463368D;
-	Sat, 17 Jan 2026 08:33:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768638796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mUa+kWf3Nln+LeACK5L+fvl1yQmxpuMjOb3DR3HWyW0=;
-	b=Si7nDCBtVyO03NahORCOfCtxyRpBlP8oe4dqiUYT6irXyq8QuIKNyBs9LvQMTs5zXdh+KI
-	4grv1gqw9/+N7lIlXL0zSm1wD5LDUYBgCt3TBycV2640Pm1ioz12xhrw48hTemAkQ+3mfy
-	NOHc3TRYYhBQgvXAVz/XqD4KyrqLCVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768638796;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mUa+kWf3Nln+LeACK5L+fvl1yQmxpuMjOb3DR3HWyW0=;
-	b=44NwzR/NpilC5HMJSqChg/NsDyLFmBnDZDmwi5BNf16uWH1wh84jZEWNTF7cVX+uTmHvnX
-	e7mqBqtNyhKpEtDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768638796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mUa+kWf3Nln+LeACK5L+fvl1yQmxpuMjOb3DR3HWyW0=;
-	b=Si7nDCBtVyO03NahORCOfCtxyRpBlP8oe4dqiUYT6irXyq8QuIKNyBs9LvQMTs5zXdh+KI
-	4grv1gqw9/+N7lIlXL0zSm1wD5LDUYBgCt3TBycV2640Pm1ioz12xhrw48hTemAkQ+3mfy
-	NOHc3TRYYhBQgvXAVz/XqD4KyrqLCVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768638796;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mUa+kWf3Nln+LeACK5L+fvl1yQmxpuMjOb3DR3HWyW0=;
-	b=44NwzR/NpilC5HMJSqChg/NsDyLFmBnDZDmwi5BNf16uWH1wh84jZEWNTF7cVX+uTmHvnX
-	e7mqBqtNyhKpEtDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E09B03EA63;
-	Sat, 17 Jan 2026 08:33:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xsaENUtJa2mRawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 17 Jan 2026 08:33:15 +0000
-Date: Sat, 17 Jan 2026 09:33:15 +0100
-Message-ID: <87zf6cbpv8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	g@b4.vu,
+	s=arc-20240116; t=1768641531; c=relaxed/simple;
+	bh=RLxe/Rh0EQbNEZIXH7nwlVKSwS1/GgTn6c5A7VITUH0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0RluYB66AV2fCvhfKi9nVbE58bUHrnVY9BCbMZAM27nudbspTIAnW8OxrgPgwxcAoFyAlbRonEzr7ykDLuQDnMwfuC48zPR/aoccQQiw6Z1bKEkOSGW+H6PZDYlLFo4Ckzso9bF18SNp6zfw9mdxLVZIM1yWE2Uqo0L3LSOMrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.1])
+	by gateway (Coremail) with SMTP id _____8CxqsL1U2tpStQJAA--.31683S3;
+	Sat, 17 Jan 2026 17:18:45 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.1])
+	by front1 (Coremail) with SMTP id qMiowJAx28HzU2tpHh8hAA--.130S2;
+	Sat, 17 Jan 2026 17:18:45 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] ALSA: scarlett2: Fix buffer overflow in config retrieval
-In-Reply-To: <20260117012706.1715574-1-samasth.norway.ananda@oracle.com>
-References: <20260117012706.1715574-1-samasth.norway.ananda@oracle.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH 0/4] ASoC: codec: es8323: Enable DAPM for ADC and ChipPower
+Date: Sat, 17 Jan 2026 17:18:33 +0800
+Message-ID: <cover.1768641428.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJAx28HzU2tpHh8hAA--.130S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEKCGlrJLcBwgAAsQ
+X-Coremail-Antispam: 1Uk129KBj9xXoWrZr1kZF1rJrykZw4rXF13Awc_yoW3Zrb_ua
+	4jgFWDJr4q9FWfJayjkFn09rW3WF4fCFyYyF1vgasYyFy3trW8Jw17Aw4DZryxXFs7t3Wr
+	tF1xAr18JF1xGosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb7xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+	JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+	xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+	6r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
+	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
+	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jYSoJUUUUU=
 
-On Sat, 17 Jan 2026 02:27:06 +0100,
-Samasth Norway Ananda wrote:
-> 
-> The scarlett2_usb_get_config() function has a logic error in the
-> endianness conversion code that can cause buffer overflows when
-> count > 1.
-> 
-> The code checks `if (size == 2)` where `size` is the total buffer size in
-> bytes, then loops `count` times treating each element as u16 (2 bytes).
-> This causes the loop to access `count * 2` bytes when the buffer only
-> has `size` bytes allocated.
-> 
-> Fix by checking the element size (config_item->size) instead of the
-> total buffer size. This ensures the endianness conversion matches the
-> actual element type.
-> 
-> Fixes: ac34df733d2d ("ALSA: usb-audio: scarlett2: Update get_config to do endian conversion")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+Hi all:
 
-Applied now.  Thanks.
+This patchset replaces the original magic numbers with register bit
+field macro definitions in an attempt to improve code readability.
+
+In addition, DAPM for capture ADC and chip power has been enabled.
+
+Thanks.
+Binbin
+
+Binbin Zhou (4):
+  ASoC: codecs: es8323: Replace magic numbers with defined macros
+  ASoC: codecs: es8323: remove DAC enablement write from
+    es8323_set_bias_level
+  ASoC: codecs: es8323: Enable proper DAPM widgets for capture ADC
+  ASoC: codecs: es8323: Enable proper DAPM widgets for chip power
+
+ sound/soc/codecs/es8323.c | 294 +++++++++++++++++++++-----------------
+ sound/soc/codecs/es8323.h | 105 +++++++++++++-
+ 2 files changed, 261 insertions(+), 138 deletions(-)
 
 
-Takashi
+base-commit: d743d62699af627b9de0f0b6853d8a3d53b6518f
+-- 
+2.47.3
+
