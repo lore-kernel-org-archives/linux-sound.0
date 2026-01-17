@@ -1,82 +1,82 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6419F221FC6;
-	Sat, 17 Jan 2026 14:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7474C1D88AC;
+	Sat, 17 Jan 2026 14:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768660119; cv=none; b=o8dfVSWIoOKE5qKpFBevX6kgZwI/+QsKnU7ZrhhuwCvhVjQPeVoo71sZ+eF+aD11m1YbkcUKm6741in132Xit+NN0rlqIiWEgkCXu1nxEakEBrFs5/8UAza0kL36EVGQxPfjVKHtcxJDcnP8TR+qyrgcc0lBbsAcsvW+5S/REIo=
+	t=1768660124; cv=none; b=bJfB0j2uBnATgUIbgIEeYTbr+TQwlXeI9zaIteAcb3YIKASD9p1xVy/dPGFakjwfX35kjRJBZTZCto7zNf9jYwN/BmNELs66T7INlpBnIJ5k7ZXx0/NGbX2aTmBSs5deEoPPUEs14aDhUEJl/umsHBBvlov1pKWuNN+US7H63U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768660119; c=relaxed/simple;
-	bh=0+o2VUJZCtz+1vW5MXV3p0A2ZklLTq8sPKz4FULbB3M=;
+	s=arc-20240116; t=1768660124; c=relaxed/simple;
+	bh=FXDzsTyEDrOCDoe1FuBGPqltI1yoo6g4v8q8GdA+zi0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cQQlkfeahj3JH8kbXH2Fp5nadWa5LgYz2hSUwNVBni5DtEttxcsX8IL85meZUB/cknZbPgVrnRTcYk31R4RQkoXGkniqlVpZqcHBGCMjo7a+XLReaawGfOtwMd7Sbg0HyFMRMwi1KnQM+5OBpX//6AipMGd8uOBbAUEHNAHMoSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=Fe3DTnyw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uWQoWBsU; arc=none smtp.client-ip=202.12.124.157
+	 MIME-Version; b=NumlhBF6/kUs48RfecVHyi3BLhOugpVZe9LWhBxughelqHehoPf2p6HSdTwY1vLkzT5XchnWLrGTF84YtfYS4U3Y6nDZX4N6/0iaklELJOVmXjWCNFms6/rRPyWUEHDpEHtBHpnXyDMwf1xcFwAX9tP1FjPB605UDLt69XpcqA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=LYJ+Kf2C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zcW3RvX+; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="Fe3DTnyw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uWQoWBsU"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B7F6C7A0325;
-	Sat, 17 Jan 2026 09:28:33 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="LYJ+Kf2C";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zcW3RvX+"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id AF16B1D002EB;
+	Sat, 17 Jan 2026 09:28:41 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 17 Jan 2026 09:28:33 -0500
+  by phl-compute-06.internal (MEProxy); Sat, 17 Jan 2026 09:28:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1768660113; x=
-	1768746513; bh=IbJBZ5DJy42Pr9Dh1QiqdxTjMOBG5eXgGleQ0l9+Tew=; b=F
-	e3DTnyw9a5IeQEngaBqLMwIwiSzFSmfmPJDdl+pDPmj4igv6lQwrB02bDTOlEHHq
-	JKl4GsTLKz3VkHtSNGYb0UF3JmCnZwOIL6zRgGCOOkc1YIWGysGHDhTo3+FS8aCh
-	VoVQdU+UTd1f7gqSSsjtH6Hc3o8b71AaX6uPEeGybBOWwdC40R0/ssvSAgwh+P0W
-	7K7PZXGMm7VaJ9+RHNn7cZnRGIUUiQe50n8sYwAuBmUMsJZzG6QSb8bKlA4k5iyI
-	8f5fCSM0q1Sp15ZzYW3G/BYkXDeegBlRGQMosko74Vv9f/U8BMCB8GRuDZmfHpP9
-	UCqx6oZ8CY71ydGAbfdqg==
+	:reply-to:subject:subject:to:to; s=fm2; t=1768660121; x=
+	1768746521; bh=EpU7s6MYPGtj7LZ20r796f5THbt7CSmvMGny3xKCmVQ=; b=L
+	YJ+Kf2CFW42n3qvT5ItPotE/Rm1ae1ymqS8yXwATdJNTrmCTGmxNUy9CZwe0frgm
+	UhCKOamq8hBSe00V0BWG+Ui29XfV3krb3szzKW6jES8yxsd8dDwFqiQFywU2hL7u
+	ELovGAYdUuJtE4rOgLRsXdGUYUpOeORqHxnGbN6idW9uf6XbEwc98dL6cHyfg/0q
+	J4Spr2HjihvWC/r9kDUmM4jhi+Lhmeaj12VaEq7hLQEKsDB0YP88DUPdiZdjBfce
+	lveB1qNv3vFerEcjBVyVGuuvNaEnrEajVxqmIM+olSVY1DSeffLggLWGvCiBPt7h
+	HSreNGBHxaLEwMynAAU0g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1768660113; x=1768746513; bh=I
-	bJBZ5DJy42Pr9Dh1QiqdxTjMOBG5eXgGleQ0l9+Tew=; b=uWQoWBsU4Xsuvt+tV
-	HGelxHPO6snXd8CVeoay3pLGwALGQ/sZaWNhcZilaEzJ3Zt/3OVrUCNanTr6WBXS
-	rSEjx6F8y+hXVIrk7HArCz7h8TTuze4kQknpv+kH+Qo1lEo0Hnw4eVfCDyJLdZmm
-	1xK4FKe3XxEHdTlnp1+y8A/O/7a1Vvfa62hg5AfxLZ/vLYVF8LhXy9O/q5l4Hug5
-	/7zN/LNRqCQ7vcZo1GXCANMBYivGfelK00tSy6RMsFDNQ5Lnhyz3y7PdDculcT63
-	3g5kpbkLIgSF8Ydo8fAw9yvkCKKdisXVmyz/fsthM8HHq1Zxpah/ckwwztDWgTnD
-	ZHVIQ==
-X-ME-Sender: <xms:kZxraU9U70cHEgyTJbWKqEGiBNOsFFlOw9e7OIpfoeD_pD0LJXduJw>
-    <xme:kZxrac1gC-wQ6R3R0bsWFBKm5jNGL5OkO92HZNX1SHSojEQdXsLq5489pFt56ZN4Y
-    UZ5Bkz-AmJ5PUOu8FVx5m3T5w_furzFDDg0rbWgypyogjrQiLXV5jc>
-X-ME-Received: <xmr:kZxraR9vnyotZLFbiZckH5msyM8BGzPX7KmuwJWeUezoNxYi719KPEEDepTxkqk2bYPoaCviOfcHcREZQYPi3niVPJ84ToRLfr0QaME-NHWvdA>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1768660121; x=1768746521; bh=E
+	pU7s6MYPGtj7LZ20r796f5THbt7CSmvMGny3xKCmVQ=; b=zcW3RvX+fJg9w1fdQ
+	d/DiNY7ROkEi23J2Q1iS50dIenLUfcrF8jbqUEUAWOJCn4TI+5XcbWYDTwmM1DWB
+	R0Vb2PCu1/RdLhaiUYZQjnxm6Keylss7WbdahGUDOtO7Vc/SWq0+g9eZ9Za1FOup
+	85MnFqj2b8hLnbKc1qS1i8fI6pAGYqd2rxRZsvRj0PMbiNEn3jq8cYF8vNBxaZFD
+	PZFscUrhIEt4B09fNmUZY1/zt0w98+deUU48sOG004dt+paX8qWshfEESIW2icCo
+	Cee2zqeVDk5xxEs1nk9npNLs/7wrLWwI8Y3aAwB8HfAnMUJMP60yy2OmKG7qcZW/
+	EcLdw==
+X-ME-Sender: <xms:mZxrafo1DD4escYfgiBwb-jOCoHgU82qnK2N-Qr1YD6SZ-zEra60PA>
+    <xme:mZxraZwYu_z2-7oVlWwp1Mro-pTW4R9Z74sltaooNTxRvulWYz3hzOkQs9bB7Fhq3
+    aj61VZmzwqKyw8yq2Dqq0nONGZ-lvOzcQbT1yZ3NTDl-hGiMGU4Nzc>
+X-ME-Received: <xmr:mZxraUKsaBlkOvVM00At2CMjDdM2usnfzEa0Ms177IGmxMR-B4CFu-KOArjNi0XIqZz5odXY01ij4hbdooy3UNUFTrSwOKU0mKvIG9zD6TBiDA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufedvtdehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtkeertd
     ertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
     hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpedvjefgjeeuvd
     fguddukeelveetgfdtvefhtdfffeeigfevueetffeivdffkedvtdenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
+    ufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
     hkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhu
     thdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlsehlihhsthhsrdhsohhurh
     gtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
     rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvg
     hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:kZxracvqehkTDMS3iJi8GdtFzXpAkJsGBrQYaKW_GqZ5aPsTlP6soQ>
-    <xmx:kZxraUBoVjME88a8i9jNdkrocmybZF51wtDTVFrH2TjxxxywGyi0Gg>
-    <xmx:kZxraUXxk_ER-gw6UrfmrKa9feCsTbo9_PY0SFMTF7qn6p_6t7Aq6A>
-    <xmx:kZxraSDunrUYImPFDbyrbDNiPhq_e-o6MHgGiFfhvPmSL_Jf-pSd8A>
-    <xmx:kZxraZQG5PpoXfDwBQBMNAzfAJ1-aE12dNPce3vopieot0F8ql80lJeX>
+X-ME-Proxy: <xmx:mZxrabJkW0hfNXZWuiG2ND1JsW3JY8lAcJaB-lumpn9OlJEnTJnUUw>
+    <xmx:mZxraZvZY4nZNaj5Cc0AUvAsloqx9IDCzKrYFhJ2h4Znb_ENqD9ZpA>
+    <xmx:mZxraQT3CBPu6Dx0huNuZPSbcMBb7jYhze_Aa-oTlf6WvGp-bP1XmQ>
+    <xmx:mZxraXP6rwWmXuzKGS-gZhzHXFAzdbhiSAz8yQDi0Un7nmhfypOmjg>
+    <xmx:mZxraRu2xGPeZYiVa9MgbNqiHUcr15Q6176tKkPJmXQgzLvcmBd8Y26U>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 17 Jan 2026 09:28:32 -0500 (EST)
+ 17 Jan 2026 09:28:40 -0500 (EST)
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 To: linux1394-devel@lists.sourceforge.net
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 4/9] firewire: ohci: use cleanup helper for isoc context header allocation
-Date: Sat, 17 Jan 2026 23:28:17 +0900
-Message-ID: <20260117142823.440811-5-o-takashi@sakamocchi.jp>
+Subject: [PATCH 9/9] ALSA: firewire: remove PCM buffer size constraint from isoc context header
+Date: Sat, 17 Jan 2026 23:28:22 +0900
+Message-ID: <20260117142823.440811-10-o-takashi@sakamocchi.jp>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260117142823.440811-1-o-takashi@sakamocchi.jp>
 References: <20260117142823.440811-1-o-takashi@sakamocchi.jp>
@@ -88,63 +88,97 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some cleanup helpers are useful in error path after memory allocation for
-header storage.
+In the IEC 61883-1/6 packet streaming engine, the isochronous context
+header stores CIP headers. Previously, the header storage was limited to
+PAGE_SIZE, which constrained the maximum PCM buffer size.
+
+There is a function with configurable header size. Now the limitation is
+removed.
 
 Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 ---
- drivers/firewire/ohci.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ sound/firewire/amdtp-stream.c | 31 +++++++++----------------------
+ 1 file changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/firewire/ohci.c b/drivers/firewire/ohci.c
-index 5d9857cbbd24..6760c8d12637 100644
---- a/drivers/firewire/ohci.c
-+++ b/drivers/firewire/ohci.c
-@@ -2958,6 +2958,7 @@ static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card,
- 				int type, int channel, size_t header_size)
+diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
+index 5cdc34877fc1..223c880af802 100644
+--- a/sound/firewire/amdtp-stream.c
++++ b/sound/firewire/amdtp-stream.c
+@@ -191,8 +191,6 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
+ 					struct snd_pcm_runtime *runtime)
  {
- 	struct fw_ohci *ohci = fw_ohci(card);
-+	void *header __free(free_page) = NULL;
- 	struct iso_context *ctx;
- 	descriptor_callback_t callback;
- 	u64 *channels;
-@@ -3015,8 +3016,8 @@ static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card,
+ 	struct snd_pcm_hardware *hw = &runtime->hw;
+-	unsigned int ctx_header_size;
+-	unsigned int maximum_usec_per_period;
+ 	int err;
  
- 	if (type != FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL) {
- 		ctx->sc.header_length = 0;
--		ctx->sc.header = (void *) __get_free_page(GFP_KERNEL);
--		if (!ctx->sc.header) {
-+		header = (void *) __get_free_page(GFP_KERNEL);
-+		if (!header) {
- 			ret = -ENOMEM;
- 			goto out;
- 		}
-@@ -3024,21 +3025,17 @@ static struct fw_iso_context *ohci_allocate_iso_context(struct fw_card *card,
+ 	hw->info = SNDRV_PCM_INFO_BLOCK_TRANSFER |
+@@ -212,21 +210,6 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
+ 	hw->period_bytes_max = hw->period_bytes_min * 2048;
+ 	hw->buffer_bytes_max = hw->period_bytes_max * hw->periods_min;
  
- 	ret = context_init(&ctx->context, ohci, regs, callback);
- 	if (ret < 0)
--		goto out_with_header;
-+		goto out;
- 	fw_iso_context_init_work(&ctx->base, ohci_isoc_context_work);
- 
--	if (type == FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL) {
-+	if (type != FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL) {
-+		ctx->sc.header = no_free_ptr(header);
-+	} else {
- 		set_multichannel_mask(ohci, 0);
- 		ctx->mc.completed = 0;
- 	}
- 
- 	return &ctx->base;
+-	// Linux driver for 1394 OHCI controller voluntarily flushes isoc
+-	// context when total size of accumulated context header reaches
+-	// PAGE_SIZE. This kicks work for the isoc context and brings
+-	// callback in the middle of scheduled interrupts.
+-	// Although AMDTP streams in the same domain use the same events per
+-	// IRQ, use the largest size of context header between IT/IR contexts.
+-	// Here, use the value of context header in IR context is for both
+-	// contexts.
+-	if (!(s->flags & CIP_NO_HEADER))
+-		ctx_header_size = IR_CTX_HEADER_SIZE_CIP;
+-	else
+-		ctx_header_size = IR_CTX_HEADER_SIZE_NO_CIP;
+-	maximum_usec_per_period = USEC_PER_SEC * PAGE_SIZE /
+-				  CYCLES_PER_SECOND / ctx_header_size;
 -
-- out_with_header:
--	if (type != FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL) {
--		free_page((unsigned long)ctx->sc.header);
--		ctx->sc.header = NULL;
--	}
-  out:
- 	scoped_guard(spinlock_irq, &ohci->lock) {
- 		switch (type) {
+ 	// In IEC 61883-6, one isoc packet can transfer events up to the value
+ 	// of syt interval. This comes from the interval of isoc cycle. As 1394
+ 	// OHCI controller can generate hardware IRQ per isoc packet, the
+@@ -239,9 +222,10 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
+ 	// Due to the above protocol design, the minimum PCM frames per
+ 	// interrupt should be double of the value of syt interval, thus it is
+ 	// 250 usec.
++	// There is no reason, but up to 250 msec to avoid consuming resources so much.
+ 	err = snd_pcm_hw_constraint_minmax(runtime,
+ 					   SNDRV_PCM_HW_PARAM_PERIOD_TIME,
+-					   250, maximum_usec_per_period);
++					   250, USEC_PER_SEC / 4);
+ 	if (err < 0)
+ 		goto end;
+ 
+@@ -261,6 +245,7 @@ int amdtp_stream_add_pcm_hw_constraints(struct amdtp_stream *s,
+ 				  SNDRV_PCM_HW_PARAM_RATE, -1);
+ 	if (err < 0)
+ 		goto end;
++
+ 	err = snd_pcm_hw_rule_add(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
+ 				  apply_constraint_to_size, NULL,
+ 				  SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
+@@ -1715,7 +1700,9 @@ static int amdtp_stream_start(struct amdtp_stream *s, int channel, int speed,
+ 	} else {
+ 		dir = DMA_TO_DEVICE;
+ 		type = FW_ISO_CONTEXT_TRANSMIT;
+-		ctx_header_size = 0;	// No effect for IT context.
++		// Although no effect for IT context, this value is required to compute the size
++		// of header storage correctly.
++		ctx_header_size = sizeof(__be32);
+ 	}
+ 	max_ctx_payload_size = amdtp_stream_get_max_ctx_payload_size(s);
+ 
+@@ -1724,9 +1711,9 @@ static int amdtp_stream_start(struct amdtp_stream *s, int channel, int speed,
+ 		return err;
+ 	s->queue_size = queue_size;
+ 
+-	s->context = fw_iso_context_create(fw_parent_device(s->unit)->card,
+-					  type, channel, speed, ctx_header_size,
+-					  amdtp_stream_first_callback, s);
++	s->context = fw_iso_context_create_with_header_storage_size(
++			fw_parent_device(s->unit)->card, type, channel, speed, ctx_header_size,
++			ctx_header_size * queue_size, amdtp_stream_first_callback, s);
+ 	if (IS_ERR(s->context)) {
+ 		err = PTR_ERR(s->context);
+ 		if (err == -EBUSY)
 -- 
 2.51.0
 
