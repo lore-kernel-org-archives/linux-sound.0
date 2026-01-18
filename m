@@ -1,105 +1,199 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91081A3179
-	for <linux-sound@vger.kernel.org>; Sun, 18 Jan 2026 06:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA631EB9E1;
+	Sun, 18 Jan 2026 10:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768719340; cv=none; b=RJg/zwnDct+s8MvO87oZC/0putydK0pbCwIUPgCnUCbgObLu7xI/GAlGHw0RSOYF4PYwfeUkimQ/dI/GuqgS8Oc8ezpKANibQ2dyfPQqtPoBK+8m72USo7B4JyCLJS4SmxHbOIr7iOOXatdfHPqvQl0N+ShMC0epmpitqnrWJlQ=
+	t=1768731277; cv=none; b=nOvQPil7eCrJdjeSRllNFrTldk6RjifTvw/LGenE9jAXog9lV1J9OFRSF5DZIjuiRS06DEbWTEBS9QV6RJefE+znAB1IEGjHgVUTvJABSEeYgXLuB2KibZNG4VSRFgkRaUanA0SdyKHdemYV0uJAfwmv9ULniRKun/uxjxl98f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768719340; c=relaxed/simple;
-	bh=u/GjgTAvMfnOixIrqpZgUxRPxejTvZ25uycB9M0lvlM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZBdnlNJ7X6wLFpevzbK+Txg2oPicJY7csAgJsLsUeGMIGIHdrw/sAZxfbZAQubo+lpzHIa5zLXDdYUttMRncSoLVIlRXvFNUeAI1YPp5yD1RkKqgOOxrnp3s84IdXQJQNsUjTCtvjg4AH4/Ka2Ztv4kJ6xSGLFzPczyk0i31du4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VRnOMNHl; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768731277; c=relaxed/simple;
+	bh=+/399kGVf0+NWo4+YQDToqsTIGlk/UkYUiOlFikNpk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NNfP+w+E68n1A0UNdi+NBYrL4ebdFoJrcUMNLX8n8nzDqqhygk/h3aq7CE2sMTTCFJPLoUXD7LF+YmNnYnxGKDjaKEUHNO8mel0u9MwV3Uj4bmXYWj4844WXSTvmJn0q1fQdgvTutfx6iPmazLWBLOE498+9FzvPwPTZ5Osi/d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQNwjFav; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRnOMNHl"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-29f102b013fso29876355ad.2
-        for <linux-sound@vger.kernel.org>; Sat, 17 Jan 2026 22:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768719338; x=1769324138; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=syz4hhKfkVl8CBRKwpksblWsc7ovAlARMhsU/2akUZk=;
-        b=VRnOMNHlXADqspHg1auuyItR2vWrMm/PSRw3Tb6h4NtNNwo6c6rsh3mXgkQ8U6zVVX
-         GRUN0hlOfJW/2FhkI78VMD6HjIh9CwPyCg38PYXlwHRJhH2W5yz3tcJsCrjD0Fmp2T/G
-         qBQDm4r3argcjFUEPtIv4K05sCXyld6tGtFen6bO1r23S3zGD35/55OAoJYWNyrWnCTe
-         aGNaTAkbOlmevLzB9TJMQ2nF0Df8j5SSXWBVYfpc0QEZk+slUvGT3Nft3MX0gHjg9XUq
-         Zq/3nEhmpxg1+wuNiwRGPoDFaxJtfGY907Ue1SLJszzvmalQCd7vhItus6CNxQe6tcTW
-         I1dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768719338; x=1769324138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=syz4hhKfkVl8CBRKwpksblWsc7ovAlARMhsU/2akUZk=;
-        b=G5kmw3/WMDe8OIMvRHnjqRO07CetxiIFvJ/ldCSQjJCeubasDYwJAw69CFCb3Z2Nrc
-         EhJ6+mOlC/Obxy6SxPHVbXKdERHBs3maFitU9MdyKOxV8p/7ZF1yiOsA8pdN654Artzi
-         elTrq99gjY/tNkLPhdRvttkrSLwECkKTLDQDC1lMixtcFv3verRRiFPTiGhuoYvsh51h
-         lOs/AQnuTiGXpXN67TRTy7hkMVNt4e8uH9/Qe2YX5p5xHH7eblipQXiWYu4wUt2yaUMJ
-         8NmwVSCIlMKy63A6KMhxCB79LTW1ET8aYvNqmGmz64aurwCmM6Ew5xADTIMw3w2NVBPk
-         T/IA==
-X-Gm-Message-State: AOJu0YwPPdPx1EdwT1Qlx9fRcZ9lNS/PwAgwaPfNTw2bSW7RdmfWCDhv
-	7f3ck8XZNkQRUulBd0q8rAKfRArKd53Uh1UgYdozwsCozpW1n3KpqVGB
-X-Gm-Gg: AY/fxX7Bphyh1GeMuMWXRdEGbc2nr+77CwK3CEkee9SqqUPThx//Ttp/S6RCcRUYOCh
-	9fn525ngARPEFAD+xLCNUlPD/KbmUQwCVVFYhi2Fkt1VOccS02PYY6Z/Bq2M+A3QK39K1aXmwEP
-	irlA92GZypTwDy1FJv2/i0RG/xUFXVtpLY20x+DqqJMukfcGGo+AyqkbJc3Osjw2s7yiGrQqt+g
-	Adx33MBCcsOdnnoPS9DpDsXhol4XsIn8TwBw4YTxZPf09WrYjVnk8ixv6nrxUobW6Fr495trBiR
-	2+J/L8Z5jmnPbuZ2oSZw4W+p6y8zLK66sC25NcL0AdjIV95BxMCBdk7UAv40Un4WPqYS8Xt8aXY
-	RrLx79rxhFntFZz5CNaAyRkz4PmunOdQjlooQWZJKhAUmXGOj1WbBtveZluFTGTdx5ykCgHa2HB
-	nkBXPegIo9sSyVNXCJ6/xN2R8=
-X-Received: by 2002:a17:903:1104:b0:29e:9c82:a920 with SMTP id d9443c01a7336-2a7188589bcmr73881425ad.6.1768719338281;
-        Sat, 17 Jan 2026 22:55:38 -0800 (PST)
-Received: from localhost.localdomain ([222.110.133.193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190ab97csm62215735ad.11.2026.01.17.22.55.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jan 2026 22:55:38 -0800 (PST)
-From: LeeYongjun <jun85566@gmail.com>
-To: broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shuah@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	LeeYongjun <jun85566@gmail.com>
-Subject: [PATCH] selftests: alsa: Remove unused variable in utimer-test
-Date: Sun, 18 Jan 2026 15:55:10 +0900
-Message-Id: <20260118065510.29644-1-jun85566@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQNwjFav"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851D1C116D0;
+	Sun, 18 Jan 2026 10:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768731276;
+	bh=+/399kGVf0+NWo4+YQDToqsTIGlk/UkYUiOlFikNpk0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pQNwjFaviTx/163sFtxVKP2usrohojK6T7njg5pJGy0MQJg3WsQgS/L5SbtHbdk12
+	 UhK/qll9y8juvS7dkDPTqpS0Vu8BTM9+QcWhHNfEqHowCXxoP27YiM08nqKfp60XyH
+	 IHb7T6y452ZmgUR1C+YXraNHbLo8R0qCKwxm7T65TKP1UgshiFJayKzTpiS70EQHPS
+	 76Ck73Hz83Wjkll7K1i5CWplWjHPOG2zAaHD/8MkzHjECJ6qJ+p9oBHA88gQHTJmJ7
+	 g2QVtXUPy253SoxD5dslpqSk7aL+FdN5yvBQcfqL9Z/prwUUC9X52+KdLzhOFlvY9n
+	 DfH8NXD8lZpPA==
+Date: Sun, 18 Jan 2026 11:14:34 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Anton D. Stavinskii" <stavinsky@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: sound: sophgo: add CV1800B I2S/TDM
+ controller binding
+Message-ID: <20260118-famous-magnificent-peccary-474ba8@quoll>
+References: <20260118-cv1800b-i2s-driver-v2-0-d10055f68368@gmail.com>
+ <20260118-cv1800b-i2s-driver-v2-1-d10055f68368@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260118-cv1800b-i2s-driver-v2-1-d10055f68368@gmail.com>
 
-The variable 'i' in wrong_timers_test() is declared but never used.
-This was detected by Cppcheck static analysis.
+On Sun, Jan 18, 2026 at 12:18:53AM +0400, Anton D. Stavinskii wrote:
+> Purpose: introduce DT schema for the CPU driver
 
-tools/testing/selftests/alsa/utimer-test.c:144:9: style: Unused variable: i [unusedVariable]
+Bindings are for hardware, not drivers. Drop the purpose.
 
-Remove it to clean up the code and silence the warning.
+> The driver uses dma to transfer data. The dma it self has 8 channels.
 
-Signed-off-by: LeeYongjun <jun85566@gmail.com>
----
- tools/testing/selftests/alsa/utimer-test.c | 1 -
- 1 file changed, 1 deletion(-)
+Describe the hardware.
 
-diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
-index c45cb226bd8f..d221972cd8fb 100644
---- a/tools/testing/selftests/alsa/utimer-test.c
-+++ b/tools/testing/selftests/alsa/utimer-test.c
-@@ -141,7 +141,6 @@ TEST_F(timer_f, utimer) {
- TEST(wrong_timers_test) {
- 	int timer_dev_fd;
- 	int utimer_fd;
--	size_t i;
- 	struct snd_timer_uinfo wrong_timer = {
- 		.resolution = 0,
- 		.id = UTIMER_DEFAULT_ID,
--- 
-2.34.1
+
+> Each channel can be connected only to a specific i2s node. But each
+> of dma channel can have multiple purposes so in order to save dma
+> channels the configurations allows to use tx and rx, only rx, only tx
+> or none channels. I2S controller without channels can be useful in
+> configuration where I2S is used as clock source only and doesn't
+> produce any data.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+A nit, subject: drop second/last, redundant "binding". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+> 
+> Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
+> ---
+>  .../bindings/sound/sophgo,cv1800b-i2s.yaml         | 75 ++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml b/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml
+> new file mode 100644
+> index 000000000000..cf30880a62da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/sophgo,cv1800b-i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sophgo CV1800B I2S/TDM controller
+> +
+> +maintainers:
+> +  - Anton D. Stavinskii <stavinsky@gmail.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  I2S/TDM controller found in CV1800B / Sophgo SG2002/SG2000 SoCs.
+> +
+
+Miss allOf with ref to dai-common.
+
+> +properties:
+> +  compatible:
+> +    const: sophgo,cv1800b-i2s
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+
+1. Why is it flexible?
+
+2. And then why names are not flexible. These should be synced in
+constraints.
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: i2s
+> +      - const: mclk
+> +
+> +  dmas:
+> +    maxItems: 2
+> +
+> +  dma-names:
+> +    description: |
+> +      Names of DMA channels. May be omitted. If present, one entry
+> +      selects a single direction, while two entries select RX and TX.
+
+Drop desription. Don't repeat constraints in free form text.
+
+> +    minItems: 1
+> +    maxItems: 2
+
+Again, messed constraints.
+
+> +    items:
+> +      enum: [rx, tx]
+
+No, it has to be a specific/fixed list.
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+
+Why? Drop these.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - "#sound-dai-cells"
+> +
+> +additionalProperties: false
+
+unevaluatedProperties instead
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/sophgo,cv1800.h>
+> +
+> +    i2s1: i2s@4110000 {
+
+Drop unused label.
+
+> +        compatible = "sophgo,cv1800b-i2s";
+> +        reg = <0x04110000 0x10000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+
+Drop useless properties.
+
+Best regards,
+Krzysztof
 
