@@ -1,212 +1,157 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3889532B988
-	for <linux-sound@vger.kernel.org>; Sun, 18 Jan 2026 12:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D8E1E531
+	for <linux-sound@vger.kernel.org>; Sun, 18 Jan 2026 13:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768740068; cv=none; b=oQ0ZHVYlIQjTU8JwD51rqUIAnUDnKMQew6z5p77twqJ/Ok37xEBB+qUEnNfoabzvxEBHoEh5TigRmpHFldE1nBFRi98mVvCDl/BQNlpb8B3JZhpmgNNOurmqgRyc6mlX4ERW/BovJ7pqnr5GVtWESmyb6CzJc8Kh+wlTeEJZl+0=
+	t=1768743171; cv=none; b=dBoHsvnE4fay3PCoKwZ3JZlKO5flqo4PRY+LVym6zh83PqYI8Gtmmo4r7GwLeaSeG+IfqANeFluGoWLVmWb7IVvm484FBfZ6avRW9KawaiAfvcZxcATRt0TF4kmfOxhtIB6OKoHWyQXkPBvAXOYXzyciMr/7MdZ5qJLq0dyScr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768740068; c=relaxed/simple;
-	bh=0XrcyyqWegCnbhh8oOlleDPt2lNgaxbQNhQ9rMr79I4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tK+H8bu8QzKFFqs588E925oKpKeA9TbAe3yIgGraJZeEQJ56FDdS16eY2up1h9x5g+FcXuJxhSkkNH/Scj+450ZXolzyYMjCjWv04TIoBS5AWi1KNYzgaM9qxg6+DTpXW+oZQizDEx9pqi2t+pUMgwz41T9EOnVSJWMWvpILQvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NXjzg8xZ; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768743171; c=relaxed/simple;
+	bh=SyG/6s/2TtCxUQ7djCqHZsedMQaKPVQbw6rW2ZImSYA=;
+	h=Content-Type:Message-ID:Date:MIME-Version:To:From:Subject; b=GHwY0StbvNij81xbiXm3OyVBU6VqHHCEF3B6+jDAEFu6TK4xKdzgTjhLZrgbIs3+17bnl25jtX+BQq6gFI+swG4Agft3OqyFAL4ooE078ulPzK+JMSczOS9O7urua7/XOPSie8Qmwb6IAgbrWZ9j52fSMylMZQtppN+xa3cqiMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=retto@gmx.net header.b=YmOriOPL; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NXjzg8xZ"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-432dc56951eso2291926f8f.0
-        for <linux-sound@vger.kernel.org>; Sun, 18 Jan 2026 04:41:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768740065; x=1769344865; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d8WYraWdl/meIzynkx/iFk+ZbBcfbnztLQ6j8m4tIWQ=;
-        b=NXjzg8xZBQ8IEY/QPIAWQWJgiDi9dx9QhqHRbkP7Orhb27MAj/wERmO9zWDnV47g+y
-         kt9CTJ+MXJJxHCYMXZsD2X1dZ0xUFtYBZJrq68cE3louWHzzYfJtfOmA9LX0ft0HYL7M
-         1OnSQETF50AxxRAycdIWABRs9jP4L3X6mWXzNFgYPzWi/1JRRvpCeeyvZbR6Tr7lp8XL
-         oiQAMThVaOXQt6C6q/6WYuTVb5rfkIzMVo8/tMxaWidFJ428I+C6gwu8BBo8Ct9gGMIE
-         wp7LToxPNSW/aQj/fPPMH4xEPwk5hHRxjtRmtMpGJgKkztDLn2x7a7Y7s/Lt/djrYfKm
-         JBlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768740065; x=1769344865;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8WYraWdl/meIzynkx/iFk+ZbBcfbnztLQ6j8m4tIWQ=;
-        b=RESfd/f8AfRj/wWSsq9vTnvSSVI3bb9zhcGp5UCo5ccXB0DPmuhCj1e5p+iT5e+qzv
-         txDA5MjcZr8UBE3cTs2S+Q3EDd4OH2satDj0KCTYit5zkUXg3c3H70U4opDCv9Jk+lRQ
-         HJm68tZds+hbxoyBV1U7UKRe4pfzpHpUJMuu0R2h5zNGb8PMB9rpKqc3QpZ9nQaTPPbx
-         dk+qOds+1BHS8l77DcfTGwFh7oXI9BA4Ofqe9+i36+x/bl367NI2RVTCMLlhP/DOSI+V
-         hoalj6jWFjXYwxuqUDQ3saBGU8zIezZgc2u1Hj4DtC5eETl/BVdYW+/0JvbJkpkzJo7W
-         AAQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgRh9yH+HECRih4101vmG77WoEGXw/7IVyh1/9iCOprkxL0VW6NGfp2Hv97ltIFsLdCmubpxlXn+sdnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJq0F4n9pML2ifs57qeiBR+TECvK+GDkqgk5UeVagcA7Y9bu33
-	qb9TrxutxSF4K+SV2IjNsEzpGs4ljGR146TBcCarqTPVDJSSJ04ZcbCE
-X-Gm-Gg: AY/fxX583IEHMKGjptt2t7T4z9qxFCcWsdL8J9Vr2PgvToCNLqrnbibnlbNUJTVamuP
-	jo9AXmw1waMIUmUymjEzKZhneSlw9TiOfxjnQHH0jPuB2dFePbr1WcdC1geteLV8CWgTyvSvSBa
-	IHbRemmt3BvK0u7pypF27e5ryKFG5FlUOxJzrH5KrAza/kkRhIjaY7UQ+2THMpvfPJBox8Dk9P8
-	/FbQSKeJ9fz8CYvWvaDfbHoWCuaOB4qc9W+ENsfh4ktaEh3C7utvayeYfxovC2Bmwx+/46oMz+d
-	EndrmjuZjYz7zYrtXOXHbcn1RyEogY8LZ7H5chcqUd7yvPgb5hpWaMAtceOtWzrNzVUnVWgZ2vL
-	BFlLuzF+9rlkoCmWxBNzanO11ah3X6k5Q46UkKELr86TJzcOq1UjvpM5e9epZpYBAA3YhOEaaz4
-	0DSptjP2zf+d06YEqDBj+95M9YtPkuS+vG4dTxAFUKteFTiaM6rtk5Z+eHqVw=
-X-Received: by 2002:a05:6000:2003:b0:430:fcf5:495c with SMTP id ffacd0b85a97d-4356996f588mr9620388f8f.4.1768740065405;
-        Sun, 18 Jan 2026 04:41:05 -0800 (PST)
-Received: from anton.local (vps-58d0fbce.vps.ovh.net. [51.178.29.162])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921dedsm16712957f8f.9.2026.01.18.04.41.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 04:41:03 -0800 (PST)
-Date: Sun, 18 Jan 2026 16:40:59 +0400
-From: "Anton D. Stavinskii" <stavinsky@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 7/7] riscv: dts: sophgo: dts nodes for i2s tdm modules
-Message-ID: <aWzUaf7t96FhtbNq@anton.local>
-Mail-Followup-To: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-References: <20260118-cv1800b-i2s-driver-v2-0-d10055f68368@gmail.com>
- <20260118-cv1800b-i2s-driver-v2-7-d10055f68368@gmail.com>
- <20260118-deer-of-therapeutic-science-0958d4@quoll>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=retto@gmx.net header.b="YmOriOPL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1768743163; x=1769347963; i=retto@gmx.net;
+	bh=SyG/6s/2TtCxUQ7djCqHZsedMQaKPVQbw6rW2ZImSYA=;
+	h=X-UI-Sender-Class:Content-Type:Message-ID:Date:MIME-Version:To:
+	 From:Subject:cc:content-transfer-encoding:content-type:date:from:
+	 message-id:mime-version:reply-to:subject:to;
+	b=YmOriOPLr6FI14mOJartVfpTGjNo28i/N459zRtpjKkPkcQYjw0ScVGYrIXVCWik
+	 UF8QyyWpb52J6f0J50+nWNwu3t6RLjnjdwQ5BFp7H5lYg1mUL+gUcgt6N+kk0Y0Yz
+	 DgQgB0Wcv+OWIinVILm8mEpDGTwSEEa66P3tAG+Q5t7ExxBP+BsbzdogWfkxkZMij
+	 WJIPlpbruefVwgmUEgzpmVGvFqHcoKPxN7jeYHYBFcn4OtCBS1xAeNuo73h8qHaog
+	 1uL8P5a2Q78HEukApDHpGGCgJjKdjFG3Z9D+g6CgwBgpbN9C80p3tlC8InOoRE/6E
+	 oumn6n6+oVG23uZcBQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.2.117] ([94.31.112.148]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MEFzr-1vXoNS0CjF-00HBC0; Sun, 18
+ Jan 2026 14:32:43 +0100
+Content-Type: multipart/mixed; boundary="------------5ZymenWoX7wh5bOH4p53hHTA"
+Message-ID: <4506ea87-d4c2-4db9-80f8-267a7a015cf2@gmx.net>
+Date: Sun, 18 Jan 2026 14:32:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260118-deer-of-therapeutic-science-0958d4@quoll>
+User-Agent: Mozilla Thunderbird
+Content-Language: de-DE
+To: broonie@kernel.org, linux-sound@vger.kernel.org
+From: Sven Rettig <retto@gmx.net>
+Subject: PATCH: ASoC: amd: yc: Fix microphone on ASUS PM1503CDA
+X-Provags-ID: V03:K1:9idvr3A/mpoVuxstDkXYd0QHhN3FCpfE9nqx14oqWpJt9Sq0Buw
+ N4SfuN8/kbGZvxnpFmn4TWkJdtTxS/LHrtNThebR3/qHKBgzYQyPpXq+kZjc4Yo+2Ho2Ma8
+ CuslYJYo3jm6OprYSt4GySnOAgedRhtPNJ/8nOUa/53H0kTVxiHUr63Xd6wIF+x2nEt/ozm
+ ebAIBccT9V6uscYhnEdww==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/1GW+5/VFik=;5OLHB0OGx2xyz1ub7K1B/eDlZhZ
+ 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
+ Q0rikpVJEA71MTMTYWgR
 
-On Sun, Jan 18, 2026 at 11:16:48AM +0400, Krzysztof Kozlowski wrote:
-> On Sun, Jan 18, 2026 at 12:18:59AM +0400, Anton D. Stavinskii wrote:
-> > Introduced I2S nodes and internal dac and adc nodes as well
-> > The new header file provided in order to make DMA channel names
-> > more readable.
-> > 
-> > Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
-> > ---
-> >  arch/riscv/boot/dts/sophgo/cv180x-dmamux.h | 57 +++++++++++++++++++++++++++
-> >  arch/riscv/boot/dts/sophgo/cv180x.dtsi     | 63 ++++++++++++++++++++++++++++++
-> >  2 files changed, 120 insertions(+)
-> > 
-> > diff --git a/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h b/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h
-> > new file mode 100644
-> > index 000000000000..6314bf6e9dc8
-> > --- /dev/null
-> > +++ b/arch/riscv/boot/dts/sophgo/cv180x-dmamux.h
-> > @@ -0,0 +1,57 @@
-> > +/* SPDX-License-Identifier: (GPL-2.0 OR MIT) */
-> > +/*
-> > + * Copyright (C) 2025 Inochi Amaoto <inochiama@gmail.com>
-> > + */
-> > +
-> > +#ifndef _SOPHGO_CV18XX_DMAMUX
-> > +#define _SOPHGO_CV18XX_DMAMUX
-> > +
-> > +#define DMA_I2S0_RX		0
-> > +#define DMA_I2S0_TX		1
-> > +#define DMA_I2S1_RX		2
-> > +#define DMA_I2S1_TX		3
-> > +#define DMA_I2S2_RX		4
-> > +#define DMA_I2S2_TX		5
-> > +#define DMA_I2S3_RX		6
-> > +#define DMA_I2S3_TX		7
-> > +#define DMA_UART0_RX	8
-> > +#define DMA_UART0_TX	9
-> > +#define DMA_UART1_RX	10
-> > +#define DMA_UART1_TX	11
-> > +#define DMA_UART2_RX	12
-> > +#define DMA_UART2_TX	13
-> > +#define DMA_UART3_RX	14
-> > +#define DMA_UART3_TX	15
-> > +#define DMA_SPI0_RX		16
-> > +#define DMA_SPI0_TX		17
-> > +#define DMA_SPI1_RX		18
-> > +#define DMA_SPI1_TX		19
-> > +#define DMA_SPI2_RX		20
-> > +#define DMA_SPI2_TX		21
-> > +#define DMA_SPI3_RX		22
-> > +#define DMA_SPI3_TX		23
-> > +#define DMA_I2C0_RX		24
-> > +#define DMA_I2C0_TX		25
-> > +#define DMA_I2C1_RX		26
-> > +#define DMA_I2C1_TX		27
-> > +#define DMA_I2C2_RX		28
-> > +#define DMA_I2C2_TX		29
-> > +#define DMA_I2C3_RX		30
-> > +#define DMA_I2C3_TX		31
-> > +#define DMA_I2C4_RX		32
-> > +#define DMA_I2C4_TX		33
-> > +#define DMA_TDM0_RX		34
-> > +#define DMA_TDM0_TX		35
-> > +#define DMA_TDM1_RX		36
-> > +#define DMA_AUDSRC		37
-> > +#define DMA_SPI_NAND	38
-> > +#define DMA_SPI_NOR		39
-> > +#define DMA_UART4_RX	40
-> > +#define DMA_UART4_TX	41
-> > +#define DMA_SPI_NOR1	42
-> > +
-> > +#define DMA_CPU_A53		0
-> > +#define DMA_CPU_C906_0	1
-> > +#define DMA_CPU_C906_1	2
-> > +
-> > +#endif // _SOPHGO_CV18XX_DMAMUX
-> > diff --git a/arch/riscv/boot/dts/sophgo/cv180x.dtsi b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > index 06b0ce5a2db7..5a56951f7e4c 100644
-> > --- a/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > +++ b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > @@ -8,6 +8,7 @@
-> >  #include <dt-bindings/gpio/gpio.h>
-> >  #include <dt-bindings/interrupt-controller/irq.h>
-> >  #include "cv18xx-reset.h"
-> > +#include "cv180x-dmamux.h"
-> >  
-> >  / {
-> >  	#address-cells = <1>;
-> > @@ -448,6 +449,68 @@ usb: usb@4340000 {
-> >  			status = "disabled";
-> >  		};
-> >  
-> > +		i2s0: i2s@4100000 {
-> > +			compatible = "sophgo,cv1800b-i2s";
-> > +			reg = <0x04100000 0x1000>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> 
-> Really, why are you putting cells everywhere?
-My bad. It was misunderstanding from my side. Will drop everywhere it needs to be dropped. Thanks for you
-patience. 
-> 
-> > +			clocks = <&clk CLK_APB_I2S0>, <&clk CLK_SDMA_AUD0>;
-> > +			clock-names = "i2s", "mclk";
-> > +			dmas = <&dmamux DMA_I2S0_RX 1>, <&dmamux DMA_I2S0_TX 1>;
-> > +			dma-names = "rx", "tx";
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		i2s1: i2s@4110000 {
-> > +			compatible = "sophgo,cv1800b-i2s";
-> > +			reg = <0x04110000 0x1000>;
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+This is a multi-part message in MIME format.
+--------------5ZymenWoX7wh5bOH4p53hHTA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Add DMI match for ASUSTeK COMPUTER INC. PM1503CDA to enable the internal=
+=20
+microphone.
+
+Signed-off-by: Sven Rettig <retto@gmx.net>
+
+--------------5ZymenWoX7wh5bOH4p53hHTA
+Content-Type: text/plain; charset=UTF-8; name="patch"
+Content-Disposition: attachment; filename="patch"
+Content-Transfer-Encoding: base64
+
+LS0tIHNvdW5kL3NvYy9hbWQveWMvYWNwNngtbWFjaC5jLm9yaWcJMjAyNi0wMS0xOCAxNDow
+OTo1OC4zNzA3MjcwNjIgKzAxMDAKKysrIHNvdW5kL3NvYy9hbWQveWMvYWNwNngtbWFjaC5j
+CTIwMjYtMDEtMTggMTQ6MTA6NTQuNTMyMzM2NjIxICswMTAwCkBAIC00NjEsNiArNDYxLDEz
+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1pX3N5c3RlbV9pZCB5Y19hY3AKIAl7CiAJCS5k
+cml2ZXJfZGF0YSA9ICZhY3A2eF9jYXJkLAogCQkubWF0Y2hlcyA9IHsKKwkJCURNSV9NQVRD
+SChETUlfQk9BUkRfVkVORE9SLCAiQVNVU1RlSyBDT01QVVRFUiBJTkMuIiksCisJCQlETUlf
+TUFUQ0goRE1JX1BST0RVQ1RfTkFNRSwgIlBNMTUwM0NEQSIpLAorCQl9CisJfSwKKwl7CisJ
+CS5kcml2ZXJfZGF0YSA9ICZhY3A2eF9jYXJkLAorCQkubWF0Y2hlcyA9IHsKIAkJCURNSV9N
+QVRDSChETUlfQk9BUkRfVkVORE9SLCAiTWljcm8tU3RhciBJbnRlcm5hdGlvbmFsIENvLiwg
+THRkLiIpLAogCQkJRE1JX01BVENIKERNSV9QUk9EVUNUX05BTUUsICJCcmF2byAxNSBCN0VE
+IiksCiAJCX0K
+
+--------------5ZymenWoX7wh5bOH4p53hHTA--
