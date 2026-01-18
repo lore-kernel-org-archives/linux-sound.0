@@ -1,221 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD2021FF33;
-	Sun, 18 Jan 2026 10:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012EF30BF77;
+	Sun, 18 Jan 2026 10:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768731623; cv=none; b=f7eYapFRUrbYS3CLf1Zomx7HLFnuBRpPYwMlQOyEhqMqj45SnUUExXqbMV764SFLVS7hFoxyrDMWmlGIp3yVtoAFmIIKmRfDZI5ArKU6YEfZpp/YlV48Ez7ksW17tUhEWLJIaCEEXZSGIrD71QA7DGw2IUs/hCe6ubShtMGH9EM=
+	t=1768732241; cv=none; b=kv0fRodFmmGod/PkBV7aT48v5yyeKEugp5Gm+u2wgByXQjQxF3vr5bZQo2SEC61rtT+nB0ks1/IZ+48SEjjKM1z3v82sIQdGxSo2Ra6XKxgHz331y5mOji7YUmSjiikavX2N7FlCHCqkjHLK6XDxAf5XP6XmZ4HDblWsyHL1gsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768731623; c=relaxed/simple;
-	bh=MCyGa/BUqs4R4ryirQHJ++YmqeUQEZA1xHvjnETicMM=;
+	s=arc-20240116; t=1768732241; c=relaxed/simple;
+	bh=lE0Idn8pkia/IapT6Q2BfKM2ThtZ58Etwt09O7KpUGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BmeEOX11uOZk0LbnLH1zDetakB0sS8Uc3uuRBsBMNXDHJmqaH4ZDlzuFuYziQJqiqgD/6eDpAw6jJn/1kMoDj3N8F2w3pUNEoxy5ucc0BMB0ydeMcoxZs8Tv0t66dxGoWCNLd0IIpit+cpnAj42tDbzkt+81TVdy64JQlf7Rmm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ae3ei5zd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1brDNDh5R6olSzhc3hpIgjlkUn7XYvwvceoghJnNwQQKp89rGBPC/JkAASZMtQbG3gnl8uLMIM9bftRnlN9ZXh04YyD4WF98xtLW3+FQ+9AtDYZ6cw8Yta9vccXq3Og9r1MTbQs3O3Q9AuLDjqBZitDUiW6qGzhOQrz0S5Bn7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYScTlqC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ae3ei5zd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5E9C116D0;
-	Sun, 18 Jan 2026 10:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768731623;
-	bh=MCyGa/BUqs4R4ryirQHJ++YmqeUQEZA1xHvjnETicMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ae3ei5zdIw39P6bNqNxdvsMiP+MCPZPCguCBXVA8wzYYHAR4MwnRI0uemLElnFagJ
-	 SGaR/TFJpMYXnqcD6rBYJGtCiPXiZFpAJbUOdfLgQaZ7kgw4rOlDVVtv+sOGTOY9K/
-	 4/f74zA25kEY0h1mqB3TUKKJR5MhmGLTHvlp1VYoeHR2svDIlyzLLonbK71L7mtapC
-	 l8gKdpLI55GtUc9agpaUx/+CdKTgH6npkT+BW+TWZpKvIWZb7sCHE+f4+uTPoyAsqb
-	 a8ycyhVGf3A4EiPMM80AgMcE2rO3BaT7WpT92EBm26ZcqeTTKL6nNkMWggrxpxiVYS
-	 DS4gp9KwWnfJw==
-Date: Sun, 18 Jan 2026 11:20:20 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Anton D. Stavinskii" <stavinsky@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYScTlqC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768732239; x=1800268239;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lE0Idn8pkia/IapT6Q2BfKM2ThtZ58Etwt09O7KpUGQ=;
+  b=cYScTlqCccN2f3vEh7LnZK0SN5lqqdpS2OMnH+irNNnATbvLcCfiebU+
+   +3JWckx38Yxr2oRGD7+0wHRkYqa5MQVrPyqQgQtZqWLqIKtmdvsgP+XVW
+   dxm+OmYIgQ8ZnlRkf0cDVc3UGK42bZN2Ir/dBba3xfY0WKCvCAr6DPj8A
+   +sHmmcBdLDNdIrllEwtx4JmTkhbDGVP7auNewYgaxiktUXFu6A49O0Dx5
+   NK3Of5EVIVTAdrjSPEcKHRtmkLNWVjW8Q5QsoJ8on4HnmDc+3b7J+RuEV
+   D6jXnFrQPmCFPBtHHZ0BScV6QHrrBeu3fieETFbzuvEPPr9S0K16P2vdK
+   g==;
+X-CSE-ConnectionGUID: JVm6iItITdiZhLTeSyBcBQ==
+X-CSE-MsgGUID: vI4w8ye7QxmHUeRF8xaZIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="73604340"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="73604340"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 02:30:38 -0800
+X-CSE-ConnectionGUID: BalDwksESQiH5w6LbxBSSg==
+X-CSE-MsgGUID: njV5JZY2SqK9zLzqw9duhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="205412261"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Jan 2026 02:30:34 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhQ3D-00000000Msq-0IKI;
+	Sun, 18 Jan 2026 10:30:31 +0000
+Date: Sun, 18 Jan 2026 18:29:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Anton D. Stavinskii" <stavinsky@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	"Anton D. Stavinskii" <stavinsky@gmail.com>
 Subject: Re: [PATCH v2 2/7] ASoC: sophgo: add CV1800B I2S/TDM controller
  driver
-Message-ID: <20260118-pastoral-resourceful-mandrill-47bda6@quoll>
-References: <20260118-cv1800b-i2s-driver-v2-0-d10055f68368@gmail.com>
- <20260118-cv1800b-i2s-driver-v2-2-d10055f68368@gmail.com>
+Message-ID: <202601181833.qtNEcTd8-lkp@intel.com>
+References: <20260118-cv1800b-i2s-driver-v2-2-d10055f68368@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260118-cv1800b-i2s-driver-v2-2-d10055f68368@gmail.com>
 
-On Sun, Jan 18, 2026 at 12:18:54AM +0400, Anton D. Stavinskii wrote:
-> The actual CPU DAI controller. The driver can be used with
-> simple-audio-card. It respects fixed clock configuration
-> from simple-audio-card. The card driver can request direction out,
-> this will be interpreted as mclk out, the clock which can be used
-> in other CPU or codecs. For example I2S3 generates clock for ADC.
-> I2S was tested in S24_32 and S16 dual channel formats.
-> 
-> Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
-> ---
->  sound/soc/Kconfig              |   1 +
->  sound/soc/Makefile             |   1 +
->  sound/soc/sophgo/Kconfig       |  20 ++
->  sound/soc/sophgo/Makefile      |   3 +
->  sound/soc/sophgo/cv1800b-tdm.c | 714 +++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 739 insertions(+)
-> 
-> diff --git a/sound/soc/Kconfig b/sound/soc/Kconfig
-> index 36e0d443ba0e..edfdcbf734fe 100644
-> --- a/sound/soc/Kconfig
-> +++ b/sound/soc/Kconfig
-> @@ -127,6 +127,7 @@ source "sound/soc/renesas/Kconfig"
->  source "sound/soc/rockchip/Kconfig"
->  source "sound/soc/samsung/Kconfig"
->  source "sound/soc/sdca/Kconfig"
-> +source "sound/soc/sophgo/Kconfig"
->  source "sound/soc/spacemit/Kconfig"
->  source "sound/soc/spear/Kconfig"
->  source "sound/soc/sprd/Kconfig"
-> diff --git a/sound/soc/Makefile b/sound/soc/Makefile
-> index 8c0480e6484e..21d8406767fc 100644
-> --- a/sound/soc/Makefile
-> +++ b/sound/soc/Makefile
-> @@ -70,6 +70,7 @@ obj-$(CONFIG_SND_SOC)	+= rockchip/
->  obj-$(CONFIG_SND_SOC)	+= samsung/
->  obj-$(CONFIG_SND_SOC)	+= sdca/
->  obj-$(CONFIG_SND_SOC)	+= sof/
-> +obj-$(CONFIG_SND_SOC)   += sophgo/
->  obj-$(CONFIG_SND_SOC)	+= spacemit/
->  obj-$(CONFIG_SND_SOC)	+= spear/
->  obj-$(CONFIG_SND_SOC)	+= sprd/
-> diff --git a/sound/soc/sophgo/Kconfig b/sound/soc/sophgo/Kconfig
-> new file mode 100644
-> index 000000000000..70f07d46c810
-> --- /dev/null
-> +++ b/sound/soc/sophgo/Kconfig
-> @@ -0,0 +1,20 @@
-> +menu "Sophgo"
+Hi Anton,
 
-Missing SPDX. Did you run checkpatch?
+kernel test robot noticed the following build errors:
 
-> +	depends on COMPILE_TEST || ARCH_SOPHGO
-> +
-> +config SND_SOC_CV1800B_TDM
-> +	tristate "Sophgo CV1800B I2S/TDM support"
-> +	depends on SND_SOC && OF
-> +	select SND_SOC_GENERIC_DMAENGINE_PCM
-> +	help
-> +	  This option enables the I2S/TDM audio controller found in Sophgo
-> +	  CV1800B / SG2002 SoCs. The controller supports standard I2S
-> +	  audio modes for playback and capture.
-> +
-> +	  The driver integrates with the ASoC framework and uses the DMA
-> +	  engine for audio data transfer. It is intended to be configured
-> +	  via Device Tree along with simple-audio-card module.
-> +
-> +	  To compile the driver as a module, choose M here: the module will
-> +	  be called cv1800b_tdm.
-> +
+[auto build test ERROR on 7a52965b6976c936f413eebeee3f78c6faf09012]
 
-...
+url:    https://github.com/intel-lab-lkp/linux/commits/Anton-D-Stavinskii/dt-bindings-sound-sophgo-add-CV1800B-I2S-TDM-controller-binding/20260118-042514
+base:   7a52965b6976c936f413eebeee3f78c6faf09012
+patch link:    https://lore.kernel.org/r/20260118-cv1800b-i2s-driver-v2-2-d10055f68368%40gmail.com
+patch subject: [PATCH v2 2/7] ASoC: sophgo: add CV1800B I2S/TDM controller driver
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260118/202601181833.qtNEcTd8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181833.qtNEcTd8-lkp@intel.com/reproduce)
 
-> +static const struct snd_soc_dai_ops cv1800b_i2s_dai_ops = {
-> +	.probe = cv1800b_i2s_dai_probe,
-> +	.startup = cv1800b_i2s_startup,
-> +	.hw_params = cv1800b_i2s_hw_params,
-> +	.trigger = cv1800b_i2s_trigger,
-> +	.set_fmt = cv1800b_i2s_dai_set_fmt,
-> +	.set_bclk_ratio = cv1800b_i2s_dai_set_bclk_ratio,
-> +	.set_sysclk = cv1800b_i2s_dai_set_sysclk,
-> +};
-> +
-> +static struct snd_soc_dai_driver cv1800b_i2s_dai_template = {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601181833.qtNEcTd8-lkp@intel.com/
 
-Missing const
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> +	.name = "cv1800b-i2s",
-> +	.playback = {
-> +		.stream_name = "Playback",
-> +		.channels_min = 1,
-> +		.channels_max = 2,
-> +		.rates = SNDRV_PCM_RATE_8000_192000,
-> +		.formats = SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S16_LE,
-> +	},
-> +	.capture = {
-> +		.stream_name = "Capture",
-> +		.channels_min = 1,
-> +		.channels_max = 2,
-> +		.rates = SNDRV_PCM_RATE_8000_192000,
-> +		.formats = SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S16_LE,
-> +	},
-> +	.ops = &cv1800b_i2s_dai_ops,
-> +};
+>> ERROR: modpost: "__umoddi3" [sound/soc/sophgo/cv1800b-tdm.ko] undefined!
+ERROR: modpost: "__udivdi3" [sound/soc/sophgo/cv1800b-tdm.ko] undefined!
 
-....
-
-> +static int cv1800b_i2s_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cv1800b_i2s *i2s;
-> +	struct resource *res;
-> +	void __iomem *regs;
-> +	struct snd_soc_dai_driver *dai;
-> +	int ret;
-> +
-> +	i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
-> +	if (!i2s)
-> +		return -ENOMEM;
-> +
-> +	regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(regs))
-> +		return PTR_ERR(regs);
-> +	i2s->dev = &pdev->dev;
-> +	i2s->base = regs;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -ENODEV;
-> +	cv1800b_setup_dma_struct(i2s, res->start);
-> +
-> +	i2s->clk = devm_clk_get_enabled(dev, "i2s");
-> +	if (IS_ERR(i2s->clk))
-> +		return dev_err_probe(dev, PTR_ERR(i2s->clk),
-> +				     "failed to get+enable i2s\n");
-> +	i2s->sysclk = devm_clk_get_enabled(dev, "mclk");
-> +	if (IS_ERR(i2s->sysclk))
-> +		return dev_err_probe(dev, PTR_ERR(i2s->sysclk),
-> +				     "failed to get+enable mclk\n");
-> +
-> +	platform_set_drvdata(pdev, i2s);
-> +	cv1800b_i2s_setup_tdm(i2s);
-> +
-> +	dai = devm_kmemdup(dev, &cv1800b_i2s_dai_template, sizeof(*dai),
-> +			   GFP_KERNEL);
-> +	if (!dai)
-> +		return -ENOMEM;
-> +
-> +	ret = devm_snd_soc_register_component(dev, &cv1800b_i2s_component, dai,
-> +					      1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_snd_dmaengine_pcm_register(dev, &cv1800b_i2s_pcm_config, 0);
-> +	if (ret) {
-> +		dev_err(dev, "dmaengine_pcm_register failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(dev, "cv1800b I2S probed:\n");
-
-Drop, drivers should be silent and probe success message does not
-warrant even debug. What are you debugging - that you wrote correct DTS?
-You can check in sysfs that device probed.
-
-Best regards,
-Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
