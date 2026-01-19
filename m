@@ -1,129 +1,174 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0F533ADA0
-	for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 15:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F643B95F8
+	for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 16:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768838071; cv=none; b=TdJnID2Hv017+x9V7JTUfJ+NBBXJpowUJCOH+J0wl93enbmLgqyA3XTxCV+7/Q1OtuEdMYSkJFpaGuKYEg7VPfC1y7YG9qTc+4F19nBqxo3uY94HRQfNEoCuLgkXU547RYCathyawS2fcN/OCmhDCfJvN9jsSVSREz0ox1L9iEc=
+	t=1768840250; cv=none; b=anDXZXSG/8IFjMLq5YUbXg/Nir2JYZgc41vYKo+0KJz0deNL04cSBlDRxfgBWgZZJDrTo7yLf3Hp+a1/EYYgf0plmwFv7WB7vUZnVgyg0ZUkcdJa15MngwLk4BFCyuryg79KgaMMvgyj82AZTfWe2Ae5G3CvPM56DApsHsHyQyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768838071; c=relaxed/simple;
-	bh=i9LWKUqEM1+CzlF1U6baaW5dXKoAdwze31t/Gu6q1QM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UERJU64+We3bKE/8IlgrTe2Yh7B16/wBph09BlZ1ERGLNZOzCYkGTwhe9/yIl9AETf6ekYBttRbvo4EaA7aS3jGm8V07yE1VH/evNuG/3/8E9uMjrvC1ISbd2nOkW+Gz7qjZMbx8Z18tCk+ia/233kR726rV5/qsKxRY1km5iC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pvus3pus; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PGnirmFf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pvus3pus; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PGnirmFf; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1768840250; c=relaxed/simple;
+	bh=tBbE5TYMjz9mJOg2pvzbDmpHsdxVsvsn/pV6RG/8C5s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AVLNIRp/iDLj13Vv6mJNc9WBcY8UEL7N1I6S2nTgms6w1zjr2Ov/p2oi5dUSE0mmX3DlnazPX1xleknlkKHd6rbko1Mx+d/WoNPoR3nnhnUFSn4/4qkCRj4pPH+V028Q4mlmhkbHtdPpWRmZ4NOoaNPgPFUXkC/88ynrfFYRD1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TTA7fAyn; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pvus3pus";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PGnirmFf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pvus3pus";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PGnirmFf"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BBA005BD44;
-	Mon, 19 Jan 2026 15:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768838063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uq6sJ9xcHBtLVJS7k0ZqUGdjwT4huYOtofrIETXjbNM=;
-	b=pvus3pusfxmT12CJGqkzCJP/nuLE9H//YpLguag07NdVvsZSf5c44u5ugFBIrS27CgdC9x
-	GDhNOD4vOqtfo+FPh7CKbeFGMhvLkB0MEzukTKlQczWTqGCmfh8lruXQVXs7CB305984Y4
-	255hWD+TsPldYJ1HALDASmyvRq0J4zQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768838063;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uq6sJ9xcHBtLVJS7k0ZqUGdjwT4huYOtofrIETXjbNM=;
-	b=PGnirmFfM8a/lDAOtHdjZoZbJpolCOwcU8VVVCr9hTub0iamex0plCxykgF6c5sAJJcZRA
-	uzF0bOEycrzIfqDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768838063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uq6sJ9xcHBtLVJS7k0ZqUGdjwT4huYOtofrIETXjbNM=;
-	b=pvus3pusfxmT12CJGqkzCJP/nuLE9H//YpLguag07NdVvsZSf5c44u5ugFBIrS27CgdC9x
-	GDhNOD4vOqtfo+FPh7CKbeFGMhvLkB0MEzukTKlQczWTqGCmfh8lruXQVXs7CB305984Y4
-	255hWD+TsPldYJ1HALDASmyvRq0J4zQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768838063;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uq6sJ9xcHBtLVJS7k0ZqUGdjwT4huYOtofrIETXjbNM=;
-	b=PGnirmFfM8a/lDAOtHdjZoZbJpolCOwcU8VVVCr9hTub0iamex0plCxykgF6c5sAJJcZRA
-	uzF0bOEycrzIfqDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89F9B3EA63;
-	Mon, 19 Jan 2026 15:54:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +bg9IK9TbmksVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Jan 2026 15:54:23 +0000
-Date: Mon, 19 Jan 2026 16:54:23 +0100
-Message-ID: <87y0lttx74.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tim Guttzeit <t.guttzeit@tuxedocomputers.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix headset mic for TongFang  X6AR55xU
-In-Reply-To: <20260119151626.35481-1-wse@tuxedocomputers.com>
-References: <20260119151626.35481-1-wse@tuxedocomputers.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TTA7fAyn"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso41223105e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 08:30:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768840247; x=1769445047; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GtSyZi+GX56dSilIrbysoC6diIgasA8yuyqA3He/cbI=;
+        b=TTA7fAynleVFGtKQ8PgPlqwb5h7YAurDw/lN6xxJcLOSRro8nOC0vmHfQ/rQt2bFT1
+         3OsH86rX8s0wDIB9+r3r3qsSlwhSSHrXDKxEuM8MAiabXDTvaAOu6hY0tSneuNI4IUuv
+         4JyerXaoa4Z5I3HnBmssT36cBV4w3PFot40gOyNNU6ArdQjs2b+FQ6bljDUJNpTMPGVs
+         CCKl/RGsIjLfhPhF3fDQ7QvwhGXr7Y4Y1ZTQV1hZnOWf7c2L7PORGu0Lh9Vws25HjK8k
+         ForlxGevvIqZkX/HKbcvEdyXh/lRVoSgndBycfk864tVH4zynbjuK7fTlbFTDu0FlXnf
+         lDRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768840247; x=1769445047;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GtSyZi+GX56dSilIrbysoC6diIgasA8yuyqA3He/cbI=;
+        b=SvwSYlg7T6Tx6yAhJjomxD0ki8QXYHQU5DT93H2g+LX01zFpmZX+rE9O9MIQDA46sC
+         sD/st/3949GIsTUGbCpHbMe5YREi8Buq+HlenuVVnTirKVKxogMX1/E1Wkm89kbQa1Hj
+         XlormNYS07dDNn7xwF4q13LFnRa4utB9PZEbGRPft1b/c4Ku+m31rANgSmRmoQJW+rza
+         zUAa1DMvwawpcl0GzbjLCkRx4VJkN2IJE1QSLVpMePgiE08G0IsPGQ74W+ukpUb3uVvH
+         hFKVbUtvZyEGwjF1aCkXoTkXD8dgjhMpdpm+eFzNb/72xv6lzKtFKCiXmVMtuwJwdcU7
+         mx8g==
+X-Gm-Message-State: AOJu0YwLB5+x+Wpzugxmdyzwk5IHnw7pUbWUAdqPPJJWq8Q3FNnRMO6Z
+	M7zo8m2xY1sN7tlgjilo9YMMHp99MQF9XjWU9SHaEtujSklehwP4DPJy
+X-Gm-Gg: AY/fxX5E4TZ/T2narm5kgfZGEvi4jFWQw/cziXbJvmqMXOIJ8SlhFiYtbApr7mG5AGJ
+	o74th/aL55UkR18UNCNaDXmx3yKlLEVhZOJ8KHXNvBn5CUEvxi9Hx3RDkrkpVZEBjyDmkq2Mekp
+	6DHxUCXYqVo8UjTnQgoGpYfvbfDLOMCeX9HJ4q47pi9j6Kpa/XngUxibDcNnJFsElqv8qjbYebg
+	uitUbbnT5Py/ellPCd00P6OGa9N9WXDRWUwIPpS8Nn51gSHaaYIKkXr55pcDdHHeEzGeAb3p3Nn
+	MZ7cleJkZWpggqOl7T+n/Ijfo2uTZUdoVMzbQ2Po4h+zaBV77Lsdnxr1lRdhWdcQraM56g2ABiB
+	9592a+qNaWIoZ9FGll+RfqqAKohVgrSaG4Rd7eCNiO37qjXu1otiJYlduaNmxZE06liL87lW3Im
+	8GA0Pdbk1CI6afZU17IHqMShaOlR0SUvBE8PEJDKBT+Hkm
+X-Received: by 2002:a05:600c:45d1:b0:480:1d16:2538 with SMTP id 5b1f17b1804b1-4801eb03358mr124106305e9.23.1768840246435;
+        Mon, 19 Jan 2026 08:30:46 -0800 (PST)
+Received: from [127.0.1.1] (bba-94-59-215-181.alshamil.net.ae. [94.59.215.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e879537sm201666795e9.5.2026.01.19.08.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 08:30:46 -0800 (PST)
+From: "Anton D. Stavinskii" <stavinsky@gmail.com>
+Subject: [PATCH v3 0/6] ASoC: sophgo: add CV1800 I2S controllers support
+Date: Mon, 19 Jan 2026 20:30:41 +0400
+Message-Id: <20260119-cv1800b-i2s-driver-v3-0-04006f4111d7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,tuxedocomputers.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADFcbmkC/33OwQ6CMAyA4VchPVuzDTcWT76H8cC2Ak1EzGYWD
+ eHdHZw4GI9/k37tDIkiU4JzNUOkzImnR4n6UIEf2kdPyKE0KKGMkFKjz9IK4ZBVwhA5U8RTJxt
+ bm0BeGyiLz0gdvzf0eis9cHpN8bPdyHKd/uWyRIFknVLO6sa27tKPLd+Pfhph5bLaE/YnoQoRp
+ BBad6a8ZvfEsixfTkjD0/cAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
+ Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, 
+ "Anton D. Stavinskii" <stavinsky@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768840243; l=3774;
+ i=stavinsky@gmail.com; s=20260115; h=from:subject:message-id;
+ bh=tBbE5TYMjz9mJOg2pvzbDmpHsdxVsvsn/pV6RG/8C5s=;
+ b=c7AvbXcGS/K0MvQfsJ0WarJIF9MHxYCqS987eHude15MFk9VyB7dvqMcJ62U/gdDyr2v5fdPj
+ 9cMqyVReILEAWoLVhniDDo5ozEq/st1lncODwK4F0UyH6XhPKHsV2km
+X-Developer-Key: i=stavinsky@gmail.com; a=ed25519;
+ pk=2WxGZ1zd1vQwSPFCSks6zrADqUDBUdtq39lElk4ZE7Q=
 
-On Mon, 19 Jan 2026 16:15:55 +0100,
-Werner Sembach wrote:
-> 
-> From: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
-> 
-> Add a PCI quirk to enable microphone detection on the headphone jack of
-> TongFang X6AR55xU devices.
-> 
-> Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+This patch series adds basic audio support for Sophgo CV1800B,
+as used on boards such as the Milk-V Duo.
+The series introduces the I2S controller driver,
+the DAC and ADC codec drivers, corresponding DT bindings,
+and DTS updates to wire the components together.
 
-Applied now.  Thanks.
+The implementation is based on vendor documentation
+and testing on real hardware.  This series relies on
+recent fixes in the DesignWare AXI DMA support;
+in particular, correct operation depends on
+the DMA changes discussed at:
+https://lore.kernel.org/all/20251214224601.598358-1-inochiama@gmail.com/
+The current driver implementation supports a fixed audio configuration
+of 48 kHz sample rate and only I2S protocol which is used in codecs.
+The series has been tested on the Milk-V Duo 256M board using
+the Sophgo SG2002 SoC. The implementation is expected to also work on
+Milk-V Duo and Milk-V Module boards based on the SG2000 SoC,
+as the audio and DMA blocks are closely related.
 
+Known hardware limitation:
+On CV1800B / SG2002, the I2S2 output pins cannot be enabled via 
+pinctrl alone.  Due to SoC design constraints, the output path becomes 
+functional only after additional vendor-specific register programming.
+This series makes the limitation explicit and does not attempt 
+to work around it implicitly via pinctrl or undocumented behavior.
 
-Takashi
+Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
+---
+Changes in v3:
+- Kconfig: add SPDX.
+- sound/soc/sophgo/cv1800b-tdm.c: add const to cv1800b_i2s_dai_template
+- sound/soc/sophgo/cv1800b-tdm.c: drop unneeded debug message 
+- sophgo,cv1800b-i2s.yaml: removed address-cells
+- sophgo,cv1800b-i2s.yaml: reword for commit message and header
+- sophgo,cv1800b-i2s.yaml: fixed dma-names node
+- sophgo,cv1800b-i2s.yaml: clocks min-items fixed 
+- codecs bindings: squash
+- codecs bindings: unevaluatedProperties: false, dropped redundant
+  description 
+- fixed build error revealed by test_bot 
+- cv180x.dtsi: removed address-cells in i2s nodes
+- Link to v2: https://lore.kernel.org/r/20260118-cv1800b-i2s-driver-v2-0-d10055f68368@gmail.com
+
+Changes in v2:
+- Updated cover letter.
+- codec nodes moved to cv1800x.dtsi with status=disabled
+- the commit with dts example for 256M board was removed
+- added details in commit messages
+
+- Link to v1: https://lore.kernel.org/r/20260115-cv1800b-i2s-driver-v1-0-e8b22b8578ab@gmail.com
+
+---
+Anton D. Stavinskii (6):
+      ASoC: dt-bindings: sophgo,cv1800b: add I2S/TDM controller
+      ASoC: sophgo: add CV1800B I2S/TDM controller driver
+      dt-bindings: codecs: sophgo,cv1800b: codecs: add ADC/DAC
+      ASoC: sophgo: add CV1800B internal ADC codec driver
+      ASoC: sophgo: add CV1800B internal DAC codec driver
+      riscv: dts: sophgo: dts nodes for i2s tdm modules
+
+ .../bindings/sound/sophgo,cv1800b-i2s.yaml         |  67 ++
+ .../bindings/sound/sophgo,cv1800b-sound-adc.yaml   |  43 ++
+ .../bindings/sound/sophgo,cv1800b-sound-dac.yaml   |  43 ++
+ arch/riscv/boot/dts/sophgo/cv180x-dmamux.h         |  57 ++
+ arch/riscv/boot/dts/sophgo/cv180x.dtsi             |  55 ++
+ sound/soc/Kconfig                                  |   1 +
+ sound/soc/Makefile                                 |   1 +
+ sound/soc/sophgo/Kconfig                           |  46 ++
+ sound/soc/sophgo/Makefile                          |   5 +
+ sound/soc/sophgo/cv1800b-sound-adc.c               | 322 +++++++++
+ sound/soc/sophgo/cv1800b-sound-dac.c               | 204 ++++++
+ sound/soc/sophgo/cv1800b-tdm.c                     | 716 +++++++++++++++++++++
+ 12 files changed, 1560 insertions(+)
+---
+base-commit: 7a52965b6976c936f413eebeee3f78c6faf09012
+change-id: 20260115-cv1800b-i2s-driver-4f17836dec56
+
+Best regards,
+-- 
+Anton D. Stavinskii <stavinsky@gmail.com>
+
