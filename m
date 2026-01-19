@@ -1,84 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0AE311C09;
-	Mon, 19 Jan 2026 12:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F52369992
+	for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 13:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768827571; cv=none; b=YDmnOG0m+1biH41A0SZXCbDW8BYhCtWkTNjw4Pcc58GUUqQtTLY2SspQl42+q0Kwy39vIbEe0Di6pkkcosSlNzx6TiH3sJ+LgddBUA2FQXLhoq/QYbACed2YPavoXemBbZYMO5lctK0qS7jabTwkY31KAA4fLrPhoov+UkNLhBw=
+	t=1768829452; cv=none; b=Xzd7gWOt+7/tK5+d/ZlCu3CjSQRORY8Lw+Ze5afXtG/XuQqXF7VjI3uddFnEdXq09x2HS7VF0pF9qiM7HORnBSOKM0Js70rwkwMiLWY9EJDRy9SYjTRFqRoteBE+wBSXQE2B3+LG0nPK07FUJvD7uI6cns72mLqLQE78BafClYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768827571; c=relaxed/simple;
-	bh=jzxnDysdAcTE/ESQF9zJm79iO+MZrVawJLNKDFEnUd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aEC981S2Jg48CbuC/t4NctvFycxxw0o5uV4wfORlGKt9XK9y56LSvCkTVYRsePs3eKjR2JeLVTw4L9vP/UxwE/VBEpVy0K71JtWhsWteuqszcqHvbKAzg0y2XMw9voo/b4ltnHnUU7YcU8ujCsHVlINMFBof7/Uj3R7+qdAQGz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsQ8yEdh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768829452; c=relaxed/simple;
+	bh=9CgxN3y6zWyGbBGOGTBIAJu5Z6u7BYw/mzaV92py8ys=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IwYAOT2uh7MXAURuj/c6cjY2hMmtUtQMcOEWSTxvPQ/Esr5DckAFpr+xT+rfJHwY/Gh6wYSMjREIxl1EN5Wfat4GvhtLwbn+gieKmFh9ryqho5N9QYMBYJrLHU8yM5NRukd09bAE3YULVTN2Ka4cp/fzED4lJxTbfu7nWYWyXFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZXv6a251; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d/Nz1YlM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZXv6a251; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d/Nz1YlM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsQ8yEdh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECEDC116C6;
-	Mon, 19 Jan 2026 12:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768827571;
-	bh=jzxnDysdAcTE/ESQF9zJm79iO+MZrVawJLNKDFEnUd8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JsQ8yEdht26VHg9cTEjmrmITRElpVjYHJqTljZgmaA1s44iIpaV2Zdt5v1YGeyOhB
-	 aIa2YtVBu95bvA35YxVLOKVrP6sfdR0kSMQbuQHPSAj0RQDQMVTQxq6+WueqpyFWHg
-	 RkHklvTDp0ubDxhaVGRR8iuRi5RgmxexsG+Ud9mEV8UeQBx58nuvZ028pvVQEcGLjG
-	 l35pSDtldhTmkJ608rqSVI8t/H6ZA7vJ83O9WXEVw5hQLJCxdbVydeKEdvyCXz7x1B
-	 D5Q7Rn3ibqrZ0v6vpruCtkEnJ5eSMZRDjXePLewgE1VOdf8n8buu4Sj/yFpasgba7j
-	 6nSzfS7QKT2tA==
-Date: Mon, 19 Jan 2026 12:59:26 +0000
-From: Mark Brown <broonie@kernel.org>
-To: bharadwaj.raju@machinesoul.in
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org, bhushan.shah@machinesoul.in,
-	luca.weiss@fairphone.com
-Subject: Re: [PATCH RFC] ASoC: codecs: aw88261: Implement renaming of controls
-Message-ID: <375753ae-baa1-4851-bad2-93e59e298f1d@sirena.org.uk>
-References: <20260119-aw88261-rename-v1-1-d4236055315f@machinesoul.in>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZXv6a251";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d/Nz1YlM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZXv6a251";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d/Nz1YlM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94C8D5BDB1;
+	Mon, 19 Jan 2026 13:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768829449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kyJwmqzs/Q/lPOGBCd8vZo1IxJQttRaSNIwtK/A0IKY=;
+	b=ZXv6a251Vh+NZq3b0F+PZXTnqmjRa+mYKdkgOEoplOxXVgdzCJFvGT3Ls29cEkpAyu+kre
+	dfb9lLO+TlLSKQYdZY14Y4Wl+zZC6eVhPHWh4SzCzl180QC7u2S+9QwfQ2H7K2hkZRveOZ
+	mKqAclG+JPpJs+JKWM3Gyo9XX44MSes=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768829449;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kyJwmqzs/Q/lPOGBCd8vZo1IxJQttRaSNIwtK/A0IKY=;
+	b=d/Nz1YlM2aXIscf6lpoDVtzwvILbUEt7+ud6+Thhk3wm3m1wVf00CNnzL2jZoJdJehIKNL
+	WQziVb/zTW+CwDAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZXv6a251;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="d/Nz1YlM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768829449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kyJwmqzs/Q/lPOGBCd8vZo1IxJQttRaSNIwtK/A0IKY=;
+	b=ZXv6a251Vh+NZq3b0F+PZXTnqmjRa+mYKdkgOEoplOxXVgdzCJFvGT3Ls29cEkpAyu+kre
+	dfb9lLO+TlLSKQYdZY14Y4Wl+zZC6eVhPHWh4SzCzl180QC7u2S+9QwfQ2H7K2hkZRveOZ
+	mKqAclG+JPpJs+JKWM3Gyo9XX44MSes=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768829449;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kyJwmqzs/Q/lPOGBCd8vZo1IxJQttRaSNIwtK/A0IKY=;
+	b=d/Nz1YlM2aXIscf6lpoDVtzwvILbUEt7+ud6+Thhk3wm3m1wVf00CNnzL2jZoJdJehIKNL
+	WQziVb/zTW+CwDAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4825C3EA63;
+	Mon, 19 Jan 2026 13:30:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hdvbDwkybmmQRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Jan 2026 13:30:49 +0000
+Date: Mon, 19 Jan 2026 14:30:48 +0100
+Message-ID: <87y0lt7mrb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Karsten Hohmeier <linux@hohmatik.de>
+Cc: tiwai@suse.de,
+	1121535@bugs.debian.org,
+	carnil@debian.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	waxhead@dirtcellar.net
+Subject: Re: Bug#1121535: UBSAN: array-index-out-of-bounds in [...]sound/pci/ctxfi/ctamixer.c:347:48
+In-Reply-To: <20260118184823.26480-1-linux@hohmatik.de>
+References: <87pl7lgzd7.wl-tiwai@suse.de>
+	<20260118184823.26480-1-linux@hohmatik.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="39EIWbHahabBPPx9"
-Content-Disposition: inline
-In-Reply-To: <20260119-aw88261-rename-v1-1-d4236055315f@machinesoul.in>
-X-Cookie: Does not include installation.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 94C8D5BDB1
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+
+On Sun, 18 Jan 2026 19:48:23 +0100,
+Karsten Hohmeier wrote:
+> 
+> Hello Takashi,
+> 
+> Your second patch works. Boot messages are gone and the soundcard still works as usual.
+> Thumbs up from me for upstreaming this.
+
+Good to hear.  I'm going to submit a proper patch for the upstream
+inclusion.
 
 
---39EIWbHahabBPPx9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Mon, Jan 19, 2026 at 01:00:22AM +0530, Bharadwaj Raju via B4 Relay wrote:
-
-> When multiple aw88261 amps for different channels are present, their=20
-> controls, widgets, and component names are the same and hence conflict.
->=20
-> Rename these to include the channel as a differentiating suffix.
-
-There's a core feature to add a name-prefix to devices which you should
-be able to use for this.  See sound-name-prefix in the examples for a
-lot of existing devices to see it in use.
-
---39EIWbHahabBPPx9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmluKq0ACgkQJNaLcl1U
-h9BPAAf+JelJPA0CvO6J25CbAxo7r/ir4vabzuDoV5iwiwc/HBFgzrlLs5mTuO+L
-NXGH7xPKwsSQzA0vXji6q7tBOJihqgYEpRZuGLnersg8/T+axMe+Dksfsr42Khv7
-drMMowSH3m5KOwGPXzNOjCyQVbIVVV4MR3jLUKC0cBqEP/3eEYy1Z3uBBEre6uBA
-ij1XmNDW40r1tQrl6qYANkSO3l2yrBrMd7sSTm/zwf2hKgQTVRYJF5KB8x5b+m4e
-lkF4Ql8lp2jzZC608qDeit5voI46oDRMfdvZqy9+DxFo4wm9XUuZ7mVZxISQHYAZ
-3L4D7YoykUAXvaIvV5XlZJMtEnFwhw==
-=Y8ok
------END PGP SIGNATURE-----
-
---39EIWbHahabBPPx9--
+Takashi
