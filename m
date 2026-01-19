@@ -1,76 +1,68 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08872309F1D
-	for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 13:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591C9231836
+	for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 14:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768829538; cv=none; b=oQW3ckPHfzGXP/ufoqAgCYi0otBLXYI08JK2bR/dpR79pSnzilOVLF8nwyAJwAQkkH6PuUaqr5nEdLXLGsNHruMRggMOxiE1Mg0QzeOSgpWpva87PqvD64pegwNVG6V+c8rZi55SzaWFRl+HhXgjcJHhpp0G3RoloWgkw6dmF3E=
+	t=1768834593; cv=none; b=jIwIc1wZCNELyZrDvMBKfO6hnoRJbyG75UagkQmcgNnoGuafPsY+YV1VwKCLEdjPvN0uZ0GeEYii2U7rlBlp8oYKw24Xtj2COwBwizyp1CvFYJ22WN81w+ncQKkuisT9MRdkg3Dh5KL8ATOg0i/sCeSvR+yO06FYGl0gkuy4SKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768829538; c=relaxed/simple;
-	bh=z763+P9XMm/cmt/VYmFWpS459WKQJrE+G/3U1ndOZ8M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aUgWiYIfG+2ceF5oJsqnFSYgD8rrFlYwr8A1svPxaohV2y38vLTAbMKu9Pv5GwI6M0r3UL9BrdbzveU8GWKbBw2dVsMo4s7LW7HCY1LLGztmlWf9L+6guCz1xl1MY5JDMpYzuM+RrYAPyCxt6M6O2CoNwzDbIIetb8Hg3DdsBlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFa8AhCm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SSD0vav3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFa8AhCm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SSD0vav3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1768834593; c=relaxed/simple;
+	bh=Rf/JouzqWfXorM2/hEPpl85helirE5U+wtcXio9HtMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R1xtkkfo1rJm/ZER7NS0Iuy6QjN6N7qb2bX3dLPMeuUGSBqu0yXQ7JD8zmAhza0T+vKJKwReNWwoByTjynalskDlkCM8yzknXR9as9qzybUcXT788LkuQjN67ipJO+pe6BefvoY32e/W3X95KpiDHX0q67CgnXD2GHYyvS76+ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YpnUqc+t; arc=none smtp.client-ip=209.85.208.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFa8AhCm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SSD0vav3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFa8AhCm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SSD0vav3"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3F8F65BDB1;
-	Mon, 19 Jan 2026 13:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768829535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=S/9oGHnAZyy9nIExvFop6U0yR6/Q2DZi3OzALmSH31Y=;
-	b=dFa8AhCmD4W6YasLsUChQuiGLgSD/LFUAN+l++mDxctthxAR+g84gGTWSwMDXnqCQo/l9Y
-	WIqOxOf1xLVnyVYijvJ3kU0rk9Na/J0nmqdOiYYb3BfkjtJhnYZlQZvEu6EUaSS+AbmuHL
-	Q38TgeGvCXou3L4H0Ozc3Qe9NBRYZu4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768829535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=S/9oGHnAZyy9nIExvFop6U0yR6/Q2DZi3OzALmSH31Y=;
-	b=SSD0vav3tCDEjhbC0o3ayWeB/uSzNvkiPFOEDZq7Din72kXcKi/oF8lnJzotO116/1OKcE
-	YY+tTpxfBdDTLlCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768829535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=S/9oGHnAZyy9nIExvFop6U0yR6/Q2DZi3OzALmSH31Y=;
-	b=dFa8AhCmD4W6YasLsUChQuiGLgSD/LFUAN+l++mDxctthxAR+g84gGTWSwMDXnqCQo/l9Y
-	WIqOxOf1xLVnyVYijvJ3kU0rk9Na/J0nmqdOiYYb3BfkjtJhnYZlQZvEu6EUaSS+AbmuHL
-	Q38TgeGvCXou3L4H0Ozc3Qe9NBRYZu4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768829535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=S/9oGHnAZyy9nIExvFop6U0yR6/Q2DZi3OzALmSH31Y=;
-	b=SSD0vav3tCDEjhbC0o3ayWeB/uSzNvkiPFOEDZq7Din72kXcKi/oF8lnJzotO116/1OKcE
-	YY+tTpxfBdDTLlCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D9F63EA63;
-	Mon, 19 Jan 2026 13:32:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1vOwBV8ybml/RgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Jan 2026 13:32:15 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Salvatore Bonaccorso <carnil@debian.org>,
-	Karsten Hohmeier <linux@hohmatik.de>
-Subject: [PATCH] ALSA: ctxfi: Fix potential OOB access in audio mixer handling
-Date: Mon, 19 Jan 2026 14:32:07 +0100
-Message-ID: <20260119133212.189129-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YpnUqc+t"
+Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-64b8123c333so6894767a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Jan 2026 06:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768834591; x=1769439391; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/9/j/9n4VAj3vozxwuN6C5caIUaITw/zX09yFVgGVg=;
+        b=YpnUqc+t8Zz5PrOHoo7mYZfHiCeH2TU0MD39+4F/liC8hVgShDT+abl029T78ubOaE
+         MfLKEOTBlSIZWFpp0s4dmIWMK+GG1SHiSFpx8A/hev6XBzzClUdFy0+mdY6CksKozhnP
+         q6rxgR75SYbkfgOrMcF4roL9pNNRfIfj1vQAJ/dzEf0CVSgHyh4mPj9zR7pFZVhZWHtT
+         qpYfRqIVVVR0Be7L56pvcAd9yKDKp7JkdrajFXxucesNEJU+WKnTHMQUDF62KRsFWKjv
+         13IwnRxS64+v5VeEUoTETZrsNGqAeigZ7uzd1RXHE51NqYMFiAYvrmgsz4aw7FvczLXx
+         /EHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768834591; x=1769439391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W/9/j/9n4VAj3vozxwuN6C5caIUaITw/zX09yFVgGVg=;
+        b=SlrhUNl6y/W49A61BYpPESgPkvNNgZ9+QYa3nRNRQ7S5wgH183EZRr4+rHVUZkOSbS
+         iBgf/6dM3eMVsFWt7klm3Tzh/nDuWBE65de03zgiSAaWkIcaNmbyGLEBRwouJ1vpTut9
+         jWp441HqR0LNC6Mt7VDhDfnHp4JxwzzAZY0037I8IDiKhRcLwGte6vmrhL9SiCzArHwl
+         /TgEtt9B1sNsdepCfAjH3P9nph3pQu+AJsuabG2kkqIbFdKjMYoCqCu0zmbXQJye8bKW
+         WOUIXOua6sn97M4H7jWtbj5A73EFViyd/bY9CQ3BkeSCRviax58DIncoOikc7OUnWYG8
+         IL+g==
+X-Gm-Message-State: AOJu0Yx2s71OK6X8JDXZeY+6RN0ZkrhURHso1EDaWoFNDNDYslBotOUH
+	u9pYxMpbwBcngVvQBAvMOhKhp15xG2shvukAjs3AET2TI0SZPoMVJnxwg/uNmNm4
+X-Gm-Gg: AZuq6aKrz3w6cpq0GBgsQ+mBEQhIbUHPxessEb3BuncmCWyuBa0sVVZB7LBciiC5+5x
+	UE9tAvLnYYb7Be7bcaIcMshLV9P/GCreJMKwQoPuB7Buwlu98L/t6NWpYOtCDdlZd13QjQc0c6+
+	nDaNQZy+XtrNV8f5u5s8w0Tr2d4o1itSjcXFA+ipGjWJ6EzHuKJMc/95p/m1Lr7YJ+A/DL2xa2y
+	rmQZtPdbWbBCLM3jvY+VWXGTcxk1SFYdsHVW8BzxHcHVnwj8HpeBetezsmuuWO20zDs/O6y+vcM
+	h6PBy5pzShshRBIdt7kReTpPOY2mca/ntWqy9y9FwbvEo10/fRA2T9SVDP7vaVP5re2usGCYB6Z
+	V/mu9c/GrC2szilAsiNeixdtWtTG0HAzHvimjbIg4Y/o076eUyDhidrkjZ8ac4hPCaF5vSorac3
+	GMFv00KeTE5Lafh1y+EguK9uaHITXRJ/+kxWOh1isFnII03j7ZsWLYPvmAxu1BFSNiITmNPCUZt
+	Ilclof5lh273jQGgCcPfck4UPf4WVlnPO3y1C2zXzxwElK92sYJ7Xct9Nu1P90=
+X-Received: by 2002:a17:906:6a1b:b0:b80:4108:f826 with SMTP id a640c23a62f3a-b8796aee516mr875495266b.36.1768834590246;
+        Mon, 19 Jan 2026 06:56:30 -0800 (PST)
+Received: from arch-expert-2026.fritz.box (dynamic-2a02-3102-4ea4-0c00-20bc-7360-f3a7-8f18.310.pool.telefonica.de. [2a02:3102:4ea4:c00:20bc:7360:f3a7:8f18])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959fb973sm1099669466b.53.2026.01.19.06.56.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 06:56:29 -0800 (PST)
+From: Anatolii Shirykalov <pipocavsobake@gmail.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	Anatolii Shirykalov <pipocavsobake@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks list
+Date: Mon, 19 Jan 2026 15:56:18 +0100
+Message-ID: <20260119145618.3171435-1-pipocavsobake@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,75 +71,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,hohmatik.de:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-In the audio mixer handling code of ctxfi driver, the conf field is
-used as a kind of loop index, and it's referred in the index callbacks
-(amixer_index() and sum_index()).
+Add ASUS ExpertBook PM1503CDA to the DMI quirks table to enable
+internal DMIC support via the ACP6x machine driver.
 
-As spotted recently by fuzzers, the current code causes OOB access at
-those functions.
-| UBSAN: array-index-out-of-bounds in /build/reproducible-path/linux-6.17.8/sound/pci/ctxfi/ctamixer.c:347:48
-| index 8 is out of range for type 'unsigned char [8]'
-
-After the analysis, the cause was found to be the lack of the proper
-(re-)initialization of conj field.
-
-This patch addresses those OOB accesses by adding the proper
-initializations of the loop indices.
-
-Reported-by: Salvatore Bonaccorso <carnil@debian.org>
-Tested-by: Karsten Hohmeier <linux@hohmatik.de>
-Closes: https://bugs.debian.org/1121535
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/all/aSk8KJI35H7gFru6@eldamar.lan/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Anatolii Shirykalov <pipocavsobake@gmail.com>
 ---
- sound/pci/ctxfi/ctamixer.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/pci/ctxfi/ctamixer.c b/sound/pci/ctxfi/ctamixer.c
-index bb4658592636..c30162be27ee 100644
---- a/sound/pci/ctxfi/ctamixer.c
-+++ b/sound/pci/ctxfi/ctamixer.c
-@@ -205,6 +205,7 @@ static int amixer_rsc_init(struct amixer *amixer,
- 
- 	/* Set amixer specific operations */
- 	amixer->rsc.ops = &amixer_basic_rsc_ops;
-+	amixer->rsc.conj = 0;
- 	amixer->ops = &amixer_ops;
- 	amixer->input = NULL;
- 	amixer->sum = NULL;
-@@ -367,6 +368,7 @@ static int sum_rsc_init(struct sum *sum,
- 		return err;
- 
- 	sum->rsc.ops = &sum_basic_rsc_ops;
-+	sum->rsc.conj = 0;
- 
- 	return 0;
- }
--- 
-2.52.0
-
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 123456789abc..def012345678 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -300,6 +300,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 		}
+ 	},
+ 	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ASUS EXPERTBOOK PM1503CDA"),
++		}
++	},
++	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
+--
+2.43.0
