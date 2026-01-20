@@ -1,97 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A1F3D3013;
-	Tue, 20 Jan 2026 08:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB923D666F;
+	Tue, 20 Jan 2026 10:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768897885; cv=none; b=nI3ZOh0/Wj0029Az42bj35P68s7+KqscW9nV0Oe59Y503XHpO7k1UWgqCdPs1OkaZATtnj9aB1fmV4BcNQLSHNjTLmWQMTqg1H0dNGWkyukqcFZdE4J+B15mbKckZs9vgaDwt2eNkniOuyPCpOTikFbsnCGKEMKLOqhJJhPd0yw=
+	t=1768903858; cv=none; b=o6iUa+JkHM5daTAm/fEniwuzv3gzX6H5fwpTnhi6JdJYfCURSF0jyGzgOx8eBQBp7ItwEV/g8xcias5X4Jpblm4zW4HmpUZvXOKT125M09q/D9CCU8kgZ5pN+qPeNyeYukaQ3rLQWyR9pzDZ6pZccYunHOCKvTQ/2bKsW4Ww100=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768897885; c=relaxed/simple;
-	bh=G5OUIZ0ehRmTQXs34jjTbgfwlTypW/YnwkTyZ2RKoOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N/xm/fpfB7kwR1+ziUH4I+ZVgHAKhfAeGRJRyIum8u2KvAsmD755LF07Z2iYj/8y/Vv9aTS59eGcWohwAD49KHRT29+DTvRD9scDp60nQK2Ud00RCKaULMJqy2BvEGxyswFrYsqOHgTqv3hQ5oYLavXqdzr3+n5tx9j3GRLsgV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuVlwmEO; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1768903858; c=relaxed/simple;
+	bh=14sFAjB4MwXkB5IYvz/vbPhNzMMnETtzo0mJN+fJcs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lD3fKqdAEBwV6VUeZrV1tAIMcffsUr0C6C2Tb3bueS44BqNUSr5RKhQ5l2cgauTpL7fTHcCqhGlcdE1tihIVYkKA6PgZ1Ak4yVDF4jfz0JZGw/0GMGs+CBQGHHl5791TXOe4VYOnSU/MwITQENDhvumecoWvjWHLW4jzYigswZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SO12JgQo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuVlwmEO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768897884; x=1800433884;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G5OUIZ0ehRmTQXs34jjTbgfwlTypW/YnwkTyZ2RKoOA=;
-  b=VuVlwmEOkPmUUMc8NlEDs+1yyFiu6p3BAFZJWyAp1Q++oS0h7h1M3fdx
-   M0kabLkE6cHde+igfff4PIs8bwuwKfpWwmO/9gf8/6KwLP4xJ12AiqP+X
-   Ah4+GNin69i+IDa5gs4nMDZ2g376c2GQr7UmuckTMX7F1C9SiFKYoxwJU
-   heBwqYhU/rm1K6DnhVIUiDtoLKC1jdQLe6DKn0RSTRBkBA9soPA27fhLx
-   hTFh6PGgPZzvCjwLKehOLFFa2hvgU+C56ndp7FOIt3HnPguoeUuUgT+rL
-   QniLrELxo921DRHy4Qig/6cmK5sUv/+KJZ2xAvs7dBDE34LEdm22ubtET
-   A==;
-X-CSE-ConnectionGUID: +b8ecKzMTrevS8Rc9soSbQ==
-X-CSE-MsgGUID: MYYSkcxfTkKscwmob2643w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70071973"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="70071973"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 00:31:24 -0800
-X-CSE-ConnectionGUID: 8+6Ksd28Rby6EgvTRpC4Mg==
-X-CSE-MsgGUID: a+7l28RvQKuFZM8GeVkxjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="210530683"
-Received: from krybak-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.55])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 00:31:20 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.de,
-	bhelgaas@google.com
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	linux-kernel@vger.kernel.org,
-	kw@linux.com,
-	linux-pci@vger.kernel.org
-Subject: [PATCH 4/4] ALSA: hda: controllers: intel: add support for Nova Lake
-Date: Tue, 20 Jan 2026 10:31:48 +0200
-Message-ID: <20260120083148.12063-5-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260120083148.12063-1-peter.ujfalusi@linux.intel.com>
-References: <20260120083148.12063-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SO12JgQo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD260C16AAE;
+	Tue, 20 Jan 2026 10:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768903858;
+	bh=14sFAjB4MwXkB5IYvz/vbPhNzMMnETtzo0mJN+fJcs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SO12JgQoStGryPgG+5UcjczgvJ5BAcP6qqISOP6AXmS7I24DgPG2BSSsi5f69PaSr
+	 bqK1JLZTXU7/t1TWiFuB7lMzp8MRxiQwgNVHlm8x3UaLb1DcOOy7u0OYKZH6rKmW1j
+	 ZCadcmWUvl1vu4H0l6OTbtAVTFDF0zYQ2urehZlpVHL/UVA9aEPVbFDzhLx0CcpkVD
+	 1jV4XFdhwKFLS9aDVVZUy6mIhxBq9Fv8NNMfWWPabjnGabOGkEP9/DIkQkHEgbkDnN
+	 5RbPjtMkk/XMmx/2TaBaZYkXjnK8UaR/4wMeIaoEwNYAWGCKaUP0Q070Cv1dz6d3Jo
+	 wDiBqPyVfJDpw==
+Date: Tue, 20 Jan 2026 11:10:55 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Anton D. Stavinskii" <stavinsky@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3 1/6] ASoC: dt-bindings: sophgo,cv1800b: add I2S/TDM
+ controller
+Message-ID: <20260120-chirpy-booby-of-potency-ece1d7@quoll>
+References: <20260119-cv1800b-i2s-driver-v3-0-04006f4111d7@gmail.com>
+ <20260119-cv1800b-i2s-driver-v3-1-04006f4111d7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260119-cv1800b-i2s-driver-v3-1-04006f4111d7@gmail.com>
 
-Add NVL to the PCI-ID list.
+On Mon, Jan 19, 2026 at 08:30:42PM +0400, Anton D. Stavinskii wrote:
+> There are 4 TDM controllers on the SoC. Each controller can receive or
+> transmit data over DMA. The dma it self has 8 channels.
+> Each channel can be connected only to a specific i2s node. But each
+> of dma channel can have multiple purposes so in order to save dma
+> channels the configurations allows to use tx and rx, only rx, only tx
+> or none channels. I2S controller without channels can be useful in
+> configuration where I2S is used as clock source only and doesn't
+> produce any data.
+> 
+> Signed-off-by: Anton D. Stavinskii <stavinsky@gmail.com>
+> ---
+>  .../bindings/sound/sophgo,cv1800b-i2s.yaml         | 67 ++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml b/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml
+> new file mode 100644
+> index 000000000000..e09631308bb6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/sophgo,cv1800b-i2s.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/sophgo,cv1800b-i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sophgo CV1800B I2S/TDM controller
+> +
+> +maintainers:
+> +  - Anton D. Stavinskii <stavinsky@gmail.com>
+> +
+> +description: I2S/TDM controller found in CV1800B / Sophgo SG2002/SG2000 SoCs.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sophgo,cv1800b-i2s
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    minItems: 2
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/hda/controllers/intel.c | 1 +
- 1 file changed, 1 insertion(+)
+Drop minItems, redundant in such case, implied by maxItems.
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index bb9a64d41580..85324c7c796d 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2551,6 +2551,7 @@ static const struct pci_device_id azx_ids[] = {
- 	/* Wildcat Lake */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_WCL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Nova Lake */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_NVL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_NVL_S, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
--- 
-2.52.0
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: i2s
+> +      - const: mclk
+> +
+> +  dmas:
+
+missing minItems, I already pointed out that your constraints always
+need to be synchronized between xxx and xxx-names.
+
+
+> +    maxItems: 2
+> +
+> +  dma-names:
+> +    minItems: 1
+> +    items:
+> +      - enum: [rx, tx]
+> +      - const: tx
+
+Best regards,
+Krzysztof
 
