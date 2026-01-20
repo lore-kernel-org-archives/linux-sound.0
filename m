@@ -1,134 +1,158 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF673ECBF4
-	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 11:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768907282; cv=pass; b=BPiXT4Sa4QdmAs4by5U9DVttqcARLRIX0wt6Hq2kWPaKYGIY60QX16JG+i0+oCzDv1uRwk3VuvTDMA1+TY50d+HP4Fw7bb7OUdko01Dqvz96EM0INfxLXFfMnW00n/lR4j3zVEoC/Rikez2RI+8jbZjHj5B10lyZJQHnHJYKC+0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768907282; c=relaxed/simple;
-	bh=G67HGmUfVGd2ZvWRQTeaSHRPd97M+0Ot/yOxv4YVwbs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CEl3yZuDPiNcHujqHCL3nCq9GCEOj0RjXNQtGFww0DiCJdz+qiab/tRW6y40JfUyZo29+qkyz0OYVoh2zsu4eJ5UCR2FIQpFrIXH3RoclhI7VxfAcXsMSzVXtTP+4DC0EWt/Gz6Hmu21oVImTNgVqoiQUUa/YOr3REvKTCUZNoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MGkDI8DJ; arc=pass smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434BC3DA7FC
+	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 11:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768909484; cv=none; b=CIJnKCJqtkK6MZiMYMNJjP1/r3BKjzSVwX8zKyUIQD5TID9lVMddDmZlp88JGOJzch8qopvOjHxrorj66qd2KHeoG8Td4SLV95j6Nb9cmrWTrTmMElmF8rssYOoSd/mKUXoPmZ+bpKxGZiq8zne3cq/1E9wn6dv4ud2CNOGvlYc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768909484; c=relaxed/simple;
+	bh=ggf85RRn2u2pSDSYrEKt3VaOLiAsoHlL6CzuF7s7sus=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NtJk0pvjIKksaA0se11X0yUrYhB9mjW4EY58tqkqjVoXqYzMqXJQB6esJ/jEUIg8a4LrOn17iZhfPRN92BX/fdGGRClN9vhosO6i3OGrSL5BLvZvxKPT4tKTprPbVo9Sj48lOB2EIQUtyxteEo9qC6YotzIdc4wLxE5buXgy/7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lzCi14l+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNULk4FU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lzCi14l+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNULk4FU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGkDI8DJ"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7f89d0b37f0so3026099b3a.0
-        for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 03:08:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768907280; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K7NtGllWeRLZaTF5IxktRIAuuH30k18Ygl0GRm0GGO9IIKYCTbXPOU6X/YIVGSPO1J
-         9xaid2tsOs3/6LcIjEQe+4F0e/YWka1pt7Qm3r3HEoholQ2gbk3wAEtfesmSn6bURGnt
-         I0mSIQQvWlINkisgy7URjDQN4u1Abyde0r6fJkbfq0c3fSanELpYcSfpNaPlIStz49HE
-         Qs9YU6TF00dr4viKwXbhJAtx9WX9lhU+H0r0rFlacfz8UbneGY0zV2vFqmPDqBZMQhbS
-         4j8MlK7ziSiDUZkpRX9bQdd2k9Wu2KJctJnu/H4oqyelVDse+hj7KN06YlCLTa7o00uK
-         1Qnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VTp8D9aHKubMXvdcgA6NueZbNBOyUWbHG0j1r0Ye+Vk=;
-        fh=GwtyAvqy6/gnemXQ8bBQRZFeMDbuo2nv6vZWbLSkfN8=;
-        b=J4xdC/Y9IpHerYDDh3/da0i84qhRxUg7WhmL/I6ezVAjPDIjdOY05kNN+cJWwcc86N
-         YGuMyvdWjRZ+3Hb1xhe1kfV32Hh/AQHNigHmrAOgcH5gAYWwKCr3+gN8eUZ3qxqEYm7M
-         tjKPJ7WCgp7rzbMsuHt/RjQTxXUWlgz+AM0zgXfoDBKsETqD+htycMBuW+Siy1IffEJ8
-         Rnj5fk6xFqvfwdyj04IzOBFkQ31wo5VU1AlTitpLkV1PBFMrG9yxilblyiFOXchGmxa4
-         HTCCMeCiquAwkJGi53Dagq6kL9xPzW9sJba8l+0uaBEkE467tYsuCduFedH+wuh7VvsU
-         FrBA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768907280; x=1769512080; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VTp8D9aHKubMXvdcgA6NueZbNBOyUWbHG0j1r0Ye+Vk=;
-        b=MGkDI8DJyXabrsg1Hssr6kMgzexTbDeXoc9Oin7Wz0Ns4Bn1txsFySL2Tk9jKZZjQC
-         d1BW7XfH4QKQY6Hug+oIKtnXoig+tZQLkXVJOJWDFgphnpOa3/YR7D7Ou30s42iphmFr
-         OLDe21UDzefn4p7E+6evgaXLaDsMpBihRgCC0zgJmUufbAtKTzm/a5HfKwVHGFnqoO3O
-         eT4aVNUfn8nlvCYisUUITOXw9I4AVNEWljk4YiIofDT6RTxluo9H+AOzaIJhnw8aiz6r
-         erGJBPB6jfr2jXXeOv0ipziB3LN12VNo4tEgWvqFpi+g5XmvFWMOv6lEzupKL2RbXnrc
-         Jgaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768907280; x=1769512080;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VTp8D9aHKubMXvdcgA6NueZbNBOyUWbHG0j1r0Ye+Vk=;
-        b=UoCtmIPeStDY1M3xn7TJXqF57zS6Uele/Z/kXpExJ8UypGHPWQ+FOxr8AYnFqfDMhe
-         7kt0AF05IUAPvdCMrrxiB1lnuzYrLJV3tL3j6j5SWOheXvmVhTcf3xboP6+B9kbvWTAJ
-         Gc/d/IPv7mHu7X3qAgoAX4GVTinPBk1wSwRQ/0PWUFU9RLNYa8T6/+3DK3EXrKveMvud
-         TUqwGW8QQEBjKpwkpdeNN7UnP2KnDcCe+0UycoNTrQ/tuRKLSV2rPHnvqIRxIwphK7dq
-         WYpdSFp8gI1aw51ZlihEFTK507c5DJoVntLydnh71LDnV2wM+OHhUFntU/DgI5CP9bW+
-         B75Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUZW0UiKdQGS5qW/uw8THGuGlxaV/Xtcsn9cfgeOxSfXZuG5DzM2DGFhJKHsOAQr3uJXQtXg3ymdMLogg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzwMWjcIws5DZSIKRFNGEv1qz8S2u1cTZaoIZ4NoYRw3zzEipJ
-	ffr7Hx2VRnxRmnJWeVmsMRvGunNdCz8sfb95fzCX9fTJhInTLO9RPer46m5XpjIBt5YklUIQ5rN
-	2b971qnrg33B52lsHmCmkgQS6CXmQFzM=
-X-Gm-Gg: AY/fxX5ixlEzy32OowAUm45CqdVs2nr8L+y+KgoZojp9n80EiUqbkGnBFhcjvCruRgG
-	h0cZ9CKE0vwzZjxWuh/snqE8P7lsvpXpR+gTr4KCraupCwIG6xN+hH3uWN10B17NMksGO+C7WJ7
-	d9oxBwmerzGnpOva3ONo3/xaK1racBEyh7LAVx2wINQ6iPrvz0JLieWE3VgYoxKZgIyOcPS83Ef
-	Vop1DPUyBO3jWk2BaXZ/kx9osq9ClO4r9x0RE9HGZOo8oW+smZmByq5maqTt28Zi5tLqSSxmJYZ
-	E8cq4w==
-X-Received: by 2002:a05:6a21:3a42:b0:38b:e70c:6406 with SMTP id
- adf61e73a8af0-38dff36821cmr13408140637.22.1768907280519; Tue, 20 Jan 2026
- 03:08:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lzCi14l+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNULk4FU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lzCi14l+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNULk4FU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 53386337D7;
+	Tue, 20 Jan 2026 11:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768909480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7EWLq2tn5kc+cr0gyHMptWRSFsTtsvV3282EXGQnY=;
+	b=lzCi14l+XDAyQJj4cP2LZszcN09FvX5rropkn8M0igZWX8NUxz9Sjw7i+hSH2h6bB+rNZz
+	t2XqCQBglvggWQ7mrCOrC09cpZAAnRAFkyaQ/K2P75JIbjZQ9Sl0nceLmvT8tVVPJxw6TM
+	lR+XpdsCeZDkVSLJRkDEBhsjojQp8Ow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768909480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7EWLq2tn5kc+cr0gyHMptWRSFsTtsvV3282EXGQnY=;
+	b=pNULk4FUEnPZ3fbyHfsPbMnKPkf3nA6BDC1PFEi/m46CpDuM7fJL+VpoXsuRVtpCALqlTX
+	1cAXhsjC92wrYTCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lzCi14l+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pNULk4FU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768909480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7EWLq2tn5kc+cr0gyHMptWRSFsTtsvV3282EXGQnY=;
+	b=lzCi14l+XDAyQJj4cP2LZszcN09FvX5rropkn8M0igZWX8NUxz9Sjw7i+hSH2h6bB+rNZz
+	t2XqCQBglvggWQ7mrCOrC09cpZAAnRAFkyaQ/K2P75JIbjZQ9Sl0nceLmvT8tVVPJxw6TM
+	lR+XpdsCeZDkVSLJRkDEBhsjojQp8Ow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768909480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7EWLq2tn5kc+cr0gyHMptWRSFsTtsvV3282EXGQnY=;
+	b=pNULk4FUEnPZ3fbyHfsPbMnKPkf3nA6BDC1PFEi/m46CpDuM7fJL+VpoXsuRVtpCALqlTX
+	1cAXhsjC92wrYTCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 363213EA63;
+	Tue, 20 Jan 2026 11:44:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9saSDKhqb2l0OQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 20 Jan 2026 11:44:40 +0000
+Date: Tue, 20 Jan 2026 12:44:35 +0100
+Message-ID: <87cy34tsnw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Berk Cem Goksel <berkcgoksel@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	stable@vger.kernel.org,
+	andreyknvl@gmail.com
+Subject: Re: [PATCH] ALSA: usb-audio: Fix use-after-free in snd_usb_mixer_free()
+In-Reply-To: <20260120102855.7300-1-berkcgoksel@gmail.com>
+References: <20260120102855.7300-1-berkcgoksel@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260120035210.1593742-1-shengjiu.wang@nxp.com>
- <20260120035210.1593742-2-shengjiu.wang@nxp.com> <20260120-fractal-lemming-of-chemistry-6f21df@quoll>
-In-Reply-To: <20260120-fractal-lemming-of-chemistry-6f21df@quoll>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 20 Jan 2026 19:07:48 +0800
-X-Gm-Features: AZwV_QjlRWGRppxCrBr9lEF7AFifqLu4-_l_Wvfec_Mh4jj0zdL8Z4fH3sbuZEk
-Message-ID: <CAA+D8APePw6BnRP=Wnw+zna+oc4_aoMWZewYC7yx-XYLBrSKbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: fsl,audmix: Add support for
- i.MX952 platform
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,gmail.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 53386337D7
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Tue, Jan 20, 2026 at 6:31=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Tue, Jan 20, 2026 at 11:52:07AM +0800, Shengjiu Wang wrote:
-> > There is no power domain defined on i.MX952, so make power-domains to b=
-e
->
-> There is no defined or there is no power domain? If the first, then this
-> patch is incomplete. Please read writing bindings part about complete
-> bindings. If the latter, then you miss constraints ":false" and commit
-> msg phrasing is incorrect (and remember that in such case you won't be
-> able to add power domains later because now you add complete binding).
+On Tue, 20 Jan 2026 11:28:55 +0100,
+Berk Cem Goksel wrote:
+> 
+> When snd_usb_create_mixer() fails, snd_usb_mixer_free() frees
+> mixer->id_elems but the controls already added to the card still
+> reference the freed memory. Later when snd_card_register() runs,
+> the OSS mixer layer calls their callbacks and hits a use-after-free read.
+> 
+> Call trace:
+>   get_ctl_value+0x63f/0x820 sound/usb/mixer.c:411
+>   get_min_max_with_quirks.isra.0+0x240/0x1f40 sound/usb/mixer.c:1241
+>   mixer_ctl_feature_info+0x26b/0x490 sound/usb/mixer.c:1381
+>   snd_mixer_oss_build_test+0x174/0x3a0 sound/core/oss/mixer_oss.c:887
+>   ...
+>   snd_card_register+0x4ed/0x6d0 sound/core/init.c:923
+>   usb_audio_probe+0x5ef/0x2a90 sound/usb/card.c:1025
+> 
+> Fix by calling snd_ctl_remove() for all mixer controls before freeing
+> id_elems. We save the next pointer first because snd_ctl_remove()
+> frees the current element.
+> 
+> Fixes: 6639b6c2367f ("[ALSA] usb-audio - add mixer control notifications")
+> Cc: stable@vger.kernel.org
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Signed-off-by: Berk Cem Goksel <berkcgoksel@gmail.com>
 
-Thanks for pointing this out.
+Thanks, applied now.
 
-There is a power domain on i.MX952 for the mix system of AUDMIX.
-But it is enabled by default,  AUDMIX device don't need to enable it.
-So can we make the power-domains to be optional for this case?
 
-Best regards
-Shengjiu Wang
-
->
-> > dedicated to i.MX8QM.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
->
-> Best regards,
-> Krzysztof
->
+Takashi
