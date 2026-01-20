@@ -1,82 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EAA33ADA0
-	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 18:16:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA6F4418C1;
+	Tue, 20 Jan 2026 18:17:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768932965; cv=none; b=gFJejnVsL38W6UNnU86mlEkuhDgAWgn8lmfnzVNLN1OfX6tQ2Wxb91P51dRc27N2g4khXr+6NSTlnRPoCRsgin2Xkc1hlems9p02jIzcawvZYeIWRHF26n5snwKViC456VDuhvAEexk3JNLjnd1ndb7U23g7lfhikydOdPrYXWY=
+	t=1768933027; cv=none; b=pihwH5YtgF11XMCQhXsFu9086LswoWp/WrLHaFALOL40E/kpUbRJINNd2RVI12yZUfL/Hnawzu3Uq+UnqwzzOgs3CGLQQYLwt5BKcANP8skIIipVb4znqg6ucEsF5knVDthT3j2BCIK6wvOwgfiqdxpccmw9/RWVUNKribrzrdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768932965; c=relaxed/simple;
-	bh=BUIw7OPXWB/UWJa4kBNNolZawNI5+gMEOkHFGcj9MWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U7EOSetyE3/VF9k/j64E+F/boolQsmyjhu3zJSms+fgtd/zLN0JTHBJMTU9l2OFE1+MkIcBTfaUIBDmFrRaxQ8hH/nKuJTQvlvCgRDVK0zQfFVx7FdlbQ2U713R0SIEk63O7mpDGWBIb8GHLRXYMu36mdS8OaW2aNK7CA1I1RoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mf8qNjv/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768933027; c=relaxed/simple;
+	bh=gxwaOHzp3uUOewUvUbS26LKL9lEmPjguIBWuVuODAfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=b0g4w1+dtlY3QbMMgbDVPCiwnANvsN6pz58skrK8jRSkqemDK8++2EeCP/QBNzujHa5QtMVytwbcQR0D6tEE5rF6sG4sCAnjITxv5Af5d1KQRRhTR8RpvDF9Co7DQgIe+6GlAlvyxrNuqqF2DlwxUS9EHX0QXLFi9GWNrK0d1JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mq7D6bc0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mf8qNjv/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD482C16AAE;
-	Tue, 20 Jan 2026 18:16:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mq7D6bc0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A96C19421;
+	Tue, 20 Jan 2026 18:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768932964;
-	bh=BUIw7OPXWB/UWJa4kBNNolZawNI5+gMEOkHFGcj9MWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mf8qNjv/j8U/CPvtEqXOxhhoOb1vcdXaDOcNqOW4VUtiUbFCAtixqFncfnGtlKirD
-	 pW57v5yM1wl+KPwwuJQPRKW526Ovytnp1bDxDdchf3LHLyDE8AyY2WDFSxjgNAa8pK
-	 VhldpdrZJCJV4Ij42uEP/oO0DWI6kggrUk+c+y+kHWWqpfeOLfciMxxRL6Fg1Plc/v
-	 grmlkv/F94r3x2CAbBUR93B5IBDN324SQV6lxGIJbCu0GhBNiT4f0zYyHfRjbWl6Jj
-	 TFJhajBV2ktmd5b+JU92y6qzAX8goIdr1Y9fiuYq3n2bYh4qvetsXIOt4THy+lUeLH
-	 lUsMe1zYzXL7g==
-Date: Tue, 20 Jan 2026 18:16:01 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sven Rettig <retto@gmx.net>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: PATCH: ASoC: amd: yc: Fix microphone on ASUS PM1503CDA
-Message-ID: <dc7a9173-d250-4da9-b8f1-95115bd49100@sirena.org.uk>
-References: <4506ea87-d4c2-4db9-80f8-267a7a015cf2@gmx.net>
+	s=k20201202; t=1768933024;
+	bh=gxwaOHzp3uUOewUvUbS26LKL9lEmPjguIBWuVuODAfs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=mq7D6bc0tjOypxE/Mzc2JviiWo/kcebpjtQ8r2fNEemQKvg5NUTFYBbsZnMAx+pAu
+	 XtsIns0n6/v9+OYgxJ0WA3kyGR1BD3+JE3Z5X4omHT+aZRRbQw7gBxMEqCXUlqaP2s
+	 WKPWUdrBKC9KCadu3agP5Q17JuIzFtU/LAvKtcEH+MtGHKRQKZ60gm0ZcS3fihfeKe
+	 5h/XcETiuRtq7GCqDmnNJ4Jw7sioyF3wjfCYPYrDsE6Boc3YxTFTvgtPbh0SM3LqEn
+	 44qo9E9pPfff7f/a4cRFQat8/6+ORYxfpCUVyxMSThIzLiqN1+J6cWtruDLm7acSsk
+	 bJe/I29ye09Vw==
+Date: Tue, 20 Jan 2026 12:17:02 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.de,
+	bhelgaas@google.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	linux-kernel@vger.kernel.org, kw@linux.com,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH 3/4] ALSA: hda: core: intel-dsp-config:: Add support for
+ NVL
+Message-ID: <20260120181702.GA1160036@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="el1zsK5a1JelfA0R"
-Content-Disposition: inline
-In-Reply-To: <4506ea87-d4c2-4db9-80f8-267a7a015cf2@gmx.net>
-X-Cookie: I'm ANN LANDERS!!  I can SHOPLIFT!!
-
-
---el1zsK5a1JelfA0R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260120083148.12063-4-peter.ujfalusi@linux.intel.com>
 
-On Sun, Jan 18, 2026 at 02:32:42PM +0100, Sven Rettig wrote:
-> Add DMI match for ASUSTeK COMPUTER INC. PM1503CDA to enable the internal
-> microphone.
->=20
-> Signed-off-by: Sven Rettig <retto@gmx.net>
+On Tue, Jan 20, 2026 at 10:31:47AM +0200, Peter Ujfalusi wrote:
+> Add entry for NVL variant of Novalake family.
 
-> --- sound/soc/amd/yc/acp6x-mach.c.orig	2026-01-18 14:09:58.370727062 +0100
-> +++ sound/soc/amd/yc/acp6x-mach.c	2026-01-18 14:10:54.532336621 +0100
-> @@ -461,6 +461,13 @@ static const struct dmi_system_id yc_acp
+s/intel-dsp-config::/intel-dsp-config:/ in subject
 
-As also covered in submitting-patches.rst patches should be sent inline
-as part of the message body rather than as attachments.
-
---el1zsK5a1JelfA0R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlvxmAACgkQJNaLcl1U
-h9DMrQf+LjhCmWIhJY2h+0tYxTAPGBVYoGoRbfkwJBJFiM6vMDUXXCMohqu8OhCB
-dsLAx1X4RE0nPtMDQrZbVRRdV5pNK+eysEEYrzQXAyL75mjg6ZZ0fzhbcQBrFErH
-cBl1AK1XbiRkqQGBwTto7eQDo0LCGBuqd9G3t4WKRniRjvboYKVyY2y9avzw1Gsv
-L58/Bd7HcVECbn5Wj8akhvp25P2NLWsz3InqWLx6ScdMZneqgk5jLGnWY0YZBSBN
-QsP/m2+X/tfuJxQZMf0yow5O85RgxdKL9nJuBZZyt21UmztrHFp+eRTkeuZ9Pesw
-lIM0bEcx204xXwp5Qn8/wIE+wwH7oA==
-=Q9pl
------END PGP SIGNATURE-----
-
---el1zsK5a1JelfA0R--
+The internet (and other patches in this series) seems to think
+"Novalake" is spelled "Nova Lake".
