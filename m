@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051373A7F6A
-	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 20:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B06B3A7849;
+	Tue, 20 Jan 2026 20:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768940181; cv=none; b=T9MsvRhyZSXNlBX9zoOY8DqdKWMKmXAPuGBOrYw+lqnddAS5ZVJheJgMeifTEyhjR9eZ361iISGXVMWEnT9ZtWsf5u+yQzRAeRQZzsbscf8l1O97VNoW2juNJjIr48Er2KAmkToABkwgq6zlTTgqSMs2tJ3dou+c79kMQij69MA=
+	t=1768940184; cv=none; b=qRxj28yeygDUzWLSByjfUCoQXdQyvaQcsffDRuC4ZqzAPr57l2d2A5FPdMc1Lsq2sLHBABPYhTcpzTi8hUL0NcI2yBYt7wibdFO619WsHkVPgRaY4VtzqGhI0M+jpQi/5XRaAZtsPnHTCbdhw0dKHGMOynoA4DQkqMvkD7kGDnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768940181; c=relaxed/simple;
-	bh=fH2uzoOEbw4X+6AeS5PmDLjJHrsba5ZfoGaSQsf8YKk=;
+	s=arc-20240116; t=1768940184; c=relaxed/simple;
+	bh=6dUKCugFRJzcq+YlARuQEeJm+3OTI5/f+LQQi+mQLis=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IVoi9uGffPVLh8Y7EUJGFoz4r3vHwNbREKVvcJYmEo4OyMw0PkTcDjzkf/lQ1DTHks4/SXZDu7SbvA8NuC2VDtYFh+xDDQyOQRwUNQTaJ8LbwwqH8YcqTXtTGh2H84dsDHuviXKi55JrhOekxI54VrosNNh+qMAolSFGgzbRrK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVvIHCDh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oOpkhAgP4umhU04pFSKgcKhwcM8+fyXMeekSM8WQsOwRYPU0n+ngs6gkzjXvjeqRkv1EbklderodR9ZFOnlIRlJ4wWk2G76xM+lhIvfann8mh8oG20aG55zPzpSeqMAf6MVLN1No+BSsrusliRRO0UN1POFJ/Slr7kqbxYxaa0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e5iVNQHB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVvIHCDh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B422C19421;
-	Tue, 20 Jan 2026 20:16:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e5iVNQHB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60B1C16AAE;
+	Tue, 20 Jan 2026 20:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768940180;
-	bh=fH2uzoOEbw4X+6AeS5PmDLjJHrsba5ZfoGaSQsf8YKk=;
+	s=k20201202; t=1768940182;
+	bh=6dUKCugFRJzcq+YlARuQEeJm+3OTI5/f+LQQi+mQLis=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uVvIHCDhqfscHIKwL3LO4Tr0p58QPFm58DlIbPQ1O7pfNosifW3IiXQtlyIbf3ywI
-	 +qsGX/l/VhY+JTs2Rpvhed1bh0znKHgZr2MsGpQa6lSHN6d/YdEka5r/2jP0QX1yce
-	 YMtNtmWj7EjtGl4gMXKUFLXhHFM1toU5rwItuzVtb/BjINs7y0sr/suTVNKGRS/Trj
-	 VZR3YFFrgEK4AT0neAZ6wHK8LPsyiUwftn7NxHCPprIP2T/rINaYY/22vaOsu2tS1P
-	 5YAW6o4CTDs/lpzDWKGX5jm9ogNFcXsjtF7nWFVNHO1j3CbEdmWoVcw3QJUYJplNrc
-	 1dmhU9uBfIMIA==
+	b=e5iVNQHBLnH2xoEyyh0mtmQm4Futeijiu0kHaXRulmtAjB8irbs3wkMH1Z9u0xwGg
+	 lKb+H+tZuHSNopAFCtYBwhOmu8X+byXZKQrst7FrwHDCKSE3rUhKqMhSQtkJIL8fE9
+	 Jj2edDE1UwsM08OAJm+l0nSbnPtGo7xRLeTLAVUZU6XHoDg94I8wu0oLp6zBHK+jDp
+	 QJ8dXitKsJGxeW6KsMSjPtBpjeyydG6h7nBrLOvsyeorrEiqP9KgHRWW4n2n805S8m
+	 YjrojJvgQvFfsazZUG7jvXpSnNehWFUZXl2PtwJ/V51ov3w8prBxk7D4ck+I84tdKP
+	 h8r42UktcrTRQ==
 From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
- Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org
-In-Reply-To: <cover.1768641428.git.zhoubinbin@loongson.cn>
-References: <cover.1768641428.git.zhoubinbin@loongson.cn>
-Subject: Re: [PATCH 0/4] ASoC: codec: es8323: Enable DAPM for ADC and
- ChipPower
-Message-Id: <176894017884.787825.10409228711001907332.b4-ty@kernel.org>
-Date: Tue, 20 Jan 2026 20:16:18 +0000
+To: biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260119195252.3362486-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20260119195252.3362486-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 0/4] ASoC: renesas: rz-ssi: Cleanups
+Message-Id: <176894018067.787825.6650327370864720398.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 20:16:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,14 +48,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sat, 17 Jan 2026 17:18:33 +0800, Binbin Zhou wrote:
-> This patchset replaces the original magic numbers with register bit
-> field macro definitions in an attempt to improve code readability.
+On Mon, 19 Jan 2026 21:52:48 +0200, Claudiu wrote:
+> This series adds cleanups for the Renesas RZ SSI driver.
 > 
-> In addition, DAPM for capture ADC and chip power has been enabled.
+> Thank you,
+> Claudiu
 > 
-> Thanks.
-> Binbin
+> Claudiu Beznea (4):
+>   ASoC: renesas: rz-ssi: Simplify the logic in rz_ssi_stream_is_play()
+>   ASoC: renesas: rz-ssi: Drop unnecessary if condition
+>   ASoC: renesas: rz-ssi: Drop the & operator in front of function name
+>   ASoC: renesas: rz-ssi: Drop goto label
 > 
 > [...]
 
@@ -65,14 +68,14 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: codecs: es8323: Replace magic numbers with defined macros
-      commit: 0cccfe65895d42fdc1f04aae7f85d8189ad80fdf
-[2/4] ASoC: codecs: es8323: remove DAC enablement write from es8323_set_bias_level
-      commit: 9dd2719a9ad3e18c3a5007466ca5922937bd4c5e
-[3/4] ASoC: codecs: es8323: Enable proper DAPM widgets for capture ADC
-      commit: 95814d4b8d478c76505188e45e81682206e41fe6
-[4/4] ASoC: codecs: es8323: Enable proper DAPM widgets for chip power
-      commit: 3c5ddd56aa93048314c64533c21e731a44b0f067
+[1/4] ASoC: renesas: rz-ssi: Simplify the logic in rz_ssi_stream_is_play()
+      commit: 53dfb2ad6fcff111f58aa506afbbf6fd82f32cb1
+[2/4] ASoC: renesas: rz-ssi: Drop unnecessary if condition
+      commit: 9e0e337cc6c7f30a5986dd44dac5c0a0e30d971f
+[3/4] ASoC: renesas: rz-ssi: Drop the & operator in front of function name
+      commit: c7a4c368e7135046c358ff15c4f7897e2522dedc
+[4/4] ASoC: renesas: rz-ssi: Drop goto label
+      commit: cafadbf430f4b2f3ca4158de48ef6ba4d97fbf17
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
