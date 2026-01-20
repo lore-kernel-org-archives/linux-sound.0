@@ -1,210 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECF647CC8C;
-	Tue, 20 Jan 2026 19:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE3535E529
+	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 19:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768937713; cv=none; b=s4slKv3b832oKcsjenVQjP7zjh0pAee6Fx0d0+FlZ15F6+WgYshNQc6nSUaqykbtMBGWrjNtiezUFLmD/T8iPEqD5zFDAKEI1eovVXy36J4wJg8tDELtaqSmULgG0/E10UXXI97lgkVUtKBH1T0BfxI4uOT0hlBPpT+Gv4EZpIg=
+	t=1768938997; cv=none; b=YneF006n6QPQFmAZjEazWKlFrsaYNDFWtnHsUEcxLxPNKik4A3EaZw1Rp0wWQolaWuEesjJ5DNndqSMHsMl1l5lWduSxdxwa0DcfobLvQ/5r2tSUlsu7ROuYJuj/4wRwRaruAZSqKwJXLC0KDG5RS+cMaVPd/KmdgjlHqFrSfDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768937713; c=relaxed/simple;
-	bh=3+RktV/VUeFhM+qWVy8bhJ59/5W85MFskK5fyREosDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sOoX43YdUrOn5X4qAZF7d5P3MRPy7oKsmIoYbXJ6dtWfq+4/ZCmn9lxqtGJB+dKOEvOL/r2jYiNb+37EOhC5Uc/++Ir+jU7xZeOS5M2GLDZiRX4qUQfNZpt0XptKdZssj7TK/XKoiL1qRhgDrg8L4CvGW+AEIOWDbTDymRJUi5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=shnvgnac; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768938997; c=relaxed/simple;
+	bh=dpRYr3skIgV0rzJn+6D/Wwyl8T3WJJeqflIDq7vz970=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mq4/EU35qbKOMtLRIiIY8X/p7sW1XYCSsM/wt4WCpnbx0cUMnMhTsVpQgY+JjZQNzHT6tXQLWj1ggcI2SVZqTTKVtCQgIV63G9ImBBGF0UsH1suN74TxpeRObR5dS/DMuutJ10N/XTRVs+Yfk3u7wCw1hIgZwCvKmxkPiZd1eCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ilTP+W8u; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="shnvgnac"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE8B1C16AAE;
-	Tue, 20 Jan 2026 19:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768937712;
-	bh=3+RktV/VUeFhM+qWVy8bhJ59/5W85MFskK5fyREosDY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=shnvgnacZ7ufRERKhkaK0eKVgigMFdw8HHGc/LpMjxq4qt77FNLPeNOOs8SPrM4mw
-	 Awj4iV6cuW66urt8aNB/c118aZKLS+7U8m33mKMF9Rcp3vh4yMZSsfBdG/0wb+pXY7
-	 tGO+s64Ett8b3WMz/RNIFEElw6S2zTgDNAREF2zt9PeNZxqmbPsCHoQHoWwWc1pa34
-	 yXTohXMaa/CpnlUSJqTCbW0GpB5qqtLAnviy6qCTtgWUwVE+Wn3h2+bt54eaeiYu8c
-	 a1lVFzohUrv4NdDzxshQNL7GaxLwIzZ7ygJcjRZcP7D+gUTeuX8SjjeQOndWDB16y1
-	 FUwwm6c1WxLag==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ilTP+W8u"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-12336c0a8b6so12128324c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 11:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768938993; x=1769543793; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lPDgUMFRl+w+AbB4KcmndfGR0As68bgylKNbbH3AGMk=;
+        b=ilTP+W8u0C7h7XBeoah7AsJ9JL095ZDFwxa6je9YceSe5kL434AEa3e23rZIbJCd2e
+         jnO4xLKmsw5RyE29tSBo1CYXW/XhUGjPEV8BMF3noJo9ZL8fHVkWA5vnGSaSQLiOet2G
+         u33Z96XEok44vp/L8jcalhxIbLF2VdgdGVnEmHJyBf+WvA6eY40iDArMrDCHTCvuYbGV
+         R2IRMW4ie8d0lDUcYo3zWHSLjXKq85+4R/INtdkQm9SrWFC2O2lwXCSL+pV6WY7K/Y4J
+         v/prpxeGXBy2mhWGLzQMm/WfVUt37+/etLvLAhGEDEyKKhHhl6i31LdTJJSmRTJrCn8K
+         b7Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768938993; x=1769543793;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lPDgUMFRl+w+AbB4KcmndfGR0As68bgylKNbbH3AGMk=;
+        b=Gunp6KFOQIQoGFUIHVzgJF4MfblzNkJxJz6VQ9QJhMt93Js9jGhQbP+GxoY5ZOqLCT
+         tRc+S26YW0FXIjGNLYhuY0jPOUqyenJ0J1dLaA1I7MuTKMVI62Twnx9nZ3iFypviyZAM
+         v/BHhO2q/ZDDdnRLcBZIvPP5W+1s3ezVzKI6XMhSpDtIMe5JhabbnmqLpxoxqobkG3V0
+         8Edx7jgsGGHZilR3kW2eis9OllzzLyZjaRGDykGVtZluFSAPBaQpx5YKVZC2cwxrRW5R
+         AvRHfiNRr+CFxjcAv+d0Qd7w3x7QNad1/0DFER3hch/O/4jCjo+AFJiat+0pNuzJtVd+
+         EW2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWkla/Y4CcQrRpg0mrcMoPvzQEW6GBMnqO7ZVAV1iUfYr4zZA1RpYa4u7bq/0lPvTkhE27TPpSMQNJQ0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPCAfAxOQT/opKGIMUv3X4wCqm4ikivhvxPoXDWSnF6sAcs/+K
+	TtziVkwokpF3blxPGUJmfnDKCDsEHqNxk8h5fFxLeBA8iZQEGXcArK42
+X-Gm-Gg: AY/fxX6q0GZLUC6JdJAcwgqK8bd8HvearFDyDDiXf07xL0brlWDBgNzyzhhTeWvlt5W
+	t21SL9VSEM+bz55RGm4JG/kwYrmdUKeEhZHyhDqKE8OKnhrJlNeI7qzdOaCddzeszETJK/hNbvu
+	57XcD+zAQfo+raf0iu6qYeE1hJ/stXQbpBtPOWdOn4Gv0MpJTz067OpTjuG8AoMc2q6Ugq0MvbR
+	MAeNlR51HAF0d4By6UA5oNe0xLVi/Plbers5ArxK/qdLrgVe27dXiZEOjyQ6sqs7xRT7nPiadcq
+	Cx3X5Mk3U78Cvu2fCE/wiYW09IiRSFVyn6ikpJs1YKrXeKShdkiKvbYB/WeGfBk5BTLd1Bz/vcW
+	hWAHh0q8ss1OG9Lhb+suPkMUm3HIhGGwU/h7D92kRvfPzg87BL+K3LAfhmZ/a3SEwV5iSuI90/6
+	6zb0NWbKHwBh0d1Kx+gA8oMoR3zETAnfTtSy0bxp9UXg4/x1U56IOp
+X-Received: by 2002:a05:7022:608b:b0:11e:3e9:3e8a with SMTP id a92af1059eb24-1244a7910d8mr14869120c88.49.1768938993269;
+        Tue, 20 Jan 2026 11:56:33 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:d631:e554:f0bd:4106])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ad740c5sm23388705c88.8.2026.01.20.11.56.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 11:56:32 -0800 (PST)
+Date: Tue, 20 Jan 2026 11:56:29 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, sre@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	lgirdwood@gmail.com, broonie@kernel.org, jserv@ccns.ncku.edu.tw, eleanor15x@gmail.com, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, linux-serial@vger.kernel.org, 
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda/tas2781: Add newly-released HP laptop
-Date: Tue, 20 Jan 2026 14:34:53 -0500
-Message-ID: <20260120193456.865383-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260120193456.865383-1-sashal@kernel.org>
-References: <20260120193456.865383-1-sashal@kernel.org>
+Subject: Re: [PATCH v4 3/6] dt-bindings: input:
+ google,goldfish-events-keypad: Convert to DT schema
+Message-ID: <nab4yksjgk7jbofm5fkrafuz5c3dmi2oocdzgoscfj6ua7zwfh@olnrxt7sa3qp>
+References: <20260113092602.3197681-1-visitorckw@gmail.com>
+ <20260113092602.3197681-4-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.6
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113092602.3197681-4-visitorckw@gmail.com>
 
-From: Shenghao Ding <shenghao-ding@ti.com>
+On Tue, Jan 13, 2026 at 09:25:59AM +0000, Kuan-Wei Chiu wrote:
+> Convert the Android Goldfish Events Keypad binding to DT schema format.
+> Move the file to the input directory to match the subsystem.
+> Update the example node name to 'keypad' to comply with generic node
+> naming standards.
+> 
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
-[ Upstream commit 46b8d0888f01f250fbd24d00ff80b755c3c42cd4 ]
+Applied, thank you.
 
-HP released the new laptop with the subid 0x103C.
-
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-Link: https://patch.msgid.link/20260115124907.629-1-shenghao-ding@ti.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Now I have a complete picture. Let me summarize the analysis:
-
-## Analysis Summary
-
-### 1. COMMIT MESSAGE ANALYSIS
-
-The commit is titled "ALSA: hda/tas2781: Add newly-released HP laptop"
-with subsystem ID 0x103C. This is a straightforward hardware enablement
-commit.
-
-- No "Fixes:" tag (expected for commits requiring manual review)
-- No "Cc: stable" tag (expected)
-- The commit enables audio hardware for HP laptops with TAS2781 codec
-
-### 2. CODE CHANGE ANALYSIS
-
-The actual code change is extremely minimal:
-1. **Copyright year update**: `2023 - 2025` → `2023 - 2026` (cosmetic,
-   harmless)
-2. **Addition of HP case in switch statement**: 3 lines added to
-   recognize HP vendor ID 0x103C and set `catlog_id = HP`
-
-The switch statement determines which EFI GUID to use for reading
-calibration data from UEFI. Without this case:
-- HP laptops (subid 0x103C) fall into the `default` case and get
-  `catlog_id = LENOVO`
-- This means they use the LENOVO EFI GUID instead of the correct HP EFI
-  GUID
-- Calibration data wouldn't be found or would be incorrect
-
-**Root cause**: Missing vendor ID case means the driver uses the wrong
-EFI GUID for calibration data, leading to audio calibration failures on
-HP laptops.
-
-### 3. CLASSIFICATION
-
-This is a **device ID/vendor ID addition** to an existing driver - one
-of the explicit exceptions listed in the stable kernel rules. This falls
-squarely into the "NEW DEVICE IDs" category:
-- Adding a vendor/subsystem ID (0x103C for HP)
-- The driver already exists and supports the TAS2781 codec
-- HP support infrastructure (enum value, EFI GUID) already exists
-- Only the vendor ID recognition is missing
-
-### 4. SCOPE AND RISK ASSESSMENT
-
-**Lines changed**: 4 (3 functional lines + 1 cosmetic copyright update)
-**Files touched**: 1 (tas2781_hda_i2c.c)
-**Complexity**: Extremely low - simple switch case addition
-**Risk**: Minimal - only affects HP laptops (subid 0x103C); other
-laptops unaffected
-
-### 5. USER IMPACT
-
-- **Who is affected**: Users with HP laptops containing TAS2781 audio
-  codecs
-- **Severity**: Without this fix, HP laptop audio may not work properly
-  due to incorrect calibration data retrieval
-- **Impact of change**: Enables proper audio on new HP hardware
-
-### 6. STABILITY INDICATORS
-
-- Signed off by the original driver author (Shenghao Ding)
-- Accepted by ALSA maintainer (Takashi Iwai)
-- Simple, obvious change with clear purpose
-
-### 7. DEPENDENCY CHECK
-
-**Critical consideration**: The commit applies to file
-`sound/hda/codecs/side-codecs/tas2781_hda_i2c.c` which is a NEW location
-- the file was moved in commit `6014e9021b28e` ("ALSA: hda: Move codec
-drivers into sound/hda/codecs directory").
-
-Checking stable trees:
-- **6.16.y**: Has all infrastructure (HP enum, HP EFI GUID, file in old
-  location `sound/pci/hda/`). The patch could apply with path
-  adjustment.
-- **6.15.y and older**: Do NOT have HP support infrastructure - the
-  `device_catlog_id` enum only has `LENOVO=0` and `OTHERS`. No HP enum
-  value, no HP EFI GUID. **Backporting is NOT possible without
-  significant additional commits.**
-
-### 8. BACKPORT FEASIBILITY
-
-For **6.16.y stable**: The commit should be backported, but requires
-path adjustment (`sound/hda/codecs/side-codecs/` → `sound/pci/hda/`).
-All necessary infrastructure exists.
-
-For **6.15.y and older**: NOT suitable for backport. Would require
-backporting the entire HP infrastructure:
-- The HP enum value
-- The HP EFI GUID
-- Possibly other architectural changes
-
-The commit itself is clearly stable-worthy (device ID addition to
-existing driver), but its applicability is limited to kernels that
-already have the HP support infrastructure.
-
-### Conclusion
-
-This commit is a textbook example of a stable-appropriate change: a
-simple vendor ID addition to an existing driver that enables hardware
-support. It's small (3 functional lines), obviously correct, low risk,
-and addresses a real user issue (HP laptops not working properly with
-TAS2781 audio).
-
-However, the backport is only applicable to kernels 6.16+ where the HP
-infrastructure already exists. For older kernels, this would require
-additional prerequisite commits.
-
-**YES**
-
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index f7a7f216d5865..3da1f138a191c 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -2,7 +2,7 @@
- //
- // TAS2781 HDA I2C driver
- //
--// Copyright 2023 - 2025 Texas Instruments, Inc.
-+// Copyright 2023 - 2026 Texas Instruments, Inc.
- //
- // Author: Shenghao Ding <shenghao-ding@ti.com>
- // Current maintainer: Baojun Xu <baojun.xu@ti.com>
-@@ -568,6 +568,9 @@ static int tas2781_hda_bind(struct device *dev, struct device *master,
- 	case 0x1028:
- 		tas_hda->catlog_id = DELL;
- 		break;
-+	case 0x103C:
-+		tas_hda->catlog_id = HP;
-+		break;
- 	default:
- 		tas_hda->catlog_id = LENOVO;
- 		break;
 -- 
-2.51.0
-
+Dmitry
