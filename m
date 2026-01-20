@@ -1,41 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5752338B98A;
-	Tue, 20 Jan 2026 19:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47CE42DFF2
+	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 19:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768936904; cv=none; b=KtImM446sDyVBHfEyfgzAH4wLEgIW562O+hAgVzQ/fhSnN75oamaoU1yP1vMsYvnWTVITBjs0bu/YzaViRAbhyDHEn1RFbhtHHMZ/nFD2sv+nt14fsILkmKq/XmZOBp9IlQU5cbZ1fjpJalnjr9Ke2ESpUTQAwmdv4LOpA2q0hY=
+	t=1768936909; cv=none; b=bnpMlPbG6aNe/WtJUMqAchSIDq4UaYkGwdjoJyxAjqu7PGslxK6sxSnzWPCoQFzDoOdpnvdoh0HfASrLVs4aecSmyn6ichx/R365pMtrUIXsK5fBmKgzLDv19rfrqPm5pSCpwLz1l6a4GUs5EG+peAfIwg4hvEnm+Jlo55gxo7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768936904; c=relaxed/simple;
-	bh=1sn+JESYsGbOQVrg2FdMmLiKmgF9OvuYdvrpp6ndyz4=;
+	s=arc-20240116; t=1768936909; c=relaxed/simple;
+	bh=KPg3TeKcO5MQoDBrXlSvOafhsJ79uaSQZm72XqK5PjI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uT2zBxN0Nds0X2LjCp/lH6IgPe1Izi66VbAr6gVwVdkye9rnV7y2/tRBqEI3IzwrcU27Vzh16sL3hloBUAy97r8a600Z08MuPgPsMdZj/s6QoZ9quCbvhOU4SoHp+v49sM5IubhifTCCLiltjXIzABq2ZdGIEZ/AgvoynJdl2TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVjY7nRq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VZmEkDiy3MeShPf81z6c9HkXt1pGVAD+3ViYmyYXM3nCHUsYCIROHhyMkl2GE80SxeREyNEwD6xvbveKYO4++HhYQYrrPzSOPWQU0yxPhoWkCtD32dmM4jzpY8VqrTwhIco/1Se6mssfE/2EHD4Z+mXMx1wScOQ30Tncw2cl90s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYZ0macA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVjY7nRq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC854C19421;
-	Tue, 20 Jan 2026 19:21:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYZ0macA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7206AC16AAE;
+	Tue, 20 Jan 2026 19:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768936903;
-	bh=1sn+JESYsGbOQVrg2FdMmLiKmgF9OvuYdvrpp6ndyz4=;
+	s=k20201202; t=1768936907;
+	bh=KPg3TeKcO5MQoDBrXlSvOafhsJ79uaSQZm72XqK5PjI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DVjY7nRqtNJpdxO46UhkvzcpzUG7eFsGBNxeNafEMqc/0JMgTis5DEYWF1li9lQfp
-	 XKC7q+gZ76HuX4wOMZyI7gtHXQgtxe5N1GXBVGuBOajirNmkO6ar2wvcSJbnME07/i
-	 FB7WSuzXEnPK6ItLNPKL0fDNXAv3K3xU+LQspe/4n1mLXqkv+PkoFUQgFhHosDfngS
-	 Cu1FbxT9JyedPFBtmLMOUK//DPhDIn9EwKNMlOrk/8GmH5c+OOLT0MJ2r4JzMIC+NP
-	 CuxpAwwjh8TkRj57XORz559NShhifXCpIR9KFi22qpu6xaij+i9iri2+whotlhba/B
-	 b8Ih6N93rJSiw==
+	b=YYZ0macA64RxIJDUO7Xb9qnCHSBeUdPWQxRHxfpIT6vpXei3s7Pd+w2ZrPh+JOYUA
+	 Ek9awd9yh7yAzNQCF4tkfSwfYhiT18pXv0CcrSvoFcDNLTro6ryCMjX6IlP0co1gkW
+	 +E7au+5FKmPvSdYS7WnSUK5S6IYBz8Y4T3qLOgLx+cMXmUtLE0BnYgehIabtcT8VWj
+	 BcD485AD5Fxgsdpl1vx9QI2VeU4Mi4WQCacno+CJDpvBOf/4SkOiDeC1gZqQdFSbC9
+	 1Kb/ptuD8hC2X+Bskt4u6ZdBYBQD+Kug/74iPIqU2g87Il3zWemXyqKrssxMOrFFC/
+	 SKetLzM8F0c5Q==
 From: Mark Brown <broonie@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
- imx@lists.linux.dev, stable@vger.kernel.org
-In-Reply-To: <20260118205030.1532696-1-festevam@gmail.com>
-References: <20260118205030.1532696-1-festevam@gmail.com>
-Subject: Re: [PATCH RESEND] ASoC: fsl: imx-card: Do not force slot width to
- sample width
-Message-Id: <176893690263.777973.15824025295964117427.b4-ty@kernel.org>
-Date: Tue, 20 Jan 2026 19:21:42 +0000
+To: alsa-devel@alsa-project.org, Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-sound@vger.kernel.org, ckeepax@opensource.cirrus.com, 
+ lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
+ cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ shenghao-ding@ti.com, v-hampiholi@ti.com, baojun.xu@ti.com, 
+ dan.carpenter@linaro.org, sandeepk@ti.com, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20260120040825.1460-1-niranjan.hy@ti.com>
+References: <20260120040825.1460-1-niranjan.hy@ti.com>
+Subject: Re: [PATCH v1] ASoC: tas2783A: fw loading for devices without pci
+ bus
+Message-Id: <176893690420.777973.14290792602612209797.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 19:21:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +52,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sun, 18 Jan 2026 17:50:30 -0300, Fabio Estevam wrote:
-> imx-card currently sets the slot width to the physical sample width
-> for I2S links. This breaks controllers that use fixed-width slots
-> (e.g. 32-bit FIFO words), causing the unused bits in the slot to
-> contain undefined data when playing 16-bit streams.
-> 
-> Do not override the slot width in the machine driver and let the CPU
-> DAI select an appropriate default instead. This matches the behavior
-> of simple-audio-card and avoids embedding controller-specific policy
-> in the machine driver.
+On Tue, 20 Jan 2026 09:38:25 +0530, Niranjan H Y wrote:
+> Currently, there is compilation error when the
+> CONFIG_PCI is not enabled which is used for creating
+> firmware name. This commit address this issue by adding
+> fallback mechanism to construct unqiue name by using
+> SounWire slave's link and unique ids alone when the
+> CONFIG_PCI is not available.
 > 
 > [...]
 
@@ -65,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl: imx-card: Do not force slot width to sample width
-      commit: 9210f5ff6318163835d9e42ee68006be4da0f531
+[1/1] ASoC: tas2783A: fw loading for devices without pci bus
+      commit: 1616c41e469cf5263e756161ed2e35664ff7d978
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
