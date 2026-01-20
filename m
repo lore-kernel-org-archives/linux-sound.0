@@ -1,235 +1,244 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011048.outbound.protection.outlook.com [40.107.130.48])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011040.outbound.protection.outlook.com [52.101.62.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8793382D3;
-	Tue, 20 Jan 2026 03:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BE133A6E4
+	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 04:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768881197; cv=fail; b=E9DgB3VmvjhDF+ippnycBZLGDzqyaoXhLhbtF91iDjCW3nuafA1KqkFq0mRyoHVf5h1cKRwk4HIeDxrqWybRAegebWqPHbWrXVfOq65sJT3mud3k4WOOrfXCv5XlrPI68V4J1OLM2ZxqqF+EG3J4UYuQGu53d9NJrGYxYCVs8b8=
+	t=1768882133; cv=fail; b=RHE5+ic0XtKZ5MKeoI+RXKpzhycfg9zGV1xFj6Jl9lYnPFwlmVfFhuFBb6bm3KPkBm1Q1OfKWv+WtgQGMUZSQLt08ThpDsiJHsX3OAGi91K5b+ZpCCxC9OTFsTRoWnH5YOGE3hZLbo8xrwcHbyL7kc6t+YO+VTwWv9guU8iuNX0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768881197; c=relaxed/simple;
-	bh=h+OkxIwuCZXapqeNZnXXRksmiLUCbWy1R2B4rtR270M=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I299sAi2RO4DSsIjdUbG0A2liyRdQOWQK07gG0rgAjNxL123xHtiq+Q/Qw28wim4cC7cEqtylMHHiVD93RAsNVTef1THrUUgXiGMpXQ1BAo+wz5wlDkArCpof//h9yXMqc6upngz1v7Tu/ofUvcyrGkqs4gToy2L9dPst8XwPkk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hobRgqqz; arc=fail smtp.client-ip=40.107.130.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1768882133; c=relaxed/simple;
+	bh=RjjIHiJiv9531F94wOoV+dhTPSHhM/Jqw6zMwV4Qfx8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mFlxsEdzHRZmqh8QB1bVpCU6PJfJMWNjmy3RUcX2usQ8yVGUmHmS931RCFmosGV55ZsrEJzCwYEvIOEdF34kJTNw7jW32vCDfIV26L9sXYzG9ii8Tk62OXpTYMZYFh9W6/eKv6UUlHAU9BwDXCTsxEB7353mW3ZgBYBCU7K5VWQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GNm+DUwQ; arc=fail smtp.client-ip=52.101.62.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hobRgqqz"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GNm+DUwQ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Za23qeb/1mkoQs/TWM2Z0lX9SX6ByKrVZuiY23UCIXDucTVpco1lACLYt6n/adB6oyOC80IhE+dWz7NFoZRsy3Ux+4B9Rb6VORLnrluXE+mREhSCUkZX8Efln6NbDAhXkMAJW2lpv7FCV1dnaRaJgGWwoz/ZzLiBywZsRIaKggXVxjdkXtMGYxwXDUB98S3VIZ3ibXIi1dbf8hJvpMKfjGDNPnJQB0zAygzzBScbqjGNX8C5/moLY2Sc6ul6CluDiEjzbscxDp+FRpCCP9e5p/ByvD4ghxE3ZSyHiv2Suq0iJ8zJWInef6/LV5bJQHO3GdkxFBZFg+6RVMMnL99hOA==
+ b=WRpd9QUkJAjY6ECqWLgtqBgSs0LPa3a4R+qnH/AhF8m6N3g46cHGacQ5NHdAL5G8gvbpkUuguYw+roHilKeujG8X0nj4bMEs4sOTVLDdf1SgIlpZGjjmcF9CVNNep88DcsMECqlMn2xkxSk+S+95GDentumZqd6bNw4VbV0lOM6rshZZoLNrPjaIRhyu1wEArhlHKemLurQhN4FELDkw0ophvj54OsKu9XlshiBE/4Q6LP8WZMTPIi5u10z+sG+l/YvrssxUkmZ9fKAxEHsV+F6MhZARxEwlUO4h7Deq7hHu2ue9u91+luYMxAvz7H+U63QOQY0BVx4wsKIqYKzojQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LeFGoEWsSWDhNcyLGGYBwNWJwiiZ4UjXbKENET8uby4=;
- b=goUu/nyZ6YPRB/hiZ4PKWf/d3WRabZ0Q24DiWTSg0iFxKJjUPeNBrcwdOpfj7oRbGfHAfKGA5J6QbYsX+qbkrVSOOinMR7ySqtfbok3L3xPB2p7HPYSic72hwvN8e09jdCbFrEWDze5uN9V4Z85vLBc9HbOkZTtAY0+d0QkhkD6+IS5583Z/bVSkoEY7wB/S+RJB49Asn91dcvsPWLq//hKanXpb+Y6zc97UZ85MYk0c23MGxqdQaG+hsstnrp4I5T6enh4zh4in1ooPXgvEe4ScN7UMEc6coqy7FsbZIO0yUoFS1AWOYFZPpDTeLpTXvCw0fA/C068HVa93VycLHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ bh=d6o0SXukjM95sHW+vmem62SUoopxUUuaVTfthBen24o=;
+ b=fzrx1wVELjCNKbBEM9pF9kN26pDmhOS4AVQ12SVA5Emx1A++34uBUs81ZXnCdbCMXMre+41CocHiSqWfqsodV+yU87Ym8grnR8Lw0vvlIDG5qnvOnPF9wOB2U+6ojimVH3Wj10rCMEXvWc1f3NlAvlLFKgjVBYVg/CN/sqi2bYgCa2XlRr8kfVryh0vq2Rr8UXFIK2l0FZ+Mj4UPoN9FW1Q3ANtGDXf5EQBtLjlspyG5AJXCQ9FGNDUk7a/ta8U+xjlH8iQ0CY73wJ44fRewa3NOr/TA2oVE0ojaSFj67SrupKCkC3xqULpo2uX2srDYFjBpgEeE+cLjDXjNlhebWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=intel.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LeFGoEWsSWDhNcyLGGYBwNWJwiiZ4UjXbKENET8uby4=;
- b=hobRgqqzZH/pjcjvX6Ok+dUy+KnowHzumGVw6BP45z7LXbz9nDvL49fR6Yi/y/mWR20fg3InixOJ2ZpVjksbRmg/niV8ZJTL7mzMq2JF4hWI59zQa8+lhYBEGuuywwE6fZ0Ds52Jh7FmCKtmRggeXavQWzcBLHBeAgxbseqTHI8/TWh1eNpar+nVIcRC9dDAAIlXOzVdwussK2aJiysv2pqowrodiUWLmSrRE3KyCoph1jc/Y9w1jQLV+WzYLx+XUGdgoxCHSTwBGAa5ITnLmr87i9B2Ibw9Tq3FpiHuqqRXutJYxo8cH3HYbA57/n/I1CUpZ7qaUL7kHJNRG/IRtw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by VE1PR04MB7343.eurprd04.prod.outlook.com (2603:10a6:800:1a2::18) with
+ bh=d6o0SXukjM95sHW+vmem62SUoopxUUuaVTfthBen24o=;
+ b=GNm+DUwQBM4TFeum4Hrl9JOWYA7DlEoPwtXu8Gsil1C+4tDuk//0Wa4n21vmjhbuu5uLKObyEtp2eZ7056CFpQ3CEcI/GX4BlwmtJ7pwki2CDj/mo3hZr/ddmcK7o3BPjk/9xEZoL/Tm8R7m0IaGwq/HanXzP4u582g84xLHN90=
+Received: from BL1PR13CA0185.namprd13.prod.outlook.com (2603:10b6:208:2be::10)
+ by CH4PR10MB8098.namprd10.prod.outlook.com (2603:10b6:610:238::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
- 2026 03:53:13 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
- 03:53:13 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 4/4] ASoC: fsl_sai: Add AUDMIX mode support on i.MX952
-Date: Tue, 20 Jan 2026 11:52:10 +0800
-Message-Id: <20260120035210.1593742-5-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260120035210.1593742-1-shengjiu.wang@nxp.com>
-References: <20260120035210.1593742-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0074.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b3::8) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+ 2026 04:08:47 +0000
+Received: from BL6PEPF0001AB52.namprd02.prod.outlook.com
+ (2603:10b6:208:2be:cafe::d) by BL1PR13CA0185.outlook.office365.com
+ (2603:10b6:208:2be::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.8 via Frontend Transport; Tue,
+ 20 Jan 2026 04:08:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL6PEPF0001AB52.mail.protection.outlook.com (10.167.241.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Tue, 20 Jan 2026 04:08:45 +0000
+Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 19 Jan
+ 2026 22:08:44 -0600
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 19 Jan
+ 2026 22:08:44 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 19 Jan 2026 22:08:44 -0600
+Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60K48bIw416239;
+	Mon, 19 Jan 2026 22:08:38 -0600
+From: Niranjan H Y <niranjan.hy@ti.com>
+To: <alsa-devel@alsa-project.org>
+CC: <linux-sound@vger.kernel.org>, <broonie@kernel.org>,
+	<ckeepax@opensource.cirrus.com>, <lgirdwood@gmail.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <cezary.rojewski@intel.com>,
+	<peter.ujfalusi@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <shenghao-ding@ti.com>,
+	<v-hampiholi@ti.com>, <baojun.xu@ti.com>, <dan.carpenter@linaro.org>,
+	<sandeepk@ti.com>, Niranjan H Y <niranjan.hy@ti.com>, kernel test robot
+	<lkp@intel.com>
+Subject: [PATCH v1] ASoC: tas2783A: fw loading for devices without pci bus
+Date: Tue, 20 Jan 2026 09:38:25 +0530
+Message-ID: <20260120040825.1460-1-niranjan.hy@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|VE1PR04MB7343:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f35df32-cf2b-48bb-e35f-08de57d76f0d
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB52:EE_|CH4PR10MB8098:EE_
+X-MS-Office365-Filtering-Correlation-Id: d48dd34b-35f4-4e72-d53b-08de57d99b42
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|7416014|1800799024|19092799006|38350700014|921020;
+	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700013|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?R161th2mZxxKvZT5GK0eGGOs0y46m+0Issq9Hg7nxBdsoOuaVrJ4msSUFTVT?=
- =?us-ascii?Q?jJupH7HRLxjthKwr6E0mEU2NSqGV4L5pP+2iwUuxOMnaR/PSpqxbu3PMklZz?=
- =?us-ascii?Q?SvUzep2Hb575rOxkFjxRagYyfuQP/7zYDuVJrulIQeMn66mVVCOk0gGZA7qf?=
- =?us-ascii?Q?NOyhlFqtmcQZpFcZ0c2rLsYo8ttSpdvGlyo/AuPyXKrWHePTkcZNyzTwzt2b?=
- =?us-ascii?Q?1FnbCYU8vcvybyMr8MuJpw+lNU+naA5rYhuF9YIasNvu3OHob2fsvJcy4OMs?=
- =?us-ascii?Q?psEKWbUEsqxxtrO7omKKCc4vTmbt2Amm/jUtcZXD6MYGssaDwqXJrjgdRNzL?=
- =?us-ascii?Q?rW7HX2CGJRyFLvaN1xFJknKJLG5ZVFf2RVW2MqloLY3WPv1uVNyxysR/Ao6n?=
- =?us-ascii?Q?7Ct3hVWUEepGKx7qFbNIhg3tdDxpTKVC8xhbXGTZEklHdNUm+sEehFV/YcCf?=
- =?us-ascii?Q?/1A+u38HGwUzoFSZIu6T4iQ6kbrcoVcoDBYX8lBcnCd5eEMzFYjEKW+5c2MV?=
- =?us-ascii?Q?PC/h2nUauB/k7AxwfMvNCu1u9miKpayG83++kV3KzjmW7Vw040Lecs9TDNN8?=
- =?us-ascii?Q?1n+X7q3HFvod8jT+oim10eFQCFUnz+i0Ujm07f/hg6KXNbUay93E97InXgYE?=
- =?us-ascii?Q?DzSO7Rw3vPH3u5Xjdax8iWo1BIjZCAa67SGef5UL0MK6JQcN3m8ElPVj2MSX?=
- =?us-ascii?Q?bF/csCGnQtEtoiW+UD3h8Aq0HDQlIKzTQHb5wtS6fStyzSY3Tf7j4hOAnOcT?=
- =?us-ascii?Q?jTc2Ce/63zlFdodTWUO+2kDdCrx4rQYW1gbNBpHh8wL+08/FZndb/QEgtbQq?=
- =?us-ascii?Q?ZMZv+f+JiR/Giyo0PBguB9Bai8l4uSj0hyl3BlO2U6BvSwV1zWAcAhSQS6AU?=
- =?us-ascii?Q?CIPPoGnx+JVz/R+5PrOuv0OTWEL48cd1dOcczyY/N/7ax92MlSsYCgGl9E8A?=
- =?us-ascii?Q?MrJeergbk3PvRvmZxsfOXQboGAx2GyMDOVVmbxvgWFi/+m7RHm+pNsi2ZV7J?=
- =?us-ascii?Q?227jAw0CzQ6xGstxhwUypZ7cLfYef9DCMsNooIeFTfzfWFScfRZmhtOoWuGp?=
- =?us-ascii?Q?w0+nI8PALPvI3581jCjr3HpEDMJhfFzbl89S6VwfG5KJ1rWwfILLjC5MV3Kk?=
- =?us-ascii?Q?L8FqlBrmQWOpowotgCg2DUf4pF8lDKQbRyWUpEhU31NudkWCy0yZLbqC71qL?=
- =?us-ascii?Q?c/Vsdoi6FJTmUKs3lPANnUCnkLnueDMVkmd1mEVeHW/TsZYMXHcmFcUN71ra?=
- =?us-ascii?Q?d7oQWs6q0iABDHSW41W6BI5uO2FqnAQta7SD2xbdAHuJ3biijlasyMLvebYg?=
- =?us-ascii?Q?M0vFKn3yALFTArXu+AlmRBUJNsoy9XMmgw7mXnoL6PZNMTWm+1hkvh2ENdt6?=
- =?us-ascii?Q?6z3FgJdZjMuWR2iqdQPTWQqc/Of7JXaOHzOG+KHcFJ9WPUBCBrpy3GiWI0mW?=
- =?us-ascii?Q?KdFon2f9a3DNLeYldJW3RCQHCX0oOHUaVGYr8cc2qPTqgBLX57jRBX/0iOnJ?=
- =?us-ascii?Q?1ZtUnrrKCkn9PlEsBGMTk/pa2l5wpVK31Pa1t+laejam8cWDk5589zFq5qhd?=
- =?us-ascii?Q?zBU+v8/DW3+oct4ZRVTLp1Tm12cHHhRHSF6MPLNB67NMmol1to1PP5XGIhfA?=
- =?us-ascii?Q?tGiHY/hJViXVO673lw/gtAeWFFatlYBW2e4IKGWndc2R?=
+	=?us-ascii?Q?78RsW0kRQUbrqlVedFp0NtDElwG7f/wTolgWmcvRBCa91pbvX1CK5ywaSJB/?=
+ =?us-ascii?Q?G4ymOvYbEeBZt6e9CL9zG7biTqk3RZR8mDlNZedTj/XoJCN5RcqnsvzXhY6N?=
+ =?us-ascii?Q?3ovjZ1urCJq1PmxJzohjHwLSvULyI11mGlSwhmHobLdiyG7N4FBm/YpgX9U8?=
+ =?us-ascii?Q?qr0nAZ4PWkDFlZLFMaw9AwPIqaVr3fX1YIvq2vtXuphVsya9SFG0rLIfnNI1?=
+ =?us-ascii?Q?zJyo+9fr/6YMg2qVJGqGFlJshjB8MB1fh7SpvifxCDwZZ0f5k0hQ1IrJl0AQ?=
+ =?us-ascii?Q?BQHFUGBrGW17dKBnDrSq5d/e9YHfLB4ZTpehDZoWKeZ/AOzvqCLmZfDbf/cZ?=
+ =?us-ascii?Q?UKXS94fW4P53wIeyTKJgmUa45amakoDXoVb14eA3P1GGumtZBuixjnkiZoZd?=
+ =?us-ascii?Q?Ppagbexd6Uf6eFZfhf4jvkF3AsLfEql5w6FMmvAEUCex87vfpn9xrHNLBoxB?=
+ =?us-ascii?Q?472bD/aHrmGkYjLX274hWPqAg8pIzo0t9x5LNsIHqsrzm1BHq1nn86u6SFQ+?=
+ =?us-ascii?Q?xbm10dx89rKxO26OE0m8vVY9O6U6G7GuOh2KViClWO5AL/m9lBSuHQpqAAwQ?=
+ =?us-ascii?Q?uNSywvhyqnJO7EUiQhFx31jh0HJVoTEgIcA/WsM/1Wp/W/6HKPMfyaTjHJOw?=
+ =?us-ascii?Q?55ngU2lALfFZF8t+QjrwUa25Ypt5oZ43kk3H58ll1eYT371ysyWd1gQodcWM?=
+ =?us-ascii?Q?njQU37ckEgvPWLwrvRb/w9SJrHAssxZBXte4d5eJMlha4WBLKuBj1p4FaDB/?=
+ =?us-ascii?Q?9H8qZgpiPK2AXCKiU3dZgLc/WH+Nd0WSGaQIj7HRjctPP+G6t0/P19tVKzrg?=
+ =?us-ascii?Q?IZvTd/Pf8X/YxX7S9Du4VIzvoBqwvOIWKWntJwmverD1fxe5SMJ9TC0cis5N?=
+ =?us-ascii?Q?3rXf8kpPon/E9RUg+4D2B7TK0BPdsj9jXnel5By2fVOGclNxQZxkleW39gh2?=
+ =?us-ascii?Q?d+xZAia427+hjcn/AlZDblBWjLE9jAu5R/nUijGT8LRsqRbINa86f3LabWmt?=
+ =?us-ascii?Q?1yGXRpITqoOTfWD+CUMkZXOrzxJpTPCR1g8810/93M9kZyEkgiVUKKVXGHLX?=
+ =?us-ascii?Q?v4RaxqsM9Z7cJF34NX4V2ulblA8UhSMqK2dZ8qtLshWUzLFj4qdY/jDiY9qc?=
+ =?us-ascii?Q?g6pm5sHg8KOiFBuQbqBoWarnDYPNeqy/MQFW27am0o3hT+eJlR8ZDkw+od0J?=
+ =?us-ascii?Q?5qutcDbbLQ1iHyT1/qW4oCKd4vk6qrTh3cYe9ZovWla6Fr7JLOZp2kXNyd+n?=
+ =?us-ascii?Q?JXAIUvyxXc3eWaaVc/u8STkvhloz3NYAPnHobvoZTRVF3cZh8jjP5iokwIHJ?=
+ =?us-ascii?Q?5hp/4ykNm629Fnpr/fVRa+MR0VWQJhcXCIJgQSgbRBXd/71Q0VA7djl7NXvV?=
+ =?us-ascii?Q?AYJUius4chPvx8SimVj88hfJmYXpuPGd/LhmRrKulLNIG47nTJEB7gXkeZZu?=
+ =?us-ascii?Q?k7XWldAO9/+eJBOWZYt5jCVzwlKeBH/KLBXiUXTFMah9/olyQc4QO0qp16j7?=
+ =?us-ascii?Q?TGLUCzmDu6pjbXU37E0YtGeuUhT0LANyfJw9S98YvKodkv6U0spoChTNqEqD?=
+ =?us-ascii?Q?rsDVJZJGfMedLSwPF045+szjAwdUxVvJKw2EWAU9y3SiirgDAxFHP7yCQ6yH?=
+ =?us-ascii?Q?N4wLqyHaY0B+/CMUfysy0MIzeaq1qUgujRVaATvTyRuPN/YAn6V/yr/2RSPI?=
+ =?us-ascii?Q?2CrVgQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(7416014)(1800799024)(19092799006)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?AVMgjNGYhBQEZw15x62nwu4Q0pkeumyQmvihYs0D/xodS+SsPBv4mX3FDDbJ?=
- =?us-ascii?Q?g5BSoW2CdDH95iy+c5aiXlaqzZIew7b+DB4Ptp3mAxC5158H2y1PzmK/nHUr?=
- =?us-ascii?Q?VQAs1X6TvZIx2CP1eGl9Ih8RaQmzO4Mo+2pBzqPg8VS68CVNMuLoUqCEqY+s?=
- =?us-ascii?Q?2aCX7VtoKVnqNB37H3Wj2F4ATl/gNt31QZucURDmMHZh4IX9pguHxpICEsrA?=
- =?us-ascii?Q?TW/Ww1V8DZU0u6VyNiqhaIK/wWbxqa2OwAI8wIW2swo7T+knuf+njZQ6cIMp?=
- =?us-ascii?Q?OQALaqbzVmEnAge7l0mPZ+/5tSSJ8F3xY/VsDVleTlm343pYlDbvmRvlITpS?=
- =?us-ascii?Q?z13ThFD3CYyKwO9qOfD3vZRbWwlqjp+HJuOyAcepkdt9IH5tJNLSBW9TDdkG?=
- =?us-ascii?Q?cKcw0hF+nEEc3s/0FgTGlRghItPwG6jVki5z/06ht8zsP+fVdf0ESIcaZ7sT?=
- =?us-ascii?Q?KSZoyReM95exIjYf6NOtsiiUah3UiXA8c1y+wMzVUf4JCs8ZBaktyHI32SQ3?=
- =?us-ascii?Q?+4i8NWjLAcW7CqwFjEkOkxEOpHzhA9qZMPEGPtRBnxWTd8V3/vZuDShvqvZu?=
- =?us-ascii?Q?PCM2wboeb7gZLEux3insSFY4VpCMDjlyBnYEc6DtHn8h0R/IM2Vw5KuVvDf6?=
- =?us-ascii?Q?6zdsPHFVYvycsofQx3B7genbH1yzFPWPLHhsaPGkTZQeYX9TIXFGPUDsm68G?=
- =?us-ascii?Q?UQfmCGc+UlSUTcNEBSExNCNhKeUjylI633MrL8SyakzuBA+pf2AUA9nitAfc?=
- =?us-ascii?Q?vZo6JhGmyAaGDTHm3qwszSLUe5ktA28qZm08ij+xIx1iU90qnDsk+wKjXYz+?=
- =?us-ascii?Q?sxTpOKD/lbTKIFu+V4eLeJeJvgQWV9WKJ8vU67GP7zFLQ3uU6QxXt+5/ynCY?=
- =?us-ascii?Q?7rWdcHXLh6xloACKU5wvrgCnIZSDdB6d3d+8N/wbSII90scRlMr51Ugduwq4?=
- =?us-ascii?Q?X+UjQn2ZRt/NU+koLz6yuG4ZZULeSdBgv2O9veKtimo+nxWoRj+sDlVBzjmJ?=
- =?us-ascii?Q?sC2/Z1eRRUHEs3rgwYV+UmLWnnlbVFTzNf0SoHYNKT3vA+PT6pRVqEHoyBEO?=
- =?us-ascii?Q?Zs5rohHBR6MDgQ1qJ/uXAcC5M6HWPtuZcDiU+JkO86stuWBaogaleYtwDT+N?=
- =?us-ascii?Q?6HXAQOKAZRQeqEoncNnbDM+m4lCWq/Vn2QP4BSP4Mu8dL2QT2hXrTFPeLEH6?=
- =?us-ascii?Q?oD4P/T+YQ7eXOkrML38YeXQf5vid1YLnqyzrnQt00k+4TTb+XUKLZ3XyBSV9?=
- =?us-ascii?Q?A/TYgIy8uUtNa4kKFg0IbUYJUCiPkPOG470w4nujFhLZVka2lXNF08T1Gnkv?=
- =?us-ascii?Q?yWkCoPJDS/o1KVlov3TkrsAsD1JI05NrxecJaNBXc/ZtuNLk8WGBAoJfna4M?=
- =?us-ascii?Q?JzysYT1314UVmoyQwL33FO4dnygpWXRSpcRYFMbaa4Q3bECp1pZSnqgm2v0Q?=
- =?us-ascii?Q?yHh6C7gbaistgOI1AkRfxFDyBsLkAgm/a8CmR5rM+ZWMNn29a920ZWD/wVaD?=
- =?us-ascii?Q?eAlwqS5UBP7ql8hRQVQUmLEBoF0fxZSGNWntpGYJC+KuFNB2qLGOO1zDJk45?=
- =?us-ascii?Q?a3NEnEdM7xzAB353B8M9j1g/RhnJFyOSOaXu1dGQjGmTK4MpO775/lt0QJ+a?=
- =?us-ascii?Q?3euyJSwH/M6ATbwXILzf8/pddXF6FpPfPIGkM+W2MZiMOtXyxo2HdodeVqqc?=
- =?us-ascii?Q?x/gXAt1SVgdlMWTkOWVoyKUyzRIeZIygYkqeh5XHPWF1WkiACMXOFHnlRbYM?=
- =?us-ascii?Q?o9lTppp6ig=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f35df32-cf2b-48bb-e35f-08de57d76f0d
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 03:53:13.0652
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700013)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 04:08:45.6331
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vH0rKKGq2wC68nfgIA8G5+e/QybG0pBhvmh8Aaf6tqP7oKTW/zbZoHYx5BGpUTqrawk9Sub4hrTWc7WmAbFcaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7343
+X-MS-Exchange-CrossTenant-Network-Message-Id: d48dd34b-35f4-4e72-d53b-08de57d99b42
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB52.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8098
 
-One of SAI interfaces is connected to AUDMIX in the i.MX952 chip, but
-AUDMIX can be bypassed or not bypassed on the i.MX952 platform.
+Currently, there is compilation error when the
+CONFIG_PCI is not enabled which is used for creating
+firmware name. This commit address this issue by adding
+fallback mechanism to construct unqiue name by using
+SounWire slave's link and unique ids alone when the
+CONFIG_PCI is not available.
 
-so add 'fsl,sai-amix-mode' property for this feature, with this
-property present,then SAI driver will try to config the setting,
-fsl,sai-amix-mode = <0> is bypass mode, fsl,sai-amix-mode = <1> is
-the AUDMIX mode.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601190756.IpoMY5AJ-lkp@intel.com/
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
 ---
- include/linux/firmware/imx/sm.h |  2 ++
- sound/soc/fsl/fsl_sai.c         | 17 +++++++++++++++++
- 2 files changed, 19 insertions(+)
+ sound/soc/codecs/tas2783-sdw.c | 45 +++++++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
 
-diff --git a/include/linux/firmware/imx/sm.h b/include/linux/firmware/imx/sm.h
-index a33b45027356..ba5d93bd6158 100644
---- a/include/linux/firmware/imx/sm.h
-+++ b/include/linux/firmware/imx/sm.h
-@@ -26,6 +26,8 @@
- #define SCMI_IMX94_CTRL_SAI3_MCLK	5U	/*!< WAKE SAI3 MCLK */
- #define SCMI_IMX94_CTRL_SAI4_MCLK	6U	/*!< WAKE SAI4 MCLK */
+diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
+index 2851ce19f..193aee865 100644
+--- a/sound/soc/codecs/tas2783-sdw.c
++++ b/sound/soc/codecs/tas2783-sdw.c
+@@ -27,7 +27,9 @@
+ #include <linux/soundwire/sdw.h>
+ #include <linux/soundwire/sdw_registers.h>
+ #include <linux/soundwire/sdw_type.h>
++#if IS_ENABLED(CONFIG_PCI)
+ #include <linux/pci.h>
++#endif
+ #include <sound/sdw.h>
+ #include <sound/soc.h>
+ #include <sound/tlv.h>
+@@ -1106,21 +1108,33 @@ static const struct dev_pm_ops tas2783_sdca_pm = {
+ 	RUNTIME_PM_OPS(tas2783_sdca_dev_suspend, tas2783_sdca_dev_resume, NULL)
+ };
  
-+#define SCMI_IMX952_CTRL_BYPASS_AUDMIX	8U      /* WAKE AUDMIX */
+-static struct pci_dev *tas_get_pci_dev(struct sdw_slave *peripheral)
++static void tas_generate_fw_name(struct sdw_slave *slave, char *name, size_t size)
+ {
+-	struct device *dev = &peripheral->dev;
+-
+-	for (; dev; dev = dev->parent)
+-		if (dev->bus == &pci_bus_type)
+-			return to_pci_dev(dev);
++	struct sdw_bus *bus = slave->bus;
++	u8 unique_id = slave->id.unique_id;
++	bool pci_found = false;
++#if IS_ENABLED(CONFIG_PCI)
++	struct device *dev = &slave->dev;
++	struct pci_dev *pci = NULL;
 +
- #if IS_ENABLED(CONFIG_IMX_SCMI_MISC_DRV)
- int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val);
- int scmi_imx_misc_ctrl_set(u32 id, u32 val);
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index 2fa14fbdfe1a..9facb7c5ee0d 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/dmaengine.h>
-+#include <linux/firmware/imx/sm.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/pinctrl/consumer.h>
-@@ -1429,6 +1430,7 @@ static int fsl_sai_probe(struct platform_device *pdev)
- 	int irq, ret, i;
- 	int index;
- 	u32 dmas[4];
-+	u32 val;
- 
- 	sai = devm_kzalloc(dev, sizeof(*sai), GFP_KERNEL);
- 	if (!sai)
-@@ -1598,6 +1600,21 @@ static int fsl_sai_probe(struct platform_device *pdev)
- 	if (ret < 0 && ret != -ENOSYS)
- 		goto err_pm_get_sync;
- 
-+	if (of_property_present(np, "fsl,sai-amix-mode") &&
-+	    of_device_is_compatible(np, "fsl,imx952-sai")) {
-+		ret = of_property_read_u32(np, "fsl,sai-amix-mode", &val);
-+		if (ret || val > 1) {
-+			dev_err_probe(dev, ret, "Invalid audmix mode\n");
-+			goto err_pm_get_sync;
-+		}
-+
-+		ret = scmi_imx_misc_ctrl_set(SCMI_IMX952_CTRL_BYPASS_AUDMIX, val);
-+		if (ret) {
-+			dev_err_probe(dev, ret, "Error setting audmix mode\n");
-+			goto err_pm_get_sync;
++	for (; dev; dev = dev->parent) {
++		if (dev->bus == &pci_bus_type) {
++			pci = to_pci_dev(dev);
++			scnprintf(name, size, "%04X-%1X-%1X.bin",
++				  pci->subsystem_device, bus->link_id, unique_id);
++			pci_found = true;
++			break;
 +		}
 +	}
-+
- 	/*
- 	 * Register platform component before registering cpu dai for there
- 	 * is not defer probe for platform component in snd_soc_add_pcm_runtime().
++#endif
+ 
+-	return NULL;
++	if (!pci_found)
++		scnprintf(name, size, "tas2783-%1X-%1X.bin",
++			  bus->link_id, unique_id);
+ }
+ 
+ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
+ {
+-	struct pci_dev *pci;
+-	struct sdw_bus *bus;
+ 	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
+ 	s32 ret;
+ 	u8 unique_id = tas_dev->sdw_peripheral->id.unique_id;
+@@ -1128,13 +1142,6 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
+ 	if (tas_dev->hw_init)
+ 		return 0;
+ 
+-	pci = tas_get_pci_dev(slave);
+-	if (!pci) {
+-		dev_err(dev, "pci device id can't be read");
+-		return -EINVAL;
+-	}
+-
+-	bus = slave->bus;
+ 	tas_dev->fw_dl_task_done = false;
+ 	tas_dev->fw_dl_success = false;
+ 
+@@ -1145,10 +1152,8 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
+ 	}
+ 	usleep_range(2000, 2200);
+ 
+-	/* subsystem_id-link_id-unique_id */
+-	scnprintf(tas_dev->rca_binaryname, sizeof(tas_dev->rca_binaryname),
+-		  "%04X-%1X-%1X.bin", pci->subsystem_device, bus->link_id,
+-		  unique_id);
++	tas_generate_fw_name(slave, tas_dev->rca_binaryname,
++			     sizeof(tas_dev->rca_binaryname));
+ 
+ 	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
+ 				      tas_dev->rca_binaryname, tas_dev->dev,
 -- 
-2.34.1
+2.43.0
 
