@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D38E47B435;
-	Tue, 20 Jan 2026 19:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1663347DD61;
+	Tue, 20 Jan 2026 19:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768937707; cv=none; b=J/4NSzrjI2SBCzNTFKZawgeBFFyCFmW+yLg8sO4/cCW0o4CRpQR4bOk8El4mF7gEtGbsFqQUeZslg4t60ww92+dEffrgQ22Fgm3RcObUXCCRKQDH+PK3v4lrnWQl0751Qai/coyuNprfeJBnrPy4mXQ1JnaMapKsm7vsUzuXPUo=
+	t=1768937711; cv=none; b=g8asWGDD7pwT93GC/FMcYWxRynf+LWr9tQRDr3w+NEA+YPwrgozvyV1F79LvQ7VsWwERscS4pgOm9eOchmcayLGGewedLw9WT8gRFJFwuOX9s+0Eyxyq9lEWjpfgt+iF21XY02kMy6JQL82lAgH9oeHE/Rrrn1moJiYJn7v6Ejk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768937707; c=relaxed/simple;
-	bh=1hxHwzroqjTxAQ7XR3r6k7CvanenCdiWBe8WbgrL4Bs=;
+	s=arc-20240116; t=1768937711; c=relaxed/simple;
+	bh=pJlsRew5eftP2Jsy6yH4nSxgh1li+FzDMGa47OhgI6E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S2Y32DqzkhcMhcpVAc31arAhiRWXGoSPVslHsHlNeF2ZuhiFljq5p31lGoConpyMDbjIcEp5lER3KoBX+1R3jPcwHb58RtWWfqLMoJ9vCwZxpoD2r9v7UkhwzPz0pCk/+MMtO/VGvLXgP1oHYVOf5N+d8j2flLdENLykOanr60g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iiZKVuQf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=P6Oavx5v3w/v3gauN3kTZYmmHuHLan8DB3Ex7AeYfkkFd8PCOHiOGuIVWMlyAKuY9e/KILerlxQTCUmXZnGggX6B0AzPv+dsvFcGd60Whe7MBDN6gmp9OApNjC245wEyaOY+OYAp4/1OlFgQxNOF7LNZBU3pV6MopcJp3vhMw2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atdmEiwz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iiZKVuQf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A9B6C16AAE;
-	Tue, 20 Jan 2026 19:35:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atdmEiwz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7086C19422;
+	Tue, 20 Jan 2026 19:35:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768937707;
-	bh=1hxHwzroqjTxAQ7XR3r6k7CvanenCdiWBe8WbgrL4Bs=;
+	s=k20201202; t=1768937709;
+	bh=pJlsRew5eftP2Jsy6yH4nSxgh1li+FzDMGa47OhgI6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iiZKVuQfjOWz6vqosPLWGwVZZNPz26GbAYz9QINQTjTN+MXnOquFNStbokkpDAA0T
-	 qYj0PCwxhq8Ny5uNFiDrDmczK5SnodWTq/TPI309deFJPNl1e+WhcjLHl91owvvHCP
-	 ODBYUnco6mi4DfKHnkgBnPcqfafjN/gm21lG65jNt2RbiH/eb+WDYr5hW7/otg0d9G
-	 9tEyRdZM5bL/E4zfj2bVMlOXtmWoade3c+ObhBQjQZjrcAE2NN/b4ybzPdajBObS65
-	 yAe/FA8sTT/RZJodkGIQ9+FeG3TvAnBHfpObhlJ+4s9p7U16nCc1Zxeg/o1QYYKRmT
-	 8CAtAKDT1JjaQ==
+	b=atdmEiwzQUF3JaW1ecAAfXzXtuFk5NawHGbxEvNmT7YmvgI+93i++dD4bE/aIt22w
+	 Ks3zmHA2fCPWNirWLxCHdKd7N4w/qx7v9YIiHs6kszK5lymCmBAhzr5FOzYicSQ892
+	 gHfhOjrah22a4HetSBeBX3h61JVkU3+3eo7sy+TthYFYXXeh4mljfGYYYIec1ktukg
+	 DlUKt09PGEfaAFytIDdCF1MXqAJfWvlp+NHGNjt2cClkJjAXyOWJVCkSvfLR7x++4H
+	 0WrtauT6aZfZ+L2zK6nf/mHHO01KdOdb8dc/Yvx9zUZYTyQ5us133p2Ih7iPAIOR+u
+	 /V4Pz22fJ1Cfg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Kery Qi <qikeyu2017@gmail.com>,
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	peter.ujfalusi@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: davinci-evm: Fix reference leak in davinci_evm_probe
-Date: Tue, 20 Jan 2026 14:34:49 -0500
-Message-ID: <20260120193456.865383-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: simple-card-utils: Check device node before overwrite direction
+Date: Tue, 20 Jan 2026 14:34:51 -0500
+Message-ID: <20260120193456.865383-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260120193456.865383-1-sashal@kernel.org>
 References: <20260120193456.865383-1-sashal@kernel.org>
@@ -49,203 +49,162 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.6
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kery Qi <qikeyu2017@gmail.com>
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-[ Upstream commit 5b577d214fcc109707bcb77b4ae72a31cfd86798 ]
+[ Upstream commit 22a507d7680f2c3499c133f6384349f62f916176 ]
 
-The davinci_evm_probe() function calls of_parse_phandle() to acquire
-device nodes for "ti,audio-codec" and "ti,mcasp-controller". These
-functions return device nodes with incremented reference counts.
+Even the device node don't exist, the graph_util_parse_link_direction()
+will overwrite the playback_only and capture_only to be zero. Which
+cause the playback_only and capture_only are not correct, so check device
+node exist or not before update the value.
 
-However, in several error paths (e.g., when the second of_parse_phandle(),
-snd_soc_of_parse_card_name(), or devm_snd_soc_register_card() fails),
-the function returns directly without releasing the acquired nodes,
-leading to reference leaks.
-
-This patch adds an error handling path 'err_put' to properly release
-the device nodes using of_node_put() and clean up the pointers when
-an error occurs.
-
-Signed-off-by: Kery Qi <qikeyu2017@gmail.com>
-Link: https://patch.msgid.link/20260107154836.1521-2-qikeyu2017@gmail.com
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://patch.msgid.link/20251229090432.3964848-1-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-So the `device_get_match_data()` change landed in v6.10. For stable
-trees 6.9 and earlier, the code would use the older `of_match_device()`
-pattern, which might require a slightly different patch.
+The commit seems to be describing a new patch to be analyzed. Based on
+my full analysis, let me now synthesize my evaluation:
 
-Let me analyze the full technical aspects of this fix:
+## ANALYSIS SUMMARY
 
-## Technical Analysis
+### 1. COMMIT MESSAGE ANALYSIS
 
-### The Bug
-The `davinci_evm_probe()` function calls `of_parse_phandle()` twice:
-1. `dai->codecs->of_node = of_parse_phandle(np, "ti,audio-codec", 0);`
-2. `dai->cpus->of_node = of_parse_phandle(np, "ti,mcasp-controller",
-   0);`
+The commit message describes a bug where:
+- When a device node doesn't exist (is NULL), the
+  `graph_util_parse_link_direction()` function still overwrites
+  `playback_only` and `capture_only` to zero (false)
+- This causes incorrect behavior when these flags should remain as they
+  were set by previous calls
 
-`of_parse_phandle()` returns a device node with an incremented reference
-count. The kernel's device tree code uses reference counting to track
-how many pointers refer to each node. If references are not released
-with `of_node_put()`, the nodes can never be freed, causing a memory
-leak.
+The commit has:
+- **Acked-by:** from the subsystem maintainer (Kuninori Morimoto)
+- **Signed-off-by:** from the maintainer (Mark Brown)
 
-### Error Paths with the Leak
-In the original code, if any of these fail after acquiring one or both
-nodes:
-- Second `of_parse_phandle()` call fails → codecs->of_node leaked
-- `snd_soc_of_parse_card_name()` fails → both nodes leaked
-- `devm_clk_get()` returns `-EPROBE_DEFER` → both nodes leaked
-- `devm_kzalloc()` fails → both nodes leaked
-- `of_property_read_u32()` fails without mclk → both nodes leaked
-- `devm_snd_soc_register_card()` fails → both nodes leaked
+### 2. CODE CHANGE ANALYSIS
 
-### The Fix
-The fix:
-1. Converts all early returns to `goto err_put`
-2. Adds proper cleanup label that calls `of_node_put()` on both nodes
-3. Nullifies the pointers after release (defensive programming)
+**The Bug:**
+Looking at the function:
+```c
+void graph_util_parse_link_direction(struct device_node *np,
+                    bool *playback_only, bool *capture_only)
+{
+    bool is_playback_only = of_property_read_bool(np, "playback-only");
+    bool is_capture_only  = of_property_read_bool(np, "capture-only");
 
-### Impact Assessment
-- **Severity**: Low to Medium. This is a memory leak, not a crash or
-  data corruption. The leak only occurs on error paths during probe.
-- **Scope**: The TI DAVINCI EVM audio driver. This is an older driver
-  for TI DaVinci SoC platforms, a relatively niche embedded hardware.
-- **Trigger**: The leak happens when probe fails - i.e., when there's
-  something wrong with the device tree or when resources are
-  unavailable.
-- **User Impact**: Repeated probe failures (e.g., due to
-  misconfiguration or module load/unload cycles) could accumulate leaked
-  memory over time.
+    if (playback_only)
+        *playback_only = is_playback_only;
+    if (capture_only)
+        *capture_only = is_capture_only;
+}
+```
 
-### Risk Assessment
-- **Low risk**: The change is surgical - it only adds error handling
-  paths
-- **Well-understood pattern**: of_node_put() cleanup is a very common
-  kernel pattern
-- **Doesn't change success path behavior**: The normal successful probe
-  path is unchanged except for adding `return ret;` instead of falling
-  through
+When `np` is NULL:
+1. `of_property_read_bool(NULL, ...)` returns `false` (since NULL node
+   has no properties)
+2. The function unconditionally overwrites `*playback_only = false` and
+   `*capture_only = false`
 
-### Backport Considerations
-- For stable kernels >= 6.10: The patch should apply cleanly (uses
-  `device_get_match_data()`)
-- For stable kernels < 6.10: The patch would need adjustment since those
-  use `of_match_device()` pattern instead
+**Call Pattern (from simple-card.c and audio-graph-card.c):**
+```c
+graph_util_parse_link_direction(top,    &playback_only, &capture_only);
+graph_util_parse_link_direction(node,   &playback_only, &capture_only);
+graph_util_parse_link_direction(cpu,    &playback_only, &capture_only);
+graph_util_parse_link_direction(codec,  &playback_only, &capture_only);
+```
 
-**Conclusion:**
+The intent is hierarchical: if `top` sets `playback_only = true`, it
+should remain true unless a lower-level node explicitly overrides it.
+But if `cpu` or `codec` is NULL, the current code wrongly resets
+`playback_only` to false.
 
-This is a legitimate bug fix that addresses a memory leak in error
-paths. The fix is:
-1. Small and contained
-2. Uses a well-understood kernel pattern
-3. Fixes a real resource leak bug
-4. Low risk (only affects error paths)
-5. Properly tested (merged by maintainer Mark Brown)
+**The Fix:**
+```c
+- if (playback_only)
++   if (np && playback_only)
+        *playback_only = is_playback_only;
+- if (capture_only)
++   if (np && capture_only)
+        *capture_only = is_capture_only;
+```
 
-However, the bug is relatively minor:
-- Only affects niche TI DAVINCI EVM hardware
-- Only leaks memory on probe failure (error paths)
-- The leak is small (device tree node references)
+Adding `np &&` check prevents the function from overwriting the values
+when `np` is NULL.
 
-This type of reference leak fix is commonly backported to stable trees.
-The pattern is well-established and the fix is straightforward. The main
-concern is whether it will apply cleanly to older stable trees that
-don't have the `device_get_match_data()` change, but that's a backport
-logistics issue, not a reason to reject it.
+### 3. CLASSIFICATION
+
+- **Bug fix:** Yes, clearly fixes a logic error
+- **Security:** No security implications
+- **Feature addition:** No
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed:** 2 (very minimal)
+- **Files touched:** 1
+- **Complexity:** Very low - adding a simple NULL check
+- **Risk:** Very low - defensive programming that only affects behavior
+  when np is NULL, which is already an edge case
+
+### 5. USER IMPACT
+
+- **Who is affected:** Users of ASoC simple-card and audio-graph-card
+  drivers
+- **Severity:** Audio routing could be incorrect (playback-only or
+  capture-only configuration not being honored)
+- **Visibility:** Users with device trees that set `playback-only` or
+  `capture-only` on higher-level nodes where some lower-level nodes
+  don't exist
+
+### 6. STABILITY INDICATORS
+
+- **Acked-by:** Kuninori Morimoto (maintainer of the code)
+- **Signed-off-by:** Mark Brown (ASoC subsystem maintainer)
+
+### 7. DEPENDENCY CHECK
+
+- The function exists in stable trees starting from v6.10 (introduced in
+  commit d29351e8c20d61)
+- The fix applies cleanly and has no dependencies on other commits
+
+### 8. FINAL ASSESSMENT
+
+This is a clear, minimal, and well-reviewed bug fix that:
+1. Fixes a real bug that causes incorrect audio configuration
+2. Is small and surgical (2-line change with simple NULL check)
+3. Has low regression risk (only affects edge case of NULL np)
+4. Has been reviewed and acked by the appropriate maintainers
+5. Would apply cleanly to stable trees (v6.10+) where this function
+   exists
+
+The fix is small, surgical, and meets all stable kernel criteria.
 
 **YES**
 
- sound/soc/ti/davinci-evm.c | 39 ++++++++++++++++++++++++++++++--------
- 1 file changed, 31 insertions(+), 8 deletions(-)
+ sound/soc/generic/simple-card-utils.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/ti/davinci-evm.c b/sound/soc/ti/davinci-evm.c
-index 2a2f5bc95576e..a55a369ce71c2 100644
---- a/sound/soc/ti/davinci-evm.c
-+++ b/sound/soc/ti/davinci-evm.c
-@@ -193,27 +193,32 @@ static int davinci_evm_probe(struct platform_device *pdev)
- 		return -EINVAL;
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index 355f7ec8943c2..bdc02e85b089f 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -1179,9 +1179,9 @@ void graph_util_parse_link_direction(struct device_node *np,
+ 	bool is_playback_only = of_property_read_bool(np, "playback-only");
+ 	bool is_capture_only  = of_property_read_bool(np, "capture-only");
  
- 	dai->cpus->of_node = of_parse_phandle(np, "ti,mcasp-controller", 0);
--	if (!dai->cpus->of_node)
--		return -EINVAL;
-+	if (!dai->cpus->of_node) {
-+		ret = -EINVAL;
-+		goto err_put;
-+	}
- 
- 	dai->platforms->of_node = dai->cpus->of_node;
- 
- 	evm_soc_card.dev = &pdev->dev;
- 	ret = snd_soc_of_parse_card_name(&evm_soc_card, "ti,model");
- 	if (ret)
--		return ret;
-+		goto err_put;
- 
- 	mclk = devm_clk_get(&pdev->dev, "mclk");
- 	if (PTR_ERR(mclk) == -EPROBE_DEFER) {
--		return -EPROBE_DEFER;
-+		ret = -EPROBE_DEFER;
-+		goto err_put;
- 	} else if (IS_ERR(mclk)) {
- 		dev_dbg(&pdev->dev, "mclk not found.\n");
- 		mclk = NULL;
- 	}
- 
- 	drvdata = devm_kzalloc(&pdev->dev, sizeof(*drvdata), GFP_KERNEL);
--	if (!drvdata)
--		return -ENOMEM;
-+	if (!drvdata) {
-+		ret = -ENOMEM;
-+		goto err_put;
-+	}
- 
- 	drvdata->mclk = mclk;
- 
-@@ -223,7 +228,8 @@ static int davinci_evm_probe(struct platform_device *pdev)
- 		if (!drvdata->mclk) {
- 			dev_err(&pdev->dev,
- 				"No clock or clock rate defined.\n");
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto err_put;
- 		}
- 		drvdata->sysclk = clk_get_rate(drvdata->mclk);
- 	} else if (drvdata->mclk) {
-@@ -239,8 +245,25 @@ static int davinci_evm_probe(struct platform_device *pdev)
- 	snd_soc_card_set_drvdata(&evm_soc_card, drvdata);
- 	ret = devm_snd_soc_register_card(&pdev->dev, &evm_soc_card);
- 
--	if (ret)
-+	if (ret) {
- 		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n", ret);
-+		goto err_put;
-+	}
-+
-+	return ret;
-+
-+err_put:
-+	dai->platforms->of_node = NULL;
-+
-+	if (dai->cpus->of_node) {
-+		of_node_put(dai->cpus->of_node);
-+		dai->cpus->of_node = NULL;
-+	}
-+
-+	if (dai->codecs->of_node) {
-+		of_node_put(dai->codecs->of_node);
-+		dai->codecs->of_node = NULL;
-+	}
- 
- 	return ret;
+-	if (playback_only)
++	if (np && playback_only)
+ 		*playback_only = is_playback_only;
+-	if (capture_only)
++	if (np && capture_only)
+ 		*capture_only = is_capture_only;
  }
+ EXPORT_SYMBOL_GPL(graph_util_parse_link_direction);
 -- 
 2.51.0
 
