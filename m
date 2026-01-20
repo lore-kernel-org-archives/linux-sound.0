@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B3746AF3B
-	for <linux-sound@vger.kernel.org>; Tue, 20 Jan 2026 19:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5752338B98A;
+	Tue, 20 Jan 2026 19:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768936902; cv=none; b=A5TbCcGHRq+RTC1WE1NoobzCTF6/2kvf8f1FXnbhc+/2Trw5cGBbm7SZTqTOaFlxK2/baUv5cVJ2xjkh6XXeZD6duukQBnlEkN9aYg/zM+Q1UoIBriQovFo2stgXrt9KbE/oeeWXPaokpWskcI9F2mcf/dpjEIx7NELyqoXXBcM=
+	t=1768936904; cv=none; b=KtImM446sDyVBHfEyfgzAH4wLEgIW562O+hAgVzQ/fhSnN75oamaoU1yP1vMsYvnWTVITBjs0bu/YzaViRAbhyDHEn1RFbhtHHMZ/nFD2sv+nt14fsILkmKq/XmZOBp9IlQU5cbZ1fjpJalnjr9Ke2ESpUTQAwmdv4LOpA2q0hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768936902; c=relaxed/simple;
-	bh=mHl1/SoopD56EWdMV2oSzPfvhwa9LtOOX95gzynoxL8=;
+	s=arc-20240116; t=1768936904; c=relaxed/simple;
+	bh=1sn+JESYsGbOQVrg2FdMmLiKmgF9OvuYdvrpp6ndyz4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TtxLlNy7ZC5bGQGUh8RdShIcOBRgujk7Cl+mwZPCOqYzR2eGBa8vYLCTK+LRZWFXjhBTQP0FMSjsaHIc5SP/nM23XMmcmM3BikFumunQOpCDdJ7WdtRzHwB9kixUbJjrQsngsFxp8r7AD5LAsE7ztWQ7mjKBrM8z6K3atH749J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pnnUVvFE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uT2zBxN0Nds0X2LjCp/lH6IgPe1Izi66VbAr6gVwVdkye9rnV7y2/tRBqEI3IzwrcU27Vzh16sL3hloBUAy97r8a600Z08MuPgPsMdZj/s6QoZ9quCbvhOU4SoHp+v49sM5IubhifTCCLiltjXIzABq2ZdGIEZ/AgvoynJdl2TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVjY7nRq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pnnUVvFE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A68C16AAE;
-	Tue, 20 Jan 2026 19:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVjY7nRq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC854C19421;
+	Tue, 20 Jan 2026 19:21:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768936902;
-	bh=mHl1/SoopD56EWdMV2oSzPfvhwa9LtOOX95gzynoxL8=;
+	s=k20201202; t=1768936903;
+	bh=1sn+JESYsGbOQVrg2FdMmLiKmgF9OvuYdvrpp6ndyz4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pnnUVvFEhHc//kwckWf3rjVg4Tw9o6FdPIcgEAqxP5W2BBoPGVyJOzyGFJ5x4FwaB
-	 /vt7jq/Mp1K2m6y59rkBPMG+gUVZOMlPtwRmoriTpsEoMK6lzQxbB6wEIQRvDXYdNu
-	 ELkWapkdVhOBYBTSlP4fnNSQS8jeWjm6D6zS3XHs0QDfdkx2WDNHvLr5T7D4zn4xm5
-	 2ek6vDXZL3PvAClSaPrhie0MItvcJliiZdKm6+Y/VE3DcXL+YuA+AlloWRcxofwjyS
-	 qp3MUxwf/JCppHI9iqJIzX2dRWJFFiZg6iZxnf/K0N+hViL7crEXYUl5spwhaFpR+G
-	 rjwd7Zqx/fShQ==
+	b=DVjY7nRqtNJpdxO46UhkvzcpzUG7eFsGBNxeNafEMqc/0JMgTis5DEYWF1li9lQfp
+	 XKC7q+gZ76HuX4wOMZyI7gtHXQgtxe5N1GXBVGuBOajirNmkO6ar2wvcSJbnME07/i
+	 FB7WSuzXEnPK6ItLNPKL0fDNXAv3K3xU+LQspe/4n1mLXqkv+PkoFUQgFhHosDfngS
+	 Cu1FbxT9JyedPFBtmLMOUK//DPhDIn9EwKNMlOrk/8GmH5c+OOLT0MJ2r4JzMIC+NP
+	 CuxpAwwjh8TkRj57XORz559NShhifXCpIR9KFi22qpu6xaij+i9iri2+whotlhba/B
+	 b8Ih6N93rJSiw==
 From: Mark Brown <broonie@kernel.org>
-To: Anatolii Shirykalov <pipocavsobake@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20260119145618.3171435-1-pipocavsobake@gmail.com>
-References: <20260119145618.3171435-1-pipocavsobake@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks
- list
-Message-Id: <176893690167.777973.4995517024553204054.b4-ty@kernel.org>
-Date: Tue, 20 Jan 2026 19:21:41 +0000
+To: Fabio Estevam <festevam@gmail.com>
+Cc: shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+ imx@lists.linux.dev, stable@vger.kernel.org
+In-Reply-To: <20260118205030.1532696-1-festevam@gmail.com>
+References: <20260118205030.1532696-1-festevam@gmail.com>
+Subject: Re: [PATCH RESEND] ASoC: fsl: imx-card: Do not force slot width to
+ sample width
+Message-Id: <176893690263.777973.15824025295964117427.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 19:21:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +46,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 19 Jan 2026 15:56:18 +0100, Anatolii Shirykalov wrote:
-> Add ASUS ExpertBook PM1503CDA to the DMI quirks table to enable
-> internal DMIC support via the ACP6x machine driver.
+On Sun, 18 Jan 2026 17:50:30 -0300, Fabio Estevam wrote:
+> imx-card currently sets the slot width to the physical sample width
+> for I2S links. This breaks controllers that use fixed-width slots
+> (e.g. 32-bit FIFO words), causing the unused bits in the slot to
+> contain undefined data when playing 16-bit streams.
 > 
+> Do not override the slot width in the machine driver and let the CPU
+> DAI select an appropriate default instead. This matches the behavior
+> of simple-audio-card and avoids embedding controller-specific policy
+> in the machine driver.
 > 
+> [...]
 
 Applied to
 
@@ -57,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks list
-      commit: 018b211b1d321a52ed8d8de74ce83ce52a2e1224
+[1/1] ASoC: fsl: imx-card: Do not force slot width to sample width
+      commit: 9210f5ff6318163835d9e42ee68006be4da0f531
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
