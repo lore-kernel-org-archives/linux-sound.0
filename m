@@ -1,209 +1,203 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6393F23C2
-	for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 10:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD523B8D42
+	for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 10:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768990748; cv=fail; b=U/Cg+dQQbG7LAdm48+3Y4bVmxrjASs7y03DgVmU7vCmylj6x428hf5a8OQrLpTwNZQeS03MNkeqt6GL4bH8m0cCxmVSqScB4+NfPIpshX7FOCTx37VwJZj97HaS0rXPPVOTN6tt8E1I5jrYA7JC4Wf+NBtsZ7onG8cj7qB3WwA4=
+	t=1768992455; cv=pass; b=hVF3QoVsr4rXoOMdZHsEbGiR8b9oEjmPeMitlb5hG2bmhrWNTu9Q629aEquxbevAYDIWIRVt5NtW4F+FW0/d+AGDHCJkII6B51K/wbVi4Ods5gS9/To3qPXC4Kld3qpTZPtcxNLH+fNxZj4BhbB6WvDRBTrDMg7eWCOItBi+rMo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768990748; c=relaxed/simple;
-	bh=u9ELhMHKB0QluD3dE0SnJdJcJJIQO/oTiPFFSH0KMWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T3F8+9MpR0CBiqqS1yslg3l6FGabDI6Src5j3lyssyiW4gIkhHwp1ivHomavZU9l2cIQLWhT9yglyuPMg3TBzIQidRenb5xBJndJBH2i9h0eecLYOBI0DmldrkR3IbLZ5vA80vGLFz1KtV4/lhhWaY7dPv47REgvXeSLW0zcydk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=JkX7scZN; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=tWt1s7gE; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1768992455; c=relaxed/simple;
+	bh=x1Jt80LN5/N4tHUEJT3M8l8NQh0Ouao1/CX6fzyd/jc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wj3sFvMzVtBqltJF3z1dm8Z1wa5Rr1h+/bkasUHkk7tekgBnpU/tyW6pKBskBZArr8lH8zbK9zSxyyiCJf12yhCYZpYYpw522wg2WGgw8LKY0fePojX5mM/heV0+suZPBwopquP6xqRDvuz356YJa5G5W7mlVoaLgalyy+LaKyI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iDp6n6Bo; arc=pass smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="JkX7scZN";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="tWt1s7gE"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60L4V7u43888660;
-	Wed, 21 Jan 2026 04:18:51 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=QEI6lcuP53WFhZH5cA
-	YFID6xqcdi9dC4l6JMuX6eeXA=; b=JkX7scZNDFtKgB0TRP2/FBKw57Efp+BYuq
-	YkxCMY2pjyn6u+D0oFaFBXbyTyTwdiGaYSbTfvgKXXkz5spID/UkzMJKZiXThlHf
-	LKipGUKtJOUNSVuxEc0t1uS3isoHYl7JGNdntEo4DztTqcBBJNo2S5rw359QvqQD
-	4hgtODoMi0s0OP5bZ1toYe7ohP1FKLT1OpxWw/InTiQdIcQkiRnd9s8ODyBJ/rb2
-	1u7i19Rw+ASCB/A2w33TCc9aeqn1LUT70RIRm+LPCDIRL/z9NXWSfvB/eQMjj8D2
-	yXws81WMRpHFWbrNWjFwgt05OPNIIMjfHX2ymsasq5KOs80PtZ+Q==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021141.outbound.protection.outlook.com [52.101.62.141])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4br7qjvmw8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 21 Jan 2026 04:18:50 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mHGcjBtQhbqGx+EoQJnW/MwFN1DPKv1RvQm0jMQ/H0yep8HcCDIskcLxJ6ve+afoCmaw9BclPOdt+TnDsTTPDBrJhjW2GgqalbhjOkV17Qqzsh7uox6UrXdgIozai2WpNg7hSrFC6pv3S/eTjKndE3U+KfaNXqBfJ9qFWfDOhC54Biiz44GacJMHyQ7K6h8D37dleQcb+n8rFv7/os2IezRLJM60FdtU3OCpWxPIowgJxFMBN2TwI+IU68eXactQ0m0+Dr8b1qQAVMhKkOvp7viMNnbvpTSzsVhPSzAb9aJlsxKwwBvGFL3M0jK1O5/kLMh1qoiSM9BgP6+Og3l0Rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QEI6lcuP53WFhZH5cAYFID6xqcdi9dC4l6JMuX6eeXA=;
- b=r62eM3vwAnM/Mpq71Mu5xaqiMxznzrurQY4uhhtcTo0JBSrhyFN1ugF/CI6CTl9eyZGslMLqcygJeng+aBrXi8HPFDc5FsssBQSduVD2USU9sS2sW8feyG0dxs4m2R+0GAFX6PqFc5dItO94/cSUHeSLQEhxSgY3Xf9LUNO63OhH2ETi5WDXmpdWjx/3PYvkdI5JBDXEeoCVuEdkXWJ/Crcp325xJ5XqfbhrhV+M4i23YjMgSD7H3a5GymeahAX04dZSHJUBsPcGyvRPDlzIcBeFSql/hYUqI6bkopQNhRBq18vmlkVRQdwZaNMPdWUnbVSfcglb4G/WMEK5W07C1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=gmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iDp6n6Bo"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35305538592so403805a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 02:47:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768992452; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RNWYP/M3cskDzIcjrCy5i9za/sorQ9uMbiYN8ZrXDmXprEqAvh76vvBIDm2AoeAg/Y
+         iXdQuztFnnI9rUqIai38hNNoRMk/MhjGYheWbhHiJ14g17SBNiHkkhO8lPcexjPjj3zb
+         GjfcOEG5mdiaqPzxtcE94/y9RjDNz50UcWKLV/DAx4IRDv0NFjk7JeT2IRlhBYNGjL6P
+         iHRiYeeGMLOOGNkhFOpvjEM6CtdEP02CJjy2qZQmRD7nYxNt7MbrKFASyycHjOYcNDrh
+         z96bQDY/crnmVNQQh9RoUqU0yg7w1LCxY+r1lO3fnUicaqXYU73g7dUT6AtDs8y6gOpM
+         bfwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/fMXkDh4NuIGqP7vK0ebKmRodxeqBxQ37RgaLup8t8A=;
+        fh=8gvcjGUYydU4X+s8CxU1aJbZTKBfBi4yEb+GeOkoowM=;
+        b=X592Vf+G4/5aqnqCdXuAPocvzKPEni+FFerwPf7yx2LZ6Ok6DEyOmGiaEU3P6QwIoX
+         6s5xp84B81gViZCJ4Ld0GFSJ6TjL1Vr096c79vsUqPbuPUuC0wyqAbE0eBleE7RgoVnn
+         wMcA4d14NXAZEisuUlF4kYbhc8JQrfEnJfovx/oRefq7+3dLpdCE96YGg3tzSsCcAVTQ
+         FZQImjMBpWKeVQRK/bNZ00bjmaYcwqBGF5KEP/2l/as5DhKOPempIH0dXBIuKZzCFlko
+         kpnmhBPw//KeGOOPS6z/N5cnRWhhZTEONx9hqlIuCTvcvgvB4LrvD/tfbhIVHhqz4FbC
+         vQng==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QEI6lcuP53WFhZH5cAYFID6xqcdi9dC4l6JMuX6eeXA=;
- b=tWt1s7gEeKgarE2C3jfT7xuCaAQXmcnDQBPz0ApCN0/aop8HGPTfZRjdAMWVNfaJ4uiHkS7GLDppC4MUxue/R20jIIT2HIBhizFk3E5c2W3aHw5Vredk15GB+qhPEtEoO6V5olfYtwBiP2J21Y4lcCSNTqF2qpNkHZN/e8ylfUo=
-Received: from SJ0PR13CA0226.namprd13.prod.outlook.com (2603:10b6:a03:2c1::21)
- by BY5PR19MB3841.namprd19.prod.outlook.com (2603:10b6:a03:22c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Wed, 21 Jan
- 2026 10:18:46 +0000
-Received: from MWH0EPF000A672F.namprd04.prod.outlook.com
- (2603:10b6:a03:2c1:cafe::e) by SJ0PR13CA0226.outlook.office365.com
- (2603:10b6:a03:2c1::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.9 via Frontend Transport; Wed,
- 21 Jan 2026 10:18:46 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MWH0EPF000A672F.mail.protection.outlook.com (10.167.249.21) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.4
- via Frontend Transport; Wed, 21 Jan 2026 10:18:45 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 39E4D406540;
-	Wed, 21 Jan 2026 10:18:44 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 25E64820249;
-	Wed, 21 Jan 2026 10:18:44 +0000 (UTC)
-Date: Wed, 21 Jan 2026 10:18:42 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Cole Leavitt <cole@unwrap.rs>
-Cc: linux-sound@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com
-Subject: Re: [PATCH 1/2] ASoC: soc-ops: Fix clamp range for SOC_DOUBLE_SX_TLV
- controls
-Message-ID: <aXCoAldpRqiGHpG9@opensource.cirrus.com>
-References: <20260112031329.17088-1-cole@unwrap.rs>
+        d=gmail.com; s=20230601; t=1768992452; x=1769597252; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/fMXkDh4NuIGqP7vK0ebKmRodxeqBxQ37RgaLup8t8A=;
+        b=iDp6n6Boe8cdP+pifupFkzyavp/Qhl1D2sur8Ey/A1WmoG7Iez2Ykqbu59tCQ7yIHf
+         eUBt2amdBcbf+bh9dDbR3sUH3Gvxq+VkLbeWukRi5sIq2xDnWL/MD62LAmC4JxO1nBYv
+         SVWHJpA4R+B+yszJL3J9C5QfOyl3YKmThdkn9FrqRoDnkiLKJT4iWsTXkf2RSlQDrT4Z
+         5p4EL9SUveN/Ww+dWnDe4ks5e6P2N9VaTilAEB3NCkHSQzbiGcOgSoJTA5zd++37p/tY
+         U9IxZCO0eJ5ip0rII9oJiL1XoL4DtCWG5cSWMmYrNaiELcPecS1Kg9OSW1hd/255lbsf
+         PcEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768992452; x=1769597252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/fMXkDh4NuIGqP7vK0ebKmRodxeqBxQ37RgaLup8t8A=;
+        b=mEZmvuikBeo3MBcjiuXIbiHU81iNg2iAWn4ye9EfyUTruW6TDxmTGtIp7mmPYxH7cz
+         f6e2jYlLIyPdrodX6xcykMR+AevVBAKJljlT3EOJhs21Kv3EClQfb+LI5Q2oprutE5Th
+         ysba/KiwZeybI45aX4S5sqCj/s3kTuC5W6l6vEmq/Vs+Qbq3GLtDCwA+WdTR6OMOdfIA
+         bV3Dq5+VwIBcu9YfTWjkaWIA2PCNQef6Q3N5YvBZudLzmf3GJUhDWzGedn685XB7iQSL
+         2r9VGBj/H0sp6NzSVDyczPaQ/VlIx8vhjakz5ZPfxv1i2yPgnPkbXDMd6cQYSVzFZFQA
+         HuWA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9rtHGBVljZgSvLCPj269btOerg6abGRmD/hOf1AgcN2n1OU+K0749SLFQH+EWQHZ/idxQyoe6AhsPUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp46A70F5QrVYUfXfWoIcu5jaTRmmtR0THoHjxikbyQId9sTH7
+	h1ZH1JBxq7gqplXt4QTYIDrGRZJjVxTaTohjKZpXkI6XPys4HKrWxVda2PBMipf4vIbEuUPYaQS
+	b9uoUxpdalDnKKtZjH3+X5VjvUu46VDw=
+X-Gm-Gg: AZuq6aKHATkrDzCDmOMkVXdCkf42ukuIvCWTNTWTAqWTVcAWR4OsCIzMu3Wzz2t8ctE
+	GOKQbPWsSH3ChYL6+7RJvZAUMIVhazbqhS+1fItPpvqDodeKEekeGu1GeBd2N719NqcNAsNpozW
+	QacGihwawIED4a6kr2nyM9pL0R8ikgsuSZFkpHHR3IssNLhTZ897xyfgeySdLzRrTpZe02BoEzL
+	qAPrNHhO9pToMd4vYRtIZc5rJRQXp9Z01CJNVKSAZfZ5xUW+ZuMEWdRp5uBFqt6djVPO1E=
+X-Received: by 2002:a17:90b:3b8d:b0:340:b908:9665 with SMTP id
+ 98e67ed59e1d1-3527329ea06mr14234623a91.37.1768992452459; Wed, 21 Jan 2026
+ 02:47:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112031329.17088-1-cole@unwrap.rs>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A672F:EE_|BY5PR19MB3841:EE_
-X-MS-Office365-Filtering-Correlation-Id: a33385dd-6a03-4922-b565-08de58d67635
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700013|82310400026|376014|54012099003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IWljDB5y3UWK8HpF6F0woatNZNkIQkih0lWDqm7vqkalT1i5QHuxBdw06DsO?=
- =?us-ascii?Q?C7Bi4jENQXbWDQanNuzvUKzvn8fPGjDFyYJzZJREPn9a9KLKaADAXihsL3lm?=
- =?us-ascii?Q?9jqIrig/QM6Rzm94qK1zz3bLaQLcZ7wwshVwgkY7zvEZcvfli3BxZOIgTeDh?=
- =?us-ascii?Q?MeXEVl/S1pZbFZQCxxMcR/LWr0gQdlFJ9W+XIctbUk2le334Lko4w7xJ+iud?=
- =?us-ascii?Q?I7O74s7WaAubP7T/6qfEYAWRT/4WNNFd+kxFxhQJZ23Txx4LqqBIXcBYrBlF?=
- =?us-ascii?Q?lo+dFOktB4eoywvV0+C6q92vw9x6kPbVRsZ0jedbZcENsJWkXteZ8eFjiCic?=
- =?us-ascii?Q?yUazbwyBo8NWrWI/hT2vejf+Od5XZM6hYtj4AvITQW0CRBSdpXFd3AWx5R8H?=
- =?us-ascii?Q?0gB2sCFjcxNcSVnrLTiV6Q4G3fnfLC791H3Ju4Lks5pGsZznZozKI4vBSksH?=
- =?us-ascii?Q?KNn0a+XqQXT2djAyrgrjtTHEiUt46ZSnePPySP8k701Hp9VF9X5Q5N2S9ZjX?=
- =?us-ascii?Q?SWpmtFcG2QWt7p0e7XAhNTXwttAGSHBxcw5JvbvpqfS3ravPr+u8BXY8aaJR?=
- =?us-ascii?Q?63EVW0yRiXcVeCzklgRmWu0cvoRv48+dx2BiOcruwKVUgNtvaNyzUzeCJ4An?=
- =?us-ascii?Q?0DD8Ieo4jyKte5opjdr+4k5Scaloj0rA2b9pH0PLNijrrWA8KP746FqcbCWX?=
- =?us-ascii?Q?AtnjJ2s6TmxFYwAQkvz7l2q4XZoYbb4X3emP0GhgtpDwIBdoA0x9jpankYJe?=
- =?us-ascii?Q?Z74cnqq1PQQPVBMGHQKqaX/ks+oYRPYmW1zPD3qCy2ze50HWwM2WvOuhz98F?=
- =?us-ascii?Q?vYSM19ZvK+phGL+UNu0czFBX8rmyeVbAM3M27yhVHVasGS0tsjHThErvFp+c?=
- =?us-ascii?Q?uCKJEw19s+8jJGlYTINPvVpKSNxjdYbwszKQ/mFgW2zGtpSY/Hdc6wglXWWa?=
- =?us-ascii?Q?ukwowDvc0r0x9JGTarmlZxfaQdL+kDdjAQt+1uwOmyW3fkAnmWXoOBJYU98u?=
- =?us-ascii?Q?FG0XEV0UhaFtOXRjC/6eWcXxuchHkmQLQswHiyVEkegiPLFRFLgkmdmP+201?=
- =?us-ascii?Q?5hWgd1XyEZhwz7UHUnR3XbydjH4FnDeZlZEIg3oRUWKehgYk302Bkg5gmv6m?=
- =?us-ascii?Q?/0vA6iArotjLyvYX6C9aXGETe5pUF+kaOSyE28LAE9l3oOrkhVTO76rO49mr?=
- =?us-ascii?Q?dASN2+aCBZeS2SzCypYe+dfAXIfPUODLxUuDz4W9l2V7ybXvfCgnp2PhZ8dY?=
- =?us-ascii?Q?joHV3YFeABupyHHxvGb29FO+14VWIJDa4O4POiwqPDSI8H9UwAuxN/H+T8WW?=
- =?us-ascii?Q?RUJKsZTiZfXdJGCoZ+MKJstMFsc+4H99F3OpjEwgSlrOV3BYHwUeY9Fh2BJb?=
- =?us-ascii?Q?bk6gq4XqD2J8U7abaeWM7m0sCEqRBF/Cx0N/E5ncp7ZrGKMNpKzeYWI6EvP5?=
- =?us-ascii?Q?LZp71HHFwwPYtJT+WBTiRC37vMqO3UlIXYOIF2omFvKR6abZkNWyQZAsDmKB?=
- =?us-ascii?Q?18S18c/IpTcpgBKLJ/2le2E1y9mNIaayLOJeZtYbFOTQFzD4BxnzYqaOFsDC?=
- =?us-ascii?Q?d5mgZPo2T0x5BD6lPIg4HUqxAw9UeQ178BKqCpDuXfI+z8XSH579UCbk/6vu?=
- =?us-ascii?Q?N4jxm89owHoxQvhCHdGyZaDXxs4kAqPYc78wLbTEDYIlCOygw4N5hnXj3x1r?=
- =?us-ascii?Q?DEdzOg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(82310400026)(376014)(54012099003)(13003099007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 10:18:45.9413
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a33385dd-6a03-4922-b565-08de58d67635
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000A672F.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR19MB3841
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDA4NiBTYWx0ZWRfX1geGt74Wsw9u
- ak7bbsvrAlvlXlxIeOJEuq7fwCrklCToQxPz+rEXKzyy+bAyxqzJbTL5lO4KDkgQzXtSOII0iaF
- tO1t6ymFDM5ftUvC9ed1QGb7Ceijzd0i5MiOwIZl4PXod4bXyYQjsYeF4Xzj7SQgnMqG1S6QcFu
- 9dnxb+Qtpg6uR97AQHwAtZNPFtiLDoOBUzITcVgHW+9dPSsGhTNirNsRquy+uxqBvsR1wn3AXMH
- TwCR3EHKYj52pWDuNHqH7g9dKt4i5jahEnPcUgQl3x3grwSr4cNtcs2n+sRRvcYn+n8R3TDPAKo
- 7cwvpdNU0pgSeUWv836MgpPzx/jalLBiJlBK1YCApZQCNvnSkFeOAxamvH4qYtIoHPKKc/l9F56
- olG5cz/2dwWrZjz2VdkK/nvFUfbhKqjJhnCISF0kewet7FPSk0LDLcIsYCVZv4RUGR+uH0mbpMF
- FvUPyj4VQRCW7SPB1hg==
-X-Proofpoint-GUID: QYYxjCZcM-9KQ_pE5A62wP-kx1LDxACc
-X-Authority-Analysis: v=2.4 cv=GrRPO01C c=1 sm=1 tr=0 ts=6970a80a cx=c_pps
- a=YwNxXrBOkeX2Yvw65jHa0Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8
- a=ysCPWlJ6tARuPX-pMoMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: QYYxjCZcM-9KQ_pE5A62wP-kx1LDxACc
-X-Proofpoint-Spam-Reason: safe
+References: <20260120035210.1593742-1-shengjiu.wang@nxp.com>
+ <20260120035210.1593742-3-shengjiu.wang@nxp.com> <20260121-careful-beige-iguana-c32bbd@quoll>
+In-Reply-To: <20260121-careful-beige-iguana-c32bbd@quoll>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 21 Jan 2026 18:47:19 +0800
+X-Gm-Features: AZwV_QjDpxZv6jt8rBYtLCaZTNVLi3Y8jythwZEftwLkFpk7naOfOY6Hgw_qq24
+Message-ID: <CAA+D8ANy6-e3RkhjSKWfqEcxEnsZrEuJvz7Bmp5q6ZO4x3RfVg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] ASoC: dt-bindings: fsl,sai: Add AUDMIX mode
+ support on i.MX952
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 11, 2026 at 08:13:29PM -0700, Cole Leavitt wrote:
-> For SOC_DOUBLE_SX_TLV controls, mc->min represents the hardware register
-> offset (e.g., 283) and mc->max represents the number of user-visible
-> steps (e.g., 229). The valid hardware register range is therefore
-> [min, min + max], not [min, max].
-> 
-> When min > max (which is valid for SX controls), the clamp() call
-> misbehaves because it expects min <= max. This causes the control
-> read function to return incorrect values.
-> 
-> For example, with the CS42L43 headphone volume control:
->   - min = 0x11B (283), max = 229
->   - Register value 0x1FF (511) should read as user value 228
->   - But clamp(511, 283, 229) returns 229, then 229 - 283 = -54
->   - The masked result (-54 & 0x1FF) = 458, which is wrong
-> 
-> Fix by clamping to [min, min + max] which correctly handles both
-> regular controls (where min=0) and SX controls (where min is an offset).
-> 
-> Signed-off-by: Cole Leavitt <cole@unwrap.rs>
-> ---
->  sound/soc/soc-ops.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-> index ce86978c1..b28fdf238 100644
-> --- a/sound/soc/soc-ops.c
-> +++ b/sound/soc/soc-ops.c
-> @@ -148,7 +148,7 @@ static int soc_mixer_reg_to_ctl(struct soc_mixer_control *mc, unsigned int reg_v
->  	if (mc->sign_bit)
->  		val = sign_extend32(val, mc->sign_bit);
->  
-> -	val = clamp(val, mc->min, mc->max);
-> +	val = clamp(val, mc->min, mc->min + mc->max);
+On Wed, Jan 21, 2026 at 4:03=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On Tue, Jan 20, 2026 at 11:52:08AM +0800, Shengjiu Wang wrote:
+> > The SAI can connect to AUDMIX, but AUDMIX can be bypassed or not on
+> > i.MX952, so add 'fsl,sai-amix-mode' property for this feature, with
+> > this property present, then SAI driver will try to config the setting,
+>
+> I am still not sure this is hardware static property. You say "can be
+> bypassed", so I imagine same board could have it bypassed or not,
+> depending on use case (so mixers).
 
-No, this was discussed here:
+Yes, depending on the use case.
+1.  When bypassed,   the SAI output goes to codec directly.
+      like: SAI -> Codec
 
-https://lore.kernel.org/linux-sound/20251217120623.16620-1-peter.ujfalusi@linux.intel.com/
+2.  AUDMIX mode:  the SAI output goes to AUDMIX.
+      like: SAI -> AUDMIX-> Codec
 
-And the actual fix was merged here:
+Will add above info in the commit message.
 
-https://lore.kernel.org/all/20251216134938.788625-1-sbinding@opensource.cirrus.com/
+>
+> > fsl,sai-amix-mode =3D <0> is bypass mode, fsl,sai-amix-mode =3D <1> is
+> > the AUDMIX mode.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  .../devicetree/bindings/sound/fsl,sai.yaml       | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Doc=
+umentation/devicetree/bindings/sound/fsl,sai.yaml
+> > index d838ee0b61cb..7808c324eebc 100644
+> > --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> > @@ -133,6 +133,13 @@ properties:
+> >          - description: dataline mask for 'rx'
+> >          - description: dataline mask for 'tx'
+> >
+> > +  fsl,sai-amix-mode:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+>
+> Anyway, string is more readable.
 
-Thanks,
-Charles
+Ok,  will use string
+>
+> > +    description:
+> > +      The audmix module is bypassed from hardware or not.
+> > +      Bypass AUDMIX(0), AUDMIX mode(1)
+>
+> Drop last sentence and use enum [ bypass, mode-1-whatever-this-means ]
+>
+> > +    enum: [0, 1]
+>
+> What is the default? What is the meaning of lack of this property?
+>
+
+  fsl,sai-amix-mode:
+    $ref: /schemas/types.yaml#/definitions/string
+    description:
+      The audmix module is bypassed from hardware or not.
+    enum: [none, bypass, audmix]
+    default: none
+
+I'd like to use the above definition.  add 'none' for default.
+Which means no audmix connection in hardware. then we don't need to
+bypass or not-bypass audmix.
+
+
+> > +
+> >    fsl,sai-mclk-direction-output:
+> >      description: SAI will output the SAI MCLK clock.
+> >      type: boolean
+> > @@ -180,6 +187,15 @@ allOf:
+> >        properties:
+> >          fsl,sai-synchronous-rx: false
+> >
+> > +  - if:
+> > +      required:
+> > +        - fsl,sai-amix-mode
+> > +    then:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: fsl,imx952-sai
+>
+> There is no such compatible.
+
+It is in another patch:
+https://www.spinics.net/lists/kernel/msg6004158.html
+
+Best regards
+Shengjiu Wang
+>
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > --
+> > 2.34.1
+> >
