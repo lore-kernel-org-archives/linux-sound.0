@@ -1,70 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142EA46AF30;
-	Wed, 21 Jan 2026 08:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02EA43D51E
+	for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 08:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768983261; cv=none; b=X654VwVZgdfp947dpsPjTZOOnf40G4lmkRWptg2JiShEsnrB0nWa/gbVsRw1EqazKJ7YbtmStqZMgQK5Q35/77XhfyvxQAfoowmkLt8B6+BShmv7/qjSkrTIMV5wIE5xTKn4o2Bwg7pa1NxOfTagWMnJmid7JjiAsxYog4bwHZM=
+	t=1768983314; cv=none; b=T4c87vKRowquCkjANJRz4FVYNbnGOhN5BfR8VWLcvaEPtdv9MGAtpxBh3jBVj2sxET7ks1XU+2pQigp6WJ9X0hYEa4mdFl1/9rZUj/aLey4UvMRN9DxySArEgOKpAd12YV81pz/PdyeWa2aizonPLnXNZIzHVFXck7Zk+L1Hsks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768983261; c=relaxed/simple;
-	bh=LUd6a+A/qmpOJ4h1J+lALT0u6YXdBVWgT++FjFAtcAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hn/GAePBCc8/s2qxj/gkXs02o7+b8yQ4NEK27aTD/FkYlos9ofyCQvwgFd0d4H2CvpCgLg7xccNo5iXX9bkwSE/4pE2MyvJ53KZPUFZHvDufiCVmFOXD+w7ZEfApuu2Md4S4qP+4YwdeGMiWg1jaP2696MziFXq1eYxFoOIG5JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=noaZ1R7t; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="noaZ1R7t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C49C116D0;
-	Wed, 21 Jan 2026 08:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768983260;
-	bh=LUd6a+A/qmpOJ4h1J+lALT0u6YXdBVWgT++FjFAtcAE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=noaZ1R7tUFKK9vwfLJTtv/iJ2yo6C0dn6JZRcFS92NhtVmdIg/BYhAgUJ0h+g/UdD
-	 SDe6I+rjF/1g/eig0E0opc/l9nWvM4PYNXrJH9FzBN8t3FEjxqoErfbHssu895OUNq
-	 6e1KHmgdtJ8E0V39rWYrWeKw0mRu7d1KRqfUMypq+GMuAboHg2peNMhT3k88pikfLD
-	 NklIRpuWvfro/o4+5bjEOMxbRaGmBzklhdauYeAVpnMfOAmlbRyNaySxtW70XG168H
-	 IyoLPJF/HMHHLFt5urIGseiyif1aS92vJBJ5xaKyjSlOVQnENiTV46m0iQuKXHvfSX
-	 2IIxapw68XDIQ==
-Date: Wed, 21 Jan 2026 09:14:18 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, Chancel Liu <chancel.liu@nxp.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl,mqs: make gpr optional for
- SM-based SoCs
-Message-ID: <20260121-snail-of-magic-order-e83d16@quoll>
-References: <20260120150329.1486-1-laurentiumihalcea111@gmail.com>
- <20260120150329.1486-2-laurentiumihalcea111@gmail.com>
+	s=arc-20240116; t=1768983314; c=relaxed/simple;
+	bh=pU4aApN+W+Q2oftkBig1imZGm/hVUTq4yYFgQ7KJORA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mqd3WN4fcGeB6kmKq+VkpVfHyuoPyiO2Xdq2UA6pLuSOvG7Bn9OMgKSkJZo//uA7mW2LNr/a6BiLyNZs/6elEDL7QGQs3TF6CPv8kRCF85xojWXB+jiZ68opiRmWq9RAAKzxHXt94HjRWBXwvut10zzvqHJMLkxRphQcq5dPx58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B0ED5BCCA;
+	Wed, 21 Jan 2026 08:15:11 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AF593EA63;
+	Wed, 21 Jan 2026 08:15:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XS7yFA6LcGn7cAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 21 Jan 2026 08:15:10 +0000
+Date: Wed, 21 Jan 2026 09:15:09 +0100
+Message-ID: <878qdrs7oy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Vivian Wang <wangruikang@iscas.ac.cn>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,	Michael Ellerman
+ <mpe@ellerman.id.au>,	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,	Alex Deucher
+ <alexander.deucher@amd.com>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	David Airlie <airlied@gmail.com>,	Simona Vetter
+ <simona@ffwll.ch>,	"Creeley, Brett" <bcreeley@amd.com>,	Andrew Lunn
+ <andrew+netdev@lunn.ch>,	"David S. Miller" <davem@davemloft.net>,	Eric
+ Dumazet <edumazet@google.com>,	Jakub Kicinski <kuba@kernel.org>,	Paolo
+ Abeni <pabeni@redhat.com>,	Bjorn Helgaas <bhelgaas@google.com>,	Jaroslav
+ Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Han Gao
+ <gaohan@iscas.ac.cn>,	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,	netdev@vger.kernel.org,
+	linux-pci@vger.kernel.org,	linux-sound@vger.kernel.org,
+	linux-riscv@lists.infradead.org,	sophgo@lists.linux.dev
+Subject: Re: [PATCH v2 4/4] ALSA: hda/intel: Raise msi_addr_mask to dma_bits
+In-Reply-To: <20260121-pci-msi-addr-mask-v2-4-f42593168989@iscas.ac.cn>
+References: <20260121-pci-msi-addr-mask-v2-0-f42593168989@iscas.ac.cn>
+	<20260121-pci-msi-addr-mask-v2-4-f42593168989@iscas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260120150329.1486-2-laurentiumihalcea111@gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 0B0ED5BCCA
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	TAGGED_RCPT(0.00)[netdev]
+X-Spam-Flag: NO
 
-On Tue, Jan 20, 2026 at 07:03:28AM -0800, Laurentiu Mihalcea wrote:
-> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+On Wed, 21 Jan 2026 04:49:40 +0100,
+Vivian Wang wrote:
 > 
-> For SM-based SoCs (i.e. MX95, MX943), GPR configuration is performed by
-> the SM coprocessor. Thus, the programming model needs no handle to the
-> GPR node. Make it optional.
+> The code was originally written using no_64bit_msi, which restricts the
+> device to 32-bit MSI addresses.
 > 
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> Since msi_addr_mask is introduced, use DMA_BIT_MASK(dma_bits) instead of
+> DMA_BIT_MASK(32) here for msi_addr_mask, describing the restriction more
+> precisely and allowing these devices to work on platforms with MSI
+> doorbell address above 32-bit space, as long as it is within the
+> hardware's addressable space.
+> 
+> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+> 
 > ---
->  Documentation/devicetree/bindings/sound/fsl,mqs.yaml | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> v2: No changes
+> 
+> hda/intel maintainers: I don't know if this is the correct restriction.
+> Please help with checking. Thanks.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+The quirk is used only for AMD graphics chips, so this should
+(hopefully) work.
 
-Best regards,
-Krzysztof
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
+
+thanks,
+
+Takashi
