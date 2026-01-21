@@ -1,314 +1,228 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A96748C8B7;
-	Wed, 21 Jan 2026 13:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769001779; cv=fail; b=kvZnSgHtqVr2NXT1LyuMY9M9pCQZtfkx8Hb366iC2SQoKtQnAzCcV87rgiGOaNzcD6ELmjUZBG2f5Dw2drHSHejiiJEwKQCT657xRyq5xe01chLcw1SbH545DogxWYPLx79WzIDFZHHpV+QqqgFMU8z+9KuItPKlfB+iWEPys7U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769001779; c=relaxed/simple;
-	bh=HMN7+a3+3IJCnZgHyrA9jy1qoj3rsKW38HPiu0HHqiI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SASQu1uDr/BzK6B1GDmCboHf6U2x/APAj8fFL73KP9sx/Vzz6xSYGzQt9em0zwlER2UIVS4JhksJSZCwhaSpS9hFc3hVJlW+IXbLYu3rvvUGVVCU02dWzmfw32lMQmb36Ht66Oo/fOHZqA+LXZBmKHgiodMWq8O3fcegILvd4yI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=A0/gE/kX; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=PhqveQP0; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="A0/gE/kX";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="PhqveQP0"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60L0mqFd3498261;
-	Wed, 21 Jan 2026 07:22:54 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=bpZY5PW4oOjD91JkZrXHJgFJYyZcKO6Ege5giL5sGyc=; b=
-	A0/gE/kX2x/jBu/jQtP4BF9gkI3UlaqerNtulzOMqYZgbpAt0+QjbQgB6U2i1ZRA
-	4Hm8GpwgOBfjupp1SReOd5lpugJ3mcBpyEiuD1brigVvNukrqCMUIQS/WvEijLuo
-	LtMPyP9KQNX2LHPYw+yFiphCz5LKEIYNSWg6MAydQCWuPqN/qMyILvq3qequ+67G
-	vKklsItQC2HbquCSzy0Z7HRZAZdoCr+ODnfPdmCyqrAnk7Do4jn9UEbng3yPxthO
-	+IoOdYcP7B4Swu8ltcgedqyt5YhuMQIPgCRNG/yez5m0I8wS20wfqDhhgYfK0wDC
-	g8AX2AflXc0k77tmz2kKJw==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022112.outbound.protection.outlook.com [52.101.43.112])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4br7qjvtac-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 21 Jan 2026 07:22:54 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QE07oM0Zqjbsp5gm9DGKZN03YSpFdbEt4EaZ8zNJQHue9xl3+1WmA1g/3w/HYxdZ9lo7Vh1mZvRgqSoTjFeaStrOW92ATFgw5fNwWmaiL8Npz5CA3OgclBPFFbvzoCG5nILhicjeQgRWUG1W4rewq0vJYXnYN0A4yat83bmJxnAa4JZs7WavX8Zid0H4gZIXmeMW+eUkpUg++DoPH2a+Edoc39JBqmmexSre/xLL02Ep0oknAeII0LDT/5qYiuuDgb3bakLWH1coqPXWdNKyDQhkiaOSA0PtbTckVsSO95nnJjXnRN4MqfwBASXFXH/w8rmfGcxNKpwJ2OCIZUrubw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bpZY5PW4oOjD91JkZrXHJgFJYyZcKO6Ege5giL5sGyc=;
- b=txro1PgymVekOAgCM3hGEIO6o2KruphQCzOT4kov7ElaLyDCE+C4zR0RDxdFvhddxVQdYlPsiGrfkABSq53J56ab3D5h3AcdozABzr8HxetZA9wYtHdlhZyWgFQjAe8ZlBEDwgoBb/0+uksj72/mj68ettbaXvwrgf/10YOUNbnbF18/EAOJvfo11CRFRob8JaRd2tmGxDereWKa2R83bnzuhU7+ULTwS4WLcJQiujZSVj0f3iU3180g+/EuKucoO89sKaG8q5Srd3ByQG+MpVmXJjHX75H7r9pLFBXiCt4OPWn6X+6PUui/xTSauIZkjBdh4gnresr8ZymMz7cCEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bpZY5PW4oOjD91JkZrXHJgFJYyZcKO6Ege5giL5sGyc=;
- b=PhqveQP0ZuIJOJI+rnqiyPSldAr2UYWBmU6c06WxxtPHgiwzA8LbBPIreqrrdYUJCbufbc7M8O8r2qCrkBkQ4CrGJa3Q80DsTYpHo28kInYzLqgrpBGdeG7nYrtZGtg2GxblfQasLZQAOIaeCsxgd6yt6GznPNYqorji0WU9QGM=
-Received: from CH0PR03CA0232.namprd03.prod.outlook.com (2603:10b6:610:e7::27)
- by LV1PR19MB8872.namprd19.prod.outlook.com (2603:10b6:408:2b5::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 13:22:46 +0000
-Received: from DS3PEPF0000C380.namprd04.prod.outlook.com
- (2603:10b6:610:e7:cafe::d9) by CH0PR03CA0232.outlook.office365.com
- (2603:10b6:610:e7::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Wed,
- 21 Jan 2026 13:22:45 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS3PEPF0000C380.mail.protection.outlook.com (10.167.23.10) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.4
- via Frontend Transport; Wed, 21 Jan 2026 13:22:44 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id DA9D7406542;
-	Wed, 21 Jan 2026 13:22:43 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C6840820249;
-	Wed, 21 Jan 2026 13:22:43 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH 2/5] ASoC: cs35l56: Use vendor-specific qualifier in firmware file search
-Date: Wed, 21 Jan 2026 13:22:40 +0000
-Message-ID: <20260121132243.1256019-3-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260121132243.1256019-1-rf@opensource.cirrus.com>
-References: <20260121132243.1256019-1-rf@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584493246FE
+	for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 14:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769006767; cv=none; b=ZPaAcdqwJuft2Eg1wYjCKrSLp5WKACt6I2rofcGQWlzH6QbcXiFoc3XJdXcPBtDBVLDafA4ikS4sTCBDV2nnJI2uTLPpX2BOE+PLu3vbjqVAtQ+/p6hvUZLRc1vlOcmKWHZ9Q90V62M78PUJ9WnJoNiGO8/Ndc4NEbCc7rLtzKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769006767; c=relaxed/simple;
+	bh=VpzSOPPipZ7Wk3DVhXqnmZFKnblqi6knYh6FEjxvsEg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eI4Kbyh8Z9r7ks/L12tXIe3FvgPMKx1dSe3DrRACxO+h217kTnKHu1JV8moWk7zWU6FcfrlFqJTQQcpVnMrfesA5jupNpLkGZUkimwrBpQROYR2CGOPjVccvHnztlC2DOlpk+v7vCmv0kkphTexYXPnar60+LYMLuqMTyDqiCas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c69ffb226eso797553585a.1
+        for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 06:46:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769006764; x=1769611564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AF6Iy9dgsc5sPND1gabv+P1umCdITLLVFz5zc76lNNw=;
+        b=X3xvHGdh3P6DJ5AaMWGa3DU/kZ6P4QWXyJ3SsglGYipjRfimIT7KpGNU3+gTEmKWE9
+         kRwy4X0hJLL+Af06fowGQZvMBgnUB8s9xrXDwVCyP+vhZ+Nk1A0eX9qiba77K7c+qT1g
+         kfeAxh8NQa6/XWElDhajvLIPfvbwfCvgaWByzJm00AUASVJoC8FwJUrevBLvEh48I55n
+         zA4A5ny3rdokj5PUIFWDlYUonHqGnFqqt8WZM8WKPzrxXm/6l8zuXwzzdM377+haQi5p
+         QMMk0pjXLVlsa9tS1xC726ToHoovMxR3eizfddEmDUC0Uc4Wbl5J4IVcycJgJc5jUqr3
+         pjSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVi73hziXzELcAy0EY3N7/OdTiHjWKqZTDj+gyTsOd9V2zRJDdRQ6A/5FX4X1t2Do727ygfmbTbhqa3Aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwymSh21C3WfkW72XFqXo+4gCRFmSqiS227KaAc7kH9dUnLW2vl
+	g55wuR7h7kJiyh37uahtizFM8IJy+e4RUgg3Et86EuD1HusKzWhUmiCzUh3tB3zt
+X-Gm-Gg: AZuq6aLd/2jA7BxnTYvTrNWzATUEVOyCmghxN5ADUlAay6ExER4QZ66EozrIwH/O/Hr
+	usi4rTG62U8in4/Xbc8D5vLVX58vXt7d3IvS1tIkfcIHVggHQOrcurNoZtrkUZzXvACMtexNFjB
+	06toEaVNuVLxn/bMP0RjbBfNT942C7iAR2EnGIXZ7WBcmoLP8DdzPHJ6bRRYzFHxCDOAGxkhxGC
+	oH3skXWQZbrEHKV9ryL1/oMC4QARSb0r2ndFJauLtaB+A7nLTKoI6CFdZvxSxai5RacxsS89rlC
+	DRWqOr3f1AVtoPELNbLWVW5l/9AqxJE1kFYSCj1YmsyMIq4Vl5TPaS5RIXLfiElRpudT06MxsJE
+	KeOAX7blJ1QUAph/Y6OwATCbjgckbO3UlALmG2C/2fJUyw/CqWjzb/5s57ZsKvfDnKd6/kWzbvf
+	S7hhG/lkbHM8Dc1wD7jA4eL2Qh9JA1YULNMWAa/NkW17xp2ObU
+X-Received: by 2002:a05:622a:549:b0:4ff:c273:c1b6 with SMTP id d75a77b69052e-502a1fd897bmr244484531cf.83.1769000794287;
+        Wed, 21 Jan 2026 05:06:34 -0800 (PST)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com. [209.85.219.53])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6043a6sm129820636d6.18.2026.01.21.05.06.34
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jan 2026 05:06:34 -0800 (PST)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-88888d80590so96017696d6.3
+        for <linux-sound@vger.kernel.org>; Wed, 21 Jan 2026 05:06:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVAjsN4VHRkDZuQ/lo8YRZh5m9hjzMHM6t8gRKWCgkM5Sya7UyNG8Iu6G/PLhALBlxRHoI3ulhQfWcgfA==@vger.kernel.org
+X-Received: by 2002:a05:6102:3053:b0:5e5:66c6:d23e with SMTP id
+ ada2fe7eead31-5f1a6fd7b8amr5292858137.1.1769000378213; Wed, 21 Jan 2026
+ 04:59:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C380:EE_|LV1PR19MB8872:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 6a6f5cf4-8906-41bd-5e1e-08de58f029f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013|54012099003;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?bhKh7KIWhjVlVuPyonZJBKHvAVQLSHdwa2Wam1fME4uMxOL+ERCCQGBSBXXf?=
- =?us-ascii?Q?ntQZp50w2Obti17C8RndTfKCukoqt8L3fPu+nBYPUrO3XIOy0XPA5zWkbIwK?=
- =?us-ascii?Q?i3iWXyiDvumt3QavPW0ADux5aUsGkHamIbNhbpSn1yghO5tM9cVCWhD2NQas?=
- =?us-ascii?Q?c9rCb566w57cfP3mJsuo8h6zp4hCaKEpeoeEfj1i4Y0NiT3plxOXf0Bhd1OL?=
- =?us-ascii?Q?/I/BrWYbq/hvk5bz3BGRPjcWNsifHD4uHykLIl+SJyPiTqjGxfAwZBFYoEx4?=
- =?us-ascii?Q?ufcy88MjPJZLy4A4TX9zNbOjmhaorbXKVnO4qoln42fzBM+ixx4ixaBUeLWa?=
- =?us-ascii?Q?rWHE/Y2J0qsdAhW9P5J6tkf++qJIZovEShSR8/CfsEQ1juTN3A7W1GBBX8gm?=
- =?us-ascii?Q?6w9ZiMs5FJpkQ6Rwb+s/sXQHbcSTgGVdgkVdbgInTpbpJzHDMGgQsiFf4yVd?=
- =?us-ascii?Q?Zqa8G4GIpbd37fD5cY6lelXORpIfK277Opc7AB4GQRoETDmyjmHPnZwV0f0E?=
- =?us-ascii?Q?vaqCcFpdAUvTn0zILsn/6AVyp2TUZICs3N/orQ7Tf4E/ehipHcNrC1dVWDNF?=
- =?us-ascii?Q?xvOHqiYQpznltK8rAMv8pww4UrQHehaNrNQT+LuymtEv9HO1Y7iWU/QjSe2a?=
- =?us-ascii?Q?jAazay7KQbBY/eQ3N+ZVeyl1HEnWatPwVXbUuFQ+QoeOur0rxdQdwdAkpwW2?=
- =?us-ascii?Q?Aj2xf5GPVxB/IMVu1Dgveazfea2xGsakJ6ZJKLrstauXHJ5Ph51B0bcvxGtZ?=
- =?us-ascii?Q?N/3kmJ3QYbIdIDqR+3FctXHXfUg3jrS1mkfemisiE31pHSfjRqe0uXKmzudP?=
- =?us-ascii?Q?YPegLZ0T37okKazleFyXZjx6L8qa43LJo7f63PLS4bjGi6EoA6xCrkrVSJzJ?=
- =?us-ascii?Q?plteZA4PX/nvVGTNpCnpb8n4hPE2t8D41ef/JVernCJugRxDrbSzRWO8I1JV?=
- =?us-ascii?Q?AveS8t5fRD/bAR9L82hlZkcHPZcS6oiG0TSRsvlr1gfRtxUE+NYiiZVOwxCN?=
- =?us-ascii?Q?Ku3Uk+MptAb/RxLoLGn52diveLuGacv6mS2pn4QhEGAm4xB6cFQ6QC9fo7xd?=
- =?us-ascii?Q?gtGh9Rww8cAss01SZfMjXNpO91zFgK+Vuf1aB+pN3yjjGpK0PtovSTO+H6hG?=
- =?us-ascii?Q?q5YaYnf+A7qEwka0nKA2Ne1jFdBmlOfBeoFwh6GlAfFKIJsRYopEAXi+YcqF?=
- =?us-ascii?Q?FKQHJJfRmbw9Sud5g5+KftzKcI38kM+TxM13a3ZmIaeZrYKKPRY5iz2twjzd?=
- =?us-ascii?Q?azNUDNiNRdNT2SLUbv++XC2qJO+ECNlDYlAkC8xRN0JK1Z0mZCuYuB6yp/Ea?=
- =?us-ascii?Q?z8geeTnrsE8nIrSB2GeS7YAl1oelCu49r4Ug+1f0f6zEiCP3azvgneQDoCAm?=
- =?us-ascii?Q?4R2VnKJ0y1Kpsax1ymDMHRPZ9zeYK+sHm7rVXoPpoDjo18T5/ez2+P21vQAk?=
- =?us-ascii?Q?1pP6Cqw7pEq0SkIOYmVFSQT3Ct9Tq2MPgN8MSa/vUT9rPX0rKCUd8+HRnGDC?=
- =?us-ascii?Q?w9P2HscaDdLnq5XrqiMEFZQJA9bM2QucCW6oOVOMYbHrDxLqlke+Nv0DwKMF?=
- =?us-ascii?Q?oyksE16P62w3JTGJv/B8xvoDaTz5ugesJbKQJgv2ydwJv5z8vO/UmYDh+OTd?=
- =?us-ascii?Q?ClQN2bG3WvDd6SQU/qHec40zTjmI1VE/dS7hewojT2kimPyvFwdeP3KOUeFA?=
- =?us-ascii?Q?cZIfBw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013)(54012099003);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 13:22:44.9674
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a6f5cf4-8906-41bd-5e1e-08de58f029f3
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF0000C380.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR19MB8872
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDExMiBTYWx0ZWRfX0U1in2oRoaAn
- ss94WHFpR/oLW6LpNc2HYAA3Gelor0m4xgieWzX5NbnhM/yoxSZrhaK49T4aEaZ4s+Z2f7op3yL
- pNLN2zVNULr5HMcClyq4NUU7Cbe3cshbiGKABTnKhPm77MV/LhBugwbPmSs/cH71ZqP8SOnCrbB
- 1Z7nRnBVLFGG7LKJ0JXlnvalf/BZjTomJf7M87xj8Cz+6Ov6E+PXAMtUgj4oKqmX0nkVU8d3YQ8
- oQ3zy6p4QvP/u3+UffEvyK8wLjRVxhW1vLkvrVyCxHqiCo5WuKDGBrgJ6oN7YNR0YWzKb6rRudG
- gHFwsqJB8jAJrp7ZJvlh0tCr/IcrPW8svcFexG75IhPBLR9D3WPco4J1V1U++Nd7fRi3f96tRiV
- 71VtN0KlL59t6ZRgcRO0y0VAZMiZbHmunM5e6dw7omtBuATktq6v1OCzjp645tEsge34fguqYT2
- EbOvylrGiYhdVke+Z4w==
-X-Proofpoint-GUID: K6iqJ1CQ5-wz5We9yQZNa3CFoIe1pvn6
-X-Authority-Analysis: v=2.4 cv=GrRPO01C c=1 sm=1 tr=0 ts=6970d32e cx=c_pps
- a=p4c3Up3QyKVVMVBhHExQxQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=ecnmnmwIhqI2Q9cHpl0A:9
-X-Proofpoint-ORIG-GUID: K6iqJ1CQ5-wz5We9yQZNa3CFoIe1pvn6
-X-Proofpoint-Spam-Reason: safe
+References: <20251015071420.1173068-1-herve.codina@bootlin.com>
+ <f74ab0a2-b74b-4b96-8469-a716c850e230@gmail.com> <CAL_JsqJDOYuzutMHMeFAogd5a_OX6Hwi8Gwz1Vy7HpXgNeYKsg@mail.gmail.com>
+ <5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com> <CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
+ <072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com> <CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
+ <55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com> <20251202102619.5cd971cc@bootlin.com>
+ <088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com> <20251202175836.747593c0@bootlin.com>
+ <dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com> <20251204083839.4fb8a4b1@bootlin.com>
+ <CAMuHMdXdwf7La1EYBWTJadsTAJG3nKQVW6wtBn-bUqshA=XHRw@mail.gmail.com>
+ <20251210132140.32dbc3d7@bootlin.com> <c50c40cc-69f6-436c-a94e-94a3a10f6727@gmail.com>
+ <20251211132044.10f5b1ea@bootlin.com> <1b9fa77b-d74a-4fa7-b2e7-8b389d59a5a0@gmail.com>
+ <20251211161902.11ef4248@bootlin.com>
+In-Reply-To: <20251211161902.11ef4248@bootlin.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 21 Jan 2026 13:59:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWGk5ig3v9tGy1cMOg1LmKu3KrxQq2HO1vcQeZPuRxWBQ@mail.gmail.com>
+X-Gm-Features: AZwV_QgoZry7Ux_LWaq66D8-Sle9_xFUD1BP9eHkYs41xWjINnCZsHwmSX1GiNQ
+Message-ID: <CAMuHMdWGk5ig3v9tGy1cMOg1LmKu3KrxQq2HO1vcQeZPuRxWBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT overlays"
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Rob Herring <robh@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Kalle Niemi <kaleposti@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+	Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Wolfram Sang <wsa@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Saravana Kannan <saravanak@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If cs_amp_devm_get_vendor_specific_variant_id() returns a string, use it
-as part of the firmware filename. If this firmware isn't found, fall back
-to the standard firmware name.
+Hi Herv=C3=A9,
 
-This re-uses the fwf_suffix fallback mechanism that was introduced in
-commit e5d5b3aebdc8 ("ASoC: cs35l56: Use SoundWire address as alternate
-firmware suffix on L56 B0").
+Revisiting his old thread (sorry for the delay)...
 
-This is for handling vendors that use the same PCI SSID on systems with
-various audio hardware and have a custom vendor-specific way to identify
-the hardware variant.
+On Thu, 11 Dec 2025 at 16:19, Herve Codina <herve.codina@bootlin.com> wrote=
+:
+> On Thu, 11 Dec 2025 15:52:28 +0200
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> > On 11/12/2025 14:20, Herve Codina wrote:
+> > > On Thu, 11 Dec 2025 10:34:46 +0200
+> > > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> > > Do you see the same trace with:
+> > > - "pinctrl-0 =3D <&i2c1_pins>;" in your overlay
+> > > - fragment0 removed from the overlay (i2c1_pins definition removed fr=
+om
+> > >    the overlay.
+> > > - i2c1_pins node defined in your base DT.
+> >
+> > Just tested. The i2c1 appears and the test-overlay probe gets called,
+> > when the i2c1_pins is in the base-dt and not in the overlay.
+>
+> Geert, do you expirement same results?
 
-This is currently used on Dell laptops. Dell create a UEFI variable that
-indicates varations to the base hardware. This variance can be any part
-of the hardware (not necessarily affecting the audio). It would be
-impractical to publish many aliases for the same firmware files to match
-every possible variance to that base hardware. Hence the fallback to the
-standard firmware name. This allows alternate firmware files to be
-published only for variants that need it. For all other variants the
-fallback will load the firmware for the base SSID.
+Yes, after moving the pin control subnode from the overlay[1] to the
+base DTS, the SPI bus and FLASH work after loading the overlay for
+the first time.
 
-This is not done for CS35L56 B0 because the fallback mechanism is already
-used for a different purpose for these parts. None of the products with
-the older L56 B0 silicon revision need the additional vendor-specific
-descriptor.
+> > > In other word, is the issues related to adding a pinctrl sub-node (pi=
+nctrl
+> > > pins definition) in the overlay or is it something else?
+> >
+> > Seems to be related to the pinctrl.
+>
+> I don't think that the issue is related to pinctrl itself.
+>
+> IMHO, I think the issue is related to overlays and fw_devlink.
+> The distinction between "a new node is going to lead to a device" vs "a n=
+ew
+> node is just data and will never been attached to a new device" when an
+> overlay is applied is broken.
+>
+> This is broken with the upstream "treewide: Fix probing of devices in DT
+> overlays" commit I've tried to revert. Indeed, on the LAN966x PCI device
+> use case devlinks created are not correct with this commit applied.
+>
+> I am not sure also that devlinks created with a more complex overlay will=
+ be
+> correct. For instance, Matti, with your overlay not sure that a phandle f=
+rom
+> the oscillator node referencing the pmic node will lead to a correct
+> provider/consumer devlink between the pmic device and the oscillator devi=
+ce.
+>
+> On the other hand, this is broken with "of: dynamic: Fix overlayed device=
+s
+> not probing because of fw_devlink" works for the LAN966x PCI device use c=
+ase
+> an lead to correct devlinks but breaks your use cases.
 
-For SoundWire the resulting firmware searches with a variant descriptor
-will be:
-1. cs35l??-dsp1-misc-SSID-VARIANT-l?u?.wmfw
-2. cs35l??-dsp1-misc-SSID-VARIANT.wmfw
-3. cs35l??-dsp1-misc-SSID-VARIANT-l?u?.bin
-4. cs35l??-dsp1-misc-SSID-VARIANT.bin
+Loading my overlay[1] causes the following changes under
+/sys/class/devlink/:
 
-If this doesn't find a wmfw and bin file it will then fallback to:
-5. cs35l??-dsp1-misc-SSID-l?u?.wmfw
-6. cs35l??-dsp1-misc-SSID.wmfw
-7. cs35l??-dsp1-misc-SSID-l?u?.bin
-8. cs35l??-dsp1-misc-SSID.bin
+    + genpd_provider:ca53-cpu0--platform:e6e90000.spi ->
+../../devices/virtual/devlink/genpd_provider:ca53-cpu0--platform:e6e90000.s=
+pi
+    + platform:e6055000.gpio--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6055000.gpio--platform:e6e90000.spi
+    + platform:e6060000.pinctrl--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6060000.pinctrl--platform:e6e90000.=
+spi
+    - platform:e6060000.pinctrl--platform:keys ->
+../../devices/virtual/devlink/platform:e6060000.pinctrl--platform:keys
+    + platform:e6150000.clock-controller--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6150000.clock-controller--platform:=
+e6e90000.spi
+    + platform:soc--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:soc--platform:e6e90000.spi
 
-With the typical published firmware names and qualifiers (a single wmfw but
-amp-specific bin file) this will load either:
+Note that these changes are exactly the same in the working and the
+non-working case.
 
- cs35l??-dsp1-misc-SSID-VARIANT.wmfw
-   and cs35l??-dsp1-misc-SSID-VARIANT-l?u?.bin
+Removing the overlay again removes all added links, but does not
+restore the keys link:
 
-or
+    - genpd_provider:ca53-cpu0--platform:e6e90000.spi ->
+../../devices/virtual/devlink/genpd_provider:ca53-cpu0--platform:e6e90000.s=
+pi
+    - platform:e6055000.gpio--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6055000.gpio--platform:e6e90000.spi
+    - platform:e6060000.pinctrl--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6060000.pinctrl--platform:e6e90000.=
+spi
+    - platform:e6150000.clock-controller--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:e6150000.clock-controller--platform:=
+e6e90000.spi
+    - platform:soc--platform:e6e90000.spi ->
+../../devices/virtual/devlink/platform:soc--platform:e6e90000.spi
 
- cs35l??-dsp1-misc-SSID.wmfw
-   and cs35l??-dsp1-misc-SSID-l?u?.bin
+Loading the overlay again causes no changes in the links, but the SPI
+bus and FLASH always work.
 
-For non-Soundwire (I2S/TDM) systems the searches and fallbacks are
-as above except that the "l?u?" component of the name is instead the
-ALSA name prefix, usually of the form "AMPn".
+[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drive=
+rs.git/commit/?h=3Dtopic/renesas-overlays&id=3D383285b905a20d6734bfcbf7bcf7=
+15c1c2b45395
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/soc/codecs/cs35l56.c | 69 ++++++++++++++++++++++++++++++--------
- 1 file changed, 55 insertions(+), 14 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-index 55b4d0d55712..abea782bcd3f 100644
---- a/sound/soc/codecs/cs35l56.c
-+++ b/sound/soc/codecs/cs35l56.c
-@@ -1109,27 +1109,68 @@ static const struct snd_kcontrol_new cs35l56_cal_data_restore_controls[] = {
- 
- static int cs35l56_set_fw_suffix(struct cs35l56_private *cs35l56)
- {
-+	unsigned short vendor, device;
-+	const char *vendor_id;
-+	int ret;
-+
- 	if (cs35l56->dsp.fwf_suffix)
- 		return 0;
- 
--	if (!cs35l56->sdw_peripheral)
--		return 0;
-+	if (cs35l56->sdw_peripheral) {
-+		cs35l56->dsp.fwf_suffix = devm_kasprintf(cs35l56->base.dev, GFP_KERNEL,
-+							 "l%uu%u",
-+							 cs35l56->sdw_link_num,
-+							 cs35l56->sdw_unique_id);
-+		if (!cs35l56->dsp.fwf_suffix)
-+			return -ENOMEM;
- 
--	cs35l56->dsp.fwf_suffix = devm_kasprintf(cs35l56->base.dev, GFP_KERNEL,
--						 "l%uu%u",
--						 cs35l56->sdw_link_num,
--						 cs35l56->sdw_unique_id);
--	if (!cs35l56->dsp.fwf_suffix)
--		return -ENOMEM;
-+		/*
-+		 * There are published firmware files for L56 B0 silicon using
-+		 * the ALSA prefix as the filename suffix. Default to trying these
-+		 * first, with the new SoundWire suffix as a fallback.
-+		 * None of these older systems use a vendor-specific ID.
-+		 */
-+		if ((cs35l56->base.type == 0x56) && (cs35l56->base.rev == 0xb0)) {
-+			cs35l56->fallback_fw_suffix = cs35l56->dsp.fwf_suffix;
-+			cs35l56->dsp.fwf_suffix = cs35l56->component->name_prefix;
-+
-+			return 0;
-+		}
-+	}
- 
- 	/*
--	 * There are published firmware files for L56 B0 silicon using
--	 * the ALSA prefix as the filename suffix. Default to trying these
--	 * first, with the new name as an alternate.
-+	 * Some manufacturers use the same SSID on multiple products and have
-+	 * a vendor-specific qualifier to distinguish different models.
-+	 * Models with the same SSID but different qualifier might require
-+	 * different audio firmware, or they might all have the same audio
-+	 * firmware.
-+	 * Try searching for a firmware with this qualifier first, else
-+	 * fallback to standard naming.
- 	 */
--	if ((cs35l56->base.type == 0x56) && (cs35l56->base.rev == 0xb0)) {
--		cs35l56->fallback_fw_suffix = cs35l56->dsp.fwf_suffix;
--		cs35l56->dsp.fwf_suffix = cs35l56->component->name_prefix;
-+	if (snd_soc_card_get_pci_ssid(cs35l56->component->card, &vendor, &device) < 0) {
-+		vendor_id = cs_amp_devm_get_vendor_specific_variant_id(cs35l56->base.dev, -1, -1);
-+	} else {
-+		vendor_id = cs_amp_devm_get_vendor_specific_variant_id(cs35l56->base.dev,
-+								       vendor, device);
-+	}
-+	ret = PTR_ERR_OR_ZERO(vendor_id);
-+	if (ret == -ENOENT)
-+		return 0;
-+	else if (ret)
-+		return ret;
-+
-+	if (vendor_id) {
-+		if (cs35l56->dsp.fwf_suffix)
-+			cs35l56->fallback_fw_suffix = cs35l56->dsp.fwf_suffix;
-+		else
-+			cs35l56->fallback_fw_suffix = cs35l56->component->name_prefix;
-+
-+		cs35l56->dsp.fwf_suffix = devm_kasprintf(cs35l56->base.dev, GFP_KERNEL,
-+							 "%s-%s",
-+							 vendor_id,
-+							 cs35l56->fallback_fw_suffix);
-+		if (!cs35l56->dsp.fwf_suffix)
-+			return -ENOMEM;
- 	}
- 
- 	return 0;
--- 
-2.47.3
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
