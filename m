@@ -1,217 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA8447D937
-	for <linux-sound@vger.kernel.org>; Thu, 22 Jan 2026 15:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769096694; cv=fail; b=YIHTRmzuK8ORDc/q+lzsuaAusKfmbwEVas4Wim5K6fijCdwDgnYFNa4PYjfPv1eoECVNX4SMtEWoqXayPO9Jc7pzMWUjDi8XxjIaRqj/PpiDnFDyHrVLnCLWwi/oBMUwZtva/29zuSpGUuXmIcBjDL5MptuU7QVPe8dOSAJYV50=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769096694; c=relaxed/simple;
-	bh=25EalGryzLsfLAWOyo/lIWttkk7Q0y2v1kalr9nT/kk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Fp2u9LOBYJE18Jme4NOqYKTgzopSFECRJoLah2uw70B2NLmZdSAUExWWOVFCSxeAtZRZu8cnISUOCxF8YsG4K0DSSnvmbNOwNY9FFRM1Xdwlj1DIkoh5ixjo2vlwBIUoq6HhK6BwhsIj/HDRVtIzI+2k0bSIZIgJPahDMaDaNow=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaWYa6fH; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37CD35B650
+	for <linux-sound@vger.kernel.org>; Thu, 22 Jan 2026 15:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769097319; cv=none; b=qXtEnVFRIWjp9feoG1A3K7hrJ793axagEVNlIlHUtqqNBmGpcZDik7HlpSNBdqWtHoxS0VjvQa8VvtUaJb3tqmSV7POdycHqj44ovNZzhlOBvQK85G+80pFng/NK5DENF9mQpgy5g2qc2511IH/ADftVt3e/Ak09UEn+INIYeDs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769097319; c=relaxed/simple;
+	bh=1lJiiqWoJdn86LEsDUwKr3hpmoTFDu27DtAns1UCABk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kaSvAs2OIlbOqe62BmpD9nmb4saJq4sBNxMHjLH6dmkJpiVbB5NuYYCjqhy5eYd8F1qmrqgX1ayLn/bif4+Ioob73jj0pWFNWT82yviQh3aoDFSIFPEOCMdEhkarQX19YQNCRZ+JtpE1ob6zi6Wp5CITUjGuD4E9llwJ8+6Vl/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ih16WRW0; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaWYa6fH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769096687; x=1800632687;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=25EalGryzLsfLAWOyo/lIWttkk7Q0y2v1kalr9nT/kk=;
-  b=YaWYa6fH8y1md96cyTzMu5pjd3tpztKYosjt7qeGUajgo6M1RUpvXVaj
-   nUWfS8uevKpqSWpIQlNPfmNLNPudsQEDB2+CkgfuaBrCgN805jioQ1lGW
-   K4XTFfCaeiw/Oo3dAt5q5+koARxRgcM1VYAFX4iW9HFNFRIkYOMbZi2DK
-   5GwYBIMsKf1tTKTMpdn9ze8NqzsRqcgvU+91DbFqs5UsqJ5z0Jyij6F2o
-   Y1Nj+m6zNVhTPBlZ9Sx6cl3XofjgLlHWbXsBAvIpjalXyRoJpohcSQR+0
-   yOfqNZTbmSAto3uBdEfnL7bTc3GmnKt3HtlSoBjhsyOzqhtSqn7VVf7oz
-   w==;
-X-CSE-ConnectionGUID: xGmz5cRtSnCcwFrbLXLOEA==
-X-CSE-MsgGUID: NXJoTuzcRuSbbIE+BWHxXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="81059419"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="81059419"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:44:44 -0800
-X-CSE-ConnectionGUID: C0AiQHxSSV+o5RqN8yHu9w==
-X-CSE-MsgGUID: N4jmf57JTPuzr5okBn712Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206671249"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:44:44 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 22 Jan 2026 07:44:43 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 22 Jan 2026 07:44:43 -0800
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.62) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 22 Jan 2026 07:44:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bufPJnBVEOMimvF6OogE+5OiTHN472lZ4VcpnwyFaIXS1D7QQyMBGRT+LhMqjJbANQls9mXNubUD4ppxAwv5iAFnnEiQRYW/KzHXPmDG3grhbTN8aaG883lzJcN6GUSnbYQd1q9lpL22XOjoJAnRPyjSKSj1Hc845z7TfT0osgbqj4vg2/Jr0Qj02UO0aUA0d3u4p6KX1sb5wagVEsBAGwJpoZE6+E2lgvxTSv1yQR+XyE0KoQHjV4OE5odqpu40FmrqH/XPSc0Fv2OYZG5TCw5n7khH++mvHJXZ7/VTVfdfPcK2RhwTknbfLWJhzpU6v/YG5BjMhjuxB9mfmycvgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xcIpmFDNZjhAmDU4drQrXDDW4AMzJEqzStWvV/FRW0Q=;
- b=EH62PopzITSI73h65PZEk2Y4iI0pmVIfqZEx18C7gNYNNx1CaGSlZ5XpSLcbJK6NtgNySjkJoNXyBQX/nSFGj532pQVvbui5TyS9+Av9Jt/091TxmTJ6ITS8L2EPzi5K6jNReQmO5SvoBpixHwO9pYl3c/ohnqXgiO5kcLY/OCqWBhXnK9fUQ782/0fdD6oLy7JB1Wnb+GKzBb34+8Puttux+/1tlxGii9radKR1hgZMl2jjYwKsQpVcED54qv5CmK56KiBuDcI9rakrKRzcU630wkOzOt0wnQFqbrnMfkvCBd3QK3fNClG+UkQFk+IrDPSnpalzN1ECj9AyVF/1lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
- by MW5PR11MB5762.namprd11.prod.outlook.com (2603:10b6:303:196::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Thu, 22 Jan
- 2026 15:44:40 +0000
-Received: from CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394]) by CH3PR11MB8468.namprd11.prod.outlook.com
- ([fe80::8188:d688:bbca:2394%5]) with mapi id 15.20.9542.008; Thu, 22 Jan 2026
- 15:44:39 +0000
-Date: Thu, 22 Jan 2026 23:44:28 +0800
-From: Philip Li <philip.li@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-CC: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>,
-	<llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 5/5] ASoC: cs35l56: Add KUnit testing of
- cs35l56_set_fw_suffix()
-Message-ID: <aXJF3Ew6BJiijI27@rli9-mobl>
-References: <20260121132243.1256019-6-rf@opensource.cirrus.com>
- <202601221843.kS9IMZ0E-lkp@intel.com>
- <22b7a6b0-3abc-4e20-837d-da434111970e@opensource.cirrus.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <22b7a6b0-3abc-4e20-837d-da434111970e@opensource.cirrus.com>
-X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
- To CH3PR11MB8468.namprd11.prod.outlook.com (2603:10b6:610:1ba::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ih16WRW0"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12331482b8fso458346c88.1
+        for <linux-sound@vger.kernel.org>; Thu, 22 Jan 2026 07:55:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769097309; x=1769702109; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iTnCx05EWycA27LR6+sAdSVg/yTmd3i6OMWgoqxWzqk=;
+        b=ih16WRW0cv9YjOZIbz2XI24d30Af2NGcOuJap7sybeUGYVwdjQVF7GNFrK55T6mVJX
+         qdQG+xmG8TfMmYgt/zAn7CHi8rREmmzW32dHazaoJdMxBHtsLG4e/zJW0wGFMhW25kFL
+         qYRVSvebKiOrTz7pxfVafJRS5Nv+bVkM0T1/FSEFw442aiXO6HqUywGrrGaKpZdNOpn/
+         MWLzEF9AImYKLjh+l9kFR8IAi0jtxUbfEbtrlVQ7gJ6Y1Bip9R2bZ0HiDoUNuZSpbAcf
+         UWU3AywwQcM3ParyEgMp1E0CpfL0Q16ZJk3u+bCGPnx1RjRgYAG2sBnUDDeGwQSCMwTe
+         M50w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769097309; x=1769702109;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iTnCx05EWycA27LR6+sAdSVg/yTmd3i6OMWgoqxWzqk=;
+        b=VVusyJWM5/QfoWrpLqnfUEtW34PE0cGMKPIl32aQTaOsd12Z6WRarPmVPPER0/jw9N
+         N5Nhl5y2dcz686Z+nglTfCnSwmu9uKUNHQyI6MJBlMDsWgZwjw+/Pes8eCNDieNUVtwW
+         njf2pzkuuCUsWJYIEgSLr7ij+yxuJmD1/kuW8zVM/TQ3suR07cCxXpw2E8MTfNhbEjc7
+         TweB1rXMiDI9boDV3HjwmfMoSjD1wwf/4cJ0HTcqhOlIN22pbL3zjmqBiv1V+/0NB3zV
+         8pKkxXPHnicCMtRCQZZc3z2rtzjRoCWVeqeSjv4EI690Bwe7A5E1AU+w3hKISOR5s9zy
+         PEkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXptAeY3N0X7QY401BRaAFGUzSAf2H1yJMEHWz+Np2EnU8Wdl2FkT6po1APK65K6NnLmbqX/HPPTW/SeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtDu2+qtCoZJGkGROdrSDe4+3PSsiJ0LxKUWdJejSKirIESSSd
+	KG/AXfRB9lwqPS72kXm9bBuM8HpV8JGtvzeozGTc3z3tCl6H95cgFe4M
+X-Gm-Gg: AZuq6aIgOSvbh1i5y4dpVXK02e/xTvcV0/0QrTowx34KflqKyZkfMwXEHH9Nf0XuA/I
+	Zb6VlvgT6YsTCZvmhg2LIPbrBvmLmWVZRlhaw/IixmksV3MvUT7BOnaGnjVeNo8AaKj7jj9V9vc
+	9yyervzLgQv5wzR2WFcGZLVE1b49WIcoVeYBlJYxEiRVamQD/MJPZCNvj68L5CrCSGDrmS5D69f
+	ImuOASRsN65d+1N5V2eggTvPGk+aJr1juTXSQFj9fDzlpiiHVojp9NvFEDownxGYgKfsyB4EHp9
+	zjXnxO8YETQq1LK6ga5M8XkaPdNZntzqvFLpVYMa0vsLtmIBZhy95+5g2494l0J4cryB8uLSsEi
+	oKM/fHlGx95+tukFDQrf5kR1zeMhJ3njPhWB8hkEwDdarTw25BcfJUupYoTbKfxpugeIEDSQsy/
+	admlfVSYIAe4zuUlenAedgkUebM7AWCzCM8L58M3zXY4zSvjEf4ZkY
+X-Received: by 2002:a05:7300:e8a2:b0:2ae:5d5b:4ed0 with SMTP id 5a478bee46e88-2b6b40d9dadmr16548799eec.21.1769097309215;
+        Thu, 22 Jan 2026 07:55:09 -0800 (PST)
+Received: from gongqi-WUJIE-Series.. ([38.90.16.207])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b367cbc9sm28935599eec.32.2026.01.22.07.55.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 07:55:08 -0800 (PST)
+From: gongqi <550230171hxy@gmail.com>
+To: rafael@kernel.org,
+	dmitry.torokhov@gmail.com,
+	Shyam-sundar.S-k@amd.com,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-acpi@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	550230171hxy@gmail.com
+Subject: [PATCH v2 0/4] Add quirks for MECHREVO Wujie 15X Pro laptop
+Date: Thu, 22 Jan 2026 23:54:57 +0800
+Message-ID: <20260122155501.376199-1-550230171hxy@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8468:EE_|MW5PR11MB5762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4503aaa0-c110-4617-2da3-08de59cd26fa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9G/509674ljSi+Cjd6qoeMUyWOV48C1ZzBjvi9kOrgbIsLQ6T27SoIDyrBXz?=
- =?us-ascii?Q?e5+VD03P0dbJd2c103kyNNup+H5Dl4fgak0qUALf37+7PPCYG5gB3jN775l6?=
- =?us-ascii?Q?/YC0OJNe+/ws4Z1I5B498znY4MNua+NAHI4NCNy33hQuBbuj0Qa4RYHKEyuv?=
- =?us-ascii?Q?2u237XSTBhlTLZjsGHq+xsniTV5rcACvHjBoytETrIGeFXNDSxS5jcwiAVgP?=
- =?us-ascii?Q?K4gdxiZlwG6z3JgqaPPJ4A6ljl7j8ujZ0IttCe4EuSnxjoddn8826yAMz9Gb?=
- =?us-ascii?Q?KkVfmiHdxaCrD02hoiBqSLMJxvTUzv/tOEvrGh4o2XntOA022UXv2hqbt3la?=
- =?us-ascii?Q?RD8oAyPYRoiJW3wYsa0hiWzrDshPXkN+nTIegnMElU9Fsj4aZaYKznP59vq7?=
- =?us-ascii?Q?GNbCglNRgpoAzCd5FRW7YRIeO/fNRAww+Y4UcGRuSumpUTDT4VkxgdA6Wt6F?=
- =?us-ascii?Q?qsYUse77wHqj5iZVp+P4stCPzaIUgXColI7Fmnu+GUNFMobFlgWUQF0lrNGY?=
- =?us-ascii?Q?WAOlZF5J7iE12CNcuGalm6KwfyGWG0oUJk00A+EO2tj9D55J437kzHKN6BJb?=
- =?us-ascii?Q?YZh6PMkbu+xn+5h5dDJVXYh5sjUQmzkq+Sw16kDISJyUIGrKQUbbbb6ocAAB?=
- =?us-ascii?Q?v6n6ZTBQdUiqbgO8ennXnUm4WH96uk+UbIrHjiN3XFJ95Yp2wFtwCmClOFi8?=
- =?us-ascii?Q?Rmf/Ha1mgXVOJ+uWSjqHibn6DsSbxDK0nHcdl/N6YtMTKHOdCZW3TPMKcDtK?=
- =?us-ascii?Q?/Gkm5M4igNbzzobWWRbvr36d0ORiQmZZU2x+CXTGOl8w8EPBwOySceDYlreK?=
- =?us-ascii?Q?FgroXk/FEumj8JJTTDsVL+/hwztI7fCKM9sOVt18Jl3vrR0rG9gnCUfcf4vU?=
- =?us-ascii?Q?0/Os69p1jIuxsZEd0dVOxWz59ozo3447X7vKBkWZd1JRDn8aue0bhe0ItRwl?=
- =?us-ascii?Q?gA4Wsq2N5Mon1bFb0Rs2ucYju0pmfE0JrkQZXqRUjFpZMNhWMfuJuO86Ua0P?=
- =?us-ascii?Q?jjYQyQGpTQorrHBDhIU2sujICu25YOeFKZY74CAM2Ceojt4hAVn2Jyw+h/v/?=
- =?us-ascii?Q?pgs7esjI1DQ6SdB88EOFQr3ZeMKCsW3oHn4Vuq1+8JCpQG+2BWxBieTEDpZk?=
- =?us-ascii?Q?d71ykiCxaiA5MnpCOFRMMHPA5bFGbe6criV6/fCf2kokSgqGC+jtiOR9SlXI?=
- =?us-ascii?Q?JzLItvpp71VTDbXxER8lNyNiF8b4wRFqxZU6Bf5xbO12kpAHlq8idz4mjqc9?=
- =?us-ascii?Q?UjDv8AMvU4P6rOzLH6xuq8P3EJQ9aTQep89X7idwpAfkxWL5ZQfmeeRNdFpp?=
- =?us-ascii?Q?VDQdkR2kPHs+wZsBPG2GlRhdBN5AldZ4lgiv2845e3T3Lb6rZEIHWg2zq+NV?=
- =?us-ascii?Q?z3lj3KErP6Dsik7eQHuivmT8JmHW9bn/UZ+MBkQ/4F4jJHAKMveLhG1YUMLd?=
- =?us-ascii?Q?6ySvxNLnMKEqUkep+tSVE5dPYCRW90t+/6anifmQ+LDw1YyUWSiwIEPT2nTN?=
- =?us-ascii?Q?QITz53/dq9LEidLEnNGn/9sC5WBWvI4V47sHdujUT5p+ES7WQOIiMPSPXFFS?=
- =?us-ascii?Q?5Mhi6EkICNBgv7DCFOQCJd/Ehv84puj8tWy9AtIp?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8468.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8TFjof7TqPmm83zFyun05itIluMFDg+WUxgkskEDPImGmLymiJ/Oi6BtX/lq?=
- =?us-ascii?Q?zO0S0c/xFATAhH3JM6Ly8BFkEppAFpMEKZPdPPVR9WkFnArnQyXJaXn6lhNE?=
- =?us-ascii?Q?iBiMf8Ign5rnpur16S5Igbbyz5tQjhwCScgV5Aq9u9mnqou07nmp39FGsjSH?=
- =?us-ascii?Q?VUmtM/m/PO1PFAVsIDp/Rm9vCpGd7fdArhh2Tgt+KZ4dmSfD9DpYh0V5BCTE?=
- =?us-ascii?Q?brp1M6SMvIzofdK/O9DVX3Z7boWDJWSo6bucWELTKPDWbGQMtXOlpRj9TBlB?=
- =?us-ascii?Q?jEU23buc/Srhk6ZdMlyElfVLhQHAUdXTPJA8WfWzJb7qReM442QCW2Jeqh07?=
- =?us-ascii?Q?CSvIGGD1hpWDan1Fz/O0o0iXIeIHBM4UiT1dDTrlzh9i0eM6Q9cH+qlGgVi7?=
- =?us-ascii?Q?s+X2HMrlVKHErSEC1kzm04t26ERxVxAwWGM5hFovksqHauI9V2WBpT3ndxb1?=
- =?us-ascii?Q?DV56MB7Jn1VoNrzLFKsbgNN6vB2/RG4Bj0YbuSpzBQd3e436tXkuNqR+L8mq?=
- =?us-ascii?Q?RIdpBmP3QfAJFW2EcuXmDfdI9f7BCWik94ZXVrn7SA2NWBq6iBmkK6jMrHaB?=
- =?us-ascii?Q?zYGbrF6q+HC7HDxoF+Ld+GykWP/2EKROXcLQn6f9X9z39iYnaYY0IjOFFf/6?=
- =?us-ascii?Q?IyLnfLW6/o2Ezr1OSMZEk/4o/LLAH/l8G3mMY6vpNYnXe4I96CJ6b8vMDsBa?=
- =?us-ascii?Q?Avic+2Bv0nLRYvn2g+6YelN6tA0CdOKr13DPj7nYbHBHoov1tHQ0k3+3W19C?=
- =?us-ascii?Q?CgjV69qmFQ/jXp8tBlrOM0433wIReEQPlPc3zEy3DXsk2ParaHjRoAfs6SIy?=
- =?us-ascii?Q?EIN9q9w+ffk9nLDQdbzIx+F1QgacFAMFYlLnYa174YeZR8xDSiuZwU9v2qxR?=
- =?us-ascii?Q?dWA8vuJRaKtuPMkF4FTvL1bniuLEW9nDdgu4fcim1a3K1S1QEjfTq7TQ3R7Z?=
- =?us-ascii?Q?K6W8ex4ZEfnFI3jooHWDf+8FeTv2gPeqCzjQl/xYsGSJjJq5W/qBXu5J7G7f?=
- =?us-ascii?Q?zfpQhEjo25thkt4ZkS6TNeaVMSnhGg01dBadCGv0NxBLr4bFYu1wFKQ1Zyhx?=
- =?us-ascii?Q?tj5Q4kz35S1Gss+PUnso42yRCiAnG2FY0fbqBEvSix0CTMx7u36e/msaC9j9?=
- =?us-ascii?Q?3PFh73byIG3rlnAOl1LPT4XAbtUeNDgLgxwcuNI0sYjJotJwKlMHMojX6ifV?=
- =?us-ascii?Q?TuZ+md2wJtmcOS5AQygXMy/K2K0ZXAfFA4zJq7iCVsAaPUgP8BDj+G1QKqZ+?=
- =?us-ascii?Q?K2iTYy+K4j6A7+Ye+GDneoSheQjMl3+KFMjVuO6OtT67xM6cVpIeDP7+cJDD?=
- =?us-ascii?Q?MLAcFXSAtr/NMOf/0A3Ta7xlQmvfFgXIIfgqwz+N3eE0Vj1IECiVi4G4kkP/?=
- =?us-ascii?Q?bYx0JGpEdkIYDnkY8qBKRaqp6fHH9BD65x6sMecbw0V/AtpQ3xNGmpTfz7oW?=
- =?us-ascii?Q?fG4+DPAiqL6k4m4ljTK2XWDj/yTuQZZAcPAQTBfYXhIKrLpjA4Uk6OyahAob?=
- =?us-ascii?Q?f8yYn1HIdOzSz42gls0SzLQ2epv6pP2vN9VJFf5z5u7XJ26OiXGC2dw30sqD?=
- =?us-ascii?Q?SJKWZ31rN52Lyye7jmAj5WnuFoxLoSyCu2AdLjJUPuVb6rgubGyvc4NaEid/?=
- =?us-ascii?Q?2mx8XKYxw73vL0thXncYoXlWFnUeEwWgmugC3ffHw4ouXebbBnNSPWj4F6l1?=
- =?us-ascii?Q?T1URNG70DRfJk54KyM+XGkC10/WQNefbxjkHo0D4lAzNhUXPSW7zAsFdap+v?=
- =?us-ascii?Q?ZwQF4gVwkA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4503aaa0-c110-4617-2da3-08de59cd26fa
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8468.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 15:44:39.4188
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oaGhdJiXEnY4qHg0vO74dpcCdzdwytGlEv6fGsvVGbmzxldwtBa85aMJGdnv6V7ChitZfdnISDhlbze/iJ1W+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5762
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 22, 2026 at 02:56:01PM +0000, Richard Fitzgerald wrote:
-> On 22/01/2026 10:25 am, kernel test robot wrote:
-> > Hi Richard,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on broonie-sound/for-next]
-> > [also build test WARNING on linus/master v6.19-rc6 next-20260121]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ASoC-cs-amp-lib-Support-Dell-SSIDExV2-UEFI-variable/20260121-220028
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> > patch link:    https://lore.kernel.org/r/20260121132243.1256019-6-rf%40opensource.cirrus.com
-> > patch subject: [PATCH 5/5] ASoC: cs35l56: Add KUnit testing of cs35l56_set_fw_suffix()
-> > config: arm64-randconfig-003-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221843.kS9IMZ0E-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221843.kS9IMZ0E-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601221843.kS9IMZ0E-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > > > WARNING: modpost: module snd-soc-cs35l56-test uses symbol cs35l56_set_fw_suffix from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
-> > 
-> Please reply to all people on a thread. And as a minimum include people
-> who were To: on the original patch email. Otherwise people who matter
-> won't see this report.
+This series adds several quirks for the MECHREVO Wujie 15X Pro
+(AMD Ryzen AI 9 H 365) laptop to fix issues with the keyboard,
+touchpad, power management, and headset microphone.
 
-Sorry about this, it's an issue in the bot that it has a logic to try to
-reduce the report number to public for same issue, but the detection is
-not reliable. We will disable the logic to let all reports behaves the same
-to send to related persons.
+The laptop requires:
+- ACPI IRQ override for the keyboard.
+- i8042 quirks for keyboard/touchpad stability.
+- AMD PMC quirk to fix spurious IRQs during suspend.
+- Conexant codec quirk for the headset microphone.
 
-> 
+Changes in v2:
+- Added Missing Signed-off-by to all patches.
+- Wrapped commit messages at 72 columns.
+- Unified author and committer email to 550230171hxy@gmail.com.
+- Properly formatted cover letter to improve threading.
+
+gongqi (4):
+  ACPI: resource: Add IRQ override quirk for MECHREVO Wujie 15X Pro
+  Input: i8042: Add quirks for MECHREVO Wujie 15X Pro
+  platform/x86/amd/pmc: Add quirk for MECHREVO Wujie 15X Pro
+  ALSA: hda/conexant: Add headset mic fix for MECHREVO Wujie 15X Pro
+
+ drivers/acpi/resource.c                   | 6 ++++++
+ drivers/input/serio/i8042-acpipnpio.h     | 7 +++++++
+ drivers/platform/x86/amd/pmc/pmc-quirks.c | 7 +++++++
+ sound/pci/hda/patch_conexant.c            | 1 +
+ 4 files changed, 21 insertions(+)
+
+-- 
+2.43.0
