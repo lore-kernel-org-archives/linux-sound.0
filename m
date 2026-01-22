@@ -1,194 +1,110 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3D7429809;
-	Thu, 22 Jan 2026 11:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35DE355034;
+	Thu, 22 Jan 2026 11:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769082108; cv=none; b=T7pUyXQ9ui0d4yMOy8sqZL8PVWM5T/g3/UgX0OlIR0f/YQKOmHWFSuGXqBeySlmJUc0zynluKcv+kQd5NTWSnv+tZRjeWwkyIF6NOLDUKvVJWzMneiWWArtVvxyvAHYt00ZaSmeusKUZq+qBVr7DFQUoG29uBYztZ/3/6TEmyV8=
+	t=1769083180; cv=none; b=M6xukjQd1gSSccaFz+D5vwsqhjLusSipAuVvxZ5McFCoy85Houkq6HKYkYTUjJDVmyn2CLRIb34F/ZS/tYOoBWk8hXKtr9r9jwF0Zig+hVwh2UloYL2QYGHB6nzwHOlyg17w34T7IX57wQ36yfYPmqZIpgO72sjo4kfumSTCAeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769082108; c=relaxed/simple;
-	bh=NqQtXUERc3v4NzNZ99SDCcNfgBv7D/bmH0cyLocfDQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qsweMJqw5vGSTvAAem1FrZsEFu0UZ551e6YGpbxxY+PtBh3yAv6RTNhgctYu+pJI9BjrZdgT8rdDZGHJp/6JDvZwA74Ryir5P2SlDa0Q1Hi8gKb1cVg/VBYzb71Jr1Lb9KHfgfpw/v96JpOpvYTDILglHb814rm2EQCZLFCGHnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UEFpYXOg; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1769083180; c=relaxed/simple;
+	bh=EQgdWx197QI/6fLxXkoUQ+2mrAD+7KX9H5dmawNEuVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RnnAuTU+KQlS4eB1JyIyQaYoOgf4sEGOR4mShXiS+XsKoh8PheKxgDI749WWA4Inql6eOKjlLLz+EUNC5tSoSCKE1BNLmA5IOOWRPrcjRu4z8hJfdE9I9WtQruxQtud4snF8/Ywu5a/z4gDbaaGiRbwTKo+gs7QrhzMP0Ys7wD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sp+V5uqW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UEFpYXOg"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B376EC21AA2;
-	Thu, 22 Jan 2026 11:41:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D41D760740;
-	Thu, 22 Jan 2026 11:41:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B0CD5119B0105;
-	Thu, 22 Jan 2026 12:41:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1769082094; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Fl2SnsCgDRhlccmCWpsQ4CBlDuamahnW5kxpsohCwvo=;
-	b=UEFpYXOgJL+WIY89Mx/EpOyceBBILQiL0TxFQWpW01yiEySAJH2g1HcWGNeQm8jHeKv+xN
-	O2csc+HhLdo2gWFITsAzh6mTWYo9h+2QnQHxO2GdqZlsPvpTAG/XFqvOefokUsJca73PWu
-	919NjC9kftG/xECA0iNKY+BT7G6XeddTLl+YrGq6EFQ7innqv2Qzt9u7ZQzupbkT37WFhV
-	mgEsWUeGSzIj/19gb+Tq8BosxVfyi4TFbwa3Kmjo2kuM+uE7HxnX7idMvi9PAvs7Wiw+OR
-	Jl3h0x9NzvUaJ7inKLTNk1kZu+isqj/tgMXHTzscOm2flBtD/RFBursuZs9FuQ==
-Date: Thu, 22 Jan 2026 12:41:14 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, Rob Herring
- <robh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Ulf Hansson
- <ulf.hansson@linaro.org>, Kalle Niemi <kaleposti@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Andrew Lunn <andrew@lunn.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally
- <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron
- <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, Alison
- Schofield <alison.schofield@intel.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
- <dan.j.williams@intel.com>, Wolfram Sang <wsa@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Saravana Kannan
- <saravanak@kernel.org>
-Subject: Re: [PATCH v4 01/29] Revert "treewide: Fix probing of devices in DT
- overlays"
-Message-ID: <20260122124114.44812cc7@bootlin.com>
-In-Reply-To: <CAMuHMdWGk5ig3v9tGy1cMOg1LmKu3KrxQq2HO1vcQeZPuRxWBQ@mail.gmail.com>
-References: <20251015071420.1173068-1-herve.codina@bootlin.com>
-	<5cf2a12a-7c66-4622-b4a9-14896c6df005@gmail.com>
-	<CAL_JsqJjm12LxpDg6LmpY=Ro_keHwnrWiYMLVnG=s_pSP4X2WQ@mail.gmail.com>
-	<072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com>
-	<CAL_JsqKyG98pXGKpL=gxSc92izpzN7YCdq62ZJByhE6aFYs1fw@mail.gmail.com>
-	<55076f4b-d523-4f8c-8bd4-0645b790737e@gmail.com>
-	<20251202102619.5cd971cc@bootlin.com>
-	<088af3ff-bd04-4bc9-b304-85f6ed555f2a@gmail.com>
-	<20251202175836.747593c0@bootlin.com>
-	<dc813fc2-28d2-4f2c-a2a3-08e33eec8ec7@gmail.com>
-	<20251204083839.4fb8a4b1@bootlin.com>
-	<CAMuHMdXdwf7La1EYBWTJadsTAJG3nKQVW6wtBn-bUqshA=XHRw@mail.gmail.com>
-	<20251210132140.32dbc3d7@bootlin.com>
-	<c50c40cc-69f6-436c-a94e-94a3a10f6727@gmail.com>
-	<20251211132044.10f5b1ea@bootlin.com>
-	<1b9fa77b-d74a-4fa7-b2e7-8b389d59a5a0@gmail.com>
-	<20251211161902.11ef4248@bootlin.com>
-	<CAMuHMdWGk5ig3v9tGy1cMOg1LmKu3KrxQq2HO1vcQeZPuRxWBQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sp+V5uqW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A757EC116C6;
+	Thu, 22 Jan 2026 11:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769083180;
+	bh=EQgdWx197QI/6fLxXkoUQ+2mrAD+7KX9H5dmawNEuVA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sp+V5uqWJQa4lvzb2q6qHas4QhiZm3gYQa+UhnIDR654PT2XIEUMc1oPIUHbaIzzY
+	 vJWZN/5Oiuaj3UzhxanPu9+uLF+ylO7jv9IaVvJ1/YvV4ZvkBOaToDW3ySN7SmLR7g
+	 Oe0Vb4hCoPj+RdjCdFpSJdg/Aif7Q6lL0JxIbvVhVic3gHVfxrIwN5M4XwakEvwfjo
+	 7yjKGij6c+VKCVOJHE/ZpvP9Q2IIZVEXJjBsFsJctMXbtworG6h2JquRnq1peM/xta
+	 KJff4Z6NsMMN1PTnex9tT7C53JkxrlireDFKySF8gAFP0S0/ZQNlgzEIYQROhehYqK
+	 ui8Apgu8Ub23w==
+Date: Thu, 22 Jan 2026 11:59:34 +0000
+From: Lee Jones <lee@kernel.org>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] mfd: cs42l43: Add support for the B variant
+Message-ID: <20260122115934.GG3831112@google.com>
+References: <20260116152054.85990-1-mstrozek@opensource.cirrus.com>
+ <20260116152054.85990-4-mstrozek@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <20260116152054.85990-4-mstrozek@opensource.cirrus.com>
 
-Hi Geert,
+On Fri, 16 Jan 2026, Maciej Strozek wrote:
 
-On Wed, 21 Jan 2026 13:59:26 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
+> the same driver.
+> 
+> Changes in CS42L43 driver specific for CS42L43B:
+> - Decimator 1 and 2 are dedicated to ADC, can't be selected for PDM
+> - Decimators 3 and 4 are connected to PDM1
+> - Added Decimator 5 and 6 for PDM2
+> - Supports SoundWire Clock Gearing
+> - Updated ROM requiring no patching
+> - Reduced RAM space
+> - Each ISRC has 4 decimators now
+> 
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
+> Changes in v2:
+>  - Rework the mechanism to identify the new variant along with some
+>    error handling improvements.
+>  - Added some comments in cs42l43_readable_register() for clarity.
+>  - Add handling of the I2C path for the B variant
+> ---
+>  drivers/mfd/cs42l43-i2c.c        |  7 ++-
+>  drivers/mfd/cs42l43-sdw.c        |  4 +-
+>  drivers/mfd/cs42l43.c            | 93 +++++++++++++++++++++++++++-----
+>  drivers/mfd/cs42l43.h            |  2 +-
+>  include/linux/mfd/cs42l43-regs.h | 76 ++++++++++++++++++++++++++
+>  include/linux/mfd/cs42l43.h      |  1 +
+>  6 files changed, 166 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
+> index a2ab001a600a..0a0ab5e549a5 100644
+> --- a/drivers/mfd/cs42l43-i2c.c
+> +++ b/drivers/mfd/cs42l43-i2c.c
+> @@ -47,6 +47,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
+>  	cs42l43->irq = i2c->irq;
+>  	/* A device on an I2C is always attached by definition. */
+>  	cs42l43->attached = true;
+> +	cs42l43->variant_id = (long)device_get_match_data(cs42l43->dev);
 
-> Hi Hervé,
-> 
-> Revisiting his old thread (sorry for the delay)...
-> 
-> On Thu, 11 Dec 2025 at 16:19, Herve Codina <herve.codina@bootlin.com> wrote:
-> > On Thu, 11 Dec 2025 15:52:28 +0200
-> > Matti Vaittinen <mazziesaccount@gmail.com> wrote:  
-> > > On 11/12/2025 14:20, Herve Codina wrote:  
-> > > > On Thu, 11 Dec 2025 10:34:46 +0200
-> > > > Matti Vaittinen <mazziesaccount@gmail.com> wrote:
-> > > > Do you see the same trace with:
-> > > > - "pinctrl-0 = <&i2c1_pins>;" in your overlay
-> > > > - fragment0 removed from the overlay (i2c1_pins definition removed from
-> > > >    the overlay.
-> > > > - i2c1_pins node defined in your base DT.  
-> > >
-> > > Just tested. The i2c1 appears and the test-overlay probe gets called,
-> > > when the i2c1_pins is in the base-dt and not in the overlay.  
-> >
-> > Geert, do you expirement same results?  
-> 
-> Yes, after moving the pin control subnode from the overlay[1] to the
-> base DTS, the SPI bus and FLASH work after loading the overlay for
-> the first time.
+[...]
 
-Ok. What I said for Matti's use-case is also valid for your use-case.
+> diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
+> index 2239d8585e78..8313f9e8c722 100644
+> --- a/include/linux/mfd/cs42l43.h
+> +++ b/include/linux/mfd/cs42l43.h
+> @@ -98,6 +98,7 @@ struct cs42l43 {
+>  	bool sdw_pll_active;
+>  	bool attached;
+>  	bool hw_lock;
+> +	int variant_id;
+>  };
 
-> 
-> > > > In other word, is the issues related to adding a pinctrl sub-node (pinctrl
-> > > > pins definition) in the overlay or is it something else?  
-> > >
-> > > Seems to be related to the pinctrl.  
-> >
-> > I don't think that the issue is related to pinctrl itself.
-> >
-> > IMHO, I think the issue is related to overlays and fw_devlink.
-> > The distinction between "a new node is going to lead to a device" vs "a new
-> > node is just data and will never been attached to a new device" when an
-> > overlay is applied is broken.
-> >
-> > This is broken with the upstream "treewide: Fix probing of devices in DT
-> > overlays" commit I've tried to revert. Indeed, on the LAN966x PCI device
-> > use case devlinks created are not correct with this commit applied.
-> >
-> > I am not sure also that devlinks created with a more complex overlay will be
-> > correct. For instance, Matti, with your overlay not sure that a phandle from
-> > the oscillator node referencing the pmic node will lead to a correct
-> > provider/consumer devlink between the pmic device and the oscillator device.
-> >
-> > On the other hand, this is broken with "of: dynamic: Fix overlayed devices
-> > not probing because of fw_devlink" works for the LAN966x PCI device use case
-> > an lead to correct devlinks but breaks your use cases.  
-> 
-> Loading my overlay[1] causes the following changes under
-> /sys/class/devlink/:
-> 
->     + genpd_provider:ca53-cpu0--platform:e6e90000.spi ->
-> ../../devices/virtual/devlink/genpd_provider:ca53-cpu0--platform:e6e90000.spi
->     + platform:e6055000.gpio--platform:e6e90000.spi ->
-> ../../devices/virtual/devlink/platform:e6055000.gpio--platform:e6e90000.spi
->     + platform:e6060000.pinctrl--platform:e6e90000.spi ->
-> ../../devices/virtual/devlink/platform:e6060000.pinctrl--platform:e6e90000.spi
->     - platform:e6060000.pinctrl--platform:keys ->
-> ../../devices/virtual/devlink/platform:e6060000.pinctrl--platform:keys
->     + platform:e6150000.clock-controller--platform:e6e90000.spi ->
-> ../../devices/virtual/devlink/platform:e6150000.clock-controller--platform:e6e90000.spi
->     + platform:soc--platform:e6e90000.spi ->
-> ../../devices/virtual/devlink/platform:soc--platform:e6e90000.spi
-> 
-> Note that these changes are exactly the same in the working and the
-> non-working case.
-> 
-> Removing the overlay again removes all added links, but does not
-> restore the keys link:
+long != int
 
-I think you should have the exact same behavior with and without my
-modification.
-
-Can you confirm?
-
-Best regards,
-Hervé
+-- 
+Lee Jones [李琼斯]
