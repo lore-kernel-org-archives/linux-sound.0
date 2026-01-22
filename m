@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C1330CD81;
-	Thu, 22 Jan 2026 15:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117E30C624;
+	Thu, 22 Jan 2026 15:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769094243; cv=none; b=bz+cqcbDfnrnEPGEwvj8fs37kc1Uv9WkHPCQ2jHqW4KedGoolUZ+4kQ4HCSSUEtdnypny5uCdUFNMYResEPxSr/wVTdPwvBePv8zfQ1zO+7/fUmmihDR9A4K3AN79ITIZCDVn/xI9iz0n7JTRKbgdF7c0owIVyRHtDwVIHNcdP4=
+	t=1769094449; cv=none; b=D/AnOebBa5BAeh1Vzu8pQiDTZOmvet+p0HIjAqYk7K/Ob6Ts4VtPpFk57LJQ9bWL4ET53RZ40OwIiX/48v+z5DvXAsFTJw2TyTJefA1fNoO6uhlQHZlLx7VxcP0t0IpuRlN1hDAmuclFlfrlGnacM1mxLAmHiiOxYzMcbILBsjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769094243; c=relaxed/simple;
-	bh=28p2vVGccZIm3pnrzlf3VCf9R7Ryv+4T3kD1Z6HKlzI=;
+	s=arc-20240116; t=1769094449; c=relaxed/simple;
+	bh=Yu8hIcz6LsJdSdVI0ARln3Qs2ekXTeI4xd+A/dSoqNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OZTFLg2kPG8JEC/k7V2XegsHFqa5FBbKlUN8CvyfpQaOHGj929ijmxZEUYmMHlI3vfJyfJQLX6TmE9lcp8k9mwg86GT+X3qWSM4jtsJylX+y9TgU8tnygxiQ0CchzByHLKhT9AFkLyqFFsdMitsK1+ceSvyHIyxrObMPHE6qjQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3PzFTfa; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=KIWhit6zU8teq8zDWWu/71CUh9hq4YNrS5Ihp/0FMXO1RbmTyVqAEvlh/jKAk9I4FWiJgckMlBBwTPB/fvwA3lWQZYux5zJMQGJR0xFpuwPsmCMnkJdhLHHF9aC55NkeDaNDvxa2cQpmuzj1kkZmvluptUSYdB6GWtvm++LDRuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlLiCd+r; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3PzFTfa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlLiCd+r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769094241; x=1800630241;
+  t=1769094448; x=1800630448;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=28p2vVGccZIm3pnrzlf3VCf9R7Ryv+4T3kD1Z6HKlzI=;
-  b=l3PzFTfa9KGGWsayUkBk+8Gp9DSNiAGWSrbCOwyEQUXvfBfVOyS8BkBx
-   EpOENNRzwl4LScOgREGRfCoBHZXqPCauGttOIgRFN8dig8sH1maE9mc6L
-   LCdnaLyiIFlKAOU4cDCBs3IHyPbNteDHoh9eB9PtSYxlF8IvFV7XMsdLd
-   09RSM5Krszoy2kgjNXQH/ny59TlENMk2lxnlZ01C+B4V09QZbCU8dCKdg
-   I9lopqq18zfEhccB457OM4n67QBBuxPNEH994Lq6z7ojQpUAtQNJHt0yL
-   boBA7ED/ulOjKfUUmCS9V0pRz/+rk/y5VoulEjbMDfb9jSK7gylJRL/wP
-   Q==;
-X-CSE-ConnectionGUID: cNpMi1XeT5alyc0n7Erg/A==
-X-CSE-MsgGUID: mfkARf0uQhOSJ1I+ImLxsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="70237090"
+  bh=Yu8hIcz6LsJdSdVI0ARln3Qs2ekXTeI4xd+A/dSoqNE=;
+  b=FlLiCd+r7tX6n8RMGRd155QGghMsCLpLYspM+tuybR52KiqaZpR13uc3
+   9TGWyr+tVoPJcqCDdiBcWsr7zr7N2yiUmXsWD33iPcx+K0w7cxNjCJ5Mb
+   TD2x0s7+53ia4rjbmLy8hWFITFniOn4opYWHGckHxiBKeYNriSj/TEfPD
+   bt5o24G/TfLnQuVL/DZUdXCIB+dmh3QL/0jD1iPSlpZdCPOihgrMsMTv8
+   bgoHgt0AGs8pPFwdxHVw/oeqqA02qypWQujh2GqivBRniRO78BTIdBQ9p
+   lM0EojXAqd++VB8OfwDSGCcxrxz43EC+CFhpEy9nzcIcSeA34H3av36aG
+   g==;
+X-CSE-ConnectionGUID: 017ldTjISNCCwTYIR6jKhg==
+X-CSE-MsgGUID: mXFRCENOQ9ik4k/F5y9vkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="87915290"
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="70237090"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:04:00 -0800
-X-CSE-ConnectionGUID: vtsLTx2NQsmzBOtSMuLquw==
-X-CSE-MsgGUID: nVWxHgAmQvS0eXsrQtQj7Q==
+   d="scan'208";a="87915290"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:07:27 -0800
+X-CSE-ConnectionGUID: lrGmoEL/Ta6R+1zUAMw9RQ==
+X-CSE-MsgGUID: lDSlKKAkSMqleLtnDd4eAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206659868"
+   d="scan'208";a="244370822"
 Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:03:57 -0800
-Date: Thu, 22 Jan 2026 17:03:54 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 07:07:23 -0800
+Date: Thu, 22 Jan 2026 17:07:20 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -56,10 +56,10 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 1/4] ASoC: codec: Remove ak4641
-Message-ID: <aXI8WuxLOJfiUSGe@smile.fi.intel.com>
+Subject: Re: [PATCH 4/4] ASoC: ac97: Convert to GPIO descriptors
+Message-ID: <aXI9KKlohbA1ySB0@smile.fi.intel.com>
 References: <20260122-sound-cleanup-v1-0-0a91901609b8@nxp.com>
- <20260122-sound-cleanup-v1-1-0a91901609b8@nxp.com>
+ <20260122-sound-cleanup-v1-4-0a91901609b8@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,27 +68,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122-sound-cleanup-v1-1-0a91901609b8@nxp.com>
+In-Reply-To: <20260122-sound-cleanup-v1-4-0a91901609b8@nxp.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jan 22, 2026 at 08:44:57PM +0800, Peng Fan (OSS) wrote:
+On Thu, Jan 22, 2026 at 08:45:00PM +0800, Peng Fan (OSS) wrote:
 
-> Since commit d6df7df7ae5a0 ("ARM: pxa: remove unused board files"), there
-> has been no in-tree user of the AK4641 codec driver. The last user
-> (HP iPAQ hx4700) was a non-DT PXA board file that instantiated the device
-> via I2C board data; that code was removed as part of the PXA board-file
-> purge.
+> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
+>  - Use devm_gpiod_get to get GPIO descriptor, and set consumer
+>    name.
 > 
-> The AK4641 driver was introduced ~2011 and still probes only via the I2C
-> device-ID table ('.id_table'), without an 'of_match_table', so there are
-> no upstream Devicetree users to retain. With no in-tree users left, remove
-> the driver.
+> Since the driver still pass the reset_gpio to pxa27x_configure_ac97reset,
+> so use desc_to_gpio() to get it gpio id.
 
-Yep, and if needed they may resurrect it, clean up and resubmit using proper
-(modern) APIs.
+GPIO
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Why can't we convert that one to use GPIO descriptor to begin with?
+
+...
+
+
+>  	if (dev->dev.of_node) {
+> -		reset_gpio = of_get_named_gpio(dev->dev.of_node, "reset-gpios", 0);
+> -		if (reset_gpio == -ENOENT)
+> +		/* Assert reset using GPIOD_OUT_HIGH, because reset is GPIO_ACTIVE_LOW */
+> +		rst_gpio = devm_gpiod_get(&dev->dev, "reset", GPIOD_OUT_HIGH);
+> +		ret = PTR_ERR(rst_gpio);
+> +		if (ret == -ENOENT)
+>  			reset_gpio = -1;
+> -		else if (reset_gpio < 0)
+> -			return reset_gpio;
+> +		else if (ret)
+> +			return ret;
+> +		reset_gpio = desc_to_gpio(rst_gpio);
+
+Also, have you considered moving towards 'reset-gpio' driver?
+
+...
+
+And last but not least Q, have you checked gpiolib-of.c if there is any quirks
+regarding this case (might be some fixes related to polarity)?
 
 -- 
 With Best Regards,
