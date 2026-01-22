@@ -1,110 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35DE355034;
-	Thu, 22 Jan 2026 11:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7985743900C
+	for <linux-sound@vger.kernel.org>; Thu, 22 Jan 2026 12:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769083180; cv=none; b=M6xukjQd1gSSccaFz+D5vwsqhjLusSipAuVvxZ5McFCoy85Houkq6HKYkYTUjJDVmyn2CLRIb34F/ZS/tYOoBWk8hXKtr9r9jwF0Zig+hVwh2UloYL2QYGHB6nzwHOlyg17w34T7IX57wQ36yfYPmqZIpgO72sjo4kfumSTCAeY=
+	t=1769083620; cv=none; b=NL17r+z4bbOQnYjSO+ftDzYoO25tF+wLQtZES6PayI0K4r6X5QT1F8ufecATT/UTUdBfiAfV0XfB5/9JRXKlf2OdtvW762aujSqp3+bro3ZXodBT3P1B1expdf8ZidNNatXdnfA0ydjSIRLklpkTjOqNoenKa23t/CCwajiUHIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769083180; c=relaxed/simple;
-	bh=EQgdWx197QI/6fLxXkoUQ+2mrAD+7KX9H5dmawNEuVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RnnAuTU+KQlS4eB1JyIyQaYoOgf4sEGOR4mShXiS+XsKoh8PheKxgDI749WWA4Inql6eOKjlLLz+EUNC5tSoSCKE1BNLmA5IOOWRPrcjRu4z8hJfdE9I9WtQruxQtud4snF8/Ywu5a/z4gDbaaGiRbwTKo+gs7QrhzMP0Ys7wD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sp+V5uqW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769083620; c=relaxed/simple;
+	bh=K9eQeiQeWdXtA3+TEcWAdi4IZHkbF71qtiWAr31BK6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J90wwN7FrPBuHSWKgcsqt1MP50tF299BJia5avGpr5VgfRgId+ryo+NZC7fB10AuGO6yMHWQT8idbtsJ7SmSvvmyr9HGk1LAzSfxLaLQLDSZtxzqsOueOz41LgwqPPToN9CsOQzBTgLT8oOWYam0XLMYBJEx8RnDwgm88hR7jeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNhkPxc8; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sp+V5uqW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A757EC116C6;
-	Thu, 22 Jan 2026 11:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769083180;
-	bh=EQgdWx197QI/6fLxXkoUQ+2mrAD+7KX9H5dmawNEuVA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sp+V5uqWJQa4lvzb2q6qHas4QhiZm3gYQa+UhnIDR654PT2XIEUMc1oPIUHbaIzzY
-	 vJWZN/5Oiuaj3UzhxanPu9+uLF+ylO7jv9IaVvJ1/YvV4ZvkBOaToDW3ySN7SmLR7g
-	 Oe0Vb4hCoPj+RdjCdFpSJdg/Aif7Q6lL0JxIbvVhVic3gHVfxrIwN5M4XwakEvwfjo
-	 7yjKGij6c+VKCVOJHE/ZpvP9Q2IIZVEXJjBsFsJctMXbtworG6h2JquRnq1peM/xta
-	 KJff4Z6NsMMN1PTnex9tT7C53JkxrlireDFKySF8gAFP0S0/ZQNlgzEIYQROhehYqK
-	 ui8Apgu8Ub23w==
-Date: Thu, 22 Jan 2026 11:59:34 +0000
-From: Lee Jones <lee@kernel.org>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] mfd: cs42l43: Add support for the B variant
-Message-ID: <20260122115934.GG3831112@google.com>
-References: <20260116152054.85990-1-mstrozek@opensource.cirrus.com>
- <20260116152054.85990-4-mstrozek@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNhkPxc8"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-121a0bcd364so1473879c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Jan 2026 04:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769083618; x=1769688418; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EO2jHFxAeHpOuzjmzBcIgwmCRgFgxZDZ1CJgKdMiywA=;
+        b=JNhkPxc8Pp+dC5lvQEHcNULIVckmFIKz6k+If1fGsUZHwWWEPZ+w30ZKyDWUEKqZg5
+         csn4ZozJcWepCFD8g+aRIzovIk+07t58aq1uODmJaP+IfllJZRZIqqfY1aGK4IGZJHj1
+         xIbYpnNz6eL314Yb0sD8pHytbUa5OGwkU4THXudKq1mMDFBpOQLQGJ2mwdLu5zAeQ+QE
+         gQ9MfwZWgzfzuvyAqqE46VOApbj6rIVGt+JQHRxPtRQHImlOTiUcZ3ZhhT7yPd4FYPzW
+         jmvXCnPULX+Ddf1GSKD3BXYTMCS5rTAZ9NQoWb7kirwlPffI8WVqpSOF60CdB4OHnz1J
+         Tzwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769083618; x=1769688418;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EO2jHFxAeHpOuzjmzBcIgwmCRgFgxZDZ1CJgKdMiywA=;
+        b=ctjk0t/N9kD1lPg6wsLcJV7qq5OpC6IQKIOwFUfFuhTTskDND8RL9ZUg14Lpy6XliH
+         jx+IiwWXEARw6zluJTKQ+hOyJHBrw+8wWV9MDESjWEy/jx60YmCR+dB2d4YSvWJrmAAO
+         LkfoD0qp0HtxbKvKJ2WJFqFCcSh5gL7oWvbPfotUvC10wg/Q4qEyUki+p8+zK6EnTNwL
+         ZXuieXWbVUYpUbpTnfpdiSMUs6bG1WUldiDp0lRkEdLwPhQV9F96noNtC+CXlL/ckgUM
+         IXND0bReOJXsxGNExLg/J+qWtPoqGE/jAy02UwKZ53COEGa0zoGP7ogzElhg1d7cuPn+
+         CQBA==
+X-Gm-Message-State: AOJu0YwLrIcJzu4KGAVOx0STvFN8HGK6PF74zboCpoi1LZ+AHWqq/XR3
+	f3mEggxck2ONiwwHUzAr4IwqNmRVZPEMrTgcX2zBnpQCzia/26FF5Y/0
+X-Gm-Gg: AZuq6aL3swhiZeDpVsg+rRgDD3VrDgh2DrMdPtXsQ2GDt+2aFLyFAe0OWHfOQ03Nz//
+	tBPOkOf6FmgAFlXaqn7YMcTm6D2Pgzj+5BmGgVhI4DsYQtP17FtRxu97jiLJh1Wyv8K+KIVHNrV
+	rS677CZKH+FGkorrLyX2qItb1Lyti3Yy3cRbeXTw+6vHtpIKDXveKIxS+nqd11jVlqYpDOwxJgR
+	k86VsezXUapgL7rVssNxpZPgJwiaCa02zy2XSQjpZHkz/wdlMjxC96IQNX0YlUqMe5kF92OxYn3
+	/5YpshEnhQtKyZ08hbbXXIj8hPEUeLvtgP6D2s1nEqJxWUOKMdqO14wqxb1sGHmTjsTQ5Lkzpe/
+	IvRMk7jRDztMndatiyd5tPIbtdbDyYHxJW7R+YGKTTh0Vi93a6o/+/pJkj22pG6rpcaC75FTU9c
+	bQ0+w3MyPZllHrqTQpVh7zc8kqkXJ3PpNMAyvFY//4fcsGfeGIf/eMuw==
+X-Received: by 2002:a05:7022:4585:b0:11a:6424:f40f with SMTP id a92af1059eb24-1244a7771c2mr15836313c88.36.1769083617916;
+        Thu, 22 Jan 2026 04:06:57 -0800 (PST)
+Received: from gongqi-WUJIE-Series.. ([38.213.30.129])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac6c2besm32090119c88.5.2026.01.22.04.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 04:06:57 -0800 (PST)
+From: gongqi <550230171hxy@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	gongqi <550230171@qq.com>
+Subject: [PATCH 4/4] ALSA: hda/conexant: Add headset mic fix for MECHREVO Wujie 15X Pro
+Date: Thu, 22 Jan 2026 20:06:52 +0800
+Message-ID: <20260122120652.3471910-1-550230171hxy@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260116152054.85990-4-mstrozek@opensource.cirrus.com>
 
-On Fri, 16 Jan 2026, Maciej Strozek wrote:
+From: gongqi <550230171@qq.com>
 
-> Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
-> the same driver.
-> 
-> Changes in CS42L43 driver specific for CS42L43B:
-> - Decimator 1 and 2 are dedicated to ADC, can't be selected for PDM
-> - Decimators 3 and 4 are connected to PDM1
-> - Added Decimator 5 and 6 for PDM2
-> - Supports SoundWire Clock Gearing
-> - Updated ROM requiring no patching
-> - Reduced RAM space
-> - Each ISRC has 4 decimators now
-> 
-> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> ---
-> Changes in v2:
->  - Rework the mechanism to identify the new variant along with some
->    error handling improvements.
->  - Added some comments in cs42l43_readable_register() for clarity.
->  - Add handling of the I2C path for the B variant
-> ---
->  drivers/mfd/cs42l43-i2c.c        |  7 ++-
->  drivers/mfd/cs42l43-sdw.c        |  4 +-
->  drivers/mfd/cs42l43.c            | 93 +++++++++++++++++++++++++++-----
->  drivers/mfd/cs42l43.h            |  2 +-
->  include/linux/mfd/cs42l43-regs.h | 76 ++++++++++++++++++++++++++
->  include/linux/mfd/cs42l43.h      |  1 +
->  6 files changed, 166 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
-> index a2ab001a600a..0a0ab5e549a5 100644
-> --- a/drivers/mfd/cs42l43-i2c.c
-> +++ b/drivers/mfd/cs42l43-i2c.c
-> @@ -47,6 +47,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
->  	cs42l43->irq = i2c->irq;
->  	/* A device on an I2C is always attached by definition. */
->  	cs42l43->attached = true;
-> +	cs42l43->variant_id = (long)device_get_match_data(cs42l43->dev);
+The headset microphone on the MECHREVO Wujie 15X Pro requires the CXT_FIXUP_HEADSET_MIC quirk to function properly. Add the PCI SSID (0x1d05:0x3012) to the quirk table.
+---
+ sound/hda/codecs/conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[...]
-
-> diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
-> index 2239d8585e78..8313f9e8c722 100644
-> --- a/include/linux/mfd/cs42l43.h
-> +++ b/include/linux/mfd/cs42l43.h
-> @@ -98,6 +98,7 @@ struct cs42l43 {
->  	bool sdw_pll_active;
->  	bool attached;
->  	bool hw_lock;
-> +	int variant_id;
->  };
-
-long != int
-
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 5fcbc1312c697..2384e64eada36 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -1123,6 +1123,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad/Ideapad", CXT_FIXUP_LENOVO_XPAD_ACPI),
+ 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
+ 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
++	SND_PCI_QUIRK(0x1d05, 0x3012, "MECHREVO Wujie 15X Pro", CXT_FIXUP_HEADSET_MIC),
+ 	HDA_CODEC_QUIRK(0x2782, 0x12c3, "Sirius Gen1", CXT_PINCFG_TOP_SPEAKER),
+ 	HDA_CODEC_QUIRK(0x2782, 0x12c5, "Sirius Gen2", CXT_PINCFG_TOP_SPEAKER),
+ 	{}
 -- 
-Lee Jones [李琼斯]
+2.43.0
+
