@@ -1,40 +1,85 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E6F31D364;
-	Thu, 22 Jan 2026 13:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769089039; cv=none; b=J24MnWsoPrdsZB7To5fiwf9IKuE9YVQzscC7YfI27v0HxoHT0gao10GBKMBgX1yZ1oCs18mz7sxALNsC471UqNxqC8yoVv2Y2Lns1Z6ihtnfgv7fmpMkh8ZpGK5z64GDMpwDhtPWDcra/5PNFAWfrou4YWHb5z9XvEevqjhNSN4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769089039; c=relaxed/simple;
-	bh=EMpJLUAQj8blBI5g0ndc1yFR9hiq4yo/V7knztaxU0A=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6409319873;
+	Thu, 22 Jan 2026 14:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769093784; cv=fail; b=iFDGWRJAFsxuLb6PFx7MFsseF6rieMtiNLCFQgWNn0vlUSAW6Z98NorL5/TIqlUGZENkvETB5ZxjktGBq7aOKeufetZah8bPvMV53kKT+1iFJD3UocJK5xOkPHLUgqsT4Ivctm/x+QR/uNnSAJu8RF7TMLpsmMnUDdkWEJMLUII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769093784; c=relaxed/simple;
+	bh=bIhui9a9FNhHp8FqzVOE9BzOYnvEyxMq8ejWhVV4WX4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KbcfxhnvHlHXJ5k+a52tQwhi/CsrYWRnxqkPQirhp/dftd2KQkkyzLUN88SNqQ5NB5CYS6iEd/SsNJqc+ZU1XAE0F4lqcFKreDsZR+S7xOdtF3LfnY+1uEVlrpFJFvCnzbqhyxqQWdxgywqXCsI3Cca/u8VTETLMvlYGC99Yyx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=2ARCu0e5; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	 In-Reply-To:Content-Type; b=lvKOGfOZ7qDDWWcDMDA7YNOYhhsPy9GrjPWuuQSneZf97odh3xN0fUw+qCaqf6asullD+RVUwm/KIGQhZ2BbNZmWIPK7dl21yM1if2y3/oprdgl7NDFmOpHkObFiwLjRHi1Xp/DKXVYiDhp6Gs9dCLSEagcBTt8c4Gr3+XJHKJ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cfumuUJL; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=z9hGt3hy; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="2ARCu0e5"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id BF9E23CB7A;
-	Thu, 22 Jan 2026 14:30:11 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz BF9E23CB7A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1769088611; bh=Z+0GuEb13eLVDwB6mM61Y4u8nkPMX9KAVrA+jxplrh0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=2ARCu0e5DCHUHlsIftNqBEjqVjBlPs+X5zMEDa3zG9VjEHY5ql6eJn/1Ti2kbM89f
-	 0nI6/rvR5KCDTJCQjSc/ytA5Rew+XHHaB7MxFuOss8QXNUwQL62XtchvwVmMGYPxoA
-	 QKZi3tvMKvtbB39N8kKIj0ZIt/s3R/gomnF4DLWY=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu, 22 Jan 2026 14:30:05 +0100 (CET)
-Message-ID: <fce36281-1aa4-4a83-afa1-2470df4453a0@perex.cz>
-Date: Thu, 22 Jan 2026 14:30:04 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cfumuUJL";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="z9hGt3hy"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60MCfTL22926933;
+	Thu, 22 Jan 2026 08:56:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=DRd4EBDG/xeBNJbPIOagtgw7LuWg13v6aMgaASTF8tQ=; b=
+	cfumuUJLw7po2wG2kXllX7DNcq58zIYLdVFHRWq+uvDWixWiUHFc0TDJWGo0HRL/
+	gNDV715bDVWHZn6nlACtfZH/YHAE5TwYf5lKgfJfBlzvrI1Q40xoPmKJCrDj+TDG
+	nuKxzBzR+2yVc5/xxiZ9eiinTRu4h362HrYwRFdtVSbQG6XVNRm6RqZFZ+VGznrU
+	O3ZuYOlNu/DLhVjy6ZibXYTsYgmMBUrRVa0cuMhMvNxsIO1mfgKv6V/ub2dsvyyc
+	yxJYl7mPVGQOMCmvEpIZ1RjUAXras+IEZhgmRFTD/xrdAv6ugmk7RUdgRW0CQfgf
+	HMTe/DuIPujlT8vcdhCxnA==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023092.outbound.protection.outlook.com [40.93.201.92])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4br7qjxdnv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 22 Jan 2026 08:56:10 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B7CmryxcUEXSlPD2mL3wYnTCZmHN6nb6j079bEchsUkVLoCzakIO3OApiQeRxFtGncu5mb4hFwNlBof+fMabNghvHsMSKnWKuQVt0z2u1pjy61xsjLAReM6+zjwETrgSi4Wbk6H1Mg3+abDwa8l0geJk5Kdq6sGwnx+UXZmn7STbgAV281fY3r8GJfoQZ1U2W6s8M5Y4yGeQJke7Go0OtoDXz1WSg8abFBPEwRtDMQ8X9ITyujSuhStE/5ATpCAOYfCNZO7N5OZvs1zyL+Eh2eL4W7wZHefE45i3SoVIssh9J2D8I/oGu/owVrTGNy4Iatf1NKuBXRQSGamNTxnKUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DRd4EBDG/xeBNJbPIOagtgw7LuWg13v6aMgaASTF8tQ=;
+ b=AYnYvCOM59hOjDphE9Ut1f2NeHcgAIEGO81I9Sv1pFKzAUYrhH71vqN2+WFG5JWdj7D//Wfn3G+Gx0NNutaEi49UCYA8sMrs6f9OXW2u94oCEACa1JJktKI301wkd+9LKsG1nHCnEvYYq3nq6pWYs4Y5AcStARlrsrxyuFvpEOJCPnpTj2xgc6T385WEDVBri00knZ5XyXO3pU+JgwGru70w8bDBpLikmaspr0r0V/hIidwIVGH5hyOTNLn+dwxj53ZEZv3MXipa1wVaRryMBV4FnIaGpl8XLLgpXlMTCzOABoVq1PZgfENzMEZJwyqLKMFtYR3wNgN4g44GENol3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DRd4EBDG/xeBNJbPIOagtgw7LuWg13v6aMgaASTF8tQ=;
+ b=z9hGt3hyLbRSnswMMvo6u9nBho6Xqu3xhmPny6UjaNvda8VnM7wEr1WSc1iUbOAm55gDjsXAkQYVApjEMj9q9xyVHr5utfqXcuXBk7QN4PmCF40syalaKW7rEtzix4yytkdGnlz/Zm14ESoMqu83sCP7mKVKg2+DceljymDpxOU=
+Received: from BL0PR05CA0017.namprd05.prod.outlook.com (2603:10b6:208:91::27)
+ by DM4PR19MB7262.namprd19.prod.outlook.com (2603:10b6:8:10a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
+ 2026 14:56:03 +0000
+Received: from MN1PEPF0000F0E5.namprd04.prod.outlook.com
+ (2603:10b6:208:91:cafe::94) by BL0PR05CA0017.outlook.office365.com
+ (2603:10b6:208:91::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3 via Frontend Transport; Thu,
+ 22 Jan 2026 14:56:02 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MN1PEPF0000F0E5.mail.protection.outlook.com (10.167.242.43) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
+ via Frontend Transport; Thu, 22 Jan 2026 14:56:03 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 32E3E406540;
+	Thu, 22 Jan 2026 14:56:02 +0000 (UTC)
+Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 17831820249;
+	Thu, 22 Jan 2026 14:56:02 +0000 (UTC)
+Message-ID: <22b7a6b0-3abc-4e20-837d-da434111970e@opensource.cirrus.com>
+Date: Thu, 22 Jan 2026 14:56:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,109 +87,124 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: control: add ioctl to retrieve full card
- components
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, alsa-devel@alsa-project.org
-References: <20260122111249.67319-1-mstrozek@opensource.cirrus.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20260122111249.67319-1-mstrozek@opensource.cirrus.com>
+Subject: Re: [PATCH 5/5] ASoC: cs35l56: Add KUnit testing of
+ cs35l56_set_fw_suffix()
+To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+References: <20260121132243.1256019-6-rf@opensource.cirrus.com>
+ <202601221843.kS9IMZ0E-lkp@intel.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <202601221843.kS9IMZ0E-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E5:EE_|DM4PR19MB7262:EE_
+X-MS-Office365-Filtering-Correlation-Id: b309aebc-c698-497f-ce62-08de59c65d07
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013|13003099007|7053199007|54012099003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NEZKSk9xQThoQUFRUEpqeU91MEMxZ0xOcnRMUkNjVmJtY0toODdRcWRFRE40?=
+ =?utf-8?B?QVA5aEZxcDJTZXhkY28rbWRtVE9NbUNsYldVOFZDbjUrM1pUZkxVQ01nYXc2?=
+ =?utf-8?B?T0U0ZXloZE9yZHBzdEE5d0NCNW5kSEdGNVkyMzNVMGE5S1ZOVEloUnUzcFVL?=
+ =?utf-8?B?YVJPRlY2RnhpcmVaL1Y1aFAyVHZKTUZoK09EbTJhUVg3WkdBbXc0cVZJOVJI?=
+ =?utf-8?B?d1NVZ2tMeEptbnZoZnNSRXNGNjBNcDNQOENSZndGbFJielhpc2dQWEhBalVW?=
+ =?utf-8?B?cDA0ZWQreFY0RnZDdDBHSEduZTN6SFZxY0VJSCtBNFlZaHBnaUF0eldrKzZG?=
+ =?utf-8?B?bGpzREtwdm00UEVHNXJQaW9sQWRjc3p5QUFDUHNxekJ6cXJaNDRHYVFpdW80?=
+ =?utf-8?B?NFk4YXlxQm9XZ1JUcC83R1hnSHp3eXUyT3VZSCszMUNnYzBNUkZGellQWk5M?=
+ =?utf-8?B?V29YQ3k4M3ZaUTFLSW9yb3pNd21DbC9QK0Vrc25za3kwS1ovdEY1YlJLVkhE?=
+ =?utf-8?B?UkV2Z0VMai9DNmQvU2dnWldLVmc4V0t4Y3dMRXR6RVFjeHlUSzBLRzNUeFA0?=
+ =?utf-8?B?akJvMktXSVlvS1pCMlBnVi9kUDh1R05EZmdITHd1YUx2UnRtUnRwRHROQXFy?=
+ =?utf-8?B?ZFlaSU5VcEovOUlWVlMzbklkSy9zU2RERnJUNEdYcXkyK3p6NHJUMDNPbkM0?=
+ =?utf-8?B?WXkyQldTWXBPQ1h0ZHY2Q2J5bVZKYUpuUGthd0xrajVBUnlobjBYV3Z6aWdy?=
+ =?utf-8?B?QkhTeGsvUjBReDQ0aUFiVlQwbW5ZT2NWYzlOTDdIZVJJNFhKcGNYRFM2TkIz?=
+ =?utf-8?B?VkcrVjNvSzZma3BCOXhZa2JnK05GRkZtYmZhSUZCVWErZFlldDZJTk5uOG1z?=
+ =?utf-8?B?RCtKT2NVM1p1Z0daUEhFYzYwZFZ2T0FRWHFFRFNGMG9KZ3pEYTZ0a3JUTHNw?=
+ =?utf-8?B?RzZIRDdnWFZ6VVI5MHlJVG00UENsQnRseVgwZHUzNEtNTXUvNnZCY2duN3No?=
+ =?utf-8?B?UFYvVnhPNnVmMVRFMFB6bXZJVHVoejhmcFZveDdNOENWZSt1M1NrMWFLd3pn?=
+ =?utf-8?B?RDNNY3Z0RERDemlUU3RWUVpiQ0ZEUkd1YVZRQU40Um03djNETjNWQWZRQTdp?=
+ =?utf-8?B?VFc0c0lleFhYRlhNcWVWVzhMRGhGOXkrZmdlN3VaZkpiTWhRR29lRWZ5dy9G?=
+ =?utf-8?B?MHQyM1pDRzJ2SVZGVEk3ZHhzUk1XYVJiT2dIRStYTThFSXRYUzlmNm1sRjdo?=
+ =?utf-8?B?ampxeTR5T2ZzUlR6UE5iL3NHT0dpcDJxeFp5K290SGd5M3JxaVAycDBTQ2lO?=
+ =?utf-8?B?M2RycGhyY3d4cjV0QklWOCtUbzR4RExsZDRhMTY0a1l4eGVhMXR3OWNUeGlU?=
+ =?utf-8?B?NGZETHZkY1UwdWFHaVZNZTBmTy9pdkNNMENaKzNiL29uNGkzUkpYdHBBSlk2?=
+ =?utf-8?B?QUFjamZTVFJWTTlTUm9MQ3M2ay9FUEdYTlVnVG9Jem5Tc21uK2pOYVQ3Y1E1?=
+ =?utf-8?B?aUpBeW9ibDIwK0Q5TzV4eHdZR0hiOHBqYzdPc21lQ0UwcDNrSGVtTndPd0pq?=
+ =?utf-8?B?V0VDNHpZL0syOHRPNnFtQTlzZGYxNzJxOGx1c1JEcTIwaDVrdkt1THBRUU9Y?=
+ =?utf-8?B?L0xHdmFiNzZ5aU9wWW9LRGtDeElvU1JFb0JzenBDTWVvSTZ0cnhBVTBkbEYz?=
+ =?utf-8?B?SlZHcVdNc1Uva21BL0JZZHhhTDhkWi9FVzFmWDZ5UmpCbmdBY1Nma0RFVEJq?=
+ =?utf-8?B?OGVlT0E5WlJLTHMwNTUrY015cHZRZWZiNmlrOS9NOEN5ajVQVXJZQUlUVE1B?=
+ =?utf-8?B?eWx2MlRTdTJQRTBzSWRPU0lseERNYWNiY010Vk1FQVlGd05lRDJVb3JVakJv?=
+ =?utf-8?B?c0NFbW1pNkZiM1JJOWIyOU1Kd1RHSFpldVJPRzA1OEs0dDJ3MVFZTUVtcjM1?=
+ =?utf-8?B?QmU0SVlmblpxS1pRRXkrdnZPajVhVU1ibzdIWWJRazZyaEV1WDNLNk90TWlq?=
+ =?utf-8?B?dHlmdDRSZXpYaWNuYS90byswMHlkV05OcDhEbzk4bnFSVjYvSjJ0OWZkL01W?=
+ =?utf-8?B?Smx2R0hKMHJGTWpmMkVtNWxLbURnZVkrV1ZSTml4MUg2ZXRKdzBFTlVieGRL?=
+ =?utf-8?B?THgvUEtlcVVMWWVFSjJyallhdTROWGthOFIrNUI4bzdYVHF3UDB4RUIxdVY3?=
+ =?utf-8?B?Mi9DblNHemIxZnNLNkdBeTdlcGZnZSt3UUpQdWZnR09vK2hzeSthOFF0NEJu?=
+ =?utf-8?B?YTA1dHJyRXpMR2xFc0xOdHRZWWFBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013)(13003099007)(7053199007)(54012099003);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 14:56:03.0320
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b309aebc-c698-497f-ce62-08de59c65d07
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0E5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR19MB7262
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDExMyBTYWx0ZWRfX6+yYYBoIQoFj
+ pXoALVNTNRyLTsyHI4GpxvoOEi3HWM4B7clcxHRgAcagztHU5bU902IfNkjdP/dWzTEj1VAlL6L
+ SQyslfa4HSqGqiQps+5ipdxDFAssPECJp5/A4F3nLpn4s1NCAxhzMcWc1jVgbNA2KzHnznxWefh
+ pPvvilPbz1EzSGJ4IArMCQybqkEwk3AlT/7yo7CuaJt+jJ6Lcug+VJh2n8UXXqoulPJo6SIkTTN
+ 1uJyJRKi9PVdwe5p2pfdmFZXnCpXghJ+60PqX5hYQQY6moH3TKzVruQp4uj4lwrt0xWRsi6BqnD
+ cpeBAzV7AEH3eMER9B6UNCNDCOZX/VnuxsFwLlOtb7sbCsdVsZ1rgkxJpG+hhe3uL+tjIDpkHYV
+ vtQU4GgQ5dmR90khK1rb4LxnW5bKMMZkgIv8aNWevxYO5kZ6Y2sLngiVegKi1WLjTeUgeuN1x/r
+ 6zXgCF+VeOlsFTBa0kA==
+X-Proofpoint-GUID: 1Jg3auqRrhE5aIhdC00l8BUcbgB9QXpw
+X-Authority-Analysis: v=2.4 cv=GrRPO01C c=1 sm=1 tr=0 ts=69723a8a cx=c_pps
+ a=Ta0D7379KrHwLEZKU6rhjg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
+ a=w1d2syhTAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=hsye5iHl473IEWifFgMA:9
+ a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: 1Jg3auqRrhE5aIhdC00l8BUcbgB9QXpw
+X-Proofpoint-Spam-Reason: safe
 
-On 1/22/26 12:12, Maciej Strozek wrote:
-> The fixed-size components field in SNDRV_CTL_IOCTL_CARD_INFO can be too
-> small on systems with many audio devices.
+On 22/01/2026 10:25 am, kernel test robot wrote:
+> Hi Richard,
 > 
-> Keep the existing struct snd_ctl_card_info ABI intact and add a new ioctl
-> to retrieve the full components string.
+> kernel test robot noticed the following build warnings:
 > 
-> When the legacy components field is truncated, append '>' to indicate
-> that the full string is available via the new ioctl.
-
-Thanks for the patch. Comments bellow.
-
-> @@ -88,7 +89,8 @@ struct snd_card {
->   	char irq_descr[32];		/* Interrupt description */
->   	char mixername[80];		/* mixer name */
->   	char components[128];		/* card components delimited with
-> -								space */
-> +								space, truncated to 127 chars */
-> +	char components_extended[SNDRV_CTL_COMPONENTS_LEN];	/* full card components string */
-
-I would remove the original components[128] string and replace it
-with dynamically allocated 'char *components_ptr' with 'unsigned int 
-components_ptr_alloc' to store allocated size. Then the snd_component_add() 
-function may allocate (and resize) dynamically the components_ptr on demand 
-(using e.g. 32 byte step). This will also catch all drivers using the original 
-struct member when compiled and make the memory usage a little bit happier.
-
-> +/*
-> + * Card components can exceed the fixed 128 bytes in snd_ctl_card_info.
-> + * Use SNDRV_CTL_IOCTL_CARD_COMPONENTS to retrieve the full string.
-> + */
-> +#define SNDRV_CTL_COMPONENTS_LEN	512
-
-This define seems not much useful. The sizeof() on the structure member works 
-here.
-
-> +struct snd_ctl_card_components {
-> +	int card;			/* card number */
-> +	unsigned int length;		/* returned length of components string */
-
-... not used ... Zero terminated string is enough IMHO.
-
-> +	unsigned char components[SNDRV_CTL_COMPONENTS_LEN];
-> +};
-
-					Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+> [auto build test WARNING on broonie-sound/for-next]
+> [also build test WARNING on linus/master v6.19-rc6 next-20260121]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ASoC-cs-amp-lib-Support-Dell-SSIDExV2-UEFI-variable/20260121-220028
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> patch link:    https://lore.kernel.org/r/20260121132243.1256019-6-rf%40opensource.cirrus.com
+> patch subject: [PATCH 5/5] ASoC: cs35l56: Add KUnit testing of cs35l56_set_fw_suffix()
+> config: arm64-randconfig-003-20260122 (https://download.01.org/0day-ci/archive/20260122/202601221843.kS9IMZ0E-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601221843.kS9IMZ0E-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601221843.kS9IMZ0E-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> 
+>>> WARNING: modpost: module snd-soc-cs35l56-test uses symbol cs35l56_set_fw_suffix from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
+> 
+Please reply to all people on a thread. And as a minimum include people
+who were To: on the original patch email. Otherwise people who matter
+won't see this report.
