@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595DA234973;
-	Thu, 22 Jan 2026 13:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB6530F53E;
+	Thu, 22 Jan 2026 13:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769088365; cv=none; b=hFgaS1b0OvFmDKzyG5+w9kGNtPWAHAiPOufMp9UlHYc1WdAeBbf/wOnIbSHrtxN8yXkSxuD2zxwcTUvtvmitIFq7dF1+JyPBjwC6kl4SXZg5WhB/fEIiSeWOma/0TLBu9iughUhcgrVog3i7mamSd5/8CvU52iBqyeRVGBHJXd0=
+	t=1769088366; cv=none; b=WmlpG8e1+Cy7i+/WXTsgrqsZPMUqBMfNk12Bzod4X56Ful8BU+6eqFvuGr7/C1w2IcyaZWp3v0YLfgSQ70dFhPk3JacvMEtuUa3Tja3DH/01qK6ty9iQ+r/CzSLV9ZdDrk13/u2uVefHqYYLWLUgdu6ZOw7dQ31Fq3me9lsUTJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769088365; c=relaxed/simple;
-	bh=CmAY+q/rceSfk7HDTugzOyxloBuDfXy+nuOxUprtVPk=;
+	s=arc-20240116; t=1769088366; c=relaxed/simple;
+	bh=a4M+9qr/iGf3vAJMPcE17WN3/sI8rpswi0dA9EBflZs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XDd6EVvtWa6B45KOE8sHgj2+QxWk/X8IhIjCEqY6Vcb6k8jXl5C3TKWEsMAJRXe3IqSYGiMEPp5dzlq06BaLJ3CDzLvycnLObbreVLYqOrmXTDyBl6mlUDiSBgB9uVUWZ3d56FOV+6ZReEGbPPwic2W/4uNsTAoQwSM7zl/vL8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ILQTIXph; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aJ7uToQwhx9Ot7DWYPD2x2jC6iGo6/u/JHsteBt5l9dz9zo6dnioIfnWCF3P6yGOYMZiXpM8z7jmjnhhshN4IVz4XwOpnHlwsVvfQowD7S46RF5xKiww32LYeg/oZDJrKeClRZAwfnFT4cCGZDv8bDWt71lBvHTMzplhTABIIdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZcpBWaQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ILQTIXph"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84E4C116C6;
-	Thu, 22 Jan 2026 13:26:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZcpBWaQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A738C19422;
+	Thu, 22 Jan 2026 13:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769088364;
-	bh=CmAY+q/rceSfk7HDTugzOyxloBuDfXy+nuOxUprtVPk=;
+	s=k20201202; t=1769088366;
+	bh=a4M+9qr/iGf3vAJMPcE17WN3/sI8rpswi0dA9EBflZs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ILQTIXph4iKF0EIDIcsSKyEWUfKqobzyKu0kPebckmgTwQiIAmvOuMB8BCfG//8Am
-	 nEpH1BeAYWC57sPXQHzD9kKwfqwVBWGDKi92fHejyod3ExbifPZZQcUiq0ytqKlpCZ
-	 GX2auvNzlidHUsGJSfW73eJtRnTKLxgfsdflMONLGnnG7XeZ+Ax9h5y29RZsyMN2II
-	 zCcGFGSjhfSvCKDrzdwIjOlYvcan9Zam5TaWQmGE+AeJd4ZSUfMq4iwVT90uKqNK+e
-	 FxGoVakT8RyAIjGjRlAy/oJZyIIe7K0e48HVphHCQU0+Mhq3jPKpa6yiUx63XllzXH
-	 O0VE626CQth5w==
+	b=OZcpBWaQK8XSZmk1FUqd5omm+rp7nHTiXv99PmC/dlwjP59NsqEhn85e8Dc+Su5Gc
+	 vrKim0O8xj5/6TgTJDNxIx+l8dd8ATz72wGM4zjVp7NwI1TVkuh3HxF1jQwQCfsxPo
+	 XVUC2QftM7uNi5xHly2ZgRi66t0OY15WOBiPa1GqMeHe8gcjXq/WrhL7RtloVhD0Gj
+	 9jozy+vkIW+4+MGENIlqG8QCG/pmcIoKS9bfmiYo2Jp7ZCT4EwVxj2vZAI1bIRvJ63
+	 JdgXNThA6DAznV0lHWAkrsaVtbj0+XNzzfTdaSv8BwdAO1YJox5X6NQx1+B0dADeE+
+	 mb3A2SB+bi42A==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, tiwai@suse.de, bhelgaas@google.com, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-In-Reply-To: <20260120193507.14019-1-peter.ujfalusi@linux.intel.com>
-References: <20260120193507.14019-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH v2 0/4] ASoC/SOF/PCI/Intel: Support for Nova Lake
-Message-Id: <176908836249.85917.12484505676319182028.b4-ty@kernel.org>
-Date: Thu, 22 Jan 2026 13:26:02 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260121132243.1256019-1-rf@opensource.cirrus.com>
+References: <20260121132243.1256019-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/5] ASoC: cs35l56: Add support for new Dell laptops
+Message-Id: <176908836510.85917.8367911975448640969.b4-ty@kernel.org>
+Date: Thu, 22 Jan 2026 13:26:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,16 +45,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 20 Jan 2026 21:35:03 +0200, Peter Ujfalusi wrote:
-> Changes since v1:
-> - commit message/subject fixes suggested by Bjorn
-> - Acked-by tags added.
+On Wed, 21 Jan 2026 13:22:38 +0000, Richard Fitzgerald wrote:
+> On new Dell models the driver must read a UEFI variable to get a
+> variant identifier for the audio hardware. Without this, the driver
+> cannot know which firmware file to load to the amps.
 > 
-> this series adds audio support for the NVL variant of the
-> Nova Lake family.
-> NVL also based on ACE4 audio subsystem, but with higher clock
-> rate, more DSP memory and more DSP cores (4 vs 2) compared to
-> NVL-S.
+> Patch #1 and #2 are the new support.
+> The other patches are for KUnit testing.
 > 
 > [...]
 
@@ -68,14 +61,16 @@ Applied to
 
 Thanks!
 
-[1/4] PCI: Add Intel Nova Lake audio Device ID
-      commit: b190870e0e0cfb375c0d4da02761c32083f3644d
-[2/4] ASoC: SOF: Intel: add support for Nova Lake NVL
-      commit: 1800bcdc68ead7209451085431d80aa95ea7cd03
-[3/4] ALSA: hda: core: intel-dsp-config: Add support for NVL
-      commit: a094d8a50679356fbf045af274ccab85c9a644fb
-[4/4] ALSA: hda: controllers: intel: add support for Nova Lake
-      commit: 7f428282fde34f06f3ab898b8a9081bf93a41f22
+[1/5] ASoC: cs-amp-lib: Support Dell SSIDExV2 UEFI variable
+      commit: 00fd40bc7acecf9f41d645aa0b35ddc7fd7679b6
+[2/5] ASoC: cs35l56: Use vendor-specific qualifier in firmware file search
+      commit: 51b069172a4ef2c6278c64c603a41a7f20329921
+[3/5] ASoC: cs-amp-lib-test: Tests for reading SSIDExV2
+      commit: d70fa6b569a95e71cc25b86ac3cc221bea541f53
+[4/5] ASoC: cs-amp-lib: Add a Kconfig symbol for enabling test hooks
+      commit: 3f086a4f277af799467af6c74902000461e60a33
+[5/5] ASoC: cs35l56: Add KUnit testing of cs35l56_set_fw_suffix()
+      commit: d0ab89951197f0fc509a0cd732d830880e79c2d4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
