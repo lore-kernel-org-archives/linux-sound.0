@@ -1,90 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D55E318BA9;
-	Thu, 22 Jan 2026 13:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E6F31D364;
+	Thu, 22 Jan 2026 13:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769088368; cv=none; b=QVRlGUbLCOBp7+THRaDdhw+dlSnJemLmR9H/Bx3/cVGCb/FXxfUEWlL3fHGj++7J2Mg4eCn58CwFaZ9sO9D7JFDCaQc7gweLbPI/QRkbmfe/lY+KD/p9s8aKq/lo9+VT41lbEZegiZeGNuhlomAcVEQwuQBZrvYd5KToO/TTc24=
+	t=1769089039; cv=none; b=J24MnWsoPrdsZB7To5fiwf9IKuE9YVQzscC7YfI27v0HxoHT0gao10GBKMBgX1yZ1oCs18mz7sxALNsC471UqNxqC8yoVv2Y2Lns1Z6ihtnfgv7fmpMkh8ZpGK5z64GDMpwDhtPWDcra/5PNFAWfrou4YWHb5z9XvEevqjhNSN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769088368; c=relaxed/simple;
-	bh=2LXnu/brmZUI3V1EmnLhPNh9+A6esk4EpC94Vjt+P3M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lkjXqcu6ueYMKmE9JobUz+POGtLvVm+hDDdsYr281shTf6RHodmCNusMQEWE8WeTYnrcMXSKz+v2kzyPw+5tJvfNDL1oqKfShhJgJTn+CAhg5VxiPcAIM3m2gXpxphZi5uvFH+2LddLb0jF5g4c6e6HSSrubTnmHnHWasUrDHXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nrq//dD2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769089039; c=relaxed/simple;
+	bh=EMpJLUAQj8blBI5g0ndc1yFR9hiq4yo/V7knztaxU0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KbcfxhnvHlHXJ5k+a52tQwhi/CsrYWRnxqkPQirhp/dftd2KQkkyzLUN88SNqQ5NB5CYS6iEd/SsNJqc+ZU1XAE0F4lqcFKreDsZR+S7xOdtF3LfnY+1uEVlrpFJFvCnzbqhyxqQWdxgywqXCsI3Cca/u8VTETLMvlYGC99Yyx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=2ARCu0e5; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nrq//dD2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C108C116D0;
-	Thu, 22 Jan 2026 13:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769088368;
-	bh=2LXnu/brmZUI3V1EmnLhPNh9+A6esk4EpC94Vjt+P3M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nrq//dD2l7B13W6g/AX4Nt0SoK1+0ixzvkZ/RUo50OIVJztTicwARgXkbhLSl/aDF
-	 vUaHVmUq+Uug9FphUqlb633hnZnZAuqdEKNoBIfndlQvNtlCfRIs8a3Ezamw+uHIR8
-	 u34Znbn5FbKJBjIAJQ7AkQepc2Euoupf5cGSL68Mqp4iaU+PWBAtbio46/2FUR4err
-	 X/KV1gpXP0PC67vNpDGAQ0HQyChKjKXLIRxSNfO4R8Km0qDNb8DkxQ05aU5PurWLgk
-	 +SSvH4kfGx4AxbloEuzvoaa37V7U+MQla74ongRUrGN5R11fbPgtB7v1l418Hn6Z/+
-	 J1v95ixCYpDNQ==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, rafael@kernel.org, linux-pm@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260115131727.373738-1-ckeepax@opensource.cirrus.com>
-References: <20260115131727.373738-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SDCA: Add NO_DIRECT_COMPLETE flag to class
- driver
-Message-Id: <176908836637.85917.15733709971966901054.b4-ty@kernel.org>
-Date: Thu, 22 Jan 2026 13:26:06 +0000
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="2ARCu0e5"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id BF9E23CB7A;
+	Thu, 22 Jan 2026 14:30:11 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz BF9E23CB7A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1769088611; bh=Z+0GuEb13eLVDwB6mM61Y4u8nkPMX9KAVrA+jxplrh0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=2ARCu0e5DCHUHlsIftNqBEjqVjBlPs+X5zMEDa3zG9VjEHY5ql6eJn/1Ti2kbM89f
+	 0nI6/rvR5KCDTJCQjSc/ytA5Rew+XHHaB7MxFuOss8QXNUwQL62XtchvwVmMGYPxoA
+	 QKZi3tvMKvtbB39N8kKIj0ZIt/s3R/gomnF4DLWY=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu, 22 Jan 2026 14:30:05 +0100 (CET)
+Message-ID: <fce36281-1aa4-4a83-afa1-2470df4453a0@perex.cz>
+Date: Thu, 22 Jan 2026 14:30:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ALSA: control: add ioctl to retrieve full card
+ components
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, alsa-devel@alsa-project.org
+References: <20260122111249.67319-1-mstrozek@opensource.cirrus.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20260122111249.67319-1-mstrozek@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
 
-On Thu, 15 Jan 2026 13:17:26 +0000, Charles Keepax wrote:
-> The SDCA class driver currently expects the device will be fully powered
-> down on system suspend but not on runtime suspend. This is typically
-> required as when audio is not active (ie. runtime suspend) jack detect
-> is expected to still function, but when the whole system is hibernated
-> there is no need to recognise audio jack events. This means the class
-> driver needs to always be informed of a system suspend, so the direct
-> complete optimisation (where PM will skip calling system suspend if the
-> device is runtime suspended) is not appropriate for the SDCA class
-> driver.
+On 1/22/26 12:12, Maciej Strozek wrote:
+> The fixed-size components field in SNDRV_CTL_IOCTL_CARD_INFO can be too
+> small on systems with many audio devices.
 > 
-> [...]
+> Keep the existing struct snd_ctl_card_info ABI intact and add a new ioctl
+> to retrieve the full components string.
+> 
+> When the legacy components field is truncated, append '>' to indicate
+> that the full string is available via the new ioctl.
 
-Applied to
+Thanks for the patch. Comments bellow.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> @@ -88,7 +89,8 @@ struct snd_card {
+>   	char irq_descr[32];		/* Interrupt description */
+>   	char mixername[80];		/* mixer name */
+>   	char components[128];		/* card components delimited with
+> -								space */
+> +								space, truncated to 127 chars */
+> +	char components_extended[SNDRV_CTL_COMPONENTS_LEN];	/* full card components string */
 
-Thanks!
+I would remove the original components[128] string and replace it
+with dynamically allocated 'char *components_ptr' with 'unsigned int 
+components_ptr_alloc' to store allocated size. Then the snd_component_add() 
+function may allocate (and resize) dynamically the components_ptr on demand 
+(using e.g. 32 byte step). This will also catch all drivers using the original 
+struct member when compiled and make the memory usage a little bit happier.
 
-[1/1] ASoC: SDCA: Add NO_DIRECT_COMPLETE flag to class driver
-      commit: 702ce71d32f2c30b4f45b7c6b701d87583c58df8
+> +/*
+> + * Card components can exceed the fixed 128 bytes in snd_ctl_card_info.
+> + * Use SNDRV_CTL_IOCTL_CARD_COMPONENTS to retrieve the full string.
+> + */
+> +#define SNDRV_CTL_COMPONENTS_LEN	512
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+This define seems not much useful. The sizeof() on the structure member works 
+here.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> +struct snd_ctl_card_components {
+> +	int card;			/* card number */
+> +	unsigned int length;		/* returned length of components string */
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+... not used ... Zero terminated string is enough IMHO.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+> +	unsigned char components[SNDRV_CTL_COMPONENTS_LEN];
+> +};
 
-Thanks,
-Mark
+					Jaroslav
 
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
