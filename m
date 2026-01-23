@@ -1,75 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5746B3093C0
-	for <linux-sound@vger.kernel.org>; Fri, 23 Jan 2026 15:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3402B2D7;
+	Fri, 23 Jan 2026 15:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769182121; cv=none; b=C+yULSwlKEJt9I++LVFxbLCRIHSFDKJzgwlrn65VSl+eXazqDCcIgtjFrDi21r9+ugLB8eidwtCymv068AWv7dCYuZh2Npb0hFE2tuBDp57RvIA3BaUDiSWuQurN/Luw9avq9UXbWyynw1eJBf41QpfEwiOefGkOUi7Njp0rDCo=
+	t=1769183236; cv=none; b=mDUK7gg+FqhP8+V4D3bkAmNuWbwqFUXUx+ZWYPBwhbYdxs+x3AnsaSd9GDtHo1TKMNNhS/Zhtuu6JvC9FOA8bXv8g1ComQ4dCyrwNNy06KtKKXXVBU73m2CvZ6+5Cvv5k6WCX/0nEMOVvMFulefDfzFlV10dqyzDRI5nfNRjlQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769182121; c=relaxed/simple;
-	bh=BayB0MguW184IY84l6LMF+tWtb0nOZuVaKaxIz/F6f0=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=cDVsT2xzBKzql9v0NxJ0yYtFmnUvnqL0ln1EPEnDjEw5ffYsmTmXQHLomoMTJ3ekMP4Zpp/IeCKLI1a+MH8A6A/Y+M2bT66yoh2HvgEd6498QGXIITsShmIExjW85lV4y51jBXQmU39KQ8uz1VvfSqvxJ4AbKDB2xke2cOqCpWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cVli+AST; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769183236; c=relaxed/simple;
+	bh=hzHy7gEj4igAyZPA5EZDC6F+Dkp3qp4geRO5DtJip3o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VXSDvn6z5k2NE7CecJpgGnoiVjg2DWB93nzbnEN2QM53+F+XSnedOya+ic7YszHyEiHvfEcpooiqvcfHobVWvVfvpQAxycv/hX7sPoDTWbR8C63Zy2olXDNiBgrq4VYoWFWeWf+xUvHzm6wqekl6nRperw7zbh5Xra0xGqCurdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=kbP8a5Ww; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cVli+AST"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA3FC4CEF1;
-	Fri, 23 Jan 2026 15:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769182121;
-	bh=BayB0MguW184IY84l6LMF+tWtb0nOZuVaKaxIz/F6f0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cVli+ASTKl+AlZcO3HdbcovtpqWt4/FcjMWvHw6aldySU7Qa95ULJGKa5KU/AoA8L
-	 VseoMQkWdd92af/OI3tO5TtdX6wlW3RvDeExtGSc1uVtH3b/TthxztiMutxgG/zHbO
-	 X4XuTvs3Cb0GSs5rv1Nt4L7g01jR98aLALiOJoQeyR+9Iqxveg8X0vB4OM8dxQ4vDV
-	 KjsuQJ4ZOyMRvrZK0bIYwjavoF1CtxARv0gxTXfNKtqJ+l3QQe325WvYKm1o95QmAy
-	 cQjoqdlWm1fV2BNDfDzIUV7hR3PsDUrVgNyOJa5UaNDJ13a6hKXXRgLjx171D7rVre
-	 wlVwtXeyZDUzA==
-Message-ID: <b9a26fcf7ebc08d3deb132f538a592cb@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.19-rc6
-Date: Fri, 23 Jan 2026 15:28:30 +0000
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="kbP8a5Ww"
+Received: from [192.168.0.120] (unknown [61.8.159.50])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 128582FC0052;
+	Fri, 23 Jan 2026 16:47:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1769183226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAnaMqxS+Ztsin5R/ZptE4rivfR+Oeo92Alm1kxvLLQ=;
+	b=kbP8a5Ww6A+H0DT31fWx8NY0w6+HgzltbvN+OuuEFzlWJTEACtWfqtpnsL596g4mFU0idp
+	FyN9unL8fP9m2wb2j5or8HZl78vtiHnGA/xvZKdV5Vy6Ocp9K5W/nYihZjwKHqd2jtk1/E
+	EKC80YgshLBvn5dHpKmagPyCUa2rZ3s=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <1a659074-83dd-4bb3-9be7-d65d25457def@tuxedocomputers.com>
+Date: Fri, 23 Jan 2026 16:47:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ALSA: hda/realtek: Fix headset mic for TongFang
+ X6AR55xU
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260122171543.19958-2-wse@tuxedocomputers.com>
+ <87fr7wftn5.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <87fr7wftn5.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7:
 
-  Linux 6.19-rc6 (2026-01-18 15:42:45 -0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.19-rc6
-
-for you to fetch changes up to 018b211b1d321a52ed8d8de74ce83ce52a2e1224:
-
-  ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks list (2026-01-20 12:56:03 +0000)
-
-----------------------------------------------------------------
-ASoC: Fixes for v6.19
-
-A couple of device IDs and a couple of small fixes, nothing hugely
-remarkable.
-
-----------------------------------------------------------------
-Anatolii Shirykalov (1):
-      ASoC: amd: yc: Add ASUS ExpertBook PM1503CDA to quirks list
-
-Fabio Estevam (1):
-      ASoC: fsl: imx-card: Do not force slot width to sample width
-
-Ricardo Rivera-Matos (1):
-      ASoC: cs35l45: Corrects ASP_TX5 DAPM widget channel
-
-Shengjiu Wang (1):
-      ASoC: dt-bindings: fsl,sai: Add support for i.MX952 platform
-
- Documentation/devicetree/bindings/sound/fsl,sai.yaml | 1 +
- sound/soc/amd/yc/acp6x-mach.c                        | 7 +++++++
- sound/soc/codecs/cs35l45.c                           | 2 +-
- sound/soc/fsl/imx-card.c                             | 1 -
- 4 files changed, 9 insertions(+), 2 deletions(-)
+Am 23.01.26 um 12:36 schrieb Takashi Iwai:
+> On Thu, 22 Jan 2026 18:13:42 +0100,
+> Werner Sembach wrote:
+>> Sorry the last patch I sent didn't actually work. Here is a revert and
+>> a new version. Luckily it was catched quickly.
+>>
+>> Tim Guttzeit (1):
+>>    ALSA: hda/realtek: Really fix headset mic for TongFang  X6AR55xU
+>>
+>> Werner Sembach (1):
+>>    Revert "ALSA: hda/realtek: Fix headset mic for TongFang  X6AR55xU"
+> Could you rather fold into a single patch with a Fixes tag?
+ok will do
+> Or, at least, give more details in the revert patch.  It says only
+> reverting, and it doesn't help understanding what's going on.
+>
+>
+> thanks,
+>
+> Takashi
