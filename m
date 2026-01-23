@@ -1,142 +1,142 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7622C11E1
-	for <linux-sound@vger.kernel.org>; Fri, 23 Jan 2026 11:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AA9329E7B;
+	Fri, 23 Jan 2026 11:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168179; cv=none; b=TJPx35Hjw5qgS+wiegvYJpQ98sfkA8nvJcR7Mcq2vrxEyoJycxOr6vFyNBLlgqE+nGjq/qoCBCqSWp/SwQenzm+AUnB2LSh54N5q+FYW/SS9Mbl63S8vjyYM1kMBGln10ViDauW48Nf/O29UmzRXST7lwRMNA5y6mpZOCA9dht0=
+	t=1769168242; cv=none; b=aB/O6O83BSZRAm7f15OfLT/oVUL1NhOsasez2Kz6ScoHaMd0NxvzDWhFKpZtP4Szj/QFlJ9hblJh4maAhO//Yez8NOjQDFlKVGm/Msn65EcUAofb1hckjN7dx0/5aDMRtIUmOmhYaADgWiDb+wGwMS9lmewjlGlT5Rf17rU3XIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168179; c=relaxed/simple;
-	bh=p9lV1MZc4d3D8+YpLL73UTN1ZyyIUOlNO74WN3Qv+VA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lgfjec5G1d4cWhe+SMcOemOg4ItoFYMX81BazjESJu+FDqPrqeYoiGb+iJ/c6FyxpR2fgcq3K4OCXxQZ2LKUef17HnIUxcRThqRK2WNAaE9QGqSBC8QWkUiOxQRKzM6YvaKBzKf/p38FfpfBYdfFItsODwVh6uvGgyF2/0wYfRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gKA/W9d0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lOvhfxIL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gKA/W9d0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lOvhfxIL; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1769168242; c=relaxed/simple;
+	bh=cLKLW6ziX3Ksgnw3BL6kHmpaf7kAWOi/CXF1JlHLr4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FvdtsDnX1TR6oAN2iPNG2hpFkFAa6IXVj2eBxq54SdD5rIihztJgpmYHqqEsE66E94F9qSiQAMIqumxO8U/bLWlTSRp5WvQnL7a2+r5oEcGxRoYoAMp3SEOvJB1BYTGonXihneJqeMhBzZULQ/z+cwt/Cnzudyu7Zbj+GRH8U30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1PpWPZTu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ujN/GR4s; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gKA/W9d0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lOvhfxIL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gKA/W9d0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lOvhfxIL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 828FF5BCCD;
-	Fri, 23 Jan 2026 11:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769168175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1PpWPZTu";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ujN/GR4s"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1769168238;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v2Fz+NXy2tubQ2VkY1GIwVZJi9zJovqqQlxfZ7hg9Kw=;
-	b=gKA/W9d09kRoTshqYHzcGlO0/SWnAAdZyLF5MXKMuadLQH8FxmCN2n1S/Kz46Cm7VTqgnv
-	VYne09fwi/giQi4EFagb8/8V/zikNre55ELo0jiJ/tOshxk9BUVPBfd+7LZ9x5iiUONAt5
-	JIIBRmz/tJ3Hnb+xuj8aGdNgApB0OeY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769168175;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=OWR1GspezhW/fA+bl2hg34AmkML9jjEGl3PypfM+23g=;
+	b=1PpWPZTuYYTnGYpI26iiIFHfDG8tkeSIwOcJ9P5M18sGm4PDcMMt6hUrri9jaHtlkJOMVm
+	L2gBkBdGepU7UuMIFLdOf6wSsAXMedQroV1jMDlm62XkaSpl3r2OmHIKzdTdjc3iQN2P18
+	sQ4DVfvN7HTQ7VPW7Bk0/C31QoBIj5PTlmTwgNHbGMd5+dwIQHvyVqNpUvzVGUyMOPtWfX
+	+Qos0dID5gk4Jp8w1GLI8sSf8EIdsjJQia65QwAfv9C8Pa6k/YuNKH4iUUdUjLavmweTMT
+	XVf7Fci7xrj/01Z3d7Sq4uwP2ZvkOfs3ueIeMzSX0mnHkfobOusHCIV+3uXp3Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1769168238;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v2Fz+NXy2tubQ2VkY1GIwVZJi9zJovqqQlxfZ7hg9Kw=;
-	b=lOvhfxILXjmwUgzWW85R3r7/PlX2QnNQQYxQmYnFvuUfNqB22r7QHDV5AxLYecQR+OH9sg
-	lHCPKH7et6NIDXDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="gKA/W9d0";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lOvhfxIL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769168175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Fz+NXy2tubQ2VkY1GIwVZJi9zJovqqQlxfZ7hg9Kw=;
-	b=gKA/W9d09kRoTshqYHzcGlO0/SWnAAdZyLF5MXKMuadLQH8FxmCN2n1S/Kz46Cm7VTqgnv
-	VYne09fwi/giQi4EFagb8/8V/zikNre55ELo0jiJ/tOshxk9BUVPBfd+7LZ9x5iiUONAt5
-	JIIBRmz/tJ3Hnb+xuj8aGdNgApB0OeY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769168175;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2Fz+NXy2tubQ2VkY1GIwVZJi9zJovqqQlxfZ7hg9Kw=;
-	b=lOvhfxILXjmwUgzWW85R3r7/PlX2QnNQQYxQmYnFvuUfNqB22r7QHDV5AxLYecQR+OH9sg
-	lHCPKH7et6NIDXDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ED631395E;
-	Fri, 23 Jan 2026 11:36:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ukbQES9dc2m+eAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Jan 2026 11:36:15 +0000
-Date: Fri, 23 Jan 2026 12:36:14 +0100
-Message-ID: <87fr7wftn5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	bh=OWR1GspezhW/fA+bl2hg34AmkML9jjEGl3PypfM+23g=;
+	b=ujN/GR4s0WsDQLcEcwTJ3J37tkYddDQzVvcOAenhPvB5hxcogC4rxEd0KVD7jr0wNnxqtg
+	lBfpKZMK0w/nKOCQ==
+To: linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: hda/realtek: Fix headset mic for TongFang  X6AR55xU
-In-Reply-To: <20260122171543.19958-2-wse@tuxedocomputers.com>
-References: <20260122171543.19958-2-wse@tuxedocomputers.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	linux-sound@vger.kernel.org
+Subject: [PATCH 12/21] ASoC: codecs: rt56*: Remove IRQF_ONESHOT
+Date: Fri, 23 Jan 2026 12:36:58 +0100
+Message-ID: <20260123113708.416727-13-bigeasy@linutronix.de>
+In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
+References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 828FF5BCCD
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 22 Jan 2026 18:13:42 +0100,
-Werner Sembach wrote:
-> 
-> Sorry the last patch I sent didn't actually work. Here is a revert and
-> a new version. Luckily it was catched quickly.
-> 
-> Tim Guttzeit (1):
->   ALSA: hda/realtek: Really fix headset mic for TongFang  X6AR55xU
-> 
-> Werner Sembach (1):
->   Revert "ALSA: hda/realtek: Fix headset mic for TongFang  X6AR55xU"
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
+The flag also disallows force-threading of the primary handler and the
+irq-core will warn about this.
 
-Could you rather fold into a single patch with a Fixes tag?
-Or, at least, give more details in the revert patch.  It says only
-reverting, and it doesn't help understanding what's going on.
+Remove IRQF_ONESHOT from irqflags.
 
+Cc: Oder Chiou <oder_chiou@realtek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ sound/soc/codecs/rt5640.c | 4 ++--
+ sound/soc/codecs/rt5651.c | 2 +-
+ sound/soc/codecs/rt5663.c | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-thanks,
+diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+index 4c08c274f50e2..db2222e6f2e75 100644
+--- a/sound/soc/codecs/rt5640.c
++++ b/sound/soc/codecs/rt5640.c
+@@ -2564,7 +2564,7 @@ static void rt5640_enable_jack_detect(struct snd_soc_=
+component *component,
+ 		rt5640->use_platform_clock =3D jack_data->use_platform_clock;
+=20
+ 	ret =3D request_irq(rt5640->irq, rt5640_irq,
+-			  IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++			  IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
+ 			  "rt5640", rt5640);
+ 	if (ret) {
+ 		dev_warn(component->dev, "Failed to request IRQ %d: %d\n", rt5640->irq, =
+ret);
+@@ -2618,7 +2618,7 @@ static void rt5640_enable_hda_jack_detect(
+ 	rt5640->jack =3D jack;
+=20
+ 	ret =3D request_irq(rt5640->irq, rt5640_irq,
+-			  IRQF_TRIGGER_RISING | IRQF_ONESHOT, "rt5640", rt5640);
++			  IRQF_TRIGGER_RISING, "rt5640", rt5640);
+ 	if (ret) {
+ 		dev_warn(component->dev, "Failed to request IRQ %d: %d\n", rt5640->irq, =
+ret);
+ 		rt5640->jack =3D NULL;
+diff --git a/sound/soc/codecs/rt5651.c b/sound/soc/codecs/rt5651.c
+index 9af65a38f0ee6..23c4bf3da2982 100644
+--- a/sound/soc/codecs/rt5651.c
++++ b/sound/soc/codecs/rt5651.c
+@@ -2262,7 +2262,7 @@ static int rt5651_i2c_probe(struct i2c_client *i2c)
+=20
+ 	ret =3D devm_request_irq(&i2c->dev, rt5651->irq, rt5651_irq,
+ 			       IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+-			       | IRQF_ONESHOT | IRQF_NO_AUTOEN, "rt5651", rt5651);
++			       | IRQF_NO_AUTOEN, "rt5651", rt5651);
+ 	if (ret) {
+ 		dev_warn(&i2c->dev, "Failed to request IRQ %d: %d\n",
+ 			 rt5651->irq, ret);
+diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
+index e4d8785e64c10..eee1c98cc4aa6 100644
+--- a/sound/soc/codecs/rt5663.c
++++ b/sound/soc/codecs/rt5663.c
+@@ -3689,8 +3689,8 @@ static int rt5663_i2c_probe(struct i2c_client *i2c)
+=20
+ 	if (i2c->irq) {
+ 		ret =3D request_irq(i2c->irq, rt5663_irq,
+-			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+-			| IRQF_ONESHOT, "rt5663", rt5663);
++			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
++			"rt5663", rt5663);
+ 		if (ret) {
+ 			dev_err(&i2c->dev, "%s Failed to request IRQ: %d\n",
+ 				__func__, ret);
+--=20
+2.51.0
 
-Takashi
