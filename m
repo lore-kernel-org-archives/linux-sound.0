@@ -1,63 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A982EC55A;
-	Fri, 23 Jan 2026 20:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D514C1F5825;
+	Fri, 23 Jan 2026 21:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769201218; cv=none; b=WxHNKi7Qlsns2uo9hjDnSOTjTnntWkxRzOwOVrEg1H16tfd8od7dXCkfk+ZqAUrgkzgIIcV3w3Bn19U8LaLVhqulomtxVP5zjyWpMDD8mYiFeQZB9QXKNy3mCMzqQFR53Lto3tHQDNSXulWuwrlq70VxhUqGc6rmfilfog8REBk=
+	t=1769203758; cv=none; b=BFHTSfIVO/sM0zKFvof5bnfV3YCoGGc59Dyf2yMcXmawqxwvOcODsTy4iBFMA9ErUAvethw6YwQq4MgAHL4dGeN+JEAtzLEGrRp73ZkR7R46upAbE0r3O+XeP/okK3dpTWp9Qcq8XWQ5n5Ls2NWA3do9TY5j0bVa50iu3yqgpE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769201218; c=relaxed/simple;
-	bh=uoUjIGCFCdnafbgKiWQoAD/Rb9+RMy+4dlid5LSXXdc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=sCA+B2iaY/fOPiL5ZmwX89QY1/gTUx0ViFSzItcmqhzpx1j0j1lqnKxGrSuXNnKhsYaKmTQudoy58ptqxrHhiSOWYIRL2bXsAxa/ZTnwcwYIa0bOk5Af6iDgkqyo0v3XKwAGWhwOWJ8yYFkofZBm/SUmo8vjljQeifOh4Sw1iRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kuI++Szj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769203758; c=relaxed/simple;
+	bh=Nrwzyqeg2t++hEDeylJCNc8Q9HzsGpIE5P7e4A+A26o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sisUcbIEKj4Pvw9BYnS/ZUqCGZCV+kktxo0hiKWvpmTFrlpppZCryYBaPyGReCRDJfBNE2kz4B5Ki2cYUywj2x1r0RSMN8lWCIpRAP7OiFD+P5eimbFGD5dOAaDGFSh81DElMAYDrp+uGyr7UZPSrmlT+SsqDb4kndTmpHJv6A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=qj6fP8fI; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kuI++Szj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798EFC4CEF1;
-	Fri, 23 Jan 2026 20:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769201218;
-	bh=uoUjIGCFCdnafbgKiWQoAD/Rb9+RMy+4dlid5LSXXdc=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=kuI++SzjmccZG6SGomb0H8zpe43NBg71bQnj4ZzxpBrWM6Bg7tcWcFTKkF/Rh0rab
-	 6Gr8Xzyy9GBQni72wlI50xA4KhPYKZ++0Bdgwx3WWFa94Hf8g2+SMxtxXRV5dcd2JJ
-	 woPpvkZyw1IjBOA3wKQULKquL56Tllb1nv7OzFOeSmpN/IDr8lo4mbruooaNjGsdXh
-	 Z4AhFKxTTCsX9cHiC9++avcHDnLnFYZ34erjEJzawABhZufnXMqPZ4MafEwSb2E1dn
-	 AGIhTzt4mF80Q8dLR1ASuxSm5ZtwEPQzehGr9LCqbmJDsCu30ycRAbX3azuCkCyGHu
-	 loodZ4ONgbr3w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 8BADB3808200;
-	Fri, 23 Jan 2026 20:46:55 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.19-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <878qdoft0i.wl-tiwai@suse.de>
-References: <878qdoft0i.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <878qdoft0i.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc7
-X-PR-Tracked-Commit-Id: 64e0924ed3b446fdd758dfab582e0e961863a116
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6e49f9e05c528055c005bb42018a6b5a615b45b9
-Message-Id: <176920121415.2710575.17718155513653935804.pr-tracker-bot@kernel.org>
-Date: Fri, 23 Jan 2026 20:46:54 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="qj6fP8fI"
+Received: from wse-pc.. (unknown [61.8.159.50])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 7D0782FC0052;
+	Fri, 23 Jan 2026 22:29:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1769203752;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uYUW8K/kzY4puzdW4uaXd9AR9T0srzZgOHHxJ8M65OU=;
+	b=qj6fP8fIm+AORhIfi7KBvv1jEpGknnUN8NpAd0gYa5ROGUkXZ3jYXFjDZusB6Ln/CBAbkc
+	5xXLHaR1N4T5+/DzHGgWAjS5tRKwPccK2F+uGpgyqIqTkSNl/YvxDnHdniz2xjA4dHA0fG
+	tWWQnuH0/BtIzo2ZPz9WQ1putQwL8RI=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda/realtek: Really fix headset mic for TongFang X6AR55xU.
+Date: Fri, 23 Jan 2026 22:29:05 +0100
+Message-ID: <20260123212909.19046-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 23 Jan 2026 12:49:49 +0100:
+Add a PCI quirk to enable microphone detection on the headphone jack of
+TongFang X6AR55xU devices.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc7
+The former quirk entry did not acomplish this and is removed.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6e49f9e05c528055c005bb42018a6b5a615b45b9
+Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Thank you!
-
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 52b246f811872..17047b87276f4 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7313,6 +7313,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d05, 0x1409, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d05, 0x300f, "TongFang X6AR5xxY", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d05, 0x3019, "TongFang X6FR5xxY", ALC2XX_FIXUP_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1d05, 0x3031, "TongFang X6AR55xU", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
+ 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
+@@ -7782,10 +7783,6 @@ static const struct snd_hda_pin_quirk alc269_pin_fixup_tbl[] = {
+ 		{0x12, 0x90a60140},
+ 		{0x19, 0x04a11030},
+ 		{0x21, 0x04211020}),
+-	SND_HDA_PIN_QUIRK(0x10ec0274, 0x1d05, "TongFang", ALC274_FIXUP_HP_HEADSET_MIC,
+-		{0x17, 0x90170110},
+-		{0x19, 0x03a11030},
+-		{0x21, 0x03211020}),
+ 	SND_HDA_PIN_QUIRK(0x10ec0282, 0x1025, "Acer", ALC282_FIXUP_ACER_DISABLE_LINEOUT,
+ 		ALC282_STANDARD_PINS,
+ 		{0x12, 0x90a609c0},
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
