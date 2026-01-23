@@ -1,90 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251AC35B64A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Jan 2026 11:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C491F313E34
+	for <linux-sound@vger.kernel.org>; Fri, 23 Jan 2026 11:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168301; cv=none; b=jlQtaVqlpER/2u6QAN+JaYTEGitI05yM8C8Q9QngcA5gerJhnc8/8DdziEpiK9kgq5V724ba5RTqSlIkhjnHVbj8jAH8t9PzjNjNy6An+p4LgaEiysxXZWUio0gumh9avgGjoIRYG4O6V3R+vDpyhUjcHkYs27Id4PBH/Efi85U=
+	t=1769168320; cv=none; b=ekcN1Q9tKarixtCRqQCnpDPtuVXl5FdNyEi4Vmk+ypYY7hHi/Ix7OgtLyifDF/+5116O8R07H8vul1Koa3Nk9Cu39tEWupUgx0tp8j04jTe7ef8EE0qBLgnMQ+SkOEyYMCp0RlkOkyxTV5kwsrI5owhQLd230a6IYAajhkUYZlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168301; c=relaxed/simple;
-	bh=yRLShJIhmmUMfQ7pAwUSNkabaEVmLkZhNX4eoBjdcDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sRUDpUytxUOWy5DPHspx4JTXNb7phWLbLmLhjSbjk52bwYQUtZ2EC4Wjgrh5lc2wN40eB81F9upEerMsmUVWKUJBzRCsH/ak4QMyCcTdV+18w72eXWihXqIZz1PqwWDvA617tmOfKbhO9aLVpSQ9eLZKUE8SEPNh7T4/0ktRVoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vgi5Qlm9; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769168320; c=relaxed/simple;
+	bh=/WVcQLlNk/aV6Nye8xYIvAN+NSTVaTMU11hHIbRMkww=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k5tmt9N0sTVEkYA6Ht9LpXeDQ5pACFOHRdmKl7q14NlNXb5eKH8h7VAtIh7+WfviHTrGqYas/8KQYm7Ia7UeQNyqGeyHyRs4IrDb318VGf5lWyohQnDjVSNUkCXV5ODjFRGcOgj0y1pbpfgCjULs4Hj6smUKVmiTEMhlJdZK1Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VM9pY3/b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ygo98LSQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VM9pY3/b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ygo98LSQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vgi5Qlm9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769168299; x=1800704299;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yRLShJIhmmUMfQ7pAwUSNkabaEVmLkZhNX4eoBjdcDY=;
-  b=Vgi5Qlm9c6kLwup1SoKlUi8IXZ0gthwwAdNXoWtwT3bIZE7fKsHq4pfA
-   vqg46MW/G3+JQc4PIPh9OipNMIYziiLfYLEa0H5JvqD6vONdDB3ndxF3T
-   feN4p/uzG48lfvIDFaHXrwDzPwxPpFBiqRrLzGVTEHM+KD55/0AWVMjtB
-   vlk1Ez1/CfjrjVy73mRX0KW6gA1vaq6KA2eb5qUekYUG2dTJFPw0Ny2yG
-   J+X5ihU0wKHjySFRiEldkKI6LtUQDf7hi5Y7K721fEj8O0vYgTzkFeUPh
-   7WdHc0dY3iqT/nuAxKeMxSpuLkIf7sjbJkAs/NRMClygwjG1Ou9auhukA
-   Q==;
-X-CSE-ConnectionGUID: Xg5/3WesSnyYTIqc1jc08Q==
-X-CSE-MsgGUID: DhXms40kT5OrCAUXWZMn5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="69439781"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="69439781"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 03:38:18 -0800
-X-CSE-ConnectionGUID: m3HtuZJWS0OYGrkCnpV5zQ==
-X-CSE-MsgGUID: lb5OkiXoR82LJrEUmUc4yQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="244615330"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 03:38:17 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH] ASoC: soc-acpi-intel-ptl-match: fix name_prefix of rt1320-2
-Date: Fri, 23 Jan 2026 19:38:09 +0800
-Message-ID: <20260123113809.2238766-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VM9pY3/b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ygo98LSQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VM9pY3/b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ygo98LSQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 16045337C3;
+	Fri, 23 Jan 2026 11:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769168317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=unM8Cb5IzCo93kN1X52wjjPR+s/SWRdcMHKaGul083E=;
+	b=VM9pY3/bTuUbI2RYUBPxQP6Ij2gBGmnscEwlsQnuKeWQ5177GEA47vqof1LZC3Gkm9OeIP
+	L4f++RTCRQxcyY5ZDeyjRtKak4sIKlxB2prPh2b2LY8dvhTqOSpGnm/0QaiGhLQvrGcM7n
+	B4yzAAZDgIgOYpJPZAre2iTSPhAlEiw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769168317;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=unM8Cb5IzCo93kN1X52wjjPR+s/SWRdcMHKaGul083E=;
+	b=ygo98LSQYVsso0SL3O6fdyyfJOMiMiaWxlHnXlx1q7bbLdsVeFZaVogAMESwPlJjUnrVCX
+	b66qpq4qeXpCXOAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769168317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=unM8Cb5IzCo93kN1X52wjjPR+s/SWRdcMHKaGul083E=;
+	b=VM9pY3/bTuUbI2RYUBPxQP6Ij2gBGmnscEwlsQnuKeWQ5177GEA47vqof1LZC3Gkm9OeIP
+	L4f++RTCRQxcyY5ZDeyjRtKak4sIKlxB2prPh2b2LY8dvhTqOSpGnm/0QaiGhLQvrGcM7n
+	B4yzAAZDgIgOYpJPZAre2iTSPhAlEiw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769168317;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=unM8Cb5IzCo93kN1X52wjjPR+s/SWRdcMHKaGul083E=;
+	b=ygo98LSQYVsso0SL3O6fdyyfJOMiMiaWxlHnXlx1q7bbLdsVeFZaVogAMESwPlJjUnrVCX
+	b66qpq4qeXpCXOAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D777A1395E;
+	Fri, 23 Jan 2026 11:38:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +IhBM7xdc2kIewAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Jan 2026 11:38:36 +0000
+Date: Fri, 23 Jan 2026 12:38:36 +0100
+Message-ID: <87ecngftj7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kailang <kailang@realtek.com>
+Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: Fixed speaker no sound for Lenovo
+In-Reply-To: <f4929e137a7949238cc043d861a4d9f8@realtek.com>
+References: <f4929e137a7949238cc043d861a4d9f8@realtek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-rt1320_2_group2_adr works with rt1320_1_group2_adr and the name_prefix
-should be rt1320-2.
+On Fri, 23 Jan 2026 09:03:34 +0100,
+Kailang wrote:
+> 
+> Hi Takashi,
+> 
+> Attach patch will solve speaker no sound issue.
 
-Fixes: ffe450cb6bce ("ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l3_rt1320_l12 support")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied now.  Thanks.
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 9e3c459d22e6..1055fb4838f6 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -451,7 +451,7 @@ static const struct snd_soc_acpi_adr_device rt1320_2_group2_adr[] = {
- 		.adr = 0x000230025D132001ull,
- 		.num_endpoints = 1,
- 		.endpoints = &spk_r_endpoint,
--		.name_prefix = "rt1320-1"
-+		.name_prefix = "rt1320-2"
- 	}
- };
- 
--- 
-2.43.0
 
+Takashi
