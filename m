@@ -1,390 +1,178 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013007.outbound.protection.outlook.com [40.93.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84011A55;
-	Fri, 23 Jan 2026 18:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769191267; cv=fail; b=Bk06dcNqSR0kI9B/Mr91zYTEj9XZnG8PsWUnW/oQhC7YsmW3mcuXFLiizUeVfp35PCiHSgpIvJQp8nQmYNpHn69SL1OERxkCgHx9O3nVgQapQCpLK6TMSe90F877m1W7KVf1S+G/vXXjgMmxvXMPc1AMYeUCJFjy5vZuvNNaE2Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769191267; c=relaxed/simple;
-	bh=H+iYjhyJyvz0fSLSArbS4nbklTEbJKVywtAJePWa128=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oKJWnTOeHHZrLiU3njHGDToybBYujF/PQ/08D2/tJ6+ZWtbBizPNzciKeKAUP+Bcic8O4xPjFNmXJEj8d+bCjaBVCdaoO+PPDVsoo2CxNL2pyyO2CtPccfV7RvVFZDUfyu5Vjd2PqiYwNak7OX2LBbg9ics4LaotP6rtaxa9bi0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zMmfrX+l; arc=fail smtp.client-ip=40.93.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD8D248886;
+	Fri, 23 Jan 2026 18:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769193752; cv=none; b=fWCqe6f+al6SmchPbaU52LLMVqMtvJNLzNPeCyBmdb71LgFl+pV34wcQwUidQjmDt8Yy9SUkpSDS6s5rCaKR0GLcTeraAKby+AjgEvNiKHPq+RWCUqztAjYV5NvP/ZvK/9PsFBruXoxwmnUF0mTfMp93acGVK7NXAu64j+39gEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769193752; c=relaxed/simple;
+	bh=4zUeRC47Gzeol1unCqjvKdbt1M+5bM1fiRtIQrHcnlI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LTX9FL05kuwv+mqFgz4Q9rjV/MqgoNAYhILcr6Hui4o5pZ3OYxEzHoS+NrNqP/+ld5uu6WteuK7c5ACD8TNBU9mBvy+1M+RAD/wihFO5J658/pH7E2m/97r2rGQk9kkRQhqkHQ4e9nLlwjk+9sQRhz/oYjYKMv9TF6zeVj8MPo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqHvfqsg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zMmfrX+l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZHShlVqufP0EyEGzFvtCjsHsifxQLesLK3nRpFBUW3mi2HeGgC7vIIn9n52tliU/AnmXN31ZVDF4vnNYLZCyT4jwayKlun3GTHHy3M2sWcDGMtWSyQDLrFexOfQ4mS4+2sA+hzsZX8pkL/bcc54s7zvpNU/nmFRs8NZGk5BYRxCDsCWIwycOzLcYIzX4t+YQD1cFHMq5bVzSCKaFIDrLUvSkIweKIY21YEV5p7Q0IsYvpQ73Kszg4kJHef2bA5L3sBHhpCAQv34VGbdggqvNHMZmigdF8qgUkgnv+4L0XkXAdLUjHThZZ13t926R28IHreeZ6WLjxccd5CK1MASBRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pHZQu94wwBqQXz53UineyDsRSVIay85jB/0uNC9nlT8=;
- b=dkfb/j0g18tV89lWKB6uPv+M5FOmRicr0qTltVBLppoxNy14wnziBla+rVM4pPao7sby2pSLLv6Hlf0ojskJ9i/syUR6XAe5uuR/1NGwGoH2GOWtkYTeKA9R0Df/dNgPQOrYRXmzycsvgZ4t1vhfgJKdPTp0pYhiuK9xIgFc15CiwkUOFf5LTD6t2StTKX6vTP2y7WWgSaNkZCiE5XhsYHwePbuYUQ5ffD7diwnQB9oXomDpQzBAOVa6k5kXha3yfgSo91cnZ2yTYrPSUkV2vNCiz3x+wGUWZtF5wBbtclRnBIQxeTeeQ7IcaG9CDLfbIOx8MD0RVJJJp7QcmRiJaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pHZQu94wwBqQXz53UineyDsRSVIay85jB/0uNC9nlT8=;
- b=zMmfrX+lGpMidNCdsPURuIj248pHOSWQp504bW56Ht038xHEWNg6GVogXF4X6NBoXON1yO1feC5M6FZ4vOllJqLer/uQi5mioadB/Shz4MhNK7Mb+XmsbNy/qkziSBJyDo3qpUFi6V/XZvfYZQtq/vsVeIcjQzBFOYdl/YJYOnk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5)
- by SN7PR12MB6790.namprd12.prod.outlook.com (2603:10b6:806:269::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Fri, 23 Jan
- 2026 18:00:59 +0000
-Received: from PH0PR12MB7982.namprd12.prod.outlook.com
- ([fe80::4eda:ca5:8634:5b27]) by PH0PR12MB7982.namprd12.prod.outlook.com
- ([fe80::4eda:ca5:8634:5b27%4]) with mapi id 15.20.9542.008; Fri, 23 Jan 2026
- 18:00:59 +0000
-Message-ID: <53f4dc0f-4d1d-47d4-80c6-84c3562a0310@amd.com>
-Date: Fri, 23 Jan 2026 10:00:55 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
- into msi_addr_mask
-To: Vivian Wang <wangruikang@iscas.ac.cn>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-References: <20260123-pci-msi-addr-mask-v3-0-9f9baa048524@iscas.ac.cn>
- <20260123-pci-msi-addr-mask-v3-1-9f9baa048524@iscas.ac.cn>
-Content-Language: en-US
-From: "Creeley, Brett" <bcreeley@amd.com>
-In-Reply-To: <20260123-pci-msi-addr-mask-v3-1-9f9baa048524@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR04CA0013.namprd04.prod.outlook.com
- (2603:10b6:a03:217::18) To PH0PR12MB7982.namprd12.prod.outlook.com
- (2603:10b6:510:28d::5)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqHvfqsg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854EFC116D0;
+	Fri, 23 Jan 2026 18:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769193752;
+	bh=4zUeRC47Gzeol1unCqjvKdbt1M+5bM1fiRtIQrHcnlI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KqHvfqsgQgUrefC1FP7WJuGRQVaH137C+FcGvPHieHGrHmbogQQiujodGvdg6EuxD
+	 7NAQiJaFJ6JtR9/mSUP8ZMJWje9b9mcJx56ZgQScZcGnkUTMgBcjNxXdxn6xZRU53r
+	 KUyvbJLpa2tUTVk/ZmvISlko/9SYUeUSLG/9u8B5a3EagKFFjJR4z1Ei/xXQ+2Fn9M
+	 9ytWWZEeuP4aTMOQZa7bNwyHz2n4bOv+5OhtlmZtzWNrTTgd4uhHmTGaL6yu6Z3kd9
+	 u68G5ObabN2N5QVKqvWOWZQIb8dfKIBB5btoYDG+ZBUkHhXgg2Uqw2f1JXVFbdNCHd
+	 GC+tWA7zt7ksA==
+Message-ID: <43754528-90ee-4c61-9b58-5717a7f5b84b@kernel.org>
+Date: Fri, 23 Jan 2026 12:42:30 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB7982:EE_|SN7PR12MB6790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ef3e18f-7f92-4bcc-9b01-08de5aa95d14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QXJ2aGtBZ0dOT3kzSDU2RTJ6aVVCelNyWm9scnZxZE8yWkQvZWRSK0tPVU5v?=
- =?utf-8?B?MkgwOGRhb0dhSVFaeXlHZ3orUjl1YkZHL0xTL1lzYVVoQ0QyUStrVXliZkQ3?=
- =?utf-8?B?d29lVldpTUd5a3hTZDZORHc1UVRSbVh3ODNWY05teW9McjlQaittWEZkN1Zm?=
- =?utf-8?B?ODBsK05zR2hxbUR3ZDcvSlQ3ODkwc1BFWEMwZlJBdFdyWThYQ0ViMnlkeDFY?=
- =?utf-8?B?MTVxMG5VMUNjdm9mREFySnpyN1FDVGI3Mm5ML3Fkd2dqbkVFWkdNNEhRYjBt?=
- =?utf-8?B?bWdGd1YrbmpCUVFlSDF0ODZIMjJEZWxrZ2FBbTc2UUs0YWpTZmJ0Z3lDelBL?=
- =?utf-8?B?ZWxiK2U2VFhZdnkvUFBtbDgvQ3V0aWpvU25wbngyaVlBRmlydVZFdGozSW5X?=
- =?utf-8?B?Nkk0dDZSTVVRRVRzRjhiSmdqSDZFc0x5TVhldk9CZCs1eEdhVGxpcGRYMm9R?=
- =?utf-8?B?NndGUkJ6K095a2dKdDlVU2MrMTFJNU5Zd0ZTcHFEWUhMYlRlL0JMemwwZXRk?=
- =?utf-8?B?WGxjcjQzV0Z0cjR1b1lPOGxkdnVzWjJMcFBoRHYwY3BJeFhnQXkrMk52RE5O?=
- =?utf-8?B?VExicjFBRzdzODNDWkpOUmp6amtYb0JXMUxjRWN5NHV1bzNzYWpZa1Y0QW1E?=
- =?utf-8?B?cW5zOVNvQ1lWemgzdVZDeDJ2bUlBM2Z5ZnNkSEJXWWtubjhXTXFDOVFuWVM2?=
- =?utf-8?B?TnZrTnFSVW9UdnJjT0dBRWxDT3ZBUDFsMzd1NGZvKzBCaW5oemYvZ2x1KzRX?=
- =?utf-8?B?UXdaWXg3c1VYK0lraWw4RzBoUXJmSFkvSUpma0hWSk5rOTNrMHQ1VkVsN3ph?=
- =?utf-8?B?N3pNVGQ1ZllySE1XRWJuVGFZdUw1TDUyV2pmQnptMWtXaE5LeFBHZUtOZmJ1?=
- =?utf-8?B?WWx0cjR4dzhYSlFDUktOMjI3MSswTVBWdFVFbFQ5N013ZkUxQmxaNlBnaDVI?=
- =?utf-8?B?WnBBcTVVU0wxOE9aWTdXcTJiazk1RVNkSlBPUDhBNUVEam9PK3BobkQzODFx?=
- =?utf-8?B?cUx1Q1VzNWIzUlRnV3NmTXp1UWRrOUVFWm44Y2JWcTk3bVgwV1JTVGtmV2tW?=
- =?utf-8?B?U1Q3YzVsZDROSlluRy9BYmo4Vk1lRjMySzh3WG9FTHNRNkgvQ0JvVnNqc2Rk?=
- =?utf-8?B?Zkorbjk2ZFA0QzNYVW1vQjBTeHpSOC9LM25NZE04WndieWxIV25EQ3UycWd2?=
- =?utf-8?B?YzhOaXVmeHJmUE9KWGJsZ3RjNklCNjZNakxNQyt3cXR1Q2pqbUtmaUR5VEtv?=
- =?utf-8?B?MDFrbDVTeE1IV3FzbVE1dWlPdmJVeTFFQ0Y5RHFpdUtQQXhlYjBRSlhGODRn?=
- =?utf-8?B?R0lPRW5tQm1kakYvUm5TNmhGeG1ZNVlnd3FkRkVkTmtES2greWRSNlRBZEFV?=
- =?utf-8?B?dUJwd3AwSm1EUjZFdk1peTZ2K1ZkaDExMlhmOWpNWVZ0Zld0czJKTGpGOXhQ?=
- =?utf-8?B?NWZHRE1DaVRsc21WbnBxMkpHak1ocTBUSXBTanFsZkpkQVI2c1Bya0ExVWFZ?=
- =?utf-8?B?d1h6eFhNUFF3L0JGcUxhdGJKNmUyTlVEL3djSmF3d043R2p0OG1aZWtSaHJC?=
- =?utf-8?B?OFF5ZkR3UFBwYURQV0VKQXVUd2JTMTNOekgrTlhIWFBnaGxGQ1ErYTJka3kw?=
- =?utf-8?B?blZ6d0NnS2JvaGNqaWdhNkkydSsyQXMxcFBYUGZRYlBud1lETTJFOHFPazY4?=
- =?utf-8?B?b3lUanFYY0FHYnNEZUkrM0MrK0V1MUg4clY0eUlmSXhHNHdEV2grbDZ3bERJ?=
- =?utf-8?B?QnpxbnVMTWZNMFpselRtL3lvL3lGVWxMYnB2SHZRNmhqVFJVNUVoQi9ZK2xW?=
- =?utf-8?B?MFlxdnM3Mk9oWlM0Ry9mR3BRalNSdG9wVFI1eTVaNU9KdnIrNkxrQUtnYUll?=
- =?utf-8?B?bTU2OFlya3dnN0tSMDZhKzB1RXJ1b2ZYSVJkMlRnaDNmblRGQVZxOWZJOUhW?=
- =?utf-8?B?czhtQWVwK3N0OGVPaWhOVlRNZFRLTTV1cWlqaWo2RmJmc0ZIMi9pTFB1ejBr?=
- =?utf-8?B?d2lxbWdpUk5lNmVuUVluekNxbUl4TStaT1B6L3VmcFlkZjJhVkIzVGFHTW1Z?=
- =?utf-8?B?aVZ5VXVQUlpTZmFyT1dxSVpIT2Q3SnYyR2NWQStjZWhscDlCWURaOWs5V1lR?=
- =?utf-8?B?S3IzdlBPQlExM1hxTDJxMkJsbGN4Q2ZNTFU2QzdVUEtySDFDYlR0SElja0hu?=
- =?utf-8?B?L2c9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7982.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dWxwQ01xaGdCRnZ5QVlpbDkwM0pEVjAvamZXR0gzSnNQVDFsUVBSOUdaVzRt?=
- =?utf-8?B?ZWlBdEwwYjI3TGxuOGlYMGIzNXFmY2NlNXVXTENtSy8rNFVRVGt3RUFnKzNG?=
- =?utf-8?B?WEhMcGtGQkZ0QTV3MElMMzRGRDljZXdTcFBkTkZuMzl5OTllTTNURGMwaG9p?=
- =?utf-8?B?c1FsYXloSGMrYXI3blFVNWc2M00vKzM2b2kyN01xdkY0RHJ5WjNYU1hqVStI?=
- =?utf-8?B?MG1sVXVQTU1yeE9qZG9WRUp5c0lUSlUrTVYyVGlSMGxZMG1UODFaVURtWlY2?=
- =?utf-8?B?SkJpZnljczR3eVdabEV1M0Q1dysyL2ZGQlhMc3dCVGZ4NUdkeEQrYWpPKzNy?=
- =?utf-8?B?M3JjT2IrQjlLbWNUbCtURFdHbUN6ZzVodTBVaXBuTnRiRzhBb1BzaUp6dEFJ?=
- =?utf-8?B?S0hwd3JCNmIxeWZhODFoY3o0bVErWUh4TjA3L2xDL0xJWlNyRGMrRnFERHVi?=
- =?utf-8?B?TGF3SkJPOEdkaFZjNVk5aVFpaUdYaEtLZzM1MFZVOE1qNHVRNUx2WEtIOWdR?=
- =?utf-8?B?ZVJzYmEwd1J2eHdTR1A5dDBza09Sd0tHRWIzK05nOE9saytaVXBzMjY3RU55?=
- =?utf-8?B?djVBSHZqNHYwOHZaTmYzYjNwaXdSTnd1WW10b1Qwcm9hbkRESGRoaVloWFVT?=
- =?utf-8?B?UmtBZGd1NGZzenpqWHZSejlOVDBnR21BemNGb3F3Q1h3Q0kybW9XbUFlczVv?=
- =?utf-8?B?dDg1NC82d25zZW9jakt0Smt6Qmx2R2hJeXVRNVd5dExNMVg3VEtkTk9OeTVO?=
- =?utf-8?B?bXQ0cmhvZHZlbUFOMzhDbXgwUVU5clNQU09IOUpheEV0b0pEVk8zZVNqbGhx?=
- =?utf-8?B?SHhLOFpJakJQYzkyS0JHNGtaTGYzYXdkL1ZZYUlGZGg2OUh5b0xNeFJMOHFJ?=
- =?utf-8?B?MGJweTRPR2x5Z3Q1MDNidGZWQTEvd1VMRmdTZXg0UlZ6RnpVL3hNVTMrclBz?=
- =?utf-8?B?U3B5cElqekFTYkthUTF0MFV2OGt0cHppRUpqWkJjMi9GRjVRcXhzeHR1cXcr?=
- =?utf-8?B?cFpRVzRtbDQ1QXBsMU83YmY1MkJjTGdBVHVUbEJHa1FSYjZ2UDM0ODd4aVNq?=
- =?utf-8?B?eElJcjB2L3lkUGRSYldFWkVSSDZTOHIzMlJTRUQ4UzBNclR5VXgxNWhnYzk1?=
- =?utf-8?B?bUQ3ekxHTEo1dERMTEt6SWFXNmVPMFVqdi9DUDZKeDFCdWtkNW13Tlp0M1Br?=
- =?utf-8?B?b2xsVTZnaXU2TDkzaDB4S2NlTm84R3JaSno3cnZNalZleS9GbTlvMEdGWlYz?=
- =?utf-8?B?RVNQdWVlbXdUKzBzaGRpNzBxY3RiZTdpclRyOG5UMFA3YTRFeXV0dEhEOEpG?=
- =?utf-8?B?UFhpWUZSdzlqbG51aUhXb25jM0Q2eDc4SnJPNE1yRWRyVnA1dldvOG1lL1B2?=
- =?utf-8?B?WXp6OExUanAraTBsaTRjczEvYi9rMkczeUxEc25weTc3MzZVTllxZGtpWFRl?=
- =?utf-8?B?U1hsOVRaaUEwc29CejZOTEoySkh0VzV0RDIvL0FXVUxkajA3cEU1azNJTDFp?=
- =?utf-8?B?L0pLNjJ3MmpMdU5CcmJyay82Qkd0SHFoRWlFdlF6UTVyNW4ybVgvS0tKQ2JU?=
- =?utf-8?B?bEZ3Z01zUHdHZVM1a1lCd09NWHlyR1dScmhaZm1Xdm1UTEFDY0ZFeU01elFr?=
- =?utf-8?B?SEY0VnM1NklLSHEvakFrcVUrdGRHelI1VTJxNkJJOTBvdkVrMEc0bStaT3py?=
- =?utf-8?B?dUFhdjAwSTVuTm02K2tPTCszZHA5OWRab1hhUHhnMFpSU3BvSkN3ZTIxSEsv?=
- =?utf-8?B?ckNBdDA3ekhUVWVlUDdjZnF1ZzBpdzlKMkRhU2FrZStEWmhNTzduT3I5bnFR?=
- =?utf-8?B?ZXZtR0l0Zk5DZjdzdkhlTE5WQWNSSG50RUpZQXRITUZlQVRaV2s0djRUU0xj?=
- =?utf-8?B?UWRGa1FXL1k4czFmN2ZEUG5WMHJKV1lNVUtSZ25WNk9pNVA2ZlpsYlVrRk1l?=
- =?utf-8?B?cWQrZGNnZmRvUlZBMWNMQ2JvdFdVRloxbVI2NGNrUDhWYitsMy9GVHJqUXg2?=
- =?utf-8?B?enJLSk1IYUNCR0l0MlhwdElNTzhRSlgzWG5seEJIMjE5K29lcE5Ndm4zRE8z?=
- =?utf-8?B?ZkFwakpOWFlDVXFOeUN1QWtuMld5djYrSE5CUXNXMldHSEJXRGRkMDRxZ3J6?=
- =?utf-8?B?a3Y1clY0emFLVzhsOWZZSnFLbk9kdk5jY0RXRVNpSWhRNnRjdTAzakwrTlJi?=
- =?utf-8?B?L0F4dTVQeENPSlprNUpoUjVtOGRVZ2U1dDZMb0ZWR2o2Nm5XUEsyNVhqVjVU?=
- =?utf-8?B?QUd6eUtMeVJMSmw5L0JuMDVlZzJXRmlMS1hmRTF2K3FnYWlTMStnTlYrZ2g5?=
- =?utf-8?B?OG0rOXo4eDJkZW0vRWhoNm5haG4wNnRRUVdibTk0cG5uem5EdkFUZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ef3e18f-7f92-4bcc-9b01-08de5aa95d14
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7982.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 18:00:59.2372
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EmvzPqL3uA1asqBnF15qFhTPIv7yTq6iM+8vBqxaWD3EpIAsFs6y97Rf+TQVcFwNq2NRBkKzDIwJxckqKYPuoQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6790
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 1/2] soundwire: amd: add clock init control function
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260123111233.3649153-1-Vijendar.Mukunda@amd.com>
+ <20260123111233.3649153-2-Vijendar.Mukunda@amd.com>
+Content-Language: en-US
+From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+In-Reply-To: <20260123111233.3649153-2-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-On 1/22/2026 10:07 PM, Vivian Wang wrote:
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->
->
-> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
-> implement less than 64 address bits. This breaks on platforms where such
-> a device is assigned an MSI address higher than what's reachable.
->
-> Currently, we deal with this with a single no_64bit_msi flag, and
-> (notably on powerpc) forces 32-bit MSI address for these devices.
-> However, on some platforms the MSI doorbell address is above 32-bit but
-> within device ability.
->
-> As a first step to enabling MSI on those combinations of devices and
-> platforms, conservatively generalize the single-bit flag no_64bit_msi
-> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
-> with msi_mask.)
->
-> The translation is essentially:
->
-> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
-> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
-> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
->
-> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) is
-> used, no functional change is intended. Future patches that make use of
-> intermediate values of msi_addr_mask will follow, allowing devices that
-> cannot use full 64-bit addresses for MSI to work on platforms with MSI
-> doorbell above 32-bit address space.
->
-> Acked-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+On 1/23/2026 5:11 AM, Vijendar Mukunda wrote:
+> Add generic SoundWire clock initialization sequence to support
+> different SoundWire bus clock frequencies for ACP6.3/7.0/7.1/7.2
+> platforms and remove hard coding initializations for 12Mhz bus
+> clock frequency.
+> 
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > ---
-> v3: Add Acked-by, no code changes
->
-> checkpatch complains about the comment include/linux/pci.h, which I have
-> formatted similarly with other comments in the vicinity.
-> ---
->   arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
->   arch/powerpc/platforms/pseries/msi.c                | 4 ++--
->   drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
->   drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
->   drivers/pci/msi/msi.c                               | 2 +-
->   drivers/pci/msi/pcidev_msi.c                        | 2 +-
->   drivers/pci/probe.c                                 | 7 +++++++
->   include/linux/pci.h                                 | 8 +++++++-
->   sound/hda/controllers/intel.c                       | 2 +-
->   9 files changed, 22 insertions(+), 9 deletions(-)
->
-> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
-> index b0c1d9d16fb5..1c78fdfb7b03 100644
-> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
-> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
-> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
->                  return -ENXIO;
->
->          /* Force 32-bit MSI on some broken devices */
-> -       if (dev->no_64bit_msi)
-> +       if (dev->msi_addr_mask < DMA_BIT_MASK(64))
->                  is_64 = 0;
->
->          /* Assign XIVE to PE */
-> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platforms/pseries/msi.c
-> index a82aaa786e9e..7473c7ca1db0 100644
-> --- a/arch/powerpc/platforms/pseries/msi.c
-> +++ b/arch/powerpc/platforms/pseries/msi.c
-> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
->           */
->   again:
->          if (type == PCI_CAP_ID_MSI) {
-> -               if (pdev->no_64bit_msi) {
-> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
->                          rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSI_FN, nvec);
->                          if (rc < 0) {
->                                  /*
-> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
->                  if (use_32bit_msi_hack && rc > 0)
->                          rtas_hack_32bit_msi_gen2(pdev);
->          } else {
-> -               if (pdev->no_64bit_msi)
-> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
->                          rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSIX_FN, nvec);
->                  else
->                          rc = rtas_change_msi(pdn, RTAS_CHANGE_MSIX_FN, nvec);
-> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> index 9961251b44ba..d550554a6f3f 100644
-> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
->           */
->          if (rdev->family < CHIP_BONAIRE) {
->                  dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
-> -               rdev->pdev->no_64bit_msi = 1;
-> +               rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
->          }
->
->          /* force MSI on */
-> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> index 70d86c5f52fb..0671deae9a28 100644
-> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
-> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->
->   #ifdef CONFIG_PPC64
->          /* Ensure MSI/MSI-X interrupts lie within addressable physical memory */
-> -       pdev->no_64bit_msi = 1;
-> +       pdev->msi_addr_mask = DMA_BIT_MASK(32);
->   #endif
-
-This seems like identical behavior compared to pre-patch, so LGTM.
-
-For the ionic part: Reviewed-by: Brett Creeley <brett.creeley@amd.com>
-
-Thanks,
-
-Brett
->
->          err = ionic_setup_one(ionic);
-> diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
-> index 34d664139f48..48f5f03d1479 100644
-> --- a/drivers/pci/msi/msi.c
-> +++ b/drivers/pci/msi/msi.c
-> @@ -322,7 +322,7 @@ static int msi_verify_entries(struct pci_dev *dev)
->   {
->          struct msi_desc *entry;
->
-> -       if (!dev->no_64bit_msi)
-> +       if (dev->msi_addr_mask == DMA_BIT_MASK(64))
->                  return 0;
->
->          msi_for_each_desc(entry, &dev->dev, MSI_DESC_ALL) {
-> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi.c
-> index 5520aff53b56..0b0346813092 100644
-> --- a/drivers/pci/msi/pcidev_msi.c
-> +++ b/drivers/pci/msi/pcidev_msi.c
-> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
->          }
->
->          if (!(ctrl & PCI_MSI_FLAGS_64BIT))
-> -               dev->no_64bit_msi = 1;
-> +               dev->msi_addr_mask = DMA_BIT_MASK(32);
->   }
->
->   void pci_msix_init(struct pci_dev *dev)
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 41183aed8f5d..a2bff57176a3 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -2047,6 +2047,13 @@ int pci_setup_device(struct pci_dev *dev)
->           */
->          dev->dma_mask = 0xffffffff;
->
-> +       /*
-> +        * Assume 64-bit addresses for MSI initially. Will be changed to 32-bit
-> +        * if MSI (rather than MSI-X) capability does not have
-> +        * PCI_MSI_FLAGS_64BIT. Can also be overridden by driver.
-> +        */
-> +       dev->msi_addr_mask = DMA_BIT_MASK(64);
+>   drivers/soundwire/amd_manager.c | 56 ++++++++++++++++++++++++++++-----
+>   drivers/soundwire/amd_manager.h |  4 ---
+>   2 files changed, 49 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+> index 5fd311ee4107..ee3c37a5a48b 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -27,6 +27,49 @@
+>   
+>   #define to_amd_sdw(b)	container_of(b, struct amd_sdw_manager, bus)
+>   
+> +static int amd_sdw_clk_init_ctrl(struct amd_sdw_manager *amd_manager)
+> +{
+> +	struct sdw_bus *bus = &amd_manager->bus;
+> +	struct sdw_master_prop *prop = &bus->prop;
+> +	u32 val;
+> +	int divider;
 > +
->          dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
->                       dev->bus->number, PCI_SLOT(dev->devfn),
->                       PCI_FUNC(dev->devfn));
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 864775651c6f..0fe32fef0331 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -377,6 +377,13 @@ struct pci_dev {
->                                             0xffffffff.  You only need to change
->                                             this if your device has broken DMA
->                                             or supports 64-bit transfers.  */
-> +       u64             msi_addr_mask;  /* Mask of the bits of bus address for
-> +                                          MSI that this device implements.
-> +                                          Normally set based on device
-> +                                          capabilities. You only need to
-> +                                          change this if your device claims
-> +                                          to support 64-bit MSI but implements
-> +                                          fewer than 64 address bits. */
->
->          struct device_dma_parameters dma_parms;
->
-> @@ -441,7 +448,6 @@ struct pci_dev {
->
->          unsigned int    is_busmaster:1;         /* Is busmaster */
->          unsigned int    no_msi:1;               /* May not use MSI */
-> -       unsigned int    no_64bit_msi:1;         /* May only use 32-bit MSIs */
->          unsigned int    block_cfg_access:1;     /* Config space access blocked */
->          unsigned int    broken_parity_status:1; /* Generates false positive parity */
->          unsigned int    irq_reroute_variant:2;  /* Needs IRQ rerouting variant */
-> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-> index 1e8e3d61291a..c9542ebdf7e2 100644
-> --- a/sound/hda/controllers/intel.c
-> +++ b/sound/hda/controllers/intel.c
-> @@ -1905,7 +1905,7 @@ static int azx_first_init(struct azx *chip)
->
->          if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
->                  dev_dbg(card->dev, "Disabling 64bit MSI\n");
-> -               pci->no_64bit_msi = true;
-> +               pci->msi_addr_mask = DMA_BIT_MASK(32);
->          }
->
->          pci_set_master(pci);
->
-> --
-> 2.52.0
->
+> +	dev_dbg(amd_manager->dev, "mclk %d max %d row %d col %d frame_rate:%d\n",
+> +		prop->mclk_freq, prop->max_clk_freq, prop->default_row,
+> +		prop->default_col, prop->default_frame_rate);
+> +
+> +	if (!prop->default_frame_rate || !prop->default_row) {
+> +		dev_err(amd_manager->dev, "Default frame_rate %d or row %d is invalid\n",
+> +			prop->default_frame_rate, prop->default_row);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Set clock divider */
+> +	dev_dbg(amd_manager->dev, "bus params curr_dr_freq: %d\n",
+> +		bus->params.curr_dr_freq);
+> +	divider = (prop->mclk_freq / bus->params.curr_dr_freq);
+> +
+> +	writel(divider, amd_manager->mmio + ACP_SW_CLK_FREQUENCY_CTRL);
+> +	val = readl(amd_manager->mmio + ACP_SW_CLK_FREQUENCY_CTRL);
+> +	dev_dbg(amd_manager->dev, "ACP_SW_CLK_FREQUENCY_CTRL:0x%x\n", val);
+> +
+> +	/* Set frame shape base on the actual bus frequency. */
+> +	prop->default_col = bus->params.curr_dr_freq /
+> +			    prop->default_frame_rate / prop->default_row;
+> +
+> +	dev_dbg(amd_manager->dev, "default_frame_rate:%d default_row: %d default_col: %d\n",
+> +		prop->default_frame_rate, prop->default_row, prop->default_col);
+> +	amd_manager->cols_index = sdw_find_col_index(prop->default_col);
+> +	amd_manager->rows_index = sdw_find_row_index(prop->default_row);
+> +	bus->params.col = prop->default_col;
+> +	bus->params.row = prop->default_row;
+> +	dev_dbg(amd_manager->dev, "rows_index: %d cols_index: %d\n",
+> +		amd_manager->rows_index, amd_manager->cols_index);
+> +	dev_dbg(amd_manager->dev, "params.col:0x%x params.row:0x%x\n",
+> +		bus->params.col, bus->params.row);
+> +	return 0;
+> +}
+> +
+>   static int amd_init_sdw_manager(struct amd_sdw_manager *amd_manager)
+>   {
+>   	u32 val;
+> @@ -961,6 +1004,9 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+>   
+>   	prop = &amd_manager->bus.prop;
+>   	if (!prop->hw_disabled) {
+> +		ret = amd_sdw_clk_init_ctrl(amd_manager);
+> +		if (ret)
+> +			return ret;
+>   		ret = amd_init_sdw_manager(amd_manager);
+>   		if (ret)
+>   			return ret;
+> @@ -985,7 +1031,6 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+>   	struct resource *res;
+>   	struct device *dev = &pdev->dev;
+>   	struct sdw_master_prop *prop;
+> -	struct sdw_bus_params *params;
+>   	struct amd_sdw_manager *amd_manager;
+>   	int ret;
+>   
+> @@ -1049,14 +1094,8 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+>   		return -EINVAL;
+>   	}
+>   
+> -	params = &amd_manager->bus.params;
+> -
+> -	params->col = AMD_SDW_DEFAULT_COLUMNS;
+> -	params->row = AMD_SDW_DEFAULT_ROWS;
+>   	prop = &amd_manager->bus.prop;
+> -	prop->clk_freq = &amd_sdw_freq_tbl[0];
+>   	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
+> -	prop->max_clk_freq = AMD_SDW_DEFAULT_CLK_FREQ;
+>   
+>   	ret = sdw_bus_master_add(&amd_manager->bus, dev, dev->fwnode);
+>   	if (ret) {
+> @@ -1348,6 +1387,9 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+>   			}
+>   		}
+>   		sdw_clear_slave_status(bus, SDW_UNATTACH_REQUEST_MASTER_RESET);
+> +		ret = amd_sdw_clk_init_ctrl(amd_manager);
+> +		if (ret)
+> +			return ret;
+>   		amd_init_sdw_manager(amd_manager);
+>   		amd_enable_sdw_interrupts(amd_manager);
+>   		ret = amd_enable_sdw_manager(amd_manager);
+> diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
+> index 6cc916b0c820..88cf8a426a0c 100644
+> --- a/drivers/soundwire/amd_manager.h
+> +++ b/drivers/soundwire/amd_manager.h
+> @@ -203,10 +203,6 @@
+>   #define AMD_SDW_DEVICE_STATE_D3				3
+>   #define ACP_PME_EN					0x0001400
+>   
+> -static u32 amd_sdw_freq_tbl[AMD_SDW_MAX_FREQ_NUM] = {
+> -	AMD_SDW_DEFAULT_CLK_FREQ,
+> -};
+> -
+>   struct sdw_manager_dp_reg {
+>   	u32 frame_fmt_reg;
+>   	u32 sample_int_reg;
 
