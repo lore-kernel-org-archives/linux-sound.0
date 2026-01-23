@@ -1,186 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65E62DC76B;
-	Fri, 23 Jan 2026 23:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1129823EA8C;
+	Fri, 23 Jan 2026 23:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769211221; cv=none; b=ZsdOe907Ucg080y3zy5H8PmFIwt0NlWFBs2RMK6GIYI1nOeq/4IaozZztQ5awvJQB2pNPvbvYHbwg1KkOVJn7ibq2yj5kIiZ/Q9687Zzr3AjqfffWrYOysoa3u2FfGyly6DTfGVLkM//RyacgFkScceTd1SBVNLuQ9/PFHOgAlc=
+	t=1769212258; cv=none; b=F6Kq3r8RJwjRNIFH++vvYzxPmC7kjkDvrnBaL8v7aBKIJFnj1WaO6nOdJmdo72SM9UosRLQ3BlVBtPhK20ZXTbNq5u2yrAH5lVLGgRai96LFCmX6/RcZjp7JD71b725oY0VwKkNb/X3Iz1ey5tEi/4i/vFSFdU3f6sIx85ziXwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769211221; c=relaxed/simple;
-	bh=f4iO3AM4NYVY9xUt7EwoIYKJRgPi87b+tYMS2wMLNS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7hs/p3/bt6X3AUX9k7ojF2VSR3M+tTYMAfAg2J26LeTFCWMDTha4KB+GmT60LzNRwxOTitbpILNRLWMMhZ5WhADzuqBcvg6wf2lXOi0Dtlv9Lmo/b2XjwJZ22PX9uxoI5Z58VTwwt4yzyYCXgoPorj/eJUaOiFmJiSW/e+J76o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2vDVrca; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769212258; c=relaxed/simple;
+	bh=A2i+61EYkisliHlGA54kZAj7atNspEktYBSPlNrLXPA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EyUuz0Zq39z4aiuvSm5xRrsEZydjhvg72ggGDMvjJTCUeHzJ5xRQChfVUUunI2fmIDymabux0tRsHAwBFmvM+Kia9oITqLDKO5Ou2b1/W+5GE+oeP37Uq2+KA4GFdENSdDDQAnpqfNDt3a3m9Fc6Go0xqvHoEcjX9fJ7fmoHz/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxQj4X4D; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2vDVrca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxQj4X4D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769211220; x=1800747220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f4iO3AM4NYVY9xUt7EwoIYKJRgPi87b+tYMS2wMLNS8=;
-  b=R2vDVrcaRIwpfa8yolstFlkXjm1UD3j9s4QubXFWs8qpcVku3QQtbD4R
-   kHubk/2qNNWwENATjQ+JLLJl742OHs56zfi2fVgpJfp298eICLtc03yBI
-   fzrXBmBnxxK/JU7lOB12UNwIspson4QOMwYDwXq01id4CUIho6xTcLcZb
-   vsiAIQR0lTaYMqV6DSzqJGV0OM+1ciG7mB8niU0fLfXag364PjAbamzLY
-   pmafmPPz92FK0l5FpyJTR+E3H6IK07Z47S5f/c7J2OCZs6mIwABXQhYHK
-   xZzwjOD4Zc4GvW32A2dpzbvF7YFkfBQKiYdfKwrL/qVwUclTrmcQSU/rA
+  t=1769212256; x=1800748256;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=A2i+61EYkisliHlGA54kZAj7atNspEktYBSPlNrLXPA=;
+  b=YxQj4X4DtJxwA3HGRbE819n50W5BhDJ3lMOUPDdH87p2OSup+fTCN4IR
+   WPY0SNuHLY+rVkJrB5HjmTiyFX5tJLo50VrO6p/I5LPDZcDuBnVAF35+r
+   XkE8BwlI5bunaRzkL2aA/LJHYcrSyc0ZobGpzuGqwTPKYNNOiE9otcS5O
+   uXlSQnkjwWIziDg9g8sctkWJKE7kcSgkKAtut1b2m33LOSY+z5FQhIRU3
+   91Sr8UQ1ao9lxfNUzAfPwMI4i+qVs+fFQpE+HjsXf/w66OxMBtPfYu9cW
+   T71CJk8zEWkvs1Ar3RzB1w51yLuqnpYKpXCbbWXWwxsIq3Pg/NUZmdPEB
    w==;
-X-CSE-ConnectionGUID: niWsw7zpTuW7W++rj26Ujw==
-X-CSE-MsgGUID: zr/MYnvsTAGNdhhJ5oe6sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="58038439"
+X-CSE-ConnectionGUID: Chy0tspvRaSN5kSihQuQWw==
+X-CSE-MsgGUID: YifzXocmRVS8Bh8lpWn8tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70375810"
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="58038439"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 15:33:35 -0800
-X-CSE-ConnectionGUID: XW8al9wlT4y6xIqgnrZSlw==
-X-CSE-MsgGUID: JLUi+jIeT3iU5yL7b7QH9g==
+   d="scan'208";a="70375810"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 15:50:55 -0800
+X-CSE-ConnectionGUID: i4z0KJLHTMipFY5VF0Znmg==
+X-CSE-MsgGUID: GaKdkA22ROCFwWPTXOAeNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,249,1763452800"; 
-   d="scan'208";a="207057723"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Jan 2026 15:33:32 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vjQef-00000000Uac-2ajU;
-	Fri, 23 Jan 2026 23:33:29 +0000
-Date: Sat, 24 Jan 2026 07:32:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macroalpha82@gmail.com>, linux-sound@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, wangweidong.a@awinic.com,
-	tiwai@suse.com, perex@perex.cz, conor+dt@kernel.org,
-	krzk+dt@kernel.org, robh@kernel.org, broonie@kernel.org,
-	lgirdwood@gmail.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 2/2] ASoC: codecs: aw87390: Add Anbernic RG-DS amplifier
- driver
-Message-ID: <202601240757.gYdQGsXp-lkp@intel.com>
-References: <20260123154731.130649-3-macroalpha82@gmail.com>
+   d="scan'208";a="238406010"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 23 Jan 2026 15:50:53 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id EFABE95; Sat, 24 Jan 2026 00:50:51 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce stack frames
+Date: Sat, 24 Jan 2026 00:50:50 +0100
+Message-ID: <20260123235050.2837942-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123154731.130649-3-macroalpha82@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Chris,
+Compiler is not happy about used stack frames in a couple of functions:
 
-kernel test robot noticed the following build warnings:
+sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_rae_load':
+sound/soc/codecs/rt1320-sdw.c:1570:1: error: the frame size of 1336 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
+sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
+sound/soc/codecs/rt1320-sdw.c:1786:1: error: the frame size of 1520 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.19-rc6 next-20260122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Refactor the code to fix these.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/ASoC-dt-bindings-aw87390-Add-Anbernic-RG-DS-Amplifier/20260123-235216
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260123154731.130649-3-macroalpha82%40gmail.com
-patch subject: [PATCH 2/2] ASoC: codecs: aw87390: Add Anbernic RG-DS amplifier driver
-config: sparc64-randconfig-001-20260124 (https://download.01.org/0day-ci/archive/20260124/202601240757.gYdQGsXp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601240757.gYdQGsXp-lkp@intel.com/reproduce)
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ sound/soc/codecs/rt1320-sdw.c | 43 +++++++++++------------------------
+ 1 file changed, 13 insertions(+), 30 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601240757.gYdQGsXp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/soc/codecs/aw87390.c:343:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     343 |         case SND_SOC_DAPM_POST_PMD:
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/sound/soc-dapm.h:388:32: note: expanded from macro 'SND_SOC_DAPM_POST_PMD'
-     388 | #define SND_SOC_DAPM_POST_PMD           0x8     /* after  widget power down */
-         |                                         ^~~
-   sound/soc/codecs/aw87390.c:354:9: note: uninitialized use occurs here
-     354 |         return ret;
-         |                ^~~
-   sound/soc/codecs/aw87390.c:339:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     339 |         case SND_SOC_DAPM_PRE_PMD:
-         |              ^~~~~~~~~~~~~~~~~~~~
-   include/sound/soc-dapm.h:387:31: note: expanded from macro 'SND_SOC_DAPM_PRE_PMD'
-     387 | #define SND_SOC_DAPM_PRE_PMD            0x4     /* before widget power down */
-         |                                         ^~~
-   sound/soc/codecs/aw87390.c:354:9: note: uninitialized use occurs here
-     354 |         return ret;
-         |                ^~~
-   sound/soc/codecs/aw87390.c:332:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     332 |         case SND_SOC_DAPM_POST_PMU:
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   include/sound/soc-dapm.h:386:32: note: expanded from macro 'SND_SOC_DAPM_POST_PMU'
-     386 | #define SND_SOC_DAPM_POST_PMU           0x2     /* after  widget power up */
-         |                                         ^~~
-   sound/soc/codecs/aw87390.c:354:9: note: uninitialized use occurs here
-     354 |         return ret;
-         |                ^~~
-   sound/soc/codecs/aw87390.c:326:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     326 |         case SND_SOC_DAPM_PRE_PMU:
-         |              ^~~~~~~~~~~~~~~~~~~~
-   include/sound/soc-dapm.h:385:31: note: expanded from macro 'SND_SOC_DAPM_PRE_PMU'
-     385 | #define SND_SOC_DAPM_PRE_PMU            0x1     /* before widget power up */
-         |                                         ^~~
-   sound/soc/codecs/aw87390.c:354:9: note: uninitialized use occurs here
-     354 |         return ret;
-         |                ^~~
-   sound/soc/codecs/aw87390.c:323:9: note: initialize the variable 'ret' to silence this warning
-     323 |         int ret;
-         |                ^
-         |                 = 0
-   4 warnings generated.
-
-
-vim +/ret +343 sound/soc/codecs/aw87390.c
-
-   316	
-   317	static int aw87391_rgds_drv_event(struct snd_soc_dapm_widget *w,
-   318					struct snd_kcontrol *kcontrol, int event)
-   319	{
-   320		struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-   321		struct aw87390 *aw87390 = snd_soc_component_get_drvdata(component);
-   322		struct aw_device *aw_dev = aw87390->aw_pa;
-   323		int ret;
-   324	
-   325		switch (event) {
-   326		case SND_SOC_DAPM_PRE_PMU:
-   327			if (!IS_ERR(aw87390->vdd_reg)) {
-   328				if (regulator_enable(aw87390->vdd_reg))
-   329					dev_err(aw_dev->dev, "Failed to enable vdd\n");
-   330		}
-   331			break;
-   332		case SND_SOC_DAPM_POST_PMU:
-   333			regmap_write(aw_dev->regmap, AW87391_SYSCTRL_REG,
-   334				     AW87391_REG_VER_SEL_LOW | AW87391_REG_EN_ADAP |
-   335				     AW87391_REG_EN_2X | AW87391_EN_SPK |
-   336				     AW87391_EN_PA | AW87391_REG_EN_CP |
-   337				     AW87391_EN_SW);
-   338			break;
-   339		case SND_SOC_DAPM_PRE_PMD:
-   340			regmap_write(aw_dev->regmap, AW87390_SYSCTRL_REG,
-   341				     AW87390_POWER_DOWN_VALUE);
-   342			break;
- > 343		case SND_SOC_DAPM_POST_PMD:
-   344			if (!IS_ERR(aw87390->vdd_reg)) {
-   345				if (regulator_disable(aw87390->vdd_reg))
-   346					dev_err(aw_dev->dev, "Failed to disable vdd\n");
-   347		}
-   348			break;
-   349		default:
-   350			dev_err(aw_dev->dev, "%s: invalid event %d\n", __func__, event);
-   351			ret = -EINVAL;
-   352		}
-   353	
-   354		return ret;
-   355	}
-   356	
-
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index 5e8a67eeb08e..051c471a0731 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -1429,8 +1429,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 	unsigned int addr, size;
+ 	unsigned int func, value;
+ 	const char *dmi_vendor, *dmi_product, *dmi_sku;
+-	char vendor[128], product[128], sku[128];
+-	char *ptr_vendor, *ptr_product, *ptr_sku;
++	size_t len_vendor, len_product, len_sku;
+ 	char rae_filename[512];
+ 	char tag[5];
+ 	int ret = 0;
+@@ -1441,21 +1440,13 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
+ 
+ 	if (dmi_vendor && dmi_product && dmi_sku) {
+-		strscpy(vendor, dmi_vendor);
+-		strscpy(product, dmi_product);
+-		strscpy(sku, dmi_sku);
+-		ptr_vendor = &vendor[0];
+-		ptr_product = &product[0];
+-		ptr_sku = &sku[0];
+-		ptr_vendor = strsep(&ptr_vendor, " ");
+-		ptr_product = strsep(&ptr_product, " ");
+-		ptr_sku = strsep(&ptr_sku, " ");
+-
+-		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
+-			vendor, product, sku);
++		len_vendor = strchrnul(dmi_vendor, ' ') - dmi_vendor;
++		len_product = strchrnul(dmi_product, ' ') - dmi_product;
++		len_sku = strchrnul(dmi_sku, ' ') - dmi_sku;
+ 
+ 		snprintf(rae_filename, sizeof(rae_filename),
+-			 "realtek/rt1320/rt1320_RAE_%s_%s_%s.dat", vendor, product, sku);
++			 "realtek/rt1320/rt1320_RAE_%.*s_%.*s_%.*s.dat",
++			 len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
+ 		dev_dbg(dev, "%s: try to load RAE file %s\n", __func__, rae_filename);
+ 	} else {
+ 		dev_warn(dev, "%s: Can't find proper RAE file name\n", __func__);
+@@ -1595,8 +1586,7 @@ struct rt1320_dspfwheader {
+ 	static const char hdr_sig[] = "AFX";
+ 	unsigned int hdr_size = 0;
+ 	const char *dmi_vendor, *dmi_product, *dmi_sku;
+-	char vendor[128], product[128], sku[128];
+-	char *ptr_vendor, *ptr_product, *ptr_sku;
++	size_t len_vendor, len_product, len_sku;
+ 	char filename[512];
+ 
+ 	switch (rt1320->dev_id) {
+@@ -1616,21 +1606,14 @@ struct rt1320_dspfwheader {
+ 	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
+ 
+ 	if (dmi_vendor && dmi_product && dmi_sku) {
+-		strscpy(vendor, dmi_vendor);
+-		strscpy(product, dmi_product);
+-		strscpy(sku, dmi_sku);
+-		ptr_vendor = &vendor[0];
+-		ptr_product = &product[0];
+-		ptr_sku = &sku[0];
+-		ptr_vendor = strsep(&ptr_vendor, " ");
+-		ptr_product = strsep(&ptr_product, " ");
+-		ptr_sku = strsep(&ptr_sku, " ");
+-
+-		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
+-			vendor, product, sku);
++		len_vendor = strchrnul(dmi_vendor, ' ') - dmi_vendor;
++		len_product = strchrnul(dmi_product, ' ') - dmi_product;
++		len_sku = strchrnul(dmi_sku, ' ') - dmi_sku;
+ 
+ 		snprintf(filename, sizeof(filename),
+-			 "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
++			 "realtek/rt1320/rt1320_%.*s_%.*s_%.*s.dat",
++			 len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
++
+ 		dev_dbg(dev, "%s: try to load FW file %s\n", __func__, filename);
+ 	} else if (rt1320->dspfw_name) {
+ 		snprintf(filename, sizeof(filename), "rt1320_%s.dat",
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
