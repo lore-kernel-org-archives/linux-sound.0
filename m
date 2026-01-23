@@ -1,33 +1,33 @@
 Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D514C1F5825;
-	Fri, 23 Jan 2026 21:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F61217F33;
+	Fri, 23 Jan 2026 22:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769203758; cv=none; b=BFHTSfIVO/sM0zKFvof5bnfV3YCoGGc59Dyf2yMcXmawqxwvOcODsTy4iBFMA9ErUAvethw6YwQq4MgAHL4dGeN+JEAtzLEGrRp73ZkR7R46upAbE0r3O+XeP/okK3dpTWp9Qcq8XWQ5n5Ls2NWA3do9TY5j0bVa50iu3yqgpE8=
+	t=1769206361; cv=none; b=NV2O4moWnmddhYzOxgI4I4ztxZ21ujtOCA3tu5Wv2m70zj5Go7KzcIYFGzjTlbMavGLs8/OENp+VcO8dz7tJ53Ys0FEflz3p6c+jBYdnfK3FLkR2JFiXi0XfApx0K1ZZznoYGZzbs+emlZMRlFcn4OXFfEhvN/nMmMpp/5aU6YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769203758; c=relaxed/simple;
+	s=arc-20240116; t=1769206361; c=relaxed/simple;
 	bh=Nrwzyqeg2t++hEDeylJCNc8Q9HzsGpIE5P7e4A+A26o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sisUcbIEKj4Pvw9BYnS/ZUqCGZCV+kktxo0hiKWvpmTFrlpppZCryYBaPyGReCRDJfBNE2kz4B5Ki2cYUywj2x1r0RSMN8lWCIpRAP7OiFD+P5eimbFGD5dOAaDGFSh81DElMAYDrp+uGyr7UZPSrmlT+SsqDb4kndTmpHJv6A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=qj6fP8fI; arc=none smtp.client-ip=157.90.84.7
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YW8dnWBeeIdqnXwpYC2xV3ADK0ntjY+5UTMZE2NEaRo2/OJoZp7HB+DR5UmCOEKMi0+2xVPCgfuP/jJAV3diFgQANjd5O+pSL2Y7mcTDZITkLCGURYVu9LdpPh90qEOwIEqoD7f2ZVirFJcsGQ1cS2gcQn/thzDdXn5S3meKLaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=dZsWIgCR; arc=none smtp.client-ip=157.90.84.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="qj6fP8fI"
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="dZsWIgCR"
 Received: from wse-pc.. (unknown [61.8.159.50])
 	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 7D0782FC0052;
-	Fri, 23 Jan 2026 22:29:11 +0100 (CET)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 74AB22FC0052;
+	Fri, 23 Jan 2026 23:12:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1769203752;
+	s=default; t=1769206355;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
 	bh=uYUW8K/kzY4puzdW4uaXd9AR9T0srzZgOHHxJ8M65OU=;
-	b=qj6fP8fIm+AORhIfi7KBvv1jEpGknnUN8NpAd0gYa5ROGUkXZ3jYXFjDZusB6Ln/CBAbkc
-	5xXLHaR1N4T5+/DzHGgWAjS5tRKwPccK2F+uGpgyqIqTkSNl/YvxDnHdniz2xjA4dHA0fG
-	tWWQnuH0/BtIzo2ZPz9WQ1putQwL8RI=
+	b=dZsWIgCRqTrz3l4/0OEy+ZNmMGhCV8vsQ35ZRWqqYDY3jJzsiszOY4TaYvwZiVaUc+eSaF
+	wPJwGFDNAWHegt1Urov66FnzEt4VVxeDuRM51GfmVsQQtfwF7fNzn68FG7lpimOy2D2enJ
+	cuCEaeByckxSYgICDmsOU4Akhbnyxt0=
 Authentication-Results: mail.tuxedocomputers.com;
 	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
 From: Werner Sembach <wse@tuxedocomputers.com>
@@ -36,9 +36,9 @@ To: Jaroslav Kysela <perex@perex.cz>,
 Cc: Werner Sembach <wse@tuxedocomputers.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: Really fix headset mic for TongFang X6AR55xU.
-Date: Fri, 23 Jan 2026 22:29:05 +0100
-Message-ID: <20260123212909.19046-1-wse@tuxedocomputers.com>
+Subject: [PATCH v3] ALSA: hda/realtek: Really fix headset mic for TongFang X6AR55xU.
+Date: Fri, 23 Jan 2026 23:12:24 +0100
+Message-ID: <20260123221233.28273-1-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
