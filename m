@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B55524EA90;
-	Sat, 24 Jan 2026 06:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747A53EBF3F;
+	Sat, 24 Jan 2026 08:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769236206; cv=none; b=l3bc8wJP/zGAtQ3NIGQNdDtFBbW+4tLVK3a+1rG+vE9tHCzCGsqg95rxrWP16a2u3JM8qmhGD4BEpiIpsCM7DCDNOFZ7+GedyWx6BgykidjBhM1sMg2GldZyF1pqyM8xMAamckWQWvsFnFPNYxvZEhrjFoG9SrNJo/3ZbTETf2I=
+	t=1769245087; cv=none; b=svXtpIEkY8FToswpr6dwYdjdVEfiDNcPAHgwmXoMm0ivj+EBW/PWdIUsjkv3IvvE0Tzj1ioxQH0jLvIKQyrPJNuoPzw27SxUnGC3cMmfb076XmPG3H97uruMtWav972B0hKxZeM3ciQJu9m9j8sGpGFrX+jr98l0M8BsfVV0nds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769236206; c=relaxed/simple;
-	bh=g1ihvemtvaVvlUtDJfSK/qCqzdP7NoQHPG7oOOAF4aQ=;
+	s=arc-20240116; t=1769245087; c=relaxed/simple;
+	bh=QKygYSoYLWw3/VwjVeaIUufRgmvhcIwcviAKBPdsHDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yj3VomhVqEtYTMpxAm3dX5cjfIqj5qKIQcXb0CLFGJD3cSLNJruEfFUPCHMnWAZOcKhxvyq4aE+MsJ6F/7T/QHRAdFDNGUIwTU1yhJLwqzjopiK3mdD2YsuR7UtfOdJIrQTBB6BaHAjOEyJkIOrGiEZlM5m1ayhaNVee9WbH1EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGNecSq5; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=dhmvM1IJs3O0SnxTefsansl/CQUt9nxSJbFQhJ/A4A9B1pS7HK0qwfOLDBU1tLFAIBF8kpz5ISVyTaFmX+mS82wcpts5L4nIMHxjdjd9KACzqoXfGfVqMVZSMj34brRNKJzoyNOZ0nVpZYlRiOijGoDhf5wLTXPvVGsE+brw+Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfptWC5G; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGNecSq5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfptWC5G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769236204; x=1800772204;
+  t=1769245086; x=1800781086;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=g1ihvemtvaVvlUtDJfSK/qCqzdP7NoQHPG7oOOAF4aQ=;
-  b=RGNecSq53BZcqksW4ZOaFgmpZOww6RTacd29edFHktI1kTee2AjAfQzK
-   2cQJUjdyJlHUAZ5Ya8ZAThs33BUy9Y4x35NFb8LoDqaNLkG8YZ4A9mW0R
-   TdYiCh15a+wlVKemHRErJMsfwNEo56EwpnYR9FRZYSk4VkMEpLkT6VzVp
-   /cRQHcY1qyJcJ+PFUFD9UI5SzGdhgI+ZQhvhaNfGDHWoAJuhwRQUOX4jF
-   Egdv99gE3AkPJcYY7IR1zODzUgMvgycB5jfXcvSHlq5ihzAqdL+U6nfnh
-   RnPvEGSwGzB4coEse5HhDFUhGVapPdsDN8D9CYFzzFPoE7cZ9mcdn756T
-   A==;
-X-CSE-ConnectionGUID: 1n1S8rfHSFKa+c+VwYksxg==
-X-CSE-MsgGUID: 6Ae3eBXoRGi7DSEckjizBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="58049914"
+  bh=QKygYSoYLWw3/VwjVeaIUufRgmvhcIwcviAKBPdsHDQ=;
+  b=MfptWC5G47SOgLzYgwsXiWq5PWCg9xjxJC4Vlnszezb0YWATNxD7Fu23
+   AjgurZe50JX60763Nze/jDV6OlpgJlfYBpMusYZS9buzbZThhugSGrwWO
+   RiJTIasPxAP3pDfZ/eQ2phvfxoi7rnEQqTAHRjinBIoRMhBXLhWTHbhvS
+   pEnoV19uhmhuluVwR/QPyx/HCdemkOfJSGdysGf+FSDk84tSvVfYJt98w
+   4tCB0skpl/YLiagH9UWeOQwYmBHc6eukN0gq+gndqw8Pq5OGFgqidMjgl
+   3PVOB1Gp6aSfACyRUQjJS3mMzo8S9KX1tFonDIs0/3xqx1k+IerbR7HUl
+   g==;
+X-CSE-ConnectionGUID: uN+0/sQBSbm37rYZ3b9Ohg==
+X-CSE-MsgGUID: O349HQ/KRwuo40kq7ZNABg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="81201680"
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="58049914"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 22:30:04 -0800
-X-CSE-ConnectionGUID: KkpI/mOoRTarpTLL4Z+r8Q==
-X-CSE-MsgGUID: dDsbiP3oTK+GiMC7PTIIyA==
+   d="scan'208";a="81201680"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 00:58:05 -0800
+X-CSE-ConnectionGUID: 8jUFngnkTf+zYvFa9VUlPQ==
+X-CSE-MsgGUID: pfYIFjKiTFqMeGupOE0MGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="207022399"
+   d="scan'208";a="207475132"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jan 2026 22:29:57 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 24 Jan 2026 00:58:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vjX9f-00000000Uxy-019G;
-	Sat, 24 Jan 2026 06:29:55 +0000
-Date: Sat, 24 Jan 2026 14:29:10 +0800
+	id 1vjZSy-00000000V2k-0kPo;
+	Sat, 24 Jan 2026 08:58:00 +0000
+Date: Sat, 24 Jan 2026 16:57:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>, Shuming Fan <shumingf@realtek.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Oder Chiou <oder_chiou@realtek.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH v1 1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce
  stack frames
-Message-ID: <202601241448.mct8Bh51-lkp@intel.com>
+Message-ID: <202601241638.KGLPJBrJ-lkp@intel.com>
 References: <20260123235050.2837942-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,73 +86,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/ASoC-code
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 patch link:    https://lore.kernel.org/r/20260123235050.2837942-1-andriy.shevchenko%40linux.intel.com
 patch subject: [PATCH v1 1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce stack frames
-config: x86_64-buildonly-randconfig-002-20260124 (https://download.01.org/0day-ci/archive/20260124/202601241448.mct8Bh51-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241448.mct8Bh51-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260124/202601241638.KGLPJBrJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260124/202601241638.KGLPJBrJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601241448.mct8Bh51-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601241638.KGLPJBrJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_rae_load':
->> sound/soc/codecs/rt1320-sdw.c:1448:55: warning: field precision specifier '.*' expects argument of type 'int', but argument 4 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+>> sound/soc/codecs/rt1320-sdw.c:1448:34: warning: field precision should have type 'int', but argument has type 'size_t' (aka 'unsigned long') [-Wformat]
     1448 |                          "realtek/rt1320/rt1320_RAE_%.*s_%.*s_%.*s.dat",
          |                                                     ~~^~
-         |                                                       |
-         |                                                       int
     1449 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                          ~~~~~~~~~~                    
-         |                          |
-         |                          size_t {aka long unsigned int}
-   sound/soc/codecs/rt1320-sdw.c:1448:60: warning: field precision specifier '.*' expects argument of type 'int', but argument 6 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-    1448 |                          "realtek/rt1320/rt1320_RAE_%.*s_%.*s_%.*s.dat",
-         |                                                          ~~^~
-         |                                                            |
-         |                                                            int
-    1449 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                                                  ~~~~~~~~~~~
-         |                                                  |
-         |                                                  size_t {aka long unsigned int}
-   sound/soc/codecs/rt1320-sdw.c:1448:65: warning: field precision specifier '.*' expects argument of type 'int', but argument 8 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-    1448 |                          "realtek/rt1320/rt1320_RAE_%.*s_%.*s_%.*s.dat",
-         |                                                               ~~^~
-         |                                                                 |
-         |                                                                 int
-    1449 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                                                                            ~~~~~~~
-         |                                                                            |
-         |                                                                            size_t {aka long unsigned int}
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
-   sound/soc/codecs/rt1320-sdw.c:1614:51: warning: field precision specifier '.*' expects argument of type 'int', but argument 4 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+         |                          ~~~~~~~~~~
+   sound/soc/codecs/rt1320-sdw.c:1614:30: warning: field precision should have type 'int', but argument has type 'size_t' (aka 'unsigned long') [-Wformat]
     1614 |                          "realtek/rt1320/rt1320_%.*s_%.*s_%.*s.dat",
          |                                                 ~~^~
-         |                                                   |
-         |                                                   int
     1615 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                          ~~~~~~~~~~                
-         |                          |
-         |                          size_t {aka long unsigned int}
-   sound/soc/codecs/rt1320-sdw.c:1614:56: warning: field precision specifier '.*' expects argument of type 'int', but argument 6 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-    1614 |                          "realtek/rt1320/rt1320_%.*s_%.*s_%.*s.dat",
-         |                                                      ~~^~
-         |                                                        |
-         |                                                        int
-    1615 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                                                  ~~~~~~~~~~~
-         |                                                  |
-         |                                                  size_t {aka long unsigned int}
-   sound/soc/codecs/rt1320-sdw.c:1614:61: warning: field precision specifier '.*' expects argument of type 'int', but argument 8 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-    1614 |                          "realtek/rt1320/rt1320_%.*s_%.*s_%.*s.dat",
-         |                                                           ~~^~
-         |                                                             |
-         |                                                             int
-    1615 |                          len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-         |                                                                            ~~~~~~~
-         |                                                                            |
-         |                                                                            size_t {aka long unsigned int}
+         |                          ~~~~~~~~~~
+   2 warnings generated.
 
 
 vim +1448 sound/soc/codecs/rt1320-sdw.c
