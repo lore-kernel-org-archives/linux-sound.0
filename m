@@ -1,151 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-op-o18.zoho.eu (sender-op-o18.zoho.eu [136.143.169.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12A683A14
-	for <linux-sound@vger.kernel.org>; Sat, 24 Jan 2026 10:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769250075; cv=none; b=HKDzl8fVwA0lNRY7DHOcAt84hrF7oqkDhjfj+F5doQwhA25GLepzEL8ICaCH6PSPhVGJMnvSrdz7zJD/BFLGiJXj/Xmmzr5k2PVAwXgkJzAiwUEekPd0GRkMUwX9+xcwiyoRwmyQWqTmWKvR4q0YDe6DWKyMejPvVArxnjYDdVo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769250075; c=relaxed/simple;
-	bh=E5Cp2t1fZ8SWEIMeYMos+KcpaaeBddoOhmGlRmtHuXc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C1OkldZaOex1Qwe9dIcRB7OsIXZYsJr779QcnQQwnD88CMQ6ppERECaF1bTjcIyJGBU2NMsTWko6vKj0e+gidy4bmWm+qXP1Jy1SLqJrzDeVV1GgdNKs7ApSBokbBX2HGZGlq7eOR428ckfn3NSBnNxYyrAAdaHCnMGU33n1pfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GFdQWIxo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sbUylIEG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TpXBRdVt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1aPLn/pI; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66695235045
+	for <linux-sound@vger.kernel.org>; Sat, 24 Jan 2026 11:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769252984; cv=pass; b=mXcu2mUxT0Zp0REuZ64i/WHxoXDrepmMGHkgGoSlmX3Kv4x4Obg5Cqaqer/97iZHietdZaW341iRFH6BaFB9R8qd7CByFAvVekMInbEMlU+UE+2hVZS+dm4dtdoumDBDkWKUN1hvYnWRu0UBlVREfkcgcRaVUWncN5N98QA7Q9w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769252984; c=relaxed/simple;
+	bh=QKrYL9aihiJwxRBP6mDxbcpTsrvfQe+GkuuKTqeM6r4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JExjlN0uj2KiblzfZ6TUUNxf0dZNh4LcI52SNXIWHx6JG7scpFSZnmuqfzJP7Mnp8bd7hvO606HxKgIfuBghmmByJK8Q9RiWNhWbV+NSbMcnX5qZz0M8kjk9tv5rj7w3JMGjyqGBpy4ec/4pLBhHeQ0+Xg6TM0W/I4YaKwpg+Qs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me; spf=pass smtp.mailfrom=redaril.me; dkim=pass (1024-bit key) header.d=redaril.me header.i=fabio@redaril.me header.b=PHi4gVfG; arc=pass smtp.client-ip=136.143.169.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redaril.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GFdQWIxo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sbUylIEG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TpXBRdVt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1aPLn/pI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 150903368F;
-	Sat, 24 Jan 2026 10:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769250072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mryu/c21eZL50YbPE3RLjjUX4m0hxCuaewD6HBe06BE=;
-	b=GFdQWIxoN/KYyIMp6DCrgP9gyz6sfq3NuqjkhK8hGeK6Lxz+pp3lsVPxI4wjShDBzeRGWe
-	SSZoeoU/tXhlXrN/QTAFq/T5i3LQf74o/dCaZjN5k0vu/EZd7m4Nz4FcMh2SUBrURbtTrb
-	95kLX88VKWZxFsGFACw2K5Arq4tJYtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769250072;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mryu/c21eZL50YbPE3RLjjUX4m0hxCuaewD6HBe06BE=;
-	b=sbUylIEG8Szyrrnb34wME/KewYlwyrxhdVy3KC2FQILWmsnvmK3O8BsJj673TmOIjkowSM
-	GERJRIuu5AG1R3Cg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769250071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mryu/c21eZL50YbPE3RLjjUX4m0hxCuaewD6HBe06BE=;
-	b=TpXBRdVtcBhp5yzhtAe6eNEbVo2Iph/lkNOz/seuOcazDmSBMj/FoDjavlTQaPcrMoCalB
-	WY9Rs88hgMyYugZyTaayEA84V4hn2KHai9rnZkWR5fN3kmPBDiu1m5n8TyW+2XgsOMP+/y
-	f0f7CiGpSG3Fbbg0gzzOzE44ivEB4Ys=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769250071;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mryu/c21eZL50YbPE3RLjjUX4m0hxCuaewD6HBe06BE=;
-	b=1aPLn/pIzrj548mDNMP752eXIbIAfmEXYLsanIW48qVuuPxUdeanmx7ZoN9UwGvTsIH+fD
-	EVxwZSSVS9y1L9Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9CF2137DE;
-	Sat, 24 Jan 2026 10:21:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0eR9LhaddGnaCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 24 Jan 2026 10:21:10 +0000
-Date: Sat, 24 Jan 2026 11:21:10 +0100
-Message-ID: <87ikcrcnvt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Damien <damien.dagorn29@gmail.com>
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH 0/1] ALSA: hda/realtek: fix LG Gram Style 14 speakers
-In-Reply-To: <CAN59QMUhd4kHrkRoJA6VzEr2VKezN2yjHnANaQoZn2-Bnwe3bQ@mail.gmail.com>
-References: <CAN59QMUSiJjGrpVzW2czHqdbVUf4yshxUFdKQPws2Fe8veSsdQ@mail.gmail.com>
-	<871pjge180.wl-tiwai@suse.de>
-	<CAN59QMUhd4kHrkRoJA6VzEr2VKezN2yjHnANaQoZn2-Bnwe3bQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	dkim=pass (1024-bit key) header.d=redaril.me header.i=fabio@redaril.me header.b="PHi4gVfG"
+ARC-Seal: i=1; a=rsa-sha256; t=1769250224; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=A0a6zEe6KR2OpfGD9O1AEjHXHhI/MWoEuMDgmA0DPcROKPHVJmezEPXomNT48FkJdHN4AdZBfUMzCjqIgUZ0rT/g14b9tGLD8IozCVBRt2lUF9D2ONy9vnVU9B92PlFMBx02PGinYkHkLs+N0aXIAjWtaIDG53urv2U3S2MYoUI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1769250224; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=KIYSVtBqNa4XuBPgdrmFtHkegABa1183QDaLDy3JwVg=; 
+	b=XN63KxaarmKQP4/jsWsZKKWfUtPAp917O39BhuAPFrU14XPlh2Dm9RiGlV7ymm7lXPyeiLEoHh00KR3kq2pYXj8E39HgN0+PGDgNA42CDg66mSWM26G8qyyOjDPl6gB4mvuFEEaLtT/trjaZ0VnEL2QdtOmMEeO0Pv4dL7hojtQ=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=redaril.me;
+	spf=pass  smtp.mailfrom=fabio@redaril.me;
+	dmarc=pass header.from=<fabio@redaril.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769250224;
+	s=zmail; d=redaril.me; i=fabio@redaril.me;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=KIYSVtBqNa4XuBPgdrmFtHkegABa1183QDaLDy3JwVg=;
+	b=PHi4gVfGN+T6Hal00bMXyUMu+zhWuXoQmRWIEvNQBgQmAV7SdvAsYYJPQFHbQS5m
+	T7s3E+4yq6XZJ+unq2/aGeb4B9iIv+4OozGWG/DvK5vHmt008M+9gITUWhYygAxRxL/
+	k3rZs4IOCHK/3tqpmZAFxyPZ7sH6JIeDz+nerhRs=
+Received: by mx.zoho.eu with SMTPS id 1769250221556239.67266786730363;
+	Sat, 24 Jan 2026 11:23:41 +0100 (CET)
+Message-ID: <10a207cc-7a9b-4cb7-a76d-04dd0c5a55e1@redaril.me>
+Date: Sat, 24 Jan 2026 11:23:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 3/3] ASoC: simple-card: Split alloc and init logics in probe
+ function
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Fabio Forni <development@redaril.me>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260112231855.193030-1-development@redaril.me>
+ <20260112231855.193030-4-development@redaril.me>
+ <87tswqp7gl.wl-kuninori.morimoto.gx@renesas.com>
+ <0a2a46e6-f1b2-4820-8d75-60b8f51cae66@redaril.me>
+ <87a4y8rdyp.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Fabio <fabio@redaril.me>
+In-Reply-To: <87a4y8rdyp.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 23 Jan 2026 18:20:44 +0100,
-Damien wrote:
-> 
-> 
->  Hi Takashi,
-> 
->  Thanks for the feedback. I¢ve reworked the patch as requested:
->  - single patch (no cover letter), with the full description in the commit
-> message
->  - proper Signed-off-by with my full name
->  - added comments for the quirk
->  - use AC_VERB_SET_PROC_COEF for 0x400 and 0xb011 instead of 0x4b0
-> 
-> I hope this rework matches your request
-> 
->  Please find the updated patch attached.
-> 
->   Thanks,
->   Damien
+Hi, here I am.
 
-Thanks, I applied now to for-next branch.
+> But I have thought that the style like below can easy for people ?
+> (A) part checks something and return error, then indicate error reasons.
+> (B) part returns error because the called function returns error.
+> 
+> 	func () {
+> 		...
+> (A)		if (...)
+> 			error("indicate error reason1")
+> (A)		if (...)
+> 			error("indicate error reason2")
+> 		...
+> 	}
+> 
+> 
+> 	main() {
+> 		...
+> 		ret = func();
+> (B)		if (ret < 0)
+> 			error("func() error")
+> 		...
+> 	}
 
-At the next time, please try to submit via git-fixes directly without
-attachments.  An attachment is rather a last-resort when no direct
-submission is possible by some reasons.
+Hm, I think you're being too abstract for my comprehension, sorry about that.
+Let me assume main() is the probe function, and func() is whatever function
+that probe() calls. If my assumptions are correct, then:
 
+- In (A), are we letting child functions print the reason of their own error? If so,
+   I like the idea! In C we only return errors codes without a message, so the actual
+   reason of, say, EINVAL is only known where the error was thrown. Outside of the
+   context of the function an EINVAL just means "something was invalid". So yeah, I'd choose
+   option (A).
+- In (B), I think it's the approach already being used for simple_parse_of(), isn't it?
+   You cannot know the reason of the error for sure, again because of error codes without
+   a message being carried together. The best you can do here is thinking of a generic error
+   message like I did.
 
-Takashi
+Option (A) requires more work, of course.
