@@ -1,165 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CABF83A14;
-	Sat, 24 Jan 2026 10:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0231A9FBD
+	for <linux-sound@vger.kernel.org>; Sat, 24 Jan 2026 10:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769249913; cv=none; b=jXAANctah1fKFX7mdv0PJw9dFMKZU1TrGK5Z94ew9cJ3y0uup+07xbIspQGA0k3UdUCv6IsD020Vjvuf5zOwNB/xmNTM0JPsATTKju2jluc2FaDmv7VfRX8tQiCknP0aL04GtuE6baZz2WQOG0YRGAICiXzc0fZ6zNEg8rrs+W4=
+	t=1769249915; cv=none; b=Ac6az1t995d3mYlu9BCywcOEDrcW1RFAdUZVlUoBfKGfKnnxW6QW/AfQ0cfgX9rijH3UcjVCoVPculj2W4zZz/b9HRSBDh393pMhUvKTyjoqinUs6YV+7BLnEp3FoCu7OgoRUZ2+9oR296IpWgCDoBHxabmVBjzU5AwUuqn2ZlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769249913; c=relaxed/simple;
-	bh=Gl8xj/k+pCH0GkVxm4D2K6gwa3vIrT/5Ac0VFAeIwy8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bpHxI0dstykFla4mi8BKS5MuEtR8zgujaltJ5yZ3ImoTSLkyAE4RpAh475K4giMtkCUSYD+IEWENS23xh4O5KEU4UhaxN3F5337AeFXS47tRAx0QsXZ9z7NDkNYLvvWmtU+Ees0uvgbUg+VHLlHcN7xdkkbXJBTLSgNTg2qBd4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nacflaIX; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769249915; c=relaxed/simple;
+	bh=0JdYwcqD/0z9jsEadE/LjBjvhM14iXCrc2kjEmNMWr8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YylZh4TQLxDlTJfJ5yaFfr9EwQoubZ61Mzv+e+GMHttqOrf++/HfQ4BRaXAx30cJI50av+2R9SQ6RTrqfPCUd72X2W8KX5cWfjm3VgtYZPHbQ7ir//MbBNlgGDcagqxmD9ovwYcbfYJzI7TZbHaMZhTD3ZvLTLyQWUW/Uy81Edc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ijom3uOh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sByktOeG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rqUwn2Ye; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FQYzxHR9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nacflaIX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769249912; x=1800785912;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Gl8xj/k+pCH0GkVxm4D2K6gwa3vIrT/5Ac0VFAeIwy8=;
-  b=nacflaIX+1sWygxVmynQr7s6yMjt4FrM6eby7Ly4T5byGo1pOZd5e88b
-   1wrwDD+kUsxjlU7OLkKh8tl8+UX9q9Ksg+eRb6s0hrOCE7cbG9pGx8+gm
-   5ssScL2FcBb4CVuq0oyMDMkhg1+RrdI4fcjR6VSlc5HWAgUkKZs8jNW1E
-   F0BSov53LACDkWsnhdf4wNRy0oG1vIEWUABuFKCNONhiX5w7FNpbeGW4G
-   XwIdNmFEZk3vNWu+OtaBJahnjsjzwDlOa/nRAopIrPi+5iT761jCgNkyF
-   r+7jlXZyDiTbUh5i4a5WjFs2XanFiiYVjvHLZMKiFP8aqn449DewlPAWq
-   g==;
-X-CSE-ConnectionGUID: lRsDguVZSOqzp+059yb7+w==
-X-CSE-MsgGUID: cnS6wd6rTVe4xi/Sv+ulvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="87902543"
-X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="87902543"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2026 02:18:32 -0800
-X-CSE-ConnectionGUID: VfzyPDeBQdex76kMTD8ePw==
-X-CSE-MsgGUID: tHXJzGzlRnGIZpk3JA/t6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,250,1763452800"; 
-   d="scan'208";a="207583061"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Jan 2026 02:18:29 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 3D8CB95; Sat, 24 Jan 2026 11:18:28 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ijom3uOh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sByktOeG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rqUwn2Ye";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FQYzxHR9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C6CE03368E;
+	Sat, 24 Jan 2026 10:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769249906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yg/KnMuP8mJay2YLt6+GR7gMpc4r2C2EubieSOPWaac=;
+	b=ijom3uOhnWgNFgDSfw2P94TFKMTpJRtwHmAVTGkhmMCzkk7+63rIOtCt66vuqMduTO0X7q
+	Hx7ryPYUtLh1XLtX4xQI3M4ig8K/r6Xw+9dS1Ud4Uby3YD/bdLFWT0V3b/+xHmVx/pkhUB
+	YQL9A6KrYTzvGd0VBcow8kdii5+h6s8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769249906;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yg/KnMuP8mJay2YLt6+GR7gMpc4r2C2EubieSOPWaac=;
+	b=sByktOeG5YK8Z5eFs+GhUg1LVdOqQNrmRCx+mmpaqYY/1ziVx0iWgmJj9KdnIV8nDOSiKs
+	NQRuc8Dcb6fxzVCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rqUwn2Ye;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FQYzxHR9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769249904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yg/KnMuP8mJay2YLt6+GR7gMpc4r2C2EubieSOPWaac=;
+	b=rqUwn2YeHmzcQChvcjB7z+ORoYWPFB0QFS2sHYdlgdSylbKxKNKl50zxkdM8zeRIBjRwec
+	/1my9DhmQoBtePYIFaO34oDWeti6krrrLDBtkoYeZ2cMloHMcQTq8jSWrQcM2l2Tpc8uUd
+	T+rIX7jqdqePiuZdaSyltfXPzoEN9AI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769249904;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yg/KnMuP8mJay2YLt6+GR7gMpc4r2C2EubieSOPWaac=;
+	b=FQYzxHR9QKvMog48y8hUD20+OliksWRmYFe/My7YXI4v4daBp9p9D5Z0me7uanXh8477Zt
+	zvXWHqVwiw1xbcBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8812D137DE;
+	Sat, 24 Jan 2026 10:18:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fVEEH3CcdGkOBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 24 Jan 2026 10:18:24 +0000
+Date: Sat, 24 Jan 2026 11:18:24 +0100
+Message-ID: <87jyx7co0f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce stack frames
-Date: Sat, 24 Jan 2026 11:17:03 +0100
-Message-ID: <20260124101824.3424793-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+Subject: Re: [PATCH v3] ALSA: hda/realtek: Really fix headset mic for TongFang X6AR55xU.
+In-Reply-To: <20260123221233.28273-1-wse@tuxedocomputers.com>
+References: <20260123221233.28273-1-wse@tuxedocomputers.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,tuxedocomputers.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: C6CE03368E
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Compiler is not happy about used stack frames in a couple of functions:
+On Fri, 23 Jan 2026 23:12:24 +0100,
+Werner Sembach wrote:
+> 
+> Add a PCI quirk to enable microphone detection on the headphone jack of
+> TongFang X6AR55xU devices.
+> 
+> The former quirk entry did not acomplish this and is removed.
+> 
+> Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 
-sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_rae_load':
-sound/soc/codecs/rt1320-sdw.c:1570:1: error: the frame size of 1336 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
-sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
-sound/soc/codecs/rt1320-sdw.c:1786:1: error: the frame size of 1520 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
+Applied now (with manually added Fixes tag).  Thanks.
 
-Refactor the code to fix these.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: moved to int type for variable width in the string specifier (LKP)
- sound/soc/codecs/rt1320-sdw.c | 43 +++++++++++------------------------
- 1 file changed, 13 insertions(+), 30 deletions(-)
-
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 5e8a67eeb08e..e849c9772665 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1429,8 +1429,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 	unsigned int addr, size;
- 	unsigned int func, value;
- 	const char *dmi_vendor, *dmi_product, *dmi_sku;
--	char vendor[128], product[128], sku[128];
--	char *ptr_vendor, *ptr_product, *ptr_sku;
-+	int len_vendor, len_product, len_sku;
- 	char rae_filename[512];
- 	char tag[5];
- 	int ret = 0;
-@@ -1441,21 +1440,13 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
- 
- 	if (dmi_vendor && dmi_product && dmi_sku) {
--		strscpy(vendor, dmi_vendor);
--		strscpy(product, dmi_product);
--		strscpy(sku, dmi_sku);
--		ptr_vendor = &vendor[0];
--		ptr_product = &product[0];
--		ptr_sku = &sku[0];
--		ptr_vendor = strsep(&ptr_vendor, " ");
--		ptr_product = strsep(&ptr_product, " ");
--		ptr_sku = strsep(&ptr_sku, " ");
--
--		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
--			vendor, product, sku);
-+		len_vendor = strchrnul(dmi_vendor, ' ') - dmi_vendor;
-+		len_product = strchrnul(dmi_product, ' ') - dmi_product;
-+		len_sku = strchrnul(dmi_sku, ' ') - dmi_sku;
- 
- 		snprintf(rae_filename, sizeof(rae_filename),
--			 "realtek/rt1320/rt1320_RAE_%s_%s_%s.dat", vendor, product, sku);
-+			 "realtek/rt1320/rt1320_RAE_%.*s_%.*s_%.*s.dat",
-+			 len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
- 		dev_dbg(dev, "%s: try to load RAE file %s\n", __func__, rae_filename);
- 	} else {
- 		dev_warn(dev, "%s: Can't find proper RAE file name\n", __func__);
-@@ -1595,8 +1586,7 @@ struct rt1320_dspfwheader {
- 	static const char hdr_sig[] = "AFX";
- 	unsigned int hdr_size = 0;
- 	const char *dmi_vendor, *dmi_product, *dmi_sku;
--	char vendor[128], product[128], sku[128];
--	char *ptr_vendor, *ptr_product, *ptr_sku;
-+	int len_vendor, len_product, len_sku;
- 	char filename[512];
- 
- 	switch (rt1320->dev_id) {
-@@ -1616,21 +1606,14 @@ struct rt1320_dspfwheader {
- 	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
- 
- 	if (dmi_vendor && dmi_product && dmi_sku) {
--		strscpy(vendor, dmi_vendor);
--		strscpy(product, dmi_product);
--		strscpy(sku, dmi_sku);
--		ptr_vendor = &vendor[0];
--		ptr_product = &product[0];
--		ptr_sku = &sku[0];
--		ptr_vendor = strsep(&ptr_vendor, " ");
--		ptr_product = strsep(&ptr_product, " ");
--		ptr_sku = strsep(&ptr_sku, " ");
--
--		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
--			vendor, product, sku);
-+		len_vendor = strchrnul(dmi_vendor, ' ') - dmi_vendor;
-+		len_product = strchrnul(dmi_product, ' ') - dmi_product;
-+		len_sku = strchrnul(dmi_sku, ' ') - dmi_sku;
- 
- 		snprintf(filename, sizeof(filename),
--			 "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
-+			 "realtek/rt1320/rt1320_%.*s_%.*s_%.*s.dat",
-+			 len_vendor, dmi_vendor, len_product, dmi_product, len_sku, dmi_sku);
-+
- 		dev_dbg(dev, "%s: try to load FW file %s\n", __func__, filename);
- 	} else if (rt1320->dspfw_name) {
- 		snprintf(filename, sizeof(filename), "rt1320_%s.dat",
--- 
-2.50.1
-
+Takashi
