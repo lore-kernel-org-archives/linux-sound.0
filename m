@@ -1,82 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F99A246BCD
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 21:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE5E2FFF82;
+	Mon, 26 Jan 2026 22:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769462532; cv=none; b=jDfx0CpPD2vK8AXvTHk88m7irsNW45wnr6Lg84z5L/9CxCh+2XFLcpqclrgZO/ePqSaNYQ4BOnrnGMTcMkXXuhAQrkthlNrsS0lMHfB1r9CQaDtVi+/flIHfJWK8HLMF0buWfUoIOY0SOfXBuZSKJuH1BYZ8vlfHBZ3iXj4l/XQ=
+	t=1769465408; cv=none; b=Q75dCu1RmewwEA5yJ+TxeFSemIvBlBFcDl31md6svXk921ralA7Bul8NLGBstV8rfuuOOB6+o3rCVAEDK4xEdpG4o1BOsBBkb2BZtwYe1ixOXYUp7CUqZsI3h0+DzW0UkC9uBR/RVJzS4Nvw4ahSfDOIYeps7Qy+AKIvh8tTj1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769462532; c=relaxed/simple;
-	bh=epqbRNM/6weIblsZcQ1eyG9eb/TctxPWwI2FzReBnlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rpS1s5X/c6RGBeJKs/Yp+JjvWsYMd0eSUfpJLrMbmLnxeqfHJNZBSE23+tsmns/3c+6qQgd2XMy/jh8S82D4tNd94jYs24O85kqpTBYqjIPH/n/woBt6+wjIm3bBUsw97JtwZX2TRVTPpf9dPax/GgW3NKA4nVQqPKS2rfjbJTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vp+xsj2/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769465408; c=relaxed/simple;
+	bh=qnvggHq1uTjpdaECseoeehPvBz7KdXXMNasncpKCanw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ol0FLtJSdig3cJtScYHYHtRbJG4LtJ5DiEZ5H/SWSe/TiZj0s2ev0TW3ei15RbFSwB7n8FmiU/m3b1XF7dD4DSNWEYeah2n3enbrPVqT0IvdGNr2Cn5jjk+i/hQKytIL0F0qv1eykjKUiLUZiger/5JhQO2f77saCHffSGYATyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V46R0lxr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vp+xsj2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85AAC116C6;
-	Mon, 26 Jan 2026 21:22:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V46R0lxr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943E5C116C6;
+	Mon, 26 Jan 2026 22:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769462531;
-	bh=epqbRNM/6weIblsZcQ1eyG9eb/TctxPWwI2FzReBnlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vp+xsj2/CM632hzyuY95zddJhY72p/+mn5PSmYYnFrLNig0S53LsP+3LP22hGJeAm
-	 WYdovU9/UKiBTLL0ly0O8W4jN2WKbJGptdhu9qqgVpGYjCSyCxOwAIdHxgufuwzM9D
-	 cnZylmqzdXUIETnc+ojdDdaPa7cs5roJhpF5Jt+0kLSfWD4/4HOX/n99y1H7eItIXT
-	 do2z6dJfhF43f178/fazTLRtS032svavUMIGBNfjY2WJjrrYQ0nOAcs0Chhtii8mUW
-	 ndM/f+1ftx//YkaCOMD3h5o1LAwfz6eyW9/LTgeAic9h/5x11d6Y1LKhwaPPQ6eec1
-	 c1jSQAIoUfrUw==
-Date: Mon, 26 Jan 2026 21:22:06 +0000
+	s=k20201202; t=1769465408;
+	bh=qnvggHq1uTjpdaECseoeehPvBz7KdXXMNasncpKCanw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=V46R0lxrdhAKYOwhJvuBvCx9eWMRFyHaqPTY8uXKeBfDXxfFqUJ2tfPF+Bvt8876w
+	 vGDLAZOIziyOZWB3x0fq68V6mAxT2j1cvT/Va+dhzauykUz8LWeZT7mMygIC11f6W5
+	 lsxQ98/WUcbFFEzmsASRA/NIOpb2ZdSd6vrn6ZK7rCrZud9TEaiLum5bB22xpWQ169
+	 4x41VjpwSav71HJ6nXLTJfdkrJ4CiqijBbk9hBSs/JTaP+83euGv/KTwhXf7ek7YbE
+	 ddURzqqZ6D4leOnqJMQVlK7WPzj6iPswEAwNfyWFwfCK3FPFdJCTHOjl3OBtm3fTTQ
+	 wUZitrXNdaf/w==
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, flove@realtek.com,
-	shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ASoC: rt5575: Fix undefined references to SPI functions
-Message-ID: <e259f5f3-072f-4b2d-9191-9a0717212beb@sirena.org.uk>
-References: <20260126051758.3728312-1-oder_chiou@realtek.com>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Zhang Heng <zhangheng@kylinos.cn>
+Cc: alex.andries.aa@gmail.com, syed.sabakareem@amd.com, keenplify@gmail.com, 
+ santesegabriel@gmail.com, talhah.peerbhai@gmail.com, 
+ elantsew.andrew@gmail.com, queler@gmail.com, ravenblack@gmail.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20260126014952.3674450-1-zhangheng@kylinos.cn>
+References: <20260126014952.3674450-1-zhangheng@kylinos.cn>
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for Acer TravelMate
+ P216-41-TCO
+Message-Id: <176946540533.976880.6607426181042008067.b4-ty@kernel.org>
+Date: Mon, 26 Jan 2026 22:10:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="irkguet4Prt9vEFU"
-Content-Disposition: inline
-In-Reply-To: <20260126051758.3728312-1-oder_chiou@realtek.com>
-X-Cookie: To err is human, to forgive unusual.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
+On Mon, 26 Jan 2026 09:49:52 +0800, Zhang Heng wrote:
+> Add a DMI quirk for the Acer TravelMate P216-41-TCO fixing the
+> issue where the internal microphone was not detected.
+> 
+> 
 
---irkguet4Prt9vEFU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jan 26, 2026 at 01:17:58PM +0800, Oder Chiou wrote:
-> The kernel test robot reported the following build errors:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This breaks an x86 allmodconfig build:
+Thanks!
 
-ERROR: modpost: "rt5575_spi_fw_load" [sound/soc/codecs/snd-soc-rt5575.ko] undefi
-ned!
-ERROR: modpost: "rt5575_spi_get_device" [sound/soc/codecs/snd-soc-rt5575.ko] und
-efined!
+[1/1] ASoC: amd: yc: Add DMI quirk for Acer TravelMate P216-41-TCO
+      commit: 9502b7df5a3c7e174f74f20324ac1fe781fc5c2d
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---irkguet4Prt9vEFU
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml32v4ACgkQJNaLcl1U
-h9C6xQf/Q1yCIyKtQlOQ8ZQn1ElpEwbM28yirS7Z9KS+ys2FbMLPhmwAplfc/aLj
-A48AR6pk06lbGND8h6WADFpcUmTFszFeuBhoTHa2/kKhjLSN7N6LX9BRyQCQhNDh
-60bhXJviuxtBMK3k1U1/nS/q+4pxelAIGsCfiKHIfms/xrExc3lwr8XtbdwadIHL
-UUoWsGDCsENzSXzsdmHZyoCSFEYKA5CSX9yUgHcUVp0DZ4JeOxiYVwjXFOWQaqXB
-kWPdx+E8kQ6uQt2U/xLInsuIBoHvRkxnjixCZVN5gbEFFQNXwhGjYtQDd+fOAoZd
-amThhpKooR1fhhHkxKQB/BLgAmJHQg==
-=7bN3
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---irkguet4Prt9vEFU--
+Thanks,
+Mark
+
