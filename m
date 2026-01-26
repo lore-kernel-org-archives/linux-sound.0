@@ -1,82 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CAC1DE3DC
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 19:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6103B248886;
+	Mon, 26 Jan 2026 20:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769455188; cv=none; b=WvOuljFR+Zu/LG41EHh8MZYkYyaJhNCpUJO2Wy3I5/bQIifGp6i/Uv1rr0QVMXsCXvtsn6cFtoD96gLgmd4JihTe8A/656cfcxp8fMwrFVKwiwceXeWAtIVb7HkPZ8PiquGepT6rdD+EA5oYmNwmCwjQV1487c4vNPLidnTs4R8=
+	t=1769458460; cv=none; b=VGFVmph9zw0h9TyaNE16lIhQm80z7m778bdUeTfTR88NULpD46aaXRRzuS/pD+WUApz9Nloyq1izCBcZn/mASdGhGnoWvn8FEm/dsNnFvoSAsz0HuJe8A/eInxXUaynEXwh+rXffRs3D0Wdww6iiJT5dyf3TW5baCcAyxAis2Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769455188; c=relaxed/simple;
-	bh=1+dmZnN/Xr73QHLXKoR8Kp+C6JC77/k5eEN1IYiUAsM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RxvQRzCzKxvwP6UbgRMiayFaml4hxoo55vMFoUOQcx90/w+PfM4fKZKF1TbTDBcwbSVgTGlbzJREMp3RW7AvNqD5x2NMI2HNLApVV1IaRKdNPqfeQhT3VBYVbAVzURlV36n17ISlvta0IUjibHJQ0BOXP2WaMb+9yKNv9mxglmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1IixUor; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769458460; c=relaxed/simple;
+	bh=HgPb0w1QMDqfBsgsRmL/JDZmjKY4pLriTJaTBpfCPYo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fdeaQD4mhN5ZVJLBoFjJ3JioRTjfxRA1iFjYvBX3/K3MmPsMpmxT+CzGXK9K38NyJ/9gBX05ifvPyxceBgTkbJUk4IRuUIsj6xFzDnr9z/4pdHaeBQ2Ss44C4vVj3zoHefmEGSwF49MMaDhS5I18NFDAHAn89pzgN+M7PIvTOs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=iq43ylH2; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1IixUor"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04CF6C116C6;
-	Mon, 26 Jan 2026 19:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769455188;
-	bh=1+dmZnN/Xr73QHLXKoR8Kp+C6JC77/k5eEN1IYiUAsM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=R1IixUoru+PZ7YjuGBcB3ErhyXBU9R1vKTt2jggpIDifSOdC4fybzDls17gsqHp4x
-	 lyG+9s3GGhSizF9BVeWP09J4D3mmv93yEZf0pOetr3rhZYKBSmh7Nsfk0qzFgWQRnp
-	 RXQGlrrRfDk/1e1xgytQ0e92EAmzQktTS2Tu/OaAwUkAikdKsf3tYGGgv/Z0txL8t1
-	 j+zLxzwvwPHNMTPyoNmriyzgvD+i7sCb/lmg9txbHrLy686tQ34MsE4CbzAOubCYor
-	 8KV+CIDq/RJm4jY0xaRYD8fLb9HgDW/6FFxiYnel7gKWJoHD7YC8EQYAsvr+1JCg6A
-	 IiaxyV6z9B78w==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com, peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260123113809.2238766-1-yung-chuan.liao@linux.intel.com>
-References: <20260123113809.2238766-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: soc-acpi-intel-ptl-match: fix name_prefix of
- rt1320-2
-Message-Id: <176945518676.777978.10194048036485521307.b4-ty@kernel.org>
-Date: Mon, 26 Jan 2026 19:19:46 +0000
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="iq43ylH2"
+Received: from [192.168.0.182] (unknown [61.8.158.207])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 196902FC004A;
+	Mon, 26 Jan 2026 21:14:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1769458449;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZNxG8TaQWc7bHgtaasX7A4xbdys46y0+lR7elW4/NzI=;
+	b=iq43ylH2qRFCG2By0zan4gLXo1XQHeQb3Is2r6ckV6HFPA2t8oPw9OjU/87LO+PdmK/l2A
+	oYiY3JdAFpkxM53j5TiVKvH9U1AJLlupDHyMFaUvFEpDgnuCzamYmi0AZk2Pk3L/Uhzi3W
+	mOwR+6DOIO316eWNkV3nzExAeRJRY4k=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <e5a7b943-58cf-4f1e-b006-9ab7f944e115@tuxedocomputers.com>
+Date: Mon, 26 Jan 2026 21:14:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ALSA: hda/realtek: Really fix headset mic for TongFang
+ X6AR55xU.
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260123221233.28273-1-wse@tuxedocomputers.com>
+ <87jyx7co0f.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <87jyx7co0f.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
 
-On Fri, 23 Jan 2026 19:38:09 +0800, Bard Liao wrote:
-> rt1320_2_group2_adr works with rt1320_1_group2_adr and the name_prefix
-> should be rt1320-2.
-> 
-> 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: soc-acpi-intel-ptl-match: fix name_prefix of rt1320-2
-      commit: 403a0591be681eebc0c4825f8b42afe7fd13ee7f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Am 24.01.26 um 11:18 schrieb Takashi Iwai:
+> On Fri, 23 Jan 2026 23:12:24 +0100,
+> Werner Sembach wrote:
+>> Add a PCI quirk to enable microphone detection on the headphone jack of
+>> TongFang X6AR55xU devices.
+>>
+>> The former quirk entry did not acomplish this and is removed.
+>>
+>> Signed-off-by: Tim Guttzeit <t.guttzeit@tuxedocomputers.com>
+>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Applied now (with manually added Fixes tag).  Thanks.
+Ah, deep sorry i forgot that.
+>
+>
+> Takashi
