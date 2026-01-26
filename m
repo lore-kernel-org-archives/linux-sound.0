@@ -1,60 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E48318ED2
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 14:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3859F3375D5
+	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 14:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769439391; cv=none; b=Y7Iq2RjAPE7LMWXoSMm8b38hRp4XcfLPycKrDSbClAWW5wWFyGA/Lrv8pYNayY1xG5VePaZ1dU1xpG9aBQNUJFgvlZcf33YsdlXG6NjxhqCTXSbi5KwFhL0EsKwZOEi+N7Kk9rOwqXHppOfSUIlB0lMI+onpH2uD1Y3KvWtIG9Q=
+	t=1769439394; cv=none; b=j1rgOTP2RExWlimJa3FmTa0uSoZOENaaMxIM3MyH6HkSVFPFbA+9Dw/lZQgHZR29N3fn3c5YCcNRaun2qK1ixQbuaPQxiplFwDkB5zkj43gVHYgiFt8VtoqbmQZe6F9JeaLFuUsW0vwchnyCphkO75qLfAO3LMwNqRBBIfixEq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769439391; c=relaxed/simple;
-	bh=04Q1GPam45voSeBnPGR/U1/CMfY6oCgIxm079aOElp0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=da6cZzYzG/zucNlCQudLN6YyFVoSTXuN08EzPVQbYpNOiNktX8LlGhQLobzilc+jzbd5xOgLjxmFZGD2odT2gTz8SF3Rkfcg8UtUsR+TZksj29p+ZE4fL51Nnr5e8HYx4LoOT2jnKy9z3bVxkEaHZt59duxL6/C00x7aGSSZ05Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcYFLmDe; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1769439394; c=relaxed/simple;
+	bh=zoU5K02Bbq7cw3lIuV6NlOALPTjdLVS9TUL2NqjNC4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PNm5QHPmvjH0l321qGtKTqsTIffsb7gdUref4Fq00Qp2G8ACnldK0GnzufHoRyEG3YAz2c5iN9R0LDr5jUyocvBp8Zm20MAUbMtMm99HTkO7XyqTsS3nBwScZntbtlVUjDR5XMRYsW9HRV9nGhWmHz8MaWPhvshZzelbobDyCo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JS9YkWnT; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcYFLmDe"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4801ea9bafdso18510275e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 06:56:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JS9YkWnT"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso53304655e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 06:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769439388; x=1770044188; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=knPUlB2owHnkNVv4SE4pV1/cSooTAZY2IewxcUnkdP4=;
-        b=PcYFLmDeBgknWehgg2W9xFlsbgCqIQ5bW6a1TUFtRqkjNy25QjU4Yy9JDxug4+R3c7
-         YmpOE/e9k7fEhJdSX3yuBJGy/T2Yqjz4WD21umaFLX9LRkaxKjpQ6Fi6ZEnyYHg1nThF
-         DrZs6fXNh2pv43S1OXY5oCpMsXHm5iBhMjlUxT+176TYQ5cwhf7g5SJ7K5bkhPIfZO7Y
-         I4vrhF8qosb7gUekf/xpGSI9vRCoQORw8t2wlbi1ziYwV/Vi61sHCUYWqdnUvnOj9c1h
-         HKRqjAFJ35gdbBCsEkK+parD0yDragYaPawUs5l04AJRkr3e7QVRsLAFITQkSi1hc5hu
-         p0Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769439388; x=1770044188;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769439391; x=1770044191; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=knPUlB2owHnkNVv4SE4pV1/cSooTAZY2IewxcUnkdP4=;
-        b=KIr8LxBIVCENIXl0m8e2Q6veLXBeSX6ZExLULWxWBaWM0eytgLPumdJCv5DY6zQH94
-         EMERlIVH4j6CYXrPVeTM699Zz8x9gRyLzHeGPdup4AkZUmFe4+pwqZrAvsFd2UcIXMP5
-         ihrl97vMO3G5i7sgeJaQ8xmm0MysdVXrGzh7nUVW4KnHmC1bi+s4uc5uM27CtXZOopnC
-         RSGi0XXjkWI+sFFxsXUe/xaFZhmrpjWx38qo6xeMKt23THM5HSWCl6Cl5R0Lqky7wvHw
-         4PTXpJ2f3BQkBbEks3qFP/1e4Asrk65QthKoMYPpS56b0K4Dmmy/Ph5UPyfECIvV6I1W
-         C7pQ==
-X-Gm-Message-State: AOJu0Yz1PCAioMdHF2uq7izFr7z8QSeZiGJFh8vehZluiozq03ivP7M8
-	wxXkM71oD5QpKGam1mtftCbyVkNtLkdFj0En0g1OD550u7/NW/JlSknV
-X-Gm-Gg: AZuq6aJ1ZdFBV+1NZWESA5PMJmrxbjXt8nDALxu2umYay01yOlHsCmjyQl4rLbm9CBk
-	zvyDmtlViXD6NVZVRX7HWaBGQMKtsN3j2PDQNntLN9/T0eaV8ZmEHh4/7ww2VAfX5GjtrJQmJiQ
-	vzyECk1u93DtFr61SBK5RBRObRn241dr3Y7lLORpmGtwmD93p/HlOhqzrcDZCTz7D+jez98Nei7
-	rVc/fcW002AQ3vnmZdxzsjAWUSSxrPOXkgy4PUpdIKFrCr2n4CkOA6PoA/kDelj2yY19BnbBwHB
-	xRBGGzFk4KEo8fmYNBFjpXJWV7o25GoD+R4/tIrQNcmAACqy6gwUTnz495JcKTS0RV+hnG0WZ/C
-	ClgSZIHjMDDb2twXhpEli4wdLZztdA2Z7+bxmo8qNXJzggBvdb6PsPcQ+0fql7sXjBhuruTosos
-	KN2UZuigCNE3mbtaepFnpCZSHi73xvXuNkJlnIEg==
-X-Received: by 2002:a05:600c:674a:b0:47d:3ffb:16c9 with SMTP id 5b1f17b1804b1-4805cf5e6admr76087785e9.23.1769439387866;
-        Mon, 26 Jan 2026 06:56:27 -0800 (PST)
+        bh=2a8Ed9B2Mg4RdZUumF2drNSJLLH5FmhhUmHLfuibnFg=;
+        b=JS9YkWnT06zRzMmm4GZxHVLDTe7rJmjmHlgd+2vHsQqDvx6GoPiiSYixpX870TN9uA
+         9PuuRMdV5ZjD3ktKEEHKTO7gt7w/tSIqHSTaoWOQwmHI5XFzdLoz+ogW4svoUxxCeapm
+         t9lIMXMPVMg1JcoLuGVOH5FGhZz5r1PTxcnVRSDaA5enjOUfAH4VVM5FpPcnOpbjLrb2
+         5TYcjHnWiwCwyTA/wGG9geEGKP+DUpgQThMGzRX4SJuP6mXugoGg+3B4kfcQJZ2EFNuw
+         Jh0z0AAlOYoC/twsKwL4ZnlbrRwosA5l2oCwOcvSrQa97AjheqU56xlOt/CAFbTEqHI/
+         5L0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769439391; x=1770044191;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2a8Ed9B2Mg4RdZUumF2drNSJLLH5FmhhUmHLfuibnFg=;
+        b=Wv4J9KPec9RUK9xoWXSJ3UYdZDMtFHLOcWmPbLXGv7T4qGEi57U4IE7m0/YPJ4aAGS
+         6/3duPzB+UBIQyjOArrdmNxIRXv7IsbWbwmTmIyPrk7vAEDSbtrEWn9FDETGB8VwOGPM
+         0KXcG+GeR/JOnQn1W3HBSsWwF7YTCeJRZpICD/y3tdfCLlnnVlJmLNN2ctio01FfbCQm
+         fCnpWng36ngjMn7IBZulnELX8TJvVRzhkyX59bZR9rincxRPluQbXcLts5tvu+7ERSiN
+         U3ar/XABfGoMgALdzdEbefhLjWaLlL7zrEKeGeYLy/Amt6eICHQbldq8Im1rSe6AHfN4
+         xMmg==
+X-Gm-Message-State: AOJu0Yx/FcP355SOEZ7baLZsR1Jzlcgymb062vAb+slN2Owd54J+ZEA+
+	srmWMFyIc+IISlx4LMF1/5jdyJLvyElTp3WGV1j0S3GJDHgJEK1ALt1w
+X-Gm-Gg: AZuq6aKBNMNzBvCmCa22AcllFaT2KXMoSKqZtqF4gNxCbJZDjM4NUGS3wK61B1AFpN9
+	DSMeAHdV7Y2TLb8UavEJKi9MqohyfAVXERZylhiXsf3sw0SOvx3ivAN2S53GDJOjbFF29Uw2RZz
+	Zy+97A6r/ycNdKG3YRU0j9MJQ4z20jUEliGWfi+ZWwg28VZyhS2E8TNNl10csL6kebSVfTlit8T
+	H+t60mV219VLcZ6EPqdIq/on+GMoJrhZQhwqPvi2xST/lyU9nxc1wp18y3jjQ575mgLBA2L53CR
+	NVwLsBisIjX1ftoip1UJBS7jnIYJXVlz3teEonNdbQgp98D8+k3cEvjqzlh2ynIOq7qgBzYjSe3
+	s8FVpjbJbrX87Nf7gDYqsKEr9ywALHXb+8wD8aGPcAmbG7hIc0l1d6aWGyve8RxzgBeUOrnBky9
+	F/rXH2H9hOLAK1c2hFJUtiFNetT4MGkWYPbZzTNgQhjiwS6OiX
+X-Received: by 2002:a05:600c:3113:b0:47d:403e:4eaf with SMTP id 5b1f17b1804b1-480650f2933mr20236615e9.10.1769439391388;
+        Mon, 26 Jan 2026 06:56:31 -0800 (PST)
 Received: from SMW024614.wbi.nxp.com ([128.77.115.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8c0aebsm278448735e9.15.2026.01.26.06.56.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d8c0aebsm278448735e9.15.2026.01.26.06.56.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 06:56:27 -0800 (PST)
+        Mon, 26 Jan 2026 06:56:31 -0800 (PST)
 From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -73,10 +75,12 @@ Cc: linux-sound@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: [PATCH v2 0/2] Enable AONMIX MQS for IMX95-15x15-FRDM board
-Date: Mon, 26 Jan 2026 06:55:35 -0800
-Message-ID: <20260126145537.2301-1-laurentiumihalcea111@gmail.com>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: fsl,mqs: make gpr optional for SM-based SoCs
+Date: Mon, 26 Jan 2026 06:55:36 -0800
+Message-ID: <20260126145537.2301-2-laurentiumihalcea111@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260126145537.2301-1-laurentiumihalcea111@gmail.com>
+References: <20260126145537.2301-1-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,24 +91,47 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-This series enables AONMIX MQS (i.e. MQS1) for the IMX95-15x15-FRDM board.
+For SM-based SoCs (i.e. MX95, MX943), GPR configuration is performed by
+the SM coprocessor. Thus, GPR is transparent to the software and does not
+need to be described in the devicetree. Make it optional.
 
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 ---
-Changes in v2:
-- adjust binding commit message as suggested by Frank
-- replace whitespaces with tabs in MQS pinctrl definition
-- link to v1: https://lore.kernel.org/lkml/20260120150329.1486-1-laurentiumihalcea111@gmail.com/
----
+ Documentation/devicetree/bindings/sound/fsl,mqs.yaml | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Laurentiu Mihalcea (2):
-  ASoC: dt-bindings: fsl,mqs: make gpr optional for SM-based SoCs
-  arm64: dts: imx95-15x15-frdm: support AONMIX MQS
-
- .../devicetree/bindings/sound/fsl,mqs.yaml    | 12 ++-
- .../boot/dts/freescale/imx95-15x15-frdm.dts   | 73 +++++++++++++++++++
- arch/arm64/boot/dts/freescale/imx95.dtsi      |  5 ++
- 3 files changed, 88 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/sound/fsl,mqs.yaml b/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
+index 1415247c92c8..bcc265a742c7 100644
+--- a/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
++++ b/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
+@@ -63,6 +63,16 @@ required:
+ 
+ allOf:
+   - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx6sx-mqs
++              - fsl,imx93-mqs
++    then:
++      required:
++        - gpr
+   - if:
+       properties:
+         compatible:
+@@ -91,8 +101,6 @@ allOf:
+         clock-names:
+           items:
+             - const: mclk
+-      required:
+-        - gpr
+ 
+ unevaluatedProperties: false
+ 
 -- 
 2.43.0
 
