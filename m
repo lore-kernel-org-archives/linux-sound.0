@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1711119A2A3;
-	Mon, 26 Jan 2026 18:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CDC25A33A;
+	Mon, 26 Jan 2026 18:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769453138; cv=none; b=rjyZKP4dY/7yO1jZprNybnR1rFC1xHypyFSbOLLNIj0OnJgbWMO+K37gydyiU/CVvFKy3Ki4fhLjwUe+zJqcu9+0dMDHUnbiO23BLMJ9yNJZKI8Vk5IRHxs+HdDF11GWLNGKQBST75hgHGinDuqExXabtSdbhiZiH+FaJSSJai0=
+	t=1769453139; cv=none; b=RipzG3sSmDSHKj3YI04GdYjs8Gz90fkB5Bnw0x6dRbIzlLZd92KYl29JppA2Na8ADLqS9zHo8OmifScXu+XPQK2cj4k+g2IGa6S8fEB4xYRS3XWdKNytVKxYbIng25eFIHk+QgFL0lnNi4t1R4u1LLHEcMDO3RB5BIcKuDP7ZCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769453138; c=relaxed/simple;
-	bh=7wYtCd5ZqmWUGeltWIXEhE03P6pAWm4MmjmrdHrKDro=;
+	s=arc-20240116; t=1769453139; c=relaxed/simple;
+	bh=TVu+ugucK87dBHPV0OXlqnSninibDFVdz6aQPn46UAg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MShuzHK2RYbuW8BIgXD6cPcOUAzloeFvtW6koiSRqO1InkxP30aVw9GY6Y/EQcth8EP/KxcjIMeMYChHIilcf9KiPrm6uImN/SFuEBqs56gs7heDgIc/q+CEDVwIiDPAaA/qisK5+NYwf2QIZUcUq96bGYhJewhoGYX0qMR7U6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MdOTid0K; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Yd0k9izdOm9HbGmho1/HcxdRcYHWSlTndFgvP+n4BGL0PsIlUNeJyTBnCzZyfM3++zFHJrZXJHDGuJXqaxL7S+N0XsXiDeFt6Im8bfqet8GuB9DUa0A/YeaYFG4EEc32UL0uJJxGVSO8qm6CdlLG+U8qavl7khRevJ3NBzEivuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cVscJieM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MdOTid0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C20C116C6;
-	Mon, 26 Jan 2026 18:45:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cVscJieM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C489C116C6;
+	Mon, 26 Jan 2026 18:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769453137;
-	bh=7wYtCd5ZqmWUGeltWIXEhE03P6pAWm4MmjmrdHrKDro=;
+	s=k20201202; t=1769453139;
+	bh=TVu+ugucK87dBHPV0OXlqnSninibDFVdz6aQPn46UAg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MdOTid0KIYgf/g2F/PAGUu+RfhgU7iDkwtt+YyFyhrMhZNE63TCCFaw92f6FnU4+9
-	 QlOXZHXiGXxzWRBaSCRekjYuJh30u5u+j7g6bc17yOTt19B5TjRMP5DGcAGgSld3Az
-	 8UQ+jDo9BBd74zk3gDYP6XHQ8ClWd/z0AQ8rYJowFDSIX0AMLQPc3Q9cN90wFC17YN
-	 Gq/G/+sxD9LQT5iK0TkBOvkzTsiT8EByCoavtZ2HmAdZ1d/bx7aKhhIJXqSqspJl9W
-	 mvRtVotvkXxdCAlYE87M3GGHFOepa2TqE4fO4Jfd5p0ppsVrkURbqaXNNk17PxGyZk
-	 /iooD6637tfTg==
+	b=cVscJieMrA9v7y5yG10c11iXh5ZZzIKQCqh+sUcHHLtnCz2kZtr3BIsqOV8EehBXi
+	 JHwRSD93CoMVljjiFzUav7E8J9F/YTZSjPxbBeecWPva/fZOPgb8JxgQT3PHGvIVtm
+	 MlIe3yrumeXYwvk6v69Qtlb05F7gVoXTa6DcBRn9wVKS4WvRtuwmY1S9tBTJk4ERVg
+	 GGe9Mp/oH8XXiDJuXCJC8dFowsAOVK0AJTyyPrrchBA6yi6u7WjnhJyBHckWZqDWr2
+	 0AFl0MbXTJZRQihbClPAEE0xRzepzip2nSqJDEfEIq8lApETZGvCTm+FR2bQYvGge9
+	 aFO6yAEvX+ugA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260121235757.370920-1-robh@kernel.org>
-References: <20260121235757.370920-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: Convert ti,tas2552 to DT schema
-Message-Id: <176945313576.769345.1126214237939485232.b4-ty@kernel.org>
-Date: Mon, 26 Jan 2026 18:45:35 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260123111354.1931986-1-rf@opensource.cirrus.com>
+References: <20260123111354.1931986-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56-test: Fix missing module namespace
+ import
+Message-Id: <176945313797.769345.17717506163508689826.b4-ty@kernel.org>
+Date: Mon, 26 Jan 2026 18:45:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,9 +46,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 21 Jan 2026 17:57:56 -0600, Rob Herring (Arm) wrote:
-> Convert the TI TAS2552 codec binding to DT schema format. It's a
-> straight-forward conversion.
+On Fri, 23 Jan 2026 11:13:54 +0000, Richard Fitzgerald wrote:
+> The test must import namespace "EXPORTED_FOR_KUNIT_TESTING".
 > 
 > 
 
@@ -61,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: Convert ti,tas2552 to DT schema
-      commit: 506e0825a4c9b251d141f0f31c6cde1bdc2983ff
+[1/1] ASoC: cs35l56-test: Fix missing module namespace import
+      commit: 74120bc29856509c585c38dbe963801ecdabac46
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
