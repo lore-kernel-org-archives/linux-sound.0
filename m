@@ -1,33 +1,58 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE48FDF76;
-	Mon, 26 Jan 2026 01:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07991A9F96;
+	Mon, 26 Jan 2026 01:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769390354; cv=none; b=T+WPuqV8h5EX9qiTI1qaFktpfV1htL2/W0QaYAVEY39E2uZOhs4peVptvD4CPbum4ESX10Fpnn/f3k2KazBnq7h/lRfKHWlrVUnzZ7GEHVCB405iXqoSO0qXUkZK/XdkFR+X6J9J3ewPRtxU7p7wMhd6ahETFR6LppDjt/Q/xxU=
+	t=1769392214; cv=none; b=H3ff0z7UjIx+CVHJPIgs/mWL+cr2Q75OmYug4+BxIeJ4u5wQX2vD0Rm38MsRZMY+3W8IwiNOWU05iGFW2pO1GpBqfk5Wl/XWkhhvNrJa2+RJfPbHaimZnnfAWQp6IGIsCAUTQxOPqoFt955z4zhU9AbZyGlLds3RqB3qWXNan9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769390354; c=relaxed/simple;
-	bh=2Hy6AZb53c+QGXxLPsebuT3HhgqTXhULx/Rk4QRGnsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G231ziSX+24P1c3V72oM8NTvDtFSiOo+nyYt2EPqLYnzgohS9lL6iOtvyLuEh7+MVcX3FuK3Xdo7ew9QktDOf2xhLACU0xiZ2xRyq9YeoGz3bm1/qxVixrGwTevsUKeNw4DtksaSJLvw2K05NcvLTfDwcXORYt9WGQ+k/Rm21Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from localhost.localdomain (unknown [36.112.3.223])
-	by APP-01 (Coremail) with SMTP id qwCowABH8Wz_wHZp1Jg+Bg--.35563S2;
-	Mon, 26 Jan 2026 09:18:55 +0800 (CST)
-From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	andriy.shevchenko@linux.intel.com,
-	phasta@kernel.org
-Cc: linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1769392214; c=relaxed/simple;
+	bh=hsNu7sJY7ZEHJuK+LYe276KKt4iCnTvehngwjYey40g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mCOVOatS4gt6F3grcdy0y3sDgNkv+k5d5w5z8Xb0zevK/MTjAolfPx6IMyr4NO+Ygmf075MGXIy7AvLmDw1ptLHmiZ3fb25/+kBCwkdse12wFihCLkzd4ol5oieMpjdljIcly7W5h1DLUWcHSfBBYHldqZNYD5+FzaUkwSjKZ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5239493afa5911f0b0f03b4cfa9209d1-20260126
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:536a055b-92d4-4f09-b4e9-c140af8d5648,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:9e356913761394897ef904518f973d24,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|898,TC:nil,Content:0|15|50,EDM:-3,IP
+	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5239493afa5911f0b0f03b4cfa9209d1-20260126
+X-User: zhangheng@kylinos.cn
+Received: from kylin-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1982474377; Mon, 26 Jan 2026 09:49:58 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: alex.andries.aa@gmail.com,
+	syed.sabakareem@amd.com,
+	keenplify@gmail.com,
+	santesegabriel@gmail.com,
+	talhah.peerbhai@gmail.com,
+	elantsew.andrew@gmail.com,
+	queler@gmail.com,
+	ravenblack@gmail.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Subject: [PATCH] ALSA: lx6464es: fix a error handling in lx_hardware_open()
-Date: Mon, 26 Jan 2026 09:18:54 +0800
-Message-Id: <20260126011854.2447350-1-lihaoxiang@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	Zhang Heng <zhangheng@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Acer TravelMate P216-41-TCO
+Date: Mon, 26 Jan 2026 09:49:52 +0800
+Message-ID: <20260126014952.3674450-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,45 +60,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABH8Wz_wHZp1Jg+Bg--.35563S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF18Kw4fCr4xArWUGrWruFg_yoWxtrb_Gr
-	48Wr45Xw47JwsrKa4rtF15Zr4ft3s7uw4UGFnavF4Uta1agrW5XrWjyr4DXF97Wr4UGrn3
-	Ww1DZrWava4xCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
-	Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbSfO7UUUU
-	U==
-X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiBwsSE2l2MU9KcgABsV
 
-In lx_hardware_open(), if lx_set_granularity() fails,
-call lx_pipe_release() to release the resoueces.
+Add a DMI quirk for the Acer TravelMate P216-41-TCO fixing the
+issue where the internal microphone was not detected.
 
-Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220983
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- sound/pci/lx6464es/lx6464es.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/yc/acp6x-mach.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/pci/lx6464es/lx6464es.c b/sound/pci/lx6464es/lx6464es.c
-index 96df00db51d5..af8d614381b5 100644
---- a/sound/pci/lx6464es/lx6464es.c
-+++ b/sound/pci/lx6464es/lx6464es.c
-@@ -113,6 +113,7 @@ static int lx_hardware_open(struct lx6464es *chip,
- 	if (err < 0) {
- 		dev_err(chip->card->dev, "setting granularity to %ld failed\n",
- 			   period_size);
-+		lx_pipe_release(chip, 0, is_capture);
- 		return err;
- 	}
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index f801ce4741ff..c18da0915baa 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -682,6 +682,14 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GOH-X"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "RB"),
++			DMI_MATCH(DMI_BOARD_NAME, "XyloD5_RBU"),
++		}
++	},
++
+ 	{}
+ };
  
 -- 
-2.25.1
+2.47.1
 
