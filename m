@@ -1,80 +1,140 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803BE2D63E8;
-	Mon, 26 Jan 2026 07:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8692BEC27
+	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 08:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769413020; cv=none; b=DBx5qYfWMEYfouBVPAGLcUPhlBp54XVS+aOjJ1WU7P9SLVxpY3eE/YCn52YOpC+cVNKf8hvToizvO3kB271z6RIN67GN6S4pOMm/lIFTsxB17CK3oMECEB9xNzrFLZEhby9zPFedEIRM3yWKWxY83asBmEDEb94quzh9jaF8Wvo=
+	t=1769416401; cv=none; b=LUOBok/M24/QfteynxRROgtip5vPx7bOzDytMTVExHqNX0gnpOF6SbXEF5KHfbsFt0WSjuobFb5pVsnMdmdB6I0cWPtBCeQQBinqVPZR8KJGxfFftIb3Xddq2OqqvsXhMOZ7rcS5DJ4KB0+G3dKMtZeZzwa2Mc437gVVH5Ix4bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769413020; c=relaxed/simple;
-	bh=jzjLqmbQ7E3dbGxt0ikuDYdYk6mmtic2ctz/t6iXnf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ml1bBXEy+1u5iAsrBrLSfLAokX6zpR2yK0Q7Kwps5u8Hpfu4wmgvXvoeUc6FBwlCoZhcMunlbrRAR0Fy1Sk/N+My3mWr7Ig/pHlm71ktHsgxAw2doaG/h3JPZjoGwIFjNPF3H64aRrL29FOFHA3H3k34WkFbuS2gCP1KpgrTDiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: c5d2da16fa8911f0b0f03b4cfa9209d1-20260126
-X-CID-CACHE: Type:Local,Time:202601261535+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:50f925c4-8818-4d9b-b4e2-0356810efec6,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:6607cb87d84f17b03d9198c7a920df83,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|898,TC:nil,Content:0|15|50,EDM
-	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: c5d2da16fa8911f0b0f03b4cfa9209d1-20260126
-X-User: zhangheng@kylinos.cn
-Received: from kylin-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 922231525; Mon, 26 Jan 2026 15:36:48 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	chris.chiu@canonical.com,
-	edip@medip.dev
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH 2/2] ALSA: hda/realtek: Add quirk for Inspur S14-G1
-Date: Mon, 26 Jan 2026 15:36:44 +0800
-Message-ID: <20260126073644.3898484-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1769416401; c=relaxed/simple;
+	bh=cB/tj+GjPXxwkAGTaySiYoz2SvaJn2RZwp1aQcupk8g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QrdJYAIWeNNCQD/xO4dcffoazclKgfRbQ1QiroD8vjJG7u7WjT3Cep9CQ8LU5c8duoGSFP62rBXhklQLWy4Pvtrphs3odB3D+GRJk7bY9RZONkFfn3KZE2uK4fgC+6pQLCZNRBWhGCRq7mqO5/vIUGvLgk9DqYzwEeDelS2SCxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=stFuFQTM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fhS4HEzi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=stFuFQTM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fhS4HEzi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="stFuFQTM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fhS4HEzi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="stFuFQTM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fhS4HEzi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B1B15BD18;
+	Mon, 26 Jan 2026 08:33:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769416398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QYEypHws+EzVm0NgsgyCHENGuBCWc2jo62uZI31f2O8=;
+	b=stFuFQTMqfkNi9nVsEk8D1fY7mjd2xLfDuVpvTUQoS34OkRmKYnLehi8BPF406wtL4m6m8
+	t6fswcqe+0aYYIHlpuJUDA54hdO7lNHKNkEGZkUTZNIZlDxVygB7GGvESl1/IrKfb9NQe3
+	wID+f4aT8PbdO+L4STWDiIp06Q0qA10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769416398;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QYEypHws+EzVm0NgsgyCHENGuBCWc2jo62uZI31f2O8=;
+	b=fhS4HEzihlFiUOn+/zLWthfFZM+ky7dbPQr75qifp2TkCPJjK2JdEnU7tHntWMzCJvjImy
+	WjZLv9VerUwgwMCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=stFuFQTM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fhS4HEzi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769416398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QYEypHws+EzVm0NgsgyCHENGuBCWc2jo62uZI31f2O8=;
+	b=stFuFQTMqfkNi9nVsEk8D1fY7mjd2xLfDuVpvTUQoS34OkRmKYnLehi8BPF406wtL4m6m8
+	t6fswcqe+0aYYIHlpuJUDA54hdO7lNHKNkEGZkUTZNIZlDxVygB7GGvESl1/IrKfb9NQe3
+	wID+f4aT8PbdO+L4STWDiIp06Q0qA10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769416398;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QYEypHws+EzVm0NgsgyCHENGuBCWc2jo62uZI31f2O8=;
+	b=fhS4HEzihlFiUOn+/zLWthfFZM+ky7dbPQr75qifp2TkCPJjK2JdEnU7tHntWMzCJvjImy
+	WjZLv9VerUwgwMCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00102139F0;
+	Mon, 26 Jan 2026 08:33:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UkJzOs0md2mcIAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 26 Jan 2026 08:33:17 +0000
+Date: Mon, 26 Jan 2026 09:33:17 +0100
+Message-ID: <87qzrcbwoi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: jack: Improve string handling in jack_kctl_name_gen
+In-Reply-To: <20260125155159.98720-1-thorsten.blum@linux.dev>
+References: <20260125155159.98720-1-thorsten.blum@linux.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 3B1B15BD18
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Inspur S14-G1 is equipped with ALC256.
-Enable "power saving mode" and Enable "headset jack mode".
+On Sun, 25 Jan 2026 16:51:56 +0100,
+Thorsten Blum wrote:
+> 
+> If appending " Jack" is not necessary, replace snprintf("%s", ...) with
+> the faster strscpy().
+> 
+> Additionally, rename 'need_cat' to the clearer 'append_suf', use local
+> variables for the suffix and its length, remove the confusing comment,
+> compare strncmp() to 0, and use 'size_t' for the 'size' function
+> parameter.
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks, applied to for-next branch.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 928204df0ee3..e430b523d23c 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7426,6 +7426,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-+	SND_PCI_QUIRK(0x2039, 0x0001, "Inspur S14-G1", ALC295_FIXUP_CHROME_BOOK),
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
--- 
-2.47.1
 
+Takashi
