@@ -1,730 +1,541 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1970D222575
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 11:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7BD334C1A
+	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 12:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769426365; cv=none; b=hSrqurSlHhkB17n3HsHYtbQJWqDW2vZjj3YiS6C2cH16Crcnp1svca0jyVPdlJkaJulQcHvvrPzNGgh2ruhtv3gviYr6up2QV6hIFy8xouT+snkyQTUQAudGv4E0ZvfI9gAhK1O9S6hdMct5opARihWIwdCGiLqyGyPX8EgNwK4=
+	t=1769429091; cv=none; b=tHn8v1IXWO78r5MUJkKQ+PqAf24GJFFrpDTTtOy3GYHoFoe6c3mspcUy9vaD7yAzoVmsFyZdTJlYl/iNCASkKggozWMvJzpXzPlhhGBRE7bRrQLIAJC09QOk/RutQzCqsc4V3Qpd4wYS7nDNG+WBT89rgjW/+9PCmq2F3/Lsyfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769426365; c=relaxed/simple;
-	bh=FPqx0GPdKb9jiIUY+nf2MeQ0LhDMlJ8f3fKbqe8e0iE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YMfPO1ggxpmH8c0c/8b/8071LSqwGxpYxN+KFvavxBQUNV3oWKzSZRHNWa1I2ERKboydlrGsXb5LucZFNZBdZC3sk1IhFcABRv0sPQAn0DEXKS2tiuTLHsl6OQ6kJAwlKTEqi83igEKQPHcytMxIAAwf0/OdRsjU+kJ47Xtn7OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gEWQTNVN; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1769429091; c=relaxed/simple;
+	bh=02flGXJqK2mqeZ2EJtosEcym4C5fBaxvNzGfcMhAzTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LUGYCSvZHRcaS6sm55k0/RF5G1BVZjNvwsy4J/4KCBOXTRpcPwbDUUanW6xgK2XtNsYj6PaPSx8YZWvfUL5HS2HW9CMcE4zL3pK6zG30K6OCb+qI3kg0cnKVxxMmaVXmRuLnjsf8mylXew9tLiN3j0qG4mzSwgcCRzVf3aiQm2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=meJPz8jE; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gEWQTNVN"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee301a06aso50667285e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 03:19:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="meJPz8jE"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ee974e230so40313155e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 04:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769426361; x=1770031161; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mi/VasSPLdq4OAIrhKfa0sNs5ONlgI8oRQwH4eUbXtA=;
-        b=gEWQTNVNm3f7d1vDP4dnFhxCG8JjWO4u5VEcNzAkOsoyP8GwDMp2zfjp4OLNqloTGw
-         Nx9mVokAKeWKLStWZzb0qlDYZqRU0W3ZvyNnKI8BjFjVYgGOVFltCo7QeYzfNKC0L1rZ
-         oCn212BQ32VvZMvApYvyJafuVRvXDEwaGmnkCk+jiZWAITNb+z1RrDSpkTZzc/zVoZnK
-         4lb2BP67F7K7qRerrpX9BgIbHJu6hZwNOdA8kx4KywMnR0mwXSlWohQmwcuIHYqoMvfK
-         7F8sunv5QiGawprdEKYiVfHEFPvEBVKnbrleJoMgQyNZUc6gkXgwqwVwuErlRBa7cA8H
-         zBiw==
+        d=tuxon.dev; s=google; t=1769429085; x=1770033885; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g+i4rhKXwALaAWmX3Kdv+voAHyfvVqUS2Gq3G94PEDQ=;
+        b=meJPz8jE+J7h6KsK+6+mahxnGJMfx2ea65qnMoS0PEXh0NVr8M+xNl/vY6StYjNNx5
+         YKsa3m6LUBDfH6lYhk8/4NRiKUnms0+sa9LNUvcBq81z2YeKMnuCIa5obBVUkKz3XH8G
+         cgkmf7TRcrowsICHj7+7wSU8bQTWRXL6uCfWVDIAgDAy9ZTkLtvegQavzY1XK9Av9ymj
+         JqWdXeVUJuduIMM4/Exjo7EEd3Byk3iQ/kph7CBHbNNXm78CsypC0DKpIW8xVk5HIUGi
+         qe8INJzMRGXoRcGk7SxO6DyL2/Ef8VEHSUm49aK9NnYHax3aheQ2T1UcsV2FVUzL3/pw
+         NRuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769426361; x=1770031161;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Mi/VasSPLdq4OAIrhKfa0sNs5ONlgI8oRQwH4eUbXtA=;
-        b=iFx2TEJ+SQefxp9kKbOlQsSA8rJB3l0nVnG138hHHpckdDWDvhrfYbHYPvOGcJU6QE
-         jCmO4sz9FB7fKraW+vH6pSXSe4gyd1e1r6dVzZGWl9P3RCQCW/e7mLjjWK6WAz4ULvqS
-         6OqhncCaCemRZ7elgxllvqsUM22aVqzh2AyFLd0k51YtCZ8nkScyDAFf4c6+1KgKiBKw
-         ea2Fu+ij1j5l0R+NN3vyOxO4hMIRUQo0CukPPA5eL5Me2KBCk+qTJxV9u7bAvXpize/Y
-         yy1veskaeIIW981pD2oU4k6eMie4bJr+MmN8Os3Na3W+dswh00jPdTZLCld/JvHshr8D
-         y3YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/3j7uS8hRuUsweCjt3euVxtJTvo9Jtq4UV8TmT9yWV7objRi8deLsEmLIbnTge5TifYe8yIyoEXfptg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm6Se71XKm5qM8f3xgqL+fj+Ti/jth38lYotMXDeTs4+YW3uSr
-	xIkkKpoFL0S/WzvDMLh8YelN90uRvych3yPzWJ/HDq2PpuCHsEc7K4SPA9CSmNkX6M50YycQ/G8
-	PBnVIyuI=
-X-Gm-Gg: AZuq6aLbgGKOWAD/ZxFzXLSAdCBvMcfZl+tMJw9SlgOZKDKGNhZprENe6uwgazWWV9l
-	Q4M1a2/4cLcevQ18/QO3cuB3yJILyeDFiu+DSgAi1uBs4eIrbc+1vhAgQ9vliJQMV3wfWP6J9io
-	LOpccgZTzXFtrwp4becfKx1hWdv/McqXnLnl1g0uP+Me/qqlwPfeRgYCnCIKBycEL87SuCj2/Y2
-	raNOUyaBc2/KoOgRQIr73PFF27elC6s6sz0HkGPtQUx+YkQk/0pinol1hQBQmzAH3g4723IFPoB
-	FABxf9jm2CpoqVr4iR0koH9+2u203N0wCC19ucuBciTOCpw6zGhhvPYgdMZQAB1WN/503CG/JHS
-	i0folS8PYB2xQejal8XWNC7EJHlQWk0p0giYdc1x2eUVJUwW0lyCHceNEiJ76vLFcuMLKE+vS1C
-	BpbCLN+jDLGg==
-X-Received: by 2002:a05:600c:b95:b0:477:639d:bca2 with SMTP id 5b1f17b1804b1-4805ce4046emr75410675e9.4.1769426361363;
-        Mon, 26 Jan 2026 03:19:21 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:9d1d:ac62:8521:30a0])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-480470bfe88sm323922675e9.11.2026.01.26.03.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 03:19:20 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jiebing Chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,  Michael Turquette
- <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
-  jiebing.chen@amlogic.com,  linux-sound@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
-  linux-clk@vger.kernel.org,  jian.xu@amlogic.com,  shuai.li@amlogic.com,
-  zhe.wang@amlogic.com
-Subject: Re: [PATCH v6 5/5] arm64: dts: amlogic: Add Amlogic S4 Audio
-In-Reply-To: <20260126-audio_drvier-v6-5-99e350855bc2@amlogic.com> (Jiebing
-	Chen via's message of "Mon, 26 Jan 2026 06:01:46 +0000")
-References: <20260126-audio_drvier-v6-0-99e350855bc2@amlogic.com>
-	<20260126-audio_drvier-v6-5-99e350855bc2@amlogic.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 26 Jan 2026 12:19:19 +0100
-Message-ID: <1jcy2whb9k.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1769429085; x=1770033885;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g+i4rhKXwALaAWmX3Kdv+voAHyfvVqUS2Gq3G94PEDQ=;
+        b=pNzbG5xXIg709QPMDzi8OTkyNsP1K2jfaMV2RMVjY8AgJB/U6S/fo25y4wpvPppF4a
+         V28LKJCxNmBsai7SzU4XpBFzH95IGpftv9iNZDF4F15MK4klaTui9K0Z0Q8SIP5FlDOD
+         phDouxZWkhbc5opVIckvvW0cLPV/5NpkU3leMSPWVvAa2jws3dBx2SehL66bwMlec+R8
+         W2PyXb+8YJPIB6jRzQJmyziABbdEnUDGwBJtPWAEaXj/sUORBUCiD4tuHPGvTZ4jed05
+         Qg2NQIX5JOZsuoclABqf/jrFoDBtRpK68sGp2M96eavPnzX7x4bsgPtwebKrRMctsBiw
+         MmUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUp7u5eN+vD24W3WWAcOknnlET/LsrF5XSW9yA3XgFUdlSHGMFS6eY8t724CDBsNE5L4yqchayFyYcRjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBB1wlDgx4yKkAzv2ApQ8tvyo+e/VaNysFwGihngx1yV/7HWW4
+	A4C4divgprRdaO9HO3GEV4gnwrh+fiJWzqIB5bC6K6pdcotIuFG3xzno9U0Bt4xThR9Zau87IqF
+	Gzby2
+X-Gm-Gg: AZuq6aJ5VDdcQn9DvPv6Jvh26gOBiaNPvXu4jKY0JLb85ZlHdVDjX8l9OFrkWWjvlgX
+	PvYJZO/yknmMI8FKKzja51gab6Ce3ijGjOHKBqyC0JGS6KQIn/YKNQmMkstRNY6mw5d0fg/xlZ6
+	T14GzxretLo1hd4khh95Q71BpJh/VDzmQeq3LlMRRLTY79WIzd+jwFdsp2vNof8ULb0AeukRA9Y
+	kOX832jnNMevqYawZgRXZrh9jL+9OudVdRoyBw1e8oKzXGDCvTIZ00DmdrTJWmcpTUmSx8yV80W
+	7mW1GK47V4HuAYV1uFkm59tgh4VYVoELlnVVKwX0frkAVaNUm5D77jV0/VV+P3G+ln/LdbFcEdl
+	OSkcIvDfblmOrlgf3hgChN6+jOeSJG5tDkZdCGgbi8aXbSuftHSe+GDjYQt/Xr+V9HaW/qyAvGQ
+	TZ5Z086Zi1fNTlwOMtfA==
+X-Received: by 2002:a05:600c:1c13:b0:480:1a22:fce8 with SMTP id 5b1f17b1804b1-4805d0645cemr67629735e9.26.1769429085019;
+        Mon, 26 Jan 2026 04:04:45 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d85206fsm272641375e9.6.2026.01.26.04.04.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jan 2026 04:04:44 -0800 (PST)
+Message-ID: <16a6f14a-93e6-472c-8718-d46972f0ac5e@tuxon.dev>
+Date: Mon, 26 Jan 2026 14:04:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
+ <vkoul@kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260126103155.2644586-6-claudiu.beznea.uj@bp.renesas.com>
+ <TY3PR01MB113461F734BA087B60605C6FC8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB113461F734BA087B60605C6FC8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On lun. 26 janv. 2026 at 06:01, Jiebing Chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
+Hi,
 
-> From: Jiebing Chen <jiebing.chen@amlogic.com>
->
-> Add basic audio driver support for the Amlogic S4 based
-> Amlogic AQ222 board.
->
-> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
-> ---
->  .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 222 +++++++++++++
->  arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 361 +++++++++++++++++++++
->  2 files changed, 583 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
-> index 0a3f81ea0fb0..43493bc9da46 100644
-> --- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
-> +++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
-> @@ -75,6 +75,19 @@ vddio_ao1v8: regulator-vddio-ao1v8 {
->  	       regulator-always-on;
->  	};
->  
-> +	vcc5v_reg: regulator-vcc-5v {
-> +		compatible = "regulator-fixed";
-> +		vin-supply = <&main_12v>;
-> +		regulator-name = "VCC5V";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		gpio = <&gpio GPIOH_7 GPIO_ACTIVE_HIGH>;
-> +		startup-delay-us = <7000>;
-> +		enable-active-high;
-> +		regulator-boot-on;
-> +		regulator-always-on;
-> +	};
-> +
->  	/* SY8120B1ABC DC/DC Regulator. */
->  	vddcpu: regulator-vddcpu {
->  		compatible = "pwm-regulator";
-> @@ -129,6 +142,215 @@ vddcpu: regulator-vddcpu {
->  				<699000 98>,
->  				<689000 100>;
->  	};
-> +
-> +	dmics: audio-codec-1 {
-> +		compatible = "dmic-codec";
-> +		#sound-dai-cells = <0>;
-> +		num-channels = <2>;
-> +		wakeup-delay-ms = <50>;
-> +		sound-name-prefix = "MIC";
-> +	};
-> +
-> +	dioo2133: audio-amplifier-0 {
-> +		compatible = "simple-audio-amplifier";
-> +		enable-gpios = <&gpio GPIOH_8 GPIO_ACTIVE_HIGH>;
-> +		VCC-supply = <&vcc5v_reg>;
-> +		sound-name-prefix = "10U2";
-> +	};
-> +
-> +	spdif_dir: audio-spdif-in {
-> +		compatible = "linux,spdif-dir";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "DIR";
-> +	};
-> +
-> +	spdif_dit: audio-spdif-out {
-> +		compatible = "linux,spdif-dit";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "DIT";
-> +	};
-> +
-> +	sound {
-> +		compatible = "amlogic,axg-sound-card";
-> +		model = "aq222";
-> +		audio-widgets = "Line", "Lineout";
-> +		audio-aux-devs = <&tdmout_a>, <&tdmout_b>, <&tdmout_c>,
-> +				 <&tdmin_a>, <&tdmin_b>, <&tdmin_c>,
-> +				 <&tdmin_lb>, <&dioo2133>;
-> +		audio-routing = "TDMOUT_A IN 0", "FRDDR_A OUT 0",
-> +				"TDMOUT_A IN 1", "FRDDR_B OUT 0",
-> +				"TDMOUT_A IN 2", "FRDDR_C OUT 0",
-> +				"TDM_A Playback", "TDMOUT_A OUT",
-> +				"TDMOUT_B IN 0", "FRDDR_A OUT 1",
-> +				"TDMOUT_B IN 1", "FRDDR_B OUT 1",
-> +				"TDMOUT_B IN 2", "FRDDR_C OUT 1",
-> +				"TDM_B Playback", "TDMOUT_B OUT",
-> +				"TDMOUT_C IN 0", "FRDDR_A OUT 2",
-> +				"TDMOUT_C IN 1", "FRDDR_B OUT 2",
-> +				"TDMOUT_C IN 2", "FRDDR_C OUT 2",
-> +				"TDM_C Playback", "TDMOUT_C OUT",
-> +				"SPDIFOUT_A IN 0", "FRDDR_A OUT 3",
-> +				"SPDIFOUT_A IN 1", "FRDDR_B OUT 3",
-> +				"SPDIFOUT_A IN 2", "FRDDR_C OUT 3",
-> +				"SPDIFOUT_B IN 0", "FRDDR_A OUT 4",
-> +				"SPDIFOUT_B IN 1", "FRDDR_B OUT 4",
-> +				"SPDIFOUT_B IN 2", "FRDDR_C OUT 4",
-> +				"TDMIN_A IN 0", "TDM_A Capture",
-> +				"TDMIN_A IN 1", "TDM_B Capture",
-> +				"TDMIN_A IN 2", "TDM_C Capture",
-> +				"TDMIN_A IN 3", "TDM_A Loopback",
-> +				"TDMIN_A IN 4", "TDM_B Loopback",
-> +				"TDMIN_A IN 5", "TDM_C Loopback",
-> +				"TDMIN_B IN 0", "TDM_A Capture",
-> +				"TDMIN_B IN 1", "TDM_B Capture",
-> +				"TDMIN_B IN 2", "TDM_C Capture",
-> +				"TDMIN_B IN 3", "TDM_A Loopback",
-> +				"TDMIN_B IN 4", "TDM_B Loopback",
-> +				"TDMIN_B IN 5", "TDM_C Loopback",
-> +				"TDMIN_C IN 0", "TDM_A Capture",
-> +				"TDMIN_C IN 1", "TDM_B Capture",
-> +				"TDMIN_C IN 2", "TDM_C Capture",
-> +				"TDMIN_C IN 3", "TDM_A Loopback",
-> +				"TDMIN_C IN 4", "TDM_B Loopback",
-> +				"TDMIN_C IN 5", "TDM_C Loopback",
-> +				"TDMIN_LB IN 3", "TDM_A Capture",
-> +				"TDMIN_LB IN 4", "TDM_B Capture",
-> +				"TDMIN_LB IN 5", "TDM_C Capture",
-> +				"TDMIN_LB IN 0", "TDM_A Loopback",
-> +				"TDMIN_LB IN 1", "TDM_B Loopback",
-> +				"TDMIN_LB IN 2", "TDM_C Loopback",
-> +				"TODDR_A IN 0", "TDMIN_A OUT",
-> +				"TODDR_B IN 0", "TDMIN_A OUT",
-> +				"TODDR_C IN 0", "TDMIN_A OUT",
-> +				"TODDR_A IN 1", "TDMIN_B OUT",
-> +				"TODDR_B IN 1", "TDMIN_B OUT",
-> +				"TODDR_C IN 1", "TDMIN_B OUT",
-> +				"TODDR_A IN 2", "TDMIN_C OUT",
-> +				"TODDR_B IN 2", "TDMIN_C OUT",
-> +				"TODDR_C IN 2", "TDMIN_C OUT",
-> +				"TODDR_A IN 3", "SPDIFIN Capture",
-> +				"TODDR_B IN 3", "SPDIFIN Capture",
-> +				"TODDR_C IN 3", "SPDIFIN Capture",
-> +				"TODDR_A IN 6", "TDMIN_LB OUT",
-> +				"TODDR_B IN 6", "TDMIN_LB OUT",
-> +				"TODDR_C IN 6", "TDMIN_LB OUT",
-> +				"10U2 INL", "ACODEC LOLP",
-> +				"10U2 INR", "ACODEC LORP",
-> +				"Lineout", "10U2 OUTL",
-> +				"Lineout", "10U2 OUTR";
-> +		clocks = <&clkc_pll CLKID_HIFI_PLL>,
-> +				<&clkc_pll CLKID_MPLL0>,
-> +				<&clkc_pll CLKID_MPLL1>;
-> +		assigned-clocks = <&clkc_pll CLKID_HIFI_PLL>,
-> +				  <&clkc_pll CLKID_MPLL0>,
-> +				  <&clkc_pll CLKID_MPLL1>;
-> +		assigned-clock-rates = <1179648000>,
-> +				       <270950400>,
-> +				       <338688000>;
+On 1/26/26 13:03, Biju Das wrote:
+> Hi Claudiu,
+> 
+> Thanks for the patch.
+> 
+>> -----Original Message-----
+>> From: Claudiu <claudiu.beznea@tuxon.dev>
+>> Sent: 26 January 2026 10:32
+>> Subject: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+>>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The Renesas RZ/G3S SoC supports a power saving mode in which power to most SoC components is turned
+>> off, including the DMA IP. Add suspend to RAM support to save and restore the DMA IP registers.
+>>
+>> Cyclic DMA channels require special handling. Since they can be paused and resumed during system
+>> suspend and resume, the driver restores additional registers for these channels during the resume
+>> phase. If a channel was not explicitly paused during suspend, the driver ensures that it is paused and
+>> resumed as part of the system suspend/resume flow. This might be the case of a serial device being
+>> used with no_console_suspend.
+>>
+>> For non-cyclic channels, the dev_pm_ops::prepare callback waits for all ongoing transfers to complete
+>> before allowing suspend-to-RAM to proceed.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>   drivers/dma/sh/rz-dmac.c | 183 +++++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 175 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c index ab5f49a0b9f2..8f3e2719e639
+>> 100644
+>> --- a/drivers/dma/sh/rz-dmac.c
+>> +++ b/drivers/dma/sh/rz-dmac.c
+>> @@ -69,11 +69,15 @@ struct rz_dmac_desc {
+>>    * enum rz_dmac_chan_status: RZ DMAC channel status
+>>    * @RZ_DMAC_CHAN_STATUS_ENABLED: Channel is enabled
+>>    * @RZ_DMAC_CHAN_STATUS_PAUSED: Channel is paused though DMA engine callbacks
+>> + * @RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL: Channel is paused through
+>> + driver internal logic
+>> + * @RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED: Channel was prepared for system
+>> + suspend
+>>    * @RZ_DMAC_CHAN_STATUS_CYCLIC: Channel is cyclic
+>>    */
+>>   enum rz_dmac_chan_status {
+>>   	RZ_DMAC_CHAN_STATUS_ENABLED,
+>>   	RZ_DMAC_CHAN_STATUS_PAUSED,
+>> +	RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL,
+>> +	RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED,
+>>   	RZ_DMAC_CHAN_STATUS_CYCLIC,
+>>   };
+>>
+>> @@ -94,6 +98,10 @@ struct rz_dmac_chan {
+>>   	u32 chctrl;
+>>   	int mid_rid;
+>>
+>> +	struct {
+>> +		u32 nxla;
+>> +	} pm_state;
+>> +
+>>   	struct list_head ld_free;
+>>   	struct list_head ld_queue;
+>>   	struct list_head ld_active;
+>> @@ -1002,10 +1010,17 @@ static int rz_dmac_device_pause(struct dma_chan *chan)
+>>   	return rz_dmac_device_pause_set(channel, RZ_DMAC_CHAN_STATUS_PAUSED);  }
+>>
+>> +static int rz_dmac_device_pause_internal(struct rz_dmac_chan *channel)
+>> +{
+>> +	lockdep_assert_held(&channel->vc.lock);
+>> +
+>> +	return rz_dmac_device_pause_set(channel,
+>> +RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL);
+>> +}
+>> +
+>>   static int rz_dmac_device_resume_set(struct rz_dmac_chan *channel,
+>>   				     enum rz_dmac_chan_status status)  {
+>> -	u32 val;
+>> +	u32 val, chctrl;
+>>   	int ret;
+>>
+>>   	lockdep_assert_held(&channel->vc.lock);
+>> @@ -1013,14 +1028,33 @@ static int rz_dmac_device_resume_set(struct rz_dmac_chan *channel,
+>>   	if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED)))
+>>   		return 0;
+>>
+>> -	rz_dmac_ch_writel(channel, CHCTRL_CLRSUS, CHCTRL, 1);
+>> -	ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
+>> -				       !(val & CHSTAT_SUS), 1, 1024, false,
+>> -				       channel, CHSTAT, 1);
+>> -	if (ret)
+>> -		return ret;
+>> +	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED)) {
+>> +		/*
+>> +		 * We can be after a sleep state with power loss. If power was
+>> +		 * lost, the CHSTAT_SUS bit is zero. In this case, we need to
+>> +		 * enable the channel directly. Otherwise, just set the CLRSUS
+>> +		 * bit.
+>> +		 */
+>> +		val = rz_dmac_ch_readl(channel, CHSTAT, 1);
+>> +		if (val & CHSTAT_SUS)
+>> +			chctrl = CHCTRL_CLRSUS;
+>> +		else
+>> +			chctrl = CHCTRL_SETEN;
+>> +	} else {
+>> +		chctrl = CHCTRL_CLRSUS;
+>> +	}
+>> +
+>> +	rz_dmac_ch_writel(channel, chctrl, CHCTRL, 1);
+>>
+>> -	channel->status &= ~BIT(status);
+>> +	if (chctrl & CHCTRL_CLRSUS) {
+>> +		ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
+>> +					       !(val & CHSTAT_SUS), 1, 1024, false,
+>> +					       channel, CHSTAT, 1);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	channel->status &= ~(BIT(status) |
+>> +BIT(RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED));
+>>
+>>   	return 0;
+>>   }
+>> @@ -1034,6 +1068,13 @@ static int rz_dmac_device_resume(struct dma_chan *chan)
+>>   	return rz_dmac_device_resume_set(channel, RZ_DMAC_CHAN_STATUS_PAUSED);  }
+>>
+>> +static int rz_dmac_device_resume_internal(struct rz_dmac_chan *channel)
+>> +{
+>> +	lockdep_assert_held(&channel->vc.lock);
+>> +
+>> +	return rz_dmac_device_resume_set(channel,
+>> +RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL);
+>> +}
+>> +
+>>   /*
+>>    * -----------------------------------------------------------------------------
+>>    * IRQ handling
+>> @@ -1438,6 +1479,131 @@ static void rz_dmac_remove(struct platform_device *pdev)
+>>   	pm_runtime_disable(&pdev->dev);
+>>   }
+>>
+>> +static int rz_dmac_suspend_prepare(struct device *dev) {
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		/* Wait for transfer completion, except in cyclic case. */
+>> +		if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_ENABLED) &&
+>> +		    !(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+>> +			return -EAGAIN;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void rz_dmac_suspend_recover(struct rz_dmac *dmac) {
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+>> +			continue;
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL)))
+>> +			continue;
+>> +
+>> +		rz_dmac_device_resume_internal(channel);
+>> +	}
+>> +}
+>> +
+>> +static int rz_dmac_suspend(struct device *dev) {
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +	int ret;
+>> +
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+>> +			continue;
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED))) {
+>> +			ret = rz_dmac_device_pause_internal(channel);
+>> +			if (ret) {
+>> +				dev_err(dev, "Failed to suspend channel %s\n",
+>> +					dma_chan_name(&channel->vc.chan));
+>> +				continue;
+>> +			}
+>> +		}
+>> +
+>> +		channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
+>> +		channel->status |= BIT(RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED);
+>> +	}
+>> +
+>> +	pm_runtime_put_sync(dmac->dev);
+>> +
+>> +	ret = reset_control_assert(dmac->rstc);
+>> +	if (ret) {
+>> +		pm_runtime_resume_and_get(dmac->dev);
+>> +		rz_dmac_suspend_recover(dmac);
+>> +	}
+>> +
+> 
+> 
+> This patch breaks, s2idle in RZ/G3L as it turns off DMA ACLK and IRQ's
+> are not routed to CPU for wakeup.
 
-Seems like you've got the 2 last PLLs serving the 44.1kHz rate family.
-Why is this needed ?
+Is this particular patch the one that explicitly breaks it? Is there any 
+mainline PM support available for RZ/G3L? Can it be fixed along with the RZ/G3L 
+support, if any, as I don't have the board to test it?
 
-> +
-> +		dai-link-0 {
-> +			sound-dai = <&frddr_a>;
-> +		};
-> +
-> +		dai-link-1 {
-> +			sound-dai = <&frddr_b>;
-> +		};
-> +
-> +		dai-link-2 {
-> +			sound-dai = <&frddr_c>;
-> +		};
-> +
-> +		dai-link-3 {
-> +			sound-dai = <&toddr_a>;
-> +		};
-> +
-> +		dai-link-4 {
-> +			sound-dai = <&toddr_b>;
-> +		};
-> +
-> +		dai-link-5 {
-> +			sound-dai = <&toddr_c>;
-> +		};
-> +
-> +		dai-link-6 {
-> +			sound-dai = <&tdmif_a>;
-> +			dai-format = "i2s";
-> +			dai-tdm-slot-tx-mask-0 = <1 1>;
-> +			mclk-fs = <256>;
-> +			codec-0 {
-> +				sound-dai = <&tohdmitx TOHDMITX_I2S_IN_A>;
-> +			};
-> +			codec-1 {
-> +				sound-dai = <&toacodec TOACODEC_IN_A>;
-> +			};
-> +		};
-> +
-> +		dai-link-7 {
-> +			sound-dai = <&tdmif_b>;
-> +			dai-format = "i2s";
-> +			dai-tdm-slot-tx-mask-0 = <1 1>;
-> +			mclk-fs = <256>;
-> +			codec-0 {
-> +				sound-dai = <&toacodec TOACODEC_IN_B>;
-> +			};
-> +			codec-1 {
-> +				sound-dai = <&tohdmitx TOHDMITX_I2S_IN_B>;
-> +			};
-> +		};
-> +
-> +		/* 8ch HDMI interface */
-> +		dai-link-8 {
-> +			sound-dai = <&tdmif_c>;
-> +			dai-format = "i2s";
-> +			dai-tdm-slot-tx-mask-0 = <1 1>;
-> +			dai-tdm-slot-tx-mask-1 = <1 1>;
-> +			dai-tdm-slot-tx-mask-2 = <1 1>;
-> +			dai-tdm-slot-tx-mask-3 = <1 1>;
-> +			mclk-fs = <256>;
-> +			codec-0 {
-> +				sound-dai = <&tohdmitx TOHDMITX_I2S_IN_C>;
-> +			};
-> +		};
-> +
-> +		/* spdif hdmi and coax output */
-> +		dai-link-9 {
-> +			sound-dai = <&spdifout_a>;
-> +
-> +			codec-0 {
-> +				sound-dai = <&spdif_dit>;
-> +			};
-> +
-> +			codec-1 {
-> +				sound-dai = <&tohdmitx TOHDMITX_SPDIF_IN_A>;
-> +			};
-> +		};
-> +
-> +		/* spdif hdmi interface */
-> +		dai-link-10 {
-> +			sound-dai = <&spdifout_b>;
-> +
-> +			codec {
-> +				sound-dai = <&tohdmitx TOHDMITX_SPDIF_IN_B>;
-> +			};
-> +		};
-> +
-> +		/* spdif coax input */
-> +		dai-link-11 {
-> +			sound-dai = <&spdifin>;
-> +
-> +			codec {
-> +				sound-dai = <&spdif_dir>;
-> +			};
-> +		};
-> +
-> +		dai-link-12 {
-> +			sound-dai = <&toacodec TOACODEC_OUT>;
-> +
-> +			codec {
-> +				sound-dai = <&acodec>;
-> +			};
-> +		};
-> +	};
->  };
->  
->  &pwm_ef {
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> index dfc0a30a6e61..a6c2c83eea16 100644
-> --- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> +++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> @@ -11,6 +11,11 @@
->  #include <dt-bindings/clock/amlogic,s4-peripherals-clkc.h>
->  #include <dt-bindings/power/meson-s4-power.h>
->  #include <dt-bindings/reset/amlogic,meson-s4-reset.h>
-> +#include <dt-bindings/clock/axg-audio-clkc.h>
-> +#include <dt-bindings/reset/amlogic,meson-axg-audio-arb.h>
-> +#include <dt-bindings/reset/amlogic,meson-g12a-audio-reset.h>
-> +#include <dt-bindings/sound/meson-g12a-toacodec.h>
-> +#include <dt-bindings/sound/meson-g12a-tohdmitx.h>
->  
->  / {
->  	cpus {
-> @@ -863,4 +868,360 @@ emmc: mmc@fe08c000 {
->  			assigned-clock-rates = <24000000>;
->  		};
->  	};
-> +
-> +	tdmif_a: audio-controller-0 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_A";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_A_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_A_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +
-> +	tdmif_b: audio-controller-1 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_B";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_B_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_B_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +
-> +	tdmif_c: audio-controller-2 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_C";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_C_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_C_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_C_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +};
-> +
-> +&apb4 {
-> +	acodec: audio-controller@1a000 {
-> +		compatible = "amlogic,t9015";
-> +		reg = <0x0 0x1a000 0x0 0x14>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "ACODEC";
-> +		clocks = <&clkc_periphs CLKID_ACODEC>;
-> +		clock-names = "pclk";
-> +		resets = <&reset RESET_ACODEC>;
-> +		AVDD-supply = <&vddio_ao1v8>;
-> +	};
-> +
-> +	clkc_audio: clock-controller@330000 {
-> +		compatible = "amlogic,s4-audio-clkc";
-> +		reg = <0x0 0x330000 0x0 0xd8>,
-> +			  <0x0 0x330e80 0x0 0x10>;
-> +		#clock-cells = <1>;
-> +		#reset-cells = <1>;
-> +		power-domains = <&pwrc PWRC_S4_AUDIO_ID>;
-> +		clocks = <&clkc_periphs CLKID_AUDIO>,
-> +			 <&clkc_pll CLKID_MPLL0>,
-> +			 <&clkc_pll CLKID_MPLL1>,
-> +			 <&clkc_pll CLKID_MPLL2>,
-> +			 <&clkc_pll CLKID_MPLL3>,
-> +			 <&clkc_pll CLKID_HIFI_PLL>,
-> +			 <&clkc_pll CLKID_FCLK_DIV3>,
-> +			 <&clkc_pll CLKID_FCLK_DIV4>,
-> +			 <&clkc_pll CLKID_FCLK_DIV5>;
-> +		clock-names = "pclk",
-> +				  "mst_in0",
-> +				  "mst_in1",
-> +				  "mst_in2",
-> +				  "mst_in3",
-> +				  "mst_in4",
-> +				  "mst_in5",
-> +				  "mst_in6",
-> +				  "mst_in7";
-> +		resets = <&reset RESET_AUDIO>;
-> +	};
-> +
-> +	toddr_a: audio-controller@330100 {
-> +		compatible = "amlogic,sm1-toddr",
-> +				 "amlogic,axg-toddr";
+Currently, this has been tested with RZ/G2L (no suspend to RAM support) and
+RZ/G3S (that has suspend to RAM support).
 
-no s4 compat ?
+> 
+> DMA ACLK is required for routing IRQ to CPU, without this CPU won't get any interrupts.
+> 
+> If we make this CLK as critical clock, s2idle fails, as the DMA ALCK turned off during suspend
+> and there is no IRQ to wake up the system.
 
-> +		reg = <0x0 0x330100 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TODDR_A";
-> +		interrupts = <GIC_SPI 32 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_TODDR_A>;
-> +		resets = <&arb AXG_ARB_TODDR_A>,
-> +			 <&clkc_audio AUD_RESET_TODDR_A>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <8192>;
-> +	};
-> +
-> +	toddr_b: audio-controller@330140 {
-> +		compatible = "amlogic,sm1-toddr",
-> +				 "amlogic,axg-toddr";
-> +		reg = <0x0 0x330140 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TODDR_B";
-> +		interrupts = <GIC_SPI 33 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_TODDR_B>;
-> +		resets = <&arb AXG_ARB_TODDR_B>,
-> +			 <&clkc_audio AUD_RESET_TODDR_B>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	toddr_c: audio-controller@330180 {
-> +		compatible = "amlogic,sm1-toddr",
-> +				 "amlogic,axg-toddr";
-> +		reg = <0x0 0x330180 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TODDR_C";
-> +		interrupts = <GIC_SPI 34 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_TODDR_C>;
-> +		resets = <&arb AXG_ARB_TODDR_C>,
-> +			 <&clkc_audio AUD_RESET_TODDR_C>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	frddr_a: audio-controller@3301c0 {
-> +		compatible = "amlogic,sm1-frddr",
-> +				 "amlogic,axg-frddr";
-> +		reg = <0x0 0x3301c0 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "FRDDR_A";
-> +		interrupts = <GIC_SPI 36 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_FRDDR_A>;
-> +		resets = <&arb AXG_ARB_FRDDR_A>,
-> +			 <&clkc_audio AUD_RESET_FRDDR_A>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <512>;
-> +	};
-> +
-> +	frddr_b: audio-controller@330200 {
-> +		compatible = "amlogic,sm1-frddr",
-> +				 "amlogic,axg-frddr";
-> +		reg = <0x0 0x330200 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "FRDDR_B";
-> +		interrupts = <GIC_SPI 37 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_FRDDR_B>;
-> +		resets = <&arb AXG_ARB_FRDDR_B>,
-> +			 <&clkc_audio AUD_RESET_FRDDR_B>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	frddr_c: audio-controller@330240 {
-> +		compatible = "amlogic,sm1-frddr",
-> +				 "amlogic,axg-frddr";
-> +		reg = <0x0 0x330240 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "FRDDR_C";
-> +		interrupts = <GIC_SPI 38 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_FRDDR_C>;
-> +		resets = <&arb AXG_ARB_FRDDR_C>,
-> +			 <&clkc_audio AUD_RESET_FRDDR_C>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	arb: reset-controller@330280 {
-> +		compatible = "amlogic,meson-sm1-audio-arb";
-> +		reg = <0x0 0x330280 0x0 0x4>;
-> +		#reset-cells = <1>;
-> +		clocks = <&clkc_audio AUD_CLKID_DDR_ARB>;
-> +	};
-> +
-> +	tdmin_a: audio-controller@330300 {
-> +		compatible = "amlogic,sm1-tdmin";
-> +		reg = <0x0 0x330300 0x0 0x40>;
-> +		sound-name-prefix = "TDMIN_A";
-> +		resets = <&clkc_audio AUD_RESET_TDMIN_A>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMIN_A>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_A_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_A_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_A_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	tdmin_b: audio-controller@330340 {
-> +		compatible = "amlogic,sm1-tdmin";
-> +		reg = <0x0 0x330340 0x0 0x40>;
-> +		sound-name-prefix = "TDMIN_B";
-> +		resets = <&clkc_audio AUD_RESET_TDMIN_B>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMIN_B>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_B_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_B_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_B_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_B_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	tdmin_c: audio-controller@330380 {
-> +		compatible = "amlogic,sm1-tdmin";
-> +		reg = <0x0 0x330380 0x0 0x40>;
-> +		sound-name-prefix = "TDMIN_C";
-> +		resets = <&clkc_audio AUD_RESET_TDMIN_C>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMIN_C>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_C_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_C_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_C_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_C_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	tdmin_lb: audio-controller@3303c0 {
-> +		compatible = "amlogic,sm1-tdmin";
-> +		reg = <0x0 0x3303c0 0x0 0x40>;
-> +		sound-name-prefix = "TDMIN_LB";
-> +		resets = <&clkc_audio AUD_RESET_TDMIN_LB>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMIN_LB>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_LB_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_LB_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_LB_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMIN_LB_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	spdifin: audio-controller@330400 {
-> +		compatible = "amlogic,g12a-spdifin",
-> +				 "amlogic,axg-spdifin";
-> +		reg = <0x0 0x330400 0x0 0x30>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "SPDIFIN";
-> +		interrupts = <GIC_SPI 151 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_SPDIFIN>,
-> +		<&clkc_audio AUD_CLKID_SPDIFIN_CLK>;
-> +		clock-names = "pclk", "refclk";
-> +		resets = <&clkc_audio AUD_RESET_SPDIFIN>;
-> +	};
-> +
-> +	spdifout_a: audio-controller@330480 {
-> +		compatible = "amlogic,g12a-spdifout",
-> +				 "amlogic,axg-spdifout";
-> +		reg = <0x0 0x330480 0x0 0x50>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "SPDIFOUT_A";
-> +		clocks = <&clkc_audio AUD_CLKID_SPDIFOUT>,
-> +		<&clkc_audio AUD_CLKID_SPDIFOUT_CLK>;
-> +		clock-names = "pclk", "mclk";
-> +		resets = <&clkc_audio AUD_RESET_SPDIFOUT>;
-> +	};
-> +
-> +	tdmout_a: audio-controller@330500 {
-> +		compatible = "amlogic,sm1-tdmout";
-> +		reg = <0x0 0x330500 0x0 0x40>;
-> +		sound-name-prefix = "TDMOUT_A";
-> +		resets = <&clkc_audio AUD_RESET_TDMOUT_A>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMOUT_A>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_A_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_A_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_A_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	tdmout_b: audio-controller@330540 {
-> +		compatible = "amlogic,sm1-tdmout";
-> +		reg = <0x0 0x330540 0x0 0x40>;
-> +		sound-name-prefix = "TDMOUT_B";
-> +		resets = <&clkc_audio AUD_RESET_TDMOUT_B>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMOUT_B>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_B_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_B_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_B_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_B_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	tdmout_c: audio-controller@330580 {
-> +		compatible = "amlogic,sm1-tdmout";
-> +		reg = <0x0 0x330580 0x0 0x40>;
-> +		sound-name-prefix = "TDMOUT_C";
-> +		resets = <&clkc_audio AUD_RESET_TDMOUT_C>;
-> +		clocks = <&clkc_audio AUD_CLKID_TDMOUT_C>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_C_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_C_SCLK_SEL>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_C_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_TDMOUT_C_LRCLK>;
-> +		clock-names = "pclk", "sclk", "sclk_sel",
-> +				  "lrclk", "lrclk_sel";
-> +	};
-> +
-> +	spdifout_b: audio-controller@330680 {
-> +		compatible = "amlogic,g12a-spdifout",
-> +				 "amlogic,axg-spdifout";
-> +		reg = <0x0 0x330680 0x0 0x50>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "SPDIFOUT_B";
-> +		clocks = <&clkc_audio AUD_CLKID_SPDIFOUT_B>,
-> +			 <&clkc_audio AUD_CLKID_SPDIFOUT_B_CLK>;
-> +		clock-names = "pclk", "mclk";
-> +		resets = <&clkc_audio AUD_RESET_SPDIFOUT_B>;
-> +	};
-> +
-> +	toacodec: audio-controller@330740 {
-> +		compatible = "amlogic,s4-toacodec",
-> +				 "amlogic,g12a-toacodec";
-> +		reg = <0x0 0x330740 0x0 0x4>;
-> +		sound-name-prefix = "TOACODEC";
-> +		#sound-dai-cells = <1>;
-> +		resets = <&clkc_audio AUD_RESET_TOACODEC>;
-> +	};
-> +
-> +	tohdmitx: audio-controller@330744 {
-> +		compatible = "amlogic,sm1-tohdmitx",
-> +				 "amlogic,g12a-tohdmitx";
-> +		reg = <0x0 0x330744 0x0 0x4>;
-> +		#sound-dai-cells = <1>;
-> +		sound-name-prefix = "TOHDMITX";
-> +		resets = <&clkc_audio AUD_RESET_TOHDMITX>;
-> +	};
-> +
-> +	toddr_d: audio-controller@330840 {
-> +		compatible = "amlogic,sm1-toddr",
-> +				 "amlogic,axg-toddr";
-> +		reg = <0x0 0x330840 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TODDR_D";
-> +		interrupts = <GIC_SPI 45 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_TODDR_D>;
-> +		resets = <&arb AXG_ARB_TODDR_D>,
-> +			 <&clkc_audio AUD_RESET_TODDR_D>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	frddr_d: audio-controller@330880 {
-> +		 compatible = "amlogic,sm1-frddr",
-> +				  "amlogic,axg-frddr";
-> +		reg = <0x0 0x330880 0x0 0x2c>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "FRDDR_D";
-> +		interrupts = <GIC_SPI 46 IRQ_TYPE_EDGE_RISING>;
-> +		clocks = <&clkc_audio AUD_CLKID_FRDDR_D>;
-> +		resets = <&arb AXG_ARB_FRDDR_D>,
-> +			 <&clkc_audio AUD_RESET_FRDDR_D>;
-> +		reset-names = "arb", "rst";
-> +		amlogic,fifo-depth = <256>;
-> +	};
-> +
-> +	pdm: audio-controller@331000 {
-> +		compatible = "amlogic,sm1-pdm",
-> +			     "amlogic,axg-pdm";
-> +		reg = <0x0 0x331000 0x0 0x34>;
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "PDM";
-> +		clocks = <&clkc_audio AUD_CLKID_PDM>,
-> +			 <&clkc_audio AUD_CLKID_PDM_DCLK>,
-> +			 <&clkc_audio AUD_CLKID_PDM_SYSCLK>;
-> +		clock-names = "pclk", "dclk", "sysclk";
-> +		resets = <&clkc_audio AUD_RESET_PDM>;
-> +	};
->  };
+How a critical clock is turned off durring suspend? Check clk core APIs to 
+disable clocks:
 
--- 
-Jerome
+https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/clk/clk.c#L1051
+https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/clk/clk.c#L1191
+
+Can you please check the clocks HW bits on suspend/resume? I have prepared a 
+patch for you to check this:
+
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index c0584bab58a3..6da4a31ddb67 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1603,6 +1603,14 @@ static void rzg2l_mod_clock_init_mstop(struct 
+rzg2l_cpg_priv *priv)
+                 scoped_guard(spinlock_irqsave, &priv->rmw_lock) {
+                         if (!rzg2l_mod_clock_is_enabled(&clk->hw))
+                                 rzg2l_mod_clock_module_set_state(clk, true);
++                       else {
++
++                               struct mod_clock *clock = to_mod_clock(hw);
++                               struct rzg2l_cpg_priv *priv = clock->priv;
++                               unsigned int reg = clock->off;
++
++                               pr_err("%s(): CLK_ON 0x%x/%pC %x\n", __func__, 
+CLK_ON_R(reg), hw->clk, readl(priv->base + CLK_MON_R(reg)));
++                       }
+                 }
+         }
+  }
+@@ -2055,6 +2063,27 @@ static int __init rzg2l_cpg_probe(struct platform_device 
+*pdev)
+         return 0;
+  }
+
++static int rzg2l_cpg_suspend(struct device *dev)
++{
++       struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
++       struct mod_clock *clk;
++       struct clk_hw *hw;
++
++       for_each_mod_clock(clk, hw, priv) {
++               scoped_guard(spinlock_irqsave, &priv->rmw_lock) {
++                       if (rzg2l_mod_clock_is_enabled(&clk->hw)) {
++                               struct mod_clock *clock = to_mod_clock(hw);
++                               struct rzg2l_cpg_priv *priv = clock->priv;
++                               unsigned int reg = clock->off;
++
++                               pr_err("%s(): CLK_ON 0x%x/%pC %x\n", __func__, 
+CLK_ON_R(reg), hw->clk, readl(priv->base + CLK_MON_R(reg)));
++                       }
++               }
++       }
++
++       return 0;
++}
++
+  static int rzg2l_cpg_resume(struct device *dev)
+  {
+         struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
+@@ -2065,7 +2094,7 @@ static int rzg2l_cpg_resume(struct device *dev)
+  }
+
+  static const struct dev_pm_ops rzg2l_cpg_pm_ops = {
+-       NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, rzg2l_cpg_resume)
++       NOIRQ_SYSTEM_SLEEP_PM_OPS(rzg2l_cpg_suspend, rzg2l_cpg_resume)
+  };
+
+  static const struct of_device_id rzg2l_cpg_match[] = {
+
+
+And this is what I'm getting when executing on my side:
+
+
+
+root@smarc-rzg3s:~# echo enabled > /sys/class/tty/ttySC3/power/wakeup
+root@smarc-rzg3s:~# echo N > /sys/module/printk/parameters/console_suspend
+root@smarc-rzg3s:~# echo 7 > /proc/sys/kernel/printk
+root@smarc-rzg3s:~# echo freeze > /sys/power/state
+[   80.019374] PM: suspend entry (s2idle)
+[   80.024173] Filesystems sync: 0.000 seconds
+[   80.040934] Freezing user space processes
+[   80.048238] Freezing user space processes completed (elapsed 0.007 seconds)
+[   80.055260] OOM killer disabled.
+[   80.058476] Freezing remaining freezable tasks
+[   80.064400] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+[   80.137919] ravb 11c30000.ethernet end0: Link is Down
+[   80.170875] rzg2l_cpg_suspend(): CLK_ON 0x514/gic_gicclk 1
+[   80.176435] rzg2l_cpg_suspend(): CLK_ON 0x518/ia55_clk 3
+[   80.181744] rzg2l_cpg_suspend(): CLK_ON 0x518/ia55_pclk 3
+[   80.187137] rzg2l_cpg_suspend(): CLK_ON 0x52c/dmac_aclk 3
+[   80.192528] rzg2l_cpg_suspend(): CLK_ON 0x52c/dmac_pclk 3
+[   80.197971] rzg2l_cpg_suspend(): CLK_ON 0x584/scif0_clk_pck 1
+[   80.203728] rzg2l_cpg_suspend(): CLK_ON 0x598/gpio_hclk 1
+[   80.209136] rzg2l_cpg_suspend(): CLK_ON 0x614/vbat_bclk 1
+[   83.307594] rzg2l_mod_clock_init_mstop(): CLK_ON 0x514/gic_gicclk 1
+[   83.313889] rzg2l_mod_clock_init_mstop(): CLK_ON 0x518/ia55_clk 3
+[   83.319975] rzg2l_mod_clock_init_mstop(): CLK_ON 0x518/ia55_pclk 3
+[   83.326146] rzg2l_mod_clock_init_mstop(): CLK_ON 0x52c/dmac_aclk 3
+[   83.332315] rzg2l_mod_clock_init_mstop(): CLK_ON 0x52c/dmac_pclk 3
+[   83.338572] rzg2l_mod_clock_init_mstop(): CLK_ON 0x584/scif0_clk_pck 1
+[   83.345102] rzg2l_mod_clock_init_mstop(): CLK_ON 0x598/gpio_hclk 1
+[   83.351291] rzg2l_mod_clock_init_mstop(): CLK_ON 0x614/vbat_bclk 1
+[   83.455408] rzg3s-pcie-host 11e40000.pcie: PCIe link status [0x100014e]
+[   83.667239] nvme nvme0: 1/0/0 default/read/poll queues
+[   83.730087] Microchip KSZ9131 Gigabit PHY 11c30000.ethernet-ffffffff:07: 
+attached PHY driver (mii_bus:phy_addr=11c30000.ethernet-ffffffff:07, irq=59)
+[   83.814109] Microchip KSZ9131 Gigabit PHY 11c40000.ethernet-ffffffff:07: 
+attached PHY driver (mii_bus:phy_addr=11c40000.ethernet-ffffffff:07, irq=61)
+[   83.917155] usb usb2: root hub lost power or was reset
+[   83.922361] usb usb1: root hub lost power or was reset
+[   84.013163] usb usb4: root hub lost power or was reset
+[   84.018358] usb usb3: root hub lost power or was reset
+[   84.199309] usb 1-1: reset high-speed USB device number 2 using ehci-platform
+[   84.457446] OOM killer enabled.
+[   84.460679] Restarting tasks: Starting
+[   84.477407] Restarting tasks: Done
+[   84.487390] random: crng reseeded on system resumption
+[   84.499640] PM: suspend exit
+[   86.609639] ravb 11c30000.ethernet end0: Link is Up - 1Gbps/Full - flow 
+control off
+root@smarc-rzg3s:~#
+root@smarc-rzg3s:~#
+root@smarc-rzg3s:~# uname -r
+6.19.0-rc6-next-20260123-00021-g1e76e85a016d-dirty
+root@smarc-rzg3s:~#
+
+Note that I'm waking up from an wakeup button.
+
+If you are trying to resume from serial wake interrupts, have you checked the 
+serial driver is prepard to handle this? Please check this driver on how the 
+resume is handled for wakup from serial device: 
+https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/tty/serial/atmel_serial.c#L1414
+
+> 
+> LOGS:
+> root@smarc-rzg3l:~# echo enabled > /sys/class/tty/ttySC3/power/wakeup
+> echo N > /sys/module/printk/parameters/console_suspend
+> root@smarc-rzg3l:~# echo N > /sys/module/printk/parameters/console_suspend
+> root@smarc-rzg3l:~# echo 7 > /proc/sys/kernel/printk
+> root@smarc-rzg3l:~# echo freeze > /sys/power/state
+> [   41.601992] PM: suspend entry (s2idle)
+> [   41.605979] Filesystems sync: 0.000 seconds
+> [   41.611261] Freezing user space processes
+> [   41.614848] Freezing user space processes completed (elapsed 0.003 seconds)
+> [   41.622676] OOM killer disabled.
+> [   41.625908] Freezing remaining freezable tasks
+> [   41.631642] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> [   41.640137] renesas-gbeth 11c30000.ethernet end0: Link is Down
+> 
+> 
+> On my testing shows on RZ/G3L, we need to make DMA ACLK as non-PM clk for
+> Making both s2idle and str to work on RZ/G3L.
+
+Is there any RZ/G3L suspend to RAM support available on upstream kernel? On my 
+side, I'm doing the same set of steps on RZ/G3S. This is the output:
+
+root@smarc-rzg3s:~# echo freeze > /sys/power/state
+[  299.431018] PM: suspend entry (s2idle)
+[  299.436111] Filesystems sync: 0.000 seconds
+[  299.452540] Freezing user space processes
+[  299.459432] Freezing user space processes completed (elapsed 0.006 seconds)
+[  299.466422] OOM killer disabled.
+[  299.469656] Freezing remaining freezable tasks
+[  299.475469] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+[  299.550263] ravb 11c30000.ethernet end0: Link is Down
+[  302.112742] rzg3s-pcie-host 11e40000.pcie: PCIe link status [0x100014e]
+[  302.323225] nvme nvme0: 1/0/0 default/read/poll queues
+[  302.386270] Microchip KSZ9131 Gigabit PHY 11c30000.ethernet-ffffffff:07: 
+attached PHY driver (mii_bus:phy_addr=11c30000.ethernet-ffffffff:07, irq=59)
+[  302.470286] Microchip KSZ9131 Gigabit PHY 11c40000.ethernet-ffffffff:07: 
+attached PHY driver (mii_bus:phy_addr=11c40000.ethernet-ffffffff:07, irq=61)
+[  302.573319] usb usb2: root hub lost power or was reset
+[  302.578520] usb usb3: root hub lost power or was reset
+[  302.669350] usb usb4: root hub lost power or was reset
+[  302.674583] usb usb1: root hub lost power or was reset
+[  302.951468] usb 1-1: reset high-speed USB device number 2 using ehci-platform
+[  303.206055] OOM killer enabled.
+[  303.209315] Restarting tasks: Starting
+[  303.228380] Restarting tasks: Done
+[  303.236159] random: crng reseeded on system resumption
+[  303.247796] PM: suspend exit
+[  305.205604] ravb 11c30000.ethernet end0: Link is Up - 1Gbps/Full - flow 
+control off
+root@smarc-rzg3s:~#
+root@smarc-rzg3s:~# uname -r
+6.19.0-rc6-next-20260123-00021-g1e76e85a016d
+root@smarc-rzg3s:~#
+
+And the patches I have on my tree:
+
+1e76e85a016d (HEAD -> 
+claudiu/SSGRLPCSRC-1478/linux-next/dma-cyclic+ssi-using-it-prepare-for-upstream-v1) 
+arm64: dts: renesas: r9a07g044: Add dma properties for serial nodes
+1a70b2015703 spi flash
+d09caee93d5a dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last 
+descriptor
+65073447cc2b ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+8a3e41ac5a15 dmaengine: sh: rz-dmac: Add suspend to RAM support
+63d57ebe24c9 dmaengine: sh: rz-dmac: Add cyclic DMA support
+fc77f2366208 dmaengine: sh: rz-dmac: Drop the update of CHCTRL_SETEN in 
+channel->chctrl APIs
+
+
+
+
+> 
+> if (pm_suspend_target_state == PM_SUSPEND_TO_IDLE)
+> you need this check in suspend/resume not to turn off DMAACLK during s2idle.
+
+Again, how is this turned off on suspend/resume if it's critical?
+
+> 
+> Also, the callback has to be in non_irq phase so that CPU start getting IRQ's
+> During sleep phase.
+
+That could be moved there, if there are users of it.
+
+Thank you,
+Claudiu
