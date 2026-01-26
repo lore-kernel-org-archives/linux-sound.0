@@ -1,57 +1,59 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6039262A6
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 05:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34084225775;
+	Mon, 26 Jan 2026 05:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769404711; cv=none; b=DaMD3SnCsYYSFvWYsUWqO9Hh+5o0zICJRcuXOpIqAiZPl0bjQ/I93D7ntVe1j/57Rjb+76L8S6SfxfMuPuZBwNZ4bl38uEklOsBw01ET+IAP2Z/HKJ3zQYCs9JpYG2a+ZhFJCfye6v5P6xCS4egdjzvlDuaxE1xvjWgL1qmvi4k=
+	t=1769406057; cv=none; b=bKr8Jp8BG5e6XQd61ZrlUZfYqh7Qtvk+QPW64drvbhhbCtfRQdJMtvqi/8M/jptOniXyOy3Pt4wB1X0hbPCezG6MdYrXLjVPTfa/E4bc2NXt9/j7b7HymTmfrXYRUawTbZGjXsdnJy6KfMk8kPbN8JpEbzQEHamH4G+Znmk+zp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769404711; c=relaxed/simple;
-	bh=EwDyQEBWH7Lj2YSwoydZagVuZ2XkqaR2vbQOOfhnuAc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iHjHQTkjS4tWWy9ha+kUVcgeoRZBY8fV1iaiHHqqzHZLowMFMJoR2uCGa0MQjivrrk6ns58XHUOkNKFQwJP/5FKPGXeC+LRTx9pdsvcHRiBSFN7BpWLXjkVXX4NbrtsVk0R2POYcmbeDLtHnueHExZ7RP+hyN+4KHmNCbhZq27w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ad+Dbfmv; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1769406057; c=relaxed/simple;
+	bh=O+vSeMwOkp+MCR3793K/XHUMd6DUFHa4oxlq6yNKmTE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BwhkbfhrhgabyeL0P2NeLyFd+mMYg411WNMWwv0LOA/oKMXHkrIW3q9LMxt45P8JC1OEPgLIsfzp5SQY37lQKTZQ5SDiZWUd8sOWC21jElyMems0sN4i0FAnhjTzfCQvf3MpaDsDNG59sB6et6b8XlU6kX6WYO62XDuD1bGXXuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mG56Zkv3; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ad+Dbfmv"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 60Q5I0sfC237835, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1769404680; bh=slWJu1nje1vfZUmKxXjfJUrxNTXKoPSKj6VR26488EI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=ad+Dbfmv8XefPpp9QkTIBW3u9zK+3w7JiQ50D/lDQjRoy8pP6+qm5xdEQGkf8ihVZ
-	 Edi3syNiielnnrMbJV6Os2dDc8hZxc2fPXpA7/XJELxZgQfLIzBual/J3OGrxulahL
-	 z6UbB75oAS5U7fdSRkxs7XmEZvzoT2N70QAYRMj+iWL0duNhbG/3NJQcc9vBzgiEMh
-	 dfm2ahSkwOzLAN1qdyR/v9w5IVi38SOjLRJ2Gl3aKalDg9ycApJpHamoz4t8M/Twhv
-	 Rvac3vWGaV9WuTWsFWOLvlDBovPrDn0RsMYa8XRjUjINxFKMvkHqhLwM2ZXL4m91Yq
-	 eNl1RemyoZ1zg==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 60Q5I0sfC237835
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Jan 2026 13:18:00 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 26 Jan 2026 13:18:00 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 26 Jan 2026 13:17:59 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Mon, 26 Jan 2026 13:17:59 +0800
-From: Oder Chiou <oder_chiou@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <flove@realtek.com>, <shumingf@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
-        "kernel test
- robot" <lkp@intel.com>
-Subject: [PATCH] ASoC: rt5575: Fix undefined references to SPI functions
-Date: Mon, 26 Jan 2026 13:17:58 +0800
-Message-ID: <20260126051758.3728312-1-oder_chiou@realtek.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mG56Zkv3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769406055; x=1800942055;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=O+vSeMwOkp+MCR3793K/XHUMd6DUFHa4oxlq6yNKmTE=;
+  b=mG56Zkv3KcrPo+zkLCXfvqyx+5bSilcZTJ7Dle4K55F05fPL5qGwsn52
+   yxbr4EVxJ8JfRekVC+3Z4yqK1pyOzcOb7Pta6px6NSUBUY5hV01fsjnC4
+   V98NHALMT5kTWl9x1g533PE4JxEaPSFcLCRLZaKsFAX+1WDQIhmjlAhLi
+   4cW2lKc6Znu710qTF0A6HOXxa5aS5gdRKlhWXuRlXInaKV0iPTTlEJxoA
+   nMPg+KJvuhD8u0nz6lMTmEmlB44zBt2nfTZInwDetUupwV2+L1wW8UptE
+   j5lYjK8J3Idcao64QNW9ka3znLgN2oimCXiOmG7lQWcbccmochyJYFNis
+   g==;
+X-CSE-ConnectionGUID: M49ftRdYQYChx4YSEdrh9A==
+X-CSE-MsgGUID: WPbayf7JTOeVaFpd+wpvsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70626115"
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="70626115"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 21:40:55 -0800
+X-CSE-ConnectionGUID: s+lUsi/VSiqRjLDaATj8Tg==
+X-CSE-MsgGUID: YitlsBrXRq2RBiCUaJnBag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="207400657"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 21:40:53 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	simont@opensource.cirrus.com
+Subject: [PATCH] soundwire: Intel: test bus.bpt_stream before assigning it
+Date: Mon, 26 Jan 2026 13:40:45 +0800
+Message-ID: <20260126054045.2504103-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,51 +61,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The kernel test robot reported the following build errors:
+We only allow up to 1 bpt stream running on a SoundWire bus.
+bus.bpt_stream will be assigned when it is opened and will be set to
+NULL when it is closed. We do check bus->bpt_stream_refcount if the
+stream type is SDW_STREAM_BPT in sdw_master_rt_alloc(), but at that
+moment the bpt stream is allocated and set to bus.bpt_stream. It will
+lead to the original bus.bpt_stream be changed to the new and not used
+bpt stream. And it will be released and set to NULL when
+sdw_slave_bpt_stream_add() return error as it supposed to. Then the
+original stream will try to use the NULL bus.bpt_stream.
 
-   sparc64-linux-ld: sound/soc/codecs/rt5575.o: in function
-`rt5575_fw_load_by_spi':
->> rt5575.c:(.text+0x254): undefined reference to
-`rt5575_spi_get_device'
->> sparc64-linux-ld: rt5575.c:(.text+0x2c0): undefined reference to
-`rt5575_spi_fw_load'
-
-This happens because SND_SOC_RT5575_SPI is defined as a tristate. It
-allows a configuration where the main driver (SND_SOC_RT5575) is
-built-in (=y), but the SPI support is compiled as a module (=m). Since
-the main driver calls symbols defined in the SPI support code, the
-linker fails to resolve them.
-
-To fix this, change SND_SOC_RT5575_SPI to a bool. This ensures that the
-SPI support code is always linked into the main driver object,
-preventing the symbol visibility issue. Also remove the redundant
-dependency on I2C.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes:
-https://lore.kernel.org/oe-kbuild-all/202601250010.EUnVkmCH-lkp@intel.com/
-Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
+Fixes: 4c1ce9f37d8a ("soundwire: intel_ace2x: add BPT send_async/wait callbacks")
+Reported-by: Simon Trimmer <simont@opensource.cirrus.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/codecs/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/soundwire/intel_ace2x.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index d09de0ff5f22..ccdb3d0c2415 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1807,8 +1807,8 @@ config SND_SOC_RT5575
- 	depends on I2C
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 1ed0251d2592..9b3d110d021f 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -82,6 +82,11 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 	int len;
+ 	int i;
  
- config SND_SOC_RT5575_SPI
--	tristate "Realtek ALC5575 Codec - SPI"
--	depends on SPI_MASTER && I2C
-+	bool "Realtek ALC5575 Codec - SPI"
-+	depends on SPI_MASTER
- 	depends on SND_SOC_RT5575
- 
- config SND_SOC_RT5616
++	if (cdns->bus.bpt_stream) {
++		dev_err(cdns->dev, "%s: BPT stream already exists\n", __func__);
++		return -EAGAIN;
++	}
++
+ 	stream = sdw_alloc_stream("BPT", SDW_STREAM_BPT);
+ 	if (!stream)
+ 		return -ENOMEM;
 -- 
-2.52.0
+2.43.0
 
