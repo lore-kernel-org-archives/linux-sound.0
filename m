@@ -1,563 +1,186 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B577527B358;
-	Mon, 26 Jan 2026 14:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769438441; cv=fail; b=Q30x3fHfeqcKPvh+e3LuAcpQyk1n6BI9EsiNyfam357z2FIgK2OGvpPM3RrK1SB3EkXewhkwhVRIcYWi3sIZh8KVrkiEV2pV2bE8hdLMxjYHELXZd5GXsN46TuQah4HlOf2+gJOXUl48yREO1C5GRJQQd2i35Wvkg4qlvFoTcB8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769438441; c=relaxed/simple;
-	bh=/Vz2lqkPevAZOXrMwbabFcOIv+tETou8oNG9sDGSB8c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pP04ZjurwBKgcNOQxWZolC80bFASp1Nj/Vn5u/jMAxaBwiG2b1GwZbLAwNz2kODfZUdHI8eXZ9VLALvo3ho2Xjgk4tCfRrsvM04qV1d6EBtL/3Vvd3mZu4UEeQeDw4szNRGpHZ11mmJGoi+c90D9wTR2TScBVr1dfFvXJwHHE/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QVZVhaqA; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=tuU9q4k+; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6110E20FAAB
+	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 14:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769438784; cv=none; b=lORgIgMAr08OAAl1gt1QU43LdAVjdopfpCWVZjkzJMXwyXMnLkVjSIwkwtz0uwlVEIYLezKfPYi+hUSTEnOfxreEyb6yviiqu1PccaG8Ra9IBmKnCz6wd6bpO+7aKrsVJJAGGn7+5fl2TSXl1JOUvoUoVrRT0M9Tqn9HBmMLerY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769438784; c=relaxed/simple;
+	bh=2IbRV9YOig8uEtdAcRc53kp6dqCuCW21kS1SlTHoqkQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f8LjXICqeB9plTKNwF7CRA7xPtShzEk7Ew2JSdSBGwtR4P7nMwn1Qiz4EtsCQZqpz+AreMk8KAPBKh1Eoa9p1vBCtx3KD+Fs0+oNrooRu07bey7qQDd4SJFAN9MAWspyp5kTD3/BKx9gApDZ/tSehyZRPhU0aQG5as+R2Z7b3d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=TDASyS/7; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QVZVhaqA";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="tuU9q4k+"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60QCql842535746;
-	Mon, 26 Jan 2026 08:40:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=; b=
-	QVZVhaqAojD7brI1RnKQaG/Et1NS8Fl35MsH02SGB6LkG3wFpZaB1nGFIzALYi5A
-	mQVlkt3ENyKDqyz4CTXJ7NAwMS72kPN37BlQRWNnwg7M4I8CEpxOAGWCoeKJgugJ
-	sVxkxLtT8FVG+ivKGIZwlPnxXyvXq2ULaht/RnFFMNnzp3hEHu7vHwkstMciyIv3
-	LfXTonTPUyLZPTUnaWs1R/938r0vVRwtqaZX0Xzk7sBupye+pAHW1Kq4kw2LTeUs
-	Itc1XR5VfHBiwvKA8otjWct4uP47yqhX6YLGABvGO/08MyS5VDgZzWGH2TedXzEo
-	iHrPvU9kIY2XxnJ1tCaoow==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020117.outbound.protection.outlook.com [52.101.85.117])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4bvvc01ky0-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 26 Jan 2026 08:40:24 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fymhCBKv34kkWtr5/gMNuuescu03Wd5jpGj+AfLCxzKclYI7WrCuPOktHUiq6X1ENOAoHX+jvyLNOWNOIWegzZKZbvBQuTkUrq0cV48GdeoZiT+OmFF2osPzGy8d3uzO9s8t0PlVGy20dq0hXlcn8iF3ACAOBRIMxqBchKzfYBwPaJSQtc69X4gMGa3sL2H6OuhOjIVfygIylcuzjrLLhY/itGG5edl0RQTc7SaY6nbk23Mtc/Tr6+Dz2Ud8TUUN7vM/Nx+8B4JnV800zBhrH1qU57Xaftmv2HQpdwvrvhU0Mgz+5bSYkjw1Sdg7jhrOEKx+CbakvO5e1y/YoCTfbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=;
- b=mfTXSwNWh5jcEBSA0Vzb0u7kwQfOMAjVu84OfZUvxvtxUsnozVvozf8t9ITYGnnGWDBQbMxx1Q+mfsgciNYsfxMKZ/AP5g09vW3umuT9GL3LPU4R6QC5PM9x9EGK1vATijwv4RKCHv/TnCQnjnMt7ReFRFRRh8fyiCO7GWaDMXY0v3RcVs+ogqhA/1n+QcIyN3Pg0gIBLbtEFANWlgImWCxDDYQw0HYe+taaF2G8gGmBs2YvdO1hgLWNbGQA/wJWnY5BH9zaRbbB5MSR7DrxVUMIq6kgzFBhJgrJQ37FyZnTGOXZZ2jR2PTT5RZpXnZyzp0d5ZXYjqRp8FLVZtYzTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TDASyS/7"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso46320315e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 06:46:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=;
- b=tuU9q4k+ZeuEhsFEpJ4u96ZGUYXyKZ0ppRH5JWWgal0pMXPCItuk2wRQ+jJel20cP0aG7MgvTveOidDiVHAlEiFJGjvbHqSVdI03n+WJfDKw2KN5Z9aXdTI9EN2LxnFcoB4UPp5YMWybMUE2yUPbEdacy3E2fsy1i2YCytnlUbA=
-Received: from MN2PR07CA0018.namprd07.prod.outlook.com (2603:10b6:208:1a0::28)
- by DS0PR19MB7299.namprd19.prod.outlook.com (2603:10b6:8:152::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 14:40:19 +0000
-Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
- (2603:10b6:208:1a0:cafe::cb) by MN2PR07CA0018.outlook.office365.com
- (2603:10b6:208:1a0::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
- 26 Jan 2026 14:40:20 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
- via Frontend Transport; Mon, 26 Jan 2026 14:40:18 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4060F406544;
-	Mon, 26 Jan 2026 14:40:17 +0000 (UTC)
-Received: from upx-mtl-008.ad.cirrus.com (upx-mtl-008.ad.cirrus.com [198.90.251.5])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 27A12820249;
-	Mon, 26 Jan 2026 14:40:17 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v4 3/4] mfd: cs42l43: Add support for the B variant
-Date: Mon, 26 Jan 2026 14:39:17 +0000
-Message-ID: <20260126144011.140029-4-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260126144011.140029-1-mstrozek@opensource.cirrus.com>
-References: <20260126144011.140029-1-mstrozek@opensource.cirrus.com>
+        d=tuxon.dev; s=google; t=1769438780; x=1770043580; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Pm0AyqOIj5dF9Te7g3FRe5p926c2ixXy2A4BKSh5SP8=;
+        b=TDASyS/7sKqz1cSLh29SqZ8cACfCu8S4ziTR8DArMLfvIVesEYns/z+FaNQ7GqmP88
+         1y2JUK/8VZz0AvJ1XTREdw99JpKm41AFHJB2Lr8mG1V3TJWACUJSPKxUY9Vr48eRtk3b
+         CHrM+fVzjZdhhQgwrNqBqPl6TVbWmtEpG7JqsCKQeLWxhSDkDC0fqu3VLWoT/blb/iL+
+         Ery4zo1UK2j3SSbCdkn3hTuuwFkUn2i6IlCWgsyKz/m9vkJ4o9HMGDLcDDcy0wjyJSku
+         hSsHzMtPNtwza0RM2IiIOZMOvwAQG/1Aqvx9GBGT6p4Fu+1Tb6tRreswnXNQjV+Q/ZtN
+         TSsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769438780; x=1770043580;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pm0AyqOIj5dF9Te7g3FRe5p926c2ixXy2A4BKSh5SP8=;
+        b=oY/MBaQpgk+TNtyzEumbD5gSnu6+gd/caDUtqJbJDMAvbHpcGvoNFkbXAplOy2NO4K
+         FpBVJRHzG5HjdFkDS//6siQ0A8o0wRI+BboSSc6mBh4vNKslTytgbfs18sMejEUvS/FS
+         vCBmwXPWBnuIGti+QQKw3O0U2XNlgITdLF+2OEI0jr+no2wGaAsBESNHBpO5Tln8wbEd
+         evTHi39b8kq96+k0IS8AtHETyosJHV+cMmkIBDpTXARYGbO0Vp6L/6qiEQPtkpd4zc+u
+         Ej2l+QS4OY2c3UUDdh3Ycky4ACwBliDiDfR5gdCzO4nAEjLa3RIl0J1l2mlZKXj6w8lP
+         fsaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWkUEc5QPg7Qg/In9lV8+dH7V5qfHO5ywwywXO/0j4U/Y3DazXhX2274mcRsgdUEwDKi1xEAqWkDLF6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLt0VIk32Vma59A6KJsAWslIZZsvKu8UPbJgvDoDJlh4Cvevk0
+	SAiBtBy00XwFtR1f6ZHQa/njVn6fzNbikU6p+xeO0epCeeEdiFCu76rvsggpcLO1c+s=
+X-Gm-Gg: AZuq6aKdxeVQC4Qxr4CyVX3c73tk8ina0oaHdHtSSsJEoWnlXp2He1rh+pahSj0P3hy
+	Yet4iSR2Pl0GijrTK5tjsPbpEdV48QLG1mvMivZU0Sw2PHaCdXszipwnYbk7SqYZWBO00s4iUdq
+	6SS4SPsfJjVaSfbStLysEOaBufaFgSlQx+anr/wNo3Es4bm1XoNNNejWUIPTOlUJN7U8244hcjy
+	SLEfKnys5iR+p1zFtgcQaLsuZshOdpC7ZCDoSzxPa3h2PBcCOE9nKobczGLniy7J1hZlcd5JyCR
+	K+HyDVqvRF6c4p4LgtLLjR8DPAHiCJ9oRuj9JSe3IuFyE+jAzb6M+zCksKdGL5AqGTs6OUooGad
+	8AJ52KtDEB0vRwz03klws6ltxa0wR+9Kzj0g52tSkWAU+QJaow08EuTN8Y8T/VwW1IBWshmnptN
+	Tcqto7+KDTiVaf7+F4oQ==
+X-Received: by 2002:a05:600c:4fc6:b0:47e:e72b:1fce with SMTP id 5b1f17b1804b1-4805d06a5edmr62679165e9.37.1769438779698;
+        Mon, 26 Jan 2026 06:46:19 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d85206fsm283271695e9.6.2026.01.26.06.46.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jan 2026 06:46:19 -0800 (PST)
+Message-ID: <74692e8a-220f-4248-9481-81bb331597f1@tuxon.dev>
+Date: Mon, 26 Jan 2026 16:46:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|DS0PR19MB7299:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 51ed927a-152e-429b-b968-08de5ce8d3c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|61400799027|82310400026|376014|7416014|54012099003;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?gCLguk26IEY+Pbn5B+S3jIE7roPTSqCLORyA7YZM96Z4AcE8QT46R3/a383z?=
- =?us-ascii?Q?S8hlBIvPcw+impH88sDRGjTEDj/Uo/by5XfijeMAVl/fL7vyKAeZjFrjrRnP?=
- =?us-ascii?Q?T8vBAsOTfT0MveFC9fRG0BnR+Ib2sNtu602CpA1Af3jqOPrx1Hseyq2Pwped?=
- =?us-ascii?Q?ukS2VWxCFAFxo/TZ7WwjPRHdyOEYwUGnihxfue4X0ViEN+6zbkva0zwr6UU1?=
- =?us-ascii?Q?beQNb2nBnyFuCG50dpsHM0O+nFP2pv6qQM9Dv+hRJPL1atGhaTM0ZVx0bMSQ?=
- =?us-ascii?Q?gQxYJMfiDb/78PNdouo8aUblWM5uLf24ObkY+8ygz6SZnXvdGKaq98bh2BYR?=
- =?us-ascii?Q?7uT3P0p6exx/9HKYdQ1xFLzzHSB7/vh9BgN88PmiC3M9nmBBI/uhuVLQbSFW?=
- =?us-ascii?Q?kjOimrAjujfVpRSLeLx2YWnSfzp1dol6waBMhvYzuIl4i0gJ3ucuBQgw+i2R?=
- =?us-ascii?Q?SRMNOQ35rmJJc6yjnprWzKoE+ag94TF0ZKM+mjbe2wSyM+30ncCxyt0PpPVj?=
- =?us-ascii?Q?yfjDRUPtn7KewRA1VQTzWs4utsnZSRa9FZTbe0vEbu1eahhvAfifd7MUvkHt?=
- =?us-ascii?Q?MxU5MILhTjGcj13yYoqc7IrFsrj/wyl3FJAz4cP/st6TS6Ne/bQU0uvNz1Dg?=
- =?us-ascii?Q?eD65ah2RFr0H43NjPxlv+S8W+LSgWQlfgEGwnlu7wYtx9SQFsB+lRlmFBR06?=
- =?us-ascii?Q?sGz6SIPDA+Esq7rJt68NTU8Xxj777g68ukNtuD1FyQxDU09JZnn3s1bqFCfm?=
- =?us-ascii?Q?DSM3BaD0tqdFUDxpdnIbakWl1jk14oW6ubGpbDL/2F1ChY8aj1hqoVyQwIRK?=
- =?us-ascii?Q?OvUihIxnjtTmUTU96HGOor3eFosn0XKWhKErdNlmSm/LkwZDrEbEKxB0I6pt?=
- =?us-ascii?Q?UWz6aOAjaiV8+rUIekRjGR9F/P1F50cO/xB0YftL9P/j73XDTCijB7GxpS33?=
- =?us-ascii?Q?l96660A/yIKGq1oBGKQP+ucvHqDusnMyPug05vpIf8Oof3l3ppdT/+DQNI+J?=
- =?us-ascii?Q?xeeVf5V6JMnMEmVRhpRmSML8F4eW47vcNZjd8aG6u+w0HFM731isj1DhCNmd?=
- =?us-ascii?Q?psldHmgDlaipE9EU59DvV7vf308nYBFQA+zfcPovQxAnWUVL3GdfrFdM/7fW?=
- =?us-ascii?Q?Ow5WIHJO/dhLP/VTP7/dBjnXa2PJbLz5woQlHCxtA7Fw/T66tZONKioDj0+A?=
- =?us-ascii?Q?+45l2MEmZJzSdISO+zvsnWDN2/FwDZhxtdkxDIXxIsXCVO0CkkRpPno/PYa4?=
- =?us-ascii?Q?afz23rfNXP/JqGjqAeTSS3Si5oFnIjweD3IKiQYX8hzZm7M1diilrGy2hUe0?=
- =?us-ascii?Q?3qWA11ACiOBpJrBx7+kTtHo/4FHhMLmAUMS8FA5/dzKfMDTCpbLDm/aQjoJ9?=
- =?us-ascii?Q?skmuMfUohG7YVzacCeIhovFEAY7QkI7h0R6yxtSsZ0Uh+fiKWsG0MC7k0kcu?=
- =?us-ascii?Q?T7hceTt/w1jbLQPRW2NVI90EnYooBLGExRY7IqRm0afw7dC05MA06jkdbfEy?=
- =?us-ascii?Q?TCsVPWVAUGVdy+vTQbPRTN8aZ6a6thYePXVEqQjAnFWQhIs31c4CQC+20QxC?=
- =?us-ascii?Q?AX9ERv3QwCFQQHWZ6IZksBIsuexvuYKQE0SgOeE9KqSFEkP0xu1fCFOmv8N3?=
- =?us-ascii?Q?MOmc3jmmmcW2+ZqMzXK7xWnySxnzW2a2A4qpQXOsevXm38oRTy+kPkPa77rB?=
- =?us-ascii?Q?/Uuy1Q=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(82310400026)(376014)(7416014)(54012099003);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 14:40:18.6444
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51ed927a-152e-429b-b968-08de5ce8d3c8
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7299
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDEyNSBTYWx0ZWRfXz2bKyLt9gMvF
- 8SmKVyIugWkeN2ownzT2OOlBLyMWBNQljMO179clGVWlSlCQdQ1xo1DmSPhvbdMlULEXnDoyTEq
- Z400SOUze7f2nykIIETXui70lwxBGb42z8Wgc2R75G726grQtJ7nyaDPvvBbz4rG+i/0ystxNpG
- 9p2zIy8c/K1IKghYp7hSe3pH8/Qju+dueC7GRUvR5YU/Kw/9++tpCtB60/BC8tcPlqzGfFVavWw
- 91cVzZlDfNhYsLEAZ8YE52NPgtO6Hw+DLwvQSTEv3p9P6PL8t6KfJyaSPg3BIiK0xQk66n/0Tpu
- QmdvkvR9hw0k/MMZeV0IyIOvYwVBt4p6NYUB5ctetZi722OKI132WhWwWew0Svg5okynghn/5h5
- vXcXTlm7SKkdZJ9RoU/G4B3U4Fe/jgSb/tcJFnKEQfSf5w52Epwep1Uwlh7QguTVKrRr30ytRW/
- 7k0mwlmiC8GuYmFAu2w==
-X-Proofpoint-GUID: zSHZfaWxTc6luIDUGRMVuqoUvSLkaaXO
-X-Authority-Analysis: v=2.4 cv=KvBAGGWN c=1 sm=1 tr=0 ts=69777cd8 cx=c_pps
- a=bH+lGM7ukYmG6LzVfPy9ng==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=XPwATKmoEvXA9jVZorMA:9
-X-Proofpoint-ORIG-GUID: zSHZfaWxTc6luIDUGRMVuqoUvSLkaaXO
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: vkoul@kernel.org, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+ fabrizio.castro.jz@renesas.com, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260126103155.2644586-7-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdWhY7nNanQ=h8HGrWyDfpCSL33QFJorhLCgnKASbmHiYw@mail.gmail.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdWhY7nNanQ=h8HGrWyDfpCSL33QFJorhLCgnKASbmHiYw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
-the same driver.
+Hi, Geert,
 
-Changes in CS42L43 driver specific for CS42L43B:
-- Decimator 1 and 2 are dedicated to ADC, can't be selected for PDM
-- Decimators 3 and 4 are connected to PDM1
-- Added Decimator 5 and 6 for PDM2
-- Supports SoundWire Clock Gearing
-- Updated ROM requiring no patching
-- Reduced RAM space
-- Each ISRC has 4 decimators now
+On 1/26/26 16:26, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Mon, 26 Jan 2026 at 11:32, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> On Renesas RZ/G2L and RZ/G3S SoCs (where this was tested), captured audio
+>> files occasionally contained random spikes when viewed with a profiling
+>> tool such as Audacity. These spikes were also audible as popping noises.
+>>
+>> Using cyclic DMA resolves this issue. The driver was reworked to use the
+>> existing support provided by the generic PCM dmaengine APIs. In addition
+>> to eliminating the random spikes, the following issues were addressed:
+>> - blank periods at the beginning of recorded files, which occurred
+>>    intermittently, are no longer present
+>> - no overruns or underruns were observed when continuously recording
+>>    short audio files (e.g. 5 seconds) in a loop
+>> - concurrency issues in the SSI driver when enqueuing DMA requests were
+>>    eliminated; previously, DMA requests could be prepared and submitted
+>>    both from the DMA completion callback and the interrupt handler, which
+>>    led to crashes after several hours of testing
+>> - the SSI driver logic is simplified
+>> - the number of generated interrupts is reduced by approximately 250%
+>>
+>> In the SSI platform driver probe function, the following changes were
+>> made:
+>> - the driver-specific DMA configuration was removed in favor of the
+>>    generic PCM dmaengine APIs. As a result, explicit cleanup goto labels
+>>    are no longer required and the driver remove callback was dropped,
+>>    since resource management is now handled via devres helpers
+>> - special handling was added for IP variants operating in half-duplex
+>>    mode, where the DMA channel name in the device tree is "rt"; this DMA
+>>    channel name is taken into account and passed to the generic PCM
+>>    dmaengine configuration data
+>>
+>> All code previously responsible for preparing and completing DMA
+>> transfers was removed, as this functionality is now handled entirely by
+>> the generic PCM dmaengine APIs.
+>>
+>> Since DMA channels must be paused and resumed during recovery paths
+>> (overruns and underruns), the DMA channel references are stored in
+>> rz_ssi_hw_params().
+>>
+>> The logic in rz_ssi_is_dma_enabled() was updated to reflect that the
+>> driver no longer manages DMA transfers directly.
+>>
+>> Finally, rz_ssi_stream_is_play() was removed, as it had only a single
+>> remaining user after this rework, and its logic was inlined at the call
+>> site.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/sound/soc/renesas/rz-ssi.c
+>> +++ b/sound/soc/renesas/rz-ssi.c
+> 
+>> @@ -1116,15 +936,19 @@ static struct snd_soc_dai_driver rz_ssi_soc_dai[] = {
+>>   static const struct snd_soc_component_driver rz_ssi_soc_component = {
+>>          .name                   = "rz-ssi",
+>>          .open                   = rz_ssi_pcm_open,
+>> -       .pointer                = rz_ssi_pcm_pointer,
+>> -       .pcm_construct          = rz_ssi_pcm_new,
+>>          .legacy_dai_naming      = 1,
+>>   };
+>>
+>> +static struct snd_dmaengine_pcm_config rz_ssi_dmaegine_pcm_conf = {
+>> +       .prepare_slave_config   = snd_dmaengine_pcm_prepare_slave_config,
+> 
+> This fails to link if CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM is not
+> enabled (e.g. renesas_defconfig):
+> 
+>      aarch64-linux-gnu-ld: sound/soc/renesas/rz-ssi.o: in function
+> `rz_ssi_probe':
+>      rz-ssi.c:(.text+0x538): undefined reference to
+> `devm_snd_dmaengine_pcm_register'
+>      aarch64-linux-gnu-ld: sound/soc/renesas/rz-ssi.o:(.data+0xc8):
+> undefined reference to `snd_dmaengine_pcm_prepare_slave_config'
+> 
+> Adding a select like this white-space damaged snippet:
+> 
+>      --- a/sound/soc/renesas/Kconfig
+>      +++ b/sound/soc/renesas/Kconfig
+>      @@ -56,6 +56,7 @@ config SND_SOC_MSIOF
+>       config SND_SOC_RZ
+>              tristate "RZ/G2L series SSIF-2 support"
+>              depends on ARCH_RZG2L || COMPILE_TEST
+>      +       select SND_SOC_GENERIC_DMAENGINE_PCM
+>              help
+>                This option enables RZ/G2L SSIF-2 sound support.
+> 
+> would fix the build.
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-Changes in v4:
- - change variant_id to long int
-Changes in v3:
- - fix incorrect type cast (long -> int) in cs42l43-i2c.c
-Changes in v2:
- - Rework the mechanism to identify the new variant along with some
-   error handling improvements.
- - Added some comments in cs42l43_readable_register() for clarity.
- - Add handling of the I2C path for the B variant
----
- drivers/mfd/cs42l43-i2c.c        |  7 ++-
- drivers/mfd/cs42l43-sdw.c        |  4 +-
- drivers/mfd/cs42l43.c            | 93 +++++++++++++++++++++++++++-----
- drivers/mfd/cs42l43.h            |  2 +-
- include/linux/mfd/cs42l43-regs.h | 76 ++++++++++++++++++++++++++
- include/linux/mfd/cs42l43.h      |  1 +
- 6 files changed, 166 insertions(+), 17 deletions(-)
+Thank you for reporting and proposing a fix. I'll take care of it in v2.
 
-diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
-index a2ab001a600a..0a0ab5e549a5 100644
---- a/drivers/mfd/cs42l43-i2c.c
-+++ b/drivers/mfd/cs42l43-i2c.c
-@@ -47,6 +47,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
- 	cs42l43->irq = i2c->irq;
- 	/* A device on an I2C is always attached by definition. */
- 	cs42l43->attached = true;
-+	cs42l43->variant_id = (long)device_get_match_data(cs42l43->dev);
-
- 	cs42l43->regmap = devm_regmap_init_i2c(i2c, &cs42l43_i2c_regmap);
- 	if (IS_ERR(cs42l43->regmap))
-@@ -58,7 +59,8 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
-
- #if IS_ENABLED(CONFIG_OF)
- static const struct of_device_id cs42l43_of_match[] = {
--	{ .compatible = "cirrus,cs42l43", },
-+	{ .compatible = "cirrus,cs42l43", .data = (void *)CS42L43_DEVID_VAL },
-+	{ .compatible = "cirrus,cs42l43b", .data = (void *)CS42L43B_DEVID_VAL },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, cs42l43_of_match);
-@@ -66,7 +68,8 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
-
- #if IS_ENABLED(CONFIG_ACPI)
- static const struct acpi_device_id cs42l43_acpi_match[] = {
--	{ "CSC4243", 0 },
-+	{ "CSC4243", CS42L43_DEVID_VAL },
-+	{ "CSC2A3B", CS42L43B_DEVID_VAL },
- 	{}
- };
- MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
-diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
-index 023f7e1a30f8..794c98378175 100644
---- a/drivers/mfd/cs42l43-sdw.c
-+++ b/drivers/mfd/cs42l43-sdw.c
-@@ -178,6 +178,7 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
-
- 	cs42l43->dev = dev;
- 	cs42l43->sdw = sdw;
-+	cs42l43->variant_id = (long)id->driver_data;
-
- 	cs42l43->regmap = devm_regmap_init_sdw(sdw, &cs42l43_sdw_regmap);
- 	if (IS_ERR(cs42l43->regmap))
-@@ -188,7 +189,8 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
- }
-
- static const struct sdw_device_id cs42l43_sdw_id[] = {
--	SDW_SLAVE_ENTRY(0x01FA, 0x4243, 0),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x4243, (void *) CS42L43_DEVID_VAL),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x2A3B, (void *) CS42L43B_DEVID_VAL),
- 	{}
- };
- MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-index 107cfb983fec..166881751e69 100644
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -115,9 +115,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_DECIM_HPF_WNF_CTRL2,			0x00000001 },
- 	{ CS42L43_DECIM_HPF_WNF_CTRL3,			0x00000001 },
- 	{ CS42L43_DECIM_HPF_WNF_CTRL4,			0x00000001 },
-+	{ CS42L43B_DECIM_HPF_WNF_CTRL5,			0x00000001 },
-+	{ CS42L43B_DECIM_HPF_WNF_CTRL6,			0x00000001 },
- 	{ CS42L43_DMIC_PDM_CTRL,			0x00000000 },
- 	{ CS42L43_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
- 	{ CS42L43_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH5_CH6,		0x20122012 },
- 	{ CS42L43_INTP_VOLUME_CTRL1,			0x00000180 },
- 	{ CS42L43_INTP_VOLUME_CTRL2,			0x00000180 },
- 	{ CS42L43_AMP1_2_VOL_RAMP,			0x00000022 },
-@@ -155,8 +160,12 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_SWIRE_DP2_CH2_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP3_CH1_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP3_CH2_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP3_CH3_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP3_CH4_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP4_CH1_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP4_CH2_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP4_CH3_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP4_CH4_INPUT,			0x00000000 },
- 	{ CS42L43_ASRC_INT1_INPUT1,			0x00000000 },
- 	{ CS42L43_ASRC_INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ASRC_INT3_INPUT1,			0x00000000 },
-@@ -169,10 +178,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_ISRC1INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC1DEC1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC1DEC2_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC1DEC3_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC1DEC4_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2INT1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2DEC1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2DEC2_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC2DEC3_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC2DEC4_INPUT1,			0x00000000 },
- 	{ CS42L43_EQ1MIX_INPUT1,			0x00800000 },
- 	{ CS42L43_EQ1MIX_INPUT2,			0x00800000 },
- 	{ CS42L43_EQ1MIX_INPUT3,			0x00800000 },
-@@ -269,6 +282,8 @@ EXPORT_SYMBOL_NS_GPL(cs42l43_reg_default, "MFD_CS42L43");
-
- bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- {
-+	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
-+
- 	switch (reg) {
- 	case CS42L43_DEVID:
- 	case CS42L43_REVID:
-@@ -292,7 +307,6 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- 	case CS42L43_ADC_B_CTRL1 ...  CS42L43_ADC_B_CTRL2:
- 	case CS42L43_DECIM_HPF_WNF_CTRL1 ... CS42L43_DECIM_HPF_WNF_CTRL4:
- 	case CS42L43_DMIC_PDM_CTRL:
--	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
- 	case CS42L43_INTP_VOLUME_CTRL1 ... CS42L43_INTP_VOLUME_CTRL2:
- 	case CS42L43_AMP1_2_VOL_RAMP:
- 	case CS42L43_ASP_CTRL:
-@@ -387,8 +401,16 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- 	case CS42L43_BOOT_CONTROL:
- 	case CS42L43_BLOCK_EN:
- 	case CS42L43_SHUTTER_CONTROL:
--	case CS42L43_MCU_SW_REV ... CS42L43_MCU_RAM_MAX:
--		return true;
-+	case CS42L43B_MCU_SW_REV ... CS42L43B_MCU_RAM_MAX:
-+		return true; // registers present on all variants
-+	case CS42L43_MCU_SW_REV ... CS42L43B_MCU_SW_REV - 1:
-+	case CS42L43B_MCU_RAM_MAX + 1 ... CS42L43_MCU_RAM_MAX:
-+	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
-+		return cs42l43->variant_id == CS42L43_DEVID_VAL; // regs only in CS42L43 variant
-+	case CS42L43B_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43B_DECIM_HPF_WNF_CTRL6:
-+	case CS42L43B_SWIRE_DP3_CH3_INPUT ... CS42L43B_SWIRE_DP4_CH4_INPUT:
-+	case CS42L43B_ISRC1DEC3_INPUT1 ... CS42L43B_ISRC2DEC4_INPUT1:
-+		return cs42l43->variant_id == CS42L43B_DEVID_VAL; // regs only in CS42L43B variant
- 	default:
- 		return false;
- 	}
-@@ -597,15 +619,27 @@ static int cs42l43_wait_for_attach(struct cs42l43 *cs42l43)
- static int cs42l43_mcu_stage_2_3(struct cs42l43 *cs42l43, bool shadow)
- {
- 	unsigned int need_reg = CS42L43_NEED_CONFIGS;
-+	unsigned int boot_reg;
- 	unsigned int val;
- 	int ret;
-
--	if (shadow)
--		need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		if (shadow)
-+			need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
-+		boot_reg = CS42L43_BOOT_STATUS;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		need_reg = CS42L43B_NEED_CONFIGS;
-+		boot_reg = CS42L43B_BOOT_STATUS;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-
- 	regmap_write(cs42l43->regmap, need_reg, 0);
-
--	ret = regmap_read_poll_timeout(cs42l43->regmap, CS42L43_BOOT_STATUS,
-+	ret = regmap_read_poll_timeout(cs42l43->regmap, boot_reg,
- 				       val, (val == CS42L43_MCU_BOOT_STAGE3),
- 				       CS42L43_MCU_POLL_US, CS42L43_MCU_CMD_TIMEOUT_US);
- 	if (ret) {
-@@ -644,13 +678,25 @@ static int cs42l43_mcu_stage_3_2(struct cs42l43 *cs42l43)
-  */
- static int cs42l43_mcu_disable(struct cs42l43 *cs42l43)
- {
--	unsigned int val;
-+	unsigned int val, cfg_reg, ctrl_reg;
- 	int ret;
-
--	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG,
--		     CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
--	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION,
--		     CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		cfg_reg = CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG;
-+		ctrl_reg = CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		cfg_reg = CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG;
-+		ctrl_reg = CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	regmap_write(cs42l43->regmap, cfg_reg, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
-+	regmap_write(cs42l43->regmap, ctrl_reg, CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
-+
- 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, CS42L43_CONTROL_IND_MASK);
- 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, 0);
-
-@@ -740,18 +786,32 @@ static int cs42l43_mcu_update_step(struct cs42l43 *cs42l43)
- {
- 	unsigned int mcu_rev, bios_rev, boot_status, secure_cfg;
- 	bool patched, shadow;
-+	int boot_status_reg, mcu_sw_rev_reg;
- 	int ret;
-
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		boot_status_reg = CS42L43_BOOT_STATUS;
-+		mcu_sw_rev_reg = CS42L43_MCU_SW_REV;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		boot_status_reg = CS42L43B_BOOT_STATUS;
-+		mcu_sw_rev_reg = CS42L43B_MCU_SW_REV;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
- 	/* Clear any stale software interrupt bits. */
- 	regmap_read(cs42l43->regmap, CS42L43_SOFT_INT, &mcu_rev);
-
--	ret = regmap_read(cs42l43->regmap, CS42L43_BOOT_STATUS, &boot_status);
-+	ret = regmap_read(cs42l43->regmap, boot_status_reg, &boot_status);
- 	if (ret) {
- 		dev_err(cs42l43->dev, "Failed to read boot status: %d\n", ret);
- 		return ret;
- 	}
-
--	ret = regmap_read(cs42l43->regmap, CS42L43_MCU_SW_REV, &mcu_rev);
-+	ret = regmap_read(cs42l43->regmap, mcu_sw_rev_reg, &mcu_rev);
- 	if (ret) {
- 		dev_err(cs42l43->dev, "Failed to read firmware revision: %d\n", ret);
- 		return ret;
-@@ -918,6 +978,13 @@ static void cs42l43_boot_work(struct work_struct *work)
-
- 	switch (devid) {
- 	case CS42L43_DEVID_VAL:
-+	case CS42L43B_DEVID_VAL:
-+		if (devid != cs42l43->variant_id) {
-+			dev_err(cs42l43->dev,
-+				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
-+				devid, cs42l43->variant_id);
-+			goto err;
-+		}
- 		break;
- 	default:
- 		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
-diff --git a/drivers/mfd/cs42l43.h b/drivers/mfd/cs42l43.h
-index f3da783930f5..a0068f6572e2 100644
---- a/drivers/mfd/cs42l43.h
-+++ b/drivers/mfd/cs42l43.h
-@@ -9,7 +9,7 @@
- #ifndef CS42L43_CORE_INT_H
- #define CS42L43_CORE_INT_H
-
--#define CS42L43_N_DEFAULTS 176
-+#define CS42L43_N_DEFAULTS 189
-
- struct dev_pm_ops;
- struct device;
-diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
-index c39a49269cb7..68831f113589 100644
---- a/include/linux/mfd/cs42l43-regs.h
-+++ b/include/linux/mfd/cs42l43-regs.h
-@@ -1181,4 +1181,80 @@
- /* CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG */
- #define CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL		0xF05AA50F
-
-+/* CS42L43B VARIANT REGISTERS */
-+#define CS42L43B_DEVID_VAL					0x0042A43B
-+
-+#define CS42L43B_DECIM_VOL_CTRL_CH1_CH2				0x00008280
-+#define CS42L43B_DECIM_VOL_CTRL_CH3_CH4				0x00008284
-+
-+#define CS42L43B_DECIM_VOL_CTRL_CH5_CH6				0x00008290
-+#define CS42L43B_DECIM_VOL_CTRL_UPDATE				0x0000829C
-+
-+#define CS42L43B_DECIM_HPF_WNF_CTRL5				0x000082A0
-+#define CS42L43B_DECIM_HPF_WNF_CTRL6				0x000082A4
-+
-+#define CS42L43B_SWIRE_DP3_CH3_INPUT				0x0000C320
-+#define CS42L43B_SWIRE_DP3_CH4_INPUT				0x0000C330
-+#define CS42L43B_SWIRE_DP4_CH3_INPUT				0x0000C340
-+#define CS42L43B_SWIRE_DP4_CH4_INPUT				0x0000C350
-+
-+#define CS42L43B_ISRC1DEC3_INPUT1				0x0000C780
-+#define CS42L43B_ISRC1DEC4_INPUT1				0x0000C790
-+#define CS42L43B_ISRC2DEC3_INPUT1				0x0000C7A0
-+#define CS42L43B_ISRC2DEC4_INPUT1				0x0000C7B0
-+
-+#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
-+#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
-+#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
-+#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
-+#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
-+
-+#define CS42L43B_MCU_SW_REV					0x00117314
-+#define CS42L43B_PATCH_START_ADDR				0x00117318
-+#define CS42L43B_CONFIG_SELECTION				0x0011731C
-+#define CS42L43B_NEED_CONFIGS					0x00117320
-+#define CS42L43B_BOOT_STATUS					0x00117330
-+
-+#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
-+#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
-+#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
-+#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
-+#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
-+
-+#define CS42L43B_MCU_RAM_MAX					0x00117FFF
-+
-+/* CS42L43B_DECIM_DECIM_VOL_CTRL_CH5_CH6 */
-+#define CS42L43B_DECIM6_MUTE_MASK				0x80000000
-+#define CS42L43B_DECIM6_MUTE_SHIFT				31
-+#define CS42L43B_DECIM6_VOL_MASK				0x3FC00000
-+#define CS42L43B_DECIM6_VOL_SHIFT				22
-+#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK		0x00380000
-+#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_SHIFT		19
-+#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_MASK		0x00070000
-+#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_SHIFT		16
-+#define CS42L43B_DECIM5_MUTE_MASK				0x00008000
-+#define CS42L43B_DECIM5_MUTE_SHIFT				15
-+#define CS42L43B_DECIM5_VOL_MASK				0x00003FC0
-+#define CS42L43B_DECIM5_VOL_SHIFT				6
-+#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK		0x00000038
-+#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_SHIFT		3
-+#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_MASK		0x00000007
-+#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_SHIFT		0
-+
-+/* CS42L43B_DECIM_VOL_CTRL_UPDATE */
-+#define CS42L43B_DECIM6_PATH1_VOL_TRIG_MASK			0x00000800
-+#define CS42L43B_DECIM6_PATH1_VOL_TRIG_SHIFT			11
-+#define CS42L43B_DECIM5_PATH1_VOL_TRIG_MASK			0x00000100
-+#define CS42L43B_DECIM5_PATH1_VOL_TRIG_SHIFT			8
-+#define CS42L43B_DECIM4_VOL_UPDATE_MASK				0x00000020
-+#define CS42L43B_DECIM4_VOL_UPDATE_SHIFT			5
-+
-+/* CS42L43_ISRC1_CTRL..CS42L43_ISRC2_CTRL */
-+#define CS42L43B_ISRC_DEC4_EN_MASK				0x00000008
-+#define CS42L43B_ISRC_DEC4_EN_SHIFT				3
-+#define CS42L43B_ISRC_DEC4_EN_WIDTH				1
-+#define CS42L43B_ISRC_DEC3_EN_MASK				0x00000004
-+#define CS42L43B_ISRC_DEC3_EN_SHIFT				2
-+#define CS42L43B_ISRC_DEC3_EN_WIDTH				1
-+
- #endif /* CS42L43_CORE_REGS_H */
-diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
-index 2239d8585e78..ff0f7e365a19 100644
---- a/include/linux/mfd/cs42l43.h
-+++ b/include/linux/mfd/cs42l43.h
-@@ -98,6 +98,7 @@ struct cs42l43 {
- 	bool sdw_pll_active;
- 	bool attached;
- 	bool hw_lock;
-+	long variant_id;
- };
-
- #endif /* CS42L43_CORE_EXT_H */
---
-2.48.1
-
+Claudiu
