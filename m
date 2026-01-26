@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF57E24501B;
-	Mon, 26 Jan 2026 14:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B577527B358;
+	Mon, 26 Jan 2026 14:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769438440; cv=fail; b=sZRVM6mezuVMPnufBHjCYFUvBDij1JOKfDjLpuAwm9vG7MDP08MZC63EFD8XtWfGmDmtgGdY3q1P7h3wDI1QfpmtrE0qK4soeeIbPqjycw/0+xR0btMsr5MXFCxK1cuL0pBWqDXjAfqBITsU5xvw8DKuQt3iLWKYMYnIqy+HSJ4=
+	t=1769438441; cv=fail; b=Q30x3fHfeqcKPvh+e3LuAcpQyk1n6BI9EsiNyfam357z2FIgK2OGvpPM3RrK1SB3EkXewhkwhVRIcYWi3sIZh8KVrkiEV2pV2bE8hdLMxjYHELXZd5GXsN46TuQah4HlOf2+gJOXUl48yREO1C5GRJQQd2i35Wvkg4qlvFoTcB8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769438440; c=relaxed/simple;
-	bh=W6GjUaqEWORViNBMjuc6M+Fdw1Ykda/coFNy0QD5JZI=;
+	s=arc-20240116; t=1769438441; c=relaxed/simple;
+	bh=/Vz2lqkPevAZOXrMwbabFcOIv+tETou8oNG9sDGSB8c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FssEA81YDRLQOJbizkgAmmnyp4/7EuGl9RIXlIp4BGQcYepV2zOC8OGAl1gLTALi+ssng0zH0335oSuOTKrvnDj1NJilJA/dS3zZCvQ8v75F9BX4ECbTLauv7LCkX+xxc8J3JBs3gg7ntzMfmS7+s24p5DCtuvRXTdpddy8M1VY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=q5wbBBJu; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=eYNEznIY; arc=fail smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=pP04ZjurwBKgcNOQxWZolC80bFASp1Nj/Vn5u/jMAxaBwiG2b1GwZbLAwNz2kODfZUdHI8eXZ9VLALvo3ho2Xjgk4tCfRrsvM04qV1d6EBtL/3Vvd3mZu4UEeQeDw4szNRGpHZ11mmJGoi+c90D9wTR2TScBVr1dfFvXJwHHE/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QVZVhaqA; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=tuU9q4k+; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="q5wbBBJu";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="eYNEznIY"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60Q5IWgB3348945;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QVZVhaqA";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="tuU9q4k+"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60QCql842535746;
 	Mon, 26 Jan 2026 08:40:25 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=/3M3LgfYLRVQ5yjIichGKY41VCCJA8RWR4hHhhdQAWQ=; b=
-	q5wbBBJuwJlHHG9d/0XIcvbbDHaqVFaWkcraFzaVPiEPzmGT2Hz9WKfrjuVa2OG3
-	XpbVPwewL5CYSIOE1tPVbTnA9B/MafRxRFRe15MOQ3Sh/daVW48tK2uCK5WotRyh
-	hBFG64r5fE/FVheYvsunFJHH+yBZk03KAWBM5uatajtxWnw2S5rcHGTKAb4AvS5M
-	mDngX5KdnDi1vL0uYFxUJiiiKYWtIa4jRICExR+v1sc3umKNETFKpfIoc+4jHbKg
-	OOOgqs9qv/Y0sJ6lc0ZOVU1d+VYUDmlpqtK9FFP60dNxh0Ya9qAiv3bmbxWzstFL
-	xEcKKdcynBzmnXrWCqQZpQ==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020090.outbound.protection.outlook.com [52.101.193.90])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4bvuck9ktc-1
+	PODMain02222019; bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=; b=
+	QVZVhaqAojD7brI1RnKQaG/Et1NS8Fl35MsH02SGB6LkG3wFpZaB1nGFIzALYi5A
+	mQVlkt3ENyKDqyz4CTXJ7NAwMS72kPN37BlQRWNnwg7M4I8CEpxOAGWCoeKJgugJ
+	sVxkxLtT8FVG+ivKGIZwlPnxXyvXq2ULaht/RnFFMNnzp3hEHu7vHwkstMciyIv3
+	LfXTonTPUyLZPTUnaWs1R/938r0vVRwtqaZX0Xzk7sBupye+pAHW1Kq4kw2LTeUs
+	Itc1XR5VfHBiwvKA8otjWct4uP47yqhX6YLGABvGO/08MyS5VDgZzWGH2TedXzEo
+	iHrPvU9kIY2XxnJ1tCaoow==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020117.outbound.protection.outlook.com [52.101.85.117])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4bvvc01ky0-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 26 Jan 2026 08:40:25 -0600 (CST)
+	Mon, 26 Jan 2026 08:40:24 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CEcx9xMMIFDX0+B1NEgCMd0rW2z8nLDpWJjQPrCK+UisbR0Ihr71YXPBIJPs/O0xdxjUxMyC9YurMWBO7kdsABkmzaXs6Kb3t465BAt/HjjP+PZ0J7S3qzSfVvr4jDO+ZvktU8jfoEZZd2umcsFs76WSDRYy0+fW3qHCQxeCHJS8rIMQMtjX0rcSFpWiDyl/dkrrlsK/hIOFAILvzfVPVkWsAbUvZoKOluCTmbG9OCk0CNlIOMJGOciAdKlaRZWGnBm5P98qCkIbAT7SVOi/f/Igb2VtYxb3pNVglU1C2ETRpKm1H0A2jVB6bcX+dO8vW3ySsHVvyxkl1aN6ls+4cA==
+ b=fymhCBKv34kkWtr5/gMNuuescu03Wd5jpGj+AfLCxzKclYI7WrCuPOktHUiq6X1ENOAoHX+jvyLNOWNOIWegzZKZbvBQuTkUrq0cV48GdeoZiT+OmFF2osPzGy8d3uzO9s8t0PlVGy20dq0hXlcn8iF3ACAOBRIMxqBchKzfYBwPaJSQtc69X4gMGa3sL2H6OuhOjIVfygIylcuzjrLLhY/itGG5edl0RQTc7SaY6nbk23Mtc/Tr6+Dz2Ud8TUUN7vM/Nx+8B4JnV800zBhrH1qU57Xaftmv2HQpdwvrvhU0Mgz+5bSYkjw1Sdg7jhrOEKx+CbakvO5e1y/YoCTfbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/3M3LgfYLRVQ5yjIichGKY41VCCJA8RWR4hHhhdQAWQ=;
- b=OdiOyHMswy+ikRfXNMxByol6ZEICrac4+Ztt1NIdCneF6IfOSTGwx+i4Xwbuos8AAykQf6Y8/+HcZseAsrhv45WDSSJQY1LoTiGNHXNeIxi8yZq54RhuzUawrnuy95EluXB61ZibSrpkrYCO0yl4TS6aK6A6HRfQaM98BJ+jkPFL/QbZcUADHqh6M5I1kYEVCP6j8ytgFg38ny98Mzh5EHjZDZxnVb74Rjkd6dIs4o1Y0dmtnp4oZcdQb+HADJsb1Ar/81vtcCJlkXuXp6XU7bpAn7QH5zl1uUfCgbrMyhkwDfEB5MlnYcA2CpTai0Ape5L9TXmsnehy7ee3Dhp14w==
+ bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=;
+ b=mfTXSwNWh5jcEBSA0Vzb0u7kwQfOMAjVu84OfZUvxvtxUsnozVvozf8t9ITYGnnGWDBQbMxx1Q+mfsgciNYsfxMKZ/AP5g09vW3umuT9GL3LPU4R6QC5PM9x9EGK1vATijwv4RKCHv/TnCQnjnMt7ReFRFRRh8fyiCO7GWaDMXY0v3RcVs+ogqhA/1n+QcIyN3Pg0gIBLbtEFANWlgImWCxDDYQw0HYe+taaF2G8gGmBs2YvdO1hgLWNbGQA/wJWnY5BH9zaRbbB5MSR7DrxVUMIq6kgzFBhJgrJQ37FyZnTGOXZZ2jR2PTT5RZpXnZyzp0d5ZXYjqRp8FLVZtYzTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/3M3LgfYLRVQ5yjIichGKY41VCCJA8RWR4hHhhdQAWQ=;
- b=eYNEznIYQBbIQK1WFArx61xSwQw8/j7aKnKsLfSlTGh2vOE/BTiy3TqBeMaM70ZgTnCG57J2hyHWx5M7l4MuI82pBiQtT7Cd7RngRZYP2mCaGJYWxuh5Qs1DzOnRK9mHHuMRV2HuM+k0Gnhqj3TTcG9MwFuCjNhk7ofT0t2QeJ8=
-Received: from CH0PR03CA0061.namprd03.prod.outlook.com (2603:10b6:610:cc::6)
- by SA1PR19MB5118.namprd19.prod.outlook.com (2603:10b6:806:189::13) with
+ bh=xJoSMXCiZ03PkpVpYyzBLHC5f5UKhjGjjTp8VnpAgcE=;
+ b=tuU9q4k+ZeuEhsFEpJ4u96ZGUYXyKZ0ppRH5JWWgal0pMXPCItuk2wRQ+jJel20cP0aG7MgvTveOidDiVHAlEiFJGjvbHqSVdI03n+WJfDKw2KN5Z9aXdTI9EN2LxnFcoB4UPp5YMWybMUE2yUPbEdacy3E2fsy1i2YCytnlUbA=
+Received: from MN2PR07CA0018.namprd07.prod.outlook.com (2603:10b6:208:1a0::28)
+ by DS0PR19MB7299.namprd19.prod.outlook.com (2603:10b6:8:152::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Mon, 26 Jan
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
  2026 14:40:19 +0000
-Received: from CH2PEPF00000143.namprd02.prod.outlook.com
- (2603:10b6:610:cc:cafe::c1) by CH0PR03CA0061.outlook.office365.com
- (2603:10b6:610:cc::6) with Microsoft SMTP Server (version=TLS1_3,
+Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
+ (2603:10b6:208:1a0:cafe::cb) by MN2PR07CA0018.outlook.office365.com
+ (2603:10b6:208:1a0::28) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
- 26 Jan 2026 14:40:17 +0000
+ 26 Jan 2026 14:40:20 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,14 +69,14 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH2PEPF00000143.mail.protection.outlook.com (10.167.244.100) with Microsoft
+ MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
  via Frontend Transport; Mon, 26 Jan 2026 14:40:18 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3B77E406543;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4060F406544;
 	Mon, 26 Jan 2026 14:40:17 +0000 (UTC)
 Received: from upx-mtl-008.ad.cirrus.com (upx-mtl-008.ad.cirrus.com [198.90.251.5])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2DD9D82024A;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 27A12820249;
 	Mon, 26 Jan 2026 14:40:17 +0000 (UTC)
 From: Maciej Strozek <mstrozek@opensource.cirrus.com>
 To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
@@ -87,9 +87,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
         linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
         patches@opensource.cirrus.com, devicetree@vger.kernel.org,
         Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v4 4/4] ASoC: cs42l43: Add support for the B variant
-Date: Mon, 26 Jan 2026 14:39:18 +0000
-Message-ID: <20260126144011.140029-5-mstrozek@opensource.cirrus.com>
+Subject: [PATCH v4 3/4] mfd: cs42l43: Add support for the B variant
+Date: Mon, 26 Jan 2026 14:39:17 +0000
+Message-ID: <20260126144011.140029-4-mstrozek@opensource.cirrus.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260126144011.140029-1-mstrozek@opensource.cirrus.com>
 References: <20260126144011.140029-1-mstrozek@opensource.cirrus.com>
@@ -102,70 +102,70 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000143:EE_|SA1PR19MB5118:EE_
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|DS0PR19MB7299:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 6695bcfe-5abc-4b8e-b798-08de5ce8d3b7
+X-MS-Office365-Filtering-Correlation-Id: 51ed927a-152e-429b-b968-08de5ce8d3c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700013|82310400026|376014|7416014|54012099003;
+	BCL:0;ARA:13230040|36860700013|61400799027|82310400026|376014|7416014|54012099003;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?e+pwR2EMHSIPyfTEhHtRrr+DfJmE01A8tYWu9pqLwC/B9HZF3pTXknMrzKrx?=
- =?us-ascii?Q?XiEv0+Omm4oOsbLlxn2niFc72uIRAaJrk+/bQp41a6u6MhUg8BKvpjEDiJEK?=
- =?us-ascii?Q?93X+OXqZXd1O8x5OSVUMyNsiwLUgwmRZ4PgZaJcT226BJYEUoB7wlxlKxYjk?=
- =?us-ascii?Q?879mBf+HbDytfRYKSS7LQW1zrNM6HFPz39vRDaEUKKZOJ51nAUfhIYq25Kma?=
- =?us-ascii?Q?0oTui4UeZmuBcE0tzEuxFLnCGi4SEyne8a0UnYL0Y4HbiVTzdhZcbbT2+q8p?=
- =?us-ascii?Q?xzV6V5lkN409WieyAkZRpBC9u6XKYQ1hH5xi9eFgko3SS4fTqH9DfFmpImax?=
- =?us-ascii?Q?+Yn8aYISVJmpR3L1dBn4eJrzqgEDSR/NO2biYwQHHVEvQnCKssmupjw86Yzt?=
- =?us-ascii?Q?H9BPeLX7LKFT/hqBgZVguwDnFNEmpnElLuFEt8oatoGWMpobM0KNnaYDmHeq?=
- =?us-ascii?Q?EE9tVdv4x6fbKZoxFlJ66JlXeCnP6BO+hJprJDIUs1bC8ji163WCQsEgQB5Z?=
- =?us-ascii?Q?dgVStjyoEL2ikzcxJrPQT4/lsCcEKfcafmTP8RWEVqsiGGWU/2WTHFiEkwyc?=
- =?us-ascii?Q?88Eomd/kW36Z7bAVc6hrJfP1od3dAzwrPrjhDwUgpG4zK2u400ridiEsrUKP?=
- =?us-ascii?Q?J9XI5KFGAlNoYMa9cEW/t7Nvwrk7qmM4YM53Dd4eKGk/J4l5ODVDdPMFqjNM?=
- =?us-ascii?Q?avDmCbsrbneAFRRF1hzicOYywt8VyNTa0TyS9b0tGmSuoY0zKUwsCI+FOTqu?=
- =?us-ascii?Q?QR1nCUEy0xyZB5fAODX6Zh+pqZII/leQPZxe8KZxNh40y5dm+Yxk9ZYlYdaw?=
- =?us-ascii?Q?v8jL1zELAEjrJWO2Hcv6JbxhmouN7pDtIXMLNZzwMBk+D10u94koa7i67egw?=
- =?us-ascii?Q?JQ3qKSUsrFfTxtCVh+f8Pv3MipAiPX7jGEXxTKMtfJXbRSQMXpm6BXaX294C?=
- =?us-ascii?Q?aSG03bdhZDiaLDIV4bvpmFdwr3E/hiqhEAI5+5PwYke0P+DccM4M7GT3bnfu?=
- =?us-ascii?Q?uMkPfzRsCCOlqaxUaOb03ViFRcN7qEgJPgbQoaOmWApbHyPU3758bOAXre2N?=
- =?us-ascii?Q?GILxN4l5JXza/bJ1M0jGyhi2R5CxNUrjKdJkXHCwq8WA7Fcxqy4FaZ3j3+jY?=
- =?us-ascii?Q?mTxNVyWUeOyU6W1TIi1q2Gzf5CRsDqAfTzknxDMk8qiFMk6au37GjBEVy+VE?=
- =?us-ascii?Q?9ol60G7jM9MNFXipjWXntedi7EomgIDcsNqKOwXKULfuBPW77R28DS/bmH8W?=
- =?us-ascii?Q?HY70S+wz+Zu9Q0yWkADcE3mGet+PJwXFu+l4B0dqAO4voorAl77ISTaFvV1F?=
- =?us-ascii?Q?mo2bJiEGWnq7LN47oOYfqTHvbx3ovduVY2yNTQMtDP9muSIbXdI9Dfg8gQoT?=
- =?us-ascii?Q?dVVgZ05jW2wQ+AEHeJjBvvt04NWGYigFW8YNbos0OEJD7OGkICIG52Gd5uOE?=
- =?us-ascii?Q?5Nt2QsfEexGyQXWQDBZB2yOATdx2FJKgLpjfBeU+LpNkA7KTaPwD08b/B9Am?=
- =?us-ascii?Q?JXE1JlkDbCGvJR1z/47rdc59mGH3p3LSG//yjCwhdPyoTBzKqeKYuqw9zTMc?=
- =?us-ascii?Q?xjqjC3Knd6cKxiDXXWlYthnN4pDZ6Jz7p4CfDtpS9i8lWAO9xpZ4gtN6hcV6?=
- =?us-ascii?Q?6gDbQSPkrQyUotJHtxpdqqhq59OBShG0enfri58Xyq+u7rKSKTTSimfixcF5?=
- =?us-ascii?Q?AjgdCA=3D=3D?=
+	=?us-ascii?Q?gCLguk26IEY+Pbn5B+S3jIE7roPTSqCLORyA7YZM96Z4AcE8QT46R3/a383z?=
+ =?us-ascii?Q?S8hlBIvPcw+impH88sDRGjTEDj/Uo/by5XfijeMAVl/fL7vyKAeZjFrjrRnP?=
+ =?us-ascii?Q?T8vBAsOTfT0MveFC9fRG0BnR+Ib2sNtu602CpA1Af3jqOPrx1Hseyq2Pwped?=
+ =?us-ascii?Q?ukS2VWxCFAFxo/TZ7WwjPRHdyOEYwUGnihxfue4X0ViEN+6zbkva0zwr6UU1?=
+ =?us-ascii?Q?beQNb2nBnyFuCG50dpsHM0O+nFP2pv6qQM9Dv+hRJPL1atGhaTM0ZVx0bMSQ?=
+ =?us-ascii?Q?gQxYJMfiDb/78PNdouo8aUblWM5uLf24ObkY+8ygz6SZnXvdGKaq98bh2BYR?=
+ =?us-ascii?Q?7uT3P0p6exx/9HKYdQ1xFLzzHSB7/vh9BgN88PmiC3M9nmBBI/uhuVLQbSFW?=
+ =?us-ascii?Q?kjOimrAjujfVpRSLeLx2YWnSfzp1dol6waBMhvYzuIl4i0gJ3ucuBQgw+i2R?=
+ =?us-ascii?Q?SRMNOQ35rmJJc6yjnprWzKoE+ag94TF0ZKM+mjbe2wSyM+30ncCxyt0PpPVj?=
+ =?us-ascii?Q?yfjDRUPtn7KewRA1VQTzWs4utsnZSRa9FZTbe0vEbu1eahhvAfifd7MUvkHt?=
+ =?us-ascii?Q?MxU5MILhTjGcj13yYoqc7IrFsrj/wyl3FJAz4cP/st6TS6Ne/bQU0uvNz1Dg?=
+ =?us-ascii?Q?eD65ah2RFr0H43NjPxlv+S8W+LSgWQlfgEGwnlu7wYtx9SQFsB+lRlmFBR06?=
+ =?us-ascii?Q?sGz6SIPDA+Esq7rJt68NTU8Xxj777g68ukNtuD1FyQxDU09JZnn3s1bqFCfm?=
+ =?us-ascii?Q?DSM3BaD0tqdFUDxpdnIbakWl1jk14oW6ubGpbDL/2F1ChY8aj1hqoVyQwIRK?=
+ =?us-ascii?Q?OvUihIxnjtTmUTU96HGOor3eFosn0XKWhKErdNlmSm/LkwZDrEbEKxB0I6pt?=
+ =?us-ascii?Q?UWz6aOAjaiV8+rUIekRjGR9F/P1F50cO/xB0YftL9P/j73XDTCijB7GxpS33?=
+ =?us-ascii?Q?l96660A/yIKGq1oBGKQP+ucvHqDusnMyPug05vpIf8Oof3l3ppdT/+DQNI+J?=
+ =?us-ascii?Q?xeeVf5V6JMnMEmVRhpRmSML8F4eW47vcNZjd8aG6u+w0HFM731isj1DhCNmd?=
+ =?us-ascii?Q?psldHmgDlaipE9EU59DvV7vf308nYBFQA+zfcPovQxAnWUVL3GdfrFdM/7fW?=
+ =?us-ascii?Q?Ow5WIHJO/dhLP/VTP7/dBjnXa2PJbLz5woQlHCxtA7Fw/T66tZONKioDj0+A?=
+ =?us-ascii?Q?+45l2MEmZJzSdISO+zvsnWDN2/FwDZhxtdkxDIXxIsXCVO0CkkRpPno/PYa4?=
+ =?us-ascii?Q?afz23rfNXP/JqGjqAeTSS3Si5oFnIjweD3IKiQYX8hzZm7M1diilrGy2hUe0?=
+ =?us-ascii?Q?3qWA11ACiOBpJrBx7+kTtHo/4FHhMLmAUMS8FA5/dzKfMDTCpbLDm/aQjoJ9?=
+ =?us-ascii?Q?skmuMfUohG7YVzacCeIhovFEAY7QkI7h0R6yxtSsZ0Uh+fiKWsG0MC7k0kcu?=
+ =?us-ascii?Q?T7hceTt/w1jbLQPRW2NVI90EnYooBLGExRY7IqRm0afw7dC05MA06jkdbfEy?=
+ =?us-ascii?Q?TCsVPWVAUGVdy+vTQbPRTN8aZ6a6thYePXVEqQjAnFWQhIs31c4CQC+20QxC?=
+ =?us-ascii?Q?AX9ERv3QwCFQQHWZ6IZksBIsuexvuYKQE0SgOeE9KqSFEkP0xu1fCFOmv8N3?=
+ =?us-ascii?Q?MOmc3jmmmcW2+ZqMzXK7xWnySxnzW2a2A4qpQXOsevXm38oRTy+kPkPa77rB?=
+ =?us-ascii?Q?/Uuy1Q=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(82310400026)(376014)(7416014)(54012099003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(82310400026)(376014)(7416014)(54012099003);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 14:40:18.5072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 14:40:18.6444
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6695bcfe-5abc-4b8e-b798-08de5ce8d3b7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51ed927a-152e-429b-b968-08de5ce8d3c8
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF00000143.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DF.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB5118
-X-Proofpoint-ORIG-GUID: PuccsgujanJMjR3KNFBCrUXepVR4XiYh
-X-Proofpoint-GUID: PuccsgujanJMjR3KNFBCrUXepVR4XiYh
-X-Authority-Analysis: v=2.4 cv=Vb/6/Vp9 c=1 sm=1 tr=0 ts=69777cd9 cx=c_pps
- a=hTY5Tzxx0J6bc07E+BihHw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7299
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDEyNSBTYWx0ZWRfXz2bKyLt9gMvF
+ 8SmKVyIugWkeN2ownzT2OOlBLyMWBNQljMO179clGVWlSlCQdQ1xo1DmSPhvbdMlULEXnDoyTEq
+ Z400SOUze7f2nykIIETXui70lwxBGb42z8Wgc2R75G726grQtJ7nyaDPvvBbz4rG+i/0ystxNpG
+ 9p2zIy8c/K1IKghYp7hSe3pH8/Qju+dueC7GRUvR5YU/Kw/9++tpCtB60/BC8tcPlqzGfFVavWw
+ 91cVzZlDfNhYsLEAZ8YE52NPgtO6Hw+DLwvQSTEv3p9P6PL8t6KfJyaSPg3BIiK0xQk66n/0Tpu
+ QmdvkvR9hw0k/MMZeV0IyIOvYwVBt4p6NYUB5ctetZi722OKI132WhWwWew0Svg5okynghn/5h5
+ vXcXTlm7SKkdZJ9RoU/G4B3U4Fe/jgSb/tcJFnKEQfSf5w52Epwep1Uwlh7QguTVKrRr30ytRW/
+ 7k0mwlmiC8GuYmFAu2w==
+X-Proofpoint-GUID: zSHZfaWxTc6luIDUGRMVuqoUvSLkaaXO
+X-Authority-Analysis: v=2.4 cv=KvBAGGWN c=1 sm=1 tr=0 ts=69777cd8 cx=c_pps
+ a=bH+lGM7ukYmG6LzVfPy9ng==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=vUbySO9Y5rIA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=M7tb3-_zZpdRxA06ow8A:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDEyNSBTYWx0ZWRfX2ERKsC3ydE35
- Iw9Yp5MgeYrkCETriFQIKFsleOJCaGpy9FeB++d9Dr2uzE/FF2JVCKTuJrI8GhPTLFiJRe/klsf
- gcK5g9mmHbyIi33AXj9mU4PXz1DhM2Poy1v/GI0sD4FNBuQv5XWI1+tE95aVspGLaIuPT6zZM2y
- 8+acozZA/iL7WPrdJCwfcG9f3x3p/n85UuKNgq3xGMP3pylyHbp8NNoEFhqwYXOGanb7XWD2FiI
- Av8iyWAZkQK0K+iMSkKdjlxR0BytRceNVf/M8glxkdgZ+v96jd+3pYcLQ7/ZGFqW5eTsnNImDc1
- LHlxpWPFcPtcY4fpU+g7IrL7BBaXPYo271XJqXJTnNt7wV91xtrpjcc21sYkEI/Lsm3VxZCzsXD
- 39RtN01rWOpJHqyHlpAl1AuHAqWMwMyB+Ux6b4O8C3rlEkc2+KgpWYnwq9knAbeqdoPFrx4hXyz
- MWvSqtGZk62xWrjpYUQ==
+ a=VkNPw1HP01LnGYTKEx00:22 a=w1d2syhTAAAA:8 a=XPwATKmoEvXA9jVZorMA:9
+X-Proofpoint-ORIG-GUID: zSHZfaWxTc6luIDUGRMVuqoUvSLkaaXO
 X-Proofpoint-Spam-Reason: safe
 
 Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
@@ -182,968 +182,382 @@ Changes in CS42L43 driver specific for CS42L43B:
 
 Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 ---
-No changes in v3, v4
-
+Changes in v4:
+ - change variant_id to long int
+Changes in v3:
+ - fix incorrect type cast (long -> int) in cs42l43-i2c.c
 Changes in v2:
- - Adjustments to variant identification following fixes from v2 mfd patch
+ - Rework the mechanism to identify the new variant along with some
+   error handling improvements.
+ - Added some comments in cs42l43_readable_register() for clarity.
+ - Add handling of the I2C path for the B variant
 ---
- sound/soc/codecs/cs42l43.c | 756 ++++++++++++++++++++++++++++++-------
- sound/soc/codecs/cs42l43.h |   4 +-
- 2 files changed, 625 insertions(+), 135 deletions(-)
+ drivers/mfd/cs42l43-i2c.c        |  7 ++-
+ drivers/mfd/cs42l43-sdw.c        |  4 +-
+ drivers/mfd/cs42l43.c            | 93 +++++++++++++++++++++++++++-----
+ drivers/mfd/cs42l43.h            |  2 +-
+ include/linux/mfd/cs42l43-regs.h | 76 ++++++++++++++++++++++++++
+ include/linux/mfd/cs42l43.h      |  1 +
+ 6 files changed, 166 insertions(+), 17 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index fd02d8a57e0f..842d16e39de8 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -45,12 +45,25 @@ static SOC_VALUE_ENUM_SINGLE_DECL(cs42l43_##name##_enum, reg, \
- static const struct snd_kcontrol_new cs42l43_##name##_mux = \
- 		SOC_DAPM_ENUM("Route", cs42l43_##name##_enum)
+diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
+index a2ab001a600a..0a0ab5e549a5 100644
+--- a/drivers/mfd/cs42l43-i2c.c
++++ b/drivers/mfd/cs42l43-i2c.c
+@@ -47,6 +47,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
+ 	cs42l43->irq = i2c->irq;
+ 	/* A device on an I2C is always attached by definition. */
+ 	cs42l43->attached = true;
++	cs42l43->variant_id = (long)device_get_match_data(cs42l43->dev);
 
-+#define CS42L43B_DECL_MUX(name, reg) \
-+static SOC_VALUE_ENUM_SINGLE_DECL(cs42l43_##name##_enum, reg, \
-+				  0, CS42L43_MIXER_SRC_MASK, \
-+				  cs42l43b_mixer_texts, cs42l43b_mixer_values); \
-+static const struct snd_kcontrol_new cs42l43_##name##_mux = \
-+		SOC_DAPM_ENUM("Route", cs42l43_##name##_enum)
+ 	cs42l43->regmap = devm_regmap_init_i2c(i2c, &cs42l43_i2c_regmap);
+ 	if (IS_ERR(cs42l43->regmap))
+@@ -58,7 +59,8 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
+
+ #if IS_ENABLED(CONFIG_OF)
+ static const struct of_device_id cs42l43_of_match[] = {
+-	{ .compatible = "cirrus,cs42l43", },
++	{ .compatible = "cirrus,cs42l43", .data = (void *)CS42L43_DEVID_VAL },
++	{ .compatible = "cirrus,cs42l43b", .data = (void *)CS42L43B_DEVID_VAL },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
+@@ -66,7 +68,8 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
+
+ #if IS_ENABLED(CONFIG_ACPI)
+ static const struct acpi_device_id cs42l43_acpi_match[] = {
+-	{ "CSC4243", 0 },
++	{ "CSC4243", CS42L43_DEVID_VAL },
++	{ "CSC2A3B", CS42L43B_DEVID_VAL },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
+diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
+index 023f7e1a30f8..794c98378175 100644
+--- a/drivers/mfd/cs42l43-sdw.c
++++ b/drivers/mfd/cs42l43-sdw.c
+@@ -178,6 +178,7 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
+
+ 	cs42l43->dev = dev;
+ 	cs42l43->sdw = sdw;
++	cs42l43->variant_id = (long)id->driver_data;
+
+ 	cs42l43->regmap = devm_regmap_init_sdw(sdw, &cs42l43_sdw_regmap);
+ 	if (IS_ERR(cs42l43->regmap))
+@@ -188,7 +189,8 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
+ }
+
+ static const struct sdw_device_id cs42l43_sdw_id[] = {
+-	SDW_SLAVE_ENTRY(0x01FA, 0x4243, 0),
++	SDW_SLAVE_ENTRY(0x01FA, 0x4243, (void *) CS42L43_DEVID_VAL),
++	SDW_SLAVE_ENTRY(0x01FA, 0x2A3B, (void *) CS42L43B_DEVID_VAL),
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
+diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
+index 107cfb983fec..166881751e69 100644
+--- a/drivers/mfd/cs42l43.c
++++ b/drivers/mfd/cs42l43.c
+@@ -115,9 +115,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL2,			0x00000001 },
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL3,			0x00000001 },
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL4,			0x00000001 },
++	{ CS42L43B_DECIM_HPF_WNF_CTRL5,			0x00000001 },
++	{ CS42L43B_DECIM_HPF_WNF_CTRL6,			0x00000001 },
+ 	{ CS42L43_DMIC_PDM_CTRL,			0x00000000 },
+ 	{ CS42L43_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
+ 	{ CS42L43_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
++	{ CS42L43B_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
++	{ CS42L43B_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
++	{ CS42L43B_DECIM_VOL_CTRL_CH5_CH6,		0x20122012 },
+ 	{ CS42L43_INTP_VOLUME_CTRL1,			0x00000180 },
+ 	{ CS42L43_INTP_VOLUME_CTRL2,			0x00000180 },
+ 	{ CS42L43_AMP1_2_VOL_RAMP,			0x00000022 },
+@@ -155,8 +160,12 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_SWIRE_DP2_CH2_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP3_CH1_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP3_CH2_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP3_CH3_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP3_CH4_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP4_CH1_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP4_CH2_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP4_CH3_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP4_CH4_INPUT,			0x00000000 },
+ 	{ CS42L43_ASRC_INT1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ASRC_INT2_INPUT1,			0x00000000 },
+ 	{ CS42L43_ASRC_INT3_INPUT1,			0x00000000 },
+@@ -169,10 +178,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_ISRC1INT2_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC1DEC1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC1DEC2_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC1DEC3_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC1DEC4_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2INT1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2INT2_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2DEC1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2DEC2_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC2DEC3_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC2DEC4_INPUT1,			0x00000000 },
+ 	{ CS42L43_EQ1MIX_INPUT1,			0x00800000 },
+ 	{ CS42L43_EQ1MIX_INPUT2,			0x00800000 },
+ 	{ CS42L43_EQ1MIX_INPUT3,			0x00800000 },
+@@ -269,6 +282,8 @@ EXPORT_SYMBOL_NS_GPL(cs42l43_reg_default, "MFD_CS42L43");
+
+ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
+ {
++	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
 +
- #define CS42L43_DECL_MIXER(name, reg) \
- 	CS42L43_DECL_MUX(name##_in1, reg); \
- 	CS42L43_DECL_MUX(name##_in2, reg + 0x4); \
- 	CS42L43_DECL_MUX(name##_in3, reg + 0x8); \
- 	CS42L43_DECL_MUX(name##_in4, reg + 0xC)
+ 	switch (reg) {
+ 	case CS42L43_DEVID:
+ 	case CS42L43_REVID:
+@@ -292,7 +307,6 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
+ 	case CS42L43_ADC_B_CTRL1 ...  CS42L43_ADC_B_CTRL2:
+ 	case CS42L43_DECIM_HPF_WNF_CTRL1 ... CS42L43_DECIM_HPF_WNF_CTRL4:
+ 	case CS42L43_DMIC_PDM_CTRL:
+-	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
+ 	case CS42L43_INTP_VOLUME_CTRL1 ... CS42L43_INTP_VOLUME_CTRL2:
+ 	case CS42L43_AMP1_2_VOL_RAMP:
+ 	case CS42L43_ASP_CTRL:
+@@ -387,8 +401,16 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
+ 	case CS42L43_BOOT_CONTROL:
+ 	case CS42L43_BLOCK_EN:
+ 	case CS42L43_SHUTTER_CONTROL:
+-	case CS42L43_MCU_SW_REV ... CS42L43_MCU_RAM_MAX:
+-		return true;
++	case CS42L43B_MCU_SW_REV ... CS42L43B_MCU_RAM_MAX:
++		return true; // registers present on all variants
++	case CS42L43_MCU_SW_REV ... CS42L43B_MCU_SW_REV - 1:
++	case CS42L43B_MCU_RAM_MAX + 1 ... CS42L43_MCU_RAM_MAX:
++	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
++		return cs42l43->variant_id == CS42L43_DEVID_VAL; // regs only in CS42L43 variant
++	case CS42L43B_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43B_DECIM_HPF_WNF_CTRL6:
++	case CS42L43B_SWIRE_DP3_CH3_INPUT ... CS42L43B_SWIRE_DP4_CH4_INPUT:
++	case CS42L43B_ISRC1DEC3_INPUT1 ... CS42L43B_ISRC2DEC4_INPUT1:
++		return cs42l43->variant_id == CS42L43B_DEVID_VAL; // regs only in CS42L43B variant
+ 	default:
+ 		return false;
+ 	}
+@@ -597,15 +619,27 @@ static int cs42l43_wait_for_attach(struct cs42l43 *cs42l43)
+ static int cs42l43_mcu_stage_2_3(struct cs42l43 *cs42l43, bool shadow)
+ {
+ 	unsigned int need_reg = CS42L43_NEED_CONFIGS;
++	unsigned int boot_reg;
+ 	unsigned int val;
+ 	int ret;
 
-+#define CS42L43B_DECL_MIXER(name, reg) \
-+	CS42L43B_DECL_MUX(name##_in1, reg); \
-+	CS42L43B_DECL_MUX(name##_in2, reg + 0x4); \
-+	CS42L43B_DECL_MUX(name##_in3, reg + 0x8); \
-+	CS42L43B_DECL_MUX(name##_in4, reg + 0xC)
-+
- #define CS42L43_DAPM_MUX(name_str, name) \
- 	SND_SOC_DAPM_MUX(name_str " Input", SND_SOC_NOPM, 0, 0, &cs42l43_##name##_mux)
-
-@@ -99,11 +112,23 @@ static const struct snd_kcontrol_new cs42l43_##name##_mux = \
- 	{ name_str,		"EQ1",			"EQ" }, \
- 	{ name_str,		"EQ2",			"EQ" }
-
-+#define CS42L43B_BASE_ROUTES(name_str) \
-+	{ name_str,		"Decimator 5",		"Decimator 5" }, \
-+	{ name_str,		"Decimator 6",		"Decimator 6" }, \
-+	{ name_str,		"ISRC1 DEC3",		"ISRC1DEC3" }, \
-+	{ name_str,		"ISRC1 DEC4",		"ISRC1DEC4" }, \
-+	{ name_str,		"ISRC2 DEC3",		"ISRC2DEC3" }, \
-+	{ name_str,		"ISRC2 DEC4",		"ISRC2DEC4" }
-+
- #define CS42L43_MUX_ROUTES(name_str, widget) \
- 	{ widget,		NULL,			name_str " Input" }, \
- 	{ name_str " Input",	NULL,			"Mixer Core" }, \
- 	CS42L43_BASE_ROUTES(name_str " Input")
-
-+#define CS42L43B_MUX_ROUTES(name_str, widget) \
-+	CS42L43_MUX_ROUTES(name_str, widget), \
-+	CS42L43B_BASE_ROUTES(name_str " Input")
-+
- #define CS42L43_MIXER_ROUTES(name_str, widget) \
- 	{ name_str " Mixer",	NULL,			name_str " Input 1" }, \
- 	{ name_str " Mixer",	NULL,			name_str " Input 2" }, \
-@@ -116,6 +141,13 @@ static const struct snd_kcontrol_new cs42l43_##name##_mux = \
- 	CS42L43_BASE_ROUTES(name_str " Input 3"), \
- 	CS42L43_BASE_ROUTES(name_str " Input 4")
-
-+#define CS42L43B_MIXER_ROUTES(name_str, widget) \
-+	CS42L43_MIXER_ROUTES(name_str, widget), \
-+	CS42L43B_BASE_ROUTES(name_str " Input 1"), \
-+	CS42L43B_BASE_ROUTES(name_str " Input 2"), \
-+	CS42L43B_BASE_ROUTES(name_str " Input 3"), \
-+	CS42L43B_BASE_ROUTES(name_str " Input 4")
-+
- #define CS42L43_MIXER_VOLUMES(name_str, base) \
- 	SOC_SINGLE_RANGE_TLV(name_str " Input 1 Volume", base, \
- 			     CS42L43_MIXER_VOL_SHIFT, 0x20, 0x50, 0, \
-@@ -300,6 +332,7 @@ static int cs42l43_startup(struct snd_pcm_substream *substream, struct snd_soc_d
- 	struct snd_soc_component *component = dai->component;
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
- 	struct cs42l43 *cs42l43 = priv->core;
-+	int ret;
- 	int provider = !dai->id || !!regmap_test_bits(cs42l43->regmap,
- 						      CS42L43_ASP_CLK_CONFIG2,
- 						      CS42L43_ASP_MASTER_MODE_MASK);
-@@ -309,6 +342,14 @@ static int cs42l43_startup(struct snd_pcm_substream *substream, struct snd_soc_d
- 	else
- 		priv->constraint.mask = CS42L43_CONSUMER_RATE_MASK;
-
-+	if (cs42l43->variant_id == CS42L43_DEVID_VAL && (dai->id == 3 || dai->id == 4)) {
-+		ret = snd_pcm_hw_constraint_minmax(substream->runtime,
-+						   SNDRV_PCM_HW_PARAM_CHANNELS,
-+						   1, 2);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	return snd_pcm_hw_constraint_list(substream->runtime, 0,
- 					  SNDRV_PCM_HW_PARAM_RATE,
- 					  &priv->constraint);
-@@ -590,12 +631,25 @@ static int cs42l43_dai_probe(struct snd_soc_dai *dai)
- 		"Decimator 2 Switch",
- 		"Decimator 3 Switch",
- 		"Decimator 4 Switch",
-+		"Decimator 5 Switch",
-+		"Decimator 6 Switch",
- 	};
--	int i;
-+	int control_size, i;
-
- 	static_assert(ARRAY_SIZE(controls) == ARRAY_SIZE(priv->kctl));
-
--	for (i = 0; i < ARRAY_SIZE(controls); i++) {
-+	switch (priv->core->variant_id) {
+-	if (shadow)
+-		need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
++	switch (cs42l43->variant_id) {
 +	case CS42L43_DEVID_VAL:
-+		control_size = ARRAY_SIZE(controls) - 2; // ignore Decimator 5 and 6
++		if (shadow)
++			need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
++		boot_reg = CS42L43_BOOT_STATUS;
 +		break;
 +	case CS42L43B_DEVID_VAL:
-+		control_size = ARRAY_SIZE(controls);
++		need_reg = CS42L43B_NEED_CONFIGS;
++		boot_reg = CS42L43B_BOOT_STATUS;
++		break;
++	default:
++		return -EINVAL;
++	}
+
+ 	regmap_write(cs42l43->regmap, need_reg, 0);
+
+-	ret = regmap_read_poll_timeout(cs42l43->regmap, CS42L43_BOOT_STATUS,
++	ret = regmap_read_poll_timeout(cs42l43->regmap, boot_reg,
+ 				       val, (val == CS42L43_MCU_BOOT_STAGE3),
+ 				       CS42L43_MCU_POLL_US, CS42L43_MCU_CMD_TIMEOUT_US);
+ 	if (ret) {
+@@ -644,13 +678,25 @@ static int cs42l43_mcu_stage_3_2(struct cs42l43 *cs42l43)
+  */
+ static int cs42l43_mcu_disable(struct cs42l43 *cs42l43)
+ {
+-	unsigned int val;
++	unsigned int val, cfg_reg, ctrl_reg;
+ 	int ret;
+
+-	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG,
+-		     CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
+-	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION,
+-		     CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
++	switch (cs42l43->variant_id) {
++	case CS42L43_DEVID_VAL:
++		cfg_reg = CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG;
++		ctrl_reg = CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION;
++		break;
++	case CS42L43B_DEVID_VAL:
++		cfg_reg = CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG;
++		ctrl_reg = CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION;
 +		break;
 +	default:
 +		return -EINVAL;
 +	}
 +
-+	for (i = 0; i < control_size; i++) {
- 		if (priv->kctl[i])
- 			continue;
++	regmap_write(cs42l43->regmap, cfg_reg, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
++	regmap_write(cs42l43->regmap, ctrl_reg, CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
++
+ 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, CS42L43_CONTROL_IND_MASK);
+ 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, 0);
 
-@@ -703,7 +757,7 @@ static struct snd_soc_dai_driver cs42l43_dais[] = {
- 		.capture = {
- 			.stream_name	= "DP3 Capture",
- 			.channels_min	= 1,
--			.channels_max	= 2,
-+			.channels_max	= 4,
- 			.rates		= SNDRV_PCM_RATE_KNOT,
- 			.formats	= CS42L43_SDW_FORMATS,
- 		},
-@@ -715,7 +769,7 @@ static struct snd_soc_dai_driver cs42l43_dais[] = {
- 		.capture = {
- 			.stream_name	= "DP4 Capture",
- 			.channels_min	= 1,
--			.channels_max	= 2,
-+			.channels_max	= 4,
- 			.rates		= SNDRV_PCM_RATE_KNOT,
- 			.formats	= CS42L43_SDW_FORMATS,
- 		},
-@@ -808,6 +862,10 @@ static SOC_ENUM_SINGLE_DECL(cs42l43_dec3_wnf_corner, CS42L43_DECIM_HPF_WNF_CTRL3
- 			    CS42L43_DECIM_WNF_CF_SHIFT, cs42l43_wnf_corner_text);
- static SOC_ENUM_SINGLE_DECL(cs42l43_dec4_wnf_corner, CS42L43_DECIM_HPF_WNF_CTRL4,
- 			    CS42L43_DECIM_WNF_CF_SHIFT, cs42l43_wnf_corner_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec5_wnf_corner, CS42L43B_DECIM_HPF_WNF_CTRL5,
-+			    CS42L43_DECIM_WNF_CF_SHIFT, cs42l43_wnf_corner_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec6_wnf_corner, CS42L43B_DECIM_HPF_WNF_CTRL6,
-+			    CS42L43_DECIM_WNF_CF_SHIFT, cs42l43_wnf_corner_text);
-
- static const char * const cs42l43_hpf_corner_text[] = {
- 	"3Hz", "12Hz", "48Hz", "96Hz",
-@@ -821,6 +879,10 @@ static SOC_ENUM_SINGLE_DECL(cs42l43_dec3_hpf_corner, CS42L43_DECIM_HPF_WNF_CTRL3
- 			    CS42L43_DECIM_HPF_CF_SHIFT, cs42l43_hpf_corner_text);
- static SOC_ENUM_SINGLE_DECL(cs42l43_dec4_hpf_corner, CS42L43_DECIM_HPF_WNF_CTRL4,
- 			    CS42L43_DECIM_HPF_CF_SHIFT, cs42l43_hpf_corner_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec5_hpf_corner, CS42L43B_DECIM_HPF_WNF_CTRL5,
-+			    CS42L43_DECIM_HPF_CF_SHIFT, cs42l43_hpf_corner_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec6_hpf_corner, CS42L43B_DECIM_HPF_WNF_CTRL6,
-+			    CS42L43_DECIM_HPF_CF_SHIFT, cs42l43_hpf_corner_text);
-
- static SOC_ENUM_SINGLE_DECL(cs42l43_dec1_ramp_up, CS42L43_DECIM_VOL_CTRL_CH1_CH2,
- 			    CS42L43_DECIM1_VI_RAMP_SHIFT, cs42l43_ramp_text);
-@@ -839,6 +901,31 @@ static SOC_ENUM_SINGLE_DECL(cs42l43_dec4_ramp_up, CS42L43_DECIM_VOL_CTRL_CH3_CH4
- static SOC_ENUM_SINGLE_DECL(cs42l43_dec4_ramp_down, CS42L43_DECIM_VOL_CTRL_CH3_CH4,
- 			    CS42L43_DECIM4_VD_RAMP_SHIFT, cs42l43_ramp_text);
-
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec1_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+			    CS42L43_DECIM1_VI_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec1_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+			    CS42L43_DECIM1_VD_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec2_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+			    CS42L43_DECIM2_VI_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec2_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+			    CS42L43_DECIM2_VD_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec3_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+			    CS42L43_DECIM3_VI_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec3_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+			    CS42L43_DECIM3_VD_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec4_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+			    CS42L43_DECIM4_VI_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec4_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+			    CS42L43_DECIM4_VD_RAMP_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec5_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+			    CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec5_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+			    CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec6_ramp_up, CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+			    CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_SHIFT, cs42l43_ramp_text);
-+static SOC_ENUM_SINGLE_DECL(cs42l43b_dec6_ramp_down, CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+			    CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_SHIFT, cs42l43_ramp_text);
-+
- static DECLARE_TLV_DB_SCALE(cs42l43_speaker_tlv, -6400, 50, 0);
-
- static SOC_ENUM_SINGLE_DECL(cs42l43_speaker_ramp_up, CS42L43_AMP1_2_VOL_RAMP,
-@@ -898,6 +985,37 @@ static const unsigned int cs42l43_mixer_values[] = {
- 	0x58, 0x59, // EQ1, 2
- };
-
-+static const char * const cs42l43b_mixer_texts[] = {
-+	"None",
-+	"Tone Generator 1", "Tone Generator 2",
-+	"Decimator 1", "Decimator 2", "Decimator 3", "Decimator 4", "Decimator 5", "Decimator 6",
-+	"ASPRX1", "ASPRX2", "ASPRX3", "ASPRX4", "ASPRX5", "ASPRX6",
-+	"DP5RX1", "DP5RX2", "DP6RX1", "DP6RX2", "DP7RX1", "DP7RX2",
-+	"ASRC INT1", "ASRC INT2", "ASRC INT3", "ASRC INT4",
-+	"ASRC DEC1", "ASRC DEC2", "ASRC DEC3", "ASRC DEC4",
-+	"ISRC1 INT1", "ISRC1 INT2",
-+	"ISRC1 DEC1", "ISRC1 DEC2", "ISRC1 DEC3", "ISRC1 DEC4",
-+	"ISRC2 INT1", "ISRC2 INT2",
-+	"ISRC2 DEC1", "ISRC2 DEC2", "ISRC2 DEC3", "ISRC2 DEC4",
-+	"EQ1", "EQ2",
-+};
-+
-+static const unsigned int cs42l43b_mixer_values[] = {
-+	0x00, // None
-+	0x04, 0x05, // Tone Generator 1, 2
-+	0x10, 0x11, 0x80, 0x81, 0x12, 0x13, // Decimator 1, 2, 3, 4, 5, 6
-+	0x20, 0x21, 0x22, 0x23, 0x24, 0x25, // ASPRX1,2,3,4,5,6
-+	0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, // DP5, 6, 7RX1, 2
-+	0x40, 0x41, 0x42, 0x43, // ASRC INT1, 2, 3, 4
-+	0x44, 0x45, 0x46, 0x47, // ASRC DEC1, 2, 3, 4
-+	0x50, 0x51, // ISRC1 INT1, 2
-+	0x52, 0x53, 0x78, 0x79, // ISRC1 DEC1, 2, 3, 4
-+	0x54, 0x55, // ISRC2 INT1, 2
-+	0x56, 0x57, 0x7A, 0x7B, // ISRC2 DEC1, 2, 3, 4
-+	0x58, 0x59, // EQ1, 2
-+};
-+
-+/* A variant */
- CS42L43_DECL_MUX(asptx1, CS42L43_ASPTX1_INPUT);
- CS42L43_DECL_MUX(asptx2, CS42L43_ASPTX2_INPUT);
- CS42L43_DECL_MUX(asptx3, CS42L43_ASPTX3_INPUT);
-@@ -946,6 +1064,63 @@ CS42L43_DECL_MIXER(amp2, CS42L43_AMP2MIX_INPUT1);
- CS42L43_DECL_MIXER(amp3, CS42L43_AMP3MIX_INPUT1);
- CS42L43_DECL_MIXER(amp4, CS42L43_AMP4MIX_INPUT1);
-
-+/* B variant */
-+CS42L43B_DECL_MUX(b_asptx1, CS42L43_ASPTX1_INPUT);
-+CS42L43B_DECL_MUX(b_asptx2, CS42L43_ASPTX2_INPUT);
-+CS42L43B_DECL_MUX(b_asptx3, CS42L43_ASPTX3_INPUT);
-+CS42L43B_DECL_MUX(b_asptx4, CS42L43_ASPTX4_INPUT);
-+CS42L43B_DECL_MUX(b_asptx5, CS42L43_ASPTX5_INPUT);
-+CS42L43B_DECL_MUX(b_asptx6, CS42L43_ASPTX6_INPUT);
-+
-+CS42L43B_DECL_MUX(b_dp1tx1, CS42L43_SWIRE_DP1_CH1_INPUT);
-+CS42L43B_DECL_MUX(b_dp1tx2, CS42L43_SWIRE_DP1_CH2_INPUT);
-+CS42L43B_DECL_MUX(b_dp1tx3, CS42L43_SWIRE_DP1_CH3_INPUT);
-+CS42L43B_DECL_MUX(b_dp1tx4, CS42L43_SWIRE_DP1_CH4_INPUT);
-+CS42L43B_DECL_MUX(b_dp2tx1, CS42L43_SWIRE_DP2_CH1_INPUT);
-+CS42L43B_DECL_MUX(b_dp2tx2, CS42L43_SWIRE_DP2_CH2_INPUT);
-+CS42L43B_DECL_MUX(b_dp3tx1, CS42L43_SWIRE_DP3_CH1_INPUT);
-+CS42L43B_DECL_MUX(b_dp3tx2, CS42L43_SWIRE_DP3_CH2_INPUT);
-+CS42L43B_DECL_MUX(b_dp3tx3, CS42L43B_SWIRE_DP3_CH3_INPUT);
-+CS42L43B_DECL_MUX(b_dp3tx4, CS42L43B_SWIRE_DP3_CH4_INPUT);
-+CS42L43B_DECL_MUX(b_dp4tx1, CS42L43_SWIRE_DP4_CH1_INPUT);
-+CS42L43B_DECL_MUX(b_dp4tx2, CS42L43_SWIRE_DP4_CH2_INPUT);
-+CS42L43B_DECL_MUX(b_dp4tx3, CS42L43B_SWIRE_DP4_CH3_INPUT);
-+CS42L43B_DECL_MUX(b_dp4tx4, CS42L43B_SWIRE_DP4_CH4_INPUT);
-+
-+CS42L43B_DECL_MUX(b_asrcint1, CS42L43_ASRC_INT1_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcint2, CS42L43_ASRC_INT2_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcint3, CS42L43_ASRC_INT3_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcint4, CS42L43_ASRC_INT4_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcdec1, CS42L43_ASRC_DEC1_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcdec2, CS42L43_ASRC_DEC2_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcdec3, CS42L43_ASRC_DEC3_INPUT1);
-+CS42L43B_DECL_MUX(b_asrcdec4, CS42L43_ASRC_DEC4_INPUT1);
-+
-+CS42L43B_DECL_MUX(b_isrc1int1, CS42L43_ISRC1INT1_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc1int2, CS42L43_ISRC1INT2_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc1dec1, CS42L43_ISRC1DEC1_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc1dec2, CS42L43_ISRC1DEC2_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc1dec3, CS42L43B_ISRC1DEC3_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc1dec4, CS42L43B_ISRC1DEC4_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2int1, CS42L43_ISRC2INT1_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2int2, CS42L43_ISRC2INT2_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2dec1, CS42L43_ISRC2DEC1_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2dec2, CS42L43_ISRC2DEC2_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2dec3, CS42L43B_ISRC2DEC3_INPUT1);
-+CS42L43B_DECL_MUX(b_isrc2dec4, CS42L43B_ISRC2DEC4_INPUT1);
-+
-+CS42L43B_DECL_MUX(b_spdif1, CS42L43_SPDIF1_INPUT1);
-+CS42L43B_DECL_MUX(b_spdif2, CS42L43_SPDIF2_INPUT1);
-+
-+CS42L43B_DECL_MIXER(b_eq1, CS42L43_EQ1MIX_INPUT1);
-+CS42L43B_DECL_MIXER(b_eq2, CS42L43_EQ2MIX_INPUT1);
-+
-+CS42L43B_DECL_MIXER(b_amp1, CS42L43_AMP1MIX_INPUT1);
-+CS42L43B_DECL_MIXER(b_amp2, CS42L43_AMP2MIX_INPUT1);
-+
-+CS42L43B_DECL_MIXER(b_amp3, CS42L43_AMP3MIX_INPUT1);
-+CS42L43B_DECL_MIXER(b_amp4, CS42L43_AMP4MIX_INPUT1);
-+
- static int cs42l43_dapm_get_volsw(struct snd_kcontrol *kcontrol,
- 				  struct snd_ctl_elem_value *ucontrol)
+@@ -740,18 +786,32 @@ static int cs42l43_mcu_update_step(struct cs42l43 *cs42l43)
  {
-@@ -1174,44 +1349,6 @@ static const struct snd_kcontrol_new cs42l43_controls[] = {
- 	SOC_ENUM("Decimator 3 HPF Corner Frequency", cs42l43_dec3_hpf_corner),
- 	SOC_ENUM("Decimator 4 HPF Corner Frequency", cs42l43_dec4_hpf_corner),
-
--	SOC_SINGLE_TLV("Decimator 1 Volume", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
--		       CS42L43_DECIM1_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
--	SOC_SINGLE_EXT("Decimator 1 Switch", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
--		       CS42L43_DECIM1_MUTE_SHIFT, 1, 1,
--		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
--	SOC_SINGLE_TLV("Decimator 2 Volume", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
--		       CS42L43_DECIM2_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
--	SOC_SINGLE_EXT("Decimator 2 Switch", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
--		       CS42L43_DECIM2_MUTE_SHIFT, 1, 1,
--		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
--	SOC_SINGLE_TLV("Decimator 3 Volume", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
--		       CS42L43_DECIM3_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
--	SOC_SINGLE_EXT("Decimator 3 Switch", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
--		       CS42L43_DECIM3_MUTE_SHIFT, 1, 1,
--		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
--	SOC_SINGLE_TLV("Decimator 4 Volume", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
--		       CS42L43_DECIM4_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
--	SOC_SINGLE_EXT("Decimator 4 Switch", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
--		       CS42L43_DECIM4_MUTE_SHIFT, 1, 1,
--		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
--
--	SOC_ENUM_EXT("Decimator 1 Ramp Up", cs42l43_dec1_ramp_up,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 1 Ramp Down", cs42l43_dec1_ramp_down,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 2 Ramp Up", cs42l43_dec2_ramp_up,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 2 Ramp Down", cs42l43_dec2_ramp_down,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 3 Ramp Up", cs42l43_dec3_ramp_up,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 3 Ramp Down", cs42l43_dec3_ramp_down,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 4 Ramp Up", cs42l43_dec4_ramp_up,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--	SOC_ENUM_EXT("Decimator 4 Ramp Down", cs42l43_dec4_ramp_down,
--		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
--
- 	SOC_DOUBLE_R_EXT("Speaker Digital Switch",
- 			 CS42L43_INTP_VOLUME_CTRL1, CS42L43_INTP_VOLUME_CTRL2,
- 			 CS42L43_AMP_MUTE_SHIFT, 1, 1,
-@@ -1601,35 +1738,81 @@ static int cs42l43_mic_ev(struct snd_soc_dapm_widget *w,
- 	unsigned int *val;
+ 	unsigned int mcu_rev, bios_rev, boot_status, secure_cfg;
+ 	bool patched, shadow;
++	int boot_status_reg, mcu_sw_rev_reg;
  	int ret;
-
--	switch (w->shift) {
--	case CS42L43_ADC1_EN_SHIFT:
--	case CS42L43_PDM1_DIN_L_EN_SHIFT:
--		reg = CS42L43_DECIM_VOL_CTRL_CH1_CH2;
--		ramp = CS42L43_DECIM1_VD_RAMP_MASK;
--		mute = CS42L43_DECIM1_MUTE_MASK;
--		val = &priv->decim_cache[0];
--		break;
--	case CS42L43_ADC2_EN_SHIFT:
--	case CS42L43_PDM1_DIN_R_EN_SHIFT:
--		reg = CS42L43_DECIM_VOL_CTRL_CH1_CH2;
--		ramp = CS42L43_DECIM2_VD_RAMP_MASK;
--		mute = CS42L43_DECIM2_MUTE_MASK;
--		val = &priv->decim_cache[1];
--		break;
--	case CS42L43_PDM2_DIN_L_EN_SHIFT:
--		reg = CS42L43_DECIM_VOL_CTRL_CH3_CH4;
--		ramp  = CS42L43_DECIM3_VD_RAMP_MASK;
--		mute = CS42L43_DECIM3_MUTE_MASK;
--		val = &priv->decim_cache[2];
--		break;
--	case CS42L43_PDM2_DIN_R_EN_SHIFT:
--		reg = CS42L43_DECIM_VOL_CTRL_CH3_CH4;
--		ramp = CS42L43_DECIM4_VD_RAMP_MASK;
--		mute = CS42L43_DECIM4_MUTE_MASK;
--		val = &priv->decim_cache[3];
--		break;
--	default:
--		dev_err(priv->dev, "Invalid microphone shift: %d\n", w->shift);
-+	if (cs42l43->variant_id == CS42L43_DEVID_VAL) {
-+		switch (w->shift) {
-+		case CS42L43_ADC1_EN_SHIFT:
-+		case CS42L43_PDM1_DIN_L_EN_SHIFT:
-+			reg = CS42L43_DECIM_VOL_CTRL_CH1_CH2;
-+			ramp = CS42L43_DECIM1_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM1_MUTE_MASK;
-+			val = &priv->decim_cache[0];
-+			break;
-+		case CS42L43_ADC2_EN_SHIFT:
-+		case CS42L43_PDM1_DIN_R_EN_SHIFT:
-+			reg = CS42L43_DECIM_VOL_CTRL_CH1_CH2;
-+			ramp = CS42L43_DECIM2_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM2_MUTE_MASK;
-+			val = &priv->decim_cache[1];
-+			break;
-+		case CS42L43_PDM2_DIN_L_EN_SHIFT:
-+			reg = CS42L43_DECIM_VOL_CTRL_CH3_CH4;
-+			ramp  = CS42L43_DECIM3_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM3_MUTE_MASK;
-+			val = &priv->decim_cache[2];
-+			break;
-+		case CS42L43_PDM2_DIN_R_EN_SHIFT:
-+			reg = CS42L43_DECIM_VOL_CTRL_CH3_CH4;
-+			ramp = CS42L43_DECIM4_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM4_MUTE_MASK;
-+			val = &priv->decim_cache[3];
-+			break;
-+		default:
-+			dev_err(priv->dev, "Invalid microphone shift: %d\n", w->shift);
-+			return -EINVAL;
-+		}
-+	} else if (cs42l43->variant_id == CS42L43B_DEVID_VAL) {
-+		switch (w->shift) {
-+		case CS42L43_ADC1_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH1_CH2;
-+			ramp = CS42L43_DECIM1_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM1_MUTE_MASK;
-+			val = &priv->decim_cache[0];
-+			break;
-+		case CS42L43_ADC2_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH1_CH2;
-+			ramp = CS42L43_DECIM2_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM2_MUTE_MASK;
-+			val = &priv->decim_cache[1];
-+			break;
-+		case CS42L43_PDM1_DIN_L_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH3_CH4;
-+			ramp  = CS42L43_DECIM3_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM3_MUTE_MASK;
-+			val = &priv->decim_cache[2];
-+			break;
-+		case CS42L43_PDM1_DIN_R_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH3_CH4;
-+			ramp = CS42L43_DECIM4_VD_RAMP_MASK;
-+			mute = CS42L43_DECIM4_MUTE_MASK;
-+			val = &priv->decim_cache[3];
-+			break;
-+		case CS42L43_PDM2_DIN_L_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH5_CH6;
-+			ramp  = CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK;
-+			mute = CS42L43B_DECIM5_MUTE_MASK;
-+			val = &priv->decim_cache[4];
-+			break;
-+		case CS42L43_PDM2_DIN_R_EN_SHIFT:
-+			reg = CS42L43B_DECIM_VOL_CTRL_CH5_CH6;
-+			ramp = CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK;
-+			mute = CS42L43B_DECIM6_MUTE_MASK;
-+			val = &priv->decim_cache[5];
-+			break;
-+		default:
-+			dev_err(priv->dev, "Invalid microphone shift: %d\n", w->shift);
-+			return -EINVAL;
-+		}
-+	} else {
- 		return -EINVAL;
- 	}
-
-@@ -1722,11 +1905,6 @@ static const struct snd_soc_dapm_widget cs42l43_widgets[] = {
- 			   0, NULL, 0, cs42l43_mic_ev,
- 			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU),
-
--	SND_SOC_DAPM_MUX("Decimator 1 Mode", SND_SOC_NOPM, 0, 0,
--			 &cs42l43_dec_mode_ctl[0]),
--	SND_SOC_DAPM_MUX("Decimator 2 Mode", SND_SOC_NOPM, 0, 0,
--			 &cs42l43_dec_mode_ctl[1]),
--
- 	SND_SOC_DAPM_PGA("Decimator 1", SND_SOC_NOPM, 0, 0, NULL, 0),
- 	SND_SOC_DAPM_PGA("Decimator 2", SND_SOC_NOPM, 0, 0, NULL, 0),
- 	SND_SOC_DAPM_PGA("Decimator 3", SND_SOC_NOPM, 0, 0, NULL, 0),
-@@ -1871,53 +2049,6 @@ static const struct snd_soc_dapm_widget cs42l43_widgets[] = {
-
- 	SND_SOC_DAPM_SUPPLY("Mixer Core", CS42L43_BLOCK_EN6, CS42L43_MIXER_EN_SHIFT,
- 			    0, NULL, 0),
--	CS42L43_DAPM_MUX("ASPTX1", asptx1),
--	CS42L43_DAPM_MUX("ASPTX2", asptx2),
--	CS42L43_DAPM_MUX("ASPTX3", asptx3),
--	CS42L43_DAPM_MUX("ASPTX4", asptx4),
--	CS42L43_DAPM_MUX("ASPTX5", asptx5),
--	CS42L43_DAPM_MUX("ASPTX6", asptx6),
--
--	CS42L43_DAPM_MUX("DP1TX1", dp1tx1),
--	CS42L43_DAPM_MUX("DP1TX2", dp1tx2),
--	CS42L43_DAPM_MUX("DP1TX3", dp1tx3),
--	CS42L43_DAPM_MUX("DP1TX4", dp1tx4),
--	CS42L43_DAPM_MUX("DP2TX1", dp2tx1),
--	CS42L43_DAPM_MUX("DP2TX2", dp2tx2),
--	CS42L43_DAPM_MUX("DP3TX1", dp3tx1),
--	CS42L43_DAPM_MUX("DP3TX2", dp3tx2),
--	CS42L43_DAPM_MUX("DP4TX1", dp4tx1),
--	CS42L43_DAPM_MUX("DP4TX2", dp4tx2),
--
--	CS42L43_DAPM_MUX("ASRC INT1", asrcint1),
--	CS42L43_DAPM_MUX("ASRC INT2", asrcint2),
--	CS42L43_DAPM_MUX("ASRC INT3", asrcint3),
--	CS42L43_DAPM_MUX("ASRC INT4", asrcint4),
--	CS42L43_DAPM_MUX("ASRC DEC1", asrcdec1),
--	CS42L43_DAPM_MUX("ASRC DEC2", asrcdec2),
--	CS42L43_DAPM_MUX("ASRC DEC3", asrcdec3),
--	CS42L43_DAPM_MUX("ASRC DEC4", asrcdec4),
--
--	CS42L43_DAPM_MUX("ISRC1INT1", isrc1int1),
--	CS42L43_DAPM_MUX("ISRC1INT2", isrc1int2),
--	CS42L43_DAPM_MUX("ISRC1DEC1", isrc1dec1),
--	CS42L43_DAPM_MUX("ISRC1DEC2", isrc1dec2),
--	CS42L43_DAPM_MUX("ISRC2INT1", isrc2int1),
--	CS42L43_DAPM_MUX("ISRC2INT2", isrc2int2),
--	CS42L43_DAPM_MUX("ISRC2DEC1", isrc2dec1),
--	CS42L43_DAPM_MUX("ISRC2DEC2", isrc2dec2),
--
--	CS42L43_DAPM_MUX("SPDIF1", spdif1),
--	CS42L43_DAPM_MUX("SPDIF2", spdif2),
--
--	CS42L43_DAPM_MIXER("EQ1", eq1),
--	CS42L43_DAPM_MIXER("EQ2", eq2),
--
--	CS42L43_DAPM_MIXER("Speaker L", amp1),
--	CS42L43_DAPM_MIXER("Speaker R", amp2),
--
--	CS42L43_DAPM_MIXER("Headphone L", amp3),
--	CS42L43_DAPM_MIXER("Headphone R", amp4),
- };
-
- static const struct snd_soc_dapm_route cs42l43_routes[] = {
-@@ -1963,16 +2094,6 @@ static const struct snd_soc_dapm_route cs42l43_routes[] = {
- 	{ "PDM2L",		NULL,	"PDM2_DIN" },
- 	{ "PDM2R",		NULL,	"PDM2_DIN" },
-
--	{ "Decimator 1 Mode",	"PDM",	"PDM1L" },
--	{ "Decimator 1 Mode",	"ADC",	"ADC1" },
--	{ "Decimator 2 Mode",	"PDM",	"PDM1R" },
--	{ "Decimator 2 Mode",	"ADC",	"ADC2" },
--
--	{ "Decimator 1",	NULL,	"Decimator 1 Mode" },
--	{ "Decimator 2",	NULL,	"Decimator 2 Mode" },
--	{ "Decimator 3",	NULL,	"PDM2L" },
--	{ "Decimator 4",	NULL,	"PDM2R" },
--
- 	{ "ASP Capture",	NULL,	"ASPTX1" },
- 	{ "ASP Capture",	NULL,	"ASPTX2" },
- 	{ "ASP Capture",	NULL,	"ASPTX3" },
-@@ -2060,6 +2181,261 @@ static const struct snd_soc_dapm_route cs42l43_routes[] = {
- 	{ "ASRC_DEC4",		NULL,	"ASRC_DEC" },
-
- 	{ "EQ",			NULL,	"EQ Clock" },
-+};
-+
-+static const struct snd_kcontrol_new cs42l43_a_controls[] = {
-+	SOC_ENUM_EXT("Decimator 1 Ramp Up", cs42l43_dec1_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 1 Ramp Down", cs42l43_dec1_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 2 Ramp Up", cs42l43_dec2_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 2 Ramp Down", cs42l43_dec2_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 3 Ramp Up", cs42l43_dec3_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 3 Ramp Down", cs42l43_dec3_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 4 Ramp Up", cs42l43_dec4_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 4 Ramp Down", cs42l43_dec4_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+
-+	SOC_SINGLE_TLV("Decimator 1 Volume", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM1_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 1 Switch", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM1_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 2 Volume", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM2_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 2 Switch", CS42L43_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM2_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 3 Volume", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM3_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 3 Switch", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM3_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 4 Volume", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM4_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 4 Switch", CS42L43_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM4_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+};
-+
-+static const struct snd_kcontrol_new cs42l43_b_controls[] = {
-+	SOC_SINGLE_TLV("Decimator 1 Volume", CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM1_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 1 Switch", CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM1_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 2 Volume", CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM2_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 2 Switch", CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
-+		       CS42L43_DECIM2_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 3 Volume", CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM3_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 3 Switch", CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM3_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 4 Volume", CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM4_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 4 Switch", CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
-+		       CS42L43_DECIM4_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 5 Volume", CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+		       CS42L43B_DECIM5_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 5 Switch", CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+		       CS42L43B_DECIM5_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+	SOC_SINGLE_TLV("Decimator 6 Volume", CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+		       CS42L43B_DECIM6_VOL_SHIFT, 0xBF, 0, cs42l43_dec_tlv),
-+	SOC_SINGLE_EXT("Decimator 6 Switch", CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
-+		       CS42L43B_DECIM6_MUTE_SHIFT, 1, 1,
-+		       cs42l43_decim_get, cs42l43_dapm_put_volsw),
-+
-+	SOC_ENUM_EXT("Decimator 1 Ramp Up", cs42l43b_dec1_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 1 Ramp Down", cs42l43b_dec1_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 2 Ramp Up", cs42l43b_dec2_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 2 Ramp Down", cs42l43b_dec2_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 3 Ramp Up", cs42l43b_dec3_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 3 Ramp Down", cs42l43b_dec3_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 4 Ramp Up", cs42l43b_dec4_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 4 Ramp Down", cs42l43b_dec4_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 5 Ramp Up", cs42l43b_dec5_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 5 Ramp Down", cs42l43b_dec5_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 6 Ramp Up", cs42l43b_dec6_ramp_up,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+	SOC_ENUM_EXT("Decimator 6 Ramp Down", cs42l43b_dec6_ramp_down,
-+		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-+
-+	SOC_SINGLE("Decimator 5 WNF Switch", CS42L43B_DECIM_HPF_WNF_CTRL5,
-+		   CS42L43_DECIM_WNF_EN_SHIFT, 1, 0),
-+	SOC_SINGLE("Decimator 6 WNF Switch", CS42L43B_DECIM_HPF_WNF_CTRL6,
-+		   CS42L43_DECIM_WNF_EN_SHIFT, 1, 0),
-+
-+	SOC_ENUM("Decimator 5 WNF Corner Frequency", cs42l43b_dec5_wnf_corner),
-+	SOC_ENUM("Decimator 6 WNF Corner Frequency", cs42l43b_dec6_wnf_corner),
-+
-+	SOC_SINGLE("Decimator 5 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL5,
-+		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-+	SOC_SINGLE("Decimator 6 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL6,
-+		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-+
-+	SOC_ENUM("Decimator 5 HPF Corner Frequency", cs42l43b_dec5_hpf_corner),
-+	SOC_ENUM("Decimator 6 HPF Corner Frequency", cs42l43b_dec6_hpf_corner),
-+};
-+
-+static const struct snd_soc_dapm_widget cs42l43_a_widgets[] = {
-+	SND_SOC_DAPM_MUX("Decimator 1 Mode", SND_SOC_NOPM, 0, 0,
-+			 &cs42l43_dec_mode_ctl[0]),
-+	SND_SOC_DAPM_MUX("Decimator 2 Mode", SND_SOC_NOPM, 0, 0,
-+			 &cs42l43_dec_mode_ctl[1]),
-+	CS42L43_DAPM_MUX("ASPTX1", asptx1),
-+	CS42L43_DAPM_MUX("ASPTX2", asptx2),
-+	CS42L43_DAPM_MUX("ASPTX3", asptx3),
-+	CS42L43_DAPM_MUX("ASPTX4", asptx4),
-+	CS42L43_DAPM_MUX("ASPTX5", asptx5),
-+	CS42L43_DAPM_MUX("ASPTX6", asptx6),
-+
-+	CS42L43_DAPM_MUX("DP1TX1", dp1tx1),
-+	CS42L43_DAPM_MUX("DP1TX2", dp1tx2),
-+	CS42L43_DAPM_MUX("DP1TX3", dp1tx3),
-+	CS42L43_DAPM_MUX("DP1TX4", dp1tx4),
-+	CS42L43_DAPM_MUX("DP2TX1", dp2tx1),
-+	CS42L43_DAPM_MUX("DP2TX2", dp2tx2),
-+	CS42L43_DAPM_MUX("DP3TX1", dp3tx1),
-+	CS42L43_DAPM_MUX("DP3TX2", dp3tx2),
-+	CS42L43_DAPM_MUX("DP4TX1", dp4tx1),
-+	CS42L43_DAPM_MUX("DP4TX2", dp4tx2),
-+
-+	CS42L43_DAPM_MUX("ASRC INT1", asrcint1),
-+	CS42L43_DAPM_MUX("ASRC INT2", asrcint2),
-+	CS42L43_DAPM_MUX("ASRC INT3", asrcint3),
-+	CS42L43_DAPM_MUX("ASRC INT4", asrcint4),
-+	CS42L43_DAPM_MUX("ASRC DEC1", asrcdec1),
-+	CS42L43_DAPM_MUX("ASRC DEC2", asrcdec2),
-+	CS42L43_DAPM_MUX("ASRC DEC3", asrcdec3),
-+	CS42L43_DAPM_MUX("ASRC DEC4", asrcdec4),
-+
-+	CS42L43_DAPM_MUX("ISRC1INT1", isrc1int1),
-+	CS42L43_DAPM_MUX("ISRC1INT2", isrc1int2),
-+	CS42L43_DAPM_MUX("ISRC1DEC1", isrc1dec1),
-+	CS42L43_DAPM_MUX("ISRC1DEC2", isrc1dec2),
-+	CS42L43_DAPM_MUX("ISRC2INT1", isrc2int1),
-+	CS42L43_DAPM_MUX("ISRC2INT2", isrc2int2),
-+	CS42L43_DAPM_MUX("ISRC2DEC1", isrc2dec1),
-+	CS42L43_DAPM_MUX("ISRC2DEC2", isrc2dec2),
-+
-+	CS42L43_DAPM_MUX("SPDIF1", spdif1),
-+	CS42L43_DAPM_MUX("SPDIF2", spdif2),
-+
-+	CS42L43_DAPM_MIXER("EQ1", eq1),
-+	CS42L43_DAPM_MIXER("EQ2", eq2),
-+
-+	CS42L43_DAPM_MIXER("Speaker L", amp1),
-+	CS42L43_DAPM_MIXER("Speaker R", amp2),
-+
-+	CS42L43_DAPM_MIXER("Headphone L", amp3),
-+	CS42L43_DAPM_MIXER("Headphone R", amp4),
-+};
-+
-+static const struct snd_soc_dapm_widget cs42l43_b_widgets[] = {
-+	SND_SOC_DAPM_AIF_OUT("DP3TX3", NULL, 2, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP3TX4", NULL, 3, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP4TX3", NULL, 2, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP4TX4", NULL, 3, SND_SOC_NOPM, 0, 0),
-+
-+	SND_SOC_DAPM_PGA("Decimator 5", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA("Decimator 6", SND_SOC_NOPM, 0, 0, NULL, 0),
-+
-+	SND_SOC_DAPM_PGA("ISRC1DEC3", CS42L43_ISRC1_CTRL,
-+			 CS42L43B_ISRC_DEC3_EN_SHIFT, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA("ISRC1DEC4", CS42L43_ISRC1_CTRL,
-+			 CS42L43B_ISRC_DEC4_EN_SHIFT, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA("ISRC2DEC3", CS42L43_ISRC2_CTRL,
-+			 CS42L43B_ISRC_DEC3_EN_SHIFT, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA("ISRC2DEC4", CS42L43_ISRC2_CTRL,
-+			 CS42L43B_ISRC_DEC4_EN_SHIFT, 0, NULL, 0),
-+
-+	CS42L43_DAPM_MUX("ASPTX1", b_asptx1),
-+	CS42L43_DAPM_MUX("ASPTX2", b_asptx2),
-+	CS42L43_DAPM_MUX("ASPTX3", b_asptx3),
-+	CS42L43_DAPM_MUX("ASPTX4", b_asptx4),
-+	CS42L43_DAPM_MUX("ASPTX5", b_asptx5),
-+	CS42L43_DAPM_MUX("ASPTX6", b_asptx6),
-+
-+	CS42L43_DAPM_MUX("DP1TX1", b_dp1tx1),
-+	CS42L43_DAPM_MUX("DP1TX2", b_dp1tx2),
-+	CS42L43_DAPM_MUX("DP1TX3", b_dp1tx3),
-+	CS42L43_DAPM_MUX("DP1TX4", b_dp1tx4),
-+	CS42L43_DAPM_MUX("DP2TX1", b_dp2tx1),
-+	CS42L43_DAPM_MUX("DP2TX2", b_dp2tx2),
-+	CS42L43_DAPM_MUX("DP3TX1", b_dp3tx1),
-+	CS42L43_DAPM_MUX("DP3TX2", b_dp3tx2),
-+	CS42L43_DAPM_MUX("DP3TX3", b_dp3tx3),
-+	CS42L43_DAPM_MUX("DP3TX4", b_dp3tx4),
-+	CS42L43_DAPM_MUX("DP4TX1", b_dp4tx1),
-+	CS42L43_DAPM_MUX("DP4TX2", b_dp4tx2),
-+	CS42L43_DAPM_MUX("DP4TX3", b_dp4tx3),
-+	CS42L43_DAPM_MUX("DP4TX4", b_dp4tx4),
-+
-+	CS42L43_DAPM_MUX("ASRC INT1", b_asrcint1),
-+	CS42L43_DAPM_MUX("ASRC INT2", b_asrcint2),
-+	CS42L43_DAPM_MUX("ASRC INT3", b_asrcint3),
-+	CS42L43_DAPM_MUX("ASRC INT4", b_asrcint4),
-+	CS42L43_DAPM_MUX("ASRC DEC1", b_asrcdec1),
-+	CS42L43_DAPM_MUX("ASRC DEC2", b_asrcdec2),
-+	CS42L43_DAPM_MUX("ASRC DEC3", b_asrcdec3),
-+	CS42L43_DAPM_MUX("ASRC DEC4", b_asrcdec4),
-+
-+	CS42L43_DAPM_MUX("ISRC1INT1", b_isrc1int1),
-+	CS42L43_DAPM_MUX("ISRC1INT2", b_isrc1int2),
-+	CS42L43_DAPM_MUX("ISRC1DEC1", b_isrc1dec1),
-+	CS42L43_DAPM_MUX("ISRC1DEC2", b_isrc1dec2),
-+	CS42L43_DAPM_MUX("ISRC1DEC3", b_isrc1dec3),
-+	CS42L43_DAPM_MUX("ISRC1DEC4", b_isrc1dec4),
-+	CS42L43_DAPM_MUX("ISRC2INT1", b_isrc2int1),
-+	CS42L43_DAPM_MUX("ISRC2INT2", b_isrc2int2),
-+	CS42L43_DAPM_MUX("ISRC2DEC1", b_isrc2dec1),
-+	CS42L43_DAPM_MUX("ISRC2DEC2", b_isrc2dec2),
-+	CS42L43_DAPM_MUX("ISRC2DEC3", b_isrc2dec3),
-+	CS42L43_DAPM_MUX("ISRC2DEC4", b_isrc2dec4),
-+
-+	CS42L43_DAPM_MUX("SPDIF1", b_spdif1),
-+	CS42L43_DAPM_MUX("SPDIF2", b_spdif2),
-+
-+	CS42L43_DAPM_MIXER("EQ1", b_eq1),
-+	CS42L43_DAPM_MIXER("EQ2", b_eq2),
-+
-+	CS42L43_DAPM_MIXER("Speaker L", b_amp1),
-+	CS42L43_DAPM_MIXER("Speaker R", b_amp2),
-+
-+	CS42L43_DAPM_MIXER("Headphone L", b_amp3),
-+	CS42L43_DAPM_MIXER("Headphone R", b_amp4),
-+};
-+
-+static const struct snd_soc_dapm_route cs42l43_a_routes[] = {
-+	{ "Decimator 1 Mode",	"PDM",	"PDM1L" },
-+	{ "Decimator 1 Mode",	"ADC",	"ADC1" },
-+	{ "Decimator 2 Mode",	"PDM",	"PDM1R" },
-+	{ "Decimator 2 Mode",	"ADC",	"ADC2" },
-+
-+	{ "Decimator 1",	NULL,	"Decimator 1 Mode" },
-+	{ "Decimator 2",	NULL,	"Decimator 2 Mode" },
-+	{ "Decimator 3",	NULL,	"PDM2L" },
-+	{ "Decimator 4",	NULL,	"PDM2R" },
-
- 	CS42L43_MUX_ROUTES("ASPTX1", "ASPTX1"),
- 	CS42L43_MUX_ROUTES("ASPTX2", "ASPTX2"),
-@@ -2110,6 +2486,81 @@ static const struct snd_soc_dapm_route cs42l43_routes[] = {
- 	CS42L43_MIXER_ROUTES("Headphone R", "HP"),
- };
-
-+static const struct snd_soc_dapm_route cs42l43_b_routes[] = {
-+	{ "Decimator 1",	NULL,	"ADC1" },
-+	{ "Decimator 2",	NULL,	"ADC2" },
-+	{ "Decimator 3",	NULL,	"PDM1L" },
-+	{ "Decimator 4",	NULL,	"PDM1R" },
-+	{ "Decimator 5",	NULL,	"PDM2L" },
-+	{ "Decimator 6",	NULL,	"PDM2R" },
-+
-+	{ "DP3 Capture",	NULL, "DP3TX3" },
-+	{ "DP3 Capture",	NULL, "DP3TX4" },
-+	{ "DP4 Capture",	NULL, "DP4TX3" },
-+	{ "DP4 Capture",	NULL, "DP4TX4" },
-+
-+	{ "ISRC1DEC3",		NULL,	"ISRC1" },
-+	{ "ISRC1DEC4",		NULL,	"ISRC1" },
-+	{ "ISRC2DEC3",		NULL,	"ISRC2" },
-+	{ "ISRC2DEC4",		NULL,	"ISRC2" },
-+
-+	CS42L43B_MUX_ROUTES("ASPTX1", "ASPTX1"),
-+	CS42L43B_MUX_ROUTES("ASPTX2", "ASPTX2"),
-+	CS42L43B_MUX_ROUTES("ASPTX3", "ASPTX3"),
-+	CS42L43B_MUX_ROUTES("ASPTX4", "ASPTX4"),
-+	CS42L43B_MUX_ROUTES("ASPTX5", "ASPTX5"),
-+	CS42L43B_MUX_ROUTES("ASPTX6", "ASPTX6"),
-+
-+	CS42L43B_MUX_ROUTES("DP1TX1", "DP1TX1"),
-+	CS42L43B_MUX_ROUTES("DP1TX2", "DP1TX2"),
-+	CS42L43B_MUX_ROUTES("DP1TX3", "DP1TX3"),
-+	CS42L43B_MUX_ROUTES("DP1TX4", "DP1TX4"),
-+	CS42L43B_MUX_ROUTES("DP2TX1", "DP2TX1"),
-+	CS42L43B_MUX_ROUTES("DP2TX2", "DP2TX2"),
-+	CS42L43B_MUX_ROUTES("DP3TX1", "DP3TX1"),
-+	CS42L43B_MUX_ROUTES("DP3TX2", "DP3TX2"),
-+	CS42L43B_MUX_ROUTES("DP3TX3", "DP3TX3"),
-+	CS42L43B_MUX_ROUTES("DP3TX4", "DP3TX4"),
-+	CS42L43B_MUX_ROUTES("DP4TX1", "DP4TX1"),
-+	CS42L43B_MUX_ROUTES("DP4TX2", "DP4TX2"),
-+	CS42L43B_MUX_ROUTES("DP4TX3", "DP4TX3"),
-+	CS42L43B_MUX_ROUTES("DP4TX4", "DP4TX4"),
-+
-+	CS42L43B_MUX_ROUTES("ASRC INT1", "ASRC_INT1"),
-+	CS42L43B_MUX_ROUTES("ASRC INT2", "ASRC_INT2"),
-+	CS42L43B_MUX_ROUTES("ASRC INT3", "ASRC_INT3"),
-+	CS42L43B_MUX_ROUTES("ASRC INT4", "ASRC_INT4"),
-+	CS42L43B_MUX_ROUTES("ASRC DEC1", "ASRC_DEC1"),
-+	CS42L43B_MUX_ROUTES("ASRC DEC2", "ASRC_DEC2"),
-+	CS42L43B_MUX_ROUTES("ASRC DEC3", "ASRC_DEC3"),
-+	CS42L43B_MUX_ROUTES("ASRC DEC4", "ASRC_DEC4"),
-+
-+	CS42L43B_MUX_ROUTES("ISRC1INT1", "ISRC1INT1"),
-+	CS42L43B_MUX_ROUTES("ISRC1INT2", "ISRC1INT2"),
-+	CS42L43B_MUX_ROUTES("ISRC1DEC1", "ISRC1DEC1"),
-+	CS42L43B_MUX_ROUTES("ISRC1DEC2", "ISRC1DEC2"),
-+	CS42L43B_MUX_ROUTES("ISRC1DEC3", "ISRC1DEC3"),
-+	CS42L43B_MUX_ROUTES("ISRC1DEC4", "ISRC1DEC4"),
-+	CS42L43B_MUX_ROUTES("ISRC2INT1", "ISRC2INT1"),
-+	CS42L43B_MUX_ROUTES("ISRC2INT2", "ISRC2INT2"),
-+	CS42L43B_MUX_ROUTES("ISRC2DEC1", "ISRC2DEC1"),
-+	CS42L43B_MUX_ROUTES("ISRC2DEC2", "ISRC2DEC2"),
-+	CS42L43B_MUX_ROUTES("ISRC2DEC3", "ISRC2DEC3"),
-+	CS42L43B_MUX_ROUTES("ISRC2DEC4", "ISRC2DEC4"),
-+
-+	CS42L43B_MUX_ROUTES("SPDIF1", "SPDIF"),
-+	CS42L43B_MUX_ROUTES("SPDIF2", "SPDIF"),
-+
-+	CS42L43B_MIXER_ROUTES("EQ1", "EQ"),
-+	CS42L43B_MIXER_ROUTES("EQ2", "EQ"),
-+
-+	CS42L43B_MIXER_ROUTES("Speaker L", "AMP1"),
-+	CS42L43B_MIXER_ROUTES("Speaker R", "AMP2"),
-+
-+	CS42L43B_MIXER_ROUTES("Headphone L", "HP"),
-+	CS42L43B_MIXER_ROUTES("Headphone R", "HP"),
-+};
-+
- static int cs42l43_set_sysclk(struct snd_soc_component *component, int clk_id,
- 			      int src, unsigned int freq, int dir)
- {
-@@ -2126,8 +2577,14 @@ static int cs42l43_set_sysclk(struct snd_soc_component *component, int clk_id,
-
- static int cs42l43_component_probe(struct snd_soc_component *component)
- {
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(component);
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
-+	unsigned int num_controls, num_widgets, num_routes;
-+	const struct snd_soc_dapm_widget *widgets;
-+	const struct snd_kcontrol_new *controls;
-+	const struct snd_soc_dapm_route *routes;
- 	struct cs42l43 *cs42l43 = priv->core;
-+	int ret;
-
- 	snd_soc_component_init_regmap(component, cs42l43->regmap);
-
-@@ -2139,6 +2596,39 @@ static int cs42l43_component_probe(struct snd_soc_component *component)
- 	priv->component = component;
- 	priv->constraint = cs42l43_constraint;
 
 +	switch (cs42l43->variant_id) {
 +	case CS42L43_DEVID_VAL:
-+		controls = cs42l43_a_controls;
-+		num_controls = ARRAY_SIZE(cs42l43_a_controls);
-+		widgets = cs42l43_a_widgets;
-+		num_widgets = ARRAY_SIZE(cs42l43_a_widgets);
-+		routes = cs42l43_a_routes;
-+		num_routes = ARRAY_SIZE(cs42l43_a_routes);
++		boot_status_reg = CS42L43_BOOT_STATUS;
++		mcu_sw_rev_reg = CS42L43_MCU_SW_REV;
 +		break;
 +	case CS42L43B_DEVID_VAL:
-+		controls = cs42l43_b_controls;
-+		num_controls = ARRAY_SIZE(cs42l43_b_controls);
-+		widgets = cs42l43_b_widgets;
-+		num_widgets = ARRAY_SIZE(cs42l43_b_widgets);
-+		routes = cs42l43_b_routes;
-+		num_routes = ARRAY_SIZE(cs42l43_b_routes);
++		boot_status_reg = CS42L43B_BOOT_STATUS;
++		mcu_sw_rev_reg = CS42L43B_MCU_SW_REV;
 +		break;
 +	default:
 +		return -EINVAL;
 +	}
 +
-+	ret = snd_soc_add_component_controls(component, controls, num_controls);
-+	if (ret)
-+		return ret;
+ 	/* Clear any stale software interrupt bits. */
+ 	regmap_read(cs42l43->regmap, CS42L43_SOFT_INT, &mcu_rev);
+
+-	ret = regmap_read(cs42l43->regmap, CS42L43_BOOT_STATUS, &boot_status);
++	ret = regmap_read(cs42l43->regmap, boot_status_reg, &boot_status);
+ 	if (ret) {
+ 		dev_err(cs42l43->dev, "Failed to read boot status: %d\n", ret);
+ 		return ret;
+ 	}
+
+-	ret = regmap_read(cs42l43->regmap, CS42L43_MCU_SW_REV, &mcu_rev);
++	ret = regmap_read(cs42l43->regmap, mcu_sw_rev_reg, &mcu_rev);
+ 	if (ret) {
+ 		dev_err(cs42l43->dev, "Failed to read firmware revision: %d\n", ret);
+ 		return ret;
+@@ -918,6 +978,13 @@ static void cs42l43_boot_work(struct work_struct *work)
+
+ 	switch (devid) {
+ 	case CS42L43_DEVID_VAL:
++	case CS42L43B_DEVID_VAL:
++		if (devid != cs42l43->variant_id) {
++			dev_err(cs42l43->dev,
++				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
++				devid, cs42l43->variant_id);
++			goto err;
++		}
+ 		break;
+ 	default:
+ 		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
+diff --git a/drivers/mfd/cs42l43.h b/drivers/mfd/cs42l43.h
+index f3da783930f5..a0068f6572e2 100644
+--- a/drivers/mfd/cs42l43.h
++++ b/drivers/mfd/cs42l43.h
+@@ -9,7 +9,7 @@
+ #ifndef CS42L43_CORE_INT_H
+ #define CS42L43_CORE_INT_H
+
+-#define CS42L43_N_DEFAULTS 176
++#define CS42L43_N_DEFAULTS 189
+
+ struct dev_pm_ops;
+ struct device;
+diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
+index c39a49269cb7..68831f113589 100644
+--- a/include/linux/mfd/cs42l43-regs.h
++++ b/include/linux/mfd/cs42l43-regs.h
+@@ -1181,4 +1181,80 @@
+ /* CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG */
+ #define CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL		0xF05AA50F
+
++/* CS42L43B VARIANT REGISTERS */
++#define CS42L43B_DEVID_VAL					0x0042A43B
 +
-+	ret = snd_soc_dapm_new_controls(dapm, widgets, num_widgets);
-+	if (ret)
-+		return ret;
++#define CS42L43B_DECIM_VOL_CTRL_CH1_CH2				0x00008280
++#define CS42L43B_DECIM_VOL_CTRL_CH3_CH4				0x00008284
 +
-+	ret = snd_soc_dapm_add_routes(dapm, routes, num_routes);
-+	if (ret)
-+		return ret;
++#define CS42L43B_DECIM_VOL_CTRL_CH5_CH6				0x00008290
++#define CS42L43B_DECIM_VOL_CTRL_UPDATE				0x0000829C
 +
- 	return 0;
- }
-
-diff --git a/sound/soc/codecs/cs42l43.h b/sound/soc/codecs/cs42l43.h
-index b2fa2cd1d99f..fd50feb26ae9 100644
---- a/sound/soc/codecs/cs42l43.h
-+++ b/sound/soc/codecs/cs42l43.h
-@@ -61,7 +61,7 @@ struct cs42l43_codec {
- 	unsigned int refclk_freq;
- 	struct completion pll_ready;
-
--	unsigned int decim_cache[4];
-+	unsigned int decim_cache[6];
- 	unsigned int adc_ena;
- 	unsigned int hp_ena;
-
-@@ -103,7 +103,7 @@ struct cs42l43_codec {
- 	bool hp_ilimited;
- 	int hp_ilimit_count;
-
--	struct snd_kcontrol *kctl[5];
-+	struct snd_kcontrol *kctl[7];
++#define CS42L43B_DECIM_HPF_WNF_CTRL5				0x000082A0
++#define CS42L43B_DECIM_HPF_WNF_CTRL6				0x000082A4
++
++#define CS42L43B_SWIRE_DP3_CH3_INPUT				0x0000C320
++#define CS42L43B_SWIRE_DP3_CH4_INPUT				0x0000C330
++#define CS42L43B_SWIRE_DP4_CH3_INPUT				0x0000C340
++#define CS42L43B_SWIRE_DP4_CH4_INPUT				0x0000C350
++
++#define CS42L43B_ISRC1DEC3_INPUT1				0x0000C780
++#define CS42L43B_ISRC1DEC4_INPUT1				0x0000C790
++#define CS42L43B_ISRC2DEC3_INPUT1				0x0000C7A0
++#define CS42L43B_ISRC2DEC4_INPUT1				0x0000C7B0
++
++#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
++#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
++#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
++#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
++#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
++
++#define CS42L43B_MCU_SW_REV					0x00117314
++#define CS42L43B_PATCH_START_ADDR				0x00117318
++#define CS42L43B_CONFIG_SELECTION				0x0011731C
++#define CS42L43B_NEED_CONFIGS					0x00117320
++#define CS42L43B_BOOT_STATUS					0x00117330
++
++#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
++#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
++#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
++#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
++#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
++
++#define CS42L43B_MCU_RAM_MAX					0x00117FFF
++
++/* CS42L43B_DECIM_DECIM_VOL_CTRL_CH5_CH6 */
++#define CS42L43B_DECIM6_MUTE_MASK				0x80000000
++#define CS42L43B_DECIM6_MUTE_SHIFT				31
++#define CS42L43B_DECIM6_VOL_MASK				0x3FC00000
++#define CS42L43B_DECIM6_VOL_SHIFT				22
++#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK		0x00380000
++#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_SHIFT		19
++#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_MASK		0x00070000
++#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_SHIFT		16
++#define CS42L43B_DECIM5_MUTE_MASK				0x00008000
++#define CS42L43B_DECIM5_MUTE_SHIFT				15
++#define CS42L43B_DECIM5_VOL_MASK				0x00003FC0
++#define CS42L43B_DECIM5_VOL_SHIFT				6
++#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK		0x00000038
++#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_SHIFT		3
++#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_MASK		0x00000007
++#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_SHIFT		0
++
++/* CS42L43B_DECIM_VOL_CTRL_UPDATE */
++#define CS42L43B_DECIM6_PATH1_VOL_TRIG_MASK			0x00000800
++#define CS42L43B_DECIM6_PATH1_VOL_TRIG_SHIFT			11
++#define CS42L43B_DECIM5_PATH1_VOL_TRIG_MASK			0x00000100
++#define CS42L43B_DECIM5_PATH1_VOL_TRIG_SHIFT			8
++#define CS42L43B_DECIM4_VOL_UPDATE_MASK				0x00000020
++#define CS42L43B_DECIM4_VOL_UPDATE_SHIFT			5
++
++/* CS42L43_ISRC1_CTRL..CS42L43_ISRC2_CTRL */
++#define CS42L43B_ISRC_DEC4_EN_MASK				0x00000008
++#define CS42L43B_ISRC_DEC4_EN_SHIFT				3
++#define CS42L43B_ISRC_DEC4_EN_WIDTH				1
++#define CS42L43B_ISRC_DEC3_EN_MASK				0x00000004
++#define CS42L43B_ISRC_DEC3_EN_SHIFT				2
++#define CS42L43B_ISRC_DEC3_EN_WIDTH				1
++
+ #endif /* CS42L43_CORE_REGS_H */
+diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
+index 2239d8585e78..ff0f7e365a19 100644
+--- a/include/linux/mfd/cs42l43.h
++++ b/include/linux/mfd/cs42l43.h
+@@ -98,6 +98,7 @@ struct cs42l43 {
+ 	bool sdw_pll_active;
+ 	bool attached;
+ 	bool hw_lock;
++	long variant_id;
  };
 
- #if IS_REACHABLE(CONFIG_SND_SOC_CS42L43_SDW)
+ #endif /* CS42L43_CORE_EXT_H */
 --
 2.48.1
 
