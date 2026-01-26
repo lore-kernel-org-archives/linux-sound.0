@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240EC20FAAB
-	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 10:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D42331221
+	for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 10:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769423528; cv=none; b=iSOXMJ7dDU4sb3LOGcDLLyK6Xe6WbGMCLqVDjCDnoEU1vG2KqwQTPIzv6yfJ/GKncFPa8frmhFwES2dCfjeSuKkVTHJ/ertcCOMZ5LIyOoBnfgt8oztrIdI4cx45MWG7WZIWQVTP0teMZ7WQC3TRERSiE7DxfJmu6kI+NX3pK08=
+	t=1769423530; cv=none; b=pr+86u79xxhS32gcWGOCyYsUHkpY3MB7BXLLacd0cv5fm0fJ02LjIClkpM0otjYZehSH4jfq5+4maYg0+aPZluyc06BHcorom2uc2EjEB/AfY0ehjiRB6blQQUSWMQL0bSMvvk9SF9kMtdb+8OzmMUQVFOkv6e9W/6jeWNZJTpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769423528; c=relaxed/simple;
-	bh=wTSw5rrByeywpyx4b28b6t68newYvzHr0oIdTZgnlTo=;
+	s=arc-20240116; t=1769423530; c=relaxed/simple;
+	bh=r/SU5oimCuoe+JcHi0XUqVFDCGGG+2pEiPjSeS+Fvhw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zh4cghQNg8Gps8WpTie66g/AvIg1uTdsXKD0xGKWgOfYYyGvkYw4YI/fZsJOS8EW7RCe+fHKJXelv1GOZMhgZd8wxjm9n2rN9iQYqJgCkOgZpoOVY5NSlzYgFJNmcTIIs8m3hdM3AOxGwvixTZG2JDj4XhADfzlfDAv5fVE+cpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CGQQtia/; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=HOzPYXrxo0JwRt6QiVpMuHxvReEsiWJw8jQ7Bulzj0V3m/N/hJkilcXeAYgwfs+/TbbIB7Zyu/WEJQ1gyu6rdkonSs78hGtCshOTSZdE3yLlAUafZSfoa66DWdzhPN5aqLtlFsuE/b5GMKxQVYGl398rOAHSBTFVxxkmnK/KW98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=HwlYUNH3; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CGQQtia/"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4327555464cso2891825f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 02:32:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HwlYUNH3"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42fbc544b09so3061527f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Jan 2026 02:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1769423524; x=1770028324; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1769423527; x=1770028327; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=28LJKOzZr0ga3QymY5qs2v0wCcRNeHJMj2ha9kW7dhM=;
-        b=CGQQtia/yGqo1RzFvOAcEJ0DGUf1TSVm/seO+wYRE1X/fXwDJ1GQZv+B7YkUZeaCtZ
-         RyXG1R7457kAFOnZjNti1M9b5ZGCCJ3smcOlNhzpLUuwgcW8fj6yyU8ZipBHXlz+RndZ
-         Idx52vFSCVDIsqUxQq4iW9062c7QyZgMl+nIe6EWxP58fnl+syUTB3v9KvK/ic8ZMY57
-         Je1P7TfymdMnPTTmpyxHbAfXc7uRjX92zoMFmWeonrlYdLCsyZ6/FxkXAHgLINcGNhAa
-         ac0TeTRFfzXVGEm61KFUMRf0q0WLh+RS6cuAp2Jj5hbt7S2jvMoRXCCALuU2Ps2Mm5WO
-         J7hw==
+        bh=nWa0aGJtSMtx7LCzliIPZcMgkE6x5phxxbaj/EtOLPo=;
+        b=HwlYUNH3Wn+odahPefogz6BXJ3wnDaNVajiYnyDjhjToqMIKq4UMP51TmP05SWISDf
+         0dWNHkB1yrQijuTSmDsAWPZOZZb5L7d2AuO6Z95fvVF9b8TBUuO0Uit5S68YNrWroLyD
+         iLvqdxs41ehk/os9QuSVIZ1PBPn8DI5PYOJrWc7zG3XBwR+l8g7Awnwi5pRv3sV3hoTb
+         8O2TK0XrfFT1TqPR85Z4mEXslHKomILN/B7O0q6DQpfwG52iXJ4HL1xtn5wtbrbMFUo0
+         BxwlR0zm3X1YIDJHhBramH49UGC53nKLXsw99J4EH/8EmoLbKvJKrkV9JAG9Q53I+tqj
+         DU5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769423524; x=1770028324;
+        d=1e100.net; s=20230601; t=1769423527; x=1770028327;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=28LJKOzZr0ga3QymY5qs2v0wCcRNeHJMj2ha9kW7dhM=;
-        b=MA8lFxhMSS1UOnLt28YYqHzC+XGWrqUmQXkLn4AFk+8Tmx0StOo73ZcDJQaaPbhcJQ
-         kgC9YVOe48x+5MT1Ft4Rve4qd0XxCletyXuAuFTibILk3U5rRJN3K9vdEhtfx9xGVme4
-         fBnI/mdr6T2JSuktHPJfPFnkseYYjIIGRRZ2IXP1BALeEsLrW58PjiZqwTTITk80uIYx
-         D6q1PEAzN1pk4disZFf85OGZLUuWkjH6JP01NDNvUpvK8FgHG9MykSzGwWByPNc9kuky
-         o/qp0Es1P6Upf1671yoWz+pum/YFrBBJNgalvAtJ68V15vL9ZVJxZzkUOVI0uZB/lLbh
-         W7hA==
-X-Forwarded-Encrypted: i=1; AJvYcCWOdMZPfNRC1K1Oq0TiUzdILi5CMUwCMLix1gT+CwWSX1pf243RbUojyzt7ZahYP1TCHLjNhMm0z/h0AA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOw0FJOftREJ0fW4HFA9ACIL0KOiukiUMZCeysI7DlZvBJl0CZ
-	aaE3GbBWzVesHPR9jFtj5nECGvYnW/bYnnFGpIQFF7Ut9GA6d3Hho/OmY062tn1rDIk=
-X-Gm-Gg: AZuq6aJ4AIEyib4BE7QkwcsnmNXwQFgKiD3GpUqsWSscsQQcVg9bp1gapE+ZCP+Kp2T
-	YGqGB3hxoAn79P8kd1DT8xsgTnRdd8HUhRmesaABt61X1hrHNNRGeWMH1wZfqkRB5REUyL0CmbE
-	u/hb2uogvzle2a1jVHsA4fQmYWnDJQDOPLNjaFn6b7u+gYVK+XXKZL9iyckfiTNtMcwPNsIOoax
-	XzpNPCKiqVQU+Q7iY7dSyWbVgF5GCX9b7/W31mk/elN0bVQyEUngiQyPQH6oB/KHv7RFS4Ur2TV
-	EGeLpAsu8+x1WUauvelwDuOhafJzCve3OEaeK35i7tSnPgRM7NywCUVfqIffKjXFh0Uh3Oo2q83
-	38pI+nTHIC4wYwRveLMKnaT/LuP2RXjsrJ6fkmuvQ5bfaGy0ztRHuEbnFoiPKkx0SM3iI1zN2BM
-	6H20lGLQCKlG7+84nl9A8uZa+PLJcgLbJXESXkrms=
-X-Received: by 2002:a5d:5850:0:b0:435:a258:76e with SMTP id ffacd0b85a97d-435ca3a93d0mr6619369f8f.60.1769423524419;
-        Mon, 26 Jan 2026 02:32:04 -0800 (PST)
+        bh=nWa0aGJtSMtx7LCzliIPZcMgkE6x5phxxbaj/EtOLPo=;
+        b=czxRsOUaSNJ/JwXOBIjhjsQRCqQS5SifqBhLCaaH82n5P6m6NDY29w7kVZWEROUAog
+         0lAH8i/qqok/sP93xezXhCcwNyEJCSWffIUSeizNb3xzxEzfXjhVfduVoWJOTMS+SsyA
+         8yw9tpoPEHXGY2AdjizFprw3iL52wwQKlqjrZbwq9utYoVlWKxg6Oe0vf7LfUX7nlrIv
+         zxQdstWKHezv6M2s42GJI0hWIVpTFCtI6tuoQd525FrAx01HCY+Y4TcmfRgO4bNEuD9c
+         IKhMjj6oIgVhCMLjsDr+gTVqcMVZW3PbgjkBuD0cn4BCPcnodFZ+yDiJqBFAy0ycSP/I
+         V13w==
+X-Forwarded-Encrypted: i=1; AJvYcCW05pctLhVOUQ54N5WwgALmddJU9mf4h3tpluKtJF8+E+2+tiVkbqbBayZPYA2B7QkNydTlSeDyeLYc6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn3VCFL0ik0hHuxKsYGgHb8XGxAtyRPKUJA5htJ83jrbujXr/7
+	5nVhw1lAPfA/MafJol9lxHedFlMxXntUhUg7z6irOTvcUdJu6bjAHgLp8hIN9FCWPM0=
+X-Gm-Gg: AZuq6aLvmB07EKCsjvW9QD+1Dn8rjfM76hG/MtehAErPvZKd3O0uY8UHy6JXsPvK5qb
+	mbEva6oKt+UAH6Fys+frqglUgJr9ukdrNv5qTCQxNNenIRks14K2aCofrwjjDZieLVMlibAxgeS
+	d+q4Kv5d5UGLNVvuA2VV2KmKAh6XSystNRWddbVGQpZnF9LvMBSDgDxGRz1qLd37peAMvOghU/o
+	xqjyrG8zU/GXfzQ/VrW5BC90z1B0EsPG/bmobsc3VfyDCyLlFPHZrRQlmlK/FcsJafYZ1sVuZb4
+	qi6yyURn4+84X/60oUosIohDwpkshBPFVXGSFCsY9nMpPCmuQ/+8P9E6YmbA8MRYCf2RoIFhfIt
+	N760h68QJpDFWXpTRkpvktlt+MxdI7ZT+F1Pj/FdHUafd/BP1mc+l5p1jLrTH9dkFTZJVxwv59d
+	lnRvbXIQbiuoGkv06aptIR3tRasH1CAXSemnpBfk4=
+X-Received: by 2002:a05:6000:24c1:b0:433:1d30:44c with SMTP id ffacd0b85a97d-435ca138ae8mr6980335f8f.43.1769423526727;
+        Mon, 26 Jan 2026 02:32:06 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c246ecsm29715049f8f.10.2026.01.26.02.32.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c246ecsm29715049f8f.10.2026.01.26.02.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 02:32:04 -0800 (PST)
+        Mon, 26 Jan 2026 02:32:06 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -76,9 +76,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 2/7] dmaengine: sh: rz-dmac: Add pause status bit
-Date: Mon, 26 Jan 2026 12:31:50 +0200
-Message-ID: <20260126103155.2644586-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 3/7] dmaengine: sh: rz-dmac: Drop the update of CHCTRL_SETEN in channel->chctrl APIs
+Date: Mon, 26 Jan 2026 12:31:51 +0200
+Message-ID: <20260126103155.2644586-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
@@ -92,146 +92,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add the RZ_DMAC_CHAN_STATUS_PAUSED status bit index. This is needed to
-implement suspend to RAM support for cyclic DMA channels, which will be
-added in subsequent commits.
-
-The pause and resume implementations are updated to reuse the code added
-for suspend to RAM handling. Since the pause state is now stored in a
-per-channel software cache, there is no longer a need to interrogate the
-hardware registers in the pause path. Using the software status cache
-simplifies the implementation. The resume code was updated to use the
-software status cache as well.
+The CHCTRL_SETEN bit is explicitly set in rz_dmac_enable_hw(). Updating
+struct rz_dmac_chan::chctrl with this bit is unnecessary in the current
+code base. Moreover, it conflicts with the configuration sequence used for
+cyclic DMA channels during suspend to RAM, which will be introduced in
+subsequent commits.
 
 This is a preparatory commit for cyclic DMA suspend to RAM support.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/dma/sh/rz-dmac.c | 68 ++++++++++++++++++++++++++++++----------
- 1 file changed, 52 insertions(+), 16 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 95ed357f2b74..8d8391a5b3a7 100644
+index 8d8391a5b3a7..4bc7ea9566fd 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -18,6 +18,7 @@
- #include <linux/irqchip/irq-renesas-rzv2h.h>
- #include <linux/irqchip/irq-renesas-rzt2h.h>
- #include <linux/list.h>
-+#include <linux/lockdep.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_dma.h>
-@@ -65,9 +66,11 @@ struct rz_dmac_desc {
- /**
-  * enum rz_dmac_chan_status: RZ DMAC channel status
-  * @RZ_DMAC_CHAN_STATUS_ENABLED: Channel is enabled
-+ * @RZ_DMAC_CHAN_STATUS_PAUSED: Channel is paused though DMA engine callbacks
-  */
- enum rz_dmac_chan_status {
- 	RZ_DMAC_CHAN_STATUS_ENABLED,
-+	RZ_DMAC_CHAN_STATUS_PAUSED,
- };
+@@ -375,7 +375,7 @@ static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan *channel)
+ 	rz_dmac_set_dma_req_no(dmac, channel->index, dmac->info->default_dma_req_no);
  
- struct rz_dmac_chan {
-@@ -833,12 +836,9 @@ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
- 		return status;
+ 	channel->chcfg = chcfg;
+-	channel->chctrl = CHCTRL_STG | CHCTRL_SETEN;
++	channel->chctrl = CHCTRL_STG;
+ }
  
- 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
--		u32 val;
+ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+@@ -424,8 +424,6 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+ 	channel->lmdesc.tail = lmdesc;
+ 
+ 	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
 -
- 		residue = rz_dmac_chan_get_residue(channel, cookie);
- 
--		val = rz_dmac_ch_readl(channel, CHSTAT, 1);
--		if (val & CHSTAT_SUS)
-+		if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED))
- 			status = DMA_PAUSED;
- 	}
- 
-@@ -851,35 +851,71 @@ static enum dma_status rz_dmac_tx_status(struct dma_chan *chan,
- 	return status;
+-	channel->chctrl = CHCTRL_SETEN;
  }
  
--static int rz_dmac_device_pause(struct dma_chan *chan)
-+static int rz_dmac_device_pause_set(struct rz_dmac_chan *channel,
-+				    enum rz_dmac_chan_status status)
- {
--	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
- 	u32 val;
-+	int ret;
- 
--	guard(spinlock_irqsave)(&channel->vc.lock);
-+	lockdep_assert_held(&channel->vc.lock);
- 
- 	if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_ENABLED)))
- 		return 0;
- 
- 	rz_dmac_ch_writel(channel, CHCTRL_SETSUS, CHCTRL, 1);
--	return read_poll_timeout_atomic(rz_dmac_ch_readl, val,
--					(val & CHSTAT_SUS), 1, 1024,
--					false, channel, CHSTAT, 1);
-+	ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
-+				       (val & CHSTAT_SUS), 1, 1024, false,
-+				       channel, CHSTAT, 1);
-+	if (ret)
-+		return ret;
-+
-+	channel->status |= BIT(status);
-+
-+	return 0;
- }
- 
--static int rz_dmac_device_resume(struct dma_chan *chan)
-+static int rz_dmac_device_pause(struct dma_chan *chan)
- {
- 	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
--	u32 val;
- 
- 	guard(spinlock_irqsave)(&channel->vc.lock);
- 
--	/* Do not check CHSTAT_SUS but rely on HW capabilities. */
-+	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED))
-+		return 0;
-+
-+	return rz_dmac_device_pause_set(channel, RZ_DMAC_CHAN_STATUS_PAUSED);
-+}
-+
-+static int rz_dmac_device_resume_set(struct rz_dmac_chan *channel,
-+				     enum rz_dmac_chan_status status)
-+{
-+	u32 val;
-+	int ret;
-+
-+	lockdep_assert_held(&channel->vc.lock);
-+
-+	if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED)))
-+		return 0;
- 
- 	rz_dmac_ch_writel(channel, CHCTRL_CLRSUS, CHCTRL, 1);
--	return read_poll_timeout_atomic(rz_dmac_ch_readl, val,
--					!(val & CHSTAT_SUS), 1, 1024,
--					false, channel, CHSTAT, 1);
-+	ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
-+				       !(val & CHSTAT_SUS), 1, 1024, false,
-+				       channel, CHSTAT, 1);
-+	if (ret)
-+		return ret;
-+
-+	channel->status &= ~BIT(status);
-+
-+	return 0;
-+}
-+
-+static int rz_dmac_device_resume(struct dma_chan *chan)
-+{
-+	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
-+
-+	guard(spinlock_irqsave)(&channel->vc.lock);
-+
-+	return rz_dmac_device_resume_set(channel, RZ_DMAC_CHAN_STATUS_PAUSED);
- }
- 
- /*
+ static int rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
 -- 
 2.43.0
 
