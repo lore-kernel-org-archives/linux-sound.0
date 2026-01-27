@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2F3346FB3;
-	Tue, 27 Jan 2026 12:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635C234CFAF
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 12:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769515743; cv=none; b=IkFkbnNVMCYJch1GrhM9L1KeNBWNA4MF5Nve5uKv5fr/QUCjgqt8CKaQJLtAwV/Z8HWD+Q/dY7YhYrIBwhoPjX8iFBXH6erSDL3BJgnrbA+7qjsTlCcIe+3tkqveTV/13f5o/Dr7recjlCHcYpWWjGM4ow80A7AtBUpPMgkiUmE=
+	t=1769515745; cv=none; b=VYEoIPtpZl1ikz5OeiXx01gdD7VRTAaUTdsH2EUgIVI3QItRzelswAVNsmvw0tPmQx6nibP9VBSkpYEnnAonGwVbV3ktXQ/vIq+bzSFXwWCmT8pcFisdQ6jncVVk5QADD14PbG4gAhWpm4hTHqJ5kKws9LCp7RtRaDVOQuSKaCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769515743; c=relaxed/simple;
-	bh=onoAXKcebPiK74hhYbHqN5FPyIXQ7YiuU/v8INz84mc=;
+	s=arc-20240116; t=1769515745; c=relaxed/simple;
+	bh=IdWrwv1dkl6JW/w4HcjGV3XEXk2EMYnTmpRGaSkbNCs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mjukaLCBm+JumnMfJESQ++3E7Ukw17kvjA7yiF9xWgAnscboadd69b8IWG2nl9SEOkcfh6vQcVfG/LnvRIGw5WzELChEZFmlRPBOdG1nUmpO577iF9NkXUjPTn6nxTqHSs6NeOtk4g/4IN9aFh9+Q74cl9Uwr8BGPcqlcoAxkPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0dpBz7F; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=g3ONGASolMWH+HoPcgjGfOebKVCHBDPRL8eDpQFSPqDvs1wUJpsKdoqjR38vEZcBhABXpZ0WRK58kCD1dyGO4Nvx8MYNDsBU0w2DCom9ZnaIZwUiD6c6qdKHCZTcwoAdM3b8yb0ua/H3sb6ujzYKCAZzwdmafDoJz51UVdn1eOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k03YRav4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0dpBz7F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EA71C16AAE;
-	Tue, 27 Jan 2026 12:09:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k03YRav4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF1DC116C6;
+	Tue, 27 Jan 2026 12:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769515743;
-	bh=onoAXKcebPiK74hhYbHqN5FPyIXQ7YiuU/v8INz84mc=;
+	s=k20201202; t=1769515745;
+	bh=IdWrwv1dkl6JW/w4HcjGV3XEXk2EMYnTmpRGaSkbNCs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=K0dpBz7Fyk/c2KgKLR3UnsBpB4iuex1BLfRoAfpNjfMtTl1cdTINjmivp0tmEUZJK
-	 igSh+V/Zahcz15KSPwr5OujNDVVlb6E9U/5twr+hwHjxtBdYtZ5FeZLRaqEVBdsxVQ
-	 nyDZmflZkcTRKC8xuA5u7Ns447hel4twtlz7WWx4iJw4BqLDc5jFqWclHk+45Qfp3Z
-	 QY4oLzUTr+8a2hPIHrBMVYRvF3gA54DLqxaJYSTDTPW3+IHksp9uKt6iy2QSiSkGY6
-	 msbJvuUmz7HCRnzBULCXasCvNsEn/wdItDzBLkTplunL/XPdeBauO/AlOs+8nAw/nk
-	 Vz9UP1afzGkiw==
+	b=k03YRav4x4FIr3LkILwpTloKiOT8GSDGUjYRgPf4uEpT8jPQmFrjgQ0HOjdMlv3nS
+	 8QhtJcN6SqzvwxuGMZOBTWnUcAdwhTvKyvsjCDBQm0Mt1gBPn+hRB/cN/opfV6dZ9e
+	 Fwhr19Mu+A0ndO7wGzNRJiqJ09j9VYtV9Z1+s3B4NuKLhKusaaJ4mxg9g/+gBIjvPg
+	 W7xdb3vPN8PPgspK7XcMClg2mKMzBxiDLZqvY9IwnfwF9HPiO1lIBlf+nrq10DIxXP
+	 Wv4hG+AsgLrwpuNGSNYqF84nJA+s6eN6UQ9fZ54ZmOeVETpvTkJ/69H2PkRAskl7DB
+	 zg5LoLzgigktw==
 From: Mark Brown <broonie@kernel.org>
-To: Shuming Fan <shumingf@realtek.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20260124101824.3424793-1-andriy.shevchenko@linux.intel.com>
-References: <20260124101824.3424793-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce
- stack frames
-Message-Id: <176951574198.80702.5387546291463369922.b4-ty@kernel.org>
-Date: Tue, 27 Jan 2026 12:09:01 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com
+In-Reply-To: <20260125111837.2386530-1-yung-chuan.liao@linux.intel.com>
+References: <20260125111837.2386530-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: sdw_utils: Add quirk to ignore RT722 DMIC DAI
+Message-Id: <176951574399.80702.14453770490451210215.b4-ty@kernel.org>
+Date: Tue, 27 Jan 2026 12:09:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +45,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sat, 24 Jan 2026 11:17:03 +0100, Andy Shevchenko wrote:
-> Compiler is not happy about used stack frames in a couple of functions:
+On Sun, 25 Jan 2026 19:18:37 +0800, Bard Liao wrote:
+> When the device uses the host DMIC as the capture source, add CODEC_MIC
+> quirk to exclude the RT722 codec DMIC DAI link.
 > 
-> sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_rae_load':
-> sound/soc/codecs/rt1320-sdw.c:1570:1: error: the frame size of 1336 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
-> sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
-> sound/soc/codecs/rt1320-sdw.c:1786:1: error: the frame size of 1520 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
 > 
-> [...]
 
 Applied to
 
@@ -65,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: rt1320-sdw: Refactor to reduce stack frames
-      commit: 233ccfe911aa62c0f9211f2e3297d6a7f870b295
+[1/1] ASoC: sdw_utils: Add quirk to ignore RT722 DMIC DAI
+      commit: 3febba217ea73ca86d5e331b8cde98bc6d08fcf5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
