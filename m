@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014FB2E11C7
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 09:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E98132C92B
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 09:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769506866; cv=none; b=n2rNpCOUekb20MBEa72li908gXSAzlIlXvBsx1L+gKqWR1VzJwPYB2utxMxgB/pOi5tcwd/GyyVKypecCOq8Wvb5K1NwT01pzvw8Ub9UY/Y5gxMtKAj6NOutXubAjsuq3PR86H1u9JYRc5CCnt/xjJ64f8MkLqY/KLYkv1e9Q5k=
+	t=1769507023; cv=none; b=tWN5c2/2adYhfbb/IyhPEFLs6Oa99BH0d0GIVuwPd5AClx3e9uOJOeGqT9IS6NATklZKKyvfLG/s++xee8pAoTXQ41PogXSbnezs1WUcxuQdE4enzpoIXgknk53IPs9EEDipKnju9wvnJJBFDt6y2mbCWK+vyrzUZ8OpjAUxn3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769506866; c=relaxed/simple;
-	bh=eOm7lxyY1Tc3UFUw/xoRTNbb5KRa+LpVsi+cTsx+qLc=;
+	s=arc-20240116; t=1769507023; c=relaxed/simple;
+	bh=43+5PkYSSLecE9SQrt5AZOxblPUn6fLI2obB0pdB7Rg=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X9jrTmGjZsJCquen12F6tGmkRr+hz3Fq7cTaSVLlLJK/u/loUiGmrqFNo/ppcEkY+eSe2YvYbB3cHCAnxG8xYwpudIUb3/IisA84Rt4m7IlHdkIMRT/4/olls7B0KM+dreVnPe8Hj4FYRpTWGoHrq87XlTIijErTJvLsEItFQ3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VqQqBU6o; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=ujZwvex7k0hz3vOTPseXr59kHVZ96R9HboiZaoYAihLGf5q/EJTYc+UVUgGqhwXG4UdS8Xm/sRj3pTca56FAVMyGWd0Itvfe3QDgoc3LID5lFndmKzdKq3Qa8qngdWjTsuiSaTOK5i6KVgNIb3A1EWydVjDAat8s5PgdLwQ89Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=natD1mSe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VqQqBU6o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE41C2BCAF
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 09:41:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="natD1mSe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA63C4AF0B
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 09:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769506865;
-	bh=eOm7lxyY1Tc3UFUw/xoRTNbb5KRa+LpVsi+cTsx+qLc=;
+	s=k20201202; t=1769507022;
+	bh=43+5PkYSSLecE9SQrt5AZOxblPUn6fLI2obB0pdB7Rg=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=VqQqBU6oOkBOQIAHVVW9j3hspWpF3dWPTc8PDMc0z3BnutT6XrF0gEu/A5aHeC7y+
-	 87PKqdGjSaJQjLG7RR+OXStps51moVlqUjIpIH9q2HdJ5VP47dOngle4zLGm+vUKl5
-	 XKO5jetR1+UlqoX++ljJOtnH52HD2YahKoo2RC9xSmqY7zKiv1iSXvJMmkd2LmxfCU
-	 Cxn+ca0RzOokoptk4L1xJT8n99P9A/NLJa6a5eQ1HcFmiW2DUia74m52P7lItZXV3U
-	 YNmbhhYc44wfhiuUmBiVkpfajXXKCCBht6dlpN74+7gaAVuHjnNziquOJmGtspaZam
-	 9bnqesQ55ImeA==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b9fee282dso4933492e87.3
-        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 01:41:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXcxGj7O9Gf85ZC6EtCLHohn5ceYpqbCqkPt3VBzxjyH1fGUdsqP6GnqjCZjOhFhUAnIiZ1xSasUHiAvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyniQYi6eDO+uJL20bBPLPNNTA5eRTmsYJ1DlvZB1h+EbfD19Ft
-	0OGksB19OwDjyJbKgXNXXN67CvpVCvAH+ld4k1siLtaqtNQKa8GIEoonVXeFjo6GxzRIEbDyB+g
-	5y8va6ja735qxeoV0azPfaxv0vrxzpWvODvibZHVwFQ==
-X-Received: by 2002:a05:6512:1315:b0:59d:d659:661a with SMTP id
- 2adb3069b0e04-59e0401fc28mr534674e87.13.1769506864295; Tue, 27 Jan 2026
- 01:41:04 -0800 (PST)
+	b=natD1mSetH8Dli+imFjbLI90gUdb/Uv762wLtvqt4msRA8kIpu+wi1zlQ/E1mLo/p
+	 PpN9ufEgR+Z1bka8eFPaaifhWJcdtNZxjytv8QNqgAlrUCXi6s+msBLJfqPaa4nPo+
+	 m02QBKjg5EEqKlLS3may3ZtWyYl4g0/uGjoz7nMvS74PWR1B2egQU4udeLA3appSOx
+	 c6jczh98DgRCNdn7hB/8mdsFo9lIVFDW/C9liBwPoPXrSzNzZv5LzbEUbc4+yGtdRF
+	 nkWZjUjvcto7yX2g47h92jC4C4MgzGnOwgPbi5rCem0DLV7bBNXFYZq7+J1A8Vyn4q
+	 AR7BJkpfnIelw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59b679cff1fso5354444e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 01:43:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVeI58LzzbQ+4c/rWuKABobYYqw0AnygIm5t5LNIkTm0UwpNVwOKDKTe/KzXMKEBQ+EX34Go5X1e5AlKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc716D1vUdgmOzl0ebG4oVewmL5M5vt/763PQGlJyvSvbbt7cl
+	rjXxM7mG7MyG6hOsNCtOAS2Y3jotfpKhl1eJ2P0vd4DzEFEYDBahtL8AIIQC+rsKBWIoVcCHN0L
+	1Fbk1T/O/nePLVACPxr0Zd0ZBlftWxyqJpR4eDovppA==
+X-Received: by 2002:a05:6512:a8a:b0:59d:d64e:b3d7 with SMTP id
+ 2adb3069b0e04-59e040343d1mr474018e87.46.1769507021467; Tue, 27 Jan 2026
+ 01:43:41 -0800 (PST)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 27 Jan 2026 01:41:03 -0800
+ HTTPREST; Tue, 27 Jan 2026 01:43:40 -0800
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 27 Jan 2026 01:41:03 -0800
+ HTTPREST; Tue, 27 Jan 2026 01:43:40 -0800
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260122-sound-cleanup-v1-1-0a91901609b8@nxp.com>
+In-Reply-To: <20260122-sound-cleanup-v1-2-0a91901609b8@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260122-sound-cleanup-v1-0-0a91901609b8@nxp.com> <20260122-sound-cleanup-v1-1-0a91901609b8@nxp.com>
-Date: Tue, 27 Jan 2026 01:41:03 -0800
-X-Gmail-Original-Message-ID: <CAMRc=McPYmbWJuK5CJp3Q1guWJJOHYJvn46RWGs4T=QTPuSyzg@mail.gmail.com>
-X-Gm-Features: AZwV_QjxuGgyv_lskuObHAVoLkrg1Z68koiUm97tVl4rp42X06QqGdyJPsB5dj4
-Message-ID: <CAMRc=McPYmbWJuK5CJp3Q1guWJJOHYJvn46RWGs4T=QTPuSyzg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ASoC: codec: Remove ak4641
+References: <20260122-sound-cleanup-v1-0-0a91901609b8@nxp.com> <20260122-sound-cleanup-v1-2-0a91901609b8@nxp.com>
+Date: Tue, 27 Jan 2026 01:43:40 -0800
+X-Gmail-Original-Message-ID: <CAMRc=MfDP0PHTm9_vzSArVr7APK7qPiqZQERkPpBFKoPQrw2rg@mail.gmail.com>
+X-Gm-Features: AZwV_Qh39_2kP-cSLOqOUxaAXibtQvi4PDbgUOq2L_s8-r1mjDdVrjD7WkEZ9LU
+Message-ID: <CAMRc=MfDP0PHTm9_vzSArVr7APK7qPiqZQERkPpBFKoPQrw2rg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: codec: Remove pxa2xx-ac97.c
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
 	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -63,24 +63,16 @@ Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
 	Andy Shevchenko <andriy.shevchenko@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 22 Jan 2026 13:44:57 +0100, "Peng Fan (OSS)"
+On Thu, 22 Jan 2026 13:44:58 +0100, "Peng Fan (OSS)"
 <peng.fan@oss.nxp.com> said:
 > From: Peng Fan <peng.fan@nxp.com>
 >
-> Since commit d6df7df7ae5a0 ("ARM: pxa: remove unused board files"), there
-> has been no in-tree user of the AK4641 codec driver. The last user
-> (HP iPAQ hx4700) was a non-DT PXA board file that instantiated the device
-> via I2C board data; that code was removed as part of the PXA board-file
-> purge.
->
-> The AK4641 driver was introduced ~2011 and still probes only via the I2C
-> device-ID table ('.id_table'), without an 'of_match_table', so there are
-> no upstream Devicetree users to retain. With no in-tree users left, remove
-> the driver.
+> With commit ce79f3a1ad5f ("ARM: pxa: prune unused device support") and
+> commit 2548e6c76ebf ("ARM: pxa: pxa2xx-ac97-lib: use IRQ resource"), there
+> is no 'pxa2xx-ac97' platform device created by machine level code, so this
+> driver could be removed.
 >
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
 > ---
-
-Yes, please!
 
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
