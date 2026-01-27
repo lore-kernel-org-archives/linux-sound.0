@@ -1,125 +1,147 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B942EA749
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 15:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75E72FF679;
+	Tue, 27 Jan 2026 15:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769527836; cv=none; b=MgmKGbyHA9P8GrZPEHU/SHokEgDfMdQeM3mmhElyUdGsZa6FpNXVqQDeBc5Dv/2WEYFEtlHghfpDBJsOrjhMsb/ZhZxW25v2MLrAghsnzgeYyMAp1bdRFQDD+Qe//nz6sbIazDb+yLWWqLipg1f61p7x3g8MaWzVkZcgGSK84Po=
+	t=1769528269; cv=none; b=js9+LYwGUt9U9YO51CcMdof4YeZygLqp57IrAPg83OE7eC+RoA5YFJU5zrNLw6JA6nHAQpZKSYltgP8lJPxWhSRF8nV+rPqZaPon01cg+vmPEWpxXosJ55NoU2dVWsm9OSQk8eAb6lnDDkieEyIwGSWA6p51JyGkRUpEl0jWsqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769527836; c=relaxed/simple;
-	bh=FquAxMyEZUnx56clUpEYy39o5UtF6dOtZ+36u7/JQ9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CU47sIwf65TvK4pDttbadnAYcYhHVk99s3jXdNdggDX9J6ggKdotfKSP8YgqQdou0W3+cpcnOGcgNSTDFznxeAD4s4is5oh2barYGu8kaSOqLok5WC1MT85aXWQ5vS6wNn1W6zU3a16EmCs732rKXEOhFzel/6R2oMpVCUGaDF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQIQOE71; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769528269; c=relaxed/simple;
+	bh=lr/AXvpRECteTqgpnXcvrdfrDD3U/+YRtXBlxwKPYTo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=m3dsC3SdyJ0V3BqerZG8qhzovhcwhPWJUZOKFs+ex6x9aH28k5k0qoXyHChCzE91gscpqwTJTSb+SsaqQvkNVDAU+k5Gy67HJA1fgDqTq13Qp4QL1fCHhvvt1tbIIaWM59lCkg7x35u40QnVXbwtZzO/fBXRCjLzayL2FxUtDeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=em5RBeMu; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQIQOE71"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806bf03573so2770605e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 07:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769527833; x=1770132633; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y+BzwDOXsuwsKZRnCwm7TR0RjiDWsT5xOCESlbi3ly0=;
-        b=kQIQOE71mNGWcbWuQ9LoRb1g/3Y1ApZzi4AzAEK4qYe3Cqq0wpue47pfFBepFyLTIn
-         WZPOlqQXECroAfsxneCBxbR29qyYtgHVMLMLb8LnpkrKTllMg8FZJNtOqMx5AJ6QSD4Q
-         4mzh34YGiwsNeUPAh0+3uGrghqzqsXYvWIR3o+/k0IJMsWVCaOG4uWcSGL7HxXlNXZxU
-         Vf8KMbB7+QnviAhR0+jg0mpoyOCb44eo7559fzSPMvsi3pVA4Rfaz/wEDyvMcOM94ThO
-         vUNUB/uaML3Pto2mNDOLcZQDLpU74Y/flWx1DSiFHm5xD0aVh5vuFqijzzk6A9X3ADHN
-         xUiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769527833; x=1770132633;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+BzwDOXsuwsKZRnCwm7TR0RjiDWsT5xOCESlbi3ly0=;
-        b=uZ0fDd4Cvrpa1jYBByaox/V5Q/wPihExLWh46Zc0mi0IJRXK0EW+rsx0keKXl/pdps
-         gqX7HZoxt4Gq55Lx991uecG3XxJKHAtndbMULkgl7kJ8LQYB4JZNC0Mr/DEY6bQ8EX2H
-         Mfyc1AXdiB5/KNx5WbOSTsi1MdzZJ383eXalOQTRtWPKpxzShhL1Ev1EGCu6fEDkMil5
-         +Fc5VDCxa/eHFxIutAA35X5BpRdJP+SDM/2yXocMhUYWs4l6uNZO5mcwWOTnhGyZHVcI
-         tgCHxnlhkeDHi+I50GS6AVAnDPhbid2tH14iaiTEDQbm1vpJ+8jSt00Ww1+NbbYvTWPG
-         Q58Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUNqoFa7WDfdeHuWR/0h9Yo1r/15zy7BE2a7EQmMtmusp0SAL+OJyNw+8X2vcZm8vQklBJZsATTU/awSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5sD5D9r1HByRmvrXdcSscksSo7C0MQSDwXiUwh3kC6d7T2K0K
-	MxTZ3/LQCOg1Ifh4zjNeu3OPEZG/pkqMtsAGhP65MKecz0FI0EX5Jxdp/xzvaA==
-X-Gm-Gg: AZuq6aJ0hKCejd68cDEAN75Y3vZDyXsNMLF5KVV1y2tuG9Xo3OqzPnkQObStDaQ5ZUX
-	034oa1ReCVQKnQonQkH6HgIIb3D7rNAadofs6vsUsRpjPdTLQDYeTCHS98CZIIE/xgJ88nE+jog
-	jEOOeG/j74vV/pqEMxzeXzlltC+s/HaFrkAMR09qDVfiF63G2ir7NjCY//+jRQrqADZ/MAgGGIJ
-	EUh8OhUAEPthDCuhfcw9KiKDTANmCgt2CJ8wEvBOr8NRIA0/UDJbIssTgaotj942cRKD9KPIUUQ
-	bErpumbnVq9ZBze1xaY9/I/ak4rBA1ojekI4kTMe+djUUJ/IhV+dosmc6xZN5cGJ7w5/HMVq8D1
-	+xA6kHn5ULTw/R0UKXML0kiFed8Ll1JTw9CVWXLlnCCkFSCEw2IRlMVt8v8/LzclDXBP50WarBk
-	UfD8mfX8YBsQFvvlCG0m/xRoqPpNAXxLg1MVmgd0ENnoQ3RhsK8wCsAg0=
-X-Received: by 2002:a05:600c:1f88:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-48069c39a00mr29694175e9.13.1769527832532;
-        Tue, 27 Jan 2026 07:30:32 -0800 (PST)
-Received: from anton.local (bba-94-59-215-181.alshamil.net.ae. [94.59.215.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804db63817sm137117845e9.3.2026.01.27.07.30.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 07:30:32 -0800 (PST)
-Date: Tue, 27 Jan 2026 19:30:27 +0400
-From: "Anton D. Stavinskii" <stavinsky@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 5/6] ASoC: sophgo: add CV1800B internal DAC codec
- driver
-Message-ID: <aXjZoFi_fq3tzJFY@anton.local>
-Mail-Followup-To: Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-References: <20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com>
- <20260120-cv1800b-i2s-driver-v4-5-6ef787dc6426@gmail.com>
- <88ef974b-9fa8-490e-ba19-1fb31ca94342@sirena.org.uk>
- <aXjRx12yPA7QflaF@anton.local>
- <153acfd6-cb4f-48ee-82e0-0a18a4a1e9c7@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="em5RBeMu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1769528259; x=1770133059; i=markus.elfring@web.de;
+	bh=lr/AXvpRECteTqgpnXcvrdfrDD3U/+YRtXBlxwKPYTo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=em5RBeMucTKqqbj/N7h/2UnsKH6DxxGUTwmfmV+hYKk0Jstb5uEd1IvE+FeNlWOC
+	 2uD1ra042vw9QHYjIkgl9VqJOSPkErpt2201G2GqufWILM9Vnx8O/96UZli3pY82i
+	 /l/SPUgiJYYJbEYHiXGtBxXOoVGFX7didkTbU3oQv9RQ2/DBTEbnOsQWDKqIgRFEn
+	 5PWdyYCHuxhWn6h1/YDzJUoC+Rg2YJcQVIWEevo/kQZ0qsx1j+wTx+RdCHGsD7z/V
+	 Lw81cbbUVngh9Qfh/jzsQTX4n+XARavVohwBKvV3qM+81DUvC0Dt+3c+U7jZXGyGf
+	 BnCbqY9w0ojZ1vqEsg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.251]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MadzU-1wI9sX2ApO-00l5zR; Tue, 27
+ Jan 2026 16:37:39 +0100
+Message-ID: <a08213a4-6dee-413a-9f88-30ab5f846a05@web.de>
+Date: Tue, 27 Jan 2026 16:37:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <153acfd6-cb4f-48ee-82e0-0a18a4a1e9c7@sirena.org.uk>
+User-Agent: Mozilla Thunderbird
+To: Chen Ni <nichen@iscas.ac.cn>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ Ban Tao <fengzheng923@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: sunxi: sun50i-dmic: Add missing check for
+ devm_regmap_init_mmio
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VHCTORnxmEy8LCQ194z4Yo5KSTfOwYP7SZgHY3Fi9DlkLLL5bqn
+ OI811kd+0zsYES7HEzeOew1/X/eckCmFJlE49wgNSGBSrOsdok5skshhUOdQ79wl/ZB+5po
+ 0pe/Z5UFY72BVbBwSns2Ws+V2sZVy/AcZd+Lh+hcyjVgR3ywNfhmS328dVQJFzhi73qEg9I
+ bR7VnP0U+CEq5XYsQbM/A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:pbhSRtV/Ezw=;MUzWndk2kRHBujeQRjiPF+kpRPl
+ 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
 
-On Tue, Jan 27, 2026 at 03:13:59PM +0400, Mark Brown wrote:
-> On Tue, Jan 27, 2026 at 07:11:24PM +0400, Anton D. Stavinskii wrote:
-> > On Tue, Jan 27, 2026 at 12:49:52PM +0400, Mark Brown wrote:
-> 
-> > > Nothing ever mutes the DAC so this is a bit redundant.  The mute should
-> > > probably be a mute_stream() operation.
-> 
-> > I'm not sure here. DAC mute feature was not implemented because I don't know how
-> > exactly do that. The public documentation is very weak for my taste. 
-> > This call added here to be sure that override flag is
-> > not set (override feature replaces the output by setting it to constant 
-> > value and ignoring the input, so it is some kind of mute from my understanding. 
-> > So ensuring this off is needed be sure that DAC will output our I2S data). 
-> > What do you think will be better to do here? 
-> > I'm sure that is needed, but may be better to move 
-> > it to some early stages, like probe function. 
-> 
-> It's probably fine to leave the functional code as is but you should add
-> some comments to the mute function explaining waht's going on here.
+> Add check for the return value of devm_regmap_init_mmio() and return the
+> error if it fails in order to catch the error.
 
-Sounds good. Will add comments and prepare v5. 
-Thanks a lot!
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
 
-
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
+Regards,
+Markus
