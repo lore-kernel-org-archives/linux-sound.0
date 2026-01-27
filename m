@@ -1,139 +1,132 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D621DF963
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 13:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769518890; cv=pass; b=Tl3yE6OGI5yRQ7n+boXmfTpv6iCsiu6gsG8fnVwbbzrqYniRK7ch46inUG9T4JVPfA0/WVB1WrPSldqkT5VhBZR1T2Tx3O7E+F+zfwum0STuWgrQliRj2wLIWtX4lUclwfa7CkwuvUKoMEN4I4ADuDB36zklYCdRsyd1ukG6OJ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769518890; c=relaxed/simple;
-	bh=9tGFvRekgW0lDIVIFRyhlOyqoQbr6dGHebYpOLYRgV0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FYZPDJCIOCq4Ile7otn/gqA5kcl1fH1+KPtl1bsSu2PqHA5s5YDiHnw7CwKzij+pPqa0MDgt5SHt0H3q2YjjYvEaErAiCpCuLfrnxkZ9XPRAPQvXtnmGFOAShtWyq0Xyd95wQh3O66rQz+QxybZ79wB7ojkQ1ztzEvZqq5I5eKo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DH1G+xrN; arc=pass smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE43C35F8A1
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 15:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769526693; cv=none; b=nCtkqMwqdwc0GkqWHlsTqlgrpkfOCHlXgeaDoy9EU9kig+BjYvryzYzq6f83hH38xfBuGOSq7c0VuGo2YrYrKGv4oIUs64VK6vs+989OVtFdF424G8ONPD/WaF8Ju1ltHpJsMK1NgznHRqsbIpB0Km8gpNpvc+Zlz605JXysTkA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769526693; c=relaxed/simple;
+	bh=Blyg8N4zeGue27HmsSmO/bdRk6JHhRMc1NUiP/XT1BI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aPfphMyiXJpHKtBHdbeo93fo1KCf5Meddv22ziHAw699TzF9DTdsltHWc1vZUZ+cX6Gh2/ezX3+cOTVuDuAHpSYYZrDrrLoHWpCyQNFUaKeXHrP0bDX24mG8jFDEP7aSAq97Nz43hrywtvWCf4Lk5wi82J/MN5EiqyOyVtux4ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UaI65I1w; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DH1G+xrN"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-4042905015cso3424292fac.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 05:01:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769518888; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hx9cHbb5mybqFZenywHTcvHHO1BBYXayimgRjsHYbNqcCrkyEQZhjo8g/251FLkpdA
-         3mpk+Xy+O2w4k//2MJlNTpmsU1Q21D/LwwuUE2FhoIJ0cPnikRDC26fRXmxqIvKCDQSy
-         AYolDwJvlu2g2JPjTZyGQ4MymlyZMl32r4IVjPqNn/8g2VBmFmCHSGbX4jv+Q83RxTOf
-         /rctcZASBk30kSn08Ga1ih/+6siY/RFP3RoNqh0Tthk9lMtc0FhyozU6v+Z0Sd7nnNcY
-         QhKAx5Hrb/D9upEQPWkepbYCPmRqu9hr7aQi3MatYDfKzNSNh9XOj4bj0Ud/sUZPidMF
-         jISA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EnMO7GK397RcjTFUAgOgO661fHa1QtA1KMXijXCcxzI=;
-        fh=/WsQYZHapaIVV7/wnm2HHRpv6UPC4b4bZIM57Dd9pFA=;
-        b=XZA3oPmfuHkDv5FCWx0LJu6UpmxTa2yv5qhgt2QyE72pW/z5v1R6lxNiwZ3ArnS8ac
-         otAe7gKx7yEKa5ustoxBLMQB2szm45vGKpaDAndSAt/mew2hKSZRAq+W2AaqspMTXM8W
-         nudhw2CCGVR8/cKfKK0c5/s5TIZtcJ2NeoxBPxnzbGOpxoX5h+6aaTsUYMRQSGjp3k0M
-         f6O8zoTllUvlSlptlHgj7fI6FFIOUUxoqf1WnDNtq0mfSt69xoeto6Dn3J1lPGbwO8nL
-         N1VgDGywFEqaiIIov6gPiikjtotoy8yf7c9+pAG65GOSZWakNcOhI7MK8g8m0UzrxwgR
-         W/Gw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UaI65I1w"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48068ed1eccso7669875e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 07:11:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769518888; x=1770123688; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EnMO7GK397RcjTFUAgOgO661fHa1QtA1KMXijXCcxzI=;
-        b=DH1G+xrNF6Dw9+iUOAlugRxXPaOzQYjzDb9PzXItb82S6oBZLbagyG2leHhMZ2r3O6
-         +SRcMnX4GTP83hJKpsRV2RPStz+SVew3nZCpM4nFnjCX1NqIRMsw0UB4ieR+uNcXOyRr
-         P1nM4E1swN255etKaMJgezcfXe7aEp1CkQifuEPcgm9IdqXNtZ7M39sqEbN4Aoo51RDZ
-         T19DXpbqQSZ7enrKqPz1zl3OBvC+xYZM2OQVQbpRZaE4LOvonMBaMQTJx13/TkLIVVyB
-         XiMvjUo+7cIruXhYCWrn4SdMiGSxUeiwsWVbBnA/re26e0+XS3CoVxCakZIgSFyHQRRD
-         Nq0Q==
+        d=gmail.com; s=20230601; t=1769526690; x=1770131490; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZiYOJIssOgLGJ3sqVKfxdywenJ86qmXkRu/RSeqz5RI=;
+        b=UaI65I1wJEdhdhHNY5g4yd/swGFeeaVU5zSXxy4UlJZkQhQsSJjxT1ryKyL7NYsVUG
+         vzhzUAQHljHgvTBgjeLUp3BUiKXqlHNpWkXyRSU6Qsybs9Cu9pc3mt9Y2OKkkHIIMf0b
+         9Vz3akvxXe5oV9u2bbccyc+4E84//bs9PPDQu9uOYzVFKhQVTECEtgHF7qTyQP4/iWXn
+         63vLNVd91YXvWryyJcQ5csQn8DJ4ZQe9XaC4SERr+OIl58PC3QkNDRMlATBlaFxjKGIU
+         oiXOe4MuJXuOKIbw9+ASmIaHmisJk1UGWDL3dSwzmtni8RaskJd5Ts54h1lotns5b+5V
+         n/iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769518888; x=1770123688;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EnMO7GK397RcjTFUAgOgO661fHa1QtA1KMXijXCcxzI=;
-        b=eLCo/hFjjqWn0+9cNsXNYUyIJq+ZyEZ6GHrt41XKIfeYRV/c8EMwjcVPNVa2U32dDK
-         mmgIqtcxEOdV7H/ro021IJruQXKtKc697auNjghIbqWPZrs4iFkk0eNhR9PXgutOimJr
-         l9h2X/KNbSknt2J/kbSurwqx0rsh/Q69olH4pK8qmmQ4EWeZxjJkPE4a3RmWlh18191G
-         OnEa6ffEFrO7wdl8+cN2Fo2Xn1wnWeNUioKGCmJh0OHdXciUUN+6tuVDHoVsisdlL3W+
-         i2+FIxmcN5q2R1z29joDWlnx1XmTGfdFbzveQQ8tMGzJ37B4zBdRnd1Z4NfK/2QS/5GP
-         hutw==
-X-Forwarded-Encrypted: i=1; AJvYcCWnr7UyHyEiKouvvG9Bg/GptBMVasQccwZ7iHN8UQPew0z+7Qn6AOci4e3BLTl7YYPXog5kWdjcTbcexA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytMywYICiR/OTmiYic8OpqE/oOfq3ELZryijQxB8Onin+zWqsy
-	Ua5ff8SujFDgxmX1HATGt7fSUqz15aABKxPgqYTkD4fqa8CCYVCmN8xPOCx5jMqQb2g/N5Rs2k1
-	QNWpo9yieFsxdlmmD2h10FSaZGCnL0szakQ==
-X-Gm-Gg: AZuq6aKYcTIecza+PPNiSz2YE13VGSW0o8OKw5VEVc2u/y4Jjs9VoCWIppi5u4RM7OD
-	o5MzqmawzFwHpFuCukhLRv2k2Ho+7JmLSriRVm42s9zXnvCEcS8jbUqyDyCEFTnEWfnRs1WaMYa
-	PdU+M5WwL/R/n/9x2khsq49GxHUddZ+6p3t7Hr5lJKzSyDyKrUemG8R+5F4QITzNG1mwKopWDCM
-	8PXi8+tnxbOksaBpMwKvX1ce9UBaotaCve47uAMof3eCThVpVp6NpOk3qnasa4agmZh7xxU
-X-Received: by 2002:a17:90b:314d:b0:349:3fe8:e7de with SMTP id
- 98e67ed59e1d1-353fed87968mr1434199a91.28.1769518875549; Tue, 27 Jan 2026
- 05:01:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769526690; x=1770131490;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZiYOJIssOgLGJ3sqVKfxdywenJ86qmXkRu/RSeqz5RI=;
+        b=JmYrCe0z8sbvuh0Q2uSMbrXakGl5KEH/Ldupg+5AXdYVmT9GKTEBwXD4bXU84KKMxS
+         fp2h53s+msJxTNNZ+/jgP3K75LRkTsqcKk86/fg4T1uh+vW/yu/ZVrOHeeygjnDMaiOb
+         wkUakLuSzZ6M5vazpWxMNPrwL5g8hhL5jpBX/2VJxnEip+k+czrC4Er4H6cphH/fT+oq
+         8ItZF00tjWulOa10uBE/Y6CHmYR/G8K+YxVft+kugvnHCPmDm69bZVQ9cXLyLh5byZ5M
+         OhTSUXJu7A5N865jnxhb2UfwKHnmvDyJptLLYxT9Zh5xly1IjVAgokZthtS3CQk7xzA1
+         /U2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXdrDpL8X8YKr9uqVXZl9slIjnAPemZibCLLpnrfF2mP6Y0x/Hth3doCTY7yacueY1W2TzHBzCGudkS+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDz69+DSN1EaCn6DxuXbB0wMTx5kOr+OnLbLW2/ztskQoiEaMF
+	gMxuPGi4bViyFPd4fvSWIzz0U54Xs/fAa4lt+M/z8MFfZR2hrIa1kRJP
+X-Gm-Gg: AZuq6aJqkv1PLqAQbR8/4K0nazNLFTly4ljOteAFOB4AQl0NNw+Uq98AB8Aw/edhFKL
+	0nPKwXb7ahF3PVADbMT9lRg8mHp3bby98mMMDM4z/zZjMv5EO/Qru5dyShu95VjoAzt8X1qTfBf
+	PO9u272I+QvV+dXWTOaVMDVqb29IAsPnN6sa+p8tht0AKjZ6q+zfEeR1EMGhoDezOXktMptM+yO
+	0aXIrQY3w5h9RASwc5AR84Hz8h0hjN/AxoE3J+8yF2XM9bhdJSv4If8cyh+dSW165A2rh9C19Au
+	LFsG65ymmdu0OUr+Z0bi3fo7TwBnivBiq1xJ9qACV3g6TKcAQq4v6/3x2aMnzSm6jroWhEg89xc
+	ZSS1YOG5ghBORo01EkZ8sxbzNvgbiWbXR73F3xo1Yg6YNfozXCgcx6pecwDN8O2GRrXjk8PuR7g
+	i7+1TbNqDvW4IH9EHAq9XYBepLX8X+eoHX3SO5Z8wIFFfMuu8fmqHfCtc=
+X-Received: by 2002:a05:600c:8211:b0:480:4c45:aff5 with SMTP id 5b1f17b1804b1-48069c755e6mr25187715e9.34.1769526689995;
+        Tue, 27 Jan 2026 07:11:29 -0800 (PST)
+Received: from anton.local (bba-94-59-215-181.alshamil.net.ae. [94.59.215.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066be7623sm63589915e9.2.2026.01.27.07.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 07:11:29 -0800 (PST)
+Date: Tue, 27 Jan 2026 19:11:24 +0400
+From: "Anton D. Stavinskii" <stavinsky@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4 5/6] ASoC: sophgo: add CV1800B internal DAC codec
+ driver
+Message-ID: <aXjRx12yPA7QflaF@anton.local>
+Mail-Followup-To: Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com>
+ <20260120-cv1800b-i2s-driver-v4-5-6ef787dc6426@gmail.com>
+ <88ef974b-9fa8-490e-ba19-1fb31ca94342@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260127103326.1920525-1-shengjiu.wang@nxp.com> <aXibZNhIZI01tJyZ@opensource.cirrus.com>
-In-Reply-To: <aXibZNhIZI01tJyZ@opensource.cirrus.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 27 Jan 2026 21:01:02 +0800
-X-Gm-Features: AZwV_QgK8-vc5MoE38DIwOTmi5gjm2DhgdYPE-YoyPhGmZSnrV2U4ZZPvcXtu_U
-Message-ID: <CAA+D8APEa2+iGkONgEOWpRe-w1Ni-CmBpC90qPRYQj6mV72-YQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: wm8962: add .set_tdm_slot callback function
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com, 
-	sebastian.krzyszkowiak@puri.sm, brgl@kernel.org, 
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <88ef974b-9fa8-490e-ba19-1fb31ca94342@sirena.org.uk>
 
-On Tue, Jan 27, 2026 at 7:03=E2=80=AFPM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
->
-> On Tue, Jan 27, 2026 at 06:33:26PM +0800, Shengjiu Wang wrote:
-> > The slot_width can be different with the params_width(), for example,
-> > DSP_A mode, slot_width =3D 32, but data format is S16_LE, if the word
-> > length is configured to be 16, there is no sound on the right speaker.
-> >
-> > So add .set_tdm_slot() callback function to configure the slot_width an=
-d
-> > update the word length according to slot_width in hw_params().
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> > +static int wm8962_set_tdm_slot(struct snd_soc_dai *dai, unsigned int t=
-x_mask,
-> > +                            unsigned int rx_mask, int slots, int slot_=
-width)
+On Tue, Jan 27, 2026 at 12:49:52PM +0400, Mark Brown wrote:
+> On Tue, Jan 20, 2026 at 11:06:07PM +0400, Anton D. Stavinskii wrote:
+> 
+> >  	help
+> >  	  This driver provides an ASoC codec DAI for capture and basic
+> >  	  control of the RXADC registers.
+> > -
+> >  	  Say Y or M to build support for the Sophgo CV1800B
+> >  	  internal analog ADC codec block (RXADC).
+> >  	  The module will be called cv1800b-sound-adc
+> 
+> Extra change here.
+Will fix, thanks. 
+> 
+> > +static int cv1800b_dac_hw_params(struct snd_pcm_substream *substream,
+> > +				 struct snd_pcm_hw_params *params,
+> > +				 struct snd_soc_dai *dai)
 > > +{
-> > +     struct snd_soc_component *component =3D dai->component;
-> > +     struct wm8962_priv *wm8962 =3D snd_soc_component_get_drvdata(comp=
-onent);
-> > +
-> > +     if (slots <=3D 0 || slot_width <=3D 0)
-> > +             return 0;
->
-> You probably shouldn't bail out here, how does one disable TDM if
-> it is no longer required?
+> > +	struct cv1800b_priv *priv = snd_soc_dai_get_drvdata(dai);
+> > +	int ret;
+> > +	unsigned int rate = params_rate(params);
+> 
+> > +	cv1800b_dac_mute(priv, false);
+> > +	/* minimal decimation for 48kHz is 64*/
+> 
+> Nothing ever mutes the DAC so this is a bit redundant.  The mute should
+> probably be a mute_stream() operation.
 
-Should we add some checks for the slots and slot_width here?
-or just remove these two lines?
+I'm not sure here. DAC mute feature was not implemented because I don't know how
+exactly do that. The public documentation is very weak for my taste. 
+This call added here to be sure that override flag is
+not set (override feature replaces the output by setting it to constant 
+value and ignoring the input, so it is some kind of mute from my understanding. 
+So ensuring this off is needed be sure that DAC will output our I2S data). 
+What do you think will be better to do here? 
+I'm sure that is needed, but may be better to move 
+it to some early stages, like probe function. 
 
-Best regards
-Shengjiu Wang
-
-
->
-> I think the rest looks good.
->
-> Thanks,
-> Charles
