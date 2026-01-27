@@ -1,70 +1,70 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB7B285CBC
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 08:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD546FC3
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 08:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769501586; cv=none; b=WXtWzx7coq8e9KFCJBLM+TvEZAZ5M/kJu7VOnIs2xHJUfaZJAyncxuch02BKPYoC1Mxns15A8z+G+myCoxFsdLI9fsBT7xvyU76fznkhtxtCV+r9M7Iq840VAPUEWNNLvqdPEX4Wdp8mI6WxHxke++O71PVVC+2pW6jk3GG5KGw=
+	t=1769501750; cv=none; b=nKiSFdWpAMSSgtEcMFvqdGL1LcDBC5abR8SJFP7uVyvYZNcUM5JHeD8VSz8CbaNq2IMKOJxg/LMlYn8DKa1vOuyZCZq/Lazogu7RYsM6fty0bCVLhogbDaHizWyVzDqg278eZZe3Zs82f2tYihAcvJXN0+W9QIZ4ycaZMeBHCE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769501586; c=relaxed/simple;
+	s=arc-20240116; t=1769501750; c=relaxed/simple;
 	bh=ZaHcQrT0lh5Nn6AUb3W/04odQHkN20pWEYvQdQ1VuZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqEaolXjKFXHzCo8RS106kiXsmUOFxKikKLBl1C1cz39YE92F1RxAgyEzZBxc8KBczP/o2Dvp3H3ExuivP270tPw1rCTkfjVMqMAwOWgpmQyuW9BoDG0Bi4mN2P+orhGtV9cwz60bNXplNE6saitXo8qKPM5JOMwfIy/Pde9HDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dn3J7zvp; arc=none smtp.client-ip=209.85.128.52
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RV6OnLi8DXiKREUJGHzBrwHFCtInC+ht9OKTMAQClSBGMZJkihz4kurxETU/Vj05dRgYURhqmZd9qJZ5exzQ7KgrKyuLQ+0Cg38cmCg7Dx05ZoiPNBPrT0QUgCnZjxvTfjKdVyUwUfgFkGeVGxKJtpkhINQEQYJh0PAtF/UnEDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cturHvBR; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dn3J7zvp"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47eddddcdcfso30964065e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 00:13:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cturHvBR"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so60567915e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 00:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769501583; x=1770106383; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769501746; x=1770106546; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=XjuypISaQFtC+AM1Wis3oNfFfvMNMa9Kd3Ca8E3gltM=;
-        b=Dn3J7zvpNrcX/AkjjmDnPdd0/T6iY6O/ep8u2oaDFvcWtjNT4WkuI9v2FzDEtYiv4E
-         I9b3OnpSUosnXqH6ZO9RyV9t/p9u9c4uI2MMBZgIB4bzrwciaOXYPlWQuylUW1acMaMU
-         /FoQxpv1QuF9e/y/xq62OCO+8hdpSYHoeWWv8AptYAIKxewBP8dm9s9EfXGO3fTJsNGK
-         G4fPxh9eIppr/P2irnxVscbrs+1KlLU74MVAIseHtjb53MrGtZft5z9UgUnQj0N3QitT
-         6AeTQ/2/AEtXjeRrxbO0CoKU3Xf0Aa9xi3TwoxzA4d+pzFWtTIEZc7c5XxIOSHPlaHYR
-         dIxA==
+        b=cturHvBRqAlq8BE0+J54cDyOzdmxtzXBYnXXyqn3YGYK+NYGRPiw5IF1T4ViT4J+FZ
+         Brniu7LGZPIERw/YEVbiwedYkQmisIGX0hIiYeuDIUTMpKu4ELffC4U8lV2AThI8GenJ
+         LJc2liqodlgBoUHq/TotLLIbYrHUnAKdCjJlm5NqCh2kpzY7U6PnpWlyl4uQYLenPhgi
+         yF8Yd8yf0Ut6FQ0ov9RDfx15OSThUW9OywLDfOmEnwJWcBBtiNzjUG05L6OgBDGbTDIE
+         wKS0kOmqgv9Np/m2vw+4Jan+Iv/5ZdovAGLp31gOpAfzVDB2ZeCAG56A9eFj1EE6gbyN
+         vNOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769501583; x=1770106383;
+        d=1e100.net; s=20230601; t=1769501746; x=1770106546;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=XjuypISaQFtC+AM1Wis3oNfFfvMNMa9Kd3Ca8E3gltM=;
-        b=a+vf5zOm/BAKlQv/e+syWAHnlzNaUIniYIiOAJtBJ4tAtwsHosHsgLV2gmGI40fcFp
-         OmXyjgapqNdrSc9Vn+X5ZJtlVrfkMbJoG0ROqlFqtLlAtJfg4SPznUcVl/cowu8n1RW5
-         +rsYWvP5t4BeiQa50sSoGu0zEh3nF5f2DaoCAjr05cKw+p0lrUpFwCfa7kcduWf0PQhw
-         Ji1MQdwCYHYA2MzpXkNsQeRmxWdsDd1t317wxkZT3cexF/kC/9lP2q8VxibsqILvAmSg
-         VkIs2lbSepcfBbPCHkcIMA0wo5/u4nTRkQrggPf7CPJUsex+2NZIkuNRQ/qK5vCZoXTo
-         BWXg==
-X-Gm-Message-State: AOJu0YzooImxkCZeYOY8/3OLfpy7f8oeBMuwEkTt0ebAaN0nHBFqJNZS
-	8cb5aB8+rUP62dBC9bh1VbyXb4Huf0+6qCv3pMydow+DnyKoybqYiqYHTn+rVg==
-X-Gm-Gg: AZuq6aIw5szKM4Jg2Z5iialgKn2+bKR+zegGRnQU/sv9Hc2mpFNSTuM98mxtvFL8SeA
-	ZHrND7CdFSRj0C7e9h4r2ZYUIxg32p/9X8Y063jF/cnV2kHe2I+DM8M+jQ7EaprYMslwxX7tJKT
-	TEaZ/OlySEe29ZH7CRSSeH9hlcMk9xVV40AnXiySenvM7cOvJ7a01WeHWycpwK02POtPxgKk8W8
-	8sDTMwb85rZeZIHcTMZrypwO6quxQvybqOocMn0wtxy/TUQYoAiQ03MXxIHUO5f0gmp/uCS7MBR
-	qbfJ7TVL1hq0leHCNyO95Pda3cMweOJFFXX0EbaKCH/8s5FgZ5RrOOijDCmq0L2FFgyGzDunwm1
-	kHyveA2u0GFuF8W0Ml5bnHzt+U9RAhR3CFq7kgz/vhTF6+cL1A8FH6+Ma9cY+44qjmaOhNGXhC8
-	x6CIhT0Cm88FiXchQsny0F/+Vm8AgekSfujcQqBtGdbNp6RB5GHl8vPQfEWWPQi9lpyQNPYyYcR
-	A==
-X-Received: by 2002:a05:600c:474d:b0:475:dde5:d91b with SMTP id 5b1f17b1804b1-48069c54142mr11853615e9.17.1769501582760;
-        Tue, 27 Jan 2026 00:13:02 -0800 (PST)
+        b=q22AdWrovI5KULGoOxJuxYjCWv2hgDmJgLxh25iAfRRbNUfpwS+t9Qfvr6dFzUCCtu
+         tBzmcIjhZge63kayJTeJfxVlGP0i50IOf80EvS4yGm6PItexEzM8A81QcMe67qdTSC0B
+         Nzq/PfzMGmXCg3WlU+6kXncb3qEHktmjVrGBONRb2MABRejKxaXS8gMU2M9TWz8jWoEF
+         7Q2i+pIVri9aus1sGJjeJGiMRtl7djiaTHCl7ieN4065oMm4aYOaQ9duB1vcKz6DdqHY
+         ALlDRShVU1Q/uxrHqJZbcSzf+pGpe4LXnW64bASoMBTdSXbhIazms1lesgiHCm9pyOPu
+         0SyA==
+X-Gm-Message-State: AOJu0YyUONrKwHdDi6nyTcE1l5E3tMj+vuBLx7/uAito0fGy5khyMtjn
+	qQTbw/4uU1eVQzeByOD4eY82fS5sYRvRetgmkXJFj1SAtzDjwqjidorSIaj8mg==
+X-Gm-Gg: AZuq6aIvmoK+14TpGWNjEq6b9bWWknpMQdxC/9SUlOl3KQsvpavAmhYFBFoa1sC/VZD
+	PPunwy7VrJb1mWY6lcE8auE85b4RvLtI+Ggp4D9Vv2eBMx5G8WTDPXLflNf8yjoGcpq1RkYjDRS
+	ZZDfS0ttPvknPq6RoLJYi9Q3gpzUSJ6ZGF1MoeiBigkOIknjAew5ULvmx7h2qn7PWgwC1imJ7Cy
+	BXZza6CLHOsFARepnwYVTmQIkPiJ+wCV47ZkNRxYom3qJnOiUWq9ZoBYzFqXgsj1sMxUmUIQPDa
+	vsnadzxvsXmPRqr2dOLUWh2Wmk3M2pqEprrjK9j5WFlV5wr/Ofanhskz11bldXUMn+1JEPHVjKJ
+	P+ilY3ebUqRUDzrJJ8e4PSR1dBE01p1bwqYC79WAxRz5ZlZYgBKGwlPGF32qxEoiyy4XYRJ3NhR
+	GyJ1hmNryLHsqgTX/412InJQpc0/inlFjxmeYuB3JVDUB3xVbXHj/60O/S4s54tYqNv8v+MZpt2
+	Q==
+X-Received: by 2002:a05:600c:4592:b0:47e:e91d:73c0 with SMTP id 5b1f17b1804b1-48069c5a1a6mr9658745e9.19.1769501745216;
+        Tue, 27 Jan 2026 00:15:45 -0800 (PST)
 Received: from jopdorp-linux.tendawifi.com (238-180-99-95.ftth.glasoperator.nl. [95.99.180.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066beeaf9sm47253445e9.6.2026.01.27.00.13.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c42895sm48084635e9.14.2026.01.27.00.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 00:13:02 -0800 (PST)
+        Tue, 27 Jan 2026 00:15:44 -0800 (PST)
 From: Jegor van Opdorp <jegorvanopdorp@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
 	perex@perex.cz,
 	linux-kernel@vger.kernel.org,
 	Jegor van Opdorp <jegorvanopdorp@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: add mixer support for Focusrite Forte
-Date: Tue, 27 Jan 2026 09:12:58 +0100
-Message-ID: <20260127081258.216097-1-jegorvanopdorp@gmail.com>
+Subject: [PATCH v2] ALSA: usb-audio: add mixer support for Focusrite Forte
+Date: Tue, 27 Jan 2026 09:15:41 +0100
+Message-ID: <20260127081541.219669-1-jegorvanopdorp@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
