@@ -1,38 +1,38 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE20A21255A;
-	Tue, 27 Jan 2026 03:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE381EA65;
+	Tue, 27 Jan 2026 03:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769484830; cv=none; b=TmCSJ46LrmG9iFBj/OltY3DDNGewCm9K7J3nMIkOyLkq0b6tNyf7bWy1drtuW+h6yaNGULSYuR829GBYyqOWtGncTXzAtG7cIiffp6f1jJnYa624irX3U537FA6QTavUmTcWkjles4rJ3NXbZmMn5UFrQ99uf7UXZ41FJqpZSko=
+	t=1769485295; cv=none; b=j7uFp4i3VojyAuf7Xfiq07Y6LIeuX9jcC0Vv8sdFvHYMXsN1OXGYMINRJX2qN18wF5GaganS4/B4twQQ7EohXge8No+b7D1Eza8A7vX+AM7YsfC3RTs1KWIKxES1gyUlAJfMhMK8IRBSL9u0QAYMOs6pwHhHWU3jZij7oerBEhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769484830; c=relaxed/simple;
-	bh=NDnJkHY8nPosiplyCAc1GWq5X3eskreq/zs8gR/KiQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AVFblFdMj+8sZvIppKVUroay7nAfqqoiQ3FloPje3kxmBd8Sa0N3DbI8xYi41zaCuimpbdbFFrMBOKEP3A8ZgpUfgPvLNGfAbthz6Ajh4vExJjNF5Hf94E+WBt5UV+Qmf3g6Fy+2pf+VbOnKUTVDJ/v2RVx4jGxU0tlGcOdubLg=
+	s=arc-20240116; t=1769485295; c=relaxed/simple;
+	bh=URI8vlChpX59IeF6XmaxVY2GasJDyQSzNbFDVES9K48=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FHG3jvw20BRRXYsvLek/R91QBihi/MAVItURG4v/lo67eCU6WzU+NJYrmWjs03t29Alza5vZ7n5uxi2hgrMTJd3tGjEGGOcJWSDjn1/JZ5r7UzuZeEKpKFHB1IMGct+3up/VqEM8leBKkVhfdEG4PyM4S29b2s0IkFEO7BtkFUU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost (unknown [124.16.138.129])
-	by APP-03 (Coremail) with SMTP id rQCowAAXOuELMnhpS47oBg--.60736S2;
-	Tue, 27 Jan 2026 11:33:31 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAAnDOPgM3hp1sXoBg--.10824S2;
+	Tue, 27 Jan 2026 11:41:20 +0800 (CST)
 From: Chen Ni <nichen@iscas.ac.cn>
-To: fengzheng923@gmail.com,
-	lgirdwood@gmail.com,
+To: lgirdwood@gmail.com,
 	broonie@kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
 	wens@kernel.org,
 	jernej.skrabec@gmail.com,
-	samuel@sholland.org
+	samuel@sholland.org,
+	ckeepax@opensource.cirrus.com
 Cc: linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: sunxi: sun50i-dmic: Add missing check for devm_regmap_init_mmio
-Date: Tue, 27 Jan 2026 11:32:50 +0800
-Message-Id: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: sun4i-spdif: Add missing check for devm_regmap_init_mmio
+Date: Tue, 27 Jan 2026 11:40:25 +0800
+Message-Id: <20260127034025.2044669-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -41,10 +41,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAXOuELMnhpS47oBg--.60736S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrWkJrWfCw1ruw18AF15CFg_yoWfJrc_G3
-	y7u3s5WFyUKrWIka4DJr4jyr4rWF10kFyIgr4UKFZxJ34DGa15Z3yxK34ru3ykW3y8CFW0
-	vw12vrZxJ3ya9jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID:rQCowAAnDOPgM3hp1sXoBg--.10824S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrWDXFy5CF4ktrWfJr15XFb_yoWfJrc_X3
+	ykuan5WFykKr9I9a4DJFZIyr48XF1vkFy7tr1UtFZxt34DGws5Z3y8AryrurWDX3y8CrWY
+	vr1YvFZrA34agjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
 	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
 	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
@@ -65,23 +65,24 @@ error if it fails in order to catch the error.
 
 Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- sound/soc/sunxi/sun50i-dmic.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/soc/sunxi/sun4i-spdif.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-index bab1e29c9988..69d2478ffc95 100644
---- a/sound/soc/sunxi/sun50i-dmic.c
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -358,6 +358,9 @@ static int sun50i_dmic_probe(struct platform_device *pdev)
+diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
+index 1e755a716c63..65de03ca3ad2 100644
+--- a/sound/soc/sunxi/sun4i-spdif.c
++++ b/sound/soc/sunxi/sun4i-spdif.c
+@@ -684,6 +684,10 @@ static int sun4i_spdif_probe(struct platform_device *pdev)
  
  	host->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 					     &sun50i_dmic_regmap_config);
-+	if (IS_ERR(host->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(host->regmap),
-+				     "failed to initialise regmap\n");
+ 						&sun4i_spdif_regmap_config);
++	if (IS_ERR(host->regmap)) {
++		dev_err(&pdev->dev, "failed to initialise regmap.\n");
++		return PTR_ERR(host->regmap);
++	}
  
  	/* Clocks */
- 	host->bus_clk = devm_clk_get(&pdev->dev, "bus");
+ 	host->apb_clk = devm_clk_get(&pdev->dev, "apb");
 -- 
 2.25.1
 
