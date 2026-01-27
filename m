@@ -1,61 +1,61 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E349D285050
-	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 08:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB7B285CBC
+	for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 08:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769501357; cv=none; b=K2RtUlbfYi5/5PF6Mn+i/LhQTVcQNFQmp8n/hJUUVLgoDbLJa9G1OB3NaffvOXCKnBCVgGHFRtYzeuGhs5Th5upXMiyK//gqusa0gPqCuApgmXWXkQYuQxMNUl3rTLkIikIoVxMNy86ExnTPfxDa6i0a3AegYH6WLebV3zAFo38=
+	t=1769501586; cv=none; b=WXtWzx7coq8e9KFCJBLM+TvEZAZ5M/kJu7VOnIs2xHJUfaZJAyncxuch02BKPYoC1Mxns15A8z+G+myCoxFsdLI9fsBT7xvyU76fznkhtxtCV+r9M7Iq840VAPUEWNNLvqdPEX4Wdp8mI6WxHxke++O71PVVC+2pW6jk3GG5KGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769501357; c=relaxed/simple;
-	bh=md6Hp/P/U+pLRSWunUDF9PTF1O3oNMGZg5cDOP7A11Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SQGer8tFh1BJ6WywVVHax9FcVVIeOR6rf0h4cnYl95gqKn2j3ZS0P7+7bN10xQgXB6PwAxkFHZZ+7IuB/szwFXPjkeO/Up5tQtwtl0i+sy0T6Dr7C5ovMnk6bU0Cf1wQx8l6exYn1jpxBXJ0pJFuJoKtEqiIidwzdre9UZY2GzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1SEgH0g; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1769501586; c=relaxed/simple;
+	bh=ZaHcQrT0lh5Nn6AUb3W/04odQHkN20pWEYvQdQ1VuZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqEaolXjKFXHzCo8RS106kiXsmUOFxKikKLBl1C1cz39YE92F1RxAgyEzZBxc8KBczP/o2Dvp3H3ExuivP270tPw1rCTkfjVMqMAwOWgpmQyuW9BoDG0Bi4mN2P+orhGtV9cwz60bNXplNE6saitXo8qKPM5JOMwfIy/Pde9HDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dn3J7zvp; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1SEgH0g"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42fbc305882so3233804f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 00:09:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dn3J7zvp"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47eddddcdcfso30964065e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Jan 2026 00:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769501353; x=1770106153; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769501583; x=1770106383; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8tL+NmFC3uxk3F8MXfdMah5IPiA4oj5opzuBpeVlxj4=;
-        b=K1SEgH0gjGf/efnH5shAcNFiieyR86lcsQXGy2TObpgXbIPQ9XQ1i9sCkzsBlcpjPW
-         avu6uiHIWt0cK1UbBjsX8sp+O5AprISIK9TEaMZOkkI/PaGffMareTTzfFybMg/nUhcQ
-         UuUDFV5tJ32tcXN3eiIIe+WuhxRfSDoce7FNf3Nx0oX5s3gvUNp/HBgz/mVIKAjE1T1W
-         MRK4MQPc6XYwVIYrG/Cd+TuTf0tMfNK8AEvcwAwufaABYpknHSfl5D3VwlptuPOE6eXl
-         4TiyKqlkHAGjMW8pgjMJcgw1bBYzK2rzLjCr4FNeV+01uPdJoc35q2GwL52mFOTHTGuA
-         TUsw==
+        bh=XjuypISaQFtC+AM1Wis3oNfFfvMNMa9Kd3Ca8E3gltM=;
+        b=Dn3J7zvpNrcX/AkjjmDnPdd0/T6iY6O/ep8u2oaDFvcWtjNT4WkuI9v2FzDEtYiv4E
+         I9b3OnpSUosnXqH6ZO9RyV9t/p9u9c4uI2MMBZgIB4bzrwciaOXYPlWQuylUW1acMaMU
+         /FoQxpv1QuF9e/y/xq62OCO+8hdpSYHoeWWv8AptYAIKxewBP8dm9s9EfXGO3fTJsNGK
+         G4fPxh9eIppr/P2irnxVscbrs+1KlLU74MVAIseHtjb53MrGtZft5z9UgUnQj0N3QitT
+         6AeTQ/2/AEtXjeRrxbO0CoKU3Xf0Aa9xi3TwoxzA4d+pzFWtTIEZc7c5XxIOSHPlaHYR
+         dIxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769501353; x=1770106153;
+        d=1e100.net; s=20230601; t=1769501583; x=1770106383;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8tL+NmFC3uxk3F8MXfdMah5IPiA4oj5opzuBpeVlxj4=;
-        b=TqZcUsBmxq3ia0JhGrE1B6dlJYwBrHTOEmhX0eLMDTMxEnTZBoffR80gvzV1767yp7
-         tnpqK0I3VBCckjTIAcAJf2NR+DXRMqpu1YuYkEpUsp222edNjgziDgl8ATBo7R3P4j9D
-         GhG6kyxegU42CE++uF/cAtDyPQHIm9kVSJmaBVQkX8Zu/hqjgvPPu+nfxmOoEEe81Vsv
-         40eeEeMXx2LyFrG4j+0ctNsPQex3ySCpYXJx5MrD5gIPtYQKWPaPyirywsq7zmJYvkt4
-         y2GWtyk22iiF0KdVd0dNm8IaUhX7JJSV1FinjN+u7H/VB8Vv0a8cVPz1R5CbSAKnAt2Y
-         mUAA==
-X-Gm-Message-State: AOJu0YydSlUm+KpR89oqy5NQERHEq2rl8kxTrOgmiXhdWBrdrR2MDFDc
-	Y0JWxSJFX297neglLxnnTbKhM4zq3s1cifKFlvOjdTmDsy/bhLDbGItXupveGw==
-X-Gm-Gg: AZuq6aJbaA/8p/X0mQxp/rLvoOSAXu+MEndcslLEB2OiaFYE+BbnbZsO1f71ZHiD7s1
-	IKibImU3xK2GrzGicgAT9Vvc5UDjG0vebuvEvvVPPwA7eQhu8GYcuj9vXrIoqjXWqpcRoDMVWYf
-	gUIdZCjlAo664XwV6cMA0nzefIuwHP3G1PQu9qQ+iF2EPM2OWC8l/2wfoItW9UIica2HvbE1XqE
-	ar71cdBohbu6pkAADTWIUguww2sCQzGVeZmBQ21a/wAmFSt9Ddib3KwNw9bZUDXYzKqP9bTHHTV
-	XIN6GBreGJpEcXtXRxSO9+FkiqjWOrfhRgaE3aEyaCQPquIKZNYzu1XIWJcKn4weLXHkPPWuz+M
-	JVUyoBEGrsrr1sPgm3EwEh8AXWk4tnShJqkF7RnGj9ErH74nYNjykrFkeeuSvOY5+x/Hwd2D+4j
-	5RsiMnn+W6blJuQIu7VytsIVr1YLX7/D48OxQ4GGrwsCwxQcso79XdbOGfUC4CEJO7dbO5zzYhR
-	C6cpN5CxJDn
-X-Received: by 2002:a05:6000:4023:b0:431:1ae:a3be with SMTP id ffacd0b85a97d-435dd02d9bcmr976504f8f.3.1769501352794;
-        Tue, 27 Jan 2026 00:09:12 -0800 (PST)
+        bh=XjuypISaQFtC+AM1Wis3oNfFfvMNMa9Kd3Ca8E3gltM=;
+        b=a+vf5zOm/BAKlQv/e+syWAHnlzNaUIniYIiOAJtBJ4tAtwsHosHsgLV2gmGI40fcFp
+         OmXyjgapqNdrSc9Vn+X5ZJtlVrfkMbJoG0ROqlFqtLlAtJfg4SPznUcVl/cowu8n1RW5
+         +rsYWvP5t4BeiQa50sSoGu0zEh3nF5f2DaoCAjr05cKw+p0lrUpFwCfa7kcduWf0PQhw
+         Ji1MQdwCYHYA2MzpXkNsQeRmxWdsDd1t317wxkZT3cexF/kC/9lP2q8VxibsqILvAmSg
+         VkIs2lbSepcfBbPCHkcIMA0wo5/u4nTRkQrggPf7CPJUsex+2NZIkuNRQ/qK5vCZoXTo
+         BWXg==
+X-Gm-Message-State: AOJu0YzooImxkCZeYOY8/3OLfpy7f8oeBMuwEkTt0ebAaN0nHBFqJNZS
+	8cb5aB8+rUP62dBC9bh1VbyXb4Huf0+6qCv3pMydow+DnyKoybqYiqYHTn+rVg==
+X-Gm-Gg: AZuq6aIw5szKM4Jg2Z5iialgKn2+bKR+zegGRnQU/sv9Hc2mpFNSTuM98mxtvFL8SeA
+	ZHrND7CdFSRj0C7e9h4r2ZYUIxg32p/9X8Y063jF/cnV2kHe2I+DM8M+jQ7EaprYMslwxX7tJKT
+	TEaZ/OlySEe29ZH7CRSSeH9hlcMk9xVV40AnXiySenvM7cOvJ7a01WeHWycpwK02POtPxgKk8W8
+	8sDTMwb85rZeZIHcTMZrypwO6quxQvybqOocMn0wtxy/TUQYoAiQ03MXxIHUO5f0gmp/uCS7MBR
+	qbfJ7TVL1hq0leHCNyO95Pda3cMweOJFFXX0EbaKCH/8s5FgZ5RrOOijDCmq0L2FFgyGzDunwm1
+	kHyveA2u0GFuF8W0Ml5bnHzt+U9RAhR3CFq7kgz/vhTF6+cL1A8FH6+Ma9cY+44qjmaOhNGXhC8
+	x6CIhT0Cm88FiXchQsny0F/+Vm8AgekSfujcQqBtGdbNp6RB5GHl8vPQfEWWPQi9lpyQNPYyYcR
+	A==
+X-Received: by 2002:a05:600c:474d:b0:475:dde5:d91b with SMTP id 5b1f17b1804b1-48069c54142mr11853615e9.17.1769501582760;
+        Tue, 27 Jan 2026 00:13:02 -0800 (PST)
 Received: from jopdorp-linux.tendawifi.com (238-180-99-95.ftth.glasoperator.nl. [95.99.180.238])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1b6e2besm36177612f8f.0.2026.01.27.00.09.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066beeaf9sm47253445e9.6.2026.01.27.00.13.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 00:09:12 -0800 (PST)
+        Tue, 27 Jan 2026 00:13:02 -0800 (PST)
 From: Jegor van Opdorp <jegorvanopdorp@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -63,8 +63,8 @@ Cc: tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
 	Jegor van Opdorp <jegorvanopdorp@gmail.com>
 Subject: [PATCH] ALSA: usb-audio: add mixer support for Focusrite Forte
-Date: Tue, 27 Jan 2026 09:08:50 +0100
-Message-ID: <20260127080850.211208-1-jegorvanopdorp@gmail.com>
+Date: Tue, 27 Jan 2026 09:12:58 +0100
+Message-ID: <20260127081258.216097-1-jegorvanopdorp@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,8 +96,9 @@ mixer_scarlett.c infrastructure with Forte-specific additions.
 
 Credit: This work builds on prior reverse-engineering by alastair-dm.
 
-Link: https://github.com/alastair-dm/wiki/wiki/Focusrite-Forte
-Link: https://github.com/alastair-dm/Linux-Forte/wiki
+Link: https://github.com/alastair-dm/forte-mixer/wiki
+Link: https://github.com/alastair-dm/forte-mixer
+Link: https://github.com/jopdorp/forte-mixer
 Signed-off-by: Jegor van Opdorp <jegorvanopdorp@gmail.com>
 ---
  sound/usb/mixer_quirks.c   |   3 +
