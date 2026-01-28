@@ -1,98 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314AA275B05;
-	Wed, 28 Jan 2026 03:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C52F2C2346;
+	Wed, 28 Jan 2026 03:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769569348; cv=none; b=tfz+9DFSVwH9Km1obCiiQKEGRMlkJjWu9+zHOikLQfJWEgABQwxWHEjs24bSuwAyOqO4zcXtlIA+N5bTpeEGaCNbIrwGJp81CoV5lVcdb855IhMLG837cjRggcDja1ENoy7/kvVuWXNnjrMRKF8Zu/fLGVn25mlqJd8boNl1rMU=
+	t=1769571623; cv=none; b=JHLm90ZdYW1rC6o7nzqkcOc0e5BPMGRhOc4elq9VGyiehs1dxO8vxukBTPpCnWU9cRlbZl+OwFP0q6y55I5RZGx7pZDnIDQgZTdYFtcp7InR3601BT2qwMQbSMSa/cuTc8PQvNy8K++a0k+n6vD8Hgl29C8Xmi+CSgkHv2ivpKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769569348; c=relaxed/simple;
-	bh=H9NXgJot6Ofd8DdlL75INUWfELwxu3+FrH0VklUOezc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=r3TrgkcW5zWziVDWxNISajY8ZpebXwkm9FguFS203xiwhmF+RCofARBVfB30BzJX424juNZWg2McHrZtcvLKz/4jamteAFUWVNOPP0YglyDLPm/tFWvGO9kkAfMo22f0V/d5NcbA9xcsIOPB6Z2GhQ7TeTquhCWOUGB7NaaH710=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rk5/Bmyb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rk5/Bmyb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2635C19425;
-	Wed, 28 Jan 2026 03:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769569347;
-	bh=H9NXgJot6Ofd8DdlL75INUWfELwxu3+FrH0VklUOezc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Rk5/BmybWlM47xVlmxM8eKaBG5BmPG8Zym64Sejpg1wuTYn6mFccBTi6agVt02bmo
-	 u+YgkbPBfGqCqvDEULJ04NvMD8Vz9i0877TM79w8ihEXVf/iMwUHcFvS25bXFLDKxM
-	 0KSyrEMdYg7D+xdjAN28imLlOw6nVwyy5aYysfw0iwxzxxqUD0RvVf9WrFJ5hFprR2
-	 mOOmUaZNNk4hQu5l/SAtbmX7wn5fBiv60X4k7AAkpAlX0U9M2Jry2Dx1xaqeh0wBK1
-	 Z5tDpU6ThFIlakj2ETw6v6af2NY/ifIFI+D/fcH9vJa9M1p+AGRahLkH0XcJpVItfQ
-	 Jq5T4F01Zu5+Q==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Chen Wang <unicorn_wang@outlook.com>, 
- Inochi Amaoto <inochiama@gmail.com>, 
- "Anton D. Stavinskii" <stavinsky@gmail.com>
-Cc: linux-sound@vger.kernel.org, sophgo@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org
-In-Reply-To: <20260127-incremental-for-i2s-dvier-v2-0-5f66b841f63d@gmail.com>
-References: <20260127-incremental-for-i2s-dvier-v2-0-5f66b841f63d@gmail.com>
-Subject: Re: [PATCH v2 0/2] ASoC: sophgo: cv1800b: document DAC overwrite
- handling
-Message-Id: <176956934454.1515833.15704162153202007918.b4-ty@kernel.org>
-Date: Wed, 28 Jan 2026 03:02:24 +0000
+	s=arc-20240116; t=1769571623; c=relaxed/simple;
+	bh=zqCXqmNXUJ7W1NhgHlgGJdn677YyT7F7XqW9V1liAgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sfb+4lJ76aG0BXLZ7LwX9dskafiMEoM0C6bg/+FlXjhTNIqiaSh+VkZYXSfH7Mfl3Cv/Qcx92s8eQmaI3JvzCyo1aqoHKvXSVzs3F+jXT7RBldcI+0oHoPuO3E9H7OpDYE7OsoAeFpJV/M6o5ibX3605yVdudvLdJVYWQjy7xvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [192.168.0.109] (unknown [123.118.222.47])
+	by APP-01 (Coremail) with SMTP id qwCowADHcW0DhXlpfl6GBg--.10567S2;
+	Wed, 28 Jan 2026 11:39:47 +0800 (CST)
+Message-ID: <91bf33e2-4588-419f-aedc-1f1b4e99fc56@iscas.ac.cn>
+Date: Wed, 28 Jan 2026 11:39:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] PCI/MSI: Check msi_addr_mask in
+ msi_verify_entries()
+To: Thomas Gleixner <tglx@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Creeley, Brett" <bcreeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-riscv@lists.infradead.org, sophgo@lists.linux.dev
+References: <20260123-pci-msi-addr-mask-v3-0-9f9baa048524@iscas.ac.cn>
+ <20260123-pci-msi-addr-mask-v3-2-9f9baa048524@iscas.ac.cn>
+ <87jyx3be1t.ffs@tglx>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <87jyx3be1t.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+X-CM-TRANSID:qwCowADHcW0DhXlpfl6GBg--.10567S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYk7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+	CFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxG
+	xcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_GF
+	v_Wryl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2I
+	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+	0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjgUUUUU
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-On Tue, 27 Jan 2026 23:08:18 +0400, Anton D. Stavinskii wrote:
-> An incremental patch on top of
-> "[PATCH v4 5/6] ASoC: sophgo: add CV1800B internal DAC"
-> adding the explanatory comments as requested.
-> https://lore.kernel.org/all/20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com/
-> 
-> changes:
->  - added description for cv1800b_dac_mute function
->  - fixed "extra change" from previos commit
-> 
+Hi Thomas,
+
+On 1/27/26 17:27, Thomas Gleixner wrote:
 > [...]
+>
+> Other than those nits:
+>
+> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
 
-Applied to
+I will fix these and patch 1 as well in v4. Thanks for your review.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: sophgo: cv1800b: document DAC overwrite handling
-      commit: a8e3e488293118b8fa5d5e7ca786ca25b954ce12
-[2/2] ASoC: sophgo: cv1800b: tidy Kconfig spacing
-      commit: 8cf19b19dba8814ccc8b1179dabf28b7f8eefc22
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Vivian "dramforever" Wang
 
