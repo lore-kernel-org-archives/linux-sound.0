@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2DD78F2B;
-	Wed, 28 Jan 2026 03:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBCA78F2B;
+	Wed, 28 Jan 2026 03:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769569336; cv=none; b=SIWIK+ZHttyQOvv6n/xHysXG9i3NbA8Dhi0lM04x0sPsoYn6LuXJ9ozsoWGL8XClIWyBH24eTf8hDNm+sFCcmD6VEXfHMNksuSdCIItjOqWHSPmXg8kdsBj9hF0RLvWasBUZ/1OVJAVsB0Ck6Rda0str2eqwJu316VxFJCHPVnk=
+	t=1769569339; cv=none; b=nFeuaPwBr8lCVl/icXgn0OLMxOQ2u58hWZuazuZmRzWwyWoOC/60liDkkh4SHNiaTvgZsQASeN+LAA9VwZ3/AfpdcaYvJN4Lfn0AkqmsrQPCovGPXDwLhBMtzor2NNr/Qw2olYJ7Ehc82SKBy7Vr0wezTdhO4OO+rWQ4JvoLfp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769569336; c=relaxed/simple;
-	bh=i0/csCwZU0v5d+zAzQkM4cSs7zUQWkjnC/H7rL+YtSo=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bOUCTS58DJqCIRhG/t5NW/TQMXRHfBVsRQRtM/G4rn8wqkg1Ham2Zrp2NJV7u1nI3T295Yg6I2MQthj4qGTItpSaTgfl/fgTXETEqHhDXtWWSuohG6ue8AiC2KPqxmRHC4TXzOOe1vL8nRk2DzEi+vaducRHGda+LIHfMGFVZLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SEK4aTxJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769569339; c=relaxed/simple;
+	bh=/fPPEPcwmF3TdH7Q9cOa4teh7j31CwYm2Qus1YwzhtA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rfQ+ZckpiOritK1RMJjPxHI3MC8PRzAV09Rkol2K/3MxGPf6kGUMW4YXj85gwCqicECKS9zewA9ErQvBzYWArYZaLzb9tmTt/9Ubnx2MDDpqJv6gtW9v/K5kUfUvJpG1ZFO+63E3J5tby+cHM3fYY96U83YAqCpPki4fT+/7woY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XV+DvkAl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SEK4aTxJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E8DC116C6;
-	Wed, 28 Jan 2026 03:02:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XV+DvkAl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90E8C2BCB1;
+	Wed, 28 Jan 2026 03:02:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769569336;
-	bh=i0/csCwZU0v5d+zAzQkM4cSs7zUQWkjnC/H7rL+YtSo=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=SEK4aTxJAdkH8SyjzWKmABDtsz0stSBCdthsCALme8UvCk/GoSLBvbL36/0OFY1dU
-	 RF/5q8H70kJBqVapBYJ7W6K4kzPqh2c9TnMd3/EIChExsfU5V4bG5y4AxjrFAqv+W8
-	 rIs+e8fVIThjD6m2A2PoTynujyeBIxbICAuzPb/RgME48DfnObUMUOw7woHea9N4++
-	 1fc5IT1HkRh9jZom0LP3uUDWp5DzepIX0FhMFZSwT2qvVmsKrLlP6i9A5Rxkv/ae5F
-	 0iDTGj7ISTgeaCuguRFJgz/WLZNNYImV/p9Pl2C+WX8z7lOhCn8B2M2PFJTaXXiEFy
-	 qjBMQbcj835nw==
+	s=k20201202; t=1769569339;
+	bh=/fPPEPcwmF3TdH7Q9cOa4teh7j31CwYm2Qus1YwzhtA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XV+DvkAlwmNQm9QvMt+Q/bf1nQ8qCfkHzvgXEXvvyTM4zNf3FwGFtoGZZiGpN2Byt
+	 o/+X9ATo6AIzmbpc0hYgct4hMO2OUuS8ywmb0R94aNA4NevQ+iY09Nn+MewQB96Lxy
+	 xU4MHG3Mihth34JQkjviSKC4kzVF9bZkJ1qny8jKIOtDIkJE6W5NsxlW5jl49W9fwo
+	 Xn5b9zDHmr7KqHF6uHMKB717qVT1fgFOfSyW1T+CAE7whO3tpwYKIg3m/kTFGQra8K
+	 Rct+FsktiojFg2kdZGbGspWJ+UBO1Y9yBJz3lgaR63W0qf1tXpWehV/l+RNzgRLg4m
+	 oQFrC9GXrNhfA==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, devicetree@vger.kernel.org, shawnguo@kernel.org, 
- s.hauer@pengutronix.de, kernel@pengutronix.de, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260123082501.4050296-1-shengjiu.wang@nxp.com>
-References: <20260123082501.4050296-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v3 0/4] ASoC: fsl_audmix: Support the i.MX952 platform
-Message-Id: <176956933264.1515833.4946244987105746224.b4-ty@kernel.org>
-Date: Wed, 28 Jan 2026 03:02:12 +0000
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>, 
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Peng Fan <peng.fan@nxp.com>
+In-Reply-To: <20260122-sound-cleanup-v1-0-0a91901609b8@nxp.com>
+References: <20260122-sound-cleanup-v1-0-0a91901609b8@nxp.com>
+Subject: Re: [PATCH 0/4] ASoC: codec: Remove ak4641/pxa2xx-ac97 and convert
+ to GPIO descriptors
+Message-Id: <176956933650.1515833.16491235295905220325.b4-ty@kernel.org>
+Date: Wed, 28 Jan 2026 03:02:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,13 +53,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 23 Jan 2026 16:24:57 +0800, Shengjiu Wang wrote:
-> Enable AUDMIX on i.MX952 platform, update dt binding document and
-> driver.
+On Thu, 22 Jan 2026 20:44:56 +0800, Peng Fan (OSS) wrote:
+> The main goal is to convert drivers to use GPIO descriptors. While reading
+> the code, I think it is time to remove ak4641 and pxa2xx-ac97 driver,
+> more info could be found in commit log of each patch.
+> Then only need to convert sound/arm/pxa2xx-ac97-lib.c to use GPIO
+> descriptors. Not have hardware to test the pxa2xx ac97.
 > 
-> SAI is connected to AUDMIX, and the AUDMIX can be bypassed, so
-> add 'fsl,sai-amix-mode' property in SAI binding document for this
-> case.
 > 
 > [...]
 
@@ -65,14 +69,14 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: dt-bindings: fsl,audmix: Add support for i.MX952 platform
-      commit: 7550d6263b9b2015a806f66bf7ad356b6f25d050
-[2/4] ASoC: dt-bindings: fsl,sai: Add AUDMIX mode support on i.MX952
-      commit: 4d3b56b8a3504dab98d5f9a91ed9091431749863
-[3/4] ASoC: fsl_audmix: Add support for i.MX952 platform
-      commit: 291f2f908823832e932582500816ad614631d568
-[4/4] ASoC: fsl_sai: Add AUDMIX mode support on i.MX952
-      commit: 19b08fd23b20593ebe43708308dbddb02507877d
+[1/4] ASoC: codec: Remove ak4641
+      commit: d7e1f9e84af460c5f1e5352eda8f036000cfcf0a
+[2/4] ASoC: codec: Remove pxa2xx-ac97.c
+      commit: b094de7810f3c0340a3aebaf6b8fc60c81c0cf91
+[3/4] ASoC: pxa2xx-ac97: Remove platform_data
+      commit: be829277ef79aa626e952e17030d711bdb6c1eef
+[4/4] ASoC: ac97: Convert to GPIO descriptors
+      commit: c76d50b71e898694c946993eb3c77f50efa97254
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
