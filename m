@@ -1,239 +1,183 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010021.outbound.protection.outlook.com [52.101.84.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A09316199;
-	Wed, 28 Jan 2026 07:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769584782; cv=fail; b=NkJX5EJlgCo6UwyZf0Ovj0oahvvVxV2GIEGjk4TNaH6e9J6tuUt31ExMbRJjn8+HFwTt7eNCRq6Lm3uxGp6EMhb4+9qZaYEdghgUO7eW0cOE7FWEnILgP91x6UkUcqXFTzB13uNmM2tN615kG85Nmt8HoDe6LAE4nYDFdFey7Lw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769584782; c=relaxed/simple;
-	bh=JgA/G7GM7dmFZ2+GiTEUIuHfJB4nQcgnqPJpLtcEPN8=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lLl3fZIJ/2tMuOTK+s8ZDy5ue6CyusEpkTBW1BzN79lqo7pIVlsHgfbx0IBslB2bw2Ok8LzIlqgcGyBjUYTHJcu7OhnWm5rsisZAKYl+wt4DT28N1piSE7oED/9juepoq68Ru9pyuyrfBo7plVXKALmbmakOWmvK2soyDUana0w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=TNqJtFBs; arc=fail smtp.client-ip=52.101.84.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CDC27A45C;
+	Wed, 28 Jan 2026 08:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769589107; cv=none; b=tydYDVrUqBMsVXkB1cTXLwcY6SDcI9aCrySI/7yI7gWkVC4DD+9RjpxpCAlMv9F+NBvoZFIbB3kT/n8rN5SEETYl1vrUUZKCLyKadX0/h4TlKofTmXsnW0oG+JzulKIBRRainUeDkGRuzG4d+AtHoSCMsIdqhdLnTAIPle+no2w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769589107; c=relaxed/simple;
+	bh=HRi4FLBBH3KRRahkmihrfK/GXBhp62A0MoCiB5QEjhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EmvukeImfpRBiEj9x88KMfj90WX2qq+fjU71UWsf/tBuAXSw9OocEA5BJ9I7Hdrii6e/x4OeuGL5v+39ngISQ0931GMQrdBggMmzmW94+xZ3H/Ysta8CyKssEfRyQ6gGNSC0B6eNJ2P6C02zRv0dPrftq4GuVkgQiYQEull1fbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tiO7phgu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="TNqJtFBs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JoaXGm/IlH7rSfGL08ta5xtPf/GpiFxdDmSKDoQWI7t8oNe1VjDaiMcLlYPSCMm0q5SFvSssewUP7n+N6lEsG4UQ2ifBLBEnV1RzJlLhNTN+2cLf4rz6gygYKYnjCPfmUsv5IWibmGiWVmS1abrcLDmE3qy9JeI3X2/5GLyO8JzeiHSu5DJ1bVBenHrxuCwjYi9vVfkF+TGRwEfQ6a4+ymV/tSkrQkbaRSMZ/qcPGbhz89ZbXQrPoSsMKdaEMahj0WHVzY14gTxn1rj1MiVqFyzQnaXsnNdiLEbYce3ASDGpy0bxmaTgJnpEGDcSqmT5jD6rMwlSHnm9aptAVcftUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WDf0wPvajLkeVjV0Cc8BaoU7/JqiNeY72YCZRxwiqms=;
- b=Oga4vkC1j8Zr49RSLZkAnfkR8YhTT86kDvogz3Ycrgn/ZykID/xrnIKktvbqxC72o6Vh98TIo9i1RzCKeesjvcQGsXxEwvcLWP8UmodISRlN39kWOYS40JIjSn6s3owb7pXe1/1dmiOiBXYLcjIhxN7tu3SKj4K335HI6ChWVK+JvYgwB4X+xm6jxVj7OM0Ts2OhSV9gOh2RMDs/aB1KapnUZeu277u4QZTIXxrZyZQHRb9wexEUNuzK+TXOwLzLD2DeURSh8XOje7evctCCuaIFXuq2AZ6JXCtUYbr9xnhxs1uV/UKKsgs/As3wifomTD5tB3wFh7nd1a8dOhgPiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WDf0wPvajLkeVjV0Cc8BaoU7/JqiNeY72YCZRxwiqms=;
- b=TNqJtFBsCymaYumerFGOqBNQ63T9aosFcJOaWfVtTJuB8B+mFpDkDoAW3QXWfGmoMkLH57nn493hFVxwctnfg462vEI4o/9MhcJuhSaXDn/QLexnt1uAp3Y7v2i5JmWzyMJNeSY/etUNdYH2dhCzAFdWni+TwloqcSCd82k1yW6PuWGe63GJjoqtapQ8shNsJqEolzCTH8JVoqXZKiB4x66p4rlEQfR6hcI6GIMlSn/cVLNZAMIKdYLFGfVHQTbMCMaVvv7PAkDXbuCcl0AgcyUYP0Rzwm1aKr/hloPopyKRjPo4fr15u53kUZ1Rzj7zZDqTxpwQHSwfnjaVqF0KBw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by PAXPR04MB8687.eurprd04.prod.outlook.com (2603:10a6:102:21e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Wed, 28 Jan
- 2026 07:19:38 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%7]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 07:19:38 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 3/3] ASoC: fsl_asrc_dma: allocate memory from dma device
-Date: Wed, 28 Jan 2026 15:18:53 +0800
-Message-Id: <20260128071853.2602784-4-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260128071853.2602784-1-shengjiu.wang@nxp.com>
-References: <20260128071853.2602784-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0026.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::16) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tiO7phgu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278F7C4CEF1;
+	Wed, 28 Jan 2026 08:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769589106;
+	bh=HRi4FLBBH3KRRahkmihrfK/GXBhp62A0MoCiB5QEjhE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tiO7phguiVPnK/neFgqnELcQ+3O5fVCxHuDRKFt025evXtRKFlw3H7jJCyRnP1SaI
+	 c02PyFSZTi45UhdOeq6t2ywNYKWW/K7NHVI28vHJ6Y38pzabdsSRB1n/B6vlCop6rv
+	 hEMhRw4B4yoQpxF7qqV7jtcMfjaWDyMkcfHpt62VJi/isZbhwrgDde2693Ex9STLi/
+	 7fXlqhvGipq13DqEbvl8NlO/8lxaVnVTzeFw6s4KU+mn6CglWruh85sC+xA1JCwxuG
+	 z2lf2nxpkqZ5XLakpa+zkc2sqY08TI91pnX1EJvl0vKssRmdkTyFTcy1T+pRkXmfAw
+	 iQecvXOzXsaJg==
+Date: Wed, 28 Jan 2026 14:01:42 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	Sunil-kumar.Dommati@amd.com, Mario.Limonciello@amd.com,
+	venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 1/2] soundwire: amd: add clock init control function
+Message-ID: <aXnJbqm6NNETpnWZ@vaman>
+References: <20260123111233.3649153-1-Vijendar.Mukunda@amd.com>
+ <20260123111233.3649153-2-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PAXPR04MB8687:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1756918-73da-408d-d9e4-08de5e3d9882
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|366016|19092799006|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0pmMTwNrlKMEuQqaOXyIuBjI48oFD9SLpuE969lfBH02iW2Yo4G4VH3sAW/D?=
- =?us-ascii?Q?W6YDFBXBaI8y9tZzj+IS7rfv3SMv51E6ET4axC3GmyE0VXlysdUK+zZrn701?=
- =?us-ascii?Q?IcCRiFlorAw1vk11c/+r57pX0BN30J5Z0axv2Mkoo9y6Ril3twJ/N0GIr38G?=
- =?us-ascii?Q?AOyEep0vNu9gD8kDOLghIyDNXIHSB/3fPgqTbN/VNY/imMZG+EM7vPdrV44f?=
- =?us-ascii?Q?47JCohTxOQS0/q5rYEit0Xg8Zz8r6y8icxZlKS0AQ36Hd9I149iIBESjuoQl?=
- =?us-ascii?Q?puR16gBC7gupQF7LhgteFq2vI43ugF3v6dHlfkjx5JBigvpsdTvdo901fCPS?=
- =?us-ascii?Q?HWCGYCqFowtbpKH1B8eLq2FrBq35495sdH4o3Z8BFbSAlPzfss91u8/kwJ2G?=
- =?us-ascii?Q?ozDxYKq3x1Fk6dvfTZeNDuCmpsANg3x6MBl/W6FGsnlbAbVbqM2R24NqiP/f?=
- =?us-ascii?Q?xtZfMmjCdtVqxAa7byBc9ktQKSxk0vSaEoasyAmV7caYVha1J+TboVBZuEou?=
- =?us-ascii?Q?Ck7TGWN/uRpc7jYJGINbTWYfslV8gm9T8qO3Fg4C9meNwtfMfRGYlfGzwcQh?=
- =?us-ascii?Q?ewcDVFeiLlS77kbwue5gGot260XAd7PZ7YlXdsSL2go6mYas1Z8JpAdKqGY/?=
- =?us-ascii?Q?EEs9QFLU+MoGDfGMg/9wuol85Xco3r0Gi6QpLx1+PvxtR5TFsuChVWGigXxE?=
- =?us-ascii?Q?MMeOkQMoOiFv4QZgkOCfCvqnSVybRM8+oBcj6LV/Os2C/CyRf5yu+2gt16rN?=
- =?us-ascii?Q?HA6p/m051cu8gBNDJLgwTQdFRASWmlZUqDUMU2v5pjc4BGvNAGHfqI5sUq7z?=
- =?us-ascii?Q?Jib1uL5fvffVbApu6/jDlLiJpi8ml9Td7Bs9Ko/xgV2jIB3lWoIgTOyifAy2?=
- =?us-ascii?Q?O92N8lWwev88klNXSNFOvybfClE3a7c9fiul19agn1szJsk/55wNu8kc4TAJ?=
- =?us-ascii?Q?UUQR/abp3qz/YeOYZxQrr/tQTcnBsd1NBhQ+F8vqx/3dQL+q7dH3NbNAUHuu?=
- =?us-ascii?Q?YrM6dWO45oBSnYXXrhJNaGMhLJaPpQeATFcMBKhlpLy7QU+i/aBnn/iQYkH7?=
- =?us-ascii?Q?E9CNOBEGfNjMWAwEgzLeDFEBlFU8TsEVwfiK15TsFSEjF1PXK3156WKhTMOS?=
- =?us-ascii?Q?WvjxX2BB/HDcL5zOUna2nHDeFbaeFIiZ7fRqa7Z7r1F56SZsyA+/NmKvnv4C?=
- =?us-ascii?Q?hklFv6bO+NE+avsxafav2TOc5FiwzCs/1rNH2+WqBamatAZpG8bv88ahAMIS?=
- =?us-ascii?Q?iykbxCVyDD0ytGEoAyydJ/39n5oCuwhjf1d047ocwbLcYwub3Js8hVX/vBVF?=
- =?us-ascii?Q?h7PxJzNfAcsy10WkwuptR2tpbHGNghHvDFbeHrUAp6x3TyhcS2+bUfrKEVHp?=
- =?us-ascii?Q?0h2oWv/usDpu8iZzrrIqx/K4iI1Jb9LusjsP5VZEOU7hblX2mFFYDRr0/KDH?=
- =?us-ascii?Q?WIZEU2nrHdeOBhxcOc2lgPdLjRckKxSMAT+nxyusXFJw2SBqaT6moSlZoKQe?=
- =?us-ascii?Q?l/sZMEmY84hv6ZfwimUKl9GXPMmk6iEiw1zfcK+IJK/Wgj7jOWfAHkKV6xnf?=
- =?us-ascii?Q?6kXk4y1PxbeGhYKFcniMa35wYmQ6xe8zULAxPjv18MstnoBd9rhmza0xm+Lt?=
- =?us-ascii?Q?DMlxmpDzRxxtEBZHBgvbsq2val5acof4vnzxTbwXXASe?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(19092799006)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?X/z9jSmkEPdrtwapMiFPNQhcEAFWQySh2XkAM4wTK+TktDl1ODetENmObHwh?=
- =?us-ascii?Q?3Xi0qtsBTq8cKWZNNkT3HtLYR6dt/ZbO/gM5W8jiRzSTyNyZgbRn1ZL8tBmy?=
- =?us-ascii?Q?RKeFvu5qfp9elghJjv7e2Bxb4qHEk5eQn8UbmGBuyPBs3hjFBX5dmGmugM3R?=
- =?us-ascii?Q?vpi8m0jOSQflrGxx+M0S/LkczKrRwNha8TDl3X4km0+oNgCfuyhmeGGuw/XW?=
- =?us-ascii?Q?UQmwPhJYdG8/IkHmUD9tUS4o45kdkj6DrwXiuGNXKviVICD6caJsNLWGJLjC?=
- =?us-ascii?Q?VACfnpVn+5kFZqzmPffaRVwzmsknxD9NfdfLqL6kcXAoq2aRc/ebuJNvcQrK?=
- =?us-ascii?Q?cWd2OWjIr1VUnSOO0tYz6LcF2cXYq7SmrGTkBMyBc2vZ6lHLEJ7BHE5tpQ0k?=
- =?us-ascii?Q?Hh6WaoNRfKndcmZwJTzODWSPh7h1g2sKMPkiKpkCOQdX0h5y7eKm5QF5NmGI?=
- =?us-ascii?Q?InjbqRugBRJbvZPEKAAKDRkQq9pwKr1/aaMvaqZzPsDhPBjxZttPGpFrzE6i?=
- =?us-ascii?Q?5mrm+GDMRpGJ2i5NfXyjFigtxwfPTqZmhDYE9udqY66jCqh29Im8W310OYTt?=
- =?us-ascii?Q?Ub0zH9pgHxmjc063MPlGYnHRa+9bnEXFqvoRBDUvF8sM/gNUvbB0EGQeyGMO?=
- =?us-ascii?Q?YKBajQKtTQ7NTT41XecJSd8jabp4+rosgydQY1XgfB67KhWOYnRfSGZH7j5o?=
- =?us-ascii?Q?cv3mURVkidoSCkagjrwC2OJukK/Dzn5nGrhM48aQozn1MHbVf6Z1Va/AZ7jV?=
- =?us-ascii?Q?iiTDif9CtdTypga0jsCCNi9zvPZevM84hNlFTg7MMMI5wFjlMS4I5kqVNKhQ?=
- =?us-ascii?Q?P+CDmilVpo6W6brpLKkR2OXJborkPNFnkkGgJtmThS9Nhv5fvFMQXZBaZrPr?=
- =?us-ascii?Q?LpNk4ePZ2VWSNBxoVzDMfVT8RDsdj/PWJwyau37mzmJ8JmTPXTDYuAi1Uhs8?=
- =?us-ascii?Q?dxOx8GjEpNaVSMKO858x4g7WrtwdLBlEKBywK5VZ6zZu0YXjfaJqi157Fzpr?=
- =?us-ascii?Q?DiIMTpDxhTkiJ6RoUrKjx2ATD53OdzBVdxXBYBNP1g5DeBKuiKBYZIVI50fg?=
- =?us-ascii?Q?5hVF3KAc+qhUV9eKZj9V64gvKlbqHCyyMj+HzFWgKflw6dp1tFq9h/MwROUV?=
- =?us-ascii?Q?7bgjT+sPJaUlAoTbj+8A4vGszixMxWiTYGYz1XkEO8R/nWHejFRpzpf20vUP?=
- =?us-ascii?Q?jrLguQOY8ydlJk2IwBL/FyKMWMK9SzVY5IrHiEuDhhdpMcKNFDygrpLLRemH?=
- =?us-ascii?Q?xurdZjSHrTOVf5+HD7/OnQMJMtFgyQLQahzhh9jtUVDmCF5Xd512t4JEMzK2?=
- =?us-ascii?Q?GGdpPWG1uh197bPI440iuviCJBbZa3vgop74gFveK06HLtLYLf+SCn8G/sk1?=
- =?us-ascii?Q?blPjlmN78tsaXWgjV+IQ2Hr2R2Be/kntaIKNOb3DrbLoEZbhbvjX8FLIBeAV?=
- =?us-ascii?Q?E4kqa6CZsr2ZGZ67RubrHfa+749LtIDNupKp4IEtJcD4HkWD6n+kwX6HHY6v?=
- =?us-ascii?Q?vwcV95nCOi9s+3trzMsYDOyn+ZGLVX2RhYgmjenduDpDb8mulBPKM+krNnMQ?=
- =?us-ascii?Q?U4abNdh+9JhYqNBZgyX4C7eNGnPk8vXNWSuAcqymoW0QIR43fR8SFQCBjuyy?=
- =?us-ascii?Q?wR5gBDjVzHdg6DA4KhYmv5XPYrL7I+D+rtQH4SLE5A8Z3RofUihs2eo0pUKL?=
- =?us-ascii?Q?kXBBowV4oYXdO7IjX5kxbLV6wQfQfAY40F7iDbd7T1z/PSdZk2TeH0EquEsq?=
- =?us-ascii?Q?/vAZiYQRrA=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1756918-73da-408d-d9e4-08de5e3d9882
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 07:19:38.0352
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KDsthd2Nxr73pQpx02GVjVrYnN6T69zUeLL5we4XpF079KkKAVe6UEAKBKgG2ECXhdjWCO1lIhtMRsIhjkBNVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8687
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123111233.3649153-2-Vijendar.Mukunda@amd.com>
 
-As the dma device may support dma-coherent property on the i.MX952,
-allocate memory from dma device to make asrc driver to be compatible with
-such a case.
+On 23-01-26, 16:41, Vijendar Mukunda wrote:
+> Add generic SoundWire clock initialization sequence to support
+> different SoundWire bus clock frequencies for ACP6.3/7.0/7.1/7.2
+> platforms and remove hard coding initializations for 12Mhz bus
+> clock frequency.
+> 
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>  drivers/soundwire/amd_manager.c | 56 ++++++++++++++++++++++++++++-----
+>  drivers/soundwire/amd_manager.h |  4 ---
+>  2 files changed, 49 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+> index 5fd311ee4107..ee3c37a5a48b 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -27,6 +27,49 @@
+>  
+>  #define to_amd_sdw(b)	container_of(b, struct amd_sdw_manager, bus)
+>  
+> +static int amd_sdw_clk_init_ctrl(struct amd_sdw_manager *amd_manager)
+> +{
+> +	struct sdw_bus *bus = &amd_manager->bus;
+> +	struct sdw_master_prop *prop = &bus->prop;
+> +	u32 val;
+> +	int divider;
+> +
+> +	dev_dbg(amd_manager->dev, "mclk %d max %d row %d col %d frame_rate:%d\n",
+> +		prop->mclk_freq, prop->max_clk_freq, prop->default_row,
+> +		prop->default_col, prop->default_frame_rate);
+> +
+> +	if (!prop->default_frame_rate || !prop->default_row) {
+> +		dev_err(amd_manager->dev, "Default frame_rate %d or row %d is invalid\n",
+> +			prop->default_frame_rate, prop->default_row);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Set clock divider */
+> +	dev_dbg(amd_manager->dev, "bus params curr_dr_freq: %d\n",
+> +		bus->params.curr_dr_freq);
+> +	divider = (prop->mclk_freq / bus->params.curr_dr_freq);
+> +
+> +	writel(divider, amd_manager->mmio + ACP_SW_CLK_FREQUENCY_CTRL);
+> +	val = readl(amd_manager->mmio + ACP_SW_CLK_FREQUENCY_CTRL);
+> +	dev_dbg(amd_manager->dev, "ACP_SW_CLK_FREQUENCY_CTRL:0x%x\n", val);
+> +
+> +	/* Set frame shape base on the actual bus frequency. */
+> +	prop->default_col = bus->params.curr_dr_freq /
+> +			    prop->default_frame_rate / prop->default_row;
+> +
+> +	dev_dbg(amd_manager->dev, "default_frame_rate:%d default_row: %d default_col: %d\n",
+> +		prop->default_frame_rate, prop->default_row, prop->default_col);
+> +	amd_manager->cols_index = sdw_find_col_index(prop->default_col);
+> +	amd_manager->rows_index = sdw_find_row_index(prop->default_row);
+> +	bus->params.col = prop->default_col;
+> +	bus->params.row = prop->default_row;
+> +	dev_dbg(amd_manager->dev, "rows_index: %d cols_index: %d\n",
+> +		amd_manager->rows_index, amd_manager->cols_index);
+> +	dev_dbg(amd_manager->dev, "params.col:0x%x params.row:0x%x\n",
+> +		bus->params.col, bus->params.row);
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_asrc_dma.c | 48 ++++++++++++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 7 deletions(-)
+Too many debug statements in this. These are good for initial debug and
+bringup but very noisy in real production. I would add the applied
+parameters for logging
 
-diff --git a/sound/soc/fsl/fsl_asrc_dma.c b/sound/soc/fsl/fsl_asrc_dma.c
-index 7dacc06b2f02..b8fe242d53db 100644
---- a/sound/soc/fsl/fsl_asrc_dma.c
-+++ b/sound/soc/fsl/fsl_asrc_dma.c
-@@ -449,18 +449,52 @@ fsl_asrc_dma_pcm_pointer(struct snd_soc_component *component,
- static int fsl_asrc_dma_pcm_new(struct snd_soc_component *component,
- 				struct snd_soc_pcm_runtime *rtd)
- {
--	struct snd_card *card = rtd->card->snd_card;
-+	struct device *dev = component->dev;
-+	struct fsl_asrc *asrc = dev_get_drvdata(dev);
-+	struct fsl_asrc_pair *pair;
- 	struct snd_pcm *pcm = rtd->pcm;
-+	struct dma_chan *chan;
- 	int ret;
- 
--	ret = dma_coerce_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
--	if (ret) {
--		dev_err(card->dev, "failed to set DMA mask\n");
--		return ret;
-+	pair = kzalloc(sizeof(*pair) + asrc->pair_priv_size, GFP_KERNEL);
-+	if (!pair)
-+		return -ENOMEM;
-+
-+	pair->asrc = asrc;
-+	pair->private = (void *)pair + sizeof(struct fsl_asrc_pair);
-+
-+	/* Request a dummy pair, which will be released later.
-+	 * Request pair function needs channel num as input, for this
-+	 * dummy pair, we just request "1" channel temporarily.
-+	 */
-+	ret = asrc->request_pair(1, pair);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to request asrc pair\n");
-+		goto req_pair_err;
- 	}
- 
--	return snd_pcm_set_fixed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV,
--					    card->dev, FSL_ASRC_DMABUF_SIZE);
-+	/* Request a dummy dma channel, which will be released later. */
-+	chan = asrc->get_dma_channel(pair, IN);
-+	if (!chan) {
-+		dev_err(dev, "failed to get dma channel\n");
-+		ret = -EINVAL;
-+		goto dma_chan_err;
-+	}
-+
-+	ret = snd_pcm_set_fixed_buffer_all(pcm,
-+					   SNDRV_DMA_TYPE_DEV,
-+					   chan->device->dev,
-+					   FSL_ASRC_DMABUF_SIZE);
-+
-+	dma_release_channel(chan);
-+
-+dma_chan_err:
-+	asrc->release_pair(pair);
-+
-+req_pair_err:
-+	kfree(pair);
-+
-+	return ret;
- }
- 
- struct snd_soc_component_driver fsl_asrc_component = {
+> +	return 0;
+> +}
+> +
+>  static int amd_init_sdw_manager(struct amd_sdw_manager *amd_manager)
+>  {
+>  	u32 val;
+> @@ -961,6 +1004,9 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+>  
+>  	prop = &amd_manager->bus.prop;
+>  	if (!prop->hw_disabled) {
+> +		ret = amd_sdw_clk_init_ctrl(amd_manager);
+> +		if (ret)
+> +			return ret;
+>  		ret = amd_init_sdw_manager(amd_manager);
+>  		if (ret)
+>  			return ret;
+> @@ -985,7 +1031,6 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+>  	struct resource *res;
+>  	struct device *dev = &pdev->dev;
+>  	struct sdw_master_prop *prop;
+> -	struct sdw_bus_params *params;
+>  	struct amd_sdw_manager *amd_manager;
+>  	int ret;
+>  
+> @@ -1049,14 +1094,8 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	params = &amd_manager->bus.params;
+> -
+> -	params->col = AMD_SDW_DEFAULT_COLUMNS;
+> -	params->row = AMD_SDW_DEFAULT_ROWS;
+>  	prop = &amd_manager->bus.prop;
+> -	prop->clk_freq = &amd_sdw_freq_tbl[0];
+>  	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
+> -	prop->max_clk_freq = AMD_SDW_DEFAULT_CLK_FREQ;
+>  
+>  	ret = sdw_bus_master_add(&amd_manager->bus, dev, dev->fwnode);
+>  	if (ret) {
+> @@ -1348,6 +1387,9 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+>  			}
+>  		}
+>  		sdw_clear_slave_status(bus, SDW_UNATTACH_REQUEST_MASTER_RESET);
+> +		ret = amd_sdw_clk_init_ctrl(amd_manager);
+> +		if (ret)
+> +			return ret;
+>  		amd_init_sdw_manager(amd_manager);
+>  		amd_enable_sdw_interrupts(amd_manager);
+>  		ret = amd_enable_sdw_manager(amd_manager);
+> diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
+> index 6cc916b0c820..88cf8a426a0c 100644
+> --- a/drivers/soundwire/amd_manager.h
+> +++ b/drivers/soundwire/amd_manager.h
+> @@ -203,10 +203,6 @@
+>  #define AMD_SDW_DEVICE_STATE_D3				3
+>  #define ACP_PME_EN					0x0001400
+>  
+> -static u32 amd_sdw_freq_tbl[AMD_SDW_MAX_FREQ_NUM] = {
+> -	AMD_SDW_DEFAULT_CLK_FREQ,
+> -};
+> -
+>  struct sdw_manager_dp_reg {
+>  	u32 frame_fmt_reg;
+>  	u32 sample_int_reg;
+> -- 
+> 2.45.2
+
 -- 
-2.34.1
-
+~Vinod
