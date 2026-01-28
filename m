@@ -1,85 +1,115 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C52F2C2346;
-	Wed, 28 Jan 2026 03:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6D227FB35;
+	Wed, 28 Jan 2026 03:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769571623; cv=none; b=JHLm90ZdYW1rC6o7nzqkcOc0e5BPMGRhOc4elq9VGyiehs1dxO8vxukBTPpCnWU9cRlbZl+OwFP0q6y55I5RZGx7pZDnIDQgZTdYFtcp7InR3601BT2qwMQbSMSa/cuTc8PQvNy8K++a0k+n6vD8Hgl29C8Xmi+CSgkHv2ivpKo=
+	t=1769572515; cv=none; b=KyK3RSjImXzm+/1OJRw7u1UF5AvQKDp1U5OjdU7h3QsVfDqzvsxlmgU4EankCZdilqrl2GgbHvll39x1oS7jj+Bq5QhiCmoeCBy6Mi5U035T+mIvt4n+I8WD+TC4FQk8UMu89fJ64UgkRw3TTbw9sHp0V8xEejCbnxyn1T7mU4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769571623; c=relaxed/simple;
-	bh=zqCXqmNXUJ7W1NhgHlgGJdn677YyT7F7XqW9V1liAgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sfb+4lJ76aG0BXLZ7LwX9dskafiMEoM0C6bg/+FlXjhTNIqiaSh+VkZYXSfH7Mfl3Cv/Qcx92s8eQmaI3JvzCyo1aqoHKvXSVzs3F+jXT7RBldcI+0oHoPuO3E9H7OpDYE7OsoAeFpJV/M6o5ibX3605yVdudvLdJVYWQjy7xvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.109] (unknown [123.118.222.47])
-	by APP-01 (Coremail) with SMTP id qwCowADHcW0DhXlpfl6GBg--.10567S2;
-	Wed, 28 Jan 2026 11:39:47 +0800 (CST)
-Message-ID: <91bf33e2-4588-419f-aedc-1f1b4e99fc56@iscas.ac.cn>
-Date: Wed, 28 Jan 2026 11:39:47 +0800
+	s=arc-20240116; t=1769572515; c=relaxed/simple;
+	bh=gnHA1NlQw1mcHorufZdTT4X1PTF99NxQ5Mrf5GGTJ/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ahLQtfSPZaqh0QlLvKreZ0k99sEuyU+IJA8Z2qsCGlnKcyC1xEpVVB3hC0ILvZnSoj3MQkF/nUlkACGkX7xBXht26drKk9DnTqe/6zCkmMpkSZ9ya7AxeSo7pUzmbAO26NXBcU0e2I83kz0/XVGZTff9PC9Ds3DKgvkkuYkmcUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hECn2+c2; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hECn2+c2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769572514; x=1801108514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gnHA1NlQw1mcHorufZdTT4X1PTF99NxQ5Mrf5GGTJ/I=;
+  b=hECn2+c27RwYmlgmnsk5MaT4GCV5kvEY15qPumh/5g34uvpcBsTkaRcU
+   dFoby/+CQcwISbscPrtakq/v5yys/6fWiWJ5n3doWCr/lAGKhYy60knZs
+   zYw8cpoKbmR3F6dQk4AYaC9u4P3cDueyTIQ6RX+/THjrH//GbJI9XIU7O
+   ECRY3U2HkfptZuhPZPXnMWdbjfD0jq88D05fCGNUdC7AChOeOPGWAZRcD
+   pHT3R8vhrvRKALgeCerHN4CjbxTF4ZAXHMYLMCikXTzJKgS6dVr5f31P4
+   l4BCQd9bmyncpZ1IKL8V9d6vXmXM3k1jHWEotnYzeJSfrC/Utyt9HyLmc
+   A==;
+X-CSE-ConnectionGUID: qarMm3eqRkSiHfXP5jrjIg==
+X-CSE-MsgGUID: 9Ub22pRzSrazW/ZQfD8lZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="88355690"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="88355690"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 19:55:13 -0800
+X-CSE-ConnectionGUID: 0hTreD+IT2aSiZskovpb/A==
+X-CSE-MsgGUID: XDqaFL56QMCgaXcPcW3djQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="208390434"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Jan 2026 19:55:10 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vkwe4-00000000ZCy-12Kc;
+	Wed, 28 Jan 2026 03:55:08 +0000
+Date: Wed, 28 Jan 2026 11:54:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: oe-kbuild-all@lists.linux.dev, Alexey Charkov <alchark@gmail.com>,
+	Sjoerd Simons <sjoerd.simons@collabora.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
+Message-ID: <202601281116.z12yhNfr-lkp@intel.com>
+References: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] PCI/MSI: Check msi_addr_mask in
- msi_verify_entries()
-To: Thomas Gleixner <tglx@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Creeley, Brett" <bcreeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-riscv@lists.infradead.org, sophgo@lists.linux.dev
-References: <20260123-pci-msi-addr-mask-v3-0-9f9baa048524@iscas.ac.cn>
- <20260123-pci-msi-addr-mask-v3-2-9f9baa048524@iscas.ac.cn>
- <87jyx3be1t.ffs@tglx>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <87jyx3be1t.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qwCowADHcW0DhXlpfl6GBg--.10567S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYk7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
-	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
-	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
-	CFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxG
-	xcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_GF
-	v_Wryl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2I
-	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
-	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-	0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjgUUUUU
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb@collabora.com>
 
-Hi Thomas,
+Hi Sebastian,
 
-On 1/27/26 17:27, Thomas Gleixner wrote:
-> [...]
->
-> Other than those nits:
->
-> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
+kernel test robot noticed the following build errors:
 
-I will fix these and patch 1 as well in v4. Thanks for your review.
+[auto build test ERROR on 63804fed149a6750ffd28610c5c1c98cce6bd377]
 
-Vivian "dramforever" Wang
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/ASoC-rockchip-spdif-Use-device_get_match_data/20260128-001701
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-10-a7c547072bbb%40collabora.com
+patch subject: [PATCH 10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260128/202601281116.z12yhNfr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601281116.z12yhNfr-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601281116.z12yhNfr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from sound/soc/rockchip/rockchip_spdif.c:22:
+   sound/soc/rockchip/rockchip_spdif.c: In function 'rk_spdif_hw_params':
+>> sound/soc/rockchip/rockchip_spdif.h:33:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      33 | #define SPDIF_CFGR_HALFWORD_ENABLE      FIELD_PREP(SPDIF_CFGR_HALFWORD_MASK, 1)
+         |                                         ^~~~~~~~~~
+   sound/soc/rockchip/rockchip_spdif.c:109:28: note: in expansion of macro 'SPDIF_CFGR_HALFWORD_ENABLE'
+     109 |         unsigned int val = SPDIF_CFGR_HALFWORD_ENABLE;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +33 sound/soc/rockchip/rockchip_spdif.h
+
+    30	
+    31	#define SPDIF_CFGR_HALFWORD_MASK	BIT(2)
+    32	#define SPDIF_CFGR_HALFWORD_DISABLE	FIELD_PREP(SPDIF_CFGR_HALFWORD_MASK, 0)
+  > 33	#define SPDIF_CFGR_HALFWORD_ENABLE	FIELD_PREP(SPDIF_CFGR_HALFWORD_MASK, 1)
+    34	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
