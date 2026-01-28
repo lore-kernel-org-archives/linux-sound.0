@@ -1,42 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7C526F296
-	for <linux-sound@vger.kernel.org>; Wed, 28 Jan 2026 03:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B038626F296;
+	Wed, 28 Jan 2026 03:02:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769569341; cv=none; b=ATsZt7ArAR9XxPJ/PcVyGkfPBYyd6LJDJ3ZuWHjioF4ZkSj/ZjaWR0WWn8Ly3g5Ei3qCOIf+8sI0WcKspjbbE1Ty0YSMozfmbV9seVz1FTjjxPZ10SIFCyAUNS/UYHanJqDJZvT6spoGU5B+HfHRsRPQbVUia7k+UfAAl5a6rOk=
+	t=1769569344; cv=none; b=gNaChB6EWGCH2uzL9jQOkS4Z830m/OekBzSbskP0wk0Q0XaOK2kt9tIX3tA6c85vLqqTLdYvTFlziLxGvHngFt0/cXzLrNq4NTV675wmFW59saG9x65ysW8KMuyAEZRe4o6qnHX+4IdozBthMbpTbXhaX6f0f7B+lXAmZuPEezc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769569341; c=relaxed/simple;
-	bh=wJFvF+IZl/yqWjbvn4qnA7ef1fZgcfbS7Tpmi6fXBUc=;
+	s=arc-20240116; t=1769569344; c=relaxed/simple;
+	bh=vy/UE9A9BMbPd2nc8TS14tBcJbUev8wXdiGs01SglGA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Hw20v1EFhlB02V52YUzr/dU7uYc12rNrgX3mBSPrHhuLZPTo3mvTcVutOH/obMWzr4nQNzy6StMX1vvseGAOy/ZF0hzqiJetkd/MMQCRJQWNfFBHnvVG9YTpmr1FoI6wt94hASq0QmQezQbpEpJqvQJ3TXV1NTlAMSw1DlsEQeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zx12wdTp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dOC1bpwsLCrGASIC+xOTeZhKeQZmlzgv8Vd2V1asc64Ap11Cvwpki67ab4w7An9fbA0ot7xLIhlRDvWT9rduJvZ4zxhtFj54XhSloUOGFHAB0BsKnUeMpZVsu1nGBrLiFFG3RpYuy+7ZdVtm7guk1wgsm4eEZNqETc40yDuEFQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITr7fV16; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zx12wdTp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B882EC116C6;
-	Wed, 28 Jan 2026 03:02:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITr7fV16"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5376CC116D0;
+	Wed, 28 Jan 2026 03:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769569340;
-	bh=wJFvF+IZl/yqWjbvn4qnA7ef1fZgcfbS7Tpmi6fXBUc=;
+	s=k20201202; t=1769569344;
+	bh=vy/UE9A9BMbPd2nc8TS14tBcJbUev8wXdiGs01SglGA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Zx12wdTpHAPQ3xuktKFrkyLR4PhO8oflKLzEJn9AH1/22TaAfGxPMKSdNPRAiuQOw
-	 h2MsZ7UIm4UGxef+Tb+FOoLgMMiDAKijKSxzsiz2Lc3TUW6ujhynCoeRwggQ40vcCd
-	 wlaqY0cqM5UWzKeKOg9fQ7+igUR+TlH0OrunA9HvMVFB61Ks2Smeq1U6p1alFzzIT9
-	 zh0wyaJdUn7mRLp8l6pZWhlD/4N230e3Bcu5ua2YJwmcopr7dGD/kvQTCDh8cfV3bi
-	 Ycsruxc3DsRx8rm/vQrYqZJbe8XTawparmgCfJKJiPIAQv23slthcwR3kLUMnQDWQT
-	 SrzBWbCIn3rtg==
+	b=ITr7fV16/dcjWvaMnYJHFPWUa6ks7KJXURpOV+4G9nvrPCSamjRy0ts/tA4TKL/Bp
+	 KtTlwni1Ksj9eIXqWl6NYgLyZQIJQEdB+Tq9ruLXFJ/efpQrttKRfl82dzQN3lHlyH
+	 VVN4OfG5MUM5ODoaYxuSpWh315OmpVk/EnPaEcG/6sAQ2gV0eb19W4PeP0qv6oEOP7
+	 CRTYhyHptiCbbTfk093j31WJkQRIPLkjcoT7K+lMMcUlW5iZEm82nrfCrr9SwE1lxG
+	 qfh5XrJTlbkQhBkfVffJcJ+SGQbVMP1TNRLUscWR/e6dnYotxfKOiwe+O2lRuj6eCR
+	 Gfi4U6SJABWVg==
 From: Mark Brown <broonie@kernel.org>
-To: Tagir Garaev <tgaraev653@gmail.com>
-Cc: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260121152435.101698-1-tgaraev653@gmail.com>
-References: <20260121152435.101698-1-tgaraev653@gmail.com>
-Subject: Re: [PATCH RESEND] ASoC: Intel: sof_es8336: fix headphone GPIO
- logic inversion
-Message-Id: <176956933950.1515833.1194554623832941196.b4-ty@kernel.org>
-Date: Wed, 28 Jan 2026 03:02:19 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
+ Inochi Amaoto <inochiama@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, 
+ "Anton D. Stavinskii" <stavinsky@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+In-Reply-To: <20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com>
+References: <20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com>
+Subject: Re: (subset) [PATCH v4 0/6] ASoC: sophgo: add CV1800 I2S
+ controllers support
+Message-Id: <176956934109.1515833.13689411651637089276.b4-ty@kernel.org>
+Date: Wed, 28 Jan 2026 03:02:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +54,25 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 21 Jan 2026 18:24:35 +0300, Tagir Garaev wrote:
-> The headphone GPIO should be set to the inverse of speaker_en.
-> When speakers are enabled, headphones should be disabled and vice versa.
+On Tue, 20 Jan 2026 23:06:02 +0400, Anton D. Stavinskii wrote:
+> This patch series adds basic audio support for Sophgo CV1800B,
+> as used on boards such as the Milk-V Duo.
+> The series introduces the I2S controller driver,
+> the DAC and ADC codec drivers, corresponding DT bindings,
+> and DTS updates to wire the components together.
 > 
-> Currently both GPIOs are set to the same value (speaker_en), causing
-> audio to play through both speakers and headphones simultaneously
-> when headphones are plugged in.
+> The implementation is based on vendor documentation
+> and testing on real hardware.  This series relies on
+> recent fixes in the DesignWare AXI DMA support;
+> in particular, correct operation depends on
+> the DMA changes discussed at:
+> https://lore.kernel.org/all/20251214224601.598358-1-inochiama@gmail.com/
+> The current driver implementation supports a fixed audio configuration
+> of 48 kHz sample rate and only I2S protocol which is used in codecs.
+> The series has been tested on the Milk-V Duo 256M board using
+> the Sophgo SG2002 SoC. The implementation is expected to also work on
+> Milk-V Duo and Milk-V Module boards based on the SG2000 SoC,
+> as the audio and DMA blocks are closely related.
 > 
 > [...]
 
@@ -63,8 +82,16 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: sof_es8336: fix headphone GPIO logic inversion
-      commit: 213c4e51267fd825cd21a08a055450cac7e0b7fb
+[1/6] ASoC: dt-bindings: sophgo,cv1800b: add I2S/TDM controller
+      commit: ad50e1f63873e5d1f2f421bbd11387a0a1d0ca54
+[2/6] ASoC: sophgo: add CV1800B I2S/TDM controller driver
+      commit: ea0fb91c02c14748ae525dd547ede7b4a6535d09
+[3/6] ASoC: dt-bindings: sophgo,cv1800b: add ADC/DAC codec
+      commit: c294aafe474bbbd7a7476773f56f6191742a39e1
+[4/6] ASoC: sophgo: add CV1800B internal ADC codec driver
+      commit: 4cf8752a03e67b2927d137a47c4eca4d516b4838
+[5/6] ASoC: sophgo: add CV1800B internal DAC codec driver
+      commit: b3eb755e2db07d85c30e8ff4043ffb9a14b4ece7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
